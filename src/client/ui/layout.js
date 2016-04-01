@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SizeButton from './size-button';
 
 class Layout extends React.Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class Layout extends React.Component {
     this.handleOnMouseUp = this.handleOnMouseUp.bind(this);
     this.handleOnChangeWidthInput = this.handleOnChangeWidthInput.bind(this);
     this.handleOnChangeHeightInput = this.handleOnChangeHeightInput.bind(this);
+    this.handleOnClickSizeBtn = this.handleOnClickSizeBtn.bind(this);
   }
 
   componentWillMount() {
@@ -48,10 +50,12 @@ class Layout extends React.Component {
   }
 
   updateViewportWidth(viewportWidth) {
+    /*
     const resizer = this.refs.manualResizer;
     const resizerEl = ReactDOM.findDOMNode(resizer);
     const currentXPos = resizerEl.getBoundingClientRect().left;
     this.updateOrigClientX(currentXPos);
+    */
 
     this.setState({
       viewportWidth,
@@ -120,6 +124,7 @@ class Layout extends React.Component {
       const currentViewportWidth = parseInt(this.state.viewportWidth);
       const newViewportWidth = currentViewportWidth + diffPos;
 
+      this.updateOrigClientX(currentPos);
       this.updateViewportWidth(newViewportWidth);
     }
   }
@@ -141,6 +146,10 @@ class Layout extends React.Component {
 
   handleOnChangeHeightInput(event) {
     this.updateViewportHeight(event.target.value);
+  }
+
+  handleOnClickSizeBtn(size) {
+    console.log(size);
   }
 
   render() {
@@ -282,9 +291,21 @@ class Layout extends React.Component {
             <button onClick={this.toggleActionLogger}>
               toggle action
             </button>
-            <button>S</button>
-            <button>M</button>
-            <button>L</button>
+            <SizeButton
+              type="iphone4"
+              label="iPhone 4"
+              onClick={this.handleOnClickSizeBtn}
+            />
+            <SizeButton
+              type="iphone5"
+              label="iPhone 5"
+              onClick={this.handleOnClickSizeBtn}
+            />
+            <SizeButton
+              type="iphone6"
+              label="iPhone 6"
+              onClick={this.handleOnClickSizeBtn}
+            />
             <button>Full</button>
             <button>Random</button>
             <button>Hay!</button>
