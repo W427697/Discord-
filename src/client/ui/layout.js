@@ -66,6 +66,8 @@ class Layout extends React.Component {
 
   updateViewportWidth(viewportWidth) {
     /*
+    // so far i didn't any anomalies
+    // can be removed if there's no issue
     const resizer = this.refs.manualResizer;
     const resizerEl = ReactDOM.findDOMNode(resizer);
     const currentXPos = resizerEl.getBoundingClientRect().left;
@@ -83,8 +85,6 @@ class Layout extends React.Component {
     this.setState({
       viewportHeight,
     });
-
-    return;
   }
 
   updateHeight() {
@@ -119,7 +119,6 @@ class Layout extends React.Component {
   }
 
   handleOnMouseDownResizer(event) {
-    // update position
     this.updateOrigClientX(event.clientX);
 
     // make cover visible so that mouse pointer doesn't

@@ -38,14 +38,6 @@ export function getControls(data) {
   );
 }
 
-/**
- * this is the part where viewport resizer
- * can be integrated
- *
- * features to be included:
- * - manual resizer
- * - hay mode
- */
 export function getIframe(data) {
   const iframeStyle = {
     width: 'calc(100% - 10px)', // minus manual resizer width
