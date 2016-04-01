@@ -48,7 +48,7 @@ export function getControls(data) {
  */
 export function getIframe(data) {
   const iframeStyle = {
-    width: '100%',
+    width: 'calc(100% - 10px)', // minus manual resizer width
     height: '100%',
     border: '2px solid #e0e0e0',
   };

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 class Layout extends React.Component {
   constructor(props) {
@@ -7,15 +8,27 @@ class Layout extends React.Component {
     this.state = {
       isControlOpen: true,
       isActionLoggerOpen: true,
-      viewportHeight: '500',
-      viewportWidth: '400',
+      isIframeCoverHidden: true,
+      viewportHeight: 500,
+      viewportWidth: 400,
+      origClientX: 0,
+      dragging: false,
     };
 
     this.toggleControls = this.toggleControls.bind(this);
     this.toggleActionLogger = this.toggleActionLogger.bind(this);
+    this.toggleIframeCover = this.toggleIframeCover.bind(this);
+
     this.updateHeight = this.updateHeight.bind(this);
     this.updateViewportWidth = this.updateViewportWidth.bind(this);
     this.updateViewportHeight = this.updateViewportHeight.bind(this);
+    this.updateOrigClientX = this.updateOrigClientX.bind(this);
+
+    this.handleOnMouseDownResizer = this.handleOnMouseDownResizer.bind(this);
+    this.handleOnMouseMove = this.handleOnMouseMove.bind(this);
+    this.handleOnMouseUp = this.handleOnMouseUp.bind(this);
+    this.handleOnChangeWidthInput = this.handleOnChangeWidthInput.bind(this);
+    this.handleOnChangeHeightInput = this.handleOnChangeHeightInput.bind(this);
   }
 
   componentWillMount() {
@@ -23,28 +36,33 @@ class Layout extends React.Component {
   }
 
   componentDidMount() {
+    window.addEventListener('mousemove', this.handleOnMouseMove);
+    window.addEventListener('mouseup', this.handleOnMouseUp);
     window.addEventListener('resize', this.updateHeight);
   }
 
-  updateSizeReading(size) {
-
+  componentWillUnmount() {
+    window.removeEventListener('mousemove', this.handleOnMouseMove);
+    window.removeEventListener('mouseup', this.handleOnMouseUp);
+    window.removeEventListener('resize', this.updateHeight);
   }
 
-  updateViewportWidth(event) {
-    event.preventDefault();
+  updateViewportWidth(viewportWidth) {
+    const resizer = this.refs.manualResizer;
+    const resizerEl = ReactDOM.findDOMNode(resizer);
+    const currentXPos = resizerEl.getBoundingClientRect().left;
+    this.updateOrigClientX(currentXPos);
 
     this.setState({
-      viewportWidth: event.target.value,
+      viewportWidth,
     });
 
     return;
   }
 
-  updateViewportHeight(event) {
-    event.preventDefault();
-
+  updateViewportHeight(viewportHeight) {
     this.setState({
-      viewportHeight: event.target.value,
+      viewportHeight,
     });
 
     return;
@@ -55,6 +73,12 @@ class Layout extends React.Component {
     let height = documentElement.clientHeight || body.clientHeight;
     height -= 20;
     this.setState({ height });
+  }
+
+  updateOrigClientX(coord) {
+    this.setState({
+      origClientX: coord,
+    });
   }
 
   toggleControls() {
@@ -69,15 +93,78 @@ class Layout extends React.Component {
     });
   }
 
+  toggleIframeCover() {
+    this.setState({
+      isIframeCoverHidden: !this.state.isIframeCoverHidden,
+    });
+  }
+
+  handleOnMouseDownResizer(event) {
+    // update position
+    this.updateOrigClientX(event.clientX);
+
+    // make cover visible so that mouse pointer doesn't
+    // go into iframe
+    this.toggleIframeCover();
+
+    this.setState({
+      dragging: true,
+    });
+  }
+
+  handleOnMouseMove(event) {
+    if (this.state.dragging) {
+      const currentPos = event.clientX;
+      const origPos = parseInt(this.state.origClientX);
+      const diffPos = currentPos - origPos;
+      const currentViewportWidth = parseInt(this.state.viewportWidth);
+      const newViewportWidth = currentViewportWidth + diffPos;
+
+      this.updateViewportWidth(newViewportWidth);
+    }
+  }
+
+  handleOnMouseUp() {
+    if (this.state.dragging) {
+      // hide iframe cover to enable iframe interaction
+      this.toggleIframeCover();
+
+      this.setState({
+        dragging: false,
+      });
+    }
+  }
+
+  handleOnChangeWidthInput(event) {
+    this.updateViewportWidth(event.target.value);
+  }
+
+  handleOnChangeHeightInput(event) {
+    this.updateViewportHeight(event.target.value);
+  }
+
   render() {
-    const { controls, preview, actionLogger } = this.props;
-    const { height, viewportWidth, viewportHeight, isControlOpen, isActionLoggerOpen } = this.state;
+    const {
+      controls,
+      preview,
+      actionLogger,
+    } = this.props;
+
+    const {
+      height,
+      viewportWidth,
+      viewportHeight,
+      isControlOpen,
+      isActionLoggerOpen,
+      isIframeCoverHidden,
+    } = this.state;
 
     const rootStyles = {
       height,
       padding: 8,
       backgroundColor: '#F7F7F7',
     };
+
     let controlsStyle = {
       position: 'fixed',
       top: 0,
@@ -114,6 +201,26 @@ class Layout extends React.Component {
       margin: '0 auto',
     };
 
+    let iframeCoverStyle = {
+      display: 'initial',
+      position: 'fixed',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      zIndex: 200,
+    };
+
+    const manualResizerStyle = {
+      width: '5px',
+      height: '100%',
+      backgroundColor: 'red',
+      borderTop: '2px solid red',
+      borderBottom: '2px solid red',
+      display: 'inline-block',
+      cursor: 'col-resize',
+    };
+
     if (isControlOpen) {
       controlsStyle = {
         ...controlsStyle,
@@ -143,6 +250,13 @@ class Layout extends React.Component {
       };
     }
 
+    if (isIframeCoverHidden) {
+      iframeCoverStyle = {
+        ...iframeCoverStyle,
+        display: 'none',
+      };
+    }
+
     return (
       <div style={rootStyles}>
         <div style={controlsStyle}>
@@ -154,13 +268,13 @@ class Layout extends React.Component {
               type="number"
               value={viewportWidth}
               placeholder="width"
-              onChange={this.updateViewportWidth}
+              onChange={this.handleOnChangeWidthInput}
             />
             <input
               type="number"
               value={viewportHeight}
               placeholder="height"
-              onChange={this.updateViewportHeight}
+              onChange={this.handleOnChangeHeightInput}
             />
             <button onClick={this.toggleControls}>
               toggle controls
@@ -168,9 +282,21 @@ class Layout extends React.Component {
             <button onClick={this.toggleActionLogger}>
               toggle action
             </button>
+            <button>S</button>
+            <button>M</button>
+            <button>L</button>
+            <button>Full</button>
+            <button>Random</button>
+            <button>Hay!</button>
           </div>
+          <div style={iframeCoverStyle}></div>
           <div style={iframeStyle}>
             {preview}
+            <div
+              ref="manualResizer"
+              style={manualResizerStyle}
+              onMouseDown={this.handleOnMouseDownResizer}
+            ></div>
           </div>
         </div>
         <div style={actionStyle}>
