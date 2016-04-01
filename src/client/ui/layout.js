@@ -2,6 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SizeButton from './size-button';
 
+const sizes = {
+  iphone4: {
+    width: 320,
+    height: 480,
+  },
+  samsungS5: {
+    width: 360,
+    height: 640,
+  },
+  iphone6: {
+    width: 375,
+    height: 667,
+  },
+};
+
 class Layout extends React.Component {
   constructor(props) {
     super(props);
@@ -149,7 +164,11 @@ class Layout extends React.Component {
   }
 
   handleOnClickSizeBtn(size) {
-    console.log(size);
+    const height = sizes[size].height;
+    const width = sizes[size].width;
+
+    this.updateViewportHeight(height);
+    this.updateViewportWidth(width);
   }
 
   render() {
@@ -297,8 +316,8 @@ class Layout extends React.Component {
               onClick={this.handleOnClickSizeBtn}
             />
             <SizeButton
-              type="iphone5"
-              label="iPhone 5"
+              type="samsungS5"
+              label="Samsung S5"
               onClick={this.handleOnClickSizeBtn}
             />
             <SizeButton
@@ -306,9 +325,6 @@ class Layout extends React.Component {
               label="iPhone 6"
               onClick={this.handleOnClickSizeBtn}
             />
-            <button>Full</button>
-            <button>Random</button>
-            <button>Hay!</button>
           </div>
           <div style={iframeCoverStyle}></div>
           <div style={iframeStyle}>
