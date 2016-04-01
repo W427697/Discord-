@@ -38,11 +38,19 @@ export function getControls(data) {
   );
 }
 
+/**
+ * this is the part where viewport resizer
+ * can be integrated
+ *
+ * features to be included:
+ * - manual resizer
+ * - hay mode
+ */
 export function getIframe(data) {
   const iframeStyle = {
     width: '100%',
     height: '100%',
-    border: '0',
+    border: '2px solid #e0e0e0',
   };
 
   // We need to send dataId via queryString

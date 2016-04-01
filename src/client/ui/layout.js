@@ -1,12 +1,53 @@
 import React from 'react';
 
 class Layout extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isControlOpen: true,
+      isActionLoggerOpen: true,
+      viewportHeight: '500',
+      viewportWidth: '400',
+    };
+
+    this.toggleControls = this.toggleControls.bind(this);
+    this.toggleActionLogger = this.toggleActionLogger.bind(this);
+    this.updateHeight = this.updateHeight.bind(this);
+    this.updateViewportWidth = this.updateViewportWidth.bind(this);
+    this.updateViewportHeight = this.updateViewportHeight.bind(this);
+  }
+
   componentWillMount() {
     this.updateHeight();
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.updateHeight.bind(this));
+    window.addEventListener('resize', this.updateHeight);
+  }
+
+  updateSizeReading(size) {
+
+  }
+
+  updateViewportWidth(event) {
+    event.preventDefault();
+
+    this.setState({
+      viewportWidth: event.target.value,
+    });
+
+    return;
+  }
+
+  updateViewportHeight(event) {
+    event.preventDefault();
+
+    this.setState({
+      viewportHeight: event.target.value,
+    });
+
+    return;
   }
 
   updateHeight() {
@@ -16,35 +57,91 @@ class Layout extends React.Component {
     this.setState({ height });
   }
 
+  toggleControls() {
+    this.setState({
+      isControlOpen: !this.state.isControlOpen,
+    });
+  }
+
+  toggleActionLogger() {
+    this.setState({
+      isActionLoggerOpen: !this.state.isActionLoggerOpen,
+    });
+  }
+
   render() {
     const { controls, preview, actionLogger } = this.props;
-    const { height } = this.state;
+    const { height, viewportWidth, viewportHeight, isControlOpen, isActionLoggerOpen } = this.state;
 
     const rootStyles = {
       height,
       padding: 8,
       backgroundColor: '#F7F7F7',
     };
-    const controlsStyle = {
+    let controlsStyle = {
+      position: 'fixed',
+      top: 0,
+      left: -240,
+      bottom: 0,
       width: 240,
-      float: 'left',
-      height: '100%',
       overflowY: 'auto',
     };
 
-    const actionStyle = {
+    let actionStyle = {
+      position: 'fixed',
+      bottom: -150,
+      width: '100%',
       height: 150,
-      marginLeft: 250,
     };
 
-    const previewStyle = {
-      height: height - actionStyle.height - 25,
-      marginLeft: 250,
+    let previewStyle = {
+      height: height - 16,
       border: '1px solid #ECECEC',
       borderRadius: 4,
       padding: 5,
       backgroundColor: '#FFF',
     };
+
+    const toggleStyle = {
+      display: 'block',
+      height: '36px',
+      overflow: 'hidden',
+    };
+
+    const iframeStyle = {
+      width: `${viewportWidth}px`,
+      height: `${viewportHeight}px`,
+      margin: '0 auto',
+    };
+
+    if (isControlOpen) {
+      controlsStyle = {
+        ...controlsStyle,
+        left: 0,
+      };
+
+      actionStyle = {
+        ...actionStyle,
+        marginLeft: 250,
+      };
+
+      previewStyle = {
+        ...previewStyle,
+        marginLeft: 250,
+      };
+    }
+
+    if (isActionLoggerOpen) {
+      actionStyle = {
+        ...actionStyle,
+        bottom: 0,
+      };
+
+      previewStyle = {
+        ...previewStyle,
+        height: height - actionStyle.height - 16,
+      };
+    }
 
     return (
       <div style={rootStyles}>
@@ -52,7 +149,29 @@ class Layout extends React.Component {
           {controls}
         </div>
         <div style={previewStyle}>
-          {preview}
+          <div style={toggleStyle}>
+            <input
+              type="number"
+              value={viewportWidth}
+              placeholder="width"
+              onChange={this.updateViewportWidth}
+            />
+            <input
+              type="number"
+              value={viewportHeight}
+              placeholder="height"
+              onChange={this.updateViewportHeight}
+            />
+            <button onClick={this.toggleControls}>
+              toggle controls
+            </button>
+            <button onClick={this.toggleActionLogger}>
+              toggle action
+            </button>
+          </div>
+          <div style={iframeStyle}>
+            {preview}
+          </div>
         </div>
         <div style={actionStyle}>
           {actionLogger}
