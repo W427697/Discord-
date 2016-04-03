@@ -63,6 +63,20 @@ describe('client.ClientApi', () => {
       expect(args[2]).to.be.equal(handle);
     });
 
+    it('should add a given story reading name from fn.name', () => {
+      const api = getClientApi();
+      const story = () => {};
+
+      api._storyStore.addStory = sinon.stub();
+      api.storiesOf('kind')
+        .add(story);
+
+      const args = api._storyStore.addStory.args[0];
+      expect(args[0]).to.be.equal('kind');
+      expect(args[1]).to.be.equal('story');
+      expect(args[2]).to.be.equal(story);
+    });
+
     it('should support method chaining', () => {
       const api = getClientApi();
       const handle = () => {};

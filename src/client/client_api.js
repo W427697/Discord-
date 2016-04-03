@@ -12,7 +12,11 @@ export default class ClientApi {
     }
 
     const add = (storyName, fn) => {
-      this._storyStore.addStory(kind, storyName, fn);
+      if (typeof storyName === 'function') {
+        this._storyStore.addStory(kind, storyName.name, storyName);
+      } else {
+        this._storyStore.addStory(kind, storyName, fn);
+      }
       return { add };
     };
 
