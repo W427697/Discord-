@@ -80,7 +80,7 @@ if (fs.existsSync(customConfigPath)) {
     delete customConfig.plugins;
   }
 
-  config = { ...config, customConfig }
+  config = { ...config, customConfig };
 }
 
 export default config;
