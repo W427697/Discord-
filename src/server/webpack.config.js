@@ -71,15 +71,15 @@ if (fs.existsSync(customConfigPath)) {
     logger.info('=> Loading custom webpack loaders.');
     config.module.loaders =
       config.module.loaders.concat(customConfig.module.loaders);
+    delete customConfig.module.loaders;
   }
 
   if (customConfig.plugins) {
     logger.info(' => Loading custom webpack plugins.');
     config.plugins = config.plugins.concat(customConfig.plugins);
+    delete customConfig.plugins;
   }
 
-  delete customConfig.plugins;
-  delete customConfig.loaders;
   config = { ...config, customConfig }
 }
 
