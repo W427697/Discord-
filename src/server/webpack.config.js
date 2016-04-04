@@ -4,7 +4,7 @@ import fs from 'fs';
 
 const logger = console;
 
-const config = {
+let config = {
   devtool: 'cheap-module-eval-source-map',
   entry: {
     admin: [
@@ -71,12 +71,16 @@ if (fs.existsSync(customConfigPath)) {
     logger.info('=> Loading custom webpack loaders.');
     config.module.loaders =
       config.module.loaders.concat(customConfig.module.loaders);
+    delete customConfig.module.loaders;
   }
 
   if (customConfig.plugins) {
     logger.info(' => Loading custom webpack plugins.');
     config.plugins = config.plugins.concat(customConfig.plugins);
+    delete customConfig.plugins;
   }
+
+  config = { ...config, customConfig };
 }
 
 export default config;
