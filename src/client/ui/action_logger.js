@@ -26,6 +26,7 @@ const headStyle = {
     -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto",
     "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif
   `,
+  float: 'left',
   color: '#444',
   letterSpacing: '2px',
   fontSize: 12,
@@ -33,15 +34,18 @@ const headStyle = {
 };
 
 const btnStyle = {
-  marginLeft: 5,
+  background: 'transparent',
+  border: 'none',
+  color: '#8A8A8A',
+  float: 'right',
+  fontSize: '13px',
+  outline: 'none',
 };
 
 const ActionLogger = ({ actionLog, onClear }) => (
   <div style={wrapStyle}>
-    <h3 style={headStyle}>
-      ACTION LOGGER
-      <button style={btnStyle} onClick={onClear}>CLEAR</button>
-    </h3>
+    <h3 style={headStyle}>ACTION LOGGER</h3>
+    <button style={btnStyle} onClick={onClear}>⌫</button>
     <pre style={preStyle}>{actionLog}</pre>
   </div>
 );

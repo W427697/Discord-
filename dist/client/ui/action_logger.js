@@ -33,6 +33,7 @@ var wrapStyle = {
 
 var headStyle = {
   fontFamily: '\n    -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto",\n    "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif\n  ',
+  float: 'left',
   color: '#444',
   letterSpacing: '2px',
   fontSize: 12,
@@ -40,7 +41,12 @@ var headStyle = {
 };
 
 var btnStyle = {
-  marginLeft: 5
+  background: 'transparent',
+  border: 'none',
+  color: '#8A8A8A',
+  float: 'right',
+  fontSize: '13px',
+  outline: 'none'
 };
 
 var ActionLogger = function ActionLogger(_ref) {
@@ -52,12 +58,12 @@ var ActionLogger = function ActionLogger(_ref) {
     _react2.default.createElement(
       'h3',
       { style: headStyle },
-      'ACTION LOGGER',
-      _react2.default.createElement(
-        'button',
-        { style: btnStyle, onClick: onClear },
-        'CLEAR'
-      )
+      'ACTION LOGGER'
+    ),
+    _react2.default.createElement(
+      'button',
+      { style: btnStyle, onClick: onClear },
+      '⌫'
     ),
     _react2.default.createElement(
       'pre',
