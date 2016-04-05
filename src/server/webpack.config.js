@@ -26,6 +26,7 @@ const config = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
+  resolve: {},
   module: {
     loaders: [
       {
@@ -76,6 +77,22 @@ if (fs.existsSync(customConfigPath)) {
   if (customConfig.plugins) {
     logger.info(' => Loading custom webpack plugins.');
     config.plugins = config.plugins.concat(customConfig.plugins);
+  }
+  
+  // load resolve.extensions
+  if (customConfig.resolve && customConfig.resolve.extensions) {
+    config.resolve.extensions = customConfig.resolve.extensions.slice();
+    if (config.resolve.extensions.indexOf('.js') === -1) {
+      config.resolve.extensions.push('.js');
+    }
+  }
+  
+  // load resolve.modulesDirectories
+  if (customConfig.resolve && customConfig.resolve.modulesDirectories) {
+    config.resolve.modulesDirectories = customConfig.resolve.modulesDirectories.slice();
+    if (config.resolve.modulesDirectories.indexOf('node_modules') === -1) {
+      config.resolve.modulesDirectories.push('node_modules');
+    }
   }
 }
 
