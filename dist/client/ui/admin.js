@@ -34,7 +34,7 @@ var _action_logger = require('./action_logger');
 
 var _action_logger2 = _interopRequireDefault(_action_logger);
 
-var _layout = require('./layout');
+var _layout = require('layout');
 
 var _layout2 = _interopRequireDefault(_layout);
 

@@ -67,6 +67,13 @@ if (!fs.existsSync(storybookConfigPath)) {
 }
 config.entry.preview.push(storybookConfigPath);
 
+let layoutPath = '../ui/layout';
+const customLayoutPath = path.resolve(configDirPath, 'layout.js');
+if (fs.existsSync(customLayoutPath)) {
+  logger.info('=> Using custom layout.');
+  layoutPath = customLayoutPath
+}
+
 // load custom webpack configurations
 const customConfigPath = path.resolve(configDirPath, 'webpack.config.js');
 let finalConfig = config;
@@ -91,6 +98,11 @@ if (fs.existsSync(customConfigPath)) {
         ...customConfig.module.loaders || [],
       ],
     },
+    resolve: {
+      alias: {
+        layout: layoutPath
+      }
+    }
   };
 }
 

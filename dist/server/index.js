@@ -105,6 +105,13 @@ if (!_fs2.default.existsSync(storybookConfigPath)) {
 }
 _webpack4.default.entry.preview.push(storybookConfigPath);
 
+var layoutPath = '../ui/layout';
+var customLayoutPath = _path2.default.resolve(configDirPath, 'layout.js');
+if (_fs2.default.existsSync(customLayoutPath)) {
+  logger.info('=> Using custom layout.');
+  layoutPath = customLayoutPath;
+}
+
 // load custom webpack configurations
 var customConfigPath = _path2.default.resolve(configDirPath, 'webpack.config.js');
 var finalConfig = _webpack4.default;
@@ -117,7 +124,12 @@ if (_fs2.default.existsSync(customConfigPath)) {
     module: (0, _extends3.default)({}, _webpack4.default.module, {
       // We need to use our and custom loaders.
       loaders: [].concat((0, _toConsumableArray3.default)(_webpack4.default.module.loaders), (0, _toConsumableArray3.default)(customConfig.module.loaders || []))
-    })
+    }),
+    resolve: {
+      alias: {
+        layout: layoutPath
+      }
+    }
   });
 }
 
