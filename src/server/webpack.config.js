@@ -34,6 +34,9 @@ const config = {
       },
     ],
   },
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+  },
 };
 
 export default config;
