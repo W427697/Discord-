@@ -30,6 +30,7 @@ var ClientApi = function () {
 
     this._syncedStore = syncedStore;
     this._storyStore = storyStore;
+    this.WithState = _with_state2.default;
   }
 
   (0, _createClass3.default)(ClientApi, [{
@@ -91,6 +92,3 @@ var ClientApi = function () {
 }();
 
 exports.default = ClientApi;
-
-
-ClientApi.WithState = _with_state2.default;

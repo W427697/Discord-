@@ -4,6 +4,7 @@ export default class ClientApi {
   constructor({ syncedStore, storyStore }) {
     this._syncedStore = syncedStore;
     this._storyStore = storyStore;
+    this.WithState = WithState;
   }
 
   storiesOf(kind, m) {
@@ -49,5 +50,3 @@ export default class ClientApi {
   }
   
 }
-
-ClientApi.WithState = WithState;
