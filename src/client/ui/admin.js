@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import stringify from 'json-stringify-safe';
 import StorybookControls from './controls';
 import ActionLogger from './action_logger';
-import Layout from './layout';
+import Layout from 'layout';
 import { getSyncedStore } from '../';
 
 const rootEl = document.getElementById('root');
