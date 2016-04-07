@@ -20,3 +20,5 @@ export function getSyncedStore() {
 export const storiesOf = clientApi.storiesOf.bind(clientApi);
 export const action = clientApi.action.bind(clientApi);
 export const configure = configApi.configure.bind(configApi);
+export const withState = configApi.withState.bind(configApi);
+export const WithState = configApi.WithState.bind(configApi);

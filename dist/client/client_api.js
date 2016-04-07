@@ -91,3 +91,6 @@ var ClientApi = function () {
 }();
 
 exports.default = ClientApi;
+
+
+ClientApi.WithState = _with_state2.default;

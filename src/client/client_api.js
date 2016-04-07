@@ -49,3 +49,5 @@ export default class ClientApi {
   }
   
 }
+
+ClientApi.WithState = WithState;
