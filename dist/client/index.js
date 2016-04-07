@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.WithState = exports.withState = exports.configure = exports.action = exports.storiesOf = undefined;
+exports.configure = exports.WithState = exports.withState = exports.action = exports.storiesOf = undefined;
 exports.getStoryStore = getStoryStore;
 exports.getSyncedStore = getSyncedStore;
 
@@ -41,6 +41,6 @@ function getSyncedStore() {
 
 var storiesOf = exports.storiesOf = clientApi.storiesOf.bind(clientApi);
 var action = exports.action = clientApi.action.bind(clientApi);
+var withState = exports.withState = clientApi.withState.bind(clientApi);
+var WithState = exports.WithState = clientApi.WithState.bind(clientApi);
 var configure = exports.configure = configApi.configure.bind(configApi);
-var withState = exports.withState = configApi.withState.bind(configApi);
-var WithState = exports.WithState = configApi.WithState.bind(configApi);
