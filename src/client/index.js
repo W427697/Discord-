@@ -21,6 +21,4 @@ export const storiesOf = clientApi.storiesOf.bind(clientApi);
 export const action = clientApi.action.bind(clientApi);
 export const configure = configApi.configure.bind(configApi);
 
-import ws from './with_state';
-export const withState = ws.withState;
-export const WithState = ws.WithState;
+export { WithState, withState } from './with_state';
