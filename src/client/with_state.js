@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class WithState extends Component {
+export class WithState extends Component {
 
   constructor(props) {
     super(props);
@@ -31,3 +31,7 @@ export default class WithState extends Component {
 WithState.propTypes = {
   children: PropTypes.object.isRequired
 };
+
+
+export const withState = (handlers, renderChildren) => () =>
+  <WithState handlers={ handlers }>{ renderChildren() }</WithState>;

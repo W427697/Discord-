@@ -19,8 +19,8 @@ export function getSyncedStore() {
 
 export const storiesOf = clientApi.storiesOf.bind(clientApi);
 export const action = clientApi.action.bind(clientApi);
-export const withState = clientApi.withState.bind(clientApi);
 export const configure = configApi.configure.bind(configApi);
 
-import WithStateComponent from './with_state';
-export const WithState = WithStateComponent;
+import ws from './with_state';
+export const withState = ws.withState;
+export const WithState = ws.WithState;

@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.withState = exports.WithState = undefined;
 
 var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
@@ -38,7 +39,7 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var WithState = function (_Component) {
+var WithState = exports.WithState = function (_Component) {
   (0, _inherits3.default)(WithState, _Component);
 
   function WithState(props) {
@@ -80,9 +81,16 @@ var WithState = function (_Component) {
   return WithState;
 }(_react.Component);
 
-exports.default = WithState;
-
-
 WithState.propTypes = {
   children: _react.PropTypes.object.isRequired
+};
+
+var withState = exports.withState = function withState(handlers, renderChildren) {
+  return function () {
+    return _react2.default.createElement(
+      WithState,
+      { handlers: handlers },
+      renderChildren()
+    );
+  };
 };

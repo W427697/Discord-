@@ -1,28 +1,20 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _from = require('babel-runtime/core-js/array/from');
+var _from = require("babel-runtime/core-js/array/from");
 
 var _from2 = _interopRequireDefault(_from);
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _createClass2 = require("babel-runtime/helpers/createClass");
 
 var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _with_state = require('./with_state');
-
-var _with_state2 = _interopRequireDefault(_with_state);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34,11 +26,10 @@ var ClientApi = function () {
 
     this._syncedStore = syncedStore;
     this._storyStore = storyStore;
-    this.WithState = _with_state2.default;
   }
 
   (0, _createClass3.default)(ClientApi, [{
-    key: 'storiesOf',
+    key: "storiesOf",
     value: function storiesOf(kind, m) {
       var _this = this;
 
@@ -56,7 +47,7 @@ var ClientApi = function () {
       return { add: add };
     }
   }, {
-    key: 'action',
+    key: "action",
     value: function action(name) {
       var syncedStore = this._syncedStore;
 
@@ -75,21 +66,12 @@ var ClientApi = function () {
         // Remove events from the args. Otherwise, it creates a huge JSON string.
 
         if (args[0] && args[0].constructor && /Synthetic/.test(args[0].constructor.name)) {
-          args[0] = '[' + args[0].constructor.name + ']';
+          args[0] = "[" + args[0].constructor.name + "]";
         }
 
         actions = [{ name: name, args: args }].concat(actions.slice(0, 4));
         syncedStore.setData({ actions: actions });
       };
-    }
-  }, {
-    key: 'withState',
-    value: function withState(handlers, renderChildren) {
-      return _react2.default.createElement(
-        _with_state2.default,
-        { handlers: handlers },
-        renderChildren()
-      );
     }
   }]);
   return ClientApi;

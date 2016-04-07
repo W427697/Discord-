@@ -1,11 +1,7 @@
-import React from 'react';
-import WithState from './with_state';
-
 export default class ClientApi {
   constructor({ syncedStore, storyStore }) {
     this._syncedStore = syncedStore;
     this._storyStore = storyStore;
-    this.WithState = WithState;
   }
 
   storiesOf(kind, m) {
@@ -43,11 +39,4 @@ export default class ClientApi {
       syncedStore.setData({ actions });
     };
   }
-  
-  withState(handlers, renderChildren) {
-    return (
-      <WithState handlers={ handlers }>{ renderChildren() }</WithState>
-    );
-  }
-  
 }
