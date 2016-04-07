@@ -44,6 +44,6 @@ export default class ClientApi {
   
 }
 
-ClientApi.withState = withState;
-ClientApi.WithState = WithState;
+export const withState = withState;
+export const WithState = WithState;
 
