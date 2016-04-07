@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.configure = exports.WithState = exports.withState = exports.action = exports.storiesOf = undefined;
+exports.WithState = exports.configure = exports.withState = exports.action = exports.storiesOf = undefined;
 exports.getStoryStore = getStoryStore;
 exports.getSyncedStore = getSyncedStore;
 
@@ -22,6 +22,10 @@ var _client_api2 = _interopRequireDefault(_client_api);
 var _config_api = require('./config_api');
 
 var _config_api2 = _interopRequireDefault(_config_api);
+
+var _with_state = require('./with_state');
+
+var _with_state2 = _interopRequireDefault(_with_state);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42,5 +46,6 @@ function getSyncedStore() {
 var storiesOf = exports.storiesOf = clientApi.storiesOf.bind(clientApi);
 var action = exports.action = clientApi.action.bind(clientApi);
 var withState = exports.withState = clientApi.withState.bind(clientApi);
-var WithState = exports.WithState = clientApi.WithState.bind(clientApi);
 var configure = exports.configure = configApi.configure.bind(configApi);
+
+var WithState = exports.WithState = _with_state2.default;

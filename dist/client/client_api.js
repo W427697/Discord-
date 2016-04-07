@@ -16,6 +16,10 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _with_state = require('./with_state');
 
 var _with_state2 = _interopRequireDefault(_with_state);
@@ -81,7 +85,7 @@ var ClientApi = function () {
   }, {
     key: 'withState',
     value: function withState(handlers, renderChildren) {
-      return React.createElement(
+      return _react2.default.createElement(
         _with_state2.default,
         { handlers: handlers },
         renderChildren()

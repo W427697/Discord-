@@ -1,3 +1,4 @@
+import React from 'react';
 import WithState from './with_state';
 
 export default class ClientApi {
