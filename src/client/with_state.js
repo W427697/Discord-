@@ -8,19 +8,19 @@ export class WithState extends Component {
   }
 
   render() {
-    let { handlers } = this.props;
-    let child = this.props.children;
+    const { handlers } = this.props;
+    const child = this.props.children;
 
-    let props = Object.assign({}, this.state);
+    const props = Object.assign({}, this.state);
 
-    for (let act in handlers) {
-      let prop = handlers[ act ];
-      props[ act ] = (v) => {
-        if (typeof(child.props[ act ]) === 'function')  {
-          child.props[ act ](v);
+    for (const act of Object.keys(handlers)) {
+      const prop = handlers[act];
+      props[act] = (v) => {
+        if (typeof(child.props[act]) === 'function') {
+          child.props[act](v);
         }
-        this.setState({ [ prop ] : v });
-      }
+        this.setState({ [prop]: v });
+      };
     }
     return React.cloneElement(child, props);
   }
@@ -29,9 +29,10 @@ export class WithState extends Component {
 
 
 WithState.propTypes = {
-  children: PropTypes.object.isRequired
+  handlers: PropTypes.object.isRequired,
+  children: PropTypes.object.isRequired,
 };
 
 
-export const withState = (handlers, renderChildren) => () =>
+export const withState = (handlers, renderChildren) =>
   <WithState handlers={ handlers }>{ renderChildren() }</WithState>;
