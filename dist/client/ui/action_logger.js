@@ -43,6 +43,10 @@ var btnStyle = {
   marginLeft: 5
 };
 
+/**
+ * Represents a component that displays all the actions
+ * that have been intercepted on the previewed component.
+ */
 var ActionLogger = function ActionLogger(_ref) {
   var actionLog = _ref.actionLog;
   var onClear = _ref.onClear;
