@@ -116,7 +116,7 @@ export default class StorybookRouteHandler extends React.Component {
               onStorySelected={this.handleStorySelected.bind(this)}
               onKindSelected={this.handleKindSelected.bind(this)}
               onActionsCleared={this.handleActionsCleared.bind(this)}
-    />);
+            />);
   }
 }
 

@@ -41,7 +41,7 @@ export default class Admin extends React.Component {
             <iframe
               style={iframeStyle}
               src={`/iframe?${queryString}`}
-    />
+            />
         );
   }
 
@@ -64,7 +64,7 @@ export default class Admin extends React.Component {
               controls={controls}
               preview={iframe}
               actionLogger={actionLogger}
-    />
+            />
         );
   }
 }
