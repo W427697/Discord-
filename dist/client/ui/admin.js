@@ -4,126 +4,132 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-exports.getControls = getControls;
-exports.getIframe = getIframe;
-exports.getActionLogger = getActionLogger;
-exports.renderMain = renderMain;
-exports.default = renderAdmin;
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _react = require('react');
 
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _jsonStringifySafe = require('json-stringify-safe');
-
-var _jsonStringifySafe2 = _interopRequireDefault(_jsonStringifySafe);
+var React = _interopRequireWildcard(_react);
 
 var _controls = require('./controls');
 
 var _controls2 = _interopRequireDefault(_controls);
 
-var _action_logger = require('./action_logger');
-
-var _action_logger2 = _interopRequireDefault(_action_logger);
-
 var _layout = require('./layout');
 
 var _layout2 = _interopRequireDefault(_layout);
 
-var _ = require('../');
+var _action_logger = require('./action_logger');
+
+var _action_logger2 = _interopRequireDefault(_action_logger);
+
+var _jsonStringifySafe = require('json-stringify-safe');
+
+var _jsonStringifySafe2 = _interopRequireDefault(_jsonStringifySafe);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var rootEl = document.getElementById('root');
-var syncedStore = (0, _.getSyncedStore)();
+/**
+ * Represents the core admin view.
+ */
 
-// Event handlers
-function setSelectedKind(data, kind) {
-  var newData = (0, _extends3.default)({}, data);
-  var stories = newData.storyStore.find(function (item) {
-    return item.kind === kind;
-  }).stories;
+var Admin = function (_React$Component) {
+  (0, _inherits3.default)(Admin, _React$Component);
 
-  newData.selectedKind = kind;
-  newData.selectedStory = stories[0];
-  syncedStore.setData(newData);
-}
+  function Admin() {
+    (0, _classCallCheck3.default)(this, Admin);
+    return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Admin).apply(this, arguments));
+  }
 
-function setSelectedStory(data, block) {
-  var newData = (0, _extends3.default)({}, data);
-  newData.selectedStory = block;
-  syncedStore.setData(newData);
-}
+  (0, _createClass3.default)(Admin, [{
+    key: 'renderControls',
+    value: function renderControls() {
+      var data = this.props.data;
 
-function clearLogs() {
-  var data = syncedStore.getData();
-  data.actions = [];
-  syncedStore.setData(data);
-}
+      return React.createElement(_controls2.default, {
+        storyStore: data.storyStore,
+        selectedKind: data.selectedKind,
+        selectedStory: data.selectedStory,
+        onKind: this.props.onKindSelected,
+        onStory: this.props.onStorySelected
+      });
+    }
+  }, {
+    key: 'renderIframe',
+    value: function renderIframe() {
+      var data = this.props.data;
 
-function getControls(data) {
-  return _react2.default.createElement(_controls2.default, {
-    storyStore: data.storyStore,
-    selectedKind: data.selectedKind,
-    selectedStory: data.selectedStory,
-    onKind: setSelectedKind.bind(null, data),
-    onStory: setSelectedStory.bind(null, data)
-  });
-}
+      var iframeStyle = {
+        width: '100%',
+        height: '100%',
+        border: '1px solid #ECECEC',
+        borderRadius: 4,
+        backgroundColor: '#FFF'
+      };
 
-function getIframe(data) {
-  var iframeStyle = {
-    width: '100%',
-    height: '100%',
-    border: '1px solid #ECECEC',
-    borderRadius: 4,
-    backgroundColor: '#FFF'
-  };
+      // We need to send dataId via queryString
+      // That's how our data layer can start communicate via the iframe.
+      var queryString = 'dataId=' + data.dataId;
 
-  // We need to send dataId via queryString
-  // That's how our data layer can start communicate via the iframe.
-  var queryString = 'dataId=' + data.dataId;
+      return React.createElement('iframe', {
+        style: iframeStyle,
+        src: '/iframe?' + queryString
+      });
+    }
+  }, {
+    key: 'renderActionLogger',
+    value: function renderActionLogger() {
+      var _props$data$actions = this.props.data.actions;
+      var actions = _props$data$actions === undefined ? [] : _props$data$actions;
 
-  return _react2.default.createElement('iframe', {
-    style: iframeStyle,
-    src: '/iframe?' + queryString
-  });
-}
+      var log = actions.map(function (action) {
+        return (0, _jsonStringifySafe2.default)(action, null, 2);
+      }).join('\n\n');
 
-function getActionLogger(data) {
-  var _data$actions = data.actions;
-  var actions = _data$actions === undefined ? [] : _data$actions;
+      return React.createElement(_action_logger2.default, { actionLog: log, onClear: this.props.onActionsCleared });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var controls = this.renderControls();
+      var iframe = this.renderIframe();
+      var actionLogger = this.renderActionLogger();
 
-  var log = actions.map(function (action) {
-    return (0, _jsonStringifySafe2.default)(action, null, 2);
-  }).join('\n\n');
+      return React.createElement(_layout2.default, {
+        controls: controls,
+        preview: iframe,
+        actionLogger: actionLogger
+      });
+    }
+  }]);
+  return Admin;
+}(React.Component);
 
-  return _react2.default.createElement(_action_logger2.default, { actionLog: log, onClear: clearLogs });
-}
+exports.default = Admin;
 
-function renderMain(data) {
-  // Inside the main page, we simply render iframe.
-  var controls = getControls(data);
-  var iframe = getIframe(data);
-  var actionLogger = getActionLogger(data);
 
-  var root = _react2.default.createElement(_layout2.default, {
-    controls: controls,
-    preview: iframe,
-    actionLogger: actionLogger
-  });
-
-  _reactDom2.default.render(root, rootEl);
-}
-
-function renderAdmin(data) {
-  return renderMain(data);
-}
+Admin.propTypes = {
+  data: React.PropTypes.object.isRequired,
+  onStorySelected: React.PropTypes.func,
+  onKindSelected: React.PropTypes.func,
+  onActionsCleared: React.PropTypes.func
+};

@@ -42,6 +42,10 @@ var _reactSplitPane2 = _interopRequireDefault(_reactSplitPane);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Represents a component that renders the core application layout.
+ */
+
 var Layout = function (_React$Component) {
   (0, _inherits3.default)(Layout, _React$Component);
 

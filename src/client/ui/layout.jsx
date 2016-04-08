@@ -4,6 +4,9 @@ import VSplit from './layout_vsplit';
 import HSplit from './layout_hsplit';
 import SplitPane from '@mnmtanish/react-split-pane';
 
+/**
+ * Represents a component that renders the core application layout.
+ */
 class Layout extends React.Component {
   render() {
     const { controls, preview, actionLogger } = this.props;

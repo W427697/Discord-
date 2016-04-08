@@ -30,6 +30,10 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Represents a component that displays the available stories for selection.
+ */
+
 var StorybookControls = function (_React$Component) {
   (0, _inherits3.default)(StorybookControls, _React$Component);
 

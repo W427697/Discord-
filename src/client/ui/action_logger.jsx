@@ -36,6 +36,10 @@ const btnStyle = {
   marginLeft: 5,
 };
 
+/**
+ * Represents a component that displays all the actions
+ * that have been intercepted on the previewed component.
+ */
 const ActionLogger = ({ actionLog, onClear }) => (
   <div style={wrapStyle}>
     <h3 style={headStyle}>

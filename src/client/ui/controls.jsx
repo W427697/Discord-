@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Represents a component that displays the available stories for selection.
+ */
 export default class StorybookControls extends React.Component {
   getKindNames() {
     const { storyStore } = this.props;

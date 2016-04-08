@@ -3,62 +3,110 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.renderError = renderError;
-exports.renderMain = renderMain;
-exports.default = renderPreview;
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
 var _redboxReact = require('redbox-react');
 
 var _redboxReact2 = _interopRequireDefault(_redboxReact);
 
-var _ = require('../');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var rootEl = document.getElementById('root');
+/**
+ * Represents a functional component that renders a placeholder
+ * when there's no preview available.
+ */
+var NoPreview = function NoPreview() {
+  return _react2.default.createElement(
+    'p',
+    null,
+    'No Preview Available!'
+  );
+};
 
-function renderError(data, error) {
-  // We always need to render redbox in the mainPage if we get an error.
-  // Since this is an error, this affects to the main page as well.
-  var realError = new Error(error.message);
-  realError.stack = error.stack;
-  var redBox = _react2.default.createElement(_redboxReact2.default, { error: realError });
-  _reactDom2.default.render(redBox, rootEl);
-}
+/**
+ * Represents a component that renders a story preview.
+ */
 
-function renderMain(data) {
-  var NoPreview = function NoPreview() {
-    return _react2.default.createElement(
-      'p',
-      null,
-      'No Preview Available!'
-    );
-  };
-  var noPreview = _react2.default.createElement(NoPreview, null);
-  var selectedKind = data.selectedKind;
-  var selectedStory = data.selectedStory;
+var Preview = function (_React$Component) {
+  (0, _inherits3.default)(Preview, _React$Component);
 
+  function Preview() {
+    (0, _classCallCheck3.default)(this, Preview);
 
-  var story = (0, _.getStoryStore)().getStory(selectedKind, selectedStory);
-  if (!story) {
-    return _reactDom2.default.render(noPreview, rootEl);
+    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Preview).call(this));
+
+    _this.state = { data: null };
+    return _this;
   }
 
-  return _reactDom2.default.render(story(), rootEl);
-}
+  (0, _createClass3.default)(Preview, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var _this2 = this;
 
-function renderPreview(data) {
-  if (data.error) {
-    return renderError(data, data.error);
-  }
+      this.setState({ data: this.props.syncedStore.getData() });
 
-  return renderMain(data);
-}
+      this.props.syncedStore.watchData(function (data) {
+        return _this2.setState({ data: data });
+      });
+    }
+  }, {
+    key: 'renderError',
+    value: function renderError(error) {
+      var realError = new Error(error.message);
+      realError.stack = error.stack;
+
+      return _react2.default.createElement(_redboxReact2.default, { error: realError });
+    }
+  }, {
+    key: 'renderPreview',
+    value: function renderPreview(data) {
+      var selectedKind = data.selectedKind;
+      var selectedStory = data.selectedStory;
+
+
+      var story = this.props.storyStore.getStory(selectedKind, selectedStory);
+
+      return story ? story() : _react2.default.createElement(NoPreview, null);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var data = this.state.data;
+
+      return data.error ? this.renderError(data.error) : this.renderPreview(data);
+    }
+  }]);
+  return Preview;
+}(_react2.default.Component);
+
+exports.default = Preview;
+
+
+Preview.propTypes = {
+  syncedStore: _react2.default.PropTypes.object.isRequired,
+  storyStore: _react2.default.PropTypes.object.isRequired
+};
