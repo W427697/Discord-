@@ -32,7 +32,3 @@ WithState.propTypes = {
   handlers: PropTypes.object.isRequired,
   children: PropTypes.object.isRequired,
 };
-
-
-export const withState = (handlers, renderChildren) =>
-  <WithState handlers={ handlers }>{ renderChildren() }</WithState>;
