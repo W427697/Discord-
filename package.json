@@ -1,18 +1,18 @@
 {
-  "name": "react-split-pane",
+  "name": "@kadirahq/react-split-pane",
   "description": "React split-pane component",
   "main": "index.js",
   "version": "0.1.30",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tomkp/react-split-pane"
+    "url": "https://github.com/kadirahq/react-split-pane"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tomkp/react-split-pane"
+    "url": "https://github.com/kadirahq/react-split-pane"
   },
-  "homepage": "https://github.com/tomkp/react-split-pane",
-  "author": "tomkp <tom@tomkp.com>",
+  "homepage": "https://github.com/kadirahq/react-split-pane",
+  "author": "Kadira Inc.",
   "keywords": [
     "react",
     "react-component",
