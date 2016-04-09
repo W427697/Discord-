@@ -3,9 +3,24 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.configure = exports.action = exports.storiesOf = undefined;
+exports.withState = exports.WithState = exports.configure = exports.action = exports.storiesOf = undefined;
 exports.getStoryStore = getStoryStore;
 exports.getSyncedStore = getSyncedStore;
+
+var _with_state = require('./with_state');
+
+Object.defineProperty(exports, 'WithState', {
+  enumerable: true,
+  get: function get() {
+    return _with_state.WithState;
+  }
+});
+Object.defineProperty(exports, 'withState', {
+  enumerable: true,
+  get: function get() {
+    return _with_state.withState;
+  }
+});
 
 var _synced_store = require('./synced_store');
 
