@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+process.env.NODE_ENV = 'production';
+
 import webpack from 'webpack';
 import program from 'commander';
 import path from 'path';

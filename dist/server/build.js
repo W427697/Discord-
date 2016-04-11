@@ -43,6 +43,8 @@ var _iframe2 = _interopRequireDefault(_iframe);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+process.env.NODE_ENV = 'production';
+
 // avoid ESLint errors
 var logger = console;
 
