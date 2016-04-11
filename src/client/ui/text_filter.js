@@ -8,7 +8,7 @@ export default class TextFilter extends React.Component {
 
   render() {
     const mainStyle = {
-      border: '1px solid #C1C1C1',
+      border: '1px solid #ECECEC',
       borderRadius: 2,
     };
 
@@ -18,24 +18,22 @@ export default class TextFilter extends React.Component {
     };
 
     const filterTextStyle = {
-      fontSize: 15,
+      fontSize: 12,
       color: '#828282',
       border: 'none',
       padding: 5,
       display: 'block',
       width: '100%',
-      height: 30,
       boxSizing: 'border-box',
       outline: 'none',
     };
 
     const clearButtonStyle = {
       position: 'absolute',
+      color: '#B1B1B1',
       border: 'none',
-      padding: 5,
+      padding: 3,
       width: 25,
-      height: 30,
-      lineHeight: '20px',
       right: 0,
       top: 0,
       textAlign: 'center',
