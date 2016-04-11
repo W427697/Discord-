@@ -94,7 +94,7 @@ function getIframe(data) {
 
   return _react2.default.createElement('iframe', {
     style: iframeStyle,
-    src: '/iframe?' + queryString
+    src: '/iframe.html?' + queryString
   });
 }
 
@@ -102,11 +102,10 @@ function getActionLogger(data) {
   var _data$actions = data.actions;
   var actions = _data$actions === undefined ? [] : _data$actions;
 
-  var log = actions.map(function (action) {
+  var logs = actions.map(function (action) {
     return (0, _jsonStringifySafe2.default)(action, null, 2);
-  }).join('\n\n');
-
-  return _react2.default.createElement(_action_logger2.default, { actionLog: log, onClear: clearLogs });
+  });
+  return _react2.default.createElement(_action_logger2.default, { actionLogs: logs, onClear: clearLogs });
 }
 
 function renderMain(data) {

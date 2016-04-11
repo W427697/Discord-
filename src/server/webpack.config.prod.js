@@ -2,26 +2,23 @@ import path from 'path';
 import webpack from 'webpack';
 
 const config = {
-  devtool: '#cheap-module-eval-source-map',
+  devtool: '#cheap-module-source-map',
   entry: {
     admin: [
-      'stack-source-map/register',
       path.resolve(__dirname, '../client/init_admin'),
     ],
     preview: [
-      'stack-source-map/register',
-      'webpack-hot-middleware/client',
       path.resolve(__dirname, '../client/init_preview'),
     ],
   },
   output: {
-    path: path.join(__dirname, 'dist'),
     filename: '[name].bundle.js',
     publicPath: '/static/',
   },
   plugins: [
+    new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
+    new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
   ],
   module: {
     loaders: [

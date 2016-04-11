@@ -15,17 +15,16 @@ var _webpack2 = _interopRequireDefault(_webpack);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var config = {
-  devtool: '#cheap-module-eval-source-map',
+  devtool: '#cheap-module-source-map',
   entry: {
-    admin: ['stack-source-map/register', _path2.default.resolve(__dirname, '../client/init_admin')],
-    preview: ['stack-source-map/register', 'webpack-hot-middleware/client', _path2.default.resolve(__dirname, '../client/init_preview')]
+    admin: [_path2.default.resolve(__dirname, '../client/init_admin')],
+    preview: [_path2.default.resolve(__dirname, '../client/init_preview')]
   },
   output: {
-    path: _path2.default.join(__dirname, 'dist'),
     filename: '[name].bundle.js',
     publicPath: '/static/'
   },
-  plugins: [new _webpack2.default.optimize.OccurenceOrderPlugin(), new _webpack2.default.HotModuleReplacementPlugin()],
+  plugins: [new _webpack2.default.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }), new _webpack2.default.optimize.UglifyJsPlugin(), new _webpack2.default.optimize.OccurenceOrderPlugin()],
   module: {
     loaders: [{
       test: /\.jsx?$/,

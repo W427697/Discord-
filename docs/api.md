@@ -8,14 +8,17 @@ You can configure React Storybook in different ways. We'll discuss them here.
   * [Port](#port)
   * [Static Directory](#static-directory)
   * [Configuration Directory](#configuration-directory)
+  * [Static Builder](#static-builder)
 * [Story Creation API](#story-creation-api)
   * [Creating Stories](#creating-stories)
   * [Creating Actions](#creating-actions)
+  * [Linking Stories](#linking-stories)
 * [Basic Configurations](#basic-configurations)
   * [Loading Modules](#loading-modules)
   * [Load Common CSS Files](#load-common-css-files)
   * [Configure Modules for Testing](#configure-modules-for-testing)
 * [Custom Webpack Configurations](#custom-webpack-configurations)
+* [Load Custom HTML Head](#load-custom-html-head)
 
 ## Command Line API
 
@@ -48,6 +51,24 @@ Here's how to tell React Storybook to use a custom directory to load your config
 ```sh
 start-storybook -p 6977 -s ./public -c ./storybook-config
 ```
+
+### Static Builder
+
+With Static Builder, you could convert your whole Storybook into a static site. Then, you can deploy that into any static site hosting service including "GitHub Pages".
+
+Add following script as an NPM script:
+
+```sh
+build-storybook -o storybook-build-dir
+```
+
+Then it'll build and save a set of static files into the `storybook-build-dir` directory. You can access them by running a following python static server:
+
+```python
+python -m SimpleHTTPServer
+```
+
+For more information, run `build-storybook -h`.
 
 ## Story Creation API
 
@@ -108,6 +129,39 @@ Then, when you click on the button, it will log something like this into the Act
 Here we can see the name we've mentioned when creating the action. After that, we can see the arguments passed to the `onClick` event handler. In this case, we've three arguments. `[SyntheticMouseEvent]` is the actual event object passed by React and you can use that to get more details.
 
 > For simplicity, React Storybook does not show the actual object. Instead it will show `[SyntheticMouseEvent]`.
+
+### Linking Stories
+
+Sometimes, we may need to link stories. With that, we could use Storybook as a prototype builder. (like [InVision](https://www.invisionapp.com/), [Framer.js](http://framerjs.com/)). Here's how to do that.
+
+Let's say, we've a Toggle button and we need to change the story as we click the button. This is how we do it:
+
+```js
+import { linkTo } from @kadira/storybook
+
+storiesOf('Toggle', module)
+  .add('on', () => {
+    return <Toggle value={true} onChange={linkTo('Toggle', 'off')} />
+  })
+  .add('off', () => {
+    return <Toggle value={false} onChange={linkTo('Toggle', 'on')} />
+  });
+```
+
+Have a look at the `linkTo` function:
+
+```js
+linkTo('Toggle', 'off')
+```
+
+With that, you can link an event prop to any story in the Storybook.
+
+* First parameter is the the story kind name (what you named with `storiesOf`).
+* Second parameter is the story name (what you named with `.add`).
+
+> You can also pass a function instead for any of above parameter. That function accepts arguments emitted by the event and it should return a string.
+
+Have a look at [PR86](https://github.com/kadirahq/react-storybook/pull/86) for more information.
 
 ## Basic Configurations
 
@@ -231,3 +285,18 @@ module.exports = {
 >  *  for loading CSS,
 >  *  for adding custom resolve extensions,
 >  *  for adding resolve aliases.
+
+## Load Custom HTML Head
+
+Sometimes, we need to load custom DOM nodes inside the HTML `<head>` tag. For an example, this is how we can load TypeKit fonts with React Storybook.
+
+First create a file called `head.html` inside the storybook config directory. Then add following content:
+
+```js
+<script src="https://use.typekit.net/xxxyyy.js"></script>
+<script>try{ Typekit.load(); }catch(e){}</script>
+```
+
+Then run the `npm run storybook` command again. That's it.
+
+> Likewise, you can add anything into the HTML head.

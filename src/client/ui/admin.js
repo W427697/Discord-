@@ -60,18 +60,16 @@ export function getIframe(data) {
   return (
     <iframe
       style={iframeStyle}
-      src={`/iframe?${queryString}`}
+      src={`/iframe.html?${queryString}`}
     />
   );
 }
 
 export function getActionLogger(data) {
   const { actions = [] } = data;
-  const log = actions
-    .map(action => stringify(action, null, 2))
-    .join('\n\n');
-
-  return (<ActionLogger actionLog={log} onClear={clearLogs} />);
+  const logs = actions
+    .map((action) => stringify(action, null, 2));
+  return (<ActionLogger actionLogs={logs} onClear={clearLogs} />);
 }
 
 export function renderMain(data) {

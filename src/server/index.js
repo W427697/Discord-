@@ -10,9 +10,11 @@ import getIframeHtml from './iframe.html';
 import express from 'express';
 import program from 'commander';
 import packageJson from '../../package.json';
-import config from './webpack.config';
+import baseConfig from './webpack.config';
+import loadConfig from './config';
 import path from 'path';
 import fs from 'fs';
+import { getHeadHtml } from './utils';
 
 const logger = console;
 
@@ -42,62 +44,15 @@ if (program.staticDir) {
   }
 }
 
-// add config path to the entry
+// Build the webpack configuration using the `baseConfig`
+// custom `.babelrc` file and `webpack.config.js` files
 const configDir = program.configDir || './.storybook';
-const configDirPath = path.resolve(configDir);
+const config = loadConfig(baseConfig, configDir);
 
-// load babelrc file.
-const babelrcPath = path.resolve('./.babelrc');
-if (fs.existsSync(babelrcPath)) {
-  logger.info('=> Using custom .babelrc configurations.');
-  const babelrcContent = fs.readFileSync(babelrcPath);
-  try {
-    const babelrc = JSON.parse(babelrcContent);
-    config.module.loaders[0].query = babelrc;
-  } catch (ex) {
-    logger.error(`=> Error parsing .babelrc file: ${ex.message}`);
-    throw ex;
-  }
-}
-
-const storybookConfigPath = path.resolve(configDirPath, 'config.js');
-if (!fs.existsSync(storybookConfigPath)) {
-  logger.error(`=> Create a storybook config file in "${configDir}/config.js".\n`);
-  process.exit(0);
-}
-config.entry.preview.push(storybookConfigPath);
-
-// load custom webpack configurations
-const customConfigPath = path.resolve(configDirPath, 'webpack.config.js');
-let finalConfig = config;
-if (fs.existsSync(customConfigPath)) {
-  const customConfig = require(customConfigPath);
-  logger.info('=> Loading custom webpack config.');
-  finalConfig = {
-    ...customConfig,
-    // We'll always load our configurations after the custom config.
-    // So, we'll always load the stuff we need.
-    ...config,
-    // We need to use our and custom plugins.
-    plugins: [
-      ...config.plugins,
-      ...customConfig.plugins || [],
-    ],
-    module: {
-      ...config.module,
-      // We need to use our and custom loaders.
-      loaders: [
-        ...config.module.loaders,
-        ...customConfig.module.loaders || [],
-      ],
-    },
-  };
-}
-
-const compiler = webpack(finalConfig);
+const compiler = webpack(config);
 const devMiddlewareOptions = {
   noInfo: true,
-  publicPath: finalConfig.output.publicPath,
+  publicPath: config.output.publicPath,
 };
 app.use(webpackDevMiddleware(compiler, devMiddlewareOptions));
 app.use(webpackHotMiddleware(compiler));
@@ -106,8 +61,9 @@ app.get('/', function (req, res) {
   res.send(getIndexHtml());
 });
 
-app.get('/iframe', function (req, res) {
-  res.send(getIframeHtml());
+const headHtml = getHeadHtml(configDir);
+app.get('/iframe.html', function (req, res) {
+  res.send(getIframeHtml(headHtml));
 });
 
 app.listen(program.port, function (error) {

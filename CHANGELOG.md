@@ -1,5 +1,32 @@
 ## Changelog
 
+### v1.10.0
+
+* Add custom head support inside the iframe. See [PR77](https://github.com/kadirahq/react-storybook/pull/77)
+* Unmount components before rendering into DOM node. Fix: [#81](https://github.com/kadirahq/react-storybook/issues/81)
+* Add a static file builder. See [PR88](https://github.com/kadirahq/react-storybook/pull/88)
+* Fix search box's lineHeight to work with all the browsers. See: [PR94](https://github.com/kadirahq/react-storybook/pull/94)
+* Add the search box. See: [PR91](https://github.com/kadirahq/react-storybook/pull/91).
+
+### v1.9.0
+
+Add some minor improvements.
+
+* Avoid deprecated warning in Chrome Canary. See: [PR85](https://github.com/kadirahq/react-storybook/pull/85)
+* Fix the React Warning about CSS property. See: [PR84](https://github.com/kadirahq/react-storybook/pull/84)
+* Transition on latest logged action. See: [PR80](https://github.com/kadirahq/react-storybook/pull/80)
+
+### v1.8.0
+
+* Add story linking functionality.
+  * [Documentation](https://github.com/kadirahq/react-storybook/blob/master/docs/api.md#linking-stories).
+  * Original feature request: [#50](https://github.com/kadirahq/react-storybook/issues/50)
+  * Implementation: [PR86](https://github.com/kadirahq/react-storybook/pull/86)
+
+### v1.7.0
+
+* Add support to React v15.0.0.
+
 ### v1.6.0
 
 * Make scrollable layout. See: [PR](https://github.com/kadirahq/react-storybook/pull/70)
