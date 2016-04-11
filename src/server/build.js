@@ -46,8 +46,8 @@ if (program.staticDir) {
 const configDir = program.configDir || './.storybook';
 const config = loadConfig(baseConfig, configDir);
 
-// compile all resources with webpack and write them to the disk
-// TODO make sure this section of code does what it says it does
+// compile all resources with webpack and write them to the disk.
+logger.log('Building storybook ...');
 webpack(config).compile(function (err, stats) {
   for (const filename in stats.assets) {
     if (!stats.assets.hasOwnProperty(filename)) {

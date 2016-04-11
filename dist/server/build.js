@@ -73,8 +73,8 @@ if (_commander2.default.staticDir) {
 var configDir = _commander2.default.configDir || './.storybook';
 var config = (0, _config2.default)(_webpackConfig2.default, configDir);
 
-// compile all resources with webpack and write them to the disk
-// TODO make sure this section of code does what it says it does
+// compile all resources with webpack and write them to the disk.
+logger.log('Building storybook ...');
 (0, _webpack2.default)(config).compile(function (err, stats) {
   for (var filename in stats.assets) {
     if (!stats.assets.hasOwnProperty(filename)) {
