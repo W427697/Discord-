@@ -40,6 +40,14 @@ var _reactSplitPane = require('@kadira/react-split-pane');
 
 var _reactSplitPane2 = _interopRequireDefault(_reactSplitPane);
 
+var _docgen_reader = require('./docgen_reader');
+
+var _docgen_reader2 = _interopRequireDefault(_docgen_reader);
+
+var _docgenData = require('./docgen-data');
+
+var _docgenData2 = _interopRequireDefault(_docgenData);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Layout = function (_React$Component) {
@@ -75,7 +83,8 @@ var Layout = function (_React$Component) {
         width: '100%',
         height: '100%',
         padding: '5px 10px 10px 0',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        overflowY: 'auto'
       };
 
       var previewStyle = {
@@ -115,7 +124,7 @@ var Layout = function (_React$Component) {
             _reactSplitPane2.default,
             {
               split: 'horizontal', primary: 'second', minSize: 100,
-              defaultSize: 200, resizerChildren: hsplit,
+              defaultSize: '50%', resizerChildren: hsplit,
               onDragStarted: onDragStart, onDragFinished: onDragEnd
             },
             _react2.default.createElement(
@@ -126,7 +135,7 @@ var Layout = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { style: actionStyle },
-              actionLogger
+              _react2.default.createElement(_docgen_reader2.default, { docgenData: _docgenData2.default })
             )
           )
         )
