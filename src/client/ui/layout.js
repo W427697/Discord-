@@ -4,6 +4,9 @@ import VSplit from './layout_vsplit';
 import HSplit from './layout_hsplit';
 import SplitPane from '@kadira/react-split-pane';
 
+import DocgenReader from './docgen_reader';
+import docgenData from './docgen-data';
+
 class Layout extends React.Component {
   render() {
     const { controls, preview, actionLogger } = this.props;
@@ -25,6 +28,7 @@ class Layout extends React.Component {
       height: '100%',
       padding: '5px 10px 10px 0',
       boxSizing: 'border-box',
+      overflowY: 'auto'
     };
 
     const previewStyle = {
@@ -57,14 +61,14 @@ class Layout extends React.Component {
           </div>
           <SplitPane
             split="horizontal" primary="second" minSize={100}
-            defaultSize={200} resizerChildren={hsplit}
+            defaultSize={'50%'} resizerChildren={hsplit}
             onDragStarted={onDragStart} onDragFinished={onDragEnd}
           >
             <div style={previewStyle}>
               {preview}
             </div>
             <div style={actionStyle}>
-              {actionLogger}
+                <DocgenReader docgenData={docgenData} />
             </div>
           </SplitPane>
         </SplitPane>
