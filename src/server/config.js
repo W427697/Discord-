@@ -56,6 +56,9 @@ export default function (baseConfig, configDir) {
     module: {
       ...config.module,
       // We need to use our and custom loaders.
+      preLoaders: [
+        ...customConfig.module.preLoaders || [],
+      ],
       loaders: [
         ...config.module.loaders,
         ...customConfig.module.loaders || [],
