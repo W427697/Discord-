@@ -32,7 +32,7 @@ export function renderMain(data) {
   //    https://github.com/kadirahq/react-storybook/issues/81
   ReactDOM.unmountComponentAtNode(rootEl);
 
-  return ReactDOM.render(story(), rootEl);
+  return ReactDOM.render(React.createElement(story.fn, story.props), rootEl);
 }
 
 export default function renderPreview(data) {

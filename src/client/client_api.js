@@ -11,8 +11,8 @@ export default class ClientApi {
       });
     }
 
-    const add = (storyName, fn) => {
-      this._storyStore.addStory(kind, storyName, fn);
+    const add = (storyName, fn, props) => {
+      this._storyStore.addStory(kind, storyName, fn, props);
       return { add };
     };
 
