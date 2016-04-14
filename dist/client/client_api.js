@@ -39,8 +39,8 @@ var ClientApi = function () {
         });
       }
 
-      var add = function add(storyName, fn) {
-        _this._storyStore.addStory(kind, storyName, fn);
+      var add = function add(storyName, fn, props) {
+        _this._storyStore.addStory(kind, storyName, fn, props);
         return { add: add };
       };
 

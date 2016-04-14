@@ -58,7 +58,7 @@ function renderMain(data) {
   //    https://github.com/kadirahq/react-storybook/issues/81
   _reactDom2.default.unmountComponentAtNode(rootEl);
 
-  return _reactDom2.default.render(story(), rootEl);
+  return _reactDom2.default.render(_react2.default.createElement(story.fn, story.props), rootEl);
 }
 
 function renderPreview(data) {

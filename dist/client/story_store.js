@@ -29,7 +29,7 @@ var StoreStore = function () {
 
   (0, _createClass3.default)(StoreStore, [{
     key: "addStory",
-    value: function addStory(kind, name, fn) {
+    value: function addStory(kind, name, fn, props) {
       if (!this._data[kind]) {
         this._data[kind] = {
           kind: kind,
@@ -41,7 +41,8 @@ var StoreStore = function () {
       this._data[kind].stories[name] = {
         name: name,
         index: cnt++,
-        fn: fn
+        fn: fn,
+        props: props
       };
     }
   }, {
@@ -87,7 +88,7 @@ var StoreStore = function () {
         return null;
       }
 
-      return storyInfo.fn;
+      return storyInfo;
     }
   }, {
     key: "removeStoryKind",

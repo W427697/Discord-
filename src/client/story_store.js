@@ -5,7 +5,7 @@ export default class StoreStore {
     this._data = {};
   }
 
-  addStory(kind, name, fn) {
+  addStory(kind, name, fn, props) {
     if (!this._data[kind]) {
       this._data[kind] = {
         kind,
@@ -18,6 +18,7 @@ export default class StoreStore {
       name,
       index: cnt++,
       fn,
+      props
     };
   }
 
@@ -50,7 +51,7 @@ export default class StoreStore {
       return null;
     }
 
-    return storyInfo.fn;
+    return storyInfo;
   }
 
   removeStoryKind(kind) {
