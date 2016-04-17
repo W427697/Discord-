@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Foldable from './foldable';
 
 const preStyle = {
   color: '#666',
@@ -36,31 +37,13 @@ const btnStyle = {
   marginLeft: 5,
 };
 
-const latestActionLogStyle = {
-  backgroundColor: '#FFFCE0',
-  transition: 'all .2s ease-in',
-};
-
 class ActionLogger extends Component {
-  componentDidUpdate() {
-    if (this.refs.actionLogger && window.setTimeout) {
-      this.refs.actionLogger.style.backgroundColor = latestActionLogStyle.backgroundColor;
-      setTimeout(() => {
-        this.refs.actionLogger.style.backgroundColor = 'white';
-      }, 500);
-    }
-  }
 
   getActionData() {
-    return this.props.actionLogs
-    .map((action, i) => {
-      // assuming that the first object in the array is the latest addition.
-      return i === 0 ? (
-        <div style={latestActionLogStyle} ref="actionLogger" key={i}>{action}</div>
-        ) : (
-        <div key={i}>{action}</div>
-        );
-    });
+    return this.props.actions
+      .map((action) => {
+        return (<Foldable key={action.id} action={action} />);
+      });
   }
 
   render() {
@@ -79,7 +62,7 @@ class ActionLogger extends Component {
 
 ActionLogger.propTypes = {
   onClear: React.PropTypes.func,
-  actionLogs: React.PropTypes.array,
+  actions: React.PropTypes.array,
 };
 
 export default ActionLogger;
