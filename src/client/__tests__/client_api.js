@@ -88,6 +88,7 @@ describe('client.ClientApi', () => {
         {
           name: 'hello',
           args: [10, 20],
+          id: 0,
         },
       ]);
     });
@@ -107,6 +108,7 @@ describe('client.ClientApi', () => {
         {
           name: 'hello',
           args: [10, 20],
+          id: 1,
         },
         50,
         40,
@@ -132,6 +134,7 @@ describe('client.ClientApi', () => {
         {
           name: 'hello',
           args: ['[SyntheticEvent]'],
+          id: 2,
         },
       ]);
     });
