@@ -74,7 +74,8 @@ class Foldable extends React.Component {
 
         <div ref="foldable-content" style={ folderContentStyle }
           dangerouslySetInnerHTML={ { __html: highlight(content) } }
-    ></div>
+        >
+        </div>
       </div>
       );
   }
