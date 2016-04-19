@@ -1,3 +1,11 @@
+/**
+ * Parses the JSON string and adds styling and class based on whether
+ * a part is string, number, undefined, null or key. Also removes quotes
+ * from keys.
+ *
+ * @param data A stringified JSON
+ * @returns {string} String with styling
+ */
 export default function highlight(data) {
   const json = data.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const regex = /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g; // eslint-disable-line

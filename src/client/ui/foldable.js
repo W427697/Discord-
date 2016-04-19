@@ -71,7 +71,6 @@ class Foldable extends React.Component {
             { this.state.collapsed ? '►' : '▼' }
           </span>
         </div>
-
         <div ref="foldable-content" style={ folderContentStyle }
           dangerouslySetInnerHTML={ { __html: highlight(content) } }
         >
