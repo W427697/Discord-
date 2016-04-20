@@ -27,9 +27,10 @@ export function renderMain(data) {
   if (!story) {
     return ReactDOM.render(noPreview, rootEl);
   }
-  
+
   // Unmount the previous story only if selectedKind or selectedStory has changed.
-  // renderMain() gets executed after each action. Actions will cause the whole story to re-render without this check.
+  // renderMain() gets executed after each action. Actions will cause the whole
+  // story to re-render without this check.
   //    https://github.com/kadirahq/react-storybook/issues/116
   if (selectedKind !== previousKind || previousStory !== selectedStory) {
     // We need to unmount the existing set of components in the DOM node.
