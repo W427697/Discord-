@@ -6,8 +6,8 @@ import {
 } from '../';
 
 const rootEl = document.getElementById('root');
-const previousKind = '';
-const previousStory = '';
+let previousKind = '';
+let previousStory = '';
 
 export function renderError(data, error) {
   // We always need to render redbox in the mainPage if we get an error.
