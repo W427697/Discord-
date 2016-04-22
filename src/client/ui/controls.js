@@ -148,7 +148,7 @@ export default class StorybookControls extends React.Component {
       textAlign: 'center',
       borderRadius: '2px',
       padding: '5px',
-      cursor: 'default',
+      cursor: 'pointer',
       margin: 0,
     };
 
@@ -168,10 +168,16 @@ export default class StorybookControls extends React.Component {
       left: '20px',
     };
 
+    const h1AStyle = {
+      textDecoration: 'none',
+    };
+
     return (
       <div style={mainStyle}>
         <div style={h1WrapStyle}>
-          <h3 style={h1Style}>React Storybook</h3>
+          <a style={h1AStyle} href="https://github.com/kadirahq/react-storybook" target="_blank">
+            <h3 style={h1Style}>React Storybook</h3>
+          </a>
         </div>
         <div style={filterTextWrapStyle}>
           <TextFilter
