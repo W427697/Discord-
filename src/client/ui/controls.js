@@ -168,14 +168,16 @@ export default class StorybookControls extends React.Component {
       left: '20px',
     };
 
-    const h1AStyle = {
+    const linkStyle = {
       textDecoration: 'none',
     };
+
+    const linkTarget = 'https://github.com/kadirahq/react-storybook';
 
     return (
       <div style={mainStyle}>
         <div style={h1WrapStyle}>
-          <a style={h1AStyle} href="https://github.com/kadirahq/react-storybook" target="_blank">
+          <a style={linkStyle} href={linkTarget} target="_blank">
             <h3 style={h1Style}>React Storybook</h3>
           </a>
         </div>
