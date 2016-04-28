@@ -6,7 +6,7 @@ export function ensureKind(storyKinds, selectedKind) {
   // if the selected kind is non-existant, select the first kind
   const kinds = storyKinds.map(item => item.kind);
   return kinds[0];
-};
+}
 
 export function ensureStory(storyKinds, selectedKind, selectedStory) {
   const kindInfo = storyKinds.find(item => item.kind === selectedKind);
@@ -16,7 +16,7 @@ export function ensureStory(storyKinds, selectedKind, selectedStory) {
   if (found > 0) return found;
 
   return kindInfo.stories[0];
-};
+}
 
 export default function (state, action) {
   switch (action.type) {
