@@ -1,14 +1,34 @@
 import { types } from '../../actions';
 
+export function ensureKind(storyKinds, selectedKind) {
+  const found = storyKinds.find(item => item.kind === selectedKind);
+  if (found) return found.kind;
+  // if the selected kind is non-existant, select the first kind
+  const kinds = storyKinds.map(item => item.kind);
+  return kinds[0];
+};
+
+export function ensureStory(storyKinds, selectedKind, selectedStory) {
+  const kindInfo = storyKinds.find(item => item.kind === selectedKind);
+  if (!kindInfo) return null;
+
+  const found = kindInfo.stories.find(item => item === selectedStory);
+  if (found > 0) return found;
+
+  return kindInfo.stories[0];
+};
+
 export default function (state, action) {
   switch (action.type) {
     case types.SELECT_STORY: {
       // TODO: if action.story is null, we need to select the first story of the
       // given kind.
+      const selectedKind = ensureKind(state.stories, action.kind);
+      const selectedStory = ensureStory(state.stories, selectedKind, action.story);
       return {
         ...state,
-        selectedKind: action.kind,
-        selectedStory: action.story,
+        selectedKind,
+        selectedStory,
       };
     }
 
@@ -20,12 +40,17 @@ export default function (state, action) {
     }
 
     case types.SET_STORIES: {
-      // TODO: reset selected story by checking whether we've the selected
-      // story or not.
-      return {
+      const newState = {
         ...state,
         stories: action.stories,
       };
+
+      newState.selectedKind = ensureKind(newState.stories, action.kind);
+      newState.selectedStory = ensureStory(
+        newState.stories, newState.selectedKind, action.story
+      );
+
+      return newState;
     }
 
     case types.ADD_ACTION: {
