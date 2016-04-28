@@ -65,11 +65,13 @@
     "eslint-config-airbnb": "^6.2.0",
     "eslint-plugin-babel": "^3.1.0",
     "eslint-plugin-react": "^4.2.3",
+    "mantra-core": "^1.5.0",
     "mocha": "^2.4.5",
     "mock-fs": "^3.8.0",
     "nodemon": "^1.9.1",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
+    "redux": "^3.5.2",
     "sinon": "^1.17.3"
   },
   "main": "dist/client/index.js",
