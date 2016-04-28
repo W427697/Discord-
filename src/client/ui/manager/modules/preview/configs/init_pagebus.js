@@ -20,7 +20,7 @@ export default function (bus, reduxStore) {
   // watch pageBus and put both actions and stories.
   bus.on(`${dataId}.action`, function (payload) {
     const action = JSON.parse(payload);
-    state.dispatch({
+    reduxStore.dispatch({
       type: types.ADD_ACTION,
       action,
     });
@@ -28,7 +28,7 @@ export default function (bus, reduxStore) {
 
   bus.on(`${dataId}.stories`, function (payload) {
     const stories = JSON.parse(payload);
-    state.dispatch({
+    reduxStore.dispatch({
       type: types.SET_STORIES,
       stories,
     });

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { types } from '../../../actions';
 const { describe, it } = global;
 
-describe(' manager.preview.config.reducers.preview', () => {
+describe('manager.preview.config.reducers.preview', () => {
   describe('SELECT_STORY', () => {
     it('should set kind and story', () => {
       const stories = [
