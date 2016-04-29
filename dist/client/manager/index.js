@@ -26,14 +26,11 @@ var _preview2 = _interopRequireDefault(_preview);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var coreReducer = function coreReducer() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-  return state;
-};
-
 var reducer = (0, _redux.combineReducers)((0, _extends3.default)({
-  core: coreReducer
+  core: function core() {
+    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    return state;
+  }
 }, _preview2.default.reducers));
 var dataId = _uuid2.default.v4();
 

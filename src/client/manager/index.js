@@ -6,12 +6,8 @@ import UUID from 'uuid';
 import uiModule from './modules/ui';
 import previewModule from './modules/preview';
 
-const coreReducer = (state = {}) => {
-  return state;
-};
-
 const reducer = combineReducers({
-  core: coreReducer,
+  core: (state = {}) => state,
   ...previewModule.reducers,
 });
 const dataId = UUID.v4();
