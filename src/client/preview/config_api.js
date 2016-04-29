@@ -1,4 +1,8 @@
-import { types } from './actions';
+import {
+  setInitialStory,
+  setError,
+  clearError,
+} from './actions';
 
 export default class ConfigApi {
   constructor({ pageBus, storyStore, reduxStore }) {
@@ -15,23 +19,14 @@ export default class ConfigApi {
     this._pageBus.emit('setStories', JSON.stringify(storyKindList));
 
     // clear the error if exists.
-    this._reduxStore.dispatch({
-      type: types.CLEAR_ERROR,
-    });
-    this._reduxStore.dispatch({
-      type: types.SET_INITIAL_STORY,
-      storyKindList,
-    });
+    this._reduxStore.dispatch(clearError());
+    this._reduxStore.dispatch(setInitialStory(storyKindList));
   }
 
   _renderError(e) {
     const { stack, message } = e;
     const error = { stack, message };
-
-    this._reduxStore.dispatch({
-      type: types.SET_ERROR,
-      error,
-    });
+    this._reduxStore.dispatch(setError(error));
   }
 
   configure(loaders, module) {

@@ -42,13 +42,8 @@ var ConfigApi = function () {
       this._pageBus.emit('setStories', (0, _stringify2.default)(storyKindList));
 
       // clear the error if exists.
-      this._reduxStore.dispatch({
-        type: _actions.types.CLEAR_ERROR
-      });
-      this._reduxStore.dispatch({
-        type: _actions.types.SET_INITIAL_STORY,
-        storyKindList: storyKindList
-      });
+      this._reduxStore.dispatch((0, _actions.clearError)());
+      this._reduxStore.dispatch((0, _actions.setInitialStory)(storyKindList));
     }
   }, {
     key: '_renderError',
@@ -57,11 +52,7 @@ var ConfigApi = function () {
       var message = e.message;
 
       var error = { stack: stack, message: message };
-
-      this._reduxStore.dispatch({
-        type: _actions.types.SET_ERROR,
-        error: error
-      });
+      this._reduxStore.dispatch((0, _actions.setError)(error));
     }
   }, {
     key: 'configure',

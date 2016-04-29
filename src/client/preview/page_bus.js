@@ -1,6 +1,6 @@
 import createPageBus from 'page-bus';
 import QS from 'query-string';
-import { types } from './actions';
+import { selectStory } from './actions';
 
 export default class PageBus {
   constructor(window, reduxStore) {
@@ -25,11 +25,7 @@ export default class PageBus {
     this._ensureDataId();
     this._on('setCurrentStory', (payloadString) => {
       const { kind, story } = JSON.parse(payloadString);
-      this._reduxStore.dispatch({
-        type: types.SELECT_STORY,
-        kind,
-        story,
-      });
+      this._reduxStore.dispatch(selectStory(kind, story));
     });
   }
 

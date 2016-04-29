@@ -59,11 +59,7 @@ var PageBus = function () {
         var kind = _JSON$parse.kind;
         var story = _JSON$parse.story;
 
-        _this._reduxStore.dispatch({
-          type: _actions.types.SELECT_STORY,
-          kind: kind,
-          story: story
-        });
+        _this._reduxStore.dispatch((0, _actions.selectStory)(kind, story));
       });
     }
   }, {
