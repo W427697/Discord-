@@ -1,3 +1,3 @@
 'use strict';
 
-require('./ui/manager');
+require('./manager');

@@ -5,11 +5,9 @@ const config = {
   devtool: '#cheap-module-source-map',
   entry: {
     admin: [
-      path.resolve(__dirname, '../client/init_admin'),
+      path.resolve(__dirname, '../client/manager'),
     ],
-    preview: [
-      path.resolve(__dirname, '../client/init_preview'),
-    ],
+    preview: [],
   },
   output: {
     filename: '[name].bundle.js',

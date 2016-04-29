@@ -17,8 +17,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var config = {
   devtool: '#cheap-module-source-map',
   entry: {
-    admin: [_path2.default.resolve(__dirname, '../client/init_admin')],
-    preview: [_path2.default.resolve(__dirname, '../client/init_preview')]
+    admin: [_path2.default.resolve(__dirname, '../client/manager')],
+    preview: []
   },
   output: {
     filename: '[name].bundle.js',

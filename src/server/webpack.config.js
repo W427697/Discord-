@@ -5,11 +5,10 @@ const config = {
   devtool: '#cheap-module-eval-source-map',
   entry: {
     admin: [
-      path.resolve(__dirname, '../client/init_admin'),
+      path.resolve(__dirname, '../client/manager'),
     ],
     preview: [
       'webpack-hot-middleware/client',
-      path.resolve(__dirname, '../client/init_preview'),
     ],
   },
   output: {

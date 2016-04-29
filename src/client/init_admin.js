@@ -1,1 +1,1 @@
-import './ui/manager';
+import './manager';
