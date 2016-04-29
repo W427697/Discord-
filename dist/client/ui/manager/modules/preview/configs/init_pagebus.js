@@ -29,7 +29,7 @@ exports.default = function (bus, reduxStore) {
   });
 
   // watch pageBus and put both actions and stories.
-  bus.on(dataId + '.action', function (payload) {
+  bus.on(dataId + '.addAction', function (payload) {
     var action = JSON.parse(payload);
     reduxStore.dispatch({
       type: _actions.types.ADD_ACTION,
@@ -37,11 +37,20 @@ exports.default = function (bus, reduxStore) {
     });
   });
 
-  bus.on(dataId + '.stories', function (payload) {
+  bus.on(dataId + '.setStories', function (payload) {
     var stories = JSON.parse(payload);
     reduxStore.dispatch({
       type: _actions.types.SET_STORIES,
       stories: stories
+    });
+  });
+
+  bus.on(dataId + '.selectStory', function (payload) {
+    var data = JSON.parse(payload);
+    reduxStore.dispatch({
+      type: _actions.types.SELECT_STORY,
+      kind: data.kind,
+      story: data.story
     });
   });
 };

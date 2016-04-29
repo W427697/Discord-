@@ -85,7 +85,7 @@ describe('manager.preview.config.initPageBus', () => {
 
     initPageBus(bus, reduxStore);
     const action = { aa: 10 };
-    bus.emit(`${dataId}.action`, JSON.stringify(action));
+    bus.emit(`${dataId}.addAction`, JSON.stringify(action));
 
     expect(reduxStore.dispatch.args[0][0]).to.deep.equal({
       type: types.ADD_ACTION,
@@ -108,11 +108,36 @@ describe('manager.preview.config.initPageBus', () => {
 
     initPageBus(bus, reduxStore);
     const stories = [{ kind: 'aa' }];
-    bus.emit(`${dataId}.stories`, JSON.stringify(stories));
+    bus.emit(`${dataId}.setStories`, JSON.stringify(stories));
 
     expect(reduxStore.dispatch.args[0][0]).to.deep.equal({
       type: types.SET_STORIES,
       stories,
+    });
+  });
+
+  it('should dispatch SELECT_STORY', () => {
+    const dataId = 'dasds';
+    const bus = new EventEmitter();
+    const reduxStore = {
+      subscribe() {},
+      getState: () => ({
+        core: {
+          dataId,
+        },
+      }),
+      dispatch: sinon.stub(),
+    };
+
+    initPageBus(bus, reduxStore);
+    const kind = 'kk';
+    const story = 'ss';
+    bus.emit(`${dataId}.selectStory`, JSON.stringify({ kind, story }));
+
+    expect(reduxStore.dispatch.args[0][0]).to.deep.equal({
+      type: types.SELECT_STORY,
+      kind,
+      story,
     });
   });
 });
