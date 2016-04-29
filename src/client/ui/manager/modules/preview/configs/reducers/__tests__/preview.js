@@ -138,6 +138,26 @@ describe('manager.preview.config.reducers.preview', () => {
       expect(newState.selectedKind).to.be.equal(selectedKind);
       expect(newState.selectedStory).to.be.equal('pk');
     });
+
+    it('should set default selectedKind and selectedStory', () => {
+      const stories = { aa: 10 };
+      const newStories = [
+        {
+          kind: 'kk',
+          stories: ['pk'],
+        },
+      ];
+
+      const action = {
+        type: types.SET_STORIES,
+        stories: newStories,
+      };
+
+      const newState = reducer({ stories }, action);
+      expect(newState.stories).to.deep.equal(newStories);
+      expect(newState.selectedKind).to.be.equal('kk');
+      expect(newState.selectedStory).to.be.equal('pk');
+    });
   });
 
   describe('ADD_ACTION', () => {
