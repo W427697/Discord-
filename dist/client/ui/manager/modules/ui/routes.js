@@ -13,7 +13,7 @@ exports.default = function (injectDeps) {
       return 'leftPanel';
     },
     preview: function preview() {
-      return 'preview';
+      return _react2.default.createElement(_preview2.default, null);
     },
     downPanel: function downPanel() {
       return 'downPanel';
@@ -33,5 +33,9 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 var _layout = require('./components/layout');
 
 var _layout2 = _interopRequireDefault(_layout);
+
+var _preview = require('../preview/containers/preview');
+
+var _preview2 = _interopRequireDefault(_preview);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

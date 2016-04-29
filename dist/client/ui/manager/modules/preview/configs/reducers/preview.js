@@ -42,8 +42,8 @@ exports.default = function (state, action) {
           stories: action.stories
         });
 
-        newState.selectedKind = ensureKind(newState.stories, action.kind);
-        newState.selectedStory = ensureStory(newState.stories, newState.selectedKind, action.story);
+        newState.selectedKind = ensureKind(newState.stories, state.kind);
+        newState.selectedStory = ensureStory(newState.stories, newState.selectedKind, state.story);
 
         return newState;
       }

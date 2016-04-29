@@ -45,9 +45,9 @@ export default function (state, action) {
         stories: action.stories,
       };
 
-      newState.selectedKind = ensureKind(newState.stories, action.kind);
+      newState.selectedKind = ensureKind(newState.stories, state.kind);
       newState.selectedStory = ensureStory(
-        newState.stories, newState.selectedKind, action.story
+        newState.stories, newState.selectedKind, state.story
       );
 
       return newState;
