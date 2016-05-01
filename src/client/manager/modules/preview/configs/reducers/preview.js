@@ -57,7 +57,7 @@ export default function (state = {}, action) {
       const actions = [
         action.action,
         ...state.actions || [],
-      ].slice(0, 10);
+      ];
 
       return {
         ...state,

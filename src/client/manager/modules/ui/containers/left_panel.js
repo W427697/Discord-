@@ -1,6 +1,5 @@
 import LeftPanel from '../components/left_panel';
 import { useDeps, compose, composeAll } from 'mantra-core';
-import pick from 'lodash.pick';
 import * as filters from '../libs/filters';
 
 export const composer = ({ context, actions }, onData) => {

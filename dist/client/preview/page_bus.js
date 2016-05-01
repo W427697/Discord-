@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -66,7 +70,8 @@ var PageBus = function () {
     key: 'emit',
     value: function emit(key, payload) {
       this._ensureDataId();
-      return this._pageBus.emit(this._dataId + '.' + key, payload);
+      var payloadString = (0, _stringify2.default)(payload);
+      return this._pageBus.emit(this._dataId + '.' + key, payloadString);
     }
   }]);
   return PageBus;

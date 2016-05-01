@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Layout from './components/layout';
 import Preview from '../preview/containers/preview';
 import LeftPanel from './containers/left_panel';
+import ActionLogger from './containers/action_logger';
 
 export default function (injectDeps) {
   const InjectedLayout = injectDeps(Layout);
@@ -12,7 +13,7 @@ export default function (injectDeps) {
     <InjectedLayout
       leftPanel={() => (<LeftPanel />)}
       preview={() => (<Preview />)}
-      downPanel={() => 'downPanel'}
+      downPanel={() => (<ActionLogger />)}
     />
   );
   ReactDOM.render(root, rootEl);

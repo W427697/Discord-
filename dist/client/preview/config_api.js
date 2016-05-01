@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _stringify = require('babel-runtime/core-js/json/stringify');
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -39,7 +35,7 @@ var ConfigApi = function () {
 
       var storyKindList = this._storyStore.dumpStoryBook();
       // send to the parent frame.
-      this._pageBus.emit('setStories', (0, _stringify2.default)(storyKindList));
+      this._pageBus.emit('setStories', storyKindList);
 
       // clear the error if exists.
       this._reduxStore.dispatch((0, _actions.clearError)());

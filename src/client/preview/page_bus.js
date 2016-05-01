@@ -31,6 +31,7 @@ export default class PageBus {
 
   emit(key, payload) {
     this._ensureDataId();
-    return this._pageBus.emit(`${this._dataId}.${key}`, payload);
+    const payloadString = JSON.stringify(payload);
+    return this._pageBus.emit(`${this._dataId}.${key}`, payloadString);
   }
 }

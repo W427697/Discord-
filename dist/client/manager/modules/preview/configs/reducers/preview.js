@@ -53,7 +53,7 @@ exports.default = function () {
 
     case _actions.types.ADD_ACTION:
       {
-        var actions = [action.action].concat((0, _toConsumableArray3.default)(state.actions || [])).slice(0, 10);
+        var actions = [action.action].concat((0, _toConsumableArray3.default)(state.actions || []));
 
         return (0, _extends3.default)({}, state, {
           actions: actions

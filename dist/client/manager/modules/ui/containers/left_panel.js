@@ -11,10 +11,6 @@ var _left_panel2 = _interopRequireDefault(_left_panel);
 
 var _mantraCore = require('mantra-core');
 
-var _lodash = require('lodash.pick');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
 var _filters = require('../libs/filters');
 
 var filters = _interopRequireWildcard(_filters);
