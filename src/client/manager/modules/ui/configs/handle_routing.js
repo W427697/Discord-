@@ -1,6 +1,10 @@
 import qs from 'qs';
+export let insidePopState = false;
 
 export function changeUrl(reduxStore) {
+  // Do not change the URL if we are inside a popState event.
+  if (insidePopState) return;
+
   const { preview } = reduxStore.getState();
   if (!preview) return;
 
@@ -44,6 +48,8 @@ export default function ({ reduxStore }, actions) {
 
   // handle back button
   window.onpopstate = () => {
+    insidePopState = true;
     handleInitialUrl(actions);
+    insidePopState = false;
   };
 }

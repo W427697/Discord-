@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.insidePopState = undefined;
 exports.changeUrl = changeUrl;
 exports.updateStore = updateStore;
 exports.handleInitialUrl = handleInitialUrl;
@@ -21,7 +22,9 @@ exports.default = function (_ref, actions) {
 
   // handle back button
   window.onpopstate = function () {
+    exports.insidePopState = insidePopState = true;
     handleInitialUrl(actions);
+    exports.insidePopState = insidePopState = false;
   };
 };
 
@@ -31,7 +34,12 @@ var _qs2 = _interopRequireDefault(_qs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var insidePopState = exports.insidePopState = false;
+
 function changeUrl(reduxStore) {
+  // Do not change the URL if we are inside a popState event.
+  if (insidePopState) return;
+
   var _reduxStore$getState = reduxStore.getState();
 
   var preview = _reduxStore$getState.preview;
