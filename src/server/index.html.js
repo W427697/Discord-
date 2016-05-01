@@ -5,6 +5,7 @@ export default function () {
     <!DOCTYPE html>
     <html>
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>React Storybook</title>
         <script type="text/javascript">
           window.dataId = '${UUID.v4()}';
@@ -18,22 +19,22 @@ export default function () {
           .dragging iframe {
             pointer-events: none;
           }
-          
+
           /* Styling the fuzzy search box placeholders */
           .searchBox::-webkit-input-placeholder { /* Chrome/Opera/Safari */
             color: #ddd;
             font-size: 16px;
           }
-          
+
           .searchBox::-moz-placeholder { /* Firefox 19+ */
             color: #ddd;
             font-size: 16px;
           }
-          
+
           .searchBox:focus{
             border-color: #EEE !important;
           }
-          
+
           .btn:hover{
             background-color: #eee
           }
