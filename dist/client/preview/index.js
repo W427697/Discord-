@@ -25,6 +25,12 @@ var _render = require('./render');
 
 var _render2 = _interopRequireDefault(_render);
 
+var _qs = require('qs');
+
+var _qs2 = _interopRequireDefault(_qs);
+
+var _actions = require('./actions');
+
 var _redux = require('redux');
 
 var _reducer = require('./reducer');
@@ -33,13 +39,19 @@ var _reducer2 = _interopRequireDefault(_reducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var queryParams = _qs2.default.parse(window.location.search.substring(1));
+
 var storyStore = new _story_store2.default();
 var reduxStore = (0, _redux.createStore)(_reducer2.default);
-var pageBus = new _page_bus2.default(window, reduxStore);
+var pageBus = new _page_bus2.default(queryParams.dataId, reduxStore);
 pageBus.init();
 
-var context = { storyStore: storyStore, reduxStore: reduxStore, pageBus: pageBus };
+// set the story if correct params are loaded via the URL.
+if (queryParams.selectedKind) {
+  reduxStore.dispatch((0, _actions.selectStory)(queryParams.selectedKind, queryParams.selectedStory));
+}
 
+var context = { storyStore: storyStore, reduxStore: reduxStore, pageBus: pageBus };
 var clientApi = new _client_api2.default(context);
 var configApi = new _config_api2.default(context);
 

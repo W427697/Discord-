@@ -20,22 +20,16 @@ var _pageBus = require('page-bus');
 
 var _pageBus2 = _interopRequireDefault(_pageBus);
 
-var _queryString = require('query-string');
-
-var _queryString2 = _interopRequireDefault(_queryString);
-
 var _actions = require('./actions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PageBus = function () {
-  function PageBus(window, reduxStore) {
+  function PageBus(dataId, reduxStore) {
     (0, _classCallCheck3.default)(this, PageBus);
 
-    this._window = window;
     this._reduxStore = reduxStore;
-    this._parsedQs = _queryString2.default.parse(window.location.search);
-    this._dataId = this._parsedQs.dataId;
+    this._dataId = dataId;
     this._pageBus = (0, _pageBus2.default)();
   }
 

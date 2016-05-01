@@ -45,8 +45,8 @@ exports.default = function () {
           stories: action.stories
         });
 
-        newState.selectedKind = ensureKind(newState.stories, state.kind);
-        newState.selectedStory = ensureStory(newState.stories, newState.selectedKind, state.story);
+        newState.selectedKind = ensureKind(newState.stories, state.selectedKind);
+        newState.selectedStory = ensureStory(newState.stories, newState.selectedKind, state.selectedStory);
 
         return newState;
       }
@@ -83,6 +83,8 @@ var _deepEqual2 = _interopRequireDefault(_deepEqual);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function ensureKind(storyKinds, selectedKind) {
+  if (!storyKinds) return selectedKind;
+
   var found = storyKinds.find(function (item) {
     return item.kind === selectedKind;
   });
@@ -95,6 +97,8 @@ function ensureKind(storyKinds, selectedKind) {
 }
 
 function ensureStory(storyKinds, selectedKind, selectedStory) {
+  if (!storyKinds) return selectedStory;
+
   var kindInfo = storyKinds.find(function (item) {
     return item.kind === selectedKind;
   });

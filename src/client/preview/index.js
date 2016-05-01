@@ -3,17 +3,25 @@ import PageBus from './page_bus';
 import ClientApi from './client_api';
 import ConfigApi from './config_api';
 import render from './render';
+import qs from 'qs';
+import { selectStory } from './actions';
 
 import { createStore } from 'redux';
 import reducer from './reducer';
 
+const queryParams = qs.parse(window.location.search.substring(1));
+
 const storyStore = new StoryStore();
 const reduxStore = createStore(reducer);
-const pageBus = new PageBus(window, reduxStore);
+const pageBus = new PageBus(queryParams.dataId, reduxStore);
 pageBus.init();
 
-const context = { storyStore, reduxStore, pageBus };
+// set the story if correct params are loaded via the URL.
+if (queryParams.selectedKind) {
+  reduxStore.dispatch(selectStory(queryParams.selectedKind, queryParams.selectedStory));
+}
 
+const context = { storyStore, reduxStore, pageBus };
 const clientApi = new ClientApi(context);
 const configApi = new ConfigApi(context);
 

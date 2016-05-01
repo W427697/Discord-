@@ -116,6 +116,11 @@ var StoryStore = function () {
       return data;
     }
   }, {
+    key: "size",
+    value: function size() {
+      return (0, _keys2.default)(this._data).length;
+    }
+  }, {
     key: "clean",
     value: function clean() {
       var _this4 = this;

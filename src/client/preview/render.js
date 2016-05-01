@@ -17,6 +17,8 @@ export function renderError(error) {
 }
 
 export function renderMain(data, storyStore) {
+  if (storyStore.size() === 0) return null;
+
   const NoPreview = () => (<p>No Preview Available!</p>);
   const noPreview = (<NoPreview />);
   const { selectedKind, selectedStory } = data;

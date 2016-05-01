@@ -16,11 +16,17 @@ var _reducers = require('./configs/reducers');
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
+var _handle_routing = require('./configs/handle_routing');
+
+var _handle_routing2 = _interopRequireDefault(_handle_routing);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   routes: _routes2.default,
   actions: _actions2.default,
   reducers: _reducers2.default,
-  load: function load() {}
+  load: function load(c, a) {
+    (0, _handle_routing2.default)(c, a);
+  }
 };

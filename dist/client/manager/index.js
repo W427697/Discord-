@@ -38,6 +38,6 @@ var reduxStore = (0, _redux.createStore)(reducer);
 
 var context = (0, _context2.default)(reduxStore);
 var app = (0, _mantraCore.createApp)(context);
-app.loadModule(_ui2.default);
 app.loadModule(_preview2.default);
+app.loadModule(_ui2.default);
 app.init();

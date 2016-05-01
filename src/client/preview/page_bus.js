@@ -1,13 +1,10 @@
 import createPageBus from 'page-bus';
-import QS from 'query-string';
 import { selectStory } from './actions';
 
 export default class PageBus {
-  constructor(window, reduxStore) {
-    this._window = window;
+  constructor(dataId, reduxStore) {
     this._reduxStore = reduxStore;
-    this._parsedQs = QS.parse(window.location.search);
-    this._dataId = this._parsedQs.dataId;
+    this._dataId = dataId;
     this._pageBus = createPageBus();
   }
 

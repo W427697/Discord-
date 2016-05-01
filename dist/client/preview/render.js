@@ -37,6 +37,8 @@ function renderError(error) {
 }
 
 function renderMain(data, storyStore) {
+  if (storyStore.size() === 0) return null;
+
   var NoPreview = function NoPreview() {
     return _react2.default.createElement(
       'p',

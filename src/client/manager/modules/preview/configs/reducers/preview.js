@@ -2,6 +2,8 @@ import { types } from '../../actions';
 import deepEqual from 'deep-equal';
 
 export function ensureKind(storyKinds, selectedKind) {
+  if (!storyKinds) return selectedKind;
+
   const found = storyKinds.find(item => item.kind === selectedKind);
   if (found) return found.kind;
   // if the selected kind is non-existant, select the first kind
@@ -10,6 +12,8 @@ export function ensureKind(storyKinds, selectedKind) {
 }
 
 export function ensureStory(storyKinds, selectedKind, selectedStory) {
+  if (!storyKinds) return selectedStory;
+
   const kindInfo = storyKinds.find(item => item.kind === selectedKind);
   if (!kindInfo) return null;
 
@@ -46,9 +50,9 @@ export default function (state = {}, action) {
         stories: action.stories,
       };
 
-      newState.selectedKind = ensureKind(newState.stories, state.kind);
+      newState.selectedKind = ensureKind(newState.stories, state.selectedKind);
       newState.selectedStory = ensureStory(
-        newState.stories, newState.selectedKind, state.story
+        newState.stories, newState.selectedKind, state.selectedStory
       );
 
       return newState;

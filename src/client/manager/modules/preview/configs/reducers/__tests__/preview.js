@@ -58,6 +58,18 @@ describe('manager.preview.config.reducers.preview', () => {
       expect(newState.selectedKind).to.be.equal(action.kind);
       expect(newState.selectedStory).to.be.equal('ss');
     });
+
+    it('should keep selectedKind and selectedStory as is when there are no stories', () => {
+      const action = {
+        type: types.SELECT_STORY,
+        kind: 'kk',
+        story: 'ss',
+      };
+
+      const newState = reducer({}, action);
+      expect(newState.selectedKind).to.be.equal(action.kind);
+      expect(newState.selectedStory).to.be.equal(action.story);
+    });
   });
 
   describe('CLEAR_ACTIONS', () => {
@@ -157,6 +169,32 @@ describe('manager.preview.config.reducers.preview', () => {
       expect(newState.stories).to.deep.equal(newStories);
       expect(newState.selectedKind).to.be.equal('kk');
       expect(newState.selectedStory).to.be.equal('pk');
+    });
+
+    it('should respect existing selectedKind and selectStory', () => {
+      const selectedKind = 'bb';
+      const selectedStory = 'dd';
+
+      const newStories = [
+        {
+          kind: 'kk',
+          stories: ['pk'],
+        },
+        {
+          kind: 'bb',
+          stories: ['pk', 'dd'],
+        },
+      ];
+
+      const action = {
+        type: types.SET_STORIES,
+        stories: newStories,
+      };
+
+      const newState = reducer({ selectedKind, selectedStory }, action);
+      expect(newState.stories).to.deep.equal(newStories);
+      expect(newState.selectedKind).to.be.equal(selectedKind);
+      expect(newState.selectedStory).to.be.equal(selectedStory);
     });
   });
 

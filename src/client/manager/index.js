@@ -18,6 +18,6 @@ const reduxStore = createStore(reducer);
 
 const context = buildContext(reduxStore);
 const app = createApp(context);
-app.loadModule(uiModule);
 app.loadModule(previewModule);
+app.loadModule(uiModule);
 app.init();

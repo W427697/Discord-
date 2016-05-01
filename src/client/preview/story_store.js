@@ -72,6 +72,10 @@ export default class StoryStore {
     return data;
   }
 
+  size() {
+    return Object.keys(this._data).length;
+  }
+
   clean() {
     this.getStoryKinds().forEach(kind => delete this._data[kind]);
   }
