@@ -26,17 +26,15 @@ var _preview2 = _interopRequireDefault(_preview);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var reducer = (0, _redux.combineReducers)((0, _extends3.default)({
-  core: function core() {
-    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-    return state;
-  }
-}, _preview2.default.reducers));
 var dataId = _uuid2.default.v4();
 
-var reduxStore = (0, _redux.createStore)(reducer, {
-  core: { dataId: dataId }
-});
+var reducer = (0, _redux.combineReducers)((0, _extends3.default)({
+  core: function core() {
+    return { dataId: dataId };
+  }
+}, _preview2.default.reducers, _ui2.default.reducers));
+
+var reduxStore = (0, _redux.createStore)(reducer);
 
 var context = (0, _context2.default)(reduxStore);
 var app = (0, _mantraCore.createApp)(context);

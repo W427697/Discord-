@@ -6,15 +6,15 @@ import UUID from 'uuid';
 import uiModule from './modules/ui';
 import previewModule from './modules/preview';
 
-const reducer = combineReducers({
-  core: (state = {}) => state,
-  ...previewModule.reducers,
-});
 const dataId = UUID.v4();
 
-const reduxStore = createStore(reducer, {
-  core: { dataId },
+const reducer = combineReducers({
+  core: () => ({ dataId }),
+  ...previewModule.reducers,
+  ...uiModule.reducers,
 });
+
+const reduxStore = createStore(reducer);
 
 const context = buildContext(reduxStore);
 const app = createApp(context);

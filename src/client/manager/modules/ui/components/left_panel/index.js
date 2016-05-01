@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './header';
 import Stories from './stories';
+import TextFilter from './text_filter';
 import pick from 'lodash.pick';
 
 const mainStyle = {
@@ -12,6 +13,11 @@ const storyProps = ['stories', 'selectedKind', 'selectedStory', 'onSelectStory']
 const LeftPanel = (props) => (
   <div style={mainStyle}>
     <Header />
+    <TextFilter
+      text={props.storyFilter}
+      onClear={() => props.onStoryFilter('')}
+      onChange={(text) => props.onStoryFilter(text)}
+    />
     {props.stories? (<Stories {...pick(props, storyProps)}/>) : null}
   </div>
 );
@@ -21,6 +27,9 @@ LeftPanel.propTypes = {
   selectedKind: React.PropTypes.string,
   selectedStory: React.PropTypes.string,
   onSelectStory: React.PropTypes.func,
+
+  storyFilter: React.PropTypes.string,
+  onStoryFilter: React.PropTypes.func,
 };
 
 export default LeftPanel;

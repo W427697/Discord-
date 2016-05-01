@@ -17,7 +17,8 @@ var _theme = require('../theme');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var wrapperStyle = {
-  background: '#F7F7F7'
+  background: '#F7F7F7',
+  marginBottom: 10
 };
 
 var headingStyle = (0, _extends3.default)({}, _theme.baseFonts, {

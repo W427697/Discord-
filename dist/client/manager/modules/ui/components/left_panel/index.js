@@ -16,6 +16,10 @@ var _stories = require('./stories');
 
 var _stories2 = _interopRequireDefault(_stories);
 
+var _text_filter = require('./text_filter');
+
+var _text_filter2 = _interopRequireDefault(_text_filter);
+
 var _lodash = require('lodash.pick');
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -33,6 +37,15 @@ var LeftPanel = function LeftPanel(props) {
     'div',
     { style: mainStyle },
     _react2.default.createElement(_header2.default, null),
+    _react2.default.createElement(_text_filter2.default, {
+      text: props.storyFilter,
+      onClear: function onClear() {
+        return props.onStoryFilter('');
+      },
+      onChange: function onChange(text) {
+        return props.onStoryFilter(text);
+      }
+    }),
     props.stories ? _react2.default.createElement(_stories2.default, (0, _lodash2.default)(props, storyProps)) : null
   );
 };
@@ -41,7 +54,10 @@ LeftPanel.propTypes = {
   stories: _react2.default.PropTypes.array,
   selectedKind: _react2.default.PropTypes.string,
   selectedStory: _react2.default.PropTypes.string,
-  onSelectStory: _react2.default.PropTypes.func
+  onSelectStory: _react2.default.PropTypes.func,
+
+  storyFilter: _react2.default.PropTypes.string,
+  onStoryFilter: _react2.default.PropTypes.func
 };
 
 exports.default = LeftPanel;
