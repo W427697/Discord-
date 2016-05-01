@@ -1,6 +1,5 @@
 import { types } from '../../actions';
 import deepEqual from 'deep-equal';
-import pick from 'lodash.pick';
 
 export function ensureKind(storyKinds, selectedKind) {
   const found = storyKinds.find(item => item.kind === selectedKind);
@@ -56,7 +55,7 @@ export default function (state = {}, action) {
     }
 
     case types.ADD_ACTION: {
-      const previewAction = {...action.action};
+      const previewAction = { ...action.action };
       const actions = [
         ...state.actions || [],
       ];

@@ -59,8 +59,7 @@ var linkStyle = {
   textDecoration: 'none'
 };
 
-var Header = function Header(_ref) {
-  var showShortcutHelp = _ref.showShortcutHelp;
+var Header = function Header() {
   return _react2.default.createElement(
     'div',
     { style: wrapperStyle },

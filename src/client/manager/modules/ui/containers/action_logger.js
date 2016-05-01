@@ -15,7 +15,7 @@ export const composer = ({ context, actions }, onData) => {
     if (preview && preview.actions) {
       data.actions = preview.actions;
     }
-    
+
     onData(null, data);
   };
 

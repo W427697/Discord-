@@ -9,10 +9,6 @@ const mainStyle = {
 };
 
 export default class TextFilter extends React.Component {
-  constructor(props, ctx) {
-    super(props, ctx);
-  }
-
   onChange(event) {
     const text = event.target.value;
     const { onChange } = this.props;
@@ -36,7 +32,6 @@ export default class TextFilter extends React.Component {
       padding: 5,
       display: 'block',
       width: '100%',
-      height: '100%',
       boxSizing: 'border-box',
       outline: 'none',
       border: 0,
@@ -67,7 +62,7 @@ export default class TextFilter extends React.Component {
             // otherwise, this is marked as an uncontrolled input and
             // once, we get the text, it'll became controlled.
             // React does not allow that.
-            value={this.props.text || ""}
+            value={this.props.text || ''}
             onChange={this.onChange.bind(this)}
           />
         </div>

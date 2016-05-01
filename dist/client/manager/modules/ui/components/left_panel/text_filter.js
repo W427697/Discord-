@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
-
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -49,9 +45,9 @@ var mainStyle = (0, _extends3.default)({}, _theme.baseFonts, {
 var TextFilter = function (_React$Component) {
   (0, _inherits3.default)(TextFilter, _React$Component);
 
-  function TextFilter(props, ctx) {
+  function TextFilter() {
     (0, _classCallCheck3.default)(this, TextFilter);
-    return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(TextFilter).call(this, props, ctx));
+    return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(TextFilter).apply(this, arguments));
   }
 
   (0, _createClass3.default)(TextFilter, [{
@@ -77,17 +73,17 @@ var TextFilter = function (_React$Component) {
         paddingRight: 25
       };
 
-      var textStyle = (0, _defineProperty3.default)({
+      var textStyle = {
         fontSize: 12,
         color: '#828282',
         padding: 5,
         display: 'block',
         width: '100%',
-        height: '100%',
         boxSizing: 'border-box',
         outline: 'none',
-        border: 0
-      }, 'height', 26);
+        border: 0,
+        height: 26
+      };
 
       var clearButtonStyle = {
         position: 'absolute',
@@ -116,7 +112,7 @@ var TextFilter = function (_React$Component) {
             // otherwise, this is marked as an uncontrolled input and
             // once, we get the text, it'll became controlled.
             // React does not allow that.
-            , value: this.props.text || "",
+            , value: this.props.text || '',
             onChange: this.onChange.bind(this)
           })
         ),

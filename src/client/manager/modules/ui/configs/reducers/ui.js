@@ -5,7 +5,7 @@ export default function (state = {}, action) {
     case types.SET_STORY_FILTER: {
       return {
         ...state,
-        storyFilter: action.filter
+        storyFilter: action.filter,
       };
     }
 

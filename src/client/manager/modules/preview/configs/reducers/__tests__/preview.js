@@ -162,38 +162,38 @@ describe('manager.preview.config.reducers.preview', () => {
 
   describe('ADD_ACTION', () => {
     it('should add an action to the beginning', () => {
-      const actions = [{id: 2, data: '1'}, {id: 1, data: '2'}];
+      const actions = [{ id: 2, data: '1' }, { id: 1, data: '2' }];
       const action = {
         type: types.ADD_ACTION,
-        action: {id: 3, data: '3'},
+        action: { id: 3, data: '3' },
       };
 
       const newState = reducer({ actions }, action);
-      expect(newState.actions).to.deep.equal([{id: 3, count: 1, data: '3'}, ...actions]);
+      expect(newState.actions).to.deep.equal([{ id: 3, count: 1, data: '3' }, ...actions]);
     });
 
     it('should create actions array for the first time', () => {
       const action = {
         type: types.ADD_ACTION,
-        action: {id: '1', data: '20'},
+        action: { id: '1', data: '20' },
       };
       const newState = reducer({}, action);
-      expect(newState.actions).to.deep.equal([{id: '1', data: '20', count: 1}]);
+      expect(newState.actions).to.deep.equal([{ id: '1', data: '20', count: 1 }]);
     });
 
     it('should increment the count if the lastAction and the newAction are the same', () => {
       const actions = [
         { id: 2, data: '1', count: 1 },
-        { id: 1, data: '2', count: 1 }
+        { id: 1, data: '2', count: 1 },
       ];
       const action = {
         type: types.ADD_ACTION,
-        action: {id: 3, data: '1'},
+        action: { id: 3, data: '1' },
       };
       const newState = reducer({ actions }, action);
       expect(newState.actions).to.deep.equal([
         { id: 2, data: '1', count: 2 },
-        { id: 1, data: '2', count: 1 }
+        { id: 1, data: '2', count: 1 },
       ]);
     });
   });

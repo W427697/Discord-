@@ -39,7 +39,7 @@ class ActionLogger extends Component {
   getActionData() {
     return this.props.actions
       .map((action) => (
-        <Foldable key={action.id} action={action}/>
+        <Foldable key={action.id} action={action} />
       ));
   }
 

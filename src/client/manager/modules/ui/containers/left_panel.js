@@ -9,7 +9,7 @@ export const composer = ({ context, actions }, onData) => {
   const processState = () => {
     const { preview, ui } = reduxStore.getState();
     if (preview) {
-      const { stories, selectedKind, selectedStory} = preview;
+      const { stories, selectedKind, selectedStory } = preview;
       const { storyFilter } = ui;
       const data = {
         stories: filters.storyFilter(stories, storyFilter, selectedKind, selectedStory),

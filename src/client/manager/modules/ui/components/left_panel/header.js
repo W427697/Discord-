@@ -45,7 +45,7 @@ const linkStyle = {
   textDecoration: 'none',
 };
 
-const Header = ({ showShortcutHelp }) => (
+const Header = () => (
   <div style={wrapperStyle}>
     <div style={shortcutIconStyle}>&#8984;</div>
     <a style={linkStyle} href="https://github.com/kadirahq/react-storybook" target="_blank">

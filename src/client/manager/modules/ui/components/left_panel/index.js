@@ -18,7 +18,7 @@ const LeftPanel = (props) => (
       onClear={() => props.onStoryFilter('')}
       onChange={(text) => props.onStoryFilter(text)}
     />
-    {props.stories? (<Stories {...pick(props, storyProps)}/>) : null}
+    {props.stories ? (<Stories {...pick(props, storyProps)} />) : null}
   </div>
 );
 
