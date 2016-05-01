@@ -90,7 +90,7 @@ function ensureStory(storyKinds, selectedKind, selectedStory) {
   var found = kindInfo.stories.find(function (item) {
     return item === selectedStory;
   });
-  if (found > 0) return found;
+  if (found) return found;
 
   return kindInfo.stories[0];
 }

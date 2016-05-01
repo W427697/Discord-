@@ -10,7 +10,7 @@ exports.default = function (injectDeps) {
 
   var root = _react2.default.createElement(InjectedLayout, {
     leftPanel: function leftPanel() {
-      return 'leftPanel';
+      return _react2.default.createElement(_left_panel2.default, null);
     },
     preview: function preview() {
       return _react2.default.createElement(_preview2.default, null);
@@ -37,5 +37,9 @@ var _layout2 = _interopRequireDefault(_layout);
 var _preview = require('../preview/containers/preview');
 
 var _preview2 = _interopRequireDefault(_preview);
+
+var _left_panel = require('./containers/left_panel');
+
+var _left_panel2 = _interopRequireDefault(_left_panel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

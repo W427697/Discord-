@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Layout from './components/layout';
 import Preview from '../preview/containers/preview';
+import LeftPanel from './containers/left_panel';
 
 export default function (injectDeps) {
   const InjectedLayout = injectDeps(Layout);
@@ -9,7 +10,7 @@ export default function (injectDeps) {
 
   const root = (
     <InjectedLayout
-      leftPanel={() => 'leftPanel'}
+      leftPanel={() => (<LeftPanel />)}
       preview={() => (<Preview />)}
       downPanel={() => 'downPanel'}
     />

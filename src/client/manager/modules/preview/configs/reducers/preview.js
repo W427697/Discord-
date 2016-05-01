@@ -13,7 +13,7 @@ export function ensureStory(storyKinds, selectedKind, selectedStory) {
   if (!kindInfo) return null;
 
   const found = kindInfo.stories.find(item => item === selectedStory);
-  if (found > 0) return found;
+  if (found) return found;
 
   return kindInfo.stories[0];
 }
