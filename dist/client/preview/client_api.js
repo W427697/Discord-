@@ -90,7 +90,7 @@ var ClientApi = function () {
         var data = { name: name, args: args };
         var action = { data: data, id: id };
 
-        pageBus.emit('addAction', action);
+        pageBus.emit('addAction', { action: action });
       };
     }
   }, {

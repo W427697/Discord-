@@ -33,13 +33,13 @@ var ConfigApi = function () {
     value: function _renderMain(loaders) {
       if (loaders) loaders();
 
-      var storyKindList = this._storyStore.dumpStoryBook();
+      var stories = this._storyStore.dumpStoryBook();
       // send to the parent frame.
-      this._pageBus.emit('setStories', storyKindList);
+      this._pageBus.emit('setStories', { stories: stories });
 
       // clear the error if exists.
       this._reduxStore.dispatch((0, _actions.clearError)());
-      this._reduxStore.dispatch((0, _actions.setInitialStory)(storyKindList));
+      this._reduxStore.dispatch((0, _actions.setInitialStory)(stories));
     }
   }, {
     key: '_renderError',

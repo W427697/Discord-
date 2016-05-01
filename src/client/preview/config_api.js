@@ -14,13 +14,13 @@ export default class ConfigApi {
   _renderMain(loaders) {
     if (loaders) loaders();
 
-    const storyKindList = this._storyStore.dumpStoryBook();
+    const stories = this._storyStore.dumpStoryBook();
     // send to the parent frame.
-    this._pageBus.emit('setStories', storyKindList);
+    this._pageBus.emit('setStories', { stories });
 
     // clear the error if exists.
     this._reduxStore.dispatch(clearError());
-    this._reduxStore.dispatch(setInitialStory(storyKindList));
+    this._reduxStore.dispatch(setInitialStory(stories));
   }
 
   _renderError(e) {

@@ -20,6 +20,10 @@ var _handle_routing = require('./configs/handle_routing');
 
 var _handle_routing2 = _interopRequireDefault(_handle_routing);
 
+var _handle_keyevents = require('./configs/handle_keyevents');
+
+var _handle_keyevents2 = _interopRequireDefault(_handle_keyevents);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
@@ -28,5 +32,6 @@ exports.default = {
   reducers: _reducers2.default,
   load: function load(c, a) {
     (0, _handle_routing2.default)(c, a);
+    (0, _handle_keyevents2.default)(a);
   }
 };

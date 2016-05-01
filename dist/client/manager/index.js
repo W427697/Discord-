@@ -16,13 +16,17 @@ var _uuid = require('uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
-var _ui = require('./modules/ui');
+var _shortcuts = require('./modules/shortcuts');
 
-var _ui2 = _interopRequireDefault(_ui);
+var _shortcuts2 = _interopRequireDefault(_shortcuts);
 
 var _preview = require('./modules/preview');
 
 var _preview2 = _interopRequireDefault(_preview);
+
+var _ui = require('./modules/ui');
+
+var _ui2 = _interopRequireDefault(_ui);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32,12 +36,14 @@ var reducer = (0, _redux.combineReducers)((0, _extends3.default)({
   core: function core() {
     return { dataId: dataId };
   }
-}, _preview2.default.reducers, _ui2.default.reducers));
+}, _shortcuts2.default.reducers, _preview2.default.reducers, _ui2.default.reducers));
 
 var reduxStore = (0, _redux.createStore)(reducer);
-
 var context = (0, _context2.default)(reduxStore);
 var app = (0, _mantraCore.createApp)(context);
+
+app.loadModule(_shortcuts2.default);
 app.loadModule(_preview2.default);
 app.loadModule(_ui2.default);
+
 app.init();

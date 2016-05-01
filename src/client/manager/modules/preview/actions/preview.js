@@ -1,8 +1,14 @@
 import { types } from './';
 
 export default {
+  setStories({ reduxStore }, stories) {
+    reduxStore.dispatch({
+      type: types.SET_STORIES,
+      stories,
+    });
+  },
+
   selectStory({ reduxStore }, kind, story) {
-    // update this on the redux
     reduxStore.dispatch({
       type: types.SELECT_STORY,
       kind,
@@ -11,9 +17,15 @@ export default {
   },
 
   clearActions({ reduxStore }) {
-    // simply clear actions in the redux store
     reduxStore.dispatch({
       type: types.CLEAR_ACTIONS,
+    });
+  },
+
+  addAction({ reduxStore }, action) {
+    reduxStore.dispatch({
+      type: types.ADD_ACTION,
+      action,
     });
   },
 };

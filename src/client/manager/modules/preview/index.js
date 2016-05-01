@@ -6,8 +6,8 @@ import initPagebus from './configs/init_pagebus';
 export default {
   reducers,
   actions,
-  load({ reduxStore }) {
+  load({ reduxStore }, a) {
     const bus = createPageBus();
-    initPagebus(bus, reduxStore);
+    initPagebus(bus, reduxStore, a);
   },
 };

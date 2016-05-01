@@ -7,22 +7,36 @@ Object.defineProperty(exports, "__esModule", {
 var _ = require('./');
 
 exports.default = {
-  selectStory: function selectStory(_ref, kind, story) {
+  setStories: function setStories(_ref, stories) {
     var reduxStore = _ref.reduxStore;
 
-    // update this on the redux
+    reduxStore.dispatch({
+      type: _.types.SET_STORIES,
+      stories: stories
+    });
+  },
+  selectStory: function selectStory(_ref2, kind, story) {
+    var reduxStore = _ref2.reduxStore;
+
     reduxStore.dispatch({
       type: _.types.SELECT_STORY,
       kind: kind,
       story: story
     });
   },
-  clearActions: function clearActions(_ref2) {
-    var reduxStore = _ref2.reduxStore;
+  clearActions: function clearActions(_ref3) {
+    var reduxStore = _ref3.reduxStore;
 
-    // simply clear actions in the redux store
     reduxStore.dispatch({
       type: _.types.CLEAR_ACTIONS
+    });
+  },
+  addAction: function addAction(_ref4, action) {
+    var reduxStore = _ref4.reduxStore;
+
+    reduxStore.dispatch({
+      type: _.types.ADD_ACTION,
+      action: action
     });
   }
 };

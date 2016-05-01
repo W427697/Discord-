@@ -1,6 +1,4 @@
-import { types } from '../actions';
-
-export default function (bus, reduxStore) {
+export default function (bus, reduxStore, actions) {
   const state = reduxStore.getState();
   const dataId = state.core.dataId;
 
@@ -16,31 +14,25 @@ export default function (bus, reduxStore) {
 
     bus.emit(`${dataId}.setCurrentStory`, JSON.stringify(payload));
   });
-  window.a = reduxStore;
 
   // watch pageBus and put both actions and stories.
   bus.on(`${dataId}.addAction`, function (payload) {
-    const action = JSON.parse(payload);
-    reduxStore.dispatch({
-      type: types.ADD_ACTION,
-      action,
-    });
+    const data = JSON.parse(payload);
+    actions.preview.addAction(data.action);
   });
 
   bus.on(`${dataId}.setStories`, function (payload) {
-    const stories = JSON.parse(payload);
-    reduxStore.dispatch({
-      type: types.SET_STORIES,
-      stories,
-    });
+    const data = JSON.parse(payload);
+    actions.preview.setStories(data.stories);
   });
 
   bus.on(`${dataId}.selectStory`, function (payload) {
     const data = JSON.parse(payload);
-    reduxStore.dispatch({
-      type: types.SELECT_STORY,
-      kind: data.kind,
-      story: data.story,
-    });
+    actions.preview.selectStory(data.kind, data.story);
+  });
+
+  bus.on(`${dataId}.applyShortcut`, function (payload) {
+    const data = JSON.parse(payload);
+    actions.shortcuts.handleEvent(data.event);
   });
 }

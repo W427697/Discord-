@@ -55,7 +55,7 @@ export default class ClientApi {
       const data = { name, args };
       const action = { data, id };
 
-      pageBus.emit('addAction', action);
+      pageBus.emit('addAction', { action });
     };
   }
 

@@ -29,7 +29,9 @@ var _qs = require('qs');
 
 var _qs2 = _interopRequireDefault(_qs);
 
-var _actions = require('./actions');
+var _init = require('./init');
+
+var _init2 = _interopRequireDefault(_init);
 
 var _redux = require('redux');
 
@@ -46,14 +48,11 @@ var reduxStore = (0, _redux.createStore)(_reducer2.default);
 var pageBus = new _page_bus2.default(queryParams.dataId, reduxStore);
 pageBus.init();
 
-// set the story if correct params are loaded via the URL.
-if (queryParams.selectedKind) {
-  reduxStore.dispatch((0, _actions.selectStory)(queryParams.selectedKind, queryParams.selectedStory));
-}
-
-var context = { storyStore: storyStore, reduxStore: reduxStore, pageBus: pageBus };
+var context = { storyStore: storyStore, reduxStore: reduxStore, pageBus: pageBus, window: window, queryParams: queryParams };
 var clientApi = new _client_api2.default(context);
 var configApi = new _config_api2.default(context);
+
+(0, _init2.default)(context);
 
 // do exports
 var storiesOf = exports.storiesOf = clientApi.storiesOf.bind(clientApi);

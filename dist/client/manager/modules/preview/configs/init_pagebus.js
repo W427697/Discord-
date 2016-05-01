@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _stringify = require('babel-runtime/core-js/json/stringify');
+var _stringify = require("babel-runtime/core-js/json/stringify");
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
-exports.default = function (bus, reduxStore) {
+exports.default = function (bus, reduxStore, actions) {
   var state = reduxStore.getState();
   var dataId = state.core.dataId;
 
@@ -25,37 +25,29 @@ exports.default = function (bus, reduxStore) {
       story: preview.selectedStory
     };
 
-    bus.emit(dataId + '.setCurrentStory', (0, _stringify2.default)(payload));
+    bus.emit(dataId + ".setCurrentStory", (0, _stringify2.default)(payload));
   });
-  window.a = reduxStore;
 
   // watch pageBus and put both actions and stories.
-  bus.on(dataId + '.addAction', function (payload) {
-    var action = JSON.parse(payload);
-    reduxStore.dispatch({
-      type: _actions.types.ADD_ACTION,
-      action: action
-    });
-  });
-
-  bus.on(dataId + '.setStories', function (payload) {
-    var stories = JSON.parse(payload);
-    reduxStore.dispatch({
-      type: _actions.types.SET_STORIES,
-      stories: stories
-    });
-  });
-
-  bus.on(dataId + '.selectStory', function (payload) {
+  bus.on(dataId + ".addAction", function (payload) {
     var data = JSON.parse(payload);
-    reduxStore.dispatch({
-      type: _actions.types.SELECT_STORY,
-      kind: data.kind,
-      story: data.story
-    });
+    actions.preview.addAction(data.action);
+  });
+
+  bus.on(dataId + ".setStories", function (payload) {
+    var data = JSON.parse(payload);
+    actions.preview.setStories(data.stories);
+  });
+
+  bus.on(dataId + ".selectStory", function (payload) {
+    var data = JSON.parse(payload);
+    actions.preview.selectStory(data.kind, data.story);
+  });
+
+  bus.on(dataId + ".applyShortcut", function (payload) {
+    var data = JSON.parse(payload);
+    actions.shortcuts.handleEvent(data.event);
   });
 };
-
-var _actions = require('../actions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

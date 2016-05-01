@@ -4,7 +4,7 @@ import ClientApi from './client_api';
 import ConfigApi from './config_api';
 import render from './render';
 import qs from 'qs';
-import { selectStory } from './actions';
+import init from './init';
 
 import { createStore } from 'redux';
 import reducer from './reducer';
@@ -16,14 +16,11 @@ const reduxStore = createStore(reducer);
 const pageBus = new PageBus(queryParams.dataId, reduxStore);
 pageBus.init();
 
-// set the story if correct params are loaded via the URL.
-if (queryParams.selectedKind) {
-  reduxStore.dispatch(selectStory(queryParams.selectedKind, queryParams.selectedStory));
-}
-
-const context = { storyStore, reduxStore, pageBus };
+const context = { storyStore, reduxStore, pageBus, window, queryParams };
 const clientApi = new ClientApi(context);
 const configApi = new ConfigApi(context);
+
+init(context);
 
 // do exports
 export const storiesOf = clientApi.storiesOf.bind(clientApi);

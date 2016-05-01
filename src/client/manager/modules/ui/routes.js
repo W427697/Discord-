@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Layout from './components/layout';
+import Layout from './containers/layout';
 import Preview from '../preview/containers/preview';
 import LeftPanel from './containers/left_panel';
 import ActionLogger from './containers/action_logger';
