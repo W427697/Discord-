@@ -53,7 +53,16 @@ exports.default = function () {
 
     case _actions.types.ADD_ACTION:
       {
-        var actions = [action.action].concat((0, _toConsumableArray3.default)(state.actions || []));
+        var previewAction = (0, _extends3.default)({}, action.action);
+        var actions = [].concat((0, _toConsumableArray3.default)(state.actions || []));
+
+        var lastAction = actions.length > 0 && actions[0];
+        if (lastAction && (0, _deepEqual2.default)(lastAction.data, previewAction.data)) {
+          lastAction.count++;
+        } else {
+          previewAction.count = 1;
+          actions.unshift(previewAction);
+        }
 
         return (0, _extends3.default)({}, state, {
           actions: actions
@@ -66,6 +75,14 @@ exports.default = function () {
 };
 
 var _actions = require('../../actions');
+
+var _deepEqual = require('deep-equal');
+
+var _deepEqual2 = _interopRequireDefault(_deepEqual);
+
+var _lodash = require('lodash.pick');
+
+var _lodash2 = _interopRequireDefault(_lodash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
