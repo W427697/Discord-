@@ -12,9 +12,9 @@ export const composer = ({ context }, onData) => {
   };
 
   // pick selectedKind and selectedStory if exists
-  if (state.preview) {
-    queryParams.selectedKind = state.preview.selectedKind;
-    queryParams.selectedStory = state.preview.selectedStory;
+  if (state.api) {
+    queryParams.selectedKind = state.api.selectedKind;
+    queryParams.selectedStory = state.api.selectedStory;
   }
 
   const queryString = qs.stringify(queryParams);

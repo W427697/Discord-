@@ -1,10 +1,10 @@
-import actions from '../preview';
+import actions from '../api';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { types } from '../';
 const { describe, it } = global;
 
-describe('manager.preview.actions.preview', () => {
+describe('manager.api.actions.api', () => {
   describe('selectStory', () => {
     it('should dispatch related redux action', () => {
       const reduxStore = {

@@ -4,12 +4,12 @@ export default function (bus, reduxStore, actions) {
 
   // subscribe to redux store and send down changes to pageBus.
   reduxStore.subscribe(function () {
-    const { preview } = reduxStore.getState();
-    if (!preview) return;
+    const { api } = reduxStore.getState();
+    if (!api) return;
 
     const payload = {
-      kind: preview.selectedKind,
-      story: preview.selectedStory,
+      kind: api.selectedKind,
+      story: api.selectedStory,
     };
 
     bus.emit(`${dataId}.setCurrentStory`, JSON.stringify(payload));
@@ -18,17 +18,17 @@ export default function (bus, reduxStore, actions) {
   // watch pageBus and put both actions and stories.
   bus.on(`${dataId}.addAction`, function (payload) {
     const data = JSON.parse(payload);
-    actions.preview.addAction(data.action);
+    actions.api.addAction(data.action);
   });
 
   bus.on(`${dataId}.setStories`, function (payload) {
     const data = JSON.parse(payload);
-    actions.preview.setStories(data.stories);
+    actions.api.setStories(data.stories);
   });
 
   bus.on(`${dataId}.selectStory`, function (payload) {
     const data = JSON.parse(payload);
-    actions.preview.selectStory(data.kind, data.story);
+    actions.api.selectStory(data.kind, data.story);
   });
 
   bus.on(`${dataId}.applyShortcut`, function (payload) {

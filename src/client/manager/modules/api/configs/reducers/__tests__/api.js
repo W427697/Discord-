@@ -1,4 +1,4 @@
-import reducer from '../preview';
+import reducer from '../api';
 import { expect } from 'chai';
 import { types } from '../../../actions';
 const { describe, it } = global;

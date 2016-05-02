@@ -5,10 +5,10 @@ export function changeUrl(reduxStore) {
   // Do not change the URL if we are inside a popState event.
   if (insidePopState) return;
 
-  const { preview } = reduxStore.getState();
-  if (!preview) return;
+  const { api } = reduxStore.getState();
+  if (!api) return;
 
-  const { selectedKind, selectedStory } = preview;
+  const { selectedKind, selectedStory } = api;
   const queryString = qs.stringify({ selectedKind, selectedStory });
 
   if (queryString === '') return;
@@ -26,7 +26,7 @@ export function changeUrl(reduxStore) {
 export function updateStore(queryParams, actions) {
   const { selectedKind, selectedStory } = queryParams;
   if (selectedKind && selectedStory) {
-    actions.preview.selectStory(selectedKind, selectedStory);
+    actions.api.selectStory(selectedKind, selectedStory);
   }
 }
 

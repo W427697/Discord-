@@ -6,14 +6,14 @@ export const composer = ({ context, actions }, onData) => {
   const actionMap = actions();
 
   const processState = () => {
-    const { preview } = reduxStore.getState();
+    const { api } = reduxStore.getState();
     const data = {
-      onClear: actionMap.preview.clearActions,
+      onClear: actionMap.api.clearActions,
       actions: [],
     };
 
-    if (preview && preview.actions) {
-      data.actions = preview.actions;
+    if (api && api.actions) {
+      data.actions = api.actions;
     }
 
     onData(null, data);

@@ -7,15 +7,15 @@ export const composer = ({ context, actions }, onData) => {
   const actionMap = actions();
 
   const processState = () => {
-    const { preview, ui } = reduxStore.getState();
-    if (preview) {
-      const { stories, selectedKind, selectedStory } = preview;
+    const { api, ui } = reduxStore.getState();
+    if (api) {
+      const { stories, selectedKind, selectedStory } = api;
       const { storyFilter } = ui;
       const data = {
         stories: filters.storyFilter(stories, storyFilter, selectedKind, selectedStory),
         selectedKind,
         selectedStory,
-        onSelectStory: actionMap.preview.selectStory,
+        onSelectStory: actionMap.api.selectStory,
 
         storyFilter,
         onStoryFilter: actionMap.ui.setStoryFilter,
