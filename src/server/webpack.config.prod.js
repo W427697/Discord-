@@ -5,7 +5,7 @@ const config = {
   devtool: '#cheap-module-source-map',
   entry: {
     admin: [
-      path.resolve(__dirname, '../client/manager'),
+      path.resolve(__dirname, '../manager'),
     ],
     preview: [],
   },

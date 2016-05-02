@@ -1,5 +1,6 @@
 import createPageBus from 'page-bus';
 import { selectStory } from './actions';
+import stringify from 'json-stringify-safe';
 
 export default class PageBus {
   constructor(dataId, reduxStore) {
@@ -28,7 +29,7 @@ export default class PageBus {
 
   emit(key, payload) {
     this._ensureDataId();
-    const payloadString = JSON.stringify(payload);
+    const payloadString = stringify(payload);
     return this._pageBus.emit(`${this._dataId}.${key}`, payloadString);
   }
 }

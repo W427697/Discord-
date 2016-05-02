@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _stringify = require('babel-runtime/core-js/json/stringify');
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -21,6 +17,10 @@ var _pageBus = require('page-bus');
 var _pageBus2 = _interopRequireDefault(_pageBus);
 
 var _actions = require('./actions');
+
+var _jsonStringifySafe = require('json-stringify-safe');
+
+var _jsonStringifySafe2 = _interopRequireDefault(_jsonStringifySafe);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -64,7 +64,7 @@ var PageBus = function () {
     key: 'emit',
     value: function emit(key, payload) {
       this._ensureDataId();
-      var payloadString = (0, _stringify2.default)(payload);
+      var payloadString = (0, _jsonStringifySafe2.default)(payload);
       return this._pageBus.emit(this._dataId + '.' + key, payloadString);
     }
   }]);

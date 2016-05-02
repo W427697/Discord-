@@ -17,7 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var config = {
   devtool: '#cheap-module-eval-source-map',
   entry: {
-    admin: [_path2.default.resolve(__dirname, '../client/manager')],
+    admin: [_path2.default.resolve(__dirname, '../manager')],
     preview: ['webpack-hot-middleware/client']
   },
   output: {

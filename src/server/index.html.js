@@ -1,5 +1,3 @@
-import UUID from 'uuid';
-
 export default function () {
   return `
     <!DOCTYPE html>
@@ -7,9 +5,6 @@ export default function () {
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>React Storybook</title>
-        <script type="text/javascript">
-          window.dataId = '${UUID.v4()}';
-        </script>
         <style>
           /*
             When resizing panels, the drag event breaks if the cursor
