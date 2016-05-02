@@ -12,5 +12,5 @@ export default {
     reduxStore.dispatch({
       type: types.TOGGLE_SHORTCUTS_HELP,
     });
-  }
+  },
 };

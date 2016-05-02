@@ -12,7 +12,7 @@ const storyProps = ['stories', 'selectedKind', 'selectedStory', 'onSelectStory']
 
 const LeftPanel = (props) => (
   <div style={mainStyle}>
-    <Header openShortcutsHelp={props.openShortcutsHelp}/>
+    <Header openShortcutsHelp={props.openShortcutsHelp} />
     <TextFilter
       text={props.storyFilter}
       onClear={() => props.onStoryFilter('')}

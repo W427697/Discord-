@@ -2,7 +2,7 @@ import path from 'path';
 import webpack from 'webpack';
 
 const managerEntry =
-  process.env.DEV_BUILD?
+  process.env.DEV_BUILD ?
   path.resolve(__dirname, '../../src/client/manager') :
   path.resolve(__dirname, '../manager');
 

@@ -62,4 +62,9 @@ export const ShortcutsHelp = ({ isOpen, onClose }) => (
   </ReactModal>
 );
 
+ShortcutsHelp.propTypes = {
+  isOpen: React.PropTypes.bool,
+  onClose: React.PropTypes.func,
+};
+
 export default ShortcutsHelp;
