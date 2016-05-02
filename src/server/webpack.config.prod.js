@@ -1,11 +1,16 @@
 import path from 'path';
 import webpack from 'webpack';
 
+const managerEntry =
+  process.env.DEV_BUILD?
+  path.resolve(__dirname, '../../src/client/manager') :
+  path.resolve(__dirname, '../manager');
+
 const config = {
   devtool: '#cheap-module-source-map',
   entry: {
     admin: [
-      path.resolve(__dirname, '../manager'),
+      managerEntry,
     ],
     preview: [],
   },

@@ -14,10 +14,12 @@ var _webpack2 = _interopRequireDefault(_webpack);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var managerEntry = process.env.DEV_BUILD ? _path2.default.resolve(__dirname, '../../src/client/manager') : _path2.default.resolve(__dirname, '../manager');
+
 var config = {
   devtool: '#cheap-module-source-map',
   entry: {
-    admin: [_path2.default.resolve(__dirname, '../manager')],
+    admin: [managerEntry],
     preview: []
   },
   output: {
