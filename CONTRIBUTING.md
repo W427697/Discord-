@@ -41,7 +41,10 @@ Then follow these steps:
 
 * Visit to the React Storybook repo(local directory) and NPM link it. Apply this command: `npm link`.
 * After that, visit to the sample app and run `npm link @kadira/storybook` to use the linked storybook module.
-* Now run `npm run storybook` on the sample app
+* Now run `DEV_BUILD=1 npm run storybook` on the sample app
+
+> We use `DEV_BUILD=1` because, with that we can get some devtime optimizations.
+> Still, once you've done some changes to the manager UI, you need to reload the page.
 
 Now your sample app uses the local version of React Storybook.
 
