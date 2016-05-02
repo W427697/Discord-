@@ -20,7 +20,7 @@ describe('manager.preview.config.initPageBus', () => {
         setTimeout(cb, 10);
       },
       getState: () => ({
-        preview: {
+        api: {
           selectedKind: kind,
           selectedStory: story,
         },
@@ -83,7 +83,7 @@ describe('manager.preview.config.initPageBus', () => {
 
     const action = { aa: 10 };
     const actions = {
-      preview: {
+      api: {
         addAction(a) {
           expect(a).to.deep.equal(action);
           done();
@@ -109,7 +109,7 @@ describe('manager.preview.config.initPageBus', () => {
     const stories = [{ kind: 'aa' }];
 
     const actions = {
-      preview: {
+      api: {
         setStories(s) {
           expect(s).to.deep.equal(stories);
           done();
@@ -137,7 +137,7 @@ describe('manager.preview.config.initPageBus', () => {
     const story = 'ss';
 
     const actions = {
-      preview: {
+      api: {
         selectStory(k, s) {
           expect(k).to.be.equal(kind);
           expect(s).to.be.equal(story);
