@@ -9,7 +9,7 @@ const managerEntry =
 const config = {
   devtool: '#cheap-module-eval-source-map',
   entry: {
-    admin: [
+    manager: [
       managerEntry,
     ],
     preview: [

@@ -9,7 +9,7 @@ const managerEntry =
 const config = {
   devtool: '#cheap-module-source-map',
   entry: {
-    admin: [
+    manager: [
       managerEntry,
     ],
     preview: [],
@@ -30,7 +30,7 @@ const config = {
         loader: 'babel',
         query: { presets: ['react', 'es2015', 'stage-2'] },
         exclude: [path.resolve('./node_modules'), path.resolve(__dirname, 'node_modules')],
-        include: [path.resolve('./'), __dirname],
+        include: [path.resolve('./'), __dirname, path.resolve(__dirname, '../../src')],
       },
     ],
   },

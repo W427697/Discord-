@@ -37,7 +37,7 @@ export default function () {
       </head>
       <body style="margin: 0;">
         <div id="root"></div>
-        <script src="static/admin.bundle.js"></script>
+        <script src="static/manager.bundle.js"></script>
       </body>
     </html>
   `;

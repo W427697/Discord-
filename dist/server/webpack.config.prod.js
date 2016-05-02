@@ -19,7 +19,7 @@ var managerEntry = process.env.DEV_BUILD ? _path2.default.resolve(__dirname, '..
 var config = {
   devtool: '#cheap-module-source-map',
   entry: {
-    admin: [managerEntry],
+    manager: [managerEntry],
     preview: []
   },
   output: {
@@ -33,7 +33,7 @@ var config = {
       loader: 'babel',
       query: { presets: ['react', 'es2015', 'stage-2'] },
       exclude: [_path2.default.resolve('./node_modules'), _path2.default.resolve(__dirname, 'node_modules')],
-      include: [_path2.default.resolve('./'), __dirname]
+      include: [_path2.default.resolve('./'), __dirname, _path2.default.resolve(__dirname, '../../src')]
     }]
   }
 };
