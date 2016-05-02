@@ -19,6 +19,8 @@ export const composer = ({ context, actions }, onData) => {
 
         storyFilter,
         onStoryFilter: actionMap.ui.setStoryFilter,
+
+        openShortcutsHelp: actionMap.ui.toggleShortcutsHelp,
       };
       onData(null, data);
     } else {

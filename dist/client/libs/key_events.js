@@ -17,7 +17,8 @@ var features = exports.features = {
   FULLSCREEN: 1,
   DOWN_PANEL: 2,
   LEFT_PANEL: 3,
-  ESCAPE: 4
+  SHORTCUTS_HELP: 4,
+  ESCAPE: 5
 };
 
 function isModifierPressed(e) {

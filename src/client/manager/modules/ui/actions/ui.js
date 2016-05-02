@@ -7,4 +7,10 @@ export default {
       filter,
     });
   },
+
+  toggleShortcutsHelp({ reduxStore }) {
+    reduxStore.dispatch({
+      type: types.TOGGLE_SHORTCUTS_HELP,
+    });
+  }
 };

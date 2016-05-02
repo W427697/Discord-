@@ -12,7 +12,7 @@ const storyProps = ['stories', 'selectedKind', 'selectedStory', 'onSelectStory']
 
 const LeftPanel = (props) => (
   <div style={mainStyle}>
-    <Header />
+    <Header openShortcutsHelp={props.openShortcutsHelp}/>
     <TextFilter
       text={props.storyFilter}
       onClear={() => props.onStoryFilter('')}
@@ -30,6 +30,8 @@ LeftPanel.propTypes = {
 
   storyFilter: React.PropTypes.string,
   onStoryFilter: React.PropTypes.func,
+
+  openShortcutsHelp: React.PropTypes.func,
 };
 
 export default LeftPanel;
