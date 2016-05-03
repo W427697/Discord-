@@ -1,29 +1,18 @@
 import ActionLogger from '../components/action_logger';
-import { useDeps, compose, composeAll } from 'mantra-core';
+import { useDeps, composeAll } from 'mantra-core';
+import reduxComposer from '../libs/redux_composer';
 
-export const composer = ({ context, actions }, onData) => {
-  const { reduxStore } = context();
+export function composer({ api }, { actions }) {
   const actionMap = actions();
-
-  const processState = () => {
-    const { api } = reduxStore.getState();
-    const data = {
-      onClear: actionMap.api.clearActions,
-      actions: [],
-    };
-
-    if (api && api.actions) {
-      data.actions = api.actions;
-    }
-
-    onData(null, data);
+  const data = {
+    onClear: actionMap.api.clearActions,
+    actions: api.actions,
   };
 
-  processState();
-  reduxStore.subscribe(processState);
-};
+  return data;
+}
 
 export default composeAll(
-  compose(composer),
+  reduxComposer(composer),
   useDeps()
 )(ActionLogger);

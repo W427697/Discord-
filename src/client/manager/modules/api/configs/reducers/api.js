@@ -23,7 +23,11 @@ export function ensureStory(storyKinds, selectedKind, selectedStory) {
   return kindInfo.stories[0];
 }
 
-export default function (state = {}, action) {
+const defaultState = {
+  actions: [],
+};
+
+export default function (state = defaultState, action) {
   switch (action.type) {
     case types.SELECT_STORY: {
       // TODO: if action.story is null, we need to select the first story of the

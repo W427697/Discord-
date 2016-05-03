@@ -1,25 +1,18 @@
 import ShortcutsHelp from '../components/shortcuts_help';
-import { useDeps, compose, composeAll } from 'mantra-core';
+import { useDeps, composeAll } from 'mantra-core';
+import reduxComposer from '../libs/redux_composer';
 
-export const composer = ({ context, actions }, onData) => {
-  const { reduxStore } = context();
+export const composer = ({ ui }, { actions }) => {
   const actionMap = actions();
-
-  const processState = () => {
-    const { ui } = reduxStore.getState();
-    const data = {
-      isOpen: ui.showShortcutsHelp,
-      onClose: actionMap.ui.toggleShortcutsHelp,
-    };
-
-    onData(null, data);
+  const data = {
+    isOpen: ui.showShortcutsHelp,
+    onClose: actionMap.ui.toggleShortcutsHelp,
   };
 
-  processState();
-  reduxStore.subscribe(processState);
+  return data;
 };
 
 export default composeAll(
-  compose(composer),
+  reduxComposer(composer),
   useDeps()
 )(ShortcutsHelp);
