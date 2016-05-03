@@ -58,10 +58,6 @@ export default class TextFilter extends React.Component {
             type="text"
             placeholder="Filter"
             name="filter-text"
-            // This is make sure we'll always set a value
-            // otherwise, this is marked as an uncontrolled input and
-            // once, we get the text, it'll became controlled.
-            // React does not allow that.
             value={this.props.text || ''}
             onChange={this.onChange.bind(this)}
           />
