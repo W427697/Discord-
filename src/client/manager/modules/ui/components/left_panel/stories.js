@@ -40,17 +40,19 @@ class Stories extends React.Component {
   renderStory(story) {
     const { selectedStory } = this.props;
     const style = { ...storyStyle };
+    const props = {
+      key: story,
+      style,
+      onClick: this.fireOnStory.bind(this, story),
+    };
 
     if (story === selectedStory) {
       style.fontWeight = 'bold';
+      props.selectedStory = true;
     }
 
     return (
-      <div
-        key={story}
-        style={style}
-        onClick={this.fireOnStory.bind(this, story)}
-      >
+      <div {...props}>
         {story}
       </div>
     );
@@ -67,6 +69,7 @@ class Stories extends React.Component {
           <div
             style={style}
             onClick={this.fireOnKind.bind(this, kind)}
+            selectedKind
           >
             {kind}
           </div>
