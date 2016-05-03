@@ -39,6 +39,8 @@ const shortcutIconStyle = {
   paddingLeft: 8,
   float: 'right',
   marginLeft: 5,
+  backgroundColor: 'inherit',
+  outline: 0,
 };
 
 const linkStyle = {
@@ -47,7 +49,7 @@ const linkStyle = {
 
 const Header = ({ openShortcutsHelp }) => (
   <div style={wrapperStyle}>
-    <div style={shortcutIconStyle} onClick={openShortcutsHelp}>&#8984;</div>
+    <button style={shortcutIconStyle} onClick={openShortcutsHelp}>&#8984;</button>
     <a style={linkStyle} href="https://github.com/kadirahq/react-storybook" target="_blank">
       <h3 style={headingStyle}>React Storybook</h3>
     </a>
