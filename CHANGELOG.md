@@ -1,5 +1,38 @@
 ## Changelog
 
+### v.NEXT
+
+* Remove some typo in docs. See: [PR154](https://github.com/kadirahq/react-storybook/pull/154)
+* Move UI testing libraries to devDependencies. See: [PR153](https://github.com/kadirahq/react-storybook/pull/153)
+
+### v1.19.0
+27-April-2016
+
+* Add airbnb-js-shims to client-side JS. See: [PR147](https://github.com/kadirahq/react-storybook/pull/147)
+* Remove self-closing div tag, which is invalid HTML. See: [PR148](https://github.com/kadirahq/react-storybook/pull/148)
+* Search for a .babelrc in the storybook config directory first, then the project root. See: [PR149](https://github.com/kadirahq/react-storybook/pull/149)
+
+### v1.18.0
+26-April-2016
+
+* Link React Storybook menu to the repo. See: [PR137](https://github.com/kadirahq/react-storybook/pull/137)
+* Implement keyboard shortcuts and fuzzy search. See: [PR141](https://github.com/kadirahq/react-storybook/pull/141)
+
+### v1.17.2
+25-April-2016
+
+* Fix an error which only occurs on Firefox. See: [PR144](https://github.com/kadirahq/react-storybook/pull/144)
+
+### v1.17.1
+21-April-2016
+
+* Fix a regression introduce by `v1.17.0`. See: [PR133](https://github.com/kadirahq/react-storybook/pull/133)
+
+### v1.17.0
+21-April-2016
+
+* Check all the arguments passed to action for events. See: [PR132](https://github.com/kadirahq/react-storybook/pull/132)
+
 ### v1.16.1
 21-April-2016
 

@@ -18,10 +18,29 @@ export default function () {
           .dragging iframe {
             pointer-events: none;
           }
+          
+          /* Styling the fuzzy search box placeholders */
+          .searchBox::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: #ddd;
+            font-size: 16px;
+          }
+          
+          .searchBox::-moz-placeholder { /* Firefox 19+ */
+            color: #ddd;
+            font-size: 16px;
+          }
+          
+          .searchBox:focus{
+            border-color: #EEE !important;
+          }
+          
+          .btn:hover{
+            background-color: #eee
+          }
         </style>
       </head>
       <body style="margin: 0;">
-        <div id="root" />
+        <div id="root"></div>
         <script src="static/admin.bundle.js"></script>
       </body>
     </html>
