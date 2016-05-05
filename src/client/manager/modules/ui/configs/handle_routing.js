@@ -1,9 +1,11 @@
 import qs from 'qs';
-export let insidePopState = false;
+export let config = {
+  insidePopState: false,
+};
 
 export function changeUrl(reduxStore) {
   // Do not change the URL if we are inside a popState event.
-  if (insidePopState) return;
+  if (config.insidePopState) return;
 
   const { api } = reduxStore.getState();
   if (!api) return;
@@ -30,8 +32,8 @@ export function updateStore(queryParams, actions) {
   }
 }
 
-export function handleInitialUrl(actions) {
-  const queryString = window.location.search.substring(1);
+export function handleInitialUrl(actions, location) {
+  const queryString = location.search.substring(1);
   if (!queryString || queryString === '') return;
 
   const parsedQs = qs.parse(queryString);
@@ -44,12 +46,12 @@ export default function ({ reduxStore }, actions) {
   changeUrl(reduxStore);
 
   // handle initial URL
-  handleInitialUrl(actions);
+  handleInitialUrl(actions, window.location);
 
   // handle back button
   window.onpopstate = () => {
-    insidePopState = true;
-    handleInitialUrl(actions);
-    insidePopState = false;
+    config.insidePopState = true;
+    handleInitialUrl(actions, window.location);
+    config.insidePopState = false;
   };
 }
