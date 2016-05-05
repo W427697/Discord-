@@ -1,5 +1,5 @@
 import qs from 'qs';
-export let config = {
+export const config = {
   insidePopState: false,
 };
 

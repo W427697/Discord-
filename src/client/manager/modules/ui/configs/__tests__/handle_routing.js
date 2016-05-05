@@ -2,7 +2,6 @@ import { changeUrl, handleInitialUrl, config } from '../handle_routing';
 import { expect } from 'chai';
 const { describe, it } = global;
 import sinon from 'sinon';
-import keycode from 'keycode';
 
 describe('manager.ui.config.handle_routing', () => {
   describe('changeUrl', () => {
