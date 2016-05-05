@@ -16,9 +16,11 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _uuid = require('uuid');
 
-var idGenerator = 0;
+var _uuid2 = _interopRequireDefault(_uuid);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ClientApi = function () {
   function ClientApi(_ref) {
@@ -86,7 +88,7 @@ var ClientApi = function () {
           return arg;
         });
 
-        var id = ++idGenerator;
+        var id = _uuid2.default.v4();
         var data = { name: name, args: args };
         var action = { data: data, id: id };
 

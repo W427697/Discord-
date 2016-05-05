@@ -1,4 +1,4 @@
-let idGenerator = 0;
+import UUID from 'uuid';
 
 export default class ClientApi {
   constructor({ pageBus, storyStore }) {
@@ -51,7 +51,7 @@ export default class ClientApi {
         return arg;
       });
 
-      const id = ++idGenerator;
+      const id = UUID.v4();
       const data = { name, args };
       const action = { data, id };
 
