@@ -1,14 +1,16 @@
 import { types } from './';
 import { features } from '../../../../libs/key_events';
+import apiActions from '../../api/actions';
 
 export default {
-  handleEvent({ reduxStore }, actions, event) {
+  handleEvent(context, event) {
+    const { reduxStore } = context;
     switch (event) {
       case features.NEXT_STORY:
-        actions.api.jumpToStory(1);
+        apiActions.api.jumpToStory(context, 1);
         break;
       case features.PREV_STORY:
-        actions.api.jumpToStory(-1);
+        apiActions.api.jumpToStory(context, -1);
         break;
       default:
         reduxStore.dispatch({
