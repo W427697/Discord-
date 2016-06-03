@@ -61,7 +61,8 @@
     "demo:watch": "npm run compile:watch & watchify demo/Example.js -d -t -o demo/bundle.js",
     "demo:publish": "npm run compile && browserify demo/Example.js -d -t -o demo/bundle.js && surge demo react-split-pane.surge.sh",
     "release:patch": "npm test && npm run compile && npm version patch && git push && npm publish",
-    "storybook": "start-storybook -p 9001"
+    "storybook": "start-storybook -p 9001",
+    "gh-pages": "bash ./.scripts/gh-pages.sh"
   },
   "browserify": {
     "transform": [
