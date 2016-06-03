@@ -212,7 +212,6 @@ SplitPane.propTypes = {
 
 SplitPane.defaultProps = {
   split: 'vertical',
-  minSize: 50,
   allowResize: true,
   primary: 'first',
 };
