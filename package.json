@@ -46,7 +46,8 @@
     "react-addons-test-utils": "^15.0.0",
     "react-dom": "^15.0.0",
     "surge": "^0.17.7",
-    "watchify": "^3.7.0"
+    "watchify": "^3.7.0",
+    "@kadira/storybook": "^1.28.1"
   },
   "scripts": {
     "compile": "babel -d lib/ src/",
@@ -59,7 +60,8 @@
     "demo": "npm run compile && browserify demo/Example.js -d -t -o demo/bundle.js",
     "demo:watch": "npm run compile:watch & watchify demo/Example.js -d -t -o demo/bundle.js",
     "demo:publish": "npm run compile && browserify demo/Example.js -d -t -o demo/bundle.js && surge demo react-split-pane.surge.sh",
-    "release:patch": "npm test && npm run compile && npm version patch && git push && npm publish"
+    "release:patch": "npm test && npm run compile && npm version patch && git push && npm publish",
+    "storybook": "start-storybook -p 9001"
   },
   "browserify": {
     "transform": [
