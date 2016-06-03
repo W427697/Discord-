@@ -2,7 +2,7 @@
   "name": "@kadira/react-split-pane",
   "description": "React split-pane component",
   "main": "index.js",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/kadirahq/react-split-pane"
