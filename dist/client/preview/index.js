@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.configure = exports.linkTo = exports.action = exports.storiesOf = undefined;
 
+require('babel-polyfill');
+
 var _story_store = require('./story_store');
 
 var _story_store2 = _interopRequireDefault(_story_store);

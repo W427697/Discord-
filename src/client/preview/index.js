@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import StoryStore from './story_store';
 import PageBus from './page_bus';
 import ClientApi from './client_api';

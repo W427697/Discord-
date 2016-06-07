@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import { createStore, combineReducers } from 'redux';
 import { createApp } from 'mantra-core';
 import buildContext from './configs/context.js';
