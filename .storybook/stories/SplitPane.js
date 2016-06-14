@@ -1,7 +1,10 @@
 import React from 'react';
 import { storiesOf, action } from '@kadira/storybook';
-import { nomargin, content, HSplit } from './_utils';
+import Story from 'react-storybook-story';
+import 'react-storybook-story/src/styles.css';
+
 import SplitPane from '../../';
+import { nomargin, HSplit } from './_utils';
 
 const stories = storiesOf('SplitPane', module)
   .addDecorator(nomargin);
@@ -9,25 +12,55 @@ const stories = storiesOf('SplitPane', module)
 // ---
 
 stories.add('defaults', function () {
-  const props = {};
-  const children = [ content('p1'), content('p2') ];
-  return <SplitPane {...props}>{children}</SplitPane>;
+  const info = `
+    # <SplitPane />
+
+    ## Defaults
+
+    Render with default properties.
+
+    ~~~jsx
+    <SplitPane>
+      <div>pane-1</div>
+      <div>pane-2</div>
+    </SplitPane>
+    ~~~
+  `;
+
+  return (
+    <Story info={info}>
+      <SplitPane>
+        <div>pane-1</div>
+        <div>pane-2</div>
+      </SplitPane>
+    </Story>
+  );
 });
 
-[ 'horizontal', 'vertical' ].forEach(split => {
-  stories.add('split:'+split, function () {
-    const props = {split};
-    const children = [ content('p1'), content('p2') ];
-    return <SplitPane {...props}>{children}</SplitPane>;
-  });
-});
+stories.add('horizontal', function () {
+  const info = `
+    # <SplitPane />
 
-[ 'first', 'second' ].forEach(primary => {
-  stories.add('primary:'+primary, function () {
-    const props = {primary};
-    const children = [ content('p1'), content('p2') ];
-    return <SplitPane {...props}>{children}</SplitPane>;
-  });
+    ## Horizontal Split
+
+    Split the container horizontally.
+
+    ~~~jsx
+    <SplitPane split='horizontal'>
+      <div>pane-1</div>
+      <div>pane-2</div>
+    </SplitPane>
+    ~~~
+  `;
+
+  return (
+    <Story info={info}>
+      <SplitPane split='horizontal'>
+        <div>pane-1</div>
+        <div>pane-2</div>
+      </SplitPane>
+    </Story>
+  );
 });
 
 [
@@ -37,48 +70,174 @@ stories.add('defaults', function () {
   { parent: 'vertical', child: 'vertical' },
 ].forEach(splits => {
   stories.add(`${splits.parent}-${splits.child}`, function () {
-    const props1 = { key: 'child', split: splits.child};
-    const children1 = [ content('p1'), content('p2') ];
-    const splitpane1 = <SplitPane {...props1}>{children1}</SplitPane>;
-    const props2 = { key: 'parent', split: splits.parent};
-    const children2 = [ content('p3'), splitpane1 ];
-    return <SplitPane {...props2}>{children2}</SplitPane>;
+    const info = `
+      # <SplitPane />
+
+      ## Nested Split
+
+      Nest a `+splits.child+` split inside a `+splits.parent+` split.
+
+      ~~~jsx
+      <SplitPane split='`+splits.parent+`'>
+        <div>pane-1</div>
+          <SplitPane split='`+splits.child+`'>
+            <div>pane-1</div>
+            <div>pane-2</div>
+          </SplitPane>
+      </SplitPane>
+      ~~~
+    `;
+
+    return (
+      <Story info={info}>
+        <SplitPane split={splits.parent}>
+          <div>pane-1</div>
+            <SplitPane split={splits.child}>
+              <div>pane-1</div>
+              <div>pane-2</div>
+            </SplitPane>
+        </SplitPane>
+      </Story>
+    );
   });
 });
 
-stories.add('default size', function () {
-  const props = {defaultSize: 200};
-  const children = [ content('p1'), content('p2') ];
-  return <SplitPane {...props}>{children}</SplitPane>;
+stories.add('default-size', function () {
+  const info = `
+    # <SplitPane />
+
+    ## Default Size
+
+    Split the container with a default size.
+
+    ~~~jsx
+    <SplitPane defaultSize={200}>
+      <div>pane-1</div>
+      <div>pane-2</div>
+    </SplitPane>
+    ~~~
+  `;
+
+  return (
+    <Story info={info}>
+      <SplitPane defaultSize={300}>
+        <div>pane-1</div>
+        <div>pane-2</div>
+      </SplitPane>
+    </Story>
+  );
 });
 
-stories.add('min/max size', function () {
-  const props = {minSize: 200, maxSize: 400};
-  const children = [ content('p1'), content('p2') ];
-  return <SplitPane {...props}>{children}</SplitPane>;
+stories.add('min-max-size', function () {
+  const info = `
+    # <SplitPane />
+
+    ## Min/Max Size
+
+    Split the container with a minimum and maximum size limit.
+
+    ~~~jsx
+    <SplitPane minSize={200} maxSize={400}>
+      <div>pane-1</div>
+      <div>pane-2</div>
+    </SplitPane>
+    ~~~
+  `;
+
+  return (
+    <Story info={info}>
+      <SplitPane minSize={200} maxSize={400}>
+        <div>pane-1</div>
+        <div>pane-2</div>
+      </SplitPane>
+    </Story>
+  );
 });
 
-stories.add('disable resize', function () {
-  const props = {allowResize: false};
-  const children = [ content('p1'), content('p2') ];
-  return <SplitPane {...props}>{children}</SplitPane>;
+stories.add('disable-resize', function () {
+  const info = `
+    # <SplitPane />
+
+    ## Disable Resize
+
+    Split the container but do not allow resize.
+
+    ~~~jsx
+    <SplitPane allowResize={false}>
+      <div>pane-1</div>
+      <div>pane-2</div>
+    </SplitPane>
+    ~~~
+  `;
+
+  return (
+    <Story info={info}>
+      <SplitPane allowResize={false}>
+        <div>pane-1</div>
+        <div>pane-2</div>
+      </SplitPane>
+    </Story>
+  );
 });
 
-stories.add('change event', function () {
-  const props = {onChange: action('change')};
-  const children = [ content('p1'), content('p2') ];
-  return <SplitPane {...props}>{children}</SplitPane>;
-});
+stories.add('event handlers', function () {
+  const info = `
+    # <SplitPane />
 
-stories.add('start/end events', function () {
-  const props = {onDragStarted: action('start'), onDragFinished: action('end')};
-  const children = [ content('p1'), content('p2') ];
-  return <SplitPane {...props}>{children}</SplitPane>;
+    ## Event Handlers
+
+    The component supports \`drag-started\`, \`drag-finished\` and \`change\` events.
+
+    ~~~jsx
+    <SplitPane
+      onChange={action('change')}
+      onDragStarted={action('started')}
+      onDragFinished={action('finished')}>
+      <div>pane-1</div>
+      <div>pane-2</div>
+    </SplitPane>
+    ~~~
+  `;
+
+  return (
+    <Story info={info}>
+      <SplitPane
+        onChange={action('change')}
+        onDragStarted={action('started')}
+        onDragFinished={action('finished')}>
+        <div>pane-1</div>
+        <div>pane-2</div>
+      </SplitPane>
+    </Story>
+  );
 });
 
 stories.add('custom splitter', function () {
-  const hsplit = <HSplit header="Split Pane Header" onClose={action('close')} />;
-  const props = {split: 'horizontal', resizerChildren: hsplit};
-  const children = [ content('p1'), content('p2') ];
-  return <SplitPane {...props}>{children}</SplitPane>;
+  const info = `
+    # <SplitPane />
+
+    ## Custom Splitter
+
+    Use a custom react component for splitter.
+
+    ~~~jsx
+    <SplitPane
+      split='horizontal'
+      resizerChildren={<HSplit header="Header" onClose={action('close')} />}>
+      <div>pane-1</div>
+      <div>pane-2</div>
+    </SplitPane>
+    ~~~
+  `;
+
+  return (
+    <Story info={info}>
+      <SplitPane
+        split='horizontal'
+        resizerChildren={<HSplit header="Header" onClose={action('close')} />}>
+        <div>pane-1</div>
+        <div>pane-2</div>
+      </SplitPane>
+    </Story>
+  );
 });
