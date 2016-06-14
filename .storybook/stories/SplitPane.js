@@ -11,7 +11,7 @@ const stories = storiesOf('SplitPane', module)
 
 // ---
 
-stories.add('defaults', function () {
+stories.add('defaults', function (context) {
   const info = `
     # <SplitPane />
 
@@ -28,7 +28,7 @@ stories.add('defaults', function () {
   `;
 
   return (
-    <Story info={info}>
+    <Story context={context} propTables={[SplitPane]} info={info}>
       <SplitPane>
         <div>pane-1</div>
         <div>pane-2</div>
@@ -37,7 +37,7 @@ stories.add('defaults', function () {
   );
 });
 
-stories.add('horizontal', function () {
+stories.add('horizontal', function (context) {
   const info = `
     # <SplitPane />
 
@@ -54,7 +54,7 @@ stories.add('horizontal', function () {
   `;
 
   return (
-    <Story info={info}>
+    <Story context={context} propTables={[SplitPane]} info={info}>
       <SplitPane split='horizontal'>
         <div>pane-1</div>
         <div>pane-2</div>
@@ -69,7 +69,7 @@ stories.add('horizontal', function () {
   { parent: 'vertical', child: 'horizontal' },
   { parent: 'vertical', child: 'vertical' },
 ].forEach(splits => {
-  stories.add(`${splits.parent}-${splits.child}`, function () {
+  stories.add(`${splits.parent}-${splits.child}`, function (context) {
     const info = `
       # <SplitPane />
 
@@ -89,7 +89,7 @@ stories.add('horizontal', function () {
     `;
 
     return (
-      <Story info={info}>
+      <Story context={context} propTables={[SplitPane]} info={info}>
         <SplitPane split={splits.parent}>
           <div>pane-1</div>
             <SplitPane split={splits.child}>
@@ -102,7 +102,7 @@ stories.add('horizontal', function () {
   });
 });
 
-stories.add('default-size', function () {
+stories.add('default-size', function (context) {
   const info = `
     # <SplitPane />
 
@@ -119,7 +119,7 @@ stories.add('default-size', function () {
   `;
 
   return (
-    <Story info={info}>
+    <Story context={context} propTables={[SplitPane]} info={info}>
       <SplitPane defaultSize={300}>
         <div>pane-1</div>
         <div>pane-2</div>
@@ -128,7 +128,7 @@ stories.add('default-size', function () {
   );
 });
 
-stories.add('min-max-size', function () {
+stories.add('min-max-size', function (context) {
   const info = `
     # <SplitPane />
 
@@ -145,7 +145,7 @@ stories.add('min-max-size', function () {
   `;
 
   return (
-    <Story info={info}>
+    <Story context={context} propTables={[SplitPane]} info={info}>
       <SplitPane minSize={200} maxSize={400}>
         <div>pane-1</div>
         <div>pane-2</div>
@@ -154,7 +154,7 @@ stories.add('min-max-size', function () {
   );
 });
 
-stories.add('disable-resize', function () {
+stories.add('disable-resize', function (context) {
   const info = `
     # <SplitPane />
 
@@ -171,7 +171,7 @@ stories.add('disable-resize', function () {
   `;
 
   return (
-    <Story info={info}>
+    <Story context={context} propTables={[SplitPane]} info={info}>
       <SplitPane allowResize={false}>
         <div>pane-1</div>
         <div>pane-2</div>
@@ -180,7 +180,7 @@ stories.add('disable-resize', function () {
   );
 });
 
-stories.add('event handlers', function () {
+stories.add('event handlers', function (context) {
   const info = `
     # <SplitPane />
 
@@ -200,7 +200,7 @@ stories.add('event handlers', function () {
   `;
 
   return (
-    <Story info={info}>
+    <Story context={context} propTables={[SplitPane]} info={info}>
       <SplitPane
         onChange={action('change')}
         onDragStarted={action('started')}
@@ -212,7 +212,7 @@ stories.add('event handlers', function () {
   );
 });
 
-stories.add('custom splitter', function () {
+stories.add('custom splitter', function (context) {
   const info = `
     # <SplitPane />
 
@@ -231,7 +231,7 @@ stories.add('custom splitter', function () {
   `;
 
   return (
-    <Story info={info}>
+    <Story context={context} propTables={[SplitPane, HSplit]} info={info}>
       <SplitPane
         split='horizontal'
         resizerChildren={<HSplit header="Header" onClose={action('close')} />}>
