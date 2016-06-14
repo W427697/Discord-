@@ -3,8 +3,8 @@
 set -e
 
 npm run prepublish
-rm -rf demo/storybook
-./node_modules/.bin/build-storybook -o demo/storybook
+rm -rf demo
+./node_modules/.bin/build-storybook -o demo
 cd demo
 git init
 git add .
