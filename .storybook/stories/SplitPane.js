@@ -75,12 +75,12 @@ stories.add('horizontal', function () {
 
       ## Nested Split
 
-      Nest a `+splits.child+` split inside a `+splits.parent+` split.
+      Nest a ${splits.child} split inside a ${splits.parent} split.
 
       ~~~jsx
-      <SplitPane split='`+splits.parent+`'>
+      <SplitPane split='${splits.parent}'>
         <div>pane-1</div>
-          <SplitPane split='`+splits.child+`'>
+          <SplitPane split='${splits.child}'>
             <div>pane-1</div>
             <div>pane-2</div>
           </SplitPane>
