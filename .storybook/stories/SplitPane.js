@@ -17,7 +17,7 @@ stories.add('defaults', function (context) {
   `;
 
   return (
-    <Story context={context} info={info} propTables={[SplitPane]}>
+    <Story context={context} info={info}>
       <SplitPane>
         <div>pane-1</div>
         <div>pane-2</div>
@@ -32,7 +32,7 @@ stories.add('horizontal', function (context) {
   `;
 
   return (
-    <Story context={context} propTables={[SplitPane]} info={info}>
+    <Story context={context} info={info}>
       <SplitPane split='horizontal'>
         <div>pane-1</div>
         <div>pane-2</div>
@@ -53,7 +53,7 @@ stories.add('horizontal', function (context) {
     `;
 
     return (
-      <Story context={context} propTables={[SplitPane]} info={info}>
+      <Story context={context} info={info}>
         <SplitPane split={splits.parent}>
           <div>pane-1</div>
             <SplitPane split={splits.child}>
@@ -72,7 +72,7 @@ stories.add('default-size', function (context) {
   `;
 
   return (
-    <Story context={context} propTables={[SplitPane]} info={info}>
+    <Story context={context} info={info}>
       <SplitPane defaultSize={300}>
         <div>pane-1</div>
         <div>pane-2</div>
@@ -87,7 +87,7 @@ stories.add('min-max-size', function (context) {
   `;
 
   return (
-    <Story context={context} propTables={[SplitPane]} info={info}>
+    <Story context={context} info={info}>
       <SplitPane minSize={200} maxSize={400}>
         <div>pane-1</div>
         <div>pane-2</div>
@@ -102,7 +102,7 @@ stories.add('disable-resize', function (context) {
   `;
 
   return (
-    <Story context={context} propTables={[SplitPane]} info={info}>
+    <Story context={context} info={info}>
       <SplitPane allowResize={false}>
         <div>pane-1</div>
         <div>pane-2</div>
@@ -117,7 +117,7 @@ stories.add('event handlers', function (context) {
   `;
 
   return (
-    <Story context={context} propTables={[SplitPane]} info={info}>
+    <Story context={context} info={info}>
       <SplitPane
         onChange={action('change')}
         onDragStarted={action('started')}
@@ -135,7 +135,7 @@ stories.add('custom splitter', function (context) {
   `;
 
   return (
-    <Story context={context} propTables={[SplitPane, HSplit]} info={info}>
+    <Story context={context} propTables={[HSplit]} info={info}>
       <SplitPane
         split='horizontal'
         resizerChildren={<HSplit header="Header" onClose={action('close')} />}>
