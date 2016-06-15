@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf, action } from '@kadira/storybook';
 import Story from 'react-storybook-story';
-import 'react-storybook-story/src/styles.css';
+import 'react-storybook-story/styles.css';
 
 import SplitPane from '../../';
 import { nomargin, HSplit } from './_utils';
@@ -13,44 +13,29 @@ const stories = storiesOf('SplitPane', module)
 
 stories.add('defaults', function (context) {
   const info = `
-    # <SplitPane />
-
-    ## Defaults
-
     Render with default properties.
-
-    ~~~jsx
-    <SplitPane>
-      <div>pane-1</div>
-      <div>pane-2</div>
-    </SplitPane>
-    ~~~
   `;
+  console.log('context', context);
 
   return (
-    <Story context={context} propTables={[SplitPane]} info={info}>
-      <SplitPane>
-        <div>pane-1</div>
-        <div>pane-2</div>
-      </SplitPane>
+    <Story context={context} info={info}>
+      <em>Click the "?" button on top-right corner for <span style={{textDecoration: 'underline'}}>more information</span> about this story</em>
     </Story>
   );
+
+  // return (
+  //   <Story context={context} info={info} propTables={[SplitPane]}>
+  //     <SplitPane>
+  //       <div>pane-1</div>
+  //       <div>pane-2</div>
+  //     </SplitPane>
+  //   </Story>
+  // );
 });
 
 stories.add('horizontal', function (context) {
   const info = `
-    # <SplitPane />
-
-    ## Horizontal Split
-
     Split the container horizontally.
-
-    ~~~jsx
-    <SplitPane split='horizontal'>
-      <div>pane-1</div>
-      <div>pane-2</div>
-    </SplitPane>
-    ~~~
   `;
 
   return (
@@ -71,21 +56,7 @@ stories.add('horizontal', function (context) {
 ].forEach(splits => {
   stories.add(`${splits.parent}-${splits.child}`, function (context) {
     const info = `
-      # <SplitPane />
-
-      ## Nested Split
-
       Nest a ${splits.child} split inside a ${splits.parent} split.
-
-      ~~~jsx
-      <SplitPane split='${splits.parent}'>
-        <div>pane-1</div>
-          <SplitPane split='${splits.child}'>
-            <div>pane-1</div>
-            <div>pane-2</div>
-          </SplitPane>
-      </SplitPane>
-      ~~~
     `;
 
     return (
@@ -104,18 +75,7 @@ stories.add('horizontal', function (context) {
 
 stories.add('default-size', function (context) {
   const info = `
-    # <SplitPane />
-
-    ## Default Size
-
     Split the container with a default size.
-
-    ~~~jsx
-    <SplitPane defaultSize={200}>
-      <div>pane-1</div>
-      <div>pane-2</div>
-    </SplitPane>
-    ~~~
   `;
 
   return (
@@ -130,18 +90,7 @@ stories.add('default-size', function (context) {
 
 stories.add('min-max-size', function (context) {
   const info = `
-    # <SplitPane />
-
-    ## Min/Max Size
-
     Split the container with a minimum and maximum size limit.
-
-    ~~~jsx
-    <SplitPane minSize={200} maxSize={400}>
-      <div>pane-1</div>
-      <div>pane-2</div>
-    </SplitPane>
-    ~~~
   `;
 
   return (
@@ -156,18 +105,7 @@ stories.add('min-max-size', function (context) {
 
 stories.add('disable-resize', function (context) {
   const info = `
-    # <SplitPane />
-
-    ## Disable Resize
-
     Split the container but do not allow resize.
-
-    ~~~jsx
-    <SplitPane allowResize={false}>
-      <div>pane-1</div>
-      <div>pane-2</div>
-    </SplitPane>
-    ~~~
   `;
 
   return (
@@ -182,21 +120,7 @@ stories.add('disable-resize', function (context) {
 
 stories.add('event handlers', function (context) {
   const info = `
-    # <SplitPane />
-
-    ## Event Handlers
-
     The component supports \`drag-started\`, \`drag-finished\` and \`change\` events.
-
-    ~~~jsx
-    <SplitPane
-      onChange={action('change')}
-      onDragStarted={action('started')}
-      onDragFinished={action('finished')}>
-      <div>pane-1</div>
-      <div>pane-2</div>
-    </SplitPane>
-    ~~~
   `;
 
   return (
@@ -214,20 +138,7 @@ stories.add('event handlers', function (context) {
 
 stories.add('custom splitter', function (context) {
   const info = `
-    # <SplitPane />
-
-    ## Custom Splitter
-
     Use a custom react component for splitter.
-
-    ~~~jsx
-    <SplitPane
-      split='horizontal'
-      resizerChildren={<HSplit header="Header" onClose={action('close')} />}>
-      <div>pane-1</div>
-      <div>pane-2</div>
-    </SplitPane>
-    ~~~
   `;
 
   return (
