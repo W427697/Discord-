@@ -46,7 +46,7 @@
     "raw-loader": "^0.5.1",
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.0",
-    "react-storybook-story": "^2.1.1",
+    "react-storybook-story": "^2.2.0",
     "react-dom": "^15.0.0",
     "style-loader": "^0.13.1",
     "surge": "^0.17.7",
