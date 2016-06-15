@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 class HSplit extends Component {
+  static displayName = 'HSplit';
+
   constructor(...args) {
     super(...args);
     this.state = {};

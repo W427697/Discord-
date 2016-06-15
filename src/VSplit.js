@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 class VSplit extends Component {
+  static displayName = 'VSplit';
+
   constructor(...args) {
     super(...args);
     this.state = {};

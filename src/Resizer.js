@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 
 
 class Resizer extends Component {
+  static displayName = 'Resizer';
+
   constructor(...args) {
     super(...args);
     this.onMouseDown = this.onMouseDown.bind(this);

@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 
 class Pane extends Component {
+  static displayName = 'Pane';
+
   constructor(...args) {
     super(...args);
     this.state = {};

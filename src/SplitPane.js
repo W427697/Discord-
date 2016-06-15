@@ -6,6 +6,8 @@ import HSplit from './HSplit';
 import Resizer from './Resizer';
 
 class SplitPane extends Component {
+  static displayName = 'SplitPane';
+
   constructor(...args) {
     super(...args);
 
