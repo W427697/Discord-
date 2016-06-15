@@ -15,22 +15,15 @@ stories.add('defaults', function (context) {
   const info = `
     Render with default properties.
   `;
-  console.log('context', context);
 
   return (
-    <Story context={context} info={info}>
-      <em>Click the "?" button on top-right corner for <span style={{textDecoration: 'underline'}}>more information</span> about this story</em>
+    <Story context={context} info={info} propTables={[SplitPane]}>
+      <SplitPane>
+        <div>pane-1</div>
+        <div>pane-2</div>
+      </SplitPane>
     </Story>
   );
-
-  // return (
-  //   <Story context={context} info={info} propTables={[SplitPane]}>
-  //     <SplitPane>
-  //       <div>pane-1</div>
-  //       <div>pane-2</div>
-  //     </SplitPane>
-  //   </Story>
-  // );
 });
 
 stories.add('horizontal', function (context) {
