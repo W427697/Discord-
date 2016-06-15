@@ -20,8 +20,10 @@ export default class ClientApi {
       // Wrap the getStory function with each decorator. The first
       // decorator will wrap the story function. The second will
       // wrap the first decorator and so on.
-      const fn = decorators.reduce((decorated, decorator) => {
-        return () => decorator(decorated);
+      const fn = decorators.reduce((decoratedStoryFn, decorator) => {
+        return function (context) {
+          return decorator(() => decoratedStoryFn(context));
+        };
       }, getStory);
 
       // Add the fully decorated getStory function.
