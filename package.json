@@ -1,6 +1,6 @@
 {
   "name": "@kadira/storybook",
-  "version": "1.31.0",
+  "version": "1.32.0",
   "description": "React Storybook: Isolate React Component Development with Hot Reloading.",
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
     "dev": "DEV_BUILD=1 nodemon --watch src --exec 'npm run prepublish'"
   },
   "dependencies": {
-    "@kadira/storybook-core": "^1.27.0",
+    "@kadira/storybook-ui": "^2.0.0",
     "airbnb-js-shims": "^1.0.0",
     "babel-core": "^6.3.15",
     "babel-loader": "^6.2.0",
@@ -35,11 +35,9 @@
     "es6-shim": "^0.35.1",
     "express": "^4.13.3",
     "json-stringify-safe": "^5.0.1",
-    "keycode": "^2.1.1",
     "page-bus": "^3.0.1",
     "qs": "^6.1.0",
     "redbox-react": "^1.2.2",
-    "redux": "^3.5.2",
     "shelljs": "^0.6.0",
     "stack-source-map": "^1.0.5",
     "uuid": "^2.0.1",
@@ -58,7 +56,6 @@
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
     "lodash.pick": "^4.2.0",
-    "mantra-core": "^1.6.1",
     "deep-equal": "^1.0.1",
     "babel-cli": "^6.3.14",
     "babel-eslint": "^6.0.2",
