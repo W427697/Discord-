@@ -24,7 +24,7 @@ export default class StoryStore {
   getStoryKinds() {
     return Object.keys(this._data)
       .map(key => this._data[key])
-      .sort((info1, info2) => (info1.index - info2.index))
+      .sort()
       .map(info => info.kind);
   }
 

@@ -51,9 +51,7 @@ var StoryStore = function () {
 
       return (0, _keys2.default)(this._data).map(function (key) {
         return _this._data[key];
-      }).sort(function (info1, info2) {
-        return info1.index - info2.index;
-      }).map(function (info) {
+      }).sort().map(function (info) {
         return info.kind;
       });
     }
