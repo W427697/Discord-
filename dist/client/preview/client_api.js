@@ -50,9 +50,11 @@ var ClientApi = function () {
         // Wrap the getStory function with each decorator. The first
         // decorator will wrap the story function. The second will
         // wrap the first decorator and so on.
-        var fn = decorators.reduce(function (decorated, decorator) {
-          return function () {
-            return decorator(decorated);
+        var fn = decorators.reduce(function (decoratedStoryFn, decorator) {
+          return function (context) {
+            return decorator(function () {
+              return decoratedStoryFn(context);
+            });
           };
         }, getStory);
 
