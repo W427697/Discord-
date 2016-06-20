@@ -111,6 +111,6 @@ Have a look at [PR86](https://github.com/kadirahq/react-storybook/pull/86) for m
 
 ## Use Extensions
 
-You can use [React Storybook Extensions](extensions.md) to group common functionalities and reduce the amount of code you need to write. You can also [re-use extensions](extensions.md#available -extensions) created by others.
+You can use [React Storybook Extensions](extensions.md) to group common functionalities and reduce the amount of code you need to write. You can also [re-use extensions](extensions.md#available-extensions) created by others.
 
 Have a look at [React Storybook Extensions](extensions.md) for more information.
