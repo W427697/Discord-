@@ -2,6 +2,13 @@
 
 React Storybook comes with an extensions API to customize the storybook experience. Let's have a look at them.
 
+## TOC
+
+* [API](#api)
+  * [Decorators](#decorators)
+  * [Addons](#addons)
+* [Available Extensions](#available-extensions)
+
 ## API
 
 ### Decorators
@@ -25,7 +32,7 @@ storiesOf('MyComponent', module)
 
 Here we only add the decorator for the current set of stories for a given story kind.
 
-But, you can add a decorator **globally** and it'll apply to all the stories you create. This is how to add a such decorator.
+But, you can add a decorator **globally** and it'll be applied to all the stories you create. This is how to add a decorator like that.
 
 ```js
 import { configure, addDecorator } from '@kadira/storybook';
@@ -43,7 +50,7 @@ configure(function () {
 
 ### Addons
 
-With an addon, you can introduce new methods to react-storybook story creation API. For an example, you can achieve the above centered component functionality with an addon like this:
+With an addon, you can introduce new methods to the story creation API. For an example, you can achieve the above centered component functionality with an addon like this:
 
 ```js
 import React from 'react';
@@ -84,4 +91,5 @@ Rather than creating extensions yourself, you can use extensions available below
 * [Centered Decorator](https://github.com/kadirahq/react-storybook-decorator-centered)
 * [Info addon for displaying propTypes, source and more info](https://github.com/kadirahq/react-storybook-addon-info)
 
-> Feel free to include your extension to the above list and share it with other. Just make it available on NPM (and GitHub) and send a PR to this page.
+> Feel free to include your extension to the above list and share it with other. <br/>
+> Just make it available on NPM (and GitHub) and send a PR to this page.
