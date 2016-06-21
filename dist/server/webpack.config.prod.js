@@ -42,6 +42,9 @@ var config = {
       query: { presets: ['react', 'es2015', 'stage-0'] },
       exclude: [_path2.default.resolve('./node_modules'), _path2.default.resolve(__dirname, 'node_modules')],
       include: [_path2.default.resolve('./'), __dirname, _path2.default.resolve(__dirname, '../../src')]
+    }, {
+      test: /\.json?$/,
+      loaders: ['json']
     }]
   }
 };

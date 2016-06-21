@@ -35,6 +35,10 @@ const config = {
         exclude: [path.resolve('./node_modules'), path.resolve(__dirname, 'node_modules')],
         include: [path.resolve('./'), __dirname, path.resolve(__dirname, '../../src')],
       },
+      {
+        test: /\.json?$/,
+        loaders: ['json'],
+      },
     ],
   },
 };
