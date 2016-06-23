@@ -111,6 +111,23 @@ function loadStories() {
 configure(loadStories, module);
 ```
 
+In some projects, you may encounter errors regarding parsing JSON files. In that case, add the following to `.storybook/webpack.config.js`:
+
+```js
+module.exports = {
+  module: {
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: 'json',
+      },
+    ],
+  },
+};
+```
+
+And install the JSON loader via `npm i --save-dev json-loader`.
+
 That's it. Now simply run `npm run storybook` and start developing your components.
 
 
