@@ -17,6 +17,7 @@ export function renderError(error) {
 }
 
 export function renderMain(data, storyStore) {
+  const rootElement = document.getElementById('root');
   if (storyStore.size() === 0) return null;
 
   const NoPreview = () => (<p>No Preview Available!</p>);
@@ -25,7 +26,7 @@ export function renderMain(data, storyStore) {
 
   const story = storyStore.getStory(selectedKind, selectedStory);
   if (!story) {
-    return ReactDOM.render(noPreview, rootEl);
+    return ReactDOM.render(noPreview, rootElement);
   }
 
   // Unmount the previous story only if selectedKind or selectedStory has changed.
@@ -39,19 +40,28 @@ export function renderMain(data, storyStore) {
     //    https://github.com/kadirahq/react-storybook/issues/81
     previousKind = selectedKind;
     previousStory = selectedStory;
-    ReactDOM.unmountComponentAtNode(rootEl);
+    ReactDOM.unmountComponentAtNode(rootElement);
   }
 
-  const context = {
-    kind: selectedKind,
-    story: selectedStory,
+  const context = {};
+
+  const renderStoryOrError = () => {
+    try {
+      return ReactDOM.render(story(context), rootElement);
+    } catch (ex) {
+      return renderError(ex);
+    }
   };
 
-  try {
-    return ReactDOM.render(story(context), rootEl);
-  } catch (ex) {
-    return renderError(ex);
-  }
+  context.kind = selectedKind;
+  context.story = selectedStory;
+  context.render = () => {
+    // Prevent story from accessing rendered component reference
+    // by not returning from renderStoryOrError
+    renderStoryOrError();
+  };
+
+  return renderStoryOrError();
 }
 
 export default function renderPreview({ reduxStore, storyStore }) {
