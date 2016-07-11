@@ -5,6 +5,7 @@ React Storybook comes with an extensions API to customize the storybook experien
 ## TOC
 
 * [API](#api)
+  * [Action Decorator](#action-decorator)
   * [Decorators](#decorators)
   * [Addons](#addons)
 * [Available Extensions](#available-extensions)
@@ -47,6 +48,25 @@ configure(function () {
   ...
 }, module);
 ```
+
+### Action Decorator
+
+This gives you more control over the data logged in the action logger. You can modify or pick the data from the arguments according to your needs. This is how you can use an action decorator :
+
+```js
+import React from 'react';
+import { storiesOf } from '@kadira/storybook';
+import MyComponent from '../my_component';
+
+storiesOf('MyComponent', module)
+  .actionDecorator((name, args) => args[0])
+  .add('without props', () => (<MyComponent />))
+  .add('with some props', () => (<MyComponent text="The Comp"/>));
+```
+
+You can also change the returned value based on action name.
+
+Note: Make sure you return a valid data structure. Values like `'LOG' + args` or `args[0] + ', ' + args[1]` won't work for now.
 
 ### Addons
 
