@@ -40,6 +40,7 @@ var ClientApi = function () {
     this._storyStore = storyStore;
     this._addons = {};
     this._globalDecorators = [];
+    this._actionDecorators = {};
   }
 
   (0, _createClass3.default)(ClientApi, [{
@@ -109,11 +110,18 @@ var ClientApi = function () {
         return api;
       };
 
+      api.actionDecorator = function (actionDecorator) {
+        _this._actionDecorators[kind] = actionDecorator;
+        return api;
+      };
+
       return api;
     }
   }, {
     key: 'action',
     value: function action(name) {
+      var _this2 = this;
+
       var pageBus = this._pageBus;
 
       return function () {
@@ -132,6 +140,13 @@ var ClientApi = function () {
         });
 
         var id = _uuid2.default.v4();
+
+        var selectedKind = pageBus._reduxStore.getState().selectedKind;
+
+        if (_this2._actionDecorators[selectedKind]) {
+          args = _this2._actionDecorators[selectedKind](name, args);
+        }
+
         var data = { name: name, args: args };
         var action = { data: data, id: id };
 
