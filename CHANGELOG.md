@@ -1,5 +1,13 @@
 ## Changelog
 
+### v1.38.0
+
+* v1.37.0 was a nightmare since it contains the npm-shrinkwrap.json. Fixed by removing it. See: [#306](https://github.com/kadirahq/react-storybook/issues/306) and [#305](https://github.com/kadirahq/react-storybook/pull/305).
+
+### v1.37.0
+
+* Update @kadira/storybook-ui to 2.4.0
+
 ### v1.36.0
 
 * Support watchOptions configuration. See: [PR287](https://github.com/kadirahq/react-storybook/pull/287)
