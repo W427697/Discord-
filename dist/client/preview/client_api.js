@@ -110,7 +110,7 @@ var ClientApi = function () {
         return api;
       };
 
-      api.actionDecorator = function (actionDecorator) {
+      api.addActionDecorator = function (actionDecorator) {
         _this._actionDecorators[kind] = actionDecorator;
         return api;
       };

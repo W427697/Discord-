@@ -70,7 +70,7 @@ export default class ClientApi {
       return api;
     };
 
-    api.actionDecorator = actionDecorator => {
+    api.addActionDecorator = actionDecorator => {
       this._actionDecorators[kind] = actionDecorator;
       return api;
     };
