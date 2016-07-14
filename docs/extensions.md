@@ -59,7 +59,7 @@ import { storiesOf } from '@kadira/storybook';
 import MyComponent from '../my_component';
 
 storiesOf('MyComponent', module)
-  .actionDecorator((name, args) => args[0])
+  .addActionDecorator((name, args) => args[0])
   .add('without props', () => (<MyComponent />))
   .add('with some props', () => (<MyComponent text="The Comp"/>));
 ```
