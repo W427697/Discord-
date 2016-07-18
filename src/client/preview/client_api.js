@@ -6,6 +6,7 @@ export default class ClientApi {
     this._storyStore = storyStore;
     this._addons = {};
     this._globalDecorators = [];
+    this._actionDecorators = {};
   }
 
   setAddon(addon) {
@@ -69,13 +70,18 @@ export default class ClientApi {
       return api;
     };
 
+    api.addActionDecorator = actionDecorator => {
+      this._actionDecorators[kind] = actionDecorator;
+      return api;
+    };
+
     return api;
   }
 
   action(name) {
     const pageBus = this._pageBus;
 
-    return function (..._args) {
+    return (..._args) => {
       let args = Array.from(_args);
 
       // Remove events from the args. Otherwise, it creates a huge JSON string.
@@ -87,6 +93,13 @@ export default class ClientApi {
       });
 
       const id = UUID.v4();
+
+      const selectedKind = pageBus._reduxStore.getState().selectedKind;
+
+      if (this._actionDecorators[selectedKind]) {
+        args = this._actionDecorators[selectedKind](name, args);
+      }
+
       const data = { name, args };
       const action = { data, id };
 
