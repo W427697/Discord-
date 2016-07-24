@@ -17,15 +17,24 @@ exports.default = function (configType, baseConfig, configDir) {
 
   // Search for a .babelrc in the config directory, then the module root
   // directory. If found, use that to extend webpack configurations.
-  var babelConfig = loadBabelConfig(_path2.default.resolve(configDir, '.babelrc'));
+
+  var _findBabelConfig$sync = _findBabelConfig2.default.sync(configDir, 0);
+
+  var babelConfig = _findBabelConfig$sync.config;
+
   var inConfigDir = true;
 
   if (!babelConfig) {
-    babelConfig = loadBabelConfig('.babelrc');
+    var _findBabelConfig$sync2 = _findBabelConfig2.default.sync('./', 0);
+
+    var babelConfigRoot = _findBabelConfig$sync2.config;
+
+    babelConfig = babelConfigRoot;
     inConfigDir = false;
   }
 
   if (babelConfig) {
+    babelConfig = removeIncompatiblePresets(babelConfig);
     // If the custom config uses babel's `extends` clause, then replace it with
     // an absolute path. `extends` will not work unless we do this.
     if (babelConfig.extends) {
@@ -92,9 +101,9 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
-var _cjson = require('cjson');
+var _findBabelConfig = require('find-babel-config');
 
-var _cjson2 = _interopRequireDefault(_cjson);
+var _findBabelConfig2 = _interopRequireDefault(_findBabelConfig);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -108,23 +117,8 @@ function removeReactHmre(presets) {
   }
 }
 
-// Tries to load a .babelrc and returns the parsed object if successful
-function loadBabelConfig(babelConfigPath) {
-  var config = void 0;
-  if (_fs2.default.existsSync(babelConfigPath)) {
-    var content = _fs2.default.readFileSync(babelConfigPath, 'utf-8');
-    try {
-      config = _cjson2.default.parse(content);
-      config.babelrc = false;
-      logger.info('=> Loading custom .babelrc');
-    } catch (e) {
-      logger.error('=> Error parsing .babelrc file: ' + e.message);
-      throw e;
-    }
-  }
-
-  if (!config) return null;
-
+// Remove incomaptible babel presets
+function removeIncompatiblePresets(config) {
   // Remove react-hmre preset.
   // It causes issues with react-storybook.
   // We don't really need it.

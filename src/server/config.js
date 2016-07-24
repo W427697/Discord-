@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import cjson from 'cjson';
+import findBabelConfig from 'find-babel-config';
 
 // avoid ESLint errors
 const logger = console;
@@ -12,23 +12,8 @@ function removeReactHmre(presets) {
   }
 }
 
-// Tries to load a .babelrc and returns the parsed object if successful
-function loadBabelConfig(babelConfigPath) {
-  let config;
-  if (fs.existsSync(babelConfigPath)) {
-    const content = fs.readFileSync(babelConfigPath, 'utf-8');
-    try {
-      config = cjson.parse(content);
-      config.babelrc = false;
-      logger.info('=> Loading custom .babelrc');
-    } catch (e) {
-      logger.error(`=> Error parsing .babelrc file: ${e.message}`);
-      throw e;
-    }
-  }
-
-  if (!config) return null;
-
+// Remove incomaptible babel presets
+function removeIncompatiblePresets(config) {
   // Remove react-hmre preset.
   // It causes issues with react-storybook.
   // We don't really need it.
@@ -53,15 +38,17 @@ export default function (configType, baseConfig, configDir) {
 
   // Search for a .babelrc in the config directory, then the module root
   // directory. If found, use that to extend webpack configurations.
-  let babelConfig = loadBabelConfig(path.resolve(configDir, '.babelrc'));
+  let { config: babelConfig } = findBabelConfig.sync(configDir, 0);
   let inConfigDir = true;
 
   if (!babelConfig) {
-    babelConfig = loadBabelConfig('.babelrc');
+    const { config: babelConfigRoot } = findBabelConfig.sync('./', 0);
+    babelConfig = babelConfigRoot;
     inConfigDir = false;
   }
 
   if (babelConfig) {
+    babelConfig = removeIncompatiblePresets(babelConfig);
     // If the custom config uses babel's `extends` clause, then replace it with
     // an absolute path. `extends` will not work unless we do this.
     if (babelConfig.extends) {
