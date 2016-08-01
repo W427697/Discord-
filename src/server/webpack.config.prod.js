@@ -1,5 +1,8 @@
 import path from 'path';
 import webpack from 'webpack';
+import { includePaths } from './paths';
+import autoprefixer from 'autoprefixer';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const entries = {
   preview: [],
@@ -13,29 +16,71 @@ if (process.env.DEV_BUILD) {
 }
 
 const config = {
-  devtool: '#cheap-module-source-map',
+  bail: true,
+  devtool: 'source-map',
   entry: entries,
   output: {
-    filename: '[name].bundle.js',
+    filename: 'static/[name].bundle.js',
     publicPath: '/static/',
   },
   plugins: [
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false },
+      compress: {
+        screw_ie8: true,
+        warnings: false
+      },
+      mangle: {
+        screw_ie8: true
+      },
+      output: {
+        comments: false,
+        screw_ie8: true
+      }
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
   ],
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
         loader: 'babel',
-        query: { presets: ['react', 'es2015', 'stage-0'] },
-        exclude: [path.resolve('./node_modules'), path.resolve(__dirname, 'node_modules')],
-        include: [path.resolve('./'), __dirname, path.resolve(__dirname, '../../src')],
+        query: require('./babel.prod.js'),
+        include: includePaths,
       },
+      {
+        test: /\.css$/,
+        include: includePaths,
+        loader: 'style!raw!postcss'
+      },
+      {
+        test: /\.json$/,
+        include: includePaths,
+        loader: 'json'
+      },
+      {
+        test: /\.(jpg|png|gif|eot|svg|ttf|woff|woff2)(\?.*)?$/,
+        include: includePaths,
+        loader: 'file',
+        query: {
+          name: 'static/media/[name].[ext]'
+        }
+      },
+      {
+        test: /\.(mp4|webm)(\?.*)?$/,
+        include: includePaths,
+        loader: 'url',
+        query: {
+          limit: 10000,
+          name: 'static/media/[name].[ext]'
+        }
+      }
     ],
+  },
+
+  postcss: function() {
+    return [autoprefixer];
   },
 };
 

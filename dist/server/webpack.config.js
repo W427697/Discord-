@@ -18,14 +18,16 @@ var _autoprefixer = require('autoprefixer');
 
 var _autoprefixer2 = _interopRequireDefault(_autoprefixer);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _caseSensitivePathsWebpackPlugin = require('case-sensitive-paths-webpack-plugin');
 
-var managerEntry = process.env.DEV_BUILD ? _path2.default.resolve(__dirname, '../../src/client/manager') : _path2.default.resolve(__dirname, '../manager');
+var _caseSensitivePathsWebpackPlugin2 = _interopRequireDefault(_caseSensitivePathsWebpackPlugin);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var config = {
   devtool: '#cheap-module-eval-source-map',
   entry: {
-    manager: [managerEntry],
+    manager: [_path2.default.resolve(__dirname, '../../src/client/manager')],
     preview: [_path2.default.resolve(__dirname, './error_enhancements'), 'webpack-hot-middleware/client?noInfo=true']
   },
   output: {
@@ -33,7 +35,7 @@ var config = {
     filename: '[name].bundle.js',
     publicPath: '/static/'
   },
-  plugins: [new _webpack2.default.optimize.OccurenceOrderPlugin(), new _webpack2.default.HotModuleReplacementPlugin()],
+  plugins: [new _webpack2.default.optimize.OccurenceOrderPlugin(), new _webpack2.default.HotModuleReplacementPlugin(), new _caseSensitivePathsWebpackPlugin2.default()],
   module: {
     loaders: [{
       test: /\.jsx?$/,

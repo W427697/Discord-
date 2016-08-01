@@ -35,8 +35,11 @@ if (publicPath[0] === '/') {
   publicPath = publicPath.slice(1);
 }
 
-// create output directory (and the static dir) if not exists
 const outputDir = program.outputDir || './storybook-static';
+config.output.path = outputDir;
+
+// create output directory (and the static dir) if not exists
+shelljs.rm('-rf', outputDir);
 shelljs.mkdir('-p', path.resolve(outputDir, publicPath));
 
 // copy all static files
@@ -58,7 +61,25 @@ fs.writeFileSync(path.resolve(outputDir, 'iframe.html'), getIframeHtml(headHtml,
 
 // compile all resources with webpack and write them to the disk.
 logger.log('Building storybook ...');
-webpack(config).compile(function (err, stats) {
+webpack(config).run(function (err, stats) {
+  if (err) {
+      throw err;
+  }
+
+  // We need to copy the manager bundle distributed via the React Storybook
+  // directly into the production build overring webpack.
+  shelljs.cp(
+    path.resolve(__dirname, '../manager.js'),
+    path.resolve(outputDir, publicPath, 'manager.bundle.js')
+  );
+  shelljs.cp(
+    path.resolve(__dirname, '../manager.js.map'),
+    path.resolve(outputDir, publicPath, 'manager.js.map')
+  );
+
+  console.log('Done');
+  return;
+
   for (const filename in stats.assets) {
     if (!stats.assets.hasOwnProperty(filename)) {
       continue;
@@ -79,15 +100,4 @@ webpack(config).compile(function (err, stats) {
     shelljs.mkdir('-p', path.parse(dstPath).dir);
     fs.writeFileSync(dstPath, source);
   }
-
-  // We need to copy the manager bundle distributed via the React Storybook
-  // directly into the production build overring webpack.
-  shelljs.cp(
-    path.resolve(__dirname, '../manager.js'),
-    path.resolve(outputDir, publicPath, 'manager.bundle.js')
-  );
-  shelljs.cp(
-    path.resolve(__dirname, '../manager.js.map'),
-    path.resolve(outputDir, publicPath, 'manager.js.map')
-  );
 });

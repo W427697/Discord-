@@ -4,16 +4,11 @@ import { includePaths } from './paths';
 import autoprefixer from 'autoprefixer';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 
-const managerEntry =
-  process.env.DEV_BUILD ?
-  path.resolve(__dirname, '../../src/client/manager') :
-  path.resolve(__dirname, '../manager');
-
 const config = {
   devtool: '#cheap-module-eval-source-map',
   entry: {
     manager: [
-      managerEntry,
+      path.resolve(__dirname, '../../src/client/manager'),
     ],
     preview: [
       path.resolve(__dirname, './error_enhancements'),
