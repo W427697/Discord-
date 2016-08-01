@@ -47,7 +47,7 @@ const config = {
       {
         test: /\.css$/,
         include: includePaths,
-        loader: 'style!raw!postcss',
+        loader: 'style!css!postcss',
       },
       {
         test: /\.json$/,

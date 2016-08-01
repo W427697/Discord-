@@ -55,7 +55,7 @@ var config = {
     }, {
       test: /\.css$/,
       include: _paths.includePaths,
-      loader: 'style!raw!postcss'
+      loader: 'style!css!postcss'
     }, {
       test: /\.json$/,
       include: _paths.includePaths,
