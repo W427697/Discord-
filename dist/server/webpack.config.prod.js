@@ -25,15 +25,9 @@ var _extractTextWebpackPlugin2 = _interopRequireDefault(_extractTextWebpackPlugi
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var entries = {
-  preview: []
+  preview: [],
+  manager: [_path2.default.resolve(__dirname, '../../src/client/manager')]
 };
-
-// We will copy the manager bundle distributed via the React Storybook
-// directly into the production build overring webpack.
-// But, in the DEV_BUILD we need to play with that. That's why we copy that.
-if (process.env.DEV_BUILD) {
-  entries.manager = [__dirname, '../../src/client/manager'];
-}
 
 var config = {
   bail: true,

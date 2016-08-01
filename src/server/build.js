@@ -63,41 +63,8 @@ fs.writeFileSync(path.resolve(outputDir, 'iframe.html'), getIframeHtml(headHtml,
 logger.log('Building storybook ...');
 webpack(config).run(function (err, stats) {
   if (err) {
-      throw err;
-  }
-
-  // We need to copy the manager bundle distributed via the React Storybook
-  // directly into the production build overring webpack.
-  shelljs.cp(
-    path.resolve(__dirname, '../manager.js'),
-    path.resolve(outputDir, publicPath, 'manager.bundle.js')
-  );
-  shelljs.cp(
-    path.resolve(__dirname, '../manager.js.map'),
-    path.resolve(outputDir, publicPath, 'manager.js.map')
-  );
-
-  console.log('Done');
-  return;
-
-  for (const filename in stats.assets) {
-    if (!stats.assets.hasOwnProperty(filename)) {
-      continue;
-    }
-
-    const asset = stats.assets[filename];
-    if (asset.children && asset.children.length) {
-      const source = asset.children[0]._value;
-      const dstPath = path.resolve(outputDir, publicPath, filename);
-      fs.writeFileSync(dstPath, source);
-      continue;
-    }
-
-    const source = asset._value;
-    const dstPath = path.resolve(outputDir, publicPath, filename);
-
-    // Ensure the asset directory exists
-    shelljs.mkdir('-p', path.parse(dstPath).dir);
-    fs.writeFileSync(dstPath, source);
+    logger.error('Failed to build the storybook');
+    logger.error(err.message);
+    process.exit(1);
   }
 });

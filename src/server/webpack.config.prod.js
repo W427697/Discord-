@@ -6,14 +6,10 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const entries = {
   preview: [],
+  manager: [
+    path.resolve(__dirname, '../../src/client/manager'),
+  ],
 };
-
-// We will copy the manager bundle distributed via the React Storybook
-// directly into the production build overring webpack.
-// But, in the DEV_BUILD we need to play with that. That's why we copy that.
-if (process.env.DEV_BUILD) {
-  entries.manager = [__dirname, '../../src/client/manager'];
-}
 
 const config = {
   bail: true,
