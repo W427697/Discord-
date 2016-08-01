@@ -1,5 +1,8 @@
 import path from 'path';
 import webpack from 'webpack';
+import { includePaths } from './paths';
+import autoprefixer from 'autoprefixer';
+import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 
 const managerEntry =
   process.env.DEV_BUILD ?
@@ -25,18 +28,48 @@ const config = {
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new CaseSensitivePathsPlugin(),
   ],
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
         loader: 'babel',
-        query: { presets: ['react', 'es2015', 'stage-0'] },
-        exclude: [path.resolve('./node_modules'), path.resolve(__dirname, 'node_modules')],
-        include: [path.resolve('./'), __dirname, path.resolve(__dirname, '../../src')],
+        query: require('./babel.js'),
+        include: includePaths,
+      },
+      {
+        test: /\.css?$/,
+        include: includePaths,
+        loader: 'style!css!postcss'
+      },
+      {
+        test: /\.json$/,
+        include: includePaths,
+        loader: 'json'
+      },
+      {
+        test: /\.(jpg|png|gif|eot|svg|ttf|woff|woff2)(\?.*)?$/,
+        include: includePaths,
+        loader: 'file',
+        query: {
+          name: 'static/media/[name].[ext]'
+        }
+      },
+      {
+        test: /\.(mp4|webm)(\?.*)?$/,
+        include: includePaths,
+        loader: 'url',
+        query: {
+          limit: 10000,
+          name: 'static/media/[name].[ext]'
+        }
       },
     ],
   },
+  postcss: function() {
+    return [autoprefixer];
+  }
 };
 
 export default config;
