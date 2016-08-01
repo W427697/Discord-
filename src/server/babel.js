@@ -7,11 +7,7 @@ module.exports = {
     'babel-preset-stage-0',
     'babel-preset-react',
   ].map(require.resolve),
-  plugins: [
-    'babel-plugin-syntax-trailing-function-commas',
-    'babel-plugin-transform-class-properties',
-    'babel-plugin-transform-object-rest-spread',
-  ].map(require.resolve).concat([
+  plugins: [].map(require.resolve).concat([
     [require.resolve('babel-plugin-transform-runtime'), {
       helpers: false,
       polyfill: false,
