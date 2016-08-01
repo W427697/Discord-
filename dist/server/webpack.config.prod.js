@@ -22,7 +22,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var entries = {
   preview: [],
-  manager: [_path2.default.resolve(__dirname, '../../src/client/manager')]
+  manager: [_path2.default.resolve(__dirname, '../client/manager')]
 };
 
 var config = {

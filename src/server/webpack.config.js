@@ -8,7 +8,7 @@ const config = {
   devtool: '#cheap-module-eval-source-map',
   entry: {
     manager: [
-      path.resolve(__dirname, '../../src/client/manager'),
+      path.resolve(__dirname, '../client/manager'),
     ],
     preview: [
       path.resolve(__dirname, './error_enhancements'),

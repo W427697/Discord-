@@ -6,7 +6,7 @@ import autoprefixer from 'autoprefixer';
 const entries = {
   preview: [],
   manager: [
-    path.resolve(__dirname, '../../src/client/manager'),
+    path.resolve(__dirname, '../client/manager'),
   ],
 };
 
