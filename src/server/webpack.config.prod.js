@@ -13,7 +13,7 @@ const entries = {
 
 const config = {
   bail: true,
-  devtool: 'source-map',
+  devtool: '#cheap-module-source-map',
   entry: entries,
   output: {
     filename: 'static/[name].bundle.js',
