@@ -61,7 +61,7 @@ fs.writeFileSync(path.resolve(outputDir, 'iframe.html'), getIframeHtml(headHtml,
 
 // compile all resources with webpack and write them to the disk.
 logger.log('Building storybook ...');
-webpack(config).run(function (err, stats) {
+webpack(config).run(function (err) {
   if (err) {
     logger.error('Failed to build the storybook');
     logger.error(err.message);

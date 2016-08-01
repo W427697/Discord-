@@ -89,7 +89,7 @@ _fs2.default.writeFileSync(_path2.default.resolve(outputDir, 'iframe.html'), (0,
 
 // compile all resources with webpack and write them to the disk.
 logger.log('Building storybook ...');
-(0, _webpack2.default)(config).run(function (err, stats) {
+(0, _webpack2.default)(config).run(function (err) {
   if (err) {
     logger.error('Failed to build the storybook');
     logger.error(err.message);

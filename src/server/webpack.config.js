@@ -36,20 +36,20 @@ const config = {
       {
         test: /\.css?$/,
         include: includePaths,
-        loader: 'style!css!postcss'
+        loader: 'style!css!postcss',
       },
       {
         test: /\.json$/,
         include: includePaths,
-        loader: 'json'
+        loader: 'json',
       },
       {
         test: /\.(jpg|png|gif|eot|svg|ttf|woff|woff2)(\?.*)?$/,
         include: includePaths,
         loader: 'file',
         query: {
-          name: 'static/media/[name].[ext]'
-        }
+          name: 'static/media/[name].[ext]',
+        },
       },
       {
         test: /\.(mp4|webm)(\?.*)?$/,
@@ -57,14 +57,14 @@ const config = {
         loader: 'url',
         query: {
           limit: 10000,
-          name: 'static/media/[name].[ext]'
-        }
+          name: 'static/media/[name].[ext]',
+        },
       },
     ],
   },
-  postcss: function() {
+  postcss() {
     return [autoprefixer];
-  }
+  },
 };
 
 export default config;

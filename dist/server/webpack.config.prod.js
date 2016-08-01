@@ -18,10 +18,6 @@ var _autoprefixer = require('autoprefixer');
 
 var _autoprefixer2 = _interopRequireDefault(_autoprefixer);
 
-var _extractTextWebpackPlugin = require('extract-text-webpack-plugin');
-
-var _extractTextWebpackPlugin2 = _interopRequireDefault(_extractTextWebpackPlugin);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var entries = {
