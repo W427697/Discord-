@@ -16,7 +16,7 @@ const config = {
   entry: entries,
   output: {
     filename: 'static/[name].bundle.js',
-    publicPath: '/static/',
+    publicPath: '/',
   },
   plugins: [
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),

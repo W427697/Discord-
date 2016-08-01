@@ -17,8 +17,8 @@ const config = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].bundle.js',
-    publicPath: '/static/',
+    filename: 'static/[name].bundle.js',
+    publicPath: '/',
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),

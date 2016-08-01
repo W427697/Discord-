@@ -32,8 +32,8 @@ var config = {
   },
   output: {
     path: _path2.default.join(__dirname, 'dist'),
-    filename: '[name].bundle.js',
-    publicPath: '/static/'
+    filename: 'static/[name].bundle.js',
+    publicPath: '/'
   },
   plugins: [new _webpack2.default.optimize.OccurenceOrderPlugin(), new _webpack2.default.HotModuleReplacementPlugin(), new _caseSensitivePathsWebpackPlugin2.default()],
   module: {

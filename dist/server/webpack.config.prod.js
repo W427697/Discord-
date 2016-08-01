@@ -31,7 +31,7 @@ var config = {
   entry: entries,
   output: {
     filename: 'static/[name].bundle.js',
-    publicPath: '/static/'
+    publicPath: '/'
   },
   plugins: [new _webpack2.default.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }), new _webpack2.default.optimize.OccurrenceOrderPlugin(), new _webpack2.default.optimize.DedupePlugin(), new _webpack2.default.optimize.UglifyJsPlugin({
     compress: {
