@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _from = require('babel-runtime/core-js/array/from');
-
-var _from2 = _interopRequireDefault(_from);
-
 var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
@@ -32,13 +28,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ClientApi = function () {
   function ClientApi(_ref) {
-    var channel = _ref.channel;
+    var pageBus = _ref.pageBus;
     var storyStore = _ref.storyStore;
     (0, _classCallCheck3.default)(this, ClientApi);
 
-    // channel can be null when running in node
-    // always check whether channel is available
-    this._channel = channel;
+    // pageBus can be null when running in node
+    // always check whether pageBus is available
+    this._pageBus = pageBus;
     this._storyStore = storyStore;
     this._addons = {};
     this._globalDecorators = [];
@@ -117,49 +113,6 @@ var ClientApi = function () {
       };
 
       return api;
-    }
-  }, {
-    key: 'action',
-    value: function action(name) {
-      var channel = this._channel;
-
-      return function action() {
-        for (var _len2 = arguments.length, _args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          _args[_key2] = arguments[_key2];
-        }
-
-        var args = (0, _from2.default)(_args);
-
-        // Remove events from the args. Otherwise, it creates a huge JSON string.
-        args = args.map(function (arg) {
-          if (arg && typeof arg.preventDefault === 'function') {
-            return '[SyntheticEvent]';
-          }
-          return arg;
-        });
-
-        var id = _uuid2.default.v4();
-        var data = { name: name, args: args };
-
-        if (channel) {
-          channel.emit('addAction', { action: { data: data, id: id } });
-        }
-      };
-    }
-  }, {
-    key: 'linkTo',
-    value: function linkTo(kind, story) {
-      var channel = this._channel;
-
-      return function linkTo() {
-        var resolvedKind = typeof kind === 'function' ? kind.apply(undefined, arguments) : kind;
-        var resolvedStory = typeof story === 'function' ? story.apply(undefined, arguments) : story;
-        var selection = { kind: resolvedKind, story: resolvedStory };
-
-        if (channel) {
-          channel.emit('selectStory', selection);
-        }
-      };
     }
   }, {
     key: 'getStorybook',
