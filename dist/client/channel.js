@@ -57,7 +57,7 @@ var Channel = function () {
     }
   }, {
     key: 'removeListener',
-    value: function removeListener(type, handler) {
+    value: function removeListener() /* type, handler */{
       // TODO get listener from a map[handler]listener
       // this._pageBus.removeListener(type, listener);
     }

@@ -1,8 +1,6 @@
 import Preview from './preview';
 import qs from 'qs';
-import UUID from 'uuid';
 import React from 'react';
-import createPageBus from 'page-bus';
 import { Provider } from '@kadira/storybook-ui';
 import addons from '@kadira/storybook-addons';
 import Channel from '../channel';

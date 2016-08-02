@@ -32,17 +32,9 @@ var _qs = require('qs');
 
 var _qs2 = _interopRequireDefault(_qs);
 
-var _uuid = require('uuid');
-
-var _uuid2 = _interopRequireDefault(_uuid);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
-
-var _pageBus = require('page-bus');
-
-var _pageBus2 = _interopRequireDefault(_pageBus);
 
 var _storybookUi = require('@kadira/storybook-ui');
 

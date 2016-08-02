@@ -1,5 +1,3 @@
-import UUID from 'uuid';
-
 export default class ClientApi {
   constructor({ channel, storyStore }) {
     // channel can be null when running in node

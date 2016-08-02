@@ -23,7 +23,7 @@ export default class Channel {
     this._pageBus.emit(`${this._dataId}.${type}`, payload);
   }
 
-  removeListener(type, handler) {
+  removeListener(/* type, handler */) {
     // TODO get listener from a map[handler]listener
     // this._pageBus.removeListener(type, listener);
   }

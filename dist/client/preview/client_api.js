@@ -1,28 +1,24 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+var _toConsumableArray2 = require("babel-runtime/helpers/toConsumableArray");
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _extends2 = require("babel-runtime/helpers/extends");
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _createClass2 = require("babel-runtime/helpers/createClass");
 
 var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _uuid = require('uuid');
-
-var _uuid2 = _interopRequireDefault(_uuid);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41,22 +37,22 @@ var ClientApi = function () {
   }
 
   (0, _createClass3.default)(ClientApi, [{
-    key: 'setAddon',
+    key: "setAddon",
     value: function setAddon(addon) {
       this._addons = (0, _extends3.default)({}, this._addons, addon);
     }
   }, {
-    key: 'addDecorator',
+    key: "addDecorator",
     value: function addDecorator(decorator) {
       this._globalDecorators.push(decorator);
     }
   }, {
-    key: 'clearDecorators',
+    key: "clearDecorators",
     value: function clearDecorators() {
       this._globalDecorators = [];
     }
   }, {
-    key: 'storiesOf',
+    key: "storiesOf",
     value: function storiesOf(kind, m) {
       var _this = this;
 
@@ -115,7 +111,7 @@ var ClientApi = function () {
       return api;
     }
   }, {
-    key: 'getStorybook',
+    key: "getStorybook",
     value: function getStorybook() {
       var _this2 = this;
 
