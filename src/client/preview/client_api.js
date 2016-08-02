@@ -1,10 +1,10 @@
 import UUID from 'uuid';
 
 export default class ClientApi {
-  constructor({ pageBus, storyStore }) {
-    // pageBus can be null when running in node
-    // always check whether pageBus is available
-    this._pageBus = pageBus;
+  constructor({ channel, storyStore }) {
+    // channel can be null when running in node
+    // always check whether channel is available
+    this._channel = channel;
     this._storyStore = storyStore;
     this._addons = {};
     this._globalDecorators = [];

@@ -28,13 +28,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ClientApi = function () {
   function ClientApi(_ref) {
-    var pageBus = _ref.pageBus;
+    var channel = _ref.channel;
     var storyStore = _ref.storyStore;
     (0, _classCallCheck3.default)(this, ClientApi);
 
-    // pageBus can be null when running in node
-    // always check whether pageBus is available
-    this._pageBus = pageBus;
+    // channel can be null when running in node
+    // always check whether channel is available
+    this._channel = channel;
     this._storyStore = storyStore;
     this._addons = {};
     this._globalDecorators = [];
