@@ -33,10 +33,6 @@ var _init = require('./init');
 
 var _init2 = _interopRequireDefault(_init);
 
-var _storybookChannel = require('@kadira/storybook-channel');
-
-var _storybookChannel2 = _interopRequireDefault(_storybookChannel);
-
 var _storybookChannelPagebus = require('@kadira/storybook-channel-pagebus');
 
 var _storybookChannelPagebus2 = _interopRequireDefault(_storybookChannelPagebus);
@@ -67,8 +63,7 @@ if (isBrowser) {
   if (!queryParams.dataId) {
     throw new Error('dataId is not supplied via queryString');
   }
-  var transport = new _storybookChannelPagebus2.default({ key: queryParams.dataId });
-  var channel = new _storybookChannel2.default({ transport: transport });
+  var channel = (0, _storybookChannelPagebus2.default)({ key: queryParams.dataId });
   channel.on('setCurrentStory', function (data) {
     reduxStore.dispatch((0, _actions.selectStory)(data.kind, data.story));
   });

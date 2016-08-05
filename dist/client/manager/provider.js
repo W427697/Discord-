@@ -42,10 +42,6 @@ var _storybookAddons = require('@kadira/storybook-addons');
 
 var _storybookAddons2 = _interopRequireDefault(_storybookAddons);
 
-var _storybookChannel = require('@kadira/storybook-channel');
-
-var _storybookChannel2 = _interopRequireDefault(_storybookChannel);
-
 var _storybookChannelPagebus = require('@kadira/storybook-channel-pagebus');
 
 var _storybookChannelPagebus2 = _interopRequireDefault(_storybookChannelPagebus);
@@ -64,9 +60,8 @@ var ReactProvider = function (_Provider) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(ReactProvider).call(this));
 
-    _this.pageBusKey = _uuid2.default.v4();
-    var transport = new _storybookChannelPagebus2.default({ key: _this.pageBusKey });
-    _this.channel = new _storybookChannel2.default({ transport: transport });
+    _this.dataId = _uuid2.default.v4();
+    _this.channel = (0, _storybookChannelPagebus2.default)({ key: _this.dataId });
     _storybookAddons2.default.setChannel(_this.channel);
     return _this;
   }
@@ -80,7 +75,7 @@ var ReactProvider = function (_Provider) {
     key: 'renderPreview',
     value: function renderPreview(selectedKind, selectedStory) {
       var queryParams = {
-        dataId: this.pageBusKey,
+        dataId: this.dataId,
         selectedKind: selectedKind,
         selectedStory: selectedStory
       };

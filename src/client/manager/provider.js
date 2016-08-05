@@ -3,16 +3,14 @@ import qs from 'qs';
 import React from 'react';
 import { Provider } from '@kadira/storybook-ui';
 import addons from '@kadira/storybook-addons';
-import Channel from '@kadira/storybook-channel';
-import PageBusTransport from '@kadira/storybook-channel-pagebus';
+import createChannel from '@kadira/storybook-channel-pagebus';
 import Preview from './preview';
 
 export default class ReactProvider extends Provider {
   constructor() {
     super();
-    this.pageBusKey = UUID.v4();
-    const transport = new PageBusTransport({ key: this.pageBusKey });
-    this.channel = new Channel({ transport });
+    this.dataId = UUID.v4();
+    this.channel = createChannel({ key: this.dataId });
     addons.setChannel(this.channel);
   }
 
@@ -22,7 +20,7 @@ export default class ReactProvider extends Provider {
 
   renderPreview(selectedKind, selectedStory) {
     const queryParams = {
-      dataId: this.pageBusKey,
+      dataId: this.dataId,
       selectedKind,
       selectedStory,
     };
