@@ -33,9 +33,9 @@ module.exports = {
     ['babel-plugin-transform-runtime', {
       helpers: false,
       polyfill: false,
-      regenerator: true
+      regenerator: true,
     }],
     // Optimization: hoist JSX that never changes out of render()
-    'babel-plugin-transform-react-constant-elements'
+    'babel-plugin-transform-react-constant-elements',
   ],
 };
