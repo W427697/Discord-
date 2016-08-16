@@ -61,11 +61,13 @@ export function track() {
       request.post('https://ping.getstorybook.io/react-storybook-dont-track', {
         json: { userId },
       }, () => {});
-      store.set('notifiedDontTrack');
+      store.set('notifiedDontTrack', true);
     }
     return;
   }
 
+  // We need to clear this in case user decided to track again.
+  store.set('notifiedDontTrack', null);
 
   const pkg = require('../../package.json');
 
