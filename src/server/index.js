@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import express from 'express';
+import basicAuth from 'basic-auth-connect';
 import program from 'commander';
 import path from 'path';
 import fs from 'fs';
@@ -17,6 +18,8 @@ program
   .option('-h, --host [string]', 'Host to run Storybook')
   .option('-s, --static-dir <dir-names>', 'Directory where to load static files from', parseList)
   .option('-c, --config-dir [dir-name]', 'Directory where to load Storybook configurations from')
+  .option('-u, --username [string]', 'Basic auth username')
+  .option('-P, --password [string]', 'Basic auth password')
   .option('--dont-track', 'Do not send anonymous usage stats.')
   .parse(process.argv);
 
@@ -50,6 +53,14 @@ if (program.staticDir) {
     logger.log(`=> Loading static files from: ${staticPath} .`);
     app.use(express.static(staticPath, { index: false }));
   });
+}
+
+if (program.username && program.password) {
+  app.use(basicAuth(program.username, program.password));
+} else if (program.username || program.password) {
+  logger.error('Error: username AND password must both be provided to enable basic auth.\n');
+  program.help();
+  process.exit(-1);
 }
 
 // Build the webpack configuration using the `baseConfig`
