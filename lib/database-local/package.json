@@ -15,6 +15,6 @@
     "shelljs": "^0.7.3"
   },
   "dependencies": {
-    "@kadira/storybook-database": "^2.0.0"
+    "@kadira/storybook-database": "^2.0.1"
   }
 }
