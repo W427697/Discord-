@@ -1,5 +1,10 @@
 ## Changelog
 
+### v1.0.3
+31 Aug 2016
+
+* Add missing headers (content-type)
+
 ### v1.0.2
 31 Aug 2016
 
