@@ -1,5 +1,10 @@
 ## Changelog
 
+### v2.0.1
+31 Aug 2016
+
+* Export the Database class by as the default export
+
 ### v2.0.0
 31 Aug 2016
 
