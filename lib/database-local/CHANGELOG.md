@@ -1,5 +1,10 @@
 ## Changelog
 
+### v1.1.0
+1 Sep 2016
+
+* Add the required express middleware
+
 ### v1.0.3
 31 Aug 2016
 
