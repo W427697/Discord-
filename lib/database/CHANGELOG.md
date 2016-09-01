@@ -1,5 +1,10 @@
 ## Changelog
 
+### v2.1.0
+1 Sep 2016
+
+* Make the options param on Collection.get method optional
+
 ### v2.0.1
 31 Aug 2016
 
