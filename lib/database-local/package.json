@@ -18,6 +18,7 @@
   "dependencies": {
     "@kadira/storybook-database": "^2.0.1",
     "body-parser": "^1.15.2",
+    "lodash": "^4.15.0",
     "lowdb": "^0.13.1"
   },
   "peerDependencies": {
