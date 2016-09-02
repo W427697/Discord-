@@ -1,5 +1,10 @@
 ## Changelog
 
+### v1.2.0
+2 Sep 2016
+
+* Add a persister which uses a static json file [PR1](https://github.com/kadirahq/storybook-database-local/pull/1)
+
 ### v1.1.0
 1 Sep 2016
 
