@@ -1,5 +1,10 @@
 ## Changelog
 
+### v1.2.1
+9 Sep 2016
+
+* Add a polyfill for the fetch API [PR4](https://github.com/kadirahq/storybook-database-local/pull/4)
+
 ### v1.2.0
 2 Sep 2016
 
