@@ -1,7 +1,7 @@
 import path from 'path';
 import webpack from 'webpack';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
-import { OccurenceOrderPlugin, includePaths, excludePaths } from './utils';
+import { OccurenceOrderPlugin, includePaths, excludePaths, loadEnv } from './utils';
 import babalLoaderConfig from './babel.js';
 
 const config = {
@@ -23,6 +23,7 @@ const config = {
     publicPath: '/',
   },
   plugins: [
+    new webpack.DefinePlugin(loadEnv()),
     new OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new CaseSensitivePathsPlugin(),
