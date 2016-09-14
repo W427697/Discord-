@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.excludePaths = exports.includePaths = exports.OccurenceOrderPlugin = undefined;
+exports.nodeModulesPaths = exports.excludePaths = exports.includePaths = exports.OccurenceOrderPlugin = undefined;
 
 var _keys = require('babel-runtime/core-js/object/keys');
 
@@ -53,3 +53,5 @@ function loadEnv() {
 
   return env;
 }
+
+var nodeModulesPaths = exports.nodeModulesPaths = _path2.default.resolve('./node_modules');

@@ -16,6 +16,10 @@ var _caseSensitivePathsWebpackPlugin = require('case-sensitive-paths-webpack-plu
 
 var _caseSensitivePathsWebpackPlugin2 = _interopRequireDefault(_caseSensitivePathsWebpackPlugin);
 
+var _WatchMissingNodeModulesPlugin = require('./WatchMissingNodeModulesPlugin');
+
+var _WatchMissingNodeModulesPlugin2 = _interopRequireDefault(_WatchMissingNodeModulesPlugin);
+
 var _utils = require('./utils');
 
 var _babel = require('./babel.js');
@@ -28,14 +32,14 @@ var config = {
   devtool: '#cheap-module-eval-source-map',
   entry: {
     manager: [require.resolve('./polyfills'), require.resolve('../../client/manager')],
-    preview: [require.resolve('./polyfills'), require.resolve('./error_enhancements'), require.resolve('webpack-hot-middleware/client')]
+    preview: [require.resolve('./polyfills'), require.resolve('./error_enhancements'), require.resolve('webpack-hot-middleware/client') + '?reload=true']
   },
   output: {
     path: _path2.default.join(__dirname, 'dist'),
     filename: 'static/[name].bundle.js',
     publicPath: '/'
   },
-  plugins: [new _webpack2.default.DefinePlugin((0, _utils.loadEnv)()), new _utils.OccurenceOrderPlugin(), new _webpack2.default.HotModuleReplacementPlugin(), new _caseSensitivePathsWebpackPlugin2.default()],
+  plugins: [new _webpack2.default.DefinePlugin((0, _utils.loadEnv)()), new _utils.OccurenceOrderPlugin(), new _webpack2.default.HotModuleReplacementPlugin(), new _caseSensitivePathsWebpackPlugin2.default(), new _WatchMissingNodeModulesPlugin2.default(_utils.nodeModulesPaths)],
   module: {
     loaders: [{
       test: /\.jsx?$/,

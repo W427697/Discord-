@@ -1,7 +1,14 @@
 import path from 'path';
 import webpack from 'webpack';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
-import { OccurenceOrderPlugin, includePaths, excludePaths, loadEnv } from './utils';
+import WatchMissingNodeModulesPlugin from './WatchMissingNodeModulesPlugin';
+import {
+  OccurenceOrderPlugin,
+  includePaths,
+  excludePaths,
+  nodeModulesPaths,
+  loadEnv,
+} from './utils';
 import babalLoaderConfig from './babel.js';
 
 const config = {
@@ -14,7 +21,7 @@ const config = {
     preview: [
       require.resolve('./polyfills'),
       require.resolve('./error_enhancements'),
-      require.resolve('webpack-hot-middleware/client'),
+      `${require.resolve('webpack-hot-middleware/client')}?reload=true`,
     ],
   },
   output: {
@@ -27,6 +34,7 @@ const config = {
     new OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new CaseSensitivePathsPlugin(),
+    new WatchMissingNodeModulesPlugin(nodeModulesPaths),
   ],
   module: {
     loaders: [

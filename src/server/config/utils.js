@@ -30,3 +30,5 @@ export function loadEnv(options = {}) {
 
   return env;
 }
+
+export const nodeModulesPaths = path.resolve('./node_modules');
