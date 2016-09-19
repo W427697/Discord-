@@ -16,7 +16,7 @@
     "chai": "^3.5.0",
     "mocha": "^3.0.1",
     "shelljs": "^0.7.3",
-    "sinon": "^1.17.5"
+    "sinon": "^1.17.6"
   },
   "dependencies": {
     "uuid": "^2.0.3"
