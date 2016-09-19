@@ -94,7 +94,7 @@
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.1",
     "react-dom": "^15.0.0",
-    "sinon": "^1.17.3"
+    "sinon": "^1.17.6"
   },
   "main": "dist/client/index.js",
   "bin": {
