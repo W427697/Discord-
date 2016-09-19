@@ -1,5 +1,10 @@
 ## Changelog
 
+### v1.2.2
+19 Sep 2016
+
+* Refactor code and remove `dist`
+
 ### v1.2.1
 9 Sep 2016
 
