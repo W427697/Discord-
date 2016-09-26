@@ -18,7 +18,7 @@
   "dependencies": {
     "@kadira/storybook-database": "^2.0.1",
     "body-parser": "^1.15.2",
-    "lodash": "^4.15.0",
+    "lodash": "^4.16.2",
     "lowdb": "^0.13.1",
     "whatwg-fetch": "^1.0.0"
   },
