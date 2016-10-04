@@ -7,7 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-var findCacheDir = require('find-cache-dir');
+const findCacheDir = require('find-cache-dir');
 
 module.exports = {
   // Don't try to find .babelrc because we want to force this configuration.
@@ -17,6 +17,6 @@ module.exports = {
   // `find-cache-dir` will create the cache directory under the node_modules directory.
   cacheDirectory: findCacheDir({ name: 'react-storybook' }),
   presets: [
-    require.resolve('babel-preset-react-app')
-  ]
+    require.resolve('babel-preset-react-app'),
+  ],
 };

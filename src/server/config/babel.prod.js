@@ -11,6 +11,6 @@ module.exports = {
   // Don't try to find .babelrc because we want to force this configuration.
   babelrc: false,
   presets: [
-    require.resolve('babel-preset-react-app')
-  ]
+    require.resolve('babel-preset-react-app'),
+  ],
 };
