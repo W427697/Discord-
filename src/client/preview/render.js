@@ -79,7 +79,7 @@ export function renderMain(data, storyStore) {
       /* eslint-disable */
       description: stripIndents`
         Did you forget to return the React element from the story?
-        May be check you are using "() => {<MyComp>}" instead of "() => (<MyComp>)" when defining the story.
+        Maybe check you are using "() => {<MyComp>}" instead of "() => (<MyComp>)" when defining the story.
       `,
       /* eslint-enable */
     };
