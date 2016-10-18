@@ -85,7 +85,7 @@ const configDir = program.configDir || './.storybook';
 
 // The repository info is sent to the storybook while running on
 // development mode so it'll be easier for tools to integrate.
-const exec = cmd => shelljs.exec(cmd).stdout.trim();
+const exec = cmd => shelljs.exec(cmd, { silent: true }).stdout.trim();
 process.env.STORYBOOK_GIT_ORIGIN = exec('git remote get-url origin');
 process.env.STORYBOOK_GIT_BRANCH = exec('git symbolic-ref HEAD --short');
 
