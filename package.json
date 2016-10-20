@@ -58,14 +58,14 @@
     "stack-source-map": "^1.0.5",
     "style-loader": "0.13.1",
     "url-loader": "^0.5.7",
-    "uuid": "^2.0.2",
-    "webpack": "^1.13.1",
-    "webpack-dev-middleware": "^1.6.0",
-    "webpack-hot-middleware": "^2.10.0"
+    "uuid": "^2.0.2"
   },
   "peerDependencies": {
     "react": "^0.14.7 || ^15.0.0",
-    "react-dom": "^0.14.7 || ^15.0.0"
+    "react-dom": "^0.14.7 || ^15.0.0",
+    "webpack": "*",
+    "webpack-dev-middleware": "*",
+    "webpack-hot-middleware": "*"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
@@ -88,7 +88,10 @@
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.1",
     "react-dom": "^15.0.0",
-    "sinon": "^1.17.3"
+    "sinon": "^1.17.3",
+    "webpack": "^1.13.1",
+    "webpack-dev-middleware": "^1.6.0",
+    "webpack-hot-middleware": "^2.10.0"
   },
   "main": "dist/client/index.js",
   "bin": {
