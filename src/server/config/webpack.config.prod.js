@@ -13,6 +13,7 @@ export default function () {
   const entries = {
     preview: [
       require.resolve('./polyfills'),
+      require.resolve('./docgen'),
     ],
     manager: [
       require.resolve('./polyfills'),
