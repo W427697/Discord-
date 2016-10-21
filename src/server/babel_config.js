@@ -65,12 +65,13 @@ export default function (configDir) {
         path.resolve(babelConfig.extends);
     }
   }
-  const config = babelConfig || defaultConfig;
-  config.plugins = config.plugins || [];
-  config.plugins.push([
+
+  const finalConfig = babelConfig || defaultConfig;
+  finalConfig.plugins = finalConfig.plugins || [];
+  finalConfig.plugins.push([
     require.resolve('babel-plugin-react-docgen'),
     { DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES' },
   ]);
 
-  return babelConfig || defaultConfig;
+  return finalConfig;
 }
