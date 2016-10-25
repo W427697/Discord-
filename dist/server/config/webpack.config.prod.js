@@ -12,7 +12,7 @@ exports.default = function () {
 
   var config = {
     bail: true,
-    devtool: 'inline-source-map',
+    devtool: '#cheap-module-source-map',
     entry: entries,
     output: {
       filename: 'static/[name].bundle.js',
