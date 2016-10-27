@@ -13,7 +13,7 @@ export function addJsonLoaderIfNotAvailable(config) {
     (value, loader) => {
       return value || loader.test.test('my_package.json');
     },
-    false,
+    false
   );
 
   if (!jsonLoaderExists) {
