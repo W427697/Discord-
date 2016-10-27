@@ -14,7 +14,7 @@ import babelLoaderConfig from './babel.js';
 
 export default function () {
   const config = {
-    devtool: '#cheap-module-eval-source-map',
+    devtool: 'inline-source-map',
     entry: {
       manager: [
         require.resolve('./polyfills'),
