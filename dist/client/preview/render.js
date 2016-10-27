@@ -100,13 +100,7 @@ function renderMain(data, storyStore) {
     story: selectedStory
   };
 
-  var element = void 0;
-
-  try {
-    element = story(context);
-  } catch (ex) {
-    return renderException(ex);
-  }
+  var element = story(context);
 
   if (!element) {
     var error = {

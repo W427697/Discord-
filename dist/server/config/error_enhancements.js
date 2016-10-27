@@ -11,5 +11,5 @@ var isChrome = function isChrome() {
 // So, using this on other browsers cause problems.
 // But this provides a lot of value when debugging bundled code.
 if (isChrome()) {
-  require('stack-source-map/register');
+  // require('stack-source-map/register');
 }

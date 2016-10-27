@@ -65,13 +65,7 @@ export function renderMain(data, storyStore) {
     story: selectedStory,
   };
 
-  let element;
-
-  try {
-    element = story(context);
-  } catch (ex) {
-    return renderException(ex);
-  }
+  const element = story(context);
 
   if (!element) {
     const error = {

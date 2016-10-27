@@ -49,6 +49,7 @@ export default class ConfigApi {
           // If we are accessing the site, but the error is not fixed yet.
           // There we can render the error.
           this._renderError(error);
+          throw error;
         }
       }
     };
