@@ -75,6 +75,7 @@ export default function (configType, baseConfig, configDir) {
       ],
     },
     resolve: {
+      ...config.resolve,
       ...customConfig.resolve,
       alias: {
         ...config.alias,

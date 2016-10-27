@@ -58,6 +58,11 @@ export default function () {
           include: includePaths,
           exclude: excludePaths,
         },
+        {
+          test: /\.json$/,
+          include: includePaths,
+          loader: require.resolve('json-loader'),
+        },
       ],
     },
     resolve: {

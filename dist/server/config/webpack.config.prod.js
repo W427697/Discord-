@@ -41,6 +41,10 @@ exports.default = function () {
         query: _babelProd2.default,
         include: _utils.includePaths,
         exclude: _utils.excludePaths
+      }, {
+        test: /\.json$/,
+        include: _utils.includePaths,
+        loader: require.resolve('json-loader')
       }]
     },
     resolve: {
