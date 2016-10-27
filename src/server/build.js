@@ -5,13 +5,13 @@ import program from 'commander';
 import path from 'path';
 import fs from 'fs';
 import shelljs from 'shelljs';
+import uuid from 'uuid';
 import packageJson from '../../package.json';
 import getBaseConfig from './config/webpack.config.prod';
 import loadConfig from './config';
 import getIndexHtml from './index.html';
 import getIframeHtml from './iframe.html';
 import { getHeadHtml, parseList, getEnvConfig } from './utils';
-import uuid from 'uuid';
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 

@@ -1,7 +1,7 @@
 import url from 'url';
 
 export default function (headHtml, publicPath, cacheKey) {
-  const previewUrl = cacheKey? `static/preview.bundle.js?${cacheKey}` : 'static/preview.bundle.js';
+  const previewUrl = cacheKey ? `static/preview.bundle.js?${cacheKey}` : 'static/preview.bundle.js';
   return `
     <!DOCTYPE html>
     <html>
