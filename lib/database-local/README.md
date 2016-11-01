@@ -1,5 +1,7 @@
 # Local Database
 
+> status: discontinued
+
 Local database for Kadira Storybooks. This database can be used when developing Storybooks on local machine.
 
 ```js
