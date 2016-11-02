@@ -66,7 +66,6 @@ if (program.host) {
 }
 
 const app = express();
-app.use(favicon(path.resolve(__dirname, 'public/favicon.ico')));
 
 if (program.staticDir) {
   program.staticDir = parseList(program.staticDir);
@@ -78,8 +77,19 @@ if (program.staticDir) {
     }
     logger.log(`=> Loading static files from: ${staticPath} .`);
     app.use(express.static(staticPath, { index: false }));
+
+    // If there's a favicon on the specified path, use it.
+    const faviconPath = path.resolve(staticPath, 'favicon.ico');
+    if (fs.existsSync(faviconPath)) {
+      app.use(favicon(faviconPath));
+    }
   });
 }
+
+// The first call to app.use(favicon) wins so we first check if there's a
+// favicon on any of the static paths (above). If none were found, this line
+// will ensure we serve the default storybook favicon.
+app.use(favicon(path.resolve(__dirname, 'public/favicon.ico')));
 
 // Build the webpack configuration using the `baseConfig`
 // custom `.babelrc` file and `webpack.config.js` files
