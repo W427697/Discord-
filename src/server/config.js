@@ -11,7 +11,17 @@ const logger = console;
 export function addJsonLoaderIfNotAvailable(config) {
   const jsonLoaderExists = config.module.loaders.reduce(
     (value, loader) => {
-      return value || [].concat(loader.test).some(regex => regex && regex.test && regex.test('my_package.json'));
+      return value || [].concat(loader.test).some((loader) => {
+        const isRegex = loader instanceof RegExp;
+        const testString = 'my_package.json';
+        if (isRegex) {
+          return loader.test(testString);
+        }
+        if (typeof loader === 'function') {
+          return loader(testString);
+        }
+        return false;
+      });
     },
     false
   );

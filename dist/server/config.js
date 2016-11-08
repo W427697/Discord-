@@ -98,8 +98,16 @@ var logger = console;
 
 function addJsonLoaderIfNotAvailable(config) {
   var jsonLoaderExists = config.module.loaders.reduce(function (value, loader) {
-    return value || [].concat(loader.test).some(function (regex) {
-      return regex && regex.test && regex.test('my_package.json');
+    return value || [].concat(loader.test).some(function (loader) {
+      var isRegex = loader instanceof RegExp;
+      var testString = 'my_package.json';
+      if (isRegex) {
+        return loader.test(testString);
+      }
+      if (typeof loader === 'function') {
+        return loader(testString);
+      }
+      return false;
     });
   }, false);
 
