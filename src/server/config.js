@@ -11,14 +11,14 @@ const logger = console;
 export function addJsonLoaderIfNotAvailable(config) {
   const jsonLoaderExists = config.module.loaders.reduce(
     (value, loader) => {
-      return value || [].concat(loader.test).some((loader) => {
-        const isRegex = loader instanceof RegExp;
+      return value || [].concat(loader.test).some((matcher) => {
+        const isRegex = matcher instanceof RegExp;
         const testString = 'my_package.json';
         if (isRegex) {
-          return loader.test(testString);
+          return matcher.test(testString);
         }
-        if (typeof loader === 'function') {
-          return loader(testString);
+        if (typeof matcher === 'function') {
+          return matcher(testString);
         }
         return false;
       });
