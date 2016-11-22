@@ -78,8 +78,8 @@ var ReactProvider = function (_Provider) {
       };
 
       // Add the react-perf query string to the iframe if that present.
-      if (/react-perf=/.test(location.search)) {
-        queryParams['react-perf'] = '1';
+      if (/react_perf/.test(location.search)) {
+        queryParams['react_perf'] = '1';
       }
 
       var queryString = _qs2.default.stringify(queryParams);
