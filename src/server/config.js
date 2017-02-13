@@ -9,9 +9,9 @@ import { includePaths } from './config/utils';
 const logger = console;
 
 export function addJsonLoaderIfNotAvailable(config) {
-  const jsonLoaderExists = config.module.loaders.reduce(
-    (value, loader) => {
-      return value || [].concat(loader.test).some((matcher) => {
+  const jsonLoaderExists = config.module.rules.reduce(
+    (value, rule) => {
+      return value || [].concat(rule.test).some((matcher) => {
         const isRegex = matcher instanceof RegExp;
         const testString = 'my_package.json';
         if (isRegex) {
@@ -27,7 +27,7 @@ export function addJsonLoaderIfNotAvailable(config) {
   );
 
   if (!jsonLoaderExists) {
-    config.module.loaders.push({
+    config.module.rules.push({
       test: /\.json$/,
       include: includePaths,
       loader: require.resolve('json-loader'),
@@ -42,7 +42,7 @@ export default function (configType, baseConfig, configDir) {
   const config = baseConfig;
 
   const babelConfig = loadBabelConfig(configDir);
-  config.module.loaders[0].query = babelConfig;
+  config.module.rules[0].query = babelConfig;
 
   // Check whether a config.js file exists inside the storybook
   // config directory and throw an error if it's not.
@@ -99,9 +99,9 @@ export default function (configType, baseConfig, configDir) {
       ...config.module,
       // We need to use our and custom loaders.
       ...customConfig.module,
-      loaders: [
-        ...config.module.loaders,
-        ...customConfig.module.loaders || [],
+      rules: [
+        ...config.module.rules,
+        ...customConfig.module.rules || [],
       ],
     },
     resolve: {
