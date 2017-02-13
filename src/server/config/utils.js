@@ -41,6 +41,6 @@ export function loadEnv(options = {}) {
     });
 
   return {
-    'process.env': JSON.stringify(env),
+    'process.env': `(${JSON.stringify(env)})`,
   };
 }
