@@ -18,7 +18,7 @@ exports.default = function (configType, baseConfig, configDir) {
   var config = baseConfig;
 
   var babelConfig = (0, _babel_config2.default)(configDir);
-  config.module.loaders[0].query = babelConfig;
+  config.module.rules[0].query = babelConfig;
 
   // Check whether a config.js file exists inside the storybook
   // config directory and throw an error if it's not.
@@ -65,7 +65,7 @@ exports.default = function (configType, baseConfig, configDir) {
     // We need to use our and custom plugins.
     plugins: [].concat((0, _toConsumableArray3.default)(config.plugins), (0, _toConsumableArray3.default)(customConfig.plugins || [])),
     module: (0, _extends3.default)({}, config.module, customConfig.module, {
-      loaders: [].concat((0, _toConsumableArray3.default)(config.module.loaders), (0, _toConsumableArray3.default)(customConfig.module.loaders || []))
+      rules: [].concat((0, _toConsumableArray3.default)(config.module.rules), (0, _toConsumableArray3.default)(customConfig.module.rules || []))
     }),
     resolve: (0, _extends3.default)({}, config.resolve, customConfig.resolve, {
       alias: (0, _extends3.default)({}, config.alias, customConfig.resolve && customConfig.resolve.alias)
@@ -99,8 +99,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var logger = console;
 
 function addJsonLoaderIfNotAvailable(config) {
-  var jsonLoaderExists = config.module.loaders.reduce(function (value, loader) {
-    return value || [].concat(loader.test).some(function (matcher) {
+  var jsonLoaderExists = config.module.rules.reduce(function (value, rule) {
+    return value || [].concat(rule.test).some(function (matcher) {
       var isRegex = matcher instanceof RegExp;
       var testString = 'my_package.json';
       if (isRegex) {
@@ -114,7 +114,7 @@ function addJsonLoaderIfNotAvailable(config) {
   }, false);
 
   if (!jsonLoaderExists) {
-    config.module.loaders.push({
+    config.module.rules.push({
       test: /\.json$/,
       include: _utils.includePaths,
       loader: require.resolve('json-loader')

@@ -63,6 +63,6 @@ function loadEnv() {
   });
 
   return {
-    'process.env': (0, _stringify2.default)(env)
+    'process.env': '(' + (0, _stringify2.default)(env) + ')'
   };
 }
