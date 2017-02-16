@@ -8,10 +8,10 @@ import getIndexHtml from './index.html';
 import getIframeHtml from './iframe.html';
 import { getHeadHtml, getMiddleware } from './utils';
 
-export default function (configDir) {
+export default function (configDir, options = {}) {
   // Build the webpack configuration using the `getBaseConfig`
   // custom `.babelrc` file and `webpack.config.js` files
-  const config = loadConfig('DEVELOPMENT', getBaseConfig(), configDir);
+  const config = loadConfig('DEVELOPMENT', getBaseConfig(), configDir, options);
   const middlewareFn = getMiddleware(configDir);
 
   // remove the leading '/'
@@ -28,8 +28,11 @@ export default function (configDir) {
   };
 
   const router = new Router();
+
   router.use(webpackDevMiddleware(compiler, devMiddlewareOptions));
-  router.use(webpackHotMiddleware(compiler));
+  router.use(webpackHotMiddleware(compiler, {
+    log: options.quiet ? false : undefined,
+  }));
 
   // custom middleware
   middlewareFn(router);

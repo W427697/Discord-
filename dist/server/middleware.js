@@ -5,9 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function (configDir) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
   // Build the webpack configuration using the `getBaseConfig`
   // custom `.babelrc` file and `webpack.config.js` files
-  var config = (0, _config2.default)('DEVELOPMENT', (0, _webpack4.default)(), configDir);
+  var config = (0, _config2.default)('DEVELOPMENT', (0, _webpack4.default)(), configDir, options);
   var middlewareFn = (0, _utils.getMiddleware)(configDir);
 
   // remove the leading '/'
@@ -24,8 +26,11 @@ exports.default = function (configDir) {
   };
 
   var router = new _express.Router();
+
   router.use((0, _webpackDevMiddleware2.default)(compiler, devMiddlewareOptions));
-  router.use((0, _webpackHotMiddleware2.default)(compiler));
+  router.use((0, _webpackHotMiddleware2.default)(compiler, {
+    log: options.quiet ? false : undefined
+  }));
 
   // custom middleware
   middlewareFn(router);

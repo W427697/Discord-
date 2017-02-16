@@ -23,7 +23,6 @@ export default function () {
       preview: [
         require.resolve('./polyfills'),
         require.resolve('./globals'),
-        `${require.resolve('webpack-hot-middleware/client')}?reload=true`,
       ],
     },
     output: {

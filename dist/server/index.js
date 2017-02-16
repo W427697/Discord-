@@ -47,7 +47,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var logger = console;
 
-_commander2.default.version(_package2.default.version).option('-p, --port [number]', 'Port to run Storybook (Required)', parseInt).option('-h, --host [string]', 'Host to run Storybook').option('-s, --static-dir <dir-names>', 'Directory where to load static files from').option('-c, --config-dir [dir-name]', 'Directory where to load Storybook configurations from').option('--dont-track', 'Do not send anonymous usage stats.').option('-d, --db-path [db-file]', 'DEPRECATED!').option('--enable-db', 'DEPRECATED!').parse(process.argv);
+_commander2.default.version(_package2.default.version).option('-p, --port [number]', 'Port to run Storybook (Required)', parseInt).option('-h, --host [string]', 'Host to run Storybook').option('-s, --static-dir <dir-names>', 'Directory where to load static files from').option('-c, --config-dir [dir-name]', 'Directory where to load Storybook configurations from').option('-q, --quiet', 'Silence webpack output in terminal and browser console').option('--dont-track', 'Do not send anonymous usage stats.').option('-d, --db-path [db-file]', 'DEPRECATED!').option('--enable-db', 'DEPRECATED!').parse(process.argv);
 
 logger.info(_chalk2.default.bold(_package2.default.name + ' v' + _package2.default.version + '\n'));
 
@@ -63,6 +63,7 @@ if (_commander2.default.enableDb || _commander2.default.dbPath) {
   host: 'SBCONFIG_HOSTNAME',
   staticDir: 'SBCONFIG_STATIC_DIR',
   configDir: 'SBCONFIG_CONFIG_DIR',
+  quiet: 'SBCONFIG_QUIET',
   dontTrack: 'SBCONFIG_DO_NOT_TRACK'
 });
 
@@ -124,7 +125,9 @@ process.env.STORYBOOK_GIT_BRANCH = process.env.STORYBOOK_GIT_BRANCH || exec('git
 
 // NOTE changes to env should be done before calling `getBaseConfig`
 // `getBaseConfig` function which is called inside the middleware
-app.use((0, _middleware2.default)(configDir));
+app.use((0, _middleware2.default)(configDir, {
+  quiet: _commander2.default.quiet
+}));
 
 app.listen.apply(app, listenAddr.concat([function (error) {
   if (error) {

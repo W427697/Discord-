@@ -23,6 +23,12 @@ var _fs2 = _interopRequireDefault(_fs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function parseBoolean(str) {
+  if (str === 'true') return true;
+  if (str === 'false') return false;
+  return str;
+}
+
 function parseList(str) {
   return str.split(',');
 }
@@ -40,7 +46,7 @@ function getHeadHtml(configDirPath) {
 function getEnvConfig(program, configEnv) {
   (0, _keys2.default)(configEnv).forEach(function (fieldName) {
     var envVarName = configEnv[fieldName];
-    var envVarValue = process.env[envVarName];
+    var envVarValue = parseBoolean(process.env[envVarName]);
     if (envVarValue) {
       program[fieldName] = envVarValue; // eslint-disable-line no-param-reassign
     }
