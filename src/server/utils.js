@@ -4,7 +4,7 @@ import fs from 'fs';
 function parseBoolean(str) {
   if (str === 'true') return true;
   if (str === 'false') return false;
-  return str
+  return str;
 }
 
 export function parseList(str) {

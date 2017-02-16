@@ -2,7 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import qs from 'qs'
+import qs from 'qs';
 import loadBabelConfig from './babel_config';
 import { includePaths } from './config/utils';
 
@@ -58,7 +58,7 @@ export default function (configType, baseConfig, configDir, options) {
   config.entry.preview.push(`${require.resolve('webpack-hot-middleware/client')}?${qs.stringify({
     noInfo: options.quiet,
     reload: true,
-  })}`)
+  })}`);
 
   // Check whether addons.js file exists inside the storybook.
   // Load the default addons.js file if it's missing.
