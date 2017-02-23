@@ -36,15 +36,26 @@ export default class ClientApi {
   }
 
   storiesOf(kind, m) {
+    let kindName;
+    let kindConfig;
+
+    if (typeof kind === 'string') {
+      kindName = kind;
+      kindConfig = { name: kind };
+    } else {
+      kindName = kind.name;
+      kindConfig = kind;
+    }
+
     if (m && m.hot) {
       m.hot.dispose(() => {
-        this._storyStore.removeStoryKind(kind);
+        this._storyStore.removeStoryKind(kindName);
       });
     }
 
     const localDecorators = [];
     const api = {
-      kind,
+      kindName,
     };
 
     // apply addons
@@ -64,7 +75,7 @@ export default class ClientApi {
       let storyMeta;
       if (isFunction(getStory)) {
         storyFn = getStory;
-        storyMeta = {}
+        storyMeta = {};
       } else {
         storyFn = getStory.story;
         storyMeta = { ...getStory };
@@ -84,7 +95,7 @@ export default class ClientApi {
       }, storyFn);
 
       // Add the fully decorated getStory function.
-      this._storyStore.addStory(kind, storyName, { storyFn: fn, storyMeta });
+      this._storyStore.addStory(kindConfig, storyName, { storyFn: fn, storyMeta });
       return api;
     };
 
