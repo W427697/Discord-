@@ -1,10 +1,6 @@
 import { configure, setKindOrdering, setStoriesOrdering } from '@kadira/storybook';
 
-setKindOrdering((a, b) => {
-  console.log('a',a);
-  console.log('b',b);
-  return (a.index - b.index);
-});
+setKindOrdering((a, b) => (a.index - b.index));
 
 function loadStories() {
   require('../src/stories');
