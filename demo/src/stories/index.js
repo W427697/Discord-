@@ -15,3 +15,16 @@ storiesOf('Button', module)
   .add('with some emoji', () => (
     <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>
   ));
+
+storiesOf('Advanced', module)
+    .add('no metadata', {
+      story: () => (
+          <Button onClick={action('clicked')}>Hello Button</Button>
+      )
+    })
+    .add('with metadata', {
+      story: () => (
+          <Button onClick={action('clicked')}>Hello Button</Button>
+      ),
+      someProperty: 0
+    });

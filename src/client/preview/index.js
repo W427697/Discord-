@@ -37,6 +37,8 @@ const configApi = new ConfigApi(context);
 // do exports
 export const storiesOf = clientApi.storiesOf.bind(clientApi);
 export const setAddon = clientApi.setAddon.bind(clientApi);
+export const setKindOrdering = clientApi.setKindOrdering.bind(clientApi);
+export const setStoriesOrdering = clientApi.setStoriesOrdering.bind(clientApi);
 export const addDecorator = clientApi.addDecorator.bind(clientApi);
 export const clearDecorators = clientApi.clearDecorators.bind(clientApi);
 export const getStorybook = clientApi.getStorybook.bind(clientApi);

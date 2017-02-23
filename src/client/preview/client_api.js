@@ -1,3 +1,7 @@
+function isFunction(obj) {
+  return !!(obj && obj.constructor && obj.call && obj.apply);
+}
+
 export default class ClientApi {
   constructor({ channel, storyStore }) {
     // channel can be null when running in node
@@ -13,6 +17,14 @@ export default class ClientApi {
       ...this._addons,
       ...addon,
     };
+  }
+
+  setKindOrdering(fn) {
+    this._storyStore.setKindOrdering(fn);
+  }
+
+  setStoriesOrdering(fn) {
+    this._storyStore.setStoriesOrdering(fn);
   }
 
   addDecorator(decorator) {
@@ -48,6 +60,16 @@ export default class ClientApi {
       // Wrap the getStory function with each decorator. The first
       // decorator will wrap the story function. The second will
       // wrap the first decorator and so on.
+      let storyFn;
+      let storyMeta;
+      if (isFunction(getStory)) {
+        storyFn = getStory;
+        storyMeta = {}
+      } else {
+        storyFn = getStory.story;
+        storyMeta = { ...getStory };
+        delete storyMeta.story;
+      }
       const decorators = [
         ...localDecorators,
         ...this._globalDecorators,
@@ -59,10 +81,10 @@ export default class ClientApi {
             return decorated(context);
           }, context);
         };
-      }, getStory);
+      }, storyFn);
 
       // Add the fully decorated getStory function.
-      this._storyStore.addStory(kind, storyName, fn);
+      this._storyStore.addStory(kind, storyName, { storyFn: fn, storyMeta });
       return api;
     };
 
