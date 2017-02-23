@@ -9,13 +9,13 @@ class StoryStore {
   }
 
   addStory(kind, story, fn) {
-    this.stories.push({ kind, story, fn });
+    this.stories.push({ kind, story, fn: fn.storyFn });
   }
 
   getStoryKinds() {
     return this.stories.reduce((kinds, info) => {
-      if (kinds.indexOf(info.kind) === -1) {
-        kinds.push(info.kind);
+      if (kinds.indexOf(info.kind.name) === -1) {
+        kinds.push(info.kind.name);
       }
       return kinds;
     }, []);
@@ -23,7 +23,7 @@ class StoryStore {
 
   getStories(kind) {
     return this.stories.reduce((stories, info) => {
-      if (info.kind === kind) {
+      if (info.kind.name === kind) {
         stories.push(info.story);
       }
       return stories;
@@ -32,7 +32,7 @@ class StoryStore {
 
   getStory(kind, name) {
     return this.stories.reduce((fn, info) => {
-      if (!fn && info.kind === kind && info.story === name) {
+      if (!fn && info.kind.name === kind && info.story === name) {
         return info.fn;
       }
       return fn;

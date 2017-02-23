@@ -55,7 +55,7 @@ export default class ClientApi {
 
     const localDecorators = [];
     const api = {
-      kindName,
+      kind: kindName,
     };
 
     // apply addons
