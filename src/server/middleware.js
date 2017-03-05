@@ -21,7 +21,6 @@ export default function (configDir) {
   }
 
   const compiler = webpack(config);
-  // allows for addition devServer options, such as stats : 'error-only'
   const devServerOptions = config.devServer || {}; 
   const devMiddlewareOptions = {
     noInfo: true,
