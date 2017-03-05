@@ -21,10 +21,12 @@ export default function (configDir) {
   }
 
   const compiler = webpack(config);
+  const devServerOptions = config.devServer || {}; // allows for addition devServer options, such as stats : 'error-only'
   const devMiddlewareOptions = {
     noInfo: true,
     publicPath: config.output.publicPath,
     watchOptions: config.watchOptions || {},
+    ...devServerOptions,
   };
 
   const router = new Router();
