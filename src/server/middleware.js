@@ -21,7 +21,7 @@ export default function (configDir) {
   }
 
   const compiler = webpack(config);
-  const devServerOptions = config.devServer || {}; 
+  const devServerOptions = config.devServer || {};
   const devMiddlewareOptions = {
     noInfo: true,
     publicPath: config.output.publicPath,
