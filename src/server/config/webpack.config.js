@@ -3,7 +3,6 @@ import webpack from 'webpack';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import WatchMissingNodeModulesPlugin from './WatchMissingNodeModulesPlugin';
 import {
-  OccurenceOrderPlugin,
   includePaths,
   excludePaths,
   nodeModulesPaths,
@@ -32,22 +31,27 @@ export default function () {
       publicPath: '/',
     },
     plugins: [
-      new webpack.DefinePlugin(loadEnv()),
-      new OccurenceOrderPlugin(),
-      new webpack.HotModuleReplacementPlugin(),
       new CaseSensitivePathsPlugin(),
+      new webpack.DefinePlugin(loadEnv()),
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NamedModulesPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
+
+      // Xmmmm
       new WatchMissingNodeModulesPlugin(nodeModulesPaths),
     ],
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.jsx?$/,
-          loader: require.resolve('babel-loader'),
-          query: babelLoaderConfig,
           include: includePaths,
           exclude: excludePaths,
-        },
-      ],
+          use: [{
+            loader: require.resolve('babel-loader'),
+            query: babelLoaderConfig
+          }]
+        }
+      ]
     },
     resolve: {
       // Since we ship with json-loader always, it's better to move extensions to here
@@ -59,8 +63,8 @@ export default function () {
       alias: {
         // This is to add addon support for NPM2
         '@kadira/storybook-addons': require.resolve('@kadira/storybook-addons'),
-      },
-    },
+      }
+    }
   };
 
   return config;

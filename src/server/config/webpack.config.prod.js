@@ -2,7 +2,6 @@ import path from 'path';
 import webpack from 'webpack';
 import babelLoaderConfig from './babel.prod.js';
 import {
-  OccurenceOrderPlugin,
   includePaths,
   excludePaths,
   loadEnv,
@@ -36,7 +35,11 @@ export default function () {
     },
     plugins: [
       new webpack.DefinePlugin(loadEnv({ production: true })),
-      new webpack.optimize.DedupePlugin(),
+      new webpack.NamedModulesPlugin(),
+      new webpack.LoaderOptionsPlugin({
+        minimize: true,
+        debug: false
+      }),
       new webpack.optimize.UglifyJsPlugin({
         compress: {
           screw_ie8: true,
@@ -50,13 +53,15 @@ export default function () {
       }),
     ],
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.jsx?$/,
-          loader: require.resolve('babel-loader'),
-          query: babelLoaderConfig,
           include: includePaths,
           exclude: excludePaths,
+          use: [{
+            loader: require.resolve('babel-loader'),
+            query: babelLoaderConfig,
+          }]
         },
       ],
     },
@@ -70,15 +75,9 @@ export default function () {
       alias: {
         // This is to add addon support for NPM2
         '@kadira/storybook-addons': require.resolve('@kadira/storybook-addons'),
-      },
-    },
+      }
+    }
   };
-
-  // Webpack 2 doesn't have a OccurenceOrderPlugin plugin in the production mode.
-  // But webpack 1 has it. That's why we do this.
-  if (OccurenceOrderPlugin) {
-    config.plugins.unshift(new OccurenceOrderPlugin());
-  }
 
   return config;
 }
