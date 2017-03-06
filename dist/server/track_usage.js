@@ -1,27 +1,4 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getStore = getStore;
-exports.track = track;
-exports.dontTrack = dontTrack;
-
-var _configstore = require('configstore');
-
-var _configstore2 = _interopRequireDefault(_configstore);
-
-var _uuid = require('uuid');
-
-var _uuid2 = _interopRequireDefault(_uuid);
-
-var _request = require('request');
-
-var _request2 = _interopRequireDefault(_request);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var logger = console; /* eslint global-require: 0 */
+/* eslint global-require: 0 */
 
 // ### WHAT?
 //
@@ -57,41 +34,47 @@ var logger = console; /* eslint global-require: 0 */
 // service around it. With that, we could continue to maintain and
 // improve Storybook.
 
-var DONT_TRACK = false;
+/*import ConfigStore from 'configstore';
+import UUID from 'uuid';
+import request from 'request';
 
-function getStore() {
-  var key = 'react-storybook-usage';
-  var store = new _configstore2.default(key);
+const logger = console;
+
+let DONT_TRACK = false;
+
+export function getStore() {
+  const key = 'react-storybook-usage';
+  const store = new ConfigStore(key);
   return store;
 }
 
-function track() {
+export function track() {
   if (DONT_TRACK) return;
 
-  var store = getStore();
+  const store = getStore();
 
   // Just a hash to aggregate metrics. Don't use any personal info.
-  var userId = store.get('userId');
+  let userId = store.get('userId');
   if (!userId) {
-    userId = _uuid2.default.v4();
+    userId = UUID.v4();
     store.set('userId', userId);
   }
 
-  var pkg = require('../../package.json');
+  const pkg = require('../../package.json');
 
   // We don't wanna worry about the success or failure of this.
-  _request2.default.post('https://ping.getstorybook.io/react-storybook-usage', {
+  request.post('https://ping.getstorybook.io/react-storybook-usage', {
     json: {
-      userId: userId,
-      version: pkg.version
-    }
-  }, function () {});
+      userId,
+      version: pkg.version,
+    },
+  }, () => {});
 
   if (!store.get('startTrackingOn')) {
     store.set('startTrackingOn', Date.now());
   }
 
-  var pingsSent = store.get('pingsSent') || 0;
+  const pingsSent = store.get('pingsSent') || 0;
   store.set('pingsSent', pingsSent + 1);
 
   if (pingsSent < 5) {
@@ -101,6 +84,7 @@ function track() {
   }
 }
 
-function dontTrack() {
+export function dontTrack() {
   DONT_TRACK = true;
-}
+}*/
+"use strict";

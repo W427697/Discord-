@@ -39,9 +39,9 @@ var _package2 = _interopRequireDefault(_package);
 
 var _utils = require('./utils');
 
-var _track_usage = require('./track_usage');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//import { track, dontTrack } from './track_usage';
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -62,13 +62,12 @@ if (_commander2.default.enableDb || _commander2.default.dbPath) {
   port: 'SBCONFIG_PORT',
   host: 'SBCONFIG_HOSTNAME',
   staticDir: 'SBCONFIG_STATIC_DIR',
-  configDir: 'SBCONFIG_CONFIG_DIR',
-  dontTrack: 'SBCONFIG_DO_NOT_TRACK'
+  configDir: 'SBCONFIG_CONFIG_DIR'
 });
 
-if (_commander2.default.dontTrack) {
-  (0, _track_usage.dontTrack)();
-}
+/*if (program.dontTrack) {
+  dontTrack();
+}*/
 
 if (!_commander2.default.port) {
   logger.error('Error: port to run Storybook is required!\n');
@@ -132,6 +131,6 @@ app.listen.apply(app, listenAddr.concat([function (error) {
   } else {
     var address = 'http://' + (_commander2.default.host || 'localhost') + ':' + _commander2.default.port + '/';
     logger.info('\nReact Storybook started on => ' + _chalk2.default.cyan(address) + '\n');
-    (0, _track_usage.track)();
+    //track();
   }
 }]));

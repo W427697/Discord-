@@ -16,14 +16,19 @@ exports.default = function () {
       filename: 'static/[name].bundle.js',
       publicPath: '/'
     },
-    plugins: [new _webpack2.default.DefinePlugin((0, _utils.loadEnv)()), new _utils.OccurenceOrderPlugin(), new _webpack2.default.HotModuleReplacementPlugin(), new _caseSensitivePathsWebpackPlugin2.default(), new _WatchMissingNodeModulesPlugin2.default(_utils.nodeModulesPaths)],
+    plugins: [new _caseSensitivePathsWebpackPlugin2.default(), new _webpack2.default.DefinePlugin((0, _utils.loadEnv)()), new _webpack2.default.HotModuleReplacementPlugin(), new _webpack2.default.NamedModulesPlugin(), new _webpack2.default.NoEmitOnErrorsPlugin(),
+
+    // Xmmmm
+    new _WatchMissingNodeModulesPlugin2.default(_utils.nodeModulesPaths)],
     module: {
-      loaders: [{
+      rules: [{
         test: /\.jsx?$/,
-        loader: require.resolve('babel-loader'),
-        query: _babel2.default,
         include: _utils.includePaths,
-        exclude: _utils.excludePaths
+        exclude: _utils.excludePaths,
+        use: [{
+          loader: require.resolve('babel-loader'),
+          query: _babel2.default
+        }]
       }]
     },
     resolve: {

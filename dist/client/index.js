@@ -3,16 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.linkTo = exports.action = exports.getStorybook = exports.configure = exports.addDecorator = exports.setAddon = exports.storiesOf = undefined;
-
-var _storybookAddonActions = require('@kadira/storybook-addon-actions');
-
-Object.defineProperty(exports, 'action', {
-  enumerable: true,
-  get: function get() {
-    return _storybookAddonActions.action;
-  }
-});
+exports.linkTo = exports.getStorybook = exports.configure = exports.addDecorator = exports.setAddon = exports.storiesOf = undefined;
 
 var _storybookAddonLinks = require('@kadira/storybook-addon-links');
 
@@ -36,3 +27,4 @@ var configure = exports.configure = previewApi.configure;
 var getStorybook = exports.getStorybook = previewApi.getStorybook;
 
 // NOTE export these to keep backwards compatibility
+// export { action } from '@kadira/storybook-addon-actions';

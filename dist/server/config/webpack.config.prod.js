@@ -23,7 +23,10 @@ exports.default = function () {
       // relative URLs works always.
       publicPath: ''
     },
-    plugins: [new _webpack2.default.DefinePlugin((0, _utils.loadEnv)({ production: true })), new _webpack2.default.optimize.DedupePlugin(), new _webpack2.default.optimize.UglifyJsPlugin({
+    plugins: [new _webpack2.default.DefinePlugin((0, _utils.loadEnv)({ production: true })), new _webpack2.default.NamedModulesPlugin(), new _webpack2.default.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false
+    }), new _webpack2.default.optimize.UglifyJsPlugin({
       compress: {
         screw_ie8: true,
         warnings: false
@@ -35,12 +38,14 @@ exports.default = function () {
       }
     })],
     module: {
-      loaders: [{
+      rules: [{
         test: /\.jsx?$/,
-        loader: require.resolve('babel-loader'),
-        query: _babelProd2.default,
         include: _utils.includePaths,
-        exclude: _utils.excludePaths
+        exclude: _utils.excludePaths,
+        use: [{
+          loader: require.resolve('babel-loader'),
+          query: _babelProd2.default
+        }]
       }]
     },
     resolve: {
@@ -56,12 +61,6 @@ exports.default = function () {
       }
     }
   };
-
-  // Webpack 2 doesn't have a OccurenceOrderPlugin plugin in the production mode.
-  // But webpack 1 has it. That's why we do this.
-  if (_utils.OccurenceOrderPlugin) {
-    config.plugins.unshift(new _utils.OccurenceOrderPlugin());
-  }
 
   return config;
 };
