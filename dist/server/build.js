@@ -88,6 +88,7 @@ _shelljs2.default.cp(_path2.default.resolve(__dirname, 'public/favicon.ico'), ou
 // NOTE changes to env should be done before calling `getBaseConfig`
 var config = (0, _config2.default)('PRODUCTION', (0, _webpackConfig2.default)(), configDir);
 config.output.path = outputDir;
+console.log('Release Config: ', config);
 
 // copy all static files
 if (_commander2.default.staticDir) {

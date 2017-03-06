@@ -11,7 +11,7 @@ const logger = console;
 export function addJsonLoaderIfNotAvailable(config) {
   const jsonLoaderExists = config.module.rules.reduce(
     (value, loader) => {
-      return value || [].concat(rules.test).some((matcher) => {
+      return value || [].concat(loader.test).some((matcher) => {
         const isRegex = matcher instanceof RegExp;
         const testString = 'my_package.json';
         if (isRegex) {
@@ -42,7 +42,7 @@ export default function (configType, baseConfig, configDir) {
   const config = baseConfig;
 
   const babelConfig = loadBabelConfig(configDir);
-  config.module.rules[0].query = babelConfig;
+  config.module.rules[0].use[0].query = babelConfig;
 
   // Check whether a config.js file exists inside the storybook
   // config directory and throw an error if it's not.

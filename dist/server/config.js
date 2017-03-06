@@ -18,7 +18,7 @@ exports.default = function (configType, baseConfig, configDir) {
   var config = baseConfig;
 
   var babelConfig = (0, _babel_config2.default)(configDir);
-  config.module.rules[0].query = babelConfig;
+  config.module.rules[0].use[0].query = babelConfig;
 
   // Check whether a config.js file exists inside the storybook
   // config directory and throw an error if it's not.
@@ -100,7 +100,7 @@ var logger = console;
 
 function addJsonLoaderIfNotAvailable(config) {
   var jsonLoaderExists = config.module.rules.reduce(function (value, loader) {
-    return value || [].concat(rules.test).some(function (matcher) {
+    return value || [].concat(loader.test).some(function (matcher) {
       var isRegex = matcher instanceof RegExp;
       var testString = 'my_package.json';
       if (isRegex) {

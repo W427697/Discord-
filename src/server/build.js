@@ -59,6 +59,7 @@ shelljs.cp(path.resolve(__dirname, 'public/favicon.ico'), outputDir);
 // NOTE changes to env should be done before calling `getBaseConfig`
 const config = loadConfig('PRODUCTION', getBaseConfig(), configDir);
 config.output.path = outputDir;
+console.log('Release Config: ', config);
 
 // copy all static files
 if (program.staticDir) {
