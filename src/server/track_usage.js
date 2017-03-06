@@ -34,7 +34,7 @@
 // service around it. With that, we could continue to maintain and
 // improve Storybook.
 
-import ConfigStore from 'configstore';
+/*import ConfigStore from 'configstore';
 import UUID from 'uuid';
 import request from 'request';
 
@@ -86,4 +86,4 @@ export function track() {
 
 export function dontTrack() {
   DONT_TRACK = true;
-}
+}*/

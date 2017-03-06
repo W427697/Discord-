@@ -10,7 +10,7 @@ import shelljs from 'shelljs';
 import storybook from './middleware';
 import packageJson from '../../package.json';
 import { parseList, getEnvConfig } from './utils';
-import { track, dontTrack } from './track_usage';
+//import { track, dontTrack } from './track_usage';
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -45,12 +45,12 @@ getEnvConfig(program, {
   host: 'SBCONFIG_HOSTNAME',
   staticDir: 'SBCONFIG_STATIC_DIR',
   configDir: 'SBCONFIG_CONFIG_DIR',
-  dontTrack: 'SBCONFIG_DO_NOT_TRACK',
+  //dontTrack: 'SBCONFIG_DO_NOT_TRACK',
 });
 
-if (program.dontTrack) {
+/*if (program.dontTrack) {
   dontTrack();
-}
+}*/
 
 if (!program.port) {
   logger.error('Error: port to run Storybook is required!\n');
@@ -112,6 +112,6 @@ app.listen(...listenAddr, function (error) {
   } else {
     const address = `http://${program.host || 'localhost'}:${program.port}/`;
     logger.info(`\nReact Storybook started on => ${chalk.cyan(address)}\n`);
-    track();
+    //track();
   }
 });
