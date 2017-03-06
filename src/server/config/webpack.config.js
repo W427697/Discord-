@@ -1,7 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
-import WatchMissingNodeModulesPlugin from './WatchMissingNodeModulesPlugin';
 import {
   includePaths,
   excludePaths,
@@ -35,10 +34,7 @@ export default function () {
       new webpack.DefinePlugin(loadEnv()),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),
-      new webpack.NoEmitOnErrorsPlugin(),
-
-      // Xmmmm
-      new WatchMissingNodeModulesPlugin(nodeModulesPaths),
+      new webpack.NoEmitOnErrorsPlugin()
     ],
     module: {
       rules: [
