@@ -9,7 +9,7 @@ import { includePaths } from './config/utils';
 const logger = console;
 
 export function addJsonLoaderIfNotAvailable(config) {
-  const jsonLoaderExists = config.module.loaders.reduce(
+  const jsonLoaderExists = config.module.rules.reduce(
     (value, loader) => {
       return value || [].concat(rules.test).some((matcher) => {
         const isRegex = matcher instanceof RegExp;
@@ -97,7 +97,7 @@ export default function (configType, baseConfig, configDir) {
     ],
     module: {
       ...config.module,
-      // We need to use our and custom loaders.
+      // We need to use our and custom rules.
       ...customConfig.module,
       rules: [
         ...config.module.rules,
