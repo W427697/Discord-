@@ -18,7 +18,7 @@ exports.default = function () {
       filename: 'static/[name].[chunkhash].bundle.js',
       // Here we set the publicPath to ''.
       // This allows us to deploy storybook into subpaths like GitHub pages.
-      // This works with css and image loaders too.
+      // This works with css and image rules too.
       // This is working for storybook since, we don't use pushState urls and
       // relative URLs works always.
       publicPath: ''
