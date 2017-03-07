@@ -18,5 +18,8 @@ module.exports = {
   cacheDirectory: findCacheDir({ name: 'react-storybook' }),
   presets: [
     require.resolve('babel-preset-react-app')
+  ],
+  plugins: [
+    require.resolve('babel-plugin-react-require')
   ]
 };

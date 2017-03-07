@@ -41,8 +41,6 @@ var _utils = require('./utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//import { track, dontTrack } from './track_usage';
-
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var logger = console;

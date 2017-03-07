@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function () {
   var entries = {
-    preview: [require.resolve('./polyfills'), require.resolve('./globals')],
-    manager: [require.resolve('./polyfills'), _path2.default.resolve(__dirname, '../../client/manager')]
+    preview: [require.resolve('./globals')],
+    manager: [_path2.default.resolve(__dirname, '../../client/manager')]
   };
 
   var config = {
@@ -23,9 +23,7 @@ exports.default = function () {
       // relative URLs works always.
       publicPath: ''
     },
-    plugins: [new _webpack2.default.EnvironmentPlugin((0, _utils.loadEnv)({ production: true })),
-    //new webpack.DefinePlugin(loadEnv({ production: true })),
-    new _webpack2.default.NamedModulesPlugin(), new _webpack2.default.LoaderOptionsPlugin({
+    plugins: [new _webpack2.default.EnvironmentPlugin((0, _utils.loadEnv)({ production: true })), new _webpack2.default.NamedModulesPlugin(), new _webpack2.default.LoaderOptionsPlugin({
       minimize: true,
       debug: false
     }), new _webpack2.default.optimize.UglifyJsPlugin({
@@ -53,7 +51,7 @@ exports.default = function () {
     resolve: {
       // Since we ship with json-loader always, it's better to move extensions to here
       // from the default config.
-      extensions: ['.js', '.json', '.jsx'],
+      extensions: ['.js', '.json', '.jsx', '.css'],
       // Add support to NODE_PATH. With this we could avoid relative path imports.
       // Based on this CRA feature: https://github.com/facebookincubator/create-react-app/issues/253
       modules: ['node_modules'],

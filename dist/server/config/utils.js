@@ -53,8 +53,4 @@ function loadEnv() {
   });
 
   return env;
-
-  /*return {
-    'process.env': JSON.stringify(env),
-  };*/
 }

@@ -11,13 +11,9 @@ import {
 export default function () {
   const entries = {
     preview: [
-      // TODO: remove require
-      //require.resolve('./polyfills'),
       require.resolve('./globals'),
     ],
     manager: [
-      // TODO: remove require
-      //require.resolve('./polyfills'),
       path.resolve(__dirname, '../../client/manager'),
     ],
   };
@@ -70,7 +66,7 @@ export default function () {
     resolve: {
       // Since we ship with json-loader always, it's better to move extensions to here
       // from the default config.
-      extensions: ['.js', '.json', '.jsx'],
+      extensions: ['.js', '.json', '.jsx', '.css'],
       // Add support to NODE_PATH. With this we could avoid relative path imports.
       // Based on this CRA feature: https://github.com/facebookincubator/create-react-app/issues/253
       modules: ['node_modules'],

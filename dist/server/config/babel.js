@@ -18,5 +18,6 @@ module.exports = {
   // It enables a cache directory for faster-rebuilds
   // `find-cache-dir` will create the cache directory under the node_modules directory.
   cacheDirectory: findCacheDir({ name: 'react-storybook' }),
-  presets: [require.resolve('babel-preset-react-app')]
+  presets: [require.resolve('babel-preset-react-app')],
+  plugins: [require.resolve('babel-plugin-react-require')]
 };
