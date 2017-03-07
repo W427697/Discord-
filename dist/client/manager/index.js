@@ -14,3 +14,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var rootEl = document.getElementById('root');
 (0, _storybookUi2.default)(rootEl, new _provider2.default());
+
+if (module.hot) {
+  module.hot.accept('./provider', function () {
+    var Provider = require('./provider').default;
+    (0, _storybookUi2.default)(rootEl, new Provider());
+  });
+}

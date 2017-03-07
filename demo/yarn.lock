@@ -56,7 +56,7 @@
     redux "^3.5.2"
 
 "@kadira/storybook@file:../":
-  version "2.35.10"
+  version "2.35.11"
   dependencies:
     "@kadira/react-split-pane" "^1.4.7"
     "@kadira/storybook-addon-actions" "^1.1.1"
