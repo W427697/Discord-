@@ -6,7 +6,6 @@ import {
   excludePaths,
   nodeModulesPaths,
   loadEnv,
-  nodePaths,
 } from './utils';
 import babelLoaderConfig from './babel.js';
 
@@ -19,7 +18,8 @@ export default function () {
       ],
       preview: [
         require.resolve('./globals'),
-        `${require.resolve('webpack-hot-middleware/client')}?reload=true`
+        require.resolve('webpack/hot/dev-server'),
+        `${require.resolve('webpack-hot-middleware/client')}?reload=true`,
       ],
     },
     output: {
@@ -32,7 +32,7 @@ export default function () {
       new webpack.EnvironmentPlugin(loadEnv()),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),
-      new webpack.NoEmitOnErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin(),
     ],
     module: {
       rules: [
@@ -42,10 +42,10 @@ export default function () {
           exclude: excludePaths,
           use: [{
             loader: require.resolve('babel-loader'),
-            query: babelLoaderConfig
-          }]
-        }
-      ]
+            query: babelLoaderConfig,
+          }],
+        },
+      ],
     },
     resolve: {
       // Since we ship with json-loader always, it's better to move extensions to here
@@ -53,12 +53,15 @@ export default function () {
       extensions: ['.js', '.json', '.jsx', '.css'],
       // Add support to NODE_PATH. With this we could avoid relative path imports.
       // Based on this CRA feature: https://github.com/facebookincubator/create-react-app/issues/253
-      modules: ['node_modules'],
+      modules: [nodeModulesPaths],
       alias: {
         // This is to add addon support for NPM2
         '@kadira/storybook-addons': require.resolve('@kadira/storybook-addons'),
-      }
-    }
+      },
+    },
+    performance: {
+      hints: false,
+    },
   };
 
   return config;

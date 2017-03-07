@@ -9,7 +9,7 @@
 
 const findCacheDir = require('find-cache-dir');
 
-module.exports = {
+export default {
   // Don't try to find .babelrc because we want to force this configuration.
   babelrc: false,
   // This is a feature of `babel-loader` for webpack (not Babel itself).
@@ -17,9 +17,9 @@ module.exports = {
   // `find-cache-dir` will create the cache directory under the node_modules directory.
   cacheDirectory: findCacheDir({ name: 'react-storybook' }),
   presets: [
-    require.resolve('babel-preset-react-app')
+    require.resolve('babel-preset-react-app'),
   ],
   plugins: [
-    require.resolve('babel-plugin-react-require')
-  ]
+    require.resolve('babel-plugin-react-require'),
+  ],
 };

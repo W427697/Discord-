@@ -54,7 +54,7 @@ exports.default = function () {
       extensions: ['.js', '.json', '.jsx', '.css'],
       // Add support to NODE_PATH. With this we could avoid relative path imports.
       // Based on this CRA feature: https://github.com/facebookincubator/create-react-app/issues/253
-      modules: ['node_modules'],
+      modules: [_utils.nodeModulesPaths],
       alias: {
         // This is to add addon support for NPM2
         '@kadira/storybook-addons': require.resolve('@kadira/storybook-addons')

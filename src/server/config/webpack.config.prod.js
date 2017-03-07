@@ -5,7 +5,7 @@ import {
   includePaths,
   excludePaths,
   loadEnv,
-  nodePaths,
+  nodeModulesPaths,
 } from './utils';
 
 export default function () {
@@ -36,7 +36,7 @@ export default function () {
       new webpack.NamedModulesPlugin(),
       new webpack.LoaderOptionsPlugin({
         minimize: true,
-        debug: false
+        debug: false,
       }),
       new webpack.optimize.UglifyJsPlugin({
         compress: {
@@ -59,7 +59,7 @@ export default function () {
           use: [{
             loader: require.resolve('babel-loader'),
             query: babelLoaderConfig,
-          }]
+          }],
         },
       ],
     },
@@ -69,12 +69,12 @@ export default function () {
       extensions: ['.js', '.json', '.jsx', '.css'],
       // Add support to NODE_PATH. With this we could avoid relative path imports.
       // Based on this CRA feature: https://github.com/facebookincubator/create-react-app/issues/253
-      modules: ['node_modules'],
+      modules: [nodeModulesPaths],
       alias: {
         // This is to add addon support for NPM2
         '@kadira/storybook-addons': require.resolve('@kadira/storybook-addons'),
-      }
-    }
+      },
+    },
   };
 
   return config;

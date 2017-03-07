@@ -1,5 +1,8 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -11,7 +14,7 @@
 
 var findCacheDir = require('find-cache-dir');
 
-module.exports = {
+exports.default = {
   // Don't try to find .babelrc because we want to force this configuration.
   babelrc: false,
   // This is a feature of `babel-loader` for webpack (not Babel itself).

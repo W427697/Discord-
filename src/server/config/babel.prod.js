@@ -7,13 +7,13 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-module.exports = {
+export default {
   // Don't try to find .babelrc because we want to force this configuration.
   babelrc: false,
   presets: [
-    require.resolve('babel-preset-react-app')
+    require.resolve('babel-preset-react-app'),
   ],
   plugins: [
-    require.resolve('babel-plugin-react-require')
-  ]
+    require.resolve('babel-plugin-react-require'),
+  ],
 };

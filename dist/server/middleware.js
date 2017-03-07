@@ -19,6 +19,7 @@ exports.default = function (configDir) {
   var compiler = (0, _webpack2.default)(config);
   var devMiddlewareOptions = {
     hot: true,
+    historyApiFallback: true,
     publicPath: config.output.publicPath,
     watchOptions: config.watchOptions || {},
     stats: 'errors-only'

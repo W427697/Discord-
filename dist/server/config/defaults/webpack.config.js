@@ -8,10 +8,6 @@ var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _autoprefixer = require('autoprefixer');
-
-var _autoprefixer2 = _interopRequireDefault(_autoprefixer);
-
 var _utils = require('../utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -26,7 +22,9 @@ module.exports = function (storybookBaseConfig) {
   }, {
     test: /\.json$/,
     include: _utils.includePaths,
-    use: [{ loader: require.resolve('json-loader') }]
+    use: [{
+      loader: require.resolve('json-loader')
+    }]
   }, {
     test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
     include: _utils.includePaths,

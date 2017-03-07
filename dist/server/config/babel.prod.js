@@ -1,5 +1,8 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -9,7 +12,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-module.exports = {
+exports.default = {
   // Don't try to find .babelrc because we want to force this configuration.
   babelrc: false,
   presets: [require.resolve('babel-preset-react-app')],

@@ -1,4 +1,3 @@
-import autoprefixer from 'autoprefixer';
 import { includePaths } from '../utils';
 
 // Add a default custom config which is similar to what React Create App does.
@@ -17,9 +16,9 @@ module.exports = (storybookBaseConfig) => {
     {
       test: /\.json$/,
       include: includePaths,
-      use: [ 
-        { loader: require.resolve('json-loader') }
-      ]
+      use: [{
+        loader: require.resolve('json-loader'),
+      }],
     },
     {
       test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
@@ -39,9 +38,9 @@ module.exports = (storybookBaseConfig) => {
         query: {
           limit: 10000,
           name: 'static/media/[name].[hash:8].[ext]',
-        }
-      }]
-    }
+        },
+      }],
+    },
   ];
   newConfig.resolve.alias = storybookBaseConfig.resolve.alias;
 

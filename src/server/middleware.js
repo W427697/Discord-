@@ -22,10 +22,30 @@ export default function (configDir) {
 
   const compiler = webpack(config);
   const devMiddlewareOptions = {
+    compress: true,
+    clientLogLevel: 'none',
     hot: true,
     publicPath: config.output.publicPath,
-    watchOptions: config.watchOptions || {},
-    stats: 'errors-only'
+    watchOptions: {
+      ignored: /node_modules/,
+    },
+    overlay: false,
+    stats: {
+      colors: true,
+      hash: false,
+      version: false,
+      timings: false,
+      assets: false,
+      chunks: false,
+      chunkModules: false,
+      modules: false,
+      children: false,
+      cached: false,
+      reasons: false,
+      source: false,
+      errorDetails: true,
+      chunkOrigins: false,
+    },
   };
 
   const router = new Router();
