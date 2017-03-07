@@ -15,11 +15,13 @@ export default function () {
     devtool: 'eval',
     entry: {
       manager: [
-        require.resolve('./polyfills'),
+        // TODO: remove require
+        //require.resolve('./polyfills'),
         require.resolve('../../client/manager'),
       ],
       preview: [
-        require.resolve('./polyfills'),
+        // TODO: remove require
+        //require.resolve('./polyfills'),
         require.resolve('./globals'),
         `${require.resolve('webpack-hot-middleware/client')}?reload=true`,
       ],
@@ -31,7 +33,7 @@ export default function () {
     },
     plugins: [
       new CaseSensitivePathsPlugin(),
-      new webpack.DefinePlugin(loadEnv()),
+      new webpack.EnvironmentPlugin(loadEnv()),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),
       new webpack.NoEmitOnErrorsPlugin()
@@ -52,10 +54,10 @@ export default function () {
     resolve: {
       // Since we ship with json-loader always, it's better to move extensions to here
       // from the default config.
-      extensions: ['.js', '.json', '.jsx', ''],
+      extensions: ['.js', '.json', '.jsx'],
       // Add support to NODE_PATH. With this we could avoid relative path imports.
       // Based on this CRA feature: https://github.com/facebookincubator/create-react-app/issues/253
-      fallback: nodePaths,
+      modules: ['node_modules'],
       alias: {
         // This is to add addon support for NPM2
         '@kadira/storybook-addons': require.resolve('@kadira/storybook-addons'),

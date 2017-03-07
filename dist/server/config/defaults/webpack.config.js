@@ -22,11 +22,11 @@ module.exports = function (storybookBaseConfig) {
   newConfig.module.rules = [].concat((0, _toConsumableArray3.default)(storybookBaseConfig.module.rules), [{
     test: /\.css?$/,
     include: _utils.includePaths,
-    use: [require.resolve('style-loader'), require.resolve('css-loader') + '?importLoaders=1']
+    use: [{ loader: require.resolve('style-loader') }, { loader: require.resolve('css-loader') + '?importLoaders=1' }]
   }, {
     test: /\.json$/,
     include: _utils.includePaths,
-    use: [require.resolve('json-loader')]
+    use: [{ loader: require.resolve('json-loader') }]
   }, {
     test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
     include: _utils.includePaths,

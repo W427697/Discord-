@@ -10,14 +10,16 @@ module.exports = (storybookBaseConfig) => {
       test: /\.css?$/,
       include: includePaths,
       use: [
-        require.resolve('style-loader'),
-        `${require.resolve('css-loader')}?importLoaders=1`
+        { loader: require.resolve('style-loader') },
+        { loader: `${require.resolve('css-loader')}?importLoaders=1` }
       ],
     },
     {
       test: /\.json$/,
       include: includePaths,
-      use: [ require.resolve('json-loader') ]
+      use: [ 
+        { loader: require.resolve('json-loader') }
+      ]
     },
     {
       test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,

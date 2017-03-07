@@ -18,9 +18,10 @@ exports.default = function (configDir) {
 
   var compiler = (0, _webpack2.default)(config);
   var devMiddlewareOptions = {
-    noInfo: true,
+    hot: true,
     publicPath: config.output.publicPath,
-    watchOptions: config.watchOptions || {}
+    watchOptions: config.watchOptions || {},
+    stats: 'errors-only'
   };
 
   var router = new _express.Router();

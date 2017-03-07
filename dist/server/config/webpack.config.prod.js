@@ -23,7 +23,9 @@ exports.default = function () {
       // relative URLs works always.
       publicPath: ''
     },
-    plugins: [new _webpack2.default.DefinePlugin((0, _utils.loadEnv)({ production: true })), new _webpack2.default.NamedModulesPlugin(), new _webpack2.default.LoaderOptionsPlugin({
+    plugins: [new _webpack2.default.EnvironmentPlugin((0, _utils.loadEnv)({ production: true })),
+    //new webpack.DefinePlugin(loadEnv({ production: true })),
+    new _webpack2.default.NamedModulesPlugin(), new _webpack2.default.LoaderOptionsPlugin({
       minimize: true,
       debug: false
     }), new _webpack2.default.optimize.UglifyJsPlugin({
@@ -51,10 +53,10 @@ exports.default = function () {
     resolve: {
       // Since we ship with json-loader always, it's better to move extensions to here
       // from the default config.
-      extensions: ['.js', '.json', '.jsx', ''],
+      extensions: ['.js', '.json', '.jsx'],
       // Add support to NODE_PATH. With this we could avoid relative path imports.
       // Based on this CRA feature: https://github.com/facebookincubator/create-react-app/issues/253
-      fallback: _utils.nodePaths,
+      modules: ['node_modules'],
       alias: {
         // This is to add addon support for NPM2
         '@kadira/storybook-addons': require.resolve('@kadira/storybook-addons')

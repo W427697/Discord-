@@ -1,12 +1,6 @@
 import webpack from 'webpack';
 import path from 'path';
 
-export const OccurenceOrderPlugin =
-  // for webpack 2
-  webpack.optimize.OccurrenceOrderPlugin ||
-  // for webpack 1
-  webpack.optimize.OccurenceOrderPlugin;
-
 export const includePaths = [
   path.resolve('./'),
 ];
@@ -40,7 +34,5 @@ export function loadEnv(options = {}) {
       env[name] = process.env[name];
     });
 
-  return {
-    'process.env': JSON.stringify(env),
-  };
+  return env;
 }

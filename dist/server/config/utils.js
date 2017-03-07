@@ -3,11 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.nodePaths = exports.nodeModulesPaths = exports.excludePaths = exports.includePaths = exports.OccurenceOrderPlugin = undefined;
-
-var _stringify = require('babel-runtime/core-js/json/stringify');
-
-var _stringify2 = _interopRequireDefault(_stringify);
+exports.nodePaths = exports.nodeModulesPaths = exports.excludePaths = exports.includePaths = undefined;
 
 var _keys = require('babel-runtime/core-js/object/keys');
 
@@ -24,12 +20,6 @@ var _path = require('path');
 var _path2 = _interopRequireDefault(_path);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var OccurenceOrderPlugin =
-// for webpack 2
-exports.OccurenceOrderPlugin = _webpack2.default.optimize.OccurrenceOrderPlugin ||
-// for webpack 1
-_webpack2.default.optimize.OccurenceOrderPlugin;
 
 var includePaths = exports.includePaths = [_path2.default.resolve('./')];
 
@@ -62,7 +52,9 @@ function loadEnv() {
     env[name] = process.env[name];
   });
 
-  return {
-    'process.env': (0, _stringify2.default)(env)
-  };
+  return env;
+
+  /*return {
+    'process.env': JSON.stringify(env),
+  };*/
 }
