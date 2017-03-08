@@ -58,8 +58,6 @@ var _caseSensitivePathsWebpackPlugin2 = _interopRequireDefault(_caseSensitivePat
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 var include = _path2.default.resolve('./packages');
 var exclude = _path2.default.resolve('./node_modules');
 
@@ -81,7 +79,7 @@ var buildConfig = function buildConfig(storybookAddonsPath, storybookConfigPath)
 		},
 		plugins: [new _caseSensitivePathsWebpackPlugin2.default(), new _webpack2.default.EnvironmentPlugin({ NODE_ENV: 'development' }), new _webpack2.default.HotModuleReplacementPlugin(), new _webpack2.default.NamedModulesPlugin()],
 		module: {
-			rules: [].concat(_toConsumableArray((0, _customBlocks.babel)({ include: include, exclude: exclude })), _toConsumableArray((0, _customBlocks.css)({ include: include, exclude: exclude })), _toConsumableArray((0, _customBlocks.image)({ include: include, exclude: exclude })), _toConsumableArray((0, _customBlocks.svg)({ include: include, exclude: exclude })))
+			rules: [(0, _customBlocks.babel)({ include: include, exclude: exclude }), (0, _customBlocks.css)({ include: include, exclude: exclude }), (0, _customBlocks.image)({ include: include, exclude: exclude }), (0, _customBlocks.svg)({ include: include, exclude: exclude })]
 		},
 		resolve: {
 			extensins: ['.js', '.json', '.jsx', '.css'],

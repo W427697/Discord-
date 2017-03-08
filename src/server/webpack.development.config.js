@@ -41,10 +41,10 @@ const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 	],
 	module: {
 		rules: [
-			...babel({ include, exclude }),
-			...css({ include, exclude }),
-			...image({ include, exclude }),
-			...svg({ include, exclude })
+			babel({ include, exclude }),
+			css({ include, exclude }),
+			image({ include, exclude }),
+			svg({ include, exclude })
 		]
 	},
 	resolve: {
