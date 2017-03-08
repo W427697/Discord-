@@ -1,6 +1,6 @@
 export function babel(options = {}) {
 	let {
-		test: /\.js$/,
+		test = /\.js$/,
 		exclude,
 		include
 	} = options
@@ -11,13 +11,16 @@ export function babel(options = {}) {
 	return {
 		test, include, exclude,
 		use: [{
-			loader: 'babel-loader'
+			loader: 'babel-loader',
 			query: {
 				cacheDirectory: true,
-				presets: ['react'],
+				presets: [
+					require.resolve('react')
+				],
 				plugins: [
-					'transform-object-rest-spread',
-					'transform-class-properties'
+					require.resolve('transform-object-rest-spread'),
+					require.resolve('transform-class-properties'),
+					require.resolve('react-require')
 				]
 			}
 		}]
@@ -26,7 +29,7 @@ export function babel(options = {}) {
 
 export function css(options = {}) {
 	let {
-		test: /\.css$/,
+		test = /\.css$/,
 		exclude,
 		include
 	} = options
@@ -46,7 +49,7 @@ export function css(options = {}) {
 
 export function image(options = {}) {
 	let {
-		test: /\.(gif|ico|jpe?g|png)$/,
+		test = /\.(gif|ico|jpe?g|png)$/,
 		exclude,
 		include
 	} = options
@@ -67,7 +70,7 @@ export function image(options = {}) {
 
 export function svg(options = {}) {
 	let {
-		test: /\.svg$/,
+		test = /\.svg$/,
 		exclude,
 		include
 	} = options
@@ -85,8 +88,7 @@ export function svg(options = {}) {
 				name: '[path][name].[ext]?[hash:4]'
 			}
 		}, {
-			test, include, exclude,
-			use: [{loader: 'image-webpack-loader'}]
+			loader: 'image-webpack-loader'
 		}]
 	}
 }

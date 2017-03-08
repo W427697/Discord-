@@ -4,33 +4,20 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _toConsumableArray2 = require("babel-runtime/helpers/toConsumableArray");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _keys = require("babel-runtime/core-js/object/keys");
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-var _keys2 = _interopRequireDefault(_keys);
-
-var _extends2 = require("babel-runtime/helpers/extends");
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require("babel-runtime/helpers/createClass");
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ClientApi = function () {
   function ClientApi(_ref) {
     var channel = _ref.channel,
         storyStore = _ref.storyStore;
-    (0, _classCallCheck3.default)(this, ClientApi);
+
+    _classCallCheck(this, ClientApi);
 
     // channel can be null when running in node
     // always check whether channel is available
@@ -40,10 +27,10 @@ var ClientApi = function () {
     this._globalDecorators = [];
   }
 
-  (0, _createClass3.default)(ClientApi, [{
+  _createClass(ClientApi, [{
     key: "setAddon",
     value: function setAddon(addon) {
-      this._addons = (0, _extends3.default)({}, this._addons, addon);
+      this._addons = _extends({}, this._addons, addon);
     }
   }, {
     key: "addDecorator",
@@ -72,7 +59,7 @@ var ClientApi = function () {
       };
 
       // apply addons
-      (0, _keys2.default)(this._addons).forEach(function (name) {
+      Object.keys(this._addons).forEach(function (name) {
         var addon = _this._addons[name];
         api[name] = function () {
           for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
@@ -88,7 +75,7 @@ var ClientApi = function () {
         // Wrap the getStory function with each decorator. The first
         // decorator will wrap the story function. The second will
         // wrap the first decorator and so on.
-        var decorators = [].concat(localDecorators, (0, _toConsumableArray3.default)(_this._globalDecorators));
+        var decorators = [].concat(localDecorators, _toConsumableArray(_this._globalDecorators));
 
         var fn = decorators.reduce(function (decorated, decorator) {
           return function (context) {
@@ -124,6 +111,7 @@ var ClientApi = function () {
       });
     }
   }]);
+
   return ClientApi;
 }();
 

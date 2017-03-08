@@ -4,25 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _qs = require('qs');
 
@@ -48,23 +30,27 @@ var _preview2 = _interopRequireDefault(_preview);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* global location */
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* global location */
 /* eslint class-methods-use-this: 0 */
 
 var ReactProvider = function (_Provider) {
-  (0, _inherits3.default)(ReactProvider, _Provider);
+  _inherits(ReactProvider, _Provider);
 
   function ReactProvider() {
-    (0, _classCallCheck3.default)(this, ReactProvider);
+    _classCallCheck(this, ReactProvider);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ReactProvider.__proto__ || (0, _getPrototypeOf2.default)(ReactProvider)).call(this));
+    var _this = _possibleConstructorReturn(this, (ReactProvider.__proto__ || Object.getPrototypeOf(ReactProvider)).call(this));
 
     _this.channel = (0, _storybookChannelPostmsg2.default)({ page: 'manager' });
     _storybookAddons2.default.setChannel(_this.channel);
     return _this;
   }
 
-  (0, _createClass3.default)(ReactProvider, [{
+  _createClass(ReactProvider, [{
     key: 'getPanels',
     value: function getPanels() {
       return _storybookAddons2.default.getPanels();
@@ -106,6 +92,7 @@ var ReactProvider = function (_Provider) {
       _storybookAddons2.default.loadAddons(api);
     }
   }]);
+
   return ReactProvider;
 }(_storybookUi.Provider);
 

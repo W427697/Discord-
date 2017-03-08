@@ -4,19 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _keys = require("babel-runtime/core-js/object/keys");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _keys2 = _interopRequireDefault(_keys);
-
-var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require("babel-runtime/helpers/createClass");
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var cnt = 0;
 
@@ -27,12 +17,12 @@ function getId() {
 
 var StoryStore = function () {
   function StoryStore() {
-    (0, _classCallCheck3.default)(this, StoryStore);
+    _classCallCheck(this, StoryStore);
 
     this._data = {};
   }
 
-  (0, _createClass3.default)(StoryStore, [{
+  _createClass(StoryStore, [{
     key: "addStory",
     value: function addStory(kind, name, fn) {
       if (!this._data[kind]) {
@@ -54,10 +44,10 @@ var StoryStore = function () {
     value: function getStoryKinds() {
       var _this = this;
 
-      return (0, _keys2.default)(this._data).map(function (key) {
+      return Object.keys(this._data).map(function (key) {
         return _this._data[key];
       }).filter(function (kind) {
-        return (0, _keys2.default)(kind.stories).length > 0;
+        return Object.keys(kind.stories).length > 0;
       }).sort(function (info1, info2) {
         return info1.index - info2.index;
       }).map(function (info) {
@@ -73,7 +63,7 @@ var StoryStore = function () {
         return [];
       }
 
-      return (0, _keys2.default)(this._data[kind].stories).map(function (name) {
+      return Object.keys(this._data[kind].stories).map(function (name) {
         return _this2._data[kind].stories[name];
       }).sort(function (info1, info2) {
         return info1.index - info2.index;
@@ -125,7 +115,7 @@ var StoryStore = function () {
   }, {
     key: "size",
     value: function size() {
-      return (0, _keys2.default)(this._data).length;
+      return Object.keys(this._data).length;
     }
   }, {
     key: "clean",
@@ -137,6 +127,7 @@ var StoryStore = function () {
       });
     }
   }]);
+
   return StoryStore;
 }();
 

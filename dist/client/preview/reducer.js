@@ -4,15 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.default = reducer;
 
 var _actions = require('./actions');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function reducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -21,21 +17,21 @@ function reducer() {
   switch (action.type) {
     case _actions.types.CLEAR_ERROR:
       {
-        return (0, _extends3.default)({}, state, {
+        return _extends({}, state, {
           error: null
         });
       }
 
     case _actions.types.SET_ERROR:
       {
-        return (0, _extends3.default)({}, state, {
+        return _extends({}, state, {
           error: action.error
         });
       }
 
     case _actions.types.SELECT_STORY:
       {
-        return (0, _extends3.default)({}, state, {
+        return _extends({}, state, {
           selectedKind: action.kind,
           selectedStory: action.story
         });
@@ -43,7 +39,7 @@ function reducer() {
 
     case _actions.types.SET_INITIAL_STORY:
       {
-        var newState = (0, _extends3.default)({}, state);
+        var newState = _extends({}, state);
         var storyKindList = action.storyKindList;
 
         if (!newState.selectedKind && storyKindList.length > 0) {

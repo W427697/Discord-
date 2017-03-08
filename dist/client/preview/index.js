@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.configure = exports.getStorybook = exports.clearDecorators = exports.addDecorator = exports.setAddon = exports.storiesOf = undefined;
 
-var _assign = require('babel-runtime/core-js/object/assign');
-
-var _assign2 = _interopRequireDefault(_assign);
-
 var _redux = require('redux');
 
 var _storybookAddons = require('@kadira/storybook-addons');
@@ -67,7 +63,7 @@ if (isBrowser) {
   channel.on('setCurrentStory', function (data) {
     reduxStore.dispatch((0, _actions.selectStory)(data.kind, data.story));
   });
-  (0, _assign2.default)(context, { channel: channel, window: window, queryParams: queryParams });
+  Object.assign(context, { channel: channel, window: window, queryParams: queryParams });
   _storybookAddons2.default.setChannel(channel);
   (0, _init2.default)(context);
 }

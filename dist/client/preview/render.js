@@ -4,12 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _taggedTemplateLiteral2 = require('babel-runtime/helpers/taggedTemplateLiteral');
-
-var _taggedTemplateLiteral3 = _interopRequireDefault(_taggedTemplateLiteral2);
-
-var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n        Did you forget to return the React element from the story?\n        Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.\n      '], ['\n        Did you forget to return the React element from the story?\n        Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.\n      ']),
-    _templateObject2 = (0, _taggedTemplateLiteral3.default)(['\n        Seems like you are not returning a correct React element form the story.\n        Could you double check that?\n      '], ['\n        Seems like you are not returning a correct React element form the story.\n        Could you double check that?\n      ']); /* global document */
+var _templateObject = _taggedTemplateLiteral(['\n        Did you forget to return the React element from the story?\n        Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.\n      '], ['\n        Did you forget to return the React element from the story?\n        Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.\n      ']),
+    _templateObject2 = _taggedTemplateLiteral(['\n        Seems like you are not returning a correct React element form the story.\n        Could you double check that?\n      '], ['\n        Seems like you are not returning a correct React element form the story.\n        Could you double check that?\n      ']);
 
 exports.renderError = renderError;
 exports.renderException = renderException;
@@ -31,6 +27,8 @@ var _error_display = require('./error_display');
 var _error_display2 = _interopRequireDefault(_error_display);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); } /* global document */
 
 // check whether we're running on node/browser
 var isBrowser = typeof window !== 'undefined';

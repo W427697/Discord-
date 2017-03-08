@@ -5,9 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function (configDir) {
-  // Build the webpack configuration using the `getBaseConfig`
-  // custom `.babelrc` file and `webpack.config.cusom.js` files
-  var config = (0, _config2.default)('DEVELOPMENT', (0, _webpackConfig2.default)(), configDir);
+  // Build the webpack configuration using the development mode 
+  var config = (0, _webpackDevelopment2.default)(configDir);
   var middlewareFn = (0, _utils.getMiddleware)(configDir);
 
   // remove the leading '/'
@@ -16,31 +15,19 @@ exports.default = function (configDir) {
     publicPath = publicPath.slice(1);
   }
 
+  console.log('Webpack dev config: ', config);
   var compiler = (0, _webpack2.default)(config);
   var devMiddlewareOptions = {
+    hot: true,
     compress: true,
     clientLogLevel: 'none',
-    hot: true,
     publicPath: config.output.publicPath,
     watchOptions: {
       ignored: /node_modules/
     },
     overlay: false,
     stats: {
-      colors: true,
-      hash: false,
-      version: false,
-      timings: false,
-      assets: false,
-      chunks: false,
-      chunkModules: false,
-      modules: false,
-      children: false,
-      cached: false,
-      reasons: false,
-      source: false,
-      errorDetails: true,
-      chunkOrigins: false
+      colors: true
     }
   };
 
@@ -77,13 +64,9 @@ var _webpackHotMiddleware = require('webpack-hot-middleware');
 
 var _webpackHotMiddleware2 = _interopRequireDefault(_webpackHotMiddleware);
 
-var _webpackConfig = require('./config/webpack.config.dev');
+var _webpackDevelopment = require('./webpack.development.config');
 
-var _webpackConfig2 = _interopRequireDefault(_webpackConfig);
-
-var _config = require('./config');
-
-var _config2 = _interopRequireDefault(_config);
+var _webpackDevelopment2 = _interopRequireDefault(_webpackDevelopment);
 
 var _index = require('./index.html');
 

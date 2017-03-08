@@ -4,28 +4,21 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* globals location */
 
 var _actions = require('./actions');
 
 var _ = require('./');
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/* globals location */
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ConfigApi = function () {
   function ConfigApi(_ref) {
     var channel = _ref.channel,
         storyStore = _ref.storyStore,
         reduxStore = _ref.reduxStore;
-    (0, _classCallCheck3.default)(this, ConfigApi);
+
+    _classCallCheck(this, ConfigApi);
 
     // channel can be null when running in node
     // always check whether channel is available
@@ -34,7 +27,7 @@ var ConfigApi = function () {
     this._reduxStore = reduxStore;
   }
 
-  (0, _createClass3.default)(ConfigApi, [{
+  _createClass(ConfigApi, [{
     key: '_renderMain',
     value: function _renderMain(loaders) {
       if (loaders) loaders();
@@ -94,6 +87,7 @@ var ConfigApi = function () {
       }
     }
   }]);
+
   return ConfigApi;
 }();
 
