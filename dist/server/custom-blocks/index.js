@@ -19,15 +19,17 @@ function babel() {
 	if (include && !Array.isArray(include)) include = [include];
 
 	return {
-		test: test, include: include, exclude: exclude,
-		use: [{
-			loader: 'babel-loader',
-			query: {
-				cacheDirectory: true,
-				presets: [require.resolve('babel-preset-react')],
-				plugins: [require.resolve('babel-plugin-transform-object-rest-spread'), require.resolve('babel-plugin-transform-class-properties'), require.resolve('babel-plugin-react-require')]
-			}
-		}]
+		rules: {
+			test: test, include: include, exclude: exclude,
+			use: [{
+				loader: 'babel-loader',
+				query: {
+					cacheDirectory: true,
+					presets: [require.resolve('babel-preset-react')],
+					plugins: [require.resolve('babel-plugin-transform-object-rest-spread'), require.resolve('babel-plugin-transform-class-properties'), require.resolve('babel-plugin-react-require')]
+				}
+			}]
+		}
 	};
 }
 
@@ -43,12 +45,14 @@ function css() {
 	if (include && !Array.isArray(include)) include = [include];
 
 	return {
-		test: test, include: include, exclude: exclude,
-		use: [{
-			loader: 'style-loader'
-		}, {
-			loader: 'css-loader'
-		}]
+		rules: {
+			test: test, include: include, exclude: exclude,
+			use: [{
+				loader: 'style-loader'
+			}, {
+				loader: 'css-loader'
+			}]
+		}
 	};
 }
 
@@ -64,13 +68,15 @@ function image() {
 	if (include && !Array.isArray(include)) include = [include];
 
 	return {
-		test: test, include: include, exclude: exclude,
-		use: [{
-			loader: 'file-loader',
-			query: {
-				name: '[path][name].[ext]?[hash:4]'
-			}
-		}]
+		rules: {
+			test: test, include: include, exclude: exclude,
+			use: [{
+				loader: 'file-loader',
+				query: {
+					name: '[path][name].[ext]?[hash:4]'
+				}
+			}]
+		}
 	};
 }
 
@@ -86,16 +92,18 @@ function svg() {
 	if (include && !Array.isArray(include)) include = [include];
 
 	return {
-		test: test, include: include, exclude: exclude,
-		use: [{
-			loader: 'svg-url-loader',
-			query: {
-				limit: 1024,
-				noquotes: true,
-				name: '[path][name].[ext]?[hash:4]'
-			}
-		}, {
-			loader: 'image-webpack-loader'
-		}]
+		rules: {
+			test: test, include: include, exclude: exclude,
+			use: [{
+				loader: 'svg-url-loader',
+				query: {
+					limit: 1024,
+					noquotes: true,
+					name: '[path][name].[ext]?[hash:4]'
+				}
+			}, {
+				loader: 'image-webpack-loader'
+			}]
+		}
 	};
 }

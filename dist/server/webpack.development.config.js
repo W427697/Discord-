@@ -29,7 +29,7 @@ exports.default = function (configDir) {
 	var defaultConfig = buildConfig(storybookAddonsPath, storybookConfigPath);
 	var customConfigPath = _path2.default.resolve(configDir, 'webpack.config.js');
 	if (_fs2.default.existsSync(customConfigPath)) {
-		var customConfig = require.resolve(customConfigPath);
+		var customConfig = require(customConfigPath);
 		if (typeof customConfig === 'function') {
 			logger.info('=> Loading custom webpack config.');
 			return customConfig(defaultConfig, 'development');
@@ -81,7 +81,7 @@ var buildConfig = function buildConfig(storybookAddonsPath, storybookConfigPath)
 		},
 		plugins: [new _caseSensitivePathsWebpackPlugin2.default(), new _webpack2.default.EnvironmentPlugin({ NODE_ENV: 'development' }), new _webpack2.default.HotModuleReplacementPlugin(), new _webpack2.default.NamedModulesPlugin()],
 		module: {
-			rules: _extends({}, (0, _customBlocks.babel)({ include: include, exclude: exclude }), (0, _customBlocks.css)({ include: include, exclude: exclude }), (0, _customBlocks.image)({ include: include, exclude: exclude }), (0, _customBlocks.svg)({ include: include, exclude: exclude }))
+			rules: _extends({}, (0, _customBlocks.babel)({ include: include, exclude: exclude }).rules, (0, _customBlocks.css)({ include: include, exclude: exclude }).rules, (0, _customBlocks.image)({ include: include, exclude: exclude }).rules, (0, _customBlocks.svg)({ include: include, exclude: exclude }).rules)
 		},
 		resolve: {
 			extensins: ['.js', '.json', '.jsx', '.css'],

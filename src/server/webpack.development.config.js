@@ -41,10 +41,10 @@ const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 	],
 	module: {
 		rules: {
-			...babel({ include, exclude }),
-			...css({ include, exclude }),
-			...image({ include, exclude }),
-			...svg({ include, exclude })
+			...babel({ include, exclude }).rules,
+			...css({ include, exclude }).rules,
+			...image({ include, exclude }).rules,
+			...svg({ include, exclude }).rules
 		}
 	},
 	resolve: {
@@ -82,7 +82,7 @@ export default function(configDir) {
   const defaultConfig = buildConfig(storybookAddonsPath, storybookConfigPath)
   const customConfigPath = path.resolve(configDir, 'webpack.config.js')
   if (fs.existsSync(customConfigPath)) {
-  	const customConfig = require.resolve(customConfigPath)
+  	const customConfig = require(customConfigPath)
   	if (typeof customConfig === 'function') {
   		logger.info('=> Loading custom webpack config.')
   		return customConfig(defaultConfig, 'development')
