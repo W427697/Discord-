@@ -78,7 +78,7 @@ var buildConfig = function buildConfig(storybookAddonsPath, storybookConfigPath)
 			filename: 'static/[name].bundle.js',
 			publicPath: '/'
 		},
-		plugins: [new _caseSensitivePathsWebpackPlugin2.default(), new _webpack2.default.EnvironmentPlugin({ NODE_ENV: 'development' }), new _webpack2.default.HotModuleReplacementPlugin(), new _webpack2.default.NamedModulesPlugin(), new _webpack2.default.NoEmitOnErrorsPluign()],
+		plugins: [new _caseSensitivePathsWebpackPlugin2.default(), new _webpack2.default.EnvironmentPlugin({ NODE_ENV: 'development' }), new _webpack2.default.HotModuleReplacementPlugin(), new _webpack2.default.NamedModulesPlugin()],
 		module: {
 			rules: _extends({}, (0, _customBlocks.babel)({ include: include, exclude: exclude }), (0, _customBlocks.css)({ include: include, exclude: exclude }), (0, _customBlocks.image)({ include: include, exclude: exclude }), (0, _customBlocks.svg)({ include: include, exclude: exclude }))
 		},
