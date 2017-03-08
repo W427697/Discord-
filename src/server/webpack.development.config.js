@@ -40,12 +40,12 @@ const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 		new webpack.NamedModulesPlugin(),
 	],
 	module: {
-		rules: {
-			...babel({ include, exclude }).rules,
-			...css({ include, exclude }).rules,
-			...image({ include, exclude }).rules,
-			...svg({ include, exclude }).rules
-		}
+		rules: [
+			...babel({ include, exclude }),
+			...css({ include, exclude }),
+			...image({ include, exclude }),
+			...svg({ include, exclude })
+		]
 	},
 	resolve: {
 		extensins: ['.js', '.json', '.jsx', '.css'],
