@@ -20,7 +20,7 @@ const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 	entry: {
 		manager: [
 			storybookAddonsPath,
-			require.resolve('../../client/manager')
+			require.resolve('../client/manager')
 		],
 		preview: [
 			`${require.resolve('webpack-hot-middleware/client')}?reload=true`,
@@ -28,7 +28,7 @@ const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 		]
 	},
 	output: {
-		path: path.joint(__dirname, 'dist'),
+		path: path.join(__dirname, 'dist'),
 		filename: 'static/[name].bundle.js',
 		publicPath: '/',
 	},
