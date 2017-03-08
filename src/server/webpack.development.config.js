@@ -15,16 +15,16 @@ const exclude = path.resolve('./node_modules')
 const packagesPaths = path.resolve('./packages')
 const nodeModulesPaths = path.resolve('./node_modules')
 
-const defaultConfig = () => ({
+const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 	devtool: 'eval',
 	entry: {
 		manager: [
-		storybookAddonsPath,
-		require.resolve('../../client/manager')
+			storybookAddonsPath,
+			require.resolve('../../client/manager')
 		],
 		preview: [
-		`${require.resolve('webpack-hot-middleware/client')}?reload=true`,
-		require.resolve(storybookConfigPath)
+			`${require.resolve('webpack-hot-middleware/client')}?reload=true`,
+			require.resolve(storybookConfigPath)
 		]
 	},
 	output: {
@@ -79,11 +79,16 @@ export default function(configDir) {
 
   // Check whether user has a custom webpack config file and
   // return the (extended) base configuration if it's not available.
-  const customConfig = require.resolve(configDir, 'webpack.config.js')
-  if (typeof customConfig === 'function') {
-    logger.info('=> Loading custom webpack config (full-control mode).');
-    return customConfig(defaultConfig, 'development')
-  } else {
-  	return defaultConfig
+  const defaultConfig = buildConfig(storybookAddonsPath, storybookConfigPath)
+  const customConfigPath = path.resolve(configDir, 'webpack.config.js')
+  if (fs.existsSync(customConfigPath)) {
+  	const customConfig = require.resolve(customConfigPath)
+  	if (typeof customConfig === 'function') {
+  		logger.info('=> Loading custom webpack config.')
+  		return customConfig(defaultConfig, 'development')
+  	}
   }
+
+  logger.info('=> Loading default webpack config.')
+  return defaultConfig
 }

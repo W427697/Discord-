@@ -18,7 +18,6 @@ export default function (configDir) {
     publicPath = publicPath.slice(1);
   }
 
-  console.log('Webpack dev config: ', config);
   const compiler = webpack(config);
   const devMiddlewareOptions = {
     hot: true,
