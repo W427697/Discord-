@@ -70,11 +70,11 @@ var buildConfig = function buildConfig(storybookAddonsPath, storybookConfigPath)
 	return {
 		devtool: 'eval',
 		entry: {
-			manager: [storybookAddonsPath, require.resolve('../../client/manager')],
+			manager: [storybookAddonsPath, require.resolve('../client/manager')],
 			preview: [require.resolve('webpack-hot-middleware/client') + '?reload=true', require.resolve(storybookConfigPath)]
 		},
 		output: {
-			path: _path2.default.joint(__dirname, 'dist'),
+			path: _path2.default.join(__dirname, 'dist'),
 			filename: 'static/[name].bundle.js',
 			publicPath: '/'
 		},
