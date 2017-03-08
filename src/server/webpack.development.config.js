@@ -15,6 +15,50 @@ const exclude = path.resolve('./node_modules')
 const packagesPaths = path.resolve('./packages')
 const nodeModulesPaths = path.resolve('./node_modules')
 
+const defaultConfig = () => ({
+	devtool: 'eval',
+	entry: {
+		manager: [
+		storybookAddonsPath,
+		require.resolve('../../client/manager')
+		],
+		preview: [
+		`${require.resolve('webpack-hot-middleware/client')}?reload=true`,
+		require.resolve(storybookConfigPath)
+		]
+	},
+	output: {
+		path: path.joint(__dirname, 'dist'),
+		filename: 'static/[name].bundle.js',
+		publicPath: '/',
+	},
+	plugins: [
+	new CaseSensitivePathsPlugin(),
+	new webpack.EnviromentPlugin({ NODE_ENV: 'development' }),
+	new webpack.HotModuleReplacemenPlugin(),
+	new webpack.NamedModulesPlugin(),
+	new webpack.NoEmitOnErrorsPluign()
+	],
+	module: {
+		rules: {
+			babel({ include, exclude }),
+			css({ include, exclude }),
+			image({ include, exclude }),
+			svg({ include, exclude })
+		}
+	},
+	resolve: {
+		extensins: ['.js', '.json', '.jsx', '.css'],
+		modules: [nodeModulesPaths, packagesPaths],
+		alias: {
+			'@kadira/storybook-addons': require.resolve('@kadira/storybook-addons')
+		}
+	},
+	performance: {
+		hints: false
+	}
+})
+
 export default function(configDir) {
 	const storybookConfigPath = path.resolve(configDir, 'config.js')
   if (!fs.existsSync(storybookConfigPath)) {
@@ -33,47 +77,13 @@ export default function(configDir) {
   	storybookAddonsPath = storybookDefaultAddonsPath;
   }
 
-	return {
-		devtool: 'eval',
-		entry: {
-			manager: [
-				storybookAddonsPath,
-				require.resolve('../../client/manager')
-			],
-			preview: [
-				`${require.resolve('webpack-hot-middleware/client')}?reload=true`,
-				require.resolve(storybookConfigPath)
-			]
-		},
-		output: {
-			path: path.joint(__dirname, 'dist'),
-			filename: 'static/[name].bundle.js',
-			publicPath: '/',
-		},
-		plugins: [
-			new CaseSensitivePathsPlugin(),
-			new webpack.EnviromentPlugin({ NODE_ENV: 'development' }),
-			new webpack.HotModuleReplacemenPlugin(),
-			new webpack.NamedModulesPlugin(),
-			new webpack.NoEmitOnErrorsPluign()
-		],
-		module: {
-			rules: {
-				babel({ include, exclude }),
-				css({ include, exclude }),
-				image({ include, exclude }),
-				svg({ include, exclude })
-			}
-		},
-		resolve: {
-			extensins: ['.js', '.json', '.jsx', '.css'],
-			modules: [nodeModulesPaths, packagesPaths],
-			alias: {
-				'@kadira/storybook-addons': require.resolve('@kadira/storybook-addons')
-			}
-		},
-		performance: {
-			hints: false
-		}
-	}
+  // Check whether user has a custom webpack config file and
+  // return the (extended) base configuration if it's not available.
+  const customConfig = require.resolve(configDir, 'webpack.config.js')
+  if (typeof customConfig === 'function') {
+    logger.info('=> Loading custom webpack config (full-control mode).');
+    return customConfig(defaultConfig, 'development')
+  } else {
+  	return defaultConfig
+  }
 }
