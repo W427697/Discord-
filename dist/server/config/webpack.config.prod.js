@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function () {
   var entries = {
-    preview: [require.resolve('./globals')],
     manager: [_path2.default.resolve(__dirname, '../../client/manager')]
   };
 

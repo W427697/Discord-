@@ -21,11 +21,7 @@ exports.default = function (configDir) {
     }
   }
 
-  var finalConfig = babelConfig || _babel2.default;
-  finalConfig.plugins = finalConfig.plugins || [];
-  finalConfig.plugins.push([require.resolve('babel-plugin-react-docgen'), { DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES' }]);
-
-  return finalConfig;
+  return babelConfig || _babel2.default;
 };
 
 var _fs = require('fs');
@@ -51,13 +47,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var logger = console;
 
-function removeReactHmre(presets) {
-  var index = presets.indexOf('react-hmre');
-  if (index > -1) {
-    presets.splice(index, 1);
-  }
-}
-
 // Tries to load a .babelrc and returns the parsed object if successful
 function loadFromPath(babelConfigPath) {
   var config = void 0;
@@ -74,19 +63,6 @@ function loadFromPath(babelConfigPath) {
   }
 
   if (!config) return null;
-
-  // Remove react-hmre preset.
-  // It causes issues with react-storybook.
-  // We don't really need it.
-  // Earlier, we fix this by runnign storybook in the production mode.
-  // But, that hide some useful debug messages.
-  if (config.presets) {
-    removeReactHmre(config.presets);
-  }
-
-  if (config.env && config.env.development && config.env.development.presets) {
-    removeReactHmre(config.env.development.presets);
-  }
 
   return config;
 }

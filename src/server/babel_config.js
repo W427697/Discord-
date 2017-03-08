@@ -7,13 +7,6 @@ import defaultConfig from './config/babel.js';
 // avoid ESLint errors
 const logger = console;
 
-function removeReactHmre(presets) {
-  const index = presets.indexOf('react-hmre');
-  if (index > -1) {
-    presets.splice(index, 1);
-  }
-}
-
 // Tries to load a .babelrc and returns the parsed object if successful
 function loadFromPath(babelConfigPath) {
   let config;
@@ -30,19 +23,6 @@ function loadFromPath(babelConfigPath) {
   }
 
   if (!config) return null;
-
-  // Remove react-hmre preset.
-  // It causes issues with react-storybook.
-  // We don't really need it.
-  // Earlier, we fix this by runnign storybook in the production mode.
-  // But, that hide some useful debug messages.
-  if (config.presets) {
-    removeReactHmre(config.presets);
-  }
-
-  if (config.env && config.env.development && config.env.development.presets) {
-    removeReactHmre(config.env.development.presets);
-  }
 
   return config;
 }
@@ -66,12 +46,5 @@ export default function (configDir) {
     }
   }
 
-  const finalConfig = babelConfig || defaultConfig;
-  finalConfig.plugins = finalConfig.plugins || [];
-  finalConfig.plugins.push([
-    require.resolve('babel-plugin-react-docgen'),
-    { DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES' },
-  ]);
-
-  return finalConfig;
+  return babelConfig || defaultConfig;
 }

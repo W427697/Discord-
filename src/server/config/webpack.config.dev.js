@@ -17,7 +17,6 @@ export default function () {
         require.resolve('../../client/manager'),
       ],
       preview: [
-        require.resolve('./globals'),
         require.resolve('webpack/hot/dev-server'),
         `${require.resolve('webpack-hot-middleware/client')}?reload=true`,
       ],

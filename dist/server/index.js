@@ -63,10 +63,6 @@ if (_commander2.default.enableDb || _commander2.default.dbPath) {
   configDir: 'SBCONFIG_CONFIG_DIR'
 });
 
-/*if (program.dontTrack) {
-  dontTrack();
-}*/
-
 if (!_commander2.default.port) {
   logger.error('Error: port to run Storybook is required!\n');
   _commander2.default.help();
@@ -108,7 +104,7 @@ if (!hasCustomFavicon) {
 }
 
 // Build the webpack configuration using the `baseConfig`
-// custom `.babelrc` file and `webpack.config.js` files
+// custom `.babelrc` file and `webpack.config.custom.js` files
 var configDir = _commander2.default.configDir || './.storybook';
 
 // The repository info is sent to the storybook while running on
@@ -129,6 +125,5 @@ app.listen.apply(app, listenAddr.concat([function (error) {
   } else {
     var address = 'http://' + (_commander2.default.host || 'localhost') + ':' + _commander2.default.port + '/';
     logger.info('\nReact Storybook started on => ' + _chalk2.default.cyan(address) + '\n');
-    //track();
   }
 }]));

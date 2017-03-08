@@ -47,10 +47,6 @@ getEnvConfig(program, {
   //dontTrack: 'SBCONFIG_DO_NOT_TRACK',
 });
 
-/*if (program.dontTrack) {
-  dontTrack();
-}*/
-
 if (!program.port) {
   logger.error('Error: port to run Storybook is required!\n');
   program.help();
@@ -92,7 +88,7 @@ if (!hasCustomFavicon) {
 }
 
 // Build the webpack configuration using the `baseConfig`
-// custom `.babelrc` file and `webpack.config.js` files
+// custom `.babelrc` file and `webpack.config.custom.js` files
 const configDir = program.configDir || './.storybook';
 
 // The repository info is sent to the storybook while running on
@@ -111,6 +107,5 @@ app.listen(...listenAddr, function (error) {
   } else {
     const address = `http://${program.host || 'localhost'}:${program.port}/`;
     logger.info(`\nReact Storybook started on => ${chalk.cyan(address)}\n`);
-    //track();
   }
 });

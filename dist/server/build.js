@@ -84,7 +84,7 @@ _shelljs2.default.mkdir('-p', _path2.default.resolve(outputDir));
 _shelljs2.default.cp(_path2.default.resolve(__dirname, 'public/favicon.ico'), outputDir);
 
 // Build the webpack configuration using the `baseConfig`
-// custom `.babelrc` file and `webpack.config.js` files
+// custom `.babelrc` file and `webpack.config.custom.js` files
 // NOTE changes to env should be done before calling `getBaseConfig`
 var config = (0, _config2.default)('PRODUCTION', (0, _webpackConfig2.default)(), configDir);
 config.output.path = outputDir;

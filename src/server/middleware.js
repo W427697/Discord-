@@ -2,17 +2,15 @@ import { Router } from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import getBaseConfig from './config/webpack.config';
-import loadConfig from './config';
+import webpackConfig from './webpack.development.config'
 import getIndexHtml from './index.html';
 import getIframeHtml from './iframe.html';
 import { getHeadHtml, getMiddleware } from './utils';
 
 export default function (configDir) {
-  // Build the webpack configuration using the `getBaseConfig`
-  // custom `.babelrc` file and `webpack.config.js` files
-  const config = loadConfig('DEVELOPMENT', getBaseConfig(), configDir);
-  const middlewareFn = getMiddleware(configDir);
+  // Build the webpack configuration using the development mode 
+  const config = webpackConfig(configDir)
+  const middlewareFn = getMiddleware(configDir)
 
   // remove the leading '/'
   let publicPath = config.output.publicPath;
@@ -20,11 +18,12 @@ export default function (configDir) {
     publicPath = publicPath.slice(1);
   }
 
+  console.log('Webpack dev config: ', config);
   const compiler = webpack(config);
   const devMiddlewareOptions = {
+    hot: true,
     compress: true,
     clientLogLevel: 'none',
-    hot: true,
     publicPath: config.output.publicPath,
     watchOptions: {
       ignored: /node_modules/,
@@ -32,19 +31,6 @@ export default function (configDir) {
     overlay: false,
     stats: {
       colors: true,
-      hash: false,
-      version: false,
-      timings: false,
-      assets: false,
-      chunks: false,
-      chunkModules: false,
-      modules: false,
-      children: false,
-      cached: false,
-      reasons: false,
-      source: false,
-      errorDetails: true,
-      chunkOrigins: false,
     },
   };
 

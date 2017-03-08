@@ -9,7 +9,7 @@ exports.default = function () {
     devtool: 'eval',
     entry: {
       manager: [require.resolve('../../client/manager')],
-      preview: [require.resolve('./globals'), require.resolve('webpack/hot/dev-server'), require.resolve('webpack-hot-middleware/client') + '?reload=true']
+      preview: [require.resolve('webpack/hot/dev-server'), require.resolve('webpack-hot-middleware/client') + '?reload=true']
     },
     output: {
       path: _path2.default.join(__dirname, 'dist'),
@@ -39,6 +39,9 @@ exports.default = function () {
         // This is to add addon support for NPM2
         '@kadira/storybook-addons': require.resolve('@kadira/storybook-addons')
       }
+    },
+    performance: {
+      hints: false
     }
   };
 

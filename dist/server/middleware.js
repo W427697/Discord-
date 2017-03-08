@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function (configDir) {
   // Build the webpack configuration using the `getBaseConfig`
-  // custom `.babelrc` file and `webpack.config.js` files
-  var config = (0, _config2.default)('DEVELOPMENT', (0, _webpack4.default)(), configDir);
+  // custom `.babelrc` file and `webpack.config.cusom.js` files
+  var config = (0, _config2.default)('DEVELOPMENT', (0, _webpackConfig2.default)(), configDir);
   var middlewareFn = (0, _utils.getMiddleware)(configDir);
 
   // remove the leading '/'
@@ -18,11 +18,30 @@ exports.default = function (configDir) {
 
   var compiler = (0, _webpack2.default)(config);
   var devMiddlewareOptions = {
+    compress: true,
+    clientLogLevel: 'none',
     hot: true,
-    historyApiFallback: true,
     publicPath: config.output.publicPath,
-    watchOptions: config.watchOptions || {},
-    stats: 'errors-only'
+    watchOptions: {
+      ignored: /node_modules/
+    },
+    overlay: false,
+    stats: {
+      colors: true,
+      hash: false,
+      version: false,
+      timings: false,
+      assets: false,
+      chunks: false,
+      chunkModules: false,
+      modules: false,
+      children: false,
+      cached: false,
+      reasons: false,
+      source: false,
+      errorDetails: true,
+      chunkOrigins: false
+    }
   };
 
   var router = new _express.Router();
@@ -58,9 +77,9 @@ var _webpackHotMiddleware = require('webpack-hot-middleware');
 
 var _webpackHotMiddleware2 = _interopRequireDefault(_webpackHotMiddleware);
 
-var _webpack3 = require('./config/webpack.config');
+var _webpackConfig = require('./config/webpack.config.dev');
 
-var _webpack4 = _interopRequireDefault(_webpack3);
+var _webpackConfig2 = _interopRequireDefault(_webpackConfig);
 
 var _config = require('./config');
 

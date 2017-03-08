@@ -10,9 +10,6 @@ import {
 
 export default function () {
   const entries = {
-    preview: [
-      require.resolve('./globals'),
-    ],
     manager: [
       path.resolve(__dirname, '../../client/manager'),
     ],
