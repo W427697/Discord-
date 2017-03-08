@@ -66,6 +66,7 @@ var exclude = _path2.default.resolve('./node_modules');
 var packagesPaths = _path2.default.resolve('./packages');
 var nodeModulesPaths = _path2.default.resolve('./node_modules');
 
+var logger = console;
 var buildConfig = function buildConfig(storybookAddonsPath, storybookConfigPath) {
 	return {
 		devtool: 'eval',

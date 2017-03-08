@@ -15,6 +15,7 @@ const exclude = path.resolve('./node_modules')
 const packagesPaths = path.resolve('./packages')
 const nodeModulesPaths = path.resolve('./node_modules')
 
+const logger = console
 const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 	devtool: 'eval',
 	entry: {
