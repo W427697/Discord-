@@ -15,7 +15,6 @@ exports.default = function (configDir) {
     publicPath = publicPath.slice(1);
   }
 
-  console.log('Webpack dev config: ', config);
   var compiler = (0, _webpack2.default)(config);
   var devMiddlewareOptions = {
     hot: true,

@@ -26,13 +26,18 @@ exports.default = function (configDir) {
 
 	// Check whether user has a custom webpack config file and
 	// return the (extended) base configuration if it's not available.
-	var customConfig = require.resolve(configDir, 'webpack.config.js');
-	if (typeof customConfig === 'function') {
-		logger.info('=> Loading custom webpack config (full-control mode).');
-		return customConfig(defaultConfig, 'development');
-	} else {
-		return defaultConfig;
+	var defaultConfig = buildConfig(storybookAddonsPath, storybookConfigPath);
+	var customConfigPath = _path2.default.resolve(configDir, 'webpack.config.js');
+	if (_fs2.default.existsSync(customConfigPath)) {
+		var customConfig = require.resolve(customConfigPath);
+		if (typeof customConfig === 'function') {
+			logger.info('=> Loading custom webpack config.');
+			return customConfig(defaultConfig, 'development');
+		}
 	}
+
+	logger.info('=> Loading default webpack config.');
+	return defaultConfig;
 };
 
 var _fs = require('fs');
@@ -61,7 +66,7 @@ var exclude = _path2.default.resolve('./node_modules');
 var packagesPaths = _path2.default.resolve('./packages');
 var nodeModulesPaths = _path2.default.resolve('./node_modules');
 
-var defaultConfig = function defaultConfig() {
+var buildConfig = function buildConfig(storybookAddonsPath, storybookConfigPath) {
 	return {
 		devtool: 'eval',
 		entry: {
