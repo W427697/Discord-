@@ -35,7 +35,7 @@ const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 	plugins: [
 	new CaseSensitivePathsPlugin(),
 	new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
-	new webpack.HotModuleReplacemenPlugin(),
+	new webpack.HotModuleReplacementPlugin(),
 	new webpack.NamedModulesPlugin(),
 	new webpack.NoEmitOnErrorsPluign()
 	],
