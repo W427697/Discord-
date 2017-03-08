@@ -24,8 +24,8 @@ function babel() {
 			loader: 'babel-loader',
 			query: {
 				cacheDirectory: true,
-				presets: [require.resolve('react')],
-				plugins: [require.resolve('transform-object-rest-spread'), require.resolve('transform-class-properties'), require.resolve('react-require')]
+				presets: [require.resolve('babel-preset-react')],
+				plugins: [require.resolve('babel-plugin-transform-object-rest-spread'), require.resolve('babel-plugin-transform-class-properties'), require.resolve('babel-plugin-react-require')]
 			}
 		}]
 	};
