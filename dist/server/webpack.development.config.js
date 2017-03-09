@@ -70,7 +70,7 @@ var buildConfig = function buildConfig(storybookAddonsPath, storybookConfigPath)
 		devtool: 'eval',
 		entry: {
 			manager: [storybookAddonsPath, require.resolve('../client/manager')],
-			preview: [require.resolve('webpack-hot-middleware/client') + '?reload=true', require.resolve(storybookConfigPath)]
+			preview: [require.resolve('webpack-hot-middleware/client') + '?reload=true', storybookConfigPath]
 		},
 		output: {
 			path: _path2.default.join(__dirname, 'dist'),
@@ -82,7 +82,7 @@ var buildConfig = function buildConfig(storybookAddonsPath, storybookConfigPath)
 			rules: [(0, _customBlocks.babel)({ include: include, exclude: exclude }), (0, _customBlocks.css)({ include: include, exclude: exclude }), (0, _customBlocks.image)({ include: include, exclude: exclude }), (0, _customBlocks.svg)({ include: include, exclude: exclude })]
 		},
 		resolve: {
-			extensins: ['.js', '.json', '.jsx', '.css'],
+			extensions: ['.js', '.json', '.jsx', '.css'],
 			modules: [nodeModulesPaths, packagesPaths],
 			alias: {
 				'@kadira/storybook-addons': require.resolve('@kadira/storybook-addons')

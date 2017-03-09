@@ -7,7 +7,7 @@ import {
 	image,
 	svg,
 } from './custom-blocks'
-import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
+import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin'
 
 const include = path.resolve('./packages')
 const exclude = path.resolve('./node_modules')
@@ -15,7 +15,7 @@ const exclude = path.resolve('./node_modules')
 const packagesPaths = path.resolve('./packages')
 const nodeModulesPaths = path.resolve('./node_modules')
 
-const logger = console
+const logger = console;
 const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 	devtool: 'eval',
 	entry: {
@@ -25,7 +25,7 @@ const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 		],
 		preview: [
 			`${require.resolve('webpack-hot-middleware/client')}?reload=true`,
-			require.resolve(storybookConfigPath)
+			storybookConfigPath
 		]
 	},
 	output: {
@@ -48,7 +48,7 @@ const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 		]
 	},
 	resolve: {
-		extensins: ['.js', '.json', '.jsx', '.css'],
+		extensions: ['.js', '.json', '.jsx', '.css'],
 		modules: [nodeModulesPaths, packagesPaths],
 		alias: {
 			'@kadira/storybook-addons': require.resolve('@kadira/storybook-addons')
