@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function (configDir) {
   // Build the webpack configuration using the development mode 
-  var config = (0, _webpackDevelopment2.default)(configDir);
+  var config = (0, _config2.default)(configDir);
   var middlewareFn = (0, _utils.getMiddleware)(configDir);
 
   // remove the leading '/'
@@ -63,9 +63,9 @@ var _webpackHotMiddleware = require('webpack-hot-middleware');
 
 var _webpackHotMiddleware2 = _interopRequireDefault(_webpackHotMiddleware);
 
-var _webpackDevelopment = require('./webpack.development.config');
+var _config = require('./config');
 
-var _webpackDevelopment2 = _interopRequireDefault(_webpackDevelopment);
+var _config2 = _interopRequireDefault(_config);
 
 var _index = require('./index.html');
 

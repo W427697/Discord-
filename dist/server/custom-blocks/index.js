@@ -3,99 +3,27 @@
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.babel = babel;
-exports.css = css;
-exports.image = image;
-exports.svg = svg;
-function babel() {
-	var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	var _options$test = options.test,
-	    test = _options$test === undefined ? /\.js$/ : _options$test,
-	    exclude = options.exclude,
-	    include = options.include;
+exports.svg = exports.image = exports.style = exports.babel = undefined;
 
+var _babel = require('./babel');
 
-	if (exclude && !Array.isArray(exclude)) exclude = [exclude];
-	if (include && !Array.isArray(include)) include = [include];
+var _babel2 = _interopRequireDefault(_babel);
 
-	return {
-		test: test, include: include, exclude: exclude,
-		use: [{
-			loader: 'babel-loader',
-			query: {
-				cacheDirectory: true,
-				presets: [require.resolve('babel-preset-react')],
-				plugins: [require.resolve('babel-plugin-transform-object-rest-spread'), require.resolve('babel-plugin-transform-class-properties'), require.resolve('babel-plugin-react-require')]
-			}
-		}]
-	};
-}
+var _style = require('./style');
 
-function css() {
-	var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	var _options$test2 = options.test,
-	    test = _options$test2 === undefined ? /\.css$/ : _options$test2,
-	    exclude = options.exclude,
-	    include = options.include;
+var _style2 = _interopRequireDefault(_style);
 
+var _image = require('./image');
 
-	if (exclude && !Array.isArray(exclude)) exclude = [exclude];
-	if (include && !Array.isArray(include)) include = [include];
+var _image2 = _interopRequireDefault(_image);
 
-	return {
-		test: test, include: include, exclude: exclude,
-		use: [{
-			loader: 'style-loader'
-		}, {
-			loader: 'css-loader'
-		}]
-	};
-}
+var _svg = require('./svg');
 
-function image() {
-	var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	var _options$test3 = options.test,
-	    test = _options$test3 === undefined ? /\.(gif|ico|jpe?g|png)$/ : _options$test3,
-	    exclude = options.exclude,
-	    include = options.include;
+var _svg2 = _interopRequireDefault(_svg);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	if (exclude && !Array.isArray(exclude)) exclude = [exclude];
-	if (include && !Array.isArray(include)) include = [include];
-
-	return {
-		test: test, include: include, exclude: exclude,
-		use: [{
-			loader: 'file-loader',
-			query: {
-				name: '[path][name].[ext]?[hash:4]'
-			}
-		}]
-	};
-}
-
-function svg() {
-	var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	var _options$test4 = options.test,
-	    test = _options$test4 === undefined ? /\.svg$/ : _options$test4,
-	    exclude = options.exclude,
-	    include = options.include;
-
-
-	if (exclude && !Array.isArray(exclude)) exclude = [exclude];
-	if (include && !Array.isArray(include)) include = [include];
-
-	return {
-		test: test, include: include, exclude: exclude,
-		use: [{
-			loader: 'svg-url-loader',
-			query: {
-				limit: 1024,
-				noquotes: true,
-				name: '[path][name].[ext]?[hash:4]'
-			}
-		}, {
-			loader: 'image-webpack-loader'
-		}]
-	};
-}
+exports.babel = _babel2.default;
+exports.style = _style2.default;
+exports.image = _image2.default;
+exports.svg = _svg2.default;

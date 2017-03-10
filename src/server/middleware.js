@@ -2,14 +2,14 @@ import { Router } from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from './webpack.development.config'
+import loadConfig from './config'
 import getIndexHtml from './index.html';
 import getIframeHtml from './iframe.html';
 import { getHeadHtml, getMiddleware } from './utils';
 
 export default function (configDir) {
   // Build the webpack configuration using the development mode 
-  const config = webpackConfig(configDir)
+  const config = loadConfig(configDir)
   const middlewareFn = getMiddleware(configDir)
 
   // remove the leading '/'

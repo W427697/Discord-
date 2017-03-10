@@ -1,13 +1,6 @@
 import fs from 'fs'
 import path from 'path'
 import webpack from 'webpack'
-import {
-	babel,
-	css,
-	image,
-	svg,
-} from './custom-blocks'
-import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin'
 
 const include = path.resolve('./packages')
 const exclude = path.resolve('./node_modules')
@@ -33,29 +26,12 @@ const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 		filename: 'static/[name].bundle.js',
 		publicPath: '/',
 	},
-	plugins: [
-		new CaseSensitivePathsPlugin(),
-		new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
-		new webpack.HotModuleReplacementPlugin(),
-		new webpack.NamedModulesPlugin(),
-	],
-	module: {
-		rules: [
-			babel({ include, exclude }),
-			css({ include, exclude }),
-			image({ include, exclude }),
-			svg({ include, exclude })
-		]
-	},
 	resolve: {
 		extensions: ['.js', '.json', '.jsx', '.css'],
 		modules: [nodeModulesPaths, packagesPaths],
 		alias: {
 			'@kadira/storybook-addons': require.resolve('@kadira/storybook-addons')
 		}
-	},
-	performance: {
-		hints: false
 	}
 })
 
