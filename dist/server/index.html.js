@@ -1,5 +1,26 @@
-import url from 'url';
-import { version } from '../../package.json';
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function (data) {
+  var assets = data.assets,
+      publicPath = data.publicPath;
+
+
+  var managerUrls = managerUrlsFromAssets(assets);
+
+  return '\n    <!DOCTYPE html>\n    <html>\n      <head>\n        <meta charset="utf-8">\n        <meta name="viewport" content="width=device-width, initial-scale=1">\n        <meta name="storybook-version" content="' + _package.version + '">\n        <title>React Storybook</title>\n        <style>\n          /*\n            When resizing panels, the drag event breaks if the cursor\n            moves over the iframe. Add the \'dragging\' class to the body\n            at drag start and remove it when the drag ends.\n           */\n          .dragging iframe {\n            pointer-events: none;\n          }\n\n          /* Styling the fuzzy search box placeholders */\n          .searchBox::-webkit-input-placeholder { /* Chrome/Opera/Safari */\n            color: #ddd;\n            font-size: 16px;\n          }\n\n          .searchBox::-moz-placeholder { /* Firefox 19+ */\n            color: #ddd;\n            font-size: 16px;\n          }\n\n          .searchBox:focus{\n            border-color: #EEE !important;\n          }\n\n          .btn:hover{\n            background-color: #eee\n          }\n        </style>\n      </head>\n      <body style="margin: 0;">\n        <div id="root"></div>\n        <script src="' + _url2.default.resolve(publicPath, managerUrls.js) + '"></script>\n      </body>\n    </html>\n  ';
+};
+
+var _url = require('url');
+
+var _url2 = _interopRequireDefault(_url);
+
+var _package = require('../../package.json');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // assets.manager will be:
 // - undefined
@@ -8,7 +29,7 @@ import { version } from '../../package.json';
 // assets.manager will be something like:
 // [ 'static/manager.c6e6350b6eb01fff8bad.bundle.js',
 //   'static/manager.c6e6350b6eb01fff8bad.bundle.js.map' ]
-const managerUrlsFromAssets = assets => {
+var managerUrlsFromAssets = function managerUrlsFromAssets(assets) {
   if (!assets || !assets.manager) {
     return {
       js: 'manager.bundle.js'
@@ -22,58 +43,11 @@ const managerUrlsFromAssets = assets => {
   }
 
   return {
-    js: assets.manager.find(filename => filename.match(/\.js$/)),
-    css: assets.manager.find(filename => filename.match(/\.css$/))
+    js: assets.manager.find(function (filename) {
+      return filename.match(/\.js$/);
+    }),
+    css: assets.manager.find(function (filename) {
+      return filename.match(/\.css$/);
+    })
   };
 };
-
-export default function (data) {
-  const { assets, publicPath } = data;
-
-  const managerUrls = managerUrlsFromAssets(assets);
-
-  return `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="storybook-version" content="${version}">
-        <title>React Storybook</title>
-        <style>
-          /*
-            When resizing panels, the drag event breaks if the cursor
-            moves over the iframe. Add the 'dragging' class to the body
-            at drag start and remove it when the drag ends.
-           */
-          .dragging iframe {
-            pointer-events: none;
-          }
-
-          /* Styling the fuzzy search box placeholders */
-          .searchBox::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-            color: #ddd;
-            font-size: 16px;
-          }
-
-          .searchBox::-moz-placeholder { /* Firefox 19+ */
-            color: #ddd;
-            font-size: 16px;
-          }
-
-          .searchBox:focus{
-            border-color: #EEE !important;
-          }
-
-          .btn:hover{
-            background-color: #eee
-          }
-        </style>
-      </head>
-      <body style="margin: 0;">
-        <div id="root"></div>
-        <script src="${url.resolve(publicPath, managerUrls.js)}"></script>
-      </body>
-    </html>
-  `;
-}

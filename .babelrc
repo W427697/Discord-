@@ -1,12 +1,6 @@
 {
   "presets": [
-  	["env", {
-  		"targets": {
-        "chrome": 56,
-        "safari": 10
-  		},
-  		"modules": false
-  	}],
+  	"env",
   	"react"
   ],
   "plugins": [

@@ -1,1 +1,3 @@
-import '@kadira/storybook-addon-links/register';
+'use strict';
+
+require('@kadira/storybook-addon-links/register');
