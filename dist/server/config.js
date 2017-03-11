@@ -52,12 +52,6 @@ var _webpack2 = _interopRequireDefault(_webpack);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var include = _path2.default.resolve('./packages');
-var exclude = _path2.default.resolve('./node_modules');
-
-var packagesPaths = _path2.default.resolve('./packages');
-var nodeModulesPaths = _path2.default.resolve('./node_modules');
-
 var logger = console;
 var buildConfig = function buildConfig(storybookAddonsPath, storybookConfigPath) {
   return {
@@ -68,12 +62,10 @@ var buildConfig = function buildConfig(storybookAddonsPath, storybookConfigPath)
     },
     output: {
       path: _path2.default.join(__dirname, 'dist'),
-      filename: 'static/[name].bundle.js',
-      publicPath: '/'
+      filename: '[name].bundle.js',
+      publicPath: 'static/'
     },
     resolve: {
-      extensions: ['.js', '.json', '.jsx', '.css'],
-      modules: [nodeModulesPaths, packagesPaths],
       alias: {
         '@kadira/storybook-addons': require.resolve('@kadira/storybook-addons')
       }

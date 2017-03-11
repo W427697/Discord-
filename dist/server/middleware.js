@@ -4,38 +4,26 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (configDir) {
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = function (_ref) {
+  var configDir = _ref.configDir,
+      _ref$webpackDevMiddle = _ref.webpackDevMiddlewareConfig,
+      webpackDevMiddlewareConfig = _ref$webpackDevMiddle === undefined ? {} : _ref$webpackDevMiddle,
+      _ref$webpackHotMiddle = _ref.webpackHotMiddlewareConfig,
+      webpackHotMiddlewareConfig = _ref$webpackHotMiddle === undefined ? {} : _ref$webpackHotMiddle;
+
   // Build the webpack configuration using the development mode 
   var config = (0, _config2.default)(configDir);
-  var middlewareFn = (0, _utils.getMiddleware)(configDir);
-
-  // remove the leading '/'
-  var publicPath = config.output.publicPath;
-  if (publicPath[0] === '/') {
-    publicPath = publicPath.slice(1);
-  }
+  var configDevMiddleware = _extends({}, defaultDevMiddlewareConfig, webpackDevMiddlewareConfig, {
+    publicPath: config.output.publicPath
+  });
+  var configHotMiddleware = _extends({}, defaultHotMiddlewareConfig, webpackHotMiddlewareConfig);
 
   var compiler = (0, _webpack2.default)(config);
-  var devMiddlewareOptions = {
-    hot: true,
-    compress: true,
-    clientLogLevel: 'none',
-    publicPath: config.output.publicPath,
-    watchOptions: {
-      ignored: /node_modules/
-    },
-    overlay: false,
-    stats: {
-      colors: true
-    }
-  };
-
   var router = new _express.Router();
-  router.use((0, _webpackDevMiddleware2.default)(compiler, devMiddlewareOptions));
-  router.use((0, _webpackHotMiddleware2.default)(compiler));
-
-  // custom middleware
-  middlewareFn(router);
+  router.use((0, _webpackDevMiddleware2.default)(compiler, configDevMiddleware));
+  router.use((0, _webpackHotMiddleware2.default)(compiler, configHotMiddleware));
 
   router.get('/', function (req, res) {
     res.send((0, _index2.default)({ publicPath: publicPath }));
@@ -78,3 +66,16 @@ var _iframe2 = _interopRequireDefault(_iframe);
 var _utils = require('./utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var defaultDevMiddlewareConfig = {
+  noInfo: false,
+  compress: true,
+  clientLogLevel: 'none',
+  watchOptions: {
+    ignored: /node_modules/
+  },
+  stats: 'minimal'
+};
+var defaultHotMiddlewareConfig = {
+  log: false
+};

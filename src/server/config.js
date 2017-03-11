@@ -2,12 +2,6 @@ import fs from 'fs'
 import path from 'path'
 import webpack from 'webpack'
 
-const include = path.resolve('./packages')
-const exclude = path.resolve('./node_modules')
-
-const packagesPaths = path.resolve('./packages')
-const nodeModulesPaths = path.resolve('./node_modules')
-
 const logger = console;
 const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 	devtool: 'eval',
@@ -23,12 +17,10 @@ const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 	},
 	output: {
 		path: path.join(__dirname, 'dist'),
-		filename: 'static/[name].bundle.js',
-		publicPath: '/',
+		filename: '[name].bundle.js',
+		publicPath: 'static/',
 	},
 	resolve: {
-		extensions: ['.js', '.json', '.jsx', '.css'],
-		modules: [nodeModulesPaths, packagesPaths],
 		alias: {
 			'@kadira/storybook-addons': require.resolve('@kadira/storybook-addons')
 		}
