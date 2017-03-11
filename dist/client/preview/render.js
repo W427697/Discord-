@@ -1,86 +1,57 @@
-'use strict';
+/* global document */
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _templateObject = _taggedTemplateLiteral(['\n        Did you forget to return the React element from the story?\n        Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.\n      '], ['\n        Did you forget to return the React element from the story?\n        Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.\n      ']),
-    _templateObject2 = _taggedTemplateLiteral(['\n        Seems like you are not returning a correct React element form the story.\n        Could you double check that?\n      '], ['\n        Seems like you are not returning a correct React element form the story.\n        Could you double check that?\n      ']);
-
-exports.renderError = renderError;
-exports.renderException = renderException;
-exports.renderMain = renderMain;
-exports.default = renderPreview;
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _commonTags = require('common-tags');
-
-var _error_display = require('./error_display');
-
-var _error_display2 = _interopRequireDefault(_error_display);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); } /* global document */
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { stripIndents } from 'common-tags';
+import ErrorDisplay from './error_display';
 
 // check whether we're running on node/browser
-var isBrowser = typeof window !== 'undefined';
+const isBrowser = typeof window !== 'undefined';
 
-var logger = console;
+const logger = console;
 
-var rootEl = null;
-var previousKind = '';
-var previousStory = '';
+let rootEl = null;
+let previousKind = '';
+let previousStory = '';
 
 if (isBrowser) {
   rootEl = document.getElementById('root');
 }
 
-function renderError(error) {
-  var properError = new Error(error.title);
+export function renderError(error) {
+  const properError = new Error(error.title);
   properError.stack = error.description;
 
-  var redBox = _react2.default.createElement(_error_display2.default, { error: properError });
-  _reactDom2.default.render(redBox, rootEl);
+  const redBox = React.createElement(ErrorDisplay, { error: properError });
+  ReactDOM.render(redBox, rootEl);
 }
 
-function renderException(error) {
+export function renderException(error) {
   // We always need to render redbox in the mainPage if we get an error.
   // Since this is an error, this affects to the main page as well.
-  var realError = new Error(error.message);
+  const realError = new Error(error.message);
   realError.stack = error.stack;
-  var redBox = _react2.default.createElement(_error_display2.default, { error: realError });
-  _reactDom2.default.render(redBox, rootEl);
+  const redBox = React.createElement(ErrorDisplay, { error: realError });
+  ReactDOM.render(redBox, rootEl);
 
   // Log the stack to the console. So, user could check the source code.
   logger.error(error.stack);
 }
 
-function renderMain(data, storyStore) {
+export function renderMain(data, storyStore) {
   if (storyStore.size() === 0) return null;
 
-  var NoPreview = function NoPreview() {
-    return _react2.default.createElement(
-      'p',
-      null,
-      'No Preview Available!'
-    );
-  };
-  var noPreview = _react2.default.createElement(NoPreview, null);
-  var selectedKind = data.selectedKind,
-      selectedStory = data.selectedStory;
+  const NoPreview = () => React.createElement(
+    'p',
+    null,
+    'No Preview Available!'
+  );
+  const noPreview = React.createElement(NoPreview, null);
+  const { selectedKind, selectedStory } = data;
 
-
-  var story = storyStore.getStory(selectedKind, selectedStory);
+  const story = storyStore.getStory(selectedKind, selectedStory);
   if (!story) {
-    _reactDom2.default.render(noPreview, rootEl);
+    ReactDOM.render(noPreview, rootEl);
     return null;
   }
 
@@ -95,42 +66,45 @@ function renderMain(data, storyStore) {
     //    https://github.com/kadirahq/react-storybook/issues/81
     previousKind = selectedKind;
     previousStory = selectedStory;
-    _reactDom2.default.unmountComponentAtNode(rootEl);
+    ReactDOM.unmountComponentAtNode(rootEl);
   }
 
-  var context = {
+  const context = {
     kind: selectedKind,
     story: selectedStory
   };
 
-  var element = story(context);
+  const element = story(context);
 
   if (!element) {
-    var error = {
-      title: 'Expecting a React element from the story: "' + selectedStory + '" of "' + selectedKind + '".',
+    const error = {
+      title: `Expecting a React element from the story: "${selectedStory}" of "${selectedKind}".`,
       /* eslint-disable */
-      description: (0, _commonTags.stripIndents)(_templateObject)
+      description: stripIndents`
+        Did you forget to return the React element from the story?
+        Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.
+      `
     };
     return renderError(error);
   }
 
   if (element.type === undefined) {
-    var _error = {
-      title: 'Expecting a valid React element from the story: "' + selectedStory + '" of "' + selectedKind + '".',
-      description: (0, _commonTags.stripIndents)(_templateObject2)
+    const error = {
+      title: `Expecting a valid React element from the story: "${selectedStory}" of "${selectedKind}".`,
+      description: stripIndents`
+        Seems like you are not returning a correct React element form the story.
+        Could you double check that?
+      `
     };
-    return renderError(_error);
+    return renderError(error);
   }
 
-  _reactDom2.default.render(element, rootEl);
+  ReactDOM.render(element, rootEl);
   return null;
 }
 
-function renderPreview(_ref) {
-  var reduxStore = _ref.reduxStore,
-      storyStore = _ref.storyStore;
-
-  var state = reduxStore.getState();
+export default function renderPreview({ reduxStore, storyStore }) {
+  const state = reduxStore.getState();
   if (state.error) {
     return renderException(state.error);
   }

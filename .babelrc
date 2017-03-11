@@ -1,5 +1,14 @@
 {
-  "presets": ["es2015", "react"],
+  "presets": [
+  	["env", {
+  		"targets": {
+        "chrome": 56,
+        "safari": 10
+  		},
+  		"modules": false
+  	}],
+  	"react"
+  ],
   "plugins": [
   	"transform-object-rest-spread"
   ]

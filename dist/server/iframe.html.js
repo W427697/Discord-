@@ -1,30 +1,4 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = function (data) {
-  var assets = data.assets,
-      headHtml = data.headHtml,
-      publicPath = data.publicPath;
-
-
-  var previewUrls = previewUrlsFromAssets(assets);
-
-  var previewCssTag = '';
-  if (previewUrls.css) {
-    previewCssTag = '<link rel=\'stylesheet\' type=\'text/css\' href=\'' + _url2.default.resolve(publicPath, previewUrls.css) + '\'>';
-  }
-
-  return '\n    <!DOCTYPE html>\n    <html>\n      <head>\n        <meta charset="utf-8">\n        <meta name="viewport" content="width=device-width, initial-scale=1">\n        <script>\n          if (window.parent !== window) {\n            window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;\n          }\n        </script>\n        <title>React Storybook</title>\n        ' + headHtml + '\n        ' + previewCssTag + '\n      </head>\n      <body>\n        <div id="root"></div>\n        <div id="error-display"></div>\n        <script src="' + _url2.default.resolve(publicPath, previewUrls.js) + '"></script>\n      </body>\n    </html>\n  ';
-};
-
-var _url = require('url');
-
-var _url2 = _interopRequireDefault(_url);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import url from 'url';
 
 // assets.preview will be:
 // - undefined
@@ -34,7 +8,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //   'preview.0d2d3d845f78399fd6d5e859daa152a9.css',
 //   'static/preview.9adbb5ef965106be1cc3.bundle.js.map',
 //   'preview.0d2d3d845f78399fd6d5e859daa152a9.css.map' ]
-var previewUrlsFromAssets = function previewUrlsFromAssets(assets) {
+const previewUrlsFromAssets = assets => {
   if (!assets) {
     return {
       js: 'preview.bundle.js'
@@ -48,11 +22,41 @@ var previewUrlsFromAssets = function previewUrlsFromAssets(assets) {
   }
 
   return {
-    js: assets.preview.find(function (filename) {
-      return filename.match(/\.js$/);
-    }),
-    css: assets.preview.find(function (filename) {
-      return filename.match(/\.css$/);
-    })
+    js: assets.preview.find(filename => filename.match(/\.js$/)),
+    css: assets.preview.find(filename => filename.match(/\.css$/))
   };
 };
+
+export default function (data) {
+  const { assets, headHtml, publicPath } = data;
+
+  const previewUrls = previewUrlsFromAssets(assets);
+
+  let previewCssTag = '';
+  if (previewUrls.css) {
+    previewCssTag = `<link rel='stylesheet' type='text/css' href='${url.resolve(publicPath, previewUrls.css)}'>`;
+  }
+
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script>
+          if (window.parent !== window) {
+            window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
+          }
+        </script>
+        <title>React Storybook</title>
+        ${headHtml}
+        ${previewCssTag}
+      </head>
+      <body>
+        <div id="root"></div>
+        <div id="error-display"></div>
+        <script src="${url.resolve(publicPath, previewUrls.js)}"></script>
+      </body>
+    </html>
+  `;
+}
