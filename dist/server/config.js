@@ -55,7 +55,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var logger = console;
 var buildConfig = function buildConfig(storybookAddonsPath, storybookConfigPath) {
   return {
-    devtool: 'eval',
     entry: {
       manager: [storybookAddonsPath, require.resolve('../client/manager')],
       preview: [require.resolve('webpack-hot-middleware/client') + '?reload=true', storybookConfigPath]
@@ -63,7 +62,7 @@ var buildConfig = function buildConfig(storybookAddonsPath, storybookConfigPath)
     output: {
       path: _path2.default.join(__dirname, 'dist'),
       filename: '[name].bundle.js',
-      publicPath: 'static/'
+      publicPath: '/static/'
     },
     resolve: {
       alias: {

@@ -4,7 +4,6 @@ import webpack from 'webpack'
 
 const logger = console;
 const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
-	devtool: 'eval',
 	entry: {
 		manager: [
 			storybookAddonsPath,
@@ -18,7 +17,7 @@ const buildConfig = (storybookAddonsPath, storybookConfigPath) => ({
 	output: {
 		path: path.join(__dirname, 'dist'),
 		filename: '[name].bundle.js',
-		publicPath: 'static/',
+		publicPath: '/static/',
 	},
 	resolve: {
 		alias: {
