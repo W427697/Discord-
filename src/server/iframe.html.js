@@ -11,7 +11,7 @@ import url from 'url';
 const previewUrlsFromAssets = (assets) => {
   if (!assets) {
     return {
-      js: 'static/preview.bundle.js',
+      js: 'preview.bundle.js',
     };
   }
 

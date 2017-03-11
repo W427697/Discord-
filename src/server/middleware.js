@@ -27,10 +27,11 @@ export default function ({
 }) {
   // Build the webpack configuration using the development mode 
   const config = loadConfig(configDir)
+  const publicPath = config.output.publicPath
   const configDevMiddleware = {
     ...defaultDevMiddlewareConfig,
     ...webpackDevMiddlewareConfig,
-    publicPath: config.output.publicPath
+    publicPath
   }
   const configHotMiddleware = {
     ...defaultHotMiddlewareConfig,

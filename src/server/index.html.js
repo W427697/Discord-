@@ -11,7 +11,7 @@ import { version } from '../../package.json';
 const managerUrlsFromAssets = (assets) => {
   if (!assets || !assets.manager) {
     return {
-      js: 'static/manager.bundle.js',
+      js: 'manager.bundle.js',
     };
   }
 

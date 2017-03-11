@@ -37,7 +37,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var previewUrlsFromAssets = function previewUrlsFromAssets(assets) {
   if (!assets) {
     return {
-      js: 'static/preview.bundle.js'
+      js: 'preview.bundle.js'
     };
   }
 

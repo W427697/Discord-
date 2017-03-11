@@ -15,8 +15,9 @@ exports.default = function (_ref) {
 
   // Build the webpack configuration using the development mode 
   var config = (0, _config2.default)(configDir);
+  var publicPath = config.output.publicPath;
   var configDevMiddleware = _extends({}, defaultDevMiddlewareConfig, webpackDevMiddlewareConfig, {
-    publicPath: config.output.publicPath
+    publicPath: publicPath
   });
   var configHotMiddleware = _extends({}, defaultHotMiddlewareConfig, webpackHotMiddlewareConfig);
 
