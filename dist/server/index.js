@@ -49,6 +49,8 @@ var logger = console;
 
 _commander2.default.version(_package2.default.version).option('-p, --port [number]', 'Port to run Storybook (Required)', parseInt).option('-h, --host [string]', 'Host to run Storybook').option('-s, --static-dir <dir-names>', 'Directory where to load static files from').option('-c, --config-dir [dir-name]', 'Directory where to load Storybook configurations from').option('--dont-track', 'Do not send anonymous usage stats.').option('-d, --db-path [db-file]', 'DEPRECATED!').option('--enable-db', 'DEPRECATED!').parse(process.argv);
 
+logger.info(_chalk2.default.bold(_package2.default.name + ' v' + _package2.default.version + '\n'));
+
 if (_commander2.default.enableDb || _commander2.default.dbPath) {
   logger.error(['Error: the experimental local database addon is no longer bundled with', 'react-storybook. Please remove these flags (-d,--db-path,--enable-db)', 'from the command or npm script and try again.'].join(' '));
   process.exit(1);
@@ -82,7 +84,8 @@ if (_commander2.default.host) {
 }
 
 var app = (0, _express2.default)();
-app.use((0, _serveFavicon2.default)(_path2.default.resolve(__dirname, 'public/favicon.ico')));
+
+var hasCustomFavicon = false;
 
 if (_commander2.default.staticDir) {
   _commander2.default.staticDir = (0, _utils.parseList)(_commander2.default.staticDir);
@@ -94,7 +97,17 @@ if (_commander2.default.staticDir) {
     }
     logger.log('=> Loading static files from: ' + staticPath + ' .');
     app.use(_express2.default.static(staticPath, { index: false }));
+
+    var faviconPath = _path2.default.resolve(staticPath, 'favicon.ico');
+    if (_fs2.default.existsSync(faviconPath)) {
+      hasCustomFavicon = true;
+      app.use((0, _serveFavicon2.default)(faviconPath));
+    }
   });
+}
+
+if (!hasCustomFavicon) {
+  app.use((0, _serveFavicon2.default)(_path2.default.resolve(__dirname, 'public/favicon.ico')));
 }
 
 // Build the webpack configuration using the `baseConfig`
@@ -104,10 +117,10 @@ var configDir = _commander2.default.configDir || './.storybook';
 // The repository info is sent to the storybook while running on
 // development mode so it'll be easier for tools to integrate.
 var exec = function exec(cmd) {
-  return _shelljs2.default.exec(cmd).stdout.trim();
+  return _shelljs2.default.exec(cmd, { silent: true }).stdout.trim();
 };
-process.env.STORYBOOK_GIT_ORIGIN = exec('git remote get-url origin');
-process.env.STORYBOOK_GIT_BRANCH = exec('git symbolic-ref HEAD --short');
+process.env.STORYBOOK_GIT_ORIGIN = process.env.STORYBOOK_GIT_ORIGIN || exec('git remote get-url origin');
+process.env.STORYBOOK_GIT_BRANCH = process.env.STORYBOOK_GIT_BRANCH || exec('git symbolic-ref HEAD --short');
 
 // NOTE changes to env should be done before calling `getBaseConfig`
 // `getBaseConfig` function which is called inside the middleware

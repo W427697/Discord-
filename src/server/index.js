@@ -27,6 +27,8 @@ program
   .option('--enable-db', 'DEPRECATED!')
   .parse(process.argv);
 
+logger.info(chalk.bold(`${packageJson.name} v${packageJson.version}\n`));
+
 if (program.enableDb || program.dbPath) {
   logger.error([
     'Error: the experimental local database addon is no longer bundled with',
@@ -64,7 +66,8 @@ if (program.host) {
 }
 
 const app = express();
-app.use(favicon(path.resolve(__dirname, 'public/favicon.ico')));
+
+let hasCustomFavicon = false;
 
 if (program.staticDir) {
   program.staticDir = parseList(program.staticDir);
@@ -76,7 +79,17 @@ if (program.staticDir) {
     }
     logger.log(`=> Loading static files from: ${staticPath} .`);
     app.use(express.static(staticPath, { index: false }));
+
+    const faviconPath = path.resolve(staticPath, 'favicon.ico');
+    if (fs.existsSync(faviconPath)) {
+      hasCustomFavicon = true;
+      app.use(favicon(faviconPath));
+    }
   });
+}
+
+if (!hasCustomFavicon) {
+  app.use(favicon(path.resolve(__dirname, 'public/favicon.ico')));
 }
 
 // Build the webpack configuration using the `baseConfig`
@@ -85,9 +98,9 @@ const configDir = program.configDir || './.storybook';
 
 // The repository info is sent to the storybook while running on
 // development mode so it'll be easier for tools to integrate.
-const exec = cmd => shelljs.exec(cmd).stdout.trim();
-process.env.STORYBOOK_GIT_ORIGIN = exec('git remote get-url origin');
-process.env.STORYBOOK_GIT_BRANCH = exec('git symbolic-ref HEAD --short');
+const exec = cmd => shelljs.exec(cmd, { silent: true }).stdout.trim();
+process.env.STORYBOOK_GIT_ORIGIN = process.env.STORYBOOK_GIT_ORIGIN || exec('git remote get-url origin');
+process.env.STORYBOOK_GIT_BRANCH = process.env.STORYBOOK_GIT_BRANCH || exec('git symbolic-ref HEAD --short');
 
 // NOTE changes to env should be done before calling `getBaseConfig`
 // `getBaseConfig` function which is called inside the middleware

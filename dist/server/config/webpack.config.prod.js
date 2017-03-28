@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function () {
   var entries = {
-    preview: [require.resolve('./polyfills')],
+    preview: [require.resolve('./polyfills'), require.resolve('./globals')],
     manager: [require.resolve('./polyfills'), _path2.default.resolve(__dirname, '../../client/manager')]
   };
 
@@ -15,7 +15,7 @@ exports.default = function () {
     devtool: '#cheap-module-source-map',
     entry: entries,
     output: {
-      filename: 'static/[name].bundle.js',
+      filename: 'static/[name].[chunkhash].bundle.js',
       // Here we set the publicPath to ''.
       // This allows us to deploy storybook into subpaths like GitHub pages.
       // This works with css and image loaders too.
@@ -44,6 +44,9 @@ exports.default = function () {
       }]
     },
     resolve: {
+      // Since we ship with json-loader always, it's better to move extensions to here
+      // from the default config.
+      extensions: ['.js', '.json', '.jsx', ''],
       // Add support to NODE_PATH. With this we could avoid relative path imports.
       // Based on this CRA feature: https://github.com/facebookincubator/create-react-app/issues/253
       fallback: _utils.nodePaths,

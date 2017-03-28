@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 'use strict';
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _webpack = require('webpack');
 
 var _webpack2 = _interopRequireDefault(_webpack);
@@ -16,6 +20,10 @@ var _path2 = _interopRequireDefault(_path);
 var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
+
+var _chalk = require('chalk');
+
+var _chalk2 = _interopRequireDefault(_chalk);
 
 var _shelljs = require('shelljs');
 
@@ -51,6 +59,8 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 var logger = console;
 
 _commander2.default.version(_package2.default.version).option('-s, --static-dir <dir-names>', 'Directory where to load static files from', _utils.parseList).option('-o, --output-dir [dir-name]', 'Directory where to store built files').option('-c, --config-dir [dir-name]', 'Directory where to load Storybook configurations from').option('-d, --db-path [db-file]', 'DEPRECATED!').option('--enable-db', 'DEPRECATED!').parse(process.argv);
+
+logger.info(_chalk2.default.bold(_package2.default.name + ' v' + _package2.default.version + '\n'));
 
 if (_commander2.default.enableDb || _commander2.default.dbPath) {
   logger.error(['Error: the experimental local database addon is no longer bundled with', 'react-storybook. Please remove these flags (-d,--db-path,--enable-db)', 'from the command or npm script and try again.'].join(' '));
@@ -91,18 +101,22 @@ if (_commander2.default.staticDir) {
   });
 }
 
-// Write both the storybook UI and IFRAME HTML files to destination path.
-var headHtml = (0, _utils.getHeadHtml)(configDir);
-var publicPath = config.output.publicPath;
-_fs2.default.writeFileSync(_path2.default.resolve(outputDir, 'index.html'), (0, _index2.default)(publicPath));
-_fs2.default.writeFileSync(_path2.default.resolve(outputDir, 'iframe.html'), (0, _iframe2.default)(headHtml, publicPath));
-
 // compile all resources with webpack and write them to the disk.
 logger.log('Building storybook ...');
-(0, _webpack2.default)(config).run(function (err) {
+(0, _webpack2.default)(config).run(function (err, stats) {
   if (err) {
     logger.error('Failed to build the storybook');
     logger.error(err.message);
     process.exit(1);
   }
+
+  var data = {
+    publicPath: config.output.publicPath,
+    assets: stats.toJson().assetsByChunkName
+  };
+  var headHtml = (0, _utils.getHeadHtml)(configDir);
+
+  // Write both the storybook UI and IFRAME HTML files to destination path.
+  _fs2.default.writeFileSync(_path2.default.resolve(outputDir, 'index.html'), (0, _index2.default)(data));
+  _fs2.default.writeFileSync(_path2.default.resolve(outputDir, 'iframe.html'), (0, _iframe2.default)((0, _extends3.default)({}, data, { headHtml: headHtml })));
 });

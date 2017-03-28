@@ -22,9 +22,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ConfigApi = function () {
   function ConfigApi(_ref) {
-    var channel = _ref.channel;
-    var storyStore = _ref.storyStore;
-    var reduxStore = _ref.reduxStore;
+    var channel = _ref.channel,
+        storyStore = _ref.storyStore,
+        reduxStore = _ref.reduxStore;
     (0, _classCallCheck3.default)(this, ConfigApi);
 
     // channel can be null when running in node
@@ -50,8 +50,8 @@ var ConfigApi = function () {
   }, {
     key: '_renderError',
     value: function _renderError(e) {
-      var stack = e.stack;
-      var message = e.message;
+      var stack = e.stack,
+          message = e.message;
 
       var error = { stack: stack, message: message };
       this._reduxStore.dispatch((0, _actions.setError)(error));
@@ -65,7 +65,7 @@ var ConfigApi = function () {
         try {
           _this._renderMain(loaders);
         } catch (error) {
-          if (module.hot.status() === 'apply') {
+          if (module.hot && module.hot.status() === 'apply') {
             // We got this issue, after webpack fixed it and applying it.
             // Therefore error message is displayed forever even it's being fixed.
             // So, we'll detect it reload the page.

@@ -3,9 +3,37 @@
 import fs from 'fs';
 import path from 'path';
 import loadBabelConfig from './babel_config';
+import { includePaths } from './config/utils';
 
 // avoid ESLint errors
 const logger = console;
+
+export function addJsonLoaderIfNotAvailable(config) {
+  const jsonLoaderExists = config.module.loaders.reduce(
+    (value, loader) => {
+      return value || [].concat(loader.test).some((matcher) => {
+        const isRegex = matcher instanceof RegExp;
+        const testString = 'my_package.json';
+        if (isRegex) {
+          return matcher.test(testString);
+        }
+        if (typeof matcher === 'function') {
+          return matcher(testString);
+        }
+        return false;
+      });
+    },
+    false
+  );
+
+  if (!jsonLoaderExists) {
+    config.module.loaders.push({
+      test: /\.json$/,
+      include: includePaths,
+      loader: require.resolve('json-loader'),
+    });
+  }
+}
 
 // `baseConfig` is a webpack configuration bundled with storybook.
 // React Storybook will look in the `configDir` directory
@@ -55,11 +83,13 @@ export default function (configType, baseConfig, configDir) {
 
   customConfig.module = customConfig.module || {};
 
-  return {
+  const newConfig = {
     ...customConfig,
     // We'll always load our configurations after the custom config.
     // So, we'll always load the stuff we need.
     ...config,
+    // Override with custom devtool if provided
+    devtool: customConfig.devtool || config.devtool,
     // We need to use our and custom plugins.
     plugins: [
       ...config.plugins,
@@ -75,6 +105,7 @@ export default function (configType, baseConfig, configDir) {
       ],
     },
     resolve: {
+      ...config.resolve,
       ...customConfig.resolve,
       alias: {
         ...config.alias,
@@ -82,4 +113,8 @@ export default function (configType, baseConfig, configDir) {
       },
     },
   };
+
+  addJsonLoaderIfNotAvailable(newConfig);
+
+  return newConfig;
 }

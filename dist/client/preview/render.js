@@ -8,7 +8,7 @@ var _taggedTemplateLiteral2 = require('babel-runtime/helpers/taggedTemplateLiter
 
 var _taggedTemplateLiteral3 = _interopRequireDefault(_taggedTemplateLiteral2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n        Did you forget to return the React element from the story?\n        Maybe check you are using "() => {<MyComp>}" instead of "() => (<MyComp>)" when defining the story.\n      '], ['\n        Did you forget to return the React element from the story?\n        Maybe check you are using "() => {<MyComp>}" instead of "() => (<MyComp>)" when defining the story.\n      ']),
+var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n        Did you forget to return the React element from the story?\n        Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.\n      '], ['\n        Did you forget to return the React element from the story?\n        Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.\n      ']),
     _templateObject2 = (0, _taggedTemplateLiteral3.default)(['\n        Seems like you are not returning a correct React element form the story.\n        Could you double check that?\n      '], ['\n        Seems like you are not returning a correct React element form the story.\n        Could you double check that?\n      ']); /* global document */
 
 exports.renderError = renderError;
@@ -35,6 +35,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // check whether we're running on node/browser
 var isBrowser = typeof window !== 'undefined';
 
+var logger = console;
+
 var rootEl = null;
 var previousKind = '';
 var previousStory = '';
@@ -58,6 +60,9 @@ function renderException(error) {
   realError.stack = error.stack;
   var redBox = _react2.default.createElement(_error_display2.default, { error: realError });
   _reactDom2.default.render(redBox, rootEl);
+
+  // Log the stack to the console. So, user could check the source code.
+  logger.error(error.stack);
 }
 
 function renderMain(data, storyStore) {
@@ -71,8 +76,8 @@ function renderMain(data, storyStore) {
     );
   };
   var noPreview = _react2.default.createElement(NoPreview, null);
-  var selectedKind = data.selectedKind;
-  var selectedStory = data.selectedStory;
+  var selectedKind = data.selectedKind,
+      selectedStory = data.selectedStory;
 
 
   var story = storyStore.getStory(selectedKind, selectedStory);
@@ -100,13 +105,7 @@ function renderMain(data, storyStore) {
     story: selectedStory
   };
 
-  var element = void 0;
-
-  try {
-    element = story(context);
-  } catch (ex) {
-    return renderException(ex);
-  }
+  var element = story(context);
 
   if (!element) {
     var error = {
@@ -130,13 +129,17 @@ function renderMain(data, storyStore) {
 }
 
 function renderPreview(_ref) {
-  var reduxStore = _ref.reduxStore;
-  var storyStore = _ref.storyStore;
+  var reduxStore = _ref.reduxStore,
+      storyStore = _ref.storyStore;
 
   var state = reduxStore.getState();
   if (state.error) {
     return renderException(state.error);
   }
 
-  return renderMain(state, storyStore);
+  try {
+    return renderMain(state, storyStore);
+  } catch (ex) {
+    return renderException(ex);
+  }
 }

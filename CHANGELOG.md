@@ -1,5 +1,171 @@
 ## Changelog
 
+### v2.35.3
+
+Allow customConfig to override devtool. [PR668](https://github.com/storybooks/react-storybook/pull/668)
+
+### v2.35.2
+03-January-2017
+
+Fixes issue [#601](https://github.com/storybooks/react-storybook/issues/601) where it throws error when introduce a propType with a hypen. Add a [fix](https://github.com/kadirahq/babel-plugin-react-docgen/pull/23) to [`babel-plugin-react-docgen`](https://github.com/kadirahq/babel-plugin-react-docgen) to fix this issue.
+
+This release comes with the updated `babel-plugin-react-docgen`.
+
+### v2.35.1
+
+* Revert [PR653](https://github.com/storybooks/react-storybook/pull/653) where it's causing HMR to not working properly.
+
+### v2.35.0
+18-December-2016
+
+* Using file-loader to load all the extensions [PR653](https://github.com/storybooks/react-storybook/pull/653)
+* Update css-loader dependency [PR648](https://github.com/storybooks/react-storybook/pull/648)
+* Check if stories are loaded from Jest [PR644](https://github.com/storybooks/react-storybook/pull/644)
+
+### v2.34.0
+05-December-2016
+
+Open the express router for developers (middleware.js file). [PR435](https://github.com/storybooks/react-storybook/pull/435)
+
+### v2.33.1
+01-December-2016
+
+Update Typescript definition file for global addDecorator. [PR634](https://github.com/storybooks/react-storybook/pull/634)
+
+### v2.33.0
+28-November-2016
+
+Completely avoid re-rendering the preview iframe. [PR631](https://github.com/storybooks/react-storybook/pull/631)
+
+### v2.32.2
+28-November-2016
+
+Update postmsg channel module version [PR627](https://github.com/storybooks/react-storybook/pull/627)
+
+### v2.32.1
+22-November-2016
+
+Add support for react_perf comes with React 15.4.0. [PR623](https://github.com/storybooks/react-storybook/pull/623)
+
+### v2.32.0
+
+Incorrect publish (error when running `npm publish`)
+
+### v2.31.0
+20-November-2016
+
+Add the react-storybook version to the build output. [PR621](https://github.com/storybooks/react-storybook/pull/621)
+
+### v2.30.1
+17-November-2016
+
+Update the postmsg channel module to fix issue [#555](https://github.com/storybooks/react-storybook/issues/555) with [PR611](https://github.com/storybooks/react-storybook/pull/611)
+
+### v2.30.0
+16-November-2016
+
+Update to the new Storybook UI which doesn't use Redux.
+
+### v2.29.7
+11-November-2016
+
+Update @kadira/storybook-ui to the latest.
+
+### v2.29.6
+10-November-2016
+
+Fix a typo in the story syntax error messages. [PR610](https://github.com/storybooks/react-storybook/pull/610)
+
+### v2.29.5
+09-November-2016
+
+Check if regex and regex.test is available before calling it. [PR608](https://github.com/storybooks/react-storybook/pull/608)
+
+### v2.29.3
+08-November-2016
+
+Update webpack-hot-middleware to version 2.13.2 to fix the issue [#543](https://github.com/storybooks/react-storybook/issues/543).
+
+### v2.29.3
+03-November-2016
+
+Fix a regression caused by v2.29.2.
+There was a text called undefined listed always on the top of the preview.
+
+### v2.29.2
+03-November-2016
+
+Add various fixes.
+
+* Use webpack chunkhash to enable long-term caching. [PR597](https://github.com/kadirahq/react-storybook/pull/597)
+* Fixed json loader testing for when test is multiple. [PR598](https://github.com/kadirahq/react-storybook/pull/598)
+* Fix usage of custom favicon [PR592](https://github.com/kadirahq/react-storybook/pull/592)
+* Update postcss-loader to v1.1.0 [PR599](https://github.com/kadirahq/react-storybook/pull/599)
+* fix for `module.hot` is not available in a static build [PR600](https://github.com/kadirahq/react-storybook/pull/600)
+
+### v2.29.1
+03-November-2016
+
+Update babel-plugin-react-docgen to v1.4.1 to fix HOC [issue](https://github.com/kadirahq/babel-plugin-react-docgen/issues/19)
+
+### v2.29.0
+01-November-2016
+
+Update babel-plugin-react-docgen to 1.4.0.
+This will fix some of the compilation issues such as #580.
+
+### v2.28.1
+28-October-2016
+
+Remove preview decorator support. [PR583](https://github.com/kadirahq/react-storybook/pull/583).
+
+### v2.28.0
+28-October-2016
+
+Add preview decorator support. [PR582](https://github.com/kadirahq/react-storybook/pull/582).
+This will help us bring storybook designer with some great power.
+
+### v2.27.0
+27-October-2016
+
+Add a few usability improvements to Storybook.
+
+* Display storybook version. [PR559](https://github.com/kadirahq/react-storybook/pull/559)
+* Make the storybooks cacheable. [PR578](https://github.com/kadirahq/react-storybook/pull/578)
+* Change the devtool to eval and remove the use of source maps. [PR577](https://github.com/kadirahq/react-storybook/pull/577)
+* Update `babel-preset-react-app` to the latest. [PR576](https://github.com/kadirahq/react-storybook/pull/576)
+* Ship `json-loader` by default. [PR575](https://github.com/kadirahq/react-storybook/pull/575)
+
+### v2.26.0
+24-October-2016
+
+Get some new features from CRA.
+
+* Add jsx as a resolve extension [PR563](https://github.com/kadirahq/react-storybook/pull/563)
+* Allow to use postcss for CSS @imports [PR564](https://github.com/kadirahq/react-storybook/pull/564)
+* Use process.env as a proper object [PR565](https://github.com/kadirahq/react-storybook/pull/565)
+
+### v2.25.1
+23-October-2016
+
+Add a potential fix to [558](https://github.com/kadirahq/react-storybook/issues/558) by updating babel-plugin-react-docgen to the latest(v1.3.2).
+
+### v2.25.0
+21-October-2016
+
+Add react docgen info into React classes with the react-docgen babel plugin. [PR557](https://github.com/kadirahq/react-storybook/pull/557).
+With this:
+
+  * We could get docgen info with any React component class using `ClassName.__docgenInfo`.
+  * From the global collection: `STORYBOOK_REACT_CLASSES`
+
+Additionally, added `yarn.lock`.
+
+### v2.24.1
+19-October-2016
+
+Do not show git command output. [PR554](https://github.com/kadirahq/react-storybook/pull/554)
+
 ### v2.24.0
 07-October-2016
 
