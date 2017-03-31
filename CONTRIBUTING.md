@@ -18,7 +18,6 @@ No software is bug free. So, if you got an issue, follow these steps:
 The best way to help figure out an issue you are having is to produce a minimal reproduction. A good way to do that is using Create React App:
 
 ```bash
-# if necessary
 npm install --global create-react-app getstorybook
 
 create-react-app reproduction
