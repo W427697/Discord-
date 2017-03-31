@@ -19,7 +19,7 @@ The best way to help figure out an issue you are having is to produce a minimal 
 
 ```bash
 # if necessary
-npm install -g create-react-app
+npm install -g create-react-app getstorybook
 
 create-react-app reproduction
 cd reproduction
