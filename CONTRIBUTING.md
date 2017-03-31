@@ -19,14 +19,14 @@ The best way to help figure out an issue you are having is to produce a minimal 
 
 ```bash
 # if necessary
-npm install -g create-react-app getstorybook
+npm install --global create-react-app getstorybook
 
 create-react-app reproduction
 cd reproduction
 getstorybook
 
 # make changes to try and reproduce the problem, such as adding components + stories
-yarn start storybook
+npm start storybook
 
 # see if you can see the problem, if so, commit it:
 git init
@@ -40,7 +40,7 @@ git push -u origin master
 
 If you follow that process, you can then link to the github repository in the issue. See https://github.com/storybooks/react-storybook/issues/708#issuecomment-290589886 for an example.
 
-**NOTE**: If you are using CRA to build the reproduction, and your issue involves a webpack config, you will not be able to modify the *app's* webpack config, however you can still modify storybook's to mirror your app's version of storybook. Alternatively, use `npm run eject` in the CRA app to get a modifiable webpack config.
+**NOTE**: If your issue involves a webpack config, create-react-app will prevent you from modifying the *app's* webpack config, however you can still modify storybook's to mirror your app's version of storybook. Alternatively, use `npm run eject` in the CRA app to get a modifiable webpack config.
 
 ## Pull Requests (PRs)
 
@@ -78,7 +78,7 @@ In order to test features you add, you may need to link the local copy of this r
 For that we need a sample project. Let's create it.
 
 ```sh
-npm i -g create-react-app getstorybook
+npm install --global create-react-app getstorybook
 create-react-app my-demo-app
 cd my-demo-app
 getstorybook
