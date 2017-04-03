@@ -37,17 +37,17 @@ export default class ClientApi {
 
   storiesOf(kind, m) {
     if (!kind && typeof kind !== 'string' && !{}.prototype.hasOwnProperty.call(kind, 'name')) {
-        throw new Error('Invalid kind provided for stories, should be a string or object with a "name" property');
+      throw new Error('Invalid kind provided for stories, should be a string or object with a "name" property');
     }
     let kindName;
     let kindConfig;
 
     if (typeof kind === 'string') {
-        kindName = kind;
-        kindConfig = { name: kind };
+      kindName = kind;
+      kindConfig = { name: kind };
     } else {
-        kindName = kind.name;
-        kindConfig = kind;
+      kindName = kind.name;
+      kindConfig = kind;
     }
 
     if (m && m.hot) {
