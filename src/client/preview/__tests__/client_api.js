@@ -263,8 +263,6 @@ describe('preview.client_api', () => {
       const functions = {
         'story-1.1': () => 'story-1.1',
         'story-1.2': () => 'story-1.2',
-        'story-2.1': () => 'story-2.1',
-        'story-2.2': () => 'story-2.2',
       };
       const kind1 = api.storiesOf({ name: 'kind-1', kindMetaDataProperty: 'something else' });
       kind1.add('story-1.1', { story: functions['story-1.1'], storyMetaDataProperty: 'something more' });
