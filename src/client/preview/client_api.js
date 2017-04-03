@@ -36,19 +36,29 @@ export default class ClientApi {
   }
 
   storiesOf(kind, m) {
-    if (!kind && typeof kind !== 'string') {
-      throw new Error('Invalid kind provided for stories, should be a string');
+    if (!kind && typeof kind !== 'string' && !{}.prototype.hasOwnProperty.call(kind, 'name')) {
+        throw new Error('Invalid kind provided for stories, should be a string or object with a "name" property');
+    }
+    let kindName;
+    let kindConfig;
+
+    if (typeof kind === 'string') {
+        kindName = kind;
+        kindConfig = { name: kind };
+    } else {
+        kindName = kind.name;
+        kindConfig = kind;
     }
 
     if (m && m.hot) {
       m.hot.dispose(() => {
-        this._storyStore.removeStoryKind(kind);
+        this._storyStore.removeStoryKind(kindName);
       });
     }
 
     const localDecorators = [];
     const api = {
-      kind,
+      kind: kindName,
     };
 
     // apply addons
@@ -61,8 +71,8 @@ export default class ClientApi {
     });
 
     api.add = (storyName, getStory) => {
-      if (this._storyStore.hasStory(kind, storyName)) {
-        throw new Error(`Story of "${kind}" named "${storyName}" already exists`);
+      if (this._storyStore.hasStory(kindName, storyName)) {
+        throw new Error(`Story of "${kindName}" named "${storyName}" already exists`);
       }
 
       // Wrap the getStory function with each decorator. The first
@@ -72,7 +82,7 @@ export default class ClientApi {
       let storyMeta;
       if (isFunction(getStory)) {
         storyFn = getStory;
-        storyMeta = {}
+        storyMeta = {};
       } else {
         storyFn = getStory.story;
         storyMeta = { ...getStory };
@@ -92,7 +102,7 @@ export default class ClientApi {
       }, storyFn);
 
       // Add the fully decorated getStory function.
-      this._storyStore.addStory(kind, storyName, { storyFn: fn, storyMeta });
+      this._storyStore.addStory(kindConfig, storyName, { storyFn: fn, storyMeta });
       return api;
     };
 

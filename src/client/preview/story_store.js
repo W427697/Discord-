@@ -20,20 +20,23 @@ export default class StoryStore {
     this._storiesOrdering = fn;
   }
 
-  addStory(kind, name, story) {
-    if (!this._data[kind]) {
-      this._data[kind] = {
-        kind,
+  addStory(kindConfig, name, story) {
+    const { name: kindName, ...meta } = kindConfig;
+
+    if (!this._data[kindName]) {
+      this._data[kindName] = {
+        kind: kindName,
+        meta,
         index: getId(),
         stories: {},
       };
     }
 
-    this._data[kind].stories[name] = {
+    this._data[kindName].stories[name] = {
       name,
       index: getId(),
       meta: story.storyMeta,
-      fn: story.storyFn
+      fn: story.storyFn,
     };
   }
 
@@ -70,8 +73,8 @@ export default class StoryStore {
     return storyInfo.fn;
   }
 
-  removeStoryKind(kind) {
-    this._data[kind].stories = {};
+  removeStoryKind(kindName) {
+    this._data[kindName].stories = {};
   }
 
   hasStoryKind(kind) {
