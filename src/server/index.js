@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import express from 'express';
+import https from 'https';
 import favicon from 'serve-favicon';
 import program from 'commander';
 import path from 'path';
@@ -24,6 +25,10 @@ program
   .option('-c, --config-dir [dir-name]', 'Directory where to load Storybook configurations from')
   .option('-q, --quiet', 'Silence webpack output in terminal and browser console')
   .option('--dont-track', 'Do not send anonymous usage stats.')
+  .option('--https', 'Serve Storybook over HTTPS. Note: You must provide your own certificate information.')
+    .option('--ssl-ca <ca>', 'Provide an SSL certificate authority. (Optional with --https, required if using a self-signed certificate)', parseList)
+    .option('--ssl-cert <cert>', 'Provide an SSL certificate. (Required with --https)')
+    .option('--ssl-key <key>', 'Provide an SSL key. (Required with --https)')
   .option('-d, --db-path [db-file]', 'DEPRECATED!')
   .option('--enable-db', 'DEPRECATED!')
   .parse(process.argv);
@@ -68,6 +73,26 @@ if (program.host) {
 }
 
 const app = express();
+let server = app;
+
+if (program.https) {
+  if (!program.sslCert) {
+    logger.error('Error: --ssl-cert is required with --https');
+    process.exit(-1);
+  }
+  if (!program.sslKey) {
+    logger.error('Error: --ssl-key is required with --https');
+    process.exit(-1);
+  }
+
+  const sslOptions = {
+    ca: (program.sslCa || []).map(ca => fs.readFileSync(ca, 'utf-8')),
+    cert: fs.readFileSync(program.sslCert, 'utf-8'),
+    key: fs.readFileSync(program.sslKey, 'utf-8'),
+  };
+
+  server = https.createServer(sslOptions, app);
+}
 
 let hasCustomFavicon = false;
 
@@ -110,11 +135,11 @@ app.use(storybook(configDir, {
   quiet: program.quiet,
 }));
 
-app.listen(...listenAddr, function (error) {
+server.listen(...listenAddr, function (error) {
   if (error) {
     throw error;
   } else {
-    const address = `http://${program.host || 'localhost'}:${program.port}/`;
+    const address = `http${program.https ? 's' : ''}://${program.host || 'localhost'}:${program.port}/`;
     logger.info(`\nReact Storybook started on => ${chalk.cyan(address)}\n`);
     track();
   }
