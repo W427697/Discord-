@@ -42,8 +42,8 @@ export default function ({
   webpackHotMiddlewareConfig = {}
 }) {
   // Build the webpack configuration using the development mode
-  const config = merge(defaultConfig, config)
-  const publicPath = config.output.publicPath
+  const webpackConfig = merge(defaultConfig, config)
+  const publicPath = webpackConfig.output.publicPath
   const configDevMiddleware = {
     ...defaultDevMiddlewareConfig,
     ...webpackDevMiddlewareConfig,
@@ -54,7 +54,7 @@ export default function ({
     ...webpackHotMiddlewareConfig
   }
 
-  const compiler = webpack(config);
+  const compiler = webpack(webpackConfig);
   const router = new Router();
   router.use(webpackDevMiddleware(compiler, configDevMiddleware));
   router.use(webpackHotMiddleware(compiler, configHotMiddleware));
