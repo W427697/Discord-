@@ -28,7 +28,10 @@ exports.default = function (_ref) {
   router.use((0, _webpackHotMiddleware2.default)(compiler, configHotMiddleware));
 
   router.get('/', function (req, res) {
-    res.send((0, _index2.default)({ publicPath: publicPath }));
+    return res.send((0, _index2.default)({ publicPath: publicPath }));
+  });
+  router.get('/iframe.html', function (req, res) {
+    return res.send((0, _iframe2.default)({ publicPath: publicPath }));
   });
 
   return router;
@@ -55,6 +58,10 @@ var _config2 = _interopRequireDefault(_config);
 var _index = require('./index.html');
 
 var _index2 = _interopRequireDefault(_index);
+
+var _iframe = require('./iframe.html');
+
+var _iframe2 = _interopRequireDefault(_iframe);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

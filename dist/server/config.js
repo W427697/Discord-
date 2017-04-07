@@ -9,8 +9,8 @@ exports.default = function (configPath) {
 
 	var customConfig = require.resolve(configPath, configFile);
 	if (_fs2.default.existsSync(customConfig)) {
-		logger.info('=> Loading custom webpack config.');
-		(0, _webpackMerge2.default)(baseConfig, require(customConfig));
+		logger('=> Loading custom webpack config.');
+		(0, _webpackMerge2.default)(common, require(customConfig));
 	} else {
 		// TODO: add more info
 		throw new Error('=> Config not found.');
@@ -25,26 +25,26 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
-var _webpack = require('webpack');
-
-var _webpack2 = _interopRequireDefault(_webpack);
-
 var _webpackMerge = require('webpack-merge');
 
 var _webpackMerge2 = _interopRequireDefault(_webpackMerge);
 
+var _webpack = require('webpack');
+
+var _webpack2 = _interopRequireDefault(_webpack);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var logger = console;
-var baseConfig = {
+var logger = console.log;
+var common = {
 	entry: {
 		manager: [require.resolve('../client/manager')],
 		preview: [require.resolve('webpack-hot-middleware/client') + '?reload=true']
 	},
 	output: {
-		path: _path2.default.join(__dirname, 'dist'),
-		filename: '[name].bundle.js',
-		publicPath: '/static/'
+		// path: path.join(__dirname, 'dist'),
+		// filename: '[name].bundle.js',
+		// publicPath: '/static/',
 	},
 	resolve: {
 		alias: {

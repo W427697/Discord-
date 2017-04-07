@@ -26,7 +26,7 @@ const common = {
 }
 
 export default function(configPath, configFile = 'webpack.config.js') {
-  const customConfig = require.resolve(configPath, configFile)
+  const customConfig = path.resolve(configPath, configFile)
   if (fs.existsSync(customConfig)) {
     logger('=> Loading custom webpack config.')
 	  merge(common, require(customConfig))
