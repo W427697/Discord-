@@ -8,13 +8,13 @@ exports.default = function (configPath) {
 	var configFile = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'webpack.config.js';
 
 	var customConfig = _path2.default.resolve(configPath, configFile);
-	if (_fs2.default.existsSync(customConfig)) {
-		logger('=> Loading custom webpack config.');
-		(0, _webpackMerge2.default)(common, require(customConfig));
-	} else {
-		// TODO: add more info
+	if (!_fs2.default.existsSync(customConfig)) {
+		// TODO: add more info about error
 		throw new Error('=> Config not found.');
 	}
+
+	logger('=> Loading custom webpack config.');
+	return (0, _webpackMerge2.default)(common, require(customConfig));
 };
 
 var _fs = require('fs');

@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
 import webpack from 'webpack';
+import merge from 'webpack-merge';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import loadConfig from './config'
 
 import getIndexHtml from './index.html';
 import getIframeHtml from './iframe.html';
@@ -20,15 +20,29 @@ const defaultDevMiddlewareConfig = {
 const defaultHotMiddlewareConfig = {
   log: false
 }
+const defaultConfig = {
+  entry: {
+    manager: [
+      require.resolve('../client/manager')
+    ],
+    preview: [
+      `${require.resolve('webpack-hot-middleware/client')}?reload=true`,
+    ]
+  },
+  resolve: {
+    alias: {
+      '@kadira/storybook-addons': require.resolve('@kadira/storybook-addons')
+    }
+  }
+}
 
 export default function ({
-  configPath,
-  configName,
+  config,
   webpackDevMiddlewareConfig = {},
   webpackHotMiddlewareConfig = {}
 }) {
   // Build the webpack configuration using the development mode
-  const config = loadConfig(configPath, configName)
+  const config = merge(defaultConfig, config)
   const publicPath = config.output.publicPath
   const configDevMiddleware = {
     ...defaultDevMiddlewareConfig,
