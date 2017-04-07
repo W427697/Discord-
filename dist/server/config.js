@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (configPath) {
 	var configFile = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'webpack.config.js';
 
-	var customConfig = require.resolve(configPath, configFile);
+	var customConfig = _path2.default.resolve(configPath, configFile);
 	if (_fs2.default.existsSync(customConfig)) {
 		logger('=> Loading custom webpack config.');
 		(0, _webpackMerge2.default)(common, require(customConfig));
