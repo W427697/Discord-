@@ -1,11 +1,12 @@
 import { Router } from 'express';
+
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import loadConfig from './config'
+
 import getIndexHtml from './index.html';
 import getIframeHtml from './iframe.html';
-import { getHeadHtml } from './utils';
 
 const defaultDevMiddlewareConfig = {
   noInfo: false,
@@ -21,12 +22,13 @@ const defaultHotMiddlewareConfig = {
 }
 
 export default function ({
-  configDir,
+  configPath,
+  configName,
   webpackDevMiddlewareConfig = {},
   webpackHotMiddlewareConfig = {}
 }) {
-  // Build the webpack configuration using the development mode 
-  const config = loadConfig(configDir)
+  // Build the webpack configuration using the development mode
+  const config = loadConfig(configPath, configName)
   const publicPath = config.output.publicPath
   const configDevMiddleware = {
     ...defaultDevMiddlewareConfig,
@@ -43,14 +45,12 @@ export default function ({
   router.use(webpackDevMiddleware(compiler, configDevMiddleware));
   router.use(webpackHotMiddleware(compiler, configHotMiddleware));
 
-  router.get('/', function (req, res) {
-    res.send(getIndexHtml({ publicPath }));
-  });
-
-  router.get('/iframe.html', function (req, res) {
-    const headHtml = getHeadHtml(configDir);
-    res.send(getIframeHtml({ headHtml, publicPath }));
-  });
+  router.get('/', (req, res) =>
+   res.send(getIndexHtml({ publicPath }))
+  );
+  router.get('/iframe.html', (req, res) =>
+   res.send(getIframeHtml({ publicPath }))
+  );
 
   return router;
 }

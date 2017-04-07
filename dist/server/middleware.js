@@ -7,14 +7,15 @@ Object.defineProperty(exports, "__esModule", {
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.default = function (_ref) {
-  var configDir = _ref.configDir,
+  var configPath = _ref.configPath,
+      configName = _ref.configName,
       _ref$webpackDevMiddle = _ref.webpackDevMiddlewareConfig,
       webpackDevMiddlewareConfig = _ref$webpackDevMiddle === undefined ? {} : _ref$webpackDevMiddle,
       _ref$webpackHotMiddle = _ref.webpackHotMiddlewareConfig,
       webpackHotMiddlewareConfig = _ref$webpackHotMiddle === undefined ? {} : _ref$webpackHotMiddle;
 
-  // Build the webpack configuration using the development mode 
-  var config = (0, _config2.default)(configDir);
+  // Build the webpack configuration using the development mode
+  var config = (0, _config2.default)(configPath, configName);
   var publicPath = config.output.publicPath;
   var configDevMiddleware = _extends({}, defaultDevMiddlewareConfig, webpackDevMiddlewareConfig, {
     publicPath: publicPath
@@ -28,11 +29,6 @@ exports.default = function (_ref) {
 
   router.get('/', function (req, res) {
     res.send((0, _index2.default)({ publicPath: publicPath }));
-  });
-
-  router.get('/iframe.html', function (req, res) {
-    var headHtml = (0, _utils.getHeadHtml)(configDir);
-    res.send((0, _iframe2.default)({ headHtml: headHtml, publicPath: publicPath }));
   });
 
   return router;
@@ -59,12 +55,6 @@ var _config2 = _interopRequireDefault(_config);
 var _index = require('./index.html');
 
 var _index2 = _interopRequireDefault(_index);
-
-var _iframe = require('./iframe.html');
-
-var _iframe2 = _interopRequireDefault(_iframe);
-
-var _utils = require('./utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
