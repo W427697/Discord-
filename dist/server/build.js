@@ -107,6 +107,14 @@ logger.log('Building storybook ...');
   if (err) {
     logger.error('Failed to build the storybook');
     logger.error(err.message);
+  }
+  if (stats.hasErrors()) {
+    logger.error('Failed to build the storybook');
+    stats.toJson().errors.forEach(function (e) {
+      return console.error(e);
+    });
+  }
+  if (err || stats.hasErrors()) {
     process.exit(1);
   }
 
