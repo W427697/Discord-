@@ -81,7 +81,7 @@ webpack(config).run(function (err, stats) {
   }
   if (stats.hasErrors()) {
     logger.error('Failed to build the storybook');
-    stats.toJson().errors.forEach(e => console.error(e));
+    stats.toJson().errors.forEach(e => logger.error(e));
   }
   if (err || stats.hasErrors()) {
       process.exit(1);
