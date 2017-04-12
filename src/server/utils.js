@@ -1,6 +1,12 @@
 import path from 'path';
 import fs from 'fs';
 
+function parseBoolean(str) {
+  if (str === 'true') return true;
+  if (str === 'false') return false;
+  return str;
+}
+
 export function parseList(str) {
   return str.split(',');
 }
@@ -18,7 +24,7 @@ export function getHeadHtml(configDirPath) {
 export function getEnvConfig(program, configEnv) {
   Object.keys(configEnv).forEach((fieldName) => {
     const envVarName = configEnv[fieldName];
-    const envVarValue = process.env[envVarName];
+    const envVarValue = parseBoolean(process.env[envVarName]);
     if (envVarValue) {
       program[fieldName] = envVarValue; // eslint-disable-line no-param-reassign
     }

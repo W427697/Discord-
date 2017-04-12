@@ -9,7 +9,7 @@ exports.default = function () {
     devtool: 'eval',
     entry: {
       manager: [require.resolve('./polyfills'), require.resolve('../../client/manager')],
-      preview: [require.resolve('./polyfills'), require.resolve('./globals'), require.resolve('webpack-hot-middleware/client') + '?reload=true']
+      preview: [require.resolve('./polyfills'), require.resolve('./globals')]
     },
     output: {
       path: _path2.default.join(__dirname, 'dist'),

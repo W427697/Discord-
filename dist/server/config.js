@@ -14,7 +14,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.addJsonLoaderIfNotAvailable = addJsonLoaderIfNotAvailable;
 
-exports.default = function (configType, baseConfig, configDir) {
+exports.default = function (configType, baseConfig, configDir, options) {
   var config = baseConfig;
 
   var babelConfig = (0, _babel_config2.default)(configDir);
@@ -28,6 +28,12 @@ exports.default = function (configType, baseConfig, configDir) {
     throw err;
   }
   config.entry.preview.push(require.resolve(storybookConfigPath));
+
+  // Add client to entry for hot reloading
+  config.entry.preview.push(require.resolve('webpack-hot-middleware/client') + '?' + _qs2.default.stringify({
+    noInfo: options.quiet,
+    reload: true
+  }));
 
   // Check whether addons.js file exists inside the storybook.
   // Load the default addons.js file if it's missing.
@@ -85,6 +91,10 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+var _qs = require('qs');
+
+var _qs2 = _interopRequireDefault(_qs);
+
 var _babel_config = require('./babel_config');
 
 var _babel_config2 = _interopRequireDefault(_babel_config);
@@ -94,9 +104,7 @@ var _utils = require('./config/utils');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // avoid ESLint errors
-/* eslint global-require: 0 */
-
-var logger = console;
+var logger = console; /* eslint global-require: 0 */
 
 function addJsonLoaderIfNotAvailable(config) {
   var jsonLoaderExists = config.module.loaders.reduce(function (value, loader) {

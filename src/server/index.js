@@ -23,6 +23,7 @@ program
   .option('-h, --host [string]', 'Host to run Storybook')
   .option('-s, --static-dir <dir-names>', 'Directory where to load static files from')
   .option('-c, --config-dir [dir-name]', 'Directory where to load Storybook configurations from')
+  .option('-q, --quiet', 'Silence webpack output in terminal and browser console')
   .option('--dont-track', 'Do not send anonymous usage stats.')
   .option('--https', 'Serve Storybook over HTTPS. Note: You must provide your own certificate information.')
     .option('--ssl-ca <ca>', 'Provide an SSL certificate authority. (Optional with --https, required if using a self-signed certificate)', parseList)
@@ -50,6 +51,7 @@ getEnvConfig(program, {
   host: 'SBCONFIG_HOSTNAME',
   staticDir: 'SBCONFIG_STATIC_DIR',
   configDir: 'SBCONFIG_CONFIG_DIR',
+  quiet: 'SBCONFIG_QUIET',
   dontTrack: 'SBCONFIG_DO_NOT_TRACK',
 });
 
@@ -129,7 +131,9 @@ process.env.STORYBOOK_GIT_BRANCH = process.env.STORYBOOK_GIT_BRANCH || exec('git
 
 // NOTE changes to env should be done before calling `getBaseConfig`
 // `getBaseConfig` function which is called inside the middleware
-app.use(storybook(configDir));
+app.use(storybook(configDir, {
+  quiet: program.quiet,
+}));
 
 server.listen(...listenAddr, function (error) {
   if (error) {

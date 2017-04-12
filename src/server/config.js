@@ -2,6 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import qs from 'qs';
 import loadBabelConfig from './babel_config';
 import { includePaths } from './config/utils';
 
@@ -38,7 +39,7 @@ export function addJsonLoaderIfNotAvailable(config) {
 // `baseConfig` is a webpack configuration bundled with storybook.
 // React Storybook will look in the `configDir` directory
 // (inside working directory) if a config path is not provided.
-export default function (configType, baseConfig, configDir) {
+export default function (configType, baseConfig, configDir, options) {
   const config = baseConfig;
 
   const babelConfig = loadBabelConfig(configDir);
@@ -52,6 +53,12 @@ export default function (configType, baseConfig, configDir) {
     throw err;
   }
   config.entry.preview.push(require.resolve(storybookConfigPath));
+
+  // Add client to entry for hot reloading
+  config.entry.preview.push(`${require.resolve('webpack-hot-middleware/client')}?${qs.stringify({
+    noInfo: options.quiet,
+    reload: true,
+  })}`);
 
   // Check whether addons.js file exists inside the storybook.
   // Load the default addons.js file if it's missing.
