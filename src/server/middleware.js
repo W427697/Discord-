@@ -21,12 +21,11 @@ export default function (configDir) {
   }
 
   const compiler = webpack(config);
-  const devServerOptions = config.devServer || {};
   const devMiddlewareOptions = {
     noInfo: true,
     publicPath: config.output.publicPath,
     watchOptions: config.watchOptions || {},
-    ...devServerOptions,
+    ...config.devServer,
   };
 
   const router = new Router();
