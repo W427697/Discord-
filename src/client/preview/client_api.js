@@ -1,3 +1,7 @@
+function isFunction(obj) {
+  return !!(obj && obj.constructor && obj.call && obj.apply);
+}
+
 export default class ClientApi {
   constructor({ channel, storyStore }) {
     // channel can be null when running in node
@@ -15,6 +19,14 @@ export default class ClientApi {
     };
   }
 
+  setKindOrdering(fn) {
+    this._storyStore.setKindOrdering(fn);
+  }
+
+  setStoriesOrdering(fn) {
+    this._storyStore.setStoriesOrdering(fn);
+  }
+
   addDecorator(decorator) {
     this._globalDecorators.push(decorator);
   }
@@ -24,19 +36,29 @@ export default class ClientApi {
   }
 
   storiesOf(kind, m) {
-    if (!kind && typeof kind !== 'string') {
-      throw new Error('Invalid kind provided for stories, should be a string');
+    if (!kind && typeof kind !== 'string' && !{}.prototype.hasOwnProperty.call(kind, 'name')) {
+      throw new Error('Invalid kind provided for stories, should be a string or object with a "name" property');
+    }
+    let kindName;
+    let kindConfig;
+
+    if (typeof kind === 'string') {
+      kindName = kind;
+      kindConfig = { name: kind };
+    } else {
+      kindName = kind.name;
+      kindConfig = kind;
     }
 
     if (m && m.hot) {
       m.hot.dispose(() => {
-        this._storyStore.removeStoryKind(kind);
+        this._storyStore.removeStoryKind(kindName);
       });
     }
 
     const localDecorators = [];
     const api = {
-      kind,
+      kind: kindName,
     };
 
     // apply addons
@@ -49,13 +71,23 @@ export default class ClientApi {
     });
 
     api.add = (storyName, getStory) => {
-      if (this._storyStore.hasStory(kind, storyName)) {
-        throw new Error(`Story of "${kind}" named "${storyName}" already exists`);
+      if (this._storyStore.hasStory(kindName, storyName)) {
+        throw new Error(`Story of "${kindName}" named "${storyName}" already exists`);
       }
 
       // Wrap the getStory function with each decorator. The first
       // decorator will wrap the story function. The second will
       // wrap the first decorator and so on.
+      let storyFn;
+      let storyMeta;
+      if (isFunction(getStory)) {
+        storyFn = getStory;
+        storyMeta = {};
+      } else {
+        storyFn = getStory.story;
+        storyMeta = { ...getStory };
+        delete storyMeta.story;
+      }
       const decorators = [
         ...localDecorators,
         ...this._globalDecorators,
@@ -67,10 +99,10 @@ export default class ClientApi {
             return decorated(context);
           }, context);
         };
-      }, getStory);
+      }, storyFn);
 
       // Add the fully decorated getStory function.
-      this._storyStore.addStory(kind, storyName, fn);
+      this._storyStore.addStory(kindConfig, storyName, { storyFn: fn, storyMeta });
       return api;
     };
 

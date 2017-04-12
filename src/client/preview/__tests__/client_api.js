@@ -9,13 +9,13 @@ class StoryStore {
   }
 
   addStory(kind, story, fn) {
-    this.stories.push({ kind, story, fn });
+    this.stories.push({ kind, story, fn: fn.storyFn });
   }
 
   getStoryKinds() {
     return this.stories.reduce((kinds, info) => {
-      if (kinds.indexOf(info.kind) === -1) {
-        kinds.push(info.kind);
+      if (kinds.indexOf(info.kind.name) === -1) {
+        kinds.push(info.kind.name);
       }
       return kinds;
     }, []);
@@ -23,7 +23,7 @@ class StoryStore {
 
   getStories(kind) {
     return this.stories.reduce((stories, info) => {
-      if (info.kind === kind) {
+      if (info.kind.name === kind) {
         stories.push(info.story);
       }
       return stories;
@@ -32,7 +32,7 @@ class StoryStore {
 
   getStory(kind, name) {
     return this.stories.reduce((fn, info) => {
-      if (!fn && info.kind === kind && info.story === name) {
+      if (!fn && info.kind.name === kind && info.story === name) {
         return info.fn;
       }
       return fn;
@@ -252,6 +252,30 @@ describe('preview.client_api', () => {
           stories: [
             { name: 'story-2.1', render: functions['story-2.1'] },
             { name: 'story-2.2', render: functions['story-2.2'] },
+          ],
+        },
+      ]);
+    });
+
+    it('should return storybook with stories and metadata', () => {
+      const storyStore = new StoryStore();
+      const api = new ClientAPI({ storyStore });
+      const functions = {
+        'story-1.1': () => 'story-1.1',
+        'story-1.2': () => 'story-1.2',
+      };
+      const kind1 = api.storiesOf({ name: 'kind-1', kindMetaDataProperty: 'something else' });
+      kind1.add('story-1.1', { story: functions['story-1.1'], storyMetaDataProperty: 'something more' });
+      kind1.add('story-1.2', functions['story-1.2']);
+
+      const book = api.getStorybook();
+
+      expect(book).to.deep.equal([
+        {
+          kind: 'kind-1',
+          stories: [
+            { name: 'story-1.1', render: functions['story-1.1'] },
+            { name: 'story-1.2', render: functions['story-1.2'] },
           ],
         },
       ]);

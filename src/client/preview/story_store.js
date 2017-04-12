@@ -8,21 +8,35 @@ function getId() {
 export default class StoryStore {
   constructor() {
     this._data = {};
+    this._kindOrdering = (a, b) => (a.index - b.index);
+    this._storiesOrdering = (a, b) => (a.index - b.index);
   }
 
-  addStory(kind, name, fn) {
-    if (!this._data[kind]) {
-      this._data[kind] = {
-        kind,
+  setKindOrdering(fn) {
+    this._kindOrdering = fn;
+  }
+
+  setStoriesOrdering(fn) {
+    this._storiesOrdering = fn;
+  }
+
+  addStory(kindConfig, name, story) {
+    const { name: kindName, ...meta } = kindConfig;
+
+    if (!this._data[kindName]) {
+      this._data[kindName] = {
+        kind: kindName,
+        meta,
         index: getId(),
         stories: {},
       };
     }
 
-    this._data[kind].stories[name] = {
+    this._data[kindName].stories[name] = {
       name,
       index: getId(),
-      fn,
+      meta: story.storyMeta,
+      fn: story.storyFn,
     };
   }
 
@@ -30,7 +44,7 @@ export default class StoryStore {
     return Object.keys(this._data)
       .map(key => this._data[key])
       .filter(kind => Object.keys(kind.stories).length > 0)
-      .sort((info1, info2) => (info1.index - info2.index))
+      .sort(this._kindOrdering)
       .map(info => info.kind);
   }
 
@@ -41,7 +55,7 @@ export default class StoryStore {
 
     return Object.keys(this._data[kind].stories)
       .map(name => this._data[kind].stories[name])
-      .sort((info1, info2) => (info1.index - info2.index))
+      .sort(this._storiesOrdering)
       .map(info => info.name);
   }
 
@@ -59,8 +73,8 @@ export default class StoryStore {
     return storyInfo.fn;
   }
 
-  removeStoryKind(kind) {
-    this._data[kind].stories = {};
+  removeStoryKind(kindName) {
+    this._data[kindName].stories = {};
   }
 
   hasStoryKind(kind) {
