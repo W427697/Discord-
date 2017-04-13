@@ -1,5 +1,5 @@
 {
-  "name": "@kadira/storybook",
+  "name": "getstorybook",
   "version": "2.35.3",
   "description": "React Storybook: Isolate React Component Development with Hot Reloading.",
   "repository": {
