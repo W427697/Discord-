@@ -17,6 +17,6 @@ module.exports = {
   // `find-cache-dir` will create the cache directory under the node_modules directory.
   cacheDirectory: findCacheDir({ name: 'react-storybook' }),
   presets: [
-    require.resolve('babel-preset-react-app'),
+    'babel-preset-react-app',
   ],
 };

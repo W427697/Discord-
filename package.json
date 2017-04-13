@@ -31,7 +31,7 @@
     "airbnb-js-shims": "^1.0.1",
     "autoprefixer": "^6.3.7",
     "babel-core": "^6.11.4",
-    "babel-loader": "^6.2.4",
+    "babel-loader": "^6.3.0",
     "babel-plugin-react-docgen": "^1.4.2",
     "babel-preset-react-app": "^1.0.0",
     "babel-runtime": "^6.9.2",
@@ -58,13 +58,14 @@
     "style-loader": "0.13.1",
     "url-loader": "^0.5.7",
     "uuid": "^2.0.3",
-    "webpack": "^1.13.1",
-    "webpack-dev-middleware": "^1.6.0",
+    "webpack": "^2.2.1",
+    "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.13.2"
   },
   "peerDependencies": {
     "react": "^0.14.7 || ^15.0.0",
-    "react-dom": "^0.14.7 || ^15.0.0"
+    "react-dom": "^0.14.7 || ^15.0.0",
+    "webpack": "^2.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
