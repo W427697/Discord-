@@ -59,12 +59,18 @@ export default function ({
   router.use(webpackDevMiddleware(compiler, configDevMiddleware));
   router.use(webpackHotMiddleware(compiler, configHotMiddleware));
 
-  router.get('/', (req, res) =>
-   res.send(getIndexHtml({ publicPath }))
-  );
-  router.get('/iframe.html', (req, res) =>
-   res.send(getIframeHtml({ publicPath }))
-  );
+  if ( config.templatePath ) {
+    router.get('/', (req, res) =>
+      res.send(config.templatePath)
+    );
+  } else {
+    router.get('/', (req, res) =>
+      res.send(getIndexHtml({ publicPath }))
+    );
+    router.get('/iframe.html', (req, res) =>
+     res.send(getIframeHtml({ publicPath }))
+    );
+  }
 
   return router;
 }

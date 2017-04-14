@@ -26,12 +26,18 @@ exports.default = function (_ref) {
   router.use((0, _webpackDevMiddleware2.default)(compiler, configDevMiddleware));
   router.use((0, _webpackHotMiddleware2.default)(compiler, configHotMiddleware));
 
-  router.get('/', function (req, res) {
-    return res.send((0, _index2.default)({ publicPath: publicPath }));
-  });
-  router.get('/iframe.html', function (req, res) {
-    return res.send((0, _iframe2.default)({ publicPath: publicPath }));
-  });
+  if (config.templatePath) {
+    router.get('/', function (req, res) {
+      return res.send(config.templatePath);
+    });
+  } else {
+    router.get('/', function (req, res) {
+      return res.send((0, _index2.default)({ publicPath: publicPath }));
+    });
+    router.get('/iframe.html', function (req, res) {
+      return res.send((0, _iframe2.default)({ publicPath: publicPath }));
+    });
+  }
 
   return router;
 };
