@@ -38,6 +38,7 @@ const defaultConfig = {
 
 export default function ({
   config,
+  templatePath = '',
   webpackDevMiddlewareConfig = {},
   webpackHotMiddlewareConfig = {}
 }) {
@@ -59,9 +60,9 @@ export default function ({
   router.use(webpackDevMiddleware(compiler, configDevMiddleware));
   router.use(webpackHotMiddleware(compiler, configHotMiddleware));
 
-  if ( config.templatePath ) {
+  if ( templatePath ) {
     router.get('/', (req, res) =>
-      res.send(config.templatePath)
+      res.send(templatePath)
     );
   } else {
     router.get('/', (req, res) =>

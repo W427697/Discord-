@@ -8,6 +8,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 exports.default = function (_ref) {
   var config = _ref.config,
+      _ref$templatePath = _ref.templatePath,
+      templatePath = _ref$templatePath === undefined ? '' : _ref$templatePath,
       _ref$webpackDevMiddle = _ref.webpackDevMiddlewareConfig,
       webpackDevMiddlewareConfig = _ref$webpackDevMiddle === undefined ? {} : _ref$webpackDevMiddle,
       _ref$webpackHotMiddle = _ref.webpackHotMiddlewareConfig,
@@ -26,9 +28,9 @@ exports.default = function (_ref) {
   router.use((0, _webpackDevMiddleware2.default)(compiler, configDevMiddleware));
   router.use((0, _webpackHotMiddleware2.default)(compiler, configHotMiddleware));
 
-  if (config.templatePath) {
+  if (templatePath) {
     router.get('/', function (req, res) {
-      return res.send(config.templatePath);
+      return res.send(templatePath);
     });
   } else {
     router.get('/', function (req, res) {
