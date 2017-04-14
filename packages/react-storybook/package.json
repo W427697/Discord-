@@ -83,6 +83,9 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-test-renderer": "^15.5.4",
+    "webpack": "^2.3.2",
+    "webpack-dev-middleware": "^1.10.1",
+    "webpack-hot-middleware": "^2.17.1",
     "sinon": "^2.1.0"
   },
   "main": "dist/client/index.js",
