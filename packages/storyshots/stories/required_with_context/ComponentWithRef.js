@@ -8,20 +8,20 @@ const inputStyles = {
   fontSize: 15,
   padding: '3px 10px',
   margin: 10,
-  width: '400px'
+  width: '400px',
 };
 
 class ComponentWithRef extends React.Component {
-  componentDidMount () {
-    this.props.onLoad('scrollWidth: ' + this.ref.scrollWidth);
+  componentDidMount() {
+    this.props.onLoad(`scrollWidth: ${this.ref.scrollWidth}`);
   }
-  setRef (ref) {
+  setRef(ref) {
     this.ref = ref;
   }
-  render () {
+  render() {
     return (
       <input
-        type='text'
+        type="text"
         value={'This component reads its scrollWidth on load.'}
         ref={r => this.setRef(r)}
         style={inputStyles}
