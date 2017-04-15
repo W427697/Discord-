@@ -69,7 +69,7 @@ export default function testStorySnapshots(options = {}) {
           it(story.name, () => {
             const context = { kind: group.kind, story: story.name };
             const renderedStory = story.render(context);
-            const tree = renderer.create(renderedStory).toJSON();
+            const tree = renderer.create(renderedStory, options.rendererOptions).toJSON();
             expect(tree).toMatchSnapshot();
           });
         }
