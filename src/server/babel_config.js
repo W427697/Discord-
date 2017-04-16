@@ -34,7 +34,7 @@ function loadFromPath(babelConfigPath) {
   // Remove react-hmre preset.
   // It causes issues with react-storybook.
   // We don't really need it.
-  // Earlier, we fix this by runnign storybook in the production mode.
+  // Earlier, we fix this by running storybook in the production mode.
   // But, that hide some useful debug messages.
   if (config.presets) {
     removeReactHmre(config.presets);
