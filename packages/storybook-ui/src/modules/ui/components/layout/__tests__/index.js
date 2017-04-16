@@ -1,10 +1,18 @@
-const { describe, it } = global;
+const { describe, it, beforeEach } = global;
 import React from 'react';
 import { shallow } from 'enzyme';
 import Layout from '../index.js';
 import { expect } from 'chai';
 
 describe('manager.ui.components.layout.index', () => {
+  beforeEach(() => {
+    window.matchMedia = () => ({
+      matches: false, // Simulates if in Desktop Mode
+      addListener() {},
+      removeListener() {},
+    });
+  });
+
   describe('with default options', () => {
     it('should render provided components', () => {
       const wrap = shallow(

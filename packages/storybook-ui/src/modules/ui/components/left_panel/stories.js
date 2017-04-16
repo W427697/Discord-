@@ -8,18 +8,23 @@ const listStyle = {
 
 const listStyleType = {
   listStyleType: 'none',
-  paddingLeft: 0,
+  padding: '5px',
+  margin: 'auto',
 };
 
 const kindStyle = {
-  fontSize: 15,
+  fontSize: '15px',
+  color: 'inherit',
+  textDecoration: 'none',
   padding: '10px 0px',
   cursor: 'pointer',
   borderBottom: '1px solid #EEE',
 };
 
 const storyStyle = {
-  fontSize: 13,
+  fontSize: '13px',
+  color: 'inherit',
+  textDecoration: 'none',
   padding: '8px 0px 8px 10px',
   cursor: 'pointer',
 };

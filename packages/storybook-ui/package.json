@@ -27,6 +27,7 @@
     "chai": "^3.5.0",
     "enzyme": "^2.8.0",
     "jsdom": "^9.12.0",
+    "matchmedia": "^0.1.2",
     "mocha": "^3.2.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -45,6 +46,7 @@
     "fuzzysearch": "^1.0.3",
     "json-stringify-safe": "^5.0.1",
     "keycode": "^2.1.8",
+    "lodash.isstring": "^4.0.1",
     "lodash.pick": "^4.4.0",
     "lodash.sortby": "^4.7.0",
     "mantra-core": "^1.7.0",
@@ -54,6 +56,7 @@
     "react-fuzzy": "^0.3.3",
     "react-inspector": "^1.1.2",
     "react-komposer": "^2.0.0",
+    "react-media": "^1.5.1",
     "react-modal": "^1.7.3",
     "redux": "^3.6.0"
   },

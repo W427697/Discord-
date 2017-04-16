@@ -9,6 +9,8 @@ require('babel-polyfill');
 
 // Add jsdom support, which is required for enzyme.
 var jsdom = require('jsdom').jsdom;
+// Adds window.matchMedia support 
+var matchMedia = require('matchmedia');
 
 var exposedProperties = ['window', 'navigator', 'document'];
 
@@ -20,7 +22,7 @@ Object.keys(document.defaultView).forEach((property) => {
     global[property] = document.defaultView[property];
   }
 });
-
+global.window.matchMedia = matchMedia;
 global.navigator = {
   userAgent: 'node.js'
 };
