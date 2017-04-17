@@ -4,10 +4,7 @@ import VSplit from './vsplit';
 import HSplit from './hsplit';
 import SplitPane from '@kadira/react-split-pane';
 
-const rootStyle = {
-  height: '100vh',
-  backgroundColor: '#F7F7F7',
-};
+import { rootStyle, fullScreenPreviewStyle } from './commonLayoutStyles';
 
 const leftPanelStyle = {
   position: 'absolute',
@@ -39,22 +36,6 @@ const normalPreviewStyle = {
   border: '1px solid #ECECEC',
   borderRadius: 4,
 };
-
-const fullScreenPreviewStyle = {
-  position: 'fixed',
-  left: '0px',
-  right: '0px',
-  top: '0px',
-  zIndex: 1,
-  backgroundColor: '#FFF',
-  height: '100%',
-  width: '100%',
-  border: 0,
-  margin: 0,
-  padding: 0,
-  overflow: 'hidden',
-};
-
 
 const vsplit = <VSplit />;
 const hsplit = <HSplit />;

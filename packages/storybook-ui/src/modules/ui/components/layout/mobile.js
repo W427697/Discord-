@@ -1,9 +1,5 @@
 import React, { PropTypes } from 'react';
-
-const rootStyle = {
-  height: '100%',
-  backgroundColor: '#F7F7F7',
-};
+import { rootStyle, fullScreenPreviewStyle } from './commonLayoutStyles';
 
 const leftPanelStyle = {
   display: 'block',
@@ -32,21 +28,6 @@ const normalPreviewStyle = {
   height: '100%',
   backgroundColor: '#FFF',
   borderTop: '1px solid #ECECEC',
-};
-
-const fullScreenPreviewStyle = {
-  position: 'fixed',
-  left: '0px',
-  right: '0px',
-  top: '0px',
-  zIndex: 1,
-  backgroundColor: '#FFF',
-  height: '100%',
-  width: '100%',
-  border: 0,
-  margin: 0,
-  padding: 0,
-  overflow: 'hidden',
 };
 
 class LayoutMobile extends React.Component {
