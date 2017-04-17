@@ -32,7 +32,7 @@ class Collapsible extends React.Component {
     // Allow controlled toggling of active state
     if (nextProps.active !== this.props.active) {
       this.setState({
-        isActive: nextProps.active
+        isActive: nextProps.active,
       });
     }
   }

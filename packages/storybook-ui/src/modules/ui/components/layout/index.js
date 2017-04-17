@@ -5,13 +5,13 @@ import MobileLayout from './mobile';
 
 const Layout = (props) => (
   <Media query="(max-width: 650px)">
-    {matches => matches
-      ? (
+    {matches => (
+      matches ? (
         <MobileLayout {...props} />
       ) : (
         <DesktopLayout {...props} />
       )
-    }
+    )}
   </Media>
 );
 

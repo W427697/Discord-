@@ -9,7 +9,7 @@ import Media from 'react-media';
 import Collapsible from '../collapsible';
 
 const containerStyle = {
-  margin: '10px 0px 10px 10px'
+  margin: '10px 0px 10px 10px',
 };
 
 const scrollStyle = {
@@ -28,35 +28,27 @@ const mobileScrollStyle = {
   overflow: 'auto',
 };
 
-/* eslint-disable react/prop-types */
-const HeaderAndFilter = (props) => (
-  <div>
-    <Header
-      name={props.name}
-      url={props.url}
-      openShortcutsHelp={props.openShortcutsHelp}
-    />
-    <TextFilter
-      text={props.storyFilter}
-      onClear={() => props.onStoryFilter('')}
-      onChange={(text) => props.onStoryFilter(text)}
-    />
-  </div>
-);
-/* eslint-enable react/prop-types */
-
 const storyProps = ['stories', 'selectedKind', 'selectedStory', 'onSelectStory'];
 
 const LeftPanel = (props) => (
   <Media query="(max-width: 650px)">
-    {matches => matches
-      ? (
+    {matches => (
+      matches ? (
         <div style={mobileContainerStyle}>
-          <HeaderAndFilter {...props} />
+          <Header
+            name={props.name}
+            url={props.url}
+            openShortcutsHelp={props.openShortcutsHelp}
+          />
           <Collapsible
             isActive={isString(props.storyFilter)}
             title="component list"
           >
+            <TextFilter
+              text={props.storyFilter}
+              onClear={() => props.onStoryFilter('')}
+              onChange={(text) => props.onStoryFilter(text)}
+            />
             {props.stories &&
               <div style={mobileScrollStyle}>
                 <Stories {...pick(props, storyProps)} />
@@ -66,13 +58,22 @@ const LeftPanel = (props) => (
         </div>
       ) : (
         <div style={containerStyle}>
-          <HeaderAndFilter {...props} />
+          <Header
+            name={props.name}
+            url={props.url}
+            openShortcutsHelp={props.openShortcutsHelp}
+          />
+          <TextFilter
+            text={props.storyFilter}
+            onClear={() => props.onStoryFilter('')}
+            onChange={(text) => props.onStoryFilter(text)}
+          />
           <div style={scrollStyle}>
             { props.stories ? (<Stories {...pick(props, storyProps)} />) : null }
           </div>
         </div>
       )
-    }
+    )}
   </Media>
 );
 

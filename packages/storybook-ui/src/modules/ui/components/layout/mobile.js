@@ -36,15 +36,11 @@ class LayoutMobile extends React.Component {
       goFullScreen,
       showLeftPanel,
       showDownPanel,
-      downPanelInRight,
       downPanel,
       leftPanel,
       preview,
     } = this.props;
     const previewStyle = goFullScreen ? fullScreenPreviewStyle : normalPreviewStyle;
-    if (showDownPanel) {
-    const downPanelDefaultSize = 200;
-    }
     return (
       <div style={rootStyle}>
         <div style={leftPanelStyle}>

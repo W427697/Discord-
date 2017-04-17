@@ -38,7 +38,7 @@ const clearButtonStyle = {
   cursor: 'pointer',
   lineHeight: '30px',
   fontSize: '25px',
-  textDecoration: 'none'
+  textDecoration: 'none',
 };
 
 export default class TextFilter extends React.Component {
@@ -83,8 +83,8 @@ export default class TextFilter extends React.Component {
         </div>
         {this.state.query &&
           this.state.query.length &&
-          <a 
-            href="#storyFilter" 
+          <a
+            href="#storyFilter"
             aria-label="clear filter"
             style={clearButtonStyle}
             onClick={this.fireOnClear}
