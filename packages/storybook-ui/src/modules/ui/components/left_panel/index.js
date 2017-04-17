@@ -49,8 +49,8 @@ const storyProps = ['stories', 'selectedKind', 'selectedStory', 'onSelectStory']
 
 const LeftPanel = (props) => (
   <Media query="(max-width: 650px)">
-    {matches => {
-      return matches ? (
+    {matches => matches
+      ? (
         <div style={mobileContainerStyle}>
           <HeaderAndFilter {...props} />
           <Collapsible
@@ -71,8 +71,8 @@ const LeftPanel = (props) => (
             { props.stories ? (<Stories {...pick(props, storyProps)} />) : null }
           </div>
         </div>
-      );
-    }}
+      )
+    }
   </Media>
 );
 
