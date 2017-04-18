@@ -1,11 +1,10 @@
 import React, { PropTypes } from 'react';
-import Header from './header';
-import Stories from './stories';
-import TextFilter from './text_filter';
 import pick from 'lodash.pick';
 import isString from 'lodash.isstring';
 import Media from 'react-media';
-
+import Header from './header';
+import Stories from './stories';
+import TextFilter from './text_filter';
 import Collapsible from '../collapsible';
 
 const containerStyle = {
