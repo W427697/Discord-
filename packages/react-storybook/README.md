@@ -27,6 +27,6 @@ Here are some featured storybooks that you can reference to see how Storybook wo
 
 ## Docs
 
-* [Basics](https://getstorybook.io/docs/basics/introduction)
-* [Configurations](https://getstorybook.io/docs/configurations/default-config)
-* [Addons](https://getstorybook.io/docs/addons/introduction)
+* [Basics](https://getstorybook.io/docs/react-storybook/basics/introduction)
+* [Configurations](https://getstorybook.io/docs/react-storybook/configurations/default-config)
+* [Addons](https://getstorybook.io/docs/react-storybook/addons/introduction)
