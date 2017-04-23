@@ -200,7 +200,7 @@ SplitPane.propTypes = {
   primary: PropTypes.oneOf(['first', 'second']),
   minSize: PropTypes.number,
   maxSize: PropTypes.number,
-  defaultSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string)],
+  defaultSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   allowResize: PropTypes.bool,
   split: PropTypes.oneOf(['vertical', 'horizontal']),
