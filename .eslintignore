@@ -1,5 +1,6 @@
 dist
 build
+packages/split-pane/lib
 coverage
 node_modules
 *.bundle.js
