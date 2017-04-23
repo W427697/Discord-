@@ -18,9 +18,7 @@ class HSplit extends Component {
       width: '100%',
     };
 
-    return (
-      <div style={style}></div>
-    );
+    return <div style={style} />;
   }
 }
 

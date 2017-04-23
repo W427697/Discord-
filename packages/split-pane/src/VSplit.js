@@ -18,9 +18,7 @@ class VSplit extends Component {
       width: '3px',
     };
 
-    return (
-      <div style={style}></div>
-    );
+    return <div style={style} />;
   }
 }
 

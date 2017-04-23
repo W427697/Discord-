@@ -66,7 +66,7 @@ class SplitPane extends Component {
             const current = this.props.split === 'vertical' ? event.clientX : event.clientY;
             const size = this.props.split === 'vertical' ? width : height;
             const position = this.state.position;
-            const newPosition = isPrimaryFirst ? (position - current) : (current - position);
+            const newPosition = isPrimaryFirst ? position - current : current - position;
 
             let newSize = size - newPosition;
 
@@ -133,7 +133,7 @@ class SplitPane extends Component {
 
   render() {
     const { split, allowResize } = this.props;
-    let disabledClass = allowResize ? '' : 'disabled';
+    const disabledClass = allowResize ? '' : 'disabled';
 
     const style = {
       display: 'flex',

@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 
-
 class Resizer extends Component {
   static displayName = 'Resizer';
 

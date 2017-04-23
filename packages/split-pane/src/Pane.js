@@ -28,9 +28,7 @@ class Pane extends Component {
       style.flex = 'none';
     }
 
-    return (
-      <div className={classes.join(' ')} style={style}>{this.props.children}</div>
-    );
+    return <div className={classes.join(' ')} style={style}>{this.props.children}</div>;
   }
 }
 
