@@ -18,7 +18,7 @@ For more information visit: https://storybooks.js.org
 
 ---
 
-React Storybook also comes with a lot of [addons](https://storybooks.js.org/react-storybook/docs/addons/introduction) and a great API to customize as you wish. You can also build a [static version](https://storybooks.js.org/react-storybook/docs/basics/exporting-storybook) of your storybook and deploy it anywhere you want.
+React Storybook also comes with a lot of [addons](https://storybooks.js.org/docs/react-storybook/addons/introduction) and a great API to customize as you wish. You can also build a [static version](https://storybooks.js.org/docs/react-storybook/basics/exporting-storybook) of your storybook and deploy it anywhere you want.
 
 Here are some featured storybooks that you can reference to see how Storybook works:
 
