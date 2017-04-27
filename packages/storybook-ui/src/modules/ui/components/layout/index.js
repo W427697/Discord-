@@ -68,20 +68,20 @@ const onDragEnd = function() {
   document.body.classList.remove('dragging');
 };
 
-const saveHeightPanel = h => {
+const savePanelPosition = (downPanelInRight, pos) => {
   try {
-    localStorage.setItem('splitPos', h);
+    localStorage.setItem(downPanelInRight ? 'verticalSplitPos' : 'horizontalSplitPos', pos);
     return true;
   } catch (e) {
     return false;
   }
 };
 
-const getSavedHeight = h => {
+const getSavedPosition = (downPanelInRight, pos) => {
   try {
-    return localStorage.getItem('splitPos');
+    return localStorage.getItem(downPanelInRight ? 'verticalSplitPos' : 'horizontalSplitPos');
   } catch (e) {
-    return h;
+    return pos;
   }
 };
 
@@ -143,7 +143,7 @@ class Layout extends React.Component {
     }
 
     // Get the value from localStorage or user downPanelDefaultSize
-    downPanelDefaultSize = getSavedHeight(downPanelDefaultSize);
+    downPanelDefaultSize = getSavedPosition(downPanelInRight, downPanelDefaultSize);
 
     return (
       <div style={rootStyle}>
@@ -168,8 +168,8 @@ class Layout extends React.Component {
             resizerChildren={downPanelInRight ? vsplit : hsplit}
             onDragStarted={onDragStart}
             onDragFinished={onDragEnd}
-            onChange={size => {
-              saveHeightPanel(size);
+            onChange={position => {
+              savePanelPosition(downPanelInRight, position);
               this.onResize();
             }}
           >

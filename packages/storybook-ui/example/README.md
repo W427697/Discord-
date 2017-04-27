@@ -20,7 +20,7 @@ npm install
 
 ### Running the App
 
-Run the app with `npm start`. Then you'll be able to a cess the app via <http://localhost:9999>.
+Run the app with `npm start`. Then you'll be able to access the app via <http://localhost:9999>.
 
 Once you made a change to the example app or in the root module, the client app will reload again.
 
