@@ -7,4 +7,4 @@ function createNodeMock (element) {
   return null;
 }
 
-initStoryshots({ rendererOptions: { createNodeMock } });
+initStoryshots({ rendererOptions: { createNodeMock }, configPath: './packages/storyshots/.storybook' });

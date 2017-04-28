@@ -14,10 +14,13 @@ const babel = require('babel-core');
 const pkg = readPkgUp.sync().pkg;
 const isStorybook =
   (pkg.devDependencies && pkg.devDependencies['@storybook/react']) ||
-  (pkg.dependencies && pkg.dependencies['@storybook/react']);
+  (pkg.dependencies && pkg.dependencies['@storybook/react']) ||
+  (pkg.name === 'storybook');
+
 const isRNStorybook =
   (pkg.devDependencies && pkg.devDependencies['@storybook/react-native']) ||
-  (pkg.dependencies && pkg.dependencies['@storybook/react-native']);
+  (pkg.dependencies && pkg.dependencies['@storybook/react-native']) ||
+  (pkg.name === '@storybook/react-native');
 
 export default function testStorySnapshots(options = {}) {
   addons.setChannel(createChannel());
