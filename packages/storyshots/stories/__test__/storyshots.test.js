@@ -1,4 +1,5 @@
 import initStoryshots from '../../src';
+import path from 'path';
 
 function createNodeMock (element) {
   if (element.type === 'input') {
@@ -7,4 +8,4 @@ function createNodeMock (element) {
   return null;
 }
 
-initStoryshots({ rendererOptions: { createNodeMock }, configPath: './packages/storyshots/.storybook' });
+initStoryshots({ rendererOptions: { createNodeMock }, configPath: path.resolve(__dirname, '../../.storybook') });
