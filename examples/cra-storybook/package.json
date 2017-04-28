@@ -4,7 +4,9 @@
   "private": true,
   "devDependencies": {
     "@kadira/storybook": "*",
-    "react-scripts": "0.9.5"
+    "react-scripts": "0.9.5",
+    "react-test-renderer": "^15.5.4",
+    "storyshots": "*"
   },
   "dependencies": {
     "react": "^15.4.2",
