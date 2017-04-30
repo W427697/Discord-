@@ -40,7 +40,7 @@ function getPosition(pos) {
 
 const FloatingBlock = ({ position }) => (
   <div style={{ ...rootStyle, ...getPosition(position) }}>
-    <CoreMenu downDirection={position === (boxPositions.TOP_LEFT || boxPositions.TOP_RIGHT)} />
+    <CoreMenu downDirection={position === boxPositions.TOP_LEFT || position === boxPositions.TOP_RIGHT} />
   </div>
 );
 
