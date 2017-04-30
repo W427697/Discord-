@@ -5,6 +5,8 @@ import USplit from './usplit';
 import Dimensions from './dimensions';
 import SplitPane from 'react-split-pane';
 
+import FloatingBlock from '../core_menu/floating_block';
+
 const rootStyle = {
   height: '100vh',
   backgroundColor: '#F7F7F7',
@@ -167,10 +169,13 @@ class Layout extends React.Component {
       downPanel,
       leftPanel,
       preview,
+      showFloatingBox,
+      floatingBoxPosition,
     } = this.props;
-    const { previewPanelDimensions } = this.state;
 
+    const { previewPanelDimensions } = this.state;
     const leftPanelOnTop = false;
+    const showFloatingBlock = showFloatingBox && (goFullScreen || !showLeftPanel);
 
     let previewStyle = normalPreviewStyle;
 
@@ -230,6 +235,7 @@ class Layout extends React.Component {
                 }}
               >
                 {preview()}
+                {showFloatingBlock ? <FloatingBlock position={floatingBoxPosition} /> : null}
               </div>
               <Dimensions {...previewPanelDimensions} />
             </div>
@@ -255,6 +261,8 @@ Layout.propTypes = {
   preview: PropTypes.func.isRequired,
   downPanel: PropTypes.func.isRequired,
   downPanelInRight: PropTypes.bool.isRequired,
+  showFloatingBox: React.PropTypes.bool.isRequired,
+  floatingBoxPosition: React.PropTypes.string.isRequired,
 };
 
 export default Layout;

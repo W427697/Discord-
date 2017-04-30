@@ -3,12 +3,13 @@ import { shallow } from 'enzyme';
 import Header from './header.js';
 
 describe('manager.ui.components.left_panel.header', () => {
-  test('should fire openShortcutsHelp when clicked on shortcut button', () => {
-    const openShortcutsHelp = jest.fn();
-    const wrap = shallow(<Header openShortcutsHelp={openShortcutsHelp} />);
-
-    wrap.find('button').simulate('click');
-
-    expect(openShortcutsHelp).toHaveBeenCalled();
+  it('should render the Title and URL', () => {
+    const title = 'Storybook UI';
+    const url = 'www.example.com';
+    const wrap = shallow(<Header name={title} url={url} />);
+    const h3 = wrap.find('h3').first();
+    expect(h3.text()).toEqual(title);
+    const link = wrap.find('a').first();
+    expect(link.props().href).toEqual(url);
   });
 });

@@ -24,6 +24,21 @@ export function jumpToStory(storyKinds, selectedKind, selectedStory, direction) 
   };
 }
 
+function jumpToKind(storyKinds, selectedKind, selectedStory, direction) {
+  const currentIndex = storyKinds.findIndex(({ kind }) => kind === selectedKind);
+  if (currentIndex === -1) return { selectedKind, selectedStory };
+
+  const jumpedStoryKind = storyKinds[currentIndex + direction];
+
+  const jumpedKind = jumpedStoryKind ? jumpedStoryKind.kind : selectedKind;
+  const jumpedStory = jumpedStoryKind ? jumpedStoryKind.stories[0] : selectedStory;
+
+  return {
+    selectedKind: jumpedKind,
+    selectedStory: jumpedStory,
+  };
+}
+
 export function ensureKind(storyKinds, selectedKind) {
   if (!storyKinds) return selectedKind;
 
@@ -75,6 +90,22 @@ export default {
     clientStore.update(state =>
       jumpToStory(state.stories, state.selectedKind, state.selectedStory, direction),
     );
+  },
+
+  jumpToKind({ clientStore }, direction) {
+    clientStore.update(state => {
+      let { selectedKind, selectedStory } = jumpToKind(
+        state.stories,
+        state.selectedKind,
+        state.selectedStory,
+        direction,
+      );
+
+      selectedKind = ensureKind(state.stories, selectedKind);
+      selectedStory = ensureStory(state.stories, selectedKind, selectedStory);
+
+      return { selectedKind, selectedStory };
+    });
   },
 
   setOptions({ clientStore }, options) {
