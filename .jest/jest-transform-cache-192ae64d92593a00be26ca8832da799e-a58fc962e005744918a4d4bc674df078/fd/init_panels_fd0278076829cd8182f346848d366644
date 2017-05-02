@@ -1,0 +1,7 @@
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = function (_ref, actionMap) {var provider = _ref.provider;
+  var panels = Object.keys(provider.getPanels());
+
+  if (panels.length > 0) {
+    actionMap.ui.selectDownPanel(panels[0]);
+  }
+};

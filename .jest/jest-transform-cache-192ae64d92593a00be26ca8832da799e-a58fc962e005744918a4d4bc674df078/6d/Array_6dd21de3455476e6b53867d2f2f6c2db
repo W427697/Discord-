@@ -1,0 +1,18 @@
+'use strict';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+var _enzyme = require('enzyme');
+var _Array = require('../types/Array');var _Array2 = _interopRequireDefault(_Array);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+describe('Array', function () {
+  it('should subscribe to setKnobs event of channel', function () {
+    var onChange = jest.fn();
+    var wrapper = (0, _enzyme.shallow)(
+    _react2.default.createElement(_Array2.default, {
+      onChange: onChange,
+      knob: { name: 'passions', value: ['Fishing', 'Skiing'], separator: ',' } }));
+
+
+
+    wrapper.simulate('change', { target: { value: 'Fhishing,Skiing,Dancing' } });
+    expect(onChange).toHaveBeenCalledWith(['Fhishing', 'Skiing', 'Dancing']);
+  });
+});

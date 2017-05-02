@@ -1,0 +1,225 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();var _deepEqual = require('deep-equal');var _deepEqual2 = _interopRequireDefault(_deepEqual);
+var _events = require('events');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}var
+
+DataStore = function () {
+  function DataStore(db) {_classCallCheck(this, DataStore);
+    this.db = db;
+    this.currentStory = null;
+    this.callbacks = [];
+    this.cache = {};
+    this.users = {};
+    this.user = null;
+
+    this.eventStore = new _events.EventEmitter();
+  }_createClass(DataStore, [{ key: '_addToCache', value: function _addToCache(
+
+    currentStory, comments) {
+      var key = this._getStoryKey(currentStory);
+      this.cache[key] = {
+        comments: comments,
+        addedAt: Date.now() };
+
+    } }, { key: '_getFromCache', value: function _getFromCache(
+
+    currentStory) {
+      var key = this._getStoryKey(currentStory);
+      var item = this.cache[key];
+
+      if (!item) {
+        return {
+          comments: [],
+          invalidated: false };
+
+      }
+
+      var comments = item.comments;
+      var invalidated = false;
+
+      // invalid caches created 60 minutes ago.
+      if (Date.now() - item.addedAt > 1000 * 60) {
+        delete this.cache[key];
+        invalidated = true;
+      }
+
+      return { comments: comments, invalidated: invalidated };
+    } }, { key: '_reloadCurrentComments', value: function _reloadCurrentComments()
+
+    {var _this = this;
+      if (this._stopReloading) {
+        clearInterval(this._stopReloading);
+      }
+
+      this._stopReloading = setInterval(
+      function () {
+        _this._loadUsers().then(function () {return _this._loadComments();});
+      },
+      1000 * 60);
+
+    } }, { key: 'setCurrentStory', value: function setCurrentStory(
+
+    sbKind, sbStory) {var _this2 = this;
+      this.currentStory = { sbKind: sbKind, sbStory: sbStory };
+
+      // We don't need to do anything if the there's no loggedIn user.
+      // if (!this.user) return;
+
+      this._reloadCurrentComments();
+      var item = this._getFromCache(this.currentStory);
+
+      if (item) {
+        this._fireComments(item.comments);
+        // if the cache invalidated we need to load comments again.
+        if (item.invalidated) {
+          return this._loadUsers().then(function () {return _this2._loadComments();});
+        }
+        return Promise.resolve(null);
+      }
+
+      // load comments for the first time.
+      // TODO: send a null and handle the loading part in the UI side.
+      this.eventStore.emit('loading', true);
+      this._fireComments([]);
+      this._loadUsers().then(function () {return _this2._loadComments();}).then(function () {
+        _this2.eventStore.emit('loading', false);
+        return Promise.resolve(null);
+      });
+    } }, { key: 'setCurrentUser', value: function setCurrentUser(
+
+    user) {
+      this.user = user;
+    } }, { key: '_loadUsers', value: function _loadUsers()
+
+    {var _this3 = this;
+      var query = {};
+      var options = { limit: 1e6 };
+      return this.db.persister._getAppInfo().then(function (info) {
+        if (!info) {
+          return null;
+        }
+        return _this3.db.getCollection('users').get(query, options).then(function (users) {
+          _this3.users = users.reduce(function (newUsers, user) {
+            var usersObj = Object.assign({},
+            newUsers);
+
+            usersObj[user.id] = user;
+            return usersObj;
+          }, {});
+        });
+      });
+    } }, { key: '_loadComments', value: function _loadComments()
+
+    {var _this4 = this;
+      var currentStory = Object.assign({}, this.currentStory);
+      var query = currentStory;
+      var options = { limit: 1e6 };
+      return this.db.persister._getAppInfo().then(function (info) {
+        if (!info) {
+          return null;
+        }
+        return _this4.db.getCollection('comments').get(query, options).then(function (comments) {
+          // add to cache
+          _this4._addToCache(currentStory, comments);
+
+          // set comments only if we are on the relavant story
+          if ((0, _deepEqual2.default)(currentStory, _this4.currentStory)) {
+            _this4._fireComments(comments);
+          }
+        });
+      });
+    } }, { key: '_getStoryKey', value: function _getStoryKey(
+
+    currentStory) {
+      return currentStory.sbKind + ':::' + currentStory.sbStory;
+    } }, { key: '_fireComments', value: function _fireComments(
+
+    comments) {var _this5 = this;
+      this.callbacks.forEach(function (callback) {
+        // link user to the comment directly
+        comments.forEach(function (comment) {
+          comment.user = _this5.users[comment.userId];
+        });
+
+        callback(comments);
+      });
+    } }, { key: 'onComments', value: function onComments(
+
+    cb) {var _this6 = this;
+      this.callbacks.push(cb);
+      var stop = function stop() {
+        var index = _this6.callbacks.indexOf(cb);
+        _this6.callbacks.splice(index, 1);
+      };
+
+      return stop;
+    } }, { key: '_addPendingComment', value: function _addPendingComment(
+
+    comment) {
+      // Add the pending comment.
+      var pendingComment = Object.assign({}, comment, { loading: true });var _getFromCache2 =
+      this._getFromCache(this.currentStory),existingComments = _getFromCache2.comments;
+      var updatedComments = existingComments.concat(pendingComment);
+
+      this._fireComments(updatedComments);
+      return Promise.resolve(null);
+    } }, { key: '_setDeletedComment', value: function _setDeletedComment(
+
+    commentId) {var _getFromCache3 =
+      this._getFromCache(this.currentStory),comments = _getFromCache3.comments;
+      var deleted = comments.find(function (c) {return c.id === commentId;});
+      if (deleted) {
+        deleted.loading = true;
+      }
+      this._fireComments(comments);
+      return Promise.resolve(null);
+    } }, { key: '_addAuthorToTheDatabase', value: function _addAuthorToTheDatabase()
+
+    {
+      if (this.users[this.user.id]) {
+        // user exists in the DB.
+        return Promise.resolve(null);
+      }
+
+      // add user to the local cache
+      this.users[this.user.id] = this.user;
+
+      // add user to the actual collection
+      return this.db.getCollection('users').set(this.user);
+    }
+
+    // NOTE the "sbProtected" makes sure only the author can modify
+    // or delete a comment after its saved on the cloud database.
+  }, { key: '_addCommentToDatabase', value: function _addCommentToDatabase(comment) {
+      var doc = Object.assign({},
+      comment,
+      this.currentStory, {
+        sbProtected: true });
+
+
+      return this.db.getCollection('comments').set(doc);
+    } }, { key: '_deleteCommentOnDatabase', value: function _deleteCommentOnDatabase(
+
+    commentId) {
+      var query = { id: commentId };
+      return this.db.getCollection('comments').del(query);
+    } }, { key: 'addComment', value: function addComment(
+
+    comment) {var _this7 = this;
+      return this._addAuthorToTheDatabase().
+      then(function () {return _this7._addPendingComment(comment);}).
+      then(function () {return _this7._addCommentToDatabase(comment);}).
+      then(function () {return _this7._loadUsers();}).
+      then(function () {return _this7._loadComments();});
+    } }, { key: 'deleteComment', value: function deleteComment(
+
+    commentId) {var _this8 = this;
+      return this._setDeletedComment(commentId).
+      then(function () {return _this8._deleteCommentOnDatabase(commentId);}).
+      then(function () {return _this8._loadComments();});
+    } }, { key: 'onLoading', value: function onLoading(
+
+    cb) {var _this9 = this;
+      this.eventStore.on('loading', cb);
+      return function () {
+        _this9.eventStore.removeListener('loading', cb);
+      };
+    } }]);return DataStore;}();exports.default = DataStore;

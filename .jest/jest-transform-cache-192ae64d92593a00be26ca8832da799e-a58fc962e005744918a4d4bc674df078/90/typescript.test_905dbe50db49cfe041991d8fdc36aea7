@@ -1,0 +1,11 @@
+'use strict';var _typescriptDefinitionTester = require('typescript-definition-tester');var tt = _interopRequireWildcard(_typescriptDefinitionTester);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}
+
+describe('TypeScript definitions', function () {
+  it('should compile against index.d.ts', function (done) {
+    tt.compileDirectory(
+    __dirname + '/../example/typescript',
+    function (fileName) {return fileName.match(/\.ts$/);},
+    function () {return done();});
+
+  });
+});

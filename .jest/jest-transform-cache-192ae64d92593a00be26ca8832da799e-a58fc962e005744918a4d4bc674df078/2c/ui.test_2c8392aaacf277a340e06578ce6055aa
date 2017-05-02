@@ -1,0 +1,44 @@
+'use strict';
+
+var _ui = require('./ui');
+
+var _ui2 = _interopRequireDefault(_ui);
+
+function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+describe('manager.ui.actions.ui', function () {
+  describe('setStoryFilter', function () {
+    it('should set the given filter', function () {
+      var clientStore = {
+        set: jest.fn() };
+
+      var filter = 'kkkind';
+      _ui2.default.setStoryFilter({ clientStore: clientStore }, filter);
+
+      expect(clientStore.set).toHaveBeenCalledWith('storyFilter', filter);
+    });
+  });
+
+  describe('toggleShortcutsHelp', function () {
+    it('should toggle the client sotre accordingly', function () {
+      var clientStore = {
+        toggle: jest.fn() };
+
+      _ui2.default.toggleShortcutsHelp({ clientStore: clientStore });
+
+      expect(clientStore.toggle).toHaveBeenCalledWith('showShortcutsHelp');
+    });
+  });
+
+  describe('selectDownPanel', function () {
+    it('should set the given panel name', function () {
+      var clientStore = {
+        set: jest.fn() };
+
+      var panelName = 'kkkind';
+      _ui2.default.selectDownPanel({ clientStore: clientStore }, panelName);
+
+      expect(clientStore.set).toHaveBeenCalledWith('selectedDownPanel', panelName);
+    });
+  });
+});

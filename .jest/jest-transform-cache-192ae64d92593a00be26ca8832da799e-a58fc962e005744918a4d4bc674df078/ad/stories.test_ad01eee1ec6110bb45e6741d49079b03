@@ -1,0 +1,64 @@
+'use strict';var _enzyme = require('enzyme');
+var _react = require('react');var _react2 = _interopRequireDefault(_react);
+var _stories = require('./stories');var _stories2 = _interopRequireDefault(_stories);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+describe('manager.ui.components.left_panel.stories', function () {
+  describe('render', function () {
+    test('should render stories - empty', function () {
+      var data = [];
+      var wrap = (0, _enzyme.shallow)(_react2.default.createElement(_stories2.default, { stories: data }));
+
+      var list = wrap.find('div').first().children('div').last();
+
+      expect(list.text()).toBe('');
+    });
+
+    test('should render stories', function () {
+      var data = [{ kind: 'a', stories: ['a1', 'a2'] }, { kind: '20', stories: ['b1', 'b2'] }];
+      var wrap = (0, _enzyme.shallow)(_react2.default.createElement(_stories2.default, { stories: data, selectedKind: '20', selectedStory: 'b2' }));
+
+      var output = wrap.html();
+
+      expect(output).toMatch(/20/);
+      expect(output).toMatch(/b2/);
+    });
+  });
+
+  describe('events', function () {
+    test('should call the onSelectStory prop when a kind is clicked', function () {
+      var data = [{ kind: 'a', stories: ['a1', 'a2'] }, { kind: 'b', stories: ['b1', 'b2'] }];
+      var onSelectStory = jest.fn();
+      var wrap = (0, _enzyme.shallow)(
+      _react2.default.createElement(_stories2.default, {
+        stories: data,
+        selectedKind: 'b',
+        selectedStory: 'b2',
+        onSelectStory: onSelectStory }));
+
+
+
+      var kind = wrap.find('a').filterWhere(function (el) {return el.text() === 'a';}).last();
+      kind.simulate('click');
+
+      expect(onSelectStory).toHaveBeenCalledWith('a', null);
+    });
+
+    test('should call the onSelectStory prop when a story is clicked', function () {
+      var data = [{ kind: 'a', stories: ['a1', 'a2'] }, { kind: 'b', stories: ['b1', 'b2'] }];
+      var onSelectStory = jest.fn();
+      var wrap = (0, _enzyme.shallow)(
+      _react2.default.createElement(_stories2.default, {
+        stories: data,
+        selectedKind: 'b',
+        selectedStory: 'b2',
+        onSelectStory: onSelectStory }));
+
+
+
+      var kind = wrap.find('a').filterWhere(function (el) {return el.text() === 'b1';}).last();
+      kind.simulate('click');
+
+      expect(onSelectStory).toHaveBeenCalledWith('b', 'b1');
+    });
+  });
+});

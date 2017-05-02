@@ -1,0 +1,58 @@
+'use strict';var _filters = require('./filters');
+
+describe('manager.ui.libs.filters', function () {
+  describe('storyFilter', function () {
+    test('should return null if there are no stories', function () {
+      var res = (0, _filters.storyFilter)();
+      expect(res).toBe(null);
+    });
+
+    test('should original stories if there is no filter', function () {
+      var stories = [{ kind: 'aa', stories: ['bb'] }];
+      var res = (0, _filters.storyFilter)(stories);
+      expect(res).toBe(stories);
+    });
+
+    test('should always return the selectedKind', function () {
+      var stories = [{ kind: 'aa', stories: ['bb'] }, { kind: 'bb', stories: ['bb'] }];
+      var selectedKind = 'bb';
+      var res = (0, _filters.storyFilter)(stories, 'no-match', selectedKind);
+
+      expect(res).toEqual([stories[1]]);
+    });
+
+    test('should filter kinds correctly', function () {
+      var stories = [
+      { kind: 'aa', stories: ['bb'] },
+      { kind: 'bb', stories: ['bb'] },
+      { kind: 'ss', stories: ['bb'] }];
+
+      var selectedKind = 'bb';
+      var res = (0, _filters.storyFilter)(stories, 'aa', selectedKind);
+
+      expect(res).toEqual([stories[0], stories[1]]);
+    });
+
+    test('should not sort stories by kind', function () {
+      var stories = [
+      { kind: 'ss', stories: ['bb'] },
+      { kind: 'aa', stories: ['bb'] },
+      { kind: 'bb', stories: ['bb'] }];
+
+      var res = (0, _filters.storyFilter)(stories);
+
+      expect(res).toBe(stories);
+    });
+
+    test('should sort stories by kind', function () {
+      var stories = [
+      { kind: 'ss', stories: ['bb'] },
+      { kind: 'aa', stories: ['bb'] },
+      { kind: 'bb', stories: ['bb'] }];
+
+      var res = (0, _filters.storyFilter)(stories, null, null, true);
+
+      expect(res).toEqual([stories[1], stories[2], stories[0]]);
+    });
+  });
+});

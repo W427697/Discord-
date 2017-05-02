@@ -1,0 +1,103 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();var _extends = Object.assign || function (target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i];for (var key in source) {if (Object.prototype.hasOwnProperty.call(source, key)) {target[key] = source[key];}}}return target;};var _propTypes = require('prop-types');var _propTypes2 = _interopRequireDefault(_propTypes);
+var _react = require('react');var _react2 = _interopRequireDefault(_react);
+var _theme = require('../theme');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var mainStyle = _extends({}, _theme.baseFonts, {
+
+  border: '1px solid #ECECEC',
+  borderRadius: 2,
+  position: 'relative',
+  marginBottom: '10px' });
+
+
+var textWrapStyle = {
+  background: '#F7F7F7' };
+
+
+var textStyle = {
+  fontSize: '1rem',
+  color: '#828282',
+  padding: 5,
+  display: 'block',
+  width: '100%',
+  boxSizing: 'border-box',
+  outline: 'none',
+  border: 0,
+  height: '2rem' };
+
+
+var clearButtonStyle = {
+  position: 'absolute',
+  color: '#868686',
+  border: 'none',
+  width: 25,
+  height: '2rem',
+  right: 1,
+  top: 0,
+  textAlign: 'center',
+  cursor: 'pointer',
+  lineHeight: '30px',
+  fontSize: '25px',
+  textDecoration: 'none' };var
+
+
+TextFilter = function (_React$Component) {_inherits(TextFilter, _React$Component);
+  function TextFilter(props) {_classCallCheck(this, TextFilter);var _this = _possibleConstructorReturn(this, (TextFilter.__proto__ || Object.getPrototypeOf(TextFilter)).call(this,
+    props));
+
+    _this.state = {
+      query: '' };
+
+
+    _this.onChange = _this.onChange.bind(_this);
+    _this.fireOnClear = _this.fireOnClear.bind(_this);return _this;
+  }_createClass(TextFilter, [{ key: 'onChange', value: function onChange(
+
+    event) {
+      var text = event.target.value;
+      this.setState({ query: text });var
+      onChange = this.props.onChange;
+      if (onChange) onChange(text);
+    } }, { key: 'fireOnClear', value: function fireOnClear()
+
+    {
+      this.setState({ query: '' });var
+
+      onClear = this.props.onClear;
+      if (onClear) onClear();
+    } }, { key: 'render', value: function render()
+
+    {
+      return (
+        _react2.default.createElement('div', { style: mainStyle },
+          _react2.default.createElement('div', { style: textWrapStyle },
+            _react2.default.createElement('input', {
+              id: 'storyFilter',
+              style: textStyle,
+              type: 'text',
+              placeholder: 'Filter',
+              name: 'filter-text',
+              value: this.props.text || '',
+              onChange: this.onChange })),
+
+
+          this.state.query &&
+          this.state.query.length &&
+          _react2.default.createElement('a', {
+              href: '#storyFilter',
+              'aria-label': 'clear filter',
+              style: clearButtonStyle,
+              onClick: this.fireOnClear,
+              className: 'clear' }, '\xD7')));
+
+
+
+
+
+    } }]);return TextFilter;}(_react2.default.Component);exports.default = TextFilter;
+
+
+TextFilter.propTypes = {
+  text: _propTypes2.default.string,
+  onChange: _propTypes2.default.func,
+  onClear: _propTypes2.default.func };

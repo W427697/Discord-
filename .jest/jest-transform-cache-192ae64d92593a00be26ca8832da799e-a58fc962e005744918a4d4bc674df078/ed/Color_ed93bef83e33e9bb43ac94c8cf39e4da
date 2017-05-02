@@ -1,0 +1,101 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();var _propTypes = require('prop-types');var _propTypes2 = _interopRequireDefault(_propTypes);
+var _react = require('react');var _react2 = _interopRequireDefault(_react);
+var _reactColor = require('react-color');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var styles = {
+  swatch: {
+    background: '#fff',
+    borderRadius: '1px',
+    border: '1px solid rgb(247, 244, 244)',
+    display: 'inline-block',
+    cursor: 'pointer',
+    width: '100%' },
+
+  popover: {
+    position: 'absolute',
+    zIndex: '2' },
+
+  cover: {
+    position: 'fixed',
+    top: '0px',
+    right: '0px',
+    bottom: '0px',
+    left: '0px' } };var
+
+
+
+ColorType = function (_React$Component) {_inherits(ColorType, _React$Component);
+  function ColorType(props) {_classCallCheck(this, ColorType);var _this = _possibleConstructorReturn(this, (ColorType.__proto__ || Object.getPrototypeOf(ColorType)).call(this,
+    props));
+    _this.handleClick = _this.handleClick.bind(_this);
+    _this.onWindowMouseDown = _this.onWindowMouseDown.bind(_this);
+    _this.state = {
+      displayColorPicker: false };return _this;
+
+  }_createClass(ColorType, [{ key: 'componentDidMount', value: function componentDidMount()
+
+    {
+      document.addEventListener('mousedown', this.onWindowMouseDown);
+    } }, { key: 'componentWillUnmount', value: function componentWillUnmount()
+    {
+      document.removeEventListener('mousedown', this.onWindowMouseDown);
+    } }, { key: 'onWindowMouseDown', value: function onWindowMouseDown(
+
+    e) {
+      if (!this.state.displayColorPicker) return;
+      if (this.popover.contains(e.target)) return;
+
+      this.setState({
+        displayColorPicker: false });
+
+    } }, { key: 'handleClick', value: function handleClick()
+
+    {
+      this.setState({
+        displayColorPicker: !this.state.displayColorPicker });
+
+    } }, { key: 'render', value: function render()
+
+    {var _this2 = this;var _props =
+      this.props,knob = _props.knob,_onChange = _props.onChange;
+      var colorStyle = {
+        width: 'auto',
+        height: '20px',
+        borderRadius: '2px',
+        margin: 5,
+        background: knob.value };
+
+      return (
+        _react2.default.createElement('div', { id: knob.name },
+          _react2.default.createElement('div', { style: styles.swatch, onClick: this.handleClick },
+            _react2.default.createElement('div', { style: colorStyle })),
+
+          this.state.displayColorPicker ?
+          _react2.default.createElement('div', {
+              style: styles.popover,
+              ref: function ref(e) {
+                _this2.popover = e;
+              } },
+
+            _react2.default.createElement(_reactColor.SketchPicker, { color: knob.value, onChange: function onChange(color) {return _onChange(color.hex);} })) :
+
+          null));
+
+
+    } }]);return ColorType;}(_react2.default.Component);
+
+
+ColorType.propTypes = {
+  knob: _propTypes2.default.object,
+  onChange: _propTypes2.default.func };
+
+
+ColorType.serialize = function (value) {
+  return value;
+};
+
+ColorType.deserialize = function (value) {
+  return value;
+};exports.default =
+
+ColorType;
