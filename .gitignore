@@ -5,7 +5,7 @@ npm-shrinkwrap.json
 dist
 .tern-port
 *.DS_Store
-.cache
+.jest
 junit.xml
 coverage/
 *.lerna_backup

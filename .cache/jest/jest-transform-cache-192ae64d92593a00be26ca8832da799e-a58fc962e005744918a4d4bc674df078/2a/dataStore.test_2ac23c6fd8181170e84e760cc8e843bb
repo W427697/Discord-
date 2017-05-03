@@ -1,0 +1,89 @@
+'use strict';var _regenerator = require('babel-runtime/regenerator');var _regenerator2 = _interopRequireDefault(_regenerator);var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);var _dataStore = require('./dataStore');var _dataStore2 = _interopRequireDefault(_dataStore);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+var user = {
+  id: 'user-id',
+  name: 'user-name' };
+
+
+var dbGetUsers = jest.fn(function (a) {return Promise.resolve([user]);});
+var dbSetUsers = jest.fn(function (a) {return Promise.resolve(a);});
+var dbGetComments = jest.fn(function (a) {return Promise.resolve(a);});
+var dbSetComments = jest.fn(function (a) {return Promise.resolve(a);});
+
+var db = {
+  getCollection: function getCollection(namespace) {
+    switch (namespace) {
+      case 'users':{
+          return {
+            get: dbGetUsers,
+            set: dbGetUsers };
+
+        }
+      case 'comments':{
+          return {
+            get: dbGetComments,
+            set: dbSetComments };
+
+        }}
+
+  },
+  persister: {
+    _getAppInfo: function _getAppInfo() {
+      return Promise.resolve(true);
+    } } };
+
+
+
+var theStore = new _dataStore2.default(db);
+
+describe('DataStore', function () {
+  it('set current story - when user not logged in', function () {
+    theStore.setCurrentStory('Components', 'CommentList - No Comments');
+
+    expect(theStore.currentStory).toEqual({
+      sbKind: 'Components',
+      sbStory: 'CommentList - No Comments' });
+
+  });
+
+  it('set current user', function () {
+    theStore.setCurrentUser({
+      id: 'user-id',
+      name: 'user-name' });
+
+
+    expect(theStore.user).toEqual({ id: 'user-id', name: 'user-name' });
+  });
+
+  it('set current story - when user already logged in', function () {
+    theStore.setCurrentStory('Components', 'CommentList - No Comments');
+
+    expect(theStore.currentStory).toEqual({
+      sbKind: 'Components',
+      sbStory: 'CommentList - No Comments' });
+
+  });
+
+  it('add comment', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {var comment;return _regenerator2.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+            theStore.setCurrentStory('Components', 'CommentList - No Comments');
+            comment = {
+              text: 'sample comment',
+              time: 1476435982029,
+              userId: 'user-id' };_context.next = 4;return (
+
+
+              theStore.addComment(comment));case 4:
+
+            expect(dbGetComments).toHaveBeenCalled();
+            expect(dbSetComments).toHaveBeenCalled();case 6:case 'end':return _context.stop();}}}, _callee, undefined);})));
+
+
+  it('onComments', function () {
+    var callback = function callback(comments) {return comments;};
+    var stopper = theStore.onComments(callback);
+    expect(theStore.callbacks).toContain(callback);
+
+    expect(stopper).not.toThrow();
+    expect(theStore.callbacks).not.toContain(callback);
+  });
+});

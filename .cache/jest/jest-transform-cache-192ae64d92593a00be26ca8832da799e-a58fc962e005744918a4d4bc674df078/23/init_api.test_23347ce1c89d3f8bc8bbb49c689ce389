@@ -1,0 +1,154 @@
+'use strict';var _typeof2 = require('babel-runtime/helpers/typeof');var _typeof3 = _interopRequireDefault(_typeof2);var _init_api = require('./init_api');var _init_api2 = _interopRequireDefault(_init_api);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+describe('manager.api.config.initApi', function () {
+  it('should expose correct API methods', function (done) {
+    var actions = {
+      api: {
+        setStories: jest.fn(),
+        selectStory: jest.fn(),
+        setQueryParams: jest.fn() },
+
+      shortcuts: {
+        handleEvent: jest.fn() } };
+
+
+
+    var clientStore = {
+      subscribe: jest.fn() };
+
+
+    var provider = {
+      handleAPI: function handleAPI(api) {
+        expect(api.setStories).toBe(actions.api.setStories);
+        expect(api.selectStory).toBe(actions.api.selectStory);
+        expect(api.handleShortcut).toBe(actions.shortcuts.handleEvent);
+        expect((0, _typeof3.default)(api.onStory)).toBe('function');
+        expect((0, _typeof3.default)(api.setQueryParams)).toBe('function');
+        done();
+      } };
+
+
+    (0, _init_api2.default)(provider, clientStore, actions);
+  });
+
+  it('should trigger the onStory callback', function (done) {
+    var actions = { api: {}, shortcuts: {} };
+    var selectedKind = 'XXdd';
+    var selectedStory = 'u8sd';
+
+    var clientStore = {
+      subscribe: jest.fn(),
+      getAll: function getAll() {return {
+          selectedKind: selectedKind,
+          selectedStory: selectedStory };} };
+
+
+
+    var provider = {
+      handleAPI: function handleAPI(api) {
+        api.onStory(function (kind, story) {
+          expect(kind).toBe(selectedKind);
+          expect(story).toBe(selectedStory);
+          done();
+        });
+      } };
+
+
+    (0, _init_api2.default)(provider, clientStore, actions);
+    // calling the subscription
+    clientStore.subscribe.mock.calls[0][0]();
+  });
+
+  it('should support to add multiple onStory callback', function (done) {
+    var actions = { api: {}, shortcuts: {} };
+    var selectedKind = 'XXdd';
+    var selectedStory = 'u8sd';
+
+    var clientStore = {
+      subscribe: jest.fn(),
+      getAll: function getAll() {return {
+          selectedKind: selectedKind,
+          selectedStory: selectedStory };} };
+
+
+
+    var provider = {
+      handleAPI: function handleAPI(api) {
+        var cnt = 0;
+        api.onStory(function () {
+          cnt++;
+        });
+
+        api.onStory(function () {
+          cnt++;
+          expect(cnt).toBe(2);
+          done();
+        });
+      } };
+
+
+    (0, _init_api2.default)(provider, clientStore, actions);
+    // calling the subscription
+    clientStore.subscribe.mock.calls[0][0]();
+  });
+
+  it('should support a way to remove onStory callback', function (done) {
+    var actions = { api: {}, shortcuts: {} };
+    var selectedKind = 'XXdd';
+    var selectedStory = 'u8sd';
+
+    var clientStore = {
+      subscribe: jest.fn(),
+      getAll: function getAll() {return {
+          selectedKind: selectedKind,
+          selectedStory: selectedStory };} };
+
+
+
+    var provider = {
+      handleAPI: function handleAPI(api) {
+        var cnt = 0;
+        var stop = api.onStory(function () {
+          cnt++;
+        });
+        stop();
+
+        api.onStory(function () {
+          cnt++;
+          expect(cnt).toBe(1);
+          done();
+        });
+      } };
+
+
+    (0, _init_api2.default)(provider, clientStore, actions);
+    // calling the subscription
+    clientStore.subscribe.mock.calls[0][0]();
+  });
+
+  describe('getQueryParam', function () {
+    it('should return the correct query param value', function (done) {
+      var actions = { api: {}, shortcuts: {} };
+
+      var clientStore = {
+        subscribe: jest.fn(),
+        getAll: function getAll() {return {
+            customQueryParams: {
+              foo: 'foo value',
+              bar: 'bar value' } };} };
+
+
+
+
+      var provider = {
+        handleAPI: function handleAPI(api) {
+          var value = api.getQueryParam('foo');
+          expect(value).toBe('foo value');
+          done();
+        } };
+
+
+      (0, _init_api2.default)(provider, clientStore, actions);
+    });
+  });
+});

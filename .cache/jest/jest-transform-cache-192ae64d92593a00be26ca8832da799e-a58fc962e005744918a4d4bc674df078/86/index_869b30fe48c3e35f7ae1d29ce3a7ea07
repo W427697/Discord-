@@ -1,0 +1,23 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _react = require('react');var _react2 = _interopRequireDefault(_react);
+var _propTypes = require('prop-types');var _propTypes2 = _interopRequireDefault(_propTypes);
+var _reactMedia = require('react-media');var _reactMedia2 = _interopRequireDefault(_reactMedia);
+var _desktop = require('./desktop');var _desktop2 = _interopRequireDefault(_desktop);
+var _mobile = require('./mobile');var _mobile2 = _interopRequireDefault(_mobile);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+var Layout = function Layout(props) {return (
+    _react2.default.createElement(_reactMedia2.default, { query: '(max-width: 650px)' },
+      function (matches) {return matches ? _react2.default.createElement(_mobile2.default, props) : _react2.default.createElement(_desktop2.default, props);}));};
+
+
+
+Layout.propTypes = {
+  showLeftPanel: _propTypes2.default.bool.isRequired,
+  showDownPanel: _propTypes2.default.bool.isRequired,
+  goFullScreen: _propTypes2.default.bool.isRequired,
+  leftPanel: _propTypes2.default.func.isRequired,
+  preview: _propTypes2.default.func.isRequired,
+  downPanel: _propTypes2.default.func.isRequired,
+  downPanelInRight: _propTypes2.default.bool.isRequired };exports.default =
+
+
+Layout;

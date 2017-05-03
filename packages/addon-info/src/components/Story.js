@@ -26,7 +26,7 @@ const stylesheet = {
     },
   },
   info: {
-    position: 'fixed',
+    position: 'absolute',
     background: 'white',
     top: 0,
     bottom: 0,

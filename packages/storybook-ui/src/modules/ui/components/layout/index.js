@@ -1,5 +1,8 @@
 import React from 'react';
+<<<<<<< HEAD
 import PropTypes from 'prop-types';
+=======
+>>>>>>> parent of 2a97b17... Merge remote-tracking branch 'storybooks/master' into feature/mobile-navigation
 import Media from 'react-media';
 import DesktopLayout from './desktop';
 import MobileLayout from './mobile';

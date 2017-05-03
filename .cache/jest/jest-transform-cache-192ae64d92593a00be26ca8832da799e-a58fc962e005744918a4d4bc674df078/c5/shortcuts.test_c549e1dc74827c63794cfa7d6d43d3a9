@@ -1,0 +1,39 @@
+'use strict';var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);var _createClass2 = require('babel-runtime/helpers/createClass');var _createClass3 = _interopRequireDefault(_createClass2);var _shortcuts = require('./shortcuts');var _shortcuts2 = _interopRequireDefault(_shortcuts);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var
+
+MockClientStore = function () {function MockClientStore() {(0, _classCallCheck3.default)(this, MockClientStore);}(0, _createClass3.default)(MockClientStore, [{ key: 'update', value: function update(
+    cb) {
+      this.updateCallback = cb;
+    } }]);return MockClientStore;}();
+
+
+describe('manager.shortcuts.actions.shortcuts', function () {
+  describe('setOptions', function () {
+    test('should update options', function () {
+      var clientStore = new MockClientStore();
+      _shortcuts2.default.setOptions({ clientStore: clientStore }, { abc: 10 });
+
+      var state = {
+        shortcutOptions: { bbc: 50, abc: 40 } };
+
+
+      var stateUpdates = clientStore.updateCallback(state);
+      expect(stateUpdates).toEqual({
+        shortcutOptions: { bbc: 50, abc: 10 } });
+
+    });
+
+    test('should only update options for the key already defined', function () {
+      var clientStore = new MockClientStore();
+      _shortcuts2.default.setOptions({ clientStore: clientStore }, { abc: 10, kki: 50 });
+
+      var state = {
+        shortcutOptions: { bbc: 50, abc: 40 } };
+
+
+      var stateUpdates = clientStore.updateCallback(state);
+      expect(stateUpdates).toEqual({
+        shortcutOptions: { bbc: 50, abc: 10 } });
+
+    });
+  });
+});
