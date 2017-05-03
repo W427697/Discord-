@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import pick from 'lodash.pick';
 import isString from 'lodash.isstring';
 import Media from 'react-media';
@@ -29,50 +30,35 @@ const mobileScrollStyle = {
 
 const storyProps = ['stories', 'selectedKind', 'selectedStory', 'onSelectStory'];
 
-const LeftPanel = (props) => (
+const LeftPanel = props => (
   <Media query="(max-width: 650px)">
-    {matches => (
-      matches ? (
-        <div style={mobileContainerStyle}>
-          <Header
-            name={props.name}
-            url={props.url}
-            openShortcutsHelp={props.openShortcutsHelp}
-          />
-          <Collapsible
-            isActive={isString(props.storyFilter)}
-            title="component list"
-          >
+    {matches =>
+      (matches
+        ? <div style={mobileContainerStyle}>
+            <Header name={props.name} url={props.url} openShortcutsHelp={props.openShortcutsHelp} />
+            <Collapsible isActive={isString(props.storyFilter)} title="component list">
+              <TextFilter
+                text={props.storyFilter}
+                onClear={() => props.onStoryFilter('')}
+                onChange={text => props.onStoryFilter(text)}
+              />
+              {props.stories &&
+                <div style={mobileScrollStyle}>
+                  <Stories {...pick(props, storyProps)} />
+                </div>}
+            </Collapsible>
+          </div>
+        : <div style={containerStyle}>
+            <Header name={props.name} url={props.url} openShortcutsHelp={props.openShortcutsHelp} />
             <TextFilter
               text={props.storyFilter}
               onClear={() => props.onStoryFilter('')}
-              onChange={(text) => props.onStoryFilter(text)}
+              onChange={text => props.onStoryFilter(text)}
             />
-            {props.stories &&
-              <div style={mobileScrollStyle}>
-                <Stories {...pick(props, storyProps)} />
-              </div>
-            }
-          </Collapsible>
-        </div>
-      ) : (
-        <div style={containerStyle}>
-          <Header
-            name={props.name}
-            url={props.url}
-            openShortcutsHelp={props.openShortcutsHelp}
-          />
-          <TextFilter
-            text={props.storyFilter}
-            onClear={() => props.onStoryFilter('')}
-            onChange={(text) => props.onStoryFilter(text)}
-          />
-          <div style={scrollStyle}>
-            { props.stories ? (<Stories {...pick(props, storyProps)} />) : null }
-          </div>
-        </div>
-      )
-    )}
+            <div style={scrollStyle}>
+              {props.stories ? <Stories {...pick(props, storyProps)} /> : null}
+            </div>
+          </div>)}
   </Media>
 );
 

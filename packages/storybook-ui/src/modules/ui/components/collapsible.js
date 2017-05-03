@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { baseFonts } from './theme';
 
 const wrapperStyles = {
@@ -46,9 +47,12 @@ class Collapsible extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
-    this.setState({
-      isActive: !this.state.isActive,
-    }, this.focusToContent);
+    this.setState(
+      {
+        isActive: !this.state.isActive,
+      },
+      this.focusToContent,
+    );
     // We will execute any additional onClick handlers that are passed
     // to the component
     const { onClick } = this.props;
@@ -58,12 +62,7 @@ class Collapsible extends React.Component {
   }
 
   render() {
-    const {
-      tagName = 'div',
-      children,
-      title,
-      id = encodeURI(title),
-    } = this.props;
+    const { tagName = 'div', children, title, id = encodeURI(title) } = this.props;
     const { isActive } = this.state;
     const headingStyles = {
       ...wrapperStyles,

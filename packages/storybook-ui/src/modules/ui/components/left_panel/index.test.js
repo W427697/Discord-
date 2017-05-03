@@ -1,11 +1,19 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import LeftPanel from '../index';
-import Header from '../header';
-import TextFilter from '../text_filter';
-import Stories from '../stories';
+import LeftPanel from './index';
+import Header from './header';
+import TextFilter from './text_filter';
+import Stories from './stories';
 
 describe('manager.ui.components.left_panel.index', () => {
+  beforeEach(() => {
+    window.matchMedia = () => ({
+      matches: false, // Simulates if in Desktop Mode
+      addListener() {},
+      removeListener() {},
+    });
+  });
+
   test('should render Header and TextFilter by default', () => {
     const openShortcutsHelp = jest.fn();
     const storyFilter = 'xxxxx';
