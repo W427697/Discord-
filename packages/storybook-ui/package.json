@@ -10,8 +10,7 @@
   "scripts": {
     "prepublish": "node ../../scripts/prepublish.js",
     "storybook": "start-storybook -p 9010",
-    "publish-storybook": "bash ./.scripts/publish_storybook.sh",
-    "test": "jest"
+    "publish-storybook": "bash ./.scripts/publish_storybook.sh"
   },
   "peerDependencies": {
     "react": "*",
