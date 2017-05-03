@@ -13,9 +13,6 @@
     "publish-storybook": "bash ./.scripts/publish_storybook.sh",
     "test": "jest"
   },
-  "devDependencies": {
-    "matchmedia": "^0.1.2"
-  },
   "peerDependencies": {
     "react": "*",
     "react-dom": "*"
