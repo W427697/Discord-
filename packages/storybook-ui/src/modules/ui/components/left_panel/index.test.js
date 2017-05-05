@@ -1,15 +1,24 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import LeftPanel from './index';
 import Header from './header';
 import TextFilter from './text_filter';
 import Stories from './stories';
 
 describe('manager.ui.components.left_panel.index', () => {
+  beforeEach(() => {
+    window.matchMedia = () => ({
+      matches: false, // Simulates if in Desktop Mode
+      addListener() {},
+      removeListener() {},
+    });
+  });
+
   test('should render Header and TextFilter by default', () => {
     const openShortcutsHelp = jest.fn();
     const storyFilter = 'xxxxx';
-    const wrap = shallow(
+
+    const wrap = mount(
       <LeftPanel openShortcutsHelp={openShortcutsHelp} storyFilter={storyFilter} />,
     );
 
@@ -26,7 +35,8 @@ describe('manager.ui.components.left_panel.index', () => {
     const selectedKind = 'kk';
     const selectedStory = 'bb';
     const stories = [{ kind: 'kk', stories: ['bb'] }];
-    const wrap = shallow(
+
+    const wrap = mount(
       <LeftPanel stories={stories} selectedKind={selectedKind} selectedStory={selectedStory} />,
     );
 
@@ -41,7 +51,7 @@ describe('manager.ui.components.left_panel.index', () => {
   describe('onStoryFilter prop', () => {
     test('should set filter as an empty text on TextFilter.onClear', () => {
       const onStoryFilter = jest.fn();
-      const wrap = shallow(<LeftPanel onStoryFilter={onStoryFilter} />);
+      const wrap = mount(<LeftPanel onStoryFilter={onStoryFilter} />);
 
       const textFilter = wrap.find(TextFilter).first();
       textFilter.props().onClear();
@@ -52,7 +62,7 @@ describe('manager.ui.components.left_panel.index', () => {
     test('should set filter as the given text of TextFilter.onChange', () => {
       const onStoryFilter = jest.fn();
       const filterText = 'XXX';
-      const wrap = shallow(<LeftPanel onStoryFilter={onStoryFilter} />);
+      const wrap = mount(<LeftPanel onStoryFilter={onStoryFilter} />);
 
       const textFilter = wrap.find(TextFilter).first();
       textFilter.props().onChange(filterText);

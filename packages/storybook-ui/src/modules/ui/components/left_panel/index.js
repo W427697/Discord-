@@ -1,34 +1,65 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import pick from 'lodash.pick';
+import isString from 'lodash.isstring';
+import Media from 'react-media';
 import Header from './header';
 import Stories from './stories';
 import TextFilter from './text_filter';
-import pick from 'lodash.pick';
+import Collapsible from '../collapsible';
+
+const containerStyle = {
+  margin: '10px 0px 10px 10px',
+};
 
 const scrollStyle = {
   height: 'calc(100vh - 105px)',
-  marginTop: 10,
-  overflowY: 'auto',
+  overflow: 'auto',
 };
 
-const mainStyle = {
-  padding: '10px 0 10px 10px',
+const mobileContainerStyle = {
+  marginLeft: '10px',
+  marginRight: '10px',
+  paddingTop: '10px',
+};
+
+const mobileScrollStyle = {
+  maxHeight: 'calc(100vw + 100px)',
+  overflow: 'auto',
 };
 
 const storyProps = ['stories', 'selectedKind', 'selectedStory', 'onSelectStory'];
 
 const LeftPanel = props => (
-  <div style={mainStyle}>
-    <Header name={props.name} url={props.url} openShortcutsHelp={props.openShortcutsHelp} />
-    <TextFilter
-      text={props.storyFilter}
-      onClear={() => props.onStoryFilter('')}
-      onChange={text => props.onStoryFilter(text)}
-    />
-    <div style={scrollStyle}>
-      {props.stories ? <Stories {...pick(props, storyProps)} /> : null}
-    </div>
-  </div>
+  <Media query="(max-width: 650px)">
+    {matches =>
+      (matches
+        ? <div style={mobileContainerStyle}>
+            <Header name={props.name} url={props.url} openShortcutsHelp={props.openShortcutsHelp} />
+            <Collapsible isActive={isString(props.storyFilter)} title="component list">
+              <TextFilter
+                text={props.storyFilter}
+                onClear={() => props.onStoryFilter('')}
+                onChange={text => props.onStoryFilter(text)}
+              />
+              {props.stories &&
+                <div style={mobileScrollStyle}>
+                  <Stories {...pick(props, storyProps)} />
+                </div>}
+            </Collapsible>
+          </div>
+        : <div style={containerStyle}>
+            <Header name={props.name} url={props.url} openShortcutsHelp={props.openShortcutsHelp} />
+            <TextFilter
+              text={props.storyFilter}
+              onClear={() => props.onStoryFilter('')}
+              onChange={text => props.onStoryFilter(text)}
+            />
+            <div style={scrollStyle}>
+              {props.stories ? <Stories {...pick(props, storyProps)} /> : null}
+            </div>
+          </div>)}
+  </Media>
 );
 
 LeftPanel.propTypes = {

@@ -1,8 +1,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Layout from './index.js';
+import Layout from './index';
 
 describe('manager.ui.components.layout.index', () => {
+  beforeEach(() => {
+    window.matchMedia = () => ({
+      matches: false, // Simulates if in Desktop Mode
+      addListener() {},
+      removeListener() {},
+    });
+  });
+
   describe('with default options', () => {
     test('should render provided components', () => {
       const wrap = shallow(

@@ -7,6 +7,38 @@ const mainStyle = {
   border: '1px solid #ECECEC',
   borderRadius: 2,
   position: 'relative',
+  marginBottom: '10px',
+};
+
+const textWrapStyle = {
+  background: '#F7F7F7',
+};
+
+const textStyle = {
+  fontSize: '1rem',
+  color: '#828282',
+  padding: 5,
+  display: 'block',
+  width: '100%',
+  boxSizing: 'border-box',
+  outline: 'none',
+  border: 0,
+  height: '2rem',
+};
+
+const clearButtonStyle = {
+  position: 'absolute',
+  color: '#868686',
+  border: 'none',
+  width: 25,
+  height: '2rem',
+  right: 1,
+  top: 0,
+  textAlign: 'center',
+  cursor: 'pointer',
+  lineHeight: '30px',
+  fontSize: '25px',
+  textDecoration: 'none',
 };
 
 export default class TextFilter extends React.Component {
@@ -36,40 +68,11 @@ export default class TextFilter extends React.Component {
   }
 
   render() {
-    const textWrapStyle = {
-      background: '#F7F7F7',
-    };
-
-    const textStyle = {
-      fontSize: 12,
-      color: '#828282',
-      padding: 5,
-      display: 'block',
-      width: '100%',
-      boxSizing: 'border-box',
-      outline: 'none',
-      border: 0,
-      height: 26,
-    };
-
-    const clearButtonStyle = {
-      position: 'absolute',
-      color: '#868686',
-      border: 'none',
-      width: 25,
-      height: 26,
-      right: 1,
-      top: 0,
-      textAlign: 'center',
-      cursor: 'pointer',
-      lineHeight: '23px',
-      fontSize: 20,
-    };
-
     return (
       <div style={mainStyle}>
         <div style={textWrapStyle}>
           <input
+            id="storyFilter"
             style={textStyle}
             type="text"
             placeholder="Filter"
@@ -80,9 +83,15 @@ export default class TextFilter extends React.Component {
         </div>
         {this.state.query &&
           this.state.query.length &&
-          <div style={clearButtonStyle} onClick={this.fireOnClear} className="clear">
+          <a
+            href="#storyFilter"
+            aria-label="clear filter"
+            style={clearButtonStyle}
+            onClick={this.fireOnClear}
+            className="clear"
+          >
             ×
-          </div>}
+          </a>}
       </div>
     );
   }
