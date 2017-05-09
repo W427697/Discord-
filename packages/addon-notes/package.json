@@ -8,12 +8,9 @@
   },
   "license": "MIT",
   "scripts": {
-    "prepublish": "node ../../scripts/prepublish.js",
-    "storybook": "start-storybook -p 9010",
-    "publish-storybook": "bash .scripts/publish_storybook.sh"
+    "prepublish": "node ../../scripts/prepublish.js"
   },
   "devDependencies": {
-    "@kadira/storybook": "*",
     "git-url-parse": "^6.0.1",
     "react": "^15.3.2",
     "react-addons-test-utils": "^15.5.1",

@@ -17,7 +17,6 @@
   },
   "scripts": {
     "prepublish": "node ../../scripts/prepublish.js",
-    "publish-storybook": "bash .scripts/publish_storybook.sh",
     "storybook": "start-storybook -p 3006",
     "storybook-local": "STORYBOOK_CLOUD_SERVER='http://localhost:3003/graphql' start-storybook -p 9010",
     "storybook-remote": "start-storybook -p 3006"
@@ -34,7 +33,6 @@
     "react-textarea-autosize": "^4.0.5"
   },
   "devDependencies": {
-    "@kadira/storybook": "*",
     "@kadira/storybook-addons": "*",
     "@kadira/storybook-database-cloud": "*",
     "@kadira/storybook-deployer": "*",

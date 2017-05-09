@@ -4,9 +4,7 @@
   "description": "Action Logger addon for storybook",
   "main": "dist/index.js",
   "scripts": {
-    "deploy-storybook": "storybook-to-ghpages",
-    "prepublish": "node ../../scripts/prepublish.js",
-    "storybook": "start-storybook -p 9001"
+    "prepublish": "node ../../scripts/prepublish.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +19,6 @@
   },
   "homepage": "https://github.com/kadirahq/storybook-addon-actions#readme",
   "devDependencies": {
-    "@kadira/storybook": "*",
     "@kadira/storybook-addons": "*",
     "@kadira/storybook-ui": "*",
     "react": "^15.5.4",

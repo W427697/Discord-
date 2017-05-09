@@ -4,8 +4,7 @@
   "description": "Options addon for storybook",
   "main": "preview.js",
   "scripts": {
-    "prepublish": "node ../../scripts/prepublish.js",
-    "storybook": "start-storybook -p 9001"
+    "prepublish": "node ../../scripts/prepublish.js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +19,6 @@
   },
   "homepage": "https://github.com/kadirahq/storybook-addon-options#readme",
   "devDependencies": {
-    "@kadira/storybook": "*",
     "@kadira/storybook-addons": "*",
     "@kadira/storybook-ui": "*",
     "react": "^15.5.4",
