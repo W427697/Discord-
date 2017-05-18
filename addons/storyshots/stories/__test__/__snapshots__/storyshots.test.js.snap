@@ -113,7 +113,7 @@ exports[`Storyshots Welcome to Storybook 1`] = `
   </p>
   <p>
     We've added some basic stories inside the
-
+     
     <code
       style={
         Object {
@@ -129,7 +129,7 @@ exports[`Storyshots Welcome to Storybook 1`] = `
     >
       src/stories
     </code>
-
+     
     directory.
     <br />
     A story is a single state of one or more UI components. You can have as many stories as you want.
@@ -138,7 +138,7 @@ exports[`Storyshots Welcome to Storybook 1`] = `
   </p>
   <p>
     See these sample
-
+     
     <a
       href="#"
       onClick={[Function]}
@@ -153,9 +153,9 @@ exports[`Storyshots Welcome to Storybook 1`] = `
     >
       stories
     </a>
-
+     
     for a component called
-
+     
     <code
       style={
         Object {
@@ -178,7 +178,7 @@ exports[`Storyshots Welcome to Storybook 1`] = `
     <br />
     You can also edit those components and see changes right away.
     <br />
-    (Try editing the
+    (Try editing the 
     <code
       style={
         Object {
@@ -194,7 +194,7 @@ exports[`Storyshots Welcome to Storybook 1`] = `
     >
       Button
     </code>
-     component located at
+     component located at 
     <code
       style={
         Object {
@@ -216,9 +216,9 @@ exports[`Storyshots Welcome to Storybook 1`] = `
     This is just one thing you can do with Storybook.
     <br />
     Have a look at the
-
+     
     <a
-      href="https://github.com/kadirahq/react-storybook"
+      href="https://github.com/storybooks/storybook"
       style={
         Object {
           "borderBottom": "1px solid #1474f3",
@@ -229,9 +229,9 @@ exports[`Storyshots Welcome to Storybook 1`] = `
       }
       target="_blank"
     >
-      React Storybook
+      Storybook for React
     </a>
-
+     
     repo for more information.
   </p>
 </div>
