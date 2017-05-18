@@ -31,7 +31,7 @@ class ComponentWithRef extends React.Component {
 }
 
 ComponentWithRef.propTypes = {
-  onLoad: PropTypes.func
+  onLoad: PropTypes.func,
 };
 
 export default ComponentWithRef;

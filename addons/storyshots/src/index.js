@@ -12,9 +12,11 @@ let configPath;
 const babel = require('babel-core');
 
 function hasDependency(pkg, dependency) {
-  return (pkg.devDependencies && pkg.devDependencies[dependency]) ||
-         (pkg.dependencies && pkg.dependencies[dependency]) ||
-         (pkg.name === dependency);
+  return (
+    (pkg.devDependencies && pkg.devDependencies[dependency]) ||
+    (pkg.dependencies && pkg.dependencies[dependency]) ||
+    pkg.name === dependency
+  );
 }
 
 const pkg = readPkgUp.sync().pkg;
