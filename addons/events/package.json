@@ -1,0 +1,42 @@
+{
+  "name": "@storybook/addon-events",
+  "version": "3.0.0-alpha.0",
+  "description": "Events addon for storybook",
+  "main": "dist/index.js",
+  "scripts": {
+    "deploy-storybook": "storybook-to-ghpages",
+    "prepublish": "node ../../scripts/prepublish.js",
+    "storybook": "start-storybook -p 9001"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/storybooks/storybook.git"
+  },
+  "keywords": [
+    "storybook"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/storybooks/storybook/issues"
+  },
+  "homepage": "https://github.com/storybooks/storybook/tree/master/packages/addon-events",
+  "devDependencies": {
+    "@storybook/addons": "^3.0.0-alpha.0",
+    "@storybook/react": "^3.0.0-alpha.0",
+    "@storybook/ui": "^3.0.0-alpha.0",
+    "eventemitter3": "^2.0.3",
+    "prop-types": "^15.5.8",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "shelljs": "^0.7.7"
+  },
+  "dependencies": {
+    "format-json": "^1.0.3",
+    "react-textarea-autosize": "^4.0.5"
+  },
+  "peerDependencies": {
+    "@storybook/addons": "^3.0.0-alpha.0",
+    "react": "*",
+    "react-dom": "*"
+  }
+}
