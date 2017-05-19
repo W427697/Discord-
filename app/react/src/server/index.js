@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import express from 'express';
+import https from 'https';
 import favicon from 'serve-favicon';
 import program from 'commander';
 import path from 'path';
@@ -56,12 +57,7 @@ getEnvConfig(program, {
   host: 'SBCONFIG_HOSTNAME',
   staticDir: 'SBCONFIG_STATIC_DIR',
   configDir: 'SBCONFIG_CONFIG_DIR',
-  dontTrack: 'SBCONFIG_DO_NOT_TRACK',
 });
-
-if (program.dontTrack) {
-  dontTrack();
-}
 
 if (!program.port) {
   logger.error('Error: port to run Storybook is required!\n');
@@ -144,6 +140,6 @@ server.listen(...listenAddr, error => {
     throw error;
   } else {
     const address = `http://${program.host || 'localhost'}:${program.port}/`;
-    logger.info(`\Storybook started on => ${chalk.cyan(address)}\n`);
+    logger.info(`Storybook started on => ${chalk.cyan(address)}\n`);
   }
 });

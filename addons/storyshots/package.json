@@ -19,7 +19,8 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-test-renderer": "^15.5.4"
   },
   "dependencies": {
     "@storybook/addon-actions": "^3.0.0-alpha.0",
@@ -27,6 +28,7 @@
     "@storybook/addons": "^3.0.0-alpha.0",
     "@storybook/channels": "^3.0.0-alpha.0",
     "@storybook/react": "^3.0.0-alpha.0",
+    "babel-core": "^6.24.1",
     "babel-runtime": "^6.23.0",
     "prop-types": "^15.5.8",
     "read-pkg-up": "^2.0.0"
