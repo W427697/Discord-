@@ -6,7 +6,8 @@
 [![BCH compliance](https://bettercodehub.com/edge/badge/storybooks/storybook)](https://bettercodehub.com/results/storybooks/storybook) [![codecov](https://codecov.io/gh/storybooks/storybook/branch/master/graph/badge.svg)](https://codecov.io/gh/storybooks/storybook)
 [![Storybook Slack](https://storybooks-slackin.herokuapp.com/badge.svg)](https://storybooks-slackin.herokuapp.com/)
 
-This [Storybook](https://getstorybook.io) Addon Events allows you to add events for your stories.
+This [Storybook](https://getstorybook.io) Addon Events allows you to add events for your stories. It can be very useful when you create React Native + Native applications and communicate between them using events. This addon helps you to simulate Native events.
+
 
 This is how Events look like:
 ![Storybook Addon Events Example](docs/demo1.png)
