@@ -25,7 +25,12 @@
     "react-dom": "^15.5.4",
     "shelljs": "^0.7.7"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/storybooks/storybook.git"
+  },
   "scripts": {
+    "publish": "lerna publish",
     "bootstrap": "lerna bootstrap",
     "lint": "eslint .",
     "test": "jest",
