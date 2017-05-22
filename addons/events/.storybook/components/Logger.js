@@ -8,7 +8,10 @@ import { EVENTS } from '../constants';
 const styles = {
   wrapper: {
     padding: 20,
-    fontFamily: 'Areal, sans-serif',
+    fontFamily: `
+      -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto",
+      "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif
+    `,
     color: 'rgb(51, 51, 51)',
   },
   item: {
