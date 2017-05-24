@@ -1,11 +1,11 @@
 {
   "name": "@storybook/addon-comments",
-  "version": "3.0.0-alpha.4",
+  "version": "3.0.0-alpha.5",
   "description": "Comments addon for Storybook",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybooks/storybook/tree/master/packages/addon-comments",
+  "homepage": "https://github.com/storybooks/storybook/tree/master/addons/comments",
   "bugs": {
     "url": "https://github.com/storybooks/storybook/issues"
   },
