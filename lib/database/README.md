@@ -4,12 +4,12 @@ Storybook Channel is the storage service provided for Storybook Addons.
 
 ```js
 class Database {
-  getCollection(name)
+  getCollection(name) {}
 }
 
 class Collection {
-  set(item)
-  get(query, options)
+  set(item) {}
+  get(query, options) {}
 }
 ```
 
@@ -17,8 +17,8 @@ The channel takes a Persister object as a parameter which will be used to store/
 
 ```js
 class Persister {
-  set(collection, item)
-  get(collection, query, options)
+  set(collection, item) {}
+  get(collection, query, options) {}
 }
 ```
 
