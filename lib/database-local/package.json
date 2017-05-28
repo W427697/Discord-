@@ -12,7 +12,7 @@
     "express": "^4.13.3"
   },
   "dependencies": {
-    "@storybook/database": "^2.0.1",
+    "@storybook/database": "3.0.0-rc.2",
     "body-parser": "^1.15.2",
     "lodash": "^4.16.2",
     "lowdb": "^0.13.1",
