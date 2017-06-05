@@ -15,14 +15,15 @@ global.STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES || {};
 
 const babel = require('babel-core');
 
-const pkg = readPkgUp.sync().pkg;
-
-const hasDependency = function(name) {
+function hasDependency(pkg, dependency) {
   return (
-    (pkg.devDependencies && pkg.devDependencies[name]) ||
-    (pkg.dependencies && pkg.dependencies[name])
+    (pkg.devDependencies && pkg.devDependencies[dependency]) ||
+    (pkg.dependencies && pkg.dependencies[dependency]) ||
+    pkg.name === dependency
   );
-};
+}
+
+const pkg = readPkgUp.sync().pkg;
 
 export default function testStorySnapshots(options = {}) {
   addons.setChannel(createChannel());
