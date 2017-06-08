@@ -7,6 +7,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { WithNotes } from '@storybook/addon-notes';
 import { withKnobs, text, number } from '@storybook/addon-knobs';
+import centered from '@storybook/addon-centered';
 
 import Button from './Button';
 import Welcome from './Welcome';
@@ -31,5 +32,9 @@ storiesOf('Button', module)
   .addWithInfo('with some info', 'Use the info addon with its painful API.', () =>
     <Button>click the "?" in top right for info</Button>
   );
+
+storiesOf('Centered Button', module)
+  .addDecorator(centered)
+  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>);
 
 storiesOf('ComponentWithRef', module).add('basic', () => <ComponentWithRef />);

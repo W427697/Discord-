@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "file:../../addons/actions",
+    "@storybook/addon-centered": "file:../../addons/centered",
     "@storybook/addon-info": "file:../../addons/info",
     "@storybook/addon-knobs": "file:../../addons/knobs",
     "@storybook/addon-links": "file:../../addons/links",
