@@ -38,7 +38,9 @@ storiesOf('Button', module)
   .add('with knobs', () => {
     const label = text('Label', 'Edit me in knobs panel');
     const num = number('Number', 1);
-    return <Button>{label} {num}</Button>;
+    const content = `I am ${label} and I'm ${num} years old.`;
+
+    return <Button>{content}</Button>;
   })
   .addWithInfo('with some info', 'Use the info addon with its painful API.', () =>
     <Button>click the "?" in top right for info</Button>
