@@ -19,6 +19,7 @@
   "devDependencies": {
     "@storybook/addon-actions": "file:../../addons/actions",
     "@storybook/addon-links": "file:../../addons/links",
+    "@storybook/addon-notes": "file:../../addons/notes",
     "@storybook/addon-storyshots": "file:../../addons/storyshots",
     "@storybook/addons": "file:../../lib/addons",
     "@storybook/channel-postmessage": "file:../../lib/channel-postmessage",
