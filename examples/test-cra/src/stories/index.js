@@ -6,6 +6,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { WithNotes } from '@storybook/addon-notes';
+import { withKnobs, text, number } from '@storybook/addon-knobs';
 
 import Button from './Button';
 import Welcome from './Welcome';
@@ -14,12 +15,19 @@ import ComponentWithRef from './ComponentWithRef';
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
 storiesOf('Button', module)
-  .add('with text', () =>
+  .addDecorator(withKnobs)
+  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
+  .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>)
+  .add('with notes', () =>
     <WithNotes notes={'A very simple button'}>
-      <Button onClick={action('clicked')}>Hello Button</Button>
+      <Button>Check my notes in the notes panel</Button>
     </WithNotes>
   )
-  .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>)
+  .add('with knobs', () => {
+    const label = text('Label', 'Edit me in knobs panel');
+    const num = number('Number', 1);
+    return <Button>{label} {num}</Button>;
+  })
   .addWithInfo('with some info', 'Use the info addon with its painful API.', () =>
     <Button>click the "?" in top right for info</Button>
   );
