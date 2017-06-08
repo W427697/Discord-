@@ -1,5 +1,6 @@
-import { configure } from '@storybook/react';
+import { configure, setAddon } from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
+import infoAddon from '@storybook/addon-info';
 
 setOptions({
   name: 'Test-CRA',
@@ -11,6 +12,8 @@ setOptions({
   downPanelInRight: true,
   sortStoriesByKind: false,
 })
+
+setAddon(infoAddon);
 
 function loadStories() {
   require('../src/stories');

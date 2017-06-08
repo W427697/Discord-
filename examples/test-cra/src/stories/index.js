@@ -19,6 +19,9 @@ storiesOf('Button', module)
       <Button onClick={action('clicked')}>Hello Button</Button>
     </WithNotes>
   )
-  .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>);
+  .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>)
+  .addWithInfo('with some info', 'Use the info addon with its painful API.', () =>
+    <Button>click the "?" in top right for info</Button>
+  );
 
 storiesOf('ComponentWithRef', module).add('basic', () => <ComponentWithRef />);
