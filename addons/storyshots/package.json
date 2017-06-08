@@ -32,6 +32,6 @@
     "@storybook/channels": "^3.0.0",
     "babel-core": "^6.24.1",
     "react": "*",
-    "react-test-renderer": "*"
+    "react-dom": "*"
   }
 }

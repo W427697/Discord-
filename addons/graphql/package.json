@@ -32,6 +32,7 @@
     "shelljs": "^0.7.7"
   },
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "react-dom": "*"
   }
 }

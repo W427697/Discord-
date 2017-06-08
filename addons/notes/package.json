@@ -30,7 +30,8 @@
     "react-dom": "^15.5.4"
   },
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "react-dom": "*"
   },
   "optionalDependencies": {
     "@types/react": "^15.0.24"
