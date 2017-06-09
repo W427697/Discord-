@@ -22,7 +22,7 @@
     "@storybook/addon-storyshots": "file:../../addons/storyshots",
     "@storybook/addons": "file:../../lib/addons",
     "@storybook/channels": "file:../../lib/channels",
-    "@storybook/channel-postmessage": "file:../../lib/channel-postmessage",
+    "@storybook/channel-websocket": "file:../../lib/channel-websocket",
     "@storybook/react-native": "file:../../app/react-native",
     "@storybook/ui": "file:../../lib/ui",
     "react-dom": "^15.5.4"
