@@ -31,6 +31,12 @@ storiesOf('Button', module)
   })
   .addWithInfo('with some info', 'Use the info addon with its painful API.', () =>
     <Button>click the "?" in top right for info</Button>
+  )
+  .addWithInfo(
+    'with some info 2',
+    'Use the info addon with its painful API.',
+    () => <Button>click the "?" in top right for info</Button>,
+    { inline: true, propTables: [Button] }
   );
 
 storiesOf('Centered Button', module)
