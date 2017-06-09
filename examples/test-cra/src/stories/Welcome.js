@@ -118,7 +118,7 @@ export default class Welcome extends React.Component {
 }
 
 Welcome.propTypes = {
-  showApp: PropTypes.function,
+  showApp: PropTypes.func,
 };
 Welcome.defaultProps = {
   showApp: log,
