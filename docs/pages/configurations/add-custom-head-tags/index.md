@@ -5,11 +5,12 @@ title: 'Add Custom Head Tags'
 
 Sometimes, you may need to add different tags to the HTML head. This is useful for adding web fonts or some external scripts.
 
-You can do this very easily. Simply create a file called `preview-head.html` inside the Storybook config directory and add tags like this:
+You can do this very easily. Simply create a file called `head.html` inside the Storybook config directory and add tags like this:
 
 ```html
 <script src="https://use.typekit.net/xxxyyy.js"></script>
 <script>try{ Typekit.load(); } catch(e){ }</script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 ```
 
 That's it. Storybook will inject these tags.
