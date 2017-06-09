@@ -39,7 +39,7 @@ BooleanType.defaultProps = {
 BooleanType.propTypes = {
   knob: PropTypes.shape({
     name: PropTypes.string,
-    value: PropTypes.string,
+    value: PropTypes.bool,
   }),
   onChange: PropTypes.func,
 };
