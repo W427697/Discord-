@@ -258,7 +258,7 @@ export default class Story extends React.Component {
       <div>
         <h1 style={this.state.stylesheet.source.h1}>Story Source</h1>
         <Pre>
-          {React.Children.map(this.props.children, (root, idx) => (
+          {React.Children.map(this.props.children, (root, idx) =>
             <Node
               key={idx}
               node={root}
@@ -268,7 +268,7 @@ export default class Story extends React.Component {
               maxPropArrayLength={maxPropArrayLength}
               maxPropStringLength={maxPropStringLength}
             />
-          ))}
+          )}
         </Pre>
       </div>
     );
@@ -323,7 +323,7 @@ export default class Story extends React.Component {
     array.sort((a, b) => (a.displayName || a.name) > (b.displayName || b.name));
 
     const { maxPropObjectKeys, maxPropArrayLength, maxPropStringLength } = this.props;
-    const propTables = array.map(type => (
+    const propTables = array.map(type =>
       <div key={type.name}>
         <h2 style={this.state.stylesheet.propTableHead}>
           "{type.displayName || type.name}" Component
@@ -335,7 +335,7 @@ export default class Story extends React.Component {
           maxPropStringLength={maxPropStringLength}
         />
       </div>
-    ));
+    );
 
     if (!propTables || propTables.length === 0) {
       return null;
