@@ -9,7 +9,8 @@
     "react-dom": "^15.5.4",
     "@storybook/addon-actions": "*",
     "@storybook/addon-links": "*",
-    "@storybook/react-native": "*"
+    "@storybook/react-native": "*",
+    "@storybook/storyshots": "*"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
