@@ -4,8 +4,7 @@
     "bootstrap": {
       "ignore": [
         "test-cra",
-        "react-native-vanilla",
-        "crna-vanilla"
+        "react-native-vanilla"
       ]
     },
     "publish": {
@@ -13,7 +12,7 @@
         "cra-storybook",
         "test-cra",
         "react-native-vanilla",
-        "crna-vanilla"
+        "crna-getstorybook"
       ]
     }
   },

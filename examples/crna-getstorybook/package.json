@@ -1,5 +1,5 @@
 {
-  "name": "crna-vanilla",
+  "name": "crna-getstorybook",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
@@ -7,14 +7,10 @@
     "jest-expo": "~1.0.1",
     "react-test-renderer": "16.0.0-alpha.6",
     "react-dom": "^15.5.4",
-    "@storybook/addon-actions": "file:../../addons/actions",
-    "@storybook/addon-links": "file:../../addons/links",
-    "@storybook/addon-options": "file:../../addons/options",
-    "@storybook/addons": "file:../../lib/addons",
-    "@storybook/channels": "file:../../lib/channels",
-    "@storybook/channel-postmessage": "file:../../lib/channel-postmessage",
-    "@storybook/react-native": "file:../../app/react-native",
-    "@storybook/ui": "file:../../lib/ui"
+    "@storybook/addon-actions": "3.0.0",
+    "@storybook/addon-links": "3.0.0",
+    "@storybook/addons": "3.0.0",
+    "@storybook/react-native": "3.0.0"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
