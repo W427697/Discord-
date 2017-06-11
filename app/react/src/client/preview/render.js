@@ -70,7 +70,7 @@ export function renderMain(data, storyStore) {
     story: selectedStory,
   };
 
-  const element = Promise.resolve(story(context)).then(element => {
+  return Promise.resolve(story(context)).then(element => {
     if (!element) {
       const error = {
         title: `Expecting a React element from the story: "${selectedStory}" of "${selectedKind}".`,
