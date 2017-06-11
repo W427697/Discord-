@@ -11,7 +11,8 @@
       "ignore": [
         "cra-storybook",
         "test-cra",
-        "react-native-vanilla"
+        "react-native-vanilla",
+        "crna-getstorybook"
       ]
     }
   },
