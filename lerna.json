@@ -9,8 +9,9 @@
     "publish": {
       "ignore": [
         "cra-kitchen-sink",
-        "test-cra",
-        "react-native-getstorybook"
+        "crna-getstorybook",
+        "react-native-getstorybook",
+        "test-cra"
       ]
     }
   },
