@@ -3,8 +3,7 @@
   "commands": {
     "bootstrap": {
       "ignore": [
-        "test-cra",
-        "react-native-vanilla"
+        "test-cra"
       ]
     },
     "publish": {
