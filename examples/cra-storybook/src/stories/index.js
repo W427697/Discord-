@@ -42,8 +42,10 @@ storiesOf('Button', module)
 
     return <Button>{content}</Button>;
   })
-  .addWithInfo('with some info', 'Use the info addon with its painful API.', () =>
-    <Button>click the "?" in top right for info</Button>
+  .addWithInfo(
+    'with some info',
+    'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its painful API.',
+    () => <Button>click the "?" in top right for info</Button>
   );
 
 storiesOf('App', module).add('full app', () => <App />);
