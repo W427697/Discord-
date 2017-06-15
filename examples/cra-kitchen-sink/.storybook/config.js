@@ -3,8 +3,8 @@ import { setOptions } from '@storybook/addon-options';
 import infoAddon from '@storybook/addon-info';
 
 setOptions({
-  name: 'Test-CRA',
-  url: 'https://github.com/storybooks/storybook/tree/master/examples/test-cra',
+  name: 'CRA Kitchen Sink',
+  url: 'https://github.com/storybooks/storybook/tree/master/examples/cra-kitchen-sink',
   goFullScreen: false,
   showLeftPanel: true,
   showDownPanel: true,
