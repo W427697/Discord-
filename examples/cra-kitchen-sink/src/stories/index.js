@@ -113,14 +113,31 @@ storiesOf('WithEvents', module)
   .add('Logger', () => <Logger emiter={emiter} />);
 
 storiesOf('withNotes', module)
-  .add('with some text', withNotes({ notes: 'Hello guys' })(() => <div>Hello copain</div>))
-  .add('with some emoji', withNotes({ notes: 'My notes on emojies' })(() => <p>🤔😳😯😮</p>))
-  .add(
-    'with a button and some emoji',
-    withNotes({ notes: 'My notes on a button with emojies' })(() =>
-      <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>
-    )
-  )
+  .add('with some text', () => {
+    withNotes('Hello guys');
+    return <div>Hello guys</div>;
+  })
+  .add('with some emoji', () => {
+    withNotes('My notes on emojies');
+    return <p>🤔😳😯😮</p>;
+  })
+  .add('with a button and some emoji', () => {
+    withNotes('My notes on a button with emojies');
+    return <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>;
+  })
+  .add('with notes on button and new notes onClick', () => {
+    withNotes('My notes on a button with new notes on click');
+    return (
+      <Button
+        onClick={event => {
+          withNotes('new notes on click');
+          action('clicked')(event);
+        }}
+      >
+        😀 😎 👍 💯
+      </Button>
+    );
+  })
   .add('with old API', () =>
     <WithNotes notes="Hello">
       <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>

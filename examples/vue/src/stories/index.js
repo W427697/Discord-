@@ -76,23 +76,53 @@ storiesOf('Other', module)
 
 
 storiesOf('Addon Notes', module)
-  .add('with some emoji', withNotes({notes: 'My notes on emojies'})(() => '<p>🤔😳😯😮</p>'))
-  .add('with some button', withNotes({ notes: 'My notes on some button' })(() => ({
-    components: { MyButton },
-    template: '<my-button :rounded="true">rounded</my-button>'
-  })))
-  .add('with some color', withNotes({ notes: 'Some notes on some colored component' })(() => ({
-    render(h) {
-      return h(MyButton, { props: { color: 'pink' } }, ['colorful']);
+  .add('with some emoji', () => {
+    withNotes('My notes on emojies');
+    return '<p>🤔😳😯😮</p>'
+  })
+  .add('with some button', () => {
+    withNotes('My notes on some button');
+
+    return {
+      components: { MyButton },
+      template: '<my-button :rounded="true">rounded</my-button>'
     }
-  })))
-  .add('with some text', withNotes({ notes: 'My notes on some text' })(() => ({
+  })
+  .add('with some color', () => {
+    withNotes('Some notes on some colored component')
+
+    return {
+      render(h) {
+        return h(MyButton, { props: { color: 'pink' } }, ['colorful']);
+      }
+    }
+  })
+  .add('with some text', () => {
+    withNotes('My notes on some text')
+    return {
       template: '<div>Text</div>'
-    })
-  ))
-  .add('with some long text', withNotes({ notes: 'My notes on some long text' })(
-    () => '<div>A looooooooonnnnnnnggggggggggggg text</div>'
-  ))
-  .add('with some bold text', withNotes({ notes: 'My notes on some bold text' })(() => ({
-    render: h => h('div', [h('strong', ['A very long text to display'])])
-  })));
+    };
+  })
+  .add('with some long text', () => {
+    withNotes('My notes on some long text')
+    return {
+      template: '<div>A looooooooonnnnnnnggggggggggggg text</div>'
+    };
+  })
+  .add('with a button and clickable update', () => {
+    withNotes('My notes on a button and clickable update')
+    return {
+      methods: {
+        onClick() {
+          withNotes('My new notes');
+        }
+      },
+      template: '<button @click="onClick">Text</button>'
+    };
+  })
+  .add('with some bold text', () => {
+    withNotes('My notes on some bold text');
+    return {
+      render: h => h('div', [h('strong', ['A very long text to display'])])
+    }
+  });
