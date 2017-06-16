@@ -37,5 +37,8 @@ import { withNotes } from '@storybook/addon-notes';
 import Component from './Component';
 
 storiesOf('Component', module)
-  .add('with some emoji', withNotes({ notes: 'A very simple component'})(() => <Component></Component>));
+  .add('with some emoji', () => {
+    withNotes('some notes')
+    return <Component></Component>
+  });
 ```
