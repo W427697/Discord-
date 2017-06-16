@@ -9,7 +9,7 @@
     "url": "https://github.com/storybooks/storybook.git"
   },
   "scripts": {
-    "prepublish": "node ../../scripts/prepublish.js"
+    "prepublish": "node ../../scripts/prepublish.js && node ./scripts/template_gen.js"
   },
   "dependencies": {
     "glamor": "^2.20.25",
