@@ -26,6 +26,7 @@ export default class ClientApi {
   }
 
   storiesOf(kind, m) {
+    console.log('storiesOf');
     if (!kind && typeof kind !== 'string') {
       throw new Error('Invalid or missing kind provided for stories, should be a string');
     }
