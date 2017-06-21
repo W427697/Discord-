@@ -1,4 +1,4 @@
-import keyEvents from '@storybook/ui/dist/libs/key_events';
+// import keyEvents from '@storybook/ui/dist/libs/key_events';
 import { selectStory } from './actions';
 
 export default function(context) {
@@ -8,11 +8,11 @@ export default function(context) {
     reduxStore.dispatch(selectStory(queryParams.selectedKind, queryParams.selectedStory));
   }
 
-  // Handle keyEvents and pass them to the parent.
-  window.onkeydown = e => {
-    const parsedEvent = keyEvents(e);
-    if (parsedEvent) {
-      channel.emit('applyShortcut', { event: parsedEvent });
-    }
-  };
+  // // Handle keyEvents and pass them to the parent.
+  // window.onkeydown = e => {
+  //   const parsedEvent = keyEvents(e);
+  //   if (parsedEvent) {
+  //     channel.emit('applyShortcut', { event: parsedEvent });
+  //   }
+  // };
 }
