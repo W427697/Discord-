@@ -36,7 +36,8 @@
     "react-modal": "^1.7.6",
     "react-redux": "5.0.5",
     "react-split-pane": "^0.1.63",
-    "redux": "3.7.0"
+    "redux": "3.7.0",
+    "redux-thunk": "2.2.0"
   },
   "devDependencies": {
     "enzyme": "^2.8.2"
