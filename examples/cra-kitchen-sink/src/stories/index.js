@@ -37,6 +37,8 @@ const emit = emiter.emit.bind(emiter);
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
+storiesOf('Welcome/Sub', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
+
 storiesOf('Button', module)
   .addDecorator(withKnobs)
   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
