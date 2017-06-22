@@ -100,5 +100,8 @@
       "greenkeeper": "Dependency Upgrades",
       "other": "Other"
     }
+  },
+  "dependencies": {
+    "redux-logger": "3.0.6"
   }
 }
