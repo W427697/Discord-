@@ -10,7 +10,6 @@
     "bootstrap:test-cra": "lerna exec --scope test-cra -- npmc install",
     "bootstrap:react-native-vanilla": "lerna exec --scope react-native-vanilla -- npmc install",
     "changelog": "pr-log --sloppy",
-    "precommit": "lint-staged",
     "coverage": "codecov",
     "danger": "danger",
     "dev": "lerna exec --parallel -- babel src -d dist --ignore tests,__tests__,test.js,stories/,story.jsx --plugins \"transform-runtime\" --copy-files -w",
