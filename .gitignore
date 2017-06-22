@@ -6,16 +6,17 @@ package-lock.json
 npm-shrinkwrap.json
 yarn.lock
 *.lerna_backup
+packs/*.tgz
 
 dist
+build
+coverage/
+docs/public
+
+.cache
+
 .tern-port
 *.DS_Store
-.cache
 junit.xml
-coverage/
-build
 packages/examples/automated-*
 /**/LICENSE
-docs/public
-packs/*.tgz
-package-lock.json
