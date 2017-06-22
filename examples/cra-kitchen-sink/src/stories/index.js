@@ -58,6 +58,7 @@ storiesOf('Button', module)
 
     // NOTE: color picker is currently broken
     const backgroundColor = color('background', '#ffff00');
+    // const backgroundColor = '#ffff00';
     const items = array('Items', ['Laptop', 'Book', 'Whiskey']);
     const otherStyles = object('Styles', {
       border: '3px solid #ff00ff',
