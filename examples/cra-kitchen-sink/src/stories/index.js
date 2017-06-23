@@ -2,6 +2,7 @@ import React from 'react';
 import EventEmiter from 'eventemitter3';
 
 import { storiesOf } from '@storybook/react';
+import { setOptions } from '@storybook/addon-options';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import WithEvents from '@storybook/addon-events';
@@ -154,3 +155,13 @@ storiesOf('WithEvents', module)
     </WithEvents>
   )
   .add('Logger', () => <Logger emiter={emiter} />);
+
+storiesOf('Theming', module)
+  .add('Default', () => {
+    setOptions({currentTheme: 'default'});
+    return <Button onClick={action('clicked')}>default</Button>;
+  })
+  .add('Dark', () => {
+    setOptions({currentTheme: 'dark'});
+    return <Button onClick={action('clicked')}>dark</Button>;
+  })
