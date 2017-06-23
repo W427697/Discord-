@@ -157,11 +157,12 @@ storiesOf('WithEvents', module)
   .add('Logger', () => <Logger emiter={emiter} />);
 
 storiesOf('Theming', module)
+  .addDecorator(centered)
   .add('Default', () => {
     setOptions({currentTheme: 'default'});
-    return <Button onClick={action('clicked')}>default</Button>;
+    return <Button style={{backgroundColor: 'rgba(128,128,120,0.1)'}} >Default (white) Theme</Button>;
   })
   .add('Dark', () => {
     setOptions({currentTheme: 'dark'});
-    return <Button onClick={action('clicked')}>dark</Button>;
+    return <Button style={{backgroundColor: 'rgba(128,128,120,0.5)'}} >Dark Theme</Button>;
   })
