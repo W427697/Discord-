@@ -125,11 +125,13 @@ export default class Story extends React.Component {
   _renderInline() {
     return (
       <div>
-        <div style={this.state.stylesheet.infoPage}>
-          <div style={this.state.stylesheet.infoBody}>
-            {this._getInfoHeader()}
-          </div>
-        </div>
+        {this.props.context &&
+          this.props.showHeader &&
+          <div style={this.state.stylesheet.infoPage}>
+            <div style={this.state.stylesheet.infoBody}>
+              {this._getInfoHeader()}
+            </div>
+          </div>}
         <div>
           {this._renderStory()}
         </div>
