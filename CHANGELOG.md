@@ -1,3 +1,28 @@
+# 3.1.5
+
+2017-June-22
+
+#### Features
+
+-   Added flow support to getstorybook upgrade [#1289](https://github.com/storybooks/storybook/pull/1289)
+-   Added support for the `haul` react-native packager [#1294](https://github.com/storybooks/storybook/pull/1294)
+
+#### Bug Fixes
+
+-   Fixed addon knobs proptypes deserialization [#1290](https://github.com/storybooks/storybook/pull/1290)
+
+#### Documentation
+
+-   Added search to docs [#1256](https://github.com/storybooks/storybook/pull/1256)
+-   snapshot testing inverse regex example documentation [#1317](https://github.com/storybooks/storybook/pull/1317)
+
+#### Maintenance
+
+-   Refactored storybook component library [#1266](https://github.com/storybooks/storybook/pull/1266)
+-   Created CRA kitchen sink addons example [#1288](https://github.com/storybooks/storybook/pull/1288)
+-   Use a pack -> install technique to recreate local packages [#1332](https://github.com/storybooks/storybook/pull/1332)
+-   Import demo components from @storybook/react [#1303](https://github.com/storybooks/storybook/pull/1303)
+
 # 3.1.4
 
 2017-June-15
