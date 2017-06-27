@@ -89,7 +89,13 @@ class ReactProvider extends Provider {
     api.setOptions({
       name: 'My Component', // change the name displayed in the left top portion
       url: 'https://github.com/user/my-component', // change its URL
-      sortStoriesByKind: true // Sort the list of stories by their "kind"
+      goFullScreen: false, // switch to fullscreen mode
+      showLeftPanel: false, // show the stories panel
+      showDownPanel: false, // show the addons panel
+      showSearchBox: false, // show the search box
+      downPanelInRight: false, // show the addons panel at the right side
+      sortStoriesByKind: true, // Sort the list of stories by their "kind"
+      currentTheme: 'default', // set theme of UI appearance ('default', 'dark')
     });
   }
 };
@@ -193,3 +199,7 @@ The above action(or the `handleShortcut` method) accepts events as a constant de
 We are not using any routing library. That's because, we don't want to do routing, but wanted to add some query params and use them.
 
 Routing logic is implemented in the `src/modules/ui/configs/handle_routing.js` configuration.
+
+### Theming
+
+Theming is implemented in the `theming` module (`src/modules/theming`). `genPoddaLoader` adds the current theme to the data passed to components and it's available as a `theme` prop. Themes are stored in `src/modules/theming/themes/*.js` files. We set the current theme by `uiOptions.currentTheme` prop. The default value is set to `default` in `src/modules/api/index.js` and could be overridden via `setOptions({ currentTheme: 'default' });` on the preview side.

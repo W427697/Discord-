@@ -36,14 +36,15 @@ import * as storybook from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
 
 setOptions({
-  name: 'My Storybook',
-  url: 'https://example.com',
-  goFullScreen: false,
-  showLeftPanel: false,
-  showDownPanel: false,
-  showSearchBox: false,
-  downPanelInRight: false,
-  sortStoriesByKind: false,
+  name: 'My Component', // change the name displayed in the left top portion
+  url: 'https://github.com/user/my-component', // change its URL
+  goFullScreen: false, // switch to fullscreen mode
+  showLeftPanel: false, // show the stories panel
+  showDownPanel: false, // show the addons panel
+  showSearchBox: false, // show the search box
+  downPanelInRight: false, // show the addons panel at the right side
+  sortStoriesByKind: true, // Sort the list of stories by their "kind"
+  currentTheme: 'default', // set theme of UI appearance ('default', 'dark')
 });
 
 storybook.configure(() => require('./stories'), module);
