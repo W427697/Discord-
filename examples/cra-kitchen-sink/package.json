@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.0.0",
+    "@storybook/ui": "^3.0.0",
     "@storybook/addon-centered": "^3.0.0",
     "@storybook/addon-events": "^3.0.0",
     "@storybook/addon-knobs": "^3.0.0",

@@ -34,7 +34,7 @@ export default function() {
           test: /\.jsx?$/,
           loader: require.resolve('babel-loader'),
           query: babelLoaderConfig,
-          include: includePaths,
+          // include: includePaths,
           exclude: excludePaths,
         },
       ],

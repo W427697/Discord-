@@ -1,0 +1,10 @@
+{
+  "name": "@storybook/plugin-viewports",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Alexandre BODIN <bodin.alex@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@storybook/ui": "^3.0.0"
+  }
+}
