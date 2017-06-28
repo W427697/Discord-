@@ -17,7 +17,7 @@ const sizes = {
   },
 };
 
-const style = {
+const previewStyle = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -26,6 +26,11 @@ const style = {
 const selectStyle = {
   marginTop: 10,
   marginBottom: 20,
+};
+
+const containerStyle = {
+  height: '100%',
+  width: '100%',
 };
 
 function decoratePreview(Preview, { React }) {
@@ -38,6 +43,7 @@ function decoratePreview(Preview, { React }) {
       };
 
       this.changeSize = this.changeSize.bind(this);
+      this.toggleViewport = this.toggleViewport.bind(this);
     }
 
     changeSize(event) {
@@ -45,36 +51,45 @@ function decoratePreview(Preview, { React }) {
       this.setState(() => ({ phone: event.target.value }));
     }
 
+    toggleViewport() {
+      this.props.dispatch({
+        type: 'TOGGLE_VIEWPORTS',
+      });
+    }
+
     render() {
+      const { viewportEnabled } = this.props;
       const { width, height } = sizes[this.state.phone].size;
 
       return (
-        <div style={style}>
-          <div style={selectStyle}>
-            <select value={this.state.phone} onChange={this.changeSize}>
-              {Object.keys(sizes).map(key => {
-                const { name } = sizes[key];
-                return <option key={name} value={key}>{name}</option>;
-              })}
-            </select>
-          </div>
-          <div style={{ width, height, margin: 'auto' }}>
-            <Preview {...this.props} />
-          </div>
+        <div style={containerStyle}>
+          <button style={{ margin: 10 }} onClick={this.toggleViewport}>
+            {viewportEnabled ? 'Disable' : 'Enable'}
+          </button>
+          {viewportEnabled &&
+            <div style={previewStyle}>
+              <div style={selectStyle}>
+                <select value={this.state.phone} onChange={this.changeSize}>
+                  {Object.keys(sizes).map(key => {
+                    const { name } = sizes[key];
+                    return <option key={name} value={key}>{name}</option>;
+                  })}
+                </select>
+              </div>
+              <div style={{ width, height, margin: 'auto' }}>
+                <Preview {...this.props} />
+              </div>
+            </div>}
+          {!viewportEnabled && <Preview {...this.props} />}
         </div>
       );
     }
   };
 }
 
-const middleware = ({ dispatch, getState }) => next => action => {
-  console.log('inside middleware');
-  next(action);
-};
-
 const mapPreviewState = (state, map) => {
   return Object.assign(map, {
-    wowMode: state.ui.wowMode,
+    viewportEnabled: state.plugins.viewport.viewportEnabled,
   });
 };
 
@@ -100,5 +115,4 @@ registerPlugin({
   decoratePreview,
   mapPreviewState,
   reduce,
-  middleware,
 });
