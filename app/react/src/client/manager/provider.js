@@ -44,8 +44,8 @@ export default class ReactProvider extends Provider {
     this.channel.on('selectStory', data => {
       api.selectStory(data.kind, data.story);
     });
-    this.channel.on('applyShortcut', data => {
-      api.handleShortcut(data.event);
+    this.channel.on('applyShortcut', key => {
+      api.handleShortcut(key);
     });
     addons.loadAddons(api);
   }
