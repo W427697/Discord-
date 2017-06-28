@@ -28,6 +28,7 @@
     "lodash.set": "4.3.2",
     "lodash.sortby": "^4.7.0",
     "mantra-core": "^1.7.0",
+    "mousetrap": "1.6.1",
     "podda": "^1.2.2",
     "prop-types": "^15.5.8",
     "qs": "^6.4.0",
