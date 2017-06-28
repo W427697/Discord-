@@ -37,10 +37,11 @@ const valueStyles = {
   },
 };
 
-function previewArray(val, maxPropArrayLength) {
+function previewArray(props) {
+  const { val, maxPropArrayLength } = props;
   const items = {};
   val.slice(0, maxPropArrayLength).forEach((item, i) => {
-    items[`n${i}`] = <PropVal val={item} />;
+    items[`n${i}`] = <PropVal {...props} val={item} />;
     items[`c${i}`] = ', ';
   });
   if (val.length > maxPropArrayLength) {
@@ -55,13 +56,14 @@ function previewArray(val, maxPropArrayLength) {
   );
 }
 
-function previewObject(val, maxPropObjectKeys) {
+function previewObject(props) {
+  const { val, maxPropObjectKeys } = props;
   const names = Object.keys(val);
   const items = {};
   names.slice(0, maxPropObjectKeys).forEach((name, i) => {
     items[`k${i}`] = <span style={valueStyles.attr}>{name}</span>;
     items[`c${i}`] = ': ';
-    items[`v${i}`] = <PropVal val={val[name]} />;
+    items[`v${i}`] = <PropVal {...props} val={val[name]} />;
     items[`m${i}`] = ', ';
   });
   if (names.length > maxPropObjectKeys) {
@@ -93,7 +95,7 @@ export default function PropVal(props) {
   } else if (typeof val === 'boolean') {
     content = <span style={valueStyles.bool}>{`${val}`}</span>;
   } else if (Array.isArray(val)) {
-    content = previewArray(val, maxPropArrayLength);
+    content = previewArray(props);
   } else if (typeof val === 'function') {
     content = <span style={valueStyles.func}>{val.name ? `${val.name}()` : 'anonymous()'}</span>;
   } else if (!val) {
@@ -107,7 +109,7 @@ export default function PropVal(props) {
       </span>
     );
   } else {
-    content = previewObject(val, maxPropObjectKeys);
+    content = previewObject(props);
   }
 
   if (!braceWrap) return content;
