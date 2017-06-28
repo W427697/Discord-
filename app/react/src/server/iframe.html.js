@@ -8,37 +8,45 @@ import url from 'url';
 //   'preview.0d2d3d845f78399fd6d5e859daa152a9.css',
 //   'static/preview.9adbb5ef965106be1cc3.bundle.js.map',
 //   'preview.0d2d3d845f78399fd6d5e859daa152a9.css.map' ]
-const previewUrlsFromAssets = assets => {
+export const urlsFromAssets = assets => {
   if (!assets) {
     return {
-      js: 'static/preview.bundle.js',
+      js: ['static/preview.bundle.js'],
+      css: [],
     };
   }
 
-  if (typeof assets.preview === 'string') {
-    return {
-      js: assets.preview,
-    };
-  }
-
-  return {
-    js: assets.preview.find(filename => filename.match(/\.js$/)),
-    css: assets.preview.find(filename => filename.match(/\.css$/)),
+  const urls = {
+    js: [],
+    css: [],
   };
+
+  const re = /.+\.(\w+)$/;
+  Object.keys(assets)
+    // Don't load the manager script in the iframe
+    .filter(key => key !== 'manager')
+    .forEach(key => {
+      let assetList = assets[key];
+      if (!Array.isArray(assetList)) {
+        assetList = [assetList];
+      }
+      assetList.filter(assetUrl => re.exec(assetUrl)[1] !== 'map').forEach(assetUrl => {
+        urls[re.exec(assetUrl)[1]].push(assetUrl);
+      });
+    });
+
+  return urls;
 };
 
-export default function(data) {
-  const { assets, headHtml, publicPath } = data;
+export default function({ assets, publicPath, headHtml }) {
+  const urls = urlsFromAssets(assets);
 
-  const previewUrls = previewUrlsFromAssets(assets);
-
-  let previewCssTag = '';
-  if (previewUrls.css) {
-    previewCssTag = `<link rel='stylesheet' type='text/css' href='${url.resolve(
-      publicPath,
-      previewUrls.css
-    )}'>`;
-  }
+  const cssTags = urls.css
+    .map(u => `<link rel='stylesheet' type='text/css' href='${url.resolve(publicPath, u)}'>`)
+    .join('\n');
+  const scriptTags = urls.js
+    .map(u => `<script src="${url.resolve(publicPath, u)}"></script>`)
+    .join('\n');
 
   return `
     <!DOCTYPE html>
@@ -53,12 +61,12 @@ export default function(data) {
         </script>
         <title>Storybook</title>
         ${headHtml}
-        ${previewCssTag}
+        ${cssTags}
       </head>
       <body>
         <div id="root"></div>
         <div id="error-display"></div>
-        <script src="${url.resolve(publicPath, previewUrls.js)}"></script>
+        ${scriptTags}
       </body>
     </html>
   `;

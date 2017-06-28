@@ -27,9 +27,7 @@ const managerUrlsFromAssets = assets => {
   };
 };
 
-export default function(data) {
-  const { assets, publicPath } = data;
-
+export default function({ assets, publicPath, headHtml }) {
   const managerUrls = managerUrlsFromAssets(assets);
 
   return `
@@ -70,6 +68,7 @@ export default function(data) {
             background-color: #eee
           }
         </style>
+        ${headHtml}
       </head>
       <body style="margin: 0;">
         <div id="root"></div>

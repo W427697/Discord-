@@ -7,7 +7,7 @@ import runWithRequireContext from './require_context';
 import createChannel from './storybook-channel-mock';
 import { snapshot } from './test-bodies';
 
-export { snapshotWithOptions, snapshot, renderOnly } from './test-bodies';
+export { snapshotWithOptions, snapshot, shallowSnapshot, renderOnly } from './test-bodies';
 
 let storybook;
 let configPath;
@@ -31,7 +31,8 @@ export default function testStorySnapshots(options = {}) {
   if (isStorybook) {
     storybook = require.requireActual('@storybook/react');
     // eslint-disable-next-line
-    const loadBabelConfig = require('@storybook/react/dist/server/babel_config').default;
+    const loadBabelConfig = require('@storybook/react/dist/server/babel_config')
+      .default;
     const configDirPath = path.resolve(options.configPath || '.storybook');
     configPath = path.join(configDirPath, 'config.js');
 

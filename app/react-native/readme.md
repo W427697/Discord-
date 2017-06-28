@@ -60,7 +60,7 @@ Now, you can open <http://localhost:7007> to view your storybook menus in the br
 
 ## Start App
 
-To see your Storybook stories on the device, you should start your mobile app for the `<platform>` of your choice (typically `ios` or `android`).
+To see your Storybook stories on the device, you should start your mobile app for the `<platform>` of your choice (typically `ios` or `android`). (Note that due to an implementation detail, your stories will only show up in the left-pane after your device has connected to this storybook server.)
 
 For CRNA apps:
 
@@ -71,6 +71,25 @@ For RN apps:
     react-native run-<platform>
 
 Once your app is started, changing the selected story in web browser will update the story displayed within your mobile app.
+
+## Using Haul-cli
+
+[Haul](https://github.com/callstack-io/haul) is an alternative to the react-native packager and has several advantages in that it allows you to define your own loaders, and handles symlinks better.
+
+If you want to use haul instead of the react-native packager, modify the storybook npm script to:
+
+```sh
+storybook start -p 7007 --haul webpack.haul.storybook.js
+```
+
+Where webpack.haul.storybook.js should look something like this:
+
+```js
+module.exports = ({ platform }) => ({
+  entry: `./storybook/index.${platform}.js`,
+  // any other haul config here.
+});
+```
 
 ## Learn More
 
