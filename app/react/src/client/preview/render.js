@@ -26,6 +26,14 @@ export function renderError(error) {
   ReactDOM.render(redBox, rootEl);
 }
 
+function errorElement(error) {
+  const properError = new Error(error.title);
+  properError.stack = error.description;
+
+  const redBox = <ErrorDisplay error={properError} />;
+  return redBox;
+}
+
 export function renderException(error) {
   // We always need to render redbox in the mainPage if we get an error.
   // Since this is an error, this affects to the main page as well.
@@ -38,31 +46,15 @@ export function renderException(error) {
   logger.error(error.stack);
 }
 
-export function renderMain(data, storyStore) {
-  if (storyStore.size() === 0) return null;
-
+function singleElement(data, storyStore) {
   const NoPreview = () => <p>No Preview Available!</p>;
   const noPreview = <NoPreview />;
+
   const { selectedKind, selectedStory } = data;
 
   const story = storyStore.getStory(selectedKind, selectedStory);
   if (!story) {
-    ReactDOM.render(noPreview, rootEl);
-    return null;
-  }
-
-  // Unmount the previous story only if selectedKind or selectedStory has changed.
-  // renderMain() gets executed after each action. Actions will cause the whole
-  // story to re-render without this check.
-  //    https://github.com/storybooks/react-storybook/issues/116
-  if (selectedKind !== previousKind || previousStory !== selectedStory) {
-    // We need to unmount the existing set of components in the DOM node.
-    // Otherwise, React may not recrease instances for every story run.
-    // This could leads to issues like below:
-    //    https://github.com/storybooks/react-storybook/issues/81
-    previousKind = selectedKind;
-    previousStory = selectedStory;
-    ReactDOM.unmountComponentAtNode(rootEl);
+    return noPreview;
   }
 
   const context = {
@@ -80,7 +72,7 @@ export function renderMain(data, storyStore) {
         Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.
       `,
     };
-    return renderError(error);
+    return errorElement(error);
   }
 
   if (element.type === undefined) {
@@ -91,8 +83,39 @@ export function renderMain(data, storyStore) {
         Could you double check that?
       `,
     };
-    return renderError(error);
+    return errorElement(error);
   }
+
+  return element;
+}
+
+export function renderMain(data, storyStore) {
+  if (storyStore.size() === 0) return null;
+
+  
+  const { selectedKind, selectedStory } = data;
+
+  
+
+  // Unmount the previous story only if selectedKind or selectedStory has changed.
+  // renderMain() gets executed after each action. Actions will cause the whole
+  // story to re-render without this check.
+  //    https://github.com/storybooks/react-storybook/issues/116
+  if (selectedKind !== previousKind || previousStory !== selectedStory) {
+    // We need to unmount the existing set of components in the DOM node.
+    // Otherwise, React may not recrease instances for every story run.
+    // This could leads to issues like below:
+    //    https://github.com/storybooks/react-storybook/issues/81
+    previousKind = selectedKind;
+    previousStory = selectedStory;
+    ReactDOM.unmountComponentAtNode(rootEl);
+  }
+
+  
+
+  const element = singleElement(data, storyStore);
+
+  
 
   ReactDOM.render(element, rootEl);
   return null;

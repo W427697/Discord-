@@ -92,7 +92,7 @@ storiesOf('Button', module)
   );
 
 
-storiesOf('Buttons Guide#', module)
+storiesOf('Buttons Guide.simple#', module)
   .addDecorator(withKnobs)
   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
   .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>)
