@@ -1,4 +1,4 @@
-// import keyEvents from '@storybook/ui/dist/libs/key_events';
+import keymap from '@storybook/ui/dist/new/keymap';
 import Mousetrap from 'mousetrap';
 import { selectStory } from './actions';
 
@@ -10,8 +10,9 @@ export default function(context) {
   }
 
   const keys = new Mousetrap(document);
-  keys.bind('?', () => {
-    channel.emit('applyShortcut', '?');
+  keymap.forEach(({ key, action }) => {
+    keys.bind(key, () => {
+      channel.emit('applyShortcut', action);
+    });
   });
-
 }
