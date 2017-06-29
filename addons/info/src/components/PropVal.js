@@ -37,11 +37,11 @@ const valueStyles = {
   },
 };
 
-function previewArray(val, maxPropObjectKeys, maxPropArrayLength, maxPropStringLength) {
-  const restProps = { maxPropObjectKeys, maxPropArrayLength, maxPropStringLength };
+function previewArray(props) {
+  const { val, maxPropArrayLength } = props;
   const items = {};
   val.slice(0, maxPropArrayLength).forEach((item, i) => {
-    items[`n${i}`] = <PropVal {...restProps} val={item} />;
+    items[`n${i}`] = <PropVal {...props} val={item} />;
     items[`c${i}`] = ', ';
   });
   if (val.length > maxPropArrayLength) {
@@ -56,14 +56,19 @@ function previewArray(val, maxPropObjectKeys, maxPropArrayLength, maxPropStringL
   );
 }
 
-function previewObject(val, maxPropObjectKeys, maxPropArrayLength, maxPropStringLength) {
-  const restProps = { maxPropObjectKeys, maxPropArrayLength, maxPropStringLength };
+previewArray.propTypes = {
+  val: PropTypes.any.isRequired, // eslint-disable-line
+  maxPropArrayLength: PropTypes.number.isRequired,
+};
+
+function previewObject(props) {
+  const { val, maxPropObjectKeys } = props;
   const names = Object.keys(val);
   const items = {};
   names.slice(0, maxPropObjectKeys).forEach((name, i) => {
     items[`k${i}`] = <span style={valueStyles.attr}>{name}</span>;
     items[`c${i}`] = ': ';
-    items[`v${i}`] = <PropVal {...restProps} val={val[name]} />;
+    items[`v${i}`] = <PropVal {...props} val={val[name]} />;
     items[`m${i}`] = ', ';
   });
   if (names.length > maxPropObjectKeys) {
@@ -78,8 +83,13 @@ function previewObject(val, maxPropObjectKeys, maxPropArrayLength, maxPropString
   );
 }
 
+previewObject.propTypes = {
+  val: PropTypes.any.isRequired, // eslint-disable-line
+  maxPropObjectKeys: PropTypes.number.isRequired,
+};
+
 export default function PropVal(props) {
-  const { maxPropObjectKeys, maxPropArrayLength, maxPropStringLength } = props;
+  const { maxPropStringLength } = props;
   let val = props.val;
   let braceWrap = true;
   let content = null;
@@ -95,7 +105,7 @@ export default function PropVal(props) {
   } else if (typeof val === 'boolean') {
     content = <span style={valueStyles.bool}>{`${val}`}</span>;
   } else if (Array.isArray(val)) {
-    content = previewArray(val, maxPropObjectKeys, maxPropArrayLength, maxPropStringLength);
+    content = previewArray(props);
   } else if (typeof val === 'function') {
     content = <span style={valueStyles.func}>{val.name ? `${val.name}()` : 'anonymous()'}</span>;
   } else if (!val) {
@@ -109,7 +119,7 @@ export default function PropVal(props) {
       </span>
     );
   } else {
-    content = previewObject(val, maxPropObjectKeys, maxPropArrayLength, maxPropStringLength);
+    content = previewObject(props);
   }
 
   if (!braceWrap) return content;
@@ -119,7 +129,5 @@ export default function PropVal(props) {
 
 PropVal.propTypes = {
   val: PropTypes.any.isRequired, // eslint-disable-line
-  maxPropObjectKeys: PropTypes.number.isRequired,
-  maxPropArrayLength: PropTypes.number.isRequired,
   maxPropStringLength: PropTypes.number.isRequired,
 };
