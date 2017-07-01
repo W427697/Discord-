@@ -91,61 +91,99 @@ storiesOf('Button', module)
     () => <Button>click the "?" in top right for info</Button>
   );
 
+const textButton = (size, color, isText = true) => () =>
+  <button
+    style={{
+      color: 'white',
+      border: '2px solid darkgray',
+      borderRadius: 8,
+      padding: 6 + size,
+      paddingTop: 6,
+      paddingBottom: 6,
+      margin: 20,
+      fontSize: size,
+      backgroundColor: color,
+      cursor: 'pointer',
+    }}
+    size={size}
+    color={color}
+    onClick={action(`${color} button with ${isText ? 'text' : 'train'}`)}
+  >
+    {isText ? 'Press me!' : '🚂🚃🚃🚃🚃🚃🚃🚃🚃'}
+  </button>;
 
-storiesOf('Buttons Guide.simple#', module)
-  .addDecorator(withKnobs)
-  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
-  .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>)
-  .add('with notes', () =>
-    <WithNotes notes={'A very simple button'}>
-      <Button>Check my notes in the notes panel</Button>
-    </WithNotes>
-  )
-  .add('with knobs', () => {
-    const name = text('Name', 'Storyteller');
-    const age = number('Age', 70, { range: true, min: 0, max: 90, step: 5 });
-    const fruits = {
-      apple: 'Apple',
-      banana: 'Banana',
-      cherry: 'Cherry',
-    };
-    const fruit = select('Fruit', fruits, 'apple');
-    const dollars = number('Dollars', 12.5);
+const decorStyle = isEmoji => ({
+  borderTop: '1px solid rgba(255, 255, 255, 1)',
+  borderBottom: '1px solid rgba(128, 128, 128, 0.4)',
+  backgroundColor: isEmoji ? 'rgba(230, 255, 240, 0.5)' : 'rgba(230, 240, 255, 0.5)',
+  marginBottom: 6,
+});
 
-    // NOTE: color picker is currently broken
-    const backgroundColor = color('background', '#ffff00');
-    const items = array('Items', ['Laptop', 'Book', 'Whiskey']);
-    const otherStyles = object('Styles', {
-      border: '3px solid #ff00ff',
-      padding: '10px',
-    });
-    const nice = boolean('Nice', true);
+const storyTitleStyle = isSelected => ({
+  fontFamily: 'sans-serif',
+  fontSize: 30,
+  fontVariantCaps: 'small-caps',
+  color: isSelected ? 'rgb(20, 20, 20)' : 'rgba(90, 90, 90, 0.7)',
+  margin: 4,
+  fontWeight: isSelected ? 'bold' : '',
+  cursor: 'pointer',
+});
 
-    // NOTE: put this last because it currently breaks everything after it :D
-    const birthday = date('Birthday', new Date('Jan 20 2017'));
+const storyContextStyle = isSelected => ({
+  fontFamily: 'sans-serif',
+  fontSize: 14,
+  color: isSelected ? 'rgba(20, 20, 20, 0.8)' : 'rgba(90, 90, 90, 0.5)',
+  margin: 4,
+});
 
-    const intro = `My name is ${name}, I'm ${age} years old, and my favorite fruit is ${fruit}.`;
-    const style = { backgroundColor, ...otherStyles };
-    const salutation = nice ? 'Nice to meet you!' : 'Leave me alone!';
+const guideDecorator = (isEmoji = false) => (storyfn, context) =>
+  <div style={decorStyle(isEmoji)}>
+    <a onClick={linkTo(context.kind, context.story)}>
+      <h1 style={storyTitleStyle(context.story == context.selectedStory)}>
+        {context.story}
+      </h1>
+    </a>
+    <p style={storyContextStyle(context.story == context.selectedStory)}>
+      {context.kind.replace(context.kindRoot, '').replace(/^\./, '') || context.kind}
+    </p>
+    <WithNotes
+      notes={`This is ${context.kind}\n\nYou selected: [${context.selectedStory}] button!\n
+          Use Ctrl + Shift + Arrow Left (Right) to navigate\n
+          ...Or select the button from the Stories Panel\n
+          ...Or click on a button story title`}
+    />
+    {storyfn()}
+  </div>;
 
-    return (
-      <div style={style}>
-        <p>{intro}</p>
-        <p>My birthday is: {new Date(birthday).toLocaleDateString()}</p>
-        <p>My wallet contains: ${dollars.toFixed(2)}</p>
-        <p>In my backpack, I have:</p>
-        <ul>
-          {items.map(item => <li key={item}>{item}</li>)}
-        </ul>
-        <p>{salutation}</p>
-      </div>
-    );
-  })
-  .addWithInfo(
-    'with some info',
-    'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its painful API.',
-    () => <Button>click the "?" in top right for info</Button>
-  );
+storiesOf('Buttons Guide:.simple', module)
+  .addDecorator(guideDecorator())
+  .add('normal small', textButton(10, 'coral'))
+  .add('normal big', textButton(14, 'coral'))
+  .add('normal enormous', textButton(18, 'coral'))
+  .add('normal giant', textButton(26, 'coral'))
+  .add('accent small', textButton(10, 'crimson'))
+  .add('accent big', textButton(14, 'crimson'))
+  .add('accent enormous', textButton(18, 'crimson'))
+  .add('accent giant', textButton(26, 'crimson'))
+  .add('disabled small', textButton(10, 'gray'))
+  .add('disabled big', textButton(14, 'gray'))
+  .add('disabled enormous', textButton(18, 'gray'))
+  .add('disabled giant', textButton(26, 'gray'));
+
+storiesOf('Buttons Guide:.emoji', module)
+  .addDecorator(guideDecorator(true))
+  .add('normal small', textButton(18, 'coral', false))
+  .add('normal big', textButton(22, 'coral', false))
+  .add('normal enormous', textButton(28, 'coral', false))
+  .add('normal giant', textButton(36, 'coral', false))
+  .add('accent small', textButton(18, 'crimson', false))
+  .add('accent big', textButton(22, 'crimson', false))
+  .add('accent enormous', textButton(28, 'crimson', false))
+  .add('accent giant', textButton(36, 'crimson', false))
+  .add('disabled small', textButton(18, 'gray', false))
+  .add('disabled big', textButton(22, 'gray', false))
+  .add('disabled enormous', textButton(28, 'gray', false))
+  .add('disabled giant', textButton(36, 'gray', false));
 
 storiesOf('App', module).add('full app', () => <App />);
 
@@ -210,20 +248,20 @@ storiesOf('WithEvents', module)
   )
   .add('Logger', () => <Logger emiter={emiter} />);
 
-storiesOf('component.base.Link')
+storiesOf('component.base:.Link')
   .addDecorator(withKnobs)
   .add('first', () => <a>{text('firstLink', 'first link')}</a>)
   .add('second', () => <a>{text('secondLink', 'second link')}</a>);
 
-storiesOf('component.base.Span')
+storiesOf('component.base:.Span')
   .add('first', () => <span>first span</span>)
   .add('second', () => <span>second span</span>);
 
-storiesOf('component.common.Div')
+storiesOf('component.common:.Div')
   .add('first', () => <div>first div</div>)
   .add('second', () => <div>second div</div>);
 
-storiesOf('component.common.Table')
+storiesOf('component.common:.Table')
   .add('first', () => <table><tr><td>first table</td></tr></table>)
   .add('second', () => <table><tr><td>first table</td></tr></table>);
 

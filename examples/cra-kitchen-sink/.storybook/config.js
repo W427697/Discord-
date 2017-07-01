@@ -11,7 +11,7 @@ setOptions({
   showSearchBox: false,
   downPanelInRight: true,
   sortStoriesByKind: false,
-  hierarchySeparator: '\\/|\\.|¯\\\\_\\(ツ\\)_\\/¯'
+  hierarchySeparator: '\\/|\\.|:\\.|¯\\\\_\\(ツ\\)_\\/¯'
 });
 
 setAddon(infoAddon);

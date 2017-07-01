@@ -10,6 +10,8 @@ const isBrowser = typeof window !== 'undefined';
 
 const logger = console;
 
+const separatorRegExp = ':';
+
 let rootEl = null;
 let previousKind = '';
 let previousStory = '';
@@ -46,27 +48,21 @@ export function renderException(error) {
   logger.error(error.stack);
 }
 
-function singleElement(data, storyStore) {
+function singleElement(context, storyStore) {
+  const { kind, story } = context;
   const NoPreview = () => <p>No Preview Available!</p>;
   const noPreview = <NoPreview />;
 
-  const { selectedKind, selectedStory } = data;
-
-  const story = storyStore.getStory(selectedKind, selectedStory);
-  if (!story) {
+  const storyFn = storyStore.getStory(kind, story);
+  if (!storyFn) {
     return noPreview;
   }
 
-  const context = {
-    kind: selectedKind,
-    story: selectedStory,
-  };
-
-  const element = story(context);
+  const element = storyFn(context);
 
   if (!element) {
     const error = {
-      title: `Expecting a React element from the story: "${selectedStory}" of "${selectedKind}".`,
+      title: `Expecting a React element from the story: "${story}" of "${kind}".`,
       description: stripIndents`
         Did you forget to return the React element from the story?
         Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.
@@ -77,7 +73,7 @@ function singleElement(data, storyStore) {
 
   if (element.type === undefined) {
     const error = {
-      title: `Expecting a valid React element from the story: "${selectedStory}" of "${selectedKind}".`,
+      title: `Expecting a valid React element from the story: "${story}" of "${kind}".`,
       description: stripIndents`
         Seems like you are not returning a correct React element from the story.
         Could you double check that?
@@ -89,13 +85,40 @@ function singleElement(data, storyStore) {
   return element;
 }
 
+function multiElement(kindRoot, selectedStory, storyStore) {
+  const kinds = storyStore.getStoryKinds();
+  const selectedKinds = kinds.filter(kind => kind.match(`^${kindRoot}`));
+
+  const StoryHolder = ({ name, element }) =>
+    <div id={name}>
+      {element}
+    </div>;
+
+  const stories = selectedKinds.reduce(
+    (prev, kind) => prev.concat(storyStore.getStories(kind).map(story => ({ kind, story }))),
+    []
+  );
+
+  return (
+    <div>
+      {stories.map(({ kind, story }) =>
+        <StoryHolder
+          key={`${kind}-${story}`}
+          name={`${kind}-${story}`}
+          element={singleElement({ kind, story, kindRoot, selectedStory }, storyStore)}
+        />
+      )}
+    </div>
+  );
+}
+
 export function renderMain(data, storyStore) {
   if (storyStore.size() === 0) return null;
 
-  
   const { selectedKind, selectedStory } = data;
 
-  
+  const multiStoriesSeparator =
+    selectedKind && selectedKind.match(separatorRegExp) && selectedKind.match(separatorRegExp)[0];
 
   // Unmount the previous story only if selectedKind or selectedStory has changed.
   // renderMain() gets executed after each action. Actions will cause the whole
@@ -111,13 +134,21 @@ export function renderMain(data, storyStore) {
     ReactDOM.unmountComponentAtNode(rootEl);
   }
 
-  
+  const kind = selectedKind;
+  const story = selectedStory;
 
-  const element = singleElement(data, storyStore);
-
-  
+  const element = multiStoriesSeparator
+    ? multiElement(
+        selectedKind.split(multiStoriesSeparator)[0].concat(multiStoriesSeparator),
+        selectedStory,
+        storyStore
+      )
+    : singleElement({ kind, story }, storyStore);
 
   ReactDOM.render(element, rootEl);
+
+  const currentStoryHolder = document.getElementById(`${kind}-${story}`);
+  currentStoryHolder && currentStoryHolder.scrollIntoView();
   return null;
 }
 
