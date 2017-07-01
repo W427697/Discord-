@@ -20,12 +20,9 @@ if (isBrowser) {
   rootEl = document.getElementById('root');
 }
 
-export function renderError(error) {
-  const properError = new Error(error.title);
-  properError.stack = error.description;
-
-  const redBox = <ErrorDisplay error={properError} />;
-  ReactDOM.render(redBox, rootEl);
+// added this function to use with tests
+export function setRootEl(root) {
+  rootEl = root;
 }
 
 function errorElement(error) {
@@ -46,12 +43,13 @@ export function renderException(error) {
 
   // Log the stack to the console. So, user could check the source code.
   logger.error(error.stack);
+  return error;
 }
 
 function singleElement(context, storyStore) {
   const { kind, story } = context;
-  const NoPreview = () => <p>No Preview Available!</p>;
-  const noPreview = <NoPreview />;
+  const NoPreview = ({info}) => <p>{info}</p>;
+  const noPreview = <NoPreview info="No Preview Available!"/>;
 
   const storyFn = storyStore.getStory(kind, story);
   if (!storyFn) {
@@ -148,8 +146,8 @@ export function renderMain(data, storyStore) {
   ReactDOM.render(element, rootEl);
 
   const currentStoryHolder = document.getElementById(`${kind}-${story}`);
-  currentStoryHolder && currentStoryHolder.scrollIntoView();
-  return null;
+  if (currentStoryHolder) currentStoryHolder.scrollIntoView();
+  return element;
 }
 
 export default function renderPreview({ reduxStore, storyStore }) {

@@ -19,7 +19,8 @@
   },
   "scripts": {
     "dev": "DEV_BUILD=1 nodemon --watch ./src --exec 'npm run prepublish'",
-    "prepublish": "node ../../scripts/prepublish.js"
+    "prepublish": "node ../../scripts/prepublish.js",
+    "test": "../../node_modules/.bin/jest --watch"
   },
   "dependencies": {
     "@storybook/addon-actions": "^3.1.6",
