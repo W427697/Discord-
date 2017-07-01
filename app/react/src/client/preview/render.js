@@ -1,4 +1,5 @@
 /* global document */
+/* eslint react/prop-types: 0 */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -48,8 +49,12 @@ export function renderException(error) {
 
 function singleElement(context, storyStore) {
   const { kind, story } = context;
-  const NoPreview = ({info}) => <p>{info}</p>;
-  const noPreview = <NoPreview info="No Preview Available!"/>;
+
+  const NoPreview = ({ info }) =>
+    <p>
+      {info}
+    </p>;
+  const noPreview = <NoPreview info="No Preview Available!" />;
 
   const storyFn = storyStore.getStory(kind, story);
   if (!storyFn) {

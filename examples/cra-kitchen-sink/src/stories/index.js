@@ -74,14 +74,26 @@ storiesOf('Button', module)
 
     return (
       <div style={style}>
-        <p>{intro}</p>
-        <p>My birthday is: {new Date(birthday).toLocaleDateString()}</p>
-        <p>My wallet contains: ${dollars.toFixed(2)}</p>
+        <p>
+          {intro}
+        </p>
+        <p>
+          My birthday is: {new Date(birthday).toLocaleDateString()}
+        </p>
+        <p>
+          My wallet contains: ${dollars.toFixed(2)}
+        </p>
         <p>In my backpack, I have:</p>
         <ul>
-          {items.map(item => <li key={item}>{item}</li>)}
+          {items.map(item =>
+            <li key={item}>
+              {item}
+            </li>
+          )}
         </ul>
-        <p>{salutation}</p>
+        <p>
+          {salutation}
+        </p>
       </div>
     );
   })
@@ -91,7 +103,7 @@ storiesOf('Button', module)
     () => <Button>click the "?" in top right for info</Button>
   );
 
-const textButton = (size, color, isText = true) => () =>
+const textButton = (size, bgcolor, isText = true) => () =>
   <button
     style={{
       color: 'white',
@@ -102,12 +114,12 @@ const textButton = (size, color, isText = true) => () =>
       paddingBottom: 6,
       margin: 20,
       fontSize: size,
-      backgroundColor: color,
+      backgroundColor: bgcolor,
       cursor: 'pointer',
     }}
     size={size}
-    color={color}
-    onClick={action(`${color} button with ${isText ? 'text' : 'train'}`)}
+    color={bgcolor}
+    onClick={action(`${bgcolor} button with ${isText ? 'text' : 'train'}`)}
   >
     {isText ? 'Press me!' : '🚂🚃🚃🚃🚃🚃🚃🚃🚃'}
   </button>;
@@ -138,12 +150,12 @@ const storyContextStyle = isSelected => ({
 
 const guideDecorator = (isEmoji = false) => (storyfn, context) =>
   <div style={decorStyle(isEmoji)}>
-    <a onClick={linkTo(context.kind, context.story)}>
-      <h1 style={storyTitleStyle(context.story == context.selectedStory)}>
+    <a onClick={linkTo(context.kind, context.story)} role="link" tabIndex="0">
+      <h1 style={storyTitleStyle(context.story === context.selectedStory)}>
         {context.story}
       </h1>
     </a>
-    <p style={storyContextStyle(context.story == context.selectedStory)}>
+    <p style={storyContextStyle(context.story === context.selectedStory)}>
       {context.kind.replace(context.kindRoot, '').replace(/^\./, '') || context.kind}
     </p>
     <WithNotes
@@ -250,8 +262,16 @@ storiesOf('WithEvents', module)
 
 storiesOf('component.base:.Link')
   .addDecorator(withKnobs)
-  .add('first', () => <a>{text('firstLink', 'first link')}</a>)
-  .add('second', () => <a>{text('secondLink', 'second link')}</a>);
+  .add('first', () =>
+    <a>
+      {text('firstLink', 'first link')}
+    </a>
+  )
+  .add('second', () =>
+    <a>
+      {text('secondLink', 'second link')}
+    </a>
+  );
 
 storiesOf('component.base:.Span')
   .add('first', () => <span>first span</span>)
@@ -262,8 +282,20 @@ storiesOf('component.common:.Div')
   .add('second', () => <div>second div</div>);
 
 storiesOf('component.common:.Table')
-  .add('first', () => <table><tr><td>first table</td></tr></table>)
-  .add('second', () => <table><tr><td>first table</td></tr></table>);
+  .add('first', () =>
+    <table>
+      <tr>
+        <td>first table</td>
+      </tr>
+    </table>
+  )
+  .add('second', () =>
+    <table>
+      <tr>
+        <td>first table</td>
+      </tr>
+    </table>
+  );
 
 storiesOf('component.Button')
   .add('first', () => <button>first button</button>)
@@ -273,7 +305,11 @@ storiesOf('component.Button')
 
 storiesOf('Cells¯\\_(ツ)_/¯Molecules.Atoms/simple', module)
   .addDecorator(withKnobs)
-  .add('with text', () => <Button>{text('buttonText', 'Hello Button')}</Button>)
+  .add('with text', () =>
+    <Button>
+      {text('buttonText', 'Hello Button')}
+    </Button>
+  )
   .add('with some emoji', () => <Button>😀 😎 👍 💯</Button>);
 
 storiesOf('Cells/Molecules/Atoms.more', module)

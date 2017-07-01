@@ -1,8 +1,8 @@
+/* global document */
+
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-import renderPreview, { setRootEl } from './render.js';
-
+import renderPreview, { setRootEl } from './render';
 
 class StoryStore {
   constructor() {
@@ -56,19 +56,19 @@ class StoryStore {
 class ReduxStore {
   constructor() {
     this.stateNormal = {
-      selectedKind: 'storyKind:', 
+      selectedKind: 'storyKind:',
       selectedStory: 'story',
     };
     this.stateError = {
       error: {
         message: 'redbox',
         stack: 'console.error src/client/preview/render.js <- Ok ✅',
-      }
+      },
     };
     this.state = this.stateError;
   }
-  
-  setState(state = this.stateNormal) {
+
+  setState() {
     this.state = this.stateNormal;
   }
   getState() {
@@ -78,24 +78,24 @@ class ReduxStore {
 
 describe('preview.render', () => {
   describe('renderPreview', () => {
-    const reduxStore = new ReduxStore;
-    const storyStore = new StoryStore;
+    const reduxStore = new ReduxStore();
+    const storyStore = new StoryStore();
 
     setRootEl(document.createElement('div'));
 
     it('should display a redbox with error', () => {
       const res = renderPreview({ reduxStore, storyStore });
       expect(res.message).toBe('redbox');
-    })
+    });
 
     it('should render preview with a story', () => {
       reduxStore.setState();
       const kind = reduxStore.getState().selectedKind;
       const story = reduxStore.getState().selectedStory;
-      storyStore.addStory(kind, story, () => <div>storybook is awesome</div> );
+      storyStore.addStory(kind, story, () => <div>storybook is awesome</div>);
       const res = renderPreview({ reduxStore, storyStore });
       expect(res.props.children[0].key).toBe(`${kind}-${story}`);
-    })
+    });
 
     it('should render error when there is no story', () => {
       reduxStore.setState();
@@ -106,7 +106,7 @@ describe('preview.render', () => {
       const res = renderPreview({ reduxStore, storyStore });
       expect(res.props.children[0].key).toBe(`${kind}-${story}`);
       expect(res.props.children[0].props.element.props.info).toBe('No Preview Available!');
-    })
+    });
 
     it('should render error when there is no React element in a story', () => {
       reduxStore.setState();
@@ -117,7 +117,6 @@ describe('preview.render', () => {
       const res = renderPreview({ reduxStore, storyStore });
       expect(res.props.children[0].key).toBe(`${kind}-${story}`);
       expect(res.props.children[0].props.element.props).toHaveProperty('error');
-    })
-
-  })
+    });
+  });
 });
