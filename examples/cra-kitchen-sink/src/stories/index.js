@@ -49,9 +49,6 @@ storiesOf('Button', module)
     </WithNotes>
   )
   .add('with knobs', () => {
-    setOptions({
-      multistorySeparator: /:/,
-    });
     const name = text('Name', 'Storyteller');
     const age = number('Age', 70, { range: true, min: 0, max: 90, step: 5 });
     const fruits = {
@@ -130,11 +127,14 @@ const textButton = (size, bgcolor, isText = true) => () =>
     {isText ? 'Press me!' : '🚂🚃🚃🚃🚃🚃🚃🚃🚃'}
   </button>;
 
-const decorStyle = isEmoji => ({
+const decorStyle = (isEmoji, isTile) => ({
   borderTop: '1px solid rgba(255, 255, 255, 1)',
   borderBottom: '1px solid rgba(128, 128, 128, 0.4)',
   backgroundColor: isEmoji ? 'rgba(230, 255, 240, 0.5)' : 'rgba(230, 240, 255, 0.5)',
-  marginBottom: 6,
+  marginBottom: 16,
+  marginRight: 26,
+  minWidth: isTile ? 260 : '',
+  minHeight: isTile ? 156 : '',
 });
 
 const storyTitleStyle = isSelected => ({
@@ -154,14 +154,14 @@ const storyContextStyle = isSelected => ({
   margin: 4,
 });
 
-const guideDecorator = (isEmoji = false) => (storyfn, context) => {
-  context.onStoryDidMount((id) => {
-      const currentStoryHolder = document.getElementById(id);
-      if (currentStoryHolder) currentStoryHolder.scrollIntoView();
-    }
-  );
+const guideDecorator = (isEmoji = false, isTile = false) => (storyfn, context) => {
+  context.onStoryDidMount(id => {
+    const currentStoryHolder = document.getElementById(id);
+    if (currentStoryHolder) currentStoryHolder.scrollIntoView();
+  });
+
   return (
-    <div style={decorStyle(isEmoji)}>
+    <div style={decorStyle(isEmoji, isTile)}>
       <a onClick={linkTo(context.kind, context.story)} role="link" tabIndex="0">
         <h1 style={storyTitleStyle(context.story === context.selectedStory)}>
           {context.story}
@@ -181,9 +181,33 @@ const guideDecorator = (isEmoji = false) => (storyfn, context) => {
   );
 };
 
+const normalDecorator = stories =>
+  <div>
+    {stories}
+  </div>;
+
+const tileDecorator = stories =>
+  <div>
+    <h1>Button Tiles</h1>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'stretch',
+      }}
+    >
+      {stories}
+    </div>
+  </div>;
+
 storiesOf('Buttons Guide:.simple', module)
   .addDecorator(guideDecorator())
-  .add('normal small', textButton(10, 'coral'))
+  .add('normal small', () => {
+    setOptions({
+      previewDecorator: normalDecorator,
+    });
+    return textButton(10, 'coral')();
+  })
   .add('normal big', textButton(14, 'coral'))
   .add('normal enormous', textButton(18, 'coral'))
   .add('normal giant', textButton(26, 'coral'))
@@ -210,6 +234,26 @@ storiesOf('Buttons Guide:.emoji', module)
   .add('disabled big', textButton(22, 'gray', false))
   .add('disabled enormous', textButton(28, 'gray', false))
   .add('disabled giant', textButton(36, 'gray', false));
+
+storiesOf('Buttons Guide.tile:', module)
+  .addDecorator(guideDecorator(false, true))
+  .add('normal small', () => {
+    setOptions({
+      previewDecorator: tileDecorator,
+    });
+    return textButton(10, 'coral')();
+  })
+  .add('normal big', textButton(14, 'coral'))
+  .add('normal enormous', textButton(18, 'coral'))
+  .add('normal giant', textButton(26, 'coral'))
+  .add('accent small', textButton(10, 'crimson'))
+  .add('accent big', textButton(14, 'crimson'))
+  .add('accent enormous', textButton(18, 'crimson'))
+  .add('accent giant', textButton(26, 'crimson'))
+  .add('disabled small', textButton(10, 'gray'))
+  .add('disabled big', textButton(14, 'gray'))
+  .add('disabled enormous', textButton(18, 'gray'))
+  .add('disabled giant', textButton(26, 'gray'));
 
 storiesOf('App', module).add('full app', () => <App />);
 

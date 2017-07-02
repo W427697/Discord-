@@ -58,9 +58,7 @@ reduxStore.subscribe(renderUI);
 
 function previewOptions(options) {
   const renderOpt = pick(options, ['multistorySeparator', 'previewDecorator']);
-  // console.log('previewOptions:', options);
-  renderOptions(renderOpt);
-  // if (renderOptions(renderOpt)) renderUI();
+  if (renderOptions(renderOpt)) render(context);
 }
 
 setPreviewOptionsFn(previewOptions);

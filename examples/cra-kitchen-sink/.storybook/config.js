@@ -11,8 +11,8 @@ setOptions({
   showSearchBox: false,
   downPanelInRight: true,
   sortStoriesByKind: false,
-  hierarchySeparator: /\/|\.|¯\\_\(ツ\)_\/¯/,
-  multistorySeparator: /#/,
+  hierarchySeparator: /\/|\.|:\.|¯\\_\(ツ\)_\/¯/,
+  multistorySeparator: /:/,
 });
 
 setAddon(infoAddon);

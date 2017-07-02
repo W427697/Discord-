@@ -11,25 +11,29 @@ const isBrowser = typeof window !== 'undefined';
 
 const logger = console;
 
-let options = {
-  multistorySeparator: '#',
-  // rootDecorator: element => element,
-  rootDecorator: element => (
-    <div style={{/* display: 'flex' */}}>
-      
-      {element}
-    </div>
-  )
+const options = {
+  multistorySeparator: /:/,
+  previewDecorator: stories =>
+    <div className="stories-root">
+      {stories}
+    </div>,
 };
 
 export function renderOptions(newOptions) {
-  const multistorySeparator = new RegExp(newOptions.multistorySeparator);
-  const f = multistorySeparator.source === options.multistorySeparator.source;
-  options = {
-    ...options,
-    ...newOptions,
-  };
-  return !f;
+  let keepSameSeparator = true;
+  if (newOptions.multistorySeparator) {
+    const multistorySeparator = new RegExp(newOptions.multistorySeparator);
+    keepSameSeparator = multistorySeparator.source === options.multistorySeparator.source;
+    options.multistorySeparator = multistorySeparator;
+  }
+
+  let keepSameDecorator = true;
+  if (typeof newOptions.previewDecorator === 'function') {
+    keepSameDecorator = newOptions.previewDecorator === options.previewDecorator;
+    options.previewDecorator = newOptions.previewDecorator;
+  }
+
+  return !keepSameSeparator || !keepSameDecorator;
 }
 
 const elmentID = (kind, story) => `${kind}-${story}`;
@@ -68,7 +72,7 @@ export function renderException(error) {
   return error;
 }
 
-function singleElement(context, storyStore) {
+function renderStory(context, storyStore) {
   const { kind, story } = context;
 
   const NoPreview = ({ info }) =>
@@ -81,8 +85,11 @@ function singleElement(context, storyStore) {
   if (!storyFn) {
     return noPreview;
   }
+  return storyFn(context);
+}
 
-  const element = storyFn(context);
+function singleElement(context, element) {
+  const { kind, story } = context;
 
   if (!element) {
     const error = {
@@ -119,23 +126,28 @@ function multiElement(kindRoot, selectedStory, storyStore, onStoryDidMount) {
     </div>;
 
   const stories = selectedKinds.reduce(
-    (prev, kind) => prev.concat(storyStore.getStories(kind).map(story => ({ kind, story }))),
+    (prev, kind) =>
+      prev.concat(
+        storyStore.getStories(kind).map(story => ({
+          kind,
+          story,
+          preElement: renderStory(
+            { kind, story, kindRoot, selectedStory, onStoryDidMount },
+            storyStore
+          ),
+        }))
+      ),
     []
   );
 
-  return (
-    <div>
-      {stories.map(({ kind, story }) =>
-        <StoryHolder
-          key={elmentID(kind, story)}
-          name={elmentID(kind, story)}
-          element={singleElement(
-            { kind, story, kindRoot, selectedStory, onStoryDidMount },
-            storyStore
-          )}
-        />
-      )}
-    </div>
+  return options.previewDecorator(
+    stories.map(({ kind, story, preElement }) =>
+      <StoryHolder
+        key={elmentID(kind, story)}
+        name={elmentID(kind, story)}
+        element={singleElement({ kind, story }, preElement)}
+      />
+    )
   );
 }
 
@@ -145,9 +157,9 @@ export function renderMain(data, storyStore) {
   const { selectedKind, selectedStory } = data;
 
   const multiStoriesSeparator =
-    (selectedKind &&
-      selectedKind.match(options.multistorySeparator) &&
-      selectedKind.match(options.multistorySeparator)[0]);
+    selectedKind &&
+    selectedKind.match(options.multistorySeparator) &&
+    selectedKind.match(options.multistorySeparator)[0];
 
   // Unmount the previous story only if selectedKind or selectedStory has changed.
   // renderMain() gets executed after each action. Actions will cause the whole
@@ -191,17 +203,29 @@ export function renderMain(data, storyStore) {
     onStoryDidMount,
   };
 
-  const element = multiStoriesSeparator
-    ? multiElement(
-        selectedKind.split(multiStoriesSeparator)[0].concat(multiStoriesSeparator),
-        selectedStory,
-        storyStore,
-        onStoryDidMount
-      )
-    : singleElement(context, storyStore);
+  // const element = multiStoriesSeparator
+  //   ? multiElement(
+  //       selectedKind.split(multiStoriesSeparator)[0].concat(multiStoriesSeparator),
+  //       selectedStory,
+  //       storyStore,
+  //       onStoryDidMount
+  //     )
+  //   : options.previewDecorator(singleElement(context, storyStore));
 
+  let element;
+  if (multiStoriesSeparator) {
+    element = multiElement(
+      selectedKind.split(multiStoriesSeparator)[0].concat(multiStoriesSeparator),
+      selectedStory,
+      storyStore,
+      onStoryDidMount
+    );
+  } else {
+    const preElement = renderStory(context, storyStore);
+    element = options.previewDecorator(singleElement(context, preElement));
+  }
 
-  ReactDOM.render(options.rootDecorator(element), rootEl);
+  ReactDOM.render(element, rootEl);
 
   // we invoke this callback to allow setup behavior via decorators
   // use case example:
