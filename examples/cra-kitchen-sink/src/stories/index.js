@@ -1,3 +1,5 @@
+/* global document */
+
 import React from 'react';
 import EventEmiter from 'eventemitter3';
 
@@ -18,6 +20,7 @@ import {
   object,
 } from '@storybook/addon-knobs';
 import centered from '@storybook/addon-centered';
+import { setOptions } from '@storybook/addon-options';
 
 import { Button, Welcome } from '@storybook/react/demo';
 
@@ -46,6 +49,9 @@ storiesOf('Button', module)
     </WithNotes>
   )
   .add('with knobs', () => {
+    setOptions({
+      multistorySeparator: /:/,
+    });
     const name = text('Name', 'Storyteller');
     const age = number('Age', 70, { range: true, min: 0, max: 90, step: 5 });
     const fruits = {
@@ -148,24 +154,32 @@ const storyContextStyle = isSelected => ({
   margin: 4,
 });
 
-const guideDecorator = (isEmoji = false) => (storyfn, context) =>
-  <div style={decorStyle(isEmoji)}>
-    <a onClick={linkTo(context.kind, context.story)} role="link" tabIndex="0">
-      <h1 style={storyTitleStyle(context.story === context.selectedStory)}>
-        {context.story}
-      </h1>
-    </a>
-    <p style={storyContextStyle(context.story === context.selectedStory)}>
-      {context.kind.replace(context.kindRoot, '').replace(/^\./, '') || context.kind}
-    </p>
-    <WithNotes
-      notes={`This is ${context.kind}\n\nYou selected: [${context.selectedStory}] button!\n
-          Use Ctrl + Shift + Arrow Left (Right) to navigate\n
-          ...Or select the button from the Stories Panel\n
-          ...Or click on a button story title`}
-    />
-    {storyfn()}
-  </div>;
+const guideDecorator = (isEmoji = false) => (storyfn, context) => {
+  context.onStoryDidMount((id) => {
+      const currentStoryHolder = document.getElementById(id);
+      if (currentStoryHolder) currentStoryHolder.scrollIntoView();
+    }
+  );
+  return (
+    <div style={decorStyle(isEmoji)}>
+      <a onClick={linkTo(context.kind, context.story)} role="link" tabIndex="0">
+        <h1 style={storyTitleStyle(context.story === context.selectedStory)}>
+          {context.story}
+        </h1>
+      </a>
+      <p style={storyContextStyle(context.story === context.selectedStory)}>
+        {context.kind.replace(context.kindRoot, '').replace(/^\./, '') || context.kind}
+      </p>
+      <WithNotes
+        notes={`This is ${context.kind}\n\nYou selected: [${context.selectedStory}] button!\n
+            Use Ctrl + Shift + Arrow Left (Right) to navigate\n
+            ...Or select the button from the Stories Panel\n
+            ...Or click on a button story title`}
+      />
+      {storyfn()}
+    </div>
+  );
+};
 
 storiesOf('Buttons Guide:.simple', module)
   .addDecorator(guideDecorator())

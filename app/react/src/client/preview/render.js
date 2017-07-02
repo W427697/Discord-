@@ -11,7 +11,28 @@ const isBrowser = typeof window !== 'undefined';
 
 const logger = console;
 
-const separatorRegExp = ':';
+let options = {
+  multistorySeparator: '#',
+  // rootDecorator: element => element,
+  rootDecorator: element => (
+    <div style={{/* display: 'flex' */}}>
+      
+      {element}
+    </div>
+  )
+};
+
+export function renderOptions(newOptions) {
+  const multistorySeparator = new RegExp(newOptions.multistorySeparator);
+  const f = multistorySeparator.source === options.multistorySeparator.source;
+  options = {
+    ...options,
+    ...newOptions,
+  };
+  return !f;
+}
+
+const elmentID = (kind, story) => `${kind}-${story}`;
 
 let rootEl = null;
 let previousKind = '';
@@ -88,7 +109,7 @@ function singleElement(context, storyStore) {
   return element;
 }
 
-function multiElement(kindRoot, selectedStory, storyStore) {
+function multiElement(kindRoot, selectedStory, storyStore, onStoryDidMount) {
   const kinds = storyStore.getStoryKinds();
   const selectedKinds = kinds.filter(kind => kind.match(`^${kindRoot}`));
 
@@ -106,9 +127,12 @@ function multiElement(kindRoot, selectedStory, storyStore) {
     <div>
       {stories.map(({ kind, story }) =>
         <StoryHolder
-          key={`${kind}-${story}`}
-          name={`${kind}-${story}`}
-          element={singleElement({ kind, story, kindRoot, selectedStory }, storyStore)}
+          key={elmentID(kind, story)}
+          name={elmentID(kind, story)}
+          element={singleElement(
+            { kind, story, kindRoot, selectedStory, onStoryDidMount },
+            storyStore
+          )}
         />
       )}
     </div>
@@ -121,7 +145,9 @@ export function renderMain(data, storyStore) {
   const { selectedKind, selectedStory } = data;
 
   const multiStoriesSeparator =
-    selectedKind && selectedKind.match(separatorRegExp) && selectedKind.match(separatorRegExp)[0];
+    (selectedKind &&
+      selectedKind.match(options.multistorySeparator) &&
+      selectedKind.match(options.multistorySeparator)[0]);
 
   // Unmount the previous story only if selectedKind or selectedStory has changed.
   // renderMain() gets executed after each action. Actions will cause the whole
@@ -137,21 +163,50 @@ export function renderMain(data, storyStore) {
     ReactDOM.unmountComponentAtNode(rootEl);
   }
 
-  const kind = selectedKind;
-  const story = selectedStory;
+  // we pass context to story decorators
+  // it available on the stories side as:
+  // storiesOf().addDecorator(() => storyfn, {kind, story, kindRoot, selectedStory, onStoryDidMount})
+  //
+  // where in the Multi Story Mode:
+  //    kind: storyKind of current story
+  //    story: current story
+  //    selectedStory: story selected at Stories Panel
+  //    kindRoot: common part of storyKind
+  //    onStoryDidMount: function takes a callback as argument which will be invoked after ReactDOM.render
+  //
+  // and in the Single story mode:
+  //   story same as selectedStory
+  //   kind same as kindRoot
+
+  let storyDidMount = () => {};
+  const onStoryDidMount = fn => {
+    storyDidMount = fn;
+  };
+
+  const context = {
+    kind: selectedKind,
+    story: selectedStory,
+    kindRoot: selectedKind,
+    selectedStory,
+    onStoryDidMount,
+  };
 
   const element = multiStoriesSeparator
     ? multiElement(
         selectedKind.split(multiStoriesSeparator)[0].concat(multiStoriesSeparator),
         selectedStory,
-        storyStore
+        storyStore,
+        onStoryDidMount
       )
-    : singleElement({ kind, story }, storyStore);
+    : singleElement(context, storyStore);
 
-  ReactDOM.render(element, rootEl);
 
-  const currentStoryHolder = document.getElementById(`${kind}-${story}`);
-  if (currentStoryHolder) currentStoryHolder.scrollIntoView();
+  ReactDOM.render(options.rootDecorator(element), rootEl);
+
+  // we invoke this callback to allow setup behavior via decorators
+  // use case example:
+  // (id) => document.getElementById(id).scrollIntoView()
+  storyDidMount(elmentID(selectedKind, selectedStory));
   return element;
 }
 
