@@ -318,7 +318,7 @@ storiesOf('WithEvents', module)
   )
   .add('Logger', () => <Logger emiter={emiter} />);
 
-storiesOf('component.base:.Link')
+storiesOf('component.base.Link')
   .addDecorator(withKnobs)
   .add('first', () =>
     <a>
@@ -331,15 +331,15 @@ storiesOf('component.base:.Link')
     </a>
   );
 
-storiesOf('component.base:.Span')
+storiesOf('component.base.Span')
   .add('first', () => <span>first span</span>)
   .add('second', () => <span>second span</span>);
 
-storiesOf('component.common:.Div')
+storiesOf('component.common.Div')
   .add('first', () => <div>first div</div>)
   .add('second', () => <div>second div</div>);
 
-storiesOf('component.common:.Table')
+storiesOf('component.common.Table')
   .add('first', () =>
     <table>
       <tr>
