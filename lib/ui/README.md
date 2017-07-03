@@ -89,7 +89,13 @@ class ReactProvider extends Provider {
     api.setOptions({
       name: 'My Component', // change the name displayed in the left top portion
       url: 'https://github.com/user/my-component', // change its URL
-      sortStoriesByKind: true // Sort the list of stories by their "kind"
+      goFullScreen: false, // switch to fullscreen mode
+      showLeftPanel: false, // show the stories panel
+      showDownPanel: false, // show the addons panel
+      showSearchBox: false, // show the search box
+      downPanelInRight: false, // show the addons panel at the right side
+      sortStoriesByKind: true, // Sort the list of stories by their "kind"
+      hierarchySeparator: '/\\/|:\\//', // string with a regular expression to separate stories nesting
     });
   }
 };
