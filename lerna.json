@@ -20,7 +20,8 @@
     "addons/*",
     "app/*",
     "lib/*",
-    "examples/*"
+    "examples/*",
+    "plugins/*"
   ],
   "concurrency": 1,
   "version": "3.1.8"

@@ -1,4 +1,5 @@
-import keyEvents from '@storybook/ui/dist/libs/key_events';
+import keymap from '@storybook/ui/dist/new/keymap';
+import Mousetrap from 'mousetrap';
 import { selectStory } from './actions';
 
 export default function(context) {
@@ -8,11 +9,10 @@ export default function(context) {
     reduxStore.dispatch(selectStory(queryParams.selectedKind, queryParams.selectedStory));
   }
 
-  // Handle keyEvents and pass them to the parent.
-  window.onkeydown = e => {
-    const parsedEvent = keyEvents(e);
-    if (parsedEvent) {
-      channel.emit('applyShortcut', { event: parsedEvent });
-    }
-  };
+  const keys = new Mousetrap(document);
+  keymap.forEach(({ key, action }) => {
+    keys.bind(key, () => {
+      channel.emit('applyShortcut', action);
+    });
+  });
 }

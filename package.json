@@ -11,7 +11,6 @@
     "bootstrap:react-native-vanilla": "lerna exec --scope react-native-vanilla -- npmc install",
     "build-packs": "lerna exec --scope '@storybook/*' --parallel -- ../../scripts/build-pack.sh ../../packs",
     "changelog": "pr-log --sloppy",
-    "precommit": "lint-staged",
     "coverage": "codecov",
     "danger": "danger",
     "dev": "lerna exec --parallel -- babel src -d dist --ignore tests,__tests__,test.js,stories/,story.jsx --plugins \"transform-runtime\" --copy-files -w",
@@ -102,5 +101,8 @@
       "greenkeeper": "Dependency Upgrades",
       "other": "Other"
     }
+  },
+  "dependencies": {
+    "redux-logger": "3.0.6"
   }
 }

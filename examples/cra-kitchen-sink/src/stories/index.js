@@ -34,7 +34,16 @@ const EVENTS = {
 const emiter = new EventEmiter();
 const emit = emiter.emit.bind(emiter);
 
+storiesOf('Welcome/Sub/Sub2/Sub3', module).add('to Storybook 1', () => <Welcome showApp={linkTo('Button')} />);
+storiesOf('Welcome/Sub/Sub2/Sub3', module).add('to Storybook 2', () => <Welcome showApp={linkTo('Button')} />);
+storiesOf('Welcome/Sub/Sub2/Sub3', module).add('to Storybook 3', () => <Welcome showApp={linkTo('Button')} />);
+
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
+
+storiesOf('Welcome/Sub', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
+storiesOf('Welcome/Sub', module).add('to Storybook 2', () => <Welcome showApp={linkTo('Button')} />);
+storiesOf('Welcome/Sub', module).add('to Storybook 3', () => <Welcome showApp={linkTo('Button')} />);
+storiesOf('Welcome/Sub', module).add('to Storybook 4', () => <Welcome showApp={linkTo('Button')} />);
 
 storiesOf('Button', module)
   .addDecorator(withKnobs)
