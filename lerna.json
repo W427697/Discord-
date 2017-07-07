@@ -12,7 +12,9 @@
         "cra-kitchen-sink",
         "test-cra",
         "react-native-vanilla",
-        "@storybook/components"
+        "vue-example",
+        "@storybook/components",
+        "@storybook/vue"
       ]
     }
   },
@@ -23,5 +25,5 @@
     "examples/*"
   ],
   "concurrency": 1,
-  "version": "3.1.7"
+  "version": "3.2.0-alpha.7"
 }
