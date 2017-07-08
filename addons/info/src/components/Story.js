@@ -125,11 +125,7 @@ export default class Story extends React.Component {
   _renderInline() {
     return (
       <div>
-        <div style={this.state.stylesheet.infoPage}>
-          <div style={this.state.stylesheet.infoBody}>
-            {this._getInfoHeader()}
-          </div>
-        </div>
+        {this._renderInlineHeader()}
         <div>
           {this._renderStory()}
         </div>
@@ -140,6 +136,19 @@ export default class Story extends React.Component {
             {this._getSourceCode()}
             {this._getPropTables()}
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  _renderInlineHeader() {
+    const infoHeader = this._getInfoHeader();
+
+    return (
+      infoHeader &&
+      <div style={this.state.stylesheet.infoPage}>
+        <div style={this.state.stylesheet.infoBody}>
+          {infoHeader}
         </div>
       </div>
     );
@@ -171,9 +180,13 @@ export default class Story extends React.Component {
         <div style={this.state.stylesheet.children}>
           {this.props.children}
         </div>
-        <a style={linkStyle} onClick={openOverlay} role="button" tabIndex="0">Show Info</a>
+        <a style={linkStyle} onClick={openOverlay} role="button" tabIndex="0">
+          Show Info
+        </a>
         <div style={infoStyle}>
-          <a style={linkStyle} onClick={closeOverlay} role="button" tabIndex="0">×</a>
+          <a style={linkStyle} onClick={closeOverlay} role="button" tabIndex="0">
+            ×
+          </a>
           <div style={this.state.stylesheet.infoPage}>
             <div style={this.state.stylesheet.infoBody}>
               {this._getInfoHeader()}
@@ -195,8 +208,12 @@ export default class Story extends React.Component {
 
     return (
       <div style={this.state.stylesheet.header.body}>
-        <h1 style={this.state.stylesheet.header.h1}>{this.props.context.kind}</h1>
-        <h2 style={this.state.stylesheet.header.h2}>{this.props.context.story}</h2>
+        <h1 style={this.state.stylesheet.header.h1}>
+          {this.props.context.kind}
+        </h1>
+        <h2 style={this.state.stylesheet.header.h2}>
+          {this.props.context.story}
+        </h2>
       </div>
     );
   }
