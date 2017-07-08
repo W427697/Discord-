@@ -41,6 +41,13 @@ export default function({ assets, publicPath, headHtml }) {
         <title>Storybook</title>
         <style>
           /*
+           Remove visual outline from hyperlinks
+           */
+          a {
+            outline: 0;
+          }
+
+          /*
             When resizing panels, the drag event breaks if the cursor
             moves over the iframe. Add the 'dragging' class to the body
             at drag start and remove it when the drag ends.
