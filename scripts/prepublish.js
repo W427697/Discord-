@@ -9,11 +9,15 @@ shell.echo(chalk.bold(`${packageJson.name}@${packageJson.version}`));
 shell.echo(chalk.gray('\n=> Clean dist.'));
 shell.rm('-rf', 'dist');
 
+const pwd = shell.pwd();
+shell.echo(`pwd = ${pwd}`);
+shell.cd(path.join(__dirname, '..'));
+
 const babel = path.join(__dirname, '..', 'node_modules', '.bin', 'babel');
 const args = [
   '--ignore tests,__tests__,test.js,stories/,story.jsx',
   '--plugins "transform-runtime"',
-  './src --out-dir ./dist',
+  `${pwd}/src --out-dir ${pwd}/dist`,
   '--copy-files',
 ].join(' ');
 
