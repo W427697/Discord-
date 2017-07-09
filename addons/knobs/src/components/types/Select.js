@@ -18,18 +18,19 @@ const styles = {
 };
 
 class SelectType extends React.Component {
-  _makeOpt(key, val) {
+  _makeOpt(key, value) {
     const opts = {
       key,
-      value: key,
+      value,
     };
 
     return (
       <option {...opts}>
-        {val}
+        {key}
       </option>
     );
   }
+
   _options(values) {
     let data = [];
     if (Array.isArray(values)) {
@@ -68,6 +69,7 @@ SelectType.propTypes = {
   knob: PropTypes.shape({
     name: PropTypes.string,
     value: PropTypes.string,
+    options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   }),
   onChange: PropTypes.func,
 };
