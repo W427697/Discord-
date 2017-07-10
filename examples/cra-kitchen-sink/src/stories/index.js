@@ -75,14 +75,26 @@ storiesOf('Button', module)
 
     return (
       <div style={style}>
-        <p>{intro}</p>
-        <p>My birthday is: {new Date(birthday).toLocaleDateString()}</p>
-        <p>My wallet contains: ${dollars.toFixed(2)}</p>
+        <p>
+          {intro}
+        </p>
+        <p>
+          My birthday is: {new Date(birthday).toLocaleDateString()}
+        </p>
+        <p>
+          My wallet contains: ${dollars.toFixed(2)}
+        </p>
         <p>In my backpack, I have:</p>
         <ul>
-          {items.map(item => <li key={item}>{item}</li>)}
+          {items.map(item =>
+            <li key={item}>
+              {item}
+            </li>
+          )}
         </ul>
-        <p>{salutation}</p>
+        <p>
+          {salutation}
+        </p>
       </div>
     );
   })
@@ -177,7 +189,11 @@ storiesOf('Addon Knobs deprecated Decorator', module)
     const age = number('Age', 120);
 
     const content = `I am ${name} and I'm ${age} years old.`;
-    return <div>{content}</div>;
+    return (
+      <div>
+        {content}
+      </div>
+    );
   });
 
 storiesOf('Addon Knobs', module).add(
@@ -187,14 +203,26 @@ storiesOf('Addon Knobs', module).add(
     const age = number('Age', 89);
 
     const content = `I am ${name} and I'm ${age} years old.`;
-    return <div>{content}</div>;
+    return (
+      <div>
+        {content}
+      </div>
+    );
   })
 );
 
 storiesOf('component.base.Link')
   .addDecorator(withKnobs)
-  .add('first', () => <a>{text('firstLink', 'first link')}</a>)
-  .add('second', () => <a>{text('secondLink', 'second link')}</a>);
+  .add('first', () =>
+    <a>
+      {text('firstLink', 'first link')}
+    </a>
+  )
+  .add('second', () =>
+    <a>
+      {text('secondLink', 'second link')}
+    </a>
+  );
 
 storiesOf('component.base.Span')
   .add('first', () => <span>first span</span>)
@@ -205,8 +233,20 @@ storiesOf('component.common.Div')
   .add('second', () => <div>second div</div>);
 
 storiesOf('component.common.Table')
-  .add('first', () => <table><tr><td>first table</td></tr></table>)
-  .add('second', () => <table><tr><td>first table</td></tr></table>);
+  .add('first', () =>
+    <table>
+      <tr>
+        <td>first table</td>
+      </tr>
+    </table>
+  )
+  .add('second', () =>
+    <table>
+      <tr>
+        <td>first table</td>
+      </tr>
+    </table>
+  );
 
 storiesOf('component.Button')
   .add('first', () => <button>first button</button>)
@@ -216,7 +256,11 @@ storiesOf('component.Button')
 
 storiesOf('Cells¯\\_(ツ)_/¯Molecules.Atoms/simple', module)
   .addDecorator(withKnobs)
-  .add('with text', () => <Button>{text('buttonText', 'Hello Button')}</Button>)
+  .add('with text', () =>
+    <Button>
+      {text('buttonText', 'Hello Button')}
+    </Button>
+  )
   .add('with some emoji', () => <Button>😀 😎 👍 💯</Button>);
 
 storiesOf('Cells/Molecules/Atoms.more', module)
@@ -230,4 +274,3 @@ storiesOf('Cells/Molecules', module)
 storiesOf('Cells.Molecules.Atoms', module)
   .add('with text2', () => <Button>Hello Button</Button>)
   .add('with some emoji2', () => <Button>😀 😎 👍 💯</Button>);
-
