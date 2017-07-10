@@ -57,7 +57,7 @@ storiesOf('Button', module)
     const fruit = select('Fruit', fruits, 'apple');
     const dollars = number('Dollars', 12.5);
 
-    // NOTE: color picker is currently broken
+    // NOTE: color picker is currently broken!
     const backgroundColor = color('background', '#ffff00');
     const items = array('Items', ['Laptop', 'Book', 'Whiskey']);
     const otherStyles = object('Styles', {
