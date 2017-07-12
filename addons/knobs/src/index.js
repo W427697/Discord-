@@ -1,5 +1,6 @@
 import addons from '@storybook/addons';
 import KnobManager from './KnobManager';
+import ObjectType from './components/types/Object';
 
 const manager = new KnobManager();
 
@@ -39,7 +40,9 @@ export function color(name, value) {
 }
 
 export function object(name, value) {
-  return manager.knob(name, { type: 'object', value });
+  return ObjectType.deserialize(
+    manager.knob(name, { type: 'object', value: ObjectType.serialize(value) })
+  );
 }
 
 export function select(name, options, value) {
