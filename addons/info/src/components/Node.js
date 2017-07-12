@@ -83,7 +83,6 @@ export default function Node(props) {
         </span>
         <Props
           node={node}
-          singleLine
           showSourceOfProps={showSourceOfProps}
           maxPropsIntoLine={maxPropsIntoLine}
           maxPropObjectKeys={maxPropObjectKeys}

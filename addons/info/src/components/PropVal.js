@@ -43,7 +43,7 @@ function previewArray(val, propValProps) {
   const { maxPropArrayLength } = propValProps;
   const items = {};
   val.slice(0, maxPropArrayLength).forEach((item, i) => {
-    items[`n${i}`] = <PropVal {...propValProps} depth={1} singleLine={false} braceWrap={false} val={item} />;
+    items[`n${i}`] = <PropVal {...propValProps} singleLine={false} braceWrap={false} val={item} />;
     items[`c${i}`] = ', ';
   });
   if (val.length > maxPropArrayLength) {
@@ -69,7 +69,7 @@ function previewObject(val, propValProps) {
       </span>
     );
     items[`c${i}`] = ': ';
-    items[`v${i}`] = <PropVal {...propValProps} depth={1} singleLine={false} braceWrap={false} val={val[name]} />;
+    items[`v${i}`] = <PropVal {...propValProps} singleLine={false} braceWrap={false} val={val[name]} />;
     items[`m${i}`] = ', ';
   });
   if (names.length > maxPropObjectKeys) {
@@ -141,7 +141,7 @@ export default function PropVal(props) {
         <span style={valueStyles.object}>
           <Node
             node={val}
-            depth={1}
+            depth={0}
             showSourceOfProps={showSourceOfProps}
             maxPropsIntoLine={maxPropsIntoLine}
             maxPropObjectKeys={maxPropObjectKeys}
@@ -181,9 +181,7 @@ export default function PropVal(props) {
 PropVal.propTypes = {
   // val can't be required since it may be "null" (e.g. in defaultProps)
   val: PropTypes.any, // eslint-disable-line
-  depth: PropTypes.number.isRequired,
   showSourceOfProps: PropTypes.bool.isRequired,
-  singleLine: PropTypes.bool.isRequired,
   braceWrap: PropTypes.bool,
   maxPropsIntoLine: PropTypes.number.isRequired,
   maxPropObjectKeys: PropTypes.number.isRequired,
