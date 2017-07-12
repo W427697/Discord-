@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import createFragment from 'react-addons-create-fragment';
 
+import Node from './Node';
+
 const valueStyles = {
   func: {
     color: '#170',
@@ -37,10 +39,11 @@ const valueStyles = {
   },
 };
 
-function previewArray(val, maxPropArrayLength) {
+function previewArray(val, propValProps) {
+  const { maxPropArrayLength } = propValProps;
   const items = {};
   val.slice(0, maxPropArrayLength).forEach((item, i) => {
-    items[`n${i}`] = <PropVal val={item} />;
+    items[`n${i}`] = <PropVal {...propValProps} depth={1} singleLine={false} braceWrap={false} val={item} />;
     items[`c${i}`] = ', ';
   });
   if (val.length > maxPropArrayLength) {
@@ -55,7 +58,8 @@ function previewArray(val, maxPropArrayLength) {
   );
 }
 
-function previewObject(val, maxPropObjectKeys) {
+function previewObject(val, propValProps) {
+  const { maxPropObjectKeys } = propValProps;
   const names = Object.keys(val);
   const items = {};
   names.slice(0, maxPropObjectKeys).forEach((name, i) => {
@@ -65,7 +69,7 @@ function previewObject(val, maxPropObjectKeys) {
       </span>
     );
     items[`c${i}`] = ': ';
-    items[`v${i}`] = <PropVal val={val[name]} />;
+    items[`v${i}`] = <PropVal {...propValProps} depth={1} singleLine={false} braceWrap={false} val={val[name]} />;
     items[`m${i}`] = ', ';
   });
   if (names.length > maxPropObjectKeys) {
@@ -83,9 +87,16 @@ function previewObject(val, maxPropObjectKeys) {
 }
 
 export default function PropVal(props) {
-  const { maxPropObjectKeys, maxPropArrayLength, maxPropStringLength } = props;
+  const {
+    braceWrap: _branceWrap,
+    showSourceOfProps,
+    maxPropsIntoLine,
+    maxPropObjectKeys,
+    maxPropArrayLength,
+    maxPropStringLength,
+  } = props;
   let val = props.val;
-  let braceWrap = true;
+  let braceWrap = _branceWrap;
   let content = null;
 
   if (typeof val === 'number') {
@@ -107,7 +118,13 @@ export default function PropVal(props) {
   } else if (typeof val === 'boolean') {
     content = <span style={valueStyles.bool}>{`${val}`}</span>;
   } else if (Array.isArray(val)) {
-    content = previewArray(val, maxPropArrayLength);
+    content = previewArray(val, {
+        showSourceOfProps,
+        maxPropsIntoLine,
+        maxPropObjectKeys,
+        maxPropArrayLength,
+        maxPropStringLength,
+    });
   } else if (typeof val === 'function') {
     content = (
       <span style={valueStyles.func}>
@@ -119,27 +136,61 @@ export default function PropVal(props) {
   } else if (typeof val !== 'object') {
     content = <span>…</span>;
   } else if (React.isValidElement(val)) {
-    content = (
-      <span style={valueStyles.object}>
-        {`<${val.type.displayName || val.type.name || val.type} />`}
-      </span>
-    );
+    if (showSourceOfProps) {
+      content = (
+        <span style={valueStyles.object}>
+          <Node
+            node={val}
+            depth={1}
+            showSourceOfProps={showSourceOfProps}
+            maxPropsIntoLine={maxPropsIntoLine}
+            maxPropObjectKeys={maxPropObjectKeys}
+            maxPropArrayLength={maxPropArrayLength}
+            maxPropStringLength={maxPropStringLength}
+          />
+        </span>
+      );
+    } else {
+      content = (
+        <span style={valueStyles.object}>
+          {`<${val.type.displayName || val.type.name || val.type} />`}
+        </span>
+      );
+    }
   } else {
-    content = previewObject(val, maxPropObjectKeys);
+    content = previewObject(val, {
+        showSourceOfProps,
+        maxPropsIntoLine,
+        maxPropObjectKeys,
+        maxPropArrayLength,
+        maxPropStringLength,
+    });
   }
 
   if (!braceWrap) return content;
 
   return (
     <span>
+      {'{'}
       {content}
+      {'}'}
     </span>
   );
 }
 
 PropVal.propTypes = {
-  val: PropTypes.any.isRequired, // eslint-disable-line
+  // val can't be required since it may be "null" (e.g. in defaultProps)
+  val: PropTypes.any, // eslint-disable-line
+  depth: PropTypes.number.isRequired,
+  showSourceOfProps: PropTypes.bool.isRequired,
+  singleLine: PropTypes.bool.isRequired,
+  braceWrap: PropTypes.bool,
+  maxPropsIntoLine: PropTypes.number.isRequired,
   maxPropObjectKeys: PropTypes.number.isRequired,
   maxPropArrayLength: PropTypes.number.isRequired,
   maxPropStringLength: PropTypes.number.isRequired,
+};
+
+PropVal.defaultProps = {
+  braceWrap: true,
 };

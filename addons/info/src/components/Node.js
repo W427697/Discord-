@@ -26,7 +26,7 @@ function getData(element) {
   }
 
   if (typeof element === 'number') {
-    data.text = String.toString(element);
+    data.text = Number.prototype.toString.call(element);
     return data;
   }
 
@@ -46,6 +46,7 @@ export default function Node(props) {
   const {
     node,
     depth,
+    showSourceOfProps,
     maxPropsIntoLine,
     maxPropObjectKeys,
     maxPropArrayLength,
@@ -83,6 +84,7 @@ export default function Node(props) {
         <Props
           node={node}
           singleLine
+          showSourceOfProps={showSourceOfProps}
           maxPropsIntoLine={maxPropsIntoLine}
           maxPropObjectKeys={maxPropObjectKeys}
           maxPropArrayLength={maxPropArrayLength}
@@ -105,6 +107,7 @@ export default function Node(props) {
         </span>
         <Props
           node={node}
+          showSourceOfProps={showSourceOfProps}
           maxPropsIntoLine={maxPropsIntoLine}
           maxPropObjectKeys={maxPropObjectKeys}
           maxPropArrayLength={maxPropArrayLength}
@@ -116,6 +119,7 @@ export default function Node(props) {
         <Node
           node={childElement}
           depth={depth + 1}
+          showSourceOfProps={showSourceOfProps}
           maxPropsIntoLine={maxPropsIntoLine}
           maxPropObjectKeys={maxPropObjectKeys}
           maxPropArrayLength={maxPropArrayLength}
@@ -139,6 +143,7 @@ Node.defaultProps = {
 Node.propTypes = {
   node: PropTypes.node,
   depth: PropTypes.number,
+  showSourceOfProps: PropTypes.bool.isRequired,
   maxPropsIntoLine: PropTypes.number.isRequired,
   maxPropObjectKeys: PropTypes.number.isRequired,
   maxPropArrayLength: PropTypes.number.isRequired,

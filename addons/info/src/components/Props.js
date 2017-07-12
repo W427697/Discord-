@@ -9,7 +9,14 @@ const stylesheet = {
 };
 
 export default function Props(props) {
-  const { maxPropsIntoLine, maxPropArrayLength, maxPropObjectKeys, maxPropStringLength } = props;
+  const {
+    singleLine,
+    showSourceOfProps,
+    maxPropsIntoLine,
+    maxPropArrayLength,
+    maxPropObjectKeys,
+    maxPropStringLength,
+  } = props;
   const nodeProps = props.node.props;
   const defaultProps = props.node.type.defaultProps;
   if (!nodeProps || typeof nodeProps !== 'object') {
@@ -26,7 +33,7 @@ export default function Props(props) {
   );
 
   const breakIntoNewLines = names.length > maxPropsIntoLine;
-  const endingSpace = props.singleLine ? ' ' : '';
+  const endingSpace = singleLine ? ' ' : '';
 
   const items = [];
   names.forEach((name, i) => {
@@ -47,6 +54,10 @@ export default function Props(props) {
             <span style={propValueStyle}>
               <PropVal
                 val={nodeProps[name]}
+                depth={1}
+                singleLine={singleLine}
+                showSourceOfProps={showSourceOfProps}
+                maxPropsIntoLine={maxPropsIntoLine}
                 maxPropObjectKeys={maxPropObjectKeys}
                 maxPropArrayLength={maxPropArrayLength}
                 maxPropStringLength={maxPropStringLength}
@@ -73,6 +84,7 @@ Props.defaultProps = {
 Props.propTypes = {
   node: PropTypes.node.isRequired,
   singleLine: PropTypes.bool,
+  showSourceOfProps: PropTypes.bool.isRequired,
   maxPropsIntoLine: PropTypes.number.isRequired,
   maxPropObjectKeys: PropTypes.number.isRequired,
   maxPropArrayLength: PropTypes.number.isRequired,
