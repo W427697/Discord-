@@ -1,13 +1,7 @@
 import React from 'react';
 
-function addX(story, context, options) {
-  console.log(options);
-  return story(context);
-}
-
 export default {
   getAddons(...addons) {
-    console.log(addons);
     this._add = this.add;
 
     this.add = (name, storyFn) => {
@@ -21,26 +15,20 @@ export default {
         };
 
         apiContext.storyOf = (component) => {
-          if (typeof addonFn === 'function') {
-            writtingStory = component(cleanStory);
+          if (typeof component === 'function') {
+            writtingStory = component(apiContext.cleanStory);
           } else {
             writtingStory = component;
           }
           apiContext.cleanStory = writtingStory;
           return apiContext;
         };
-        //   withX(...props) {
-        //     writtingStory = addX(() => writtingStory, context, ...props);
-        //     return apiContext;
-        //   }
-        // };
 
         addons.forEach((addonFn, ind) => {
           if (typeof addonFn === 'function') {
             const name = addonFn.name || `with${ind}`;
             apiContext[name] = (...props) => {
               writtingStory = addonFn(() => writtingStory, context, ...props);
-              // apiContext.cleanStory
               return apiContext;
             }
           }

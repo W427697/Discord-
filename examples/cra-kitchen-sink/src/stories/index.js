@@ -55,7 +55,7 @@ const InfoButton = () =>
   </span>;
 
 const withBorder = (storyFn, context, color) =>
-  <div style={{ padding: 8, border: `${color} solid 4px` }}>
+  <div style={{ padding: 6, border: `${color} solid 2px` }}>
     {storyFn()}
   </div>;
 
@@ -69,9 +69,15 @@ storiesOf('Button', module)
           Context is a key. Do you want to know more about "{context.kind}/{context.story}"?
         </Button>
       )
-      .withBorder('red')
-      .addInfo({ info: 'Addons composition', _options: { inline: true } })
       .withNotes('Addons composition')
+      .withBorder('red')
+      .addInfo('Addons composition', { inline: true })
+      .storyOf(prevStory =>
+        <div>
+          Press this button:
+          {prevStory}
+        </div>
+      )
   )
   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
   .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>)
@@ -79,14 +85,6 @@ storiesOf('Button', module)
     <WithNotes notes={'A very simple button'}>
       <Button>Check my notes in the notes panel</Button>
     </WithNotes>
-  )
-  .addWithInfo(
-    'with some info',
-    'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its painful API.',
-    context =>
-      <div>
-        click the <InfoButton /> label in top right for info about "{context.story}"
-      </div>
   )
   .add(
     'with new info',
