@@ -16,21 +16,22 @@
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "redux-logger": "3.0.6",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.0.0",
-    "@storybook/ui": "^3.0.0",
     "@storybook/addon-centered": "^3.0.0",
     "@storybook/addon-events": "^3.0.0",
-    "@storybook/addon-knobs": "^3.0.0",
     "@storybook/addon-info": "^3.0.0",
+    "@storybook/addon-knobs": "^3.0.0",
     "@storybook/addon-links": "^3.0.0",
     "@storybook/addon-notes": "^3.0.0",
     "@storybook/addon-options": "^3.0.0",
     "@storybook/addon-storyshots": "^3.0.0",
     "@storybook/addons": "^3.0.0",
     "@storybook/react": "^3.0.0",
+    "@storybook/ui": "^3.0.0",
     "react-scripts": "1.0.1"
   },
   "private": true
