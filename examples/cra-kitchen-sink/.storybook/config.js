@@ -1,6 +1,7 @@
 import { configure, setAddon } from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
 import infoAddon from '@storybook/addon-info';
+import getAddons from './addon-composition';
 
 setOptions({
   name: 'CRA Kitchen Sink',
@@ -15,6 +16,7 @@ setOptions({
 });
 
 setAddon(infoAddon);
+setAddon(getAddons);
 
 function loadStories() {
   require('../src/stories');
