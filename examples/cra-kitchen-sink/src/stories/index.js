@@ -54,14 +54,13 @@ const InfoButton = () =>
     {' '}Show Info{' '}
   </span>;
 
-const withBorder = (storyFn, context, color) =>
-  <div style={{ padding: 6, border: `${color} solid 2px` }}>
+const withBorder = (storyFn, context, bcolor) =>
+  <div style={{ padding: 6, border: `${bcolor} solid 2px` }}>
     {storyFn()}
   </div>;
 
 storiesOf('Button', module)
   .getAddons(addInfo, withNotes, withBorder)
-  .addDecorator((storyFn, context) => withBorder(storyFn, context, 'gray'))
   .add('with addons', context =>
     context
       .storyOf(
@@ -71,13 +70,7 @@ storiesOf('Button', module)
       )
       .withNotes('Addons composition')
       .withBorder('red')
-      .addInfo('Addons composition', { inline: true })
-      .storyOf(prevStory =>
-        <div>
-          Press this button:
-          {prevStory}
-        </div>
-      )
+      .addInfo('Addons composition', { inline: false })
   )
   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
   .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>)
