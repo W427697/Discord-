@@ -70,32 +70,32 @@ export function renderMain(data, storyStore) {
     story: selectedStory,
   };
 
-  const element = story(context);
-
-  if (!element) {
-    const error = {
-      title: `Expecting a React element from the story: "${selectedStory}" of "${selectedKind}".`,
-      description: stripIndents`
+  return Promise.resolve(story(context)).then(element => {
+    if (!element) {
+      const error = {
+        title: `Expecting a React element from the story: "${selectedStory}" of "${selectedKind}".`,
+        description: stripIndents`
         Did you forget to return the React element from the story?
         Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.
-      `,
-    };
-    return renderError(error);
-  }
+        `,
+      };
+      return renderError(error);
+    }
 
-  if (element.type === undefined) {
-    const error = {
-      title: `Expecting a valid React element from the story: "${selectedStory}" of "${selectedKind}".`,
-      description: stripIndents`
+    if (element.type === undefined) {
+      const error = {
+        title: `Expecting a valid React element from the story: "${selectedStory}" of "${selectedKind}".`,
+        description: stripIndents`
         Seems like you are not returning a correct React element from the story.
         Could you double check that?
-      `,
-    };
-    return renderError(error);
-  }
+        `,
+      };
+      return renderError(error);
+    }
 
-  ReactDOM.render(element, rootEl);
-  return null;
+    ReactDOM.render(element, rootEl);
+    return null;
+  });
 }
 
 export default function renderPreview({ reduxStore, storyStore }) {
