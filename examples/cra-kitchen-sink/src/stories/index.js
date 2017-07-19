@@ -22,6 +22,7 @@ import {
 } from '@storybook/addon-knobs';
 import centered from '@storybook/addon-centered';
 import { setOptions } from '@storybook/addon-options';
+import { withInfo } from '@storybook/addon-info';
 
 import { Button, Welcome } from '@storybook/react/demo';
 
@@ -39,6 +40,22 @@ const emiter = new EventEmiter();
 const emit = emiter.emit.bind(emiter);
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
+
+const InfoButton = () =>
+  <span
+    style={{
+      fontFamily: 'sans-serif',
+      fontSize: 12,
+      textDecoration: 'none',
+      background: 'rgb(34, 136, 204)',
+      color: 'rgb(255, 255, 255)',
+      padding: '5px 15px',
+      margin: 10,
+      borderRadius: '0px 0px 0px 5px',
+    }}
+  >
+    {' '}Show Info{' '}
+  </span>;
 
 storiesOf('Button', module)
   .addDecorator(withKnobs)
@@ -104,7 +121,30 @@ storiesOf('Button', module)
   .addWithInfo(
     'with some info',
     'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its painful API.',
-    () => <Button>click the "?" in top right for info</Button>
+    context =>
+      <div>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </div>
+  )
+  .add(
+    'with new info',
+    withInfo(
+      'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.'
+    )(context =>
+      <div>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </div>
+    )
+  )
+  .add(
+    'addons composition',
+    withInfo('see Notes panel for composition info')(
+      addonNotes({ notes: 'Composition: Info(Notes())' })(context =>
+        <div>
+          click the <InfoButton /> label in top right for info about "{context.story}"
+        </div>
+      )
+    )
   );
 
 const textButton = (size, bgcolor, isText = true) => () =>
@@ -341,7 +381,11 @@ storiesOf('Addon Knobs deprecated Decorator', module)
     const age = number('Age', 120);
 
     const content = `I am ${name} and I'm ${age} years old.`;
-    return <div>{content}</div>;
+    return (
+      <div>
+        {content}
+      </div>
+    );
   });
 
 storiesOf('Addon Knobs', module).add(
@@ -351,7 +395,11 @@ storiesOf('Addon Knobs', module).add(
     const age = number('Age', 89);
 
     const content = `I am ${name} and I'm ${age} years old.`;
-    return <div>{content}</div>;
+    return (
+      <div>
+        {content}
+      </div>
+    );
   })
 );
 
@@ -418,4 +466,3 @@ storiesOf('Cells/Molecules', module)
 storiesOf('Cells.Molecules.Atoms', module)
   .add('with text2', () => <Button>Hello Button</Button>)
   .add('with some emoji2', () => <Button>😀 😎 👍 💯</Button>);
-
