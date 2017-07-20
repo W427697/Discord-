@@ -1,10 +1,21 @@
 import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+import addons from '@storybook/addons';
 import deprecate from 'util-deprecate';
+import { EVENT_ID } from './config';
 import _Story from './components/Story';
 import { H1, H2, H3, H4, H5, H6, Code, P, UL, A, LI } from './components/markdown';
 
 function addonCompose(addonFn) {
   return storyFn => context => addonFn(storyFn, context);
+}
+
+const channel = addons.getChannel();
+
+function sendToPanel(infoString) {
+  channel.emit(EVENT_ID, {
+    infoString,
+  });
 }
 
 export const Story = _Story;
@@ -76,11 +87,15 @@ export function addInfo(storyFn, context, info, _options) {
     maxPropsIntoLine: options.maxPropsIntoLine,
     maxPropStringLength: options.maxPropStringLength,
   };
-  return (
+
+  const infoContent = (
     <Story {...props}>
       {storyFn(context)}
     </Story>
   );
+  const infoString = ReactDOMServer.renderToString(infoContent);
+  sendToPanel(infoString);
+  return infoContent;
 }
 
 export const withInfo = (info, _options) =>
