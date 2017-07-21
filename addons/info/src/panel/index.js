@@ -1,38 +1,28 @@
 import React from 'react';
-import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
-import { EVENT_ID } from '../config';
+import EmptyPanel from './empty_panel';
 
-export default class InfoPanel extends React.Component {
-  constructor(props) {
-    super(props);
-    this.root = null;
-
-    this.onChannelData = this.onChannelData.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.channel.on(EVENT_ID, this.onChannelData);
-  }
-
-  onChannelData(data) {
-    this.root.innerHTML = data.infoString;
-    ReactDom.render(null, this.root);
-  }
-
-  render() {
-    return (
-      <div
-        ref={c => {
-          this.root = c;
-        }}
-      >
-        Info Panel
-      </div>
-    );
-  }
-}
-
-InfoPanel.propTypes = {
-  channel: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+const styles = {
+  main: {
+    width: '100%',
+    padding: 8,
+    backgroundColor: '#ededed',
+  },
 };
+
+const InfoPanel = ({ infoString }) => {
+  if (!infoString) {
+    return <EmptyPanel />;
+  }
+  const infoMarkup = {
+    __html: infoString,
+  };
+
+  return <div style={styles.main} dangerouslySetInnerHTML={infoMarkup} />;
+};
+
+InfoPanel.PropTypes = {
+  infoString: PropTypes.string.isRequired,
+};
+
+export default InfoPanel;

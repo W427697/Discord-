@@ -20,6 +20,7 @@
     "marksy": "^2.0.0",
     "prop-types": "^15.5.8",
     "react-addons-create-fragment": "^15.5.3",
+    "react-komposer": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
