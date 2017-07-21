@@ -29,6 +29,8 @@ const defaultOptions = {
   maxPropObjectKeys: 3,
   maxPropArrayLength: 3,
   maxPropStringLength: 50,
+  hideInfoButton: true,
+  sendToPanel: true,
 };
 
 const defaultMarksyConf = {
@@ -78,6 +80,7 @@ export function addInfo(storyFn, context, info, _options) {
     showInline: Boolean(options.inline),
     showHeader: Boolean(options.header),
     showSource: Boolean(options.source),
+    hideInfoButton: Boolean(options.hideInfoButton),
     propTables: options.propTables,
     propTablesExclude: options.propTablesExclude,
     styles: typeof options.styles === 'function' ? options.styles : s => s,
@@ -93,13 +96,31 @@ export function addInfo(storyFn, context, info, _options) {
       {storyFn(context)}
     </Story>
   );
-  const infoString = ReactDOMServer.renderToString(infoContent);
-  sendToPanel(infoString);
+  if (options.sendToPanel) {
+    const infoString = ReactDOMServer.renderToString(infoContent);
+    sendToPanel(infoString);
+    return storyFn(context);
+  }
   return infoContent;
 }
 
+const panelOptions = options => ({
+  ...options,
+  sendToPanel: true,
+  hideInfoButton: true,
+});
+
+const decoratorOptions = options => ({
+  ...options,
+  sendToPanel: false,
+  hideInfoButton: false,
+});
+
 export const withInfo = (info, _options) =>
-  addonCompose((storyFn, context) => addInfo(storyFn, context, info, _options));
+  addonCompose((storyFn, context) => addInfo(storyFn, context, info, panelOptions(_options)));
+
+export const decoratorInfo = (info, _options) =>
+  addonCompose((storyFn, context) => addInfo(storyFn, context, info, decoratorOptions(_options)));
 
 export default {
   addWithInfo: deprecate(function addWithInfo(storyName, info, storyFn, _options) {

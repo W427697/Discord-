@@ -34,7 +34,7 @@ const stylesheet = {
     },
   },
   info: {
-    position: 'fixed',
+    position: 'relative',
     background: 'white',
     top: 0,
     bottom: 0,
@@ -99,10 +99,10 @@ const stylesheet = {
 };
 
 export default class Story extends React.Component {
-  constructor(...args) {
-    super(...args);
+  constructor(props, ...args) {
+    super(props, ...args);
     this.state = {
-      open: false,
+      open: props.hideInfoButton,
       stylesheet: this.props.styles(JSON.parse(JSON.stringify(stylesheet))),
     };
     this.marksy = marksy(this.props.marksyConf);
@@ -158,12 +158,16 @@ export default class Story extends React.Component {
     const linkStyle = {
       ...stylesheet.link.base,
       ...stylesheet.link.topRight,
+      display: this.props.hideInfoButton && 'none',
     };
 
     const infoStyle = Object.assign({}, stylesheet.info);
     if (!this.state.open) {
       infoStyle.display = 'none';
     }
+    const storyStyle = {
+      display: this.state.open && 'none',
+    };
 
     const openOverlay = () => {
       this.setState({ open: true });
@@ -177,12 +181,14 @@ export default class Story extends React.Component {
 
     return (
       <div>
-        <div style={this.state.stylesheet.children}>
-          {this.props.children}
+        <div style={storyStyle}>
+          <div style={this.state.stylesheet.children}>
+            {this.props.children}
+          </div>
+          <a style={linkStyle} onClick={openOverlay} role="button" tabIndex="0">
+            Show Info
+          </a>
         </div>
-        <a style={linkStyle} onClick={openOverlay} role="button" tabIndex="0">
-          Show Info
-        </a>
         <div style={infoStyle}>
           <a style={linkStyle} onClick={closeOverlay} role="button" tabIndex="0">
             ×
@@ -393,6 +399,7 @@ Story.propTypes = {
   propTables: PropTypes.arrayOf(PropTypes.func),
   propTablesExclude: PropTypes.arrayOf(PropTypes.func),
   showInline: PropTypes.bool,
+  hideInfoButton: PropTypes.bool,
   showHeader: PropTypes.bool,
   showSource: PropTypes.bool,
   styles: PropTypes.func.isRequired,
@@ -410,6 +417,7 @@ Story.defaultProps = {
   propTables: null,
   propTablesExclude: [],
   showInline: false,
+  hideInfoButton: false,
   showHeader: true,
   showSource: true,
   marksyConf: {},

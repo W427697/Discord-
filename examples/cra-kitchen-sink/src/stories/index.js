@@ -19,7 +19,7 @@ import {
   object,
 } from '@storybook/addon-knobs';
 import centered from '@storybook/addon-centered';
-import { withInfo } from '@storybook/addon-info';
+import { withInfo, decoratorInfo } from '@storybook/addon-info';
 
 import { Button, Welcome } from '@storybook/react/demo';
 
@@ -115,19 +115,37 @@ storiesOf('Button', module)
       </div>
     );
   })
-  .addWithInfo(
-    'with some info',
-    'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its painful API.',
-    context =>
+  
+
+storiesOf('App', module).add('full app', () => <App />);
+
+storiesOf('Info Addon', module)
+  .add(
+    'withInfo default',
+    withInfo(
+      'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.'
+    )(context =>
       <div>
         click the <InfoButton /> label in top right for info about "{context.story}"
       </div>
+    )
   )
   .add(
-    'with new info',
+    'withInfo inline',
     withInfo(
       'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.',
       { inline: true }
+    )(context =>
+      <div>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </div>
+    )
+  )
+  .add(
+    'decoratorInfo',
+    decoratorInfo(
+      'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.',
+      { inline: false }
     )(context =>
       <div>
         click the <InfoButton /> label in top right for info about "{context.story}"
@@ -143,9 +161,15 @@ storiesOf('Button', module)
         </div>
       )
     )
+  )
+  .addWithInfo(
+    'deprecated addWithInfo',
+    'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its painful API.',
+    context =>
+      <div>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </div>
   );
-
-storiesOf('App', module).add('full app', () => <App />);
 
 storiesOf('Centered Button', module)
   .addDecorator(centered)
