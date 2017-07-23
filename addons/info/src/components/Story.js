@@ -116,7 +116,7 @@ export default class Story extends React.Component {
 
   _renderStory() {
     return (
-      <div>
+      <div style={this.state.stylesheet.children}>
         {this.props.children}
       </div>
     );
