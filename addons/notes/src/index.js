@@ -12,6 +12,12 @@ export const addonNotes = ({ notes }) => {
   };
 };
 
+export const withNotes = (storyFn, context, notes) => {
+  const channel = addons.getChannel();
+  channel.emit('storybook/notes/add_notes', notes);
+  return storyFn(context);
+};
+
 Object.defineProperty(exports, 'WithNotes', {
   configurable: true,
   enumerable: true,
