@@ -1,3 +1,48 @@
+# 3.1.9
+
+2017-July-16
+
+#### Features
+
+-   React fiber support [#1443](https://github.com/storybooks/storybook/pull/1443)
+
+#### Documentation
+
+-   Refine docs about loading stories dynamically for react-native [#1420](https://github.com/storybooks/storybook/pull/1420)
+
+#### Bug Fixes
+
+-   Verify that name is a string in addons/actions [#1415](https://github.com/storybooks/storybook/pull/1415)
+-   Knobs: fix label alignment [#1471](https://github.com/storybooks/storybook/pull/1471)
+-   Fix display of large components [#1237](https://github.com/storybooks/storybook/pull/1237)
+
+#### Dependency Upgrades
+
+-   Dependency updates [#1439](https://github.com/storybooks/storybook/pull/1439)
+-   chore(package): update husky to version 0.14.3 [#1437](https://github.com/storybooks/storybook/pull/1437)
+-   Update danger to the latest version 🚀 [#1393](https://github.com/storybooks/storybook/pull/1393)
+-   Update lerna to the latest version 🚀 [#1423](https://github.com/storybooks/storybook/pull/1423)
+-   Pin gatsby version and upgrade gh-pages [#1462](https://github.com/storybooks/storybook/pull/1462)
+
+# 3.1.8
+
+2017-July-06
+
+#### Documentation
+
+-   Updated addon knob readme. [#1406](https://github.com/storybooks/storybook/pull/1406)
+-   Add a FAQ entry for shared config with next [#1390](https://github.com/storybooks/storybook/pull/1390)
+-   Documented webpack customization example for typescript [#1386](https://github.com/storybooks/storybook/pull/1386)
+
+#### Maintenance
+
+-   Removed empty array, since webpack 2 doesn't support them anymore. [#1381](https://github.com/storybooks/storybook/pull/1381)
+
+#### Dependency Upgrades
+
+-   Support webpack 3.0.0 [#1410](https://github.com/storybooks/storybook/pull/1410)
+-   Update react inspector to fix #1385 [#1408](https://github.com/storybooks/storybook/pull/1408)
+
 # 3.1.7
 
 2017-June-28
