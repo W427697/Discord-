@@ -1,3 +1,4 @@
+import BabiliPlugin from 'babili-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
 import babelLoaderConfig from './babel.prod';
@@ -22,20 +23,7 @@ export default function() {
       // relative URLs works always.
       publicPath: '',
     },
-    plugins: [
-      new webpack.DefinePlugin(loadEnv({ production: true })),
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          screw_ie8: true,
-          warnings: false,
-        },
-        mangle: false,
-        output: {
-          comments: false,
-          screw_ie8: true,
-        },
-      }),
-    ],
+    plugins: [new webpack.DefinePlugin(loadEnv({ production: true })), new BabiliPlugin()],
     module: {
       rules: [
         {
