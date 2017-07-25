@@ -8,7 +8,7 @@ import { linkTo } from '@storybook/addon-links';
 import WithEvents from '@storybook/addon-events';
 import {
   withKnobs,
-  addonKnobs,
+  withKnobsV2,
   text,
   number,
   boolean,
@@ -239,7 +239,7 @@ storiesOf('Addon Knobs deprecated Decorator', module)
 
 storiesOf('Addon Knobs', module).add(
   'with dynamic variables new method',
-  addonKnobs()(() => {
+  withKnobsV2()(() => {
     const name = text('Name', 'Arunoda Susiripala');
     const age = number('Age', 89);
 
