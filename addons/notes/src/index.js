@@ -1,8 +1,8 @@
 import addons from '@storybook/addons';
 
-export { WithNotes } from './react';
+import { ReactDecorator } from './react';
 
-export const withNotes = ({ notes }) => {
+const wrapper = ({ notes }) => {
   const channel = addons.getChannel();
 
   return getStory => context => {
@@ -11,3 +11,8 @@ export const withNotes = ({ notes }) => {
     return getStory(context);
   };
 };
+
+export { wrapper as with };
+
+/* legacy */
+export { ReactDecorator as WithNotes };

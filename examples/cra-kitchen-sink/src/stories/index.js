@@ -3,12 +3,12 @@ import EventEmiter from 'eventemitter3';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { withNotes, WithNotes } from '@storybook/addon-notes';
+import { with as withNotes, WithNotes } from '@storybook/addon-notes';
 import { linkTo } from '@storybook/addon-links';
 import WithEvents from '@storybook/addon-events';
 import {
-  withKnobs,
-  withKnobsV2,
+  withKnobs as WithKnobs,
+  with as withKnobs,
   text,
   number,
   boolean,
@@ -56,7 +56,7 @@ const InfoButton = () =>
   </span>;
 
 storiesOf('Button', module)
-  .addDecorator(withKnobs)
+  .addDecorator(WithKnobs)
   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
   .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>)
   .add('with notes', () =>
@@ -224,7 +224,7 @@ storiesOf('withNotes', module)
   );
 
 storiesOf('Addon Knobs deprecated Decorator', module)
-  .addDecorator(withKnobs) // test deprecated
+  .addDecorator(WithKnobs) // test deprecated
   .add('with dynamic variables deprecated', () => {
     const name = text('Name', 'Story Teller');
     const age = number('Age', 120);
@@ -239,7 +239,7 @@ storiesOf('Addon Knobs deprecated Decorator', module)
 
 storiesOf('Addon Knobs', module).add(
   'with dynamic variables new method',
-  withKnobsV2()(() => {
+  withKnobs()(() => {
     const name = text('Name', 'Arunoda Susiripala');
     const age = number('Age', 89);
 
@@ -253,7 +253,7 @@ storiesOf('Addon Knobs', module).add(
 );
 
 storiesOf('component.base.Link', module)
-  .addDecorator(withKnobs)
+  .addDecorator(WithKnobs)
   .add('first', () =>
     <a>
       {text('firstLink', 'first link')}
@@ -296,7 +296,7 @@ storiesOf('component.Button', module)
 // Atomic
 
 storiesOf('Cells¯\\_(ツ)_/¯Molecules.Atoms/simple', module)
-  .addDecorator(withKnobs)
+  .addDecorator(WithKnobs)
   .add('with text', () =>
     <Button>
       {text('buttonText', 'Hello Button')}

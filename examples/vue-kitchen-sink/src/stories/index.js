@@ -4,10 +4,10 @@ import { storiesOf } from '@storybook/vue';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
-import { withNotes } from '@storybook/addon-notes';
+import { with as withNotes } from '@storybook/addon-notes';
 
 import {
-  withKnobsV2,
+  with as withKnobs,
   text,
   number,
   boolean,
@@ -160,7 +160,7 @@ storiesOf('Addon Notes', module)
 storiesOf('Addon Knobs', module)
   .add(
     'Simple',
-    withKnobsV2()(() => {
+    withKnobs()(() => {
       const name = text('Name', 'John Doe');
       const age = number('Age', 44);
       const content = `I am ${name} and I'm ${age} years old.`;
@@ -172,7 +172,7 @@ storiesOf('Addon Knobs', module)
   )
   .add(
     'All knobs',
-    withKnobsV2()(() => {
+    withKnobs()(() => {
       const name = text('Name', 'Jane');
       const stock = number('Stock', 20, { range: true, min: 0, max: 30, step: 5 });
       const fruits = {
