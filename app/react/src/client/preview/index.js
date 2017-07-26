@@ -29,6 +29,7 @@ if (isBrowser) {
   channel.on('setCurrentStory', data => {
     reduxStore.dispatch(selectStory(data.kind, data.story));
   });
+  channel.on('refresh', () => render(context));
   Object.assign(context, { channel, window, queryParams });
   addons.setChannel(channel);
   init(context);

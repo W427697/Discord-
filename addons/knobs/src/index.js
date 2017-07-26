@@ -1,7 +1,7 @@
 import addons from '@storybook/addons';
 import KnobManager from './KnobManager';
 
-const manager = new KnobManager();
+const manager = new KnobManager(addons.getChannel());
 
 export function knob(name, options) {
   return manager.knob(name, options);
@@ -55,16 +55,16 @@ export function date(name, value = new Date()) {
   return manager.knob(name, { type: 'date', value: proxyValue });
 }
 
-export function withKnobs(storyFn, context) {
-  const channel = addons.getChannel();
-  return manager.wrapStory(channel, storyFn, context);
-}
+// export function withKnobs(storyFn, context) {
+//   const channel = addons.getChannel();
+//   return manager.wrapStory(channel, storyFn, context);
+// }
 
-export function withKnobsOptions(options = {}) {
-  return (...args) => {
-    const channel = addons.getChannel();
-    channel.emit('addon:knobs:setOptions', options);
+// export function withKnobsOptions(options = {}) {
+//   return (...args) => {
+//     const channel = addons.getChannel();
+//     channel.emit('addon:knobs:setOptions', options);
 
-    return withKnobs(...args);
-  };
-}
+//     return withKnobs(...args);
+//   };
+// }

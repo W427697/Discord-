@@ -105,6 +105,7 @@ export default class Panel extends React.Component {
 
   emitChange(changedKnob) {
     this.props.channel.emit('addon:knobs:knobChange', changedKnob);
+    this.props.channel.emit('refresh');
   }
 
   handleChange(changedKnob) {
