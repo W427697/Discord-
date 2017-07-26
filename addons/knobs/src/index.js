@@ -1,5 +1,4 @@
 import { window } from 'global';
-import deprecate from 'util-deprecate';
 import addons from '@storybook/addons';
 import KnobManager from './KnobManager';
 import { vueHandler } from './vue';
@@ -8,19 +7,13 @@ import { reactHandler } from './react';
 const channel = addons.getChannel();
 const manager = new KnobManager(channel);
 
-export function knob(name, options) {
-  return manager.knob(name, options);
-}
+const knob = (name, options) => manager.knob(name, options);
 
-export function text(name, value) {
-  return manager.knob(name, { type: 'text', value });
-}
+const text = (name, value) => manager.knob(name, { type: 'text', value });
 
-export function boolean(name, value) {
-  return manager.knob(name, { type: 'boolean', value });
-}
+const boolean = (name, value) => manager.knob(name, { type: 'boolean', value });
 
-export function number(name, value, options = {}) {
+const number = (name, value, options = {}) => {
   const defaults = {
     range: false,
     min: 0,
@@ -37,60 +30,32 @@ export function number(name, value, options = {}) {
   };
 
   return manager.knob(name, finalOptions);
-}
+};
 
-export function color(name, value) {
-  return manager.knob(name, { type: 'color', value });
-}
+const color = (name, value) => manager.knob(name, { type: 'color', value });
 
-export function object(name, value) {
-  return manager.knob(name, { type: 'object', value });
-}
+const object = (name, value) => manager.knob(name, { type: 'object', value });
 
-export function select(name, options, value) {
-  return manager.knob(name, { type: 'select', options, value });
-}
+const select = (name, options, value) => manager.knob(name, { type: 'select', options, value });
 
-export function array(name, value, separator = ',') {
-  return manager.knob(name, { type: 'array', value, separator });
-}
+const array = (name, value, separator = ',') =>
+  manager.knob(name, { type: 'array', value, separator });
 
-export function date(name, value = new Date()) {
+const date = (name, value = new Date()) => {
   const proxyValue = value ? value.getTime() : null;
   return manager.knob(name, { type: 'date', value: proxyValue });
-}
+};
 
-function oldKnobs(storyFn, context) {
-  return reactHandler(channel, manager.knobStore)(storyFn)(context);
-}
+const ReactDecorator = (storyFn, context) =>
+  reactHandler(channel, manager.knobStore)(storyFn)(context);
 
-function oldKnobsWithOptions(options = {}) {
-  return (...args) => {
-    channel.emit('addon:knobs:setOptions', options);
+const ReactDecoratorWithOptions = (options = {}) => (...args) => {
+  channel.emit('addon:knobs:setOptions', options);
 
-    return oldKnobs(...args);
-  };
-}
+  return ReactDecorator(...args);
+};
 
-Object.defineProperty(exports, 'withKnobs', {
-  configurable: true,
-  enumerable: true,
-  get: deprecate(
-    () => oldKnobs,
-    '@storybook/addon-knobs withKnobs decorator is deprecated, use addonKnobs() instead. See https://github.com/storybooks/storybook/tree/master/addons/knobs'
-  ),
-});
-
-Object.defineProperty(exports, 'withKnobsOptions', {
-  configurable: true,
-  enumerable: true,
-  get: deprecate(
-    () => oldKnobsWithOptions,
-    '@storybook/addon-knobs withKnobsOptions decorator is deprecated, use addonKnobs() instead. See https://github.com/storybooks/storybook/tree/master/addons/knobs'
-  ),
-});
-
-export function addonKnobs(options) {
+const wrapper = options => {
   if (options) channel.emit('addon:knobs:setOptions', options);
 
   switch (window.STORYBOOK_ENV) {
@@ -104,4 +69,10 @@ export function addonKnobs(options) {
       return reactHandler(channel, manager.knobStore);
     }
   }
-}
+};
+
+export { wrapper as with };
+export { array, boolean, color, date, knob, object, number, select, text };
+
+// legacy
+export { ReactDecorator as withKnobs, ReactDecoratorWithOptions as withKnobsOptions };
