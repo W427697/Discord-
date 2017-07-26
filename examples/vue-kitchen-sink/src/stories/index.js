@@ -197,7 +197,7 @@ storiesOf('Addon Knobs', module)
         template: `
           <div style="border:2px dotted ${colour}; padding: 8px 22px; border-radius: 8px">
             <h1>My name is ${name},</h1>
-            <h3>today is ${new Date(today).toLocaleDateString()}</h3>
+            <h3>today is ${new Date(today).toISOString()}</h3>
             <p>${stockMessage}</p>
             <p>Also, I have:</p>
             <ul>

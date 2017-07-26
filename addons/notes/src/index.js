@@ -1,6 +1,6 @@
 import addons from '@storybook/addons';
 
-import { ReactDecorator } from './react';
+import ReactDecorator from './react';
 
 const wrapper = ({ notes }) => {
   const channel = addons.getChannel();

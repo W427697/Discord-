@@ -447,7 +447,7 @@ exports[`Storyshots Button with knobs 1`] = `
   </p>
   <p>
     My birthday is: 
-    2017-1-20
+    2017-01-19T23:00:00.000Z
   </p>
   <p>
     My wallet contains: $
