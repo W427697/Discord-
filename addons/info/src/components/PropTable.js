@@ -22,7 +22,14 @@ const stylesheet = {
 };
 
 export default function PropTable(props) {
-  const { type, maxPropObjectKeys, maxPropArrayLength, maxPropStringLength } = props;
+  const {
+    type,
+    showSourceOfProps,
+    maxPropsIntoLine,
+    maxPropObjectKeys,
+    maxPropArrayLength,
+    maxPropStringLength,
+  } = props;
 
   if (!type) {
     return null;
@@ -80,6 +87,11 @@ export default function PropTable(props) {
   array.sort((a, b) => a.property > b.property);
 
   const propValProps = {
+    depth: 0,
+    braceWrap: false,
+    singleLine: true,
+    showSourceOfProps,
+    maxPropsIntoLine,
     maxPropObjectKeys,
     maxPropArrayLength,
     maxPropStringLength,
@@ -129,6 +141,8 @@ PropTable.defaultProps = {
 };
 PropTable.propTypes = {
   type: PropTypes.func,
+  showSourceOfProps: PropTypes.bool.isRequired,
+  maxPropsIntoLine: PropTypes.number.isRequired,
   maxPropObjectKeys: PropTypes.number.isRequired,
   maxPropArrayLength: PropTypes.number.isRequired,
   maxPropStringLength: PropTypes.number.isRequired,

@@ -273,6 +273,7 @@ export default class Story extends React.Component {
     }
 
     const {
+      showSourceOfProps,
       maxPropsIntoLine,
       maxPropObjectKeys,
       maxPropArrayLength,
@@ -288,6 +289,7 @@ export default class Story extends React.Component {
               key={idx}
               node={root}
               depth={0}
+              showSourceOfProps={showSourceOfProps}
               maxPropsIntoLine={maxPropsIntoLine}
               maxPropObjectKeys={maxPropObjectKeys}
               maxPropArrayLength={maxPropArrayLength}
@@ -347,7 +349,13 @@ export default class Story extends React.Component {
     const array = Array.from(types.keys());
     array.sort((a, b) => (a.displayName || a.name) > (b.displayName || b.name));
 
-    const { maxPropObjectKeys, maxPropArrayLength, maxPropStringLength } = this.props;
+    const {
+      showSourceOfProps,
+      maxPropsIntoLine,
+      maxPropObjectKeys,
+      maxPropArrayLength,
+      maxPropStringLength,
+    } = this.props;
     const propTables = array.map(type =>
       <div key={type.name}>
         <h2 style={this.state.stylesheet.propTableHead}>
@@ -355,6 +363,8 @@ export default class Story extends React.Component {
         </h2>
         <PropTable
           type={type}
+          showSourceOfProps={showSourceOfProps}
+          maxPropsIntoLine={maxPropsIntoLine}
           maxPropObjectKeys={maxPropObjectKeys}
           maxPropArrayLength={maxPropArrayLength}
           maxPropStringLength={maxPropStringLength}
@@ -403,6 +413,7 @@ Story.propTypes = {
   maxPropObjectKeys: PropTypes.number.isRequired,
   maxPropArrayLength: PropTypes.number.isRequired,
   maxPropStringLength: PropTypes.number.isRequired,
+  showSourceOfProps: PropTypes.bool.isRequired,
 };
 Story.defaultProps = {
   context: null,

@@ -13,6 +13,7 @@ const defaultOptions = {
   maxPropObjectKeys: 3,
   maxPropArrayLength: 3,
   maxPropStringLength: 50,
+  showSourceOfProps: true,
 };
 
 const defaultMarksyConf = {
@@ -73,6 +74,7 @@ export default {
         maxPropArrayLength: options.maxPropArrayLength,
         maxPropsIntoLine: options.maxPropsIntoLine,
         maxPropStringLength: options.maxPropStringLength,
+        showSourceOfProps: Boolean(options.showSourceOfProps),
       };
 
       return (

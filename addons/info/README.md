@@ -64,6 +64,7 @@ import infoAddon, { setDefaults } from '@storybook/addon-info';
 // addon-info
 setDefaults({
   inline: true,
+  showSourceOfProps: true,
   maxPropsIntoLine: 1,
   maxPropObjectKeys: 10,
   maxPropArrayLength: 10,
