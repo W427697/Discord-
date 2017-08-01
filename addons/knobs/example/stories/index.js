@@ -18,26 +18,31 @@ stories.add('with all knobs', () => {
   const dob = date('DOB', new Date('January 20 1887'));
 
   const bold = boolean('Bold', false);
-  const selectedColor = color('Color', 'black');
+  const selectedColor = color('Color', 'white');
   const favoriteNumber = number('Favorite Number', 42);
   const comfortTemp = number('Comfort Temp', 72, { range: true, min: 60, max: 90, step: 1 });
 
   const passions = array('Passions', ['Fishing', 'Skiing']);
 
-  const customStyle = object('Style', {
-    fontFamily: 'Arial',
-    padding: 20,
+  const data = object('Data', {
+    style: {
+      width: '400px',
+      height: '400px',
+      backgroundColor: 'rgb(51,51,51)',
+      margin: '20px',
+      fontFamily: 'sans-serif',
+      padding: '20px',
+    },
+    getDescription: temp => `My most comfortable room temperature is ${temp} degrees Fahrenheit.`,
   });
 
-  const style = {
-    ...customStyle,
-    fontWeight: bold ? 800 : 400,
-    favoriteNumber,
-    color: selectedColor,
-  };
-
   return (
-    <div style={style}>
+    <div
+      style={Object.assign({}, data.style, {
+        fontWeight: bold ? 800 : 400,
+        color: selectedColor,
+      })}
+    >
       I'm {name} and I was born on "{moment(dob).format('DD MMM YYYY')}" I like:{' '}
       <ul>
         {passions.map((p, i) =>
@@ -47,7 +52,7 @@ stories.add('with all knobs', () => {
         )}
       </ul>
       <p>My favorite number is {favoriteNumber}.</p>
-      <p>My most comfortable room temperature is {comfortTemp} degrees Fahrenheit.</p>
+      <p>${data.getDescription(comfortTemp)}</p>
     </div>
   );
 });
