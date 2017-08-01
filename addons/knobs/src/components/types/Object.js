@@ -37,6 +37,10 @@ function toString(obj, spaceLevel = 1) {
 }
 
 class ObjectType extends React.Component {
+  onRef = ref => {
+    this.ace = ref;
+  };
+
   handleChange = value => {
     const { onChange } = this.props;
 
@@ -53,7 +57,7 @@ class ObjectType extends React.Component {
 
     return (
       <AceEditor
-        ref={ref => (this.ace = ref)}
+        ref={this.onRef}
         mode="javascript"
         name={knob.name}
         value={objectString}
