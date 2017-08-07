@@ -23,6 +23,7 @@ program
   .option('-s, --static-dir <dir-names>', 'Directory where to load static files from', parseList)
   .option('-o, --output-dir [dir-name]', 'Directory where to store built files')
   .option('-c, --config-dir [dir-name]', 'Directory where to load Storybook configurations from')
+  .option('--clean', 'Clean output directory before building')
   .option('-d, --db-path [db-file]', 'DEPRECATED!')
   .option('--enable-db', 'DEPRECATED!')
   .parse(process.argv);
@@ -51,8 +52,12 @@ getEnvConfig(program, {
 const configDir = program.configDir || './.storybook';
 const outputDir = program.outputDir || './storybook-static';
 
+// optionally, clean the output directory before proceeding
+if (program.clean) {
+  shelljs.rm('-rf', outputDir);
+}
+
 // create output directory (and the static dir) if not exists
-shelljs.rm('-rf', outputDir);
 shelljs.mkdir('-p', path.resolve(outputDir));
 shelljs.cp(path.resolve(__dirname, 'public/favicon.ico'), outputDir);
 
