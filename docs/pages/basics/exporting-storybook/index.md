@@ -1,7 +1,8 @@
----
+* * *
+
 id: 'exporting-storybook'
-title: 'Exporting Storybook as a Static App'
----
+
+## title: 'Exporting Storybook as a Static App'
 
 Storybook gives a great developer experience with its dev time features, like instance change updates via Webpack's HMR.
 
@@ -15,7 +16,7 @@ Simply add the following NPM script:
 ```json
 {
   "scripts": {
-    "storybook": "build-storybook -c .storybook -o .out"
+    "storybook": "build-storybook -c .storybook -o .out --clean"
   }
 }
 ```
