@@ -18,7 +18,7 @@ import {
   object,
 } from '@storybook/addon-knobs';
 import centered from '@storybook/addon-centered';
-import { withInfo } from '@storybook/addon-info';
+import { withInfo, setInfoOptions } from '@storybook/addon-info';
 
 import { Button, Welcome } from '@storybook/react/demo';
 
@@ -54,7 +54,12 @@ const InfoButton = () =>
     {' '}Show Info{' '}
   </span>;
 
+setInfoOptions({
+  info: 'This is common info',
+});
+
 storiesOf('Button', module)
+  .addDecorator((storyFn, context) => withInfo('This is **Button** info')(storyFn)(context))
   .addDecorator(withKnobs)
   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
   .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>)
@@ -115,6 +120,10 @@ storiesOf('Button', module)
         </p>
       </div>
     );
+  })
+  .add('with setInfoOptions', () => {
+    setInfoOptions('this info is **overridden** by setInfoOptions');
+    return <Button onClick={action('clicked')}>Button with Info</Button>;
   });
 
 storiesOf('App', module).add('full app', () => <App />);
@@ -125,19 +134,18 @@ storiesOf('Info Addon', module)
     withInfo(
       'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.'
     )(context =>
-      <div>
-        <Container>
-          click the <InfoButton /> label in top right for info about "{context.story}"
-        </Container>
-      </div>
+      <Container>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </Container>
     )
   )
   .add(
     'withInfo inline',
     withInfo({
-      text:
+      info:
         'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.',
-      inline: true,
+      inline: false,
+      propTables: false,
     })(context =>
       <Container>
         click the <InfoButton /> label in top right for info about "{context.story}"
@@ -147,11 +155,11 @@ storiesOf('Info Addon', module)
   .add(
     'decoratorInfo',
     withInfo({
-      text:
+      info:
         'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.',
       inline: false,
       sendToPanel: false,
-      hideInfoButton: false,
+      infoButton: true,
     })(context =>
       <Container>
         click the <InfoButton /> label in top right for info about "{context.story}"
@@ -176,6 +184,19 @@ storiesOf('Info Addon', module)
         click the <InfoButton /> label in top right for info about "{context.story}"
       </div>
   );
+
+storiesOf('Addons composition', module)
+  .addDecorator((storyFn, context) =>
+    withInfo()(withNotes('the non-trivial form of addons composition')(storyFn))(context)
+  )
+  .add('with text', () => {
+    setInfoOptions('this button contain text');
+    return <Button onClick={action('clicked')}>Hello Button</Button>;
+  })
+  .add('with some emoji', () => {
+    setInfoOptions('this button contain some emoji');
+    return <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>;
+  });
 
 storiesOf('Centered Button', module)
   .addDecorator(centered)

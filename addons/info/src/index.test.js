@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AddonInfo, { withInfo, setDefaults } from './';
+import AddonInfo, { withInfo, setInfoOptions } from './';
 
 /* eslint-disable */
 const TestComponent = ({ func, obj, array, number, string, bool, empty }) =>
@@ -43,7 +43,7 @@ describe('addon Info', () => {
     add: (name, fn) => fn(testContext),
   };
   it('should set options', () => {
-    setDefaults(testOptions);
+    setInfoOptions(testOptions);
   });
   it('should render <Info /> and markdown', () => {
     const Info = withInfo(
@@ -51,8 +51,8 @@ describe('addon Info', () => {
     )(story);
     ReactDOM.render(<Info />, document.createElement('div'));
   });
-  it('should render with text options', () => {
-    const Info = withInfo({ text: 'some text here' })(story);
+  it('should render with info options', () => {
+    const Info = withInfo({ info: 'some text here' })(story);
     ReactDOM.render(<Info />, document.createElement('div'));
   });
   it('should render with missed info', () => {
