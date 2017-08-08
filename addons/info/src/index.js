@@ -127,15 +127,3 @@ export function setInfoOptions(textOrOptions) {
   const options = typeof textOrOptions === 'string' ? { info: textOrOptions } : textOrOptions;
   return addonOptions.setOptions(options);
 }
-
-/*
-Changes:
-- [x] options.text -> options.info (breaking)
-- [x] options.hideInfoButton -> !options.infoButton
-- [x] { defaultOptions, defaultMarksyConf } moved to default.js
-- [x] setDefaults -> setInfoOptions
-- [x] same behavior of setInfoOptions as withInfo with textOrOptions
-- [x] setInfoOptions, defaultOptions and withInfo supports the same set of options
-- [x] removed decoratorInfo (set options.sendToPanel = false to use as decorator)
-
-*/

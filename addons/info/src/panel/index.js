@@ -5,7 +5,7 @@ import EmptyPanel from './empty_panel';
 const styles = {
   main: {
     width: '100%',
-    padding: 8,
+    padding: 0,
     backgroundColor: '#ededed',
   },
 };

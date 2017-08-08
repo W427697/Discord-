@@ -35,12 +35,10 @@ const stylesheet = {
   },
   info: {
     position: 'relative',
-    background: 'white',
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
-    padding: '0 40px',
     overflow: 'auto',
     zIndex: 99999,
   },
@@ -54,14 +52,14 @@ const stylesheet = {
     lineHeight: 1.45,
     fontSize: '15px',
     border: '1px solid #eee',
-    padding: '20px 40px 40px',
+    padding: '10px 20px 20px',
     borderRadius: '2px',
     boxShadow: '0px 2px 3px rgba(0, 0, 0, 0.05)',
     backgroundColor: '#fff',
-    marginTop: '50px',
   },
   infoContent: {
     marginBottom: 0,
+    borderBottom: '1px solid #eee',
   },
   infoStory: {},
   jsxInfoContent: {
@@ -72,30 +70,41 @@ const stylesheet = {
     h1: {
       margin: 0,
       padding: 0,
-      fontSize: '35px',
+      fontSize: '28px',
     },
     h2: {
       margin: '0 0 10px 0',
       padding: 0,
       fontWeight: 400,
-      fontSize: '22px',
+      fontSize: '18px',
     },
     body: {
       borderBottom: '1px solid #eee',
-      paddingTop: 10,
-      marginBottom: 10,
+      paddingTop: 6,
+      marginBottom: 6,
     },
   },
   source: {
     h1: {
       margin: '20px 0 0 0',
       padding: '0 0 5px 0',
-      fontSize: '25px',
+      fontSize: '18px',
       borderBottom: '1px solid #EEE',
+      color: 'rgba(0,0,0,0.5)',
     },
   },
   propTableHead: {
-    margin: '20px 0 0 0',
+    h2: {
+      fontSize: '14px',
+      margin: '20px 0 10px 0',
+    },
+    span: {
+      backgroundColor: 'hsl(0, 0%, 92%)',
+      padding: '6px 20px',
+      minWidth: 300,
+      border: 'solid 1px hsl(0, 0%, 75%)',
+      borderRadius: 4,
+    },
   },
 };
 
@@ -356,8 +365,8 @@ export default class Story extends React.Component {
     const { maxPropObjectKeys, maxPropArrayLength, maxPropStringLength } = this.props;
     const propTables = array.map(type =>
       <div key={type.displayName || type.name}>
-        <h2 style={this.state.stylesheet.propTableHead}>
-          "{type.displayName || type.name}" Component
+        <h2 style={this.state.stylesheet.propTableHead.h2}>
+          <span style={this.state.stylesheet.propTableHead.span}>{'<'}{type.displayName || type.name}{' />'}</span>
         </h2>
         <PropTable
           type={type}

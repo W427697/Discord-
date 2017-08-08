@@ -130,7 +130,7 @@ storiesOf('App', module).add('full app', () => <App />);
 
 storiesOf('Info Addon', module)
   .add(
-    'withInfo default',
+    'Info default',
     withInfo(
       'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.'
     )(context =>
@@ -140,16 +140,104 @@ storiesOf('Info Addon', module)
     )
   )
   .add(
-    'withInfo inline',
+    'Info with options',
     withInfo({
       info:
         'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.',
       inline: false,
       propTables: false,
+      header: false,
+      source: true,
+    })(context =>
+      <Container>
+        click the <InfoButton /> label in top right for info about "{context.story}" this button has
+        very-very-very-very looooooong title
+      </Container>
+    )
+  )
+  .add(
+    'Only info markdown',
+    withInfo({
+      info: `# Quid fruticumque morte
+        
+        ## Indignantia factum tracto tamen
+        
+        Lorem markdownum condidit. Vittam quod modo vana **Bactrius**, oculos est maius,
+        **in liquitur** dividuae: pectusque.
+        
+        - Velata et qui sequenti domito ferinas miserum
+        - Cognita minus
+        - Iuppiter et sinitis corpore haec
+        - Forma pinetis mortemque accipiter meorum egi Erysicthona
+        - Litora mixtaeque tellus passim erexit
+        - Postquam Scythicis saevis et sermone minimus cremabo
+        
+        Muneris udis flumen quod. Meo vinci haec
+        [ignoscite](http://nisi.org/recentipariter.aspx) insonuit Amoris Persei
+        Thermodontiaca unum madebit thalamumque iniqui?
+        
+        ## Tumulumque transferre memorque insopitumque leves clipei lignum
+        
+        Ipsaque parte summo, et paravi admotas te demum castique nostri, audit metuunt
+        inquit: vestigia? Formae potius Tritonidos et pars, iungat tum, gestare, *ardore
+        cum*, ausum inscribenda incingitur digitis umbram. Aello electarumque huic et
+        cunctatusque et verba alto atque et ignibus.
+        
+        Revellit *parari cum* quaeque sacrum gelido, colantur quae haec longe temptanti
+        fatigat agat: in iuvat sed, oscula. Haec dictis inani nova et [illa
+        mens](http://accipiter.org/vulnusredditus) quam ex lacus nulla, nam haud
+        numeratur radios.
+        
+        ## Postquam levis nec aspera tum
+        
+        Nimiumque scopulum. Pars rupit.
+        
+        - Volatu Amor sine utere sitvs vini mitis
+        - Unda causa exhausta
+        - Cupidine ne quoque si quoquam tacitae
+        - Mortis sensit
+        - Obit non possint operum umbra laevum Telethusa
+        - Stetit indueret
+        
+        Luctibus tuli? Ipsa tempora corpus illa alii in sacra sepulcri sanguis nova quem
+        enim [aequora](http://figura.io/mittere), tenentis, mensas sed dea, non?`,
+      inline: false,
+      propTables: false,
+      header: false,
+      source: false,
     })(context =>
       <Container>
         click the <InfoButton /> label in top right for info about "{context.story}"
       </Container>
+    )
+  )
+  .add(
+    'Only component source',
+    withInfo({
+      info: null,
+      inline: false,
+      propTables: false,
+      header: false,
+      source: true,
+    })(context =>
+      <Container>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </Container>
+    )
+  )
+  .add(
+    'Only propTypes and header',
+    withInfo({
+      info: null,
+      inline: false,
+      propTables: [Container],
+      propTablesExclude: [InfoButton],
+      header: true,
+      source: false,
+    })(context =>
+      <div>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </div>
     )
   )
   .add(

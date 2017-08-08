@@ -56,10 +56,11 @@ export function Pre(props) {
   const style = {
     fontSize: '.88em',
     fontFamily: 'Menlo, Monaco, "Courier New", monospace',
-    backgroundColor: '#fafafa',
+    backgroundColor: 'hsl(0, 0%, 96%)',
+    border: '2px solid hsl(0, 0%, 88%)',
     padding: '.5rem',
     lineHeight: 1.5,
-    overflowX: 'scroll',
+    overflowX: 'auto',
   };
   return (
     <pre style={style}>
