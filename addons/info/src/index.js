@@ -2,23 +2,9 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import addons from '@storybook/addons';
 import deprecate from 'util-deprecate';
+import Story from './components/Story';
 import { EVENT_ID } from './config';
-import _Story from './components/Story';
 import { H1, H2, H3, H4, H5, H6, Code, P, UL, A, LI } from './components/markdown';
-
-function addonCompose(addonFn) {
-  return storyFn => context => addonFn(storyFn, context);
-}
-
-const channel = addons.getChannel();
-
-function sendToPanel(infoString) {
-  channel.emit(EVENT_ID, {
-    infoString,
-  });
-}
-
-export const Story = _Story;
 
 const defaultOptions = {
   inline: false,
@@ -47,20 +33,10 @@ const defaultMarksyConf = {
   ul: UL,
 };
 
-export function addInfo(storyFn, context, info, _options) {
-  if (typeof storyFn !== 'function') {
-    if (typeof info === 'function') {
-        _options = storyFn; // eslint-disable-line
-        storyFn = info; // eslint-disable-line
-        info = ''; // eslint-disable-line
-    } else {
-      throw new Error('No story defining function has been specified');
-    }
-  }
-
+function addInfo(storyFn, context, infoOptions) {
   const options = {
     ...defaultOptions,
-    ..._options,
+    ...infoOptions,
   };
 
   // props.propTables can only be either an array of components or null
@@ -75,7 +51,7 @@ export function addInfo(storyFn, context, info, _options) {
     Object.assign(marksyConf, options.marksyConf);
   }
   const props = {
-    info,
+    info: options.text,
     context,
     showInline: Boolean(options.inline),
     showHeader: Boolean(options.header),
@@ -104,27 +80,37 @@ export function addInfo(storyFn, context, info, _options) {
   return infoContent;
 }
 
+export const withInfo = textOrOptions => {
+  const options = typeof textOrOptions === 'string' ? { text: textOrOptions } : textOrOptions;
+  return storyFn => context => addInfo(storyFn, context, options);
+};
 const panelOptions = options => ({
   ...options,
   sendToPanel: true,
   hideInfoButton: true,
 });
-
 const decoratorOptions = options => ({
+
   ...options,
   sendToPanel: false,
   hideInfoButton: false,
+
 });
 
-export const withInfo = (info, _options) =>
-  addonCompose((storyFn, context) => addInfo(storyFn, context, info, panelOptions(_options)));
-
-export const decoratorInfo = (info, _options) =>
-  addonCompose((storyFn, context) => addInfo(storyFn, context, info, decoratorOptions(_options)));
+export { Story };
 
 export default {
-  addWithInfo: deprecate(function addWithInfo(storyName, info, storyFn, _options) {
-    return this.add(storyName, withInfo(info, _options)(storyFn));
+  addWithInfo: deprecate(function addWithInfo(storyName, text, storyFn, options) {
+    if (typeof storyFn !== 'function') {
+      if (typeof text === 'function') {
+        options = storyFn; // eslint-disable-line
+        storyFn = text; // eslint-disable-line
+        text = ''; // eslint-disable-line
+      } else {
+        throw new Error('No story defining function has been specified');
+      }
+    }
+    return this.add(storyName, withInfo({ text, ...options })(storyFn));
   }, '@storybook/addon-info .addWithInfo() addon is deprecated, use withInfo() from the same package instead. \nSee https://github.com/storybooks/storybook/tree/master/addons/info'),
 };
 

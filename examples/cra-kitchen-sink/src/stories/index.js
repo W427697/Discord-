@@ -3,12 +3,11 @@ import EventEmiter from 'eventemitter3';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { addonNotes, WithNotes } from '@storybook/addon-notes';
+import { withNotes, WithNotes } from '@storybook/addon-notes';
 import { linkTo } from '@storybook/addon-links';
 import WithEvents from '@storybook/addon-events';
 import {
   withKnobs,
-  addonKnobs,
   text,
   number,
   boolean,
@@ -25,6 +24,7 @@ import { Button, Welcome } from '@storybook/react/demo';
 
 import App from '../App';
 import Logger from './Logger';
+import Container from './Container';
 
 const EVENTS = {
   TEST_EVENT_1: 'test-event-1',
@@ -89,6 +89,7 @@ storiesOf('Button', module)
     const intro = `My name is ${name}, I'm ${age} years old, and my favorite fruit is ${fruit}.`;
     const style = { backgroundColor, ...otherStyles };
     const salutation = nice ? 'Nice to meet you!' : 'Leave me alone!';
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
 
     return (
       <div style={style}>
@@ -96,7 +97,7 @@ storiesOf('Button', module)
           {intro}
         </p>
         <p>
-          My birthday is: {new Date(birthday).toLocaleDateString()}
+          My birthday is: {new Date(birthday).toLocaleDateString('en-US', dateOptions)}
         </p>
         <p>
           My wallet contains: ${dollars.toFixed(2)}
@@ -126,7 +127,9 @@ storiesOf('Info Addon', module)
       'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.'
     )(context =>
       <div>
+      <Container>
         click the <InfoButton /> label in top right for info about "{context.story}"
+      </Container>
       </div>
     )
   )
@@ -136,9 +139,9 @@ storiesOf('Info Addon', module)
       'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.',
       { inline: true }
     )(context =>
-      <div>
+      <Container>
         click the <InfoButton /> label in top right for info about "{context.story}"
-      </div>
+      </Container>
     )
   )
   .add(
@@ -155,7 +158,7 @@ storiesOf('Info Addon', module)
   .add(
     'addons composition',
     withInfo('see Notes panel for composition info')(
-      addonNotes({ notes: 'Composition: Info(Notes())' })(context =>
+      withNotes('Composition: Info(Notes())')(context =>
         <div>
           click the <InfoButton /> label in top right for info about "{context.story}"
         </div>
@@ -232,12 +235,12 @@ storiesOf('WithEvents', module)
   )
   .add('Logger', () => <Logger emiter={emiter} />);
 
-storiesOf('addonNotes', module)
-  .add('with some text', addonNotes({ notes: 'Hello guys' })(() => <div>Hello guys</div>))
-  .add('with some emoji', addonNotes({ notes: 'My notes on emojies' })(() => <p>🤔😳😯😮</p>))
+storiesOf('withNotes', module)
+  .add('with some text', withNotes('Hello guys')(() => <div>Hello guys</div>))
+  .add('with some emoji', withNotes('My notes on emojies')(() => <p>🤔😳😯😮</p>))
   .add(
     'with a button and some emoji',
-    addonNotes({ notes: 'My notes on a button with emojies' })(() =>
+    withNotes('My notes on a button with emojies')(() =>
       <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>
     )
   )
@@ -247,36 +250,7 @@ storiesOf('addonNotes', module)
     </WithNotes>
   );
 
-storiesOf('Addon Knobs deprecated Decorator', module)
-  .addDecorator(withKnobs) // test deprecated
-  .add('with dynamic variables deprecated', () => {
-    const name = text('Name', 'Story Teller');
-    const age = number('Age', 120);
-
-    const content = `I am ${name} and I'm ${age} years old.`;
-    return (
-      <div>
-        {content}
-      </div>
-    );
-  });
-
-storiesOf('Addon Knobs', module).add(
-  'with dynamic variables new method',
-  addonKnobs()(() => {
-    const name = text('Name', 'Arunoda Susiripala');
-    const age = number('Age', 89);
-
-    const content = `I am ${name} and I'm ${age} years old.`;
-    return (
-      <div>
-        {content}
-      </div>
-    );
-  })
-);
-
-storiesOf('component.base.Link')
+storiesOf('component.base.Link', module)
   .addDecorator(withKnobs)
   .add('first', () =>
     <a>
@@ -289,15 +263,15 @@ storiesOf('component.base.Link')
     </a>
   );
 
-storiesOf('component.base.Span')
+storiesOf('component.base.Span', module)
   .add('first', () => <span>first span</span>)
   .add('second', () => <span>second span</span>);
 
-storiesOf('component.common.Div')
+storiesOf('component.common.Div', module)
   .add('first', () => <div>first div</div>)
   .add('second', () => <div>second div</div>);
 
-storiesOf('component.common.Table')
+storiesOf('component.common.Table', module)
   .add('first', () =>
     <table>
       <tr>
@@ -313,13 +287,13 @@ storiesOf('component.common.Table')
     </table>
   );
 
-storiesOf('component.Button')
+storiesOf('component.Button', module)
   .add('first', () => <button>first button</button>)
   .add('second', () => <button>first second</button>);
 
 // Atomic
 
-storiesOf('Cells¯\\_(ツ)_/¯Molecules.Atoms/simple', module)
+storiesOf('Cells/Molecules.Atoms/simple', module)
   .addDecorator(withKnobs)
   .add('with text', () =>
     <Button>

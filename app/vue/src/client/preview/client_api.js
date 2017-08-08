@@ -1,5 +1,4 @@
 /* eslint no-underscore-dangle: 0 */
-import Vue from 'vue';
 
 export default class ClientApi {
   constructor({ channel, storyStore }) {
@@ -29,6 +28,10 @@ export default class ClientApi {
   storiesOf(kind, m) {
     if (!kind && typeof kind !== 'string') {
       throw new Error('Invalid or missing kind provided for stories, should be a string');
+    }
+
+    if(!m) {
+      console.warn(`Missing 'module' parameter for story with a kind of '${kind}'. It will break your HMR`);
     }
 
     if (m && m.hot) {
