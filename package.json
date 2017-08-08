@@ -12,7 +12,7 @@
     "bootstrap:test-cra": "npm run build-packs && lerna exec --scope test-cra -- yarn install",
     "build-packs": "lerna exec --scope '@storybook/*' --parallel -- ../../scripts/build-pack.sh ../../packs",
     "changelog": "pr-log --sloppy",
-    "precommit": "lint-staged",
+    "precommit_": "lint-staged",
     "coverage": "codecov",
     "danger": "danger",
     "dev": "lerna exec --parallel -- babel src -d dist --ignore tests,__tests__,test.js,stories/,story.jsx --plugins \"transform-runtime\" --copy-files -w",
