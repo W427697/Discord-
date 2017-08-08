@@ -33,6 +33,14 @@ const defaultMarksyConf = {
   ul: UL,
 };
 
+const channel = addons.getChannel();
+
+function sendToPanel(infoString) {
+  channel.emit(EVENT_ID, {
+    infoString,
+  });
+}
+
 function addInfo(storyFn, context, infoOptions) {
   const options = {
     ...defaultOptions,
@@ -84,18 +92,6 @@ export const withInfo = textOrOptions => {
   const options = typeof textOrOptions === 'string' ? { text: textOrOptions } : textOrOptions;
   return storyFn => context => addInfo(storyFn, context, options);
 };
-const panelOptions = options => ({
-  ...options,
-  sendToPanel: true,
-  hideInfoButton: true,
-});
-const decoratorOptions = options => ({
-
-  ...options,
-  sendToPanel: false,
-  hideInfoButton: false,
-
-});
 
 export { Story };
 

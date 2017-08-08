@@ -18,7 +18,7 @@ import {
   object,
 } from '@storybook/addon-knobs';
 import centered from '@storybook/addon-centered';
-import { withInfo, decoratorInfo } from '@storybook/addon-info';
+import { withInfo } from '@storybook/addon-info';
 
 import { Button, Welcome } from '@storybook/react/demo';
 
@@ -115,8 +115,7 @@ storiesOf('Button', module)
         </p>
       </div>
     );
-  })
-  
+  });
 
 storiesOf('App', module).add('full app', () => <App />);
 
@@ -127,18 +126,19 @@ storiesOf('Info Addon', module)
       'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.'
     )(context =>
       <div>
-      <Container>
-        click the <InfoButton /> label in top right for info about "{context.story}"
-      </Container>
+        <Container>
+          click the <InfoButton /> label in top right for info about "{context.story}"
+        </Container>
       </div>
     )
   )
   .add(
     'withInfo inline',
-    withInfo(
-      'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.',
-      { inline: true }
-    )(context =>
+    withInfo({
+      text:
+        'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.',
+      inline: true,
+    })(context =>
       <Container>
         click the <InfoButton /> label in top right for info about "{context.story}"
       </Container>
@@ -146,13 +146,16 @@ storiesOf('Info Addon', module)
   )
   .add(
     'decoratorInfo',
-    decoratorInfo(
-      'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.',
-      { inline: false }
-    )(context =>
-      <div>
+    withInfo({
+      text:
+        'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.',
+      inline: false,
+      sendToPanel: false,
+      hideInfoButton: false,
+    })(context =>
+      <Container>
         click the <InfoButton /> label in top right for info about "{context.story}"
-      </div>
+      </Container>
     )
   )
   .add(

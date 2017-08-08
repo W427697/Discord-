@@ -24,7 +24,7 @@ const TestComponent = ({ func, obj, array, number, string, bool, empty }) =>
 /* eslint-enable */
 
 const testContext = { kind: 'addon_info', story: 'jest_test' };
-const testOptions = { propTables: false };
+const testOptions = { propTables: false, sendToPanel: false, hideInfoButton: false };
 
 describe('addon Info', () => {
   const story = context =>
@@ -42,6 +42,9 @@ describe('addon Info', () => {
   const api = {
     add: (name, fn) => fn(testContext),
   };
+  it('should set options', () => {
+    setDefaults(testOptions);
+  });
   it('should render <Info /> and markdown', () => {
     const Info = withInfo(
       '# Test story \n## with markdown info \ncontaing **bold**, *cursive* text and `code`'
@@ -53,7 +56,6 @@ describe('addon Info', () => {
     ReactDOM.render(<Info />, document.createElement('div'));
   });
   it('should render with missed info', () => {
-    setDefaults(testOptions);
     const Info = withInfo()(story);
     ReactDOM.render(<Info />, document.createElement('div'));
   });
