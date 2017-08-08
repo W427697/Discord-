@@ -26,6 +26,8 @@ import App from '../App';
 import Logger from './Logger';
 import Container from './Container';
 
+import FlowButton from '../components/FlowButton';
+
 const EVENTS = {
   TEST_EVENT_1: 'test-event-1',
   TEST_EVENT_2: 'test-event-2',
@@ -263,6 +265,13 @@ storiesOf('component.common.Table', module)
 storiesOf('component.Button', module)
   .add('first', () => <button>first button</button>)
   .add('second', () => <button>first second</button>);
+
+storiesOf('component.FlowButton', module).add(
+  'withInfo',
+  withInfo('This flow button should display propTypes and comments')(() =>
+    <FlowButton label="Flow Button" />
+  )
+);
 
 // Atomic
 

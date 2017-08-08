@@ -39,6 +39,10 @@ Here are some featured storybooks that you can reference to see how Storybook wo
 
 If you are using Typescript, make sure you have the type definitions installed via `yarn add @types/node @types/react @types/storybook__react --dev`.
 
+## Flow
+
+Flow types are supported out of the box with the default Babel configuration.
+
 ## Docs
 
 -   [Basics](https://storybook.js.org/basics/introduction)
