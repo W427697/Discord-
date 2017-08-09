@@ -278,11 +278,11 @@ storiesOf('Addons composition', module)
     withInfo()(withNotes('the non-trivial form of addons composition')(storyFn))(context)
   )
   .add('with text', () => {
-    setInfoOptions('this button contain text');
+    setInfoOptions('this *button* contain **text**');
     return <Button onClick={action('clicked')}>Hello Button</Button>;
   })
   .add('with some emoji', () => {
-    setInfoOptions('this button contain some emoji');
+    setInfoOptions('this *button* contain **some emoji**');
     return <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>;
   });
 

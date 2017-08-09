@@ -21,7 +21,7 @@ const InfoPanel = ({ infoString }) => {
   return <div style={styles.main} dangerouslySetInnerHTML={infoMarkup} />;
 };
 
-InfoPanel.PropTypes = {
+InfoPanel.propTypes = {
   infoString: PropTypes.string.isRequired,
 };
 
