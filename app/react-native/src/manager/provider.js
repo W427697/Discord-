@@ -16,7 +16,7 @@ export default class ReactProvider extends Provider {
     const websocketType = secured ? 'wss' : 'ws';
     let url = `${websocketType}://${domain}`;
     if (options.manualId) {
-      const pairedId = uuid().substr(-6);
+      const pairedId = uuid();
 
       this.pairedId = pairedId;
       url += `/pairedId=${this.pairedId}`;
@@ -25,6 +25,8 @@ export default class ReactProvider extends Provider {
     if (!this.channel) {
       this.channel = createChannel({ url });
       addons.setChannel(this.channel);
+
+      this.channel.emit('channelCreated', { pairedId: this.pairedId });
     }
   }
 
@@ -38,15 +40,6 @@ export default class ReactProvider extends Provider {
     const renderPreview = addons.getPreview();
 
     const innerPreview = renderPreview ? renderPreview(kind, story) : null;
-
-    if (this.options.manualId) {
-      return (
-        <div>
-          Your ID: {this.pairedId}
-          {innerPreview}
-        </div>
-      );
-    }
 
     return innerPreview || <PreviewHelp />;
   }
