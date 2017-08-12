@@ -122,8 +122,6 @@ storiesOf('Component')
   );
 ```
 
-> Have a look at [this example](example/story.js) stories to learn more about the `addWithInfo` API.
-
 ## The FAQ
 
 **Components lose their names on static build**

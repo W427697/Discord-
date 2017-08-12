@@ -9,9 +9,7 @@
     "url": "https://github.com/storybooks/storybook.git"
   },
   "scripts": {
-    "prepublish": "node ../../scripts/prepublish.js",
-    "publish-storybook": "bash .scripts/publish_storybook.sh",
-    "storybook": "start-storybook -p 9010"
+    "prepublish": "node ../../scripts/prepublish.js"
   },
   "dependencies": {
     "@storybook/addons": "^3.2.0",
