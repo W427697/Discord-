@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import PropTypes from 'prop-types';
 import addons from '@storybook/addons';
 import deprecate from 'util-deprecate';
 import Story from './components/Story';
@@ -101,8 +102,19 @@ function addInfo(storyFn, context, infoOptions) {
   return infoContent;
 }
 
-export const withInfo = textOrOptions => {
-  const options = typeof textOrOptions === 'string' ? { summary: textOrOptions } : textOrOptions;
+const detectOptions = prop => {
+  const propTypes = {
+    prop: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  };
+  PropTypes.checkPropTypes(propTypes, { prop }, 'prop', 'withInfo');
+  if (typeof prop === 'string') {
+    return { summary: prop };
+  }
+  return prop;
+};
+
+export const withInfo = summaryOrOptions => {
+  const options = detectOptions(summaryOrOptions);
   return storyFn => context => addInfo(storyFn, context, options);
 };
 
@@ -123,7 +135,7 @@ export default {
   }, '@storybook/addon-info .addWithInfo() addon is deprecated, use withInfo() from the same package instead. \nSee https://github.com/storybooks/storybook/tree/master/addons/info'),
 };
 
-export function setInfoOptions(textOrOptions) {
-  const options = typeof textOrOptions === 'string' ? { summary: textOrOptions } : textOrOptions;
+export function setInfoOptions(summaryOrOptions) {
+  const options = detectOptions(summaryOrOptions);
   return addonOptions.setOptions(options);
 }

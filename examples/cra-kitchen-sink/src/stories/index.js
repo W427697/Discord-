@@ -23,6 +23,7 @@ import { withInfo, setInfoOptions } from '@storybook/addon-info';
 import { Button, Welcome } from '@storybook/react/demo';
 
 import App from '../App';
+import reactLogo from '../logo.svg';
 import Logger from './Logger';
 import Container from './Container';
 
@@ -212,6 +213,66 @@ storiesOf('Info Addon', module)
     )
   )
   .add(
+    'inline JSX description',
+    withInfo({
+      summary: (
+        <div>
+          <h2>This is a JSX info section</h2>
+          <p>
+            Storybook is very easy to use. You can use it with any kind of React or Vue project.
+            Follow these steps to get started with Storybook:
+          </p>
+          <code
+            style={{
+              margin: 20,
+              padding: 10,
+              backgroundColor: 'hsl(0, 0%, 35%)',
+              color: 'hsl(0, 0%, 90%)',
+              display: 'block',
+              fontSize: 12,
+            }}
+          >
+            {'cd my-react-app'}
+            <br />
+            {'npm i -g @storybook/cli'}
+            <br />
+            {'getstorybook'}
+            <br />
+          </code>
+          <p style={{ textAlign: 'center' }}>
+            <style>
+              {`@keyframes App-logo-spin {
+                  from { transform: rotate(0deg); }
+                  to { transform: rotate(360deg); }
+                }`}
+            </style>
+            <img
+              style={{
+                animation: 'App-logo-spin infinite 20s linear',
+                maxWidth: 400,
+              }}
+              src={reactLogo}
+              alt="react logo"
+            />
+          </p>
+          <p style={{ textAlign: 'right' }}>
+            <a href="https://github.com/storybooks/storybook/tree/master/addons/info">
+              @storybook/addon-info
+            </a>
+          </p>
+        </div>
+      ),
+      inline: false,
+      propTables: false,
+      header: false,
+      source: false,
+    })(context =>
+      <Container>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </Container>
+    )
+  )
+  .add(
     'Only component source',
     withInfo({
       summary: null,
@@ -249,6 +310,14 @@ storiesOf('Info Addon', module)
       sendToPanel: false,
       infoButton: true,
     })(context =>
+      <Container>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </Container>
+    )
+  )
+  .add(
+    'JSX as an argument',
+    withInfo(<p>Should display a warning</p>)(context =>
       <Container>
         click the <InfoButton /> label in top right for info about "{context.story}"
       </Container>
