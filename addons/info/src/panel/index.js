@@ -22,7 +22,11 @@ const InfoPanel = ({ infoString }) => {
 };
 
 InfoPanel.propTypes = {
-  infoString: PropTypes.string.isRequired,
+  infoString: PropTypes.string,
+};
+
+InfoPanel.defaultProps = {
+  infoString: null,
 };
 
 export default InfoPanel;

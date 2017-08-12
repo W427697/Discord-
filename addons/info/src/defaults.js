@@ -4,7 +4,7 @@ import { H1, H2, H3, H4, H5, H6, Code, P, UL, A, LI } from './components/markdow
 defaultOptions should have all available options
 */
 export const defaultOptions = {
-  info: null,
+  summary: null,
   inline: false,
   header: true,
   source: true,

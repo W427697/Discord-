@@ -55,7 +55,7 @@ const InfoButton = () =>
   </span>;
 
 setInfoOptions({
-  info: 'This is common info',
+  summary: 'This is common info',
 });
 
 storiesOf('Button', module)
@@ -142,7 +142,7 @@ storiesOf('Info Addon', module)
   .add(
     'Info with options',
     withInfo({
-      info:
+      summary:
         'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.',
       inline: false,
       propTables: false,
@@ -158,7 +158,7 @@ storiesOf('Info Addon', module)
   .add(
     'Only info markdown',
     withInfo({
-      info: `# Quid fruticumque morte
+      summary: `# Quid fruticumque morte
         
         ## Indignantia factum tracto tamen
         
@@ -214,7 +214,7 @@ storiesOf('Info Addon', module)
   .add(
     'Only component source',
     withInfo({
-      info: null,
+      summary: null,
       inline: false,
       propTables: false,
       header: false,
@@ -228,7 +228,7 @@ storiesOf('Info Addon', module)
   .add(
     'Only propTypes and header',
     withInfo({
-      info: null,
+      summary: null,
       inline: false,
       propTables: [Container],
       propTablesExclude: [InfoButton],
@@ -243,7 +243,7 @@ storiesOf('Info Addon', module)
   .add(
     'decoratorInfo',
     withInfo({
-      info:
+      summary:
         'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.',
       inline: false,
       sendToPanel: false,

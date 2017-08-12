@@ -72,7 +72,7 @@ function addInfo(storyFn, context, infoOptions) {
   // propTables option is allowed to be set to 'false' (a boolean)
   // if the option is false, replace it with null to avoid react warnings
   const props = {
-    info: options.info,
+    summary: options.summary,
     context,
     showInline: Boolean(options.inline),
     showHeader: Boolean(options.header),
@@ -102,7 +102,7 @@ function addInfo(storyFn, context, infoOptions) {
 }
 
 export const withInfo = textOrOptions => {
-  const options = typeof textOrOptions === 'string' ? { info: textOrOptions } : textOrOptions;
+  const options = typeof textOrOptions === 'string' ? { summary: textOrOptions } : textOrOptions;
   return storyFn => context => addInfo(storyFn, context, options);
 };
 
@@ -124,6 +124,6 @@ export default {
 };
 
 export function setInfoOptions(textOrOptions) {
-  const options = typeof textOrOptions === 'string' ? { info: textOrOptions } : textOrOptions;
+  const options = typeof textOrOptions === 'string' ? { summary: textOrOptions } : textOrOptions;
   return addonOptions.setOptions(options);
 }

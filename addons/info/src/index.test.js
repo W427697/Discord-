@@ -52,7 +52,7 @@ describe('addon Info', () => {
     ReactDOM.render(<Info />, document.createElement('div'));
   });
   it('should render with info options', () => {
-    const Info = withInfo({ info: 'some text here' })(story);
+    const Info = withInfo({ summary: 'some text here' })(story);
     ReactDOM.render(<Info />, document.createElement('div'));
   });
   it('should render with missed info', () => {

@@ -235,19 +235,19 @@ export default class Story extends React.Component {
   }
 
   _getInfoContent() {
-    if (!this.props.info) {
+    if (!this.props.summary) {
       return '';
     }
 
-    if (React.isValidElement(this.props.info)) {
+    if (React.isValidElement(this.props.summary)) {
       return (
         <div style={this.props.showInline ? stylesheet.jsxInfoContent : stylesheet.infoContent}>
-          {this.props.info}
+          {this.props.summary}
         </div>
       );
     }
 
-    const lines = this.props.info.split('\n');
+    const lines = this.props.summary.split('\n');
     while (lines[0].trim() === '') {
       lines.shift();
     }
@@ -366,7 +366,11 @@ export default class Story extends React.Component {
     const propTables = array.map(type =>
       <div key={type.displayName || type.name}>
         <h2 style={this.state.stylesheet.propTableHead.h2}>
-          <span style={this.state.stylesheet.propTableHead.span}>{'<'}{type.displayName || type.name}{' />'}</span>
+          <span style={this.state.stylesheet.propTableHead.span}>
+            {'<'}
+            {type.displayName || type.name}
+            {' />'}
+          </span>
         </h2>
         <PropTable
           type={type}
@@ -405,7 +409,7 @@ Story.propTypes = {
     kind: PropTypes.string,
     story: PropTypes.string,
   }),
-  info: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  summary: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   propTables: PropTypes.arrayOf(PropTypes.func),
   propTablesExclude: PropTypes.arrayOf(PropTypes.func),
   showInline: PropTypes.bool,
@@ -422,7 +426,7 @@ Story.propTypes = {
 };
 Story.defaultProps = {
   context: null,
-  info: '',
+  summary: '',
   children: null,
   propTables: null,
   propTablesExclude: [],
