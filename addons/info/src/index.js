@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import PropTypes from 'prop-types';
 import addons from '@storybook/addons';
 import deprecate from 'util-deprecate';
 import Story from './components/Story';
@@ -103,11 +102,10 @@ function addInfo(storyFn, context, infoOptions) {
 }
 
 const detectOptions = prop => {
-  const propTypes = {
-    prop: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  };
-  PropTypes.checkPropTypes(propTypes, { prop }, 'prop', 'withInfo');
   if (typeof prop === 'string') {
+    return { summary: prop };
+  }
+  if (React.isValidElement(prop)) {
     return { summary: prop };
   }
   return prop;

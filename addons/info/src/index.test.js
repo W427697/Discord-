@@ -45,13 +45,21 @@ describe('addon Info', () => {
   it('should set options', () => {
     setInfoOptions(testOptions);
   });
-  it('should render <Info /> and markdown', () => {
+  it('should render <Info /> with markdown summary', () => {
     const Info = withInfo(
       '# Test story \n## with markdown info \ncontaing **bold**, *cursive* text and `code`'
     )(story);
     ReactDOM.render(<Info />, document.createElement('div'));
   });
-  it('should render with info options', () => {
+  it('should render <Info /> with JSX summary', () => {
+    const Info = withInfo(
+      <div>
+        This is summary with <button>button</button> element
+      </div>
+    )(story);
+    ReactDOM.render(<Info />, document.createElement('div'));
+  });
+  it('should render with options', () => {
     const Info = withInfo({ summary: 'some text here' })(story);
     ReactDOM.render(<Info />, document.createElement('div'));
   });

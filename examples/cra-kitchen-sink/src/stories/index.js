@@ -317,7 +317,11 @@ storiesOf('Info Addon', module)
   )
   .add(
     'JSX as an argument',
-    withInfo(<p>Should display a warning</p>)(context =>
+    withInfo(
+      <div>
+        This is summary with <button>button</button> element
+      </div>
+    )(context =>
       <Container>
         click the <InfoButton /> label in top right for info about "{context.story}"
       </Container>
