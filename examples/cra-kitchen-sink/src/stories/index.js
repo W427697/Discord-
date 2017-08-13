@@ -2,6 +2,7 @@ import React from 'react';
 import EventEmiter from 'eventemitter3';
 
 import { storiesOf } from '@storybook/react';
+import { setOptions } from '@storybook/addon-options';
 import { action } from '@storybook/addon-actions';
 import { withNotes, WithNotes } from '@storybook/addon-notes';
 import { linkTo } from '@storybook/addon-links';
@@ -62,14 +63,28 @@ setInfoOptions({
 storiesOf('Button', module)
   .addDecorator((storyFn, context) => withInfo('This is **Button** info')(storyFn)(context))
   .addDecorator(withKnobs)
-  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
-  .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>)
+  .add('with text', () =>
+    <Button onClick={action('clicked')}>
+      {setOptions({ selectedAddonPanel: 'storybook/actions/actions-panel' })}
+      Hello Button
+    </Button>
+  )
+  .add('with some emoji', () =>
+    <Button onClick={action('clicked')}>
+      {setOptions({ selectedAddonPanel: 'storybook/actions/actions-panel' })}
+      😀 😎 👍 💯
+    </Button>
+  )
   .add('with notes', () =>
     <WithNotes notes={'A very simple button'}>
-      <Button>Check my notes in the notes panel</Button>
+      <Button>
+        {setOptions({ selectedAddonPanel: 'storybook/notes/panel' })}
+        Check my notes in the notes panel
+      </Button>
     </WithNotes>
   )
   .add('with knobs', () => {
+    setOptions({ selectedAddonPanel: 'storybooks/storybook-addon-knobs' });
     const name = text('Name', 'Storyteller');
     const age = number('Age', 70, { range: true, min: 0, max: 90, step: 5 });
     const fruits = {
@@ -323,6 +338,7 @@ storiesOf('Info Addon', module)
       </div>
     )(context =>
       <Container>
+        {setOptions({ selectedAddonPanel: 'storybook/info/info-panel' })}
         click the <InfoButton /> label in top right for info about "{context.story}"
       </Container>
     )
@@ -332,6 +348,7 @@ storiesOf('Info Addon', module)
     withInfo('see Notes panel for composition info')(
       withNotes('Composition: Info(Notes())')(context =>
         <div>
+          {setOptions({ selectedAddonPanel: 'storybook/notes/panel' })}
           click the <InfoButton /> label in top right for info about "{context.story}"
         </div>
       )
@@ -359,7 +376,7 @@ storiesOf('Addons composition', module)
     return <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>;
   });
 
-storiesOf('Centered Button', module)
+storiesOf('Some really long story kind description', module)
   .addDecorator(centered)
   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>);
 
