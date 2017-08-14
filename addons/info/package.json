@@ -9,7 +9,9 @@
     "url": "https://github.com/storybooks/storybook.git"
   },
   "scripts": {
-    "prepublish": "node ../../scripts/prepublish.js"
+    "prepublish": "node ../../scripts/prepublish.js",
+    "dev": "start-storybook -p 9009",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@storybook/addons": "^3.2.0",
@@ -22,6 +24,10 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^3.2.0",
+    "@storybook/addon-info": "^3.2.4",
+    "@storybook/addon-knobs": "^3.2.0",
+    "@storybook/react": "^3.2.4",
     "git-url-parse": "^6.2.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

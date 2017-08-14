@@ -108,6 +108,9 @@ const stylesheet = {
   },
 };
 
+/**
+ * Root info Component
+ */
 export default class Story extends React.Component {
   constructor(props, ...args) {
     super(props, ...args);
@@ -410,6 +413,10 @@ Story.propTypes = {
     kind: PropTypes.string,
     story: PropTypes.string,
   }),
+  /**
+   * the description of component
+   * allows markdown or JSX syntax
+   */
   summary: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   propTables: PropTypes.arrayOf(PropTypes.func),
   propTablesExclude: PropTypes.arrayOf(PropTypes.func),
