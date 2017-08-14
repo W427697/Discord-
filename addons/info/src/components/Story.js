@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: 0 */
 
-import React from 'react';
+import React, { createElement } from 'react';
 import PropTypes from 'prop-types';
 import global from 'global';
 
@@ -115,7 +115,10 @@ export default class Story extends React.Component {
       open: props.hideInfoButton,
       stylesheet: this.props.styles(JSON.parse(JSON.stringify(stylesheet))),
     };
-    this.marksy = marksy(this.props.marksyConf);
+    this.marksy = marksy({
+      createElement,
+      elements: props.marksyConf,
+    });
   }
 
   componentWillReceiveProps(nextProps) {
