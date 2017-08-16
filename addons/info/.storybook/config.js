@@ -1,6 +1,21 @@
 /* eslint-disable import/no-extraneous-dependencies, import/no-unresolved, import/extensions */
 
-import { configure } from '@storybook/react';
+import { configure, setAddon } from '@storybook/react';
+import { withInfo, setInfoOptions } from '@storybook/addon-info';
+import { setOptions } from '@storybook/addon-options';
+
+setOptions({
+  downPanelInRight: true,
+})
+
+setAddon({
+  summary(info) {
+    return this.addDecorator(story => {
+      setInfoOptions(info);
+      return story();
+    })
+  }
+});
 
 function loadStories() {
   require('../src/components/stories');

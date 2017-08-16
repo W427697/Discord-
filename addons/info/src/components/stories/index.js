@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { storiesOf, addDecorator } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import { withInfo, setInfoOptions } from '@storybook/addon-info';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs';
 
 import { Button } from '@storybook/react/demo';
@@ -14,32 +14,28 @@ import PropVal from '../PropVal';
 import { Code, Pre, Blockquote } from '../markdown/code';
 
 import { defaultOptions, defaultMarksyConf } from '../../defaults';
+import * as mock from './mock-data';
 
-/*
-Add info after moving info addon to panel
-*/
 addDecorator((story, context) =>
   withInfo({
     summary: null,
     inline: false,
-    header: false,
-    source: false,
+    header: true,
+    source: true,
+    // propTables: [Story, Node, Props, PropTable, PropVal],
+    propTablesExclude: [mock.Widget],
   })(story)(context)
 );
 
+addDecorator(withKnobs);
+
+const maxPropObjectKeys = val => Math.max(number('maxPropObjectKeys', val) || 1, 1);
+const maxPropArrayLength = (val = 3) => Math.max(number('maxPropArrayLength', val) || 1, 1);
+const maxPropsIntoLine = (val = 3) => Math.max(number('maxPropsIntoLine', val) || 1, 1);
+const maxPropStringLength = (val = 50) => Math.max(number('maxPropStringLength', val) || 1, 1);
+
 const customOptions = {
-  summary: `
-  ### Story component
-  
-  default options with custom summary
-  
-  wraps itself
-  `,
-  propTables: [Story, Node, Props, PropTable, PropVal],
-};
-const context = {
-  kind: 'Info Component: <Story />',
-  story: 'default settings',
+  // maxPropStringLength: 50,
 };
 
 const options = {
@@ -52,9 +48,9 @@ const marksyConf = {
   ...options.marksyConf,
 };
 
-const props = {
-  summary: options.summary,
-  context,
+const props = () => ({
+  summary: mock.widgetSummary,
+  context: mock.context,
   showInline: Boolean(options.inline),
   showHeader: Boolean(options.header),
   showSource: Boolean(options.source),
@@ -63,115 +59,270 @@ const props = {
   propTablesExclude: options.propTablesExclude,
   styles: typeof options.styles === 'function' && options.styles,
   marksyConf,
-  maxPropObjectKeys: options.maxPropObjectKeys,
-  maxPropArrayLength: options.maxPropArrayLength,
-  maxPropsIntoLine: options.maxPropsIntoLine,
-  maxPropStringLength: options.maxPropStringLength,
-};
+  maxPropObjectKeys: maxPropObjectKeys(),
+  maxPropArrayLength: maxPropArrayLength(options.maxPropArrayLength),
+  maxPropsIntoLine: maxPropsIntoLine(options.maxPropsIntoLine),
+  maxPropStringLength: maxPropStringLength(options.maxPropStringLength),
+});
 
-storiesOf('Root Component (Story.js)', module)
-  .addDecorator(withKnobs)
-  .add('default options wraps itself', () =>
-    <Story {...props}>
-      <Story {...props} />
+storiesOf('Root Info Component (Story.js)', module)
+  .summary(
+    `
+    ### <Story />
+
+    It's a root component of **addon-info**
+
+    we run it in isolation with *mocked* data
+
+    **Note**: actual components of **addon-info** are in the *preview* area.
+    At the same time we use addon-info itself to see component's details.
+    You can find this information in the **INFO** panel
+  `
+  )
+  .add('with Widget', () =>
+    <Story {...props()} testKnob={text('test1', 'aa')}>
+      <mock.Widget {...mock.widgetProps} />
     </Story>
   )
-  .add('default options wraps button', () =>
-    <Story {...props}>
+  .add('with button', () =>
+    <Story {...props()} testKnob={text('test2', 'bb')}>
       <button>Press me</button>
     </Story>
   );
 
 storiesOf('Node', module)
-  .add('default with Story', () =>
+  .summary(
+    `
+    ### <Node />
+
+    It used to display the source of story
+
+    *parent*: **<Story />**
+
+    *section*: **Story Source**
+  `
+  )
+  .add('info with story sourse only', () =>
+    <Story
+      {...props()}
+      showHeader={false}
+      showSource
+      summary={null}
+      propTablesExclude={[mock.Widget]}
+    >
+      <mock.Widget {...mock.widgetProps} />
+    </Story>
+  )
+  .add('default with Widget', () =>
     <Node
-      node={<Story {...props} />}
+      node={<mock.Widget {...mock.widgetProps} />}
       depth={0}
-      maxPropsIntoLine={props.maxPropsIntoLine}
-      maxPropObjectKeys={props.maxPropObjectKeys}
-      maxPropArrayLength={props.maxPropArrayLength}
-      maxPropStringLength={props.maxPropStringLength}
+      maxPropsIntoLine={props().maxPropsIntoLine}
+      maxPropObjectKeys={props().maxPropObjectKeys}
+      maxPropArrayLength={props().maxPropArrayLength}
+      maxPropStringLength={props().maxPropStringLength}
     />
   )
   .add('default with button', () =>
     <Node
       node={<button>Press Me</button>}
       depth={0}
-      maxPropsIntoLine={props.maxPropsIntoLine}
-      maxPropObjectKeys={props.maxPropObjectKeys}
-      maxPropArrayLength={props.maxPropArrayLength}
-      maxPropStringLength={props.maxPropStringLength}
+      maxPropsIntoLine={props().maxPropsIntoLine}
+      maxPropObjectKeys={props().maxPropObjectKeys}
+      maxPropArrayLength={props().maxPropArrayLength}
+      maxPropStringLength={props().maxPropStringLength}
     />
   );
 
 storiesOf('Props', module)
-  .add('default with Story', () =>
+  .summary(
+    `
+    ### <Props />
+
+    It used to display all props of a component
+
+    *parent*: **<Node />**
+
+    *section*: **Story Source**
+  `
+  )
+  .add('default with Widget', () =>
     <Props
-      node={<Story {...props} />}
+      node={<mock.Widget {...mock.widgetProps} />}
       singleLine
-      maxPropsIntoLine={props.maxPropsIntoLine}
-      maxPropObjectKeys={props.maxPropObjectKeys}
-      maxPropArrayLength={props.maxPropArrayLength}
-      maxPropStringLength={props.maxPropStringLength}
+      maxPropsIntoLine={props().maxPropsIntoLine}
+      maxPropObjectKeys={props().maxPropObjectKeys}
+      maxPropArrayLength={props().maxPropArrayLength}
+      maxPropStringLength={props().maxPropStringLength}
     />
   )
   .add('default with button', () =>
     <Props
       node={<button>Press Me</button>}
       singleLine
-      maxPropsIntoLine={props.maxPropsIntoLine}
-      maxPropObjectKeys={props.maxPropObjectKeys}
-      maxPropArrayLength={props.maxPropArrayLength}
-      maxPropStringLength={props.maxPropStringLength}
+      maxPropsIntoLine={props().maxPropsIntoLine}
+      maxPropObjectKeys={props().maxPropObjectKeys}
+      maxPropArrayLength={props().maxPropArrayLength}
+      maxPropStringLength={props().maxPropStringLength}
     />
   );
 
 storiesOf('PropTable', module)
-  .add('default with Story', () =>
+  .summary(
+    `
+    ### <PropTable />
+
+    It displays table with props description of components
+
+    *parent*: **<Story />**
+
+    *section*: **Prop Types**
+  `
+  )
+  .add('info with Prop Types only', () =>
+    <Story
+      {...props()}
+      showHeader={false}
+      showSource={false}
+      summary={null}
+      propTables={[
+        mock.Widget,
+        Button,
+        Story,
+        Node,
+        Props,
+        PropTable,
+        PropVal,
+        Code,
+        Pre,
+        Blockquote,
+      ]}
+    >
+      <mock.Widget {...mock.widgetProps} />
+    </Story>
+  )
+  .add('default with Widget', () =>
     <PropTable
-      type={Story}
-      maxPropObjectKeys={props.maxPropObjectKeys}
-      maxPropArrayLength={props.maxPropArrayLength}
-      maxPropStringLength={props.maxPropStringLength}
+      type={mock.Widget}
+      maxPropObjectKeys={props().maxPropObjectKeys}
+      maxPropArrayLength={props().maxPropArrayLength}
+      maxPropStringLength={props().maxPropStringLength}
     />
   )
   .add('default with Button', () =>
     <PropTable
       type={Button}
-      maxPropObjectKeys={props.maxPropObjectKeys}
-      maxPropArrayLength={props.maxPropArrayLength}
-      maxPropStringLength={props.maxPropStringLength}
+      maxPropObjectKeys={props().maxPropObjectKeys}
+      maxPropArrayLength={props().maxPropArrayLength}
+      maxPropStringLength={props().maxPropStringLength}
     />
   );
 
-storiesOf('PropVal', module).add('default with Story', () =>
-  <PropVal
-    val={
-      'Ipsaque parte summo, et paravi admotas te demum castique nostri, audit metuunt inquit: vestigia? Formae potius Tritonidos et pars, iungat tum, gestare, *ardore cum*, ausum inscribenda incingitur digitis umbram. Aello electarumque huic et cunctatusque et verba alto atque et ignibus'
-    }
-    maxPropObjectKeys={props.maxPropObjectKeys}
-    maxPropArrayLength={props.maxPropArrayLength}
-    maxPropStringLength={props.maxPropStringLength}
-  />
-);
+storiesOf('PropVal', module)
+  .summary(
+    `
+    ### <PropVal />
+
+    It shows default props in PropTable and prop values in Props
+
+    *parent*: **<PropTable />**, **<Props />**
+
+    *section*: **Prop Types**, **Story Source**
+  `
+  )
+  .add('default', () =>
+    <PropVal
+      val={
+        'Ipsaque parte summo, et paravi admotas te demum castique nostri, audit metuunt inquit: vestigia? Formae potius Tritonidos et pars, iungat tum, gestare, *ardore cum*, ausum inscribenda incingitur digitis umbram. Aello electarumque huic et cunctatusque et verba alto atque et ignibus'
+      }
+      maxPropObjectKeys={props().maxPropObjectKeys}
+      maxPropArrayLength={props().maxPropArrayLength}
+      maxPropStringLength={props().maxPropStringLength}
+    />
+  );
 
 storiesOf('Markdown/Code', module)
-  .add('example 1', () => <Code code={<div>const A = 10;</div>} language="javascript" />)
-  .add('example 2', () => <Code code={<code>const A = 10;</code>} language="javascript" />);
+  .summary('inline code sections in markdown')
+  .add('info with Markdown only', () =>
+    <Story
+      {...props()}
+      showHeader={false}
+      showSource={false}
+      summary={mock.markdown}
+      propTablesExclude={[mock.Widget]}
+    >
+      <mock.Widget {...mock.widgetProps} />
+    </Story>
+  )
+  .add('example 1', () =>
+    <Code
+      code={`
+        import { configure, setAddon } from '@storybook/react';
+        import { withInfo, setInfoOptions } from '@storybook/addon-info';
+        import { setOptions } from '@storybook/addon-options';
+
+        setOptions({
+          downPanelInRight: true,
+        })
+      `}
+      language="javascript"
+    />
+  )
+  .add('example 2', () =>
+    <Code
+      code={
+        <div>{`
+        import { configure, setAddon } from '@storybook/react';
+        import { withInfo, setInfoOptions } from '@storybook/addon-info';
+        import { setOptions } from '@storybook/addon-options';
+
+        setOptions({
+          downPanelInRight: true,
+        })
+      `}</div>
+      }
+      language="javascript"
+    />
+  );
 
 storiesOf('Markdown/Pre', module)
+  .summary('block code sections in markdown')
   .add('example 1', () =>
     <Pre>
-      <div>const A = 10;</div>
+      <Code
+        code={
+          <div>{`
+          import { configure, setAddon } from '@storybook/react';
+          import { withInfo, setInfoOptions } from '@storybook/addon-info';
+          import { setOptions } from '@storybook/addon-options';
+
+          setOptions({
+            downPanelInRight: true,
+          })
+        `}</div>
+        }
+        language="javascript"
+      />
     </Pre>
   )
   .add('example 2', () =>
     <Pre>
-      {'const A = 10;'}
+      <Code language="javascript">
+        <div>{`
+        import { configure, setAddon } from '@storybook/react';
+        import { withInfo, setInfoOptions } from '@storybook/addon-info';
+        import { setOptions } from '@storybook/addon-options';
+
+        setOptions({
+          downPanelInRight: true,
+        })
+        `}</div>
+      </Code>
     </Pre>
   );
 
 storiesOf('Markdown/Blockquote', module)
+  .summary('text sections in markdown')
   .add('example 1', () =>
     <Blockquote>
       <div>const A = 10;</div>
@@ -182,3 +333,28 @@ storiesOf('Markdown/Blockquote', module)
       {'const A = 10;'}
     </Blockquote>
   );
+
+storiesOf('Mock Components', module)
+  .add('Widget with text', () => {
+    setInfoOptions({ summary: mock.widgetSummary, propTables: [mock.Widget] });
+    return <mock.Widget {...mock.widgetProps} />;
+  })
+  .add('Widget with emoji', () => {
+    setInfoOptions({ summary: mock.widgetSummary, propTables: [mock.Widget] });
+    return <mock.Widget {...mock.widgetProps} isText={false} />;
+  })
+  .add('simple button', () => {
+    setInfoOptions('simple button: `<button>click me</button>`');
+    return <button>click me</button>;
+  })
+  .add('glamorous button', () => {
+    setInfoOptions(
+      'button from [@storybook/components](https://github.com/storybooks/storybook/tree/master/lib/components)'
+    );
+    return <Button>click me</Button>;
+  });
+
+storiesOf('Test knobs', module).add('Widget with text', () => {
+  setInfoOptions({ summary: text('summary', 'hello knobs') });
+  return <mock.Widget {...mock.widgetProps} />;
+});
