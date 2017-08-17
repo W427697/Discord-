@@ -7,8 +7,11 @@
 		"test": "jest"
 	},
 	"dependencies": {
-		"react": "16.0.0-alpha.12",
-		"react-native": "0.47.1",
+    "@storybook/addon-knobs": "file:../../addons/knobs",
+    "@storybook/addon-rn-pair": "file:../../addons/rn-pair",
+    "@storybook/react-native": "file:../../app/react-native",
+		"react": "16.0.0-alpha.6",
+		"react-native": "0.44.2",
 		"react-native-camera": "^0.10.0",
 		"react-native-qrcode-scanner": "^0.0.14"
 	},
@@ -16,7 +19,7 @@
 		"babel-jest": "20.0.3",
 		"babel-preset-react-native": "3.0.0",
 		"jest": "20.0.4",
-		"react-test-renderer": "16.0.0-alpha.12"
+		"react-test-renderer": "16.0.0-alpha.6"
 	},
 	"jest": {
 		"preset": "react-native"
