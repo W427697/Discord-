@@ -13,13 +13,12 @@
   "dependencies": {
     "global": "^4.3.2",
     "prop-types": "^15.5.10",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
   },
   "devDependencies": {
     "@storybook/addon-actions": "file:../../packs/storybook-addon-actions.tgz",
     "@storybook/addon-links": "file:../../packs/storybook-addon-links.tgz",
-    "@storybook/addon-storyshots": "file:../../packs/storybook-addon-storyshots.tgz",
     "@storybook/addons": "file:../../packs/storybook-addons.tgz",
     "@storybook/channel-postmessage": "file:../../packs/storybook-channel-postmessage.tgz",
     "@storybook/channels": "file:../../packs/storybook-channels.tgz",

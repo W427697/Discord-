@@ -1,3 +1,120 @@
+# 3.2.0
+
+2017-July-27
+
+Storybook 3.2 is filled with new features to help make your components shine! Headline features:
+
+-   Vue support [#1267](https://github.com/storybooks/storybook/pull/1267)
+-   Story Hierarchy [#1329](https://github.com/storybooks/storybook/pull/1329)
+-   React Native On Device UI [#1413](https://github.com/storybooks/storybook/pull/1413)
+
+Plus many more features, documentation improvements, and bugfixes below!
+
+#### Features
+
+-   Vue support [#1267](https://github.com/storybooks/storybook/pull/1267)
+-   Add support for vue in addon-notes [#1278](https://github.com/storybooks/storybook/pull/1278)
+-   CLI support for Vue [#1287](https://github.com/storybooks/storybook/pull/1287)
+
+
+-   Story Hierarchy [#1329](https://github.com/storybooks/storybook/pull/1329)
+-   Story Hierarchy UI improvements [#1387](https://github.com/storybooks/storybook/pull/1387) [#1356](https://github.com/storybooks/storybook/pull/1356)
+-   Story Hierarchy - keyboard accessibility [#1427](https://github.com/storybooks/storybook/pull/1427)
+
+
+-   React Native - On Device UI [#1413](https://github.com/storybooks/storybook/pull/1413)
+-   Show first story on RN OnDeviceUI startup [#1510](https://github.com/storybooks/storybook/pull/1510)
+
+
+-   Add warning when module is missing in storiesOf [#1525](https://github.com/storybooks/storybook/pull/1525)
+-   Provide styling hook for Addon Info story body [#1308](https://github.com/storybooks/storybook/pull/1308)
+-   Implement filtering on story-level [#1432](https://github.com/storybooks/storybook/pull/1432)
+-   Refactoring of `addon-info` [#1452](https://github.com/storybooks/storybook/pull/1452)
+-   ADD storybook logo for inside terminal for future CLI or easteregg [#1499](https://github.com/storybooks/storybook/pull/1499)
+-   Improved error checking in global addDecorator [#1481](https://github.com/storybooks/storybook/pull/1481)
+
+#### Bug Fixes
+
+-   Fix react native example and bootstrapping [#1514](https://github.com/storybooks/storybook/pull/1514)
+-   Fix a 'funny' hmr issue in cra-kitchen-sink [#1508](https://github.com/storybooks/storybook/pull/1508)
+-   When timestamps are enabled, it actually checks them before applying changes [#1405](https://github.com/storybooks/storybook/pull/1405)
+-   Fix issue when extending webpack config [#1468](https://github.com/storybooks/storybook/pull/1468)
+-   Fix addon notes [#1448](https://github.com/storybooks/storybook/pull/1448)
+-   Story Hierarchy - initial state bug fix [#1401](https://github.com/storybooks/storybook/pull/1401)
+-   Remove blue outline when node is focused [#1497](https://github.com/storybooks/storybook/pull/1497)
+
+#### Documentation
+
+-   Add hierarchySeparator to README [#1445](https://github.com/storybooks/storybook/pull/1445)
+-   Document null addons channel in FAQ [#1507](https://github.com/storybooks/storybook/pull/1507)
+
+#### Maintenance
+
+-   Revert knobs API to previous API. [#1527](https://github.com/storybooks/storybook/pull/1527)
+-   FIX hoist-internals: remove existing folder/link before linking [#1516](https://github.com/storybooks/storybook/pull/1516)
+-   Update global hook for Vue Devtools [#1376](https://github.com/storybooks/storybook/pull/1376)
+-   SWITCH to circleci over travisCI && CHANGE lerna bootstrap procedure: [#1486](https://github.com/storybooks/storybook/pull/1486)
+-   Update cra-kitchen-sink package versions for 3.2-alpha [#1434](https://github.com/storybooks/storybook/pull/1434)
+-   Updating 3.2 alpha release with patches [#1419](https://github.com/storybooks/storybook/pull/1419)
+-   Remove typescript typings for @storybook/addon-notes [#1344](https://github.com/storybooks/storybook/pull/1344)
+-   Remove typescript typings for @storybook/addon-options [#1343](https://github.com/storybooks/storybook/pull/1343)
+-   Remove typescript typings for @storybook/addon-knobs [#1339](https://github.com/storybooks/storybook/pull/1339)
+-   Remove typescript typings for @storybook/addon-links [#1342](https://github.com/storybooks/storybook/pull/1342)
+
+#### Dependency Upgrades
+
+-   Updated babel-plugin-react-docgen version [#1526](https://github.com/storybooks/storybook/pull/1526)
+-   UPDATE everything (including eslint 4) [#1517](https://github.com/storybooks/storybook/pull/1517)
+-   Update remark-preset-lint-recommended to the latest version 🚀 [#1512](https://github.com/storybooks/storybook/pull/1512)
+-   Update remark-cli to the latest version 🚀 [#1498](https://github.com/storybooks/storybook/pull/1498)
+-   Remove upper bound on react-native peerDependency [#1424](https://github.com/storybooks/storybook/pull/1424)
+-   Bump `react-split-pane` version [#1495](https://github.com/storybooks/storybook/pull/1495)
+
+# 3.1.9
+
+2017-July-16
+
+#### Features
+
+-   React fiber support [#1443](https://github.com/storybooks/storybook/pull/1443)
+
+#### Documentation
+
+-   Refine docs about loading stories dynamically for react-native [#1420](https://github.com/storybooks/storybook/pull/1420)
+
+#### Bug Fixes
+
+-   Verify that name is a string in addons/actions [#1415](https://github.com/storybooks/storybook/pull/1415)
+-   Knobs: fix label alignment [#1471](https://github.com/storybooks/storybook/pull/1471)
+-   Fix display of large components [#1237](https://github.com/storybooks/storybook/pull/1237)
+
+#### Dependency Upgrades
+
+-   Dependency updates [#1439](https://github.com/storybooks/storybook/pull/1439)
+-   chore(package): update husky to version 0.14.3 [#1437](https://github.com/storybooks/storybook/pull/1437)
+-   Update danger to the latest version 🚀 [#1393](https://github.com/storybooks/storybook/pull/1393)
+-   Update lerna to the latest version 🚀 [#1423](https://github.com/storybooks/storybook/pull/1423)
+-   Pin gatsby version and upgrade gh-pages [#1462](https://github.com/storybooks/storybook/pull/1462)
+
+# 3.1.8
+
+2017-July-06
+
+#### Documentation
+
+-   Updated addon knob readme. [#1406](https://github.com/storybooks/storybook/pull/1406)
+-   Add a FAQ entry for shared config with next [#1390](https://github.com/storybooks/storybook/pull/1390)
+-   Documented webpack customization example for typescript [#1386](https://github.com/storybooks/storybook/pull/1386)
+
+#### Maintenance
+
+-   Removed empty array, since webpack 2 doesn't support them anymore. [#1381](https://github.com/storybooks/storybook/pull/1381)
+
+#### Dependency Upgrades
+
+-   Support webpack 3.0.0 [#1410](https://github.com/storybooks/storybook/pull/1410)
+-   Update react inspector to fix #1385 [#1408](https://github.com/storybooks/storybook/pull/1408)
+
 # 3.1.7
 
 2017-June-28

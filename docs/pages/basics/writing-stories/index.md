@@ -65,6 +65,8 @@ configure(loadStories, module);
 
 Here we use Webpack's [require.context](https://webpack.github.io/docs/context.html#require-context) to load modules dynamically. Have a look at the relevant Webpack [docs](https://webpack.github.io/docs/context.html#require-context) to learn more about how to use require.context.
 
+The **React Native** packager resolves all the imports at build-time, so it's not possible to load modules dynamically. If you don't want to import all your stories manually you can use [react-native-storybook-loader](https://github.com/elderfo/react-native-storybook-loader) to automatically create the import statements for all of your stories. 
+
 ## Using Decorators
 
 A decorator is a way to wrap a story with a common set of component(s). Let's say you want to center all your stories. Here is how we can do this with a decorator:
@@ -103,34 +105,29 @@ configure(function () {
 }, module);
 ```
 
-## Managing stories
+## Nesting stories
 
-Storybook has a very simple API to write stories.
-With that, you can’t display nested stories.
-
-But you might ask, how do I manage stories If I have many of them?
-We're currently very much interested in changing our api to support this!
-
-Until that's implemented, here's how different developers address this issue, right now:
-
-### Prefix with dots
-
-For example, you can prefix story names with a dot (`.`):
+You can organize your stories in a nesting structures using "/" as a separator:
 
 ```js
-import { storiesOf } from '@storybook/react';
+// file: src/stories/index.js
 
-storiesOf('core.Button', module);
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import Button from '../components/Button';
+
+storiesOf('My App/Buttons/Simple', module)
+  .add('with text', () => (
+    <Button onClick={action('clicked')}>Hello Button</Button>
+  ));
+
+storiesOf('My App/Buttons/Emoji', module)
+  .add('with some emoji', () => (
+    <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>
+  ));
 ```
 
-Then you can filter stories to display only the stories you want to see.
-
-### [Chapters](https://github.com/yangshun/react-storybook-addon-chapters)
-
-With this addon, you can showcase multiple components (or varying component states) within 1 story.
-Break your stories down into smaller categories (chapters) and subcategories (sections) for more organizational goodness.
-
-### Run multiple storybooks
+## Run multiple storybooks
 
 You can run multiple storybooks for different kinds of stories (or components). To do that, you can create different NPM scripts to start different stories. See:
 
