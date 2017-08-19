@@ -11,7 +11,7 @@ const propTypes = {
   id: PropTypes.string,
 };
 
-export function H1(props) {
+export function H1({ id, children }) {
   const styles = {
     ...baseFonts,
     borderBottom: '1px solid #eee',
@@ -21,8 +21,8 @@ export function H1(props) {
     fontSize: '40px',
   };
   return (
-    <h1 id={props.id} style={styles}>
-      {props.children}
+    <h1 id={id} style={styles}>
+      {children}
     </h1>
   );
 }

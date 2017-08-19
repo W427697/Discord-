@@ -1,10 +1,13 @@
+/* eslint-disable react/prop-types */
+
 import React from 'react';
 
 import { storiesOf, addDecorator } from '@storybook/react';
 import { withInfo, setInfoOptions } from '@storybook/addon-info';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs';
+import { withKnobs, text, number } from '@storybook/addon-knobs';
 
 import { Button } from '@storybook/react/demo';
+import marksy from 'marksy';
 
 import Story from '../Story';
 import Node from '../Node';
@@ -59,7 +62,7 @@ const props = () => ({
   propTablesExclude: options.propTablesExclude,
   styles: typeof options.styles === 'function' && options.styles,
   marksyConf,
-  maxPropObjectKeys: maxPropObjectKeys(),
+  maxPropObjectKeys: maxPropObjectKeys(options.maxPropObjectKeys),
   maxPropArrayLength: maxPropArrayLength(options.maxPropArrayLength),
   maxPropsIntoLine: maxPropsIntoLine(options.maxPropsIntoLine),
   maxPropStringLength: maxPropStringLength(options.maxPropStringLength),
@@ -80,12 +83,12 @@ storiesOf('Root Info Component (Story.js)', module)
   `
   )
   .add('with Widget', () =>
-    <Story {...props()} testKnob={text('test1', 'aa')}>
+    <Story {...props()}>
       <mock.Widget {...mock.widgetProps} />
     </Story>
   )
   .add('with button', () =>
-    <Story {...props()} testKnob={text('test2', 'bb')}>
+    <Story {...props()}>
       <button>Press me</button>
     </Story>
   );
@@ -322,7 +325,7 @@ storiesOf('Markdown/Pre', module)
   );
 
 storiesOf('Markdown/Blockquote', module)
-  .summary('text sections in markdown')
+  .summary('Blockquote sections in markdown')
   .add('example 1', () =>
     <Blockquote>
       <div>const A = 10;</div>
@@ -332,6 +335,149 @@ storiesOf('Markdown/Blockquote', module)
     <Blockquote>
       {'const A = 10;'}
     </Blockquote>
+  );
+
+const mdCompiler = marksy({
+  // Pass in whatever creates elements for your
+  // virtual DOM library. h('h1', {})
+  createElement: React.createElement,
+
+  // You can override the default elements with
+  // custom VDOM trees
+  elements: {
+    h1({ children }) {
+      return (
+        <span className="my-custom-class" style={{ color: 'crimson' }}>
+          {children}
+        </span>
+      );
+    },
+    h2({ children }) {
+      return (
+        <span className="my-custom-class-h2" style={{ color: 'coral' }}>
+          {children}
+        </span>
+      );
+    },
+    code({ language, children, code }) {
+      // const infoMarkup = {
+      //   __html: code ? hljs.highlight('js', code).value : '',
+      // };
+      //  dangerouslySetInnerHTML={infoMarkup}
+      return children
+        ? <code
+            style={{
+              color: 'hsl(0, 0%, 20%)',
+              border: '1px solid hsl(0, 0%, 80%)',
+              borderRadius: 4,
+              backgroundColor: 'hsl(0, 0%, 94%)',
+              padding: 4,
+              fontFamily: 'monospace',
+            }}
+          >
+            {children}
+          </code>
+        : <div className="code-block" style={{ padding: 4, margin: 8 }}>
+            <span className="code-language">
+              language: {language}
+            </span>
+            <pre
+              style={{
+                color: 'hsl(200, 60%, 20%)',
+                border: '1px solid hsl(0, 0%, 80%)',
+                borderRadius: 4,
+                backgroundColor: 'hsl(0, 0%, 94%)',
+                padding: 4,
+                fontFamily: 'monospace',
+              }}
+              className="pre-code-block"
+            >
+              <code className="language-js">
+                {code}
+              </code>
+            </pre>
+          </div>;
+    },
+  },
+});
+
+const mdString = `
+# Hello world
+
+lorem
+
+## block code
+
+ipsum
+
+~~~js
+import { configure, setAddon } from '@storybook/react';
+import { withInfo, setInfoOptions } from '@storybook/addon-info';
+import { setOptions } from '@storybook/addon-options';
+
+setOptions({
+  downPanelInRight: true,
+})
+~~~
+
+### inline code
+
+run \`setOptions({ downPanelInRight: true });\`
+
+
+`;
+
+const demo = `
+# Some blog title
+
+Just need to show you some code of \`storybook-addon\` first:
+
+## My awesome subtitle!!!
+
+\`\`\`js
+import { configure, setAddon } from '@storybook/react';
+import { withInfo, setInfoOptions } from '@storybook/addon-info';
+import { setOptions } from '@storybook/addon-options';
+
+setOptions({
+  downPanelInRight: true,
+})
+
+const props = () => ({
+  summary: mock.widgetSummary,
+  context: mock.context,
+  showInline: Boolean(options.inline),
+  showHeader: Boolean(options.header),
+  showSource: Boolean(options.source),
+  hideInfoButton: Boolean(!options.infoButton),
+  propTables: options.propTables || null,
+  propTablesExclude: options.propTablesExclude,
+  styles: typeof options.styles === 'function' && options.styles,
+  marksyConf,
+  maxPropObjectKeys: maxPropObjectKeys(),
+  maxPropArrayLength: maxPropArrayLength(options.maxPropArrayLength),
+  maxPropsIntoLine: maxPropsIntoLine(options.maxPropsIntoLine),
+  maxPropStringLength: maxPropStringLength(options.maxPropStringLength),
+});
+\`\`\`
+
+<Row>
+  <Col>Need to tell you something over here</Col>
+  <Col>And over here</Col>
+</Row>
+`;
+
+storiesOf('Markdown/marksy', module)
+  .summary('Direct compile with marksy')
+  .add('example 1', () =>
+    <div>
+      {mdCompiler(demo).tree}
+    </div>
+  )
+  .add('example 2 toc', () =>
+    <div>
+      {mdCompiler(mdString).tree}
+    </div>
   );
 
 storiesOf('Mock Components', module)
