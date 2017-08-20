@@ -21,6 +21,12 @@
     "prop-types": "^15.5.10",
     "react-addons-create-fragment": "^15.5.3",
     "react-komposer": "^2.0.0",
+    "rehype-highlight": "^2.0.1",
+    "rehype-react": "^3.0.0",
+    "remark-github": "^7.0.1",
+    "remark-parse": "^4.0.0",
+    "remark-rehype": "^2.0.1",
+    "unified": "^6.1.5",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {

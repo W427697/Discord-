@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import global from 'global';
 
 import marksy from 'marksy';
+import rmkCompiler from './markdown/compiler';
+import './markdown/hljs-styles/github.css';
 
 import PropTable from './PropTable';
 import Node from './Node';
@@ -263,7 +265,8 @@ export default class Story extends React.Component {
     const source = lines.map(s => s.slice(padding)).join('\n');
     return (
       <div style={this.state.stylesheet.infoContent}>
-        {this.marksy(source).tree}
+        {rmkCompiler(source)}
+
       </div>
     );
   }

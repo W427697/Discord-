@@ -15,6 +15,7 @@ import Props from '../Props';
 import PropTable from '../PropTable';
 import PropVal from '../PropVal';
 import { Code, Pre, Blockquote } from '../markdown/code';
+import rmkCompiler from '../markdown/compiler';
 
 import { defaultOptions, defaultMarksyConf } from '../../defaults';
 import * as mock from './mock-data';
@@ -80,6 +81,8 @@ storiesOf('Root Info Component (Story.js)', module)
     **Note**: actual components of **addon-info** are in the *preview* area.
     At the same time we use addon-info itself to see component's details.
     You can find this information in the **INFO** panel
+
+    PR #1501 by @usulpro
   `
   )
   .add('with Widget', () =>
@@ -430,9 +433,23 @@ run \`setOptions({ downPanelInRight: true });\`
 const demo = `
 # Some blog title
 
-Just need to show you some code of \`storybook-addon\` first:
+Just **need** to _show_ you @usulpro some code in #1501 PR for of \`storybook-addon\`:
+
+1. AAAAA
+2. BBBBB
+3. CCCCC
+
+- XXXXXxxxx
+- YYYyyyyy
+- ZZzzzzzZZZZzzzZZzz
 
 ## My awesome subtitle!!!
+
+### Heading level 3
+
+#### Heading level 4
+
+##### Heading level 5
 
 \`\`\`js
 import { configure, setAddon } from '@storybook/react';
@@ -440,30 +457,30 @@ import { withInfo, setInfoOptions } from '@storybook/addon-info';
 import { setOptions } from '@storybook/addon-options';
 
 setOptions({
-  downPanelInRight: true,
+    downPanelInRight: true,
 })
 
 const props = () => ({
-  summary: mock.widgetSummary,
-  context: mock.context,
-  showInline: Boolean(options.inline),
-  showHeader: Boolean(options.header),
-  showSource: Boolean(options.source),
-  hideInfoButton: Boolean(!options.infoButton),
-  propTables: options.propTables || null,
-  propTablesExclude: options.propTablesExclude,
-  styles: typeof options.styles === 'function' && options.styles,
-  marksyConf,
-  maxPropObjectKeys: maxPropObjectKeys(),
-  maxPropArrayLength: maxPropArrayLength(options.maxPropArrayLength),
-  maxPropsIntoLine: maxPropsIntoLine(options.maxPropsIntoLine),
-  maxPropStringLength: maxPropStringLength(options.maxPropStringLength),
+    summary: mock.widgetSummary,
+    context: mock.context,
+    showInline: Boolean(options.inline),
+    showHeader: Boolean(options.header),
+    showSource: Boolean(options.source),
+    hideInfoButton: Boolean(!options.infoButton),
+    propTables: options.propTables || null,
+    propTablesExclude: options.propTablesExclude,
+    styles: typeof options.styles === 'function' && options.styles,
+    marksyConf,
+    maxPropObjectKeys: maxPropObjectKeys(),
+    maxPropArrayLength: maxPropArrayLength(options.maxPropArrayLength),
+    maxPropsIntoLine: maxPropsIntoLine(options.maxPropsIntoLine),
+    maxPropStringLength: maxPropStringLength(options.maxPropStringLength),
 });
 \`\`\`
 
 <Row>
-  <Col>Need to tell you something over here</Col>
-  <Col>And over here</Col>
+<Col>Need to tell you something over here</Col>
+<Col>And over here</Col>
 </Row>
 `;
 
@@ -479,6 +496,10 @@ storiesOf('Markdown/marksy', module)
       {mdCompiler(mdString).tree}
     </div>
   );
+
+storiesOf('Markdown/remark', module)
+  .add('example 1', () => rmkCompiler(demo))
+  .add('example 2', () => rmkCompiler(mdString));
 
 storiesOf('Mock Components', module)
   .add('Widget with text', () => {
