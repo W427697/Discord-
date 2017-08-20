@@ -83,6 +83,14 @@ storiesOf('Root Info Component (Story.js)', module)
     You can find this information in the **INFO** panel
 
     PR #1501 by @usulpro
+
+    short piece of code:
+
+    ~~~js
+    <Story {...props()}>
+      <mock.Widget {...mock.widgetProps} />
+    </Story>
+    ~~~
   `
   )
   .add('with Widget', () =>

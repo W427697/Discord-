@@ -6,7 +6,7 @@ import global from 'global';
 
 import marksy from 'marksy';
 import rmkCompiler from './markdown/compiler';
-import './markdown/hljs-styles/github.css';
+import './markdown/hljs-styles/androidstudio.css';
 
 import PropTable from './PropTable';
 import Node from './Node';

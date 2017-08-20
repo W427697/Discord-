@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import unified from 'unified';
 import remarkParser from 'remark-parse';
-import github from 'remark-github';
+// import github from 'remark-github';
 import remarkRehype from 'remark-rehype';
 import highlight from 'rehype-highlight';
 import rehypeReact from 'rehype-react';
@@ -98,6 +98,7 @@ const components = {
     </code>,
   pre: ({ props, children }) =>
     <pre
+      className="hljs"
       {...props}
       style={{
         border: '1px solid hsl(0, 0%, 80%)',
@@ -134,9 +135,9 @@ let options = {
 function setupProcessor() {
   return unified()
     .use(remarkParser)
-    .use(github, {
-      repository: options.repository,
-    })
+    // .use(github, {
+    //   repository: options.repository,
+    // })
     .use(remarkRehype)
     .use(highlight)
     .use(rehypeReact, {
