@@ -149,6 +149,11 @@ jobs:
           command: |
             yarn install
       - run:
+          name: "Bootstrapping"
+          command: |
+            npm run bootstrap
+            npm run bootstrap:docs
+      - run:
           name: "Linting"
           command: |
             npm run lint
