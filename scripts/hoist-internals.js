@@ -61,7 +61,7 @@ const task = getLernaPackages()
           sourcePath,
           packageJson: getPackageOfFolder(sourcePath),
         }))
-        .filter(({ packageJson }) => !packageJson.private)
+        // .filter(({ packageJson }) => !packageJson.private)
         .map(({ sourcePath, packageJson }) =>
           Promise.resolve(packageJson.name.replace('@storybook/', ''))
             .then(packageName => {
