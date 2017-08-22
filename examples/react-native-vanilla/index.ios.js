@@ -48,4 +48,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('ReactNativeVanilla', () => ReactNativeVanilla);
+AppRegistry.registerComponent('react-native-vanilla', () => ReactNativeVanilla);
