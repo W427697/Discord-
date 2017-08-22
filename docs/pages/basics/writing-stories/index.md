@@ -1,7 +1,8 @@
----
+* * *
+
 id: 'writing-stories'
-title: 'Writing Stories'
----
+
+## title: 'Writing Stories'
 
 Storybook is all about writing stories. Usually a story contains a single state of one of your components. That's like a visual test case.
 
@@ -65,7 +66,7 @@ configure(loadStories, module);
 
 Here we use Webpack's [require.context](https://webpack.github.io/docs/context.html#require-context) to load modules dynamically. Have a look at the relevant Webpack [docs](https://webpack.github.io/docs/context.html#require-context) to learn more about how to use require.context.
 
-The **React Native** packager resolves all the imports at build-time, so it's not possible to load modules dynamically. If you don't want to import all your stories manually you can use [react-native-storybook-loader](https://github.com/elderfo/react-native-storybook-loader) to automatically create the import statements for all of your stories. 
+The **React Native** packager resolves all the imports at build-time, so it's not possible to load modules dynamically. If you don't want to import all your stories manually you can use [react-native-storybook-loader](https://github.com/elderfo/react-native-storybook-loader) to automatically create the import statements for all of your stories.
 
 ## Using Decorators
 
@@ -125,6 +126,28 @@ storiesOf('My App/Buttons/Emoji', module)
   .add('with some emoji', () => (
     <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>
   ));
+```
+
+## Wrapping stories within promises
+
+You may have components that only render themselves correctly once some data has arrived from a back-end (e.g. a mock back-end used for testing). While these components could be added synchronously, where a spinner could be displayed until the data arrives, you may prefer to delay rendering the component until the data is actually available.
+
+If you happen to use the storyshot plug-in then the ability to wrap your story within a promise becomes even more useful, since otherwise your snapshots will only show the component's loading spinner rather than a component populated with data.
+
+In this next example the data to be rendered is coming from a mock GraphQL back-end, but will only be rendered once that back-end is ready:
+
+```js
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { ApolloProvider } from 'react-apollo'
+import createClient from './mock-client';
+
+storiesOf('My component', module)
+  .add('default state', createClient().then(client => () => (
+    <ApolloProvider client={client}>
+      <SomeComponent />
+    </ApolloProvider>
+  )));
 ```
 
 ## Run multiple storybooks
