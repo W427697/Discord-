@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import global from 'global';
 
 import marksy from 'marksy';
-import rmkCompiler from './markdown/compiler';
+import { compile } from './markdown';
 import './markdown/hljs-styles/androidstudio.css';
 
 import PropTable from './PropTable';
@@ -265,7 +265,7 @@ export default class Story extends React.Component {
     const source = lines.map(s => s.slice(padding)).join('\n');
     return (
       <div style={this.state.stylesheet.infoContent}>
-        {rmkCompiler(source)}
+        {compile(source)}
 
       </div>
     );
@@ -305,17 +305,19 @@ export default class Story extends React.Component {
       <div>
         <h1 style={this.state.stylesheet.source.h1}>Story Source</h1>
         <Pre>
-          {React.Children.map(this.props.children, (root, idx) =>
-            <Node
-              key={idx}
-              node={root}
-              depth={0}
-              maxPropsIntoLine={maxPropsIntoLine}
-              maxPropObjectKeys={maxPropObjectKeys}
-              maxPropArrayLength={maxPropArrayLength}
-              maxPropStringLength={maxPropStringLength}
-            />
-          )}
+          <code>
+            {React.Children.map(this.props.children, (root, idx) =>
+              <Node
+                key={idx}
+                node={root}
+                depth={0}
+                maxPropsIntoLine={maxPropsIntoLine}
+                maxPropObjectKeys={maxPropObjectKeys}
+                maxPropArrayLength={maxPropArrayLength}
+                maxPropStringLength={maxPropStringLength}
+              />
+            )}
+          </code>
         </Pre>
       </div>
     );

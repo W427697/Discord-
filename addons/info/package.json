@@ -23,7 +23,11 @@
     "react-komposer": "^2.0.0",
     "rehype-highlight": "^2.0.1",
     "rehype-react": "^3.0.0",
+    "remark-emoji": "^2.0.0",
+    "remark-github": "^7.0.2",
+    "remark-highlight.js": "^5.0.0",
     "remark-parse": "^4.0.0",
+    "remark-react": "^4.0.0",
     "remark-rehype": "^2.0.1",
     "unified": "^6.1.5",
     "util-deprecate": "^1.0.2"
