@@ -70,7 +70,7 @@ const components = {
       style={mainStyle(themeInfo, { fontSize: 12, fontWeight: 600, textTransform: 'uppercase' })}
     />,
   h5: props =>
-    <h4
+    <h5
       {...props}
       style={mainStyle(themeInfo, {
         fontSize: 12,
@@ -80,7 +80,7 @@ const components = {
       })}
     />,
   h6: props =>
-    <h4
+    <h6
       {...props}
       style={mainStyle(themeInfo, {
         fontSize: 10,

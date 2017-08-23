@@ -15,7 +15,7 @@ import PropTable from '../PropTable';
 import PropVal from '../PropVal';
 import { compile } from '../markdown';
 
-import { defaultOptions, defaultMarksyConf } from '../../defaults';
+import { defaultOptions } from '../../defaults';
 import * as mock from './mock-data';
 
 addDecorator((story, context) =>
@@ -45,11 +45,6 @@ const options = {
   ...customOptions,
 };
 
-const marksyConf = {
-  ...defaultMarksyConf,
-  ...options.marksyConf,
-};
-
 const props = () => ({
   summary: mock.widgetSummary,
   context: mock.context,
@@ -60,7 +55,6 @@ const props = () => ({
   propTables: options.propTables || null,
   propTablesExclude: options.propTablesExclude,
   styles: typeof options.styles === 'function' && options.styles,
-  marksyConf,
   maxPropObjectKeys: maxPropObjectKeys(options.maxPropObjectKeys),
   maxPropArrayLength: maxPropArrayLength(options.maxPropArrayLength),
   maxPropsIntoLine: maxPropsIntoLine(options.maxPropsIntoLine),
@@ -322,7 +316,6 @@ const props = () => ({
     propTables: options.propTables || null,
     propTablesExclude: options.propTablesExclude,
     styles: typeof options.styles === 'function' && options.styles,
-    marksyConf,
     maxPropObjectKeys: maxPropObjectKeys(),
     maxPropArrayLength: maxPropArrayLength(options.maxPropArrayLength),
     maxPropsIntoLine: maxPropsIntoLine(options.maxPropsIntoLine),

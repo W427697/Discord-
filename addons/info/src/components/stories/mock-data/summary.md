@@ -168,7 +168,7 @@ function todo(items) {
   return items.map( item => item.make.done );
 }
 
-export { defaultOptions, defaultMarksyConf, context };
+export { defaultOptions, context };
 \`\`\`
 
 ## Tables

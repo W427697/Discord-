@@ -1,6 +1,6 @@
 import Widget from './widget';
 import markdown from './summary.md';
-import { defaultOptions, defaultMarksyConf } from '../../../defaults';
+import { defaultOptions } from '../../../defaults';
 
 const widgetProps = {
   size: 30,
@@ -44,7 +44,7 @@ function todo(items) {
   return items.map( item => item.make.done );
 }
 
-export { defaultOptions, defaultMarksyConf, context };
+export { defaultOptions, context };
 ~~~
 
 `;
@@ -57,4 +57,4 @@ const context = {
   story: 'example story',
 };
 
-export { defaultOptions, defaultMarksyConf, context };
+export { defaultOptions, context };
