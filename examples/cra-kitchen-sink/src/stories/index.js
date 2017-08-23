@@ -108,7 +108,8 @@ storiesOf('Button', module)
     const nice = boolean('Nice', true);
 
     // NOTE: put this last because it currently breaks everything after it :D
-    const birthday = date('Birthday', new Date('Jan 20 2017'));
+    const defaultValue = new Date('Jan 20 2017');
+    const birthday = date('Birthday', defaultValue);
 
     const intro = `My name is ${name}, I'm ${age} years old, and my favorite fruit is ${fruit}.`;
     const style = { backgroundColor, ...otherStyles };
