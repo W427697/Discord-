@@ -107,7 +107,6 @@ storiesOf('Button', module)
     });
     const nice = boolean('Nice', true);
 
-    // NOTE: put this last because it currently breaks everything after it :D
     const defaultValue = new Date('Jan 20 2017');
     const birthday = date('Birthday', defaultValue);
 
@@ -143,6 +142,7 @@ storiesOf('Button', module)
   })
   .add('with setInfoOptions', () => {
     setInfoOptions('this info is **overridden** by setInfoOptions');
+    setOptions({ selectedAddonPanel: 'storybook/info/info-panel' });
     return <Button onClick={action('clicked')}>Button with Info</Button>;
   });
 
