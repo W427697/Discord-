@@ -9,17 +9,18 @@
     "url": "https://github.com/storybooks/storybook.git"
   },
   "scripts": {
+    "flow-deps": "flow-typed install --ignoreDeps dev peer",
     "prepublish": "node ../../scripts/prepublish.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
     "glamor": "^2.20.40",
-    "glamorous": "^4.1.2",
-    "prop-types": "^15.5.10"
+    "glamorous": "^4.1.2"
   },
   "devDependencies": {
     "enzyme": "^2.9.1",
+    "flow-typed": "^2.1.5",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
   },
