@@ -4,7 +4,7 @@ import addons from '@storybook/addons';
 import deprecate from 'util-deprecate';
 import Story from './components/Story';
 import { EVENT_ID } from './config';
-import { defaultOptions, defaultMarksyConf } from './defaults';
+import { defaultOptions } from './defaults';
 
 const channel = addons.getChannel();
 

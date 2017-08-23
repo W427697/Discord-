@@ -353,7 +353,7 @@ storiesOf('Info Addon', module)
       summary: `
         # Components overriding
 
-        Here we can override some components. We support prevoius API - \`marksyConf\` but it will be deprecated. So better to use new API - \`components\` with the same syntax.
+        Here we can override some components. We support previous API - \`marksyConf\` but it will be deprecated. So better to use new API - \`components\` with the same syntax.
 
         In order to pass your own component to markdown set this option this way:
 

@@ -25,7 +25,7 @@ const InfoPanel = ({ infoString }) => {
     __html: infoString,
   };
 
-  return <div style={styles.main} dangerouslySetInnerHTML={infoMarkup} />;
+  return <div style={styles.main} dangerouslySetInnerHTML={infoMarkup} />; // eslint-disable-line
 };
 
 InfoPanel.propTypes = {
