@@ -30,6 +30,7 @@ const preStyle = theme => ({
   border: `1px ${theme.code.borderColor} solid`,
   borderRadius: theme.code.borderRadius,
   padding: '1px 3px',
+  fontSize: 13,
 });
 const mainStyle = (theme, overrides) => ({
   fontFamily: theme.baseFonts,

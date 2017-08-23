@@ -218,7 +218,7 @@ storiesOf('Info Addon', module)
     )
   )
   .add(
-    'Only info markdown',
+    'Only summary with markdown',
     withInfo({
       summary: markdown,
       inline: false,
@@ -232,7 +232,7 @@ storiesOf('Info Addon', module)
     )
   )
   .add(
-    'inline JSX description',
+    'React Element in summary',
     withInfo({
       summary: (
         <div>
@@ -369,21 +369,17 @@ storiesOf('Info Addon', module)
 
         ### H3 - it should be brown
       `,
-    })(context => {
-      setInfoOptions({
-        marksyConf: {
-            h3: props => <h3 {...props} style={{color: 'brown'}} />, // eslint-disable-line
-        },
-        components: {
-            h2: props => <h2 {...props} style={{color: 'blue'}} />, // eslint-disable-line
-        },
-      });
-      return (
-        <Container>
-          click the <InfoButton /> label in top right for info about "{context.story}"
-        </Container>
-      );
-    })
+      marksyConf: {
+        h3: props => <h3 {...props} style={{color: 'brown'}} />, // eslint-disable-line
+      },
+      components: {
+        h2: props => <h2 {...props} style={{color: 'blue'}} />, // eslint-disable-line
+      },
+    })(context =>
+      <Container>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </Container>
+    )
   )
   .add(
     'addons composition',

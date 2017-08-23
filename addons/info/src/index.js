@@ -63,13 +63,8 @@ function addInfo(storyFn, context, infoOptions) {
     ...localOptions,
   };
 
-  // const marksyConf = {
-  //   ...defaultMarksyConf,
-  //   ...options.marksyConf,
-  // };
-
   const components = {
-    // ...options.marksyConf,
+    ...options.marksyConf,
     ...options.components,
   };
 
