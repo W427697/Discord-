@@ -6,8 +6,6 @@ import Story from './components/Story';
 import { EVENT_ID } from './config';
 import { defaultOptions } from './defaults';
 
-const channel = addons.getChannel();
-
 const addonOptions = {
   globalOptions: defaultOptions,
   localOptions: {},
@@ -48,7 +46,7 @@ function catchLocalOptions(storyFn, context) {
 }
 
 function sendToPanel(infoString) {
-  channel.emit(EVENT_ID, {
+  addons.getChannel().emit(EVENT_ID, {
     infoString,
   });
 }
