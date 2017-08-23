@@ -63,9 +63,14 @@ function addInfo(storyFn, context, infoOptions) {
     ...localOptions,
   };
 
-  const marksyConf = {
-    ...defaultMarksyConf,
-    ...options.marksyConf,
+  // const marksyConf = {
+  //   ...defaultMarksyConf,
+  //   ...options.marksyConf,
+  // };
+
+  const components = {
+    // ...options.marksyConf,
+    ...options.components,
   };
 
   // props.propTables can only be either an array of components or null
@@ -81,7 +86,7 @@ function addInfo(storyFn, context, infoOptions) {
     propTables: options.propTables || null,
     propTablesExclude: options.propTablesExclude,
     styles: typeof options.styles === 'function' && options.styles,
-    marksyConf,
+    components,
     maxPropObjectKeys: options.maxPropObjectKeys,
     maxPropArrayLength: options.maxPropArrayLength,
     maxPropsIntoLine: options.maxPropsIntoLine,

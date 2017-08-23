@@ -34,6 +34,7 @@ export function setOptions(newOptions) {
     },
   };
   processor = setupProcessor();
+  options = defaultOptions;
 }
 
 export function getOptions() {

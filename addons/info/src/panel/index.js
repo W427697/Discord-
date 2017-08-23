@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EmptyPanel from './empty_panel';
 
-import '../components/markdown/hljs-styles/androidstudio.css';
+/* select one from src/components/markdown/hljs-styles/
+   check out the appearance before in https://highlightjs.org/
+   some dark styles are: androidstudio, rainbow, ocean
+   some light styles are: github, tomorrow, default
+*/
+import '../components/markdown/hljs-styles/github.css';
 
 const styles = {
   main: {

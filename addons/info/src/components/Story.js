@@ -1,17 +1,15 @@
 /* eslint no-underscore-dangle: 0 */
 
-import React, { createElement } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import global from 'global';
 import { baseFonts } from '@storybook/components';
 
-import marksy from 'marksy';
-import { compile, pre as Pre } from './markdown';
+import { compile, setOptions, pre as Pre } from './markdown';
 import './markdown/hljs-styles/androidstudio.css';
 
 import PropTable from './PropTable';
 import Node from './Node';
-import { baseFonts } from './theme';
 
 global.STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES || [];
 const STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES;
@@ -120,10 +118,6 @@ export default class Story extends React.Component {
       open: props.hideInfoButton,
       stylesheet: this.props.styles(JSON.parse(JSON.stringify(stylesheet))),
     };
-    this.marksy = marksy({
-      createElement,
-      elements: props.marksyConf,
-    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -263,6 +257,11 @@ export default class Story extends React.Component {
       padding = matches[0].length;
     }
     const source = lines.map(s => s.slice(padding)).join('\n');
+
+    setOptions({
+      components: this.props.components,
+    });
+
     return (
       <div style={this.state.stylesheet.infoContent}>
         {compile(source)}
@@ -428,7 +427,7 @@ Story.propTypes = {
   showSource: PropTypes.bool,
   styles: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  marksyConf: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  components: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   maxPropsIntoLine: PropTypes.number.isRequired,
   maxPropObjectKeys: PropTypes.number.isRequired,
   maxPropArrayLength: PropTypes.number.isRequired,
@@ -444,5 +443,5 @@ Story.defaultProps = {
   hideInfoButton: false,
   showHeader: true,
   showSource: true,
-  marksyConf: {},
+  components: {},
 };

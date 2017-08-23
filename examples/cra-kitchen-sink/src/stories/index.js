@@ -29,6 +29,7 @@ import Logger from './Logger';
 import Container from './Container';
 import DocgenButton from '../components/DocgenButton';
 import FlowTypeButton from '../components/FlowTypeButton';
+import markdown from '../../../../addons/info/src/components/stories/mock-data/summary.md';
 
 const EVENTS = {
   TEST_EVENT_1: 'test-event-1',
@@ -144,8 +145,6 @@ storiesOf('Button', module)
     return <Button onClick={action('clicked')}>Button with Info</Button>;
   });
 
-storiesOf('App', module).add('full app', () => <App />);
-
 storiesOf('Info Addon', module)
   .add(
     'Info default',
@@ -153,9 +152,54 @@ storiesOf('Info Addon', module)
       'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.'
     )(context =>
       <Container>
+        {setOptions({ selectedAddonPanel: 'storybook/info/info-panel' })}
         click the <InfoButton /> label in top right for info about "{context.story}"
       </Container>
     )
+  )
+  .add(
+    'DocgenButton',
+    withInfo(`
+      # Docgen Button
+
+      It demonstrates how your component can be documented via [babel-plugin-react-docgen](https://github.com/storybooks/babel-plugin-react-docgen). You just need to add comments in your component \`propTypes\` this way:
+
+      ~~~js
+      DocgenButton.propTypes = {
+        /** Boolean indicating whether the button should render as disabled */
+        disabled: PropTypes.bool,
+        /** button label. */
+        label: PropTypes.string.isRequired,
+        /** onClick handler */
+        onClick: PropTypes.func,
+      }
+      ~~~
+      
+      See results in the **Prop Types** section below
+
+      `)(() => <DocgenButton onClick={action('clicked')} label="Docgen Button" />)
+  )
+  .add(
+    'FlowTypeButton',
+    withInfo(`
+      # FlowType Button
+      
+      It demonstrates how your component can be documented via [Flow](https://flow.org/). You just need to add types and comments to your component this way:
+
+      ~~~js
+      type PropsType = {
+        /** The text to be rendered in the button */
+        label: string,
+        /** Function to be called when the button is clicked */
+        onClick?: Function,
+        /** Boolean representing wether the button is disabled */
+        disabled?: boolean,
+      };
+      ~~~
+
+      See results in the **Prop Types** section below
+            
+    `)(() => <FlowTypeButton onClick={action('clicked')} label="Flow Typed Button" />)
   )
   .add(
     'Info with options',
@@ -176,51 +220,7 @@ storiesOf('Info Addon', module)
   .add(
     'Only info markdown',
     withInfo({
-      summary: `
-        # Quid fruticumque morte
-
-        ## Indignantia factum tracto tamen
-
-        Lorem markdownum condidit. Vittam quod modo vana **Bactrius**, oculos est maius,
-        **in liquitur** dividuae: pectusque.
-
-        - Velata et qui sequenti domito ferinas miserum
-        - Cognita minus
-        - Iuppiter et sinitis corpore haec
-        - Forma pinetis mortemque accipiter meorum egi Erysicthona
-        - Litora mixtaeque tellus passim erexit
-        - Postquam Scythicis saevis et sermone minimus cremabo
-
-        Muneris udis flumen quod. Meo vinci haec
-        [ignoscite](http://nisi.org/recentipariter.aspx) insonuit Amoris Persei
-        Thermodontiaca unum madebit thalamumque iniqui?
-
-        
-        ## Tumulumque transferre memorque insopitumque leves clipei lignum
-        
-        Ipsaque parte summo, et paravi admotas te demum castique nostri, audit metuunt
-        inquit: vestigia? Formae potius Tritonidos et pars, iungat tum, gestare, *ardore
-        cum*, ausum inscribenda incingitur digitis umbram. Aello electarumque huic et
-        cunctatusque et verba alto atque et ignibus.
-
-        Revellit *parari cum* quaeque sacrum gelido, colantur quae haec longe temptanti
-        fatigat agat: in iuvat sed, oscula. Haec dictis inani nova et [illa
-        mens](http://accipiter.org/vulnusredditus) quam ex lacus nulla, nam haud
-        numeratur radios.
-
-        ## Postquam levis nec aspera tum
-
-        Nimiumque scopulum. Pars rupit.
-
-        - Volatu Amor sine utere sitvs vini mitis
-        - Unda causa exhausta
-        - Cupidine ne quoque si quoquam tacitae
-        - Mortis sensit
-        - Obit non possint operum umbra laevum Telethusa
-        - Stetit indueret
-
-        Luctibus tuli? Ipsa tempora corpus illa alii in sacra sepulcri sanguis nova quem
-        enim [aequora](http://figura.io/mittere), tenentis, mensas sed dea, non?`,
+      summary: markdown,
       inline: false,
       propTables: false,
       header: false,
@@ -348,6 +348,44 @@ storiesOf('Info Addon', module)
     )
   )
   .add(
+    'With custom components',
+    withInfo({
+      summary: `
+        # Components overriding
+
+        Here we can override some components. We support prevoius API - \`marksyConf\` but it will be deprecated. So better to use new API - \`components\` with the same syntax.
+
+        In order to pass your own component to markdown set this option this way:
+
+        ~~~js
+        components: {
+          h2: props => <h2 {...props} style={{color: 'blue'}} />,
+        }
+        ~~~
+
+        Lets override **H2** heading via \`components\` and **H3** via old \`marksyConf\` API:
+
+        ## H2 - it should be blue
+
+        ### H3 - it should be brown
+      `,
+    })(context => {
+      setInfoOptions({
+        marksyConf: {
+            h3: props => <h3 {...props} style={{color: 'brown'}} />, // eslint-disable-line
+        },
+        components: {
+            h2: props => <h2 {...props} style={{color: 'blue'}} />, // eslint-disable-line
+        },
+      });
+      return (
+        <Container>
+          click the <InfoButton /> label in top right for info about "{context.story}"
+        </Container>
+      );
+    })
+  )
+  .add(
     'addons composition',
     withInfo('see Notes panel for composition info')(
       withNotes('Composition: Info(Notes())')(context =>
@@ -379,17 +417,6 @@ storiesOf('Addons composition', module)
     setInfoOptions('this *button* contain **some emoji**');
     return <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>;
   });
-
-storiesOf('AddonInfo.DocgenButton', module).addWithInfo('DocgenButton', 'Some Description', () =>
-  <DocgenButton onClick={action('clicked')} label="Docgen Button" />
-);
-
-storiesOf(
-  'AddonInfo.FlowTypeButton',
-  module
-).addWithInfo('FlowTypeButton', 'Some Description', () =>
-  <FlowTypeButton onClick={action('clicked')} label="Flow Typed Button" />
-);
 
 storiesOf('App', module).add('full app', () => <App />);
 

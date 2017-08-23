@@ -26,6 +26,11 @@ const codeStyle = theme => ({
   backgroundColor: theme.code.backgroundColor,
   padding: '1px 3px',
 });
+const preStyle = theme => ({
+  border: `1px ${theme.code.borderColor} solid`,
+  borderRadius: theme.code.borderRadius,
+  padding: '1px 3px',
+});
 const mainStyle = (theme, overrides) => ({
   fontFamily: theme.baseFonts,
   fontSize: 14,
@@ -38,13 +43,13 @@ const linkStyle = theme => ({
   textDecoration: 'none',
 });
 
-export const CodeFenced = props => <code className="fenced-code" {...props} />;
+export const CodeFenced = props => <code className="hljs" {...props} />;
 export const CodeInline = props => <code {...props} style={codeStyle(themeInfo)} />;
 
 export const Pre = props => {
   const hasCode = props.children[0] ? props.children[0].type.name === 'code' : false;
   return (
-    <pre className="fenced-code" style={codeStyle(themeInfo)}>
+    <pre className={hasCode ? 'hljs' : 'fenced-code'} style={preStyle(themeInfo)}>
       {hasCode ? <CodeFenced {...props.children[0].props} /> : <CodeFenced {...props} />}
     </pre>
   );
