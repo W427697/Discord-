@@ -1,3 +1,11 @@
-export { H1, H2, H3, H4, H5, H6 } from './htags';
-export { Code, Pre } from './code';
-export { P, Small, A, LI } from './text';
+import { getOptions } from './compiler';
+
+const { pre, codeFenced, codeInline } = getOptions().components;
+
+const Pre = pre;
+const CodeFenced = codeFenced;
+const CodeInline = codeInline;
+
+
+export { compile, setOptions } from './compiler';
+export { pre, CodeFenced, CodeInline };

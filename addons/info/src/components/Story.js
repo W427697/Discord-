@@ -5,11 +5,12 @@ import PropTypes from 'prop-types';
 import global from 'global';
 
 import marksy from 'marksy';
+import { compile, pre as Pre } from './markdown';
+import './markdown/hljs-styles/androidstudio.css';
 
 import PropTable from './PropTable';
 import Node from './Node';
 import { baseFonts } from './theme';
-import { Pre } from './markdown';
 
 global.STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES || [];
 const STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES;
@@ -263,7 +264,7 @@ export default class Story extends React.Component {
     const source = lines.map(s => s.slice(padding)).join('\n');
     return (
       <div style={this.state.stylesheet.infoContent}>
-        {this.marksy(source).tree}
+        {compile(source)}
       </div>
     );
   }

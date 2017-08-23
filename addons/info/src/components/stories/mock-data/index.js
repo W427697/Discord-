@@ -10,7 +10,7 @@ const widgetProps = {
 const widgetSummary = `
 # Widget mock
 
-This is example React component to be used for testing addon-info
+This is example React component to be used for testing \`addon-info\`
 
 ## Contains
 
@@ -23,6 +23,29 @@ This is example React component to be used for testing addon-info
 - number
 - string
 - bool
+
+PR #1501 by @usulpro
+
+### Piece of code now
+
+~~~js
+export { Widget, widgetProps, widgetSummary };
+export { markdown };
+
+const context = {
+  kind: 'Example Component',
+  story: 'example story',
+  aaa: true,
+  bbb: 1 + 1,
+  ccc: object.field,
+};
+
+function todo(items) {
+  return items.map( item => item.make.done );
+}
+
+export { defaultOptions, defaultMarksyConf, context };
+~~~
 
 `;
 

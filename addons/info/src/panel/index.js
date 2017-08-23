@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EmptyPanel from './empty_panel';
 
+import '../components/markdown/hljs-styles/androidstudio.css';
+
 const styles = {
   main: {
     width: '100%',
