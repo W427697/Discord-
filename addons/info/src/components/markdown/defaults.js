@@ -38,22 +38,20 @@ const linkStyle = theme => ({
   textDecoration: 'none',
 });
 
-export const CodeFenced = props => <code {...props} />;
+export const CodeFenced = props => <code className="fenced-code" {...props} />;
 export const CodeInline = props => <code {...props} style={codeStyle(themeInfo)} />;
 
 export const Pre = props => {
-  const isFenced = props.children[0] ? props.children[0].type.name === 'code' : false;
-  if (isFenced)
-    return (
-      <pre className="fenced-code" style={codeStyle(themeInfo)}>
-        <CodeFenced {...props.children[0].props} />
-      </pre>
-    );
-  return <pre {...props} />;
+  const hasCode = props.children[0] ? props.children[0].type.name === 'code' : false;
+  return (
+    <pre className="fenced-code" style={codeStyle(themeInfo)}>
+      {hasCode ? <CodeFenced {...props.children[0].props} /> : <CodeFenced {...props} />}
+    </pre>
+  );
 };
 
 Pre.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 const components = {

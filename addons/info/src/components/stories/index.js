@@ -109,7 +109,7 @@ storiesOf('Node', module)
 
     It used to display the source of story
 
-    *parent*: **<Story />**
+    *parent*: **Story**
 
     *section*: **Story Source**
   `
@@ -153,7 +153,7 @@ storiesOf('Props', module)
 
     It used to display all props of a component
 
-    *parent*: **<Node />**
+    *parent*: **Node**
 
     *section*: **Story Source**
   `
@@ -186,7 +186,7 @@ storiesOf('PropTable', module)
 
     It displays table with props description of components
 
-    *parent*: **<Story />**
+    *parent*: **Story**
 
     *section*: **Prop Types**
   `
@@ -197,18 +197,7 @@ storiesOf('PropTable', module)
       showHeader={false}
       showSource={false}
       summary={null}
-      propTables={[
-        mock.Widget,
-        Button,
-        Story,
-        Node,
-        Props,
-        PropTable,
-        PropVal,
-        Code,
-        Pre,
-        Blockquote,
-      ]}
+      propTables={[mock.Widget, Button, Story, Node, Props, PropTable, PropVal]}
     >
       <mock.Widget {...mock.widgetProps} />
     </Story>
@@ -237,7 +226,7 @@ storiesOf('PropVal', module)
 
     It shows default props in PropTable and prop values in Props
 
-    *parent*: **<PropTable />**, **<Props />**
+    *parent*: **PropTable**, **Props**
 
     *section*: **Prop Types**, **Story Source**
   `
@@ -265,8 +254,7 @@ storiesOf('Markdown/Code', module)
     >
       <mock.Widget {...mock.widgetProps} />
     </Story>
-);
- 
+  );
 
 const mdString = `
 # Hello world
@@ -347,7 +335,6 @@ const props = () => ({
 <Col>And over here</Col>
 </Row>
 `;
-
 
 storiesOf('Markdown/remark', module)
   .add('example 1', () => compile(demo))

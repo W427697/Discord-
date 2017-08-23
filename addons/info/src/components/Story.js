@@ -5,13 +5,12 @@ import PropTypes from 'prop-types';
 import global from 'global';
 
 import marksy from 'marksy';
-import { compile } from './markdown';
+import { compile, pre as Pre } from './markdown';
 import './markdown/hljs-styles/androidstudio.css';
 
 import PropTable from './PropTable';
 import Node from './Node';
 import { baseFonts } from './theme';
-import { Pre } from './markdown';
 
 global.STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES || [];
 const STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES;
@@ -266,7 +265,6 @@ export default class Story extends React.Component {
     return (
       <div style={this.state.stylesheet.infoContent}>
         {compile(source)}
-
       </div>
     );
   }
@@ -305,19 +303,17 @@ export default class Story extends React.Component {
       <div>
         <h1 style={this.state.stylesheet.source.h1}>Story Source</h1>
         <Pre>
-          <code>
-            {React.Children.map(this.props.children, (root, idx) =>
-              <Node
-                key={idx}
-                node={root}
-                depth={0}
-                maxPropsIntoLine={maxPropsIntoLine}
-                maxPropObjectKeys={maxPropObjectKeys}
-                maxPropArrayLength={maxPropArrayLength}
-                maxPropStringLength={maxPropStringLength}
-              />
-            )}
-          </code>
+          {React.Children.map(this.props.children, (root, idx) =>
+            <Node
+              key={idx}
+              node={root}
+              depth={0}
+              maxPropsIntoLine={maxPropsIntoLine}
+              maxPropObjectKeys={maxPropObjectKeys}
+              maxPropArrayLength={maxPropArrayLength}
+              maxPropStringLength={maxPropStringLength}
+            />
+          )}
         </Pre>
       </div>
     );
