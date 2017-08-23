@@ -3,6 +3,7 @@
 import React, { createElement } from 'react';
 import PropTypes from 'prop-types';
 import global from 'global';
+import { baseFonts } from '@storybook/components';
 
 import marksy from 'marksy';
 import { compile, pre as Pre } from './markdown';
