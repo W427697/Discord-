@@ -57,8 +57,9 @@ if (program.clean) {
   shelljs.rm('-rf', outputDir);
 }
 
-// create output directory (and the static dir) if not exists
 shelljs.mkdir('-p', path.resolve(outputDir));
+// clear the static dir
+shelljs.rm('-rf', path.resolve(outputDir, 'static'));
 shelljs.cp(path.resolve(__dirname, 'public/favicon.ico'), outputDir);
 
 // Build the webpack configuration using the `baseConfig`
