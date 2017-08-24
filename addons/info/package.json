@@ -21,7 +21,6 @@
     "prop-types": "^15.5.10",
     "react-addons-create-fragment": "^15.5.3",
     "react-komposer": "^2.0.0",
-    "remark-emoji": "^2.0.0",
     "remark-github": "^7.0.2",
     "remark-highlight.js": "^5.0.0",
     "remark-parse": "^4.0.0",
