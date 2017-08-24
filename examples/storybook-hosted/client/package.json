@@ -12,6 +12,7 @@
     "@storybook/react-native": "file:../../../app/react-native",
 		"react": "16.0.0-alpha.6",
 		"react-native": "0.44.1",
+        "react-dom": "16.0.0-alpha.6",
 		"react-native-camera": "^0.10.0",
 		"react-native-qrcode-scanner": "^0.0.14"
 	},
