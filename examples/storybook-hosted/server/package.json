@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "storybook start -p 7007 -i -r --skip-packager -e PRODUCTION -c ./server"
+    "start": "storybook start -p 7007 -i -r --skip-packager -e PRODUCTION -c ./storybook"
   },
   "author": "Gytis Vinclovas",
   "license": "MIT",

@@ -1,59 +1,8 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, NavigatorIOS, TouchableOpacity } from 'react-native';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import { AppRegistry, StyleSheet, Text } from 'react-native';
 
 import { getStorybook } from './storybook';
-import QRCodeScanner from 'react-native-qrcode-scanner';
-
-class App extends Component {
-  render() {
-    return (
-      <NavigatorIOS
-        initialRoute={{
-          component: ScanScreen,
-          title: 'Scan Code',
-        }}
-        style={{ flex: 1 }}
-      />
-    );
-  }
-}
-
-class ScanScreen extends Component {
-  startStorybook(e) {
-    const [host, port, pairedId, secured] = e.data.split('|');
-
-    alert(`Host: ${host}, Port: ${port}, PairedId: ${pairedId}, Secured: ${secured}`);
-
-    const StorybookUI = getStorybook(
-      () => {
-        require('./storybook/stories');
-      },
-      module,
-      {
-        port,
-        host,
-        query: `pairedId=${pairedId}`,
-        secured,
-        manualId: true,
-        resetStorybook: true,
-      }
-    );
-
-    this.props.navigator.push({
-      title: 'Storybook',
-      component: StorybookUI,
-    });
-  }
-
-  render() {
-    return (
-      <QRCodeScanner
-        onRead={this.startStorybook.bind(this)}
-        topContent={<Text style={styles.centerText}>Scan qr code displayed in web browser</Text>}
-      />
-    );
-  }
-}
 
 const styles = StyleSheet.create({
   centerText: {
@@ -77,4 +26,56 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('RNStorybookHostedClient', () => ScanScreen);
+
+class App extends Component {
+
+  constructor() {
+    super();
+    this.storybookComponent = null;
+
+    this.state = {
+      init: false,
+    };
+  }
+
+  startStorybook(e) {
+    const [host, port, pairedId, secured] = e.data.split('|');
+
+    this.storybookComponent = getStorybook(
+      () => {
+        // eslint-disable-next-line global-require
+        require('./storybook/stories');
+      },
+      module,
+      {
+        port,
+        host,
+        query: `pairedId=${pairedId}`,
+        secured: secured === '1',
+        manualId: true,
+        resetStorybook: true,
+      }
+    );
+
+    this.setState({
+      init: true,
+    });
+  }
+
+  render() {
+
+    if (!this.state.init) {
+      return (
+        <QRCodeScanner
+          onRead={() => this.startStorybook()}
+          topContent={<Text style={styles.centerText}>Scan qr code displayed in web browser</Text>}
+        />
+      );
+    }
+
+    return (<this.storybookComponent />);
+  }
+}
+
+
+AppRegistry.registerComponent('client', () => App);

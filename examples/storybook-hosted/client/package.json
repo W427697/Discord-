@@ -7,11 +7,11 @@
 		"test": "jest"
 	},
 	"dependencies": {
-    "@storybook/addon-knobs": "file:../../addons/knobs",
-    "@storybook/addon-rn-pair": "file:../../addons/rn-pair",
-    "@storybook/react-native": "file:../../app/react-native",
+    "@storybook/addon-knobs": "file:../../../addons/knobs",
+    "@storybook/addon-rn-pair": "file:../../../addons/rn-pair",
+    "@storybook/react-native": "file:../../../app/react-native",
 		"react": "16.0.0-alpha.6",
-		"react-native": "0.44.2",
+		"react-native": "0.44.1",
 		"react-native-camera": "^0.10.0",
 		"react-native-qrcode-scanner": "^0.0.14"
 	},
