@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
 class App extends Component {
 
   constructor() {
@@ -67,7 +66,7 @@ class App extends Component {
     if (!this.state.init) {
       return (
         <QRCodeScanner
-          onRead={() => this.startStorybook()}
+          onRead={(...args) => this.startStorybook(...args)}
           topContent={<Text style={styles.centerText}>Scan qr code displayed in web browser</Text>}
         />
       );
