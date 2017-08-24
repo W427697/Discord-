@@ -1,5 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
+import MinifyPlugin from 'babel-minify-webpack-plugin';
 import babelLoaderConfig from './babel.prod';
 import { includePaths, excludePaths, loadEnv, nodePaths } from './utils';
 
@@ -24,17 +25,12 @@ export default function() {
     },
     plugins: [
       new webpack.DefinePlugin(loadEnv({ production: true })),
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          screw_ie8: true,
-          warnings: false,
-        },
-        mangle: false,
-        output: {
+      new MinifyPlugin(
+        {},
+        {
           comments: false,
-          screw_ie8: true,
-        },
-      }),
+        }
+      ),
     ],
     module: {
       rules: [

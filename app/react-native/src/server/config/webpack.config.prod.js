@@ -1,5 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
+import MinifyPlugin from 'babel-minify-webpack-plugin';
 import { OccurenceOrderPlugin, includePaths, excludePaths } from './utils';
 
 const config = {
@@ -21,19 +22,12 @@ const config = {
   plugins: [
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        screw_ie8: true,
-        warnings: false,
-      },
-      mangle: {
-        screw_ie8: true,
-      },
-      output: {
+    new MinifyPlugin(
+      {},
+      {
         comments: false,
-        screw_ie8: true,
-      },
-    }),
+      }
+    ),
   ],
   module: {
     loaders: [
