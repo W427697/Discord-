@@ -3,12 +3,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import global from 'global';
+import { baseFonts } from '@storybook/components';
 
 import marksy from 'marksy';
 
 import PropTable from './PropTable';
 import Node from './Node';
-import { baseFonts } from './theme';
 import { Pre } from './markdown';
 
 global.STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES || [];
@@ -63,6 +63,7 @@ const stylesheet = {
   infoContent: {
     marginBottom: 0,
   },
+  infoStory: {},
   jsxInfoContent: {
     borderTop: '1px solid #eee',
     margin: '20px 0 0 0',
@@ -116,7 +117,7 @@ export default class Story extends React.Component {
 
   _renderStory() {
     return (
-      <div>
+      <div style={this.state.stylesheet.infoStory}>
         {this.props.children}
       </div>
     );
@@ -126,9 +127,7 @@ export default class Story extends React.Component {
     return (
       <div>
         {this._renderInlineHeader()}
-        <div>
-          {this._renderStory()}
-        </div>
+        {this._renderStory()}
         <div style={this.state.stylesheet.infoPage}>
           <div style={this.state.stylesheet.infoBody}>
             {this._getInfoContent()}
@@ -180,9 +179,13 @@ export default class Story extends React.Component {
         <div style={this.state.stylesheet.children}>
           {this.props.children}
         </div>
-        <a style={linkStyle} onClick={openOverlay} role="button" tabIndex="0">Show Info</a>
+        <a style={linkStyle} onClick={openOverlay} role="button" tabIndex="0">
+          Show Info
+        </a>
         <div style={infoStyle}>
-          <a style={linkStyle} onClick={closeOverlay} role="button" tabIndex="0">×</a>
+          <a style={linkStyle} onClick={closeOverlay} role="button" tabIndex="0">
+            ×
+          </a>
           <div style={this.state.stylesheet.infoPage}>
             <div style={this.state.stylesheet.infoBody}>
               {this._getInfoHeader()}
@@ -204,8 +207,12 @@ export default class Story extends React.Component {
 
     return (
       <div style={this.state.stylesheet.header.body}>
-        <h1 style={this.state.stylesheet.header.h1}>{this.props.context.kind}</h1>
-        <h2 style={this.state.stylesheet.header.h2}>{this.props.context.story}</h2>
+        <h1 style={this.state.stylesheet.header.h1}>
+          {this.props.context.kind}
+        </h1>
+        <h2 style={this.state.stylesheet.header.h2}>
+          {this.props.context.story}
+        </h2>
       </div>
     );
   }
@@ -340,7 +347,7 @@ export default class Story extends React.Component {
 
     const { maxPropObjectKeys, maxPropArrayLength, maxPropStringLength } = this.props;
     const propTables = array.map(type =>
-      <div key={type.name}>
+      <div key={type.displayName || type.name}>
         <h2 style={this.state.stylesheet.propTableHead}>
           "{type.displayName || type.name}" Component
         </h2>
