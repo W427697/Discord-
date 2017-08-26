@@ -1,0 +1,20 @@
+{
+  "name": "wix-react-native-storybook-server",
+  "version": "1.0.10",
+  "description": "Server to host storybook for react native apps",
+  "main": "index.js",
+  "bin": {
+    "storybook": "./node_modules/.bin/storybook"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "storybook start -p 7007 -i -r --skip-packager -e PRODUCTION -c ./storybook"
+  },
+  "author": "Gytis Vinclovas",
+  "license": "MIT",
+  "dependencies": {
+    "@storybook/addon-knobs": "file:../../../addons/knobs",
+    "@storybook/addon-rn-pair": "file:../../../addons/rn-pair",
+    "@storybook/react-native": "file:../../../app/react-native"
+  }
+}
