@@ -1,74 +1,116 @@
 import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+import addons from '@storybook/addons';
 import deprecate from 'util-deprecate';
 import Story from './components/Story';
-import { H1, H2, H3, H4, H5, H6, Code, P, UL, A, LI } from './components/markdown';
+import { EVENT_ID } from './config';
+import { defaultOptions } from './defaults';
 
-const defaultOptions = {
-  inline: false,
-  header: true,
-  source: true,
-  propTables: [],
-  maxPropsIntoLine: 3,
-  maxPropObjectKeys: 3,
-  maxPropArrayLength: 3,
-  maxPropStringLength: 50,
+const addonOptions = {
+  globalOptions: defaultOptions,
+  localOptions: {},
+  isGlobalScope: true,
+
+  setOptions(options) {
+    if (this.isGlobalScope) {
+      this.globalOptions = {
+        ...this.globalOptions,
+        ...options,
+      };
+      return this.globalOptions;
+    }
+    this.localOptions = {
+      ...this.localOptions,
+      ...options,
+    };
+    return this.localOptions;
+  },
+
+  globalScope() {
+    this.isGlobalScope = true;
+    this.localOptions = {};
+  },
+
+  localScope() {
+    this.isGlobalScope = false;
+    this.localOptions = {};
+  },
 };
 
-const defaultMarksyConf = {
-  h1: H1,
-  h2: H2,
-  h3: H3,
-  h4: H4,
-  h5: H5,
-  h6: H6,
-  code: Code,
-  p: P,
-  a: A,
-  li: LI,
-  ul: UL,
-};
+function catchLocalOptions(storyFn, context) {
+  addonOptions.localScope();
+  const story = storyFn(context);
+  const { localOptions, globalOptions } = addonOptions;
+  addonOptions.globalScope();
+  return { story, localOptions, globalOptions };
+}
+
+function sendToPanel(infoString) {
+  addons.getChannel().emit(EVENT_ID, {
+    infoString,
+  });
+}
 
 function addInfo(storyFn, context, infoOptions) {
+  // Options could be overridden by setInfoOptions during storyFn execution
+  const { story, globalOptions, localOptions } = catchLocalOptions(storyFn, context);
+
   const options = {
-    ...defaultOptions,
+    ...globalOptions,
     ...infoOptions,
+    ...localOptions,
+  };
+
+  const components = {
+    ...options.marksyConf,
+    ...options.components,
   };
 
   // props.propTables can only be either an array of components or null
   // propTables option is allowed to be set to 'false' (a boolean)
   // if the option is false, replace it with null to avoid react warnings
-  if (!options.propTables) {
-    options.propTables = null;
-  }
-
-  const marksyConf = { ...defaultMarksyConf };
-  if (options && options.marksyConf) {
-    Object.assign(marksyConf, options.marksyConf);
-  }
   const props = {
-    info: options.text,
+    summary: options.summary,
     context,
     showInline: Boolean(options.inline),
     showHeader: Boolean(options.header),
     showSource: Boolean(options.source),
-    propTables: options.propTables,
+    hideInfoButton: Boolean(!options.infoButton),
+    propTables: options.propTables || null,
     propTablesExclude: options.propTablesExclude,
-    styles: typeof options.styles === 'function' ? options.styles : s => s,
-    marksyConf,
+    styles: typeof options.styles === 'function' && options.styles,
+    components,
     maxPropObjectKeys: options.maxPropObjectKeys,
     maxPropArrayLength: options.maxPropArrayLength,
     maxPropsIntoLine: options.maxPropsIntoLine,
     maxPropStringLength: options.maxPropStringLength,
   };
-  return (
+
+  const infoContent = (
     <Story {...props}>
-      {storyFn(context)}
+      {story}
     </Story>
   );
+  if (options.sendToPanel) {
+    const infoString = ReactDOMServer.renderToString(infoContent);
+    sendToPanel(infoString);
+    return story;
+  }
+  return infoContent;
 }
 
-export const withInfo = textOrOptions => {
-  const options = typeof textOrOptions === 'string' ? { text: textOrOptions } : textOrOptions;
+const detectOptions = prop => {
+  if (typeof prop === 'string') {
+    return { summary: prop };
+  }
+  if (React.isValidElement(prop)) {
+    return { summary: prop };
+  }
+  return prop;
+};
+
+export const withInfo = summaryOrOptions => {
+  const options = detectOptions(summaryOrOptions);
   return storyFn => context => addInfo(storyFn, context, options);
 };
 
@@ -89,6 +131,7 @@ export default {
   }, '@storybook/addon-info .addWithInfo() addon is deprecated, use withInfo() from the same package instead. \nSee https://github.com/storybooks/storybook/tree/master/addons/info'),
 };
 
-export function setDefaults(newDefaults) {
-  return Object.assign(defaultOptions, newDefaults);
+export function setInfoOptions(summaryOrOptions) {
+  const options = detectOptions(summaryOrOptions);
+  return addonOptions.setOptions(options);
 }

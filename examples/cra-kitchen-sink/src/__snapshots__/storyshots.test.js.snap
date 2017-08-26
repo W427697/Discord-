@@ -1,841 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots AddonInfo.DocgenButton DocgenButton 1`] = `
-<div>
-  <div
-    style={
-      Object {
-        "position": "relative",
-        "zIndex": 0,
-      }
-    }
-  >
-    <button
-      disabled={false}
-      onClick={[Function]}
-    >
-      Docgen Button
-    </button>
-  </div>
-  <a
-    onClick={[Function]}
-    role="button"
-    style={
-      Object {
-        "background": "#28c",
-        "borderRadius": "0 0 0 5px",
-        "color": "#fff",
-        "cursor": "pointer",
-        "display": "block",
-        "fontFamily": "sans-serif",
-        "fontSize": "12px",
-        "padding": "5px 15px",
-        "position": "fixed",
-        "right": 0,
-        "textDecoration": "none",
-        "top": 0,
-      }
-    }
-    tabIndex="0"
-  >
-    Show Info
-  </a>
-  <div
-    style={
-      Object {
-        "background": "white",
-        "bottom": 0,
-        "display": "none",
-        "left": 0,
-        "overflow": "auto",
-        "padding": "0 40px",
-        "position": "fixed",
-        "right": 0,
-        "top": 0,
-        "zIndex": 99999,
-      }
-    }
-  >
-    <a
-      onClick={[Function]}
-      role="button"
-      style={
-        Object {
-          "background": "#28c",
-          "borderRadius": "0 0 0 5px",
-          "color": "#fff",
-          "cursor": "pointer",
-          "display": "block",
-          "fontFamily": "sans-serif",
-          "fontSize": "12px",
-          "padding": "5px 15px",
-          "position": "fixed",
-          "right": 0,
-          "textDecoration": "none",
-          "top": 0,
-        }
-      }
-      tabIndex="0"
-    >
-      ×
-    </a>
-    <div
-      style={undefined}
-    >
-      <div
-        style={
-          Object {
-            "WebkitFontSmoothing": "antialiased",
-            "backgroundColor": "#fff",
-            "border": "1px solid #eee",
-            "borderRadius": "2px",
-            "boxShadow": "0px 2px 3px rgba(0, 0, 0, 0.05)",
-            "color": "#444",
-            "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
-            "fontSize": "15px",
-            "fontWeight": 300,
-            "lineHeight": 1.45,
-            "marginTop": "50px",
-            "padding": "20px 40px 40px",
-          }
-        }
-      >
-        <div
-          style={
-            Object {
-              "borderBottom": "1px solid #eee",
-              "marginBottom": 10,
-              "paddingTop": 10,
-            }
-          }
-        >
-          <h1
-            style={
-              Object {
-                "fontSize": "35px",
-                "margin": 0,
-                "padding": 0,
-              }
-            }
-          >
-            AddonInfo.DocgenButton
-          </h1>
-          <h2
-            style={
-              Object {
-                "fontSize": "22px",
-                "fontWeight": 400,
-                "margin": "0 0 10px 0",
-                "padding": 0,
-              }
-            }
-          >
-            DocgenButton
-          </h2>
-        </div>
-        <div
-          style={
-            Object {
-              "marginBottom": 0,
-            }
-          }
-        >
-          <p
-            style={
-              Object {
-                "WebkitFontSmoothing": "antialiased",
-                "color": "#444",
-                "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
-                "fontSize": "15px",
-              }
-            }
-          >
-            Some Description
-          </p>
-        </div>
-        <div>
-          <h1
-            style={
-              Object {
-                "borderBottom": "1px solid #EEE",
-                "fontSize": "25px",
-                "margin": "20px 0 0 0",
-                "padding": "0 0 5px 0",
-              }
-            }
-          >
-            Story Source
-          </h1>
-          <pre
-            style={
-              Object {
-                "backgroundColor": "#fafafa",
-                "fontFamily": "Menlo, Monaco, \\"Courier New\\", monospace",
-                "fontSize": ".88em",
-                "lineHeight": 1.5,
-                "overflowX": "scroll",
-                "padding": ".5rem",
-              }
-            }
-          >
-            <div
-              style={
-                Object {
-                  "paddingLeft": 18,
-                  "paddingRight": 3,
-                }
-              }
-            >
-              <span
-                style={
-                  Object {
-                    "color": "#777",
-                  }
-                }
-              >
-                &lt;
-                DocgenButton
-              </span>
-              <span>
-                <span>
-                   
-                  <span
-                    style={Object {}}
-                  >
-                    onClick
-                  </span>
-                  <span>
-                    =
-                    <span
-                      style={Object {}}
-                    >
-                      <span>
-                        <span
-                          style={
-                            Object {
-                              "color": "#170",
-                            }
-                          }
-                        >
-                          clicked()
-                        </span>
-                      </span>
-                    </span>
-                  </span>
-                </span>
-                <span>
-                   
-                  <span
-                    style={Object {}}
-                  >
-                    label
-                  </span>
-                  <span>
-                    =
-                    <span
-                      style={Object {}}
-                    >
-                      <span
-                        style={
-                          Object {
-                            "color": "#22a",
-                            "wordBreak": "break-word",
-                          }
-                        }
-                      >
-                        "
-                        Docgen Button
-                        "
-                      </span>
-                    </span>
-                  </span>
-                   
-                </span>
-              </span>
-              <span
-                style={
-                  Object {
-                    "color": "#777",
-                  }
-                }
-              >
-                /&gt;
-              </span>
-            </div>
-          </pre>
-        </div>
-        <div>
-          <h1
-            style={
-              Object {
-                "borderBottom": "1px solid #EEE",
-                "fontSize": "25px",
-                "margin": "20px 0 0 0",
-                "padding": "0 0 5px 0",
-              }
-            }
-          >
-            Prop Types
-          </h1>
-          <div>
-            <h2
-              style={
-                Object {
-                  "margin": "20px 0 0 0",
-                }
-              }
-            >
-              "
-              DocgenButton
-              " Component
-            </h2>
-            <table
-              style={
-                Object {
-                  "borderCollapse": "separate",
-                  "borderSpacing": "10px 5px",
-                  "marginLeft": -10,
-                }
-              }
-            >
-              <thead>
-                <tr>
-                  <th>
-                    property
-                  </th>
-                  <th>
-                    propType
-                  </th>
-                  <th>
-                    required
-                  </th>
-                  <th>
-                    default
-                  </th>
-                  <th>
-                    description
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    disabled
-                  </td>
-                  <td>
-                    bool
-                  </td>
-                  <td>
-                    no
-                  </td>
-                  <td>
-                    <span>
-                      <span
-                        style={
-                          Object {
-                            "color": "#a11",
-                          }
-                        }
-                      >
-                        false
-                      </span>
-                    </span>
-                  </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>
-                    label
-                  </td>
-                  <td>
-                    string
-                  </td>
-                  <td>
-                    yes
-                  </td>
-                  <td>
-                    -
-                  </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>
-                    onClick
-                  </td>
-                  <td>
-                    func
-                  </td>
-                  <td>
-                    no
-                  </td>
-                  <td>
-                    <span>
-                      <span
-                        style={
-                          Object {
-                            "color": "#170",
-                          }
-                        }
-                      >
-                        onClick()
-                      </span>
-                    </span>
-                  </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>
-                    one
-                  </td>
-                  <td>
-                    other
-                  </td>
-                  <td>
-                    no
-                  </td>
-                  <td>
-                    -
-                  </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>
-                    two
-                  </td>
-                  <td>
-                    other
-                  </td>
-                  <td>
-                    no
-                  </td>
-                  <td>
-                    -
-                  </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>
-                    msg
-                  </td>
-                  <td>
-                    other
-                  </td>
-                  <td>
-                    no
-                  </td>
-                  <td>
-                    -
-                  </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>
-                    enm
-                  </td>
-                  <td>
-                    other
-                  </td>
-                  <td>
-                    no
-                  </td>
-                  <td>
-                    -
-                  </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>
-                    union
-                  </td>
-                  <td>
-                    other
-                  </td>
-                  <td>
-                    no
-                  </td>
-                  <td>
-                    -
-                  </td>
-                  <td />
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+exports[`Storyshots Addons composition with some emoji 1`] = `
+<button
+  className="css-1yjiefr"
+  onClick={[Function]}
+>
+  😀 😎 👍 💯
+</button>
 `;
 
-exports[`Storyshots AddonInfo.FlowTypeButton FlowTypeButton 1`] = `
-<div>
-  <div
-    style={
-      Object {
-        "position": "relative",
-        "zIndex": 0,
-      }
-    }
-  >
-    <button
-      disabled={false}
-      onClick={[Function]}
-    >
-      Flow Typed Button
-    </button>
-  </div>
-  <a
-    onClick={[Function]}
-    role="button"
-    style={
-      Object {
-        "background": "#28c",
-        "borderRadius": "0 0 0 5px",
-        "color": "#fff",
-        "cursor": "pointer",
-        "display": "block",
-        "fontFamily": "sans-serif",
-        "fontSize": "12px",
-        "padding": "5px 15px",
-        "position": "fixed",
-        "right": 0,
-        "textDecoration": "none",
-        "top": 0,
-      }
-    }
-    tabIndex="0"
-  >
-    Show Info
-  </a>
-  <div
-    style={
-      Object {
-        "background": "white",
-        "bottom": 0,
-        "display": "none",
-        "left": 0,
-        "overflow": "auto",
-        "padding": "0 40px",
-        "position": "fixed",
-        "right": 0,
-        "top": 0,
-        "zIndex": 99999,
-      }
-    }
-  >
-    <a
-      onClick={[Function]}
-      role="button"
-      style={
-        Object {
-          "background": "#28c",
-          "borderRadius": "0 0 0 5px",
-          "color": "#fff",
-          "cursor": "pointer",
-          "display": "block",
-          "fontFamily": "sans-serif",
-          "fontSize": "12px",
-          "padding": "5px 15px",
-          "position": "fixed",
-          "right": 0,
-          "textDecoration": "none",
-          "top": 0,
-        }
-      }
-      tabIndex="0"
-    >
-      ×
-    </a>
-    <div
-      style={undefined}
-    >
-      <div
-        style={
-          Object {
-            "WebkitFontSmoothing": "antialiased",
-            "backgroundColor": "#fff",
-            "border": "1px solid #eee",
-            "borderRadius": "2px",
-            "boxShadow": "0px 2px 3px rgba(0, 0, 0, 0.05)",
-            "color": "#444",
-            "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
-            "fontSize": "15px",
-            "fontWeight": 300,
-            "lineHeight": 1.45,
-            "marginTop": "50px",
-            "padding": "20px 40px 40px",
-          }
-        }
-      >
-        <div
-          style={
-            Object {
-              "borderBottom": "1px solid #eee",
-              "marginBottom": 10,
-              "paddingTop": 10,
-            }
-          }
-        >
-          <h1
-            style={
-              Object {
-                "fontSize": "35px",
-                "margin": 0,
-                "padding": 0,
-              }
-            }
-          >
-            AddonInfo.FlowTypeButton
-          </h1>
-          <h2
-            style={
-              Object {
-                "fontSize": "22px",
-                "fontWeight": 400,
-                "margin": "0 0 10px 0",
-                "padding": 0,
-              }
-            }
-          >
-            FlowTypeButton
-          </h2>
-        </div>
-        <div
-          style={
-            Object {
-              "marginBottom": 0,
-            }
-          }
-        >
-          <p
-            style={
-              Object {
-                "WebkitFontSmoothing": "antialiased",
-                "color": "#444",
-                "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
-                "fontSize": "15px",
-              }
-            }
-          >
-            Some Description
-          </p>
-        </div>
-        <div>
-          <h1
-            style={
-              Object {
-                "borderBottom": "1px solid #EEE",
-                "fontSize": "25px",
-                "margin": "20px 0 0 0",
-                "padding": "0 0 5px 0",
-              }
-            }
-          >
-            Story Source
-          </h1>
-          <pre
-            style={
-              Object {
-                "backgroundColor": "#fafafa",
-                "fontFamily": "Menlo, Monaco, \\"Courier New\\", monospace",
-                "fontSize": ".88em",
-                "lineHeight": 1.5,
-                "overflowX": "scroll",
-                "padding": ".5rem",
-              }
-            }
-          >
-            <div
-              style={
-                Object {
-                  "paddingLeft": 18,
-                  "paddingRight": 3,
-                }
-              }
-            >
-              <span
-                style={
-                  Object {
-                    "color": "#777",
-                  }
-                }
-              >
-                &lt;
-                FlowTypeButton
-              </span>
-              <span>
-                <span>
-                   
-                  <span
-                    style={Object {}}
-                  >
-                    onClick
-                  </span>
-                  <span>
-                    =
-                    <span
-                      style={Object {}}
-                    >
-                      <span>
-                        <span
-                          style={
-                            Object {
-                              "color": "#170",
-                            }
-                          }
-                        >
-                          clicked()
-                        </span>
-                      </span>
-                    </span>
-                  </span>
-                </span>
-                <span>
-                   
-                  <span
-                    style={Object {}}
-                  >
-                    label
-                  </span>
-                  <span>
-                    =
-                    <span
-                      style={Object {}}
-                    >
-                      <span
-                        style={
-                          Object {
-                            "color": "#22a",
-                            "wordBreak": "break-word",
-                          }
-                        }
-                      >
-                        "
-                        Flow Typed Button
-                        "
-                      </span>
-                    </span>
-                  </span>
-                   
-                </span>
-              </span>
-              <span
-                style={
-                  Object {
-                    "color": "#777",
-                  }
-                }
-              >
-                /&gt;
-              </span>
-            </div>
-          </pre>
-        </div>
-        <div>
-          <h1
-            style={
-              Object {
-                "borderBottom": "1px solid #EEE",
-                "fontSize": "25px",
-                "margin": "20px 0 0 0",
-                "padding": "0 0 5px 0",
-              }
-            }
-          >
-            Prop Types
-          </h1>
-          <div>
-            <h2
-              style={
-                Object {
-                  "margin": "20px 0 0 0",
-                }
-              }
-            >
-              "
-              FlowTypeButton
-              " Component
-            </h2>
-            <table
-              style={
-                Object {
-                  "borderCollapse": "separate",
-                  "borderSpacing": "10px 5px",
-                  "marginLeft": -10,
-                }
-              }
-            >
-              <thead>
-                <tr>
-                  <th>
-                    property
-                  </th>
-                  <th>
-                    propType
-                  </th>
-                  <th>
-                    required
-                  </th>
-                  <th>
-                    default
-                  </th>
-                  <th>
-                    description
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    disabled
-                  </td>
-                  <td />
-                  <td />
-                  <td>
-                    <span>
-                      <span
-                        style={
-                          Object {
-                            "color": "#a11",
-                          }
-                        }
-                      >
-                        false
-                      </span>
-                    </span>
-                  </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>
-                    onClick
-                  </td>
-                  <td />
-                  <td />
-                  <td>
-                    <span>
-                      <span
-                        style={
-                          Object {
-                            "color": "#170",
-                          }
-                        }
-                      >
-                        onClick()
-                      </span>
-                    </span>
-                  </td>
-                  <td />
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+exports[`Storyshots Addons composition with text 1`] = `
+<button
+  className="css-1yjiefr"
+  onClick={[Function]}
+>
+  Hello Button
+</button>
 `;
 
 exports[`Storyshots App full app 1`] = `
@@ -863,408 +43,6 @@ exports[`Storyshots App full app 1`] = `
     </code>
      and save to reload.
   </p>
-</div>
-`;
-
-exports[`Storyshots Button addons composition 1`] = `
-<div>
-  <div
-    style={
-      Object {
-        "position": "relative",
-        "zIndex": 0,
-      }
-    }
-  >
-    <div>
-      click the 
-      <span
-        style={
-          Object {
-            "background": "rgb(34, 136, 204)",
-            "borderRadius": "0px 0px 0px 5px",
-            "color": "rgb(255, 255, 255)",
-            "fontFamily": "sans-serif",
-            "fontSize": 12,
-            "margin": 10,
-            "padding": "5px 15px",
-            "textDecoration": "none",
-          }
-        }
-      >
-         
-        Show Info
-         
-      </span>
-       label in top right for info about "
-      addons composition
-      "
-    </div>
-  </div>
-  <a
-    onClick={[Function]}
-    role="button"
-    style={
-      Object {
-        "background": "#28c",
-        "borderRadius": "0 0 0 5px",
-        "color": "#fff",
-        "cursor": "pointer",
-        "display": "block",
-        "fontFamily": "sans-serif",
-        "fontSize": "12px",
-        "padding": "5px 15px",
-        "position": "fixed",
-        "right": 0,
-        "textDecoration": "none",
-        "top": 0,
-      }
-    }
-    tabIndex="0"
-  >
-    Show Info
-  </a>
-  <div
-    style={
-      Object {
-        "background": "white",
-        "bottom": 0,
-        "display": "none",
-        "left": 0,
-        "overflow": "auto",
-        "padding": "0 40px",
-        "position": "fixed",
-        "right": 0,
-        "top": 0,
-        "zIndex": 99999,
-      }
-    }
-  >
-    <a
-      onClick={[Function]}
-      role="button"
-      style={
-        Object {
-          "background": "#28c",
-          "borderRadius": "0 0 0 5px",
-          "color": "#fff",
-          "cursor": "pointer",
-          "display": "block",
-          "fontFamily": "sans-serif",
-          "fontSize": "12px",
-          "padding": "5px 15px",
-          "position": "fixed",
-          "right": 0,
-          "textDecoration": "none",
-          "top": 0,
-        }
-      }
-      tabIndex="0"
-    >
-      ×
-    </a>
-    <div
-      style={undefined}
-    >
-      <div
-        style={
-          Object {
-            "WebkitFontSmoothing": "antialiased",
-            "backgroundColor": "#fff",
-            "border": "1px solid #eee",
-            "borderRadius": "2px",
-            "boxShadow": "0px 2px 3px rgba(0, 0, 0, 0.05)",
-            "color": "#444",
-            "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
-            "fontSize": "15px",
-            "fontWeight": 300,
-            "lineHeight": 1.45,
-            "marginTop": "50px",
-            "padding": "20px 40px 40px",
-          }
-        }
-      >
-        <div
-          style={
-            Object {
-              "borderBottom": "1px solid #eee",
-              "marginBottom": 10,
-              "paddingTop": 10,
-            }
-          }
-        >
-          <h1
-            style={
-              Object {
-                "fontSize": "35px",
-                "margin": 0,
-                "padding": 0,
-              }
-            }
-          >
-            Button
-          </h1>
-          <h2
-            style={
-              Object {
-                "fontSize": "22px",
-                "fontWeight": 400,
-                "margin": "0 0 10px 0",
-                "padding": 0,
-              }
-            }
-          >
-            addons composition
-          </h2>
-        </div>
-        <div
-          style={
-            Object {
-              "marginBottom": 0,
-            }
-          }
-        >
-          <p
-            style={
-              Object {
-                "WebkitFontSmoothing": "antialiased",
-                "color": "#444",
-                "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
-                "fontSize": "15px",
-              }
-            }
-          >
-            see Notes panel for composition info
-          </p>
-        </div>
-        <div>
-          <h1
-            style={
-              Object {
-                "borderBottom": "1px solid #EEE",
-                "fontSize": "25px",
-                "margin": "20px 0 0 0",
-                "padding": "0 0 5px 0",
-              }
-            }
-          >
-            Story Source
-          </h1>
-          <pre
-            style={
-              Object {
-                "backgroundColor": "#fafafa",
-                "fontFamily": "Menlo, Monaco, \\"Courier New\\", monospace",
-                "fontSize": ".88em",
-                "lineHeight": 1.5,
-                "overflowX": "scroll",
-                "padding": ".5rem",
-              }
-            }
-          >
-            <div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 18,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  &lt;
-                  div
-                </span>
-                <span />
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  &gt;
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                />
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  click the 
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  &lt;
-                  InfoButton
-                </span>
-                <span />
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  /&gt;
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                   label in top right for info about "
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  addons composition
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  "
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 18,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  &lt;/
-                  div
-                  &gt;
-                </span>
-              </div>
-            </div>
-          </pre>
-        </div>
-        <div>
-          <h1
-            style={
-              Object {
-                "borderBottom": "1px solid #EEE",
-                "fontSize": "25px",
-                "margin": "20px 0 0 0",
-                "padding": "0 0 5px 0",
-              }
-            }
-          >
-            Prop Types
-          </h1>
-          <div>
-            <h2
-              style={
-                Object {
-                  "margin": "20px 0 0 0",
-                }
-              }
-            >
-              "
-              InfoButton
-              " Component
-            </h2>
-            <small>
-              No propTypes defined!
-            </small>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 `;
 
@@ -1309,564 +87,20 @@ exports[`Storyshots Button with knobs 1`] = `
 </div>
 `;
 
-exports[`Storyshots Button with new info 1`] = `
-<div>
-  <div
-    style={
-      Object {
-        "position": "relative",
-        "zIndex": 0,
-      }
-    }
-  >
-    <div
-      title="the best container ever"
-    >
-      click the 
-      <span
-        style={
-          Object {
-            "background": "rgb(34, 136, 204)",
-            "borderRadius": "0px 0px 0px 5px",
-            "color": "rgb(255, 255, 255)",
-            "fontFamily": "sans-serif",
-            "fontSize": 12,
-            "margin": 10,
-            "padding": "5px 15px",
-            "textDecoration": "none",
-          }
-        }
-      >
-         
-        Show Info
-         
-      </span>
-       label in top right for info about "
-      with new info
-      "
-      
-    </div>
-  </div>
-  <a
-    onClick={[Function]}
-    role="button"
-    style={
-      Object {
-        "background": "#28c",
-        "borderRadius": "0 0 0 5px",
-        "color": "#fff",
-        "cursor": "pointer",
-        "display": "block",
-        "fontFamily": "sans-serif",
-        "fontSize": "12px",
-        "padding": "5px 15px",
-        "position": "fixed",
-        "right": 0,
-        "textDecoration": "none",
-        "top": 0,
-      }
-    }
-    tabIndex="0"
-  >
-    Show Info
-  </a>
-  <div
-    style={
-      Object {
-        "background": "white",
-        "bottom": 0,
-        "display": "none",
-        "left": 0,
-        "overflow": "auto",
-        "padding": "0 40px",
-        "position": "fixed",
-        "right": 0,
-        "top": 0,
-        "zIndex": 99999,
-      }
-    }
-  >
-    <a
-      onClick={[Function]}
-      role="button"
-      style={
-        Object {
-          "background": "#28c",
-          "borderRadius": "0 0 0 5px",
-          "color": "#fff",
-          "cursor": "pointer",
-          "display": "block",
-          "fontFamily": "sans-serif",
-          "fontSize": "12px",
-          "padding": "5px 15px",
-          "position": "fixed",
-          "right": 0,
-          "textDecoration": "none",
-          "top": 0,
-        }
-      }
-      tabIndex="0"
-    >
-      ×
-    </a>
-    <div
-      style={undefined}
-    >
-      <div
-        style={
-          Object {
-            "WebkitFontSmoothing": "antialiased",
-            "backgroundColor": "#fff",
-            "border": "1px solid #eee",
-            "borderRadius": "2px",
-            "boxShadow": "0px 2px 3px rgba(0, 0, 0, 0.05)",
-            "color": "#444",
-            "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
-            "fontSize": "15px",
-            "fontWeight": 300,
-            "lineHeight": 1.45,
-            "marginTop": "50px",
-            "padding": "20px 40px 40px",
-          }
-        }
-      >
-        <div
-          style={
-            Object {
-              "borderBottom": "1px solid #eee",
-              "marginBottom": 10,
-              "paddingTop": 10,
-            }
-          }
-        >
-          <h1
-            style={
-              Object {
-                "fontSize": "35px",
-                "margin": 0,
-                "padding": 0,
-              }
-            }
-          >
-            Button
-          </h1>
-          <h2
-            style={
-              Object {
-                "fontSize": "22px",
-                "fontWeight": 400,
-                "margin": "0 0 10px 0",
-                "padding": 0,
-              }
-            }
-          >
-            with new info
-          </h2>
-        </div>
-        <div
-          style={
-            Object {
-              "marginBottom": 0,
-            }
-          }
-        >
-          <p
-            style={
-              Object {
-                "WebkitFontSmoothing": "antialiased",
-                "color": "#444",
-                "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
-                "fontSize": "15px",
-              }
-            }
-          >
-            Use the 
-            <a
-              href="https://github.com/storybooks/storybook/tree/master/addons/info"
-              rel="noopener noreferrer"
-              style={
-                Object {
-                  "color": "#3498db",
-                }
-              }
-              target="_blank"
-            >
-              info addon
-            </a>
-             with its new painless API.
-          </p>
-        </div>
-        <div>
-          <h1
-            style={
-              Object {
-                "borderBottom": "1px solid #EEE",
-                "fontSize": "25px",
-                "margin": "20px 0 0 0",
-                "padding": "0 0 5px 0",
-              }
-            }
-          >
-            Story Source
-          </h1>
-          <pre
-            style={
-              Object {
-                "backgroundColor": "#fafafa",
-                "fontFamily": "Menlo, Monaco, \\"Courier New\\", monospace",
-                "fontSize": ".88em",
-                "lineHeight": 1.5,
-                "overflowX": "scroll",
-                "padding": ".5rem",
-              }
-            }
-          >
-            <div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 18,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  &lt;
-                  Container
-                </span>
-                <span />
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  &gt;
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                />
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  click the 
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  &lt;
-                  InfoButton
-                </span>
-                <span />
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  /&gt;
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                   label in top right for info about "
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  with new info
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  "
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 18,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  &lt;/
-                  Container
-                  &gt;
-                </span>
-              </div>
-            </div>
-          </pre>
-        </div>
-        <div>
-          <h1
-            style={
-              Object {
-                "borderBottom": "1px solid #EEE",
-                "fontSize": "25px",
-                "margin": "20px 0 0 0",
-                "padding": "0 0 5px 0",
-              }
-            }
-          >
-            Prop Types
-          </h1>
-          <div>
-            <h2
-              style={
-                Object {
-                  "margin": "20px 0 0 0",
-                }
-              }
-            >
-              "
-              Container
-              " Component
-            </h2>
-            <table
-              style={
-                Object {
-                  "borderCollapse": "separate",
-                  "borderSpacing": "10px 5px",
-                  "marginLeft": -10,
-                }
-              }
-            >
-              <thead>
-                <tr>
-                  <th>
-                    property
-                  </th>
-                  <th>
-                    propType
-                  </th>
-                  <th>
-                    required
-                  </th>
-                  <th>
-                    default
-                  </th>
-                  <th>
-                    description
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    children
-                  </td>
-                  <td>
-                    node
-                  </td>
-                  <td>
-                    yes
-                  </td>
-                  <td>
-                    -
-                  </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>
-                    isAmazing
-                  </td>
-                  <td>
-                    bool
-                  </td>
-                  <td>
-                    no
-                  </td>
-                  <td>
-                    <span>
-                      <span
-                        style={
-                          Object {
-                            "color": "#a11",
-                          }
-                        }
-                      >
-                        false
-                      </span>
-                    </span>
-                  </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>
-                    age
-                  </td>
-                  <td>
-                    number
-                  </td>
-                  <td>
-                    no
-                  </td>
-                  <td>
-                    <span>
-                      <span
-                        style={
-                          Object {
-                            "color": "#a11",
-                          }
-                        }
-                      >
-                        0
-                      </span>
-                    </span>
-                  </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>
-                    title
-                  </td>
-                  <td>
-                    string
-                  </td>
-                  <td>
-                    no
-                  </td>
-                  <td>
-                    <span
-                      style={
-                        Object {
-                          "color": "#22a",
-                          "wordBreak": "break-word",
-                        }
-                      }
-                    >
-                      "
-                      the best container ever
-                      "
-                    </span>
-                  </td>
-                  <td />
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div>
-            <h2
-              style={
-                Object {
-                  "margin": "20px 0 0 0",
-                }
-              }
-            >
-              "
-              InfoButton
-              " Component
-            </h2>
-            <small>
-              No propTypes defined!
-            </small>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
 exports[`Storyshots Button with notes 1`] = `
 <button
   className="css-1yjiefr"
 >
   Check my notes in the notes panel
+</button>
+`;
+
+exports[`Storyshots Button with setInfoOptions 1`] = `
+<button
+  className="css-1yjiefr"
+  onClick={[Function]}
+>
+  Button with Info
 </button>
 `;
 
@@ -1877,543 +111,6 @@ exports[`Storyshots Button with some emoji 1`] = `
 >
   😀 😎 👍 💯
 </button>
-`;
-
-exports[`Storyshots Button with some info 1`] = `
-<div>
-  <div
-    style={
-      Object {
-        "position": "relative",
-        "zIndex": 0,
-      }
-    }
-  >
-    <div
-      title="the best container ever"
-    >
-      click the 
-      <span
-        style={
-          Object {
-            "background": "rgb(34, 136, 204)",
-            "borderRadius": "0px 0px 0px 5px",
-            "color": "rgb(255, 255, 255)",
-            "fontFamily": "sans-serif",
-            "fontSize": 12,
-            "margin": 10,
-            "padding": "5px 15px",
-            "textDecoration": "none",
-          }
-        }
-      >
-         
-        Show Info
-         
-      </span>
-       label in top right for info about "
-      with some info
-      "
-      
-    </div>
-  </div>
-  <a
-    onClick={[Function]}
-    role="button"
-    style={
-      Object {
-        "background": "#28c",
-        "borderRadius": "0 0 0 5px",
-        "color": "#fff",
-        "cursor": "pointer",
-        "display": "block",
-        "fontFamily": "sans-serif",
-        "fontSize": "12px",
-        "padding": "5px 15px",
-        "position": "fixed",
-        "right": 0,
-        "textDecoration": "none",
-        "top": 0,
-      }
-    }
-    tabIndex="0"
-  >
-    Show Info
-  </a>
-  <div
-    style={
-      Object {
-        "background": "white",
-        "bottom": 0,
-        "display": "none",
-        "left": 0,
-        "overflow": "auto",
-        "padding": "0 40px",
-        "position": "fixed",
-        "right": 0,
-        "top": 0,
-        "zIndex": 99999,
-      }
-    }
-  >
-    <a
-      onClick={[Function]}
-      role="button"
-      style={
-        Object {
-          "background": "#28c",
-          "borderRadius": "0 0 0 5px",
-          "color": "#fff",
-          "cursor": "pointer",
-          "display": "block",
-          "fontFamily": "sans-serif",
-          "fontSize": "12px",
-          "padding": "5px 15px",
-          "position": "fixed",
-          "right": 0,
-          "textDecoration": "none",
-          "top": 0,
-        }
-      }
-      tabIndex="0"
-    >
-      ×
-    </a>
-    <div
-      style={undefined}
-    >
-      <div
-        style={
-          Object {
-            "WebkitFontSmoothing": "antialiased",
-            "backgroundColor": "#fff",
-            "border": "1px solid #eee",
-            "borderRadius": "2px",
-            "boxShadow": "0px 2px 3px rgba(0, 0, 0, 0.05)",
-            "color": "#444",
-            "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
-            "fontSize": "15px",
-            "fontWeight": 300,
-            "lineHeight": 1.45,
-            "marginTop": "50px",
-            "padding": "20px 40px 40px",
-          }
-        }
-      >
-        <div
-          style={
-            Object {
-              "borderBottom": "1px solid #eee",
-              "marginBottom": 10,
-              "paddingTop": 10,
-            }
-          }
-        >
-          <h1
-            style={
-              Object {
-                "fontSize": "35px",
-                "margin": 0,
-                "padding": 0,
-              }
-            }
-          >
-            Button
-          </h1>
-          <h2
-            style={
-              Object {
-                "fontSize": "22px",
-                "fontWeight": 400,
-                "margin": "0 0 10px 0",
-                "padding": 0,
-              }
-            }
-          >
-            with some info
-          </h2>
-        </div>
-        <div
-          style={
-            Object {
-              "marginBottom": 0,
-            }
-          }
-        >
-          <p
-            style={
-              Object {
-                "WebkitFontSmoothing": "antialiased",
-                "color": "#444",
-                "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
-                "fontSize": "15px",
-              }
-            }
-          >
-            Use the 
-            <a
-              href="https://github.com/storybooks/storybook/tree/master/addons/info"
-              rel="noopener noreferrer"
-              style={
-                Object {
-                  "color": "#3498db",
-                }
-              }
-              target="_blank"
-            >
-              info addon
-            </a>
-             with its painful API.
-          </p>
-        </div>
-        <div>
-          <h1
-            style={
-              Object {
-                "borderBottom": "1px solid #EEE",
-                "fontSize": "25px",
-                "margin": "20px 0 0 0",
-                "padding": "0 0 5px 0",
-              }
-            }
-          >
-            Story Source
-          </h1>
-          <pre
-            style={
-              Object {
-                "backgroundColor": "#fafafa",
-                "fontFamily": "Menlo, Monaco, \\"Courier New\\", monospace",
-                "fontSize": ".88em",
-                "lineHeight": 1.5,
-                "overflowX": "scroll",
-                "padding": ".5rem",
-              }
-            }
-          >
-            <div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 18,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  &lt;
-                  Container
-                </span>
-                <span />
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  &gt;
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  click the 
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  &lt;
-                  InfoButton
-                </span>
-                <span />
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  /&gt;
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                   label in top right for info about "
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  with some info
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 33,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  "
-                </span>
-              </div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 18,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
-                  style={
-                    Object {
-                      "color": "#777",
-                    }
-                  }
-                >
-                  &lt;/
-                  Container
-                  &gt;
-                </span>
-              </div>
-            </div>
-          </pre>
-        </div>
-        <div>
-          <h1
-            style={
-              Object {
-                "borderBottom": "1px solid #EEE",
-                "fontSize": "25px",
-                "margin": "20px 0 0 0",
-                "padding": "0 0 5px 0",
-              }
-            }
-          >
-            Prop Types
-          </h1>
-          <div>
-            <h2
-              style={
-                Object {
-                  "margin": "20px 0 0 0",
-                }
-              }
-            >
-              "
-              Container
-              " Component
-            </h2>
-            <table
-              style={
-                Object {
-                  "borderCollapse": "separate",
-                  "borderSpacing": "10px 5px",
-                  "marginLeft": -10,
-                }
-              }
-            >
-              <thead>
-                <tr>
-                  <th>
-                    property
-                  </th>
-                  <th>
-                    propType
-                  </th>
-                  <th>
-                    required
-                  </th>
-                  <th>
-                    default
-                  </th>
-                  <th>
-                    description
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    children
-                  </td>
-                  <td>
-                    node
-                  </td>
-                  <td>
-                    yes
-                  </td>
-                  <td>
-                    -
-                  </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>
-                    isAmazing
-                  </td>
-                  <td>
-                    bool
-                  </td>
-                  <td>
-                    no
-                  </td>
-                  <td>
-                    <span>
-                      <span
-                        style={
-                          Object {
-                            "color": "#a11",
-                          }
-                        }
-                      >
-                        false
-                      </span>
-                    </span>
-                  </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>
-                    age
-                  </td>
-                  <td>
-                    number
-                  </td>
-                  <td>
-                    no
-                  </td>
-                  <td>
-                    <span>
-                      <span
-                        style={
-                          Object {
-                            "color": "#a11",
-                          }
-                        }
-                      >
-                        0
-                      </span>
-                    </span>
-                  </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>
-                    title
-                  </td>
-                  <td>
-                    string
-                  </td>
-                  <td>
-                    no
-                  </td>
-                  <td>
-                    <span
-                      style={
-                        Object {
-                          "color": "#22a",
-                          "wordBreak": "break-word",
-                        }
-                      }
-                    >
-                      "
-                      the best container ever
-                      "
-                    </span>
-                  </td>
-                  <td />
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div>
-            <h2
-              style={
-                Object {
-                  "margin": "20px 0 0 0",
-                }
-              }
-            >
-              "
-              InfoButton
-              " Component
-            </h2>
-            <small>
-              No propTypes defined!
-            </small>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 `;
 
 exports[`Storyshots Button with text 1`] = `
@@ -2487,6 +184,898 @@ exports[`Storyshots Cells/Molecules/Atoms.more with text2 1`] = `
 >
   Hello Button
 </button>
+`;
+
+exports[`Storyshots Info Addon DocgenButton 1`] = `
+<button
+  disabled={false}
+  onClick={[Function]}
+>
+  Docgen Button
+</button>
+`;
+
+exports[`Storyshots Info Addon FlowTypeButton 1`] = `
+<button
+  disabled={false}
+  onClick={[Function]}
+>
+  Flow Typed Button
+</button>
+`;
+
+exports[`Storyshots Info Addon Info default 1`] = `
+<div
+  title="the best container ever"
+>
+  click the 
+  <span
+    style={
+      Object {
+        "background": "rgb(34, 136, 204)",
+        "borderRadius": "0px 0px 0px 5px",
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "sans-serif",
+        "fontSize": 12,
+        "margin": 10,
+        "padding": "5px 15px",
+        "textDecoration": "none",
+      }
+    }
+  >
+     
+    Show Info
+     
+  </span>
+   label in top right for info about "
+  Info default
+  "
+  
+</div>
+`;
+
+exports[`Storyshots Info Addon Info with options 1`] = `
+<div
+  title="the best container ever"
+>
+  click the 
+  <span
+    style={
+      Object {
+        "background": "rgb(34, 136, 204)",
+        "borderRadius": "0px 0px 0px 5px",
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "sans-serif",
+        "fontSize": 12,
+        "margin": 10,
+        "padding": "5px 15px",
+        "textDecoration": "none",
+      }
+    }
+  >
+     
+    Show Info
+     
+  </span>
+   label in top right for info about "
+  Info with options
+  " this button has very-very-very-very looooooong title
+  
+</div>
+`;
+
+exports[`Storyshots Info Addon JSX as an argument 1`] = `
+<div
+  title="the best container ever"
+>
+  click the 
+  <span
+    style={
+      Object {
+        "background": "rgb(34, 136, 204)",
+        "borderRadius": "0px 0px 0px 5px",
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "sans-serif",
+        "fontSize": 12,
+        "margin": 10,
+        "padding": "5px 15px",
+        "textDecoration": "none",
+      }
+    }
+  >
+     
+    Show Info
+     
+  </span>
+   label in top right for info about "
+  JSX as an argument
+  "
+  
+</div>
+`;
+
+exports[`Storyshots Info Addon Only component source 1`] = `
+<div
+  title="the best container ever"
+>
+  click the 
+  <span
+    style={
+      Object {
+        "background": "rgb(34, 136, 204)",
+        "borderRadius": "0px 0px 0px 5px",
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "sans-serif",
+        "fontSize": 12,
+        "margin": 10,
+        "padding": "5px 15px",
+        "textDecoration": "none",
+      }
+    }
+  >
+     
+    Show Info
+     
+  </span>
+   label in top right for info about "
+  Only component source
+  "
+  
+</div>
+`;
+
+exports[`Storyshots Info Addon Only propTypes and header 1`] = `
+<div>
+  click the 
+  <span
+    style={
+      Object {
+        "background": "rgb(34, 136, 204)",
+        "borderRadius": "0px 0px 0px 5px",
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "sans-serif",
+        "fontSize": 12,
+        "margin": 10,
+        "padding": "5px 15px",
+        "textDecoration": "none",
+      }
+    }
+  >
+     
+    Show Info
+     
+  </span>
+   label in top right for info about "
+  Only propTypes and header
+  "
+</div>
+`;
+
+exports[`Storyshots Info Addon Only summary with markdown 1`] = `
+<div
+  title="the best container ever"
+>
+  click the 
+  <span
+    style={
+      Object {
+        "background": "rgb(34, 136, 204)",
+        "borderRadius": "0px 0px 0px 5px",
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "sans-serif",
+        "fontSize": 12,
+        "margin": 10,
+        "padding": "5px 15px",
+        "textDecoration": "none",
+      }
+    }
+  >
+     
+    Show Info
+     
+  </span>
+   label in top right for info about "
+  Only summary with markdown
+  "
+  
+</div>
+`;
+
+exports[`Storyshots Info Addon React Element in summary 1`] = `
+<div
+  title="the best container ever"
+>
+  click the 
+  <span
+    style={
+      Object {
+        "background": "rgb(34, 136, 204)",
+        "borderRadius": "0px 0px 0px 5px",
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "sans-serif",
+        "fontSize": 12,
+        "margin": 10,
+        "padding": "5px 15px",
+        "textDecoration": "none",
+      }
+    }
+  >
+     
+    Show Info
+     
+  </span>
+   label in top right for info about "
+  React Element in summary
+  "
+  
+</div>
+`;
+
+exports[`Storyshots Info Addon With custom components 1`] = `
+<div
+  title="the best container ever"
+>
+  click the 
+  <span
+    style={
+      Object {
+        "background": "rgb(34, 136, 204)",
+        "borderRadius": "0px 0px 0px 5px",
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "sans-serif",
+        "fontSize": 12,
+        "margin": 10,
+        "padding": "5px 15px",
+        "textDecoration": "none",
+      }
+    }
+  >
+     
+    Show Info
+     
+  </span>
+   label in top right for info about "
+  With custom components
+  "
+  
+</div>
+`;
+
+exports[`Storyshots Info Addon addons composition 1`] = `
+<div>
+  click the 
+  <span
+    style={
+      Object {
+        "background": "rgb(34, 136, 204)",
+        "borderRadius": "0px 0px 0px 5px",
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "sans-serif",
+        "fontSize": 12,
+        "margin": 10,
+        "padding": "5px 15px",
+        "textDecoration": "none",
+      }
+    }
+  >
+     
+    Show Info
+     
+  </span>
+   label in top right for info about "
+  addons composition
+  "
+</div>
+`;
+
+exports[`Storyshots Info Addon decoratorInfo 1`] = `
+<div>
+  <div
+    style={
+      Object {
+        "display": false,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "position": "relative",
+          "zIndex": 0,
+        }
+      }
+    >
+      <div
+        title="the best container ever"
+      >
+        click the 
+        <span
+          style={
+            Object {
+              "background": "rgb(34, 136, 204)",
+              "borderRadius": "0px 0px 0px 5px",
+              "color": "rgb(255, 255, 255)",
+              "fontFamily": "sans-serif",
+              "fontSize": 12,
+              "margin": 10,
+              "padding": "5px 15px",
+              "textDecoration": "none",
+            }
+          }
+        >
+           
+          Show Info
+           
+        </span>
+         label in top right for info about "
+        decoratorInfo
+        "
+        
+      </div>
+    </div>
+    <a
+      onClick={[Function]}
+      role="button"
+      style={
+        Object {
+          "background": "#28c",
+          "borderRadius": "0 0 0 5px",
+          "color": "#fff",
+          "cursor": "pointer",
+          "display": false,
+          "fontFamily": "sans-serif",
+          "fontSize": "12px",
+          "padding": "5px 15px",
+          "position": "fixed",
+          "right": 0,
+          "textDecoration": "none",
+          "top": 0,
+        }
+      }
+      tabIndex="0"
+    >
+      Show Info
+    </a>
+  </div>
+  <div
+    style={
+      Object {
+        "bottom": 0,
+        "display": "none",
+        "left": 0,
+        "overflow": "auto",
+        "position": "relative",
+        "right": 0,
+        "top": 0,
+        "zIndex": 99999,
+      }
+    }
+  >
+    <a
+      onClick={[Function]}
+      role="button"
+      style={
+        Object {
+          "background": "#28c",
+          "borderRadius": "0 0 0 5px",
+          "color": "#fff",
+          "cursor": "pointer",
+          "display": false,
+          "fontFamily": "sans-serif",
+          "fontSize": "12px",
+          "padding": "5px 15px",
+          "position": "fixed",
+          "right": 0,
+          "textDecoration": "none",
+          "top": 0,
+        }
+      }
+      tabIndex="0"
+    >
+      ×
+    </a>
+    <div
+      style={undefined}
+    >
+      <div
+        style={
+          Object {
+            "WebkitFontSmoothing": "antialiased",
+            "backgroundColor": "#fff",
+            "border": "1px solid #eee",
+            "borderRadius": "2px",
+            "boxShadow": "0px 2px 3px rgba(0, 0, 0, 0.05)",
+            "color": "#444",
+            "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
+            "fontSize": "15px",
+            "fontWeight": 300,
+            "lineHeight": 1.45,
+            "padding": "10px 20px 20px",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "borderBottom": "1px solid #eee",
+              "marginBottom": 6,
+              "paddingTop": 6,
+            }
+          }
+        >
+          <h1
+            style={
+              Object {
+                "fontSize": "28px",
+                "margin": 0,
+                "padding": 0,
+              }
+            }
+          >
+            Info Addon
+          </h1>
+          <h2
+            style={
+              Object {
+                "fontSize": "18px",
+                "fontWeight": 400,
+                "margin": "0 0 10px 0",
+                "padding": 0,
+              }
+            }
+          >
+            decoratorInfo
+          </h2>
+        </div>
+        <div
+          style={
+            Object {
+              "borderBottom": "1px solid #eee",
+              "marginBottom": 0,
+            }
+          }
+        >
+          <div>
+            <p
+              style={
+                Object {
+                  "backgroundColor": "hsl(0, 0%, 100%)",
+                  "color": "hsl(218, 54%, 20%)",
+                  "fontFamily": "-apple-system,BlinkMacSystemFont,\\"Segoe UI\\",Roboto,Oxygen,Ubuntu,\\"Fira Sans\\",\\"Droid Sans\\",\\"Helvetica Neue\\",sans-serif",
+                  "fontSize": 14,
+                }
+              }
+            >
+              Use the 
+              <a
+                href="https://github.com/storybooks/storybook/tree/master/addons/info"
+                style={
+                  Object {
+                    "color": "hsl(216, 100%, 40%)",
+                    "textDecoration": "none",
+                  }
+                }
+              >
+                info addon
+              </a>
+               with its new painless API.
+            </p>
+          </div>
+        </div>
+        <div>
+          <h1
+            style={
+              Object {
+                "borderBottom": "1px solid #EEE",
+                "color": "rgba(0,0,0,0.5)",
+                "fontSize": "18px",
+                "margin": "20px 0 0 0",
+                "padding": "0 0 5px 0",
+              }
+            }
+          >
+            Story Source
+          </h1>
+          <pre
+            className="fenced-code"
+            style={
+              Object {
+                "border": "1px hsl(0, 0%, 80%) solid",
+                "borderRadius": 3,
+                "fontSize": 13,
+                "padding": "1px 3px",
+              }
+            }
+          >
+            <code
+              className="hljs"
+            >
+              <div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 18,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "hsl(0, 0%, 10%)",
+                      }
+                    }
+                  >
+                    &lt;
+                    Container
+                  </span>
+                  <span />
+                  <span
+                    style={
+                      Object {
+                        "color": "hsl(0, 0%, 10%)",
+                      }
+                    }
+                  >
+                    &gt;
+                  </span>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 33,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "hsl(0, 0%, 10%)",
+                      }
+                    }
+                  >
+                    click the 
+                  </span>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 33,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "hsl(0, 0%, 10%)",
+                      }
+                    }
+                  >
+                    &lt;
+                    InfoButton
+                  </span>
+                  <span />
+                  <span
+                    style={
+                      Object {
+                        "color": "hsl(0, 0%, 10%)",
+                      }
+                    }
+                  >
+                    /&gt;
+                  </span>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 33,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "hsl(0, 0%, 10%)",
+                      }
+                    }
+                  >
+                     label in top right for info about "
+                  </span>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 33,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "hsl(0, 0%, 10%)",
+                      }
+                    }
+                  >
+                    decoratorInfo
+                  </span>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 33,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "hsl(0, 0%, 10%)",
+                      }
+                    }
+                  >
+                    "
+                  </span>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 18,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "hsl(0, 0%, 10%)",
+                      }
+                    }
+                  >
+                    &lt;/
+                    Container
+                    &gt;
+                  </span>
+                </div>
+              </div>
+            </code>
+          </pre>
+        </div>
+        <div>
+          <h1
+            style={
+              Object {
+                "borderBottom": "1px solid #EEE",
+                "color": "rgba(0,0,0,0.5)",
+                "fontSize": "18px",
+                "margin": "20px 0 0 0",
+                "padding": "0 0 5px 0",
+              }
+            }
+          >
+            Prop Types
+          </h1>
+          <div>
+            <h2
+              style={
+                Object {
+                  "fontSize": "14px",
+                  "margin": "20px 0 10px 0",
+                }
+              }
+            >
+              <span
+                style={
+                  Object {
+                    "backgroundColor": "hsl(0, 0%, 92%)",
+                    "border": "solid 1px hsl(0, 0%, 75%)",
+                    "borderRadius": 4,
+                    "minWidth": 300,
+                    "padding": "6px 20px",
+                  }
+                }
+              >
+                &lt;
+                Container
+                 /&gt;
+              </span>
+            </h2>
+            <table
+              style={
+                Object {
+                  "backgroundColor": "hsl(0, 0%, 98%)",
+                  "border": "1px hsl(0, 0%, 90%) solid",
+                  "borderCollapse": "separate",
+                  "fontSize": 13,
+                  "width": "100%",
+                }
+              }
+            >
+              <thead
+                style={
+                  Object {
+                    "textAlign": "left",
+                  }
+                }
+              >
+                <tr>
+                  <th>
+                    property
+                  </th>
+                  <th>
+                    propType
+                  </th>
+                  <th>
+                    required
+                  </th>
+                  <th>
+                    default
+                  </th>
+                  <th>
+                    description
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    children
+                  </td>
+                  <td>
+                    node
+                  </td>
+                  <td>
+                    yes
+                  </td>
+                  <td>
+                    -
+                  </td>
+                  <td />
+                </tr>
+                <tr>
+                  <td>
+                    isAmazing
+                  </td>
+                  <td>
+                    bool
+                  </td>
+                  <td>
+                    no
+                  </td>
+                  <td>
+                    <span>
+                      <span
+                        style={
+                          Object {
+                            "color": "#a11",
+                          }
+                        }
+                      >
+                        false
+                      </span>
+                    </span>
+                  </td>
+                  <td />
+                </tr>
+                <tr>
+                  <td>
+                    age
+                  </td>
+                  <td>
+                    number
+                  </td>
+                  <td>
+                    no
+                  </td>
+                  <td>
+                    <span>
+                      <span
+                        style={
+                          Object {
+                            "color": "#a11",
+                          }
+                        }
+                      >
+                        0
+                      </span>
+                    </span>
+                  </td>
+                  <td />
+                </tr>
+                <tr>
+                  <td>
+                    title
+                  </td>
+                  <td>
+                    string
+                  </td>
+                  <td>
+                    no
+                  </td>
+                  <td>
+                    <span
+                      style={
+                        Object {
+                          "color": "#22a",
+                          "wordBreak": "break-word",
+                        }
+                      }
+                    >
+                      "
+                      the best container ever
+                      "
+                    </span>
+                  </td>
+                  <td />
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <h2
+              style={
+                Object {
+                  "fontSize": "14px",
+                  "margin": "20px 0 10px 0",
+                }
+              }
+            >
+              <span
+                style={
+                  Object {
+                    "backgroundColor": "hsl(0, 0%, 92%)",
+                    "border": "solid 1px hsl(0, 0%, 75%)",
+                    "borderRadius": 4,
+                    "minWidth": 300,
+                    "padding": "6px 20px",
+                  }
+                }
+              >
+                &lt;
+                InfoButton
+                 /&gt;
+              </span>
+            </h2>
+            <small>
+              No propTypes defined!
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Info Addon deprecated addWithInfo 1`] = `
+<div>
+  click the 
+  <span
+    style={
+      Object {
+        "background": "rgb(34, 136, 204)",
+        "borderRadius": "0px 0px 0px 5px",
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "sans-serif",
+        "fontSize": 12,
+        "margin": 10,
+        "padding": "5px 15px",
+        "textDecoration": "none",
+      }
+    }
+  >
+     
+    Show Info
+     
+  </span>
+   label in top right for info about "
+  deprecated addWithInfo
+  "
+</div>
 `;
 
 exports[`Storyshots Navigation Menu link 1`] = `

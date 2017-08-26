@@ -1,15 +1,22 @@
-import React from 'react';
-import { configure, setAddon, addDecorator } from '@storybook/react';
-import InfoAddon from '../src/';
+import { configure, setAddon } from '@storybook/react';
+import { withInfo, setInfoOptions } from '@storybook/addon-info';
+import { setOptions } from '@storybook/addon-options';
 
-addDecorator((story) => (
-  <div style={{padding: 20}}>
-    {story()}
-  </div>
-));
+setOptions({
+  downPanelInRight: true,
+})
 
-setAddon(InfoAddon);
+setAddon({
+  summary(info) {
+    return this.addDecorator(story => {
+      setInfoOptions(info);
+      return story();
+    })
+  }
+});
 
-configure(function () {
-  require('../example/story');
-}, module);
+function loadStories() {
+  require('../src/components/stories');
+}
+
+configure(loadStories, module);

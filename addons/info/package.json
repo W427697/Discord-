@@ -10,26 +10,37 @@
   },
   "scripts": {
     "prepublish": "node ../../scripts/prepublish.js",
-    "publish-storybook": "bash .scripts/publish_storybook.sh",
-    "storybook": "start-storybook -p 9010"
+    "dev": "start-storybook -p 9009",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@storybook/addons": "^3.2.6",
     "@storybook/components": "^3.2.7",
     "babel-runtime": "^6.23.0",
     "global": "^4.3.2",
-    "marksy": "^2.0.0",
     "prop-types": "^15.5.10",
     "react-addons-create-fragment": "^15.5.3",
+    "react-komposer": "^2.0.0",
+    "remark-github": "^7.0.2",
+    "remark-highlight.js": "^5.0.0",
+    "remark-parse": "^4.0.0",
+    "remark-react": "^4.0.0",
+    "unified": "^6.1.5",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^3.2.0",
+    "@storybook/addon-info": "^3.2.4",
+    "@storybook/addon-knobs": "^3.2.0",
+    "@storybook/addon-options": "^3.2.4",
+    "@storybook/react": "^3.2.4",
     "git-url-parse": "^6.2.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-test-renderer": "^15.6.1"
   },
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "react-dom": "^15.5.4"
   }
 }

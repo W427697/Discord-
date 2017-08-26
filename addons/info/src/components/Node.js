@@ -5,7 +5,7 @@ import Props from './Props';
 const stylesheet = {
   containerStyle: {},
   tagStyle: {
-    color: '#777',
+    color: 'hsl(0, 0%, 10%)',
   },
 };
 

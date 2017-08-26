@@ -19,15 +19,17 @@ import {
   object,
 } from '@storybook/addon-knobs';
 import centered from '@storybook/addon-centered';
-import { withInfo } from '@storybook/addon-info';
+import { withInfo, setInfoOptions } from '@storybook/addon-info';
 
 import { Button, Welcome } from '@storybook/react/demo';
 
 import App from '../App';
+import reactLogo from '../logo.svg';
 import Logger from './Logger';
 import Container from './Container';
 import DocgenButton from '../components/DocgenButton';
 import FlowTypeButton from '../components/FlowTypeButton';
+import markdown from '../../../../addons/info/src/components/stories/mock-data/summary.md';
 
 const EVENTS = {
   TEST_EVENT_1: 'test-event-1',
@@ -57,7 +59,12 @@ const InfoButton = () =>
     {' '}Show Info{' '}
   </span>;
 
+setInfoOptions({
+  summary: 'This is common info',
+});
+
 storiesOf('Button', module)
+  .addDecorator((storyFn, context) => withInfo('This is **Button** info')(storyFn)(context))
   .addDecorator(withKnobs)
   .add('with text', () =>
     <Button onClick={action('clicked')}>
@@ -100,8 +107,8 @@ storiesOf('Button', module)
     });
     const nice = boolean('Nice', true);
 
-    // NOTE: put this last because it currently breaks everything after it :D
-    const birthday = date('Birthday', new Date('Jan 20 2017'));
+    const defaultValue = new Date('Jan 20 2017');
+    const birthday = date('Birthday', defaultValue);
 
     const intro = `My name is ${name}, I'm ${age} years old, and my favorite fruit is ${fruit}.`;
     const style = { backgroundColor, ...otherStyles };
@@ -133,21 +140,244 @@ storiesOf('Button', module)
       </div>
     );
   })
-  .addWithInfo(
-    'with some info',
-    'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its painful API.',
-    context =>
-      <Container>
-        click the <InfoButton /> label in top right for info about "{context.story}"
-      </Container>
-  )
+  .add('with setInfoOptions', () => {
+    setInfoOptions('this info is **overridden** by setInfoOptions');
+    setOptions({ selectedAddonPanel: 'storybook/info/info-panel' });
+    return <Button onClick={action('clicked')}>Button with Info</Button>;
+  });
+
+storiesOf('Info Addon', module)
   .add(
-    'with new info',
+    'Info default',
     withInfo(
       'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.'
     )(context =>
       <Container>
         {setOptions({ selectedAddonPanel: 'storybook/info/info-panel' })}
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </Container>
+    )
+  )
+  .add(
+    'DocgenButton',
+    withInfo(`
+      # Docgen Button
+
+      It demonstrates how your component can be documented via [babel-plugin-react-docgen](https://github.com/storybooks/babel-plugin-react-docgen). You just need to add comments in your component \`propTypes\` this way:
+
+      ~~~js
+      DocgenButton.propTypes = {
+        /** Boolean indicating whether the button should render as disabled */
+        disabled: PropTypes.bool,
+        /** button label. */
+        label: PropTypes.string.isRequired,
+        /** onClick handler */
+        onClick: PropTypes.func,
+      }
+      ~~~
+      
+      See results in the **Prop Types** section below
+
+      `)(() => <DocgenButton onClick={action('clicked')} label="Docgen Button" />)
+  )
+  .add(
+    'FlowTypeButton',
+    withInfo(`
+      # FlowType Button
+      
+      It demonstrates how your component can be documented via [Flow](https://flow.org/). You just need to add types and comments to your component this way:
+
+      ~~~js
+      type PropsType = {
+        /** The text to be rendered in the button */
+        label: string,
+        /** Function to be called when the button is clicked */
+        onClick?: Function,
+        /** Boolean representing wether the button is disabled */
+        disabled?: boolean,
+      };
+      ~~~
+
+      See results in the **Prop Types** section below
+            
+    `)(() => <FlowTypeButton onClick={action('clicked')} label="Flow Typed Button" />)
+  )
+  .add(
+    'Info with options',
+    withInfo({
+      summary:
+        'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.',
+      inline: false,
+      propTables: false,
+      header: false,
+      source: true,
+    })(context =>
+      <Container>
+        click the <InfoButton /> label in top right for info about "{context.story}" this button has
+        very-very-very-very looooooong title
+      </Container>
+    )
+  )
+  .add(
+    'Only summary with markdown',
+    withInfo({
+      summary: markdown,
+      inline: false,
+      propTables: false,
+      header: false,
+      source: false,
+    })(context =>
+      <Container>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </Container>
+    )
+  )
+  .add(
+    'React Element in summary',
+    withInfo({
+      summary: (
+        <div>
+          <h2>This is a JSX info section</h2>
+          <p>
+            Storybook is very easy to use. You can use it with any kind of React or Vue project.
+            Follow these steps to get started with Storybook:
+          </p>
+          <code
+            style={{
+              margin: 20,
+              padding: 10,
+              backgroundColor: 'hsl(0, 0%, 35%)',
+              color: 'hsl(0, 0%, 90%)',
+              display: 'block',
+              fontSize: 12,
+            }}
+          >
+            {'cd my-react-app'}
+            <br />
+            {'npm i -g @storybook/cli'}
+            <br />
+            {'getstorybook'}
+            <br />
+          </code>
+          <p style={{ textAlign: 'center' }}>
+            <style>
+              {`@keyframes App-logo-spin {
+                  from { transform: rotate(0deg); }
+                  to { transform: rotate(360deg); }
+                }`}
+            </style>
+            <img
+              style={{
+                animation: 'App-logo-spin infinite 20s linear',
+                maxWidth: 400,
+              }}
+              src={reactLogo}
+              alt="react logo"
+            />
+          </p>
+          <p style={{ textAlign: 'right' }}>
+            <a href="https://github.com/storybooks/storybook/tree/master/addons/info">
+              @storybook/addon-info
+            </a>
+          </p>
+        </div>
+      ),
+      inline: false,
+      propTables: false,
+      header: false,
+      source: false,
+    })(context =>
+      <Container>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </Container>
+    )
+  )
+  .add(
+    'Only component source',
+    withInfo({
+      summary: null,
+      inline: false,
+      propTables: false,
+      header: false,
+      source: true,
+    })(context =>
+      <Container>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </Container>
+    )
+  )
+  .add(
+    'Only propTypes and header',
+    withInfo({
+      summary: null,
+      inline: false,
+      propTables: [Container],
+      propTablesExclude: [InfoButton],
+      header: true,
+      source: false,
+    })(context =>
+      <div>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </div>
+    )
+  )
+  .add(
+    'decoratorInfo',
+    withInfo({
+      summary:
+        'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its new painless API.',
+      inline: false,
+      sendToPanel: false,
+      infoButton: true,
+    })(context =>
+      <Container>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </Container>
+    )
+  )
+  .add(
+    'JSX as an argument',
+    withInfo(
+      <div>
+        This is summary with <button>button</button> element
+      </div>
+    )(context =>
+      <Container>
+        {setOptions({ selectedAddonPanel: 'storybook/info/info-panel' })}
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </Container>
+    )
+  )
+  .add(
+    'With custom components',
+    withInfo({
+      summary: `
+        # Components overriding
+
+        Here we can override some components. We support previous API - \`marksyConf\` but it will be deprecated. So better to use new API - \`components\` with the same syntax.
+
+        In order to pass your own component to markdown set this option this way:
+
+        ~~~js
+        components: {
+          h2: props => <h2 {...props} style={{color: 'blue'}} />,
+        }
+        ~~~
+
+        Lets override **H2** heading via \`components\` and **H3** via old \`marksyConf\` API:
+
+        ## H2 - it should be blue
+
+        ### H3 - it should be brown
+      `,
+      marksyConf: {
+        h3: props => <h3 {...props} style={{color: 'brown'}} />, // eslint-disable-line
+      },
+      components: {
+        h2: props => <h2 {...props} style={{color: 'blue'}} />, // eslint-disable-line
+      },
+    })(context =>
+      <Container>
         click the <InfoButton /> label in top right for info about "{context.story}"
       </Container>
     )
@@ -162,18 +392,28 @@ storiesOf('Button', module)
         </div>
       )
     )
+  )
+  .addWithInfo(
+    'deprecated addWithInfo',
+    'Use the [info addon](https://github.com/storybooks/storybook/tree/master/addons/info) with its painful API.',
+    context =>
+      <div>
+        click the <InfoButton /> label in top right for info about "{context.story}"
+      </div>
   );
 
-storiesOf('AddonInfo.DocgenButton', module).addWithInfo('DocgenButton', 'Some Description', () =>
-  <DocgenButton onClick={action('clicked')} label="Docgen Button" />
-);
-
-storiesOf(
-  'AddonInfo.FlowTypeButton',
-  module
-).addWithInfo('FlowTypeButton', 'Some Description', () =>
-  <FlowTypeButton onClick={action('clicked')} label="Flow Typed Button" />
-);
+storiesOf('Addons composition', module)
+  .addDecorator((storyFn, context) =>
+    withInfo()(withNotes('the non-trivial form of addons composition')(storyFn))(context)
+  )
+  .add('with text', () => {
+    setInfoOptions('this *button* contain **text**');
+    return <Button onClick={action('clicked')}>Hello Button</Button>;
+  })
+  .add('with some emoji', () => {
+    setInfoOptions('this *button* contain **some emoji**');
+    return <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>;
+  });
 
 storiesOf('App', module).add('full app', () => <App />);
 

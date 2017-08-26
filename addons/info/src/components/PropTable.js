@@ -15,9 +15,14 @@ Object.keys(PropTypes).forEach(typeName => {
 
 const stylesheet = {
   propTable: {
-    marginLeft: -10,
-    borderSpacing: '10px 5px',
     borderCollapse: 'separate',
+    fontSize: 13,
+    border: '1px hsl(0, 0%, 90%) solid',
+    backgroundColor: 'hsl(0, 0%, 98%)',
+    width: '100%',
+  },
+  head: {
+    textAlign: 'left',
   },
 };
 
@@ -138,7 +143,7 @@ export default function PropTable(props) {
 
   return (
     <table style={stylesheet.propTable}>
-      <thead>
+      <thead style={stylesheet.head}>
         <tr>
           <th>property</th>
           <th>propType</th>

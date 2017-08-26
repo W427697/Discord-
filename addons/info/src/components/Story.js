@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import global from 'global';
 import { baseFonts } from '@storybook/components';
 
-import marksy from 'marksy';
+import { compile, setOptions, pre as Pre } from './markdown';
+import './markdown/hljs-styles/androidstudio.css';
 
 import PropTable from './PropTable';
 import Node from './Node';
-import { Pre } from './markdown';
 
 global.STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES || [];
 const STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES;
@@ -34,13 +34,11 @@ const stylesheet = {
     },
   },
   info: {
-    position: 'fixed',
-    background: 'white',
+    position: 'relative',
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
-    padding: '0 40px',
     overflow: 'auto',
     zIndex: 99999,
   },
@@ -54,14 +52,14 @@ const stylesheet = {
     lineHeight: 1.45,
     fontSize: '15px',
     border: '1px solid #eee',
-    padding: '20px 40px 40px',
+    padding: '10px 20px 20px',
     borderRadius: '2px',
     boxShadow: '0px 2px 3px rgba(0, 0, 0, 0.05)',
     backgroundColor: '#fff',
-    marginTop: '50px',
   },
   infoContent: {
     marginBottom: 0,
+    borderBottom: '1px solid #eee',
   },
   infoStory: {},
   jsxInfoContent: {
@@ -72,41 +70,54 @@ const stylesheet = {
     h1: {
       margin: 0,
       padding: 0,
-      fontSize: '35px',
+      fontSize: '28px',
     },
     h2: {
       margin: '0 0 10px 0',
       padding: 0,
       fontWeight: 400,
-      fontSize: '22px',
+      fontSize: '18px',
     },
     body: {
       borderBottom: '1px solid #eee',
-      paddingTop: 10,
-      marginBottom: 10,
+      paddingTop: 6,
+      marginBottom: 6,
     },
   },
   source: {
     h1: {
       margin: '20px 0 0 0',
       padding: '0 0 5px 0',
-      fontSize: '25px',
+      fontSize: '18px',
       borderBottom: '1px solid #EEE',
+      color: 'rgba(0,0,0,0.5)',
     },
   },
   propTableHead: {
-    margin: '20px 0 0 0',
+    h2: {
+      fontSize: '14px',
+      margin: '20px 0 10px 0',
+    },
+    span: {
+      backgroundColor: 'hsl(0, 0%, 92%)',
+      padding: '6px 20px',
+      minWidth: 300,
+      border: 'solid 1px hsl(0, 0%, 75%)',
+      borderRadius: 4,
+    },
   },
 };
 
+/**
+ * Root info Component
+ */
 export default class Story extends React.Component {
-  constructor(...args) {
-    super(...args);
+  constructor(props, ...args) {
+    super(props, ...args);
     this.state = {
-      open: false,
+      open: props.hideInfoButton,
       stylesheet: this.props.styles(JSON.parse(JSON.stringify(stylesheet))),
     };
-    this.marksy = marksy(this.props.marksyConf);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -157,12 +168,16 @@ export default class Story extends React.Component {
     const linkStyle = {
       ...stylesheet.link.base,
       ...stylesheet.link.topRight,
+      display: this.props.hideInfoButton && 'none',
     };
 
     const infoStyle = Object.assign({}, stylesheet.info);
     if (!this.state.open) {
       infoStyle.display = 'none';
     }
+    const storyStyle = {
+      display: this.state.open && 'none',
+    };
 
     const openOverlay = () => {
       this.setState({ open: true });
@@ -176,12 +191,14 @@ export default class Story extends React.Component {
 
     return (
       <div>
-        <div style={this.state.stylesheet.children}>
-          {this.props.children}
+        <div style={storyStyle}>
+          <div style={this.state.stylesheet.children}>
+            {this.props.children}
+          </div>
+          <a style={linkStyle} onClick={openOverlay} role="button" tabIndex="0">
+            Show Info
+          </a>
         </div>
-        <a style={linkStyle} onClick={openOverlay} role="button" tabIndex="0">
-          Show Info
-        </a>
         <div style={infoStyle}>
           <a style={linkStyle} onClick={closeOverlay} role="button" tabIndex="0">
             ×
@@ -218,19 +235,19 @@ export default class Story extends React.Component {
   }
 
   _getInfoContent() {
-    if (!this.props.info) {
+    if (!this.props.summary) {
       return '';
     }
 
-    if (React.isValidElement(this.props.info)) {
+    if (React.isValidElement(this.props.summary)) {
       return (
         <div style={this.props.showInline ? stylesheet.jsxInfoContent : stylesheet.infoContent}>
-          {this.props.info}
+          {this.props.summary}
         </div>
       );
     }
 
-    const lines = this.props.info.split('\n');
+    const lines = this.props.summary.split('\n');
     while (lines[0].trim() === '') {
       lines.shift();
     }
@@ -240,9 +257,14 @@ export default class Story extends React.Component {
       padding = matches[0].length;
     }
     const source = lines.map(s => s.slice(padding)).join('\n');
+
+    setOptions({
+      components: this.props.components,
+    });
+
     return (
       <div style={this.state.stylesheet.infoContent}>
-        {this.marksy(source).tree}
+        {compile(source)}
       </div>
     );
   }
@@ -348,8 +370,12 @@ export default class Story extends React.Component {
     const { maxPropObjectKeys, maxPropArrayLength, maxPropStringLength } = this.props;
     const propTables = array.map(type =>
       <div key={type.displayName || type.name}>
-        <h2 style={this.state.stylesheet.propTableHead}>
-          "{type.displayName || type.name}" Component
+        <h2 style={this.state.stylesheet.propTableHead.h2}>
+          <span style={this.state.stylesheet.propTableHead.span}>
+            {'<'}
+            {type.displayName || type.name}
+            {' />'}
+          </span>
         </h2>
         <PropTable
           type={type}
@@ -388,15 +414,20 @@ Story.propTypes = {
     kind: PropTypes.string,
     story: PropTypes.string,
   }),
-  info: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  /**
+   * the description of component
+   * allows markdown or JSX syntax
+   */
+  summary: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   propTables: PropTypes.arrayOf(PropTypes.func),
   propTablesExclude: PropTypes.arrayOf(PropTypes.func),
   showInline: PropTypes.bool,
+  hideInfoButton: PropTypes.bool,
   showHeader: PropTypes.bool,
   showSource: PropTypes.bool,
   styles: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  marksyConf: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  components: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   maxPropsIntoLine: PropTypes.number.isRequired,
   maxPropObjectKeys: PropTypes.number.isRequired,
   maxPropArrayLength: PropTypes.number.isRequired,
@@ -404,12 +435,13 @@ Story.propTypes = {
 };
 Story.defaultProps = {
   context: null,
-  info: '',
+  summary: '',
   children: null,
   propTables: null,
   propTablesExclude: [],
   showInline: false,
+  hideInfoButton: false,
   showHeader: true,
   showSource: true,
-  marksyConf: {},
+  components: {},
 };
