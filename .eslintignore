@@ -1,11 +1,14 @@
 dist
 build
+.next/**
+public
 coverage
 node_modules
 addons/**/example/**
 app/**/demo/**
 docs/public
 
+bundle.js
 *.bundle.js
 *.js.map
 

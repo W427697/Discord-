@@ -18,3 +18,5 @@ packs/*.tgz
 package-lock.json
 .nvmrc
 storybook-static
+.next
+out
