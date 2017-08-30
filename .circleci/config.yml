@@ -127,8 +127,7 @@ jobs:
       - run:
           name: "Bootstrapping"
           command: |
-            npm run bootstrap
-            npm run bootstrap:docs
+            yarn bootstrap -- --core --docs
       - run:
           name: "Linting"
           command: |
