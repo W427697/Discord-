@@ -1,6 +1,7 @@
 dist
 build
 .next/**
+out
 public
 coverage
 node_modules

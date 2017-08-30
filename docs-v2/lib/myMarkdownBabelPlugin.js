@@ -12,7 +12,7 @@ const mySyntaxHighlighting = require('./syntaxHighlighting');
 
 const parser = markdown => unified().use(remarkParse).use(myCustomBlocks).parse(markdown);
 
-module.exports = function({ types: t }) {
+module.exports = function myMarkdownBabelPlugin({ types: t }) {
   slugify.reset();
 
   const mapProps = props =>

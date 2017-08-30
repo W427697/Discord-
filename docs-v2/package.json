@@ -43,5 +43,8 @@
     "webpack-bundle-analyzer": "^2.8.3",
     "webpack-visualizer-plugin": "^0.1.11"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "remark-helpers": "^0.0.6"
+  }
 }

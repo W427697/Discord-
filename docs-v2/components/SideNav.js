@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import glamorous from 'glamorous';
 
-const Item = glamorous(({ name, route, className, ...props }) =>
+const Item = glamorous(({ title, route, className, ...props }) =>
   <li>
-    <Link {...props} href={route}>
+    <Link href={route}>
       {props.length
         ? <a className={className}>
-            {`> ${name}`}
+            {`> ${title}`}
           </a>
         : <a className={className}>
-            {name}
+            {title}
           </a>}
     </Link>
   </li>
@@ -36,8 +36,8 @@ const getItems = (sitemap, path) => {
 };
 
 const SideNav = glamorous(({ sitemap, path, ...props }) =>
-  <ul {...props} title={path.replace(/\/$/, '').replace(/^https?\/\/[^/]*/, '')}>
-    {getItems(sitemap, path.replace(/\/$/, '').replace(/^https?\/\/[^/]*/, '')).map(item =>
+  <ul {...props} title={path.replace(/\/$/, '')}>
+    {getItems(sitemap, path.replace(/\/$/, '')).map(item =>
       <Item {...item} isActive={item.route === path} key={item.route} />
     )}
   </ul>
@@ -45,7 +45,6 @@ const SideNav = glamorous(({ sitemap, path, ...props }) =>
   background: 'none',
   border: '0 none',
   padding: 0,
-  width: 30,
   '& > *': {
     height: '100%',
     width: 'auto',

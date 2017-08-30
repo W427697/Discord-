@@ -2,36 +2,59 @@ const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
 
-function File(stat, fileName, workingDir, baseDir) {
+const unified = require('unified');
+const remarkParse = require('remark-parse');
+const mdHelpers = require('remark-helpers');
+
+const parser = markdown => unified().use(remarkParse).parse(markdown);
+
+const findTitle = list =>
+  // get first main heading and return plain text
+  list.reduce(
+    (acc, item) =>
+      !acc && item.type === 'heading' && item.depth === 1 ? mdHelpers.text(item) : acc,
+    ''
+  );
+
+const createFile = (stat, fileName, workingDir, baseDir) => {
   const name = path.basename(fileName, path.extname(fileName));
   const routeFile = name.replace('index', '');
   const routeBase = workingDir.replace(baseDir, '') || path.sep;
 
-  this.size = stat.size;
-  this.modified = stat.ctime;
-  this.created = stat.birthtime;
+  return fs
+    .readFileAsync(
+      path.join(workingDir.replace('pages', 'content'), fileName.replace(/.jsx?$/, '.md')),
+      'utf-8'
+    )
+    .then(fileData => parser(fileData))
+    .then(mast => findTitle(mast.children))
+    .catch(() => 'Index')
+    .then(title => ({
+      modified: stat.ctime,
 
-  this.name = name;
-  this.isFile = true;
-  this.route = path.join(routeBase, routeFile);
-}
+      name,
+      title,
+      isFile: true,
+      route: path.join(routeBase, routeFile),
+    }));
+};
 
-function Directory(items, localWorkingDir, baseDir) {
-  this.route = localWorkingDir.replace(baseDir, '');
-  this.length = items.length;
-  this.files = items;
-}
+const createDirectory = (items, localWorkingDir, baseDir) => ({
+  route: localWorkingDir.replace(baseDir, ''),
+  length: items.length,
+  files: items,
+});
 
 const readDir = (workingDir, baseDir) =>
   fs.readdirAsync(workingDir).filter(n => !n.match(/^[._]/)).map(fileName =>
     fs.statAsync(path.join(workingDir, fileName)).then(stat => {
       if (stat.isFile()) {
-        return new File(stat, fileName, workingDir, baseDir);
+        return createFile(stat, fileName, workingDir, baseDir);
       }
       if (stat.isDirectory()) {
         const localWorkingDir = path.join(workingDir, fileName);
-        return readDir(localWorkingDir, baseDir).then(
-          items => new Directory(items, localWorkingDir, baseDir)
+        return readDir(localWorkingDir, baseDir).then(items =>
+          createDirectory(items, localWorkingDir, baseDir)
         );
       }
       return undefined;
