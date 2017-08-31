@@ -38,7 +38,10 @@ const alignment = ({ aligned = true }) =>
         alignItems: 'center',
         justifyContent: 'center',
       }
-    : {};
+    : {
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+      };
 const variance = ({ color = 'silver', variant }) => {
   switch (variant) {
     case 'background': {
@@ -62,7 +65,7 @@ const variance = ({ color = 'silver', variant }) => {
     }
     case 'masked': {
       return {
-        color,
+        color: 'rgba(0,0,0,1)',
         backgroundColor: 'transparent',
         '& > *': {
           position: 'relative',
@@ -81,7 +84,13 @@ const variance = ({ color = 'silver', variant }) => {
           background: color,
           zIndex: 1,
           borderRadius: 3,
-          opacity: 0.1,
+          opacity: 0.3,
+        },
+        '& a': {
+          color: 'inherit',
+        },
+        '& a:hover': {
+          color: 'inherit',
         },
       };
     }
@@ -128,10 +137,10 @@ export const BlockLink = glamorous(({ children, href, className }) =>
   },
 });
 
-const Blocks = ({ children, colors, variant, padded, ...rest }) =>
+const Blocks = ({ children, colors, variant, padded, aligned, ...rest }) =>
   <Root {...rest} count={Children.count(children)}>
     {Children.toArray(children).map((child, index) =>
-      <BlockItem key={child.key} {...{ variant, padded }} color={getColor(colors, index)}>
+      <BlockItem key={child.key} {...{ variant, padded, aligned }} color={getColor(colors, index)}>
         {child}
       </BlockItem>
     )}
@@ -139,6 +148,7 @@ const Blocks = ({ children, colors, variant, padded, ...rest }) =>
 
 Blocks.displayName = 'Blocks';
 Blocks.propTypes = {
+  aligned: PropTypes.bool,
   padded: PropTypes.bool,
   children: PropTypes.node.isRequired,
   vSpacing: PropTypes.number,
@@ -148,6 +158,7 @@ Blocks.propTypes = {
   colors: PropTypes.arrayOf(PropTypes.string),
 };
 Blocks.defaultProps = {
+  aligned: false,
   padded: false,
   vSpacing: undefined,
   hSpacing: undefined,

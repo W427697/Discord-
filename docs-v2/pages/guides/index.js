@@ -8,7 +8,7 @@ import TopNav from '../../components/TopNav';
 import PageTitle from '../../components/PageTitle';
 import Blocks, { BlockLink, BlockLabel } from '../../components/Blocks';
 import Container from '../../components/Container';
-import { Container as MarkdownContainer, H1 } from '../../components/Markdown';
+import { Container as MarkdownContainer, H1, H2, H3 } from '../../components/Markdown';
 
 import ReactLogo from '../../components/logos/React';
 import AngularLogo from '../../components/logos/Angular';
@@ -32,11 +32,11 @@ export default generator('GuidesIndex', ({ path }) =>
       </p>
     </PageTitle>
     <Container width={1000} vSpacing={30} hPadding={10}>
-      <h1>For using storybook</h1>
-      <Blocks aligned={false} variant={'masked'} padded>
+      <H2 as={'h1'}>For using storybook</H2>
+      <Blocks aligned={false} padded variant={'masked'}>
         <section>
+          <H3>Why Storybook</H3>
           <MarkdownContainer>
-            <h2>Why Storybook</h2>
             <ol>
               <li>
                 <Link href="/guides/why/">
@@ -62,8 +62,8 @@ export default generator('GuidesIndex', ({ path }) =>
           </MarkdownContainer>
         </section>
         <section>
+          <H3>Setup Storybook</H3>
           <MarkdownContainer>
-            <h2>Setup Storybook</h2>
             <ol>
               <li>Automatic setup</li>
               <li>Add storybook manually</li>
@@ -72,8 +72,8 @@ export default generator('GuidesIndex', ({ path }) =>
           </MarkdownContainer>
         </section>
         <section>
+          <H3>Organising your storybook</H3>
           <MarkdownContainer>
-            <h2>Organising your storybook</h2>
             <ol>
               <li>Building a styleguide / component library</li>
               <li>Hierarchy</li>
@@ -82,8 +82,8 @@ export default generator('GuidesIndex', ({ path }) =>
           </MarkdownContainer>
         </section>
         <section>
+          <H3>Adding and using addons</H3>
           <MarkdownContainer>
-            <h2>Adding and using addons</h2>
             <ol>
               <li>Addons as decorators</li>
               <li>Addon panels</li>
@@ -92,8 +92,8 @@ export default generator('GuidesIndex', ({ path }) =>
           </MarkdownContainer>
         </section>
         <section>
+          <H3>Customising configuration</H3>
           <MarkdownContainer>
-            <h2>Customising configuration</h2>
             <ol>
               <li>Customise webpack config</li>
               <li>Custom babel config</li>
@@ -146,7 +146,7 @@ export default generator('GuidesIndex', ({ path }) =>
       hPadding={30}
       background={'linear-gradient(135deg, rgb(109, 171, 245) 0%, rgb(162, 224, 94) 100%)'}
     >
-      <h1>For development</h1>
+      <H1>For development</H1>
       <Blocks colors={['rgba(0,0,0,0.08)']} max={4} padded>
         <p>bootstrapping the monorepo</p>
         <p>app architecture</p>

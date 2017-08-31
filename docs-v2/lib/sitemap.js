@@ -1,6 +1,6 @@
 module.exports = {
   '/demo': {
-    modified: '2017-08-29T19:56:27.000Z',
+    modified: '2017-08-30T21:21:29.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -10,7 +10,7 @@ module.exports = {
     contributors: {},
   },
   '/docs/api': {
-    modified: '2017-08-29T23:26:14.000Z',
+    modified: '2017-08-30T21:21:29.000Z',
     name: 'api',
     title: 'Storybook API',
     isFile: true,
@@ -29,7 +29,7 @@ module.exports = {
     ],
   },
   '/docs/cli': {
-    modified: '2017-08-29T19:56:27.000Z',
+    modified: '2017-08-30T21:21:29.000Z',
     name: 'cli',
     title: 'Storybook CLI',
     isFile: true,
@@ -48,7 +48,7 @@ module.exports = {
     ],
   },
   '/docs/community': {
-    modified: '2017-08-29T19:56:27.000Z',
+    modified: '2017-08-30T21:21:29.000Z',
     name: 'community',
     title: 'Community projects',
     isFile: true,
@@ -67,7 +67,7 @@ module.exports = {
     ],
   },
   '/docs/configs': {
-    modified: '2017-08-29T19:56:27.000Z',
+    modified: '2017-08-30T21:21:29.000Z',
     name: 'configs',
     title: 'Configuration',
     isFile: true,
@@ -86,7 +86,7 @@ module.exports = {
     ],
   },
   '/docs': {
-    modified: '2017-08-29T19:56:27.000Z',
+    modified: '2017-08-30T21:21:29.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -104,7 +104,7 @@ module.exports = {
     contributors: {},
   },
   '/docs/issues': {
-    modified: '2017-08-29T19:56:27.000Z',
+    modified: '2017-08-30T21:21:29.000Z',
     name: 'issues',
     title: 'Issues',
     isFile: true,
@@ -123,7 +123,7 @@ module.exports = {
     ],
   },
   '/docs/structure': {
-    modified: '2017-08-29T19:56:27.000Z',
+    modified: '2017-08-30T21:21:29.000Z',
     name: 'structure',
     title: 'Storybook structure',
     isFile: true,
@@ -142,7 +142,7 @@ module.exports = {
     ],
   },
   '/easteregg': {
-    modified: '2017-08-29T19:56:27.000Z',
+    modified: '2017-08-30T21:21:29.000Z',
     name: 'easteregg',
     title: 'Hello world',
     isFile: true,
@@ -161,7 +161,7 @@ module.exports = {
     ],
   },
   '/example': {
-    modified: '2017-08-29T19:56:27.000Z',
+    modified: '2017-08-30T21:21:29.000Z',
     name: 'example',
     title: 'Core Addon API',
     isFile: true,
@@ -190,7 +190,7 @@ module.exports = {
     ],
   },
   '/guides': {
-    modified: '2017-08-29T23:26:14.000Z',
+    modified: '2017-08-30T21:21:29.000Z',
     name: 'index',
     title: 'Guides',
     isFile: true,
@@ -200,7 +200,7 @@ module.exports = {
     contributors: {},
   },
   '/guides/setup': {
-    modified: '2017-08-29T23:26:14.000Z',
+    modified: '2017-08-30T21:21:29.000Z',
     name: 'setup',
     title: 'Setup Storybook',
     isFile: true,
@@ -219,7 +219,7 @@ module.exports = {
     ],
   },
   '/guides/why': {
-    modified: '2017-08-30T07:55:20.000Z',
+    modified: '2017-08-30T21:21:29.000Z',
     name: 'why',
     title: 'Why choose Storybook.',
     isFile: true,
@@ -238,7 +238,7 @@ module.exports = {
     ],
   },
   '/': {
-    modified: '2017-08-29T20:01:31.000Z',
+    modified: '2017-08-30T21:21:29.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
