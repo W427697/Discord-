@@ -1,6 +1,9 @@
 import { window } from 'global';
 import addons from '@storybook/addons';
+
 import KnobManager from './KnobManager';
+import ObjectType from './components/types/Object';
+
 import { vueHandler } from './vue';
 import { reactHandler } from './react';
 
@@ -42,7 +45,9 @@ export function color(name, value) {
 }
 
 export function object(name, value) {
-  return manager.knob(name, { type: 'object', value });
+  return ObjectType.deserialize(
+    manager.knob(name, { type: 'object', value: ObjectType.serialize(value) })
+  );
 }
 
 export function select(name, options, value) {

@@ -94,24 +94,29 @@ storiesOf('Button', module)
     // NOTE: color picker is currently broken
     const backgroundColor = color('background', '#ffff00');
     const items = array('Items', ['Laptop', 'Book', 'Whiskey']);
-    const otherStyles = object('Styles', {
-      border: '3px solid #ff00ff',
-      padding: '10px',
+    const data = object('Data', {
+      styles: {
+        border: '3px solid #ff00ff',
+        padding: '10px',
+        fontSize: '14px',
+        fontFamily: 'sans-serif',
+      },
+      getIntro: (_name, _age, _fruit) =>
+        `My name is ${_name}, I'm ${_age} years old, and my favorite fruit is ${_fruit}.`,
     });
     const nice = boolean('Nice', true);
 
     // NOTE: put this last because it currently breaks everything after it :D
     const birthday = date('Birthday', new Date('Jan 20 2017'));
 
-    const intro = `My name is ${name}, I'm ${age} years old, and my favorite fruit is ${fruit}.`;
-    const style = { backgroundColor, ...otherStyles };
+    const style = { backgroundColor, ...data.styles };
     const salutation = nice ? 'Nice to meet you!' : 'Leave me alone!';
     const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
 
     return (
       <div style={style}>
         <p>
-          {intro}
+          {data.getIntro(name, age, fruit)}
         </p>
         <p>
           My birthday is: {new Date(birthday).toLocaleDateString('en-US', dateOptions)}

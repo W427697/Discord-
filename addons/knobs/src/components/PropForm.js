@@ -19,7 +19,7 @@ const stylesheet = {
   },
 };
 
-export default class propForm extends React.Component {
+export default class PropForm extends React.Component {
   constructor() {
     super();
     this._onFieldChange = this.onFieldChange.bind(this);
@@ -54,13 +54,13 @@ export default class propForm extends React.Component {
   }
 }
 
-propForm.displayName = 'propForm';
+PropForm.displayName = 'PropForm';
 
-propForm.defaultProps = {
+PropForm.defaultProps = {
   knobs: [],
 };
 
-propForm.propTypes = {
+PropForm.propTypes = {
   knobs: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,

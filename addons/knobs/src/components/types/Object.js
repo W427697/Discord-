@@ -1,80 +1,69 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Textarea from 'react-textarea-autosize';
-import deepEqual from 'deep-equal';
+import AceEditor from 'react-ace';
 
-const styles = {
-  display: 'table-cell',
-  boxSizing: 'border-box',
-  verticalAlign: 'middle',
-  width: '100%',
-  outline: 'none',
-  border: '1px solid #f7f4f4',
-  borderRadius: 2,
-  fontSize: 11,
-  padding: '5px',
-  color: '#555',
-  fontFamily: 'monospace',
-};
+import 'brace';
+import 'brace/mode/javascript';
+import 'brace/theme/github';
+
+const getSpaces = level => Array.from({ length: level * 2 }, () => ' ').join('');
+
+function toString(obj, spaceLevel = 1) {
+  const string = [];
+
+  if (typeof obj === 'object' && obj !== null) {
+    const keys = Object.keys(obj);
+    string.push('{', '\n');
+
+    keys.forEach(prop =>
+      string.push(getSpaces(spaceLevel), prop, ': ', toString(obj[prop], spaceLevel + 1), ',', '\n')
+    );
+
+    string.push(getSpaces(spaceLevel - 1), '}');
+  } else if (Array.isArray(obj)) {
+    const keys = Object.keys(obj);
+    string.push('[');
+
+    keys.forEach(prop => string.push(toString(obj[prop]), ','));
+
+    string.push(']');
+  } else if (typeof obj === 'function') {
+    string.push(obj.toString());
+  } else {
+    string.push(JSON.stringify(obj));
+  }
+
+  return `${string.join('')}`;
+}
 
 class ObjectType extends React.Component {
-  constructor(...args) {
-    super(...args);
-    this.state = {};
-  }
+  onRef = ref => {
+    this.ace = ref;
+  };
 
-  getJSONString() {
-    const { json, jsonString } = this.state;
-    const { knob } = this.props;
-
-    // If there is an error in the JSON, we need to give that errored JSON.
-    if (this.failed) return jsonString;
-
-    // If the editor value and the knob value is the same, we need to return the
-    // editor value as it allow user to add new fields to the JSON.
-    if (deepEqual(json, knob.value)) return jsonString;
-
-    // If the knob's value is different from the editor, it seems like
-    // there's a outside change and we need to get that.
-    return JSON.stringify(knob.value, null, 2);
-  }
-
-  handleChange(e) {
+  handleChange = value => {
     const { onChange } = this.props;
-    const newState = {
-      jsonString: e.target.value,
-    };
 
     try {
-      newState.json = JSON.parse(e.target.value.trim());
-      onChange(newState.json);
-      this.failed = false;
+      onChange(value);
     } catch (err) {
-      this.failed = true;
+      console.warn(err);
     }
-
-    this.setState(newState);
-  }
+  };
 
   render() {
     const { knob } = this.props;
-    const jsonString = this.getJSONString();
-    const extraStyle = {};
-
-    if (this.failed) {
-      extraStyle.border = '1px solid #fadddd';
-      extraStyle.backgroundColor = '#fff5f5';
-    }
+    const objectString = knob.value;
 
     return (
-      <Textarea
-        id={knob.name}
-        ref={c => {
-          this.input = c;
-        }}
-        style={{ ...styles, ...extraStyle }}
-        value={jsonString}
-        onChange={e => this.handleChange(e)}
+      <AceEditor
+        ref={this.onRef}
+        mode="javascript"
+        name={knob.name}
+        value={objectString}
+        width="100%"
+        onChange={this.handleChange}
+        editorProps={{ $blockScrolling: true }}
       />
     );
   }
@@ -88,12 +77,12 @@ ObjectType.defaultProps = {
 ObjectType.propTypes = {
   knob: PropTypes.shape({
     name: PropTypes.string,
-    value: PropTypes.object,
+    value: PropTypes.string,
   }),
   onChange: PropTypes.func,
 };
 
-ObjectType.serialize = object => JSON.stringify(object);
-ObjectType.deserialize = value => (value ? JSON.parse(value) : {});
+ObjectType.deserialize = value => eval(`(${value})`); // eslint-disable-line no-eval
+ObjectType.serialize = obj => `(${toString(obj)})`;
 
 export default ObjectType;

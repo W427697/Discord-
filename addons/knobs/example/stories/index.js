@@ -7,37 +7,52 @@ const stories = storiesOf('Example of Knobs', module);
 
 stories.addDecorator(withKnobs);
 
-stories.add('simple example', () => <button>{text('Label', 'Hello Button')}</button>);
+stories.add('simple example', () =>
+  <button>
+    {text('Label', 'Hello Button')}
+  </button>
+);
 
 stories.add('with all knobs', () => {
   const name = text('Name', 'Tom Cary');
   const dob = date('DOB', new Date('January 20 1887'));
 
   const bold = boolean('Bold', false);
-  const selectedColor = color('Color', 'black');
+  const selectedColor = color('Color', 'white');
   const favoriteNumber = number('Favorite Number', 42);
   const comfortTemp = number('Comfort Temp', 72, { range: true, min: 60, max: 90, step: 1 });
 
   const passions = array('Passions', ['Fishing', 'Skiing']);
 
-  const customStyle = object('Style', {
-    fontFamily: 'Arial',
-    padding: 20,
+  const data = object('Data', {
+    style: {
+      width: '400px',
+      height: '400px',
+      backgroundColor: 'rgb(51,51,51)',
+      margin: '20px',
+      fontFamily: 'sans-serif',
+      padding: '20px',
+    },
+    getDescription: temp => `My most comfortable room temperature is ${temp} degrees Fahrenheit.`,
   });
 
-  const style = {
-    ...customStyle,
-    fontWeight: bold ? 800 : 400,
-    favoriteNumber,
-    color: selectedColor,
-  };
-
   return (
-    <div style={style}>
-      I'm {name} and I was born on "{moment(dob).format('DD MMM YYYY')}"
-      I like: <ul>{passions.map((p, i) => <li key={i}>{p}</li>)}</ul>
+    <div
+      style={Object.assign({}, data.style, {
+        fontWeight: bold ? 800 : 400,
+        color: selectedColor,
+      })}
+    >
+      I'm {name} and I was born on "{moment(dob).format('DD MMM YYYY')}" I like:{' '}
+      <ul>
+        {passions.map((p, i) =>
+          <li key={i}>
+            {p}
+          </li>
+        )}
+      </ul>
       <p>My favorite number is {favoriteNumber}.</p>
-      <p>My most comfortable room temperature is {comfortTemp} degrees Fahrenheit.</p>
+      <p>${data.getDescription(comfortTemp)}</p>
     </div>
   );
 });
@@ -50,21 +65,31 @@ stories.add('dates Knob', () => {
   return (
     <ul style={{ listStyleType: 'none', listStyle: 'none', paddingLeft: '15px' }}>
       <li>
-        <p><b>Javascript Date</b> default value, passes date value</p>
+        <p>
+          <b>Javascript Date</b> default value, passes date value
+        </p>
         <blockquote>
           <code>const myDob = date('My DOB', new Date('July 07 1993'));</code>
-          <pre>// I was born in: "{moment(myDob).format('DD MMM YYYY')}"</pre>
+          <pre>
+            // I was born in: "{moment(myDob).format('DD MMM YYYY')}"
+          </pre>
         </blockquote>
       </li>
       <li>
-        <p><b>undefined</b> default value passes today's date</p>
+        <p>
+          <b>undefined</b> default value passes today's date
+        </p>
         <blockquote>
           <code>const today = date('today');</code>
-          <pre>// Today's date is: "{moment(today).format('DD MMM YYYY')}"</pre>
+          <pre>
+            // Today's date is: "{moment(today).format('DD MMM YYYY')}"
+          </pre>
         </blockquote>
       </li>
       <li>
-        <p><b>null</b> default value passes null value</p>
+        <p>
+          <b>null</b> default value passes null value
+        </p>
         <blockquote>
           <code>const dob = date('DOB', null);</code>
           <pre>
@@ -83,7 +108,29 @@ stories.add('dynamic knobs', () => {
       <div>
         {text('compulsary', 'I must be here')}
       </div>
-      {showOptional === 'yes' ? <div>{text('optional', 'I can disapear')}</div> : null}
+      {showOptional === 'yes'
+        ? <div>
+            {text('optional', 'I can disapear')}
+          </div>
+        : null}
+    </div>
+  );
+});
+
+stories.add('with object knobs', () => {
+  const data = object('Data', {
+    style: {
+      width: '400px',
+      height: '400px',
+      backgroundColor: '#000',
+      margin: '20px',
+    },
+    children: addonName => `This is ${addonName} addon`,
+  });
+
+  return (
+    <div style={data.style}>
+      {typeof data.children === 'function' ? data.children('knobs') : data.children}
     </div>
   );
 });
