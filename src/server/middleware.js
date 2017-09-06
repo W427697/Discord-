@@ -57,21 +57,30 @@ export default function ({
 
   const compiler = webpack(webpackConfig);
   const router = new Router();
-  router.use(webpackDevMiddleware(compiler, configDevMiddleware));
+
+  const webpackDevMiddlewareInstance = webpackDevMiddleware(compiler, configDevMiddleware);
+  router.use(webpackDevMiddlewareInstance);
   router.use(webpackHotMiddleware(compiler, configHotMiddleware));
 
-  if ( templatePath ) {
-    router.get('/', (req, res) =>
-      res.send(templatePath)
-    );
-  } else {
-    router.get('/', (req, res) =>
-      res.send(getIndexHtml({ publicPath }))
-    );
-    router.get('/iframe.html', (req, res) =>
-     res.send(getIframeHtml({ publicPath }))
-    );
-  }
+  webpackDevMiddlewareInstance.waitUntilValid((stats) => {
+    const data = {
+      publicPath: config.output.publicPath,
+      assets: stats.toJson().assetsByChunkName,
+    };
+
+    if ( templatePath ) {
+      router.get('/', (req, res) =>
+        res.send(templatePath)
+      );
+    } else {
+      router.get('/', (req, res) =>
+        res.send(getIndexHtml({ publicPath }))
+      );
+      router.get('/iframe.html', (req, res) =>
+        res.send(getIframeHtml({ ...data, publicPath }))
+      );
+    }
+  })
 
   return router;
 }

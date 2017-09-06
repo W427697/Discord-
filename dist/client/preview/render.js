@@ -110,6 +110,7 @@ function renderMain(data, storyStore) {
       title: 'Expecting a React element from the story: "' + selectedStory + '" of "' + selectedKind + '".',
       /* eslint-disable */
       description: (0, _commonTags.stripIndents)(_templateObject)
+      /* eslint-enable */
     };
     return renderError(error);
   }

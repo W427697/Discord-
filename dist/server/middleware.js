@@ -25,21 +25,30 @@ exports.default = function (_ref) {
 
   var compiler = (0, _webpack2.default)(webpackConfig);
   var router = new _express.Router();
-  router.use((0, _webpackDevMiddleware2.default)(compiler, configDevMiddleware));
+
+  var webpackDevMiddlewareInstance = (0, _webpackDevMiddleware2.default)(compiler, configDevMiddleware);
+  router.use(webpackDevMiddlewareInstance);
   router.use((0, _webpackHotMiddleware2.default)(compiler, configHotMiddleware));
 
-  if (templatePath) {
-    router.get('/', function (req, res) {
-      return res.send(templatePath);
-    });
-  } else {
-    router.get('/', function (req, res) {
-      return res.send((0, _index2.default)({ publicPath: publicPath }));
-    });
-    router.get('/iframe.html', function (req, res) {
-      return res.send((0, _iframe2.default)({ publicPath: publicPath }));
-    });
-  }
+  webpackDevMiddlewareInstance.waitUntilValid(function (stats) {
+    var data = {
+      publicPath: config.output.publicPath,
+      assets: stats.toJson().assetsByChunkName
+    };
+
+    if (templatePath) {
+      router.get('/', function (req, res) {
+        return res.send(templatePath);
+      });
+    } else {
+      router.get('/', function (req, res) {
+        return res.send((0, _index2.default)({ publicPath: publicPath }));
+      });
+      router.get('/iframe.html', function (req, res) {
+        return res.send((0, _iframe2.default)(_extends({}, data, { publicPath: publicPath })));
+      });
+    }
+  });
 
   return router;
 };
