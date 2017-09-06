@@ -15,6 +15,7 @@ program
   .option('-r, --reset-cache', 'reset react native packager')
   .option('--skip-packager', 'run only storybook server')
   .option('-i, --manual-id', 'allow multiple users to work with same storybook')
+  .option('--smoke-test', 'Exit after successful start')
   .parse(process.argv);
 
 const projectDir = path.resolve();
@@ -38,10 +39,24 @@ server.listen(...listenAddr, err => {
   }
   const address = `http://${program.host || 'localhost'}:${program.port}/`;
   console.info(`\nReact Native Storybook started on => ${address}\n`); // eslint-disable-line no-console
+  if (program.smokeTest) {
+    process.exit(0);
+  }
 });
 
 if (!program.skipPackager) {
-  const projectRoots = configDir === projectDir ? [configDir] : [configDir, projectDir];
+  let symlinks = [];
+
+  try {
+    const findSymlinksPaths = require('react-native/local-cli/util/findSymlinksPaths'); // eslint-disable-line global-require
+    symlinks = findSymlinksPaths(path.join(projectDir, 'node_modules'), [projectDir]);
+  } catch (e) {
+    console.warn(`Unable to load findSymlinksPaths: ${e.message}`);
+  }
+
+  const projectRoots = (configDir === projectDir ? [configDir] : [configDir, projectDir]).concat(
+    symlinks
+  );
 
   let cliCommand = 'node node_modules/react-native/local-cli/cli.js start';
   if (program.haul) {
