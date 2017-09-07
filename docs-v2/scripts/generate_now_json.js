@@ -1,7 +1,8 @@
 const fs = require('fs');
+const lernaJson = require('../../lerna.json');
 
 const domain = 'storypuke.tk';
-const version = '3.2.9';
+const version = lernaJson.version;
 
 const prettifiedVersion = version.replace(/\./g, '-');
 
