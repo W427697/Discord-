@@ -18,11 +18,13 @@ function getSnapshotFileName(context) {
   return getStoryshotFile(fileName);
 }
 
-export const snapshotWithOptions = options => ({ story, context }) => {
-  Promise.resolve(story).then(storyVal => storyVal.render(context)).then(storyElement => {
-    const tree = getRenderedTree(story, context, options);
-    expect(tree).toMatchSnapshot();
-  });
+export const snapshotWithOptions = options => ({ story, context }) =>
+  Promise.resolve(story)
+    .then(storyVal => storyVal.render(context))
+    .then(() => {
+      const tree = getRenderedTree(story, context, options);
+      expect(tree).toMatchSnapshot();
+    });
 
 export const multiSnapshotWithOptions = options => ({ story, context }) => {
   const tree = getRenderedTree(story, context, options);

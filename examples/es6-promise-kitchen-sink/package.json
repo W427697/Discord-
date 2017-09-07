@@ -16,9 +16,9 @@
     "build-storybook": "build-storybook -s public"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.2.6",
-    "@storybook/addon-links": "^3.2.6",
-    "@storybook/addon-storyshots": "^3.2.8",
-    "@storybook/react": "^3.2.8"
+    "@storybook/addon-actions": "file:../../packs/storybook-addon-actions.tgz",
+    "@storybook/addon-links": "file:../../packs/storybook-addon-links.tgz",
+    "@storybook/addon-storyshots": "file:../../packs/storybook-addon-storyshots.tgz",
+    "@storybook/react": "file:../../packs/storybook-react.tgz"
   }
 }
