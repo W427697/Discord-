@@ -82,6 +82,9 @@ storiesOf('Button', module)
       </Button>
     </WithNotes>
   ))
+  .add('async render', () =>
+    Promise.resolve(<Button onClick={action('clicked')}>Async Button</Button>)
+  )
   .add('with knobs', () => {
     setOptions({ selectedAddonPanel: 'storybooks/storybook-addon-knobs' });
     const name = text('Name', 'Storyteller');
