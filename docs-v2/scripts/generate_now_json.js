@@ -1,12 +1,12 @@
 const fs = require('fs');
-const lernaJson = require('../../lerna.json');
+const packageJson = require('../package.json');
 
-const version = lernaJson.version;
 if (process.argv.length < 3) {
   throw new Error('wrong number of arguments');
 }
 
 const domain = process.argv[2];
+const version = packageJson.version;
 
 const prettifiedVersion = version.replace(/\./g, '-');
 

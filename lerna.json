@@ -20,7 +20,8 @@
     "addons/*",
     "app/*",
     "lib/*",
-    "examples/*"
+    "examples/*",
+    "docs-v2"
   ],
   "concurrency": 1,
   "version": "3.2.9"
