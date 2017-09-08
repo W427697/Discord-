@@ -66,15 +66,30 @@ export default class ClientApi {
         throw new Error(`Story of "${kind}" named "${storyName}" already exists`);
       }
 
-      // Wrap the getStory function with each decorator. The first
-      // decorator will wrap the story function. The second will
-      // wrap the first decorator and so on.
+      /* DECORATORS:
+       * Wrap the getStory function with each decorator. 
+       * The first decorator will wrap the story function.
+       * The second will wrap the first decorator and so on.
+       * [a,b,c,d] >>> d(c(b(a())))
+       * 
+       * In order to support async stories, we take the real storyFn, and wait until it resolves.
+       * After we can wrap the 'ending' with all the decorators
+       */
+
+      // first let's make an array with all decorators
       const decorators = [...localDecorators, ...this._globalDecorators];
 
-      const fn = decorators.reduce(
-        (decorated, decorator) => context => decorator(() => decorated(context), context),
-        getStory
-      );
+      // make a function that takes context
+      const fn = context =>
+        // resolve the real storyFn
+        Promise.resolve(getStory(context)).then(ending =>
+          // nest function calls of decorators: [a,b,c,d] >>> d(c(b(a())))
+          decorators.reduce(
+            (decorated, decorator) => innerContext =>
+              decorator(() => decorated(innerContext), innerContext),
+            () => ending
+          )(context)
+        );
 
       const fileName = m ? m.filename : null;
 
