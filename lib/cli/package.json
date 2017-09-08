@@ -29,6 +29,7 @@
     "child-process-promise": "^2.2.1",
     "commander": "^2.11.0",
     "cross-spawn": "^5.0.1",
+    "inquirer": "^3.2.1",
     "jscodeshift": "^0.3.30",
     "json5": "^0.5.1",
     "latest-version": "^3.1.0",
