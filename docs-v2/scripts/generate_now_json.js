@@ -1,8 +1,12 @@
 const fs = require('fs');
 const lernaJson = require('../../lerna.json');
 
-const domain = 'storypuke.tk';
 const version = lernaJson.version;
+if (process.argv.length < 3) {
+  throw new Error('wrong number of arguments');
+}
+
+const domain = process.argv[2];
 
 const prettifiedVersion = version.replace(/\./g, '-');
 

@@ -10,7 +10,7 @@
     "build": "node scripts/build.js",
     "dev": "node scripts/dev.js",
     "start": "NODE_ENV=production next start",
-    "gen-now-config": "node scripts/generate_now_json.js",
+    "gen-now-config": "node scripts/generate_now_json.js storypuke.tk",
     "now:deploy": "now deploy ./public --name storybook --static --public --debug --token ${NOW_TOKEN}",
     "now:alias": "now alias --debug --token ${NOW_TOKEN}",
     "deploy:now": "npm run gen-now-config && npm run now:deploy && npm run now:alias"
