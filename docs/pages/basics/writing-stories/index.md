@@ -1,9 +1,8 @@
-* * *
-
+---
 id: 'writing-stories'
-
-## title: 'Writing Stories'
-
+title: 'Writing Stories'		 
+---
+ 
 Storybook is all about writing stories. Usually a story contains a single state of one of your components. That's like a visual test case.
 
 > Technically, a story is a function that returns a React element.
@@ -143,11 +142,11 @@ import { ApolloProvider } from 'react-apollo'
 import createClient from './mock-client';
 
 storiesOf('My component', module)
-  .add('default state', createClient().then(client => () => (
+  .add('default state', () => createClient().then(client => 
     <ApolloProvider client={client}>
       <SomeComponent />
     </ApolloProvider>
-  )));
+  ));
 ```
 
 ## Run multiple storybooks
