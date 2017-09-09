@@ -1,7 +1,8 @@
----
+* * *
+
 id: 'guide-vue'
-title: 'Storybook for Vue'
----
+
+## title: 'Storybook for Vue'
 
 You may have tried to use our quick start guide to setup your project for Storybook. If you want to set up Storybook manually, this is the guide for you.
 
@@ -18,6 +19,7 @@ In this guide, we are trying to set up Storybook for your Vue project.
 
 -   [Add @storybook/vue](#add-storybookvue)
 -   [Add vue](#add-vue)
+-   [Create the NPM script](#create-the-npm-script)
 -   [Create the config file](#create-the-config-file)
 -   [Write your stories](#write-your-stories)
 -   [Run your Storybook](#run-your-storybook)
@@ -37,6 +39,16 @@ Make sure that you have `vue` in your dependencies as well because we list is as
 ```sh
 npm i --save vue
 ```
+
+## Create the NPM script
+
+Add the following NPM script to your `package.json` in order to start the storybook later in this guide:
+
+    {
+      "scripts": {
+        "storybook": "start-storybook -p 9001 -c .storybook"
+      }
+    }
 
 ## Create the config file
 
