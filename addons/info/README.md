@@ -175,7 +175,6 @@ DocgenButton.propTypes = {
 
 export default DocgenButton;
 ```
-
 Comments above flow types are also supported. Storybook Info Addon should now render all the correct types for your component if the PropTypes are in the same file as the React component.
 
 ## The FAQ

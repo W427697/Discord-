@@ -2147,9 +2147,9 @@ You may occasionally find a package you depend on needs compiled or ships code f
 This is considered poor practice in the ecosystem and does not have an escape hatch in Create React App.<br>
 <br>
 To resolve this:
-1. Open an issue on the dependency's issue tracker and ask that the package be published pre-compiled (retaining ES6 Modules).
-2. Fork the package and publish a corrected version yourself.
-3. If the dependency is small enough, copy it to your `src/` folder and treat it as application code.
+1\. Open an issue on the dependency's issue tracker and ask that the package be published pre-compiled (retaining ES6 Modules).
+2\. Fork the package and publish a corrected version yourself.
+3\. If the dependency is small enough, copy it to your `src/` folder and treat it as application code.
 
 ## Something Missing?
 
