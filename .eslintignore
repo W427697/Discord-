@@ -8,9 +8,10 @@ node_modules
 addons/**/example/**
 app/**/demo/**
 docs/public
-lib/cli/test
+
 
 bundle.js
+lib/cli/test
 *.bundle.js
 *.js.map
 
