@@ -35,13 +35,13 @@ const Root = glamorous.div(
 const alignment = ({ aligned = true }) =>
   aligned
     ? {
-      alignItems: 'center',
-      justifyContent: 'center',
-    }
+        alignItems: 'center',
+        justifyContent: 'center',
+      }
     : {
-      alignItems: 'flex-start',
-      justifyContent: 'flex-start',
-    };
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+      };
 const variance = ({ color = 'silver', variant }) => {
   switch (variant) {
     case 'background': {
@@ -118,13 +118,11 @@ const BlockItem = glamorous.div(
   variance,
   padding
 );
-export const BlockLink = glamorous(({ children, href, className }) =>
+export const BlockLink = glamorous(({ children, href, className }) => (
   <Link href={href}>
-    <a className={className}>
-      {children}
-    </a>
+    <a className={className}>{children}</a>
   </Link>
-)({
+))({
   padding: '30px 40px',
 
   boxSizing: 'border-box',
@@ -137,14 +135,15 @@ export const BlockLink = glamorous(({ children, href, className }) =>
   },
 });
 
-const Blocks = ({ children, colors, variant, padded, aligned, ...rest }) =>
+const Blocks = ({ children, colors, variant, padded, aligned, ...rest }) => (
   <Root {...rest} count={Children.count(children)}>
-    {Children.toArray(children).map((child, index) =>
+    {Children.toArray(children).map((child, index) => (
       <BlockItem key={child.key} {...{ variant, padded, aligned }} color={getColor(colors, index)}>
         {child}
       </BlockItem>
-    )}
-  </Root>;
+    ))}
+  </Root>
+);
 
 Blocks.displayName = 'Blocks';
 Blocks.propTypes = {
