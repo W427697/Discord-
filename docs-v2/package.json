@@ -1,6 +1,6 @@
 {
   "name": "@storybook/docs",
-  "version": "3.0.0",
+  "version": "3.2.9",
   "description": "",
   "keywords": [],
   "license": "ISC",
@@ -9,7 +9,11 @@
   "scripts": {
     "build": "node scripts/build.js",
     "dev": "node scripts/dev.js",
-    "start": "NODE_ENV=production next start"
+    "start": "NODE_ENV=production next start",
+    "gen-now-config": "node scripts/generate_now_json.js storypuke.tk",
+    "now:deploy": "now deploy ./public --name storybook --static --public --debug --token ${NOW_TOKEN}",
+    "now:alias": "now alias --debug --token ${NOW_TOKEN}",
+    "deploy:now": "npm run gen-now-config && npm run now:deploy && npm run now:alias"
   },
   "dependencies": {
     "babel-literal-to-ast": "^0.1.2",
@@ -36,6 +40,7 @@
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "remark-helpers": "^0.0.6",
     "remark-parse": "^4.0.0",
     "remark-react": "^4.0.0",
     "unified": "^6.1.5",
@@ -43,8 +48,8 @@
     "webpack-bundle-analyzer": "^2.8.3",
     "webpack-visualizer-plugin": "^0.1.11"
   },
-  "private": true,
   "devDependencies": {
-    "remark-helpers": "^0.0.6"
-  }
+    "now": "^7.4.0"
+  },
+  "private": true
 }

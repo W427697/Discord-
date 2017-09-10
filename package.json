@@ -11,10 +11,11 @@
     "app/*",
     "lib/*",
     "examples/cra-kitchen-sink",
-    "examples/vue-kitchen-sink"
+    "examples/vue-kitchen-sink",
+    "docs-v2"
   ],
   "scripts": {
-    "bootstrap": "./scripts/bootstrap.js",
+    "bootstrap": "node ./scripts/bootstrap.js",
     "bootstrap:docs": "yarn install --cwd docs",
     "bootstrap:react-native-vanilla": "npm --prefix examples/react-native-vanilla install",
     "bootstrap:crna-kitchen-sink": "npm --prefix examples/crna-kitchen-sink install",
