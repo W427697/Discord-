@@ -9,7 +9,9 @@ addons/**/example/**
 app/**/demo/**
 docs/public
 
+
 bundle.js
+lib/cli/test
 *.bundle.js
 *.js.map
 
