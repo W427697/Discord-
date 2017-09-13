@@ -12,7 +12,7 @@ import {
   select,
   color,
   date,
-} from '@storybook/addon-knobs';
+} from '@storybook/addon-knobs/vue';
 import Centered from '@storybook/addon-centered';
 
 import MyButton from './Button.vue';
@@ -174,7 +174,7 @@ storiesOf('Addon Notes', module)
   .add(
     'Note with HTML',
     withNotes({
-      notes: `
+      text: `
       <h2>My notes on emojies</h2>
 
       <em>It's not all that important to be honest, but..</em>
