@@ -10,6 +10,9 @@ export default class QRCodePanel extends React.PureComponent {
     super(props, ...args);
     this.state = {
       pairedId: null,
+      host: null,
+      port: null,
+      secured: false,
     };
 
     this._actionListener = action => this.addAction(action);
@@ -26,6 +29,9 @@ export default class QRCodePanel extends React.PureComponent {
   addAction(data) {
     this.setState({
       pairedId: data.pairedId,
+      host: data.host,
+      port: data.port,
+      secured: data.secured,
     });
   }
 

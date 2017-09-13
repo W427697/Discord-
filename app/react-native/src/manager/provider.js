@@ -30,7 +30,12 @@ export default class ReactProvider extends Provider {
       this.channel = createChannel({ url });
       addons.setChannel(this.channel);
 
-      this.channel.emit('channelCreated', { pairedId: this.pairedId });
+      this.channel.emit('channelCreated', {
+        pairedId: this.pairedId,
+        secured,
+        host: options.host,
+        port: options.port,
+      });
     }
   }
 

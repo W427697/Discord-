@@ -7,12 +7,16 @@ import style from './style';
 
 class QRCodeComponent extends PureComponent {
   render() {
-    const secured = window.location.protocol === 'https:';
+
+    const secured = this.props.secured || window.location.protocol === 'https:';
+
+    const port = this.props.port !== false ? (this.props.port || window.location.port) : 'false';
+
     const value = [
-      window.location.hostname,
-      window.location.port,
+      this.props.host || window.location.hostname,
+      port,
       this.props.pairedId,
-      secured ? '1' : '0',
+      secured ? 'true' : 'false',
     ].join('|');
 
     return (
@@ -32,10 +36,16 @@ class QRCodeComponent extends PureComponent {
 
 QRCodeComponent.propTypes = {
   pairedId: PropTypes.string,
+  host: PropTypes.string,
+  port: PropTypes.string,
+  secured: PropTypes.bool,
 };
 
 QRCodeComponent.defaultProps = {
   pairedId: null,
+  host: null,
+  port: null,
+  secured: null,
 };
 
 export default QRCodeComponent;
