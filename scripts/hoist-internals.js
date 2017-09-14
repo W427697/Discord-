@@ -15,7 +15,7 @@ log.addLevel('success', 3001, { fg: 'green', bold: true });
 log.info(prefix, 'Hoisting internal packages');
 
 const getLernaPackages = () =>
-  fse.readJson(path.join(__dirname, '..', 'lerna.json')).then(json => json.packages);
+  fse.readJson(path.join(__dirname, '..', 'package.json')).then(json => json.workspaces);
 const passingLog = fn => i => {
   fn(i);
   return i;
@@ -105,8 +105,8 @@ const task = getLernaPackages()
 
 task
   .then(packages => {
-    log.info(prefix, packages.map(dir => dir.replace(cwd, '')).join(',\n'));
-    log.success(prefix, 'complete');
+    log.verbose(prefix, packages.map(dir => dir.replace(cwd, '')).join(',\n'));
+    log.success(prefix, `Hoisted ${packages.length} packages`);
   })
   .catch(error => {
     log.error(prefix, 'failed', error);

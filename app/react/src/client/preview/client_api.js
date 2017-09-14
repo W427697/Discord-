@@ -8,7 +8,6 @@ export default class ClientApi {
     this._storyStore = storyStore;
     this._addons = {};
     this._globalDecorators = [];
-    this._storiesAdded = false;
   }
 
   setAddon(addon) {
@@ -19,9 +18,6 @@ export default class ClientApi {
   }
 
   addDecorator(decorator) {
-    if (this._storiesAdded) {
-      throw new Error('Global decorators added after loading stories will not be applied');
-    }
     this._globalDecorators.push(decorator);
   }
 
@@ -53,8 +49,6 @@ export default class ClientApi {
     };
 
     api.add = (storyName, getStory) => {
-      this._storiesAdded = true;
-
       if (typeof storyName !== 'string') {
         throw new Error(`Invalid or missing storyName provided for a "${kind}" story.`);
       }
@@ -73,8 +67,10 @@ export default class ClientApi {
         getStory
       );
 
+      const fileName = m ? m.filename : null;
+
       // Add the fully decorated getStory function.
-      this._storyStore.addStory(kind, storyName, fn);
+      this._storyStore.addStory(kind, storyName, fn, fileName);
       return api;
     };
 
@@ -105,11 +101,14 @@ export default class ClientApi {
 
   getStorybook() {
     return this._storyStore.getStoryKinds().map(kind => {
+      const fileName = this._storyStore.getStoryFileName(kind);
+
       const stories = this._storyStore.getStories(kind).map(name => {
         const render = this._storyStore.getStory(kind, name);
         return { name, render };
       });
-      return { kind, stories };
+
+      return { kind, fileName, stories };
     });
   }
 }

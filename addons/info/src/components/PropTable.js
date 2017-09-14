@@ -2,7 +2,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import { Table, Td, Th } from '@storybook/components';
 import PropVal from './PropVal';
+import PrettyPropType from './types/PrettyPropType';
 
 const PropTypesMap = new Map();
 
@@ -13,45 +16,50 @@ Object.keys(PropTypes).forEach(typeName => {
   PropTypesMap.set(type.isRequired, typeName);
 });
 
-const stylesheet = {
-  propTable: {
-    marginLeft: -10,
-    borderSpacing: '10px 5px',
-    borderCollapse: 'separate',
-  },
+const isNotEmpty = obj => obj && obj.props && Object.keys(obj.props).length > 0;
+
+const hasDocgen = type => isNotEmpty(type.__docgenInfo);
+
+const propsFromDocgen = type => {
+  const props = {};
+  const docgenInfoProps = type.__docgenInfo.props;
+
+  Object.keys(docgenInfoProps).forEach(property => {
+    const docgenInfoProp = docgenInfoProps[property];
+    const defaultValueDesc = docgenInfoProp.defaultValue || {};
+    const propType = docgenInfoProp.flowType || docgenInfoProp.type || 'other';
+
+    props[property] = {
+      property,
+      propType,
+      required: docgenInfoProp.required,
+      description: docgenInfoProp.description,
+      defaultValue: defaultValueDesc.value,
+    };
+  });
+
+  return props;
 };
 
-export default function PropTable(props) {
-  const { type, maxPropObjectKeys, maxPropArrayLength, maxPropStringLength } = props;
-
-  if (!type) {
-    return null;
-  }
-
-  const accumProps = {};
+const propsFromPropTypes = type => {
+  const props = {};
 
   if (type.propTypes) {
     Object.keys(type.propTypes).forEach(property => {
       const typeInfo = type.propTypes[property];
-      const required = typeInfo.isRequired === undefined ? 'yes' : 'no';
-      const description =
-        type.__docgenInfo && type.__docgenInfo.props && type.__docgenInfo.props[property]
-          ? type.__docgenInfo.props[property].description
-          : null;
+      const required = typeInfo.isRequired === undefined;
+      const docgenInfo =
+        type.__docgenInfo && type.__docgenInfo.props && type.__docgenInfo.props[property];
+      const description = docgenInfo ? docgenInfo.description : null;
       let propType = PropTypesMap.get(typeInfo) || 'other';
 
       if (propType === 'other') {
-        if (
-          type.__docgenInfo &&
-          type.__docgenInfo.props &&
-          type.__docgenInfo.props[property] &&
-          type.__docgenInfo.props[property].type
-        ) {
-          propType = type.__docgenInfo.props[property].type.name;
+        if (docgenInfo && docgenInfo.type) {
+          propType = docgenInfo.type.name;
         }
       }
 
-      accumProps[property] = { property, propType, required, description };
+      props[property] = { property, propType, required, description };
     });
   }
 
@@ -63,21 +71,30 @@ export default function PropTable(props) {
         return;
       }
 
-      if (!accumProps[property]) {
-        accumProps[property] = { property };
+      if (!props[property]) {
+        props[property] = { property };
       }
 
-      accumProps[property].defaultValue = value;
+      props[property].defaultValue = value;
     });
   }
 
+  return props;
+};
+
+export default function PropTable(props) {
+  const { type, maxPropObjectKeys, maxPropArrayLength, maxPropStringLength } = props;
+
+  if (!type) {
+    return null;
+  }
+
+  const accumProps = hasDocgen(type) ? propsFromDocgen(type) : propsFromPropTypes(type);
   const array = Object.values(accumProps);
 
   if (!array.length) {
     return <small>No propTypes defined!</small>;
   }
-
-  array.sort((a, b) => a.property > b.property);
 
   const propValProps = {
     maxPropObjectKeys,
@@ -86,40 +103,38 @@ export default function PropTable(props) {
   };
 
   return (
-    <table style={stylesheet.propTable}>
+    <Table>
       <thead>
         <tr>
-          <th>property</th>
-          <th>propType</th>
-          <th>required</th>
-          <th>default</th>
-          <th>description</th>
+          <Th bordered>property</Th>
+          <Th bordered>propType</Th>
+          <Th bordered>required</Th>
+          <Th bordered>default</Th>
+          <Th bordered>description</Th>
         </tr>
       </thead>
       <tbody>
-        {array.map(row =>
+        {array.map(row => (
           <tr key={row.property}>
-            <td>
+            <Td bordered code>
               {row.property}
-            </td>
-            <td>
-              {row.propType}
-            </td>
-            <td>
-              {row.required}
-            </td>
-            <td>
-              {row.defaultValue === undefined
-                ? '-'
-                : <PropVal val={row.defaultValue} {...propValProps} />}
-            </td>
-            <td>
-              {row.description}
-            </td>
+            </Td>
+            <Td bordered code>
+              <PrettyPropType propType={row.propType} />
+            </Td>
+            <Td bordered>{row.required ? 'yes' : '-'}</Td>
+            <Td bordered>
+              {row.defaultValue === undefined ? (
+                '-'
+              ) : (
+                <PropVal val={row.defaultValue} {...propValProps} />
+              )}
+            </Td>
+            <Td bordered>{row.description}</Td>
           </tr>
-        )}
+        ))}
       </tbody>
-    </table>
+    </Table>
   );
 }
 
