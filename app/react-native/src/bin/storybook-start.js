@@ -16,7 +16,6 @@ program
   .option('--skip-packager', 'run only storybook server')
   .option('-i, --manual-id', 'allow multiple users to work with same storybook')
   .option('--smoke-test', 'Exit after successful start')
-  .option('--packager-port <packagerPort>', 'Custom packager port')
   .parse(process.argv);
 
 const projectDir = path.resolve();
@@ -70,7 +69,6 @@ if (!program.skipPackager) {
       `--projectRoots ${projectRoots.join(',')}`,
       `--root ${projectDir}`,
       program.resetCache && '--reset-cache',
-      program.packagerPort && `--port=${program.packagerPort}`,
     ]
       .filter(x => x)
       .join(' '),
