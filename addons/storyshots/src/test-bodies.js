@@ -3,9 +3,19 @@ import shallow from 'react-test-renderer/shallow';
 import 'jest-specific-snapshot';
 import { getSnapshotFileName } from './utils';
 
+function getElementToRender(element) {
+  // returns a decorated element if available
+  try {
+    return element.props.initialContent.props.children;
+  } catch (err) {
+    return element;
+  }
+}
+
 function getRenderedTree(story, context, options) {
   const storyElement = story.render(context);
-  return renderer.create(storyElement, options).toJSON();
+  const elementToRender = getElementToRender(storyElement);
+  return renderer.create(elementToRender, options).toJSON();
 }
 
 export const snapshotWithOptions = options => ({ story, context }) => {
