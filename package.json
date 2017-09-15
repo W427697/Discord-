@@ -12,7 +12,8 @@
     "lib/*",
     "examples/cra-kitchen-sink",
     "examples/vue-kitchen-sink",
-    "lib/cli/test/run/*"
+    "lib/cli/test/run/*",
+    "docs-v2"
   ],
   "scripts": {
     "bootstrap": "node ./scripts/bootstrap.js",
