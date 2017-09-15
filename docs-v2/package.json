@@ -9,7 +9,13 @@
   "scripts": {
     "build": "node scripts/build.js",
     "dev": "node scripts/dev.js",
-    "start": "NODE_ENV=production next start"
+    "start": "NODE_ENV=production next start",
+    "push": "node scripts/push_version.js",
+    "docs:git:clone": "git clone ${DOCS_REPO} ./public -v",
+    "docs:git:add": "cd public && git add . -v",
+    "docs:git:commit": "cd public && git commit -a --message=\"update docs version to x.x.x\" -v",
+    "docs:git:push": "cd public && git push -v",
+    "docs:deploy": "npm run docs:git:add && npm run docs:git:commit && npm run docs:git:push"
   },
   "dependencies": {
     "babel-literal-to-ast": "^0.1.2",
@@ -45,6 +51,8 @@
   },
   "private": true,
   "devDependencies": {
+    "github-api": "^3.0.0",
+    "nodegit": "0.19.0",
     "remark-helpers": "^0.0.6"
   }
 }
