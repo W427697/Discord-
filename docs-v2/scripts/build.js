@@ -14,7 +14,7 @@ const outputDir = 'public';
 const docsRepo = process.env.DOCS_REPO;
 
 if (!docsRepo) {
-  throw new Error('DOCS_REPO env parameter is no defined');
+  throw new Error('DOCS_REPO env parameter is not defined');
 }
 
 const sitemapReady = generateSitemap().then(() => console.log('🗺 ', 'Sitemap generated'));
