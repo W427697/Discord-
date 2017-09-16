@@ -1,13 +1,13 @@
 {
   "name": "@storybook/docs",
-  "version": "3.0.0",
+  "version": "3.2.9",
   "description": "",
   "keywords": [],
   "license": "ISC",
   "author": "",
   "main": "index.js",
   "scripts": {
-    "build": "node scripts/build.js",
+    "build": "set DOCS_REPO=https://igor-dv:2ec9cd28dad4319ae1bab7dd957d4fc8a917b6d6@github.com/igor-dv/storypuke-docs.git&& node scripts/build.js",
     "dev": "node scripts/dev.js",
     "start": "NODE_ENV=production next start"
   },

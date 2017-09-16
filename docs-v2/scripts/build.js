@@ -44,21 +44,13 @@ Promise.all([sitemapReady])
   .then(
     () =>
       new Promise((resolve, reject) => {
-        const build = exec(`next export -o ${outputDir}`);
-        build.stdout.pipe(process.stdout);
-        build.stderr.pipe(process.stdout);
-        handleProcessClose(build, resolve, reject, '🛑 export step failed');
-      })
-  )
-  .then(
-    () =>
-      new Promise((resolve, reject) => {
         const build = exec(`next export -o ${outputDir}/${prettifiedVersion}`);
         build.stdout.pipe(process.stdout);
         build.stderr.pipe(process.stdout);
         handleProcessClose(build, resolve, reject, '🛑 export to version step failed');
       })
   )
+  .then(() => fs.copy(`${outputDir}/${prettifiedVersion}`, outputDir))
   .then(
     () =>
       new Promise((resolve, reject) => {
