@@ -42,6 +42,7 @@ Promise.all([sitemapReady])
         handleProcessClose(build, resolve, reject, '🛑 build step failed');
       })
   )
+  .then(() => fs.remove(`${outputDir}/_next`))
   .then(
     () =>
       new Promise((resolve, reject) => {
