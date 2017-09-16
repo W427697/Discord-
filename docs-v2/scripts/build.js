@@ -25,6 +25,7 @@ const sitemapReady = generateSitemap().then(() => console.log('🗺 ', 'Sitemap 
  * We pipe all the output of the process directly into the output of this script's output
  */
 Promise.all([sitemapReady])
+  .then(() => fs.remove(outputDir))
   .then(
     () =>
       new Promise((resolve, reject) => {
@@ -51,6 +52,14 @@ Promise.all([sitemapReady])
       })
   )
   .then(() => fs.copy(`${outputDir}/${prettifiedVersion}`, outputDir))
+  .then(() => {
+    const docsJsonPath = `${outputDir}/package.json`;
+    return fs.readJson(docsJsonPath).then(docsJson => {
+      // eslint-disable-next-line no-param-reassign
+      docsJson.version = version;
+      return fs.writeJson(docsJsonPath, docsJson, { spaces: 2 });
+    });
+  })
   .then(
     () =>
       new Promise((resolve, reject) => {
