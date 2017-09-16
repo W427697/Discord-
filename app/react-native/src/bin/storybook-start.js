@@ -15,6 +15,8 @@ program
   .option('-r, --reset-cache', 'reset react native packager')
   .option('--skip-packager', 'run only storybook server')
   .option('-i, --manual-id', 'allow multiple users to work with same storybook')
+  .option('--smoke-test', 'Exit after successful start')
+  .option('--packager-port <packagerPort>', 'Custom packager port')
   .parse(process.argv);
 
 const projectDir = path.resolve();
@@ -38,6 +40,9 @@ server.listen(...listenAddr, err => {
   }
   const address = `http://${program.host || 'localhost'}:${program.port}/`;
   console.info(`\nReact Native Storybook started on => ${address}\n`); // eslint-disable-line no-console
+  if (program.smokeTest) {
+    process.exit(0);
+  }
 });
 
 if (!program.skipPackager) {
@@ -65,6 +70,7 @@ if (!program.skipPackager) {
       `--projectRoots ${projectRoots.join(',')}`,
       `--root ${projectDir}`,
       program.resetCache && '--reset-cache',
+      program.packagerPort && `--port=${program.packagerPort}`,
     ]
       .filter(x => x)
       .join(' '),
