@@ -7,9 +7,9 @@ const nextCommands = require('./tasks/next_commands');
 const staticDocsFs = require('./tasks/static_docs_fs');
 
 const version = packageJson.version;
-const prettifiedVersion = version.replace(/\./g, '-');
+const prettyVersion = version.replace(/\./g, '-');
 const outputDir = 'public';
-const outputVersionDir = `${outputDir}/${prettifiedVersion}`;
+const versionDir = `${outputDir}/${prettyVersion}`;
 const docsRepo = process.env.DOCS_REPO;
 
 if (!docsRepo) {
@@ -23,7 +23,7 @@ function handleProcessClose(childProcess, resolve, reject, stepName) {
   );
 }
 
-function promisifyChildProcess(command, step) {
+function promisifyProcess(command, step) {
   return new Promise((resolve, reject) => {
     const childProcess = exec(command);
     childProcess.stdout.pipe(process.stdout);
@@ -36,15 +36,15 @@ const sitemapReady = generateSitemap().then(() => console.log('🗺 ', 'Sitemap 
 
 Promise.all([sitemapReady])
   .then(() => staticDocsFs.deleteOutputDir(outputDir))
-  .then(() => promisifyChildProcess(gitCommands.getGitClone(docsRepo, outputDir), 'git-clone'))
-  .then(() => promisifyChildProcess(nextCommands.getNextBuild(), 'build'))
-  .then(() => promisifyChildProcess(nextCommands.getNextExport(outputVersionDir), 'export'))
+  .then(() => promisifyProcess(gitCommands.getGitClone(docsRepo, outputDir), 'git-clone'))
+  .then(() => promisifyProcess(nextCommands.getNextBuild(prettyVersion), 'build'))
+  .then(() => promisifyProcess(nextCommands.getNextExport(versionDir, prettyVersion), 'export'))
   .then(() => staticDocsFs.deleteNextOutputDir(outputDir))
-  .then(() => staticDocsFs.overrideLatestVersion(outputVersionDir, outputDir))
+  .then(() => staticDocsFs.overrideLatestVersion(versionDir, outputDir))
   .then(() => staticDocsFs.updatePackageJson(outputDir, version))
-  .then(() => promisifyChildProcess(gitCommands.getGitAdd(outputDir), 'git-add'))
-  .then(() => promisifyChildProcess(gitCommands.getGitCommit(outputDir, version), 'git-commit'))
-  .then(() => promisifyChildProcess(gitCommands.getGitPush(outputDir), 'git-push'))
+  .then(() => promisifyProcess(gitCommands.getGitAdd(outputDir), 'git-add'))
+  .then(() => promisifyProcess(gitCommands.getGitCommit(outputDir, version), 'git-commit'))
+  .then(() => promisifyProcess(gitCommands.getGitPush(outputDir), 'git-push'))
   .then(() => staticDocsFs.deleteOutputDir(outputDir))
   .catch(error => {
     // we wait a bit to let the stderr be printed

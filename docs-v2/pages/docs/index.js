@@ -1,16 +1,16 @@
 import React from 'react';
 
 import Head from 'next/head';
-import Link from 'next/link';
 import Page, { generator } from '../../components/Page';
 
+import Link from '../../components/Link';
 import TopNav from '../../components/TopNav';
 import PageTitle from '../../components/PageTitle';
 import Blocks from '../../components/Blocks';
 import Container from '../../components/Container';
 import { Container as MarkdownContainer } from '../../components/Markdown';
 
-export default generator('DocsIndex', ({ path }) =>
+export default generator('DocsIndex', ({ path }) => (
   <Page>
     <Head>
       <title>Storybook Documentation</title>
@@ -150,4 +150,4 @@ export default generator('DocsIndex', ({ path }) =>
       </Container>
     </MarkdownContainer>
   </Page>
-);
+));
