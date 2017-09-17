@@ -1,9 +1,9 @@
 function getNextBuild() {
-  return 'next build';
+  return 'cross-env NODE_ENV=production next build';
 }
 
 function getNextExport(outputDir) {
-  return `next export -o ${outputDir}`;
+  return `cross-env NODE_ENV=production next export -o ${outputDir}`;
 }
 
 module.exports = {

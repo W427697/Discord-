@@ -7,7 +7,7 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "build": "node scripts/build.js",
+    "build": "cross-env DOCS_REPO=https://igor-dv:76491844873234c4a2ba561f205b32c3835fe0ef@github.com/igor-dv/storypuke-docs.git node scripts/build.js",
     "dev": "node scripts/dev.js",
     "start": "NODE_ENV=production next start"
   },
@@ -44,6 +44,9 @@
     "unist-builder": "^1.0.2",
     "webpack-bundle-analyzer": "^2.8.3",
     "webpack-visualizer-plugin": "^0.1.11"
+  },
+  "devDependencies": {
+    "cross-env": "^5.0.0"
   },
   "private": true
 }
