@@ -42,7 +42,6 @@ Promise.all([sitemapReady])
         handleProcessClose(build, resolve, reject, '🛑 build step failed');
       })
   )
-  .then(() => fs.remove(`${outputDir}/_next`))
   .then(
     () =>
       new Promise((resolve, reject) => {
@@ -52,6 +51,7 @@ Promise.all([sitemapReady])
         handleProcessClose(build, resolve, reject, '🛑 export to version step failed');
       })
   )
+  .then(() => fs.remove(`${outputDir}/_next`))
   .then(() => fs.copy(`${outputDir}/${prettifiedVersion}`, outputDir))
   .then(() => {
     const docsJsonPath = `${outputDir}/package.json`;
