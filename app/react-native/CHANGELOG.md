@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+-   Add support for `--react-native-config` flag that can be used to specify the react-native cli config to use. When specified certain other flags are ignored.
+
 ## v2.3.0
 
 -   Add support for multiple users [#PR132](https://github.com/storybooks/react-native-storybook/pull/132)
