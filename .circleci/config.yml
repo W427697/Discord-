@@ -260,15 +260,15 @@ workflows:
   version: 2
   build_accept_deploy:
     jobs:
-      - build
-      - example-kitchen-sinks
-      - example-react-native
-      - docs
+      #- build
+      #- example-kitchen-sinks
+      #- example-react-native
+      #- docs
       - docs-v2
-      - lint
-      - unit-test
-      - cli
-      - cli-latest-cra
+      #- lint
+      #- unit-test
+      #- cli
+      #- cli-latest-cra
       # - deploy:
       #     type: approval
       #     requires:

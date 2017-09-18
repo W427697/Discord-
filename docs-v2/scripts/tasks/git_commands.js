@@ -1,3 +1,7 @@
+function getGitUserConfig() {
+  return 'git config --global user.email "storybookbot@gmail.com" && git config --global user.name "storybookbot"';
+}
+
 function getGitClone(docsRepo, outputDir) {
   return `git clone ${docsRepo} ./${outputDir}`;
 }
@@ -15,6 +19,7 @@ function getGitPush(outputDir) {
 }
 
 module.exports = {
+  getGitUserConfig,
   getGitClone,
   getGitAdd,
   getGitCommit,

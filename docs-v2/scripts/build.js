@@ -36,6 +36,7 @@ const sitemapReady = generateSitemap().then(() => console.log('🗺 ', 'Sitemap 
 
 Promise.all([sitemapReady])
   .then(() => staticDocsFs.deleteOutputDir(outputDir))
+  .then(() => promisifyProcess(gitCommands.getGitUserConfig(), 'git-config'))
   .then(() => promisifyProcess(gitCommands.getGitClone(docsRepo, outputDir), 'git-clone'))
   .then(() => promisifyProcess(nextCommands.getNextBuild(), 'build'))
   .then(() => promisifyProcess(nextCommands.getNextExport(versionDir), 'export'))
