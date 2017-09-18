@@ -6,7 +6,7 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 // eslint-disable-next-line
 const webpack = require('webpack');
 
-const { ANALYZE, ASSET_PREFIX } = process.env;
+const { ANALYZE } = process.env;
 
 const sitemap = (() => {
   try {
@@ -18,7 +18,6 @@ const sitemap = (() => {
 })();
 
 module.exports = {
-  assetPrefix: ASSET_PREFIX || '',
   poweredByHeader: false,
   exportPathMap: () =>
     Object.keys(sitemap).reduce(
