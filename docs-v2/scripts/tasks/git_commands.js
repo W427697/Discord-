@@ -1,17 +1,17 @@
 function getGitClone(docsRepo, outputDir) {
-  return `git clone ${docsRepo} ./${outputDir} -v`;
+  return `git clone ${docsRepo} ./${outputDir}`;
 }
 
 function getGitAdd(outputDir) {
-  return `cd ${outputDir} && git add . -v`;
+  return `cd ${outputDir} && git add .`;
 }
 
 function getGitCommit(outputDir, version) {
-  return `cd ${outputDir} && git commit -a --message="Update docs version to ${version}" -v`;
+  return `cd ${outputDir} && git commit -a --message="Update docs version to ${version}"`;
 }
 
 function getGitPush(outputDir) {
-  return `cd ${outputDir} && git push -v`;
+  return `cd ${outputDir} && git push`;
 }
 
 module.exports = {
