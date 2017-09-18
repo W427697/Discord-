@@ -124,6 +124,30 @@ jobs:
           name: "Running docs"
           command: |
             yarn docs:build
+  docs-v2:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "yarn.lock" }}
+            - dependencies-
+      - run:
+          name: "Install latest yarn version"
+          command: |
+            curl -o- -L https://yarnpkg.com/install.sh | bash -s
+      - run:
+          name: "Install dependencies"
+          command: |
+            yarn install
+      - run:
+          name: "Bootstrapping"
+          command: |
+            yarn bootstrap --core
+      - run:
+          name: "Publishing docs to repo"
+          command: |
+            cd docs-v2 && yarn build
   lint:
     <<: *defaults
     steps:
@@ -240,6 +264,7 @@ workflows:
       - example-kitchen-sinks
       - example-react-native
       - docs
+      - docs-v2
       - lint
       - unit-test
       - cli
