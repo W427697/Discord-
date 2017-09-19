@@ -1,53 +1,38 @@
 /* eslint-disable no-console */
-const exec = require('child_process').exec;
+const path = require('path');
 const packageJson = require('../package.json');
 const generateSitemap = require('./tasks/sitemap');
 const gitCommands = require('./tasks/git_commands');
 const nextCommands = require('./tasks/next_commands');
 const staticDocsFs = require('./tasks/static_docs_fs');
 
-const version = packageJson.version;
-const prettyVersion = version.replace(/\./g, '-');
-const outputDir = 'public';
-const versionDir = `${outputDir}/${prettyVersion}`;
 const docsRepo = process.env.DOCS_REPO;
 
 if (!docsRepo) {
   throw new Error('DOCS_REPO env parameter is not defined');
 }
 
-function handleProcessClose(childProcess, resolve, reject, stepName) {
-  childProcess.on(
-    'close',
-    code => (code === 0 ? resolve() : reject(new Error(`🛑 ${stepName} step failed`)))
-  );
-}
-
-function promisifyProcess(command, step) {
-  return new Promise((resolve, reject) => {
-    const childProcess = exec(command);
-    childProcess.stdout.pipe(process.stdout);
-    childProcess.stderr.pipe(process.stdout);
-    handleProcessClose(childProcess, resolve, reject, step);
-  });
-}
+const version = packageJson.version;
+const prettyVersion = version.replace(/\./g, '-');
+const outputDir = 'public';
+const versionDir = path.join(outputDir, prettyVersion);
 
 const sitemapReady = generateSitemap().then(() => console.log('🗺 ', 'Sitemap generated'));
 
 Promise.all([sitemapReady])
   .then(() => staticDocsFs.deleteOutputDir(outputDir))
-  .then(() => promisifyProcess(gitCommands.getGitUserConfig(), 'git-config'))
-  .then(() => promisifyProcess(gitCommands.getGitClone(docsRepo, outputDir), 'git-clone'))
+  .then(() => gitCommands.configureUser())
+  .then(() => gitCommands.clone(docsRepo, outputDir))
   .then(() => staticDocsFs.deleteOldFiles(outputDir, versionDir))
-  .then(() => promisifyProcess(nextCommands.getNextBuild(), 'build'))
-  .then(() => promisifyProcess(nextCommands.getNextExport(versionDir), 'export'))
+  .then(() => nextCommands.build())
+  .then(() => nextCommands.staticExport(versionDir))
   .then(() => staticDocsFs.overrideLatestVersion(versionDir, outputDir))
   .then(() => staticDocsFs.storeFilesReference(versionDir))
   .then(() => staticDocsFs.deleteNextOutputDir(versionDir))
   .then(() => staticDocsFs.updatePackageJson(outputDir, version))
-  .then(() => promisifyProcess(gitCommands.getGitAdd(outputDir), 'git-add'))
-  .then(() => promisifyProcess(gitCommands.getGitCommit(outputDir, version), 'git-commit'))
-  .then(() => promisifyProcess(gitCommands.getGitPush(outputDir), 'git-push'))
+  .then(() => gitCommands.add(outputDir))
+  .then(() => gitCommands.commit(outputDir, version))
+  .then(() => gitCommands.push(outputDir))
   .then(() => staticDocsFs.deleteOutputDir(outputDir))
   .catch(error => {
     // we wait a bit to let the stderr be printed

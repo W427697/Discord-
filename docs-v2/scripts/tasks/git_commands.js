@@ -1,27 +1,35 @@
-function getGitUserConfig() {
-  return 'git config --global user.email "storybookbot@gmail.com" && git config --global user.name "storybookbot"';
+const promisifyProcess = require('./promisifyProcess');
+
+function configureUser() {
+  return promisifyProcess(
+    'git config --global user.email "storybookbot@gmail.com" && git config --global user.name "storybookbot"',
+    'git-config'
+  );
 }
 
-function getGitClone(docsRepo, outputDir) {
-  return `git clone ${docsRepo} ./${outputDir}`;
+function clone(docsRepo, outputDir) {
+  return promisifyProcess(`git clone ${docsRepo} ./${outputDir}`, 'git-clone');
 }
 
-function getGitAdd(outputDir) {
-  return `cd ${outputDir} && git add --all -v`;
+function add(outputDir) {
+  return promisifyProcess(`cd ${outputDir} && git add --all -v`, 'git-add');
 }
 
-function getGitCommit(outputDir, version) {
-  return `cd ${outputDir} && git commit -a --message="Update docs version to ${version}"`;
+function commit(outputDir, version) {
+  return promisifyProcess(
+    `cd ${outputDir} && git commit -a --message="Update docs version to ${version}"`,
+    'git-commit'
+  );
 }
 
-function getGitPush(outputDir) {
-  return `cd ${outputDir} && git push`;
+function push(outputDir) {
+  return promisifyProcess(`cd ${outputDir} && git push`, 'git-push');
 }
 
 module.exports = {
-  getGitUserConfig,
-  getGitClone,
-  getGitAdd,
-  getGitCommit,
-  getGitPush,
+  configureUser,
+  clone,
+  add,
+  commit,
+  push,
 };
