@@ -126,6 +126,9 @@ jobs:
             yarn docs:build
   docs-v2:
     <<: *defaults
+    branches:
+      only:
+        - master
     steps:
       - checkout
       - restore_cache:
@@ -264,7 +267,7 @@ workflows:
       - example-kitchen-sinks
       - example-react-native
       - docs
-      #- docs-v2
+      - docs-v2
       - lint
       - unit-test
       - cli
