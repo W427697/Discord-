@@ -19,10 +19,16 @@ const findTitle = list =>
     ''
   );
 
+function normalizePath(pathToNormalize) {
+  // in windows paths are with the "\" separator,
+  // we need to replace it with the "/" in order to support "next" routing
+  return pathToNormalize.replace(/\\/, '/');
+}
+
 const createFile = (stat, fileName, workingDir, baseDir) => {
   const name = path.basename(fileName, path.extname(fileName));
   const routeFile = name.replace('index', '');
-  const routeBase = workingDir.replace(baseDir, '').replace(/\\/, '/') || path.posix.sep;
+  const routeBase = normalizePath(workingDir.replace(baseDir, '')) || path.posix.sep;
 
   return fs
     .readFileAsync(
@@ -43,7 +49,7 @@ const createFile = (stat, fileName, workingDir, baseDir) => {
 };
 
 const createDirectory = (items, localWorkingDir, baseDir) => ({
-  route: localWorkingDir.replace(baseDir, '').replace(/\\/, '/'),
+  route: normalizePath(localWorkingDir.replace(baseDir, '')),
   length: items.length,
   files: items,
 });
