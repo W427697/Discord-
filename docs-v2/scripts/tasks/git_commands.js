@@ -7,7 +7,7 @@ function getGitClone(docsRepo, outputDir) {
 }
 
 function getGitAdd(outputDir) {
-  return `cd ${outputDir} && git add .`;
+  return `cd ${outputDir} && git add --all -v`;
 }
 
 function getGitCommit(outputDir, version) {
