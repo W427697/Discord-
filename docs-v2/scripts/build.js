@@ -1,37 +1,40 @@
-const exec = require('child_process').exec;
+/* eslint-disable no-console */
+const path = require('path');
+const packageJson = require('../package.json');
 const generateSitemap = require('./tasks/sitemap');
+const gitCommands = require('./tasks/git_commands');
+const nextCommands = require('./tasks/next_commands');
+const staticDocsFs = require('./tasks/static_docs_fs');
+
+const docsRepo = process.env.DOCS_REPO;
+
+if (!docsRepo) {
+  throw new Error('DOCS_REPO env parameter is not defined');
+}
+
+const version = packageJson.version;
+const prettyVersion = version.replace(/\./g, '-');
+const outputDir = 'public';
+const versionDir = path.join(outputDir, prettyVersion);
 
 const sitemapReady = generateSitemap().then(() => console.log('🗺 ', 'Sitemap generated'));
 
-/* 
- * This script runs the command 'next build' in node production mode
- * If succesfull we proceed with 'next export'
- * We pipe all the output of the process directly into the output of this script's output
- */
 Promise.all([sitemapReady])
-  .then(
-    () =>
-      new Promise((resolve, reject) => {
-        const build = exec('NODE_END="production" next build');
-        build.stdout.pipe(process.stdout);
-        build.on(
-          'close',
-          code => (code === 0 ? resolve() : reject(new Error('🛑 build step failed')))
-        );
-      })
-  )
-  .then(
-    () =>
-      new Promise((resolve, reject) => {
-        const build = exec('NODE_END="production" next export');
-        build.stdout.pipe(process.stdout);
-        build.stderr.pipe(process.stdout);
-        build.on(
-          'close',
-          code => (code === 0 ? resolve() : reject(new Error('🛑 export step failed')))
-        );
-      })
-  )
+  .then(() => staticDocsFs.deleteOutputDir(outputDir))
+  .then(() => gitCommands.configureUser())
+  .then(() => gitCommands.clone(docsRepo, outputDir))
+  .then(() => staticDocsFs.deleteOldFiles(outputDir, versionDir))
+  .then(() => nextCommands.build())
+  .then(() => nextCommands.staticExport(versionDir))
+  .then(() => staticDocsFs.overrideLatestVersion(versionDir, outputDir))
+  .then(() => staticDocsFs.storeFilesReference(versionDir))
+  .then(() => staticDocsFs.deleteNextOutputDir(versionDir))
+  .then(() => staticDocsFs.updatePackageJson(outputDir, version))
+  .then(() => staticDocsFs.updateVersionsJson(outputDir, version))
+  .then(() => gitCommands.add(outputDir))
+  .then(() => gitCommands.commit(outputDir, version))
+  .then(() => gitCommands.push(outputDir))
+  .then(() => staticDocsFs.deleteOutputDir(outputDir))
   .catch(error => {
     // we wait a bit to let the stderr be printed
     setTimeout(() => console.log(error), 500);

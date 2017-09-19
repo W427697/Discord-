@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import glamorous from 'glamorous';
 
+import Link from './Link';
 import StorybookLogo from './logos/Storybook';
 import MenuIcon from './icons/Menu';
 import GithubIcon from './icons/Github';
@@ -13,13 +13,13 @@ import TwitterIcon from './icons/Twitter';
 import Bar from './TopBar';
 import Suggestions from './SearchSuggestions';
 
-const TopLogo = glamorous(({ className }) =>
+const TopLogo = glamorous(({ className }) => (
   <Link href="/">
     <a className={className}>
       <StorybookLogo width="auto" height="100%" />
     </a>
   </Link>
-)({
+))({
   height: '100%',
   width: 'auto',
 
@@ -84,11 +84,11 @@ const NavItem = glamorous.li({
   },
 });
 
-const NavToggle = glamorous(({ children = 'open navigation', active, ...props }) =>
+const NavToggle = glamorous(({ children = 'open navigation', active, ...props }) => (
   <button {...props} title={children}>
     <MenuIcon />
   </button>
-)({
+))({
   background: 'none',
   border: '0 none',
   padding: 0,

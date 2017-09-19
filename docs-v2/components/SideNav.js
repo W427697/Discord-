@@ -1,21 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Link from 'next/link';
 import glamorous from 'glamorous';
+import Link from './Link';
 
-const Item = glamorous(({ title, route, className, ...props }) =>
+const Item = glamorous(({ title, route, className, ...props }) => (
   <li>
     <Link href={route}>
-      {props.length
-        ? <a className={className}>
-            {`> ${title}`}
-          </a>
-        : <a className={className}>
-            {title}
-          </a>}
+      {props.length ? (
+        <a className={className}>{`> ${title}`}</a>
+      ) : (
+        <a className={className}>{title}</a>
+      )}
     </Link>
   </li>
-)(({ isActive }) => ({
+))(({ isActive }) => ({
   color: isActive ? 'hotpink' : 'orangered',
 }));
 
@@ -35,13 +33,13 @@ const getItems = (sitemap, path) => {
   });
 };
 
-const SideNav = glamorous(({ sitemap, path, ...props }) =>
+const SideNav = glamorous(({ sitemap, path, ...props }) => (
   <ul {...props} title={path.replace(/\/$/, '')}>
-    {getItems(sitemap, path.replace(/\/$/, '')).map(item =>
+    {getItems(sitemap, path.replace(/\/$/, '')).map(item => (
       <Item {...item} isActive={item.route === path} key={item.route} />
-    )}
+    ))}
   </ul>
-)({
+))({
   background: 'none',
   border: '0 none',
   padding: 0,

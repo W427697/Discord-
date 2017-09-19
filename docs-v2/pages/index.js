@@ -1,9 +1,9 @@
 import React from 'react';
 
 import Head from 'next/head';
-import Link from 'next/link';
 import Page, { generator } from '../components/Page';
 
+import Link from '../components/Link';
 import TopNav from '../components/TopNav';
 import Hero, { HeroTitle, HeroActions } from '../components/Hero';
 import { Container as MarkdownContainer, H1 } from '../components/Markdown';
@@ -35,7 +35,7 @@ import NuxtLogo from '../components/logos/Nuxt';
 import ZeitLogo from '../components/logos/Zeit';
 import ScreenerLogo from '../components/logos/Screener';
 
-export default generator('RootIndex', () =>
+export default generator('RootIndex', () => (
   <Page>
     <Head>
       <title>Storybook docs</title>
@@ -241,4 +241,4 @@ export default generator('RootIndex', () =>
       <p>You have reached the bottom of the page</p>
     </Container>
   </Page>
-);
+));

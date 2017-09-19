@@ -6,7 +6,10 @@ const unified = require('unified');
 const remarkParse = require('remark-parse');
 const mdHelpers = require('remark-helpers');
 
-const parser = markdown => unified().use(remarkParse).parse(markdown);
+const parser = markdown =>
+  unified()
+    .use(remarkParse)
+    .parse(markdown);
 
 const findTitle = list =>
   // get first main heading and return plain text
@@ -16,10 +19,16 @@ const findTitle = list =>
     ''
   );
 
+function normalizePath(pathToNormalize) {
+  // in windows paths are with the "\" separator,
+  // we need to replace it with the "/" in order to support "next" routing
+  return pathToNormalize.replace(/\\/, '/');
+}
+
 const createFile = (stat, fileName, workingDir, baseDir) => {
   const name = path.basename(fileName, path.extname(fileName));
   const routeFile = name.replace('index', '');
-  const routeBase = workingDir.replace(baseDir, '') || path.sep;
+  const routeBase = normalizePath(workingDir.replace(baseDir, '')) || path.posix.sep;
 
   return fs
     .readFileAsync(
@@ -35,30 +44,33 @@ const createFile = (stat, fileName, workingDir, baseDir) => {
       name,
       title,
       isFile: true,
-      route: path.join(routeBase, routeFile),
+      route: path.posix.join(routeBase, routeFile),
     }));
 };
 
 const createDirectory = (items, localWorkingDir, baseDir) => ({
-  route: localWorkingDir.replace(baseDir, ''),
+  route: normalizePath(localWorkingDir.replace(baseDir, '')),
   length: items.length,
   files: items,
 });
 
 const readDir = (workingDir, baseDir) =>
-  fs.readdirAsync(workingDir).filter(n => !n.match(/^[._]/)).map(fileName =>
-    fs.statAsync(path.join(workingDir, fileName)).then(stat => {
-      if (stat.isFile()) {
-        return createFile(stat, fileName, workingDir, baseDir);
-      }
-      if (stat.isDirectory()) {
-        const localWorkingDir = path.join(workingDir, fileName);
-        return readDir(localWorkingDir, baseDir).then(items =>
-          createDirectory(items, localWorkingDir, baseDir)
-        );
-      }
-      return undefined;
-    })
-  );
+  fs
+    .readdirAsync(workingDir)
+    .filter(n => !n.match(/^[._]/))
+    .map(fileName =>
+      fs.statAsync(path.join(workingDir, fileName)).then(stat => {
+        if (stat.isFile()) {
+          return createFile(stat, fileName, workingDir, baseDir);
+        }
+        if (stat.isDirectory()) {
+          const localWorkingDir = path.join(workingDir, fileName);
+          return readDir(localWorkingDir, baseDir).then(items =>
+            createDirectory(items, localWorkingDir, baseDir)
+          );
+        }
+        return undefined;
+      })
+    );
 
 module.exports = readDir;

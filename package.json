@@ -12,14 +12,15 @@
     "lib/*",
     "examples/cra-kitchen-sink",
     "examples/vue-kitchen-sink",
-    "lib/cli/test/run/*"
+    "lib/cli/test/run/*",
+    "docs-v2"
   ],
   "scripts": {
-    "bootstrap": "./scripts/bootstrap.js",
+    "bootstrap": "node ./scripts/bootstrap.js",
     "bootstrap:docs": "yarn install --cwd docs",
     "bootstrap:react-native-vanilla": "npm --prefix examples/react-native-vanilla install",
     "bootstrap:crna-kitchen-sink": "npm --prefix examples/crna-kitchen-sink install",
-    "build-packs": "lerna exec --scope '@storybook/*' --parallel -- ../../scripts/build-pack.sh ../../packs",
+    "build-packs": "lerna exec --scope '@storybook/*' --ignore '@storybook/docs' --parallel -- ../../scripts/build-pack.sh ../../packs",
     "start": "npm --prefix examples/cra-kitchen-sink run storybook",
     "changelog": "pr-log --sloppy",
     "precommit": "lint-staged",

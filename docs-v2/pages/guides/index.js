@@ -1,9 +1,9 @@
 import React from 'react';
 
 import Head from 'next/head';
-import Link from 'next/link';
 import Page, { generator } from '../../components/Page';
 
+import Link from '../../components/Link';
 import TopNav from '../../components/TopNav';
 import PageTitle from '../../components/PageTitle';
 import Blocks, { BlockLink, BlockLabel } from '../../components/Blocks';
@@ -17,7 +17,7 @@ import EmberLogo from '../../components/logos/Ember';
 import PolymerLogo from '../../components/logos/Polymer';
 import AureliaLogo from '../../components/logos/Aurelia';
 
-export default generator('GuidesIndex', ({ path }) =>
+export default generator('GuidesIndex', ({ path }) => (
   <Page>
     <Head>
       <title>Storybook Guides</title>
@@ -157,4 +157,4 @@ export default generator('GuidesIndex', ({ path }) =>
       </Blocks>
     </Container>
   </Page>
-);
+));

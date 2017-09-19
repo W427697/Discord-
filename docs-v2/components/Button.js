@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
-import Link from 'next/link';
+import Link from './Link';
 
 const variants = {
   gray: {
@@ -31,12 +31,11 @@ const sizes = {
   },
 };
 
-const A = ({ href, children, className }) =>
+const A = ({ href, children, className }) => (
   <Link href={href}>
-    <a className={className}>
-      {children}
-    </a>
-  </Link>;
+    <a className={className}>{children}</a>
+  </Link>
+);
 A.propTypes = {
   href: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
