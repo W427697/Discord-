@@ -3,6 +3,7 @@ const path = require('path');
 
 const nextDirName = '_next';
 const refFileName = '_next.json';
+const versionsFileName = 'versions.json';
 
 function deleteOutputDir(outputDir) {
   return fs.remove(outputDir);
@@ -23,6 +24,26 @@ function updatePackageJson(outputDir, version) {
     // eslint-disable-next-line no-param-reassign
     docsJson.version = version;
     return fs.writeJson(docsJsonPath, docsJson, { spaces: 2 });
+  });
+}
+
+function updateVersionsJson(outputDir, newVersion) {
+  const versionsFile = path.join(outputDir, versionsFileName);
+
+  return fs.pathExists(versionsFile).then(exists => {
+    if (!exists) {
+      const versions = { current: newVersion, all: [newVersion] };
+      return fs.writeJson(versionsFile, versions, { spaces: 2 });
+    }
+
+    return fs.readJson(versionsFile).then(versions => {
+      const newVersions = {
+        current: newVersion,
+        all: versions.all.includes(newVersion) ? versions.all : [...versions.all, newVersion],
+      };
+
+      return fs.writeJson(versionsFile, newVersions, { spaces: 2 });
+    });
   });
 }
 
@@ -62,6 +83,7 @@ module.exports = {
   deleteNextOutputDir,
   overrideLatestVersion,
   updatePackageJson,
+  updateVersionsJson,
   storeFilesReference,
   deleteOldFiles,
 };
