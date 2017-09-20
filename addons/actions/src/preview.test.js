@@ -23,5 +23,10 @@ describe('preview', () => {
       expect(channel.emit.mock.calls[0][1].id).toBe('42');
       expect(channel.emit.mock.calls[1][1].id).toBe('24');
     });
+    it('should be able to stringify recursive object without hanging', () => {
+      const fn = action('foo');
+
+      fn(process);
+    });
   });
 });
