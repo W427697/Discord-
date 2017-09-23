@@ -190,7 +190,7 @@ module.exports = {
     ],
   },
   '/guides': {
-    modified: '2017-08-30T21:21:29.000Z',
+    modified: '2017-09-23T20:09:37.000Z',
     name: 'index',
     title: 'Guides',
     isFile: true,
@@ -219,7 +219,7 @@ module.exports = {
     ],
   },
   '/guides/why': {
-    modified: '2017-08-30T21:21:29.000Z',
+    modified: '2017-09-23T22:04:06.000Z',
     name: 'why',
     title: 'Why choose Storybook.',
     isFile: true,
@@ -238,7 +238,7 @@ module.exports = {
     ],
   },
   '/': {
-    modified: '2017-08-30T21:21:29.000Z',
+    modified: '2017-09-23T20:32:21.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
