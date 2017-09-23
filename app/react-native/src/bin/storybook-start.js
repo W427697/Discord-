@@ -17,6 +17,7 @@ program
   .option('-i, --manual-id', 'allow multiple users to work with same storybook')
   .option('--smoke-test', 'Exit after successful start')
   .option('--packager-port <packagerPort>', 'Custom packager port')
+  .option('--react-native-config <reactNativeConfig>', 'React Native config path')
   .parse(process.argv);
 
 const projectDir = path.resolve();
@@ -63,14 +64,20 @@ if (!program.skipPackager) {
   if (program.haul) {
     cliCommand = `node node_modules/.bin/haul start --config ${program.haul} --platform all`;
   }
+
+  // If a react-native config has been supplied we don't pass certain
+  // flags to the RN cli as they would override parts of the config.
+  const configFileSupplied = Boolean(program.reactNativeConfig);
+
   // RN packager
   shelljs.exec(
     [
       cliCommand,
-      `--projectRoots ${projectRoots.join(',')}`,
-      `--root ${projectDir}`,
+      !configFileSupplied && `--projectRoots ${projectRoots.join(',')}`,
+      !configFileSupplied && `--root ${projectDir}`,
       program.resetCache && '--reset-cache',
-      program.packagerPort && `--port=${program.packagerPort}`,
+      program.packagerPort && !configFileSupplied && `--port=${program.packagerPort}`,
+      program.reactNativeConfig && `--config=${program.reactNativeConfig}`,
     ]
       .filter(x => x)
       .join(' '),
