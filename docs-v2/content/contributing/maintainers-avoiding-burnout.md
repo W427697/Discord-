@@ -46,4 +46,4 @@ work to be done.
 
 * * *
 
-This document has been taken **_mostly_** from <https://github.com/Storybook/brew/blob/76955b47bd2ae3eba1b041430d7e1aeab246de0d/docs/Maintainers-Avoiding-Burnout.md>.  Thanks Storybook!
+This document has been taken **_mostly_** from [HomeBrew](https://github.com/Storybook/brew/blob/76955b47bd2ae3eba1b041430d7e1aeab246de0d/docs/Maintainers-Avoiding-Burnout.md).  Thanks HomeBrew!

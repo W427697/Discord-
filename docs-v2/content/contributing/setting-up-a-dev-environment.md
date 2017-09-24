@@ -1,6 +1,7 @@
 # Setting up a dev environment (React)
 
-So you want to set up a dev environment? AWESOME!!! This doc is here to help you get set up as quickly and painlessly as possible so you can start contributing to storybook.
+This guide is here to help you get a local version of Storybook running so that you can hack on it
+and contribute back to the community.
 
 ## Prerequisites
 
@@ -10,8 +11,6 @@ Please have the **_latest_** stable versions of the following on your machine
 -   npm
 -   yarn
 -   create-react-app
-
-Please have at least version `3.3.0-alpha.0` of `@storybook/cli`
 
 ## Setting it up
 
