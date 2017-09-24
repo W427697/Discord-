@@ -45,8 +45,6 @@ Your app (most likely) has its own CSS, as does Storybook. By rendering your com
 
 ## Decorators
 
-> Currently React only
-
 Storybook has been built to be extensible a lots of ways.
 You can write stories is a variety of ways and this already provides a lot of freedom. 
 But it can become a little verbose sometimes, like when you want to wrap all your stories in a Redux State Provider, or a Router.
