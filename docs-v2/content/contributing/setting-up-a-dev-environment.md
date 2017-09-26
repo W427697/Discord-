@@ -8,11 +8,7 @@ Please have the **_latest_** stable versions of the following on your machine
 -   yarn
 -   @storybook/cli
 
-## Setting it up
-
-### Setup storybook locally
-
-### Installing Storybook
+## Initial Setup
 
 If you run into trouble here, make sure your node, npm, and **_yarn_** are on the latest versions (yarn at least v1.0.0).
 
@@ -23,7 +19,7 @@ If you run into trouble here, make sure your node, npm, and **_yarn_** are on th
 5.  `yarn bootstrap --core`
 6.  `yarn test --core`
 
-#### Bootstrapping everything
+### Bootstrapping everything
 
 This method is slow, and if you are reading this tutorial you probably don't want to do it
 
@@ -32,7 +28,7 @@ This method is slow, and if you are reading this tutorial you probably don't wan
 3.  Have a beer 🍺
 4.  `yarn test` (to verify everything worked)
 
-### Working with the kitchen sink app
+## Working with the kitchen sink app
 
 TODO: Fill this in
 
@@ -77,7 +73,7 @@ TODO: Fill this in
 
 TODO: Fill this in
 
-### Verify it is working
+### Verify your local version is working
 
 You should now have a working storybook dev environment up and running. To verify this you can make changes to the following file:
 
