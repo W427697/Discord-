@@ -30,7 +30,23 @@ This method is slow, and if you are reading this tutorial you probably don't wan
 4.  `yarn test` (to verify everything worked)
 
 
-## Linking Storybook
+## Working with the kitchen sink apps
+
+Within the examples folder of the Storybook repo, you will find kitchen sink examples of storybook implementations for the various platforms that storybook supports.
+
+### React and Vue
+
+1.  DO NOT RUN `yarn` or `yarn install`
+2. `yarn storybook`
+3.  Verify that your local version works
+
+### React Native (CRNA and Vanilla)
+
+TODO: Figure out what is wrong with this
+
+## Working with your own app
+
+### Linking Storybook
 
 Storybook is broken up into sub-projects that you can install as you need them. For this example we will be working with `@storybook/react`.
 **Note:** You need to `yarn link` from inside the sub project you are working on **_NOT_** the storybook root directory
@@ -39,28 +55,12 @@ Storybook is broken up into sub-projects that you can install as you need them. 
 2.  `yarn link`
 
 
-## Connecting Your App To Storybook
+### Connecting Your App To Storybook
 
 **_Note:_** If you aren't seeing addons after linking storybook, you probably have a versioning issue which can be fixed by simply linking each addon you want to use.
 This applies for the kitchen sink apps as well as your own projects.
 
 *Make sure `yarn dev` is running*
-
-### Working with the kitchen sink apps
-
-Within the examples folder of the Storybook repo, you will find kitchen sink examples of storybook implementations for the various platforms that storybook supports.
-
-#### React and Vue
-
-1.  DO NOT RUN `yarn` or `yarn install`
-2. `yarn storybook`
-3.  Verify that your local version works
-
-#### React Native (CRNA and Vanilla)
-
-TODO: Figure out what is wrong with this
-
-### Working with your own app
 
 #### 1. Setup storybook in your project
 
