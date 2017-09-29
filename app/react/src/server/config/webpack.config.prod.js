@@ -50,6 +50,8 @@ export default function() {
       new MinifyPlugin(
         {
           builtIns: false,
+          evaluate: false,
+          propertyLiterals: false,
         },
         {
           comments: false,

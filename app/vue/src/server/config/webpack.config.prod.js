@@ -48,7 +48,11 @@ export default function() {
       }),
       new webpack.DefinePlugin(loadEnv({ production: true })),
       new MinifyPlugin(
-        {},
+        {
+          builtIns: false,
+          evaluate: false,
+          propertyLiterals: false,
+        },
         {
           comments: false,
         }
