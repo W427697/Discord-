@@ -1,17 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Navigation Menu link 1`] = `
-<div
-  className="css-t9df35"
+<a
+  className="css-1enjukp"
+  href="/"
+  onClick={[Function]}
 >
-  <a
-    className="css-1enjukp"
-    href="/"
-    onClick={[Function]}
-  >
-    Menu link item
-  </a>
-</div>
+  Menu link item
+</a>
 `;
 
 exports[`Storyshots Navigation Routed link 1`] = `

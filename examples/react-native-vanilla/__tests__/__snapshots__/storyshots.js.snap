@@ -97,77 +97,68 @@ exports[`Storyshots Button with text 1`] = `
 `;
 
 exports[`Storyshots Knobs with knobs 1`] = `
-<View
-  style={
-    Object {
-      "backgroundColor": "#ffff00",
-      "borderColor": "#ff00ff",
-      "borderWidth": 3,
-      "padding": 10,
-    }
-  }
+Array [
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
 >
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-  >
     My name is Storyteller, I'm 70 years old, and my favorite fruit is apple.
-  </Text>
+</Text>,
   <Text
     accessible={true}
     allowFontScaling={true}
     ellipsizeMode="tail"
-  >
+>
     My birthday is: 
     January 20, 2017
-  </Text>
+</Text>,
   <Text
     accessible={true}
     allowFontScaling={true}
     ellipsizeMode="tail"
-  >
+>
     My wallet contains: $
     12.50
-  </Text>
+</Text>,
   <Text
     accessible={true}
     allowFontScaling={true}
     ellipsizeMode="tail"
-  >
+>
     In my backpack, I have:
-  </Text>
+</Text>,
   <View>
     <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
     >
-      Laptop
+        Laptop
     </Text>
     <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
     >
-      Book
+        Book
     </Text>
     <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
     >
-      Whiskey
+        Whiskey
     </Text>
-  </View>
+</View>,
   <Text
     accessible={true}
     allowFontScaling={true}
     ellipsizeMode="tail"
-  >
+>
     Nice to meet you!
-  </Text>
-</View>
+</Text>,
+]
 `;
 
 exports[`Storyshots Welcome to Storybook 1`] = `
