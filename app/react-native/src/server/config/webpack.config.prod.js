@@ -33,7 +33,9 @@ const getConfig = options => {
       new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
       new webpack.optimize.DedupePlugin(),
       new MinifyPlugin(
-        {},
+        {
+          mangle: false,
+        },
         {
           comments: false,
         }

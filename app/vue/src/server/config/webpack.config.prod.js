@@ -52,6 +52,7 @@ export default function() {
           builtIns: false,
           evaluate: false,
           propertyLiterals: false,
+          mangle: false,
         },
         {
           comments: false,
