@@ -20,7 +20,7 @@
     "@storybook/addon-actions": "latest",
     "@storybook/addon-links": "latest",
     "@storybook/addons": "latest",
-    "@storybook/react": "latest",
+    "@storybook/react": "3.2.12",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
