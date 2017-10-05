@@ -44,11 +44,11 @@ function previewArray(val, maxPropArrayLength) {
     items[`c${i}`] = ', ';
   });
   if (val.length > maxPropArrayLength) {
-    items.last = '…';
+    items.last = "\'…\'";
   } else {
     delete items[`c${val.length - 1}`];
   }
-  return <span style={valueStyles.array}>[{createFragment(items)}]</span>;
+  return <span style={valueStyles.array}>{'{'}[{createFragment(items)}]{'}'}</span>;
 }
 
 function previewObject(val, maxPropObjectKeys) {
@@ -67,9 +67,9 @@ function previewObject(val, maxPropObjectKeys) {
   }
   return (
     <span style={valueStyles.object}>
-      {'{'}
+      {'{{'}
       {createFragment(items)}
-      {'}'}
+      {'}}'}
     </span>
   );
 }
