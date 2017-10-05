@@ -1,6 +1,6 @@
 {
   "name": "@storybook/ui",
-  "version": "3.3.0-alpha.0",
+  "version": "3.3.0-alpha.2",
   "description": "Core Storybook UI",
   "license": "MIT",
   "main": "dist/index.js",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@hypnosphi/fuse.js": "^3.0.9",
-    "@storybook/components": "^3.3.0-alpha.0",
+    "@storybook/components": "^3.3.0-alpha.2",
     "babel-runtime": "^6.26.0",
     "deep-equal": "^1.0.1",
     "events": "^1.1.1",
@@ -33,13 +33,10 @@
     "react-icons": "^2.2.5",
     "react-inspector": "^2.2.0",
     "react-komposer": "^2.0.0",
-    "react-modal": "^2.3.2",
+    "react-modal": "^2.3.3",
     "react-split-pane": "^0.1.65",
     "react-treebeard": "^2.0.3",
     "redux": "^3.7.2"
-  },
-  "devDependencies": {
-    "enzyme": "^3.0.0"
   },
   "peerDependencies": {
     "react": "*",
