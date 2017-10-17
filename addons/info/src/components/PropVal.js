@@ -93,7 +93,7 @@ export default function PropVal(props) {
   } else if (Array.isArray(val)) {
     content = previewArray(val, maxPropArrayLength);
   } else if (typeof val === 'function') {
-    content = <span style={valueStyles.func}>{val.name ? `${val.name}()` : 'anonymous()'}</span>;
+    content = <span style={valueStyles.func}>{val.name ? val.name : 'anonymousFunction'}</span>;
   } else if (!val) {
     content = <span style={valueStyles.empty}>{`${val}`}</span>;
   } else if (typeof val !== 'object') {
