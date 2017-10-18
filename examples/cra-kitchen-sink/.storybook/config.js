@@ -12,6 +12,39 @@ setOptions({
   addonsPanelInRight: true,
   sortStoriesByKind: false,
   hierarchySeparator: /\/|\./,
+  layout: {
+    direction: 'row',
+    items: [
+      {
+        size: 300,
+        resize: 'fixed',
+        component: 'addonTabs',
+        props: {
+          selected: 'action',
+        },
+      },
+      {
+        size: 800,
+        minSize: 400,
+        resize: 'stretch',
+        component: 'preview',
+        props: {
+          primary: true,
+        },
+      },
+      {
+        size: 100,
+        minSize: 100,
+        resize: 'stretch',
+        component: 'preview',
+      },
+      {
+        size: 300,
+        resize: 'dynamic',
+        component: 'explorer',
+      },
+    ],
+  },
 });
 
 setAddon(infoAddon);
