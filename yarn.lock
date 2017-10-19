@@ -9561,9 +9561,9 @@ react-komposer@^2.0.0:
     react-stubber "^1.0.0"
     shallowequal "^0.2.2"
 
-react-modal@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-2.4.1.tgz#cb09b26711b148eb9f59cb180e1b7d82980ded05"
+react-modal@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.0.4.tgz#61f3c9a701b27d2015fe5ac0c419e3c977e4092a"
   dependencies:
     exenv "^1.2.0"
     prop-types "^15.5.10"
