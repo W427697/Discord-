@@ -1,3 +1,4 @@
+import React from 'react';
 import { configure, setAddon } from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
 import infoAddon from '@storybook/addon-info';
@@ -15,6 +16,12 @@ setOptions({
 });
 
 setAddon(infoAddon);
+
+setAddon({
+  _initBackground() {
+    this.add('Toc',() => <div> Info about <b>{this.kind}:</b> it's just a very simple example!</div>)
+  }
+})
 
 function loadStories() {
   require('../src/stories/index');

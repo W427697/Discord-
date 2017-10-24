@@ -48,15 +48,6 @@ export default class ClientApi {
       kind,
     };
 
-    // apply addons
-    Object.keys(this._addons).forEach(name => {
-      const addon = this._addons[name];
-      api[name] = (...args) => {
-        addon.apply(api, args);
-        return api;
-      };
-    });
-
     api.add = (storyName, getStory) => {
       if (typeof storyName !== 'string') {
         throw new Error(`Invalid or missing storyName provided for a "${kind}" story.`);
@@ -87,6 +78,23 @@ export default class ClientApi {
       localDecorators.push(decorator);
       return api;
     };
+
+    const initExp = /^_init/;
+
+    // apply addons
+    Object.keys(this._addons).filter(name => !name.match(initExp)).forEach(name => {
+      const addon = this._addons[name];
+      api[name] = (...args) => {
+        addon.apply(api, args);
+        return api;
+      };
+    });
+
+    // init addons
+    Object.keys(this._addons).filter(name => name.match(initExp)).forEach(name => {
+      const addon = this._addons[name];
+      addon.apply(api);
+    });
 
     return api;
   }
