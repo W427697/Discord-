@@ -50,7 +50,10 @@ export default function() {
         },
         template: require.resolve('../iframe.html.ejs'),
       }),
-      new webpack.DefinePlugin(loadEnv()),
+      new webpack.DefinePlugin({
+        ...loadEnv(),
+        STORYBOOK_CONFIG_PATH: JSON.stringify(path.resolve(getConfigDir())),
+      }),
       new webpack.HotModuleReplacementPlugin(),
       new CaseSensitivePathsPlugin(),
       new WatchMissingNodeModulesPlugin(nodeModulesPaths),
@@ -74,6 +77,9 @@ export default function() {
       // Add support to NODE_PATH. With this we could avoid relative path imports.
       // Based on this CRA feature: https://github.com/facebookincubator/create-react-app/issues/253
       modules: ['node_modules'].concat(nodePaths),
+      alias: {
+        '@storybook/config': path.resolve(getConfigDir()),
+      },
     },
     performance: {
       hints: false,
