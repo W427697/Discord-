@@ -5,14 +5,12 @@ import addons from '@storybook/addons';
 import { vueHandler } from './vue';
 import { reactHandler } from './react';
 
-import { knob, text, boolean, number, color, object, array, date, manager } from './base';
+import { knob, text, boolean, number, color, object, array, date, button, manager } from './base';
 
-export { knob, text, boolean, number, color, object, array, date };
+export { knob, text, boolean, number, color, object, array, date, button };
 
-deprecate(
-  () => {},
-  'Using @storybook/addon-knobs directly is discouraged, please use @storybook/addon-knobs/{{framework}}'
-);
+deprecate(() => {},
+'Using @storybook/addon-knobs directly is discouraged, please use @storybook/addon-knobs/{{framework}}');
 
 // generic higher-order component decorator for all platforms - usage is discouraged
 // This file Should be removed with 4.0 release

@@ -39,6 +39,10 @@ The Storybook webapp UI can be customised with this addon. It can be used to cha
 
 Storyshots is a way to automatically jest-snapshot all your stories. [More info here](/testing/structural-testing/).
 
+### [Console](https://github.com/storybooks/storybook-addon-console)
+
+Redirects console output (logs, errors, warnings) into Action Logger Panel. `withConsole` decorator notifies from what stories logs are coming.
+
 ## Community Addons
 
 You need to install these addons directly from NPM in order to use them.
@@ -51,7 +55,7 @@ Now it is easy to add them into your Storybook.
 
 ### [Story-router](https://github.com/gvaldambrini/storybook-router)
 
-A [decorator](/addons/introduction) that allows you to integrate react-router components in your stories.
+A [decorator](/addons/introduction) that allows you to use your routing-aware components in your stories.
 
 ### [Host](https://github.com/philcockfield/storybook-host)
 
@@ -106,3 +110,15 @@ Wrap your stories with the Apollo client for mocking GraphQL queries/mutations.
 ### [Screenshot](https://github.com/tsuyoshiwada/storybook-chrome-screenshot)
 
 Save the screenshot image of your stories. via [Puppeteer](https://github.com/GoogleChrome/puppeteer).
+
+### [Styles](https://github.com/Sambego/storybook-styles)
+
+Add ability to customize styles in the story preview area
+
+### [Figma](https://github.com/hharnisc/storybook-addon-figma)
+
+Embed [Figma](https://figma.com) designs in a storybook panel.
+
+### [State](https://github.com/Sambego/storybook-state)
+
+Manage state inside a story. Update components when this state changes.

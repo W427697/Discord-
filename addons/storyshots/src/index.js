@@ -8,7 +8,7 @@ import addons from '@storybook/addons';
 import runWithRequireContext from './require_context';
 import createChannel from './storybook-channel-mock';
 import { snapshot } from './test-bodies';
-import { getPossibleStoriesFiles } from './utils';
+import { getPossibleStoriesFiles, getSnapshotFileName } from './utils';
 
 export {
   snapshot,
@@ -17,6 +17,8 @@ export {
   shallowSnapshot,
   renderOnly,
 } from './test-bodies';
+
+export { getSnapshotFileName };
 
 let storybook;
 let configPath;
@@ -28,7 +30,8 @@ const pkg = readPkgUp.sync().pkg;
 
 const hasDependency = name =>
   (pkg.devDependencies && pkg.devDependencies[name]) ||
-  (pkg.dependencies && pkg.dependencies[name]);
+  (pkg.dependencies && pkg.dependencies[name]) ||
+  fs.existsSync(path.join('node_modules', name, 'package.json'));
 
 export default function testStorySnapshots(options = {}) {
   addons.setChannel(createChannel());
@@ -71,6 +74,10 @@ export default function testStorySnapshots(options = {}) {
   // NOTE: keep `suit` typo for backwards compatibility
   const suite = options.suite || options.suit || 'Storyshots';
   const stories = storybook.getStorybook();
+
+  if (stories.length === 0) {
+    throw new Error('storyshots found 0 stories');
+  }
 
   // Added not to break existing storyshots configs (can be removed in a future major release)
   // eslint-disable-next-line
