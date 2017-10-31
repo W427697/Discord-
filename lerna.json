@@ -1,11 +1,12 @@
 {
-  "lerna": "2.3.1",
+  "lerna": "2.4.0",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "commands": {
     "publish": {
       "ignore": [
         "cra-kitchen-sink",
+        "angular-cli",
         "vue-example",
         "lib/cli/test/run/*"
       ],
