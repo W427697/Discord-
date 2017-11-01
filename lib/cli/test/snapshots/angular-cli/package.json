@@ -14,13 +14,13 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "^2.3.1",
-    "@angular/compiler": "^2.3.1",
-    "@angular/core": "^2.3.1",
-    "@angular/forms": "^2.3.1",
-    "@angular/http": "^2.3.1",
-    "@angular/platform-browser": "^2.3.1",
-    "@angular/platform-browser-dynamic": "^2.3.1",
+    "@angular/common": "^5.0.0",
+    "@angular/compiler": "^5.0.0",
+    "@angular/core": "^5.0.0",
+    "@angular/forms": "^5.0.0",
+    "@angular/http": "^5.0.0",
+    "@angular/platform-browser": "^5.0.0",
+    "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^3.3.1",
     "core-js": "^2.4.1",
     "rxjs": "^5.0.1",
@@ -28,10 +28,10 @@
     "zone.js": "^0.7.2"
   },
   "devDependencies": {
-    "@angular/compiler-cli": "^2.3.1",
+    "@angular/cli": "^1.5.0",
+    "@angular/compiler-cli": "^5.0.0",
     "@types/jasmine": "2.5.38",
     "@types/node": "^6.0.42",
-    "angular-cli": "1.0.0-beta.28.3",
     "codelyzer": "~2.0.0-beta.1",
     "jasmine-core": "2.5.2",
     "jasmine-spec-reporter": "2.5.0",
@@ -44,6 +44,6 @@
     "ts-node": "1.2.1",
     "tslint": "^4.3.0",
     "typescript": "~2.4.0",
-    "@storybook/angular": "^3.3.0-alpha.0"
+    "@storybook/angular": "^3.3.0-alpha.2"
   }
 }
