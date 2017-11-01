@@ -1,4 +1,5 @@
 defaults: &defaults
+  parallelism: 2
   working_directory: /tmp/storybook
   docker:
     - image: circleci/node:latest
