@@ -16,7 +16,7 @@ global.STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES || {};
 
 const babel = require('babel-core');
 
-const pkg = readPkgUp.sync().pkg;
+const { pkg } = readPkgUp.sync();
 
 const hasDependency = name =>
   (pkg.devDependencies && pkg.devDependencies[name]) ||
@@ -88,7 +88,7 @@ export default function testStorySnapshots(options = {}) {
 
           it(story.name, () => {
             const context = { kind: group.kind, story: story.name };
-            options.test({ story, context });
+            return options.test({ story, context });
           });
         }
       });
