@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import style from './style';
 
@@ -23,15 +24,17 @@ export default class StoryView extends Component {
   renderHelp() {
     return (
       <View style={style.help}>
-        {this.props.url
-          ? <Text>
-              Please open the Storybook UI (
-              {this.props.url}
-              ) with a web browser and select a story for preview.
-            </Text>
-          : <Text>
-              Please open the Storybook UI with a web browser and select a story for preview.
-            </Text>}
+        {this.props.url && this.props.url.length ? (
+          <Text>
+            Please open the Storybook UI (
+            {this.props.url}
+            ) with a web browser and select a story for preview.
+          </Text>
+        ) : (
+          <Text>
+            Please open the Storybook UI with a web browser and select a story for preview.
+          </Text>
+        )}
       </View>
     );
   }
@@ -55,5 +58,9 @@ StoryView.propTypes = {
     on: PropTypes.func.isRequired,
     removeListener: PropTypes.func.isRequired,
   }).isRequired,
-  url: PropTypes.string.isRequired,
+  url: PropTypes.string,
+};
+
+StoryView.defaultProps = {
+  url: '',
 };

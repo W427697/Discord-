@@ -1,14 +1,10 @@
+import { stripIndents } from 'common-tags';
 import Vue from 'vue';
+
 import ErrorDisplay from './ErrorDisplay.vue';
-
-import { window } from 'global';
-// import { stripIndents } from 'common-tags';
-
-// check whether we're running on node/browser
-const isBrowser = typeof window !== 'undefined';
+import NoPreview from './NoPreview.vue';
 
 const logger = console;
-// let rootEl = null;
 let previousKind = '';
 let previousStory = '';
 let app = null;
@@ -20,9 +16,10 @@ function renderErrorDisplay(error) {
   err = new Vue({
     el: '#error-display',
     render(h) {
-      return h('div', { attrs: { id: 'error-display' } }, error
-        ? [h(ErrorDisplay, { props: { message: error.message, stack: error.stack } }) ]
-        : []
+      return h(
+        'div',
+        { attrs: { id: 'error-display' } },
+        error ? [h(ErrorDisplay, { props: { message: error.message, stack: error.stack } })] : []
       );
     },
   });
@@ -41,20 +38,23 @@ export function renderException(error) {
   logger.error(error.stack);
 }
 
-// const NoPreview = () => <p>No Preview Available!</p>;
-// const noPreview = <NoPreview />;
+function renderRoot(options) {
+  if (err) {
+    renderErrorDisplay(null); // clear
+    err = null;
+  }
+
+  if (app) app.$destroy();
+
+  app = new Vue(options);
+}
 
 export function renderMain(data, storyStore) {
-  if (storyStore.size() === 0) return null;
+  if (storyStore.size() === 0) return;
 
   const { selectedKind, selectedStory } = data;
 
   const story = storyStore.getStory(selectedKind, selectedStory);
-  if (!story) {
-    // ReactDOM.render(noPreview, rootEl);
-    logger.log('no story');
-    return null;
-  }
 
   // Unmount the previous story only if selectedKind or selectedStory has changed.
   // renderMain() gets executed after each action. Actions will cause the whole
@@ -67,7 +67,8 @@ export function renderMain(data, storyStore) {
     //    https://github.com/storybooks/react-storybook/issues/81
     previousKind = selectedKind;
     previousStory = selectedStory;
-    // ReactDOM.unmountComponentAtNode(rootEl);
+  } else {
+    return;
   }
 
   const context = {
@@ -75,41 +76,23 @@ export function renderMain(data, storyStore) {
     story: selectedStory,
   };
 
-  const element = story(context);
+  const component = story ? story(context) : NoPreview;
 
-  // if (!element) {
-  //   const error = {
-  //     title: `Expecting a React element from the story: "${selectedStory}" of "${selectedKind}".`,
-  //     description: stripIndents`
-  //       Did you forget to return the React element from the story?
-  //       Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.
-  //     `,
-  //   };
-  //   return renderError(error);
-  // }
-
-  // if (element.type === undefined) {
-  //   const error = {
-  //     title: `Expecting a valid React element from the story: "${selectedStory}" of "${selectedKind}".`,
-  //     description: stripIndents`
-  //       Seems like you are not returning a correct React element from the story.
-  //       Could you double check that?
-  //     `,
-  //   };
-  //   return renderError(error);
-  // }
-
-  if (err) {
-    renderErrorDisplay(null); // clear
-    err = null;
+  if (!component) {
+    const error = {
+      message: `Expecting a Vue component from the story: "${selectedStory}" of "${selectedKind}".`,
+      stack: stripIndents`
+        Did you forget to return the Vue component from the story?
+        Use "() => ({ template: '<my-comp></my-comp>' })" or "() => ({ components: MyComp, template: '<my-comp></my-comp>' })" when defining the story.
+      `,
+    };
+    renderError(error);
   }
 
-  if (app) app.$destroy();
-
-  app = new Vue({
+  renderRoot({
     el: '#root',
     render(h) {
-      return h('div', {attrs: { id: 'root' } }, [h(element)]);
+      return h('div', { attrs: { id: 'root' } }, [h(component)]);
     },
   });
 }

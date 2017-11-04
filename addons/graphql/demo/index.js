@@ -44,6 +44,10 @@ const schema = new graphql.GraphQLSchema({
   }),
 });
 
-express().use(cors()).use('/graphql', graphqlHTTP({ schema, pretty: true })).listen(3000);
+express()
+  .use(cors())
+  .use('/graphql', graphqlHTTP({ schema, pretty: true }))
+  .listen(3000);
 
+// eslint-disable-next-line no-console
 console.log('GraphQL server running on http://localhost:3000/graphql');

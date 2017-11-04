@@ -4,6 +4,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { stripIndents } from 'common-tags';
+import isReactRenderable from './element_check';
 import ErrorDisplay from './error_display';
 
 // check whether we're running on node/browser
@@ -13,10 +14,7 @@ const logger = console;
 
 const options = {
   multistorySeparator: /:/,
-  previewDecorator: stories =>
-    <div className="stories-root">
-      {stories}
-    </div>,
+  previewDecorator: stories => <div className="stories-root">{stories}</div>,
 };
 
 export function renderOptions(newOptions) {
@@ -75,10 +73,7 @@ export function renderException(error) {
 function renderStory(context, storyStore) {
   const { kind, story } = context;
 
-  const NoPreview = ({ info }) =>
-    <p>
-      {info}
-    </p>;
+  const NoPreview = ({ info }) => <p>{info}</p>;
   const noPreview = <NoPreview info="No Preview Available!" />;
 
   const storyFn = storyStore.getStory(kind, story);
@@ -102,7 +97,7 @@ function singleElement(context, element) {
     return errorElement(error);
   }
 
-  if (element.type === undefined) {
+  if (!isReactRenderable(element)) {
     const error = {
       title: `Expecting a valid React element from the story: "${story}" of "${kind}".`,
       description: stripIndents`
@@ -120,10 +115,7 @@ function multiElement(kindRoot, selectedStory, storyStore, onStoryDidMount) {
   const kinds = storyStore.getStoryKinds();
   const selectedKinds = kinds.filter(kind => kind.match(`^${kindRoot}`));
 
-  const StoryHolder = ({ name, element }) =>
-    <div id={name}>
-      {element}
-    </div>;
+  const StoryHolder = ({ name, element }) => <div id={name}>{element}</div>;
 
   const stories = selectedKinds.reduce(
     (prev, kind) =>
@@ -141,13 +133,13 @@ function multiElement(kindRoot, selectedStory, storyStore, onStoryDidMount) {
   );
 
   return options.previewDecorator(
-    stories.map(({ kind, story, preElement }) =>
+    stories.map(({ kind, story, preElement }) => (
       <StoryHolder
         key={elmentID(kind, story)}
         name={elmentID(kind, story)}
         element={singleElement({ kind, story }, preElement)}
       />
-    )
+    ))
   );
 }
 

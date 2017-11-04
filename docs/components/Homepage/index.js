@@ -40,18 +40,19 @@ import Footer from '../Footer';
 //   },
 // ];
 
-const Homepage = ({ users }) =>
+const Homepage = ({ users }) => (
   <div className="container">
     <Helmet title="Storybook - UI dev environment you'll love to use" />
-    {/* <Header currentSection="home" />*/}
+    {/* <Header currentSection="home" /> */}
     <Heading />
     <Demo />
-    {/* <Platforms />*/}
+    {/* <Platforms /> */}
     <MainLinks />
     <UsedBy users={users} />
-    {/* <Featured featuredStorybooks={featuredStorybooks} />*/}
+    {/* <Featured featuredStorybooks={featuredStorybooks} /> */}
     <Footer />
-  </div>;
+  </div>
+);
 
 Homepage.propTypes = {
   featuredStorybooks: PropTypes.array, // eslint-disable-line

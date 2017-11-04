@@ -1,5 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies, import/no-unresolved, import/extensions */
-
+/* eslint-disable react/no-danger */
 import React from 'react';
 import PropTypes from 'prop-types';
 import addons from '@storybook/addons';

@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import express from 'express';
 import https from 'https';
 import favicon from 'serve-favicon';
@@ -18,7 +16,7 @@ const logger = console;
 
 program
   .version(packageJson.version)
-  .option('-p, --port [number]', 'Port to run Storybook (Required)', parseInt)
+  .option('-p, --port [number]', 'Port to run Storybook (Required)', str => parseInt(str, 10))
   .option('-h, --host [string]', 'Host to run Storybook')
   .option('-s, --static-dir <dir-names>', 'Directory where to load static files from')
   .option('-c, --config-dir [dir-name]', 'Directory where to load Storybook configurations from')
@@ -33,6 +31,7 @@ program
   )
   .option('--ssl-cert <cert>', 'Provide an SSL certificate. (Required with --https)')
   .option('--ssl-key <key>', 'Provide an SSL key. (Required with --https)')
+  .option('--smoke-test', 'Exit after successful start')
   .option('-d, --db-path [db-file]', 'DEPRECATED!')
   .option('--enable-db', 'DEPRECATED!')
   .parse(process.argv);
@@ -151,7 +150,18 @@ server.listen(...listenAddr, error => {
 
 Promise.all([webpackValid, serverListening])
   .then(() => {
-    const address = `http://${program.host || 'localhost'}:${program.port}/`;
+    const proto = program.https ? 'https' : 'http';
+    const address = `${proto}://${program.host || 'localhost'}:${program.port}/`;
     logger.info(`Storybook started on => ${chalk.cyan(address)}\n`);
+    if (program.smokeTest) {
+      process.exit(0);
+    }
   })
-  .catch(error => logger.error(error));
+  .catch(error => {
+    if (error instanceof Error) {
+      logger.error(error);
+    }
+    if (program.smokeTest) {
+      process.exit(1);
+    }
+  });

@@ -1,11 +1,10 @@
 # Storybook
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/storybooks/storybook.svg)](https://greenkeeper.io/)
-[![Build Status](https://travis-ci.org/storybooks/storybook.svg?branch=master)](https://travis-ci.org/storybooks/storybook)
+[![Build Status on CircleCI](https://circleci.com/gh/storybooks/storybook.svg?style=shield)](https://circleci.com/gh/storybooks/storybook)
 [![CodeFactor](https://www.codefactor.io/repository/github/storybooks/storybook/badge)](https://www.codefactor.io/repository/github/storybooks/storybook)
 [![Known Vulnerabilities](https://snyk.io/test/github/storybooks/storybook/8f36abfd6697e58cd76df3526b52e4b9dc894847/badge.svg)](https://snyk.io/test/github/storybooks/storybook/8f36abfd6697e58cd76df3526b52e4b9dc894847)
-[![BCH compliance](https://bettercodehub.com/edge/badge/storybooks/storybook)](https://bettercodehub.com/results/storybooks/storybook) [![codecov](https://codecov.io/gh/storybooks/storybook/branch/master/graph/badge.svg)](https://codecov.io/gh/storybooks/storybook)
-[![Storybook Slack](https://storybooks-slackin.herokuapp.com/badge.svg)](https://storybooks-slackin.herokuapp.com/)
+[![BCH compliance](https://bettercodehub.com/edge/badge/storybooks/storybook)](https://bettercodehub.com/results/storybooks/storybook) [![codecov](https://codecov.io/gh/storybooks/storybook/branch/master/graph/badge.svg)](https://codecov.io/gh/storybooks/storybook)  
+[![Storybook Slack](https://now-examples-slackin-nqnzoygycp.now.sh/badge.svg)](https://now-examples-slackin-nqnzoygycp.now.sh/)
 [![Backers on Open Collective](https://opencollective.com/storybook/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/storybook/sponsors/badge.svg)](#sponsors)
 
 * * *
@@ -45,6 +44,8 @@ cd my-react-app
 getstorybook
 ```
 
+The `-g` global install is used to run our cli tool in your project directory to generate templates for your existing projects. To avoid the global install and start your project manually, take a look at our [Slow Start Guide](https://storybook.js.org/basics/slow-start-guide/).
+
 Once it's installed, you can `npm run storybook` and it will run the development server on your local machine, and give you a URL to browse some sample stories.
 
 **Storybook v2.x migration note**: If you're using Storybook v2.x and want to shift to 3.x version the easiest way is:
@@ -64,7 +65,8 @@ For full documentation on using Storybook visit: [storybook.js.org](https://stor
 ### Main Projects
 
 -   [Storybook for react](app/react) - Storybook for React components
--   [Storybook for react-native](app/react-native) - Storybook for React components
+-   [Storybook for vue](app/vue) - Storybook for Vue components
+-   [Storybook for react-native](app/react-native) - Storybook for React-Native components
 
 ### Sub Projects
 
@@ -92,30 +94,29 @@ We welcome contributions to Storybook!
 
 ### Development scripts
 
-#### `npm run bootstrap`
+#### `yarn bootstrap`
 
 > Installs package dependencies and links packages together - using lerna
 
-#### `npm run publish`
+#### `yarn run publish`
 
 > Push a release to git and npm
 > will ask for version in interactive mode - using lerna.
 
-#### `npm run lint`
+#### `yarn lint`
 
 > boolean check if code conforms to linting rules - uses remark & eslint
 
--   `npm run lint:js` - will check js
--   `npm run lint:md` - will check markdown + code samples
+-   `yarn lint:js` - will check js
+-   `yarn lint:md` - will check markdown + code samples
 
--   `npm run lint:js -- --fix` - will automatically fix js
--   `npm run lint:md -- -o` - will automatically fix markdown
+-   `yarn lint:js --fix` - will automatically fix js
 
-#### `npm run test`
+#### `yarn test`
 
 > boolean check if unit tests all pass - uses jest
 
--   `npm run test:watch` - will run tests in watch-mode
+-   `yarn test:watch` - will run tests in watch-mode
 
 ### Backers
 

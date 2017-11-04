@@ -25,14 +25,14 @@ const styles = {
   },
 };
 
-const PreviewHelp = () =>
+const PreviewHelp = () => (
   <div style={styles.main}>
     <h1>Welcome to storybook</h1>
     <p>This is a UI component dev environment for your app.</p>
     <p>
-      We've added some basic stories inside the <span style={styles.code}>
-        storybook/stories
-      </span>{' '}
+      We've added some basic stories inside the {
+        <span style={styles.code}>storybook/stories</span>
+      }{' '}
       directory. A story is a single state of one or more UI components. You can have as many
       stories as you want. Basically a story is like a visual test case.
     </p>
@@ -52,8 +52,9 @@ const PreviewHelp = () =>
       For <span style={styles.code}>react-native init</span> apps:
     </p>
     <div style={styles.codeBlock}>
-      <pre style={styles.instructionsCode}>npm run &lt;platform&gt;</pre>
+      <pre style={styles.instructionsCode}>react-native run-&lt;platform&gt;</pre>
     </div>
-  </div>;
+  </div>
+);
 
 export { PreviewHelp as default };

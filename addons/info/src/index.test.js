@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AddonInfo, { withInfo, setDefaults, addInfo } from './';
+import AddonInfo, { withInfo, setDefaults } from './';
 
 /* eslint-disable */
 const TestComponent = ({ func, obj, array, number, string, bool, empty }) =>
@@ -27,7 +27,7 @@ const testContext = { kind: 'addon_info', story: 'jest_test' };
 const testOptions = { propTables: false };
 
 describe('addon Info', () => {
-  const story = context =>
+  const story = context => (
     <div>
       It's a {context.story} story:
       <TestComponent
@@ -35,10 +35,11 @@ describe('addon Info', () => {
         obj={{ a: 'a', b: 'b' }}
         array={[1, 2, 3]}
         number={7}
-        string={'seven'}
+        string="seven"
         bool
       />
-    </div>;
+    </div>
+  );
   const api = {
     add: (name, fn) => fn(testContext),
   };
@@ -48,9 +49,14 @@ describe('addon Info', () => {
     )(story);
     ReactDOM.render(<Info />, document.createElement('div'));
   });
+  it('should render with text options', () => {
+    const Info = withInfo({ text: 'some text here' })(story);
+    ReactDOM.render(<Info />, document.createElement('div'));
+  });
   it('should render with missed info', () => {
     setDefaults(testOptions);
-    addInfo(null, testContext, story, testOptions);
+    const Info = withInfo()(story);
+    ReactDOM.render(<Info />, document.createElement('div'));
   });
   it('should show deprecation warning', () => {
     const addWithInfo = AddonInfo.addWithInfo.bind(api);

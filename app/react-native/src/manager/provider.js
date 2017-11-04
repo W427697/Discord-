@@ -10,9 +10,13 @@ export default class ReactProvider extends Provider {
     super();
     this.options = options;
     this.selection = null;
-    this.channel = addons.getChannel();
+    try {
+      this.channel = addons.getChannel();
+    } catch (err) {
+      this.channel = undefined;
+    }
 
-    const secured = options.secured;
+    const { secured } = options;
     const websocketType = secured ? 'wss' : 'ws';
     let url = `${websocketType}://${domain}`;
     if (options.manualId) {

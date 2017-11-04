@@ -31,7 +31,7 @@ function getData(element) {
   }
 
   data.children = element.props.children;
-  const type = element.type;
+  const { type } = element;
 
   if (typeof type === 'string') {
     data.name = type;
@@ -58,17 +58,16 @@ export default function Node(props) {
     paddingRight: 3,
   };
 
-  Object.assign(containerStyle, leftPad);
+  // Keep a copy so that further mutations to containerStyle don't impact us:
+  const containerStyleCopy = Object.assign({}, containerStyle, leftPad);
 
   const { name, text, children } = getData(node);
 
   // Just text
   if (!name) {
     return (
-      <div style={containerStyle}>
-        <span style={tagStyle}>
-          {text}
-        </span>
+      <div style={containerStyleCopy}>
+        <span style={tagStyle}>{text}</span>
       </div>
     );
   }
@@ -76,10 +75,8 @@ export default function Node(props) {
   // Single-line tag
   if (!children) {
     return (
-      <div style={containerStyle}>
-        <span style={tagStyle}>
-          &lt;{name}
-        </span>
+      <div style={containerStyleCopy}>
+        <span style={tagStyle}>&lt;{name}</span>
         <Props
           node={node}
           singleLine
@@ -93,16 +90,11 @@ export default function Node(props) {
     );
   }
 
-  // Keep a copy so that further mutations to containerStyle don't impact us:
-  const containerStyleCopy = Object.assign({}, containerStyle);
-
   // tag with children
   return (
     <div>
       <div style={containerStyleCopy}>
-        <span style={tagStyle}>
-          &lt;{name}
-        </span>
+        <span style={tagStyle}>&lt;{name}</span>
         <Props
           node={node}
           maxPropsIntoLine={maxPropsIntoLine}
@@ -112,7 +104,7 @@ export default function Node(props) {
         />
         <span style={tagStyle}>&gt;</span>
       </div>
-      {React.Children.map(children, childElement =>
+      {React.Children.map(children, childElement => (
         <Node
           node={childElement}
           depth={depth + 1}
@@ -121,11 +113,9 @@ export default function Node(props) {
           maxPropArrayLength={maxPropArrayLength}
           maxPropStringLength={maxPropStringLength}
         />
-      )}
+      ))}
       <div style={containerStyleCopy}>
-        <span style={tagStyle}>
-          &lt;/{name}&gt;
-        </span>
+        <span style={tagStyle}>&lt;/{name}&gt;</span>
       </div>
     </div>
   );

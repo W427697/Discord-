@@ -5,23 +5,18 @@ import style from './style';
 
 class ActionLogger extends Component {
   getActionData() {
-    return this.props.actions.map((action, i) => this.renderAction(action, i));
+    return this.props.actions.map(action => this.renderAction(action));
   }
 
   renderAction(action) {
-    const counter = (
-      <div style={style.counter}>
-        {action.count}
-      </div>
-    );
+    const counter = <div style={style.counter}>{action.count}</div>;
     return (
       <div key={action.id} style={style.action}>
-        <div style={style.countwrap}>
-          {action.count > 1 && counter}
-        </div>
+        <div style={style.countwrap}>{action.count > 1 && counter}</div>
         <div style={style.inspector}>
           <Inspector
-            showNonenumerable
+            sortObjectKeys
+            showNonenumerable={false}
             name={action.data.name}
             data={action.data.args || action.data}
           />
@@ -33,9 +28,7 @@ class ActionLogger extends Component {
   render() {
     return (
       <div style={style.wrapper}>
-        <pre style={style.actions}>
-          {this.getActionData()}
-        </pre>
+        <pre style={style.actions}>{this.getActionData()}</pre>
         <button style={style.button} onClick={this.props.onClear}>
           CLEAR
         </button>

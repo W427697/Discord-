@@ -1,17 +1,19 @@
 # StoryShots
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/storybooks/storybook.svg)](https://greenkeeper.io/)
-[![Build Status](https://travis-ci.org/storybooks/storybook.svg?branch=master)](https://travis-ci.org/storybooks/storybook)
+[![Build Status on CircleCI](https://circleci.com/gh/storybooks/storybook.svg?style=shield)](https://circleci.com/gh/storybooks/storybook)
 [![CodeFactor](https://www.codefactor.io/repository/github/storybooks/storybook/badge)](https://www.codefactor.io/repository/github/storybooks/storybook)
 [![Known Vulnerabilities](https://snyk.io/test/github/storybooks/storybook/8f36abfd6697e58cd76df3526b52e4b9dc894847/badge.svg)](https://snyk.io/test/github/storybooks/storybook/8f36abfd6697e58cd76df3526b52e4b9dc894847)
-[![BCH compliance](https://bettercodehub.com/edge/badge/storybooks/storybook)](https://bettercodehub.com/results/storybooks/storybook) [![codecov](https://codecov.io/gh/storybooks/storybook/branch/master/graph/badge.svg)](https://codecov.io/gh/storybooks/storybook)
-[![Storybook Slack](https://storybooks-slackin.herokuapp.com/badge.svg)](https://storybooks-slackin.herokuapp.com/)
+[![BCH compliance](https://bettercodehub.com/edge/badge/storybooks/storybook)](https://bettercodehub.com/results/storybooks/storybook) [![codecov](https://codecov.io/gh/storybooks/storybook/branch/master/graph/badge.svg)](https://codecov.io/gh/storybooks/storybook)  
+[![Storybook Slack](https://now-examples-slackin-nqnzoygycp.now.sh/badge.svg)](https://now-examples-slackin-nqnzoygycp.now.sh/)
+[![Backers on Open Collective](https://opencollective.com/storybook/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/storybook/sponsors/badge.svg)](#sponsors)
+
+* * *
 
 StoryShots adds automatic Jest Snapshot Testing for [Storybook](https://storybook.js.org/).
 
 This addon works with Storybook for:
-[React](https://github.com/storybooks/storybook/tree/master/app/react) and
-[React Native](https://github.com/storybooks/storybook/tree/master/app/react-native).
+- [React](https://github.com/storybooks/storybook/tree/master/app/react)
+- [React Native](https://github.com/storybooks/storybook/tree/master/app/react-native)
 
 ![StoryShots In Action](docs/storyshots-fail.png)
 
@@ -32,9 +34,11 @@ Usually, you might already have completed this step. If not, here are some resou
 -   If you are using Create React App, it's already configured for Jest. You just need to create a filename with the extension `.test.js`.
 -   Otherwise check this Egghead [lesson](https://egghead.io/lessons/javascript-test-javascript-with-jest).
 
+> Note: If you use React 16, you'll need to follow [these additional instructions](https://github.com/facebook/react/issues/9102#issuecomment-283873039).
+
 ## Configure Storyshots
 
-Create a new test file with the name `Storyshots.test.js`. (Or whatever the name you prefer).
+Create a new test file with the name `Storyshots.test.js`. (Or whatever the name you prefer, as long as it matches Jest's config [`testMatch`](http://facebook.github.io/jest/docs/en/configuration.html#testmatch-array-string)).
 Then add following content to it:
 
 ```js
@@ -143,6 +147,36 @@ Just render the story, don't check the output at all (useful if you just want to
 
 Like the default, but allows you to specify a set of options for the test renderer. [See for example here](https://github.com/storybooks/storybook/blob/b915b5439786e0edb17d7f5ab404bba9f7919381/examples/test-cra/src/storyshots.test.js#L14-L16).
 
+### `multiSnapshotWithOptions(options)`
+
+Like `snapshotWithOptions`, but generate a separate snapshot file for each stories file rather than a single monolithic file (as is the convention in Jest). This makes it dramatically easier to review changes.
+
 ### `shallowSnapshot`
 
 Take a snapshot of a shallow-rendered version of the component.
+
+### `getSnapshotFileName`
+
+Utility function used in `multiSnapshotWithOptions`. This is made available for users who implement custom test functions that also want to take advantage of multi-file storyshots.
+
+###### Example:
+
+Let's say we wanted to create a test function for shallow && multi-file snapshots:
+
+```js
+import initStoryshots, { getSnapshotFileName } from '@storybook/addon-storyshots';
+import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
+
+initStoryshots({
+  test: ({ story, context }) => {
+    const snapshotFileName = getSnapshotFileName(context);
+    const storyElement = story.render(context);
+    const shallowTree = shallow(storyElement);
+
+    if (snapshotFileName) {
+      expect(toJson(shallowTree)).toMatchSpecificSnapshot(snapshotFileName);
+    }
+  }
+});
+```

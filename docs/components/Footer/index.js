@@ -4,7 +4,7 @@ import slackIcon from './images/slack-icon.png';
 import githubIcon from './images/github-icon.png';
 import './style.css';
 
-const Footer = () =>
+const Footer = () => (
   <div id="footer" className="row">
     <div className="col-md-12">
       <div className="row logos">
@@ -14,7 +14,7 @@ const Footer = () =>
             .
           </center>
           <center>
-            <Link to="https://storybooks-slackin.herokuapp.com/" target="_blank">
+            <Link to="https://now-examples-slackin-nqnzoygycp.now.sh/" target="_blank">
               <img src={slackIcon} alt="Storybook Slack" />
             </Link>
             <Link to="https://github.com/storybooks/storybook" target="_blank">
@@ -24,6 +24,7 @@ const Footer = () =>
         </div>
       </div>
     </div>
-  </div>;
+  </div>
+);
 
 export default Footer;

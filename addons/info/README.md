@@ -1,21 +1,23 @@
 # Storybook Info Addon
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/storybooks/storybook.svg)](https://greenkeeper.io/)
-[![Build Status](https://travis-ci.org/storybooks/storybook.svg?branch=master)](https://travis-ci.org/storybooks/storybook)
+[![Build Status on CircleCI](https://circleci.com/gh/storybooks/storybook.svg?style=shield)](https://circleci.com/gh/storybooks/storybook)
 [![CodeFactor](https://www.codefactor.io/repository/github/storybooks/storybook/badge)](https://www.codefactor.io/repository/github/storybooks/storybook)
 [![Known Vulnerabilities](https://snyk.io/test/github/storybooks/storybook/8f36abfd6697e58cd76df3526b52e4b9dc894847/badge.svg)](https://snyk.io/test/github/storybooks/storybook/8f36abfd6697e58cd76df3526b52e4b9dc894847)
-[![BCH compliance](https://bettercodehub.com/edge/badge/storybooks/storybook)](https://bettercodehub.com/results/storybooks/storybook) [![codecov](https://codecov.io/gh/storybooks/storybook/branch/master/graph/badge.svg)](https://codecov.io/gh/storybooks/storybook)
-[![Storybook Slack](https://storybooks-slackin.herokuapp.com/badge.svg)](https://storybooks-slackin.herokuapp.com/)
+[![BCH compliance](https://bettercodehub.com/edge/badge/storybooks/storybook)](https://bettercodehub.com/results/storybooks/storybook) [![codecov](https://codecov.io/gh/storybooks/storybook/branch/master/graph/badge.svg)](https://codecov.io/gh/storybooks/storybook)  
+[![Storybook Slack](https://now-examples-slackin-nqnzoygycp.now.sh/badge.svg)](https://now-examples-slackin-nqnzoygycp.now.sh/)
+[![Backers on Open Collective](https://opencollective.com/storybook/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/storybook/sponsors/badge.svg)](#sponsors)
+
+* * *
 
 Storybook Info Addon will show additional information for your stories in [Storybook](https://storybook.js.org).
 Useful when you want to display usage or other types of documentation alongside your story.
 
 This addon works with Storybook for:
-[React](https://github.com/storybooks/storybook/tree/master/app/react).
+- [React](https://github.com/storybooks/storybook/tree/master/app/react)
 
 ![Screenshot](docs/home-screenshot.png)
 
-## Usage
+## Installation
 
 Install the following npm module:
 
@@ -23,7 +25,78 @@ Install the following npm module:
 npm i -D @storybook/addon-info
 ```
 
-Then set the addon in the place you configure storybook like this:
+## Basic usage
+
+Then wrap your story with the `withInfo`, which is a function that takes either
+documentation text or an options object:
+
+```js
+import { withInfo } from '@storybook/addon-info';
+
+storiesOf('Component', module)
+  .add('simple info',
+    withInfo('description or documentation about my component, supports markdown')(() =>
+      <Component>Click the "?" mark at top-right to view the info.</Component>
+    )
+  )
+```
+
+## Usage with options
+
+`withInfo` can also take an [options object](#global-options) in case you want to configure how
+the info panel looks on a per-story basis:
+
+```js
+import { withInfo } from '@storybook/addon-info';
+
+storiesOf('Component', module)
+  .add('simple info',
+    withInfo({
+      text: 'String or React Element with docs about my component', // Warning! This option's name will be likely renamed to "summary" in 3.3 release. Follow this PR #1501 for details
+      // other possible options see in Global options section below
+    })(() =>
+      <Component>Click the "?" mark at top-right to view the info.</Component>
+    )
+  )
+```
+
+## Usage as decorator
+
+It is possible to add infos by default to all components by using a global or story decorator. The drawback is you won't be able to display a distinct info message per story.
+
+It is important to declare this decorator as **the first decorator**, otherwise it won't work well.
+
+```js
+addDecorator((story, context) => withInfo('common info')(story)(context));
+```
+
+## Global options
+
+To configure default options for all usage of the info option, use `setDefaults` in `.storybook/config.js`:
+
+```js
+// config.js
+import { setDefaults } from '@storybook/addon-info';
+
+// addon-info
+setDefaults({
+  header: false, // Toggles display of header with component name and description
+  inline: true, // Displays info inline vs click button to view
+  source: true, // Displays the source of story Component
+  propTables: [/* Components used in story */], // displays Prop Tables with this components
+  propTablesExclude: [], // Exclude Components from being shown in Prop Tables section
+  styles: {}, // Overrides styles of addon
+  marksyConf: {}, // Overrides components used to display markdown. Warning! This option's name will be likely deprecated in favor to "components" with the same API in 3.3 release. Follow this PR #1501 for details
+  maxPropsIntoLine: 1, // Max props to display per line in source code
+  maxPropObjectKeys: 10,
+  maxPropArrayLength: 10,
+  maxPropStringLength: 100,
+});
+```
+
+## Deprecated usage
+
+There is also a deprecated API that is slated for removal in Storybook 4.0.
 
 ```js
 import { configure, setAddon } from '@storybook/react';
@@ -71,6 +144,43 @@ setDefaults({
 });
 setAddon(infoAddon);
 ```
+
+### React Docgen Integration
+
+React Docgen is included as part of the @storybook/react package through the use of `babel-plugin-react-docgen` during babel compile time.
+When rendering a story with a React component commented in this supported format, the Addon Info description will render the comments above the component declaration and the prop table will display the prop's comment in the description column.
+
+```js
+import React from 'react';
+import PropTypes from 'prop-types';
+
+/** Button component description */
+const DocgenButton = ({ disabled, label, style, onClick }) =>
+  <button disabled={disabled} style={style} onClick={onClick}>
+    {label}
+  </button>;
+
+DocgenButton.defaultProps = {
+  disabled: false,
+  onClick: () => {},
+  style: {},
+};
+
+DocgenButton.propTypes = {
+  /** Boolean indicating whether the button should render as disabled */
+  disabled: PropTypes.bool,
+  /** button label. */
+  label: PropTypes.string.isRequired,
+  /** onClick handler */
+  onClick: PropTypes.func,
+  /** component styles */
+  style: PropTypes.shape,
+};
+
+export default DocgenButton;
+```
+
+Comments above flow types are also supported. Storybook Info Addon should now render all the correct types for your component if the PropTypes are in the same file as the React component.
 
 ## The FAQ
 

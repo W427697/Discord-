@@ -11,10 +11,8 @@ module.exports = {
     '<rootDir>/app',
     '<rootDir>/lib',
     '<rootDir>/examples/cra-kitchen-sink',
-    '<rootDir>/examples/test-cra',
   ],
-  testPathIgnorePatterns: ['/node_modules/'],
-  projects: ['./', './examples/react-native-vanilla'],
+  testPathIgnorePatterns: ['/node_modules/', '/cli/test/'],
   collectCoverage: false,
   collectCoverageFrom: [
     'app/**/*.{js,jsx}',
@@ -24,5 +22,6 @@ module.exports = {
   ],
   coverageDirectory: 'coverage',
   testEnvironment: 'jsdom',
-  setupTestFrameworkScriptFile: './node_modules/jest-enzyme/lib/index.js',
+  setupTestFrameworkScriptFile: './scripts/jest.init.js',
+  setupFiles: ['raf/polyfill'],
 };

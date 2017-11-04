@@ -16,7 +16,7 @@ const stylesheet = {
     boxSizing: 'border-box',
     verticalAlign: 'top',
     paddingRight: 5,
-    paddingTop: 7,
+    paddingTop: 5,
     textAlign: 'right',
     width: 80,
     fontSize: 12,
@@ -46,16 +46,16 @@ export default class PropField extends React.Component {
   }
 
   render() {
-    const { onChange, knob } = this.props;
+    const { onChange, onClick, knob } = this.props;
 
     const InputType = TypeMap[knob.type] || InvalidType;
 
     return (
       <div style={stylesheet.field}>
         <label htmlFor={knob.name} style={stylesheet.label}>
-          {`${knob.name}`}
+          {!knob.hideLabel && `${knob.name}`}
         </label>
-        <InputType knob={knob} onChange={onChange} />
+        <InputType knob={knob} onChange={onChange} onClick={onClick} />
       </div>
     );
   }
@@ -65,6 +65,7 @@ PropField.propTypes = {
   knob: PropTypes.shape({
     name: PropTypes.string,
     value: PropTypes.any,
-  }),
+  }).isRequired,
   onChange: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };

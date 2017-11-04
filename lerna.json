@@ -1,29 +1,18 @@
 {
-  "lerna": "2.0.0-rc.5",
+  "lerna": "2.4.0",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
   "commands": {
-    "bootstrap": {
-      "ignore": [
-        "test-cra",
-        "react-native-vanilla"
-      ]
-    },
     "publish": {
       "ignore": [
         "cra-kitchen-sink",
-        "test-cra",
-        "react-native-vanilla",
+        "angular-cli",
         "vue-example",
-        "@storybook/components",
-        "@storybook/vue"
-      ]
+        "lib/cli/test/run/*"
+      ],
+      "allowBranch": "released/3.3"
     }
   },
-  "packages": [
-    "addons/*",
-    "app/*",
-    "lib/*",
-    "examples/*"
-  ],
   "concurrency": 1,
-  "version": "3.2.0-alpha.7"
+  "version": "3.3.0-alpha.2"
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
@@ -10,9 +11,7 @@ const Markdown = ({ route }) => {
   return (
     <DocumentTitle title={`${post.title} | ${config.siteTitle}`}>
       <div className="markdown">
-        <h1>
-          {post.title}
-        </h1>
+        <h1>{post.title}</h1>
         <p>
           <a className="edit-link" href={editUrl} target="_blank" rel="noopener noreferrer">
             Edit this page

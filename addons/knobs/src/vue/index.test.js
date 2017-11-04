@@ -4,7 +4,7 @@ import KnobStore from '../KnobStore';
 
 describe('Vue handler', () => {
   it('Returns a component with a created function', () => {
-    const testChannel = { emit: () => {} };
+    const testChannel = { emit: jest.fn(), on: jest.fn() };
     const testStory = () => ({ template: '<div> testStory </div>' });
     const testContext = {
       kind: 'Foo',
@@ -21,19 +21,20 @@ describe('Vue handler', () => {
     });
   });
 
-  it('Subscribes to the channel on creation', () => {
+  it('Subscribes to the channel on creation', () => {
     const testChannel = { emit: () => {}, on: jest.fn() };
-    const testStory = () => ({ render: (h) => h('div', ['testStory']) });
+    const testStory = () => ({ render: h => h('div', ['testStory']) });
     const testContext = {
       kind: 'Foo',
       story: 'bar baz',
     };
 
     const testStore = new KnobStore();
-    const component = new Vue(vueHandler(testChannel, testStore)(testStory)(testContext)).$mount();
+    new Vue(vueHandler(testChannel, testStore)(testStory)(testContext)).$mount();
 
-    expect(testChannel.on).toHaveBeenCalledTimes(2);
+    expect(testChannel.on).toHaveBeenCalledTimes(3);
     expect(testChannel.on).toHaveBeenCalledWith('addon:knobs:reset', expect.any(Function));
     expect(testChannel.on).toHaveBeenCalledWith('addon:knobs:knobChange', expect.any(Function));
+    expect(testChannel.on).toHaveBeenCalledWith('addon:knobs:knobClick', expect.any(Function));
   });
 });
