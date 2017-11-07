@@ -2,10 +2,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import { Table, Td, Th } from '@storybook/components';
 import PropVal from './PropVal';
-import PrettyPropType from './types/PrettyPropType';
 
 const PropTypesMap = new Map();
 
@@ -16,9 +13,40 @@ Object.keys(PropTypes).forEach(typeName => {
   PropTypesMap.set(type.isRequired, typeName);
 });
 
+const stylesheet = {
+  propTable: {
+    marginLeft: -10,
+    borderSpacing: '10px 5px',
+    borderCollapse: 'separate',
+  },
+};
+
 const isNotEmpty = obj => obj && obj.props && Object.keys(obj.props).length > 0;
 
+const renderDocgenPropType = propType => {
+  if (!propType) {
+    return 'unknown';
+  }
+
+  const { name } = propType;
+
+  switch (name) {
+    case 'arrayOf':
+      return `${propType.value.name}[]`;
+    case 'instanceOf':
+      return propType.value;
+    case 'union':
+      return propType.raw;
+    case 'signature':
+      return propType.raw;
+    default:
+      return name;
+  }
+};
+
 const hasDocgen = type => isNotEmpty(type.__docgenInfo);
+
+const boolToString = value => (value ? 'yes' : 'no');
 
 const propsFromDocgen = type => {
   const props = {};
@@ -31,8 +59,8 @@ const propsFromDocgen = type => {
 
     props[property] = {
       property,
-      propType,
-      required: docgenInfoProp.required,
+      propType: renderDocgenPropType(propType),
+      required: boolToString(docgenInfoProp.required),
       description: docgenInfoProp.description,
       defaultValue: defaultValueDesc.value,
     };
@@ -47,15 +75,21 @@ const propsFromPropTypes = type => {
   if (type.propTypes) {
     Object.keys(type.propTypes).forEach(property => {
       const typeInfo = type.propTypes[property];
-      const required = typeInfo.isRequired === undefined;
-      const docgenInfo =
-        type.__docgenInfo && type.__docgenInfo.props && type.__docgenInfo.props[property];
-      const description = docgenInfo ? docgenInfo.description : null;
+      const required = boolToString(typeInfo.isRequired === undefined);
+      const description =
+        type.__docgenInfo && type.__docgenInfo.props && type.__docgenInfo.props[property]
+          ? type.__docgenInfo.props[property].description
+          : null;
       let propType = PropTypesMap.get(typeInfo) || 'other';
 
       if (propType === 'other') {
-        if (docgenInfo && docgenInfo.type) {
-          propType = docgenInfo.type.name;
+        if (
+          type.__docgenInfo &&
+          type.__docgenInfo.props &&
+          type.__docgenInfo.props[property] &&
+          type.__docgenInfo.props[property].type
+        ) {
+          propType = type.__docgenInfo.props[property].type.name;
         }
       }
 
@@ -103,38 +137,34 @@ export default function PropTable(props) {
   };
 
   return (
-    <Table>
+    <table style={stylesheet.propTable}>
       <thead>
         <tr>
-          <Th bordered>property</Th>
-          <Th bordered>propType</Th>
-          <Th bordered>required</Th>
-          <Th bordered>default</Th>
-          <Th bordered>description</Th>
+          <th>property</th>
+          <th>propType</th>
+          <th>required</th>
+          <th>default</th>
+          <th>description</th>
         </tr>
       </thead>
       <tbody>
         {array.map(row => (
           <tr key={row.property}>
-            <Td bordered code>
-              {row.property}
-            </Td>
-            <Td bordered code>
-              <PrettyPropType propType={row.propType} />
-            </Td>
-            <Td bordered>{row.required ? 'yes' : '-'}</Td>
-            <Td bordered>
+            <td>{row.property}</td>
+            <td>{row.propType}</td>
+            <td>{row.required}</td>
+            <td>
               {row.defaultValue === undefined ? (
                 '-'
               ) : (
                 <PropVal val={row.defaultValue} {...propValProps} />
               )}
-            </Td>
-            <Td bordered>{row.description}</Td>
+            </td>
+            <td>{row.description}</td>
           </tr>
         ))}
       </tbody>
-    </Table>
+    </table>
   );
 }
 

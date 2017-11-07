@@ -5,8 +5,16 @@ import { knob, text, boolean, number, color, object, array, date, select, manage
 export { knob, text, boolean, number, color, object, array, date, select };
 
 export const vueHandler = (channel, knobStore) => getStory => context => ({
+  data() {
+    return {
+      context,
+      getStory,
+      story: getStory(context),
+    };
+  },
+
   render(h) {
-    return h(getStory(context));
+    return h(this.story);
   },
 
   methods: {
@@ -14,13 +22,21 @@ export const vueHandler = (channel, knobStore) => getStory => context => ({
       const { name, value } = change;
       // Update the related knob and it's value.
       const knobOptions = knobStore.get(name);
+
       knobOptions.value = value;
+      this.story = this.getStory(this.context);
       this.$forceUpdate();
+    },
+
+    onKnobClick(k) {
+      const knobOptions = knobStore.get(k.name);
+      knobOptions.callback();
     },
 
     onKnobReset() {
       knobStore.reset();
       this.setPaneKnobs(false);
+      this.story = this.getStory(this.context);
       this.$forceUpdate();
     },
 
@@ -32,12 +48,14 @@ export const vueHandler = (channel, knobStore) => getStory => context => ({
   created() {
     channel.on('addon:knobs:reset', this.onKnobReset);
     channel.on('addon:knobs:knobChange', this.onKnobChange);
+    channel.on('addon:knobs:knobClick', this.onKnobClick);
     knobStore.subscribe(this.setPaneKnobs);
   },
 
   beforeDestroy() {
     channel.removeListener('addon:knobs:reset', this.onKnobReset);
     channel.removeListener('addon:knobs:knobChange', this.onKnobChange);
+    channel.removeListener('addon:knobs:knobClick', this.onKnobClick);
     knobStore.unsubscribe(this.setPaneKnobs);
   },
 });

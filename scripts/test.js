@@ -4,6 +4,7 @@ const program = require('commander');
 const childProcess = require('child_process');
 const chalk = require('chalk');
 const log = require('npmlog');
+const path = require('path');
 
 log.heading = 'storybook';
 const prefix = 'test';
@@ -18,18 +19,18 @@ const spawn = command => {
   if (out.status !== 0) {
     process.exit(out.status);
   }
+
   return out;
 };
 
 const main = program.version('3.0.0').option('--all', `Test everything ${chalk.gray('(all)')}`);
 
-const createProject = ({ defaultValue, option, name, projectLocation, isJest }) => ({
+const createProject = ({ defaultValue, option, name, projectLocation }) => ({
   value: false,
   defaultValue: defaultValue || false,
   option: option || undefined,
   name: name || 'unnamed task',
   projectLocation,
-  isJest,
 });
 const createOption = ({ defaultValue, option, name, extraParam }) => ({
   value: false,
@@ -44,15 +45,19 @@ const tasks = {
     name: `Core & React & Vue ${chalk.gray('(core)')}`,
     defaultValue: true,
     option: '--core',
-    projectLocation: './',
-    isJest: true,
+    projectLocation: path.join(__dirname, '..'),
   }),
   'react-native-vanilla': createProject({
     name: `React-Native example ${chalk.gray('(react-native-vanilla)')}`,
     defaultValue: true,
     option: '--reactnative',
     projectLocation: './examples/react-native-vanilla',
-    isJest: true,
+  }),
+  integration: createProject({
+    name: `Screenshots of running apps ${chalk.gray('(integration)')}`,
+    defaultValue: false,
+    option: '--integration',
+    projectLocation: './integration',
   }),
   // 'crna-kitchen-sink': createProject({
   //   name: `React-Native-App example ${chalk.gray('(crna-kitchen-sink)')}  ${chalk.red(
@@ -61,14 +66,7 @@ const tasks = {
   //   defaultValue: false,
   //   option: '--reactnativeapp',
   //   projectLocation: './examples/crna-kitchen-sink',
-  //   isJest: true,
   // }),
-  cli: createProject({
-    name: `Command Line Interface ${chalk.gray('(cli)')}`,
-    defaultValue: false,
-    option: '--cli',
-    projectLocation: './lib/cli',
-  }),
   watchmode: createOption({
     name: `Run in watch-mode ${chalk.gray('(watchmode)')}`,
     defaultValue: false,
@@ -87,24 +85,19 @@ const tasks = {
     option: '--runInBand',
     extraParam: '--runInBand',
   }),
-  update: createOption({
-    name: `Update all snapshots ${chalk.gray('(update)')}`,
-    defaultValue: false,
-    option: '--update',
-    extraParam: '-u',
-  }),
 };
 
 const getProjects = list => {
   const filtered = list.filter(key => key.projectLocation);
   if (filtered.length > 0) {
-    return filtered;
+    return filtered.map(key => key.projectLocation);
   }
 
   // if list would have been empty, we run with default projects
   return Object.keys(tasks)
     .map(key => tasks[key])
-    .filter(key => key.projectLocation && key.defaultValue);
+    .filter(key => key.projectLocation && key.defaultValue)
+    .map(key => key.projectLocation);
 };
 
 const getExtraParams = list => list.filter(key => key.extraParam).map(key => key.extraParam);
@@ -119,6 +112,7 @@ Object.keys(tasks).forEach(key => {
 });
 
 let selection;
+
 if (
   !Object.keys(tasks)
     .map(key => tasks[key].value)
@@ -130,7 +124,6 @@ if (
         type: 'checkbox',
         message: 'Select which tests to run',
         name: 'todo',
-        pageSize: 8,
         choices: Object.keys(tasks)
           .map(key => tasks[key])
           .filter(key => key.projectLocation)
@@ -163,19 +156,14 @@ if (
 
 selection
   .then(list => {
+    const command = `jest --projects ${getProjects(list).join(' ')} ${getExtraParams(list).join(
+      ' '
+    )}`;
+    console.log('command: ', command);
     if (list.length === 0) {
       log.warn(prefix, 'Nothing to test');
     } else {
-      const projects = getProjects(list);
-      const jestProjects = projects.filter(key => key.isJest).map(key => key.projectLocation);
-      const nonJestProjects = projects.filter(key => !key.isJest);
-      const extraParams = getExtraParams(list).join(' ');
-      if (jestProjects.length > 0) {
-        spawn(`jest --projects ${jestProjects.join(' ')} ${extraParams}`);
-      }
-      nonJestProjects.forEach(key =>
-        spawn(`npm --prefix ${key.projectLocation} test -- ${extraParams}`)
-      );
+      spawn(command);
       process.stdout.write('\x07');
     }
   })

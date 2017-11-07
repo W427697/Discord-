@@ -21,3 +21,4 @@ package-lock.json
 storybook-static
 .next
 out
+integration/__image_snapshots__/__diff_output__

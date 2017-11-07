@@ -1,19 +1,70 @@
 import { window } from 'global';
-import deprecate from 'util-deprecate';
 import addons from '@storybook/addons';
-
+import KnobManager from './KnobManager';
 import { vueHandler } from './vue';
 import { reactHandler } from './react';
 
-import { knob, text, boolean, number, color, object, array, date, manager } from './base';
+const manager = new KnobManager();
 
-export { knob, text, boolean, number, color, object, array, date };
+export function knob(name, options) {
+  return manager.knob(name, options);
+}
 
-deprecate(() => {},
-'Using @storybook/addon-knobs directly is discouraged, please use @storybook/addon-knobs/{{framework}}');
+export function text(name, value) {
+  return manager.knob(name, { type: 'text', value });
+}
 
-// generic higher-order component decorator for all platforms - usage is discouraged
-// This file Should be removed with 4.0 release
+export function boolean(name, value) {
+  return manager.knob(name, { type: 'boolean', value });
+}
+
+export function number(name, value, options = {}) {
+  const defaults = {
+    range: false,
+    min: 0,
+    max: 10,
+    step: 1,
+  };
+
+  const mergedOptions = { ...defaults, ...options };
+
+  const finalOptions = {
+    ...mergedOptions,
+    type: 'number',
+    value,
+  };
+
+  return manager.knob(name, finalOptions);
+}
+
+export function color(name, value) {
+  return manager.knob(name, { type: 'color', value });
+}
+
+export function object(name, value) {
+  return manager.knob(name, { type: 'object', value });
+}
+
+export function select(name, options, value) {
+  return manager.knob(name, { type: 'select', options, value });
+}
+
+export function array(name, value, separator = ',') {
+  return manager.knob(name, { type: 'array', value, separator });
+}
+
+export function date(name, value = new Date()) {
+  const proxyValue = value ? value.getTime() : null;
+  return manager.knob(name, { type: 'date', value: proxyValue });
+}
+
+export function button(name, callback) {
+  return manager.knob(name, { type: 'button', callback, hideLabel: true });
+}
+
+// "Higher order component" / wrapper style API
+// In 3.3, this will become `withKnobs`, once our decorator API supports it.
+//   See https://github.com/storybooks/storybook/pull/1527
 function wrapperKnobs(options) {
   const channel = addons.getChannel();
   manager.setChannel(channel);

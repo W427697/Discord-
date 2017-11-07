@@ -19,6 +19,7 @@ exports[`Storyshots Button with some emoji 1`] = `
     hasTVPreferredFocus={undefined}
     hitSlop={undefined}
     isTVSelectable={true}
+    nativeID={undefined}
     onLayout={undefined}
     onResponderGrant={[Function]}
     onResponderMove={[Function]}
@@ -40,6 +41,7 @@ exports[`Storyshots Button with some emoji 1`] = `
     <Text
       accessible={true}
       allowFontScaling={true}
+      disabled={false}
       ellipsizeMode="tail"
     >
       😀 😎 👍 💯
@@ -67,6 +69,7 @@ exports[`Storyshots Button with text 1`] = `
     hasTVPreferredFocus={undefined}
     hitSlop={undefined}
     isTVSelectable={true}
+    nativeID={undefined}
     onLayout={undefined}
     onResponderGrant={[Function]}
     onResponderMove={[Function]}
@@ -88,6 +91,7 @@ exports[`Storyshots Button with text 1`] = `
     <Text
       accessible={true}
       allowFontScaling={true}
+      disabled={false}
       ellipsizeMode="tail"
     >
       Hello Button
@@ -183,6 +187,7 @@ exports[`Storyshots Welcome to Storybook 1`] = `
   <Text
     accessible={true}
     allowFontScaling={true}
+    disabled={false}
     ellipsizeMode="tail"
     style={
       Object {
@@ -196,6 +201,7 @@ exports[`Storyshots Welcome to Storybook 1`] = `
   <Text
     accessible={true}
     allowFontScaling={true}
+    disabled={false}
     ellipsizeMode="tail"
     style={
       Object {
@@ -210,6 +216,7 @@ exports[`Storyshots Welcome to Storybook 1`] = `
   <Text
     accessible={true}
     allowFontScaling={true}
+    disabled={false}
     ellipsizeMode="tail"
     style={
       Object {

@@ -1,9 +1,5 @@
 # Storybook Addon Knobs
 
-Storybook Addon Knobs allow you to edit React props dynamically using the Storybook UI.
-You can also use Knobs as a dynamic variable inside stories in [Storybook](https://storybook.js.org).
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/storybooks/storybook.svg)](https://greenkeeper.io/)
 [![Build Status on CircleCI](https://circleci.com/gh/storybooks/storybook.svg?style=shield)](https://circleci.com/gh/storybooks/storybook)
 [![CodeFactor](https://www.codefactor.io/repository/github/storybooks/storybook/badge)](https://www.codefactor.io/repository/github/storybooks/storybook)
 [![Known Vulnerabilities](https://snyk.io/test/github/storybooks/storybook/8f36abfd6697e58cd76df3526b52e4b9dc894847/badge.svg)](https://snyk.io/test/github/storybooks/storybook/8f36abfd6697e58cd76df3526b52e4b9dc894847)
@@ -11,10 +7,15 @@ You can also use Knobs as a dynamic variable inside stories in [Storybook](https
 [![Storybook Slack](https://now-examples-slackin-nqnzoygycp.now.sh/badge.svg)](https://now-examples-slackin-nqnzoygycp.now.sh/)
 [![Backers on Open Collective](https://opencollective.com/storybook/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/storybook/sponsors/badge.svg)](#sponsors)
 
+* * *
+
+Storybook Addon Knobs allow you to edit React props dynamically using the Storybook UI.
+You can also use Knobs as a dynamic variable inside stories in [Storybook](https://storybook.js.org).
+
 This addon works with Storybook for:
-[React](https://github.com/storybooks/storybook/tree/master/app/react).
-[React Native](https://github.com/storybooks/storybook/tree/master/app/react-native).
-[Vue](https://github.com/storybooks/storybook/tree/master/app/vue).
+- [React](https://github.com/storybooks/storybook/tree/master/app/react)
+- [React Native](https://github.com/storybooks/storybook/tree/master/app/react-native)
+- [Vue](https://github.com/storybooks/storybook/tree/master/app/vue)
 
 This is how Knobs look like:
 
@@ -40,7 +41,7 @@ Now, write your stories with knobs.
 
 ```js
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean, number } from '@storybook/addon-knobs';
 
 const stories = storiesOf('Storybook Knobs', module);
 
@@ -53,7 +54,7 @@ stories.add('with a button', () => (
   <button disabled={boolean('Disabled', false)} >
     {text('Label', 'Hello Button')}
   </button>
-));
+))
 
 // Knobs as dynamic variables.
 stories.add('as dynamic variables', () => {
@@ -64,20 +65,6 @@ stories.add('as dynamic variables', () => {
   return (<div>{content}</div>);
 });
 ```
-
-> In the case of Vue, use these imports:
->
-> ```js
-> import { storiesOf } from '@storybook/vue';
-> import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/vue';
-> ```
->
-> In the case of React-Native, use these imports:
->
-> ```js
-> import { storiesOf } from '@storybook/react-native';
-> import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
-> ```
 
 You can see your Knobs in a Storybook panel as shown below.
 
@@ -106,7 +93,7 @@ Just like that, you can import any other following Knobs:
 Allows you to get some text from the user.
 
 ```js
-import { text } from '@storybook/addon-knobs/react';
+import { text } from '@storybook/addon-knobs';
 
 const label = 'Your Name';
 const defaultValue = 'Arunoda Susiripala';
@@ -119,7 +106,7 @@ const value = text(label, defaultValue);
 Allows you to get a boolean value from the user.
 
 ```js
-import { boolean } from '@storybook/addon-knobs/react';
+import { boolean } from '@storybook/addon-knobs';
 
 const label = 'Agree?';
 const defaultValue = false;
@@ -132,7 +119,7 @@ const value = boolean(label, defaultValue);
 Allows you to get a number from the user.
 
 ```js
-import { number } from '@storybook/addon-knobs/react';
+import { number } from '@storybook/addon-knobs';
 
 const label = 'Age';
 const defaultValue = 78;
@@ -145,7 +132,7 @@ const value = number(label, defaultValue);
 Allows you to get a number from the user using a range slider.
 
 ```js
-import { number } from '@storybook/addon-knobs/react';
+import { number } from '@storybook/addon-knobs';
 
 const label = 'Temperature';
 const defaultValue = 73;
@@ -164,7 +151,7 @@ const value = number(label, defaultValue, options);
 Allows you to get a colour from the user.
 
 ```js
-import { color } from '@storybook/addon-knobs/react';
+import { color } from '@storybook/addon-knobs';
 
 const label = 'Color';
 const defaultValue = '#ff00ff';
@@ -177,7 +164,7 @@ const value = color(label, defaultValue);
 Allows you to get a JSON object or array from the user.
 
 ```js
-import { object } from '@storybook/addon-knobs/react';
+import { object } from '@storybook/addon-knobs';
 
 const label = 'Styles';
 const defaultValue = {
@@ -194,7 +181,7 @@ const value = object(label, defaultValue);
 Allows you to get an array of strings from the user.
 
 ```js
-import { array } from '@storybook/addon-knobs/react';
+import { array } from '@storybook/addon-knobs';
 
 const label = 'Styles';
 const defaultValue = ['Red']
@@ -206,7 +193,7 @@ const value = array(label, defaultValue);
 > By default it's a comma, but this can be override by passing a separator variable.
 >
 > ```js
-> import { array } from '@storybook/addon-knobs/react';
+> import { array } from '@storybook/addon-knobs';
 >
 > const label = 'Styles';
 > const defaultValue = ['Red'];
@@ -219,7 +206,7 @@ const value = array(label, defaultValue);
 Allows you to get a value from a select box from the user.
 
 ```js
-import { select } from '@storybook/addon-knobs/react';
+import { select } from '@storybook/addon-knobs';
 
 const label = 'Colors';
 const options = {
@@ -239,7 +226,7 @@ const value = select(label, options, defaultValue);
 Allow you to get date (and time) from the user.
 
 ```js
-import { date } from '@storybook/addon-knobs/react';
+import { date } from '@storybook/addon-knobs';
 
 const label = 'Event Date';
 const defaultValue = new Date('Jan 20 2017');
@@ -248,17 +235,25 @@ const value = date(label, defaultValue);
 
 > Note: the default value must not change - e.g., do not do `date('Label', new Date())` or `date('Label')`
 
+### button
+
+Allows you to include a button and associated handler.
+
+```js
+import { button } from '@storybook/addon-knobs';
+
+const label = 'Do Something';
+const handler = () => doSomething('foobar');
+button(label, handler);
+```
+
 ### withKnobs vs withKnobsOptions
 
 If you feel like this addon is not performing well enough there is an option to use `withKnobsOptions` instead of `withKnobs`.
 Usage:
 
 ```js
-import { storiesOf } from '@storybook/react';
-
-const stories = storiesOf('Storybook Knobs', module);
-
-stories.addDecorator(withKnobsOptions({
+story.addDecorator(withKnobsOptions({
   debounce: { wait: number, leading: boolean}, // Same as lodash debounce.
   timestamps: true // Doesn't emit events while user is typing.
 }));
