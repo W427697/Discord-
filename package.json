@@ -11,7 +11,8 @@
     "app/*",
     "lib/*",
     "examples/cra-kitchen-sink",
-    "examples/vue-kitchen-sink"
+    "examples/vue-kitchen-sink",
+    "docs-v2"
   ],
   "scripts": {
     "bootstrap": "node ./scripts/bootstrap.js",
