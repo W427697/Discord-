@@ -55,7 +55,7 @@
     "react-typography": "^0.16.5",
     "sitemap": "^1.12.0",
     "typography": "^0.16.6",
-    "typography-plugin-code": "^0.15.9",
+    "typography-plugin-code": "^0.16.11",
     "underscore.string": "^3.2.2",
     "webpack": "^1.15.0"
   },
