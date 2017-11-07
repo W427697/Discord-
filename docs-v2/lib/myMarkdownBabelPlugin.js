@@ -10,7 +10,11 @@ const remarkParse = require('remark-parse');
 const myCustomBlocks = require('./myCustomBlocks');
 const mySyntaxHighlighting = require('./syntaxHighlighting');
 
-const parser = markdown => unified().use(remarkParse).use(myCustomBlocks).parse(markdown);
+const parser = markdown =>
+  unified()
+    .use(remarkParse)
+    .use(myCustomBlocks)
+    .parse(markdown);
 
 module.exports = function myMarkdownBabelPlugin({ types: t }) {
   slugify.reset();
@@ -146,7 +150,7 @@ module.exports = function myMarkdownBabelPlugin({ types: t }) {
     visitor: {
       ImportDeclaration: {
         exit(path, state) {
-          const node = path.node;
+          const { node } = path;
 
           if (endsWith(node.source.value, '.md')) {
             const dir = p.dirname(p.resolve(state.file.opts.filename));

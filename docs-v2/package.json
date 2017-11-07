@@ -14,6 +14,7 @@
   "dependencies": {
     "babel-literal-to-ast": "^1.0.0",
     "babel-plugin-lodash": "^3.2.11",
+    "babel-plugin-preval": "^1.6.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",

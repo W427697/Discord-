@@ -147,7 +147,7 @@ export default generator('RootIndex', () => (
           <EmberLogo />
         </BlockLink>
         <BlockLink href="http://example.com">
-          <BlockLabel>consideration</BlockLabel>
+          <BlockLabel>in progress</BlockLabel>
           <PolymerLogo />
         </BlockLink>
         <BlockLink href="http://example.com">
@@ -156,7 +156,7 @@ export default generator('RootIndex', () => (
         </BlockLink>
       </Blocks>
     </Container>
-    <Container width={1000} vPadding={30} hPadding={30} background={'white'}>
+    <Container width={1000} vPadding={30} hPadding={30} background="white">
       <H1>
         Used by <small>(live examples)</small>
       </H1>

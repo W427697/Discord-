@@ -5,7 +5,7 @@ module.exports = {
     title: 'Index',
     isFile: true,
     route: '/demo',
-    files: ['/demo', '/demo'],
+    files: ['/demo', '/demo', '/demo', '/demo'],
     length: 1,
     contributors: {},
   },
@@ -17,6 +17,24 @@ module.exports = {
     route: '/docs/api',
     files: [],
     contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
         name: 'Norbert de Langen',
@@ -63,6 +81,24 @@ module.exports = {
           twitter: 'norbertdelangen',
         },
       },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
     ],
   },
   '/docs/community': {
@@ -73,6 +109,24 @@ module.exports = {
     route: '/docs/community',
     files: [],
     contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
         name: 'Norbert de Langen',
@@ -119,6 +173,24 @@ module.exports = {
           twitter: 'norbertdelangen',
         },
       },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
     ],
   },
   '/docs': {
@@ -128,6 +200,20 @@ module.exports = {
     isFile: true,
     route: '/docs',
     files: [
+      '/docs/api',
+      '/docs/cli',
+      '/docs/community',
+      '/docs/configs',
+      '/docs',
+      '/docs/issues',
+      '/docs/structure',
+      '/docs/api',
+      '/docs/cli',
+      '/docs/community',
+      '/docs/configs',
+      '/docs',
+      '/docs/issues',
+      '/docs/structure',
       '/docs/api',
       '/docs/cli',
       '/docs/community',
@@ -154,6 +240,24 @@ module.exports = {
     route: '/docs/issues',
     files: [],
     contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
         name: 'Norbert de Langen',
@@ -200,6 +304,24 @@ module.exports = {
           twitter: 'norbertdelangen',
         },
       },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
     ],
   },
   '/easteregg': {
@@ -210,6 +332,24 @@ module.exports = {
     route: '/easteregg',
     files: [],
     contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
         name: 'Norbert de Langen',
@@ -276,6 +416,44 @@ module.exports = {
         name: 'Michael Shilman',
         meta: {},
       },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: 'f9b12bc1aa320b434dff7ae42be6c561',
+        name: 'Oleg Proskurin',
+        meta: {},
+      },
+      {
+        hash: '5f6b08ef71e8363145ea9de141945fff',
+        name: 'Michael Shilman',
+        meta: {},
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: 'f9b12bc1aa320b434dff7ae42be6c561',
+        name: 'Oleg Proskurin',
+        meta: {},
+      },
+      {
+        hash: '5f6b08ef71e8363145ea9de141945fff',
+        name: 'Michael Shilman',
+        meta: {},
+      },
     ],
   },
   '/guides': {
@@ -284,7 +462,20 @@ module.exports = {
     title: 'Guides',
     isFile: true,
     route: '/guides',
-    files: ['/guides', '/guides/setup', '/guides/why', '/guides', '/guides/setup', '/guides/why'],
+    files: [
+      '/guides',
+      '/guides/setup',
+      '/guides/why',
+      '/guides',
+      '/guides/setup',
+      '/guides/why',
+      '/guides',
+      '/guides/setup',
+      '/guides/why',
+      '/guides',
+      '/guides/setup',
+      '/guides/why',
+    ],
     length: 3,
     contributors: {},
   },
@@ -296,6 +487,24 @@ module.exports = {
     route: '/guides/setup',
     files: [],
     contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
         name: 'Norbert de Langen',
@@ -354,10 +563,36 @@ module.exports = {
           twitter: 'norbertdelangen',
         },
       },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
     ],
   },
   '/': {
-    modified: '2017-11-07T22:42:48.000Z',
+    modified: '2017-11-07T23:20:42.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -373,6 +608,32 @@ module.exports = {
     route: '/contributing/maintainers-avoiding-burnout',
     files: [],
     contributors: [
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
       {
         hash: 'e8b22c40aa6826d9ee5473844191f3ec',
         name: 'Dan Green',
@@ -435,6 +696,32 @@ module.exports = {
           twitter: 'norbertdelangen',
         },
       },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
     ],
   },
   '/contributing/setting-up-a-dev-environment': {
@@ -445,6 +732,32 @@ module.exports = {
     route: '/contributing/setting-up-a-dev-environment',
     files: [],
     contributors: [
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
       {
         hash: 'e8b22c40aa6826d9ee5473844191f3ec',
         name: 'Dan Green',
@@ -491,6 +804,20 @@ module.exports = {
       '/contributing/release-guide',
       '/contributing/reporting-issues',
       '/contributing/setting-up-a-dev-environment',
+      '/contributing',
+      '/contributing/issue-triage',
+      '/contributing/maintainers-avoiding-burnout',
+      '/contributing/pull-requests',
+      '/contributing/release-guide',
+      '/contributing/reporting-issues',
+      '/contributing/setting-up-a-dev-environment',
+      '/contributing',
+      '/contributing/issue-triage',
+      '/contributing/maintainers-avoiding-burnout',
+      '/contributing/pull-requests',
+      '/contributing/release-guide',
+      '/contributing/reporting-issues',
+      '/contributing/setting-up-a-dev-environment',
     ],
     modified: '2017-11-07T22:22:23.000Z',
     name: 'index',
@@ -499,13 +826,39 @@ module.exports = {
     contributors: {},
   },
   '/contributing/issue-triage': {
-    modified: '2017-11-07T22:22:23.000Z',
+    modified: '2017-11-07T23:26:17.000Z',
     name: 'issue-triage',
     title: 'Issue Triage',
     isFile: true,
     route: '/contributing/issue-triage',
     files: [],
     contributors: [
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
       {
         hash: 'e8b22c40aa6826d9ee5473844191f3ec',
         name: 'Dan Green',
@@ -550,6 +903,14 @@ module.exports = {
         hash: 'e8b22c40aa6826d9ee5473844191f3ec',
         name: 'Dan Green',
       },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
     ],
   },
   '/contributing/reporting-issues': {
@@ -560,6 +921,32 @@ module.exports = {
     route: '/contributing/reporting-issues',
     files: [],
     contributors: [
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
       {
         hash: 'e8b22c40aa6826d9ee5473844191f3ec',
         name: 'Dan Green',
