@@ -70,13 +70,9 @@ const Content = ({ children, path }) => {
   return (
     <div>
       <Head>
-        <title>
-          {`${header} - Storybook` || 'Storybook'}
-        </title>
+        <title>{`${header} - Storybook` || 'Storybook'}</title>
       </Head>
-      <PageTitle minHeight={'auto'}>
-        {intro}
-      </PageTitle>
+      <PageTitle minHeight="auto">{intro}</PageTitle>
       <Container width={960} vSpacing={40}>
         <Split>
           <nav>
@@ -84,9 +80,7 @@ const Content = ({ children, path }) => {
             <Markdown.H2>Other navigation</Markdown.H2>
             <SideNav {...{ sitemap, path }} />
           </nav>
-          <Markdown.Container>
-            {body}
-          </Markdown.Container>
+          <Markdown.Container>{body}</Markdown.Container>
         </Split>
       </Container>
     </div>

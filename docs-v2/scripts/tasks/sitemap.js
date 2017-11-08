@@ -142,6 +142,7 @@ const run = () =>
       );
     })
     .then(list => list.reduce((acc, item) => Object.assign(acc, { [item.route]: item }), {}))
+    // FIXME this duplicates entries and file
     .then(data => merge(existingSitemap, data))
     .then(data => {
       let result;

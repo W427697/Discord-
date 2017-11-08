@@ -35,11 +35,7 @@ const Li = glamorous.li(
     borderLeft: hasMany ? '1px solid rgba(200, 200, 200, 1)' : '1px solid transparent',
   })
 );
-const A = glamorous(({ children, path, hasMany, ...rest }) =>
-  <a {...rest}>
-    {children}
-  </a>
-)({
+const A = glamorous(({ children, path, hasMany, ...rest }) => <a {...rest}>{children}</a>)({
   color: 'currentColor',
   display: 'inline-flex',
   alignItems: 'stretch',
@@ -56,22 +52,15 @@ const List = glamorous.ol({
   color: 'black',
 });
 
-const Item = ({ id, title, children, key }, index, list) =>
+const Item = ({ id, title, children, key }, index, list) => (
   <Li key={key} hasMany={index < list.length - 1}>
     <A href={`#${id}`}>
-      <SectionNr>
-        {key}
-      </SectionNr>
-      <SectionLabel>
-        {title}
-      </SectionLabel>
+      <SectionNr>{key}</SectionNr>
+      <SectionLabel>{title}</SectionLabel>
     </A>
-    {children.length
-      ? <Ol>
-          {children.map(Item)}
-        </Ol>
-      : null}
-  </Li>;
+    {children.length ? <Ol>{children.map(Item)}</Ol> : null}
+  </Li>
+);
 Item.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
@@ -103,14 +92,12 @@ const mapListToTree = list => {
 };
 
 const Toc = ({ toc }) =>
-  toc.length
-    ? <div>
-        <H2>Table of contents</H2>
-        <List>
-          {mapListToTree(toc).map(Item)}
-        </List>
-      </div>
-    : null;
+  toc.length ? (
+    <div>
+      <H2>Table of contents</H2>
+      <List>{mapListToTree(toc).map(Item)}</List>
+    </div>
+  ) : null;
 
 Toc.displayName = 'Toc';
 Toc.propTypes = {
