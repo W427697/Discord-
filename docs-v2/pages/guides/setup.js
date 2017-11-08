@@ -9,12 +9,10 @@ import { Content } from '../../components/Content';
 import * as Markdown from '../../components/Markdown';
 import content from '../../content/guides/setup.md';
 
-export default generator('GuidesIndex', ({ path, query }) =>
+export default generator('GuidesIndex', ({ path, query }) => (
   <Page>
     <TopNav {...{ path }} />
-    <Content {...{ path, query }}>
-      {content}
-    </Content>
+    <Content {...{ path, query }}>{content}</Content>
     {path}
   </Page>
-);
+));

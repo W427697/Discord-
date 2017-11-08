@@ -23,7 +23,7 @@ export default generator('GuidesIndex', ({ path }) => (
       <title>Storybook Guides</title>
     </Head>
     <TopNav {...{ path }} />
-    <PageTitle minHeight={'auto'}>
+    <PageTitle minHeight="auto">
       <h1>Guides</h1>
       <p>
         This section contains guides for understanding and mastering the wide variety of usages and
@@ -32,8 +32,8 @@ export default generator('GuidesIndex', ({ path }) => (
       </p>
     </PageTitle>
     <Container width={1000} vSpacing={30} hPadding={10}>
-      <H2 as={'h1'}>For using storybook</H2>
-      <Blocks aligned={false} padded variant={'masked'}>
+      <H2 as="h1">For using storybook</H2>
+      <Blocks aligned={false} padded variant="masked">
         <section>
           <H3>Why Storybook</H3>
           <MarkdownContainer>
@@ -144,7 +144,7 @@ export default generator('GuidesIndex', ({ path }) => (
       width={1000}
       vPadding={30}
       hPadding={30}
-      background={'linear-gradient(135deg, rgb(109, 171, 245) 0%, rgb(162, 224, 94) 100%)'}
+      background="linear-gradient(135deg, rgb(109, 171, 245) 0%, rgb(162, 224, 94) 100%)"
     >
       <H1>For development</H1>
       <Blocks colors={['rgba(0,0,0,0.08)']} max={4} padded>

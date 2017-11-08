@@ -23,11 +23,11 @@ export default generator('GuidesIndex', ({ path }) => (
       <title>Storybook Guides</title>
     </Head>
     <TopNav {...{ path }} />
-    <PageTitle minHeight={'auto'}>
+    <PageTitle minHeight="auto">
       <h1>Contributing to Storybook</h1>
     </PageTitle>
     <Container width={1000} vSpacing={30} hPadding={10}>
-      <H2 as={'h1'}>For using storybook</H2>
+      <H2 as="h1">For using storybook</H2>
       <p>
         Thanks for your interest in improving Storybook! We are a community-driven project and
         welcome contributions of all kinds: from discussion to documentation to bugfixes to feature
@@ -39,7 +39,7 @@ export default generator('GuidesIndex', ({ path }) => (
           This repo uses yarn workspaces, so you should `yarn@1.0.0` or higher as package manager.
         </strong>
       </p>
-      <Blocks aligned={false} padded variant={'masked'}>
+      <Blocks aligned={false} padded variant="masked">
         {/* TODO: UPDATE THIS: */}
         <section>
           <H3>Reporting Issues </H3>

@@ -16,14 +16,14 @@ export default generator('DocsIndex', ({ path }) => (
       <title>Storybook Documentation</title>
     </Head>
     <TopNav {...{ path }} />
-    <PageTitle minHeight={'auto'}>
+    <PageTitle minHeight="auto">
       <h1>Documentation</h1>
       <p>This section contains full documentation concerning API, CLI and configuration</p>
     </PageTitle>
     <MarkdownContainer>
       <Container width={1000} vSpacing={30} hPadding={10}>
         <h1>Consumer Storybook API</h1>
-        <Blocks aligned={false} variant={'masked'} padded>
+        <Blocks aligned={false} variant="masked" padded>
           <section>
             <h2>Stories API</h2>
             <Link href="/docs/api">
@@ -49,7 +49,7 @@ export default generator('DocsIndex', ({ path }) => (
       </Container>
       <Container width={1000} vSpacing={30} hPadding={10}>
         <h1>Storybook CLI</h1>
-        <Blocks aligned={false} variant={'masked'} padded>
+        <Blocks aligned={false} variant="masked" padded>
           <section>
             <h2>Get Storybook CLI</h2>
           </section>
@@ -66,7 +66,7 @@ export default generator('DocsIndex', ({ path }) => (
       </Container>
       <Container width={1000} vSpacing={30} hPadding={10}>
         <h1>Configuration</h1>
-        <Blocks aligned={false} variant={'masked'} padded>
+        <Blocks aligned={false} variant="masked" padded>
           <section>
             <h2>Webpack</h2>
           </section>
@@ -89,7 +89,7 @@ export default generator('DocsIndex', ({ path }) => (
       </Container>
       <Container width={1000} vSpacing={30} hPadding={10}>
         <h1>Built-in Addons API</h1>
-        <Blocks aligned={false} variant={'masked'} padded>
+        <Blocks aligned={false} variant="masked" padded>
           <section>
             <h2>LinkTo</h2>
           </section>
@@ -109,7 +109,7 @@ export default generator('DocsIndex', ({ path }) => (
       </Container>
       <Container width={1000} vSpacing={30} hPadding={10}>
         <h1>Third-party Addons API</h1>
-        <Blocks aligned={false} variant={'masked'} padded>
+        <Blocks aligned={false} variant="masked" padded>
           <section>
             <h2>Specs</h2>
           </section>
@@ -123,7 +123,7 @@ export default generator('DocsIndex', ({ path }) => (
       </Container>
       <Container width={1000} vSpacing={30} hPadding={10}>
         <h1>Internal Storybook API (for developers)</h1>
-        <Blocks aligned={false} variant={'masked'} padded>
+        <Blocks aligned={false} variant="masked" padded>
           <section>
             <h2>UI mantra modules API</h2>
           </section>
@@ -136,7 +136,7 @@ export default generator('DocsIndex', ({ path }) => (
         width={1000}
         vPadding={30}
         hPadding={30}
-        background={'linear-gradient(135deg, rgb(109, 171, 245) 0%, rgb(162, 224, 94) 100%)'}
+        background="linear-gradient(135deg, rgb(109, 171, 245) 0%, rgb(162, 224, 94) 100%)"
       >
         <h1>For development</h1>
         <Blocks colors={['rgba(0,0,0,0.08)']} max={4} padded>

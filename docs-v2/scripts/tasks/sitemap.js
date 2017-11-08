@@ -4,8 +4,8 @@ const path = require('path');
 
 const folderToTree = require('../../lib/dirToTree');
 const md5 = require('md5');
-const merge = require('deepmerge');
 const prettier = require('prettier');
+const lodash = require('lodash');
 
 const promiseFromCommand = require('../../lib/promiseFromCommand');
 
@@ -17,6 +17,14 @@ const existingSitemap = (() => {
     return {};
   }
 })();
+
+const getExistingKey = key =>
+  existingSitemap[key]
+    ? existingSitemap[key]
+    : {
+        files: [],
+        contributors: [],
+      };
 
 /* 
  * This script detects markdown-files in /content
@@ -119,9 +127,11 @@ const getContributors = item =>
     )
     .catch(error => {
       console.log(error);
-      return {};
+      return [];
     })
-    .then(contributors => Object.assign(item, { contributors }));
+    .then(contributors =>
+      Object.assign(item, { contributors: contributors.length ? contributors : [] })
+    );
 
 /* Main sequence - write a sitemap
  * 1. get a data-tree representation of the content-folder
@@ -142,8 +152,21 @@ const run = () =>
       );
     })
     .then(list => list.reduce((acc, item) => Object.assign(acc, { [item.route]: item }), {}))
-    // FIXME this duplicates entries and file
-    .then(data => merge(existingSitemap, data))
+    .then(data =>
+      Object.keys(data).reduce(
+        (acc, key) => ({
+          ...acc,
+          [key]: {
+            ...data[key],
+            contributors: lodash.uniqBy(
+              [].concat(data[key].contributors).concat(getExistingKey(key).contributors),
+              'hash'
+            ),
+          },
+        }),
+        {}
+      )
+    )
     .then(data => {
       let result;
       let message = '';
@@ -151,7 +174,7 @@ const run = () =>
         result = `module.exports = ${JSON.stringify(data, null, 2)}`;
       } catch (error) {
         message = `/* ${error} */`;
-        result = 'module.exports = []';
+        result = 'module.exports = {}';
       }
       return fs.writeFileAsync(
         path.join(appFolder, 'lib', 'sitemap.js'),

@@ -9,11 +9,9 @@ import { Content } from '../../components/Content';
 import * as Markdown from '../../components/Markdown';
 import content from '../../content/docs/configs.md';
 
-export default generator('DocsConfigs', ({ path, query }) =>
+export default generator('DocsConfigs', ({ path, query }) => (
   <Page>
     <TopNav {...{ path }} />
-    <Content {...{ path, query }}>
-      {content}
-    </Content>
+    <Content {...{ path, query }}>{content}</Content>
   </Page>
-);
+));

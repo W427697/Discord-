@@ -11,17 +11,15 @@ import { Content } from '../../components/Content';
 import * as Markdown from '../../components/Markdown';
 import content from '../../content/docs/api.md';
 
-export default generator('DocsApi', ({ path, query }) =>
+export default generator('DocsApi', ({ path, query }) => (
   <Page>
     <TopNav />
-    <Content {...{ path, query }}>
-      {content}
-    </Content>
+    <Content {...{ path, query }}>{content}</Content>
     <Container
       width={1000}
       vPadding={30}
       hPadding={30}
-      background={'linear-gradient(135deg, rgb(109, 171, 245) 0%, rgb(162, 224, 94) 100%)'}
+      background="linear-gradient(135deg, rgb(109, 171, 245) 0%, rgb(162, 224, 94) 100%)"
     >
       <Markdown.H1>For development</Markdown.H1>
       <Blocks colors={['rgba(0,0,0,0.08)']} max={4}>
@@ -34,4 +32,4 @@ export default generator('DocsApi', ({ path, query }) =>
       </Blocks>
     </Container>
   </Page>
-);
+));

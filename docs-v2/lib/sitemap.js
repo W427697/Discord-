@@ -1,6 +1,6 @@
 module.exports = {
   '/contributing': {
-    modified: '2017-11-07T22:22:23.000Z',
+    modified: '2017-11-08T21:46:07.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -15,7 +15,7 @@ module.exports = {
       '/contributing/setting-up-a-dev-environment',
     ],
     length: 7,
-    contributors: {},
+    contributors: [],
   },
   '/contributing/issue-triage': {
     modified: '2017-11-07T23:44:13.000Z',
@@ -41,17 +41,13 @@ module.exports = {
     ],
   },
   '/contributing/maintainers-avoiding-burnout': {
-    modified: '2017-11-08T00:18:25.000Z',
+    modified: '2017-11-08T21:35:43.000Z',
     name: 'maintainers-avoiding-burnout',
     title: 'Maintainers: Avoiding Burnout',
     isFile: true,
     route: '/contributing/maintainers-avoiding-burnout',
     files: [],
     contributors: [
-      {
-        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
-        name: 'Dan Green',
-      },
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
         name: 'Norbert de Langen',
@@ -61,10 +57,14 @@ module.exports = {
           twitter: 'norbertdelangen',
         },
       },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
     ],
   },
   '/contributing/pull-requests': {
-    modified: '2017-11-07T22:22:23.000Z',
+    modified: '2017-11-08T22:08:37.000Z',
     name: 'pull-requests',
     title: 'Pull Requests (PRs)',
     isFile: true,
@@ -124,7 +124,7 @@ module.exports = {
     ],
   },
   '/contributing/setting-up-a-dev-environment': {
-    modified: '2017-11-07T22:22:23.000Z',
+    modified: '2017-11-08T22:17:07.000Z',
     name: 'setting-up-a-dev-environment',
     title: 'Setting up a dev environment (React)',
     isFile: true,
@@ -154,7 +154,22 @@ module.exports = {
     route: '/demo',
     files: ['/demo'],
     length: 1,
-    contributors: {},
+    contributors: [],
+  },
+  '/docs/addons/knobs': {
+    modified: '2017-11-08T22:21:04.000Z',
+    name: 'knobs',
+    title: 'Index',
+    isFile: true,
+    route: '/docs/addons/knobs',
+    files: [],
+    contributors: [],
+  },
+  '/docs/addons': {
+    route: '/docs/addons',
+    length: 1,
+    files: ['/docs/addons/knobs'],
+    contributors: [null],
   },
   '/docs/api': {
     modified: '2017-11-07T22:22:23.000Z',
@@ -232,6 +247,12 @@ module.exports = {
       },
     ],
   },
+  '/docs/frameworks': {
+    route: '/docs/frameworks',
+    length: 0,
+    files: [],
+    contributors: [null],
+  },
   '/docs': {
     modified: '2017-11-07T22:22:23.000Z',
     name: 'index',
@@ -239,19 +260,21 @@ module.exports = {
     isFile: true,
     route: '/docs',
     files: [
+      '/docs/addons',
       '/docs/api',
       '/docs/cli',
       '/docs/community',
       '/docs/configs',
+      '/docs/frameworks',
       '/docs',
       '/docs/issues',
       '/docs/structure',
     ],
-    length: 7,
-    contributors: {},
+    length: 9,
+    contributors: [],
   },
   '/docs/issues': {
-    modified: '2017-11-07T22:22:23.000Z',
+    modified: '2017-11-08T22:18:15.000Z',
     name: 'issues',
     title: 'Issues',
     isFile: true,
@@ -344,7 +367,7 @@ module.exports = {
     route: '/guides',
     files: ['/guides', '/guides/setup', '/guides/why'],
     length: 3,
-    contributors: {},
+    contributors: [],
   },
   '/guides/setup': {
     modified: '2017-11-07T22:22:23.000Z',
@@ -395,6 +418,6 @@ module.exports = {
     isFile: true,
     route: '/',
     files: [],
-    contributors: {},
+    contributors: [],
   },
 };

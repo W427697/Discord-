@@ -63,7 +63,7 @@ This applies for the kitchen sink apps as well as your own projects.
 
 *Make sure `yarn dev` is running*
 
-##### 1. Setup storybook in your project
+##### Setup storybook in your project
 
 First we are going to install storyboook, then we are going to link `@storybook/react` into our project. This will replace `node_modules/@storybook/react` with a symlink to our local version of storybook. 
 
@@ -71,7 +71,7 @@ First we are going to install storyboook, then we are going to link `@storybook/
 2.  `yarn storybook`
 3.  Verify that your local version works
 
-##### 2. Link
+##### Link
 
 **_Note_**: This process is the same for `@storybook/vue`, `@storybook/addon-foo`, etc
 
@@ -82,7 +82,7 @@ First we are going to install storyboook, then we are going to link `@storybook/
 5.  `yarn link @storybook/react`
 6.  `yarn storybook`
 
-##### 3.  Verify your local version is working
+##### Verify your local version is working
 
 You should now have a working storybook dev environment up and running. To verify this you can make changes to the following file:
 

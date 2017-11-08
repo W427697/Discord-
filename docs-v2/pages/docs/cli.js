@@ -9,11 +9,9 @@ import { Content } from '../../components/Content';
 import * as Markdown from '../../components/Markdown';
 import content from '../../content/docs/cli.md';
 
-export default generator('DocsCli', ({ path, query }) =>
+export default generator('DocsCli', ({ path, query }) => (
   <Page>
     <TopNav {...{ path }} />
-    <Content {...{ path, query }}>
-      {content}
-    </Content>
+    <Content {...{ path, query }}>{content}</Content>
   </Page>
-);
+));
