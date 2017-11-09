@@ -5,6 +5,7 @@ const path = require('path');
 const unified = require('unified');
 const remarkParse = require('remark-parse');
 const mdHelpers = require('remark-helpers');
+const detective = require('detective-es6');
 
 const parser = markdown =>
   unified()
@@ -30,22 +31,36 @@ const createFile = (stat, fileName, workingDir, baseDir) => {
   const routeFile = name.replace('index', '');
   const routeBase = normalizePath(workingDir.replace(baseDir, '')) || path.posix.sep;
 
-  return fs
-    .readFileAsync(
-      path.join(workingDir.replace('pages', 'content'), fileName.replace(/.jsx?$/, '.md')),
-      'utf-8'
-    )
-    .then(fileData => parser(fileData))
-    .then(mast => findTitle(mast.children))
-    .catch(() => 'Index')
-    .then(title => ({
-      modified: stat.ctime,
+  return (
+    fs
+      // read text from page.js
+      .readFileAsync(path.join(workingDir, fileName), 'utf-8')
+      // retrieve all require/imports
+      .then(pageSource => detective(pageSource))
+      // find the .md dependency
+      .then(dependencies => dependencies.find(i => i.match(/.md$/)))
+      // resolve the relative path
+      .then(d => path.join(workingDir, d))
+      // read the .md text
+      .then(markdownPath =>
+        fs.readFileAsync(markdownPath, 'utf-8').then(data => ({ fpath: markdownPath, data }))
+      )
+      // parse to abtract syntax tree
+      .then(({ fpath, data }) => ({ fpath, mast: parser(data) }))
+      // find the heading
+      .then(({ fpath, mast }) => ({ fpath, title: findTitle(mast.children) }))
+      // on any error, return "Index"
+      .catch(() => 'Index')
+      .then(({ title, fpath }) => ({
+        modified: stat.ctime,
 
-      name,
-      title,
-      isFile: true,
-      route: path.posix.join(routeBase, routeFile),
-    }));
+        name,
+        title,
+        isFile: true,
+        fpath: fpath || path.join(workingDir, fileName),
+        route: path.posix.join(routeBase, routeFile),
+      }))
+  );
 };
 
 const createDirectory = (items, localWorkingDir, baseDir) => ({

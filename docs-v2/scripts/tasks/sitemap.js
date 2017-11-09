@@ -39,7 +39,6 @@ const authorRegexp = new RegExp(authorMatchString);
 
 const appFolder = path.join(__dirname, '..', '..');
 const pagesFolder = path.join(appFolder, 'pages');
-const contentFolder = path.join(appFolder, 'content');
 
 /* Read the git '.mailmap' file and parse it and the metadata */
 const mailmapLineSplitter = /([^<]*) <([^>]*)>[^#\n]*(?:#\s?(.*))?/;
@@ -91,13 +90,11 @@ const normalize = (list, acc = {}) =>
  * 4. Error handling
  * 5. Return extended file */
 const getContributors = item =>
+  console.log(item) ||
   Promise.all([
     mailmapData,
     promiseFromCommand(
-      `git --no-pager log --follow --summary -p -- ${path.join(
-        contentFolder,
-        `${item.route}.md`
-      )} &&
+      `git --no-pager log --follow --summary -p -- ${item.fpath} &&
        git --no-pager log --follow --summary -p -- ${path.join(pagesFolder, `${item.route}.js`)}`
     ),
   ])
@@ -151,7 +148,18 @@ const run = () =>
           .map(item => (item.isFile ? getContributors(item) : Promise.resolve(item)))
       );
     })
-    .then(list => list.reduce((acc, item) => Object.assign(acc, { [item.route]: item }), {}))
+    .then(list =>
+      list.reduce(
+        (acc, { fpath, ...item }) =>
+          Object.assign(acc, {
+            [item.route]: {
+              ...item,
+              fpath: (fpath || '').replace(path.join(__dirname, '..', '..', '..'), ''),
+            },
+          }),
+        {}
+      )
+    )
     .then(data =>
       Object.keys(data).reduce(
         (acc, key) => ({
