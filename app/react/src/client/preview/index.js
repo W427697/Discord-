@@ -2,8 +2,10 @@
 
 import { createStore } from 'redux';
 import addons from '@storybook/addons';
+// import { setPreviewOptionsFn } from '@storybook/addon-options';
 import createChannel from '@storybook/channel-postmessage';
 import qs from 'qs';
+// import pick from 'lodash.pick';
 import StoryStore from './story_store';
 import ClientApi from './client_api';
 import ConfigApi from './config_api';
@@ -53,3 +55,10 @@ const renderUI = () => {
 };
 
 reduxStore.subscribe(renderUI);
+
+// function previewOptions(options) {
+//   const renderOpt = pick(options, ['multistorySeparator', 'previewDecorator']);
+//   if (renderOptions(renderOpt)) render(context);
+// }
+
+// setPreviewOptionsFn(previewOptions);

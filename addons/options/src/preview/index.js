@@ -7,11 +7,18 @@ export function init() {
   // NOTE nothing to do here
 }
 
+// let previewOptions = () => {};
+
 function regExpStringify(exp) {
-  if (typeof exp === 'string') return exp;
-  if (Object.prototype.toString.call(exp) === '[object RegExp]') return exp.source;
-  return null;
+  if (!exp) return null;
+  if (Object.prototype.toString.call(exp) === '[object String]') return exp.source;
+  if (Object.prototype.toString.call(exp) !== '[object RegExp]') return null;
+  return exp.source;
 }
+
+// export function setPreviewOptionsFn(previewOptionsFn) {
+//   previewOptions = previewOptionsFn;
+// }
 
 // setOptions function will send Storybook UI options when the channel is
 // ready. If called before, options will be cached until it can be sent.
@@ -22,7 +29,6 @@ export function setOptions(newOptions) {
       'Failed to find addon channel. This may be due to https://github.com/storybooks/storybook/issues/1192.'
     );
   }
-
   let options = newOptions;
 
   // since 'undefined' and 'null' are the valid values we don't want to
@@ -31,6 +37,7 @@ export function setOptions(newOptions) {
     options = {
       ...newOptions,
       hierarchySeparator: regExpStringify(newOptions.hierarchySeparator),
+      multistorySeparator: regExpStringify(newOptions.multistorySeparator),
     };
   }
 

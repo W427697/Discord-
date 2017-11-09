@@ -13,6 +13,7 @@ setOptions({
   showSearchBox: false,
   addonPanelInRight: true,
   sortStoriesByKind: false,
+  multistorySeparator: /:/,
   hierarchySeparator: /\/|\./,
 });
 
