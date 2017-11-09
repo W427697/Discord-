@@ -180,7 +180,7 @@ module.exports = {
     fpath: '/docs-v2/content/contributing/setting-up-a-dev-environment.md',
   },
   '/demo': {
-    modified: '2017-11-07T22:22:23.000Z',
+    modified: '2017-11-09T17:28:30.000Z',
     name: 'index',
     isFile: true,
     route: '/demo',

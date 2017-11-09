@@ -10,6 +10,8 @@ import Blocks from '../../components/Blocks';
 import Container from '../../components/Container';
 import { Container as MarkdownContainer } from '../../components/Markdown';
 
+import sitemap from '../../lib/sitemap';
+
 export default generator('DocsIndex', ({ path }) => (
   <Page>
     <Head>
@@ -64,6 +66,17 @@ export default generator('DocsIndex', ({ path }) => (
           </section>
         </Blocks>
       </Container>
+      <Container width={1000} vSpacing={30} hPadding={10}>
+        <h1>Storybook Addons</h1>
+        <Blocks aligned={false} variant="masked" padded>
+          {sitemap['/docs/addons'].files.map(i => sitemap[i]).map(data => (
+            <section>
+              <h2>{data.title}</h2>
+            </section>
+          ))}
+        </Blocks>
+      </Container>
+
       <Container width={1000} vSpacing={30} hPadding={10}>
         <h1>Configuration</h1>
         <Blocks aligned={false} variant="masked" padded>

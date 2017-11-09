@@ -90,7 +90,6 @@ const normalize = (list, acc = {}) =>
  * 4. Error handling
  * 5. Return extended file */
 const getContributors = item =>
-  console.log(item) ||
   Promise.all([
     mailmapData,
     promiseFromCommand(
