@@ -78,7 +78,7 @@ const prettier = require('prettier');
     punctuation: /\$?\(\(?|\)\)?|\.\.|[{}[\];]/,
   };
 
-  const inside = insideString.variable[1].inside;
+  const { inside } = insideString.variable[1];
   inside.function = Prism.languages.sh.function;
   inside.keyword = Prism.languages.sh.keyword;
   inside.boolean = Prism.languages.sh.boolean;
@@ -202,5 +202,6 @@ module.exports = (value, language) => {
 
   return (prism.languages[language]
     ? prism.highlight(code, prism.languages[language])
-    : code).replace(/\n/g, '<br />');
+    : code
+  ).replace(/\n/g, '<br />');
 };

@@ -312,11 +312,11 @@ const SuggestionsContainer = glamorous.div({
   top: 50,
   zIndex: 1002,
 });
-const Suggestions = glamorous(props =>
+const Suggestions = glamorous(props => (
   <SuggestionsContainer>
     <div id="suggestions" {...props} />
   </SuggestionsContainer>
-)({
+))({
   maxWidth: 800,
   margin: '0 auto',
   position: 'relative',

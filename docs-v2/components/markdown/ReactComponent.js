@@ -7,9 +7,7 @@ const ReactComponent = glamorous(({ children, component, props, className, ...re
   return (
     <div className={className}>
       {children}
-      <pre>
-        {JSON.stringify({ component, props }, null, 2)}
-      </pre>
+      <pre>{JSON.stringify({ component, props }, null, 2)}</pre>
     </div>
   );
 })({

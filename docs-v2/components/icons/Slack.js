@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Icon = props =>
+const Icon = props => (
   <svg viewBox="0 0 512 512" {...props}>
     <rect
       height="69.58"
@@ -15,6 +15,7 @@ const Icon = props =>
       transform="translate(0.7 0.3)"
       fill="currentColor"
     />
-  </svg>;
+  </svg>
+);
 
 export { Icon as default };

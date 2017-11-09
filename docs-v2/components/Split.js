@@ -36,12 +36,8 @@ const Split = ({ children, flip, ...rest }) => {
   const [aside, ...content] = Children.toArray(children);
   return (
     <Root {...rest}>
-      <Aside {...{ flip }}>
-        {aside}
-      </Aside>
-      <Content>
-        {content}
-      </Content>
+      <Aside {...{ flip }}>{aside}</Aside>
+      <Content>{content}</Content>
     </Root>
   );
 };

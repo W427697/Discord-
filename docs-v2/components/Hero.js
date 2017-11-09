@@ -41,12 +41,11 @@ const Root = glamorous.section(
   })
 );
 
-const Hero = ({ children, ...rest }) =>
+const Hero = ({ children, ...rest }) => (
   <Root {...rest}>
-    <div>
-      {children}
-    </div>
-  </Root>;
+    <div>{children}</div>
+  </Root>
+);
 
 Hero.displayName = 'Hero';
 Hero.propTypes = {
@@ -90,18 +89,21 @@ const Section = glamorous.span(
 );
 
 const toSections = (item, index) =>
-  item.type === 'br'
-    ? item
-    : <Section index={index} key={getKey(index)}>
-        {item}
-      </Section>;
+  item.type === 'br' ? (
+    item
+  ) : (
+    <Section index={index} key={getKey(index)}>
+      {item}
+    </Section>
+  );
 
-const HeroTitle = ({ children }) =>
+const HeroTitle = ({ children }) => (
   <H1>
     {Children.toArray(children)
       .reduce((acc, item) => acc.concat(item.split ? item.split(' ') : item), [])
       .map(toSections)}
-  </H1>;
+  </H1>
+);
 
 HeroTitle.displayName = 'HeroTitle';
 HeroTitle.propTypes = {

@@ -41,12 +41,11 @@ const Root = glamorous.section(
   })
 );
 
-const PageTitle = ({ children, ...rest }) =>
+const PageTitle = ({ children, ...rest }) => (
   <Root {...rest}>
-    <div>
-      {children}
-    </div>
-  </Root>;
+    <div>{children}</div>
+  </Root>
+);
 
 PageTitle.displayName = 'PageTitle';
 PageTitle.propTypes = {

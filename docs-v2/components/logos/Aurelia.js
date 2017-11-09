@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Logo = () =>
+const Logo = () => (
   <svg viewBox="0 0 256 249" width="100%">
     <defs>
       <linearGradient
@@ -129,6 +129,7 @@ const Logo = () =>
     <path d="M27.44 51.65l9.1 13.64-13.64 9-9.1-13.6" fill="#9E61AD" />
     <path d="M76.57 215.08l9.1 13.64-13.64 9.1-9.1-13.64 13.64-9.1" fill="#8053A3" />
     <path d="M40.7 228.8L.8 168.53 214.1 25.86l41.84 59.33" fill="url(#h)" />
-  </svg>;
+  </svg>
+);
 
 export { Logo as default };

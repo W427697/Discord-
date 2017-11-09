@@ -13,7 +13,7 @@ const Placeholder = glamorous.div({
   width: '100vw',
 });
 
-export default generator('RootExample', ({ path }) =>
+export default generator('RootExample', ({ path }) => (
   <Page>
     <TopNav {...{ path }} />
 
@@ -24,4 +24,4 @@ export default generator('RootExample', ({ path }) =>
       </div>
     </Placeholder>
   </Page>
-);
+));

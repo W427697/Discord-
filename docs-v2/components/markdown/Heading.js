@@ -37,36 +37,24 @@ export const styles = {
 };
 
 const components = {
-  h1: glamorous(({ children, ...props }) =>
-    <h1 {...props}>
-      {children}
-    </h1>
-  )(({ as = 'h1' }) => styles[as]),
-  h2: glamorous(({ children, ...props }) =>
-    <h2 {...props}>
-      {children}
-    </h2>
-  )(({ as = 'h2' }) => styles[as]),
-  h3: glamorous(({ children, ...props }) =>
-    <h3 {...props}>
-      {children}
-    </h3>
-  )(({ as = 'h3' }) => styles[as]),
-  h4: glamorous(({ children, ...props }) =>
-    <h4 {...props}>
-      {children}
-    </h4>
-  )(({ as = 'h4' }) => styles[as]),
-  h5: glamorous(({ children, ...props }) =>
-    <h5 {...props}>
-      {children}
-    </h5>
-  )(({ as = 'h5' }) => styles[as]),
-  h6: glamorous(({ children, ...props }) =>
-    <h6 {...props}>
-      {children}
-    </h6>
-  )(({ as = 'h6' }) => styles[as]),
+  h1: glamorous(({ children, ...props }) => <h1 {...props}>{children}</h1>)(
+    ({ as = 'h1' }) => styles[as]
+  ),
+  h2: glamorous(({ children, ...props }) => <h2 {...props}>{children}</h2>)(
+    ({ as = 'h2' }) => styles[as]
+  ),
+  h3: glamorous(({ children, ...props }) => <h3 {...props}>{children}</h3>)(
+    ({ as = 'h3' }) => styles[as]
+  ),
+  h4: glamorous(({ children, ...props }) => <h4 {...props}>{children}</h4>)(
+    ({ as = 'h4' }) => styles[as]
+  ),
+  h5: glamorous(({ children, ...props }) => <h5 {...props}>{children}</h5>)(
+    ({ as = 'h5' }) => styles[as]
+  ),
+  h6: glamorous(({ children, ...props }) => <h6 {...props}>{children}</h6>)(
+    ({ as = 'h6' }) => styles[as]
+  ),
 };
 
 const DynamicHeading = real => components[real];

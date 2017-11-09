@@ -103,11 +103,7 @@ const Code = glamorous(({ children, className, lang, ...rest }) => {
   const html = Prism.highlight(children[0], Prism.languages.javascript);
   return (
     <span {...{ className }}>
-      {Object.keys(rest).length
-        ? <pre>
-            {JSON.stringify(rest, null, 2)}
-          </pre>
-        : null}
+      {Object.keys(rest).length ? <pre>{JSON.stringify(rest, null, 2)}</pre> : null}
       <code className="prism-code" dangerouslySetInnerHTML={{ __html: html }} />
     </span>
   );
@@ -132,11 +128,7 @@ Code.propTypes = {
 
 const Component = glamorous(({ children, className, component, ...rest }) => {
   console.log('component', { children, className, ...rest });
-  return (
-    <div {...{ className }}>
-      {children}
-    </div>
-  );
+  return <div {...{ className }}>{children}</div>;
 })({
   background: 'deeppink',
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Logo = () =>
+const Logo = () => (
   <svg version="1.1" viewBox="0 0 414 286" width="100%">
     <defs />
     <polygon fill="#303F9F" points="83.16 143 41.88 214.5 83.16 286 124.44 214.5" />
@@ -28,6 +28,7 @@ const Logo = () =>
     <polygon fill="#FFFFFF" fillOpacity="0.1" points="330.84 143 372.12 214.5 413.4 143" />
     <polygon fill="#000000" fillOpacity="0.1" points="289.56 214.5 330.84 286 372.12 214.5" />
     <polygon fill="#000000" fillOpacity="0.2" points="248.28 286 289.56 214.5 330.84 286" />
-  </svg>;
+  </svg>
+);
 
 export { Logo as default };

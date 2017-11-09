@@ -38,11 +38,7 @@ const Page = ({ children }) => {
     padding: '50px 0 0 0',
   });
 
-  return (
-    <main>
-      {children}
-    </main>
-  );
+  return <main>{children}</main>;
 };
 Page.propTypes = {
   children: PropTypes.node.isRequired,

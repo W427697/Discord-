@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Logo = () =>
+const Logo = () => (
   <svg version="1.1" viewBox="0 0 1512 120" width="100%">
     <path
       d="M48 24h120V0H24A24 24 0 0 0 0 24v48h144-1v24H0v24h144a24 24 0 0 0 24-24V48H24V24zm192 72h-21V24h141a24 24 0 0 0-24-24H216a24 24 0 0 0-24 24v72a24 24 0 0 0 24 24h120a24 24 0 0 0 24-24H240zM528 0H408a24 24 0 0 0-24 24v96h24V72h120a24 24 0 0 0 24-24V24a24 24 0 0 0-24-24zm0 48H408V24h120z"
@@ -11,6 +11,7 @@ const Logo = () =>
       fill="#3786c8"
     />
     <path d="M1488 72v48h24V96a24 24 0 0 0-24-24z" fill="#3786c8" />
-  </svg>;
+  </svg>
+);
 
 export { Logo as default };

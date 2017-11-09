@@ -30,14 +30,9 @@ const Width = glamorous.div(
   })
 );
 
-const Container = ({ children, width, ...rest }) =>
-  <Root {...rest}>
-    {width
-      ? <Width {...{ width }}>
-          {children}
-        </Width>
-      : children}
-  </Root>;
+const Container = ({ children, width, ...rest }) => (
+  <Root {...rest}>{width ? <Width {...{ width }}>{children}</Width> : children}</Root>
+);
 
 Container.displayName = 'Container';
 Container.propTypes = {
