@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import glamorous from 'glamorous';
 import docsearch from 'docsearch.js';
+import { Icons } from '@storybook/components';
 
-import SearchIcon from './icons/Search';
+const { Search: SearchIcon } = Icons;
 
 const Form = glamorous.form({
   display: 'inline-block',

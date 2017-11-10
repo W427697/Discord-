@@ -2,16 +2,20 @@ import React, { Component } from 'react';
 import dynamic from 'next/dynamic';
 import glamorous from 'glamorous';
 
+import { Icons } from '@storybook/components';
 import Link from './Link';
 import StorybookLogo from './logos/Storybook';
-import MenuIcon from './icons/Menu';
-import GithubIcon from './icons/Github';
-import SlackIcon from './icons/Slack';
-import MediumIcon from './icons/Medium';
-import TwitterIcon from './icons/Twitter';
 
 import Bar from './TopBar';
 import Suggestions from './SearchSuggestions';
+
+const {
+  Menu: MenuIcon,
+  Github: GithubIcon,
+  Slack: SlackIcon,
+  Mediums: MediumIcon,
+  Twitter: TwitterIcon,
+} = Icons;
 
 const TopLogo = glamorous(({ className }) => (
   <Link href="/">

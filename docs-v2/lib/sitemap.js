@@ -209,7 +209,17 @@ module.exports = {
     route: '/docs/addons',
     files: ['/docs/addons', '/docs/addons/info', '/docs/addons/knobs'],
     length: 3,
-    contributors: [],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+    ],
     fpath: '/docs-v2/pages/docs/addons/index.js',
   },
   '/docs/addons/info': {
@@ -578,7 +588,18 @@ module.exports = {
       '/docs/frameworks/vue',
     ],
     length: 4,
-    contributors: [null],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      null,
+    ],
     fpath: '/docs-v2/pages/docs/frameworks/index.js',
   },
   '/docs/frameworks/react-native': {
@@ -832,7 +853,7 @@ module.exports = {
     fpath: '/app/vue/README.md',
   },
   '/docs': {
-    modified: '2017-11-09T20:59:50.000Z',
+    modified: '2017-11-10T19:07:51.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -1056,7 +1077,17 @@ module.exports = {
     isFile: true,
     route: '/videos',
     files: [],
-    contributors: [],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+    ],
     fpath: '/docs-v2/pages/videos.js',
   },
 };
