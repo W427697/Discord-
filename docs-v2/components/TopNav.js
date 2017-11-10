@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import dynamic from 'next/dynamic';
 import glamorous from 'glamorous';
 
-import { Icons } from '@storybook/components';
-import Link from './Link';
-import StorybookLogo from './logos/Storybook';
+import { Icons, Logos } from '@storybook/components';
 
+import Link from './Link';
 import Bar from './TopBar';
 import Suggestions from './SearchSuggestions';
 
+const { Storybook: StorybookLogo } = Logos;
 const {
   Menu: MenuIcon,
   Github: GithubIcon,

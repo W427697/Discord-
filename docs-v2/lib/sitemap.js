@@ -1,6 +1,6 @@
 module.exports = {
   '/contributing': {
-    modified: '2017-11-08T21:46:07.000Z',
+    modified: '2017-11-10T20:02:36.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -576,7 +576,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/configs.md',
   },
   '/docs/frameworks': {
-    modified: '2017-11-09T21:18:45.000Z',
+    modified: '2017-11-10T20:03:09.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -853,7 +853,7 @@ module.exports = {
     fpath: '/app/vue/README.md',
   },
   '/docs': {
-    modified: '2017-11-10T19:42:44.000Z',
+    modified: '2017-11-10T19:44:59.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -978,7 +978,7 @@ module.exports = {
     fpath: '/docs-v2/content/example.md',
   },
   '/guides': {
-    modified: '2017-11-08T22:59:57.000Z',
+    modified: '2017-11-10T20:03:33.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -1047,7 +1047,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/why.md',
   },
   '/': {
-    modified: '2017-11-09T21:41:18.000Z',
+    modified: '2017-11-10T20:05:24.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,

@@ -1,6 +1,8 @@
 import React from 'react';
 
 import Head from 'next/head';
+import { Logos } from '@storybook/components';
+
 import Page, { generator } from '../../components/Page';
 
 import Link from '../../components/Link';
@@ -10,12 +12,14 @@ import Blocks, { BlockLink, BlockLabel } from '../../components/Blocks';
 import Container from '../../components/Container';
 import { Container as MarkdownContainer, H1, H2, H3 } from '../../components/Markdown';
 
-import ReactLogo from '../../components/logos/React';
-import AngularLogo from '../../components/logos/Angular';
-import VueLogo from '../../components/logos/Vue';
-import EmberLogo from '../../components/logos/Ember';
-import PolymerLogo from '../../components/logos/Polymer';
-import AureliaLogo from '../../components/logos/Aurelia';
+const {
+  React: ReactLogo,
+  Angular: AngularLogo,
+  Vue: VueLogo,
+  Ember: EmberLogo,
+  Polymer: PolymerLogo,
+  Aurelia: AureliaLogo,
+} = Logos;
 
 export default generator('GuidesIndex', ({ path }) => (
   <Page>

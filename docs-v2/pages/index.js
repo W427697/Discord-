@@ -1,6 +1,8 @@
 import React from 'react';
 
 import Head from 'next/head';
+import { Logos } from '@storybook/components';
+
 import Page, { generator } from '../components/Page';
 
 import Link from '../components/Link';
@@ -16,24 +18,26 @@ import Blocks, {
 import Button from '../components/Button';
 import Container from '../components/Container';
 
-import ReactLogo from '../components/logos/React';
-import AngularLogo from '../components/logos/Angular';
-import VueLogo from '../components/logos/Vue';
-import EmberLogo from '../components/logos/Ember';
-import PolymerLogo from '../components/logos/Polymer';
-import AureliaLogo from '../components/logos/Aurelia';
+const {
+  React: ReactLogo,
+  Angular: AngularLogo,
+  Vue: VueLogo,
+  Ember: EmberLogo,
+  Polymer: PolymerLogo,
+  Aurelia: AureliaLogo,
 
-import StorybookLogo from '../components/logos/Storybook';
-import AirbnbLogo from '../components/logos/Airbnb';
-import SlackLogo from '../components/logos/Slack';
-import SquarespaceLogo from '../components/logos/Squarespace';
-import LonelyplanetLogo from '../components/logos/Lonelyplanet';
-import CourseraLogo from '../components/logos/Coursera';
+  Storybook: StorybookLogo,
+  Airbnb: AirbnbLogo,
+  Slack: SlackLogo,
+  Squarespace: SquarespaceLogo,
+  Lonelyplanet: LonelyplanetLogo,
+  Coursera: CourseraLogo,
 
-import PercyLogo from '../components/logos/Percy';
-import NuxtLogo from '../components/logos/Nuxt';
-import ZeitLogo from '../components/logos/Zeit';
-import ScreenerLogo from '../components/logos/Screener';
+  Percy: PercyLogo,
+  Nuxt: NuxtLogo,
+  Zeit: ZeitLogo,
+  Screener: ScreenerLogo,
+} = Logos;
 
 export default generator('RootIndex', () => (
   <Page>
