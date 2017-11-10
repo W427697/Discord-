@@ -57,8 +57,8 @@ const variance = ({ color = 'silver', variant }) => {
     }
     case 'bordered': {
       return {
-        border: `3px double ${color}`,
-        backgroundColor: 'white',
+        border: `3px solid ${color}`,
+        backgroundColor: 'rgba(255,255,255,0.8)',
 
         // color,
       };

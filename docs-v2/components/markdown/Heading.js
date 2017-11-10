@@ -1,38 +1,43 @@
 import glamorous from 'glamorous';
 import React from 'react';
 
+const common = {
+  color: 'currentColor',
+  margin: '0 0 .3em 0',
+};
+
 export const styles = {
   h1: {
-    color: 'currentColor',
     textShadow: '1px 1px 1px rgba(0, 0, 0, 0.19)',
     fontWeight: 300,
     fontSize: 26,
+    ...common,
   },
   h2: {
-    color: 'currentColor',
     fontWeight: 400,
     fontSize: 22,
     borderBottom: '1px solid currentColor',
+    ...common,
   },
   h3: {
-    color: 'currentColor',
     fontWeight: 700,
     fontSize: 16,
+    ...common,
   },
   h4: {
-    color: 'currentColor',
     fontWeight: 700,
     fontSize: 16,
+    ...common,
   },
   h5: {
-    color: 'currentColor',
     fontWeight: 700,
     fontSize: 16,
+    ...common,
   },
   h6: {
-    color: 'currentColor',
     fontWeight: 700,
     fontSize: 16,
+    ...common,
   },
 };
 

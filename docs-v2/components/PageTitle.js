@@ -27,9 +27,9 @@ const Root = glamorous.section(
     },
     '@media screen and (min-width: 900px)': {
       '& h1': {
-        float: 'left',
-        maxWidth: '40vw',
-        marginRight: 50,
+        // float: 'left',
+        // maxWidth: '40vw',
+        // marginRight: 50,
       },
       '& p:first-of-type': {
         marginTop: 0,
