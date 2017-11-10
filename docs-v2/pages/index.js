@@ -56,7 +56,7 @@ export default generator('RootIndex', () => (
         <Button href="/examples/" size={3}>
           See examples
         </Button>
-        <Button href="/guides/talks/" size={3}>
+        <Button href="/videos/" size={3}>
           Watch talks
         </Button>
       </HeroActions>
@@ -64,8 +64,8 @@ export default generator('RootIndex', () => (
     <Container width={1000} vSpacing={30} hPadding={30}>
       <Blocks padded>
         <section>
+          <H1>Quick documentation</H1>
           <MarkdownContainer colored={false}>
-            <h1>Quick documentation</h1>
             <ol>
               <li>
                 <Link href="/guides/setup/">
@@ -86,8 +86,8 @@ export default generator('RootIndex', () => (
           </MarkdownContainer>
         </section>
         <section>
+          <H1>Custom configuration</H1>
           <MarkdownContainer colored={false}>
-            <h1>Custom configuration</h1>
             <ol>
               <li>
                 <Link href="/guides/setup/">
@@ -108,8 +108,8 @@ export default generator('RootIndex', () => (
           </MarkdownContainer>
         </section>
         <section>
+          <H1>Try it now</H1>
           <MarkdownContainer colored={false}>
-            <h1>Try it now</h1>
             <code>
               <pre>
                 npm i -g @storybook/cli<br />cd my-react-app<br />getstorybook
@@ -132,13 +132,13 @@ export default generator('RootIndex', () => (
           'rgba(126, 46, 122, 0.3)',
         ]}
       >
-        <BlockLink href="http://example.com">
+        <BlockLink href="./docs/frameworks/react/">
           <ReactLogo />
         </BlockLink>
-        <BlockLink href="http://example.com">
+        <BlockLink href="./docs/frameworks/vue/">
           <VueLogo />
         </BlockLink>
-        <BlockLink href="http://example.com">
+        <BlockLink href="./docs/frameworks/angular/">
           <BlockLabel>next release</BlockLabel>
           <AngularLogo />
         </BlockLink>

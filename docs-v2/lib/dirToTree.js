@@ -42,15 +42,15 @@ const createFile = (stat, fileName, workingDir, baseDir) => {
       // resolve the relative path
       .then(d => path.join(workingDir, d))
       // read the .md text
-      .then(markdownPath =>
-        fs.readFileAsync(markdownPath, 'utf-8').then(data => ({ fpath: markdownPath, data }))
-      )
+      .then(fpath => fs.readFileAsync(fpath, 'utf-8').then(data => ({ fpath, data })))
       // parse to abtract syntax tree
       .then(({ fpath, data }) => ({ fpath, mast: parser(data) }))
       // find the heading
       .then(({ fpath, mast }) => ({ fpath, title: findTitle(mast.children) }))
       // on any error, return "Index"
-      .catch(() => 'Index')
+      .catch(() => ({
+        title: 'Index',
+      }))
       .then(({ title, fpath }) => ({
         modified: stat.ctime,
 

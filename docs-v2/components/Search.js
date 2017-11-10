@@ -101,7 +101,6 @@ const Search = class extends Component {
   }
   componentDidMount() {
     const { id } = this;
-    console.log('HERE');
     docsearch({
       apiKey: 'a4f7f972f1d8f99a66e237e7fd2e489f',
       indexName: 'storybook-js',

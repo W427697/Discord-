@@ -2,6 +2,7 @@ module.exports = {
   '/contributing': {
     modified: '2017-11-08T21:46:07.000Z',
     name: 'index',
+    title: 'Index',
     isFile: true,
     route: '/contributing',
     files: [
@@ -182,6 +183,7 @@ module.exports = {
   '/demo': {
     modified: '2017-11-09T17:28:30.000Z',
     name: 'index',
+    title: 'Index',
     isFile: true,
     route: '/demo',
     files: ['/demo'],
@@ -199,8 +201,19 @@ module.exports = {
     ],
     fpath: '/docs-v2/pages/demo/index.js',
   },
+  '/docs/addons': {
+    modified: '2017-11-09T20:34:16.000Z',
+    name: 'index',
+    title: 'Index',
+    isFile: true,
+    route: '/docs/addons',
+    files: ['/docs/addons', '/docs/addons/info', '/docs/addons/knobs'],
+    length: 3,
+    contributors: [],
+    fpath: '/docs-v2/pages/docs/addons/index.js',
+  },
   '/docs/addons/info': {
-    modified: '2017-11-09T07:43:47.000Z',
+    modified: '2017-11-09T17:37:25.000Z',
     name: 'info',
     title: 'Storybook Info Addon',
     isFile: true,
@@ -472,13 +485,6 @@ module.exports = {
     ],
     fpath: '/addons/knobs/README.md',
   },
-  '/docs/addons': {
-    route: '/docs/addons',
-    length: 2,
-    files: ['/docs/addons/info', '/docs/addons/knobs'],
-    fpath: '',
-    contributors: [null],
-  },
   '/docs/api': {
     modified: '2017-11-08T22:59:39.000Z',
     name: 'api',
@@ -560,15 +566,275 @@ module.exports = {
     fpath: '/docs-v2/content/docs/configs.md',
   },
   '/docs/frameworks': {
+    modified: '2017-11-09T21:18:45.000Z',
+    name: 'index',
+    title: 'Index',
+    isFile: true,
     route: '/docs/frameworks',
-    length: 0,
-    files: [],
-    fpath: '',
+    files: [
+      '/docs/frameworks',
+      '/docs/frameworks/react-native',
+      '/docs/frameworks/react',
+      '/docs/frameworks/vue',
+    ],
+    length: 4,
     contributors: [null],
+    fpath: '/docs-v2/pages/docs/frameworks/index.js',
+  },
+  '/docs/frameworks/react-native': {
+    modified: '2017-11-09T20:56:24.000Z',
+    name: 'react-native',
+    title: 'Storybook for React Native',
+    isFile: true,
+    route: '/docs/frameworks/react-native',
+    files: [],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '6b38c8f2184898a6c948620ac187973e',
+        name: 'Evgeniy Zaitsev',
+      },
+      {
+        hash: '3e21bc6bf072938a3616092556aa19f8',
+        name: 'Luke Williams',
+      },
+      {
+        hash: '0f11b26fa3a1d34b2400701050406e0d',
+        name: 'Billydubb',
+      },
+      {
+        hash: '7ddabd1f05a33ccc9b00e2fd241f3e80',
+        name: 'Michael Shilman',
+      },
+      {
+        hash: '3dffb98f96ebc8dee42fcec08988acdf',
+        name: 'Eric Wooley',
+      },
+      {
+        hash: '5f6b08ef71e8363145ea9de141945fff',
+        name: 'Michael Shilman',
+        meta: {},
+      },
+    ],
+    fpath: '/app/react-native/readme.md',
+  },
+  '/docs/frameworks/react': {
+    modified: '2017-11-09T20:55:23.000Z',
+    name: 'react',
+    title: 'Storybook for React',
+    isFile: true,
+    route: '/docs/frameworks/react',
+    files: [],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: 'a84dbd3d8596a64ab0fe42e3795a2b4e',
+        name: 'Li0liQ',
+      },
+      {
+        hash: '3911f3dda74ddc708ea8f10566c0d8c3',
+        name: 'Joscha Feth',
+      },
+      {
+        hash: '1e1560e7f89ab9a1acac2d4717d1f1c7',
+        name: 'Danny Andrews',
+        meta: {},
+      },
+      {
+        hash: 'ebce19b8f57058ec8281ffef17e92dd6',
+        name: 'Matt Parrilla',
+      },
+      {
+        hash: '376c537c02de66fd17b2139bb5b3917c',
+        name: 'David Mason',
+      },
+      {
+        hash: '66eca275a85a6a0c06b0a0f7039b074b',
+        name: 'Tay Yang Shun',
+      },
+      {
+        hash: '9ded829c813575b23ca5d3de03fc2c05',
+        name: 'Ron ChanOu',
+      },
+      {
+        hash: 'eaeac922b9f3cc9fd18cb9629b9e79f6',
+        name: 'Daniel James',
+        meta: {},
+      },
+      {
+        hash: 'cb38efad65541de868251169a9e31a3c',
+        name: 'Daniel James',
+      },
+      {
+        hash: 'f116cb3be23153ec08b94e8bd4dbcfeb',
+        name: 'Orta',
+        meta: {},
+      },
+      {
+        hash: '5f77b058a20cf23e8e773eb58ddb3a1e',
+        name: 'Tommy',
+      },
+      {
+        hash: 'f7dbbe60bb07f2978521b7269ecbe3fc',
+        name: 'Kent C. Dodds',
+      },
+      {
+        hash: 'ab13df38843556b57f7d2f6fe78003cf',
+        name: 'Arunoda Susiripala',
+        meta: {},
+      },
+      {
+        hash: 'd873a5a7f05bc6b037d16fbe6d921ab3',
+        name: 'Aruna Herath',
+        meta: {},
+      },
+      {
+        hash: 'f9b12bc1aa320b434dff7ae42be6c561',
+        name: 'Oleg Proskurin',
+        meta: {},
+      },
+      {
+        hash: 'ee906479c962cf1e11012954cb4a689f',
+        name: 'Brandon Lorenz',
+      },
+      {
+        hash: '5d0c653d68cc290a6f6c3c971054d972',
+        name: 'Aruna Herath',
+      },
+      {
+        hash: '1c7b6c47a1f7c9ed5772842377735277',
+        name: 'Eli Sherer',
+        meta: {},
+      },
+      {
+        hash: 'c2ba74de85628d77813868a3fd791a5a',
+        name: 'mthuret',
+      },
+      {
+        hash: 'e10238afce0623243387576bb87de553',
+        name: 'jide',
+      },
+      {
+        hash: '97e428e9c844f2764a9d3de2b4522df4',
+        name: 'Frederick Fogerty',
+      },
+      {
+        hash: '1eb3235706f4fcf421a2ba30fc37ff25',
+        name: 'Brian Douglas',
+      },
+      {
+        hash: '603df70c77acb33a14290543899b07c3',
+        name: 'inuscript',
+      },
+      {
+        hash: 'd808b3088aba7a6f982b1558ef1f37bd',
+        name: 'Jasper Moelker',
+      },
+      {
+        hash: '0f24b8a03fdcbec11c666315aee465d9',
+        name: 'Pascal Duez',
+      },
+      {
+        hash: '03cf53eda5f0e7c5fd88d8439f27e666',
+        name: 'Muhammed Thanish',
+      },
+      {
+        hash: '96fe1d92bfddb4dde44f6fdaa85ff9fb',
+        name: 'Muhammed Thanish',
+        meta: {},
+      },
+      {
+        hash: '3db25d695a5fa73a0caba9315faffd14',
+        name: 'Roy Sutton',
+      },
+      {
+        hash: '23685e8c73b3d686cb7a5f430c9208fb',
+        name: 'Jason T. Wong',
+      },
+      {
+        hash: '0445b1e43e4e5cf70973ec93e5b74015',
+        name: 'zVictor',
+      },
+      {
+        hash: 'aac33384a8de4d8e9fb22f671f3f792a',
+        name: 'Michael Caputo',
+      },
+      {
+        hash: '55c3671e959e903a7880eaf0cf61f3e4',
+        name: 'Ritesh Kumar',
+      },
+      {
+        hash: '81eb18a96268beaacaae9cd720388ee6',
+        name: 'Michael McGahan',
+      },
+      {
+        hash: 'eec502b7f6f17f63f1e36d1cd566a254',
+        name: 'Mark Dalgleish',
+      },
+      {
+        hash: '58d56f5be11c65d22bcc1afc51dc4fc4',
+        name: 'Nick Plekhanov',
+      },
+      {
+        hash: '6bb5d6e4aed4c13119f24bf44c88d441',
+        name: 'Pedro Canterini',
+      },
+    ],
+    fpath: '/app/react/README.md',
+  },
+  '/docs/frameworks/vue': {
+    modified: '2017-11-09T20:55:37.000Z',
+    name: 'vue',
+    title: 'Storybook for Vue',
+    isFile: true,
+    route: '/docs/frameworks/vue',
+    files: [],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '168928ddf8a1984bd312daaa86e533c5',
+        name: 'Zephraph',
+      },
+      {
+        hash: '5f6b08ef71e8363145ea9de141945fff',
+        name: 'Michael Shilman',
+        meta: {},
+      },
+      {
+        hash: '894e3aea4ff9c3f815a6ff8425462123',
+        name: 'Alexandre BODIN',
+      },
+    ],
+    fpath: '/app/vue/README.md',
   },
   '/docs': {
-    modified: '2017-11-08T22:59:48.000Z',
+    modified: '2017-11-09T20:59:50.000Z',
     name: 'index',
+    title: 'Index',
     isFile: true,
     route: '/docs',
     files: [
@@ -661,7 +927,7 @@ module.exports = {
     fpath: '/docs-v2/content/easteregg.md',
   },
   '/example': {
-    modified: '2017-11-08T23:00:17.000Z',
+    modified: '2017-11-09T21:38:07.000Z',
     name: 'example',
     title: 'Core Addon API',
     isFile: true,
@@ -693,6 +959,7 @@ module.exports = {
   '/guides': {
     modified: '2017-11-08T22:59:57.000Z',
     name: 'index',
+    title: 'Index',
     isFile: true,
     route: '/guides',
     files: ['/guides', '/guides/setup', '/guides/why'],
@@ -759,8 +1026,9 @@ module.exports = {
     fpath: '/docs-v2/content/guides/why.md',
   },
   '/': {
-    modified: '2017-11-08T23:00:19.000Z',
+    modified: '2017-11-09T21:41:18.000Z',
     name: 'index',
+    title: 'Index',
     isFile: true,
     route: '/',
     files: [],
@@ -780,5 +1048,15 @@ module.exports = {
       },
     ],
     fpath: '/docs-v2/pages/index.js',
+  },
+  '/videos': {
+    modified: '2017-11-09T22:25:42.000Z',
+    name: 'videos',
+    title: 'Index',
+    isFile: true,
+    route: '/videos',
+    files: [],
+    contributors: [],
+    fpath: '/docs-v2/pages/videos.js',
   },
 };
