@@ -853,7 +853,7 @@ module.exports = {
     fpath: '/app/vue/README.md',
   },
   '/docs': {
-    modified: '2017-11-10T19:07:51.000Z',
+    modified: '2017-11-10T19:42:44.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,

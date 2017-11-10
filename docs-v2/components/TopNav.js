@@ -13,7 +13,7 @@ const {
   Menu: MenuIcon,
   Github: GithubIcon,
   Slack: SlackIcon,
-  Mediums: MediumIcon,
+  Medium: MediumIcon,
   Twitter: TwitterIcon,
 } = Icons;
 
