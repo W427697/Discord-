@@ -6,7 +6,6 @@ import { Logos } from '@storybook/components';
 import Page, { generator } from '../../components/Page';
 
 import Link from '../../components/Link';
-import Button from '../../components/Button';
 import TopNav from '../../components/TopNav';
 import PageTitle from '../../components/PageTitle';
 import Blocks, { BlockLink } from '../../components/Blocks';
@@ -30,7 +29,7 @@ export default generator('GuidesIndex', ({ path }) => (
       </p>
     </PageTitle>
     <Container width={1000} vSpacing={30} hPadding={10}>
-      <H2 as="h1">For using storybook</H2>
+      <H2 as="h1">Using storybook</H2>
       <Blocks aligned={false} variant="bordered" colors={['rgba(0,0,0,0.1)']}>
         <section style={{ padding: 18 }}>
           <H3>Why Storybook</H3>
@@ -181,60 +180,86 @@ export default generator('GuidesIndex', ({ path }) => (
       <Blocks colors={['rgba(0,0,0,0.08)']} max={4}>
         <section style={{ padding: 18 }}>
           <H3>The basic first steps</H3>
-          <p>
-            <Link href="/guides/setup">
-              <Button>Understand the repository structure</Button>
-            </Link>
-          </p>
-          <p>
-            <Link href="/guides/setup">
-              <Button>Check out the repository</Button>
-            </Link>
-          </p>
-          <p>
-            <Link href="/guides/setup">
-              <Button>Bootstrap the development processes</Button>
-            </Link>
-          </p>
+          <MarkdownContainer colored={false}>
+            <ul>
+              <li>
+                <Link href="/guides/setup">
+                  <a>Understand the repository structure</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides/setup">
+                  <a>Check out the repository</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides/setup">
+                  <a>Bootstrap the development processes</a>
+                </Link>
+              </li>
+            </ul>
+          </MarkdownContainer>
         </section>
         <section style={{ padding: 18 }}>
           <H3>Understanding the app</H3>
-          <p>
-            <Link href="/guides/setup">
-              <Button>App architecture</Button>
-            </Link>
-          </p>
-          <p>
-            <Link href="/guides/setup">
-              <Button>Multiple platform support</Button>
-            </Link>
-          </p>
-          <p>
-            <Link href="/guides/setup">
-              <Button>Addon architecture</Button>
-            </Link>
-          </p>
+          <MarkdownContainer colored={false}>
+            <ul>
+              <li>
+                <Link href="/guides/setup">
+                  <a>App architecture</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides/setup">
+                  <a>Multiple platform support</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides/setup">
+                  <a>Addon architecture</a>
+                </Link>
+              </li>
+            </ul>
+          </MarkdownContainer>
         </section>
         <section style={{ padding: 18 }}>
           <H3>Releasing</H3>
-          <p>
-            <Link href="/guides/setup">
-              <Button>How to release</Button>
-            </Link>
-          </p>
-          <p>
-            <Link href="/guides/setup">
-              <Button>Merge/Release strategy </Button>
-            </Link>
-          </p>
+          <MarkdownContainer colored={false}>
+            <ul>
+              <li>
+                <Link href="/contributing/release-guide">
+                  <a>How to release</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/contributing/release-guide">
+                  <a>Merge/Release strategy </a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/contributing/pull-requests">
+                  <a>How to make/merge pull requests</a>
+                </Link>
+              </li>
+            </ul>
+          </MarkdownContainer>
         </section>
         <section style={{ padding: 18 }}>
           <H3>Other</H3>
-          <p>
-            <Link href="/guides/setup">
-              <Button>What to expect from maintainers</Button>
-            </Link>
-          </p>
+          <MarkdownContainer colored={false}>
+            <ul>
+              <li>
+                <Link href="/contributing/issue-triage">
+                  <a>Resolving GitHub issues</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/contributing/maintainers-avoiding-burnout">
+                  <a>What to expect from maintainers</a>
+                </Link>
+              </li>
+            </ul>
+          </MarkdownContainer>
         </section>
       </Blocks>
     </Container>
