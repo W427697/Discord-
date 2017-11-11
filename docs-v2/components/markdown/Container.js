@@ -29,6 +29,9 @@ const Container = glamorous.div(
       marginBottom: '1.2em',
       lineHeight: '1.4em',
     },
+    '& li > p': {
+      marginBottom: 0,
+    },
   },
   ({ colored = true }) =>
     colored
