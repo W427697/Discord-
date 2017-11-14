@@ -87,8 +87,9 @@ previewObject.propTypes = {
 };
 
 export default function PropVal(props) {
-  const { maxPropStringLength } = props;
-  let val = props.val;
+  const { maxPropObjectKeys, maxPropArrayLength, maxPropStringLength } = props;
+  let { val } = props;
+
   let braceWrap = true;
   let content = null;
 
