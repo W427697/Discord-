@@ -1,3 +1,95 @@
+# 3.2.15
+
+2017-November-10
+
+#### Features
+
+-   Optimizing for iphone x [#2260](https://github.com/storybooks/storybook/pull/2260)
+-   Fix accessibility warnings [#2270](https://github.com/storybooks/storybook/pull/2270)
+
+#### Bug Fixes
+
+-   Fix propTypes in addon-background [#2279](https://github.com/storybooks/storybook/pull/2279)
+-   Addon-info: allow duplicate displayNames [#2269](https://github.com/storybooks/storybook/pull/2269)
+-   Fix browser navigation [#2261](https://github.com/storybooks/storybook/pull/2261)
+
+#### Maintenance
+
+-   Fixes to build scripts for Windows. [#2051](https://github.com/storybooks/storybook/pull/2051)
+-   Update dependencies.yml to include batch updates for docs dependencies [#2252](https://github.com/storybooks/storybook/pull/2252)
+
+#### Dependency Upgrades
+
+<details>
+<summary>
+11 PRs
+</summary>
+
+-   Update 4 dependencies from npm [#2267](https://github.com/storybooks/storybook/pull/2267)
+-   Update 8 dependencies from npm [#2262](https://github.com/storybooks/storybook/pull/2262)
+-   Update 3 dependencies from npm [#2257](https://github.com/storybooks/storybook/pull/2257)
+-   Update babel-eslint in / from 8.0.1 to 8.0.2 [#2253](https://github.com/storybooks/storybook/pull/2253)
+-   3 packages updated by dependencies.io [#2251](https://github.com/storybooks/storybook/pull/2251)
+-   Update devDependencies [#2232](https://github.com/storybooks/storybook/pull/2232)
+-   Update react-textarea-autosize to 5.1.0 [#2233](https://github.com/storybooks/storybook/pull/2233)
+-   Update insert-css to 2.0.0 [#2234](https://github.com/storybooks/storybook/pull/2234)
+-   Update file-loader to 1.1.5 [#2236](https://github.com/storybooks/storybook/pull/2236)
+-   Update read-pkg-up to 3.0.0 [#2237](https://github.com/storybooks/storybook/pull/2237)
+-   Update react-modal to 3.1.0 [#2238](https://github.com/storybooks/storybook/pull/2238)
+
+</details>
+
+# 3.2.14
+
+2017-November-01
+
+#### Features
+
+-   React-native: Add platform option for haul bundler [#2129](https://github.com/storybooks/storybook/pull/2129)
+
+#### Bug Fixes
+
+-   Fixed addon-info not importing docgen descriptions [#2133](https://github.com/storybooks/storybook/pull/2133)
+-   Handle full screen scrolling on iOS [#2040](https://github.com/storybooks/storybook/pull/2040)
+-   Fixed infinite render loop [#2100](https://github.com/storybooks/storybook/pull/2100)
+-   Fix hmr in react-native template [#2194](https://github.com/storybooks/storybook/pull/2194)
+-   Fix prop type in react-native [#2185](https://github.com/storybooks/storybook/pull/2185)
+-   Avoid logging an object on compilation errors [#2199](https://github.com/storybooks/storybook/pull/2199)
+
+#### Documentation
+
+-   CRA Example Cleanup - Info [#2143](https://github.com/storybooks/storybook/pull/2143)
+
+#### Maintenance
+
+-   IMPROVE integration tests so they all output a diff image when multiple fail [#2197](https://github.com/storybooks/storybook/pull/2197)
+-   ADD integration artefacts store step to circle.yml [#2182](https://github.com/storybooks/storybook/pull/2182)
+-   ADD integration test [#2119](https://github.com/storybooks/storybook/pull/2119)
+-   Updating to new favicon [#2113](https://github.com/storybooks/storybook/pull/2113)
+-   Bot for closing old issues [#2186](https://github.com/storybooks/storybook/pull/2186)
+
+#### Dependency Upgrades
+
+<details>
+<summary>
+12 PRs
+</summary>
+
+-   7 packages updated by dependencies.io [#2200](https://github.com/storybooks/storybook/pull/2200)
+-   Update jest-image-snapshot to 2.1.0 [#2184](https://github.com/storybooks/storybook/pull/2184)
+-   2 packages updated by dependencies.io [#2175](https://github.com/storybooks/storybook/pull/2175)
+-   3 packages updated by dependencies.io [#2137](https://github.com/storybooks/storybook/pull/2137)
+-   2 packages updated by dependencies.io [#2131](https://github.com/storybooks/storybook/pull/2131)
+-   4 packages updated by dependencies.io [#2124](https://github.com/storybooks/storybook/pull/2124)
+-   2 packages updated by dependencies.io [#2116](https://github.com/storybooks/storybook/pull/2116)
+-   5 packages updated by dependencies.io [#2111](https://github.com/storybooks/storybook/pull/2111)
+-   4 packages updated by dependencies.io [#2109](https://github.com/storybooks/storybook/pull/2109)
+-   Add index.js file for RN 0.49 [#2176](https://github.com/storybooks/storybook/pull/2176)
+-   Enable issue creation for dependencies.io [#2141](https://github.com/storybooks/storybook/pull/2141)
+-   Major updates in devDependencies [#2178](https://github.com/storybooks/storybook/pull/2178)
+
+</details>
+
 # 3.2.13
 
 2017-October-20
