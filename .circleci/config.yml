@@ -4,6 +4,10 @@ defaults: &defaults
     - image: circleci/node:8.9
 
 version: 2
+environment:
+  - SKIP_SASS_BINARY_DOWNLOAD_FOR_CI: "true"
+  - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
+
 dependencies:
   pre:
     - yarn global add npm
