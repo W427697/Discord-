@@ -68,6 +68,17 @@ export default function() {
           include: includePaths,
           exclude: excludePaths,
         },
+        {
+          test: /\.md$/,
+          use: [
+            {
+              loader: 'html-loader',
+            },
+            {
+              loader: 'markdown-loader',
+            },
+          ],
+        },
       ],
     },
     resolve: {
