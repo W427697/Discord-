@@ -4,13 +4,9 @@
   "useWorkspaces": true,
   "commands": {
     "publish": {
-      "ignore": [
-        "cra-kitchen-sink",
-        "vue-example"
-      ],
-      "allowBranch": "master"
+      "allowBranch": "release/3.3"
     }
   },
   "concurrency": 1,
-  "version": "3.2.14"
+  "version": "3.3.0-alpha.4"
 }

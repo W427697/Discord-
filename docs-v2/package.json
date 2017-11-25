@@ -12,7 +12,7 @@
     "start": "NODE_ENV=production next start"
   },
   "dependencies": {
-    "@storybook/components": "^3.2.14",
+    "@storybook/components": "^3.3.0-alpha.4",
     "babel-literal-to-ast": "^1.0.0",
     "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-preval": "^1.6.2",

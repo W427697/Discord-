@@ -1,8 +1,20 @@
 import addons from '@storybook/addons';
 
-import { knob, text, boolean, number, color, object, array, date, select, manager } from '../base';
+import {
+  knob,
+  text,
+  boolean,
+  number,
+  color,
+  object,
+  array,
+  date,
+  select,
+  button,
+  manager,
+} from '../base';
 
-export { knob, text, boolean, number, color, object, array, date, select };
+export { knob, text, boolean, number, color, object, array, date, select, button };
 
 export const vueHandler = (channel, knobStore) => getStory => context => ({
   data() {
@@ -28,8 +40,8 @@ export const vueHandler = (channel, knobStore) => getStory => context => ({
       this.$forceUpdate();
     },
 
-    onKnobClick(k) {
-      const knobOptions = knobStore.get(k.name);
+    onKnobClick(clicked) {
+      const knobOptions = knobStore.get(clicked.name);
       knobOptions.callback();
     },
 
