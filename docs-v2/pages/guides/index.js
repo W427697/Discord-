@@ -30,9 +30,9 @@ export default generator('GuidesIndex', ({ path }) => (
     </PageTitle>
     <Container width={1000} vSpacing={30} hPadding={10}>
       <H2 as="h1">Using storybook</H2>
-      <Blocks aligned={false} variant="bordered" colors={['rgba(0,0,0,0.1)']}>
-        <section style={{ padding: 18 }}>
-          <H3>Why Storybook</H3>
+      <Blocks aligned={false} colors={['transparent']} hSpacing={30}>
+        <section>
+          <H3 as="h2">Why Storybook</H3>
           <MarkdownContainer>
             <p>
               Read about the{' '}
@@ -56,8 +56,8 @@ export default generator('GuidesIndex', ({ path }) => (
             </p>
           </MarkdownContainer>
         </section>
-        <section style={{ padding: 18 }}>
-          <H3>Setup Storybook</H3>
+        <section>
+          <H3 as="h2">Setup Storybook</H3>
           <MarkdownContainer>
             <p>
               Get started with storybook! How to{' '}
@@ -77,8 +77,8 @@ export default generator('GuidesIndex', ({ path }) => (
             </p>
           </MarkdownContainer>
         </section>
-        <section style={{ padding: 18 }}>
-          <H3>Organise your Storybook</H3>
+        <section>
+          <H3 as="h2">Organise your Storybook</H3>
           <MarkdownContainer>
             <p>
               Tips on how to get the most out of your storybook and build an{' '}
@@ -98,8 +98,8 @@ export default generator('GuidesIndex', ({ path }) => (
             </p>
           </MarkdownContainer>
         </section>
-        <section style={{ padding: 18 }}>
-          <H3>Install and use addons</H3>
+        <section>
+          <H3 as="h2">Install and use addons</H3>
           <MarkdownContainer>
             <p>
               View the{' '}
@@ -120,8 +120,8 @@ export default generator('GuidesIndex', ({ path }) => (
             </p>
           </MarkdownContainer>
         </section>
-        <section style={{ padding: 18 }}>
-          <H3>Customising configuration</H3>
+        <section>
+          <H3 as="h2">Customising configuration</H3>
           <MarkdownContainer>
             <p>
               Need a custom config, no problem! Customise the{' '}

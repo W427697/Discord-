@@ -18,6 +18,9 @@ const p = {
   marginTop: 0,
   marginBottom: '1.2em',
   lineHeight: '1.4em',
+  '&:last-child': {
+    marginBottom: 0,
+  },
 };
 
 const ul = {

@@ -6,6 +6,7 @@ const Root = glamorous.section(
   {
     position: 'relative',
     boxSizing: 'border-box',
+    overflow: 'hidden',
   },
   ({ vSpacing = 0, vPadding = 0, hSpacing = 0, hPadding = 10, background = 'transparent' }) => ({
     marginLeft: hSpacing,
