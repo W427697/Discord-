@@ -18,7 +18,7 @@ This addon works with Storybook for:
 
 ![Storybook Addon Notes Demo](docs/demo.png)
 
-### Getting Started
+## Getting Started
 
 ```sh
 npm i --save-dev @storybook/addon-notes
@@ -44,7 +44,7 @@ storiesOf('Component', module)
   .add('with some emoji', withNotes('A very simple component')(() => <Component />));
 ```
 
-#### Using Markdown
+### Using Markdown
 
 To use markdown in your notes simply import a markdown file and use that in your note.
 
@@ -59,7 +59,7 @@ storiesOf('Component', module)
 
 ```
 ### Deprecated API
-This API is slated for removal in 4.0
+This API is slated for removal in `4.0.0`
 
 ```js
 import { WithNotes } from '@storybook/addon-notes';

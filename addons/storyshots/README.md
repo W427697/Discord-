@@ -159,7 +159,7 @@ Take a snapshot of a shallow-rendered version of the component.
 
 Utility function used in `multiSnapshotWithOptions`. This is made available for users who implement custom test functions that also want to take advantage of multi-file storyshots.
 
-###### Example:
+## Example:
 
 Let's say we wanted to create a test function for shallow && multi-file snapshots:
 

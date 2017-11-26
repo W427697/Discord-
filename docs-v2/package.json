@@ -1,6 +1,6 @@
 {
   "name": "@storybook/docs",
-  "version": "3.2.14",
+  "version": "3.3.0-alpha.4",
   "description": "",
   "keywords": [],
   "license": "ISC",
@@ -10,7 +10,7 @@
     "build": "node scripts/build.js",
     "dev": "node scripts/dev.js",
     "start": "NODE_ENV=production next start",
-    "netlify": "NODE_ENV=production next build && next export -o ./static"
+    "netlify": "NODE_ENV=production next build && next export -o ./out"
   },
   "dependencies": {
     "@storybook/components": "^3.3.0-alpha.4",

@@ -29,7 +29,9 @@ The bootstrap command will ask which sections of the codebase you want to bootst
 
 You can also pick directly from CLI:
 
-    yarn bootstrap --core
+```sh
+yarn bootstrap --core
+```
 
 #### 2a. Run unit tests
 
@@ -55,13 +57,17 @@ In order to run ALL unit tests, you must have bootstrapped the react-native
 
 If you made any changes to `lib/cli` package, the easiest way to verify that it doesn't break anything is to run e2e tests:
 
-    yarn test --cli
+```sh
+yarn test --cli
+```
 
 This will run a bash script located at `lib/cli/test/run_tests.sh`. It will copy the contents of `fixtures` into a temporary `run` directory, run `getstorybook` in each of the subdirectories, and check that storybook starts successfully using `yarn storybook --smoke-test`.
 
 After that, the `run` directory content will be compared with `snapshots`. You can update the snapshots by passing an `--update` flag:
 
-    yarn test --cli --update
+```sh
+yarn test --cli --update
+```
 
 In that case, please check the git diff before commiting to make sure it only contains the intended changes.
 
@@ -69,15 +75,15 @@ In that case, please check the git diff before commiting to make sure it only co
 
 If you want to test your own existing project using the github version of storybook, you need to `link` the packages you use in your project.
 
-    ```sh
-    cd app/react
-    yarn link
+```sh
+cd app/react
+yarn link
 
-    cd <your-project>
-    yarn link @storybook/react
+cd <your-project>
+yarn link @storybook/react
 
-    # repeat with whichever other parts of the monorepo you are using.
-    ```
+# repeat with whichever other parts of the monorepo you are using.
+```
 
 ### Reproductions
 

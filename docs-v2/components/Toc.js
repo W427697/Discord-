@@ -80,6 +80,7 @@ const getLevel = (list, level) =>
   level === 1 ? list.children || list : getLevel(list[list.length - 1].children, level - 1);
 const mapListToTree = list => {
   const output = [];
+  console.log(list);
   list.forEach(item => {
     const level = item['aria-level'];
     const { id, title } = item;

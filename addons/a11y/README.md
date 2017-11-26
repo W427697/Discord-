@@ -1,4 +1,4 @@
-# storybook-addon-a11y
+# Storybook Addon Accessibility
 
 This storybook addon can be helpfull to make your UI components more accessibile.
 
@@ -9,7 +9,7 @@ This storybook addon can be helpfull to make your UI components more accessibile
 First, install the addon.
 
 ```sh
-$ npm install -D @storybook/addon-a11y
+npm install -D @storybook/addon-a11y
 ```
 
 Add this line to your `addons.js` file (create this file inside your storybook config directory if needed).

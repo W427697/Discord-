@@ -14,11 +14,13 @@ This [storybook](https://storybooks.js.org) ([source](https://github.com/storybo
 ![Storybook Addon Events Example](docs/demo1.png)
 [Storybook Addon Events Live Demo](https://z4o4z.github.io/storybook-addon-events/index.html)
 
-### Getting Started
+## Installation
 
 ```sh
 npm i --save-dev @storybook/addon-events
 ```
+
+## Usage
 
 Then create a file called `addons.js` in your storybook config.
 
@@ -43,7 +45,6 @@ import * as EVENTS from './events';
 const emiter = new EventEmiter();
 const emit = emiter.emit.bind(emiter);
 
-
 storiesOf('WithEvents', module)
   .addDecorator(getStory => (
     <WithEvents
@@ -63,36 +64,8 @@ storiesOf('WithEvents', module)
           name: EVENTS.TEST_EVENT_3,
           title: 'Test event 3',
           payload: {
-            string: 'value',
-            number: 123,
-            array: [1, 2, 3],
-            object: {
-              string: 'value',
-              number: 123,
-              array: [1, 2, 3],
-            },
+            key: 'value',
           },
-        },
-        {
-          name: EVENTS.TEST_EVENT_4,
-          title: 'Test event 4',
-          payload: [
-            {
-              string: 'value',
-              number: 123,
-              array: [1, 2, 3],
-            },
-            {
-              string: 'value',
-              number: 123,
-              array: [1, 2, 3],
-            },
-            {
-              string: 'value',
-              number: 123,
-              array: [1, 2, 3],
-            },
-          ],
         },
       ]}
     >

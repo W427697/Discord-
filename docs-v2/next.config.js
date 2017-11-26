@@ -28,24 +28,24 @@ module.exports = {
       {}
     ),
   webpack: (config, { dev }) => {
-    if (dev) {
-      config.module.rules = config.module.rules.map(rule => {
-        if (rule.loader === 'babel-loader') {
-          rule.options.presets.push([
-            'env',
-            {
-              targets: {
-                chrome: 52,
-              },
-              modules: false,
-              loose: true,
+    config.module.rules = config.module.rules.map(rule => {
+      if (rule.loader === 'babel-loader') {
+        rule.options.presets.push([
+          'env',
+          {
+            targets: {
+              chrome: 52,
             },
-          ]);
-          rule.options.cacheDirectory = false;
-        }
-        return rule;
-      });
-    } else {
+            modules: false,
+            loose: true,
+          },
+        ]);
+        rule.options.cacheDirectory = false;
+      }
+      return rule;
+    });
+
+    if (!dev) {
       config.plugins.push(
         new webpack.DefinePlugin({
           'process.env': {

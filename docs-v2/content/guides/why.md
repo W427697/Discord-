@@ -76,8 +76,5 @@ This can be used to write integrations, adding new functionality outside of Stor
 Examples include:
 
 -   Visual regression testing ([Screener.io](https://screener.io), [Percy.io](https://percy.io))
--   Automatic Jest snapshot ([storyshots](/addons/storyshots))
--   Your integration?
-
-
--   [Storybook API](/docs/api)
+-   Automatic Jest snapshot ([storyshots](/docs/addons/storyshots))
+-   Your integration? ([Storybook API](/docs/api))

@@ -1,6 +1,7 @@
-# Storybook Viewport Addon
+# Storybook Addon Viewport
 
-Storybook Viewport Addon allows your stories to be displayed in different sizes and layouts in [Storybook](https://storybookjs.org).  This helps build responsive components inside of Storybook.
+Storybook Viewport Addon allows your stories to be displayed in different sizes and layouts in [Storybook](https://storybookjs.org). 
+This helps build responsive components inside of Storybook.
 
 This addon works with Storybook for: [React](https://github.com/storybooks/storybook/tree/master/app/react) and [Vue](https://github.com/storybooks/storybook/tree/master/app/vue).
 
@@ -10,28 +11,32 @@ This addon works with Storybook for: [React](https://github.com/storybooks/story
 
 Install the following npm module:
 
-    npm i --save-dev @storybook/addon-viewport
+```sh
+npm i --save-dev @storybook/addon-viewport
+```
 
 or with yarn:
 
-    yarn add -D @storybook/addon-viewport
+```sh
+yarn add -D @storybook/addon-viewport
+```
 
 ## Basic Usage
 
 Simply import the Storybook Viewport Addon in the `addon.js` file in your `.storybook` directory.
 
 ```js
-import '@storybook/addon-viewport/register'
+import '@storybook/addon-viewport/register';
 ```
 
 This will register the Viewport Addon to Storybook and will show up in the action area.
 
 ## FAQ
 
-#### How do I add a new device?
+### How do I add a new device?
 
 Unfortunately, this is currently not supported.
 
-#### How can I make a custom screen size?
+### How can I make a custom screen size?
 
 Unfortunately, this is currently not supported.
