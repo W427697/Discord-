@@ -12,7 +12,7 @@ if (!docsRepo) {
   throw new Error('DOCS_REPO env parameter is not defined');
 }
 
-const version = packageJson.version;
+const { version } = packageJson;
 const prettyVersion = version.replace(/\./g, '-');
 const outputDir = 'public';
 const versionDir = path.join(outputDir, prettyVersion);

@@ -8,11 +8,8 @@ yarn add gauge --ignore-workspace-root-check # quirk with netlify build instance
 yarn bootstrap --core
 
 if [ "$BUILD_CONTEXT" = "DOCS" ]; then
-  pushd docs
-  yarn install
-  popd
-  yarn docs:build
-  mv docs/public netlify-build
+  yarn docs-new:netlify
+  mv docs-v2/static netlify-build
 elif [ "$BUILD_CONTEXT" = "CRA" ]; then
   pushd examples/cra-kitchen-sink
   yarn add tapable # quirk with netlify build instance

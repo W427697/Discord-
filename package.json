@@ -34,6 +34,7 @@
     "docs:dev": "npm --prefix docs run dev",
     "docs-new:dev": "npm --prefix docs-v2 run dev",
     "docs-new:build": "npm --prefix docs-v2 run build",
+    "docs-new:netlify": "npm --prefix docs-v2 run netlify",
     "github-release": "github-release-from-changelog",
     "lint": "yarn lint:js . && yarn lint:md .",
     "lint:js": "eslint --cache --cache-location=.cache/eslint --ext .js,.jsx,.json",

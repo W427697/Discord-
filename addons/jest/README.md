@@ -22,7 +22,7 @@ When running **Jest**, be sure to save the results in a json file:
 
 `package.json`
 
-```js
+```json
 "scripts": {
   "test:generate-output": "jest --json --outputFile=jest-test-results.json"
 }
