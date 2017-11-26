@@ -72,7 +72,9 @@ const Content = ({ children, path }) => {
       <Head>
         <title>{`${header} - Storybook` || 'Storybook'}</title>
       </Head>
-      <PageTitle minHeight="auto">{intro}</PageTitle>
+      <PageTitle minHeight="auto" {...{ path }}>
+        {intro}
+      </PageTitle>
       <Container width={960} vSpacing={40}>
         <Split>
           <nav>

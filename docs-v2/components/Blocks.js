@@ -107,12 +107,9 @@ const BlockItem = glamorous.div(
     overflow: 'hidden',
     borderRadius: '3px',
     display: 'flex',
-    transition: 'all .5s',
+    transition: 'all 2s',
     boxSizing: 'border-box',
     minWidth: 120,
-    '&:hover': {
-      boxShadow: 'inset 0 0 0 3px rgba(0,0,0,0.08)',
-    },
   },
   alignment,
   variance,
@@ -127,11 +124,16 @@ export const BlockLink = glamorous(({ children, href, className }) => (
 
   boxSizing: 'border-box',
   height: 160,
+  transition: 'all .3s',
+  boxShadow: 'inset 0 0 0 0px rgba(0,0,0,0.08)',
 
   '& svg': {
     boxSizing: 'border-box',
     height: '100%',
     width: '100%',
+  },
+  '&:hover': {
+    boxShadow: 'inset 0 0 0 3px rgba(0,0,0,0.08)',
   },
 });
 

@@ -3,12 +3,10 @@ import glamorous from 'glamorous';
 import { styles as headingStyles } from './Heading';
 
 const a = {
-  borderBottom: '1px dashed currentColor',
-  textDecoration: 'none',
-  transition: 'color 0.3s',
+  fontWeight: 500,
+  color: 'currentColor',
   '&:hover, &:focus, &:active': {
-    outline: 0,
-    borderBottomStyle: 'solid',
+    color: 'currentColor',
   },
 };
 const p = {
@@ -57,17 +55,28 @@ const Container = glamorous.div(
     colored
       ? {
           '& a': {
-            color: 'rgb(240, 97, 141)',
-            '&:hover, &:focus, &:active': {
-              color: 'rgb(181, 126, 229)',
+            textDecoration: 'none',
+            backgroundImage:
+              'linear-gradient(to right, rgba(181,126,229,1) 0%,rgba(241,97,140,1) 37%,rgba(243,173,56,1) 100%)',
+            backgroundRepeat: 'repeat-x',
+            backgroundSize: '100% 2px',
+            backgroundPosition: '0 100%',
+            transition: 'all 0.25s ease-in',
+            '&:hover': {
+              backgroundSize: '100vw 2px',
             },
           },
         }
       : {
           '& a': {
-            color: 'currentColor',
-            '&:hover, &:focus, &:active': {
-              color: 'currentColor',
+            textDecoration: 'none',
+            backgroundImage: 'linear-gradient(0deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%)',
+            backgroundRepeat: 'repeat-x',
+            backgroundSize: '100% 2px',
+            backgroundPosition: '0 100%',
+            transition: 'all 0.25s ease-in',
+            '&:hover': {
+              backgroundSize: '100vw 2px',
             },
           },
         }

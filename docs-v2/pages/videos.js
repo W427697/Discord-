@@ -44,6 +44,45 @@ const Video = glamorous(({ id, title, className }) => (
   },
 });
 
+const Link = glamorous(({ id, title, className }) => (
+  // [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+  <a className={className} href={`https://www.youtube.com/watch?v=${id}`}>
+    <img width="560" height="315" alt={title} src={`https://img.youtube.com/vi/${id}/0.jpg`} />
+    <span>{title}</span>
+  </a>
+))({
+  width: '100%',
+  position: 'relative',
+  '&:before': {
+    display: 'block',
+    content: '""',
+    width: '100%',
+    paddingTop: '56.25%',
+  },
+  '& > img': {
+    position: 'absolute',
+    top: '-16.8%',
+    left: 0,
+    right: 0,
+    width: '100%',
+    height: 'auto',
+  },
+  '& > span': {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    width: '100%',
+    zIndex: 1,
+    background: 'linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);',
+    padding: 16,
+    paddingBottom: 60,
+    color: 'white',
+    fontWeight: 300,
+    boxSizing: 'border-box',
+  },
+});
+
 export default generator('RootExample', ({ path }) => (
   <Page>
     <TopNav {...{ path }} />
@@ -77,19 +116,19 @@ export default generator('RootExample', ({ path }) => (
     <Container width={1400} vSpacing={30} hPadding={30}>
       <H1>Roadmap meetings</H1>
       <Blocks max={3}>
-        <Video title="Roadmap meeting #3" id="k1SQ6gHW7nk" />
-        <Video title="Roadmap meeting #2" id="DEL7XbFXPRA" />
-        <Video title="Roadmap meeting #1" id="wY_rGchZnYE" />
+        <Link title="Roadmap meeting #3" id="k1SQ6gHW7nk" />
+        <Link title="Roadmap meeting #2" id="DEL7XbFXPRA" />
+        <Link title="Roadmap meeting #1" id="wY_rGchZnYE" />
       </Blocks>
     </Container>
     <Container width={1000} vSpacing={30} hPadding={30}>
       <H1>Random tech demos</H1>
       <Blocks max={5}>
-        <Video title="Work in progress on new layout system" id="jInsVeMYTbU" />
-        <Video title="1 year of OSS" id="zJ8X7Kte1Tg" />
-        <Video title="Storybook for Vue demo" id="Qqce5u6upGM" />
-        <Video title="Bootstrapping storybook" id="48TX61qdzqY" />
-        <Video title="Publishing storybook with Lerna" id="HPI54xKKFlg" />
+        <Link title="Work in progress on new layout system" id="jInsVeMYTbU" />
+        <Link title="1 year of OSS" id="zJ8X7Kte1Tg" />
+        <Link title="Storybook for Vue demo" id="Qqce5u6upGM" />
+        <Link title="Bootstrapping storybook" id="48TX61qdzqY" />
+        <Link title="Publishing storybook with Lerna" id="HPI54xKKFlg" />
       </Blocks>
     </Container>
   </Page>

@@ -5,7 +5,23 @@ import glamorous from 'glamorous';
 const gradients = {
   blue: 'linear-gradient(135deg, #2ab5bb 8%, #2a7bbb)',
   pink: 'linear-gradient(135deg, rgb(241,97,140) 0%, rgb(181,126,229) 100%)',
+  gray: 'linear-gradient(135deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 100%)',
+  orange:
+    'linear-gradient(to right, rgba(241,97,97,1) 0%,rgba(243,173,56,1) 100%,rgba(162,224,94,1) 100%)',
+  rainbow:
+    'linear-gradient(to right, rgba(181,126,229,1) 0%,rgba(241,97,140,1) 37%,rgba(243,173,56,1) 100%)',
 };
+
+const PathItem = glamorous.span({
+  display: 'inline-block',
+  padding: 10,
+});
+const Path = glamorous(({ className, path }) => (
+  <div className={className}>{path.split('/').map(item => <PathItem>{item}</PathItem>)}</div>
+))({
+  backgroundColor: 'rgba(109, 171, 245, 0.1)',
+  padding: 0,
+});
 
 const Root = glamorous.section(
   {
@@ -25,30 +41,24 @@ const Root = glamorous.section(
       marginTop: 0,
       marginBottom: 20,
     },
-    '@media screen and (min-width: 900px)': {
-      '& h1': {
-        // float: 'left',
-        // maxWidth: '40vw',
-        // marginRight: 50,
-      },
-      '& p:first-of-type': {
-        marginTop: 0,
-      },
-    },
   },
   ({ minHeight = '60vh' }) => ({
     minHeight,
   })
 );
 
-const PageTitle = ({ children, ...rest }) => (
-  <Root {...rest}>
-    <div>{children}</div>
-  </Root>
+const PageTitle = ({ children, path = '', ...rest }) => (
+  <div>
+    <Root {...rest}>
+      <div>{children}</div>
+    </Root>
+    {path.split('/').length > 1 ? <Path path={path} /> : null}
+  </div>
 );
 
 PageTitle.displayName = 'PageTitle';
 PageTitle.propTypes = {
+  path: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
 

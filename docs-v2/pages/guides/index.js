@@ -20,7 +20,7 @@ export default generator('GuidesIndex', ({ path }) => (
       <title>Storybook Guides</title>
     </Head>
     <TopNav {...{ path }} />
-    <PageTitle minHeight="auto">
+    <PageTitle minHeight="auto" {...{ path }}>
       <h1>Guides</h1>
       <p>
         This section contains guides for understanding and mastering the wide variety of usages and

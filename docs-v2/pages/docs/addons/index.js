@@ -16,7 +16,7 @@ export default generator('DocsIndex', ({ path }) => (
       <title>Storybook Documentation</title>
     </Head>
     <TopNav {...{ path }} />
-    <PageTitle minHeight="auto">
+    <PageTitle minHeight="auto" {...{ path }}>
       <h1>Documentation</h1>
       <p>This section contains full documentation concerning API, CLI and configuration</p>
     </PageTitle>

@@ -1,6 +1,6 @@
 module.exports = {
   '/contributing': {
-    modified: '2017-11-10T20:02:36.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -37,7 +37,7 @@ module.exports = {
     fpath: '/docs-v2/pages/contributing/index.js',
   },
   '/contributing/issue-triage': {
-    modified: '2017-11-07T23:44:13.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'issue-triage',
     title: 'Issue Triage',
     isFile: true,
@@ -61,7 +61,7 @@ module.exports = {
     fpath: '/docs-v2/content/contributing/issue-triage.md',
   },
   '/contributing/maintainers-avoiding-burnout': {
-    modified: '2017-11-08T22:21:27.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'maintainers-avoiding-burnout',
     title: 'Maintainers: Avoiding Burnout',
     isFile: true,
@@ -85,7 +85,7 @@ module.exports = {
     fpath: '/docs-v2/content/contributing/maintainers-avoiding-burnout.md',
   },
   '/contributing/pull-requests': {
-    modified: '2017-11-08T22:08:37.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'pull-requests',
     title: 'Pull Requests (PRs)',
     isFile: true,
@@ -109,7 +109,7 @@ module.exports = {
     fpath: '/docs-v2/content/contributing/pull-requests.md',
   },
   '/contributing/release-guide': {
-    modified: '2017-11-07T22:22:23.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'release-guide',
     title: 'Release Guide',
     isFile: true,
@@ -133,7 +133,7 @@ module.exports = {
     fpath: '/docs-v2/content/contributing/release-guide.md',
   },
   '/contributing/reporting-issues': {
-    modified: '2017-11-07T22:22:23.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'reporting-issues',
     title: 'Reporting Issues',
     isFile: true,
@@ -157,7 +157,7 @@ module.exports = {
     fpath: '/docs-v2/content/contributing/reporting-issues.md',
   },
   '/contributing/setting-up-a-dev-environment': {
-    modified: '2017-11-08T23:01:09.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'setting-up-a-dev-environment',
     title: 'Setting up a dev environment (React)',
     isFile: true,
@@ -181,7 +181,7 @@ module.exports = {
     fpath: '/docs-v2/content/contributing/setting-up-a-dev-environment.md',
   },
   '/demo': {
-    modified: '2017-11-09T17:28:30.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -201,14 +201,124 @@ module.exports = {
     ],
     fpath: '/docs-v2/pages/demo/index.js',
   },
+  '/docs/addons/a11y': {
+    modified: '2017-11-25T22:27:47.000Z',
+    name: 'a11y',
+    title: 'storybook-addon-a11y',
+    isFile: true,
+    route: '/docs/addons/a11y',
+    files: [],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '7710c6f9fb9c5ba2b8fb31e233518b14',
+        name: 'Gianmarco',
+      },
+      {
+        hash: '30709f6abd4828b647abca013c62751c',
+        name: 'jrwebdev',
+      },
+      {
+        hash: '6d536983dd42adc7d69a5af82d0a643d',
+        name: 'Jaco Bovenschen',
+      },
+    ],
+    fpath: '/addons/a11y/README.md',
+  },
+  '/docs/addons/actions': {
+    modified: '2017-11-25T22:33:33.000Z',
+    name: 'actions',
+    title: 'Storybook Addon Actions',
+    isFile: true,
+    route: '/docs/addons/actions',
+    files: [],
+    contributors: [
+      {
+        hash: 'f618f1fbd97d8b304c0f21c537e6ee77',
+        name: 'Iurii Kucherov',
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '5f6b08ef71e8363145ea9de141945fff',
+        name: 'Michael Shilman',
+        meta: {},
+      },
+      {
+        hash: 'b3e13faf2c5b21df259f0728e14d6f09',
+        name: 'Natsathorn',
+      },
+      {
+        hash: '0529a9b90c1d0dc23f427f7ec4d1638d',
+        name: 'Yang Li',
+      },
+      {
+        hash: '792463f9b4dfb9a0a9cb181a68dced78',
+        name: 'Aaron Mc Adam',
+        meta: {},
+      },
+    ],
+    fpath: '/addons/actions/README.md',
+  },
+  '/docs/addons/events': {
+    modified: '2017-11-25T22:29:10.000Z',
+    name: 'events',
+    title: 'Storybook Addon Events',
+    isFile: true,
+    route: '/docs/addons/events',
+    files: [],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '6b38c8f2184898a6c948620ac187973e',
+        name: 'Evgeniy Zaitsev',
+      },
+    ],
+    fpath: '/addons/events/README.md',
+  },
   '/docs/addons': {
-    modified: '2017-11-09T20:34:16.000Z',
+    modified: '2017-11-25T22:32:39.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
     route: '/docs/addons',
-    files: ['/docs/addons', '/docs/addons/info', '/docs/addons/knobs'],
-    length: 3,
+    files: [
+      '/docs/addons/a11y',
+      '/docs/addons/actions',
+      '/docs/addons/events',
+      '/docs/addons',
+      '/docs/addons/info',
+      '/docs/addons/jest',
+      '/docs/addons/knobs',
+      '/docs/addons/links',
+      '/docs/addons/notes',
+      '/docs/addons/storyshots',
+      '/docs/addons/viewport',
+    ],
+    length: 11,
     contributors: [
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
@@ -223,7 +333,7 @@ module.exports = {
     fpath: '/docs-v2/pages/docs/addons/index.js',
   },
   '/docs/addons/info': {
-    modified: '2017-11-09T17:37:25.000Z',
+    modified: '2017-11-25T22:27:58.000Z',
     name: 'info',
     title: 'Storybook Info Addon',
     isFile: true,
@@ -298,14 +408,42 @@ module.exports = {
     ],
     fpath: '/addons/info/README.md',
   },
+  '/docs/addons/jest': {
+    modified: '2017-11-25T22:29:36.000Z',
+    name: 'jest',
+    title: 'Storybook addon Jest',
+    isFile: true,
+    route: '/docs/addons/jest',
+    files: [],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '88ed533d03ba6afba8c24a8590aa01b7',
+        name: 'Renaud Tertrais',
+      },
+    ],
+    fpath: '/addons/jest/README.md',
+  },
   '/docs/addons/knobs': {
-    modified: '2017-11-08T22:21:04.000Z',
+    modified: '2017-11-25T22:28:06.000Z',
     name: 'knobs',
     title: 'Storybook Addon Knobs',
     isFile: true,
     route: '/docs/addons/knobs',
     files: [],
     contributors: [
+      {
+        hash: '611ba86b0b903e9215b248e0c47430d7',
+        name: 'Stephen Sugden',
+      },
       {
         hash: '4141bb49b698f11530390f3006af9a6a',
         name: 'Jean-Elie Barjonet',
@@ -330,6 +468,10 @@ module.exports = {
       {
         hash: 'a9b4a4b4998a8b3bf55d2c1916cdd848',
         name: 'hypnos',
+      },
+      {
+        hash: '63a3e531ef160de06d4b2f3f07b613bc',
+        name: 'Carlos Vega',
       },
       {
         hash: '9a4c135ce6e37b086dd365f790187f3c',
@@ -495,8 +637,166 @@ module.exports = {
     ],
     fpath: '/addons/knobs/README.md',
   },
+  '/docs/addons/links': {
+    modified: '2017-11-25T22:33:52.000Z',
+    name: 'links',
+    title: 'Story Links Addon',
+    isFile: true,
+    route: '/docs/addons/links',
+    files: [],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: 'a9b4a4b4998a8b3bf55d2c1916cdd848',
+        name: 'hypnos',
+      },
+      {
+        hash: 'ba6c38efbcacd1bdf54f484d78911286',
+        name: 'Martin',
+      },
+      {
+        hash: '3911f3dda74ddc708ea8f10566c0d8c3',
+        name: 'Joscha Feth',
+      },
+      {
+        hash: '5f6b08ef71e8363145ea9de141945fff',
+        name: 'Michael Shilman',
+        meta: {},
+      },
+    ],
+    fpath: '/addons/links/README.md',
+  },
+  '/docs/addons/notes': {
+    modified: '2017-11-25T22:30:17.000Z',
+    name: 'notes',
+    title: 'Storybook Addon Notes',
+    isFile: true,
+    route: '/docs/addons/notes',
+    files: [],
+    contributors: [
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+      {
+        hash: 'e4f788b6eac5904fe084f39c7cd5bec1',
+        name: 'Daniel Duan',
+      },
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '5f6b08ef71e8363145ea9de141945fff',
+        name: 'Michael Shilman',
+        meta: {},
+      },
+      {
+        hash: '9a4c135ce6e37b086dd365f790187f3c',
+        name: 'Tom Coleman',
+      },
+      {
+        hash: '894e3aea4ff9c3f815a6ff8425462123',
+        name: 'Alexandre BODIN',
+      },
+      {
+        hash: '792463f9b4dfb9a0a9cb181a68dced78',
+        name: 'Aaron Mc Adam',
+        meta: {},
+      },
+    ],
+    fpath: '/addons/notes/README.md',
+  },
+  '/docs/addons/storyshots': {
+    modified: '2017-11-25T22:34:35.000Z',
+    name: 'storyshots',
+    title: 'StoryShots',
+    isFile: true,
+    route: '/docs/addons/storyshots',
+    files: [],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: '529fcc5c60a48b97002ec21bd6f668e6',
+        name: 'Jose Browne',
+      },
+      {
+        hash: '5f6b08ef71e8363145ea9de141945fff',
+        name: 'Michael Shilman',
+        meta: {},
+      },
+      {
+        hash: 'df71ce94b720b254fbec5382b2aa5dec',
+        name: 'Xavier Cazalot',
+        meta: {},
+      },
+      {
+        hash: '6eab2de473ce3048d021758fab427b54',
+        name: 'Allan Lukwago',
+      },
+      {
+        hash: '3d11e702bcb2b1ad073f55c7dbbf0c22',
+        name: 'Tom Coleman',
+        meta: {},
+      },
+      {
+        hash: '9a4c135ce6e37b086dd365f790187f3c',
+        name: 'Tom Coleman',
+      },
+      {
+        hash: 'df0ca9b152d9599ddf0fef20df7b0ccb',
+        name: 'Denis Evgrafov',
+      },
+      {
+        hash: '792463f9b4dfb9a0a9cb181a68dced78',
+        name: 'Aaron Mc Adam',
+        meta: {},
+      },
+      {
+        hash: '9159df0bc60ecb394a715c972fd0cdca',
+        name: 'Matias Olivera',
+      },
+    ],
+    fpath: '/addons/storyshots/README.md',
+  },
+  '/docs/addons/viewport': {
+    modified: '2017-11-25T22:34:57.000Z',
+    name: 'viewport',
+    title: 'Storybook Viewport Addon',
+    isFile: true,
+    route: '/docs/addons/viewport',
+    files: [],
+    contributors: [
+      {
+        hash: '776b49d03994c01ccdb9be9d8d475a8e',
+        name: 'Josh Callender',
+      },
+    ],
+    fpath: '/addons/viewport/README.md',
+  },
   '/docs/api': {
-    modified: '2017-11-08T22:59:39.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'api',
     title: 'Storybook API',
     isFile: true,
@@ -516,7 +816,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/api.md',
   },
   '/docs/cli': {
-    modified: '2017-11-08T22:59:42.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'cli',
     title: 'Storybook CLI',
     isFile: true,
@@ -536,7 +836,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/cli.md',
   },
   '/docs/community': {
-    modified: '2017-11-08T22:59:44.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'community',
     title: 'Community projects',
     isFile: true,
@@ -556,7 +856,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/community.md',
   },
   '/docs/configs': {
-    modified: '2017-11-08T22:59:46.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'configs',
     title: 'Configuration',
     isFile: true,
@@ -575,8 +875,35 @@ module.exports = {
     ],
     fpath: '/docs-v2/content/docs/configs.md',
   },
+  '/docs/configuration/babel': {
+    modified: '2017-11-25T22:45:40.000Z',
+    name: 'babel',
+    title: 'Index',
+    isFile: true,
+    route: '/docs/configuration/babel',
+    files: [],
+    contributors: [],
+    fpath: '/docs-v2/pages/docs/configuration/babel.js',
+  },
+  '/docs/configuration/webpack': {
+    modified: '2017-11-25T22:45:34.000Z',
+    name: 'webpack',
+    title: 'Index',
+    isFile: true,
+    route: '/docs/configuration/webpack',
+    files: [],
+    contributors: [],
+    fpath: '/docs-v2/pages/docs/configuration/webpack.js',
+  },
+  '/docs/configuration': {
+    route: '/docs/configuration',
+    length: 2,
+    files: ['/docs/configuration/babel', '/docs/configuration/webpack'],
+    fpath: '',
+    contributors: [null],
+  },
   '/docs/frameworks': {
-    modified: '2017-11-10T20:03:09.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -603,7 +930,7 @@ module.exports = {
     fpath: '/docs-v2/pages/docs/frameworks/index.js',
   },
   '/docs/frameworks/react-native': {
-    modified: '2017-11-09T20:56:24.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'react-native',
     title: 'Storybook for React Native',
     isFile: true,
@@ -648,7 +975,7 @@ module.exports = {
     fpath: '/app/react-native/readme.md',
   },
   '/docs/frameworks/react': {
-    modified: '2017-11-09T20:55:23.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'react',
     title: 'Storybook for React',
     isFile: true,
@@ -820,7 +1147,7 @@ module.exports = {
     fpath: '/app/react/README.md',
   },
   '/docs/frameworks/vue': {
-    modified: '2017-11-09T20:55:37.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'vue',
     title: 'Storybook for Vue',
     isFile: true,
@@ -853,7 +1180,7 @@ module.exports = {
     fpath: '/app/vue/README.md',
   },
   '/docs': {
-    modified: '2017-11-10T19:44:59.000Z',
+    modified: '2017-11-25T22:42:38.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -864,12 +1191,13 @@ module.exports = {
       '/docs/cli',
       '/docs/community',
       '/docs/configs',
+      '/docs/configuration',
       '/docs/frameworks',
       '/docs',
       '/docs/issues',
       '/docs/structure',
     ],
-    length: 9,
+    length: 10,
     contributors: [
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
@@ -888,7 +1216,7 @@ module.exports = {
     fpath: '/docs-v2/pages/docs/index.js',
   },
   '/docs/issues': {
-    modified: '2017-11-08T22:59:50.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'issues',
     title: 'Issues',
     isFile: true,
@@ -908,7 +1236,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/issues.md',
   },
   '/docs/structure': {
-    modified: '2017-11-08T22:59:53.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'structure',
     title: 'Storybook structure',
     isFile: true,
@@ -928,7 +1256,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/structure.md',
   },
   '/easteregg': {
-    modified: '2017-11-08T23:00:15.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'easteregg',
     title: 'Hello world',
     isFile: true,
@@ -948,7 +1276,7 @@ module.exports = {
     fpath: '/docs-v2/content/easteregg.md',
   },
   '/example': {
-    modified: '2017-11-09T21:38:07.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'example',
     title: 'Core Addon API',
     isFile: true,
@@ -978,7 +1306,7 @@ module.exports = {
     fpath: '/docs-v2/content/example.md',
   },
   '/guides': {
-    modified: '2017-11-10T20:03:33.000Z',
+    modified: '2017-11-25T20:51:55.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -1003,7 +1331,7 @@ module.exports = {
     fpath: '/docs-v2/pages/guides/index.js',
   },
   '/guides/setup': {
-    modified: '2017-11-08T22:59:59.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'setup',
     title: 'Setup Storybook',
     isFile: true,
@@ -1023,7 +1351,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/setup.md',
   },
   '/guides/why': {
-    modified: '2017-11-08T23:00:02.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'why',
     title: 'Why choose Storybook.',
     isFile: true,
@@ -1047,7 +1375,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/why.md',
   },
   '/': {
-    modified: '2017-11-10T20:05:24.000Z',
+    modified: '2017-11-25T19:17:22.000Z',
     name: 'index',
     title: 'Index',
     isFile: true,
@@ -1071,7 +1399,7 @@ module.exports = {
     fpath: '/docs-v2/pages/index.js',
   },
   '/videos': {
-    modified: '2017-11-09T22:25:42.000Z',
+    modified: '2017-11-25T16:51:43.000Z',
     name: 'videos',
     title: 'Index',
     isFile: true,
