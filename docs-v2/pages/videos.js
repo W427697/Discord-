@@ -91,7 +91,7 @@ export default generator('RootExample', ({ path }) => (
     </Head>
     <TopNav />
     <Hero>
-      <HeroTitle>Presentation by maintainers and the community</HeroTitle>
+      <HeroTitle>Presentations by maintainers and the community</HeroTitle>
       <HeroActions>
         <Button href="https://www.youtube.com/channel/UCr7Quur3eIyA_oe8FNYexfg" size={5}>
           Subscribe to the Storybook Youtube channel

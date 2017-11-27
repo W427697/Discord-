@@ -177,10 +177,10 @@ export default generator('GuidesIndex', ({ path }) => (
       background="linear-gradient(135deg, rgb(109, 171, 245) 0%, rgb(162, 224, 94) 100%)"
     >
       <H1>For development</H1>
-      <Blocks colors={['rgba(0,0,0,0.08)']} max={4}>
-        <section style={{ padding: 18 }}>
+      <Blocks colors={['transparent']} max={4}>
+        <section>
           <H3>The basic first steps</H3>
-          <MarkdownContainer colored={false}>
+          <MarkdownContainer>
             <ul>
               <li>
                 <Link href="/guides/setup">
@@ -200,7 +200,7 @@ export default generator('GuidesIndex', ({ path }) => (
             </ul>
           </MarkdownContainer>
         </section>
-        <section style={{ padding: 18 }}>
+        <section>
           <H3>Understanding the app</H3>
           <MarkdownContainer colored={false}>
             <ul>
@@ -222,7 +222,7 @@ export default generator('GuidesIndex', ({ path }) => (
             </ul>
           </MarkdownContainer>
         </section>
-        <section style={{ padding: 18 }}>
+        <section>
           <H3>Releasing</H3>
           <MarkdownContainer colored={false}>
             <ul>
@@ -244,7 +244,7 @@ export default generator('GuidesIndex', ({ path }) => (
             </ul>
           </MarkdownContainer>
         </section>
-        <section style={{ padding: 18 }}>
+        <section>
           <H3>Other</H3>
           <MarkdownContainer colored={false}>
             <ul>
@@ -256,6 +256,11 @@ export default generator('GuidesIndex', ({ path }) => (
               <li>
                 <Link href="/contributing/maintainers-avoiding-burnout">
                   <a>What to expect from maintainers</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/contributing/code-of-conduct">
+                  <a>Code of Conduct</a>
                 </Link>
               </li>
             </ul>

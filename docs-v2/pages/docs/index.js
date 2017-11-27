@@ -8,7 +8,7 @@ import TopNav from '../../components/TopNav';
 import PageTitle from '../../components/PageTitle';
 import Blocks from '../../components/Blocks';
 import Container from '../../components/Container';
-import { Container as MarkdownContainer, H2, H3 } from '../../components/Markdown';
+import { Container as MarkdownContainer, H1, H2, H3 } from '../../components/Markdown';
 
 import sitemap from '../../lib/sitemap';
 
@@ -139,7 +139,6 @@ export default generator('DocsIndex', ({ path }) => (
         </section>
       </Blocks>
     </Container>
-
     <Container
       width={1000}
       vPadding={30}
@@ -186,7 +185,6 @@ export default generator('DocsIndex', ({ path }) => (
         </section>
       </Blocks>
     </Container>
-
     <Container
       width={1000}
       vPadding={30}
@@ -205,22 +203,102 @@ export default generator('DocsIndex', ({ path }) => (
           ))}
       </Blocks>
     </Container>
-
     <Container
       width={1000}
       vPadding={30}
       hPadding={30}
       background="linear-gradient(135deg, rgb(109, 171, 245) 0%, rgb(162, 224, 94) 100%)"
     >
-      <h1>For development</h1>
-      <Blocks colors={['rgba(0,0,0,0.08)']} max={4} padded>
-        <p>UI mantra modules API</p>
-        <p>Story Store API</p>
-        <p>bootstrapping the monorepo</p>
-        <p>app architecture</p>
-        <p>addon architecture</p>
-        <p>releases</p>
-        <p>open open source</p>
+      <H1>For development</H1>
+      <Blocks colors={['transparent']} max={4}>
+        <section>
+          <H3>The basic first steps</H3>
+          <MarkdownContainer>
+            <ul>
+              <li>
+                <Link href="/guides/setup">
+                  <a>Understand the repository structure</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides/setup">
+                  <a>Check out the repository</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides/setup">
+                  <a>Bootstrap the development processes</a>
+                </Link>
+              </li>
+            </ul>
+          </MarkdownContainer>
+        </section>
+        <section>
+          <H3>Understanding the app</H3>
+          <MarkdownContainer colored={false}>
+            <ul>
+              <li>
+                <Link href="/guides/setup">
+                  <a>App architecture</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides/setup">
+                  <a>Multiple platform support</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides/setup">
+                  <a>Addon architecture</a>
+                </Link>
+              </li>
+            </ul>
+          </MarkdownContainer>
+        </section>
+        <section>
+          <H3>Releasing</H3>
+          <MarkdownContainer colored={false}>
+            <ul>
+              <li>
+                <Link href="/contributing/release-guide">
+                  <a>How to release</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/contributing/release-guide">
+                  <a>Merge/Release strategy </a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/contributing/pull-requests">
+                  <a>How to make/merge pull requests</a>
+                </Link>
+              </li>
+            </ul>
+          </MarkdownContainer>
+        </section>
+        <section>
+          <H3>Other</H3>
+          <MarkdownContainer colored={false}>
+            <ul>
+              <li>
+                <Link href="/contributing/issue-triage">
+                  <a>Resolving GitHub issues</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/contributing/maintainers-avoiding-burnout">
+                  <a>What to expect from maintainers</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/contributing/code-of-conduct">
+                  <a>Code of Conduct</a>
+                </Link>
+              </li>
+            </ul>
+          </MarkdownContainer>
+        </section>
       </Blocks>
     </Container>
   </Page>

@@ -126,6 +126,7 @@ export const BlockLink = glamorous(({ children, href, className }) => (
   height: 160,
   transition: 'all .3s',
   boxShadow: 'inset 0 0 0 0px rgba(0,0,0,0.08)',
+  width: '100%',
 
   '& svg': {
     boxSizing: 'border-box',

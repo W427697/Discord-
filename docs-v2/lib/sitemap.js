@@ -202,9 +202,9 @@ module.exports = {
     fpath: '/docs-v2/pages/demo/index.js',
   },
   '/docs/addons/a11y': {
-    modified: '2017-11-26T15:33:00.000Z',
+    modified: '2017-11-26T15:38:01.000Z',
     name: 'a11y',
-    title: 'Storybook Addon Accessibility (a11y)',
+    title: 'Storybook Addon Accessibility',
     isFile: true,
     route: '/docs/addons/a11y',
     files: [],
@@ -1343,10 +1343,6 @@ module.exports = {
     files: [],
     contributors: [
       {
-        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
-        name: 'Dan Green',
-      },
-      {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
         name: 'Norbert de Langen',
         meta: {
@@ -1354,6 +1350,10 @@ module.exports = {
           npm: 'ndelangen',
           twitter: 'norbertdelangen',
         },
+      },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
       },
     ],
     fpath: '/docs-v2/content/guides/why.md',

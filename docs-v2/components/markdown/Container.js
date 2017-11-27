@@ -26,6 +26,11 @@ const ul = {
   padding: 0,
   paddingLeft: '1.2em',
 };
+const ol = {
+  margin: 0,
+  padding: 0,
+  paddingLeft: '1.2em',
+};
 
 const li = {
   '& + li': {
@@ -46,6 +51,7 @@ const Container = glamorous.div(
     '& a': a,
     '& p': p,
     '& ul': ul,
+    '& ol': ol,
     '& li': li,
     '& li > p': {
       marginBottom: 0,
