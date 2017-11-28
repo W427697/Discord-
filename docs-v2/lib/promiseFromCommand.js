@@ -1,4 +1,4 @@
-const exec = require('child_process').exec;
+const { exec } = require('child_process');
 
 module.exports = function promiseFromCommand(command) {
   const child = exec(command);

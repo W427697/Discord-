@@ -72,18 +72,18 @@ module.exports = function blockPlugin() {
     });
   }
 
-  const Parser = this.Parser;
+  const { Parser } = this;
 
   // Inject blockTokenizer
-  const blockTokenizers = Parser.prototype.blockTokenizers;
-  const blockMethods = Parser.prototype.blockMethods;
+  const { blockTokenizers } = Parser.prototype;
+  const { blockMethods } = Parser.prototype;
   blockTokenizers.custom_blocks = blockTokenizer;
   blockMethods.splice(blockMethods.indexOf('fencedCode') + 1, 0, 'custom_blocks');
 
   // Inject into interrupt rules
-  const interruptParagraph = Parser.prototype.interruptParagraph;
-  const interruptList = Parser.prototype.interruptList;
-  const interruptBlockquote = Parser.prototype.interruptBlockquote;
+  const { interruptParagraph } = Parser.prototype;
+  const { interruptList } = Parser.prototype;
+  const { interruptBlockquote } = Parser.prototype;
   interruptParagraph.splice(interruptParagraph.indexOf('fencedCode') + 1, 0, ['custom_blocks']);
   interruptList.splice(interruptList.indexOf('fencedCode') + 1, 0, ['custom_blocks']);
   interruptBlockquote.splice(interruptBlockquote.indexOf('fencedCode') + 1, 0, ['custom_blocks']);

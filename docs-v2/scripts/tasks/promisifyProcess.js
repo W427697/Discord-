@@ -1,4 +1,4 @@
-const exec = require('child_process').exec;
+const { exec } = require('child_process');
 
 function handleProcessClose(childProcess, resolve, reject, stepName) {
   childProcess.on(
