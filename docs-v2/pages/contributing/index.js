@@ -12,6 +12,8 @@ import Blocks from '../../components/Blocks';
 import Container from '../../components/Container';
 import { Container as MarkdownContainer, H1, H2, H3 } from '../../components/Markdown';
 
+export const pageTitle = 'Contributing to Storybook';
+
 const Video = glamorous(({ id, title, className }) => (
   <div className={className}>
     <iframe
@@ -51,7 +53,7 @@ export default generator('GuidesIndex', ({ path }) => (
     </Head>
     <TopNav {...{ path }} />
     <PageTitle minHeight="auto">
-      <h1>Contributing to Storybook</h1>
+      <h1>{pageTitle}</h1>
     </PageTitle>
     <Container width={1000} vSpacing={30} hPadding={10}>
       <H2 as="h1">For using storybook</H2>

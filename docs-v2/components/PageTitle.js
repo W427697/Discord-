@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
 
+import Link from './Link';
+
 import sitemap from '../lib/sitemap';
 
 const gradients = {
@@ -14,7 +16,7 @@ const gradients = {
     'linear-gradient(to right, rgba(181,126,229,1) 0%,rgba(241,97,140,1) 37%,rgba(243,173,56,1) 100%)',
 };
 
-const PathItem = glamorous.span({
+const PathItem = glamorous.a({
   display: 'inline-block',
   padding: 10,
 });
@@ -59,7 +61,11 @@ const Breadcrumb = glamorous(({ input, className }) => {
 
   return items.length < 2 ? null : (
     <div className={className}>
-      {items.map(({ name, path }) => <PathItem path={path}>{name}</PathItem>)}
+      {items.map(({ name, path }) => (
+        <Link href={path} key={path}>
+          <PathItem href={path}>{name}</PathItem>
+        </Link>
+      ))}
     </div>
   );
 })({

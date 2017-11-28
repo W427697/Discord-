@@ -14,6 +14,8 @@ import { Container as MarkdownContainer, H1, H2, H3 } from '../../components/Mar
 
 const { React: ReactLogo, Angular: AngularLogo, Vue: VueLogo, Polymer: PolymerLogo } = Logos;
 
+export const pageTitle = 'Guides';
+
 export default generator('GuidesIndex', ({ path }) => (
   <Page>
     <Head>

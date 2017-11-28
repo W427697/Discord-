@@ -7,6 +7,8 @@ const remarkParse = require('remark-parse');
 const mdHelpers = require('remark-helpers');
 const detective = require('detective-es6');
 
+const getJsPageTitle = require('./jsPageToTitle');
+
 const parser = markdown =>
   unified()
     .use(remarkParse)
@@ -48,7 +50,14 @@ const createFile = (stat, fileName, workingDir, baseDir) => {
       // find the heading
       .then(({ fpath, mast }) => ({ fpath, title: findTitle(mast.children) }))
       // on any error, return "Index"
+      .catch(() =>
+        fs.readFileAsync(path.join(workingDir, fileName), 'utf-8').then(jsSource => ({
+          fpath: path.join(workingDir, fileName),
+          title: getJsPageTitle(jsSource),
+        }))
+      )
       .catch(() => ({
+        fpath: path.join(workingDir, fileName),
         title: 'Index',
       }))
       .then(({ title, fpath }) => ({

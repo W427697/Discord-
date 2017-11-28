@@ -10,6 +10,8 @@ import Container from '../../../components/Container';
 
 import sitemap from '../../../lib/sitemap';
 
+export const pageTitle = 'Addons';
+
 export default generator('DocsIndex', ({ path }) => (
   <Page>
     <Head>

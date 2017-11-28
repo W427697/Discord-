@@ -32,7 +32,6 @@ const getExistingKey = key =>
  * each file is enriched with file statistics
  * and contributors (based on git blame)
  */
-
 const authorMatchString = 'Author: (.+?) <(.+?)>';
 const allAuthorsRegexp = new RegExp(authorMatchString, 'g');
 const authorRegexp = new RegExp(authorMatchString);
@@ -74,9 +73,9 @@ const normalize = (list, acc = {}) =>
   list.reduce((localAcc, item) => {
     const localItem = Object.assign({}, item, { files: [] });
     if (item.files && item.files.length) {
-      normalize(item.files, localAcc); // recursion
-      const keys = item.files.map(i => i.route);
-      localItem.files = keys;
+      normalize(item.files.sort(), localAcc); // recursion
+      const keys = item.files.sort().map(i => i.route);
+      localItem.files = keys.sort();
     }
     // eslint-disable-next-line no-param-reassign
     localAcc[item.route] = Object.assign(localAcc[item.route] || {}, localItem);

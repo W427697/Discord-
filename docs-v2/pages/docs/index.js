@@ -12,6 +12,8 @@ import { Container as MarkdownContainer, H1, H2, H3 } from '../../components/Mar
 
 import sitemap from '../../lib/sitemap';
 
+export const pageTitle = 'Documentation';
+
 export default generator('DocsIndex', ({ path }) => (
   <Page>
     <Head>
@@ -129,7 +131,7 @@ export default generator('DocsIndex', ({ path }) => (
               </Link>.
             </p>
             <p>
-              It's also possible to
+              It's also possible to{' '}
               <Link href="/guides/why/#addons">
                 <a>extract the list of stories</a>
               </Link>
