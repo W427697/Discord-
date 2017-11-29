@@ -194,16 +194,22 @@ export default generator('DocsIndex', ({ path }) => (
       background="linear-gradient(to right, rgba(241,97,97,1) 0%,rgba(243,173,56,1) 100%,rgba(162,224,94,1) 100%)"
     >
       <H2 as="h1">Storybook Addons</H2>
-      <Blocks aligned={false} variant="masked" padded colors={['rgba(255,255,255,0.5)']} max={5}>
-        {sitemap['/docs/addons'].files
-          .filter(i => i !== '/docs/addons')
-          .map(i => sitemap[i])
-          .map(data => (
-            <section>
-              <h2>{data.title}</h2>
-            </section>
-          ))}
-      </Blocks>
+      <MarkdownContainer colored={false}>
+        <ol>
+          {sitemap['/docs/addons'].files
+            .filter(i => i !== '/docs/addons')
+            .map(i => sitemap[i])
+            .map(data => (
+              <li>
+                <Link href={data.route}>
+                  <a>
+                    <strong>{data.title.replace('Storybook Addon', '')}</strong>
+                  </a>
+                </Link>
+              </li>
+            ))}
+        </ol>
+      </MarkdownContainer>
     </Container>
     <Container
       width={1000}
@@ -215,7 +221,7 @@ export default generator('DocsIndex', ({ path }) => (
       <Blocks colors={['transparent']} max={4}>
         <section>
           <H3>The basic first steps</H3>
-          <MarkdownContainer>
+          <MarkdownContainer colored={false}>
             <ul>
               <li>
                 <Link href="/guides/setup">

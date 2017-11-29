@@ -1,4 +1,5 @@
 import glamorous from 'glamorous';
+import { baseFonts, monoFonts } from '@storybook/components';
 
 import { styles as headingStyles } from './Heading';
 
@@ -24,12 +25,18 @@ const p = {
 const ul = {
   margin: 0,
   padding: 0,
-  paddingLeft: '1.2em',
+  paddingLeft: '1em',
+  'list-style-type': 'circle',
 };
 const ol = {
   margin: 0,
   padding: 0,
-  paddingLeft: '1.2em',
+  paddingLeft: '2.45em',
+  'list-style-type': 'decimal-leading-zero',
+  fontFamily: monoFonts.fontFamily,
+  '& > li > *': {
+    fontFamily: baseFonts.fontFamily,
+  },
 };
 
 const li = {
@@ -94,5 +101,14 @@ a.displayName = 'Markdown.A';
 
 export const P = glamorous.p(p);
 P.displayName = 'Markdown.P';
+
+export const Ol = glamorous.ol(ol);
+Ol.displayName = 'Markdown.Ol';
+
+export const Ul = glamorous.ul(ul);
+Ul.displayName = 'Markdown.Ul';
+
+export const Li = glamorous.li(li);
+Li.displayName = 'Markdown.Li';
 
 export { Container as default };
