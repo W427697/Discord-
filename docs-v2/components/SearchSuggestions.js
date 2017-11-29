@@ -1,4 +1,5 @@
 import React from 'react';
+import { baseFonts } from '@storybook/components';
 import glamorous from 'glamorous';
 import { css } from 'glamor';
 
@@ -184,7 +185,7 @@ css.global('.algolia-docsearch-suggestion code', {
   color: '#222222',
   backgroundColor: '#EBEBEB',
   borderRadius: 3,
-  fontFamily: 'Menlo,Monaco,Consolas,"Courier New",monospace',
+  fontFamily: baseFonts.fontFamily,
 });
 
 css.global('.algolia-docsearch-suggestion code .algolia-docsearch-suggestion--highlight', {

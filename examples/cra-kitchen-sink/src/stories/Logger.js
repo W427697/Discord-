@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { baseFonts } from '@storybook/components';
 import json from 'format-json';
 import PropTypes from 'prop-types';
 import EventEmiter from 'eventemitter3';
@@ -15,10 +16,7 @@ const EVENTS = {
 const styles = {
   wrapper: {
     padding: 20,
-    fontFamily: `
-      -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto",
-      "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif
-    `,
+    fontFamily: baseFonts.fontFamily,
     color: 'rgb(51, 51, 51)',
   },
   item: {

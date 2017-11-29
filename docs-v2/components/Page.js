@@ -1,3 +1,4 @@
+import { baseFonts } from '@storybook/components';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { window } from 'global';
@@ -24,8 +25,7 @@ const Page = ({ children }) => {
   css.global('html', {
     margin: 0,
     padding: 0,
-    fontFamily:
-      '-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif',
+    fontFamily: baseFonts.fontFamily,
     fontSize: '16px',
     height: '100%',
     minHeight: '100%',

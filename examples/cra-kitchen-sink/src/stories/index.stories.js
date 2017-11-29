@@ -1,5 +1,6 @@
 import React from 'react';
 import EventEmiter from 'eventemitter3';
+import { baseFonts } from '@storybook/components';
 
 import { storiesOf } from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
@@ -27,7 +28,7 @@ const emit = emiter.emit.bind(emiter);
 const InfoButton = () => (
   <span
     style={{
-      fontFamily: 'sans-serif',
+      fontFamily: baseFonts.fontFamily,
       fontSize: 12,
       textDecoration: 'none',
       background: 'rgb(34, 136, 204)',

@@ -1,4 +1,5 @@
 import React from 'react';
+import { monoFonts } from '@storybook/components';
 import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
 
@@ -29,7 +30,7 @@ css.global('.prism-code', {
   tabSize: '2',
   background: 'rgba(0, 0, 0, 0.7)',
   fontSize: '0.8rem',
-  fontFamily: '"Operator Mono SSm A", "Operator Mono SSm B", monospace',
+  fontFamily: monoFonts.fontFamily,
   fontWeight: 300,
   whiteSpace: 'pre-wrap',
   borderRadius: '3px',
