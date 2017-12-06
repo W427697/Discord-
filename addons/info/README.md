@@ -94,6 +94,7 @@ setDefaults({
 ## Options and Defaults
 
 ```js
+<<<<<<< HEAD
 // config.js
 import { setDefaults } from '@storybook/addon-info';
 
@@ -117,8 +118,8 @@ setDefaults({
   // Overrides styles of addon
   styles: {}, 
 
-  // Overrides components used to display markdown. Warning! 
-  // This option's name will be likely deprecated in favor to "components" with the same API in 3.3 release. Follow this PR #1501 for details
+  // Overrides components used to display markdown.
+  // Warning! This option's name will be likely deprecated in favor to "components" with the same API in 3.3 release. Follow this PR #1501 for details
   marksyConf: {}, 
 
   // Max props to display per line in source code
@@ -132,6 +133,10 @@ setDefaults({
 
   // Displays the first 100 characters in the default prop string
   maxPropStringLength: 100, 
+
+  // Override the component used to render the props table
+  TableComponent: props => {}, 
+
 });
 ```
 
@@ -184,6 +189,107 @@ setDefaults({
   maxPropStringLength: 100,
 });
 setAddon(infoAddon);
+```
+
+### Rendering a Custom Table
+
+The `TableComponent` option allows you to define how the prop table should be rendered. Your component will be rendered with the following props.
+
+```js
+TableComponent.propTypes = {
+    propDefinitions: Array<{
+      // The name of the prop
+      property: string,
+      // The prop type. TODO: info about what this object is...
+      propType: Object | string,
+      // True if the prop is required
+      required: boolean,
+      // The description of the prop
+      description: string,
+      // The default value of the prop
+      defaultValue: any 
+    }>
+  }
+```
+
+Example:
+
+```js
+// button.js
+// @flow
+import React from 'react'
+
+const paddingStyles = {
+  small: '4px 8px',
+  medium: '8px 16px'
+}
+
+const Button = ({
+  size,
+  ...rest
+}: {
+  size: 'small' | 'medium'
+}) => {
+  const style = {
+    padding: paddingStyles[size] || ''
+  }
+  return <button style={style} {...rest} />
+}
+Button.defaultProps = {
+  size: 'medium'
+}
+
+export default Button
+```
+
+```js
+// stories.js
+import React from "react";
+
+import { storiesOf } from "@storybook/react";
+import { withInfo } from "@storybook/addon-info";
+import Button from "./button";
+
+const Red = props => <span style={{ color: "red" }} {...props} />;
+
+const TableComponent = ({ propDefinitions }) => {
+  const props = propDefinitions.map(
+    ({ property, propType, required, description, defaultValue }) => {
+      return (
+        <tr key={property}>
+          <td>
+            {property}
+            {required ? <Red>*</Red> : null}
+          </td>
+          <td>{propType.name}</td>
+          <td>{defaultValue}</td>
+          <td>{description}</td>
+        </tr>
+      );
+    }
+  );
+
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>type</th>
+          <th>default</th>
+          <th>description</th>
+        </tr>
+      </thead>
+      <tbody>{props}</tbody>
+    </table>
+  );
+};
+
+storiesOf("Button", module).add(
+  "with text",
+  withInfo({
+    TableComponent
+  })(() => <Button>Hello Button</Button>)
+);
 ```
 
 ### React Docgen Integration
