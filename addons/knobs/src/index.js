@@ -19,14 +19,18 @@ export function boolean(name, value) {
 }
 
 export function number(name, value, options = {}) {
-  const defaults = {
-    range: false,
+  const rangeDefaults = {
     min: 0,
     max: 10,
     step: 1,
   };
 
-  const mergedOptions = { ...defaults, ...options };
+  const mergedOptions = options.range
+    ? {
+        ...rangeDefaults,
+        ...options,
+      }
+    : options;
 
   const finalOptions = {
     ...mergedOptions,
@@ -56,6 +60,10 @@ export function array(name, value, separator = ',') {
 export function date(name, value = new Date()) {
   const proxyValue = value ? value.getTime() : null;
   return manager.knob(name, { type: 'date', value: proxyValue });
+}
+
+export function button(name, callback) {
+  return manager.knob(name, { type: 'button', callback, hideLabel: true });
 }
 
 // "Higher order component" / wrapper style API

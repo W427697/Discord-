@@ -69,9 +69,6 @@ class ObjectType extends React.Component {
     return (
       <Textarea
         id={knob.name}
-        ref={c => {
-          this.input = c;
-        }}
         style={{ ...styles, ...extraStyle }}
         value={jsonString}
         onChange={e => this.handleChange(e)}
@@ -88,7 +85,7 @@ ObjectType.defaultProps = {
 ObjectType.propTypes = {
   knob: PropTypes.shape({
     name: PropTypes.string,
-    value: PropTypes.object,
+    value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   }),
   onChange: PropTypes.func,
 };

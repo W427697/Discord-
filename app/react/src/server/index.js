@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import express from 'express';
 import https from 'https';
 import favicon from 'serve-favicon';
@@ -152,10 +150,15 @@ server.listen(...listenAddr, error => {
 
 Promise.all([webpackValid, serverListening])
   .then(() => {
-    const address = `http://${program.host || 'localhost'}:${program.port}/`;
+    const proto = program.https ? 'https' : 'http';
+    const address = `${proto}://${program.host || 'localhost'}:${program.port}/`;
     logger.info(`Storybook started on => ${chalk.cyan(address)}\n`);
     if (program.smokeTest) {
       process.exit(0);
     }
   })
-  .catch(error => logger.error(error));
+  .catch(error => {
+    if (error instanceof Error) {
+      logger.error(error);
+    }
+  });

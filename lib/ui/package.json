@@ -1,6 +1,6 @@
 {
   "name": "@storybook/ui",
-  "version": "3.2.7",
+  "version": "3.2.17",
   "description": "Core Storybook UI",
   "license": "MIT",
   "main": "dist/index.js",
@@ -9,15 +9,17 @@
     "url": "https://github.com/storybooks/storybook.git"
   },
   "scripts": {
-    "prepublish": "node ../../scripts/prepublish.js",
+    "prepare": "node ../../scripts/prepare.js",
     "publish-storybook": "bash ./.scripts/publish_storybook.sh",
     "storybook": "start-storybook -p 9010"
   },
   "dependencies": {
     "@hypnosphi/fuse.js": "^3.0.9",
-    "@storybook/components": "^3.2.7",
-    "@storybook/react-fuzzy": "^0.4.0",
-    "babel-runtime": "^6.23.0",
+    "@storybook/components": "^3.2.17",
+    "@storybook/mantra-core": "^1.7.0",
+    "@storybook/react-fuzzy": "^0.4.3",
+    "@storybook/react-komposer": "^2.0.0",
+    "babel-runtime": "^6.26.0",
     "deep-equal": "^1.0.1",
     "events": "^1.1.1",
     "global": "^4.3.2",
@@ -26,20 +28,15 @@
     "lodash.debounce": "^4.0.8",
     "lodash.pick": "^4.4.0",
     "lodash.sortby": "^4.7.0",
-    "mantra-core": "^1.7.0",
     "podda": "^1.2.2",
-    "prop-types": "^15.5.10",
-    "qs": "^6.4.0",
-    "react-icons": "^2.2.5",
-    "react-inspector": "^2.1.1",
-    "react-komposer": "^2.0.0",
-    "react-modal": "^2.2.4",
-    "react-split-pane": "^0.1.65",
+    "prop-types": "^15.6.0",
+    "qs": "^6.5.1",
+    "react-icons": "^2.2.7",
+    "react-inspector": "^2.2.1",
+    "react-modal": "^3.1.7",
+    "react-split-pane": "^0.1.71",
     "react-treebeard": "^2.0.3",
-    "redux": "^3.6.0"
-  },
-  "devDependencies": {
-    "enzyme": "^2.9.1"
+    "redux": "^3.7.2"
   },
   "peerDependencies": {
     "react": "*",

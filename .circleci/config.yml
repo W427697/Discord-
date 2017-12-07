@@ -1,164 +1,203 @@
 defaults: &defaults
   working_directory: /tmp/storybook
   docker:
-    - image: node:8
+    - image: circleci/node:8.9
 
 version: 2
 dependencies:
   pre:
-    - npm install -g npm
+    - yarn global add npm
 jobs:
-  validate:
-    <<: *defaults
-    steps:
-      - run:
-          name: "Checking Versions"
-          command: |
-            node --version
-            npm --version
-            yarn --version
   build:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
+          name: "Restore core dependencies cache"
           keys:
-            - root-dependencies-{{ checksum "package.json" }}
-            - root-dependencies-
+            - core-dependencies-{{ checksum "yarn.lock" }}
       - run:
-          name: "Install root dependencies"
+          name: "Install dependencies"
           command: |
             yarn install
+      - run:
+          name: "Dirty check"
+          command: |
+            yarn repo-dirty-check
+      - run:
+          name: "Bootstrap"
+          command: |
+            yarn bootstrap --core
       - save_cache:
-          key: root-dependencies-{{ checksum "package.json" }}
+          name: "Cache core dependencies"
+          key: core-dependencies-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
-      - restore_cache:
-          keys:
-            - package-dependencies-{{ checksum "package.json" }}
-            - package-dependencies-
-      - run:
-          name: "Bootstrapping"
-          command: |
-            npm run bootstrap -- --all
+            - example/cra-kitchen-sink/node_modules
+            - example/vue-kitchen-sink/node_modules
       - save_cache:
-          key: package-dependencies-{{ checksum "package.json" }}
+          name: "Cache core dist"
+          key: core-dist-{{ .Revision }}
           paths:
-            - app/**/node_modules
-            - docs/**/node_modules
-            - examples/**/node_modules
-            - lib/**/node_modules
+            - addons
+            - app
+            - lib
   example-kitchen-sinks:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
+          name: "Restore core dependencies cache"
           keys:
-            - root-dependencies-{{ checksum "package.json" }}
-            - root-dependencies-
+            - core-dependencies-{{ checksum "yarn.lock" }}
+      - restore_cache:
+          name: "Restore core dist cache"
+          keys:
+            - core-dist-{{ .Revision }}
       - run:
-          name: "Install root dependencies"
+          name: "Link packages"
           command: |
             yarn install
-      - run:
-          name: "Bootstrapping"
-          command: |
-            npm run bootstrap -- --core
       - run:
           name: "Build react kitchen-sink"
           command: |
             cd examples/cra-kitchen-sink
             yarn build-storybook
-            yarn storybook -- --smoke-test
       - run:
           name: "Build vue kitchen-sink"
           command: |
             cd examples/vue-kitchen-sink
             yarn build-storybook
-            yarn storybook -- --smoke-test
-  example-react-native:
+      - run:
+          name: "Run react kitchen-sink"
+          command: |
+            cd examples/cra-kitchen-sink
+            yarn storybook
+          background: true
+      - run:
+          name: "Run vue kitchen-sink"
+          command: |
+            cd examples/vue-kitchen-sink
+            yarn storybook
+          background: true
+      - run:
+          name: Workaround for https://github.com/GoogleChrome/puppeteer/issues/290
+          command: sh ./scripts/workaround-puppeteer-issue-290.sh
+      - run:
+          name: Integration Test - Kichen sinks
+          command: yarn test --integration
+      - store_artifacts:
+          path: integration/__image_snapshots__
+          destination: integration_image_snapshots
+  react-native:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
+          name: "Restore core dependencies cache"
           keys:
-            - root-dependencies-{{ checksum "package.json" }}
-            - root-dependencies-
+            - core-dependencies-{{ checksum "yarn.lock" }}
+      - restore_cache:
+          name: "Restore core dist cache"
+          keys:
+            - core-dist-{{ .Revision }}
       - run:
-          name: "Install root dependencies"
+          name: "Bootstrap"
           command: |
-            yarn install
+            yarn bootstrap --reactnative --reactnativeapp
       - run:
-          name: "Bootstrapping packages"
-          command: |
-            npm run bootstrap -- --core --reactnative --reactnativeapp
-      - run:
-          name: "Running React-Native example"
+          name: "Run React-Native example"
           command: |
             cd examples/react-native-vanilla
-            yarn storybook -- --smoke-test
+            yarn storybook --smoke-test
       - run:
-          name: "Running React-Native-App example"
+          name: "Run React-Native-App example"
           command: |
             cd examples/crna-kitchen-sink
-            yarn storybook -- --smoke-test
+            yarn storybook --smoke-test
+      - run:
+          name: "Run React-Native unit tests"
+          command: |
+            yarn test --coverage --runInBand --reactnative
+            yarn coverage
   docs:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
+          name: "Restore core dependencies cache"
           keys:
-            - root-dependencies-{{ checksum "package.json" }}
-            - root-dependencies-
+            - core-dependencies-{{ checksum "yarn.lock" }}
+      - restore_cache:
+          name: "Restore docs dependencies cache"
+          keys:
+            - docs-dependencies-{{ checksum "docs/yarn.lock" }}
       - run:
-          name: "Install root dependencies"
+          name: "Install core dependencies"
           command: |
             yarn install
       - run:
-          name: "Bootstrapping"
+          name: "Install dependencies"
           command: |
-            npm run bootstrap -- --docs
+            yarn bootstrap --docs
       - run:
-          name: "Running docs"
+          name: "Dirty check"
           command: |
-            npm run docs:build
+            yarn repo-dirty-check
+      - run:
+          name: "Run docs"
+          command: |
+            yarn docs:build
+      - save_cache:
+          name: "Cache dependencies"
+          key: docs-dependencies-{{ checksum "docs/yarn.lock" }}
+          paths:
+            - docs/node_modules
   lint:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
+          name: "Restore core dependencies cache"
           keys:
-            - root-dependencies-{{ checksum "package.json" }}
-            - root-dependencies-
+            - core-dependencies-{{ checksum "yarn.lock" }}
+      - restore_cache:
+          name: "Restore docs dependencies cache"
+          keys:
+            - docs-dependencies-{{ checksum "docs/yarn.lock" }}
+      - restore_cache:
+          name: "Restore core dist cache"
+          keys:
+            - core-dist-{{ .Revision }}
       - run:
-          name: "Install root dependencies"
+          name: "Link packages"
           command: |
             yarn install
       - run:
-          name: "Linting"
+          name: "Lint"
           command: |
-            npm run lint
+            yarn lint
   unit-test:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
+          name: "Restore core dependencies cache"
           keys:
-            - root-dependencies-{{ checksum "package.json" }}
-            - root-dependencies-
+            - core-dependencies-{{ checksum "yarn.lock" }}
+      - restore_cache:
+          name: "Restore core dist cache"
+          keys:
+            - core-dist-{{ .Revision }}
       - run:
-          name: "Install root dependencies"
+          name: "Link packages"
           command: |
             yarn install
       - run:
-          name: "Bootstrapping"
+          name: "Run unit tests"
           command: |
-            npm run bootstrap -- --core --reactnative
-      - run:
-          name: "Unit testing"
-          command: |
-            npm run test -- --coverage -i
-            npm run coverage
+            yarn test --coverage --runInBand --core
+            yarn coverage
   deploy:
     <<: *defaults
     steps:
@@ -170,16 +209,17 @@ workflows:
   version: 2
   build_accept_deploy:
     jobs:
-      - validate
       - build
-      - example-kitchen-sinks
-      - example-react-native
+      - example-kitchen-sinks:
+          requires:
+            - build
+      - react-native:
+          requires:
+            - build
       - docs
-      - lint
-      - unit-test
-      # - deploy:
-      #     type: approval
-      #     requires:
-      #       - lint
-      #       - unit-test
-      #       - docs
+      - lint:
+          requires:
+            - build
+      - unit-test:
+          requires:
+            - build

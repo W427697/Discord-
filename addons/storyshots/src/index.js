@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import global, { describe, it } from 'global';
 import readPkgUp from 'read-pkg-up';
 import addons from '@storybook/addons';
@@ -15,11 +16,12 @@ global.STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES || {};
 
 const babel = require('babel-core');
 
-const pkg = readPkgUp.sync().pkg;
+const { pkg } = readPkgUp.sync();
 
 const hasDependency = name =>
   (pkg.devDependencies && pkg.devDependencies[name]) ||
-  (pkg.dependencies && pkg.dependencies[name]);
+  (pkg.dependencies && pkg.dependencies[name]) ||
+  fs.existsSync(path.join('node_modules', name, 'package.json'));
 
 export default function testStorySnapshots(options = {}) {
   addons.setChannel(createChannel());
@@ -86,7 +88,7 @@ export default function testStorySnapshots(options = {}) {
 
           it(story.name, () => {
             const context = { kind: group.kind, story: story.name };
-            options.test({ story, context });
+            return options.test({ story, context });
           });
         }
       });

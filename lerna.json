@@ -1,27 +1,12 @@
 {
-  "lerna": "2.0.0",
+  "lerna": "2.5.1",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
   "commands": {
-    "bootstrap": {
-      "ignore": [
-        "crna-kitchen-sink",
-        "react-native-vanilla"
-      ]
-    },
     "publish": {
-      "ignore": [
-        "cra-kitchen-sink",
-        "crna-kitchen-sink",
-        "react-native-vanilla",
-        "vue-example"
-      ]
+      "allowBranch": "master"
     }
   },
-  "packages": [
-    "addons/*",
-    "app/*",
-    "lib/*",
-    "examples/*"
-  ],
   "concurrency": 1,
-  "version": "3.2.9"
+  "version": "3.2.17"
 }

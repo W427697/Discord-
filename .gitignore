@@ -12,10 +12,12 @@ coverage/
 *.lerna_backup
 build
 packages/examples/automated-*
-yarn.lock
 /**/LICENSE
 docs/public
 packs/*.tgz
 package-lock.json
 .nvmrc
 storybook-static
+integration/__image_snapshots__/__diff_output__
+.jest-test-results.json
+

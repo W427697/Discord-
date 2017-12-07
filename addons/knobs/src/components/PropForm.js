@@ -20,24 +20,20 @@ const stylesheet = {
 };
 
 export default class propForm extends React.Component {
-  constructor() {
-    super();
-    this._onFieldChange = this.onFieldChange.bind(this);
-  }
-
-  onFieldChange(name, type, value) {
-    const change = { name, type, value };
-    this.props.onFieldChange(change);
+  makeChangeHandler(name, type) {
+    return value => {
+      const change = { name, type, value };
+      this.props.onFieldChange(change);
+    };
   }
 
   render() {
-    const knobs = this.props.knobs;
+    const { knobs } = this.props;
 
     return (
       <form style={stylesheet.propForm}>
         {knobs.map(knob => {
-          // eslint-disable-next-line react/jsx-no-bind
-          const changeHandler = this.onFieldChange.bind(this, knob.name, knob.type);
+          const changeHandler = this.makeChangeHandler(knob.name, knob.type);
           return (
             <PropField
               key={knob.name}
@@ -46,6 +42,7 @@ export default class propForm extends React.Component {
               value={knob.value}
               knob={knob}
               onChange={changeHandler}
+              onClick={this.props.onFieldClick}
             />
           );
         })}
@@ -68,4 +65,5 @@ propForm.propTypes = {
     })
   ),
   onFieldChange: PropTypes.func.isRequired,
+  onFieldClick: PropTypes.func.isRequired,
 };

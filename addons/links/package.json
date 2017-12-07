@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-links",
-  "version": "3.2.6",
+  "version": "3.2.17",
   "description": "Story Links addon for storybook",
   "keywords": [
     "storybook"
@@ -17,16 +17,11 @@
   },
   "scripts": {
     "deploy-storybook": "storybook-to-ghpages",
-    "prepublish": "node ../../scripts/prepublish.js",
+    "prepare": "node ../../scripts/prepare.js",
     "storybook": "start-storybook -p 9001"
   },
   "dependencies": {
-    "@storybook/addons": "^3.2.6"
-  },
-  "devDependencies": {
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "shelljs": "^0.7.8"
+    "@storybook/addons": "^3.2.17"
   },
   "peerDependencies": {
     "react": "*",
