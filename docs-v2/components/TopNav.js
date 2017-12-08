@@ -20,7 +20,7 @@ const {
 const TopLogo = glamorous(({ className }) => (
   <Link href="/">
     <a className={className}>
-      <StorybookLogo width="auto" height="100%" />
+      <StorybookLogo height="100%" />
     </a>
   </Link>
 ))({

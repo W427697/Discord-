@@ -104,7 +104,7 @@ const padding = ({ padded = false }) => (padded ? itemPadding : {});
 const BlockItem = glamorous.div(
   {
     position: 'relative',
-    overflow: 'hidden',
+    // overflow: 'hidden',
     borderRadius: '3px',
     display: 'flex',
     transition: 'all 2s',

@@ -10,7 +10,7 @@ import TopNav from '../../components/TopNav';
 import PageTitle from '../../components/PageTitle';
 import Blocks, { BlockLink } from '../../components/Blocks';
 import Container from '../../components/Container';
-import { Container as MarkdownContainer, H1, H2, H3 } from '../../components/Markdown';
+import { Container as MarkdownContainer, H2, H3 } from '../../components/Markdown';
 
 const { React: ReactLogo, Angular: AngularLogo, Vue: VueLogo, Polymer: PolymerLogo } = Logos;
 
@@ -148,7 +148,7 @@ export default generator('GuidesIndex', ({ path }) => (
       </Blocks>
     </Container>
     <Container vSpacing={30} hPadding={30}>
-      <H1>Set up storybook for your framework of choice</H1>
+      <H2 as="h1">Set up storybook for your framework of choice</H2>
       <Blocks
         max={6}
         colors={[
@@ -178,11 +178,11 @@ export default generator('GuidesIndex', ({ path }) => (
       hPadding={30}
       background="linear-gradient(135deg, rgb(109, 171, 245) 0%, rgb(162, 224, 94) 100%)"
     >
-      <H1>For development</H1>
+      <H2 as="h1">For development</H2>
       <Blocks colors={['transparent']} max={4}>
         <section>
           <H3>The basic first steps</H3>
-          <MarkdownContainer>
+          <MarkdownContainer colored={false}>
             <ul>
               <li>
                 <Link href="/guides/setup">

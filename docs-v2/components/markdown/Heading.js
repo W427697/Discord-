@@ -3,7 +3,7 @@ import React from 'react';
 
 const common = {
   color: 'currentColor',
-  margin: '0 0 .3em 0',
+  margin: '0 0 .7em 0',
 };
 
 export const styles = {

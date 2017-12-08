@@ -25,7 +25,7 @@ const p = {
 const ul = {
   margin: 0,
   padding: 0,
-  paddingLeft: '1em',
+  paddingLeft: '1.2em',
   'list-style-type': 'circle',
 };
 const ol = {
@@ -47,10 +47,10 @@ const li = {
 
 const Container = glamorous.div(
   {
-    '& h1, & h2, & h3, & h4, & h5, & h6': {
+    ':root & h1, :root & h2, :root & h3, :root & h4, :root & h5, :root & h6': {
       marginTop: -80, // this will make browser scroll-to behavior to be 80px off
       paddingTop: 80, // ensuring the header will not be covered by the sticky header
-      marginBottom: '0.6em',
+      marginBottom: '0.7em',
     },
     '& h1': headingStyles.h1,
     '& h2': headingStyles.h2,
@@ -64,33 +64,31 @@ const Container = glamorous.div(
       marginBottom: 0,
     },
   },
+  {
+    '& a': {
+      textDecoration: 'none',
+      backgroundRepeat: 'repeat-x',
+      backgroundSize: '100% 2px',
+      backgroundPosition: '0 100%',
+      transition: 'all 0.01s linear',
+      paddingBottom: 2,
+      '&:hover': {
+        'background-position-x': 1200,
+        transitionDuration: '7s',
+      },
+    },
+  },
   ({ colored = true }) =>
     colored
       ? {
           '& a': {
-            textDecoration: 'none',
             backgroundImage:
               'linear-gradient(to right, rgba(181,126,229,1) 0%,rgba(241,97,140,1) 37%,rgba(243,173,56,1) 100%)',
-            backgroundRepeat: 'repeat-x',
-            backgroundSize: '100% 2px',
-            backgroundPosition: '0 100%',
-            transition: 'all 0.25s ease-in',
-            '&:hover': {
-              backgroundSize: '100vw 2px',
-            },
           },
         }
       : {
           '& a': {
-            textDecoration: 'none',
-            backgroundImage: 'linear-gradient(0deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%)',
-            backgroundRepeat: 'repeat-x',
-            backgroundSize: '100% 2px',
-            backgroundPosition: '0 100%',
-            transition: 'all 0.25s ease-in',
-            '&:hover': {
-              backgroundSize: '100vw 2px',
-            },
+            backgroundImage: 'linear-gradient(-90deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%)',
           },
         }
 );

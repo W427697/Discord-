@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
 
-import Link from './Link';
-
-import sitemap from '../lib/sitemap';
+import Breadcrumb from './Breadcrumb';
 
 const gradients = {
   blue: 'linear-gradient(135deg, #2ab5bb 8%, #2a7bbb)',
@@ -15,11 +13,6 @@ const gradients = {
   rainbow:
     'linear-gradient(to right, rgba(181,126,229,1) 0%,rgba(241,97,140,1) 37%,rgba(243,173,56,1) 100%)',
 };
-
-const PathItem = glamorous.a({
-  display: 'inline-block',
-  padding: 10,
-});
 
 const Root = glamorous.section(
   {
@@ -44,34 +37,6 @@ const Root = glamorous.section(
     minHeight,
   })
 );
-
-const Breadcrumb = glamorous(({ input, className }) => {
-  const items = input.split('/').reduce(
-    (acc, item, index, list) =>
-      acc.concat(
-        item === ''
-          ? { name: 'Home', path: '/' }
-          : {
-              name: (sitemap[`${list.slice(0, index).join('/')}/${item}`] || { title: item }).title,
-              path: `${list.slice(0, index).join('/')}/${item}`,
-            }
-      ),
-    []
-  );
-
-  return items.length < 2 ? null : (
-    <div className={className}>
-      {items.map(({ name, path }) => (
-        <Link href={path} key={path}>
-          <PathItem href={path}>{name}</PathItem>
-        </Link>
-      ))}
-    </div>
-  );
-})({
-  backgroundColor: 'rgba(109, 171, 245, 0.1)',
-  padding: 0,
-});
 
 const PageTitle = ({ children, path = '', ...rest }) => (
   <div>
