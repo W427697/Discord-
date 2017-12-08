@@ -21,18 +21,25 @@ const p = {
     marginBottom: 0,
   },
 };
-
+const blockquote = {
+  background: 'rgba(109, 171, 245, 0.1)',
+  margin: 0,
+  padding: 20,
+  marginBottom: '1.2em',
+};
 const ul = {
   margin: 0,
   padding: 0,
   paddingLeft: '1.2em',
   'list-style-type': 'circle',
+  marginBottom: '1.2em',
 };
 const ol = {
   margin: 0,
   padding: 0,
   paddingLeft: '2.45em',
   'list-style-type': 'decimal-leading-zero',
+  marginBottom: '1.2em',
   fontFamily: monoFonts.fontFamily,
   '& > li > *': {
     fontFamily: baseFonts.fontFamily,
@@ -52,11 +59,18 @@ const Container = glamorous.div(
       paddingTop: 80, // ensuring the header will not be covered by the sticky header
       marginBottom: '0.7em',
     },
+    ':root & * + h1, :root & * + h2, :root & * + h3, :root & * + h4, :root & * + h5, :root & * + h6': {
+      marginTop: -50, // this will make browser scroll-to behavior to be 80px off
+    },
+    ':root & h1 + h2, :root & h2 + h3, :root & h3 + h4, :root & h4 + h5, :root & h5 + h6': {
+      marginTop: -80, // this will make browser scroll-to behavior to be 80px off
+    },
     '& h1': headingStyles.h1,
     '& h2': headingStyles.h2,
     '& h3': headingStyles.h3,
     '& a': a,
     '& p': p,
+    '& blockquote': blockquote,
     '& ul': ul,
     '& ol': ol,
     '& li': li,

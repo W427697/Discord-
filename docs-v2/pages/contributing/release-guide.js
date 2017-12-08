@@ -13,6 +13,5 @@ export default generator('GuidesIndex', ({ path, query }) => (
   <Page>
     <TopNav {...{ path }} />
     <Content {...{ path, query }}>{content}</Content>
-    {path}
   </Page>
 ));

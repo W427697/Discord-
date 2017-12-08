@@ -1330,7 +1330,7 @@ module.exports = {
     fpath: '/docs-v2/content/example.md',
   },
   '/guides': {
-    modified: '2017-12-06T06:53:47.000Z',
+    modified: '2017-12-08T07:45:45.000Z',
     name: 'index',
     title: 'Guides',
     isFile: true,
@@ -1375,7 +1375,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/setup.md',
   },
   '/guides/why': {
-    modified: '2017-12-06T06:53:47.000Z',
+    modified: '2017-12-08T08:08:26.000Z',
     name: 'why',
     title: 'Why choose Storybook.',
     isFile: true,
@@ -1399,7 +1399,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/why.md',
   },
   '/': {
-    modified: '2017-12-06T06:53:47.000Z',
+    modified: '2017-12-07T19:53:30.000Z',
     name: 'index',
     isFile: true,
     route: '/',

@@ -5,11 +5,11 @@ But to do a comparison we need to understand what Storybook's goal and scope is.
 
 We're going to discuss the core concepts of Storybook which will list Storybook's key-selling-features.
 
-# Storybook Concepts
+## Philosophy
 
-## Isolated Component Driven Development
+Storybook allows for components to be developed in isolation from the rest of your app. Something we call **isolated component driven development**.
 
-Storybook allows for components to be developed in isolation from the rest of your app.
+## Use cases
 
 ### Apps with Application State Management
 
@@ -19,6 +19,8 @@ For apps that use application state management, like Redux or RxJS, storybook al
 
 For large apps, that may have a multiple backends (distributed or microservice based) running a development environment can use a lot of system resources and slow down your machine.  By developing UI components in isolation, there is no need to run a backend thus preserving valuable system resources. 🎉
 
+Large apps can also suffer from having many components in a hard to reach configuration. Good examples are: validation-error-Components or server-500-Components, etc.
+
 ### For Designers Who Code
 
 Agile teams will often have a designer who can code at least basic HTML and CSS, by allowing them the ability to work on components in isolation designers can take some of the UI burden off of engineers allowing them to focus on functionality (and writing test).
@@ -27,23 +29,33 @@ Agile teams will often have a designer who can code at least basic HTML and CSS,
 
 Designers and PMs who don't code now have the ability to demo changes their teams are making without having to deploy to a staging server or run a local dev environment.
 
-## Manager
+Viewing a component in isolation versus on a complete page, can also be very valuable, as the review can be done quicker and without distractions.
+
+### Create a catalog of existing code / components
+
+Onboarding new people unto the team can be hard. By having a Living styleguide of the application that explains the story of your applications and it's components can really help newcomers understand what your application is about.
+
+As more components are easily discoverable, less duplication should occur, and should it still occur it will be plainly visible.
+
+## Terminalogy and Concepts
+
+### Manager
 
 lalala **TODO** lalala
 
-## Preview
+### Preview
 
 The storybook preview window (main window) is the place where you will see your awesome components rendered.  The preview window renders an iframe, which gives us the following 2 _very_ important benefits.
 
-### Platform Agnostic
+#### Platform Agnostic
 
 Even through the storybook interface is built in React it can render components built in any framework (eventually), meaning that the whole JS community will one day be able to come together to use this awesome tool. 🤗
 
-### CSS Containment
+#### CSS Containment
 
 Your app (most likely) has its own CSS, as does Storybook. By rendering your components in an iframe we ensure that your components are properly styled with no bleeding in of styles from Storybook.
 
-## Decorators
+### Decorators
 
 Storybook has been built to be extensible a lots of ways.
 You can write stories is a variety of ways and this already provides a lot of freedom. 
@@ -54,7 +66,7 @@ Storybook provides an API for wrapping stories automatically, letting you focus 
 -   [Using decorators](/guides/decorators/#usage)
 -   [Writing decorators](/guides/decorators/#writing-decorators)
 
-## Addons
+### Addons
 
 > Note: not every addon is compatible with every UI library
 

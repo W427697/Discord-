@@ -8,7 +8,8 @@ In this section we're going to be discovering how to setup storybook for your pr
 
 ### Using the Storybook CLI
 
-If you have just started your project using a boilerplate / starterkit like Create React App, or your framework's CLI. You can use Storybook's CLI to add storybook to your project.
+If you have just started your project using a boilerplate / starterkit like Create React App, or your framework's CLI. 
+You can use Storybook's CLI to add storybook to your project. The CLI will detect which template to apply based on your `package.json`.
 
 ```sh
 npm i -g @storybook/cli
