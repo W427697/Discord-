@@ -47,7 +47,6 @@ export default class MyDocument extends Document {
    font-family: "Operator Mono", "Fira Code", "Fira Code Retina", "FiraCode-Retina", monospace;
    font-feature-settings: "calt" 1;
    font-weight: 300;
-   white-space: pre-wrap;
    border-radius: 3px;
    box-shadow: 1px 1px 20px rgba(20, 20, 20, 0.27);
    overflow-x: hidden;

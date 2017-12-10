@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import dynamic from 'next/dynamic';
 import glamorous from 'glamorous';
 
@@ -159,7 +159,7 @@ const TopNav = class extends Component {
     const { expanded, searching } = this.state;
     const active = expanded || searching;
     return (
-      <div>
+      <Fragment>
         <Bar active={active}>
           <TopLogo />
           <NavContainer>
@@ -208,7 +208,7 @@ const TopNav = class extends Component {
           </NavContainer>
         </Bar>
         <Suggestions />
-      </div>
+      </Fragment>
     );
   }
 };

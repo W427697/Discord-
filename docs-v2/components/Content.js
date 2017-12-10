@@ -1,4 +1,4 @@
-import React, { Children } from 'react';
+import React, { Children, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 
@@ -43,11 +43,11 @@ const isHeader = (t, depth) =>
   t.type.match &&
   (depth ? t.type.match(isHeaderMatch[depth]) : t.type.match(isHeaderMatch.any));
 
-const Content = ({ children, path }) => {
+const Content = ({ children, path, pageTitle = true }) => {
   const { toc, body, intro, header } = Children.toArray(children.props.children).reduce(
     (acc, item) => {
       try {
-        if (acc.header === '' && isHeader(item, 1)) {
+        if (acc.header === '' && isHeader(item, 1) && pageTitle) {
           acc.header = childrenToString(item.props.children);
         }
         if (isHeader(item)) {
@@ -68,13 +68,15 @@ const Content = ({ children, path }) => {
   );
 
   return (
-    <div>
+    <Fragment>
       <Head>
         <title>{`${header} - Storybook` || 'Storybook'}</title>
       </Head>
-      <PageTitle minHeight="auto" {...{ path }}>
-        {intro}
-      </PageTitle>
+      {pageTitle ? (
+        <PageTitle minHeight="auto" {...{ path }}>
+          {intro}
+        </PageTitle>
+      ) : null}
       <Container width={960} vSpacing={40}>
         <Split>
           <nav>
@@ -85,7 +87,7 @@ const Content = ({ children, path }) => {
           <Markdown.Container>{body}</Markdown.Container>
         </Split>
       </Container>
-    </div>
+    </Fragment>
   );
 };
 
@@ -93,9 +95,11 @@ Content.displayName = 'Content';
 Content.propTypes = {
   children: PropTypes.node.isRequired,
   path: PropTypes.string,
+  pageTitle: PropTypes.boolean,
 };
 Content.defaultProps = {
   path: '/',
+  pageTitle: true,
 };
 
 export { Content };

@@ -108,7 +108,7 @@ module.exports = function myMarkdownBabelPlugin({ types: t }) {
     text: ({ value }) => t.jSXText(value || 'SOMETHING IS WRONG'),
     code: props => {
       const { value, lang } = props;
-      const [, language, filename, framework] = lang.match(splitLang);
+      const [, language, filename, framework] = lang ? lang.match(splitLang) : [];
       const html = mySyntaxHighlighting(value, language);
 
       return NR('Markdown', 'Code', { language, filename, framework, html }, []);

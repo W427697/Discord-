@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
 
@@ -39,12 +39,12 @@ const Root = glamorous.section(
 );
 
 const PageTitle = ({ children, path = '', ...rest }) => (
-  <div>
+  <Fragment>
     <Root {...rest}>
       <div>{children}</div>
     </Root>
     <Breadcrumb input={path} />
-  </div>
+  </Fragment>
 );
 
 PageTitle.displayName = 'PageTitle';

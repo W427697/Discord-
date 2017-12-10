@@ -138,17 +138,13 @@ module.exports = {
     fpath: '/docs-v2/content/contributing/pull-requests.md',
   },
   '/contributing/release-guide': {
-    modified: '2017-12-06T06:53:47.000Z',
+    modified: '2017-12-08T22:57:22.000Z',
     name: 'release-guide',
     title: 'Release Guide',
     isFile: true,
     route: '/contributing/release-guide',
     files: [],
     contributors: [
-      {
-        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
-        name: 'Dan Green',
-      },
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
         name: 'Norbert de Langen',
@@ -157,6 +153,10 @@ module.exports = {
           npm: 'ndelangen',
           twitter: 'norbertdelangen',
         },
+      },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
       },
     ],
     fpath: '/docs-v2/content/contributing/release-guide.md',
@@ -845,7 +845,7 @@ module.exports = {
     fpath: '/addons/viewport/README.md',
   },
   '/docs/api': {
-    modified: '2017-12-06T06:53:47.000Z',
+    modified: '2017-12-09T16:03:10.000Z',
     name: 'api',
     title: 'Storybook API',
     isFile: true,
@@ -865,9 +865,9 @@ module.exports = {
     fpath: '/docs-v2/content/docs/api.md',
   },
   '/docs/cli': {
-    modified: '2017-12-06T06:53:47.000Z',
+    modified: '2017-12-09T18:12:24.000Z',
     name: 'cli',
-    title: 'Storybook CLI',
+    title: 'CLI',
     isFile: true,
     route: '/docs/cli',
     files: [],
@@ -905,7 +905,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/community.md',
   },
   '/docs/configs': {
-    modified: '2017-12-06T06:53:47.000Z',
+    modified: '2017-12-10T08:55:18.000Z',
     name: 'configs',
     title: 'Configuration',
     isFile: true,
@@ -925,8 +925,9 @@ module.exports = {
     fpath: '/docs-v2/content/docs/configs.md',
   },
   '/docs/frameworks': {
-    modified: '2017-12-06T06:53:47.000Z',
+    modified: '2017-12-09T00:46:06.000Z',
     name: 'index',
+    title: 'Frameworks',
     isFile: true,
     route: '/docs/frameworks',
     files: [
@@ -1355,7 +1356,7 @@ module.exports = {
     fpath: '/docs-v2/pages/guides/index.js',
   },
   '/guides/setup': {
-    modified: '2017-12-06T06:53:47.000Z',
+    modified: '2017-12-08T22:57:22.000Z',
     name: 'setup',
     title: 'Setup Storybook',
     isFile: true,
@@ -1375,7 +1376,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/setup.md',
   },
   '/guides/why': {
-    modified: '2017-12-08T08:08:26.000Z',
+    modified: '2017-12-08T22:57:22.000Z',
     name: 'why',
     title: 'Why choose Storybook.',
     isFile: true,
@@ -1399,7 +1400,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/why.md',
   },
   '/': {
-    modified: '2017-12-07T19:53:30.000Z',
+    modified: '2017-12-08T21:30:13.000Z',
     name: 'index',
     isFile: true,
     route: '/',

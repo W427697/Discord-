@@ -31,14 +31,14 @@ const ul = {
   margin: 0,
   padding: 0,
   paddingLeft: '1.2em',
-  'list-style-type': 'circle',
+  listStyleType: 'circle',
   marginBottom: '1.2em',
 };
 const ol = {
   margin: 0,
   padding: 0,
   paddingLeft: '2.45em',
-  'list-style-type': 'decimal-leading-zero',
+  listStyleType: 'decimal-leading-zero',
   marginBottom: '1.2em',
   fontFamily: monoFonts.fontFamily,
   '& > li > *': {
@@ -87,7 +87,7 @@ const Container = glamorous.div(
       transition: 'all 0.01s linear',
       paddingBottom: 2,
       '&:hover': {
-        'background-position-x': 1200,
+        backgroundPositionX: 1200,
         transitionDuration: '7s',
       },
     },

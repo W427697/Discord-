@@ -14,6 +14,8 @@ import Blocks, { BlockLink, BlockLabel } from '../../../components/Blocks';
 
 import sitemap from '../../../lib/sitemap';
 
+export const pageTitle = 'Frameworks';
+
 const {
   React: ReactLogo,
   Angular: AngularLogo,

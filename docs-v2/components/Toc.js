@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
 
@@ -79,8 +79,8 @@ const getKey = (list, level) => {
 const getLevel = (list, level) =>
   level === 1 ? list.children || list : getLevel(list[list.length - 1].children, level - 1);
 const mapListToTree = list => {
+  // TODO: change into reduce
   const output = [];
-  console.log(list);
   list.forEach(item => {
     const level = item['aria-level'];
     const { id, title } = item;
@@ -94,10 +94,10 @@ const mapListToTree = list => {
 
 const Toc = ({ toc }) =>
   toc.length ? (
-    <div>
+    <Fragment>
       <H2>Table of contents</H2>
       <List>{mapListToTree(toc).map(Item)}</List>
-    </div>
+    </Fragment>
   ) : null;
 
 Toc.displayName = 'Toc';

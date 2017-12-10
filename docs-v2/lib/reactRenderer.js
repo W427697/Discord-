@@ -32,7 +32,6 @@ css.global('.prism-code', {
   fontSize: '0.8rem',
   fontFamily: monoFonts.fontFamily,
   fontWeight: 300,
-  whiteSpace: 'pre-wrap',
   borderRadius: '3px',
   boxShadow: '1px 1px 20px rgba(20, 20, 20, 0.27)',
   overflowX: 'hidden',

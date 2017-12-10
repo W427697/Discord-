@@ -32,7 +32,7 @@ const Breadcrumb = glamorous(({ input, className }) => {
   );
 
   return items.length < 2 ? null : (
-    <div className={className}>
+    <nav className={className}>
       {items.map(({ name, path }, i, l) => (
         <Fragment key={path}>
           <Link href={path}>
@@ -41,7 +41,7 @@ const Breadcrumb = glamorous(({ input, className }) => {
           {i + 1 < l.length ? '/' : null}
         </Fragment>
       ))}
-    </div>
+    </nav>
   );
 })({
   backgroundColor: 'rgba(109, 171, 245, 0.1)',

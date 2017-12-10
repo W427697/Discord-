@@ -1,4 +1,5 @@
 # Configuration
+Storybook can be configured to load
 
 ## .storybook
 
@@ -8,4 +9,4 @@
 
 ## Webpack
 
-## Storyshorts
+## Babel
