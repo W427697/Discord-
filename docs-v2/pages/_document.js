@@ -29,27 +29,6 @@ export default class MyDocument extends Document {
             dangerouslySetInnerHTML={{
               __html: `
           .prism-code {
-   display: block;
-   color: #C5C8C6;
-   padding: 0.5rem;
-   box-sizing: border-box;
-   vertical-align: baseline;
-   outline: none;
-   text-shadow: none;
-   hyphens: none;
-   word-wrap: normal;
-   word-break: normal;
-   text-align: left;
-   word-spacing: normal;
-   tab-size: 2;
-   background: rgba(0, 0, 0, 0.7);
-   font-size: 0.8rem;
-   font-family: "Operator Mono", "Fira Code", "Fira Code Retina", "FiraCode-Retina", monospace;
-   font-feature-settings: "calt" 1;
-   font-weight: 300;
-   border-radius: 3px;
-   box-shadow: 1px 1px 20px rgba(20, 20, 20, 0.27);
-   overflow-x: hidden;
  }
 
  .token.comment, .token.prolog, .token.doctype, .token.cdata {

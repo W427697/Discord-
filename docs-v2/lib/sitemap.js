@@ -845,7 +845,7 @@ module.exports = {
     fpath: '/addons/viewport/README.md',
   },
   '/docs/api': {
-    modified: '2017-12-09T16:03:10.000Z',
+    modified: '2017-12-10T20:15:41.000Z',
     name: 'api',
     title: 'Storybook API',
     isFile: true,
@@ -865,7 +865,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/api.md',
   },
   '/docs/cli': {
-    modified: '2017-12-09T18:12:24.000Z',
+    modified: '2017-12-10T20:18:16.000Z',
     name: 'cli',
     title: 'CLI',
     isFile: true,
@@ -905,7 +905,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/community.md',
   },
   '/docs/configs': {
-    modified: '2017-12-10T08:55:18.000Z',
+    modified: '2017-12-10T20:18:16.000Z',
     name: 'configs',
     title: 'Configuration',
     isFile: true,
@@ -1336,8 +1336,8 @@ module.exports = {
     title: 'Guides',
     isFile: true,
     route: '/guides',
-    files: ['/guides', '/guides/setup', '/guides/why'],
-    length: 3,
+    files: ['/guides', '/guides/setup', '/guides/understanding', '/guides/why'],
+    length: 4,
     contributors: [
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
@@ -1356,7 +1356,7 @@ module.exports = {
     fpath: '/docs-v2/pages/guides/index.js',
   },
   '/guides/setup': {
-    modified: '2017-12-08T22:57:22.000Z',
+    modified: '2017-12-10T21:04:52.000Z',
     name: 'setup',
     title: 'Setup Storybook',
     isFile: true,
@@ -1375,8 +1375,18 @@ module.exports = {
     ],
     fpath: '/docs-v2/content/guides/setup.md',
   },
+  '/guides/understanding': {
+    modified: '2017-12-10T22:50:34.000Z',
+    name: 'understanding',
+    title: 'Understanding Storybook.',
+    isFile: true,
+    route: '/guides/understanding',
+    files: [],
+    contributors: [],
+    fpath: '/docs-v2/content/guides/understanding.md',
+  },
   '/guides/why': {
-    modified: '2017-12-08T22:57:22.000Z',
+    modified: '2017-12-10T22:46:56.000Z',
     name: 'why',
     title: 'Why choose Storybook.',
     isFile: true,

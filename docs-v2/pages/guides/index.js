@@ -172,6 +172,41 @@ export default generator('GuidesIndex', ({ path }) => (
         </BlockLink>
       </Blocks>
     </Container>
+    <Container width={1000} vSpacing={30} hPadding={10}>
+      <H2 as="h1">Understanding storybook</H2>
+      <Blocks aligned={false} colors={['transparent']} hSpacing={30}>
+        <section>
+          <H3 as="h2">Storybook Terminalogy</H3>
+          <MarkdownContainer>
+            <p>
+              Understanding the wordings used when providing support, in addons, or the codebase
+              will help you be more effecient with storybook.
+            </p>
+            <p>It's very valuable if you want to write your own addons.</p>
+            <p>
+              <Link href="/guides/understanding">
+                <a>Read more about Storybook's Concepts & Terminalogy</a>
+              </Link>
+            </p>
+          </MarkdownContainer>
+        </section>
+        <section>
+          <H3 as="h2">Storybook documentation</H3>
+          <MarkdownContainer>
+            <p>
+              Read about the technical details that will help you{' '}
+              <Link href="/docs/api/">
+                <a>understand the API</a>
+              </Link>, work with{' '}
+              <Link href="/docs/cli/">
+                <a>the CLI</a>
+              </Link>, etc.
+            </p>
+            <p>TODO: should write this section</p>
+          </MarkdownContainer>
+        </section>
+      </Blocks>
+    </Container>
     <Container
       width={1000}
       vPadding={30}

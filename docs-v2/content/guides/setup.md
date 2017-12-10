@@ -23,7 +23,7 @@ Using the Storybook CLI may also work for your custom setup, but often users who
 
 -   [How to manually setup Storybook](/guides/manual-setup/)
 
-### Checking it worked
+## Checking it worked
 
 After adding Storybook, you can run your Storybook with:
 
