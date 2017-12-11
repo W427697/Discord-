@@ -195,20 +195,24 @@ setAddon(infoAddon);
 The `TableComponent` option allows you to define how the prop table should be rendered. Your component will be rendered with the following props.
 
 ```js
+import PropTypes from 'prop-types';
+
 TableComponent.propTypes = {
-    propDefinitions: Array<{
+  propDefinitions: PropTypes.arrayOf(
+    PropTypes.shape({
       // The name of the prop
-      property: string,
+      property: PropTypes.string,
       // The prop type. TODO: info about what this object is...
-      propType: Object | string,
+      propType: PropTypes.oneOf(PropTypes.object, PropTypes.string),
       // True if the prop is required
-      required: boolean,
+      required: PropTypes.boolean,
       // The description of the prop
-      description: string,
+      description: PropTypes.string,
       // The default value of the prop
-      defaultValue: any 
-    }>
-  }
+      defaultValue: PropTypes.node 
+    })
+  ),
+};
 ```
 
 Example:
