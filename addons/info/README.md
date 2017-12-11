@@ -94,7 +94,6 @@ setDefaults({
 ## Options and Defaults
 
 ```js
-<<<<<<< HEAD
 // config.js
 import { setDefaults } from '@storybook/addon-info';
 
