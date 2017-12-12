@@ -118,8 +118,7 @@ setDefaults({
   styles: {}, 
 
   // Overrides components used to display markdown.
-  // Warning! This option's name will be likely deprecated in favor to "components" with the same API in 3.3 release. Follow this PR #1501 for details
-  marksyConf: {}, 
+  components: {}, 
 
   // Max props to display per line in source code
   maxPropsIntoLine: 1, 
