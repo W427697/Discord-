@@ -865,7 +865,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/api.md',
   },
   '/docs/cli': {
-    modified: '2017-12-10T20:18:16.000Z',
+    modified: '2017-12-12T23:29:17.000Z',
     name: 'cli',
     title: 'CLI',
     isFile: true,
@@ -1206,7 +1206,7 @@ module.exports = {
     fpath: '/app/vue/README.md',
   },
   '/docs': {
-    modified: '2017-12-06T06:53:47.000Z',
+    modified: '2017-12-12T23:24:12.000Z',
     name: 'index',
     title: 'Documentation',
     isFile: true,
@@ -1362,17 +1362,27 @@ module.exports = {
     fpath: '/docs-v2/pages/guides/index.js',
   },
   '/guides/manual-setup': {
-    modified: '2017-12-12T23:12:29.000Z',
+    modified: '2017-12-12T23:29:17.000Z',
     name: 'manual-setup',
     title: 'Manually adding Storybook to your project',
     isFile: true,
     route: '/guides/manual-setup',
     files: [],
-    contributors: [],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+    ],
     fpath: '/docs-v2/content/guides/manual-setup.md',
   },
   '/guides/setup': {
-    modified: '2017-12-12T22:11:26.000Z',
+    modified: '2017-12-12T23:29:17.000Z',
     name: 'setup',
     title: 'Setup Storybook',
     isFile: true,
