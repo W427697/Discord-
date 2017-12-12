@@ -54,21 +54,21 @@ export default generator('DocsIndex', ({ path }) => (
           <H3 as="h2">CLI API</H3>
           <MarkdownContainer>
             <p>
-              <Link href="/docs/api/">
+              <Link href="/docs/cli/">
                 <a>Start storybook</a>
               </Link>{' '}
               or{' '}
-              <Link href="/guides/why/#addons">
+              <Link href="/docs/cli/">
                 <a>build a static version</a>
               </Link>{' '}
               from the{' '}
-              <Link href="/guides/why/#addons">
+              <Link href="/docs/cli/">
                 <a>CLI</a>
               </Link>.
             </p>
             <p>
               A list of{' '}
-              <Link href="/guides/why/#addons">
+              <Link href="/docs/cli/">
                 <a>all the flags and commands</a>
               </Link>{' '}
               available to you.
@@ -86,13 +86,13 @@ export default generator('DocsIndex', ({ path }) => (
                   from the <code>config.js</code>
                 </a>
               </Link>, but it's also possible to{' '}
-              <Link href="/guides/why/#addons">
+              <Link href="/docs/api/">
                 <a>set options per story</a>
               </Link>.
             </p>
             <p>
               A list of{' '}
-              <Link href="/guides/why/#addons">
+              <Link href="/docs/api/">
                 <a>all the options</a>
               </Link>{' '}
               available to you.
@@ -105,16 +105,16 @@ export default generator('DocsIndex', ({ path }) => (
           <MarkdownContainer>
             <p>
               Customize your storybook and supercharge your development, by{' '}
-              <Link href="/guides/why/#addons">
+              <Link href="/docs/api/">
                 <a>adding addons to your storybook</a>
               </Link>.
             </p>
             <p>
-              <Link href="/guides/why/#addons">
+              <Link href="/docs/api/">
                 <a>Create custom addons</a>
               </Link>{' '}
               yourself, analyse the story's content, wrap the story with
-              <Link href="/guides/why/#addons">
+              <Link href="/docs/api/">
                 <a>decorators</a>
               </Link>, create interactivity.
             </p>
@@ -126,13 +126,13 @@ export default generator('DocsIndex', ({ path }) => (
           <MarkdownContainer>
             <p>
               Want to integrate storybook in another tool? We have an API to allow you to{' '}
-              <Link href="/guides/why/#addons">
+              <Link href="/docs/api/">
                 <a>embed Storybook in an Express-app</a>
               </Link>.
             </p>
             <p>
               It's also possible to{' '}
-              <Link href="/guides/why/#addons">
+              <Link href="/docs/api/">
                 <a>extract the list of stories</a>
               </Link>
               , to integrate with others apps.
@@ -154,15 +154,15 @@ export default generator('DocsIndex', ({ path }) => (
           <MarkdownContainer>
             <p>
               Storybook comes preloaded with a very{' '}
-              <Link href="/docs/api/">
-                <a>versitile webpack configuration</a>
+              <Link href="/docs/configs/">
+                <a>versatile webpack configuration</a>
               </Link>, but if this conflicts with your setup or you need something more, like custom
               loaders or resolvers, you can tweak the webpack config using{' '}
-              <Link href="/docs/api/">
+              <Link href="/docs/configs/">
                 <a>extend-mode</a>
               </Link>{' '}
               or{' '}
-              <Link href="/docs/api/">
+              <Link href="/docs/configs/">
                 <a>full-control-mode</a>
               </Link>.
             </p>
@@ -174,11 +174,11 @@ export default generator('DocsIndex', ({ path }) => (
           <MarkdownContainer>
             <p>
               Storybook needs some carefully choosen{' '}
-              <Link href="/docs/api/">
+              <Link href="/docs/configs/">
                 <a>babel config</a>
               </Link>{' '}
               to function, however{' '}
-              <Link href="/docs/api/">
+              <Link href="/docs/configs/">
                 <a>it's extendable</a>
               </Link>{' '}
               if you need to add experimental or custom transformers.

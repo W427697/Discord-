@@ -1,10 +1,11 @@
 # CLI
 
-Storybook has 3 CLI commands which allow you to add, start or build storybook.  
+Storybook has 3 CLI commands which allow you to add, start or build storybook.
+
 The CLI for [adding storybook to your project](/guides/setup/) is explained in detail in the [guides section](/guides/setup/).
 
 The `start-storybook` nd `build-storybook` commands get by installing an [app](/). *TODO: add link* 
-It's advised to create `npm` script, for more information [see the setup guide](/guides/setup/).
+It's advised to create a `npm` script, for more information [see the setup guide](/guides/manual-setup/).
 
 ## start-storybook
 This is the command you'll use most often, it starts storybook in dev-mode.

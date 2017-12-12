@@ -21,6 +21,8 @@ getstorybook
 
 Using the Storybook CLI may also work for your custom setup, but often users who have their own custom setup also need a more customized setup for storybook as well. And it helps understanding exactly what the Storybook CLI is doing for you. 
 
+**Note** that the manual process can be different depending on the platform.
+
 -   [How to manually setup Storybook](/guides/manual-setup/)
 
 ## Checking it worked

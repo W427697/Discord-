@@ -355,10 +355,6 @@ module.exports = {
     files: [],
     contributors: [
       {
-        hash: '21d84e4f0cbc7fb616c37020be3490d4',
-        name: 'Terrence Wong',
-      },
-      {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
         name: 'Norbert de Langen',
         meta: {
@@ -366,6 +362,10 @@ module.exports = {
           npm: 'ndelangen',
           twitter: 'norbertdelangen',
         },
+      },
+      {
+        hash: '21d84e4f0cbc7fb616c37020be3490d4',
+        name: 'Terrence Wong',
       },
       {
         hash: 'eea2b35114985fbf22012d18fcd007fb',
@@ -1331,13 +1331,19 @@ module.exports = {
     fpath: '/docs-v2/content/example.md',
   },
   '/guides': {
-    modified: '2017-12-08T07:45:45.000Z',
+    modified: '2017-12-12T23:10:05.000Z',
     name: 'index',
     title: 'Guides',
     isFile: true,
     route: '/guides',
-    files: ['/guides', '/guides/setup', '/guides/understanding', '/guides/why'],
-    length: 4,
+    files: [
+      '/guides',
+      '/guides/manual-setup',
+      '/guides/setup',
+      '/guides/understanding',
+      '/guides/why',
+    ],
+    length: 5,
     contributors: [
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
@@ -1355,8 +1361,18 @@ module.exports = {
     ],
     fpath: '/docs-v2/pages/guides/index.js',
   },
+  '/guides/manual-setup': {
+    modified: '2017-12-12T23:12:29.000Z',
+    name: 'manual-setup',
+    title: 'Manually adding Storybook to your project',
+    isFile: true,
+    route: '/guides/manual-setup',
+    files: [],
+    contributors: [],
+    fpath: '/docs-v2/content/guides/manual-setup.md',
+  },
   '/guides/setup': {
-    modified: '2017-12-10T21:04:52.000Z',
+    modified: '2017-12-12T22:11:26.000Z',
     name: 'setup',
     title: 'Setup Storybook',
     isFile: true,
@@ -1376,17 +1392,31 @@ module.exports = {
     fpath: '/docs-v2/content/guides/setup.md',
   },
   '/guides/understanding': {
-    modified: '2017-12-10T22:50:34.000Z',
+    modified: '2017-12-10T23:30:33.000Z',
     name: 'understanding',
     title: 'Understanding Storybook.',
     isFile: true,
     route: '/guides/understanding',
     files: [],
-    contributors: [],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+    ],
     fpath: '/docs-v2/content/guides/understanding.md',
   },
   '/guides/why': {
-    modified: '2017-12-10T22:46:56.000Z',
+    modified: '2017-12-10T23:30:33.000Z',
     name: 'why',
     title: 'Why choose Storybook.',
     isFile: true,

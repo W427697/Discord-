@@ -9,8 +9,7 @@ const Code = glamorous(({ html, className }) => (
 ))({
   whiteSpace: 'pre',
   overflow: 'auto',
-  background:
-    'black repeating-linear-gradient(45deg, #e3eaf1, #e3eaf1 10px, #f0f0f0 10px, #eeeeee 20px)',
+  background: '#333',
   display: 'block',
   color: '#C5C8C6',
   padding: '0.5rem',

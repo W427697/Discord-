@@ -45,14 +45,14 @@ export default generator('GuidesIndex', ({ path }) => (
             </p>
             <p>
               Learn about the flexibility by using{' '}
-              <Link href="/guides/why/#addons">
+              <Link href="/guides/understanding/#addons-5">
                 <a>Addons</a>
               </Link>,{' '}
-              <Link href="/guides/why/#decorators">
+              <Link href="/guides/understanding/#decorators-5">
                 <a>Decorators</a>
               </Link>{' '}
               and other{' '}
-              <Link href="/guides/why/#integration">
+              <Link href="/guides/understanding/#integration-5">
                 <a>Integrations</a>
               </Link>.
             </p>
@@ -63,11 +63,11 @@ export default generator('GuidesIndex', ({ path }) => (
           <MarkdownContainer>
             <p>
               Get started with storybook! How to{' '}
-              <Link href="/guides/setup">
+              <Link href="/guides/setup/#using-the-storybook-cli-2">
                 <a>install using the CLI</a>
               </Link>
               {' or '}
-              <Link href="/guides/setup">
+              <Link href="/guides/manual-setup">
                 <a>manually</a>
               </Link>.
             </p>
