@@ -25,7 +25,6 @@ module.exports = function getTitleFromJsPage(src) {
       node.declaration.declarations[0].id.name === 'pageTitle'
     ) {
       output = node.declaration.declarations[0].init.value;
-      console.log(node.declaration.declarations[0]);
     }
   });
 
