@@ -1,6 +1,9 @@
 import path from 'path';
 import webpack from 'webpack';
+
+import MinifyPlugin from 'babel-minify-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+
 import babelLoaderConfig from './babel.prod';
 import { getConfigDir, includePaths, excludePaths, loadEnv, nodePaths } from './utils';
 import { getPreviewHeadHtml, getManagerHeadHtml } from '../utils';
@@ -44,17 +47,17 @@ export default function() {
         template: require.resolve('../iframe.html.ejs'),
       }),
       new webpack.DefinePlugin(loadEnv({ production: true })),
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          screw_ie8: true,
-          warnings: false,
+      new MinifyPlugin(
+        {
+          builtIns: false,
+          evaluate: false,
+          propertyLiterals: false,
+          mangle: false,
         },
-        mangle: false,
-        output: {
+        {
           comments: false,
-          screw_ie8: true,
-        },
-      }),
+        }
+      ),
     ],
     module: {
       rules: [
