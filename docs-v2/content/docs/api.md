@@ -35,6 +35,8 @@ It exposes a method called `add`.
 > **You should call it with 2 parameters**:
 > - `name` [string] - name of variation. Will be shown at the stories panel.
 > - `renderFn` - This function will be passed to the renderer in the [preview](/api/docs). TODO: link
+> 
+> The return value of the `renderFn` depends on the [framework/app](/guides/understanding/#app), read more about [writing stories](/guides/writing-stories) in the [guides section](/guides/writing-stories).
 
 ```js // story.js | react
 import { storiesOf } from '@storybook/react';

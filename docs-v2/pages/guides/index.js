@@ -72,7 +72,7 @@ export default generator('GuidesIndex', ({ path }) => (
               </Link>.
             </p>
             <p>
-              <Link href="/guides/setup">
+              <Link href="/guides/writing-stories">
                 <a>Write your very first story</a>
               </Link>{' '}
               about your components.

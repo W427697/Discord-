@@ -66,7 +66,7 @@ module.exports = {
     fpath: '/docs-v2/pages/contributing/index.js',
   },
   '/contributing/issue-triage': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'issue-triage',
     title: 'Issue Triage',
     isFile: true,
@@ -90,7 +90,7 @@ module.exports = {
     fpath: '/docs-v2/content/contributing/issue-triage.md',
   },
   '/contributing/maintainers-avoiding-burnout': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'maintainers-avoiding-burnout',
     title: 'Maintainers: Avoiding Burnout',
     isFile: true,
@@ -114,7 +114,7 @@ module.exports = {
     fpath: '/docs-v2/content/contributing/maintainers-avoiding-burnout.md',
   },
   '/contributing/pull-requests': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'pull-requests',
     title: 'Pull Requests (PRs)',
     isFile: true,
@@ -138,7 +138,7 @@ module.exports = {
     fpath: '/docs-v2/content/contributing/pull-requests.md',
   },
   '/contributing/release-guide': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'release-guide',
     title: 'Release Guide',
     isFile: true,
@@ -162,7 +162,7 @@ module.exports = {
     fpath: '/docs-v2/content/contributing/release-guide.md',
   },
   '/contributing/reporting-issues': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'reporting-issues',
     title: 'Reporting Issues',
     isFile: true,
@@ -186,7 +186,7 @@ module.exports = {
     fpath: '/docs-v2/content/contributing/reporting-issues.md',
   },
   '/contributing/setting-up-a-dev-environment': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'setting-up-a-dev-environment',
     title: 'Setting up a dev environment (React)',
     isFile: true,
@@ -849,7 +849,7 @@ module.exports = {
     fpath: '/addons/viewport/README.md',
   },
   '/docs/api': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T20:09:26.000Z',
     name: 'api',
     title: 'Storybook API',
     isFile: true,
@@ -869,7 +869,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/api.md',
   },
   '/docs/cli': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:55.000Z',
     name: 'cli',
     title: 'CLI',
     isFile: true,
@@ -889,7 +889,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/cli.md',
   },
   '/docs/community': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'community',
     title: 'Community projects',
     isFile: true,
@@ -909,7 +909,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/community.md',
   },
   '/docs/configs': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'configs',
     title: 'Configuration',
     isFile: true,
@@ -1245,7 +1245,7 @@ module.exports = {
     fpath: '/docs-v2/pages/docs/index.js',
   },
   '/docs/issues': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'issues',
     title: 'Issues',
     isFile: true,
@@ -1265,7 +1265,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/issues.md',
   },
   '/docs/structure': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'structure',
     title: 'Storybook structure',
     isFile: true,
@@ -1285,7 +1285,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/structure.md',
   },
   '/easteregg': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'easteregg',
     title: 'Hello world',
     isFile: true,
@@ -1305,7 +1305,7 @@ module.exports = {
     fpath: '/docs-v2/content/easteregg.md',
   },
   '/example': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'example',
     title: 'Core Addon API',
     isFile: true,
@@ -1335,7 +1335,7 @@ module.exports = {
     fpath: '/docs-v2/content/example.md',
   },
   '/guides': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T20:13:05.000Z',
     name: 'index',
     title: 'Guides',
     isFile: true,
@@ -1343,11 +1343,13 @@ module.exports = {
     files: [
       '/guides',
       '/guides/manual-setup',
+      '/guides/organisation',
       '/guides/setup',
       '/guides/understanding',
       '/guides/why',
+      '/guides/writing-stories',
     ],
-    length: 5,
+    length: 7,
     contributors: [
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
@@ -1366,7 +1368,7 @@ module.exports = {
     fpath: '/docs-v2/pages/guides/index.js',
   },
   '/guides/manual-setup': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'manual-setup',
     title: 'Manually adding Storybook to your project',
     isFile: true,
@@ -1385,8 +1387,17 @@ module.exports = {
     ],
     fpath: '/docs-v2/content/guides/manual-setup.md',
   },
+  '/guides/organisation': {
+    modified: '2017-12-13T20:13:37.000Z',
+    name: 'organisation',
+    isFile: true,
+    route: '/guides/organisation',
+    files: [],
+    contributors: [],
+    fpath: '/docs-v2/pages/guides/organisation.js',
+  },
   '/guides/setup': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'setup',
     title: 'Setup Storybook',
     isFile: true,
@@ -1406,7 +1417,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/setup.md',
   },
   '/guides/understanding': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'understanding',
     title: 'Understanding Storybook.',
     isFile: true,
@@ -1430,7 +1441,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/understanding.md',
   },
   '/guides/why': {
-    modified: '2017-12-13T19:39:16.000Z',
+    modified: '2017-12-13T19:47:21.000Z',
     name: 'why',
     title: 'Why choose Storybook.',
     isFile: true,
@@ -1452,6 +1463,16 @@ module.exports = {
       },
     ],
     fpath: '/docs-v2/content/guides/why.md',
+  },
+  '/guides/writing-stories': {
+    modified: '2017-12-13T20:12:14.000Z',
+    name: 'writing-stories',
+    title: '',
+    isFile: true,
+    route: '/guides/writing-stories',
+    files: [],
+    contributors: [],
+    fpath: '/docs-v2/content/guides/writing-stories.md',
   },
   '/': {
     modified: '2017-12-13T19:39:16.000Z',

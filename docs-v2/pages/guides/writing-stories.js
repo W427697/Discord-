@@ -7,9 +7,9 @@ import { Content } from '../../components/Content';
 
 // eslint-disable-next-line no-unused-vars
 import * as Markdown from '../../components/Markdown';
-import content from '../../content/guides/setup.md';
+import content from '../../content/guides/writing-stories.md';
 
-export default generator('GuidesSetup', ({ path, query }) => (
+export default generator('GuideWritingStories', ({ path, query }) => (
   <Page>
     <TopNav {...{ path }} />
     <Content {...{ path, query }}>{content}</Content>
