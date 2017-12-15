@@ -7,9 +7,9 @@ Or perhaps you're just interested in what the CLI exactly does. This guide will 
 :::
 
 ## About this guide
-In this guide, we are trying to set up Storybook for your project, but every project is different. We've tried to write this guide in such a way it's framework-agnotic. Whenever you see `{framework}` in our examples or code, replace it with your [framework/app](/guides/understanding/#app-5) of choice.
+In this guide, we are trying to set up Storybook for your project, but every project is different. We've tried to write this guide in such a way it's framework-agnostic. Whenever you see `{framework}` in our examples or code, replace it with your [framework/app](/guides/understanding/#app-5) of choice.
 
-Storybook has its own Webpack setup and a dev server, and we've tried to make it similar in setup to your prefered framework's CLI / default setup. 
+Storybook has its own Webpack setup and a dev server, and we've tried to make it similar in setup to your preferred framework's CLI / default setup. 
 Such as [Create React App](https://github.com/facebookincubator/create-react-app) for react projects and the [Vue CLI](https://github.com/vuejs/vue-cli) for Vue projects, but also allows you to configure as you want.
 
 ## Add storybook dependencies

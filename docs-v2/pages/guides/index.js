@@ -84,16 +84,16 @@ export default generator('GuidesIndex', ({ path }) => (
           <MarkdownContainer>
             <p>
               Tips on how to get the most out of your storybook and build an{' '}
-              <Link href="/guides/setup">
+              <Link href="/guides/organisation">
                 <a>awesome styleguide / component library</a>
               </Link>.
             </p>
             <p>
               Structure your library using{' '}
-              <Link href="/guides/setup">
+              <Link href="/guides/organisation">
                 <a>hierarchy</a>
               </Link>, and provide{' '}
-              <Link href="/guides/setup">
+              <Link href="/guides/organisation">
                 <a>documentation</a>
               </Link>{' '}
               and example usages for your components.
@@ -105,18 +105,18 @@ export default generator('GuidesIndex', ({ path }) => (
           <MarkdownContainer>
             <p>
               View the{' '}
-              <Link href="/guides/setup">
+              <Link href="/guides/addons">
                 <a>list of the addons</a>
               </Link>{' '}
               available from the storybook team and community.
             </p>
             <p>
               Learn to{' '}
-              <Link href="/guides/setup">
+              <Link href="/guides/organisation/#decorators">
                 <a>decorate</a>
               </Link>{' '}
               your components and link them to{' '}
-              <Link href="/guides/setup">
+              <Link href="/guides/addons">
                 <a>addon Panels</a>
               </Link>.
             </p>
