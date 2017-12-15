@@ -121,39 +121,6 @@ jobs:
           command: |
             yarn test --coverage --runInBand --reactnative
             yarn coverage
-  docs:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          name: "Restore core dependencies cache"
-          keys:
-            - core-dependencies-{{ checksum "yarn.lock" }}
-      - restore_cache:
-          name: "Restore docs dependencies cache"
-          keys:
-            - docs-dependencies-{{ checksum "docs/yarn.lock" }}
-      - run:
-          name: "Install core dependencies"
-          command: |
-            yarn install
-      - run:
-          name: "Install dependencies"
-          command: |
-            yarn bootstrap --docs
-      - run:
-          name: "Dirty check"
-          command: |
-            yarn repo-dirty-check
-      - run:
-          name: "Run docs"
-          command: |
-            yarn docs:build
-      - save_cache:
-          name: "Cache dependencies"
-          key: docs-dependencies-{{ checksum "docs/yarn.lock" }}
-          paths:
-            - docs/node_modules
   lint:
     <<: *defaults
     steps:
@@ -257,7 +224,6 @@ workflows:
       - react-native:
           requires:
             - build
-      - docs
       - lint:
           requires:
             - build
