@@ -14,23 +14,36 @@ const A = glamorous.a({
   cursor: 'pointer',
 });
 
-const Li = glamorous.li({
+const ItemLi = glamorous.li({
   display: 'block',
   lineHeight: '30px',
 });
 
+const ItemFile = glamorous.span({
+  lineHeight: '17px',
+  paddingTop: 7,
+  paddingBottom: 7,
+});
+const ItemFolder = glamorous.strong({
+  lineHeight: '17px',
+  paddingTop: 7,
+  paddingBottom: 7,
+});
+
 const Item = glamorous(({ title, route, className, ...props }) => (
-  <Li>
+  <ItemLi>
     <Link href={route}>
       {props.length ? (
-        <strong>
-          <A className={className}>{title}</A>
-        </strong>
+        <A className={className}>
+          <ItemFolder>{title}</ItemFolder>
+        </A>
       ) : (
-        <A className={className}>{title}</A>
+        <A className={className}>
+          <ItemFile>{title}</ItemFile>
+        </A>
       )}
     </Link>
-  </Li>
+  </ItemLi>
 ))(({ isActive, length }) => ({
   color: isActive ? 'rgb(241, 97, 97)' : 'currentColor',
   marginLeft: length ? -1 : 10,
