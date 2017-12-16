@@ -37,7 +37,9 @@ storiesOf('Button', module).add('our first story', () => (
 ```
 :::
 
-Are we done? Have we shown all possible variations of the button component? No. The truth is: every component that takes props (*especially children*) will have infinite variations. Obviously writing infinite stories is not an option, and unproductive to say the least.
+Are we done? Have we shown all possible variations of the button component? **No**.
+
+The truth is: every component that takes props (*especially children*) will have **infinite** variations. Obviously writing infinite stories is not an option, and unproductive to say the least.
 
 So let's come up with a set of stories we'd like to see. The variations of your components should really be real examples of how your component is used or could be used in your application. Here's an example for the example Button component:
 
