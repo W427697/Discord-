@@ -77,7 +77,7 @@ const Content = ({ children, path, pageTitle = true }) => {
           {intro}
         </PageTitle>
       ) : null}
-      <Container width={960} vSpacing={40}>
+      <Container width={1080} vSpacing={40}>
         <Split>
           <nav>
             <Toc toc={toc} />
