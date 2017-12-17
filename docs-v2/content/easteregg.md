@@ -20,8 +20,7 @@ throw new Rock({ size: 'medium' });
 
 ### test
 
-:::Test { test: true }
-
+:::CodeSwitcher
 ```js // human.js | vue
 throw new Rock({ size: 'medium' });
 ```
@@ -29,7 +28,6 @@ throw new Rock({ size: 'medium' });
 ```js // machines.js | react
 const machine = { name: 'HAL1000' };
 ```
-
 :::
 
 😃
@@ -38,30 +36,26 @@ const machine = { name: 'HAL1000' };
 
 bye
 
-```js
+:::CodeSwitcher
+```js // syntax-highlighting-test.js | javascript
 import * as F from 'F'; // :/
 
-
-
 // example 1
-
 
 const a = () => ({
   a: `${4} & @ # $`,
   b: 'rrrOo0' === 'rrrOo0' ? true : false,
 });
 
-
 const MyComponent = () => <div>1LliI7 0oO nm</div>;
 
-// wtf?
+/* wtf? */
 ```
 
-```sh
+```sh // shell
 npm run storybook && cd .. && echo "done!" # cool script
 ```
-
-```css
+```css // styles.css | css
 .myCssClass: {
   color: hotpink;
   background: #000 linear-gradient(to right, #ffff00 1%,#00ffff 100%);
@@ -75,3 +69,4 @@ npm run storybook && cd .. && echo "done!" # cool script
   }
 }
 ```
+:::

@@ -261,7 +261,7 @@ Taken from the [writing stories example](/guides/writing-stories#display-compone
 Let's imagine we have a `Carousel` component. And it takes a list of data to render as props.
 Let's write a story:
 
-:::Test { frameworkDependent: true }
+:::CodeSwitcher
 ```js // story.js | react
 import React from 'react';
 import { storiesOf } from '@storybook/react';
@@ -280,7 +280,7 @@ A very smart pattern is to provide a sub-component as a prop itself, often calle
 
 It turns out this pattern is also really well suited for storybook:
 
-:::Test { frameworkDependent: true }
+:::CodeSwitcher
 ```js // story.js | react
 import React from 'react';
 import { storiesOf } from '@storybook/react';

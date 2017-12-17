@@ -9,7 +9,7 @@ This guide has a lot of overlap with our [api section](/docs/api), but is more d
 ## Example component
 Let's suppose we have an extremely simple component like this:
 
-:::Test { frameworkDependent: true }
+:::CodeSwitcher
 ```js // Button.js | react
 import React from 'react';
 
@@ -24,7 +24,7 @@ export default Button;
 ## Write a simple story
 We can write an equally simple story for it:
 
-:::Test { frameworkDependent: true }
+:::CodeSwitcher
 ```js // story.js | react
 import React from 'react';
 import { storiesOf } from '@storybook/react';
@@ -43,7 +43,7 @@ The truth is: every component that takes props (*especially children*) will have
 
 So let's come up with a set of stories we'd like to see. The variations of your components should really be real examples of how your component is used or could be used in your application. Here's an example for the example Button component:
 
-:::Test { frameworkDependent: true }
+:::CodeSwitcher
 ```js // story.js | react
 import React from 'react';
 import { storiesOf } from '@storybook/react';
@@ -73,7 +73,7 @@ Let's also imagine the data for this component is coming from a CMS of some kind
 Because of the external and high dynamic nature of the data, it's important for us to know the component is resilient enough.
 Let's write some stories:
 
-:::Test { frameworkDependent: true }
+:::CodeSwitcher
 ```js // story.js | react
 import React from 'react';
 import { storiesOf } from '@storybook/react';
@@ -97,7 +97,7 @@ Just a small selection of the very popular ones:
 ### Actions
 Instead of logging things to the console or doing nothing, we can use [an addon called 'actions'](/docs/addons/actions) to log data to panel:
 
-:::Test { frameworkDependent: true }
+:::CodeSwitcher
 ```js // story.js | react
 import React from 'react';
 import { storiesOf } from '@storybook/react';
@@ -121,7 +121,7 @@ storiesOf('Button', module).add('our first story', () => (
 ### Links
 If you want to forego stateful components in storybook, but still be able to navigate to a specific variation you can use [the 'links' addon](/docs/addons/link):
 
-:::Test { frameworkDependent: true }
+:::CodeSwitcher
 ```js // story.js | react
 import React from 'react';
 import { storiesOf } from '@storybook/react';
@@ -145,7 +145,7 @@ The answer is [the 'knobs' addon](/docs/addons/knobs).
 
 It allows you to change props via a GUI at runtime.
 
-:::Test { frameworkDependent: true }
+:::CodeSwitcher
 ```js // story.js | react
 import React from 'react';
 import { storiesOf } from '@storybook/react';
@@ -167,7 +167,7 @@ We've build [an addon called 'notes'](/docs/addons/notes) for this purpose.
 
 Though there are other addons available that also focus on adding documentation to storybook, like [info](/docs/addons/info) and [readme](https://github.com/tuchk4/storybook-readme).
 
-:::Test { frameworkDependent: true }
+:::CodeSwitcher
 ```js // story.js | react
 import { storiesOf } from '@storybook/react';
 import { withNotes } from '@storybook/addon-notes';
