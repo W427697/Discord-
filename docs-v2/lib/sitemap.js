@@ -1368,7 +1368,7 @@ module.exports = {
     fpath: '/docs-v2/pages/guides/index.js',
   },
   '/guides/manual-setup': {
-    modified: '2017-12-15T20:08:11.000Z',
+    modified: '2017-12-16T18:19:57.000Z',
     name: 'manual-setup',
     title: 'Manually adding Storybook to your project',
     isFile: true,
@@ -1388,7 +1388,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/manual-setup.md',
   },
   '/guides/organisation': {
-    modified: '2017-12-15T20:08:11.000Z',
+    modified: '2017-12-16T18:05:25.000Z',
     name: 'organisation',
     title: 'Organizing your storybook component library',
     isFile: true,
@@ -1476,7 +1476,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/why.md',
   },
   '/guides/writing-stories': {
-    modified: '2017-12-15T20:08:11.000Z',
+    modified: '2017-12-16T00:35:11.000Z',
     name: 'writing-stories',
     title: 'Writing stories',
     isFile: true,

@@ -1,23 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import glamorous from 'glamorous';
+import dynamic from 'next/dynamic';
 
-const ReactComponent = glamorous(({ children, component, props, className, ...rest }) => {
-  console.log(component, props, rest);
-  return (
-    <div className={className}>
-      {children}
-      <pre>{JSON.stringify({ component, props }, null, 2)}</pre>
-    </div>
-  );
-})({
-  border: '1px solid orangered',
-});
-ReactComponent.displayName = 'Markdown.ReactComponent';
-ReactComponent.propTypes = {
+const Fallback = ({ children }) => <div>{children}</div>;
+Fallback.propTypes = {
   children: PropTypes.node.isRequired,
-  component: PropTypes.string.isRequired,
-  props: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
+
+const Mapper = ({ children, component, props, ...rest }, componentMap) => {
+  console.log({ component, props, rest });
+
+  const Component = componentMap[component] || Fallback;
+
+  return <Component {...{ ...props, ...rest }}>{children}</Component>;
+};
+Mapper.propTypes = {
+  children: PropTypes.node,
+  component: PropTypes.string.isRequired,
+  props: PropTypes.oneOfType([PropTypes.object]),
+};
+Mapper.defaultProps = {
+  children: [],
+  props: {},
+};
+
+const ReactComponent = dynamic({
+  modules: () => {
+    //  Add remove components based on props
+
+    const components = {
+      Test: import('./Test'),
+      CodeSwitcher: import('./CodeSwitcher.js'),
+    };
+
+    return components;
+  },
+  render: Mapper,
+});
+
+ReactComponent.displayName = 'Markdown.ReactComponent';
 
 export { ReactComponent as default };

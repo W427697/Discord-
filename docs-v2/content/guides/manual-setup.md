@@ -17,17 +17,17 @@ Such as [Create React App](https://github.com/facebookincubator/create-react-app
 First of all, you need to add a few storybook packages to your project's `package.json`. 
 To do that, simply run:
 
-:::Test { frameworkDependent: true }
-```sh | react
+:::CodeSwitcher
+```sh // react
 npm i --save-dev @storybook/react @storybook/addons react react-dom
 ```
-```sh | react-native
+```sh // reactnative
 npm i --save-dev @storybook/react-native @storybook/addons react react-native
 ```
-```sh | vue
+```sh // vue
 npm i --save-dev @storybook/vue @storybook/addons vue vue-loader vue-template-compiler
 ```
-```sh | angular
+```sh // angular
 npm i --save-dev @storybook/angular @storybook/addons
 ```
 :::
@@ -60,7 +60,7 @@ For the basic Storybook configuration file, you don't need to do much, but simpl
 
 To do that, simply create a file at `.storybook/config.js` with the following content:
 
-:::Test { frameworkDependent: true }
+:::CodeSwitcher
 ```js // config.js | react
 import { configure } from '@storybook/react';
 
@@ -91,7 +91,7 @@ Just like that, you can load stories from wherever you want to.
 
 Now you can write some stories inside the `../stories/index.js` file, like this:
 
-:::Test { frameworkDependent: true }
+:::CodeSwitcher
 ```js // stories.js | react
 import React from 'react';
 import { storiesOf } from '@storybook/react';
