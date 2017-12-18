@@ -12,7 +12,6 @@ const getSelected = list => {
     return list[0];
   }
 };
-
 const setSelected = value => {
   try {
     localStorage.setItem('framework', value);
@@ -44,7 +43,6 @@ const getClosestMatchingType = (types, selected) => {
     }
   }
 };
-
 const getTypes = children =>
   Children.toArray(children).reduce((acc, item) => acc.concat(item.props.framework), []);
 
@@ -73,10 +71,10 @@ const getContent = (children, selected) => {
   };
 };
 
-const Select = glamorous(({ items, onChange, value, className }) => (
+const Select = glamorous(({ items, onChange, value, className, title }) => (
   <div className={className}>
     {value}
-    <select {...{ onChange, value }}>
+    <select {...{ onChange, value, title, 'aria-label': title }}>
       {items.map(item => (
         <option value={item} key={item}>
           {item}
@@ -113,18 +111,32 @@ Select.propTypes = {
   value: PropTypes.string.isRequired,
 };
 
+const Figure = glamorous.figure({
+  color: 'currentColor',
+  fontWeight: 'normal',
+  fontSize: 15,
+  marginTop: 0,
+  padding: 0,
+  marginLeft: 0,
+  marginRight: 0,
+  marginBottom: '1.2em',
+  lineHeight: '1.4em',
+});
+
 const Message = glamorous.div({
   color: '#f26060',
   lineHeight: '24px',
+  fontSize: 13,
   display: 'inline',
   paddingLeft: 6,
+  fontWeight: 300,
 });
-const Filename = glamorous.div({
+const Filename = glamorous.figcaption({
   color: 'gray',
-  fontSize: 15,
+  fontSize: 13,
   lineHeight: '24px',
-  paddingLeft: 6,
-  paddingRight: 6,
+  paddingLeft: 8,
+  paddingRight: 8,
   float: 'left',
   fontStyle: 'italic',
 });
@@ -132,8 +144,8 @@ const Filename = glamorous.div({
 const Toolbar = glamorous(
   ({ selected, value, types, message, filename, className }) =>
     filename || types.length > 1 ? (
-      <div className={className}>
-        {filename ? <Filename>{filename}</Filename> : null}
+      <div className={className} role="toolbar">
+        {filename ? <Filename title="Filename">{filename}</Filename> : null}
         <span />
         {types.length > 1 ? (
           <div style={{ float: 'right', textAlign: 'right' }}>
@@ -142,6 +154,7 @@ const Toolbar = glamorous(
               value={value || selected}
               items={types}
               onChange={event => setSelected(event.target.value)}
+              title="change the code example to a different framework"
             />
           </div>
         ) : null}
@@ -194,26 +207,22 @@ class CodeSwitcher extends Component {
   }
   render() {
     const { selected } = this.state;
-    const { children, className } = this.props;
+    const { children } = this.props;
     const types = getTypes(children);
     const { content, message, value } = getContent(children, selected);
     const { filename } = content[0].props;
 
     return (
-      <div className={className}>
+      <Figure>
         <Toolbar {...{ selected, value, types, message, filename }} />
-        <div>{content}</div>
-      </div>
+        {content}
+      </Figure>
     );
   }
 }
 CodeSwitcher.displayName = 'Markdown.CodeSwitcher';
 CodeSwitcher.propTypes = {
   children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-};
-CodeSwitcher.defaultProps = {
-  className: '',
 };
 
 export { CodeSwitcher as default };
