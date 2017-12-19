@@ -10,6 +10,7 @@ import Split from './Split';
 import * as Markdown from './Markdown';
 import Toc from './Toc';
 import SideNav from './SideNav';
+import Contributors from './Contributors';
 
 const childrenToString = children => {
   switch (true) {
@@ -87,6 +88,7 @@ const Content = ({ children, path, pageTitle = true }) => {
           <Markdown.Container>{body}</Markdown.Container>
         </Split>
       </Container>
+      <Contributors items={sitemap[path].contributors} />
     </Fragment>
   );
 };

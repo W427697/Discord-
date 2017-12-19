@@ -92,6 +92,7 @@ const Select = glamorous(({ items, onChange, value, className, title }) => (
   color: 'white',
   fontWeight: 600,
   '& select': {
+    cursor: 'pointer',
     border: '0 none',
     position: 'absolute',
     appearance: 'button',

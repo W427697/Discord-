@@ -1285,7 +1285,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/structure.md',
   },
   '/easteregg': {
-    modified: '2017-12-15T20:08:11.000Z',
+    modified: '2017-12-17T22:51:50.000Z',
     name: 'easteregg',
     title: 'Hello world',
     isFile: true,
@@ -1335,7 +1335,7 @@ module.exports = {
     fpath: '/docs-v2/content/example.md',
   },
   '/guides': {
-    modified: '2017-12-15T20:08:11.000Z',
+    modified: '2017-12-16T18:45:58.000Z',
     name: 'index',
     title: 'Guides',
     isFile: true,
@@ -1368,7 +1368,7 @@ module.exports = {
     fpath: '/docs-v2/pages/guides/index.js',
   },
   '/guides/manual-setup': {
-    modified: '2017-12-16T18:19:57.000Z',
+    modified: '2017-12-17T13:48:20.000Z',
     name: 'manual-setup',
     title: 'Manually adding Storybook to your project',
     isFile: true,
@@ -1388,7 +1388,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/manual-setup.md',
   },
   '/guides/organisation': {
-    modified: '2017-12-16T18:05:25.000Z',
+    modified: '2017-12-17T22:51:50.000Z',
     name: 'organisation',
     title: 'Organizing your storybook component library',
     isFile: true,
@@ -1452,7 +1452,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/understanding.md',
   },
   '/guides/why': {
-    modified: '2017-12-15T20:08:11.000Z',
+    modified: '2017-12-18T21:50:05.000Z',
     name: 'why',
     title: 'Why choose Storybook.',
     isFile: true,
@@ -1476,7 +1476,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/why.md',
   },
   '/guides/writing-stories': {
-    modified: '2017-12-16T00:35:11.000Z',
+    modified: '2017-12-17T22:51:50.000Z',
     name: 'writing-stories',
     title: 'Writing stories',
     isFile: true,

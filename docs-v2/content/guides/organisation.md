@@ -170,7 +170,7 @@ Here are the prime use-cases we have identified:
 It also allows you to test the component within a global css namespace-class this can be useful if your styling responds to for example modernizr classes:
 
 ```js
-const CenterDecorator = (storyFn) => (
+const ModernizrDecorator = (storyFn) => (
   <div className="no-flexbox">{storyFn()}</div>
 );
 ```

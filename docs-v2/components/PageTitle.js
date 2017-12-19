@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
 
 import Breadcrumb from './Breadcrumb';
+import { Container as MarkdownContainer } from './Markdown';
 
 const gradients = {
   blue: 'linear-gradient(135deg, #2ab5bb 8%, #2a7bbb)',
@@ -24,13 +25,19 @@ const Root = glamorous.section(
     color: '#fff',
     textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
     fontSize: 15,
+    fontWeight: 400,
     overflow: 'hidden',
     lineHeight: 1.2,
-    '& h1': {
+    ':root & h1': {
+      textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
       fontSize: '3em',
       fontWeight: 200,
       marginTop: 0,
+      paddingTop: 0,
       marginBottom: 20,
+    },
+    ':root & p': {
+      fontWeight: 200,
     },
   },
   ({ minHeight = '60vh' }) => ({
@@ -41,7 +48,7 @@ const Root = glamorous.section(
 const PageTitle = ({ children, path = '', ...rest }) => (
   <Fragment>
     <Root {...rest}>
-      <div>{children}</div>
+      <MarkdownContainer colored>{children}</MarkdownContainer>
     </Root>
     <Breadcrumb input={path} />
   </Fragment>
