@@ -9,12 +9,7 @@ import runWithRequireContext from './require_context';
 import createChannel from './storybook-channel-mock';
 import { snapshotWithOptions } from './test-bodies';
 
-export {
-  snapshot,
-  snapshotWithOptions,
-  shallowSnapshot,
-  renderOnly,
-} from './test-bodies';
+export { snapshot, snapshotWithOptions, shallowSnapshot, renderOnly } from './test-bodies';
 
 export { snapshotPerStoryFile, snapshotPerStoryAdded } from './utils';
 
@@ -33,6 +28,8 @@ const hasDependency = name =>
 
 export default function testStorySnapshots(options = {}) {
   addons.setChannel(createChannel());
+
+  const filesPattern = options.filesPattern || {};
 
   const isStorybook =
     options.framework === 'react' || (!options.framework && hasDependency('@storybook/react'));
@@ -89,23 +86,21 @@ export default function testStorySnapshots(options = {}) {
     options.test || snapshotWithOptions({ options: snapshotOptions });
 
   const storyFileExists = fileName =>
-    options.filesPattern.getPossibleStoriesFiles(fileName).some(fs.existsSync);
+    filesPattern.getPossibleStoriesFiles(fileName).some(fs.existsSync);
 
-  if (options.filesPattern && options.filesPattern.getPossibleStoriesFiles) {
+  if (filesPattern.getPossibleStoriesFiles) {
     describe('Storyshots Integrity', () => {
       describe('Abandoned Storyshots', () => {
         const storyshots = glob.sync('**/*.storyshot');
 
-        const abandonedStoryshots = storyshots.filter(fileName => 
-          !storyFileExists(fileName)
-        );
+        const abandonedStoryshots = storyshots.filter(fileName => !storyFileExists(fileName));
 
         expect(abandonedStoryshots).toHaveLength(0);
       });
     });
   }
 
-  const { getSnapshotFileName } = options.filesPattern;
+  const { getSnapshotFileName } = filesPattern;
 
   // eslint-disable-next-line
   for (const group of stories) {
