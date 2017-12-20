@@ -129,18 +129,18 @@ export default generator('GuidesIndex', ({ path }) => (
           <MarkdownContainer>
             <p>
               Need a custom config, no problem! Customise the{' '}
-              <Link href="/guides/setup">
+              <Link href="/guides/webpack">
                 <a>webpack config</a>
               </Link>{' '}
               &{' '}
-              <Link href="/guides/setup">
+              <Link href="/guides/babel">
                 <a>babel config</a>
               </Link>{' '}
               to your liking.
             </p>
             <p>
               You can even{' '}
-              <Link href="/guides/setup">
+              <Link href="/guides/customization">
                 <a>inject global styles, headers, scripts</a>
               </Link>{' '}
               in both manager and preview.
@@ -223,7 +223,7 @@ export default generator('GuidesIndex', ({ path }) => (
             .filter(i => i !== '/guides')
             .map(i => sitemap[i])
             .map(data => (
-              <li>
+              <li key={data.route}>
                 <Link href={data.route}>
                   <a>
                     <strong>{data.title}</strong>

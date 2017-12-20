@@ -1334,12 +1334,12 @@ module.exports = {
     ],
     fpath: '/docs-v2/content/example.md',
   },
-  '/guides/build-static': {
-    modified: '2017-12-20T00:28:55.000Z',
-    name: 'build-static',
-    title: 'Build and deploy a static version of your storybook',
+  '/guides/organisation': {
+    modified: '2017-12-19T23:36:50.000Z',
+    name: 'organisation',
+    title: 'Organizing your storybook component library',
     isFile: true,
-    route: '/guides/build-static',
+    route: '/guides/organisation',
     files: [],
     contributors: [
       {
@@ -1351,22 +1351,40 @@ module.exports = {
           twitter: 'norbertdelangen',
         },
       },
-      {
-        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
-        name: 'Dan Green',
-      },
     ],
-    fpath: '/docs-v2/content/guides/build-static.md',
+    fpath: '/docs-v2/content/guides/organisation.md',
+  },
+  '/guides/babel': {
+    modified: '2017-12-20T16:54:10.000Z',
+    name: 'babel',
+    title: 'Extend the storybook babel configuration',
+    isFile: true,
+    route: '/guides/babel',
+    files: [],
+    contributors: [],
+    fpath: '/docs-v2/content/guides/babel.md',
+  },
+  '/guides/customization': {
+    modified: '2017-12-20T17:00:42.000Z',
+    name: 'customization',
+    title: '',
+    isFile: true,
+    route: '/guides/customization',
+    files: [],
+    contributors: [],
+    fpath: '/docs-v2/content/guides/customization.md',
   },
   '/guides': {
-    modified: '2017-12-19T23:59:29.000Z',
+    modified: '2017-12-20T16:59:59.000Z',
     name: 'index',
     title: 'Guides',
     isFile: true,
     route: '/guides',
     files: [
       '/guides',
+      '/guides/babel',
       '/guides/build-static',
+      '/guides/customization',
       '/guides/manual-setup',
       '/guides/organisation',
       '/guides/setup',
@@ -1375,7 +1393,7 @@ module.exports = {
       '/guides/why',
       '/guides/writing-stories',
     ],
-    length: 9,
+    length: 11,
     contributors: [
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
@@ -1413,12 +1431,12 @@ module.exports = {
     ],
     fpath: '/docs-v2/content/guides/manual-setup.md',
   },
-  '/guides/organisation': {
-    modified: '2017-12-19T23:36:50.000Z',
-    name: 'organisation',
-    title: 'Organizing your storybook component library',
+  '/guides/build-static': {
+    modified: '2017-12-20T00:28:55.000Z',
+    name: 'build-static',
+    title: 'Build and deploy a static version of your storybook',
     isFile: true,
-    route: '/guides/organisation',
+    route: '/guides/build-static',
     files: [],
     contributors: [
       {
@@ -1430,8 +1448,12 @@ module.exports = {
           twitter: 'norbertdelangen',
         },
       },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
     ],
-    fpath: '/docs-v2/content/guides/organisation.md',
+    fpath: '/docs-v2/content/guides/build-static.md',
   },
   '/guides/setup': {
     modified: '2017-12-15T20:08:11.000Z',
@@ -1478,7 +1500,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/understanding.md',
   },
   '/guides/webpack': {
-    modified: '2017-12-20T08:13:03.000Z',
+    modified: '2017-12-20T16:50:15.000Z',
     name: 'webpack',
     title: 'Extend the storybook webpack configuration',
     isFile: true,

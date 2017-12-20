@@ -53,7 +53,7 @@ const Button = glamorous(A)(
     textDecoration: 'none',
     opacity: 0.8,
     transition: 'all 0.3s',
-    boxShadow: ' 0 0 0 0px rgba(0,0,0,0.00)',
+    boxShadow: ' 0 0 0 3px rgba(0,0,0,0.00)',
 
     '&:hover': {
       opacity: 1,

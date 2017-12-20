@@ -200,7 +200,7 @@ export default generator('DocsIndex', ({ path }) => (
             .filter(i => i !== '/docs/addons')
             .map(i => sitemap[i])
             .map(data => (
-              <li>
+              <li key={data.route}>
                 <Link href={data.route}>
                   <a>
                     <strong>{data.title.replace('Storybook Addon', '')}</strong>
