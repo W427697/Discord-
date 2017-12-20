@@ -18,10 +18,10 @@ const Item = glamorous.li({
   width: 80,
   boxSizing: 'border-box',
 
-  '@media screen and (max-width: 500px)': {
+  '@media screen and (max-width: 400px)': {
     width: '25%',
   },
-  '@media screen and (max-width: 400px)': {
+  '@media screen and (max-width: 300px)': {
     width: '50%',
   },
 });

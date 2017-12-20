@@ -3,9 +3,6 @@
 You may have tried to add storybook to your project using [our CLI](/guides/setup/) but for some reason it failed or didn't detect your type of project.
 Or perhaps you're just interested in what the CLI exactly does. This guide will take you step by step on how to add storybook to any project.
 
-:::Test { chooseFramework: true }
-:::
-
 ## About this guide
 In this guide, we are trying to set up Storybook for your project, but every project is different. We've tried to write this guide in such a way it's framework-agnostic. Whenever you see `{framework}` in our examples or code, replace it with your [framework/app](/guides/understanding/#app-5) of choice.
 
