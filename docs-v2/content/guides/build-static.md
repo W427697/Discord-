@@ -1,8 +1,10 @@
 # Build and deploy a static version of your storybook
 
-Getting fast feedback on development of UI-components is super important. Showing on your local machine can work up to a point, but when your team work partly remote, or you're working on multiple features in parallel, this can become a chore.
+Getting fast feedback on development of UI-components is super important. 
+Showcasing on your local machine can work up to a point; but when your team work partly remote, or you're working on multiple features in parallel, this can become a chore.
 
-Also it can be really valuable to have a permanent url for a particular moment in history of your component library, either to reference again later, or possibly trace down a bug.
+It's really valuable to have a permanent url for a particular moment in history of your component library, 
+to reference it again later, or possibly trace down a bug.
 
 For this purpose storybook has made it super easy for you to create a static version of your storybook so deploying it somewhere is a breeze.
 
@@ -31,6 +33,15 @@ build-storybook
 
 This will generate a static version with the default settings. Check out the [settings for the CLI](/docs/cli).
 
+We recommend you add a npm script to your `package.json`:
+```json
+{
+  "scripts": {
+    "storybook": "build-storybook -c .storybook -o .out"
+  }
+}
+```
+
 ## Deploy storybook
 
 ### Dynamic version
@@ -42,6 +53,6 @@ If you can `npm install` and `npm start` somewhere, you can run storybook there!
 
 ### Static version
 
-After generating the static version, you can use the [`gh-pages`](https://www.npmjs.com/package/gh-pages) package to upload the static files to [GitHub Pages](https://pages.github.com/).
+After generating the static version, you can use the [`gh-pages`](https://www.npmjs.com/package/gh-pages) package to upload the static files to [GitHub Pages](https://pages.github.com/). You can also [read this guide](https://github.com/blog/2233-publish-your-project-documentation-with-github-pages) on how it works.
 
 If you want a command that will build storybook into a static version and upload to GitHub Pages in 1 command, we have got your back: this is exactly what our [storybook-deployer](https://github.com/storybooks/storybook-deployer) package can do for you!
