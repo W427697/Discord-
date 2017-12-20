@@ -1335,7 +1335,7 @@ module.exports = {
     fpath: '/docs-v2/content/example.md',
   },
   '/guides/build-static': {
-    modified: '2017-12-20T00:16:39.000Z',
+    modified: '2017-12-20T00:28:55.000Z',
     name: 'build-static',
     title: 'Build and deploy a static version of your storybook',
     isFile: true,
@@ -1371,10 +1371,11 @@ module.exports = {
       '/guides/organisation',
       '/guides/setup',
       '/guides/understanding',
+      '/guides/webpack',
       '/guides/why',
       '/guides/writing-stories',
     ],
-    length: 8,
+    length: 9,
     contributors: [
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
@@ -1475,6 +1476,30 @@ module.exports = {
       },
     ],
     fpath: '/docs-v2/content/guides/understanding.md',
+  },
+  '/guides/webpack': {
+    modified: '2017-12-20T08:13:03.000Z',
+    name: 'webpack',
+    title: 'Extend the storybook webpack configuration',
+    isFile: true,
+    route: '/guides/webpack',
+    files: [],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+    ],
+    fpath: '/docs-v2/content/guides/webpack.md',
   },
   '/guides/why': {
     modified: '2017-12-18T22:08:08.000Z',
