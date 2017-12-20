@@ -127,6 +127,18 @@ initStoryshots({
 
 If you are running tests from outside of your app's directory, storyshots' detection of which framework you are using may fail. Pass `"react"` or `"react-native"` to short-circuit this.
 
+### `filesPattern`
+
+It allows you to generate separate snapshot files according to your needs. Please check [snapshotPerStoryFile](#snapshotPerStoryFile) and [snapshotPerStoryAdded](#snapshotPerStoryAdded) below.
+
+```js
+import initStoryshots, { snapshotPerStoryAdded } from '@storybook/addon-storyshots';
+
+initStoryshots({
+  filesPattern: snapshotPerStoryAdded,
+});
+```
+
 ### `test`
 
 Run a custom test function for each story, rather than the default (a vanilla snapshot test). Setting `test` will take precedence over the `renderer` option. See the exports section below for more details.
@@ -191,30 +203,34 @@ Just render the story, don't check the output at all (useful if you just want to
 
 Like the default, but allows you to specify a set of options for the test renderer. [See for example here](https://github.com/storybooks/storybook/blob/b915b5439786e0edb17d7f5ab404bba9f7919381/examples/test-cra/src/storyshots.test.js#L14-L16).
 
-### `multiSnapshotWithOptions(options)`
+### `snapshotPerStoryFile`
 
-Like `snapshotWithOptions`, but generate a separate snapshot file for each stories file rather than a single monolithic file (as is the convention in Jest). This makes it dramatically easier to review changes.
+It generates a separate snapshot file for each stories file rather than a single monolithic file (as is the convention in Jest). This makes it dramatically easier to review changes.
+
+### `snapshotPerStoryAdded`
+
+Like `snapshotPerStoryFile`, but generate a separate snapshot file for each stories added, rather than a single file snapshopt per story file. This makes it even easier to review changes.
 
 ### `shallowSnapshot`
 
 Take a snapshot of a shallow-rendered version of the component. Note that this option will be overriden if you pass a `renderer` option.
 
-### `getSnapshotFileName`
+### `filesPattern.getSnapshotFileName`
 
-Utility function used in `multiSnapshotWithOptions`. This is made available for users who implement custom test functions that also want to take advantage of multi-file storyshots.
+Utility function used in `snapshotWithOptions`. This is made available for users who implement custom test functions that also want to take advantage of multi-file storyshots.
 
 ###### Example:
 
 Let's say we wanted to create a test function for shallow && multi-file snapshots:
 
 ```js
-import initStoryshots, { getSnapshotFileName } from '@storybook/addon-storyshots';
+import initStoryshots, { snapshotPerStoryFile } from '@storybook/addon-storyshots';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
 initStoryshots({
   test: ({ story, context }) => {
-    const snapshotFileName = getSnapshotFileName(context);
+    const snapshotFileName = snapshotPerStoryFile.getSnapshotFileName(context);
     const storyElement = story.render(context);
     const shallowTree = shallow(storyElement);
 

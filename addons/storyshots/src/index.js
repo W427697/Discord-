@@ -8,17 +8,10 @@ import addons from '@storybook/addons';
 import runWithRequireContext from './require_context';
 import createChannel from './storybook-channel-mock';
 import { snapshotWithOptions } from './test-bodies';
-import { getPossibleStoriesFiles, getSnapshotFileName } from './utils';
 
-export {
-  snapshot,
-  multiSnapshotWithOptions,
-  snapshotWithOptions,
-  shallowSnapshot,
-  renderOnly,
-} from './test-bodies';
+export { snapshot, snapshotWithOptions, shallowSnapshot, renderOnly } from './test-bodies';
 
-export { getSnapshotFileName };
+export { snapshotPerStoryFile, snapshotPerStoryAdded } from './utils';
 
 let storybook;
 let configPath;
@@ -35,6 +28,8 @@ const hasDependency = name =>
 
 export default function testStorySnapshots(options = {}) {
   addons.setChannel(createChannel());
+
+  const filesPattern = options.filesPattern || {};
 
   const isStorybook =
     options.framework === 'react' || (!options.framework && hasDependency('@storybook/react'));
@@ -90,6 +85,23 @@ export default function testStorySnapshots(options = {}) {
   options.test =
     options.test || snapshotWithOptions({ options: snapshotOptions });
 
+  const storyFileExists = fileName =>
+    filesPattern.getPossibleStoriesFiles(fileName).some(fs.existsSync);
+
+  if (filesPattern.getPossibleStoriesFiles) {
+    describe('Storyshots Integrity', () => {
+      describe('Abandoned Storyshots', () => {
+        const storyshots = glob.sync('**/*.storyshot');
+
+        const abandonedStoryshots = storyshots.filter(fileName => !storyFileExists(fileName));
+
+        expect(abandonedStoryshots).toHaveLength(0);
+      });
+    });
+  }
+
+  const { getSnapshotFileName } = filesPattern;
+
   // eslint-disable-next-line
   for (const group of stories) {
     const { fileName, kind } = group;
@@ -113,6 +125,7 @@ export default function testStorySnapshots(options = {}) {
             return options.test({
               story,
               context,
+              getSnapshotFileName,
             });
           });
         }
@@ -120,16 +133,3 @@ export default function testStorySnapshots(options = {}) {
     });
   }
 }
-
-describe('Storyshots Integrity', () => {
-  describe('Abandoned Storyshots', () => {
-    const storyshots = glob.sync('**/*.storyshot');
-
-    const abandonedStoryshots = storyshots.filter(fileName => {
-      const possibleStoriesFiles = getPossibleStoriesFiles(fileName);
-      return !possibleStoriesFiles.some(fs.existsSync);
-    });
-
-    expect(abandonedStoryshots).toHaveLength(0);
-  });
-});
