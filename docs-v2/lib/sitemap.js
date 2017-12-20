@@ -1334,14 +1334,39 @@ module.exports = {
     ],
     fpath: '/docs-v2/content/example.md',
   },
+  '/guides/build-static': {
+    modified: '2017-12-20T00:16:39.000Z',
+    name: 'build-static',
+    title: 'Build and deploy a static version of your storybook',
+    isFile: true,
+    route: '/guides/build-static',
+    files: [],
+    contributors: [
+      {
+        hash: '537eed32d6998089dd5aa6a7e6ea2691',
+        name: 'Norbert de Langen',
+        meta: {
+          github: 'ndelangen',
+          npm: 'ndelangen',
+          twitter: 'norbertdelangen',
+        },
+      },
+      {
+        hash: 'e8b22c40aa6826d9ee5473844191f3ec',
+        name: 'Dan Green',
+      },
+    ],
+    fpath: '/docs-v2/content/guides/build-static.md',
+  },
   '/guides': {
-    modified: '2017-12-16T18:45:58.000Z',
+    modified: '2017-12-19T23:59:29.000Z',
     name: 'index',
     title: 'Guides',
     isFile: true,
     route: '/guides',
     files: [
       '/guides',
+      '/guides/build-static',
       '/guides/manual-setup',
       '/guides/organisation',
       '/guides/setup',
@@ -1349,7 +1374,7 @@ module.exports = {
       '/guides/why',
       '/guides/writing-stories',
     ],
-    length: 7,
+    length: 8,
     contributors: [
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
@@ -1388,7 +1413,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/manual-setup.md',
   },
   '/guides/organisation': {
-    modified: '2017-12-17T22:51:50.000Z',
+    modified: '2017-12-19T23:36:50.000Z',
     name: 'organisation',
     title: 'Organizing your storybook component library',
     isFile: true,
@@ -1452,7 +1477,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/understanding.md',
   },
   '/guides/why': {
-    modified: '2017-12-18T21:50:05.000Z',
+    modified: '2017-12-18T22:08:08.000Z',
     name: 'why',
     title: 'Why choose Storybook.',
     isFile: true,

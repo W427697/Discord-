@@ -3,6 +3,8 @@ import React from 'react';
 import Head from 'next/head';
 import { Logos } from '@storybook/components';
 
+import sitemap from '../../lib/sitemap';
+
 import Page, { generator } from '../../components/Page';
 
 import Link from '../../components/Link';
@@ -207,6 +209,32 @@ export default generator('GuidesIndex', ({ path }) => (
         </section>
       </Blocks>
     </Container>
+
+    <Container
+      width={1000}
+      vPadding={30}
+      hPadding={30}
+      background="linear-gradient(to right, rgba(241,97,97,1) 0%,rgba(243,173,56,1) 100%,rgba(162,224,94,1) 100%)"
+    >
+      <H2 as="h1">Common tasks</H2>
+      <MarkdownContainer colored={false}>
+        <ol>
+          {sitemap['/guides'].files
+            .filter(i => i !== '/guides')
+            .map(i => sitemap[i])
+            .map(data => (
+              <li>
+                <Link href={data.route}>
+                  <a>
+                    <strong>{data.title}</strong>
+                  </a>
+                </Link>
+              </li>
+            ))}
+        </ol>
+      </MarkdownContainer>
+    </Container>
+
     <Container
       width={1000}
       vPadding={30}
