@@ -1,5 +1,7 @@
 # Why choose Storybook.
 
+What is storybook and why should you use it? **Storybook is the UI development environment you'll love to use**. It's a tool that will assist you to build, document and test UI components.
+
 Storybook isn't the only solution out there, so why choose Storybook over something else or creating your own? 
 But to do a comparison we need to understand what Storybook's goal and scope is.
 

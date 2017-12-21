@@ -114,7 +114,7 @@ module.exports = function myMarkdownBabelPlugin({ types: t }) {
       return NR('Markdown', 'Code', { language, filename, framework, html }, []);
     },
     blockquote: ({ children }, context) => R('blockquote', {}, mapChildren(children, context)),
-    inlineCode: ({ value }) => t.jSXText(value),
+    inlineCode: ({ value }) => NR('Markdown', 'InlineCode', { value }, []),
     link: ({ children, title, url: href }, context) =>
       R('a', { title, href }, mapChildren(children, context)),
     linkReference: ({ children, identifier }, context) => {

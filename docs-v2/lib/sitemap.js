@@ -873,7 +873,7 @@ module.exports = {
     fpath: '/docs-v2/content/docs/api.md',
   },
   '/docs/cli': {
-    modified: '2017-12-21T15:38:36.000Z',
+    modified: '2017-12-21T22:38:07.000Z',
     name: 'cli',
     title: 'CLI',
     isFile: true,
@@ -1214,7 +1214,7 @@ module.exports = {
     fpath: '/app/vue/README.md',
   },
   '/docs': {
-    modified: '2017-12-21T15:38:37.000Z',
+    modified: '2017-12-21T22:24:30.000Z',
     name: 'index',
     title: 'Documentation',
     isFile: true,
@@ -1228,9 +1228,10 @@ module.exports = {
       '/docs/configs',
       '/docs/frameworks',
       '/docs/issues',
+      '/docs/options',
       '/docs/structure',
     ],
-    length: 9,
+    length: 10,
     contributors: [
       {
         hash: '537eed32d6998089dd5aa6a7e6ea2691',
@@ -1267,6 +1268,16 @@ module.exports = {
       },
     ],
     fpath: '/docs-v2/content/docs/issues.md',
+  },
+  '/docs/options': {
+    modified: '2017-12-21T22:34:20.000Z',
+    name: 'options',
+    title: 'UI Options',
+    isFile: true,
+    route: '/docs/options',
+    files: [],
+    contributors: [],
+    fpath: '/docs-v2/content/docs/options.md',
   },
   '/docs/structure': {
     modified: '2017-12-21T15:38:37.000Z',
@@ -1440,7 +1451,7 @@ module.exports = {
     fpath: '/docs-v2/pages/guides/index.js',
   },
   '/guides/manual-setup': {
-    modified: '2017-12-21T15:38:37.000Z',
+    modified: '2017-12-21T17:02:33.000Z',
     name: 'manual-setup',
     title: 'Manually adding Storybook to your project',
     isFile: true,
@@ -1552,7 +1563,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/webpack.md',
   },
   '/guides/why': {
-    modified: '2017-12-21T15:38:37.000Z',
+    modified: '2017-12-21T20:42:37.000Z',
     name: 'why',
     title: 'Why choose Storybook.',
     isFile: true,
@@ -1576,7 +1587,7 @@ module.exports = {
     fpath: '/docs-v2/content/guides/why.md',
   },
   '/guides/writing-stories': {
-    modified: '2017-12-21T15:38:37.000Z',
+    modified: '2017-12-21T17:02:33.000Z',
     name: 'writing-stories',
     title: 'Writing stories',
     isFile: true,

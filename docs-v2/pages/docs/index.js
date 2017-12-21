@@ -31,17 +31,17 @@ export default generator('DocsIndex', ({ path }) => (
           <H3 as="h2">Story API</H3>
           <MarkdownContainer>
             <p>
-              <Link href="/docs/api/">
+              <Link href="/guides/writing-stories/">
                 <a>Writing stories</a>
               </Link>{' '}
               looks a lot like writing unit tests, you create a context using{' '}
-              <Link href="/guides/why/#addons">
+              <Link href="/docs/api/">
                 <a>
                   <code>storiesOf()</code>
                 </a>
               </Link>{' '}
               and add cases chaining off the context with{' '}
-              <Link href="/guides/why/#addons">
+              <Link href="/docs/api/">
                 <a>
                   <code>.add()</code>
                 </a>
@@ -81,18 +81,18 @@ export default generator('DocsIndex', ({ path }) => (
           <MarkdownContainer>
             <p>
               You can set options{' '}
-              <Link href="/docs/api/">
+              <Link href="/docs/options/">
                 <a>
                   from the <code>config.js</code>
                 </a>
               </Link>, but it's also possible to{' '}
-              <Link href="/docs/api/">
+              <Link href="/docs/options/#set-options-within-stories">
                 <a>set options per story</a>
               </Link>.
             </p>
             <p>
               A list of{' '}
-              <Link href="/docs/api/">
+              <Link href="/docs/options/#the-available-options">
                 <a>all the options</a>
               </Link>{' '}
               available to you.
@@ -113,7 +113,7 @@ export default generator('DocsIndex', ({ path }) => (
               <Link href="/docs/api/">
                 <a>Create custom addons</a>
               </Link>{' '}
-              yourself, analyse the story's content, wrap the story with
+              yourself, analyse the story's content, wrap the story with{' '}
               <Link href="/docs/api/">
                 <a>decorators</a>
               </Link>, create interactivity.
