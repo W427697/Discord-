@@ -92,40 +92,22 @@ Now you can write some stories inside the `../stories/index.js` file, like this:
 ```js // stories.js | react
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
 
 storiesOf('Button', module)
-  .add('with text', () => (
-    <button onClick={action('clicked')}>Hello Button</button>
-  ))
-  .add('with some emoji', () => (
-    <button onClick={action('clicked')}>😀 😎 👍 💯</button>
-  ));
+  .add('with text', () => <button>Hello Button</button>);
 ```
 ```js // stories.js | vue
 import React from 'react';
 import { storiesOf } from '@storybook/vue';
-import { action } from '@storybook/addon-actions';
 
 storiesOf('Button', module)
   .add('with text', () => ({
-    components: { MyButton },
-    template: `<my-button @click="action">Hello Button</my-button>`,
-    methods: { action: action('clicked') },
-  }))
-  .add('with some emoji', () => ({
-    components: { MyButton },
-    template: `<my-button @click="action">😀 😎 👍 💯</my-button>`,
-    methods: { action: action('clicked') },
+    template: `<button>Hello Button</button>`,
   }));
 ```
 :::
 
-A story is a single state of your component.
-In the above case, there are two stories for the native button component:
-
-1.  with text
-2.  with some emoji
+How to write stories is explored more in the ["Writing stories guide"](/guides/writing-stories/).
 
 ## Run your Storybook
 

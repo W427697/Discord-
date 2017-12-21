@@ -6,7 +6,7 @@ import sitemap from '../lib/sitemap';
 
 import PageTitle from './PageTitle';
 import Container from './Container';
-import Split from './Split';
+import Split, { Aside, Main } from './Split';
 import * as Markdown from './Markdown';
 import Toc from './Toc';
 import SideNav from './SideNav';
@@ -80,12 +80,18 @@ const Content = ({ children, path, pageTitle = true }) => {
       ) : null}
       <Container width={1080} vSpacing={40}>
         <Split>
-          <nav>
-            <Toc toc={toc} />
-            <Markdown.H2>Other navigation</Markdown.H2>
-            <SideNav {...{ sitemap, path }} />
-          </nav>
-          <Markdown.Container>{body}</Markdown.Container>
+          <Aside>
+            <nav>
+              <Toc toc={toc} />
+            </nav>{' '}
+            <nav>
+              <Markdown.H2>Other navigation</Markdown.H2>
+              <SideNav {...{ sitemap, path }} />
+            </nav>
+          </Aside>
+          <Main>
+            <Markdown.Container>{body}</Markdown.Container>
+          </Main>
         </Split>
       </Container>
       <Contributors items={sitemap[path].contributors} />
@@ -97,7 +103,7 @@ Content.displayName = 'Content';
 Content.propTypes = {
   children: PropTypes.node.isRequired,
   path: PropTypes.string,
-  pageTitle: PropTypes.boolean,
+  pageTitle: PropTypes.bool,
 };
 Content.defaultProps = {
   path: '/',

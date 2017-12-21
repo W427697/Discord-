@@ -1,4 +1,4 @@
-import React, { Children } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
 
@@ -12,11 +12,9 @@ const Root = glamorous.div({
   },
 });
 
-const Aside = glamorous.aside(
+export const Aside = glamorous.aside(
   {
     position: 'relative',
-    padding: 30,
-    background: 'rgba(109, 171, 245, 0.1)',
     width: 320,
     boxSizing: 'border-box',
     borderRadius: 3,
@@ -25,12 +23,18 @@ const Aside = glamorous.aside(
     '@media(max-width: 840px)': {
       width: 'auto',
     },
+
+    '& > *': {
+      padding: 30,
+      background: 'rgba(109, 171, 245, 0.1)',
+      marginBottom: 30,
+    },
   },
   ({ flip }) => ({
     order: flip ? -1 : 1,
   })
 );
-const Content = glamorous.article({
+export const Main = glamorous.article({
   flex: 1,
   margin: '0 20px',
   '@media screen and (min-width: 840px)': {
@@ -38,15 +42,7 @@ const Content = glamorous.article({
   },
 });
 
-const Split = ({ children, flip, ...rest }) => {
-  const [aside, ...content] = Children.toArray(children);
-  return (
-    <Root {...rest}>
-      <Aside {...{ flip }}>{aside}</Aside>
-      <Content>{content}</Content>
-    </Root>
-  );
-};
+const Split = ({ children, flip, ...rest }) => <Root {...rest}>{children}</Root>;
 
 Split.displayName = 'Split';
 Split.propTypes = {

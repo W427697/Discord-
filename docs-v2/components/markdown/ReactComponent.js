@@ -8,7 +8,7 @@ Fallback.propTypes = {
 };
 
 const Mapper = ({ children, component, props, ...rest }, componentMap) => {
-  console.log({ component, props, rest });
+  // console.log({ component, props, rest });
 
   const Component = componentMap[component] || Fallback;
 

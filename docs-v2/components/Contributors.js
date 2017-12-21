@@ -78,7 +78,7 @@ const Contributors = ({ items }) =>
       <H2>This document was created by these people:</H2>
       <List>
         {items.map(item => (
-          <Item>
+          <Item key={item.hash}>
             <Image src={`https://www.gravatar.com/avatar/${item.hash}`} />
             <Name>{item.name}</Name>
             {item.meta ? (

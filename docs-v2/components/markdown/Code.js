@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
 import { monoFonts } from '@storybook/components';
 
-// , language, fileName, framework
 const Code = glamorous(({ html, className }) => (
-  <code className={`prism-code ${className}`} dangerouslySetInnerHTML={{ __html: html }} />
+  <code
+    className={['prism-code'].concat(className).join(' ')}
+    dangerouslySetInnerHTML={{ __html: html }}
+  />
 ))({
   whiteSpace: 'pre',
   overflow: 'auto',
@@ -44,7 +46,11 @@ const Code = glamorous(({ html, className }) => (
 });
 Code.displayName = 'Markdown.Code';
 Code.propTypes = {
-  children: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  html: PropTypes.string.isRequired,
+};
+Code.defaultProps = {
+  className: undefined,
 };
 
 export { Code as default };
