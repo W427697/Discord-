@@ -211,12 +211,6 @@
     magic-string "^0.22.3"
     source-map "^0.5.6"
 
-"@remy/pstree@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@remy/pstree/-/pstree-1.0.1.tgz#420abb613c72cd29f8c595bd7d6c55691bb96910"
-  dependencies:
-    ps-tree "^1.1.0"
-
 "@semantic-release/commit-analyzer@^3.0.1":
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/@semantic-release/commit-analyzer/-/commit-analyzer-3.0.7.tgz#dc955444a6d3d2ae9b8e21f90c2c80c4e9142b2f"
