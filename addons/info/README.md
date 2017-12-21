@@ -59,8 +59,39 @@ import { withInfo } from '@storybook/addon-info';
 storiesOf('Component', module)
   .add('simple info',
     withInfo({
+      styles: {
+        header: {
+          h1: {
+            color: 'red'
+          }
+        }
+      },
       text: 'String or React Element with docs about my component', // Warning! This option's name will be likely renamed to "summary" in 3.3 release. Follow this PR #1501 for details
       // other possible options see in Global options section below
+    })(() =>
+      <Component>Click the "?" mark at top-right to view the info.</Component>
+    )
+  )
+```
+
+The `styles` prop can also accept a function. The default stylesheet is passed as argument:
+
+```js
+import { withInfo } from '@storybook/addon-info';
+
+storiesOf('Component', module)
+  .add('custom info styles using a function',
+    withInfo({
+      styles: stylesheet => ({
+        ...stylesheet,
+        header: {
+          ...stylesheet.header,
+          h1: {
+            ...stylesheet.header.h1,
+            color: 'red'
+          }
+        }
+      })
     })(() =>
       <Component>Click the "?" mark at top-right to view the info.</Component>
     )
@@ -81,20 +112,19 @@ addDecorator((story, context) => withInfo('common info')(story)(context));
 
 To configure default options for all usage of the info option, use `setDefaults` in `.storybook/config.js`:
 
-```js
-// config.js
+```js // config.js
 import { setDefaults } from '@storybook/addon-info';
 
 // addon-info
 setDefaults({
-  header: false, // Toggles display of header with component name and description
+  // Toggles display of header with component name and description
+  header: false,
 });
 ```
 
 ## Options and Defaults
 
-```js
-// config.js
+```js // config.js
 import { setDefaults } from '@storybook/addon-info';
 
 // addon-info
@@ -114,7 +144,9 @@ setDefaults({
   // Exclude Components from being shown in Prop Tables section
   propTablesExclude: [], 
   
-  // Overrides styles of addon
+  // Overrides styles of addon. 
+  // The object should follow this shape: https://github.com/storybooks/storybook/blob/master/addons/info/src/components/Story.js#L19. 
+  // This prop can also accept a function which has the default stylesheet passed as an argument.
   styles: {}, 
 
   // Overrides components used to display markdown.
@@ -219,29 +251,29 @@ Example:
 ```js
 // button.js
 // @flow
-import React from 'react'
+import React from 'react';
 
 const paddingStyles = {
   small: '4px 8px',
-  medium: '8px 16px'
-}
+  medium: '8px 16px',
+};
 
 const Button = ({
   size,
-  ...rest
+  ...rest,
 }: {
-  size: 'small' | 'medium'
+  size: 'small' | 'medium',
 }) => {
   const style = {
     padding: paddingStyles[size] || ''
-  }
-  return <button style={style} {...rest} />
-}
+  };
+  return <button style={style} {...rest} />;
+};
 Button.defaultProps = {
-  size: 'medium'
-}
+  size: 'medium',
+};
 
-export default Button
+export default Button;
 ```
 
 ```js
@@ -304,10 +336,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /** Button component description */
-const DocgenButton = ({ disabled, label, style, onClick }) =>
+const DocgenButton = ({ disabled, label, style, onClick }) => (
   <button disabled={disabled} style={style} onClick={onClick}>
     {label}
-  </button>;
+  </button>
+);
 
 DocgenButton.defaultProps = {
   disabled: false,
