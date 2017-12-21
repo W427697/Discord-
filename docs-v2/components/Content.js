@@ -6,7 +6,7 @@ import sitemap from '../lib/sitemap';
 
 import PageTitle from './PageTitle';
 import Container from './Container';
-import Split, { Aside, Main } from './Split';
+import Split, { Aside, Main, AsideNav } from './Split';
 import * as Markdown from './Markdown';
 import Toc from './Toc';
 import SideNav from './SideNav';
@@ -81,13 +81,12 @@ const Content = ({ children, path, pageTitle = true }) => {
       <Container width={1080} vSpacing={40}>
         <Split>
           <Aside>
-            <nav>
+            <AsideNav title="Table of contents">
               <Toc toc={toc} />
-            </nav>{' '}
-            <nav>
-              <Markdown.H2>Other navigation</Markdown.H2>
+            </AsideNav>{' '}
+            <AsideNav title="Related topics">
               <SideNav {...{ sitemap, path }} />
-            </nav>
+            </AsideNav>
           </Aside>
           <Main>
             <Markdown.Container>{body}</Markdown.Container>

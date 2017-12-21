@@ -1,8 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
-
-import { H2 } from './Markdown';
 
 const SectionNr = glamorous.span({
   userSelect: 'none',
@@ -92,13 +90,7 @@ const mapListToTree = list => {
   return output;
 };
 
-const Toc = ({ toc }) =>
-  toc.length ? (
-    <Fragment>
-      <H2>Table of contents</H2>
-      <List>{mapListToTree(toc).map(Item)}</List>
-    </Fragment>
-  ) : null;
+const Toc = ({ toc }) => (toc.length ? <List>{mapListToTree(toc).map(Item)}</List> : null);
 
 Toc.displayName = 'Toc';
 Toc.propTypes = {

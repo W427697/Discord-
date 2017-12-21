@@ -4,6 +4,10 @@ import React from 'react';
 const common = {
   color: 'currentColor',
   margin: '0 0 .7em 0',
+
+  '&:last-child': {
+    marginBottom: 0,
+  },
 };
 
 export const styles = {
