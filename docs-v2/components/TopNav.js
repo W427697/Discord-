@@ -51,9 +51,9 @@ const Nav = glamorous.ul(({ active }) => ({
     minWidth: 'calc(100vw - 55px)',
     maxWidth: '90vw',
     overflow: 'auto',
-    transition: 'transform .24s cubic-bezier(0.4, 0, 0, 1.17)',
+    transition: 'transform .4s cubic-bezier(0.4, 0, 0, 1.17)',
     backgroundColor: 'rgba(244,244,244, 0.94)',
-    transform: `translateX(${active ? 0 : -100}px)`,
+    transform: `translateX(${active ? 0 : -100}vw)`,
     opacity: active ? 1 : 0,
   },
 }));
