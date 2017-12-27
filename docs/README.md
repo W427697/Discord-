@@ -4,6 +4,9 @@ This is the source for [storybook.js.org](https://storybook.js.org). It document
 
 ### Usage
 
+Note that to start the documentation site locally, you'll need to install the dependencies
+from both the main package and the docs subpackage.
+
 ```sh
 yarn
 yarn dev
