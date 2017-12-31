@@ -24,9 +24,10 @@ const storyStore = new StoryStore();
 const reduxStore = createStore(reducer);
 const context = { storyStore, reduxStore };
 
+let channel;
 if (isBrowser) {
   const queryParams = qs.parse(window.location.search.substring(1));
-  const channel = createChannel({ page: 'preview' });
+  channel = createChannel({ page: 'preview' });
   channel.on('setCurrentStory', data => {
     reduxStore.dispatch(selectStory(data.kind, data.story));
   });
@@ -56,3 +57,10 @@ const renderUI = () => {
 reduxStore.subscribe(renderUI);
 
 export const forceReRender = () => render(context, true);
+
+if (isBrowser) {
+  channel.on('forceReRender', () => {
+    console.log('force ReRender'); // Remove before merging
+    forceReRender();
+  });
+}
