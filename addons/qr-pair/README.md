@@ -1,4 +1,4 @@
-# Storybook Addon Actions
+# Storybook Addon Qr Pair
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/storybooks/storybook.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/storybooks/storybook.svg?branch=master)](https://travis-ci.org/storybooks/storybook)
@@ -7,22 +7,25 @@
 [![BCH compliance](https://bettercodehub.com/edge/badge/storybooks/storybook)](https://bettercodehub.com/results/storybooks/storybook) [![codecov](https://codecov.io/gh/storybooks/storybook/branch/master/graph/badge.svg)](https://codecov.io/gh/storybooks/storybook)
 [![Storybook Slack](https://storybooks-slackin.herokuapp.com/badge.svg)](https://storybooks-slackin.herokuapp.com/)
 
-Storybook Addon RN Pair can be used to connect hosted storybook server with app [Storybook](https://storybook.js.org).
-It allows you to simply point your phone camera to browser screen and phone will be automatically connected.
+Storybook for React Native supports hosting Storybook manager in a server. It supports multiple users but there is no way to
+pair them. QR Pair addon displays necessary data to connect manager and preview.
+
 ![Screenshot](docs/screenshot.png)
 
 ## Getting Started
 
-Install:
+### Install:
 
 ```sh
-npm i -D @storybook/addon-rn-pair
+npm i -D @storybook/addon-qr-pair
 ```
 
 Then, add following content to `.storybook/addons.js`
 
-    import '@storybook/addon-rn-pair/register';
+```javascript
+import '@storybook/addon-qr-pair/register';
+```
 
-Then you need to use qr code reader in your storybook app.
-
-TODO write more about reader.
+### Reading the Qr Code:
+React Native can be used in many different ways (expo, crna, with custom navigation solutions) so there is no common solution for qr code reading.
+[https://github.com/Gongreg/RNStorybookClientExample/blob/master/App.js](Client example).

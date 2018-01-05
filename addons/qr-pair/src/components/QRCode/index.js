@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import QrCode from 'qrcode.react';
 
-import style from './style';
+const style = {
+  wrapper: {
+    flex: 1,
+    display: 'flex',
+    position: 'relative',
+    padding: '0 10px',
+  },
+};
 
 class QRCodeComponent extends PureComponent {
   render() {
@@ -23,9 +30,6 @@ class QRCodeComponent extends PureComponent {
       <div style={style.wrapper}>
         {this.props.pairedId &&
           <div>
-            <p>
-              Code: {this.props.pairedId}
-            </p>
             <p>Scan the code with your phone to pair</p>
             <QrCode value={value} />
           </div>}
