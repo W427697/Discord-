@@ -66,12 +66,12 @@ setOptions({
    */
   showAddonPanel: true,
   /**
-   * display floating search box to search through stories
+   * show addon panel as a vertical panel on the right
    * @type {Boolean}
    */
   showSearchBox: false,
   /**
-   * show addon panel as a vertical panel on the right
+   * display floating search box to search through stories
    * @type {Boolean}
    */
   addonPanelInRight: false,
