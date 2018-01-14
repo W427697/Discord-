@@ -43,7 +43,7 @@ const PrettyPropType = props => {
 PrettyPropType.displayName = 'PrettyPropType';
 
 PrettyPropType.defaultProps = {
-  propType: {},
+  propType: null,
   depth: 1,
 };
 

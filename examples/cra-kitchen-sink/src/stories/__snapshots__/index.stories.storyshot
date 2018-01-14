@@ -457,7 +457,7 @@ exports[`Storyshots Button with new info 1`] = `
                     class="css-1ygfcef"
                   >
                     <span>
-                      other
+                      node
                     </span>
                   </td>
                   <td
@@ -484,7 +484,7 @@ exports[`Storyshots Button with new info 1`] = `
                     class="css-1ygfcef"
                   >
                     <span>
-                      other
+                      bool
                     </span>
                   </td>
                   <td
@@ -586,7 +586,7 @@ exports[`Storyshots Button with new info 1`] = `
                     class="css-1ygfcef"
                   >
                     <span>
-                      other
+                      string
                     </span>
                   </td>
                   <td
@@ -872,7 +872,7 @@ exports[`Storyshots Button with some info 1`] = `
                     class="css-1ygfcef"
                   >
                     <span>
-                      other
+                      node
                     </span>
                   </td>
                   <td
@@ -899,7 +899,7 @@ exports[`Storyshots Button with some info 1`] = `
                     class="css-1ygfcef"
                   >
                     <span>
-                      other
+                      bool
                     </span>
                   </td>
                   <td
@@ -1001,7 +1001,7 @@ exports[`Storyshots Button with some info 1`] = `
                     class="css-1ygfcef"
                   >
                     <span>
-                      other
+                      string
                     </span>
                   </td>
                   <td
