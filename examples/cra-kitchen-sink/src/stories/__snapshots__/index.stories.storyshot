@@ -456,7 +456,9 @@ exports[`Storyshots Button with new info 1`] = `
                   <td
                     class="css-1ygfcef"
                   >
-                    <span />
+                    <span>
+                      other
+                    </span>
                   </td>
                   <td
                     class="css-d52hbj"
@@ -481,7 +483,9 @@ exports[`Storyshots Button with new info 1`] = `
                   <td
                     class="css-1ygfcef"
                   >
-                    <span />
+                    <span>
+                      other
+                    </span>
                   </td>
                   <td
                     class="css-d52hbj"
@@ -514,7 +518,9 @@ exports[`Storyshots Button with new info 1`] = `
                   <td
                     class="css-1ygfcef"
                   >
-                    <span />
+                    <span>
+                      other
+                    </span>
                   </td>
                   <td
                     class="css-d52hbj"
@@ -579,7 +585,9 @@ exports[`Storyshots Button with new info 1`] = `
                   <td
                     class="css-1ygfcef"
                   >
-                    <span />
+                    <span>
+                      other
+                    </span>
                   </td>
                   <td
                     class="css-d52hbj"
@@ -863,7 +871,9 @@ exports[`Storyshots Button with some info 1`] = `
                   <td
                     class="css-1ygfcef"
                   >
-                    <span />
+                    <span>
+                      other
+                    </span>
                   </td>
                   <td
                     class="css-d52hbj"
@@ -888,7 +898,9 @@ exports[`Storyshots Button with some info 1`] = `
                   <td
                     class="css-1ygfcef"
                   >
-                    <span />
+                    <span>
+                      other
+                    </span>
                   </td>
                   <td
                     class="css-d52hbj"
@@ -921,7 +933,9 @@ exports[`Storyshots Button with some info 1`] = `
                   <td
                     class="css-1ygfcef"
                   >
-                    <span />
+                    <span>
+                      other
+                    </span>
                   </td>
                   <td
                     class="css-d52hbj"
@@ -986,7 +1000,9 @@ exports[`Storyshots Button with some info 1`] = `
                   <td
                     class="css-1ygfcef"
                   >
-                    <span />
+                    <span>
+                      other
+                    </span>
                   </td>
                   <td
                     class="css-d52hbj"
