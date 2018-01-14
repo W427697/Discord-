@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ObjectType from './ObjectType';
 import Shape from './Shape';
 import OneOfType from './OneOfType';
 import ArrayOf from './ArrayOf';
@@ -19,7 +18,6 @@ const propTypeComponentMap = new Map([
   ['arrayOf', ArrayOf],
   ['objectOf', ObjectOf],
   // Might be overkill to have below proptypes  as separate components *shrug*
-  ['object', ObjectType],
   ['enum', OneOf],
   ['instanceOf', InstanceOf],
   ['signature', Signature],
@@ -31,7 +29,7 @@ const PrettyPropType = props => {
     return <span>unknown</span>;
   }
 
-  const { name } = propType || {};
+  const name = propType.name || propType;
 
   if (propTypeComponentMap.has(name)) {
     const Component = propTypeComponentMap.get(name);
@@ -45,7 +43,7 @@ const PrettyPropType = props => {
 PrettyPropType.displayName = 'PrettyPropType';
 
 PrettyPropType.defaultProps = {
-  propType: null,
+  propType: {},
   depth: 1,
 };
 
