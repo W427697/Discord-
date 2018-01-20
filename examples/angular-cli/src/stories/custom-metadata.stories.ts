@@ -1,8 +1,8 @@
 import { storiesOf } from '@storybook/angular';
 import { withKnobs, text } from '@storybook/addon-knobs/angular';
 
-import { NameComponent } from './name.component';
-import { CustomPipePipe } from './custom.pipe';
+import { NameComponent } from './moduleMetadata/name.component';
+import { CustomPipePipe } from './moduleMetadata/custom.pipe';
 import { DummyService } from './moduleMetadata/dummy.service';
 import { ServiceComponent } from './moduleMetadata/service.component';
 
@@ -49,7 +49,7 @@ storiesOf('Custom ngModule metadata', module)
   }))
   .addDecorator(withKnobs)
   .add('with knobs', () => {
-    const name = text('Name', 'Dynamic knob');
+    const name = text('name', 'Dynamic knob');
 
     return {
       component: ServiceComponent,
