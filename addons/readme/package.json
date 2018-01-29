@@ -1,0 +1,34 @@
+{
+  "name": "@storybook/addon-readme",
+  "version": "3.4.0-alpha.5",
+  "description": "Automatically add a readme to your stories",
+  "keywords": [
+    "addon",
+    "storybook",
+    "readme"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "jsnext:main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybooks/storybook.git"
+  },
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js",
+    "publish-storybook": "bash .scripts/publish_storybook.sh",
+    "storybook": "start-storybook -p 9010"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "github-markdown-css": "^2.10.0",
+    "prop-types": "^15.6.0"
+  },
+  "peerDependencies": {
+    "@storybook/addons": "^3.3.0",
+    "react": "*"
+  },
+  "optionalDependencies": {
+    "@types/react": "^16.0.20"
+  }
+}
