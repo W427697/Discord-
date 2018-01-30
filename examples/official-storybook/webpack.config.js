@@ -11,6 +11,10 @@ module.exports = {
           path.resolve(__dirname, '../../lib/components/src'),
         ],
       },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
 };
