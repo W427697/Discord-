@@ -31,6 +31,7 @@ class Shape extends React.Component {
     this.setState({ hover: false });
   };
 
+  /* eslint-disable react/jsx-closing-tag-location */
   render() {
     const { propType, depth } = this.props;
     return (
@@ -41,9 +42,8 @@ class Shape extends React.Component {
           highlight={this.state.hover}
           onClick={this.handleToggle}
         >
-          {'{'}
+          {this.state.minimized ? '{...}' : '{'}
         </HighlightButton>
-        <HighlightButton onClick={this.handleToggle}>...</HighlightButton>
         {!this.state.minimized &&
           Object.keys(propType.value).map(childProperty => (
             <div key={childProperty} style={{ marginLeft: depth * MARGIN_SIZE }}>
@@ -56,14 +56,16 @@ class Shape extends React.Component {
             </div>
           ))}
 
-        <HighlightButton
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-          highlight={this.state.hover}
-          onClick={this.handleToggle}
-        >
-          {'}'}
-        </HighlightButton>
+        {!this.state.minimized && (
+          <HighlightButton
+            onMouseEnter={this.handleMouseEnter}
+            onMouseLeave={this.handleMouseLeave}
+            highlight={this.state.hover}
+            onClick={this.handleToggle}
+          >
+            {'}'}
+          </HighlightButton>
+        )}
       </span>
     );
   }
