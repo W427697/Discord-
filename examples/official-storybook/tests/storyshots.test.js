@@ -7,6 +7,7 @@ import serializer from 'enzyme-to-json';
 initStoryshots({
   framework: 'react',
   configPath: path.join(__dirname, '../'),
+  storyKindRegex: /^(?!Other\|Error Overlay Example$)/,
   test: multiSnapshotWithOptions({
     renderer,
     serializer,

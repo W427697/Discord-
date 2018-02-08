@@ -116,9 +116,9 @@ export default function renderPreview({ reduxStore, storyStore }, forceRender = 
     return renderException(state.error);
   }
 
-  return renderMain(state, storyStore, forceRender);
-  // try {
-  // } catch (ex) {
-  //   return renderException(ex);
-  // }
+  try {
+    return renderMain(state, storyStore, forceRender);
+  } catch (ex) {
+    return renderException(ex);
+  }
 }
