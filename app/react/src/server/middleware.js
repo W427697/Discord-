@@ -4,6 +4,7 @@ import { Router } from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
 
 const getMiddleware = () => {};
 let webpackResolve = () => {};
@@ -38,6 +39,7 @@ export default function(configDir, loadConfig, getBaseConfig) {
   const webpackDevMiddlewareInstance = webpackDevMiddleware(compiler, devMiddlewareOptions);
   router.use(webpackDevMiddlewareInstance);
   router.use(webpackHotMiddleware(compiler));
+  router.use(errorOverlayMiddleware());
 
   // custom middleware
   middlewareFn(router);

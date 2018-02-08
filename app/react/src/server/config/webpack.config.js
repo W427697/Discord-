@@ -20,6 +20,8 @@ export default function(configDir) {
       preview: [
         require.resolve('./polyfills'),
         require.resolve('./globals'),
+        require.resolve('react-error-overlay'),
+        require.resolve('react-dev-utils/webpackHotDevClient'),
         `${require.resolve('webpack-hot-middleware/client')}?reload=true`,
       ],
     },
