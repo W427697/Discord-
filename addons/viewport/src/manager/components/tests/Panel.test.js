@@ -29,7 +29,7 @@ describe('Viewport/Panel', () => {
       });
     });
 
-    it('listens on the channel', () => {
+    it('listens on `update` channel', () => {
       expect(props.channel.on).toHaveBeenCalledWith(
         'addon:viewport:update',
         subject.instance().changeViewport
@@ -54,6 +54,20 @@ describe('Viewport/Panel', () => {
     it('gets the iframe', () => {
       expect(subject.instance().iframe).toEqual('iframe');
     });
+
+    it('listens on the `setViewports` topic', () => {
+      expect(props.channel.on).toHaveBeenCalledWith(
+        'addon:viewport:setViewports',
+        subject.instance().setViewports
+      );
+    });
+
+    it('listens on the `addViewports` topic', () => {
+      expect(props.channel.on).toHaveBeenCalledWith(
+        'addon:viewport:addViewports',
+        subject.instance().addViewports
+      );
+    });
   });
 
   describe('componentWillUnmount', () => {
@@ -61,10 +75,24 @@ describe('Viewport/Panel', () => {
       subject.instance().componentWillUnmount();
     });
 
-    it('removes the channel listener', () => {
+    it('removes `update` channel listener', () => {
       expect(props.channel.removeListener).toHaveBeenCalledWith(
         'addon:viewport:update',
         subject.instance().changeViewport
+      );
+    });
+
+    it('removes `setViewports` channel listener', () => {
+      expect(props.channel.removeListener).toHaveBeenCalledWith(
+        'addon:viewport:setViewports',
+        subject.instance().setViewports
+      );
+    });
+
+    it('removes `addViewports` channel listener', () => {
+      expect(props.channel.removeListener).toHaveBeenCalledWith(
+        'addon:viewport:addViewports',
+        subject.instance().addViewports
       );
     });
   });

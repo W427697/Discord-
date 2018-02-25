@@ -1,3 +1,5 @@
 export const ADDON_ID = 'storybook-addon-viewport';
 export const PANEL_ID = `${ADDON_ID}/addon-panel`;
 export const UPDATE_VIEWPORT_EVENT_ID = `addon:viewport:update`;
+export const SET_VIEWPORTS_EVENT_ID = `addon:viewport:setViewports`;
+export const ADD_VIEWPORTS_EVENT_ID = `addon:viewport:addViewports`;

@@ -3,10 +3,19 @@ import PropTypes from 'prop-types';
 import { baseFonts } from '@storybook/components';
 import { document } from 'global';
 
-import { initialViewports, defaultViewport, resetViewport } from './viewportInfo';
+import {
+  initialViewports,
+  defaultViewport,
+  resetViewport,
+  applyDefaultStyles,
+} from './viewportInfo';
 import { SelectViewport } from './SelectViewport';
 import { RotateViewport } from './RotateViewport';
-import { UPDATE_VIEWPORT_EVENT_ID } from '../../shared';
+import {
+  ADD_VIEWPORTS_EVENT_ID,
+  SET_VIEWPORTS_EVENT_ID,
+  UPDATE_VIEWPORT_EVENT_ID,
+} from '../../shared';
 
 import * as styles from './styles';
 
@@ -17,6 +26,17 @@ const containerStyles = {
   boxSizing: 'border-box',
   ...baseFonts,
 };
+
+const transformViewports = transformer => viewports =>
+  Object.keys(viewports).reduce(
+    (all, key) => ({
+      ...all,
+      [key]: transformer(viewports[key]),
+    }),
+    {}
+  );
+
+const viewportsTransformer = transformViewports(applyDefaultStyles);
 
 export class Panel extends Component {
   static propTypes = {
@@ -36,11 +56,33 @@ export class Panel extends Component {
 
   componentDidMount() {
     this.iframe = document.getElementById(storybookIframe);
+
+    this.props.channel.on(ADD_VIEWPORTS_EVENT_ID, this.addViewports);
+    this.props.channel.on(SET_VIEWPORTS_EVENT_ID, this.setViewports);
   }
 
   componentWillUnmount() {
     this.props.channel.removeListener(UPDATE_VIEWPORT_EVENT_ID, this.changeViewport);
+    this.props.channel.removeListener(ADD_VIEWPORTS_EVENT_ID, this.addViewports);
+    this.props.channel.removeListener(SET_VIEWPORTS_EVENT_ID, this.setViewports);
   }
+
+  setViewports = viewports => {
+    const newViewports = viewportsTransformer(viewports);
+
+    this.setState({ viewports: newViewports });
+  };
+
+  addViewports = viewports => {
+    const newViewports = viewportsTransformer(viewports);
+
+    this.setState({
+      viewports: {
+        ...initialViewports,
+        ...newViewports,
+      },
+    });
+  };
 
   iframe = undefined;
 
