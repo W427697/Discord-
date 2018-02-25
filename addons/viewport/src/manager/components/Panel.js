@@ -50,13 +50,12 @@ export class Panel extends Component {
       viewports: initialViewports,
       isLandscape: false,
     };
-
-    this.props.channel.on(UPDATE_VIEWPORT_EVENT_ID, this.changeViewport);
   }
 
   componentDidMount() {
     this.iframe = document.getElementById(storybookIframe);
 
+    this.props.channel.on(UPDATE_VIEWPORT_EVENT_ID, this.changeViewport);
     this.props.channel.on(ADD_VIEWPORTS_EVENT_ID, this.addViewports);
     this.props.channel.on(SET_VIEWPORTS_EVENT_ID, this.setViewports);
   }
