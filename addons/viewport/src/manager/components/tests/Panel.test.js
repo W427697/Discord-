@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { document } from 'global';
 
 import { Panel } from '../Panel';
-import { viewports, defaultViewport, resetViewport } from '../viewportInfo';
+import { initialViewports, defaultViewport, resetViewport } from '../viewportInfo';
 import * as styles from '../styles';
 
 describe('Viewport/Panel', () => {
@@ -24,15 +24,9 @@ describe('Viewport/Panel', () => {
     it('creates the initial state', () => {
       expect(subject.instance().state).toEqual({
         viewport: defaultViewport,
+        viewports: initialViewports,
         isLandscape: false,
       });
-    });
-
-    it('listens on the channel', () => {
-      expect(props.channel.on).toHaveBeenCalledWith(
-        'addon:viewport:update',
-        subject.instance().changeViewport
-      );
     });
   });
 
@@ -53,6 +47,27 @@ describe('Viewport/Panel', () => {
     it('gets the iframe', () => {
       expect(subject.instance().iframe).toEqual('iframe');
     });
+
+    it('listens on `update` channel', () => {
+      expect(props.channel.on).toHaveBeenCalledWith(
+        'addon:viewport:update',
+        subject.instance().changeViewport
+      );
+    });
+
+    it('listens on the `setViewports` topic', () => {
+      expect(props.channel.on).toHaveBeenCalledWith(
+        'addon:viewport:setViewports',
+        subject.instance().setViewports
+      );
+    });
+
+    it('listens on the `addViewports` topic', () => {
+      expect(props.channel.on).toHaveBeenCalledWith(
+        'addon:viewport:addViewports',
+        subject.instance().addViewports
+      );
+    });
   });
 
   describe('componentWillUnmount', () => {
@@ -60,10 +75,24 @@ describe('Viewport/Panel', () => {
       subject.instance().componentWillUnmount();
     });
 
-    it('removes the channel listener', () => {
+    it('removes `update` channel listener', () => {
       expect(props.channel.removeListener).toHaveBeenCalledWith(
         'addon:viewport:update',
         subject.instance().changeViewport
+      );
+    });
+
+    it('removes `setViewports` channel listener', () => {
+      expect(props.channel.removeListener).toHaveBeenCalledWith(
+        'addon:viewport:setViewports',
+        subject.instance().setViewports
+      );
+    });
+
+    it('removes `addViewports` channel listener', () => {
+      expect(props.channel.removeListener).toHaveBeenCalledWith(
+        'addon:viewport:addViewports',
+        subject.instance().addViewports
       );
     });
   });
@@ -76,13 +105,13 @@ describe('Viewport/Panel', () => {
 
     describe('new viewport', () => {
       beforeEach(() => {
-        subject.instance().changeViewport(viewports[0]);
+        subject.instance().changeViewport(initialViewports[0]);
       });
 
       it('sets the state with the new information', () => {
         expect(subject.instance().setState).toHaveBeenCalledWith(
           {
-            viewport: viewports[0],
+            viewport: initialViewports[0],
             isLandscape: false,
           },
           subject.instance().updateIframe
@@ -200,6 +229,22 @@ describe('Viewport/Panel', () => {
         expect(select.props()).toEqual(
           expect.objectContaining({
             activeViewport: defaultViewport,
+          })
+        );
+      });
+
+      it('passes the defaultViewport', () => {
+        expect(select.props()).toEqual(
+          expect.objectContaining({
+            defaultViewport,
+          })
+        );
+      });
+
+      it('passes the initialViewports', () => {
+        expect(select.props()).toEqual(
+          expect.objectContaining({
+            viewports: initialViewports,
           })
         );
       });

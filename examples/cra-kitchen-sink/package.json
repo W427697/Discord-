@@ -29,6 +29,7 @@
     "@storybook/addon-notes": "^3.4.0-alpha.9",
     "@storybook/addon-options": "^3.4.0-alpha.9",
     "@storybook/addon-storyshots": "^3.4.0-alpha.9",
+    "@storybook/addon-viewport": "^3.4.0-alpha.9",
     "@storybook/addons": "^3.4.0-alpha.9",
     "@storybook/client-logger": "^3.4.0-alpha.9",
     "@storybook/react": "^3.4.0-alpha.9",

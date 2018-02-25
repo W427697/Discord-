@@ -1,8 +1,11 @@
 import { configure, setAddon } from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
+import { setViewports } from '@storybook/addon-viewport';
 
 // deprecated usage of infoAddon
 import infoAddon from '@storybook/addon-info';
+
+import viewports from './viewports.json';
 
 setOptions({
   name: 'CRA Kitchen Sink',
@@ -19,6 +22,8 @@ setOptions({
 
 // deprecated usage of infoAddon
 setAddon(infoAddon);
+
+setViewports(viewports);
 
 function loadStories() {
   // put welcome screen at the top of the list so it's the first one displayed

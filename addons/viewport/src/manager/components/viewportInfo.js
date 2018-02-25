@@ -18,7 +18,23 @@ export const resetViewport = {
   },
 };
 
-export const viewports = {
+export function applyStyles(viewport, styles) {
+  const mixedStyles = {
+    ...viewport.styles,
+    ...styles,
+  };
+
+  return {
+    ...viewport,
+    styles: mixedStyles,
+  };
+}
+
+export function applyDefaultStyles(viewport) {
+  return applyStyles(viewport, configuredStyles);
+}
+
+export const initialViewports = {
   iphone5: {
     name: 'iPhone 5',
     styles: {

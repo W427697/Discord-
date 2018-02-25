@@ -3,9 +3,19 @@ import PropTypes from 'prop-types';
 import { baseFonts } from '@storybook/components';
 import { document } from 'global';
 
-import { viewports, defaultViewport, resetViewport } from './viewportInfo';
+import {
+  initialViewports,
+  defaultViewport,
+  resetViewport,
+  applyDefaultStyles,
+} from './viewportInfo';
 import { SelectViewport } from './SelectViewport';
 import { RotateViewport } from './RotateViewport';
+import {
+  ADD_VIEWPORTS_EVENT_ID,
+  SET_VIEWPORTS_EVENT_ID,
+  UPDATE_VIEWPORT_EVENT_ID,
+} from '../../shared';
 
 import * as styles from './styles';
 
@@ -17,6 +27,17 @@ const containerStyles = {
   ...baseFonts,
 };
 
+const transformViewports = transformer => viewports =>
+  Object.keys(viewports).reduce(
+    (all, key) => ({
+      ...all,
+      [key]: transformer(viewports[key]),
+    }),
+    {}
+  );
+
+const viewportsTransformer = transformViewports(applyDefaultStyles);
+
 export class Panel extends Component {
   static propTypes = {
     channel: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
@@ -26,19 +47,41 @@ export class Panel extends Component {
     super(props, context);
     this.state = {
       viewport: defaultViewport,
+      viewports: initialViewports,
       isLandscape: false,
     };
-
-    this.props.channel.on('addon:viewport:update', this.changeViewport);
   }
 
   componentDidMount() {
     this.iframe = document.getElementById(storybookIframe);
+
+    this.props.channel.on(UPDATE_VIEWPORT_EVENT_ID, this.changeViewport);
+    this.props.channel.on(ADD_VIEWPORTS_EVENT_ID, this.addViewports);
+    this.props.channel.on(SET_VIEWPORTS_EVENT_ID, this.setViewports);
   }
 
   componentWillUnmount() {
-    this.props.channel.removeListener('addon:viewport:update', this.changeViewport);
+    this.props.channel.removeListener(UPDATE_VIEWPORT_EVENT_ID, this.changeViewport);
+    this.props.channel.removeListener(ADD_VIEWPORTS_EVENT_ID, this.addViewports);
+    this.props.channel.removeListener(SET_VIEWPORTS_EVENT_ID, this.setViewports);
   }
+
+  setViewports = viewports => {
+    const newViewports = viewportsTransformer(viewports);
+
+    this.setState({ viewports: newViewports });
+  };
+
+  addViewports = viewports => {
+    const newViewports = viewportsTransformer(viewports);
+
+    this.setState({
+      viewports: {
+        ...initialViewports,
+        ...newViewports,
+      },
+    });
+  };
 
   iframe = undefined;
 
@@ -63,7 +106,7 @@ export class Panel extends Component {
   };
 
   updateIframe = () => {
-    const { viewport: viewportKey, isLandscape } = this.state;
+    const { viewports, viewport: viewportKey, isLandscape } = this.state;
     const viewport = viewports[viewportKey] || resetViewport;
 
     if (!this.iframe) {
@@ -81,7 +124,7 @@ export class Panel extends Component {
   };
 
   render() {
-    const { isLandscape, viewport } = this.state;
+    const { isLandscape, viewport, viewports } = this.state;
 
     const disableDefault = viewport === defaultViewport;
     const disabledStyles = disableDefault ? styles.disabled : {};
@@ -96,6 +139,8 @@ export class Panel extends Component {
     return (
       <div style={containerStyles}>
         <SelectViewport
+          viewports={viewports}
+          defaultViewport={defaultViewport}
           activeViewport={viewport}
           onChange={e => this.changeViewport(e.target.value)}
         />
