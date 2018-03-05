@@ -14,6 +14,9 @@ setOptions({
 
 function loadStories() {
   let req;
+  req = require.context('./demo', true, /\.stories\.js$/);
+  req.keys().forEach(filename => req(filename));
+
   req = require.context('../../lib/ui/src', true, /\.stories\.js$/);
   req.keys().forEach(filename => req(filename));
 

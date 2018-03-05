@@ -8,7 +8,7 @@ import DelayedRender from '../components/DelayedRender';
 
 const text = 'Testing the a11y addon';
 
-storiesOf('Addons|a11y', module)
+storiesOf('Addons|A11y', module)
   .addDecorator(checkA11y)
   .addDecorator(fn => {
     setOptions({ selectedAddonPanel: '@storybook/addon-a11y/panel' });
