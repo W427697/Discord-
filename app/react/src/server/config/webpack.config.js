@@ -1,27 +1,22 @@
 import path from 'path';
 import webpack from 'webpack';
 import Dotenv from 'dotenv-webpack';
+import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
+import WatchMissingNodeModulesPlugin from 'react-dev-utils/WatchMissingNodeModulesPlugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import WatchMissingNodeModulesPlugin from './WatchMissingNodeModulesPlugin';
+import { managerPath } from '@storybook/core/server';
 
-import {
-  getConfigDir,
-  includePaths,
-  excludePaths,
-  nodeModulesPaths,
-  loadEnv,
-  nodePaths,
-} from './utils';
+import { includePaths, excludePaths, nodeModulesPaths, loadEnv, nodePaths } from './utils';
 import babelLoaderConfig from './babel';
 import { getPreviewHeadHtml, getManagerHeadHtml } from '../utils';
 import { version } from '../../../package.json';
 
-export default function() {
+export default function(configDir) {
   const config = {
     devtool: 'cheap-module-source-map',
     entry: {
-      manager: [require.resolve('./polyfills'), require.resolve('../../client/manager')],
+      manager: [require.resolve('./polyfills'), managerPath],
       preview: [
         require.resolve('./polyfills'),
         require.resolve('./globals'),
@@ -34,11 +29,12 @@ export default function() {
       publicPath: '/',
     },
     plugins: [
+      new InterpolateHtmlPlugin(process.env),
       new HtmlWebpackPlugin({
         filename: 'index.html',
         chunks: ['manager'],
         data: {
-          managerHead: getManagerHeadHtml(getConfigDir()),
+          managerHead: getManagerHeadHtml(configDir),
           version,
         },
         template: require.resolve('../index.html.ejs'),
@@ -47,7 +43,7 @@ export default function() {
         filename: 'iframe.html',
         excludeChunks: ['manager'],
         data: {
-          previewHead: getPreviewHeadHtml(getConfigDir()),
+          previewHead: getPreviewHeadHtml(configDir),
         },
         template: require.resolve('../iframe.html.ejs'),
       }),
@@ -56,7 +52,7 @@ export default function() {
       new CaseSensitivePathsPlugin(),
       new WatchMissingNodeModulesPlugin(nodeModulesPaths),
       new webpack.ProgressPlugin(),
-      new Dotenv(),
+      new Dotenv({ silent: true }),
     ],
     module: {
       rules: [
@@ -71,10 +67,10 @@ export default function() {
           test: /\.md$/,
           use: [
             {
-              loader: 'html-loader',
+              loader: require.resolve('html-loader'),
             },
             {
-              loader: 'markdown-loader',
+              loader: require.resolve('markdown-loader'),
             },
           ],
         },

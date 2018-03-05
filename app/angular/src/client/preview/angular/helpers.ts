@@ -1,157 +1,140 @@
+import { enableProdMode, NgModule, Component, NgModuleRef, Type } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './components/app.component';
+import { ErrorComponent } from './components/error.component';
+import { NoPreviewComponent } from './components/no-preview.component';
+import { STORY } from './app.token';
 import {
-  enableProdMode,
-  NgModule,
-  Component,
-  CUSTOM_ELEMENTS_SCHEMA
-} from "@angular/core";
+  NgModuleMetadata,
+  IGetStoryWithContext,
+  IContext,
+  NgProvidedData,
+  IRenderErrorFn,
+  IRenderStoryFn,
+} from './types';
 
-import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
-import { BrowserModule } from "@angular/platform-browser";
-import { AppComponent } from "./components/app.component";
-import { ErrorComponent } from "./components/error.component";
-import { NoPreviewComponent } from "./components/no-preview.component";
-import { STORY } from "./app.token";
-import { getAnnotations, getParameters, getPropMetadata } from './utils';
-
-let platform = null;
-let promises = [];
+let platform: any = null;
+let promises: Promise<NgModuleRef<any>>[] = [];
 
 // Taken from https://davidwalsh.name/javascript-debounce-function
 // We don't want to pull underscore
-
-const debounce = (func, wait = 100, immediate = false) => {
-  var timeout;
-  return function () {
-    var context = this, args = arguments;
-    var later = function () {
+const debounce = (
+  func: IRenderStoryFn | IRenderErrorFn,
+  wait: number = 100,
+  immediate: boolean = false
+): (() => void) => {
+  let timeout: any;
+  return function() {
+    const context = this,
+      args = arguments;
+    const later = function() {
       timeout = null;
-      if (!immediate) func.apply(context, args);
+      if (!immediate) {
+        func.apply(context, args);
+      }
     };
-    var callNow = immediate && !timeout;
+    const callNow = immediate && !timeout;
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
-    if (callNow) func.apply(context, args);
+    if (callNow) {
+      func.apply(context, args);
+    }
   };
 };
 
-const getComponentMetadata = ({ component, props = {}, propsMeta = {}, pipes = [] }) => {
-  if (!component || typeof component !== "function")
-    throw new Error("No valid component provided");
-
-  const componentMetadata = getAnnotations(component)[0] || {};
-  const propsMetadata = getPropMetadata(component);
-  const paramsMetadata = getParameters(component);
-
-  Object.keys(propsMeta).map(key => {
-    propsMetadata[key] = propsMeta[key];
-  });
-
-  return {
-    component,
-    props,
-    pipes,
-    componentMeta: componentMetadata,
-    propsMeta: propsMetadata,
-    params: paramsMetadata
-  };
-};
-
-const getAnnotatedComponent = (meta, component, propsMeta, params) => {
-  const NewComponent: any = function NewComponent(...args) {
-    component.call(this, ...args);
+const getModule = (
+  declarations: Array<Type<any> | any[]>,
+  entryComponents: Array<Type<any> | any[]>,
+  bootstrap: Array<Type<any> | any[]>,
+  data: NgProvidedData,
+  moduleMetadata: NgModuleMetadata
+) => {
+  const moduleMeta = {
+    declarations: [...declarations, ...(moduleMetadata.declarations || [])],
+    imports: [BrowserModule, FormsModule, ...(moduleMetadata.imports || [])],
+    providers: [
+      { provide: STORY, useValue: Object.assign({}, data) },
+      ...(moduleMetadata.providers || []),
+    ],
+    entryComponents: [...entryComponents, ...(moduleMetadata.entryComponents || [])],
+    schemas: [...(moduleMetadata.schemas || [])],
+    bootstrap: [...bootstrap],
   };
 
-  NewComponent.prototype = Object.create(component.prototype);
-  NewComponent.annotations = [new Component(meta)];
-  NewComponent.parameters = params;
-  NewComponent.propsMetadata = propsMeta;
+  const moduleClass = class DynamicModule {};
 
-  return NewComponent;
+  return NgModule(moduleMeta)(moduleClass);
 };
 
-const getModule = (declarations, entryComponents, bootstrap, data) => {
-  const moduleMeta = new NgModule({
-    declarations: [...declarations],
-    imports: [BrowserModule],
-    providers: [{ provide: STORY, useValue: Object.assign({}, data) }],
-    entryComponents: [...entryComponents],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    bootstrap: [...bootstrap]
-  });
+const createComponentFromTemplate = (template: string, styles: string[]): Function => {
+  const componentClass = class DynamicComponent {};
 
-  const NewModule: any = function NewModule() {};
-
-  NewModule.annotations = [moduleMeta];
-
-  return NewModule;
+  return Component({
+    template,
+    styles,
+  })(componentClass);
 };
 
-const initModule = (currentStory, context, reRender) => {
-  const {
-    component,
-    componentMeta,
-    props,
-    pipes,
-    propsMeta,
-    params
-  } = getComponentMetadata(currentStory(context));
+const initModule = (
+  currentStory: IGetStoryWithContext,
+  context: IContext,
+  reRender: boolean = false
+): Function => {
+  const storyObj = currentStory(context);
+  const { component, template, props, styles, moduleMetadata = {} } = storyObj;
 
-  if (!componentMeta) throw new Error("No component metadata available");
+  let AnnotatedComponent;
 
-  const AnnotatedComponent = getAnnotatedComponent(
-    componentMeta,
-    component,
-    propsMeta,
-    params
-  );
+  if (template) {
+    AnnotatedComponent = createComponentFromTemplate(template, styles);
+  } else {
+    AnnotatedComponent = component;
+  }
 
   const story = {
     component: AnnotatedComponent,
     props,
-    propsMeta
   };
-  const Module = getModule(
-    [AppComponent, AnnotatedComponent, ...pipes],
+
+  return getModule(
+    [AppComponent, AnnotatedComponent],
     [AnnotatedComponent],
     [AppComponent],
-    story
+    story,
+    moduleMetadata
   );
-  return Module;
 };
 
-const draw = (newModule, reRender = true) => {
+const draw = (newModule: Function, reRender: boolean = true): void => {
   if (!platform) {
     try {
       enableProdMode();
     } catch (e) {}
 
     platform = platformBrowserDynamic();
-    promises.push(platform.bootstrapModule(newModule))
+    promises.push(platform.bootstrapModule(newModule));
   } else {
-    Promise.all(promises)
-      .then((modules) => {
-        modules.forEach(mod => mod.destroy());
-        
-        const body = document.body;
-        const app = document.createElement("my-app");
-        body.appendChild(app);
-        promises = [];
-        promises.push(platform.bootstrapModule(newModule));
-      });
+    Promise.all(promises).then(modules => {
+      modules.forEach(mod => mod.destroy());
+
+      const body = document.body;
+      const app = document.createElement('storybook-dynamic-app-root');
+      body.appendChild(app);
+      promises = [];
+      promises.push(platform.bootstrapModule(newModule));
+    });
   }
 };
 
-export const renderNgError = debounce((error) => {
+export const renderNgError = debounce((error: Error) => {
   const errorData = {
-    component: null,
-    props: {
-      message: error.message,
-      stack: error.stack
-    },
-    propsMeta: {}
-  };
+    message: error.message,
+    stack: error.stack,
+  } as NgProvidedData;
 
-  const Module = getModule([ErrorComponent], [], [ErrorComponent], errorData);
+  const Module = getModule([ErrorComponent], [], [ErrorComponent], errorData, {});
 
   draw(Module);
 });
@@ -161,6 +144,10 @@ export const renderNoPreview = debounce(() => {
     [NoPreviewComponent],
     [],
     [NoPreviewComponent],
+    {
+      message: 'No Preview available.',
+      stack: '',
+    },
     {}
   );
 

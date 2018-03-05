@@ -11,10 +11,12 @@ module.exports = {
         '/basics/slow-start-guide/',
         '/basics/guide-react/',
         '/basics/guide-vue/',
+        '/basics/guide-angular/',
         '/basics/writing-stories/',
         '/basics/exporting-storybook/',
         '/basics/faq/',
         '/basics/community/',
+        '/basics/live-examples/',
       ],
       configurations: [
         '/configurations/default-config/',

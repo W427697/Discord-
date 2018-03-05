@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
 import { baseFonts } from '@storybook/components';
 import { action } from '@storybook/addon-actions';
+// eslint-disable-next-line import/named
 import { withNotes, WithNotes } from '@storybook/addon-notes';
 import centered from '@storybook/addon-centered';
 import { withInfo } from '@storybook/addon-info';
@@ -41,7 +42,9 @@ storiesOf('Button', module)
   .add('with some emoji', () => (
     <Button onClick={action('clicked')}>
       {setOptions({ selectedAddonPanel: 'storybook/actions/actions-panel' })}
-      😀 😎 👍 💯
+      <span role="img" aria-label="so cool">
+        😀 😎 👍 💯
+      </span>
     </Button>
   ))
   .add('with notes', () => (

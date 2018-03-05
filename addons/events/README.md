@@ -4,12 +4,14 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/storybooks/storybook/badge)](https://www.codefactor.io/repository/github/storybooks/storybook)
 [![Known Vulnerabilities](https://snyk.io/test/github/storybooks/storybook/8f36abfd6697e58cd76df3526b52e4b9dc894847/badge.svg)](https://snyk.io/test/github/storybooks/storybook/8f36abfd6697e58cd76df3526b52e4b9dc894847)
 [![BCH compliance](https://bettercodehub.com/edge/badge/storybooks/storybook)](https://bettercodehub.com/results/storybooks/storybook) [![codecov](https://codecov.io/gh/storybooks/storybook/branch/master/graph/badge.svg)](https://codecov.io/gh/storybooks/storybook)  
-[![Storybook Slack](https://now-examples-slackin-nqnzoygycp.now.sh/badge.svg)](https://now-examples-slackin-nqnzoygycp.now.sh/)
+[![Storybook Slack](https://now-examples-slackin-rrirkqohko.now.sh/badge.svg)](https://now-examples-slackin-rrirkqohko.now.sh/)
 [![Backers on Open Collective](https://opencollective.com/storybook/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/storybook/sponsors/badge.svg)](#sponsors)
 
 * * *
 
 This [storybook](https://storybooks.js.org) ([source](https://github.com/storybooks/storybook)) addon allows you to add events for your stories.
+
+[Framework Support](https://github.com/storybooks/storybook/blob/master/ADDONS_SUPPORT.md)
 
 ![Storybook Addon Events Example](docs/demo1.png)
 [Storybook Addon Events Live Demo](https://z4o4z.github.io/storybook-addon-events/index.html)
@@ -27,8 +29,8 @@ Then create a file called `addons.js` in your storybook config.
 Add following content to it:
 
 ```js
-import '@storybook/addon-actions';
-import '@storybook/addon-links';
+import '@storybook/addon-actions/register';
+import '@storybook/addon-links/register';
 import '@storybook/addon-events/register';
 ```
 

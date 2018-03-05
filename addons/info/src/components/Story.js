@@ -4,6 +4,7 @@ import React, { createElement } from 'react';
 import PropTypes from 'prop-types';
 import global from 'global';
 import { baseFonts } from '@storybook/components';
+import { ThemeProvider } from 'glamorous';
 
 import marksy from 'marksy';
 
@@ -59,7 +60,8 @@ const stylesheet = {
     borderRadius: '2px',
     boxShadow: '0px 2px 3px rgba(0, 0, 0, 0.05)',
     backgroundColor: '#fff',
-    marginTop: '50px',
+    marginTop: '20px',
+    marginBottom: '20px',
   },
   infoContent: {
     marginBottom: 0,
@@ -363,11 +365,11 @@ export default class Story extends React.Component {
   }
 
   render() {
-    if (this.props.showInline) {
-      return this._renderInline();
-    }
-
-    return this._renderOverlay();
+    return (
+      <ThemeProvider theme={this.state.stylesheet}>
+        {this.props.showInline ? this._renderInline() : this._renderOverlay()}
+      </ThemeProvider>
+    );
   }
 }
 

@@ -4,7 +4,7 @@ Thanks for your interest in improving Storybook! We are a community-driven proje
 
 Please review this document to help to streamline the process and save everyone's precious time.
 
-This repo uses yarn workspaces, so you should `yarn@1.0.0` or higher as package manager. See [installation guide](https://yarnpkg.com/en/docs/install).
+This repo uses yarn workspaces, so you should install `yarn@1.3.2` or higher as package manager. See [installation guide](https://yarnpkg.com/en/docs/install).
 
 ## Issues
 
@@ -31,7 +31,7 @@ yarn install
 yarn bootstrap --core
 ```
 
-The bootstrap command will ask which sections of the codebase you want to bootstrap. Unless you're going to work with ReactNative or the Documentation, you can keep the default.
+The bootstrap command might ask which sections of the codebase you want to bootstrap. Unless you're going to work with ReactNative or the Documentation, you can keep the default.
 
 You can also pick directly from CLI:
 
@@ -41,7 +41,7 @@ You can also pick directly from CLI:
 
 You can use one of the example projects in `examples/` to develop on.
 
-This command will list all the suites and options for running tests. 
+This command will list all the suites and options for running tests.
 
 ```sh
 yarn test
@@ -57,25 +57,24 @@ You can also pick suites from CLI.  Suites available are listed below.
 
 `yarn test --core`
 
-This option executes test from `<rootdir>/app/react`, `<rootdir>/app/vue`, and `<rootdir>/lib`
-Before the tests are ran, the project must be bootstrapped with core. You can accomplish this with `yarn bootstrap --core` 
+This option executes test from `<rootdir>/app/react`, `<rootdir>/app/vue`, and `<rootdir>/lib`.
+Before the tests are ran, the project must be bootstrapped with core. You can accomplish this with `yarn bootstrap --core`
 
 ##### React-Native example Tests
 
 `yarn test --reactnative`
 
-This option executes tests from `<rootdir>/app/react-native`
+This option executes tests from `<rootdir>/app/react-native`.
 Before these tests are ran, the project must be bootstrapped with the React Native example enabled.  You can accomplish this by running `yarn bootstrap --reactnative`
 
-##### Integration Tests (Screenshots of running apps)
+##### CRA-kitchen-sink - Image snapshots using Storyshots
 
-`yarn test --integration`
+`yarn test --image`
 
-This option executes tests from `<rootdir>/integration`
-In order for the snapshot-integration tests to be executed properly, examples being tested must be running on their defaults ports, as declared in `integration/examples.test.js`
+This option executes tests from `<rootdir>/examples/cra-kitchen-sink`
+In order for the image snapshots to be correctly generated, you must have static build of the storybook up-to-date.
 
-Puppeteer is used to launch and grab screenshots of example pages, while jest is used to assert matching images.
-
+Puppeteer is used to launch and grab screenshots of example pages, while jest is used to assert matching images. (just like integration tests)
 
 #### 2b. Run e2e tests for CLI
 
@@ -95,23 +94,23 @@ In that case, please check the git diff before commiting to make sure it only co
 
 If you want to test your own existing project using the github version of storybook, you need to `link` the packages you use in your project.
 
-````sh
+```sh
     cd app/react
     yarn link
 
     cd <your-project>
     yarn link @storybook/react
 
-        # repeat with whichever other parts of the monorepo you are using.
-        ```
+    # repeat with whichever other parts of the monorepo you are using.
+```
 
-    ### Reproductions
+### Reproductions
 
-    The best way to help figure out an issue you are having is to produce a minimal reproduction against the `master` branch.
+The best way to help figure out an issue you are having is to produce a minimal reproduction against the `master` branch.
 
-    A good way to do that is using the example `cra-kitchen-sink` app embedded in this repository:
+A good way to do that is using the example `cra-kitchen-sink` app embedded in this repository:
 
-    ```sh
+```sh
     # Download and build this repository:
     git clone https://github.com/storybooks/storybook.git
     cd storybook
@@ -130,7 +129,7 @@ If you want to test your own existing project using the github version of storyb
     # fork the storybook repo to your account, then add the resulting remote
     git remote add <your-username> https://github.com/<your-username>/storybook.git
     git push -u <your-username> master
-````
+```
 
 If you follow that process, you can then link to the github repository in the issue. See <https://github.com/storybooks/storybook/issues/708#issuecomment-290589886> for an example.
 
@@ -217,7 +216,7 @@ Please have the **_latest_** stable versions of the following on your machine
 
 ### Initial Setup
 
-If you run into trouble here, make sure your node, npm, and **_yarn_** are on the latest versions (yarn at least v1.0.0).
+If you run into trouble here, make sure your node, npm, and **_yarn_** are on the latest versions (yarn at least v1.3.2).
 
 1.  `cd ~` (optional)
 2.  `git clone https://github.com/storybooks/storybook.git` _bonus_: use your own fork for this step
@@ -265,7 +264,7 @@ _Make sure `yarn dev` is running_
 
 ##### 1. Setup storybook in your project
 
-First we are going to install storyboook, then we are going to link `@storybook/react` into our project. This will replace `node_modules/@storybook/react` with a symlink to our local version of storybook. 
+First we are going to install storyboook, then we are going to link `@storybook/react` into our project. This will replace `node_modules/@storybook/react` with a symlink to our local version of storybook.
 
 1.  `getstorybook`
 2.  `yarn storybook`
@@ -275,7 +274,7 @@ First we are going to install storyboook, then we are going to link `@storybook/
 
 **_Note_**: This process is the same for `@storybook/vue`, `@storybook/addon-foo`, etc
 
-1.  Go to your storybook _root_ directory 
+1.  Go to your storybook _root_ directory
 2.  `yarn dev`
 3.  Wait until the output stops (changes you make will be transpiled into dist and logged here)
 4.  Go to your storybook-sandbox-app directory
@@ -296,7 +295,7 @@ If you don't see the changes rerun `yarn storybook` again in your sandbox app
 
 This section is for Storybook maintainers who will be creating releases. It assumes:
 
--   yarn >= 1.0.0
+-   yarn >= 1.3.2
 -   you've yarn linked `pr-log` from <https://github.com/storybooks/pr-log/pull/2>
 
 The current manual release sequence is as follows:
