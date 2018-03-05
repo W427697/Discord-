@@ -131,8 +131,8 @@ export default generator('RootIndex', () => (
           'rgba(83, 193, 222, 0.3)',
           'rgba(65, 184, 131, 0.3)',
           'rgba(195, 0, 47, 0.3)',
-          'rgba(226, 75, 49, 0.3)',
           'rgba(48, 63, 159, 0.3)',
+          'rgba(226, 75, 49, 0.3)',
           'rgba(126, 46, 122, 0.3)',
         ]}
       >
@@ -143,16 +143,15 @@ export default generator('RootIndex', () => (
           <VueLogo />
         </BlockLink>
         <BlockLink href="./docs/frameworks/angular/">
-          <BlockLabel>next release</BlockLabel>
           <AngularLogo />
+        </BlockLink>
+        <BlockLink href="http://example.com">
+          <BlockLabel>in alpha</BlockLabel>
+          <PolymerLogo />
         </BlockLink>
         <BlockLink href="http://example.com">
           <BlockLabel>on roadmap</BlockLabel>
           <EmberLogo />
-        </BlockLink>
-        <BlockLink href="http://example.com">
-          <BlockLabel>in progress</BlockLabel>
-          <PolymerLogo />
         </BlockLink>
         <BlockLink href="http://example.com">
           <BlockLabel>consideration</BlockLabel>
@@ -167,9 +166,6 @@ export default generator('RootIndex', () => (
       <Blocks max={5} colors={['rgba(245, 245, 245, 1)']} vSpacing={10}>
         <BlockLink href="http://example.com">
           <AirbnbLogo />
-        </BlockLink>
-        <BlockLink href="http://example.com">
-          <SlackLogo />
         </BlockLink>
         <BlockLink href="http://example.com">
           <SquarespaceLogo />
@@ -196,7 +192,9 @@ export default generator('RootIndex', () => (
           'rgba(55, 134, 200, 0.3)',
           'rgba(83,193,222,0.3)',
           'radial-gradient(ellipse at center, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 1%, rgba(255,255,255,1) 38%, rgb(224, 224, 224) 100%)',
+          'rgba(65, 184, 131, 0.3)',
           '#dbdfe1',
+          'rgba(65, 184, 131, 0.3)',
           'silver',
           'silver',
         ]}
@@ -228,6 +226,13 @@ export default generator('RootIndex', () => (
           <BlockDescription>
             <strong>Next.js</strong>
             <br />framework for SSR react
+          </BlockDescription>
+        </BlockLink>
+        <BlockLink href="https://nuxtjs.org">
+          <VueLogo />
+          <BlockDescription>
+            <strong>Vue CLI</strong>
+            <br />CLI for rapid Vue.js development
           </BlockDescription>
         </BlockLink>
         <BlockLink href="https://nuxtjs.org">
