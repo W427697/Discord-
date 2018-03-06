@@ -41,9 +41,13 @@ Open it in the [Expo app](https://expo.io) on your phone to view it. It will rel
 
 Sometimes you may need to reset or clear the React Native packager's cache. To do so, you can pass the `--reset-cache` flag to the start script:
 
-    npm start -- --reset-cache
-    # or
-    yarn start -- --reset-cache
+```sh
+npm start -- --reset-cache
+```
+or using yarn
+```sh
+yarn start -- --reset-cache
+```
 
 #### `npm test`
 
@@ -94,7 +98,7 @@ You can configure some of Create React Native App's behavior using environment v
 
 When starting your project, you'll see something like this for your project URL:
 
-    exp://192.168.0.2:19000
+`exp://192.168.0.2:19000`
 
 The "manifest" at that URL tells the Expo app how to retrieve and load your app's JavaScript bundle, so even if you load it in the app via a URL like `exp://localhost:19000`, the Expo client app will still try to retrieve your app at the IP address that the start script provides.
 
@@ -102,12 +106,16 @@ In some cases, this is less than ideal. This might be the case if you need to ru
 
 Mac and Linux:
 
-    REACT_NATIVE_PACKAGER_HOSTNAME='my-custom-ip-address-or-hostname' npm start
+```sh
+REACT_NATIVE_PACKAGER_HOSTNAME='my-custom-ip-address-or-hostname' npm start
+```
 
 Windows:
 
-    set REACT_NATIVE_PACKAGER_HOSTNAME='my-custom-ip-address-or-hostname'
-    npm start
+```sh
+set REACT_NATIVE_PACKAGER_HOSTNAME='my-custom-ip-address-or-hostname'
+npm start
+```
 
 The above example would cause the development server to listen on `exp://my-custom-ip-address-or-hostname:19000`.
 
@@ -139,8 +147,10 @@ Expo provides free hosting for the JS-only apps created by CRNA, allowing you to
 
 Install the `exp` command-line tool, and run the publish command:
 
-    $ npm i -g exp
-    $ exp publish
+```sh
+npm i -g exp
+exp publish
+```
 
 ### Building an Expo "standalone" app
 
@@ -164,15 +174,15 @@ If you're unable to load your app on your phone due to a network timeout or a re
 
 Try opening a web browser on your phone and opening the URL that the packager script prints, replacing `exp://` with `http://`. So, for example, if underneath the QR code in your terminal you see:
 
-    exp://192.168.0.1:19000
+`exp://192.168.0.1:19000`
 
 Try opening Safari or Chrome on your phone and loading
 
-    http://192.168.0.1:19000
+`http://192.168.0.1:19000`
 
 and
 
-    http://192.168.0.1:19001
+`http://192.168.0.1:19001`
 
 If this works, but you're still unable to load your app by scanning the QR code, please open an issue on the [Create React Native App repository](https://github.com/react-community/create-react-native-app) with details about these steps and any other error messages you may have received.
 

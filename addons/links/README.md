@@ -1,4 +1,4 @@
-# Story Links Addon
+# Storybook Addon Links
 
 [![Build Status on CircleCI](https://circleci.com/gh/storybooks/storybook.svg?style=shield)](https://circleci.com/gh/storybooks/storybook)
 [![CodeFactor](https://www.codefactor.io/repository/github/storybooks/storybook/badge)](https://www.codefactor.io/repository/github/storybooks/storybook)
@@ -16,7 +16,6 @@ The Storybook Links addon can be used to create links that navigate between stor
 ## Getting Started
 
 Install this addon by adding the `@storybook/addon-links` dependency:
-
 ```sh
 yarn add @storybook/addon-links
 ```
@@ -125,4 +124,5 @@ It accepts all the props the `a` element does, plus `story` and `kind`. It the `
 >Go to Second</LinkTo>
 ```
 
-To implement such a component for another framework, you need to add special handling for `click` event on native `a` element. See [`RoutedLink` sources](https://github.com/storybooks/storybook/blob/master/lib/components/src/navigation/routed_link.js#L4-L9) for reference. 
+> You can also pass a function instead for any of above parameter. That function accepts arguments emitted by the event and it should return a string. <br/>
+> Have a look at [PR86](https://github.com/kadirahq/react-storybook/pull/86) for more information.

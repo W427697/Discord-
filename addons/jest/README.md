@@ -1,4 +1,4 @@
-# Storybook addon Jest
+# Storybook Addon Jest
 
 Brings Jest results in storybook.
 
@@ -12,28 +12,27 @@ Brings Jest results in storybook.
 
 ### Install
 
-`npm install --save-dev @storybook/addon-jest`
+```sh
+npm install --save-dev @storybook/addon-jest`
+```
 
 or
 
-`yarn add --dev @storybook/addon-jest`
+```sh
+yarn add --dev @storybook/addon-jest`
+```
 
 ### Jest Configuration
 
-When running **Jest**, be sure to save the results in a json file:
+When running **Jest**, be sure to save the results in a json file: `package.json`
 
-`package.json`
-
-```js
+```json
 "scripts": {
   "test:generate-output": "jest --json --outputFile=jest-test-results.json"
 }
 ```
 
-You may want to add it the result file to `.gitignore`, since it's a generated file:
-```
-jest-test-results.json
-```
+You may want to add it the result file to `.gitignore`, since it's a generated file: `jest-test-results.json`
 But much like lockfiles and snapshots checking-in generated files can have certain advantages as well. It's up to you.
 We recommend to **do** check in the test results file so starting storybook from an clean git clone doesn't require running all tests first, 
 but this can mean you'll experience merge conflicts on this file in the future. (*re-generating this file is super easy though, just like lockfiles and snapshots*)
@@ -104,7 +103,7 @@ Then in your story:
 
 ```js
 // import your file
-import withTests from '.withTests';
+import withTests from './withTests';
 
 storiesOf('MyComponent', module)
   .addDecorator(withTests('MyComponent', 'MyOtherComponent'))

@@ -83,14 +83,6 @@ const tasks = {
       spawn('lerna run prepare -- --silent');
     },
   }),
-  docs: createTask({
-    name: `Documentation ${chalk.gray('(docs)')}`,
-    defaultValue: false,
-    option: '--docs',
-    command: () => {
-      spawn('yarn bootstrap:docs');
-    },
-  }),
   packs: createTask({
     name: `Build tarballs of packages ${chalk.gray('(build-packs)')}`,
     defaultValue: false,

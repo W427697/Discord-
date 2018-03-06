@@ -2,6 +2,7 @@ import React from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
+import { baseFonts } from '@storybook/components';
 import { action } from '@storybook/addon-actions';
 // eslint-disable-next-line import/named
 import { withNotes, WithNotes } from '@storybook/addon-notes';
@@ -16,7 +17,7 @@ import LifecycleLogger from '../components/LifecycleLogger';
 const InfoButton = () => (
   <span
     style={{
-      fontFamily: 'sans-serif',
+      fontFamily: baseFonts.fontFamily,
       fontSize: 12,
       textDecoration: 'none',
       background: 'rgb(34, 136, 204)',

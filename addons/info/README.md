@@ -1,4 +1,4 @@
-# Storybook Info Addon
+# Storybook Addon Info
 
 [![Build Status on CircleCI](https://circleci.com/gh/storybooks/storybook.svg?style=shield)](https://circleci.com/gh/storybooks/storybook)
 [![CodeFactor](https://www.codefactor.io/repository/github/storybooks/storybook/badge)](https://www.codefactor.io/repository/github/storybooks/storybook)
@@ -111,33 +111,62 @@ addDecorator((story, context) => withInfo('common info')(story)(context));
 
 To configure default options for all usage of the info option, use `setDefaults` in `.storybook/config.js`:
 
-```js
-// config.js
+```js // config.js
 import { setDefaults } from '@storybook/addon-info';
 
 // addon-info
 setDefaults({
-  header: false, // Toggles display of header with component name and description
+  // Toggles display of header with component name and description
+  header: false,
 });
 ```
 
 ## Options and Defaults
 
-```js
-{
-  header: false, // Toggles display of header with component name and description
-  inline: true, // Displays info inline vs click button to view
-  source: true, // Displays the source of story Component
-  propTables: [/* Components used in story */], // displays Prop Tables with this components
-  propTablesExclude: [], // Exclude Components from being shown in Prop Tables section. Accepts an array of component classes or functions.
-  styles: {}, // Overrides styles of addon. The object should follow this shape: https://github.com/storybooks/storybook/blob/master/addons/info/src/components/Story.js#L19. This prop can also accept a function which has the default stylesheet passed as an argument.
-  components: {}, // Overrides components used to display markdown
-  maxPropsIntoLine: 1, // Max props to display per line in source code
-  maxPropObjectKeys: 10, // Displays the first 10 characters of the prop name
-  maxPropArrayLength: 10, // Displays the first 10 items in the default prop array
-  maxPropStringLength: 100, // Displays the first 100 characters in the default prop string,
-  TableComponent: props => {}, // Override the component used to render the props table
-}
+```js // config.js
+import { setDefaults } from '@storybook/addon-info';
+
+// addon-info
+setDefaults({
+  // Toggles display of header with component name and description
+  header: false,
+
+  // Displays info inline vs click button to view
+  inline: true, 
+
+  // Displays the source of story Component
+  source: true, 
+
+  // displays Prop Tables with this components
+  propTables: [/* Components used in story */], 
+  
+  // Exclude Components from being shown in Prop Tables section
+  propTablesExclude: [], 
+  
+  // Overrides styles of addon. 
+  // The object should follow this shape: https://github.com/storybooks/storybook/blob/master/addons/info/src/components/Story.js#L19. 
+  // This prop can also accept a function which has the default stylesheet passed as an argument.
+  styles: {}, 
+
+  // Overrides components used to display markdown.
+  components: {}, 
+
+  // Max props to display per line in source code
+  maxPropsIntoLine: 1, 
+
+  // Displays the first 10 characters of the prop name
+  maxPropObjectKeys: 10, 
+
+  // Displays the first 10 items in the default prop array
+  maxPropArrayLength: 10, 
+
+  // Displays the first 100 characters in the default prop string
+  maxPropStringLength: 100, 
+
+  // Override the component used to render the props table
+  TableComponent: props => {}, 
+
+});
 ```
 
 ## Deprecated usage
@@ -196,15 +225,24 @@ setAddon(infoAddon);
 The `TableComponent` option allows you to define how the prop table should be rendered. Your component will be rendered with the following props.
 
 ```js
-  {
-    propDefinitions: Array<{
-      property: string, // The name of the prop
-      propType: Object | string, // The prop type. TODO: info about what this object is...
-      required: boolean, // True if the prop is required
-      description: string, // The description of the prop
-      defaultValue: any // The default value of the prop
-    }>
-  }
+import PropTypes from 'prop-types';
+
+TableComponent.propTypes = {
+  propDefinitions: PropTypes.arrayOf(
+    PropTypes.shape({
+      // The name of the prop
+      property: PropTypes.string,
+      // The prop type. TODO: info about what this object is...
+      propType: PropTypes.oneOf(PropTypes.object, PropTypes.string),
+      // True if the prop is required
+      required: PropTypes.boolean,
+      // The description of the prop
+      description: PropTypes.string,
+      // The default value of the prop
+      defaultValue: PropTypes.node 
+    })
+  ),
+};
 ```
 
 Example:
@@ -212,31 +250,31 @@ Example:
 ```js
 // button.js
 // @flow
-import React from 'react'
+import React from 'react';
 
 const paddingStyles = {
   small: '4px 8px',
-  medium: '8px 16px'
-}
+  medium: '8px 16px',
+};
 
 const Button = ({
   size,
-  ...rest
+  ...rest,
 }: {
-  /** The size of the button */
-  size: 'small' | 'medium'
+  size: 'small' | 'medium',
 }) => {
   const style = {
     padding: paddingStyles[size] || ''
-  }
-  return <button style={style} {...rest} />
-}
+  };
+  return <button style={style} {...rest} />;
+};
 Button.defaultProps = {
-  size: 'medium'
-}
+  size: 'medium',
+};
 
-export default Button
+export default Button;
 ```
+
 ```js
 // stories.js
 import React from "react";
@@ -297,10 +335,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /** Button component description */
-const DocgenButton = ({ disabled, label, style, onClick }) =>
+const DocgenButton = ({ disabled, label, style, onClick }) => (
   <button disabled={disabled} style={style} onClick={onClick}>
     {label}
-  </button>;
+  </button>
+);
 
 DocgenButton.defaultProps = {
   disabled: false,

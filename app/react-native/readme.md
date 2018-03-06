@@ -19,7 +19,7 @@ For more information visit: [storybook.js.org](https://storybook.js.org)
 
 The `getstorybook` tool can be used to add Storybook to your React Native app. Install the `getstorybook` tool if necessary and run it from your project directory with these commands:
 
-```shell
+```sh
 npm -g i @storybook/cli
 getstorybook
 ```
@@ -54,7 +54,7 @@ Alternatively, `StorybookUI` is simply a RN `View` component that can be embedde
 
 After initial setup start the storybook server with the storybook npm script.
 
-```shell
+```sh
 npm run storybook
 ```
 
@@ -66,11 +66,15 @@ To see your Storybook stories on the device, you should start your mobile app fo
 
 For CRNA apps:
 
-    npm run <platform>
+```sh
+npm run <platform>
+```
 
 For RN apps:
 
-    react-native run-<platform>
+```sh
+react-native run-<platform>
+```
 
 Once your app is started, changing the selected story in web browser will update the story displayed within your mobile app.
 

@@ -19,6 +19,8 @@ packs/*.tgz
 package-lock.json
 .nvmrc
 storybook-static
+.next
+out
 integration/__image_snapshots__/__diff_output__
 .jest-test-results.json
 /examples/cra-kitchen-sink/src/__image_snapshots__/__diff_output__/

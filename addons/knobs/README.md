@@ -31,7 +31,7 @@ npm install @storybook/addon-knobs --save-dev
 Then, configure it as an addon by adding it to your `addons.js` file (located in the Storybook config directory).
 
 ```js
-import '@storybook/addon-knobs/register'
+import '@storybook/addon-knobs/register';
 ```
 
 Now, write your stories with knobs.
@@ -48,7 +48,7 @@ stories.addDecorator(withKnobs);
 
 // Knobs for React props
 stories.add('with a button', () => (
-  <button disabled={boolean('Disabled', false)} >
+  <button disabled={boolean('Disabled', false)}>
     {text('Label', 'Hello Button')}
   </button>
 ));
@@ -338,8 +338,11 @@ import { storiesOf } from '@storybook/react';
 const stories = storiesOf('Storybook Knobs', module);
 
 stories.addDecorator(withKnobsOptions({
-  debounce: { wait: number, leading: boolean}, // Same as lodash debounce.
-  timestamps: true // Doesn't emit events while user is typing.
+  // Same as lodash debounce.
+  debounce: { wait: number, leading: boolean},
+
+  // Doesn't emit events while user is typing.
+  timestamps: true 
 }));
 ```
 
