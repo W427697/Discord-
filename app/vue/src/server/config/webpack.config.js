@@ -2,9 +2,10 @@ import path from 'path';
 import webpack from 'webpack';
 import Dotenv from 'dotenv-webpack';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
+import WatchMissingNodeModulesPlugin from 'react-dev-utils/WatchMissingNodeModulesPlugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { WatchMissingNodeModulesPlugin, managerPath } from '@storybook/core/server';
+import { managerPath } from '@storybook/core/server';
 
 import { includePaths, excludePaths, nodeModulesPaths, loadEnv, nodePaths } from './utils';
 import { getPreviewHeadHtml, getManagerHeadHtml } from '../utils';
@@ -71,10 +72,10 @@ export default function(configDir) {
           test: /\.md$/,
           use: [
             {
-              loader: 'html-loader',
+              loader: require.resolve('html-loader'),
             },
             {
-              loader: 'markdown-loader',
+              loader: require.resolve('markdown-loader'),
             },
           ],
         },
@@ -89,8 +90,6 @@ export default function(configDir) {
       modules: ['node_modules'].concat(nodePaths),
       alias: {
         vue$: require.resolve('vue/dist/vue.esm.js'),
-        react$: require.resolve('react'),
-        'react-dom$': require.resolve('react-dom'),
       },
     },
     performance: {
