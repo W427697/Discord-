@@ -50,22 +50,28 @@ export default class Preview {
         // which is fine in this case (we will define it below)
       }
 
-      if (params.resetStorybook || !channel) {
-        const host = params.host || parse(NativeModules.SourceCode.scriptURL).hostname;
-        const port = params.port !== false ? `:${params.port || 7007}` : '';
+      if (!channel || params.resetStorybook) {
+        if (params.onDeviceUI && !params.useWebsockets) {
+          channel = this._events;
+        } else {
+          const host = params.host || parse(NativeModules.SourceCode.scriptURL).hostname;
+          const port = params.port !== false ? `:${params.port || 7007}` : '';
 
-        const query = params.query || '';
-        const { secured } = params;
-        const websocketType = secured ? 'wss' : 'ws';
-        const httpType = secured ? 'https' : 'http';
+          const query = params.query || '';
+          const { secured } = params;
+          const websocketType = secured ? 'wss' : 'ws';
+          const httpType = secured ? 'https' : 'http';
 
-        const url = `${websocketType}://${host}${port}/${query}`;
-        webUrl = `${httpType}://${host}${port}`;
-        channel = createChannel({ url });
+          const url = `${websocketType}://${host}${port}/${query}`;
+          webUrl = `${httpType}://${host}${port}`;
+          channel = createChannel({ url });
+        }
+
         addons.setChannel(channel);
 
         channel.emit('channelCreated');
       }
+
       channel.on('getStories', () => this._sendSetStories());
       channel.on('setCurrentStory', d => this._selectStory(d));
       this._events.on('setCurrentStory', d => this._selectStory(d));
