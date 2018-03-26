@@ -1,0 +1,36 @@
+{
+  "name": "@storybook/addon-qr-pair",
+  "version": "4.0.0",
+  "description": "React Native QR pair addon necessary to pair phone with hosted storybook",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybooks/storybook/tree/master/addons/qr-pair",
+  "bugs": {
+    "url": "https://github.com/storybooks/storybook/issues"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybooks/storybook.git"
+  },
+  "scripts": {
+    "deploy-storybook": "storybook-to-ghpages",
+    "prepublish": "node ../../scripts/prepublish.js",
+  },
+  "dependencies": {
+    "@storybook/addons": "^4.0.0",
+    "qrcode.react": "^0.7.1"
+  },
+  "devDependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-test-renderer": "^15.6.1",
+    "shelljs": "^0.7.8"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
+  }
+}
