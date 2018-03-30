@@ -74,7 +74,6 @@ export default class Preview {
 
       channel.on('getStories', () => this._sendSetStories());
       channel.on('setCurrentStory', d => this._selectStory(d));
-      this._events.on('setCurrentStory', d => this._selectStory(d));
       this._sendSetStories();
       this._sendGetCurrentStory();
 
