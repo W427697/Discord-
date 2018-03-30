@@ -70,6 +70,10 @@ export default class Preview {
         addons.setChannel(channel);
 
         channel.emit('channelCreated');
+      } else if (params.onDeviceUI) {
+        // if the channel is already created and user is using onDeviceUI it means that channel was set from outside.
+        // it allows user to create channel before storybook ui is created.
+        this._events = channel;
       }
 
       channel.on('getStories', () => this._sendSetStories());
