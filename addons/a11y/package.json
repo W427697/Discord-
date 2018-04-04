@@ -37,7 +37,7 @@
     "faker": "^4.1.0"
   },
   "peerDependencies": {
-    "@storybook/addons": "^3.3.0",
+    "@storybook/addons": "4.0.0-alpha.1",
     "react": "*",
     "react-dom": "*"
   }
