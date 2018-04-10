@@ -228,6 +228,295 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@ied/animate@^1.0.0-beta.0":
+  version "1.0.0-beta.1"
+  resolved "https://registry.npmjs.org/@ied/animate/-/animate-1.0.0-beta.1.tgz#2c1a4cf9c2d50eb946b9c4ae5fb4fec4616087de"
+  dependencies:
+    prop-types "^15.6.0"
+    react "^16.2.0"
+    react-dom "^16.2.0"
+    styled-components "^3.1.4"
+
+"@ied/badge@^1.0.0-beta.6":
+  version "1.0.0-beta.7"
+  resolved "https://registry.npmjs.org/@ied/badge/-/badge-1.0.0-beta.7.tgz#ce96f0ddb310688fe590ed1a19f0646269054f8e"
+  dependencies:
+    "@ied/color" "^1.0.0-beta.4"
+    "@ied/icon" "^1.0.0-beta.0"
+    prop-types "^15.6.0"
+    react "^16.2.0"
+    react-dom "^16.2.0"
+    styled-components "^3.1.4"
+
+"@ied/color@^1.0.0-beta.4", "@ied/color@^1.0.0-beta.5":
+  version "1.0.0-beta.5"
+  resolved "https://registry.npmjs.org/@ied/color/-/color-1.0.0-beta.5.tgz#d6292b786f7677c180fe06452dc06a7c97ee216b"
+  dependencies:
+    react "^16.2.0"
+    react-dom "^16.2.0"
+    styled-components "^3.1.4"
+
+"@ied/comment@^1.0.0-beta.0":
+  version "1.0.0-beta.0"
+  resolved "https://registry.npmjs.org/@ied/comment/-/comment-1.0.0-beta.0.tgz#5f5b6f8adb989486b452f9f3b2d1329c4c42108a"
+  dependencies:
+    prop-types "^15.6.0"
+    react "^16.2.0"
+    react-dom "^16.2.0"
+    styled-components "^3.1.4"
+
+"@ied/date@^1.0.0-beta.0", "@ied/date@^1.0.0-beta.2":
+  version "1.0.0-beta.3"
+  resolved "https://registry.npmjs.org/@ied/date/-/date-1.0.0-beta.3.tgz#e1626433ef42e4aa3bab20760b7690a07798848b"
+  dependencies:
+    date-fns "^1.29.0"
+    react "^16.2.0"
+    react-dom "^16.2.0"
+    styled-components "^3.1.4"
+
+"@ied/event@^1.0.0-beta.0":
+  version "1.0.0-beta.0"
+  resolved "https://registry.npmjs.org/@ied/event/-/event-1.0.0-beta.0.tgz#1ebc62482a89f839891c417d9615c8187ad7df3b"
+  dependencies:
+    "@ied/date" "^1.0.0-beta.0"
+    "@ied/icon" "^1.0.0-beta.0"
+    polished "^1.9.2"
+    prop-types "^15.6.0"
+    react "^16.2.0"
+    react-dom "^16.2.0"
+    styled-components "^3.1.4"
+
+"@ied/icon@^1.0.0-beta.0":
+  version "1.0.0-beta.0"
+  resolved "https://registry.npmjs.org/@ied/icon/-/icon-1.0.0-beta.0.tgz#8c2787055391112bb88e44bd86bda34e807ee1d6"
+  dependencies:
+    prop-types "^15.6.0"
+    react "^16.2.0"
+    react-dom "^16.2.0"
+
+"@ied/nav-card@^1.0.0-beta.1":
+  version "1.0.0-beta.6"
+  resolved "https://registry.npmjs.org/@ied/nav-card/-/nav-card-1.0.0-beta.6.tgz#3d02e0879e189e4b4a07a33e0caf8de7b81f473c"
+  dependencies:
+    "@ied/icon" "^1.0.0-beta.0"
+    prop-types "^15.6.0"
+    react "^16.2.0"
+    react-dom "^16.2.0"
+    styled-components "^3.1.4"
+
+"@ied/pagination@^1.0.0-beta.0":
+  version "1.0.0-beta.1"
+  resolved "https://registry.npmjs.org/@ied/pagination/-/pagination-1.0.0-beta.1.tgz#723afcee8e12f73ad897154b1a8e71b171ee07c5"
+  dependencies:
+    react "^16.2.0"
+    react-dom "^16.2.0"
+    styled-components "^3.1.4"
+
+"@ied/popover@^1.0.0-beta.0":
+  version "1.0.0-beta.0"
+  resolved "https://registry.npmjs.org/@ied/popover/-/popover-1.0.0-beta.0.tgz#09a7a03afc5aeecb0a3f405aa473f13eca999390"
+  dependencies:
+    prop-types "^15.6.0"
+    react "^16.2.0"
+    react-dom "^16.2.0"
+    styled-components "^3.1.4"
+
+"@ied/row@^1.0.0-beta.1":
+  version "1.0.0-beta.1"
+  resolved "https://registry.npmjs.org/@ied/row/-/row-1.0.0-beta.1.tgz#2127146c37f4876450bbdf107784b4fde053c176"
+  dependencies:
+    "@ied/badge" "^1.0.0-beta.6"
+    "@ied/icon" "^1.0.0-beta.0"
+    prop-types "^15.6.0"
+    react "^16.2.0"
+    react-dom "^16.2.0"
+    styled-components "^3.1.4"
+
+"@ied/search-bar@^1.0.0-beta.0":
+  version "1.0.0-beta.0"
+  resolved "https://registry.npmjs.org/@ied/search-bar/-/search-bar-1.0.0-beta.0.tgz#bc4a6dad7b69d57aeb92ac090163fff03e7d4446"
+  dependencies:
+    "@ied/icon" "^1.0.0-beta.0"
+    prop-types "^15.6.0"
+    react "^16.2.0"
+    react-dom "^16.2.0"
+    styled-components "^3.1.4"
+
+"@ied/tag@^1.0.0-beta.0":
+  version "1.0.0-beta.1"
+  resolved "https://registry.npmjs.org/@ied/tag/-/tag-1.0.0-beta.1.tgz#7471510f0a36f7ba27f3486d1536b0dddc7ba423"
+  dependencies:
+    "@ied/color" "^1.0.0-beta.5"
+    prop-types "^15.6.0"
+    react "^16.2.0"
+    react-dom "^16.2.0"
+    styled-components "^3.1.4"
+
+"@ied/thumb@^1.0.0-beta.1":
+  version "1.0.0-beta.1"
+  resolved "https://registry.npmjs.org/@ied/thumb/-/thumb-1.0.0-beta.1.tgz#ccd199a72d5e192820f1c50f467471699adfafce"
+  dependencies:
+    react "^16.2.0"
+    react-dom "^16.2.0"
+    styled-components "^3.1.4"
+
+"@material/animation@^0.25.0":
+  version "0.25.0"
+  resolved "https://registry.npmjs.org/@material/animation/-/animation-0.25.0.tgz#b252ac3d0b628e79a79f0c406d7470fb56352a80"
+
+"@material/base@^0.29.0":
+  version "0.29.0"
+  resolved "https://registry.npmjs.org/@material/base/-/base-0.29.0.tgz#5fac94c45907e38c969130e959722288d4ce06b2"
+
+"@material/button@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/button/-/button-0.30.0.tgz#da98519559a421106ae85314f4389542d23c227d"
+  dependencies:
+    "@material/elevation" "^0.28.0"
+    "@material/ripple" "^0.30.0"
+    "@material/theme" "^0.30.0"
+    "@material/typography" "^0.28.0"
+
+"@material/checkbox@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/checkbox/-/checkbox-0.30.0.tgz#623b7a66215ab0029640b3905754d8c07ea3755f"
+  dependencies:
+    "@material/animation" "^0.25.0"
+    "@material/base" "^0.29.0"
+    "@material/ripple" "^0.30.0"
+    "@material/rtl" "^0.30.0"
+    "@material/selection-control" "^0.30.0"
+    "@material/theme" "^0.30.0"
+
+"@material/dialog@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/dialog/-/dialog-0.30.0.tgz#05716cc3f338f285e1112a87bdd067d077361e0e"
+  dependencies:
+    "@material/animation" "^0.25.0"
+    "@material/base" "^0.29.0"
+    "@material/elevation" "^0.28.0"
+    "@material/ripple" "^0.30.0"
+    "@material/rtl" "^0.30.0"
+    "@material/theme" "^0.30.0"
+    "@material/typography" "^0.1.1"
+    focus-trap "^2.3.0"
+
+"@material/elevation@^0.28.0":
+  version "0.28.0"
+  resolved "https://registry.npmjs.org/@material/elevation/-/elevation-0.28.0.tgz#78d3a551b78100d588c457600733ee1c6fd04501"
+  dependencies:
+    "@material/animation" "^0.25.0"
+    "@material/theme" "^0.4.0"
+
+"@material/fab@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/fab/-/fab-0.30.0.tgz#3d9e53e0bf1221e786b26bc96c5766727331dcca"
+  dependencies:
+    "@material/animation" "^0.25.0"
+    "@material/elevation" "^0.28.0"
+    "@material/ripple" "^0.30.0"
+    "@material/theme" "^0.30.0"
+
+"@material/form-field@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/form-field/-/form-field-0.30.0.tgz#15bb759e71023467337f243bd308bb6f5e7db122"
+  dependencies:
+    "@material/base" "^0.29.0"
+    "@material/rtl" "^0.30.0"
+    "@material/selection-control" "^0.30.0"
+    "@material/theme" "^0.30.0"
+    "@material/typography" "^0.28.0"
+
+"@material/line-ripple@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/line-ripple/-/line-ripple-0.30.0.tgz#26f453ce07ae677e23625578ead7da8abd1bb02c"
+  dependencies:
+    "@material/animation" "^0.25.0"
+    "@material/base" "^0.29.0"
+    "@material/theme" "^0.30.0"
+
+"@material/list@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/list/-/list-0.30.0.tgz#c04ffdad7d9913cc9153d39e32931b024476c3af"
+  dependencies:
+    "@material/ripple" "^0.30.0"
+    "@material/rtl" "^0.30.0"
+    "@material/theme" "^0.30.0"
+    "@material/typography" "^0.28.0"
+
+"@material/menu@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/menu/-/menu-0.30.0.tgz#6510c384618b1c677a21f192b2336e0c11fc0547"
+  dependencies:
+    "@material/animation" "^0.25.0"
+    "@material/base" "^0.29.0"
+    "@material/elevation" "^0.28.0"
+    "@material/theme" "^0.30.0"
+    "@material/typography" "^0.28.0"
+
+"@material/radio@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/radio/-/radio-0.30.0.tgz#3bb84ba7016738a5d0d567c70514deb887ece5c2"
+  dependencies:
+    "@material/animation" "^0.25.0"
+    "@material/base" "^0.29.0"
+    "@material/ripple" "^0.30.0"
+    "@material/selection-control" "^0.30.0"
+    "@material/theme" "^0.30.0"
+
+"@material/ripple@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/ripple/-/ripple-0.30.0.tgz#99b30801c5784b6bcc1ff702e4dcdae49ace813e"
+  dependencies:
+    "@material/base" "^0.29.0"
+    "@material/theme" "^0.30.0"
+
+"@material/rtl@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/rtl/-/rtl-0.30.0.tgz#0fbda0bc0e8a7baa6c29413fc3f9f8edda602502"
+
+"@material/selection-control@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/selection-control/-/selection-control-0.30.0.tgz#80f2230ce9a8ea8cd9a7f1a853e8179ca0a72de1"
+  dependencies:
+    "@material/ripple" "^0.30.0"
+
+"@material/switch@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/switch/-/switch-0.30.0.tgz#2b2f30e5777c4a393f1a351c1062ef25674602d9"
+  dependencies:
+    "@material/animation" "^0.25.0"
+    "@material/elevation" "^0.28.0"
+    "@material/theme" "^0.30.0"
+
+"@material/textfield@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/textfield/-/textfield-0.30.0.tgz#220256905adee4fac1287257ea3b33cf572c88a8"
+  dependencies:
+    "@material/animation" "^0.25.0"
+    "@material/base" "^0.29.0"
+    "@material/line-ripple" "^0.30.0"
+    "@material/ripple" "^0.30.0"
+    "@material/rtl" "^0.30.0"
+    "@material/theme" "^0.30.0"
+    "@material/typography" "^0.28.0"
+
+"@material/theme@^0.30.0":
+  version "0.30.0"
+  resolved "https://registry.npmjs.org/@material/theme/-/theme-0.30.0.tgz#503d7fd5ac88ff70763bb277236ee7188982e5d2"
+
+"@material/theme@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.npmjs.org/@material/theme/-/theme-0.4.0.tgz#0aef1a0279b65c15990584fb8b8eca095c734641"
+
+"@material/typography@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/@material/typography/-/typography-0.1.1.tgz#fb2e3437bd3284d39e9fb91485767ade6b2bd0c1"
+
+"@material/typography@^0.28.0":
+  version "0.28.0"
+  resolved "https://registry.npmjs.org/@material/typography/-/typography-0.28.0.tgz#4ae96a852fcd324d61b649adc995326c431fcaea"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -2810,7 +3099,7 @@ buffer@^4.3.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buffer@^5.0.2:
+buffer@^5.0.2, buffer@^5.0.3:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.1.0.tgz#c913e43678c7cb7c8bd16afbcddb6c5505e8f9fe"
   dependencies:
@@ -4261,6 +4550,10 @@ csrf@~3.0.0:
     tsscmp "1.0.5"
     uid-safe "2.1.4"
 
+css-color-keywords@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/css-color-keywords/-/css-color-keywords-1.0.0.tgz#fea2616dc676b2962686b3af8dbdbe180b244e05"
+
 css-color-names@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/css-color-names/-/css-color-names-0.0.4.tgz#808adc2e79cf84738069b646cb20ec27beb629e0"
@@ -4329,6 +4622,14 @@ css-selector-tokenizer@^0.7.0:
     cssesc "^0.1.0"
     fastparse "^1.1.1"
     regexpu-core "^1.0.0"
+
+css-to-react-native@^2.0.3:
+  version "2.1.2"
+  resolved "https://registry.npmjs.org/css-to-react-native/-/css-to-react-native-2.1.2.tgz#c06d628467ef961c85ec358a90f3c87469fb0095"
+  dependencies:
+    css-color-keywords "^1.0.0"
+    fbjs "^0.8.5"
+    postcss-value-parser "^3.3.0"
 
 css-what@2.1:
   version "2.1.0"
@@ -4487,7 +4788,7 @@ data-uri-to-buffer@1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/data-uri-to-buffer/-/data-uri-to-buffer-1.2.0.tgz#77163ea9c20d8641b4707e8f18abdf9a78f34835"
 
-date-fns@^1.23.0, date-fns@^1.27.2:
+date-fns@^1.23.0, date-fns@^1.27.2, date-fns@^1.29.0:
   version "1.29.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.29.0.tgz#12e609cdcb935127311d04d33334e2960a2a54e6"
 
@@ -6092,7 +6393,7 @@ fbjs-scripts@^0.8.1:
     semver "^5.1.0"
     through2 "^2.0.0"
 
-fbjs@^0.8.12, fbjs@^0.8.14, fbjs@^0.8.16, fbjs@^0.8.4, fbjs@^0.8.9:
+fbjs@^0.8.12, fbjs@^0.8.14, fbjs@^0.8.16, fbjs@^0.8.4, fbjs@^0.8.5, fbjs@^0.8.9:
   version "0.8.16"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
   dependencies:
@@ -6329,6 +6630,12 @@ flush-write-stream@^1.0.0:
 fn-name@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/fn-name/-/fn-name-2.0.1.tgz#5214d7537a4d06a4a301c0cc262feb84188002e7"
+
+focus-trap@^2.3.0:
+  version "2.4.3"
+  resolved "https://registry.npmjs.org/focus-trap/-/focus-trap-2.4.3.tgz#95edc23e77829b7772cb2486d61fd6371ce112f9"
+  dependencies:
+    tabbable "^1.0.3"
 
 follow-redirects@0.0.7:
   version "0.0.7"
@@ -7325,6 +7632,10 @@ hoek@4.x.x:
 hoist-non-react-statics@1.x.x, hoist-non-react-statics@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
+
+hoist-non-react-statics@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-2.5.0.tgz#d2ca2dfc19c5a91c5a6615ce8e564ef0347e2a40"
 
 home-or-tmp@^2.0.0:
   version "2.0.0"
@@ -12218,6 +12529,10 @@ pngjs@^3.0.0, pngjs@^3.3.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-3.3.1.tgz#8e14e6679ee7424b544334c3b2d21cea6d8c209a"
 
+polished@^1.9.2:
+  version "1.9.2"
+  resolved "https://registry.npmjs.org/polished/-/polished-1.9.2.tgz#d705cac66f3a3ed1bd38aad863e2c1e269baf6b6"
+
 polymer-webpack-loader@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/polymer-webpack-loader/-/polymer-webpack-loader-2.0.2.tgz#1cc515dffa04750d091c6e14b154116a9704ee54"
@@ -13132,7 +13447,7 @@ react-docgen@^3.0.0-beta11:
     node-dir "^0.1.10"
     recast "^0.12.6"
 
-react-dom@^16.3.1:
+react-dom@^16.2.0, react-dom@^16.3.1:
   version "16.3.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.3.1.tgz#6a3c90a4fb62f915bdbcf6204422d93a7d4ca573"
   dependencies:
@@ -13406,7 +13721,7 @@ react-treebeard@^2.1.0:
     shallowequal "^0.2.2"
     velocity-react "^1.3.1"
 
-react@^16.3.1:
+react@^16.2.0, react@^16.3.1:
   version "16.3.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.3.1.tgz#4a2da433d471251c69b6033ada30e2ed1202cfd8"
   dependencies:
@@ -15565,6 +15880,28 @@ style-loader@^0.20.3:
     loader-utils "^1.1.0"
     schema-utils "^0.4.5"
 
+styled-components@^3.1.4, styled-components@^3.2.5:
+  version "3.2.5"
+  resolved "https://registry.npmjs.org/styled-components/-/styled-components-3.2.5.tgz#b5d5d7d618ab240ff10602b5ca5886b8db3d0a0d"
+  dependencies:
+    buffer "^5.0.3"
+    css-to-react-native "^2.0.3"
+    fbjs "^0.8.16"
+    hoist-non-react-statics "^2.5.0"
+    is-plain-object "^2.0.1"
+    prop-types "^15.5.4"
+    stylis "^3.5.0"
+    stylis-rule-sheet "^0.0.10"
+    supports-color "^3.2.3"
+
+stylis-rule-sheet@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.npmjs.org/stylis-rule-sheet/-/stylis-rule-sheet-0.0.10.tgz#44e64a2b076643f4b52e5ff71efc04d8c3c4a430"
+
+stylis@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.npmjs.org/stylis/-/stylis-3.5.0.tgz#016fa239663d77f868fef5b67cf201c4b7c701e1"
+
 stylus-loader@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/stylus-loader/-/stylus-loader-3.0.1.tgz#77f4b34fd030d25b2617bcf5513db5b0730c4089"
@@ -15717,6 +16054,10 @@ syntax-error@^1.1.1:
   resolved "https://registry.yarnpkg.com/syntax-error/-/syntax-error-1.4.0.tgz#2d9d4ff5c064acb711594a3e3b95054ad51d907c"
   dependencies:
     acorn-node "^1.2.0"
+
+tabbable@^1.0.3:
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/tabbable/-/tabbable-1.1.2.tgz#b171680aea6e0a3e9281ff23532e2e5de11c0d94"
 
 table@4.0.2, table@^4.0.1:
   version "4.0.2"
