@@ -11,28 +11,30 @@
     "bootstrap:docs": "yarn install --cwd docs",
     "bootstrap:react-native-vanilla": "npm --prefix examples/react-native-vanilla install",
     "bootstrap:react-native-typescript": "npm --prefix examples/react-native-typescript install",
-    "build-packs": "lerna exec --scope '@storybook/*' --parallel -- ../../scripts/build-pack.sh ../../packs",
+    "build-packs":
+      "lerna exec --scope '@storybook/*' --parallel -- ../../scripts/build-pack.sh ../../packs",
     "changelog": "pr-log --sloppy",
-    "precommit": "lint-staged",
     "coverage": "codecov",
     "danger": "danger",
     "dev": "concurrently --kill-others \"yarn dev:ts\" \"yarn dev:js\"",
-    "dev:js": "lerna exec --parallel -- cross-env-shell node \\$LERNA_ROOT_PATH/scripts/watch-js.js",
-    "dev:ts": "lerna exec --parallel -- cross-env-shell node \\$LERNA_ROOT_PATH/scripts/watch-ts.js",
+    "dev:js":
+      "lerna exec --parallel -- cross-env-shell node \\$LERNA_ROOT_PATH/scripts/watch-js.js",
+    "dev:ts":
+      "lerna exec --parallel -- cross-env-shell node \\$LERNA_ROOT_PATH/scripts/watch-ts.js",
     "docs:build": "npm --prefix docs run build",
     "docs:deploy:ci": "npm --prefix docs run deploy:ci",
     "docs:deploy:manual": "npm --prefix docs run deploy:manual",
     "docs:dev": "npm --prefix docs run dev",
     "github-release": "github-release-from-changelog",
     "lint": "yarn lint:js . && yarn lint:ts **/*.ts && yarn lint:md .",
-    "lint:js": "cross-env NODE_ENV=production eslint --cache --cache-location=.cache/eslint --ext .js,.jsx,.json --report-unused-disable-directives",
+    "lint:js":
+      "cross-env NODE_ENV=production eslint --cache --cache-location=.cache/eslint --ext .js,.jsx,.json --report-unused-disable-directives",
     "lint:ts": "tslint -p . -c tslint.json -t stylish",
     "lint:md": "remark -q",
     "publish": "lerna publish --exact",
     "postpublish": "yarn --cwd lib/cli test -o",
     "repo-dirty-check": "node ./scripts/repo-dirty-check",
     "start": "npm --prefix examples/official-storybook run storybook",
-    "test": "node ./scripts/test.js",
     "test-latest-cra": "npm --prefix lib/cli run test-latest-cra",
     "chromatic": "npm --prefix examples/official-storybook run chromatic"
   },
@@ -113,24 +115,13 @@
   },
   "lint-staged": {
     "linters": {
-      "*.js": [
-        "yarn lint:js --fix",
-        "git add"
-      ],
-      "*.ts": [
-        "yarn lint:ts --fix",
-        "git add"
-      ],
-      "*.json": [
-        "yarn lint:js --fix",
-        "git add"
-      ]
+      "*.js": ["yarn lint:js --fix", "git add"],
+      "*.ts": ["yarn lint:ts --fix", "git add"],
+      "*.json": ["yarn lint:js --fix", "git add"]
     }
   },
   "pr-log": {
-    "skipLabels": [
-      "cleanup"
-    ],
+    "skipLabels": ["cleanup"],
     "validLabels": {
       "BREAKING CHANGE": "Breaking Changes",
       "feature request": "Features",
