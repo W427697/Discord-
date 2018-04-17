@@ -20,33 +20,34 @@ if (isBrowser) {
 }
 
 function render(node, el) {
+  console.log(el);
   ReactDOM.render(
     process.env.STORYBOOK_EXAMPLE_APP ? <React.StrictMode>{node}</React.StrictMode> : node,
     el
   );
 }
 
-export function renderError(error) {
+export function renderError(error, el = null) {
   const properError = new Error(error.title);
   properError.stack = error.description;
 
   const redBox = <ErrorDisplay error={properError} />;
-  render(redBox, rootEl);
+  render(redBox, el || rootEl);
 }
 
-export function renderException(error) {
+export function renderException(error, el = null) {
   // We always need to render redbox in the mainPage if we get an error.
   // Since this is an error, this affects to the main page as well.
   const realError = new Error(error.message);
   realError.stack = error.stack;
   const redBox = <ErrorDisplay error={realError} />;
-  render(redBox, rootEl);
+  render(redBox, el || rootEl);
 
   // Log the stack to the console. So, user could check the source code.
   logger.error(error.stack);
 }
 
-export function renderMain(data, storyStore, forceRender) {
+export function renderMain(data, storyStore, forceRender, el = null) {
   if (storyStore.size() === 0) return null;
 
   const NoPreview = () => <p>No Preview Available!</p>;
@@ -56,7 +57,7 @@ export function renderMain(data, storyStore, forceRender) {
   const revision = storyStore.getRevision();
   const story = storyStore.getStoryWithContext(selectedKind, selectedStory);
   if (!story) {
-    render(noPreview, rootEl);
+    render(noPreview, el || rootEl);
     return null;
   }
 
@@ -82,7 +83,7 @@ export function renderMain(data, storyStore, forceRender) {
   previousRevision = revision;
   previousKind = selectedKind;
   previousStory = selectedStory;
-  ReactDOM.unmountComponentAtNode(rootEl);
+  ReactDOM.unmountComponentAtNode(el || rootEl);
 
   const element = story();
 
@@ -94,7 +95,7 @@ export function renderMain(data, storyStore, forceRender) {
         Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.
       `,
     };
-    return renderError(error);
+    return renderError(error, el);
   }
 
   if (!isReactRenderable(element)) {
@@ -105,22 +106,22 @@ export function renderMain(data, storyStore, forceRender) {
          Could you double check that?
        `,
     };
-    return renderError(error);
+    return renderError(error, el);
   }
 
-  render(element, rootEl);
+  render(element, el || rootEl);
   return null;
 }
 
-export default function renderPreview({ reduxStore, storyStore }, forceRender = false) {
+export default function renderPreview({ reduxStore, storyStore }, forceRender = false, el = null) {
   const state = reduxStore.getState();
   if (state.error) {
-    return renderException(state.error);
+    return renderException(state.error, el);
   }
 
   try {
-    return renderMain(state, storyStore, forceRender);
+    return renderMain(state, storyStore, forceRender, el);
   } catch (ex) {
-    return renderException(ex);
+    return renderException(ex, el);
   }
 }

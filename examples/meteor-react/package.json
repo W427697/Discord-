@@ -1,0 +1,26 @@
+{
+  "name": "meteor-react",
+  "version": "4.0.0-alpha.1",
+  "scripts": {
+    "start": "meteor run",
+    "storybook": "start-storybook -p 6006 -c imports/storybook",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.44",
+    "meteor-node-stubs": "^0.3.2",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^4.0.0-alpha.1",
+    "@storybook/addon-links": "^4.0.0-alpha.1",
+    "@storybook/addons": "^4.0.0-alpha.1",
+    "@storybook/react": "^4.0.0-alpha.1",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "babel-root-slash-import": "^1.1.0"
+  }
+}

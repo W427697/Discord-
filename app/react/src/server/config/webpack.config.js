@@ -17,11 +17,12 @@ export default function(configDir) {
     devtool: 'cheap-module-source-map',
     entry: {
       manager: [require.resolve('./polyfills'), managerPath],
-      preview: [
-        require.resolve('./polyfills'),
-        require.resolve('./globals'),
-        `${require.resolve('webpack-hot-middleware/client')}?reload=true`,
-      ],
+      // FIXME: We would use a flag to turn this on/off
+      // preview: [
+      //   require.resolve('./polyfills'),
+      //   require.resolve('./globals'),
+      //   `${require.resolve('webpack-hot-middleware/client')}?reload=true`,
+      // ],
     },
     output: {
       path: path.join(__dirname, 'dist'),
