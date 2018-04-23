@@ -68,11 +68,22 @@ const JSXDescription = (
   </div>
 );
 
+const myHOC = WrappedComponent => (
+  <WrappedComponent randomProp="randomValue" label="random button" />
+);
+
 storiesOf('Addons|Info.JSX', module).add(
   'Displays JSX in description',
   withInfo({ text: JSXDescription })(() => (
     <BaseButton onClick={action('clicked')} label="Button" />
   ))
+);
+
+storiesOf('Addons|Info.Options.component', module).add(
+  'Specify another component to be analyzed',
+  withInfo({
+    component: () => <BaseButton label="specified button" />,
+  })(() => myHOC(BaseButton))
 );
 
 storiesOf('Addons|Info.Options.inline', module).add(
