@@ -4,6 +4,7 @@ exports[`addon Info should render <Info /> and markdown 1`] = `
 <Component>
   <Story
     PropTable={[Function]}
+    component={null}
     components={
       Object {
         "a": [Function],
