@@ -17,6 +17,7 @@ const defaultOptions = {
   maxPropObjectKeys: 3,
   maxPropArrayLength: 3,
   maxPropStringLength: 50,
+  component: null,
 };
 
 const defaultComponents = {
@@ -78,6 +79,10 @@ function addInfo(storyFn, context, infoOptions) {
     maxPropArrayLength: options.maxPropArrayLength,
     maxPropsIntoLine: options.maxPropsIntoLine,
     maxPropStringLength: options.maxPropStringLength,
+    component:
+      options.component && typeof options.component === 'function'
+        ? options.component(context)
+        : null,
   };
   return <Story {...props}>{storyFn(context)}</Story>;
 }

@@ -263,11 +263,13 @@ class Story extends React.Component {
       maxPropStringLength,
     } = this.props;
 
+    const children = this.props.component ? this.props.component : this.props.children;
+
     return (
       <div>
         <h1 style={this.state.stylesheet.source.h1}>Story Source</h1>
         <Pre>
-          {React.Children.map(this.props.children, (root, idx) => (
+          {React.Children.map(children, (root, idx) => (
             <Node
               key={idx}
               node={root}
@@ -325,8 +327,12 @@ class Story extends React.Component {
       }
     };
 
-    // extract components from children
-    extract(this.props.children);
+    // extract components from children or from specified `component`
+    if (this.props.component) {
+      extract(this.props.component);
+    } else {
+      extract(this.props.children);
+    }
 
     const array = Array.from(types.keys());
     array.sort((a, b) => getName(a) > getName(b));
@@ -389,6 +395,7 @@ Story.propTypes = {
   maxPropObjectKeys: PropTypes.number.isRequired,
   maxPropArrayLength: PropTypes.number.isRequired,
   maxPropStringLength: PropTypes.number.isRequired,
+  component: PropTypes.node,
 };
 
 Story.defaultProps = {
@@ -401,6 +408,7 @@ Story.defaultProps = {
   showHeader: true,
   showSource: true,
   components: {},
+  component: null,
 };
 
 polyfill(Story);
