@@ -31,12 +31,8 @@
     "axe-core": "^3.0.1",
     "babel-runtime": "^6.26.0",
     "glamor": "^2.20.40",
-    "glamorous": "^4.12.3",
+    "glamorous": "^4.12.4",
     "prop-types": "^15.6.1"
-  },
-  "devDependencies": {
-    "@storybook/react": "4.0.0-alpha.3",
-    "faker": "^4.1.0"
   },
   "peerDependencies": {
     "react": "*",

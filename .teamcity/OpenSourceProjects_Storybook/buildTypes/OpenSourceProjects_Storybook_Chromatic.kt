@@ -11,6 +11,10 @@ object OpenSourceProjects_Storybook_Chromatic : BuildType({
     id = "OpenSourceProjects_Storybook_Chromatic"
     name = "Chromatic"
 
+    params {
+        param("env.CI_BRANCH", "%teamcity.build.branch%")
+    }
+
     vcs {
         root(OpenSourceProjects_Storybook.vcsRoots.OpenSourceProjects_Storybook_HttpsGithubComStorybooksStorybookRefsHeadsMaster)
 
@@ -45,49 +49,16 @@ object OpenSourceProjects_Storybook_Chromatic : BuildType({
     }
 
     dependencies {
-        dependency(OpenSourceProjects_Storybook.buildTypes.OpenSourceProjects_Storybook_CRA) {
-            snapshot {
-                onDependencyCancel = FailureAction.CANCEL
-            }
+        allApps {
+            dependency(config) {
+                snapshot {}
 
-            artifacts {
-                artifactRules = "cra.zip!** => examples/cra-kitchen-sink/storybook-static"
-            }
-        }
-        dependency(OpenSourceProjects_Storybook.buildTypes.OpenSourceProjects_Storybook_Vue) {
-            snapshot {
-                onDependencyCancel = FailureAction.CANCEL
-            }
-
-            artifacts {
-                artifactRules = "vue.zip!** => examples/vue-kitchen-sink/storybook-static"
-            }
-        }
-        dependency(OpenSourceProjects_Storybook.buildTypes.OpenSourceProjects_Storybook_Angular) {
-            snapshot {
-                onDependencyCancel = FailureAction.CANCEL
-            }
-
-            artifacts {
-                artifactRules = "angular.zip!** => examples/angular-cli/storybook-static"
-            }
-        }
-        dependency(OpenSourceProjects_Storybook.buildTypes.OpenSourceProjects_Storybook_Polymer) {
-            snapshot {
-                onDependencyCancel = FailureAction.CANCEL
-            }
-
-            artifacts {
-                artifactRules = "polymer.zip!** => examples/polymer-cli/storybook-static"
-            }
-        }
-        dependency(OpenSourceProjects_Storybook.buildTypes.OpenSourceProjects_Storybook_Mithril) {
-            snapshot {
-                onDependencyCancel = FailureAction.CANCEL
-            }
-
-            artifacts {
-                artifactRules = "mithril.zip!** => examples/mithril-kitchen-sink/storybook-static"
+                if (merged) {
+                    artifacts {
+                        cleanDestination = true
+                        artifactRules = "$lowerName.zip!** => examples/$exampleDir/storybook-static"
+                    }
+                }
             }
         }
     }
