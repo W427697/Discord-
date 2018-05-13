@@ -1,0 +1,1 @@
+{"version":3,"file":"setup.js","sourceRoot":"","sources":["setup.ts"],"names":[],"mappings":";;AAAA,QAA6B;AAC7B,QAAuB","sourcesContent":["import 'jest-preset-angular';\nimport './globalMocks';\n"]}
