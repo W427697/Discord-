@@ -172,6 +172,8 @@ Internally here are the steps:
 - Browses each stories (calling _<http://localhost:6006/iframe.html?...>_ URL),
 - Take screenshots & save all images under _\_image_snapshots\__ folder.
 
+**Puppeteer is not installed by default** as that would increase install times for all storyshot users. `yarn add puppeteer --dev` will save it to your package.json. This will fix the error `Jest: 'it' and 'test' must return either a Promise or undefined.`
+
 ### Specifying the storybook URL
 
 If you want to set specific storybook URL, you can specify via the `storybookUrl` parameter, see below: 
