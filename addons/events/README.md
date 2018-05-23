@@ -46,7 +46,7 @@ const emiter = new EventEmiter();
 const emit = emiter.emit.bind(emiter);
 
 
-storiesOf('WithEvents', module)
+storiesOf('withEvents', module)
   .addDecorator(
     withEvents({
       emit,

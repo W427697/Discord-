@@ -1,6 +1,5 @@
 import addons from '@storybook/addons';
 import CoreEvents from '@storybook/core-events';
-import deprecate from 'util-deprecate';
 
 import { EVENTS } from './constants';
 
@@ -30,17 +29,7 @@ const addEvents = ({ emit, events }) => {
   addons.getChannel().emit(CoreEvents.REGISTER_SUBSCRIPTION, subscription);
 };
 
-const WithEvents = deprecate(({ children, ...options }) => {
+export default options => story => {
   addEvents(options);
-  return children;
-}, `<WithEvents> usage is deprecated, use .addDecorator(withEvents({emit, events})) instead`);
-
-export default options => {
-  if (options.children) {
-    return WithEvents(options);
-  }
-  return story => {
-    addEvents(options);
-    return story();
-  };
+  return story();
 };

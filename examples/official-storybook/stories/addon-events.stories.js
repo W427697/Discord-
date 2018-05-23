@@ -70,12 +70,3 @@ const events = [
 storiesOf('Addons|Events', module)
   .addDecorator(withEvents({ emit, events }))
   .add('Logger', () => <Logger emitter={emitter} />);
-
-const WithEvents = withEvents;
-storiesOf('Addons|Events/WithEvents (deprecated)', module)
-  .addDecorator(story => (
-    <WithEvents emit={emit} events={events}>
-      {story()}
-    </WithEvents>
-  ))
-  .add('Logger', () => <Logger emitter={emitter} />);
