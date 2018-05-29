@@ -17,7 +17,7 @@ const emitAddTests = ({ kind, story, testFiles, options }) => {
   addons.getChannel().emit('storybook/tests/add_tests', {
     kind,
     storyName: story,
-    tests: findTestResults(testFiles, options.results, options.filesExt),
+    tests: findTestResults(testFiles, options.testResults, options.filesExt),
   });
 };
 
