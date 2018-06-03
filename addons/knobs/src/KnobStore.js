@@ -31,6 +31,11 @@ export default class KnobStore {
     this.store = {};
   }
 
+  update(key, value) {
+    this.store[key].value = value;
+    this.callbacks.forEach(cb => cb());
+  }
+
   markAllUnused() {
     Object.keys(this.store).forEach(knobName => {
       this.store[knobName].used = false;

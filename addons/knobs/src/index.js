@@ -69,6 +69,10 @@ export function files(name, accept, value = []) {
   return manager.knob(name, { type: 'files', accept, value });
 }
 
+export function update(name, value) {
+  return manager.update(name, value);
+}
+
 const defaultOptions = {
   escapeHTML: true,
 };

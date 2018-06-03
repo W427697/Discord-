@@ -66,6 +66,11 @@ export default class KnobManager {
     return this.getKnobValue(knobStore.get(name));
   }
 
+  update(name, value) {
+    this.knobStore.update(name, value);
+    this.channel.emit('addon:knobs:update');
+  }
+
   _mayCallChannel() {
     // Re rendering of the story may cause changes to the knobStore. Some new knobs maybe added and
     // Some knobs may go unused. So we need to update the panel accordingly. For example remove the

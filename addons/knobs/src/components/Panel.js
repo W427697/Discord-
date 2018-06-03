@@ -43,6 +43,7 @@ export default class Panel extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.setKnobs = this.setKnobs.bind(this);
     this.reset = this.reset.bind(this);
+    this.update = this.update.bind(this);
     this.setOptions = this.setOptions.bind(this);
     this.onGroupSelect = this.onGroupSelect.bind(this);
 
@@ -56,6 +57,7 @@ export default class Panel extends React.Component {
   componentDidMount() {
     this.props.channel.on('addon:knobs:setKnobs', this.setKnobs);
     this.props.channel.on('addon:knobs:setOptions', this.setOptions);
+    this.props.channel.on('addon:knobs:update', this.update);
 
     this.stopListeningOnStory = this.props.api.onStory(() => {
       this.setState({ knobs: [], groupId: DEFAULT_GROUP_ID });
@@ -104,6 +106,10 @@ export default class Panel extends React.Component {
 
   reset() {
     this.props.channel.emit('addon:knobs:reset');
+  }
+
+  update() {
+    this.props.channel.emit('addon:knobs:update2');
   }
 
   emitChange(changedKnob) {

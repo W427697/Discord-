@@ -40,11 +40,18 @@ function resetKnobs() {
   setPaneKnobs(false);
 }
 
+function valueChanged() {
+  // console.log('valueChanged');
+  forceReRender();
+  // knobStore.markAllUnused();
+}
+
 function disconnectCallbacks() {
   const channel = addons.getChannel();
   channel.removeListener('addon:knobs:knobChange', knobChanged);
   channel.removeListener('addon:knobs:knobClick', knobClicked);
   channel.removeListener('addon:knobs:reset', resetKnobs);
+  channel.removeListener('addon:knobs:update2', valueChanged);
   knobStore.unsubscribe(setPaneKnobs);
 }
 
@@ -53,6 +60,7 @@ function connectCallbacks() {
   channel.on('addon:knobs:knobChange', knobChanged);
   channel.on('addon:knobs:knobClick', knobClicked);
   channel.on('addon:knobs:reset', resetKnobs);
+  channel.on('addon:knobs:update2', valueChanged);
   knobStore.subscribe(setPaneKnobs);
 
   return disconnectCallbacks;

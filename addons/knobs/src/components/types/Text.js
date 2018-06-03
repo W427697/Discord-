@@ -3,7 +3,6 @@ import React from 'react';
 import styled from 'react-emotion';
 
 import Textarea from 'react-textarea-autosize';
-import debounce from 'lodash.debounce';
 
 const StyledTextarea = styled(Textarea)({
   display: 'table-cell',
@@ -21,16 +20,6 @@ const StyledTextarea = styled(Textarea)({
 });
 
 class TextType extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      value: props.knob.value,
-    };
-
-    this.onChange = debounce(props.onChange, 200);
-  }
-
   componentWillUnmount() {
     this.onChange.cancel();
   }
@@ -38,16 +27,13 @@ class TextType extends React.Component {
   handleChange = event => {
     const { value } = event.target;
 
-    this.setState({ value });
-
-    this.onChange(value);
+    this.props.onChange(value);
   };
 
   render() {
     const { knob } = this.props;
-    const { value } = this.state;
 
-    return <StyledTextarea id={knob.name} value={value} onChange={this.handleChange} />;
+    return <StyledTextarea id={knob.name} value={knob.value} onChange={this.handleChange} />;
   }
 }
 
