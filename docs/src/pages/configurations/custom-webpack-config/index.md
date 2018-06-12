@@ -30,6 +30,12 @@ module.exports = {
         include: path.resolve(__dirname, "../")
       }
     ]
+  },
+  // This relevant only for Vuejs projects:
+  resolve: {
+    alias: {
+      vue: 'vue/dist/vue.js'
+    }
   }
 };
 ```
