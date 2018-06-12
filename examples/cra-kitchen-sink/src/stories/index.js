@@ -7,7 +7,6 @@
 // import { action } from '@storybook/addon-actions';
 // import { withNotes, WithNotes } from '@storybook/addon-notes';
 // import { LinkTo, linkTo, hrefTo } from '@storybook/addon-links';
-// import WithEvents from '@storybook/addon-events';
 // import {
 //   withKnobs,
 //   text,
@@ -226,63 +225,6 @@
 // storiesOf('Some really long story kind description', module)
 //   .addDecorator(centered)
 //   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>);
-
-// storiesOf('WithEvents', module)
-//   .addDecorator(getStory => (
-//     <WithEvents
-//       emit={emit}
-//       events={[
-//         {
-//           name: EVENTS.TEST_EVENT_1,
-//           title: 'Test event 1',
-//           payload: 0,
-//         },
-//         {
-//           name: EVENTS.TEST_EVENT_2,
-//           title: 'Test event 2',
-//           payload: 'Test event 2',
-//         },
-//         {
-//           name: EVENTS.TEST_EVENT_3,
-//           title: 'Test event 3',
-//           payload: {
-//             string: 'value',
-//             number: 123,
-//             array: [1, 2, 3],
-//             object: {
-//               string: 'value',
-//               number: 123,
-//               array: [1, 2, 3],
-//             },
-//           },
-//         },
-//         {
-//           name: EVENTS.TEST_EVENT_4,
-//           title: 'Test event 4',
-//           payload: [
-//             {
-//               string: 'value',
-//               number: 123,
-//               array: [1, 2, 3],
-//             },
-//             {
-//               string: 'value',
-//               number: 123,
-//               array: [1, 2, 3],
-//             },
-//             {
-//               string: 'value',
-//               number: 123,
-//               array: [1, 2, 3],
-//             },
-//           ],
-//         },
-//       ]}
-//     >
-//       {getStory()}
-//     </WithEvents>
-//   ))
-//   .add('Logger', () => <Logger emiter={emiter} />);
 
 // storiesOf('withNotes', module)
 //   .add('with some text', withNotes('Hello guys')(() => <div>Hello guys</div>))

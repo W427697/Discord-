@@ -6,6 +6,7 @@
     -   [Keyboard shortcuts moved](#keyboard-shortcuts-moved)
     -   [Removed addWithInfo](#removed-add-with-info)
     -   [Removed RN addons](#removed-rn-addons)
+    -   [Removed WithEvents](#removed-with-events)
 -   [From version 3.3.x to 3.4.x](#from-version-33x-to-34x)
 -   [From version 3.2.x to 3.3.x](#from-version-32x-to-33x)
     -   [Refactored Knobs](#refactored-knobs)
@@ -39,6 +40,10 @@ With 4.0 as our first major release in over a year, we've collected a lot of cle
 ### Removed RN addons
 
 The `@storybook/react-native` had built-in addons (`addon-actions` and `addon-links`) that have been marked as deprecated since 3.x. They have been fully removed in 4.x. If your project still uses the built-ins, you'll need to add explicit dependencies on `@storybook/addon-actions` and/or `@storybook/addon-links` and import directly from those packages.
+
+### Removed WithEvents
+
+Removed the `WithEvents` component from `@storybook/addon-events`. See package [README](https://github.com/storybooks/storybook/blob/master/addons/events/README.md) for the proper usage.
 
 ## From version 3.3.x to 3.4.x
 
