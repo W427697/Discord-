@@ -27,32 +27,30 @@ export function getLibraryProjects(baseDir = process.cwd()) {
 }
 
 export function getProjectAliases(projects, baseDir = process.cwd()) {
-  return projects
-    .map(project => {
-      let entryFile = 'src/public_api.ts';
+  return projects.reduce((aliases, project) => {
+    let entryFile = 'src/public_api.ts';
 
-      const projectFile = get(
-        project,
-        'architect.build.options.project',
-        path.join(project.root, 'ng-package.json')
-      );
-      const ngPackageFile = path.resolve(baseDir, projectFile);
-      const ngPackage = JSON.parse(fs.readFileSync(ngPackageFile, 'utf8'));
-      const packageJson = JSON.parse(
-        fs.readFileSync(path.resolve(baseDir, project.root, 'package.json'))
-      );
+    const projectFile = get(
+      project,
+      'architect.build.options.project',
+      path.join(project.root, 'ng-package.json')
+    );
+    const ngPackageFile = path.resolve(baseDir, projectFile);
+    const ngPackage = JSON.parse(fs.readFileSync(ngPackageFile, 'utf8'));
+    const packageJson = JSON.parse(
+      fs.readFileSync(path.resolve(baseDir, project.root, 'package.json'))
+    );
 
-      if (ngPackage.lib && ngPackage.lib.entryFile) {
-        // eslint-disable-next-line prefer-destructuring
-        entryFile = ngPackage.lib.entryFile;
-      }
+    if (ngPackage.lib && ngPackage.lib.entryFile) {
+      // eslint-disable-next-line prefer-destructuring
+      entryFile = ngPackage.lib.entryFile;
+    }
 
-      return {
-        alias: packageJson.name,
-        file: path.resolve(path.dirname(ngPackageFile), entryFile),
-      };
-    })
-    .reduce((aliases, { alias, file }) => ({ ...aliases, [alias]: file }), {});
+    return {
+      ...aliases,
+      [packageJson.name]: path.resolve(path.dirname(ngPackageFile), entryFile),
+    };
+  }, {});
 }
 
 export function getAngularCliWebpackConfigOptions(dirToSearch) {
