@@ -1,0 +1,17 @@
+{
+  "name": "hyperapp-example",
+  "version": "4.0.0-alpha.9",
+  "private": true,
+  "scripts": {
+    "build": "parcel build index.html --public-url ./",
+    "start": "parcel index.html"
+  },
+  "dependencies": {
+    "hyperapp": "^1.2.6"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "parcel": "^1.9.0"
+  }
+}
