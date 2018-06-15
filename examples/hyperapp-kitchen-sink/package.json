@@ -9,7 +9,8 @@
     "storybook": "start-storybook -p 9009"
   },
   "dependencies": {
-    "hyperapp": "^1.2.6"
+    "hyperapp": "^1.2.6",
+    "picostyle": "^2.0.1"
   },
   "devDependencies": {
     "@storybook/addon-actions": "4.0.0-alpha.9",
