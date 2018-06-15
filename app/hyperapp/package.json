@@ -1,6 +1,6 @@
 {
   "name": "@storybook/hyperapp",
-  "version": "1.0.0-alpha",
+  "version": "4.0.0-alpha.9",
   "description": "Storybook for Hyperapp: Develop Hyperapp Component in isolation with Hot Reloading.",
   "homepage": "https://github.com/storybooks/storybook/tree/master/apps/hyperapp",
   "bugs": {
