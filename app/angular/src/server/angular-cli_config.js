@@ -1,17 +1,62 @@
 import path from 'path';
 import fs from 'fs';
 import { logger } from '@storybook/node-logger';
+import get from 'lodash.get';
 import { isBuildAngularInstalled, normalizeAssetPatterns } from './angular-cli_utils';
 
-export function getAngularCliWebpackConfigOptions(dirToSearch) {
+export function getAngularJson(dirToSearch) {
   const fname = path.join(dirToSearch, 'angular.json');
 
   if (!fs.existsSync(fname)) {
     return null;
   }
 
-  const angularJson = JSON.parse(fs.readFileSync(fname, 'utf8'));
-  const { projects, defaultProject } = angularJson;
+  return JSON.parse(fs.readFileSync(fname, 'utf8'));
+}
+
+export function getLibraryProjects(baseDir = process.cwd()) {
+  const { projects } = getAngularJson(baseDir);
+
+  if (!projects || !Object.keys(projects).length) {
+    throw new Error('angular.json must have projects entry.');
+  }
+
+  return Object.keys(projects)
+    .map(name => projects[name])
+    .filter(project => project.projectType === 'library');
+}
+
+export function getProjectAliases(projects, baseDir = process.cwd()) {
+  return projects
+    .map(project => {
+      let entryFile = 'src/public_api.ts';
+
+      const projectFile = get(
+        project,
+        'architect.build.options.project',
+        path.join(project.root, 'ng-package.json')
+      );
+      const ngPackageFile = path.resolve(baseDir, projectFile);
+      const ngPackage = JSON.parse(fs.readFileSync(ngPackageFile, 'utf8'));
+      const packageJson = JSON.parse(
+        fs.readFileSync(path.resolve(baseDir, project.root, 'package.json'))
+      );
+
+      if (ngPackage.lib && ngPackage.lib.entryFile) {
+        // eslint-disable-next-line prefer-destructuring
+        entryFile = ngPackage.lib.entryFile;
+      }
+
+      return {
+        alias: packageJson.name,
+        file: path.resolve(path.dirname(ngPackageFile), entryFile),
+      };
+    })
+    .reduce((aliases, { alias, file }) => ({ ...aliases, [alias]: file }), {});
+}
+
+export function getAngularCliWebpackConfigOptions(dirToSearch) {
+  const { projects, defaultProject } = getAngularJson(dirToSearch);
 
   if (!projects || !Object.keys(projects).length) {
     throw new Error('angular.json must have projects entry.');
@@ -70,6 +115,16 @@ export function applyAngularCliWebpackConfig(baseConfig, cliWebpackConfigOptions
   }
   logger.info('=> Get angular-cli webpack config.');
 
+  const libraryProjects = getLibraryProjects();
+
+  let projectAliases;
+
+  if (libraryProjects.length) {
+    logger.info(`=> Found ${libraryProjects.length} library project(s).`);
+
+    projectAliases = getProjectAliases(libraryProjects);
+  }
+
   // Don't use storybooks .css/.scss rules because we have to use rules created by @angular-devkit/build-angular
   // because @angular-devkit/build-angular created rules have include/exclude for global style files.
   const rulesExcludingStyles = baseConfig.module.rules.filter(
@@ -97,5 +152,12 @@ export function applyAngularCliWebpackConfig(baseConfig, cliWebpackConfigOptions
     module: mod,
     plugins,
     resolveLoader: cliCommonConfig.resolveLoader,
+    resolve: {
+      ...baseConfig.resolve,
+      alias: {
+        ...baseConfig.resolve.alias,
+        ...projectAliases,
+      },
+    },
   };
 }
