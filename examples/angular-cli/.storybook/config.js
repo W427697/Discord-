@@ -19,6 +19,7 @@ function loadStories() {
 
   req.keys().forEach(filename => req(filename));
 
+  // Remove this if you don't have any library projects
   req = require.context('../projects', true, /\.stories\.ts$/);
 
   req.keys().forEach(filename => req(filename));
