@@ -54,7 +54,13 @@ export function getProjectAliases(projects, baseDir = process.cwd()) {
 }
 
 export function getAngularCliWebpackConfigOptions(dirToSearch) {
-  const { projects, defaultProject } = getAngularJson(dirToSearch);
+  const angularJson = getAngularJson(dirToSearch);
+
+  if (!angularJson) {
+    return null;
+  }
+
+  const { projects, defaultProject } = angularJson;
 
   if (!projects || !Object.keys(projects).length) {
     throw new Error('angular.json must have projects entry.');
