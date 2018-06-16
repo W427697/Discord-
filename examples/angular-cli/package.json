@@ -76,6 +76,10 @@
     "jasmine-spec-reporter": "~4.2.1",
     "jest": "^22.4.4",
     "jest-preset-angular": "^5.2.2",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage-istanbul-reporter": "^2.0.1",
+    "karma-jasmine": "^1.1.2",
+    "karma-jasmine-html-reporter": "^1.1.0",
     "protractor": "~5.3.2",
     "ts-node": "~6.1.0",
     "typescript": "^2.9.1"

@@ -13,7 +13,15 @@ function loadStories() {
   require('../src/stories');
 
   // automatically import all story ts files that end with *.stories.ts
-  const req = require.context('../src/stories', true, /\.stories\.ts$/);
+  let req;
+
+  req = require.context('../src/stories', true, /\.stories\.ts$/);
+
+  req.keys().forEach(filename => req(filename));
+
+  // Remove this if you don't have any library projects
+  req = require.context('../projects', true, /\.stories\.ts$/);
+
   req.keys().forEach(filename => req(filename));
 }
 
