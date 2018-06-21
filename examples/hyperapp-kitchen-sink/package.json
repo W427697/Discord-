@@ -1,0 +1,32 @@
+{
+  "name": "hyperapp-example",
+  "version": "4.0.0-alpha.9",
+  "private": true,
+  "scripts": {
+    "build": "parcel build index.html --public-url ./",
+    "start": "parcel index.html",
+    "build-storybook": "build-storybook",
+    "storybook": "start-storybook -p 9009"
+  },
+  "dependencies": {
+    "hyperapp": "^1.2.6",
+    "picostyle": "^2.0.1"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "4.0.0-alpha.9",
+    "@storybook/addon-backgrounds": "4.0.0-alpha.9",
+    "@storybook/addon-centered": "4.0.0-alpha.9",
+    "@storybook/addon-knobs": "4.0.0-alpha.9",
+    "@storybook/addon-links": "4.0.0-alpha.9",
+    "@storybook/addon-notes": "4.0.0-alpha.9",
+    "@storybook/addon-options": "4.0.0-alpha.9",
+    "@storybook/addon-storyshots": "4.0.0-alpha.9",
+    "@storybook/addon-storysource": "4.0.0-alpha.9",
+    "@storybook/addon-viewport": "4.0.0-alpha.9",
+    "@storybook/addons": "4.0.0-alpha.9",
+    "@storybook/hyperapp": "4.0.0-alpha.9",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "parcel": "^1.9.0"
+  }
+}

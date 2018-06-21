@@ -56,6 +56,13 @@ elif [ "$BUILD_CONTEXT" = "MARKO" ]; then
   yarn build-storybook
   mv storybook-static ../../netlify-build
   popd
+elif [ "$BUILD_CONTEXT" = "HYPERAPP" ]; then
+  echo "netlify-build Hyperapp examples"
+  pushd examples/hyperapp-kitchen-sink
+  yarn
+  yarn build-storybook
+  mv storybook-static ../../netlify-build
+  popd
 elif [ "$BUILD_CONTEXT" = "HTML" ]; then
   echo "netlify-build HTML examples"
   pushd examples/html-kitchen-sink
