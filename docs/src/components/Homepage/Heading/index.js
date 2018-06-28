@@ -10,7 +10,7 @@ const Heading = () => (
       <h3 className="sb-tagline">
         The UI Development Environment
         <br />
-        You'll ♥️ to use
+        You'll ❤ to use
       </h3>
     </div>
   </div>
