@@ -1,15 +1,19 @@
-import { document } from 'global';
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import { document, window } from 'global';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { stripIndents } from 'common-tags';
 import isReactRenderable from './element_check';
 
+Enzyme.configure({ adapter: new Adapter() });
+
 const rootEl = document.getElementById('root');
 
 function render(node, el) {
-  ReactDOM.render(
+  window.storyEl = Enzyme.mount(
     process.env.STORYBOOK_EXAMPLE_APP ? <React.StrictMode>{node}</React.StrictMode> : node,
-    el
+    { attachTo: el }
   );
 }
 
