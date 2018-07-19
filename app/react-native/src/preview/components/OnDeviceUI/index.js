@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
 
-import { Dimensions, View, TouchableWithoutFeedback, Image, Text } from 'react-native';
+import { Dimensions, View, TouchableOpacity, Text } from 'react-native';
 import Events from '@storybook/core-events';
 import style from './style';
 import StoryListView from '../StoryListView';
@@ -16,9 +16,6 @@ const isDeviceInPortrait = () => {
   return dim.height >= dim.width;
 };
 
-const openMenuImage = require('./menu_open.png');
-const closeMenuImage = require('./menu_close.png');
-
 const DRAWER_WIDTH = 250;
 
 export default class OnDeviceUI extends Component {
@@ -26,6 +23,7 @@ export default class OnDeviceUI extends Component {
     super(...args);
 
     this.state = {
+      isUIVisible: true,
       isMenuOpen: false,
       selectedKind: null,
       selectedStory: null,
@@ -63,9 +61,26 @@ export default class OnDeviceUI extends Component {
     });
   };
 
+  handleToggleUI = () => {
+    this.setState({
+      isUIVisible: !this.state.isUIVisible,
+    });
+  };
+
+  renderVisibilityButton = () => (
+    <TouchableOpacity
+      onPress={this.handleToggleUI}
+      testID="Storybook.OnDeviceUI.toggleUI"
+      accessibilityLabel="Storybook.OnDeviceUI.toggleUI"
+      style={style.hideButton}
+    >
+      <Text style={style.text}>o</Text>
+    </TouchableOpacity>
+  );
+
   render() {
     const { stories, events, url } = this.props;
-    const { isPortrait, isMenuOpen, selectedKind, selectedStory } = this.state;
+    const { isPortrait, isMenuOpen, selectedKind, selectedStory, isUIVisible } = this.state;
 
     const iPhoneXStyles = ifIphoneX(
       isPortrait
@@ -90,63 +105,44 @@ export default class OnDeviceUI extends Component {
       iPhoneXStyles,
     ];
 
-    const headerStyles = [
-      style.headerContainer,
-      {
-        opacity: +!isMenuOpen,
-      },
-    ];
-
     const previewContainerStyles = [style.previewContainer, iPhoneXStyles];
 
     const previewWrapperStyles = [style.previewWrapper, iPhoneXStyles];
 
-    /*
-      Checks if import is a base64 encoded string uri.
-      If using haul as bundler, some projects are set up to include small files as base64 strings.
-     */
-    let openIcon = openMenuImage;
-    if (typeof openIcon === 'string') {
-      openIcon = { uri: openMenuImage };
-    }
-    let closeIcon = closeMenuImage;
-    if (typeof closeIcon === 'string') {
-      closeIcon = { uri: closeMenuImage };
-    }
-
     return (
       <View style={style.main}>
         <View style={previewContainerStyles}>
-          <View style={headerStyles}>
-            <TouchableWithoutFeedback
-              onPress={this.handleToggleMenu}
-              testID="Storybook.OnDeviceUI.open"
-              accessibilityLabel="Storybook.OnDeviceUI.open"
-            >
-              <View>
-                <Image source={openIcon} style={style.icon} />
-              </View>
-            </TouchableWithoutFeedback>
-            <Text style={style.headerText} numberOfLines={1}>
-              {selectedKind} {selectedStory}
-            </Text>
-          </View>
+          {isUIVisible ? (
+            <View style={style.headerContainer}>
+              <TouchableOpacity
+                onPress={this.handleToggleMenu}
+                testID="Storybook.OnDeviceUI.open"
+                accessibilityLabel="Storybook.OnDeviceUI.open"
+              >
+                <View>
+                  <Text style={style.text}>List</Text>
+                </View>
+              </TouchableOpacity>
+              {this.renderVisibilityButton()}
+            </View>
+          ) : null}
           <View style={previewWrapperStyles}>
             <View style={style.preview}>
               <StoryView url={url} events={events} />
             </View>
           </View>
+          {!isUIVisible ? this.renderVisibilityButton() : null}
         </View>
         <View style={menuStyles}>
-          <TouchableWithoutFeedback
+          <TouchableOpacity
             onPress={this.handleToggleMenu}
             testID="Storybook.OnDeviceUI.close"
             accessibilityLabel="Storybook.OnDeviceUI.close"
           >
-            <View style={style.closeButton}>
-              <Image source={closeIcon} style={style.icon} />
+            <View>
+              <Text style={style.closeButton}>x</Text>
             </View>
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
           <StoryListView
             stories={stories}
             events={events}

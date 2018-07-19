@@ -7,13 +7,15 @@ export default {
     backgroundColor: 'white',
   },
   icon: {
-    width: 30,
-    height: 30,
+    width: 20,
+    height: 20,
   },
   headerContainer: {
+    paddingVertical: 4,
+    paddingLeft: 4,
     flexDirection: 'row',
-    alignItems: 'center',
-    margin: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
   },
   headerText: {
     marginLeft: 10,
@@ -26,6 +28,9 @@ export default {
     paddingHorizontal: 10,
     paddingBottom: 10,
     backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderRightWidth: 1,
+    borderColor: 'black',
   },
   previewContainer: {
     flex: 1,
@@ -33,10 +38,19 @@ export default {
   previewWrapper: {
     flex: 1,
   },
-  closeButton: {
-    marginVertical: 10,
+  text: {
+    fontSize: 16,
+  },
+  hideButton: {
+    position: 'absolute',
+    right: 5,
+    top: 4,
   },
   preview: {
     ...StyleSheet.absoluteFillObject,
+  },
+  closeButton: {
+    fontSize: 24,
+    fontWeight: 'bold',
   },
 };
