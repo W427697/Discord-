@@ -1,22 +1,9 @@
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
-import styled from 'react-emotion';
 
-const Radio = styled('fieldset')({
-  display: 'table-cell',
-  boxSizing: 'border-box',
-  verticalAlign: 'middle',
-  height: '26px',
-  width: '100%',
-  outline: 'none',
-  border: '1px solid #f7f4f4',
-  borderRadius: 2,
-  fontSize: 11,
-  padding: '5px',
-  color: '#555',
-});
+import { RadioList, RadioItem, RadioLabel } from '@storybook/components';
 
-class RadioType extends React.Component {
+class RadioType extends Component {
   renderOptionList({ options }) {
     if (Array.isArray(options)) {
       return options.map(val => this.renderOption(val, val));
@@ -26,10 +13,10 @@ class RadioType extends React.Component {
 
   renderOption(key, value) {
     return (
-      <li key={key}>
-        <input type="radio" id={value} name="select" value={value} />
-        <label htmlFor={value}>{key}</label>
-      </li>
+      <RadioItem key={key}>
+        <input type="radio" id={value} name={this.props.knob.name} value={value} />
+        <RadioLabel htmlFor={value}>{key}</RadioLabel>
+      </RadioItem>
     );
   }
 
@@ -37,9 +24,9 @@ class RadioType extends React.Component {
     const { knob, onChange } = this.props;
 
     return (
-      <Radio id={knob.name} value={knob.value} onChange={e => onChange(e.target.value)}>
-        <ul>{this.renderOptionList(knob)}</ul>
-      </Radio>
+      <RadioList id={knob.name} value={knob.value} onChange={e => onChange(e.target.value)}>
+        {this.renderOptionList(knob)}
+      </RadioList>
     );
   }
 }
