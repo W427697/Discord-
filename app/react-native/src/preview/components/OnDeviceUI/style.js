@@ -16,6 +16,7 @@ export default {
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: 'black',
+    alignItems: 'center',
   },
   headerText: {
     marginLeft: 10,
@@ -39,12 +40,16 @@ export default {
     flex: 1,
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
+  },
+  showStoriesButton: {
+    fontSize: 18,
   },
   hideButton: {
+    backgroundColor: 'transparent',
     position: 'absolute',
     right: 5,
-    top: 4,
+    top: 1,
   },
   preview: {
     ...StyleSheet.absoluteFillObject,

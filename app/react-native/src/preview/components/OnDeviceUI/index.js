@@ -7,6 +7,7 @@ import Events from '@storybook/core-events';
 import style from './style';
 import StoryListView from '../StoryListView';
 import StoryView from '../StoryView';
+import AddonsList from './addons';
 
 /**
  * Returns true if the screen is in portrait mode
@@ -105,6 +106,11 @@ export default class OnDeviceUI extends Component {
       iPhoneXStyles,
     ];
 
+    const headerStyles = [
+      style.headerContainer,
+      !isUIVisible && { opacity: 0, position: 'absolute' },
+    ];
+
     const previewContainerStyles = [style.previewContainer, iPhoneXStyles];
 
     const previewWrapperStyles = [style.previewWrapper, iPhoneXStyles];
@@ -112,20 +118,19 @@ export default class OnDeviceUI extends Component {
     return (
       <View style={style.main}>
         <View style={previewContainerStyles}>
-          {isUIVisible ? (
-            <View style={style.headerContainer}>
-              <TouchableOpacity
-                onPress={this.handleToggleMenu}
-                testID="Storybook.OnDeviceUI.open"
-                accessibilityLabel="Storybook.OnDeviceUI.open"
-              >
-                <View>
-                  <Text style={style.text}>List</Text>
-                </View>
-              </TouchableOpacity>
-              {this.renderVisibilityButton()}
-            </View>
-          ) : null}
+          <View style={headerStyles}>
+            <TouchableOpacity
+              onPress={this.handleToggleMenu}
+              testID="Storybook.OnDeviceUI.open"
+              accessibilityLabel="Storybook.OnDeviceUI.open"
+            >
+              <View>
+                <Text style={style.text}>≡</Text>
+              </View>
+            </TouchableOpacity>
+            <AddonsList />
+            {this.renderVisibilityButton()}
+          </View>
           <View style={previewWrapperStyles}>
             <View style={style.preview}>
               <StoryView url={url} events={events} />
