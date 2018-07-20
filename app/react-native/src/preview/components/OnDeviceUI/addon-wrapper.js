@@ -35,8 +35,19 @@ export default class AddonWrapper extends PureComponent {
   }
 
   componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
+    if (Platform.OS === 'ios') {
+      this.keyboardDidShowListener = Keyboard.addListener(
+        'keyboardWillShow',
+        this.keyboardWillShow
+      );
+      this.keyboardDidHideListener = Keyboard.addListener(
+        'keyboardWillHide',
+        this.keyboardWillHide
+      );
+    } else {
+      this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
+      this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
+    }
 
     // Initialize PanResponder with move handling
     this.panResponder = PanResponder.create({
@@ -106,7 +117,7 @@ export default class AddonWrapper extends PureComponent {
       const shouldResizeBy = shouldAnimateTo < 10 ? 10 - shouldAnimateTo : 0;
 
       Animated.timing(this.state.pan, {
-        duration: event.duration,
+        duration: event.duration || 100,
         toValue: { y: shouldAnimateTo < 10 ? 10 : shouldAnimateTo, x: this.state.pan.x._value },
       }).start();
 
@@ -115,7 +126,7 @@ export default class AddonWrapper extends PureComponent {
         this.lastResize = this.state.resize.y._value;
 
         Animated.timing(this.state.resize, {
-          duration: event.duration,
+          duration: event.duration || 100,
           toValue: {
             y: this.state.resize.y._value - shouldResizeBy,
             x: this.state.resize.x._value,
