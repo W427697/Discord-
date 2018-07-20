@@ -10,9 +10,17 @@ export default class AddonsList extends Component {
     super(...args);
 
     addons.loadAddons();
+    const panels = addons.getPanels();
+
+    this.addons = Object.keys(panels).reduce((acc, addonKey) => {
+      acc[addonKey] = {
+        title: panels[addonKey].title,
+        render: panels[addonKey].render(),
+      };
+      return acc;
+    }, {});
 
     this.state = {
-      addons: addons.getPanels(),
       selectedAddon: null,
       addonVisible: false,
     };
@@ -38,20 +46,20 @@ export default class AddonsList extends Component {
   );
 
   render() {
-    const addonKeys = Object.keys(this.state.addons);
+    const addonKeys = Object.keys(this.addons);
 
     return (
       <View>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal style={style.addonList}>
-          {addonKeys.map(id => this.renderTab(id, this.state.addons[id].title))}
+          {addonKeys.map(id => this.renderTab(id, this.addons[id].title))}
         </ScrollView>
         <AddonWrapper visible={this.state.addonVisible} onClose={this.onClose}>
           {addonKeys.filter(id => id !== this.state.selectedAddon).map(id => (
             <View key={id} style={style.invisible}>
-              {this.state.addons[id].render()}
+              {this.addons[id].render}
             </View>
           ))}
-          {this.state.selectedAddon ? this.state.addons[this.state.selectedAddon].render() : null}
+          {this.state.selectedAddon ? this.addons[this.state.selectedAddon].render : null}
         </AddonWrapper>
       </View>
     );
