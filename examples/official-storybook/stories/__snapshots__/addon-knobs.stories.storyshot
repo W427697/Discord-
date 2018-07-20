@@ -23,6 +23,12 @@ exports[`Storyshots Addons|Knobs.withKnobs dynamic knobs 1`] = `
 </div>
 `;
 
+exports[`Storyshots Addons|Knobs.withKnobs text listens onChange 1`] = `
+<div>
+  default text(You did not change the default value)
+</div>
+`;
+
 exports[`Storyshots Addons|Knobs.withKnobs triggers actions via button 1`] = `
 <div>
   <p>
