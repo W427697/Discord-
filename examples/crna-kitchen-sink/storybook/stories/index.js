@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text } from 'react-native';
+import { Usage } from 'storybook-usage';
 
-import { storiesOf, addParameters } from '@storybook/react-native';
+import { storiesOf, addDecorator, addParameters } from '@storybook/react-native';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { withKnobs } from '@storybook/addon-knobs';
@@ -10,6 +11,8 @@ import knobsWrapper from './Knobs';
 import Button from './Button';
 import CenterView from './CenterView';
 import Welcome from './Welcome';
+
+addDecorator(Usage);
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 

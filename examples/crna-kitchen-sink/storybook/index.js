@@ -3,11 +3,24 @@ import React, { Component } from 'react';
 import { getStorybookUI, configure } from '@storybook/react-native';
 import { setOptions } from '@storybook/addon-options';
 
+require('react-native-storybook-knobs/register').register();
+require('storybook-usage/register');
 // import stories
 configure(() => {
   // eslint-disable-next-line global-require
   require('./stories');
 }, module);
+
+const { EventEmitter } = require('events');
+
+const channel = new EventEmitter();
+
+const addons = require('@storybook/addons').default;
+
+addons.setChannel(channel);
+const rnAddons = require('@storybook/react-native').addons;
+
+rnAddons.setChannel(channel);
 
 const StorybookUIRoot = getStorybookUI({ port: 7007, onDeviceUI: true });
 

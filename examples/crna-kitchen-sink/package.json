@@ -39,6 +39,8 @@
     "expo": "^24.0.2",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
-    "react-native": "^0.51.0"
+    "react-native": "^0.51.0",
+    "react-native-storybook-knobs": "^0.0.5",
+    "storybook-usage": "^4.0.2"
   }
 }
