@@ -12,6 +12,7 @@ import {
   Keyboard,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import style from './style';
 
 export default class AddonWrapper extends PureComponent {
   constructor(props) {
@@ -144,55 +145,30 @@ export default class AddonWrapper extends PureComponent {
       transform: this.state.pan.getTranslateTransform(),
     };
 
+    const modalSize = {
+      height: this.state.resize.y,
+      width: this.state.resize.x,
+    };
+
     return (
       <View>
         <Modal visible={this.props.visible} transparent onRequestClose={this.props.onClose}>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : null}
-            style={{ flex: 1 }}
+            style={style.flex}
           >
             <TouchableWithoutFeedback onPress={this.props.onClose}>
-              <View
-                style={{
-                  flex: 1,
-                  backgroundColor: 'rgba(0,0,0,0)',
-                  marginBottom: '2%',
-                }}
-              >
+              <View style={style.modalContainer}>
                 <Animated.View
                   {...this.panResponder.panHandlers}
-                  style={[
-                    panStyle,
-                    {
-                      backgroundColor: 'white',
-                      height: this.state.resize.y,
-                      width: this.state.resize.x,
-                      borderWidth: 1,
-                      borderColor: 'black',
-                    },
-                  ]}
+                  style={[panStyle, style.addonBox, modalSize]}
                 >
-                  <View
-                    style={{
-                      backgroundColor: 'black',
-                      height: 20,
-                    }}
-                  />
-                  <View style={{ flex: 1 }}>{this.props.children}</View>
-                  <View
-                    style={{
-                      backgroundColor: 'white',
-                      height: 20,
-                      alignItems: 'flex-end',
-                    }}
-                  >
+                  <View style={style.topBar} />
+                  <View style={style.flex}>{this.props.children}</View>
+                  <View style={style.bottomBar}>
                     <Animated.View
                       {...this.resizeResponder.panHandlers}
-                      style={{
-                        backgroundColor: 'black',
-                        width: 20,
-                        height: 20,
-                      }}
+                      style={style.resizeButton}
                     />
                   </View>
                 </Animated.View>

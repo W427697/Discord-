@@ -106,10 +106,7 @@ export default class OnDeviceUI extends Component {
       iPhoneXStyles,
     ];
 
-    const headerStyles = [
-      style.headerContainer,
-      !isUIVisible && { opacity: 0, position: 'absolute' },
-    ];
+    const headerStyles = [style.headerContainer, !isUIVisible && style.invisible];
 
     const previewContainerStyles = [style.previewContainer, iPhoneXStyles];
 

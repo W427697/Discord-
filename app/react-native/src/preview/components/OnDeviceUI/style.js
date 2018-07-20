@@ -58,4 +58,43 @@ export default {
     fontSize: 24,
     fontWeight: 'bold',
   },
+  tab: {
+    marginRight: 15,
+  },
+  addonList: {
+    marginLeft: 10,
+    marginRight: 40,
+    flexDirection: 'row',
+  },
+  invisible: {
+    opacity: 0,
+    position: 'absolute',
+  },
+  flex: {
+    flex: 1,
+  },
+  addonBox: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'black',
+  },
+  topBar: {
+    backgroundColor: 'black',
+    height: 20,
+  },
+  bottomBar: {
+    backgroundColor: 'white',
+    height: 20,
+    alignItems: 'flex-end',
+  },
+  resizeButton: {
+    backgroundColor: 'black',
+    width: 20,
+    height: 20,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0)',
+    marginBottom: '2%',
+  },
 };
