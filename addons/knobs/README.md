@@ -123,8 +123,9 @@ import { text } from '@storybook/addon-knobs';
 const label = 'Your Name';
 const defaultValue = 'Arunoda Susiripala';
 const groupId = 'GROUP-ID1';
+const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
 
-const value = text(label, defaultValue, groupId);
+const value = text(label, defaultValue, groupId, options);
 ```
 
 ### boolean
@@ -137,8 +138,9 @@ import { boolean } from '@storybook/addon-knobs';
 const label = 'Agree?';
 const defaultValue = false;
 const groupId = 'GROUP-ID1';
+const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
 
-const value = boolean(label, defaultValue, groupId);
+const value = boolean(label, defaultValue, groupId, options);
 ```
 ### number
 
@@ -150,8 +152,8 @@ import { number } from '@storybook/addon-knobs';
 const label = 'Age';
 const defaultValue = 78;
 const groupId = 'GROUP-ID1';
-
-const value = number(label, defaultValue);
+const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
+const value = number(label, defaultValue, options, groupId);
 ```
 
 For use with `groupId`, pass the default `options` as the third argument
@@ -172,6 +174,7 @@ const options = {
    min: 60,
    max: 90,
    step: 1,
+   onChange: ({ name, type, value }) => { handleChange(name, type, value) }
 };
 const groupId = 'GROUP-ID1';
 
@@ -188,8 +191,9 @@ import { color } from '@storybook/addon-knobs';
 const label = 'Color';
 const defaultValue = '#ff00ff';
 const groupId = 'GROUP-ID1';
+const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
 
-const value = color(label, defaultValue, groupId);
+const value = color(label, defaultValue, groupId, options);
 ```
 
 ### object
@@ -204,8 +208,9 @@ const defaultValue = {
   backgroundColor: 'red'
 };
 const groupId = 'GROUP-ID1';
+const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
 
-const value = object(label, defaultValue, groupId);
+const value = object(label, defaultValue, groupId, options);
 ```
 
 > Make sure to enter valid JSON syntax while editing values inside the knob.
@@ -219,7 +224,6 @@ import { array } from '@storybook/addon-knobs';
 
 const label = 'Styles';
 const defaultValue = ['Red'];
-const groupId = 'GROUP-ID1';
 
 const value = array(label, defaultValue);
 ```
@@ -238,7 +242,15 @@ const value = array(label, defaultValue);
 
 For use with `groupId`, pass the default `separator` as the third argument
 ```
+const groupId = 'GROUP-ID1';
 const value = array(label, defaultValue, ',', groupId);
+```
+
+For use with `options`, pass the default `separator` and `null` as `groupId`
+```javascript
+const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
+
+const value = array(label, defaultValue, ',', null, options)
 ```
 
 ### select
@@ -258,8 +270,9 @@ const options = {
 };
 const defaultValue = 'red';
 const groupId = 'GROUP-ID1';
+const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
 
-const value = select(label, options, defaultValue, groupId);
+const value = select(label, options, defaultValue, groupId, options);
 ```
 
 > You can also provide options as an array like this: `['red', 'blue', 'yellow']`
@@ -273,8 +286,9 @@ import { files } from '@storybook/addon-knobs';
 
 const label = 'Images';
 const defaultValue = [];
+const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
 
-const value = files(label, accept, defaultValue);
+const value = files(label, accept, defaultValue, options);
 ```
 
 > Multiple files can be selected, and will be returned as an array of [Data URLs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs)
@@ -289,8 +303,9 @@ import { date } from '@storybook/addon-knobs';
 const label = 'Event Date';
 const defaultValue = new Date('Jan 20 2017');
 const groupId = 'GROUP-ID1';
+const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
 
-const value = date(label, defaultValue, groupId);
+const value = date(label, defaultValue, groupId, options);
 ```
 
 > Note: the default value must not change - e.g., do not do `date('Label', new Date())` or `date('Label')`
@@ -315,8 +330,9 @@ import { button } from '@storybook/addon-knobs';
 const label = 'Do Something';
 const handler = () => doSomething('foobar');
 const groupId = 'GROUP-ID1';
+const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
 
-button(label, handler, groupId);
+button(label, handler, groupId, options);
 ```
 
 ### withKnobs options
