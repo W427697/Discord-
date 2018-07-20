@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { storiesOf } from '@storybook/react';
+import { storiesOf, forceReRender } from '@storybook/react';
 
 import {
   withKnobs,
@@ -32,6 +32,8 @@ ItemLoader.propTypes = {
 };
 let injectedItems = [];
 let injectedIsLoading = false;
+let valueHasChanged = false;
+let lastValue = '';
 
 storiesOf('Addons|Knobs.withKnobs', module)
   .addDecorator(withKnobs)
@@ -147,6 +149,23 @@ storiesOf('Addons|Knobs.withKnobs', module)
         <p>Fruit: {fruit}</p>
         <p>Items:</p>
         <ul>{items.map(item => <li key={`${item}`}>{item}</li>)}</ul>
+      </div>
+    );
+  })
+  .add('text listens onChange', () => {
+    const onChange = knob => {
+      valueHasChanged = true;
+      lastValue = knob.value;
+      forceReRender();
+    };
+    const textThatCanChange = text('some string', 'default text', null, { onChange });
+
+    return (
+      <div>
+        {textThatCanChange}
+        {valueHasChanged
+          ? `(You changed the value with ${lastValue})`
+          : '(You did not change the default value)'}
       </div>
     );
   })
