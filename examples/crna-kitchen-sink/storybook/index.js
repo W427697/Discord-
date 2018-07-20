@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import { getStorybookUI, configure } from '@storybook/react-native';
 import { setOptions } from '@storybook/addon-options';
 
+// TODO temp disable till I find a way to fix usage addon
+console.disableYellowBox = true;
+
 require('react-native-storybook-knobs/register').register();
 require('storybook-usage/register');
 // import stories
