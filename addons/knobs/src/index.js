@@ -8,12 +8,12 @@ export function knob(name, options) {
   return manager.knob(name, options);
 }
 
-export function text(name, value, groupId) {
-  return manager.knob(name, { type: 'text', value, groupId });
+export function text(name, value, groupId, { onChange }) {
+  return manager.knob(name, { type: 'text', value, groupId, onChange });
 }
 
-export function boolean(name, value, groupId) {
-  return manager.knob(name, { type: 'boolean', value, groupId });
+export function boolean(name, value, groupId, { onChange }) {
+  return manager.knob(name, { type: 'boolean', value, groupId, onChange });
 }
 
 export function number(name, value, options = {}, groupId) {
@@ -40,33 +40,33 @@ export function number(name, value, options = {}, groupId) {
   return manager.knob(name, finalOptions);
 }
 
-export function color(name, value, groupId) {
-  return manager.knob(name, { type: 'color', value, groupId });
+export function color(name, value, groupId, { onChange }) {
+  return manager.knob(name, { type: 'color', value, groupId, onChange });
 }
 
-export function object(name, value, groupId) {
-  return manager.knob(name, { type: 'object', value, groupId });
+export function object(name, value, groupId, { onChange }) {
+  return manager.knob(name, { type: 'object', value, groupId, onChange });
 }
 
-export function select(name, options, value, groupId) {
-  return manager.knob(name, { type: 'select', selectV2: true, options, value, groupId });
+export function select(name, options, value, groupId, { onChange }) {
+  return manager.knob(name, { type: 'select', selectV2: true, options, value, groupId, onChange });
 }
 
-export function array(name, value, separator = ',', groupId) {
-  return manager.knob(name, { type: 'array', value, separator, groupId });
+export function array(name, value, separator = ',', groupId, { onChange }) {
+  return manager.knob(name, { type: 'array', value, separator, groupId, onChange });
 }
 
-export function date(name, value = new Date(), groupId) {
+export function date(name, value = new Date(), groupId, { onChange }) {
   const proxyValue = value ? value.getTime() : null;
-  return manager.knob(name, { type: 'date', value: proxyValue, groupId });
+  return manager.knob(name, { type: 'date', value: proxyValue, groupId, onChange });
 }
 
-export function button(name, callback, groupId) {
-  return manager.knob(name, { type: 'button', callback, hideLabel: true, groupId });
+export function button(name, callback, groupId, { onChange }) {
+  return manager.knob(name, { type: 'button', callback, hideLabel: true, groupId, onChange });
 }
 
-export function files(name, accept, value = []) {
-  return manager.knob(name, { type: 'files', accept, value });
+export function files(name, accept, value = [], { onChange }) {
+  return manager.knob(name, { type: 'files', accept, value, onChange });
 }
 
 const defaultOptions = {

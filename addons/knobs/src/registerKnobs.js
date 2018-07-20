@@ -24,6 +24,10 @@ function knobChanged(change) {
   knobStore.markAllUnused();
 
   forceReRender();
+
+  if (knobOptions.onChange) {
+    knobOptions.onChange(change);
+  }
 }
 
 function knobClicked(clicked) {
