@@ -49,7 +49,17 @@ export function object(name, value, groupId) {
 }
 
 export function select(name, options, value, groupId) {
-  return manager.knob(name, { type: 'select', selectV2: true, options, value, groupId });
+  return manager.knob(name, {
+    type: 'select',
+    selectV2: true,
+    options,
+    value,
+    groupId,
+  });
+}
+
+export function radio(name, options, value, groupId) {
+  return manager.knob(name, { type: 'radio', options, value, groupId });
 }
 
 export function array(name, value, separator = ',', groupId) {
@@ -62,7 +72,12 @@ export function date(name, value = new Date(), groupId) {
 }
 
 export function button(name, callback, groupId) {
-  return manager.knob(name, { type: 'button', callback, hideLabel: true, groupId });
+  return manager.knob(name, {
+    type: 'button',
+    callback,
+    hideLabel: true,
+    groupId,
+  });
 }
 
 export function files(name, accept, value = []) {

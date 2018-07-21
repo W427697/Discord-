@@ -8,6 +8,7 @@ import ArrayType from './Array';
 import DateType from './Date';
 import ButtonType from './Button';
 import FilesType from './Files';
+import RadioType from './Radio';
 
 export default {
   text: TextType,
@@ -20,4 +21,5 @@ export default {
   date: DateType,
   button: ButtonType,
   files: FilesType,
+  radio: RadioType,
 };

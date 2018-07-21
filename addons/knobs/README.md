@@ -264,6 +264,31 @@ const value = select(label, options, defaultValue, groupId);
 
 > You can also provide options as an array like this: `['red', 'blue', 'yellow']`
 
+### radio
+
+Allows you to get a value from a set of radio inputs from the user. 
+
+> Similar API to `select`, but renders with a different UI.
+
+```js
+import { radio } from '@storybook/addon-knobs';
+
+const label = 'Colors';
+const options = {
+  Red: 'red',
+  Blue: 'blue',
+  Yellow: 'yellow',
+  Rainbow: ['red', 'orange', 'etc'],
+  None: null,
+};
+const defaultValue = 'red';
+const groupId = 'GROUP-ID1';
+
+const value = radio(label, options, defaultValue, groupId);
+```
+
+> You can also provide options as an array like this: `['red', 'blue', 'yellow']`
+
 ### files
 
 Allows you to get a value from a file input from the user.
