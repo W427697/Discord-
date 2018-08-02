@@ -12,10 +12,11 @@ export default class AddonsList extends Component {
     addons.loadAddons();
     const panels = addons.getPanels();
 
+    // TODO when working on performance make sure that only main one is active
     this.addons = Object.keys(panels).reduce((acc, addonKey) => {
       acc[addonKey] = {
         title: panels[addonKey].title,
-        render: panels[addonKey].render(),
+        render: panels[addonKey].render({ active: true }),
       };
       return acc;
     }, {});
