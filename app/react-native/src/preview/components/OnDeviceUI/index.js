@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
-
 import { Dimensions, View, TouchableOpacity, Text } from 'react-native';
+import addons from '@storybook/addons';
 import Events from '@storybook/core-events';
 import style from './style';
 import StoryListView from '../StoryListView';
 import StoryView from '../StoryView';
-import AddonsList from './addons';
+import AddonsList from './addons/list';
+import AddonWrapper from './addons/wrapper';
 
 /**
  * Returns true if the screen is in portrait mode
@@ -29,7 +30,13 @@ export default class OnDeviceUI extends Component {
       selectedKind: null,
       selectedStory: null,
       isPortrait: isDeviceInPortrait(),
+      addonSelected: null,
+      addonVisible: false,
     };
+
+    addons.loadAddons();
+
+    this.panels = addons.getPanels();
   }
 
   componentDidMount() {
@@ -41,6 +48,19 @@ export default class OnDeviceUI extends Component {
     Dimensions.removeEventListener('change', this.handleDeviceRotation);
     this.props.events.removeListener(Events.SELECT_STORY, this.handleStoryChange);
   }
+
+  handleCloseAddons = () => {
+    this.setState({
+      addonVisible: false,
+    });
+  };
+
+  handlePressAddon = id => {
+    this.setState({
+      addonVisible: true,
+      addonSelected: id,
+    });
+  };
 
   handleDeviceRotation = () => {
     this.setState({
@@ -125,7 +145,8 @@ export default class OnDeviceUI extends Component {
                 <Text style={style.text}>≡</Text>
               </View>
             </TouchableOpacity>
-            <AddonsList />
+
+            <AddonsList onPressAddon={this.handlePressAddon} panels={this.panels} />
             {this.renderVisibilityButton()}
           </View>
           <View style={previewWrapperStyles}>
@@ -153,6 +174,12 @@ export default class OnDeviceUI extends Component {
             selectedStory={selectedStory}
           />
         </View>
+        <AddonWrapper
+          visible={this.state.addonVisible}
+          onClose={this.handleCloseAddons}
+          addonSelected={this.state.addonSelected}
+          panels={this.panels}
+        />
       </View>
     );
   }

@@ -4,7 +4,6 @@ import {
   Platform,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  Modal,
   View,
   PanResponder,
   Animated,
@@ -12,7 +11,7 @@ import {
   Keyboard,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import style from './style';
+import style from '../style';
 
 export default class AddonWrapper extends PureComponent {
   constructor(props) {
@@ -161,32 +160,32 @@ export default class AddonWrapper extends PureComponent {
       width: this.state.resize.x,
     };
 
+    const hiddenStyles = [style.invisible, style.modalInvisible];
+
     return (
-      <View>
-        <Modal visible={this.props.visible} transparent onRequestClose={this.props.onClose}>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : null}
-            style={style.flex}
-          >
-            <TouchableWithoutFeedback onPress={this.props.onClose}>
-              <View style={style.modalContainer}>
-                <Animated.View
-                  {...this.panResponder.panHandlers}
-                  style={[panStyle, style.addonBox, modalSize]}
-                >
-                  <View style={style.topBar} />
-                  <View style={style.flex}>{this.props.children}</View>
-                  <View style={style.bottomBar}>
-                    <Animated.View
-                      {...this.resizeResponder.panHandlers}
-                      style={style.resizeButton}
-                    />
-                  </View>
-                </Animated.View>
-              </View>
-            </TouchableWithoutFeedback>
-          </KeyboardAvoidingView>
-        </Modal>
+      <View
+        pointerEvents={this.props.visible ? 'auto' : 'none'}
+        style={[style.modal, !this.props.visible && hiddenStyles]}
+      >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : null}
+          style={style.flex}
+        >
+          <TouchableWithoutFeedback onPress={this.props.onClose}>
+            <View style={style.modalContainer}>
+              <Animated.View
+                {...this.panResponder.panHandlers}
+                style={[panStyle, style.addonBox, modalSize]}
+              >
+                <View style={style.topBar} />
+                <View style={style.flex}>{this.props.children}</View>
+                <View style={style.bottomBar}>
+                  <Animated.View {...this.resizeResponder.panHandlers} style={style.resizeButton} />
+                </View>
+              </Animated.View>
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
       </View>
     );
   }
