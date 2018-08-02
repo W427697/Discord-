@@ -16,9 +16,9 @@ export default class Tab extends PureComponent {
   };
 
   render() {
-    const { id, title } = this.props;
+    const { title } = this.props;
     return (
-      <TouchableOpacity style={style.tab} key={id} onPress={this.onPress}>
+      <TouchableOpacity style={style.tab} onPress={this.onPress}>
         <Text style={style.text}>{title}</Text>
       </TouchableOpacity>
     );

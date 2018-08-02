@@ -8,9 +8,8 @@ import Tab from './tab';
 
 export default class AddonList extends PureComponent {
   static propTypes = {
-    panels: PropTypes.arrayOf(
+    panels: PropTypes.objectOf(
       PropTypes.shape({
-        id: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         render: PropTypes.func.isRequired,
       }).isRequired
@@ -18,7 +17,9 @@ export default class AddonList extends PureComponent {
     onPressAddon: PropTypes.func.isRequired,
   };
 
-  renderTab = (id, title) => <Tab id={id} title={title} onPress={this.props.onPressAddon} />;
+  renderTab = (id, title) => (
+    <Tab key={id} id={id} title={title} onPress={this.props.onPressAddon} />
+  );
 
   render() {
     const addonKeys = Object.keys(this.props.panels);

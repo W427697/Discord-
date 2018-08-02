@@ -7,16 +7,19 @@ import style from '../style';
 
 export default class Wrapper extends PureComponent {
   static propTypes = {
-    panels: PropTypes.arrayOf(
+    panels: PropTypes.objectOf(
       PropTypes.shape({
-        id: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         render: PropTypes.func.isRequired,
       }).isRequired
     ).isRequired,
     visible: PropTypes.bool.isRequired,
-    addonSelected: PropTypes.string.isRequired,
+    addonSelected: PropTypes.string,
     onClose: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    addonSelected: '',
   };
 
   render() {
