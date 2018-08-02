@@ -1,4 +1,3 @@
-import { AddonStore } from '@storybook/addons';
 import Preview from './preview';
 
 const preview = new Preview();
@@ -11,4 +10,3 @@ export const clearDecorators = preview.clearDecorators.bind(preview);
 export const configure = preview.configure.bind(preview);
 export const getStorybook = preview.getStorybook.bind(preview);
 export const getStorybookUI = preview.getStorybookUI.bind(preview);
-export const addons = new AddonStore();

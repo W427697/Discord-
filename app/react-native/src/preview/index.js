@@ -10,7 +10,6 @@ import { EventEmitter } from 'events';
 import { StoryStore, ClientApi } from '@storybook/core/client';
 import OnDeviceUI from './components/OnDeviceUI';
 import StoryView from './components/StoryView';
-import { addons as rnAddons } from '../index';
 
 export default class Preview {
   constructor() {
@@ -69,8 +68,6 @@ export default class Preview {
         }
 
         addons.setChannel(channel);
-        rnAddons.setChannel(channel);
-        channel.emit(Events.CHANNEL_CREATED);
       }
 
       channel.on(Events.GET_STORIES, () => this._sendSetStories());

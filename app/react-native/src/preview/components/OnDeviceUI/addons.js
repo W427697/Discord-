@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
-import { addons } from '../../../index';
+import addons from '@storybook/addons';
 import AddonWrapper from './addon-wrapper';
 import style from './style';
 
