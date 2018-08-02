@@ -31,6 +31,7 @@ export default {
     backgroundColor: 'white',
     borderBottomWidth: 1,
     borderRightWidth: 1,
+    borderTopWidth: 1,
     borderColor: 'black',
   },
   previewContainer: {

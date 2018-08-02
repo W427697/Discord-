@@ -80,7 +80,13 @@ export default class Preview {
 
       // finally return the preview component
       return params.onDeviceUI ? (
-        <OnDeviceUI stories={this._stories} events={channel} url={webUrl} />
+        <OnDeviceUI
+          stories={this._stories}
+          events={channel}
+          url={webUrl}
+          isUIOpen={params.isUIOpen}
+          isStoryMenuOpen={params.isStoryMenuOpen}
+        />
       ) : (
         <StoryView url={webUrl} events={channel} />
       );

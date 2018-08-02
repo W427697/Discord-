@@ -20,12 +20,12 @@ const isDeviceInPortrait = () => {
 const DRAWER_WIDTH = 250;
 
 export default class OnDeviceUI extends Component {
-  constructor(...args) {
-    super(...args);
+  constructor(props) {
+    super(props);
 
     this.state = {
-      isUIVisible: true,
-      isMenuOpen: false,
+      isUIVisible: props.isUIOpen,
+      isMenuOpen: props.isStoryMenuOpen,
       selectedKind: null,
       selectedStory: null,
       isPortrait: isDeviceInPortrait(),
@@ -171,8 +171,12 @@ OnDeviceUI.propTypes = {
     removeListener: PropTypes.func.isRequired,
   }).isRequired,
   url: PropTypes.string,
+  isStoryMenuOpen: PropTypes.bool,
+  isUIOpen: PropTypes.bool,
 };
 
 OnDeviceUI.defaultProps = {
   url: '',
+  isStoryMenuOpen: false,
+  isUIOpen: true,
 };

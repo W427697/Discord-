@@ -1,5 +1,6 @@
-import { AppRegistry } from 'react-native';
+import { View, AppRegistry } from 'react-native';
 import React, { Component } from 'react';
+import { Constants } from 'expo';
 import { getStorybookUI, configure } from '@storybook/react-native';
 import { setOptions } from '@storybook/addon-options';
 
@@ -14,18 +15,13 @@ configure(() => {
   require('./stories');
 }, module);
 
-const { EventEmitter } = require('events');
-
-const channel = new EventEmitter();
-
-const addons = require('@storybook/addons').default;
-
-addons.setChannel(channel);
-const rnAddons = require('@storybook/react-native').addons;
-
-rnAddons.setChannel(channel);
-
-const StorybookUIRoot = getStorybookUI({ port: 7007, onDeviceUI: true });
+const StorybookUIRoot = getStorybookUI({
+  port: 7007,
+  onDeviceUI: true,
+  disableWebsockets: true,
+  isUIOpen: true,
+  isStoryMenuOpen: true,
+});
 
 setTimeout(
   () =>
@@ -40,7 +36,11 @@ setTimeout(
 // eslint-disable-next-line react/prefer-stateless-function
 class StorybookUIHMRRoot extends Component {
   render() {
-    return <StorybookUIRoot />;
+    return (
+      <View style={{ flex: 1, marginTop: Constants.statusBarHeight }}>
+        <StorybookUIRoot />
+      </View>
+    );
   }
 }
 
