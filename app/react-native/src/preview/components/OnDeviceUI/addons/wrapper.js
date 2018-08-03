@@ -27,11 +27,15 @@ export default class Wrapper extends PureComponent {
 
     return (
       <AddonWrapper visible={this.props.visible} onClose={this.props.onClose}>
-        {addonKeys.map(id => (
-          <View key={id} style={this.props.addonSelected === id ? null : style.invisible}>
-            {this.props.panels[id].render({ active: this.props.addonSelected === id })}
-          </View>
-        ))}
+        {addonKeys.map(id => {
+          const selected = this.props.visible && this.props.addonSelected === id;
+
+          return (
+            <View key={id} style={selected ? null : [style.modalInvisible, style.invisible]}>
+              {this.props.panels[id].render({ active: selected })}
+            </View>
+          );
+        })}
       </AddonWrapper>
     );
   }

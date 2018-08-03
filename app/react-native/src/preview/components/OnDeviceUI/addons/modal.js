@@ -9,6 +9,7 @@ import {
   Animated,
   Dimensions,
   Keyboard,
+  ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import style from '../style';
@@ -173,13 +174,16 @@ export default class AddonWrapper extends PureComponent {
         >
           <TouchableWithoutFeedback onPress={this.props.onClose}>
             <View style={style.modalContainer}>
-              <Animated.View
-                {...this.panResponder.panHandlers}
-                style={[panStyle, style.addonBox, modalSize]}
-              >
-                <View style={style.topBar} />
-                <View style={style.flex}>{this.props.children}</View>
-                <View style={style.bottomBar}>
+              <Animated.View style={[panStyle, style.addonBox, modalSize]}>
+                <View style={style.topBar} {...this.panResponder.panHandlers} />
+                <View style={style.flex}>
+                  <ScrollView>
+                    <TouchableWithoutFeedback>
+                      <View>{this.props.children}</View>
+                    </TouchableWithoutFeedback>
+                  </ScrollView>
+                </View>
+                <View {...this.panResponder.panHandlers} style={style.bottomBar}>
                   <Animated.View {...this.resizeResponder.panHandlers} style={style.resizeButton} />
                 </View>
               </Animated.View>
