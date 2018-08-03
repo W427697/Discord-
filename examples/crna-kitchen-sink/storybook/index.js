@@ -4,11 +4,8 @@ import { Constants } from 'expo';
 import { getStorybookUI, configure } from '@storybook/react-native';
 import { setOptions } from '@storybook/addon-options';
 
-// TODO temp disable till I find a way to fix usage addon
-console.disableYellowBox = true;
+import './rn-addons';
 
-require('react-native-storybook-knobs/register').register();
-require('storybook-usage/register');
 // import stories
 configure(() => {
   // eslint-disable-next-line global-require
@@ -19,8 +16,6 @@ const StorybookUIRoot = getStorybookUI({
   port: 7007,
   onDeviceUI: true,
   disableWebsockets: true,
-  isUIOpen: true,
-  isStoryMenuOpen: true,
 });
 
 setTimeout(
