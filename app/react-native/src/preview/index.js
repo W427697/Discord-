@@ -68,6 +68,8 @@ export default class Preview {
         }
 
         addons.setChannel(channel);
+
+        channel.emit(Events.CHANNEL_CREATED);
       }
 
       channel.on(Events.GET_STORIES, () => this._sendSetStories());
