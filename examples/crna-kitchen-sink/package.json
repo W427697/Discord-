@@ -41,6 +41,6 @@
     "react": "^16.2.0",
     "react-native": "^0.51.0",
     "react-native-storybook-knobs": "^0.1.0",
-    "storybook-usage": "^4.0.4"
+    "storybook-usage": "^4.0.5"
   }
 }
