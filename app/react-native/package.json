@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react-native",
-  "version": "4.0.0-alpha.15",
+  "version": "4.0.0-alpha.16",
   "description": "A better way to develop React Native Components for your app",
   "keywords": [
     "react",
@@ -25,11 +25,11 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "4.0.0-alpha.15",
-    "@storybook/channel-websocket": "4.0.0-alpha.15",
-    "@storybook/core": "4.0.0-alpha.15",
-    "@storybook/core-events": "4.0.0-alpha.15",
-    "@storybook/ui": "4.0.0-alpha.15",
+    "@storybook/addons": "4.0.0-alpha.16",
+    "@storybook/channel-websocket": "4.0.0-alpha.16",
+    "@storybook/core": "4.0.0-alpha.16",
+    "@storybook/core-events": "4.0.0-alpha.16",
+    "@storybook/ui": "4.0.0-alpha.16",
     "babel-loader": "^7.1.5",
     "babel-plugin-macros": "^2.3.0",
     "babel-plugin-syntax-async-functions": "^6.13.0",
@@ -47,10 +47,11 @@
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "commander": "^2.17.0",
     "dotenv-webpack": "^1.5.7",
+    "ejs": "^2.6.1",
     "express": "^4.16.3",
     "find-cache-dir": "^2.0.0",
+    "generate-page-webpack-plugin": "^1.0.0",
     "global": "^4.3.2",
-    "html-webpack-plugin": "^3.2.0",
     "json5": "^1.0.1",
     "prop-types": "^15.6.2",
     "raw-loader": "^0.5.1",
