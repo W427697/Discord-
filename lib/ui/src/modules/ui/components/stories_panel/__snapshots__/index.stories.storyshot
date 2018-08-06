@@ -5,21 +5,6 @@ exports[`Storyshots UI|stories/StoriesPanel default 1`] = `
   class="css-3dwd22"
 >
   <div
-    class="css-5xz1i6"
-  >
-    <a
-      class="css-ypfoxr"
-      href=""
-      rel="noopener noreferrer"
-      target="_blank"
-    />
-    <button
-      class="css-i6e0jg"
-    >
-      ⌘
-    </button>
-  </div>
-  <div
     class="css-79elbk"
   >
     <input
@@ -37,21 +22,6 @@ exports[`Storyshots UI|stories/StoriesPanel storiesHierarchies exists but is emp
 <div
   class="css-3dwd22"
 >
-  <div
-    class="css-5xz1i6"
-  >
-    <a
-      class="css-ypfoxr"
-      href=""
-      rel="noopener noreferrer"
-      target="_blank"
-    />
-    <button
-      class="css-i6e0jg"
-    >
-      ⌘
-    </button>
-  </div>
   <div
     class="css-79elbk"
   >
@@ -71,21 +41,6 @@ exports[`Storyshots UI|stories/StoriesPanel when open on mobile device 1`] = `
   class="css-nk32ej"
 >
   <div
-    class="css-5xz1i6"
-  >
-    <a
-      class="css-ypfoxr"
-      href=""
-      rel="noopener noreferrer"
-      target="_blank"
-    />
-    <button
-      class="css-i6e0jg"
-    >
-      ⌘
-    </button>
-  </div>
-  <div
     class="css-79elbk"
   >
     <input
@@ -103,21 +58,6 @@ exports[`Storyshots UI|stories/StoriesPanel with storiesHierarchies prop 1`] = `
 <div
   class="css-3dwd22"
 >
-  <div
-    class="css-5xz1i6"
-  >
-    <a
-      class="css-ypfoxr"
-      href=""
-      rel="noopener noreferrer"
-      target="_blank"
-    />
-    <button
-      class="css-i6e0jg"
-    >
-      ⌘
-    </button>
-  </div>
   <div
     class="css-79elbk"
   >
