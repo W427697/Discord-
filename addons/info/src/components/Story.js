@@ -8,9 +8,6 @@ import { baseFonts } from '@storybook/components';
 
 import marksy from 'marksy';
 
-import Node from './Node';
-import { Pre } from './markdown';
-
 global.STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES || [];
 const { STORYBOOK_REACT_CLASSES } = global;
 
@@ -274,22 +271,13 @@ class Story extends Component {
       return null;
     }
 
+    const View = this.props.SourceView;
     return (
       <div>
         <h1 style={stylesheet.source.h1}>Story Source</h1>
-        <Pre>
-          {React.Children.map(children, (root, idx) => (
-            <Node
-              key={idx}
-              node={root}
-              depth={0}
-              maxPropsIntoLine={maxPropsIntoLine}
-              maxPropObjectKeys={maxPropObjectKeys}
-              maxPropArrayLength={maxPropArrayLength}
-              maxPropStringLength={maxPropStringLength}
-            />
-          ))}
-        </Pre>
+        <View>
+          {children}
+        </View>
       </div>
     );
   }

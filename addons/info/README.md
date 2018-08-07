@@ -335,6 +335,78 @@ storiesOf('Button', module).add('with text', () => <Button>Hello Button</Button>
 });
 ```
 
+### Rendering a Custom Source View
+
+The `SourceComponent` option allows you to define how the source code view should be rendered. Your component will be rendered with only children defined.
+
+```js
+  {
+    children: React.Children
+  }
+```
+
+Example:
+
+```js
+// button.js
+// @flow
+import React from 'react';
+
+const paddingStyles = {
+  small: '4px 8px',
+  medium: '8px 16px',
+};
+
+const Button = ({
+  size,
+  ...rest
+}: {
+  /** The size of the button */
+  size: 'small' | 'medium',
+}) => {
+  const style = {
+    padding: paddingStyles[size] || '',
+  };
+  return <button style={style} {...rest} />;
+};
+Button.defaultProps = {
+  size: 'medium',
+};
+
+export default Button;
+```
+
+```js
+// stories.js
+import React from 'react';
+import SyntaxHighlighter, { registerLanguage } from "react-syntax-highlighter/prism-light";
+import jsx from 'react-syntax-highlighter/languages/prism/jsx';
+import atomDark from 'react-syntax-highlighter/styles/prism/atom-dark';
+import jsxToString from 'jsx-to-string';
+
+import { storiesOf } from '@storybook/react';
+import Button from './button';
+
+registerLanguage('jsx', jsx);
+
+const SourceComponent = ({ children }) => {
+  return (
+    <SyntaxHighlighter language="jsx" style={atomDark}>
+      {jsxToString(children, {
+        functionNameOnly: true,
+        useFunctionCode: true
+      })}
+    </SyntaxHighlighter>
+  );
+};
+
+storiesOf('Button', module).add('with text', () => <Button>Hello Button</Button>, {
+  info: {
+    SourceComponent,
+  },
+});
+```
+
 ### React Docgen Integration
 
 React Docgen is included as part of the @storybook/react package through the use of `babel-plugin-react-docgen` during babel compile time.
