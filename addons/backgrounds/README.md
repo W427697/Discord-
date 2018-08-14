@@ -28,27 +28,25 @@ Then write your stories like this:
 
 ```js
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withBackgrounds } from '@storybook/addon-backgrounds';
-
-storiesOf('Button', module)
-  .addDecorator(
-    withBackgrounds([
-      { name: 'twitter', value: '#00aced', default: true },
-      { name: 'facebook', value: '#3b5998' },
-    ])
-  )
-  .add('with text', () => <button>Click me</button>);
+import { storiesOf } from "@storybook/react";
+import backgrounds from "@storybook/addon-backgrounds";
+ 
+storiesOf("Button", module)
+  .addDecorator(backgrounds([
+    { name: "twitter", value: "#00aced", default: true },
+    { name: "facebook", value: "#3b5998" },
+  ]))
+  .add("with text", () => <button>Click me</button>);
 ```
 
 You can add the backgrounds to all stories with `addDecorator` in `.storybook/config.js`:
 
 ```js
 import { addDecorator } from '@storybook/react'; // <- or your storybook framework
-import { withBackgrounds } from '@storybook/addon-backgrounds';
+import backgrounds from '@storybook/addon-backgrounds';
 
 addDecorator(
-  withBackgrounds([
+  backgrounds([
     { name: 'twitter', value: '#00aced', default: true },
     { name: 'facebook', value: '#3b5998' },
   ])
@@ -80,4 +78,26 @@ import { storiesOf } from '@storybook/react';
 storiesOf('Button', module).add('with text', () => <button>Click me</button>, {
   backgrounds: { disable: true },
 });
+```
+
+Of course it's easy to create a library module so you can re-use:
+
+```js
+import addonBackgrounds from "@storybook/addon-backgrounds";
+ 
+export const backgrounds = addonBackgrounds([
+  { name: "twitter", value: "#00aced", default: true },
+  { name: "facebook", value: "#3b5998" },
+]);
+```
+
+```js
+import React from 'react';
+import { storiesOf } from "@storybook/react";
+ 
+import { backgrounds } from "./my-lib";
+ 
+storiesOf("Button", module)
+  .addDecorator(backgrounds)
+  .add("with text", () => <button>Click me</button>);
 ```
