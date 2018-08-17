@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 
 import style from '../style';
 
@@ -25,9 +25,11 @@ export default class AddonList extends PureComponent {
     const addonKeys = Object.keys(this.props.panels);
 
     return (
-      <ScrollView showsHorizontalScrollIndicator={false} horizontal style={style.addonList}>
-        {addonKeys.map(id => this.renderTab(id, this.props.panels[id].title))}
-      </ScrollView>
+      <View>
+        <ScrollView showsHorizontalScrollIndicator={false} horizontal style={style.addonList}>
+          {addonKeys.map(id => this.renderTab(id, this.props.panels[id].title))}
+        </ScrollView>
+      </View>
     );
   }
 }

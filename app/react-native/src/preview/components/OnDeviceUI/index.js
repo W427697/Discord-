@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { ifIphoneX } from 'react-native-iphone-x-helper';
-import { Dimensions, View, TouchableOpacity, Text } from 'react-native';
+import { SafeAreaView, Dimensions, View, Animated, TouchableOpacity, Text } from 'react-native';
 import addons from '@storybook/addons';
 import Events from '@storybook/core-events';
 import style from './style';
@@ -9,63 +8,43 @@ import StoryListView from '../StoryListView';
 import StoryView from '../StoryView';
 import AddonsList from './addons/list';
 import AddonWrapper from './addons/wrapper';
+import Bar from './tabs/bar';
+import Panel from './tabs/panel';
 
-/**
- * Returns true if the screen is in portrait mode
- */
-const isDeviceInPortrait = () => {
-  const dim = Dimensions.get('screen');
-  return dim.height >= dim.width;
-};
+const ANIMATION_DURATION = 300;
+const PREVIEW_SCALE = 0.6;
 
-const DRAWER_WIDTH = 250;
+const panelWidth = () => Dimensions.get('screen').width * (1 - PREVIEW_SCALE - 0.05);
 
-export default class OnDeviceUI extends Component {
+export default class OnDeviceUI extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
       isUIVisible: props.isUIOpen,
-      isMenuOpen: props.isStoryMenuOpen,
+      tabOpen: props.tabOpen || 0,
+      slideBetweenAnimation: false,
       selectedKind: null,
       selectedStory: null,
-      isPortrait: isDeviceInPortrait(),
       addonSelected: null,
-      addonVisible: false,
     };
 
     addons.loadAddons();
 
     this.panels = addons.getPanels();
+    this.animatedValue = new Animated.Value(0);
   }
 
   componentDidMount() {
-    Dimensions.addEventListener('change', this.handleDeviceRotation);
     this.props.events.on(Events.SELECT_STORY, this.handleStoryChange);
   }
 
   componentWillUnmount() {
-    Dimensions.removeEventListener('change', this.handleDeviceRotation);
     this.props.events.removeListener(Events.SELECT_STORY, this.handleStoryChange);
   }
 
-  handleCloseAddons = () => {
-    this.setState({
-      addonVisible: false,
-    });
-  };
-
-  handlePressAddon = id => {
-    this.setState({
-      addonVisible: true,
-      addonSelected: id,
-    });
-  };
-
-  handleDeviceRotation = () => {
-    this.setState({
-      isPortrait: isDeviceInPortrait(),
-    });
+  handlePressAddon = addonSelected => {
+    this.setState({ addonSelected });
   };
 
   handleStoryChange = selection => {
@@ -76,16 +55,21 @@ export default class OnDeviceUI extends Component {
     });
   };
 
-  handleToggleMenu = () => {
+  handleToggleTab = tabOpen => {
+    if (tabOpen === this.state.tabOpen) {
+      return;
+    }
+
+    Animated.timing(this.animatedValue, { toValue: tabOpen, duration: ANIMATION_DURATION }).start();
+
     this.setState({
-      isMenuOpen: !this.state.isMenuOpen,
+      tabOpen,
+      slideBetweenAnimation: this.state.tabOpen + tabOpen === 0,
     });
   };
 
   handleToggleUI = () => {
-    this.setState({
-      isUIVisible: !this.state.isUIVisible,
-    });
+    this.setState({ isUIVisible: !this.state.isUIVisible });
   };
 
   renderVisibilityButton = () => (
@@ -101,86 +85,99 @@ export default class OnDeviceUI extends Component {
 
   render() {
     const { stories, events, url } = this.props;
-    const { isPortrait, isMenuOpen, selectedKind, selectedStory, isUIVisible } = this.state;
+    const { tabOpen, slideBetweenAnimation, selectedKind, selectedStory, isUIVisible } = this.state;
 
-    const iPhoneXStyles = ifIphoneX(
-      isPortrait
-        ? {
-            marginVertical: 30,
-          }
-        : {
-            marginHorizontal: 30,
-          },
-      {}
-    );
+    const { width, height } = Dimensions.get('screen');
 
     const menuStyles = [
-      style.menuContainer,
       {
         transform: [
           {
-            translateX: isMenuOpen ? 0 : -DRAWER_WIDTH - 30,
+            translateX: this.animatedValue.interpolate({
+              inputRange: [-1, 0],
+              outputRange: [0, -panelWidth()],
+            }),
           },
         ],
+        width: panelWidth(),
       },
-      iPhoneXStyles,
     ];
 
-    const headerStyles = [style.headerContainer, !isUIVisible && style.invisible];
+    const addonMenuStyles = [
+      {
+        transform: [
+          {
+            translateX: this.animatedValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: [width, width - panelWidth()],
+            }),
+          },
+        ],
+        width: panelWidth(),
+      },
+    ];
 
-    const previewContainerStyles = [style.previewContainer, iPhoneXStyles];
+    const scale = {
+      transform: [
+        {
+          scale: this.animatedValue.interpolate({
+            inputRange: [-1, 0, 1],
+            outputRange: [PREVIEW_SCALE, slideBetweenAnimation ? PREVIEW_SCALE : 1, PREVIEW_SCALE],
+          }),
+        },
+      ],
+    };
 
-    const previewWrapperStyles = [style.previewWrapper, iPhoneXStyles];
+    const previewStyles = [style.preview, tabOpen !== 0 && style.previewMinimized, scale];
+
+    const translateX = width / 2 - (width * PREVIEW_SCALE) / 2 - 6;
+    const translateY = -(height / 2 - (height * PREVIEW_SCALE) / 2 - 30);
+
+    const position = {
+      transform: [
+        {
+          translateX: this.animatedValue.interpolate({
+            inputRange: [-1, 0, 1],
+            outputRange: [translateX, 0, -translateX],
+          }),
+        },
+        {
+          translateY: this.animatedValue.interpolate({
+            inputRange: [-1, 0, 1],
+            outputRange: [translateY, slideBetweenAnimation ? translateY : 0, translateY],
+          }),
+        },
+      ],
+    };
+
+    const previewWrapperStyles = [style.flex, position];
 
     return (
-      <View style={style.main}>
-        <View style={previewContainerStyles}>
-          <View style={headerStyles}>
-            <TouchableOpacity
-              onPress={this.handleToggleMenu}
-              testID="Storybook.OnDeviceUI.open"
-              accessibilityLabel="Storybook.OnDeviceUI.open"
-            >
-              <View>
-                <Text style={style.text}>≡</Text>
-              </View>
-            </TouchableOpacity>
-
-            <AddonsList onPressAddon={this.handlePressAddon} panels={this.panels} />
-            {this.renderVisibilityButton()}
-          </View>
-          <View style={previewWrapperStyles}>
-            <View style={style.preview}>
+      <SafeAreaView style={style.main}>
+        <View style={style.flex}>
+          <Animated.View style={previewWrapperStyles}>
+            <Animated.View style={previewStyles}>
               <StoryView url={url} events={events} />
-            </View>
-          </View>
-          {!isUIVisible ? this.renderVisibilityButton() : null}
+            </Animated.View>
+          </Animated.View>
         </View>
-        <View style={menuStyles}>
-          <TouchableOpacity
-            onPress={this.handleToggleMenu}
-            testID="Storybook.OnDeviceUI.close"
-            accessibilityLabel="Storybook.OnDeviceUI.close"
-          >
-            <View>
-              <Text style={style.closeButton}>x</Text>
-            </View>
-          </TouchableOpacity>
+        <Panel style={menuStyles}>
           <StoryListView
             stories={stories}
             events={events}
-            width={DRAWER_WIDTH}
             selectedKind={selectedKind}
             selectedStory={selectedStory}
           />
+        </Panel>
+        <Panel style={[addonMenuStyles]}>
+          <AddonsList onPressAddon={this.handlePressAddon} panels={this.panels} />
+          <AddonWrapper addonSelected={this.state.addonSelected} panels={this.panels} />
+        </Panel>
+        <View>
+          {isUIVisible && <Bar onPress={this.handleToggleTab} />}
+          {this.renderVisibilityButton()}
         </View>
-        <AddonWrapper
-          visible={this.state.addonVisible}
-          onClose={this.handleCloseAddons}
-          addonSelected={this.state.addonSelected}
-          panels={this.panels}
-        />
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -198,12 +195,12 @@ OnDeviceUI.propTypes = {
     removeListener: PropTypes.func.isRequired,
   }).isRequired,
   url: PropTypes.string,
-  isStoryMenuOpen: PropTypes.bool,
+  tabOpen: PropTypes.number,
   isUIOpen: PropTypes.bool,
 };
 
 OnDeviceUI.defaultProps = {
   url: '',
-  isStoryMenuOpen: false,
+  tabOpen: 0,
   isUIOpen: true,
 };

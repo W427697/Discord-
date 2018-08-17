@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native-compat';
 export default {
   main: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     backgroundColor: 'white',
   },
   icon: {
@@ -50,7 +50,7 @@ export default {
     backgroundColor: 'transparent',
     position: 'absolute',
     right: 5,
-    top: 1,
+    bottom: 0,
   },
   preview: {
     ...StyleSheet.absoluteFillObject,

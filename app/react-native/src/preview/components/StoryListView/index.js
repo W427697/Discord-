@@ -88,7 +88,7 @@ export default class StoryListView extends Component {
     return (
       <SectionList
         testID="Storybook.ListView"
-        style={[style.list, { width: this.props.width }]}
+        style={[style.list]}
         renderItem={({ item }) => (
           <ListItem
             title={item.name}
@@ -124,7 +124,6 @@ StoryListView.propTypes = {
   }).isRequired,
   selectedKind: PropTypes.string,
   selectedStory: PropTypes.string,
-  width: PropTypes.number.isRequired,
 };
 
 StoryListView.defaultProps = {
