@@ -12,7 +12,7 @@ import Bar from './tabs/bar';
 import Panel from './tabs/panel';
 
 const ANIMATION_DURATION = 300;
-const PREVIEW_SCALE = 0.6;
+const PREVIEW_SCALE = 0.3;
 
 const panelWidth = () => Dimensions.get('screen').width * (1 - PREVIEW_SCALE - 0.05);
 
@@ -20,18 +20,18 @@ export default class OnDeviceUI extends PureComponent {
   constructor(props) {
     super(props);
 
+    addons.loadAddons();
+    this.panels = addons.getPanels();
+
     this.state = {
       isUIVisible: props.isUIOpen,
       tabOpen: props.tabOpen || 0,
       slideBetweenAnimation: false,
       selectedKind: null,
       selectedStory: null,
-      addonSelected: null,
+      addonSelected: Object.keys(this.panels)[0] || null,
     };
 
-    addons.loadAddons();
-
-    this.panels = addons.getPanels();
     this.animatedValue = new Animated.Value(0);
   }
 
@@ -79,7 +79,7 @@ export default class OnDeviceUI extends PureComponent {
       accessibilityLabel="Storybook.OnDeviceUI.toggleUI"
       style={style.hideButton}
     >
-      <Text style={style.text}>o</Text>
+      <Text style={[style.hideButtonText]}>o</Text>
     </TouchableOpacity>
   );
 
@@ -170,11 +170,15 @@ export default class OnDeviceUI extends PureComponent {
           />
         </Panel>
         <Panel style={[addonMenuStyles]}>
-          <AddonsList onPressAddon={this.handlePressAddon} panels={this.panels} />
+          <AddonsList
+            onPressAddon={this.handlePressAddon}
+            panels={this.panels}
+            addonSelected={this.state.addonSelected}
+          />
           <AddonWrapper addonSelected={this.state.addonSelected} panels={this.panels} />
         </Panel>
         <View>
-          {isUIVisible && <Bar onPress={this.handleToggleTab} />}
+          {isUIVisible && <Bar index={tabOpen} onPress={this.handleToggleTab} />}
           {this.renderVisibilityButton()}
         </View>
       </SafeAreaView>

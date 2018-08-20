@@ -7,7 +7,20 @@ import style from '../style';
 export default class Panel extends PureComponent {
   render() {
     return (
-      <Animated.View style={[StyleSheet.absoluteFillObject, style.flex, ...this.props.style]}>
+      <Animated.View
+        style={[
+          StyleSheet.absoluteFillObject,
+          style.flex,
+          {
+            marginBottom: 36,
+            borderWidth: 1,
+            borderTopWidth: 1,
+            borderBottomWidth: 0,
+            borderColor: 'rgba(0, 0, 0, 0.1)',
+          },
+          ...this.props.style,
+        ]}
+      >
         {this.props.children}
       </Animated.View>
     );

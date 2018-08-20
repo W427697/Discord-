@@ -27,7 +27,7 @@ export default class Wrapper extends PureComponent {
 
       return (
         <View key={id} style={selected ? style.flex : [style.modalInvisible, style.invisible]}>
-          <ScrollView style={style.flex}>
+          <ScrollView style={{ flex: 1 }}>
             {this.props.panels[id].render({ active: selected })}
           </ScrollView>
         </View>

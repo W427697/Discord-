@@ -4,7 +4,7 @@ import { View, ScrollView } from 'react-native';
 
 import style from '../style';
 
-import Tab from './tab';
+import Button from '../tabs/button';
 
 export default class AddonList extends PureComponent {
   static propTypes = {
@@ -15,17 +15,32 @@ export default class AddonList extends PureComponent {
       }).isRequired
     ).isRequired,
     onPressAddon: PropTypes.func.isRequired,
+    addonSelected: PropTypes.func.isRequired,
   };
 
   renderTab = (id, title) => (
-    <Tab key={id} id={id} title={title} onPress={this.props.onPressAddon} />
+    <Button
+      active={id === this.props.addonSelected}
+      key={id}
+      id={id}
+      onPress={this.props.onPressAddon}
+    >
+      {title}
+    </Button>
   );
 
   render() {
     const addonKeys = Object.keys(this.props.panels);
 
     return (
-      <View>
+      <View
+        style={{
+          flexDirection: 'row',
+          backgroundColor: 'white',
+          borderBottomWidth: 1,
+          borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+        }}
+      >
         <ScrollView showsHorizontalScrollIndicator={false} horizontal style={style.addonList}>
           {addonKeys.map(id => this.renderTab(id, this.props.panels[id].title))}
         </ScrollView>

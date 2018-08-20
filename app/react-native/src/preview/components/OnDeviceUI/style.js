@@ -3,8 +3,6 @@ import { StyleSheet } from 'react-native-compat';
 export default {
   main: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'white',
   },
   icon: {
     width: 20,
@@ -34,14 +32,15 @@ export default {
     borderTopWidth: 1,
     borderColor: 'black',
   },
-  previewContainer: {
-    flex: 1,
-  },
   previewWrapper: {
     flex: 1,
   },
   text: {
     fontSize: 18,
+  },
+  hideButtonText: {
+    fontSize: 16,
+    color: 'rgba(0, 0, 0, 0.4)',
   },
   showStoriesButton: {
     fontSize: 18,
@@ -50,10 +49,12 @@ export default {
     backgroundColor: 'transparent',
     position: 'absolute',
     right: 5,
-    bottom: 0,
+    bottom: 12,
   },
-  preview: {
-    ...StyleSheet.absoluteFillObject,
+  preview: StyleSheet.absoluteFillObject,
+  previewMinimized: {
+    borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.3)',
   },
   closeButton: {
     fontSize: 24,
@@ -63,8 +64,6 @@ export default {
     marginRight: 15,
   },
   addonList: {
-    marginLeft: 10,
-    marginRight: 40,
     flexDirection: 'row',
   },
   invisible: {
