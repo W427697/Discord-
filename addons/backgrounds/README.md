@@ -45,7 +45,7 @@ You can add the backgrounds to all stories with `addDecorator` in `.storybook/co
 
 ```js
 import { addDecorator } from '@storybook/react'; // <- or your storybook framework
-import { withBackgrounds } from '@storybook/addon-backgrounds';
+import withBackgrounds from '@storybook/addon-backgrounds';
 
 addDecorator(
   withBackgrounds([
