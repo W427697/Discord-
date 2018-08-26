@@ -14,7 +14,9 @@ function injectDecorator(source, resourcePath, options) {
 
   return `
 var withStorySource = require('@storybook/addon-storysource').withStorySource;
-window.__STORYBOOK_CLIENT_API__.addDecorator(withStorySource(${sourceJson}, ${addsMap}));
+if (window['__STORYBOOK_CLIENT_API__']) {
+  window['__STORYBOOK_CLIENT_API__'].addDecorator(withStorySource(${sourceJson}, ${addsMap}));
+}
 
 ${source}`;
 }
