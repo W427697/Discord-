@@ -1,6 +1,6 @@
 import prettier from 'prettier';
 import { patchNode } from './parse-helpers';
-import { splitSTORYOF, findAddsMap } from './traverse-helpers';
+import { findAddsMap } from './traverse-helpers';
 import getParser from './parsers';
 
 function isUglyComment(comment, uglyCommentsRegex) {
@@ -52,21 +52,13 @@ function prettifyCode(source, { prettierConfig, parser, filepath }) {
   return prettier.format(source, config);
 }
 
-export function generateSourceWithDecorators(source, decorator, parserType) {
+export function extractComments(source, parserType) {
   const parser = getParser(parserType);
   const ast = parser.parse(source);
 
   const { comments = [] } = ast;
 
-  const parts = splitSTORYOF(ast, source);
-
-  const newSource = parts.join(decorator);
-
-  return {
-    changed: parts.length > 1,
-    source: newSource,
-    comments,
-  };
+  return comments;
 }
 
 export function generateAddsMap(source, parserType) {

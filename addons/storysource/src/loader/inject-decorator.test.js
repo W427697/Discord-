@@ -2,105 +2,40 @@ import fs from 'fs';
 import path from 'path';
 import injectDecorator from './inject-decorator';
 
-const ADD_DECORATOR_STATEMENT = '.addDecorator(withStorySource(__STORY__, __ADDS_MAP__))';
-
 describe('inject-decorator', () => {
   describe('positive', () => {
     const mockFilePath = './__mocks__/inject-decorator.stories.txt';
     const source = fs.readFileSync(mockFilePath, 'utf-8');
-    const result = injectDecorator(
-      source,
-      ADD_DECORATOR_STATEMENT,
-      path.resolve(__dirname, mockFilePath),
-      { parser: 'javascript' }
-    );
-
-    it('returns "changed" flag', () => {
-      expect(result.changed).toBeTruthy();
+    const result = injectDecorator(source, path.resolve(__dirname, mockFilePath), {
+      parser: 'javascript',
     });
 
-    it('injects stories decorator after the all "storiesOf" functions', () => {
-      expect(result.source).toMatchSnapshot();
-    });
-
-    it('calculates "adds" map', () => {
-      expect(result.addsMap).toMatchSnapshot();
+    it('injects stories decorator as a window.__STORYBOOK_CLIENT_API__.addDecorator', () => {
+      expect(result).toMatchSnapshot();
     });
   });
 
   describe('positive - angular', () => {
     const mockFilePath = './__mocks__/inject-decorator.angular-stories.txt';
     const source = fs.readFileSync(mockFilePath, 'utf-8');
-    const result = injectDecorator(
-      source,
-      ADD_DECORATOR_STATEMENT,
-      path.resolve(__dirname, mockFilePath),
-      { parser: 'typescript' }
-    );
-
-    it('returns "changed" flag', () => {
-      expect(result.changed).toBeTruthy();
+    const result = injectDecorator(source, path.resolve(__dirname, mockFilePath), {
+      parser: 'typescript',
     });
 
-    it('injects stories decorator after the all "storiesOf" functions', () => {
-      expect(result.source).toMatchSnapshot();
-    });
-
-    it('calculates "adds" map', () => {
-      expect(result.addsMap).toMatchSnapshot();
+    it('injects stories decorator as a window.__STORYBOOK_CLIENT_API__.addDecorator', () => {
+      expect(result).toMatchSnapshot();
     });
   });
 
   describe('positive - ts', () => {
     const mockFilePath = './__mocks__/inject-decorator.ts.txt';
     const source = fs.readFileSync(mockFilePath, 'utf-8');
-    const result = injectDecorator(
-      source,
-      ADD_DECORATOR_STATEMENT,
-      path.resolve(__dirname, mockFilePath),
-      { parser: 'typescript' }
-    );
-
-    it('returns "changed" flag', () => {
-      expect(result.changed).toBeTruthy();
+    const result = injectDecorator(source, path.resolve(__dirname, mockFilePath), {
+      parser: 'typescript',
     });
 
-    it('injects stories decorator after the all "storiesOf" functions', () => {
-      expect(result.source).toMatchSnapshot();
-    });
-
-    it('calculates "adds" map', () => {
-      expect(result.addsMap).toMatchSnapshot();
-    });
-  });
-
-  describe('stories with ugly comments', () => {
-    const mockFilePath = './__mocks__/inject-decorator.ugly-comments-stories.txt';
-    const source = fs.readFileSync(mockFilePath, 'utf-8');
-    const result = injectDecorator(
-      source,
-      ADD_DECORATOR_STATEMENT,
-      path.resolve(__dirname, mockFilePath),
-      { parser: 'javascript' }
-    );
-
-    it('should delete ugly comments from the generated story source', () => {
-      expect(result.storySource).toMatchSnapshot();
-    });
-  });
-
-  describe('stories with ugly comments in ts', () => {
-    const mockFilePath = './__mocks__/inject-decorator.ts.ugly-comments-stories.txt';
-    const source = fs.readFileSync(mockFilePath, 'utf-8');
-    const result = injectDecorator(
-      source,
-      ADD_DECORATOR_STATEMENT,
-      path.resolve(__dirname, mockFilePath),
-      { parser: 'typescript' }
-    );
-
-    it('should delete ugly comments from the generated story source', () => {
-      expect(result.storySource).toMatchSnapshot();
+    it('injects stories decorator as a window.__STORYBOOK_CLIENT_API__.addDecorator', () => {
+      expect(result).toMatchSnapshot();
     });
   });
 
@@ -108,14 +43,10 @@ describe('inject-decorator', () => {
     const mockFilePath = './__mocks__/inject-decorator.no-stories.txt';
     const source = fs.readFileSync(mockFilePath, 'utf-8');
 
-    const result = injectDecorator(
-      source,
-      ADD_DECORATOR_STATEMENT,
-      path.resolve(__dirname, mockFilePath)
-    );
+    const result = injectDecorator(source, path.resolve(__dirname, mockFilePath), {
+      parser: 'javascript',
+    });
 
-    expect(result.changed).toBeFalsy();
-    expect(result.addsMap).toEqual({});
-    expect(result.source).toMatchSnapshot();
+    expect(result).toEqual(source);
   });
 });
