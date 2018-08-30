@@ -15,22 +15,22 @@ export default class AddonList extends PureComponent {
       }).isRequired
     ).isRequired,
     onPressAddon: PropTypes.func.isRequired,
-    addonSelected: PropTypes.func.isRequired,
+    addonSelected: PropTypes.string.isRequired,
   };
 
-  renderTab = (id, title) => (
-    <Button
-      active={id === this.props.addonSelected}
-      key={id}
-      id={id}
-      onPress={this.props.onPressAddon}
-    >
-      {title}
-    </Button>
-  );
+  renderTab = (id, title) => {
+    const { addonSelected, onPressAddon } = this.props;
+
+    return (
+      <Button active={id === addonSelected} key={id} id={id} onPress={onPressAddon}>
+        {title}
+      </Button>
+    );
+  };
 
   render() {
-    const addonKeys = Object.keys(this.props.panels);
+    const { panels } = this.props;
+    const addonKeys = Object.keys(panels);
 
     return (
       <View
@@ -42,7 +42,7 @@ export default class AddonList extends PureComponent {
         }}
       >
         <ScrollView showsHorizontalScrollIndicator={false} horizontal style={style.addonList}>
-          {addonKeys.map(id => this.renderTab(id, this.props.panels[id].title))}
+          {addonKeys.map(id => this.renderTab(id, panels[id].title))}
         </ScrollView>
       </View>
     );

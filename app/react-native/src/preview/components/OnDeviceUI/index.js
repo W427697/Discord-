@@ -23,16 +23,18 @@ export default class OnDeviceUI extends PureComponent {
     addons.loadAddons();
     this.panels = addons.getPanels();
 
+    const tabOpen = props.tabOpen || 0;
+
     this.state = {
-      isUIVisible: props.isUIHidden,
-      tabOpen: props.tabOpen || 0,
+      isUIVisible: !props.isUIHidden,
+      tabOpen,
       slideBetweenAnimation: false,
       selectedKind: null,
       selectedStory: null,
       addonSelected: Object.keys(this.panels)[0] || null,
     };
 
-    this.animatedValue = new Animated.Value(0);
+    this.animatedValue = new Animated.Value(tabOpen);
   }
 
   componentDidMount() {
