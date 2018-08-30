@@ -32,8 +32,8 @@ export function getAngularCliWebpackConfigOptions(dirToSearch) {
   );
 
   return {
-    root: project.root,
-    projectRoot: dirToSearch,
+    root: dirToSearch,
+    projectRoot: path.resolve(dirToSearch, project.root),
     supportES2015: false,
     tsConfig: {
       options: {},
@@ -80,7 +80,9 @@ export function applyAngularCliWebpackConfig(baseConfig, cliWebpackConfigOptions
   // cliStyleConfig.entry adds global style files to the webpack context
   const entry = {
     ...baseConfig.entry,
-    ...cliStyleConfig.entry,
+    iframe: []
+      .concat(baseConfig.entry.iframe)
+      .concat(Object.values(cliStyleConfig.entry).reduce((acc, item) => acc.concat(item), [])),
   };
 
   const mod = {

@@ -28,6 +28,13 @@ elif [ "$BUILD_CONTEXT" = "VUE" ]; then
   yarn build-storybook
   mv storybook-static ../../netlify-build
   popd
+elif [ "$BUILD_CONTEXT" = "SVELTE" ]; then
+  echo "netlify-build Svelte examples"
+  pushd examples/svelte-kitchen-sink
+  yarn
+  yarn build-storybook
+  mv storybook-static ../../netlify-build
+  popd
 elif [ "$BUILD_CONTEXT" = "ANGULAR" ]; then
   echo "netlify-build Angular examples"
   pushd examples/angular-cli
@@ -65,6 +72,14 @@ elif [ "$BUILD_CONTEXT" = "HTML" ]; then
   popd
 elif [ "$BUILD_CONTEXT" = "OFFICIAL" ]; then
   echo "netlify-build official examples"
+  pushd examples/official-storybook
+  yarn
+  yarn build-storybook
+  mv storybook-static ../../netlify-build
+  popd
+elif [ "$BUILD_CONTEXT" = "HYPERAPP" ]; then
+  # TEMP so we don't get broken builds from netlify
+  echo "netlify-build hyperapp examples"
   pushd examples/official-storybook
   yarn
   yarn build-storybook

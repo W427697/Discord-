@@ -84,9 +84,9 @@ export default function makeTableComponent(Component) {
       return null;
     }
 
-    const propDefinitionsMap = hasDocgen(props.type)
-      ? propsFromDocgen(props.type)
-      : propsFromPropTypes(props.type);
+    const { type } = props;
+
+    const propDefinitionsMap = hasDocgen(type) ? propsFromDocgen(type) : propsFromPropTypes(type);
     const propDefinitions = Object.values(propDefinitionsMap);
 
     return <Component propDefinitions={propDefinitions} {...props} />;
