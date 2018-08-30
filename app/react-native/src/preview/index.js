@@ -3,12 +3,11 @@
 import React from 'react';
 import { NativeModules } from 'react-native';
 import parse from 'url-parse';
-import addons from '@storybook/addons';
-
+import channels from '@storybook/addons/channels';
 import Events from '@storybook/core-events';
 import createChannel from '@storybook/channel-websocket';
-import { EventEmitter } from 'events';
 import { StoryStore, ClientApi } from '@storybook/core/client';
+import { EventEmitter } from 'events';
 import OnDeviceUI from './components/OnDeviceUI';
 import StoryView from './components/StoryView';
 
@@ -45,7 +44,7 @@ export default class Preview {
       let channel = null;
 
       try {
-        channel = addons.getChannel();
+        channel = channels.getChannel();
       } catch (e) {
         // getChannel throws if the channel is not defined,
         // which is fine in this case (we will define it below)
@@ -68,7 +67,7 @@ export default class Preview {
           channel = createChannel({ url });
         }
 
-        addons.setChannel(channel);
+        channels.setChannel(channel);
 
         channel.emit(Events.CHANNEL_CREATED);
       }
@@ -88,20 +87,20 @@ export default class Preview {
   }
 
   _sendSetStories() {
-    const channel = addons.getChannel();
+    const channel = channels.getChannel();
     const stories = this._stories.dumpStoryBook();
     channel.emit(Events.SET_STORIES, { stories });
   }
 
   _sendGetCurrentStory() {
-    const channel = addons.getChannel();
+    const channel = channels.getChannel();
     channel.emit(Events.GET_CURRENT_STORY);
   }
 
   _selectStory(selection) {
     const { kind, story } = selection;
     const storyFn = this._stories.getStoryWithContext(kind, story);
-    const channel = addons.getChannel();
+    const channel = channels.getChannel();
     channel.emit(Events.SELECT_STORY, selection, storyFn);
   }
 }
