@@ -10,22 +10,42 @@ Create a new directory called `storybook` in your project root and create an ent
 
 ```js
 import { AppRegistry } from 'react-native';
+import React, { Component } from 'react';
 import { getStorybookUI, configure } from '@storybook/react-native';
-import './addons';
+import { setOptions } from '@storybook/addon-options';
+import './rn-addons';
 
-// import your stories
-configure(function() {
+// import stories
+configure(() => {
+  // eslint-disable-next-line global-require
   require('./stories');
 }, module);
 
-const StorybookUI = getStorybookUI({
-  port: 7007,
-  host: 'localhost',
-});
-AppRegistry.registerComponent('MyApplicationName', () => StorybookUI);
+const StorybookUIRoot = getStorybookUI({ port: 7007, onDeviceUI: true });
+
+setTimeout(
+  () =>
+    setOptions({
+      name: 'React Native Vanilla',
+    }),
+  100
+);
+
+class StorybookUIHMRRoot extends Component {
+  render() {
+    return <StorybookUIRoot />;
+  }
+}
+
+AppRegistry.registerComponent('MyApplicationName', () => StorybookUIHMRRoot);
+export default StorybookUIHMRRoot;
 ```
 
-Create a file named `addons.js` file in `storybook` directory to use addons. Here is a list of default addons:
+Create a file called rn-addons.js
+
+In this file you can import all the addons that work inside rn simulator.
+
+If you want to have addons inside browser, create a file named `addons.js` file in `storybook`. Here is a list of default addons:
 
 ```js
 import '@storybook/addon-actions';

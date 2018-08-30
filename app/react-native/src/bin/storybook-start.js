@@ -8,19 +8,28 @@ import Server from '../server';
 program
   .option('-h, --host <host>', 'host to listen on')
   .option('-p, --port <port>', 'port to listen on')
-  .option('--haul <configFile>', 'use haul with config file')
-  .option('--platform <ios|android|all>', 'build platform-specific build')
+  .option('--haul <configFile>', 'DEPRECATED. use haul with config file')
+  .option('--platform <ios|android|all>', 'DEPRECATED.  build platform-specific build')
   .option('-s, --secured', 'whether server is running on https')
   .option('-c, --config-dir [dir-name]', 'storybook config directory')
-  .option('--metro-config [relative-config-path]', 'Metro Bundler Custom config')
+  .option('--metro-config [relative-config-path]', 'DEPRECATED. Metro Bundler Custom config')
   .option('-e, --environment [environment]', 'DEVELOPMENT/PRODUCTION environment for webpack')
-  .option('-r, --reset-cache', 'reset react native packager')
-  .option('--skip-packager', 'run only storybook server')
+  .option('-r, --reset-cache', 'DEPRECATED. reset react native packager')
+  .option(
+    '--start-packager',
+    'DEPRECATED. run packager together with storybook server (entry point is ./storybook folder) '
+  )
   .option('-i, --manual-id', 'allow multiple users to work with same storybook')
   .option('--smoke-test', 'Exit after successful start')
-  .option('--packager-port <packagerPort>', 'Custom packager port')
-  .option('--root [root]', 'Add additional root(s) to be used by the packager in this project')
-  .option('--projectRoots [projectRoots]', 'Override the root(s) to be used by the packager')
+  .option('--packager-port <packagerPort>', 'DEPRECATED. Custom packager port')
+  .option(
+    '--root [root]',
+    'DEPRECATED. Add additional root(s) to be used by the packager in this project'
+  )
+  .option(
+    '--projectRoots [projectRoots]',
+    'DEPRECATED. Override the root(s) to be used by the packager'
+  )
   .parse(process.argv);
 
 const projectDir = path.resolve();
@@ -49,7 +58,11 @@ server.listen(...listenAddr, err => {
   }
 });
 
-if (!program.skipPackager) {
+if (program.startPackager) {
+  console.warn(
+    `--startPackager --root --projectRoots --reset-cache --haul --platform --metro-config are deprecated. Use storybookUI directly in your code`
+  );
+
   let symlinks = [];
 
   let roots = [projectDir];

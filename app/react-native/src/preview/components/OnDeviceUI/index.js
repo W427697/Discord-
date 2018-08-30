@@ -24,7 +24,7 @@ export default class OnDeviceUI extends PureComponent {
     this.panels = addons.getPanels();
 
     this.state = {
-      isUIVisible: props.isUIOpen,
+      isUIVisible: props.isUIHidden,
       tabOpen: props.tabOpen || 0,
       slideBetweenAnimation: false,
       selectedKind: null,
@@ -36,11 +36,13 @@ export default class OnDeviceUI extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.events.on(Events.SELECT_STORY, this.handleStoryChange);
+    const { events } = this.props;
+    events.on(Events.SELECT_STORY, this.handleStoryChange);
   }
 
   componentWillUnmount() {
-    this.props.events.removeListener(Events.SELECT_STORY, this.handleStoryChange);
+    const { events } = this.props;
+    events.removeListener(Events.SELECT_STORY, this.handleStoryChange);
   }
 
   handlePressAddon = addonSelected => {
@@ -55,21 +57,28 @@ export default class OnDeviceUI extends PureComponent {
     });
   };
 
-  handleToggleTab = tabOpen => {
-    if (tabOpen === this.state.tabOpen) {
+  handleToggleTab = newTabOpen => {
+    const { tabOpen } = this.state;
+
+    if (newTabOpen === tabOpen) {
       return;
     }
 
-    Animated.timing(this.animatedValue, { toValue: tabOpen, duration: ANIMATION_DURATION }).start();
+    Animated.timing(this.animatedValue, {
+      toValue: newTabOpen,
+      duration: ANIMATION_DURATION,
+    }).start();
 
     this.setState({
-      tabOpen,
-      slideBetweenAnimation: this.state.tabOpen + tabOpen === 0,
+      tabOpen: newTabOpen,
+      slideBetweenAnimation: tabOpen + newTabOpen === 0,
     });
   };
 
   handleToggleUI = () => {
-    this.setState({ isUIVisible: !this.state.isUIVisible });
+    const { isUIVisible } = this.state;
+
+    this.setState({ isUIVisible: !isUIVisible });
   };
 
   renderVisibilityButton = () => (
@@ -85,7 +94,14 @@ export default class OnDeviceUI extends PureComponent {
 
   render() {
     const { stories, events, url } = this.props;
-    const { tabOpen, slideBetweenAnimation, selectedKind, selectedStory, isUIVisible } = this.state;
+    const {
+      tabOpen,
+      slideBetweenAnimation,
+      selectedKind,
+      selectedStory,
+      isUIVisible,
+      addonSelected,
+    } = this.state;
 
     const { width, height } = Dimensions.get('screen');
 
@@ -173,9 +189,9 @@ export default class OnDeviceUI extends PureComponent {
           <AddonsList
             onPressAddon={this.handlePressAddon}
             panels={this.panels}
-            addonSelected={this.state.addonSelected}
+            addonSelected={addonSelected}
           />
-          <AddonWrapper addonSelected={this.state.addonSelected} panels={this.panels} />
+          <AddonWrapper addonSelected={addonSelected} panels={this.panels} />
         </Panel>
         <View>
           {isUIVisible && <Bar index={tabOpen} onPress={this.handleToggleTab} />}
@@ -200,11 +216,11 @@ OnDeviceUI.propTypes = {
   }).isRequired,
   url: PropTypes.string,
   tabOpen: PropTypes.number,
-  isUIOpen: PropTypes.bool,
+  isUIHidden: PropTypes.bool,
 };
 
 OnDeviceUI.defaultProps = {
   url: '',
   tabOpen: 0,
-  isUIOpen: true,
+  isUIHidden: false,
 };

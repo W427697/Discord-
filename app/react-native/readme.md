@@ -15,14 +15,11 @@ npm -g i @storybook/cli
 getstorybook
 ```
 
-After you have installed, there are additional steps for `create-react-native-app` apps. See the section for details, otherwise skip to [Start Storybook](#start-storybook)
-to see the next step.
+The next thing you need to do is make Storybook UI visible in your app.
 
-## Create React Native App (CRNA)
+### CRNA, React Native vanilla
 
-If you run `getstorybook` inside a CRNA app, you'll be notified that there is an extra step required to use Storybook.
-
-The easiest way to use Storybook inside CRNA is to simply replace your App with the Storybook UI, which is possible by replacing `App.js` with a single line of code:
+The easiest way to use Storybook is to simply replace your App with the Storybook UI, which is possible by replacing `App.js` with a single line of code:
 
 ```js
 export default from './storybook';
@@ -39,10 +36,13 @@ import App from './app';
 module.exports = __DEV__ ? StorybookUI : App;
 ```
 
-Alternatively, `StorybookUI` is simply a RN `View` component that can be embedded anywhere in your RN application, e.g. on a tab or within an admin screen.
+### RNN, other use cases
 
-## Start Storybook
+`StorybookUI` is simply a RN `View` component that can be embedded anywhere in your RN application, e.g. on a tab or within an admin screen.
 
+
+## Start Storybook server (optional)
+If you want to control storybook from browser/VS Code/websockets you need to start the server.
 After initial setup start the storybook server with the storybook npm script.
 
 ```shell
@@ -126,8 +126,8 @@ The following parameters can be passed to the start command:
     DEVELOPMENT/PRODUCTION environment for webpack
 -r, --reset-cache
     reset react native packager
---skip-packager
-    run only storybook server
+--start-packager
+    run packager together with storybook server (entry point is ./storybook folder)
 -i, --manual-id
     allow multiple users to work with same storybook
 --smoke-test
@@ -158,6 +158,10 @@ You can pass these parameters to getStorybookUI call in your storybook entry poi
         -- port to use
     query: String ("") 
         -- additional query string to pass to websockets
+    isUIHidden: Boolean (false)
+        -- should the ui be closed initialy.
+    tabOpen: Number (0)
+        -- which tab should be open. -1 Navigator, 0 Preview, 1 Addons
 }
 ```
 
