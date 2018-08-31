@@ -20,7 +20,7 @@ export default class OnDeviceUI extends PureComponent {
   constructor(props) {
     super(props);
 
-    addons.loadAddons();
+    addons.loadAddons({});
     this.panels = addons.getPanels();
 
     const tabOpen = props.tabOpen || 0;
@@ -29,33 +29,35 @@ export default class OnDeviceUI extends PureComponent {
       isUIVisible: !props.isUIHidden,
       tabOpen,
       slideBetweenAnimation: false,
-      selectedKind: null,
-      selectedStory: null,
+      selection: {},
+      storyFn: null,
       addonSelected: Object.keys(this.panels)[0] || null,
     };
 
     this.animatedValue = new Animated.Value(tabOpen);
+    this.forceRender = this.forceUpdate.bind(this);
   }
 
   componentDidMount() {
     const { events } = this.props;
     events.on(Events.SELECT_STORY, this.handleStoryChange);
+    events.on(Events.FORCE_RE_RENDER, this.forceRender);
   }
 
   componentWillUnmount() {
     const { events } = this.props;
     events.removeListener(Events.SELECT_STORY, this.handleStoryChange);
+    events.removeListener(Events.FORCE_RE_RENDER, this.forceRender);
   }
 
   handlePressAddon = addonSelected => {
     this.setState({ addonSelected });
   };
 
-  handleStoryChange = selection => {
-    const { kind, story } = selection;
+  handleStoryChange = (selection, storyFn) => {
     this.setState({
-      selectedKind: kind,
-      selectedStory: story,
+      selection,
+      storyFn,
     });
   };
 
@@ -99,8 +101,8 @@ export default class OnDeviceUI extends PureComponent {
     const {
       tabOpen,
       slideBetweenAnimation,
-      selectedKind,
-      selectedStory,
+      selection,
+      storyFn,
       isUIVisible,
       addonSelected,
     } = this.state;
@@ -175,7 +177,7 @@ export default class OnDeviceUI extends PureComponent {
         <View style={style.flex}>
           <Animated.View style={previewWrapperStyles}>
             <Animated.View style={previewStyles}>
-              <StoryView url={url} events={events} />
+              <StoryView url={url} events={events} selection={selection} storyFn={storyFn} />
             </Animated.View>
           </Animated.View>
         </View>
@@ -183,8 +185,8 @@ export default class OnDeviceUI extends PureComponent {
           <StoryListView
             stories={stories}
             events={events}
-            selectedKind={selectedKind}
-            selectedStory={selectedStory}
+            selectedKind={selection.kind}
+            selectedStory={selection.story}
           />
         </Panel>
         <Panel style={[addonMenuStyles]}>
