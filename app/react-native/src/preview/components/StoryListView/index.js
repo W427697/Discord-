@@ -49,12 +49,12 @@ export default class StoryListView extends Component {
   }
 
   componentDidMount() {
-    const { stories } = this.props;
+    const { setInitialStory, stories } = this.props;
 
     this.handleStoryAdded();
     const dump = stories.dumpStoryBook();
     const nonEmptyKind = dump.find(kind => kind.stories.length > 0);
-    if (nonEmptyKind) {
+    if (setInitialStory && nonEmptyKind) {
       this.changeStory(nonEmptyKind.kind, nonEmptyKind.stories[0]);
     }
   }
@@ -133,6 +133,7 @@ StoryListView.propTypes = {
   }).isRequired,
   selectedKind: PropTypes.string,
   selectedStory: PropTypes.string,
+  setInitialStory: PropTypes.bool.isRequired,
 };
 
 StoryListView.defaultProps = {

@@ -38,7 +38,7 @@ export default class OnDeviceUI extends PureComponent {
     this.forceRender = this.forceUpdate.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { events } = this.props;
     events.on(Events.SELECT_STORY, this.handleStoryChange);
     events.on(Events.FORCE_RE_RENDER, this.forceRender);
@@ -97,7 +97,7 @@ export default class OnDeviceUI extends PureComponent {
   );
 
   render() {
-    const { stories, events, url } = this.props;
+    const { stories, setInitialStory, events, url } = this.props;
     const {
       tabOpen,
       slideBetweenAnimation,
@@ -187,6 +187,7 @@ export default class OnDeviceUI extends PureComponent {
             events={events}
             selectedKind={selection.kind}
             selectedStory={selection.story}
+            setInitialStory={setInitialStory}
           />
         </Panel>
         <Panel style={[addonMenuStyles]}>
@@ -221,6 +222,7 @@ OnDeviceUI.propTypes = {
   url: PropTypes.string,
   tabOpen: PropTypes.number,
   isUIHidden: PropTypes.bool,
+  setInitialStory: PropTypes.bool.isRequired,
 };
 
 OnDeviceUI.defaultProps = {

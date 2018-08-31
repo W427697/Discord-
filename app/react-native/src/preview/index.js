@@ -44,7 +44,7 @@ export default class Preview {
       let webUrl = null;
       let channel = null;
 
-      const onDeviceUI = params.onDeviceUI === false;
+      const onDeviceUI = params.onDeviceUI !== false;
 
       try {
         channel = addons.getChannel();
@@ -78,7 +78,11 @@ export default class Preview {
       channel.on(Events.GET_STORIES, () => this._sendSetStories());
       channel.on(Events.SET_CURRENT_STORY, d => this._selectStory(d));
       this._sendSetStories();
-      this._sendGetCurrentStory();
+
+      // If the app is started with server running, set the story as the one selected in the browser
+      if (webUrl) {
+        this._sendGetCurrentStory();
+      }
 
       // finally return the preview component
       return onDeviceUI ? (
@@ -88,9 +92,10 @@ export default class Preview {
           url={webUrl}
           isUIOpen={params.isUIOpen}
           isStoryMenuOpen={params.isStoryMenuOpen}
+          setInitialStory={!webUrl}
         />
       ) : (
-        <StoryView url={webUrl} events={channel} />
+        <StoryView url={webUrl} events={channel} listenToEvents />
       );
     };
   }
