@@ -146,8 +146,8 @@ You can pass these parameters to getStorybookUI call in your storybook entry poi
 
 ```
 {
-    onDeviceUI: Boolean (false) 
-        -- display stories list on the device
+    onDeviceUI: Boolean (true) 
+        -- display navigator and addons on the device
     disableWebsockets: Boolean (false) 
         -- allows to display stories without running storybook server. Should be used with onDeviceUI
     secured: Boolean (false) 

@@ -44,6 +44,8 @@ export default class Preview {
       let webUrl = null;
       let channel = null;
 
+      const onDeviceUI = params.onDeviceUI === false;
+
       try {
         channel = addons.getChannel();
       } catch (e) {
@@ -52,7 +54,7 @@ export default class Preview {
       }
 
       if (!channel || params.resetStorybook) {
-        if (params.onDeviceUI && params.disableWebsockets) {
+        if (onDeviceUI && params.disableWebsockets) {
           channel = new EventEmitter();
         } else {
           const host = params.host || parse(NativeModules.SourceCode.scriptURL).hostname;
@@ -79,7 +81,7 @@ export default class Preview {
       this._sendGetCurrentStory();
 
       // finally return the preview component
-      return params.onDeviceUI ? (
+      return onDeviceUI ? (
         <OnDeviceUI
           stories={this._stories}
           events={channel}
