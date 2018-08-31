@@ -12,22 +12,13 @@ export class Notes extends React.Component {
   }
 
   componentDidMount() {
-    const { channel, api } = this.props;
+    const { channel } = this.props;
     // Listen to the notes and render it.
     channel.on('storybook/notes/add_notes', this.onAddNotes);
-
-    // Clear the current notes on every story change.
-    this.stopListeningOnStory = api.onStory(() => {
-      this.onAddNotes('');
-    });
   }
 
   // This is some cleanup tasks when the Notes panel is unmounting.
   componentWillUnmount() {
-    if (this.stopListeningOnStory) {
-      this.stopListeningOnStory();
-    }
-
     this.unmounted = true;
     const { channel } = this.props;
     channel.removeListener('storybook/notes/add_notes', this.onAddNotes);

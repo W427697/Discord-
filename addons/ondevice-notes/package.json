@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/addon-rn-notes",
+  "name": "@storybook/addon-ondevice-notes",
   "version": "4.0.0-alpha.18",
   "description": "Write notes for your Storybook stories.",
   "keywords": [

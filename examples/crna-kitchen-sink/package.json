@@ -38,7 +38,7 @@
     "@storybook/node-logger": "file:../../packs/storybook-node-logger.tgz",
     "@storybook/react-native": "file:../../packs/storybook-react-native.tgz",
     "@storybook/addon-notes": "file:../../packs/storybook-addon-notes.tgz",
-    "@storybook/addon-rn-notes": "file:../../packs/storybook-addon-rn-notes.tgz",
+    "@storybook/addon-ondevice-notes": "file:../../packs/storybook-addon-ondevice-notes.tgz",
     "@storybook/ui": "file:../../packs/storybook-ui.tgz",
     "jest-expo": "^24.0.0",
     "react-dom": "^16.2.0",
