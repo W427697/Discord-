@@ -88,7 +88,7 @@ StoryView.propTypes = {
   selection: PropTypes.shape({
     kind: PropTypes.string,
     story: PropTypes.string,
-  }).isRequired,
+  }),
   events: PropTypes.shape({
     on: PropTypes.func.isRequired,
     removeListener: PropTypes.func.isRequired,
@@ -99,5 +99,6 @@ StoryView.propTypes = {
 StoryView.defaultProps = {
   url: '',
   listenToEvents: false,
+  selection: {},
   storyFn: null,
 };
