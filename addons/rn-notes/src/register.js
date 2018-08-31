@@ -40,12 +40,7 @@ export class Notes extends React.Component {
   render() {
     const { active } = this.props;
     const { text } = this.state;
-    const textAfterFormatted = text
-      ? text
-          .trim()
-          .replace(/(<\S+.*>)\n/g, '$1')
-          .replace(/\n/g, '<br />')
-      : '';
+    const textAfterFormatted = text ? text.trim() : '';
 
     return active ? (
       <View style={{ padding: 10, flex: 1 }}>
