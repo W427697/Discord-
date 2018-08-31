@@ -15,7 +15,6 @@ configure(() => {
 const StorybookUIRoot = getStorybookUI({
   port: 7007,
   onDeviceUI: true,
-  disableWebsockets: true,
 });
 
 setTimeout(
