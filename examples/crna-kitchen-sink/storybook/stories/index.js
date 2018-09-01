@@ -1,40 +1,44 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { Usage } from 'storybook-usage';
 
 import { storiesOf, addDecorator, addParameters } from '@storybook/react-native';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { withKnobs } from '@storybook/addon-knobs';
-import { withNotes } from '@storybook/addon-rn-notes';
+import { withNotes } from '@storybook/addon-ondevice-notes';
+import { withBackgrounds } from '@storybook/addon-ondevice-backgrounds';
 import knobsWrapper from './Knobs';
 import Button from './Button';
 import CenterView from './CenterView';
 import Welcome from './Welcome';
 
-addDecorator(Usage);
 addDecorator(withNotes);
+addDecorator(
+  withBackgrounds([
+    { name: 'twitter', value: '#6cff5d', default: true },
+    { name: 'facebook', value: '#3b5998' },
+  ])
+);
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />, {
   notes: `
-#Markdown in react-native is so cool! {'\n\n'}
-
-      You can **emphasize** what you want, or just _suggest it_ 😏…{'\n'}
-
-      You can even [**link your website**](https://twitter.com/Charles_Mangwa) or if you prefer: [email somebody](mailto:email@somebody.com){'\n'}
-
-      Spice it up with some GIFs 💃:
-
-      ![Some GIF](https://media.giphy.com/media/dkGhBWE3SyzXW/giphy.gif){'\n'}
-
-      And even add a cool video 😎!{'\n'}
-
-      [![A cool video from YT](https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](http://www.youtube.com/watch?v=dQw4w9WgXcQ)
-
-      [![Another one from Vimeo](https://i.vimeocdn.com/video/399486266_640.jpg)](https://vimeo.com/57580368)  `,
+# Markdown!\n
+* List Item
+* [List Item with Link](https://twitter.com/Charles_Mangwa)
+`,
 });
 
 storiesOf('Button', module)
+  .addParameters({
+    backgrounds: [
+      { name: 'red', value: '#F44336' },
+      { name: 'blue', value: '#2196F3', default: true },
+    ],
+    notes: `
+# Custom note\n
+_This component doesn't look right_
+`,
+  })
   .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
   .add('with text', () => (
     <Button onPress={action('clicked-text')}>

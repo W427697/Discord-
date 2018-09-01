@@ -4,13 +4,13 @@
 | ----------- |:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 |[a11y](addons/a11y)              |+| |+|+|+|+|+|+| |
 |[actions](addons/actions)        |+|+|+|+|+|+|+|+|+|
-|[backgrounds](addons/backgrounds)  |+| |+|+|+|+|+|+|+|
+|[backgrounds](addons/backgrounds)  |+|*|+|+|+|+|+|+|+|
 |[centered](addons/centered)      |+| |+|+| |+|+| |+|
 |[events](addons/events)          |+| |+|+|+|+|+|+| |
 |[graphql](addons/graphql)        |+| | | | | | | | |
 |[info](addons/info)              |+| | | | | | | | |
 |[jest](addons/jest)              |+| | |+| | |+| | |
-|[knobs](addons/knobs)            |+|+|+|+|+|+|+|+|+|
+|[knobs](addons/knobs)            |+|+*|+|+|+|+|+|+|+|
 |[links](addons/links)            |+|+|+|+|+|+|+| |+|
 |[notes](addons/notes)            |+|+*|+|+|+|+|+| |+|
 |[options](addons/options)        |+|+|+|+|+|+|+| |+|
@@ -18,4 +18,4 @@
 |[storysource](addons/storysource)|+| |+|+|+|+|+|+|+|
 |[viewport](addons/viewport)      |+| |+|+|+|+|+|+|+|
 
-`*` - App addon (addons/rn-$ADDON) 
+`*` - React Native on device addon (addons/onDevice-\<name>) 
