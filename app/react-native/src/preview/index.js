@@ -6,8 +6,8 @@ import parse from 'url-parse';
 import addons from '@storybook/addons';
 
 import Events from '@storybook/core-events';
+import Channel from '@storybook/channels';
 import createChannel from '@storybook/channel-websocket';
-import { EventEmitter } from 'events';
 import { StoryStore, ClientApi } from '@storybook/core/client';
 import OnDeviceUI from './components/OnDeviceUI';
 import StoryView from './components/StoryView';
@@ -55,7 +55,7 @@ export default class Preview {
 
       if (!channel || params.resetStorybook) {
         if (onDeviceUI && params.disableWebsockets) {
-          channel = new EventEmitter();
+          channel = new Channel({ async: true });
         } else {
           const host = params.host || parse(NativeModules.SourceCode.scriptURL).hostname;
           const port = params.port !== false ? `:${params.port || 7007}` : '';
@@ -67,7 +67,7 @@ export default class Preview {
 
           const url = `${websocketType}://${host}${port}/${query}`;
           webUrl = `${httpType}://${host}${port}`;
-          channel = createChannel({ url });
+          channel = createChannel({ url, async: onDeviceUI });
         }
 
         addons.setChannel(channel);
@@ -115,6 +115,6 @@ export default class Preview {
     const { kind, story } = selection;
     const storyFn = this._stories.getStoryWithContext(kind, story);
     const channel = addons.getChannel();
-    channel.emit(Events.SELECT_STORY, selection, storyFn);
+    channel.emit(Events.SELECT_STORY, { ...selection, storyFn });
   }
 }

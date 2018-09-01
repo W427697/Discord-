@@ -26,8 +26,8 @@ export default class StoryView extends Component {
     }
   }
 
-  selectStory = (selection, storyFn) => {
-    this.setState({ storyFn, selection });
+  selectStory = selection => {
+    this.setState({ storyFn: selection.storyFn, selection });
   };
 
   renderHelp = () => {
