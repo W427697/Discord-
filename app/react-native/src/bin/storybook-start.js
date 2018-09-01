@@ -15,6 +15,7 @@ program
   .option('--metro-config [relative-config-path]', 'DEPRECATED. Metro Bundler Custom config')
   .option('-e, --environment [environment]', 'DEVELOPMENT/PRODUCTION environment for webpack')
   .option('-r, --reset-cache', 'DEPRECATED. reset react native packager')
+  .option('--skip-packager', "DEPRECATED. Doesn't do anything")
   .option(
     '--start-packager',
     'DEPRECATED. run packager together with storybook server (entry point is ./storybook folder) '

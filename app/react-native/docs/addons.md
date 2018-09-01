@@ -20,11 +20,6 @@ Addon compatibilty can be found [here](https://github.com/storybooks/storybook/b
 There is one big difference in performance of web addons and app addons. Because app addons are inside the app, they are
 also rerendered on every change. If you feel any performance implications, this may be a cause.
  
-If you are writing your own addon there is a possibility to get `cannot update while rendering` error.
-The reason this error appears is because of the way storybook addons usually work.
-They emit events during render time which force addons to rerender.
-To avoid this, all emits can be wrapper with `setTimeout(() => emit, 0);`
-
 ## Writing the app addons
 App addons have same api as browser addons except currently api prop is not supported in React Native (you can use channel for most problems).  
 
