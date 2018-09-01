@@ -3,14 +3,13 @@ import addons, { makeDecorator } from '@storybook/addons';
 export const withNotes = makeDecorator({
   name: 'withNotes',
   parameterName: 'notes',
-  allowDeprecatedUsage: true,
   wrapper: (getStory, context, { options, parameters }) => {
     const channel = addons.getChannel();
 
     const storyOptions = parameters || options;
 
     if (!storyOptions) {
-      setTimeout(() => channel.emit('storybook/notes/add_notes', ''), 0);
+      channel.emit('storybook/notes/add_notes', '');
 
       return getStory(context);
     }
@@ -22,7 +21,7 @@ export const withNotes = makeDecorator({
       throw new Error('You must set of one of `text` or `markdown` on the `notes` parameter');
     }
 
-    setTimeout(() => channel.emit('storybook/notes/add_notes', text || markdown), 0);
+    channel.emit('storybook/notes/add_notes', text || markdown);
 
     return getStory(context);
   },

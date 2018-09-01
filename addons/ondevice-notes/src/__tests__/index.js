@@ -16,7 +16,7 @@ describe('Storybook Addon Notes', () => {
     expect(getStory).toHaveBeenCalledWith(context);
   });
 
-  it('should NOT inject text if no `notes` parameter', () => {
+  it('should inject text even if no `notes` parameter is set to reset the addon', () => {
     const channel = { emit: jest.fn() };
     addons.getChannel.mockReturnValue(channel);
 
@@ -24,7 +24,7 @@ describe('Storybook Addon Notes', () => {
     const context = {};
 
     withNotes(getStory, context);
-    expect(channel.emit).not.toHaveBeenCalled();
+    expect(channel.emit).toHaveBeenCalled();
     expect(getStory).toHaveBeenCalledWith(context);
   });
 
@@ -36,23 +36,7 @@ describe('Storybook Addon Notes', () => {
     const context = { parameters: { notes: { markdown: '# hello' } } };
 
     withNotes(getStory, context);
-    expect(channel.emit).toHaveBeenCalledWith(
-      'storybook/notes/add_notes',
-      expect.stringContaining('<h1 id="hello">hello</h1>')
-    );
-    expect(getStory).toHaveBeenCalledWith(context);
-  });
-
-  it('should inject info (deprecated API)', () => {
-    const channel = { emit: jest.fn() };
-    addons.getChannel.mockReturnValue(channel);
-
-    const getStory = jest.fn();
-    const context = { parameters: {} };
-
-    const decoratedStory = withNotes('hello')(getStory);
-    decoratedStory(context);
-    expect(channel.emit).toHaveBeenCalledWith('storybook/notes/add_notes', 'hello');
+    expect(channel.emit).toHaveBeenCalledWith('storybook/notes/add_notes', '# hello');
     expect(getStory).toHaveBeenCalledWith(context);
   });
 });

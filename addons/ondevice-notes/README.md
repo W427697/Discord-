@@ -10,15 +10,20 @@ Storybook Addon Notes allows you to write notes (text or HTML) for your stories 
 **NOTE: Documentation on master branch is for alpha version, stable release is on [release/3.4](https://github.com/storybooks/storybook/tree/release/3.4/addons/)**
 
 ```sh
-yarn add -D @storybook/addon-notes
+yarn add -D @storybook/addon-ondevice-notes
 ```
 
-Then create a file called `addons.js` in your storybook config.
+Then create a file called `rn-addons.js` in your storybook config.
 
 Add following content to it:
 
 ```js
-import '@storybook/addon-notes/register';
+import '@storybook/addon-ondevice-notes/register';
+```
+
+Then import `rn-addons.js` next to your `getStorybookUI` call.
+```js
+import './rn-addons';
 ```
 
 Then add the `withNotes` decorator to all stories in your `config.js`:
@@ -26,7 +31,7 @@ Then add the `withNotes` decorator to all stories in your `config.js`:
 ```js
 // Import from @storybook/X where X is your framework
 import { configure, addDecorator } from '@storybook/react';
-import { withNotes } from '@storybook/addon-notes';
+import { withNotes } from '@storybook/addon-ondevice-notes';
 
 addDecorator(withNotes);
 ```
