@@ -8,7 +8,7 @@
     "eject": "react-native-scripts eject",
     "ios": "react-native-scripts ios",
     "start": "react-native-scripts start",
-    "storybook": "storybook start -p 7007",
+    "storybook": "storybook start",
     "test": "node node_modules/jest/bin/jest.js --watch"
   },
   "jest": {

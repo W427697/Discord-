@@ -112,32 +112,16 @@ The following parameters can be passed to the start command:
     host to listen on
 -p, --port <port>
     port to listen on
---haul <configFile>
-    use haul with config file
---platform <ios|android|all>
-    build platform-specific build
 -s, --secured
     whether server is running on https
 -c, --config-dir [dir-name]
     storybook config directory
---metro-config [relative-config-path]
-    Metro Bundler Custom config
 -e, --environment [environment]
     DEVELOPMENT/PRODUCTION environment for webpack
--r, --reset-cache
-    reset react native packager
---start-packager
-    run packager together with storybook server (entry point is ./storybook folder)
 -i, --manual-id
     allow multiple users to work with same storybook
 --smoke-test
     Exit after successful start
---packager-port <packagerPort>
-    Custom packager port
---root [root]
-    Add additional root(s) to be used by the packager in this project
---projectRoots [projectRoots]
-    Override the root(s) to be used by the packager
 ```
 
 ## getStorybookUI Options
