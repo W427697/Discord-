@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@storybook/addons": "4.0.0-alpha.20",
+    "@storybook/channels": "4.0.0-alpha.20",
     "@storybook/channel-websocket": "4.0.0-alpha.20",
     "@storybook/core": "4.0.0-alpha.20",
     "@storybook/core-events": "4.0.0-alpha.20",
