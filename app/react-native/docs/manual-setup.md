@@ -6,7 +6,8 @@ First, install the `@storybook/react-native` module
 npm install @storybook/react-native
 ```
 
-Create a new directory called `storybook` in your project root and create an entry file (index.ios.js or index.android.js) as given below. (Don't forget to replace "MyApplicationName" with your app name).
+Create a new directory called `storybook` in your project root and create an entry file (index.js)as given below.
+(Don't forget to replace "MyApplicationName" with your app name).
 
 ```js
 import { AppRegistry } from 'react-native';
@@ -21,7 +22,7 @@ configure(() => {
   require('./stories');
 }, module);
 
-const StorybookUIRoot = getStorybookUI({ port: 7007, onDeviceUI: true });
+const StorybookUIRoot = getStorybookUI();
 
 setTimeout(
   () =>
@@ -41,16 +42,8 @@ AppRegistry.registerComponent('MyApplicationName', () => StorybookUIHMRRoot);
 export default StorybookUIHMRRoot;
 ```
 
-Create a file called rn-addons.js
-
-In this file you can import all the addons that work inside rn simulator.
-
-If you want to have addons inside browser, create a file named `addons.js` file in `storybook`. Here is a list of default addons:
-
-```js
-import '@storybook/addon-actions';
-import '@storybook/addon-links';
-```
+Create a file called `rn-addons.js`
+In this file you can import on device addons.
 
 Then write your first story in the `stories` directory like this:
 
@@ -78,7 +71,17 @@ storiesOf('CenteredView')
   ));
 ```
 
-Then add following NPM script into your `package.json` file:
+Finally replace your app entry with
+```js
+import './storybook';
+```
+If you cannot replace your entry point just make sure that the component exported from `./storybook` is displayed
+somewhere in your app. `StorybookUI` is simply a RN `View` component that can be embedded anywhere in your 
+RN application, e.g. on a tab or within an admin screen.
+
+## Server support
+
+If you want to support having a storybook server running add following NPM script into your `package.json` file:
 
 ```json
 {
@@ -87,3 +90,11 @@ Then add following NPM script into your `package.json` file:
   }
 }
 ```
+
+If you want to have addons inside browser, create a file named `addons.js` file in `storybook`. Here is a list of default addons:
+
+```js
+import '@storybook/addon-actions';
+import '@storybook/addon-links';
+```
+
