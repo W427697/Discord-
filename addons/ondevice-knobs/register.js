@@ -1,1 +1,1 @@
-require('./index').register();
+require('./dist/index').register();
