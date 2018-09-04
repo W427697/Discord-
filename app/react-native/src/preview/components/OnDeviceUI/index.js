@@ -54,10 +54,13 @@ export default class OnDeviceUI extends PureComponent {
     this.setState({ addonSelected });
   };
 
-  handleStoryChange = (selection, storyFn) => {
+  handleStoryChange = selection => {
     this.setState({
-      selection,
-      storyFn,
+      selection: {
+        kind: selection.kind,
+        story: selection.story,
+      },
+      storyFn: selection.storyFn,
     });
   };
 
