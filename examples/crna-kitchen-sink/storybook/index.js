@@ -18,7 +18,6 @@ setTimeout(
   () =>
     setOptions({
       name: 'CRNA React Native App',
-      onDeviceUI: true,
     }),
   100
 );
