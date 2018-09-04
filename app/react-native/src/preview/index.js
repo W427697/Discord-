@@ -67,7 +67,7 @@ export default class Preview {
 
           const url = `${websocketType}://${host}${port}/${query}`;
           webUrl = `${httpType}://${host}${port}`;
-          channel = createChannel({ url, async: onDeviceUI });
+          channel = createChannel({ url, async: onDeviceUI, onError: this._selectInitialStory });
         }
 
         addons.setChannel(channel);
@@ -110,6 +110,14 @@ export default class Preview {
     const channel = addons.getChannel();
     channel.emit(Events.GET_CURRENT_STORY);
   }
+
+  _selectInitialStory = () => {
+    const dump = this._stories.dumpStoryBook();
+    const nonEmptyKind = dump.find(kind => kind.stories.length > 0);
+    if (nonEmptyKind) {
+      this._selectStory({ kind: nonEmptyKind.kind, story: nonEmptyKind.stories[0] });
+    }
+  };
 
   _selectStory(selection) {
     const { kind, story } = selection;
