@@ -59,6 +59,7 @@ export default class Panel extends React.Component {
 
   reset = () => {
     const { channel } = this.props;
+    this.setState({ knobs: {} });
     channel.emit('addon:knobs:reset');
   };
 

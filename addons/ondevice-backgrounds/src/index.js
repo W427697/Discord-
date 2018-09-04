@@ -11,7 +11,6 @@ export const withBackgrounds = makeDecorator({
   skipIfNoParametersOrOptions: true,
   allowDeprecatedUsage: true,
   wrapper: (getStory, context, { options, parameters }) => {
-    console.log('called here!');
     const data = parameters || options || [];
     const backgrounds = Array.isArray(data) ? data : Object.values(data);
 
