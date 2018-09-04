@@ -27,7 +27,8 @@ export default class Container extends React.Component {
   }
 
   render() {
-    const { background, children } = this.state;
+    const { background } = this.state;
+    const { children } = this.props;
 
     return (
       <View style={{ flex: 1, backgroundColor: background || 'transparent' }}>{children}</View>
@@ -42,6 +43,7 @@ Container.propTypes = {
     removeListener: PropTypes.func,
   }),
   initialBackground: PropTypes.string,
+  children: PropTypes.node.isRequired,
 };
 
 Container.defaultProps = {
