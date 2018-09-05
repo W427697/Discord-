@@ -144,6 +144,5 @@ Convert stories into Sketch 💎 symbols.
 ### [styled components theme](https://github.com/echoulen/storybook-addon-styled-component-theme)
 styled components theme selection.
 
-## [Chuck Norris](https://github.com/chucknorris-io/storybook-addon)
-
+### [Chuck Norris](https://github.com/chucknorris-io/storybook-addon)
 👊 The only Storybook addon you will ever really need.
