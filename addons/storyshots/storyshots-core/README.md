@@ -130,7 +130,7 @@ module.exports = {
 };
 ```
 
-### <a name="deps-issue"></a>Why don't we install dependencies of each framework ?
+### <a name="deps-issue"></a>Why do we install dependencies of each framework ?
 Storyshots addon is currently supporting React, Angular and Vue. Each framework needs its own packages to be integrated with Jest. We don't want people that use only React will need to bring other dependencies that do not make sense for them.
 
 `dependencies` - will installed an exact version of the particular dep - Storyshots can work with different versions of the same framework (let's say React v16 and React v15), that have to be compatible with a version of its plugin (react-test-renderer).
