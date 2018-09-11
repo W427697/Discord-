@@ -188,13 +188,7 @@ exports[`Storyshots Components|Layout full screen 1`] = `
         >
           <div
             class="css-9in0fq e97yylu1"
-          >
-            <div
-              style="position:absolute;height:100%;width:100%;color:white;background:#4abdac"
-            >
-              Stories
-            </div>
-          </div>
+          />
         </div>
       </div>
       <span
@@ -238,13 +232,7 @@ exports[`Storyshots Components|Layout full screen 1`] = `
           >
             <div
               class="css-1yfjvq7 e97yylu2"
-            >
-              <div
-                style="position:absolute;height:100%;width:100%;color:white;background:#fc4a1a"
-              >
-                Addon
-              </div>
-            </div>
+            />
           </div>
         </div>
       </div>
@@ -401,13 +389,7 @@ exports[`Storyshots Components|Layout no addon panel 1`] = `
           >
             <div
               class="css-1yfjvq7 e97yylu2"
-            >
-              <div
-                style="position:absolute;height:100%;width:100%;color:white;background:#fc4a1a"
-              >
-                Addon
-              </div>
-            </div>
+            />
           </div>
         </div>
       </div>
@@ -436,13 +418,7 @@ exports[`Storyshots Components|Layout no stories panel 1`] = `
         >
           <div
             class="css-9in0fq e97yylu1"
-          >
-            <div
-              style="position:absolute;height:100%;width:100%;color:white;background:#4abdac"
-            >
-              Stories
-            </div>
-          </div>
+          />
         </div>
       </div>
       <span
