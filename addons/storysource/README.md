@@ -75,6 +75,7 @@ The prettier configuration that will be used to format the story source in the a
 Defaults:
 ```js
 {
+  parser: 'babylong'
   printWidth: 120,
   tabWidth: 2,
   bracketSpacing: true,
