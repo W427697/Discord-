@@ -1,5 +1,6 @@
 const defaultOptions = {
   prettierConfig: {
+    parser: 'babylon',
     printWidth: 120,
     tabWidth: 2,
     bracketSpacing: true,
