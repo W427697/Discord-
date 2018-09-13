@@ -13,6 +13,7 @@ import Panel from './tabs/panel';
 
 const ANIMATION_DURATION = 300;
 const PREVIEW_SCALE = 0.3;
+const BAR_HEIGHT = 38;
 
 const panelWidth = () => Dimensions.get('screen').width * (1 - PREVIEW_SCALE - 0.05);
 
@@ -123,6 +124,7 @@ export default class OnDeviceUI extends PureComponent {
           },
         ],
         width: panelWidth(),
+        marginBottom: isUIVisible ? BAR_HEIGHT : 0,
       },
     ];
 
@@ -137,6 +139,7 @@ export default class OnDeviceUI extends PureComponent {
           },
         ],
         width: panelWidth(),
+        marginBottom: isUIVisible ? BAR_HEIGHT : 0,
       },
     ];
 
@@ -154,7 +157,9 @@ export default class OnDeviceUI extends PureComponent {
     const previewStyles = [style.preview, tabOpen !== 0 && style.previewMinimized, scale];
 
     const translateX = width / 2 - (width * PREVIEW_SCALE) / 2 - 6;
-    const translateY = -(height / 2 - (height * PREVIEW_SCALE) / 2 - 30);
+
+    const previewHeight = isUIVisible ? height - BAR_HEIGHT : height;
+    const translateY = -(previewHeight / 2 - (previewHeight * PREVIEW_SCALE) / 2 - 8);
 
     const position = {
       transform: [

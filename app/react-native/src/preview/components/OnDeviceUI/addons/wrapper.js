@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView } from 'react-native';
 
 import style from '../style';
 
@@ -20,16 +20,18 @@ export default class Wrapper extends PureComponent {
   };
 
   render() {
-    const addonKeys = Object.keys(this.props.panels);
+    const { panels, addonSelected } = this.props;
+
+    const addonKeys = Object.keys(panels);
 
     return addonKeys.map(id => {
-      const selected = this.props.addonSelected === id;
+      const selected = addonSelected === id;
 
       return (
         <View key={id} style={selected ? style.flex : [style.modalInvisible, style.invisible]}>
-          <ScrollView style={{ flex: 1 }}>
-            {this.props.panels[id].render({ active: selected })}
-          </ScrollView>
+          <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+            <ScrollView style={{ flex: 1 }}>{panels[id].render({ active: selected })}</ScrollView>
+          </KeyboardAvoidingView>
         </View>
       );
     });
