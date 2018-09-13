@@ -57,7 +57,8 @@ export default class Preview {
         if (onDeviceUI && params.disableWebsockets) {
           channel = new Channel({ async: true });
         } else {
-          const host = params.host || parse(NativeModules.SourceCode.scriptURL).hostname;
+          const host =
+            params.host || parse(NativeModules.SourceCode.scriptURL).hostname || 'localhost';
           const port = params.port !== false ? `:${params.port || 7007}` : '';
 
           const query = params.query || '';
