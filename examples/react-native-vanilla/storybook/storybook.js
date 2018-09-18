@@ -27,5 +27,5 @@ class StorybookUIHMRRoot extends Component {
   }
 }
 
-AppRegistry.registerComponent('react-native-vanilla', () => StorybookUIHMRRoot);
+AppRegistry.registerComponent('ReactNativeVanilla', () => StorybookUIHMRRoot);
 export default StorybookUIHMRRoot;

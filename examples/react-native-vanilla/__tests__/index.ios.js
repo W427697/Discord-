@@ -3,7 +3,7 @@
 
 import 'react-native';
 import React from 'react';
-import Index from '../index.ios.js';
+import Index from '../storybook/index.ios.js';
 
 jest.mock('global', () => ({
   ...global,
