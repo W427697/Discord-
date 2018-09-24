@@ -46,7 +46,7 @@ export default class BackgroundPanel extends Component {
   componentDidMount() {
     const { channel } = this.props;
 
-    channel.on(Events.SET, data => {
+    this.onSet = channel.on(Events.SET, data => {
       const backgrounds = [...data];
 
       this.setState({ backgrounds });
@@ -57,9 +57,15 @@ export default class BackgroundPanel extends Component {
       }
     });
 
-    channel.on(Events.UNSET, () => {
+    this.onUnset = channel.on(Events.UNSET, () => {
       this.setState({ backgrounds: [] });
     });
+  }
+
+  componentWillUnmount() {
+    const { channel } = this.props;
+    channel.removeListener(Events.SET, this.onSet);
+    channel.removeListener(Events.UNSET, this.onUnset);
   }
 
   setBackgroundFromSwatch = background => {
