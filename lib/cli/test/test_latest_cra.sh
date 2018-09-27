@@ -21,6 +21,8 @@ mkdir cra-fixtures
 cd cra-fixtures
 
 create_fixture create-react-app react-scripts-latest-fixture
+
+npm install -g expo-cli
 create_fixture create-react-native-app react-native-scripts-latest-fixture
 
 cd ..
