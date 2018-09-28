@@ -19,7 +19,7 @@ echo ""
 echo "---------------------------------------------"
 echo "expo init react-native-scripts-latest-fixture"
 echo "---------------------------------------------"
-../../node_modules/.bin/npx expo init react-native-scripts-latest-fixture
+../../node_modules/.bin/npx expo init --non-interactive react-native-scripts-latest-fixture
 echo ""
 
 cd ..
