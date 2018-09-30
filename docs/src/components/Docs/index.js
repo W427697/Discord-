@@ -5,10 +5,12 @@ import Helmet from 'react-helmet';
 import Header from '../Header';
 import Container from './Container';
 import Footer from '../Footer';
+import GitHubCorner from '../GitHubCorner';
 import './style.css';
 
 const Docs = ({ sections, selectedItem, selectedSectionId, selectedItemId }) => (
   <div className="container">
+    <GitHubCorner />
     <Helmet title={`${selectedItem.title}`} />
     <Header currentSection="docs" />
     <Container

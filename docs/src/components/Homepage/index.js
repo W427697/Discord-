@@ -10,6 +10,11 @@ import MainLinks from './MainLinks';
 // import Featured from './Featured';
 import UsedBy from './UsedBy';
 import Footer from '../Footer';
+import GitHubCorner from '../GitHubCorner';
+
+// Import styles.
+import 'bootstrap/dist/css/bootstrap.css';
+import '../../css/main.css';
 
 // const featuredStorybooks = [
 //   {
@@ -42,6 +47,7 @@ import Footer from '../Footer';
 
 const Homepage = ({ users }) => (
   <div className="container">
+    <GitHubCorner />
     <Helmet title="Storybook - UI dev environment you'll love to use" />
     {/* <Header currentSection="home" /> */}
     <Heading />

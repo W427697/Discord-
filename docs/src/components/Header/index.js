@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Link from 'gatsby-link';
+import { Link } from 'gatsby';
 import './style.css';
 
 import storybookLogo from '../../design/homepage/storybook-logo.svg';

@@ -36,8 +36,8 @@ module.exports = {
     `);
     generateSitemap(result.data.allSitePage.edges.map(({ node }) => node));
   },
-  onCreateNode({ node, boundActionCreators, getNode }) {
-    const { createNodeField } = boundActionCreators;
+  onCreateNode({ node, actions, getNode }) {
+    const { createNodeField } = actions;
     let slug;
     if (node.internal.type === 'MarkdownRemark') {
       const fileNode = getNode(node.parent);
@@ -54,8 +54,8 @@ module.exports = {
       createNodeField({ node, name: 'slug', value: slug });
     }
   },
-  async createPages({ graphql, boundActionCreators }) {
-    const { createPage } = boundActionCreators;
+  async createPages({ graphql, actions }) {
+    const { createPage } = actions;
 
     const template = path.resolve('src/templates/_docstemplate.jsx');
     // Query for all markdown "nodes" and for the slug we previously created.

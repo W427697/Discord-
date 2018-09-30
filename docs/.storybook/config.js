@@ -1,11 +1,11 @@
-import React from 'react';
-import { configure, addDecorator } from '@storybook/react';
-import { MemoryRouter } from 'react-router';
+import { configure } from '@storybook/react';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import '../src/css/main.css';
 
-addDecorator(story => <MemoryRouter>{story()}</MemoryRouter>);
+import { init } from '../.cache/navigation';
+
+init();
 
 function loadStories() {
   require('../src/stories');

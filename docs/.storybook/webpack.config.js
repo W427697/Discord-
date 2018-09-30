@@ -1,3 +1,5 @@
+const { DefinePlugin } = require('webpack');
+
 const config = {
   module: {
     rules: [
@@ -22,6 +24,16 @@ const config = {
       },
     ],
   },
+  resolve: {
+    alias: {
+      gatsby: require.resolve('../.cache/gatsby-browser-entry'),
+    },
+  },
+  plugins: [
+    new DefinePlugin({
+      __PATH_PREFIX__: JSON.stringify(''),
+    }),
+  ],
 };
 
 module.exports = config;

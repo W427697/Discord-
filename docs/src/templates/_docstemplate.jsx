@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import capitalize from 'lodash/capitalize';
+import { graphql } from 'gatsby';
 
 import Docs from '../components/Docs';
 
@@ -81,7 +82,7 @@ DocsContainer.contextTypes = {
 export default DocsContainer;
 
 export const pageQuery = graphql`
-  query Docs($slug: String!) {
+  query($slug: String!) {
     site {
       siteMetadata {
         docSections {

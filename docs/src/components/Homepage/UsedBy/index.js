@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Link from 'gatsby-link';
+import { Link } from 'gatsby';
 import './style.css';
 
 export const UsedByBg = ({ color, style }) => (
