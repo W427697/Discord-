@@ -6,6 +6,21 @@
   },
   "npmClient": "yarn",
   "useWorkspaces": true,
+  "packages": [
+    "addons/*",
+    "addons/storyshots/*",
+    "app/*",
+    "lib/*",
+    "examples/*-cli",
+    "examples/cra-kitchen-sink",
+    "examples/html-kitchen-sink",
+    "examples/mithril-kitchen-sink",
+    "examples/official-storybook",
+    "examples/riot-kitchen-sink",
+    "examples/svelte-kitchen-sink",
+    "examples/vue-kitchen-sink",
+    "lib/cli/test/run/*"
+  ],
   "registry": "https://registry.npmjs.org",
   "version": "4.0.0-alpha.23"
 }
