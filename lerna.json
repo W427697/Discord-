@@ -5,6 +5,7 @@
     }
   },
   "npmClient": "yarn",
+  "useWorkspaces": true,
   "packages": [
     "addons/*",
     "addons/storyshots/*",
@@ -21,5 +22,5 @@
     "lib/cli/test/run/*"
   ],
   "registry": "https://registry.npmjs.org",
-  "version": "4.0.0-alpha.23"
+  "version": "4.0.1-alpha.0"
 }
