@@ -1,4 +1,4 @@
-import 'jest-specific-snapshot';
+import jestSpecificSnapshot from 'jest-specific-snapshot';
 import { getSnapshotFileName } from './utils';
 
 export const snapshotWithOptions = options => ({
@@ -7,6 +7,13 @@ export const snapshotWithOptions = options => ({
   renderTree,
   snapshotFileName,
 }) => {
+  if (options.snapshotSerializers) {
+    options.snapshotSerializers.forEach(serializer => {
+      jestSpecificSnapshot.addSerializer(serializer);
+      expect.addSerializer(serializer);
+    });
+  }
+
   const result = renderTree(story, context, options);
 
   function match(tree) {

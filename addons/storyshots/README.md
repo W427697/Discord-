@@ -374,35 +374,26 @@ initStoryshots({
 ```
 
 If you are using enzyme, you need to make sure jest knows how to serialize rendered components.
-You can either pass in a serializer (see below) or specify an enzyme-compatible serializer (like [enzyme-to-json](https://github.com/adriantoine/enzyme-to-json), [jest-serializer-enzyme](https://github.com/rogeliog/jest-serializer-enzyme) etc.) as the default `snapshotSerializer` in your config.
+For that, you can pass an enzyme-compatible snapshotSerializer (like [enzyme-to-json](https://github.com/adriantoine/enzyme-to-json), [jest-serializer-enzyme](https://github.com/rogeliog/jest-serializer-enzyme) etc.) with the `snapshotSerializer` option (see below). 
 
-Example for jest config in `package.json`:
-```json
-"devDependencies": {
-    "enzyme-to-json": "^3.2.2"
-},
-"jest": {
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  }
-```
 
-### `serializer`
+### `snapshotSerializers`
 
-Pass a custom serializer (such as enzyme-to-json) to serialize components to snapshot-comparable data.
+Pass an array of snapshotSerializers to the jest runtime that serializes your story (such as enzyme-to-json).
 
 ```js
 import initStoryshots from '@storybook/addon-storyshots';
-import toJSON from 'enzyme-to-json';
+import enzymeToJSON from 'enzyme-to-json';
 
 initStoryshots({
   renderer: mount,
-  serializer: toJSON,
+  snapshotSerializers: [enzymeToJSON],
 });
 ```
 
-This option only needs to be set if the default `snapshotSerializers` is not set in your jest config.
+This option needs to be set if either:
+* the multiSnapshot function is used to create multiple snapshot files (i.e. one per story), since it ignores any serializers specified in your jest config.
+* serializers not specified in your jest config should be used when snapshotting stories.
 
 ## Exports
 
