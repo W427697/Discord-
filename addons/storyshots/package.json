@@ -24,7 +24,8 @@
     "jest-image-snapshot": "^2.4.1",
     "jest-specific-snapshot": "^0.5.0",
     "puppeteer": "^1.2.0",
-    "read-pkg-up": "^3.0.0"
+    "read-pkg-up": "^3.0.0",
+    "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
     "@storybook/addon-actions": "3.4.11",
