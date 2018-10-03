@@ -1,4 +1,4 @@
-import jestSpecificSnapshot from 'jest-specific-snapshot';
+import { addSerializer } from 'jest-specific-snapshot';
 import { getSnapshotFileName } from './utils';
 
 export const snapshotWithOptions = options => ({
@@ -9,7 +9,7 @@ export const snapshotWithOptions = options => ({
 }) => {
   if (options.snapshotSerializers) {
     options.snapshotSerializers.forEach(serializer => {
-      jestSpecificSnapshot.addSerializer(serializer);
+      addSerializer(serializer);
       expect.addSerializer(serializer);
     });
   }
