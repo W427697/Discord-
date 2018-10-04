@@ -18,8 +18,7 @@
     "examples/official-storybook",
     "examples/riot-kitchen-sink",
     "examples/svelte-kitchen-sink",
-    "examples/vue-kitchen-sink",
-    "lib/cli/test/run/*"
+    "examples/vue-kitchen-sink"
   ],
   "registry": "https://registry.npmjs.org",
   "version": "4.0.0-alpha.23"
