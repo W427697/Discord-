@@ -1,4 +1,3 @@
-import { addSerializer } from 'jest-specific-snapshot';
 import { getSnapshotFileName } from './utils';
 
 export const snapshotWithOptions = options => ({
@@ -7,13 +6,6 @@ export const snapshotWithOptions = options => ({
   renderTree,
   snapshotFileName,
 }) => {
-  if (options.snapshotSerializers) {
-    options.snapshotSerializers.forEach(serializer => {
-      addSerializer(serializer);
-      expect.addSnapshotSerializer(serializer);
-    });
-  }
-
   const result = renderTree(story, context, options);
 
   function match(tree) {

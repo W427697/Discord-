@@ -2,6 +2,7 @@ import fs from 'fs';
 import glob from 'glob';
 import global, { describe, it } from 'global';
 import addons from '@storybook/addons';
+import { addSerializer } from 'jest-specific-snapshot';
 import loadFramework from './frameworkLoader';
 import createChannel from './storybook-channel-mock';
 import getIntegrityOptions from './getIntegrityOptions';
@@ -53,6 +54,13 @@ export default function testStorySnapshots(options = {}) {
     renderer: options.renderer,
     serializer: options.serializer,
   };
+
+  if (options.snapshotSerializers) {
+    options.snapshotSerializers.forEach(serializer => {
+      addSerializer(serializer);
+      expect.addSnapshotSerializer(serializer);
+    });
+  }
 
   const testMethod = options.test || snapshotWithOptions(snapshotOptions);
   const integrityOptions = getIntegrityOptions(options);
