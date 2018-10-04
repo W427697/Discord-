@@ -10,7 +10,7 @@ export const snapshotWithOptions = options => ({
   if (options.snapshotSerializers) {
     options.snapshotSerializers.forEach(serializer => {
       addSerializer(serializer);
-      expect.addSerializer(serializer);
+      expect.addSnapshotSerializer(serializer);
     });
   }
 
