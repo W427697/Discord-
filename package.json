@@ -18,8 +18,7 @@
     "examples/official-storybook",
     "examples/riot-kitchen-sink",
     "examples/svelte-kitchen-sink",
-    "examples/vue-kitchen-sink",
-    "lib/cli/test/run/*"
+    "examples/vue-kitchen-sink"
   ],
   "scripts": {
     "bootstrap": "node ./scripts/bootstrap.js",
