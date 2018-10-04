@@ -1,3 +1,4 @@
+import 'jest-specific-snapshot';
 import { getSnapshotFileName } from './utils';
 
 export const snapshotWithOptions = options => ({
