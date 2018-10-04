@@ -395,6 +395,23 @@ This option needs to be set if either:
 * the multiSnapshot function is used to create multiple snapshot files (i.e. one per story), since it ignores any serializers specified in your jest config.
 * serializers not specified in your jest config should be used when snapshotting stories.
 
+### `serializer` (deprecated)
+
+Pass a custom serializer (such as enzyme-to-json) to serialize components to snapshot-comparable data. The functionality of this option is completely covered by [snapshotSerializers](`snapshotSerializers`) which should be used instead.
+
+```js
+import initStoryshots from '@storybook/addon-storyshots';
+import toJSON from 'enzyme-to-json';
+
+initStoryshots({
+  renderer: mount,
+  serializer: toJSON,
+});
+```
+
+This option only needs to be set if the default `snapshotSerializers` is not set in your jest config.
+
+
 ## Exports
 
 Apart from the default export (`initStoryshots`), Storyshots also exports some named test functions (see the `test` option above):
