@@ -1,7 +1,7 @@
 import path from 'path';
 import initStoryshots, { multiSnapshotWithOptions } from '@storybook/addon-storyshots';
 import { render as renderer } from 'enzyme';
-import { createSerializer } from "enzyme-to-json";
+import { createSerializer } from 'enzyme-to-json';
 
 // HTML Snapshots
 initStoryshots({
