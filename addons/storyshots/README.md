@@ -383,11 +383,11 @@ Pass an array of snapshotSerializers to the jest runtime that serializes your st
 
 ```js
 import initStoryshots from '@storybook/addon-storyshots';
-import enzymeToJSON from 'enzyme-to-json';
+import { createSerializer } from 'enzyme-to-json';
 
 initStoryshots({
   renderer: mount,
-  snapshotSerializers: [enzymeToJSON],
+  snapshotSerializers: [createSerializer()],
 });
 ```
 
