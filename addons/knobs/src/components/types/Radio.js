@@ -45,15 +45,16 @@ class RadiosType extends Component {
   }
 
   render() {
-    const { knob } = this.props;
+    const { knob, inline } = this.props;
 
-    return <div style={styles.group}>{this.renderRadioButtonList(knob)}</div>;
+    return <div style={inline && styles.group}>{this.renderRadioButtonList(knob)}</div>;
   }
 }
 
 RadiosType.defaultProps = {
   knob: {},
   onChange: value => value,
+  inline: false,
 };
 
 RadiosType.propTypes = {
@@ -63,6 +64,7 @@ RadiosType.propTypes = {
     options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   }),
   onChange: PropTypes.func,
+  inline: PropTypes.bool,
 };
 
 RadiosType.serialize = value => value;
