@@ -42,4 +42,6 @@ declare module '@storybook/angular' {
   export function configure(loaders: () => void, module: NodeModule): void;
   export function getStorybook(): IStoribookSection[];
   export function NgStory(config: IStoryContext): Function;
+  export function NgStoryModule(config: Object): Function;
+  export function ngBootstrapStoryModule(module: Function): void;
 }
