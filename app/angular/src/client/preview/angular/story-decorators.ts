@@ -1,10 +1,11 @@
 import { storiesOf } from '../index';
-import { IStoryContext } from '../../../../index';
+import { IStoryContext, NgStoryModuleConfig } from '../../../../index';
 
-export function NgStoryModule(config: { stories: Function[] }) {
+export function NgStoryModule(config: NgStoryModuleConfig) {
   return function(target: Function) {
     const constructor = target;
     constructor.prototype.stories = config.stories;
+
     return constructor;
   };
 }
@@ -17,8 +18,8 @@ export function NgStory(config: IStoryContext) {
   };
 }
 
-export function ngBootstrapStoryModule(storyModule: any) {
-  const module = new storyModule();
+export function ngBootstrapStoryModule(StoryModule: any) {
+  const module = new StoryModule();
 
-  module.stories.forEach((s: any) => new s());
+  module.stories.forEach((Story: any) => new Story());
 }
