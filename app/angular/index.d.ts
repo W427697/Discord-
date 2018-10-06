@@ -35,6 +35,7 @@ export interface IApi {
 }
 
 export interface NgStoryModuleConfig {
+  name?: string;
   stories: Function[];
 }
 

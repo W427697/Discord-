@@ -53,6 +53,7 @@ export class WithText {}
 export class WithSomeEmoji {}
 
 @NgStoryModule({
+  name: 'Decorator',
   stories: [Storybook, WithText, WithSomeEmoji],
 })
 export class StoryModule {}
