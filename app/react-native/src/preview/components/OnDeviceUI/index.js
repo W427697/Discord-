@@ -15,8 +15,7 @@ import Events from '@storybook/core-events';
 import style from './style';
 import StoryListView from '../StoryListView';
 import StoryView from '../StoryView';
-import AddonsList from './addons/list';
-import AddonWrapper from './addons/wrapper';
+import Addons from './addons';
 import Bar from './tabs/bar';
 import Panel from './tabs/panel';
 
@@ -252,13 +251,12 @@ export default class OnDeviceUI extends PureComponent {
               setInitialStory={setInitialStory}
             />
           </Panel>
-          <Panel style={[addonMenuStyles]}>
-            <AddonsList
+          <Panel style={addonMenuStyles}>
+            <Addons
               onPressAddon={this.handlePressAddon}
-              panels={this.panels}
               addonSelected={addonSelected}
+              panels={this.panels}
             />
-            <AddonWrapper addonSelected={addonSelected} panels={this.panels} />
           </Panel>
         </View>
         <View>
