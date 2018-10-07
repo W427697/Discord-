@@ -1,6 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { SafeAreaView, Dimensions, View, Animated, TouchableOpacity, Text } from 'react-native';
+import {
+  SafeAreaView,
+  Platform,
+  Keyboard,
+  Dimensions,
+  View,
+  Animated,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 import addons from '@storybook/addons';
 import Events from '@storybook/core-events';
 import style from './style';
@@ -13,9 +22,8 @@ import Panel from './tabs/panel';
 
 const ANIMATION_DURATION = 300;
 const PREVIEW_SCALE = 0.3;
-const BAR_HEIGHT = 38;
 
-const panelWidth = () => Dimensions.get('screen').width * (1 - PREVIEW_SCALE - 0.05);
+const panelWidth = width => width * (1 - PREVIEW_SCALE - 0.05);
 
 export default class OnDeviceUI extends PureComponent {
   constructor(props) {
@@ -33,6 +41,8 @@ export default class OnDeviceUI extends PureComponent {
       selection: {},
       storyFn: null,
       addonSelected: Object.keys(this.panels)[0] || null,
+      previewWidth: 0,
+      previewHeight: 0,
     };
 
     this.animatedValue = new Animated.Value(tabOpen);
@@ -43,13 +53,46 @@ export default class OnDeviceUI extends PureComponent {
     const { events } = this.props;
     events.on(Events.SELECT_STORY, this.handleStoryChange);
     events.on(Events.FORCE_RE_RENDER, this.forceRender);
+
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+    Dimensions.addEventListener('change', this.removeKeyboardOnOrientationChange);
   }
 
   componentWillUnmount() {
     const { events } = this.props;
     events.removeListener(Events.SELECT_STORY, this.handleStoryChange);
     events.removeListener(Events.FORCE_RE_RENDER, this.forceRender);
+
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+    Dimensions.removeEventListener('change', this.removeKeyboardOnOrientationChange);
   }
+
+  keyboardDidShow = e => {
+    // There is bug in RN that it calles this method if you simply go from portrait to landscape.
+    // So we enable keyboard check only when keyboard actually opens
+    if (Platform.OS === 'android') {
+      const { previewWidth } = this.state;
+      if (previewWidth === e.endCoordinates.width) {
+        this.keyboardOpen = true;
+      }
+    }
+  };
+
+  // When rotating screen from portrait to landscape with keyboard open on android it calls keyboardDidShow, but doesn't call
+  // keyboardDidhide. To avoid issues we set keyboardOpen to false imediatelly on keyboardChange
+  removeKeyboardOnOrientationChange = () => {
+    if (Platform.OS === 'android') {
+      this.keyboardOpen = false;
+    }
+  };
+
+  keyboardDidHide = () => {
+    if (this.keyboardOpen) {
+      this.keyboardOpen = false;
+    }
+  };
 
   handlePressAddon = addonSelected => {
     this.setState({ addonSelected });
@@ -109,9 +152,9 @@ export default class OnDeviceUI extends PureComponent {
       storyFn,
       isUIVisible,
       addonSelected,
+      previewWidth,
+      previewHeight,
     } = this.state;
-
-    const { width, height } = Dimensions.get('screen');
 
     const menuStyles = [
       {
@@ -119,12 +162,11 @@ export default class OnDeviceUI extends PureComponent {
           {
             translateX: this.animatedValue.interpolate({
               inputRange: [-1, 0],
-              outputRange: [0, -panelWidth()],
+              outputRange: [0, -panelWidth(previewWidth)],
             }),
           },
         ],
-        width: panelWidth(),
-        marginBottom: isUIVisible ? BAR_HEIGHT : 0,
+        width: panelWidth(previewWidth),
       },
     ];
 
@@ -134,12 +176,11 @@ export default class OnDeviceUI extends PureComponent {
           {
             translateX: this.animatedValue.interpolate({
               inputRange: [0, 1],
-              outputRange: [width, width - panelWidth()],
+              outputRange: [previewWidth, previewWidth - panelWidth(previewWidth)],
             }),
           },
         ],
-        width: panelWidth(),
-        marginBottom: isUIVisible ? BAR_HEIGHT : 0,
+        width: panelWidth(previewWidth),
       },
     ];
 
@@ -156,10 +197,8 @@ export default class OnDeviceUI extends PureComponent {
 
     const previewStyles = [style.preview, tabOpen !== 0 && style.previewMinimized, scale];
 
-    const translateX = width / 2 - (width * PREVIEW_SCALE) / 2 - 6;
-
-    const previewHeight = isUIVisible ? height - BAR_HEIGHT : height;
-    const translateY = -(previewHeight / 2 - (previewHeight * PREVIEW_SCALE) / 2 - 8);
+    const translateX = previewWidth / 2 - (previewWidth * PREVIEW_SCALE) / 2 - 6;
+    const translateY = -(previewHeight / 2 - (previewHeight * PREVIEW_SCALE) / 2 - 12);
 
     const position = {
       transform: [
@@ -182,30 +221,46 @@ export default class OnDeviceUI extends PureComponent {
 
     return (
       <SafeAreaView style={style.main}>
-        <View style={style.flex}>
-          <Animated.View style={previewWrapperStyles}>
-            <Animated.View style={previewStyles}>
-              <StoryView url={url} events={events} selection={selection} storyFn={storyFn} />
+        <View
+          style={{ flex: 1 }}
+          onLayout={({
+            nativeEvent: {
+              layout: { width, height },
+            },
+          }) => {
+            if (!this.keyboardOpen) {
+              this.setState({
+                previewHeight: height,
+                previewWidth: width,
+              });
+            }
+          }}
+        >
+          <View style={{ position: 'absolute', width: previewWidth, height: previewHeight }}>
+            <Animated.View style={previewWrapperStyles}>
+              <Animated.View style={previewStyles}>
+                <StoryView url={url} events={events} selection={selection} storyFn={storyFn} />
+              </Animated.View>
             </Animated.View>
-          </Animated.View>
+          </View>
+          <Panel style={menuStyles}>
+            <StoryListView
+              stories={stories}
+              events={events}
+              selectedKind={selection.kind}
+              selectedStory={selection.story}
+              setInitialStory={setInitialStory}
+            />
+          </Panel>
+          <Panel style={[addonMenuStyles]}>
+            <AddonsList
+              onPressAddon={this.handlePressAddon}
+              panels={this.panels}
+              addonSelected={addonSelected}
+            />
+            <AddonWrapper addonSelected={addonSelected} panels={this.panels} />
+          </Panel>
         </View>
-        <Panel style={menuStyles}>
-          <StoryListView
-            stories={stories}
-            events={events}
-            selectedKind={selection.kind}
-            selectedStory={selection.story}
-            setInitialStory={setInitialStory}
-          />
-        </Panel>
-        <Panel style={[addonMenuStyles]}>
-          <AddonsList
-            onPressAddon={this.handlePressAddon}
-            panels={this.panels}
-            addonSelected={addonSelected}
-          />
-          <AddonWrapper addonSelected={addonSelected} panels={this.panels} />
-        </Panel>
         <View>
           {isUIVisible && <Bar index={tabOpen} onPress={this.handleToggleTab} />}
           {this.renderVisibilityButton()}

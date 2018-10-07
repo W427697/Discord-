@@ -1,6 +1,5 @@
 import { View, AppRegistry } from 'react-native';
 import React, { Component } from 'react';
-import { Constants } from 'expo';
 import { getStorybookUI, configure } from '@storybook/react-native';
 import { setOptions } from '@storybook/addon-options';
 
@@ -27,7 +26,7 @@ setTimeout(
 class StorybookUIHMRRoot extends Component {
   render() {
     return (
-      <View style={{ flex: 1, marginTop: Constants.statusBarHeight }}>
+      <View style={{ flex: 1 }}>
         <StorybookUIRoot />
       </View>
     );
