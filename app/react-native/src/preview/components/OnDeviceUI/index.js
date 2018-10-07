@@ -181,19 +181,17 @@ export default class OnDeviceUI extends PureComponent {
       previewHeight,
     } = this.state;
 
-    const { width: screenWidth } = Dimensions.get('screen');
-
     const menuStyles = [
       {
         transform: [
           {
             translateX: this.animatedValue.interpolate({
               inputRange: [-1, 0],
-              outputRange: [0, -panelWidth(screenWidth)],
+              outputRange: [0, -panelWidth(previewWidth)],
             }),
           },
         ],
-        width: panelWidth(screenWidth),
+        width: panelWidth(previewWidth),
       },
     ];
 
@@ -203,11 +201,11 @@ export default class OnDeviceUI extends PureComponent {
           {
             translateX: this.animatedValue.interpolate({
               inputRange: [0, 1],
-              outputRange: [screenWidth, screenWidth - panelWidth(screenWidth)],
+              outputRange: [previewWidth, previewWidth - panelWidth(previewWidth)],
             }),
           },
         ],
-        width: panelWidth(screenWidth),
+        width: panelWidth(previewWidth),
       },
     ];
 
