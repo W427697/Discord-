@@ -6,25 +6,26 @@ import { Select } from '@storybook/components';
 const safeToString = value => (value.toString && value.toString()) || `${value}`;
 
 const stringifyKeys = object =>
-  Object.keys(object).reduce(
-    (finalObject, key) => ({
+  Object.entries(object).reduce(
+    (finalObject, [key, value]) => ({
       ...finalObject,
-      [safeToString(key)]: object[key],
+      [safeToString(key)]: value,
     }),
     {}
   );
 
+const arrayToObject = (finalObject, value) => ({
+  ...finalObject,
+  [safeToString(value)]: value,
+});
+
 class SelectType extends Component {
   static getDerivedStateFromProps({ knob }) {
-    const optionsMap = Array.isArray(knob.options)
-      ? knob.options.reduce(
-          (finalObject, value) => ({
-            ...finalObject,
-            [safeToString(value)]: value,
-          }),
-          {}
-        )
-      : stringifyKeys(knob.options);
+    const { options = [] } = knob;
+
+    const optionsMap = Array.isArray(options)
+      ? options.reduce(arrayToObject, {})
+      : stringifyKeys(options);
 
     return {
       optionsMap,
