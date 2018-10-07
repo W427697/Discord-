@@ -37,8 +37,8 @@ export default class OnDeviceUI extends PureComponent {
       isUIVisible: !props.isUIHidden,
       tabOpen,
       slideBetweenAnimation: false,
-      selection: {},
-      storyFn: null,
+      selection: props.initialStory || {},
+      storyFn: props.initialStory ? props.initialStory.storyFn : null,
       addonSelected: Object.keys(this.panels)[0] || null,
       previewWidth: 0,
       previewHeight: 0,
@@ -143,7 +143,7 @@ export default class OnDeviceUI extends PureComponent {
   );
 
   render() {
-    const { stories, setInitialStory, events, url } = this.props;
+    const { stories, events, url } = this.props;
     const {
       tabOpen,
       slideBetweenAnimation,
@@ -155,17 +155,19 @@ export default class OnDeviceUI extends PureComponent {
       previewHeight,
     } = this.state;
 
+    const { width: screenWidth } = Dimensions.get('screen');
+
     const menuStyles = [
       {
         transform: [
           {
             translateX: this.animatedValue.interpolate({
               inputRange: [-1, 0],
-              outputRange: [0, -panelWidth(previewWidth)],
+              outputRange: [0, -panelWidth(screenWidth)],
             }),
           },
         ],
-        width: panelWidth(previewWidth),
+        width: panelWidth(screenWidth),
       },
     ];
 
@@ -175,11 +177,11 @@ export default class OnDeviceUI extends PureComponent {
           {
             translateX: this.animatedValue.interpolate({
               inputRange: [0, 1],
-              outputRange: [previewWidth, previewWidth - panelWidth(previewWidth)],
+              outputRange: [screenWidth, screenWidth - panelWidth(screenWidth)],
             }),
           },
         ],
-        width: panelWidth(previewWidth),
+        width: panelWidth(screenWidth),
       },
     ];
 
@@ -235,7 +237,13 @@ export default class OnDeviceUI extends PureComponent {
             }
           }}
         >
-          <View style={{ position: 'absolute', width: previewWidth, height: previewHeight }}>
+          <View
+            style={
+              previewWidth === 0
+                ? { flex: 1 }
+                : { position: 'absolute', width: previewWidth, height: previewHeight }
+            }
+          >
             <Animated.View style={previewWrapperStyles}>
               <Animated.View style={previewStyles}>
                 <StoryView url={url} events={events} selection={selection} storyFn={storyFn} />
@@ -248,7 +256,6 @@ export default class OnDeviceUI extends PureComponent {
               events={events}
               selectedKind={selection.kind}
               selectedStory={selection.story}
-              setInitialStory={setInitialStory}
             />
           </Panel>
           <Panel style={addonMenuStyles}>
@@ -283,11 +290,16 @@ OnDeviceUI.propTypes = {
   url: PropTypes.string,
   tabOpen: PropTypes.number,
   isUIHidden: PropTypes.bool,
-  setInitialStory: PropTypes.bool.isRequired,
+  initialStory: PropTypes.shape({
+    story: PropTypes.string.isRequired,
+    kind: PropTypes.string.isRequired,
+    storyFn: PropTypes.func.isRequired,
+  }),
 };
 
 OnDeviceUI.defaultProps = {
   url: '',
   tabOpen: 0,
   isUIHidden: false,
+  initialStory: null,
 };

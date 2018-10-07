@@ -45,6 +45,10 @@ export default class Preview {
 
     const onDeviceUI = params.onDeviceUI !== false;
 
+    // should the initial story be sent to storybookUI
+    // set to true if using disableWebsockets or if connection to WebsocketServer fails.
+    let setInitialStory = false;
+
     try {
       channel = addons.getChannel();
     } catch (e) {
@@ -67,7 +71,15 @@ export default class Preview {
 
         const url = `${websocketType}://${host}${port}/${query}`;
         webUrl = `${httpType}://${host}${port}`;
-        channel = createChannel({ url, async: onDeviceUI, onError: this._selectInitialStory });
+        channel = createChannel({
+          url,
+          async: onDeviceUI,
+          onError: () => {
+            this._setInitialStory();
+
+            setInitialStory = true;
+          },
+        });
       }
 
       addons.setChannel(channel);
@@ -82,6 +94,8 @@ export default class Preview {
     // If the app is started with server running, set the story as the one selected in the browser
     if (webUrl) {
       this._sendGetCurrentStory();
+    } else {
+      setInitialStory = true;
     }
 
     // finally return the preview component
@@ -93,7 +107,7 @@ export default class Preview {
           url={webUrl}
           isUIOpen={params.isUIOpen}
           isStoryMenuOpen={params.isStoryMenuOpen}
-          setInitialStory={!webUrl}
+          initialStory={setInitialStory ? this._getInitialStory() : null}
         />
       ) : (
         <StoryView url={webUrl} events={channel} listenToEvents />
@@ -111,18 +125,31 @@ export default class Preview {
     channel.emit(Events.GET_CURRENT_STORY);
   }
 
-  _selectInitialStory = () => {
-    const dump = this._stories.dumpStoryBook();
-    const nonEmptyKind = dump.find(kind => kind.stories.length > 0);
-    if (nonEmptyKind) {
-      this._selectStory({ kind: nonEmptyKind.kind, story: nonEmptyKind.stories[0] });
+  _setInitialStory = () => {
+    const story = this._getInitialStory();
+    if (story) {
+      this._selectStory(story);
     }
   };
 
-  _selectStory(selection) {
+  _getInitialStory = () => {
+    const dump = this._stories.dumpStoryBook();
+    const nonEmptyKind = dump.find(kind => kind.stories.length > 0);
+    if (nonEmptyKind) {
+      return this._getStory({ kind: nonEmptyKind.kind, story: nonEmptyKind.stories[0] });
+    }
+
+    return null;
+  };
+
+  _getStory(selection) {
     const { kind, story } = selection;
     const storyFn = this._stories.getStoryWithContext(kind, story);
+    return { ...selection, storyFn };
+  }
+
+  _selectStory(selection) {
     const channel = addons.getChannel();
-    channel.emit(Events.SELECT_STORY, { ...selection, storyFn });
+    channel.emit(Events.SELECT_STORY, this._getStory(selection));
   }
 }
