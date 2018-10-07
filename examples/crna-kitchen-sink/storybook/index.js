@@ -13,13 +13,9 @@ configure(() => {
 
 const StorybookUIRoot = getStorybookUI();
 
-setTimeout(
-  () =>
-    setOptions({
-      name: 'CRNA React Native App',
-    }),
-  100
-);
+setOptions({
+  name: 'CRNA React Native App',
+});
 
 // react-native hot module loader must take in a Class - https://github.com/facebook/react-native/issues/10991
 // eslint-disable-next-line react/prefer-stateless-function
