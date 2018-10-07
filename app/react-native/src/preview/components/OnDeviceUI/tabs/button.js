@@ -1,39 +1,46 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import { View, Text, TouchableOpacity } from 'react-native';
+const style = StyleSheet.create({
+  text: {
+    color: '#999999',
+    paddingHorizontal: 8,
+    paddingVertical: 10,
+    fontSize: 11,
+  },
+  underline: {
+    height: 3,
+    backgroundColor: 'transparent',
+  },
+});
 
 export default class Button extends PureComponent {
   onPress = () => {
-    this.props.onPress(this.props.id);
+    const { onPress, id } = this.props;
+    onPress(id);
   };
 
   render() {
+    const { active, children } = this.props;
+
     return (
       <TouchableOpacity onPress={this.onPress}>
         <Text
           style={[
-            {
-              color: 'rgba(0, 0, 0, 0.4)',
-              paddingHorizontal: 8,
-              paddingVertical: 10,
-              fontSize: 11,
-            },
-            this.props.active && {
+            style.text,
+            active && {
               color: 'rgb(68, 68, 68)',
             },
           ]}
         >
-          {this.props.children.toUpperCase()}
+          {children.toUpperCase()}
         </Text>
         <View
           style={[
-            {
-              height: 3,
-              backgroundColor: 'transparent',
-            },
-            this.props.active && {
-              backgroundColor: 'rgba(0, 0, 0, 0.1)',
+            style.underline,
+            active && {
+              backgroundColor: '#e6e6e6',
             },
           ]}
         />

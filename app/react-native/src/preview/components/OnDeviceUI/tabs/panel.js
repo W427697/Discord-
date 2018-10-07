@@ -2,28 +2,21 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, Animated } from 'react-native';
 import PropTypes from 'prop-types';
 
-import style from '../style';
+const style = StyleSheet.create({
+  panel: {
+    ...StyleSheet.absoluteFillObject,
+    marginBottom: 36,
+    borderWidth: 1,
+    borderTopWidth: 1,
+    borderBottomWidth: 0,
+    borderColor: '#e6e6e6',
+  },
+});
 
 export default class Panel extends PureComponent {
   render() {
-    return (
-      <Animated.View
-        style={[
-          StyleSheet.absoluteFillObject,
-          style.flex,
-          {
-            marginBottom: 36,
-            borderWidth: 1,
-            borderTopWidth: 1,
-            borderBottomWidth: 0,
-            borderColor: 'rgba(0, 0, 0, 0.1)',
-          },
-          ...this.props.style,
-        ]}
-      >
-        {this.props.children}
-      </Animated.View>
-    );
+    const { children, style: propsStyle } = this.props;
+    return <Animated.View style={[style.panel, ...propsStyle]}>{children}</Animated.View>;
   }
 }
 

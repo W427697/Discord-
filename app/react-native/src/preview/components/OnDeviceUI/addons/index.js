@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 
 import AddonsList from './list';
 import AddonWrapper from './wrapper';
+import style from '../style';
 
 export default class Addons extends PureComponent {
   static propTypes = {
@@ -26,14 +27,14 @@ export default class Addons extends PureComponent {
 
     if (Object.keys(panels).length === 0) {
       return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ fontSize: 17 }}>No on device addons loaded</Text>
+        <View style={[style.flex, style.center]}>
+          <Text style={style.text}>No on device addons loaded</Text>
         </View>
       );
     }
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={style.flex}>
         <AddonsList onPressAddon={onPressAddon} panels={panels} addonSelected={addonSelected} />
         <AddonWrapper addonSelected={addonSelected} panels={panels} />
       </View>

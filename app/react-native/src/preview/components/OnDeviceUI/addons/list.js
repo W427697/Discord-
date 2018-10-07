@@ -1,10 +1,17 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView } from 'react-native';
-
-import style from '../style';
+import { View, ScrollView, StyleSheet } from 'react-native';
 
 import Button from '../tabs/button';
+
+const style = StyleSheet.create({
+  list: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e6e6e6',
+  },
+});
 
 export default class AddonList extends PureComponent {
   static propTypes = {
@@ -33,14 +40,7 @@ export default class AddonList extends PureComponent {
     const addonKeys = Object.keys(panels);
 
     return (
-      <View
-        style={{
-          flexDirection: 'row',
-          backgroundColor: 'white',
-          borderBottomWidth: 1,
-          borderBottomColor: 'rgba(0, 0, 0, 0.1)',
-        }}
-      >
+      <View style={style.list}>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal style={style.addonList}>
           {addonKeys.map(id => this.renderTab(id, panels[id].title))}
         </ScrollView>

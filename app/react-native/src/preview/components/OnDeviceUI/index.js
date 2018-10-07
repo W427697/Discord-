@@ -221,9 +221,9 @@ export default class OnDeviceUI extends PureComponent {
     const previewWrapperStyles = [style.flex, position];
 
     return (
-      <SafeAreaView style={style.main}>
+      <SafeAreaView style={style.flex}>
         <View
-          style={{ flex: 1 }}
+          style={style.flex}
           onLayout={({
             nativeEvent: {
               layout: { width, height },
@@ -240,7 +240,7 @@ export default class OnDeviceUI extends PureComponent {
           <View
             style={
               previewWidth === 0
-                ? { flex: 1 }
+                ? style.flex
                 : { position: 'absolute', width: previewWidth, height: previewHeight }
             }
           >

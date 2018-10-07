@@ -28,9 +28,9 @@ export default class Wrapper extends PureComponent {
       const selected = addonSelected === id;
 
       return (
-        <View key={id} style={selected ? style.flex : [style.modalInvisible, style.invisible]}>
-          <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-            <ScrollView style={{ flex: 1 }}>{panels[id].render({ active: selected })}</ScrollView>
+        <View key={id} style={selected ? style.flex : style.invisible}>
+          <KeyboardAvoidingView behavior="padding" style={style.flex}>
+            <ScrollView style={style.flex}>{panels[id].render({ active: selected })}</ScrollView>
           </KeyboardAvoidingView>
         </View>
       );
