@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import GestureRecognizer from 'react-native-swipe-gestures';
 import PropTypes from 'prop-types';
 import {
   SafeAreaView,
@@ -10,6 +11,7 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native';
+
 import addons from '@storybook/addons';
 import Events from '@storybook/core-events';
 import style from './style';
@@ -21,6 +23,11 @@ import Panel from './tabs/panel';
 
 const ANIMATION_DURATION = 300;
 const PREVIEW_SCALE = 0.3;
+
+const swipeConfig = {
+  velocityThreshold: 0.2,
+  directionalOffsetThreshold: 80,
+};
 
 const panelWidth = width => width * (1 - PREVIEW_SCALE - 0.05);
 
@@ -93,6 +100,24 @@ export default class OnDeviceUI extends PureComponent {
     }
   };
 
+  handleSwipeLeft = () => {
+    const { tabOpen } = this.state;
+    if (tabOpen < 1) {
+      this.handleToggleTab(tabOpen + 1);
+    }
+  };
+
+  handleSwipeRight = () => {
+    const { tabOpen } = this.state;
+    if (tabOpen > -1) {
+      this.handleToggleTab(tabOpen - 1);
+    }
+  };
+
+  handleOpenPreview = () => {
+    this.handleToggleTab(0);
+  };
+
   handlePressAddon = addonSelected => {
     this.setState({ addonSelected });
   };
@@ -137,6 +162,7 @@ export default class OnDeviceUI extends PureComponent {
       testID="Storybook.OnDeviceUI.toggleUI"
       accessibilityLabel="Storybook.OnDeviceUI.toggleUI"
       style={style.hideButton}
+      hitSlop={{ top: 5, left: 5, bottom: 5, right: 5 }}
     >
       <Text style={[style.hideButtonText]}>o</Text>
     </TouchableOpacity>
@@ -246,7 +272,13 @@ export default class OnDeviceUI extends PureComponent {
           >
             <Animated.View style={previewWrapperStyles}>
               <Animated.View style={previewStyles}>
-                <StoryView url={url} events={events} selection={selection} storyFn={storyFn} />
+                <TouchableOpacity
+                  style={style.flex}
+                  disabled={tabOpen === 0}
+                  onPress={this.handleOpenPreview}
+                >
+                  <StoryView url={url} events={events} selection={selection} storyFn={storyFn} />
+                </TouchableOpacity>
               </Animated.View>
             </Animated.View>
           </View>
@@ -267,7 +299,15 @@ export default class OnDeviceUI extends PureComponent {
           </Panel>
         </View>
         <View>
-          {isUIVisible && <Bar index={tabOpen} onPress={this.handleToggleTab} />}
+          {isUIVisible && (
+            <GestureRecognizer
+              onSwipeLeft={this.handleSwipeLeft}
+              onSwipeRight={this.handleSwipeRight}
+              config={swipeConfig}
+            >
+              <Bar index={tabOpen} onPress={this.handleToggleTab} />
+            </GestureRecognizer>
+          )}
           {this.renderVisibilityButton()}
         </View>
       </SafeAreaView>

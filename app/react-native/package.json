@@ -58,6 +58,7 @@
     "raw-loader": "^0.5.1",
     "react-dev-utils": "6.0.0-next.3e165448",
     "react-native-compat": "^1.0.0",
+    "react-native-swipe-gestures": "^1.0.2",
     "shelljs": "^0.8.2",
     "universal-dotenv": "^1.9.0",
     "url-parse": "^1.4.3",
