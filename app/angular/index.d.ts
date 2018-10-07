@@ -36,7 +36,7 @@ export interface IApi {
 
 export interface NgStoryModuleMetadata {
   name?: string;
-  stories: Function[];
+  stories?: ICollection;
 }
 
 export interface NgStoryMetadata {
