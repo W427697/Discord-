@@ -40,53 +40,53 @@ export default class Preview {
   }
 
   getStorybookUI(params = {}) {
-    return () => {
-      let webUrl = null;
-      let channel = null;
+    let webUrl = null;
+    let channel = null;
 
-      const onDeviceUI = params.onDeviceUI !== false;
+    const onDeviceUI = params.onDeviceUI !== false;
 
-      try {
-        channel = addons.getChannel();
-      } catch (e) {
-        // getChannel throws if the channel is not defined,
-        // which is fine in this case (we will define it below)
+    try {
+      channel = addons.getChannel();
+    } catch (e) {
+      // getChannel throws if the channel is not defined,
+      // which is fine in this case (we will define it below)
+    }
+
+    if (!channel || params.resetStorybook) {
+      if (onDeviceUI && params.disableWebsockets) {
+        channel = new Channel({ async: true });
+      } else {
+        const host =
+          params.host || parse(NativeModules.SourceCode.scriptURL).hostname || 'localhost';
+        const port = params.port !== false ? `:${params.port || 7007}` : '';
+
+        const query = params.query || '';
+        const { secured } = params;
+        const websocketType = secured ? 'wss' : 'ws';
+        const httpType = secured ? 'https' : 'http';
+
+        const url = `${websocketType}://${host}${port}/${query}`;
+        webUrl = `${httpType}://${host}${port}`;
+        channel = createChannel({ url, async: onDeviceUI, onError: this._selectInitialStory });
       }
 
-      if (!channel || params.resetStorybook) {
-        if (onDeviceUI && params.disableWebsockets) {
-          channel = new Channel({ async: true });
-        } else {
-          const host =
-            params.host || parse(NativeModules.SourceCode.scriptURL).hostname || 'localhost';
-          const port = params.port !== false ? `:${params.port || 7007}` : '';
+      addons.setChannel(channel);
 
-          const query = params.query || '';
-          const { secured } = params;
-          const websocketType = secured ? 'wss' : 'ws';
-          const httpType = secured ? 'https' : 'http';
+      channel.emit(Events.CHANNEL_CREATED);
+    }
 
-          const url = `${websocketType}://${host}${port}/${query}`;
-          webUrl = `${httpType}://${host}${port}`;
-          channel = createChannel({ url, async: onDeviceUI, onError: this._selectInitialStory });
-        }
+    channel.on(Events.GET_STORIES, () => this._sendSetStories());
+    channel.on(Events.SET_CURRENT_STORY, d => this._selectStory(d));
+    this._sendSetStories();
 
-        addons.setChannel(channel);
+    // If the app is started with server running, set the story as the one selected in the browser
+    if (webUrl) {
+      this._sendGetCurrentStory();
+    }
 
-        channel.emit(Events.CHANNEL_CREATED);
-      }
-
-      channel.on(Events.GET_STORIES, () => this._sendSetStories());
-      channel.on(Events.SET_CURRENT_STORY, d => this._selectStory(d));
-      this._sendSetStories();
-
-      // If the app is started with server running, set the story as the one selected in the browser
-      if (webUrl) {
-        this._sendGetCurrentStory();
-      }
-
-      // finally return the preview component
-      return onDeviceUI ? (
+    // finally return the preview component
+    return () =>
+      onDeviceUI ? (
         <OnDeviceUI
           stories={this._stories}
           events={channel}
@@ -98,7 +98,6 @@ export default class Preview {
       ) : (
         <StoryView url={webUrl} events={channel} listenToEvents />
       );
-    };
   }
 
   _sendSetStories() {
