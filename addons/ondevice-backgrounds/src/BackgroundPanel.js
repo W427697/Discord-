@@ -50,11 +50,6 @@ export default class BackgroundPanel extends Component {
       const backgrounds = [...data];
 
       this.setState({ backgrounds });
-      const defaultOrFirst = backgrounds.find(x => x.default) || backgrounds[0];
-
-      if (defaultOrFirst) {
-        this.update(defaultOrFirst.value);
-      }
     });
 
     this.onUnset = channel.on(Events.UNSET, () => {
