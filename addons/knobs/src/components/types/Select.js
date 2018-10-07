@@ -43,15 +43,11 @@ class SelectType extends Component {
   };
 
   renderOptionList(options) {
-    return Object.keys(options).map(key => this.renderOption(key, options[key]));
-  }
-
-  renderOption(key, value) {
-    return (
+    return Object.keys(options).map(key => (
       <option key={key} value={key}>
-        {value}
+        {key}
       </option>
-    );
+    ));
   }
 
   render() {
