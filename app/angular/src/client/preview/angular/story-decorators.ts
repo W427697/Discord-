@@ -1,7 +1,7 @@
 import { storiesOf } from '../index';
-import { IStoryContext, NgStoryModuleConfig } from '../../../../index';
+import { NgStoryMetadata, NgStoryModuleMetadata } from '../../../../index';
 
-export function NgStoryModule(config: NgStoryModuleConfig) {
+export function NgStoryModule(config: NgStoryModuleMetadata) {
   return function(target: Function) {
     const constructor = target;
     constructor.prototype.stories = config.stories;
@@ -14,7 +14,7 @@ export function NgStoryModule(config: NgStoryModuleConfig) {
   };
 }
 
-export function NgStory(config: IStoryContext) {
+export function NgStory(config: NgStoryMetadata) {
   return function(target: Function) {
     return (moduleName?: string) => {
       const storyConfig = { ...config };
@@ -23,7 +23,13 @@ export function NgStory(config: IStoryContext) {
         storyConfig.kind = `${moduleName}|${storyConfig.kind}`;
       }
 
-      storiesOf(storyConfig.kind, module).add(storyConfig.name, () => storyConfig.parameters);
+      const story = storiesOf(storyConfig.kind, module);
+
+      if (config.parameters.addons && config.parameters.addons.length) {
+        config.parameters.addons.forEach((a: any) => story.addDecorator(a));
+      }
+
+      story.add(storyConfig.name, () => storyConfig.parameters);
     };
   };
 }

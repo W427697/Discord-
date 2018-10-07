@@ -34,9 +34,21 @@ export interface IApi {
   add: (storyName: string, getStory: IGetStory, parameters?: any) => IApi;
 }
 
-export interface NgStoryModuleConfig {
+export interface NgStoryModuleMetadata {
   name?: string;
   stories: Function[];
+}
+
+export interface NgStoryMetadata {
+  kind: string;
+  name: string;
+  parameters: {
+    moduleMetadata?: Partial<NgModuleMetadata>;
+    props?: ICollection;
+    component?: any;
+    template?: string;
+    addons?: ICollection;
+  };
 }
 
 declare module '@storybook/angular' {
@@ -46,7 +58,7 @@ declare module '@storybook/angular' {
   export function addParameters(parameters: any): IApi;
   export function configure(loaders: () => void, module: NodeModule): void;
   export function getStorybook(): IStoribookSection[];
-  export function NgStory(config: IStoryContext): Function;
-  export function NgStoryModule(config: NgStoryModuleConfig): Function;
+  export function NgStory(config: NgStoryMetadata): Function;
+  export function NgStoryModule(config: NgStoryModuleMetadata): Function;
   export function ngBootstrapStoryModule(module: Function): void;
 }
