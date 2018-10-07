@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 const style = StyleSheet.create({
   panel: {
     ...StyleSheet.absoluteFillObject,
-    marginBottom: 36,
     borderWidth: 1,
     borderTopWidth: 1,
     borderBottomWidth: 0,
