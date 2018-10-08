@@ -8,11 +8,11 @@ For more information visit: [storybook.js.org](https://storybook.js.org)
 
 ## Getting Started
 
-The `getstorybook` tool can be used to add Storybook to your React Native app. Install the `getstorybook` tool if necessary and run it from your project directory with these commands:
+The `storybook` CLI tool can be used to add Storybook to your React Native app. Install the `storybook` tool if necessary and run it from your project directory with these commands:
 
 ```shell
 npm -g i @storybook/cli
-getstorybook
+storybook init
 ```
 
 The next thing you need to do is make Storybook UI visible in your app.
@@ -98,7 +98,7 @@ First follow the instructions [here](https://github.com/ds300/react-native-types
 Now update your storybook `package.json` script to the following
 
     "scripts": {
-       "storybook": "storybook --metro-config $PWD/rn-cli.config.js"
+       "storybook": "storybook start --metro-config $PWD/rn-cli.config.js -p 7007"
     }
 
 The metro bundler requires an absolute path to the config. The above setup assumes the `rn-cli.config.js` is in the root of your project or next to your `package.json`
