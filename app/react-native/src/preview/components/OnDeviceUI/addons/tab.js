@@ -12,7 +12,8 @@ export default class Tab extends PureComponent {
   };
 
   onPress = () => {
-    this.props.onPress(this.props.id);
+    const { onPress, id } = this.props;
+    onPress(id);
   };
 
   render() {
