@@ -282,19 +282,19 @@ Configurable UI for selecting a value from a set of options.
 import { optionsKnob as options } from '@storybook/addon-knobs';
 
 const label = 'Fruits';
-const options = {
+const valuesObj = {
   Kiwi: 'kiwi',
   Guava: 'guava',
   Watermelon: 'watermelon',
 };
 const defaultValue = 'kiwi';
-const config = {
+const optionsObj = {
   display: 'inline-radio'
 };
 
-const value = options(label, options, defaultValue, config);
+const value = options(label, valuesObj, defaultValue, optionsObj);
 ```
-> The display property for `config` accepts:
+> The display property for `optionsObj` accepts:
 > - `radio`
 > - `inline-radio`
 > - `select`

@@ -73,8 +73,8 @@ export function files(name, accept, value = []) {
   return manager.knob(name, { type: 'files', accept, value });
 }
 
-export function optionsKnob(name, options, value, config, groupId) {
-  return manager.knob(name, { type: 'options', options, value, config, groupId });
+export function optionsKnob(name, valuesObj, value, optionsObj, groupId) {
+  return manager.knob(name, { type: 'options', valuesObj, value, optionsObj, groupId });
 }
 
 const defaultOptions = {
