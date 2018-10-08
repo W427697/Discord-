@@ -7,7 +7,7 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "app",
+      "prefix": "storybook-app",
       "schematics": {},
       "architect": {
         "build": {
@@ -127,7 +127,7 @@
       "root": "projects/project-a",
       "sourceRoot": "projects/project-a/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "storybook-lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -167,7 +167,7 @@
       "root": "projects/project-b",
       "sourceRoot": "projects/project-b/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "storybook-lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
