@@ -98,20 +98,28 @@ export default class Preview {
       setInitialStory = true;
     }
 
-    // finally return the preview component
-    return () =>
-      onDeviceUI ? (
-        <OnDeviceUI
-          stories={this._stories}
-          events={channel}
-          url={webUrl}
-          isUIOpen={params.isUIOpen}
-          isStoryMenuOpen={params.isStoryMenuOpen}
-          initialStory={setInitialStory ? this._getInitialStory() : null}
-        />
-      ) : (
-        <StoryView url={webUrl} events={channel} listenToEvents />
-      );
+    const preview = this;
+
+    // react-native hot module loader must take in a Class - https://github.com/facebook/react-native/issues/10991
+    // eslint-disable-next-line react/prefer-stateless-function
+    return class StorybookRoot extends React.PureComponent {
+      render() {
+        if (onDeviceUI) {
+          return (
+            <OnDeviceUI
+              stories={preview._stories}
+              events={channel}
+              url={webUrl}
+              isUIOpen={params.isUIOpen}
+              isStoryMenuOpen={params.isStoryMenuOpen}
+              initialStory={setInitialStory ? preview._getInitialStory() : null}
+            />
+          );
+        }
+
+        return <StoryView url={webUrl} events={channel} listenToEvents />;
+      }
+    };
   }
 
   _sendSetStories() {
