@@ -1,4 +1,5 @@
 {
-  "name": "react_native",
-  "displayName": "react_native"
+  "expo": {
+    "sdkVersion": "20.0.0"
+  }
 }
