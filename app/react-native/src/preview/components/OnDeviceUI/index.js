@@ -142,6 +142,7 @@ export default class OnDeviceUI extends PureComponent {
     Animated.timing(this.animatedValue, {
       toValue: newTabOpen,
       duration: ANIMATION_DURATION,
+      useNativeDriver: true
     }).start();
 
     this.setState({
