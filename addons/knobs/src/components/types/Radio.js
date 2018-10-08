@@ -46,8 +46,9 @@ class RadiosType extends Component {
 
   render() {
     const { knob, inline } = this.props;
+    const displayStyle = inline ? styles.group : {};
 
-    return <div style={inline && styles.group}>{this.renderRadioButtonList(knob)}</div>;
+    return <div style={displayStyle}>{this.renderRadioButtonList(knob)}</div>;
   }
 }
 
