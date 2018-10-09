@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import GestureRecognizer from 'react-native-swipe-gestures';
 import PropTypes from 'prop-types';
 import {
   SafeAreaView,
@@ -9,7 +8,6 @@ import {
   View,
   Animated,
   TouchableOpacity,
-  Text,
 } from 'react-native';
 
 import addons from '@storybook/addons';
@@ -18,16 +16,11 @@ import style from './style';
 import StoryListView from '../StoryListView';
 import StoryView from '../StoryView';
 import Addons from './addons';
-import Bar from './tabs/bar';
-import Panel from './tabs/panel';
+import Panel from './panel';
+import Navigation from './navigation';
 
 const ANIMATION_DURATION = 300;
 const PREVIEW_SCALE = 0.3;
-
-const swipeConfig = {
-  velocityThreshold: 0.2,
-  directionalOffsetThreshold: 80,
-};
 
 const panelWidth = width => width * (1 - PREVIEW_SCALE - 0.05);
 
@@ -41,7 +34,6 @@ export default class OnDeviceUI extends PureComponent {
     const tabOpen = props.tabOpen || 0;
 
     this.state = {
-      isUIVisible: !props.isUIHidden,
       tabOpen,
       slideBetweenAnimation: false,
       selection: props.initialStory || {},
@@ -100,20 +92,6 @@ export default class OnDeviceUI extends PureComponent {
     }
   };
 
-  handleSwipeLeft = () => {
-    const { tabOpen } = this.state;
-    if (tabOpen < 1) {
-      this.handleToggleTab(tabOpen + 1);
-    }
-  };
-
-  handleSwipeRight = () => {
-    const { tabOpen } = this.state;
-    if (tabOpen > -1) {
-      this.handleToggleTab(tabOpen - 1);
-    }
-  };
-
   handleOpenPreview = () => {
     this.handleToggleTab(0);
   };
@@ -142,7 +120,7 @@ export default class OnDeviceUI extends PureComponent {
     Animated.timing(this.animatedValue, {
       toValue: newTabOpen,
       duration: ANIMATION_DURATION,
-      useNativeDriver: true
+      useNativeDriver: true,
     }).start();
 
     this.setState({
@@ -151,32 +129,13 @@ export default class OnDeviceUI extends PureComponent {
     });
   };
 
-  handleToggleUI = () => {
-    const { isUIVisible } = this.state;
-
-    this.setState({ isUIVisible: !isUIVisible });
-  };
-
-  renderVisibilityButton = () => (
-    <TouchableOpacity
-      onPress={this.handleToggleUI}
-      testID="Storybook.OnDeviceUI.toggleUI"
-      accessibilityLabel="Storybook.OnDeviceUI.toggleUI"
-      style={style.hideButton}
-      hitSlop={{ top: 5, left: 5, bottom: 5, right: 5 }}
-    >
-      <Text style={[style.hideButtonText]}>o</Text>
-    </TouchableOpacity>
-  );
-
   render() {
-    const { stories, events, url } = this.props;
+    const { stories, events, url, isUIHidden } = this.props;
     const {
       tabOpen,
       slideBetweenAnimation,
       selection,
       storyFn,
-      isUIVisible,
       addonSelected,
       previewWidth,
       previewHeight,
@@ -297,18 +256,11 @@ export default class OnDeviceUI extends PureComponent {
             />
           </Panel>
         </View>
-        <View>
-          {isUIVisible && (
-            <GestureRecognizer
-              onSwipeLeft={this.handleSwipeLeft}
-              onSwipeRight={this.handleSwipeRight}
-              config={swipeConfig}
-            >
-              <Bar index={tabOpen} onPress={this.handleToggleTab} />
-            </GestureRecognizer>
-          )}
-          {this.renderVisibilityButton()}
-        </View>
+        <Navigation
+          tabOpen={tabOpen}
+          onChangeTab={this.handleToggleTab}
+          initialUiVisible={!isUIHidden}
+        />
       </SafeAreaView>
     );
   }

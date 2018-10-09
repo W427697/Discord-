@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { View, ScrollView, StyleSheet } from 'react-native';
 
-import Button from '../tabs/button';
+import Button from '../navigation/button';
 
 const style = StyleSheet.create({
   list: {
