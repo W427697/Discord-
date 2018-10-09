@@ -15,13 +15,13 @@ export default {
     justifyContent: 'center',
   },
   hideButtonText: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#999999',
   },
   hideButton: {
     backgroundColor: 'transparent',
     position: 'absolute',
-    right: 5,
+    right: 8,
     bottom: 12,
   },
   previewMinimized: {
