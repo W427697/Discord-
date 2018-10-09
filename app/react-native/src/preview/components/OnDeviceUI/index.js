@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { SafeAreaView, View, Animated, TouchableOpacity } from 'react-native';
+import { SafeAreaView, Animated, TouchableOpacity } from 'react-native';
 import Events from '@storybook/core-events';
 
 import StoryListView from '../StoryListView';
@@ -109,6 +109,7 @@ export default class OnDeviceUI extends PureComponent {
     ];
 
     const previewStyles = [
+      style.flex,
       tabOpen !== 0 && style.previewMinimized,
       getPreviewScale(this.animatedValue, slideBetweenAnimation),
     ];
@@ -131,8 +132,6 @@ export default class OnDeviceUI extends PureComponent {
               </TouchableOpacity>
             </Animated.View>
           </Animated.View>
-        </AbsolutePositionedKeyboardAwareView>
-        <View style={style.flex}>
           <Panel style={getNavigatorPanelPosition(this.animatedValue, previewWidth)}>
             <StoryListView
               stories={stories}
@@ -144,7 +143,7 @@ export default class OnDeviceUI extends PureComponent {
           <Panel style={getAddonPanelPosition(this.animatedValue, previewWidth)}>
             <Addons />
           </Panel>
-        </View>
+        </AbsolutePositionedKeyboardAwareView>
         <Navigation
           tabOpen={tabOpen}
           onChangeTab={this.handleToggleTab}
