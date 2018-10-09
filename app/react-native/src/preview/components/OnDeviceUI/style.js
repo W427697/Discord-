@@ -1,5 +1,3 @@
-import { StyleSheet } from 'react-native-compat';
-
 export default {
   main: {
     flex: 1,
@@ -26,7 +24,6 @@ export default {
     right: 5,
     bottom: 12,
   },
-  preview: StyleSheet.absoluteFillObject,
   previewMinimized: {
     borderWidth: 1,
     borderColor: '#b3b3b3',
