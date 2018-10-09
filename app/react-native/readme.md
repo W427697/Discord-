@@ -36,7 +36,7 @@ import App from './app';
 module.exports = __DEV__ ? StorybookUI : App;
 ```
 
-### RNN, other use cases
+### React Native Navigation, other complex use cases
 
 `StorybookUI` is simply a RN `View` component that can be embedded anywhere in your RN application, e.g. on a tab or within an admin screen.
 
@@ -50,6 +50,15 @@ npm run storybook
 ```
 
 Now, you can open <http://localhost:7007> to view your storybook menus in the browser.
+
+## Old standalone behaviour
+Since storybook version v4.0 packager is removed from storybook.
+The suggested storybook usage is to include it inside your app.
+If you want to keep the old behaviour, you have to start the packager yourself with a different project root.
+ 
+```
+npm run storybook start -p 7007 | react-native start --projectRoot storybook
+```
 
 ## Start App
 
@@ -67,41 +76,6 @@ Once your app is started, changing the selected story in web browser will update
 
 If you are using Android and you get the following error after running the app: `'websocket: connection error', 'Failed to connect to localhost/127.0.0.1:7007'`, you have to forward the port 7007 on your device/emulator to port 7007 on your local machine with the following command:
 `adb reverse tcp:7007 tcp:7007`
-
-## Using Haul-cli
-
-[Haul](https://github.com/callstack-io/haul) is an alternative to the react-native packager and has several advantages in that it allows you to define your own loaders, and handles symlinks better.
-
-If you want to use haul instead of the react-native packager, modify the storybook npm script to:
-
-```sh
-storybook start -p 7007 --haul webpack.haul.storybook.js --platform android | ios | all
-```
-
-Where webpack.haul.storybook.js should look something like this:
-
-```js
-module.exports = ({ platform }) => ({
-  entry: `./storybook/index.${platform}.js`,
-  // any other haul config here.
-});
-```
-
-## Seamless Typescript Integration
-
-*Note: These instructions are for react-native >= 0.45, @storybook/react-native >= 4.0.0-alpha.2 or higher and the (default) [metro](https://github.com/facebook/metro) bundler*
-
-For seamless type integration (no intermediate build step) we use the custom rn cli config feature and the [react-native-typescript-transformer](https://github.com/ds300/react-native-typescript-transformer) project 
-
-First follow the instructions [here](https://github.com/ds300/react-native-typescript-transformer#step-1-install).
-
-Now update your storybook `package.json` script to the following
-
-    "scripts": {
-       "storybook": "storybook start --metro-config $PWD/rn-cli.config.js -p 7007"
-    }
-
-The metro bundler requires an absolute path to the config. The above setup assumes the `rn-cli.config.js` is in the root of your project or next to your `package.json`
 
 ## Start Command Parameters
 
