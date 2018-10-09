@@ -6,14 +6,13 @@ First, install the `@storybook/react-native` module
 npm install @storybook/react-native
 ```
 
-Create a new directory called `storybook` in your project root and create an entry file (index.js)as given below.
+Create a new directory called `storybook` in your project root and create an entry file (index.js) as given below.
 (Don't forget to replace "MyApplicationName" with your app name).
 
+**storybook/index.js**
 ```js
 import { AppRegistry } from 'react-native';
-import React, { Component } from 'react';
 import { getStorybookUI, configure } from '@storybook/react-native';
-import { setOptions } from '@storybook/addon-options';
 import './rn-addons';
 
 // import stories
@@ -24,26 +23,20 @@ configure(() => {
 
 const StorybookUIRoot = getStorybookUI();
 
-setTimeout(
-  () =>
-    setOptions({
-      name: 'React Native Vanilla',
-    }),
-  100
-);
-
-class StorybookUIHMRRoot extends Component {
-  render() {
-    return <StorybookUIRoot />;
-  }
-}
-
-AppRegistry.registerComponent('MyApplicationName', () => StorybookUIHMRRoot);
-export default StorybookUIHMRRoot;
+AppRegistry.registerComponent('MyApplicationName', () => StorybookUIRoot);
+export default StorybookUIRoot;
 ```
 
 Create a file called `rn-addons.js`
 In this file you can import on device addons.
+
+**storybook/rn-addons.js**
+```
+import '@storybook/addon-ondevice-knobs/register';
+import '@storybook/addon-ondevice-notes/register';
+...
+```
+
 
 Then write your first story in the `stories` directory like this:
 
@@ -86,13 +79,14 @@ If you want to support having a storybook server running add following NPM scrip
 ```json
 {
   "scripts": {
-    "storybook": "storybook start -p 7007"
+    "storybook": "storybook start"
   }
 }
 ```
 
 If you want to have addons inside browser, create a file named `addons.js` file in `storybook`. Here is a list of default addons:
 
+**storybook/addons.js**
 ```js
 import '@storybook/addon-actions';
 import '@storybook/addon-links';
