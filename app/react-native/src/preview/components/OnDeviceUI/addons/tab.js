@@ -5,12 +5,6 @@ import { TouchableOpacity, Text } from 'react-native';
 import style from '../style';
 
 export default class Tab extends PureComponent {
-  static propTypes = {
-    onPress: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-  };
-
   onPress = () => {
     const { onPress, id } = this.props;
     onPress(id);
@@ -25,3 +19,9 @@ export default class Tab extends PureComponent {
     );
   }
 }
+
+Tab.propTypes = {
+  onPress: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+};

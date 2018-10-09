@@ -14,17 +14,6 @@ const style = StyleSheet.create({
 });
 
 export default class AddonList extends PureComponent {
-  static propTypes = {
-    panels: PropTypes.objectOf(
-      PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        render: PropTypes.func.isRequired,
-      }).isRequired
-    ).isRequired,
-    onPressAddon: PropTypes.func.isRequired,
-    addonSelected: PropTypes.string.isRequired,
-  };
-
   renderTab = (id, title) => {
     const { addonSelected, onPressAddon } = this.props;
 
@@ -48,3 +37,14 @@ export default class AddonList extends PureComponent {
     );
   }
 }
+
+AddonList.propTypes = {
+  panels: PropTypes.objectOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      render: PropTypes.func.isRequired,
+    }).isRequired
+  ).isRequired,
+  onPressAddon: PropTypes.func.isRequired,
+  addonSelected: PropTypes.string.isRequired,
+};

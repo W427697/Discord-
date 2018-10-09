@@ -7,28 +7,13 @@ import AddonWrapper from './wrapper';
 import style from '../style';
 
 export default class Addons extends PureComponent {
-  static propTypes = {
-    panels: PropTypes.objectOf(
-      PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        render: PropTypes.func.isRequired,
-      }).isRequired
-    ).isRequired,
-    onPressAddon: PropTypes.func.isRequired,
-    addonSelected: PropTypes.string,
-  };
-
-  static defaultProps = {
-    addonSelected: '',
-  };
-
   render() {
     const { panels, onPressAddon, addonSelected } = this.props;
 
     if (Object.keys(panels).length === 0) {
       return (
         <View style={[style.flex, style.center]}>
-          <Text style={style.text}>No on device addons loaded</Text>
+          <Text style={style.text}>No onDevice addons loaded</Text>
         </View>
       );
     }
@@ -41,3 +26,18 @@ export default class Addons extends PureComponent {
     );
   }
 }
+
+Addons.propTypes = {
+  panels: PropTypes.objectOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      render: PropTypes.func.isRequired,
+    }).isRequired
+  ).isRequired,
+  onPressAddon: PropTypes.func.isRequired,
+  addonSelected: PropTypes.string,
+};
+
+Addons.defaultProps = {
+  addonSelected: '',
+};

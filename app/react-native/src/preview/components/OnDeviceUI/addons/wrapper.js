@@ -5,20 +5,6 @@ import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import style from '../style';
 
 export default class Wrapper extends PureComponent {
-  static propTypes = {
-    panels: PropTypes.objectOf(
-      PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        render: PropTypes.func.isRequired,
-      }).isRequired
-    ).isRequired,
-    addonSelected: PropTypes.string,
-  };
-
-  static defaultProps = {
-    addonSelected: '',
-  };
-
   render() {
     const { panels, addonSelected } = this.props;
 
@@ -43,3 +29,17 @@ export default class Wrapper extends PureComponent {
     });
   }
 }
+
+Wrapper.propTypes = {
+  panels: PropTypes.objectOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      render: PropTypes.func.isRequired,
+    }).isRequired
+  ).isRequired,
+  addonSelected: PropTypes.string,
+};
+
+Wrapper.defaultProps = {
+  addonSelected: '',
+};

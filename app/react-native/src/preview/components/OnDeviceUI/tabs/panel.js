@@ -20,7 +20,6 @@ export default class Panel extends PureComponent {
 }
 
 Panel.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  style: PropTypes.array.isRequired,
+  style: PropTypes.arrayOf(PropTypes.object).isRequired,
   children: PropTypes.node.isRequired,
 };
