@@ -4,10 +4,18 @@ import { Platform, Keyboard, Dimensions, View } from 'react-native';
 
 import style from './style';
 
+// Android changes screen size when keyboard opens.
+// To avoid issues we use absolute positioned element with predefined screen size
 export default class AbsolutePositionedKeyboardAwareView extends PureComponent {
   componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this.keyboardDidShowHandler
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this.keyboardDidHideHandler
+    );
     Dimensions.addEventListener('change', this.removeKeyboardOnOrientationChange);
   }
 
@@ -17,11 +25,11 @@ export default class AbsolutePositionedKeyboardAwareView extends PureComponent {
     Dimensions.removeEventListener('change', this.removeKeyboardOnOrientationChange);
   }
 
-  keyboardDidShow = e => {
-    // There is bug in RN that it calles this method if you simply go from portrait to landscape.
-    // So we enable keyboard check only when keyboard actually opens
+  keyboardDidShowHandler = e => {
     if (Platform.OS === 'android') {
       const { previewWidth } = this.state;
+      // There is bug in RN android that keyboardDidShow event is called simply when you go from portrait to landscape.
+      // To make sure that this is keyboard event we check screen width
       if (previewWidth === e.endCoordinates.width) {
         this.keyboardOpen = true;
       }
@@ -29,20 +37,20 @@ export default class AbsolutePositionedKeyboardAwareView extends PureComponent {
   };
 
   // When rotating screen from portrait to landscape with keyboard open on android it calls keyboardDidShow, but doesn't call
-  // keyboardDidhide. To avoid issues we set keyboardOpen to false imediatelly on keyboardChange
+  // keyboardDidHide. To avoid issues we set keyboardOpen to false immediately on keyboardChange.
   removeKeyboardOnOrientationChange = () => {
     if (Platform.OS === 'android') {
       this.keyboardOpen = false;
     }
   };
 
-  keyboardDidHide = () => {
+  keyboardDidHideHandler = () => {
     if (this.keyboardOpen) {
       this.keyboardOpen = false;
     }
   };
 
-  onLayout = ({ nativeEvent }) => {
+  onLayoutHandler = ({ nativeEvent }) => {
     if (!this.keyboardOpen) {
       const { width, height } = nativeEvent.layout;
       const { onLayout } = this.props;
@@ -58,7 +66,7 @@ export default class AbsolutePositionedKeyboardAwareView extends PureComponent {
     const { children, previewWidth, previewHeight } = this.props;
 
     return (
-      <View style={style.flex} onLayout={this.onLayout}>
+      <View style={style.flex} onLayout={this.onLayoutHandler}>
         <View
           style={
             previewWidth === 0

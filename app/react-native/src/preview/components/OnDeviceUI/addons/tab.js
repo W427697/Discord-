@@ -5,7 +5,7 @@ import { TouchableOpacity, Text } from 'react-native';
 import style from '../style';
 
 export default class Tab extends PureComponent {
-  onPress = () => {
+  onPressHandler = () => {
     const { onPress, id } = this.props;
     onPress(id);
   };
@@ -13,7 +13,7 @@ export default class Tab extends PureComponent {
   render() {
     const { title } = this.props;
     return (
-      <TouchableOpacity style={style.tab} onPress={this.onPress}>
+      <TouchableOpacity style={style.tab} onPress={this.onPressHandler}>
         <Text style={style.text}>{title}</Text>
       </TouchableOpacity>
     );

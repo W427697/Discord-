@@ -35,13 +35,13 @@ import '@storybook/addon-ondevice-notes/register';
 
 This step is done automatically when you install Storybook for the first time and also described in [Manual Setup](https://github.com/storybooks/storybook/blob/master/app/react-native/docs/manual-setup.md)
 
-## Compactibility
+## Compatibility
 Addon compatibilty can be found [here](https://github.com/storybooks/storybook/blob/master/ADDONS_SUPPORT.md)
 
 ## Performance of on device addons
 Because on device addons are inside the app, they are also rerendered on every change. This can reduce performance a lot.
  
-## Writing the app addons
+## Writing the on device addons
 On device addons use same addon store and api as web addons. The only difference in api is that you don't have `api` prop 
 and have to rely on channel for everything. 
 

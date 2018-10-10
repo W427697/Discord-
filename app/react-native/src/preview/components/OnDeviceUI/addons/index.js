@@ -28,7 +28,7 @@ export default class Addons extends PureComponent {
     if (Object.keys(this.panels).length === 0) {
       return (
         <View style={[style.flex, style.center]}>
-          <Text style={style.text}>No onDevice addons loaded</Text>
+          <Text style={style.text}>No onDevice addons loaded.</Text>
         </View>
       );
     }
