@@ -2042,10 +2042,12 @@
     universal-user-agent "^2.0.0"
     url-template "^2.0.8"
 
-"@polymer/polymer@^2.6.0":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-2.6.1.tgz#d233d0676cd634057a673fd8c2e62100d3b5a4e6"
-  integrity sha512-XBzaKlSZ094i8zfkOgczn08Gk4TWPLtGh3leANGIKLuzboid4totBt2RkBgHjRl8DgY6Up3+Jm+3lHz6W8QA+g==
+"@polymer/polymer@3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.0.5.tgz#eaa42e70df7de818b5e1839452c82a5f83e39929"
+  integrity sha512-Zbmhtr5vZ3NoHWwFYLKI4ff7yfE6DZopI8vaS7HvmUIuNqsv/EpEDXfNEYjqePQmkMX5LU9OIKV1eX/+9aveow==
+  dependencies:
+    "@webcomponents/shadycss" "^1.2.0"
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
@@ -2533,6 +2535,11 @@
     "@webassemblyjs/ast" "1.7.8"
     "@webassemblyjs/wast-parser" "1.7.8"
     "@xtuc/long" "4.2.1"
+
+"@webcomponents/shadycss@^1.2.0":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@webcomponents/shadycss/-/shadycss-1.5.2.tgz#ad72f43000c39ba4ac61e625131f34f4b7cfe55f"
+  integrity sha512-0OyrmVc7S+INtzoqP2ofAo+OdVn2Nj0Qvq4wD9FEGN7nMmLRxaD2mzy6hD6EslzxUSuGH302CDU4KXiY66SEqg==
 
 "@webcomponents/webcomponentsjs@^1.2.0":
   version "1.2.6"
