@@ -15,7 +15,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "expo": "^24.0.2",
+    "expo": "^30.0.1",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-native": "^0.51.0"
