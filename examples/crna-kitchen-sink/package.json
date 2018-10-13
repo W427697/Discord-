@@ -40,7 +40,7 @@
     "@storybook/addon-ondevice-knobs": "file:../../packs/storybook-addon-ondevice-knobs.tgz",
     "@storybook/addon-ondevice-notes": "file:../../packs/storybook-addon-ondevice-notes.tgz",
     "@storybook/ui": "file:../../packs/storybook-ui.tgz",
-    "jest-expo": "^24.0.0",
+    "jest-expo": "^30.0.0",
     "react-dom": "^16.2.0",
     "react-native-scripts": "^1.8.1",
     "react-test-renderer": "~16.2.0"
