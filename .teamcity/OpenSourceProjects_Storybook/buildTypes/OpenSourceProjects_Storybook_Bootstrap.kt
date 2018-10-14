@@ -4,31 +4,35 @@ import jetbrains.buildServer.configs.kotlin.v2017_2.*
 import jetbrains.buildServer.configs.kotlin.v2017_2.buildFeatures.commitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2017_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2017_2.triggers.vcs
-import jetbrains.buildServer.configs.kotlin.v2017_2.failureConditions.BuildFailureOnMetric
-import jetbrains.buildServer.configs.kotlin.v2017_2.failureConditions.failOnMetricChange
+import jetbrains.buildServer.configs.kotlin.v2017_2.triggers.retryBuild
 import jetbrains.buildServer.configs.kotlin.v2017_2.triggers.VcsTrigger
 
-object OpenSourceProjects_Storybook_Lint_Warnings : BuildType({
-    uuid = "42cfbb9a-f35b-4f96-afae-0b508927a738"
-    id = "OpenSourceProjects_Storybook_Lint_Warnings"
-    name = "Lint Warnings"
+object OpenSourceProjects_Storybook_Bootstrap : BuildType({
+    uuid = "9f9177e7-9ec9-4e2e-aabb-d304fd667712"
+    id = "OpenSourceProjects_Storybook_Bootstrap"
+    name = "Bootstrap"
+
+    artifactRules = """
+        addons/*/dist/** => dist.zip/addons
+        addons/storyshots/*/dist/** => dist.zip/addons/storyshots
+        app/*/dist/** => dist.zip/app
+        lib/*/dist/** => dist.zip/lib
+    """.trimIndent()
 
     vcs {
         root(OpenSourceProjects_Storybook.vcsRoots.OpenSourceProjects_Storybook_HttpsGithubComStorybooksStorybookRefsHeadsMaster)
-
     }
 
     steps {
         script {
-            name = "Lint"
+            name = "Bootstrap"
             scriptContent = """
                 #!/bin/sh
 
                 set -e -x
 
                 yarn
-                yarn bootstrap --docs
-                yarn lint:ci
+                yarn bootstrap --core
             """.trimIndent()
             dockerImage = "node:%docker.node.version%"
         }
@@ -42,7 +46,13 @@ object OpenSourceProjects_Storybook_Lint_Warnings : BuildType({
                 +:pull/*
                 +:release/*
                 +:master
+                +:snyk-fix-*
             """.trimIndent()
+            enabled = false
+        }
+        retryBuild {
+            delaySeconds = 60
+            enabled = false
         }
     }
 
@@ -58,34 +68,11 @@ object OpenSourceProjects_Storybook_Lint_Warnings : BuildType({
         }
     }
 
-    dependencies {
-        dependency(OpenSourceProjects_Storybook.buildTypes.OpenSourceProjects_Storybook_Bootstrap) {
-            snapshot {
-                onDependencyFailure = FailureAction.FAIL_TO_START
-            }
-
-            artifacts {
-                artifactRules = "dist.zip!**"
-            }
-        }
-    }
-
     requirements {
         doesNotContain("env.OS", "Windows")
     }
 
     cleanup {
         artifacts(days = 1)
-    }
-
-    failureConditions {
-        failOnMetricChange {
-            metric = BuildFailureOnMetric.MetricType.INSPECTION_WARN_COUNT
-            threshold = 0
-            units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
-            comparison = BuildFailureOnMetric.MetricComparison.MORE
-            compareTo = value()
-            param("anchorBuild", "lastSuccessful")
-        }
     }
 })
