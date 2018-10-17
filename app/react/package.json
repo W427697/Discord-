@@ -32,7 +32,6 @@
     "@storybook/node-logger": "3.4.11",
     "@storybook/ui": "3.4.11",
     "airbnb-js-shims": "^1 || ^2",
-    "babel-loader": "^7.1.4",
     "babel-plugin-macros": "^2.2.0",
     "babel-plugin-react-docgen": "^1.9.0",
     "babel-plugin-transform-regenerator": "^6.26.0",
@@ -64,10 +63,12 @@
     "webpack-hot-middleware": "^2.22.1"
   },
   "devDependencies": {
+    "babel-loader": "^7.1.4",
     "nodemon": "^1.17.2"
   },
   "peerDependencies": {
     "babel-core": "^6.26.0 || ^7.0.0-0",
+    "babel-loader": "^7.1.4 || ^8.0.0",
     "babel-runtime": ">=6.0.0",
     "react": ">=15.0.0 || ^16.0.0",
     "react-dom": ">=15.0.0 || ^16.0.0"
