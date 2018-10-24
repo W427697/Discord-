@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { polyfill } from 'react-lifecycles-compat';
 
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import json from 'format-json';
 
 import Textarea from 'react-textarea-autosize';
@@ -38,7 +38,7 @@ const StyledTextarea = styled(Textarea)(
       : {}
 );
 
-const Button = styled('button')({
+const Button = styled.button({
   display: 'table-cell',
   textTransform: 'uppercase',
   letterSpacing: '3.5px',
@@ -57,7 +57,7 @@ const Button = styled('button')({
   outline: 0,
 });
 
-const Label = styled('label')({
+const Label = styled.label({
   display: 'table-cell',
   boxSizing: 'border-box',
   verticalAlign: 'top',
@@ -68,7 +68,7 @@ const Label = styled('label')({
   fontWeight: '600',
 });
 
-const Wrapper = styled('div')({
+const Wrapper = styled.div({
   display: 'flex',
   padding: 5,
   alignItems: 'flex-start',
@@ -101,20 +101,6 @@ class Item extends Component {
     isTextAreaShowed: false,
   };
 
-  static getDerivedStateFromProps = ({ payload }, { prevPayload }) => {
-    if (payload !== prevPayload) {
-      const payloadString = json.plain(payload);
-
-      return {
-        failed: false,
-        payload: getJSONFromString(payloadString),
-        payloadString,
-        prevPayload,
-      };
-    }
-    return null;
-  };
-
   onChange = ({ target: { value } }) => {
     const newState = {
       payloadString: value,
@@ -131,9 +117,12 @@ class Item extends Component {
   };
 
   onEmitClick = () => {
-    this.props.onEmit({
-      name: this.props.name,
-      payload: this.state.payload,
+    const { onEmit, name } = this.props;
+    const { payload } = this.state;
+
+    onEmit({
+      name,
+      payload,
     });
   };
 
@@ -143,9 +132,23 @@ class Item extends Component {
     }));
   };
 
+  static getDerivedStateFromProps = ({ payload }, { prevPayload }) => {
+    if (payload !== prevPayload) {
+      const payloadString = json.plain(payload);
+
+      return {
+        failed: false,
+        payload: getJSONFromString(payloadString),
+        payloadString,
+        prevPayload,
+      };
+    }
+    return null;
+  };
+
   render() {
     const { title, name } = this.props;
-    const { failed, isTextAreaShowed } = this.state;
+    const { failed, isTextAreaShowed, payloadString } = this.state;
 
     return (
       <Wrapper>
@@ -158,7 +161,7 @@ class Item extends Component {
         <StyledTextarea
           shown={isTextAreaShowed}
           failed={failed}
-          value={this.state.payloadString}
+          value={payloadString}
           onChange={this.onChange}
         />
         {isTextAreaShowed ? (

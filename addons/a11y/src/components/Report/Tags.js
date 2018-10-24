@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
-const Wrapper = styled('div')({
+const Wrapper = styled.div({
   display: 'flex',
   flexWrap: 'wrap',
   margin: '12px 0',
 });
 
-const Item = styled('div')(({ theme }) => ({
+const Item = styled.div(({ theme }) => ({
   margin: '0 6px',
   padding: '5px',
   border: theme.mainBorder,
@@ -17,7 +17,13 @@ const Item = styled('div')(({ theme }) => ({
 }));
 
 function Tags({ tags }) {
-  return <Wrapper>{tags.map(tag => <Item key={tag}>{tag}</Item>)}</Wrapper>;
+  return (
+    <Wrapper>
+      {tags.map(tag => (
+        <Item key={tag}>{tag}</Item>
+      ))}
+    </Wrapper>
+  );
 }
 Tags.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.node).isRequired,

@@ -1,5 +1,4 @@
 import { storiesOf } from '@storybook/marko';
-
 import Hello from '../components/hello/index.marko';
 import ClickCount from '../components/click-count/index.marko';
 import StopWatch from '../components/stop-watch/index.marko';

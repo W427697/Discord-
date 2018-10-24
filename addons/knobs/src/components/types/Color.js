@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { SketchPicker } from 'react-color';
 
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 import { Button } from '@storybook/components';
 
-const Swatch = styled('div')({
+const Swatch = styled.div({
   position: 'absolute',
   top: 0,
   bottom: 0,
   right: 3,
   width: 28,
 });
-const Popover = styled('div')({
+const Popover = styled.div({
   position: 'absolute',
   zIndex: '2',
 });
@@ -27,16 +27,25 @@ class ColorType extends React.Component {
   componentDidMount() {
     document.addEventListener('mousedown', this.handleWindowMouseDown);
   }
-  shouldComponentUpdate(nextProps) {
-    return nextProps.knob.value !== this.props.knob.value;
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { knob } = this.props;
+    const { displayColorPicker } = this.state;
+
+    return (
+      nextProps.knob.value !== knob.value || nextState.displayColorPicker !== displayColorPicker
+    );
   }
+
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleWindowMouseDown);
   }
 
   handleWindowMouseDown = e => {
-    if (!this.state.displayColorPicker) return;
-    if (this.popover.contains(e.target)) return;
+    const { displayColorPicker } = this.state;
+    if (!displayColorPicker || this.popover.contains(e.target)) {
+      return;
+    }
 
     this.setState({
       displayColorPicker: false,
@@ -44,13 +53,17 @@ class ColorType extends React.Component {
   };
 
   handleClick = () => {
+    const { displayColorPicker } = this.state;
+
     this.setState({
-      displayColorPicker: !this.state.displayColorPicker,
+      displayColorPicker: !displayColorPicker,
     });
   };
 
   handleChange = color => {
-    this.props.onChange(`rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`);
+    const { onChange } = this.props;
+
+    onChange(`rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`);
   };
 
   render() {

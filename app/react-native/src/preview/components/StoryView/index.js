@@ -9,30 +9,34 @@ export default class StoryView extends Component {
     super(props, ...args);
     this.state = { storyFn: null, selection: {} };
 
-    this.storyHandler = this.selectStory.bind(this);
-    this.forceRender = this.forceUpdate.bind(this);
-
-    this.props.events.on(Events.SELECT_STORY, this.storyHandler);
-    this.props.events.on(Events.FORCE_RE_RENDER, this.forceRender);
+    if (props.listenToEvents) {
+      this.storyHandler = this.selectStory.bind(this);
+      this.forceRender = this.forceUpdate.bind(this);
+      props.events.on(Events.SELECT_STORY, this.storyHandler);
+      props.events.on(Events.FORCE_RE_RENDER, this.forceRender);
+    }
   }
 
   componentWillUnmount() {
-    this.props.events.removeListener(Events.SELECT_STORY, this.storyHandler);
-    this.props.events.removeListener(Events.FORCE_RE_RENDER, this.forceRender);
+    const { listenToEvents, events } = this.props;
+
+    if (listenToEvents) {
+      events.removeListener(Events.SELECT_STORY, this.storyHandler);
+      events.removeListener(Events.FORCE_RE_RENDER, this.forceRender);
+    }
   }
 
-  selectStory(selection, storyFn) {
-    this.setState({ storyFn, selection });
-  }
+  selectStory = selection => {
+    this.setState({ storyFn: selection.storyFn, selection });
+  };
 
-  renderHelp() {
+  renderHelp = () => {
+    const { url } = this.props;
     return (
       <View style={style.help}>
-        {this.props.url && this.props.url.length ? (
+        {url && url.length ? (
           <Text>
-            Please open the Storybook UI (
-            {this.props.url}
-            ) with a web browser and select a story for preview.
+            Please open the Storybook UI ({url}) with a web browser and select a story for preview.
           </Text>
         ) : (
           <Text>
@@ -41,22 +45,50 @@ export default class StoryView extends Component {
         )}
       </View>
     );
-  }
+  };
+
+  renderOnDeviceUIHelp = () => (
+    <View style={style.help}>
+      <Text>Please open navigator and select a story to preview.</Text>
+    </View>
+  );
 
   render() {
-    if (!this.state.storyFn) {
-      return this.renderHelp();
+    const { listenToEvents } = this.props;
+
+    if (listenToEvents) {
+      const { storyFn, selection } = this.state;
+      const { kind, story } = selection;
+
+      return storyFn ? (
+        <View key={`${kind}:::${story}`} style={style.main}>
+          {storyFn()}
+        </View>
+      ) : (
+        this.renderHelp()
+      );
     }
-    const { kind, story } = this.state.selection;
-    return (
+
+    const { storyFn, selection } = this.props;
+    const { kind, story } = selection;
+
+    return storyFn ? (
       <View key={`${kind}:::${story}`} style={style.main}>
-        {this.state.storyFn()}
+        {storyFn()}
       </View>
+    ) : (
+      this.renderOnDeviceUIHelp()
     );
   }
 }
 
 StoryView.propTypes = {
+  listenToEvents: PropTypes.bool,
+  storyFn: PropTypes.func,
+  selection: PropTypes.shape({
+    kind: PropTypes.string,
+    story: PropTypes.string,
+  }),
   events: PropTypes.shape({
     on: PropTypes.func.isRequired,
     removeListener: PropTypes.func.isRequired,
@@ -66,4 +98,7 @@ StoryView.propTypes = {
 
 StoryView.defaultProps = {
   url: '',
+  listenToEvents: false,
+  selection: {},
+  storyFn: null,
 };

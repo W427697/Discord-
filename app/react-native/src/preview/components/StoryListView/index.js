@@ -43,27 +43,24 @@ export default class StoryListView extends Component {
     };
 
     this.storyAddedHandler = this.handleStoryAdded.bind(this);
-    this.changeStoryHandler = this.changeStory.bind(this);
 
-    this.props.stories.on(Events.STORY_ADDED, this.storyAddedHandler);
+    props.stories.on(Events.STORY_ADDED, this.storyAddedHandler);
   }
 
   componentDidMount() {
     this.handleStoryAdded();
-    const dump = this.props.stories.dumpStoryBook();
-    const nonEmptyKind = dump.find(kind => kind.stories.length > 0);
-    if (nonEmptyKind) {
-      this.changeStory(nonEmptyKind.kind, nonEmptyKind.stories[0]);
-    }
   }
 
   componentWillUnmount() {
-    this.props.stories.removeListener(Events.STORY_ADDED, this.storyAddedHandler);
+    const { stories } = this.props;
+    stories.removeListener(Events.STORY_ADDED, this.storyAddedHandler);
   }
 
-  handleStoryAdded() {
-    if (this.props.stories) {
-      const data = this.props.stories.dumpStoryBook().map(
+  handleStoryAdded = () => {
+    const { stories } = this.props;
+
+    if (stories) {
+      const data = stories.dumpStoryBook().map(
         section => ({
           title: section.kind,
           data: section.stories.map(story => ({
@@ -78,32 +75,35 @@ export default class StoryListView extends Component {
         data,
       });
     }
-  }
+  };
 
   changeStory(kind, story) {
-    this.props.events.emit(Events.SET_CURRENT_STORY, { kind, story });
+    const { events } = this.props;
+
+    events.emit(Events.SET_CURRENT_STORY, { kind, story });
   }
 
   render() {
+    const { selectedKind, selectedStory } = this.props;
+    const { data } = this.state;
+
     return (
       <SectionList
         testID="Storybook.ListView"
-        style={[style.list, { width: this.props.width }]}
+        style={[style.list]}
         renderItem={({ item }) => (
           <ListItem
             title={item.name}
             kind={item.kind}
-            selected={
-              item.kind === this.props.selectedKind && item.name === this.props.selectedStory
-            }
+            selected={item.kind === selectedKind && item.name === selectedStory}
             onPress={() => this.changeStory(item.kind, item.name)}
           />
         )}
         renderSectionHeader={({ section: { title } }) => (
-          <SectionHeader title={title} selected={title === this.props.selectedKind} />
+          <SectionHeader title={title} selected={title === selectedKind} />
         )}
         keyExtractor={(item, index) => item + index}
-        sections={this.state.data}
+        sections={data}
         stickySectionHeadersEnabled={false}
       />
     );
@@ -124,7 +124,6 @@ StoryListView.propTypes = {
   }).isRequired,
   selectedKind: PropTypes.string,
   selectedStory: PropTypes.string,
-  width: PropTypes.number.isRequired,
 };
 
 StoryListView.defaultProps = {

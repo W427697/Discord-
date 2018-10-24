@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 import { STORY_RENDERED } from '@storybook/core-events';
 import { ActionBar, ActionButton } from '@storybook/components';
@@ -11,13 +11,19 @@ import { CHECK_EVENT_ID, RERUN_EVENT_ID, REQUEST_CHECK_EVENT_ID } from '../share
 import Tabs from './Tabs';
 import Report from './Report';
 
-const Passes = styled('span')(({ theme }) => ({
+const Passes = styled.span(({ theme }) => ({
   color: theme.successColor,
 }));
 
-const Violations = styled('span')(({ theme }) => ({
+const Violations = styled.span(({ theme }) => ({
   color: theme.failColor,
 }));
+
+const PanelWrapper = styled.div({
+  height: '100%',
+  overflow: 'auto',
+  width: '100%',
+});
 
 class Panel extends Component {
   static propTypes = {
@@ -35,21 +41,27 @@ class Panel extends Component {
   };
 
   componentDidMount() {
-    this.props.channel.on(CHECK_EVENT_ID, this.onUpdate);
-    this.props.channel.on(STORY_RENDERED, this.requestCheck);
-    this.props.channel.on(RERUN_EVENT_ID, this.requestCheck);
+    const { channel } = this.props;
+
+    channel.on(CHECK_EVENT_ID, this.onUpdate);
+    channel.on(STORY_RENDERED, this.requestCheck);
+    channel.on(RERUN_EVENT_ID, this.requestCheck);
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.active && this.props.active) {
+    const { active } = this.props;
+
+    if (!prevProps.active && active) {
       this.requestCheck();
     }
   }
 
   componentWillUnmount() {
-    this.props.channel.removeListener(CHECK_EVENT_ID, this.onUpdate);
-    this.props.channel.removeListener(STORY_RENDERED, this.requestCheck);
-    this.props.channel.removeListener(RERUN_EVENT_ID, this.requestCheck);
+    const { channel } = this.props;
+
+    channel.removeListener(CHECK_EVENT_ID, this.onUpdate);
+    channel.removeListener(STORY_RENDERED, this.requestCheck);
+    channel.removeListener(RERUN_EVENT_ID, this.requestCheck);
   }
 
   onUpdate = ({ passes, violations }) => {
@@ -60,8 +72,10 @@ class Panel extends Component {
   };
 
   requestCheck = () => {
-    if (this.props.active) {
-      this.props.channel.emit(REQUEST_CHECK_EVENT_ID);
+    const { channel, active } = this.props;
+
+    if (active) {
+      channel.emit(REQUEST_CHECK_EVENT_ID);
     }
   };
 
@@ -70,7 +84,7 @@ class Panel extends Component {
     const { active } = this.props;
 
     return active ? (
-      <div>
+      <PanelWrapper>
         <Tabs
           tabs={[
             {
@@ -86,7 +100,7 @@ class Panel extends Component {
         <ActionBar>
           <ActionButton onClick={this.requestCheck}>RERUN TEST</ActionButton>
         </ActionBar>
-      </div>
+      </PanelWrapper>
     ) : null;
   }
 }

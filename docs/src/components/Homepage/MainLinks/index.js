@@ -3,7 +3,7 @@ import Link from 'gatsby-link';
 import { window } from 'global';
 
 import '../../Docs/Nav/style.css';
-import { UsedByBg } from '../UsedBy/';
+import { UsedByBg } from '../UsedBy';
 import './style.css';
 
 class MainLinks extends React.Component {
@@ -24,9 +24,12 @@ class MainLinks extends React.Component {
             <h2>Try Now</h2>
             <pre>
               <code>
-                npm i -g @storybook/cli<br />
-                cd my-react-app<br />
-                getstorybook<br />
+                npm i -g @storybook/cli
+                <br />
+                cd my-react-app
+                <br />
+                getstorybook
+                <br />
               </code>
             </pre>
           </div>
@@ -45,7 +48,7 @@ class MainLinks extends React.Component {
                 transform: 'rotateY(180deg)',
               }}
             />
-            <div className="col-xs-12 read-docs">
+            <div className="col-xs-12 col-sm-12 read-docs">
               <h2 style={{ color: '#6DABF5' }}>Documentation</h2>
               <div
                 className="form-group has-feedback"

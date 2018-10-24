@@ -1,4 +1,5 @@
-import addons from '@storybook/addons';
+import deprecate from 'util-deprecate';
+import addons, { makeDecorator } from '@storybook/addons';
 import { EVENT_ID } from '../shared';
 
 // init function will be executed once when the storybook loads for the
@@ -21,9 +22,7 @@ function withRegexProp(object, propName) {
   return hasOwnProp(object, propName) ? { [propName]: regExpStringify(object[propName]) } : {};
 }
 
-// setOptions function will send Storybook UI options when the channel is
-// ready. If called before, options will be cached until it can be sent.
-export function setOptions(newOptions) {
+function emitOptions(options) {
   const channel = addons.getChannel();
   if (!channel) {
     throw new Error(
@@ -33,11 +32,34 @@ export function setOptions(newOptions) {
 
   // since 'undefined' and 'null' are the valid values we don't want to
   // override the hierarchySeparator or hierarchyRootSeparator if the prop is missing
-  const options = {
-    ...newOptions,
-    ...withRegexProp(newOptions, 'hierarchySeparator'),
-    ...withRegexProp(newOptions, 'hierarchyRootSeparator'),
-  };
-
-  channel.emit(EVENT_ID, { options });
+  channel.emit(EVENT_ID, {
+    options: {
+      ...options,
+      ...withRegexProp(options, 'hierarchySeparator'),
+      ...withRegexProp(options, 'hierarchyRootSeparator'),
+    },
+  });
 }
+
+// setOptions function will send Storybook UI options when the channel is
+// ready. If called before, options will be cached until it can be sent.
+let globalOptions = {};
+export const setOptions = deprecate(options => {
+  globalOptions = options;
+  emitOptions(options);
+}, '`setOptions(options)` is deprecated. Please use the `withOptions(options)` decorator globally.');
+
+export const withOptions = makeDecorator({
+  name: 'withOptions',
+  parameterName: 'options',
+  skipIfNoParametersOrOptions: false,
+  wrapper: (getStory, context, { options: inputOptions, parameters }) => {
+    emitOptions({
+      ...globalOptions,
+      ...inputOptions,
+      ...parameters,
+    });
+
+    return getStory(context);
+  },
+});

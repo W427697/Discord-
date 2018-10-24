@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
+import { Icons } from '@storybook/components';
 
 import Info from './Info';
 import Tags from './Tags';
 import Elements from './Elements';
 
-const Wrapper = styled('div')(({ theme }) => ({
+const Wrapper = styled.div(({ theme }) => ({
   padding: '0 14px',
   cursor: 'pointer',
   borderBottom: theme.mainBorder,
 }));
 
-const HeaderBar = styled('button')(({ theme }) => ({
+const HeaderBar = styled.button(({ theme }) => ({
   padding: '12px 0px',
   display: 'block',
   width: '100%',
@@ -55,7 +56,19 @@ class Item extends Component {
 
     return (
       <Wrapper>
-        <HeaderBar onClick={this.onToggle}>{item.description}</HeaderBar>
+        <HeaderBar onClick={this.onToggle}>
+          <Icons.ChevronRight
+            size={10}
+            color="#9DA5AB"
+            style={{
+              marginRight: '5px',
+              marginBottom: '2px',
+              transform: `rotate(${open ? 90 : 0}deg)`,
+              transition: 'transform 0.3s ease-in-out',
+            }}
+          />
+          {item.description}
+        </HeaderBar>
         {open && <Info item={item} />}
         {open && <Elements elements={item.nodes} passes={passes} />}
         {open && <Tags tags={item.tags} />}

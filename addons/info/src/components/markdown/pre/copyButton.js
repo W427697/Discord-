@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
-const Button = styled('button')(
+const Button = styled.button(
   {
     overflow: 'hidden',
     border: '1px solid #eee',
@@ -24,27 +24,27 @@ const Button = styled('button')(
       borderColor: '#ccc',
     },
   },
-  props => props.styles
+  ({ styles }) => styles
 );
 
-const ContentWrapper = styled('div')(
+const ContentWrapper = styled.div(
   {
     transition: 'transform .2s ease',
     height: 16,
   },
-  props => ({
-    ...props.styles,
-    transform: props.toggled ? 'translateY(0px)' : 'translateY(-100%) translateY(-6px)',
+  ({ styles, toggled }) => ({
+    ...styles,
+    transform: toggled ? 'translateY(0px)' : 'translateY(-100%) translateY(-6px)',
   })
 );
 
-function CopyButton(props) {
-  const { copyButton = {}, copyButtonContent } = props.theme;
+function CopyButton({ theme, onClick, toggled }) {
+  const { copyButton = {}, copyButtonContent } = theme;
   const { toggleText = 'Copied!', text = 'Copy', ...copyButtonStyles } = copyButton;
 
   return (
-    <Button onClick={props.onClick} styles={copyButtonStyles}>
-      <ContentWrapper styles={copyButtonContent} toggled={props.toggled}>
+    <Button onClick={onClick} styles={copyButtonStyles}>
+      <ContentWrapper styles={copyButtonContent} toggled={toggled}>
         <div style={{ marginBottom: 6 }}>{toggleText}</div>
         <div>{text}</div>
       </ContentWrapper>

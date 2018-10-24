@@ -1,14 +1,5 @@
 # StoryShots
 
-[![Build Status on CircleCI](https://circleci.com/gh/storybooks/storybook.svg?style=shield)](https://circleci.com/gh/storybooks/storybook)
-[![CodeFactor](https://www.codefactor.io/repository/github/storybooks/storybook/badge)](https://www.codefactor.io/repository/github/storybooks/storybook)
-[![Known Vulnerabilities](https://snyk.io/test/github/storybooks/storybook/8f36abfd6697e58cd76df3526b52e4b9dc894847/badge.svg)](https://snyk.io/test/github/storybooks/storybook/8f36abfd6697e58cd76df3526b52e4b9dc894847)
-[![BCH compliance](https://bettercodehub.com/edge/badge/storybooks/storybook)](https://bettercodehub.com/results/storybooks/storybook) [![codecov](https://codecov.io/gh/storybooks/storybook/branch/master/graph/badge.svg)](https://codecov.io/gh/storybooks/storybook)  
-[![Storybook Slack](https://now-examples-slackin-rrirkqohko.now.sh/badge.svg)](https://now-examples-slackin-rrirkqohko.now.sh/)
-[![Backers on Open Collective](https://opencollective.com/storybook/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/storybook/sponsors/badge.svg)](#sponsors)
-
-* * *
-
 StoryShots adds automatic Jest Snapshot Testing for [Storybook](https://storybook.js.org/).
 
 [Framework Support](https://github.com/storybooks/storybook/blob/master/ADDONS_SUPPORT.md)
@@ -34,8 +25,10 @@ If you still need to configure jest you can use the resources mentioned below:
 -   [Javascript Testing with Jest - Egghead](https://egghead.io/lessons/javascript-test-javascript-with-jest). ***paid content***
 
 > Note: If you use React 16, you'll need to follow [these additional instructions](https://github.com/facebook/react/issues/9102#issuecomment-283873039).
-
+>
 > Note: Make sure you have added the ```json``` extention to ```moduleFileExtensions``` in ```jest.config.json```. If this is missing it leads to the [following error](https://github.com/storybooks/storybook/issues/3728): ```Cannot find module 'spdx-license-ids' from 'scan.js'```.
+>
+> Note: Please make sure you are using ```jsdom``` as the testEnvironment on your jest config file.
 
 
 ### Configure Jest to work with Webpack's [require.context()](https://webpack.js.org/guides/dependency-management/#require-context)
@@ -54,21 +47,33 @@ function loadStories() {
 configure(loadStories, module);
 ```
 
-The problem here is that it will work only during the build with webpack, 
-other tools may lack this feature. Since Storyshot is running under Jest, 
-we need to polyfill this functionality to work with Jest. The easiest 
-way is to integrate it to babel. One of the possible babel plugins to 
-polyfill this functionality might be 
+The problem here is that it will work only during the build with webpack,
+other tools may lack this feature. Since Storyshot is running under Jest,
+we need to polyfill this functionality to work with Jest. The easiest
+way is to integrate it to babel.
+
+One of the possible babel plugins to
+polyfill this functionality might be
 [babel-plugin-require-context-hook](https://github.com/smrq/babel-plugin-require-context-hook).
 
-To register it, add the following to your jest setup:
+First, install it:
+
+```sh
+npm install --save-dev babel-plugin-require-context-hook
+```
+
+Next, it needs to be registered and loaded before each test. To register it, create a file with the following register function `.jest/register-context.js`:
 
 ```js
 import registerRequireContextHook from 'babel-plugin-require-context-hook/register';
 registerRequireContextHook();
 ```
+That file needs to be added as a setup file for Jest. To do that, add (or create) a property in Jest's config called [`setupFiles`](https://jestjs.io/docs/en/configuration.html#setupfiles-array). Add the file name and path to this array.
 
-And after, add the plugin to `.babelrc`:
+```json
+setupFiles: ['<rootDir>/.jest/register-context.js']
+```
+Finally, add the plugin to `.babelrc`:
 
 ```json
 {
@@ -81,10 +86,7 @@ And after, add the plugin to `.babelrc`:
   }
 }
 ```
-
-Make sure **not** to include this babel plugin in the config 
-environment that applies to webpack, otherwise it may 
-replace a real `require.context` functionality.
+The plugin is only added to the test environment otherwise it could replace webpack's version of it.
 
 ### Configure Jest for React
 StoryShots addon for React is dependent on [react-test-renderer](https://github.com/facebook/react/tree/master/packages/react-test-renderer), but
@@ -193,6 +195,137 @@ initStoryshots({
   }),
 })
 ```
+
+Provide a function to have story-specific options:
+
+
+```js
+initStoryshots({
+  test: snapshotWithOptions(story =>({
+    createNodeMock: (element) => {
+      if(story.name == 'foobar') {
+        return null
+      }
+      return element
+    },
+  })),
+})
+```
+
+### StoryShots for async rendered components
+
+You can make use of [Jest done callback](https://jestjs.io/docs/en/asynchronous) to test components that render asynchronously. This callback is passed as param to test method passed to `initStoryshots(...)` when the `asyncJest` option is given as true.
+
+#### Example
+
+The following example shows how we can use the **done callback** to take StoryShots of a [Relay](http://facebook.github.io/relay/) component. Each kind of story is written into its own snapshot file with the use of `getSnapshotFileName`.
+
+Add _stories of UserForm_ in the file: UserForm.story.jsx
+
+```jsx
+/* global module */
+import React from "react";
+import { QueryRenderer } from "react-relay";
+import { storiesOf } from "@storybook/react";
+
+// Use the same queries used in YOUR app routes
+import { newUserFormQuery, editUserFormQuery } from "app/routes";
+import UserFormContainer from "app/users/UserForm";
+
+// YOUR function to generate a Relay Environment mock.
+// See https://github.com/1stdibs/relay-mock-network-layer for more info
+import getEnvironment from "test/support/relay-environment-mock";
+
+// User test data YOU generated for your tests
+import { user } from "test/support/data/index";
+
+// Use this function to return a new Environment for each story
+const Environment = () =>
+  getEnvironment({
+    mocks: {
+      Node: () => ({ __typename: "User" }),
+      User: () => user
+    }
+  });
+
+/**
+
+  NOTICE that the QueryRenderer render its children via its render props.
+
+  If we don't take the StoryShot async then we will only see the QueryRenderer in the StoryShot.
+
+  The following QueryRenderer returns null in the first render (it can be a loading indicator instead in real file) and then when it gets the data to respond to query, it renders again with props containing the data for the Component
+ */
+const renderStory = (query, environment, variables = {}) => (
+  <QueryRenderer
+    environment={environment}
+    query={query}
+    variables={variables}
+    render={({ props, error }) => {
+      if (error) {
+        console.error(error);
+      } else if (props) {
+        return <UserFormContainer {...props} />;
+      }
+      return null;
+    }}
+  />
+);
+
+storiesOf("users/UserForm", module)
+  .add("New User", () => {
+    const environment = new Environment();
+    return renderStory(newUserFormQuery, environment);
+  })
+  .add("Editing User", () => {
+    const environment = new Environment();
+    return renderStory(editUserFormQuery, environment, { id: user.id });
+  })
+```
+
+Then, init Storyshots for async component in the file: StoryShots.test.js
+
+```jsx
+import initStoryshots, { Stories2SnapsConverter } from "@storybook/addon-storyshots";
+import { mount } from "enzyme";
+import toJson from "enzyme-to-json";
+
+// Runner
+initStoryshots({
+  asyncJest: true, // this is the option that activates the async behaviour
+  test: ({
+    story,
+    context,
+    done // --> callback passed to test method when asyncJest option is true
+  }) => {
+    const converter = new Stories2SnapsConverter();
+    const snapshotFilename = converter.getSnapshotFileName(context);
+    const storyElement = story.render(context);
+
+    // mount the story
+    const tree = mount(storyElement);
+
+    // wait until the mount is updated, in our app mostly by Relay
+    // but maybe something else updating the state of the component
+    // somewhere
+    const waitTime = 1;
+    setTimeout(() => {
+      if (snapshotFilename) {
+        expect(toJson(tree.update())).toMatchSpecificSnapshot(snapshotFilename);
+      }
+
+      done();
+    }, waitTime)
+  },
+  // other options here
+});
+
+```
+NOTICE that When using the `asyncJest: true` option, you also must specify a `test` method that calls the `done()` callback.
+
+This is a really powerful technique to write stories of Relay components because it integrates data fetching with component rendering. So instead of passing data props manually, we can let Relay do the job for us as it does in our application.
+
+Whenever you change you're data requirements by adding (and rendering) or (accidentally) deleting fields in your graphql query fragments, you'll get a different snapshot and thus an error in the StoryShot test.
 
 ## Options
 
@@ -317,23 +450,30 @@ initStoryshots({
 ```
 
 If you are using enzyme, you need to make sure jest knows how to serialize rendered components.
-You can either pass in a serializer (see below) or specify an enzyme-compatible serializer (like [enzyme-to-json](https://github.com/adriantoine/enzyme-to-json), [jest-serializer-enzyme](https://github.com/rogeliog/jest-serializer-enzyme) etc.) as the default `snapshotSerializer` in your config.
+For that, you can pass an enzyme-compatible snapshotSerializer (like [enzyme-to-json](https://github.com/adriantoine/enzyme-to-json), [jest-serializer-enzyme](https://github.com/rogeliog/jest-serializer-enzyme) etc.) with the `snapshotSerializer` option (see below). 
 
-Example for jest config in `package.json`:
-```json
-"devDependencies": {
-    "enzyme-to-json": "^3.2.2"
-},
-"jest": {
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  }
+
+### `snapshotSerializers`
+
+Pass an array of snapshotSerializers to the jest runtime that serializes your story (such as enzyme-to-json).
+
+```js
+import initStoryshots from '@storybook/addon-storyshots';
+import { createSerializer } from 'enzyme-to-json';
+
+initStoryshots({
+  renderer: mount,
+  snapshotSerializers: [createSerializer()],
+});
 ```
 
-### `serializer`
+This option needs to be set if either:
+* the multiSnapshot function is used to create multiple snapshot files (i.e. one per story), since it ignores any serializers specified in your jest config.
+* serializers not specified in your jest config should be used when snapshotting stories.
 
-Pass a custom serializer (such as enzyme-to-json) to serialize components to snapshot-comparable data.
+### `serializer` (deprecated)
+
+Pass a custom serializer (such as enzyme-to-json) to serialize components to snapshot-comparable data. The functionality of this option is completely covered by [snapshotSerializers](`snapshotSerializers`) which should be used instead.
 
 ```js
 import initStoryshots from '@storybook/addon-storyshots';
@@ -438,3 +578,7 @@ initStoryshots({
   }
 });
 ```
+
+### `asyncJest`
+
+Enables Jest `done()` callback in the StoryShots tests for async testing. See [StoryShots for async rendered components](#storyshots-for-async-rendered-components) for more info.

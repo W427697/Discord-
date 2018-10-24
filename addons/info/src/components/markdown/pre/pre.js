@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 import CopyButton from './copyButton';
 import copy from './copy';
 
 const TOGGLE_TIMEOUT = 1800;
 
-const StyledPre = styled('pre')(
+const StyledPre = styled.pre(
   {
     display: 'flex',
     justifyContent: 'space-between',
@@ -19,7 +19,7 @@ const StyledPre = styled('pre')(
     lineHeight: 1.5,
     overflowX: 'scroll',
   },
-  props => props.styles
+  ({ styles }) => styles
 );
 
 class Pre extends React.Component {
@@ -49,12 +49,14 @@ class Pre extends React.Component {
   };
 
   render() {
-    const { pre } = this.props.theme;
+    const { theme, children } = this.props;
+    const { pre } = theme;
+    const { copied } = this.state;
 
     return (
       <StyledPre styles={pre}>
-        <div ref={this.setRef}>{this.props.children}</div>
-        <CopyButton onClick={this.handleClick} toggled={this.state.copied} />
+        <div ref={this.setRef}>{children}</div>
+        <CopyButton onClick={this.handleClick} toggled={copied} />
       </StyledPre>
     );
   }

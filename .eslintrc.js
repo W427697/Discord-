@@ -14,6 +14,7 @@ module.exports = {
   plugins: ['prettier', 'jest', 'import', 'react', 'jsx-a11y', 'json'],
   parser: 'babel-eslint',
   parserOptions: {
+    ecmaVersion: 8,
     sourceType: 'module',
   },
   env: {
@@ -56,6 +57,7 @@ module.exports = {
       {
         devDependencies: [
           'examples/**',
+          'examples-native/**',
           '**/example/**',
           '*.js',
           '**/*.test.js',
@@ -76,6 +78,25 @@ module.exports = {
       warn,
       {
         extensions: ['.js', '.jsx'],
+      },
+    ],
+    'react/jsx-no-bind': [
+      error,
+      {
+        ignoreDOMComponents: true,
+        ignoreRefs: true,
+        allowArrowFunctions: true,
+        allowFunctions: true,
+        allowBind: true,
+      },
+    ],
+    'jsx-a11y/label-has-associated-control': [
+      warn,
+      {
+        labelComponents: ['CustomInputLabel'],
+        labelAttributes: ['label'],
+        controlComponents: ['CustomInput'],
+        depth: 3,
       },
     ],
     'react/no-unescaped-entities': ignore,

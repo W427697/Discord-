@@ -7,6 +7,10 @@ This is a list of available addons for Storybook.
 
 ## Addons maintained by storybook team.
 
+### [a11y](https://github.com/storybooks/storybook/tree/master/addons/a11y)
+
+With a11y you can test compliance of your stories with web accessibility standards.
+
 ### [Actions](https://github.com/storybooks/storybook/tree/release/3.4/addons/actions)
 
 With actions, you can inspect events related to your components. This is pretty neat when you are manually testing your components.
@@ -49,6 +53,10 @@ With this addon, you can switch between background colors and background images 
 ### [Viewport](https://github.com/storybooks/storybook/tree/release/3.4/addons/viewport)
 
 Viewport allows your stories to be displayed in different sizes and layouts in [Storybook](https://storybook.js.org).  This helps build responsive components inside of Storybook.
+
+### [Google Analytics](https://github.com/storybooks/storybook/tree/master/addons/google-analytics)
+
+Support google analytics in [Storybook](https://storybook.js.org)
 
 ## Community Addons
 
@@ -139,3 +147,12 @@ Convert stories into Sketch 💎 symbols.
 
 ### [styled components theme](https://github.com/echoulen/storybook-addon-styled-component-theme)
 styled components theme selection.
+
+### [AngularJS](https://github.com/titonobre/storybook-addon-angularjs)
+Create stories with AngularJS(1.x) components.
+
+### [JSS theme](https://github.com/vertexbz/storybook-addon-jss-theme)
+JSS theme selection.
+
+### [React live edit](https://github.com/vertexbz/storybook-addon-react-live-edit)
+Provides live react story editing and preview.

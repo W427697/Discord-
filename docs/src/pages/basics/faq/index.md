@@ -1,8 +1,7 @@
-* * *
-
+---
 id: 'faq'
-
-## title: 'Frequently Asked Questions'
+title: 'Frequently Asked Questions'
+---
 
 Here are some answers to frequently asked questions. If you have a question, you can ask it by opening an issue on the [Storybook Repository](https://github.com/storybooks/storybook/).
 
@@ -59,5 +58,5 @@ class MyComponent extends Component {
 
 storiesOf('MyComponent', module)
   .add('default', () => <MyComponent />)
-  .add('other', () => <MyComponent initialState={{ someVar: 'otherVal' }});
+  .add('other', () => <MyComponent initialState={{ someVar: 'otherVal' }} />);
 ```

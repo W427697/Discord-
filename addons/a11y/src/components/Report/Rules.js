@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 const impactColors = {
   minor: '#f1c40f',
@@ -11,24 +11,24 @@ const impactColors = {
   success: '#2ecc71',
 };
 
-const List = styled('div')({
+const List = styled.div({
   display: 'flex',
   flexDirection: 'column',
   padding: '4px',
   fontWeight: '400',
 });
 
-const Item = styled('div')({
+const Item = styled.div({
   display: 'flex',
   flexDirection: 'row',
   marginBottom: '6px',
 });
 
-const Message = styled('div')({
+const Message = styled.div({
   paddingLeft: '6px',
 });
 
-const Status = styled('div')(({ passes, impact }) => ({
+const Status = styled.div(({ passes, impact }) => ({
   height: '16px',
   width: '16px',
   borderRadius: '8px',
@@ -61,7 +61,11 @@ Rule.propTypes = {
 /* eslint-disable react/no-array-index-key */
 function Rules({ rules, passes }) {
   return (
-    <List>{rules.map((rule, index) => <Rule passes={passes} rule={rule} key={index} />)}</List>
+    <List>
+      {rules.map((rule, index) => (
+        <Rule passes={passes} rule={rule} key={index} />
+      ))}
+    </List>
   );
 }
 Rules.propTypes = {

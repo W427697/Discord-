@@ -1,22 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Another Button with some emoji 1`] = `
-.emotion-0 {
-  border: 1px solid #eee;
-  border-radius: 3px;
-  background-color: #FFFFFF;
-  cursor: pointer;
-  font-size: 15px;
-  padding: 3px 10px;
-  margin: 10px;
-}
-
 <Button
   onClick={[Function]}
 >
   <button
-    className="emotion-0"
     onClick={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "border": "1px solid #eee",
+        "borderRadius": 3,
+        "cursor": "pointer",
+        "fontSize": 15,
+        "margin": 10,
+        "padding": "3px 10px",
+      }
+    }
+    type="button"
   >
     <span
       aria-label="so cool"
@@ -29,45 +30,53 @@ exports[`Storyshots Another Button with some emoji 1`] = `
 `;
 
 exports[`Storyshots Another Button with text 1`] = `
-.emotion-0 {
-  border: 1px solid #eee;
-  border-radius: 3px;
-  background-color: #FFFFFF;
-  cursor: pointer;
-  font-size: 15px;
-  padding: 3px 10px;
-  margin: 10px;
-}
-
 <Button
   onClick={[Function]}
 >
   <button
-    className="emotion-0"
     onClick={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "border": "1px solid #eee",
+        "borderRadius": 3,
+        "cursor": "pointer",
+        "fontSize": 15,
+        "margin": 10,
+        "padding": "3px 10px",
+      }
+    }
+    type="button"
   >
     Hello Button
   </button>
 </Button>
 `;
 
-exports[`Storyshots Button with some emoji 1`] = `
-.emotion-0 {
-  border: 1px solid #eee;
-  border-radius: 3px;
-  background-color: #FFFFFF;
-  cursor: pointer;
-  font-size: 15px;
-  padding: 3px 10px;
-  margin: 10px;
-}
+exports[`Storyshots Async with 5ms timeout simulating async operation 1`] = `
+<AsyncTestComponent>
+  <h1 />
+</AsyncTestComponent>
+`;
 
+exports[`Storyshots Button with some emoji 1`] = `
 <Button
   onClick={[Function]}
 >
   <button
-    className="emotion-0"
     onClick={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "border": "1px solid #eee",
+        "borderRadius": 3,
+        "cursor": "pointer",
+        "fontSize": 15,
+        "margin": 10,
+        "padding": "3px 10px",
+      }
+    }
+    type="button"
   >
     <span
       aria-label="so cool"
@@ -80,22 +89,23 @@ exports[`Storyshots Button with some emoji 1`] = `
 `;
 
 exports[`Storyshots Button with text 1`] = `
-.emotion-0 {
-  border: 1px solid #eee;
-  border-radius: 3px;
-  background-color: #FFFFFF;
-  cursor: pointer;
-  font-size: 15px;
-  padding: 3px 10px;
-  margin: 10px;
-}
-
 <Button
   onClick={[Function]}
 >
   <button
-    className="emotion-0"
     onClick={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "border": "1px solid #eee",
+        "borderRadius": 3,
+        "cursor": "pointer",
+        "fontSize": 15,
+        "margin": 10,
+        "padding": "3px 10px",
+      }
+    }
+    type="button"
   >
     Hello Button
   </button>
@@ -103,76 +113,47 @@ exports[`Storyshots Button with text 1`] = `
 `;
 
 exports[`Storyshots Welcome to Storybook 1`] = `
-.emotion-9 {
-  margin: 15px;
-  max-width: 600px;
-  line-height: 1.4;
-  font-family: "Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;
-}
-
-.emotion-1 {
-  font-size: 15px;
-  font-weight: 600;
-  padding: 2px 5px;
-  border: 1px solid #eae9e9;
-  border-radius: 4px;
-  background-color: #f3f2f2;
-  color: #3a3a3a;
-}
-
-.emotion-2 {
-  color: #1474f3;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  border-bottom: 1px solid #1474f3;
-  padding-bottom: 2px;
-  border-top: none;
-  border-right: none;
-  border-left: none;
-  background-color: transparent;
-  padding: 0;
-  cursor: pointer;
-  font: inherit;
-}
-
-.emotion-6 {
-  color: #1474f3;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  border-bottom: 1px solid #1474f3;
-  padding-bottom: 2px;
-}
-
-.emotion-8 {
-  opacity: 0.5;
-}
-
 <Welcome
   showApp={[Function]}
 >
-  <Styled(article)>
+  <Main>
     <article
-      className="emotion-9"
+      style={
+        Object {
+          "fontFamily": "\\"Helvetica Neue\\", Helvetica, \\"Segoe UI\\", Arial, freesans, sans-serif",
+          "lineHeight": 1.4,
+          "margin": 15,
+          "maxWidth": 600,
+        }
+      }
     >
-      <Styled(h1)>
-        <h1
-          className="emotion-0"
-        >
+      <Title>
+        <h1>
           Welcome to storybook
         </h1>
-      </Styled(h1)>
+      </Title>
       <p>
         This is a UI component dev environment for your app.
       </p>
       <p>
         We've added some basic stories inside the 
-        <Styled(code)>
+        <InlineCode>
           <code
-            className="emotion-1"
+            style={
+              Object {
+                "backgroundColor": "#f3f2f2",
+                "border": "1px solid #eae9e9",
+                "borderRadius": 4,
+                "color": "#3a3a3a",
+                "fontSize": 15,
+                "fontWeight": 600,
+                "padding": "2px 5px",
+              }
+            }
           >
             src/stories
           </code>
-        </Styled(code)>
+        </InlineCode>
          directory.
         <br />
         A story is a single state of one or more UI components. You can have as many stories as you want.
@@ -181,25 +162,50 @@ exports[`Storyshots Welcome to Storybook 1`] = `
       </p>
       <p>
         See these sample 
-        <Styled(button)
+        <NavButton
           onClick={[Function]}
         >
           <button
-            className="emotion-2"
             onClick={[Function]}
+            style={
+              Object {
+                "backgroundColor": "transparent",
+                "borderBottom": "1px solid #1474f3",
+                "borderLeft": "none",
+                "borderRight": "none",
+                "borderTop": "none",
+                "color": "#1474f3",
+                "cursor": "pointer",
+                "font": "inherit",
+                "padding": 0,
+                "paddingBottom": 2,
+                "textDecoration": "none",
+              }
+            }
+            type="button"
           >
             stories
           </button>
-        </Styled(button)>
+        </NavButton>
          for a component called
          
-        <Styled(code)>
+        <InlineCode>
           <code
-            className="emotion-1"
+            style={
+              Object {
+                "backgroundColor": "#f3f2f2",
+                "border": "1px solid #eae9e9",
+                "borderRadius": 4,
+                "color": "#3a3a3a",
+                "fontSize": 15,
+                "fontWeight": 600,
+                "padding": "2px 5px",
+              }
+            }
           >
             Button
           </code>
-        </Styled(code)>
+        </InlineCode>
         .
       </p>
       <p>
@@ -208,22 +214,42 @@ exports[`Storyshots Welcome to Storybook 1`] = `
         You can also edit those components and see changes right away.
         <br />
         (Try editing the 
-        <Styled(code)>
+        <InlineCode>
           <code
-            className="emotion-1"
+            style={
+              Object {
+                "backgroundColor": "#f3f2f2",
+                "border": "1px solid #eae9e9",
+                "borderRadius": 4,
+                "color": "#3a3a3a",
+                "fontSize": 15,
+                "fontWeight": 600,
+                "padding": "2px 5px",
+              }
+            }
           >
             Button
           </code>
-        </Styled(code)>
+        </InlineCode>
          stories located at
          
-        <Styled(code)>
+        <InlineCode>
           <code
-            className="emotion-1"
+            style={
+              Object {
+                "backgroundColor": "#f3f2f2",
+                "border": "1px solid #eae9e9",
+                "borderRadius": 4,
+                "color": "#3a3a3a",
+                "fontSize": 15,
+                "fontWeight": 600,
+                "padding": "2px 5px",
+              }
+            }
           >
             src/stories/index.js
           </code>
-        </Styled(code)>
+        </InlineCode>
         .)
       </p>
       <p>
@@ -231,43 +257,64 @@ exports[`Storyshots Welcome to Storybook 1`] = `
         <br />
         Have a look at the
          
-        <Styled(a)
+        <Link
           href="https://storybook.js.org/basics/writing-stories"
           rel="noopener noreferrer"
           target="_blank"
         >
           <a
-            className="emotion-6"
             href="https://storybook.js.org/basics/writing-stories"
             rel="noopener noreferrer"
+            style={
+              Object {
+                "borderBottom": "1px solid #1474f3",
+                "color": "#1474f3",
+                "paddingBottom": 2,
+                "textDecoration": "none",
+              }
+            }
             target="_blank"
           >
             Writing Stories
           </a>
-        </Styled(a)>
+        </Link>
          
         section in our documentation.
       </p>
-      <Styled(p)>
+      <Note>
         <p
-          className="emotion-8"
+          style={
+            Object {
+              "opacity": 0.5,
+            }
+          }
         >
           <b>
             NOTE:
           </b>
           <br />
           Have a look at the 
-          <Styled(code)>
+          <InlineCode>
             <code
-              className="emotion-1"
+              style={
+                Object {
+                  "backgroundColor": "#f3f2f2",
+                  "border": "1px solid #eae9e9",
+                  "borderRadius": 4,
+                  "color": "#3a3a3a",
+                  "fontSize": 15,
+                  "fontWeight": 600,
+                  "padding": "2px 5px",
+                }
+              }
             >
               .storybook/webpack.config.js
             </code>
-          </Styled(code)>
+          </InlineCode>
            to add webpack loaders and plugins you are using in this project.
         </p>
-      </Styled(p)>
+      </Note>
     </article>
-  </Styled(article)>
+  </Main>
 </Welcome>
 `;

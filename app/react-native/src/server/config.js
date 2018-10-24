@@ -92,14 +92,10 @@ export default function(configType, baseConfig, projectDir, configDir) {
   });
 
   // Check whether addons.js file exists inside the storybook.
-  // Load the default addons.js file if it's missing.
-  const storybookDefaultAddonsPath = path.resolve(__dirname, 'addons.js');
   const storybookCustomAddonsPath = path.resolve(configDir, 'addons.js');
   if (fs.existsSync(storybookCustomAddonsPath)) {
     logger.info('=> Loading custom addons config.');
     config.entry.manager.unshift(storybookCustomAddonsPath);
-  } else {
-    config.entry.manager.unshift(storybookDefaultAddonsPath);
   }
 
   const defaultConfig = createDefaultWebpackConfig(config);
@@ -116,7 +112,7 @@ export default function(configType, baseConfig, projectDir, configDir) {
 
   if (typeof customConfig === 'function') {
     logger.info('=> Loading custom webpack config (full-control mode).');
-    return customConfig(config, configType, defaultConfig);
+    return customConfig(config, configType, defaultConfig, configDir);
   }
 
   logger.info('=> Loading custom webpack config.');

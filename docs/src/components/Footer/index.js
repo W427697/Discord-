@@ -7,11 +7,10 @@ import './style.css';
 const Footer = () => (
   <div id="footer" className="row">
     <div className="col-md-12">
-      <div className="row logos">
+      <div className="logos">
         <div className="col-xs-12">
           <center>
-            Maintained by the <Link to="/basics/community/">Storybook Community</Link>
-            .
+            Maintained by the <Link to="/basics/community/">Storybook Community</Link>.
           </center>
           <center>
             <a

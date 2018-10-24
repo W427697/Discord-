@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { monoFonts } from '@storybook/components';
 
 import Indicator from './Indicator';
 import colors from '../colors';
 
-const Pre = styled('pre')({
+const Pre = styled.pre({
   margin: 0,
   ...monoFonts,
 });
 
-const FlexContainer = styled('div')({
+const FlexContainer = styled.div({
   display: 'flex',
   alignItems: 'center',
 });
@@ -20,11 +20,11 @@ const FlexContainer = styled('div')({
 /* eslint no-control-regex:0 */
 const patterns = [/^\x08+/, /^\x1b\[[012]?K/, /^\x1b\[?[\d;]{0,3}/];
 
-const Positive = styled('strong')({
+const Positive = styled.strong({
   color: colors.success,
   fontWeight: 500,
 });
-const Negative = styled('strong')({
+const Negative = styled.strong({
   color: colors.error,
   fontWeight: 500,
 });
@@ -35,8 +35,10 @@ const StackTrace = styled(({ trace, className }) => (
       .join('')
       .trim()
       .split(/\n/)
-      // eslint-disable-next-line react/no-array-index-key
-      .map((traceLine, traceLineIndex) => <div key={traceLineIndex}>{traceLine.trim()}</div>)}
+      .map((traceLine, traceLineIndex) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <div key={traceLineIndex}>{traceLine.trim()}</div>
+      ))}
   </details>
 ))({
   background: 'silver',
@@ -186,13 +188,13 @@ Message.propTypes = {
   msg: PropTypes.string.isRequired,
 };
 
-const Head = styled('header')({
+const Head = styled.header({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'flex-start',
 });
 
-const Title = styled('h3')({
+const Title = styled.h3({
   padding: '10px 10px 0 10px',
   margin: 0,
 });
@@ -217,7 +219,9 @@ export const FailedResult = styled(({ fullName, title, status, failureMessages, 
       </Indicator>
     </Head>
     {/* eslint-disable react/no-array-index-key  */}
-    {failureMessages.map((msg, i) => <Message msg={msg} key={i} />)}
+    {failureMessages.map((msg, i) => (
+      <Message msg={msg} key={i} />
+    ))}
   </div>
 ))({
   display: 'block',

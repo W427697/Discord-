@@ -1,22 +1,21 @@
 import { document } from 'global';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import addons from '@storybook/addons';
 
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
-import Events from './events';
+import Events from './constants';
 import Swatch from './Swatch';
 
-const Wrapper = styled('div')({
+const Wrapper = styled.div({
   padding: 20,
 });
 
-const Title = styled('h5')({
+const Title = styled.h5({
   fontSize: 16,
 });
 
-const Pre = styled('pre')(({ theme }) => ({
+const Pre = styled.pre(({ theme }) => ({
   padding: '30px',
   display: 'block',
   background: theme.fillColor,
@@ -24,11 +23,11 @@ const Pre = styled('pre')(({ theme }) => ({
   lineHeight: '1.75em',
 }));
 
-const List = styled('div')({
+const List = styled.div({
   display: 'inline-block',
   padding: 15,
 });
-const Item = styled('div')({
+const Item = styled.div({
   display: 'inline-block',
   padding: 5,
 });
@@ -76,19 +75,11 @@ export default class BackgroundPanel extends Component {
   constructor(props) {
     super(props);
 
-    const { channel } = props;
-
-    // A channel is explicitly passed in for testing
-    if (channel) {
-      this.channel = channel;
-    } else {
-      this.channel = addons.getChannel();
-    }
-
     this.state = { backgrounds: [] };
   }
 
   componentDidMount() {
+    const { api, channel } = this.props;
     this.iframe = document.getElementById(storybookIframe);
 
     if (!this.iframe) {
@@ -99,29 +90,36 @@ export default class BackgroundPanel extends Component {
       this.iframe.style[prop] = style.iframe[prop];
     });
 
-    const { api } = this.props;
+    channel.on(Events.SET, data => {
+      const backgrounds = [...data];
 
-    this.channel.on(Events.SET, backgrounds => {
       this.setState({ backgrounds });
-      const currentBackground = api.getQueryParam('background');
+      const current = api.getQueryParam('background');
+      const defaultOrFirst = backgrounds.find(x => x.default) || backgrounds[0];
 
-      if (currentBackground && backgrounds.some(bg => bg.value === currentBackground)) {
-        this.updateIframe(currentBackground);
-      } else if (backgrounds.filter(x => x.default).length) {
-        const defaultBgs = backgrounds.filter(x => x.default);
-        this.updateIframe(defaultBgs[0].value);
+      // debugger;
+
+      const foundBackground =
+        current && backgrounds.find(bg => bg.name === decodeURI(current) || bg.value === current);
+
+      if (foundBackground) {
+        this.updateIframe(foundBackground.value);
+      } else if (defaultOrFirst) {
+        this.updateIframe(defaultOrFirst.value);
+        api.setQueryParams({ background: defaultOrFirst.value });
       }
     });
 
-    this.channel.on(Events.UNSET, () => {
+    channel.on(Events.UNSET, () => {
       this.setState({ backgrounds: [] });
       this.updateIframe('none');
     });
   }
 
   setBackgroundFromSwatch = background => {
+    const { api } = this.props;
     this.updateIframe(background);
-    this.props.api.setQueryParams({ background });
+    api.setQueryParams({ background });
   };
 
   updateIframe(background) {
@@ -130,7 +128,8 @@ export default class BackgroundPanel extends Component {
 
   render() {
     const { active } = this.props;
-    const backgrounds = [...this.state.backgrounds];
+    const { backgrounds = [] } = this.state;
+
     if (!active) {
       return null;
     }
