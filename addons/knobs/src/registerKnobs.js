@@ -26,7 +26,11 @@ function knobChanged(change) {
   forceReRender();
 
   if (knobOptions.onChange) {
-    knobOptions.onChange(change);
+    if (typeof knobOptions.onChange === 'function') {
+      knobOptions.onChange(change);
+    } else {
+      console.error(`Option "onChange" given to "${name}" knob is not a function`); // eslint-disable-line no-console
+    }
   }
 }
 
