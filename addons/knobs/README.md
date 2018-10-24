@@ -123,7 +123,7 @@ import { text } from '@storybook/addon-knobs';
 const label = 'Your Name';
 const defaultValue = 'Arunoda Susiripala';
 const groupId = 'GROUP-ID1';
-const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
+const options = { onChange: ({ name, type, value }) => { console.log(name, type, value) } }
 
 const value = text(label, defaultValue, groupId, options);
 ```
@@ -138,7 +138,7 @@ import { boolean } from '@storybook/addon-knobs';
 const label = 'Agree?';
 const defaultValue = false;
 const groupId = 'GROUP-ID1';
-const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
+const options = { onChange: ({ name, type, value }) => { console.log(name, type, value) } }
 
 const value = boolean(label, defaultValue, groupId, options);
 ```
@@ -152,7 +152,7 @@ import { number } from '@storybook/addon-knobs';
 const label = 'Age';
 const defaultValue = 78;
 const groupId = 'GROUP-ID1';
-const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
+const options = { onChange: ({ name, type, value }) => { console.log(name, type, value) } }
 const value = number(label, defaultValue, options, groupId);
 ```
 
@@ -174,7 +174,7 @@ const options = {
    min: 60,
    max: 90,
    step: 1,
-   onChange: ({ name, type, value }) => { handleChange(name, type, value) }
+   onChange: ({ name, type, value }) => { console.log(name, type, value) }
 };
 const groupId = 'GROUP-ID1';
 
@@ -191,7 +191,7 @@ import { color } from '@storybook/addon-knobs';
 const label = 'Color';
 const defaultValue = '#ff00ff';
 const groupId = 'GROUP-ID1';
-const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
+const options = { onChange: ({ name, type, value }) => { console.log(name, type, value) } }
 
 const value = color(label, defaultValue, groupId, options);
 ```
@@ -208,7 +208,7 @@ const defaultValue = {
   backgroundColor: 'red'
 };
 const groupId = 'GROUP-ID1';
-const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
+const options = { onChange: ({ name, type, value }) => { console.log(name, type, value) } }
 
 const value = object(label, defaultValue, groupId, options);
 ```
@@ -248,7 +248,7 @@ const value = array(label, defaultValue, ',', groupId);
 
 For use with `options`, pass the default `separator` and `null` as `groupId`
 ```javascript
-const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
+const options = { onChange: ({ name, type, value }) => { console.log(name, type, value) } }
 
 const value = array(label, defaultValue, ',', null, options)
 ```
@@ -270,7 +270,7 @@ const options = {
 };
 const defaultValue = 'red';
 const groupId = 'GROUP-ID1';
-const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
+const options = { onChange: ({ name, type, value }) => { console.log(name, type, value) } }
 
 const value = select(label, options, defaultValue, groupId, options);
 ```
@@ -286,7 +286,7 @@ import { files } from '@storybook/addon-knobs';
 
 const label = 'Images';
 const defaultValue = [];
-const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
+const options = { onChange: ({ name, type, value }) => { console.log(name, type, value) } }
 
 const value = files(label, accept, defaultValue, options);
 ```
@@ -303,7 +303,7 @@ import { date } from '@storybook/addon-knobs';
 const label = 'Event Date';
 const defaultValue = new Date('Jan 20 2017');
 const groupId = 'GROUP-ID1';
-const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
+const options = { onChange: ({ name, type, value }) => { console.log(name, type, value) } }
 
 const value = date(label, defaultValue, groupId, options);
 ```
@@ -330,7 +330,7 @@ import { button } from '@storybook/addon-knobs';
 const label = 'Do Something';
 const handler = () => doSomething('foobar');
 const groupId = 'GROUP-ID1';
-const options = { onChange: ({ name, type, value }) => { handleChange(name, type, value) } }
+const options = { onChange: ({ name, type, value }) => { console.log(name, type, value) } }
 
 button(label, handler, groupId, options);
 ```
