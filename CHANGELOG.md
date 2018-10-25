@@ -1,3 +1,141 @@
+# 4.0.0-rc.6
+
+2018-October-25
+
+#### Dependency Upgrades
+
+-   Upgrade react-komposer to 2.0.5 [#4547](https://github.com/storybooks/storybook/pull/4547)
+
+# 4.0.0-rc.5
+
+2018-October-25
+
+#### Maintenance
+
+-   Fix issue with `sb init` on the Vue CLI [#4535](https://github.com/storybooks/storybook/pull/4535)
+
+# 4.0.0-rc.4
+
+2018-October-25
+
+#### Features
+
+-   Ember: update to not require any manual setup [#4544](https://github.com/storybooks/storybook/pull/4544)
+
+#### Bug Fixes
+
+-   React: add mini-css-extract-plugin to app/react dependencies [#4534](https://github.com/storybooks/storybook/pull/4534)
+
+#### Maintenance
+
+-   Add angular@7 cli tests [#4524](https://github.com/storybooks/storybook/pull/4524)
+-   Fix the node-logger version in app/react [#4539](https://github.com/storybooks/storybook/pull/4539)
+
+#### Dependency Upgrades
+
+-   Bump danger from 4.4.8 to 6.0.2 [#4538](https://github.com/storybooks/storybook/pull/4538)
+-   Bump react-test-renderer from 16.5.2 to 16.6.0 [#4536](https://github.com/storybooks/storybook/pull/4536)
+-   Bump fuse.js from 3.2.1 to 3.3.0 [#4537](https://github.com/storybooks/storybook/pull/4537)
+-   Bump riot from 3.12.0 to 3.13.0 [#4511](https://github.com/storybooks/storybook/pull/4511)
+
+
+# 4.0.0-rc.3
+
+2018-October-23
+
+#### Bug Fixes
+
+-   Fix knobs select to support rich values [#4522](https://github.com/storybooks/storybook/pull/4522)
+-   Turn off spell check in story filter [#4472](https://github.com/storybooks/storybook/pull/4472)-
+
+#### Maintenance
+
+-   ADD timeout to update check [#4530](https://github.com/storybooks/storybook/pull/4530)
+-   REMOVE emotion from demo components to make backwards compatibility easier && ADD demo components to official example [#4527](https://github.com/storybooks/storybook/pull/4527)
+-   Exclude story files from angular app build [#4485](https://github.com/storybooks/storybook/pull/4485)
+
+# 4.0.0-rc.2
+
+2018-October-22
+
+#### Features
+
+-   Support css-modules [#4405](https://github.com/storybooks/storybook/pull/4405)
+-   Angular: Support sass files [#4343](https://github.com/storybooks/storybook/pull/4343)
+-   Support "mjs" extensions [#4466](https://github.com/storybooks/storybook/pull/4466)
+-   Allow presets to be async [#4450](https://github.com/storybooks/storybook/pull/4450)
+
+#### Bug Fixes
+
+-   Addon-Jest: undefined file extension [#4452](https://github.com/storybooks/storybook/pull/4452)
+
+#### Maintenance
+
+-   Override babelrc for the node related code [#4451](https://github.com/storybooks/storybook/pull/4451)
+-   Use cross-env in official example [#4474](https://github.com/storybooks/storybook/pull/4474)
+
+#### Dependency Upgrades
+
+-   Bump copy-webpack-plugin from 4.5.3 to 4.5.4 [#4492](https://github.com/storybooks/storybook/pull/4492)
+-   Bump jest-image-snapshot from 2.5.0 to 2.6.0 [#4494](https://github.com/storybooks/storybook/pull/4494)
+-   Bump webpack from 4.20.2 to 4.21.0 [#4477](https://github.com/storybooks/storybook/pull/4477)
+
+# 4.0.0-rc.1
+
+2018-October-18
+
+#### Bug Fixes
+
+-   Angular: expose webpackFinal extension [#4431](https://github.com/storybooks/storybook/pull/4431)
+-   Addon-Knobs: fix ints as values [#4465](https://github.com/storybooks/storybook/pull/4465)
+
+#### Maintenance
+
+-   Add Angular 6 fixture to the sb-cli tests [#4464](https://github.com/storybooks/storybook/pull/4464)
+
+#### Dependency Upgrades
+
+-   Require React 16.3 as a peer dependency [#4458](https://github.com/storybooks/storybook/pull/4458)
+-   Bump @ember/test-helpers from 0.7.26 to 0.7.27 [#4455](https://github.com/storybooks/storybook/pull/4455)
+-   Bump eslint-plugin-jest from 21.25.0 to 21.25.1 [#4456](https://github.com/storybooks/storybook/pull/4456)
+-   Bump autoprefixer from 9.2.0 to 9.2.1 [#4457](https://github.com/storybooks/storybook/pull/4457)
+-   Bump @types/node from 10.11.7 to 10.12.0 [#4434](https://github.com/storybooks/storybook/pull/4434)
+-   Bump ember-cli-inject-live-reload from 2.0.0 to 2.0.1 [#4435](https://github.com/storybooks/storybook/pull/4435)
+-   Bump gatsby-plugin-sharp from 1.6.48 to 2.0.7 in /docs [#4438](https://github.com/storybooks/storybook/pull/4438)
+-   Bump marked from 0.4.0 to 0.5.1 in /docs [#4437](https://github.com/storybooks/storybook/pull/4437)
+-   Bump highlight.js from 9.12.0 to 9.13.0 in /docs [#4440](https://github.com/storybooks/storybook/pull/4440)
+
+# 4.0.0-rc.0
+
+2018-October-15
+
+#### Features
+
+-   Addon: google analytics [#4138](https://github.com/storybooks/storybook/pull/4138)
+
+#### Bug Fixes
+
+-   Improve environment var loading [#4413](https://github.com/storybooks/storybook/pull/4413)
+
+#### Maintenance
+
+-   Skip preflight check when starting cra kitchen sink [#4408](https://github.com/storybooks/storybook/pull/4408)
+-   Change crna-kitchen-sink path and Some CI maintenance [#4409](https://github.com/storybooks/storybook/pull/4409)
+-   Create ember entry point to official storybook [#4426](https://github.com/storybooks/storybook/pull/4426)
+
+#### Dependency Upgrades
+
+-   Bump ember-cli from 3.4.3 to 3.5.0 [#4429](https://github.com/storybooks/storybook/pull/4429)
+-   Bump react-native-modal-selector from 0.0.27 to 0.0.29 [#4428](https://github.com/storybooks/storybook/pull/4428)
+-   Bump ember-cli-inject-live-reload from 1.8.2 to 1.10.1 [#4423](https://github.com/storybooks/storybook/pull/4423)
+-   Bump html-webpack-plugin from 4.0.0-beta.1 to 4.0.0-beta.2 [#4421](https://github.com/storybooks/storybook/pull/4421)
+-   Bump react-scripts from 2.0.4 to 2.0.5 [#4420](https://github.com/storybooks/storybook/pull/4420)
+-   Bump autoprefixer from 9.1.5 to 9.2.0 [#4417](https://github.com/storybooks/storybook/pull/4417)
+-   Bump redux from 4.0.0 to 4.0.1 [#4419](https://github.com/storybooks/storybook/pull/4419)
+-   Bump ts-loader from 5.2.1 to 5.2.2 [#4418](https://github.com/storybooks/storybook/pull/4418)
+-   Bump eslint-plugin-jest from 21.24.1 to 21.25.0 [#4424](https://github.com/storybooks/storybook/pull/4424)
+-   Bump lazy-universal-dotenv from 1.9.1 to 2.0.0 [#4422](https://github.com/storybooks/storybook/pull/4422)
+
 # 4.0.0-alpha.25
 
 2018-October-13
