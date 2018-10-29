@@ -21078,10 +21078,10 @@ svelte-loader@^2.11.0:
     require-relative "^0.8.7"
     svelte-dev-helper "^1.1.9"
 
-svelte@^2.13.5:
-  version "2.13.5"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-2.13.5.tgz#23478480ed0f7d4da4816022d84a86512d503358"
-  integrity sha512-Mg4+vRwAT1IMR4FAH3cOmMaVVrJ35xUI1qsTW+WoJvRpeBDx7aLZUbgBXnctxdfEJQ4BuP2MCuhYKy8917Au1A==
+svelte@^2.15.0:
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-2.15.0.tgz#27b27b033abcba97f4392ff04faa707b1345b6da"
+  integrity sha512-rSrDbOftOHfPN8Epy8FHFUfr7L1WaZZBUC1UloNNH7+S7QHPyvbQw1KdrhtVYSuOslpjHe20xgTDR/tZn/sDMg==
 
 svg-tags@^1.0.0:
   version "1.0.0"
