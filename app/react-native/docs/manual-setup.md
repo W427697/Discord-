@@ -42,6 +42,7 @@ Then write your first story in the `stories` directory like this:
 
 ```js
 import { storiesOf } from '@storybook/react-native';
+import React from 'react';
 import { View, Text } from 'react-native';
 
 const style = {
