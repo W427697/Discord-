@@ -11,6 +11,7 @@ import knobsWrapper from './Knobs';
 import Button from './Button';
 import CenterView from './CenterView';
 import Welcome from './Welcome';
+import TextField from './TextField';
 
 addDecorator(withNotes);
 addDecorator(
@@ -50,6 +51,21 @@ _This component doesn't look right_
       <Text>😀 😎 👍 💯</Text>
     </Button>
   ));
+
+storiesOf('TextField', module)
+  .addParameters({
+    backgrounds: [
+      { name: 'red', value: '#F44336' },
+      { name: 'blue', value: '#2196F3', default: true },
+    ],
+    notes: `
+# Custom note\n
+_This component doesn't look right_
+`,
+  })
+  .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
+  .add('with focus', () => <TextField autoFocus placeholder="Placeholder" />)
+  .add('with focus and value', () => <TextField placeholder="Placeholder" value="initial value" />);
 
 storiesOf('Knobs', module)
   .addDecorator(withKnobs)
