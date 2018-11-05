@@ -75,7 +75,7 @@ For example, if your entry app is named App.js. You can replace it the following
 ```
 import StorybookUI from './storybook';
 
-export default StorybookUI
+export default StorybookUI;
 ```
 
 If you cannot replace your entry point just make sure that the component exported from `./storybook` is displayed
