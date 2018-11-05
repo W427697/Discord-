@@ -70,7 +70,7 @@ Finally replace your app entry with
 import './storybook';
 ```
 
-For example, if your entry app is named App.js. You can replace it the following.
+For example, if your entry app is named App.js/index.js (Expo/Vanilla). You can replace it with the following.
 
 ```
 import StorybookUI from './storybook';
