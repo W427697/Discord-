@@ -1,0 +1,45 @@
+{
+  "name": "@storybook/react-native-on-device",
+  "version": "4.0.4",
+  "description": "A better way to develop React Native Components for your app",
+  "keywords": [
+    "react",
+    "react-native",
+    "react-native-on-device",
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybooks/storybook/tree/master/app/react-native-on-device",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/storybooks/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybooks/storybook.git"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "jsnext:main": "src/index.js",
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/addons": "4.0.4",
+    "@storybook/channel-websocket": "4.0.4",
+    "@storybook/channels": "4.0.4",
+    "@storybook/core-client": "4.0.4",
+    "@storybook/core-events": "4.0.4",
+    "prop-types": "^15.6.2",
+    "react-native-swipe-gestures": "^1.0.2",
+    "url-parse": "^1.4.3"
+  },
+  "devDependencies": {
+    "react-native": "^0.52.2"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": ">=0.51.0"
+  }
+}
