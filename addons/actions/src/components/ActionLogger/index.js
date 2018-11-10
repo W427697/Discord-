@@ -7,6 +7,18 @@ import { ActionBar, ActionButton } from '@storybook/components';
 
 import { Actions, Action, Wrapper, InspectorContainer, Countwrap, Counter } from './style';
 
+const castIfNumber = subject => {
+  const num = Number(subject);
+  return Number.isNaN(num) ? subject : num;
+};
+
+const sortObjectKeys = (a, b) => {
+  if (a === b) {
+    return 0;
+  }
+  return castIfNumber(a) < castIfNumber(b) ? -1 : 1;
+};
+
 const ActionLogger = withCSSContext(({ actions, onClear }, { theme }) => (
   <Wrapper>
     <Actions>
@@ -16,7 +28,7 @@ const ActionLogger = withCSSContext(({ actions, onClear }, { theme }) => (
           <InspectorContainer>
             <Inspector
               theme={theme.addonActionsTheme || 'chromeLight'}
-              sortObjectKeys
+              sortObjectKeys={sortObjectKeys}
               showNonenumerable={false}
               name={action.data.name}
               data={action.data.args || action.data}
