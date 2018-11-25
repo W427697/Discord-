@@ -19,6 +19,10 @@ const decorateStory = (getStory, decorators) =>
         decoratedStory = { template: decoratedStory };
       }
 
+      if (decorator.name === 'withSubscriptionTracking') {
+        return decoratedStory;
+      }
+
       decoratedStory.components = decoratedStory.components || {};
       decoratedStory.components.story = createWrapperComponent(story());
       return decoratedStory;
