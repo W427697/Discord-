@@ -6,6 +6,7 @@
 |[actions](addons/actions)                   |+|+|+|+|+|+|+|+|+|+|+|
 |[backgrounds](addons/backgrounds)           |+|*|+|+|+|+|+|+|+|+|+|
 |[centered](addons/centered)                 |+| |+|+| |+|+| |+| |+|
+|[codeinjector](addons/codeinjector)         |+| |+|+|+|+|+|+|+|+|+|
 |[events](addons/events)                     |+| |+|+|+|+|+|+| | |+|
 |[graphql](addons/graphql)                   |+| | | | | | | | | | |
 |[google-analytics](addons/google-analytics) |+|+|+|+|+|+|+|+|+|+|+|
@@ -15,7 +16,6 @@
 |[links](addons/links)                       |+|+|+|+|+|+|+| |+|+|+|
 |[notes](addons/notes)                       |+|+*|+|+|+|+|+| |+|+|+|
 |[options](addons/options)                   |+|+|+|+|+|+|+| |+|+|+|
-|[resources](addons/resources)               |+| |+|+|+|+|+|+|+|+|+|
 |[storyshots](addons/storyshots)             |+|+|+|+| | |+| |+|+| |
 |[storysource](addons/storysource)           |+| |+|+|+|+|+|+|+|+|+|
 |[viewport](addons/viewport)                 |+| |+|+|+|+|+|+|+|+|+|

@@ -16,11 +16,11 @@ const PanelWrapper = styled.div({
   left: '10px',
 });
 
-export default class ResourcePanel extends Component {
+export default class CodeinjectorPanel extends Component {
   constructor(props) {
     super(props);
-    this.state = { resources: ``, disable: false };
-    this.onAddResources = this.onAddResources.bind(this);
+    this.state = { code: ``, disable: false };
+    this.onAddCode = this.onAddCode.bind(this);
     this.parser = new DOMParser();
   }
 
@@ -30,21 +30,21 @@ export default class ResourcePanel extends Component {
     if (!this.iframe) {
       throw new Error('Cannot find Storybook iframe');
     }
-    channel.on('storybook/resources/add_resources', this.onAddResources);
+    channel.on('storybook/codeinjector/add_code', this.onAddCode);
   }
 
   componentWillUnmount() {
     const { channel } = this.props;
-    channel.removeListener('storybook/resources/add_resources', this.onAddResources);
+    channel.removeListener('storybook/codeinjector/add_code', this.onAddCode);
   }
 
   onChange(newValue) {
-    this.setState(prevState => ({ ...prevState, resources: newValue }));
+    this.setState(prevState => ({ ...prevState, code: newValue }));
   }
 
-  onAddResources(resources) {
-    this.loadResources(resources);
-    this.setState(prevState => ({ ...prevState, resources, disable: false }));
+  onAddCode(code) {
+    this.loadCode(code);
+    this.setState(prevState => ({ ...prevState, code, disable: false }));
   }
 
   addElements(domElements, i) {
@@ -66,8 +66,8 @@ export default class ResourcePanel extends Component {
   }
 
   apply() {
-    const { resources = '' } = this.state;
-    this.loadResources(resources);
+    const { code = '' } = this.state;
+    this.loadCode(code);
     this.setState(prevState => ({ ...prevState, disable: false }));
   }
 
@@ -98,11 +98,11 @@ export default class ResourcePanel extends Component {
   }
 
   disable() {
-    this.loadResources(``);
+    this.loadCode(``);
     this.setState(prevState => ({ ...prevState, disable: true }));
   }
 
-  loadResources(resources) {
+  loadCode(code) {
     // remove previously added elements!
     this.iframe.contentDocument.head.querySelectorAll(`[${addedElAttr}]`).forEach(eL => {
       if (eL) {
@@ -110,11 +110,11 @@ export default class ResourcePanel extends Component {
       }
     });
 
-    this.addElements(this.convertStringToDom(resources), 0);
+    this.addElements(this.convertStringToDom(code), 0);
   }
 
   render() {
-    const { resources = '', disable = false } = this.state;
+    const { code = '', disable = false } = this.state;
     const { active } = this.props;
 
     if (!active) {
@@ -122,10 +122,9 @@ export default class ResourcePanel extends Component {
     }
 
     return (
-      <PanelWrapper className="addon-resources-container">
+      <PanelWrapper className="addon-codeinjector-container">
         <div style={{ fontSize: '15px', paddingBottom: '12px', width: '800px' }}>
-          Note: Applying resources is sticky and will persist accross stories. However, in some
-          cases (like adding event listeners) you might need to re-apply resources.
+          Note: Applying code is sticky and will persist accross stories.
         </div>
         <div>
           <AceEditor
@@ -135,15 +134,15 @@ export default class ResourcePanel extends Component {
             setOptions={{ useWorker: false, fontSize: '15px' }}
             onChange={this.onChange.bind(this)}
             style={{ boxShadow: '5px 7px #888888', opacity: disable ? 0.5 : 1.0 }}
-            value={resources}
-            name="resourcesdiv"
+            value={code}
+            name="codediv"
             height="300px"
             width="800px"
             editorProps={{ $blockScrolling: true }}
           />
         </div>
         <div style={{ float: 'right', paddingTop: '17px' }}>
-          <Button onClick={this.apply.bind(this)}>APPLY RESOURCES</Button>
+          <Button onClick={this.apply.bind(this)}>APPLY CODE</Button>
           &nbsp;&nbsp;
           <Button onClick={this.disable.bind(this)}>DISABLE</Button>
         </div>
@@ -152,7 +151,7 @@ export default class ResourcePanel extends Component {
   }
 }
 
-ResourcePanel.propTypes = {
+CodeinjectorPanel.propTypes = {
   active: PropTypes.bool.isRequired,
   channel: PropTypes.shape({
     on: PropTypes.func,

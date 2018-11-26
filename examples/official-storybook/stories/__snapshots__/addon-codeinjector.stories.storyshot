@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Addons|Codeinjector Simple Button 1`] = `
+<button
+  class="btn btn-lg btn-primary"
+  style="font-size:1.1em;text-align:left"
+  type="button"
+>
+  Use the code injector to:-
+  <br />
+  1. Add bootstrap css library
+  <br />
+  2. Add jquery and use it to add a click handler
+</button>
+`;
