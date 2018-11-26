@@ -7,7 +7,6 @@ Storybook Addon Codeinjector allows you dynamically add/remove (css and js) code
 ![Storybook Addon Resources Demo](docs/demo.gif)
 
 ### Getting Started
-**NOTE: Documentation on master branch is for alpha version, stable release is on [release/3.4](https://github.com/storybooks/storybook/tree/release/3.4/addons/)**
 
 ```sh
 yarn add -D @storybook/addon-codeinjector
@@ -20,6 +19,8 @@ Add following content to it:
 ```js
 import '@storybook/addon-codeinjector/register';
 ```
+
+## Usage
 
 You can then use the code injector addon ui to dynamically add code to the iframe.
 
