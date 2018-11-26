@@ -9,7 +9,6 @@ import ArrayType from './Array';
 import DateType from './Date';
 import ButtonType from './Button';
 import FilesType from './Files';
-import OptionsType from './Options';
 
 export default {
   text: TextType,
@@ -23,5 +22,4 @@ export default {
   date: DateType,
   button: ButtonType,
   files: FilesType,
-  options: OptionsType,
 };
