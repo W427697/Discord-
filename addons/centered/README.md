@@ -7,7 +7,7 @@ Storybook Centered Decorator can be used to center components inside the preview
 ### Usage
 
 ```sh
-npm install @storybook/addon-centered --save-dev
+npm install @storybook/addon-centered --save
 ```
 
 #### As a decorator
