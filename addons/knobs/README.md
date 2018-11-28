@@ -77,6 +77,31 @@ stories.add('with a button', () => ({
 
 ```
 
+### With Vue
+```js
+import { storiesOf } from '@storybook/vue';
+import { boolean, number, text, withKnobs } from '@storybook/addon-knobs';
+
+import { Button } from '@storybook/vue/demo';
+
+const stories = storiesOf('Storybook Knobs', module);
+
+// "withKnobs" decorator should be applied before the stories using knobs
+stories.addDecorator(withKnobs);
+
+// Knobs for Vue props
+stories.add('with a button', () => ({
+  component: Button,
+  props: {
+    text: {
+      type: Text,
+      default: text('Text', 'Hello Storybook'), // The first param is the display name, the second is the default value.
+    }
+  },
+}));
+
+```
+
 Categorize your knobs by assigning them a `groupId`. When a `groupId` exists, tabs will appear in the knobs storybook panel to filter between the groups. Knobs without a `groupId` are automatically categorized into the `ALL` group.
 ```js
 // Knob assigned a groupId.
