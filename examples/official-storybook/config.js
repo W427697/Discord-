@@ -1,6 +1,6 @@
 import React from 'react';
 import ThemeProvider from '@emotion/provider';
-import { configure, addDecorator } from '@storybook/react';
+import { storiesOf, configure, addDecorator } from '@storybook/react';
 import { themes } from '@storybook/components';
 import { withOptions } from '@storybook/addon-options';
 import { configureViewport, INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
@@ -69,6 +69,34 @@ function importAll(req) {
   req.keys().forEach(filename => req(filename));
 }
 
+// The simplest version of examples would just export this function for users to use
+function importAllExamples(req) {
+  req.keys().forEach(filename => {
+    const { default: component, ...examples } = req(filename);
+
+    let componentOptions = component;
+    if (component.prototype && component.prototype.isReactComponent) {
+      componentOptions = { component };
+    }
+
+    // TODO: how to pass module?
+    const kind = storiesOf(componentOptions.title || componentOptions.component.displayName);
+
+    (componentOptions.decorators || []).forEach(decorator => {
+      kind.addDecorator(decorator);
+    });
+    if (componentOptions.parameters) {
+      kind.addParameters(componentOptions.parameters);
+    }
+
+    Object.keys(examples).forEach(key => {
+      const example = examples[key];
+      const { title = key, parameters } = example;
+      kind.add(title, example, parameters);
+    });
+  });
+}
+
 function loadStories() {
   let req;
   req = require.context('../../lib/ui/src', true, /\.stories\.js$/);
@@ -79,6 +107,9 @@ function loadStories() {
 
   req = require.context('./stories', true, /\.stories\.js$/);
   importAll(req);
+
+  req = require.context('./stories', true, /\.examples\.js$/);
+  importAllExamples(req);
 }
 
 configure(loadStories, module);
