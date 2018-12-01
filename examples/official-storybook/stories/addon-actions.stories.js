@@ -7,7 +7,6 @@ import {
   decorate,
   decorateAction,
 } from '@storybook/addon-actions';
-import { setOptions } from '@storybook/addon-options';
 import { Button } from '@storybook/react/demo';
 import { window, File } from 'global';
 
@@ -76,7 +75,6 @@ storiesOf('Addons|Actions', module)
 
     return (
       <div>
-        {setOptions({ selectedAddonPanel: 'storybook/actions/actions-panel' })}
         <Button onClick={() => action('Array')(['foo', 'bar', { foo: 'bar' }])}>Array</Button>
         <Button onClick={() => action('Boolean')(false)}>Boolean</Button>
         <Button onClick={() => action('Empty Object')({})}>Empty Object</Button>
@@ -123,7 +121,8 @@ storiesOf('Addons|Actions', module)
         <Button onClick={() => action('window')(window)}>Window</Button>
       </div>
     );
-  })
+  },
+  { options: { selectedAddonPanel: 'storybook/actions/actions-panel' } })
   .add('configureActionsDepth', () => {
     configureActions({
       depth: 2,
