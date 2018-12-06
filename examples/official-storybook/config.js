@@ -5,6 +5,7 @@ import { themes } from '@storybook/components';
 import { withOptions } from '@storybook/addon-options';
 import { configureViewport, INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { withCssResources } from '@storybook/addon-cssresources';
+import { withNotes } from '@storybook/addon-notes';
 
 import 'react-chromatic/storybook-addon';
 import addHeadWarning from './head-warning';
@@ -57,6 +58,8 @@ addDecorator(
       <ThemeProvider theme={themes.normal}>{story()}</ThemeProvider>
     )
 );
+
+addDecorator(withNotes);
 
 configureViewport({
   viewports: {
