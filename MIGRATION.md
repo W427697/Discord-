@@ -170,6 +170,27 @@ Also make sure you have a `.babelrc` in your project directory. You probably alr
 }
 ```
 
+#### Use with CRA2
+
+```
+yarn --dev add babel-loader@8 @babel/core@^7.0.0-0
+```
+
+If you use dynamic import additionally do this
+
+```
+yarn --dev add @babel/plugin-syntax-dynamic-import
+```
+
+Add `.storybook/.babelrc`
+
+```json
+{
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "plugins": ["@babel/plugin-syntax-dynamic-import"]
+}
+```
+
 ### start-storybook opens browser
 
 If you're using `start-storybook` on CI, you may need to opt out of this using the new `--ci` flag.
