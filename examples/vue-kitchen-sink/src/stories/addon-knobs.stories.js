@@ -38,45 +38,102 @@ storiesOf('Addon|Knobs', module)
     },
   }))
   .add('All knobs', () => {
-    const name = text('Name', 'Jane');
-    const stock = number('Stock', 20, {
-      range: true,
-      min: 0,
-      max: 30,
-      step: 5,
-    });
-    const fruits = {
-      Apple: 'apples',
-      Banana: 'bananas',
-      Cherry: 'cherries',
-    };
-    const fruit = select('Fruit', fruits, 'apples');
-    const price = number('Price', 2.25);
-
-    const colour = color('Border', 'deeppink');
-    const today = date('Today', new Date('Jan 20 2017 GMT+0'));
-    const items = array('Items', ['Laptop', 'Book', 'Whiskey']);
-    const nice = boolean('Nice', true);
-
-    const stockMessage = stock
-      ? `I have a stock of ${stock} ${fruit}, costing &dollar;${price} each.`
-      : `I'm out of ${fruit}${nice ? ', Sorry!' : '.'}`;
-    const salutation = nice ? 'Nice to meet you!' : 'Leave me alone!';
-    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
-
     button('Arbitrary action', action('You clicked it!'));
 
     return {
+      props: {
+        name: {
+          type: String,
+          default: text('Name', 'Jane'),
+        },
+        stock: {
+          type: Number,
+          default: number('Stock', 20, {
+            range: true,
+            min: 0,
+            max: 30,
+            step: 5,
+          }),
+        },
+        fruit: {
+          type: String,
+          default: select(
+            'Fruit',
+            {
+              Apple: 'apples',
+              Banana: 'bananas',
+              Cherry: 'cherries',
+            },
+            'apples'
+          ),
+        },
+        price: {
+          type: Number,
+          default: number('Price', 2.25),
+        },
+        colour: {
+          type: String,
+          default: color('Border', 'deeppink'),
+        },
+        today: {
+          type: Number,
+          default: date('Today', new Date('Jan 20 2017 GMT+0')),
+        },
+        dateOptions: {
+          type: Object,
+          default: {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            timeZone: 'UTC',
+          },
+        },
+        items: {
+          type: Array,
+          default: array('Items', ['Laptop', 'Book', 'Whiskey']),
+        },
+        nice: {
+          type: Boolean,
+          default: boolean('Nice', true),
+        },
+      },
+      computed: {
+        dateString() {
+          const { today, dateOptions } = this;
+
+          return new Date(today).toLocaleDateString('en-US', dateOptions);
+        },
+      },
       template: `
-          <div style="border:2px dotted ${colour}; padding: 8px 22px; border-radius: 8px">
-            <h1>My name is ${name},</h1>
-            <h3>today is ${new Date(today).toLocaleDateString('en-US', dateOptions)}</h3>
-            <p>${stockMessage}</p>
+          <div
+            :style="{
+              border: '2px dotted',
+              borderColor: colour,
+              padding: '8px 22px',
+              borderRadius: '8px'
+            }"
+          >
+            <h1>My name is {{name}},</h1>
+            <h3>today is {{dateString}}</h3>
+            <p v-if="stock">
+              I have a stock of {{stock}} {{fruit}}, costing &dollar;{{price}} each.
+            </p>
+            <p v-else>
+              I'm out of {{fruit}}
+              <span v-if="nice">, Sorry!</span>
+              <span v-else>.</span>
+            </p>
             <p>Also, I have:</p>
             <ul>
-              ${items.map(item => `<li key=${item}>${item}</li>`).join('')}
+              <li
+                v-for="item in items"
+                :key="item"
+              >
+                {{ item }}
+              </li>
             </ul>
-            <p>${salutation}</p>
+            <p v-if="nice">Nice to meet you!</p>
+            <p v-else>Leave me alone!</p>
           </div>
         `,
     };
