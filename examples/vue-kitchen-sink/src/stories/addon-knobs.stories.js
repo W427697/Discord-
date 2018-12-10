@@ -81,16 +81,20 @@ storiesOf('Addon|Knobs', module)
         },
         dateOptions: {
           type: Object,
-          default: {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            timeZone: 'UTC',
+          default() {
+            return {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              timeZone: 'UTC',
+            };
           },
         },
         items: {
           type: Array,
-          default: array('Items', ['Laptop', 'Book', 'Whiskey']),
+          default() {
+            return array('Items', ['Laptop', 'Book', 'Whiskey']);
+          },
         },
         nice: {
           type: Boolean,
@@ -125,10 +129,7 @@ storiesOf('Addon|Knobs', module)
             </p>
             <p>Also, I have:</p>
             <ul>
-              <li
-                v-for="item in items"
-                :key="item"
-              >
+              <li v-for="item in items" :key="item">
                 {{ item }}
               </li>
             </ul>

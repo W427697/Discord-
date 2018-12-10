@@ -2,7 +2,7 @@
 
 exports[`Storyshots Addon|Knobs All knobs 1`] = `
 <div
-  style="padding: 8px 22px; border-radius: 8px;"
+  style="border: 2px dotted; padding: 8px 22px; border-radius: 8px;"
 >
   <h1>
     My name is Jane,
@@ -13,7 +13,9 @@ exports[`Storyshots Addon|Knobs All knobs 1`] = `
   </h3>
    
   <p>
-    I have a stock of 20 apples, costing $2.25 each.
+    
+              I have a stock of 20 apples, costing $2.25 each.
+            
   </p>
    
   <p>
@@ -22,13 +24,19 @@ exports[`Storyshots Addon|Knobs All knobs 1`] = `
    
   <ul>
     <li>
-      Laptop
+      
+                Laptop
+              
     </li>
     <li>
-      Book
+      
+                Book
+              
     </li>
     <li>
-      Whiskey
+      
+                Whiskey
+              
     </li>
   </ul>
    
