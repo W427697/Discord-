@@ -15,6 +15,7 @@
   - [Create-react-app](#create-react-app)
     - [Upgrade CRA1 to babel 7](#upgrade-cra1-to-babel-7)
     - [Migrate CRA1 while keeping babel 6](#migrate-cra1-while-keeping-babel-6)
+    - [Use with CRA2](#use-with-cra2)
   - [start-storybook opens browser](#start-storybook-opens-browser)
   - [CLI Rename](#cli-rename)
   - [Addon story parameters](#addon-story-parameters)
