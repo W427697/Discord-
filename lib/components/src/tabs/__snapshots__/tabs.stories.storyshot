@@ -5,7 +5,7 @@ exports[`Storyshots Components|Tabs stateful - dynamic 1`] = `
   style="height:calc(100vh - 20px)"
 >
   <div
-    class="css-8a9ncn e1lzzkxx0"
+    class="css-1ms7tx7 e1lzzkxx0"
   >
     <div
       class="css-1whcqvw e1lzzkxx1"
@@ -129,7 +129,7 @@ exports[`Storyshots Components|Tabs stateful - no initial 1`] = `
   style="height:calc(100vh - 20px)"
 >
   <div
-    class="css-8a9ncn e1lzzkxx0"
+    class="css-1ms7tx7 e1lzzkxx0"
   >
     <div
       class="css-1whcqvw e1lzzkxx1"
@@ -209,7 +209,7 @@ exports[`Storyshots Components|Tabs stateful - static 1`] = `
   style="height:calc(100vh - 20px)"
 >
   <div
-    class="css-8a9ncn e1lzzkxx0"
+    class="css-1ms7tx7 e1lzzkxx0"
   >
     <div
       class="css-1whcqvw e1lzzkxx1"
@@ -251,7 +251,7 @@ exports[`Storyshots Components|Tabs stateless - absolute 1`] = `
   style="height:calc(100vh - 20px)"
 >
   <div
-    class="css-d7g4da e1lzzkxx0"
+    class="css-1ils9jj e1lzzkxx0"
   >
     <div
       class="css-1whcqvw e1lzzkxx1"
@@ -375,7 +375,7 @@ exports[`Storyshots Components|Tabs stateless - bordered 1`] = `
   style="height:calc(100vh - 20px)"
 >
   <div
-    class="css-8a9ncn e1lzzkxx0"
+    class="css-1ms7tx7 e1lzzkxx0"
   >
     <div
       class="css-1whcqvw e1lzzkxx1"
