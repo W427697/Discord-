@@ -83,8 +83,13 @@ export function getCraWebpackConfig(mode) {
 
   const craWebpackConfig =
     mode === 'production' ? 'config/webpack.config.prod' : 'config/webpack.config.dev';
+  
+  const craWebpackConfigFile = path.join(pathToReactScripts, craWebpackConfig);
 
-  let pathToWebpackConfig = require.resolve(path.join(pathToReactScripts, craWebpackConfig));
+  let pathToWebpackConfig;
+  if (fs.existsSync(craWebpackConfigFile)) {
+      pathToWebpackConfig = require.resolve(craWebpackConfigFile)
+  }
 
   if (!fs.existsSync(pathToWebpackConfig)) {
     pathToWebpackConfig = path.join(pathToReactScripts, 'config/webpack.config');
