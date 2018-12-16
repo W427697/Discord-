@@ -1,0 +1,6 @@
+module.exports = {
+  testMatch: ['**/*.stories.js'],
+  transform: {
+    '^.+\\.js$': 'jest-storybook',
+  },
+};
