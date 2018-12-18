@@ -1074,12 +1074,22 @@
     global "^4.3.2"
     util-deprecate "^1.0.2"
 
-"@storybook/channel-postmessage@4.2.0-alpha.1":
-  version "4.2.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@storybook/channel-postmessage/-/channel-postmessage-4.2.0-alpha.1.tgz#c5ece9d33a8faf92712e60a9cdcf4fc98dfe6770"
-  integrity sha512-YEVmtnLsSpFA0B9oRiY+jFDBU/IV6dm0LYX6RVi2fhCZvBQLL0DHJ/vj56t3cLYK+f2J28Yk5i8M9xrv1j3hvw==
+"@storybook/addons@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-4.2.0-alpha.2.tgz#222e3046b9ae025bb4908b1a280300673e52ac90"
+  integrity sha512-4cR38GbuTFUQmA1YfvkysOOkd4hVknjCldVNnnNFsXsDoGnq89Fj6MnSj2UvlSVCzC5PjwwncSroZ42C/Wdf0A==
   dependencies:
-    "@storybook/channels" "4.2.0-alpha.1"
+    "@storybook/channels" "4.2.0-alpha.2"
+    "@storybook/components" "4.2.0-alpha.2"
+    global "^4.3.2"
+    util-deprecate "^1.0.2"
+
+"@storybook/channel-postmessage@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/channel-postmessage/-/channel-postmessage-4.2.0-alpha.2.tgz#76d9a50dc71f38f6c6ffd642f50251270dbc6ac4"
+  integrity sha512-CdjhdOm86mD9RoTqfSJUJVfppH7DHCctiKfk8Pxm3VZiCkbP0bD4vzbd+9pbY4OApDqUjyV8TabZ2SXrfZIQ9A==
+  dependencies:
+    "@storybook/channels" "4.2.0-alpha.2"
     global "^4.3.2"
     json-stringify-safe "^5.0.1"
 
@@ -1088,10 +1098,15 @@
   resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-4.2.0-alpha.1.tgz#ece8d148f3b438f258fd07257ec14504e0ea7d2b"
   integrity sha512-M4fhKLmkShraeWWbP+yoBDoD/PQOSE3OgQnPAuuibL8lWaie02F19Np2QQlJ7AzyuxeweCY0YDX0ecfXu0JPxA==
 
-"@storybook/client-logger@4.2.0-alpha.1":
-  version "4.2.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-4.2.0-alpha.1.tgz#a61a02e1559052535131102df0c61ff991f6e00b"
-  integrity sha512-oq3T0aMWaLHD1sX8SQo8NbjSTkfSSf2sE3vJyKNAO4gjXF7mTNqpnNeZB4sZz3sOxbyH9lHHZ7u5YrIjcv+SpQ==
+"@storybook/channels@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-4.2.0-alpha.2.tgz#fb0c34b3d02220e3a58b8c6cbaa94ecc774b0785"
+  integrity sha512-GSbLjVKMp+SjH/9YGymjqvBdkuesL48bKcf7orJKpoARMH8SxUDe4/7nFQycyfukwSO4di85ydJp/DYawrNEwg==
+
+"@storybook/client-logger@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-4.2.0-alpha.2.tgz#7466b2a2e5f9d1e45d2d35af29885a6966fbd313"
+  integrity sha512-NmbTvuiulhL4ktJ6Hd5TfOkJ4D1tfVGV3oW5O3RZGQOBbI4VP1tqUy+OYxN5e2SPs9eU/kKw9xetfPFN1VnXvw==
 
 "@storybook/components@4.2.0-alpha.1":
   version "4.2.0-alpha.1"
@@ -1109,27 +1124,48 @@
     react-textarea-autosize "^7.0.4"
     render-fragment "^0.1.1"
 
+"@storybook/components@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/components/-/components-4.2.0-alpha.2.tgz#1f37ad2c67a172d5e1a76fe98d078be1c7b72b68"
+  integrity sha512-JzjKsNSr2C1tmI8lbtRp3cRbH+h52MGmcCi2afnG3tY3jYXkHi/AJggY2j3/w0D2y/B5pQW+mCsXaCGzqRUsOg==
+  dependencies:
+    "@emotion/core" "^0.13.1"
+    "@emotion/provider" "^0.11.2"
+    "@emotion/styled" "^0.10.6"
+    global "^4.3.2"
+    lodash "^4.17.11"
+    prop-types "^15.6.2"
+    react-inspector "^2.3.0"
+    react-split-pane "^0.1.84"
+    react-textarea-autosize "^7.0.4"
+    render-fragment "^0.1.1"
+
 "@storybook/core-events@4.2.0-alpha.1":
   version "4.2.0-alpha.1"
   resolved "https://registry.yarnpkg.com/@storybook/core-events/-/core-events-4.2.0-alpha.1.tgz#c124d33a4d8f7800294704313c34887cfcad7c13"
   integrity sha512-K7Ju49gtDBGxXaglapkzttFm9Novx0hkppOSZRlNlQN5Y3Kt4hGQrYD3U1L5+qZGIapaywvXWBUs/9rnJlOsxg==
 
-"@storybook/core@4.2.0-alpha.1":
-  version "4.2.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@storybook/core/-/core-4.2.0-alpha.1.tgz#8eafce95e4fdc25f13bd93c8e6b7178648eabc04"
-  integrity sha512-4hPjSSqD2eLGVtzpZD5YQRTBtEZQ8sAZdo4VPWzAuVdJcadCjLqGeyrHkcTJxtuZdNbbB22lFqllQQI+FLQtlQ==
+"@storybook/core-events@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/core-events/-/core-events-4.2.0-alpha.2.tgz#6a420649525a1e82f2f31f2f23a107f59b0a0fe6"
+  integrity sha512-cd7PnhuaaBPQ+eE+hpjhvGuRUQgW+4v7zPffRWu0BOl5AhNuDrKuac5qRoYp1PUQQGXHRPPB0N1652s3Rnq3cQ==
+
+"@storybook/core@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/core/-/core-4.2.0-alpha.2.tgz#22f1f8e1eecef6fe933cd6a9c85d5126c77781dd"
+  integrity sha512-lNsicjPy+Qp8b8jtKJ1yYMkgGSMaSHtQQan2p4FbaYmWVHnyDXCn2cnL9zuo1MSnfgZWSC7yWVD70vRlzbvE/Q==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.2.0"
     "@babel/preset-env" "^7.2.0"
     "@emotion/core" "^0.13.1"
     "@emotion/provider" "^0.11.2"
     "@emotion/styled" "^0.10.6"
-    "@storybook/addons" "4.2.0-alpha.1"
-    "@storybook/channel-postmessage" "4.2.0-alpha.1"
-    "@storybook/client-logger" "4.2.0-alpha.1"
-    "@storybook/core-events" "4.2.0-alpha.1"
-    "@storybook/node-logger" "4.2.0-alpha.1"
-    "@storybook/ui" "4.2.0-alpha.1"
+    "@storybook/addons" "4.2.0-alpha.2"
+    "@storybook/channel-postmessage" "4.2.0-alpha.2"
+    "@storybook/client-logger" "4.2.0-alpha.2"
+    "@storybook/core-events" "4.2.0-alpha.2"
+    "@storybook/node-logger" "4.2.0-alpha.2"
+    "@storybook/ui" "4.2.0-alpha.2"
     airbnb-js-shims "^1 || ^2"
     autoprefixer "^9.3.1"
     babel-plugin-macros "^2.4.2"
@@ -1192,10 +1228,10 @@
     "@storybook/react-simple-di" "^1.2.1"
     babel-runtime "6.x.x"
 
-"@storybook/node-logger@4.2.0-alpha.1":
-  version "4.2.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@storybook/node-logger/-/node-logger-4.2.0-alpha.1.tgz#78c35e5b9293bf93fc8b731dbc9b89683c7a7733"
-  integrity sha512-DdL03uFG/kQiv89uMWfj6NSnYGXediIXgVi7buGBUkBdHX36wApzgXZDcgmKyg/jf+p23qMBmvSXt5Rld88zWw==
+"@storybook/node-logger@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/node-logger/-/node-logger-4.2.0-alpha.2.tgz#a38bacaf43fbead1caeb79df048f6fe5b348862f"
+  integrity sha512-rOo7nPjDzjxxs78T64g6UYLOwv2bP3FBQC0OMvkmfYqbpV6ZrInkjJFocgplhDKzN6ZtSv+vUPcWXy04qEzQeg==
   dependencies:
     chalk "^2.4.1"
     core-js "^2.5.7"
@@ -1250,17 +1286,17 @@
   dependencies:
     babel-runtime "^6.5.0"
 
-"@storybook/react@4.2.0-alpha.1":
-  version "4.2.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@storybook/react/-/react-4.2.0-alpha.1.tgz#1a439144f3bdfde5d1eb6f5b58f21ac69d2061c6"
-  integrity sha512-8pGnoPo+Riw+nfD2woSt2z0GUhh/3XEEcC3ndnhdifFWS5Ao5OBAdrUuUzsZvhZ2yZeaII4nk+s0j5mGiuLLxw==
+"@storybook/react@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/react/-/react-4.2.0-alpha.2.tgz#d4697ff762519a699a9678c3621dd725dfa5ec06"
+  integrity sha512-Ka7FVkPs/BZcrZbvkkBs3IoEkwM7UieJB8JJ80rTHMxYVLlx6iFjVojqjUGjDes2dCsiBYMbNDHySidNELw0Vg==
   dependencies:
     "@babel/plugin-transform-react-constant-elements" "^7.2.0"
     "@babel/preset-flow" "^7.0.0"
     "@babel/preset-react" "^7.0.0"
     "@emotion/styled" "^0.10.6"
-    "@storybook/core" "4.2.0-alpha.1"
-    "@storybook/node-logger" "4.2.0-alpha.1"
+    "@storybook/core" "4.2.0-alpha.2"
+    "@storybook/node-logger" "4.2.0-alpha.2"
     "@svgr/webpack" "^4.0.3"
     babel-plugin-named-asset-import "^0.2.3"
     babel-plugin-react-docgen "^2.0.0"
@@ -1278,16 +1314,16 @@
     semver "^5.6.0"
     webpack "^4.23.1"
 
-"@storybook/ui@4.2.0-alpha.1":
-  version "4.2.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@storybook/ui/-/ui-4.2.0-alpha.1.tgz#04b8260343192a7085b2bb59d5b635e65dd0eabb"
-  integrity sha512-ZYqyz5F/OQWFDFLdbkwbVI3JfksBueymhu2WT30dZfkwFcdG8mq+BBq80D6zbPsjGagQNklfv2FJD9EqAwNNGA==
+"@storybook/ui@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/ui/-/ui-4.2.0-alpha.2.tgz#96043dc06c77afc73530fa1c3228902e6931e447"
+  integrity sha512-m1KwF84Q48W38qVzzw17yV1dtI1mhEOhdhjkdK55PqgUqnEetH/3G9N6AWdrW1Yeb5BJhMQ9bYFZbzPH+MUFSw==
   dependencies:
     "@emotion/core" "^0.13.1"
     "@emotion/provider" "^0.11.2"
     "@emotion/styled" "^0.10.6"
-    "@storybook/components" "4.2.0-alpha.1"
-    "@storybook/core-events" "4.2.0-alpha.1"
+    "@storybook/components" "4.2.0-alpha.2"
+    "@storybook/core-events" "4.2.0-alpha.2"
     "@storybook/mantra-core" "^1.7.2"
     "@storybook/podda" "^1.2.3"
     "@storybook/react-komposer" "^2.0.5"
