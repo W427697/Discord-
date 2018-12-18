@@ -1032,17 +1032,17 @@
   resolved "https://registry.yarnpkg.com/@snyk/gemfile/-/gemfile-1.1.0.tgz#8c254dfc7739b2e8513c44c976fc41872d5f6af0"
   integrity sha512-mLwF+ccuvRZMS0SxUAxA3dAp8mB3m2FxIsBIUWFTYvzxl+E4XTZb8uFrUqXHbcxhZH1Z8taHohNTbzXZn3M8ag==
 
-"@storybook/addon-actions@4.2.0-alpha.1":
-  version "4.2.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-4.2.0-alpha.1.tgz#3c181acd6cc30980f9bc55308c7f42c3919912be"
-  integrity sha512-mCR5CKaR0AIto7Ah83K1pAYFtuWdAtbPhSN/V74HejQr4+ZUL44PdfHtEzdfN+NIsEUR85s98L4KEVcFQHo38g==
+"@storybook/addon-actions@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-4.2.0-alpha.2.tgz#1b798e2ec4740bf777826cd9505d68338dc2def8"
+  integrity sha512-eCTjbNgAd0L6WzvKsJ2AMGZW2nbmiAmEw2aC8IPAdDB9ri7FYePhYMZiKp3XeCvUJYjXk76jINS1360KpUiLwA==
   dependencies:
     "@emotion/core" "^0.13.1"
     "@emotion/provider" "^0.11.2"
     "@emotion/styled" "^0.10.6"
-    "@storybook/addons" "4.2.0-alpha.1"
-    "@storybook/components" "4.2.0-alpha.1"
-    "@storybook/core-events" "4.2.0-alpha.1"
+    "@storybook/addons" "4.2.0-alpha.2"
+    "@storybook/components" "4.2.0-alpha.2"
+    "@storybook/core-events" "4.2.0-alpha.2"
     core-js "^2.5.7"
     deep-equal "^1.0.1"
     global "^4.3.2"
@@ -1074,6 +1074,16 @@
     global "^4.3.2"
     util-deprecate "^1.0.2"
 
+"@storybook/addons@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-4.2.0-alpha.2.tgz#222e3046b9ae025bb4908b1a280300673e52ac90"
+  integrity sha512-4cR38GbuTFUQmA1YfvkysOOkd4hVknjCldVNnnNFsXsDoGnq89Fj6MnSj2UvlSVCzC5PjwwncSroZ42C/Wdf0A==
+  dependencies:
+    "@storybook/channels" "4.2.0-alpha.2"
+    "@storybook/components" "4.2.0-alpha.2"
+    global "^4.3.2"
+    util-deprecate "^1.0.2"
+
 "@storybook/channel-postmessage@4.2.0-alpha.1":
   version "4.2.0-alpha.1"
   resolved "https://registry.yarnpkg.com/@storybook/channel-postmessage/-/channel-postmessage-4.2.0-alpha.1.tgz#c5ece9d33a8faf92712e60a9cdcf4fc98dfe6770"
@@ -1087,6 +1097,11 @@
   version "4.2.0-alpha.1"
   resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-4.2.0-alpha.1.tgz#ece8d148f3b438f258fd07257ec14504e0ea7d2b"
   integrity sha512-M4fhKLmkShraeWWbP+yoBDoD/PQOSE3OgQnPAuuibL8lWaie02F19Np2QQlJ7AzyuxeweCY0YDX0ecfXu0JPxA==
+
+"@storybook/channels@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-4.2.0-alpha.2.tgz#fb0c34b3d02220e3a58b8c6cbaa94ecc774b0785"
+  integrity sha512-GSbLjVKMp+SjH/9YGymjqvBdkuesL48bKcf7orJKpoARMH8SxUDe4/7nFQycyfukwSO4di85ydJp/DYawrNEwg==
 
 "@storybook/client-logger@4.2.0-alpha.1":
   version "4.2.0-alpha.1"
@@ -1109,10 +1124,31 @@
     react-textarea-autosize "^7.0.4"
     render-fragment "^0.1.1"
 
+"@storybook/components@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/components/-/components-4.2.0-alpha.2.tgz#1f37ad2c67a172d5e1a76fe98d078be1c7b72b68"
+  integrity sha512-JzjKsNSr2C1tmI8lbtRp3cRbH+h52MGmcCi2afnG3tY3jYXkHi/AJggY2j3/w0D2y/B5pQW+mCsXaCGzqRUsOg==
+  dependencies:
+    "@emotion/core" "^0.13.1"
+    "@emotion/provider" "^0.11.2"
+    "@emotion/styled" "^0.10.6"
+    global "^4.3.2"
+    lodash "^4.17.11"
+    prop-types "^15.6.2"
+    react-inspector "^2.3.0"
+    react-split-pane "^0.1.84"
+    react-textarea-autosize "^7.0.4"
+    render-fragment "^0.1.1"
+
 "@storybook/core-events@4.2.0-alpha.1":
   version "4.2.0-alpha.1"
   resolved "https://registry.yarnpkg.com/@storybook/core-events/-/core-events-4.2.0-alpha.1.tgz#c124d33a4d8f7800294704313c34887cfcad7c13"
   integrity sha512-K7Ju49gtDBGxXaglapkzttFm9Novx0hkppOSZRlNlQN5Y3Kt4hGQrYD3U1L5+qZGIapaywvXWBUs/9rnJlOsxg==
+
+"@storybook/core-events@4.2.0-alpha.2":
+  version "4.2.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@storybook/core-events/-/core-events-4.2.0-alpha.2.tgz#6a420649525a1e82f2f31f2f23a107f59b0a0fe6"
+  integrity sha512-cd7PnhuaaBPQ+eE+hpjhvGuRUQgW+4v7zPffRWu0BOl5AhNuDrKuac5qRoYp1PUQQGXHRPPB0N1652s3Rnq3cQ==
 
 "@storybook/core@4.2.0-alpha.1":
   version "4.2.0-alpha.1"
