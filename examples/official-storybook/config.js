@@ -72,18 +72,38 @@ function importAll(req) {
   req.keys().forEach(filename => req(filename));
 }
 
-// The simplest version of examples would just export this function for users to use
-function importAllExamples(req) {
-  req.keys().forEach(filename => {
-    const { default: component, ...examples } = req(filename);
+// TODO -- somehow don't use window for this cross HMR storage
+const { previousExports = {} } = window; // eslint-disable-line no-undef
+window.previousExports = previousExports; // eslint-disable-line no-undef
 
+// The simplest version of examples would just export this function for users to use
+function importAllExamples(context) {
+  const storyStore = window.__STORYBOOK_CLIENT_API__._storyStore; // eslint-disable-line no-undef, no-underscore-dangle
+
+  context.keys().forEach(filename => {
+    // console.log(`checking ${filename}`);
+    const fileExports = context(filename);
+    const { default: component, ...examples } = fileExports;
     let componentOptions = component;
     if (component.prototype && component.prototype.isReactComponent) {
       componentOptions = { component };
     }
+    const kindName = componentOptions.title || componentOptions.component.displayName;
 
-    // TODO: how to pass module?
-    const kind = storiesOf(componentOptions.title || componentOptions.component.displayName);
+    if (previousExports[filename]) {
+      // console.log(`found previousExports ${filename}`);
+      if (previousExports[filename] === fileExports) {
+        // console.log(`exports have not changed ${filename}`);
+        return;
+      }
+
+      // Otherwise clear this kind
+      storyStore.removeStoryKind(kindName);
+      storyStore.incrementRevision();
+    }
+
+    // We pass true here to avoid the warning about HMR. It's cool clientApi, we got this
+    const kind = storiesOf(kindName, true);
 
     (componentOptions.decorators || []).forEach(decorator => {
       kind.addDecorator(decorator);
@@ -97,6 +117,8 @@ function importAllExamples(req) {
       const { title = key, parameters } = example;
       kind.add(title, example, parameters);
     });
+
+    previousExports[filename] = fileExports;
   });
 }
 
