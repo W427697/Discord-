@@ -33,7 +33,7 @@
     "raw-loader": "^0.5.1",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "regenerator-runtime": "^0.12.1"
+    "regenerator-runtime": "^0.13.1"
   },
   "peerDependencies": {
     "babel-loader": "^7.0.0 || ^8.0.0",
