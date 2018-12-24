@@ -81,7 +81,14 @@ export const getTypeScriptRules = (webpackConfigRules, configDir) => {
 export function getCraWebpackConfig(mode) {
   const pathToReactScripts = getReactScriptsPath();
 
-  const craWebpackConfig = 'config/webpack.config';
+  let craWebpackConfig = 'config/webpack.config';
+
+  // Needed for backward compatibility.
+  // https://github.com/facebook/create-react-app/pull/5722
+  const isWebpackConfigMerged = isReactScriptsInstalled('2.1.2');
+  if (!isWebpackConfigMerged) {
+    craWebpackConfig += mode === 'production' ? '.prod' : '.dev';
+  }
 
   let pathToWebpackConfig = require.resolve(path.join(pathToReactScripts, craWebpackConfig));
 
