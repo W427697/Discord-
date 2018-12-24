@@ -81,8 +81,7 @@ export const getTypeScriptRules = (webpackConfigRules, configDir) => {
 export function getCraWebpackConfig(mode) {
   const pathToReactScripts = getReactScriptsPath();
 
-  const craWebpackConfig =
-    mode === 'production' ? 'config/webpack.config.prod' : 'config/webpack.config.dev';
+  const craWebpackConfig = 'config/webpack.config';
 
   let pathToWebpackConfig = require.resolve(path.join(pathToReactScripts, craWebpackConfig));
 
