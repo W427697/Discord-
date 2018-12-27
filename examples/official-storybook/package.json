@@ -15,7 +15,7 @@
     "@emotion/core": "^0.13.1",
     "@emotion/provider": "^0.11.2",
     "@emotion/snapshot-serializer": "^0.8.2",
-    "@emotion/styled": "^0.10.6",
+    "@emotion/styled": "^10.0.5",
     "@storybook/addon-a11y": "4.2.0-alpha.7",
     "@storybook/addon-actions": "4.2.0-alpha.7",
     "@storybook/addon-backgrounds": "4.2.0-alpha.7",
