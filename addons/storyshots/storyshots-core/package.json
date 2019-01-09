@@ -37,7 +37,7 @@
     "@storybook/addon-links": "4.2.0-alpha.10",
     "@storybook/react": "4.2.0-alpha.10",
     "enzyme-to-json": "^3.3.4",
-    "react": "^16.6.0"
+    "react": "^16.7.0"
   },
   "publishConfig": {
     "access": "public"
