@@ -5,7 +5,6 @@ import addons, { makeDecorator } from '@storybook/addons';
 import { STORY_RENDERED } from '@storybook/core-events';
 import EVENTS, { PARAM_KEY } from './constants';
 
-const channel = addons.getChannel();
 let progress = Promise.resolve();
 let options;
 
@@ -19,7 +18,7 @@ const getElement = () => {
 };
 
 const report = input => {
-  channel.emit(EVENTS.RESULT, input);
+  addons.getChannel().emit(EVENTS.RESULT, input);
 };
 
 const run = ({ element, ...o }) => {
@@ -32,6 +31,9 @@ const run = ({ element, ...o }) => {
   });
 };
 
+let subscribed = false;
+const runWithOptions = () => run(options || {});
+
 export const withA11Y = makeDecorator({
   name: 'withA11Y',
   parameterName: PARAM_KEY,
@@ -41,12 +43,15 @@ export const withA11Y = makeDecorator({
   wrapper: (getStory, context, opt) => {
     options = opt.parameters || opt.options;
 
+    if (!subscribed) {
+      subscribed = true;
+      addons.getChannel().on(STORY_RENDERED, runWithOptions);
+      addons.getChannel().on(EVENTS.REQUEST, runWithOptions);
+    }
+
     return getStory(context);
   },
 });
-
-channel.on(STORY_RENDERED, () => run(options));
-channel.on(EVENTS.REQUEST, () => run(options));
 
 if (module && module.hot && module.hot.decline) {
   module.hot.decline();

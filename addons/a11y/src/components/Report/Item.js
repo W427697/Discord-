@@ -18,6 +18,7 @@ const HeaderBar = styled.button(({ theme }) => ({
   border: 0,
   background: 'none',
   color: 'inherit',
+  textAlign: 'left',
 
   borderLeft: '3px solid transparent',
 
