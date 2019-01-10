@@ -80,6 +80,19 @@ exports[`Storyshots UI|stories/Stories simple 1`] = `
   padding: 1px 0 5px;
 }
 
+.emotion-7 {
+  display: block;
+  color: rgba(0,0,0,0.4);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 16px;
+  padding: 1px 5px 4px;
+  margin-left: 5px;
+  position: relative;
+  z-index: 1;
+}
+
 .emotion-12 {
   display: block;
   color: rgba(0,0,0,0.4);
@@ -95,19 +108,6 @@ exports[`Storyshots UI|stories/Stories simple 1`] = `
   font-weight: bold;
   background-color: rgba(0,0,0,0.07);
   z-index: 0;
-}
-
-.emotion-7 {
-  display: block;
-  color: rgba(0,0,0,0.4);
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 13px;
-  line-height: 16px;
-  padding: 1px 5px 4px;
-  margin-left: 5px;
-  position: relative;
-  z-index: 1;
 }
 
 <div
@@ -303,6 +303,19 @@ exports[`Storyshots UI|stories/Stories with hierarchy - hierarchySeparator is de
   padding: 1px 0 5px;
 }
 
+.emotion-11 {
+  display: block;
+  color: rgba(0,0,0,0.4);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 16px;
+  padding: 1px 5px 4px;
+  margin-left: 5px;
+  position: relative;
+  z-index: 1;
+}
+
 .emotion-16 {
   display: block;
   color: rgba(0,0,0,0.4);
@@ -318,19 +331,6 @@ exports[`Storyshots UI|stories/Stories with hierarchy - hierarchySeparator is de
   font-weight: bold;
   background-color: rgba(0,0,0,0.07);
   z-index: 0;
-}
-
-.emotion-11 {
-  display: block;
-  color: rgba(0,0,0,0.4);
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 13px;
-  line-height: 16px;
-  padding: 1px 5px 4px;
-  margin-left: 5px;
-  position: relative;
-  z-index: 1;
 }
 
 <div
@@ -626,6 +626,19 @@ exports[`Storyshots UI|stories/Stories with highlighting when storiesFilter is p
   padding: 1px 0 5px;
 }
 
+.emotion-8 {
+  display: block;
+  color: rgba(0,0,0,0.4);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 16px;
+  padding: 1px 5px 4px;
+  margin-left: 5px;
+  position: relative;
+  z-index: 1;
+}
+
 .emotion-13 {
   display: block;
   color: rgba(0,0,0,0.4);
@@ -641,19 +654,6 @@ exports[`Storyshots UI|stories/Stories with highlighting when storiesFilter is p
   font-weight: bold;
   background-color: rgba(0,0,0,0.07);
   z-index: 0;
-}
-
-.emotion-8 {
-  display: block;
-  color: rgba(0,0,0,0.4);
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 13px;
-  line-height: 16px;
-  padding: 1px 5px 4px;
-  margin-left: 5px;
-  position: relative;
-  z-index: 1;
 }
 
 <div
@@ -914,6 +914,19 @@ exports[`Storyshots UI|stories/Stories without hierarchy - hierarchySeparator is
   padding: 1px 0 5px;
 }
 
+.emotion-7 {
+  display: block;
+  color: rgba(0,0,0,0.4);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 16px;
+  padding: 1px 5px 4px;
+  margin-left: 5px;
+  position: relative;
+  z-index: 1;
+}
+
 .emotion-12 {
   display: block;
   color: rgba(0,0,0,0.4);
@@ -929,19 +942,6 @@ exports[`Storyshots UI|stories/Stories without hierarchy - hierarchySeparator is
   font-weight: bold;
   background-color: rgba(0,0,0,0.07);
   z-index: 0;
-}
-
-.emotion-7 {
-  display: block;
-  color: rgba(0,0,0,0.4);
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 13px;
-  line-height: 16px;
-  padding: 1px 5px 4px;
-  margin-left: 5px;
-  position: relative;
-  z-index: 1;
 }
 
 <div

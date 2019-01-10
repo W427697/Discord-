@@ -363,8 +363,8 @@ exports[`Storyshots UI|stories/StoriesPanel when open on mobile device 1`] = `
 </div>
 `;
 
-exports[`Storyshots UI|stories/StoriesPanel with storiesHierarchies prop 1`] = `
-.emotion-24 {
+exports[`Storyshots UI|stories/StoriesPanel with multiple roots 1`] = `
+.emotion-33 {
   padding: 10px 0 10px 10px;
 }
 
@@ -450,11 +450,11 @@ exports[`Storyshots UI|stories/StoriesPanel with storiesHierarchies prop 1`] = `
   border-radius: 2px;
 }
 
-.emotion-22 {
+.emotion-21 {
   padding-top: 20px;
 }
 
-.emotion-21 {
+.emotion-20 {
   color: inherit;
   list-style: none;
   margin: 0;
@@ -465,41 +465,39 @@ exports[`Storyshots UI|stories/StoriesPanel with storiesHierarchies prop 1`] = `
   margin-left: -19px;
 }
 
-.emotion-17 {
+.emotion-18 {
   padding-left: 19px;
   list-style: none;
 }
 
-.emotion-11 {
+.emotion-13 {
   display: inline-block;
   vertical-align: top;
   max-width: calc(100% - 24px);
 }
 
-.emotion-10 {
+.emotion-12 {
   line-height: 18px;
   padding: 1px 0 5px;
 }
 
-.emotion-14 {
-  display: block;
+.emotion-10 {
+  text-transform: uppercase;
+  -webkit-letter-spacing: 1.2px;
+  -moz-letter-spacing: 1.2px;
+  -ms-letter-spacing: 1.2px;
+  letter-spacing: 1.2px;
+  font-size: 12px;
+  font-weight: normal;
   color: rgba(0,0,0,0.4);
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 13px;
-  line-height: 16px;
-  padding: 1px 5px 4px;
-  margin-left: 5px;
-  position: relative;
-  z-index: 1;
-  color: inherit;
-  font-weight: bold;
-  background-color: rgba(0,0,0,0.07);
-  z-index: 0;
+  text-align: left;
+  padding: 0 13px 5px 13px;
+  margin: 0;
+  overflow: hidden;
 }
 
 <div
-  class="emotion-24 emotion-25"
+  class="emotion-33 emotion-34"
 >
   <div
     class="emotion-4 emotion-5"
@@ -530,17 +528,350 @@ exports[`Storyshots UI|stories/StoriesPanel with storiesHierarchies prop 1`] = `
     />
   </div>
   <div
-    class="emotion-22 emotion-23"
+    class="emotion-21 emotion-22"
   >
+    <h4
+      class="emotion-10 emotion-11"
+    >
+      c
+    </h4>
     <ul
-      class="emotion-21"
+      class="emotion-20"
     >
       <li
         class="emotion-8"
       >
         <div>
           <ul
-            class="emotion-17"
+            class="emotion-18"
+          >
+            <li
+              class="emotion-8"
+            >
+              <div
+                data-name="aa"
+                role="menuitem"
+                style="cursor:pointer;position:relative;overflow:hidden;padding:0px 5px;display:block;z-index:1"
+                tabindex="0"
+              >
+                <div>
+                  <div
+                    style="position:relative;display:inline-block;vertical-align:top;margin-left:-5px;height:24px;width:24px;transform-origin:50% 11px"
+                  >
+                    <div
+                      style="position:absolute;top:50%;left:50%;margin:-6px 0 0 -5px"
+                    >
+                      <svg
+                        fill="currentColor"
+                        height="10"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align:top;fill:currentColor"
+                        viewBox="0 0 40 40"
+                        width="10"
+                      >
+                        <g>
+                          <path
+                            d="m23.3 20l-13.1-13.6c-0.3-0.3-0.3-0.9 0-1.2l2.4-2.4c0.3-0.3 0.9-0.4 1.2-0.1l16 16.7c0.1 0.1 0.2 0.4 0.2 0.6s-0.1 0.5-0.2 0.6l-16 16.7c-0.3 0.3-0.9 0.3-1.2 0l-2.4-2.5c-0.3-0.3-0.3-0.9 0-1.2z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+                  <div
+                    class="emotion-13"
+                  >
+                    <div
+                      class="emotion-12"
+                    >
+                      aa
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div />
+            </li>
+            <li
+              class="emotion-8"
+            >
+              <div
+                data-name="kk"
+                role="menuitem"
+                style="cursor:pointer;position:relative;overflow:hidden;padding:0px 5px;display:block;z-index:1"
+                tabindex="0"
+              >
+                <div>
+                  <div
+                    style="position:relative;display:inline-block;vertical-align:top;margin-left:-5px;height:24px;width:24px;transform-origin:50% 11px"
+                  >
+                    <div
+                      style="position:absolute;top:50%;left:50%;margin:-6px 0 0 -5px"
+                    >
+                      <svg
+                        fill="currentColor"
+                        height="10"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align:top;fill:currentColor"
+                        viewBox="0 0 40 40"
+                        width="10"
+                      >
+                        <g>
+                          <path
+                            d="m23.3 20l-13.1-13.6c-0.3-0.3-0.3-0.9 0-1.2l2.4-2.4c0.3-0.3 0.9-0.4 1.2-0.1l16 16.7c0.1 0.1 0.2 0.4 0.2 0.6s-0.1 0.5-0.2 0.6l-16 16.7c-0.3 0.3-0.9 0.3-1.2 0l-2.4-2.5c-0.3-0.3-0.3-0.9 0-1.2z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+                  <div
+                    class="emotion-13"
+                  >
+                    <div
+                      class="emotion-12"
+                    >
+                      kk
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div />
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div
+    class="emotion-21 emotion-22"
+  >
+    <h4
+      class="emotion-10 emotion-11"
+    >
+      d
+    </h4>
+    <ul
+      class="emotion-20"
+    >
+      <li
+        class="emotion-8"
+      >
+        <div>
+          <ul
+            class="emotion-18"
+          >
+            <li
+              class="emotion-8"
+            >
+              <div
+                data-name="kk"
+                role="menuitem"
+                style="cursor:pointer;position:relative;overflow:hidden;padding:0px 5px;display:block;z-index:1"
+                tabindex="0"
+              >
+                <div>
+                  <div
+                    style="position:relative;display:inline-block;vertical-align:top;margin-left:-5px;height:24px;width:24px;transform-origin:50% 11px"
+                  >
+                    <div
+                      style="position:absolute;top:50%;left:50%;margin:-6px 0 0 -5px"
+                    >
+                      <svg
+                        fill="currentColor"
+                        height="10"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align:top;fill:currentColor"
+                        viewBox="0 0 40 40"
+                        width="10"
+                      >
+                        <g>
+                          <path
+                            d="m23.3 20l-13.1-13.6c-0.3-0.3-0.3-0.9 0-1.2l2.4-2.4c0.3-0.3 0.9-0.4 1.2-0.1l16 16.7c0.1 0.1 0.2 0.4 0.2 0.6s-0.1 0.5-0.2 0.6l-16 16.7c-0.3 0.3-0.9 0.3-1.2 0l-2.4-2.5c-0.3-0.3-0.3-0.9 0-1.2z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+                  <div
+                    class="emotion-13"
+                  >
+                    <div
+                      class="emotion-12"
+                    >
+                      kk
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div />
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`Storyshots UI|stories/StoriesPanel with storiesHierarchies prop 1`] = `
+.emotion-18 {
+  padding: 10px 0 10px 10px;
+}
+
+.emotion-4 {
+  margin: 0 0 10px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-0 {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 2px;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 1.5px;
+  -moz-letter-spacing: 1.5px;
+  -ms-letter-spacing: 1.5px;
+  letter-spacing: 1.5px;
+  font-size: 12px;
+  font-weight: bolder;
+  color: currentColor;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.emotion-2 {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bolder;
+  color: currentColor;
+  border: 1px solid rgba(0,0,0,0.1);
+  text-align: center;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inlineBlock;
+  padding: 0;
+  margin: 0 0 0 5px;
+  background-color: inherit;
+  outline: 0;
+  width: 30px;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.emotion-8 {
+  position: relative;
+}
+
+.emotion-6 {
+  font-size: 12px;
+  color: #828282;
+  padding: 5px;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  height: 26px;
+  background: rgba(255,255,255,0.89);
+  border: 0 none;
+  outline: none;
+  border-radius: 2px;
+}
+
+.emotion-16 {
+  padding-top: 20px;
+}
+
+.emotion-15 {
+  color: inherit;
+  list-style: none;
+  margin: 0;
+  padding: 5px;
+  font-family: inherit;
+  font-size: 15px;
+  min-width: 200px;
+  margin-left: -19px;
+}
+
+.emotion-13 {
+  padding-left: 19px;
+  list-style: none;
+}
+
+.emotion-11 {
+  display: inline-block;
+  vertical-align: top;
+  max-width: calc(100% - 24px);
+}
+
+.emotion-10 {
+  line-height: 18px;
+  padding: 1px 0 5px;
+}
+
+<div
+  class="emotion-18 emotion-19"
+>
+  <div
+    class="emotion-4 emotion-5"
+  >
+    <a
+      class="emotion-0 emotion-1"
+      href=""
+      rel="noopener noreferrer"
+      target="_blank"
+    />
+    <button
+      class="emotion-2 emotion-3"
+    >
+      ⌘
+    </button>
+  </div>
+  <div
+    class="emotion-8 emotion-9"
+  >
+    <input
+      autocomplete="off"
+      class="emotion-6 emotion-7"
+      name="filter-text"
+      placeholder="Filter"
+      spellcheck="false"
+      type="text"
+      value=""
+    />
+  </div>
+  <div
+    class="emotion-16 emotion-17"
+  >
+    <ul
+      class="emotion-15"
+    >
+      <li
+        class="emotion-8"
+      >
+        <div>
+          <ul
+            class="emotion-13"
           >
             <li
               class="emotion-8"
@@ -585,33 +916,7 @@ exports[`Storyshots UI|stories/StoriesPanel with storiesHierarchies prop 1`] = `
                   </div>
                 </div>
               </div>
-              <div>
-                <ul
-                  class="emotion-17"
-                >
-                  <li
-                    class="emotion-8"
-                  >
-                    <a
-                      class="emotion-14 emotion-15"
-                      href="?selectedKind=kk&selectedStory=bb&full=NaN&addons=NaN&stories=NaN&panelRight=NaN"
-                    >
-                      <div>
-                        <div
-                          class="emotion-11"
-                        >
-                          <div
-                            class="emotion-12"
-                          >
-                            bb
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                    <div />
-                  </li>
-                </ul>
-              </div>
+              <div />
             </li>
           </ul>
         </div>
