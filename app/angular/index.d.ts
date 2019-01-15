@@ -1,4 +1,4 @@
-import { NgModuleMetadata, ICollection } from './dist/client/preview/angular/types';
+import { ICollection, NgModuleMetadata } from './dist/client/preview/angular/types';
 export { moduleMetadata } from './dist/client/preview/angular/decorators';
 
 export interface IStorybookStory {
@@ -58,7 +58,10 @@ declare module '@storybook/angular' {
   export function addParameters(parameters: any): IApi;
   export function configure(loaders: () => void, module: NodeModule): void;
   export function getStorybook(): IStoribookSection[];
+
   export function NgStory(config: NgStoryMetadata): Function;
   export function NgStoryModule(config: NgStoryModuleMetadata): Function;
   export function ngBootstrapStoryModule(module: Function): void;
+
+  export function forceReRender(): void;
 }

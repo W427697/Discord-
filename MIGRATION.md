@@ -1,18 +1,31 @@
 # Migration
 
-## Table of contents
-
+- [From version 4.0.x to 4.1.x](#from-version-40x-to-41x)
+  - [Private addon config](#private-addon-config)
+  - [React 15.x](#react-15x)
 - [From version 3.4.x to 4.0.x](#from-version-34x-to-40x)
+  - [React 16.3+](#react-163)
+  - [Generic addons](#generic-addons)
+  - [Knobs select ordering](#knobs-select-ordering)
+  - [Knobs URL parameters](#knobs-url-parameters)
   - [Keyboard shortcuts moved](#keyboard-shortcuts-moved)
-  - [Removed addWithInfo](#removed-add-with-info)
+  - [Removed addWithInfo](#removed-addwithinfo)
+  - [Removed RN packager](#removed-rn-packager)
   - [Removed RN addons](#removed-rn-addons)
-  - [Storyshots changes](#storyshots-changes)
+  - [Storyshots Changes](#storyshots-changes)
   - [Webpack 4](#webpack-4)
   - [Babel 7](#babel-7)
+  - [Create-react-app](#create-react-app)
+    - [Upgrade CRA1 to babel 7](#upgrade-cra1-to-babel-7)
+    - [Migrate CRA1 while keeping babel 6](#migrate-cra1-while-keeping-babel-6)
+  - [start-storybook opens browser](#start-storybook-opens-browser)
+  - [CLI Rename](#cli-rename)
+  - [Addon story parameters](#addon-story-parameters)
 - [From version 3.3.x to 3.4.x](#from-version-33x-to-34x)
 - [From version 3.2.x to 3.3.x](#from-version-32x-to-33x)
+  - [`babel-core` is now a peer dependency (#2494)](#babel-core-is-now-a-peer-dependency-2494)
+  - [Base webpack config now contains vital plugins (#1775)](#base-webpack-config-now-contains-vital-plugins-1775)
   - [Refactored Knobs](#refactored-knobs)
-  - [Storyshots Jest configuration](#storyshots-jest-configuration)
 - [From version 3.1.x to 3.2.x](#from-version-31x-to-32x)
   - [Moved TypeScript addons definitions](#moved-typescript-addons-definitions)
   - [Updated Addons API](#updated-addons-api)
@@ -24,27 +37,71 @@
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
+## From version 4.0.x to 4.1.x
+
+There are are a few migrations you should be aware of in 4.1, including one unintentionally breaking change for advanced addon usage.
+
+## Private addon config
+
+If your Storybook contains custom addons defined that are defined in your app (as opposed to installed from packages) and those addons rely on reconfiguring webpack/babel, Storybook 4.1 may break for you. There's a workaround [described in the issue](https://github.com/storybooks/storybook/issues/4995), and we're working on official support in the next release.
+
+## React 15.x
+
+Storybook 4.1 supports React 15.x (which had been [lost in the 4.0 release](#react-163)). So if you've been blocked on upgrading, we've got you covered. You should be able to upgrade according to the 4.0 migration notes below, or following the [4.0 upgrade guide](https://medium.com/storybookjs/migrating-to-storybook-4-c65b19a03d2c).
+
 ## From version 3.4.x to 4.0.x
 
-With 4.0 as our first major release in over a year, we've collected a lot of cleanup tasks. All deprecations have been marked for months, so we hope that there will be no significant impact on your project.
+With 4.0 as our first major release in over a year, we've collected a lot of cleanup tasks. Most of the deprecations have been marked for months, so we hope that there will be no significant impact on your project. We've also created a [step-by-step guide to help you upgrade](https://medium.com/storybookjs/migrating-to-storybook-4-c65b19a03d2c).
+
+### React 16.3+
+
+Storybook uses [Emotion](https://emotion.sh/) for styling which currently requires React 16.3 and above.
+
+If you're using Storybook for anything other than React, you probably don't need to worry about this.
+
+However, if you're developing React components, this means you need to upgrade to 16.3 or higher to use Storybook 4.0.
+
+> **NOTE:** This is a temporary requirement, and we plan to restore 15.x compatibility in a near-term 4.x release.
+
+Also, here's the error you'll get if you're running an older version of React:
+
+```
+core.browser.esm.js:15 Uncaught TypeError: Object(...) is not a function
+    at Module../node_modules/@emotion/core/dist/core.browser.esm.js (core.browser.esm.js:15)
+    at __webpack_require__ (bootstrap:724)
+    at fn (bootstrap:101)
+    at Module../node_modules/@emotion/styled-base/dist/styled-base.browser.esm.js (styled-base.browser.esm.js:1)
+    at __webpack_require__ (bootstrap:724)
+    at fn (bootstrap:101)
+    at Module../node_modules/@emotion/styled/dist/styled.esm.js (styled.esm.js:1)
+    at __webpack_require__ (bootstrap:724)
+    at fn (bootstrap:101)
+    at Object../node_modules/@storybook/components/dist/navigation/MenuLink.js (MenuLink.js:12)
+```
 
 ### Generic addons
 
 4.x introduces generic addon decorators that are not tied to specific view layers [#3555](https://github.com/storybooks/storybook/pull/3555). So for example:
 
 ```js
-import { number } from "@storybook/addon-knobs/react";
+import { number } from '@storybook/addon-knobs/react';
 ```
 
 Becomes:
 
 ```js
-import { number } from "@storybook/addon-knobs";
+import { number } from '@storybook/addon-knobs';
 ```
 
 ### Knobs select ordering
 
 4.0 also reversed the order of addon-knob's `select` knob keys/values, which had been called `selectV2` prior to this breaking change. See the knobs [package README](https://github.com/storybooks/storybook/blob/master/addons/knobs/README.md#select) for usage.
+
+### Knobs URL parameters
+
+Addon-knobs no longer updates the URL parameters interactively as you edit a knob. This is a UI change but it shouldn't break any code because old URLs are still supported.
+
+In 3.x, editing knobs updated the URL parameters interactively. The implementation had performance and architectural problems. So in 4.0, we changed this to a "copy" button in the addon which generates a URL with the updated knob values and copies it to the clipboard.
 
 ### Keyboard shortcuts moved
 
@@ -56,6 +113,14 @@ import { number } from "@storybook/addon-knobs";
 ### Removed addWithInfo
 
 `Addon-info`'s `addWithInfo` has been marked deprecated since 3.2. In 4.0 we've removed it completely. See the package [README](https://github.com/storybooks/storybook/blob/master/addons/info/README.md) for the proper usage.
+
+### Removed RN packager
+
+Since storybook version v4.0 packager is removed from storybook. The suggested storybook usage is to include it inside your app.
+If you want to keep the old behaviour, you have to start the packager yourself with a different project root.
+`npm run storybook start -p 7007 | react-native start --projectRoot storybook`
+
+Removed cli options: `--packager-port --root --projectRoots -r, --reset-cache --skip-packager --haul --platform --metro-config`
 
 ### Removed RN addons
 
@@ -82,15 +147,88 @@ Storybook now uses webpack 4. If you have a [custom webpack config](https://stor
 
 Storybook now uses Babel 7. There's a couple of cases when it can break with your app:
 
-* If you aren't using Babel yourself, and don't have .babelrc, install following dependencies:
+- If you aren't using Babel yourself, and don't have .babelrc, install following dependencies:
   ```
   npm i -D @babel/core babel-loader@next
   ```
-* If you're using Babel 6, make sure that you have direct dependencies on `babel-core@6` and `babel-loader@7`.
+- If you're using Babel 6, make sure that you have direct dependencies on `babel-core@6` and `babel-loader@7` and that you have a `.babelrc` in your project directory.
 
-### start-storybook opens browser automatically
+### Create-react-app
+
+If you are using `create-react-app` (aka CRA), you may need to do some manual steps to upgrade, depending on the setup.
+
+- `create-react-app@1` may require manual migrations.
+  - If you're adding storybook for the first time, it should just work: `sb init` should add the correct dependencies.
+  - If you're upgrading an existing project, your `package.json` probably already uses Babel 6, making it incompatible with `@storybook/react@4` which uses Babel 7. There are two ways to make it compatible, each of which is spelled out in detail in the next section:
+    - Upgrade to Babel 7 if you are not dependent on Babel 6-specific features.
+    - Migrate Babel 6 if you're heavily dependent on some Babel 6-specific features).
+- `create-react-app@2` should be compatible as is, since it uses babel 7.
+
+#### Upgrade CRA1 to babel 7
+
+```
+yarn remove babel-core babel-runtime
+yarn add @babel/core babel-loader --dev
+```
+
+#### Migrate CRA1 while keeping babel 6
+
+```
+yarn add babel-loader@7
+```
+
+Also, make sure you have a `.babelrc` in your project directory. You probably already do if you are using Babel 6 features (otherwise you should consider upgrading to Babel 7 instead). If you don't have one, here's a simple one that works:
+
+```json
+{
+  "presets": ["env", "react"]
+}
+```
+
+### start-storybook opens browser
 
 If you're using `start-storybook` on CI, you may need to opt out of this using the new `--ci` flag.
+
+### CLI Rename
+
+We've deprecated the `getstorybook` CLI in 4.0. The new way to install storybook is `sb init`. We recommend using `npx` for convenience and to make sure you're always using the latest version of the CLI:
+
+```
+npx -p @storybook/cli sb init
+```
+
+### Addon story parameters
+
+Storybook 4 introduces story parameters, a more convenient way to configure how addons are configured.
+
+```js
+storiesOf('My component', module)
+  .add('story1', withNotes('some notes')(() => <Component ... />))
+  .add('story2', withNotes('other notes')(() => <Component ... />));
+```
+
+Becomes:
+
+```js
+// config.js
+addDecorator(withNotes);
+
+// Component.stories.js
+storiesOf('My component', module)
+  .add('story1', () => <Component ... />, { notes: 'some notes' })
+  .add('story2', () => <Component ... />, { notes: 'other notes' });
+```
+
+This example applies notes globally to all stories. You can apply it locally with `storiesOf(...).addDecorator(withNotes)`.
+
+The story parameters correspond directly to the old withX arguments, so it's easy to migrate your code. See the parameters documentation for the packages that have been upgraded:
+
+- [Notes](https://github.com/storybooks/storybook/blob/master/addons/notes/README.md)
+- [Jest](https://github.com/storybooks/storybook/blob/master/addons/jest/README.md)
+- [Knobs](https://github.com/storybooks/storybook/blob/master/addons/knobs/README.md)
+- [Viewport](https://github.com/storybooks/storybook/blob/master/addons/viewport/README.md)
+- [Backgrounds](https://github.com/storybooks/storybook/blob/master/addons/backgrounds/README.md)
+- [Options](https://github.com/storybooks/storybook/blob/master/addons/options/README.md)
 
 ## From version 3.3.x to 3.4.x
 
@@ -98,7 +236,7 @@ There are no expected breaking changes in the 3.4.x release, but 3.4 contains a 
 
 ## From version 3.2.x to 3.3.x
 
-There wasn't expected be any breaking changes in this release, but unfortunately it turned out that there are some. We're revisiting our [release strategy](https://github.com/storybooks/storybook/blob/master/RELEASES.md) to follow semver more strictly.
+It wasn't expected that there would be any breaking changes in this release, but unfortunately it turned out that there are some. We're revisiting our [release strategy](https://github.com/storybooks/storybook/blob/master/RELEASES.md) to follow semver more strictly.
 Also read on if you're using `addon-knobs`: we advise an update to your code for efficiency's sake.
 
 ### `babel-core` is now a peer dependency ([#2494](https://github.com/storybooks/storybook/pull/2494))
@@ -113,7 +251,7 @@ This was done to support different major versions of babel.
 
 ### Base webpack config now contains vital plugins ([#1775](https://github.com/storybooks/storybook/pull/1775))
 
-This affects you if you use custom webpack config in [Full Control Mode](https://storybook.js.org/configurations/custom-webpack-config/#full-control-mode) while not preserving the plugins from `storybookBaseConfig`. Before `3.3`, preserving them was just a reccomendation, but now it [became](https://github.com/storybooks/storybook/pull/2578) a requirement.
+This affects you if you use custom webpack config in [Full Control Mode](https://storybook.js.org/configurations/custom-webpack-config/#full-control-mode) while not preserving the plugins from `storybookBaseConfig`. Before `3.3`, preserving them was just a recommendation, but now it [became](https://github.com/storybooks/storybook/pull/2578) a requirement.
 
 ### Refactored Knobs
 
@@ -122,7 +260,7 @@ Knobs users: there was a bug in 3.2.x where using the knobs addon imported all f
 In the case of React or React-Native, import knobs like this:
 
 ```js
-import { withKnobs, text, boolean, number } from "@storybook/addon-knobs/react";
+import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 ```
 
 In the case of Vue: `import { ... } from '@storybook/addon-knobs/vue';`
@@ -145,15 +283,15 @@ See also [TypeScript definitions in 3.1.x](#moved-typescript-definitions).
 
 ### Updated Addons API
 
-We're in the process of upgrading our addons APIs. As a first step, we've upgraded the Info and Notes addons. The old API will still work with your existing projects, but will be deprecated soon and removed in Storybook 4.0.
+We're in the process of upgrading our addons APIs. As a first step, we've upgraded the Info and Notes addons. The old API will still work with your existing projects but will be deprecated soon and removed in Storybook 4.0.
 
 Here's an example of using Notes and Info in 3.2 with the new API.
 
 ```js
-storiesOf("composition", module).add(
-  "new addons api",
-  withInfo("see Notes panel for composition info")(
-    withNotes({ text: "Composition: Info(Notes())" })(context => (
+storiesOf('composition', module).add(
+  'new addons api',
+  withInfo('see Notes panel for composition info')(
+    withNotes({ text: 'Composition: Info(Notes())' })(context => (
       <MyComponent name={context.story} />
     ))
   )
@@ -164,7 +302,7 @@ It's not beautiful, but we'll be adding a more convenient/idiomatic way of using
 
 ## From version 3.0.x to 3.1.x
 
-**NOTE:** technically this is a breaking change and should be a 4.0.0 release according to semver. However, we're still figuring things out, and didn't think this change necessitated a major release. Please bear with us!
+**NOTE:** technically this is a breaking change and should be a 4.0.0 release according to semver. However, we're still figuring things out and didn't think this change necessitated a major release. Please bear with us!
 
 ### Moved TypeScript definitions
 
@@ -204,17 +342,14 @@ All our packages have been renamed and published to npm as version 3.0.0 under t
 To update your app to use the new package names, you can use the cli:
 
 ```bash
-npm install --global @storybook/cli
-
-# if you run this inside a v2 app, it should perform the necessary codemods.
-storybook init
+npx -p @storybook/cli sb init
 ```
 
-#### Details
+**Details**
 
 If the above doesn't work, or you want to make the changes manually, the details are below:
 
-> We have adopted the same versioning strategy as have been adopted by babel, jest and apollo.
+> We have adopted the same versioning strategy that has been adopted by babel, jest and apollo.
 > It's a strategy best suited for ecosystem type tools, which consist of many separately installable features / packages.
 > We think this describes storybook pretty well.
 
@@ -259,7 +394,7 @@ You have to change your `package.json`, prune old and install new dependencies b
 
 ### Deprecated embedded addons
 
-We used to ship 2 addons with every single installation of storybook: `actions` and `links`. But in practice not everyone is using them, so we decided to deprecate this and in the future they will be completely removed. If you use `@storybook/react/addons` you will get a deprecation warning.
+We used to ship 2 addons with every single installation of storybook: `actions` and `links`. But in practice not everyone is using them, so we decided to deprecate this and in the future, they will be completely removed. If you use `@storybook/react/addons` you will get a deprecation warning.
 
 If you **are** using these addons, migrating is simple:
 
@@ -267,13 +402,13 @@ If you **are** using these addons, migrating is simple:
 - update your code:
   change `addons.js` like so:
   ```js
-  import "@storybook/addon-actions/register";
-  import "@storybook/addon-links/register";
+  import '@storybook/addon-actions/register';
+  import '@storybook/addon-links/register';
   ```
   change `x.story.js` like so:
   ```js
-  import React from "react";
-  import { storiesOf } from "@storybook/react";
-  import { action } from "@storybook/addon-actions";
-  import { linkTo } from "@storybook/addon-links";
+  import React from 'react';
+  import { storiesOf } from '@storybook/react';
+  import { action } from '@storybook/addon-actions';
+  import { linkTo } from '@storybook/addon-links';
   ```

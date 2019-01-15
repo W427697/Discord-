@@ -57,6 +57,7 @@ module.exports = {
       {
         devDependencies: [
           'examples/**',
+          'examples-native/**',
           '**/example/**',
           '*.js',
           '**/*.test.js',
@@ -122,6 +123,12 @@ module.exports = {
     ],
   },
   overrides: [
+    {
+      files: ['**/__tests__/**', '**/*.test.js/**', '**/*.spec.js/**'],
+      rules: {
+        'import/no-extraneous-dependencies': ignore,
+      },
+    },
     {
       files: ['**/react-native*/**', '**/REACT_NATIVE*/**', '**/crna*/**'],
       rules: {

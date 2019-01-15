@@ -50,18 +50,30 @@ configure(loadStories, module);
 The problem here is that it will work only during the build with webpack,
 other tools may lack this feature. Since Storyshot is running under Jest,
 we need to polyfill this functionality to work with Jest. The easiest
-way is to integrate it to babel. One of the possible babel plugins to
-polyfill this functionality might be
-[babel-plugin-require-context-hook](https://github.com/smrq/babel-plugin-require-context-hook).
+way is to integrate it to babel.
 
-To register it, add the following to your jest setup:
+You can do this with a Babel [plugin](https://github.com/smrq/babel-plugin-require-context-hook) or [macro](https://github.com/storybooks/require-context.macro). If you're using `create-react-app` (v2 or above), you will use the macro.
+
+- *Plugin*
+
+First, install it:
+
+```sh
+npm install --save-dev babel-plugin-require-context-hook
+```
+
+Next, it needs to be registered and loaded before each test. To register it, create a file with the following register function `.jest/register-context.js`:
 
 ```js
 import registerRequireContextHook from 'babel-plugin-require-context-hook/register';
 registerRequireContextHook();
 ```
+That file needs to be added as a setup file for Jest. To do that, add (or create) a property in Jest's config called [`setupFiles`](https://jestjs.io/docs/en/configuration.html#setupfiles-array). Add the file name and path to this array.
 
-And after, add the plugin to `.babelrc`:
+```json
+setupFiles: ['<rootDir>/.jest/register-context.js']
+```
+Finally, add the plugin to `.babelrc`:
 
 ```json
 {
@@ -74,10 +86,24 @@ And after, add the plugin to `.babelrc`:
   }
 }
 ```
+The plugin is only added to the test environment otherwise it could replace webpack's version of it.
 
-Make sure **not** to include this babel plugin in the config
-environment that applies to webpack, otherwise it may
-replace a real `require.context` functionality.
+- *Macro*
+
+First, install it:
+
+```sh
+npm install --save-dev require-context.macro
+```
+
+Now, inside of your Storybook config file, simply import the macro and run it in place of `require.context`, like so:
+
+```javascript
+import requireContext from 'require-context.macro';
+
+// const req = require.context('../stories', true, /.stories.js$/); <-- replaced
+const req = requireContext('../stories', true, /.stories.js$/);
+```
 
 ### Configure Jest for React
 StoryShots addon for React is dependent on [react-test-renderer](https://github.com/facebook/react/tree/master/packages/react-test-renderer), but
@@ -425,11 +451,27 @@ If you are running tests from outside of your app's directory, storyshots' detec
 
 ### `test`
 
-Run a custom test function for each story, rather than the default (a vanilla snapshot test). Setting `test` will take precedence over the `renderer` option. See the exports section below for more details.
+Run a custom test function for each story, rather than the default (a vanilla snapshot test).
+Setting `test` will take precedence over the `renderer` option.
+You can still overwrite what renderer is used for the test function:
+
+```js
+import initStoryshots, { renderWithOptions } from '@storybook/addon-storyshots';
+import { mount } from 'enzyme';
+
+initStoryshots({
+  test: renderWithOptions({
+    renderer: mount,
+  }),
+});
+```
 
 ### `renderer`
 
-Pass a custom renderer (such as enzymes `mount`) to record snapshots. Note that setting `test` overrides `renderer`.
+Pass a custom renderer (such as enzymes `mount`) to record snapshots.
+This may be necessary if you want to use React features that are not supported by the default test renderer,
+such as **ref** or **Portals**.
+Note that setting `test` overrides `renderer`.
 
 ```js
 import initStoryshots from '@storybook/addon-storyshots';
@@ -441,23 +483,30 @@ initStoryshots({
 ```
 
 If you are using enzyme, you need to make sure jest knows how to serialize rendered components.
-You can either pass in a serializer (see below) or specify an enzyme-compatible serializer (like [enzyme-to-json](https://github.com/adriantoine/enzyme-to-json), [jest-serializer-enzyme](https://github.com/rogeliog/jest-serializer-enzyme) etc.) as the default `snapshotSerializer` in your config.
+For that, you can pass an enzyme-compatible snapshotSerializer (like [enzyme-to-json](https://github.com/adriantoine/enzyme-to-json), [jest-serializer-enzyme](https://github.com/rogeliog/jest-serializer-enzyme) etc.) with the `snapshotSerializer` option (see below). 
 
-Example for jest config in `package.json`:
-```json
-"devDependencies": {
-    "enzyme-to-json": "^3.2.2"
-},
-"jest": {
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  }
+
+### `snapshotSerializers`
+
+Pass an array of snapshotSerializers to the jest runtime that serializes your story (such as enzyme-to-json).
+
+```js
+import initStoryshots from '@storybook/addon-storyshots';
+import { createSerializer } from 'enzyme-to-json';
+
+initStoryshots({
+  renderer: mount,
+  snapshotSerializers: [createSerializer()],
+});
 ```
 
-### `serializer`
+This option needs to be set if either:
+* the multiSnapshot function is used to create multiple snapshot files (i.e. one per story), since it ignores any serializers specified in your jest config.
+* serializers not specified in your jest config should be used when snapshotting stories.
 
-Pass a custom serializer (such as enzyme-to-json) to serialize components to snapshot-comparable data.
+### `serializer` (deprecated)
+
+Pass a custom serializer (such as enzyme-to-json) to serialize components to snapshot-comparable data. The functionality of this option is completely covered by [snapshotSerializers](`snapshotSerializers`) which should be used instead.
 
 ```js
 import initStoryshots from '@storybook/addon-storyshots';
@@ -508,7 +557,8 @@ The default, render the story as normal and take a Jest snapshot.
 
 ### `renderOnly`
 
-Just render the story, don't check the output at all (useful if you just want to ensure it doesn't error)
+Just render the story, don't check the output at all. This is useful as a low-effort way of smoke testing your
+components to ensure they do not error.
 
 ### `snapshotWithOptions(options)`
 
@@ -516,13 +566,14 @@ Like the default, but allows you to specify a set of options for the test render
 
 ### `renderWithOptions(options)`
 
-Like the default, but allows you to specify a set of options for the renderer. See above.
+Like the default, but allows you to specify a set of options for the renderer, just like `snapshotWithOptions`.
 
 ### `multiSnapshotWithOptions(options)`
 
 Like `snapshotWithOptions`, but generate a separate snapshot file for each stories file rather than a single monolithic file (as is the convention in Jest). This makes it dramatically easier to review changes. If you'd like the benefit of separate snapshot files, but don't have custom options to pass, simply pass an empty object.
 
 #### integrityOptions
+
 This option is useful when running test with `multiSnapshotWithOptions(options)` in order to track snapshots are matching the stories. (disabled by default).
 The value is just a [settings](https://github.com/isaacs/node-glob#options) to a `glob` object, that searches for the snapshot files.
 
