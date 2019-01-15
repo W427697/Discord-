@@ -625,3 +625,37 @@ initStoryshots({
 ### `asyncJest`
 
 Enables Jest `done()` callback in the StoryShots tests for async testing. See [StoryShots for async rendered components](#storyshots-for-async-rendered-components) for more info.
+
+## Parameters
+
+Storyshots will respond to these parameters:
+
+### disabled (boolean)
+
+Setting this to false, will disable storyshots for all stories that the parameter applies to:
+```js
+storiesOf('Storyshots/disabled', module)
+  .addParameters({ storyshots: { disabled: true } })
+  .add('not snapshotted', () => (
+    <div>this story is skipped</div>
+  ));
+```
+
+### shallow (boolean)
+```js
+storiesOf('Storyshots/no decorators', module)
+  .addParameters({ storyshots: { shallow: true } })
+  .addDecorator(fn => <div id="1">{fn()}</div>)
+  .addDecorator(fn => <div id="2">{fn()}</div>)
+  .addDecorator(fn => <div id="3">{fn()}</div>)
+  .add('do not snapshot decorators', () => (
+    <div>do not snapshot decorators, this story should have only 1 div wrapping it</div>
+  ))
+  .add('DO snapshot with decorators', () => (
+    <div>DO snapshot decorators, this story will have 4 divs wrapping it</div>
+  ), {
+    storyshots: {
+      shallow: false,
+    },
+  });
+```
