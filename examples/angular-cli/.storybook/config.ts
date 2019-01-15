@@ -1,14 +1,13 @@
-import { configure, addDecorator } from '@storybook/angular';
-import { withOptions } from '@storybook/addon-options';
+import { configure, addParameters } from '@storybook/angular';
 import addCssWarning from '../src/cssWarning';
 
 addCssWarning();
 
-addDecorator(
-  withOptions({
+addParameters({
+  options: {
     hierarchyRootSeparator: /\|/,
-  })
-);
+  },
+});
 
 /** configuration with using decorators @NgStoryModule and @NgStory */
 function loadStoriesDecoratorConfig() {

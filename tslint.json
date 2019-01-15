@@ -5,7 +5,7 @@
     "prettier": {
       "severity": "warning",
       "options": {
-        "printWidth": 100,
+        "printWidth": 140,
         "tabWidth": 2,
         "bracketSpacing": true,
         "trailingComma": "es5",
@@ -56,7 +56,7 @@
     "object-literal-sort-keys": false,
     "one-line": [true, "check-open-brace", "check-catch", "check-else", "check-whitespace"],
     "prefer-const": true,
-    "quotemark": [true, "single"],
+    "quotemark": [true, "single", "jsx-double"],
     "radix": true,
     "semicolon": [true, "always"],
     "triple-equals": [true, "allow-null-check"],
