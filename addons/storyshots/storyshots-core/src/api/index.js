@@ -48,11 +48,12 @@ function testStorySnapshots(options = {}) {
     .filter(({ name }) => (storyNameRegex ? name.match(storyNameRegex) : true))
     .filter(({ kind }) => (storyKindRegex ? kind.match(storyKindRegex) : true))
     .reduce((acc, item) => {
-      const { kind, story: render, parameters } = item;
+      const { kind, fn, story, parameters } = item;
+      const { fileName, storyshots } = parameters;
+      const render = storyshots && storyshots.shallow ? fn : story;
       const existing = acc.find(i => i.kind === kind);
-      const { fileName } = item.parameters;
 
-      if (!isDisabled(parameters.storyshots)) {
+      if (!isDisabled(storyshots)) {
         if (existing) {
           existing.children.push({ ...item, render, fileName });
         } else {

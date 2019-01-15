@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots Addons|Storyshots table 1`] = `
+exports[`Storyshots Addons|Storyshots/base table 1`] = `
 <table>
   <thead>
     <tr>
@@ -37,8 +37,32 @@ exports[`Storyshots Addons|Storyshots table 1`] = `
 </table>
 `;
 
-exports[`Storyshots Addons|Storyshots text 1`] = `
+exports[`Storyshots Addons|Storyshots/base text 1`] = `
 <div>
   This is a test
+</div>
+`;
+
+exports[`Storyshots Addons|Storyshots/no decorators do not snapshot decorators 1`] = `
+<div>
+  do not snapshot decorators, this story should have only 1 div wrapping it
+</div>
+`;
+
+exports[`Storyshots Addons|Storyshots/with decorators do not snapshot decorators 1`] = `
+<div
+  id="3"
+>
+  <div
+    id="2"
+  >
+    <div
+      id="1"
+    >
+      <div>
+        do not snapshot decorators, this story should have only 1 div wrapping it
+      </div>
+    </div>
+  </div>
 </div>
 `;
