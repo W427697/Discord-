@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@storybook/addon-actions": "5.0.0-debug.3",
-    "@storybook/addon-links": "5.0.0-alpha.1",
+    "@storybook/addon-links": "5.0.0-debug.3",
     "@storybook/addons": "5.0.0-debug.3",
     "@storybook/react": "5.0.0-alpha.1",
     "babel-loader": "^6.4.1",

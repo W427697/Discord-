@@ -1172,13 +1172,13 @@
     react-inspector "^2.3.0"
     uuid "^3.3.2"
 
-"@storybook/addon-links@5.0.0-alpha.1":
-  version "5.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-5.0.0-alpha.1.tgz#414d7af8fed2f51ad0a01b7c72c042f0b4fe4612"
-  integrity sha512-UAi3mHxcJp2OcdbTWP68xrRkKHmvSxzSjTmbd89f1HfgD2yCLvY10kffpg2R/uuD/Ei3/fZbg4uhdr4oqCCQAg==
+"@storybook/addon-links@5.0.0-debug.3":
+  version "5.0.0-debug.3"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-5.0.0-debug.3.tgz#053a2531248f4eec88846de93593feddd3d71307"
+  integrity sha512-FcOLDBgn5evLM8i4N/w5xtaHD1xcPme4bkpKRs63G3O/CcUQ4Qi3U2QceAxBT8pdgEH/l+yXGkl4GH06eQKJeg==
   dependencies:
-    "@storybook/addons" "5.0.0-alpha.1"
-    "@storybook/core-events" "5.0.0-alpha.1"
+    "@storybook/addons" "5.0.0-debug.3"
+    "@storybook/core-events" "5.0.0-debug.3"
     common-tags "^1.8.0"
     core-js "^2.6.1"
     global "^4.3.2"
