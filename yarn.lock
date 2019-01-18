@@ -2808,10 +2808,10 @@
     "@webassemblyjs/wast-parser" "1.7.6"
     "@xtuc/long" "4.2.1"
 
-"@webcomponents/webcomponentsjs@^1.2.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@webcomponents/webcomponentsjs/-/webcomponentsjs-1.3.0.tgz#57983165d8651e742bdd14c2718f8cc6c228496e"
-  integrity sha512-x7x4rfXfX+xlg0Cdy752IVC8SjjOuMfjSNi1Vy7GKfWCm/MKSc42wGubngPl6/nO7w+nHM/MvfhTD/aEngA7/w==
+"@webcomponents/webcomponentsjs@^2.2.4":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@webcomponents/webcomponentsjs/-/webcomponentsjs-2.2.4.tgz#b520d586e46517914d9708c2220b263116d5f86a"
+  integrity sha512-YkLxK9Mbw6QK5bNZ67Rarb/yj0gN+Ziy5+2sLjM0lDb3XafM36gXKZXaIBz4zvLA/cYYTdg+l1LlqXeHEcmeiA==
 
 "@webpack-contrib/schema-utils@^1.0.0-beta.0":
   version "1.0.0-beta.0"
