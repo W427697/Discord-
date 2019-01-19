@@ -9,6 +9,7 @@ action "EXAMPLE ACTION" {
     MY_NAME = "Mona"
   }
   args = "\"Hello world, I'm $MY_NAME!\""
+  secrets = ["NETLIFY_SITE_ID", "GITHUB_TOKEN"]
 }
 
 workflow "Publish on Netlify" {
