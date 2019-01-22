@@ -6,7 +6,7 @@ exports[`Storyshots Core|Parameters/Decorator aguments default 1`] = `
   "kind": "Core|Parameters/Decorator aguments",
   "name": "default",
   "parameters": {
-    "fileName": "/examples/official-storybook/stories/core/decorator-agument.stories.js",
+    "fileName": "./examples/official-storybook/stories/core/decorator-agument.stories.js",
     "options": {
       "hierarchyRootSeparator": "|",
       "hierarchySeparator": {},

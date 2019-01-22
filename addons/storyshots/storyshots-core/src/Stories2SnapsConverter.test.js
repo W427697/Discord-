@@ -9,7 +9,7 @@ describe('getSnapshotFileName', () => {
     const result = target.getSnapshotFileName(context);
     const platformAgnosticResult = result.replace(/\\|\//g, '/');
 
-    expect(platformAgnosticResult).toBe('__snapshots__/foo.storyshot');
+    expect(platformAgnosticResult).toContain('/__snapshots__/foo.storyshot');
   });
 
   it('fileName with multiple extensions is provided - only the last extension is replaced', () => {
@@ -18,7 +18,7 @@ describe('getSnapshotFileName', () => {
     const result = target.getSnapshotFileName(context);
     const platformAgnosticResult = result.replace(/\\|\//g, '/');
 
-    expect(platformAgnosticResult).toBe('__snapshots__/foo.web.stories.storyshot');
+    expect(platformAgnosticResult).toContain('/__snapshots__/foo.web.stories.storyshot');
   });
 
   it('fileName with dir is provided - __snapshots__ dir is created inside another dir', () => {
@@ -27,7 +27,7 @@ describe('getSnapshotFileName', () => {
     const result = target.getSnapshotFileName(context);
     const platformAgnosticResult = result.replace(/\\|\//g, '/');
 
-    expect(platformAgnosticResult).toBe('test/__snapshots__/foo.storyshot');
+    expect(platformAgnosticResult).toContain('/test/__snapshots__/foo.storyshot');
   });
 });
 

@@ -17,7 +17,8 @@ class DefaultStories2SnapsConverter {
   getSnapshotExtension = () => this.options.snapshotExtension;
 
   getStoryshotFile(fileName) {
-    const { dir, name } = path.parse(process.cwd() + fileName);
+    const fileId = path.resolve(fileName);
+    const { dir, name } = path.parse(fileId);
     const { snapshotsDirName, snapshotExtension } = this.options;
 
     return path.format({ dir: path.join(dir, snapshotsDirName), name, ext: snapshotExtension });
