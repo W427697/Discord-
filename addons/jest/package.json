@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-jest",
-  "version": "4.2.0-alpha.10",
+  "version": "5.0.0-alpha.9",
   "description": "React storybook addon that show component jest report",
   "keywords": [
     "addon",
@@ -27,10 +27,11 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@emotion/styled": "^10.0.5",
-    "@storybook/addons": "4.2.0-alpha.10",
-    "@storybook/components": "4.2.0-alpha.10",
-    "core-js": "^2.6.1",
+    "@storybook/addons": "5.0.0-alpha.9",
+    "@storybook/components": "5.0.0-alpha.9",
+    "@storybook/core-events": "5.0.0-alpha.9",
+    "@storybook/theming": "5.0.0-alpha.9",
+    "core-js": "^2.6.2",
     "global": "^4.3.2",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",

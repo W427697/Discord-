@@ -1,8 +1,9 @@
+import { document } from 'global';
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { document } from 'global';
-import { Global, css } from '@emotion/core';
 import memoize from 'memoizerific';
+
+import { Global, css } from '@storybook/theming';
 
 import { Popout, Item, Icons, Icon, IconButton, Title, List } from '@storybook/components';
 import { STORY_CHANGED } from '@storybook/core-events';
@@ -160,7 +161,7 @@ ViewportTool.propTypes = {
     removeListener: PropTypes.func,
   }).isRequired,
   api: PropTypes.shape({
-    onStory: PropTypes.func,
+    on: PropTypes.func,
     getQueryParam: PropTypes.func,
     setQueryParams: PropTypes.func,
   }).isRequired,

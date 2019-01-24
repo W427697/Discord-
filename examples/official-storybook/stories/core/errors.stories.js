@@ -7,12 +7,13 @@ export const exception = () => {
 };
 exception.title = 'story throws exception';
 exception.parameters = {
-  storyshots: { disabled: true },
+  storyshots: { disable: true },
+  chromatic: { disable: true },
 };
 
 export const errors = () => null;
 errors.title = 'story errors';
 errors.parameters = {
   notes: 'Story does not return something react can render',
-  storyshots: { disabled: true },
+  storyshots: { disable: true },
 };

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import styled from '@emotion/styled';
+import { styled } from '@storybook/theming';
 import { STORY_CHANGED } from '@storybook/core-events';
 
 import { SyntaxHighlighter as SyntaxHighlighterBase, Placeholder } from '@storybook/components';
@@ -81,7 +81,7 @@ export default class NotesPanel extends React.Component<Props, NotesPanelState> 
     } else {
       this.setState({ value: undefined });
     }
-  };
+  }
 
   render() {
     const { active } = this.props;
