@@ -1,8 +1,15 @@
-// tslint:disable-next-line:no-implicit-dependencies
-import { _STORE_REDUCERS } from '@ngrx/store';
+// tslint:disable:no-bitwise
 import { OperatingSystem } from './platform';
 
+/**
+ * Virtual Key Codes, the value does not hold any inherent meaning.
+ * Inspired somewhat from https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
+ * But these are "more general", as they should work across browsers & OS`s.
+ */
 export const enum KeyCode {
+  /**
+   * Placed first to cover the 0 value of the enum.
+   */
   Unknown = 0,
 
   Backspace = 1,
@@ -12,7 +19,7 @@ export const enum KeyCode {
   Ctrl = 5,
   Alt = 6,
   PauseBreak = 7,
-  CapsLock = 7,
+  CapsLock = 8,
   Escape = 9,
   Space = 10,
   PageUp = 11,
@@ -90,9 +97,6 @@ export const enum KeyCode {
   NumLock = 78,
   ScrollLock = 79,
 
-  /**
-   * Used for various key characters that can vary by keyboard
-   */
   /**
    * Used for miscellaneous characters; it can vary by keyboard.
    * For the US standard keyboard, the ';:' key
@@ -191,22 +195,21 @@ export const enum KeyCode {
 }
 
 class KeyCodeStrMap {
-  private _keyCodetoStr: string[];
-
+  private _keyCodeToStr: string[];
   private _strToKeyCode: { [str: string]: KeyCode };
 
   constructor() {
-    this._keyCodetoStr = [];
+    this._keyCodeToStr = [];
     this._strToKeyCode = Object.create(null);
   }
 
   define(keyCode: KeyCode, str: string): void {
-    this._keyCodetoStr[keyCode] = str;
+    this._keyCodeToStr[keyCode] = str;
     this._strToKeyCode[str.toLowerCase()] = keyCode;
   }
 
   keyCodeToStr(keyCode: KeyCode): string {
-    return this._keyCodetoStr[keyCode];
+    return this._keyCodeToStr[keyCode];
   }
 
   strToKeyCode(str: string): KeyCode {
@@ -218,6 +221,7 @@ const uiMap = new KeyCodeStrMap();
 const userSettingsUSMap = new KeyCodeStrMap();
 const userSettingsGeneralMap = new KeyCodeStrMap();
 
+// Instantiate the key map
 (() => {
   function define(
     keyCode: KeyCode,
@@ -247,50 +251,50 @@ const userSettingsGeneralMap = new KeyCodeStrMap();
   define(KeyCode.End, 'End');
   define(KeyCode.Home, 'Home');
 
-  define(KeyCode.LeftArrow, 'LeftArrow');
-  define(KeyCode.UpArrow, 'UpArrow');
-  define(KeyCode.RightArrow, 'RightArrow');
-  define(KeyCode.DownArrow, 'DownArrow');
+  define(KeyCode.LeftArrow, 'LeftArrow', 'Left');
+  define(KeyCode.UpArrow, 'UpArrow', 'Up');
+  define(KeyCode.RightArrow, 'RightArrow', 'Right');
+  define(KeyCode.DownArrow, 'DownArrow', 'Down');
   define(KeyCode.Insert, 'Insert');
   define(KeyCode.Delete, 'Delete');
 
-  define(KeyCode.KEY_0, 'KEY_0');
-  define(KeyCode.KEY_1, 'KEY_1');
-  define(KeyCode.KEY_2, 'KEY_2');
-  define(KeyCode.KEY_3, 'KEY_3');
-  define(KeyCode.KEY_4, 'KEY_4');
-  define(KeyCode.KEY_5, 'KEY_5');
-  define(KeyCode.KEY_6, 'KEY_6');
-  define(KeyCode.KEY_7, 'KEY_7');
-  define(KeyCode.KEY_8, 'KEY_8');
-  define(KeyCode.KEY_9, 'KEY_9');
+  define(KeyCode.KEY_0, '0');
+  define(KeyCode.KEY_1, '1');
+  define(KeyCode.KEY_2, '2');
+  define(KeyCode.KEY_3, '3');
+  define(KeyCode.KEY_4, '4');
+  define(KeyCode.KEY_5, '5');
+  define(KeyCode.KEY_6, '6');
+  define(KeyCode.KEY_7, '7');
+  define(KeyCode.KEY_8, '8');
+  define(KeyCode.KEY_9, '9');
 
-  define(KeyCode.KEY_A, 'KEY_A');
-  define(KeyCode.KEY_B, 'KEY_B');
-  define(KeyCode.KEY_C, 'KEY_C');
-  define(KeyCode.KEY_D, 'KEY_D');
-  define(KeyCode.KEY_E, 'KEY_E');
-  define(KeyCode.KEY_F, 'KEY_F');
-  define(KeyCode.KEY_G, 'KEY_G');
-  define(KeyCode.KEY_H, 'KEY_H');
-  define(KeyCode.KEY_I, 'KEY_I');
-  define(KeyCode.KEY_J, 'KEY_J');
-  define(KeyCode.KEY_K, 'KEY_K');
-  define(KeyCode.KEY_L, 'KEY_L');
-  define(KeyCode.KEY_M, 'KEY_M');
-  define(KeyCode.KEY_N, 'KEY_N');
-  define(KeyCode.KEY_O, 'KEY_O');
-  define(KeyCode.KEY_P, 'KEY_P');
-  define(KeyCode.KEY_Q, 'KEY_Q');
-  define(KeyCode.KEY_R, 'KEY_R');
-  define(KeyCode.KEY_S, 'KEY_S');
-  define(KeyCode.KEY_T, 'KEY_T');
-  define(KeyCode.KEY_U, 'KEY_U');
-  define(KeyCode.KEY_V, 'KEY_V');
-  define(KeyCode.KEY_W, 'KEY_W');
-  define(KeyCode.KEY_X, 'KEY_X');
-  define(KeyCode.KEY_Y, 'KEY_Y');
-  define(KeyCode.KEY_Z, 'KEY_Z');
+  define(KeyCode.KEY_A, 'A');
+  define(KeyCode.KEY_B, 'B');
+  define(KeyCode.KEY_C, 'C');
+  define(KeyCode.KEY_D, 'D');
+  define(KeyCode.KEY_E, 'E');
+  define(KeyCode.KEY_F, 'F');
+  define(KeyCode.KEY_G, 'G');
+  define(KeyCode.KEY_H, 'H');
+  define(KeyCode.KEY_I, 'I');
+  define(KeyCode.KEY_J, 'J');
+  define(KeyCode.KEY_K, 'K');
+  define(KeyCode.KEY_L, 'L');
+  define(KeyCode.KEY_M, 'M');
+  define(KeyCode.KEY_N, 'N');
+  define(KeyCode.KEY_O, 'O');
+  define(KeyCode.KEY_P, 'P');
+  define(KeyCode.KEY_Q, 'Q');
+  define(KeyCode.KEY_R, 'R');
+  define(KeyCode.KEY_S, 'S');
+  define(KeyCode.KEY_T, 'T');
+  define(KeyCode.KEY_U, 'U');
+  define(KeyCode.KEY_V, 'V');
+  define(KeyCode.KEY_W, 'W');
+  define(KeyCode.KEY_X, 'X');
+  define(KeyCode.KEY_Y, 'Y');
+  define(KeyCode.KEY_Z, 'Z');
 
   define(KeyCode.Meta, 'Meta');
   define(KeyCode.ContextMenu, 'ContextMenu');
@@ -330,7 +334,6 @@ const userSettingsGeneralMap = new KeyCodeStrMap();
   define(KeyCode.US_OPEN_SQUARE_BRACKET, '[', '[', 'OEM_4');
   define(KeyCode.US_BACKSLASH, '\\', '\\', 'OEM_5');
   define(KeyCode.US_CLOSE_SQUARE_BRACKET, ']', ']', 'OEM_6');
-  // tslint:disable-next-line:quotemark
   define(KeyCode.US_QUOTE, "'", "'", 'OEM_7');
   define(KeyCode.OEM_8, 'OEM_8');
   define(KeyCode.OEM_102, 'OEM_102');
@@ -354,14 +357,22 @@ const userSettingsGeneralMap = new KeyCodeStrMap();
   define(KeyCode.NUMPAD_DIVIDE, 'NumPad_Divide');
 })();
 
-// tslint:disable-next-line:no-namespace
 export namespace KeyCodeUtils {
   export function toString(keyCode: KeyCode): string {
     return uiMap.keyCodeToStr(keyCode);
   }
-
   export function fromString(key: string): KeyCode {
     return uiMap.strToKeyCode(key);
+  }
+
+  export function toUserSettingsUS(keyCode: KeyCode): string {
+    return userSettingsUSMap.keyCodeToStr(keyCode);
+  }
+  export function toUserSettingsGeneral(keyCode: KeyCode): string {
+    return userSettingsGeneralMap.keyCodeToStr(keyCode);
+  }
+  export function fromUserSettings(key: string): KeyCode {
+    return userSettingsUSMap.strToKeyCode(key) || userSettingsGeneralMap.strToKeyCode(key);
   }
 }
 
@@ -378,9 +389,7 @@ export namespace KeyCodeUtils {
  *  K = bits 0-7 = key code
  * ```
  */
-
 const enum BinaryKeybindingsMask {
-  // tslint:disable:no-bitwise
   CtrlCmd = (1 << 11) >>> 0,
   Shift = (1 << 10) >>> 0,
   Alt = (1 << 9) >>> 0,
@@ -395,29 +404,36 @@ export const enum KeyMod {
   WinCtrl = (1 << 8) >>> 0,
 }
 
-export function KeyChord(firstPart: number, secondPart: number): number {
-  const chordPart = ((secondPart & 0x0000ffff) << 16) >>> 0;
-  return (firstPart | chordPart) >>> 0;
+export function createKeybinding(keybinding: number, OS: OperatingSystem): Keybinding | null {
+  if (keybinding === 0) {
+    return null;
+  }
+  const shortcut = (keybinding & 0x0000ffff) >>> 0;
+  return createSimpleKeybinding(shortcut, OS);
 }
 
-export const enum KeybindingType {
-  Simple = 1,
-  Chord = 2,
+export function createSimpleKeybinding(keybinding: number, OS: OperatingSystem): SimpleKeybinding {
+  const ctrlCmd = keybinding & BinaryKeybindingsMask.CtrlCmd ? true : false;
+  const winCtrl = keybinding & BinaryKeybindingsMask.WinCtrl ? true : false;
+
+  const ctrlKey = OS === OperatingSystem.Macintosh ? winCtrl : ctrlCmd;
+  const shiftKey = keybinding & BinaryKeybindingsMask.Shift ? true : false;
+  const altKey = keybinding & BinaryKeybindingsMask.Alt ? true : false;
+  const metaKey = OS === OperatingSystem.Macintosh ? ctrlCmd : winCtrl;
+  const keyCode = keybinding & BinaryKeybindingsMask.KeyCode;
+
+  return new SimpleKeybinding(ctrlKey, shiftKey, altKey, metaKey, keyCode);
 }
+
 export class SimpleKeybinding {
-  public readonly type = KeybindingType.Simple;
-
   public readonly ctrlKey: boolean;
-
   public readonly shiftKey: boolean;
-
   public readonly altKey: boolean;
-
   public readonly metaKey: boolean;
-
   public readonly keyCode: KeyCode;
 
   constructor(ctrlKey: boolean, shiftKey: boolean, altKey: boolean, metaKey: boolean, keyCode: KeyCode) {
+    // constructor(ctrlKey: boolean, shiftKey: boolean, altKey: boolean, metaKey: boolean, keyCode: KeyCode) {
     this.ctrlKey = ctrlKey;
     this.shiftKey = shiftKey;
     this.altKey = altKey;
@@ -426,10 +442,6 @@ export class SimpleKeybinding {
   }
 
   public equals(other: Keybinding): boolean {
-    if (other.type !== KeybindingType.Simple) {
-      return false;
-    }
-
     return (
       this.ctrlKey === other.ctrlKey &&
       this.shiftKey === other.shiftKey &&
@@ -444,7 +456,6 @@ export class SimpleKeybinding {
     const shift = this.shiftKey ? '1' : '0';
     const alt = this.altKey ? '1' : '0';
     const meta = this.metaKey ? '1' : '0';
-
     return `${ctrl}${shift}${alt}${meta}${this.keyCode}`;
   }
 
@@ -458,7 +469,10 @@ export class SimpleKeybinding {
     );
   }
 
-  public isDupliateModifierCase(): boolean {
+  /**
+   * Does this keybinding refer to the key code of a modifier and it also has the modifier flag?
+   */
+  public isDuplicateModifierCase(): boolean {
     return (
       (this.ctrlKey && this.keyCode === KeyCode.Ctrl) ||
       (this.shiftKey && this.keyCode === KeyCode.Shift) ||
@@ -467,100 +481,36 @@ export class SimpleKeybinding {
     );
   }
 }
-export class ChordKeybinding {
-  public readonly type = KeybindingType.Chord;
 
-  public readonly firstPart: SimpleKeybinding;
+export type Keybinding = SimpleKeybinding;
 
-  public readonly chordPart: SimpleKeybinding;
-
-  constructor(firstPart: SimpleKeybinding, chordPart: SimpleKeybinding) {
-    this.firstPart = firstPart;
-    this.chordPart = chordPart;
-  }
-
-  public getHashCode(): string {
-    return `${this.firstPart.getHashCode()};${this.chordPart.getHashCode()}`;
-  }
-}
-
-export function createKeyBinding(keybinding: number, OS: OperatingSystem): Keybinding | null {
-  if (keybinding === 0) {
-    return null;
-  }
-
-  const firstPart = (keybinding & 0x0000ffff) >>> 0;
-  const chordPart = (keybinding & 0xffff0000) >>> 16;
-
-  if (chordPart !== 0) {
-    return new ChordKeybinding(createSimpleKeybinding(firstPart, OS), createSimpleKeybinding(chordPart, OS));
-  }
-
-  return createSimpleKeybinding(firstPart, OS);
-}
-
-export function createSimpleKeybinding(keybinding: number, OS: OperatingSystem): SimpleKeybinding {
-  const ctrlCmd = !!(keybinding & BinaryKeybindingsMask.CtrlCmd);
-  const winCtrl = !!(keybinding & BinaryKeybindingsMask.WinCtrl);
-  const ctrlKey = OS === OperatingSystem.Macintosh ? winCtrl : ctrlCmd;
-  const shiftKey = !!(keybinding & BinaryKeybindingsMask.Shift);
-  const altKey = !!(keybinding & BinaryKeybindingsMask.Alt);
-  const metaKey = OS === OperatingSystem.Macintosh ? ctrlCmd : winCtrl;
-  const keyCode = keybinding & BinaryKeybindingsMask.KeyCode;
-
-  return new SimpleKeybinding(ctrlKey, shiftKey, altKey, metaKey, keyCode);
-}
-
-export type Keybinding = SimpleKeybinding | ChordKeybinding;
-
-export class ResolveKeybindingPart {
+export class ResolvedKeybindingPart {
   readonly ctrlKey: boolean;
-
   readonly shiftKey: boolean;
-
   readonly altKey: boolean;
-
   readonly metaKey: boolean;
 
   readonly keyLabel: string | null;
 
-  readonly keyAriaLabel: string | null;
-
-  constructor(ctrlKey: boolean, shiftKey: boolean, altKey: boolean, metaKey: boolean, kbLabel: string | null, kbAriaLabel: string | null) {
+  constructor(ctrlKey: boolean, shiftKey: boolean, altKey: boolean, metaKey: boolean, kbLabel: string | null) {
     this.ctrlKey = ctrlKey;
     this.shiftKey = shiftKey;
     this.altKey = altKey;
     this.metaKey = metaKey;
     this.keyLabel = kbLabel;
-    this.keyAriaLabel = kbAriaLabel;
   }
 }
 
-// tslint:disable-next-line:max-classes-per-file
+/**
+ * A resolved keybinding.
+ */
 export abstract class ResolvedKeybinding {
   /**
    * This prints the binding in a format suitable for displaying in the UI.
    */
   public abstract getLabel(): string | null;
-
-  // prints the keybinding in ARIA format
-  public abstract getAriaLabel(): string | null;
-
-  // print in user setting format
-  public abstract getUserSettingsLabel(): string | null;
-
-  // is user settings label reflecting the label?
-  public abstract isWYSIWYG(): boolean;
-
-  // is the binding a chord
-  public abstract isChord(): boolean;
-
-  // returns the first part, chordpart that should be used for dispatching
-  public abstract getDispatchParts(): [string | null, string | null];
-
   /**
-   * returns the firstPart, chordopart of the keybinding
-   * For simple keybindings, the second element will be null
+   * This prints the binding in a format suitable for user settings.
    */
-  public abstract getParts(): [ResolveKeybindingPart, ResolveKeybindingPart | null];
+  public abstract getUserSettingsLabel(): string | null;
 }

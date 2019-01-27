@@ -1,5 +1,7 @@
 import { navigator } from 'global';
+import { KeyCodeUtils, SimpleKeybinding } from '../keyboard/keyCodes';
 
+import { OS } from '../keyboard/platform';
 // The shortcut is our JSON-ifiable representation of a shortcut combination
 type Shortcut = string[];
 
@@ -8,7 +10,7 @@ export const controlOrMetaSymbol = () => (isMacLike() ? '⌘' : 'ctrl');
 export const controlOrMetaKey = () => (isMacLike() ? 'meta' : 'control');
 export const optionOrAltSymbol = () => (isMacLike() ? '⌥' : 'alt');
 
-export const isShortcutTaken = (arr1: string[], arr2: string[]): boolean => JSON.stringify(arr1) === JSON.stringify(arr2);
+export const isShortcutTaken = (kb1: SimpleKeybinding, kb2: SimpleKeybinding): boolean => kb1.getHashCode() === kb2.getHashCode();
 
 // Map a keyboard event to a keyboard shortcut
 // NOTE: if we change the fields on the event that we need, we'll need to update the serialization in core/preview/start.js
@@ -104,6 +106,6 @@ export const keyToSymbol = (key: string): string => {
 };
 
 // Display the shortcut as a human readable string
-export const shortcutToHumanString = (shortcut: Shortcut): string => {
-  return shortcut.map(keyToSymbol).join(' ');
+export const shortcutToHumanString = (shortcut: string): SimpleKeybinding => {
+  return new SimpleKeybinding(shortcut[0] === '1', shortcut[1] === '1', shortcut[2] === '1', shortcut[3] === '1', +shortcut.slice(-2));
 };
