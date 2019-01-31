@@ -30,7 +30,6 @@ Then we can use it when writing stories.
 
 ```js
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
 
 import Center from './center';
 import Button from './button';
@@ -38,7 +37,7 @@ import Button from './button';
 storiesOf('Button', module)
   .add('with text', () => (
     <Center>
-      <Button onClick={action('clicked')}>Hello Button</Button>
+      <Text>Hello Button</Text>
     </Center>
   ));
 ```
@@ -49,7 +48,6 @@ You can also expose this functionality as a Storybook decorator and use it like 
 
 ```js
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
 
 import Button from './button';
 
@@ -65,10 +63,10 @@ const CenterDecorator = (storyFn) => (
 storiesOf('Button', module)
   .addDecorator(CenterDecorator)
   .add('with text', () => (
-    <Button onClick={action('clicked')}>Hello Button</Button>
+    <Text>Hello Button</Text>
   ))
   .add('with some emojies', () => (
-    <Button onClick={action('clicked')}><span role="img" aria-label="so cool">😀 😎 👍 💯</span></Button>
+    <Text><span role="img" aria-label="so cool">😀 😎 👍 💯</span></Text>
   ));
 ```
 
@@ -76,8 +74,6 @@ You can also add a decorator globally for all stories like this:
 
 ```js
 import { storiesOf, addDecorator } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
 
 import Button from './button';
 import Welcome from './welcome';
@@ -94,15 +90,15 @@ addDecorator(CenterDecorator);
 
 storiesOf('Welcome', module)
   .add('to Storybook', () => (
-    <Welcome showApp={linkTo('Button')}/>
+    <Welcome/>
   ));
 
 storiesOf('Button', module)
   .add('with text', () => (
-    <Button onClick={action('clicked')}>Hello Button</Button>
+    <Text>Hello Button</Text>
   ))
   .add('with some emojies', () => (
-    <Button onClick={action('clicked')}><span role="img" aria-label="so cool">😀 😎 👍 💯</span></Button>
+    <Text><span role="img" aria-label="so cool">😀 😎 👍 💯</span></Text>
   ));
 ```
 
