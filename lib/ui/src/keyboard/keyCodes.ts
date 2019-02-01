@@ -432,13 +432,7 @@ export class SimpleKeybinding {
   public readonly metaKey: boolean;
   public readonly keyCode: KeyCode;
 
-  constructor(
-    ctrlKey: boolean,
-    shiftKey: boolean,
-    altKey: boolean,
-    metaKey: boolean,
-    keyCode: KeyCode
-  ) {
+  constructor(ctrlKey: boolean, shiftKey: boolean, altKey: boolean, metaKey: boolean, keyCode: KeyCode) {
     // constructor(ctrlKey: boolean, shiftKey: boolean, altKey: boolean, metaKey: boolean, keyCode: KeyCode) {
     this.ctrlKey = ctrlKey;
     this.shiftKey = shiftKey;
@@ -498,13 +492,7 @@ export class ResolvedKeybindingPart {
 
   readonly keyLabel: string | null;
 
-  constructor(
-    ctrlKey: boolean,
-    shiftKey: boolean,
-    altKey: boolean,
-    metaKey: boolean,
-    kbLabel: string | null
-  ) {
+  constructor(ctrlKey: boolean, shiftKey: boolean, altKey: boolean, metaKey: boolean, kbLabel: string | null) {
     this.ctrlKey = ctrlKey;
     this.shiftKey = shiftKey;
     this.altKey = altKey;
