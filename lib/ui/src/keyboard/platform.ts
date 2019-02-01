@@ -113,7 +113,14 @@ export const UILabelProvider = new ModifierLabelProvider(
     ctrlKey: localize({ key: 'ctrlKey', comment: ['This is the short form for the Control key on the keyboard'] }, 'Ctrl', ''),
     shiftKey: localize({ key: 'shiftKey', comment: ['This is the short form for the Shift key on the keyboard'] }, 'Shift', ''),
     altKey: localize({ key: 'altKey', comment: ['This is the short form for the Alt key on the keyboard'] }, 'Alt', ''),
-    metaKey: localize({ key: 'windowsKey', comment: ['This is the short form for the Windows key on the keyboard'] }, 'Windows', ''),
+    metaKey: localize(
+      {
+        key: 'windowsKey',
+        comment: ['This is the short form for the Windows key on the keyboard'],
+      },
+      'Windows',
+      ''
+    ),
     separator: '+',
   },
   {
