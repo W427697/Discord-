@@ -8,14 +8,33 @@ import initStoryshots from '@storybook/addon-storyshots';
 import { imageSnapshot } from '@storybook/addon-storyshots-puppeteer';
 import { logger } from '@storybook/node-logger';
 
+jest.setTimeout(30000);
+
 // Image snapshots
 // We do screenshots against the static build of the storybook.
 // For this test to be meaningful, you must build the static version of the storybook *before* running this test suite.
 const pathToStorybookStatic = path.join(__dirname, '../', 'storybook-static');
 
+const handler = require('serve-handler');
+const http = require('http');
+
+const server = http.createServer((request, response) =>
+  handler(request, response, {
+    cleanUrls: false,
+    public: pathToStorybookStatic,
+  })
+);
+
+beforeAll(
+  () =>
+    new Promise(res => {
+      server.listen(3000, res);
+    })
+);
+
 if (!fs.existsSync(pathToStorybookStatic)) {
   logger.error(
-    'You are running image snapshots without having the static build of storybook. Please run "yarn run build-storybook" before running tests.'
+    'You are running image snapshots without having the static build of storybook. Please run "yarn run build-storybooks" before running tests.'
   );
 } else {
   initStoryshots({
@@ -24,7 +43,7 @@ if (!fs.existsSync(pathToStorybookStatic)) {
     framework: 'react',
     configPath: path.join(__dirname, '..'),
     test: imageSnapshot({
-      storybookUrl: `file://${pathToStorybookStatic}`,
+      storybookUrl: `http://localhost:3000/`,
       getMatchOptions: () => ({
         failureThreshold: 0.02, // 2% threshold,
         failureThresholdType: 'percent',
@@ -32,3 +51,10 @@ if (!fs.existsSync(pathToStorybookStatic)) {
     }),
   });
 }
+
+afterAll(
+  () =>
+    new Promise(res => {
+      server.close(res);
+    })
+);

@@ -49,6 +49,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "serve-handler": "^5.0.7",
     "storybook-chromatic": "^1.2.5",
     "ts-loader": "^5.3.3",
     "uuid": "^3.3.2",
