@@ -106,6 +106,6 @@ export const keyToSymbol = (key: string): string => {
 };
 
 // Display the shortcut as a human readable string
-export const shortcutToHumanString = (shortcut: string): SimpleKeybinding => {
+export const hashCodeToSimpleKeybinding = (shortcut: string): SimpleKeybinding => {
   return new SimpleKeybinding(shortcut[0] === '1', shortcut[1] === '1', shortcut[2] === '1', shortcut[3] === '1', +shortcut.slice(-2));
 };

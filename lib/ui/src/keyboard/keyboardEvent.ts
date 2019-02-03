@@ -175,6 +175,22 @@ export function getCodeForKeyCode(keyCode: KeyCode): number {
   return INVERSE_KEY_CODE_MAP[keyCode];
 }
 
+export interface IUserFriendlyKeybinding {
+	key: string;
+	command: string;
+	args?: any;
+	when?: string;
+}
+
+export const enum KeybindingSource {
+	Default = 1,
+	User
+}
+
+export interface IKeybindingEvent {
+	source: KeybindingSource;
+	keybindings?: IUserFriendlyKeybinding[];
+}
 export interface IKeyboardEvent {
   readonly target: HTMLElement;
 
