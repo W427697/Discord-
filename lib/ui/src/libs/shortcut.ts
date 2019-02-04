@@ -108,10 +108,10 @@ export const keyToSymbol = (key: string): string => {
 
 export const shortcutToHumanString = (skb: SimpleKeybinding) => {
   const kb = new USLayoutResolvedKeybinding(skb, OS);
-  const kb1 = kb.getLabel()
+  const kb1 = kb.getLabel();
 
   return kb1;
-}
+};
 
 // Display the shortcut as a human readable string
 export const hashCodeToSimpleKeybinding = (shortcut: string): SimpleKeybinding => {

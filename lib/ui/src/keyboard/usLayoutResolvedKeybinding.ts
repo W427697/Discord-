@@ -1,16 +1,7 @@
-import {
-  KeyCode,
-  KeyCodeUtils,
-  Keybinding,
-  ResolvedKeybinding,
-  SimpleKeybinding,
-} from './keyCodes';
+import { KeyCode, KeyCodeUtils, Keybinding, ResolvedKeybinding, SimpleKeybinding } from './keyCodes';
 import { OperatingSystem, UILabelProvider, UserSettingsLabelProvider } from './platform';
 
 export class USLayoutResolvedKeybinding extends ResolvedKeybinding {
-  private readonly _os: OperatingSystem;
-  private readonly shortcut: SimpleKeybinding;
-
   constructor(actual: Keybinding, OS: OperatingSystem) {
     super();
     this._os = OS;
@@ -19,6 +10,32 @@ export class USLayoutResolvedKeybinding extends ResolvedKeybinding {
     } else {
       this.shortcut = actual;
     }
+  }
+  private readonly _os: OperatingSystem;
+  private readonly shortcut: SimpleKeybinding;
+
+  // returns a string version of keybinding separated by '+'
+  public static getDispatchStr(keybinding: SimpleKeybinding): string | null {
+    if (keybinding.isModifierKey()) {
+      return null;
+    }
+    let result = '';
+
+    if (keybinding.ctrlKey) {
+      result += 'ctrl+';
+    }
+    if (keybinding.shiftKey) {
+      result += 'shift+';
+    }
+    if (keybinding.altKey) {
+      result += 'alt+';
+    }
+    if (keybinding.metaKey) {
+      result += 'meta+';
+    }
+    result += KeyCodeUtils.toString(keybinding.keyCode);
+
+    return result;
   }
 
   private _keyCodeToUILabel(keyCode: KeyCode): string {
@@ -49,11 +66,7 @@ export class USLayoutResolvedKeybinding extends ResolvedKeybinding {
 
   public getLabel(): string | null {
     let shortcut = this._getUILabelForKeybinding(this.shortcut);
-    return UILabelProvider.toLabel(
-      this.shortcut,
-      shortcut,
-      this._os
-    );
+    return UILabelProvider.toLabel(this.shortcut, shortcut, this._os);
   }
 
   private _getUserSettingsLabelForKeybinding(keybinding: SimpleKeybinding | null): string | null {
@@ -69,35 +82,7 @@ export class USLayoutResolvedKeybinding extends ResolvedKeybinding {
   public getUserSettingsLabel(): string | null {
     let shortcut = this._getUserSettingsLabelForKeybinding(this.shortcut);
 
-    let result = UserSettingsLabelProvider.toLabel(
-      this.shortcut,
-      shortcut,
-      this._os
-    );
+    let result = UserSettingsLabelProvider.toLabel(this.shortcut, shortcut, this._os);
     return result ? result.toLowerCase() : result;
-  }
-
-  // returns a string version of keybinding separated by '+'
-  public static getDispatchStr(keybinding: SimpleKeybinding): string | null {
-    if (keybinding.isModifierKey()) {
-      return null;
-    }
-    let result = '';
-
-    if (keybinding.ctrlKey) {
-      result += 'ctrl+';
-    }
-    if (keybinding.shiftKey) {
-      result += 'shift+';
-    }
-    if (keybinding.altKey) {
-      result += 'alt+';
-    }
-    if (keybinding.metaKey) {
-      result += 'meta+';
-    }
-    result += KeyCodeUtils.toString(keybinding.keyCode);
-
-    return result;
   }
 }
