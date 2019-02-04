@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { OperatingSystem } from 'vs/base/common/platform';
+import { OperatingSystem } from './platform';
 
 /**
  * Virtual Key Codes, the value does not hold any inherent meaning.
@@ -392,7 +392,8 @@ export namespace KeyCodeUtils {
  */
 const enum BinaryKeybindingsMask {
 	CtrlCmd = (1 << 11) >>> 0,
-	Shift = (1 << 10) >>> 0,
+  Shift = (1 << 10) >>> 0,
+
 	Alt = (1 << 9) >>> 0,
 	WinCtrl = (1 << 8) >>> 0,
 	KeyCode = 0x000000FF
@@ -405,43 +406,19 @@ export const enum KeyMod {
 	WinCtrl = (1 << 8) >>> 0,
 }
 
-export function KeyChord(firstPart: number, secondPart: number): number {
-	let chordPart = ((secondPart & 0x0000FFFF) << 16) >>> 0;
-	return (firstPart | chordPart) >>> 0;
-}
+export function createSimpleKeybinding(keybinding: string, OS: OperatingSystem): SimpleKeybinding {
 
-export function createKeybinding(keybinding: number, OS: OperatingSystem): Keybinding | null {
-	if (keybinding === 0) {
-		return null;
-	}
-	const firstPart = (keybinding & 0x0000FFFF) >>> 0;
-	const chordPart = (keybinding & 0xFFFF0000) >>> 16;
-	if (chordPart !== 0) {
-		return new ChordKeybinding(
-			createSimpleKeybinding(firstPart, OS),
-			createSimpleKeybinding(chordPart, OS),
-		);
-	}
-	return createSimpleKeybinding(firstPart, OS);
-}
 
-export function createSimpleKeybinding(keybinding: number, OS: OperatingSystem): SimpleKeybinding {
-
-	const ctrlCmd = (keybinding & BinaryKeybindingsMask.CtrlCmd ? true : false);
-	const winCtrl = (keybinding & BinaryKeybindingsMask.WinCtrl ? true : false);
-
-	const ctrlKey = (OS === OperatingSystem.Macintosh ? winCtrl : ctrlCmd);
-	const shiftKey = (keybinding & BinaryKeybindingsMask.Shift ? true : false);
-	const altKey = (keybinding & BinaryKeybindingsMask.Alt ? true : false);
-	const metaKey = (OS === OperatingSystem.Macintosh ? ctrlCmd : winCtrl);
-	const keyCode = (keybinding & BinaryKeybindingsMask.KeyCode);
-
-	return new SimpleKeybinding(ctrlKey, shiftKey, altKey, metaKey, keyCode);
+	return new SimpleKeybinding(
+		keybinding[ 0 ] === '1',
+		keybinding[ 1 ] === '1',
+		keybinding[ 2 ] === '1',
+		keybinding[ 3 ] === '1',
+		+keybinding.slice(-2));
 }
 
 export const enum KeybindingType {
-	Simple = 1,
-	Chord = 2
+	Simple = 1
 }
 
 export class SimpleKeybinding {
@@ -505,23 +482,7 @@ export class SimpleKeybinding {
 	}
 }
 
-export class ChordKeybinding {
-	public readonly type = KeybindingType.Chord;
-
-	public readonly firstPart: SimpleKeybinding;
-	public readonly chordPart: SimpleKeybinding;
-
-	constructor(firstPart: SimpleKeybinding, chordPart: SimpleKeybinding) {
-		this.firstPart = firstPart;
-		this.chordPart = chordPart;
-	}
-
-	public getHashCode(): string {
-		return `${this.firstPart.getHashCode()};${this.chordPart.getHashCode()}`;
-	}
-}
-
-export type Keybinding = SimpleKeybinding | ChordKeybinding;
+export type Keybinding = SimpleKeybinding;
 
 export class ResolvedKeybindingPart {
 	readonly ctrlKey: boolean;
@@ -530,7 +491,6 @@ export class ResolvedKeybindingPart {
 	readonly metaKey: boolean;
 
 	readonly keyLabel: string | null;
-	readonly keyAriaLabel: string | null;
 
 	constructor(ctrlKey: boolean, shiftKey: boolean, altKey: boolean, metaKey: boolean, kbLabel: string | null, kbAriaLabel: string | null) {
 		this.ctrlKey = ctrlKey;
@@ -538,12 +498,11 @@ export class ResolvedKeybindingPart {
 		this.altKey = altKey;
 		this.metaKey = metaKey;
 		this.keyLabel = kbLabel;
-		this.keyAriaLabel = kbAriaLabel;
 	}
 }
 
 /**
- * A resolved keybinding. Can be a simple keybinding or a chord keybinding.
+ * A resolved keybinding. Can be a simple keybinding.
  */
 export abstract class ResolvedKeybinding {
 	/**
@@ -555,19 +514,4 @@ export abstract class ResolvedKeybinding {
 	 * This prints the binding in a format suitable for user settings.
 	 */
 	public abstract getUserSettingsLabel(): string | null;
-
-	/**
-	 * Is the binding a chord?
-	 */
-	public abstract isChord(): boolean;
-
-	/**
-	 * Returns the firstPart, chordPart that should be used for dispatching.
-	 */
-	public abstract getDispatchParts(): [string | null, string | null];
-	/**
-	 * Returns the firstPart, chordPart of the keybinding.
-	 * For simple keybindings, the second element will be null.
-	 */
-	public abstract getParts(): [ResolvedKeybindingPart, ResolvedKeybindingPart | null];
 }

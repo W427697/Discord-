@@ -3,14 +3,10 @@ import {
   KeyCodeUtils,
   Keybinding,
   ResolvedKeybinding,
-  ResolvedKeybindingPart,
   SimpleKeybinding,
 } from './keyCodes';
 import { OperatingSystem, UILabelProvider, UserSettingsLabelProvider } from './platform';
 
-/**
- * Do not instantiate. Use KeybindingService to get a ResolvedKeybinding seeded with information about the current kb layout.
- */
 export class USLayoutResolvedKeybinding extends ResolvedKeybinding {
   private readonly _os: OperatingSystem;
   private readonly shortcut: SimpleKeybinding;
@@ -48,7 +44,7 @@ export class USLayoutResolvedKeybinding extends ResolvedKeybinding {
     if (keybinding.isDuplicateModifierCase()) {
       return '';
     }
-    return this._keyCodeToUILabel(keybinding.keyCode);
+    return this._keyCodeToUILabel(+keybinding.keyCode);
   }
 
   public getLabel(): string | null {
