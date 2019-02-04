@@ -1,9 +1,11 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import { types } from '@storybook/addons';
 import { styled } from '@storybook/theming';
 import { STORY_CHANGED } from '@storybook/core-events';
 
 import { SyntaxHighlighter as SyntaxHighlighterBase, Placeholder } from '@storybook/components';
+import Giphy from './giphy';
 import Markdown from 'markdown-to-jsx';
 
 import { PARAM_KEY, API, Parameters } from './shared';
@@ -39,6 +41,15 @@ function read(param: Parameters | undefined): string | undefined {
 
 const SyntaxHighlighter = (props: any) => <SyntaxHighlighterBase bordered copyable {...props} />;
 
+const defaultOptions = {
+  overrides: {
+    code: SyntaxHighlighter,
+    Giphy: {
+      component: Giphy,
+    },
+  },
+};
+
 export default class NotesPanel extends React.Component<Props, NotesPanelState> {
   static propTypes = {
     active: PropTypes.bool.isRequired,
@@ -59,7 +70,6 @@ export default class NotesPanel extends React.Component<Props, NotesPanelState> 
 
   // use our SyntaxHighlighter component in place of a <code> element when
   // converting markdown to react elements
-  options = { overrides: { code: SyntaxHighlighter } };
 
   componentDidMount() {
     const { api } = this.props;
@@ -81,19 +91,23 @@ export default class NotesPanel extends React.Component<Props, NotesPanelState> 
     } else {
       this.setState({ value: undefined });
     }
-  }
+  };
 
   render() {
-    const { active } = this.props;
+    const { active, api } = this.props;
     const { value } = this.state;
 
     if (!active) {
       return null;
     }
 
+    // TODO: memoize
+    const extraElements = Object.entries(api.getElements(types.NOTES_ELEMENT)).reduce((acc, [k, v]) => ({ ...acc, [k]: v.render }), {});
+    const options = { ...defaultOptions, overrides: { ...defaultOptions.overrides, ...extraElements } };
+
     return value ? (
       <Panel className="addon-notes-container">
-        <Markdown options={this.options}>{value}</Markdown>
+        <Markdown options={options}>{value}</Markdown>
       </Panel>
     ) : (
       <Placeholder>There is no info/note</Placeholder>
