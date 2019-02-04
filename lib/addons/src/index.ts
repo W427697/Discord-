@@ -1,19 +1,28 @@
 import global from 'global';
+// tslint:disable-next-line:no-implicit-dependencies
 import { ReactElement } from 'react';
 import { Channel } from '@storybook/channels';
 import logger from '@storybook/client-logger';
 import { types, Types, isSupportedType } from './types';
 import deprecate from 'util-deprecate';
 
-export interface Options {
+export interface RenderOptions {
   active: boolean;
+}
+export interface RouteOptions {
+  storyId: string;
+}
+export interface MatchOptions {
+  viewMode: string;
 }
 
 export interface Addon {
   title: string;
   type?: Types;
   id?: string;
-  render(options: Options): ReactElement<any>;
+  route?: (routeOptions: RouteOptions) => string;
+  match?: (matchOptions: MatchOptions) => boolean;
+  render: (renderOptions: RenderOptions) => ReactElement<any>;
 }
 
 export type Loader = (callback: (api: any) => void) => void;
@@ -35,53 +44,53 @@ export class AddonStore {
   private elements: Elements = {};
   private channel: Channel | undefined;
 
-  getChannel = () => {
+  getChannel = (): Channel => {
     // this.channel should get overwritten by setChannel. If it wasn't called (e.g. in non-browser environment), throw.
     if (!this.channel) {
       throw new Error('Accessing non-existent addons channel, see https://storybook.js.org/basics/faq/#why-is-there-no-addons-channel');
     }
 
     return this.channel;
-  }
-  hasChannel = () => !!this.channel;
-  setChannel = (channel: Channel) => {
+  };
+  hasChannel = (): boolean => !!this.channel;
+  setChannel = (channel: Channel): void => {
     this.channel = channel;
-  }
+  };
 
   getElements = (type: Types): Collection => {
     if (!this.elements[type]) {
       this.elements[type] = {};
     }
     return this.elements[type];
-  }
-  addPanel = (name: string, options: Addon) => {
+  };
+  addPanel = (name: string, options: Addon): void => {
     this.add(name, {
       type: types.PANEL,
       ...options,
     });
-  }
-  add = (name: string, options: Addon) => {
-    const { type } = options;
-
+  };
+  add = (name: string, addon: Addon) => {
+    const { type } = addon;
     const collection = this.getElements(type);
-    collection[name] = { id: name, ...options };
-  }
-  register = (name: string, registerCallback: (api: any) => void) => {
+    collection[name] = { id: name, ...addon };
+  };
+
+  register = (name: string, registerCallback: (api: any) => void): void => {
     if (this.loaders[name]) {
       logger.warn(`${name} was loaded twice, this could have bad side-effects`);
     }
     this.loaders[name] = registerCallback;
-  }
+  };
 
   loadAddons = (api: any) => {
     Object.values(this.loaders).forEach(value => value(api));
-  }
+  };
 }
 
 // Enforce addons store to be a singleton
 const KEY = '__STORYBOOK_ADDONS';
 
-function getAddonsStore() {
+function getAddonsStore(): AddonStore {
   if (!global[KEY]) {
     global[KEY] = new AddonStore();
   }
