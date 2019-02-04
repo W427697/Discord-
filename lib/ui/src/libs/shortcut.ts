@@ -1,5 +1,6 @@
 import { navigator } from 'global';
 import { KeyCodeUtils, SimpleKeybinding } from '../keyboard/keyCodes';
+import { USLayoutResolvedKeybinding } from '../keyboard/usLayoutResolvedKeybinding';
 
 import { OS } from '../keyboard/platform';
 // The shortcut is our JSON-ifiable representation of a shortcut combination
@@ -103,6 +104,13 @@ export const keyToSymbol = (key: string): string => {
     return '→';
   }
   return key.toUpperCase();
+};
+
+export const shortcutToHumanString = (skb: SimpleKeybinding) => {
+  const kb = new USLayoutResolvedKeybinding(skb, OS);
+  const kb1 = kb.getLabel();
+
+  return kb1;
 };
 
 // Display the shortcut as a human readable string
