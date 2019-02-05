@@ -185,7 +185,6 @@ const _simpleAsString = (modifiers: Modifiers, key: string, labels: ModifierLabe
 
   // the actual key
   result.push(key);
-  console.log('result: ', result);
   return result.join(labels.separator);
 };
 
