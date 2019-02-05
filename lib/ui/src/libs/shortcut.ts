@@ -106,7 +106,7 @@ export const keyToSymbol = (key: string): string => {
   return key.toUpperCase();
 };
 
-export const shortcutToHumanString = (skb: SimpleKeybinding) => {
+export const shortcutToHumanString = (skb: SimpleKeybinding): string => {
   const kb = new USLayoutResolvedKeybinding(skb, OS);
   const kb1 = kb.getLabel();
 
