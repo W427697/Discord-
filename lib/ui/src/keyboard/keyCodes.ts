@@ -1,3 +1,4 @@
+// tslint:disable:no-bitwise
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
@@ -225,6 +226,7 @@ const uiMap = new KeyCodeStrMap();
 const userSettingsUSMap = new KeyCodeStrMap();
 const userSettingsGeneralMap = new KeyCodeStrMap();
 
+// tslint:disable-next-line:only-arrow-functions
 (function() {
   function define(
     keyCode: KeyCode,
@@ -360,6 +362,7 @@ const userSettingsGeneralMap = new KeyCodeStrMap();
   define(KeyCode.NUMPAD_DIVIDE, 'NumPad_Divide');
 })();
 
+// tslint:disable-next-line:no-namespace
 export namespace KeyCodeUtils {
   export function toString(keyCode: KeyCode): string {
     return uiMap.keyCodeToStr(keyCode);
@@ -408,7 +411,8 @@ export const enum KeyMod {
   WinCtrl = (1 << 8) >>> 0,
 }
 
-export function createSimpleKeybinding(keybinding: string, OS: OperatingSystem): SimpleKeybinding {
+export function createSimpleKeybindingFromHashCode(keybinding: string): SimpleKeybinding {
+
   return new SimpleKeybinding(
     keybinding[0] === '1',
     keybinding[1] === '1',
