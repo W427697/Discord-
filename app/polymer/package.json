@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@storybook/core": "5.0.0-beta.1",
-    "@webcomponents/webcomponentsjs": "^1.2.0",
+    "@webcomponents/webcomponentsjs": "^2.2.6",
     "common-tags": "^1.8.0",
     "core-js": "^2.6.2",
     "global": "^4.3.2",
