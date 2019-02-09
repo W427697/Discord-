@@ -412,7 +412,6 @@ export const enum KeyMod {
 }
 
 export function createSimpleKeybindingFromHashCode(keybinding: string): SimpleKeybinding {
-
   return new SimpleKeybinding(
     keybinding[0] === '1',
     keybinding[1] === '1',
