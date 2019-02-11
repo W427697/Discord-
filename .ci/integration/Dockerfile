@@ -8,10 +8,6 @@ LABEL "com.github.actions.color"="purple"
 LABEL "repository"="http://github.com/storybooks/storybook"
 LABEL "homepage"="http://github.com/storybooks/storybook"
 LABEL "maintainer"="Norbert de Langen <ndelangen@me.com>"
-
-RUN yarn add global puppeteer
-
-RUN yarn install
-RUN yarn bootstrap --core
+RUN ls -al
 
 ENTRYPOINT ["node", "./scripts/integration.js"]
