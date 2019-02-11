@@ -8,6 +8,6 @@ LABEL "com.github.actions.color"="purple"
 LABEL "repository"="http://github.com/storybooks/storybook"
 LABEL "homepage"="http://github.com/storybooks/storybook"
 LABEL "maintainer"="Norbert de Langen <ndelangen@me.com>"
-RUN ls -al
+RUN find ./ -type f
 
 ENTRYPOINT ["node", "./scripts/integration.js"]
