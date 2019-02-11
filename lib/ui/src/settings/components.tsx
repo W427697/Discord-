@@ -86,7 +86,7 @@ export const TextInput = styled.input(
   ({ colorTheme, theme }: any) =>
     colorTheme === 'error'
       ? {
-          borderColor: `${theme.failColor}`,
+          borderColor: `${theme.color.negative}`,
           animation: `${Jiggle} 700ms ease-out`,
         }
       : {
@@ -104,7 +104,6 @@ export const TextInput = styled.input(
     color: '#777',
     fontSize: 16,
     textAlign: 'center',
-    letterSpacing: '0.3em',
     margin: '0 1px',
     '&:focus': {
       outline: 'none',
@@ -241,8 +240,8 @@ export const HeaderItem = styled.div({
 });
 
 export const Button = styled.button(({ theme }) => ({
-  color: theme.menuHighlightColor,
-  backgroundColor: theme.highlightColor,
+  color: theme.color.lightest,
+  backgroundColor: theme.color.secondary,
   fontSize: 11,
   whiteSpace: 'nowrap',
   borderStyle: 'none',
@@ -253,8 +252,7 @@ export const Button = styled.button(({ theme }) => ({
   transition: 'all .2s ease',
   cursor: 'pointer',
   '&:hover, &:focus': {
-    backgroundColor: theme.menuHighlightColor,
-    color: theme.highlightColor,
+    backgroundColor: theme.color.seafoam,
     outline: '0 none',
     cursor: 'pointer',
   },
@@ -264,7 +262,7 @@ export const SuccessIcon = styled.div(
   ({ colorTheme, theme }: any) =>
     colorTheme === 'success'
       ? {
-          color: theme.successColor,
+          color: theme.color.positive,
           animation: `${Fade} 6s ease forwards`,
         }
       : {
