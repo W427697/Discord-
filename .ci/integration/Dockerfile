@@ -8,7 +8,9 @@ LABEL "com.github.actions.color"="purple"
 LABEL "repository"="http://github.com/storybooks/storybook"
 LABEL "homepage"="http://github.com/storybooks/storybook"
 LABEL "maintainer"="Norbert de Langen <ndelangen@me.com>"
-RUN ls -al
-RUN du -sch *
+
+RUN ls -al home
+RUN ls -al root
+RUN ls -al opt
 
 ENTRYPOINT ["node", "./scripts/integration.js"]
