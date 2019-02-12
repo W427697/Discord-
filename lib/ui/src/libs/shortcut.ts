@@ -1,15 +1,25 @@
 import { navigator } from 'global';
-import { KeyCodeUtils, SimpleKeybinding } from '../keyboard/keyCodes';
+import { createSimpleKeybindingFromHashCode, KeyCodeUtils, SimpleKeybinding } from '../keyboard/keyCodes';
 import { USLayoutResolvedKeybinding } from '../keyboard/usLayoutResolvedKeybinding';
-
+import { LocalStorageShortcuts, UIShortcuts } from '../core/types/types';
 import { OS } from '../keyboard/platform';
 // The shortcut is our JSON-ifiable representation of a shortcut combination
 type Shortcut = string[];
 
-export const isMacLike = () => (navigator && navigator.platform ? !!navigator.platform.match(/(Mac|iPhone|iPod|iPad)/i) : false);
-export const controlOrMetaSymbol = () => (isMacLike() ? '⌘' : 'ctrl');
-export const controlOrMetaKey = () => (isMacLike() ? 'meta' : 'control');
-export const optionOrAltSymbol = () => (isMacLike() ? '⌥' : 'alt');
+const fixedShortcuts = ['escape'];
+
+// feature name: shortcut is key compbo
+export const toShortcutState = (shortcutKeys: LocalStorageShortcuts): UIShortcuts =>
+  Object.entries(shortcutKeys).reduce(
+    (acc, [feature, shortcut]) =>
+      fixedShortcuts.includes(feature)
+        ? acc
+        : { ...acc, [feature]: { shortcut: createSimpleKeybindingFromHashCode(shortcut), error: false } },
+    {}
+  ) as UIShortcuts;
+
+export const isMacLike = (): boolean => (navigator && navigator.platform ? !!navigator.platform.match(/(Mac|iPhone|iPod|iPad)/i) : false);
+export const optionOrAltSymbol = (): string => (isMacLike() ? '⌥' : 'alt');
 
 export const isShortcutTaken = (kb1: SimpleKeybinding, kb2: SimpleKeybinding): boolean => kb1.getHashCode() === kb2.getHashCode();
 
@@ -61,12 +71,7 @@ export const eventToShortcut = (e: KeyboardEvent): Shortcut | null => {
 };
 
 export const shortcutMatchesShortcut = (inputShortcut: Shortcut, shortcut: Shortcut): boolean => {
-  return inputShortcut && inputShortcut.length === shortcut.length && !inputShortcut.find((key, i) => key !== shortcut[i]);
-};
-
-// Should this keyboard event trigger this keyboard shortcut?
-export const eventMatchesShortcut = (e: KeyboardEvent, shortcut: Shortcut): boolean => {
-  return shortcutMatchesShortcut(eventToShortcut(e), shortcut);
+  return inputShortcut && inputShortcut.length === shortcut.length && !inputShortcut.find((key: string, i: number) => key !== shortcut[i]);
 };
 
 export const keyToSymbol = (key: string): string => {
@@ -106,14 +111,8 @@ export const keyToSymbol = (key: string): string => {
   return key.toUpperCase();
 };
 
+// Display the shortcut as a human readable string
 export const shortcutToHumanString = (skb: SimpleKeybinding): string => {
   const kb = new USLayoutResolvedKeybinding(skb, OS);
-  const kb1 = kb.getLabel();
-
-  return kb1;
-};
-
-// Display the shortcut as a human readable string
-export const hashCodeToSimpleKeybinding = (shortcut: string): SimpleKeybinding => {
-  return new SimpleKeybinding(shortcut[0] === '1', shortcut[1] === '1', shortcut[2] === '1', shortcut[3] === '1', +shortcut.slice(-2));
+  return kb.getLabel();
 };
