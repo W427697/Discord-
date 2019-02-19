@@ -22,7 +22,7 @@
     "@storybook/addon-actions": "5.0.0-alpha.5",
     "@storybook/addon-links": "5.0.0-alpha.5",
     "@storybook/addons": "5.0.0-alpha.5",
-    "@storybook/react": "5.0.0-alpha.5",
+    "@storybook/react": "5.0.0-rc.1",
     "babel-loader": "^6.4.1",
     "bootstrap": "^4.3.0",
     "common-tags": "^1.8.0",
