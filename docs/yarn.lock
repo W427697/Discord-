@@ -1192,6 +1192,16 @@
     global "^4.3.2"
     util-deprecate "^1.0.2"
 
+"@storybook/addons@5.0.0-rc.1":
+  version "5.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-5.0.0-rc.1.tgz#ee5c1aa8b7aa2c50a33bf189e4e39633ec083086"
+  integrity sha512-CxHoUiYJW4lH9vSlQ4lW91uGeSKdqP3PPv/Ka2h0Oz5SDmBCnOtXTFZGLTcwjQCf9QslmtQjuf1NbANo8SDqHQ==
+  dependencies:
+    "@storybook/channels" "5.0.0-rc.1"
+    "@storybook/client-logger" "5.0.0-rc.1"
+    global "^4.3.2"
+    util-deprecate "^1.0.2"
+
 "@storybook/channel-postmessage@5.0.0-alpha.5":
   version "5.0.0-alpha.5"
   resolved "https://registry.yarnpkg.com/@storybook/channel-postmessage/-/channel-postmessage-5.0.0-alpha.5.tgz#ce09ce4664fbd1a2d15c122007e29411f3f3f598"
@@ -1206,10 +1216,20 @@
   resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-5.0.0-alpha.5.tgz#96a480586e0ff4acffb751bc02c7828b34864823"
   integrity sha512-3aTbdiZvwdisLVCTdULFLvS6GS8X8rVj4FCr7XIAuJIhihPH5WrtRwwR49pIe65iw2UU3/DEMSKETuh4AWrErA==
 
+"@storybook/channels@5.0.0-rc.1":
+  version "5.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-5.0.0-rc.1.tgz#7b8d282d9fd5afaf51bd9408edd550269ca761ad"
+  integrity sha512-YSvruZiS7z/TOIgsDNtTWxMEwiwB2WJ+hqwo7pAv5Ns+d9Mci7QPXJckzDQcLRSGb7jOL20VTkBIoslafuV08w==
+
 "@storybook/client-logger@5.0.0-alpha.5":
   version "5.0.0-alpha.5"
   resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.0.0-alpha.5.tgz#91c97d6f68259c50af89c97dc9e7c5207db569e8"
   integrity sha512-m2DasQKxQoDhpFwdEybZAUvZiKbreXgUxMUrV2zbQlWiPxLl/CBSsfHqrZ6j+vaAH0qmeRBhQrqOqAEUhjbHfA==
+
+"@storybook/client-logger@5.0.0-rc.1":
+  version "5.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.0.0-rc.1.tgz#0216a53022df7aea2c74dd713ded12fd905f8113"
+  integrity sha512-AkgiawSeG+UphtVAfq5WcRWgtDOLU38l7lb38Hwrl0XUkrQu7a1iW1TQWU6TNw35iNjqCmagDNX92q/NMqgk1Q==
 
 "@storybook/components@5.0.0-alpha.5":
   version "5.0.0-alpha.5"
