@@ -16,7 +16,7 @@ example for React:
 
 ```js
 import { storiesOf } from '@storybook/react';
-import centered from '@storybook/addon-centered/react';
+import centered from '@storybook/addon-centered/dist/react';
 
 import MyComponent from '../Component';
 
@@ -30,7 +30,7 @@ example for Vue:
 
 ```js
 import { storiesOf } from '@storybook/vue';
-import centered from '@storybook/addon-centered/vue';
+import centered from '@storybook/addon-centered/dist/vue';
 
 import MyComponent from '../Component.vue';
 storiesOf('MyComponent', module)
@@ -49,7 +49,7 @@ example for Preact:
 
 ```js
 import { storiesOf } from '@storybook/preact';
-import centered from '@storybook/addon-centered/preact';
+import centered from '@storybook/addon-centered/dist/preact';
 
 import MyComponent from '../Component';
 
@@ -63,7 +63,7 @@ example for Svelte:
 
 ```js
 import { storiesOf } from '@storybook/svelte';
-import Centered from '@storybook/addon-centered/svelte';
+import Centered from '@storybook/addon-centered/dist/svelte';
 
 import Component from '../Component.svelte';
 
@@ -82,7 +82,7 @@ example for Mithril:
 
 ```js
 import { storiesOf } from '@storybook/mithril';
-import centered from '@storybook/addon-centered/mithril';
+import centered from '@storybook/addon-centered/dist/mithril';
 
 import MyComponent from '../Component';
 
@@ -100,7 +100,7 @@ example for Angular with component:
 
 ```ts
 import { storiesOf } from '@storybook/angular';
-import { centered } from '@storybook/addon-centered/angular';
+import { centered } from '@storybook/addon-centered/dist/angular';
 
 import { AppComponent } from '../app/app.component';
 
@@ -117,7 +117,7 @@ example for Angular with template:
 
 ```ts
 import { moduleMetadata, storiesOf } from '@storybook/angular';
-import { centered } from '@storybook/addon-centered/angular';
+import { centered } from '@storybook/addon-centered/dist/angular';
 
 import { AppComponent } from '../app/app.component';
 
@@ -148,7 +148,7 @@ example for React:
 
 ```js
 import { configure, addDecorator } from '@storybook/react';
-import centered from '@storybook/addon-centered/react';
+import centered from '@storybook/addon-centered/dist/react';
 
 addDecorator(centered);
 
@@ -161,7 +161,7 @@ example for Vue:
 
 ```js
 import { configure, addDecorator } from '@storybook/vue';
-import centered from '@storybook/addon-centered/vue';
+import centered from '@storybook/addon-centered/dist/vue';
 
 addDecorator(centered);
 
@@ -174,7 +174,7 @@ example for Svelte:
 
 ```js
 import { configure, addDecorator } from '@storybook/svelte';
-import Centered from '@storybook/addon-centered/svelte';
+import Centered from '@storybook/addon-centered/dist/svelte';
 
 addDecorator(Centered);
 
@@ -187,7 +187,7 @@ example for Mithril:
 
 ```js
 import { configure, addDecorator } from '@storybook/mithril';
-import centered from '@storybook/addon-centered/mithril';
+import centered from '@storybook/addon-centered/dist/mithril';
 
 addDecorator(centered);
 
