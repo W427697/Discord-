@@ -65,8 +65,8 @@ export const Main = styled.main({
 });
 
 export interface ExternalLinkInterface {
-  children: ReactNode,
-  props: Readonly<{}>
+  children: ReactNode;
+  props: Readonly<{}>;
 }
 export const ExernalLink = ({ children, ...props }: ExternalLinkInterface) => (
   <a target="_blank" rel="noopener noreferrer" {...props}>

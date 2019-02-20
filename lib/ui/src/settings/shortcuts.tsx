@@ -120,7 +120,6 @@
 
 //     const { activeFeature, shortcutKeys } = this.state;
 
-
 // if (KeyCodeUtils.toString(evt.keyCode) === 'Backspace') {
 //       return this.restoreDefault();
 //     }
