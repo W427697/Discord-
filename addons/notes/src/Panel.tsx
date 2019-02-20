@@ -109,17 +109,18 @@ export default class NotesPanel extends React.Component<Props, NotesPanelState> 
 
     return value ? (
       <Panel className="addon-notes-container">
-      <DocumentFormatting>
-        <Markdown options={options}>{value}</Markdown>
+        <DocumentFormatting>
+          <Markdown options={options}>{value}</Markdown>
         </DocumentFormatting>
       </Panel>
     ) : (
       <Placeholder>
+        <React.Fragment>No notes yet</React.Fragment>
         <React.Fragment>
-          No notes yet
-        </React.Fragment>
-        <React.Fragment>
-          Learn how to <Link href="https://github.com/storybooks/storybook/tree/master/addons/notes" target="_blank" withArrow>document components in Markdown</Link>
+          Learn how to{' '}
+          <Link href="https://github.com/storybooks/storybook/tree/master/addons/notes" target="_blank" withArrow>
+            document components in Markdown
+          </Link>
         </React.Fragment>
       </Placeholder>
     );
