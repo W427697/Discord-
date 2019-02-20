@@ -176,20 +176,20 @@ export function getCodeForKeyCode(keyCode: KeyCode): number {
 }
 
 export interface IUserFriendlyKeybinding {
-	key: string;
-	command: string;
-	args?: any;
-	when?: string;
+  key: string;
+  command: string;
+  args?: any;
+  when?: string;
 }
 
 export const enum KeybindingSource {
-	Default = 1,
-	User
+  Default = 1,
+  User,
 }
 
 export interface IKeybindingEvent {
-	source: KeybindingSource;
-	keybindings?: IUserFriendlyKeybinding[];
+  source: KeybindingSource;
+  keybindings?: IUserFriendlyKeybinding[];
 }
 export interface IKeyboardEvent {
   readonly target: HTMLElement;
@@ -233,16 +233,13 @@ export class StandardKeyboardEvent implements IKeyboardEvent {
   constructor(source: KeyboardEvent) {
     let e = source;
 
-    this.target = e.target as HTMLElement;
+    this.target = (e.target as unknown) as HTMLElement;
 
     this.ctrlKey = e.ctrlKey;
     this.shiftKey = e.shiftKey;
     this.altKey = e.altKey;
     this.metaKey = e.metaKey;
     this.keyCode = extractKeyCode(e);
-    this.code = e.nativeEvent.code;
-
-    // console.info(e.type + ": keyCode: " + e.keyCode + ", which: " + e.which + ", charCode: " + e.charCode + ", detail: " + e.detail + " ====> " + this.keyCode + ' -- ' + KeyCode[this.keyCode]);
 
     this.ctrlKey = this.ctrlKey || this.keyCode === KeyCode.Ctrl;
     this.altKey = this.altKey || this.keyCode === KeyCode.Alt;
