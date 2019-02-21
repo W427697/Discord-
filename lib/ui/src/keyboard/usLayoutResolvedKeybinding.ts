@@ -1,4 +1,4 @@
-import { KeyCode, KeyCodeUtils, Keybinding, ResolvedKeybinding, SimpleKeybinding } from './keyCodes';
+import { createSimpleKeybindingFromHashCode, KeyCode, KeyCodeUtils, Keybinding, ResolvedKeybinding, SimpleKeybinding } from './keyCodes';
 import { OperatingSystem, UILabelProvider, UserSettingsLabelProvider } from './platform';
 
 export class USLayoutResolvedKeybinding extends ResolvedKeybinding {
@@ -54,10 +54,14 @@ export class USLayoutResolvedKeybinding extends ResolvedKeybinding {
     return KeyCodeUtils.toString(keyCode);
   }
 
-  private _getUILabelForKeybinding(keybinding: SimpleKeybinding | null): string | null {
+  private _getUILabelForKeybinding(keybinding: SimpleKeybinding | string | null): string | null {
     if (!keybinding) {
       return null;
     }
+    if (typeof keybinding === 'string') {
+      keybinding = createSimpleKeybindingFromHashCode(keybinding);
+    }
+
     if (keybinding.isDuplicateModifierCase()) {
       return '';
     }
