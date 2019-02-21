@@ -138,6 +138,9 @@ storiesOf('My App/Buttons/Emoji', module).add('with some emoji', () => (
 ));
 ```
 
+If using the [Storybook Options Addon](https://github.com/storybooks/storybook/tree/master/addons/options), the hierarchySeparator option is set to null by default and must be set in order to use this feature.
+
+
 ## Generating nesting path based on \_\_dirname
 
 Nesting paths can be programmatically generated with template literals because story names are strings.
