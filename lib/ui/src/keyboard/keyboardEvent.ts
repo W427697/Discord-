@@ -233,13 +233,14 @@ export class StandardKeyboardEvent implements IKeyboardEvent {
   constructor(source: KeyboardEvent) {
     let e = source;
 
-    this.target = (e.target as unknown) as HTMLElement;
+    this.target = e.target as HTMLElement;
 
     this.ctrlKey = e.ctrlKey;
     this.shiftKey = e.shiftKey;
     this.altKey = e.altKey;
     this.metaKey = e.metaKey;
     this.keyCode = extractKeyCode(e);
+    this.code = e.nativeEvent.code;
 
     this.ctrlKey = this.ctrlKey || this.keyCode === KeyCode.Ctrl;
     this.altKey = this.altKey || this.keyCode === KeyCode.Alt;
