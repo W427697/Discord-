@@ -1,4 +1,7 @@
-export default from './storybook';
+import { AppRegistry } from 'react-native';
+import Storybook from './storybook';
+
+AppRegistry.registerComponent('crnakitchensink', () => Storybook);
 
 // NOTE: The code below is what CRNA generates out of the box. We currently
 // have no clever way of replacing this with Storybook's UI (Vanilla RN does!)
