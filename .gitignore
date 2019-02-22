@@ -24,5 +24,3 @@ integration/__image_snapshots__/__diff_output__
 /examples/cra-kitchen-sink/src/__image_snapshots__/__diff_output__/
 lib/*.jar
 lib/**/dll
-.gradle
-*.iml
