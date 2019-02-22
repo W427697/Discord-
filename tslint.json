@@ -73,7 +73,7 @@
     "directive-class-suffix": true
   },
   "linterOptions": {
-    "include": ["**/*.ts"],
+    "include": ["**/*.ts", "**/*.tsx"],
     "exclude": ["lib/cli/test/**", "**/node_modules/**", "**/dist/**", "**/storybook-static/**"]
   }
 }

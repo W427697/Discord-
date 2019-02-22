@@ -102,6 +102,19 @@ module.exports = {
         'import/no-extraneous-dependencies': ignore,
       },
     },
-    { files: '**/.storybook/config.js', rules: { 'global-require': ignore } },
+    {
+      files: '**/.storybook/config.js',
+      rules: {
+        'global-require': ignore,
+      },
+    },
+    {
+      files: ['**/generators/*/template/**/*', '**/generators/*/template/.storybook/*'],
+      rules: {
+        'global-require': ignore,
+        'import/no-extraneous-dependencies': ignore,
+        'import/no-unresolved': ignore,
+      },
+    },
   ],
 };
