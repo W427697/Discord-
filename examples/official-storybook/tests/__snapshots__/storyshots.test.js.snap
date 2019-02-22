@@ -2641,7 +2641,19 @@ exports[`Storyshots Core|Parameters passed to story 1`] = `
     "hierarchySeparator": {},
     "name": "Storybook"
   },
-  "a11y": {},
+  "a11y": {
+    "configure": {},
+    "options": {
+      "checks": {
+        "color-contrast": {
+          "options": {
+            "noScroll": true
+          }
+        }
+      },
+      "restoreScroll": true
+    }
+  },
   "viewports": {
     "iphone5": {
       "name": "iPhone 5",
@@ -2809,6 +2821,34 @@ exports[`Storyshots Core|Parameters passed to story 1`] = `
   "decoratorParameter": "decoratorParameter"
 }
 </pre>
+`;
+
+exports[`Storyshots Core|Scroll story with 100vh padding 1 1`] = `
+<div>
+  <pre>
+    START, when switching stories, you should be able to read this at the top of the page
+  </pre>
+  <div
+    style="height:100vh"
+  />
+  <pre>
+    END, this text should be below the scroll "fold" and therefore only be readable after scrolling
+  </pre>
+</div>
+`;
+
+exports[`Storyshots Core|Scroll story with 100vh padding 2 1`] = `
+<div>
+  <pre>
+    START, when switching stories, you should be able to read this at the top of the page
+  </pre>
+  <div
+    style="height:100vh"
+  />
+  <pre>
+    END, this text should be below the scroll "fold" and therefore only be readable after scrolling
+  </pre>
+</div>
 `;
 
 exports[`Storyshots UI|Notifications/NotificationItem longText 1`] = `
@@ -3353,11 +3393,30 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   background: #FFFFFF linear-gradient(to bottom,transparent calc(100% - 1px),rgba(0,0,0,.1) calc(100% - 1px));
 }
 
+.emotion-8:hover {
+  -webkit-scrollbar-width: none;
+  -moz-scrollbar-width: none;
+  -ms-scrollbar-width: none;
+  scrollbar-width: none;
+  -webkit-scrollbar-width: 0;
+  -moz-scrollbar-width: 0;
+  -ms-scrollbar-width: 0;
+  scrollbar-width: 0;
+}
+
 .emotion-8::-webkit-scrollbar {
   height: 3px;
   width: 3px;
   background: transparent;
   box-shadow: none;
+  display: none;
+}
+
+.emotion-8:hover::-webkit-scrollbar {
+  height: 3px;
+  width: 3px;
+  background: transparent;
+  display: block;
 }
 
 .emotion-8::-webkit-scrollbar-track {
@@ -3485,29 +3544,6 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   margin-right: 15px;
 }
 
-.emotion-5 {
-  height: 40px;
-  background: none;
-  color: inherit;
-  padding: 0;
-  cursor: pointer;
-  border: 0 solid transparent;
-  border-top: 3px solid transparent;
-  border-bottom: 3px solid transparent;
-  -webkit-transition: color 0.2s linear,border-bottom-color 0.2s linear;
-  transition: color 0.2s linear,border-bottom-color 0.2s linear;
-}
-
-.emotion-5:hover,
-.emotion-5:focus {
-  outline: 0 none;
-  color: #1EA7FD;
-}
-
-.emotion-5 > svg {
-  width: 15px;
-}
-
 .emotion-4 {
   shape-rendering: inherit;
   -webkit-transform: translate3d(0,0,0);
@@ -3530,6 +3566,29 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   -ms-flex: 1;
   flex: 1;
   width: 100%;
+}
+
+.emotion-5 {
+  height: 40px;
+  background: none;
+  color: inherit;
+  padding: 0;
+  cursor: pointer;
+  border: 0 solid transparent;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  -webkit-transition: color 0.2s linear,border-bottom-color 0.2s linear;
+  transition: color 0.2s linear,border-bottom-color 0.2s linear;
+}
+
+.emotion-5:hover,
+.emotion-5:focus {
+  outline: 0 none;
+  color: #1EA7FD;
+}
+
+.emotion-5 > svg {
+  width: 15px;
 }
 
 .emotion-96 {
@@ -3865,11 +3924,30 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   background: #FFFFFF linear-gradient(to bottom,transparent calc(100% - 1px),rgba(0,0,0,.1) calc(100% - 1px));
 }
 
+.emotion-8:hover {
+  -webkit-scrollbar-width: none;
+  -moz-scrollbar-width: none;
+  -ms-scrollbar-width: none;
+  scrollbar-width: none;
+  -webkit-scrollbar-width: 0;
+  -moz-scrollbar-width: 0;
+  -ms-scrollbar-width: 0;
+  scrollbar-width: 0;
+}
+
 .emotion-8::-webkit-scrollbar {
   height: 3px;
   width: 3px;
   background: transparent;
   box-shadow: none;
+  display: none;
+}
+
+.emotion-8:hover::-webkit-scrollbar {
+  height: 3px;
+  width: 3px;
+  background: transparent;
+  display: block;
 }
 
 .emotion-8::-webkit-scrollbar-track {
@@ -3997,29 +4075,6 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   margin-right: 15px;
 }
 
-.emotion-5 {
-  height: 40px;
-  background: none;
-  color: inherit;
-  padding: 0;
-  cursor: pointer;
-  border: 0 solid transparent;
-  border-top: 3px solid transparent;
-  border-bottom: 3px solid transparent;
-  -webkit-transition: color 0.2s linear,border-bottom-color 0.2s linear;
-  transition: color 0.2s linear,border-bottom-color 0.2s linear;
-}
-
-.emotion-5:hover,
-.emotion-5:focus {
-  outline: 0 none;
-  color: #1EA7FD;
-}
-
-.emotion-5 > svg {
-  width: 15px;
-}
-
 .emotion-4 {
   shape-rendering: inherit;
   -webkit-transform: translate3d(0,0,0);
@@ -4042,6 +4097,29 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   -ms-flex: 1;
   flex: 1;
   width: 100%;
+}
+
+.emotion-5 {
+  height: 40px;
+  background: none;
+  color: inherit;
+  padding: 0;
+  cursor: pointer;
+  border: 0 solid transparent;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  -webkit-transition: color 0.2s linear,border-bottom-color 0.2s linear;
+  transition: color 0.2s linear,border-bottom-color 0.2s linear;
+}
+
+.emotion-5:hover,
+.emotion-5:focus {
+  outline: 0 none;
+  color: #1EA7FD;
+}
+
+.emotion-5 > svg {
+  width: 15px;
 }
 
 .emotion-96 {
@@ -4461,7 +4539,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
               placeholder="Type keys"
               readonly=""
               spellcheck="false"
-              value="S"
+              value="A"
             />
             <svg
               class="emotion-16"
@@ -4511,7 +4589,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
               placeholder="Type keys"
               readonly=""
               spellcheck="false"
-              value="A"
+              value="S"
             />
             <svg
               class="emotion-16"

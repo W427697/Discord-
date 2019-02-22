@@ -35,11 +35,30 @@ exports[`Storyshots UI|Settings/AboutScreen failed to fetch new version 1`] = `
   background: #FFFFFF linear-gradient(to bottom,transparent calc(100% - 1px),rgba(0,0,0,.1) calc(100% - 1px));
 }
 
+.emotion-8:hover {
+  -webkit-scrollbar-width: none;
+  -moz-scrollbar-width: none;
+  -ms-scrollbar-width: none;
+  scrollbar-width: none;
+  -webkit-scrollbar-width: 0;
+  -moz-scrollbar-width: 0;
+  -ms-scrollbar-width: 0;
+  scrollbar-width: 0;
+}
+
 .emotion-8::-webkit-scrollbar {
   height: 3px;
   width: 3px;
   background: transparent;
   box-shadow: none;
+  display: none;
+}
+
+.emotion-8:hover::-webkit-scrollbar {
+  height: 3px;
+  width: 3px;
+  background: transparent;
+  display: block;
 }
 
 .emotion-8::-webkit-scrollbar-track {
@@ -167,29 +186,6 @@ exports[`Storyshots UI|Settings/AboutScreen failed to fetch new version 1`] = `
   margin-right: 15px;
 }
 
-.emotion-5 {
-  height: 40px;
-  background: none;
-  color: inherit;
-  padding: 0;
-  cursor: pointer;
-  border: 0 solid transparent;
-  border-top: 3px solid transparent;
-  border-bottom: 3px solid transparent;
-  -webkit-transition: color 0.2s linear,border-bottom-color 0.2s linear;
-  transition: color 0.2s linear,border-bottom-color 0.2s linear;
-}
-
-.emotion-5:hover,
-.emotion-5:focus {
-  outline: 0 none;
-  color: #1EA7FD;
-}
-
-.emotion-5 > svg {
-  width: 15px;
-}
-
 .emotion-4 {
   shape-rendering: inherit;
   -webkit-transform: translate3d(0,0,0);
@@ -212,6 +208,29 @@ exports[`Storyshots UI|Settings/AboutScreen failed to fetch new version 1`] = `
   -ms-flex: 1;
   flex: 1;
   width: 100%;
+}
+
+.emotion-5 {
+  height: 40px;
+  background: none;
+  color: inherit;
+  padding: 0;
+  cursor: pointer;
+  border: 0 solid transparent;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  -webkit-transition: color 0.2s linear,border-bottom-color 0.2s linear;
+  transition: color 0.2s linear,border-bottom-color 0.2s linear;
+}
+
+.emotion-5:hover,
+.emotion-5:focus {
+  outline: 0 none;
+  color: #1EA7FD;
+}
+
+.emotion-5 > svg {
+  width: 15px;
 }
 
 .emotion-14 {
@@ -585,11 +604,30 @@ exports[`Storyshots UI|Settings/AboutScreen new version required 1`] = `
   background: #FFFFFF linear-gradient(to bottom,transparent calc(100% - 1px),rgba(0,0,0,.1) calc(100% - 1px));
 }
 
+.emotion-8:hover {
+  -webkit-scrollbar-width: none;
+  -moz-scrollbar-width: none;
+  -ms-scrollbar-width: none;
+  scrollbar-width: none;
+  -webkit-scrollbar-width: 0;
+  -moz-scrollbar-width: 0;
+  -ms-scrollbar-width: 0;
+  scrollbar-width: 0;
+}
+
 .emotion-8::-webkit-scrollbar {
   height: 3px;
   width: 3px;
   background: transparent;
   box-shadow: none;
+  display: none;
+}
+
+.emotion-8:hover::-webkit-scrollbar {
+  height: 3px;
+  width: 3px;
+  background: transparent;
+  display: block;
 }
 
 .emotion-8::-webkit-scrollbar-track {
@@ -717,29 +755,6 @@ exports[`Storyshots UI|Settings/AboutScreen new version required 1`] = `
   margin-right: 15px;
 }
 
-.emotion-5 {
-  height: 40px;
-  background: none;
-  color: inherit;
-  padding: 0;
-  cursor: pointer;
-  border: 0 solid transparent;
-  border-top: 3px solid transparent;
-  border-bottom: 3px solid transparent;
-  -webkit-transition: color 0.2s linear,border-bottom-color 0.2s linear;
-  transition: color 0.2s linear,border-bottom-color 0.2s linear;
-}
-
-.emotion-5:hover,
-.emotion-5:focus {
-  outline: 0 none;
-  color: #1EA7FD;
-}
-
-.emotion-5 > svg {
-  width: 15px;
-}
-
 .emotion-4 {
   shape-rendering: inherit;
   -webkit-transform: translate3d(0,0,0);
@@ -762,6 +777,29 @@ exports[`Storyshots UI|Settings/AboutScreen new version required 1`] = `
   -ms-flex: 1;
   flex: 1;
   width: 100%;
+}
+
+.emotion-5 {
+  height: 40px;
+  background: none;
+  color: inherit;
+  padding: 0;
+  cursor: pointer;
+  border: 0 solid transparent;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  -webkit-transition: color 0.2s linear,border-bottom-color 0.2s linear;
+  transition: color 0.2s linear,border-bottom-color 0.2s linear;
+}
+
+.emotion-5:hover,
+.emotion-5:focus {
+  outline: 0 none;
+  color: #1EA7FD;
+}
+
+.emotion-5 > svg {
+  width: 15px;
 }
 
 .emotion-38 {
@@ -1759,7 +1797,7 @@ exports[`Storyshots UI|Settings/AboutScreen new version required 1`] = `
           </span>
           <a
             class="emotion-15"
-            href="https://github.com/storybooks/storybook/blob/master/CHANGELOG.md"
+            href="https://github.com/storybooks/storybook/blob/next/CHANGELOG.md"
             target="_blank"
           >
             <span
@@ -1954,11 +1992,30 @@ exports[`Storyshots UI|Settings/AboutScreen up to date 1`] = `
   background: #FFFFFF linear-gradient(to bottom,transparent calc(100% - 1px),rgba(0,0,0,.1) calc(100% - 1px));
 }
 
+.emotion-8:hover {
+  -webkit-scrollbar-width: none;
+  -moz-scrollbar-width: none;
+  -ms-scrollbar-width: none;
+  scrollbar-width: none;
+  -webkit-scrollbar-width: 0;
+  -moz-scrollbar-width: 0;
+  -ms-scrollbar-width: 0;
+  scrollbar-width: 0;
+}
+
 .emotion-8::-webkit-scrollbar {
   height: 3px;
   width: 3px;
   background: transparent;
   box-shadow: none;
+  display: none;
+}
+
+.emotion-8:hover::-webkit-scrollbar {
+  height: 3px;
+  width: 3px;
+  background: transparent;
+  display: block;
 }
 
 .emotion-8::-webkit-scrollbar-track {
@@ -2086,29 +2143,6 @@ exports[`Storyshots UI|Settings/AboutScreen up to date 1`] = `
   margin-right: 15px;
 }
 
-.emotion-5 {
-  height: 40px;
-  background: none;
-  color: inherit;
-  padding: 0;
-  cursor: pointer;
-  border: 0 solid transparent;
-  border-top: 3px solid transparent;
-  border-bottom: 3px solid transparent;
-  -webkit-transition: color 0.2s linear,border-bottom-color 0.2s linear;
-  transition: color 0.2s linear,border-bottom-color 0.2s linear;
-}
-
-.emotion-5:hover,
-.emotion-5:focus {
-  outline: 0 none;
-  color: #1EA7FD;
-}
-
-.emotion-5 > svg {
-  width: 15px;
-}
-
 .emotion-4 {
   shape-rendering: inherit;
   -webkit-transform: translate3d(0,0,0);
@@ -2131,6 +2165,29 @@ exports[`Storyshots UI|Settings/AboutScreen up to date 1`] = `
   -ms-flex: 1;
   flex: 1;
   width: 100%;
+}
+
+.emotion-5 {
+  height: 40px;
+  background: none;
+  color: inherit;
+  padding: 0;
+  cursor: pointer;
+  border: 0 solid transparent;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  -webkit-transition: color 0.2s linear,border-bottom-color 0.2s linear;
+  transition: color 0.2s linear,border-bottom-color 0.2s linear;
+}
+
+.emotion-5:hover,
+.emotion-5:focus {
+  outline: 0 none;
+  color: #1EA7FD;
+}
+
+.emotion-5 > svg {
+  width: 15px;
 }
 
 .emotion-24 {
@@ -2891,7 +2948,7 @@ exports[`Storyshots UI|Settings/AboutScreen up to date 1`] = `
           </span>
           <a
             class="emotion-15"
-            href="https://github.com/storybooks/storybook/blob/master/CHANGELOG.md"
+            href="https://github.com/storybooks/storybook/blob/next/CHANGELOG.md"
             target="_blank"
           >
             <span

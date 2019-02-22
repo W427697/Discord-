@@ -8,7 +8,7 @@ import { SET_STORIES } from '@storybook/core-events';
 import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
 import { PARAM_KEY } from '../constants';
-import { ColorIcon } from '../components';
+import { ColorIcon } from '../components/ColorIcon';
 import { BackgroundConfig, BackgroundSelectorItem } from '../models';
 
 const iframeId = 'storybook-preview-background';
@@ -60,7 +60,7 @@ const getDisplayableState = memoize(10)((props: BackgroundToolProps, state: Back
   let availableBackgroundSelectorItems: BackgroundSelectorItem[] = [];
 
   if (selectedBackgroundColor !== 'transparent') {
-    availableBackgroundSelectorItems.push(createBackgroundSelectorItem('reset', 'Clear background', 'transparent', false, change));
+    availableBackgroundSelectorItems.push(createBackgroundSelectorItem('reset', 'Clear background', 'transparent', null, change));
   }
 
   if (list.length) {
