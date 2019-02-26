@@ -1221,6 +1221,16 @@
     global "^4.3.2"
     util-deprecate "^1.0.2"
 
+"@storybook/addons@5.0.0-rc.6":
+  version "5.0.0-rc.6"
+  resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-5.0.0-rc.6.tgz#14c016463d798590b860aad8280d5a02ad28f829"
+  integrity sha512-OTW4T2cWpIY8IkZWFWZE6a+Qqwe4Xa/XejRp/0eBcHtRRGPZdr6BUmAIz/ajmvVG2V8YCvlufVczrGb68IFUNw==
+  dependencies:
+    "@storybook/channels" "5.0.0-rc.6"
+    "@storybook/client-logger" "5.0.0-rc.6"
+    global "^4.3.2"
+    util-deprecate "^1.0.2"
+
 "@storybook/channel-postmessage@5.0.0-rc.1":
   version "5.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/@storybook/channel-postmessage/-/channel-postmessage-5.0.0-rc.1.tgz#48958b77bb9f03c47f87d82437641c2486e21777"
@@ -1234,6 +1244,11 @@
   version "5.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-5.0.0-rc.1.tgz#7b8d282d9fd5afaf51bd9408edd550269ca761ad"
   integrity sha512-YSvruZiS7z/TOIgsDNtTWxMEwiwB2WJ+hqwo7pAv5Ns+d9Mci7QPXJckzDQcLRSGb7jOL20VTkBIoslafuV08w==
+
+"@storybook/channels@5.0.0-rc.6":
+  version "5.0.0-rc.6"
+  resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-5.0.0-rc.6.tgz#f507bded6c931591fac0ec3cca94e9cf83beda53"
+  integrity sha512-7v8wXIOuGSuDMrpbsCZm92uKXVSmW5TOMOlbfsMHRiAnnQglnrYA662ZgmgLVJLWP9+NKtlPkExtC1u1/vSkng==
 
 "@storybook/client-api@5.0.0-rc.1":
   version "5.0.0-rc.1"
@@ -1257,6 +1272,11 @@
   version "5.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.0.0-rc.1.tgz#0216a53022df7aea2c74dd713ded12fd905f8113"
   integrity sha512-AkgiawSeG+UphtVAfq5WcRWgtDOLU38l7lb38Hwrl0XUkrQu7a1iW1TQWU6TNw35iNjqCmagDNX92q/NMqgk1Q==
+
+"@storybook/client-logger@5.0.0-rc.6":
+  version "5.0.0-rc.6"
+  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.0.0-rc.6.tgz#6076985a875e05ecf95c24ca853a10d80c1c6d29"
+  integrity sha512-SWBnlrNJy2AXUk2GQ1vR0CayRQbvlm4RguOtiGQ2vIysshYONV0glEXcFmA34cqzwrmiblTYCnSpGyia1dlRZw==
 
 "@storybook/components@5.0.0-rc.1":
   version "5.0.0-rc.1"
