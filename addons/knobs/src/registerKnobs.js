@@ -31,7 +31,7 @@ function knobChanged(change) {
     knobStore.markAllUnused();
 
     forceReRender();
-  }, DEBOUNCE_DELAY_MS); // this is an arbitrary amount of time used to ensure that the user has time to type before re-rendering
+  }, DEBOUNCE_DELAY_MS); // Amount of time used to ensure that the user has time to type before re-rendering
 }
 
 function knobClicked(clicked) {
