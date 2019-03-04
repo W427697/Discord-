@@ -5856,7 +5856,7 @@ exports[`Storyshots UI|Settings/SettingsFooter basic 1`] = `
 `;
 
 exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
-.emotion-100 {
+.emotion-105 {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -6003,7 +6003,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   fill: currentColor;
 }
 
-.emotion-99 {
+.emotion-104 {
   display: block;
   position: relative;
   font-size: 13px;
@@ -6016,7 +6016,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   overflow: auto;
 }
 
-.emotion-99 > *:first-child {
+.emotion-104 > *:first-child {
   position: absolute;
   left: 0;
   right: 0;
@@ -6049,7 +6049,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   width: 15px;
 }
 
-.emotion-96 {
+.emotion-101 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -6060,11 +6060,11 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   font-weight: 700;
 }
 
-.emotion-96 > * + * {
+.emotion-101 > * + * {
   margin-left: 20px;
 }
 
-.emotion-91 {
+.emotion-96 {
   display: inline-block;
   -webkit-transition: all 150ms ease-out;
   transition: all 150ms ease-out;
@@ -6074,30 +6074,30 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   color: #999999;
 }
 
-.emotion-91 svg path {
+.emotion-96 svg path {
   fill: #1EA7FD;
 }
 
-.emotion-91:hover,
-.emotion-91:focus {
+.emotion-96:hover,
+.emotion-96:focus {
   cursor: pointer;
   color: #0297f5;
 }
 
-.emotion-91:hover svg path,
-.emotion-91:focus svg path {
+.emotion-96:hover svg path,
+.emotion-96:focus svg path {
   fill: #0297f5;
 }
 
-.emotion-91:active {
+.emotion-96:active {
   color: #028ee6;
 }
 
-.emotion-91:active svg path {
+.emotion-96:active svg path {
   fill: #028ee6;
 }
 
-.emotion-91 svg {
+.emotion-96 svg {
   display: inline-block;
   height: 1em;
   width: 1em;
@@ -6107,31 +6107,31 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   margin-right: 0.4em;
 }
 
-.emotion-91 svg path {
+.emotion-96 svg path {
   fill: #999999;
 }
 
-.emotion-91:hover {
+.emotion-96:hover {
   color: #666666;
 }
 
-.emotion-91:hover svg path {
+.emotion-96:hover svg path {
   fill: #666666;
 }
 
-.emotion-91:active {
+.emotion-96:active {
   color: #444444;
 }
 
-.emotion-91:active svg path {
+.emotion-96:active svg path {
   fill: #444444;
 }
 
-.emotion-98 {
+.emotion-103 {
   display: block;
 }
 
-.emotion-97 {
+.emotion-102 {
   font-size: 14px;
   padding: 3rem 20px;
   max-width: 600px;
@@ -6152,7 +6152,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   display: flex;
 }
 
-.emotion-88 {
+.emotion-93 {
   display: grid;
   grid-template-columns: 1fr;
   grid-auto-rows: minmax(auto,auto);
@@ -6274,7 +6274,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   width: 14px;
 }
 
-.emotion-89 {
+.emotion-94 {
   border: 0;
   border-radius: 3em;
   cursor: pointer;
@@ -6315,7 +6315,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   z-index: 2;
 }
 
-.emotion-89 svg {
+.emotion-94 svg {
   display: inline-block;
   height: 14px;
   width: 14px;
@@ -6326,29 +6326,29 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   pointer-events: none;
 }
 
-.emotion-89 svg path {
+.emotion-94 svg path {
   fill: currentColor;
 }
 
-.emotion-89:hover {
+.emotion-94:hover {
   background: #f2f2f2;
 }
 
-.emotion-89:active {
+.emotion-94:active {
   background: #FFFFFF;
 }
 
-.emotion-89:focus {
+.emotion-94:focus {
   box-shadow: rgba(30,167,253,0.4) 0 0 0 1px inset;
 }
 
-.emotion-89:hover {
+.emotion-94:hover {
   -webkit-transform: none;
   -ms-transform: none;
   transform: none;
 }
 
-.emotion-100 {
+.emotion-105 {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -6495,7 +6495,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   fill: currentColor;
 }
 
-.emotion-99 {
+.emotion-104 {
   display: block;
   position: relative;
   font-size: 13px;
@@ -6508,7 +6508,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   overflow: auto;
 }
 
-.emotion-99 > *:first-child {
+.emotion-104 > *:first-child {
   position: absolute;
   left: 0;
   right: 0;
@@ -6541,7 +6541,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   width: 15px;
 }
 
-.emotion-96 {
+.emotion-101 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -6552,11 +6552,11 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   font-weight: 700;
 }
 
-.emotion-96 > * + * {
+.emotion-101 > * + * {
   margin-left: 20px;
 }
 
-.emotion-91 {
+.emotion-96 {
   display: inline-block;
   -webkit-transition: all 150ms ease-out;
   transition: all 150ms ease-out;
@@ -6566,30 +6566,30 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   color: #999999;
 }
 
-.emotion-91 svg path {
+.emotion-96 svg path {
   fill: #1EA7FD;
 }
 
-.emotion-91:hover,
-.emotion-91:focus {
+.emotion-96:hover,
+.emotion-96:focus {
   cursor: pointer;
   color: #0297f5;
 }
 
-.emotion-91:hover svg path,
-.emotion-91:focus svg path {
+.emotion-96:hover svg path,
+.emotion-96:focus svg path {
   fill: #0297f5;
 }
 
-.emotion-91:active {
+.emotion-96:active {
   color: #028ee6;
 }
 
-.emotion-91:active svg path {
+.emotion-96:active svg path {
   fill: #028ee6;
 }
 
-.emotion-91 svg {
+.emotion-96 svg {
   display: inline-block;
   height: 1em;
   width: 1em;
@@ -6599,31 +6599,31 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   margin-right: 0.4em;
 }
 
-.emotion-91 svg path {
+.emotion-96 svg path {
   fill: #999999;
 }
 
-.emotion-91:hover {
+.emotion-96:hover {
   color: #666666;
 }
 
-.emotion-91:hover svg path {
+.emotion-96:hover svg path {
   fill: #666666;
 }
 
-.emotion-91:active {
+.emotion-96:active {
   color: #444444;
 }
 
-.emotion-91:active svg path {
+.emotion-96:active svg path {
   fill: #444444;
 }
 
-.emotion-98 {
+.emotion-103 {
   display: block;
 }
 
-.emotion-97 {
+.emotion-102 {
   font-size: 14px;
   padding: 3rem 20px;
   max-width: 600px;
@@ -6644,7 +6644,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   display: flex;
 }
 
-.emotion-88 {
+.emotion-93 {
   display: grid;
   grid-template-columns: 1fr;
   grid-auto-rows: minmax(auto,auto);
@@ -6766,7 +6766,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   width: 14px;
 }
 
-.emotion-89 {
+.emotion-94 {
   border: 0;
   border-radius: 3em;
   cursor: pointer;
@@ -6807,7 +6807,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   z-index: 2;
 }
 
-.emotion-89 svg {
+.emotion-94 svg {
   display: inline-block;
   height: 14px;
   width: 14px;
@@ -6818,23 +6818,23 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   pointer-events: none;
 }
 
-.emotion-89 svg path {
+.emotion-94 svg path {
   fill: currentColor;
 }
 
-.emotion-89:hover {
+.emotion-94:hover {
   background: #f2f2f2;
 }
 
-.emotion-89:active {
+.emotion-94:active {
   background: #FFFFFF;
 }
 
-.emotion-89:focus {
+.emotion-94:focus {
   box-shadow: rgba(30,167,253,0.4) 0 0 0 1px inset;
 }
 
-.emotion-89:hover {
+.emotion-94:hover {
   -webkit-transform: none;
   -ms-transform: none;
   transform: none;
@@ -6844,7 +6844,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   style="position:relative;height:calc(100vh);width:calc(100vw)"
 >
   <div
-    class="emotion-100"
+    class="emotion-105"
   >
     <div
       class="emotion-8"
@@ -6929,14 +6929,14 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
       </div>
     </div>
     <div
-      class="emotion-99"
+      class="emotion-104"
     >
       <div
-        class="emotion-98"
+        class="emotion-103"
         role="tabpanel"
       >
         <div
-          class="emotion-97"
+          class="emotion-102"
         >
           <header
             class="emotion-9"
@@ -6944,7 +6944,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
             Keyboard shortcuts
           </header>
           <div
-            class="emotion-88"
+            class="emotion-93"
           >
             <div
               class="emotion-12"
@@ -7024,6 +7024,31 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
                 readonly=""
                 spellcheck="false"
                 value="D"
+              />
+              <svg
+                class="emotion-16"
+                viewBox="0 0 1024 1024"
+              >
+                <path
+                  class="emotion-3"
+                  d="M948.598 199.75c-15.622-15.618-40.95-15.618-56.57 0l-535.644 535.644-224.060-224.062c-15.624-15.624-40.954-15.62-56.57 0-15.624 15.62-15.624 40.948 0 56.568l251.574 251.574c0.252 0.266 0.472 0.55 0.734 0.812 7.82 7.82 18.072 11.724 28.322 11.714 10.25 0.010 20.502-3.894 28.322-11.714 0.248-0.248 0.456-0.518 0.698-0.77l563.196-563.202c15.618-15.618 15.618-40.94-0.002-56.564z"
+                />
+              </svg>
+            </div>
+            <div
+              class="emotion-17"
+            >
+              <div
+                class="emotion-13"
+              >
+                Toggle dark mode
+              </div>
+              <input
+                class="modalInput emotion-14"
+                placeholder="Type keys"
+                readonly=""
+                spellcheck="false"
+                value="M"
               />
               <svg
                 class="emotion-16"
@@ -7337,40 +7362,40 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
             </div>
           </div>
           <button
-            class="emotion-89"
+            class="emotion-94"
             id="restoreDefaultsHotkeys"
           >
             Restore defaults
           </button>
           <div
-            class="emotion-96"
+            class="emotion-101"
           >
             <a
-              class="emotion-91"
+              class="emotion-96"
               href="https://storybook.js.org"
             >
               <span
-                class="emotion-90"
+                class="emotion-95"
               >
                 Docs
               </span>
             </a>
             <a
-              class="emotion-91"
+              class="emotion-96"
               href="https://github.com/storybooks/storybook"
             >
               <span
-                class="emotion-90"
+                class="emotion-95"
               >
                 GitHub
               </span>
             </a>
             <a
-              class="emotion-91"
+              class="emotion-96"
               href="https://storybook.js.org/support"
             >
               <span
-                class="emotion-90"
+                class="emotion-95"
               >
                 Support
               </span>
