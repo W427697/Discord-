@@ -18,6 +18,11 @@ import { addParameters, configure } from '@storybook/react';
 addParameters({
   options: {
     /**
+     * initially render the storybook in dark mode
+     * @type {Boolean}
+     */
+    isDarkMode: false,
+    /**
      * show story component as full screen
      * @type {Boolean}
      */

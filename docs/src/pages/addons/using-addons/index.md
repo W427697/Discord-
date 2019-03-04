@@ -67,6 +67,7 @@ addParameters({
   options: {
     name: 'CRA Kitchen Sink',
     isFullScreen: false,
+    isDarkMode: true,
     showPanel: true,
     // more configuration here
   },
