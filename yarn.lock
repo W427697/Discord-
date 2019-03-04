@@ -19957,10 +19957,10 @@ riot-cli@^4.0.2:
     riot-compiler "^3.5.1"
     rollup "^0.57.1"
 
-riot-compiler@^3.5.1, riot-compiler@^3.5.2:
-  version "3.5.3"
-  resolved "https://registry.yarnpkg.com/riot-compiler/-/riot-compiler-3.5.3.tgz#6a7f57c4df96a7a284c46987064b38c787dc7f7a"
-  integrity sha512-JoBG4MnDfhXVKgZG+Yr5hBgSiWbxEH2fOJGw1fF4PmXhtOP0MV1fAb/LgSNQQA08wMwb1MPW0p7ZSza/I+Mu0A==
+riot-compiler@^3.5.1, riot-compiler@^3.5.2, riot-compiler@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/riot-compiler/-/riot-compiler-3.6.0.tgz#f65428cf25b940098e35ea9c8357ca91cae10280"
+  integrity sha512-P2MVj0T9ox0EFPTSSHJIAaBe6/fCnKln76BtPK6ezAlBW2+qKCDzzvkj3gwFvGEG1dYUHa2jQ/O6+FZNNe8CYw==
   dependencies:
     skip-regex "^0.3.1"
     source-map "^0.7.2"

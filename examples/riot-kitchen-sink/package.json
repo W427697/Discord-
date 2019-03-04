@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "riot": "^3.13.0",
-    "riot-compiler": "^3.5.1",
+    "riot-compiler": "^3.6.0",
     "riot-hot-reload": "^1.0.0"
   },
   "devDependencies": {
