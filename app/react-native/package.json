@@ -62,7 +62,7 @@
     "url-parse": "^1.4.3",
     "uuid": "^3.3.2",
     "webpack": "^4.29.3",
-    "webpack-dev-middleware": "^3.5.2",
+    "webpack-dev-middleware": "^3.6.0",
     "webpack-hot-middleware": "^2.24.3",
     "ws": "^6.1.3"
   },
