@@ -1221,6 +1221,16 @@
     global "^4.3.2"
     util-deprecate "^1.0.2"
 
+"@storybook/addons@5.0.0-rc.11":
+  version "5.0.0-rc.11"
+  resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-5.0.0-rc.11.tgz#08dd3cdb63330d0260e7e9165ac4d8b2148045db"
+  integrity sha512-rvQdPq42msjU31xGTA8pljYSGsF8Qcz5tDxn1gR6DITCvTzyjNfsAKvou6ZWz4tXlsBG1TTmVGChXylICBiUTw==
+  dependencies:
+    "@storybook/channels" "5.0.0-rc.11"
+    "@storybook/client-logger" "5.0.0-rc.11"
+    global "^4.3.2"
+    util-deprecate "^1.0.2"
+
 "@storybook/channel-postmessage@5.0.0-rc.1":
   version "5.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/@storybook/channel-postmessage/-/channel-postmessage-5.0.0-rc.1.tgz#48958b77bb9f03c47f87d82437641c2486e21777"
@@ -1234,6 +1244,11 @@
   version "5.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-5.0.0-rc.1.tgz#7b8d282d9fd5afaf51bd9408edd550269ca761ad"
   integrity sha512-YSvruZiS7z/TOIgsDNtTWxMEwiwB2WJ+hqwo7pAv5Ns+d9Mci7QPXJckzDQcLRSGb7jOL20VTkBIoslafuV08w==
+
+"@storybook/channels@5.0.0-rc.11":
+  version "5.0.0-rc.11"
+  resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-5.0.0-rc.11.tgz#45df154e30a33f96f8027e0a1e18ffa2928cfee1"
+  integrity sha512-ojQhdx+REmjR0lL9Ae/GjnTXl0JlvhXmsH/vcLg1K8RpjC7JKcavRCovaPmtOqmwdMvnLRVb/d7oS9pMykBbUQ==
 
 "@storybook/client-api@5.0.0-rc.1":
   version "5.0.0-rc.1"
@@ -1257,6 +1272,11 @@
   version "5.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.0.0-rc.1.tgz#0216a53022df7aea2c74dd713ded12fd905f8113"
   integrity sha512-AkgiawSeG+UphtVAfq5WcRWgtDOLU38l7lb38Hwrl0XUkrQu7a1iW1TQWU6TNw35iNjqCmagDNX92q/NMqgk1Q==
+
+"@storybook/client-logger@5.0.0-rc.11":
+  version "5.0.0-rc.11"
+  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.0.0-rc.11.tgz#0210abd9ca915ab53a7646ed6740cf5546bafd35"
+  integrity sha512-YZPklytZHQ4Gam/fKfTQJhU4u46Qr7rjh9x3CB+0g3au8zPbzv16NcETdyZv5eQ6R5YczypWaC3jExCfQdPAHA==
 
 "@storybook/components@5.0.0-rc.1":
   version "5.0.0-rc.1"
