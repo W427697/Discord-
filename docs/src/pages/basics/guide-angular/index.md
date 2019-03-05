@@ -34,10 +34,10 @@ cd your-angular-prj
 
 ## Add @storybook/angular, @babel/core, and babel-loader
 
-Next, install `@storybook/angular`, `@babel/core`, and `babel-loader` (it's a peerDependency) to your project:
+Next, install `@storybook/angular`, `@storybook/addon-actions`, `@babel/core`, and `babel-loader` (it's a peerDependency) to your project:
 
 ```sh
-npm i --save-dev @storybook/angular @babel/core babel-loader
+npm i --save-dev @storybook/angular @storybook/addon-actions @babel/core babel-loader
 ```
 
 Then add the following NPM script to your package json in order to start the storybook later in this guide:
