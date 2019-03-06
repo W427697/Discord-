@@ -6,6 +6,10 @@ module.exports = async ({ config }) => ({
   module: {
     ...config.module,
     rules: [
+      {
+        test: /\.svg$/,
+        use: ['@svgr/webpack', 'url-loader'],
+      },
       ...config.module.rules,
       {
         test: /\.stories\.jsx?$/,

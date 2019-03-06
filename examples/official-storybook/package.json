@@ -36,6 +36,7 @@
     "@storybook/node-logger": "5.1.0-alpha.0",
     "@storybook/react": "5.1.0-alpha.0",
     "@storybook/theming": "5.1.0-alpha.0",
+    "@svgr/webpack": "^4.1.0",
     "cors": "^2.8.5",
     "cross-env": "^5.2.0",
     "enzyme-to-json": "^3.3.5",
@@ -52,6 +53,7 @@
     "react-dom": "^16.8.3",
     "storybook-chromatic": "^1.2.6",
     "ts-loader": "^5.3.3",
+    "url-loader": "^1.1.2",
     "uuid": "^3.3.2",
     "webpack": "^4.29.6"
   }
