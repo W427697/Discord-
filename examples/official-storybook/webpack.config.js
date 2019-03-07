@@ -8,7 +8,7 @@ module.exports = async ({ config }) => ({
     rules: [
       {
         test: /\.svg$/,
-        use: ['@svgr/webpack', 'url-loader'],
+        use: ['@svgr/webpack'],
       },
       ...config.module.rules,
       {
