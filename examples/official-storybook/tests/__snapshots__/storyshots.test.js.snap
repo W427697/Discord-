@@ -5259,6 +5259,12 @@ exports[`Storyshots Core|Scroll story with 100vh padding 2 1`] = `
 </div>
 `;
 
+exports[`Storyshots Core|Webpack SVG Loader 1`] = `
+<svg>
+  storybook-logo.svg
+</svg>
+`;
+
 exports[`Storyshots UI|Notifications/Item longText 1`] = `
 .emotion-0 {
   display: block;
