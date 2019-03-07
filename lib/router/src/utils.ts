@@ -1,5 +1,6 @@
 import qs from 'qs';
 import memoize from 'memoizerific';
+import slugify from 'slugify';
 
 interface StoryData {
   viewMode?: string;
@@ -9,11 +10,9 @@ interface StoryData {
 const knownViewModesRegex = /(story|info)/;
 const splitPath = /\/([^/]+)\/([^/]+)?/;
 
-export const sanitize = (string: string) => {
-  return string
-    .toLowerCase()
-    .replace(/[^a-z0-9-]/g, '-')
-    .replace(/-+/g, '-')
+export const sanitize = (s: string) => {
+  const clean = s.replace(/[ '`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '-');
+  return slugify(clean, { lower: true })
     .replace(/^-+/, '')
     .replace(/-+$/, '');
 };
