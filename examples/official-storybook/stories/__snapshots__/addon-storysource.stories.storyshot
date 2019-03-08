@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Addons|Storysource default theme 1`] = `
+<div>
+  <button
+    type="button"
+  >
+    You should be able to see prism themed story source
+  </button>
+</div>
+`;
+
+exports[`Storyshots Addons|Storysource with tomorrow theme 1`] = `
+<div>
+  <button
+    type="button"
+  >
+    You should be able to see tomorrow themed story source
+  </button>
+</div>
+`;

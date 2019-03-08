@@ -5,6 +5,8 @@ import { Link } from '@storybook/router';
 import { SyntaxHighlighter } from '@storybook/components';
 
 import { createElement } from 'react-syntax-highlighter';
+import prism from 'react-syntax-highlighter/dist/styles/prism/prism';
+import { OPTION_KEY } from './constants';
 import { EVENT_ID } from './events';
 
 const StyledStoryLink = styled(Link)(({ theme }) => ({
@@ -159,13 +161,18 @@ export default class StoryPanel extends Component {
   };
 
   render() {
-    const { active } = this.props;
+    const { active, api } = this.props;
     const { source } = this.state;
+    const storyData = api.getCurrentStoryData();
+    const options = storyData && storyData.parameters && storyData.parameters[OPTION_KEY];
+    const finalStyle = options && options.style ? options.style : prism;
 
     return active ? (
       <StyledSyntaxHighlighter
         language="jsx"
         showLineNumbers="true"
+        style={finalStyle}
+        useInlineStyles
         renderer={this.lineRenderer}
         format={false}
         copyable={false}
