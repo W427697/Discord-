@@ -74,7 +74,7 @@ That'll load stories in `../stories/index.js`. You can choose where to place sto
 > import { configure } from '@storybook/angular';
 > 
 > function loadStories() {
->   const req = require.context('../stories', true, /\.stories\.ts$/);
+>   const req = require.context('../src/stories', true, /\.stories\.ts$/);
 >   req.keys().forEach(filename => req(filename));
 > }
 > 
