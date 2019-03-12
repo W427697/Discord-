@@ -1022,15 +1022,15 @@
     react-inspector "^2.3.0"
     uuid "^3.3.2"
 
-"@storybook/addon-links@5.0.0-rc.1":
-  version "5.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-5.0.0-rc.1.tgz#9b860458e93a6bc9235be7d5674df986bc3314ec"
-  integrity sha512-ySTM49HJIrLobZFoyC+DNyolcxPDbynN6IUKJsPDglnXzgWXAC+JH3QjeKnJinL6JmVHFfMW9YvP67Yu/OqiaA==
+"@storybook/addon-links@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-5.0.1.tgz#ab0026d3fbc7e84305f687dc480f7437dd0d3264"
+  integrity sha512-W9EhMSZZuZAKTqYmky0XLEvbQqthgDWNYaR2AF0Pmpq3D1PPp3wycrHjFqNbr8+38gPyxG2vPqhauTvb/Jnvdg==
   dependencies:
-    "@storybook/addons" "5.0.0-rc.1"
-    "@storybook/core-events" "5.0.0-rc.1"
+    "@storybook/addons" "5.0.1"
+    "@storybook/core-events" "5.0.1"
     common-tags "^1.8.0"
-    core-js "^2.6.2"
+    core-js "^2.6.5"
     global "^4.3.2"
     prop-types "^15.6.2"
     qs "^6.5.2"
@@ -1042,6 +1042,17 @@
   dependencies:
     "@storybook/channels" "5.0.0-rc.1"
     "@storybook/client-logger" "5.0.0-rc.1"
+    global "^4.3.2"
+    util-deprecate "^1.0.2"
+
+"@storybook/addons@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-5.0.1.tgz#24ae1c80cea973de3e0125614a015fbb0629ac34"
+  integrity sha512-8+V/OGmuFivMeqBimw2BPwJgNuR0LKVRAKpUj4cLJTGBpbN+3zEnfv7k99RYKKEtobtaIf1hmQc8/rg8Sf+sRA==
+  dependencies:
+    "@storybook/channels" "5.0.1"
+    "@storybook/client-logger" "5.0.1"
+    core-js "^2.6.5"
     global "^4.3.2"
     util-deprecate "^1.0.2"
 
@@ -1058,6 +1069,13 @@
   version "5.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-5.0.0-rc.1.tgz#7b8d282d9fd5afaf51bd9408edd550269ca761ad"
   integrity sha512-YSvruZiS7z/TOIgsDNtTWxMEwiwB2WJ+hqwo7pAv5Ns+d9Mci7QPXJckzDQcLRSGb7jOL20VTkBIoslafuV08w==
+
+"@storybook/channels@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-5.0.1.tgz#68e0c67ee6d9d7b526c3b3a79e7bc320dae058e7"
+  integrity sha512-INIIez+a7h99KkYX/3FGLUFa1a5rKckSrHMRK/+FcFLIpALsvwuY5n7ihdHfU9TgXOBmtpt84oJO/JliFHjw9w==
+  dependencies:
+    core-js "^2.6.5"
 
 "@storybook/client-api@5.0.0-rc.1":
   version "5.0.0-rc.1"
@@ -1081,6 +1099,13 @@
   version "5.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.0.0-rc.1.tgz#0216a53022df7aea2c74dd713ded12fd905f8113"
   integrity sha512-AkgiawSeG+UphtVAfq5WcRWgtDOLU38l7lb38Hwrl0XUkrQu7a1iW1TQWU6TNw35iNjqCmagDNX92q/NMqgk1Q==
+
+"@storybook/client-logger@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.0.1.tgz#1f02aa7af7aab1b69c2797ce75f7306397415e0a"
+  integrity sha512-UWswQhukybl4P3f9MRhqmVlLf4aseVvktL3EfLFdWkiPss845mXY6Yateju6zZ6z4yXrPg0mXWN3ct2vFADpoA==
+  dependencies:
+    core-js "^2.6.5"
 
 "@storybook/components@5.0.0-rc.1":
   version "5.0.0-rc.1"
@@ -1116,6 +1141,13 @@
   version "5.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/@storybook/core-events/-/core-events-5.0.0-rc.1.tgz#24ab2989a00a8097c1591a2f19e65eac30faae97"
   integrity sha512-VKPdO5SlthjHrw0NY0hKYZoRObRUnd7B6iwuYBJqmGgcs/mbspnzQpkSs6JUX3PDitr214eJ+S0Ys147Bwa2yQ==
+
+"@storybook/core-events@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@storybook/core-events/-/core-events-5.0.1.tgz#62f412809e0e99b2d642e30de2cb0205682a885c"
+  integrity sha512-I0d57Vm/BM2L668EDLmVNDOWSNU0xnQErDonDmzEWUFluiHaTWZ3Uz16vIB/6cIpZvF0XUPfwPlCQ1yf3gbJsg==
+  dependencies:
+    core-js "^2.6.5"
 
 "@storybook/core@5.0.0-rc.1":
   version "5.0.0-rc.1"
@@ -4776,7 +4808,7 @@ core-js@^1.0.0, core-js@^1.2.6:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
-core-js@^2.4.0, core-js@^2.5.0, core-js@^2.5.7, core-js@^2.6.2:
+core-js@^2.4.0, core-js@^2.5.0, core-js@^2.5.7, core-js@^2.6.2, core-js@^2.6.5:
   version "2.6.5"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.5.tgz#44bc8d249e7fb2ff5d00e0341a7ffb94fbf67895"
   integrity sha512-klh/kDpwX8hryYL14M9w/xei6vrv6sE8gTHDG7/T/+SEovB/G4ejwcfE/CBzO6Edsu+OETZMZ3wcX/EjUkrl5A==
