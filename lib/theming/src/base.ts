@@ -126,6 +126,15 @@ export interface ThemeVars {
   inputTextColor?: string;
   inputBorderRadius?: number;
 
+  // Deep theming stories nav
+  storiesNav?: object;
+  navHeading?: object;
+  treeSubHeading?: object;
+  treeItemHeader?: object;
+  activeMenuLink?: object;
+  treeExpander?: object;
+  treeIcons?: object;
+
   brandTitle?: string;
   brandUrl?: string;
   brandImage?: string;

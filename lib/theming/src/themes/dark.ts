@@ -31,6 +31,15 @@ const theme: ThemeVars = {
   inputBorder: 'rgba(0,0,0,.3)',
   inputTextColor: color.lightest,
   inputBorderRadius: 4,
+
+  // Deep theming stories nav
+  storiesNav: {},
+  navHeading: {},
+  treeSubHeading: {},
+  treeItemHeader: {},
+  activeMenuLink: {},
+  treeExpander: {},
+  treeIcons: {},
 };
 
 export default theme;

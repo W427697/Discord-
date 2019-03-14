@@ -88,6 +88,29 @@ export default create({
   inputTextColor: 'black',
   inputBorderRadius: 4,
 
+  // Deep theming stories nav
+  storiesNav: {
+    backgroundColor: '#128CED'
+  },
+  navHeading: {
+    alignItems: 'center'
+  },
+  treeSubHeading: {
+    color: '#F8D71C'
+  },
+  treeItemHeader: {
+    fontWeight: 500
+  },
+  activeMenuLink: {
+    fontWeight: 600
+  },
+  treeExpander: {
+    borderLeft: '3.5px solid white'
+  },
+  treeIcons: {
+    color: 'white'
+  },
+
   brandTitle: 'My custom storybook',
   brandUrl: 'https://example.com',
   brandImage: 'https://placehold.it/350x150',
