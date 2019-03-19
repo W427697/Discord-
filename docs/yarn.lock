@@ -1057,6 +1057,17 @@
     global "^4.3.2"
     util-deprecate "^1.0.2"
 
+"@storybook/addons@5.1.0-alpha.9":
+  version "5.1.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-5.1.0-alpha.9.tgz#0aed24ba4eb2345f3d2a6429a93463e282dfb9cb"
+  integrity sha512-B7cBzw+89cuxBDNL14EO+sng8G9RGaQ1reuZJTFB1mopI3nTHipaEhjpEVNGcZtW6DNkiBWN60rV3SDPybUeOg==
+  dependencies:
+    "@storybook/channels" "5.1.0-alpha.9"
+    "@storybook/client-logger" "5.1.0-alpha.9"
+    core-js "^2.6.5"
+    global "^4.3.2"
+    util-deprecate "^1.0.2"
+
 "@storybook/channel-postmessage@5.1.0-alpha.6":
   version "5.1.0-alpha.6"
   resolved "https://registry.yarnpkg.com/@storybook/channel-postmessage/-/channel-postmessage-5.1.0-alpha.6.tgz#39c3c690463f4b05d277b3aecbef61105287dc3e"
@@ -1072,6 +1083,13 @@
   version "5.1.0-alpha.6"
   resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-5.1.0-alpha.6.tgz#852b5890dda1996bed0faddfe0b5cebf8938e36a"
   integrity sha512-yQtBohHtpy43sZ3t2HF6zmlh79ZuAZ/VzU6SPcQnEVeWrIsopsU4mZ9Jjya87mdhbo08c9EgY7nJ0NClE8uV4A==
+  dependencies:
+    core-js "^2.6.5"
+
+"@storybook/channels@5.1.0-alpha.9":
+  version "5.1.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-5.1.0-alpha.9.tgz#0078e6250cf44d5c7d885565a98807518242731b"
+  integrity sha512-gJMJTyzutLcF3u69s3XzU+h1+iEEJ8DcP3DC1OqimhhRy8w+pqn+pRSIMUXLYknRyIeXY95/ShUySKogHQECRA==
   dependencies:
     core-js "^2.6.5"
 
@@ -1098,6 +1116,13 @@
   version "5.1.0-alpha.6"
   resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.1.0-alpha.6.tgz#a6f2b46fec51119f87d2b8d69146cd0cc2eedcd1"
   integrity sha512-pU2JfQeybvKCIKcHmvZTFisWzsdFZS4STprhqD97gISRqyqzf06yxAFjtuuIYoX+omRK8C9uOpLmt9CEmXs8ow==
+  dependencies:
+    core-js "^2.6.5"
+
+"@storybook/client-logger@5.1.0-alpha.9":
+  version "5.1.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.1.0-alpha.9.tgz#bdefa0a2317ba004bb6332ced591b3e6cf84b393"
+  integrity sha512-JjjIWmSV+hVF2n7m212sUP1E5HdGgZvWg7k4nn8ZPO87TPSLnskIFjz5eA71NrFLXS2DkYQB8FoXmSEH1Hfa2g==
   dependencies:
     core-js "^2.6.5"
 
