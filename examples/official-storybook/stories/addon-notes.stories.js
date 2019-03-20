@@ -47,7 +47,19 @@ const giphyMarkdown = `
 <Giphy query="cheese" />
 `;
 
+const propsMarkdown = `
+# Props
+
+<Props />
+`;
+
 storiesOf('Addons|Notes', module)
+  .addParameters({
+    props: {
+      foo: 'boolean',
+      bar: 'number',
+    },
+  })
   .add('addon notes', baseStory, {
     notes:
       'This is the notes for a button. This is helpful for adding details about a story in a separate panel.',
@@ -63,4 +75,7 @@ storiesOf('Addons|Notes', module)
   })
   .add('with a markdown giphy', baseStory, {
     notes: { markdown: giphyMarkdown },
+  })
+  .add('with a markdown props', baseStory, {
+    notes: propsMarkdown,
   });

@@ -4,6 +4,34 @@ import { API, Consumer, Combo } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { STORY_RENDERED } from '@storybook/core-events';
 
+const PropsTableWrapper = styled.div({
+  background: 'hotpink',
+});
+
+const propsMapper = ({ state, api }: Combo) => {
+  const { storyId, storiesHash } = state;
+
+  return { currentId: storyId, storiesHash, api };
+};
+
+interface In {
+  currentId: string;
+  api: API;
+}
+
+const PropsTable = ({ id }: { id?: string }) => (
+  <Consumer filter={propsMapper}>
+    {({ currentId, api }: In) => {
+      const props = api.getParameters(id || currentId, 'props');
+      return (
+        <PropsTableWrapper>
+          <pre>{JSON.stringify(props, null, 2)}</pre>
+        </PropsTableWrapper>
+      );
+    }}
+  </Consumer>
+);
+
 import {
   SyntaxHighlighter as SyntaxHighlighterBase,
   Placeholder,
@@ -55,7 +83,9 @@ export const SyntaxHighlighter = ({ className, children, ...props }: SyntaxHighl
   // className: "lang-jsx"
   const language = className.split('-');
   return (
-    <SyntaxHighlighterBase language={language[1] || 'plaintext'} bordered copyable {...props}>{children}</SyntaxHighlighterBase>
+    <SyntaxHighlighterBase language={language[1] || 'plaintext'} bordered copyable {...props}>
+      {children}
+    </SyntaxHighlighterBase>
   );
 };
 
@@ -66,6 +96,9 @@ const defaultOptions = {
     code: SyntaxHighlighter,
     Giphy: {
       component: Giphy,
+    },
+    Props: {
+      component: PropsTable,
     },
   },
 };
@@ -82,6 +115,7 @@ const mapper = ({ state, api }: Combo): { value?: string; options: Options } => 
     (acc, [k, v]) => ({ ...acc, [k]: v.render }),
     {}
   );
+
   const options = {
     ...defaultOptions,
     overrides: { ...defaultOptions.overrides, ...extraElements },
