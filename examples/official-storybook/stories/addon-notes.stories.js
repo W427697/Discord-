@@ -2,6 +2,8 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import BaseButton from '../components/BaseButton';
+import DocgenButton from '../components/DocgenButton';
+import FlowTypeButton from '../components/FlowTypeButton';
 import markdownNotes from './notes/notes.md';
 
 const baseStory = () => (
@@ -82,3 +84,13 @@ storiesOf('Addons|Notes', module)
       },
     },
   });
+
+storiesOf('Addons|Docs', module)
+  .addParameters({ notes: propsMarkdown })
+  .add('BaseButton', () => baseStory)
+  .add('DocgenButton', () => (
+    <DocgenButton label="Button with notes - check the notes panel for details" />
+  ))
+  .add('FlowTypeButton', () => (
+    <FlowTypeButton label="Button with notes - check the notes panel for details" />
+  ));
