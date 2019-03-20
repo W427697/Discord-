@@ -54,12 +54,6 @@ const propsMarkdown = `
 `;
 
 storiesOf('Addons|Notes', module)
-  .addParameters({
-    props: {
-      foo: 'boolean',
-      bar: 'number',
-    },
-  })
   .add('addon notes', baseStory, {
     notes:
       'This is the notes for a button. This is helpful for adding details about a story in a separate panel.',
@@ -76,6 +70,15 @@ storiesOf('Addons|Notes', module)
   .add('with a markdown giphy', baseStory, {
     notes: { markdown: giphyMarkdown },
   })
-  .add('with a markdown props', baseStory, {
+  .add('with inferred markdown props', baseStory, {
     notes: propsMarkdown,
+  })
+  .add('with manual markdown props', baseStory, {
+    notes: propsMarkdown,
+    parameters: {
+      props: {
+        foo: 'boolean',
+        bar: 'number',
+      },
+    },
   });

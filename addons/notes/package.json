@@ -30,7 +30,9 @@
     "@storybook/core-events": "5.1.0-alpha.10",
     "@storybook/theming": "5.1.0-alpha.10",
     "core-js": "^2.6.5",
+    "estraverse": "^4.2.0",
     "markdown-to-jsx": "^6.9.3",
+    "prettier": "^1.16.4",
     "prop-types": "^15.7.2",
     "util-deprecate": "^1.0.2"
   },
