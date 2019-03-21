@@ -18,6 +18,7 @@ const getLocationKeys = locationsMap =>
       )
     : [];
 
+const FAKE_PREFIX = '/src';
 const BOOTSTRAPPER_JS = '/storysource/bootstrapper.js';
 
 export default class StoryPanel extends Component {
@@ -294,7 +295,7 @@ forceReRender();
     if (path === BOOTSTRAPPER_JS)
       return this.renderBootstrapCode({ mainFileLocation, idsToFrameworks, story, kind });
     if (path === '/package.json') return this.renderFakePackageJsonFile(this.state);
-    return (localDependencies[path] || { code: '' }).code;
+    return ((localDependencies || {})[path] || { code: '' }).code;
   };
 
   renderFakePackageJsonFile = state => {
@@ -325,11 +326,16 @@ forceReRender();
     );
     return {
       name: `${story}-${kind}`,
-      entry: BOOTSTRAPPER_JS,
+      entry: `${FAKE_PREFIX}${BOOTSTRAPPER_JS}`,
       files: {
-        ...localDependencies,
-        [mainFileLocation]: { code: source },
-        [BOOTSTRAPPER_JS]: {
+        ...Object.assign(
+          {},
+          ...Object.entries(localDependencies || {}).map(([file, code]) => ({
+            [`${FAKE_PREFIX}${file}`]: code,
+          }))
+        ),
+        [`${FAKE_PREFIX}${mainFileLocation}`]: { code: source },
+        [`${FAKE_PREFIX}${BOOTSTRAPPER_JS}`]: {
           code: this.renderBootstrapCode({ mainFileLocation, idsToFrameworks, story, kind }),
         },
       },
@@ -445,11 +451,11 @@ forceReRender();
         >
           <Subscriber channel="sandpack">
             {({ openedPath }) => {
-              this.openedPath = openedPath;
+              this.openedPath = openedPath.substring(FAKE_PREFIX.length);
               return (
                 <Editor
                   css={additionalStyles}
-                  source={this.findSource(openedPath)}
+                  source={this.findSource(this.openedPath)}
                   onChange={this.updateSource}
                   componentDidMount={this.editorDidMount}
                   changePosition={this.changePosition}
