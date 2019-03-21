@@ -239,8 +239,9 @@ export default class StoryPanel extends Component {
     const framework = (idsToFrameworks || {})[toId(kind || 'a', story || 'a')] || '';
     return (
       frameworks[framework.substring('@storybook/'.length)] || {
-        template: 'parcel',
-        extraDependencies: ['parcel-bundler', 'react'],
+        template: 'create-react-app',
+        extraDependencies: ['react'],
+        devDependencies: [],
       }
     );
   };
@@ -299,19 +300,24 @@ forceReRender();
   };
 
   renderFakePackageJsonFile = state => {
+    const { devDependencies } = this.frameworkOverrides(state);
     const { entry, name, dependenciesMapping } = this.getFakeManifest(state);
-    return JSON.stringify({ name, main: entry, dependencies: dependenciesMapping }, null, 4);
+    return JSON.stringify(
+      {
+        name,
+        main: entry,
+        dependencies: dependenciesMapping,
+        devDependencies: Object.assign(
+          {},
+          ...(devDependencies || []).map(d => ({ [d]: 'latest' }))
+        ),
+      },
+      null,
+      4
+    );
   };
 
-  getFakeManifest = ({
-    source,
-    mainFileLocation,
-    dependencies,
-    idsToFrameworks,
-    localDependencies,
-    story,
-    kind,
-  }) => {
+  getFakeManifest = ({ dependencies, story, kind }) => {
     const storybookVersion = 'latest';
     const setOfDependencies = Array.from(
       new Set(
@@ -327,18 +333,6 @@ forceReRender();
     return {
       name: `${story}-${kind}`,
       entry: `${FAKE_PREFIX}${BOOTSTRAPPER_JS}`,
-      files: {
-        ...Object.assign(
-          {},
-          ...Object.entries(localDependencies || {}).map(([file, code]) => ({
-            [`${FAKE_PREFIX}${file}`]: code,
-          }))
-        ),
-        [`${FAKE_PREFIX}${mainFileLocation}`]: { code: source },
-        [`${FAKE_PREFIX}${BOOTSTRAPPER_JS}`]: {
-          code: this.renderBootstrapCode({ mainFileLocation, idsToFrameworks, story, kind }),
-        },
-      },
       dependenciesMapping: Object.assign(
         {},
         ...setOfDependencies.map(d => ({
@@ -348,11 +342,50 @@ forceReRender();
     };
   };
 
+  getFakeEditionState = ({
+    source,
+    mainFileLocation,
+    dependencies,
+    idsToFrameworks,
+    localDependencies,
+    story,
+    kind,
+  }) => ({
+    ...this.getFakeManifest({
+      dependencies,
+      story,
+      kind,
+    }),
+    files: {
+      ...Object.assign(
+        {},
+        ...Object.entries(localDependencies || {}).map(([file, code]) => ({
+          [`${FAKE_PREFIX}${file}`]: code,
+        }))
+      ),
+      [`${FAKE_PREFIX}${mainFileLocation}`]: { code: source },
+      [`${FAKE_PREFIX}${BOOTSTRAPPER_JS}`]: {
+        code: this.renderBootstrapCode({ mainFileLocation, idsToFrameworks, story, kind }),
+      },
+      [`/package.json`]: {
+        code: this.renderFakePackageJsonFile({
+          source,
+          mainFileLocation,
+          dependencies,
+          idsToFrameworks,
+          localDependencies,
+          story,
+          kind,
+        }),
+      },
+    },
+  });
+
   render = () => {
     const { channel, active } = this.props;
     const { additionalStyles, fileExplorerWidth } = this.state;
     const { template } = this.frameworkOverrides(this.state);
-    const { entry, files, dependenciesMapping } = this.getFakeManifest(this.state);
+    const { entry, files, dependenciesMapping } = this.getFakeEditionState(this.state);
     return active ? (
       <SandpackProvider
         style={{
@@ -451,7 +484,11 @@ forceReRender();
         >
           <Subscriber channel="sandpack">
             {({ openedPath }) => {
-              this.openedPath = openedPath.substring(FAKE_PREFIX.length);
+              if (openedPath.indexOf(FAKE_PREFIX) === 0) {
+                this.openedPath = openedPath.substring(FAKE_PREFIX.length);
+              } else {
+                this.openedPath = openedPath;
+              }
               return (
                 <Editor
                   css={additionalStyles}
