@@ -20,5 +20,10 @@ export function render(component) {
     // already rendered, nothing to do
     return true;
   }
+
+  if (component && component.type && component.type.name === 'ThemeProvider') {
+    // The ThemeProvider is used as root element, we should skip this step
+    return true;
+  }
   return false;
 }

@@ -2,3 +2,4 @@
 declare module '@storybook/components';
 declare module 'global';
 declare module 'react-inspector';
+declare module 'telejson';

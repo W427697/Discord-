@@ -3,7 +3,7 @@ import global from 'global';
 import { ReactElement } from 'react';
 import { Channel } from '@storybook/channels';
 import { API } from '@storybook/api';
-import logger from '@storybook/client-logger';
+import { logger } from '@storybook/client-logger';
 import { types, Types, isSupportedType } from './types';
 
 export interface RenderOptions {

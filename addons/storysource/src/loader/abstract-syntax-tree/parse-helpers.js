@@ -61,42 +61,59 @@ export function patchNode(node) {
   return node;
 }
 
-export function handleADD(node, parent, adds) {
+export function handleADD(node, parent, storiesOfIdentifiers) {
   if (!node.property || !node.property.name || node.property.name.indexOf('add') !== 0) {
-    return;
+    return {};
   }
 
   const addArgs = parent.arguments;
 
   if (!addArgs || addArgs.length < 2) {
-    return;
+    return {};
   }
+
+  let tmp = node.object;
+
+  while (tmp.callee && tmp.callee.object) {
+    tmp = tmp.callee.object;
+  }
+
+  const framework = tmp.callee && tmp.callee.name && storiesOfIdentifiers[tmp.callee.name];
 
   const storyName = addArgs[0];
   const lastArg = addArgs[addArgs.length - 1];
 
   if (storyName.type !== 'Literal' && storyName.type !== 'StringLiteral') {
     // if story name is not literal, it's much harder to extract it
-    return;
+    return {};
   }
 
   const kind = findRelatedKind(node.object) || '';
   if (kind && storyName.value) {
     const key = toId(kind, storyName.value);
+    let idToFramework;
+    if (key && framework) {
+      idToFramework = { [key]: framework };
+    }
 
-    // eslint-disable-next-line no-param-reassign
-    adds[key] = {
-      // Debug: code: source.slice(storyName.start, lastArg.end),
-      startLoc: {
-        col: storyName.loc.start.column,
-        line: storyName.loc.start.line,
+    return {
+      toAdd: {
+        [key]: {
+          // Debug: code: source.slice(storyName.start, lastArg.end),
+          startLoc: {
+            col: storyName.loc.start.column,
+            line: storyName.loc.start.line,
+          },
+          endLoc: {
+            col: lastArg.loc.end.column,
+            line: lastArg.loc.end.line,
+          },
+        },
       },
-      endLoc: {
-        col: lastArg.loc.end.column,
-        line: lastArg.loc.end.line,
-      },
+      idToFramework,
     };
   }
+  return {};
 }
 
 export function handleSTORYOF(node, parts, source, lastIndex) {
@@ -107,4 +124,8 @@ export function handleSTORYOF(node, parts, source, lastIndex) {
   parts.pop();
   pushParts(source, parts, lastIndex, node.end);
   return node.end;
+}
+
+export function asImport(node) {
+  return node.source.value;
 }

@@ -1,7 +1,6 @@
 import prettier from 'prettier';
 import { patchNode } from './parse-helpers';
-import { splitSTORYOF, findAddsMap } from './traverse-helpers';
-import getParser from './parsers';
+import { splitSTORYOF, findAddsMap, findDependencies } from './traverse-helpers';
 
 function isUglyComment(comment, uglyCommentsRegex) {
   return uglyCommentsRegex.some(regex => regex.test(comment));
@@ -29,12 +28,14 @@ function generateSourceWithoutUglyComments(source, { comments, uglyCommentsRegex
 
 function prettifyCode(source, { prettierConfig, parser, filepath }) {
   let config = prettierConfig;
-
+  let foundParser = null;
+  if (parser === 'javascript' || /jsx?/.test(parser)) foundParser = 'babel';
+  if (parser === 'typescript' || /tsx?/.test(parser)) foundParser = 'typescript';
   if (!config.parser) {
-    if (parser) {
+    if (foundParser) {
       config = {
         ...prettierConfig,
-        parser: parser === 'javascript' ? 'babel' : parser,
+        parser: foundParser,
       };
     } else if (filepath) {
       config = {
@@ -49,13 +50,15 @@ function prettifyCode(source, { prettierConfig, parser, filepath }) {
     }
   }
 
-  return prettier.format(source, config);
+  try {
+    return prettier.format(source, config);
+  } catch (e) {
+    // Can fail when the source is a JSON
+    return source;
+  }
 }
 
-export function generateSourceWithDecorators(source, decorator, parserType) {
-  const parser = getParser(parserType);
-  const ast = parser.parse(source);
-
+export function generateSourceWithDecorators(source, ast, decorator) {
   const { comments = [] } = ast;
 
   const parts = splitSTORYOF(ast, source);
@@ -69,10 +72,7 @@ export function generateSourceWithDecorators(source, decorator, parserType) {
   };
 }
 
-export function generateSourceWithoutDecorators(source, parserType) {
-  const parser = getParser(parserType);
-  const ast = parser.parse(source);
-
+export function generateSourceWithoutDecorators(source, ast) {
   const { comments = [] } = ast;
 
   return {
@@ -82,11 +82,12 @@ export function generateSourceWithoutDecorators(source, parserType) {
   };
 }
 
-export function generateAddsMap(source, parserType) {
-  const parser = getParser(parserType);
-  const ast = parser.parse(source);
+export function generateAddsMap(ast, storiesOfIdentifiers) {
+  return findAddsMap(ast, storiesOfIdentifiers);
+}
 
-  return findAddsMap(ast);
+export function generateDependencies(ast) {
+  return findDependencies(ast);
 }
 
 export function generateStorySource({ source, ...options }) {

@@ -14,7 +14,7 @@ function getPackageJson() {
 }
 
 function removeDist() {
-  shell.rm('-rf', 'dist');
+  // shell.rm('-rf', 'dist');
 }
 
 function removeTsFromDist() {
