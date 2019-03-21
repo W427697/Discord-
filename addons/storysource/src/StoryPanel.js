@@ -9,6 +9,7 @@ import { FileExplorer, BrowserPreview, SandpackProvider } from 'react-smooshpack
 import Draggable from 'react-draggable';
 import { Subscriber } from 'react-broadcast';
 import { SAVE_FILE_EVENT_ID, STORY_EVENT_ID } from './events';
+import frameworks from './frameworks.json';
 
 const getLocationKeys = locationsMap =>
   locationsMap
@@ -46,19 +47,19 @@ export default class StoryPanel extends Component {
     location: { currentLocation, locationsMap },
   }) => {
     const locationsKeys = getLocationKeys(locationsMap);
-
+    const { extraDependencies } = this.frameworkOverrides({ idsToFrameworks, story, kind });
     this.setState({
       story,
       kind,
       source,
-      dependencies,
+      dependencies: [...(dependencies || []), ...(extraDependencies || [])],
       localDependencies,
       currentLocation,
       mainFileLocation,
       prefix,
       idsToFrameworks,
-      locationsMap, // eslint-disable-line react/no-unused-state
-      locationsKeys, // eslint-disable-line react/no-unused-state
+      locationsMap,
+      locationsKeys,
     });
 
     // eslint-disable-next-line no-console
@@ -110,11 +111,11 @@ export default class StoryPanel extends Component {
 
   onStoryRendered = editor => {
     // For better safety, I try not to consider that everything is defined
-    const { currentLocation } = this.state;
+    const { currentLocation, mainFileLocation } = this.state;
     const { startLoc } = currentLocation || { startLoc: { line: 0 } };
     const { line: startLocLine } = startLoc;
 
-    if (this.currentlyRenderingMainFile()) {
+    if (this.currentlyRenderingMainFile({ mainFileLocation })) {
       // eslint-disable-next-line no-underscore-dangle
       editor._revealLine(startLocLine);
       // eslint-disable-next-line no-underscore-dangle
@@ -122,8 +123,7 @@ export default class StoryPanel extends Component {
     }
   };
 
-  currentlyRenderingMainFile = () => {
-    const { mainFileLocation } = this.state;
+  currentlyRenderingMainFile = ({ mainFileLocation }) => {
     return !this.openedPath || this.openedPath === mainFileLocation;
   };
 
@@ -144,6 +144,7 @@ export default class StoryPanel extends Component {
         endLoc: { line: endLocLine, col: endLocCol },
       },
       localDependencies,
+      mainFileLocation,
     } = this.state;
 
     const newEndLocLine =
@@ -166,7 +167,7 @@ export default class StoryPanel extends Component {
     const { source } = this.state;
     let updatedMain = source;
     let updatedLocalDependencies = localDependencies;
-    if (this.currentlyRenderingMainFile()) {
+    if (this.currentlyRenderingMainFile({ mainFileLocation })) {
       updatedMain = newSource;
     } else {
       updatedLocalDependencies = { ...localDependencies, [this.openedPath]: { code: newSource } };
@@ -191,6 +192,7 @@ export default class StoryPanel extends Component {
       additionalStyles,
       lineDecorations,
       currentLocation: { startLoc, endLoc },
+      mainFileLocation,
     } = this.state;
     const highlightClassName = `css-${additionalStyles.name}`;
     // probably a bug in monaco editor.
@@ -199,7 +201,7 @@ export default class StoryPanel extends Component {
       // eslint-disable-next-line no-underscore-dangle
       .concat(Object.keys(editor._modelData.viewModel.decorations._decorationsCache));
     let newDecorations = [];
-    if (this.currentlyRenderingMainFile()) {
+    if (this.currentlyRenderingMainFile({ mainFileLocation })) {
       newDecorations = [
         {
           range: new monaco.Range(startLoc.line, startLoc.col + 1, endLoc.line, endLoc.col + 1),
@@ -210,7 +212,8 @@ export default class StoryPanel extends Component {
     const editorDecorations = editor.deltaDecorations(allDecorations, newDecorations);
 
     if (
-      (this.currentlyRenderingMainFile() && e.position.lineNumber < startLoc.line) ||
+      (this.currentlyRenderingMainFile({ mainFileLocation }) &&
+        e.position.lineNumber < startLoc.line) ||
       (e.position.lineNumber === startLoc.line && e.position.column < startLoc.col)
     )
       editor.setPosition({
@@ -218,7 +221,8 @@ export default class StoryPanel extends Component {
         column: startLoc.col,
       });
     if (
-      (this.currentlyRenderingMainFile() && e.position.lineNumber > endLoc.line) ||
+      (this.currentlyRenderingMainFile({ mainFileLocation }) &&
+        e.position.lineNumber > endLoc.line) ||
       (e.position.lineNumber === endLoc.line && e.position.column > endLoc.col + 1)
     )
       editor.setPosition({
@@ -228,6 +232,16 @@ export default class StoryPanel extends Component {
 
     if (editorDecorations[0] !== lineDecorations[0])
       this.setState({ lineDecorations: editorDecorations });
+  };
+
+  frameworkOverrides = ({ idsToFrameworks, story, kind }) => {
+    const framework = (idsToFrameworks || {})[toId(kind || 'a', story || 'a')] || '';
+    return (
+      frameworks[framework.substring('@storybook/'.length)] || {
+        template: 'parcel',
+        extraDependencies: ['parcel-bundler', 'react'],
+      }
+    );
   };
 
   renderBootstrapCode = ({ mainFileLocation, idsToFrameworks, story, kind }) =>
@@ -279,25 +293,24 @@ forceReRender();
     if (path === mainFileLocation) return source;
     if (path === BOOTSTRAPPER_JS)
       return this.renderBootstrapCode({ mainFileLocation, idsToFrameworks, story, kind });
-    if (path === '/package.json') return this.renderFakePackageJsonFile();
-    return localDependencies[path].code;
+    if (path === '/package.json') return this.renderFakePackageJsonFile(this.state);
+    return (localDependencies[path] || { code: '' }).code;
   };
 
-  renderFakePackageJsonFile = () => {
-    const { entry, name, dependenciesMapping } = this.getFakeManifest();
+  renderFakePackageJsonFile = state => {
+    const { entry, name, dependenciesMapping } = this.getFakeManifest(state);
     return JSON.stringify({ name, main: entry, dependencies: dependenciesMapping }, null, 4);
   };
 
-  getFakeManifest = () => {
-    const {
-      source,
-      mainFileLocation,
-      dependencies,
-      idsToFrameworks,
-      localDependencies,
-      story,
-      kind,
-    } = this.state;
+  getFakeManifest = ({
+    source,
+    mainFileLocation,
+    dependencies,
+    idsToFrameworks,
+    localDependencies,
+    story,
+    kind,
+  }) => {
     const storybookVersion = 'latest';
     const setOfDependencies = Array.from(
       new Set(
@@ -332,7 +345,8 @@ forceReRender();
   render = () => {
     const { channel, active } = this.props;
     const { additionalStyles, fileExplorerWidth } = this.state;
-    const { entry, files, dependenciesMapping } = this.getFakeManifest();
+    const { template } = this.frameworkOverrides(this.state);
+    const { entry, files, dependenciesMapping } = this.getFakeManifest(this.state);
     return active ? (
       <SandpackProvider
         style={{
@@ -345,6 +359,7 @@ forceReRender();
         files={files}
         dependencies={dependenciesMapping}
         entry={entry}
+        template={template || 'create-react-app'}
       >
         <div
           style={{

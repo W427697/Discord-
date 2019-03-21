@@ -1,0 +1,5 @@
+{
+    "react":{"template": "create-react-app", "extraDependencies":[]},
+    "riot":{"template":"create-react-app", "extraDependencies":["riot"]},
+    "vue":{"template":"create-react-app", "extraDependencies":["vue", "noop-loader"]}
+}
