@@ -325,7 +325,7 @@ forceReRender();
           '@storybook/addons',
           '@storybook/core-events',
           '@storybook/router',
-          '@storybook/react',
+          '@storybook/theming',
           'react'
         )
       )

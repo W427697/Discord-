@@ -1,5 +1,5 @@
 {
     "react":{"template": "create-react-app","extraDependencies":[],"devDependencies":[]},
     "riot":{"template":"create-react-app","extraDependencies":["riot"],"devDependencies":[]},
-    "vue":{"template":"vue-cli","extraDependencies":["vue", "noop-loader"],"devDependencies":["@vue/cli-plugin-babel","@vue/cli-plugin-eslint","@vue/cli-service","babel-eslint","eslint","eslint-plugin-vue","vue-template-compiler"]}
+    "vue":{"template":"vue-cli","extraDependencies":["vue"],"devDependencies":["@vue/cli-plugin-babel","@vue/cli-plugin-eslint","@vue/cli-service","babel-eslint","eslint","eslint-plugin-vue","vue-template-compiler"]}
 }
