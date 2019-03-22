@@ -9,7 +9,7 @@ interface RawEvent {
 }
 
 interface Config {
-  page: 'manager' | 'preview';
+  id: 'manager' | string;
 }
 
 interface BufferedEvent {
@@ -33,9 +33,9 @@ export class PostmsgTransport {
     this.handler = null;
     window.addEventListener('message', this.handleEvent.bind(this), false);
     document.addEventListener('DOMContentLoaded', () => this.flush());
-    // Check whether the config.page parameter has a valid value
-    if (config.page !== 'manager' && config.page !== 'preview') {
-      throw new Error(`postmsg-channel: "config.page" cannot be "${config.page}"`);
+    // Check whether the config.id parameter has a valid value
+    if (config.id !== 'manager' && !config.id.includes('preview')) {
+      throw new Error(`postmsg-channel: "config.id" cannot be "${config.id}"`);
     }
   }
 
@@ -75,7 +75,7 @@ export class PostmsgTransport {
   }
 
   private getWindow(): Window {
-    if (this.config.page === 'manager') {
+    if (this.config.id === 'manager') {
       // FIXME this is a really bad idea! use a better way to do this.
       // This finds the storybook preview iframe to send messages to.
       const iframe = document.getElementById('storybook-preview-iframe');
@@ -92,7 +92,7 @@ export class PostmsgTransport {
       const { data } = rawEvent;
       const { key, event } = typeof data === 'string' && isJSON(data) ? parse(data) : data;
       if (key === KEY) {
-        logger.debug(`message arrived at ${this.config.page}`, event.type, ...event.args);
+        logger.debug(`message arrived at ${this.config.id}`, event.type, ...event.args);
         this.handler(event);
       }
     } catch (error) {
@@ -105,7 +105,7 @@ export class PostmsgTransport {
 /**
  * Creates a channel which communicates with an iframe or child window.
  */
-export default function createChannel({ page }: Config): Channel {
-  const transport = new PostmsgTransport({ page });
+export default function createChannel({ id }: Config): Channel {
+  const transport = new PostmsgTransport({ id });
   return new Channel({ transport });
 }

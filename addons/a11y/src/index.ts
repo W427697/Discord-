@@ -6,7 +6,9 @@ import { stripIndents } from 'common-tags';
 import addons, { StoryWrapper } from '@storybook/addons';
 import { EVENTS, PARAM_KEY } from './constants';
 
-const channel = addons.getChannel();
+type MaybeChannel = ReturnType<typeof addons.getChannel> | undefined;
+let channel: MaybeChannel;
+
 let progress = Promise.resolve();
 let setup: {
   element?: ElementContext;
@@ -28,22 +30,24 @@ const report = (input: AxeResults) => {
 };
 
 const run = (element: ElementContext, config: Spec, options: RunOptions) => {
-  progress = progress.then(() => {
-    axe.reset();
-    if (config) {
-      axe.configure(config);
-    }
-    return axe
-      .run(
-        element || getElement(),
-        options ||
-          // tslint:disable-next-line:no-object-literal-type-assertion
-          ({
-            restoreScroll: true,
-          } as RunOptions) // cast to RunOptions is necessary because axe types are not up to date
-      )
-      .then(report);
-  });
+  if (channel) {
+    progress = progress.then(() => {
+      axe.reset();
+      if (config) {
+        axe.configure(config);
+      }
+      return axe
+        .run(
+          element || getElement(),
+          options ||
+            // tslint:disable-next-line:no-object-literal-type-assertion
+            ({
+              restoreScroll: true,
+            } as RunOptions) // cast to RunOptions is necessary because axe types are not up to date
+        )
+        .then(report);
+    });
+  }
 };
 
 // NOTE: we should add paramaters to the STORY_RENDERED event and deprecate this
@@ -52,10 +56,15 @@ export const withA11y: StoryWrapper = (getStory, context) => {
   if (params) {
     setup = params;
   }
+  if (!channel) {
+    channel = addons.getChannel();
+  }
   return getStory(context);
 };
 
-channel.on(EVENTS.REQUEST, () => run(setup.element, setup.config, setup.options));
+if (channel) {
+  channel.on(EVENTS.REQUEST, () => run(setup.element, setup.config, setup.options));
+}
 
 if (module && module.hot && module.hot.decline) {
   module.hot.decline();

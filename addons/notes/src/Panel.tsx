@@ -2,11 +2,23 @@ import React, { ReactElement, Component, Fragment, ReactNode } from 'react';
 import { types } from '@storybook/addons';
 import { API, Consumer, Combo } from '@storybook/api';
 import { styled } from '@storybook/theming';
-import { STORY_RENDERED } from '@storybook/core-events';
 
-const PropsTableWrapper = styled.div({
+import {
+  SyntaxHighlighter as SyntaxHighlighterBase,
+  Placeholder,
+  DocumentFormatting,
+  Link,
+  Preview,
+} from '@storybook/components';
+import Giphy from './giphy';
+import Markdown from 'markdown-to-jsx';
+
+import { PARAM_KEY, Parameters } from './shared';
+
+const PropsTableWrapper = styled.div(({ theme }) => ({
   background: 'hotpink',
-});
+  marginBottom: theme.layoutMargin,
+}));
 
 const propsMapper = ({ state, api }: Combo) => {
   const { storyId, storiesHash } = state;
@@ -18,6 +30,67 @@ interface In {
   currentId: string;
   api: API;
 }
+
+interface PreviewProps {
+  storyId?: string;
+}
+
+interface PreviewData {
+  api: API;
+  getElements: API['getElements'];
+  location: Combo['state']['location'];
+  path: Combo['state']['path'];
+  storyId: Combo['state']['storyId'];
+}
+
+const previewMapper = ({
+  api,
+  state: { location, path, storyId },
+}: Combo): PreviewData | { renderPreview: API['renderPreview'] } =>
+  api.renderPreview
+    ? { renderPreview: api.renderPreview }
+    : {
+        api,
+        getElements: api.getElements,
+        location,
+        path,
+        storyId,
+      };
+
+const PreviewSize = styled.div(({ theme }) => ({
+  position: 'relative',
+  width: '100%',
+  height: 600,
+  border: '1px solid ' + theme.appBorderColor,
+  borderRadius: theme.appBorderRadius,
+  marginBottom: theme.layoutMargin,
+}));
+
+const ConnectedPreview = ({ storyId }: PreviewProps) => (
+  <PreviewSize>
+    <Consumer filter={previewMapper}>
+      {(fromState: PreviewData) => (
+        <Fragment>
+          FOO: {storyId || fromState.storyId}
+          <Preview
+            api={{}}
+            {...fromState}
+            getElements={(type: string): ReturnType<typeof fromState.getElements> => {
+              if (type === types.TAB) {
+                return {};
+              }
+              return fromState.getElements(type);
+            }}
+            path={fromState.path}
+            viewMode="story"
+            storyId={storyId || fromState.storyId}
+            id={`notes-${storyId}`}
+          />
+        </Fragment>
+      )}
+    </Consumer>
+  </PreviewSize>
+);
 
 const PropsTable = ({ id }: { id?: string }) => (
   <Consumer filter={propsMapper}>
@@ -31,17 +104,6 @@ const PropsTable = ({ id }: { id?: string }) => (
     }}
   </Consumer>
 );
-
-import {
-  SyntaxHighlighter as SyntaxHighlighterBase,
-  Placeholder,
-  DocumentFormatting,
-  Link,
-} from '@storybook/components';
-import Giphy from './giphy';
-import Markdown from 'markdown-to-jsx';
-
-import { PARAM_KEY, Parameters } from './shared';
 
 const Panel = styled.div({
   padding: '3rem 40px',
@@ -99,6 +161,9 @@ const defaultOptions = {
     },
     Props: {
       component: PropsTable,
+    },
+    Preview: {
+      component: ConnectedPreview,
     },
   },
 };

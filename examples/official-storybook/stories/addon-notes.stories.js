@@ -53,6 +53,14 @@ const propsMarkdown = `
 # Props
 
 <Props />
+
+# Example
+
+<Preview />
+
+<Preview />
+
+
 `;
 
 storiesOf('Addons|Notes', module)
