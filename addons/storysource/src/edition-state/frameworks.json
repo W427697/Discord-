@@ -1,5 +1,28 @@
 {
-    "react":{"template": "create-react-app","extraDependencies":[],"devDependencies":[]},
-    "riot":{"template":"create-react-app","extraDependencies":["riot"],"devDependencies":[]},
-    "vue":{"template":"vue-cli","extraDependencies":["vue"],"devDependencies":["@vue/cli-plugin-babel","@vue/cli-plugin-eslint","@vue/cli-service","babel-eslint","eslint","eslint-plugin-vue","vue-template-compiler"]}
+    "react":{
+        "template": "create-react-app",
+        "theming":true,
+        "extraDependencies":[],
+        "devDependencies":[]
+    },
+    "riot":{
+        "template":"create-react-app",
+        "extraDependencies":[
+            "riot"
+        ],
+        "devDependencies":[]
+    },
+    "vue":{
+        "template":"vue-cli",
+        "rootDiv":true,
+        "extraDependencies":[
+            "vue", 
+            "@babel/preset-env", 
+            "@vue/cli-plugin-babel"
+        ],
+        "devDependencies":[
+            "@vue/babel-preset-app",
+            "@vue/cli-service"
+        ]
+    }
 }
