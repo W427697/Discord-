@@ -1,5 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Storyshots Addons|Docs BaseButton 1`] = `null`;
+
+exports[`Storyshots Addons|Docs DocgenButton 1`] = `
+<button
+  type="button"
+>
+  Button with notes - check the notes panel for details
+</button>
+`;
+
+exports[`Storyshots Addons|Docs FlowTypeButton 1`] = `
+<button
+  type="button"
+>
+  Button with notes - check the notes panel for details
+</button>
+`;
+
 exports[`Storyshots Addons|Notes addon notes 1`] = `
 <button
   type="button"
@@ -33,6 +51,22 @@ exports[`Storyshots Addons|Notes with a markdown giphy 1`] = `
 `;
 
 exports[`Storyshots Addons|Notes with a markdown table 1`] = `
+<button
+  type="button"
+>
+  Button with notes - check the notes panel for details
+</button>
+`;
+
+exports[`Storyshots Addons|Notes with inferred markdown props 1`] = `
+<button
+  type="button"
+>
+  Button with notes - check the notes panel for details
+</button>
+`;
+
+exports[`Storyshots Addons|Notes with manual markdown props 1`] = `
 <button
   type="button"
 >

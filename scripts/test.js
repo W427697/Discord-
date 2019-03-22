@@ -44,7 +44,7 @@ const createOption = ({ defaultValue, option, name, extraParam }) => ({
 
 const tasks = {
   core: createProject({
-    name: `Core & Examples 🎨 ${chalk.gray('(core)')}`,
+    name: `Core 🎨 ${chalk.gray('(core)')}`,
     defaultValue: true,
     option: '--core',
     projectLocation: '<all>',
