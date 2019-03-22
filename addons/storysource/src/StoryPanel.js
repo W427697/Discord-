@@ -2,14 +2,19 @@ import React, { Component } from 'react'; // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { toId } from '@storybook/router';
 import { Editor } from '@storybook/components';
 import { document } from 'global';
 import { FileExplorer, BrowserPreview, SandpackProvider } from 'react-smooshpack';
 import Draggable from 'react-draggable';
 import { Subscriber } from 'react-broadcast';
 import { SAVE_FILE_EVENT_ID, STORY_EVENT_ID } from './events';
-import frameworks from './frameworks.json';
+import {
+  PACKAGE_JSON,
+  FAKE_PREFIX,
+  readFrameworkOverrides,
+  buildEditionState,
+  getSource,
+} from './edition-state';
 
 const getLocationKeys = locationsMap =>
   locationsMap
@@ -17,9 +22,6 @@ const getLocationKeys = locationsMap =>
         (key1, key2) => locationsMap[key1].startLoc.line - locationsMap[key2].startLoc.line
       )
     : [];
-
-const FAKE_PREFIX = '/src';
-const BOOTSTRAPPER_JS = '/storysource/bootstrapper.js';
 
 export default class StoryPanel extends Component {
   state = {
@@ -48,7 +50,7 @@ export default class StoryPanel extends Component {
     location: { currentLocation, locationsMap },
   }) => {
     const locationsKeys = getLocationKeys(locationsMap);
-    const { extraDependencies } = this.frameworkOverrides({ idsToFrameworks, story, kind });
+    const { extraDependencies } = readFrameworkOverrides({ idsToFrameworks, story, kind });
     this.setState({
       story,
       kind,
@@ -170,7 +172,7 @@ export default class StoryPanel extends Component {
     let updatedLocalDependencies = localDependencies;
     if (this.currentlyRenderingMainFile({ mainFileLocation })) {
       updatedMain = newSource;
-    } else {
+    } else if (this.openedPath !== PACKAGE_JSON) {
       updatedLocalDependencies = { ...localDependencies, [this.openedPath]: { code: newSource } };
     }
 
@@ -235,157 +237,11 @@ export default class StoryPanel extends Component {
       this.setState({ lineDecorations: editorDecorations });
   };
 
-  frameworkOverrides = ({ idsToFrameworks, story, kind }) => {
-    const framework = (idsToFrameworks || {})[toId(kind || 'a', story || 'a')] || '';
-    return (
-      frameworks[framework.substring('@storybook/'.length)] || {
-        template: 'create-react-app',
-        extraDependencies: ['react'],
-        devDependencies: [],
-      }
-    );
-  };
-
-  renderBootstrapCode = ({ mainFileLocation, idsToFrameworks, story, kind }) =>
-    `${mainFileLocation ? `import "..${mainFileLocation}"` : ''};
-import addons from "@storybook/addons";
-import Events from "@storybook/core-events";
-import { toId } from "@storybook/router/utils";
-import { forceReRender, addDecorator } from "${(idsToFrameworks || {})[
-      toId(kind || 'a', story || 'a')
-    ] || '@storybook/react'}";
-import { document } from "global";
-import React from "react";
-import {
-  Global,
-  ThemeProvider,
-  themes,
-  createReset,
-  convert
-} from "@storybook/theming";
-
-addDecorator(storyFn => (
-  <ThemeProvider theme={convert(themes.light)}>
-    <Global styles={createReset} />
-    {storyFn()}
-  </ThemeProvider>
-));
-
-addons.getChannel().emit(Events.SET_CURRENT_STORY, {
-  storyId: toId("${kind}", "${story}")
-});
-const div1 = document.createElement("div");
-div1.id = "error-stack";
-const div2 = document.createElement("div");
-div2.id = "error-message";
-document.body.appendChild(div1);
-document.body.appendChild(div2);
-forceReRender();
-`;
-
-  findSource = path => {
-    const {
-      localDependencies,
-      mainFileLocation,
-      source,
-      idsToFrameworks,
-      story,
-      kind,
-    } = this.state;
-    if (path === mainFileLocation) return source;
-    if (path === BOOTSTRAPPER_JS)
-      return this.renderBootstrapCode({ mainFileLocation, idsToFrameworks, story, kind });
-    if (path === '/package.json') return this.renderFakePackageJsonFile(this.state);
-    return ((localDependencies || {})[path] || { code: '' }).code;
-  };
-
-  renderFakePackageJsonFile = state => {
-    const { devDependencies } = this.frameworkOverrides(state);
-    const { entry, name, dependenciesMapping } = this.getFakeManifest(state);
-    return JSON.stringify(
-      {
-        name,
-        main: entry,
-        dependencies: dependenciesMapping,
-        devDependencies: Object.assign(
-          {},
-          ...(devDependencies || []).map(d => ({ [d]: 'latest' }))
-        ),
-      },
-      null,
-      4
-    );
-  };
-
-  getFakeManifest = ({ dependencies, story, kind }) => {
-    const storybookVersion = 'latest';
-    const setOfDependencies = Array.from(
-      new Set(
-        (dependencies || []).concat(
-          '@storybook/addons',
-          '@storybook/core-events',
-          '@storybook/router',
-          '@storybook/theming',
-          'react'
-        )
-      )
-    );
-    return {
-      name: `${story}-${kind}`,
-      entry: `${FAKE_PREFIX}${BOOTSTRAPPER_JS}`,
-      dependenciesMapping: Object.assign(
-        {},
-        ...setOfDependencies.map(d => ({
-          [d]: /^@storybook\//.test(d) ? storybookVersion : 'latest',
-        }))
-      ),
-    };
-  };
-
-  getFakeEditionState = ({
-    source,
-    mainFileLocation,
-    dependencies,
-    idsToFrameworks,
-    localDependencies,
-    story,
-    kind,
-  }) => ({
-    ...this.getFakeManifest({
-      dependencies,
-      story,
-      kind,
-    }),
-    files: {
-      ...Object.assign(
-        {},
-        ...Object.entries(localDependencies || {}).map(([file, code]) => ({
-          [`${FAKE_PREFIX}${file}`]: code,
-        }))
-      ),
-      [`${FAKE_PREFIX}${mainFileLocation}`]: { code: source },
-      [`${FAKE_PREFIX}${BOOTSTRAPPER_JS}`]: {
-        code: this.renderBootstrapCode({ mainFileLocation, idsToFrameworks, story, kind }),
-      },
-      [`/package.json`]: {
-        code: this.renderFakePackageJsonFile({
-          source,
-          mainFileLocation,
-          dependencies,
-          idsToFrameworks,
-          localDependencies,
-          story,
-          kind,
-        }),
-      },
-    },
-  });
-
   render = () => {
     const { channel, active } = this.props;
     const { additionalStyles, fileExplorerWidth } = this.state;
-    const { template } = this.frameworkOverrides(this.state);
-    const { entry, files, dependenciesMapping } = this.getFakeEditionState(this.state);
+    const { template } = readFrameworkOverrides(this.state);
+    const { entry, files, dependenciesMapping } = buildEditionState(this.state);
     return active ? (
       <SandpackProvider
         style={{
@@ -492,7 +348,7 @@ forceReRender();
               return (
                 <Editor
                   css={additionalStyles}
-                  source={this.findSource(this.openedPath)}
+                  source={getSource(this.state, this.openedPath)}
                   onChange={this.updateSource}
                   componentDidMount={this.editorDidMount}
                   changePosition={this.changePosition}
