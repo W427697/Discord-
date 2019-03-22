@@ -3,7 +3,7 @@ import estraverse from 'estraverse';
 
 const STORIES_OF = 'storiesOf';
 
-function pushParts(source, parts, from, to) {
+function pushParts(source: any, parts: any, from: any, to: any) {
   const start = source.slice(from, to);
   parts.push(start);
 
@@ -11,7 +11,7 @@ function pushParts(source, parts, from, to) {
   parts.push(end);
 }
 
-export function patchNode(node) {
+export function patchNode(node: any) {
   if (node.range && node.range.length === 2 && node.start === undefined && node.end === undefined) {
     const [start, end] = node.range;
 
@@ -29,7 +29,7 @@ export function patchNode(node) {
   return node;
 }
 
-export function handleSTORYOF(node, parts, source, lastIndex) {
+export function handleSTORYOF(node: any, parts: any, source: any, lastIndex: any) {
   if (!node.callee || !node.callee.name || node.callee.name !== STORIES_OF) {
     return lastIndex;
   }
@@ -39,13 +39,13 @@ export function handleSTORYOF(node, parts, source, lastIndex) {
   return node.end;
 }
 
-function splitSTORYOF(ast, source) {
+function splitSTORYOF(ast: any, source: any) {
   let lastIndex = 0;
   const parts = [source];
 
   estraverse.traverse(ast, {
     fallback: 'iteration',
-    enter: node => {
+    enter: (node: any) => {
       patchNode(node);
 
       if (node.type === 'CallExpression') {
@@ -57,7 +57,7 @@ function splitSTORYOF(ast, source) {
   return parts;
 }
 
-export function split(source) {
+export function split(source: any) {
   const ast = parseJs.parsers.babel.parse(source);
 
   return splitSTORYOF(ast, source);

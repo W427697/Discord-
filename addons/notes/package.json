@@ -37,6 +37,8 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
+    "@types/estraverse": "^0.0.6",
+    "@types/prettier": "^1.16.1",
     "@types/prop-types": "^15.5.9",
     "@types/util-deprecate": "^1.0.0",
     "@types/webpack-env": "^1.13.7"
