@@ -15,6 +15,11 @@
         "extraDependencies":["lit-html"],
         "devDependencies":[]
     },
+    "preact":{
+        "template": "preact-cli",
+        "extraDependencies":[],
+        "devDependencies":[]
+    },
     "react":{
         "template": "create-react-app",
         "theming":true,
