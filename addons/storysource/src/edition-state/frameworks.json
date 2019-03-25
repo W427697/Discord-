@@ -1,4 +1,20 @@
 {
+    "angular":{
+        "template": "angular-cli",
+        "extraDependencies":[],
+        "devDependencies":[]
+    },
+    "marko":{
+        "template": "create-react-app",
+        "theming":true,
+        "extraDependencies":["marko"],
+        "devDependencies":[]
+    },
+    "polymer":{
+        "template": "create-react-app",
+        "extraDependencies":["lit-html"],
+        "devDependencies":[]
+    },
     "react":{
         "template": "create-react-app",
         "theming":true,
