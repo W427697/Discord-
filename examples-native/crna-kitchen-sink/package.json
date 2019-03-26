@@ -35,7 +35,7 @@
     "core-js": "^2.5.7",
     "expo-cli": "^2.11.9",
     "jest-expo": "^32.0.0",
-    "react-test-renderer": "16.5.1",
+    "react-test-renderer": "16.8.5",
     "schedule": "^0.4.0"
   },
   "workspaces": {
