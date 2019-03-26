@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@storybook/addon-actions": "5.1.0-alpha.11",
-    "@storybook/addon-links": "5.1.0-alpha.11",
+    "@storybook/addon-links": "5.1.0-alpha.16",
     "@storybook/addons": "5.1.0-alpha.11",
     "@storybook/react": "5.1.0-alpha.11",
     "babel-loader": "^6.4.1",
