@@ -3,6 +3,13 @@
   "version": "5.1.0-alpha.19",
   "private": true,
   "main": "node_modules/expo/AppEntry.js",
+  "workspaces": {
+    "nohoist": [
+      "react-native/**",
+      "**/app/react-native*",
+      "expo"
+    ]
+  },
   "scripts": {
     "android": "expo start --android",
     "eject": "expo eject",
@@ -37,12 +44,5 @@
     "jest-expo": "^32.0.0",
     "react-test-renderer": "16.5.1",
     "schedule": "^0.4.0"
-  },
-  "workspaces": {
-    "nohoist": [
-      "react-native/**",
-      "**/app/react-native*",
-      "expo"
-    ]
   }
 }
