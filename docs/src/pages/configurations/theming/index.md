@@ -12,12 +12,12 @@ You can do this in a decorator, an addon or in `.storybook/config.js`. Changing 
 Just modify `.storybook/config.js` to include your new options:
 
 ```js
-import { addParameters, configure } from '@storybook/react';
+import { addParameters } from '@storybook/react';
 
 addParameters({
   options: {
     theme: {},
-  },
+  }
 });
 ```
 
@@ -32,14 +32,14 @@ We have created two themes for you: "normal" (a light theme) and "dark" (a dark 
 Here's an example of using the "dark" theme:
 
 ```js
-import { addParameters, configure } from '@storybook/react';
+import { addParameters } from '@storybook/react';
 import { themes } from '@storybook/theming';
 
 // Option defaults.
 addParameters({
   options: {
     name: 'Foo',
-    theme: themes.dark,
+    theme: themes.dark
   },
 });
 ```
