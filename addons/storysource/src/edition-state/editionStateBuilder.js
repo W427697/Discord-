@@ -14,6 +14,7 @@ export function buildEditionState({
 }) {
   return {
     ...readMetadata({
+      idsToFrameworks,
       dependencies,
       story,
       kind,

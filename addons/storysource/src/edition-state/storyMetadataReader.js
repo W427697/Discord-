@@ -1,10 +1,13 @@
 import { FAKE_PREFIX, BOOTSTRAPPER_JS } from './paths';
+import { getFrameworkName } from './frameworkOverridesReader';
 
-export function readMetadata({ dependencies, story, kind }) {
+export function readMetadata({ idsToFrameworks, dependencies, story, kind }) {
+  const framework = getFrameworkName({ idsToFrameworks, story, kind });
   const storybookVersion = 'latest';
   const setOfDependencies = Array.from(
     new Set(
       (dependencies || []).concat(
+        framework,
         '@storybook/addons',
         '@storybook/core-events',
         '@storybook/router',
