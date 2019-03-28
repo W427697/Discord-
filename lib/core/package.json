@@ -26,6 +26,7 @@
     "@babel/plugin-transform-react-constant-elements": "^7.2.0",
     "@babel/preset-env": "^7.4.1",
     "@storybook/addons": "5.1.0-alpha.19",
+    "@storybook/config": "5.1.0-alpha.19",
     "@storybook/channel-postmessage": "5.1.0-alpha.19",
     "@storybook/client-api": "5.1.0-alpha.19",
     "@storybook/client-logger": "5.1.0-alpha.19",

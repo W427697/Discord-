@@ -1,3 +1,3 @@
-#!/usr/bin/env node
+#!/usr/bin/env node -r esm
 
 require('../dist/server');

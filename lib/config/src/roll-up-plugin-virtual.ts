@@ -8,13 +8,13 @@ export default function virtualModule(config: Input) {
   const plugin: Plugin = {
     name: 'virtual-module',
     resolveId(importee) {
-      if (config[importee]) {
+      if (typeof config[importee] !== undefined) {
         return importee;
       }
       return null;
     },
     load(id) {
-      if (config[id]) {
+      if (typeof config[id] !== undefined) {
         return config[id];
       }
       return null;

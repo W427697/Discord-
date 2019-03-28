@@ -1,6 +1,15 @@
 module.exports = {
   presets: [
-    ['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage' }],
+    [
+      '@babel/preset-env',
+      {
+        shippedProposals: true,
+        useBuiltIns: 'usage',
+        targets: {
+          esmodules: true,
+        },
+      },
+    ],
     '@babel/preset-react',
     '@babel/preset-flow',
   ],
@@ -26,7 +35,16 @@ module.exports = {
     {
       test: './lib',
       presets: [
-        ['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage' }],
+        [
+          '@babel/preset-env',
+          {
+            shippedProposals: true,
+            useBuiltIns: 'usage',
+            targets: {
+              esmodules: true,
+            },
+          },
+        ],
         '@babel/preset-react',
       ],
       plugins: [

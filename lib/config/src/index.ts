@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
+import findCacheDir from 'find-cache-dir';
 
 import pkgDir from 'pkg-dir';
 import gitDir from 'git-root-dir';
@@ -17,22 +18,24 @@ interface Data {
   source: string;
 }
 
+type Item = Indentifyable & Data;
+type List = Item[];
+type FileName = string;
+
+interface Config {
+  [id: string]: string[];
+}
+interface Input {
+  file: FileName;
+  config: Config;
+  cacheDir: string | undefined | null;
+}
+
 interface Result {
   [id: string]: Data;
 }
 
-type Item = Indentifyable & Data;
-type List = Item[];
-
-interface Input {
-  file: string;
-  config: {
-    [id: string]: string[];
-  };
-  cacheDir: string | undefined | null;
-}
-
-const getConfigPath = async (fileName: string): Promise<string> => {
+export const getConfigPath = async (fileName: FileName): Promise<string> => {
   const locations = [
     async () => process.cwd(), // user's current working directory
     async () => '.', //
@@ -58,8 +61,10 @@ const getConfigPath = async (fileName: string): Promise<string> => {
   return fullPath || undefined;
 };
 
+export const getStorybookCachePath = () => findCacheDir({ name: 'storybook' });
+
 export const getStorybookConfigPath = async () => {
-  const configFileName = 'storybook.config.js';
+  const configFileName: FileName = 'storybook.config.js';
   return getConfigPath(configFileName);
 };
 
@@ -89,4 +94,21 @@ export const splitter = async ({ file, config, cacheDir = './' }: Input): Promis
   return result.reduce((acc, { id, ...rest }) => {
     return { ...acc, [id]: rest };
   }, {});
+};
+
+export const getStorybookConfigs = async () => {
+  const file = await getStorybookConfigPath();
+
+  if (file) {
+    const cacheDir = getStorybookCachePath();
+
+    const config = {
+      manager: ['theme', 'managerInit'],
+      preview: ['previewInit'],
+      node: ['presets', 'server', 'addons', 'entries', 'webpack', 'babel'],
+    };
+
+    return splitter({ file, config, cacheDir });
+  }
+  return undefined;
 };
