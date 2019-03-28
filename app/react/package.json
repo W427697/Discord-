@@ -29,6 +29,7 @@
     "@babel/plugin-transform-react-constant-elements": "^7.2.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@storybook/config": "5.1.0-alpha.19",
     "@storybook/core": "5.1.0-alpha.19",
     "@storybook/node-logger": "5.1.0-alpha.19",
     "@svgr/webpack": "^4.0.3",
