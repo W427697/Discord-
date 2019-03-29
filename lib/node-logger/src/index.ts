@@ -13,6 +13,7 @@ export const colors = {
 };
 
 export const logger = {
+  debug: (message: string): void => npmLog.verbose('', message),
   info: (message: string): void => npmLog.info('', message),
   plain: (message: string): void => console.log(message),
   line: (count: number = 1): void => console.log(`${Array(count - 1).fill('\n')}`),
@@ -23,3 +24,4 @@ export const logger = {
 };
 
 export { npmLog as instance };
+

@@ -17,7 +17,7 @@ export default class Server {
     return storybook(this.options);
   }
 
-  attachWS(server) {
+  attachWS(app, server) {
     this.wsServer = new ws.Server({ server });
     this.wsServer.on('connection', (s, req) => this.handleWS(s, req));
   }
