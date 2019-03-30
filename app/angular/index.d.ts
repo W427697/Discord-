@@ -1,4 +1,5 @@
 import { NgModuleMetadata, ICollection } from './dist/client/preview/angular/types';
+import { Type } from '@angular/core';
 export { moduleMetadata } from './dist/client/preview/angular/decorators';
 
 export interface IStorybookStory {
@@ -35,7 +36,8 @@ export interface IApi {
 }
 
 declare module '@storybook/angular' {
-  export function storiesOf(kind: string, module: NodeModule): IApi;
+  export function storiesOf(kind: string | Type<any>, module: NodeModule): IApi;
+  export function storiesOf(kind: string, componentClass: Type<any>, module: NodeModule): IApi;
   export function setAddon(addon: any): void;
   export function addDecorator(decorator: any): IApi;
   export function addParameters(parameters: any): IApi;
