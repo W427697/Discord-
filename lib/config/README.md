@@ -37,7 +37,7 @@ Maybe, but it's fragile.
 It's an ES module! You export things:
 
 ```js
-export const entries = '**/*.stories.*';
+export const entries = ['**/*.stories.*'];
 ```
 
 This configures storybook to auto-load all files as stories that match the glob.
@@ -59,7 +59,7 @@ Here's a more complete example:
 import { create } from '@storybook/theming';
 import CustomWebpackPlugin from 'example-webpack-plugin';
 
-export const entries = '**/*.stories.*';
+export const entries = ['**/*.stories.*'];
 export const theme = create({ brandTitle: 'My amazing storybook' });
 
 export const addons = ['@storybook/addon-knobs', '@storybook/addon-notes'];
