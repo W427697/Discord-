@@ -60,7 +60,7 @@ const createMiddleware = (
   addition: CallOptions
 ): Middleware[] => {
   const staticContentConfig = createStaticPathsConfig(
-    [fromCli.staticDir],
+    [].concat(fromCli.staticDir || []),
     fromConfig.server.static
   );
 

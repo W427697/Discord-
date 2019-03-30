@@ -41,7 +41,7 @@ interface ServerConfig {
 interface CliOptions {
   port: number;
   host: string;
-  staticDir: string;
+  staticDir: string[];
   configDir: string;
   https: boolean;
   sslCa: string;
@@ -84,12 +84,11 @@ interface BuildConfig {
   logLevel: LogLevels;
   webpack?: (base: WebpackConfig, env?: EnviromentType, ...args: any[]) => Promise<WebpackConfig>;
   babel?: (base: BabelConfig, env?: EnviromentType, ...args: any[]) => Promise<BabelConfig>;
-  cache: {};
   configFile: ConfigFile;
   template?: string;
 }
 
-type ConfigPrefix = 'manager' | null;
+type ConfigPrefix = 'manager' | 'preview';
 
 export {
   Middleware,
