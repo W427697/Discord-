@@ -3,26 +3,41 @@ import https from 'https';
 import http from 'http';
 
 import { Configuration as WebpackConfig } from 'webpack';
-import { LogLevels } from 'npmlog';
 
-type EnviromentType = 'production' | 'dev';
+type EnviromentType = 'production' | 'development';
+type LogLevels = 'silly' | 'verbose' | 'info' | 'warn' | 'error' | 'silent';
 
 interface BabelConfig {
   [key: string]: any;
+}
+
+interface OutputConfig {
+  location?: string;
+  compress?: boolean;
+  preview?: boolean | string;
 }
 
 interface StorybookConfig {
   presets?: Preset[];
   addons?: string[];
   entries?: string[];
+  logLevel?: LogLevels;
   template?: string;
-  webpack: (base: WebpackConfig, env?: EnviromentType, ...args: any[]) => Promise<WebpackConfig>;
-  babel: (base: BabelConfig, env?: EnviromentType, ...args: any[]) => Promise<BabelConfig>;
-  server: ServerConfig;
+  managerTemplate?: string;
+  webpack?: (base: WebpackConfig, env?: EnviromentType, ...args: any[]) => Promise<WebpackConfig>;
+  managerWebpack?: (
+    base: WebpackConfig,
+    env?: EnviromentType,
+    ...args: any[]
+  ) => Promise<WebpackConfig>;
+  babel?: (base: BabelConfig, env?: EnviromentType, ...args: any[]) => Promise<BabelConfig>;
+  managerBabel?: (base: BabelConfig, env?: EnviromentType, ...args: any[]) => Promise<BabelConfig>;
+  server?: ServerConfig;
+  output?: OutputConfig;
 }
 
 type Middleware = (app: Express, server?: Server) => Promise<void>;
-type Preset = string | ((config: StorybookConfig) => Promise<StorybookConfig>);
+type Preset = string | (() => Promise<StorybookConfig>);
 
 interface StaticConfig {
   [route: string]: string;
@@ -43,6 +58,7 @@ interface CliOptions {
   host: string;
   staticDir: string[];
   configDir: string;
+  outputDir: string;
   https: boolean;
   sslCa: string;
   sslCert: string;
@@ -79,32 +95,36 @@ interface StartOptions {
 }
 
 interface BuildConfig {
-  entries?: string[];
-  addons?: string[];
+  entries: string[];
+  addons: string[];
   logLevel: LogLevels;
   webpack?: (base: WebpackConfig, env?: EnviromentType, ...args: any[]) => Promise<WebpackConfig>;
   babel?: (base: BabelConfig, env?: EnviromentType, ...args: any[]) => Promise<BabelConfig>;
   configFile: ConfigFile;
   template?: string;
+  output?: OutputConfig;
 }
 
 type ConfigPrefix = 'manager' | 'preview';
 
 export {
-  Middleware,
-  Express,
-  Server,
-  StaticConfig,
-  Preset,
-  StorybookConfig,
-  ServerConfig,
-  CliOptions,
-  CallOptions,
-  ConfigsFiles,
-  ConfigFile,
-  StartOptions,
-  BuildConfig,
-  WebpackConfig,
   BabelConfig,
+  BuildConfig,
+  CallOptions,
+  CliOptions,
+  ConfigFile,
   ConfigPrefix,
+  ConfigsFiles,
+  EnviromentType,
+  Express,
+  LogLevels,
+  Middleware,
+  OutputConfig,
+  Preset,
+  Server,
+  ServerConfig,
+  StartOptions,
+  StaticConfig,
+  StorybookConfig,
+  WebpackConfig,
 };

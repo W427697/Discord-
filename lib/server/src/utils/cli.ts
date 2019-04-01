@@ -3,19 +3,20 @@ import { CliOptions } from '../types';
 
 export const cleanCliOptions = (options: CliOptions): CliOptions => {
   return pick(options, [
-    'port',
-    'host',
-    'staticDir',
+    'ci',
     'configDir',
+    'debugWebpack',
+    'host',
     'https',
+    'logLevel',
+    'noDll',
+    'outputDir',
+    'port',
+    'quiet',
+    'smokeTest',
     'sslCa',
     'sslCert',
     'sslKey',
-    'smokeTest',
-    'ci',
-    'quiet',
-    'logLevel',
-    'noDll',
-    'debugWebpack',
+    'staticDir',
   ]);
 };

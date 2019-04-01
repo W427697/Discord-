@@ -6,7 +6,7 @@ import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 
 import { getStorybookCachePath } from '@storybook/config';
 
-import { EnviromentType, OutputConfig } from '../types';
+import { EnviromentType, BuildConfig, OutputConfig } from '../types';
 
 const cacheDir = getStorybookCachePath();
 
@@ -26,7 +26,7 @@ const createBaseWebpackConfig = async (
   output: OutputConfig
 ): Promise<webpack.Configuration> => {
   return {
-    name: 'manager',
+    name: 'preview',
     mode: env,
     bail: env === 'production',
     devtool: false,
@@ -34,7 +34,7 @@ const createBaseWebpackConfig = async (
     entry: await createEntrypoints(env),
     output: {
       path: output.location,
-      filename: '[name].[hash].bundle.js',
+      filename: '[name].[chunkhash].bundle.js',
       publicPath: '',
     },
 
@@ -52,7 +52,7 @@ const createBaseWebpackConfig = async (
           dlls: [],
           headHtmlSnippet: '',
         }),
-        template: path.join(__dirname, '..', 'templates', 'index.ejs'),
+        template: require.resolve(`../templates/index.ejs`),
       }),
       new CaseSensitivePathsPlugin(),
     ],

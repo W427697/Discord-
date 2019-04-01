@@ -105,7 +105,16 @@ export const getStorybookConfigs = async () => {
     const config = {
       manager: ['theme', 'managerInit'],
       preview: ['previewInit'],
-      node: ['presets', 'server', 'addons', 'entries', 'webpack', 'babel'],
+      node: [
+        'presets',
+        'server',
+        'addons',
+        'entries',
+        'webpack',
+        'babel',
+        'managerWebpack',
+        'managerBabel',
+      ],
     };
 
     return splitter({ file, config, cacheDir });

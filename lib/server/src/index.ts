@@ -1,4 +1,3 @@
-import isPlainObject from 'is-plain-object';
 import https from 'https';
 import http from 'http';
 import fs from 'fs-extra';
@@ -11,9 +10,9 @@ import { cleanCliOptions } from './utils/cli';
 
 import { createMiddleware } from './middleware';
 import { applyPresets, getPresets } from './presets';
-import { build } from './build/run';
+import { run } from './builder/index';
 
-import { Express, ServerConfig, StartOptions, StorybookConfig } from './types';
+import { Express, ServerConfig, StartOptions, StorybookConfig, EnviromentType } from './types';
 
 const serverFactory = async (options: ServerConfig) => {
   const { ssl } = options;
@@ -64,6 +63,8 @@ const createApp = async () => express();
 const start = async ({ configsFiles, callOptions, cliOptions: cliOptionsRaw }: StartOptions) => {
   logger.warn('experimental mono config mode enabled');
 
+  const env: EnviromentType = 'development';
+
   // filter the cli options
   const cliOptions = cleanCliOptions(cliOptionsRaw);
 
@@ -93,52 +94,18 @@ const start = async ({ configsFiles, callOptions, cliOptions: cliOptionsRaw }: S
   const app = await createApp();
   const server = await createServer(serverConfig, app);
 
-  const manager = await build(cliOptions, configsFiles, callOptions, 'manager');
-
-  // create the config for building
-  // const buildCache = createBuildCache();
-
-  // const managerConfig = createBuildConfig(
-  //   cliOptions,
-  //   storybookConfig,
-  //   { cache: buildCache, configFile: configsFiles.manager },
-  //   'manager'
-  // );
-
-  // const previewConfig = createBuildConfig(
-  //   cliOptions,
-  //   storybookConfig,
-  //   { cache: buildCache, configFile: configsFiles.preview },
-  //   null
-  // );
-
-  // run the manager
-  // const manager = await createManager(managerConfig);
-
-  // const {
-  //   router: storybookMiddleware,
-  //   previewStats,
-  //   managerStats,
-  //   managerTotalTime,
-  //   previewTotalTime,
-  // }
-
-  //
-
-  //
-
-  console.dir(
-    {
-      serverConfig,
-      // presets,
-      // storybookConfig,
-      // previewConfig,
-      // managerConfig,
+  const runners = [
+    run({
+      command: 'watch',
+      type: 'manager',
+      env,
       cliOptions,
+      configsFiles,
       callOptions,
-    },
-    { depth: 10 }
-  );
+    }),
+  ];
+
+  const end = await Promise.all(runners);
 };
 
 export { start };

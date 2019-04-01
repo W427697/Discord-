@@ -42,7 +42,9 @@ export const applyPreset = (preset: StorybookConfig, base: StorybookConfig) => (
 
         switch (key) {
           case 'babel':
-          case 'webpack': {
+          case 'webpack':
+          case 'managerBabel':
+          case 'managerWebpack': {
             if (typeof v === 'function') {
               return { ...acc, [key]: base[key] ? mergeFunctions(v, base[key]) : v };
             }
@@ -51,18 +53,16 @@ export const applyPreset = (preset: StorybookConfig, base: StorybookConfig) => (
           case 'entries': {
             if (Array.isArray(v)) {
               const existing = base[key] as StorybookConfig['entries'];
-              return { ...acc, [key]: base[key] ? [...existing, ...v] : v };
+              return { ...acc, entries: base.entries ? [...existing, ...v] : v };
             }
             return acc;
           }
           case 'presets': {
-            // if (Array.isArray(v)) {
-            //   const existing: StorybookConfig['presets'] = base[key];
-            //   return { ...acc, [key]: base[key] ? [...existing, ...v] : v };
-            // }
+            // are already handled by applyPresets
             return acc;
           }
-          case 'template': {
+          case 'template':
+          case 'managerTemplate': {
             if (typeof v === 'string') {
               return { ...acc, [key]: v };
             }
@@ -71,7 +71,7 @@ export const applyPreset = (preset: StorybookConfig, base: StorybookConfig) => (
           case 'server': {
             if (isPlainObject(v)) {
               const existing: StorybookConfig['server'] = base[key];
-              return { ...acc, [key]: base[key] ? merge(v, existing) : v };
+              return { ...acc, server: base.server ? merge(v, existing) : v };
             }
             return acc;
           }
@@ -103,8 +103,11 @@ export const applyPresets = async (
     const value = await acc;
 
     if (typeof preset === 'function') {
-      const m = await preset(value);
-      return applyPreset(m, value) as StorybookConfig;
+      const m = await preset();
+
+      const result = applyPreset(m, value) as StorybookConfig;
+
+      return result;
     }
     if (typeof preset === 'string') {
       const exists = await fs.pathExists(preset);
@@ -126,8 +129,13 @@ export const applyPresets = async (
   }, Promise.resolve(base));
 };
 
-export const getPresets = (fromConfig: StorybookConfig, fromCall: CallOptions): Preset[] =>
+export const getPresets = (
+  fromConfig: StorybookConfig,
+  fromCall: CallOptions,
+  additional?: Preset[]
+): Preset[] =>
   []
     .concat(fromConfig.presets || [])
     .concat(fromCall.frameworkPresets || [])
-    .concat(fromCall.overridePresets || []);
+    .concat(fromCall.overridePresets || [])
+    .concat(additional || []);
