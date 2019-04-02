@@ -16,7 +16,7 @@ function transform(inputSource) {
         idsToFrameworks,
       }) => `
   export var withStorySource = require('@storybook/addon-storysource').withStorySource;
-  export var __SOURCE_PREFIX__ = "${prefix.replace(/\\[^\\]/g, '\\\\')}";
+  export var __SOURCE_PREFIX__ = "${prefix.replace(/\\([^\\ ])/g, '\\\\$1')}";
   export var __STORY__ = ${sourceJson};
   export var __ADDS_MAP__ = ${JSON.stringify(addsMap)};
   export var __MAIN_FILE_LOCATION__ = ${JSON.stringify(resource)};
