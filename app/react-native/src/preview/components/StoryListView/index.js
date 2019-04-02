@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { SectionList, Text, TextInput, TouchableOpacity, View, SafeAreaView } from 'react-native';
+import { SectionList, Text, TextInput, TouchableOpacity, View, SafeAreaView, ScrollView } from 'react-native';
 import Events from '@storybook/core-events';
 import style from './style';
+import TreeView from '../TreeView'
 
 const SectionHeader = ({ title, selected }) => (
   <View key={title} style={style.header}>
@@ -34,6 +35,8 @@ ListItem.propTypes = {
   selected: PropTypes.bool.isRequired,
 };
 
+
+
 export default class StoryListView extends Component {
   constructor(props, ...args) {
     super(props, ...args);
@@ -57,50 +60,90 @@ export default class StoryListView extends Component {
     stories.removeListener(Events.STORY_ADDED, this.storyAddedHandler);
   }
 
+  buildStoriesTree=(stories)=>{
+    const { selectedKind, selectedStory } = this.props;
+
+    let hashmap={};
+    let result=[];
+    stories.forEach(story=>{
+      let components=story.kind.split("/");
+      components.forEach((component, i)=>{
+        let parentComponentId=components.slice(0,i).join("/");
+        let componentId=components.slice(0,i+1).join("/");
+        if(!hashmap[componentId]){
+          let newNode={
+            id:componentId,
+            name:component,
+            collapsed:true,
+            children:[]
+          }
+          hashmap[componentId]=newNode;
+
+          if(parentComponentId){
+            let parent=hashmap[parentComponentId]
+            parent.children.push(newNode)
+          }else{
+            result.push(newNode)
+          }
+        }
+      })
+      hashmap[story.kind].children=story.stories.map(item=>({
+        name:item,
+        kind:story.kind
+      }));
+
+
+    })
+
+    // if(selectedKind){
+    //   let components=selectedKind.split("/");
+    //   components.forEach((component, i)=>{
+    //       let componentId=components.slice(0,i+1).join("/");
+    //       hashmap[componentId].collapsed=false;
+    //   });
+    // }
+
+    return result;
+  }
+
   handleStoryAdded = () => {
     const { stories } = this.props;
 
     if (stories) {
-      const data = stories.dumpStoryBook().map(
-        section => ({
-          title: section.kind,
-          data: section.stories.map(story => ({
-            key: story,
-            name: story,
-            kind: section.kind,
-          })),
-        }),
-        {}
-      );
+      const data = this.buildStoriesTree(stories.dumpStoryBook())
 
       this.setState({ data, originalData: data });
     }
   };
 
+
   handleChangeSearchText = text => {
-    const query = text.trim();
+    const query = text.trim().toLowerCase();
     const { originalData: data } = this.state;
+
+    const filterData=data=>{
+      let result=[];
+
+      data.forEach(item=>{
+        item={...item};
+        if(item.name.toLowerCase().includes(query)){
+          result.push(item);
+        }else if(item.children){
+          item.children=filterData(item.children);
+          if(item.children.length>0)result.push(item);
+        }
+      });
+
+      return result;
+    }
+
 
     if (!query) {
       this.setState({ data });
       return;
     }
 
-    const checkValue = value => value.toLowerCase().includes(query.toLowerCase());
-    const filteredData = data.reduce((acc, story) => {
-      const hasTitle = checkValue(story.title);
-      const hasKind = story.data.some(kind => checkValue(kind.name));
-
-      if (hasTitle || hasKind) {
-        acc.push({
-          ...story,
-          // in case the query matches component's title, all of its stories will be shown
-          data: !hasTitle ? story.data.filter(kind => checkValue(kind.name)) : story.data,
-        });
-      }
-
-      return acc;
-    }, []);
+    let filteredData=filterData(data);
 
     this.setState({ data: filteredData });
   };
@@ -125,24 +168,34 @@ export default class StoryListView extends Component {
           returnKeyType="search"
           style={style.searchBar}
         />
-        <SectionList
-          testID="Storybook.ListView"
-          style={style.sectionList}
-          renderItem={({ item }) => (
-            <ListItem
-              title={item.name}
-              kind={item.kind}
-              selected={item.kind === selectedKind && item.name === selectedStory}
-              onPress={() => this.changeStory(item.kind, item.name)}
-            />
-          )}
-          renderSectionHeader={({ section: { title } }) => (
-            <SectionHeader title={title} selected={title === selectedKind} />
-          )}
-          keyExtractor={(item, index) => item + index}
-          sections={data}
-          stickySectionHeadersEnabled={false}
-        />
+        <ScrollView style={style.sectionList}>
+        <TreeView
+        ref={ref => (this.treeView = ref)}
+        data={this.state.data}
+        onItemPress={(node, level)=>{
+          if(!node.children){
+             this.changeStory(node.kind, node.name)
+          }
+        }}
+        renderItem={(item, level) => (
+          <View>
+            <Text
+              style={{
+                marginLeft: 25 * level,
+                fontWeight:(item.kind === selectedKind && item.name === selectedStory)?"bold":"normal"
+              }}
+            >
+              {item.collapsed !== null ? (
+                <Text>{item.collapsed ? ' ▶ ' : ' ▼ '}</Text>
+              ) : (
+                <Text> - </Text>
+              )}
+              {item.name}
+            </Text>
+          </View>
+        )}
+      />
+      </ScrollView>
       </SafeAreaView>
     );
   }
