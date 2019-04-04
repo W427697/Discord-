@@ -20,7 +20,7 @@
     "@storybook/addon-actions": "5.1.0-alpha.11",
     "@storybook/addon-links": "5.1.0-alpha.11",
     "@storybook/addons": "5.1.0-alpha.11",
-    "@storybook/react": "5.1.0-alpha.11",
+    "@storybook/react": "5.1.0-alpha.20",
     "babel-loader": "^6.4.1",
     "babel-plugin-styled-components": "^1.10.0",
     "bootstrap": "^4.3.1",
