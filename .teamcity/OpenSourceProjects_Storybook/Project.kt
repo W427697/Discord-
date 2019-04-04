@@ -19,15 +19,9 @@ object Project : Project({
     vcsRoot(OpenSourceProjects_Storybook_HttpsGithubComStorybooksStorybookRefsHeadsMaster)
 
     buildType(OpenSourceProjects_Storybook_Bootstrap)
-    buildType(OpenSourceProjects_Storybook_CliTestLatestCra)
-    buildType(OpenSourceProjects_Storybook_Examples)
-    buildType(OpenSourceProjects_Storybook_Docs)
     buildType(OpenSourceProjects_Storybook_Build_2)
-    buildType(OpenSourceProjects_Storybook_CliTest)
-    buildType(OpenSourceProjects_Storybook_Test)
     buildType(OpenSourceProjects_Storybook_Lint)
     buildType(OpenSourceProjects_Storybook_Lint_Warnings)
-    buildType(OpenSourceProjects_Storybook_SmokeTests)
     buildType(OpenSourceProjects_Storybook_Chromatic)
 
     allApps {
@@ -82,20 +76,6 @@ object Project : Project({
                 param("title", appName)
                 param("type", "BuildReportTab")
             }
-        }
-        feature {
-            id = "PROJECT_EXT_267"
-            type = "ReportTab"
-            param("startPage", "official.zip!index.html")
-            param("title", "Official")
-            param("type", "BuildReportTab")
-        }
-        feature {
-            type = "ReportTab"
-            id = "PROJECT_EXT_272"
-            param("startPage", "docs.zip!index.html")
-            param("title", "Docs")
-            param("type", "BuildReportTab")
         }
         feature {
             type = "ReportTab"
