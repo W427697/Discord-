@@ -4,20 +4,24 @@ import http from 'http';
 
 import { Configuration as WebpackConfig } from 'webpack';
 
-type EnviromentType = 'production' | 'development';
-type LogLevels = 'silly' | 'verbose' | 'info' | 'warn' | 'error' | 'silent';
+export type EnviromentType = 'production' | 'development';
+export type LogLevels = 'silly' | 'verbose' | 'info' | 'warn' | 'error' | 'silent';
 
-interface BabelConfig {
+export interface BabelConfig {
   [key: string]: any;
 }
 
-interface OutputConfig {
+export { Express };
+
+export { WebpackConfig };
+
+export interface OutputConfig {
   location?: string;
   compress?: boolean;
   preview?: boolean | string;
 }
 
-interface StorybookConfig {
+export interface StorybookConfig {
   presets?: Preset[];
   addons?: string[];
   entries?: string[];
@@ -36,14 +40,14 @@ interface StorybookConfig {
   output?: OutputConfig;
 }
 
-type Middleware = (app: Express, server?: Server) => Promise<void>;
-type Preset = string | (() => Promise<StorybookConfig>);
+export type Middleware = (app: Express, server?: Server) => Promise<void>;
+export type Preset = string | (() => Promise<StorybookConfig>);
 
-interface StaticConfig {
+export interface StaticConfig {
   [route: string]: string;
 }
-type Server = http.Server | https.Server;
-interface ServerConfig {
+export type Server = http.Server | https.Server;
+export interface ServerConfig {
   ssl?: {
     ca: string[];
     cert: string;
@@ -53,7 +57,7 @@ interface ServerConfig {
   static?: StaticConfig;
 }
 
-interface CliOptions {
+export interface CliOptions {
   port: number;
   host: string;
   staticDir: string[];
@@ -71,30 +75,30 @@ interface CliOptions {
   debugWebpack: boolean;
 }
 
-interface CallOptions {
+export interface CallOptions {
   frameworkPresets: Preset[];
   overridePresets: Preset[];
   middleware?: Middleware | Middleware[];
 }
 
-interface ConfigFile {
+export interface ConfigFile {
   source: string;
   location: string;
 }
 
-interface ConfigsFiles {
+export interface ConfigsFiles {
   node: ConfigFile;
   manager: ConfigFile;
   preview: ConfigFile;
 }
 
-interface StartOptions {
+export interface StartOptions {
   cliOptions: CliOptions;
   callOptions: CallOptions;
   configsFiles: ConfigsFiles;
 }
 
-interface BuildConfig {
+export interface BuildConfig {
   entries: string[];
   addons: string[];
   logLevel: LogLevels;
@@ -105,26 +109,4 @@ interface BuildConfig {
   output?: OutputConfig;
 }
 
-type ConfigPrefix = 'manager' | 'preview';
-
-export {
-  BabelConfig,
-  BuildConfig,
-  CallOptions,
-  CliOptions,
-  ConfigFile,
-  ConfigPrefix,
-  ConfigsFiles,
-  EnviromentType,
-  Express,
-  LogLevels,
-  Middleware,
-  OutputConfig,
-  Preset,
-  Server,
-  ServerConfig,
-  StartOptions,
-  StaticConfig,
-  StorybookConfig,
-  WebpackConfig,
-};
+export type ConfigPrefix = 'manager' | 'preview';

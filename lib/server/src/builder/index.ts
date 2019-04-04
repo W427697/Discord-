@@ -5,7 +5,6 @@ import path from 'path';
 
 import { ConfigPrefix, EnviromentType, CliOptions, ConfigsFiles, CallOptions } from '../types';
 import { State } from 'webpackbar';
-import webpack = require('webpack');
 
 interface RunParams {
   command: string;
