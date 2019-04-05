@@ -13,3 +13,13 @@ action "Danger JS" {
   secrets = ["GITHUB_TOKEN"]
   args = "--dangerfile .ci/danger/dangerfile.ts"
 }
+
+workflow "ESlint workflow" {
+  on = "pull_request"
+  resolves = ["ESLint"]
+}
+
+action "ESLint" {
+  uses = "hallee/eslint-action@master"
+  secrets = ["GITHUB_TOKEN"]
+}
