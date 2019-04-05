@@ -20,6 +20,6 @@ workflow "ESlint workflow" {
 }
 
 action "ESLint" {
-  uses = "storybooks/eslint-actionn@master"
+  uses = "storybooks/eslint-action@master"
   secrets = ["GITHUB_TOKEN"]
 }
