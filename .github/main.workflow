@@ -15,8 +15,8 @@ action "Danger JS" {
 }
 
 workflow "ESlint workflow" {
-  on = "pull_request"
   resolves = ["ESLint"]
+  on = "push"
 }
 
 action "ESLint" {
