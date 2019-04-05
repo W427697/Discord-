@@ -1,6 +1,6 @@
 {
   "name": "@storybook/server",
-  "version": "5.1.0-alpha.20",
+  "version": "5.1.0-alpha.21",
   "description": "Storybook dev server",
   "keywords": [
     "storybook"
@@ -21,8 +21,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/config": "5.1.0-alpha.20",
-    "@storybook/node-logger": "5.1.0-alpha.20",
+    "@storybook/config": "5.1.0-alpha.21",
+    "@storybook/node-logger": "5.1.0-alpha.21",
     "case-sensitive-paths-webpack-plugin": "^2.2.0",
     "express": "^4.16.4",
     "find-cache-dir": "^2.1.0",

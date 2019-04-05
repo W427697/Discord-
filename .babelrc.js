@@ -5,6 +5,7 @@ module.exports = {
       {
         shippedProposals: true,
         useBuiltIns: 'usage',
+        corejs: '2',
         targets: {
           esmodules: true,
         },
@@ -15,6 +16,12 @@ module.exports = {
     '@babel/preset-flow',
   ],
   plugins: [
+    [
+      '@babel/plugin-proposal-decorators',
+      {
+        legacy: true,
+      },
+    ],
     ['@babel/plugin-proposal-class-properties', { loose: true }],
     '@babel/plugin-proposal-export-default-from',
     '@babel/plugin-syntax-dynamic-import',
@@ -24,8 +31,14 @@ module.exports = {
   ],
   env: {
     test: {
-      presets: [['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage' }]],
-      plugins: ['babel-plugin-require-context-hook', 'babel-plugin-dynamic-import-node'],
+      presets: [
+        ['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage', corejs: '2' }],
+      ],
+      plugins: [
+        'babel-plugin-require-context-hook',
+        'babel-plugin-dynamic-import-node',
+        '@babel/plugin-transform-runtime',
+      ],
     },
   },
   overrides: [
@@ -41,6 +54,7 @@ module.exports = {
           {
             shippedProposals: true,
             useBuiltIns: 'usage',
+            corejs: '2',
             targets: {
               esmodules: true,
             },
@@ -78,6 +92,7 @@ module.exports = {
             targets: {
               node: '8.11',
             },
+            corejs: '2',
           },
         ],
       ],
