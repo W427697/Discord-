@@ -154,7 +154,7 @@
     "jest-enzyme": "^7.0.2",
     "jest-image-snapshot": "^2.8.1",
     "jest-jasmine2": "^24.7.1",
-    "jest-preset-angular": "^6.0.1",
+    "jest-preset-angular": "^7.0.1",
     "jest-raw-loader": "^1.0.1",
     "jest-teamcity-reporter": "^0.9.0",
     "jest-vue-preprocessor": "^1.5.0",
