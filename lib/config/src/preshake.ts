@@ -1,5 +1,15 @@
 import { generate } from 'astring';
-import { parse, AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
+import { parse as parse2, AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
+import recast from 'recast';
+import typescriptParser from 'recast/parsers/typescript';
+
+console.dir({ recast, typescriptParser });
+
+const parse = source =>
+  recast.parse(source, {
+    parser: typescriptParser.parse,
+  });
+const stringify = ast => recast.print(ast);
 
 const preshake = (raw: string, allowed: string[]): string => {
   const options = {
