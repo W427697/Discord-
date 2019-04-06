@@ -207,7 +207,7 @@ const initStoriesApi = ({
           (soFar, group, index, original) => {
             const { name } = group;
             const parent = index > 0 && soFar[index - 1].id;
-            const id = sanitize(parent ? `${parent}-${name}` : name);
+            const id = parent ? `${parent}-${name}` : name;
 
             const result: Group = {
               ...group,
