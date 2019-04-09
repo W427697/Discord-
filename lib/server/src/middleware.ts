@@ -3,7 +3,7 @@ import path from 'path';
 import express from 'express';
 import fs from 'fs-extra';
 
-import { logger } from '@storybook/node-logger';
+import { progress, logger } from '@storybook/node-logger';
 
 import {
   Express,
@@ -27,7 +27,10 @@ const staticMiddleware = (config: StaticConfig) => async (app: Express) => {
     if (await !fs.pathExists(fullLocation)) {
       logger.error(`Error: no such directory to load static files: "${fullLocation}"`);
     } else {
-      logger.info(`=> Loading static files from: "${location}", hosting them at "${route}"`);
+      progress.emit('server', {
+        message: `=> Loading static files from: "${location}", hosting them at "${route}"`,
+        details: [location, route],
+      });
     }
 
     app.use(express.static(fullLocation, { index: false }));
@@ -54,18 +57,18 @@ const createStaticPathsConfig = (
 });
 
 // middleware has access to the app & server, and can add http handlers and routes
-const createMiddleware = (
+const createMiddleware = async (
   fromCli: CliOptions,
   fromConfig: StorybookConfig,
   addition: CallOptions
-): Middleware[] => {
+): Promise<Middleware[]> => {
   const staticContentConfig = createStaticPathsConfig(
     [].concat(fromCli.staticDir || []),
     fromConfig.server.static
   );
 
   return []
-    .concat(staticMiddleware(staticContentConfig))
+    .concat(await staticMiddleware(staticContentConfig))
     .concat(fromConfig.server.middleware || [])
     .concat(addition.middleware || []);
 };

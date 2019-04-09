@@ -16,15 +16,15 @@ export const logLevel = 'info';
 // eslint-disable-next-line no-unused-vars
 export const managerWebpack = async (config, env) => {
   const { default: webpackMerge } = await import('webpack-merge');
-  const { default: PacktrackerPlugin } = await import('@packtracker/webpack-plugin');
+  // const { default: PacktrackerPlugin } = await import('@packtracker/webpack-plugin');
 
   return webpackMerge(config, {
     plugins: [
-      new PacktrackerPlugin({
-        project_token: '1af1d41b-d737-41d4-ac00-53c8f3913b53',
-        upload: true,
-        fail_build: true,
-      }),
+      // new PacktrackerPlugin({
+      //   project_token: '1af1d41b-d737-41d4-ac00-53c8f3913b53',
+      //   upload: true,
+      //   fail_build: true,
+      // }),
     ],
   });
 };

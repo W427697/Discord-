@@ -1,15 +1,12 @@
-import { generate } from 'astring';
-import { parse as parse2, AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
+import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import recast from 'recast';
-import typescriptParser from 'recast/parsers/typescript';
+import * as typescriptParser from 'recast/parsers/typescript';
 
-console.dir({ recast, typescriptParser });
-
-const parse = source =>
+const parse = (source: any) =>
   recast.parse(source, {
-    parser: typescriptParser.parse,
+    parser: typescriptParser,
   });
-const stringify = ast => recast.print(ast);
+const stringify = (ast: any) => recast.print(ast);
 
 const preshake = (raw: string, allowed: string[]): string => {
   const options = {
@@ -19,9 +16,9 @@ const preshake = (raw: string, allowed: string[]): string => {
     jsx: true,
     useJSXTextNode: true,
   };
-  const ast = parse(raw, options);
+  const ast = parse(raw);
 
-  ast.body = ast.body.filter(i => {
+  ast.program.body = ast.program.body.filter((i: any) => {
     // export function a() {}
     // export interface Bang {}
     // export type Foo = string | number;
@@ -41,11 +38,11 @@ const preshake = (raw: string, allowed: string[]): string => {
       i.declaration.type === AST_NODE_TYPES.VariableDeclaration
     ) {
       // MUTATION!
-      i.declaration.declarations = i.declaration.declarations.filter(d => {
+      i.declaration.declarations = i.declaration.declarations.filter((d: any) => {
         if (d.id.type === AST_NODE_TYPES.ObjectPattern) {
           // MUTATION!
           d.id.properties = d.id.properties.filter(
-            p =>
+            (p: any) =>
               p.type === AST_NODE_TYPES.Property &&
               p.value.type === AST_NODE_TYPES.Identifier &&
               allowed.includes(p.value.name)
@@ -83,7 +80,7 @@ const preshake = (raw: string, allowed: string[]): string => {
   }, []);
 
   // @ts-ignore (typescript-eslint => estree)
-  return generate(ast);
+  return stringify(ast);
 };
 
 export { preshake };

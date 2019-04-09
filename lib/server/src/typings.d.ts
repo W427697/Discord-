@@ -75,3 +75,53 @@ declare module 'webpackbar' {
 
   export default WebpackBar;
 }
+
+// declare module 'neo-blessed' {
+//   export * from 'blessed';
+// }
+
+// declare namespace JSX {
+//   import { Widgets } from 'blessed';
+
+  
+
+//     interface Children {
+//       children?: string | JSX.Children | JSX.Children[] | JSX.Element | JSX.Element[] | JSX.IntrinsicElements;
+//     }
+    
+//     type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+    
+//     type ConvertToReact<S> = Omit<S, 'children'> & Children;
+
+//   interface IntrinsicElements {
+//     'blessed-bigtext': ConvertToReact<Widgets.BigTextOptions>
+//     'blessed-box': ConvertToReact<Widgets.BoxOptions>;
+//     'blessed-button': ConvertToReact<Widgets.ButtonOptions>
+//     'blessed-checkbox': ConvertToReact<Widgets.CheckboxOptions>
+//     'blessed-escape': any
+//     'blessed-filemanager': ConvertToReact<Widgets.FileManagerOptions>
+//     'blessed-form': ConvertToReact<Widgets.FormOptions>
+//     'blessed-input': ConvertToReact<Widgets.InputOptions>
+//     'blessed-layout': ConvertToReact<Widgets.LayoutOptions>
+//     'blessed-line': ConvertToReact<Widgets.LineOptions>
+//     'blessed-list': ConvertToReact<Widgets.ListOptions<Widgets.ListElementStyle>>
+//     'blessed-listbar': ConvertToReact<Widgets.ListbarOptions>
+//     'blessed-listtable': ConvertToReact<Widgets.ListTableOptions>
+//     'blessed-loading': ConvertToReact<Widgets.LoadingOptions>
+//     'blessed-log': ConvertToReact<Widgets.LogOptions>
+//     'blessed-message': ConvertToReact<Widgets.MessageOptions>
+//     'blessed-program': ConvertToReact<Widgets.IScreenOptions>
+//     'blessed-progressbar': ConvertToReact<Widgets.ProgressBarOptions>
+//     'blessed-prompt': ConvertToReact<Widgets.PromptOptions>
+//     'blessed-question': ConvertToReact<Widgets.QuestionOptions>
+//     'blessed-radiobutton': ConvertToReact<Widgets.RadioButtonOptions>
+//     'blessed-radioset': ConvertToReact<Widgets.RadioSetOptions>
+//     'blessed-scrollablebox': ConvertToReact<Widgets.BoxOptions>
+//     'blessed-scrollabletext': ConvertToReact<Widgets.BoxOptions>
+//     'blessed-table': ConvertToReact<Widgets.TableOptions>
+//     'blessed-terminal': ConvertToReact<Widgets.TerminalOptions>
+//     'blessed-text': ConvertToReact<Widgets.TextOptions>
+//     'blessed-textarea': ConvertToReact<Widgets.TextareaOptions>
+//     'blessed-textbox': ConvertToReact<Widgets.TextboxOptions>
+//   }
+// }

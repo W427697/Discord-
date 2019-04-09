@@ -56,7 +56,7 @@ const createWebpackServePreset = (type: ConfigPrefix): Preset => async (): Promi
               progress: true,
               host,
               port,
-              open: true,
+              // open: true,
               log: { level: 'error', timestamp: false },
               hmr: true,
               compress: true,

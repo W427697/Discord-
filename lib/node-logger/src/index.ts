@@ -25,3 +25,5 @@ export const logger = {
 
 export { npmLog as instance };
 
+import * as progress from './progress';
+export { progress };
