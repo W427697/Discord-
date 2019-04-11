@@ -7,7 +7,7 @@ export function readMetadata({ idsToFrameworks, dependencies, story, kind }) {
   const setOfDependencies = Array.from(
     new Set(
       (dependencies || []).concat(
-        framework,
+        framework || '@storybook/react',
         '@storybook/addons',
         '@storybook/core-events',
         '@storybook/router',
