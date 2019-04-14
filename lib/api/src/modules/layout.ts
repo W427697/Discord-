@@ -175,7 +175,8 @@ export default function({ store }: { store: Store }) {
         return {
           layout: {
             ...state.layout,
-            showPanel: value,
+            showPanel: state.layout.isFullscreen ? true : value,
+            isFullscreen: false,
           },
         };
       });
@@ -206,7 +207,8 @@ export default function({ store }: { store: Store }) {
         return {
           layout: {
             ...state.layout,
-            showNav: value,
+            showNav: state.layout.isFullscreen ? true : value,
+            isFullscreen: false,
           },
         };
       });
