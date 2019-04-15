@@ -116,7 +116,7 @@ const applyDeprecatedLayoutOptions = deprecate((options: Options): PartialLayout
 }, deprecationMessage(deprecatedLayoutOptions));
 
 const checkDeprecatedThemeOptions = (options: Options) => {
-  if (Object.values(deprecatedThemeOptions).find(v => !!v)) {
+  if (Object.keys(deprecatedThemeOptions).find((k: 'name' | 'url') => !!options[k])) {
     return applyDeprecatedThemeOptions(options);
   }
   return {};
