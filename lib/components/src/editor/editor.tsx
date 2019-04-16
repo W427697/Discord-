@@ -3,21 +3,46 @@ import MonacoEditor from 'react-monaco-editor';
 import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
 import { STORY_RENDERED } from '@storybook/core-events';
-import { window } from 'global';
+import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
+import { ChangeHandler } from 'react-monaco-editor';
+import * as global from 'global';
 
-export default class Editor extends Component {
-  constructor(props) {
+
+export type ChangePositionFunction = (e: monacoEditor.editor.ICursorPositionChangedEvent, 
+  editor: monacoEditor.editor.IStandaloneCodeEditor,
+  monaco: typeof monacoEditor) => void
+
+
+export interface EditorProps {
+  source?: string,
+  changePosition?: ChangePositionFunction,
+  componentDidMount?: (editor: monacoEditor.editor.IStandaloneCodeEditor,
+                      monaco: typeof monacoEditor) => void,
+  onChange?: ChangeHandler,
+  resizeContainerReference?: ()=> Element,
+  onStoryRendered?: () => void,
+  channel?: any,
+}
+
+export interface EditorState {
+  source: string,
+  changePosition: ChangePositionFunction,
+  onChange: ChangeHandler
+}
+
+export class Editor extends Component<EditorProps, EditorState> {
+  editor: monacoEditor.editor.IStandaloneCodeEditor
+  constructor(props: EditorProps) {
     super(props);
     this.state = {
       source: props.source,
       changePosition: props.changePosition,
       onChange: props.onChange || this.onChange,
     };
-    this.editorDidMount = this.editorDidMount.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.updateDimensions);
+    global.window.addEventListener('resize', this.updateDimensions);
     const { resizeContainerReference } = this.props;
 
     const tryToBindToTheResizeContainer = !resizeContainerReference
@@ -32,7 +57,7 @@ export default class Editor extends Component {
     setTimeout(tryToBindToTheResizeContainer, 1000);
   }
 
-  componentWillReceiveProps({ source, changePosition } = {}) {
+  componentWillReceiveProps({ source, changePosition } : EditorProps = {}) {
     if (source) this.setState({ source });
     if (changePosition) this.setState({ changePosition });
   }
@@ -41,7 +66,7 @@ export default class Editor extends Component {
     window.removeEventListener('resize', this.updateDimensions);
   }
 
-  onChange = (newValue, e) => {
+  onChange : ChangeHandler = (newValue, e) => {
     console.log('onChange', newValue, e); // eslint-disable-line no-console
   };
 
@@ -49,11 +74,13 @@ export default class Editor extends Component {
     (this.editor || { layout: () => {} }).layout();
   };
 
-  editorDidMount = (editor, monaco) => {
+  editorDidMount = (editor: monacoEditor.editor.IStandaloneCodeEditor,
+    monaco: typeof monacoEditor) => {
     this.editor = editor; // let's save it for further use
     const { changePosition } = this.state;
     const { componentDidMount, onStoryRendered } = this.props;
-    editor.onDidChangeCursorPosition(e => changePosition(e, editor, monaco));
+    editor.onDidChangeCursorPosition(
+      (e: monacoEditor.editor.ICursorPositionChangedEvent) => changePosition(e, editor, monaco));
     componentDidMount(editor, monaco);
     editor.focus();
     const { channel } = this.props;
@@ -81,26 +108,3 @@ export default class Editor extends Component {
   }
 }
 
-Editor.propTypes = {
-  source: PropTypes.string,
-  changePosition: PropTypes.func,
-  onChange: PropTypes.func,
-  componentDidMount: PropTypes.func,
-  resizeContainerReference: PropTypes.func,
-  onStoryRendered: PropTypes.func,
-  channel: PropTypes.shape({
-    emit: PropTypes.func,
-    on: PropTypes.func,
-    removeListener: PropTypes.func,
-  }),
-};
-
-Editor.defaultProps = {
-  source: '// no snippet found',
-  changePosition: () => {},
-  componentDidMount: () => {},
-  onChange: null,
-  resizeContainerReference: null,
-  onStoryRendered: () => {},
-  channel: null,
-};
