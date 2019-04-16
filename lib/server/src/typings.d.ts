@@ -25,18 +25,18 @@ declare module 'webpackbar' {
   }
 
   export interface State {
-    start: [number, number] | null,
-    progress: number,
-    done: boolean,
-    message: string,
-    details: string[],
+    start: [number, number] | null;
+    progress: number;
+    done: boolean;
+    message: string;
+    details: string[];
     request: {
       file: string;
       loaders: string[];
-    } | null,
-    hasErrors: boolean,
-    color: string,
-    name: string
+    } | null;
+    hasErrors: boolean;
+    color: string;
+    name: string;
   }
 
   type Handler = (context: WebpackBar) => void;
@@ -76,6 +76,10 @@ declare module 'webpackbar' {
   export default WebpackBar;
 }
 
+declare module 'ink-box';
+declare module 'ink-gradient';
+declare module 'ink-big-text';
+
 // declare module 'neo-blessed' {
 //   export * from 'blessed';
 // }
@@ -83,14 +87,12 @@ declare module 'webpackbar' {
 // declare namespace JSX {
 //   import { Widgets } from 'blessed';
 
-  
-
 //     interface Children {
 //       children?: string | JSX.Children | JSX.Children[] | JSX.Element | JSX.Element[] | JSX.IntrinsicElements;
 //     }
-    
+
 //     type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
-    
+
 //     type ConvertToReact<S> = Omit<S, 'children'> & Children;
 
 //   interface IntrinsicElements {
