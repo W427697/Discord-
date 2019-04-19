@@ -18,18 +18,13 @@ module.exports = async ({ config }) => ({
         enforce: 'pre',
       },
       {
-        test: /\.js/,
-        use: config.module.rules[0].use,
-        include: [
-          path.resolve(__dirname, '../../lib/ui/src'),
-          path.resolve(__dirname, '../../lib/components/src'),
-        ],
-      },
-      {
         test: /\.tsx?$/,
         use: [
           {
             loader: require.resolve('ts-loader'),
+            options: {
+              transpileOnly: true,
+            },
           },
         ],
       },
@@ -41,6 +36,7 @@ module.exports = async ({ config }) => ({
     new DefinePlugin({
       process: JSON.stringify(true),
     }),
+
     // See https://github.com/graphql/graphql-language-service/issues/111#issuecomment-306723400
     new ContextReplacementPlugin(/graphql-language-service-interface[/\\]dist/, /\.js$/),
   ],
