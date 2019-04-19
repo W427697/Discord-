@@ -33,15 +33,15 @@ export default class StoryPanel extends Component {
   };
 
   componentDidMount() {
-    const { channel } = this.props;
+    const { api } = this.props;
 
-    channel.on(STORY_EVENT_ID, this.listener);
+    api.on(STORY_EVENT_ID, this.listener);
   }
 
   componentWillUnmount() {
-    const { channel } = this.props;
+    const { api } = this.props;
 
-    channel.removeListener(STORY_EVENT_ID, this.listener);
+    api.removeListener(STORY_EVENT_ID, this.listener);
   }
 
   listener = ({
@@ -100,10 +100,10 @@ export default class StoryPanel extends Component {
       contextMenuGroupId: 'navigation',
       contextMenuOrder: 1.5,
       run: thisEditor => {
-        const { channel } = this.props;
+        const { api } = this.props;
         const { prefix } = this.state;
         const content = thisEditor.getModel().getValue();
-        channel.emit(SAVE_FILE_EVENT_ID, {
+        api.emit(SAVE_FILE_EVENT_ID, {
           fileName: `${prefix}${this.openedPath}`,
           content,
         });
@@ -238,7 +238,7 @@ export default class StoryPanel extends Component {
   };
 
   render = () => {
-    const { channel, active } = this.props;
+    const { api, active } = this.props;
     const { additionalStyles, fileExplorerWidth } = this.state;
     const { template } = readFrameworkOverrides(this.state);
     const { entry, files, dependenciesMapping } = buildEditionState(this.state);
@@ -353,7 +353,7 @@ export default class StoryPanel extends Component {
                   componentDidMount={this.editorDidMount}
                   changePosition={this.changePosition}
                   onStoryRendered={this.onStoryRendered}
-                  channel={channel}
+                  api={api}
                   resizeContainerReference={() =>
                     (document.getElementById('storybook-panel-root') || {}).parentNode
                   }
@@ -384,8 +384,6 @@ StoryPanel.propTypes = {
   active: PropTypes.bool.isRequired,
   api: PropTypes.shape({
     selectStory: PropTypes.func.isRequired,
-  }).isRequired,
-  channel: PropTypes.shape({
     emit: PropTypes.func,
     on: PropTypes.func,
     removeListener: PropTypes.func,

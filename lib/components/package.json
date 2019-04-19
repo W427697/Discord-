@@ -21,6 +21,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
+    "@storybook/api": "5.1.0-alpha.31",
     "@storybook/client-logger": "5.1.0-alpha.31",
     "@storybook/theming": "5.1.0-alpha.31",
     "core-js": "^2.6.5",

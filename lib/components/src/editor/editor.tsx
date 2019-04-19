@@ -3,12 +3,13 @@ import MonacoEditor from 'react-monaco-editor';
 import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
 import { STORY_RENDERED } from '@storybook/core-events';
+import * as api from '@storybook/api'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import { ChangeHandler } from 'react-monaco-editor';
 import * as global from 'global';
 
 
-export type ChangePositionFunction = (e: monacoEditor.editor.ICursorPositionChangedEvent, 
+export type ChangePositionFunction = (e: monacoEditor.editor.ICursorPositionChangedEvent,
   editor: monacoEditor.editor.IStandaloneCodeEditor,
   monaco: typeof monacoEditor) => void
 
@@ -17,11 +18,11 @@ export interface EditorProps {
   source?: string,
   changePosition?: ChangePositionFunction,
   componentDidMount?: (editor: monacoEditor.editor.IStandaloneCodeEditor,
-                      monaco: typeof monacoEditor) => void,
+    monaco: typeof monacoEditor) => void,
   onChange?: ChangeHandler,
-  resizeContainerReference?: ()=> Element,
+  resizeContainerReference?: () => Element,
   onStoryRendered?: () => void,
-  channel?: any,
+  api?: api.API,
 }
 
 export interface EditorState {
@@ -46,18 +47,18 @@ export class Editor extends Component<EditorProps, EditorState> {
     const { resizeContainerReference } = this.props;
 
     const tryToBindToTheResizeContainer = !resizeContainerReference
-      ? () => {}
+      ? () => { }
       : () => {
-          const containerObserver = new ResizeObserver(() => this.updateDimensions());
+        const containerObserver = new ResizeObserver(() => this.updateDimensions());
 
-          const resizeContainer = resizeContainerReference();
-          if (resizeContainer) containerObserver.observe(resizeContainer);
-          else setTimeout(tryToBindToTheResizeContainer, 1000);
-        };
+        const resizeContainer = resizeContainerReference();
+        if (resizeContainer) containerObserver.observe(resizeContainer);
+        else setTimeout(tryToBindToTheResizeContainer, 1000);
+      };
     setTimeout(tryToBindToTheResizeContainer, 1000);
   }
 
-  componentWillReceiveProps({ source, changePosition } : EditorProps = {}) {
+  componentWillReceiveProps({ source, changePosition }: EditorProps = {}) {
     if (source) this.setState({ source });
     if (changePosition) this.setState({ changePosition });
   }
@@ -66,12 +67,12 @@ export class Editor extends Component<EditorProps, EditorState> {
     window.removeEventListener('resize', this.updateDimensions);
   }
 
-  onChange : ChangeHandler = (newValue, e) => {
+  onChange: ChangeHandler = (newValue, e) => {
     console.log('onChange', newValue, e); // eslint-disable-line no-console
   };
 
   updateDimensions = () => {
-    (this.editor || { layout: () => {} }).layout();
+    (this.editor || { layout: () => { } }).layout();
   };
 
   editorDidMount = (editor: monacoEditor.editor.IStandaloneCodeEditor,
@@ -83,9 +84,9 @@ export class Editor extends Component<EditorProps, EditorState> {
       (e: monacoEditor.editor.ICursorPositionChangedEvent) => changePosition(e, editor, monaco));
     componentDidMount(editor, monaco);
     editor.focus();
-    const { channel } = this.props;
-    if (channel) {
-      channel.on(STORY_RENDERED, () => onStoryRendered.call(this.props, editor, monaco));
+    const { api } = this.props;
+    if (api) {
+      api.on(STORY_RENDERED, () => onStoryRendered.call(this.props, editor, monaco));
     }
   };
 
