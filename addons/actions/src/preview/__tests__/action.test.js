@@ -1,4 +1,4 @@
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import { action } from '../..';
 // import { configureActions } from '../..';
 

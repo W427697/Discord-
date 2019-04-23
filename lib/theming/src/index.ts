@@ -15,9 +15,15 @@ const themes = {
 
 export { themes };
 
-export * from '@emotion/core';
-export * from 'emotion-theming';
+import { Global, keyframes, css, ClassNames } from '@emotion/core';
+// export * from '@emotion/core';
+export { Global, keyframes, css, ClassNames };
+
+import { ThemeProvider, withTheme } from 'emotion-theming';
+// export * from 'emotion-theming';
+export { withTheme, ThemeProvider };
 
 export { createGlobal, createReset } from './global';
+
 export * from './create';
 export * from './ensure';

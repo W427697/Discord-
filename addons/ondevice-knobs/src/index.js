@@ -1,5 +1,5 @@
 import React from 'react';
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import Panel from './panel';
 
 export function register() {

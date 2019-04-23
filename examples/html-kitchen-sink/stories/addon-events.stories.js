@@ -1,7 +1,7 @@
 import EventEmitter from 'eventemitter3';
 import { storiesOf } from '@storybook/html';
 import { addons } from '@storybook/addons';
-import CoreEvents from '@storybook/core-events';
+import { FORCE_RE_RENDER, REGISTER_SUBSCRIPTION } from '@storybook/core-events';
 import json from 'format-json';
 
 import withEvents from '@storybook/addon-events';
@@ -23,7 +23,7 @@ const eventHandlers = Object.values(TEST_EVENTS).map(name => ({
   name,
   handler: payload => {
     events.push({ name, payload });
-    addons.getChannel().emit(CoreEvents.FORCE_RE_RENDER);
+    addons.getChannel().emit(FORCE_RE_RENDER);
   },
 }));
 
@@ -86,7 +86,7 @@ storiesOf('Addons|Events', module)
     })
   )
   .addDecorator(storyFn => {
-    addons.getChannel().emit(CoreEvents.REGISTER_SUBSCRIPTION, subscription);
+    addons.getChannel().emit(REGISTER_SUBSCRIPTION, subscription);
     return storyFn();
   })
   .add(

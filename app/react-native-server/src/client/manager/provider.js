@@ -3,7 +3,12 @@ import { Consumer } from '@storybook/api';
 import { Provider } from '@storybook/ui';
 import createChannel from '@storybook/channel-websocket';
 import { addons } from '@storybook/addons';
-import Events from '@storybook/core-events';
+import {
+  CHANNEL_CREATED,
+  GET_CURRENT_STORY,
+  SET_CURRENT_STORY,
+  GET_STORIES,
+} from '@storybook/core-events';
 import uuid from 'uuid';
 import PreviewHelp from './components/PreviewHelp';
 
@@ -29,7 +34,7 @@ export default class ReactProvider extends Provider {
     const channel = this.channel || createChannel({ url });
 
     addons.setChannel(channel);
-    channel.emit(Events.CHANNEL_CREATED, {
+    channel.emit(CHANNEL_CREATED, {
       host,
       pairedId: this.pairedId,
       port,
@@ -56,7 +61,7 @@ export default class ReactProvider extends Provider {
             if (!this.selection || this.selection.kind !== kind || this.selection.story !== story) {
               this.selection = { kind, story };
               // TODO: isn't this event sent twice now?
-              api.emit(Events.SET_CURRENT_STORY, { kind, story });
+              api.emit(SET_CURRENT_STORY, { kind, story });
             }
 
             // FIXME: getPreview not implemented yet.
@@ -78,11 +83,11 @@ export default class ReactProvider extends Provider {
 
     api.onStory((kind, story) => {
       this.selection = { kind, story };
-      api.emit(Events.SET_CURRENT_STORY, this.selection);
+      api.emit(SET_CURRENT_STORY, this.selection);
     });
-    api.on(Events.GET_CURRENT_STORY, () => {
-      api.emit(Events.SET_CURRENT_STORY, this.selection);
+    api.on(GET_CURRENT_STORY, () => {
+      api.emit(SET_CURRENT_STORY, this.selection);
     });
-    api.emit(Events.GET_STORIES);
+    api.emit(GET_STORIES);
   }
 }

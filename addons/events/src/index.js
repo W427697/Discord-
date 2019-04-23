@@ -1,5 +1,5 @@
 import { addons } from '@storybook/addons';
-import CoreEvents from '@storybook/core-events';
+import { REGISTER_SUBSCRIPTION } from '@storybook/core-events';
 import deprecate from 'util-deprecate';
 
 import { EVENTS } from './constants';
@@ -27,7 +27,7 @@ const addEvents = ({ emit, events }) => {
     prevEvents = events;
   }
   currentEmit = emit;
-  addons.getChannel().emit(CoreEvents.REGISTER_SUBSCRIPTION, subscription);
+  addons.getChannel().emit(REGISTER_SUBSCRIPTION, subscription);
 };
 
 const WithEvents = deprecate(({ children, ...options }) => {

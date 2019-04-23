@@ -1,4 +1,6 @@
-import { Theme, Interpolation } from '@storybook/theming';
+import { Theme } from '@storybook/theming';
+// tslint:disable-next-line: no-implicit-dependencies
+import { Interpolation } from '@emotion/core';
 
 export const getScrollAreaStyles: (theme: Theme) => Interpolation = (theme: Theme) => ({
   '[data-simplebar]': {

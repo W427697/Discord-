@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import Markdown from 'react-native-simple-markdown';
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import Events from '@storybook/core-events';
 
 export const PARAM_KEY = `notes`;

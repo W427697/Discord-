@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 
 import { SELECT_STORY } from '@storybook/core-events';
 import { mockChannel } from '../../preview.test';
