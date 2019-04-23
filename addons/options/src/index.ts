@@ -1,5 +1,5 @@
 import deprecate from 'util-deprecate';
-import addons, { makeDecorator } from '@storybook/addons';
+import { addons, makeDecorator } from '@storybook/addons';
 
 import EVENTS from './constants';
 
