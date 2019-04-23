@@ -1,4 +1,4 @@
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import CoreEvents from '@storybook/core-events';
 import deprecate from 'util-deprecate';
 

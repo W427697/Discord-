@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import AddonsList from './list';
 import AddonWrapper from './wrapper';
 import style from '../style';

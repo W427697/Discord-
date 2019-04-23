@@ -62,7 +62,7 @@ We write an addon that responds to a change in story selection like so:
 
 import React from 'react';
 import { STORY_RENDERED } from '@storybook/core-events';
-import addons, { types } from '@storybook/addons';
+import { addons, types } from '@storybook/addons';
 
 const ADDON_ID = 'myaddon';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -170,7 +170,7 @@ Notice how the storybook API itself has `.on()`, `.off()` and `.emit()` methods 
 
 ```js
 import React from 'react';
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import { STORY_CHANGED } from '@storybook/core-events';
 
 class MyPanel extends React.Component {

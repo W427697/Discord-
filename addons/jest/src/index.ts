@@ -1,4 +1,4 @@
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import deprecate from 'util-deprecate';
 import { normalize, sep } from 'upath';
 import { ADD_TESTS } from './shared';

@@ -1,7 +1,7 @@
 import { SyntheticEvent } from 'react';
 import { document } from 'global';
 import qs from 'qs';
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import { SELECT_STORY, STORY_CHANGED } from '@storybook/core-events';
 import { toId } from '@storybook/router';
 

@@ -1,6 +1,6 @@
 import EventEmitter from 'eventemitter3';
 import { storiesOf } from '@storybook/html';
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import CoreEvents from '@storybook/core-events';
 import json from 'format-json';
 

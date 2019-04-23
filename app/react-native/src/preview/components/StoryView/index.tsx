@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import Events from '@storybook/core-events';
 import style from './style';
 

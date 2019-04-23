@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { SectionList, Text, TextInput, TouchableOpacity, View, SafeAreaView } from 'react-native';
 import Events from '@storybook/core-events';
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import style from './style';
 
 interface SectionProps {
