@@ -82,6 +82,26 @@ module.exports = {
         '@babel/plugin-transform-react-constant-elements',
         'babel-plugin-add-react-displayname',
       ],
+      env: {
+        test: {
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                shippedProposals: true,
+                useBuiltIns: 'usage',
+                corejs: '3',
+                modules: 'commonjs',
+              },
+            ],
+          ],
+          plugins: [
+            'babel-plugin-require-context-hook',
+            'babel-plugin-dynamic-import-node',
+            '@babel/plugin-transform-runtime',
+          ],
+        },
+      },
     },
     {
       test: [
@@ -114,6 +134,26 @@ module.exports = {
         '@babel/plugin-proposal-object-rest-spread',
         '@babel/plugin-proposal-export-default-from',
       ],
+      env: {
+        test: {
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                shippedProposals: true,
+                useBuiltIns: 'usage',
+                corejs: '3',
+                modules: 'commonjs',
+              },
+            ],
+          ],
+          plugins: [
+            'babel-plugin-require-context-hook',
+            'babel-plugin-dynamic-import-node',
+            '@babel/plugin-transform-runtime',
+          ],
+        },
+      },
     },
   ],
 };
