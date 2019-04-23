@@ -1,4 +1,3 @@
-const path = require('path');
 const { DefinePlugin, ContextReplacementPlugin } = require('webpack');
 
 module.exports = async ({ config }) => ({
@@ -7,16 +6,6 @@ module.exports = async ({ config }) => ({
     ...config.module,
     rules: [
       ...config.module.rules,
-      {
-        test: /\.stories\.jsx?$/,
-        use: require.resolve('@storybook/addon-storysource/loader'),
-        include: [
-          path.resolve(__dirname, './stories'),
-          path.resolve(__dirname, '../../lib/ui/src'),
-          path.resolve(__dirname, '../../lib/components/src'),
-        ],
-        enforce: 'pre',
-      },
       {
         test: /\.tsx?$/,
         use: [

@@ -7,6 +7,9 @@ module.exports = {
         useBuiltIns: 'usage',
         corejs: '3',
         modules: false,
+        targets: {
+          browsers: ['Chrome >= 52', 'Explorer 11'],
+        },
       },
     ],
     '@babel/preset-typescript',
@@ -62,6 +65,9 @@ module.exports = {
             useBuiltIns: 'usage',
             corejs: '3',
             modules: false,
+            targets: {
+              browsers: ['Chrome >= 52', 'Explorer 11'],
+            },
           },
         ],
         '@babel/preset-react',
