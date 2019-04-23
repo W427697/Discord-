@@ -1,13 +1,11 @@
+import { window } from 'global'
 import React, { Component } from 'react';
 import MonacoEditor from 'react-monaco-editor';
-import PropTypes from 'prop-types';
-import ResizeObserver from 'resize-observer-polyfill';
+import ResizeDetector from 'react-resize-detector';
 import { STORY_RENDERED } from '@storybook/core-events';
 import * as api from '@storybook/api'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import { ChangeHandler } from 'react-monaco-editor';
-import * as global from 'global';
-
 
 export type ChangePositionFunction = (e: monacoEditor.editor.ICursorPositionChangedEvent,
   editor: monacoEditor.editor.IStandaloneCodeEditor,
@@ -43,19 +41,7 @@ export class Editor extends Component<EditorProps, EditorState> {
   }
 
   componentDidMount() {
-    global.window.addEventListener('resize', this.updateDimensions);
     const { resizeContainerReference } = this.props;
-
-    const tryToBindToTheResizeContainer = !resizeContainerReference
-      ? () => { }
-      : () => {
-        const containerObserver = new ResizeObserver(() => this.updateDimensions());
-
-        const resizeContainer = resizeContainerReference();
-        if (resizeContainer) containerObserver.observe(resizeContainer);
-        else setTimeout(tryToBindToTheResizeContainer, 1000);
-      };
-    setTimeout(tryToBindToTheResizeContainer, 1000);
   }
 
   componentWillReceiveProps({ source, changePosition }: EditorProps = {}) {
@@ -63,16 +49,8 @@ export class Editor extends Component<EditorProps, EditorState> {
     if (changePosition) this.setState({ changePosition });
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateDimensions);
-  }
-
   onChange: ChangeHandler = (newValue, e) => {
     console.log('onChange', newValue, e); // eslint-disable-line no-console
-  };
-
-  updateDimensions = () => {
-    (this.editor || { layout: () => { } }).layout();
   };
 
   editorDidMount = (editor: monacoEditor.editor.IStandaloneCodeEditor,
@@ -97,14 +75,19 @@ export class Editor extends Component<EditorProps, EditorState> {
       selectOnLineNumbers: true,
     };
     return (
-      <MonacoEditor
+      <ResizeDetector handleWidth handleHeight>
+      {({ width, height } : {width: number, height: number}) => {
+      (this.editor || { layout: () => { } }).layout();
+      return (<MonacoEditor
         language="javascript"
         theme="vs-dark"
         value={source}
         options={options}
         onChange={onChange}
         editorDidMount={this.editorDidMount}
-      />
+      />)
+      }}
+      </ResizeDetector>
     );
   }
 }
