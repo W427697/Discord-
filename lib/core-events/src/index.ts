@@ -42,4 +42,5 @@ export const STORY_RENDERED = events.STORY_RENDERED;
 export const STORY_MISSING = events.STORY_MISSING;
 export const STORY_ERRORED = events.STORY_ERRORED;
 export const STORY_CHANGED = events.STORY_CHANGED;
+export const STORY_UNCHANGED = events.STORY_UNCHANGED;
 export const STORY_THREW_EXCEPTION = events.STORY_THREW_EXCEPTION;
