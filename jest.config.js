@@ -7,7 +7,7 @@ module.exports = {
     '\\.(css|scss)$': '<rootDir>/__mocks__/styleMock.js',
     '\\.(md)$': '<rootDir>/__mocks__/htmlMock.js',
     '@storybook/addons$': '<rootDir>/lib/addons/src',
-    '@storybook/core/client$': '<rootDir>/lib/core/client.mjs',
+    '@storybook/core/client$': '<rootDir>/lib/core/client.ts',
     '@storybook/core$': '<rootDir>/lib/core/src',
     '@storybook/ui$': '<rootDir>/lib/ui/src',
     '@storybook/components$': '<rootDir>/lib/components/src',

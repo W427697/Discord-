@@ -1,4 +1,4 @@
-const { DefinePlugin, ContextReplacementPlugin } = require('webpack');
+// const { DefinePlugin, ContextReplacementPlugin } = require('webpack');
 
 module.exports = async ({ config }) => ({
   ...config,
@@ -19,16 +19,16 @@ module.exports = async ({ config }) => ({
       },
     ],
   },
-  plugins: [
-    ...config.plugins,
-    // graphql sources check process variable
-    new DefinePlugin({
-      process: JSON.stringify(true),
-    }),
+  // plugins: [
+  //   ...config.plugins,
+  //   // graphql sources check process variable
+  //   new DefinePlugin({
+  //     process: JSON.stringify(true),
+  //   }),
 
-    // See https://github.com/graphql/graphql-language-service/issues/111#issuecomment-306723400
-    new ContextReplacementPlugin(/graphql-language-service-interface[/\\]dist/, /\.js$/),
-  ],
+  //   // See https://github.com/graphql/graphql-language-service/issues/111#issuecomment-306723400
+  //   new ContextReplacementPlugin(/graphql-language-service-interface[/\\]dist/, /\.js$/),
+  // ],
   resolve: {
     ...config.resolve,
     extensions: [...(config.resolve.extensions || []), '.ts', '.tsx'],
