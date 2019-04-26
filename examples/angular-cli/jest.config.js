@@ -12,6 +12,7 @@ const moduleNameMapper = Object.entries(config.moduleNameMapper).reduce(
 );
 
 module.exports = {
+  preset: 'jest-preset-angular',
   ...config,
   globals: {
     __TRANSFORM_HTML__: true,
@@ -27,6 +28,10 @@ module.exports = {
     '^.+/addons/.+\\.tsx?$': '<rootDir>/scripts/babel-jest.js',
     // '^.+/app/.+\\.tsx?$': '<rootDir>/scripts/jest-ts-babel.js',
     // ...config.transform,
+
+    // '^.+[/\\\\].storybook[/\\\\]config\\.ts$': '<rootDir>/scripts/jest-ts-babel.js',
+    // '^.+\\.html$': '<rootDir>/node_modules/jest-preset-angular/preprocessor.js',
+    // '^.+\\.ts$': '<rootDir>/node_modules/jest-preset-angular/preprocessor.js',
   },
   moduleFileExtensions: [...config.moduleFileExtensions, 'html'],
 };

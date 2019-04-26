@@ -26,3 +26,5 @@ lib/*.jar
 lib/**/dll
 .expo/packager-info.json
 .cache-loader
+scripts/storage
+htpasswd

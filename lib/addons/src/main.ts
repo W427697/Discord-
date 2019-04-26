@@ -1,12 +1,11 @@
 import global from 'global';
-// tslint:disable-next-line:no-implicit-dependencies
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { ReactElement } from 'react';
 import { Channel } from '@storybook/channels';
 import { API } from '@storybook/api';
-import { logger } from '@storybook/client-logger';
-import { types, isSupportedType } from './types';
 
-export type Types = types | string;
+import { logger } from '@storybook/client-logger';
+import { types, Types, isSupportedType } from './types';
 
 export interface RenderOptions {
   active: boolean;
@@ -30,7 +29,7 @@ export interface Addon {
 
 export type Loader = (api: API) => void;
 
-export { types, isSupportedType };
+export { types, Types, isSupportedType };
 
 interface Loaders {
   [key: string]: Loader;
@@ -44,7 +43,9 @@ interface Elements {
 
 export class AddonStore {
   private loaders: Loaders = {};
+
   private elements: Elements = {};
+
   private channel: Channel | undefined;
 
   getChannel = (): Channel => {
@@ -57,7 +58,9 @@ export class AddonStore {
 
     return this.channel;
   };
+
   hasChannel = (): boolean => !!this.channel;
+
   setChannel = (channel: Channel): void => {
     this.channel = channel;
   };
@@ -68,12 +71,14 @@ export class AddonStore {
     }
     return this.elements[type];
   };
+
   addPanel = (name: string, options: Addon): void => {
     this.add(name, {
       type: types.PANEL,
       ...options,
     });
   };
+
   add = (name: string, addon: Addon) => {
     const { type } = addon;
     const collection = this.getElements(type);
@@ -101,10 +106,3 @@ function getAddonsStore(): AddonStore {
   }
   return global[KEY];
 }
-
-// Exporting this twice in order to to be able to import it like { addons } instead of 'addons'
-// prefer import { addons } from '@storybook/addons' over import addons from '@storybook/addons'
-//
-// See public_api.ts
-
-export const addons = getAddonsStore();
