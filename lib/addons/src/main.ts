@@ -5,7 +5,9 @@ import { Channel } from '@storybook/channels';
 import { API } from '@storybook/api';
 
 import { logger } from '@storybook/client-logger';
-import { types, Types, isSupportedType } from './types';
+import * as t from './types';
+
+export * from './types';
 
 export interface RenderOptions {
   active: boolean;
@@ -20,7 +22,7 @@ export interface MatchOptions {
 
 export interface Addon {
   title: string;
-  type?: Types;
+  type?: t.Types;
   id?: string;
   route?: (routeOptions: RouteOptions) => string;
   match?: (matchOptions: MatchOptions) => boolean;
@@ -28,8 +30,6 @@ export interface Addon {
 }
 
 export type Loader = (api: API) => void;
-
-export { types, Types, isSupportedType };
 
 interface Loaders {
   [key: string]: Loader;
@@ -65,7 +65,7 @@ export class AddonStore {
     this.channel = channel;
   };
 
-  getElements = (type: Types): Collection => {
+  getElements = (type: t.Types): Collection => {
     if (!this.elements[type]) {
       this.elements[type] = {};
     }
@@ -74,7 +74,7 @@ export class AddonStore {
 
   addPanel = (name: string, options: Addon): void => {
     this.add(name, {
-      type: types.PANEL,
+      type: t.types.PANEL,
       ...options,
     });
   };
@@ -106,3 +106,10 @@ function getAddonsStore(): AddonStore {
   }
   return global[KEY];
 }
+
+// Exporting this twice in order to to be able to import it like { addons } instead of 'addons'
+// prefer import { addons } from '@storybook/addons' over import addons from '@storybook/addons'
+//
+// See public_api.ts
+
+export const addons = getAddonsStore();

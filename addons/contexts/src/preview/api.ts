@@ -1,8 +1,8 @@
 import { addons } from '@storybook/addons';
 import { FORCE_RE_RENDER, SET_CURRENT_STORY } from '@storybook/core-events';
-import { REBOOT_MANAGER, UPDATE_PREVIEW, UPDATE_MANAGER } from '../constants';
+import { REBOOT_MANAGER, UPDATE_PREVIEW, UPDATE_MANAGER } from '../shared/constants';
 import { getContextNodes, getPropsMap, getRendererFrom, singleton } from './libs';
-import { ContextNode, PropsMap } from '../types';
+import { ContextNode, PropsMap } from '../shared/types.d';
 
 /**
  * @Public
@@ -14,9 +14,13 @@ export const addonContextsAPI = singleton(() => {
   let selectionState = {};
 
   // from manager
-  channel.on(SET_CURRENT_STORY, () => (memorizedNodes = null));
+  channel.on(SET_CURRENT_STORY, () => {
+    memorizedNodes = null;
+  });
   channel.on(REBOOT_MANAGER, () => channel.emit(UPDATE_MANAGER, memorizedNodes, selectionState));
-  channel.on(UPDATE_PREVIEW, state => (selectionState = Object.freeze(state)));
+  channel.on(UPDATE_PREVIEW, state => {
+    selectionState = Object.freeze(state);
+  });
   channel.on(UPDATE_PREVIEW, () => channel.emit(FORCE_RE_RENDER));
 
   // to manager
@@ -34,7 +38,7 @@ export const addonContextsAPI = singleton(() => {
    * Vue will inject getter/setters on the first rendering of the addon,
    * which is the reason why we have to keep an internal reference and use `Object.assign` to update it.
    */
-  let reactivePropsMap = {};
+  const reactivePropsMap = {};
   const updateReactiveSystem = (propsMap: PropsMap) =>
     /* tslint:disable:prefer-object-spread */
     Object.assign(reactivePropsMap, propsMap);
