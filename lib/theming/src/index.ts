@@ -1,4 +1,6 @@
 import emotionStyled, { CreateStyled } from '@emotion/styled';
+import { Global, keyframes, css, ClassNames } from '@emotion/core';
+import { ThemeProvider, withTheme } from 'emotion-theming';
 import dark from './themes/dark';
 import light from './themes/light';
 import { Theme } from './base';
@@ -14,12 +16,8 @@ const themes = {
 };
 
 export { themes };
-
-import { Global, keyframes, css, ClassNames } from '@emotion/core';
 // export * from '@emotion/core';
 export { Global, keyframes, css, ClassNames };
-
-import { ThemeProvider, withTheme } from 'emotion-theming';
 // export * from 'emotion-theming';
 export { withTheme, ThemeProvider };
 
