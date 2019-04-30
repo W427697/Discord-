@@ -265,7 +265,7 @@ Did you create a path that uses the separator char accidentally, such as 'Vue <d
     }
 
     store.setState({
-      storiesHash,
+      storiesHash: Object.assign({}, store.getState().storiesHash, storiesHash),
       storiesConfigured: true,
     });
   };
