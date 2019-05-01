@@ -249,15 +249,18 @@ Did you create a path that uses the separator char accidentally, such as 'Vue <d
       return acc;
     }
 
+    const { storyId, viewMode, storiesHash } = store.getState();
+
     // Now create storiesHash by reordering the above by group
-    const storiesHash: StoriesHash = Object.values(storiesHashOutOfOrder).reduce(addItem, {});
+    const newStoriesHash: StoriesHash = Object.values(storiesHashOutOfOrder).reduce(
+      addItem,
+      storiesHash
+    );
 
-    const { storyId, viewMode } = store.getState();
-
-    if (!storyId || !storiesHash[storyId]) {
+    if (!storyId || !newStoriesHash[storyId]) {
       // when there's no storyId or the storyId item doesn't exist
       // we pick the first leaf and navigate
-      const firstLeaf = Object.values(storiesHash).find((s: Story | Group) => !s.children);
+      const firstLeaf = Object.values(newStoriesHash).find((s: Story | Group) => !s.children);
 
       if (viewMode && firstLeaf) {
         navigate(`/${viewMode}/${firstLeaf.id}`);
@@ -265,7 +268,7 @@ Did you create a path that uses the separator char accidentally, such as 'Vue <d
     }
 
     store.setState({
-      storiesHash: Object.assign({}, store.getState().storiesHash, storiesHash),
+      storiesHash: newStoriesHash,
       storiesConfigured: true,
     });
   };
