@@ -4,7 +4,7 @@ import memoize from 'memoizerific';
 // @ts-ignore shallow-equal is not in DefinitelyTyped
 import shallowEqualObjects from 'shallow-equal/objects';
 
-import Events from '@storybook/core-events';
+import { STORY_CHANGED, SET_STORIES, SELECT_STORY } from '@storybook/core-events';
 import { RenderData as RouterData } from '@storybook/router';
 import initProviderApi, { SubAPI as ProviderAPI, Provider } from './init-provider-api';
 
@@ -35,8 +35,6 @@ import initVersions, {
 } from './modules/versions';
 
 const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
-
-const { STORY_CHANGED, SET_STORIES, SELECT_STORY } = Events;
 
 export type Module = StoreData &
   RouterData &
