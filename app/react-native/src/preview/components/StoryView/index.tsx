@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+
 import { addons } from '@storybook/addons';
-import Events from '@storybook/core-events';
-import style from './style';
+import styled from '@emotion/native';
+
+import { SELECT_STORY, FORCE_RE_RENDER } from '@storybook/core-events';
 
 interface Props {
   listenToEvents: boolean;
@@ -16,12 +18,20 @@ interface State {
   selection?: any;
 }
 
+const HelpContainer = styled.View`
+  flex: 1;
+  padding-horizontal: 15;
+  padding-vertical: 15;
+  align-items: center;
+  justify-content: center;
+`;
+
 export default class StoryView extends Component<Props, State> {
   componentDidMount() {
     if (this.props.listenToEvents) {
       const channel = addons.getChannel();
-      channel.on(Events.SELECT_STORY, this.selectStory);
-      channel.on(Events.FORCE_RE_RENDER, this.forceReRender);
+      channel.on(SELECT_STORY, this.selectStory);
+      channel.on(FORCE_RE_RENDER, this.forceReRender);
     }
   }
 
@@ -30,8 +40,8 @@ export default class StoryView extends Component<Props, State> {
 
     if (listenToEvents) {
       const channel = addons.getChannel();
-      channel.removeListener(Events.SELECT_STORY, this.selectStory);
-      channel.removeListener(Events.FORCE_RE_RENDER, this.forceReRender);
+      channel.removeListener(SELECT_STORY, this.selectStory);
+      channel.removeListener(FORCE_RE_RENDER, this.forceReRender);
     }
   }
 
@@ -46,7 +56,7 @@ export default class StoryView extends Component<Props, State> {
   renderHelp = () => {
     const { url } = this.props;
     return (
-      <View style={style.help}>
+      <HelpContainer>
         {url && url.length ? (
           <Text>
             Please open the Storybook UI ({url}) with a web browser and select a story for preview.
@@ -56,14 +66,14 @@ export default class StoryView extends Component<Props, State> {
             Please open the Storybook UI with a web browser and select a story for preview.
           </Text>
         )}
-      </View>
+      </HelpContainer>
     );
   };
 
   renderOnDeviceUIHelp = () => (
-    <View style={style.help}>
+    <HelpContainer>
       <Text>Please open navigator and select a story to preview.</Text>
-    </View>
+    </HelpContainer>
   );
 
   render() {
@@ -84,7 +94,7 @@ export default class StoryView extends Component<Props, State> {
     const { kind, story } = selection;
 
     return storyFn ? (
-      <View key={`${kind}:::${story}`} style={style.main}>
+      <View key={`${kind}:::${story}`} style={{ flex: 1 }}>
         {storyFn()}
       </View>
     ) : (
@@ -97,7 +107,7 @@ export default class StoryView extends Component<Props, State> {
     const { kind, story } = selection;
 
     return storyFn ? (
-      <View key={`${kind}:::${story}`} style={style.main}>
+      <View key={`${kind}:::${story}`} style={{ flex: 1 }}>
         {storyFn()}
       </View>
     ) : (

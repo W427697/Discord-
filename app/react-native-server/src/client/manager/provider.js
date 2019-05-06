@@ -1,4 +1,6 @@
 import React from 'react';
+import uuid from 'uuid';
+
 import { Consumer } from '@storybook/api';
 import { Provider } from '@storybook/ui';
 import createChannel from '@storybook/channel-websocket';
@@ -8,8 +10,9 @@ import {
   GET_CURRENT_STORY,
   SET_CURRENT_STORY,
   GET_STORIES,
+  STORY_CHANGED,
 } from '@storybook/core-events';
-import uuid from 'uuid';
+
 import PreviewHelp from './components/PreviewHelp';
 
 const mapper = ({ state, api }) => ({
@@ -44,7 +47,6 @@ export default class ReactProvider extends Provider {
     this.addons = addons;
     this.channel = channel;
     this.options = options;
-    this.selection = null;
   }
 
   getElements(type) {
@@ -53,24 +55,11 @@ export default class ReactProvider extends Provider {
 
   renderPreview() {
     return (
-      <Consumer filter={mapper}>
+      <Consumer filter={mapper} pure>
         {({ storiesHash, storyId, api }) => {
           if (storiesHash[storyId]) {
             const { kind, story } = storiesHash[storyId];
-
-            if (!this.selection || this.selection.kind !== kind || this.selection.story !== story) {
-              this.selection = { kind, story };
-              // TODO: isn't this event sent twice now?
-              api.emit(SET_CURRENT_STORY, { kind, story });
-            }
-
-            // FIXME: getPreview not implemented yet.
-            if (addons.getPreview) {
-              const renderPreview = addons.getPreview();
-              if (renderPreview) {
-                return renderPreview(kind, story);
-              }
-            }
+            api.emit(SET_CURRENT_STORY, { kind, story });
           }
           return <PreviewHelp />;
         }}
@@ -80,9 +69,7 @@ export default class ReactProvider extends Provider {
 
   handleAPI(api) {
     addons.loadAddons(api);
-
-    api.onStory((kind, story) => {
-      this.selection = { kind, story };
+    api.on(STORY_CHANGED, () => {
       api.emit(SET_CURRENT_STORY, this.selection);
     });
     api.on(GET_CURRENT_STORY, () => {
