@@ -52,6 +52,10 @@ export function getAngularCliWebpackConfigOptions(dirToSearch) {
     project = projects[defaultProject];
   }
 
+  if (!project.architect.build) {
+    return null;
+  }
+
   const { options: projectOptions } = project.architect.build;
 
   const normalizedAssets = normalizeAssetPatterns(
