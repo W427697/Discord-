@@ -3,12 +3,12 @@ import { styled } from '@storybook/theming';
 import { document, window } from 'global';
 import memoize from 'memoizerific';
 
-import jsx from 'react-syntax-highlighter/languages/prism/jsx';
-import bash from 'react-syntax-highlighter/languages/prism/bash';
-import css from 'react-syntax-highlighter/languages/prism/css';
-import html from 'react-syntax-highlighter/languages/prism/markup';
+import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx';
+import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
+import css from 'react-syntax-highlighter/dist/esm/languages/prism/css';
+import html from 'react-syntax-highlighter/dist/esm/languages/prism/markup';
 
-import ReactSyntaxHighlighter, { registerLanguage } from 'react-syntax-highlighter/prism-light';
+import ReactSyntaxHighlighter, { registerLanguage } from 'react-syntax-highlighter/dist/esm/light';
 
 import { js as beautify } from 'js-beautify';
 import { ActionBar } from '../ActionBar/ActionBar';
