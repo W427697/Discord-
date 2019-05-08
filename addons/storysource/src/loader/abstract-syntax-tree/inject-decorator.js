@@ -5,7 +5,7 @@ import {
   generateSourceWithDecorators,
   generateSourceWithoutDecorators,
   generateStorySource,
-  generateAddsMap,
+  generateStoriesLocationsMap,
   generateDependencies,
 } from './generate-helpers';
 
@@ -19,7 +19,7 @@ function extendOptions(source, comments, filepath, options) {
   };
 }
 
-function inject(source, decorator, filepath, options = {}, log = message => console.log(message)) {
+function inject(source, decorator, filepath, options = {}, log = message => {}) {
   const { injectDecorator = true } = options;
   const obviouslyNotCode = ['md', 'txt', 'json'].includes(options.parser);
   let parser = null;
@@ -48,9 +48,9 @@ function inject(source, decorator, filepath, options = {}, log = message => cons
   const storySource = generateStorySource(extendOptions(source, comments, filepath, options));
   const newAst = parser.parse(storySource);
   const { dependencies, storiesOfIdentifiers } = generateDependencies(newAst);
-  const { addsMap, idsToFrameworks } = generateAddsMap(newAst, storiesOfIdentifiers);
+  const { addsMap, idsToFrameworks } = generateStoriesLocationsMap(newAst, storiesOfIdentifiers);
 
-  if (!changed) {
+  if (!changed && Object.keys(addsMap || {}).length === 0) {
     return {
       source: newSource,
       storySource,

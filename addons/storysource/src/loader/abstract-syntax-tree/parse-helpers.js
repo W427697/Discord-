@@ -61,6 +61,21 @@ export function patchNode(node) {
   return node;
 }
 
+export function handleExportedName(kind, storyName, node) {
+  return {
+    [storyName]: {
+      startLoc: {
+        col: node.loc.start.column,
+        line: node.loc.start.line,
+      },
+      endLoc: {
+        col: node.loc.end.column,
+        line: node.loc.end.line,
+      },
+    },
+  };
+}
+
 export function handleADD(node, parent, storiesOfIdentifiers) {
   if (!node.property || !node.property.name || node.property.name.indexOf('add') !== 0) {
     return {};

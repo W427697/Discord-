@@ -1,4 +1,4 @@
-import { handleADD, handleSTORYOF, patchNode } from './parse-helpers';
+import { handleADD, handleSTORYOF, patchNode, handleExportedName } from './parse-helpers';
 
 const estraverse = require('estraverse');
 
@@ -37,6 +37,55 @@ export function findAddsMap(ast, storiesOfIdentifiers) {
     },
   });
 
+  return { addsMap, idsToFrameworks };
+}
+
+export function findExportsMap(ast) {
+  const addsMap = {};
+  const idsToFrameworks = {};
+  const defaultDeclaration =
+    ast &&
+    ast.program &&
+    ast.program.body &&
+    ast.program.body.find(d => d.type === 'ExportDefaultDeclaration');
+
+  const foundATitle =
+    defaultDeclaration &&
+    defaultDeclaration.declaration &&
+    defaultDeclaration.declaration.type === 'ObjectExpression' &&
+    (defaultDeclaration.declaration.properties || []).find(
+      p => p && p.key && p.key.name === 'title'
+    );
+  if (!foundATitle) return { addsMap, idsToFrameworks };
+  const title = foundATitle.value.extra.rawValue;
+
+  estraverse.traverse(ast, {
+    fallback: 'iteration',
+    enter: node => {
+      patchNode(node);
+      if (
+        node.type === 'ExportNamedDeclaration' &&
+        node.declaration &&
+        node.declaration.declarations.length === 1 &&
+        node.declaration.declarations[0].type === 'VariableDeclarator' &&
+        node.declaration.declarations[0].id &&
+        node.declaration.declarations[0].id.name &&
+        node.declaration.declarations[0].init &&
+        ['ArrowFunctionExpression', 'FunctionExpression'].includes(
+          node.declaration.declarations[0].init.type
+        )
+      ) {
+        Object.assign(
+          addsMap,
+          handleExportedName(
+            title,
+            node.declaration.declarations[0].id.name,
+            node.declaration.declarations[0].init
+          )
+        );
+      }
+    },
+  });
   return { addsMap, idsToFrameworks };
 }
 

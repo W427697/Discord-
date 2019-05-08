@@ -1,6 +1,11 @@
 import prettier from 'prettier';
 import { patchNode } from './parse-helpers';
-import { splitSTORYOF, findAddsMap, findDependencies } from './traverse-helpers';
+import {
+  splitSTORYOF,
+  findAddsMap,
+  findDependencies,
+  findExportsMap as generateExportsMap,
+} from './traverse-helpers';
 
 function isUglyComment(comment, uglyCommentsRegex) {
   return uglyCommentsRegex.some(regex => regex.test(comment));
@@ -84,6 +89,18 @@ export function generateSourceWithoutDecorators(source, ast) {
 
 export function generateAddsMap(ast, storiesOfIdentifiers) {
   return findAddsMap(ast, storiesOfIdentifiers);
+}
+
+export function generateStoriesLocationsMap(ast, storiesOfIdentifiers) {
+  const usingAddsMap = generateAddsMap(ast, storiesOfIdentifiers);
+  const { addsMap, idsToFrameworks } = usingAddsMap;
+
+  if (Object.keys(addsMap).length > 0) {
+    return usingAddsMap;
+  }
+  const usingExportsMap = generateExportsMap(ast);
+
+  return usingExportsMap || usingAddsMap;
 }
 
 export function generateDependencies(ast) {
