@@ -3,18 +3,19 @@ import React, { useMemo } from 'react';
 import { useParameter } from '@storybook/api';
 import { addons, types } from '@storybook/addons';
 import { AddonPanel } from '@storybook/components';
-import { ADDON_ID, PANEL_ID, PARAM_KEY } from './constants';
 
-type Results = string[] | undefined;
+export const ADDON_ID = 'storybook/parameter';
+export const PANEL_ID = `${ADDON_ID}/panel`;
+export const PARAM_KEY = `parameter`;
 
 export const Content = () => {
-  const results = useParameter<Results>(PARAM_KEY, []);
+  const results = useParameter(PARAM_KEY, []);
 
   return useMemo(
     () =>
       results.length ? (
         <ol>
-          {results.map((i: string) => (
+          {results.map(i => (
             <li>{i}</li>
           ))}
         </ol>

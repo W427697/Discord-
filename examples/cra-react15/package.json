@@ -19,8 +19,10 @@
     "build-storybook": "build-storybook -s public"
   },
   "devDependencies": {
+    "@storybook/addons": "5.1.0-beta.1",
     "@storybook/addon-actions": "5.1.0-beta.1",
     "@storybook/addon-links": "5.1.0-beta.1",
+    "@storybook/api": "5.1.0-beta.1",
     "@storybook/react": "5.1.0-beta.1",
     "@storybook/theming": "5.1.0-beta.1",
     "babel-core": "6",
