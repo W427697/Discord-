@@ -1,0 +1,35 @@
+{
+  "name": "@storybook/addon-react",
+  "version": "5.1.0-beta.1",
+  "description": "React addon for Storybook",
+  "keywords": [
+    "storybook",
+    "react"
+  ],
+  "homepage": "https://github.com/storybooks/storybook/tree/master/addons/app/react",
+  "bugs": {
+    "url": "https://github.com/storybooks/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybooks/storybook.git",
+    "directory": "app/react"
+  },
+  "license": "MIT",
+  "main": "dist/client/index.js",
+  "types": "dist/client/index.d.ts",
+  "scripts": {
+    "prepare": "node ../../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/addons": "5.1.0-beta.1",
+    "@storybook/core-events": "5.1.0-beta.1",
+    "global": "^4.3.2"
+  },
+  "peerDependencies": {
+    "react-dom": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

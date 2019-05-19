@@ -1,7 +1,21 @@
 import { configure, addParameters, addDecorator } from '@storybook/html';
 import { withA11y } from '@storybook/addon-a11y';
+import withReact from '@storybook/addon-react';
+import { ThemeProvider, themes, convert } from '@storybook/theming';
+import React from 'react';
 
 addDecorator(withA11y);
+
+addDecorator((getStory, context) => {
+  const story = getStory(context);
+  const { framework } = context.parameters;
+  if (!framework || !framework.react) {
+    return story;
+  }
+
+  return <ThemeProvider theme={convert(themes.light)}>{story}</ThemeProvider>;
+});
+addDecorator(withReact);
 
 addParameters({
   a11y: {
