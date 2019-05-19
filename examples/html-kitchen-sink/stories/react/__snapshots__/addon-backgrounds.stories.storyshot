@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots React|Backgrounds disabled via [] 1`] = `
+<div>
+  <button
+    type="button"
+  >
+    This one should not use backgrounds
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Backgrounds overriden 1`] = `
+<div>
+  <button
+    type="button"
+  >
+    This one should have different backgrounds
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Backgrounds skipped via disable:true 1`] = `
+<div>
+  <button
+    type="button"
+  >
+    This one should not use backgrounds either
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Backgrounds story 1 1`] = `
+<div>
+  <button
+    type="button"
+  >
+    You should be able to switch backgrounds for this story
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Backgrounds story 2 1`] = `
+<div>
+  <button
+    type="button"
+  >
+    This one too!
+  </button>
+</div>
+`;

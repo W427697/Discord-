@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots React|Links.Button First 1`] = `
+<div>
+  <button
+    type="button"
+  >
+    Go to "Second"
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Links.Button Second 1`] = `
+<div>
+  <button
+    type="button"
+  >
+    Go to "First"
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Links.Href log 1`] = `
+<div>
+  <span>
+    See action logger
+  </span>
+</div>
+`;
+
+exports[`Storyshots React|Links.Link First 1`] = `
+<div>
+  <a
+    href="/"
+  >
+    Go to Second
+  </a>
+</div>
+`;
+
+exports[`Storyshots React|Links.Link Second 1`] = `
+<div>
+  <a
+    href="/"
+  >
+    Go to First
+  </a>
+</div>
+`;
+
+exports[`Storyshots React|Links.Scroll position First 1`] = `
+<div>
+  <div
+    style="margin-bottom: 100vh;"
+  >
+    Scroll down to see the link
+  </div>
+  <a
+    href="/"
+  >
+    Go to Second
+  </a>
+</div>
+`;
+
+exports[`Storyshots React|Links.Scroll position Second 1`] = `
+<div>
+  <div
+    style="margin-bottom: 100vh;"
+  >
+    Scroll down to see the link
+  </div>
+  <a
+    href="/"
+  >
+    Go to First
+  </a>
+</div>
+`;
+
+exports[`Storyshots React|Links.Select First 1`] = `
+<div>
+  <a
+    href="/"
+  >
+    Go back
+  </a>
+</div>
+`;
+
+exports[`Storyshots React|Links.Select Index 1`] = `
+<div>
+  <select>
+    <option>
+      Index
+    </option>
+    <option>
+      First
+    </option>
+    <option>
+      Second
+    </option>
+    <option>
+      Third
+    </option>
+  </select>
+</div>
+`;
+
+exports[`Storyshots React|Links.Select Second 1`] = `
+<div>
+  <a
+    href="/"
+  >
+    Go back
+  </a>
+</div>
+`;
+
+exports[`Storyshots React|Links.Select Third 1`] = `
+<div>
+  <a
+    href="/"
+  >
+    Go back
+  </a>
+</div>
+`;

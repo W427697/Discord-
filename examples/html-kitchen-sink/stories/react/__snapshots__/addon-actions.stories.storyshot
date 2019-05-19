@@ -1,0 +1,264 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots React|Actions All types 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    Array
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    Boolean
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    Empty Object
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    File
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    Function A
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    Bound Function B
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    Infinity
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    -Infinity
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    NaN
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    null
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    Number
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    Multiple
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    Plain Object
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    Object (depth: 2)
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    RegExp
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    String
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    Symbol
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    SyntheticEvent
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    undefined
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    Window
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions Basic example 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    Hello World
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions Circular Payload 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    Circular Payload
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions Decorated action + config 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    Moving away from this story will persist the action logger
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions Decorated action 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    Native Event
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions Decorated actions + config 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    Moving away from this story will persist the action logger
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions Decorated actions 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    Native Event
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions Limit Action Output 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    False
+  </button>
+  <button
+    class="css-174wqyd"
+  >
+    True
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions Multiple actions + config 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    Moving away from this story will persist the action logger
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions Multiple actions 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    Hello World
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions Multiple actions as object 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    Hello World
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions Multiple actions, object + config 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    Moving away from this story will persist the action logger
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions Persisting the action logger 1`] = `
+<div>
+  <p>
+    Moving away from this story will persist the action logger
+  </p>
+  <button
+    class="css-174wqyd"
+  >
+    Object (configured clearOnStoryChange: false)
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions Reserved keyword as name 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    Delete
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions configureActionsDepth 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    Object (configured depth: 2)
+  </button>
+</div>
+`;
+
+exports[`Storyshots React|Actions.deprecated Decorated Action 1`] = `
+<div>
+  <button
+    class="css-174wqyd"
+  >
+    Native Event
+  </button>
+</div>
+`;

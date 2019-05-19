@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots React|Events Logger 1`] = `
+<div>
+  <div
+    class="css-1ruxp1v"
+  >
+    <h1
+      class="css-1uk1gs8"
+    >
+      Logger
+    </h1>
+    <dl />
+  </div>
+</div>
+`;
+
+exports[`Storyshots React|Events.deprecated Logger 1`] = `
+<div>
+  <div
+    class="css-1ruxp1v"
+  >
+    <h1
+      class="css-1uk1gs8"
+    >
+      Logger
+    </h1>
+    <dl />
+  </div>
+</div>
+`;
