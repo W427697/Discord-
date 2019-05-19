@@ -14,6 +14,7 @@ object OpenSourceProjects_Storybook_Bootstrap : BuildType({
 
     artifactRules = """
         addons/*/dist/** => dist.zip/addons
+        addons/frameworks/*/dist/** => dist.zip/addons/frameworks
         addons/storyshots/*/dist/** => dist.zip/addons/storyshots
         app/*/dist/** => dist.zip/app
         lib/*/dist/** => dist.zip/lib
