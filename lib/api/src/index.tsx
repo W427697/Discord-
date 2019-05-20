@@ -92,6 +92,10 @@ export type Props = Children & RouterData & ProviderData;
 class ManagerProvider extends Component<Props, State> {
   static displayName = 'Manager';
 
+  api: API;
+
+  modules: any[];
+
   constructor(props: Props) {
     super(props);
     const { provider, location, path, viewMode, storyId, navigate } = props;
@@ -197,10 +201,6 @@ class ManagerProvider extends Component<Props, State> {
     return false;
   }
 
-  api: API;
-
-  modules: any[];
-
   render() {
     const { children } = this.props;
     const value = {
@@ -227,16 +227,16 @@ interface SubState {
 }
 
 class ManagerConsumer extends Component<ConsumerProps<SubState, Combo>> {
-  constructor(props: ConsumerProps<SubState, Combo>) {
-    super(props);
-    this.dataMemory = props.filter ? memoize(10)(props.filter) : null;
-  }
-
   dataMemory?: (combo: Combo) => SubState;
 
   prevChildren?: ReactElement<any> | null;
 
   prevData?: SubState;
+
+  constructor(props: ConsumerProps<SubState, Combo>) {
+    super(props);
+    this.dataMemory = props.filter ? memoize(10)(props.filter) : null;
+  }
 
   render() {
     const { children, pure } = this.props;

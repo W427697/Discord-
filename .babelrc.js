@@ -1,3 +1,23 @@
+const withTests = {
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        shippedProposals: true,
+        useBuiltIns: 'usage',
+        corejs: '3',
+        targets: { node: 'current' },
+        modules: 'commonjs',
+      },
+    ],
+  ],
+  plugins: [
+    'babel-plugin-require-context-hook',
+    'babel-plugin-dynamic-import-node',
+    '@babel/plugin-transform-runtime',
+  ],
+};
+
 module.exports = {
   presets: [
     [
@@ -31,29 +51,15 @@ module.exports = {
     ['emotion', { sourceMap: true, autoLabel: true }],
   ],
   env: {
-    test: {
-      presets: [
-        [
-          '@babel/preset-env',
-          {
-            shippedProposals: true,
-            useBuiltIns: 'usage',
-            corejs: '3',
-            modules: 'commonjs',
-          },
-        ],
-      ],
-      plugins: [
-        'babel-plugin-require-context-hook',
-        'babel-plugin-dynamic-import-node',
-        '@babel/plugin-transform-runtime',
-      ],
-    },
+    test: withTests,
   },
   overrides: [
     {
       test: './examples/vue-kitchen-sink',
       presets: ['babel-preset-vue'],
+      env: {
+        test: withTests,
+      },
     },
     {
       test: './lib',
@@ -83,24 +89,7 @@ module.exports = {
         'babel-plugin-add-react-displayname',
       ],
       env: {
-        test: {
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                shippedProposals: true,
-                useBuiltIns: 'usage',
-                corejs: '3',
-                modules: 'commonjs',
-              },
-            ],
-          ],
-          plugins: [
-            'babel-plugin-require-context-hook',
-            'babel-plugin-dynamic-import-node',
-            '@babel/plugin-transform-runtime',
-          ],
-        },
+        test: withTests,
       },
     },
     {
@@ -135,24 +124,7 @@ module.exports = {
         '@babel/plugin-proposal-export-default-from',
       ],
       env: {
-        test: {
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                shippedProposals: true,
-                useBuiltIns: 'usage',
-                corejs: '3',
-                modules: 'commonjs',
-              },
-            ],
-          ],
-          plugins: [
-            'babel-plugin-require-context-hook',
-            'babel-plugin-dynamic-import-node',
-            '@babel/plugin-transform-runtime',
-          ],
-        },
+        test: withTests,
       },
     },
   ],

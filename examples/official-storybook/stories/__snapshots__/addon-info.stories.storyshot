@@ -1246,13 +1246,16 @@ exports[`Storyshots Addons|Info/Markdown Displays Markdown in description 1`] = 
 .emotion-5 {
   position: relative;
   overflow: hidden;
+  color: #333333;
   border: 1px solid rgba(0,0,0,.1);
   background: #FFFFFF;
 }
 
 .emotion-2 {
   overflow-y: auto;
+  height: 100%;
   overflow-x: auto;
+  width: 100%;
   position: relative;
 }
 
@@ -1564,72 +1567,76 @@ exports[`Storyshots Addons|Info/Markdown Displays Markdown in description 1`] = 
                     class="simplebar-offset"
                   >
                     <div
-                      class="simplebar-content"
+                      class="simplebar-content-wrapper"
                     >
-                      <pre
-                        class="hljs emotion-1"
+                      <div
+                        class="simplebar-content"
                       >
-                        <code
-                          class="emotion-0"
+                        <pre
+                          class="hljs emotion-1"
                         >
-                          <span
-                            class="token keyword"
+                          <code
+                            class="emotion-0"
                           >
-                            const
-                          </span>
-                           
-                          <span
-                            class="token function-variable function"
-                          >
-                            Button
-                          </span>
-                           
-                          <span
-                            class="token operator"
-                          >
-                            =
-                          </span>
-                           
-                          <span
-                            class="token punctuation"
-                          >
-                            (
-                          </span>
-                          <span
-                            class="token punctuation"
-                          >
-                            )
-                          </span>
-                           
-                          <span
-                            class="token operator"
-                          >
-                            =&gt;
-                          </span>
-                           
-                          <span
-                            class="token operator"
-                          >
-                            &lt;
-                          </span>
-                          button 
-                          <span
-                            class="token operator"
-                          >
-                            /
-                          </span>
-                          <span
-                            class="token operator"
-                          >
-                            &gt;
-                          </span>
-                          <span
-                            class="token punctuation"
-                          >
-                            ;
-                          </span>
-                        </code>
-                      </pre>
+                            <span
+                              class="token keyword"
+                            >
+                              const
+                            </span>
+                             
+                            <span
+                              class="token function-variable function"
+                            >
+                              Button
+                            </span>
+                             
+                            <span
+                              class="token operator"
+                            >
+                              =
+                            </span>
+                             
+                            <span
+                              class="token punctuation"
+                            >
+                              (
+                            </span>
+                            <span
+                              class="token punctuation"
+                            >
+                              )
+                            </span>
+                             
+                            <span
+                              class="token operator"
+                            >
+                              =&gt;
+                            </span>
+                             
+                            <span
+                              class="token operator"
+                            >
+                              &lt;
+                            </span>
+                            button 
+                            <span
+                              class="token operator"
+                            >
+                              /
+                            </span>
+                            <span
+                              class="token operator"
+                            >
+                              &gt;
+                            </span>
+                            <span
+                              class="token punctuation"
+                            >
+                              ;
+                            </span>
+                          </code>
+                        </pre>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -4602,13 +4609,16 @@ exports[`Storyshots Addons|Info/Parameters Overwrite the parameters with markdow
 .emotion-5 {
   position: relative;
   overflow: hidden;
+  color: #333333;
   border: 1px solid rgba(0,0,0,.1);
   background: #FFFFFF;
 }
 
 .emotion-2 {
   overflow-y: auto;
+  height: 100%;
   overflow-x: auto;
+  width: 100%;
   position: relative;
 }
 
@@ -4920,72 +4930,76 @@ exports[`Storyshots Addons|Info/Parameters Overwrite the parameters with markdow
                     class="simplebar-offset"
                   >
                     <div
-                      class="simplebar-content"
+                      class="simplebar-content-wrapper"
                     >
-                      <pre
-                        class="hljs emotion-1"
+                      <div
+                        class="simplebar-content"
                       >
-                        <code
-                          class="emotion-0"
+                        <pre
+                          class="hljs emotion-1"
                         >
-                          <span
-                            class="token keyword"
+                          <code
+                            class="emotion-0"
                           >
-                            const
-                          </span>
-                           
-                          <span
-                            class="token function-variable function"
-                          >
-                            Button
-                          </span>
-                           
-                          <span
-                            class="token operator"
-                          >
-                            =
-                          </span>
-                           
-                          <span
-                            class="token punctuation"
-                          >
-                            (
-                          </span>
-                          <span
-                            class="token punctuation"
-                          >
-                            )
-                          </span>
-                           
-                          <span
-                            class="token operator"
-                          >
-                            =&gt;
-                          </span>
-                           
-                          <span
-                            class="token operator"
-                          >
-                            &lt;
-                          </span>
-                          button 
-                          <span
-                            class="token operator"
-                          >
-                            /
-                          </span>
-                          <span
-                            class="token operator"
-                          >
-                            &gt;
-                          </span>
-                          <span
-                            class="token punctuation"
-                          >
-                            ;
-                          </span>
-                        </code>
-                      </pre>
+                            <span
+                              class="token keyword"
+                            >
+                              const
+                            </span>
+                             
+                            <span
+                              class="token function-variable function"
+                            >
+                              Button
+                            </span>
+                             
+                            <span
+                              class="token operator"
+                            >
+                              =
+                            </span>
+                             
+                            <span
+                              class="token punctuation"
+                            >
+                              (
+                            </span>
+                            <span
+                              class="token punctuation"
+                            >
+                              )
+                            </span>
+                             
+                            <span
+                              class="token operator"
+                            >
+                              =&gt;
+                            </span>
+                             
+                            <span
+                              class="token operator"
+                            >
+                              &lt;
+                            </span>
+                            button 
+                            <span
+                              class="token operator"
+                            >
+                              /
+                            </span>
+                            <span
+                              class="token operator"
+                            >
+                              &gt;
+                            </span>
+                            <span
+                              class="token punctuation"
+                            >
+                              ;
+                            </span>
+                          </code>
+                        </pre>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -5244,13 +5258,16 @@ exports[`Storyshots Addons|Info/Parameters Overwrite the text parameter with mar
 .emotion-5 {
   position: relative;
   overflow: hidden;
+  color: #333333;
   border: 1px solid rgba(0,0,0,.1);
   background: #FFFFFF;
 }
 
 .emotion-2 {
   overflow-y: auto;
+  height: 100%;
   overflow-x: auto;
+  width: 100%;
   position: relative;
 }
 
@@ -5540,44 +5557,48 @@ exports[`Storyshots Addons|Info/Parameters Overwrite the text parameter with mar
                   class="simplebar-offset"
                 >
                   <div
-                    class="simplebar-content"
+                    class="simplebar-content-wrapper"
                   >
-                    <pre
-                      class="hljs emotion-1"
+                    <div
+                      class="simplebar-content"
                     >
-                      <code
-                        class="emotion-0"
+                      <pre
+                        class="hljs emotion-1"
                       >
-                        <span
-                          class="token operator"
+                        <code
+                          class="emotion-0"
                         >
-                          &lt;
-                        </span>
-                        Button
-                        <span
-                          class="token operator"
-                        >
-                          &gt;
-                        </span>
-                        Click Here
-                        <span
-                          class="token operator"
-                        >
-                          &lt;
-                        </span>
-                        <span
-                          class="token operator"
-                        >
-                          /
-                        </span>
-                        Button
-                        <span
-                          class="token operator"
-                        >
-                          &gt;
-                        </span>
-                      </code>
-                    </pre>
+                          <span
+                            class="token operator"
+                          >
+                            &lt;
+                          </span>
+                          Button
+                          <span
+                            class="token operator"
+                          >
+                            &gt;
+                          </span>
+                          Click Here
+                          <span
+                            class="token operator"
+                          >
+                            &lt;
+                          </span>
+                          <span
+                            class="token operator"
+                          >
+                            /
+                          </span>
+                          Button
+                          <span
+                            class="token operator"
+                          >
+                            &gt;
+                          </span>
+                        </code>
+                      </pre>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -9482,13 +9503,16 @@ exports[`Storyshots Addons|Info/deprecated Displays Markdown in description 1`] 
 .emotion-5 {
   position: relative;
   overflow: hidden;
+  color: #333333;
   border: 1px solid rgba(0,0,0,.1);
   background: #FFFFFF;
 }
 
 .emotion-2 {
   overflow-y: auto;
+  height: 100%;
   overflow-x: auto;
+  width: 100%;
   position: relative;
 }
 
@@ -9800,72 +9824,76 @@ exports[`Storyshots Addons|Info/deprecated Displays Markdown in description 1`] 
                     class="simplebar-offset"
                   >
                     <div
-                      class="simplebar-content"
+                      class="simplebar-content-wrapper"
                     >
-                      <pre
-                        class="hljs emotion-1"
+                      <div
+                        class="simplebar-content"
                       >
-                        <code
-                          class="emotion-0"
+                        <pre
+                          class="hljs emotion-1"
                         >
-                          <span
-                            class="token keyword"
+                          <code
+                            class="emotion-0"
                           >
-                            const
-                          </span>
-                           
-                          <span
-                            class="token function-variable function"
-                          >
-                            Button
-                          </span>
-                           
-                          <span
-                            class="token operator"
-                          >
-                            =
-                          </span>
-                           
-                          <span
-                            class="token punctuation"
-                          >
-                            (
-                          </span>
-                          <span
-                            class="token punctuation"
-                          >
-                            )
-                          </span>
-                           
-                          <span
-                            class="token operator"
-                          >
-                            =&gt;
-                          </span>
-                           
-                          <span
-                            class="token operator"
-                          >
-                            &lt;
-                          </span>
-                          button 
-                          <span
-                            class="token operator"
-                          >
-                            /
-                          </span>
-                          <span
-                            class="token operator"
-                          >
-                            &gt;
-                          </span>
-                          <span
-                            class="token punctuation"
-                          >
-                            ;
-                          </span>
-                        </code>
-                      </pre>
+                            <span
+                              class="token keyword"
+                            >
+                              const
+                            </span>
+                             
+                            <span
+                              class="token function-variable function"
+                            >
+                              Button
+                            </span>
+                             
+                            <span
+                              class="token operator"
+                            >
+                              =
+                            </span>
+                             
+                            <span
+                              class="token punctuation"
+                            >
+                              (
+                            </span>
+                            <span
+                              class="token punctuation"
+                            >
+                              )
+                            </span>
+                             
+                            <span
+                              class="token operator"
+                            >
+                              =&gt;
+                            </span>
+                             
+                            <span
+                              class="token operator"
+                            >
+                              &lt;
+                            </span>
+                            button 
+                            <span
+                              class="token operator"
+                            >
+                              /
+                            </span>
+                            <span
+                              class="token operator"
+                            >
+                              &gt;
+                            </span>
+                            <span
+                              class="token punctuation"
+                            >
+                              ;
+                            </span>
+                          </code>
+                        </pre>
+                      </div>
                     </div>
                   </div>
                 </div>
