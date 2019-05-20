@@ -34,7 +34,12 @@ module.exports = {
   env: { es6: true, node: true, 'jest/globals': true },
   settings: {
     'import/core-modules': ['enzyme'],
-    'import/ignore': ['node_modules\\/(?!@storybook)'],
+    'import/ignore': [
+      'node_modules\\/(?!@storybook)',
+      // I'd rather not have this, but a babel/typescript issue is not detecting all exports
+      // related: https://github.com/babel/babel/issues/8361#issuecomment-494093009
+      '@storybook/*',
+    ],
     'import/resolver': { node: { extensions: ['.js', '.ts', '.tsx', '.mjs'] } },
     'html/html-extensions': ['.html'],
   },
