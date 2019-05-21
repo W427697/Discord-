@@ -1,25 +1,10 @@
 import React, { Component } from 'react';
 import blessed from 'blessed';
 import { render } from 'react-blessed';
-
-import { progress } from '@storybook/node-logger';
+import { progress as progressChannel } from '@storybook/node-logger';
+import { ProgressDescription, State, ValidStateKeys } from '../types';
 
 import { DebouncedDashboard } from './dashboard';
-
-interface State {
-  server: {
-    message: string;
-    progress?: number;
-  };
-  manager: {
-    message: string;
-    progress?: number;
-  };
-  preview: {
-    message: string;
-    progress?: number;
-  };
-}
 
 interface Props {
   activities: {
@@ -30,17 +15,11 @@ interface Props {
 }
 
 // Rendering a simple centered box
-class App extends Component<Props, State> {
+class App extends Component<Props, Partial<State>> {
   constructor(props: Props) {
     super(props);
 
-    const reporter = (type: 'server' | 'manager') => ({
-      message,
-      progress,
-    }: {
-      message: string;
-      progress?: number;
-    }) => {
+    const reporter = (type: ValidStateKeys) => ({ message, progress }: ProgressDescription) => {
       this.setState({
         [type]: {
           message,
@@ -49,8 +28,9 @@ class App extends Component<Props, State> {
       });
     };
 
-    Object.entries(props.activities).map(([type, init]) => {
-      progress.subscribe(type, reporter(type));
+    Object.entries(props.activities).forEach(([t, init]) => {
+      const type = t as ValidStateKeys;
+      progressChannel.subscribe(type, reporter(type));
       init();
     });
 

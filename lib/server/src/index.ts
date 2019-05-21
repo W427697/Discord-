@@ -28,6 +28,7 @@ const start = async ({ configsFiles, callOptions, cliOptions: cliOptionsRaw }: S
         configsFiles,
         callOptions,
       }),
+    preview: () => Promise.resolve(),
   });
 };
 

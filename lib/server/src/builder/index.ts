@@ -41,7 +41,7 @@ const run = async ({ command, type, env, cliOptions, configsFiles, callOptions }
 
   runner.send({ command: 'init', options: { type, env, cliOptions, configsFiles, callOptions } });
 
-  const report = e => {
+  const report = (e: State) => {
     progress.emit(type, e);
   };
 

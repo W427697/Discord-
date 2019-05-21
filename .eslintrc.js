@@ -39,6 +39,8 @@ module.exports = {
     'html/html-extensions': ['.html'],
   },
   rules: {
+    'no-useless-constructor': ignore,
+    '@typescript-eslint/no-useless-constructor': error,
     'no-restricted-imports': [
       error,
       {

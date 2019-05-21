@@ -2,7 +2,7 @@ interface ProgressEvent {
   progress?: number;
   done?: boolean;
   message: string;
-  details: string[];
+  details?: string[];
 }
 
 interface States {

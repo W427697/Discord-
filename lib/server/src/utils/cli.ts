@@ -1,4 +1,4 @@
-import pick from 'lodash.pick';
+import pick from 'lodash/pick';
 import { CliOptions } from '../types';
 
 export const cleanCliOptions = (options: CliOptions): CliOptions => {

@@ -17,6 +17,7 @@ import {
   Express,
   ServerConfig,
   StorybookConfig,
+  ProgressDescription,
 } from '../types';
 
 const serverFactory = async (options: ServerConfig) => {
@@ -64,11 +65,11 @@ const createServer = async (options: ServerConfig, app: Express) => {
 
 const createApp = async () => express();
 
-const report = e => {
+const report = (e: ProgressDescription) => {
   progress.emit('server', e);
 };
 
-export const run = async function(
+export const run = async function run(
   configsFiles: ConfigsFiles,
   cliOptions: CliOptions,
   callOptions: CallOptions

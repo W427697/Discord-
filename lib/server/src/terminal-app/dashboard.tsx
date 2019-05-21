@@ -3,17 +3,19 @@ import { Grid, Map, createBlessedComponent } from 'react-blessed-contrib';
 import contrib from 'blessed-contrib';
 import throttle from 'react-throttle-render';
 
+import { State } from '../types';
+
 const MyBlessedWidget = createBlessedComponent(contrib.donut);
 
-const Dashboard = ({ manager, preview, server }) => (
-  <Grid rows={12} cols={12} color="red" dashboardMargin={0} hideBorder={true}>
-    <box row={0} col={0} rowSpan={4} colSpan={12}>
+const Dashboard = ({ manager, preview, server }: State) => (
+  <Grid rows={12} cols={12} color="red" dashboardMargin={0} hideBorder>
+    <blessed-box row={0} col={0} rowSpan={4} colSpan={12}>
       Some text
-    </box>
-    <box row={4} col={0} rowSpan={8} colSpan={12}>
+    </blessed-box>
+    <blessed-box row={4} col={0} rowSpan={8} colSpan={12}>
       <Grid rows={12} cols={12} color="blue">
         <Map row={0} col={0} rowSpan={4} colSpan={12} label="World Map" />
-        <box row={4} col={0} rowSpan={8} colSpan={12}>
+        <blessed-box row={4} col={0} rowSpan={8} colSpan={12}>
           <MyBlessedWidget
             radius={16}
             arcWidth={4}
@@ -24,9 +26,9 @@ const Dashboard = ({ manager, preview, server }) => (
               { label: 'Preview', percent: 0 },
             ]}
           />
-        </box>
+        </blessed-box>
       </Grid>
-    </box>
+    </blessed-box>
   </Grid>
 );
 

@@ -15,6 +15,20 @@ export { Express };
 
 export { WebpackConfig };
 
+export interface ProgressDescription {
+  message: string;
+  progress?: number;
+  detail?: string[];
+}
+
+export interface State {
+  server: ProgressDescription;
+  manager: ProgressDescription;
+  preview: ProgressDescription;
+}
+
+export type ValidStateKeys = keyof State;
+
 export interface OutputConfig {
   location?: string;
   compress?: boolean;

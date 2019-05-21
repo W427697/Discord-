@@ -8,17 +8,17 @@ import bash from 'react-syntax-highlighter/languages/prism/bash';
 import css from 'react-syntax-highlighter/languages/prism/css';
 import html from 'react-syntax-highlighter/languages/prism/markup';
 
-import ReactSyntaxHighlighter, { registerLanguage } from 'react-syntax-highlighter/prism-light';
+import ReactSyntaxHighlighter from 'react-syntax-highlighter/prism-light';
 
 import { ActionBar } from '../ActionBar/ActionBar';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
 
 import { formatter } from './formatter';
 
-registerLanguage('jsx', jsx);
-registerLanguage('bash', bash);
-registerLanguage('css', css);
-registerLanguage('html', html);
+ReactSyntaxHighlighter.registerLanguage('jsx', jsx);
+ReactSyntaxHighlighter.registerLanguage('bash', bash);
+ReactSyntaxHighlighter.registerLanguage('css', css);
+ReactSyntaxHighlighter.registerLanguage('html', html);
 
 const themedSyntax = memoize(2)(theme =>
   Object.entries(theme.code || {}).reduce((acc, [key, val]) => ({ ...acc, [`* .${key}`]: val }), {})
