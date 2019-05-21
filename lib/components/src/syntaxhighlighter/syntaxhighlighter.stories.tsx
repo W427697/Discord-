@@ -1,6 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import SyntaxHighlighter from './syntaxhighlighter';
+import { ThemeProvider, themes, convert, ensure } from '@storybook/theming';
+import { SyntaxHighlighter } from './syntaxhighlighter';
 
 storiesOf('Basics|SyntaxHighlighter', module)
   .add('bash', () => (
@@ -18,6 +19,55 @@ storiesOf('Basics|SyntaxHighlighter', module)
       `}
     </SyntaxHighlighter>
   ))
+  .add('unsupported', () => (
+    <SyntaxHighlighter language="C#" bordered copyable>
+      {`
+        // A Hello World! program in C#.
+        using System;
+        namespace HelloWorld
+        {
+          class Hello 
+          {
+            static void Main() 
+            {
+              Console.WriteLine("Hello World!");
+
+              // Keep the console window open in debug mode.
+              Console.WriteLine("Press any key to exit.");
+              Console.ReadKey();
+            }
+          }
+        }
+      `}
+    </SyntaxHighlighter>
+  ))
+  .add('dark unsupported', () => {
+    const theme = ensure(themes.dark);
+    return (
+      <ThemeProvider theme={theme}>
+        <SyntaxHighlighter bordered language="C#" copyable>
+          {`
+            // A Hello World! program in C#.
+            using System;
+            namespace HelloWorld
+            {
+              class Hello 
+              {
+                static void Main() 
+                {
+                  Console.WriteLine("Hello World!");
+
+                  // Keep the console window open in debug mode.
+                  Console.WriteLine("Press any key to exit.");
+                  Console.ReadKey();
+                }
+              }
+            }
+          `}
+        </SyntaxHighlighter>
+      </ThemeProvider>
+    );
+  })
   .add('story', () => (
     <SyntaxHighlighter language="jsx" copyable={false}>
       {`

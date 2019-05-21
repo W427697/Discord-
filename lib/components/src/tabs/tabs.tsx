@@ -1,4 +1,11 @@
-import React, { Children, Component, Fragment, FunctionComponent, MouseEvent, ReactNode } from 'react';
+import React, {
+  Children,
+  Component,
+  Fragment,
+  FunctionComponent,
+  MouseEvent,
+  ReactNode,
+} from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@storybook/theming';
 
@@ -111,8 +118,7 @@ const childrenToList = (children: any, selected: string) =>
       render:
         typeof content === 'function'
           ? content
-          : // eslint-disable-next-line react/prop-types
-            ({ active, key }: any) => (
+          : ({ active, key }: any) => (
               <VisuallyHidden key={key} active={active} role="tabpanel">
                 {content}
               </VisuallyHidden>
@@ -181,7 +187,7 @@ Tabs.displayName = 'Tabs';
 type FuncChilden = () => void;
 
 interface TabsStateProps {
-  children: Array<ReactNode | FuncChilden>;
+  children: (ReactNode | FuncChilden)[];
   initial: string;
   absolute: boolean;
   bordered: boolean;

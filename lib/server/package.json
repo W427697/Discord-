@@ -1,6 +1,6 @@
 {
   "name": "@storybook/server",
-  "version": "5.1.0-alpha.26",
+  "version": "5.1.0-beta.1",
   "description": "Storybook dev server",
   "keywords": [
     "storybook"
@@ -21,8 +21,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/config": "5.1.0-alpha.26",
-    "@storybook/node-logger": "5.1.0-alpha.26",
+    "@storybook/config": "5.1.0-beta.1",
+    "@storybook/node-logger": "5.1.0-beta.1",
     "@types/blessed": "^0.1.11",
     "@types/react-blessed": "^0.3.1",
     "blessed": "^0.1.81",
@@ -43,10 +43,7 @@
     "ink-text-input": "^3.1.0",
     "ip": "^1.1.5",
     "is-plain-object": "^2.0.4",
-    "lodash.isequal": "^4.5.0",
-    "lodash.merge": "^4.6.1",
-    "lodash.mergewith": "^4.6.1",
-    "lodash.pick": "^4.4.0",
+    "lodash": "^4.17.11",
     "neo-blessed": "^0.2.0",
     "npmlog": "^4.1.2",
     "react": "^16.8.6",

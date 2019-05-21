@@ -26,3 +26,5 @@ lib/*.jar
 lib/**/dll
 .expo/packager-info.json
 examples/official-storybook/storybook-out
+scripts/storage
+htpasswd
