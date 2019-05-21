@@ -1,6 +1,5 @@
 export const unused = 'foo';
 
-// eslint-disable-next-line no-unused-vars
 export const webpack = async (config, env) => config;
 
 // list of globs & external urls
@@ -13,7 +12,6 @@ export const addons = [];
 
 export const logLevel = 'info';
 
-// eslint-disable-next-line no-unused-vars
 export const managerWebpack = async (config, env) => {
   const { default: webpackMerge } = await import('webpack-merge');
   // const { default: PacktrackerPlugin } = await import('@packtracker/webpack-plugin');

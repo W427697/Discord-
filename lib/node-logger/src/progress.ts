@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 interface ProgressEvent {
   progress?: number;
   done?: boolean;

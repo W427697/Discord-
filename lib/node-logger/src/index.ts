@@ -3,6 +3,8 @@ import npmLog from 'npmlog';
 import prettyTime from 'pretty-hrtime';
 import chalk from 'chalk';
 
+import * as progress from './progress';
+
 export const colors = {
   pink: chalk.hex('F1618C'),
   purple: chalk.hex('B57EE5'),
@@ -26,5 +28,4 @@ export const logger = {
 
 export { npmLog as instance };
 
-import * as progress from './progress';
 export { progress };

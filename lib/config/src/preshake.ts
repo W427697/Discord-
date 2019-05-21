@@ -38,9 +38,11 @@ const preshake = (raw: string, allowed: string[]): string => {
       i.declaration.type === AST_NODE_TYPES.VariableDeclaration
     ) {
       // MUTATION!
+      // eslint-disable-next-line no-param-reassign
       i.declaration.declarations = i.declaration.declarations.filter((d: any) => {
         if (d.id.type === AST_NODE_TYPES.ObjectPattern) {
           // MUTATION!
+          // eslint-disable-next-line no-param-reassign
           d.id.properties = d.id.properties.filter(
             (p: any) =>
               p.type === AST_NODE_TYPES.Property &&

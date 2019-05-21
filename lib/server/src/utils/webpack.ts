@@ -1,5 +1,4 @@
 import webpack from 'webpack';
-import path from 'path';
 import webpackmerge from 'webpack-merge';
 import { WebpackPluginServe } from 'webpack-plugin-serve';
 import WebpackBar, { Reporter } from 'webpackbar';
@@ -37,6 +36,7 @@ const createWebpackServePreset = (type: ConfigPrefix): Preset => async (): Promi
         const host = 'localhost';
         const port = 55550;
 
+        // eslint-disable-next-line no-param-reassign
         webpackConfig.entry = await ensureEntryIsObject(webpackConfig.entry);
 
         return webpackmerge(webpackConfig, {
@@ -47,7 +47,7 @@ const createWebpackServePreset = (type: ConfigPrefix): Preset => async (): Promi
             new WebpackPluginServe({
               static: webpackConfig.output.path,
               client: {
-                address: host + port + '/manager-hmr',
+                address: `${host}${port}/manager-hmr`,
                 silent: true,
               },
               // this injects quite a bit UI I don't like, would love to buld something custom based on this
@@ -69,6 +69,7 @@ const createWebpackServePreset = (type: ConfigPrefix): Preset => async (): Promi
   if (type === 'preview') {
     return {};
   }
+  return {};
 };
 
 const createWebpackReporterPreset = (
@@ -78,6 +79,7 @@ const createWebpackReporterPreset = (
   if (type === 'manager') {
     return {
       managerWebpack: async (webpackConfig: WebpackConfig): Promise<WebpackConfig> => {
+        // eslint-disable-next-line no-param-reassign
         webpackConfig.entry = await ensureEntryIsObject(webpackConfig.entry);
 
         return webpackmerge(webpackConfig, {
@@ -99,6 +101,7 @@ const createWebpackReporterPreset = (
   if (type === 'preview') {
     return {};
   }
+  return {};
 };
 
 export { ensureEntryIsObject, createWebpackServePreset, createWebpackReporterPreset };

@@ -7,6 +7,23 @@ import { createBuildConfig } from '../../config';
 
 import { BuildConfig, CallOptions, CliOptions, ConfigPrefix, EnviromentType } from '../../types';
 
+const statOptions = {
+  all: false,
+  modules: true,
+  maxModules: 0,
+  errors: true,
+  warnings: true,
+  moduleTrace: true,
+  errorDetails: true,
+  context: process.cwd(),
+};
+
+const reportProgress = (data: State) => process.send({ type: 'progress', data });
+const reportSuccess = (stats: webpack.Stats) =>
+  process.send({ type: 'success', data: stats.toJson(statOptions) });
+const reportError = (err: Error, stats: webpack.Stats) =>
+  process.send({ type: 'failure', err, data: stats.toJson(statOptions) });
+
 const watch = async (config: BuildConfig) => {
   const webpackConfig = await config.webpack({});
 
@@ -26,23 +43,6 @@ const watch = async (config: BuildConfig) => {
     }
   );
 };
-
-const statOptions = {
-  all: false,
-  modules: true,
-  maxModules: 0,
-  errors: true,
-  warnings: true,
-  moduleTrace: true,
-  errorDetails: true,
-  context: process.cwd(),
-};
-
-const reportProgress = (data: State) => process.send({ type: 'progress', data });
-const reportSuccess = (stats: webpack.Stats) =>
-  process.send({ type: 'success', data: stats.toJson(statOptions) });
-const reportError = (err: Error, stats: webpack.Stats) =>
-  process.send({ type: 'failure', err, data: stats.toJson(statOptions) });
 
 const commands = {
   init: async ({ type, env, callOptions, cliOptions }: Options) => {

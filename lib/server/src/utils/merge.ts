@@ -1,6 +1,6 @@
 import merger from 'lodash/merge';
-import mergeWith from 'lodash/mergewith';
-import isEqual from 'lodash/isequal';
+import mergeWith from 'lodash/mergeWith';
+import isEqual from 'lodash/isEqual';
 
 import { logger } from '@storybook/node-logger';
 
