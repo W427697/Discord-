@@ -5,7 +5,7 @@ import { createWebpackServePreset, createWebpackReporterPreset } from '../../uti
 
 import { createBuildConfig } from '../../config';
 
-import { BuildConfig, CallOptions, CliOptions, ConfigPrefix, EnviromentType } from '../../types';
+import { BuildConfig, CallOptions, CliOptions, ConfigPrefix, EnvironmentType } from '../../types';
 
 const statOptions = {
   all: false,
@@ -68,7 +68,7 @@ const commands = {
 type Command = keyof typeof commands;
 interface Options {
   type: ConfigPrefix;
-  env: EnviromentType;
+  env: EnvironmentType;
   callOptions: CallOptions;
   cliOptions: CliOptions;
 }

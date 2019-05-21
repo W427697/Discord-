@@ -50,10 +50,8 @@ export class Map extends Component<
   ConvertToReact<ContribWidgets.MapOptions & GridRenderProps>,
   any
 > {}
-export class Grid extends Component<
-  ConvertToReact<ContribWidgets.GridOptions & GridRenderProps>,
-  any
-> {}
+export class Grid extends Component<ConvertToReact<ContribWidgets.GridOptions>, any> {}
+
 export class GridItem extends Component<GridItemProps, any> {}
 
 export class Canvas extends Component<Position & AnyProps, any> {}

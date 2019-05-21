@@ -6,13 +6,13 @@ import * as terminalApp from './terminal-app/app-blessed';
 import * as builder from './builder/index';
 import * as server from './http/http';
 
-import { StartOptions, EnviromentType } from './types';
+import { StartOptions, EnvironmentType } from './types';
 
 // main function
 const start = async ({ configsFiles, callOptions, cliOptions: cliOptionsRaw }: StartOptions) => {
   logger.warn('experimental mono config mode enabled');
 
-  const env: EnviromentType = 'development';
+  const env: EnvironmentType = 'development';
 
   // filter the cli options
   const cliOptions = cleanCliOptions(cliOptionsRaw);

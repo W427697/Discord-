@@ -15,6 +15,7 @@
   },
   "license": "MIT",
   "main": "dist/index.js",
+  "source": "src/index.ts",
   "types": "dist/index.d.ts",
   "scripts": {
     "prepare": "node ./scripts/generateVersion.js && node ../../scripts/prepare.js"
@@ -44,5 +45,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "type": "module"
 }

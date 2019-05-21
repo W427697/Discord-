@@ -6,12 +6,12 @@ import { State } from 'webpackbar';
 
 import { progress } from '@storybook/node-logger';
 
-import { ConfigPrefix, EnviromentType, CliOptions, ConfigsFiles, CallOptions } from '../types';
+import { ConfigPrefix, EnvironmentType, CliOptions, ConfigsFiles, CallOptions } from '../types';
 
 interface RunParams {
   command: string;
   type: ConfigPrefix;
-  env: EnviromentType;
+  env: EnvironmentType;
   cliOptions: CliOptions;
   configsFiles: ConfigsFiles;
   callOptions: CallOptions;

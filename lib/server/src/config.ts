@@ -13,14 +13,14 @@ import {
   CliOptions,
   CallOptions,
   StorybookConfig,
-  EnviromentType,
+  EnvironmentType,
   Preset,
   OutputConfig,
 } from './types';
 
 const get = async (
   type: ConfigPrefix,
-  env: EnviromentType,
+  env: EnvironmentType,
   config: StorybookConfig,
   output: OutputConfig
 ) => {
@@ -63,7 +63,7 @@ const createOutputConfig = (
 
 const createBuildConfig = async (
   type: ConfigPrefix,
-  env: EnviromentType,
+  env: EnvironmentType,
   cliOptions: CliOptions,
   callOptions: CallOptions,
   additionalPresets?: Preset[]

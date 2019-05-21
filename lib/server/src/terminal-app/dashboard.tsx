@@ -13,10 +13,9 @@ const Dashboard = ({ manager, preview, server }: State) => (
     <blessed-box row={4} col={0} rowSpan={8} colSpan={12}>
       Some text
     </blessed-box>
-    />
     <blessed-box row={4} col={0} rowSpan={8} colSpan={12}>
       <Grid rows={12} cols={12}>
-        <Map row={0} col={0} rowSpan={4} colSpan={12} label="World Map" />
+        <Map row={0} col={0} rowSpan={4} colSpan={12} label="World Map!" />
         <blessed-box row={4} col={0} rowSpan={8} colSpan={12}>
           <MyBlessedWidget
             radius={16}

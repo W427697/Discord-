@@ -6,11 +6,11 @@ import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 
 import { getStorybookCachePath } from '@storybook/config';
 
-import { EnviromentType, OutputConfig } from '../types';
+import { EnvironmentType, OutputConfig } from '../types';
 
 const cacheDir = getStorybookCachePath();
 
-const createEntrypoints = async (env: EnviromentType): Promise<string[]> => {
+const createEntrypoints = async (env: EnvironmentType): Promise<string[]> => {
   const coreDistFolder = path.join(
     path.dirname(require.resolve('@storybook/core/package.json')),
     'dist'
@@ -22,7 +22,7 @@ const createEntrypoints = async (env: EnviromentType): Promise<string[]> => {
 };
 
 const createBaseWebpackConfig = async (
-  env: EnviromentType,
+  env: EnvironmentType,
   output: OutputConfig
 ): Promise<webpack.Configuration> => {
   return {

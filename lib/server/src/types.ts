@@ -4,7 +4,7 @@ import http from 'http';
 
 import { Configuration as WebpackConfig } from 'webpack';
 
-export type EnviromentType = 'production' | 'development';
+export type EnvironmentType = 'production' | 'development';
 export type LogLevels = 'silly' | 'verbose' | 'info' | 'warn' | 'error' | 'silent';
 
 export interface BabelConfig {
@@ -42,14 +42,14 @@ export interface StorybookConfig {
   logLevel?: LogLevels;
   template?: string;
   managerTemplate?: string;
-  webpack?: (base: WebpackConfig, env?: EnviromentType, ...args: any[]) => Promise<WebpackConfig>;
+  webpack?: (base: WebpackConfig, env?: EnvironmentType, ...args: any[]) => Promise<WebpackConfig>;
   managerWebpack?: (
     base: WebpackConfig,
-    env?: EnviromentType,
+    env?: EnvironmentType,
     ...args: any[]
   ) => Promise<WebpackConfig>;
-  babel?: (base: BabelConfig, env?: EnviromentType, ...args: any[]) => Promise<BabelConfig>;
-  managerBabel?: (base: BabelConfig, env?: EnviromentType, ...args: any[]) => Promise<BabelConfig>;
+  babel?: (base: BabelConfig, env?: EnvironmentType, ...args: any[]) => Promise<BabelConfig>;
+  managerBabel?: (base: BabelConfig, env?: EnvironmentType, ...args: any[]) => Promise<BabelConfig>;
   server?: ServerConfig;
   output?: OutputConfig;
 }
@@ -116,8 +116,8 @@ export interface BuildConfig {
   entries: string[];
   addons: string[];
   logLevel: LogLevels;
-  webpack?: (base: WebpackConfig, env?: EnviromentType, ...args: any[]) => Promise<WebpackConfig>;
-  babel?: (base: BabelConfig, env?: EnviromentType, ...args: any[]) => Promise<BabelConfig>;
+  webpack?: (base: WebpackConfig, env?: EnvironmentType, ...args: any[]) => Promise<WebpackConfig>;
+  babel?: (base: BabelConfig, env?: EnvironmentType, ...args: any[]) => Promise<BabelConfig>;
   configFile: ConfigFile;
   template?: string;
   output?: OutputConfig;

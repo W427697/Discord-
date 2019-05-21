@@ -16,7 +16,7 @@ export const managerWebpack = async (config, env) => {
   const { default: webpackMerge } = await import('webpack-merge');
   // const { default: PacktrackerPlugin } = await import('@packtracker/webpack-plugin');
 
-  return webpackMerge(config, {
+  const output = webpackMerge(config, {
     plugins: [
       // new PacktrackerPlugin({
       //   project_token: '1af1d41b-d737-41d4-ac00-53c8f3913b53',
@@ -24,7 +24,15 @@ export const managerWebpack = async (config, env) => {
       //   fail_build: true,
       // }),
     ],
+
+    resolve: {
+      mainFields: ['source', 'browser', 'module', 'main'],
+    },
   });
+
+  console.log(output);
+
+  return output;
 };
 
 export const output = {

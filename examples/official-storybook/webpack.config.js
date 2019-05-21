@@ -36,7 +36,7 @@ module.exports = async ({ config }) => ({
             },
           },
         ],
-        exclude: [/node_modules/, /dist/],
+        exclude: [/node_modules\/(?!@storybook)/, /dist/],
       },
       {
         test: /\.stories\.jsx?$/,
@@ -52,6 +52,7 @@ module.exports = async ({ config }) => ({
   },
   resolve: {
     ...config.resolve,
+    mainFields: ['source', 'browser', 'module', 'main'],
     extensions: [...(config.resolve.extensions || []), '.ts', '.tsx'],
   },
 });
