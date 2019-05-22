@@ -15,14 +15,14 @@ function transform(inputSource) {
         localDependencies,
         idsToFrameworks,
       }) => `
-  export var withStorySource = require('@storybook/addon-storysource').withStorySource;
-  export var __SOURCE_PREFIX__ = "${prefix.replace(/\\([^\\ ])/g, '\\\\$1')}";
-  export var __STORY__ = ${sourceJson};
-  export var __ADDS_MAP__ = ${JSON.stringify(addsMap)};
-  export var __MAIN_FILE_LOCATION__ = ${JSON.stringify(resource)};
-  export var __MODULE_DEPENDENCIES__ = ${JSON.stringify(dependencies)};
-  export var __LOCAL_DEPENDENCIES__ = ${JSON.stringify(localDependencies)};
-  export var __IDS_TO_FRAMEWORKS__ = ${JSON.stringify(idsToFrameworks)};
+  var withStorySource = require('@storybook/addon-storysource').withStorySource;
+  var __SOURCE_PREFIX__ = "${prefix.replace(/\\([^\\ ])/g, '\\\\$1')}";
+  var __STORY__ = ${sourceJson};
+  var __ADDS_MAP__ = ${JSON.stringify(addsMap)};
+  var __MAIN_FILE_LOCATION__ = ${JSON.stringify(resource)};
+  var __MODULE_DEPENDENCIES__ = ${JSON.stringify(dependencies)};
+  var __LOCAL_DEPENDENCIES__ = ${JSON.stringify(localDependencies)};
+  var __IDS_TO_FRAMEWORKS__ = ${JSON.stringify(idsToFrameworks)};
 
   ${source}
   `

@@ -2,9 +2,6 @@ import { getOptions } from 'loader-utils';
 import path from 'path';
 import injectDecorator from '../abstract-syntax-tree/inject-decorator';
 
-const ADD_DECORATOR_STATEMENT =
-  '.addDecorator(withStorySource(__STORY__, __ADDS_MAP__,__MAIN_FILE_LOCATION__,__MODULE_DEPENDENCIES__,__LOCAL_DEPENDENCIES__,__SOURCE_PREFIX__,__IDS_TO_FRAMEWORKS__))';
-
 function extractDependenciesFrom(tree) {
   return !Object.entries(tree || {}).length
     ? []
@@ -31,7 +28,6 @@ function readAsObject(classLoader, inputSource, mainFile) {
   const options = getOptions(classLoader) || {};
   const result = injectDecorator(
     inputSource,
-    ADD_DECORATOR_STATEMENT,
     classLoader.resourcePath,
     {
       ...options,

@@ -19,6 +19,39 @@ export function splitSTORYOF(ast, source) {
 
   return parts;
 }
+export function splitExports(ast, source) {
+  const parts = [];
+  let lastIndex = 0;
+
+  estraverse.traverse(ast, {
+    fallback: 'iteration',
+    enter: node => {
+      patchNode(node);
+      if (
+        node.type === 'ExportNamedDeclaration' &&
+        node.declaration &&
+        node.declaration.declarations &&
+        node.declaration.declarations.length === 1 &&
+        node.declaration.declarations[0].type === 'VariableDeclarator' &&
+        node.declaration.declarations[0].id &&
+        node.declaration.declarations[0].id.name &&
+        node.declaration.declarations[0].init &&
+        ['CallExpression', 'ArrowFunctionExpression', 'FunctionExpression'].includes(
+          node.declaration.declarations[0].init.type
+        )
+      ) {
+        const functionNode = node.declaration.declarations[0].init;
+        parts.push(source.substring(lastIndex, functionNode.start - 1));
+        parts.push(source.substring(functionNode.start, functionNode.end));
+        lastIndex = functionNode.end;
+      }
+    },
+  });
+
+  if (source.length > lastIndex + 1) parts.push(source.substring(lastIndex + 1));
+  if (parts.length === 1) return [source];
+  return parts;
+}
 
 export function findAddsMap(ast, storiesOfIdentifiers) {
   const addsMap = {};
@@ -66,12 +99,13 @@ export function findExportsMap(ast) {
       if (
         node.type === 'ExportNamedDeclaration' &&
         node.declaration &&
+        node.declaration.declarations &&
         node.declaration.declarations.length === 1 &&
         node.declaration.declarations[0].type === 'VariableDeclarator' &&
         node.declaration.declarations[0].id &&
         node.declaration.declarations[0].id.name &&
         node.declaration.declarations[0].init &&
-        ['ArrowFunctionExpression', 'FunctionExpression'].includes(
+        ['CallExpression', 'ArrowFunctionExpression', 'FunctionExpression'].includes(
           node.declaration.declarations[0].init.type
         )
       ) {

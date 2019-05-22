@@ -63,7 +63,7 @@ export function patchNode(node) {
 
 export function handleExportedName(kind, storyName, node) {
   return {
-    [storyName]: {
+    [toId(kind, storyName)]: {
       startLoc: {
         col: node.loc.start.column,
         line: node.loc.start.line,

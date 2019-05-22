@@ -1,9 +1,16 @@
 import createChannel from '@storybook/channel-postmessage';
 import { fetch } from 'global';
 import { ADDON_ID, PANEL_ID, STORY_EVENT_ID, SAVE_FILE_EVENT_ID } from './events';
-import { withStorySource } from './preview';
+import { withStorySource, addStorySourceDecorator } from './preview';
 
-export { ADDON_ID, PANEL_ID, STORY_EVENT_ID, SAVE_FILE_EVENT_ID, withStorySource };
+export {
+  ADDON_ID,
+  PANEL_ID,
+  STORY_EVENT_ID,
+  SAVE_FILE_EVENT_ID,
+  withStorySource,
+  addStorySourceDecorator,
+};
 
 const channel = createChannel({ page: 'manager' });
 

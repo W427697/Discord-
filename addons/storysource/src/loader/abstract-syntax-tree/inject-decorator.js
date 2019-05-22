@@ -19,7 +19,7 @@ function extendOptions(source, comments, filepath, options) {
   };
 }
 
-function inject(source, decorator, filepath, options = {}, log = message => {}) {
+function inject(source, filepath, options = {}, log = message => {}) {
   const { injectDecorator = true } = options;
   const obviouslyNotCode = ['md', 'txt', 'json'].includes(options.parser);
   let parser = null;
@@ -42,7 +42,7 @@ function inject(source, decorator, filepath, options = {}, log = message => {}) 
 
   const { changed, source: newSource, comments } =
     injectDecorator === true
-      ? generateSourceWithDecorators(source, ast, decorator)
+      ? generateSourceWithDecorators(source, ast)
       : generateSourceWithoutDecorators(source, ast);
 
   const storySource = generateStorySource(extendOptions(source, comments, filepath, options));

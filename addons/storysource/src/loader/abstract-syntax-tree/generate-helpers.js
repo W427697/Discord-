@@ -4,6 +4,7 @@ import {
   splitSTORYOF,
   findAddsMap,
   findDependencies,
+  splitExports,
   findExportsMap as generateExportsMap,
 } from './traverse-helpers';
 
@@ -63,15 +64,41 @@ function prettifyCode(source, { prettierConfig, parser, filepath }) {
   }
 }
 
-export function generateSourceWithDecorators(source, ast, decorator) {
+const STORY_DECORATOR_STATEMENT =
+  '.addDecorator(withStorySource(__STORY__, __ADDS_MAP__,__MAIN_FILE_LOCATION__,__MODULE_DEPENDENCIES__,__LOCAL_DEPENDENCIES__,__SOURCE_PREFIX__,__IDS_TO_FRAMEWORKS__))';
+
+const IMPORT_DECLARATION_FOR_EXPORTED_STORIES_DECORATOR =
+  'var addStorySourceDecorator = require("@storybook/addon-storysource").addStorySourceDecorator;\n';
+const applyExportDecoratorStatement = part =>
+  ` addStorySourceDecorator(${part}, {__STORY__, __ADDS_MAP__,__MAIN_FILE_LOCATION__,__MODULE_DEPENDENCIES__,__LOCAL_DEPENDENCIES__,__SOURCE_PREFIX__,__IDS_TO_FRAMEWORKS__});`;
+
+export function generateSourceWithDecorators(source, ast) {
   const { comments = [] } = ast;
 
-  const parts = splitSTORYOF(ast, source);
+  const partsUsingStoryOfToken = splitSTORYOF(ast, source);
 
-  const newSource = parts.join(decorator);
+  if (partsUsingStoryOfToken.length > 1) {
+    const newSource = partsUsingStoryOfToken.join(STORY_DECORATOR_STATEMENT);
+
+    return {
+      storyOfTokenFound: true,
+      changed: partsUsingStoryOfToken.length > 1,
+      source: newSource,
+      comments,
+    };
+  }
+
+  const partsUsingExports = splitExports(ast, source);
+
+  const newSource =
+    IMPORT_DECLARATION_FOR_EXPORTED_STORIES_DECORATOR +
+    partsUsingExports
+      .map((part, i) => (i % 2 === 0 ? part : applyExportDecoratorStatement(part)))
+      .join('');
 
   return {
-    changed: parts.length > 1,
+    exportTokenFound: true,
+    changed: partsUsingExports.length > 1,
     source: newSource,
     comments,
   };
@@ -93,7 +120,7 @@ export function generateAddsMap(ast, storiesOfIdentifiers) {
 
 export function generateStoriesLocationsMap(ast, storiesOfIdentifiers) {
   const usingAddsMap = generateAddsMap(ast, storiesOfIdentifiers);
-  const { addsMap, idsToFrameworks } = usingAddsMap;
+  const { addsMap } = usingAddsMap;
 
   if (Object.keys(addsMap).length > 0) {
     return usingAddsMap;

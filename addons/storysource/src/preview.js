@@ -36,6 +36,37 @@ function setStorySource(
   });
 }
 
+export function addStorySourceDecorator(story, storysourceContext) {
+  const {
+    __STORY__: source,
+    __ADDS_MAP__: locationsMap = {},
+    __MAIN_FILE_LOCATION__: mainFileLocation = '/index.js',
+    __MODULE_DEPENDENCIES__: dependencies = [],
+    __LOCAL_DEPENDENCIES__: localDependencies = {},
+    __SOURCE_PREFIX__: prefix,
+    __IDS_TO_FRAMEWORKS__: idsToFrameworks,
+  } = storysourceContext;
+  const decorated = function(context) {
+    setStorySource(
+      context,
+      source,
+      locationsMap,
+      mainFileLocation,
+      dependencies,
+      localDependencies,
+      prefix,
+      idsToFrameworks
+    );
+    if (typeof story === 'function') {
+      story();
+    }
+    return story;
+  };
+  decorated.storyData = (story || {}).storyData;
+  decorated.title = (story || {}).title;
+  return decorated;
+}
+
 export function withStorySource(
   source,
   locationsMap = {},
