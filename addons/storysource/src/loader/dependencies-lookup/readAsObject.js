@@ -17,7 +17,7 @@ function extractLocalDependenciesFrom(tree) {
     {},
     ...Object.entries(tree || {}).map(([thisPath, value]) =>
       Object.assign(
-        { [thisPath]: { code: value.source } },
+        { [thisPath]: { code: value.source || value.code } },
         extractLocalDependenciesFrom(value.localDependencies)
       )
     )
