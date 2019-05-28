@@ -9,7 +9,7 @@
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "dependencies": {
-    "@polymer/polymer": "^2.6.0",
+    "@polymer/polymer": "^3.2.0",
     "@storybook/addon-a11y": "5.1.0-rc.2",
     "@storybook/addon-actions": "5.1.0-rc.2",
     "@storybook/addon-backgrounds": "5.1.0-rc.2",
