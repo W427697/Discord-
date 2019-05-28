@@ -8,13 +8,13 @@ import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 const Panel = styled.div();
 
 storiesOf('React|Viewport', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .add('default', () => (
     <Panel>I don't have problems being rendered using the default viewport.</Panel>
   ));
 
 storiesOf('React|Viewport.Custom Default (Kindle Fire 2)', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addParameters({
     viewport: {
       viewports: {

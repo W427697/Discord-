@@ -7,7 +7,7 @@ import { storiesOf } from '@storybook/html';
 // });
 
 storiesOf('React|GraphQL', module).add('get Pickachu', () => <div>hello</div>, {
-  framework: { react: true },
+  framework: 'react',
   graphiql: {
     query: `{
         pokemon(name: "Pikachu") {

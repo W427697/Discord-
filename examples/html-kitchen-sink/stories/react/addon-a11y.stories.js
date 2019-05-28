@@ -13,7 +13,7 @@ const href = 'javascript:void 0';
 
 storiesOf('React|A11y/BaseButton', module)
   .addParameters({
-    framework: { react: true },
+    framework: 'react',
     options: { selectedPanel: 'storybook/a11y/panel' },
   })
   .add('Default', () => <BaseButton label="" />)
@@ -31,7 +31,7 @@ storiesOf('React|A11y/BaseButton', module)
 
 storiesOf('React|A11y/Button', module)
   .addParameters({
-    framework: { react: true },
+    framework: 'react',
     options: { selectedPanel: 'storybook/a11y/panel' },
   })
   .add('Default', () => <Button />)
@@ -42,7 +42,7 @@ storiesOf('React|A11y/Button', module)
 
 storiesOf('React|A11y/Form', module)
   .addParameters({
-    framework: { react: true },
+    framework: 'react',
     options: { selectedPanel: 'storybook/a11y/panel' },
   })
   .add('Without Label', () => (
@@ -63,7 +63,7 @@ storiesOf('React|A11y/Form', module)
 
 storiesOf('React|A11y/Image', module)
   .addParameters({
-    framework: { react: true },
+    framework: 'react',
     options: { selectedPanel: 'storybook/a11y/panel' },
   })
   /* eslint-disable jsx-a11y/alt-text */
@@ -82,7 +82,7 @@ storiesOf('React|A11y/Image', module)
 
 storiesOf('React|A11y/Typography', module)
   .addParameters({
-    framework: { react: true },
+    framework: 'react',
     options: { selectedPanel: 'storybook/a11y/panel' },
   })
   .add('Correct', () => (

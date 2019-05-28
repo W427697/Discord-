@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/html';
 
 storiesOf('React|Cssresources', module)
   .addParameters({
-    framework: { react: true },
+    framework: 'react',
     cssresources: [
       {
         id: `bootstrap v4.1.3`,
@@ -28,7 +28,7 @@ storiesOf('React|Cssresources', module)
 
 storiesOf('React|Cssresources', module)
   .addParameters({
-    framework: { react: true },
+    framework: 'react',
     cssresources: [
       {
         id: `fontawesome`,

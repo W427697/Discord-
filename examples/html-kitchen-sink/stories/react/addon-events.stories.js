@@ -69,7 +69,7 @@ const events = [
 
 storiesOf('React|Events', module)
   .addParameters({
-    framework: { react: true },
+    framework: 'react',
     options: {
       selectedPanel: 'storybook/events/panel',
     },
@@ -80,7 +80,7 @@ storiesOf('React|Events', module)
 const WithEvents = withEvents;
 storiesOf('React|Events.deprecated', module)
   .addParameters({
-    framework: { react: true },
+    framework: 'react',
     options: {
       selectedPanel: 'storybook/events/panel',
     },

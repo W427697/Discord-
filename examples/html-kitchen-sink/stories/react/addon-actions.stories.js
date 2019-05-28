@@ -17,7 +17,7 @@ const pickNativeAction = decorateAction([args => [args[0].nativeEvent]]);
 
 storiesOf('React|Actions', module)
   .addParameters({
-    framework: { react: true },
+    framework: 'react',
     options: {
       selectedPanel: 'storybook/actions/panel',
     },
@@ -163,7 +163,7 @@ storiesOf('React|Actions', module)
   });
 
 storiesOf('React|Actions.deprecated', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .add('Decorated Action', () => (
     <Button onClick={pickNativeAction('decorated')}>Native Event</Button>
   ));

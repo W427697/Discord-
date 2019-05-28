@@ -48,7 +48,7 @@ const giphyMarkdown = `
 `;
 
 storiesOf('React|Notes', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .add('addon notes', baseStory, {
     notes:
       'This is the notes for a button. This is helpful for adding details about a story in a separate panel.',

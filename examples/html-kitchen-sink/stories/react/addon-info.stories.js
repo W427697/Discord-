@@ -13,7 +13,7 @@ import TableComponent from './components/TableComponent';
 import externalMdDocs from './addon-info-resources/EXAMPLE.md';
 
 storiesOf('React|Info/React Docgen', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo)
   .add(
     'Comments from PropType declarations',
@@ -79,7 +79,7 @@ Maybe include a [link](http://storybook.js.org) to your project as well.
 `;
 
 storiesOf('React|Info/Markdown', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo)
   .add(
     'Displays Markdown in description',
@@ -121,7 +121,7 @@ const JSXDescription = (
 );
 
 storiesOf('React|Info/JSX', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo)
   .add(
     'Displays JSX in description',
@@ -132,7 +132,7 @@ storiesOf('React|Info/JSX', module)
   );
 
 storiesOf('React|Info/Options.inline', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo)
   .add('Inlines component inside story', () => <BaseButton label="Button" />, {
     info: {
@@ -142,7 +142,7 @@ storiesOf('React|Info/Options.inline', module)
   });
 
 storiesOf('React|Info/Options.excludedPropTypes', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo)
   .add(
     'Excludes propTypes that are in the excludedPropTypes array',
@@ -156,7 +156,7 @@ storiesOf('React|Info/Options.excludedPropTypes', module)
   );
 
 storiesOf('React|Info/Options.header', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo)
   .add('Shows or hides Info Addon header', () => <BaseButton label="Button" />, {
     info: {
@@ -166,7 +166,7 @@ storiesOf('React|Info/Options.header', module)
   });
 
 storiesOf('React|Info/Options.source', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo)
   .add('Shows or hides Info Addon source', () => <BaseButton label="Button" />, {
     info: {
@@ -176,7 +176,7 @@ storiesOf('React|Info/Options.source', module)
   });
 
 storiesOf('React|Info/Options.propTables', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo)
   .add('Shows additional component prop tables', () => <BaseButton label="Button" />, {
     info: {
@@ -186,7 +186,7 @@ storiesOf('React|Info/Options.propTables', module)
   });
 
 storiesOf('React|Info/Options.propTablesExclude', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo)
   .add(
     'Exclude component from prop tables',
@@ -205,7 +205,7 @@ storiesOf('React|Info/Options.propTablesExclude', module)
   );
 
 storiesOf('React|Info/Options.styles', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo)
   .add('Extend info styles with an object', () => <BaseButton label="Button" />, {
     info: {
@@ -239,7 +239,7 @@ storiesOf('React|Info/Options.styles', module)
   });
 
 storiesOf('React|Info/Options.TableComponent', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo)
   .add('Use a custom component for the table', () => <BaseButton label="Button" />, {
     info: {
@@ -248,7 +248,7 @@ storiesOf('React|Info/Options.TableComponent', module)
   });
 
 storiesOf('React|Info/Decorator', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo('Info can take options via the global or local decorator as well.'))
   .add('Use Info as story decorator', () => <BaseButton label="Button" />);
 
@@ -259,7 +259,7 @@ const Input = hoc(() => <input type="text" />);
 const TextArea = hoc(({ children }) => <textarea>{children}</textarea>);
 
 storiesOf('React|Info/GitHub issues', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo)
   .add(
     '#1814',
@@ -275,7 +275,7 @@ storiesOf('React|Info/GitHub issues', module)
   );
 
 storiesOf('React|Info/Parameters', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(
     withInfo({
       styles: {
@@ -332,7 +332,7 @@ storiesOf('React|Info/Parameters', module)
   );
 
 storiesOf('React|Info/ForwardRef', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo)
   .add('Displays forwarded ref components correctly', () => (
     <ForwardedRefButton label="Forwarded Ref Button" />
@@ -342,14 +342,14 @@ storiesOf('React|Info/ForwardRef', module)
   ));
 
 storiesOf('React|Info/deprecated', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .add(
     'Displays Markdown in description',
     withInfo(markdownDescription)(() => <BaseButton onClick={action('clicked')} label="Button" />)
   );
 
 storiesOf('React|Info/Story Source', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withInfo)
   .add('One prop', () => <BaseButton label="Button" />)
   .add('Many props', () => <BaseButton label="Button" onClick={action('clicked')} disabled />)

@@ -42,7 +42,7 @@ let injectedItems = [];
 let injectedIsLoading = false;
 
 storiesOf('React|Knobs.withKnobs', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withKnobs)
   .add('tweaks static values', () => {
     const name = text('Name', 'Storyteller');
@@ -320,7 +320,7 @@ storiesOf('React|Knobs.withKnobs', module)
   });
 
 storiesOf('React|Knobs.withKnobs using options', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(
     withKnobs({
       escapeHTML: false,

@@ -5,7 +5,7 @@ import BaseButton from './components/BaseButton';
 
 storiesOf('React|Backgrounds', module)
   .addParameters({
-    framework: { react: true },
+    framework: 'react',
     backgrounds: [
       { name: 'white', value: '#ffffff' },
       { name: 'light', value: '#eeeeee' },

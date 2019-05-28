@@ -41,7 +41,7 @@ const storyLevelContexts = [
 ];
 
 const stories = storiesOf('React|Contexts', module)
-  .addParameters({ framework: { react: true } })
+  .addParameters({ framework: 'react' })
   .addDecorator(withContexts(topLevelContexts));
 
 stories.add(

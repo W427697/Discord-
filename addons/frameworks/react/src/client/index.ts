@@ -24,7 +24,7 @@ export default makeDecorator({
   parameterName: 'framework',
   wrapper: (getStory, context, { parameters }) => {
     const story = getStory(context);
-    if (!parameters || !parameters.react) {
+    if (parameters !== 'react') {
       return story;
     }
 
