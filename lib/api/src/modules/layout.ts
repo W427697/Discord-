@@ -1,5 +1,5 @@
 import { document } from 'global';
-import pick from 'lodash.pick';
+import pick from 'lodash/pick';
 
 import deprecate from 'util-deprecate';
 import deepEqual from 'fast-deep-equal';
@@ -23,7 +23,6 @@ export interface UI {
   name?: string;
   url?: string;
   enableShortcuts: boolean;
-  sortStoriesByKind: boolean;
   sidebarAnimations: boolean;
 }
 
@@ -132,7 +131,6 @@ const checkDeprecatedLayoutOptions = (options: Options) => {
 const initial: SubState = {
   ui: {
     enableShortcuts: true,
-    sortStoriesByKind: false,
     sidebarAnimations: true,
   },
   layout: {
