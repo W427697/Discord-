@@ -17,6 +17,8 @@ export interface Layout {
   panelPosition: PanelPositions;
   showNav: boolean;
   isToolshown: boolean;
+  hiddenTabs?: string[];
+  tabsOrder?: string[];
 }
 
 export interface UI {
@@ -139,6 +141,8 @@ const initial: SubState = {
     showPanel: true,
     showNav: true,
     panelPosition: 'bottom',
+    hiddenTabs: undefined,
+    tabsOrder: undefined,
   },
   selectedPanel: undefined,
   theme: themes.light,
