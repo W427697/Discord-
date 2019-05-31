@@ -15,4 +15,22 @@ storiesOf('Addons|Options', module)
         showPanel: false,
       },
     }
+  )
+  .add(
+    'reorder panel tabs',
+    () => <div>This story should have changed hidden the addons panel</div>,
+    {
+      options: {
+        tabsOrder: ['Accessibility', 'Story', 'Events'],
+      },
+    }
+  )
+  .add(
+    'hiding specific tabs',
+    () => <div>This story should have changed hidden the addons panel</div>,
+    {
+      options: {
+        hiddenTabs: ['Accessibility', 'Story', 'Events'],
+      },
+    }
   );
