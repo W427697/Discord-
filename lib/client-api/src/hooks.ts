@@ -50,7 +50,7 @@ const triggerEffects = () => {
   currentEffects = [];
 };
 
-const hookify = (fn: AbstractFunction) => (...args: any[]) => {
+export const hookify = (fn: AbstractFunction) => (...args: any[]) => {
   const prevPhase = currentPhase;
   const prevHooks = currentHooks;
   const prevNextHookIndex = nextHookIndex;

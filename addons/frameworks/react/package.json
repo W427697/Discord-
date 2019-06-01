@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@storybook/addons": "5.1.0-rc.3",
-    "@storybook/core-events": "5.1.0-rc.3",
+    "@storybook/client-api": "5.1.0-rc.3",
     "global": "^4.3.2"
   },
   "peerDependencies": {
