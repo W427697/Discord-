@@ -22,11 +22,19 @@
     "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
+    "@babel/plugin-transform-react-constant-elements": "^7.2.0",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
     "@storybook/addons": "5.1.0-rc.3",
     "@storybook/client-api": "5.1.0-rc.3",
-    "global": "^4.3.2"
+    "babel-plugin-add-react-displayname": "^0.0.5",
+    "babel-plugin-react-docgen": "^3.1.0",
+    "common-tags": "^1.8.0",
+    "global": "^4.3.2",
+    "lodash": "^4.17.11"
   },
   "peerDependencies": {
+    "react": "*",
     "react-dom": "*"
   },
   "publishConfig": {

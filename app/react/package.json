@@ -26,17 +26,12 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@babel/plugin-transform-react-constant-elements": "^7.2.0",
-    "@babel/preset-flow": "^7.0.0",
-    "@babel/preset-react": "^7.0.0",
     "@storybook/addon-react": "5.1.0-rc.3",
     "@storybook/core": "5.1.0-rc.3",
     "@storybook/node-logger": "5.1.0-rc.3",
     "@svgr/webpack": "^4.0.3",
     "babel-plugin-named-asset-import": "^0.3.1",
-    "babel-plugin-react-docgen": "^3.0.0",
     "babel-preset-react-app": "^9.0.0",
-    "common-tags": "^1.8.0",
     "core-js": "^3.0.1",
     "global": "^4.3.2",
     "lodash": "^4.17.11",

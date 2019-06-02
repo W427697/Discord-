@@ -1,49 +1,18 @@
 import { document } from 'global';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { stripIndents } from 'common-tags';
-import isReactRenderable from './element_check';
+import render from '@storybook/addon-react/dist/client/render';
 
 const rootEl = document ? document.getElementById('root') : null;
-
-function render(node, el) {
-  ReactDOM.render(
-    process.env.STORYBOOK_EXAMPLE_APP ? <React.StrictMode>{node}</React.StrictMode> : node,
-    el
-  );
-}
 
 export default function renderMain({
   storyFn,
   selectedKind,
   selectedStory,
   showMain,
-  showError,
   forceRender,
 }) {
   const element = storyFn();
-
-  if (!element) {
-    showError({
-      title: `Expecting a React element from the story: "${selectedStory}" of "${selectedKind}".`,
-      description: stripIndents`
-        Did you forget to return the React element from the story?
-        Use "() => (<MyComp/>)" or "() => { return <MyComp/>; }" when defining the story.
-      `,
-    });
-    return;
-  }
-
-  if (!isReactRenderable(element)) {
-    showError({
-      title: `Expecting a valid React element from the story: "${selectedStory}" of "${selectedKind}".`,
-      description: stripIndents`
-         Seems like you are not returning a correct React element from the story.
-         Could you double check that?
-       `,
-    });
-    return;
-  }
 
   // We need to unmount the existing set of components in the DOM node.
   // Otherwise, React may not recreate instances for every story run.
@@ -54,5 +23,5 @@ export default function renderMain({
     ReactDOM.unmountComponentAtNode(rootEl);
   }
   showMain();
-  render(element, rootEl);
+  render(element, rootEl, { name: selectedStory, kind: selectedKind });
 }

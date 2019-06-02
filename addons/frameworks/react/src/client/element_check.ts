@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import flattenDeep from 'lodash/flattenDeep';
 
-// return true if the element is renderable with react fiber
-export const isValidFiberElement = element =>
+// return true if the element is renderable with react fiberss
+export const isValidFiberElement = (element: ReactNode) =>
   typeof element === 'string' || typeof element === 'number' || React.isValidElement(element);
 
-export const isPriorToFiber = version => {
+export const isPriorToFiber = (version: string) => {
   const [majorVersion] = version.split('.');
 
   return Number(majorVersion) < 16;
 };
 
 // accepts an element and return true if renderable else return false
-const isReactRenderable = element => {
+const isReactRenderable = (element: ReactNode): boolean => {
   // storybook is running with a version prior to fiber,
   // run a simple check on the element
   if (isPriorToFiber(React.version)) {
@@ -26,16 +26,7 @@ const isReactRenderable = element => {
 
   // the element is in fact a list of elements (array),
   // loop on its elements to see if its ok to render them
-  const elementsList = element.map(isReactRenderable);
-
-  // flatten the list of elements (possibly deep nested)
-  const flatList = flattenDeep(elementsList);
-
-  // keep only invalid elements
-  const invalidElements = flatList.filter(elementIsRenderable => elementIsRenderable === false);
-
-  // it's ok to render this list if there is no invalid elements inside
-  return !invalidElements.length;
+  return element.every(isReactRenderable);
 };
 
 export default isReactRenderable;

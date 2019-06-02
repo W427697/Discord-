@@ -3,10 +3,13 @@ import { makeDecorator, StoryContext, StoryGetter } from '@storybook/addons';
 import { hookify, useEffect, useMemo } from '@storybook/client-api';
 import { document } from 'global';
 
+import './globals';
+import render from './render';
+
 const withReact = hookify((getStory: StoryGetter, context: StoryContext) => {
   const node = useMemo(() => document.createElement('div'), [context.kind, context.name]);
   useEffect(() => () => ReactDOM.unmountComponentAtNode(node), [node]);
-  ReactDOM.render(getStory(context), node);
+  render(getStory(context), node, context);
   return node;
 });
 
