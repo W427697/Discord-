@@ -113,7 +113,7 @@ The default `tsconfig.json` that comes with CRA works great. If your stories are
 
 ## Create a TSX storybook index 
 
-The default storybook index file is `stories/index.js` -- you'll want to rename this to `stories/index.storybook.tsx`.
+The default storybook index file is `stories/index.js` -- you'll want to rename this to `stories/index.tsx`.
 
 ## Import tsx stories
 
