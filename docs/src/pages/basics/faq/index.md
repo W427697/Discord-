@@ -48,14 +48,11 @@ import { storiesOf } from '@storybook/react';
 class MyComponent extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       someVar: 'defaultValue',
-    }
-  }
-  componentDidMount() {
-     this.setState({
       ...this.props.initialState
-    })
+    }
   }
   // ...
 }
