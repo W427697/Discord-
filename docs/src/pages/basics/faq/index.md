@@ -51,7 +51,7 @@ class MyComponent extends Component {
 
     this.state = {
       someVar: 'defaultValue',
-      ...this.props.initialState
+      ...props.initialState
     }
   }
   // ...
