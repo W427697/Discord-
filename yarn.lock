@@ -16508,17 +16508,17 @@ jest-enzyme@^7.0.2:
     enzyme-to-json "^3.3.0"
     jest-environment-enzyme "^7.0.2"
 
-jest-expo@^32.0.0:
-  version "32.0.1"
-  resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-32.0.1.tgz#83bb16cba0d14d75bc635b8fb078bc33e82b99ad"
-  integrity sha512-FnqfaQ0LuzOgG3/qJh6G+pard5SnWnTfJ7Ad+NFl6CEyZhLp/sCu01fl+CGpal2LFSPODChheIaLYebgw69d+g==
+jest-expo@^33.0.1:
+  version "33.0.1"
+  resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-33.0.1.tgz#e13c028caf8870304121b68cf67c132606fde52e"
+  integrity sha512-0OQ1h/drAyHd5kFs4ttqgAFAPc6/VVZ5l17J31Fzyk39JhmESP70gECaZCAHs/HeoEw4v7qbcarV4oE7i39Inw==
   dependencies:
-    "@babel/core" "^7.1.0"
-    babel-core "^7.0.0-bridge.0"
-    babel-jest "^23.6.0"
-    jest "^23.6.0"
+    babel-jest "^24.7.1"
+    jest "^24.7.1"
     json5 "^2.1.0"
-    react-test-renderer "^16.5.0"
+    lodash "^4.5.0"
+    react-test-renderer "^16.8.6"
+    whatwg-fetch "^3.0.0"
 
 jest-get-type@^22.1.0:
   version "22.4.3"
@@ -17227,7 +17227,7 @@ jest@20.0.4:
   dependencies:
     jest-cli "^20.0.4"
 
-jest@23.6.0, jest@^23.6.0:
+jest@23.6.0:
   version "23.6.0"
   resolved "https://registry.yarnpkg.com/jest/-/jest-23.6.0.tgz#ad5835e923ebf6e19e7a1d7529a432edfee7813d"
   integrity sha512-lWzcd+HSiqeuxyhG+EnZds6iO3Y3ZEnMrfZq/OTGvF/C+Z4fPMCdhWTGSAiO2Oym9rbEXfwddHhh6jqrTF3+Lw==
@@ -18926,7 +18926,7 @@ lodash@4.17.5:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
   integrity sha512-svL3uiZf1RwhH+cWrfZn3A4+U58wbP0tGVTLQPbjplZxZ8ROD9VLuNgsRniTlLe7OlSqR79RUehXgpBW/s0IQw==
 
-lodash@4.x, "lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.0.1, lodash@^4.13.1, lodash@^4.15.0, lodash@^4.16.6, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.6.1, lodash@~4.17.10:
+lodash@4.x, "lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.0.1, lodash@^4.13.1, lodash@^4.15.0, lodash@^4.16.6, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.5.0, lodash@^4.6.1, lodash@~4.17.10:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
@@ -24792,7 +24792,7 @@ react-test-renderer@16.5.1:
     react-is "^16.5.1"
     schedule "^0.4.0"
 
-react-test-renderer@^16.0.0-0, react-test-renderer@^16.5.0, react-test-renderer@^16.8.4:
+react-test-renderer@^16.0.0-0, react-test-renderer@^16.8.4, react-test-renderer@^16.8.6:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.8.6.tgz#188d8029b8c39c786f998aa3efd3ffe7642d5ba1"
   integrity sha512-H2srzU5IWYT6cZXof6AhUcx/wEyJddQ8l7cLM/F7gDXYyPr4oq+vCIxJYXVGhId1J706sqziAjuOEjyNkfgoEw==
