@@ -1065,7 +1065,7 @@ exports[`Storyshots Basics|Tabs stateless - absolute 1`] = `
   overflow: auto;
 }
 
-.emotion-11 > *:first-child {
+.emotion-11 > *:first-of-type {
   position: absolute;
   left: 0;
   right: 0;

@@ -6181,7 +6181,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   overflow: auto;
 }
 
-.emotion-99 > *:first-child {
+.emotion-99 > *:first-of-type {
   position: absolute;
   left: 0;
   right: 0;
@@ -6674,7 +6674,7 @@ exports[`Storyshots UI|Settings/ShortcutsScreen default shortcuts 1`] = `
   overflow: auto;
 }
 
-.emotion-99 > *:first-child {
+.emotion-99 > *:first-of-type {
   position: absolute;
   left: 0;
   right: 0;

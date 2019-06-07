@@ -162,7 +162,7 @@ exports[`Storyshots UI|Settings/AboutScreen failed to fetch new version 1`] = `
   overflow: auto;
 }
 
-.emotion-25 > *:first-child {
+.emotion-25 > *:first-of-type {
   position: absolute;
   left: 0;
   right: 0;
@@ -703,7 +703,7 @@ exports[`Storyshots UI|Settings/AboutScreen new version required 1`] = `
   overflow: auto;
 }
 
-.emotion-41 > *:first-child {
+.emotion-41 > *:first-of-type {
   position: absolute;
   left: 0;
   right: 0;
@@ -2220,7 +2220,7 @@ exports[`Storyshots UI|Settings/AboutScreen up to date 1`] = `
   overflow: auto;
 }
 
-.emotion-27 > *:first-child {
+.emotion-27 > *:first-of-type {
   position: absolute;
   left: 0;
   right: 0;
