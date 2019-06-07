@@ -73,7 +73,7 @@ const Content = styled.div<ContentProps>(
           bottom: 0,
           top: 40,
           overflow: 'auto',
-          '& > *:first-child': {
+          '& > *:first-of-type': {
             position: 'absolute',
             left: 0,
             right: 0,
