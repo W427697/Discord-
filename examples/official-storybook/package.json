@@ -19,6 +19,7 @@
     "@storybook/addon-centered": "5.1.1",
     "@storybook/addon-contexts": "5.1.1",
     "@storybook/addon-cssresources": "5.1.1",
+    "@storybook/addon-design-assets": "5.1.1",
     "@storybook/addon-events": "5.1.1",
     "@storybook/addon-graphql": "5.1.1",
     "@storybook/addon-info": "5.1.1",
