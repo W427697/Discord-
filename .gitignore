@@ -9,7 +9,7 @@ dist
 *.DS_Store
 .cache
 junit.xml
-coverage/
+/coverage
 *.lerna_backup
 build
 packages/examples/automated-*

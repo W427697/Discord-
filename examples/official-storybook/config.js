@@ -6,6 +6,11 @@ import { withCssResources } from '@storybook/addon-cssresources';
 import { withA11y } from '@storybook/addon-a11y';
 import { withNotes } from '@storybook/addon-notes';
 
+// FIXME: deal with channel
+// import { setCoverage } from '@storybook/addon-coverage';
+// import coverageMap from '/Users/shilman/projects/storybookjs/storybook/coverage/coverage-final.json';
+// setCoverage(coverageMap);
+
 import 'storybook-chromatic';
 
 import addHeadWarning from './head-warning';

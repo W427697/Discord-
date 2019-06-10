@@ -13,6 +13,7 @@ import '@storybook/addon-jest/register';
 import '@storybook/addon-viewport/register';
 import '@storybook/addon-graphql/register';
 import '@storybook/addon-contexts/register';
+import '@storybook/addon-coverage/register';
 
 import addHeadWarning from './head-warning';
 
