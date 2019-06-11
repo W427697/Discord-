@@ -1,0 +1,54 @@
+{
+  "name": "@storybook/svelte3",
+  "version": "5.1.1",
+  "description": "Storybook for Svelte3: Develop Svelte Component in isolation with Hot Reloading.",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/master/app/svelte3",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "app/svelte3"
+  },
+  "license": "MIT",
+  "main": "dist/client/index.js",
+  "jsnext:main": "src/client/index.js",
+  "bin": {
+    "build-storybook": "./bin/build.js",
+    "start-storybook": "./bin/index.js",
+    "storybook-server": "./bin/index.js"
+  },
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js",
+    "watch": "node ../../scripts/watch-babel.js"
+  },
+  "dependencies": {
+    "@storybook/core": "5.1.1",
+    "@storybook/addon-centered": "5.1.1",
+    "common-tags": "^1.8.0",
+    "core-js": "^3.0.1",
+    "eslint-plugin-svelte3": "^1.2.3",
+    "global": "^4.3.2",
+    "lodash": "^4.17.11",
+    "regenerator-runtime": "^0.12.1"
+  },
+  "devDependencies": {
+    "svelte": "^3.4.1",
+    "svelte-loader": "^2.13.4"
+  },
+  "peerDependencies": {
+    "babel-loader": "^7.0.0 || ^8.0.0",
+    "svelte": "^3.2",
+    "svelte-loader": "^2.13"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
