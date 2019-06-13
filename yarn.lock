@@ -8334,7 +8334,7 @@ codemirror-graphql@^0.7.1:
     graphql-language-service-interface "^1.3.2"
     graphql-language-service-parser "^1.2.2"
 
-codemirror@^5.26.0, codemirror@^5.35.0:
+codemirror@^5.26.0, codemirror@^5.47.0:
   version "5.47.0"
   resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.47.0.tgz#c13a521ae5660d3acc655af252f4955065293789"
   integrity sha512-kV49Fr+NGFHFc/Imsx6g180hSlkGhuHxTSDDmDHOuyln0MQYFLixDY4+bFkBVeCEiepYfDimAF/e++9jPJk4QA==
@@ -22781,7 +22781,7 @@ react-app-polyfill@^1.0.1:
     regenerator-runtime "0.13.2"
     whatwg-fetch "3.0.0"
 
-react-broadcast@^0.6.2:
+react-broadcast@^0.6.1:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/react-broadcast/-/react-broadcast-0.6.2.tgz#9555c73b80ca5b2673830872e54f6bb3092cf8a9"
   integrity sha512-4Wvcbp7mhdtpl2VW4F8Go/qHqt/GuNxm4m+gsVSuJPjITyOe6L/FzS5ZvrPgjV+jIyXqJBmk9Sl4CXJmyI7kYQ==
@@ -23341,6 +23341,23 @@ react-resize-detector@^4.2.0:
     raf-schd "^4.0.0"
     resize-observer-polyfill "^1.5.1"
 
+react-sandpack-for-storybook@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/react-sandpack-for-storybook/-/react-sandpack-for-storybook-0.0.1.tgz#53cc11cc0917fee09c82cd7e79c90e85f7378dd3"
+  integrity sha512-9YwTY5jFAqfikyz8x4ORhM12kn1uYXiP5h7DztuSbj5TcHQNewALfxOsXjURfBmZmRXDJpmXoaywPotBRfyJyg==
+  dependencies:
+    "@types/fs-extra" "^5.0.4"
+    "@types/glob" "^5.0.35"
+    "@types/shelljs" "^0.8.0"
+    classnames "^2.2.5"
+    codemirror "^5.47.0"
+    codesandbox-api "^0.0.19"
+    codesandbox-import-utils "^1.2.3"
+    react-broadcast "^0.6.1"
+    react-codemirror2 "^4.0.1"
+    rollup-plugin-scss "^0.4.0"
+    smooshpack "^0.0.54"
+
 react-scripts@3.0.1, react-scripts@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-3.0.1.tgz#e5565350d8069cc9966b5998d3fe3befe3d243ac"
@@ -23423,23 +23440,6 @@ react-sizeme@^2.5.2, react-sizeme@^2.6.7:
     invariant "^2.2.4"
     shallowequal "^1.1.0"
     throttle-debounce "^2.1.0"
-
-react-smooshpack@^0.0.56:
-  version "0.0.56"
-  resolved "https://registry.yarnpkg.com/react-smooshpack/-/react-smooshpack-0.0.56.tgz#9a9460a8c26a59cfb0902963bbaa2288c472f5f0"
-  integrity sha512-7ldt8G4SYjDCrADX+kJU/1IMNRbUKJAGo0LmtBUQQ3rapJODeiu9wECfXgm90o5mVbJQqLvi1EPOwK1YiE9E6g==
-  dependencies:
-    "@types/fs-extra" "^5.0.4"
-    "@types/glob" "^5.0.35"
-    "@types/shelljs" "^0.8.0"
-    classnames "^2.2.5"
-    codemirror "^5.35.0"
-    codesandbox-api "^0.0.19"
-    codesandbox-import-utils "^1.2.3"
-    react-broadcast "^0.6.2"
-    react-codemirror2 "^4.0.1"
-    rollup-plugin-scss "^0.4.0"
-    smooshpack "^0.0.54"
 
 react-syntax-highlighter@^10.3.0:
   version "10.3.0"

@@ -1,10 +1,10 @@
-import React, { Component } from 'react'; // eslint-disable-line no-unused-vars
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import { Editor } from '@storybook/components';
 import { document } from 'global';
-import { FileExplorer, BrowserPreview, SandpackProvider } from 'react-smooshpack';
+import { FileExplorer, BrowserPreview, SandpackProvider } from 'react-sandpack-for-storybook';
 import Draggable from 'react-draggable';
 import { Subscriber } from 'react-broadcast';
 import { SAVE_FILE_EVENT_ID, STORY_EVENT_ID } from './events';

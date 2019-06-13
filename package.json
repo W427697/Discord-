@@ -212,7 +212,7 @@
     "react-broadcast": "^0.7.1",
     "react-dom": "^16.8.4",
     "react-resize-detector": "^4.2.0",
-    "react-smooshpack": "^0.0.56",
+    "react-sandpack-for-storybook": "^0.0.1",
     "react-test-renderer": "^16.8.4",
     "react-testing-library": "^6.0.0",
     "regenerator-runtime": "^0.12.1",
