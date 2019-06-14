@@ -26,7 +26,6 @@ const treeshake = async (location: string, source: string, cacheDir: string | nu
       virtualModule({ [location]: source }),
       builtins(),
       resolve({
-        module: true,
         preferBuiltins: true,
       }),
       commonjs(),
