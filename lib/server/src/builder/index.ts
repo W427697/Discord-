@@ -3,8 +3,7 @@
 import { fork } from 'child_process';
 import path from 'path';
 import { State } from 'webpackbar';
-
-import { progress } from '@storybook/node-logger';
+import EventEmitter from 'eventemitter3';
 
 import { ConfigPrefix, EnvironmentType, CliOptions, ConfigsFiles, CallOptions } from '../types';
 
@@ -33,26 +32,30 @@ interface FailureEvent {
 
 type Event = ProgressEvent | SuccessEvent | FailureEvent;
 
-const run = async ({ command, type, env, cliOptions, configsFiles, callOptions }: RunParams) => {
-  // TODO: maybe filter env passed into runner
-  const runner = fork(path.join(__dirname, 'commands', command), [], {
+const runner = new EventEmitter();
+
+const start = async ({ command, type, env, cliOptions, configsFiles, callOptions }: RunParams) => {
+  const sub = fork(path.join(__dirname, 'commands', command), [], {
     silent: true,
   });
 
-  runner.send({ command: 'init', options: { type, env, cliOptions, configsFiles, callOptions } });
+  sub.send({ command: 'init', options: { type, env, cliOptions, configsFiles, callOptions } });
 
-  const report = (e: State) => {
-    progress.emit(type, e);
-  };
-
-  runner.on('message', (event: Event) => {
+  sub.on('message', (event: Event) => {
     if (event.type === 'progress') {
-      report(event.data);
+      runner.emit('progress', event.data);
     } else if (event.type === 'success') {
-      // console.log(event.data);
+      runner.emit('success', event.data);
     } else if (event.type === 'failure') {
-      // console.log(event.err, event.data);
+      runner.emit('failure', event.data);
     }
   });
+};
+
+const run = function run(runParams: RunParams): EventEmitter {
+  // TODO: maybe filter env passed into runner
+  start(runParams);
+
+  return runner;
 };
 export { run };

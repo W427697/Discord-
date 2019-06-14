@@ -2,7 +2,8 @@ import { logger } from '@storybook/node-logger';
 
 import { cleanCliOptions } from './utils/cli';
 
-import * as terminalApp from './terminal-app/app-blessed';
+// import * as terminalApp from './terminal-app/app-blessed';
+import * as terminalApp from './terminal-app/app-ink';
 import * as builder from './builder/index';
 import * as server from './http/http';
 
@@ -28,7 +29,15 @@ const start = async ({ configsFiles, callOptions, cliOptions: cliOptionsRaw }: S
         configsFiles,
         callOptions,
       }),
-    preview: () => Promise.resolve(),
+    preview: () =>
+      builder.run({
+        command: 'watch',
+        type: 'preview',
+        env,
+        cliOptions,
+        configsFiles,
+        callOptions,
+      }),
   });
 };
 

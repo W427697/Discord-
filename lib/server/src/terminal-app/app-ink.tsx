@@ -1,70 +1,92 @@
-// import React, { Component } from 'react';
-// import { Static, render, Box, Text } from 'ink';
+import React, { Component, Fragment } from 'react';
+import { Static, render, Box, Text, Color } from 'ink';
+import EventEmitter from 'eventemitter3';
 
-// import Boxed from 'ink-box';
-// import Gradient from 'ink-gradient';
-// import BigText from 'ink-big-text';
+import { ProgressDescription, State, ValidStateKeys } from '../types';
+import { logo } from '../banner/banner';
 
-// import { progress } from '@storybook/node-logger';
+interface Props {
+  activities: {
+    server: () => EventEmitter;
+    manager: () => EventEmitter;
+    preview: () => EventEmitter;
+  };
+}
 
-// interface State {
-//   server: string;
-//   manager: string;
-// }
+const reporter = (type: ValidStateKeys, ctx: Component<Props, Partial<State>>) => ({
+  message,
+  progress,
+}: ProgressDescription) => {
+  ctx.setState({
+    [type]: {
+      message,
+      progress,
+    },
+  });
+};
 
-// interface Props {
-//   activities: {
-//     server: () => Promise<any>;
-//     manager: () => Promise<any>;
-//   };
-// }
+class App extends Component<Props, Partial<State>> {
+  constructor(props: Props) {
+    super(props);
 
-// class App extends Component<Props, State> {
-//   constructor(props: Props) {
-//     super(props);
+    Object.entries(props.activities).forEach(([t, init]) => {
+      const type = t as ValidStateKeys;
+      const emitter = init();
+      emitter.on('progress', reporter(type, this));
+    });
 
-//     const reporter = (type: 'server' | 'manager') => ({
-//       message,
-//       progress,
-//     }: {
-//       message: string;
-//       progress?: number;
-//     }) => {
-//       this.setState({ [type]: message + ' ' + progress || '' });
-//     };
+    this.state = {
+      server: { message: 'uninitialized', progress: 0 },
+      manager: { message: 'uninitialized', progress: 0 },
+      preview: { message: '', progress: 0 },
+    };
+  }
 
-//     Object.entries(props.activities).map(([type, init]) => {
-//       progress.subscribe(type, reporter(type));
-//       init();
-//     });
+  render() {
+    const { server, manager, preview } = this.state;
 
-//     this.state = {
-//       server: 'uninitialized',
-//       manager: 'uninitialized',
-//     };
-//   }
+    return (
+      <Fragment>
+        <Static>
+          <Text key="logo">{logo}</Text>
+          {server.progress === 100 ? (
+            <Box marginBottom={1} key="server">
+              Server <Color green>OK</Color>
+            </Box>
+          ) : null}
+          {manager.progress === 100 ? (
+            <Box marginBottom={1} key="manager">
+              Manager <Color green>OK</Color>
+            </Box>
+          ) : null}
+          {preview.progress === 100 ? (
+            <Box marginBottom={1} key="preview">
+              Preview <Color green>OK</Color>
+            </Box>
+          ) : null}
+        </Static>
+        <Box flexDirection="column">
+          {server.progress < 100 ? (
+            <Box marginBottom={1} key="server">
+              Server: {server.progress} - {server.message}
+            </Box>
+          ) : null}
+          {manager.progress < 100 ? (
+            <Box marginBottom={1} key="manager">
+              Manager: {manager.progress} - {manager.message}
+            </Box>
+          ) : null}
+          {preview.progress < 100 ? (
+            <Box marginBottom={1} key="preview">
+              Preview: {preview.progress} - {preview.message}
+            </Box>
+          ) : null}
+        </Box>
+      </Fragment>
+    );
+  }
+}
 
-//   render() {
-//     return (
-//       <Box width="100%" height="100%" flexDirection="row">
-//         <Box width="100%">
-//           <Boxed borderStyle="round" borderColor="cyan" float="left" padding={1}>
-//             <Box flexDirection="row">
-//               <Box>server: {this.state.server}</Box>
-//               <Box>manager: {this.state.manager}</Box>
-//             </Box>
-//           </Boxed>
-//         </Box>
-//       </Box>
-//     );
-//   }
-// }
-
-// export const run = (activities: Props['activities']) => {
-//   render(<App activities={activities} />);
-// };
-
-// // setTimeout(() => {
-// //   // Enough counting
-// //   terminal.unmount();
-// // }, 1000);
+export const run = (activities: Props['activities']) => {
+  render(<App activities={activities} />);
+};

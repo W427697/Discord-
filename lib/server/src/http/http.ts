@@ -2,8 +2,8 @@ import https from 'https';
 import http from 'http';
 import fs from 'fs-extra';
 import express from 'express';
-
-import { progress, logger } from '@storybook/node-logger';
+import EventEmitter from 'eventemitter3';
+import { logger } from '@storybook/node-logger';
 
 import { merge } from '../utils/merge';
 
@@ -17,7 +17,6 @@ import {
   Express,
   ServerConfig,
   StorybookConfig,
-  ProgressDescription,
 } from '../types';
 
 const serverFactory = async (options: ServerConfig) => {
@@ -65,29 +64,27 @@ const createServer = async (options: ServerConfig, app: Express) => {
 
 const createApp = async () => express();
 
-const report = (e: ProgressDescription) => {
-  progress.emit('server', e);
-};
+const runner = new EventEmitter();
 
-export const run = async function run(
+const start = async (
   configsFiles: ConfigsFiles,
   cliOptions: CliOptions,
   callOptions: CallOptions
-) {
-  report({ message: 'loading node config' });
+) => {
+  runner.emit('progress', { message: 'loading node config', progress: 10 });
   const base: StorybookConfig = await import(configsFiles.node.location);
 
   const presets = getPresets(base, callOptions);
 
   // recurse over all presets to create the main config
-  report({ message: 'applying presets' });
+  runner.emit('progress', { message: 'applying presets', progress: 20 });
   const storybookConfig = await applyPresets(presets, base);
 
-  report({ message: 'creating middleware' });
+  runner.emit('progress', { message: 'creating middleware', progress: 30 });
   const middleware = createMiddleware(cliOptions, storybookConfig, callOptions);
 
   // create config for running the web server
-  report({ message: 'creating config for server' });
+  runner.emit('progress', { message: 'creating config for server', progress: 50 });
 
   const serverConfig = merge(storybookConfig.server, {
     host: cliOptions.host,
@@ -103,16 +100,22 @@ export const run = async function run(
   });
 
   // create the node app & server
-  report({ message: 'creating express app' });
+  runner.emit('progress', { message: 'creating express app', progress: 80 });
   const app = await createApp();
 
-  report({ message: 'creating server' });
+  runner.emit('progress', { message: 'creating server', progress: 99 });
   const server = await createServer(serverConfig, app);
 
-  report({ message: 'start listening' });
+  runner.emit('progress', { message: 'start listening', progress: 100 });
+  runner.emit('success');
+};
 
-  return {
-    app,
-    server,
-  };
+export const run = function run(
+  configsFiles: ConfigsFiles,
+  cliOptions: CliOptions,
+  callOptions: CallOptions
+) {
+  start(configsFiles, cliOptions, callOptions);
+
+  return runner;
 };
