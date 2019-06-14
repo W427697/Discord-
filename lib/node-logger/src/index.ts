@@ -24,6 +24,9 @@ export const logger = {
   error: (message: string): void => npmLog.error('', message),
   trace: ({ message, time }: { message: string; time: [number, number] }): void =>
     npmLog.info('', `${message} (${colors.purple(prettyTime(time))})`),
+  setLevel: (level: string = 'info'): void => {
+    npmLog.level = level;
+  },
 };
 
 export { npmLog as instance };
