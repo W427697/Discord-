@@ -32,27 +32,33 @@ interface FailureEvent {
 
 type Event = ProgressEvent | SuccessEvent | FailureEvent;
 
-const runner = new EventEmitter();
-
-const start = async ({ command, type, env, cliOptions, configsFiles, callOptions }: RunParams) => {
-  const sub = fork(path.join(__dirname, 'commands', command), [], {
-    silent: true,
-  });
-
-  sub.send({ command: 'init', options: { type, env, cliOptions, configsFiles, callOptions } });
-
-  sub.on('message', (event: Event) => {
-    if (event.type === 'progress') {
-      runner.emit('progress', event.data);
-    } else if (event.type === 'success') {
-      runner.emit('success', event.data);
-    } else if (event.type === 'failure') {
-      runner.emit('failure', event.data);
-    }
-  });
-};
-
 const run = function run(runParams: RunParams): EventEmitter {
+  const runner = new EventEmitter();
+
+  const start = async ({
+    command,
+    type,
+    env,
+    cliOptions,
+    configsFiles,
+    callOptions,
+  }: RunParams) => {
+    const sub = fork(path.join(__dirname, 'commands', command), [], {
+      silent: true,
+    });
+
+    sub.send({ command: 'init', options: { type, env, cliOptions, configsFiles, callOptions } });
+
+    sub.on('message', (event: Event) => {
+      if (event.type === 'progress') {
+        runner.emit('progress', event.data);
+      } else if (event.type === 'success') {
+        runner.emit('success', event.data);
+      } else if (event.type === 'failure') {
+        runner.emit('failure', event.data);
+      }
+    });
+  };
   // TODO: maybe filter env passed into runner
   start(runParams);
 

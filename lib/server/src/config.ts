@@ -25,7 +25,7 @@ const get = async (
   output: OutputConfig
 ) => {
   if (type === 'manager') {
-    const baseWebpack = await manager.createBaseWebpackConfig(env, output);
+    const baseWebpack = await manager.createBaseWebpackConfig(env, output, config.entries);
     return {
       babel: config.managerBabel,
       webpack: async () => config.managerWebpack(baseWebpack, env),
@@ -33,7 +33,7 @@ const get = async (
     };
   }
   if (type === 'preview') {
-    const baseWebpack = await preview.createBaseWebpackConfig(env, output);
+    const baseWebpack = await preview.createBaseWebpackConfig(env, output, config.entries);
 
     return {
       babel: config.babel,

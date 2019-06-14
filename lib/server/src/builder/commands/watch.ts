@@ -47,8 +47,8 @@ const watch = async (config: BuildConfig) => {
 const commands = {
   init: async ({ type, env, callOptions, cliOptions }: Options) => {
     const buildConfig: BuildConfig = await createBuildConfig(type, env, cliOptions, callOptions, [
-      createWebpackServePreset('manager'),
-      createWebpackReporterPreset('manager', {
+      createWebpackServePreset(type),
+      createWebpackReporterPreset(type, {
         start: ({ state }) => reportProgress(state),
         change: ({ state }) => reportProgress(state),
         update: ({ state }) => reportProgress(state),

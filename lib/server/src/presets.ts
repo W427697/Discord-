@@ -87,11 +87,11 @@ export const applyPreset = (preset: StorybookConfig, base: StorybookConfig) => (
 });
 
 // this is some bad-ass code right here
-// we will recurse into sub-presets, extending the config untill all presets have been handled
+// we will recurse into sub-presets, extending the config until all presets have been handled
 // a preset can export presets, and all other config types
 
 // functions should be curried
-// arrays should be concatinated
+// arrays should be concatenated
 // objects should be merged
 export const applyPresets = async (
   presets: Preset[],

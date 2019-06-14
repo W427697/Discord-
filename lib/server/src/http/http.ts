@@ -64,58 +64,54 @@ const createServer = async (options: ServerConfig, app: Express) => {
 
 const createApp = async () => express();
 
-const runner = new EventEmitter();
-
-const start = async (
-  configsFiles: ConfigsFiles,
-  cliOptions: CliOptions,
-  callOptions: CallOptions
-) => {
-  runner.emit('progress', { message: 'loading node config', progress: 10 });
-  const base: StorybookConfig = await import(configsFiles.node.location);
-
-  const presets = getPresets(base, callOptions);
-
-  // recurse over all presets to create the main config
-  runner.emit('progress', { message: 'applying presets', progress: 20 });
-  const storybookConfig = await applyPresets(presets, base);
-
-  runner.emit('progress', { message: 'creating middleware', progress: 30 });
-  const middleware = createMiddleware(cliOptions, storybookConfig, callOptions);
-
-  // create config for running the web server
-  runner.emit('progress', { message: 'creating config for server', progress: 50 });
-
-  const serverConfig = merge(storybookConfig.server, {
-    host: cliOptions.host,
-    port: cliOptions.port,
-    ssl: cliOptions.https
-      ? {
-          ca: cliOptions.sslCa,
-          cert: cliOptions.sslCert,
-          key: cliOptions.sslKey,
-        }
-      : undefined,
-    middleware,
-  });
-
-  // create the node app & server
-  runner.emit('progress', { message: 'creating express app', progress: 80 });
-  const app = await createApp();
-
-  runner.emit('progress', { message: 'creating server', progress: 99 });
-  const server = await createServer(serverConfig, app);
-
-  runner.emit('progress', { message: 'start listening', progress: 100 });
-  runner.emit('success');
-};
-
 export const run = function run(
   configsFiles: ConfigsFiles,
   cliOptions: CliOptions,
   callOptions: CallOptions
 ) {
-  start(configsFiles, cliOptions, callOptions);
+  const runner = new EventEmitter();
+
+  const start = async () => {
+    runner.emit('progress', { message: 'loading node config', progress: 10 });
+    const base: StorybookConfig = await import(configsFiles.node.location);
+
+    const presets = getPresets(base, callOptions);
+
+    // recurse over all presets to create the main config
+    runner.emit('progress', { message: 'applying presets', progress: 20 });
+    const storybookConfig = await applyPresets(presets, base);
+
+    runner.emit('progress', { message: 'creating middleware', progress: 30 });
+    const middleware = createMiddleware(cliOptions, storybookConfig, callOptions);
+
+    // create config for running the web server
+    runner.emit('progress', { message: 'creating config for server', progress: 50 });
+
+    const serverConfig = merge(storybookConfig.server, {
+      host: cliOptions.host,
+      port: cliOptions.port,
+      ssl: cliOptions.https
+        ? {
+            ca: cliOptions.sslCa,
+            cert: cliOptions.sslCert,
+            key: cliOptions.sslKey,
+          }
+        : undefined,
+      middleware,
+    });
+
+    // create the node app & server
+    runner.emit('progress', { message: 'creating express app', progress: 80 });
+    const app = await createApp();
+
+    runner.emit('progress', { message: 'creating server', progress: 99 });
+    const server = await createServer(serverConfig, app);
+
+    runner.emit('progress', { message: 'start listening', progress: 100 });
+    runner.emit('success');
+  };
+
+  start();
 
   return runner;
 };

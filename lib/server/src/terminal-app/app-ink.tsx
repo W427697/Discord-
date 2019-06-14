@@ -36,9 +36,9 @@ class App extends Component<Props, Partial<State>> {
     });
 
     this.state = {
-      server: { message: 'uninitialized', progress: 0 },
-      manager: { message: 'uninitialized', progress: 0 },
-      preview: { message: '', progress: 0 },
+      server: { message: 'starting', progress: 0 },
+      manager: { message: 'starting', progress: 0 },
+      preview: { message: 'starting', progress: 0 },
     };
   }
 
@@ -65,6 +65,7 @@ class App extends Component<Props, Partial<State>> {
             </Box>
           ) : null}
         </Static>
+        <Box>{JSON.stringify(this.state)}</Box>
         <Box flexDirection="column">
           {server.progress < 100 ? (
             <Box marginBottom={1} key="server">
