@@ -8,8 +8,12 @@ import addons, { makeDecorator } from '@storybook/addons';
 import { EVENTS, PARAM_KEY } from './constants';
 
 let progress = Promise.resolve();
+
+type onReport = (input: AxeResults) => void;
+
 interface Setup {
   element?: ElementContext;
+  onReport?: onReport;
   config: Spec;
   options: RunOptions;
 }
@@ -26,7 +30,7 @@ const getElement = () => {
 
 const report = (input: AxeResults) => addons.getChannel().emit(EVENTS.RESULT, input);
 
-const run = (element: ElementContext, config: Spec, options: RunOptions) => {
+const run = (element: ElementContext, config: Spec, options: RunOptions, onReport: onReport) => {
   progress = progress.then(() => {
     axe.reset();
     if (config) {
@@ -40,7 +44,12 @@ const run = (element: ElementContext, config: Spec, options: RunOptions) => {
             restoreScroll: true,
           } as RunOptions) // cast to RunOptions is necessary because axe types are not up to date
       )
-      .then(report);
+      .then((input: AxeResults) => {
+        if (typeof onReport === 'function') {
+          onReport(input);
+        }
+        report(input);
+      });
   });
 };
 
@@ -55,7 +64,9 @@ export const withA11y = makeDecorator({
     if (parameters) {
       setup = parameters as Setup;
     }
-    addons.getChannel().on(EVENTS.REQUEST, () => run(setup.element, setup.config, setup.options));
+    addons
+      .getChannel()
+      .on(EVENTS.REQUEST, () => run(setup.element, setup.config, setup.options, setup.onReport));
 
     return getStory(context);
   },
@@ -82,7 +93,7 @@ export const configureA11y = deprecate(
   },
   stripIndents`
     configureA11y is deprecated, please configure addon-a11y using the addParameter api:
-    
+
     addParameters({
       a11y: {
         // ... axe options
