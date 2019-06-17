@@ -1,19 +1,20 @@
 import React, { Component, Fragment } from 'react';
 import { Static, render, Box, Text, Color } from 'ink';
 import EventEmitter from 'eventemitter3';
+import Spinner from 'ink-spinner';
 
 import { ProgressDescription, State, ValidStateKeys } from '../types';
-import { logo } from '../banner/banner';
+import { Banner } from '../banner/banner';
+
+import accepts = require('accepts');
 
 interface Props {
   activities: {
-    server: () => EventEmitter;
-    manager: () => EventEmitter;
-    preview: () => EventEmitter;
+    [name: string]: () => EventEmitter;
   };
 }
 
-const reporter = (type: ValidStateKeys, ctx: Component<Props, Partial<State>>) => ({
+const reporter = (type: string, ctx: Component<Props, Partial<State>>) => ({
   message,
   progress,
 }: ProgressDescription) => {
@@ -25,63 +26,102 @@ const reporter = (type: ValidStateKeys, ctx: Component<Props, Partial<State>>) =
   });
 };
 
+const useScreenWidth = () => {
+  return process.stdout.columns || 90;
+};
+
+const IncompletedItem = ({
+  title,
+  percentage,
+  message: content,
+  extra,
+}: {
+  title: string;
+  percentage: number;
+  message: string;
+  extra: string;
+}) => {
+  const l0 = useScreenWidth() - title.length - extra.length - 4;
+  const pad = Array(l0)
+    .fill(' ')
+    .join('');
+  const l1 = Math.ceil(l0 * (percentage / 100));
+  const l2 = l0 - l1;
+
+  const message = ` ${content} `;
+
+  return (
+    <Box>
+      <Spinner type="dots" /> <Color blue>{title}</Color>{' '}
+      <Color black bgHex="#1EA7FD">
+        {message.concat(pad).slice(0, l1)}
+      </Color>
+      <Color gray bgHex="#000">
+        {message
+          .slice(l1)
+          .concat(pad)
+          .slice(0, l2)}
+      </Color>
+      <Color gray> {extra}</Color>
+    </Box>
+  );
+};
+
 class App extends Component<Props, Partial<State>> {
   constructor(props: Props) {
     super(props);
 
-    Object.entries(props.activities).forEach(([t, init]) => {
-      const type = t as ValidStateKeys;
-      const emitter = init();
-      emitter.on('progress', reporter(type, this));
+    Object.entries(props.activities).forEach(([type, init]) => {
+      init().on('progress', reporter(type, this));
     });
 
-    this.state = {
-      server: { message: 'starting', progress: 0 },
-      manager: { message: 'starting', progress: 0 },
-      preview: { message: 'starting', progress: 0 },
-    };
+    this.state = Object.keys(props.activities).reduce((acc, k) => {
+      return { ...accepts, [k]: { message: 'starting', progress: 0 } };
+    }, {});
   }
 
   render() {
-    const { server, manager, preview } = this.state;
+    const activities = Object.entries(this.state);
+    const completed = activities.filter(([k, v]) => v.progress === 100);
+    const progress = activities.filter(([k, v]) => v.progress < 100);
 
     return (
       <Fragment>
         <Static>
-          <Text key="logo">{logo}</Text>
-          {server.progress === 100 ? (
-            <Box marginBottom={1} key="server">
-              Server <Color green>OK</Color>
+          <Box marginBottom={1} key="header">
+            <Banner />
+          </Box>
+          {completed.length ? (
+            <Box>
+              <Color blue>Completed</Color>
             </Box>
           ) : null}
-          {manager.progress === 100 ? (
-            <Box marginBottom={1} key="manager">
-              Manager <Color green>OK</Color>
-            </Box>
-          ) : null}
-          {preview.progress === 100 ? (
-            <Box marginBottom={1} key="preview">
-              Preview <Color green>OK</Color>
-            </Box>
-          ) : null}
+          {completed.map(([k, v]) => {
+            return (
+              <Box>
+                {k} <Color green>OK</Color> - <Color gray>{v.message}</Color>
+              </Box>
+            );
+          })}
         </Static>
-        <Box>{JSON.stringify(this.state)}</Box>
+        <Box marginBottom={1} />
         <Box flexDirection="column">
-          {server.progress < 100 ? (
-            <Box marginBottom={1} key="server">
-              Server: {server.progress} - {server.message}
+          {progress.length ? (
+            <Box>
+              <Color blue>In progress</Color>
             </Box>
           ) : null}
-          {manager.progress < 100 ? (
-            <Box marginBottom={1} key="manager">
-              Manager: {manager.progress} - {manager.message}
-            </Box>
-          ) : null}
-          {preview.progress < 100 ? (
-            <Box marginBottom={1} key="preview">
-              Preview: {preview.progress} - {preview.message}
-            </Box>
-          ) : null}
+          {progress.map(([k, v]) => {
+            return (
+              <IncompletedItem
+                key={k}
+                title={k}
+                message={v.message}
+                percentage={v.progress}
+                extra={`${v.progress.toString()}%`}
+              />
+            );
+          })}
         </Box>
       </Fragment>
     );

@@ -1,15 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { Fragment } from 'react';
 import chalk from 'chalk';
+import { Box } from 'ink';
+import Link from 'ink-link';
 
-// import path from 'path';
-// import termImg from 'term-img';
-// import terminalImage from 'terminal-image';
-
-// const fallback = async () => {
-//   const image = await terminalImage.file(path.join(__dirname, 'logo.png'));
-//   console.log(image);
-// };
-
-// termImg(path.join(__dirname, 'logo.png'), { fallback });
 const pink = chalk.hex('#FF4785');
 
 export const logo = `
@@ -20,5 +14,14 @@ ${pink('⣿⣿⣿⣿⣀⠀⠀⠈⠙⢿⣿⣿⣿⣿')}⠀⠀⠀⢿⣿⣷⣦⣤⣀
 ${pink('⢿⣿⣿⡿⠿⠿⢶⣄⠀⠀⠀⣿⣿⣿')}⠀⠀⠀⠀⠀⠉⠙⠛⢿⣿⣷⠀⠀⣿⣿⠀⠀⢠⣿⣿⠀⠀⠀⣿⣿⠀⣿⣿⠃⠀⠀⠀⠈⣿⣿⡀⣾⣿⠃⠀⣿⣿⡏⠀⠀⢹⣿⣿⢰⣿⣿⠀⠀⠀⣿⣿⠀⣿⣿⠀⠀⠀⣿⣿⡄⢸⣿⣷⣿⣿⠉
 ${pink('⢹⣿⣿⣿⠀⠀⠈⠛⠀⠀⠀⣿⣿⣿')}⠀⠀⠀⣾⣶⣤⣤⣤⣶⣿⡿⠀⠀⣿⣿⣧⣤⠀⣿⣿⣦⣤⣾⣿⡿⠀⣿⣿⠀⠀⠀⠀⠀⠈⣿⣿⣿⠋⠀⠀⣿⣿⣿⣤⣤⣿⣿⠏⠀⢿⣿⣶⣤⣴⣿⡿⠀⢿⣿⣷⣤⣴⣿⡿⠀⢸⣿⡇⠙⣿⣿⣦
 ${pink('⢸⣿⣿⣿⣿⣶⣤⣤⣤⣶⣿⣿⣿⣿')}⠀⠀⠀⠀⠈⠉⠉⠉⠉⠀⠀⠀⠀⠀⠉⠉⠉⠀⠀⠈⠉⠉⠉⠀⠀⠀⠉⠉⠀⠀⠀⠀⠀⠀⣿⣿⠋⠀⠀⠀⠉⠉⠁⠉⠉⠉⠀⠀⠀⠀⠀⠉⠉⠉⠀⠀⠀⠀⠀⠉⠉⠉⠁⠀⠀⠈⠉⠉⠀⠀⠉⠉⠉
-${pink('⠘⠿⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⡿')}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠛⠋⠀⠀⠀⠀⠀Version 6.0.0 - storybook.js.org
+${pink('⠘⠿⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⡿')}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠛⠋
 `;
+
+export const Banner = () => (
+  <Box flexDirection="column">
+    <Box>{logo}</Box>
+    <Box>
+      version 6.0.0 <Link url="https://storybook.js.org">storybook.js.org</Link>
+    </Box>
+  </Box>
+);

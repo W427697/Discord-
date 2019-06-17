@@ -64,4 +64,21 @@ const run = function run(runParams: RunParams): EventEmitter {
 
   return runner;
 };
-export { run };
+
+const fake = function fake(): EventEmitter {
+  const runner = new EventEmitter();
+  let count = 0;
+  const interval = setInterval(() => {
+    count += 1;
+    runner.emit('progress', { message: 'progress is being made', progress: count });
+
+    if (count === 100) {
+      clearInterval(interval);
+      runner.emit('success', { message: 'completed all the work', progress: 100 });
+    }
+  }, 500);
+
+  return runner;
+};
+
+export { run, fake };

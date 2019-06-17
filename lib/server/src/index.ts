@@ -29,15 +29,7 @@ const start = async ({ configsFiles, callOptions, cliOptions: cliOptionsRaw }: S
         configsFiles,
         callOptions,
       }),
-    preview: () =>
-      builder.run({
-        command: 'watch',
-        type: 'preview',
-        env,
-        cliOptions,
-        configsFiles,
-        callOptions,
-      }),
+    preview: () => builder.fake(),
   });
 };
 

@@ -64,3 +64,5 @@ declare global {
     }
   }
 }
+
+declare module 'ink-link';
