@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import { State } from 'webpackbar';
+import WebpackBar, { State } from 'webpackbar';
 
 import { createWebpackServePreset, createWebpackReporterPreset } from '../../utils/webpack';
 
@@ -21,27 +21,37 @@ const statOptions = {
 const reportProgress = (data: State) => process.send({ type: 'progress', data });
 const reportSuccess = (stats: webpack.Stats) =>
   process.send({ type: 'success', data: stats.toJson(statOptions) });
-const reportError = (err: Error, stats: webpack.Stats) =>
-  process.send({ type: 'failure', err, data: stats.toJson(statOptions) });
+const reportError = (err: Error, stats?: webpack.Stats) =>
+  process.send({
+    type: 'failure',
+    data: stats ? stats.toJson(statOptions) : { message: err.message, detail: [err] },
+  });
 
-const watch = async (config: BuildConfig) => {
-  const webpackConfig = await config.webpack({});
+const watch = async (config: BuildConfig): Promise<webpack.Watching | null> => {
+  try {
+    const webpackConfig = await config.webpack({});
+    const compiler = webpack(webpackConfig);
 
-  const compiler = webpack(webpackConfig);
-
-  const watcher = compiler.watch(
-    {
-      aggregateTimeout: 10,
-    },
-    (err, stats) => {
-      // Stats Object
-      // Print watch/build result here...
-      if (err) {
-        reportError(err, stats);
+    return compiler.watch(
+      {
+        aggregateTimeout: 10,
+      },
+      (err, stats) => {
+        // Stats Object
+        // Print watch/build result here...
+        if (err) {
+          reportError(err, stats);
+          return;
+        }
+        if (stats) {
+          reportSuccess(stats);
+        }
       }
-      reportSuccess(stats);
-    }
-  );
+    );
+  } catch (e) {
+    reportError(e);
+    return null;
+  }
 };
 
 const commands = {

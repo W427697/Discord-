@@ -64,7 +64,7 @@
     "inquirer": "^6.2.0",
     "interpret": "^1.2.0",
     "ip": "^1.1.5",
-    "is-plain-object": "^2.0.4",
+    "is-plain-object": "^3.0.0",
     "json5": "^2.1.0",
     "lazy-universal-dotenv": "^2.0.0",
     "lodash": "^4.17.11",

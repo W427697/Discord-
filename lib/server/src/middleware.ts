@@ -27,6 +27,7 @@ const staticMiddleware = (config: StaticConfig) => async (app: Express) => {
     if (await !fs.pathExists(fullLocation)) {
       logger.error(`Error: no such directory to load static files: "${fullLocation}"`);
     } else {
+      // TODO should be part of server
       progress.emit('server', {
         message: `=> Loading static files from: "${location}", hosting them at "${route}"`,
         details: [location, route],

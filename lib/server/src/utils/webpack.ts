@@ -2,6 +2,7 @@ import webpack from 'webpack';
 import webpackmerge from 'webpack-merge';
 import { WebpackPluginServe } from 'webpack-plugin-serve';
 import WebpackBar, { Reporter } from 'webpackbar';
+import killPort from 'kill-port';
 
 import { StorybookConfig, ConfigPrefix, Preset, WebpackConfig, OutputConfig } from '../types';
 
@@ -36,6 +37,8 @@ const createWebpackServePreset = (type: ConfigPrefix): Preset => async (): Promi
         const host = 'localhost';
         const port = 55550;
 
+        await killPort(port, 'tcp');
+
         // eslint-disable-next-line no-param-reassign
         webpackConfig.entry = await ensureEntryIsObject(webpackConfig.entry);
 
@@ -50,7 +53,7 @@ const createWebpackServePreset = (type: ConfigPrefix): Preset => async (): Promi
                 address: `${host}${port}/manager-hmr`,
                 silent: true,
               },
-              // this injects quite a bit UI I don't like, would love to buld something custom based on this
+              // this injects quite a bit UI I don't like, would love to build something custom based on this
               // https://github.com/shellscape/webpack-plugin-serve/blob/master/lib/client/client.js
               status: true,
               progress: true,

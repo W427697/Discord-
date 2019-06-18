@@ -15,19 +15,18 @@ export { Express };
 
 export { WebpackConfig };
 
+export type Status = 'progress' | 'success' | 'failure';
+
 export interface ProgressDescription {
   message: string;
   progress?: number;
   detail?: string[];
+  status: Status;
 }
 
 export interface State {
-  server: ProgressDescription;
-  manager: ProgressDescription;
-  preview: ProgressDescription;
+  [name: string]: ProgressDescription;
 }
-
-export type ValidStateKeys = keyof State;
 
 export interface OutputConfig {
   location?: string;
