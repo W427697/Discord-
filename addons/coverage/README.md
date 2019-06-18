@@ -2,6 +2,12 @@
 
 Storybook coverage visualizes "story coverage", or which component states are not adequately represented by stories.
 
+To generate coverage.json:
+
+```
+yarn jest --testPathPattern=examples/official-storybook/tests/storyshots.test.js --coverage --coverageReporters=json
+```
+
 To make this usable:
 
 - [ ] Addon API for treeview rendering?
