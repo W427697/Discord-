@@ -29,9 +29,9 @@
     "core-js": "^3.0.1",
     "deep-object-diff": "^1.1.0",
     "emotion-theming": "^10.0.9",
-    "global": "^4.3.2",
+    "global": "^4.0.0",
     "memoizerific": "^1.11.3",
-    "polished": "^3.3.1",
+    "polished": "^3.4.1",
     "prop-types": "^15.7.2",
     "resolve-from": "^5.0.0"
   },

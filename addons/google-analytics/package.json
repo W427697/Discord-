@@ -23,7 +23,7 @@
     "@storybook/addons": "5.2.0-alpha.23",
     "@storybook/core-events": "5.2.0-alpha.23",
     "core-js": "^3.0.1",
-    "global": "^4.3.2",
+    "global": "^4.0.0",
     "react-ga": "^2.5.7"
   },
   "publishConfig": {

@@ -27,7 +27,7 @@
     "@storybook/core-events": "5.2.0-alpha.23",
     "@storybook/theming": "5.2.0-alpha.23",
     "core-js": "^3.0.1",
-    "global": "^4.3.2",
+    "global": "^4.0.0",
     "memoizerific": "^1.11.3",
     "prop-types": "^15.7.2",
     "util-deprecate": "^1.0.2"

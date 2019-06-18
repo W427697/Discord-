@@ -28,16 +28,16 @@
     "@storybook/theming": "5.2.0-alpha.23",
     "core-js": "^3.0.1",
     "fast-deep-equal": "^2.0.1",
-    "global": "^4.3.2",
+    "global": "^4.0.0",
     "lodash": "^4.17.11",
-    "polished": "^3.3.1",
+    "polished": "^3.4.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.3",
     "react-inspector": "^3.0.2",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.130",
+    "@types/lodash": "^4.14.134",
     "@types/uuid": "^3.4.4"
   },
   "publishConfig": {
