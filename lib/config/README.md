@@ -6,18 +6,18 @@ This package is a config splitter to allow the mono config:
 
 ## Reason
 
-We want users to have the convience of setting up storybook in a single config file.
-This means the config for theming, babel, webpack, entrypoints, custom headers, middleware, presets, etc... is availeble in 1 place.
+We want users to have the convenience of setting up storybook in a single config file.
+This means the config for theming, babel, webpack, entrypoints, custom headers, middleware, presets, etc... is available in 1 place.
 
 This file is a javascript file, with all the power that comes with javascript.
-We allow users to create a webpack config right alongside the creation of the theme for storybook. This does pose a technical challange though!
+We allow users to create a webpack config right alongside the creation of the theme for storybook. This does pose a technical challenge though!
 
-This package deals with that challange.
+This package deals with that challenge.
 
-## What's the challange of the mono config?
+## What's the challenge of the mono config?
 
-Part 1 of the challange is that a javascript config file wll contain dependencies, and references to objects, functions, etc. 
-Part 2 is that not all config data is for relavent or even allowed in all environments for storybook.
+Part 1 of the challenge is that a javascript config file wll contain dependencies, and references to objects, functions, etc. 
+Part 2 is that not all config data is for relevant or even allowed in all environments for storybook.
 
 For example the node server needs to know about the webpack config, entrypoints and presets, but it doesn't need the theme config.
 Likewise the manager needs the config for the layout and theme, but it's config should not include dependencies for webpack!
