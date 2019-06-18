@@ -71,8 +71,9 @@ function getCoverageColor(kind: string, coverageMap: CoverageMap): string | null
   }
 }
 
-const getColor = (kind: string, active: boolean) => {
+const getColor = (kind: string, parameters: any, active: boolean) => {
   const coverageMap = getCoverage();
+  // console.log('parameters', parameters);
   return (active && kind && coverageMap && getCoverageColor(kind, coverageMap)) || 'transparent';
 };
 
@@ -82,7 +83,7 @@ export const Coverage: React.FunctionComponent<{}> = () => {
   const [active, setActive] = useState(false);
   const icon = active ? 'eye' : 'eyeclose';
 
-  window.getKindColor = (kind: string) => getColor(kind, active);
+  window.getKindColor = (kind: string, parameters: any) => getColor(kind, parameters, active);
 
   return (
     <IconButton
