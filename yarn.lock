@@ -22553,9 +22553,9 @@ react-native-branch@2.2.5:
   integrity sha1-QHTdY7SXPmOX2c5Q6XtXx3pRjp0=
 
 react-native-color-picker@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/react-native-color-picker/-/react-native-color-picker-0.4.0.tgz#801a413a20b833ea8aa9b10418c3761dd4d88fb6"
-  integrity sha1-gBpBOiC4M+qKqbEEGMN2HdTYj7Y=
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-color-picker/-/react-native-color-picker-0.4.1.tgz#84617f259dbdb470651613bb81a85828c13d7e71"
+  integrity sha512-FpsSshxIIFIAeduQct2ThZxegRf3A1TPPNfJ09+JIh4//oFDNTzQElmWtaKjUvsMNxve+7kXODlxyk91NzOcLw==
   dependencies:
     prop-types "^15.5.10"
     tinycolor2 "^1.4.1"
