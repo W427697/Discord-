@@ -13,6 +13,7 @@ interface DisabledParameter {
 }
 
 export interface CoverageItem {
+  s: any;
   statementMap: any;
   fnMap: any;
   branchMap: any;
@@ -21,6 +22,14 @@ export interface CoverageItem {
 // export type Parameters = string | TextParameter | MarkdownParameter | DisabledParameter;
 export type CoverageMap = {
   [key: string]: CoverageItem;
+};
+
+export type StoryMap = {
+  [key: string]: string[];
+};
+
+export type StoryCoverage = {
+  [storyId: string]: number;
 };
 
 function preprocessKey(fname: string) {

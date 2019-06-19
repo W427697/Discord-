@@ -39,6 +39,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.11",
     "@types/prop-types": "^15.5.9",
     "@types/util-deprecate": "^1.0.0",
     "@types/webpack-env": "^1.13.7"

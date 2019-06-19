@@ -79,7 +79,7 @@ const getColor = (kind: string, parameters: any, active: boolean) => {
 
 // const getYellow = (kind: string, active: boolean) => (active ? '#ffff00' : 'transparent');
 
-export const Coverage: React.FunctionComponent<{}> = () => {
+export const CoverageTool: React.FunctionComponent<{}> = () => {
   const [active, setActive] = useState(false);
   const icon = active ? 'eye' : 'eyeclose';
 

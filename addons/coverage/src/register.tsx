@@ -1,7 +1,8 @@
 import React from 'react';
 import { addons, types } from '@storybook/addons';
 
-import { Coverage } from './Coverage';
+import { CoverageTool } from './CoverageTool';
+import { CoveragePanel } from './CoveragePanel';
 import { ADDON_ID, PANEL_ID, setCoverage } from './shared';
 
 //FIXME: move to config.js
@@ -13,6 +14,13 @@ addons.register(ADDON_ID, api => {
     type: types.TOOL,
     title: 'Coverage',
     match: ({ viewMode }) => viewMode === 'story', // todo add type
-    render: () => <Coverage />,
+    render: () => <CoverageTool />,
+  });
+
+  addons.add(PANEL_ID, {
+    type: types.PANEL,
+    title: 'Coverage',
+    match: ({ viewMode }) => viewMode === 'story', // todo add type
+    render: ({ active, key }) => <CoveragePanel key={key} api={api} active={active} />,
   });
 });
