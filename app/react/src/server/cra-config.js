@@ -61,9 +61,14 @@ export function getReactScriptsPath({ noCache } = {}) {
 
 export function isReactScriptsInstalled(requiredVersion = '2.0.0') {
   try {
-    // eslint-disable-next-line import/no-dynamic-require,global-require
-    const reactScriptsJson = require(path.join(getReactScriptsPath(), 'package.json'));
-    return !semver.gtr(requiredVersion, reactScriptsJson.version);
+    /* eslint-disable import/no-dynamic-require,global-require */
+    const packageJson = require(path.join(appDirectory, 'package.json'));
+    if (packageJson.devDependencies['react-scripts']) {
+      const reactScriptsJson = require(path.join(getReactScriptsPath(), 'package.json'));
+      /* eslint-enable import/no-dynamic-require,global-require */
+      return !semver.gtr(requiredVersion, reactScriptsJson.version);
+    }
+    return false;
   } catch (e) {
     return false;
   }
