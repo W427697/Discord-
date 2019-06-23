@@ -1,11 +1,26 @@
 import webpack from 'webpack';
 import WebpackBar, { State } from 'webpackbar';
 
-import { createWebpackServePreset, createWebpackReporterPreset } from '../../utils/webpack';
+import setTitle from 'node-bash-title';
+import {
+  createWebpackServePreset,
+  createWebpackReporterPreset,
+  createStorybookEntryPreset,
+} from '../../utils/webpack';
 
+import { applyPresets, getPresets } from '../../presets';
 import { createBuildConfig } from '../../config';
+import { merge } from '../../utils/merge';
 
-import { BuildConfig, CallOptions, CliOptions, ConfigPrefix, EnvironmentType } from '../../types';
+import {
+  BuildConfig,
+  CallOptions,
+  CliOptions,
+  ConfigPrefix,
+  EnvironmentType,
+  StorybookConfig,
+  ConfigsFiles,
+} from '../../types';
 
 const statOptions = {
   all: false,
@@ -18,7 +33,7 @@ const statOptions = {
   context: process.cwd(),
 };
 
-const reportProgress = (data: State) => process.send({ type: 'progress', data });
+const reportProgress = (data: Partial<State>) => process.send({ type: 'progress', data });
 const reportSuccess = (stats: webpack.Stats) =>
   process.send({ type: 'success', data: stats.toJson(statOptions) });
 const reportError = (err: Error, stats?: webpack.Stats) =>
@@ -27,9 +42,12 @@ const reportError = (err: Error, stats?: webpack.Stats) =>
     data: stats ? stats.toJson(statOptions) : { message: err.message, detail: [err] },
   });
 
-const watch = async (config: BuildConfig): Promise<webpack.Watching | null> => {
+const watch = async (
+  env: EnvironmentType,
+  config: BuildConfig
+): Promise<webpack.Watching | null> => {
   try {
-    const webpackConfig = await config.webpack({});
+    const webpackConfig = await config.webpack({}, env);
     const compiler = webpack(webpackConfig);
 
     return compiler.watch(
@@ -55,9 +73,25 @@ const watch = async (config: BuildConfig): Promise<webpack.Watching | null> => {
 };
 
 const commands = {
-  init: async ({ type, env, callOptions, cliOptions }: Options) => {
+  init: async ({ type, env, cliOptions, configsFiles, callOptions }: Options) => {
+    reportProgress({ message: 'loading node config', progress: 10 });
+    const base: StorybookConfig = await import(configsFiles.node.location);
+
+    const presets = getPresets(base, callOptions);
+
+    // recurse over all presets to create the main config
+    reportProgress({ message: 'applying presets', progress: 20 });
+    const storybookConfig = await applyPresets(presets, base);
+
+    const serverConfig = merge(storybookConfig.server, {
+      host: cliOptions.host,
+      port: cliOptions.port,
+    });
+    reportProgress({ message: 'creating config for server', progress: 20 });
+
     const buildConfig: BuildConfig = await createBuildConfig(type, env, cliOptions, callOptions, [
-      createWebpackServePreset(type),
+      createWebpackServePreset(type, serverConfig),
+      createStorybookEntryPreset(type, storybookConfig),
       createWebpackReporterPreset(type, {
         start: ({ state }) => reportProgress(state),
         change: ({ state }) => reportProgress(state),
@@ -70,7 +104,7 @@ const commands = {
       }),
     ]);
 
-    return watch(buildConfig);
+    return watch(env, buildConfig);
   },
   stop: async () => {},
 };
@@ -81,8 +115,10 @@ interface Options {
   env: EnvironmentType;
   callOptions: CallOptions;
   cliOptions: CliOptions;
+  configsFiles: ConfigsFiles;
 }
 
 process.on('message', ({ command, options }: { command: Command; options: Options }) => {
   commands[command](options);
+  setTitle(`storybook ${command} ${options.type}`);
 });

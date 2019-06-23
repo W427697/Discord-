@@ -16,6 +16,7 @@ import {
   EnvironmentType,
   Preset,
   OutputConfig,
+  PresetFn,
 } from './types';
 
 const get = async (
@@ -66,7 +67,7 @@ const createBuildConfig = async (
   env: EnvironmentType,
   cliOptions: CliOptions,
   callOptions: CallOptions,
-  additionalPresets?: Preset[]
+  additionalPresets?: PresetFn[]
 ): Promise<BuildConfig> => {
   // load the user's config
   const configsFiles = await getStorybookConfigs();

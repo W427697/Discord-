@@ -4,7 +4,9 @@ import { WebpackPluginServe } from 'webpack-plugin-serve';
 import WebpackBar, { Reporter } from 'webpackbar';
 import killPort from 'kill-port';
 
-import { StorybookConfig, ConfigPrefix, Preset, WebpackConfig, OutputConfig } from '../types';
+import { create } from './entrypointsPlugin';
+
+import { StorybookConfig, ConfigPrefix, ServerConfig, PresetFn } from '../types';
 
 const ensureEntryIsObject = async (
   entry:
@@ -28,14 +30,41 @@ const ensureEntryIsObject = async (
   return r;
 };
 
-const createWebpackServePreset = (type: ConfigPrefix): Preset => async (): Promise<
-  StorybookConfig
-> => {
+const createStorybookEntryPreset = (
+  type: ConfigPrefix,
+  config: StorybookConfig
+): PresetFn => async () => {
+  switch (type) {
+    case 'manager': {
+      return {
+        managerWebpack: async (base, env) => {
+          const { plugin, entries } = create(config.entries, {});
+
+          return webpackMerge(base, {
+            entry: await entries(),
+            plugins: [plugin],
+          });
+        },
+      };
+    }
+    case 'preview': {
+      return {};
+    }
+    default: {
+      return {};
+    }
+  }
+};
+
+const createWebpackServePreset = (
+  type: ConfigPrefix,
+  serverConfig: ServerConfig
+): PresetFn => async () => {
   if (type === 'manager') {
     return {
-      managerWebpack: async (webpackConfig: WebpackConfig): Promise<WebpackConfig> => {
-        const host = 'localhost';
-        const port = 55550;
+      managerWebpack: async webpackConfig => {
+        const host = serverConfig.host || 'localhost';
+        const port = serverConfig.devPorts.manager || 555550;
 
         await killPort(port, 'tcp');
 
@@ -50,7 +79,7 @@ const createWebpackServePreset = (type: ConfigPrefix): Preset => async (): Promi
             new WebpackPluginServe({
               static: webpackConfig.output.path,
               client: {
-                // address: `${host}:${port}/manager-hmr`,
+                address: `${host}:${port}`,
                 silent: true,
               },
               // this injects quite a bit UI I don't like, would love to build something custom based on this
@@ -78,10 +107,10 @@ const createWebpackServePreset = (type: ConfigPrefix): Preset => async (): Promi
 const createWebpackReporterPreset = (
   type: ConfigPrefix,
   reporter: Reporter
-): Preset => async (): Promise<StorybookConfig> => {
+): PresetFn => async () => {
   if (type === 'manager') {
     return {
-      managerWebpack: async (webpackConfig: WebpackConfig): Promise<WebpackConfig> => {
+      managerWebpack: async webpackConfig => {
         // eslint-disable-next-line no-param-reassign
         webpackConfig.entry = await ensureEntryIsObject(webpackConfig.entry);
 
@@ -107,4 +136,9 @@ const createWebpackReporterPreset = (
   return {};
 };
 
-export { ensureEntryIsObject, createWebpackServePreset, createWebpackReporterPreset };
+export {
+  ensureEntryIsObject,
+  createWebpackServePreset,
+  createWebpackReporterPreset,
+  createStorybookEntryPreset,
+};

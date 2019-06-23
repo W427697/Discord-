@@ -1,5 +1,6 @@
 import { logger } from '@storybook/node-logger';
 
+import setTitle from 'node-bash-title';
 import { cleanCliOptions } from './utils/cli';
 
 import * as terminalApp from './terminal-app/app';
@@ -11,6 +12,8 @@ import { StartOptions, EnvironmentType } from './types';
 // main function
 const start = async ({ configsFiles, callOptions, cliOptions: cliOptionsRaw }: StartOptions) => {
   logger.warn('experimental mono config mode enabled');
+
+  setTitle('storybook');
 
   const env: EnvironmentType = 'development';
 

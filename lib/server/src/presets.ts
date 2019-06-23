@@ -5,7 +5,15 @@ import { logger } from '@storybook/node-logger';
 
 import { merge } from './utils/merge';
 
-import { StorybookConfig, Preset, CallOptions } from './types';
+import {
+  StorybookConfig,
+  Preset,
+  CallOptions,
+  ServerConfig,
+  Entries,
+  PresetFn,
+  PresetRef,
+} from './types';
 
 // this function takes 2 functions and returns a single function
 // then nests these functions, where the result of fn2 is passed as the first arg to fn1
@@ -31,7 +39,7 @@ export const legacyPresetKeyMapper = (key: string): keyof StorybookConfig => {
 type ValueOf<T> = T[keyof T];
 
 // create a new config by applying a preset on it
-export const applyPreset = (preset: StorybookConfig, base: StorybookConfig) => ({
+export const applyPreset = (preset: Preset, base: StorybookConfig) => ({
   ...base,
 
   ...Object.entries(preset).reduce(
@@ -52,7 +60,7 @@ export const applyPreset = (preset: StorybookConfig, base: StorybookConfig) => (
           }
           case 'entries': {
             if (Array.isArray(v)) {
-              const existing = base[key] as StorybookConfig['entries'];
+              const existing = base[key] as Entries;
               return { ...acc, entries: base.entries ? [...existing, ...v] : v };
             }
             return acc;
@@ -70,7 +78,7 @@ export const applyPreset = (preset: StorybookConfig, base: StorybookConfig) => (
           }
           case 'server': {
             if (isPlainObject(v)) {
-              const existing: StorybookConfig['server'] = base[key];
+              const existing: ServerConfig = base[key];
               return { ...acc, server: base.server ? merge(v, existing) : v };
             }
             return acc;
@@ -94,46 +102,50 @@ export const applyPreset = (preset: StorybookConfig, base: StorybookConfig) => (
 // arrays should be concatenated
 // objects should be merged
 export const applyPresets = async (
-  presets: Preset[],
+  presets: (PresetRef | PresetFn)[],
   base: StorybookConfig
 ): Promise<StorybookConfig> => {
-  return presets.reduce(async (acc: Promise<StorybookConfig>, preset: Preset): Promise<
-    StorybookConfig
-  > => {
-    const value = await acc;
+  return presets.reduce(
+    async (
+      acc: Promise<StorybookConfig>,
+      preset: PresetFn | PresetRef
+    ): Promise<StorybookConfig> => {
+      const value = await acc;
 
-    if (typeof preset === 'function') {
-      const m = await preset();
+      if (typeof preset === 'function') {
+        const m = await preset();
 
-      const result = applyPreset(m, value) as StorybookConfig;
+        const result = applyPreset(m, value) as StorybookConfig;
 
-      return result;
-    }
-    if (typeof preset === 'string') {
-      const exists = await fs.pathExists(preset);
-      const m: StorybookConfig | null = exists ? await import(preset) : null;
-
-      if (exists && m) {
-        logger.debug(`applying string-preset: "${preset}"`);
-
-        const { presets: mpresets, ...rest } = m;
-        const newValue = mpresets ? await applyPresets(mpresets, value) : value;
-        return applyPreset(rest, newValue) as StorybookConfig;
+        return result;
       }
-      logger.warn(`unloadable string-preset: "${preset}"`);
+      if (typeof preset === 'string') {
+        const exists = await fs.pathExists(preset);
+        const m: StorybookConfig | null = exists ? await import(preset) : null;
+
+        if (exists && m) {
+          logger.debug(`applying string-preset: "${preset}"`);
+
+          const { presets: mpresets, ...rest } = m;
+          const newValue = mpresets ? await applyPresets(mpresets, value) : value;
+          return applyPreset(rest, newValue) as StorybookConfig;
+        }
+        logger.warn(`unloadable string-preset: "${preset}"`);
+
+        return value;
+      }
 
       return value;
-    }
-
-    return value;
-  }, Promise.resolve(base));
+    },
+    Promise.resolve(base)
+  );
 };
 
 export const getPresets = (
   fromConfig: StorybookConfig,
   fromCall: CallOptions,
-  additional?: Preset[]
-): Preset[] =>
+  additional?: PresetFn[]
+): (PresetFn | PresetRef)[] =>
   []
     .concat(fromConfig.presets || [])
     .concat(fromCall.frameworkPresets || [])

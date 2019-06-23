@@ -3,7 +3,7 @@ export const unused = 'foo';
 export const webpack = async (config, env) => config;
 
 // list of globs & external urls
-export const entries = [];
+export const entries = ['stories/**/*.stories.[t|j]s'];
 
 export const theme = {};
 
@@ -37,6 +37,11 @@ export const output = {
 export const server = {
   port: 1337,
   host: 'localhost',
+
+  devPorts: {
+    manager: 55550,
+    preview: 55551,
+  },
   // static: {
   //   '/': 'assets',
   // },

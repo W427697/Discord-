@@ -4,6 +4,7 @@ import fs from 'fs-extra';
 import express from 'express';
 import EventEmitter from 'eventemitter3';
 import { logger } from '@storybook/node-logger';
+import proxy from 'express-http-proxy';
 
 import { merge } from '../utils/merge';
 
@@ -20,7 +21,7 @@ import {
 } from '../types';
 
 const serverFactory = async (options: ServerConfig) => {
-  const { ssl } = options;
+  const { ssl, port } = options;
   if (ssl) {
     if (!ssl.cert) {
       logger.error('Error: --ssl-cert is required with --https');
@@ -59,7 +60,14 @@ const createServer = async (options: ServerConfig, app: Express) => {
     await middleware(app, server);
   }
 
-  return server;
+  return new Promise((res, rej) => {
+    server.listen({ port: options.port, host: options.host }, (error?: Error) => {
+      if (error) {
+        rej(error);
+      }
+      res();
+    });
+  });
 };
 
 const createApp = async () => express();
@@ -105,11 +113,46 @@ export const run = function run(
       runner.emit('progress', { message: 'creating express app', progress: 80 });
       const app = await createApp();
 
+      app.use(
+        '/',
+        proxy(`http://${serverConfig.host}:${serverConfig.devPorts.manager}`, {
+          skipToNextHandlerFilter: ({ statusCode }) => statusCode === 404,
+        })
+      );
+      app.use(
+        '/',
+        proxy(`http://${serverConfig.host}:${serverConfig.devPorts.preview}`, {
+          skipToNextHandlerFilter: ({ statusCode }) => statusCode === 404,
+        })
+      );
+
+      app.use('/', (req, res) => {
+        res.status(404);
+
+        // respond with html page
+        if (req.accepts('html')) {
+          res.send('Not found');
+          return;
+        }
+
+        // respond with json
+        if (req.accepts('json')) {
+          res.send({ error: 'Not found' });
+          return;
+        }
+
+        // default to plain-text. send()
+        res.type('txt').send('Not found');
+      });
+
       runner.emit('progress', { message: 'creating server', progress: 99 });
       const server = await createServer(serverConfig, app);
 
       runner.emit('progress', { message: 'start listening', progress: 100 });
-      runner.emit('success', { message: 'server running' });
+      runner.emit('success', {
+        message: `server running : ${serverConfig.port}`,
+        details: [`${serverConfig.host}:${serverConfig.port}`],
+      });
     } catch (e) {
       runner.emit('failure', { message: e.message, detail: [e] });
     }

@@ -34,33 +34,41 @@ export interface OutputConfig {
   preview?: boolean | string;
 }
 
+export type ConfigFn<T> = (base: T, env: EnvironmentType) => Promise<T>;
+
+export type Entries = string[];
+
 export interface StorybookConfig {
-  presets?: Preset[];
-  addons?: string[];
-  entries?: string[];
-  logLevel?: LogLevels;
-  template?: string;
-  managerTemplate?: string;
-  webpack?: (base: WebpackConfig, env?: EnvironmentType, ...args: any[]) => Promise<WebpackConfig>;
-  managerWebpack?: (
-    base: WebpackConfig,
-    env?: EnvironmentType,
-    ...args: any[]
-  ) => Promise<WebpackConfig>;
-  babel?: (base: BabelConfig, env?: EnvironmentType, ...args: any[]) => Promise<BabelConfig>;
-  managerBabel?: (base: BabelConfig, env?: EnvironmentType, ...args: any[]) => Promise<BabelConfig>;
-  server?: ServerConfig;
-  output?: OutputConfig;
+  presets: PresetRef[];
+  addons: string[];
+  entries: Entries;
+  logLevel: LogLevels;
+  template: string;
+  managerTemplate: string;
+  webpack: ConfigFn<WebpackConfig>;
+  managerWebpack: ConfigFn<WebpackConfig>;
+  babel: ConfigFn<BabelConfig>;
+  managerBabel: ConfigFn<BabelConfig>;
+  server: ServerConfig;
+  output: OutputConfig;
 }
 
 export type Middleware = (app: Express, server?: Server) => Promise<void>;
-export type Preset = string | (() => Promise<StorybookConfig>);
+export type PresetRef = string;
+export type PresetFn = () => Promise<Partial<StorybookConfig>>;
+export type Preset = Partial<StorybookConfig>;
 
 export interface StaticConfig {
   [route: string]: string;
 }
 export type Server = http.Server | https.Server;
 export interface ServerConfig {
+  port: number;
+  host: string;
+  devPorts: {
+    manager: number;
+    preview: number;
+  };
   ssl?: {
     ca: string[];
     cert: string;
@@ -89,8 +97,8 @@ export interface CliOptions {
 }
 
 export interface CallOptions {
-  frameworkPresets: Preset[];
-  overridePresets: Preset[];
+  frameworkPresets: PresetRef[];
+  overridePresets: PresetRef[];
   middleware?: Middleware | Middleware[];
 }
 
@@ -115,8 +123,8 @@ export interface BuildConfig {
   entries: string[];
   addons: string[];
   logLevel: LogLevels;
-  webpack?: (base: WebpackConfig, env?: EnvironmentType, ...args: any[]) => Promise<WebpackConfig>;
-  babel?: (base: BabelConfig, env?: EnvironmentType, ...args: any[]) => Promise<BabelConfig>;
+  webpack?: ConfigFn<WebpackConfig>;
+  babel?: ConfigFn<BabelConfig>;
   configFile: ConfigFile;
   template?: string;
   output?: OutputConfig;
