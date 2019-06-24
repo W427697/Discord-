@@ -1,7 +1,12 @@
 import path from 'path';
 
-export default function(source) {
+import { Loader } from './webpack-loader-types';
+
+const managerEntryloader = function managerEntryloader(source) {
   const callback = this.async();
+  this.cacheable(true);
 
   callback(null, source);
-}
+} as Loader;
+
+export { managerEntryloader as default };
