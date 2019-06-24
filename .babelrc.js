@@ -13,6 +13,7 @@ const withTests = {
 };
 
 module.exports = {
+  ignore: ['./lib/codemod/src/transforms/__testfixtures__'],
   presets: [
     [
       '@babel/preset-env',

@@ -7,13 +7,13 @@
     "storybook",
     "query"
   ],
-  "homepage": "https://github.com/storybooks/storybook#readme",
+  "homepage": "https://github.com/storybookjs/storybook#readme",
   "bugs": {
-    "url": "https://github.com/storybooks/storybook/issues"
+    "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/storybooks/storybook.git",
+    "url": "git+https://github.com/storybookjs/storybook.git",
     "directory": "addons/addon-queryparams"
   },
   "license": "MIT",
@@ -32,7 +32,6 @@
     "common-tags": "^1.8.0",
     "core-js": "^3.0.1",
     "global": "^4.0.0",
-    "qs": "^6.6.0",
     "react": "^16.8.3"
   },
   "devDependencies": {
