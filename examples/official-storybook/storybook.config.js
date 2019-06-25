@@ -1,5 +1,3 @@
-export const unused = 'foo';
-
 export const webpack = async (config, env) => config;
 
 // list of globs & external urls

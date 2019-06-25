@@ -50,6 +50,8 @@ const watch = async (
     const webpackConfig = await config.webpack({}, env);
     const compiler = webpack(webpackConfig);
 
+    console.dir({ webpackConfig }, { depth: 20 });
+
     return compiler.watch(
       {
         aggregateTimeout: 10,

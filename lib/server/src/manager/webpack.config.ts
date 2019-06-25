@@ -3,7 +3,6 @@ import webpack from 'webpack';
 
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
-
 import { getStorybookCachePath } from '@storybook/config';
 
 import { EnvironmentType, OutputConfig, BuildConfig } from '../types';
@@ -13,15 +12,17 @@ const cacheDir = getStorybookCachePath();
 const createEntrypoints = async (
   env: EnvironmentType,
   entries: BuildConfig['entries']
-): Promise<string[]> => {
+): Promise<webpack.Configuration['entry']> => {
   const coreDistFolder = path.join(
     path.dirname(require.resolve('@storybook/core/package.json')),
     'dist'
   );
-  return [
-    `${coreDistFolder}/server/common/polyfills.js`,
-    `${coreDistFolder}/client/manager/index.js`,
-  ];
+  return {
+    main: [
+      `${coreDistFolder}/server/common/polyfills.js`,
+      `${coreDistFolder}/client/manager/index.js`,
+    ],
+  };
 };
 
 const createBaseWebpackConfig = async (

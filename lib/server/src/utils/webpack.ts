@@ -3,6 +3,7 @@ import webpackMerge from 'webpack-merge';
 import { WebpackPluginServe } from 'webpack-plugin-serve';
 import WebpackBar, { Reporter } from 'webpackbar';
 import killPort from 'kill-port';
+import globToRegexp from 'glob-to-regexp';
 
 import { create } from './entrypointsPlugin';
 
@@ -40,8 +41,18 @@ const createStorybookEntryPreset = (
         managerWebpack: async (base, env) => {
           const { plugin, entries } = create(config.entries, {});
 
+          const rule = {
+            use: require.resolve('../manager/webpack-loader'),
+            test: config.entries.map(globToRegexp),
+          };
+
+          const entry = await entries();
+
           return webpackMerge(base, {
-            entry: await entries(),
+            entry,
+            module: {
+              rules: [rule],
+            },
             plugins: [plugin],
           });
         },
