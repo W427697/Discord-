@@ -74,72 +74,72 @@ jobs:
           name: Build react kitchen-sink
           command: |
             cd examples/cra-kitchen-sink
-            yarn build-storybook
+            yarn build-storybook --quiet
       - run:
           name: Build react typescript kitchen-sink
           command: |
             cd examples/cra-ts-kitchen-sink
-            yarn build-storybook
+            yarn build-storybook --quiet
       - run:
           name: Build vue kitchen-sink
           command: |
             cd examples/vue-kitchen-sink
-            yarn build-storybook
+            yarn build-storybook --quiet
       - run:
           name: Build svelte kitchen-sink
           command: |
             cd examples/svelte-kitchen-sink
-            yarn build-storybook
+            yarn build-storybook --quiet
       - run:
           name: Build angular-cli
           command: |
             cd examples/angular-cli
-            yarn build-storybook
+            yarn build-storybook --quiet
       - run:
           name: Build ember-cli
           command: |
             cd examples/ember-cli
-            yarn build-storybook
+            yarn build-storybook --quiet
       - run:
           name: Build polymer-cli
           command: |
             cd examples/polymer-cli
-            yarn build-storybook
+            yarn build-storybook --quiet
       - run:
           name: Build marko-cli
           command: |
             cd examples/marko-cli
-            yarn build-storybook
+            yarn build-storybook --quiet
       - run:
           name: Build mithril kitchen-sink
           command: |
             cd examples/mithril-kitchen-sink
-            yarn build-storybook
+            yarn build-storybook --quiet
       - run:
           name: Build html kitchen-sink
           command: |
             cd examples/html-kitchen-sink
-            yarn build-storybook
+            yarn build-storybook --quiet
       - run:
           name: Build riot kitchen-sink
           command: |
             cd examples/riot-kitchen-sink
-            yarn build-storybook
+            yarn build-storybook --quiet
       - run:
           name: Build preact kitchen-sink
           command: |
             cd examples/preact-kitchen-sink
-            yarn build-storybook
+            yarn build-storybook --quiet
       - run:
           name: Build cra react15
           command: |
             cd examples/cra-react15
-            yarn build-storybook
+            yarn build-storybook --quiet
       - run:
           name: Build official-storybook
           command: |
             cd examples/official-storybook
-            yarn build-storybook
+            yarn build-storybook --quiet
       # - run:
       #     name: Run image snapshots
       #     command: yarn test --image
