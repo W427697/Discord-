@@ -8,15 +8,39 @@ export function knob(name, optionsParam) {
   return manager.knob(name, optionsParam);
 }
 
-export function text(name, value, groupId) {
-  return manager.knob(name, { type: 'text', value, groupId });
+/**
+ * TODO: Typescript would be really great here.
+ * But overall A knob implementation function should conform to 3 maximum arguments.
+  name, value, options !
+
+  https://en.wikipedia.org/wiki/Rule_of_three_(computer_programming)
+  https://stackoverflow.com/questions/174968/how-many-parameters-are-too-many#answer-175035
+
+ * @param  {String} name - label to identify a knob
+ * @param  {Any} value - value of the knob could be a callback
+ * @param  {Object} options - value of the knob could be a callback
+  * @param  {String|Number} options.groupId - (optional) knob grouping to allow same names but different groups / buckets.
+  * @param  {Boolean} options.set - (optional) allows you to set a knob from the api allowing two way data updates
+  *    Where set of true allows you to set / update the knob value. False will return the current knob value
+  *    without setting (old default behavior).
+  * 
+  *    1st way component updates values from the knob itself
+  *    2nd way outside updates from the api
+  * 
+  *    This allows knobs to not be mere just drivers of an interface (option 1). With option 2
+  *    this allows knobs to report the current stories app state easily with no added JSX.
+  * @param  {Object} options.options (optional)
+ *
+ */
+export function text(name, value, { groupId, set } = {}) {
+  return manager.knob(name, { type: 'text', value, groupId, set });
 }
 
-export function boolean(name, value, groupId) {
-  return manager.knob(name, { type: 'boolean', value, groupId });
+export function boolean(name, value, { groupId, set } = {}) {
+  return manager.knob(name, { type: 'boolean', value, groupId, set });
 }
 
-export function number(name, value, options = {}, groupId) {
+export function number(name, value, { options = {}, groupId, set } = {}) {
   const rangeDefaults = {
     min: 0,
     max: 10,
@@ -40,41 +64,48 @@ export function number(name, value, options = {}, groupId) {
   return manager.knob(name, finalOptions);
 }
 
-export function color(name, value, groupId) {
-  return manager.knob(name, { type: 'color', value, groupId });
+export function color(name, value, { groupId, set } = {}) {
+  return manager.knob(name, { type: 'color', value, groupId, set });
 }
 
-export function object(name, value, groupId) {
-  return manager.knob(name, { type: 'object', value, groupId });
+export function object(name, value, { groupId, set } = {}) {
+  return manager.knob(name, { type: 'object', value, groupId, set });
 }
 
-export function select(name, options, value, groupId) {
-  return manager.knob(name, { type: 'select', selectV2: true, options, value, groupId });
+export function select(name, value, { options, groupId, set } = {}) {
+  return manager.knob(name, { type: 'select', selectV2: true, options, value, groupId, set });
 }
 
-export function radios(name, options, value, groupId) {
-  return manager.knob(name, { type: 'radios', options, value, groupId });
+export function radios(name, value, { options, groupId, set } = {}) {
+  return manager.knob(name, { type: 'radios', options, value, groupId, set });
 }
 
-export function array(name, value, separator = ',', groupId) {
-  return manager.knob(name, { type: 'array', value, separator, groupId });
+export function array(name, value, { separator = ',', groupId, set } = {}) {
+  return manager.knob(name, { type: 'array', value, separator, groupId, set });
 }
 
-export function date(name, value = new Date(), groupId) {
+export function date(name, value = new Date(), { groupId, set } = {}) {
   const proxyValue = value ? value.getTime() : null;
-  return manager.knob(name, { type: 'date', value: proxyValue, groupId });
+  return manager.knob(name, { type: 'date', value: proxyValue, groupId, set });
 }
 
-export function button(name, callback, groupId) {
-  return manager.knob(name, { type: 'button', callback, hideLabel: true, groupId });
+export function button(name, callback, { groupId, set } = {}) {
+  return manager.knob(name, { type: 'button', callback, hideLabel: true, groupId, set });
 }
 
-export function files(name, accept, value = [], groupId) {
-  return manager.knob(name, { type: 'files', accept, value, groupId });
+export function files(name, value = [], { groupId, accept, set } = {}) {
+  return manager.knob(name, { type: 'files', accept, value, groupId, set });
 }
 
-export function optionsKnob(name, valuesObj, value, optionsObj, groupId) {
-  return manager.knob(name, { type: 'options', options: valuesObj, value, optionsObj, groupId });
+export function optionsKnob(name, value, { values, options, groupId, set } = {}) {
+  return manager.knob(name, {
+    type: 'options',
+    options: values,
+    value,
+    optionsObj: options,
+    groupId,
+    set,
+  });
 }
 
 const defaultOptions = {

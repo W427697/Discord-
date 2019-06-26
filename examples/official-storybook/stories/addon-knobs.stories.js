@@ -54,14 +54,14 @@ storiesOf('Addons|Knobs.withKnobs', module)
       Banana: 'banana',
       Cherry: 'cherry',
     };
-    const fruit = select('Fruit', fruits, 'apple');
+    const fruit = select('Fruit', 'apple', { options: fruits });
 
     const otherFruits = {
       Kiwi: 'kiwi',
       Guava: 'guava',
       Watermelon: 'watermelon',
     };
-    const otherFruit = radios('Other Fruit', otherFruits, 'watermelon');
+    const otherFruit = radios('Other Fruit', 'watermelon', { options: otherFruits });
     const dollars = number('Dollars', 12.5, { min: 0, max: 100, step: 0.01 });
     const years = number('Years in NY', 9);
 
@@ -131,25 +131,33 @@ storiesOf('Addons|Knobs.withKnobs', module)
     const ungrouped = text('Ungrouped', 'Mumble');
 
     // General
-    const name = text('Name', 'Storyteller', GROUP_IDS.GENERAL);
-    const age = number('Age', 70, { range: true, min: 0, max: 90, step: 5 }, GROUP_IDS.GENERAL);
-    const birthday = date('Birthday', defaultBirthday, GROUP_IDS.GENERAL);
-    const dollars = number(
-      'Account Balance',
-      12.5,
-      { min: 0, max: 100, step: 0.01 },
-      GROUP_IDS.GENERAL
-    );
-    const years = number('Years in NY', 9, {}, GROUP_IDS.GENERAL);
+    const name = text('Name', 'Storyteller', { groupId: GROUP_IDS.GENERAL });
+    const age = number('Age', 70, {
+      options: { range: true, min: 0, max: 90, step: 5 },
+      groupId: GROUP_IDS.GENERAL,
+    });
+    const birthday = date('Birthday', defaultBirthday, { groupId: GROUP_IDS.GENERAL });
+    const dollars = number('Account Balance', 12.5, {
+      options: { min: 0, max: 100, step: 0.01 },
+      groupId: GROUP_IDS.GENERAL,
+    });
+    const years = number('Years in NY', 9, { groupId: GROUP_IDS.GENERAL });
 
     // Favorites
-    const nice = boolean('Nice', true, GROUP_IDS.FAVORITES);
-    const fruit = select('Fruit', fruits, 'apple', GROUP_IDS.FAVORITES);
-    const otherFruit = radios('Other Fruit', otherFruits, 'watermelon', GROUP_IDS.FAVORITES);
-    const items = array('Items', ['Laptop', 'Book', 'Whiskey'], ',', GROUP_IDS.FAVORITES);
+    const nice = boolean('Nice', true, { groupId: GROUP_IDS.FAVORITES });
+    const fruit = select('Fruit', 'apple', { options: fruits, groupId: GROUP_IDS.FAVORITES });
+    const otherFruit = radios('Other Fruit', 'watermelon', {
+      options: otherFruits,
+      groupId: GROUP_IDS.FAVORITES,
+    });
+    const items = array('Items', ['Laptop', 'Book', 'Whiskey'], ',', {
+      groupId: GROUP_IDS.FAVORITES,
+    });
 
     // Display
-    const backgroundColor = color('Color', 'rgba(126, 211, 33, 0.22)', GROUP_IDS.DISPLAY);
+    const backgroundColor = color('Color', 'rgba(126, 211, 33, 0.22)', {
+      groupId: GROUP_IDS.DISPLAY,
+    });
     const otherStyles = object(
       'Styles',
       {
@@ -157,7 +165,7 @@ storiesOf('Addons|Knobs.withKnobs', module)
         borderRadius: 10,
         padding: '10px',
       },
-      GROUP_IDS.DISPLAY
+      { groupId: GROUP_IDS.DISPLAY }
     );
 
     const style = { backgroundColor, ...otherStyles };
@@ -223,14 +231,20 @@ storiesOf('Addons|Knobs.withKnobs', module)
       Tuesday: 'Tuesday',
       Wednesday: 'Wednesday',
     };
-    const optionRadio = options('Radio', valuesRadio, 'Tuesday', { display: 'radio' });
+    const optionRadio = options('Radio', 'Tuesday', {
+      values: valuesRadio,
+      options: { display: 'radio' },
+    });
 
     const valuesInlineRadio = {
       Saturday: 'Saturday',
       Sunday: 'Sunday',
     };
-    const optionInlineRadio = options('Inline Radio', valuesInlineRadio, 'Saturday', {
-      display: 'inline-radio',
+    const optionInlineRadio = options('Inline Radio', 'Saturday', {
+      values: valuesInlineRadio,
+      options: {
+        display: 'inline-radio',
+      },
     });
 
     const valuesSelect = {
@@ -238,15 +252,21 @@ storiesOf('Addons|Knobs.withKnobs', module)
       February: 'February',
       March: 'March',
     };
-    const optionSelect = options('Select', valuesSelect, 'January', { display: 'select' });
+    const optionSelect = options('Select', 'January', {
+      values: valuesSelect,
+      options: { display: 'select' },
+    });
 
     const valuesMultiSelect = {
       Apple: 'apple',
       Banana: 'banana',
       Cherry: 'cherry',
     };
-    const optionsMultiSelect = options('Multi Select', valuesMultiSelect, ['apple'], {
-      display: 'multi-select',
+    const optionsMultiSelect = options('Multi Select', ['apple'], {
+      values: valuesMultiSelect,
+      options: {
+        display: 'multi-select',
+      },
     });
 
     const valuesCheck = {
@@ -254,15 +274,21 @@ storiesOf('Addons|Knobs.withKnobs', module)
       Carrot: 'carrot',
       Cucumber: 'cucumber',
     };
-    const optionsCheck = options('Check', valuesCheck, ['carrot'], { display: 'check' });
+    const optionsCheck = options('Check', ['carrot'], {
+      values: valuesCheck,
+      options: { display: 'check' },
+    });
 
     const valuesInlineCheck = {
       Milk: 'milk',
       Cheese: 'cheese',
       Butter: 'butter',
     };
-    const optionsInlineCheck = options('Inline Check', valuesInlineCheck, ['milk'], {
-      display: 'inline-check',
+    const optionsInlineCheck = options('Inline Check', ['milk'], {
+      values: valuesInlineCheck,
+      options: {
+        display: 'inline-check',
+      },
     });
 
     return (

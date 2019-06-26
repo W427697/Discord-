@@ -57,7 +57,7 @@ storiesOf('Addon|Knobs', module)
             step: 5,
           }),
         },
-        fruit: { default: select('Fruit', fruits, 'apples') },
+        fruit: { default: select('Fruit', 'apples', { options: fruits }) },
         price: { default: number('Price', 2.25) },
         colour: { default: color('Border', 'deeppink') },
         today: { default: date('Today', new Date('Jan 20 2017 GMT+0')) },

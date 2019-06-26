@@ -15,20 +15,20 @@ import {
 
 export default () => {
   const name = text('Name', 'Storyteller');
-  const age = number('Age', 70, { range: true, min: 0, max: 90, step: 5 });
+  const age = number('Age', 70, { options: { range: true, min: 0, max: 90, step: 5 } });
   const fruits = {
     Apple: 'apple',
     Banana: 'banana',
     Cherry: 'cherry',
   };
-  const fruit = select('Fruit', fruits, 'apple');
+  const fruit = select('Fruit', 'apple', { options: fruits });
 
   const otherFruits = {
     Kiwi: 'kiwi',
     Guava: 'guava',
     Watermelon: 'watermelon',
   };
-  const otherFruit = radios('Other Fruit', otherFruits, 'watermelon');
+  const otherFruit = radios('Other Fruit', 'watermelon', { options: otherFruits });
   const dollars = number('Dollars', 12.5);
 
   // NOTE: color picker is currently broken

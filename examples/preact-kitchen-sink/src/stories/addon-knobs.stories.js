@@ -38,7 +38,7 @@ storiesOf('Addons|Knobs', module)
       Banana: 'bananas',
       Cherry: 'cherries',
     };
-    const fruit = select('Fruit', fruits, 'apples');
+    const fruit = select('Fruit', 'apples', { options: fruits });
     const price = number('Price', 2.25);
 
     const colour = color('Border', 'deeppink');

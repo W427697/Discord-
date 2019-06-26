@@ -63,13 +63,13 @@ storiesOf('Addon|Knobs', module)
       Banana: 'bananas',
       Cherry: 'cherries',
     };
-    const fruit = select('fruit', fruits, 'apples');
+    const fruit = select('fruit', 'apples', { options: fruits });
     const otherFruits = {
       Kiwi: 'kiwi',
       Guava: 'guava',
       Watermelon: 'watermelon',
     };
-    const otherFruit = radios('Other Fruit', otherFruits, 'watermelon');
+    const otherFruit = radios('Other Fruit', 'watermelon', { options: otherFruits });
     const price = number('price', 2.25);
 
     const border = color('border', 'deeppink');
