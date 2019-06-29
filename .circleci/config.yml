@@ -10,6 +10,7 @@ dependencies:
   pre:
     - yarn global add npm
 jobs:
+  parallelism: 4
   build:
     <<: *defaults
     steps:
@@ -67,6 +68,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run:
+          name: Split test file
+          command: circleci tests split < /storybook/examples
       - run:
           name: Workaround for https://github.com/GoogleChrome/puppeteer/issues/290
           command: sh ./scripts/workaround-puppeteer-issue-290.sh
@@ -329,6 +333,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: 
+          name: Split test files
+          command: circleci tests split < storybook/lib/cli/
       - run:
           name: Test
           command: yarn test --cli
