@@ -335,7 +335,7 @@ jobs:
           at: .
       - run: 
           name: Split test files
-          command: circleci tests split < storybook/lib/cli/
+          command: circleci tests split < storybook/lib/cli/test
       - run:
           name: Test
           command: yarn test --cli
