@@ -3,7 +3,7 @@ import { getFrameworkName } from './frameworkOverridesReader';
 
 export function readMetadata({ idsToFrameworks, dependencies, story, kind }) {
   const framework = getFrameworkName({ idsToFrameworks, story, kind });
-  const storybookVersion = '5.1.0-alpha.35';
+  const storybookVersion = 'next';
   const setOfDependencies = Array.from(
     new Set(
       (dependencies || []).concat(
