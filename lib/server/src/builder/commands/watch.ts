@@ -32,21 +32,46 @@ const watcherOptions: webpack.ICompiler.WatchOptions = {
 };
 
 const watcherHandler: webpack.ICompiler.Handler = (err, stats) => {
-  // Stats Object
-  // Print watch/build result here...
   if (err) {
-    reportStats(stats);
+    console.log(err);
     reportError(err);
-    return;
   }
   if (stats) {
+    const { errors, warnings, ...displayStats } = stats.toJson({
+      errorDetails: true,
+      errors: true,
+      warnings: true,
+      entrypoints: false,
+      modules: false,
+      assets: false,
+      reasons: false,
+      source: false,
+      chunks: false,
+      children: false,
+      // @ts-ignore
+      chunkGroups: false,
+      chunkModules: false,
+    });
+
+    console.log();
+    console.log(displayStats);
+
+    warnings.forEach(e => {
+      console.log();
+      console.log(e);
+    });
+    errors.forEach(e => {
+      console.log();
+      console.log(e);
+    });
     reportStats(stats);
+  }
+  if (!err) {
     reportSuccess({ message: 'successful compilation' });
   }
 };
 
 const watch = async (webpackConfig: WebpackConfig): Promise<webpack.Watching | null> => {
-  console.dir({ webpackConfig }, { depth: 20 });
   try {
     return webpack(webpackConfig).watch(watcherOptions, watcherHandler);
   } catch (e) {
@@ -85,7 +110,7 @@ const commands = {
 
     const webpackConfig = await getWebpackConfig(type, config);
 
-    // TODO: add watcher plugin stuff
+    // console.dir(webpackConfig, { depth: 20 });
 
     watcher = await watch(webpackConfig);
     return watcher;

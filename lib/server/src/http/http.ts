@@ -59,6 +59,9 @@ const addProxyHandler = (app: Express, { host, port }: { host: string; port: num
     '/',
     proxy(`http://${host}:${port}`, {
       skipToNextHandlerFilter: ({ statusCode }) => statusCode === 404,
+      proxyErrorHandler: (err, res, next) => {
+        next(err);
+      },
     })
   );
 };
@@ -112,8 +115,6 @@ export const create = function create({
       try {
         runner.emit('progress', { message: 'loading config', progress: 1 });
 
-        console.log('here');
-
         const config = getConfig({
           configFile: configFiles.node.location,
           cliOptions,
@@ -127,7 +128,7 @@ export const create = function create({
         const app = await createApp();
         server = await createServer(serverConfig, app);
 
-        addProxyHandler(app, { host: serverConfig.host, port: serverConfig.devPorts.manager });
+        // addProxyHandler(app, { host: serverConfig.host, port: serverConfig.devPorts.manager });
         addProxyHandler(app, { host: serverConfig.host, port: serverConfig.devPorts.preview });
         add404Handler(app);
 

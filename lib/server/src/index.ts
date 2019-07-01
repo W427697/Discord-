@@ -35,7 +35,18 @@ const start = async ({ configFiles, callOptions, cliOptions: cliOptionsRaw }: St
       callOptions,
     }
   );
-  const preview = builder.fake();
+  const preview = builder.create(
+    {
+      command: 'watch',
+      type: 'preview',
+    },
+    {
+      envOptions,
+      cliOptions,
+      configFiles,
+      callOptions,
+    }
+  );
 
   const server = http.create({ configFiles, cliOptions, callOptions, envOptions });
 

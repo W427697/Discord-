@@ -1,5 +1,3 @@
-export const webpack = async (config, env) => config;
-
 // list of globs & external urls
 export const entries = ['stories/**/*.stories.[t|j]s'];
 
@@ -10,10 +8,12 @@ export const addons = [];
 
 export const logLevel = 'info';
 
-export const managerWebpack = async (config, env) => {
+export const managerWebpack = async (base, config) => {
+  const e = await config.entries;
+
   const { default: webpackMerge } = await import('webpack-merge');
 
-  const output = webpackMerge(config, {
+  const output = webpackMerge(base, {
     plugins: [],
 
     resolve: {

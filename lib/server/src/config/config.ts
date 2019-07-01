@@ -185,6 +185,7 @@ export function getConfig(
 
         const output = list ? apply<V>(list, config) : ([] as PresetProp<V>[]);
 
+        // @ts-ignore - pinky promise that the Partial<V> will become V after all presets have been applied
         cache[prop] = output;
       }
 

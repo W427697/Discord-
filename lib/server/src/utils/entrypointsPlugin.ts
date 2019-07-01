@@ -6,16 +6,12 @@
 // import path from 'path';
 import glob from 'fast-glob';
 import { Compiler } from 'webpack';
-import toCamelCase from 'camelcase';
+import camelcase from 'camelcase';
 import { merge } from './merge';
 
-// function getEntryName(pathname, basedir, extname) {
-//   let name;
-//   if (pathname.startsWith(basedir)) {
-//     name = pathname.substring(basedir.length + 1);
-//   }
-//   return name;
-// }
+function getEntryName(item: string, commonPrefix: string) {
+  return `preview/${camelcase(trimExtensions(item).replace(commonPrefix, ''))}`;
+}
 
 interface Options {
   prefix: string;
@@ -46,7 +42,7 @@ const longestCommonPrefix = (inputs: string[]): string => {
 };
 
 const convertFileToEntry = (item: string, commonPrefix: string): { [key: string]: string } => ({
-  [trimExtensions(item).replace(commonPrefix, '')]: item,
+  [getEntryName(item, commonPrefix)]: `./${item}`,
 });
 
 class WildcardsEntryWebpackPlugin {

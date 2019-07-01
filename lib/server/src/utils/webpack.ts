@@ -62,7 +62,7 @@ const addServePlugin = (type: ConfigPrefix) => async (base: WebpackConfig, confi
 
   return webpackMerge(base, {
     entry: {
-      hmr: ['webpack-plugin-serve/client'],
+      [`${type}/hmr`]: ['webpack-plugin-serve/client'],
     },
     plugins: [
       new WebpackPluginServe({
