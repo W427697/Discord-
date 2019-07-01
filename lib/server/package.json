@@ -1,6 +1,6 @@
 {
   "name": "@storybook/server",
-  "version": "5.2.0-alpha.23",
+  "version": "5.2.0-alpha.33",
   "description": "Storybook dev server",
   "keywords": [
     "storybook"
@@ -27,8 +27,8 @@
     "@babel/parser": "^7.4.5",
     "@babel/traverse": "^7.4.5",
     "@babel/types": "^7.4.4",
-    "@storybook/config": "5.2.0-alpha.23",
-    "@storybook/node-logger": "5.2.0-alpha.23",
+    "@storybook/config": "5.2.0-alpha.33",
+    "@storybook/node-logger": "5.2.0-alpha.33",
     "@types/express-http-proxy": "^1.5.10",
     "@types/glob-to-regexp": "^0.4.0",
     "babel-plugin-minify-dead-code-elimination": "^0.5.0",
