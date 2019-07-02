@@ -279,6 +279,13 @@
   dependencies:
     core-js "^3.0.1"
 
+"@storybook/client-logger@5.2.0-alpha.34":
+  version "5.2.0-alpha.34"
+  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.2.0-alpha.34.tgz#9de93faf736fb58b1f3bd04b500f40dc6231e3d9"
+  integrity sha512-ukvCH+Fudey0RagrbxbVCy/ZwWfScVDFjGe8yieFCXVLRyfMERuEWgz/WBrgwFIVhzGt4JQgewolv27QLDysNg==
+  dependencies:
+    core-js "^3.0.1"
+
 "@storybook/components@5.2.0-alpha.23":
   version "5.2.0-alpha.23"
   resolved "https://registry.yarnpkg.com/@storybook/components/-/components-5.2.0-alpha.23.tgz#df38d9dc5cf8245025dec25b247f4ce1b593f2c6"
@@ -324,6 +331,24 @@
     "@emotion/core" "^10.0.9"
     "@emotion/styled" "^10.0.7"
     "@storybook/client-logger" "5.2.0-alpha.23"
+    common-tags "^1.8.0"
+    core-js "^3.0.1"
+    deep-object-diff "^1.1.0"
+    emotion-theming "^10.0.9"
+    global "^4.3.2"
+    memoizerific "^1.11.3"
+    polished "^3.3.1"
+    prop-types "^15.7.2"
+    resolve-from "^5.0.0"
+
+"@storybook/theming@5.2.0-alpha.34":
+  version "5.2.0-alpha.34"
+  resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-5.2.0-alpha.34.tgz#fa65fa34af6231a5332e2bebd0f4174023f9bb4d"
+  integrity sha512-F900cTk2JkwrghPr5wFZ95zhAb+Ygp8zKp9MGe0aL4c/2OJrKrNhhA7nvtskdcLg2jJoBXSkwaRqe9rxtzND/g==
+  dependencies:
+    "@emotion/core" "^10.0.9"
+    "@emotion/styled" "^10.0.7"
+    "@storybook/client-logger" "5.2.0-alpha.34"
     common-tags "^1.8.0"
     core-js "^3.0.1"
     deep-object-diff "^1.1.0"
@@ -2978,12 +3003,7 @@ core-js@^1.0.0, core-js@^1.2.6:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
-core-js@^2.4.0, core-js@^2.5.0:
-  version "2.6.5"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.5.tgz#44bc8d249e7fb2ff5d00e0341a7ffb94fbf67895"
-  integrity sha512-klh/kDpwX8hryYL14M9w/xei6vrv6sE8gTHDG7/T/+SEovB/G4ejwcfE/CBzO6Edsu+OETZMZ3wcX/EjUkrl5A==
-
-core-js@^2.4.1:
+core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.9.tgz#6b4b214620c834152e179323727fc19741b084f2"
   integrity sha512-HOpZf6eXmnl7la+cUdMnLvUxKNqLUzJvgIziQ0DiF3JwSImNphIqdGqzj6hIKyX04MmV0poclQ7+wjWvxQyR2A==
