@@ -14,6 +14,7 @@ const SelectType = ({ knob, onChange }) => {
   return (
     <Form.Select
       value={selectedKey}
+      title={knob.name}
       name={knob.name}
       onChange={e => {
         onChange(entries[e.target.value]);
@@ -21,7 +22,7 @@ const SelectType = ({ knob, onChange }) => {
       size="flex"
     >
       {Object.entries(entries).map(([key]) => (
-        <option key={key} value={key}>
+        <option key={key} value={key} title={key}>
           {key}
         </option>
       ))}

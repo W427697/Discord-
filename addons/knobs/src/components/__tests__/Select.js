@@ -1,15 +1,25 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { render, fireEvent, cleanup } from '@testing-library/react';
+import { ThemeProvider, themes, convert } from '@storybook/theming';
 import SelectType from '../types/Select';
 
+import 'jest-dom/extend-expect';
+
+function ThemedSelectType(props) {
+  return (
+    <ThemeProvider theme={convert(themes.light)}>
+      <SelectType {...props} />
+    </ThemeProvider>
+  );
+}
+
 describe('Select', () => {
-  let knob;
-  let onChange;
+  afterEach(cleanup);
 
   describe('Object values', () => {
-    beforeEach(() => {
-      onChange = jest.fn();
-      knob = {
+    it('correctly maps option keys and values', () => {
+      const onChange = jest.fn();
+      const knob = {
         name: 'Colors',
         value: '#00ff00',
         options: {
@@ -18,42 +28,53 @@ describe('Select', () => {
         },
         onChange,
       };
-    });
+      const wrapper = render(ThemedSelectType({ knob }));
 
-    it('correctly maps option keys and values', () => {
-      const wrapper = shallow(<SelectType knob={knob} />);
-
-      const green = wrapper.find('option').first();
-      expect(green.text()).toEqual('Green');
-      expect(green.prop('value')).toEqual('Green');
+      expect(wrapper.getByTitle('Green')).toBeInTheDocument();
+      expect(wrapper.getByTitle('Red')).toBeInTheDocument();
     });
   });
 
   describe('calls onChange callback', () => {
     it('calls ', async () => {
-      const wrapper = mount(<SelectType knob={knob} onChange={onChange} />);
+      const onChange = jest.fn();
+      const knob = {
+        name: 'Colors',
+        value: '#00ff00',
+        options: {
+          Green: '#00ff00',
+          Red: '#ff0000',
+        },
+        onChange,
+      };
 
-      wrapper.find('select').simulate('change', { target: { value: '#ff0000' } });
+      const wrapper = render(ThemedSelectType({ knob, onChange }));
+
+      fireEvent.change(wrapper.getByTitle(knob.name), { target: { value: 'Red' } });
 
       expect(onChange).toHaveBeenCalledWith('#ff0000');
     });
   });
 
   describe('Array values', () => {
-    beforeEach(() => {
-      knob = {
-        name: 'Colors',
-        value: 'green',
-        options: ['green', 'red'],
-      };
-    });
-
     it('correctly maps option keys and values', () => {
-      const wrapper = shallow(<SelectType knob={knob} />);
+      const onChange = jest.fn();
+      const knob = {
+        name: 'Colors',
+        value: '#00ff00',
+        options: {
+          Green: '#00ff00',
+          Red: '#ff0000',
+        },
+        onChange,
+      };
 
-      const green = wrapper.find('option').first();
-      expect(green.text()).toEqual('green');
-      expect(green.prop('value')).toEqual('green');
+      const wrapper = render(ThemedSelectType({ knob }));
+
+      const green = wrapper.getByTitle('Green');
+
+      expect(green).toHaveTextContent('Green');
+      expect(green).toHaveProperty('value', 'Green');
     });
   });
 });
