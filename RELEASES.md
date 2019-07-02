@@ -47,7 +47,7 @@ releases. We'll try our best to restrict breaking changes to MAJOR releases.
 
 Every bugfix should go out as soon as we've verified the fix, and based on the
 current rate of contribution, we should be issuing PATCH releases weekly.
-Eventually we'll automate the process so that a release will go out every time a PR is
+Eventually, we'll automate the process so that a release will go out every time a PR is
 merged into `master`, and we've already laid most of the groundwork for this.
 
 ## MINOR releases
@@ -61,7 +61,7 @@ hierarchy for stories) deserves more attention:
 
 Therefore we release `alpha` versions continuously on the NPM `next` tag to allow people to test out features as soon as they are ready.
 
-In general we should release 2-3 headline features per minor release for
+In general, we should release 2-3 headline features per minor release for
 marketing purposes. Each headline feature should get its own blog post on the
 Storybook medium publication, and the release itself should also get a blog
 post.
@@ -81,7 +81,7 @@ there gathering upvotes and "me too" comments. We need a way to make sure that
 these bugs get addressed.
 
 For every non-PATCH release, we nominate a small number of bugs that must be
-addressed before a release can go out by adding them to the milestone. For example, here's a list of blocking bugs [for the 3.2 milestone](https://github.com/storybooks/storybook/milestone/3).
+addressed before a release can go out by adding them to the milestone. For example, here's a list of blocking bugs [for the 3.2 milestone](https://github.com/storybookjs/storybook/milestone/3).
 
 Adding bugs to the milestone helps people looking for good ways to contribute,
 or to understand what is blocking the release so they can actually do something
@@ -91,7 +91,7 @@ channel [in our Slack](https://now-examples-slackin-rrirkqohko.now.sh/) [![Story
 If you're experiencing a bug, the best way to make sure that it gets attention
 is to upvote it by adding a "thumbs-up" reaction in Github. This way important
 bugs quickly bubble to the top [with a
-search](https://github.com/storybooks/storybook/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aopen%20sort%3Areactions-%2B1-desc%20label%3Abug).
+search](https://github.com/storybookjs/storybook/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aopen%20sort%3Areactions-%2B1-desc%20label%3Abug).
 
 And of course, the best way to make sure a bug gets addressed quickly is to fix
 it yourself and issue a PR. If the fix is good, we'll try to release it quickly
@@ -101,12 +101,12 @@ in a patch release.
 
 - For PATCH changes, all discussion can occur in issue/PR comments (and random slack chat as needed).
 - For MINOR feature changes, there are multiple stages of discussion:
-  - The feature may be discussed in an issue before it is implemented (ex: <https://github.com/storybooks/storybook/issues/151>)
-  - Once it's implemented, the discussion may be occur on the PR (ex: <https://github.com/storybooks/storybook/pull/1329>)
+  - The feature may be discussed in an issue before it is implemented (ex: <https://github.com/storybookjs/storybook/issues/151>)
+  - Once it's implemented, the discussion may occur on the PR (ex: <https://github.com/storybookjs/storybook/pull/1329>)
   - If people disagree on an implementation and it can't be resolved in discussion, they may issue alternative PR's with different ideas
   - Ultimately the maintainers will reach a consensus before merging the changes. There is no set process for this, but we're all adults.
   - Since MINOR features are released in alpha before they are fully released, new issues may be created by end users, etc.
-- For MAJOR infrastructural changes, the discussion may take place over time, in gists like this one, issues, slack discussions, etc.
+- For MAJOR infrastructural changes, the discussion may take place over time, in gists, issues, slack discussions, etc.
   - Once the breaking changes have been reduced to an actual implementation, it looks pretty much like a feature release (only with higher stakes and probably a longer stabilization process).
 
 ## FAQ's

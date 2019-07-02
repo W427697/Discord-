@@ -1,22 +1,33 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
-storiesOf('Addons|Options', module)
-  .add(
-    'withOptions setting name',
-    () => <div>This story should have changed the name of the storybook</div>,
-    {
-      options: {
-        name: 'Custom Storybook',
-      },
-    }
-  )
-  .add(
-    'withOptions hiding addon panel',
-    () => <div>This story should have changed hidden the addons panel</div>,
-    {
-      options: {
-        showAddonPanel: false,
-      },
-    }
-  );
+export default {
+  title: 'Addons|Options',
+};
+
+export const settingName = () => (
+  <div>This story should have changed the name of the storybook</div>
+);
+
+settingName.story = {
+  name: 'setting name',
+
+  parameters: {
+    options: {
+      name: 'Custom Storybook',
+    },
+  },
+};
+
+export const hidingAddonPanel = () => (
+  <div>This story should have changed hidden the addons panel</div>
+);
+
+hidingAddonPanel.story = {
+  name: 'hiding addon panel',
+
+  parameters: {
+    options: {
+      showPanel: false,
+    },
+  },
+};

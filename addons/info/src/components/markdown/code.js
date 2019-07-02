@@ -1,57 +1,21 @@
-import { Prism } from 'global';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { SyntaxHighlighter } from '@storybook/components';
+import { ThemeProvider, convert } from '@storybook/theming';
 
-export class Code extends React.Component {
-  componentDidMount() {
-    this.highlight();
-  }
-
-  componentDidUpdate() {
-    this.highlight();
-  }
-
-  highlight() {
-    if (typeof Prism !== 'undefined') {
-      Prism.highlightAll();
-    }
-  }
-
-  render() {
-    const { language, code } = this.props;
-    const codeStyle = {
-      fontFamily: 'Menlo, Monaco, "Courier New", monospace',
-      backgroundColor: '#fafafa',
-    };
-
-    const preStyle = {
-      fontFamily: 'Menlo, Monaco, "Courier New", monospace',
-      backgroundColor: '#fafafa',
-      padding: '.5rem',
-      lineHeight: 1.5,
-      overflowX: 'scroll',
-    };
-
-    const className = language ? `language-${language}` : '';
-
-    return (
-      <pre style={preStyle} className={className}>
-        <code style={codeStyle} className={className}>
-          {code}
-        </code>
-      </pre>
-    );
-  }
-}
-
+const Code = ({ code, language = 'plaintext', ...rest }) => (
+  <ThemeProvider theme={convert()}>
+    <SyntaxHighlighter bordered copyable format={false} language={language} {...rest}>
+      {code}
+    </SyntaxHighlighter>
+  </ThemeProvider>
+);
 Code.propTypes = {
-  language: PropTypes.string,
-  code: PropTypes.node,
+  language: PropTypes.string.isRequired,
+  code: PropTypes.string.isRequired,
 };
-Code.defaultProps = {
-  language: null,
-  code: null,
-};
+
+export { Code };
 
 export function Blockquote({ children }) {
   const style = {

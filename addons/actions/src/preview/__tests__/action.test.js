@@ -3,26 +3,35 @@ import { action, configureActions } from '../..';
 
 jest.mock('@storybook/addons');
 
-const getChannelData = channel =>
-  channel.emit.mock.calls[channel.emit.mock.calls.length - 1][1].data;
-
-describe('Action', () => {
+const createChannel = () => {
   const channel = { emit: jest.fn() };
   addons.getChannel.mockReturnValue(channel);
+  return channel;
+};
+const getChannelData = channel => channel.emit.mock.calls[0][1].data.args;
 
+describe('Action', () => {
   it('with one argument', () => {
+    const channel = createChannel();
+
     action('test-action')('one');
 
-    expect(getChannelData(channel).args[0]).toEqual('"one"');
+    expect(getChannelData(channel)[0]).toEqual('one');
   });
 
   it('with multiple arguments', () => {
+    const channel = createChannel();
+
     action('test-action')('one', 'two', 'three');
 
-    expect(getChannelData(channel).args).toEqual(['"one"', '"two"', '"three"']);
+    expect(getChannelData(channel)).toEqual(['one', 'two', 'three']);
   });
+});
 
+describe('Depth config', () => {
   it('with global depth configuration', () => {
+    const channel = createChannel();
+
     const depth = 1;
 
     configureActions({
@@ -37,20 +46,18 @@ describe('Action', () => {
       },
     });
 
-    expect(getChannelData(channel).args[0]).toEqual(
-      JSON.stringify({
-        '$___storybook.objectName': 'Object',
-        root: {
-          '$___storybook.objectName': 'Object',
-          one: {
-            '$___storybook.objectName': 'Object',
-          },
+    expect(getChannelData(channel)[0]).toEqual({
+      root: {
+        one: {
+          two: 'foo',
         },
-      })
-    );
+      },
+    });
   });
 
   it('per action depth option overrides global config', () => {
+    const channel = createChannel();
+
     configureActions({
       depth: 1,
     });
@@ -69,22 +76,18 @@ describe('Action', () => {
       },
     });
 
-    expect(getChannelData(channel).args[0]).toEqual(
-      JSON.stringify({
-        '$___storybook.objectName': 'Object',
-        root: {
-          '$___storybook.objectName': 'Object',
-          one: {
-            '$___storybook.objectName': 'Object',
-            two: {
-              '$___storybook.objectName': 'Object',
-              three: {
-                '$___storybook.objectName': 'Object',
+    expect(getChannelData(channel)[0]).toEqual({
+      root: {
+        one: {
+          two: {
+            three: {
+              four: {
+                five: 'foo',
               },
             },
           },
         },
-      })
-    );
+      },
+    });
   });
 });

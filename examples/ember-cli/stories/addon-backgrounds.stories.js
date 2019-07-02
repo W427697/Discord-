@@ -1,19 +1,28 @@
 import hbs from 'htmlbars-inline-precompile';
-import { storiesOf } from '@storybook/ember';
-import { withBackgrounds } from '@storybook/addon-backgrounds';
 
-storiesOf('Addon|Backgrounds', module)
-  .addDecorator(
-    withBackgrounds([
-      { name: 'LinkedIn', value: '#0073b1', default: true },
-      { name: 'Twitter', value: '#00aced' },
-      { name: 'Facebook', value: '#3b5998' },
-    ])
-  )
-  .addParameters({ options: { selectedAddonPanel: 'storybook-addon-background/background-panel' } })
-  .add('story 1', () => ({
-    template: hbs`<button>You should be able to switch backgrounds for this story</button>`,
-  }))
-  .add('story 2', () => ({
-    template: hbs`<button>This one too!</button>`,
-  }));
+export default {
+  title: 'Addon|Backgrounds',
+
+  parameters: {
+    backgrounds: [
+      { name: 'light', value: '#eeeeee' },
+      { name: 'dark', value: '#222222', default: true },
+    ],
+  },
+};
+
+export const story1 = () => ({
+  template: hbs`<button>You should be able to switch backgrounds for this story</button>`,
+});
+
+story1.story = {
+  name: 'story 1',
+};
+
+export const story2 = () => ({
+  template: hbs`<button>This one too!</button>`,
+});
+
+story2.story = {
+  name: 'story 2',
+};

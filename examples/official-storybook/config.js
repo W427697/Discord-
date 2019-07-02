@@ -1,69 +1,66 @@
 import React from 'react';
-import ThemeProvider from '@emotion/provider';
-import { configure, addDecorator } from '@storybook/react';
-import { themes } from '@storybook/components';
-import { withOptions } from '@storybook/addon-options';
-import { configureViewport, INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
+import { load, addDecorator, addParameters } from '@storybook/react';
+import { Global, ThemeProvider, themes, createReset, convert } from '@storybook/theming';
+import { DocsPage } from '@storybook/addon-docs/blocks';
 
-import 'react-chromatic/storybook-addon';
+import { withCssResources } from '@storybook/addon-cssresources';
+import { withA11y } from '@storybook/addon-a11y';
+import { withNotes } from '@storybook/addon-notes';
+
+import 'storybook-chromatic';
+
 import addHeadWarning from './head-warning';
-import extraViewports from './extra-viewports.json';
 
 if (process.env.NODE_ENV === 'development') {
   if (!process.env.DOTENV_DEVELOPMENT_DISPLAY_WARNING) {
-    addHeadWarning('Dotenv development file not loaded');
+    addHeadWarning('dotenv-env', 'Dotenv development file not loaded');
   }
 
   if (!process.env.STORYBOOK_DISPLAY_WARNING) {
-    addHeadWarning('Global storybook env var not loaded');
+    addHeadWarning('env-glob', 'Global storybook env var not loaded');
   }
 
   if (process.env.DISPLAY_WARNING) {
-    addHeadWarning('Global non-storybook env var loaded');
+    addHeadWarning('env-extra', 'Global non-storybook env var loaded');
   }
 }
 
-addHeadWarning('Preview head not loaded', 'preview-head-not-loaded');
-addHeadWarning('Dotenv file not loaded', 'dotenv-file-not-loaded');
+addHeadWarning('preview-head-not-loaded', 'Preview head not loaded');
+addHeadWarning('dotenv-file-not-loaded', 'Dotenv file not loaded');
 
-addDecorator(
-  withOptions({
-    hierarchySeparator: /\/|\./,
-    hierarchyRootSeparator: /\|/,
-    theme: themes.dark,
-  })
-);
+addDecorator(withCssResources);
+addDecorator(withA11y);
+addDecorator(withNotes);
 
-addDecorator(
-  (story, { kind }) =>
-    kind === 'Core|Errors' ? (
-      story()
-    ) : (
-      <ThemeProvider theme={themes.normal}>{story()}</ThemeProvider>
-    )
-);
+addDecorator(storyFn => (
+  <ThemeProvider theme={convert(themes.light)}>
+    <Global styles={createReset} />
+    {storyFn()}
+  </ThemeProvider>
+));
 
-configureViewport({
-  viewports: {
-    ...INITIAL_VIEWPORTS,
-    ...extraViewports,
+addParameters({
+  a11y: {
+    config: {},
+    options: {
+      checks: { 'color-contrast': { options: { noScroll: true } } },
+      restoreScroll: true,
+    },
   },
+  options: {
+    hierarchySeparator: /\/|\./,
+    hierarchyRootSeparator: '|',
+    theme: themes.light, // { base: 'dark', brandTitle: 'Storybook!' },
+  },
+  backgrounds: [
+    { name: 'storybook app', value: themes.light.appBg, default: true },
+    { name: 'light', value: '#eeeeee' },
+    { name: 'dark', value: '#222222' },
+  ],
+  docs: DocsPage,
 });
 
-function importAll(req) {
-  req.keys().forEach(filename => req(filename));
-}
-
-function loadStories() {
-  let req;
-  req = require.context('../../lib/ui/src', true, /\.stories\.js$/);
-  importAll(req);
-
-  req = require.context('../../lib/components/src', true, /\.stories\.js$/);
-  importAll(req);
-
-  req = require.context('./stories', true, /\.stories\.js$/);
-  importAll(req);
-}
-
-configure(loadStories, module);
+load(require.context('../../lib/ui/src', true, /\.stories\.js$/), module);
+load(require.context('../../lib/components/src', true, /\.stories\.tsx?$/), module);
+load(require.context('./stories', true, /\.stories\.js$/), module);
+load(require.context('./stories', true, /\.stories\.mdx$/), module);

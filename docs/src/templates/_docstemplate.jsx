@@ -6,8 +6,8 @@ import Docs from '../components/Docs';
 
 const categories = [
   {
-    id: 'react-storybook',
-    title: 'React Storybook',
+    id: 'storybook',
+    title: 'Storybook',
   },
 ];
 
@@ -86,9 +86,11 @@ export const pageQuery = graphql`
       siteMetadata {
         docSections {
           basics
+          guides
           configurations
           testing
           addons
+          presets
         }
       }
     }

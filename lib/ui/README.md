@@ -14,7 +14,6 @@ You can configure it by providing a provider API.
 -   [Hacking Guide](#hacking-guide)
     -   [The App](#the-app)
     -   [Changing UI](#changing-ui)
-    -   [Redux](#redux)
     -   [Mounting](#mounting)
     -   [App Context](#app-context)
     -   [Actions](#actions)
@@ -27,7 +26,7 @@ You can configure it by providing a provider API.
 First you need to install `@storybook/ui` into your app.
 
 ```sh
-npm install --save @storybook/ui
+yarn add @storybook/ui --dev
 ```
 
 Then you need to create a Provider class like this:
@@ -37,7 +36,7 @@ import React from 'react';
 import { Provider } from '@storybook/ui';
 
 export default class MyProvider extends Provider {
-  getPanels() {
+  getElements(type) {
     return {};
   }
 
@@ -64,10 +63,6 @@ const roolEl = document.getElementById('root');
 renderStorybookUI(roolEl, new Provider());
 ```
 
-Then you'll get a UI like this:
-
-![Simplest Storybook UI](./docs/simple-ui.png)
-
 > **See the [example](./example) app for a complete example.**
 
 ## API
@@ -81,7 +76,7 @@ class ReactProvider extends Provider {
   handleAPI(api) {
     api.setOptions({
       // see available options in
-      // https://github.com/storybooks/storybook/tree/master/addons/options#getting-started
+      // https://github.com/storybookjs/storybook/tree/master/addons/options#getting-started
     });
   }
 };
@@ -144,10 +139,6 @@ If you like to change the appearance of the UI, you need to look at the `ui` mod
 
 You can also change containers(which are written with [react-komposer](https://github.com/kadirahq/react-komposer/)) to add more data from the redux state.
 
-### Redux
-
-Each module has a it's own set of reducers at `<module>/configs/reducers` directory. These reducers are loaded in the `src/index.js`(inside the main api).
-
 ### Mounting
 
 The UI is mounted in the `src/modules/ui/routes.js`. Inside that, we have injected dependencies as well. Refer [mantra-core](https://github.com/mantrajs/mantra-core) for that.
@@ -182,6 +173,15 @@ The above action(or the `handleShortcut` method) accepts events as a constant de
 
 ### URL Changes
 
-We are not using any routing library. That's because, we don't want to do routing, but wanted to add some query params and use them.
+TODO: state we use reach/router customized to query params
 
-Routing logic is implemented in the `src/modules/ui/configs/handle_routing.js` configuration.
+### Story Order
+
+Stories are sorted in the order in which they were imported. This can be overridden by adding storySort to the Parameters for the stories in `.storybook/config.js`:
+```js
+addParameters({
+  options: {
+    storySort: (a, b) => a[1].id.localeCompare(b[1].id),
+  },
+});
+```

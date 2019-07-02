@@ -1,11 +1,16 @@
-import { storiesOf } from '@storybook/polymer';
-import { withBackgrounds } from '@storybook/addon-backgrounds';
+export default {
+  title: 'Addon|Backgrounds',
 
-storiesOf('Addon|Backgrounds', module)
-  .addDecorator(
-    withBackgrounds([
-      { name: 'twitter', value: '#00aced', default: true },
-      { name: 'facebook', value: '#3b5998' },
-    ])
-  )
-  .add('button with text', () => '<button>Click me</button>');
+  parameters: {
+    backgrounds: [
+      { name: 'light', value: '#eeeeee' },
+      { name: 'dark', value: '#222222', default: true },
+    ],
+  },
+};
+
+export const buttonWithText = () => '<button>Click me</button>';
+
+buttonWithText.story = {
+  name: 'button with text',
+};

@@ -38,8 +38,29 @@ jobs:
             - node_modules
             - examples
             - addons
+            - dev-kits
             - app
             - lib
+  chromatic:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run chromatic on the pre-built storybook
+          command: yarn chromatic -- -d ./storybook-static
+  packtracker:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Report webpack stats for manager of official storybook
+          command: |
+            cd examples/official-storybook
+            yarn packtracker
   examples:
     <<: *defaults
     steps:
@@ -53,6 +74,11 @@ jobs:
           name: Build react kitchen-sink
           command: |
             cd examples/cra-kitchen-sink
+            yarn build-storybook
+      - run:
+          name: Build react typescript kitchen-sink
+          command: |
+            cd examples/cra-ts-kitchen-sink
             yarn build-storybook
       - run:
           name: Build vue kitchen-sink
@@ -100,16 +126,34 @@ jobs:
             cd examples/riot-kitchen-sink
             yarn build-storybook
       - run:
+          name: Build preact kitchen-sink
+          command: |
+            cd examples/preact-kitchen-sink
+            yarn build-storybook
+      - run:
+          name: Build cra react15
+          command: |
+            cd examples/cra-react15
+            yarn build-storybook
+      - run:
           name: Build official-storybook
           command: |
             cd examples/official-storybook
             yarn build-storybook
-      - run:
-          name: Run image snapshots
-          command: yarn test --image
+      # - run:
+      #     name: Run image snapshots
+      #     command: yarn test --image
       - store_artifacts:
           path: examples/official-storybook/image-snapshots/__image_snapshots__
           destination: official_storybook_image_snapshots
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+            - examples
+            - addons
+            - app
+            - lib
   smoke-tests:
     <<: *defaults
     steps:
@@ -120,6 +164,11 @@ jobs:
           name: Run react kitchen-sink (smoke test)
           command: |
             cd examples/cra-kitchen-sink
+            yarn storybook --smoke-test --quiet
+      - run:
+          name: Run react typescript kitchen-sink (smoke test)
+          command: |
+            cd examples/cra-ts-kitchen-sink
             yarn storybook --smoke-test --quiet
       - run:
           name: Run vue kitchen-sink (smoke test)
@@ -166,6 +215,16 @@ jobs:
           command: |
             cd examples/riot-kitchen-sink
             yarn storybook --smoke-test --quiet
+      - run:
+          name: Run preact kitchen-sink (smoke test)
+          command: |
+            cd examples/preact-kitchen-sink
+            yarn storybook --smoke-test --quiet
+      - run:
+          name: Run cra reac15 (smoke test)
+          command: |
+            cd examples/cra-react15
+            yarn storybook --smoke-test --quiet
   native-smoke-tests:
     <<: *defaults
     steps:
@@ -174,12 +233,35 @@ jobs:
           at: .
       - run:
           name: Bootstrap
-          command: yarn bootstrap --reactnativeapp
+          command: yarn bootstrap --core
       - run:
           name: Run React-Native-App example
           command: |
             cd examples-native/crna-kitchen-sink
             yarn storybook --smoke-test
+      - run:
+          name: Publish React-Native-App example
+          command: |
+            ./scripts/crna-publish.js
+  frontpage:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore core dependencies cache
+          keys:
+            - core-dependencies-v3-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install dependencies
+          command: yarn install
+      - run:
+          name: Trigger build
+          command: ./scripts/build-frontpage.js
+      - save_cache:
+          name: Cache core dependencies
+          key: core-dependencies-v3-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
   docs:
     <<: *defaults
     steps:
@@ -225,7 +307,7 @@ jobs:
           at: .
       - run:
           name: Test
-          command: yarn test --coverage --runInBand --core
+          command: yarn test --coverage --w2 --core
       - persist_to_workspace:
           root: .
           paths:
@@ -268,6 +350,7 @@ workflows:
     jobs:
       - build
       - docs
+      - frontpage
       - lint:
           requires:
             - docs
@@ -276,6 +359,9 @@ workflows:
           requires:
             - build
       - smoke-tests:
+          requires:
+            - build
+      - packtracker:
           requires:
             - build
       - native-smoke-tests:
@@ -293,3 +379,6 @@ workflows:
       - cli-test-latest-cra:
           requires:
             - build
+      - chromatic:
+          requires:
+            - examples

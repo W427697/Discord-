@@ -1,17 +1,16 @@
-import { storiesOf } from '@storybook/html';
+export default {
+  title: 'Addons|Backgrounds',
+  parameters: {
+    backgrounds: [
+      { name: 'light', value: '#eeeeee' },
+      { name: 'dark', value: '#222222', default: true },
+    ],
+  },
+};
 
-import { withBackgrounds } from '@storybook/addon-backgrounds';
+export const story1 = () =>
+  '<span style="color: white">You should be able to switch backgrounds for this story</span>';
+story1.story = { name: 'story 1' };
 
-storiesOf('Addons|Backgrounds', module)
-  .addDecorator(
-    withBackgrounds([
-      { name: 'twitter', value: '#00aced' },
-      { name: 'facebook', value: '#3b5998', default: true },
-    ])
-  )
-  .add(
-    'story 1',
-    () =>
-      '<span style="color: white">You should be able to switch backgrounds for this story</span>'
-  )
-  .add('story 2', () => '<span style="color: white">This one too!</span>');
+export const story2 = () => '<span style="color: white">This one too!</span>';
+story2.story = { name: 'story 2' };

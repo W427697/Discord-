@@ -3,7 +3,7 @@ id: 'exporting-storybook'
 title: 'Exporting Storybook as a Static App'
 ---
 
-Storybook gives a great developer experience with its dev time features, like instance change updates via Webpack's HMR.
+Storybook gives a great developer experience with its dev time features, like instant change updates via Webpack's HMR.
 
 But Storybook is also a tool you can use to showcase your components to others.
 Demos of [React Native Web](http://necolas.github.io/react-native-web/storybook/) and [React Dates](http://airbnb.io/react-dates/) are a good example for that.
@@ -15,33 +15,24 @@ Simply add the following NPM script:
 ```json
 {
   "scripts": {
-    "storybook": "build-storybook -c .storybook -o .out"
+    "build-storybook": "build-storybook -c .storybook -o .out"
   }
 }
 ```
 
-Then run `npm run storybook`.
+Then run `yarn build-storybook`.
 
 This will build the storybook configured in the Storybook directory into a static web app and place it inside the `.out` directory.
 Now you can deploy the content in the `.out` directory wherever you want.
 
-To test it locally, simply run the following commands with Python HTTP Server:
+To test it locally:
 
 ```sh
-cd .out
-python -m SimpleHTTPServer
-```
-
-or Node HTTP Server:
-
-```sh
-npm install http-server -g
-cd .out
-http-server
+npx http-server .out
 ```
 
 ## Deploying to GitHub Pages
 
-Additionally, you can deploy Storybook directly into GitHub pages with our [storybook-deployer](https://github.com/storybooks/storybook-deployer) tool.
+Additionally, you can deploy Storybook directly into GitHub pages with our [storybook-deployer](https://github.com/storybookjs/storybook-deployer) tool.
 
 Or, you can simply export your storybook into the docs directory and use it as the root for GitHub pages. Have a look at [this guide](https://github.com/blog/2233-publish-your-project-documentation-with-github-pages) for more information.

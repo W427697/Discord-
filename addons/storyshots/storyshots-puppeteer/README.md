@@ -1,3 +1,11 @@
+## Getting Started
+
+Add the following module into your app.
+
+```sh
+npm install @storybook/addon-storyshots-puppeteer --save-dev
+```
+
 ## Configure Storyshots for image snapshots
 
 /\*\ **React-native** is **not supported** by this test function.
@@ -6,8 +14,8 @@ Internally, it uses [jest-image-snapshot](https://github.com/americanexpress/jes
 
 When willing to generate and compare image snapshots for your stories, you have two options:
 
-- Have a storybook running (ie. accessible via http(s), for instance using `yarn run storybook`)
-- Have a static build of the storybook (for instance, using `yarn run build-storybook`)
+- Have a storybook running (ie. accessible via http(s), for instance using `npm run storybook`)
+- Have a static build of the storybook (for instance, using `npm run build-storybook`)
 
 Then you will need to reference the storybook URL (`file://...` if local, `http(s)://...` if served)
 
@@ -112,7 +120,7 @@ You might use `getScreenshotOptions` to specify options for screenshot. Will be 
 ```js
 import initStoryshots from '@storybook/addon-storyshots';
 import { imageSnapshot } from '@storybook/addon-storyshots-puppeteer';
-const getScreenshotOptions = ({context, url}) {
+const getScreenshotOptions = ({context, url}) => {
   return {
     fullPage: false // Do not take the full page screenshot. Default is 'true' in Storyshots.
   }
@@ -140,7 +148,7 @@ initStoryshots({
 
 ### Specifying a custom puppeteer `browser` instance
 
-You might use `customBrowser` to specify a custom instance of a puppeteer `browser` object. This will prevent `storyshots-puppeteer` from creating its own `browser`. It will create and close pages within the `browser`, and it is your responsibility to manage the lifecycle of the `browser` itself.
+You might use the async `getCustomBrowser` function to obtain a custom instance of a puppeteer `browser` object. This will prevent `storyshots-puppeteer` from creating its own `browser`. It will create and close pages within the `browser`, and it is your responsibility to manage the lifecycle of the `browser` itself.
 
 ```js
 import initStoryshots from '@storybook/addon-storyshots';
@@ -148,11 +156,12 @@ import { imageSnapshot } from '@storybook/addon-storyshots-puppeteer';
 import puppeteer from 'puppeteer';
 
 (async function() {
-    const customBrowser = await puppeteer.connect('ws://yourUrl');
-
     initStoryshots({
       suite: 'Image storyshots',
-      test: imageSnapshot({ storybookUrl: 'http://localhost:6006', customBrowser }),
+      test: imageSnapshot({ 
+        storybookUrl: 'http://localhost:6006', 
+        getCustomBrowser: async () => puppeteer.connect('ws://yourUrl')
+      }),
     });
 })();
 ```
@@ -187,7 +196,7 @@ initStoryshots({
 ### Integrate image storyshots with regular app
 
 You may want to use another Jest project to run your image snapshots as they require more resources: Chrome and Storybook built/served.
-You can find a working example of this in the [official-storybook](https://github.com/storybooks/storybook/tree/master/examples/official-storybook) example.
+You can find a working example of this in the [official-storybook](https://github.com/storybookjs/storybook/tree/master/examples/official-storybook) example.
 
 ### Integrate image storyshots with [Create React App](https://github.com/facebookincubator/create-react-app)
 
@@ -211,7 +220,7 @@ You have two options here, you can either:
 
   Note that you will certainly need a custom config file for Jest as you run it outside of the CRA scope and thus you do not have the built-in config.
 
-  Once that's setup, you can run `yarn run image-snapshots` (or `npm run image-snapshots`).
+  Once that's setup, you can run `npm run image-snapshots`.
 
 ### Reminder
 
@@ -222,5 +231,5 @@ The browser opens a page (either using the static build of storybook or a runnin
 If you run your test without either the static build or a running instance, this wont work.
 
 To make sure your screenshots are taken from latest changes of your Storybook, you must keep your static build or running Storybook up-to-date.
-This can be achieved by adding a step before running the test ie: `yarn run build-storybook && yarn run image-snapshots`.
+This can be achieved by adding a step before running the test ie: `npm run build-storybook && npm run image-snapshots`.
 If you run the image snapshots against a running Storybook in dev mode, you don't have to worry about the snapshots being up-to-date because the dev-server is watching changes and rebuilds automatically.

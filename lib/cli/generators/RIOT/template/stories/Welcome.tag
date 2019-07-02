@@ -31,7 +31,7 @@
       This is just one thing you can do with Storybook.
       <br /> Have a look at the
       <br />
-      <a class="link" href="https://github.com/storybooks/storybook" target="_blank" rel="noopener noreferrer">
+      <a class="link" href="https://github.com/storybookjs/storybook" target="_blank" rel="noopener noreferrer">
         Storybook
       </a>
       <br /> repo for more information.
@@ -47,10 +47,10 @@
 
   <style>
     main {
-      margin: 15;
-      max-width: 600;
+      padding: 15;
       line-height: 1.4;
-      font-family: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif'
+      font-family: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif';
+      background-color: #ffffff;
     }
 
     logo {

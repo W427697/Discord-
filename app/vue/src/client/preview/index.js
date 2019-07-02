@@ -1,41 +1,89 @@
 import { start } from '@storybook/core/client';
+import Vue from 'vue';
 
 import './globals';
-import render from './render';
+import render, { VALUES } from './render';
+import { extractProps } from './util';
 
-const createWrapperComponent = Target => ({
-  functional: true,
-  render(h, c) {
-    return h(Target, c.data, c.children);
-  },
-});
-const decorateStory = (getStory, decorators) =>
-  decorators.reduce(
-    (decorated, decorator) => context => {
-      const story = () => decorated(context);
-      let decoratedStory = decorator(story, context);
+export const WRAPS = 'STORYBOOK_WRAPS';
 
-      if (typeof decoratedStory === 'string') {
-        decoratedStory = { template: decoratedStory };
+function prepare(rawStory, innerStory) {
+  let story = rawStory;
+  // eslint-disable-next-line no-underscore-dangle
+  if (!story._isVue) {
+    if (typeof story === 'string') {
+      story = { template: story };
+    }
+    if (innerStory) {
+      story.components = { ...(story.components || {}), story: innerStory };
+    }
+    story = Vue.extend(story);
+  } else if (story.options[WRAPS]) {
+    return story;
+  }
+
+  return Vue.extend({
+    [WRAPS]: story,
+    [VALUES]: { ...(innerStory ? innerStory.options[VALUES] : {}), ...extractProps(story) },
+    functional: true,
+    render(h, { data, parent, children }) {
+      return h(
+        story,
+        {
+          ...data,
+          props: { ...(data.props || {}), ...parent.$root[VALUES] },
+        },
+        children
+      );
+    },
+  });
+}
+
+function decorateStory(getStory, decorators) {
+  return decorators.reduce(
+    (decorated, decorator) => (context = {}) => {
+      let story;
+
+      const decoratedStory = decorator((p = {}) => {
+        story = decorated(
+          Object.assign(
+            context,
+            p,
+            { parameters: Object.assign(context.parameters || {}, p.parameters) },
+            { options: Object.assign(context.options || {}, p.options) }
+          )
+        );
+        return story;
+      }, context);
+
+      if (!story) {
+        story = decorated(context);
       }
 
-      decoratedStory.components = decoratedStory.components || {};
-      decoratedStory.components.story = createWrapperComponent(story());
-      return decoratedStory;
-    },
-    getStory
-  );
+      if (decoratedStory === story) {
+        return story;
+      }
 
-const { clientApi, configApi, forceReRender } = start(render, { decorateStory });
+      return prepare(decoratedStory, story);
+    },
+    context => prepare(getStory(context))
+  );
+}
+
+const { load: coreLoad, clientApi, configApi, forceReRender } = start(render, { decorateStory });
 
 export const {
-  storiesOf,
   setAddon,
   addDecorator,
   addParameters,
   clearDecorators,
   getStorybook,
+  raw,
 } = clientApi;
+
+const framework = 'vue';
+export const storiesOf = (...args) => clientApi.storiesOf(...args).addParameters({ framework });
+export const load = (...args) => coreLoad(...args, framework);
 
 export const { configure } = configApi;
 export { forceReRender };

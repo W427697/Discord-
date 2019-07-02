@@ -4,7 +4,7 @@
   :not(.sb-show-main) > .sb-main,
   :not(.sb-show-nopreview) > .sb-nopreview,
   :not(.sb-show-errordisplay) > .sb-errordisplay {
-      display: none;
+    display: none;
   }
 
   .sb-wrapper {
@@ -14,12 +14,13 @@
     left: 0;
     right: 0;
     padding: 20px;
-    font-family: -apple-system, ".SFNSText-Regular", "San Francisco", Roboto, "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+    font-family: "Nunito Sans", -apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
+    overflow: auto;
   }
 
   .sb-heading {
-    font-size: 20px;
+    font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.2px;
     margin: 10px 0;
@@ -43,24 +44,29 @@
   }
 
   .sb-errordisplay {
-    background-color: rgb(187, 49, 49);
-    color: #FFF;
+    border: 20px solid rgb(187, 49, 49);
+    background: #222;
+    color: #fff;
   }
 
   .sb-errordisplay_code {
-    font-size: 14px;
-    width: 100vw;
-    overflow: auto;
+    padding: 10px;
+    background: #000;
+    color: #eee;
+    font-family: "Operator Mono", "Fira Code Retina", "Fira Code", "FiraCode-Retina", "Andale Mono", "Lucida Console", Consolas, Monaco, monospace;
   }
 </style>
 
 <script>
+  /* globals window */
+  /* eslint-disable no-underscore-dangle */
   try {
     if (window.parent !== window) {
       window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
       window.__VUE_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__VUE_DEVTOOLS_GLOBAL_HOOK__;
     }
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.warn('unable to connect to parent frame for connecting dev tools');
   }
 </script>
