@@ -19,7 +19,9 @@
   "main": "dist/index.js",
   "jsnext:main": "src/index.js",
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@storybook/addons": "5.1.9",
@@ -32,12 +34,14 @@
     "prettier": "^1.16.4",
     "prop-types": "^15.7.2",
     "react-syntax-highlighter": "^8.0.1",
-    "regenerator-runtime": "^0.12.1"
+    "regenerator-runtime": "^0.12.1",
+    "snyk": "^1.189.0"
   },
   "peerDependencies": {
     "react": "*"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
