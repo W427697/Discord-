@@ -18,7 +18,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@storybook/addons": "5.1.9",
@@ -34,7 +36,8 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.3",
     "react-inspector": "^3.0.2",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.129",
@@ -42,5 +45,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
