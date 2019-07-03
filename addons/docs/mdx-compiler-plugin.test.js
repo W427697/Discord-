@@ -38,6 +38,7 @@ describe('docs-mdx-compiler-plugin', () => {
     'decorators.mdx',
     'parameters.mdx',
     'non-story-exports.mdx',
+    'docs-only.mdx',
   ];
   fixtures.forEach(fixtureFile => {
     it(fixtureFile, async () => {

@@ -196,7 +196,15 @@ function extractExports(node, options) {
       }
     }
   });
-  if (!metaExport) {
+  if (metaExport) {
+    if (!storyExports.length) {
+      storyExports.push("export const storybookDocsOnly = () => '';");
+      storyExports.push(
+        'storybookDocsOnly.story = { name: "docs", parameters: { docsOnly: true } };'
+      );
+      includeStories.push('storybookDocsOnly');
+    }
+  } else {
     metaExport = {};
   }
   metaExport.includeStories = JSON.stringify(includeStories);
