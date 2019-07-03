@@ -18,7 +18,9 @@
   "license": "MIT",
   "main": "preview.js",
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@storybook/addons": "5.1.9",
@@ -30,12 +32,14 @@
     "global": "^4.3.2",
     "memoizerific": "^1.11.3",
     "prop-types": "^15.7.2",
-    "util-deprecate": "^1.0.2"
+    "util-deprecate": "^1.0.2",
+    "snyk": "^1.189.0"
   },
   "peerDependencies": {
     "react": "*"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
