@@ -19,7 +19,9 @@
   "main": "dist/index.js",
   "jsnext:main": "src/index.js",
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@storybook/addons": "5.1.9",
@@ -36,7 +38,8 @@
     "react-element-to-jsx-string": "^14.0.2",
     "react-is": "^16.8.3",
     "react-lifecycles-compat": "^3.0.4",
-    "util-deprecate": "^1.0.2"
+    "util-deprecate": "^1.0.2",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "react-test-renderer": "^16.8.3"
@@ -46,5 +49,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
