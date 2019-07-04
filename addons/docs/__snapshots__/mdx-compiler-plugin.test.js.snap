@@ -112,7 +112,7 @@ function MDXContent({ components, ...props }) {
 
 MDXContent.isMDXComponent = true;
 
-export const storybookDocsOnly = () => '';
+export const storybookDocsOnly = () => <WrappedMDXContent />;
 
 storybookDocsOnly.story = { name: 'docs', parameters: { docsOnly: true } };
 

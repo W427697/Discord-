@@ -198,7 +198,7 @@ function extractExports(node, options) {
   });
   if (metaExport) {
     if (!storyExports.length) {
-      storyExports.push("export const storybookDocsOnly = () => '';");
+      storyExports.push('export const storybookDocsOnly = () => <WrappedMDXContent />;');
       storyExports.push(
         'storybookDocsOnly.story = { name: "docs", parameters: { docsOnly: true } };'
       );
