@@ -3,8 +3,8 @@ environment:
 
 install:
   - ps: Install-Product node $env:nodejs_version
-  - yarn install
-  - yarn bootstrap --core
+  - yarn install --ignore-scripts --silent --ignore-optional
+  - yarn bootstrap --build --dll
 
 test_script:
     - yarn test --cli
