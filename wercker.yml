@@ -1,0 +1,15 @@
+box: node
+
+build:
+  steps:
+    - yarn install --ignore-scripts --silent --ignore-optional
+    - yarn bootstrap --build --dll
+
+    - script:
+        name: CLI tests
+        code: |
+          yarn test --cli
+    - script:
+        name: latest CRA test
+        code: |
+          yarn test-latest-cra
