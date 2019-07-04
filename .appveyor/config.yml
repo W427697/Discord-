@@ -1,10 +1,7 @@
 image: ubuntu
-
-environment:
-  nodejs_version: "8"
+stack: node 8
 
 install:
-  - ps: Install-Product node $env:nodejs_version
   - yarn install --ignore-scripts --silent --ignore-optional
   - yarn bootstrap --build --dll
 
