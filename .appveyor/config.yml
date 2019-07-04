@@ -6,6 +6,9 @@ install:
   - yarn install --ignore-scripts --silent --ignore-optional
   - yarn bootstrap --build --dll
 
+cache:
+  - C:\projects\storybook\node_modules -> yarn.lock
+
 test_script:
     - yarn test --cli
     - yarn test-latest-cra

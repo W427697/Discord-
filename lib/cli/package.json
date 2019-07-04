@@ -23,8 +23,8 @@
     "sb": "./bin/index.js"
   },
   "scripts": {
-    "test": "bash -c 'cd test && ./run_tests.sh'",
-    "test-latest-cra": "bash -c 'cd test && ./test_latest_cra.sh'"
+    "test": "bash -c 'cd test && run_tests.sh'",
+    "test-latest-cra": "bash -c 'cd test && test_latest_cra.sh'"
   },
   "dependencies": {
     "@babel/core": "^7.4.5",
