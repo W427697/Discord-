@@ -12,7 +12,9 @@
   "scripts": {
     "build": "gatsby build --prefix-paths && cp static/**/* ./public",
     "dev": "gatsby develop",
-    "serve": "gatsby serve"
+    "serve": "gatsby serve",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "babel-loader": "^6.4.1",
@@ -47,6 +49,8 @@
     "recompose": "^0.30.0",
     "sitemap": "^2.2.0",
     "styled-components": "^4.2.0",
-    "validatorjs": "^3.15.1"
-  }
+    "validatorjs": "^3.15.1",
+    "snyk": "^1.189.0"
+  },
+  "snyk": true
 }
