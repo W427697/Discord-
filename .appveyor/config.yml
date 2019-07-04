@@ -3,10 +3,11 @@ environment:
 
 install:
   - ps: Install-Product node $env:nodejs_version
-  - npm install
+  - yarn install
+  - yarn bootstrap --core
 
 test_script:
-  - node --version
-  - npm --version
+    - yarn test --cli
+    - yarn test-latest-cra
 
 build: off
