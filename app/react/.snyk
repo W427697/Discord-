@@ -1,0 +1,82 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-450202:
+    - '@svgr/webpack > @babel/core > @babel/traverse > @babel/generator > @babel/types > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-preset-react-app > @babel/core > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > @storybook/client-api > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - react-dev-utils > inquirer > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > inquirer > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > html-webpack-plugin > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > babel-preset-minify > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-preset-react-app > @babel/core > @babel/generator > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@babel/plugin-transform-react-constant-elements > @babel/helper-annotate-as-pure > @babel/types > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-plugin-react-docgen > react-docgen > @babel/core > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > react-dev-utils > inquirer > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > babel-preset-minify > babel-plugin-minify-dead-code-elimination > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > @storybook/ui > react-resize-detector > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-plugin-react-docgen > react-docgen > async > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@svgr/webpack > @svgr/plugin-jsx > @babel/core > @babel/generator > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-preset-react-app > @babel/core > @babel/traverse > @babel/generator > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-plugin-react-docgen > react-docgen > @babel/core > @babel/generator > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-plugin-react-docgen > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-preset-react-app > @babel/core > @babel/traverse > @babel/generator > @babel/types > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-plugin-react-docgen > react-docgen > @babel/core > @babel/traverse > @babel/generator > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@svgr/webpack > @babel/preset-env > @babel/plugin-transform-object-super > @babel/helper-replace-supers > @babel/traverse > @babel/generator > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-plugin-react-docgen > react-docgen > @babel/core > @babel/helpers > @babel/template > @babel/types > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-preset-react-app > @babel/preset-env > @babel/plugin-transform-async-to-generator > @babel/helper-remap-async-to-generator > @babel/helper-annotate-as-pure > @babel/types > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > @storybook/theming > @emotion/styled > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-preset-react-app > @babel/preset-env > @babel/plugin-proposal-async-generator-functions > @babel/helper-remap-async-to-generator > @babel/helper-wrap-function > @babel/traverse > @babel/generator > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > @babel/preset-env > @babel/plugin-transform-async-to-generator > @babel/helper-remap-async-to-generator > @babel/helper-wrap-function > @babel/traverse > @babel/generator > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-plugin-react-docgen > react-docgen > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-function-name > @babel/types > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > @storybook/ui > @storybook/theming > @emotion/styled > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@svgr/webpack > @svgr/plugin-jsx > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > @storybook/ui > @storybook/api > @storybook/theming > @emotion/styled > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-preset-react-app > @babel/preset-env > @babel/plugin-proposal-async-generator-functions > @babel/helper-remap-async-to-generator > @babel/helper-wrap-function > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-plugin-react-docgen > react-docgen > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > @babel/preset-env > @babel/plugin-transform-async-to-generator > @babel/helper-remap-async-to-generator > @babel/helper-wrap-function > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - babel-preset-react-app > @babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > @storybook/ui > @storybook/components > @storybook/theming > @emotion/core > @emotion/css > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
+    - '@storybook/core > @storybook/client-api > @storybook/addons > @storybook/api > @storybook/theming > @emotion/core > @emotion/css > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash':
+        patched: '2019-07-04T02:26:28.793Z'
