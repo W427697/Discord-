@@ -23,7 +23,9 @@
     "storybook-server": "./bin/index.js"
   },
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@storybook/core": "5.1.9",
@@ -32,7 +34,8 @@
     "global": "^4.3.2",
     "marko-loader": "^1.5.0",
     "raw-loader": "^2.0.0",
-    "regenerator-runtime": "^0.12.1"
+    "regenerator-runtime": "^0.12.1",
+    "snyk": "^1.189.0"
   },
   "peerDependencies": {
     "babel-loader": "^7.0.0 || ^8.0.0",
@@ -44,5 +47,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
