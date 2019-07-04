@@ -2,8 +2,15 @@ box: node
 
 build:
   steps:
-    - yarn install --ignore-scripts --silent --ignore-optional
-    - yarn bootstrap --build --dll
+    - script:
+        name: Install
+        code: |
+          yarn install --ignore-scripts --silent --ignore-optional
+
+    - script:
+        name: Bootstrap
+        code: |
+          yarn bootstrap --build --dll
 
     - script:
         name: CLI tests
