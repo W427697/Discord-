@@ -19,7 +19,9 @@
   "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@emotion/native": "^10.0.10",
@@ -30,7 +32,8 @@
     "@storybook/core-events": "5.1.9",
     "core-js": "^3.0.1",
     "react-native-swipe-gestures": "^1.0.3",
-    "rn-host-detect": "^1.1.5"
+    "rn-host-detect": "^1.1.5",
+    "snyk": "^1.190.0"
   },
   "devDependencies": {
     "@types/react-native": "^0.57.57",
@@ -45,5 +48,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
