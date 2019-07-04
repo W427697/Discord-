@@ -19,17 +19,21 @@
   "main": "dist/index.js",
   "types": "dist/public_api.d.ts",
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@storybook/addons": "5.1.9",
     "core-js": "^3.0.1",
-    "util-deprecate": "^1.0.2"
+    "util-deprecate": "^1.0.2",
+    "snyk": "^1.189.0"
   },
   "peerDependencies": {
     "react": "*"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
