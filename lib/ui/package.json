@@ -19,7 +19,9 @@
   "jsnext:main": "src/index.js",
   "scripts": {
     "createDlls": "node -r esm ./scripts/createDlls.js",
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@storybook/addons": "5.1.9",
@@ -55,7 +57,8 @@
     "semver": "^6.0.0",
     "store2": "^2.7.1",
     "telejson": "^2.2.1",
-    "util-deprecate": "^1.0.2"
+    "util-deprecate": "^1.0.2",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "corejs-upgrade-webpack-plugin": "^2.0.0",
@@ -65,5 +68,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
