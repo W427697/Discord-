@@ -17,7 +17,9 @@
   "license": "MIT",
   "main": "dist/client/index.js",
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.3.3",
@@ -85,7 +87,8 @@
     "util-deprecate": "^1.0.2",
     "webpack": "^4.33.0",
     "webpack-dev-middleware": "^3.7.0",
-    "webpack-hot-middleware": "^2.25.0"
+    "webpack-hot-middleware": "^2.25.0",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "mock-fs": "^4.8.0"
@@ -97,5 +100,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
