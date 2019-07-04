@@ -23,7 +23,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@storybook/addons": "5.1.9",
@@ -42,7 +44,8 @@
     "react-redux": "^7.0.2",
     "react-sizeme": "^2.5.2",
     "redux": "^4.0.1",
-    "util-deprecate": "^1.0.2"
+    "util-deprecate": "^1.0.2",
+    "snyk": "^1.190.0"
   },
   "devDependencies": {
     "@types/common-tags": "^1.8.0",
@@ -50,5 +53,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
