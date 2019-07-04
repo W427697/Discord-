@@ -1,0 +1,46 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-450202:
+    - '@storybook/core > @babel/plugin-proposal-class-properties > @babel/helper-create-class-features-plugin > @babel/helper-optimise-call-expression > @babel/types > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > html-webpack-plugin > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > @storybook/client-api > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > inquirer > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > @babel/preset-env > @babel/plugin-transform-block-scoping > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > @storybook/ui > react-resize-detector > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > babel-preset-minify > babel-plugin-minify-dead-code-elimination > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > react-dev-utils > inquirer > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > @babel/plugin-transform-react-constant-elements > @babel/helper-annotate-as-pure > @babel/types > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > babel-preset-minify > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > @babel/plugin-proposal-class-properties > @babel/helper-create-class-features-plugin > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > @storybook/theming > @emotion/styled > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > @babel/preset-env > @babel/plugin-transform-classes > @babel/helper-define-map > @babel/helper-function-name > @babel/template > @babel/types > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > @storybook/ui > @storybook/theming > @emotion/styled > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > @babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/helper-function-name > @babel/types > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > @storybook/ui > @storybook/components > @storybook/theming > @emotion/styled > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > @babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > @storybook/addons > @storybook/api > @storybook/theming > @emotion/core > @emotion/css > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash':
+        patched: '2019-07-04T07:55:35.623Z'
+    - '@storybook/core > @storybook/client-api > @storybook/addons > @storybook/api > @storybook/theming > @emotion/core > @emotion/css > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash':
+        patched: '2019-07-04T07:55:35.623Z'

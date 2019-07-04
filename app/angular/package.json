@@ -23,7 +23,9 @@
     "storybook-server": "./bin/index.js"
   },
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@storybook/core": "5.1.9",
@@ -36,7 +38,8 @@
     "sass-loader": "^7.1.0",
     "ts-loader": "^6.0.1",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
-    "webpack": "^4.33.0"
+    "webpack": "^4.33.0",
+    "snyk": "^1.189.0"
   },
   "peerDependencies": {
     "@angular-devkit/core": "^0.6.1 || >=7.0.0",
@@ -56,5 +59,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
