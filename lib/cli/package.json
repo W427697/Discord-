@@ -24,7 +24,9 @@
   },
   "scripts": {
     "test": "cd test && ./run_tests.sh",
-    "test-latest-cra": "cd test && ./test_latest_cra.sh"
+    "test-latest-cra": "cd test && ./test_latest_cra.sh",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@babel/core": "^7.4.5",
@@ -41,7 +43,8 @@
     "merge-dirs": "^0.2.1",
     "semver": "^6.0.0",
     "shelljs": "^0.8.3",
-    "update-notifier": "^3.0.0"
+    "update-notifier": "^3.0.0",
+    "snyk": "^1.192.0"
   },
   "devDependencies": {
     "@storybook/addon-actions": "5.1.9",
@@ -73,5 +76,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
