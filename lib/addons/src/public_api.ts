@@ -8,4 +8,6 @@ import { addons } from './index';
 export * from './make-decorator';
 export * from './index';
 export * from './storybook-channel-mock';
+export * from './types';
+
 export default addons;

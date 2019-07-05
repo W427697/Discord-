@@ -1,14 +1,21 @@
 /* eslint no-underscore-dangle: 0 */
 import isPlainObject from 'is-plain-object';
 import { logger } from '@storybook/client-logger';
-import addons, { StoryContext, StoryFn, Parameters } from '@storybook/addons';
+import addons, {
+  StoryContext,
+  StoryFn,
+  Parameters,
+  DecoratorFunction,
+  ClientApiAddons,
+  StoryApi,
+} from '@storybook/addons';
 import Events from '@storybook/core-events';
 import { toId } from '@storybook/router/utils';
 
 import mergeWith from 'lodash/mergeWith';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
-import { ClientApiParams, DecoratorFunction, ClientApiAddons, StoryApi } from './types';
+import { ClientApiParams } from './types';
 import subscriptionsStore from './subscriptions_store';
 import StoryStore from './story_store';
 

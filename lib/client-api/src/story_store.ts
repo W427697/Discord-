@@ -7,23 +7,19 @@ import { stripIndents } from 'common-tags';
 import { Channel } from '@storybook/channels';
 import Events from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import { StoryContext, StoryFn, Parameters } from '@storybook/addons';
 import {
+  StoryContext,
+  StoryFn,
+  Parameters,
   DecoratorFunction,
-  LegacyData,
-  LegacyItem,
-  StoreData,
   AddStoryArgs,
-  StoreItem,
-  ErrorLike,
-} from './types';
+} from '@storybook/addons';
+import { LegacyData, LegacyItem, StoreData, StoreItem, ErrorLike } from './types';
 
 // TODO: these are copies from components/nav/lib
 // refactor to DRY
 const toKey = (input: string) =>
   input.replace(/[^a-z0-9]+([a-z0-9])/gi, (...params) => params[1].toUpperCase());
-
-const toChild = (it: {}) => ({ ...it });
 
 let count = 0;
 
