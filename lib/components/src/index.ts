@@ -1,37 +1,68 @@
-export { Badge } from './Badge/Badge';
+import { Badge } from './Badge/Badge';
 
 // Typography
-export { Link } from './typography/link/link';
-export { DocumentFormatting } from './typography/DocumentFormatting';
-export { SyntaxHighlighter } from './syntaxhighlighter/syntaxhighlighter';
+import { Link } from './typography/link/link';
+import { DocumentFormatting } from './typography/DocumentFormatting';
+import { SyntaxHighlighter } from './syntaxhighlighter/syntaxhighlighter';
 
 // UI
-export { ActionBar } from './ActionBar/ActionBar';
-export { Spaced } from './spaced/Spaced';
-export { Placeholder } from './placeholder/placeholder';
-export { ScrollArea } from './ScrollArea/ScrollArea';
+import { ActionBar } from './ActionBar/ActionBar';
+import { Spaced } from './spaced/Spaced';
+import { Placeholder } from './placeholder/placeholder';
+import { ScrollArea } from './ScrollArea/ScrollArea';
 
 // Forms
-export { Button } from './Button/Button';
-export { Form } from './form/index';
+import { Button } from './Button/Button';
+import { Form } from './form/index';
 
 // Tooltips
-export { WithTooltip } from './tooltip/WithTooltip';
-export { TooltipMessage } from './tooltip/TooltipMessage';
-export { TooltipNote } from './tooltip/TooltipNote';
-export { TooltipLinkList } from './tooltip/TooltipLinkList';
+import { WithTooltip } from './tooltip/WithTooltip';
+import { TooltipMessage } from './tooltip/TooltipMessage';
+import { TooltipNote } from './tooltip/TooltipNote';
+import { TooltipLinkList } from './tooltip/TooltipLinkList';
 
 // Toolbar and subcomponents
-export { Tabs, TabsState, TabBar, TabWrapper } from './tabs/tabs';
-export { IconButton, TabButton } from './bar/button';
-export { Separator, interleaveSeparators } from './bar/separator';
-export { Bar, FlexBar } from './bar/bar';
-export { AddonPanel } from './addon-panel/addon-panel';
+import { Tabs, TabsState, TabBar, TabWrapper } from './tabs/tabs';
+import { IconButton, TabButton } from './bar/button';
+import { Separator, interleaveSeparators } from './bar/separator';
+import { Bar, FlexBar } from './bar/bar';
+import { AddonPanel } from './addon-panel/addon-panel';
 
 // Graphics
-export { Icons } from './icon/icon';
-export { StorybookLogo } from './brand/StorybookLogo';
-export { StorybookIcon } from './brand/StorybookIcon';
+import { Icons } from './icon/icon';
+import { StorybookLogo } from './brand/StorybookLogo';
+import { StorybookIcon } from './brand/StorybookIcon';
+
+export {
+  Badge,
+  Link,
+  DocumentFormatting,
+  SyntaxHighlighter,
+  ActionBar,
+  Spaced,
+  Placeholder,
+  ScrollArea,
+  Button,
+  Form,
+  WithTooltip,
+  TooltipMessage,
+  TooltipNote,
+  TooltipLinkList,
+  Tabs,
+  TabsState,
+  TabBar,
+  TabWrapper,
+  IconButton,
+  TabButton,
+  Separator,
+  interleaveSeparators,
+  Bar,
+  FlexBar,
+  AddonPanel,
+  Icons,
+  StorybookLogo,
+  StorybookIcon,
+};
 
 // Doc blocks
 export * from './blocks';

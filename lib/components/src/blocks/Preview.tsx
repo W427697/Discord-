@@ -26,7 +26,7 @@ const ChildrenContainer = styled.div<PreviewProps>(({ isColumn, columns }) => ({
   },
 }));
 
-const StyledSource = styled(Source)(({ theme }) => ({
+const StyledSource = styled(Source)<SourceProps>(({ theme }) => ({
   margin: 0,
   borderTopLeftRadius: 0,
   borderTopRightRadius: 0,
@@ -49,7 +49,7 @@ const PreviewWrapper = styled.div<PreviewProps>(({ theme, withSource }) => ({
   borderBottomRightRadius: withSource && 0,
 }));
 
-const PreviewContainer = styled.div({
+const PreviewContainer = styled.div<{}>({
   margin: '25px 0 40px',
 });
 

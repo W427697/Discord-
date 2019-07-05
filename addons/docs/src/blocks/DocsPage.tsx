@@ -52,8 +52,8 @@ const getDocsStories = (type: DocsStoriesType, componentStories: StoryData[]): D
   }));
 };
 
-const StoriesHeading = styled.h2();
-const StoryHeading = styled.h3();
+const StoriesHeading = styled.h2<{}>();
+const StoryHeading = styled.h3<{}>();
 
 const DocsStory: React.FunctionComponent<DocsStoryProps> = ({
   id,

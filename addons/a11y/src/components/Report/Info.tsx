@@ -3,7 +3,7 @@ import React, { FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 import { Result } from 'axe-core';
 
-const Wrapper = styled.div({
+const Wrapper = styled.div<{}>({
   padding: '12px',
   marginBottom: '10px',
 });

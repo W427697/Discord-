@@ -4,7 +4,7 @@ import { transparentize } from 'polished';
 
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 
-const Label = styled.div(({ theme }) => ({
+const Label = styled.div<{}>(({ theme }) => ({
   marginRight: 30,
   fontSize: `${theme.typography.size.s1}px`,
   color:
@@ -13,21 +13,21 @@ const Label = styled.div(({ theme }) => ({
       : transparentize(0.6, theme.color.defaultText),
 }));
 
-const Sample = styled.div({
+const Sample = styled.div<{}>({
   lineHeight: 1,
   overflow: 'hidden',
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
 });
 
-const TypeSpecimen = styled.div({
+const TypeSpecimen = styled.div<{}>({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'baseline',
   '&:not(:last-child)': { marginBottom: '1rem' },
 });
 
-const Wrapper = styled.div(({ theme }) => ({
+const Wrapper = styled.div<{}>(({ theme }) => ({
   ...getBlockBackgroundStyle(theme),
   margin: '25px 0 40px',
   padding: '30px 20px',

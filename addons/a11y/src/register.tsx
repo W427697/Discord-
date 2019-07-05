@@ -6,13 +6,13 @@ import { ADDON_ID, PANEL_ID, PARAM_KEY } from './constants';
 import { ColorBlindness } from './components/ColorBlindness';
 import { A11YPanel } from './components/A11YPanel';
 
-const Hidden = styled.div(() => ({
+const Hidden = styled.div({
   '&, & svg': {
     position: 'absolute',
     width: 0,
     height: 0,
   },
-}));
+});
 
 const PreviewWrapper: FunctionComponent<{}> = p => (
   <Fragment>

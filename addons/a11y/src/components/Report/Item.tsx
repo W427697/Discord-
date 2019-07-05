@@ -4,13 +4,14 @@ import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 
 import { Result } from 'axe-core';
+import { IconsProps } from '@storybook/components/dist/icon/icon';
 import { Info } from './Info';
 import { Elements } from './Elements';
 import { Tags } from './Tags';
 import { RuleType } from '../A11YPanel';
 import HighlightToggle from './HighlightToggle';
 
-const Wrapper = styled.div(({ theme }) => ({
+const Wrapper = styled.div<{}>(({ theme }) => ({
   display: 'flex',
   width: '100%',
   borderBottom: `1px solid ${theme.appBorderColor}`,
@@ -19,7 +20,7 @@ const Wrapper = styled.div(({ theme }) => ({
   },
 }));
 
-const Icon = styled<any, any>(Icons)(({ theme }) => ({
+const Icon = styled(Icons)<IconsProps>(({ theme }) => ({
   height: 10,
   width: 10,
   minWidth: 10,
@@ -30,7 +31,7 @@ const Icon = styled<any, any>(Icons)(({ theme }) => ({
   display: 'inline-flex',
 }));
 
-const HeaderBar = styled.div(({ theme }) => ({
+const HeaderBar = styled.div<{}>(({ theme }) => ({
   padding: theme.layoutMargin,
   paddingLeft: theme.layoutMargin - 3,
   background: 'none',
@@ -46,7 +47,7 @@ const HeaderBar = styled.div(({ theme }) => ({
   },
 }));
 
-const HighlightToggleElement = styled.span({
+const HighlightToggleElement = styled.span<{}>({
   fontWeight: 'normal',
   float: 'right',
   marginRight: '15px',
@@ -84,8 +85,6 @@ export class Item extends Component<ItemProps, ItemState> {
           <HeaderBar onClick={this.onToggle} role="button">
             <Icon
               icon="chevrondown"
-              size={10}
-              color="#9DA5AB"
               style={{
                 transform: `rotate(${open ? 0 : -90}deg)`,
               }}

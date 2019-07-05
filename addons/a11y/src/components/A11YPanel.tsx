@@ -20,13 +20,15 @@ export enum RuleType {
   INCOMPLETION,
 }
 
-const Icon = styled(Icons)(
+type Status = 'running' | 'ready';
+
+const Icon = styled(Icons)<{ status?: Status }>(
   {
     height: '12px',
     width: '12px',
     marginRight: '4px',
   },
-  ({ status, theme }: any) =>
+  ({ status, theme }) =>
     status === 'running'
       ? {
           animation: `${theme.animation.rotate360} 1s linear infinite;`,
@@ -34,15 +36,15 @@ const Icon = styled(Icons)(
       : {}
 );
 
-const Passes = styled.span(({ theme }) => ({
+const Passes = styled.span<{}>(({ theme }) => ({
   color: theme.color.positive,
 }));
 
-const Violations = styled.span(({ theme }) => ({
+const Violations = styled.span<{}>(({ theme }) => ({
   color: theme.color.negative,
 }));
 
-const Incomplete = styled.span(({ theme }) => ({
+const Incomplete = styled.span<{}>(({ theme }) => ({
   color: theme.color.warning,
 }));
 

@@ -4,24 +4,24 @@ import { transparentize } from 'polished';
 
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 
-const ItemTitle = styled.div(({ theme }) => ({
+const ItemTitle = styled.div<{}>(({ theme }) => ({
   fontWeight: theme.typography.weight.bold,
 }));
 
-const ItemSubtitle = styled.div(({ theme }) => ({
+const ItemSubtitle = styled.div<{}>(({ theme }) => ({
   color:
     theme.base === 'light'
       ? transparentize(0.2, theme.color.defaultText)
       : transparentize(0.6, theme.color.defaultText),
 }));
 
-const ItemDescription = styled.div({
+const ItemDescription = styled.div<{}>({
   flex: '0 0 30%',
   lineHeight: '20px',
   marginTop: 5,
 });
 
-const SwatchLabel = styled.div(({ theme }) => ({
+const SwatchLabel = styled.div<{}>(({ theme }) => ({
   flex: 1,
   textAlign: 'center',
   fontFamily: theme.typography.fonts.mono,
@@ -40,16 +40,16 @@ const SwatchLabel = styled.div(({ theme }) => ({
   },
 }));
 
-const SwatchLabels = styled.div({
+const SwatchLabels = styled.div<{}>({
   display: 'flex',
   flexDirection: 'row',
 });
 
-const Swatch = styled.div({
+const Swatch = styled.div<{}>({
   flex: 1,
 });
 
-const SwatchColors = styled.div(({ theme }) => ({
+const SwatchColors = styled.div<{}>(({ theme }) => ({
   ...getBlockBackgroundStyle(theme),
   display: 'flex',
   flexDirection: 'row',
@@ -58,7 +58,7 @@ const SwatchColors = styled.div(({ theme }) => ({
   overflow: 'hidden',
 }));
 
-const SwatchSpecimen = styled.div({
+const SwatchSpecimen = styled.div<{}>({
   display: 'flex',
   flexDirection: 'column',
   flex: 1,
@@ -66,26 +66,26 @@ const SwatchSpecimen = styled.div({
   marginBottom: 30,
 });
 
-const Swatches = styled.div({
+const Swatches = styled.div<{}>({
   flex: 1,
   display: 'flex',
   flexDirection: 'row',
 });
 
-const Item = styled.div({
+const Item = styled.div<{}>({
   display: 'flex',
   alignItems: 'flex-start',
 });
 
-const ListName = styled.div({
+const ListName = styled.div<{}>({
   flex: '0 0 30%',
 });
 
-const ListSwatches = styled.div({
+const ListSwatches = styled.div<{}>({
   flex: 1,
 });
 
-const ListHeading = styled.div(({ theme }) => ({
+const ListHeading = styled.div<{}>(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
@@ -98,7 +98,7 @@ const ListHeading = styled.div(({ theme }) => ({
       : transparentize(0.6, theme.color.defaultText),
 }));
 
-const List = styled.div({
+const List = styled.div<{}>({
   display: 'flex',
   flexDirection: 'column',
 });

@@ -3,12 +3,12 @@ import { styled } from '@storybook/theming';
 
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 
-const ItemLabel = styled.div({
+const ItemLabel = styled.div<{}>({
   marginLeft: 10,
   lineHeight: 1.2,
 });
 
-const ItemSpecimen = styled.div(({ theme }) => ({
+const ItemSpecimen = styled.div<{}>(({ theme }) => ({
   ...getBlockBackgroundStyle(theme),
   overflow: 'hidden',
   height: 40,
@@ -24,7 +24,7 @@ const ItemSpecimen = styled.div(({ theme }) => ({
   },
 }));
 
-const Item = styled.div({
+const Item = styled.div<{}>({
   display: 'inline-flex',
   flexDirection: 'row',
   alignItems: 'center',
@@ -34,7 +34,7 @@ const Item = styled.div({
   margin: '0px 10px 30px 0',
 });
 
-const List = styled.div({
+const List = styled.div<{}>({
   display: 'flex',
   flexFlow: 'row wrap',
 });

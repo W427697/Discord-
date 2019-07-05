@@ -13,7 +13,7 @@ const impactColors = {
   success: '#2ecc71',
 };
 
-const List = styled.div({
+const List = styled.div<{}>({
   display: 'flex',
   flexDirection: 'column',
   paddingBottom: '4px',

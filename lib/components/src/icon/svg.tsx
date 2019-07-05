@@ -1,7 +1,9 @@
 import { styled } from '@storybook/theming';
+import { CSSProperties } from 'react';
 
 export interface SvgProps {
   inline?: boolean;
+  style?: CSSProperties;
 }
 
 const Svg = styled.svg<SvgProps>(
