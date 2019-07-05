@@ -52,6 +52,7 @@ export const getStoryProps = (
     storyFn: data && data.getDecorated(),
     height: height || iframeHeight,
     title: data && data.name,
+    context: data,
   };
 };
 

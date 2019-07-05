@@ -66,13 +66,13 @@ const metaSubscription = () => {
     addons.getChannel().removeListener(Events.REGISTER_SUBSCRIPTION, subscriptionsStore.register);
 };
 
-const withSubscriptionTracking = (storyFn: StoryFn) => {
+const withSubscriptionTracking: DecoratorFunction = (storyFn: StoryFn, context: StoryContext) => {
   if (!addons.hasChannel()) {
-    return storyFn();
+    return storyFn(context);
   }
   subscriptionsStore.markAllAsUnused();
   subscriptionsStore.register(metaSubscription);
-  const result = storyFn();
+  const result = storyFn(context);
   subscriptionsStore.clearUnused();
   return result;
 };

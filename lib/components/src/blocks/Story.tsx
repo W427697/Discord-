@@ -1,4 +1,5 @@
 import React from 'react';
+import { StoryFn, StoryContext } from '@storybook/addons';
 
 import { IFrame } from './IFrame';
 import { EmptyBlock } from './EmptyBlock';
@@ -15,7 +16,8 @@ interface CommonProps {
 }
 
 type InlineStoryProps = {
-  storyFn: () => React.ElementType;
+  storyFn: StoryFn<React.ElementType>;
+  context: StoryContext;
 } & CommonProps;
 
 type IFrameStoryProps = {
@@ -31,8 +33,8 @@ export type StoryProps = (InlineStoryProps | IFrameStoryProps | ErrorProps) & {
   inline: boolean;
 };
 
-const InlineStory: React.FunctionComponent<InlineStoryProps> = ({ storyFn, height }) => (
-  <div style={{ height }}>{storyFn()}</div>
+const InlineStory: React.FunctionComponent<InlineStoryProps> = ({ storyFn, height, context }) => (
+  <div style={{ height }}>{storyFn(context)}</div>
 );
 
 const IFrameStory: React.FunctionComponent<IFrameStoryProps> = ({
@@ -63,15 +65,16 @@ const IFrameStory: React.FunctionComponent<IFrameStoryProps> = ({
  */
 const Story: React.FunctionComponent<StoryProps> = props => {
   const { error } = props as ErrorProps;
-  const { storyFn } = props as InlineStoryProps;
+  const { storyFn, context } = props as InlineStoryProps;
   const { id } = props as IFrameStoryProps;
   const { inline, title, height } = props;
 
   if (error) {
     return <EmptyBlock>{error}</EmptyBlock>;
   }
+
   return inline ? (
-    <InlineStory storyFn={storyFn} title={title} height={height} />
+    <InlineStory context={context} storyFn={storyFn} title={title} height={height} />
   ) : (
     <IFrameStory id={id} title={title} height={height} />
   );
