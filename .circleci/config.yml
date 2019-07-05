@@ -17,7 +17,7 @@ jobs:
       - restore_cache:
           name: Restore core dependencies cache
           keys:
-            - core-dependencies-v3-{{ checksum "yarn.lock" }}
+            - core-dependencies-v4-{{ checksum "yarn.lock" }}
       - run:
           name: Install dependencies
           command: yarn install
@@ -29,7 +29,7 @@ jobs:
           command: yarn bootstrap --core
       - save_cache:
           name: Cache core dependencies
-          key: core-dependencies-v3-{{ checksum "yarn.lock" }}
+          key: core-dependencies-v4-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
       - persist_to_workspace:
@@ -250,7 +250,7 @@ jobs:
       - restore_cache:
           name: Restore core dependencies cache
           keys:
-            - core-dependencies-v3-{{ checksum "yarn.lock" }}
+            - core-dependencies-v4-{{ checksum "yarn.lock" }}
       - run:
           name: Install dependencies
           command: yarn install
@@ -259,7 +259,7 @@ jobs:
           command: ./scripts/build-frontpage.js
       - save_cache:
           name: Cache core dependencies
-          key: core-dependencies-v3-{{ checksum "yarn.lock" }}
+          key: core-dependencies-v4-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
   docs:
