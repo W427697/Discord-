@@ -86,7 +86,7 @@ export default class ClientApi {
 
   private _globalParameters: Parameters;
 
-  private _decorateStory: (storyFn: StoryFn, decorators: DecoratorFunction[]) => any;
+  private _decorateStory: (storyFn: StoryFn, decorators: DecoratorFunction[]) => StoryFn;
 
   constructor({ storyStore, decorateStory = defaultDecorateStory }: ClientApiParams) {
     this._storyStore = storyStore;

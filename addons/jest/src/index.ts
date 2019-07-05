@@ -1,9 +1,9 @@
-import addons from '@storybook/addons';
+import addons, { StoryContext, Parameters } from '@storybook/addons';
 import deprecate from 'util-deprecate';
 import { normalize, sep } from 'upath';
 import { ADD_TESTS } from './shared';
 
-interface AddonParameters {
+interface AddonParameters extends Parameters {
   jest?: string | string[] | { disable: true };
 }
 
@@ -54,7 +54,7 @@ export const withTests = (userOptions: { results: any; filesExt?: string }) => {
   };
   const options = { ...defaultOptions, ...userOptions };
 
-  return (...args: [(string | (() => void)), { kind: string; parameters: AddonParameters }]) => {
+  return (...args: [(string | (() => void)), StoryContext & { parameters: AddonParameters }]) => {
     if (typeof args[0] === 'string') {
       return deprecate((storyFn: () => void, { kind }: { kind: string }) => {
         emitAddTests({ kind, story: storyFn, testFiles: args as string[], options });
