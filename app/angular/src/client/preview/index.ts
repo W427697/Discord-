@@ -1,31 +1,31 @@
 import { start } from '@storybook/core/client';
+import { ClientStoryApi } from '@storybook/addons';
 
 import './globals';
 import render from './render';
-import { IApi, IStoribookSection } from './types';
+import { IStorybookSection, StoryFnAngularReturnType } from './types';
 
-interface ClientApi {
-  storiesOf(kind: string, module: NodeModule): IApi;
+interface ClientApi extends ClientStoryApi<StoryFnAngularReturnType> {
   setAddon(addon: any): void;
-  addDecorator(decorator: any): IApi;
-  addParameters(parameter: any): IApi;
   configure(loaders: () => void, module: NodeModule): void;
-  getStorybook(): IStoribookSection[];
+  getStorybook(): IStorybookSection[];
   clearDecorators(): void;
   forceReRender(): void;
   raw: any; // todo add type
+  load: any;
 }
 
 const { clientApi, configApi, forceReRender } = start(render);
 
 export const {
   storiesOf,
-  setAddon,
   addDecorator,
   addParameters,
+  setAddon,
   clearDecorators,
   getStorybook,
   raw,
+  load,
 }: ClientApi = clientApi;
 
 export const { configure } = configApi;
