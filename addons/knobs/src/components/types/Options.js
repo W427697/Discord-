@@ -67,6 +67,9 @@ OptionsType.propTypes = {
     name: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
     options: PropTypes.object,
+    optionsObj: PropTypes.shape({
+      display: PropTypes.string,
+    }),
   }),
   display: PropTypes.oneOf([
     'check',

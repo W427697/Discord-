@@ -99,6 +99,7 @@ CheckboxesType.propTypes = {
     name: PropTypes.string,
     value: PropTypes.array,
     options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+    defaultValue: PropTypes.any,
   }),
   onChange: PropTypes.func,
   isInline: PropTypes.bool,
