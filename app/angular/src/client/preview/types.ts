@@ -1,14 +1,3 @@
-/*
- * ATTENTION:
- * - moduleMetadata
- * - NgModuleMetadata
- * - ICollection
- *
- * These typings are coped out of decorators.d.ts and types.d.ts in order to fix a bug with tsc
- * It was imported out of dist before which was not the proper way of exporting public API
- *
- * This can be fixed by migrating app/angular to typescript
- */
 export declare const moduleMetadata: (
   metadata: Partial<NgModuleMetadata>
 ) => (storyFn: () => any) => any;
@@ -29,8 +18,11 @@ export interface IStorybookStory {
   render: () => any;
 }
 
-/** @todo typo in Storibook */
-export interface IStoribookSection {
+// @deprecated Use IStorybookSection instead
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IStoribookSection extends IStorybookSection {}
+
+export interface IStorybookSection {
   kind: string;
   stories: IStorybookStory[];
 }
@@ -55,20 +47,4 @@ export interface IApi {
   addDecorator: (decorator: any) => IApi;
   addParameters: (parameters: any) => IApi;
   add: (storyName: string, getStory: IGetStory, parameters?: any) => IApi;
-}
-
-declare module '@storybook/angular' {
-  export function storiesOf(kind: string, module: NodeModule): IApi;
-
-  export function setAddon(addon: any): void;
-
-  export function addDecorator(decorator: any): IApi;
-
-  export function addParameters(parameters: any): IApi;
-
-  export function configure(loaders: () => void, module: NodeModule): void;
-
-  export function getStorybook(): IStoribookSection[];
-
-  export function forceReRender(): void;
 }
