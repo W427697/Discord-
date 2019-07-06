@@ -62,10 +62,10 @@ export default class StoryStore extends EventEmitter {
   constructor(params: { channel: Channel }) {
     super();
 
-    this._legacydata = ({} as any) as LegacyData;
-    this._data = ({} as any) as StoreData;
+    this._legacydata = {} as any;
+    this._data = {} as any;
     this._revision = 0;
-    this._selection = ({} as any) as Selection;
+    this._selection = {} as any;
     this._channel = params.channel;
     this._error = undefined;
   }
@@ -136,7 +136,16 @@ export default class StoryStore extends EventEmitter {
 
   remove = (id: string): void => {
     const { _data } = this;
+    const story = _data[id];
     delete _data[id];
+
+    if (story) {
+      const { kind, name } = story;
+      const kindData = this._legacydata[toKey(kind)];
+      if (kindData) {
+        delete kindData.stories[toKey(name)];
+      }
+    }
   };
 
   addStory(
@@ -311,7 +320,14 @@ export default class StoryStore extends EventEmitter {
 
   removeStoryKind(kind: string) {
     if (this.hasStoryKind(kind)) {
-      this._legacydata[toKey(kind) as string].stories = {};
+      this._legacydata[toKey(kind)].stories = {};
+
+      this._data = Object.entries(this._data).reduce((acc, [id, story]) => {
+        if (story.kind !== kind) {
+          Object.assign(acc, { [id]: story });
+        }
+        return acc;
+      }, {});
     }
   }
 

@@ -8,6 +8,7 @@ import addons, {
   DecoratorFunction,
   ClientApiAddons,
   StoryApi,
+  OptionsParameter
 } from '@storybook/addons';
 import Events from '@storybook/core-events';
 import { toId } from '@storybook/router/utils';
@@ -194,7 +195,7 @@ export default class ClientApi {
       const fileName = m && m.id ? `${m.id}` : undefined;
 
       const { hierarchyRootSeparator, hierarchySeparator } = this.getSeparators();
-      const baseOptions: Parameters['options'] = {
+      const baseOptions: OptionsParameter = {
         hierarchyRootSeparator,
         hierarchySeparator,
       };
