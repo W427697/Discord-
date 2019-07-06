@@ -34,6 +34,7 @@
     "@storybook/router": "5.2.0-alpha.36",
     "@storybook/theming": "5.2.0-alpha.36",
     "core-js": "^3.0.1",
+    "deasync-promise": "^1.0.1",
     "global": "^4.3.2",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2"
