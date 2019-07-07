@@ -45,7 +45,8 @@
     "@types/webpack-env": "^1.13.7"
   },
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "babel-jest": "*"
   },
   "publishConfig": {
     "access": "public"
