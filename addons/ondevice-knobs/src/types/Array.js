@@ -38,6 +38,7 @@ ArrayType.propTypes = {
   knob: PropTypes.shape({
     name: PropTypes.string,
     value: PropTypes.array,
+    separator: PropTypes.string,
   }),
   onChange: PropTypes.func,
 };

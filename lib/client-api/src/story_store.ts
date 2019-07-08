@@ -8,11 +8,11 @@ import { Channel } from '@storybook/channels';
 import Events from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import {
-  StoryContext,
   StoryFn,
   Parameters,
   DecoratorFunction,
   AddStoryArgs,
+  StoryContext,
 } from '@storybook/addons';
 import { LegacyData, LegacyItem, StoreData, StoreItem, ErrorLike } from './types';
 

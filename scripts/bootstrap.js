@@ -82,7 +82,6 @@ function run() {
     command: () => {
       // run all pre tasks
       pre
-
         .map(key => tasks[key])
         .forEach(task => {
           if (task.check()) {
