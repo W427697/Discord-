@@ -8,7 +8,7 @@ import addons, {
   DecoratorFunction,
   ClientApiAddons,
   StoryApi,
-  OptionsParameter
+  OptionsParameter,
 } from '@storybook/addons';
 import Events from '@storybook/core-events';
 import { toId } from '@storybook/router/utils';
