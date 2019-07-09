@@ -4,11 +4,11 @@
   "description": "Design asset preview for storybook",
   "keywords": [
     "addon",
-    "storybook",
-    "parameter",
-    "design",
     "assets",
+    "design",
     "files",
+    "parameter",
+    "storybook",
     "viewer"
   ],
   "homepage": "https://github.com/storybookjs/storybook#readme",

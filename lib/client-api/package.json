@@ -5,7 +5,6 @@
   "keywords": [
     "storybook"
   ],
-  "types": "dist/public_api.d.ts",
   "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/client-api",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
@@ -17,6 +16,7 @@
   },
   "license": "MIT",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
