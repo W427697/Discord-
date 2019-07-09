@@ -1,4 +1,4 @@
-import { StoryFn, StoryContext } from '@storybook/addons';
+import { StoryFn, StoryContext, DecoratorFunction } from '@storybook/addons';
 import StoryStore from './story_store';
 
 export interface ErrorLike {
@@ -31,5 +31,5 @@ export interface LegacyData {
 
 export interface ClientApiParams {
   storyStore: StoryStore;
-  decorateStory: (storyFn: any, decorators: any) => any;
+  decorateStory?: (storyFn: StoryFn, decorators: DecoratorFunction[]) => StoryFn;
 }

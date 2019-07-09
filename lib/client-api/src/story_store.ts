@@ -59,7 +59,7 @@ export default class StoryStore extends EventEmitter {
 
   _selection: Selection;
 
-  constructor(params: { channel: Channel }) {
+  constructor(params: { channel?: Channel }) {
     super();
 
     this._legacydata = {} as any;
