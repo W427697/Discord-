@@ -66,10 +66,21 @@ export function select(
   value: string,
   groupId?: string
 ) {
-  if (Array.isArray(options)) {
-    options = options.reduce((acc, k) => Object.assign(acc, k === undefined ? { Undefined: '__undefined__' } : { [k]: k }), {})
-  }
-  const knobValue = manager.knob(name, { type: 'select', selectV2: true, options, value, groupId });
+  const objectOptions = Array.isArray(options)
+    ? options.reduce(
+        (acc, k) =>
+          Object.assign(acc, k === undefined ? { Undefined: '__undefined__' } : { [k]: k }),
+        {}
+      )
+    : options;
+
+  const knobValue = manager.knob(name, {
+    type: 'select',
+    selectV2: true,
+    options: objectOptions,
+    value,
+    groupId,
+  });
   return knobValue === '__undefined__' ? undefined : knobValue;
 }
 
