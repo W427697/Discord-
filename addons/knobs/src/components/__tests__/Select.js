@@ -1,5 +1,5 @@
-import React from 'react';
 import { shallow } from 'enzyme';
+import React from 'react';
 import SelectType from '../types/Select';
 
 describe('Select', () => {
@@ -23,24 +23,6 @@ describe('Select', () => {
       const green = wrapper.find('option').first();
       expect(green.text()).toEqual('Green');
       expect(green.prop('value')).toEqual('Green');
-    });
-  });
-
-  describe('Array values', () => {
-    beforeEach(() => {
-      knob = {
-        name: 'Colors',
-        value: 'green',
-        options: ['green', 'red'],
-      };
-    });
-
-    it('correctly maps option keys and values', () => {
-      const wrapper = shallow(<SelectType knob={knob} />);
-
-      const green = wrapper.find('option').first();
-      expect(green.text()).toEqual('green');
-      expect(green.prop('value')).toEqual('green');
     });
   });
 });
