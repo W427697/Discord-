@@ -28,22 +28,18 @@ const SelectType: FunctionComponent<SelectTypeProps> & {
   deserialize: typeof deserialize;
 } = ({ knob, onChange }) => {
   const { options } = knob;
-  const entries = Array.isArray(options)
-    ? options.reduce((acc, k) => Object.assign(acc, { [k]: k }), {})
-    : options;
-
-  const selectedKey = Object.keys(entries).find(k => entries[k] === knob.value);
+  const selectedKey = Object.keys(options).find(k => options[k] === knob.value);
 
   return (
     <Form.Select
       value={selectedKey}
       name={knob.name}
       onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-        onChange(entries[e.target.value]);
+        onChange(options[e.target.value]);
       }}
       size="flex"
     >
-      {Object.entries(entries).map(([key]) => (
+      {Object.entries(options).map(([key]) => (
         <option key={key} value={key}>
           {key}
         </option>
@@ -62,7 +58,7 @@ SelectType.propTypes = {
   knob: PropTypes.shape({
     name: PropTypes.string,
     value: PropTypes.any,
-    options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+    options: PropTypes.object,
   }) as any,
   onChange: PropTypes.func,
 };
