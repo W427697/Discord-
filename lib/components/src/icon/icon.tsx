@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { styled, jsx } from '@storybook/theming';
+import { styled } from '@storybook/theming';
 import icons, { IconKey } from './icons';
 
 import Svg, { SvgProps } from './svg';

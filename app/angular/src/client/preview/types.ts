@@ -1,4 +1,4 @@
-import { Parameters, StoryFn } from '@storybook/addons';
+import { StoryFn } from '@storybook/addons';
 
 export declare const moduleMetadata: (
   metadata: Partial<NgModuleMetadata>
