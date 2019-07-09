@@ -11,24 +11,11 @@ function getCommand(watch) {
 
   const babel = path.join(__dirname, '..', 'node_modules', '.bin', 'babel');
 
-  const ignore = [
-    '**/__mocks__/',
-    '**/tests/',
-    '**/__tests__/',
-    '**/*.test.*',
-    '**/stories/',
-    '**/*.story.*',
-    '**/*.stories.*',
-    '**/__snapshots__',
-    '**/*.d.ts',
-  ];
-
   const args = [
     './src',
     '--out-dir ./dist',
     `--config-file ${path.resolve(__dirname, '../.babelrc.js')}`,
     `--copy-files`,
-    `--ignore "${ignore.join('","')}"`,
   ];
 
   /*
@@ -70,6 +57,7 @@ function babelify(options = {}) {
   }
 
   const command = getCommand(watch);
+
   if (command !== '') {
     const { code, stderr } = shell.exec(command, { silent });
     handleExit(code, stderr, errorCallback);

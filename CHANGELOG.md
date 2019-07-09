@@ -1,3 +1,17 @@
+## 5.2.0-alpha.38 (July 9, 2019)
+
+### Bug Fixes
+
+* Addon-storysource: Replace loader with source-loader ([#7272](https://github.com/storybookjs/storybook/pull/7272))
+
+### Maintenance
+
+* Typescript: Migrate @storybook/addon-knobs ([#7180](https://github.com/storybookjs/storybook/pull/7180))
+
+### Dependency Upgrades
+
+* Upgrade all dependencies ([#7329](https://github.com/storybookjs/storybook/pull/7329))
+
 ## 5.2.0-alpha.37 (July 8, 2019)
 
 ### Bug Fixes
@@ -458,7 +472,7 @@ Publish failed
 - Addon-docs: Docs page bugfix
 - Addon-docs: Fix source block for legacy stories
 
-NOTE: use `@storybook/addon-storysource/loader` with option `injectParameters: true` for legacy source
+NOTE: use `@storybook/source-loader` with option `injectParameters: true` for legacy source
 
 ## 5.2.0-alpha.6 (May 14, 2019)
 

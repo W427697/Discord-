@@ -1,5 +1,7 @@
 import deprecate from 'util-deprecate';
-import { StoryWrapper, MakeDecoratorResult, StoryFn, StoryContext } from './types';
+import { StoryWrapper, StoryFn, StoryContext } from './types';
+
+type MakeDecoratorResult = (...args: any) => any;
 
 interface MakeDecoratorOptions {
   name: string;
