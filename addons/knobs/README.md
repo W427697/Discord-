@@ -426,6 +426,9 @@ const options = { onChange: ({ name, type, value }) => { console.log(name, type,
 button(label, handler, groupId, options);
 ```
 
+Button knobs cause the story to re-render after the handler fires, you can prevent
+this by having the handler return false.
+
 ### withKnobs options
 
 withKnobs also accepts two optional options as story parameters.

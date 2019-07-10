@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { storiesOf, forceReRender } from '@storybook/react';
 
@@ -15,6 +15,7 @@ import {
   button,
   object,
   files,
+  optionsKnob as options,
 } from '@storybook/addon-knobs';
 
 const ItemLoader = ({ isLoading, items }) => {
@@ -39,8 +40,6 @@ ItemLoader.propTypes = {
 };
 let injectedItems = [];
 let injectedIsLoading = false;
-let valueHasChanged = false;
-let lastValue = '';
 
 storiesOf('Addons|Knobs.withKnobs', module)
   .addDecorator(withKnobs)
@@ -105,9 +104,9 @@ storiesOf('Addons|Knobs.withKnobs', module)
   })
   .add('tweaks static values organized in groups', () => {
     const GROUP_IDS = {
-      DISPLAY: 'DISPLAY',
-      GENERAL: 'GENERAL',
-      FAVORITES: 'FAVORITES',
+      DISPLAY: 'Display',
+      GENERAL: 'General',
+      FAVORITES: 'Favorites',
     };
 
     const fruits = {
@@ -125,6 +124,9 @@ storiesOf('Addons|Knobs.withKnobs', module)
     // NOTE: the default value must not change - e.g., do not do date('Label', new Date()) or date('Label')
     const defaultBirthday = new Date('Jan 20 2017 GMT+0');
 
+    // Ungrouped
+    const ungrouped = text('Ungrouped', 'Mumble');
+
     // General
     const name = text('Name', 'Storyteller', GROUP_IDS.GENERAL);
     const age = number('Age', 70, { range: true, min: 0, max: 90, step: 5 }, GROUP_IDS.GENERAL);
@@ -136,12 +138,14 @@ storiesOf('Addons|Knobs.withKnobs', module)
       GROUP_IDS.GENERAL
     );
     const years = number('Years in NY', 9, {}, GROUP_IDS.GENERAL);
+    const generalNotes = text('Notes', '', GROUP_IDS.GENERAL);
 
     // Favorites
     const nice = boolean('Nice', true, GROUP_IDS.FAVORITES);
     const fruit = select('Fruit', fruits, 'apple', GROUP_IDS.FAVORITES);
     const otherFruit = radios('Other Fruit', otherFruits, 'watermelon', GROUP_IDS.FAVORITES);
     const items = array('Items', ['Laptop', 'Book', 'Whiskey'], ',', GROUP_IDS.FAVORITES);
+    const favoritesNotes = text('Notes', '', GROUP_IDS.FAVORITES);
 
     // Display
     const backgroundColor = color('Color', 'rgba(126, 211, 33, 0.22)', GROUP_IDS.DISPLAY);
@@ -168,6 +172,7 @@ storiesOf('Addons|Knobs.withKnobs', module)
         <p>Birthday: {new Date(birthday).toLocaleDateString('en-US', dateOptions)}</p>
         <p>Account Balance: {dollars}</p>
         <p>Years in NY: {years}</p>
+        <p>Notes: {generalNotes}</p>
         <hr />
         <h1>Favorites</h1>
         <p>Catchphrase: {salutation}</p>
@@ -179,33 +184,18 @@ storiesOf('Addons|Knobs.withKnobs', module)
             <li key={`${item}`}>{item}</li>
           ))}
         </ul>
-      </div>
-    );
-  })
-  .add('text listens onChange', () => {
-    const onChange = knob => {
-      valueHasChanged = true;
-      lastValue = knob.value;
-      forceReRender();
-    };
-    const textThatCanChange = text('some string', 'default text', null, { onChange });
-
-    return (
-      <div>
-        {textThatCanChange}
-        {valueHasChanged
-          ? `(You changed the value with ${lastValue})`
-          : '(You did not change the default value)'}
+        <p>When I'm by myself, I say: "{ungrouped}"</p>
+        <p>Notes: {favoritesNotes}</p>
       </div>
     );
   })
   .add('dynamic knobs', () => {
     const showOptional = select('Show optional', ['yes', 'no'], 'yes');
     return (
-      <div>
+      <Fragment>
         <div>{text('compulsory', 'I must be here')}</div>
         {showOptional === 'yes' ? <div>{text('optional', 'I can disappear')}</div> : null}
-      </div>
+      </Fragment>
     );
   })
   .add('complex select', () => {
@@ -215,15 +205,91 @@ storiesOf('Addons|Knobs.withKnobs', module)
         number: 1,
         string: 'string',
         object: {},
-        array: [],
+        array: [1, 2, 3],
+        function: () => {},
       },
       'string'
     );
     const value = m.toString();
+    const type = Array.isArray(m) ? 'array' : typeof m;
     return (
       <pre>
-        the type of {value} = {typeof m}
+        the type of {JSON.stringify(value, null, 2)} = {type}
       </pre>
+    );
+  })
+  .add('optionsKnob', () => {
+    const valuesRadio = {
+      Monday: 'Monday',
+      Tuesday: 'Tuesday',
+      Wednesday: 'Wednesday',
+    };
+    const optionRadio = options('Radio', valuesRadio, 'Tuesday', { display: 'radio' });
+
+    const valuesInlineRadio = {
+      Saturday: 'Saturday',
+      Sunday: 'Sunday',
+    };
+    const optionInlineRadio = options('Inline Radio', valuesInlineRadio, 'Saturday', {
+      display: 'inline-radio',
+    });
+
+    const valuesSelect = {
+      January: 'January',
+      February: 'February',
+      March: 'March',
+    };
+    const optionSelect = options('Select', valuesSelect, 'January', { display: 'select' });
+
+    const valuesMultiSelect = {
+      Apple: 'apple',
+      Banana: 'banana',
+      Cherry: 'cherry',
+    };
+    const optionsMultiSelect = options('Multi Select', valuesMultiSelect, ['apple'], {
+      display: 'multi-select',
+    });
+
+    const valuesCheck = {
+      Corn: 'corn',
+      Carrot: 'carrot',
+      Cucumber: 'cucumber',
+    };
+    const optionsCheck = options('Check', valuesCheck, ['carrot'], { display: 'check' });
+
+    const valuesInlineCheck = {
+      Milk: 'milk',
+      Cheese: 'cheese',
+      Butter: 'butter',
+    };
+    const optionsInlineCheck = options('Inline Check', valuesInlineCheck, ['milk'], {
+      display: 'inline-check',
+    });
+
+    return (
+      <div>
+        <p>Weekday: {optionRadio}</p>
+        <p>Weekend: {optionInlineRadio}</p>
+        <p>Month: {optionSelect}</p>
+        <p>Fruit:</p>
+        <ul>
+          {optionsMultiSelect.map(item => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+        <p>Vegetables:</p>
+        <ul>
+          {optionsCheck.map(item => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+        <p>Dairy:</p>
+        <ul>
+          {optionsInlineCheck.map(item => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </div>
     );
   })
   .add('triggers actions via button', () => {
@@ -238,10 +304,10 @@ storiesOf('Addons|Knobs.withKnobs', module)
       }
     });
     return (
-      <div>
+      <Fragment>
         <p>Hit the knob button and it will toggle the items list into multiple states.</p>
         <ItemLoader isLoading={injectedIsLoading} items={injectedItems} />
-      </div>
+      </Fragment>
     );
   })
   .add('XSS safety', () => (
@@ -254,7 +320,31 @@ storiesOf('Addons|Knobs.withKnobs', module)
   ))
   .add('accepts story parameters', () => <div>{text('Rendered string', '<h1>Hello</h1>')}</div>, {
     knobs: { escapeHTML: false },
-  });
+  })
+  .add(
+    'text listens onChange',
+    (() => {
+      let valueHasChanged = false;
+      let lastValue = 'default text';
+      return () => {
+        const onChange = knob => {
+          valueHasChanged = true;
+          lastValue = knob.value;
+          forceReRender();
+        };
+        const textThatCanChange = text('some string', 'default text', null, { onChange });
+
+        return (
+          <div>
+            {textThatCanChange}
+            {valueHasChanged
+              ? `(You changed the value with ${lastValue})`
+              : '(You did not change the default value)'}
+          </div>
+        );
+      };
+    })()
+  );
 
 storiesOf('Addons|Knobs.withKnobs using options', module)
   .addDecorator(
