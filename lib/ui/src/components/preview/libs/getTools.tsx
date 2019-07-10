@@ -46,7 +46,7 @@ const matchOnViewMode: matchViewMode = mode => ({ viewMode }) => viewMode === mo
  */
 const TabsTool = ({ panels, storyId, viewMode, path, location }) => (
   <>
-    <TabBar key="tabs" {...{ scroll: false } as any}>
+    <TabBar key="tabs" {...({ scroll: false } as any)}>
       {panels.map((t, index) => {
         const to = t.route({ storyId, viewMode, path, location });
         const isActive = t.match({ storyId, viewMode, path, location });
@@ -119,71 +119,128 @@ const CopyLinkTool = ({ src }) => (
  * Extracted logic
  */
 export const getTools = memoize(10)(
-  ({
-    getElements,
-    queryParams,
-    panels,
-    api,
-    options,
-    storyId,
-    viewMode,
-    location,
-    path,
-    baseUrl,
-  }) => {
-    const src = `${baseUrl}?id=${storyId}${stringifyQueryParams(queryParams)}`;
-    const storyMetaProps = { src, storyId, viewMode, location, path };
-
-    // 'TOOL'
-    const leftTools = getElementList(getElements, types.TOOL, [
+  (getElements, queryParams, panels, api, options, storyId, viewMode, location, path, baseUrl) => {
+    const tools = getElementList(getElements, types.TOOL, [
+      panels.filter(p => p.id !== 'canvas').length
+        ? {
+            render: () => (
+              <Fragment>
+                <TabBar key="tabs">
+                  {panels.map((t, index) => {
+                    const to = t.route({ storyId, viewMode, path, location });
+                    const isActive = path === to;
+                    return (
+                      <S.UnstyledLink key={t.id || `l${index}`} to={to}>
+                        <TabButton active={isActive}>{t.title}</TabButton>
+                      </S.UnstyledLink>
+                    );
+                  })}
+                </TabBar>
+                <Separator />
+              </Fragment>
+            ),
+          }
+        : null,
       {
-        id: 'tool-left-tabs',
-        match: () => panels.length > 1, // display tabs only when there are more than 1 (i.e. canvas) panels
-        render: () => <TabsTool panels={panels} {...storyMetaProps} />,
+        match: p => p.viewMode === 'story',
+        render: () => (
+          <Fragment>
+            <ZoomConsumer>
+              {({ set, value }) => (
+                <Zoom key="zoom" current={value} set={v => set(value * v)} reset={() => set(1)} />
+              )}
+            </ZoomConsumer>
+            <Separator />
+          </Fragment>
+        ),
       },
       {
-        id: 'tool-left-zoom',
-        match: matchOnViewMode('story'),
-        render: () => <ZoomTool />,
-      },
-      {
-        id: 'tool-left-background',
-        match: matchOnViewMode('story'),
-        render: () => <BackgroundTool />,
+        match: p => p.viewMode === 'story',
+        render: () => (
+          <BackgroundConsumer>
+            {({ setGrid, grid }) => (
+              <IconButton
+                active={!!grid}
+                key="grid"
+                onClick={() => setGrid(!grid)}
+                title="Toggle background grid"
+              >
+                <Icons icon="grid" />
+              </IconButton>
+            )}
+          </BackgroundConsumer>
+        ),
       },
     ]);
 
-    // TODO: add 'TOOLEXTRA' in 'storybook@types'
-    // 'TOOLEXTRA'
-    const rightTools = getElementList(getElements, (types as any).TOOLEXTRA, [
+    const extraTools = getElementList(getElements, (types as any).TOOLEXTRA, [
       {
-        id: 'tool-right-fullscreen',
-        match: matchOnViewMode('story'),
-        render: () => <FullscreenTool api={api} options={options} />,
+        match: p => p.viewMode === 'story',
+        render: () => (
+          <DesktopOnly>
+            <IconButton
+              key="full"
+              onClick={api.toggleFullscreen}
+              title={options.isFullscreen ? 'Exit full screen' : 'Go full screen'}
+            >
+              <Icons icon={options.isFullscreen ? 'close' : 'expand'} />
+            </IconButton>
+          </DesktopOnly>
+        ),
       },
       {
-        id: 'tool-right-open-iframe',
-        match: matchOnViewMode('story'),
-        render: () => <OpenCanvasTool src={src} />,
+        match: p => p.viewMode === 'story',
+        render: () => (
+          <IconButton
+            key="opener"
+            onClick={() =>
+              window.open(`${baseUrl}?id=${storyId}${stringifyQueryParams(queryParams)}`)
+            }
+            title="Open canvas in new tab"
+          >
+            <Icons icon="share" />
+          </IconButton>
+        ),
       },
       {
-        id: 'tool-right-copy-link',
-        match: matchOnViewMode('story'),
-        render: () => <CopyLinkTool src={src} />,
+        match: p => p.viewMode === 'story',
+        render: () => (
+          <IconButton
+            key="copy"
+            onClick={() =>
+              copy(
+                `${window.location.origin}${
+                  window.location.pathname
+                }${baseUrl}?id=${storyId}${stringifyQueryParams(queryParams)}`
+              )
+            }
+            title="Copy canvas link"
+          >
+            <Icons icon="copy" />
+          </IconButton>
+        ),
       },
     ]);
 
-    type renderTools = (elements: StorybookUIElement[]) => React.ReactNodeArray;
-    const renderTools: renderTools = elements =>
-      elements
-        // if no matching function provide, default to matched, active (= true)
-        .filter(({ match = () => true }) => match(storyMetaProps))
-        .map(({ render, id }, index) => (
-          <Fragment key={id || `f-${index}`}>{render(storyMetaProps)}</Fragment>
-        ));
+    const filter = item =>
+      item && (!item.match || item.match({ storyId, viewMode, location, path }));
 
-    const left = renderTools(leftTools);
-    const right = renderTools(rightTools);
+    const displayItems = list =>
+      list.reduce(
+        (acc, item, index) =>
+          item ? (
+            <Fragment key={item.id || item.key || `f-${index}`}>
+              {acc}
+              {item.render() || item}
+            </Fragment>
+          ) : (
+            acc
+          ),
+        null
+      );
+
+    const left = displayItems(tools.filter(filter));
+    const right = displayItems(extraTools.filter(filter));
 
     return { left, right };
   }
