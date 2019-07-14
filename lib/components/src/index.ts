@@ -18,7 +18,7 @@ export { Form } from './form/index';
 export { Editor } from './editor/editor';
 
 // Tooltips
-export { WithTooltip } from './tooltip/WithTooltip';
+export { WithTooltip, WithTooltipPure } from './tooltip/WithTooltip';
 export { TooltipMessage } from './tooltip/TooltipMessage';
 export { TooltipNote } from './tooltip/TooltipNote';
 export { TooltipLinkList } from './tooltip/TooltipLinkList';
