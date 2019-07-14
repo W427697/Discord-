@@ -1,12 +1,12 @@
 {
-  "name": "@storybook/addon-react",
+  "name": "@storybook/renderer-react",
   "version": "5.2.0-alpha.43",
-  "description": "React addon for Storybook",
+  "description": "React renderer for Storybook",
   "keywords": [
     "storybook",
     "react"
   ],
-  "homepage": "https://github.com/storybooks/storybook/tree/master/addons/app/react",
+  "homepage": "https://github.com/storybooks/storybook/tree/master/renderers/react",
   "bugs": {
     "url": "https://github.com/storybooks/storybook/issues"
   },
@@ -19,7 +19,7 @@
   "main": "dist/client/index.js",
   "types": "dist/client/index.d.ts",
   "scripts": {
-    "prepare": "node ../../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
     "@babel/plugin-transform-react-constant-elements": "^7.2.0",

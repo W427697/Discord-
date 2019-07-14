@@ -60,6 +60,7 @@ module.exports = {
     'app/**/*.{js,jsx,ts,tsx}',
     'lib/**/*.{js,jsx,ts,tsx}',
     'addons/**/*.{js,jsx,ts,tsx}',
+    'renderers/**/*.{js,jsx,ts,tsx}',
   ],
   coveragePathIgnorePatterns: [
     '/node_modules/',

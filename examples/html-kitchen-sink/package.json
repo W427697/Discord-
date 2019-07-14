@@ -24,7 +24,7 @@
     "@storybook/addon-links": "5.2.0-alpha.43",
     "@storybook/addon-notes": "5.2.0-alpha.43",
     "@storybook/addon-options": "5.2.0-alpha.43",
-    "@storybook/addon-react": "5.2.0-alpha.43",
+    "@storybook/renderer-react": "5.2.0-alpha.43",
     "@storybook/addon-storyshots": "5.2.0-alpha.43",
     "@storybook/addon-storysource": "5.2.0-alpha.43",
     "@storybook/addon-viewport": "5.2.0-alpha.43",

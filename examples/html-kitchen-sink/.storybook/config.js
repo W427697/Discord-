@@ -1,6 +1,6 @@
 import { load, addParameters, addDecorator } from '@storybook/html';
 import { withA11y } from '@storybook/addon-a11y';
-import withReact from '@storybook/addon-react';
+import withReact from '@storybook/renderer-react';
 import { ThemeProvider, themes, convert } from '@storybook/theming';
 import { useParameter } from '@storybook/client-api';
 import React from 'react';

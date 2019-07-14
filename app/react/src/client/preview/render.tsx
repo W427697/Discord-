@@ -1,7 +1,7 @@
 import { document } from 'global';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { render } from '@storybook/addon-react';
+import { render } from '@storybook/renderer-react';
 
 import { RenderMainArgs } from './types';
 

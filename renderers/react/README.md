@@ -1,20 +1,20 @@
-# Storybook Addon React
+# Storybook Renderer React
 
-React addon for Storybook can be used for declaring React stories in `@storybook/html`.
+React renderer for Storybook can be used for declaring React stories in `@storybook/html`.
 
 ## Getting Started
 
 Install:
 
 ```sh
-npm i -D @storybook/addon-react
+npm i -D @storybook/renderer-react
 ```
 
 Then, add following content to `.storybook/config.js`
 
 ```js
 import {addDecorator} from '@storybook/html'
-import withReact from '@storybook/addon-react'
+import withReact from '@storybook/renderer-react'
 
 addDecorator(withReact)
 ```

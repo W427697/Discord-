@@ -32,14 +32,14 @@
   },
   "workspaces": [
     "addons/*",
-    "addons/frameworks/*",
     "addons/storyshots/*",
     "app/*",
     "dev-kits/*",
     "examples-native/*",
     "examples/*",
     "lib/*",
-    "lib/cli/test/run/*"
+    "lib/cli/test/run/*",
+    "renderers/*"
   ],
   "scripts": {
     "bootstrap": "node ./scripts/bootstrap.js",
