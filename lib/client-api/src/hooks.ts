@@ -1,7 +1,21 @@
 /* eslint-disable import/export */
 import { logger } from '@storybook/client-logger';
-import addons from '@storybook/addons';
+import addons, { StoryGetter, StoryContext } from '@storybook/addons';
 import { FORCE_RE_RENDER } from '@storybook/core-events';
+
+interface StoryStore {
+  fromId: (
+    id: string
+  ) => {
+    parameters: {
+      [parameterKey: string]: any;
+    };
+  };
+  getSelection: () => {
+    storyId: string;
+    viewMode: string;
+  };
+}
 
 interface Hook {
   name: string;
@@ -14,6 +28,7 @@ interface Effect {
   destroy?: (() => void) | void;
 }
 
+type Decorator = (getStory: StoryGetter, context: StoryContext) => any;
 type AbstractFunction = (...args: any[]) => any;
 
 const hookListsMap = new WeakMap<AbstractFunction, Hook[]>();
@@ -31,6 +46,7 @@ let currentEffects: Effect[] = [];
 let prevEffects: Effect[] = [];
 let currentDecoratorName: string | null = null;
 let hasUpdates = false;
+let currentContext: StoryContext | null = null;
 
 const triggerEffects = () => {
   // destroy removed effects
@@ -86,17 +102,18 @@ export const hookify = (fn: AbstractFunction) => (...args: any[]) => {
 let numberOfRenders = 0;
 const RENDER_LIMIT = 25;
 export const applyHooks = (
-  applyDecorators: (storyFn: AbstractFunction, decorators: AbstractFunction[]) => any
-) => (storyFn: AbstractFunction, decorators: AbstractFunction[]) => {
-  const decorated = applyDecorators(hookify(storyFn), decorators.map(hookify));
-  return (...args: any[]) => {
+  applyDecorators: (getStory: StoryGetter, decorators: Decorator[]) => StoryGetter
+) => (getStory: StoryGetter, decorators: Decorator[]) => {
+  const decorated = applyDecorators(hookify(getStory), decorators.map(hookify));
+  return (context: StoryContext) => {
+    currentContext = context;
     hasUpdates = false;
-    let result = decorated(...args);
-    mountedDecorators = new Set([storyFn, ...decorators]);
+    let result = decorated(context);
+    mountedDecorators = new Set([getStory, ...decorators]);
     numberOfRenders = 1;
     while (hasUpdates) {
       hasUpdates = false;
-      result = decorated(...args);
+      result = decorated(context);
       numberOfRenders += 1;
       if (numberOfRenders > RENDER_LIMIT) {
         throw new Error(
@@ -105,6 +122,7 @@ export const applyHooks = (
       }
     }
     triggerEffects();
+    currentContext = null;
     return result;
   };
 };
@@ -175,10 +193,12 @@ function useMemoLike<T>(name: string, nextCreate: () => T, deps: any[] | undefin
   return memoizedState;
 }
 
+/* Returns a memoized value, see https://reactjs.org/docs/hooks-reference.html#usememo */
 export function useMemo<T>(nextCreate: () => T, deps?: any[]): T {
   return useMemoLike('useMemo', nextCreate, deps);
 }
 
+/* Returns a memoized callback, see https://reactjs.org/docs/hooks-reference.html#usecallback */
 export function useCallback<T>(callback: T, deps?: any[]): T {
   return useMemoLike('useCallback', () => callback, deps);
 }
@@ -187,12 +207,13 @@ function useRefLike<T>(name: string, initialValue: T): { current: T } {
   return useMemoLike(name, () => ({ current: initialValue }), []);
 }
 
+/* Returns a mutable ref object, see https://reactjs.org/docs/hooks-reference.html#useref */
 export function useRef<T>(initialValue: T): { current: T } {
   return useRefLike('useRef', initialValue);
 }
 
 function triggerUpdate() {
-  // Rerun storyFn if updates were triggered synchronously, force rerender otherwise
+  // Rerun getStory if updates were triggered synchronously, force rerender otherwise
   if (currentPhase !== 'NONE') {
     hasUpdates = true;
   } else {
@@ -221,12 +242,14 @@ function useStateLike<S>(
   return [stateRef.current, setState];
 }
 
+/* Returns a stateful value, and a function to update it, see https://reactjs.org/docs/hooks-reference.html#usestate */
 export function useState<S>(
   initialState: (() => S) | S
 ): [S, (update: ((prevState: S) => S) | S) => void] {
   return useStateLike('useState', initialState);
 }
 
+/* A redux-like alternative to useState, see https://reactjs.org/docs/hooks-reference.html#usereducer */
 export function useReducer<S, A>(
   reducer: (state: S, action: A) => S,
   initialState: S
@@ -247,7 +270,55 @@ export function useReducer<S, A>(
   return [state, dispatch];
 }
 
+/*
+  Triggers a side effect, see https://reactjs.org/docs/hooks-reference.html#usestate
+  Effects are triggered synchronously after calling the decorated story function
+*/
 export function useEffect(create: () => (() => void) | void, deps?: any[]): void {
   const effect = useMemoLike('useEffect', () => ({ create }), deps);
   currentEffects.push(effect);
+}
+
+export interface Listener {
+  (...args: any[]): void;
+  ignorePeer?: boolean;
+}
+
+export interface EventMap {
+  [eventId: string]: Listener;
+}
+
+/* Accepts a map of Storybook channel event listeners, returns an emit function */
+export function useChannel(eventMap: EventMap, deps: any[] = []) {
+  const channel = addons.getChannel();
+  useEffect(() => {
+    Object.entries(eventMap).forEach(([type, listener]) => channel.on(type, listener));
+    return () => {
+      Object.entries(eventMap).forEach(([type, listener]) =>
+        channel.removeListener(type, listener)
+      );
+    };
+  }, [...Object.keys(eventMap), ...deps]);
+
+  return channel.emit.bind(channel);
+}
+
+/* Returns current story context */
+export function useStoryContext(): StoryContext {
+  if (currentContext == null) {
+    throw new Error(
+      'Storybook preview hooks can only be called inside decorators and story functions.'
+    );
+  }
+
+  return currentContext;
+}
+
+/* Returns current value of a story parameter */
+export function useParameter<S>(parameterKey: string, defaultValue?: S): S | undefined {
+  const { parameters } = useStoryContext();
+  if (parameterKey) {
+    return parameters[parameterKey] || (defaultValue as S);
+  }
+  return undefined;
 }

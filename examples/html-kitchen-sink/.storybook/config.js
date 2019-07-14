@@ -1,4 +1,4 @@
-import { configure, addParameters, addDecorator } from '@storybook/html';
+import { load, addParameters, addDecorator } from '@storybook/html';
 import { withA11y } from '@storybook/addon-a11y';
 import withReact from '@storybook/addon-react';
 import { ThemeProvider, themes, convert } from '@storybook/theming';
@@ -30,12 +30,4 @@ addParameters({
   },
 });
 
-// automatically import all files ending in *.stories.js
-const req = require.context('../stories', true, /\.stories\.js$/);
-function loadStories() {
-  // Make welcome story default
-  require('../stories/index.stories');
-  req.keys().forEach(filename => req(filename));
-}
-
-configure(loadStories, module);
+load(require.context('../stories', true, /\.stories\.js$/), module);
