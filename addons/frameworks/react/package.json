@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-react",
-  "version": "5.1.0-rc.3",
+  "version": "5.2.0-alpha.43",
   "description": "React addon for Storybook",
   "keywords": [
     "storybook",
@@ -25,15 +25,15 @@
     "@babel/plugin-transform-react-constant-elements": "^7.2.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "@storybook/addons": "5.1.0-rc.3",
-    "@storybook/client-api": "5.1.0-rc.3",
+    "@storybook/addons": "5.2.0-alpha.43",
+    "@storybook/client-api": "5.2.0-alpha.43",
     "babel-plugin-add-react-displayname": "^0.0.5",
     "babel-plugin-react-docgen": "^3.1.0",
     "common-tags": "^1.8.0",
-    "global": "^4.3.2",
-    "lodash": "^4.17.11"
+    "global": "^4.3.2"
   },
   "peerDependencies": {
+    "@babel/core": "^7.0.1",
     "react": "*",
     "react-dom": "*"
   },

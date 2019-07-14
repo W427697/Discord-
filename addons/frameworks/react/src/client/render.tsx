@@ -7,7 +7,11 @@ import isReactRenderable from './element_check';
 
 type StoryError = Error & { description?: string };
 
-export default function render(element: ReactNode, container: Element, context: StoryContext) {
+export default function render(
+  element: ReactNode,
+  container: Element,
+  context: Partial<StoryContext>
+) {
   if (!element) {
     const error: StoryError = new Error(
       `Expecting a React element from the story: "${context.name}" of "${context.kind}".`

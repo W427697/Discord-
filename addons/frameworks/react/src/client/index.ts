@@ -19,3 +19,5 @@ export default makeDecorator({
   wrapper: (getStory, context, { parameters }) =>
     parameters === 'react' ? withReact(getStory, context) : getStory(context),
 });
+
+export { render };

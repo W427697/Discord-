@@ -30,9 +30,7 @@ export interface StoryContext {
 
 export interface WrapperSettings {
   options: OptionsParameter;
-  parameters: {
-    [key: string]: any;
-  };
+  parameters: any;
 }
 
 export interface OptionsParameter extends Object {

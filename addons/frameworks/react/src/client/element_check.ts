@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
-import flattenDeep from 'lodash/flattenDeep';
 
-// return true if the element is renderable with react fiberss
+// return true if the element is renderable with react fiber
 export const isValidFiberElement = (element: ReactNode) =>
   typeof element === 'string' || typeof element === 'number' || React.isValidElement(element);
 
