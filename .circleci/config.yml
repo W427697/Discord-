@@ -41,6 +41,7 @@ jobs:
             - dev-kits
             - app
             - lib
+            - renderers
   chromatic:
     <<: *defaults
     steps:
@@ -154,6 +155,7 @@ jobs:
             - addons
             - app
             - lib
+            - renderers
   smoke-tests:
     <<: *defaults
     steps:
