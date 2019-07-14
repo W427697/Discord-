@@ -9,7 +9,7 @@ import { logger } from '@storybook/node-logger';
 
 import { getConfig } from '../config/config';
 
-import { Express, ServerConfig, Server } from '../types/server';
+import { Express, ServerConfig, Server, Middleware } from '../types/server';
 import { Runner, RunParams } from '../types/runner';
 
 const serverFactory = async (options: ServerConfig) => {
@@ -71,11 +71,13 @@ const addMiddlewareHandlers = async (
   server: Server,
   { middleware }: { middleware: ServerConfig['middleware'] }
 ) => {
+  const base: Middleware[] = [];
   return Promise.all(
-    [].concat(middleware).map(async item => {
+    base.concat(middleware).map(async item => {
       if (typeof item === 'function') {
         return item(app, server);
       }
+      return item;
     })
   );
 };

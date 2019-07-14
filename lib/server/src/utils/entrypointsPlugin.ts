@@ -32,10 +32,12 @@ const longestCommonPrefix = (inputs: string[]): string => {
   let i = 0;
   while (i < inputs[0].length) {
     cur = inputs[0].substring(0, i + 1);
+    // eslint-disable-next-line no-loop-func
     const flag = inputs.every(x => x.startsWith(cur));
     if (flag === true) {
       res = cur;
     } else break;
+    // eslint-disable-next-line no-plusplus
     i++;
   }
   return res;
