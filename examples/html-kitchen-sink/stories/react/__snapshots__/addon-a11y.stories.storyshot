@@ -83,7 +83,7 @@ exports[`Storyshots React|A11y/Button Disabled 1`] = `
 exports[`Storyshots React|A11y/Button Invalid contrast 1`] = `
 <div>
   <button
-    style="padding: 12px 6px; font-size: 12px; line-height: 16px; border-radius: 5px; background-color: rgb(76, 175, 80); color: rgb(255, 255, 255);"
+    style="padding: 12px 6px; font-size: 12px; line-height: 16px; border-radius: 5px; color: rgb(255, 255, 255); background-color: rgb(76, 175, 80);"
     type="button"
   >
     Testing the a11y addon

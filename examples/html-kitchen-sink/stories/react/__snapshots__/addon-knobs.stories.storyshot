@@ -29,9 +29,7 @@ exports[`Storyshots React|Knobs.withKnobs complex select 1`] = `
 
 exports[`Storyshots React|Knobs.withKnobs dynamic knobs 1`] = `
 <div>
-  <div
-    style=""
-  >
+  <div>
     I must be here
   </div>
   <div>
