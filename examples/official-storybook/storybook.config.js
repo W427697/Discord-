@@ -1,5 +1,5 @@
 // list of globs & external urls
-export const entries = ['stories/**/*.stories.[t|j]s'];
+export const entries = ['**/*.stories.[t|j]s'];
 
 export const theme = {};
 

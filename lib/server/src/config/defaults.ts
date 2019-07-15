@@ -1,5 +1,8 @@
 import path from 'path';
+import globToRegExp from 'glob-to-regexp';
+
 import { getCacheDir, getCoreDir } from '@storybook/config';
+
 import { Entries, OutputConfig } from '../types/config';
 import { WebpackConfigMerger, WebpackConfig } from '../types/webpack';
 import { ServerConfig } from '../types/server';
@@ -83,13 +86,32 @@ export const managerWebpack: WebpackConfigMerger = async (_, config): Promise<We
   };
 };
 
+const mapToRegex = (e: string | RegExp) => {
+  switch (true) {
+    case typeof e === 'string': {
+      console.log('converted');
+      return globToRegExp(e, { extended: true });
+    }
+    case e instanceof RegExp: {
+      console.log('kept');
+      return e;
+    }
+    default: {
+      throw new Error('not supported');
+    }
+  }
+};
+
 export const webpack: WebpackConfigMerger = async (_, config): Promise<WebpackConfig> => {
   const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
   const { default: CaseSensitivePathsPlugin } = await import('case-sensitive-paths-webpack-plugin');
   const { create } = await import('../utils/entrypointsPlugin');
 
   const { location } = await config.output;
-  const { entries: entry, plugin } = create(await config.entries, {});
+  const e = await config.entries;
+  const { entries: entry, plugin } = create(e, {});
+
+  console.log(e, e.map(mapToRegex));
 
   return {
     name: 'preview',
@@ -169,7 +191,7 @@ export const webpack: WebpackConfigMerger = async (_, config): Promise<WebpackCo
         },
         {
           test: /\.mdx$/,
-          exclude: /\.stories.mdx$/,
+          exclude: e.map(str => globToRegExp(str, { extended: true })),
           use: [
             {
               loader: require.resolve('babel-loader'),
@@ -183,12 +205,11 @@ export const webpack: WebpackConfigMerger = async (_, config): Promise<WebpackCo
             },
           ],
         },
-
-        // {
-        //   test: /\.stories.js$/,
-        //   loader: require.resolve('../builder/manager/webpack-loader'),
-        //   exclude: /node_modules/,
-        // },
+        {
+          test: e.map(mapToRegex),
+          loader: require.resolve('../builder/manager/webpack-loader'),
+          exclude: /node_modules/,
+        },
         {
           test: /\.mjs$/,
           loader: require.resolve('babel-loader'),

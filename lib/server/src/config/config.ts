@@ -1,3 +1,4 @@
+import { logger } from '@storybook/node-logger';
 import { CliOptions, CallOptions, EnvOptions } from '../types/cli';
 import {
   Config,
@@ -27,7 +28,7 @@ export async function getProperties(preset: PresetFn | PresetRef | Preset): Prom
       return preset;
     }
     default: {
-      console.log(`
+      logger.warn(`
         preset should be a string (PresetRef), function (PresetFn), or an object (Preset). 
         The provided value did not match, therefore it was skipped.
       `);
@@ -97,7 +98,7 @@ export async function apply<K>(list: PresetProp<K>[], config: Config): Promise<K
         return merge({}, acc, item);
       }
       default: {
-        console.log('there was a type mismatch between ');
+        logger.warn('there was a type mismatch between ');
         return acc;
       }
     }

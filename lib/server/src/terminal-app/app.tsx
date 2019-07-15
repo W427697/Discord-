@@ -49,36 +49,36 @@ class App extends Component<Props, Partial<State>> {
     return (
       <Fragment>
         <Static>
-          <Box marginBottom={1} key="header">
+          <Box key="header">
             <Banner />
           </Box>
+          <Box marginBottom={1} key="margin" />
+        </Static>
+        <Box marginBottom={1} flexDirection="column">
           {completed.length ? (
             <Box key="heading">
               <Color blue>Completed</Color>
             </Box>
           ) : null}
-          {completed.map(([k, v]) => {
-            return <Completed key={k} title={k} {...v} />;
-          })}
-        </Static>
-        <Box marginBottom={1} />
+          {completed.map(([k, v]) => (
+            <Completed key={k} title={k} {...v} />
+          ))}
+        </Box>
         <Box flexDirection="column">
           {progress.length ? (
             <Box>
               <Color blue>In progress</Color>
             </Box>
           ) : null}
-          {progress.map(([k, v]) => {
-            return (
-              <Progressing
-                key={k}
-                title={k}
-                message={v.message}
-                percentage={v.progress}
-                extra={`${v.progress.toString()}%`}
-              />
-            );
-          })}
+          {progress.map(([k, v]) => (
+            <Progressing
+              key={k}
+              title={k}
+              message={v.message}
+              percentage={v.progress}
+              extra={`${v.progress.toString()}%`}
+            />
+          ))}
         </Box>
       </Fragment>
     );
