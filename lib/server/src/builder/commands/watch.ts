@@ -29,6 +29,7 @@ let watcher: webpack.Watching;
 
 const watcherOptions: webpack.ICompiler.WatchOptions = {
   aggregateTimeout: 10,
+  ignored: [/\.cache/, /dist/, /test/, /\.log$/],
 };
 
 const watcherHandler: webpack.ICompiler.Handler = (err, stats) => {

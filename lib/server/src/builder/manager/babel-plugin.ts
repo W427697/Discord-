@@ -1,7 +1,8 @@
 import { transformFromAstAsync, Node, BabelFileResult } from '@babel/core';
 import { RawSourceMap } from 'source-map';
-import traverse from '@babel/traverse';
+import traverse, { NodePath } from '@babel/traverse';
 import { parse } from '@babel/parser';
+import * as t from '@babel/types';
 
 const createAST = (source: string) => {
   return parse(source, { sourceType: 'module', plugins: ['jsx'] });
@@ -9,7 +10,7 @@ const createAST = (source: string) => {
 
 export interface Result {
   code: BabelFileResult['code'];
-  map: BabelFileResult['map'];
+  map?: BabelFileResult['map'];
 }
 
 const shake = async (ast: Node, source: string, inputSourceMap: RawSourceMap) => {
@@ -17,7 +18,12 @@ const shake = async (ast: Node, source: string, inputSourceMap: RawSourceMap) =>
     sourceType: 'module',
     inputSourceMap,
     sourceMaps: !!inputSourceMap,
-    plugins: ['minify-dead-code-elimination'],
+    plugins: [
+      'minify-dead-code-elimination',
+      'babel-plugin-danger-remove-unused-import',
+      '@wordpress/babel-plugin-import-jsx-pragma',
+    ],
+    presets: ['@babel/preset-react'],
   });
   return { code, map };
 };
@@ -25,23 +31,69 @@ const shake = async (ast: Node, source: string, inputSourceMap: RawSourceMap) =>
 export const transform = async (
   source: string,
   map: RawSourceMap,
-  options: {}
+  options: {} = {}
 ): Promise<Result> => {
   const ast = createAST(source);
-  let exportDefaultPath;
+
+  let hasExports = false;
 
   traverse(ast, {
-    ExportDefaultDeclaration(p) {
-      exportDefaultPath = p;
+    ExportDefaultDeclaration(path) {
+      hasExports = true;
+      const declaration = path.get('declaration');
+
+      if (t.isObjectExpression(declaration)) {
+        (declaration as NodePath<t.ObjectExpression>)
+          .get('properties')
+          .forEach((p1: NodePath<t.ObjectProperty>) => {
+            // @ts-ignore
+            if (p1.get('key.name').node === 'parameters') {
+              const value = p1.get('value');
+              if (t.isObjectExpression(value)) {
+                [].concat(value.get('properties')).forEach((p2: NodePath<t.ObjectProperty>) => {
+                  // @ts-ignore
+                  if (p2.get('key.name').node === 'component') {
+                    p2.remove();
+                  }
+                });
+              }
+            }
+            // @ts-ignore
+            if (p1.get('key.name').node === 'decorators') {
+              p1.remove();
+            }
+          });
+      }
     },
-    Identifier(p) {
-      // eslint-disable-next-line no-param-reassign
-      p.node.name = p.node.name
-        .split('')
-        .reverse()
-        .join('');
+    ExportNamedDeclaration(path) {
+      hasExports = true;
+      const declarations = path.get('declaration.declarations');
+
+      if (
+        Array.isArray(declarations) &&
+        declarations.find(i => t.isArrowFunctionExpression(i.get('init')))
+      ) {
+        path.replaceWith(
+          t.exportNamedDeclaration(
+            t.variableDeclaration(
+              'const',
+              declarations.map(i => {
+                return t.variableDeclarator(
+                  // @ts-ignore
+                  t.identifier(i.get('id.name').node),
+                  t.objectExpression([])
+                );
+              })
+            ),
+            []
+          )
+        );
+      }
     },
   });
 
-  return shake(ast, source, map);
+  if (hasExports) {
+    return shake(ast, source, map);
+  }
+  return { code: '' };
 };

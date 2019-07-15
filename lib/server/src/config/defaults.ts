@@ -1,11 +1,13 @@
 import path from 'path';
-import globToRegExp from 'glob-to-regexp';
 
 import { getCacheDir, getCoreDir } from '@storybook/config';
 
 import { Entries, OutputConfig } from '../types/config';
 import { WebpackConfigMerger, WebpackConfig } from '../types/webpack';
 import { ServerConfig } from '../types/server';
+
+import loaders, { css, fonts, media, md, mdx, js, mjs } from './loaders';
+import { mapToRegex } from '../utils/mapToRegex';
 
 const cacheDir = getCacheDir();
 const coreDir = getCoreDir();
@@ -34,8 +36,12 @@ const stats: WebpackConfig['stats'] = {
 export const managerWebpack: WebpackConfigMerger = async (_, config): Promise<WebpackConfig> => {
   const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
   const { default: CaseSensitivePathsPlugin } = await import('case-sensitive-paths-webpack-plugin');
+  const { create } = await import('../utils/entrypointsPlugin');
 
   const { location } = await config.output;
+  const e = await config.entries;
+  const { entries: entry, plugin } = create(e, {});
+  const entryRegex = e.map(mapToRegex);
 
   return {
     name: 'manager',
@@ -46,6 +52,7 @@ export const managerWebpack: WebpackConfigMerger = async (_, config): Promise<We
 
     entry: {
       main: [`${coreDir}/client/manager/index.js`],
+      ...(await entry()),
     },
     output: {
       path: location,
@@ -70,7 +77,28 @@ export const managerWebpack: WebpackConfigMerger = async (_, config): Promise<We
         template: path.join(__dirname, '..', 'builder', 'templates', 'index.ejs'),
       }),
       new CaseSensitivePathsPlugin(),
+      plugin,
     ],
+
+    module: {
+      rules: [
+        {
+          test: entryRegex,
+          loader: loaders.managerEntry,
+          exclude: /node_modules/,
+          options: {
+            storybook: true,
+          },
+        },
+        css,
+        md,
+        fonts,
+        media,
+        { ...mdx, exclude: [...entryRegex, /node_modules/] },
+        { ...js, exclude: [...entryRegex, /node_modules/] },
+        { ...mjs, exclude: [...entryRegex] },
+      ],
+    },
 
     resolve: {
       extensions: ['.mjs', '.js', '.jsx', '.json'],
@@ -86,22 +114,6 @@ export const managerWebpack: WebpackConfigMerger = async (_, config): Promise<We
   };
 };
 
-const mapToRegex = (e: string | RegExp) => {
-  switch (true) {
-    case typeof e === 'string': {
-      console.log('converted');
-      return globToRegExp(e, { extended: true });
-    }
-    case e instanceof RegExp: {
-      console.log('kept');
-      return e;
-    }
-    default: {
-      throw new Error('not supported');
-    }
-  }
-};
-
 export const webpack: WebpackConfigMerger = async (_, config): Promise<WebpackConfig> => {
   const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
   const { default: CaseSensitivePathsPlugin } = await import('case-sensitive-paths-webpack-plugin');
@@ -110,8 +122,7 @@ export const webpack: WebpackConfigMerger = async (_, config): Promise<WebpackCo
   const { location } = await config.output;
   const e = await config.entries;
   const { entries: entry, plugin } = create(e, {});
-
-  console.log(e, e.map(mapToRegex));
+  const entryRegex = e.map(mapToRegex);
 
   return {
     name: 'preview',
@@ -150,74 +161,20 @@ export const webpack: WebpackConfigMerger = async (_, config): Promise<WebpackCo
     module: {
       rules: [
         {
-          test: /\.css$/,
-          use: [
-            require.resolve('style-loader'),
-            {
-              loader: require.resolve('css-loader'),
-              options: {
-                importLoaders: 1,
-              },
-            },
-          ],
-        },
-        {
-          test: /\.(svg|ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani)(\?.*)?$/,
-          loader: require.resolve('file-loader'),
-          query: {
-            name: 'static/media/[name].[hash:8].[ext]',
-          },
-        },
-        {
-          test: /\.(mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/,
-          loader: require.resolve('url-loader'),
-          query: {
-            limit: 10000,
-            name: 'static/media/[name].[hash:8].[ext]',
-          },
-        },
-        {
-          test: /\.js$/,
-          loader: require.resolve('babel-loader'),
-          exclude: /node_modules/,
-          options: {
-            rootMode: 'upward',
-            sourceType: 'unambiguous',
-          },
-        },
-        {
-          test: /\.md$/,
-          loader: require.resolve('raw-loader'),
-        },
-        {
-          test: /\.mdx$/,
-          exclude: e.map(str => globToRegExp(str, { extended: true })),
-          use: [
-            {
-              loader: require.resolve('babel-loader'),
-              options: {
-                rootMode: 'upward',
-                sourceType: 'unambiguous',
-              },
-            },
-            {
-              loader: require.resolve('@mdx-js/loader'),
-            },
-          ],
-        },
-        {
           test: e.map(mapToRegex),
-          loader: require.resolve('../builder/manager/webpack-loader'),
+          loader: loaders.previewEntry,
           exclude: /node_modules/,
-        },
-        {
-          test: /\.mjs$/,
-          loader: require.resolve('babel-loader'),
           options: {
-            rootMode: 'upward',
-            sourceType: 'unambiguous',
+            storybook: true,
           },
         },
+        css,
+        md,
+        fonts,
+        media,
+        { ...mdx, exclude: [...entryRegex, /node_modules/] },
+        js,
+        { ...mjs, exclude: [...entryRegex] },
       ],
     },
 

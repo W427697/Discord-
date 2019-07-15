@@ -31,6 +31,8 @@
     "@storybook/node-logger": "5.2.0-alpha.43",
     "@types/express-http-proxy": "^1.5.10",
     "@types/glob-to-regexp": "^0.4.0",
+    "@wordpress/babel-plugin-import-jsx-pragma": "^2.2.0",
+    "babel-plugin-danger-remove-unused-import": "^1.1.2",
     "babel-plugin-minify-dead-code-elimination": "^0.5.0",
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "^2.2.0",
