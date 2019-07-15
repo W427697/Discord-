@@ -4267,15 +4267,15 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.12.tgz#cc791b402360db1eaf7176479072f91ee6c6c7ca"
   integrity sha512-Uy0PN4R5vgBUXFoJrKryf5aTk3kJ8Rv3PdlHjl6UaX+Cqp1QE0yPQ68MPXGrZOfG7gZVNDIJZYyot0B9ubXUrQ==
 
-"@types/node@^12.0.10":
-  version "12.6.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.6.2.tgz#a5ccec6abb6060d5f20d256fb03ed743e9774999"
-  integrity sha512-gojym4tX0FWeV2gsW4Xmzo5wxGjXGm550oVUII7f7G5o4BV6c7DBdiG1RRQd+y1bvqRyYtPfMK85UM95vsapqQ==
-
 "@types/node@^12.0.8":
   version "12.6.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.6.1.tgz#d5544f6de0aae03eefbb63d5120f6c8be0691946"
   integrity sha512-rp7La3m845mSESCgsJePNL/JQyhkOJA6G4vcwvVgkDAwHhGdq5GCumxmPjEk1MZf+8p5ZQAUE7tqgQRQTXN7uQ==
+
+"@types/node@^12.6.2":
+  version "12.6.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.6.3.tgz#44d507c5634f85e7164707ca36bba21b5213d487"
+  integrity sha512-7TEYTQT1/6PP53NftXXabIZDaZfaoBdeBm8Md/i7zsWRoBe0YwOXguyK8vhHs8ehgB/w9U4K/6EWuTyp0W6nIA==
 
 "@types/node@^6.0.0":
   version "6.14.6"
@@ -5137,7 +5137,7 @@ acorn@^5.0.0, acorn@^5.2.1, acorn@^5.5.0, acorn@^5.5.3, acorn@^5.6.2:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
   integrity sha512-T/zvzYRfbVojPWahDsE5evJdHb3oJoQfFbsrKM7w5Zcs++Tr257tia3BmMP8XYVjp1S9RZXQMh7gao96BlqZOw==
 
-acorn@^6.0.1, acorn@^6.0.4, acorn@^6.0.5, acorn@^6.0.7, acorn@^6.1.1:
+acorn@^6.0.1, acorn@^6.0.4, acorn@^6.0.5, acorn@^6.0.7, acorn@^6.1.1, acorn@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.2.0.tgz#67f0da2fc339d6cfb5d6fb244fd449f33cd8bbe3"
   integrity sha512-8oe72N3WPMjA+2zVG71Ia0nXZ8DpQH+QyyHO+p06jT8eg8FGG3FbcUIi8KziHlAfheJQZeoqbvq1mQSQHXKYLw==
@@ -5720,6 +5720,11 @@ array-union@^1.0.1, array-union@^1.0.2:
   integrity sha1-mjRBDk9OPaI96jdb5b5w8kd47Dk=
   dependencies:
     array-uniq "^1.0.1"
+
+array-union@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/array-union/-/array-union-2.1.0.tgz#b798420adbeb1de828d84acd8a2e23d3efe85e8d"
+  integrity sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==
 
 array-uniq@1.0.2:
   version "1.0.2"
@@ -11174,6 +11179,13 @@ dir-glob@^2.0.0, dir-glob@^2.2.2:
   dependencies:
     path-type "^3.0.0"
 
+dir-glob@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/dir-glob/-/dir-glob-3.0.1.tgz#56dbf73d992a4a93ba1584f4534063fd2e41717f"
+  integrity sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==
+  dependencies:
+    path-type "^4.0.0"
+
 discontinuous-range@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/discontinuous-range/-/discontinuous-range-1.0.0.tgz#e38331f0844bba49b9a9cb71c771585aab1bc65a"
@@ -13507,7 +13519,7 @@ fast-glob@^2.0.2, fast-glob@^2.2.2, fast-glob@^2.2.6:
     merge2 "^1.2.3"
     micromatch "^3.1.10"
 
-fast-glob@^3.0.1:
+fast-glob@^3.0.1, fast-glob@^3.0.3:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.0.4.tgz#d484a41005cb6faeb399b951fd1bd70ddaebb602"
   integrity sha512-wkIbV6qg37xTJwqSsdnIphL1e+LaGz4AIQqr00mIubMaEhv1/HEmJ0uuCGZRNRUkZZmOB5mJKO0ZUTVq+SxMQg==
@@ -14089,9 +14101,9 @@ fork-ts-checker-webpack-plugin@^1.3.4:
     worker-rpc "^0.1.0"
 
 fork-ts-checker-webpack-plugin@^1.3.7:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/fork-ts-checker-webpack-plugin/-/fork-ts-checker-webpack-plugin-1.4.0.tgz#56a91667dfd7746248557d4f533772892e9ec474"
-  integrity sha512-Sy8rowZZJuGbu5NoBhk+XiSFpspxt9vJO6XOvPNonajm+8SFddUM375697Sn5b3RVVu/xPD9fZyNHCIbFUGnRA==
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/fork-ts-checker-webpack-plugin/-/fork-ts-checker-webpack-plugin-1.4.2.tgz#3929c6cc6577d0497cecb57238fb0499be87fcb7"
+  integrity sha512-y6A8nwRp3/mq1nEpuMKneTWz3TGBkXytkIfpcBdLFO+tsADQwdhIg1VvnMSi7q86r1UGJcSruRboYLwo1RF5Ew==
   dependencies:
     babel-code-frame "^6.22.0"
     chalk "^2.4.1"
@@ -14916,6 +14928,20 @@ globby@8.0.2, globby@^8.0.1:
     ignore "^3.3.5"
     pify "^3.0.0"
     slash "^1.0.0"
+
+globby@^10.0.1:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/globby/-/globby-10.0.1.tgz#4782c34cb75dd683351335c5829cc3420e606b22"
+  integrity sha512-sSs4inE1FB2YQiymcmTv6NWENryABjUNPeWhOvmn4SjtKybglsyPZxFB3U1/+L1bYi0rNZDqCLlHyLYDl1Pq5A==
+  dependencies:
+    "@types/glob" "^7.1.1"
+    array-union "^2.1.0"
+    dir-glob "^3.0.1"
+    fast-glob "^3.0.3"
+    glob "^7.1.3"
+    ignore "^5.1.1"
+    merge2 "^1.2.3"
+    slash "^3.0.0"
 
 globby@^5.0.0:
   version "5.0.0"
@@ -16005,6 +16031,11 @@ ignore@^4.0.3, ignore@^4.0.6:
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
   integrity sha512-cyFDKrqc/YdcWFniJhzI42+AzS+gNwmUzOSFcRCQYwySuBBBy/KjuxWLZ/FHEH6Moq1NizMOBWyTcv8O4OZIMg==
+
+ignore@^5.1.1:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.2.tgz#e28e584d43ad7e92f96995019cc43b9e1ac49558"
+  integrity sha512-vdqWBp7MyzdmHkkRWV5nY+PfGRbYbahfuvsBCh277tq+w9zyNi7h5CYJCK0kmzti9kU+O/cB7sE8HvKv6aXAKQ==
 
 ignoring-watcher@^1.0.5:
   version "1.1.0"
@@ -23155,6 +23186,11 @@ path-type@^3.0.0:
   dependencies:
     pify "^3.0.0"
 
+path-type@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
+  integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
+
 paths.macro@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/paths.macro/-/paths.macro-2.0.2.tgz#7b7b3930170c9d41f42ec426c987b2df3505fb72"
@@ -27548,13 +27584,13 @@ rollup@^0.63.4:
     "@types/node" "*"
 
 rollup@^1.15.6:
-  version "1.16.7"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.16.7.tgz#4b539ca22465df39f6c963d2001d95f6527e97e1"
-  integrity sha512-P3GVcbVSLLjHWFLKGerYRe3Q/yggRXmTZFx/4WZf4wzGwO6hAg5jyMAFMQKc0dts8rFID4BQngfoz6yQbI7iMQ==
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.17.0.tgz#47ee8b04514544fc93b39bae06271244c8db7dfa"
+  integrity sha512-k/j1m0NIsI4SYgCJR4MWPstGJOWfJyd6gycKoMhyoKPVXxm+L49XtbUwZyFsrSU2YXsOkM4u1ll9CS/ZgJBUpw==
   dependencies:
     "@types/estree" "0.0.39"
-    "@types/node" "^12.0.10"
-    acorn "^6.1.1"
+    "@types/node" "^12.6.2"
+    acorn "^6.2.0"
 
 routes-table@^1.2.1:
   version "1.2.5"
