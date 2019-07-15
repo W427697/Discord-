@@ -1,6 +1,8 @@
 import setTitle from 'node-bash-title';
 import webpack from 'webpack';
 
+import { logger } from '@storybook/node-logger';
+
 import { reportError, reportStats, reportProgress, reportSuccess } from '../../utils/ipc';
 
 import { RunParams } from '../../types/runner';
@@ -34,7 +36,7 @@ const watcherOptions: webpack.ICompiler.WatchOptions = {
 
 const watcherHandler: webpack.ICompiler.Handler = (err, stats) => {
   if (err) {
-    console.log(err);
+    logger.error(err.toString());
     reportError(err);
   }
   if (stats) {
@@ -54,16 +56,16 @@ const watcherHandler: webpack.ICompiler.Handler = (err, stats) => {
       chunkModules: false,
     });
 
-    console.log();
-    console.log(displayStats);
+    logger.line();
+    logger.info(JSON.stringify(displayStats));
 
     warnings.forEach(e => {
-      console.log();
-      console.log(e);
+      logger.line();
+      logger.warn(e);
     });
     errors.forEach(e => {
-      console.log();
-      console.log(e);
+      logger.line();
+      logger.error(e);
     });
     reportStats(stats);
   }

@@ -65,6 +65,17 @@ export const transform = async (
           });
       }
     },
+    ExpressionStatement(path) {
+      const callee = path.get('expression.callee');
+      if (
+        t.isIdentifier(callee) &&
+        // @ts-ignore
+        (callee as NodePath<t.Identifier>).get('name').node.match(/(addDecorator|addParameter)/)
+      ) {
+        path.remove();
+        //
+      }
+    },
     ExportNamedDeclaration(path) {
       hasExports = true;
       const declarations = path.get('declaration.declarations');

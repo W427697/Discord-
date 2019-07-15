@@ -2,6 +2,7 @@ import path from 'path';
 
 import { getCacheDir, getCoreDir } from '@storybook/config';
 
+import { file } from '@babel/types';
 import { Entries, OutputConfig } from '../types/config';
 import { WebpackConfigMerger, WebpackConfig } from '../types/webpack';
 import { ServerConfig } from '../types/server';
@@ -52,7 +53,13 @@ export const managerWebpack: WebpackConfigMerger = async (_, config): Promise<We
 
     entry: {
       main: [`${coreDir}/client/manager/index.js`],
-      ...(await entry()),
+      ...Object.entries(await entry()).reduce(
+        (acc, [k, v]) => ({
+          ...acc,
+          [k.replace('preview', 'metadata')]: v,
+        }),
+        {}
+      ),
     },
     output: {
       path: location,
@@ -73,6 +80,8 @@ export const managerWebpack: WebpackConfigMerger = async (_, config): Promise<We
           version: 1,
           dlls: [],
           headHtmlSnippet: '',
+          mains: files.js.filter(i => !i.includes('metadata')),
+          examples: files.js.filter(i => i.includes('metadata')),
         }),
         template: path.join(__dirname, '..', 'builder', 'templates', 'index.ejs'),
       }),
@@ -109,7 +118,9 @@ export const managerWebpack: WebpackConfigMerger = async (_, config): Promise<We
       splitChunks: {
         chunks: 'all',
       },
-      runtimeChunk: true,
+      runtimeChunk: {
+        name: 'manager-runtime',
+      },
     },
   };
 };
@@ -151,6 +162,8 @@ export const webpack: WebpackConfigMerger = async (_, config): Promise<WebpackCo
           version: 1,
           dlls: [],
           headHtmlSnippet: '',
+          mains: files.js.filter(i => !i.includes('preview')),
+          examples: files.js.filter(i => i.includes('preview')),
         }),
         template: path.join(__dirname, '..', 'builder', 'templates', 'index.ejs'),
       }),
@@ -187,7 +200,9 @@ export const webpack: WebpackConfigMerger = async (_, config): Promise<WebpackCo
       splitChunks: {
         chunks: 'all',
       },
-      runtimeChunk: true,
+      runtimeChunk: {
+        name: 'preview-runtime',
+      },
     },
   };
 };
