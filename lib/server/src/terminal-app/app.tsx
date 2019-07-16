@@ -74,7 +74,7 @@ class App extends Component<Props, Partial<State>> {
             <Progressing
               key={k}
               title={k}
-              message={v.message}
+              message={`${v.message}${v.details ? ` ${v.details.join(' - ')}` : ''}`}
               percentage={v.progress}
               extra={`${v.progress.toString()}%`}
             />

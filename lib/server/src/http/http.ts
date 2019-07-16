@@ -139,7 +139,9 @@ export const create = function create({
         await listen(server, serverConfig);
 
         runner.emit('success', {
-          message: `server running : ${serverConfig.port}`,
+          message: `server running: ${serverConfig.ssl ? 'https://' : 'http://'}${
+            serverConfig.host
+          }:${serverConfig.port}`,
           details: [`${serverConfig.host}:${serverConfig.port}`],
         });
       } catch (e) {

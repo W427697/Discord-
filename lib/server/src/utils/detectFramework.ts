@@ -135,7 +135,7 @@ export const addFrameworkParameter = {
         // ADD a new object on key 'parameters'
         p.get('declaration')
           .get('properties')
-          .find(i => false && t.isObjectProperty(i.node))
+          .find(i => t.isObjectProperty(i.node))
           .insertAfter(
             t.objectProperty(
               t.identifier(parameterKey),

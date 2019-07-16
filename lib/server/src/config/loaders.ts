@@ -6,8 +6,8 @@ const loaders = {
   mdx: require.resolve('raw-loader'),
   css: require.resolve('css-loader'),
   style: require.resolve('style-loader'),
-  managerEntry: require.resolve('../builder/manager/webpack-loader'),
-  previewEntry: require.resolve('../builder/preview/webpack-loader'),
+  managerEntry: require.resolve('../builder/manager/sb-metadata-loader'),
+  previewEntry: require.resolve('../builder/preview/sb-runtime-loader'),
 };
 
 export const css = {
@@ -43,7 +43,7 @@ export const media = {
 export const js = {
   test: /\.js$/,
   loader: loaders.babel,
-  exclude: /node_modules/,
+  exclude: [/node_modules/, /dist/],
   options: {
     rootMode: 'upward',
     sourceType: 'unambiguous',

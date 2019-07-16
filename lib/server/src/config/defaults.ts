@@ -94,7 +94,7 @@ export const managerWebpack: WebpackConfigMerger = async (_, config): Promise<We
         {
           test: entryRegex,
           loader: loaders.managerEntry,
-          exclude: /node_modules/,
+          exclude: [/node_modules/, /dist/],
           options: {
             storybook: true,
           },
@@ -103,9 +103,9 @@ export const managerWebpack: WebpackConfigMerger = async (_, config): Promise<We
         md,
         fonts,
         media,
-        { ...mdx, exclude: [...entryRegex, /node_modules/] },
-        { ...js, exclude: [...entryRegex, /node_modules/] },
-        { ...mjs, exclude: [...entryRegex] },
+        { ...mdx, exclude: [...entryRegex, /node_modules/, /dist/] },
+        { ...js, exclude: [...entryRegex, /node_modules/, /dist/] },
+        { ...mjs, exclude: [...entryRegex, /dist/] },
       ],
     },
 

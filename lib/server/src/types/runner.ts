@@ -1,6 +1,7 @@
 import { State } from 'webpackbar';
 import EventEmitter from 'eventemitter3';
 
+import { Stats } from 'webpack';
 import { ConfigPrefix, EnvironmentType, CliOptions, CallOptions, EnvOptions } from './cli';
 import { ConfigFiles } from './config';
 
@@ -9,7 +10,7 @@ export type Status = 'progress' | 'success' | 'failure';
 export interface ProgressDescription {
   message: string;
   progress?: number;
-  detail?: string[];
+  details?: string[];
   status: Status;
 }
 
@@ -40,6 +41,12 @@ export interface SuccessEvent {
 export interface FailureEvent {
   type: 'failure';
   err: Error;
+  data: any;
+}
+
+export interface StatsEvent {
+  type: 'stats';
+  err: Stats;
   data: any;
 }
 

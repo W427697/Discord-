@@ -39,6 +39,7 @@ const watcherHandler: webpack.ICompiler.Handler = (err, stats) => {
     logger.error(err.toString());
     reportError(err);
   }
+
   if (stats) {
     const { errors, warnings, ...displayStats } = stats.toJson({
       errorDetails: true,
@@ -68,9 +69,17 @@ const watcherHandler: webpack.ICompiler.Handler = (err, stats) => {
       logger.error(e);
     });
     reportStats(stats);
-  }
-  if (!err) {
-    reportSuccess({ message: 'successful compilation' });
+
+    if (!err) {
+      if (errors.length) {
+        reportError(new Error('compilation ended with errors'));
+      } else {
+        reportSuccess({ message: 'successful compilation' });
+      }
+      // if(warnings.length) {
+      //   reportWarning(new Error('compilation ended with errors'))
+      // }
+    }
   }
 };
 
@@ -102,7 +111,23 @@ const commands = {
           change: ({ state }) => reportProgress(state),
           update: ({ state }) => reportProgress(state),
           done: ({ state }) => reportProgress(state),
-          progress: ({ state }) => reportProgress(state),
+          progress: ({ state }) => {
+            if (state.message === 'building') {
+              // @ts-ignore
+              const [count, active] = state.details || [];
+              const { file, loaders } = state.request;
+
+              const activity = loaders && loaders.length ? `${loaders.join(', ')}: ${file}` : file;
+
+              reportProgress({
+                ...state,
+                message: active,
+                details: [activity, count].filter(Boolean),
+              });
+            } else {
+              reportProgress(state);
+            }
+          },
           allDone: ({ state }) => reportProgress(state),
           beforeAllDone: ({ state }) => reportProgress(state),
           afterAllDone: ({ state }) => reportProgress(state),
@@ -112,8 +137,6 @@ const commands = {
     );
 
     const webpackConfig = await getWebpackConfig(type, config);
-
-    // console.dir(webpackConfig, { depth: 20 });
 
     watcher = await watch(webpackConfig);
     return watcher;
