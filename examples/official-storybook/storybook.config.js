@@ -1,4 +1,3 @@
-// list of globs & external urls
 export const entries = ['**/*.stories.[t|j]s'];
 
 export const theme = {};
@@ -9,19 +8,13 @@ export const addons = [];
 export const logLevel = 'info';
 
 export const managerWebpack = async (base, config) => {
-  const e = await config.entries;
-
   const { default: webpackMerge } = await import('webpack-merge');
 
   const output = webpackMerge(base, {
-    plugins: [],
-
     resolve: {
       mainFields: ['browser', 'module', 'main'],
     },
   });
-
-  console.log('this shows up in the log!');
 
   return output;
 };

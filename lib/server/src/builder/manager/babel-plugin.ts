@@ -1,8 +1,9 @@
 import { transformFromAstAsync, Node, BabelFileResult } from '@babel/core';
 import { RawSourceMap } from 'source-map';
-import traverse, { NodePath } from '@babel/traverse';
+import traverse from '@babel/traverse';
 import { parse } from '@babel/parser';
-import * as t from '@babel/types';
+
+import { addFrameworkParameter, removeNonMetadata } from '../../utils/detectFramework';
 
 const createAST = (source: string) => {
   return parse(source, { sourceType: 'module', plugins: ['jsx'] });
@@ -40,66 +41,15 @@ export const transform = async (
   traverse(ast, {
     ExportDefaultDeclaration(path) {
       hasExports = true;
-      const declaration = path.get('declaration');
-
-      if (t.isObjectExpression(declaration)) {
-        (declaration as NodePath<t.ObjectExpression>)
-          .get('properties')
-          .forEach((p1: NodePath<t.ObjectProperty>) => {
-            // @ts-ignore
-            if (p1.get('key.name').node === 'parameters') {
-              const value = p1.get('value');
-              if (t.isObjectExpression(value)) {
-                [].concat(value.get('properties')).forEach((p2: NodePath<t.ObjectProperty>) => {
-                  // @ts-ignore
-                  if (p2.get('key.name').node === 'component') {
-                    p2.remove();
-                  }
-                });
-              }
-            }
-            // @ts-ignore
-            if (p1.get('key.name').node === 'decorators') {
-              p1.remove();
-            }
-          });
-      }
+      addFrameworkParameter.ExportDefaultDeclaration(path);
+      removeNonMetadata.ExportDefaultDeclaration(path);
     },
     ExpressionStatement(path) {
-      const callee = path.get('expression.callee');
-      if (
-        t.isIdentifier(callee) &&
-        // @ts-ignore
-        (callee as NodePath<t.Identifier>).get('name').node.match(/(addDecorator|addParameter)/)
-      ) {
-        path.remove();
-        //
-      }
+      removeNonMetadata.ExpressionStatement(path);
     },
     ExportNamedDeclaration(path) {
       hasExports = true;
-      const declarations = path.get('declaration.declarations');
-
-      if (
-        Array.isArray(declarations) &&
-        declarations.find(i => t.isArrowFunctionExpression(i.get('init')))
-      ) {
-        path.replaceWith(
-          t.exportNamedDeclaration(
-            t.variableDeclaration(
-              'const',
-              declarations.map(i => {
-                return t.variableDeclarator(
-                  // @ts-ignore
-                  t.identifier(i.get('id.name').node),
-                  t.objectExpression([])
-                );
-              })
-            ),
-            []
-          )
-        );
-      }
+      removeNonMetadata.ExportNamedDeclaration(path);
     },
   });
 

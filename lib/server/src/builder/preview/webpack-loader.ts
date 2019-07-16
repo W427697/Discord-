@@ -3,16 +3,20 @@ import { transform, Result } from './babel-plugin';
 
 import { Loader } from '../../types/webpack';
 
-const managerEntryloader: Loader = function managerEntryloader(
+const previewEntryloader: Loader = function previewEntryloader(
   source,
   inputSourceMap: RawSourceMap
 ) {
   const callback = this.async();
   this.cacheable(true);
 
-  transform(source.toString('utf8'), inputSourceMap, {}).then(({ code, map }: Result) => {
-    callback(null, `${code}; console.log("here")`, map);
-  });
+  transform(source.toString('utf8'), inputSourceMap, {})
+    .then(({ code, map }: Result) => {
+      callback(null, `${code}`, map);
+    })
+    .catch(e => {
+      callback(e);
+    });
 };
 
-export { managerEntryloader as default };
+export { previewEntryloader as default };

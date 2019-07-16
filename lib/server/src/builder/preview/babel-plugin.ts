@@ -4,6 +4,8 @@ import traverse from '@babel/traverse';
 import { parse } from '@babel/parser';
 import * as t from '@babel/types';
 
+import { addFrameworkParameter } from '../../utils/detectFramework';
+
 const createAST = (source: string) => {
   return parse(source, { sourceType: 'module', plugins: ['jsx'] });
 };
@@ -36,11 +38,7 @@ export const transform = async (
 
   traverse(ast, {
     ExportDefaultDeclaration(path) {
-      const declaration = path.get('declaration');
-
-      if (t.isObjectExpression(declaration)) {
-        // TODO
-      }
+      addFrameworkParameter.ExportDefaultDeclaration(path);
     },
     ExportNamedDeclaration(path) {
       const declarations = path.get('declaration.declarations');

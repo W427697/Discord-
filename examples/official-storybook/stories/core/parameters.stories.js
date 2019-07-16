@@ -2,8 +2,7 @@
 import React from 'react';
 
 // We would need to add this in config.js idiomatically however that would make this file a bit confusing
-import { addParameters } from '@storybook/react';
-import { addDecorator } from '@storybook/react/dist/client/preview';
+import { addParameters, addDecorator } from '@storybook/react';
 
 addDecorator(fn => fn({ customStoryContext: 52, parameters: { customParameter: 42 } }));
 
