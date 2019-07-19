@@ -84,6 +84,9 @@ export function getAngularCliWebpackConfigOptions(dirToSearch: Path) {
     buildOptions: {
       sourceMap: false,
       optimization: {},
+      outputPath: 'storybook-static',
+      scripts: [],
+      styles: [],
       ...projectOptions,
       assets: normalizedAssets,
     },
