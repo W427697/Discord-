@@ -66,7 +66,9 @@ export default class StoryListView extends Component {
     let hashmap={};
     let result=[];
     stories.forEach(story=>{
-      let components=story.kind.split("/");
+      let components=story.kind.split(this.props.clientApi.getSeparators().hierarchyRootSeparator);
+      components = components.map(component => component.split(this.props.clientApi.getSeparators().hierarchySeparator));
+      components = components.flat(1);
       components.forEach((component, i)=>{
         let parentComponentId=components.slice(0,i).join("/");
         let componentId=components.slice(0,i+1).join("/");

@@ -168,6 +168,7 @@ export default class OnDeviceUI extends PureComponent {
           </Animated.View>
           <Panel style={getNavigatorPanelPosition(this.animatedValue, previewWidth)}>
             <StoryListView
+              clientApi={this.props.clientApi}
               stories={stories}
               events={events}
               selectedKind={selection.kind}
