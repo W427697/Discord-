@@ -5,7 +5,7 @@
   "scripts": {
     "build-storybook": "build-storybook -c ./ -s built-storybooks",
     "now-build": "node ../../scripts/bootstrap --core && yarn run build-storybook --quiet",
-    "storybook": "start-storybook -p 9011 -c ./"
+    "storybook": "start-storybook -p 9011 -c ./ --no-dll"
   },
   "devDependencies": {
     "@storybook/addon-decorator": "5.2.0-beta.4",

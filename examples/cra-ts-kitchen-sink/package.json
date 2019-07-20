@@ -6,7 +6,7 @@
     "build-storybook": "build-storybook -s public",
     "lint": "tslint src/**/*.ts{,x}",
     "now-build": "node ../../scripts/bootstrap --core && yarn run build-storybook --quiet",
-    "storybook": "start-storybook -p 9010 -s public",
+    "storybook": "start-storybook -p 9010 -s public --no-dll",
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {

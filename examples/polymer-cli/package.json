@@ -6,7 +6,7 @@
     "build-storybook": "build-storybook",
     "now-build": "node ../../scripts/bootstrap --core && yarn run build-storybook --quiet",
     "start": "webpack-dev-server",
-    "storybook": "start-storybook -p 9001 -c .storybook"
+    "storybook": "start-storybook -p 9001 -c .storybook --no-dll"
   },
   "dependencies": {
     "@polymer/polymer": "^2.6.0",

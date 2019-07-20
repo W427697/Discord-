@@ -8,7 +8,7 @@
     "eject": "react-scripts eject",
     "now-build": "node ../../scripts/bootstrap --core && yarn run build-storybook --quiet",
     "start": "react-scripts start",
-    "storybook": "start-storybook -p 9010 -s public",
+    "storybook": "start-storybook -p 9010 -s public --no-dll",
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {

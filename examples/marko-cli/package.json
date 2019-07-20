@@ -16,7 +16,7 @@
     "prettier": "prettier src/**/*.{js,css,less} *.js --write",
     "serve-static": "NODE_ENV=production marko-starter serve-static",
     "start": "marko-starter server",
-    "storybook": "start-storybook -p 9005",
+    "storybook": "start-storybook -p 9005 --no-dll",
     "test": "npm run lint"
   },
   "dependencies": {
