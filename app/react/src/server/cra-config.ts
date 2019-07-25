@@ -96,8 +96,7 @@ const getStyleRules = getRules(cssExtensions.concat(cssModuleExtensions));
 
 export const getTypeScriptRules = (webpackConfigRules: RuleSetRule[], configDir: string) => {
   const rules = getRules(typeScriptExtensions)(webpackConfigRules);
-  // We know CRA only has one rule targeting TS for now, which is the first rule.
-  const babelRule = rules[0];
+  const babelRule = rules.find(({ loader }) => loader && loader.includes('babel'));
   // Resolves an issue where this config is parsed twice (#4903).
   if (typeof babelRule.include !== 'string') return rules;
   // Adds support for using TypeScript in the `.storybook` (or config) folder.
