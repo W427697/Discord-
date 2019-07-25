@@ -115,6 +115,25 @@
     }
   },
   "browserslist": "defaults",
+  "dependencies": {
+    "@types/webpack-merge": "^4.1.5",
+    "ast-types": "^0.13.1",
+    "cli-spinners": "^2.1.0",
+    "css-loader": "^3.0.0",
+    "find-cache-dir": "^3.0.0",
+    "find-up": "^4.1.0",
+    "fs-extra": "^8.0.1",
+    "is-plain-object": "^3.0.0",
+    "isobject": "^4.0.0",
+    "locate-path": "^5.0.0",
+    "make-dir": "^3.0.0",
+    "open": "^6.3.0",
+    "pkg-dir": "^4.2.0",
+    "recast": "^0.18.1",
+    "resolve-from": "^5.0.0",
+    "semver": "^6.1.1",
+    "url-loader": "^2.0.0"
+  },
   "devDependencies": {
     "@angular/common": "^7.2.6",
     "@angular/compiler": "^7.2.6",
@@ -139,6 +158,7 @@
     "@types/jest": "^24.0.15",
     "@types/lodash": "^4.14.134",
     "@types/node": "~12.0.8",
+    "@types/prettier": "^1.18.0",
     "@types/react": "^16.8.20",
     "@types/semver": "^6.0.0",
     "@types/webpack": "^4.4.25",
@@ -216,6 +236,7 @@
     "remark-preset-lint-recommended": "^3.0.2",
     "riot-jest-transformer": "^2.0.0",
     "shelljs": "^0.8.3",
+    "snapshot-diff": "^0.5.2",
     "sort-package-json": "^1.21.0",
     "svelte": "^3.4.1",
     "svelte-jest": "^0.2.0",
@@ -271,24 +292,5 @@
         "Other"
       ]
     ]
-  },
-  "dependencies": {
-    "@types/webpack-merge": "^4.1.5",
-    "ast-types": "^0.13.1",
-    "cli-spinners": "^2.1.0",
-    "css-loader": "^3.0.0",
-    "find-cache-dir": "^3.0.0",
-    "find-up": "^4.1.0",
-    "fs-extra": "^8.0.1",
-    "is-plain-object": "^3.0.0",
-    "isobject": "^4.0.0",
-    "locate-path": "^5.0.0",
-    "make-dir": "^3.0.0",
-    "open": "^6.3.0",
-    "pkg-dir": "^4.2.0",
-    "recast": "^0.18.1",
-    "resolve-from": "^5.0.0",
-    "semver": "^6.1.1",
-    "url-loader": "^2.0.0"
   }
 }

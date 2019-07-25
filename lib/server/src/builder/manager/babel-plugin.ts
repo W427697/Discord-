@@ -3,7 +3,9 @@ import { RawSourceMap } from 'source-map';
 import traverse from '@babel/traverse';
 import { parse } from '@babel/parser';
 
-import { addFrameworkParameter, removeNonMetadata } from '../../utils/detectFramework';
+import { visitorMerge } from '../../transformer/__helper__/visitor-merge';
+import { addFrameworkParameter } from '../../transformer/modules/framework';
+import { removeNonMetadata } from '../../transformer/modules/metadata';
 
 const createAST = (source: string) => {
   return parse(source, { sourceType: 'module', plugins: ['jsx'] });
@@ -38,20 +40,15 @@ export const transform = async (
 
   let hasExports = false;
 
-  traverse(ast, {
-    ExportDefaultDeclaration(path) {
+  const detectExportVisitor = {
+    ExportNamedDeclaration() {
       hasExports = true;
-      addFrameworkParameter.ExportDefaultDeclaration(path);
-      removeNonMetadata.ExportDefaultDeclaration(path);
     },
-    ExpressionStatement(path) {
-      removeNonMetadata.ExpressionStatement(path);
-    },
-    ExportNamedDeclaration(path) {
-      hasExports = true;
-      removeNonMetadata.ExportNamedDeclaration(path);
-    },
-  });
+  };
+
+  const visitor = visitorMerge(addFrameworkParameter, removeNonMetadata, detectExportVisitor);
+
+  traverse(ast, visitor);
 
   if (hasExports) {
     return shake(ast, source, map);

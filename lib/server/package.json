@@ -59,6 +59,7 @@
     "prettier": "^1.18.2",
     "react": "^16.8.6",
     "serve-favicon": "^2.5.0",
+    "snapshot-diff": "^0.5.2",
     "source-map": "^0.7.3",
     "webpack": "^4.33.0",
     "webpack-dev-server": "^3.7.2",

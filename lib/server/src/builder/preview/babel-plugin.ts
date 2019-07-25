@@ -4,7 +4,8 @@ import traverse from '@babel/traverse';
 import { parse } from '@babel/parser';
 import * as t from '@babel/types';
 
-import { addFrameworkParameter } from '../../utils/detectFramework';
+import { visitorMerge } from '../../transformer/__helper__/visitor-merge';
+import { addFrameworkParameter } from '../../transformer/modules/framework';
 
 const createAST = (source: string) => {
   return parse(source, { sourceType: 'module', plugins: ['jsx'] });
@@ -36,21 +37,13 @@ export const transform = async (
 ): Promise<Result> => {
   const ast = createAST(source);
 
-  traverse(ast, {
-    ExportDefaultDeclaration(path) {
-      addFrameworkParameter.ExportDefaultDeclaration(path);
-    },
-    ExportNamedDeclaration(path) {
-      const declarations = path.get('declaration.declarations');
+  const visitor = visitorMerge(addFrameworkParameter);
 
-      if (
-        Array.isArray(declarations) &&
-        declarations.find(i => t.isArrowFunctionExpression(i.get('init')))
-      ) {
-        // TODO
-      }
-    },
-  });
+  traverse(ast, visitor);
+
+  // 0) get a map of exports (including default)
+  // 1) inject stories
+  // 2) add HMR
 
   return shake(ast, source, map);
 };
