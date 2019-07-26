@@ -1,135 +1,183 @@
-// export default function(babel) {
-//   const { types: t } = babel;
+import * as t from '@babel/types';
+import { TraverseOptions, NodePath } from '@babel/traverse';
+import { Framework } from './framework';
 
-//   const exportedValues = [];
-//   const bindings = {};
+const parameterKey = 'parameters';
 
-//   return {
-//     name: 'ast-transform',
-//     visitor: {
-//       ExportDefaultDeclaration(p) {
-//         addFramework(t)(p);
+interface Bindings {
+  storyMeta?: t.Identifier;
+  add?: t.Identifier;
+}
 
-//         if (p.get('declaration').isObjectExpression()) {
-//           p.scope.push({ id: bindings.storyMeta, init: p.node.declaration, kind: 'const' });
-//           p.replaceWith(t.exportDefaultDeclaration(bindings.storyMeta));
-//         }
-//       },
+interface ExportedValues {
+  [key: string]: NodePath<t.Expression>;
+}
 
-//       ExportNamedDeclaration(path) {
-//         if (path.get('declaration').isDeclaration()) {
-//           path
-//             .get('declaration')
-//             .get('declarations')
-//             .reduce((acc, d) => {
-//               const id = d.get('id');
+export const addRuntime = (framework: Framework): TraverseOptions => {
+  const exportedValues: ExportedValues = {};
+  const bindings: Bindings = {};
 
-//               if (id.isIdentifier()) {
-//                 acc.push(id.node.name);
-//               } else if (id.isObjectPattern()) {
-//                 id.get('properties').forEach(prop => {
-//                   if (prop.isObjectProperty()) {
-//                     acc.push(prop.node.value.name);
-//                   }
-//                 });
-//               } else if (id.isArrayPattern()) {
-//                 id.get('elements').forEach(element => {
-//                   if (element.isIdentifier()) {
-//                     acc.push(element.node.name);
-//                   }
-//                 });
-//               } else {
-//                 console.log('UNKNOWN');
-//               }
+  const inject = (key: string, value: NodePath<t.Expression>) => {
+    exportedValues[key] = value;
+  };
 
-//               return acc;
-//             }, exportedValues);
-//         } else if (path.get('specifiers').length) {
-//           path.get('specifiers').reduce((acc, i) => {
-//             acc.push(i.node.local.name);
-//           }, exportedValues);
-//         }
-//       },
+  return {
+    ExportDefaultDeclaration(path) {
+      const declaration = path.get('declaration');
 
-//       Program: {
-//         enter(p) {
-//           bindings.add = p.scope.generateUidIdentifier('add');
-//           bindings.storyMeta = p.scope.generateUidIdentifier('storyMeta');
-//         },
-//         exit(p) {
-//           const hasStoryMeta = p.scope.bindings[bindings.storyMeta.name];
+      if (declaration.isObjectExpression()) {
+        path.scope.push({ id: bindings.storyMeta, init: declaration.node, kind: 'const' });
+        path.replaceWith(t.exportDefaultDeclaration(bindings.storyMeta));
+      }
+    },
 
-//           p.unshiftContainer('body', [
-//             t.importDeclaration(
-//               [t.importSpecifier(bindings.add, bindings.add)],
-//               t.stringLiteral('@storybook/runtime')
-//             ),
-//           ]);
-//           p.pushContainer('body', [
-//             t.expressionStatement(
-//               t.callExpression(bindings.add, [
-//                 t.objectExpression(
-//                   [
-//                     t.objectProperty(t.identifier('module'), t.identifier('module'), false, true),
-//                     t.objectProperty(
-//                       t.identifier('stories'),
-//                       t.arrayExpression(exportedValues.map(v => t.identifier(v)))
-//                     ),
-//                     hasStoryMeta ? t.spreadElement(bindings.storyMeta) : false,
-//                   ].filter(Boolean)
-//                 ),
-//               ])
-//             ),
-//           ]);
-//         },
-//       },
-//     },
-//   };
-// }
+    ExportNamedDeclaration(path) {
+      const declaration = path.get('declaration');
+      const specifiers = path.get('specifiers');
 
-// const parameterKey = 'parameters';
-// const framework = 'f';
-// const addFramework = t => p => {
-//   const declaration = p.get('declaration');
+      if (declaration.isVariableDeclaration()) {
+        declaration.get('declarations').forEach(d => {
+          const id = d.get('id');
+          const init = d.get('init');
 
-//   if (declaration.isObjectExpression()) {
-//     const hasParameterObject = !!declaration
-//       .get('properties')
-//       .find(p1 => p1.isObjectProperty() && p1.node.key.name === parameterKey);
+          //
+          if (id.isIdentifier()) {
+            const key = id.node.name;
+            const value = init;
 
-//     if (hasParameterObject) {
-//       // ADD property with key 'framework' with value of framework to existing key parameters
-//       declaration.get('properties').forEach(p1 => {
-//         if (p1.isObjectProperty() && p1.node.key.name === parameterKey) {
-//           const value = p1.get('value');
-//           if (value.isObjectExpression()) {
-//             const parameterProperties = value.get('properties');
-//             const found = parameterProperties.find(p2 => p2.key === 'framework');
+            inject(key, value);
+            return;
+          }
 
-//             if (!found) {
-//               value.replaceWith(
-//                 t.objectExpression([
-//                   ...parameterProperties.map(i => i.node),
-//                   t.objectProperty(t.identifier('framework'), t.stringLiteral(framework)),
-//                 ])
-//               );
-//             }
-//           }
-//         }
-//       });
-//     } else {
-//       // ADD a new object on key 'parameters'
-//       p.get('declaration')
-//         .get('properties')
-//         .find(i => t.isObjectProperty(i.node))
-//         .insertAfter(
-//           t.objectProperty(
-//             t.identifier(parameterKey),
-//             t.objectExpression([
-//               t.objectProperty(t.identifier('framework'), t.stringLiteral(framework)),
-//             ])
-//           )
-//         );
-//     }
-//   }
-// };
+          //
+          if (id.isObjectPattern()) {
+            id.get('properties').forEach((prop, index) => {
+              if (
+                prop.isObjectProperty() &&
+                t.isIdentifier(prop.node.key) &&
+                init.isObjectExpression()
+              ) {
+                const target = init.get('properties')[index];
+                if (target.isObjectProperty()) {
+                  const value = target.get('value');
+                  const key = prop.node.key.name;
+                  if (value.isExpression()) {
+                    inject(key, value);
+                  }
+                }
+              } else {
+                // unknown if this is bad
+              }
+            });
+            return;
+          }
+
+          //
+          if (id.isArrayPattern()) {
+            const elements = id.get('elements');
+
+            elements.forEach((element, index) => {
+              if (element.isIdentifier() && init.isArrayExpression()) {
+                const value = init.get('elements')[index];
+                const key = element.node.name;
+
+                if (value.isExpression()) {
+                  inject(key, value);
+                }
+              }
+            });
+            return;
+          }
+
+          //
+          throw new Error('unsupported variable declaration');
+        });
+      } else if (declaration.isFunctionDeclaration()) {
+        const id = declaration.node.id.name;
+
+        declaration.replaceWith(
+          t.variableDeclaration('const', [
+            t.variableDeclarator(t.identifier(id), t.objectExpression([])),
+          ])
+        );
+      } else if (declaration.isClassDeclaration()) {
+        const id = declaration.node.id.name;
+
+        declaration.replaceWith(
+          t.variableDeclaration('const', [
+            t.variableDeclarator(t.identifier(id), t.objectExpression([])),
+          ])
+        );
+      } else if (specifiers.length) {
+        specifiers.forEach(i => {
+          if (i.isExportSpecifier()) {
+            const key = i.node.local.name;
+            const targetPath = i.scope.bindings[key].path as NodePath<t.VariableDeclarator>;
+            const target = targetPath.get('init');
+            inject(key, target);
+          }
+        });
+      } else {
+        try {
+          // @ts-ignore
+          const id = declaration.node.id.name;
+
+          declaration.replaceWith(
+            t.variableDeclaration('const', [
+              t.variableDeclarator(t.identifier(id), t.objectExpression([])),
+            ])
+          );
+        } catch (e) {
+          console.log('REMOVE DECLARATION');
+          declaration.remove();
+        }
+      }
+    },
+
+    Program: {
+      enter(path) {
+        bindings.add = path.scope.generateUidIdentifier('add');
+        bindings.storyMeta = path.scope.generateUidIdentifier('storyMeta');
+      },
+      exit(path) {
+        const hasStoryMeta = path.scope.bindings[bindings.storyMeta.name];
+
+        // @ts-ignore
+        path.unshiftContainer('body', [
+          t.importDeclaration(
+            [t.importSpecifier(bindings.add, t.identifier('add'))],
+            t.stringLiteral('@storybook/runtime')
+          ),
+        ]);
+        // @ts-ignore
+        path.pushContainer('body', [
+          t.expressionStatement(
+            t.callExpression(bindings.add, [
+              t.stringLiteral(framework),
+              t.objectExpression(
+                []
+                  .concat([
+                    t.objectProperty(t.identifier('module'), t.identifier('module'), false, true),
+                    t.objectProperty(
+                      t.identifier('stories'),
+                      t.objectExpression(
+                        Object.keys(exportedValues).map(key => {
+                          return t.objectProperty(
+                            t.identifier(key),
+                            t.identifier(key),
+                            false,
+                            true
+                          );
+                        })
+                      )
+                    ),
+                  ])
+                  .concat(hasStoryMeta ? t.spreadElement(bindings.storyMeta) : [])
+              ),
+            ])
+          ),
+        ]);
+      },
+    },
+  };
+};

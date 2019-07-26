@@ -1,10 +1,10 @@
 import { transformFromAstAsync, Node, BabelFileResult } from '@babel/core';
 import { RawSourceMap } from 'source-map';
-import traverse from '@babel/traverse';
+import traverse, { TraverseOptions } from '@babel/traverse';
 import { parse } from '@babel/parser';
 
 import { visitorMerge } from '../../transformer/__helper__/visitor-merge';
-import { addFrameworkParameter } from '../../transformer/modules/framework';
+import { addFrameworkParameter, detectFramework } from '../../transformer/modules/framework';
 import { removeNonMetadata } from '../../transformer/modules/metadata';
 
 const createAST = (source: string) => {
@@ -40,13 +40,18 @@ export const transform = async (
 
   let hasExports = false;
 
-  const detectExportVisitor = {
+  const detectExportVisitor: TraverseOptions = {
     ExportNamedDeclaration() {
       hasExports = true;
     },
   };
 
-  const visitor = visitorMerge(addFrameworkParameter, removeNonMetadata, detectExportVisitor);
+  const framework = detectFramework(ast);
+  const visitor = visitorMerge(
+    addFrameworkParameter(framework),
+    removeNonMetadata(framework),
+    detectExportVisitor
+  );
 
   traverse(ast, visitor);
 

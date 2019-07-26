@@ -1,5 +1,6 @@
 import * as t from '@babel/types';
 import { TraverseOptions, NodePath, Node, Visitor } from '@babel/traverse';
+import { Framework } from './framework';
 
 const replace = (p: NodePath<t.Expression>) => {
   if (p.isCallExpression()) {
@@ -63,8 +64,8 @@ const replace = (p: NodePath<t.Expression>) => {
   console.log('no bueno signor');
 };
 
-export const removeNonMetadata: TraverseOptions = {
-  ExportDefaultDeclaration: path => {
+export const removeNonMetadata = (framework: Framework): TraverseOptions => ({
+  ExportDefaultDeclaration(path) {
     const declaration = path.get('declaration');
 
     if (declaration.isObjectExpression()) {
@@ -90,7 +91,7 @@ export const removeNonMetadata: TraverseOptions = {
       });
     }
   },
-  ExpressionStatement: path => {
+  ExpressionStatement(path) {
     const expression = path.get('expression');
 
     if (expression.isCallExpression()) {
@@ -100,7 +101,7 @@ export const removeNonMetadata: TraverseOptions = {
       }
     }
   },
-  ExportNamedDeclaration: path => {
+  ExportNamedDeclaration(path) {
     const declaration = path.get('declaration');
     const specifiers = path.get('specifiers');
 
@@ -195,4 +196,4 @@ export const removeNonMetadata: TraverseOptions = {
       }
     }
   },
-};
+});

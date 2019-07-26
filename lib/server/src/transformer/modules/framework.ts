@@ -116,10 +116,9 @@ export const detectFramework = (ast: t.File): Framework => {
   return mostLikelyScore ? (mostLikelyFramework as Framework) : fallback;
 };
 
-export const addFrameworkParameter: TraverseOptions = {
+export const addFrameworkParameter = (framework: Framework): TraverseOptions => ({
   ExportDefaultDeclaration(p) {
     const declaration = p.get('declaration');
-    const framework = detectFramework(p.parentPath.container as t.File);
 
     if (declaration.isObjectExpression()) {
       const hasParameter = !!declaration
@@ -160,4 +159,4 @@ export const addFrameworkParameter: TraverseOptions = {
       }
     }
   },
-};
+});

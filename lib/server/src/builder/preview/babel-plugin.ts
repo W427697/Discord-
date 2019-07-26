@@ -2,10 +2,10 @@ import { transformFromAstAsync, Node, BabelFileResult } from '@babel/core';
 import { RawSourceMap } from 'source-map';
 import traverse from '@babel/traverse';
 import { parse } from '@babel/parser';
-import * as t from '@babel/types';
 
 import { visitorMerge } from '../../transformer/__helper__/visitor-merge';
-import { addFrameworkParameter } from '../../transformer/modules/framework';
+import { addFrameworkParameter, detectFramework } from '../../transformer/modules/framework';
+import { addRuntime } from '../../transformer/modules/runtime';
 
 const createAST = (source: string) => {
   return parse(source, { sourceType: 'module', plugins: ['jsx'] });
@@ -37,13 +37,10 @@ export const transform = async (
 ): Promise<Result> => {
   const ast = createAST(source);
 
-  const visitor = visitorMerge(addFrameworkParameter);
+  const framework = detectFramework(ast);
+  const visitor = visitorMerge(addFrameworkParameter(framework), addRuntime(framework));
 
   traverse(ast, visitor);
-
-  // 0) get a map of exports (including default)
-  // 1) inject stories
-  // 2) add HMR
 
   return shake(ast, source, map);
 };
