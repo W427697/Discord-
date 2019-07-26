@@ -3,9 +3,9 @@ import { RawSourceMap } from 'source-map';
 import traverse, { TraverseOptions } from '@babel/traverse';
 import { parse } from '@babel/parser';
 
-import { visitorMerge } from '../../transformer/__helper__/visitor-merge';
-import { addFrameworkParameter, detectFramework } from '../../transformer/modules/framework';
-import { removeNonMetadata } from '../../transformer/modules/metadata';
+import { visitorMerge } from '../__helper__/visitor-merge';
+import { addFrameworkParameter, detectFramework } from '../modules/framework';
+import { removeNonMetadata } from '../modules/metadata';
 
 const createAST = (source: string) => {
   return parse(source, { sourceType: 'module', plugins: ['jsx'] });

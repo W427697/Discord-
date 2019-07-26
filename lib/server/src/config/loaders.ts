@@ -6,8 +6,8 @@ const loaders = {
   mdx: require.resolve('raw-loader'),
   css: require.resolve('css-loader'),
   style: require.resolve('style-loader'),
-  managerEntry: require.resolve('../builder/manager/sb-metadata-loader'),
-  previewEntry: require.resolve('../builder/preview/sb-runtime-loader'),
+  managerEntry: require.resolve('../transformer/webpack/sb-metadata-loader'),
+  previewEntry: require.resolve('../transformer/webpack/sb-runtime-loader'),
 };
 
 export const css = {

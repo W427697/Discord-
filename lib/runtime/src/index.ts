@@ -17,18 +17,29 @@ const getFrameworkLib = async (framework: Framework) => {
   return null;
 };
 
-export const add = async (framework: Framework, { title, stories, module: m }: any) => {
-  console.log('add', { title, stories });
-
+export const add = async (
+  framework: Framework,
+  { title, stories, module: m, decorators = [], parameters = {} }: any
+) => {
   const lib = await getFrameworkLib(framework);
 
-  if (framework && lib) {
+  if (framework && lib && title) {
     const { storiesOf } = lib;
 
     const story = storiesOf(title, m);
 
-    Object.entries(stories).forEach(([k, v]) => {
-      story.add(k, v);
+    // @ts-ignore TODO, this should actually be typed!
+    decorators.forEach(d => {
+      story.addDecorator(d);
     });
+
+    story.addParameters(parameters);
+
+    Object.entries(stories).forEach(([k, v]) => {
+      // @ts-ignore TODO, this should actually be typed!
+      story.add(v.name || v.title || k, v, v.parameters || {});
+    });
+  } else {
+    console.log(framework, { title, stories, module: m, decorators, parameters });
   }
 };

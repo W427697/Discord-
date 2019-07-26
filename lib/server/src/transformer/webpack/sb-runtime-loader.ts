@@ -1,9 +1,9 @@
 import { RawSourceMap } from 'source-map';
-import { transform, Result } from './babel-plugin';
+import { transform, Result } from '../babel/sb-runtime-plugin';
 
 import { Loader } from '../../types/webpack';
 
-const managerEntryloader: Loader = function managerEntryloader(
+const previewEntryloader: Loader = function previewEntryloader(
   source,
   inputSourceMap: RawSourceMap
 ) {
@@ -19,4 +19,4 @@ const managerEntryloader: Loader = function managerEntryloader(
     });
 };
 
-export { managerEntryloader as default };
+export { previewEntryloader as default };

@@ -1,12 +1,8 @@
-import { RawSourceMap } from 'source-map';
-import { transform, Result } from './babel-plugin';
+import { transform, Result } from '../babel/sb-metadata-plugin';
 
 import { Loader } from '../../types/webpack';
 
-const previewEntryloader: Loader = function previewEntryloader(
-  source,
-  inputSourceMap: RawSourceMap
-) {
+const managerEntryloader: Loader = function managerEntryloader(source, inputSourceMap) {
   const callback = this.async();
   this.cacheable(true);
 
@@ -19,4 +15,4 @@ const previewEntryloader: Loader = function previewEntryloader(
     });
 };
 
-export { previewEntryloader as default };
+export { managerEntryloader as default };
