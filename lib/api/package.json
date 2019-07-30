@@ -1,6 +1,6 @@
 {
   "name": "@storybook/api",
-  "version": "5.2.0-beta.13",
+  "version": "5.2.0-beta.18",
   "description": "Core Storybook API & Context",
   "keywords": [
     "storybook"
@@ -21,11 +21,11 @@
     "prepare": "node ./scripts/generateVersion.js && node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/channels": "5.2.0-beta.13",
-    "@storybook/client-logger": "5.2.0-beta.13",
-    "@storybook/core-events": "5.2.0-beta.13",
-    "@storybook/router": "5.2.0-beta.13",
-    "@storybook/theming": "5.2.0-beta.13",
+    "@storybook/channels": "5.2.0-beta.18",
+    "@storybook/client-logger": "5.2.0-beta.18",
+    "@storybook/core-events": "5.2.0-beta.18",
+    "@storybook/router": "5.2.0-beta.18",
+    "@storybook/theming": "5.2.0-beta.18",
     "core-js": "^3.0.1",
     "fast-deep-equal": "^2.0.1",
     "global": "^4.0.0",
@@ -36,7 +36,7 @@
     "semver": "^6.0.0",
     "shallow-equal": "^1.2.0",
     "store2": "^2.7.1",
-    "telejson": "^2.2.1",
+    "telejson": "^2.2.2",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {

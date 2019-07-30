@@ -1,7 +1,6 @@
 import { configure, addParameters, addDecorator } from '@storybook/react';
 import { create } from '@storybook/theming';
 import { withA11y } from '@storybook/addon-a11y';
-import { DocsPage } from '@storybook/addon-docs/blocks';
 
 addDecorator(withA11y);
 addParameters({
@@ -19,9 +18,9 @@ addParameters({
       brandUrl: 'https://github.com/storybookjs/storybook/tree/master/examples/cra-kitchen-sink',
       gridCellSize: 12,
     }),
-    storySort: (a, b) => a[1].id.localeCompare(b[1].id),
+    storySort: (a, b) =>
+      a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, { numeric: true }),
   },
-  docs: DocsPage,
 });
 
 configure(require.context('../src/stories', true, /\.stories\.(js|mdx)$/), module);
