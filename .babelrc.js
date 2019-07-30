@@ -1,9 +1,9 @@
 const withTests = {
   presets: [
-    [
-      '@babel/preset-env',
-      { shippedProposals: true, useBuiltIns: 'usage', corejs: '3', targets: { node: 'current' } },
-    ],
+    // [
+    //   '@babel/preset-env',
+    //   { shippedProposals: true, useBuiltIns: 'usage', corejs: '3', targets: { node: 'current' } },
+    // ],
   ],
   plugins: [
     'babel-plugin-require-context-hook',
@@ -15,7 +15,7 @@ const withTests = {
 module.exports = {
   ignore: ['./lib/codemod/src/transforms/__testfixtures__'],
   presets: [
-    ['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage', corejs: '3' }],
+    // ['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage', corejs: '3' }],
     '@babel/preset-typescript',
     '@babel/preset-react',
     '@babel/preset-flow',
@@ -48,14 +48,14 @@ module.exports = {
     {
       test: './examples/rax-kitchen-sink',
       presets: [
-        ['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage', corejs: '3' }],
+        // ['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage', corejs: '3' }],
         ['babel-preset-rax', { development: process.env.BABEL_ENV === 'development' }],
       ],
     },
     {
       test: './lib',
       presets: [
-        ['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage', corejs: '3' }],
+        // ['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage', corejs: '3' }],
         '@babel/preset-react',
       ],
       plugins: [
@@ -81,17 +81,17 @@ module.exports = {
         '**/src/bin/**',
       ],
       presets: [
-        [
-          '@babel/preset-env',
-          {
-            shippedProposals: true,
-            useBuiltIns: 'usage',
-            targets: {
-              node: '8.11',
-            },
-            corejs: '3',
-          },
-        ],
+        // [
+        //   '@babel/preset-env',
+        //   {
+        //     shippedProposals: true,
+        //     useBuiltIns: 'usage',
+        //     targets: {
+        //       node: '8.11',
+        //     },
+        //     corejs: '3',
+        //   },
+        // ],
       ],
       plugins: [
         'emotion',
