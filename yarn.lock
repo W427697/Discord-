@@ -24323,13 +24323,13 @@ rax-hydrate@^1.0.1:
   dependencies:
     driver-dom "^1.0.0"
 
-rax-image@^0.6.8:
-  version "0.6.8"
-  resolved "https://registry.yarnpkg.com/rax-image/-/rax-image-0.6.8.tgz#44b6e559178e8c3668f1eaf352bfcfdd09d7ce75"
-  integrity sha512-Ee7H0ePdXv4J4t4w3HAtjXasLPNqD2HQiPbJeybdnOOHHVrzawN68ypb+wy5I2Atad0CvdEQ9dXDNpkPPwElDw==
+rax-image@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/rax-image/-/rax-image-1.0.3.tgz#11e3b5cfb9a3b0ca868e45f4dddba5d052f1ffac"
+  integrity sha512-3ZZZ/9nPNIP7f6BMkKMZQXixlIS2d81DGIBlvLcicnvluxy0vsY6M3PxQI1q6176G8sc3kutM3XXKPxxklZBIg==
   dependencies:
-    rax-view "^0.6.5"
-    universal-env "^0.6.5"
+    rax-view "^1.0.1"
+    universal-env "^1.0.0"
 
 rax-link@^0.6.5:
   version "0.6.5"
@@ -24508,6 +24508,13 @@ rax-view@^0.6.5:
   integrity sha512-2MUVDcOPyaKGg4SMUYcVCKt3nHHjfpBoqN5sd2p5tJvVGngrYSuhPMr/UYldKSqq4YJN9T41Zix5N7/lFSiDGg==
   dependencies:
     universal-env "^0.6.5"
+
+rax-view@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/rax-view/-/rax-view-1.0.1.tgz#6d25d11832a3b200bee6a83bfdcf7932bde896da"
+  integrity sha512-FTK+JkuIvQYNVv5LxRgN33BDoYnwIPMt9u/XA+5qNyGn50cYa1fggMwrEWvX9ZzWYF82OwkQxKRFcvV2WcztDg==
+  dependencies:
+    universal-env "^1.0.0"
 
 rax-webpack-plugin@^0.6.5:
   version "0.6.5"
@@ -30026,6 +30033,11 @@ universal-env@^0.6.5:
   version "0.6.6"
   resolved "https://registry.yarnpkg.com/universal-env/-/universal-env-0.6.6.tgz#dd5adf816a8ec3e908d4848e1714dfe30dd8a970"
   integrity sha512-CqBdTKFStTEV7wETHjWm7CDIbSdUxIlN3zQ5xraTG6Wb1XEmBgyW1pu8lJW0buRXjACgjrD+pr97akumbQ0Y6A==
+
+universal-env@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/universal-env/-/universal-env-1.0.1.tgz#a05fc92327a378e6c1eda6b14d12b3ad68950c80"
+  integrity sha512-FtUgYgjaT4hoOk3h8N7JfkKGm27UaeNvaNSqSSwbOIYraZJ/VCsmHC0OIFHGXsd0AfFEJ1N29Tx+2xMVe5Emgg==
 
 universal-user-agent@^2.0.0, universal-user-agent@^2.1.0:
   version "2.1.0"
