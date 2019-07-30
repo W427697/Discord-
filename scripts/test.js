@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
+
 const inquirer = require('inquirer');
 const program = require('commander');
 const childProcess = require('child_process');

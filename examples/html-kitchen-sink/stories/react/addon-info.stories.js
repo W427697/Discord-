@@ -256,7 +256,7 @@ const hoc = WrapComponent => ({ ...props }) => <WrapComponent {...props} />;
 
 const Input = hoc(() => <input type="text" />);
 
-const TextArea = hoc(({ children }) => <textarea>{children}</textarea>);
+const TextArea = hoc(({ children }) => <textarea value={children} />);
 
 storiesOf('React|Info/GitHub issues', module)
   .addParameters({ framework: 'react' })
