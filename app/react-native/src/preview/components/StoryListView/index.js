@@ -65,7 +65,7 @@ export default class StoryListView extends Component {
 
     let hashmap={};
     let result=[];
-    stories.forEach(story=>{
+    stories.reverse().forEach(story=>{
       let components=story.kind.split("/");
       components.forEach((component, i)=>{
         let parentComponentId=components.slice(0,i).join("/");
@@ -112,7 +112,9 @@ export default class StoryListView extends Component {
     if (stories) {
       const data = this.buildStoriesTree(stories.dumpStoryBook())
 
-      this.setState({ data, originalData: data });
+      this.setState({
+        data: data.reverse(),
+        originalData: data });
     }
   };
 
