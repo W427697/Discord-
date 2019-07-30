@@ -1,4 +1,4 @@
-import { load, addParameters, addDecorator } from '@storybook/html';
+import { configure, addParameters, addDecorator } from '@storybook/html';
 import { withA11y } from '@storybook/addon-a11y';
 import withReact from '@storybook/renderer-react';
 import { ThemeProvider, themes, convert } from '@storybook/theming';
@@ -28,7 +28,10 @@ addParameters({
   },
   options: {
     hierarchyRootSeparator: /\|/,
+    docs: {
+      iframeHeight: '200px',
+    },
   },
 });
 
-load(require.context('../stories', true, /\.stories\.js$/), module);
+configure(require.context('../stories', true, /\.stories\.(js|mdx)$/), module);

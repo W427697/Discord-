@@ -1,4 +1,4 @@
-import { load, addParameters, addDecorator } from '@storybook/react';
+import { configure, addParameters, addDecorator } from '@storybook/react';
 import { create } from '@storybook/theming';
 import { withA11y } from '@storybook/addon-a11y';
 
@@ -22,4 +22,4 @@ addParameters({
   },
 });
 
-load(require.context('../src/stories', true, /\.stories\.js$/), module);
+configure(require.context('../src/stories', true, /\.stories\.(js|mdx)$/), module);

@@ -8,13 +8,13 @@ import { RenderMainArgs } from './types';
 const rootEl = document ? document.getElementById('root') : null;
 
 export default function renderMain({
-  storyFn,
+  storyFn: StoryFn,
   selectedKind,
   selectedStory,
   showMain,
   forceRender,
 }: RenderMainArgs) {
-  const element = storyFn();
+  const element = <StoryFn />;
 
   // We need to unmount the existing set of components in the DOM node.
   // Otherwise, React may not recreate instances for every story run.
