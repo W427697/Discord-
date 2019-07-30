@@ -9,11 +9,11 @@ import { Component, Input } from '@angular/core';
 })
 export class SimpleKnobsComponent {
   @Input()
-  name;
+  name: string;
 
   @Input()
-  age;
+  age: number;
 
   @Input()
-  phoneNumber;
+  phoneNumber: string;
 }

@@ -2,6 +2,18 @@ import { storiesOf } from '@storybook/angular';
 import { action } from '@storybook/addon-actions';
 import { Button } from '@storybook/angular/demo';
 
+export class TestTsClass {
+  testStringVar: string;
+
+  testNumberVar: number;
+
+  testBooleanVar: boolean;
+
+  testStringArrayVar: string[];
+
+  testAnyVar: any;
+}
+
 storiesOf('Addon|Actions', module)
   .add('Action only', () => ({
     component: Button,
@@ -14,7 +26,7 @@ storiesOf('Addon|Actions', module)
     component: Button,
     props: {
       text: 'Action and Method',
-      onClick: e => {
+      onClick: (e: any) => {
         console.log(e);
         e.preventDefault();
         action('log2')(e.target);

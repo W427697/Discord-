@@ -22,7 +22,7 @@ storiesOf('Custom|Providers', module)
   .add(
     'With knobs',
     () => {
-      const name = text('name', 'Dynamic knob');
+      const name: string = text('name', 'Dynamic knob');
 
       return {
         component: ServiceComponent,

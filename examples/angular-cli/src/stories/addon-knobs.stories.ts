@@ -25,9 +25,9 @@ storiesOf('Addon|Knobs', module)
   })
   .addDecorator(withKnobs)
   .add('Simple', () => {
-    const name = text('name', 'John Doe');
-    const age = number('age', 0);
-    const phoneNumber = text('phoneNumber', '555-55-55');
+    const name: string = text('name', 'John Doe');
+    const age: number = number('age', 0);
+    const phoneNumber: string = text('phoneNumber', '555-55-55');
 
     return {
       moduleMetadata: {
@@ -51,31 +51,31 @@ storiesOf('Addon|Knobs', module)
     };
   })
   .add('All knobs', () => {
-    const name = text('name', 'Jane');
-    const stock = number('stock', 20, {
+    const name: string = text('name', 'Jane');
+    const stock: number = number('stock', 20, {
       range: true,
       min: 0,
       max: 30,
       step: 5,
     });
-    const fruits = {
+    const fruits: any = {
       Apple: 'apples',
       Banana: 'bananas',
       Cherry: 'cherries',
     };
-    const fruit = select('fruit', fruits, 'apples');
-    const otherFruits = {
+    const fruit: any = select('fruit', fruits, 'apples');
+    const otherFruits: any = {
       Kiwi: 'kiwi',
       Guava: 'guava',
       Watermelon: 'watermelon',
     };
-    const otherFruit = radios('Other Fruit', otherFruits, 'watermelon');
-    const price = number('price', 2.25);
+    const otherFruit: any = radios('Other Fruit', otherFruits, 'watermelon');
+    const price: number = number('price', 2.25);
 
-    const border = color('border', 'deeppink');
-    const today = date('today', new Date('Jan 20 2017'));
-    const items = array('items', ['Laptop', 'Book', 'Whiskey']);
-    const nice = boolean('nice', true);
+    const border: any = color('border', 'deeppink');
+    const today: any = date('today', new Date('Jan 20 2017'));
+    const items: any = array('items', ['Laptop', 'Book', 'Whiskey']);
+    const nice: boolean = boolean('nice', true);
     button('Arbitrary action', action('You clicked it!'));
 
     return {
