@@ -11,6 +11,7 @@ export type Framework =
 
 const getFrameworkLib = async (framework: Framework) => {
   if (framework === 'react') {
+    // @ts-ignore
     return import('@storybook/react');
   }
 
@@ -40,6 +41,6 @@ export const add = async (
       story.add(v.name || v.title || k, v, v.parameters || {});
     });
   } else {
-    console.log(framework, { title, stories, module: m, decorators, parameters });
+    // console.log(framework, { title, stories, module: m, decorators, parameters });
   }
 };
