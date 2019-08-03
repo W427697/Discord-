@@ -1,6 +1,8 @@
 import { document } from 'global';
 import { stripIndents } from 'common-tags';
 
+import Preview from '../components/Preview.svelte';
+
 let previousComponent = null;
 
 function cleanUpPreviousStory() {
@@ -41,15 +43,16 @@ function mountView({ Component, target, props, on, Wrapper, WrapperData }) {
   previousComponent = component;
 }
 
-export default function render({
-  storyFn,
-  selectedKind,
-  selectedStory,
-  showMain,
-  showError,
-  // showException,
-}) {
-  const {
+function renderDefault(
+  {
+    // storyFn,
+    selectedKind,
+    selectedStory,
+    showMain,
+    showError,
+    // showException,
+  },
+  {
     /** @type {SvelteComponent} */
     Component,
     /** @type {any} */
@@ -58,8 +61,8 @@ export default function render({
     on,
     Wrapper,
     WrapperData,
-  } = storyFn();
-
+  }
+) {
   cleanUpPreviousStory();
   const DefaultCompatComponent = Component ? Component.default || Component : undefined;
   const DefaultCompatWrapper = Wrapper ? Wrapper.default || Wrapper : undefined;
@@ -91,4 +94,53 @@ export default function render({
   });
 
   showMain();
+}
+
+function renderCsf(
+  { selectedKind, selectedStory, showMain, showError, showException },
+  { Stories }
+) {
+  if (previousComponent) {
+    previousComponent.$destroy();
+    previousComponent = null;
+  }
+
+  const target = document.getElementById('root');
+
+  target.innerHTML = '';
+
+  try {
+    previousComponent = new Preview({
+      target,
+      props: {
+        Stories,
+        selectedKind,
+        selectedStory,
+      },
+    });
+    showMain();
+  } catch (ex) {
+    showException(ex);
+    // cleanup
+    if (previousComponent && previousComponent.$destroy) {
+      try {
+        previousComponent.$destroy();
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn('Failed to destroy previous component', err);
+      }
+    }
+    previousComponent = null;
+  }
+}
+
+export default function render(config) {
+  const { storyFn } = config;
+  const storyData = storyFn();
+  switch (storyData.renderer) {
+    case 'svelte3csf':
+      return renderCsf(config, storyData);
+    default:
+      return renderDefault(config, storyData);
+  }
 }
