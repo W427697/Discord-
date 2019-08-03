@@ -1502,21 +1502,7 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.2.0", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.3", "@babel/runtime@^7.4.5":
-  version "7.5.1"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.5.1.tgz#51b56e216e87103ab3f7d6040b464c538e242888"
-  integrity sha512-g+hmPKs16iewFSmW57NkH9xpPkuYD1RV3UE2BCkXx9j+nhhRb9hsiSxPmEa67j35IecTQdn4iyMtHMbt5VoREg==
-  dependencies:
-    regenerator-runtime "^0.13.2"
-
-"@babel/runtime@^7.4.4":
-  version "7.5.2"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.5.2.tgz#98f584f4d03be5d8142c77107ffaedee4d5956f1"
-  integrity sha512-9M29wrrP7//JBGX70+IrDuD1w4iOYhUGpJNMQJVNAXue+cFeFlMTqBECouIziXPUphlgrfjcfiEpGX4t0WGK4g==
-  dependencies:
-    regenerator-runtime "^0.13.2"
-
-"@babel/runtime@^7.5.0":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.2.0", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.3", "@babel/runtime@^7.4.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.0":
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.5.5.tgz#74fba56d35efbeca444091c7850ccd494fd2f132"
   integrity sha512-28QvEGyQyNkB0/m2B4FU7IEZGK2NUrcMtT6BZEFALTguLk+AUT6ofsHtPk5QyjAdUkpMJ+/Em+quwz4HOt30AQ==
@@ -6313,6 +6299,38 @@ babel-plugin-transform-inline-consecutive-adds@^0.4.3:
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-inline-consecutive-adds/-/babel-plugin-transform-inline-consecutive-adds-0.4.3.tgz#323d47a3ea63a83a7ac3c811ae8e6941faf2b0d1"
   integrity sha1-Mj1Ho+pjqDp6w8gRro5pQfrysNE=
 
+babel-plugin-transform-jsx-class@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-jsx-class/-/babel-plugin-transform-jsx-class-0.1.2.tgz#a4930d087c41f8f8c50eb74a27f7fdffe623c98b"
+  integrity sha512-+8ze9AQ/RNXc9maqGQ8KwTb8PUUj9wnMmCQPG9YUDAi1efH7zZtaPBWYWmJrJHXslkFR6CTXPK8wZpfbtCBuUw==
+
+babel-plugin-transform-jsx-condition@^0.1.0:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-jsx-condition/-/babel-plugin-transform-jsx-condition-0.1.1.tgz#9bd75fe4c5ca954fc3ae64cebb1e26655d8db1a7"
+  integrity sha512-w/XlycQP5WqqRC29OyQpqncoAp6t+V6ws9Fe+ZL1Zx+SN5XiLbvYwEP/VJvZvhmAAEU3rOv5GVyz8xjnm+mT8g==
+
+babel-plugin-transform-jsx-fragment@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-jsx-fragment/-/babel-plugin-transform-jsx-fragment-0.1.1.tgz#aa3e0bdc3f419809eaf0c6e5c41de4e658931251"
+  integrity sha512-KFBveYpPAyaCB2wqaDSz6KoLFIS1KVIKmat2T7H/fRHRvNFITfITRFIDlAf/BMF43kzMc2ohICowY2TpkqQ1Yw==
+
+babel-plugin-transform-jsx-list@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-jsx-list/-/babel-plugin-transform-jsx-list-0.1.0.tgz#0674ccf32f48e90a374c53daff644dcc20a6fa0b"
+  integrity sha512-N12Pd1CQw+xlXiBQfF61TD2M+PETzOxNDI3w2YLqhlG760/tgKUZ7hUMhaeTUdqspwnP0w7kf2DcOkZC9U+qxA==
+
+babel-plugin-transform-jsx-memo@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-jsx-memo/-/babel-plugin-transform-jsx-memo-0.1.2.tgz#8b9cb524ddf54db97627e89b69895a2e36458129"
+  integrity sha512-WNhAAhTFcxNGLjdgD8XN1gY3LIPRdIg9O4jFj3bJvJDCWcnkyxVm5tNcNJd4TVuidqVPWNcb8AC3par6ea6W7Q==
+
+babel-plugin-transform-jsx-slot@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-jsx-slot/-/babel-plugin-transform-jsx-slot-0.1.1.tgz#b36486ac5d47607ba433ba37233629f819f2d4b2"
+  integrity sha512-WelCwHG9st0hE1V7GPkieyYAElVwu/CpJqKjTNQz39Z3dPXWagTMkPeMjRtRSbfnASZQJpifk/uOYHIPj/MGmg==
+  dependencies:
+    "@babel/types" "^7.5.0"
+
 babel-plugin-transform-jsx-stylesheet@0.6.5:
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-jsx-stylesheet/-/babel-plugin-transform-jsx-stylesheet-0.6.5.tgz#ff704790a4db5a8ce36dd483f5f29f17d3ba0b7f"
@@ -6617,6 +6635,11 @@ babel-register@^6.26.0:
     lodash "^4.17.4"
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
+
+babel-runtime-jsx-plus@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/babel-runtime-jsx-plus/-/babel-runtime-jsx-plus-0.1.3.tgz#0414d4df746583e8dea4bbb3e270d7294efee34a"
+  integrity sha512-mGbMn7EmKVgM6uMSktgLQ2Ff3/4gmcHYBYrPVJU+WBdrIa1tc33RShDRKYs8Nldb/6qHqoFKErq+8xLIYOF5MA==
 
 babel-runtime@6, babel-runtime@6.26.0, babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
   version "6.26.0"
@@ -17690,7 +17713,16 @@ less-loader@4.1.0:
     loader-utils "^1.1.0"
     pify "^3.0.0"
 
-less@3.9.0, less@^3.0.4:
+less-loader@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/less-loader/-/less-loader-5.0.0.tgz#498dde3a6c6c4f887458ee9ed3f086a12ad1b466"
+  integrity sha512-bquCU89mO/yWLaUq0Clk7qCsKhsF/TZpJUzETRvJa9KSVEL9SO3ovCvdEHISBhrC81OwC8QSVX7E0bzElZj9cg==
+  dependencies:
+    clone "^2.1.1"
+    loader-utils "^1.1.0"
+    pify "^4.0.1"
+
+less@3.9.0, less@^3.0.4, less@^3.9.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/less/-/less-3.9.0.tgz#b7511c43f37cf57dc87dffd9883ec121289b1474"
   integrity sha512-31CmtPEZraNUtuUREYjSqRkeETFdyEHSEPAGq4erDlUXtda7pzNmctdljdIagSb589d/qXGWiiP31R5JVf+v0w==
@@ -22645,6 +22677,13 @@ postcss-place@^4.0.1:
     postcss "^7.0.2"
     postcss-values-parser "^2.0.0"
 
+postcss-plugin-rpx2vw@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/postcss-plugin-rpx2vw/-/postcss-plugin-rpx2vw-0.0.1.tgz#04ba18d555fc63ca29688faeed3a3d0d061c388b"
+  integrity sha512-kahaCZbhd58s10H8qt1Ae11IFa6lRctb3+CFR2VA6naud5G9L5LPT1ABwN0fo491C34jlifRt7tBZQtWdem+eA==
+  dependencies:
+    postcss "^7.0.17"
+
 postcss-preset-env@6.6.0, postcss-preset-env@^6.6.0:
   version "6.6.0"
   resolved "https://registry.yarnpkg.com/postcss-preset-env/-/postcss-preset-env-6.6.0.tgz#642e7d962e2bdc2e355db117c1eb63952690ed5b"
@@ -23846,9 +23885,9 @@ rax-pwa@^1.0.0:
     rax-server-renderer "^1.0.1"
 
 rax-scripts@^1.0.0-beta.10:
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/rax-scripts/-/rax-scripts-1.3.7.tgz#c2c880744e3c0563a3b2aad10862502951a9d8f8"
-  integrity sha512-aUob9P4rHs6XXS3J7/1JReEkprdiocRKqmOooVwXs/AlbvyekCNWz3QiHA8hFuC6/XH8fFVJRO72f5H2KVia2A==
+  version "1.3.11"
+  resolved "https://registry.yarnpkg.com/rax-scripts/-/rax-scripts-1.3.11.tgz#870ae0601e33a3c294950d86e3dc5402732aa2ab"
+  integrity sha512-bO6qUgtpcl1Rl/zB/cMUouD/G8F5lIoKYPK4AhREA5+HTDOzCa5ABxDIiHPq8bN/nFFylZmZHR1bmMeTEM7vmw==
   dependencies:
     "@babel/core" "7.2.0"
     "@babel/plugin-proposal-class-properties" "7.2.0"
@@ -23873,7 +23912,14 @@ rax-scripts@^1.0.0-beta.10:
     babel-loader "8.0.4"
     babel-merge "^3.0.0"
     babel-plugin-root-import "^6.1.0"
+    babel-plugin-transform-jsx-class "^0.1.2"
+    babel-plugin-transform-jsx-condition "^0.1.0"
+    babel-plugin-transform-jsx-fragment "^0.1.1"
+    babel-plugin-transform-jsx-list "^0.1.0"
+    babel-plugin-transform-jsx-memo "^0.1.2"
+    babel-plugin-transform-jsx-slot "^0.1.1"
     babel-plugin-transform-jsx-stylesheet "0.6.5"
+    babel-runtime-jsx-plus "^0.1.3"
     camelcase "^5.0.0"
     case-sensitive-paths-webpack-plugin "^2.1.2"
     chalk "^2.4.1"
@@ -23899,6 +23945,8 @@ rax-scripts@^1.0.0-beta.10:
     jest-cli "^24.7.1"
     jest-localstorage-mock "^2.3.0"
     jsx2mp "^0.1.0"
+    less "^3.9.0"
+    less-loader "^5.0.0"
     loader-utils "^1.1.0"
     mini-css-extract-plugin "^0.5.0"
     minimatch "^3.0.4"
@@ -23907,6 +23955,7 @@ rax-scripts@^1.0.0-beta.10:
     postcss "^7.0.17"
     postcss-import "^12.0.1"
     postcss-loader "^3.0.0"
+    postcss-plugin-rpx2vw "^0.0.1"
     postcss-preset-env "^6.6.0"
     rax-hot-loader "^0.6.5"
     rax-hot-module-replacement-webpack-plugin "^0.6.5"
@@ -23927,6 +23976,7 @@ rax-scripts@^1.0.0-beta.10:
     vinyl-source-stream "^2.0.0"
     webpack "^4.27.1"
     webpack-bundle-analyzer "^3.0.3"
+    webpack-dev-middleware "^3.7.0"
     webpack-dev-server "^3.1.11"
     webpack-hot-middleware "^2.25.0"
     webpack-merge "^4.1.5"
@@ -30528,37 +30578,7 @@ webpack@4.29.6:
     watchpack "^1.5.0"
     webpack-sources "^1.3.0"
 
-webpack@^4.27.1, webpack@^4.33.0:
-  version "4.35.2"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.35.2.tgz#5c8b8a66602cbbd6ec65c6e6747914a61c1449b1"
-  integrity sha512-TZAmorNymV4q66gAM/h90cEjG+N3627Q2MnkSgKlX/z3DlNVKUtqy57lz1WmZU2+FUZwzM+qm7cGaO95PyrX5A==
-  dependencies:
-    "@webassemblyjs/ast" "1.8.5"
-    "@webassemblyjs/helper-module-context" "1.8.5"
-    "@webassemblyjs/wasm-edit" "1.8.5"
-    "@webassemblyjs/wasm-parser" "1.8.5"
-    acorn "^6.0.5"
-    acorn-dynamic-import "^4.0.0"
-    ajv "^6.1.0"
-    ajv-keywords "^3.1.0"
-    chrome-trace-event "^1.0.0"
-    enhanced-resolve "^4.1.0"
-    eslint-scope "^4.0.0"
-    json-parse-better-errors "^1.0.2"
-    loader-runner "^2.3.0"
-    loader-utils "^1.1.0"
-    memory-fs "~0.4.1"
-    micromatch "^3.1.8"
-    mkdirp "~0.5.0"
-    neo-async "^2.5.0"
-    node-libs-browser "^2.0.0"
-    schema-utils "^1.0.0"
-    tapable "^1.1.0"
-    terser-webpack-plugin "^1.1.0"
-    watchpack "^1.5.0"
-    webpack-sources "^1.3.0"
-
-webpack@^4.38.0:
+webpack@^4.27.1, webpack@^4.33.0, webpack@^4.38.0:
   version "4.38.0"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.38.0.tgz#6d77108404b08883c78f4e7e45a43c4e5c47c931"
   integrity sha512-lbuFsVOq8PZY+1Ytz/mYOvYOo+d4IJ31hHk/7iyoeWtwN33V+5HYotSH+UIb9tq914ey0Hot7z6HugD+je3sWw==
