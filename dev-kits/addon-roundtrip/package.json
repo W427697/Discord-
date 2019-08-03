@@ -3,10 +3,10 @@
   "version": "5.2.0-beta.22",
   "description": "roundtrip addon for storybook",
   "keywords": [
-    "devkit",
     "addon",
-    "storybook",
-    "roundtrip"
+    "devkit",
+    "roundtrip",
+    "storybook"
   ],
   "homepage": "https://github.com/storybooks/storybook#readme",
   "bugs": {

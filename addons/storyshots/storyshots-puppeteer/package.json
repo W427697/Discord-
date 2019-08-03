@@ -28,11 +28,11 @@
     "jest-image-snapshot": "^2.8.2",
     "regenerator-runtime": "^0.12.1"
   },
-  "optionalDependencies": {
-    "puppeteer": "^1.12.2"
-  },
   "peerDependencies": {
     "@storybook/addon-storyshots": "5.2.0-beta.22",
+    "puppeteer": "^1.12.2"
+  },
+  "optionalDependencies": {
     "puppeteer": "^1.12.2"
   },
   "publishConfig": {

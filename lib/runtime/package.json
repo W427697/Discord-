@@ -3,11 +3,11 @@
   "version": "5.2.0-beta.22",
   "description": "Storybook runtime",
   "keywords": [
-    "storybook",
-    "runtime",
     "client",
+    "rendering",
+    "runtime",
     "stories",
-    "rendering"
+    "storybook"
   ],
   "homepage": "https://github.com/storybooks/storybook/tree/master/lib/runtime",
   "bugs": {
@@ -25,10 +25,8 @@
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
-  "dependencies": {
-  },
-  "devDependencies": {
-  },
+  "dependencies": {},
+  "devDependencies": {},
   "publishConfig": {
     "access": "public"
   },

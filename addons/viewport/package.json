@@ -33,13 +33,13 @@
     "prop-types": "^15.7.2",
     "util-deprecate": "^1.0.2"
   },
+  "devDependencies": {
+    "@types/util-deprecate": "^1.0.0"
+  },
   "peerDependencies": {
     "react": "*"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "@types/util-deprecate": "^1.0.0"
   }
 }

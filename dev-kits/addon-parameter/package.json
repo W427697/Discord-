@@ -3,10 +3,10 @@
   "version": "5.2.0-beta.22",
   "description": "parameter addon for storybook",
   "keywords": [
-    "devkit",
     "addon",
-    "storybook",
-    "parameter"
+    "devkit",
+    "parameter",
+    "storybook"
   ],
   "homepage": "https://github.com/storybookjs/storybook#readme",
   "bugs": {

@@ -4,8 +4,8 @@
   "description": "parameter addon for storybook",
   "keywords": [
     "addon",
-    "storybook",
-    "query"
+    "query",
+    "storybook"
   ],
   "homepage": "https://github.com/storybookjs/storybook#readme",
   "bugs": {
@@ -32,8 +32,8 @@
     "common-tags": "^1.8.0",
     "core-js": "^3.0.1",
     "global": "^4.0.0",
-    "react": "^16.8.3",
-    "qs": "^6.6.0"
+    "qs": "^6.6.0",
+    "react": "^16.8.3"
   },
   "devDependencies": {
     "@types/common-tags": "^1.8.0"

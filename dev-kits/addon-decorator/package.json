@@ -3,10 +3,10 @@
   "version": "5.2.0-beta.22",
   "description": "decorator addon for storybook",
   "keywords": [
-    "devkit",
     "addon",
-    "storybook",
-    "decorator"
+    "decorator",
+    "devkit",
+    "storybook"
   ],
   "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/actions",
   "bugs": {
