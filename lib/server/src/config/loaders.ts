@@ -1,3 +1,5 @@
+import { webpack } from '@storybook/transforms';
+
 const loaders = {
   babel: require.resolve('babel-loader'),
   file: require.resolve('file-loader'),
@@ -6,8 +8,8 @@ const loaders = {
   mdx: require.resolve('raw-loader'),
   css: require.resolve('css-loader'),
   style: require.resolve('style-loader'),
-  managerEntry: require.resolve('../transformer/webpack/sb-metadata-loader'),
-  previewEntry: require.resolve('../transformer/webpack/sb-runtime-loader'),
+  managerEntry: webpack.metadata,
+  previewEntry: webpack.runtime,
 };
 
 export const css = {

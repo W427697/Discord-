@@ -128,6 +128,7 @@ export const addRuntime = (framework: Framework): TraverseOptions => {
             ])
           );
         } catch (e) {
+          // eslint-disable-next-line no-console
           console.log('REMOVE DECLARATION');
           declaration.remove();
         }

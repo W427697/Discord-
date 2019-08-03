@@ -130,7 +130,9 @@ const doSomethingScopeMagic = (
 
   value.traverse({
     Identifier(p) {
+      // @ts-ignore
       if (bindings[p.node.name]) {
+        // @ts-ignore
         used[p.node.name] = bindings[p.node.name];
       }
     },
@@ -138,7 +140,9 @@ const doSomethingScopeMagic = (
 
   Object.entries(used).forEach(([k, v]) => {
     const id = combined.scope.generateUid(k);
+    // @ts-ignore
     v.scope.rename(k, id);
+    // @ts-ignore
     combined.unshiftContainer('body', v.node);
   });
 };

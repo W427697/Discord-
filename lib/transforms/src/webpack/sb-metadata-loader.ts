@@ -1,6 +1,6 @@
 import { transform, Result } from '../babel/sb-metadata-plugin';
 
-import { Loader } from '../../types/webpack';
+import { Loader } from '../types/webpack';
 
 const managerEntryloader: Loader = function managerEntryloader(source, inputSourceMap) {
   const callback = this.async();

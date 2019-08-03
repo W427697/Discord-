@@ -13,7 +13,7 @@ export const diff = (a: string, b: string) =>
     bAnnotation: 'Added',
   }).replace('Snapshot Diff', 'Transforms');
 
-const prettierConfig = require('../../../../../prettier.config');
+const prettierConfig = require('../../../../prettier.config');
 
 export const createExample = async (type: string) => {
   return createFile(require.resolve(`../__mocks__/${type}`));

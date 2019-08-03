@@ -1,7 +1,7 @@
 import { RawSourceMap } from 'source-map';
 import { transform, Result } from '../babel/sb-runtime-plugin';
 
-import { Loader } from '../../types/webpack';
+import { Loader } from '../types/webpack';
 
 const previewEntryloader: Loader = function previewEntryloader(
   source,
