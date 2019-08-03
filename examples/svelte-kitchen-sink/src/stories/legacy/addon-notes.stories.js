@@ -1,7 +1,7 @@
 import ButtonView from './views/ButtonView.svelte';
 
 export default {
-  title: 'Addon|Notes',
+  title: 'Legacy|Addon/Notes',
 };
 
 export const simpleNote = () => ({

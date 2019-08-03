@@ -1,7 +1,7 @@
 import ButtonView from './views/ButtonView.svelte';
 
 export default {
-  title: 'Button',
+  title: 'Legacy|Button',
 };
 
 export const rounded = () => ({

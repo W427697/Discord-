@@ -1,10 +1,10 @@
 import Centered from '@storybook/addon-centered/svelte';
 import { action } from '@storybook/addon-actions';
 
-import Button from '../components/Button.svelte';
+import Button from '../../components/Button.svelte';
 
 export default {
-  title: 'Addon|Centered',
+  title: 'Legacy|Addon/Centered',
   component: Button,
   decorators: [Centered],
 };

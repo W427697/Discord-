@@ -6,7 +6,7 @@
 <p>made just for the story is the simplest way to achieve this.</p>
 
 <script>
-  import Button from '../../components/Button.svelte';
+  import Button from '../../../components/Button.svelte';
 
   export let rounded = false;
   export let count = 0;

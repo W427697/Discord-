@@ -1,7 +1,7 @@
 import WelcomeView from './views/WelcomeView.svelte';
 
 export default {
-  title: 'Welcome',
+  title: 'Legacy',
 };
 
 export const Welcome = () => ({
