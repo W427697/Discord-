@@ -163,6 +163,7 @@ module.exports = {
     {
       files: [
         '**/__tests__/**',
+        '**/__mocks__/**',
         '**/*.test.*',
         '**/*.stories.*',
         '**/storyshots/**/stories/**',
@@ -173,9 +174,17 @@ module.exports = {
         'import/no-extraneous-dependencies': ignore,
       },
     },
+    {
+      files: ['**/__mocks__/**'],
+      rules: {
+        'import/no-unresolved': ignore,
+        'import/extensions': ignore,
+        'no-console': ignore,
+      },
+    },
     { files: '**/.storybook/config.js', rules: { 'global-require': ignore } },
     {
-      files: ['**/*.stories.*'],
+      files: ['**/*.stories.*', '__mocks__'],
       rules: {
         'no-console': ignore,
       },

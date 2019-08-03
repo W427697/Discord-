@@ -1,5 +1,6 @@
 import { transformFileAsync } from '@babel/core';
 import { TraverseOptions } from '@babel/traverse';
+import { parse } from '@babel/parser';
 import { format } from 'prettier';
 import fse from 'fs-extra';
 
@@ -15,7 +16,10 @@ export const diff = (a: string, b: string) =>
 const prettierConfig = require('../../../../../prettier.config');
 
 export const createExample = async (type: string) => {
-  const file = require.resolve(`../__mocks__/${type}`);
+  return createFile(require.resolve(`../__mocks__/${type}`));
+};
+
+export const createFile = async (file: string) => {
   return {
     file,
     code: formatCode(await fse.readFile(file, 'utf8')),
@@ -46,3 +50,7 @@ export const transform = async (example: string, visitor: TraverseOptions = {}) 
     ast,
     map,
   }));
+
+export const createAST = (source: string) => {
+  return parse(source, { sourceType: 'module', plugins: ['jsx'] });
+};
