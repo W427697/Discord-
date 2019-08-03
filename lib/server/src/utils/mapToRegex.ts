@@ -9,7 +9,7 @@ export const mapToRegex = (e: string | RegExp) => {
       return globToRegExp(e as string, { extended: true });
     }
     default: {
-      throw new Error('not supported');
+      throw new Error('not supported type in mapToRegex');
     }
   }
 };

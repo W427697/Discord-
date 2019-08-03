@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import findCacheDir from 'find-cache-dir';
+import { config as configTransforms } from '@storybook/transforms';
 
 import pkgDir from 'pkg-dir';
 import gitDir from 'git-root-dir';
@@ -72,13 +73,13 @@ export const getStorybookConfigPath = async () => {
 };
 
 export const splitter = async ({ file, config, cacheDir = './' }: Input): Promise<Result> => {
-  const raw = await fs.readFile(file, 'utf8');
+  const { code } = await configTransforms.collector([file]);
 
   const list: List = Object.entries(config).map(([k, v]) => {
     return {
       id: k,
       location: cacheDir ? path.join(cacheDir, getConfigFileName(k)) : getConfigFileName(k),
-      source: preshake(raw, v),
+      source: preshake(code, v),
     };
   });
 

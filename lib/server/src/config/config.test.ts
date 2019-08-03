@@ -13,17 +13,17 @@ const base: ConfigCollector = {
   output: [],
 };
 
-describe('addPresetToCollection', () => {
+describe('appendPresetToCollection', () => {
   it('should not throw on empty', () => {
     const stage0: ConfigCollector = base;
 
-    expect(() => config.addPresetToCollection(stage0, async () => ({}))).not.toThrow();
+    expect(() => config.appendPresetToCollection(stage0, async () => ({}))).not.toThrow();
   });
   it('should not add undefined', async () => {
     const stage0: ConfigCollector = base;
 
     expect(
-      await config.addPresetToCollection(stage0, async () => ({ entries: undefined }))
+      await config.appendPresetToCollection(stage0, async () => ({ entries: undefined }))
     ).toEqual({
       ...base,
       entries: [],
@@ -32,7 +32,9 @@ describe('addPresetToCollection', () => {
   it('should not mutate', async () => {
     const stage0: ConfigCollector = base;
 
-    const result = await config.addPresetToCollection(stage0, async () => ({ entries: ['foo'] }));
+    const result = await config.appendPresetToCollection(stage0, async () => ({
+      entries: ['foo'],
+    }));
 
     expect(base.entries).toEqual([]);
     expect(result.entries).toEqual([['foo']]);
@@ -40,12 +42,14 @@ describe('addPresetToCollection', () => {
   it('empty should stay empty', async () => {
     const stage0: ConfigCollector = base;
 
-    expect(await config.addPresetToCollection(stage0, async () => ({}))).toEqual(base);
+    expect(await config.appendPresetToCollection(stage0, async () => ({}))).toEqual(base);
   });
   it('add things to the collection - array', async () => {
     const stage0: ConfigCollector = base;
 
-    expect(await config.addPresetToCollection(stage0, async () => ({ entries: ['foo'] }))).toEqual({
+    expect(
+      await config.appendPresetToCollection(stage0, async () => ({ entries: ['foo'] }))
+    ).toEqual({
       ...base,
       entries: [['foo']],
     });
@@ -54,7 +58,7 @@ describe('addPresetToCollection', () => {
     const stage0: ConfigCollector = base;
 
     expect(
-      await config.addPresetToCollection(stage0, async () => ({ entries: ['foo', 'bar'] }))
+      await config.appendPresetToCollection(stage0, async () => ({ entries: ['foo', 'bar'] }))
     ).toEqual({
       ...base,
       entries: [['foo', 'bar']],
@@ -62,10 +66,12 @@ describe('addPresetToCollection', () => {
   });
   it('add things to the collection - over multiple presets', async () => {
     const stage0: ConfigCollector = base;
-    const stage1 = await config.addPresetToCollection(stage0, async () => ({
+    const stage1 = await config.appendPresetToCollection(stage0, async () => ({
       entries: ['foo', 'bar'],
     }));
-    const stage2 = await config.addPresetToCollection(stage1, async () => ({ entries: ['baz'] }));
+    const stage2 = await config.appendPresetToCollection(stage1, async () => ({
+      entries: ['baz'],
+    }));
 
     expect(stage2).toEqual({
       ...base,
@@ -74,10 +80,12 @@ describe('addPresetToCollection', () => {
   });
   it('add multiple things to the collection - over multiple presets', async () => {
     const stage0: ConfigCollector = base;
-    const stage1 = await config.addPresetToCollection(stage0, async () => ({
+    const stage1 = await config.appendPresetToCollection(stage0, async () => ({
       entries: ['foo', 'bar'],
     }));
-    const stage2 = await config.addPresetToCollection(stage1, async () => ({ entries: ['baz'] }));
+    const stage2 = await config.appendPresetToCollection(stage1, async () => ({
+      entries: ['baz'],
+    }));
 
     expect(stage2).toEqual({
       ...base,
@@ -86,7 +94,7 @@ describe('addPresetToCollection', () => {
   });
   it('add additionals', async () => {
     const stage0: ConfigCollector = base;
-    const stage1 = await config.addPresetToCollection(
+    const stage1 = await config.appendPresetToCollection(
       stage0,
       async () => ({
         entries: ['foo', 'bar'],
@@ -105,7 +113,7 @@ describe('addPresetToCollection', () => {
   });
   it('add additionals 2', async () => {
     const stage0: ConfigCollector = base;
-    const stage1 = await config.addPresetToCollection(
+    const stage1 = await config.appendPresetToCollection(
       stage0,
       async () => ({
         entries: ['foo', 'bar'],
@@ -127,7 +135,7 @@ describe('addPresetToCollection', () => {
   });
   it('add additionals 3', async () => {
     const stage0: ConfigCollector = base;
-    const stage1 = await config.addPresetToCollection(
+    const stage1 = await config.appendPresetToCollection(
       stage0,
       async () => ({
         entries: ['foo', 'bar'],
@@ -149,16 +157,16 @@ describe('addPresetToCollection', () => {
   });
 });
 
-describe('addPropertyToCollector', () => {
+describe('appendPropertyToCollector', () => {
   it('should not throw on empty', () => {
     const stage0: ConfigCollector = base;
 
-    expect(() => config.addPropertyToCollector(stage0, ['entries', undefined])).not.toThrow();
+    expect(() => config.appendPropertyToCollector(stage0, ['entries', undefined])).not.toThrow();
   });
   it('should not mutate', () => {
     const stage0: ConfigCollector = base;
 
-    const result = config.addPropertyToCollector(stage0, ['entries', ['foo']]);
+    const result = config.appendPropertyToCollector(stage0, ['entries', ['foo']]);
 
     expect(stage0.entries).toEqual([]);
     expect(result.entries).toEqual([['foo']]);
@@ -166,7 +174,7 @@ describe('addPropertyToCollector', () => {
   it('should merge in property', () => {
     const stage0: ConfigCollector = base;
 
-    expect(config.addPropertyToCollector(stage0, ['entries', ['baz']])).toEqual({
+    expect(config.appendPropertyToCollector(stage0, ['entries', ['baz']])).toEqual({
       ...base,
       entries: [['baz']],
     });
@@ -174,7 +182,7 @@ describe('addPropertyToCollector', () => {
   it('should merge in property 2', () => {
     const stage0: ConfigCollector = base;
 
-    expect(config.addPropertyToCollector(stage0, ['entries', ['baz', 'x']])).toEqual({
+    expect(config.appendPropertyToCollector(stage0, ['entries', ['baz', 'x']])).toEqual({
       ...base,
       entries: [['baz', 'x']],
     });

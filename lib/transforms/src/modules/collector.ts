@@ -201,28 +201,28 @@ const addToCombined = (combined: NodePath<t.Program>) => (
   return combined;
 };
 
-const createCombinated = (): { ast: t.File; combinated: NodePath<t.Program> | undefined } => {
-  let combinated;
+const createCombinated = (): { ast: t.File; collected: NodePath<t.Program> | undefined } => {
+  let collected;
   const ast = createAST('');
 
   traverse(ast, {
     Program: {
       enter(p) {
-        combinated = p;
+        collected = p;
       },
     },
   });
 
-  return { ast, combinated };
+  return { ast, collected };
 };
 
 function onlyUnique(value: unknown, index: unknown, self: unknown[]) {
   return self.indexOf(value) === index;
 }
 
-export const combininator = async (files: string[]) => {
-  const { combinated, ast } = createCombinated();
-  const add = addToCombined(combinated);
+export const collector = async (files: string[]) => {
+  const { collected, ast } = createCombinated();
+  const add = addToCombined(collected);
 
   files.filter(onlyUnique).forEach(f =>
     transformFileSync(f, {
@@ -230,6 +230,7 @@ export const combininator = async (files: string[]) => {
       retainLines: true,
       compact: false,
       plugins: [
+        '@babel/plugin-syntax-dynamic-import',
         function removeSubConfigRefsPlugin() {
           return { visitor: removeSubConfigRefs() };
         },

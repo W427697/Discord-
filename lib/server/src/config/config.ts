@@ -37,7 +37,7 @@ export async function getProperties(preset: PresetFn | PresetRef | Preset): Prom
   }
 }
 
-export function addPropertyToCollector<K extends keyof ConfigCollector>(
+export function appendPropertyToCollector<K extends keyof ConfigCollector>(
   collector: ConfigCollector,
   [key, value]: [K, PresetProperties[K]]
 ): ConfigCollector {
@@ -48,15 +48,26 @@ export function addPropertyToCollector<K extends keyof ConfigCollector>(
   }
   return collector;
 }
+export function prependPropertyToCollector<K extends keyof ConfigCollector>(
+  collector: ConfigCollector,
+  [key, value]: [K, PresetProperties[K]]
+): ConfigCollector {
+  if (value && key) {
+    const list = [value, ...(collector[key] || [])];
 
-export async function addPresetToCollection(
+    return Object.assign({}, collector, { [key]: list });
+  }
+  return collector;
+}
+
+export async function appendPresetToCollection(
   collector: ConfigCollector,
   preset: PresetFn | PresetRef | Preset,
   additional?: (PresetFn | PresetRef | Preset)[]
 ): Promise<ConfigCollector> {
   const { presets, addons, ...m } = await getProperties(preset);
 
-  const c = Object.entries(m).reduce(addPropertyToCollector, collector);
+  const c = Object.entries(m).reduce(appendPropertyToCollector, collector);
 
   return []
     .concat(presets || [])
@@ -67,7 +78,28 @@ export async function addPresetToCollection(
       const acc = await pacc;
 
       // RECURSION
-      return addPresetToCollection(acc, i);
+      return appendPresetToCollection(acc, i);
+    }, Promise.resolve(c));
+}
+export async function prependPresetToCollection(
+  collector: ConfigCollector,
+  preset: PresetFn | PresetRef | Preset,
+  additional?: (PresetFn | PresetRef | Preset)[]
+): Promise<ConfigCollector> {
+  const { presets, addons, ...m } = await getProperties(preset);
+
+  const c = Object.entries(m).reduce(appendPropertyToCollector, collector);
+
+  return []
+    .concat(presets || [])
+    .concat(addons || [])
+    .concat(additional || [])
+    .filter(Boolean)
+    .reduce(async (pacc: Promise<ConfigCollector>, i: PresetFn | PresetRef | Preset) => {
+      const acc = await pacc;
+
+      // RECURSION
+      return prependPresetToCollection(acc, i);
     }, Promise.resolve(c));
 }
 
@@ -157,18 +189,9 @@ export function getConfig(
   const config: Config = new Proxy(cache, {
     get: async (target, prop: keyof Config) => {
       if (!initialized) {
-        collector = {
-          entries: [],
-          logLevel: [],
-          template: [],
-          managerTemplate: [],
-          webpack: [],
-          managerWebpack: [],
-          server: [],
-          output: [],
-        };
-        collector = await addPresetToCollection(collector, defaults as Preset);
-        collector = await addPresetToCollection(collector, configFile, [
+        collector = await import(configFile);
+        collector = await prependPresetToCollection(collector, defaults as Preset);
+        collector = await appendPresetToCollection(collector, {}, [
           createCallPreset(callOptions),
           createCliPreset(cliOptions),
           ...extraPresets,
