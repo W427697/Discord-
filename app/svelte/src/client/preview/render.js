@@ -1,5 +1,6 @@
 import { document } from 'global';
 import { stripIndents } from 'common-tags';
+import { logger } from '@storybook/client-logger';
 
 import Preview from '../components/Preview.svelte';
 
@@ -12,8 +13,7 @@ function cleanUpPreviousStory() {
   try {
     previousComponent.$destroy();
   } catch (err) {
-    // eslint-disable-next-line no-console
-    console.warn('Failed to destroy previous component', err);
+    logger.warn('Failed to destroy previous component', err);
   }
   previousComponent = null;
 }
