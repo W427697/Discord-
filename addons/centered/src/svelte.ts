@@ -19,8 +19,31 @@ const centeredStyles = {
  * @see https://svelte.technology/guide#svelte-component
  */
 export default function(storyFn: () => any) {
-  const { Component: OriginalComponent, props, on } = storyFn();
-
+  const story = storyFn();
+  const isSvelteComponent = typeof story === 'function';
+  if (isSvelteComponent) {
+    // FIXME eval is needed to prevent tsc from transpiling the class definition
+    // into a ES5 function, which would break beause the Svelte component remains
+    // an ES2015 class... need to find the right babel config to transpile Svelte
+    // component classes too, to fix this problem
+    const StoryPreview = storyFn();
+    const C = Centered;
+    return eval(`(
+      class CenteredStory extends C {
+        constructor(config) {
+          super({
+            ...config,
+            props: {
+              ...(config && config.props),
+              ...centeredStyles,
+              Child: StoryPreview,
+            }
+          })
+        }
+      }
+    )`);
+  }
+  const { Component: OriginalComponent, props, on } = story;
   return {
     Component: OriginalComponent,
     props,
