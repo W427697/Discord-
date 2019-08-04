@@ -9,8 +9,12 @@ function cleanUpPreviousStory() {
   if (!previousComponent) {
     return;
   }
-
-  previousComponent.$destroy();
+  try {
+    previousComponent.$destroy();
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn('Failed to destroy previous component', err);
+  }
   previousComponent = null;
 }
 
@@ -44,6 +48,7 @@ function mountView({ Component, target, props, on, Wrapper, WrapperData }) {
 }
 
 function renderDefault(
+  story,
   {
     // storyFn,
     selectedKind,
@@ -51,8 +56,11 @@ function renderDefault(
     showMain,
     showError,
     // showException,
-  },
-  {
+  }
+) {
+  cleanUpPreviousStory();
+
+  const {
     /** @type {SvelteComponent} */
     Component,
     /** @type {any} */
@@ -61,9 +69,8 @@ function renderDefault(
     on,
     Wrapper,
     WrapperData,
-  }
-) {
-  cleanUpPreviousStory();
+  } = story;
+
   const DefaultCompatComponent = Component ? Component.default || Component : undefined;
   const DefaultCompatWrapper = Wrapper ? Wrapper.default || Wrapper : undefined;
 
@@ -97,50 +104,28 @@ function renderDefault(
 }
 
 function renderCsf(
-  { selectedKind, selectedStory, showMain, showError, showException },
-  { Stories }
+  StoryPreview,
+  { selectedKind, selectedStory, showMain, showError, showException }
 ) {
-  if (previousComponent) {
-    previousComponent.$destroy();
-    previousComponent = null;
-  }
+  cleanUpPreviousStory();
 
   const target = document.getElementById('root');
 
   target.innerHTML = '';
 
   try {
-    previousComponent = new Preview({
-      target,
-      props: {
-        Stories,
-        selectedKind,
-        selectedStory,
-      },
-    });
+    previousComponent = new StoryPreview({ target });
     showMain();
   } catch (ex) {
     showException(ex);
     // cleanup
-    if (previousComponent && previousComponent.$destroy) {
-      try {
-        previousComponent.$destroy();
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.warn('Failed to destroy previous component', err);
-      }
-    }
-    previousComponent = null;
+    cleanUpPreviousStory();
   }
 }
 
 export default function render(config) {
-  const { storyFn } = config;
-  const storyData = storyFn();
-  switch (storyData.renderer) {
-    case 'svelte3csf':
-      return renderCsf(config, storyData);
-    default:
-      return renderDefault(config, storyData);
-  }
+  const story = config.storyFn();
+  const isSvelteComponent = typeof story === 'function';
+  const renderer = isSvelteComponent ? renderCsf : renderDefault;
+  return renderer(story, config);
 }
