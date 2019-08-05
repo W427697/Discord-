@@ -2,8 +2,6 @@ import { document } from 'global';
 import { stripIndents } from 'common-tags';
 import { logger } from '@storybook/client-logger';
 
-import Preview from '../components/Preview.svelte';
-
 let previousComponent = null;
 
 function cleanUpPreviousStory() {
