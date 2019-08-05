@@ -21,8 +21,8 @@ function transform({ code, map }) {
   };
 }
 
-function svelteStoriesLoader(source, map) {
-  const transformed = transform({ source, map });
+function svelteStoriesLoader(code, map) {
+  const transformed = transform({ code, map });
   this.callback(null, transformed.code, transformed.map);
 }
 
