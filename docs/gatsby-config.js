@@ -22,6 +22,7 @@ module.exports = {
         '/guides/guide-vue/',
         '/guides/guide-angular/',
         '/guides/guide-mithril/',
+        '/guides/guide-marko/',
         '/guides/guide-ember/',
         '/guides/guide-riot/',
         '/guides/guide-svelte/',
@@ -33,6 +34,7 @@ module.exports = {
         '/configurations/custom-babel-config/',
         '/configurations/typescript-config/',
         '/configurations/add-custom-head-tags/',
+        '/configurations/add-custom-body/',
         '/configurations/serving-static-files/',
         '/configurations/env-vars/',
         '/configurations/theming/',
@@ -40,9 +42,9 @@ module.exports = {
         '/configurations/standalone-options/',
       ],
       formats: [
-        '/formats/module-story-format/',
-        '/formats/storiesof-story-format/',
-        '/formats/mdx-story-format/',
+        '/formats/component-story-format/',
+        '/formats/storiesof-api/',
+        '/formats/mdx-syntax/',
       ],
       testing: [
         '/testing/react-ui-testing/',
