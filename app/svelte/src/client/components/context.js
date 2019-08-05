@@ -1,7 +1,7 @@
 import { getContext, setContext } from 'svelte';
 
-const REGISTER = {};
-const RENDER = {};
+const REGISTER = '__STORYBOOK_register';
+const RENDER = '__STORYBOOK_render';
 
 export const setRegister = value => setContext(REGISTER, value);
 

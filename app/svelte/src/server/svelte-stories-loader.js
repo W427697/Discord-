@@ -11,9 +11,21 @@ const post = `
 }
 `;
 
-function svelteStoriesLoader(source, map) {
-  const transformedSource = source + post;
-  this.callback(null, transformedSource, map);
+// intermediate transform function, guaranteed to be synchronous: used in
+// svelte transform for jest storyshots
+function transform({ code, map }) {
+  const transformedCode = code + post;
+  return {
+    code: transformedCode,
+    map,
+  };
 }
 
-module.exports = svelteStoriesLoader;
+function svelteStoriesLoader(source, map) {
+  const transformed = transform({ source, map });
+  this.callback(null, transformed.code, transformed.map);
+}
+
+module.exports = Object.assign(svelteStoriesLoader, {
+  transform,
+});
