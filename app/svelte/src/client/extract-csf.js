@@ -46,27 +46,19 @@ export default xports => {
     },
     addStory: story => {
       const { name } = story;
-      const P = Preview;
-      // FIXME The eval is needed because otherwise babel will transpile the ES2015
-      // syntax to a function that cannot extends from the Svelte component class,
-      // because this one will remain ES2015...
-      //
-      // eslint-disable-next-line no-eval
-      const StoryPreview = eval(`(
-        class StoryPreview extends P {
-          constructor(options) {
-            super({
-              ...options,
-              props: {
-                ...(options && options.props),
-                Stories,
-                selectedKind: result.default.title,
-                selectedStory: name,
-              },
-            });
-          }
+      class StoryPreview extends Preview {
+        constructor(options) {
+          super({
+            ...options,
+            props: {
+              ...(options && options.props),
+              Stories,
+              selectedKind: result.default.title,
+              selectedStory: name,
+            },
+          });
         }
-      )`);
+      }
       const storyFn = () => StoryPreview;
       storyFn.story = story;
       const prop = name === 'default' ? defaultStoryName(xports) : name;
