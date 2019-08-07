@@ -1,4 +1,5 @@
 import { collector } from './modules/collector';
+import { filter } from './modules/filter';
 
 export const webpack = {
   metadata: require.resolve('./webpack/sb-metadata-loader'),
@@ -12,4 +13,5 @@ export const babel = {
 
 export const config = {
   collector,
+  filter,
 };

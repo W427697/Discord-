@@ -1,6 +1,7 @@
 import path from 'path';
 import { create } from '@storybook/theming';
 
+// @ts-ignore
 export const entries = [];
 export const preview = {};
 export const manager = {};

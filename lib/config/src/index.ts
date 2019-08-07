@@ -1,127 +1,66 @@
 import path from 'path';
 import fs from 'fs-extra';
-import findCacheDir from 'find-cache-dir';
 import { config as configTransforms } from '@storybook/transforms';
 
-import pkgDir from 'pkg-dir';
-import gitDir from 'git-root-dir';
+import { getStorybookConfigPath, getCacheDir, getConfigFileName, getCoreDir } from './paths';
+import { Config, ConfigFiles } from './types';
 
-import { preshake } from './preshake';
-import { treeshake } from './treeshake';
+const write = async (location: string, name: string, content: string) => {
+  const p = path.join(location, getConfigFileName(name));
+  await fs.outputFile(p, content);
 
-const getConfigFileName = (base: string) => `${base}.config.js`;
-interface Indentifyable {
-  id: string;
-}
-
-interface Data {
-  location: string;
-  source: string;
-}
-
-type Item = Indentifyable & Data;
-type List = Item[];
-type FileName = string;
-
-interface Config {
-  [id: string]: string[];
-}
-interface Input {
-  file: FileName;
-  config: Config;
-  cacheDir: string | undefined | null;
-}
-
-interface Result {
-  [id: string]: Data;
-}
-
-export const getConfigPath = async (fileName: FileName): Promise<string> => {
-  const locations = [
-    async () => process.cwd(), // user's current working directory
-    async () => '.', //
-    pkgDir, // look up to where package.json is, and use that directory
-    gitDir, // look up to where .git is and use that directory
-  ];
-
-  const fullPath = await locations.reduce(
-    async (acc: Promise<string>, l: () => Promise<string>): Promise<string> => {
-      const prevResult = await acc;
-      if (prevResult) {
-        return prevResult;
-      }
-      const location = await l();
-      const p = path.join(location, fileName);
-      const result = (await fs.pathExists(p)) ? p : prevResult;
-      return result;
-    },
-    Promise.resolve('')
-  );
-
-  // if empty string, return undefined
-  return fullPath || undefined;
+  return p;
 };
 
-export const getCacheDir = () => findCacheDir({ name: 'storybook' });
-
-export const getCoreDir = () =>
-  path.join(path.dirname(require.resolve('@storybook/core/package.json')), 'dist');
-
-export const getStorybookConfigPath = async () => {
-  const configFileName: FileName = 'storybook.config.js';
-  return getConfigPath(configFileName);
+const createFilter = (cacheDir: string, baseFileUrl: string) => async ([name, targets]: [
+  string,
+  string[]
+]) => {
+  const { code } = await configTransforms.filter(baseFileUrl, targets);
+  return write(cacheDir, name, code);
 };
 
-export const splitter = async ({ file, config, cacheDir = './' }: Input): Promise<Result> => {
-  const { code } = await configTransforms.collector([file]);
-
-  const list: List = Object.entries(config).map(([k, v]) => {
-    return {
-      id: k,
-      location: cacheDir ? path.join(cacheDir, getConfigFileName(k)) : getConfigFileName(k),
-      source: preshake(code, v),
-    };
-  });
-
-  const result: List = await Promise.all(
-    list.map(({ id, location, source }) =>
-      treeshake(location, source, cacheDir).then(chunks => {
-        return {
-          id,
-          location,
-          source: chunks.find(c => c.fileName === getConfigFileName(id)).code,
-        };
-      })
-    )
-  );
-
-  return result.reduce((acc, { id, ...rest }) => {
-    return { ...acc, [id]: rest };
-  }, {});
+const defaults = {
+  manager: ['theme', 'managerInit'],
+  preview: ['previewInit'],
+  server: ['server', 'entries', 'webpack', 'babel', 'managerWebpack', 'managerBabel'],
 };
 
-export const getStorybookConfigs = async () => {
+export const getStorybookConfigs = async (configs: Config = {}) => {
   const file = await getStorybookConfigPath();
+  const cacheDir = getCacheDir();
 
   if (file) {
-    const cacheDir = getCacheDir();
+    const { code } = await configTransforms.collector([file]);
 
-    const config = {
-      manager: ['theme', 'managerInit'],
-      preview: ['previewInit'],
-      node: [
-        'presets',
-        'server',
-        'addons',
-        'entries',
-        'webpack',
-        'babel',
-        'managerWebpack',
-        'managerBabel',
-      ],
-    };
+    const baseUrl = await write(cacheDir, 'all', code);
 
-    return splitter({ file, config, cacheDir });
+    const filter = createFilter(cacheDir, baseUrl);
+
+    const config: Config = Object.assign({}, configs, {
+      manager: [...defaults.manager, ...(configs.manager || [])],
+      preview: [...defaults.preview, ...(configs.preview || [])],
+      server: [...defaults.server, ...(configs.server || [])],
+    });
+
+    return (await Promise.all(Object.entries(config).map(filter))).reduce<ConfigFiles>(
+      (acc, location: string, index: number) => {
+        const [key, list] = Object.entries(config)[index];
+        return {
+          ...acc,
+          [key]: {
+            id: key,
+            list,
+            location,
+          },
+        };
+      },
+      {}
+    );
   }
   return undefined;
 };
+
+export { getCacheDir, getStorybookConfigPath, getConfigFileName, getCoreDir };
+
+export { ConfigFiles };

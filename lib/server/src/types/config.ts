@@ -1,17 +1,11 @@
+import { ConfigFiles } from '@storybook/config';
+
 import { LogLevels } from './cli';
 import { WebpackConfig } from './webpack';
 import { ServerConfig } from './server';
 
-export interface ConfigFile {
-  source: string;
-  location: string;
-}
-export interface ConfigFiles {
-  node: ConfigFile;
-  manager: ConfigFile;
-  preview: ConfigFile;
-}
-export type ConfigTypes = keyof ConfigFiles;
+export type ConfigTypes = string;
+export { ConfigFiles };
 
 export interface OutputConfig {
   location?: string;

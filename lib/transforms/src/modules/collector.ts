@@ -224,6 +224,7 @@ export const collector = async (files: string[]) => {
   const { collected, ast } = createCombinated();
   const add = addToCombined(collected);
 
+  // TODO: refactor to async
   files.filter(onlyUnique).forEach(f =>
     transformFileSync(f, {
       configFile: false,
@@ -234,7 +235,7 @@ export const collector = async (files: string[]) => {
         function removeSubConfigRefsPlugin() {
           return { visitor: removeSubConfigRefs() };
         },
-        function removeSubConfigRefsPlugin() {
+        function collectorPlugin() {
           const visitor: TraverseOptions = {
             ExportNamedDeclaration(p) {
               add(p);

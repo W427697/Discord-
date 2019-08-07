@@ -100,7 +100,7 @@ const commands = {
     reportProgress({ message: 'loading config', progress: 1 });
     const config = getConfig(
       {
-        configFile: configFiles.node.location,
+        configFile: configFiles.server.location,
         cliOptions,
         callOptions,
         envOptions,

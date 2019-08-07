@@ -32,11 +32,16 @@
     "@types/git-root-dir": "^1.0.0",
     "@typescript-eslint/typescript-estree": "^1.6.0",
     "astring": "^1.4.0",
+    "del": "^5.0.0",
     "esm": "^3.2.22",
     "find-cache-dir": "^3.0.0",
     "fs-extra": "^8.0.1",
+    "fs-monkey": "^0.3.3",
     "git-root-dir": "^1.0.2",
+    "memfs": "^2.15.5",
+    "metro-memory-fs": "^0.55.0",
     "pkg-dir": "^4.2.0",
+    "pkg-up": "^3.1.0",
     "prepack": "^0.2.54",
     "recast": "^0.17.5",
     "rollup": "^1.15.6",
@@ -48,7 +53,8 @@
     "rollup-plugin-replace": "^2.1.1",
     "rollup-plugin-typescript": "^1.0.1",
     "rollup-plugin-typescript2": "^0.21.2",
-    "rollup-pluginutils": "^2.8.1"
+    "rollup-pluginutils": "^2.8.1",
+    "unionfs": "^4.2.0"
   },
   "publishConfig": {
     "access": "public"
