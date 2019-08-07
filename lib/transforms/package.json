@@ -22,11 +22,11 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/generator": "^7.4.4",
-    "@babel/parser": "^7.4.5",
-    "@babel/traverse": "^7.4.5",
-    "@babel/types": "^7.4.4",
+    "@babel/core": "^7.5.5",
+    "@babel/generator": "^7.5.4",
+    "@babel/parser": "^7.5.5",
+    "@babel/traverse": "^7.5.5",
+    "@babel/types": "^7.5.5",
     "@storybook/node-logger": "5.2.0-beta.24",
     "@types/enhanced-resolve": "^3.0.6",
     "@types/glob-to-regexp": "^0.4.0",
