@@ -12,15 +12,14 @@ export enum StoryError {
 interface CommonProps {
   title: string;
   height?: string;
+  id: string;
 }
 
 type InlineStoryProps = {
   storyFn: () => React.ElementType;
 } & CommonProps;
 
-type IFrameStoryProps = {
-  id: string;
-} & CommonProps;
+type IFrameStoryProps = CommonProps;
 
 type ErrorProps = {
   error?: StoryError;
@@ -31,8 +30,10 @@ export type StoryProps = (InlineStoryProps | IFrameStoryProps | ErrorProps) & {
   inline: boolean;
 };
 
-const InlineStory: React.FunctionComponent<InlineStoryProps> = ({ storyFn, height }) => (
-  <div style={{ height }}>{storyFn()}</div>
+const InlineStory: React.FunctionComponent<InlineStoryProps> = ({ id, storyFn, height }) => (
+  <div id={`story---${id}`} style={{ height }}>
+    {storyFn()}
+  </div>
 );
 
 const IFrameStory: React.FunctionComponent<IFrameStoryProps> = ({
@@ -40,7 +41,7 @@ const IFrameStory: React.FunctionComponent<IFrameStoryProps> = ({
   title,
   height = '500px',
 }) => (
-  <div style={{ width: '100%', height }}>
+  <div id={`story---${id}`} style={{ width: '100%', height }}>
     <IFrame
       key="iframe"
       id={`storybook-Story-${id}`}
@@ -71,7 +72,7 @@ const Story: React.FunctionComponent<StoryProps> = props => {
     return <EmptyBlock>{error}</EmptyBlock>;
   }
   return inline ? (
-    <InlineStory storyFn={storyFn} title={title} height={height} />
+    <InlineStory id={id} storyFn={storyFn} title={title} height={height} />
   ) : (
     <IFrameStory id={id} title={title} height={height} />
   );
