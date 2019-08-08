@@ -1,0 +1,51 @@
+{
+  "name": "@storybook/lit-element",
+  "version": "5.2.0-beta.25",
+  "description": "Storybook for LitElement: Develop LitElement components in isolation with Hot Reloading.",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/master/app/lit-element",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "app/lit-element"
+  },
+  "license": "MIT",
+  "main": "dist/client/index.js",
+  "types": "dist/client/index.d.ts",
+  "bin": {
+    "build-storybook": "./bin/build.js",
+    "start-storybook": "./bin/index.js",
+    "storybook-server": "./bin/index.js"
+  },
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/addons": "5.2.0-beta.25",
+    "@storybook/core": "5.2.0-beta.25",
+    "common-tags": "^1.8.0",
+    "core-js": "^3.0.1",
+    "global": "^4.3.2",
+    "html-loader": "^0.5.5",
+    "regenerator-runtime": "^0.12.1",
+    "webpack": "^4.33.0"
+  },
+  "devDependencies": {
+    "lit-element": "^2.2.1"
+  },
+  "peerDependencies": {
+    "babel-loader": "^7.0.0 || ^8.0.0",
+    "lit-element": "^2.2.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
