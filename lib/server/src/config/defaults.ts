@@ -69,7 +69,7 @@ export const managerWebpack: WebpackConfigMerger = async (_, config): Promise<We
     plugins: [
       new HtmlWebpackPlugin({
         filename: `index.html`,
-        chunksSortMode: 'none',
+        chunksSortMode: () => 0,
         alwaysWriteToDisk: true,
         inject: false,
         templateParameters: (compilation, files, templateOptions) => ({
@@ -151,7 +151,7 @@ export const webpack: WebpackConfigMerger = async (_, config): Promise<WebpackCo
     plugins: [
       new HtmlWebpackPlugin({
         filename: `iframe.html`,
-        chunksSortMode: 'none',
+        chunksSortMode: () => 0,
         alwaysWriteToDisk: true,
         inject: false,
         templateParameters: (compilation, files, templateOptions) => ({

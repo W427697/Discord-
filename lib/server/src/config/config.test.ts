@@ -354,7 +354,7 @@ describe('apply', () => {
         await config.apply<any>(list, c);
       };
 
-      expect(fn()).rejects.toEqual(new Error('BAD'));
+      await expect(fn()).rejects.toEqual(new Error('BAD'));
     });
     it('handles an async rejecting merger function', async () => {
       const list: any[] = [() => Promise.reject(new Error('BAD'))];
@@ -364,7 +364,7 @@ describe('apply', () => {
         await config.apply<any>(list, c);
       };
 
-      expect(fn()).rejects.toEqual(new Error('BAD'));
+      await expect(fn()).rejects.toEqual(new Error('BAD'));
     });
   });
 
