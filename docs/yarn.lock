@@ -279,6 +279,13 @@
   dependencies:
     "@ndhoule/map" "^2.0.1"
 
+"@storybook/client-logger@5.2.0-beta.24":
+  version "5.2.0-beta.24"
+  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.2.0-beta.24.tgz#943a0d94a8c939f937151539e7a93cca0cc867de"
+  integrity sha512-cgZP4taJwIdSJiI6Isz/qhLUkObt8b1j8GBcoe/ipM5J1QGa1DwNEYIBV/mlTlyJjT/9buj/x/zKyeuZMzyTqg==
+  dependencies:
+    core-js "^3.0.1"
+
 "@storybook/client-logger@5.2.0-beta.7":
   version "5.2.0-beta.7"
   resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.2.0-beta.7.tgz#6d503b9c01fd0b430b1d72ed67ee1eeb63115cac"
@@ -309,6 +316,24 @@
     react-syntax-highlighter "^8.0.1"
     react-textarea-autosize "^7.1.0"
     simplebar-react "^1.0.0-alpha.6"
+
+"@storybook/theming@5.2.0-beta.24":
+  version "5.2.0-beta.24"
+  resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-5.2.0-beta.24.tgz#7d4b40d82a385cf8201522a38054ef4d62c6cc5c"
+  integrity sha512-E4OFrMgnwYT7ARL56NRuf6/7ttiau71hWmVLek/aMNhOCVKfr13iYLWchih4gx4yv+qVyVyt2+fshpP/GGuzHA==
+  dependencies:
+    "@emotion/core" "^10.0.14"
+    "@emotion/styled" "^10.0.14"
+    "@storybook/client-logger" "5.2.0-beta.24"
+    common-tags "^1.8.0"
+    core-js "^3.0.1"
+    deep-object-diff "^1.1.0"
+    emotion-theming "^10.0.14"
+    global "^4.3.2"
+    memoizerific "^1.11.3"
+    polished "^3.3.1"
+    prop-types "^15.7.2"
+    resolve-from "^5.0.0"
 
 "@storybook/theming@5.2.0-beta.7":
   version "5.2.0-beta.7"
