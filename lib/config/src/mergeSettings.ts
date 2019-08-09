@@ -1,6 +1,6 @@
-import { Config } from './types';
+import { Config } from './types/files';
 
-export const merge = (a: Config, b: Config = {}): Config =>
+export const mergeSettings = (a: Config, b: Config = {}): Config =>
   Object.assign(
     {},
     a,

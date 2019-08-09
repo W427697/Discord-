@@ -3,11 +3,9 @@ import webpackMerge from 'webpack-merge';
 import { WebpackPluginServe } from 'webpack-plugin-serve';
 import WebpackBar, { Reporter } from 'webpackbar';
 import killPort from 'kill-port';
-import globToRegexp from 'glob-to-regexp';
 
-import { create } from './entrypointsPlugin';
+import { Preset, PresetMergeAsyncFn } from '@storybook/config/create';
 
-import { Preset, Config } from '../types/config';
 import { WebpackConfig } from '../types/webpack';
 import { ConfigPrefix } from '../types/cli';
 
@@ -33,28 +31,10 @@ const ensureEntryIsObject = async (
   return r;
 };
 
-const storybookEntryPreset: Preset = {
-  managerWebpack: async (base, config) => {
-    const { plugin, entries } = create(await config.entries, {});
-
-    const rule = {
-      use: require.resolve('../manager/webpack-loader'),
-      test: (await config.entries).map(i => globToRegexp(i)),
-    };
-
-    const entry = await entries();
-
-    return webpackMerge(base, {
-      entry,
-      module: {
-        rules: [rule],
-      },
-      plugins: [plugin],
-    });
-  },
-};
-
-const addServePlugin = (type: ConfigPrefix) => async (base: WebpackConfig, config: Config) => {
+const addServePlugin = (type: ConfigPrefix): PresetMergeAsyncFn<WebpackConfig> => async (
+  base,
+  config
+) => {
   const { host, devPorts } = await config.server;
   const port = devPorts[type];
 
@@ -91,9 +71,10 @@ const webpackServePreset: Preset = {
   webpack: addServePlugin('preview'),
 };
 
-const addReporterPlugin = (type: ConfigPrefix, reporter: Reporter) => async (
-  base: WebpackConfig
-) => {
+const addReporterPlugin = (
+  type: ConfigPrefix,
+  reporter: Reporter
+): PresetMergeAsyncFn<WebpackConfig> => async base => {
   return webpackMerge(base, {
     plugins: [
       new WebpackBar({
@@ -113,9 +94,4 @@ const createWebpackReporterPreset = (reporter: Reporter): Preset => ({
   webpack: addReporterPlugin('preview', reporter),
 });
 
-export {
-  ensureEntryIsObject,
-  webpackServePreset,
-  storybookEntryPreset,
-  createWebpackReporterPreset,
-};
+export { ensureEntryIsObject, webpackServePreset, createWebpackReporterPreset };

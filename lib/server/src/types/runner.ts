@@ -2,8 +2,10 @@ import { State } from 'webpackbar';
 import EventEmitter from 'eventemitter3';
 
 import { Stats } from 'webpack';
+
+import { ConfigFiles } from '@storybook/config/create';
+
 import { ConfigPrefix, EnvironmentType, CliOptions, CallOptions, EnvOptions } from './cli';
-import { ConfigFiles } from './config';
 
 export type Status = 'progress' | 'success' | 'failure';
 

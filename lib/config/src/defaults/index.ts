@@ -1,13 +1,12 @@
 import path from 'path';
 
-import { getCacheDir, getCoreDir } from '@storybook/config/create';
+import { getCacheDir, getCoreDir } from '../create';
 
-import { Entries, OutputConfig } from '../types/config';
-import { WebpackConfigMerger, WebpackConfig } from '../types/webpack';
-import { ServerConfig } from '../types/server';
+import { Entries, Output, Server, Webpack } from '../types/values';
 
 import loaders, { css, fonts, media, md, mdx, js, mjs } from './loaders';
-import { mapToRegex } from '../utils/mapToRegex';
+import { mapToRegex } from '../__helper__/mapToRegex';
+import { PresetMergeAsyncFn } from '../types/presets';
 
 const cacheDir = getCacheDir();
 const coreDir = getCoreDir();
@@ -16,12 +15,12 @@ export const logLevel = 'info';
 
 export const entries: Entries = [];
 
-export const output: OutputConfig = {
+export const output: Output = {
   compress: false,
   location: path.join(cacheDir, 'out'),
   preview: true,
 };
-const stats: WebpackConfig['stats'] = {
+const stats: Webpack['stats'] = {
   errorDetails: true,
   errors: true,
   warnings: true,
@@ -33,10 +32,10 @@ const stats: WebpackConfig['stats'] = {
   source: false,
 };
 
-export const managerWebpack: WebpackConfigMerger = async (_, config): Promise<WebpackConfig> => {
+export const managerWebpack: PresetMergeAsyncFn<Webpack> = async (_, config) => {
   const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
   const { default: CaseSensitivePathsPlugin } = await import('case-sensitive-paths-webpack-plugin');
-  const { create } = await import('../utils/entrypointsPlugin');
+  const { create } = await import('./entrypointsPlugin');
 
   const { location } = await config.output;
   const e = await config.entries;
@@ -124,10 +123,10 @@ export const managerWebpack: WebpackConfigMerger = async (_, config): Promise<We
   };
 };
 
-export const webpack: WebpackConfigMerger = async (_, config): Promise<WebpackConfig> => {
+export const webpack: PresetMergeAsyncFn<Webpack> = async (_, config) => {
   const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
   const { default: CaseSensitivePathsPlugin } = await import('case-sensitive-paths-webpack-plugin');
-  const { create } = await import('../utils/entrypointsPlugin');
+  const { create } = await import('./entrypointsPlugin');
 
   const { location } = await config.output;
   const e = await config.entries;
@@ -206,7 +205,7 @@ export const webpack: WebpackConfigMerger = async (_, config): Promise<WebpackCo
   };
 };
 
-export const server: ServerConfig = {
+export const server: Server = {
   port: 5000,
   devPorts: {
     manager: 55550,

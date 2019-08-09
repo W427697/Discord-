@@ -1,6 +1,6 @@
 import { config as configTransforms } from '@storybook/transforms';
 
-import { merge } from './merge';
+import { mergeSettings } from './mergeSettings';
 
 import {
   getStorybookConfigPath,
@@ -11,7 +11,8 @@ import {
 } from './paths';
 
 import { cached, write } from './persist';
-import { Config, ConfigFiles } from './types';
+import { Config, ConfigFiles } from './types/files';
+import { Preset, PresetMergeAsyncFn, PresetMergeFn } from './types/presets';
 
 const createMain = (files: string[]) => {
   const key = 'all';
@@ -33,17 +34,17 @@ const createFiltered = async ([key, targets]: [string, string[]]) => {
   });
 };
 
-const defaults: Config = {
+const defaultSettings: Config = {
   manager: ['theme', 'managerInit'],
   preview: ['previewInit'],
   server: ['server', 'entries', 'webpack', 'babel', 'managerWebpack', 'managerBabel'],
 };
 
-export const getStorybookConfigs = async (config: Config = {}) => {
+export const getStorybookConfigs = async (customSettings: Config = {}) => {
   const file = await getStorybookConfigPath();
 
   if (file) {
-    const configList = Object.entries(merge(defaults, config));
+    const configList = Object.entries(mergeSettings(defaultSettings, customSettings));
     const files = configList.reduce<ConfigFiles>((acc, [key]) => {
       return {
         ...acc,
@@ -65,4 +66,4 @@ export const getStorybookConfigs = async (config: Config = {}) => {
 
 export { getCacheDir, getStorybookConfigPath, getConfigFileName, getCoreDir };
 
-export { ConfigFiles };
+export { ConfigFiles, Preset, PresetMergeAsyncFn, PresetMergeFn };

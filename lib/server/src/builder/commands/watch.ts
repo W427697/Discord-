@@ -2,15 +2,14 @@ import setTitle from 'node-bash-title';
 import webpack from 'webpack';
 
 import { logger } from '@storybook/node-logger';
+import { getConfig, Config } from '@storybook/config';
 
 import { reportError, reportStats, reportProgress, reportSuccess } from '../../utils/ipc';
 
 import { RunParams } from '../../types/runner';
 import { WebpackConfig } from '../../types/webpack';
-import { Config } from '../../types/config';
 import { ConfigPrefix } from '../../types/cli';
 
-import { getConfig } from '../../config/config';
 import { createWebpackReporterPreset, webpackServePreset } from '../../utils/webpack';
 
 const getWebpackConfig = async (type: ConfigPrefix, config: Config) => {

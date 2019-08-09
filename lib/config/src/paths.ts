@@ -5,7 +5,7 @@ import path from 'path';
 import findCacheDir from 'find-cache-dir';
 import pkgUp from 'pkg-up';
 import gitDir from 'git-root-dir';
-import { FileName } from './types';
+import { FileName } from './types/files';
 
 export const getConfigFileName = (base: string) => `${base}.config.js`;
 

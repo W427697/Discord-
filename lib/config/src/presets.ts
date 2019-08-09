@@ -1,20 +1,17 @@
 import { logger } from '@storybook/node-logger';
-import { CliOptions, CallOptions, EnvOptions } from '../types/cli';
+
+import { mergeConfig } from './mergeConfig';
+
 import {
-  Config,
   ConfigCollector,
-  PresetFn,
-  PresetRef,
   PresetProperties,
+  PresetRef,
+  PresetFn,
   Preset,
   PresetProp,
-  ConfigProperties,
   PresetMergeFn,
-} from '../types/config';
-
-import * as defaults from './defaults';
-
-import { merge } from '../utils/merge';
+} from './types/presets';
+import { Config } from './types/api';
 
 export async function getProperties(preset: PresetFn | PresetRef | Preset): Promise<Preset> {
   switch (typeof preset) {
@@ -127,7 +124,7 @@ export async function apply<K>(list: PresetProp<K>[], config: Config): Promise<K
       }
       // objects get merged
       case typeof item === 'object': {
-        return merge({}, acc, item);
+        return mergeConfig({}, acc, item);
       }
       default: {
         logger.warn('there was a type mismatch between ');
@@ -135,87 +132,4 @@ export async function apply<K>(list: PresetProp<K>[], config: Config): Promise<K
       }
     }
   }, Promise.resolve(undefined));
-}
-
-const createCliPreset = (cliOptions: CliOptions): Preset => {
-  // TODO:
-  // implement smokeTest, noDll, debugWebpack
-
-  const { port, staticDir, host, sslCa, sslCert, sslKey, https, outputDir, logLevel } = cliOptions;
-  return {
-    server: ({ static: existingStatic = [], ...base }) =>
-      Object.assign(
-        {},
-        base,
-        host ? { host } : {},
-        port ? { port } : {},
-        staticDir && staticDir.length
-          ? { static: existingStatic.concat(staticDir.map(i => ({ '/': i }))) }
-          : {},
-        https ? { ssl: { ca: sslCa, key: sslKey, cert: sslCert } } : {}
-      ),
-    output: outputDir ? { location: outputDir } : {},
-    logLevel: base => logLevel || base,
-  };
-};
-
-const createCallPreset = (callOptions: CallOptions): Preset => {
-  const { frameworkPresets, overridePresets, middleware } = callOptions;
-  return {
-    presets: [].concat(frameworkPresets || []).concat(overridePresets),
-    server: base => ({
-      ...base,
-      middleware: [].concat(base.middleware || []).concat(middleware),
-    }),
-  };
-};
-
-interface Options {
-  configFile: PresetRef;
-  cliOptions: CliOptions;
-  callOptions: CallOptions;
-  envOptions: EnvOptions;
-}
-
-export function getConfig(
-  { configFile, cliOptions, callOptions, envOptions }: Options,
-  extraPresets: Preset[] = []
-): Config {
-  let collector: ConfigCollector;
-
-  const cache: Partial<Config> = {};
-  let initialized = false;
-
-  const config: Config = new Proxy(cache, {
-    get: async (target, prop: keyof Config) => {
-      if (!initialized) {
-        collector = await import(configFile);
-        collector = await prependPresetToCollection(collector, defaults as Preset);
-        collector = await appendPresetToCollection(collector, {}, [
-          createCallPreset(callOptions),
-          createCliPreset(cliOptions),
-          ...extraPresets,
-        ]);
-        initialized = true;
-      }
-
-      if (typeof prop !== 'string') {
-        return { cache, collector };
-      }
-
-      if (!cache[prop]) {
-        const list = collector[prop];
-        type V = ConfigProperties[typeof prop];
-
-        const output = list ? apply<V>(list, config) : ([] as PresetProp<V>[]);
-
-        // @ts-ignore - pinky promise that the Partial<V> will become V after all presets have been applied
-        cache[prop] = output;
-      }
-
-      return cache[prop];
-    },
-  }) as Config;
-
-  return config;
 }

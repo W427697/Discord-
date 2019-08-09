@@ -1,19 +1,20 @@
+import https from 'https';
+import http from 'http';
 import favicon from 'serve-favicon';
 import path from 'path';
-import express from 'express';
+import express, { Express } from 'express';
 import fs from 'fs-extra';
 
 import { progress, logger } from '@storybook/node-logger';
+import { ConfigValues } from '@storybook/config';
 
-import { Express, StaticConfig, Middleware } from '../types/server';
 import { CliOptions, CallOptions } from '../types/cli';
-import { ConfigProperties } from '../types/config';
 
 const faviconLocation = (location: string) => path.resolve(location, 'favicon.ico');
 const containsFavicon = async (location: string) => fs.pathExists(faviconLocation(location));
 const defaultFaviconLocation = faviconLocation(path.join(__dirname, '..', 'assets'));
 
-const staticMiddleware = (config: StaticConfig[]) => async (app: Express) => {
+const staticMiddleware = (config: Static[]) => async (app: Express) => {
   const list = config.reduce((acc, i) => {
     return acc.concat(Object.entries(i));
   }, []);
@@ -46,15 +47,20 @@ const staticMiddleware = (config: StaticConfig[]) => async (app: Express) => {
   }
 };
 
-const createStaticPathsConfig = (
-  fromCli: string[] = [],
-  fromConfig: StaticConfig[] = []
-): StaticConfig[] => [...fromConfig, fromCli.reduce((acc, p) => ({ ...acc, '/': p }), {})];
+export interface Static {
+  [route: string]: string;
+}
+export type Middleware = (app: Express, server?: http.Server | https.Server) => Promise<void>;
+
+const createStaticPathsConfig = (fromCli: string[] = [], fromConfig: Static[] = []): Static[] => [
+  ...fromConfig,
+  fromCli.reduce((acc, p) => ({ ...acc, '/': p }), {}),
+];
 
 // middleware has access to the app & server, and can add http handlers and routes
 const createMiddleware = async (
   fromCli: CliOptions,
-  fromConfig: ConfigProperties,
+  fromConfig: ConfigValues,
   addition: CallOptions
 ): Promise<Middleware[]> => {
   const staticContentConfig = createStaticPathsConfig(

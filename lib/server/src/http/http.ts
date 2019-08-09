@@ -1,18 +1,16 @@
 import https from 'https';
 import http from 'http';
 import fs from 'fs-extra';
-import express from 'express';
+import express, { Express } from 'express';
 import EventEmitter from 'eventemitter3';
 import proxy from 'express-http-proxy';
 
 import { logger } from '@storybook/node-logger';
+import { getConfig, ConfigValues } from '@storybook/config';
 
-import { getConfig } from '../config/config';
-
-import { Express, ServerConfig, Server, Middleware } from '../types/server';
 import { Runner, RunParams } from '../types/runner';
 
-const serverFactory = async (options: ServerConfig) => {
+const serverFactory = async (options: ConfigValues['server']) => {
   const { ssl, port } = options;
   if (ssl) {
     if (!ssl.cert) {
@@ -36,14 +34,14 @@ const serverFactory = async (options: ServerConfig) => {
   return (app: Express) => http.createServer(app);
 };
 
-const createServer = async (options: ServerConfig, app: Express) => {
+const createServer = async (options: ConfigValues['server'], app: Express) => {
   const create = await serverFactory(options);
   return create(app);
 };
 
 const createApp = async () => express();
 
-const listen = async (server: http.Server | https.Server, options: ServerConfig) => {
+const listen = async (server: http.Server | https.Server, options: ConfigValues['server']) => {
   return new Promise((res, rej) => {
     server.listen({ port: options.port, host: options.host }, (error?: Error) => {
       if (error) {
@@ -68,10 +66,10 @@ const addProxyHandler = (app: Express, { host, port }: { host: string; port: num
 
 const addMiddlewareHandlers = async (
   app: Express,
-  server: Server,
-  { middleware }: { middleware: ServerConfig['middleware'] }
+  server: http.Server | https.Server,
+  { middleware }: { middleware: ConfigValues['server']['middleware'] }
 ) => {
-  const base: Middleware[] = [];
+  const base: ConfigValues['middleware'][] = [];
   return Promise.all(
     base.concat(middleware).map(async item => {
       if (typeof item === 'function') {

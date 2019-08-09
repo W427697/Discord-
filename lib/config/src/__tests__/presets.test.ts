@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-object-literal-type-assertion */
-import { ConfigCollector, Config } from '../types/config';
-import * as config from './config';
+import { ConfigCollector } from '../types/presets';
+import { Config } from '../types/api';
+import * as config from '../presets';
 
 const base: ConfigCollector = {
   entries: [],
