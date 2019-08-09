@@ -52,8 +52,11 @@ const PlainLink = styled.a(plain);
 
 const Wrapper = styled.div({});
 
-const refinedViewMode = (viewMode: string) => {
-  return viewMode === 'settings' ? 'story' : viewMode;
+const refinedViewMode = (viewMode: string, isDocsOnly: boolean) => {
+  if (isDocsOnly) {
+    return 'docs';
+  }
+  return viewMode === 'settings' || !viewMode ? 'story' : viewMode;
 };
 
 const targetId = (childIds?: string[]) =>
@@ -69,14 +72,15 @@ export const Link = ({
   onClick,
   onKeyUp,
   childIds,
+  isExpanded,
 }) => {
-  return isLeaf || isComponent ? (
+  return isLeaf || (isComponent && !isExpanded) ? (
     <Location>
       {({ viewMode }) => (
         <PlainRouterLink
           title={name}
           id={prefix + id}
-          to={`/${viewMode ? refinedViewMode(viewMode) : 'story'}/${targetId(childIds) || id}`}
+          to={`/${refinedViewMode(viewMode, isLeaf && isComponent)}/${targetId(childIds) || id}`}
           onKeyUp={onKeyUp}
           onClick={onClick}
         >
@@ -100,9 +104,11 @@ Link.propTypes = {
   onKeyUp: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   childIds: PropTypes.arrayOf(PropTypes.string),
+  isExpanded: PropTypes.bool,
 };
 Link.defaultProps = {
   childIds: null,
+  isExpanded: false,
 };
 
 export interface StoriesProps {
