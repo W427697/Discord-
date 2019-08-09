@@ -9,6 +9,9 @@ import { FileName } from './types';
 
 export const getConfigFileName = (base: string) => `${base}.config.js`;
 
+export const getConfigFilePath = (name: string) =>
+  path.join(getCacheDir(), getConfigFileName(name));
+
 export const getConfigPath = async (fileName: FileName): Promise<string> => {
   const cwd = process.cwd();
 

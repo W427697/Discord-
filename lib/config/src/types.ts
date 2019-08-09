@@ -8,7 +8,6 @@ export interface Indentifyable {
 
 export interface Data {
   location: string;
-  list: string[];
 }
 
 export type Item = Indentifyable & Data;

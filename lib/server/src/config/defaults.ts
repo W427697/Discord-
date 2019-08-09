@@ -1,6 +1,6 @@
 import path from 'path';
 
-import { getCacheDir, getCoreDir } from '@storybook/config';
+import { getCacheDir, getCoreDir } from '@storybook/config/create';
 
 import { Entries, OutputConfig } from '../types/config';
 import { WebpackConfigMerger, WebpackConfig } from '../types/webpack';

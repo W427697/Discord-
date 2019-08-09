@@ -1,4 +1,4 @@
-import { ConfigFiles } from '@storybook/config';
+import { ConfigFiles } from '@storybook/config/create';
 
 import { LogLevels } from './cli';
 import { WebpackConfig } from './webpack';

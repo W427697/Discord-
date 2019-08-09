@@ -6,7 +6,7 @@ import path from 'path';
 import EventEmitter from 'eventemitter3';
 import { stripIndent } from 'common-tags';
 
-import { getCacheDir } from '@storybook/config';
+import { getCacheDir } from '@storybook/config/create';
 
 import { CreateParams, RunParams, Runner, Event } from '../types/runner';
 
