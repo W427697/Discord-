@@ -1,6 +1,6 @@
 import { config as configTransforms } from '@storybook/transforms';
 
-import { mergeSettings } from './mergeSettings';
+import { mergeSettings } from './utils/mergeSettings';
 
 import {
   getStorybookConfigPath,

@@ -6,7 +6,7 @@
 import glob from 'fast-glob';
 import { Compiler } from 'webpack';
 import camelcase from 'camelcase';
-import { mergeConfig } from '../mergeConfig';
+import { mergeConfig } from './mergeConfig';
 
 function getEntryName(item: string, commonPrefix: string) {
   return `preview/${camelcase(trimExtensions(item).replace(commonPrefix, ''))}`;

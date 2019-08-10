@@ -1,6 +1,6 @@
 import { logger } from '@storybook/node-logger';
 
-import { mergeConfig } from './mergeConfig';
+import { mergeConfig } from './utils/mergeConfig';
 
 import {
   ConfigCollector,
