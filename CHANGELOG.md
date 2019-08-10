@@ -1,3 +1,20 @@
+## 5.2.0-beta.26 (August 9, 2019)
+
+### Features
+
+* UI: Improved component nav UI ([#7716](https://github.com/storybookjs/storybook/pull/7716))
+
+## 5.2.0-beta.25 (August 8, 2019)
+
+### Features
+
+* Addon-centered: ability to disable on specific story ([#7709](https://github.com/storybookjs/storybook/pull/7709))
+
+### Bug Fixes
+
+* Addon-jest: fix console warning ([#7705](https://github.com/storybookjs/storybook/pull/7705))
+* Core: Remove Object.append(...) from index.ejs ([#7707](https://github.com/storybookjs/storybook/pull/7707))
+
 ## 5.2.0-beta.24 (August 7, 2019)
 
 ### Features
