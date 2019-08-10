@@ -38,6 +38,10 @@ export default function renderMain({
     }
     const renderTo = rootElement.querySelector('[id="root-inner"]');
 
+    // Use lit-html's render function that is being used at lit-element
+    // internally to cover the case using only html`...` instead of
+    // lit-element which makes using lit-html and lit-element at the same
+    // time.
     LitElement.render(element, renderTo, { scopeName: '' });
   } else {
     rootElement.innerHTML = '';

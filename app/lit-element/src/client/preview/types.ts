@@ -1,6 +1,7 @@
 import { StoryFn, ClientStoryApi, Loadable } from '@storybook/addons';
+import { TemplateResult } from 'lit-element';
 
-export type StoryFnLitElementReturnType = string | Node;
+export type StoryFnLitElementReturnType = TemplateResult | string | Node;
 
 export interface ShowErrorArgs {
   title: string;
