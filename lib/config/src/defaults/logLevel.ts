@@ -1,5 +1,3 @@
 import { LogLevel } from '../types/values';
 
-const logLevel: LogLevel = 'info';
-
-export { logLevel };
+export const logLevel: LogLevel = 'info';

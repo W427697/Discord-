@@ -12,7 +12,7 @@ import { stats } from '../utils/stats';
 const cacheDir = getCacheDir();
 const coreDir = getCoreDir();
 
-const webpack: PresetMergeAsyncFn<Webpack> = async (_, config) => {
+export const managerWebpack: PresetMergeAsyncFn<Webpack> = async (_, config) => {
   const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
   const { default: CaseSensitivePathsPlugin } = await import('case-sensitive-paths-webpack-plugin');
   const { create } = await import('../utils/entrypointsPlugin');
@@ -102,5 +102,3 @@ const webpack: PresetMergeAsyncFn<Webpack> = async (_, config) => {
     },
   };
 };
-
-export { webpack as managerWebpack };

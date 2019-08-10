@@ -1,6 +1,6 @@
 import { Server } from '../types/values';
 
-const server: Server = {
+export const server: Server = {
   port: 5000,
   devPorts: {
     manager: 55550,
@@ -10,5 +10,3 @@ const server: Server = {
   middleware: [],
   static: [],
 };
-
-export { server };

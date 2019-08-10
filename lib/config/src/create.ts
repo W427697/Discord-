@@ -11,10 +11,12 @@ import {
 } from './paths';
 
 import { cached, write } from './persist';
-import { Config, ConfigFiles } from './types/files';
+import { Config, ConfigFiles, FileName } from './types/files';
 import { Preset, PresetMergeAsyncFn, PresetMergeFn } from './types/presets';
+import { CliOptions, CallOptions, EnvOptions } from './types/cli';
+import { createOverloadPreset } from './utils/overload';
 
-const createMain = (files: string[]) => {
+const createMain = (files: FileName[]) => {
   const key = 'all';
   const name = getConfigFilePath(key);
 
@@ -34,14 +36,36 @@ const createFiltered = async ([key, targets]: [string, string[]]) => {
   });
 };
 
+const createOverload = async (
+  envOptions: EnvOptions,
+  cliOptions: CliOptions,
+  callOptions: CallOptions
+) => {
+  const key = 'overload';
+  const name = getConfigFilePath(key);
+
+  const { code } = await createOverloadPreset(envOptions, cliOptions, callOptions);
+  await write(name, code);
+};
+
 const defaultSettings: Config = {
   manager: ['theme', 'managerInit'],
   preview: ['previewInit'],
   server: ['server', 'entries', 'webpack', 'babel', 'managerWebpack', 'managerBabel'],
 };
 
-export const getStorybookConfigs = async (customSettings: Config = {}) => {
-  const file = await getStorybookConfigPath();
+export const getStorybookConfigs = async ({
+  callOptions,
+  cliOptions,
+  customSettings,
+  envOptions,
+}: {
+  customSettings?: Config;
+  callOptions?: CallOptions;
+  cliOptions?: CliOptions;
+  envOptions?: EnvOptions;
+} = {}) => {
+  const file: FileName = await getStorybookConfigPath();
 
   if (file) {
     const configList = Object.entries(mergeSettings(defaultSettings, customSettings));
@@ -55,7 +79,11 @@ export const getStorybookConfigs = async (customSettings: Config = {}) => {
       };
     }, {});
 
-    await createMain([file]);
+    const defaults: FileName = require.resolve('./defaults/index');
+    const overload: FileName = getConfigFilePath('overload');
+
+    await createOverload(envOptions, cliOptions, callOptions);
+    await createMain([defaults, file, overload]);
 
     await Promise.all(configList.map(createFiltered));
 

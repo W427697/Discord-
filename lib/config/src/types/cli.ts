@@ -40,7 +40,7 @@ export interface StartOptions {
 }
 
 export interface EnvOptions {
-  NODE_ENV: 'development' | 'production';
+  NODE_ENV: EnvironmentType;
   SB_PORT: number;
 }
 

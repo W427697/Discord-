@@ -68,6 +68,7 @@
     "is-plain-object": "^3.0.0",
     "json5": "^2.1.0",
     "lazy-universal-dotenv": "^3.0.1",
+    "lodash": "4.17.11",
     "node-fetch": "^2.6.0",
     "open": "^6.1.0",
     "pnp-webpack-plugin": "1.5.0",

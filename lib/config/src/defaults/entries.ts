@@ -1,5 +1,3 @@
 import { Entries } from '../types/values';
 
-const entries: Entries = [];
-
-export { entries };
+export const entries: Entries = [];
