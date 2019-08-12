@@ -5,14 +5,14 @@ import path from 'path';
 import findCacheDir from 'find-cache-dir';
 import pkgUp from 'pkg-up';
 import gitDir from 'git-root-dir';
-import { FileName } from './types/files';
+import * as F from './types/files';
 
 export const getConfigFileName = (base: string) => `${base}.config.js`;
 
 export const getConfigFilePath = (name: string) =>
   path.join(getCacheDir(), getConfigFileName(name));
 
-export const getConfigPath = async (fileName: FileName): Promise<string> => {
+export const getConfigPath = async (fileName: F.FileName): Promise<string> => {
   const cwd = process.cwd();
 
   const locations = {

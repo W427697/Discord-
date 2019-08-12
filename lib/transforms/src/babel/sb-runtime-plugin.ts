@@ -3,7 +3,7 @@ import { RawSourceMap } from 'source-map';
 import traverse from '@babel/traverse';
 import { parse } from '@babel/parser';
 
-import { visitorMerge } from '../__helper__/visitor-merge';
+import { visitorMerge } from '../utils/visitor-merge';
 import { addFrameworkParameter, detectFramework } from '../modules/framework';
 import { addRuntime } from '../modules/runtime';
 

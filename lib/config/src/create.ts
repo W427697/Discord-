@@ -11,12 +11,12 @@ import {
 } from './paths';
 
 import { cached, write } from './persist';
-import { Config, ConfigFiles, FileName } from './types/files';
-import { Preset, PresetMergeAsyncFn, PresetMergeFn } from './types/presets';
-import { CliOptions, CallOptions, EnvOptions } from './types/cli';
 import { createOverloadPreset } from './utils/overload';
 
-const createMain = (files: FileName[]) => {
+import * as F from './types/files';
+import * as C from './types/cli';
+
+const createMain = (files: F.FileName[]) => {
   const key = 'all';
   const name = getConfigFilePath(key);
 
@@ -37,18 +37,20 @@ const createFiltered = async ([key, targets]: [string, string[]]) => {
 };
 
 const createOverload = async (
-  envOptions: EnvOptions,
-  cliOptions: CliOptions,
-  callOptions: CallOptions
+  envOptions: C.EnvOptions,
+  cliOptions: C.CliOptions,
+  callOptions: C.CallOptions
 ) => {
   const key = 'overload';
   const name = getConfigFilePath(key);
 
-  const { code } = await createOverloadPreset(envOptions, cliOptions, callOptions);
-  await write(name, code);
+  return cached(key, async () => {
+    const { code } = await createOverloadPreset(envOptions, cliOptions, callOptions);
+    await write(name, code);
+  });
 };
 
-const defaultSettings: Config = {
+const defaultSettings: F.Config = {
   manager: ['theme', 'managerInit'],
   preview: ['previewInit'],
   server: ['server', 'entries', 'webpack', 'babel', 'managerWebpack', 'managerBabel'],
@@ -61,15 +63,15 @@ export const getStorybookConfigs = async ({
   envOptions,
 }: {
   customSettings?: Config;
-  callOptions?: CallOptions;
-  cliOptions?: CliOptions;
-  envOptions?: EnvOptions;
+  callOptions?: C.CallOptions;
+  cliOptions?: C.CliOptions;
+  envOptions?: C.EnvOptions;
 } = {}) => {
-  const file: FileName = await getStorybookConfigPath();
+  const file: F.FileName = await getStorybookConfigPath();
 
   if (file) {
     const configList = Object.entries(mergeSettings(defaultSettings, customSettings));
-    const files = configList.reduce<ConfigFiles>((acc, [key]) => {
+    const files = configList.reduce<F.ConfigFiles>((acc, [key]) => {
       return {
         ...acc,
         [key]: {
@@ -79,11 +81,12 @@ export const getStorybookConfigs = async ({
       };
     }, {});
 
-    const defaults: FileName = require.resolve('./defaults/index');
-    const overload: FileName = getConfigFilePath('overload');
+    const defaults: F.FileName = require.resolve('./defaults/index');
+    const overload: F.FileName = getConfigFilePath('overload');
+    const { overridePresets = [], frameworkPresets = [] } = callOptions;
 
     await createOverload(envOptions, cliOptions, callOptions);
-    await createMain([defaults, file, overload]);
+    await createMain([defaults, ...frameworkPresets, file, ...overridePresets, overload]);
 
     await Promise.all(configList.map(createFiltered));
 
@@ -94,4 +97,6 @@ export const getStorybookConfigs = async ({
 
 export { getCacheDir, getStorybookConfigPath, getConfigFileName, getCoreDir };
 
-export { ConfigFiles, Preset, PresetMergeAsyncFn, PresetMergeFn };
+export * from './types/files';
+export * from './types/presets';
+export * from './types/cli';

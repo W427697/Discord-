@@ -1,32 +1,20 @@
-import { Preset, ConfigCollector, PresetProp } from './types/presets';
-import { Config, ConfigValues } from './types/api';
-import { apply, prependPresetToCollection, appendPresetToCollection } from './presets';
+import { apply, appendPresetToCollection } from './presets';
 
-import * as defaults from './defaults';
-import { Options } from './types/cli';
+import * as P from './types/presets';
+import * as A from './types/api';
+import * as C from './types/cli';
 
-import { createCallPreset } from './presets/call-preset';
-import { createCLIPreset } from './presets/cli-preset';
+export function getConfig({ configFile }: C.Options, extraPresets: P.Preset[] = []): A.Config {
+  let collector: P.ConfigCollector;
 
-export function getConfig(
-  { configFile, cliOptions, callOptions, envOptions }: Options,
-  extraPresets: Preset[] = []
-): Config {
-  let collector: ConfigCollector;
-
-  const cache: Partial<Config> = {};
+  const cache: Partial<A.Config> = {};
   let initialized = false;
 
-  const config: Config = new Proxy(cache, {
-    get: async (target, prop: keyof Config) => {
+  const config: A.Config = new Proxy(cache, {
+    get: async (target, prop: keyof A.Config) => {
       if (!initialized) {
         collector = await import(configFile);
-        collector = await prependPresetToCollection(collector, defaults as Preset);
-        collector = await appendPresetToCollection(collector, {}, [
-          createCallPreset(callOptions),
-          createCLIPreset(cliOptions),
-          ...extraPresets,
-        ]);
+        collector = await appendPresetToCollection(collector, {}, [...extraPresets]);
         initialized = true;
       }
 
@@ -36,9 +24,9 @@ export function getConfig(
 
       if (!cache[prop]) {
         const list = collector[prop];
-        type V = ConfigValues[typeof prop];
+        type V = A.ConfigValues[typeof prop];
 
-        const output = list ? apply<V>(list, config) : ([] as PresetProp<V>[]);
+        const output = list ? apply<V>(list, config) : ([] as P.PresetProp<V>[]);
 
         // @ts-ignore - pinky promise that the Partial<V> will become V after all presets have been applied
         cache[prop] = output;
@@ -46,9 +34,9 @@ export function getConfig(
 
       return cache[prop];
     },
-  }) as Config;
+  }) as A.Config;
 
   return config;
 }
 
-export { Config, ConfigValues };
+export * from './types/cli';

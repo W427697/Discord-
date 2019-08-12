@@ -52,5 +52,8 @@ export const transform = async (example: string, visitor: TraverseOptions = {}) 
   }));
 
 export const createAST = (source: string) => {
-  return parse(source, { sourceType: 'module', plugins: ['jsx'] });
+  return parse(source, {
+    sourceType: 'module',
+    plugins: ['dynamicImport', 'jsx'],
+  });
 };

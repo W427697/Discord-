@@ -2,18 +2,12 @@ import { logger } from '@storybook/node-logger';
 
 import { mergeConfig } from './utils/mergeConfig';
 
-import {
-  ConfigCollector,
-  PresetProperties,
-  PresetRef,
-  PresetFn,
-  Preset,
-  PresetProp,
-  PresetMergeFn,
-} from './types/presets';
-import { Config } from './types/api';
+import * as P from './types/presets';
+import * as A from './types/api';
 
-export async function getProperties(preset: PresetFn | PresetRef | Preset): Promise<Preset> {
+export async function getProperties(
+  preset: P.PresetFn | P.PresetRef | P.Preset
+): Promise<P.Preset> {
   switch (typeof preset) {
     case 'string': {
       return import(preset);
@@ -26,7 +20,7 @@ export async function getProperties(preset: PresetFn | PresetRef | Preset): Prom
     }
     default: {
       logger.warn(`
-        preset should be a string (PresetRef), function (PresetFn), or an object (Preset). 
+        preset should be a string (P.PresetRef), function (P.PresetFn), or an object (P.Preset). 
         The provided value did not match, therefore it was skipped.
       `);
       return {};
@@ -34,10 +28,10 @@ export async function getProperties(preset: PresetFn | PresetRef | Preset): Prom
   }
 }
 
-export function appendPropertyToCollector<K extends keyof ConfigCollector>(
-  collector: ConfigCollector,
-  [key, value]: [K, PresetProperties[K]]
-): ConfigCollector {
+export function appendPropertyToCollector<K extends keyof P.ConfigCollector>(
+  collector: P.ConfigCollector,
+  [key, value]: [K, P.PresetProperties[K]]
+): P.ConfigCollector {
   if (value && key) {
     const list = [...(collector[key] || []), value];
 
@@ -45,10 +39,10 @@ export function appendPropertyToCollector<K extends keyof ConfigCollector>(
   }
   return collector;
 }
-export function prependPropertyToCollector<K extends keyof ConfigCollector>(
-  collector: ConfigCollector,
-  [key, value]: [K, PresetProperties[K]]
-): ConfigCollector {
+export function prependPropertyToCollector<K extends keyof P.ConfigCollector>(
+  collector: P.ConfigCollector,
+  [key, value]: [K, P.PresetProperties[K]]
+): P.ConfigCollector {
   if (value && key) {
     const list = [value, ...(collector[key] || [])];
 
@@ -58,10 +52,10 @@ export function prependPropertyToCollector<K extends keyof ConfigCollector>(
 }
 
 export async function appendPresetToCollection(
-  collector: ConfigCollector,
-  preset: PresetFn | PresetRef | Preset,
-  additional?: (PresetFn | PresetRef | Preset)[]
-): Promise<ConfigCollector> {
+  collector: P.ConfigCollector,
+  preset: P.PresetFn | P.PresetRef | P.Preset,
+  additional?: (P.PresetFn | P.PresetRef | P.Preset)[]
+): Promise<P.ConfigCollector> {
   const { presets, addons, ...m } = await getProperties(preset);
 
   const c = Object.entries(m).reduce(appendPropertyToCollector, collector);
@@ -71,7 +65,7 @@ export async function appendPresetToCollection(
     .concat(addons || [])
     .concat(additional || [])
     .filter(Boolean)
-    .reduce(async (pacc: Promise<ConfigCollector>, i: PresetFn | PresetRef | Preset) => {
+    .reduce(async (pacc: Promise<P.ConfigCollector>, i: P.PresetFn | P.PresetRef | P.Preset) => {
       const acc = await pacc;
 
       // RECURSION
@@ -79,10 +73,10 @@ export async function appendPresetToCollection(
     }, Promise.resolve(c));
 }
 export async function prependPresetToCollection(
-  collector: ConfigCollector,
-  preset: PresetFn | PresetRef | Preset,
-  additional?: (PresetFn | PresetRef | Preset)[]
-): Promise<ConfigCollector> {
+  collector: P.ConfigCollector,
+  preset: P.PresetFn | P.PresetRef | P.Preset,
+  additional?: (P.PresetFn | P.PresetRef | P.Preset)[]
+): Promise<P.ConfigCollector> {
   const { presets, addons, ...m } = await getProperties(preset);
 
   const c = Object.entries(m).reduce(appendPropertyToCollector, collector);
@@ -92,7 +86,7 @@ export async function prependPresetToCollection(
     .concat(addons || [])
     .concat(additional || [])
     .filter(Boolean)
-    .reduce(async (pacc: Promise<ConfigCollector>, i: PresetFn | PresetRef | Preset) => {
+    .reduce(async (pacc: Promise<P.ConfigCollector>, i: P.PresetFn | P.PresetRef | P.Preset) => {
       const acc = await pacc;
 
       // RECURSION
@@ -100,7 +94,7 @@ export async function prependPresetToCollection(
     }, Promise.resolve(c));
 }
 
-export async function apply<K>(list: PresetProp<K>[], config: Config): Promise<K> {
+export async function apply<K>(list: P.PresetProp<K>[], config: A.Config): Promise<K> {
   return list.reduce(async (pacc: Promise<K>, item) => {
     const acc: K = await pacc;
 
@@ -113,7 +107,7 @@ export async function apply<K>(list: PresetProp<K>[], config: Config): Promise<K
       }
       // functions get called, with previous value & config
       case typeof item === 'function': {
-        const fn = item as PresetMergeFn<K>;
+        const fn = item as P.PresetMergeFn<K>;
         return fn(acc, config);
       }
       // arrays get concatenated

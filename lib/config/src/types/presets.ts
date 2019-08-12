@@ -1,5 +1,5 @@
 import { Entries, Server, Template, LogLevel, Webpack, Output } from './values';
-import { Config } from './api';
+import * as A from './api';
 
 export interface ConfigCollector {
   entries: (PresetProperties['entries'])[];
@@ -13,8 +13,8 @@ export interface ConfigCollector {
   [k: string]: PresetProp<unknown>[];
 }
 
-export type PresetMergeFn<T> = (base: T, config: Config) => T;
-export type PresetMergeAsyncFn<T> = (base: T, config: Config) => Promise<T>;
+export type PresetMergeFn<T> = (base: T, config: A.Config) => T;
+export type PresetMergeAsyncFn<T> = (base: T, config: A.Config) => Promise<T>;
 export type PresetProp<T> = T | PresetMergeFn<T> | PresetMergeAsyncFn<T>;
 export interface PresetProperties {
   entries: PresetProp<Entries>;

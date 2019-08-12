@@ -3,7 +3,7 @@ import fse from 'fs-extra';
 import resolve from 'enhanced-resolve';
 import * as t from '@babel/types';
 import generate from '@babel/generator';
-import traverse, { TraverseOptions, NodePath } from '@babel/traverse';
+import traverse, { TraverseOptions, NodePath, Binding } from '@babel/traverse';
 import { transformFileSync } from '@babel/core';
 import { createAST } from '../__helper__/plugin-test';
 
@@ -92,7 +92,7 @@ export const collectSubConfigs = async (files: string[]): Promise<string[]> => {
       return collectSubConfigs(refs);
     })
   );
-  const list = [...files, ...(await x)];
+  const list = [...(await x), ...files];
 
   return list.reduce<string[]>((acc, i) => acc.concat(i), []);
 };
@@ -114,36 +114,6 @@ const findMatchingDeclaration = (p: NodePath<t.Statement>, name: string) => {
 const findMatchingExport = (combined: NodePath<t.Program>, name: string) => {
   return combined.get('body').find(p => {
     return findMatchingDeclaration(p, name);
-  });
-};
-
-const doSomethingScopeMagic = (
-  combined: NodePath<t.Program>,
-  value: NodePath<t.VariableDeclarator>
-) => {
-  // get relevant bindings, other exports don't count
-  const bindings = Object.entries(value.scope.bindings)
-    .filter(([k, v]) => !v.path.parentPath.parentPath.isExportNamedDeclaration())
-    .reduce((acc, [k, v]) => ({ ...acc, [k]: v.path.parentPath }), {});
-
-  const used = {};
-
-  value.traverse({
-    Identifier(p) {
-      // @ts-ignore
-      if (bindings[p.node.name]) {
-        // @ts-ignore
-        used[p.node.name] = bindings[p.node.name];
-      }
-    },
-  });
-
-  Object.entries(used).forEach(([k, v]) => {
-    const id = combined.scope.generateUid(k);
-    // @ts-ignore
-    v.scope.rename(k, id);
-    // @ts-ignore
-    combined.unshiftContainer('body', v.node);
   });
 };
 
@@ -192,8 +162,6 @@ const addToCombined = (combined: NodePath<t.Program>) => (
         } else {
           createExport(combined, d);
         }
-
-        doSomethingScopeMagic(combined, d);
       }
     });
   }
@@ -224,8 +192,10 @@ export const collector = async (files: string[]) => {
   const { collected, ast } = createCombinated();
   const add = addToCombined(collected);
 
+  const allRefs = await collectSubConfigs(files);
+
   // TODO: refactor to async
-  files.filter(onlyUnique).forEach(f =>
+  allRefs.filter(onlyUnique).forEach(f =>
     transformFileSync(f, {
       configFile: false,
       retainLines: true,
@@ -239,6 +209,78 @@ export const collector = async (files: string[]) => {
           const visitor: TraverseOptions = {
             ExportNamedDeclaration(p) {
               add(p);
+            },
+          };
+          return {
+            visitor,
+          };
+        },
+        function copyUsedScopePlugin() {
+          const allowed: { [k: string]: Binding['path'] } = {};
+          const list: { [k: string]: Binding['path'] } = {};
+
+          const findRootStatementUp = (p: NodePath, boundary: NodePath): null | NodePath => {
+            if (p.parentPath === boundary) {
+              return null;
+            }
+            if (p.parentPath.isProgram()) {
+              return p;
+            }
+            if (p.parentPath) {
+              return findRootStatementUp(p.parentPath, boundary);
+            }
+            throw new Error('statement cannot be found');
+          };
+
+          const recurseUp = (p: NodePath, name: string, boundary?: NodePath) => {
+            const bound = p.scope.bindings[name];
+
+            if (bound) {
+              const node = findRootStatementUp(bound.path, boundary);
+              if (node && allowed[name] && allowed[name] === bound.path) {
+                list[name] = node;
+
+                if (!node.isImportDeclaration()) {
+                  node.traverse({
+                    Identifier(pi) {
+                      if (!list[pi.node.name]) {
+                        recurseUp(pi, pi.node.name);
+                      }
+                    },
+                  });
+                }
+              }
+            }
+
+            if (p.parentPath) {
+              recurseUp(p.parentPath, name, boundary);
+            }
+          };
+
+          const visitor: TraverseOptions = {
+            ExportNamedDeclaration(p) {
+              p.traverse({
+                Identifier(pi) {
+                  if (!list[pi.node.name]) {
+                    recurseUp(pi, pi.node.name, p);
+                  }
+                },
+              });
+            },
+            Program: {
+              enter(p) {
+                Object.entries(p.scope.bindings).forEach(([k, v]) => {
+                  allowed[k] = v.path;
+                });
+              },
+              exit(p) {
+                Object.entries(list).forEach(([k, v]) => {
+                  const id = collected.scope.generateUid(k);
+                  v.scope.rename(k, id);
+                  // @ts-ignore
+                  collected.unshiftContainer('body', v.node);
+                });
+              },
             },
           };
           return {
