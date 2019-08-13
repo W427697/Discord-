@@ -121,8 +121,8 @@ Change `config.ts` inside the Storybook config directory (by default, it’s `.s
 
 ```js
 import { configure } from '@storybook/react';
-// automatically import all files ending in *.stories.tsx
-const req = require.context('../stories', true, /\.stories\.tsx$/);
+// automatically import all files ending in *.tsx
+const req = require.context('../stories', true, /\.tsx$/);
 
 function loadStories() {
   req.keys().forEach(req);
