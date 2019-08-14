@@ -2,6 +2,7 @@
 
 Storybook Centered Decorator can be used to center components inside the preview in [Storybook](https://storybook.js.org).
 
+⚠️ This addon applies styling to the view in order to center the component. This may impact the look and feel of story.
 [Framework Support](https://github.com/storybookjs/storybook/blob/master/ADDONS_SUPPORT.md)
 
 ### Usage
