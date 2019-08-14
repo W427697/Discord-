@@ -27865,9 +27865,9 @@ svelte-loader@^2.13.4:
     svelte-dev-helper "^1.1.9"
 
 svelte@^3.4.1:
-  version "3.6.4"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.6.4.tgz#6b04e9b261af17e2ee9b3bf92104e8a0dbcd35ff"
-  integrity sha512-oI2FAZK4iLUKwwf/ltn9Y9185+03LX3uMzKlVnLrkW5P1xazJnCOHBX5mI5FeyhSIPIyueTQtqJ9cQaEUMMXgA==
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.8.0.tgz#23fa378155135ca29b4b757c26fa3c34b59fdef6"
+  integrity sha512-bB7biuC6qzKyeF/dr5VKp6d/9Lt7KNjIDXBTjLexOKGQnyR8Zw1ygyhXb2DurtRwrqCAyoucCYad89eXIW9vOw==
 
 sver-compat@^1.5.0:
   version "1.5.0"
