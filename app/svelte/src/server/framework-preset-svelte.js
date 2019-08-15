@@ -40,9 +40,17 @@ export function webpack(config) {
             },
           ],
         },
+        // WARNING Preserve the signature of the svelte-loader rule, or it should
+        // be considered a breaking change.
+        //
+        // see: https://github.com/storybookjs/storybook/issues/7439
+        //
+        // The expected signature is `loader` prop is a string containing 'svelte-loader',
+        // and options should be an object, even if empty.
         {
           test: /\.(?:svelte|html)$/,
           loader: require.resolve('svelte-loader'),
+          options: {},
         },
       ],
     },
