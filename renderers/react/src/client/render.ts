@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 import { stripIndents } from 'common-tags';
 import { StoryContext } from '@storybook/addons';
@@ -34,6 +34,8 @@ export default function render(
     throw error;
   }
 
-  // @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/35898
-  ReactDOM.render(element, container);
+  return new Promise(resolve => {
+    // @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/35898
+    ReactDOM.render(element, container, resolve);
+  });
 }

@@ -2,7 +2,14 @@
 import deprecate from 'util-deprecate';
 import isPlainObject from 'is-plain-object';
 import { logger } from '@storybook/client-logger';
-import addons, { StoryContext, StoryFn, Parameters, OptionsParameter } from '@storybook/addons';
+import addons, {
+  makeDecorator,
+  StoryContext,
+  StoryGetter,
+  StoryFn,
+  Parameters,
+  OptionsParameter,
+} from '@storybook/addons';
 import Events from '@storybook/core-events';
 import { toId } from '@storybook/router/utils';
 
@@ -11,7 +18,7 @@ import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import { ClientApiParams, DecoratorFunction, ClientApiAddons, StoryApi } from './types';
 import subscriptionsStore from './subscriptions_store';
-import { applyHooks } from './hooks';
+import { applyHooks, hookify } from './hooks';
 import StoryStore from './story_store';
 
 // merge with concatenating arrays, but no duplicates
@@ -81,6 +88,32 @@ const withSubscriptionTracking = (storyFn: StoryFn) => {
   subscriptionsStore.clearUnused();
   return result;
 };
+
+type Renderer<R> = (getStory: StoryGetter, context: StoryContext) => R;
+interface RendererConfig {
+  framework: string;
+  inner?: Renderer<any>;
+  outer: Renderer<Node | string | Promise<Node | string>>;
+}
+const renderers = {
+  inner: new Map(),
+  outer: new Map(),
+};
+export const registerRenderer = ({ framework, inner, outer }: RendererConfig) => {
+  if (inner != null) {
+    renderers.inner.set(framework, hookify(inner));
+  }
+  renderers.outer.set(framework, hookify(outer));
+};
+const withRenderer = (key: 'inner' | 'outer') =>
+  makeDecorator({
+    name: 'withReact',
+    parameterName: 'framework',
+    wrapper: (getStory, context, { parameters: framework }) =>
+      renderers[key].has(framework)
+        ? renderers[key].get(framework)(getStory, context)
+        : getStory(context),
+  });
 
 export default class ClientApi {
   private _storyStore: StoryStore;
@@ -242,10 +275,12 @@ export default class ClientApi {
         {
           applyDecorators: applyHooks(this._decorateStory),
           getDecorators: () => [
+            withRenderer('inner'),
             ...(allParam.decorators || []),
             ...localDecorators,
             ..._globalDecorators,
             withSubscriptionTracking,
+            withRenderer('outer'),
           ],
         }
       );
