@@ -1,5 +1,4 @@
 /* eslint-disable prefer-destructuring */
-import '@storybook/renderer-react';
 import { start } from '@storybook/core/client';
 import { ClientStoryApi, Loadable } from '@storybook/addons';
 

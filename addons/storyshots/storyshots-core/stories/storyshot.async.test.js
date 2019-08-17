@@ -34,7 +34,7 @@ initStoryshots({
 
         // Assert the expected value and the corresponding snapshot
         expect(wrapper.find('AsyncTestComponent').contains(EXPECTED_VALUE)).toBe(true);
-        expect(toJson(wrapper)).toMatchSpecificSnapshot(snapshotFilename);
+        expect(toJson(wrapper.children())).toMatchSpecificSnapshot(snapshotFilename);
 
         // finally mark test as done
         done();

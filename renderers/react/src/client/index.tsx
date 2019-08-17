@@ -6,15 +6,18 @@ import { document } from 'global';
 import './globals';
 import render from './render';
 
-registerRenderer({
-  framework: 'react',
-  inner: (Story, context) => <Story {...context} />,
-  outer: async (getStory, context) => {
-    const node = useMemo(() => document.createElement('div'), [context.kind, context.name]);
-    useEffect(() => () => ReactDOM.unmountComponentAtNode(node), [node]);
-    await render(getStory(context), node, context);
-    return node;
-  },
-});
+export const register = (skipOuter?: boolean) =>
+  registerRenderer({
+    framework: 'react',
+    inner: (Story, context) => <Story {...context} />,
+    outer: skipOuter
+      ? null
+      : async (getStory, context) => {
+          const node = useMemo(() => document.createElement('div'), [context.kind, context.name]);
+          useEffect(() => () => ReactDOM.unmountComponentAtNode(node), [node]);
+          await render(getStory(context), node, context);
+          return node;
+        },
+  });
 
 export { render };

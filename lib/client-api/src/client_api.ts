@@ -93,7 +93,7 @@ type Renderer<R> = (getStory: StoryGetter, context: StoryContext) => R;
 interface RendererConfig {
   framework: string;
   inner?: Renderer<any>;
-  outer: Renderer<Node | string | Promise<Node | string>>;
+  outer?: Renderer<Node | string | Promise<Node | string>> | null;
 }
 const renderers = {
   inner: new Map(),
@@ -103,7 +103,9 @@ export const registerRenderer = ({ framework, inner, outer }: RendererConfig) =>
   if (inner != null) {
     renderers.inner.set(framework, hookify(inner));
   }
-  renderers.outer.set(framework, hookify(outer));
+  if (outer != null) {
+    renderers.outer.set(framework, hookify(outer));
+  }
 };
 const withRenderer = (key: 'inner' | 'outer') =>
   makeDecorator({
