@@ -7,7 +7,7 @@ import { RenderMainArgs } from './types';
 
 const rootEl = document ? document.getElementById('root') : null;
 
-export default function renderMain({
+export default async function renderMain({
   storyFn: StoryFn,
   selectedKind,
   selectedStory,
@@ -25,6 +25,6 @@ export default function renderMain({
     ReactDOM.unmountComponentAtNode(rootEl);
   }
 
-  render(element, rootEl, { name: selectedStory, kind: selectedKind });
+  await render(element, rootEl, { name: selectedStory, kind: selectedKind });
   showMain();
 }
