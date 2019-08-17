@@ -1,3 +1,178 @@
+## 5.2.0-beta.32 (August 17, 2019)
+
+### Bug Fixes
+
+* Addon-docs: Fix docs-only story load ([#7787](https://github.com/storybookjs/storybook/pull/7787))
+
+### Maintenance
+
+* Addon-docs: Unwrap doc blocks stories ([#7788](https://github.com/storybookjs/storybook/pull/7788))
+
+## 5.2.0-beta.31 (August 16, 2019)
+
+### Features
+
+* Addon-docs: Add toolbar support to Preview ([#7778](https://github.com/storybookjs/storybook/pull/7778))
+
+### Bug Fixes
+
+* Addon-docs: Fix CSS bleed issue in doc blocks ([#7771](https://github.com/storybookjs/storybook/pull/7771))
+
+## 5.2.0-beta.30 (August 14, 2019)
+
+### Features
+
+* CLI: Don't output startup information on smoke test ([#6949](https://github.com/storybookjs/storybook/pull/6949))
+* Ondevice-knobs: Expose withKnobs from addon-knobs ([#7555](https://github.com/storybookjs/storybook/pull/7555))
+
+### Maintenance
+
+* Addon-Jest: Add flexibility ([#7748](https://github.com/storybookjs/storybook/pull/7748))
+
+## 5.1.11 (August 13, 2019)
+
+### Bug Fixes
+
+* Core: Add polyfill for fetch ([#7401](https://github.com/storybookjs/storybook/pull/7401))
+* Core: Revert "Fix #7167 addon-centered causes component to disappear when zooming" ([#7750](https://github.com/storybookjs/storybook/pull/7750))
+
+## 5.2.0-beta.29 (August 13, 2019)
+
+### Breaking Changes
+
+* Addon-docs: Packaging for 5.2 release ([#7741](https://github.com/storybookjs/storybook/pull/7741))
+
+### Bug Fixes
+
+* Core: Revert "Fix #7167 addon-centered causes component to disappear when zooming" ([#7750](https://github.com/storybookjs/storybook/pull/7750))
+* Core: Revert "Addon-centered: Fix disappearing when zoomed" ([#7749](https://github.com/storybookjs/storybook/pull/7749))
+
+## 5.2.0-beta.28 (August 10, 2019)
+
+### Features
+
+* Core: Disable CRA behaviors when preset detected ([#7696](https://github.com/storybookjs/storybook/pull/7696))
+* Addon-docs: Docs only MDX and navigation UI ([#7719](https://github.com/storybookjs/storybook/pull/7719))
+
+## 5.2.0-beta.27 (August 10, 2019)
+
+Publish failed
+
+## 5.2.0-beta.26 (August 9, 2019)
+
+### Features
+
+* UI: Improved component nav UI ([#7716](https://github.com/storybookjs/storybook/pull/7716))
+
+## 5.2.0-beta.25 (August 8, 2019)
+
+### Features
+
+* Addon-centered: ability to disable on specific story ([#7709](https://github.com/storybookjs/storybook/pull/7709))
+
+### Bug Fixes
+
+* Addon-jest: fix console warning ([#7705](https://github.com/storybookjs/storybook/pull/7705))
+* Core: Remove Object.append(...) from index.ejs ([#7707](https://github.com/storybookjs/storybook/pull/7707))
+
+## 5.2.0-beta.24 (August 7, 2019)
+
+### Features
+
+* Addon-docs: DocsPage slots for fine-grained user control ([#7680](https://github.com/storybookjs/storybook/pull/7680))
+
+### Bug Fixes
+
+* Core: Add polyfill for fetch ([#7401](https://github.com/storybookjs/storybook/pull/7401))
+
+### Dependency Upgrades
+
+* Addon-notes: Upgrade markdown-to-jsx dependency ([#7694](https://github.com/storybookjs/storybook/pull/7694))
+
+## 5.2.0-beta.23 (August 6, 2019)
+
+### Features
+
+* CLI: Suggest possible matches on invalid command ([#7658](https://github.com/storybookjs/storybook/pull/7658))
+* Core: Allow injecting preview-body.html ([#7417](https://github.com/storybookjs/storybook/pull/7417))
+
+### Bug Fixes
+
+* Core: Fix HMR error recovery ([#7684](https://github.com/storybookjs/storybook/pull/7684))
+
+## 5.2.0-beta.22 (August 3, 2019)
+
+### Bug Fixes
+
+* Core: Fix HMR for CSF files ([#7669](https://github.com/storybookjs/storybook/pull/7669))
+
+### Maintenance
+
+* React: Cleanup CSF stories in cra-kitchen-sink ([#7670](https://github.com/storybookjs/storybook/pull/7670))
+
+## 5.2.0-beta.21 (August 3, 2019)
+
+### Features
+
+* Addon-jest: Add placeholder info for missing tests ([#7660](https://github.com/storybookjs/storybook/pull/7660))
+
+### Bug Fixes
+
+* Addon-docs: Pass framework configs through babel ([#7667](https://github.com/storybookjs/storybook/pull/7667))
+* Addon-centered: Fix disappearing when zoomed ([#7640](https://github.com/storybookjs/storybook/pull/7640))
+
+## 5.2.0-beta.20 (August 1, 2019)
+
+### Bug Fixes
+
+* Addon-docs: Pass everything through babel & partial TS conversion ([#7653](https://github.com/storybookjs/storybook/pull/7653))
+* Addon-docs: Error on non-string description ([#7650](https://github.com/storybookjs/storybook/pull/7650))
+* CLI: Fix `npx -p @storybook/cli sb migrate` in yarn project ([#7649](https://github.com/storybookjs/storybook/pull/7649))
+
+## 5.2.0-beta.19 (July 31, 2019)
+
+### Bug Fixes
+
+* Core: Change webpack-defined variables to globals ([#7622](https://github.com/storybookjs/storybook/pull/7622))
+* Addon-notes: Fix dark theming bug ([#7623](https://github.com/storybookjs/storybook/pull/7623))
+* CLI: Fix usage information ([#7627](https://github.com/storybookjs/storybook/pull/7627))
+* CLI: Show additional package information with `sb info` ([#7624](https://github.com/storybookjs/storybook/pull/7624))
+
+### Maintenance
+
+* Typescript: Migrate Preact ([#7527](https://github.com/storybookjs/storybook/pull/7527))
+
+## 5.1.10 (July 31, 2019)
+
+### Breaking Changes
+
+* Core: Remove project root `babel.config.js` loading ([#7573](https://github.com/storybookjs/storybook/pull/7573))
+
+### Bug Fixes
+
+* Addon-info: change stylesheetBase info height from 110vh to 100vh ([#7141](https://github.com/storybookjs/storybook/pull/7141))
+* React-native: Fix react native server ([#7187](https://github.com/storybookjs/storybook/pull/7187))
+* Addon-centered/contexts: Move optionalDependencies to peerDependencies ([#7315](https://github.com/storybookjs/storybook/pull/7315))
+* Addon-notes/info: Fix indenting on markdown code blocks ([#7158](https://github.com/storybookjs/storybook/pull/7158))
+* Addon-actions: fix serialization performance ([#7256](https://github.com/storybookjs/storybook/pull/7256))
+* Addon-notes: Fix dark theming bug ([#7623](https://github.com/storybookjs/storybook/pull/7623))
+* CLI: Fix usage information ([#7627](https://github.com/storybookjs/storybook/pull/7627))
+* Addon-centered: Fix component disappearing on zoom ([#7400](https://github.com/storybookjs/storybook/pull/7400))
+* Addon-analytics: Fix API signature ([#7410](https://github.com/storybookjs/storybook/pull/7410))
+* UI: Fix Sidebar input refresh on 'Enter' ([#7342](https://github.com/storybookjs/storybook/pull/7342))
+* Addon-knobs: Prevent rerender when a button callback returns false. ([#7197](https://github.com/storybookjs/storybook/pull/7197))
+* Core: Keep story data and legacy data in sync ([#7319](https://github.com/storybookjs/storybook/pull/7319))
+* CLI: Move the free port logic so that loadOptions don't override it ([#7237](https://github.com/storybookjs/storybook/pull/7237))
+* Addon-backgrounds: Fix unstretched preview background wrapper ([#7173](https://github.com/storybookjs/storybook/pull/7173))
+
+### Maintenance
+
+* Build: delete tests & snapshots from dist ([#7358](https://github.com/storybookjs/storybook/pull/7358))
+
+### Dependency Upgrades
+
+* CLI: replaced merge-dirs dependency by fs-extra ([#7100](https://github.com/storybookjs/storybook/pull/7100))
+
 ## 5.2.0-beta.18 (July 30, 2019)
 
 ### Bug Fixes
