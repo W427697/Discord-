@@ -5,7 +5,7 @@ import { ADDON_ID, PANEL_ID } from './consts';
 
 addons.register(ADDON_ID, () => {
   addons.addPanel(PANEL_ID, {
-    title: 'Usage',
+    title: 'JSX',
     render: ({ key }) => <JSX key={key} />,
   });
 });
