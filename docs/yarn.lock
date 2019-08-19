@@ -279,6 +279,13 @@
   dependencies:
     "@ndhoule/map" "^2.0.1"
 
+"@storybook/client-logger@5.2.0-beta.33":
+  version "5.2.0-beta.33"
+  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.2.0-beta.33.tgz#19f0221bf77a3aad42a7d00a86a567d12b00fe61"
+  integrity sha512-HNzW9cYS0UoXX3Bx9occQOfL3PjVzq0vY4mS8MasUIKLYrPebL3B74wQ8c4U0OKjWWnLZ1WoDTNhqLpQ3pd9ag==
+  dependencies:
+    core-js "^3.0.1"
+
 "@storybook/client-logger@5.2.0-beta.7":
   version "5.2.0-beta.7"
   resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.2.0-beta.7.tgz#6d503b9c01fd0b430b1d72ed67ee1eeb63115cac"
@@ -286,13 +293,13 @@
   dependencies:
     core-js "^3.0.1"
 
-"@storybook/components@5.2.0-beta.7":
-  version "5.2.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@storybook/components/-/components-5.2.0-beta.7.tgz#a61eba234c4556dff9fafe6b0c6211eb0da07b14"
-  integrity sha512-wo9RWkUFs3ExDfQIxS9koDxKnLHl4aKTWteC1UalFtvu6bKvN7IXhhE7FwaSLqQL6BL2koTcBN3vg28tRz1Y8Q==
+"@storybook/components@5.2.0-beta.33":
+  version "5.2.0-beta.33"
+  resolved "https://registry.yarnpkg.com/@storybook/components/-/components-5.2.0-beta.33.tgz#b00fe90b6f7918d714ddd886135763581878153a"
+  integrity sha512-XKCd5vr09TOd2y7pOC5917dpd9sA09oLXJTmhvsJkkDUPJnmw3XSwaGEzLDR74JnDv/UhKvRAcigV0a1rl83zA==
   dependencies:
-    "@storybook/client-logger" "5.2.0-beta.7"
-    "@storybook/theming" "5.2.0-beta.7"
+    "@storybook/client-logger" "5.2.0-beta.33"
+    "@storybook/theming" "5.2.0-beta.33"
     "@types/react-syntax-highlighter" "10.1.0"
     core-js "^3.0.1"
     global "^4.3.2"
@@ -309,6 +316,24 @@
     react-syntax-highlighter "^8.0.1"
     react-textarea-autosize "^7.1.0"
     simplebar-react "^1.0.0-alpha.6"
+
+"@storybook/theming@5.2.0-beta.33":
+  version "5.2.0-beta.33"
+  resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-5.2.0-beta.33.tgz#c0a4730079e1ef8914a691bfaac4c2f0b091e5a1"
+  integrity sha512-4kkyoEWR7E4CRgW9HlY4REVYDi0ZNqDFxLKsG0CTb9EZQ6Yh31J5puhd7BKvmJbtXVjd+dVpBuwM4vjtRd3s+w==
+  dependencies:
+    "@emotion/core" "^10.0.14"
+    "@emotion/styled" "^10.0.14"
+    "@storybook/client-logger" "5.2.0-beta.33"
+    common-tags "^1.8.0"
+    core-js "^3.0.1"
+    deep-object-diff "^1.1.0"
+    emotion-theming "^10.0.14"
+    global "^4.3.2"
+    memoizerific "^1.11.3"
+    polished "^3.3.1"
+    prop-types "^15.7.2"
+    resolve-from "^5.0.0"
 
 "@storybook/theming@5.2.0-beta.7":
   version "5.2.0-beta.7"
