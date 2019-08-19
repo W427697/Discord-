@@ -1,0 +1,32 @@
+{
+  "name": "@storybook/addon-ondevice-jsx",
+  "version": "5.2.0-beta.33",
+  "description": "Display the story's declaration inside a device panel.",
+  "keywords": [
+    "addon",
+    "jsx",
+    "storybook",
+    "react-native"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "addons/ondevice-jsx"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/addons": "5.2.0-beta.33",
+    "lodash": "^4.17.15"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
