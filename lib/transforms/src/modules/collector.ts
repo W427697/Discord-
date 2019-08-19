@@ -52,7 +52,7 @@ export const removeSubConfigRefs = (): TraverseOptions => {
           const { init } = target.node;
           if (t.isArrayExpression(init)) {
             init.elements.forEach(e => {
-              if (t.isStringLiteral(e)) {
+              if (t.isStringLiteral(e) && !p.removed) {
                 p.remove();
               }
             });
@@ -193,9 +193,10 @@ export const collector = async (files: string[]) => {
   const add = addToCombined(collected);
 
   const allRefs = await collectSubConfigs(files);
+  const scopeAddedNodes: Node[] = [];
 
   // TODO: refactor to async
-  allRefs.filter(onlyUnique).forEach(f =>
+  allRefs.filter(onlyUnique).forEach((f, ii) =>
     transformFileSync(f, {
       configFile: false,
       retainLines: true,
@@ -274,11 +275,13 @@ export const collector = async (files: string[]) => {
                 });
               },
               exit(p) {
-                Object.entries(list).forEach(([k, v]) => {
-                  const id = collected.scope.generateUid(k);
+                Object.entries(list).forEach(([k, v], index) => {
+                  const id = collected.scope.getProgramParent().generateUid(k);
                   v.scope.rename(k, id);
-                  // @ts-ignore
-                  collected.unshiftContainer('body', v.node);
+
+                  collected.scope.getProgramParent().registerDeclaration(v);
+
+                  scopeAddedNodes.push(v.node);
                 });
               },
             },
@@ -293,6 +296,11 @@ export const collector = async (files: string[]) => {
       ],
     })
   );
+
+  scopeAddedNodes.filter(onlyUnique).forEach(n => {
+    // @ts-ignore
+    collected.unshiftContainer('body', n);
+  });
 
   return generate(ast, {}, '');
 };
