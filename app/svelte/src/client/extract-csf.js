@@ -46,20 +46,14 @@ export default xports => {
     },
     addStory: story => {
       const { name } = story;
-      class StoryPreview extends Preview {
-        constructor(options) {
-          super({
-            ...options,
-            props: {
-              ...(options && options.props),
-              Stories,
-              selectedKind: result.default.title,
-              selectedStory: name,
-            },
-          });
-        }
-      }
-      const storyFn = () => StoryPreview;
+      const storyFn = () => ({
+        Component: Preview,
+        props: {
+          Stories,
+          selectedKind: result.default.title,
+          selectedStory: name,
+        },
+      });
       storyFn.story = story;
       const prop = name === 'default' ? defaultStoryName(xports) : name;
       result[prop] = storyFn;
@@ -77,7 +71,12 @@ export default xports => {
   });
   cmp.$destroy();
 
-  if (!result.default || !result.default.title) {
+  // goal: not having an error while a stories file is still empty (when it has
+  // just been created)
+  if (!result.default) {
+    return xports;
+  }
+  if (!result.default.title) {
     throw new Error('Meta component with title is required');
   }
 

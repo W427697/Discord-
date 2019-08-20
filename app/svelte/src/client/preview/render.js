@@ -1,6 +1,5 @@
 import { document } from 'global';
 import { stripIndents } from 'common-tags';
-import { logger } from '@storybook/client-logger';
 
 let previousComponent = null;
 
@@ -8,11 +7,8 @@ function cleanUpPreviousStory() {
   if (!previousComponent) {
     return;
   }
-  try {
-    previousComponent.$destroy();
-  } catch (err) {
-    logger.warn('Failed to destroy previous component', err);
-  }
+
+  previousComponent.$destroy();
   previousComponent = null;
 }
 
@@ -45,19 +41,14 @@ function mountView({ Component, target, props, on, Wrapper, WrapperData }) {
   previousComponent = component;
 }
 
-function renderDefault(
-  story,
-  {
-    // storyFn,
-    selectedKind,
-    selectedStory,
-    showMain,
-    showError,
-    // showException,
-  }
-) {
-  cleanUpPreviousStory();
-
+export default function render({
+  storyFn,
+  selectedKind,
+  selectedStory,
+  showMain,
+  showError,
+  // showException,
+}) {
   const {
     /** @type {SvelteComponent} */
     Component,
@@ -67,8 +58,9 @@ function renderDefault(
     on,
     Wrapper,
     WrapperData,
-  } = story;
+  } = storyFn();
 
+  cleanUpPreviousStory();
   const DefaultCompatComponent = Component ? Component.default || Component : undefined;
   const DefaultCompatWrapper = Wrapper ? Wrapper.default || Wrapper : undefined;
 
@@ -99,31 +91,4 @@ function renderDefault(
   });
 
   showMain();
-}
-
-function renderCsf(
-  StoryPreview,
-  { selectedKind, selectedStory, showMain, showError, showException }
-) {
-  cleanUpPreviousStory();
-
-  const target = document.getElementById('root');
-
-  target.innerHTML = '';
-
-  try {
-    previousComponent = new StoryPreview({ target });
-    showMain();
-  } catch (ex) {
-    showException(ex);
-    // cleanup
-    cleanUpPreviousStory();
-  }
-}
-
-export default function render(config) {
-  const story = config.storyFn();
-  const isSvelteComponent = typeof story === 'function';
-  const renderer = isSvelteComponent ? renderCsf : renderDefault;
-  return renderer(story, config);
 }
