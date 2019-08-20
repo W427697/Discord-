@@ -1,35 +1,32 @@
+/* global document */
+
 import { makeDecorator } from '@storybook/addons';
-import Centered from './components/Centered.svelte';
 import styles from './styles';
-import json2CSS from './helpers/json2CSS';
 import parameters from './parameters';
 
-const centeredStyles = {
-  /** @type {string} */
-  style: json2CSS(styles.style),
-  /** @type {string} */
-  innerStyle: json2CSS(styles.innerStyle),
+const createStyled = (style: Partial<CSSStyleDeclaration>) => () => {
+  const element = document.createElement('div') as HTMLDivElement;
+  Object.assign(element.style, style);
+  return element;
 };
 
-/**
- * This functionality works by passing the svelte story component into another
- * svelte component that has the single purpose of centering the story component
- * using a wrapper and container.
- *
- * We use the special element <svelte:component /> to achieve this.
- *
- * @see https://svelte.technology/guide#svelte-component
- */
-function centered(storyFn: () => any) {
-  const { Component: OriginalComponent, props, on } = storyFn();
-  return {
-    Component: OriginalComponent,
-    props,
-    on,
-    Wrapper: Centered,
-    WrapperData: centeredStyles,
+const createInner = createStyled(styles.innerStyle);
+
+const createOuter = createStyled(styles.style);
+
+// domWrappers allows to decorate the mounting point with direct DOM manipulation,
+// without the need to provide a specific Svelte component
+const centered = (storyFn: () => any) => {
+  const { domWrappers = [], ...story } = storyFn();
+  const centeredDomWrapper = (target: HTMLElement) => {
+    const outer = createOuter();
+    const inner = createInner();
+    target.appendChild(outer);
+    outer.appendChild(inner);
+    return inner;
   };
-}
+  return { ...story, domWrappers: [...domWrappers, centeredDomWrapper] };
+};
 
 export default makeDecorator({
   ...parameters,
