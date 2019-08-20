@@ -1,10 +1,11 @@
 <script>
   import { setContext } from 'svelte';
-  import { setRegister } from './context';
+  import { setRender, setRegister } from './context';
 
   export let Stories;
   export let register;
 
+  setRender(null);
   setRegister(register);
 </script>
 

@@ -1,5 +1,5 @@
 <script>
-  import {setRender} from './context';
+  import { setRender, setRegister } from './context';
 
   export let Stories;
   export let selectedKind;
@@ -7,6 +7,7 @@
 
   const render = { selectedKind, selectedStory };
 
+  setRegister(null);
   setRender(render);
 </script>
 
