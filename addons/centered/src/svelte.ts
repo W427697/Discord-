@@ -1,6 +1,8 @@
+import { makeDecorator } from '@storybook/addons';
 import Centered from './components/Centered.svelte';
 import styles from './styles';
 import json2CSS from './helpers/json2CSS';
+import parameters from './parameters';
 
 const centeredStyles = {
   /** @type {string} */
@@ -18,25 +20,8 @@ const centeredStyles = {
  *
  * @see https://svelte.technology/guide#svelte-component
  */
-export default function(storyFn: () => any) {
-  const story = storyFn();
-  const isSvelteComponent = typeof story === 'function';
-  if (isSvelteComponent) {
-    const StoryPreview = storyFn();
-    return class CenteredStory extends Centered {
-      constructor(config: any) {
-        super({
-          ...config,
-          props: {
-            ...(config && config.props),
-            ...centeredStyles,
-            Child: StoryPreview,
-          },
-        });
-      }
-    };
-  }
-  const { Component: OriginalComponent, props, on } = story;
+function centered(storyFn: () => any) {
+  const { Component: OriginalComponent, props, on } = storyFn();
   return {
     Component: OriginalComponent,
     props,
@@ -45,6 +30,11 @@ export default function(storyFn: () => any) {
     WrapperData: centeredStyles,
   };
 }
+
+export default makeDecorator({
+  ...parameters,
+  wrapper: getStory => centered(getStory as any),
+});
 
 if (module && module.hot && module.hot.decline) {
   module.hot.decline();
