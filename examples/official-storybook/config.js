@@ -1,10 +1,10 @@
 import React from 'react';
-import { load, addDecorator, addParameters } from '@storybook/react';
+import { configure, addDecorator, addParameters } from '@storybook/react';
 import { Global, ThemeProvider, themes, createReset, convert } from '@storybook/theming';
-
 import { withCssResources } from '@storybook/addon-cssresources';
 import { withA11y } from '@storybook/addon-a11y';
 import { withNotes } from '@storybook/addon-notes';
+import { DocsPage } from '@storybook/addon-docs/blocks';
 
 // FIXME: deal with channel
 // import { setCoverage } from '@storybook/addon-coverage';
@@ -55,15 +55,26 @@ addParameters({
   options: {
     hierarchySeparator: /\/|\./,
     hierarchyRootSeparator: '|',
-    theme: { base: 'light', brandTitle: 'Storybook!' },
+    theme: themes.light, // { base: 'dark', brandTitle: 'Storybook!' },
+    storySort: (a, b) =>
+      a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, { numeric: true }),
   },
   backgrounds: [
     { name: 'storybook app', value: themes.light.appBg, default: true },
     { name: 'light', value: '#eeeeee' },
     { name: 'dark', value: '#222222' },
   ],
+  // eslint-disable-next-line react/prop-types
+  docs: ({ context }) => (
+    <DocsPage context={context} subtitleSlot={({ selectedKind }) => `Subtitle: ${selectedKind}`} />
+  ),
 });
 
-load(require.context('../../lib/ui/src', true, /\.stories\.js$/), module);
-load(require.context('../../lib/components/src', true, /\.stories\.tsx?$/), module);
-load(require.context('./stories', true, /\.stories\.js$/), module);
+configure(
+  [
+    require.context('../../lib/ui/src', true, /\.stories\.(js|tsx?|mdx)$/),
+    require.context('../../lib/components/src', true, /\.stories\.(js|tsx?|mdx)$/),
+    require.context('./stories', true, /\.stories\.(js|tsx?|mdx)$/),
+  ],
+  module
+);

@@ -1,5 +1,4 @@
-/* eslint-disable react/no-multi-comp */
-import React, { ReactElement, Component, useContext, useEffect } from 'react';
+import React, { ReactElement, Component, useContext, useEffect, useRef } from 'react';
 import memoize from 'memoizerific';
 // @ts-ignore shallow-equal is not in DefinitelyTyped
 import shallowEqualObjects from 'shallow-equal/objects';
@@ -43,7 +42,10 @@ const { STORY_CHANGED, SET_STORIES, SELECT_STORY } = Events;
 
 export type Module = StoreData &
   RouterData &
-  ProviderData & { mode?: 'production' | 'development' };
+  ProviderData & {
+    mode?: 'production' | 'development';
+    state: State;
+  };
 
 export type State = Other &
   LayoutSubState &
@@ -82,6 +84,10 @@ interface ProviderData {
   provider: Provider;
 }
 
+interface DocsModeData {
+  docsMode: boolean;
+}
+
 interface StoreData {
   store: Store;
 }
@@ -92,7 +98,7 @@ interface Children {
 
 type StatePartial = Partial<State>;
 
-export type Props = Children & RouterData & ProviderData;
+export type Props = Children & RouterData & ProviderData & DocsModeData;
 
 class ManagerProvider extends Component<Props, State> {
   static displayName = 'Manager';
@@ -103,26 +109,41 @@ class ManagerProvider extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    const { provider, location, path, viewMode, storyId, navigate } = props;
+    const {
+      provider,
+      location,
+      path,
+      viewMode = props.docsMode ? 'docs' : 'story',
+      storyId,
+      docsMode,
+      navigate,
+    } = props;
 
     const store = new Store({
       getState: () => this.state,
       setState: (stateChange: StatePartial, callback) => this.setState(stateChange, callback),
     });
 
+    const routeData = { location, path, viewMode, storyId };
+
     // Initialize the state to be the initial (persisted) state of the store.
     // This gives the modules the chance to read the persisted state, apply their defaults
     // and override if necessary
-    this.state = store.getInitialState(getInitialState({}));
+    const docsModeState = {
+      layout: { isToolshown: false, showPanel: false },
+      ui: { docsMode: true },
+    };
+    this.state = store.getInitialState(
+      getInitialState({
+        ...routeData,
+        ...(docsMode ? docsModeState : null),
+      })
+    );
 
     const apiData = {
       navigate,
       store,
       provider,
-      location,
-      path,
-      viewMode,
-      storyId,
     };
 
     this.modules = [
@@ -134,7 +155,7 @@ class ManagerProvider extends Component<Props, State> {
       initStories,
       initURL,
       initVersions,
-    ].map(initModule => initModule(apiData));
+    ].map(initModule => initModule({ ...routeData, ...apiData, state: this.state }));
 
     // Create our initial state by combining the initial state of all modules, then overlaying any saved state
     const state = getInitialState(...this.modules.map(m => m.state));
@@ -293,6 +314,7 @@ type StateMerger<S> = (input: S) => S;
 
 export function useAddonState<S>(addonId: string, defaultState?: S) {
   const api = useStorybookApi();
+  const ref = useRef<{ [k: string]: boolean }>({});
 
   const existingState = api.getAddonState<S>(addonId);
   const state = orDefault<S>(existingState, defaultState);
@@ -301,8 +323,11 @@ export function useAddonState<S>(addonId: string, defaultState?: S) {
     return api.setAddonState<S>(addonId, newStateOrMerger, options);
   };
 
-  if (typeof existingState === 'undefined') {
-    api.setAddonState<S>(addonId, state);
+  if (typeof existingState === 'undefined' && typeof state !== 'undefined') {
+    if (!ref.current[addonId]) {
+      api.setAddonState<S>(addonId, state);
+      ref.current[addonId] = true;
+    }
   }
 
   return [state, setState] as [

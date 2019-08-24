@@ -7,7 +7,7 @@ import { styled } from '@storybook/theming';
 import {
   SyntaxHighlighter as SyntaxHighlighterBase,
   Placeholder,
-  DocumentFormatting,
+  DocumentWrapper,
   Link,
   TabWrapper,
   TabsState,
@@ -19,7 +19,7 @@ import { formatter } from './formatter';
 
 import { PARAM_KEY, Parameters } from './shared';
 
-const Panel = styled.div(({ theme }) => ({
+const Panel = styled.div<{}>(({ theme }) => ({
   padding: '3rem 40px',
   boxSizing: 'border-box',
   width: '100%',
@@ -68,7 +68,13 @@ export const SyntaxHighlighter = ({ className, children, ...props }: SyntaxHighl
   // className: "lang-jsx"
   const language = className.split('-');
   return (
-    <SyntaxHighlighterBase language={language[1] || 'plaintext'} bordered copyable {...props}>
+    <SyntaxHighlighterBase
+      language={language[1] || 'plaintext'}
+      bordered
+      format={false}
+      copyable
+      {...props}
+    >
       {children}
     </SyntaxHighlighterBase>
   );
@@ -167,9 +173,9 @@ const NotesPanel = ({ active }: Props) => {
 
           return (
             <Panel className="addon-notes-container">
-              <DocumentFormatting>
+              <DocumentWrapper>
                 <Markdown options={options}>{formatter(md)}</Markdown>
-              </DocumentFormatting>
+              </DocumentWrapper>
             </Panel>
           );
         }
@@ -182,9 +188,9 @@ const NotesPanel = ({ active }: Props) => {
             render: ({ active: isActive }) => (
               <TabWrapper key={title} active={isActive}>
                 <Panel>
-                  <DocumentFormatting>
+                  <DocumentWrapper>
                     <Markdown options={options}>{formatter(docs)}</Markdown>
-                  </DocumentFormatting>
+                  </DocumentWrapper>
                 </Panel>
               </TabWrapper>
             ),

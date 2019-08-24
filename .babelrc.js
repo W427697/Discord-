@@ -13,6 +13,7 @@ const withTests = {
 };
 
 module.exports = {
+  ignore: ['./lib/codemod/src/transforms/__testfixtures__'],
   presets: [
     ['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage', corejs: '3' }],
     '@babel/preset-typescript',
@@ -73,13 +74,11 @@ module.exports = {
     },
     {
       test: [
-        './lib/core/src/server',
         './lib/node-logger',
         './lib/codemod',
         './addons/storyshots',
-        './addons/storysource/src/loader',
-        './app/**/src/server/**',
-        './app/**/src/bin/**',
+        '**/src/server/**',
+        '**/src/bin/**',
       ],
       presets: [
         [
