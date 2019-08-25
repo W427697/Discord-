@@ -16,6 +16,8 @@ class TreeView extends React.PureComponent {
     onItemPress: types.func,
     onItemLongPress: types.func,
     deleteOnLongPress: types.bool,
+    selectedKind: types.string,
+    selectedStory: types.string,
   }
 
   static defaultProps = {
@@ -32,6 +34,9 @@ class TreeView extends React.PureComponent {
       data: this.makeCollapsed(props.data.slice()),
       idKey: props.idKey,
       childrenKey: props.childrenKey,
+      selectedKind: props.selectedKind,
+      selectedStory: props.selectedStory,
+      isFirstRun: false,
     }
 
     this.handleNodePressed = this.handleNodePressed.bind(this)
@@ -41,6 +46,15 @@ class TreeView extends React.PureComponent {
     this.setState({
       data: this.makeCollapsed(props.data.slice()),
     })
+    if (props.selectedKind != null && props.selectedStory != null && this.state.isFirstRun == false) {
+      let fullPath = ('' + props.selectedKind + "/" + props.selectedStory).split("/");
+      let path = '';
+      fullPath.map(s => {
+        path = path + (path !== '' ? "/" : '') + s;
+        this.toggleCollapse(this.state.data, path);
+      });
+      this.setState({isFirstRun: true});
+    }
   }
 
   makeCollapsed(data) {

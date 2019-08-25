@@ -172,6 +172,8 @@ export default class StoryListView extends Component {
         />
         <ScrollView style={style.sectionList}>
         <TreeView
+        selectedKind={selectedKind}
+        selectedStory={selectedStory}
         ref={ref => (this.treeView = ref)}
         data={this.state.data}
         onItemPress={(node, level)=>{
