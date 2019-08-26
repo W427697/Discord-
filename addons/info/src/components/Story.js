@@ -220,6 +220,16 @@ class Story extends Component {
     );
   }
 
+  _getStoryKind() {
+    let {
+      context: { kind },
+    } = this.props;
+    if (kind) {
+      kind = kind.replace(/^(.+[/|.])*/, '');
+    }
+    return kind;
+  }
+
   _getInfoHeader() {
     const { stylesheet } = this.state;
     const { context, showHeader } = this.props;
@@ -230,7 +240,7 @@ class Story extends Component {
 
     return (
       <div style={stylesheet.header.body}>
-        <h1 style={stylesheet.header.h1}>{context.kind}</h1>
+        <h1 style={stylesheet.header.h1}>{this._getStoryKind()}</h1>
         <h2 style={stylesheet.header.h2}>{context.name}</h2>
       </div>
     );
@@ -265,11 +275,11 @@ class Story extends Component {
 
   _getComponentDescription() {
     const {
-      context: { kind, name },
+      context: { name },
     } = this.props;
     let retDiv = null;
 
-    const validMatches = [kind, name];
+    const validMatches = [this._getStoryKind(), name];
 
     if (Object.keys(STORYBOOK_REACT_CLASSES).length) {
       Object.keys(STORYBOOK_REACT_CLASSES).forEach(key => {

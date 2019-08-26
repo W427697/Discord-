@@ -87,6 +87,28 @@ describe('addon Info', () => {
     expect(mount(<Info />)).toMatchSnapshot();
   });
 
+  it('should render the kind without nesting', () => {
+    const Info = () =>
+      withInfo({ inline: true, propTables: false })(storyFn, {
+        kind: 'Components/Test/TestComponent',
+        name: 'Basic test',
+      });
+
+    const wrapper = mount(<Info />);
+    expect(wrapper.find('div > div:first-child > h1').text()).toBe('TestComponent');
+  });
+
+  it('should render the kind without a title', () => {
+    const Info = () =>
+      withInfo({ inline: true, propTables: false })(storyFn, {
+        kind: 'Components|TestComponent',
+        name: 'Basic test',
+      });
+
+    const wrapper = mount(<Info />);
+    expect(wrapper.find('div > div:first-child > h1').text()).toBe('TestComponent');
+  });
+
   it('should render component description if story kind matches component', () => {
     const previousReactClassesValue = global.STORYBOOK_REACT_CLASSES[reactClassPath];
     Object.assign(global.STORYBOOK_REACT_CLASSES, { [reactClassPath]: storybookReactClassMock });
@@ -110,6 +132,36 @@ describe('addon Info', () => {
       withInfo({ inline: true, propTables: false })(storyFn, {
         kind: 'Test Components',
         name: 'TestComponent',
+      });
+
+    expect(mount(<Info />)).toMatchSnapshot();
+
+    Object.assign(global.STORYBOOK_REACT_CLASSES, { [reactClassPath]: previousReactClassesValue });
+  });
+
+  it('should render component description if story kind matches component with a title', () => {
+    const previousReactClassesValue = global.STORYBOOK_REACT_CLASSES[reactClassPath];
+    Object.assign(global.STORYBOOK_REACT_CLASSES, { [reactClassPath]: storybookReactClassMock });
+
+    const Info = () =>
+      withInfo({ inline: true, propTables: false })(storyFn, {
+        kind: 'Componets|TestComponent',
+        name: 'Basic test',
+      });
+
+    expect(mount(<Info />)).toMatchSnapshot();
+
+    Object.assign(global.STORYBOOK_REACT_CLASSES, { [reactClassPath]: previousReactClassesValue });
+  });
+
+  it('should render component description if story kind matches component with nesting', () => {
+    const previousReactClassesValue = global.STORYBOOK_REACT_CLASSES[reactClassPath];
+    Object.assign(global.STORYBOOK_REACT_CLASSES, { [reactClassPath]: storybookReactClassMock });
+
+    const Info = () =>
+      withInfo({ inline: true, propTables: false })(storyFn, {
+        kind: 'Components/Tests/TestComponent',
+        name: 'Basic test',
       });
 
     expect(mount(<Info />)).toMatchSnapshot();
