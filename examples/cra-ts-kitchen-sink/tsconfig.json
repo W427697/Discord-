@@ -1,25 +1,28 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
-    "paths": { "*": ["types/*"] },
-    "target": "es5",
-    "module": "esnext",
-    "lib" : ["esnext", "dom"],
-    "jsx": "preserve",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowJs": true,
-    "skipLibCheck": false,
+    "allowJs": false,
+    // DO NOT remove `allowSyntheticDefaultImports` or `esModuleInterop` or everything will break
+    // This is needed to allow `import React from 'react'` as opposed to `import * as React from 'react'`
+    // see: https://github.com/kulshekhar/ts-jest/issues/632
+    // and: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/5128#issuecomment-270078424
     "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "lib": ["esnext", "dom"],
+    "module": "commonjs",
+    "noEmit": true,
+    "noEmitOnError": true,
+    "moduleResolution": "node",
+    "outDir": "lib",
+    "rootDirs": ["src", "test"],
+    "pretty": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "sourceMap": true,
+    "target": "es2017",
+    "strict": true,
+    "noImplicitAny": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "src/setupTests.js"
-  ]
+  "include": ["src/**/*.*", "test/**/*.*", "types"]
 }
