@@ -293,13 +293,13 @@
   dependencies:
     core-js "^3.0.1"
 
-"@storybook/components@5.2.0-beta.7":
-  version "5.2.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@storybook/components/-/components-5.2.0-beta.7.tgz#a61eba234c4556dff9fafe6b0c6211eb0da07b14"
-  integrity sha512-wo9RWkUFs3ExDfQIxS9koDxKnLHl4aKTWteC1UalFtvu6bKvN7IXhhE7FwaSLqQL6BL2koTcBN3vg28tRz1Y8Q==
+"@storybook/components@5.2.0-beta.48":
+  version "5.2.0-beta.48"
+  resolved "https://registry.yarnpkg.com/@storybook/components/-/components-5.2.0-beta.48.tgz#ab353fb2e96bb48fe947a25bdeede027ddd8244a"
+  integrity sha512-LGMj7+8/lii79T+Jf9qXyF9n73hGqqPaSQnbzYs0uL+HHy7bqsxm4MD80YAKUfL0rgTb2ne6fw9mShFSCHmbkA==
   dependencies:
-    "@storybook/client-logger" "5.2.0-beta.7"
-    "@storybook/theming" "5.2.0-beta.7"
+    "@storybook/client-logger" "5.2.0-beta.48"
+    "@storybook/theming" "5.2.0-beta.48"
     "@types/react-syntax-highlighter" "10.1.0"
     core-js "^3.0.1"
     global "^4.3.2"
