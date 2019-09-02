@@ -1,6 +1,6 @@
 {
   "name": "@storybook/runtime",
-  "version": "5.2.0-beta.40",
+  "version": "5.2.0-rc.2",
   "description": "Storybook runtime",
   "keywords": [
     "client",
