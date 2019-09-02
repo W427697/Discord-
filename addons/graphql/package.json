@@ -26,8 +26,8 @@
     "@storybook/api": "5.2.0-rc.2",
     "core-js": "^3.0.1",
     "global": "^4.0.0",
-    "graphiql": "^0.13.0",
-    "graphql": "^14.2.1",
+    "graphiql": "^0.14.2",
+    "graphql": "^14.5.4",
     "prop-types": "^15.7.2"
   },
   "peerDependencies": {

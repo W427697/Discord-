@@ -32,15 +32,15 @@
     "lodash": "^4.17.11",
     "memoizerific": "^1.11.3",
     "prop-types": "^15.6.2",
-    "react": "^16.8.3",
+    "react": "^16.9.0",
     "semver": "^6.0.0",
     "shallow-equal": "^1.2.0",
-    "store2": "^2.7.1",
+    "store2": "^2.9.0",
     "telejson": "^2.2.2",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.134",
+    "@types/lodash": "^4.14.138",
     "@types/semver": "^6.0.0"
   },
   "publishConfig": {

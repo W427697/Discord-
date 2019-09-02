@@ -33,7 +33,7 @@
     "format-json": "^1.0.3",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
-    "react": "^16.8.3",
+    "react": "^16.9.0",
     "react-lifecycles-compat": "^3.0.4",
     "react-textarea-autosize": "^7.0.4",
     "util-deprecate": "^1.0.2"

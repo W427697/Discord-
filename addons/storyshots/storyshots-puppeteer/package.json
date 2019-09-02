@@ -25,7 +25,7 @@
     "@storybook/node-logger": "5.2.0-rc.2",
     "@storybook/router": "5.2.0-rc.2",
     "core-js": "^3.0.1",
-    "jest-image-snapshot": "^2.8.2",
+    "jest-image-snapshot": "^2.10.0",
     "regenerator-runtime": "^0.12.1"
   },
   "peerDependencies": {

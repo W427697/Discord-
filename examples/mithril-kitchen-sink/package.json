@@ -25,6 +25,6 @@
     "@storybook/addons": "5.2.0-rc.2",
     "@storybook/mithril": "5.2.0-rc.2",
     "@storybook/source-loader": "5.2.0-rc.2",
-    "webpack": "^4.33.0"
+    "webpack": "^4.39.3"
   }
 }

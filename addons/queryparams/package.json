@@ -32,8 +32,8 @@
     "common-tags": "^1.8.0",
     "core-js": "^3.0.1",
     "global": "^4.0.0",
-    "qs": "^6.6.0",
-    "react": "^16.8.3"
+    "qs": "^6.8.0",
+    "react": "^16.9.0"
   },
   "devDependencies": {
     "@types/common-tags": "^1.8.0"

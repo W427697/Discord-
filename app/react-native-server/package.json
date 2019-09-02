@@ -30,13 +30,13 @@
     "@storybook/core": "5.2.0-rc.2",
     "@storybook/core-events": "5.2.0-rc.2",
     "@storybook/ui": "5.2.0-rc.2",
-    "commander": "^2.19.0",
+    "commander": "^3.0.1",
     "core-js": "^3.0.1",
     "global": "^4.0.0",
-    "react": "^16.6.0",
-    "react-dom": "^16.8.3",
-    "uuid": "^3.3.2",
-    "webpack": "^4.33.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "uuid": "^3.3.3",
+    "webpack": "^4.39.3",
     "ws": "^6.1.0"
   },
   "peerDependencies": {
