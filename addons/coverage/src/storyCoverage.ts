@@ -1,5 +1,4 @@
 import { CoverageMap, StoryMap, StoryCoverage, CoverageItem } from './shared';
-import { StoriesHash } from '@storybook/api/dist/modules/stories';
 
 export function stripExtension(filePath: string) {
   const stripped = filePath.replace(/\.[tj]sx?$/, '');
@@ -40,9 +39,9 @@ export function compute(item: CoverageItem) {
 
 export function storyCoverage(coverageMap: CoverageMap, storyMap: StoryMap): StoryCoverage {
   const result: StoryCoverage = {};
-  Object.entries(coverageMap).forEach(([fileName, item]) => {
-    const key = stripExtension(fileName);
-    const storyIds = storyMap[key];
+  Object.entries(coverageMap).forEach(([filename, item]) => {
+    // const key = stripExtension(fileName);
+    const storyIds = storyMap[filename];
     if (storyIds) {
       const coverage = compute(item);
       storyIds.forEach(storyId => {
@@ -59,4 +58,22 @@ export function storyCoverage(coverageMap: CoverageMap, storyMap: StoryMap): Sto
   //   });
   // });
   return result;
+}
+
+export function storyMap(storyStore: any): StoryMap {
+  const storyMap: StoryMap = {};
+  storyStore.raw().forEach(({ id, parameters }: { id: string; parameters: any }) => {
+    const { filename = null }: { filename: string } =
+      // eslint-disable-next-line no-underscore-dangle
+      (parameters && parameters.component && parameters.component.__docgenInfo) || {};
+    if (filename) {
+      let ids = storyMap[filename];
+      if (!ids) {
+        ids = [];
+        storyMap[filename] = ids;
+      }
+      ids.push(id);
+    }
+  });
+  return storyMap;
 }

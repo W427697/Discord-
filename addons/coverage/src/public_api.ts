@@ -1,1 +1,2 @@
-export { getCoverage, setCoverage } from './shared';
+export * from './shared';
+export * from './storyCoverage';

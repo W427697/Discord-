@@ -1,6 +1,9 @@
 export const ADDON_ID = 'storybookjs/coverage';
 export const PANEL_ID = `${ADDON_ID}/panel`;
 export const PARAM_KEY = `coverage`;
+export const EVENTS = {
+  COVERAGE: `coverage_result`,
+};
 
 interface TextParameter {
   text: string;

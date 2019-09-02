@@ -1,37 +1,20 @@
 import React from 'react';
-import { API, Consumer, Combo } from '@storybook/api';
-import { CoverageMap, PARAM_KEY } from './shared';
-import { storyCoverage } from './storyCoverage';
-
-interface CoveragePanelProps {
-  active: boolean;
-  api: API;
-}
+import { useChannel, useAddonState } from '@storybook/api';
+import { StoryCoverage, ADDON_ID, EVENTS } from './shared';
 
 interface CoverageProps {
-  coverageMap: CoverageMap;
+  coverage: StoryCoverage;
 }
 
-const mapper = ({ state, api }: Combo): { value?: CoverageMap } => {
-  return { value: api.getParameters(state.storyId, PARAM_KEY) };
+const Coverage: React.FunctionComponent<CoverageProps> = ({ coverage }) => {
+  return <div>{JSON.stringify(coverage, null, 2)}</div>;
 };
 
-const Coverage: React.FunctionComponent<CoverageProps> = ({ coverageMap }) => {
-  const ROOT = '/Users/shilman/projects/storybookjs/storybook';
-  const storyMap = {
-    [`${ROOT}/lib/ui/src/components/layout/desktop`]: ['desktop--id'],
-    [`${ROOT}/lib/ui/src/components/sidebar/Sidebar`]: ['sidebar--id'],
-  };
-  const cov = storyCoverage(coverageMap, storyMap);
-  return <div>{JSON.stringify(cov, null, 2)}</div>;
-};
-
-export const CoveragePanel: React.FunctionComponent<CoveragePanelProps> = ({ active, api }) => {
-  return (
-    <Consumer filter={mapper}>
-      {({ value: map }: { value?: CoverageMap }) =>
-        map ? <Coverage coverageMap={map} /> : <div>No coverage</div>
-      }
-    </Consumer>
-  );
+export const CoveragePanel: React.FunctionComponent<{}> = () => {
+  const [coverage, setCoverage] = useAddonState<StoryCoverage>(ADDON_ID, null);
+  const emit = useChannel({
+    [EVENTS.COVERAGE]: (coverage: StoryCoverage) => setCoverage(coverage),
+  });
+  // console.log('panel', { coverage });
+  return coverage ? <Coverage coverage={coverage} /> : <div>No coverage</div>;
 };
