@@ -107,13 +107,7 @@ export const Item = styled(({ className, children, id }) => (
       '&& > svg + span': { background: theme.color.medium },
       '&& > *': theme.animation.inlineGlow,
       '&& > span': { borderColor: 'transparent' },
-    },
-  ({ kind, parameters }) =>
-    window.getKindColor
-      ? {
-          background: window.getKindColor(kind, parameters),
-        }
-      : {}
+    }
 );
 
 type SidebarItemProps = React.ComponentProps<typeof Item> & {
@@ -142,6 +136,26 @@ const SidebarItem = ({
     iconName = 'folder';
   }
 
+  let coverage = null;
+  const { childIds } = props;
+  if (isComponent && childIds) {
+    const coverageColor = window.getStoryColor && window.getStoryColor(childIds[0]);
+    if (coverageColor) {
+      // @ts-ignore
+      coverage = (
+        <span
+          style={{
+            width: 10,
+            height: 10,
+            borderRadius: 3,
+            backgroundColor: coverageColor,
+            marginRight: 5,
+          }}
+        />
+      );
+    }
+  }
+
   return (
     <Item
       isSelected={isSelected}
@@ -150,6 +164,7 @@ const SidebarItem = ({
     >
       <Expander className="sidebar-expander" isExpandable={!isLeaf} isExpanded={isExpanded} />
       <Icon className="sidebar-svg-icon" icon={iconName} isSelected={isSelected} />
+      {coverage}
       <span>{name}</span>
     </Item>
   );

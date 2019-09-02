@@ -8,6 +8,12 @@ How it works:
 - Docgen loader adds `filename` to `__docgenInfo` for each component
 - Addon-coverage maps story to `component` parameter to `filename` to `coverage`
 
+UI:
+
+- Toolbar button selects coverage summmary type (statement, branch, etc.)
+- Nav tree view visualizes `CoverageSummary` (storyId + type => number for all stories)
+- Coverage panel visualizes `CoverageDetail` (summary numbers + file source)
+
 To generate coverage.json:
 
 ```
@@ -29,12 +35,19 @@ import coverageMap from '../../coverage/coverage-final.json';
 
 ...
 
-const coverage = storyCoverage(coverageMap, storyMap(window.__STORYBOOK_STORY_STORE__));
-// console.log('loaded', { coverageMap, coverage });
-addParameters({ coverage });
-
 const channel = addons.getChannel();
-channel.emit(EVENTS.COVERAGE, coverage);
+const coverage = coverageSummary(coverageMap, storyMap(window.__STORYBOOK_STORY_STORE__));
+channel.emit(EVENTS.COVERAGE_SUMMARY, coverage);
+
+function getContext(store) {
+  const { storyId } = store.getSelection();
+  return store.fromId(storyId);
+}
+
+const context = getContext(window.__STORYBOOK_STORY_STORE__);
+if (context) {
+  channel.emit(EVENTS.COVERAGE_DETAIL, coverageDetail(context));
+}
 ```
 
 To make this usable:

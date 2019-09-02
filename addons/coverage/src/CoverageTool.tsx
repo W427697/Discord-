@@ -1,96 +1,56 @@
 import React, { useState } from 'react';
 import { window } from 'global';
 import { Icons, IconButton } from '@storybook/components';
-import { PARAM_KEY, CoverageMap, CoverageItem, getCoverage } from './shared';
+import { useChannel, useAddonState } from '@storybook/api';
+import { SELECT_STORY } from '@storybook/core-events';
 
-function coverageKey(kind: string): string {
-  const parts = kind.split(/\||\/|\./);
-  return parts[parts.length - 1].toLowerCase();
-}
+import {
+  PARAM_KEY,
+  EVENTS,
+  CoverageMap,
+  CoverageSummary,
+  CoverageItem,
+  setCoverageSummary,
+  getCoverageSummary,
+} from './shared';
 
-// enum Color {
-//   LOW = '#fce1e5',
-//   MED = '#fff4c2',
-//   HIGH = '#e6f5d0',
-// }
-enum Color {
-  HIGH = '#B4E095',
-  MED = '#F0F775',
-  LOW = '#F1C25B',
-  VLOW = '#F97979',
-}
+const heatmap = ['#fecc5c', '#fd8d3c', '#f03b20', '#bd0026'].reverse();
 
-function percent(covered: number, total: number) {
-  if (total > 0) {
-    const tmp = (1000 * 100 * covered) / total + 5;
-    return Math.floor(tmp / 10) / 100;
-  } else {
-    return 100.0;
+function heatmapColor(val: number) {
+  if (!val && val !== 0) {
+    return null;
   }
-}
-
-function computeSimpleTotals(fileCoverage: any, property: any, mapProperty: any) {
-  var stats = fileCoverage[property],
-    map = mapProperty ? fileCoverage[mapProperty] : null,
-    ret = { total: 0, covered: 0, skipped: 0 };
-
-  Object.keys(stats).forEach(function(key) {
-    var covered = !!stats[key],
-      skipped = map && map[key].skip;
-    ret.total += 1;
-    if (covered || skipped) {
-      ret.covered += 1;
-    }
-    if (!covered && skipped) {
-      ret.skipped += 1;
-    }
-  });
-  return percent(ret.covered, ret.total);
-}
-
-function compute(key: string, coverage: CoverageItem) {
-  console.log(key, coverage);
-  return computeSimpleTotals(coverage, 's', 'statementMap');
-}
-
-function getCoverageColor(kind: string, coverageMap: CoverageMap): string | null {
-  const key = coverageKey(kind);
-  const coverage = coverageMap[key];
-  if (!coverage) return null;
-
-  const val = compute(key, coverage);
-  switch (true) {
-    case val >= 90:
-      return Color.HIGH;
-    case val >= 60:
-      return Color.MED;
-    case val >= 40:
-      return Color.LOW;
-    default:
-      return Color.VLOW;
+  if (val === 100) {
+    return '#74c476';
   }
+  const idx = Math.floor(heatmap.length * (val / 100));
+  return heatmap[idx];
 }
 
-const getColor = (kind: string, parameters: any, active: boolean) => {
-  const coverageMap = getCoverage();
-  // console.log('parameters', parameters);
-  return (active && kind && coverageMap && getCoverageColor(kind, coverageMap)) || 'transparent';
+const getColor = (storyId: string, active: boolean) => {
+  const coverageSummary = getCoverageSummary();
+  return active && storyId && coverageSummary && heatmapColor(coverageSummary[storyId]);
 };
 
-// const getYellow = (kind: string, active: boolean) => (active ? '#ffff00' : 'transparent');
-
 export const CoverageTool: React.FunctionComponent<{}> = () => {
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(true);
   const icon = active ? 'eye' : 'eyeclose';
 
-  window.getKindColor = (kind: string, parameters: any) => getColor(kind, parameters, active);
-
+  window.getStoryColor = (storyId: string) => getColor(storyId, active);
+  const emit = useChannel({
+    [EVENTS.COVERAGE_SUMMARY]: (summary: CoverageSummary) => {
+      setCoverageSummary(summary);
+    },
+  });
   return (
     <IconButton
       key={PARAM_KEY}
       active={active}
       title="Story Coverage"
-      onClick={() => setActive(!active)}
+      onClick={() => {
+        setActive(!active);
+        emit(SELECT_STORY, { kind: 'Coverage|Welcome', story: 'normal' });
+      }}
     >
       <Icons icon={icon} />
     </IconButton>

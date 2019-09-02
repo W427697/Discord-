@@ -2,7 +2,8 @@ export const ADDON_ID = 'storybookjs/coverage';
 export const PANEL_ID = `${ADDON_ID}/panel`;
 export const PARAM_KEY = `coverage`;
 export const EVENTS = {
-  COVERAGE: `coverage_result`,
+  COVERAGE_SUMMARY: `COVERAGE_SUMMARY`,
+  COVERAGE_DETAIL: 'COVERAGE_DETAIL',
 };
 
 interface TextParameter {
@@ -31,8 +32,14 @@ export type StoryMap = {
   [key: string]: string[];
 };
 
-export type StoryCoverage = {
+export type CoverageSummary = {
   [storyId: string]: number;
+};
+
+export type CoverageDetail = {
+  filename: string;
+  source: string;
+  item: CoverageItem;
 };
 
 function preprocessKey(fname: string) {
@@ -73,12 +80,11 @@ function preprocess(coverageMap: CoverageMap) {
   return map;
 }
 
-let __coverageMap: CoverageMap | undefined;
-export const setCoverage = (coverageMap: CoverageMap) => {
-  __coverageMap = preprocess(coverageMap);
-  console.log('set', { __coverageMap });
+let __coverageSummary: CoverageSummary | undefined;
+export const setCoverageSummary = (coverageSummary: CoverageSummary) => {
+  __coverageSummary = coverageSummary;
+  console.log('set', { coverageSummary });
 };
-export const getCoverage = () => {
-  // console.log('get', { __coverageMap });
-  return __coverageMap;
+export const getCoverageSummary = () => {
+  return __coverageSummary;
 };

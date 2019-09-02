@@ -1,20 +1,53 @@
 import React from 'react';
 import { useChannel, useAddonState } from '@storybook/api';
-import { StoryCoverage, ADDON_ID, EVENTS } from './shared';
+import { SyntaxHighlighter } from '@storybook/components';
 
-interface CoverageProps {
-  coverage: StoryCoverage;
+import { CoverageSummary, CoverageDetail, ADDON_ID, EVENTS } from './shared';
+import { lineCoverage } from './storyCoverage';
+
+interface SummaryPanelProps {
+  summary: CoverageSummary;
 }
 
-const Coverage: React.FunctionComponent<CoverageProps> = ({ coverage }) => {
-  return <div>{JSON.stringify(coverage, null, 2)}</div>;
+const SummaryPanel: React.FC<SummaryPanelProps> = ({ summary }) => {
+  return <div>{JSON.stringify(summary, null, 2)}</div>;
 };
 
-export const CoveragePanel: React.FunctionComponent<{}> = () => {
-  const [coverage, setCoverage] = useAddonState<StoryCoverage>(ADDON_ID, null);
-  const emit = useChannel({
-    [EVENTS.COVERAGE]: (coverage: StoryCoverage) => setCoverage(coverage),
+interface DetailPanelProps {
+  detail: CoverageDetail;
+}
+
+const DetailPanel: React.FC<DetailPanelProps> = ({ detail }) => {
+  if (!(detail.source && detail.item)) {
+    return <>No coverage</>;
+  }
+
+  const lineToMissing = lineCoverage(detail.item);
+  const lineProps = (lineNumber: number) =>
+    lineToMissing[lineNumber] ? { style: { backgroundColor: '#ffcccc' } } : {};
+  return (
+    <SyntaxHighlighter
+      language="jsx"
+      showLineNumbers
+      wrapLines
+      // @ts-ignore
+      lineProps={lineProps}
+      format={false}
+      copyable={false}
+      padded
+    >
+      {detail.source}
+    </SyntaxHighlighter>
+  );
+};
+
+export const CoveragePanel: React.FC<{}> = () => {
+  const [coverageSummary, setCoverageSummary] = useAddonState<CoverageSummary>(ADDON_ID, null);
+  const [coverageDetail, setCoverageDetail] = useAddonState<CoverageDetail>(ADDON_ID, null);
+  useChannel({
+    [EVENTS.COVERAGE_DETAIL]: (detail: CoverageDetail) => setCoverageDetail(detail),
   });
   // console.log('panel', { coverage });
-  return coverage ? <Coverage coverage={coverage} /> : <div>No coverage</div>;
+  // return coverageSummary ? <SummaryPanel summary={coverageSummary} /> : <div>No coverage</div>;
+  return coverageDetail ? <DetailPanel detail={coverageDetail} /> : <div>No coverage</div>;
 };

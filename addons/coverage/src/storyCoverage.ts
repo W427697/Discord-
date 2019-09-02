@@ -1,4 +1,6 @@
-import { CoverageMap, StoryMap, StoryCoverage, CoverageItem } from './shared';
+import { window } from 'global';
+import { CoverageMap, StoryMap, CoverageSummary, CoverageItem, EVENTS } from './shared';
+import addons, { StoryFn, StoryContext, Parameters } from '@storybook/addons';
 
 export function stripExtension(filePath: string) {
   const stripped = filePath.replace(/\.[tj]sx?$/, '');
@@ -33,12 +35,25 @@ function computeSimpleTotals(fileCoverage: any, property: any, mapProperty: any)
   return percent(ret.covered, ret.total);
 }
 
+export function lineCoverage(item: CoverageItem) {
+  const lineToMissing: Record<number, boolean> = {};
+  Object.entries(item.s).forEach(([statementId, isCovered]) => {
+    const stmt = item.statementMap[statementId];
+    if (!isCovered) {
+      for (let i: number = stmt.start.line; i < stmt.end.line; i += 1) {
+        lineToMissing[i] = true;
+      }
+    }
+  });
+  return lineToMissing;
+}
+
 export function compute(item: CoverageItem) {
   return computeSimpleTotals(item, 's', 'statementMap');
 }
 
-export function storyCoverage(coverageMap: CoverageMap, storyMap: StoryMap): StoryCoverage {
-  const result: StoryCoverage = {};
+export function coverageSummary(coverageMap: CoverageMap, storyMap: StoryMap): CoverageSummary {
+  const result: CoverageSummary = {};
   Object.entries(coverageMap).forEach(([filename, item]) => {
     // const key = stripExtension(fileName);
     const storyIds = storyMap[filename];
@@ -60,12 +75,17 @@ export function storyCoverage(coverageMap: CoverageMap, storyMap: StoryMap): Sto
   return result;
 }
 
+const getSource = (parameters: Parameters): Parameters => {
+  const { filename = null, source = null } =
+    // eslint-disable-next-line no-underscore-dangle
+    (parameters && parameters.component && parameters.component.__docgenInfo) || {};
+  return { filename, source };
+};
+
 export function storyMap(storyStore: any): StoryMap {
   const storyMap: StoryMap = {};
-  storyStore.raw().forEach(({ id, parameters }: { id: string; parameters: any }) => {
-    const { filename = null }: { filename: string } =
-      // eslint-disable-next-line no-underscore-dangle
-      (parameters && parameters.component && parameters.component.__docgenInfo) || {};
+  storyStore.raw().forEach(({ id, parameters }: { id: string; parameters: Parameters }) => {
+    const { filename } = getSource(parameters);
     if (filename) {
       let ids = storyMap[filename];
       if (!ids) {
@@ -77,3 +97,19 @@ export function storyMap(storyStore: any): StoryMap {
   });
   return storyMap;
 }
+
+export const coverageDetail = (context: StoryContext) => {
+  const coverageMap: CoverageMap = window.__STORYBOOK_COVERAGE_MAP__;
+  const { filename, source } = getSource(context.parameters);
+  const item = coverageMap && filename && coverageMap[filename];
+  return {
+    source,
+    filename,
+    item,
+  };
+};
+
+export const withCoverage = (getStory: StoryFn, context: StoryContext) => {
+  addons.getChannel().emit(EVENTS.COVERAGE_DETAIL, coverageDetail(context));
+  return getStory(context);
+};
