@@ -15,6 +15,7 @@ import {
 } from '../index';
 
 // Note: this is a helper to batch test return types and avoid "declared but never read" errors
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 function expectKnobOfType<T>(..._: T[]) {}
 
 const groupId = 'GROUP-ID1';
@@ -106,7 +107,7 @@ expectKnobOfType<string>(
     },
     'none'
   ),
-  select('select with string array', ['yes', 'no'], 'yes'),
+  select('select with string array', ['yes', 'no'] as const, 'yes'),
   select('select with string literal array', stringLiteralArray, stringLiteralArray[0]),
   select('select with readonly array', ['red', 'blue'] as const, 'red'),
   select<ButtonVariant>('select with string enum options', ButtonVariant, ButtonVariant.primary)
@@ -123,7 +124,7 @@ expectKnobOfType<number>(
     { 'type a': SomeEnum.Type1, 'type b': SomeEnum.Type2 },
     SomeEnum.Type2
   ),
-  select('select with number array', [1, 2, 3, 4], 1),
+  select('select with number array', [1, 2, 3, 4] as const, 1),
   select('select with readonly number array', [1, 2] as const, 1)
 );
 

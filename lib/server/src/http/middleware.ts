@@ -6,7 +6,7 @@ import express, { Express } from 'express';
 import fs from 'fs-extra';
 
 import { progress, logger } from '@storybook/node-logger';
-import { ConfigValues } from '@storybook/config';
+import { A } from '@storybook/config';
 
 import { CliOptions, CallOptions } from '../types/cli';
 
@@ -22,7 +22,7 @@ const staticMiddleware = (config: Static[]) => async (app: Express) => {
   const hasCustomFavicon = await list.reduce(async (acc, [route, location]) => {
     const fullLocation = path.resolve(location);
 
-    if (await !fs.pathExists(fullLocation)) {
+    if (!(await fs.pathExists(fullLocation))) {
       logger.error(`Error: no such directory to load static files: "${fullLocation}"`);
     } else {
       // TODO should be part of server
@@ -60,7 +60,7 @@ const createStaticPathsConfig = (fromCli: string[] = [], fromConfig: Static[] = 
 // middleware has access to the app & server, and can add http handlers and routes
 const createMiddleware = async (
   fromCli: CliOptions,
-  fromConfig: ConfigValues,
+  fromConfig: A.ConfigValues,
   addition: CallOptions
 ): Promise<Middleware[]> => {
   const staticContentConfig = createStaticPathsConfig(
@@ -69,7 +69,7 @@ const createMiddleware = async (
   );
 
   return []
-    .concat(await staticMiddleware(staticContentConfig))
+    .concat(staticMiddleware(staticContentConfig))
     .concat(fromConfig.server.middleware || [])
     .concat(addition.middleware || []);
 };

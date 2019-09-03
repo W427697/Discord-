@@ -40,3 +40,6 @@ export function getConfig({ configFile }: C.Options, extraPresets: P.Preset[] = 
 }
 
 export * from './types/cli';
+
+export { P };
+export { A };

@@ -151,7 +151,7 @@ const addToCombined = (combined: NodePath<t.Program>) => (
     const declarations = declaration.get('declarations');
 
     declarations.forEach(d => {
-      const { id, init } = d.node;
+      const { id } = d.node;
       if (t.isIdentifier(id)) {
         const { name } = id;
 
@@ -281,7 +281,7 @@ export const collector = async (files: string[]) => {
 
                   collected.scope.getProgramParent().registerDeclaration(v);
 
-                  scopeAddedNodes.push(v.node);
+                  scopeAddedNodes.push(v.node as any);
                 });
               },
             },

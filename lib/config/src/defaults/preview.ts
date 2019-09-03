@@ -53,7 +53,8 @@ export const webpack: PresetMergeAsyncFn<Webpack> = async (_, config) => {
         }),
         template: path.join(__dirname, '..', 'templates', 'index.ejs'),
       }),
-      new CaseSensitivePathsPlugin(),
+      // TODO, this broke with some version update
+      new CaseSensitivePathsPlugin() as any,
       plugin,
     ],
 

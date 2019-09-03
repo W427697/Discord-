@@ -46,6 +46,7 @@ module.exports = {
   rules: {
     'no-useless-constructor': ignore,
     '@typescript-eslint/no-useless-constructor': error,
+    '@typescript-eslint/ban-ts-ignore': ignore,
     'no-restricted-imports': [
       error,
       {

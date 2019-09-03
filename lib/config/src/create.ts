@@ -62,7 +62,7 @@ export const getStorybookConfigs = async ({
   customSettings,
   envOptions,
 }: {
-  customSettings?: Config;
+  customSettings?: F.Config;
   callOptions?: C.CallOptions;
   cliOptions?: C.CliOptions;
   envOptions?: C.EnvOptions;

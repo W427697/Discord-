@@ -58,6 +58,6 @@ export const getCoreDir = () =>
   path.join(path.dirname(require.resolve('@storybook/core/package.json')), 'dist');
 
 export const getStorybookConfigPath = async () => {
-  const configFileName: FileName = 'storybook.config.js';
+  const configFileName = 'storybook.config.js';
   return getConfigPath(configFileName);
 };

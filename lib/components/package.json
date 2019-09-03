@@ -24,7 +24,7 @@
   "dependencies": {
     "@storybook/client-logger": "5.2.0-rc.2",
     "@storybook/theming": "5.2.0-rc.2",
-    "@types/react-syntax-highlighter": "10.2.1",
+    "@types/react-syntax-highlighter": "10.1.0",
     "core-js": "^3.0.1",
     "global": "^4.0.0",
     "markdown-to-jsx": "^6.10.2",
