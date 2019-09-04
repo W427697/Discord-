@@ -22,6 +22,7 @@ const createMain = (files: F.FileName[]) => {
 
   return cached(key, async () => {
     const { code } = await configTransforms.collector(files);
+
     await write(name, code);
   });
 };
@@ -81,7 +82,7 @@ export const getStorybookConfigs = async ({
       };
     }, {});
 
-    const defaults: F.FileName = require.resolve('./defaults/index');
+    const defaults: F.FileName = require.resolve('../defaults/index.ts');
     const overload: F.FileName = getConfigFilePath('overload');
     const { overridePresets = [], frameworkPresets = [] } = callOptions;
 

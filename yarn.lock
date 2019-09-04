@@ -777,7 +777,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
-"@babel/plugin-syntax-typescript@^7.2.0":
+"@babel/plugin-syntax-typescript@^7.2.0", "@babel/plugin-syntax-typescript@^7.3.3":
   version "7.3.3"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-typescript/-/plugin-syntax-typescript-7.3.3.tgz#a7cc3f66119a9f7ebe2de5383cce193473d65991"
   integrity sha512-dGwbSMA1YhVS8+31CnPR7LB4pcbrzcV99wQzby4uAfrkZPYZlQ7ImwdpzLqi6Z6IL02b8IAL379CaMwo0x5Lag==
@@ -6676,6 +6676,11 @@ babel-plugin-react-native-web@^0.11.2:
   version "0.11.5"
   resolved "https://registry.yarnpkg.com/babel-plugin-react-native-web/-/babel-plugin-react-native-web-0.11.5.tgz#df22a66991772fb3695279942528d3ae4dcba7af"
   integrity sha512-elK9hL69DBxn5JUJT48QVoPEOrjb2AIkB18t476DYbmCZUFRuhGCbDxze0WXEI0NLhQDKrigJFgl6pVSHoCSmA==
+
+babel-plugin-remove-unused-vars@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-remove-unused-vars/-/babel-plugin-remove-unused-vars-2.2.0.tgz#243cde3db63a2e0202745457b0981466cb9eec03"
+  integrity sha512-s5OoMCGk616NnfuM4whPwvEi9iupOTLhkAlfCKnAoFJze5ZeJESdGgWI7Ovx0qIS4J9uFjDUU3ZvkvwZLUgWpw==
 
 babel-plugin-require-context-hook@^1.0.0:
   version "1.0.0"
@@ -22084,6 +22089,11 @@ node-dir@^0.1.10, node-dir@^0.1.17:
   dependencies:
     minimatch "^3.0.2"
 
+node-exec-promise@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/node-exec-promise/-/node-exec-promise-1.0.2.tgz#269e8512384d3f11256561e7c624b3ebf57a9ecf"
+  integrity sha512-/mgQ9axpTpEftV9wgAdi6ApLFGjkpd0R6zoe70vYcoiDqC2WkQIrkiHhHItbdKVJZwQH6vnntSI7UrN4EvFgIw==
+
 node-fetch-npm@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/node-fetch-npm/-/node-fetch-npm-2.0.2.tgz#7258c9046182dca345b4208eda918daf33697ff7"
@@ -30447,6 +30457,17 @@ temp-write@^3.4.0:
     pify "^3.0.0"
     temp-dir "^1.0.0"
     uuid "^3.0.1"
+
+temp-write@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/temp-write/-/temp-write-4.0.0.tgz#cd2e0825fc826ae72d201dc26eef3bf7e6fc9320"
+  integrity sha512-HIeWmj77uOOHb0QX7siN3OtwV3CTntquin6TNVg6SHOqCP3hYKmox90eeFOGaY1MqJ9WYDDjkyZrW6qS5AWpbw==
+  dependencies:
+    graceful-fs "^4.1.15"
+    is-stream "^2.0.0"
+    make-dir "^3.0.0"
+    temp-dir "^1.0.0"
+    uuid "^3.3.2"
 
 temp@0.8.3, temp@^0.8.1:
   version "0.8.3"

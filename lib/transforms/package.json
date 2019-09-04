@@ -25,6 +25,7 @@
     "@babel/core": "^7.5.5",
     "@babel/generator": "^7.5.4",
     "@babel/parser": "^7.5.5",
+    "@babel/plugin-syntax-typescript": "^7.3.3",
     "@babel/traverse": "^7.5.5",
     "@babel/types": "^7.5.5",
     "@storybook/node-logger": "5.2.0-rc.2",
@@ -33,6 +34,7 @@
     "@wordpress/babel-plugin-import-jsx-pragma": "^2.2.0",
     "babel-plugin-danger-remove-unused-import": "^1.1.2",
     "babel-plugin-minify-dead-code-elimination": "^0.5.1",
+    "babel-plugin-remove-unused-vars": "^2.2.0",
     "enhanced-resolve": "^4.1.0",
     "fs-extra": "^8.0.1",
     "glob-to-regexp": "^0.4.1",
@@ -49,7 +51,10 @@
   },
   "devDependencies": {
     "@types/case-sensitive-paths-webpack-plugin": "^2.1.2",
-    "@types/webpack": "^4.39.1"
+    "@types/webpack": "^4.39.1",
+    "js-string-escape": "^1.0.1",
+    "node-exec-promise": "^1.0.2",
+    "temp-write": "^4.0.0"
   },
   "publishConfig": {
     "access": "public"

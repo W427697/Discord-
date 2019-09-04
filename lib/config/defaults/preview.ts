@@ -1,20 +1,20 @@
 import path from 'path';
 
-import { getCacheDir } from '../create';
-import { mapToRegex } from '../utils/mapToRegex';
+import { getCacheDir } from '../dist/create';
+import { mapToRegex } from '../dist/utils/mapToRegex';
 
-import { PresetMergeAsyncFn } from '../types/presets';
-import { Webpack } from '../types/values';
+import { PresetMergeAsyncFn } from '../dist/types/presets';
+import { Webpack } from '../dist/types/values';
 
-import loaders, { css, fonts, media, md, mdx, js, mjs } from '../utils/loaders';
-import { stats } from '../utils/stats';
+import loaders, { css, fonts, media, md, mdx, js, mjs } from '../dist/utils/loaders';
+import { stats } from '../dist/utils/stats';
 
 const cacheDir = getCacheDir();
 
 export const webpack: PresetMergeAsyncFn<Webpack> = async (_, config) => {
   const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
   const { default: CaseSensitivePathsPlugin } = await import('case-sensitive-paths-webpack-plugin');
-  const { create } = await import('../utils/entrypointsPlugin');
+  const { create } = await import('../dist/utils/entrypointsPlugin');
 
   const { location } = await config.output;
   const e = await config.entries;
@@ -53,8 +53,7 @@ export const webpack: PresetMergeAsyncFn<Webpack> = async (_, config) => {
         }),
         template: path.join(__dirname, '..', 'templates', 'index.ejs'),
       }),
-      // TODO, this broke with some version update
-      new CaseSensitivePathsPlugin() as any,
+      new CaseSensitivePathsPlugin(),
       plugin,
     ],
 

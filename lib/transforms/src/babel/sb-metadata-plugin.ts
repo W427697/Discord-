@@ -8,7 +8,10 @@ import { addFrameworkParameter, detectFramework } from '../modules/framework';
 import { removeNonMetadata } from '../modules/metadata';
 
 const createAST = (source: string) => {
-  return parse(source, { sourceType: 'module', plugins: ['jsx'] });
+  return parse(source, {
+    sourceType: 'module',
+    plugins: ['typescript', 'dynamicImport', 'jsx'],
+  });
 };
 
 export interface Result {

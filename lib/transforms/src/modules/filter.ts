@@ -1,5 +1,5 @@
 import * as t from '@babel/types';
-import { TraverseOptions } from '@babel/traverse';
+import { TraverseOptions, NodePath } from '@babel/traverse';
 import { transformFileAsync } from '@babel/core';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -72,7 +72,7 @@ const createFilterCollectorPlugin = (targets: string[]) => {
         if (declaration.isVariableDeclaration()) {
           const declarations = declaration.get('declarations');
 
-          declarations.forEach(d => {
+          declarations.forEach((d: NodePath<t.VariableDeclarator>) => {
             const init = d.get('init');
             const id = d.get('id');
 
@@ -90,12 +90,17 @@ const createFilterCollectorPlugin = (targets: string[]) => {
                         const property = mp.get('object');
 
                         if (object.isIdentifier() && property.isIdentifier()) {
-                          const bound = mp.scope.bindings[object.node.name].identifier;
+                          try {
+                            // @ts-ignore
+                            const bound = mp.hub.getScope().bindings[object.node.name].identifier;
 
-                          if (bound === params[1]) {
-                            dependencyGraph[id.node.name] = (
-                              dependencyGraph[id.node.name] || []
-                            ).concat(mp.node.property.name);
+                            if (bound === params[1]) {
+                              dependencyGraph[id.node.name] = (
+                                dependencyGraph[id.node.name] || []
+                              ).concat(mp.node.property.name);
+                            }
+                          } catch (err) {
+                            //
                           }
                         }
                       },
@@ -149,10 +154,37 @@ export const filter = async (file: string, config: string[]) =>
     retainLines: true,
     compact: false,
     plugins: [
+      '@babel/plugin-syntax-typescript',
       '@babel/plugin-syntax-dynamic-import',
       createFilterCollectorPlugin(config),
+      function removeTypeAnnotationsPlugin() {
+        const visitor: TraverseOptions = {
+          TypeAnnotation(p) {
+            p.remove();
+          },
+        };
+        return {
+          visitor,
+        };
+      },
       'minify-dead-code-elimination',
       'babel-plugin-danger-remove-unused-import',
+      'babel-plugin-remove-unused-vars',
+      function removeUselessImportsPlugin() {
+        const visitor: TraverseOptions = {
+          ImportDeclaration(p) {
+            const specifiers = p.get('specifiers');
+
+            if (specifiers.length === 0) {
+              p.remove();
+            }
+          },
+        };
+        return {
+          visitor,
+        };
+      },
+
       '@wordpress/babel-plugin-import-jsx-pragma',
     ],
   });

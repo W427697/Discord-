@@ -1,8 +1,8 @@
 import path from 'path';
 
-import { getCacheDir } from '../paths';
+import { getCacheDir } from '../dist/paths';
 
-import { Output } from '../types/values';
+import { Output } from '../src/types/values';
 
 const cacheDir = getCacheDir();
 

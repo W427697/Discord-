@@ -1,4 +1,4 @@
-import { Server } from '../types/values';
+import { Server } from '../dist/types/values';
 
 export const server: Server = {
   port: 5000,

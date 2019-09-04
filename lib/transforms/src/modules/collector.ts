@@ -9,6 +9,13 @@ import { createAST } from '../__helper__/plugin-test';
 
 const targeted = /addons|presets/;
 
+const resolveSync = resolve.create.sync({
+  extensions: ['.ts', '.js'],
+});
+const resolveAsync = resolve.create({
+  extensions: ['.ts', '.js'],
+});
+
 export const detectSubConfigs = (ast: t.File): string[] => {
   const result: string[] = [];
   ast.program.body.forEach(i => {
@@ -69,7 +76,7 @@ export const getCorrectPath = (from: string, ref: string): Promise<string> => {
     if (path.isAbsolute(ref)) {
       res(ref);
     } else {
-      resolve(fromDir, ref, (e, r) => {
+      resolveAsync(fromDir, ref, (e, r) => {
         if (e) {
           rej(e);
         } else {
@@ -113,7 +120,7 @@ const findMatchingDeclaration = (p: NodePath<t.Statement>, name: string) => {
 
 const findMatchingExport = (combined: NodePath<t.Program>, name: string) => {
   return combined.get('body').find(p => {
-    return findMatchingDeclaration(p, name);
+    return !!findMatchingDeclaration(p, name);
   });
 };
 
@@ -195,16 +202,56 @@ export const collector = async (files: string[]) => {
   const allRefs = await collectSubConfigs(files);
   const scopeAddedNodes: Node[] = [];
 
+  const unique = allRefs.filter(onlyUnique);
+
   // TODO: refactor to async
-  allRefs.filter(onlyUnique).forEach((f, ii) =>
+  unique.forEach((f, ii) =>
     transformFileSync(f, {
       configFile: false,
       retainLines: true,
       compact: false,
       plugins: [
+        '@babel/plugin-syntax-typescript',
         '@babel/plugin-syntax-dynamic-import',
         function removeSubConfigRefsPlugin() {
           return { visitor: removeSubConfigRefs() };
+        },
+        function absoluteImportsPlugin() {
+          const dir = path.dirname(f);
+
+          const visitor: TraverseOptions = {
+            ImportDeclaration(p) {
+              const n = p.get('source');
+              const { value } = n.node;
+
+              try {
+                const result = resolveSync(dir, value);
+
+                n.replaceWith(t.stringLiteral(result));
+              } catch (e) {
+                //
+              }
+            },
+            CallExpression(p) {
+              if (p.node.callee.type === 'Import') {
+                try {
+                  const args = p.get('arguments');
+
+                  args.forEach(a => {
+                    if (a.isStringLiteral()) {
+                      const result = resolveSync(dir, a.node.value);
+                      a.replaceWith(t.stringLiteral(result));
+                    }
+                  });
+                } catch (e) {
+                  //
+                }
+              }
+            },
+          };
+          return {
+            visitor,
+          };
         },
         function collectorPlugin() {
           const visitor: TraverseOptions = {
@@ -274,12 +321,19 @@ export const collector = async (files: string[]) => {
                   allowed[k] = v.path;
                 });
               },
-              exit(p) {
-                Object.entries(list).forEach(([k, v], index) => {
-                  const id = collected.scope.getProgramParent().generateUid(k);
+              exit() {
+                Object.entries(list).forEach(([k, v]) => {
+                  // console.log(list);
+                  const parentProgram = collected.scope.getProgramParent();
+                  const id = parentProgram.generateUid(k);
+
                   v.scope.rename(k, id);
 
-                  collected.scope.getProgramParent().registerDeclaration(v);
+                  // try {
+                  //   // collected.scope.getProgramParent().registerDeclaration(v);
+                  // } catch (e) {
+                  //   //
+                  // }
 
                   scopeAddedNodes.push(v.node as any);
                 });
@@ -290,8 +344,36 @@ export const collector = async (files: string[]) => {
             visitor,
           };
         },
+        function removeTypeAnnotationsPlugin() {
+          const visitor: TraverseOptions = {
+            TypeAnnotation(p) {
+              p.remove();
+            },
+            TSTypeAnnotation(p) {
+              p.remove();
+            },
+          };
+          return {
+            visitor,
+          };
+        },
         'minify-dead-code-elimination',
         'babel-plugin-danger-remove-unused-import',
+        'babel-plugin-remove-unused-vars',
+        function removeUselessImportsPlugin() {
+          const visitor: TraverseOptions = {
+            ImportDeclaration(p) {
+              const specifiers = p.get('specifiers');
+
+              if (specifiers.length === 0) {
+                p.remove();
+              }
+            },
+          };
+          return {
+            visitor,
+          };
+        },
         '@wordpress/babel-plugin-import-jsx-pragma',
       ],
     })
