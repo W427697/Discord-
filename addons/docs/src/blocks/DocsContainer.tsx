@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 import { DocsWrapper, DocsContent, Source, Description } from '@storybook/components';
