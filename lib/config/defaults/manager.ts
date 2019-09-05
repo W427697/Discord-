@@ -3,8 +3,8 @@ import path from 'path';
 import { getCacheDir, getCoreDir } from '../dist/create';
 import { mapToRegex } from '../dist/utils/mapToRegex';
 
-import { PresetMergeAsyncFn } from '../dist/types/presets';
-import { Webpack } from '../dist/types/values';
+import { PresetMergeAsyncFn } from '../src/types/presets';
+import { Webpack } from '../src/types/values';
 
 import loaders, { css, fonts, media, md, mdx, js, mjs } from '../dist/utils/loaders';
 import { stats } from '../dist/utils/stats';
@@ -18,6 +18,8 @@ export const managerWebpack: PresetMergeAsyncFn<Webpack> = async (_, config) => 
   const { create } = await import('../dist/utils/entrypointsPlugin');
 
   const { location } = await config.output;
+
+  console.log({ location });
   const e = await config.entries;
   const { entries: entry, plugin } = create(e, {});
   const entryRegex = e.map(mapToRegex);
@@ -61,7 +63,7 @@ export const managerWebpack: PresetMergeAsyncFn<Webpack> = async (_, config) => 
           mains: files.js.filter(i => !i.includes('metadata')),
           examples: files.js.filter(i => i.includes('metadata')),
         }),
-        template: path.join(__dirname, '..', 'templates', 'index.ejs'),
+        template: require.resolve('@storybook/server/templates/index.ejs'),
       }),
       new CaseSensitivePathsPlugin(),
       plugin,

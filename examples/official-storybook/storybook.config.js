@@ -20,7 +20,6 @@ export const managerWebpack = async (base, config) => {
 };
 
 export const output = {
-  location: './',
   compress: false,
   preview: true, // would enable/disable or set a custom location
 };

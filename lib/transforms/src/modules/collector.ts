@@ -205,7 +205,7 @@ export const collector = async (files: string[]) => {
   const unique = allRefs.filter(onlyUnique);
 
   // TODO: refactor to async
-  unique.forEach((f, ii) =>
+  unique.forEach(f =>
     transformFileSync(f, {
       configFile: false,
       retainLines: true,
@@ -374,6 +374,20 @@ export const collector = async (files: string[]) => {
             visitor,
           };
         },
+        function hoistImportsPlugin() {
+          const visitor: TraverseOptions = {
+            Program: {
+              exit(p) {
+                p.node.body = p.node.body.sort((a, b) => {
+                  return t.isImportDeclaration(a) ? -1 : 0;
+                });
+              },
+            },
+          };
+          return {
+            visitor,
+          };
+        },
         '@wordpress/babel-plugin-import-jsx-pragma',
       ],
     })
@@ -382,6 +396,10 @@ export const collector = async (files: string[]) => {
   scopeAddedNodes.filter(onlyUnique).forEach(n => {
     // @ts-ignore
     collected.unshiftContainer('body', n);
+
+    collected.node.body = collected.node.body.sort((a, b) => {
+      return t.isImportDeclaration(a) ? -1 : 0;
+    });
   });
 
   return generate(ast, {}, '');

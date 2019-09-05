@@ -1,3 +1,6 @@
+import { format } from 'prettier';
+import { resolvePrettierConfig } from './utils/prettier-config';
+
 import { collector } from './modules/collector';
 import { filter } from './modules/filter';
 
@@ -14,4 +17,10 @@ export const babel = {
 export const config = {
   collector,
   filter,
+};
+
+export const prettier = async (code: string) => {
+  const prettierConfig = await resolvePrettierConfig(__filename);
+
+  return format(code, { ...prettierConfig, parser: 'babel' });
 };

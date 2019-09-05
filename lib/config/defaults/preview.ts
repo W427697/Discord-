@@ -3,8 +3,8 @@ import path from 'path';
 import { getCacheDir } from '../dist/create';
 import { mapToRegex } from '../dist/utils/mapToRegex';
 
-import { PresetMergeAsyncFn } from '../dist/types/presets';
-import { Webpack } from '../dist/types/values';
+import { PresetMergeAsyncFn } from '../src/types/presets';
+import { Webpack } from '../src/types/values';
 
 import loaders, { css, fonts, media, md, mdx, js, mjs } from '../dist/utils/loaders';
 import { stats } from '../dist/utils/stats';
@@ -51,7 +51,7 @@ export const webpack: PresetMergeAsyncFn<Webpack> = async (_, config) => {
           mains: files.js.filter(i => !i.includes('preview')),
           examples: files.js.filter(i => i.includes('preview')),
         }),
-        template: path.join(__dirname, '..', 'templates', 'index.ejs'),
+        template: require.resolve('@storybook/server/templates/index.ejs'),
       }),
       new CaseSensitivePathsPlugin(),
       plugin,

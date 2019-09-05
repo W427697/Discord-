@@ -41,8 +41,9 @@ const flattenDependencyGraph = (graph: DependencyGraph): FlatDependencyGraph => 
       v.forEach(vk => {
         if (typeof vk === 'string') {
           const target = graph[k];
-          const addition = graph[vk];
-          graph[k].push(graph[vk] || []);
+          const addition = graph[vk] || [];
+
+          target.push(addition);
         }
       });
 
@@ -77,6 +78,7 @@ const createFilterCollectorPlugin = (targets: string[]) => {
             const id = d.get('id');
 
             if (id.isIdentifier() && init.isArrayExpression()) {
+              const did = id.node.name;
               const elements = init.get('elements');
 
               elements.forEach(e => {
@@ -87,17 +89,22 @@ const createFilterCollectorPlugin = (targets: string[]) => {
                     e.traverse({
                       MemberExpression(mp) {
                         const object = mp.get('object');
-                        const property = mp.get('object');
+                        const property = mp.get('property') as NodePath<t.Identifier>;
 
                         if (object.isIdentifier() && property.isIdentifier()) {
                           try {
+                            const oScope = mp.scope.bindings;
                             // @ts-ignore
-                            const bound = mp.hub.getScope().bindings[object.node.name].identifier;
+                            const gScope = mp.hub.getScope().bindings;
+                            const pid = property.node.name;
+                            const oid = object.node.name;
 
-                            if (bound === params[1]) {
-                              dependencyGraph[id.node.name] = (
-                                dependencyGraph[id.node.name] || []
-                              ).concat(mp.node.property.name);
+                            if (oScope[oid].path.node === params[1] && gScope[pid]) {
+                              if (dependencyGraph[did]) {
+                                dependencyGraph[did].push(pid);
+                              } else {
+                                dependencyGraph[did] = [pid];
+                              }
                             }
                           } catch (err) {
                             //
@@ -178,6 +185,20 @@ export const filter = async (file: string, config: string[]) =>
             if (specifiers.length === 0) {
               p.remove();
             }
+          },
+        };
+        return {
+          visitor,
+        };
+      },
+      function hoistImportsPlugin() {
+        const visitor: TraverseOptions = {
+          Program: {
+            exit(p) {
+              p.node.body = p.node.body.sort((a, b) => {
+                return t.isImportDeclaration(a) ? -1 : 0;
+              });
+            },
           },
         };
         return {

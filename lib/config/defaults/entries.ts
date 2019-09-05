@@ -1,3 +1,3 @@
-import { Entries } from '../dist/types/values';
+import { Entries } from '../src/types/values';
 
 export const entries: Entries = [];

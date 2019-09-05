@@ -1,4 +1,4 @@
-import { config as configTransforms } from '@storybook/transforms';
+import { config as configTransforms, prettier } from '@storybook/transforms';
 
 import { mergeSettings } from './utils/mergeSettings';
 
@@ -22,8 +22,9 @@ const createMain = (files: F.FileName[]) => {
 
   return cached(key, async () => {
     const { code } = await configTransforms.collector(files);
+    const prettycode = await prettier(code);
 
-    await write(name, code);
+    await write(name, prettycode);
   });
 };
 
@@ -33,7 +34,9 @@ const createFiltered = async ([key, targets]: [string, string[]]) => {
 
   return cached(key, async () => {
     const { code } = await configTransforms.filter(baseFileUrl, targets);
-    await write(name, code);
+    const prettycode = await prettier(code);
+
+    await write(name, prettycode);
   });
 };
 
