@@ -1,6 +1,6 @@
 {
   "name": "@storybook/transforms",
-  "version": "5.2.0-rc.2",
+  "version": "5.2.0-rc.6",
   "description": "Storybook dev server",
   "keywords": [
     "storybook"
@@ -28,7 +28,7 @@
     "@babel/plugin-syntax-typescript": "^7.3.3",
     "@babel/traverse": "^7.5.5",
     "@babel/types": "^7.5.5",
-    "@storybook/node-logger": "5.2.0-rc.2",
+    "@storybook/node-logger": "5.2.0-rc.6",
     "@types/enhanced-resolve": "^3.0.6",
     "@types/glob-to-regexp": "^0.4.0",
     "@wordpress/babel-plugin-import-jsx-pragma": "^2.2.0",
