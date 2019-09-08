@@ -1,1 +1,1 @@
-{"version":"5.2.0-beta.28","info":{"plain":"### Features\n\n* Core: Disable CRA behaviors when preset detected ([#7696](https://github.com/storybookjs/storybook/pull/7696))\n* Addon-docs: Docs only MDX and navigation UI ([#7719](https://github.com/storybookjs/storybook/pull/7719))"}}
+{"version":"5.2.0-rc.9","info":{"plain":"### Bug Fixes\n\n* Addon-knobs: allow array values in select and options knobs ([#8027](https://github.com/storybookjs/storybook/pull/8027))"}}
