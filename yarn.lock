@@ -8378,7 +8378,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.5:
+classnames@^2.2.5, classnames@^2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
@@ -23820,13 +23820,13 @@ rax-hydrate@^1.0.1:
   dependencies:
     driver-dom "^1.0.0"
 
-rax-image@^0.6.8:
-  version "0.6.8"
-  resolved "https://registry.yarnpkg.com/rax-image/-/rax-image-0.6.8.tgz#44b6e559178e8c3668f1eaf352bfcfdd09d7ce75"
-  integrity sha512-Ee7H0ePdXv4J4t4w3HAtjXasLPNqD2HQiPbJeybdnOOHHVrzawN68ypb+wy5I2Atad0CvdEQ9dXDNpkPPwElDw==
+rax-image@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/rax-image/-/rax-image-1.1.1.tgz#b427c0657708f827ecf3fa284f171f75d4c6c37e"
+  integrity sha512-7a6SNQ8FNa1GTRVmKxYLGAgWf+Ifb49wlHoBFCqViv0GBoiGei5/YMt/Tk7fpiZFWk1cb0GE3ffULfbBT3Y25Q==
   dependencies:
-    rax-view "^0.6.5"
-    universal-env "^0.6.5"
+    classnames "^2.2.6"
+    universal-env "^1.0.0"
 
 rax-link@^0.6.5:
   version "0.6.5"
@@ -29416,6 +29416,11 @@ universal-env@^0.6.5:
   version "0.6.6"
   resolved "https://registry.yarnpkg.com/universal-env/-/universal-env-0.6.6.tgz#dd5adf816a8ec3e908d4848e1714dfe30dd8a970"
   integrity sha512-CqBdTKFStTEV7wETHjWm7CDIbSdUxIlN3zQ5xraTG6Wb1XEmBgyW1pu8lJW0buRXjACgjrD+pr97akumbQ0Y6A==
+
+universal-env@^1.0.0:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/universal-env/-/universal-env-1.0.7.tgz#31a1f9d3328677bd1fc016c141353ca35766a456"
+  integrity sha512-N7n9nZSpVSKwjPDO0QsN+3/5pPPum9u5i7Km3xxUi0ykA8UD9nKt8foMYdVFB8HIRXx/Sh7HVu3pC5CJX/t9Tw==
 
 universal-user-agent@^2.0.0, universal-user-agent@^2.1.0:
   version "2.1.0"
