@@ -1,0 +1,22 @@
+name: Puppeteer
+
+on: push
+
+jobs:
+  build:
+    name: on the examples
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v1
+        with:
+          version: ${{ matrix.node_version }}
+      - name: install, bootstrap
+        run: |
+          yarn bootstrap --core
+      - name: Test
+        uses: ianwalter/puppeteer@v2.0.0
+        with:
+          args: yarn test-puppeteer

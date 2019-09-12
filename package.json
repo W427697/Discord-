@@ -72,6 +72,7 @@
     "start": "yarn --cwd examples/official-storybook storybook",
     "test": "node ./scripts/test.js",
     "test-latest-cra": "yarn --prefix --cwd lib/cli run test-latest-cra",
+    "test-puppeteer": "node -r esm ./scripts/puppeteer.js",
     "test:cli": "npm --prefix lib/cli run test"
   },
   "husky": {
