@@ -1,4 +1,5 @@
 import React from 'react';
+import { window } from 'global';
 import { configure, addDecorator, addParameters } from '@storybook/react';
 import { Global, ThemeProvider, themes, createReset, convert } from '@storybook/theming';
 import { withCssResources } from '@storybook/addon-cssresources';
@@ -6,15 +7,21 @@ import { withA11y } from '@storybook/addon-a11y';
 import { withNotes } from '@storybook/addon-notes';
 import { DocsPage } from '@storybook/addon-docs/blocks';
 
-// FIXME: deal with channel
-// import { setCoverage } from '@storybook/addon-coverage';
-// import coverageMap from '/Users/shilman/projects/storybookjs/storybook/coverage/coverage-final.json';
-// import coverageMap from '../../coverage/coverage-final.json';
-// setCoverage(coverageMap);
+import addons from '@storybook/addons';
+import { coverageSummary, storyMap, withCoverage, EVENTS } from '@storybook/addon-coverage';
 
 import 'storybook-chromatic';
 
 import addHeadWarning from './head-warning';
+
+let coverageMap;
+try {
+  // eslint-disable-next-line global-require
+  coverageMap = require('../../coverage/coverage-final.json');
+} catch (err) {
+  // eslint-disable-next-line no-console
+  console.log(err);
+}
 
 if (process.env.NODE_ENV === 'development') {
   if (!process.env.DOTENV_DEVELOPMENT_DISPLAY_WARNING) {
@@ -33,9 +40,10 @@ if (process.env.NODE_ENV === 'development') {
 addHeadWarning('preview-head-not-loaded', 'Preview head not loaded');
 addHeadWarning('dotenv-file-not-loaded', 'Dotenv file not loaded');
 
-addDecorator(withCssResources);
-addDecorator(withA11y);
-addDecorator(withNotes);
+// addDecorator(withCssResources);
+// addDecorator(withA11y);
+// addDecorator(withNotes);
+addDecorator(withCoverage);
 
 addDecorator(storyFn => (
   <ThemeProvider theme={convert(themes.light)}>
@@ -72,9 +80,17 @@ addParameters({
 
 configure(
   [
-    require.context('../../lib/ui/src', true, /\.stories\.(js|tsx?|mdx)$/),
-    require.context('../../lib/components/src', true, /\.stories\.(js|tsx?|mdx)$/),
-    require.context('./stories', true, /\.stories\.(js|tsx?|mdx)$/),
+    // require.context('../../lib/ui/src', true, /\.stories\.(js|tsx?|mdx)$/),
+    require.context('../../lib/components/src', true, /Button\.stories\.(js|tsx?|mdx)$/),
+    // require.context('./stories', true, /\.stories\.(js|tsx?|mdx)$/),
   ],
   module
 );
+
+if (coverageMap) {
+  // eslint-disable-next-line no-underscore-dangle
+  window.__STORYBOOK_COVERAGE_MAP__ = coverageMap;
+  const channel = addons.getChannel();
+  const coverage = coverageSummary(coverageMap, storyMap(window.__STORYBOOK_STORY_STORE__));
+  channel.emit(EVENTS.COVERAGE_SUMMARY, coverage);
+}
