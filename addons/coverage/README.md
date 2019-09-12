@@ -20,33 +20,37 @@ To generate coverage.json:
 yarn jest --testPathPattern=examples/official-storybook/tests/storyshots.test.js --coverage --coverageReporters=json --watch
 ```
 
-Modify `babel-plugin-react-docgen`:
+Modify `babel-plugin-react-docgen/lib/index.js`:
 
 ```js
 docgenResults = ReactDocgen.parse(code, resolver, handlers);
 docgenResults.forEach(r => (r.filename = state.filename));
+docgenResults.forEach(r => (r.source = code));
+```
+
+
+Add this at top of `config.js`:
+
+```js
+import addons from '@storybook/addons'
+import { coverageSummary, storyMap, withCoverage, EVENTS } from '@storybook/addon-coverage';
+let coverageMap;
+try {
+  coverageMap = require('../../coverage/coverage-final.json');
+} catch(err) {
+  console.log(err)
+}
+addDecorator(withCoverage);
 ```
 
 Add this to `config.js` **AFTER configure**:
 
-```
-import { storyCoverage, storyMap, EVENTS } from '@storybook/addon-coverage';
-import coverageMap from '../../coverage/coverage-final.json';
-
-...
-
-const channel = addons.getChannel();
-const coverage = coverageSummary(coverageMap, storyMap(window.__STORYBOOK_STORY_STORE__));
-channel.emit(EVENTS.COVERAGE_SUMMARY, coverage);
-
-function getContext(store) {
-  const { storyId } = store.getSelection();
-  return store.fromId(storyId);
-}
-
-const context = getContext(window.__STORYBOOK_STORY_STORE__);
-if (context) {
-  channel.emit(EVENTS.COVERAGE_DETAIL, coverageDetail(context));
+```js
+if (coverageMap) {
+  window.__STORYBOOK_COVERAGE_MAP__ = coverageMap;
+  const channel = addons.getChannel();
+  const coverage = coverageSummary(coverageMap, storyMap(window.__STORYBOOK_STORY_STORE__));
+  channel.emit(EVENTS.COVERAGE_SUMMARY, coverage);
 }
 ```
 

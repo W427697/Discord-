@@ -40,7 +40,7 @@ export function lineCoverage(item: CoverageItem) {
   Object.entries(item.s).forEach(([statementId, isCovered]) => {
     const stmt = item.statementMap[statementId];
     if (!isCovered) {
-      for (let i: number = stmt.start.line; i < stmt.end.line; i += 1) {
+      for (let i: number = stmt.start.line; i <= stmt.end.line; i += 1) {
         lineToMissing[i] = true;
       }
     }
