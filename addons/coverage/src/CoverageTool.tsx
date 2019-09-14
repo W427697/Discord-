@@ -14,7 +14,7 @@ import {
   getCoverageSummary,
 } from './shared';
 
-const heatmap = ['#fecc5c', '#fd8d3c', '#f03b20', '#bd0026'].reverse();
+const heatmap = ['#fecc5c', '#fd8d3c', '#f03b20', '#bd0026', '#bd0026', '#bd0026'].reverse();
 
 function heatmapColor(val: number) {
   if (!val && val !== 0) {
