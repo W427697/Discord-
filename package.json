@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "5.2.0-rc.11",
+  "version": "5.3.0-alpha.0",
   "private": true,
   "description": "Storybook is an open source tool for developing UI components in isolation for React, Vue and Angular. It makes building stunning UIs organized and efficient.",
   "keywords": [
@@ -63,6 +63,7 @@
     "lint:js": "cross-env NODE_ENV=production eslint --cache --cache-location=.cache/eslint --ext .js,.jsx,.json,.html,.ts,.tsx,.mjs --report-unused-disable-directives",
     "lint:md": "remark -q",
     "lint:package": "sort-package-json",
+    "now-build": "./scripts/now.js",
     "publish:crna": "yarn --cwd examples-native/crna-kitchen-sink expo publish",
     "publish:debug": "npm run publish:latest -- --npm-tag=debug --no-push",
     "publish:latest": "lerna publish --exact --concurrency 1 --force-publish",
@@ -227,6 +228,8 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-test-renderer": "^16.9.0",
+    "react-testing-library": "^6.0.0",
+    "recursive-copy": "^2.0.10",
     "regenerator-runtime": "^0.12.1",
     "remark-cli": "^7.0.0",
     "remark-lint": "^6.0.4",
