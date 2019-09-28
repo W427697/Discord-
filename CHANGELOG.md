@@ -1,3 +1,49 @@
+## 5.3.0-alpha.5 (September 27, 2019)
+
+### Maintenance
+
+* UI: Improve code indentation ([#8218](https://github.com/storybookjs/storybook/pull/8218))
+* Use the extracted linting configs ([#8213](https://github.com/storybookjs/storybook/pull/8213))
+
+## 5.3.0-alpha.4 (September 26, 2019)
+
+### Bug Fixes
+
+* UI: Move addon dependencies to devDependencies ([#8206](https://github.com/storybookjs/storybook/pull/8206))
+* Addon-knobs: Handle undefined array value ([#8006](https://github.com/storybookjs/storybook/pull/8006))
+
+### Maintenance
+
+* Build: Upgrade from node8 to node10 ([#8207](https://github.com/storybookjs/storybook/pull/8207))
+
+## 5.3.0-alpha.3 (September 25, 2019)
+
+### Bug Fixes
+
+* Dependencies: add @types/webpack-env to apps that depend on it ([#8119](https://github.com/storybookjs/storybook/pull/8119))
+* UI: Removes default CSS margins on viewport ([#7742](https://github.com/storybookjs/storybook/pull/7742))
+
+## 5.3.0-alpha.2 (September 24, 2019)
+
+### Bug Fixes
+
+* Core: Fix lib/core files ([#8182](https://github.com/storybookjs/storybook/pull/8182))
+
+## 5.3.0-alpha.1 (September 23, 2019)
+
+### Bug Fixes
+
+* Preact: Allow JSX.Element story ([#8159](https://github.com/storybookjs/storybook/pull/8159))
+* Addon-docs: CSS classes for escape-hatch theming wrapper/content ([#8061](https://github.com/storybookjs/storybook/pull/8061))
+* CLI: Fix variable collisions in storiesof-to-csf ([#8106](https://github.com/storybookjs/storybook/pull/8106))
+* Storyshots: Fix STORYBOOK_HOOKS_CONTEXT error ([#8163](https://github.com/storybookjs/storybook/pull/8163))
+* Addon-contexts: Remove peer dependencies ([#7675](https://github.com/storybookjs/storybook/pull/7675))
+* Addon-knobs: Add missing type def ([#8118](https://github.com/storybookjs/storybook/pull/8118))
+
+### Dependency Upgrades
+
+* Update react-draggable to 4.0.3 ([#8145](https://github.com/storybookjs/storybook/pull/8145))
+
 ## 5.2.1 (September 17, 2019)
 
 ### Bug Fixes
