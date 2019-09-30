@@ -129,7 +129,7 @@ export class Channel {
   private handleEvent(event: ChannelEvent, isPeer = false) {
     const listeners = this.listeners(event.type);
     if (listeners && (isPeer || event.from !== this.sender)) {
-      listeners.forEach(fn => !(isPeer && fn.ignorePeer) && fn(...event.args));
+      listeners.forEach(fn => !(isPeer && fn.ignorePeer) && fn.apply(event, event.args));
     }
   }
 

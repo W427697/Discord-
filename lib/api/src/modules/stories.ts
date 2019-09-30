@@ -21,7 +21,7 @@ export interface SubAPI {
   storyId: typeof toId;
   selectStory: (kindOrId: string, story?: string, obj?: any) => void;
   getCurrentStoryData: () => Story | Group;
-  setStories: (stories: StoriesRaw) => void;
+  setStories: (stories: StoriesRaw, source: string) => void;
   jumpToComponent: (direction: Direction) => void;
   jumpToStory: (direction: Direction) => void;
   getData: (storyId: StoryId) => Story | Group;
@@ -179,7 +179,11 @@ const initStoriesApi = ({
     id: toKey(name),
   });
 
-  const setStories = (input: StoriesRaw) => {
+  const setStories = (input: StoriesRaw, base?: string) => {
+    if (base) {
+      console.log({ base });
+    }
+
     const hash: StoriesHash = {};
     const storiesHashOutOfOrder = Object.values(input).reduce((acc, item) => {
       const { kind, parameters } = item;
