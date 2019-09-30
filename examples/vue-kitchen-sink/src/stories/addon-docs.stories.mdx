@@ -1,4 +1,6 @@
+```
 import { Story, Preview, Meta } from '@storybook/addon-docs/blocks';
+```
 
 # Storybook Docs for Vue
 
@@ -36,11 +38,13 @@ storiesOf('Button', module)
 
 Similarly, here's how we do it in the Docs MDX format:
 
+```
 <Story name="rounded" height="60px">
   {{
     template: '<my-button :rounded="true">A Button with rounded edges</my-button>',
   }}
 </Story>
+```
 
 This isn't the final syntax, but it gets the job done.
 
@@ -48,11 +52,13 @@ This isn't the final syntax, but it gets the job done.
 
 Let's add another one. The UI updates automatically as you'd expect.
 
+```
 <Story name="square" height="60px">
   {{
     template: '<my-button :rounded="false">A Button with square edges</my-button>',
   }}
 </Story>
+```
 
 ## Longform docs
 
@@ -71,9 +77,11 @@ We could also change the JSX rendering to render the entire page in Vue.
 
 Just like in React, we can easily reference other stories in our docs:
 
+```
 <Story id="addon-knobs--all-knobs" height="400px" />
 
 <Story id="nonexistent-story" />
+```
 
 ## More info
 
