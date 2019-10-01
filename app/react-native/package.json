@@ -40,7 +40,7 @@
     "rn-host-detect": "^1.1.5"
   },
   "devDependencies": {
-    "@types/react-native": "^0.57.57",
+    "@types/react-native": "^0.60.17",
     "react-native": "^0.57.8"
   },
   "peerDependencies": {
