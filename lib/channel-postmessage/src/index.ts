@@ -27,7 +27,6 @@ export class PostmsgTransport {
 
   private connected: boolean;
 
-  // eslint-disable-next-line @typescript-eslint/no-parameter-properties
   constructor(private readonly config: Config) {
     this.buffer = [];
     this.handler = null;
@@ -66,11 +65,9 @@ export class PostmsgTransport {
     let allowFunction = true;
 
     if (options && typeof options.allowFunction === 'boolean') {
-      // eslint-disable-next-line prefer-destructuring
       allowFunction = options.allowFunction;
     }
     if (options && Number.isInteger(options.depth)) {
-      // eslint-disable-next-line prefer-destructuring
       depth = options.depth;
     }
 

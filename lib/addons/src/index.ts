@@ -39,7 +39,7 @@ interface Elements {
   [key: string]: Collection;
 }
 
-interface Options {
+interface Config {
   [key: string]: any;
 }
 
@@ -54,7 +54,7 @@ export class AddonStore {
 
   private elements: Elements = {};
 
-  private options: Options = {};
+  private config: Config = {};
 
   private channel: Channel | undefined;
 
@@ -102,11 +102,11 @@ export class AddonStore {
     collection[name] = { id: name, ...addon };
   };
 
-  setOption = (value: Options) => {
-    Object.assign(this.options, value);
+  setConfig = (value: Config) => {
+    Object.assign(this.config, value);
   };
 
-  getOptions = () => this.options;
+  getConfig = () => this.config;
 
   register = (name: string, registerCallback: (api: API) => void): void => {
     if (this.loaders[name]) {
