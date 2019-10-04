@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class DummyService {
-  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-useless-constructor
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, no-useless-constructor
   constructor() {}
 
   getItems() {
