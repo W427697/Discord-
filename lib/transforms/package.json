@@ -31,6 +31,7 @@
     "@storybook/node-logger": "5.3.0-alpha.9",
     "@types/enhanced-resolve": "^3.0.6",
     "@types/glob-to-regexp": "^0.4.0",
+    "@types/prettier": "^1.18.3",
     "@wordpress/babel-plugin-import-jsx-pragma": "^2.2.0",
     "babel-plugin-danger-remove-unused-import": "^1.1.2",
     "babel-plugin-minify-dead-code-elimination": "^0.5.1",

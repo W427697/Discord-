@@ -4,7 +4,7 @@ import { fork, ChildProcess } from 'child_process';
 import path from 'path';
 
 import EventEmitter from 'eventemitter3';
-import { stripIndent } from 'common-tags';
+import dedent from 'ts-dedent';
 
 import { getCacheDir } from '@storybook/config/create';
 
@@ -19,7 +19,7 @@ const createLog = async (sub: ChildProcess, { command, type }: CreateParams) => 
 
   await appendFile(
     logFile,
-    `\n${stripIndent`
+    `\n${dedent`
     **
     ** Log of ${command} of ${type} at ${new Date().toISOString()}
     **
