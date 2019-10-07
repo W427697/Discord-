@@ -42,7 +42,7 @@ export class PostmsgTransport {
     this.handler = (...args) => {
       handler.apply(this, args);
 
-      if (!this.connected && this.getWindow()) {
+      if (!this.connected && this.getFrames().length) {
         this.flush();
         this.connected = true;
       }
@@ -55,12 +55,13 @@ export class PostmsgTransport {
    * @param event
    */
   send(event: ChannelEvent, options?: any): Promise<any> {
-    const iframeWindow = this.getWindow();
-    if (!iframeWindow) {
+    const frames = this.getFrames();
+    if (!frames.length) {
       return new Promise((resolve, reject) => {
         this.buffer.push({ event, resolve, reject });
       });
     }
+
     let depth = 15;
     let allowFunction = true;
 
@@ -71,11 +72,14 @@ export class PostmsgTransport {
       depth = options.depth;
     }
 
-    const data = stringify({ key: KEY, event }, { maxDepth: depth, allowFunction });
+    const data = stringify(
+      { key: KEY, event, source: document.location.origin + document.location.pathname },
+      { maxDepth: depth, allowFunction }
+    );
 
     // TODO: investigate http://blog.teamtreehouse.com/cross-domain-messaging-with-postmessage
     // might replace '*' with document.location ?
-    iframeWindow.postMessage(data, '*');
+    frames.forEach(f => f.postMessage(data, '*'));
     return Promise.resolve(null);
   }
 
@@ -89,26 +93,32 @@ export class PostmsgTransport {
     });
   }
 
-  private getWindow(): Window {
+  private getFrames(): Window[] {
     if (this.config.page === 'manager') {
-      // FIXME this is a really bad idea! use a better way to do this.
-      // This finds the storybook preview iframe to send messages to.
-      const iframe = document.getElementById('storybook-preview-iframe');
-      if (!iframe) {
-        return null;
-      }
-      return iframe.contentWindow;
+      return [document.getElementsByTagName('iframe')]
+        .filter(e => {
+          try {
+            return !!e.contentWindow && e.dataset.isStorybook !== undefined;
+          } catch (er) {
+            return false;
+          }
+        })
+        .map(e => e.contentWindow);
     }
-    return window.parent;
+    return [window.parent];
   }
 
   private handleEvent(rawEvent: MessageEvent): void {
     try {
       const { data } = rawEvent;
-      const { key, event } = typeof data === 'string' && isJSON(data) ? parse(data) : data;
+      const { key, event, source } = typeof data === 'string' && isJSON(data) ? parse(data) : data;
       if (key === KEY) {
-        event.source = event.source || rawEvent.origin;
-        logger.debug(`message arrived at ${this.config.page}`, event.type, ...event.args);
+        event.source = source || rawEvent.origin;
+        logger.debug(
+          `message arrived at ${this.config.page} from ${event.source}`,
+          event.type,
+          ...event.args
+        );
         this.handler(event);
       }
     } catch (error) {
