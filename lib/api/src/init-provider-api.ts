@@ -8,6 +8,7 @@ export interface Provider {
   channel?: Channel;
   renderPreview?: () => ReactElement;
   handleAPI(api: API): void;
+  getConfig(): any;
   [key: string]: any;
 }
 

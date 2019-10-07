@@ -175,16 +175,16 @@ class ManagerProvider extends Component<Props, State> {
 
     api.on(SET_STORIES, function handleSetStories(data: { stories: StoriesRaw }) {
       const { source } = this;
-      const { refs } = provider.getOptions();
+      const { refs } = provider.getConfig();
 
       const { origin, pathname } = location;
 
       const match = source === origin || source === `${origin + pathname}iframe.html`;
 
-      console.log({ refs });
+      // console.log({ refs });
       if (!match) {
         // we will have to do a mutation on stories here
-        debugger;
+        // debugger;
       }
 
       api.setStories(data.stories, source);
