@@ -79,7 +79,13 @@ export class PostmsgTransport {
 
     // TODO: investigate http://blog.teamtreehouse.com/cross-domain-messaging-with-postmessage
     // might replace '*' with document.location ?
-    frames.forEach(f => f.postMessage(data, '*'));
+    frames.forEach(f => {
+      try {
+        f.postMessage(data, '*');
+      } catch (e) {
+        console.error('sending over postmessage fail');
+      }
+    });
     return Promise.resolve(null);
   }
 
@@ -95,7 +101,7 @@ export class PostmsgTransport {
 
   private getFrames(): Window[] {
     if (this.config.page === 'manager') {
-      return [document.getElementsByTagName('iframe')]
+      return [...document.getElementsByTagName('iframe')]
         .filter(e => {
           try {
             return !!e.contentWindow && e.dataset.isStorybook !== undefined;

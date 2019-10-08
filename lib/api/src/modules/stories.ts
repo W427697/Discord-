@@ -179,11 +179,7 @@ const initStoriesApi = ({
     id: toKey(name),
   });
 
-  const setStories = (input: StoriesRaw, base?: string) => {
-    if (base) {
-      console.log({ base });
-    }
-
+  const setStories = (input: StoriesRaw) => {
     const hash: StoriesHash = {};
     const storiesHashOutOfOrder = Object.values(input).reduce((acc, item) => {
       const { kind, parameters } = item;
@@ -265,7 +261,10 @@ Did you create a path that uses the separator char accidentally, such as 'Vue <d
     }
 
     // Now create storiesHash by reordering the above by group
-    const storiesHash: StoriesHash = Object.values(storiesHashOutOfOrder).reduce(addItem, {});
+    const storiesHash: StoriesHash = Object.values(storiesHashOutOfOrder).reduce(
+      addItem,
+      store.getState().storiesHash
+    );
     const settingsPageList = ['about', 'shortcuts'];
     const { storyId, viewMode } = store.getState();
 

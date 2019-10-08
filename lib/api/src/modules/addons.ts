@@ -52,6 +52,7 @@ interface StoryInput {
 export interface SubAPI {
   getElements: (type: Types) => Collection;
   getPanels: () => Collection;
+  getConfig: () => any[];
   getStoryPanels: () => Collection;
   getSelectedPanel: () => string;
   setSelectedPanel: (panelName: string) => void;
@@ -80,6 +81,7 @@ export default ({ provider, store }: Module) => {
   const api: SubAPI = {
     getElements: type => provider.getElements(type),
     getPanels: () => api.getElements(types.PANEL),
+    getConfig: () => provider.getConfig(),
     getStoryPanels: () => {
       const allPanels = api.getPanels();
       const { storyId, storiesHash } = store.getState();

@@ -181,13 +181,26 @@ class ManagerProvider extends Component<Props, State> {
 
       const match = source === origin || source === `${origin + pathname}iframe.html`;
 
-      // console.log({ refs });
       if (!match) {
+        const ref = refs.find(r => r.url === source) || refs.find(r => r.url.match(source));
+
+        if (ref.mapper) {
+          Object.entries(data.stories).forEach(([k, v]) => {
+            delete data.stories[k];
+
+            data.stories[ref.mapper(k)] = {
+              ...v,
+              id: ref.mapper(v.id),
+              kind: ref.mapper(v.kind),
+              url: ref.url,
+            };
+          });
+        }
         // we will have to do a mutation on stories here
         // debugger;
       }
 
-      api.setStories(data.stories, source);
+      api.setStories(data.stories);
       const options = storyId
         ? api.getParameters(storyId, 'options')
         : api.getParameters(Object.keys(data.stories)[0], 'options');
