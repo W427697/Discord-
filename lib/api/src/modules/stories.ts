@@ -21,7 +21,7 @@ export interface SubAPI {
   storyId: typeof toId;
   selectStory: (kindOrId: string, story?: string, obj?: any) => void;
   getCurrentStoryData: () => Story | Group;
-  setStories: (stories: StoriesRaw, source: string) => void;
+  setStories: (stories: StoriesRaw) => void;
   jumpToComponent: (direction: Direction) => void;
   jumpToStory: (direction: Direction) => void;
   getData: (storyId: StoryId) => Story | Group;
