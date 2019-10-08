@@ -188,16 +188,15 @@ class ManagerProvider extends Component<Props, State> {
           Object.entries(data.stories).forEach(([k, v]) => {
             delete data.stories[k];
 
-            data.stories[ref.mapper(k)] = {
-              ...v,
-              id: ref.mapper(v.id),
-              kind: ref.mapper(v.kind),
-              url: ref.url,
+            const mapped = ref.mapper(v);
+            data.stories[`${ref.id}_${mapped.id}`] = {
+              ...mapped,
+              id: `${ref.id}_${mapped.id}`,
+              knownAs: k,
+              source: ref.url,
             };
           });
         }
-        // we will have to do a mutation on stories here
-        // debugger;
       }
 
       api.setStories(data.stories);
