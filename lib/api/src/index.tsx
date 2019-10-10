@@ -182,13 +182,15 @@ class ManagerProvider extends Component<Props, State> {
       const match = source === origin || source === `${origin + pathname}iframe.html`;
 
       if (!match) {
-        const ref = refs.find(r => r.url === source) || refs.find(r => r.url.match(source));
+        const ref =
+          refs.find((r: any) => r.url === source) || refs.find((r: any) => r.url.match(source));
 
         if (ref.mapper) {
           Object.entries(data.stories).forEach(([k, v]) => {
             delete data.stories[k];
 
-            const mapped = ref.mapper(v);
+            const mapped = ref.mapper ? ref.mapper(v) : v;
+
             data.stories[`${ref.id}_${mapped.id}`] = {
               ...mapped,
               id: `${ref.id}_${mapped.id}`,

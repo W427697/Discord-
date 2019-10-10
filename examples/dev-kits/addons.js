@@ -6,13 +6,11 @@ import { themes } from '@storybook/theming';
 addons.setConfig({
   refs: [
     {
-      title: 'Inception',
-      id: 'foo-bar',
-      key: 'FOOBAR',
-      mapper: name =>
-        name.match(/\||\//)
-          ? `From another external storybook|${name.replace('|', '/')}`
-          : `inception_${name}`,
+      id: 'inception',
+      mapper: ({ kind, ...rest }) => ({
+        ...rest,
+        kind: `From another external storybook|${kind.replace('|', '/')}`,
+      }),
       url: 'https://storybookjs-next.now.sh/dev-kits/iframe.html',
     },
   ],
