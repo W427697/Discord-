@@ -1,1 +1,1 @@
-{"version":"5.2.0-beta.32","info":{"plain":"### Bug Fixes\n\n* Addon-docs: Fix docs-only story load ([#7787](https://github.com/storybookjs/storybook/pull/7787))\n\n### Maintenance\n\n* Addon-docs: Unwrap doc blocks stories ([#7788](https://github.com/storybookjs/storybook/pull/7788))"}}
+{"version":"5.3.0-alpha.17","info":{"plain":"### Maintenance\n\n* Publish top-level .js and .d.ts files ([#8354](https://github.com/storybookjs/storybook/pull/8354))"}}

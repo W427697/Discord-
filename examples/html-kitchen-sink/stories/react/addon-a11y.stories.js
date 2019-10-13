@@ -92,10 +92,10 @@ storiesOf('React|A11y/Typography', module)
       <a href={href}>{`${text}...`}</a>
     </Fragment>
   ))
-  /* eslint-disable jsx-a11y/heading-has-content */
+  // eslint-disable-next-line jsx-a11y/heading-has-content
   .add('Empty Heading', () => <h1 />)
   .add('Empty Paragraph', () => <p />)
-  /* eslint-disable jsx-a11y/anchor-has-content */
+  // eslint-disable-next-line jsx-a11y/control-has-associated-label,jsx-a11y/anchor-has-content
   .add('Empty Link', () => <a href={href} />)
-  /* eslint-disable jsx-a11y/anchor-is-valid */
+  // eslint-disable-next-line jsx-a11y/anchor-is-valid
   .add('Link without href', () => <a>{`${text}...`}</a>);

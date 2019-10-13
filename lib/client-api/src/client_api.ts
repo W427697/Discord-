@@ -148,15 +148,11 @@ export default class ClientApi {
     };
   };
 
-  getSeparators = () =>
-    Object.assign(
-      {},
-      {
-        hierarchyRootSeparator: '|',
-        hierarchySeparator: /\/|\./,
-      },
-      this._globalParameters.options
-    );
+  getSeparators = () => ({
+    hierarchyRootSeparator: '|',
+    hierarchySeparator: /\/|\./,
+    ...this._globalParameters.options,
+  });
 
   addDecorator = (decorator: DecoratorFunction) => {
     this._globalDecorators.push(decorator);
@@ -168,6 +164,10 @@ export default class ClientApi {
       ...parameters,
       options: {
         ...merge(get(this._globalParameters, 'options', {}), get(parameters, 'options', {})),
+      },
+      // FIXME: https://github.com/storybookjs/storybook/issues/7872
+      docs: {
+        ...merge(get(this._globalParameters, 'docs', {}), get(parameters, 'docs', {})),
       },
     };
   };
