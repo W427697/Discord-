@@ -193,3 +193,52 @@ addParameters({
   },
 });
 ```
+
+### Handle viewport change event
+
+If you are addon-developer you may need to react on viewport change.
+For these purposes, you can use `EVENT_VIEWPORT_CHANGED`:
+```js
+import React from 'react';
+import { addons, types } from '@storybook/addons';
+import { EVENT_VIEWPORT_CHANGED } from '@storybook/addon-viewport';
+
+addons.register('MY_ADDON', () => {
+  addons.add('MY_ADDON_TOOL', {
+    title: 'My Addon',
+    type: types.TOOL,
+    match: ({ viewMode }) => viewMode === 'story',
+    render: () => <MyComponent />,
+  });
+});
+
+class MyComponent extends React.Component {
+  state = {
+    currentViewportTitle: undefined,
+  };
+
+  componentDidMount() {
+    const channel = addons.getChannel();
+    channel.on(EVENT_VIEWPORT_CHANGED, data => {
+      console.log('VIEWPORT_DATA', {
+        item: {
+          id: data.item.id,
+          title: data.item.title,
+          styles: data.item.style,
+          type: data.item.type,
+          default: data.item.default,
+        },
+        isRotated: data.isRotated,
+      });
+      this.setState({
+        currentViewportTitle: data.item.title,
+      });
+    });
+  }
+
+  render() {
+    const { currentViewportTitle } = this.state;
+    return <span>{currentViewportTitle || 'no viewport'}</span>;
+  }
+}
+```

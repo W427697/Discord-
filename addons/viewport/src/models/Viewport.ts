@@ -1,14 +1,20 @@
 export type Styles = ViewportStyles | ((s: ViewportStyles) => ViewportStyles) | null;
 
+export type ViewportType = 'desktop' | 'mobile' | 'tablet' | 'other';
+
 export interface Viewport {
   name: string;
   styles: Styles;
-  type: 'desktop' | 'mobile' | 'tablet' | 'other';
+  type: ViewportType;
   /*
    * @deprecated
    * Deprecated option?
    */
   default?: boolean;
+}
+
+export interface ComputedViewport extends Viewport {
+  styles: ViewportStyles;
 }
 
 export interface ViewportStyles {

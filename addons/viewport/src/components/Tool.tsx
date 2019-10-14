@@ -6,10 +6,11 @@ import { styled, Global, Theme, withTheme } from '@storybook/theming';
 
 import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
-import { useParameter, useAddonState } from '@storybook/api';
-import { PARAM_KEY, ADDON_ID } from './constants';
-import { MINIMAL_VIEWPORTS } from './defaults';
-import { ViewportAddonParameter, ViewportMap, ViewportStyles, Styles } from './models';
+import { useParameter, useAddonState, API } from '@storybook/api';
+import { PARAM_KEY, ADDON_ID, EVENT_VIEWPORT_CHANGED } from '../constants';
+import { MINIMAL_VIEWPORTS } from '../defaults';
+import { ViewportAddonParameter, ViewportMap, ViewportStyles, Styles } from '../models';
+import { ViewportChangedEventProps } from '../models/ViewportAddonEvents';
 
 interface ViewportItem {
   id: string;
@@ -122,8 +123,13 @@ const getStyles = (
   return isRotated ? flip(result) : result;
 };
 
-export const ViewportTool: FunctionComponent = memo(
-  withTheme(({ theme }: { theme: Theme }) => {
+type Props = {
+  theme: Theme;
+  api: API;
+};
+
+export const ViewportTool: FunctionComponent<Omit<Props, 'theme'>> = memo(
+  withTheme(({ theme, api }: Props) => {
     const {
       viewports = MINIMAL_VIEWPORTS,
       defaultViewport = responsiveViewport.id,
@@ -155,6 +161,11 @@ export const ViewportTool: FunctionComponent = memo(
       list.find(i => i.id === defaultViewport) ||
       list.find(i => i.default) ||
       responsiveViewport;
+
+    useEffect(() => {
+      const eventProps: ViewportChangedEventProps = { item, isRotated };
+      api.emit(EVENT_VIEWPORT_CHANGED, eventProps);
+    }, [item, isRotated]);
 
     const ref = useRef<ViewportStyles>();
 
