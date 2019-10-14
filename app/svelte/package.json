@@ -1,6 +1,6 @@
 {
   "name": "@storybook/svelte",
-  "version": "5.3.0-apanizo.3",
+  "version": "5.3.0-apanizo.4",
   "description": "Storybook for Svelte: Develop Svelte Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -32,7 +32,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/core": "5.3.0-apanizo.3",
+    "@storybook/core": "5.3.0-apanizo.4",
     "core-js": "^3.0.1",
     "global": "^4.3.2",
     "regenerator-runtime": "^0.13.3",
@@ -52,5 +52,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "00f97b282cf389ac7ee1defc76d852e73cea2e5a"
 }
