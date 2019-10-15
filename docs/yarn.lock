@@ -279,13 +279,6 @@
   dependencies:
     "@ndhoule/map" "^2.0.1"
 
-"@storybook/client-logger@5.2.0-beta.48":
-  version "5.2.0-beta.48"
-  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.2.0-beta.48.tgz#6a1d3b16accce30476730d4c45833722b136dacc"
-  integrity sha512-dHodCe9gzLZynGhu9mRgWpZSSJkyneuVOGfVvrQWD/uwFNxpxuAPcfVtlw7pYoEEdBiXrPa1rB1j127wDQllAw==
-  dependencies:
-    core-js "^3.0.1"
-
 "@storybook/client-logger@5.2.0-beta.7":
   version "5.2.0-beta.7"
   resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.2.0-beta.7.tgz#6d503b9c01fd0b430b1d72ed67ee1eeb63115cac"
@@ -293,13 +286,20 @@
   dependencies:
     core-js "^3.0.1"
 
-"@storybook/components@5.2.0-beta.48":
-  version "5.2.0-beta.48"
-  resolved "https://registry.yarnpkg.com/@storybook/components/-/components-5.2.0-beta.48.tgz#ab353fb2e96bb48fe947a25bdeede027ddd8244a"
-  integrity sha512-LGMj7+8/lii79T+Jf9qXyF9n73hGqqPaSQnbzYs0uL+HHy7bqsxm4MD80YAKUfL0rgTb2ne6fw9mShFSCHmbkA==
+"@storybook/client-logger@5.2.4":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-5.2.4.tgz#6ebe37cbc92e0efe27c7119f52d94f647fbb470c"
+  integrity sha512-ofp6QQPQZBU+RvlAH5KpZRsfAFHecCZDnl/7YG6FwjHseJr3jHTYmBGGjJDMHFHq+Q7FGQu/yVb9lMFgoQ43QQ==
   dependencies:
-    "@storybook/client-logger" "5.2.0-beta.48"
-    "@storybook/theming" "5.2.0-beta.48"
+    core-js "^3.0.1"
+
+"@storybook/components@5.2.4":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@storybook/components/-/components-5.2.4.tgz#9ecd080416eac4e8453030dd601cbeaa32ce4126"
+  integrity sha512-APhw+XGag0RTCRJ8eCWKVr8dLt9SRqnS8LtzcZJbokCYRxRTFzhmX2eVEE1v+d0gHib1/yh2COxOjMzv3m/rQA==
+  dependencies:
+    "@storybook/client-logger" "5.2.4"
+    "@storybook/theming" "5.2.4"
     "@types/react-syntax-highlighter" "10.1.0"
     core-js "^3.0.1"
     global "^4.3.2"
@@ -317,14 +317,14 @@
     react-textarea-autosize "^7.1.0"
     simplebar-react "^1.0.0-alpha.6"
 
-"@storybook/theming@5.2.0-beta.48":
-  version "5.2.0-beta.48"
-  resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-5.2.0-beta.48.tgz#8a2664781a2868d1ae2c427e5aa14ded94724dc7"
-  integrity sha512-unsVWu9RIiTanmA0ET/U46SmGLs8FndBejtdNZkfGtLX+ZKEkLGwgUr+1hPlHGwe60byMxwlVMoy5qZLajT6fA==
+"@storybook/theming@5.2.0-beta.7":
+  version "5.2.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-5.2.0-beta.7.tgz#7b76d0cee992235a0fb09583a5953ce101ceb47f"
+  integrity sha512-z8j/KesLvano1ZlM48UZ1vo7AmViui+YnFllamw+xPX+eSBISwlqy7gQ2xeNplMiePORSEOfuOwgObVQgdNNdg==
   dependencies:
     "@emotion/core" "^10.0.14"
     "@emotion/styled" "^10.0.14"
-    "@storybook/client-logger" "5.2.0-beta.48"
+    "@storybook/client-logger" "5.2.0-beta.7"
     common-tags "^1.8.0"
     core-js "^3.0.1"
     deep-object-diff "^1.1.0"
@@ -335,14 +335,14 @@
     prop-types "^15.7.2"
     resolve-from "^5.0.0"
 
-"@storybook/theming@5.2.0-beta.7":
-  version "5.2.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-5.2.0-beta.7.tgz#7b76d0cee992235a0fb09583a5953ce101ceb47f"
-  integrity sha512-z8j/KesLvano1ZlM48UZ1vo7AmViui+YnFllamw+xPX+eSBISwlqy7gQ2xeNplMiePORSEOfuOwgObVQgdNNdg==
+"@storybook/theming@5.2.4":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-5.2.4.tgz#79c99f65992082fdb4d39fb652db435dd6bebaca"
+  integrity sha512-2ZlqBrmnm8N0352Fnu2+GB3pEsHL4Eb2eKxV0VLLgkjJuAlm7CK6+I/e4ZknQWxwYm2pQj1y6ta68A62fGBYyA==
   dependencies:
     "@emotion/core" "^10.0.14"
     "@emotion/styled" "^10.0.14"
-    "@storybook/client-logger" "5.2.0-beta.7"
+    "@storybook/client-logger" "5.2.4"
     common-tags "^1.8.0"
     core-js "^3.0.1"
     deep-object-diff "^1.1.0"
@@ -12232,6 +12232,11 @@ trough@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/trough/-/trough-1.0.3.tgz#e29bd1614c6458d44869fc28b255ab7857ef7c24"
   integrity sha512-fwkLWH+DimvA4YCy+/nvJd61nWQQ2liO/nF/RjkTpiOGi+zxZzVkhb1mvbHIIW4b/8nDsYI8uTmAlc0nNkRMOw==
+
+ts-dedent@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ts-dedent/-/ts-dedent-1.1.0.tgz#67983940793183dc7c7f820acb66ba02cdc33c6e"
+  integrity sha512-CVCvDwMBWZKjDxpN3mU/Dx1v3k+sJgE8nrhXcC9vRopRfoa7vVzilNvHEAUi5jQnmFHpnxDx5jZdI1TpG8ny2g==
 
 tslib@^1.6.0:
   version "1.9.3"
