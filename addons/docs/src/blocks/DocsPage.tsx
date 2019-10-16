@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
 import { parseKind } from '@storybook/router';
 import { DocsPage as PureDocsPage, PropsTable, PropsTableProps } from '@storybook/components';
@@ -35,7 +35,6 @@ export interface DocsPageProps {
 interface DocsStoryProps {
   id: string;
   name: string;
-  description?: string;
   expanded?: boolean;
   withToolbar?: boolean;
   parameters?: any;
@@ -80,24 +79,25 @@ const defaultStoriesSlot: StoriesSlot = stories => {
 const StoriesHeading = H2;
 const StoryHeading = H3;
 
-const DocsStory: React.FunctionComponent<DocsStoryProps> = ({
+const DocsStory: FunctionComponent<DocsStoryProps> = ({
   id,
   name,
-  description,
   expanded = true,
   withToolbar = false,
   parameters,
 }) => (
   <Anchor storyId={id}>
     {expanded && <StoryHeading>{(parameters && parameters.displayName) || name}</StoryHeading>}
-    {expanded && description && <Description markdown={description} />}
+    {expanded && parameters && parameters.docs && parameters.docs.storyDescription && (
+      <Description markdown={parameters.docs.storyDescription} />
+    )}
     <Preview withToolbar={withToolbar}>
       <Story id={id} />
     </Preview>
   </Anchor>
 );
 
-export const DocsPage: React.FunctionComponent<DocsPageProps> = ({
+export const DocsPage: FunctionComponent<DocsPageProps> = ({
   titleSlot = defaultTitleSlot,
   subtitleSlot = defaultSubtitleSlot,
   descriptionSlot = defaultDescriptionSlot,
@@ -113,7 +113,9 @@ export const DocsPage: React.FunctionComponent<DocsPageProps> = ({
       const propsTableProps = propsSlot(context);
 
       const { selectedKind, storyStore } = context;
-      const componentStories = storyStore.getStoriesForKind(selectedKind);
+      const componentStories = storyStore
+        .getStoriesForKind(selectedKind)
+        .filter((s: any) => !(s.parameters && s.parameters.docs && s.parameters.docs.disable));
       const primary = primarySlot(componentStories, context);
       const stories = storiesSlot(componentStories, context);
 
