@@ -33,3 +33,5 @@ htpasswd
 storybook-out
 /addons/docs/common/config-*
 built-storybooks
+cypress/videos
+cypress/screenshots
