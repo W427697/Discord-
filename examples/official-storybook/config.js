@@ -37,6 +37,7 @@ addDecorator(storyFn => (
 ));
 
 addParameters({
+  consistentNames: true,
   a11y: {
     config: {},
     options: {

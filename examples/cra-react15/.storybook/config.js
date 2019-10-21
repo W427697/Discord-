@@ -2,6 +2,7 @@ import { configure, addParameters } from '@storybook/react';
 import { create } from '@storybook/theming/create';
 
 addParameters({
+  consistentNames: true,
   options: {
     theme: create({ colorPrimary: 'hotpink', colorSecondary: 'orangered' }),
   },

@@ -10,6 +10,7 @@ Vue.component('my-button', MyButton);
 Vue.use(Vuex);
 
 addParameters({
+  consistentNames: true,
   options: {
     hierarchyRootSeparator: /\|/,
   },

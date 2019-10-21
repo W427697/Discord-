@@ -4,6 +4,7 @@ import { withA11y } from '@storybook/addon-a11y';
 
 addDecorator(withA11y);
 addParameters({
+  consistentNames: true,
   options: {
     brandTitle: 'CRA TypeScript Kitchen Sink',
     brandUrl: 'https://github.com/storybookjs/storybook/tree/master/examples/cra-ts-kitchen-sink',

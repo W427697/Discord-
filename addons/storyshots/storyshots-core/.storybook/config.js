@@ -1,4 +1,6 @@
-import { configure } from '@storybook/react';
+import { addParameters, configure } from '@storybook/react';
+
+addParameters({ consistentNames: true });
 
 configure(
   [

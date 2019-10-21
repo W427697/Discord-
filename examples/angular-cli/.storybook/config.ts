@@ -6,6 +6,7 @@ addDecorator(withA11y);
 addCssWarning();
 
 addParameters({
+  consistentNames: true,
   options: {
     hierarchyRootSeparator: /\|/,
   },

@@ -1,6 +1,7 @@
 import { configure, addParameters } from '@storybook/rax';
 
 addParameters({
+  consistentNames: true,
   options: {
     name: 'Stroybook for Rax',
     url: 'https://github.com/storybookjs/storybook/tree/master/examples/rax-kitchen-sink',

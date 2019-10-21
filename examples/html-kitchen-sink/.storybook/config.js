@@ -4,6 +4,7 @@ import { withA11y } from '@storybook/addon-a11y';
 addDecorator(withA11y);
 
 addParameters({
+  consistentNames: true,
   a11y: {
     config: {},
     options: {
