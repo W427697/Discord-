@@ -15,6 +15,7 @@ withStoryParamsAndDecorators.story = {
 
   parameters: {
     bar: 1,
+    consistentNames: true,
   },
 
   decorators: [withKnobs, storyFn => <div className=\\"foo\\">{storyFn}</div>],
@@ -24,6 +25,11 @@ export const withStoryDecorators = () => <Button label=\\"The Button\\" />;
 
 withStoryDecorators.story = {
   name: 'with story decorators',
+
+  parameters: {
+    consistentNames: true,
+  },
+
   decorators: [withKnobs],
 };"
 `;

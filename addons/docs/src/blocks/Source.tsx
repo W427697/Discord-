@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from 'react';
+import { StoryContext } from '@storybook/addons';
 import { Source, SourceProps as PureSourceProps, SourceError } from '@storybook/components';
+import { getLocation } from '@storybook/source-loader/preview';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { CURRENT_SELECTION } from './shared';
 
@@ -33,8 +35,8 @@ interface StorySource {
   locationsMap: { [id: string]: { startBody: Location; endBody: Location } };
 }
 
-const extract = (targetId: string, { source, locationsMap }: StorySource) => {
-  const location = locationsMap[targetId];
+const extract = (context: StoryContext, { source, locationsMap }: StorySource) => {
+  const location = getLocation(context, locationsMap);
   // FIXME: bad locationsMap generated for module export functions whose titles are overridden
   if (!location) return null;
   const { startBody: start, endBody: end } = location;
@@ -69,7 +71,7 @@ export const getSourceProps = (
         const data = storyStore.fromId(sourceId);
         if (data && data.parameters) {
           const { mdxSource, storySource } = data.parameters;
-          return mdxSource || (storySource && extract(sourceId, storySource));
+          return mdxSource || (storySource && extract(data, storySource));
         }
         return '';
       })

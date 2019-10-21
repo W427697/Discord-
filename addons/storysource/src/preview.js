@@ -1,7 +1,6 @@
 import addons from '@storybook/addons';
+import { getLocation } from '@storybook/source-loader/preview';
 import { EVENT_ID } from './events';
-
-const getLocation = (context, locationsMap) => locationsMap[context.id];
 
 function setStorySource(context, source, locationsMap) {
   const currentLocation = getLocation(context, locationsMap);

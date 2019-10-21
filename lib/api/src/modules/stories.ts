@@ -27,6 +27,7 @@ export interface SubAPI {
   getData: (storyId: StoryId) => Story | Group;
   getParameters: (storyId: StoryId, parameterName?: ParameterName) => Story['parameters'] | any;
   getCurrentParameter<S>(parameterName?: ParameterName): S;
+  getIdByExportNameInCurrentKind: StoryId | null;
 }
 
 interface Group {
@@ -57,7 +58,7 @@ interface StoryInput {
   isLeaf: boolean;
 }
 
-type Story = StoryInput & Group;
+export type Story = StoryInput & Group;
 
 export interface StoriesHash {
   [id: string]: Group | Story;
@@ -310,6 +311,23 @@ Did you create a path that uses the separator char accidentally, such as 'Vue <d
     }
   };
 
+  const getIdByExportNameInCurrentKind = (exportName: string) => {
+    const { storyId, storiesHash } = store.getState();
+    const storyOrGroup = storiesHash[storyId];
+    if (!isStory(storyOrGroup)) {
+      return null;
+    }
+    const { kind } = storyOrGroup as Story;
+    const storyByExportName = Object.values(storiesHash).find(entry => {
+      if (!isStory(entry)) {
+        return false;
+      }
+      const story = entry as Story;
+      return story.kind === kind && story.parameters.exportName === exportName;
+    });
+    return storyByExportName && storyByExportName.id;
+  };
+
   return {
     api: {
       storyId: toId,
@@ -321,6 +339,7 @@ Did you create a path that uses the separator char accidentally, such as 'Vue <d
       getData,
       getParameters,
       getCurrentParameter,
+      getIdByExportNameInCurrentKind,
     },
     state: {
       storiesHash: {},

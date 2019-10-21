@@ -85,7 +85,8 @@ export interface StoryApi<StoryFnReturnType = unknown> {
   ) => StoryApi<StoryFnReturnType>;
   addDecorator: (decorator: DecoratorFunction<StoryFnReturnType>) => StoryApi<StoryFnReturnType>;
   addParameters: (parameters: Parameters) => StoryApi<StoryFnReturnType>;
-  [k: string]: string | ClientApiReturnFn<StoryFnReturnType>;
+  getMergedParameters: (parameters: Parameters) => Parameters;
+  [k: string]: string | ClientApiReturnFn<StoryFnReturnType> | Parameters;
 }
 
 export type DecoratorFunction<StoryFnReturnType = unknown> = (

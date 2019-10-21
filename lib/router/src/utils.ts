@@ -38,6 +38,8 @@ const sanitizeSafe = (string: string, part: string) => {
 export const toId = (kind: string, name: string) =>
   `${sanitizeSafe(kind, 'kind')}--${sanitizeSafe(name, 'name')}`;
 
+export const isIdLike = (id: string) => /--/.test(id);
+
 export const parsePath: (path?: string) => StoryData = memoize(1000)(
   (path: string | undefined | null) => {
     const result: StoryData = {

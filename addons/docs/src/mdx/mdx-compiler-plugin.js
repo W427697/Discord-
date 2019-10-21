@@ -3,7 +3,7 @@ const parser = require('@babel/parser');
 const generate = require('@babel/generator').default;
 const camelCase = require('lodash/camelCase');
 const jsStringEscape = require('js-string-escape');
-const { toId, storyNameFromExport } = require('@storybook/router/utils');
+const { toId } = require('@storybook/router/utils');
 
 // Generate the MDX as is, but append named exports for every
 // story in the contents
@@ -79,20 +79,18 @@ function genStoryExport(ast, context) {
   } else {
     statements.push(`export const ${storyKey} = makeStoryFn(${storyCode});`);
   }
-  statements.push(`${storyKey}.story = {};`);
-
-  // always preserve the name, since CSF exports can get modified by displayName
-  statements.push(`${storyKey}.story.name = '${storyName}';`);
+  // always preserve the name
+  statements.push(
+    `${storyKey}.story = {name: '${storyName}', parameters: {consistentNames: true}};`
+  );
 
   let parameters = getAttr(ast.openingElement, 'parameters');
   parameters = parameters && parameters.expression;
   const source = jsStringEscape(storyCode);
+  statements.push(`${storyKey}.story.parameters.mdxSource = '${source}';`);
   if (parameters) {
     const { code: params } = generate(parameters, {});
-    // FIXME: hack in the story's source as a parameter
-    statements.push(`${storyKey}.story.parameters = { mdxSource: '${source}', ...${params} };`);
-  } else {
-    statements.push(`${storyKey}.story.parameters = { mdxSource: '${source}' };`);
+    statements.push(`Object.assign(${storyKey}.story.parameters, ${params});`);
   }
 
   let decorators = getAttr(ast.openingElement, 'decorators');
@@ -102,8 +100,7 @@ function genStoryExport(ast, context) {
     statements.push(`${storyKey}.story.decorators = ${decos};`);
   }
 
-  // eslint-disable-next-line no-param-reassign
-  context.storyNameToKey[storyName] = storyKey;
+  context.storyNames.push(storyName);
 
   return {
     [storyKey]: statements.join('\n'),
@@ -264,7 +261,7 @@ function extractExports(node, options) {
   let metaExport = null;
   const context = {
     counter: 0,
-    storyNameToKey: {},
+    storyNames: [],
   };
   node.children.forEach(n => {
     const exports = getExports(n, context);
@@ -296,15 +293,12 @@ function extractExports(node, options) {
   metaExport.includeStories = JSON.stringify(includeStories);
 
   const { title } = metaExport;
-  const mdxStoryNameToId = Object.entries(context.storyNameToKey).reduce(
-    (acc, [storyName, storyKey]) => {
-      if (title) {
-        acc[storyName] = toId(title, storyNameFromExport(storyKey));
-      }
-      return acc;
-    },
-    {}
-  );
+  const mdxStoryNameToId = context.storyNames.reduce((acc, storyName) => {
+    if (title) {
+      acc[storyName] = toId(title, storyName);
+    }
+    return acc;
+  }, {});
 
   const fullJsx = [
     'import { DocsContainer, makeStoryFn } from "@storybook/addon-docs/blocks";',

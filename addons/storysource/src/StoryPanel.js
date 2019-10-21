@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { useStorybookApi } from '@storybook/api';
 import { styled } from '@storybook/theming';
-import { Link } from '@storybook/router';
+import { Link, isIdLike } from '@storybook/router';
 import { SyntaxHighlighter } from '@storybook/components';
 
 import createElement from 'react-syntax-highlighter/dist/esm/create-element';
@@ -40,6 +41,70 @@ const getLocationKeys = locationsMap =>
       )
     : [];
 
+const createPart = (rows, stylesheet, useInlineStyles) =>
+  rows.map((node, i) =>
+    createElement({
+      node,
+      stylesheet,
+      useInlineStyles,
+      key: `code-segement${i}`,
+    })
+  );
+
+const StoryPart = ({
+  rows,
+  stylesheet,
+  useInlineStyles,
+  location,
+  id,
+  currentLocation,
+  selectedStoryRef,
+}) => {
+  const api = useStorybookApi();
+  const storyId = isIdLike(id) ? id : api.getIdByExportNameInCurrentKind(id);
+  const first = location.startLoc.line - 1;
+  const last = location.endLoc.line;
+
+  const storyRows = rows.slice(first, last);
+  const story = createPart(storyRows, stylesheet, useInlineStyles);
+  const storyKey = `${first}-${last}`;
+
+  if (location && currentLocation && areLocationsEqual(location, currentLocation)) {
+    return (
+      <SelectedStoryHighlight key={storyKey} ref={selectedStoryRef}>
+        {story}
+      </SelectedStoryHighlight>
+    );
+  }
+
+  return (
+    <StyledStoryLink to={`/story/${storyId}`} key={storyKey}>
+      {story}
+    </StyledStoryLink>
+  );
+};
+
+const locPropType = PropTypes.shape({ col: PropTypes.number, line: PropTypes.number }).isRequired;
+const locationPropType = PropTypes.shape({
+  startLoc: locPropType,
+  endLoc: locPropType,
+  startBody: locPropType,
+  endBody: locPropType,
+});
+StoryPart.propTypes = {
+  rows: PropTypes.arrayOf(PropTypes.object).isRequired,
+  stylesheet: PropTypes.objectOf(PropTypes.string).isRequired,
+  useInlineStyles: PropTypes.bool.isRequired,
+  location: locationPropType,
+  id: PropTypes.string.isRequired,
+  currentLocation: locationPropType,
+  selectedStoryRef: PropTypes.func.isRequired,
+};
+StoryPart.defaultProps = {
+  location: null,
+  currentLocation: null,
+};
+
 export default class StoryPanel extends Component {
   state = { source: 'loading source...' };
 
@@ -76,42 +141,8 @@ export default class StoryPanel extends Component {
     });
   };
 
-  createPart = (rows, stylesheet, useInlineStyles) =>
-    rows.map((node, i) =>
-      createElement({
-        node,
-        stylesheet,
-        useInlineStyles,
-        key: `code-segement${i}`,
-      })
-    );
-
-  createStoryPart = (rows, stylesheet, useInlineStyles, location, id) => {
-    const { currentLocation } = this.state;
-    const first = location.startLoc.line - 1;
-    const last = location.endLoc.line;
-
-    const storyRows = rows.slice(first, last);
-    const story = this.createPart(storyRows, stylesheet, useInlineStyles);
-    const storyKey = `${first}-${last}`;
-
-    if (location && currentLocation && areLocationsEqual(location, currentLocation)) {
-      return (
-        <SelectedStoryHighlight key={storyKey} ref={this.setSelectedStoryRef}>
-          {story}
-        </SelectedStoryHighlight>
-      );
-    }
-
-    return (
-      <StyledStoryLink to={`/story/${id}`} key={storyKey}>
-        {story}
-      </StyledStoryLink>
-    );
-  };
-
   createParts = (rows, stylesheet, useInlineStyles) => {
-    const { locationsMap, locationsKeys } = this.state;
+    const { locationsMap, locationsKeys, currentLocation } = this.state;
 
     const parts = [];
     let lastRow = 0;
@@ -121,8 +152,19 @@ export default class StoryPanel extends Component {
       const first = location.startLoc.line - 1;
       const last = location.endLoc.line;
 
-      const start = this.createPart(rows.slice(lastRow, first), stylesheet, useInlineStyles);
-      const storyPart = this.createStoryPart(rows, stylesheet, useInlineStyles, location, key);
+      const start = createPart(rows.slice(lastRow, first), stylesheet, useInlineStyles);
+      const storyPart = (
+        <StoryPart
+          rows={rows}
+          stylesheet={stylesheet}
+          useInlineStyles={useInlineStyles}
+          location={location}
+          id={key}
+          key={key}
+          currentLocation={currentLocation}
+          selectedStoryRef={this.setSelectedStoryRef}
+        />
+      );
 
       parts.push(start);
       parts.push(storyPart);
@@ -130,7 +172,7 @@ export default class StoryPanel extends Component {
       lastRow = last;
     });
 
-    const lastPart = this.createPart(rows.slice(lastRow), stylesheet, useInlineStyles);
+    const lastPart = createPart(rows.slice(lastRow), stylesheet, useInlineStyles);
 
     parts.push(lastPart);
 
@@ -150,7 +192,7 @@ export default class StoryPanel extends Component {
     }));
 
     if (!locationsMap || !locationsKeys.length) {
-      return this.createPart(myrows, stylesheet, useInlineStyles);
+      return createPart(myrows, stylesheet, useInlineStyles);
     }
 
     const parts = this.createParts(myrows, stylesheet, useInlineStyles);

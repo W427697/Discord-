@@ -17,6 +17,7 @@ withStoryParameters.story = {
   parameters: {
     header: false,
     inline: true,
+    consistentNames: true,
   },
 };
 
@@ -27,6 +28,7 @@ foo.story = {
 
   parameters: {
     bar: 1,
+    consistentNames: true,
   },
 };"
 `;

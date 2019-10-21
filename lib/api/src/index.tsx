@@ -22,6 +22,7 @@ import initStories, {
   SubState as StoriesSubState,
   SubAPI as StoriesAPI,
   StoriesRaw,
+  Story,
 } from './modules/stories';
 import initLayout, { SubState as LayoutSubState, SubAPI as LayoutAPI } from './modules/layout';
 import initShortcuts, {
@@ -34,7 +35,7 @@ import initVersions, {
   SubAPI as VersionsAPI,
 } from './modules/versions';
 
-export { Options as StoreOptions, Listener as ChannelListener };
+export { Story, Options as StoreOptions, Listener as ChannelListener };
 
 const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
 

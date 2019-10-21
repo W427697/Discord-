@@ -32,7 +32,7 @@ By default every named export in the file represents a story function.
 
 Story functions can be annotated with a `story` object to define story-level [decorators](../../basics/writing-stories/#decorators) and [parameters](../../basics/writing-stories/#parameters), and also to define the `name` of the story.
 
-The `name` is useful if you want to use names with spaces, names that correspond to restricted keywords in Javascript, or names that collide with other variables in the file. If it's not specified, the export name will be used instead.
+The `name` is useful if you want to use names not in [start case](https://en.wikipedia.org/wiki/Letter_case#Stylistic_or_specialised_usage), names that correspond to restricted keywords in Javascript, or names that collide with other variables in the file. If it's not specified, the export name will be used instead.
 
 ```js
 export const simple = () => <MyComponent prop1={val1} />;
@@ -70,7 +70,47 @@ When you want to change the name of your story, rename the CSF export. This will
 You should use the `story.name` option in the following cases:
 
 1. Want the name to show up in the Storybook UI in a way that's not possible with a named export, e.g. reserved keywords like "default", special characters like emoji, spacing/capitalization other than what's provided by `storyNameFromExport`
-2. Want to preserve the Story ID independently from changing how it's displayed. Having stable Story ID's is useful for integration with third party tools.
+2. Want the name to be not in [start case](https://en.wikipedia.org/wiki/Letter_case#Stylistic_or_specialised_usage)
+
+If you also want this to affect Story ID and storyshot test names, set `consistentNames: true` parameter:
+
+```js
+export const simple = () => <MyComponent prop1={val1} />;
+simple.story = {
+  name: 'default', // can't be used as a named export
+  decorators: [ ... ],
+  parameters: {
+    consistentNames: true,
+    ...
+  }
+};
+```
+
+You can also set this globally in your `.storybook/config.js` file. This will be the default and only behavior since `6.0`.
+
+```js
+import {addParameters, configure} from '@storybook/react' // or any other framework
+
+addParameters({
+  consistentNames: true,
+});
+
+configure(...);
+```
+
+You also may want to preserve the Story ID independently from changing how it's displayed. Having stable Story ID's is useful for integration with third party tools.
+In that case, use `story.parameters.displayName`:
+
+```js
+export const nameForTests = () => <MyComponent prop1={val1} />;
+simple.story = {
+  decorators: [ ... ],
+  parameters: {
+    displayName: 'Name for UI',
+    ...
+  }
+};
+```
 
 ## Non-story exports
 

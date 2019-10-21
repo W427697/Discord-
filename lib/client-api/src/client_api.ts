@@ -182,6 +182,40 @@ export default class ClientApi {
       add: () => api,
       addDecorator: () => api,
       addParameters: () => api,
+      getMergedParameters: parameters => {
+        const fileName = m && m.id ? `${m.id}` : undefined;
+
+        const { hierarchyRootSeparator, hierarchySeparator } = this.getSeparators();
+        const baseOptions: OptionsParameter = {
+          hierarchyRootSeparator,
+          hierarchySeparator,
+        };
+
+        return [
+          { options: baseOptions },
+          this._globalParameters,
+          localParameters,
+          parameters,
+        ].reduce(
+          (acc: Parameters, p) => {
+            if (p) {
+              Object.entries(p).forEach(([key, value]) => {
+                const existingValue = acc[key];
+
+                if (Array.isArray(value)) {
+                  acc[key] = value;
+                } else if (isPlainObject(value) && isPlainObject(existingValue)) {
+                  acc[key] = merge(existingValue, value);
+                } else {
+                  acc[key] = value;
+                }
+              });
+            }
+            return acc;
+          },
+          { fileName }
+        );
+      },
     };
 
     // apply addons
@@ -195,7 +229,6 @@ export default class ClientApi {
 
     api.add = (storyName, storyFn, parameters) => {
       hasAdded = true;
-      const { _globalParameters, _globalDecorators } = this;
 
       const id = toId(kind, storyName);
 
@@ -211,35 +244,7 @@ export default class ClientApi {
 
       const fileName = m && m.id ? `${m.id}` : undefined;
 
-      const { hierarchyRootSeparator, hierarchySeparator } = this.getSeparators();
-      const baseOptions: OptionsParameter = {
-        hierarchyRootSeparator,
-        hierarchySeparator,
-      };
-      const allParam = [
-        { options: baseOptions },
-        _globalParameters,
-        localParameters,
-        parameters,
-      ].reduce(
-        (acc: Parameters, p) => {
-          if (p) {
-            Object.entries(p).forEach(([key, value]) => {
-              const existingValue = acc[key];
-
-              if (Array.isArray(value)) {
-                acc[key] = value;
-              } else if (isPlainObject(value) && isPlainObject(existingValue)) {
-                acc[key] = merge(existingValue, value);
-              } else {
-                acc[key] = value;
-              }
-            });
-          }
-          return acc;
-        },
-        { fileName }
-      );
+      const mergedParameters = api.getMergedParameters(parameters);
 
       this._storyStore.addStory(
         {
@@ -247,14 +252,14 @@ export default class ClientApi {
           kind,
           name: storyName,
           storyFn,
-          parameters: allParam,
+          parameters: mergedParameters,
         },
         {
           applyDecorators: applyHooks(this._decorateStory),
           getDecorators: () => [
-            ...(allParam.decorators || []),
+            ...(mergedParameters.decorators || []),
             ...localDecorators,
-            ..._globalDecorators,
+            ...this._globalDecorators,
             withSubscriptionTracking,
           ],
         }

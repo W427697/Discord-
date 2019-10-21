@@ -57,6 +57,7 @@ exports[`Storyshots Custom|Decorator for Vue With Data 1`] = `
     },
     "globalParameter": "globalParameter",
     "framework": "vue",
+    "exportName": "withData",
     "customParameter": 42
   },
   "customContext": 52
