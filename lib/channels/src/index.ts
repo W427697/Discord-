@@ -96,9 +96,9 @@ export class Channel {
     return listeners ? listeners.length : 0;
   }
 
-  listeners(eventName: string): Listener[] | undefined {
+  listeners(eventName: string): Listener[] {
     const listeners = this.events[eventName];
-    return listeners || undefined;
+    return listeners || [];
   }
 
   once(eventName: string, listener: Listener) {
@@ -130,9 +130,9 @@ export class Channel {
   }
 
   private handleEvent(event: ChannelEvent, isPeer = false) {
-    const listeners = this.listeners(event.type);
-    if (listeners && (isPeer || event.from !== this.sender)) {
-      listeners.forEach(fn => !(isPeer && fn.ignorePeer) && fn(...event.args));
+    const listeners = this.listeners(event.type).concat(this.listeners('*'));
+    if (listeners.length && (isPeer || event.from !== this.sender)) {
+      listeners.forEach(fn => !(isPeer && fn.ignorePeer) && fn.apply(event, event.args));
     }
   }
 

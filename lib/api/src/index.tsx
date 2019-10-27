@@ -3,7 +3,7 @@ import memoize from 'memoizerific';
 // @ts-ignore shallow-equal is not in DefinitelyTyped
 import shallowEqualObjects from 'shallow-equal/objects';
 
-import Events from '@storybook/core-events';
+import { STORY_CHANGED, SET_STORIES, SELECT_STORY, ADDON_STATE_SET } from '@storybook/core-events';
 import { RenderData as RouterData } from '@storybook/router';
 import { Listener } from '@storybook/channels';
 import initProviderApi, { SubAPI as ProviderAPI, Provider } from './init-provider-api';
@@ -37,8 +37,6 @@ import initVersions, {
 export { Options as StoreOptions, Listener as ChannelListener };
 
 const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
-
-const { STORY_CHANGED, SET_STORIES, SELECT_STORY } = Events;
 
 export type Module = StoreData &
   RouterData &
@@ -186,6 +184,30 @@ class ManagerProvider extends Component<Props, State> {
         api.selectStory(kind, story, rest);
       }
     );
+    api.on('*', function allEventsHandler(data: any) {
+      const { type } = this;
+
+      if (type.includes(ADDON_STATE_SET)) {
+        const addonId = type.replace(`${ADDON_STATE_SET}-`, '');
+
+        console.log('manager', addonId, data);
+        if (addonId) {
+          console.log(ADDON_STATE_SET, data);
+
+          api.setAddonState(addonId, data);
+        }
+      }
+
+      // if (type.includes(ADDON_STATE_SET)) {
+      //   const addonId = type.replace(`ADDON_STATE_GET-`, '');
+
+      //   if (addonId) {
+      //     console.log(ADDON_STATE_SET, data);
+
+      //     api.emit(,api.getAddonState(addonId));
+      //   }
+      // }
+    });
 
     this.state = state;
     this.api = api;
