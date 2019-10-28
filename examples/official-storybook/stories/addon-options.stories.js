@@ -1,36 +1,53 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
-storiesOf('Addons|Options', module)
-  .add('setting name', () => <div>This story should have changed the name of the storybook</div>, {
+export default {
+  title: 'Addons|Options',
+};
+
+export const settingName = () => (
+  <div>This story should have changed the name of the storybook</div>
+);
+
+settingName.story = {
+  name: 'setting name',
+  parameters: {
     options: {
       name: 'Custom Storybook',
     },
-  })
-  .add(
-    'hiding addon panel',
-    () => <div>This story should have changed hidden the addons panel</div>,
-    {
-      options: {
-        showPanel: false,
-      },
-    }
-  )
-  .add(
-    'reorder panel tabs',
-    () => <div>This story should have changed hidden the addons panel</div>,
-    {
-      options: {
-        tabsOrder: ['Accessibility', 'Story', 'Events'],
-      },
-    }
-  )
-  .add(
-    'hiding specific tabs',
-    () => <div>This story should have changed hidden the addons panel</div>,
-    {
-      options: {
-        hiddenTabs: ['Accessibility', 'Story', 'Events'],
-      },
-    }
-  );
+  },
+};
+
+export const hidingAddonPanel = () => (
+  <div>This story should have changed hidden the addons panel</div>
+);
+hidingAddonPanel.story = {
+  name: 'hiding addon panel',
+
+  parameters: {
+    options: {
+      showPanel: false,
+    },
+  },
+};
+
+export const reorderpanelTabs = () => (
+  <div>This story should have changed hidden the addons panel</div>
+);
+reorderpanelTabs.story = {
+  parameters: {
+    options: {
+      tabsOrder: ['Accessibility', 'Story', 'Events'],
+    },
+  },
+};
+
+export const hidingspecificTabs = () => (
+  <div>This story should have changed hidden the addons panel</div>
+);
+hidingspecificTabs.story = {
+  parameters: {
+    options: {
+      hiddenTabs: ['Accessibility', 'Story', 'Events'],
+    },
+  },
+};

@@ -8,6 +8,7 @@ import { themes, ThemeVars } from '@storybook/theming';
 import merge from '../lib/merge';
 import { State } from '../index';
 import Store from '../store';
+import { Provider } from '../init-provider-api';
 
 export type PanelPositions = 'bottom' | 'right';
 
@@ -26,6 +27,7 @@ export interface UI {
   url?: string;
   enableShortcuts: boolean;
   sidebarAnimations: boolean;
+  docsMode: boolean;
 }
 
 export interface SubState {
@@ -84,7 +86,7 @@ const deprecatedLayoutOptions: {
   addonPanelInRight: 'panelPosition',
 };
 
-const deprecationMessage = (optionsMap: OptionsMap, prefix: string = '') =>
+const deprecationMessage = (optionsMap: OptionsMap, prefix = '') =>
   `The options { ${Object.keys(optionsMap).join(', ')} } are deprecated -- use ${
     prefix ? `${prefix}'s` : ''
   } { ${Object.values(optionsMap).join(', ')} } instead.`;
@@ -134,6 +136,7 @@ const initial: SubState = {
   ui: {
     enableShortcuts: true,
     sidebarAnimations: true,
+    docsMode: false,
   },
   layout: {
     isToolshown: true,
@@ -155,11 +158,11 @@ export const focusableUIElements = {
 };
 
 let hasSetOptions = false;
-export default function({ store }: { store: Store }) {
+export default function({ store, provider }: { store: Store; provider: Provider }) {
   const api = {
     toggleFullscreen(toggled?: boolean) {
       return store.setState((state: State) => {
-        const value = typeof toggled !== 'undefined' ? toggled : !state.layout.isFullscreen;
+        const value = typeof toggled === 'boolean' ? toggled : !state.layout.isFullscreen;
 
         return {
           layout: {
@@ -250,14 +253,25 @@ export default function({ store }: { store: Store }) {
       }
     },
 
+    getInitialOptions() {
+      const { theme } = provider.getConfig();
+
+      return {
+        ...initial,
+        theme: theme || initial.theme,
+      };
+    },
+
     setOptions: (options: any) => {
       // The very first time the user sets their options, we don't consider what is in the store.
       // At this point in time, what is in the store is what we *persisted*. We did that in order
       // to avoid a FOUC (e.g. initial rendering the wrong theme while we waited for the stories to load)
       // However, we don't want to have a memory about these things, otherwise we see bugs like the
       // user setting a name for their storybook, persisting it, then never being able to unset it
-      // without clearing localstorage. See https://github.com/storybooks/storybook/issues/5857
-      const { layout, ui, selectedPanel, theme } = hasSetOptions ? store.getState() : initial;
+      // without clearing localstorage. See https://github.com/storybookjs/storybook/issues/5857
+      const { layout, ui, selectedPanel, theme } = hasSetOptions
+        ? store.getState()
+        : api.getInitialOptions();
 
       if (options) {
         const updatedLayout = {
@@ -303,5 +317,5 @@ export default function({ store }: { store: Store }) {
 
   const persisted = pick(store.getState(), 'layout', 'ui', 'selectedPanel', 'theme');
 
-  return { api, state: merge(initial, persisted) };
+  return { api, state: merge(api.getInitialOptions(), persisted) };
 }
