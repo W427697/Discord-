@@ -77,5 +77,12 @@ module.exports = {
         'spaced-comment': ignore,
       },
     },
+    {
+      files: ['lib/cli/generators/SURPLUS/**/*', 'app/surplus/**/*'],
+      rules: {
+        'react/prop-types': ignore, // Surplus doesn't use props or prop types
+        'react/button-has-type': ignore, // Surplus props != React props
+      },
+    },
   ],
 };
