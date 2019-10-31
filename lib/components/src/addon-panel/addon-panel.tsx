@@ -20,13 +20,14 @@ const useUpdate = (update: boolean, value: any) => {
 export interface AddonPanelProps {
   active: boolean;
   children: ReactNode;
+  className?: string;
 }
 
-export const AddonPanel = ({ active, children }: AddonPanelProps) => {
+export const AddonPanel = ({ active, children, ...props }: AddonPanelProps) => {
   return (
     // the transform is to prevent a bug where the content would be invisible
     // the hidden attribute is an valid html element that's both accessible and works to visually hide content
-    <div hidden={!active} style={{ transform: 'translateX(0px)' }}>
+    <div hidden={!active} style={{ transform: 'translateX(0px)' }} {...props}>
       {useUpdate(active, children)}
     </div>
   );
