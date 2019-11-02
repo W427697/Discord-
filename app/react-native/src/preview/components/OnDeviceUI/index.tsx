@@ -7,6 +7,7 @@ import {
   TouchableOpacityProps,
   TouchableOpacity,
   SafeAreaView,
+  Dimensions,
 } from 'react-native';
 import styled from '@emotion/native';
 import addons from '@storybook/addons';
@@ -49,10 +50,10 @@ interface OnDeviceUIState {
 const flex = { flex: 1 };
 
 const Preview = styled.View<{ disabled: boolean }>(flex, ({ disabled, theme }) => ({
-  borderLeftWidth: disabled ? '0' : '1',
-  borderTopWidth: disabled ? '0' : '1',
-  borderRightWidth: disabled ? '0' : '1',
-  borderBottomWidth: disabled ? '0' : '1',
+  borderLeftWidth: disabled ? 0 : 1,
+  borderTopWidth: disabled ? 0 : 1,
+  borderRightWidth: disabled ? 0 : 1,
+  borderBottomWidth: disabled ? 0 : 1,
   borderColor: disabled ? 'transparent' : theme.previewBorderColor,
 }));
 
@@ -62,11 +63,12 @@ export default class OnDeviceUI extends PureComponent<OnDeviceUIProps, OnDeviceU
   constructor(props: OnDeviceUIProps) {
     super(props);
     const tabOpen = props.tabOpen || PREVIEW;
+
     this.state = {
       tabOpen,
       slideBetweenAnimation: false,
-      previewWidth: 0,
-      previewHeight: 0,
+      previewWidth: Dimensions.get('window').width,
+      previewHeight: Dimensions.get('window').height,
     };
     this.animatedValue = new Animated.Value(tabOpen);
     this.channel = addons.getChannel();
