@@ -4,8 +4,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   Animated,
-  TouchableOpacity,
   TouchableOpacityProps,
+  Dimensions,
 } from 'react-native';
 import styled from '@emotion/native';
 import addons from '@storybook/addons';
@@ -25,7 +25,6 @@ import {
   getAddonPanelPosition,
   getNavigatorPanelPosition,
 } from './animation';
-import { EmotionProps } from '../Shared/theme';
 
 const ANIMATION_DURATION = 300;
 const IS_IOS = Platform.OS === 'ios';
@@ -46,31 +45,29 @@ interface OnDeviceUIState {
   previewHeight: number;
 }
 
-type EmotionPreviewProps = EmotionProps & TouchableOpacityProps;
-
-const Preview: typeof TouchableOpacity = styled.TouchableOpacity`
-  flex: 1;
-  border-left-width: ${(props: EmotionPreviewProps) => (props.disabled ? '0' : '1')};
-  border-top-width: ${(props: EmotionPreviewProps) => (props.disabled ? '0' : '1')};
-  border-right-width: ${(props: EmotionPreviewProps) => (props.disabled ? '0' : '1')};
-  border-bottom-width: ${(props: EmotionPreviewProps) => (props.disabled ? '0' : '1')};
-  border-color: ${(props: EmotionPreviewProps) =>
-    props.disabled ? 'transparent' : props.theme.previewBorderColor};
-`;
+const Preview = styled.TouchableOpacity<TouchableOpacityProps>(
+  {
+    flex: 1,
+  },
+  ({ disabled, theme }) => ({
+    borderLeftWidth: disabled ? 0 : 1,
+    borderTopWidth: disabled ? 0 : 1,
+    borderRightWidth: disabled ? 0 : 1,
+    borderBottomWidth: disabled ? 0 : 1,
+    borderColor: disabled ? 'transparent' : theme.previewBorderColor,
+  })
+);
 
 export default class OnDeviceUI extends PureComponent<OnDeviceUIProps, OnDeviceUIState> {
-  animatedValue: Animated.Value;
-
-  channel: Channel;
-
   constructor(props: OnDeviceUIProps) {
     super(props);
     const tabOpen = props.tabOpen || PREVIEW;
+
     this.state = {
       tabOpen,
       slideBetweenAnimation: false,
-      previewWidth: 0,
-      previewHeight: 0,
+      previewWidth: Dimensions.get('window').width,
+      previewHeight: Dimensions.get('window').height,
     };
     this.animatedValue = new Animated.Value(tabOpen);
     this.channel = addons.getChannel();
@@ -104,6 +101,10 @@ export default class OnDeviceUI extends PureComponent<OnDeviceUIProps, OnDeviceU
       Keyboard.dismiss();
     }
   };
+
+  animatedValue: Animated.Value;
+
+  channel: Channel;
 
   render() {
     const {
