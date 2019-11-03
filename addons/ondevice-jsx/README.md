@@ -31,11 +31,11 @@ Import the `JSX` decorator and use it next to your stories
 
 ```js
 import { addDecorator, storiesOf } from '@storybook/react-native';
-import {JSX} from '@storybook/jsx';
+import { JSX } from '@storybook/jsx';
 
 addDecorator(JSX);
 
 storiesOf(...);
 ```
 
-The decorator order matters in the list, so if some information is missing (knobs), you should put it before.
+The decorator order matters in the list, so if some information is missing (knobs for example), you should put it at the top.

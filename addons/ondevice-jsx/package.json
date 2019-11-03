@@ -1,12 +1,12 @@
 {
   "name": "@storybook/addon-ondevice-jsx",
-  "version": "5.2.0-beta.33",
+  "version": "5.3.0-alpha.37",
   "description": "Display the story's declaration inside a device panel.",
   "keywords": [
     "addon",
     "jsx",
-    "storybook",
-    "react-native"
+    "react-native",
+    "storybook"
   ],
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "5.2.0-beta.33",
+    "@storybook/addons": "5.3.0-alpha.37",
     "lodash": "^4.17.15"
   },
   "peerDependencies": {
