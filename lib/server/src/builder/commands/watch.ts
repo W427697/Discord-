@@ -135,7 +135,7 @@ const commands = {
       ]
     );
 
-    const webpackConfig = await getWebpackConfig(type, config);
+    const webpackConfig: WebpackConfig = await getWebpackConfig(type, config);
 
     watcher = await watch(webpackConfig);
     return watcher;
