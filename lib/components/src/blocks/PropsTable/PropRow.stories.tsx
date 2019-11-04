@@ -36,6 +36,11 @@ export const longDescDef = {
   description: 'really long description that takes up a lot of space. sometimes this happens.',
 };
 
+export const multilineDescDef = {
+  ...stringDef,
+  description: 'really long description\non multiple lines.\nsometimes this\nhappens\ntoo.',
+};
+
 export const numberDef = {
   name: 'someNumber',
   type: { name: 'number' },
@@ -107,6 +112,7 @@ export const complexDef = {
 export const string = () => <PropRow row={stringDef} />;
 export const longName = () => <PropRow row={longNameDef} />;
 export const longDesc = () => <PropRow row={longDescDef} />;
+export const multilineDesc = () => <PropRow row={multilineDescDef} />;
 export const number = () => <PropRow row={numberDef} />;
 export const objectOf = () => <PropRow row={objectDef} />;
 export const arrayOf = () => <PropRow row={arrayDef} />;

@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import Markdown from 'markdown-to-jsx';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
+import { isNil } from 'lodash';
 import { PropDef } from './PropDef';
 
 enum PropType {
@@ -90,10 +91,16 @@ export const PropRow: FC<PropRowProps> = ({
   <tr>
     <td>
       <Name>{name}</Name>
-      {required ? <Required title="Required">*</Required> : null}
+      {required ? (
+        <Required title="Required" className="sbdocs-required">
+          *
+        </Required>
+      ) : null}
     </td>
     <td>
-      <Markdown>{description || ''}</Markdown>
+      <Markdown>
+        {!isNil(description) ? description.replace(/(?:\r\n|\r|\n)/g, '<br>') : ''}
+      </Markdown>
       <StyledPropDef>
         <PrettyPropType type={type} />
       </StyledPropDef>
