@@ -17,6 +17,7 @@
   },
   "license": "MIT",
   "files": [
+    "src/**/*",
     "dist/**/*",
     "docs/**/*",
     "README.md",
