@@ -14,15 +14,16 @@ Just like Storybook, Docs supports every major view layer including React, Vue, 
 
 Read on to learn more:
 
-- [DocsPage](#docspage)
-- [MDX](#mdx)
-- [Framework support](#framework-support)
-- [Installation](#installation)
-  - [Be sure to check framework specific installation needs](#be-sure-to-check-framework-specific-installation-needs)
-- [Preset options](#preset-options)
-- [Manual configuration](#manual-configuration)
-- [TypeScript configuration](#typescript-configuration)
-- [More resources](#more-resources)
+- [Storybook Docs](#storybook-docs)
+  - [DocsPage](#docspage)
+  - [MDX](#mdx)
+  - [Framework support](#framework-support)
+  - [Installation](#installation)
+    - [Be sure to check framework specific installation needs](#be-sure-to-check-framework-specific-installation-needs)
+  - [Preset options](#preset-options)
+  - [Manual configuration](#manual-configuration)
+  - [TypeScript configuration](#typescript-configuration)
+  - [More resources](#more-resources)
 
 ## DocsPage
 
@@ -76,16 +77,16 @@ For more information on `MDX`, see the [`MDX` reference](./docs/mdx.md).
 
 Storybook Docs supports all view layers that Storybook supports except for React Native (currently). There are some framework-specific features as well, such as props tables and inline story rendering. This chart captures the current state of support:
 
-|                   | React | Vue | Angular | HTML | [Web Components](./web-components) | Svelte | Polymer | Marko | Mithril | Riot | Ember | Preact |
-| ----------------- | :---: | :-: | :-----: | :--: | :--------------------------------: | :----: | :-----: | :---: | :-----: | :--: | :---: | :----: |
-| MDX stories       |   +   |  +  |    +    |  +   |                 +                  |   +    |    +    |   +   |    +    |  +   |   +   |   +    |
-| CSF stories       |   +   |  +  |    +    |  +   |                 +                  |   +    |    +    |   +   |    +    |  +   |   +   |   +    |
-| StoriesOf stories |   +   |  +  |    +    |  +   |                 +                  |   +    |    +    |   +   |    +    |  +   |   +   |   +    |
-| Source            |   +   |  +  |    +    |  +   |                 +                  |   +    |    +    |   +   |    +    |  +   |   +   |   +    |
-| Notes / Info      |   +   |  +  |    +    |  +   |                 +                  |   +    |    +    |   +   |    +    |  +   |   +   |   +    |
-| Props table       |   +   |  +  |    #    |      |                 +                  |        |         |       |         |      |       |        |
-| Description       |   +   |  +  |    #    |      |                 +                  |        |         |       |         |      |       |        |
-| Inline stories    |   +   |  +  |         |      |                                    |        |         |       |         |      |       |        |
+|                   | React |  Vue  | Angular | HTML  | [Web Components](./web-components) | Svelte | Polymer | Marko | Mithril | Riot  | Ember | Preact |
+| ----------------- | :---: | :---: | :-----: | :---: | :--------------------------------: | :----: | :-----: | :---: | :-----: | :---: | :---: | :----: |
+| MDX stories       |   +   |   +   |    +    |   +   |                 +                  |   +    |    +    |   +   |    +    |   +   |   +   |   +    |
+| CSF stories       |   +   |   +   |    +    |   +   |                 +                  |   +    |    +    |   +   |    +    |   +   |   +   |   +    |
+| StoriesOf stories |   +   |   +   |    +    |   +   |                 +                  |   +    |    +    |   +   |    +    |   +   |   +   |   +    |
+| Source            |   +   |   +   |    +    |   +   |                 +                  |   +    |    +    |   +   |    +    |   +   |   +   |   +    |
+| Notes / Info      |   +   |   +   |    +    |   +   |                 +                  |   +    |    +    |   +   |    +    |   +   |   +   |   +    |
+| Props table       |   +   |   +   |    #    |       |                 +                  |        |         |       |         |       |       |        |
+| Description       |   +   |   +   |    #    |       |                 +                  |        |         |       |         |       |       |        |
+| Inline stories    |   +   |   +   |         |       |                 +                  |        |         |       |         |       |       |        |
 
 **Note:** `#` = WIP support
 
@@ -108,10 +109,8 @@ yarn add -D react react-is babel-loader
 Then add the following to your `.storybook/presets.js` exports:
 
 ```js
-module.exports = ['@storybook/addon-docs/react/preset'];
+module.exports = ['@storybook/addon-docs/preset'];
 ```
-
-If you're not using `react`, replace it with your framework of choice corresponding to the Storybook package name, e.g. `angular` for `@storybook/angular` etc.
 
 **Configure.** If you're migrating from an earlier version of Storybook and want to use `MDX`, you need to upgrade your Storybook config:
 
