@@ -175,30 +175,34 @@ class ManagerProvider extends Component<Props, State> {
 
     api.on(SET_STORIES, function handleSetStories(data: { stories: StoriesRaw }) {
       const { source } = this;
-      const { refs } = provider.getConfig();
+      const { refs, mapper } = provider.getConfig();
 
       const { origin, pathname } = location;
+      
+      if (refs) {
+        const refsList = Object.entries(refs);
+        const match = source === origin || source === `${origin + pathname}iframe.html`;
 
-      const match = source === origin || source === `${origin + pathname}iframe.html`;
+        if (!match) {
+          const [id, url] =
+            refsList.find(([id, url]: any) => url === source) ||
+            refsList.find(([id, url]: any) => url.match(source));
 
-      if (!match) {
-        const ref =
-          refs.find((r: any) => r.url === source) || refs.find((r: any) => r.url.match(source));
-
-        if (ref.mapper) {
           Object.entries(data.stories).forEach(([k, v]) => {
             delete data.stories[k];
 
-            const mapped = ref.mapper ? ref.mapper(v) : v;
+            const mapped = mapper ? mapper({ id, url }, v) : v;
 
-            data.stories[`${ref.id}_${mapped.id}`] = {
+            data.stories[`${id}_${mapped.id}`] = {
               ...mapped,
-              id: `${ref.id}_${mapped.id}`,
+              id: `${id}_${mapped.id}`,
               knownAs: k,
-              source: ref.url,
+              source: url,
             };
           });
         }
+      } else {
+        console.log('no refs loaded');
       }
 
       api.setStories(data.stories);
