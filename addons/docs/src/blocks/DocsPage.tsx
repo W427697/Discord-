@@ -9,17 +9,22 @@ import { Story } from './Story';
 import { Preview } from './Preview';
 import { Anchor } from './Anchor';
 import { getPropsTableProps } from './Props';
+import { Component } from './shared';
 
 export interface SlotContext {
   id?: string;
   selectedKind?: string;
   selectedStory?: string;
+  subcomponents?: Record<string, Component>;
   parameters?: any;
   storyStore?: any;
 }
 
 export type StringSlot = (context: SlotContext) => string | void;
 export type PropsSlot = (context: SlotContext) => PropsTableProps | void;
+export type SubcomponentsPropsSlot = (
+  context: SlotContext
+) => Record<string, PropsTableProps> | void;
 export type StorySlot = (stories: StoryData[], context: SlotContext) => DocsStoryProps | void;
 export type StoriesSlot = (stories: StoryData[], context: SlotContext) => DocsStoryProps[] | void;
 
@@ -29,6 +34,7 @@ export interface DocsPageProps {
   descriptionSlot: StringSlot;
   primarySlot: StorySlot;
   propsSlot: PropsSlot;
+  subcomponentsPropsSlot: SubcomponentsPropsSlot;
   storiesSlot: StoriesSlot;
 }
 
@@ -64,6 +70,35 @@ const defaultSubtitleSlot: StringSlot = ({ parameters }) =>
 
 const defaultPropsSlot: PropsSlot = context => getPropsTableProps({ of: '.' }, context);
 
+const defaultSubcomponentsPropsSlot: SubcomponentsPropsSlot = context => {
+  const { subcomponents = {} } = context.parameters || {};
+
+  const subcomponentNames = Object.keys(subcomponents);
+  if (!subcomponentNames.length) {
+    return undefined;
+  }
+
+  return subcomponentNames.reduce(
+    (subcomponentsPropsTableProps: Record<string, PropsTableProps>, subcomponentName: string) => {
+      const subcomponent = subcomponents[subcomponentName];
+
+      const subcomponentContext = {
+        ...context,
+        parameters: {
+          ...context.parameters,
+          component: subcomponent,
+        },
+      };
+
+      return {
+        ...subcomponentsPropsTableProps,
+        [subcomponentName]: getPropsTableProps({ of: '.' }, subcomponentContext),
+      };
+    },
+    {}
+  );
+};
+
 const defaultDescriptionSlot: StringSlot = ({ parameters }) => {
   const { component, docs } = parameters;
   if (!component) {
@@ -84,6 +119,7 @@ const defaultStoriesSlot: StoriesSlot = stories => {
 
 const StoriesHeading = H2;
 const StoryHeading = H3;
+const SubcomponentPropsHeading = H3;
 
 const DocsStory: FunctionComponent<DocsStoryProps> = ({
   id,
@@ -109,6 +145,7 @@ export const DocsPage: FunctionComponent<DocsPageProps> = ({
   descriptionSlot = defaultDescriptionSlot,
   primarySlot = defaultPrimarySlot,
   propsSlot = defaultPropsSlot,
+  subcomponentsPropsSlot = defaultSubcomponentsPropsSlot,
   storiesSlot = defaultStoriesSlot,
 }) => (
   <DocsContext.Consumer>
@@ -117,6 +154,7 @@ export const DocsPage: FunctionComponent<DocsPageProps> = ({
       const subtitle = subtitleSlot(context) || '';
       const description = descriptionSlot(context) || '';
       const propsTableProps = propsSlot(context);
+      const subcomponentsTableProps = subcomponentsPropsSlot(context);
 
       const { selectedKind, storyStore } = context;
       const componentStories = storyStore
@@ -130,6 +168,17 @@ export const DocsPage: FunctionComponent<DocsPageProps> = ({
           <Description markdown={description} />
           {primary && <DocsStory key={primary.id} {...primary} expanded={false} withToolbar />}
           {propsTableProps && <PropsTable {...propsTableProps} />}
+          {subcomponentsTableProps &&
+            Object.keys(subcomponentsTableProps).map(subComponentName => {
+              const subcomponentPropsTableProps = subcomponentsTableProps[subComponentName];
+
+              return (
+                <>
+                  <SubcomponentPropsHeading>{subComponentName}</SubcomponentPropsHeading>
+                  <PropsTable {...subcomponentPropsTableProps} />
+                </>
+              );
+            })}
           {stories && stories.length > 0 && <StoriesHeading>Stories</StoriesHeading>}
           {stories &&
             stories.map(story => story && <DocsStory key={story.id} {...story} expanded />)}
