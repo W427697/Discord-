@@ -65,6 +65,25 @@ describe('prop-types handler', () => {
     expect(propDef.defaultValue).toBe('default value');
   });
 
+  it('should map defaultProp value properly when it is missing in docgen and default prop object', () => {
+    const docgenInfo = createDocgenInfo({
+      type: PROP_TYPES_STRING_TYPE,
+      defaultValue: undefined,
+    });
+
+    const { propDef } = propTypesHandler({
+      propName: DEFAULT_PROP_NAME,
+      defaultPropValue: undefined,
+      docgenInfo,
+    });
+
+    expect(propDef.name).toBe(DEFAULT_PROP_NAME);
+    expect(propDef.type.name).toBe(docgenInfo.type.name);
+    expect(propDef.description).toBe(docgenInfo.description);
+    expect(propDef.required).toBe(docgenInfo.required);
+    expect(propDef.defaultValue).toBe(null);
+  });
+
   describe('for all prop types', () => {
     it('should handle prop without a description', () => {
       const docgenInfo = createDocgenInfo({

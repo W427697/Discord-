@@ -46,7 +46,7 @@ function createDefaultPropDef(params: {
     type: propType,
     required,
     description,
-    defaultValue: isNil(defaults) ? null : defaults.value,
+    defaultValue: isNil(defaults.value) ? null : defaults.value,
   };
 }
 
