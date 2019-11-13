@@ -33,6 +33,7 @@ export const extractPropsFromDocgen: PropDefGetter = (component, section) => {
   const props: Record<string, PropDef> = {};
   const docgenInfoProps = component.__docgenInfo[section];
   const propKeys = Object.keys(docgenInfoProps);
+  const { defaultProps } = component;
 
   // Assuming the props for a given component will all have the same type system.
   const typeSystem = getPropTypeSystem(docgenInfoProps[propKeys[0]]);
@@ -41,7 +42,11 @@ export const extractPropsFromDocgen: PropDefGetter = (component, section) => {
   propKeys.forEach(propKey => {
     const docgenInfoProp = docgenInfoProps[propKey];
 
-    const result = typeSystemHandler(propKey, docgenInfoProp);
+    const result = typeSystemHandler({
+      propName: propKey,
+      defaultPropValue: defaultProps[propKey],
+      docgenInfo: docgenInfoProp,
+    });
 
     if (!result.ignore) {
       props[propKey] = result.propDef;

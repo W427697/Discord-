@@ -15,30 +15,38 @@ export interface TypeSystemHandlerResult {
   ignore: boolean;
 }
 
-export type TypeSystemHandler = (
-  propName: string,
-  docgenInfo: DocgenInfo
-) => TypeSystemHandlerResult;
+export type TypeSystemHandler = (params: {
+  propName: string;
+  defaultPropValue?: any;
+  docgenInfo: DocgenInfo;
+}) => TypeSystemHandlerResult;
 
 interface HandlePropResult extends TypeSystemHandlerResult {
   extractedJsDocTags?: ExtractedJsDocTags;
 }
 
-function createDefaultPropDef(
-  propName: string,
+function createDefaultPropDef(params: {
+  propName: string;
+  defaultPropValue?: any;
   propType: {
     name: string;
-  },
-  docgenInfo: DocgenInfo
-): PropDef {
-  const { description, required, defaultValue } = docgenInfo;
+  };
+  docgenInfo: DocgenInfo;
+}): PropDef {
+  const {
+    propName,
+    defaultPropValue,
+    propType,
+    docgenInfo: { description, required, defaultValue },
+  } = params;
+  const defaults = defaultValue || { value: defaultPropValue };
 
   return {
     name: propName,
     type: propType,
     required,
     description,
-    defaultValue: isNil(defaultValue) ? null : defaultValue.value,
+    defaultValue: isNil(defaults) ? null : defaults.value,
   };
 }
 
@@ -46,14 +54,16 @@ function propMightContainsJsDoc(docgenInfo: DocgenInfo): boolean {
   return !isNil(docgenInfo.description) && docgenInfo.description.includes('@');
 }
 
-function handleProp(
-  propName: string,
+function handleProp(params: {
+  propName: string;
+  defaultPropValue: any;
   propType: {
     name: string;
-  },
-  docgenInfo: DocgenInfo
-): HandlePropResult {
-  const propDef = createDefaultPropDef(propName, propType, docgenInfo);
+  };
+  docgenInfo: DocgenInfo;
+}): HandlePropResult {
+  const { docgenInfo } = params;
+  const propDef = createDefaultPropDef(params);
 
   if (propMightContainsJsDoc(docgenInfo)) {
     const { ignore, description, extractedTags } = parseJsDoc(docgenInfo);
@@ -91,8 +101,8 @@ function handleProp(
   };
 }
 
-export const propTypesHandler: TypeSystemHandler = (propName: string, docgenInfo: DocgenInfo) => {
-  const result = handleProp(propName, docgenInfo.type, docgenInfo);
+export const propTypesHandler: TypeSystemHandler = ({ propName, docgenInfo, defaultPropValue }) => {
+  const result = handleProp({ propName, propType: docgenInfo.type, docgenInfo, defaultPropValue });
 
   if (!result.ignore) {
     const { propDef, extractedJsDocTags } = result;
@@ -138,16 +148,16 @@ export const propTypesHandler: TypeSystemHandler = (propName: string, docgenInfo
   return result;
 };
 
-export const tsHandler: TypeSystemHandler = (propName: string, docgenInfo: DocgenInfo) => {
-  return handleProp(propName, docgenInfo.tsType, docgenInfo);
+export const tsHandler: TypeSystemHandler = ({ propName, docgenInfo, defaultPropValue }) => {
+  return handleProp({ propName, propType: docgenInfo.tsType, docgenInfo, defaultPropValue });
 };
 
-export const flowHandler: TypeSystemHandler = (propName: string, docgenInfo: DocgenInfo) => {
-  return handleProp(propName, docgenInfo.flowType, docgenInfo);
+export const flowHandler: TypeSystemHandler = ({ propName, docgenInfo, defaultPropValue }) => {
+  return handleProp({ propName, propType: docgenInfo.flowType, docgenInfo, defaultPropValue });
 };
 
-export const unknownHandler: TypeSystemHandler = (propName: string, docgenInfo: DocgenInfo) => {
-  return handleProp(propName, { name: 'unknown' }, docgenInfo);
+export const unknownHandler: TypeSystemHandler = ({ propName, docgenInfo, defaultPropValue }) => {
+  return handleProp({ propName, propType: { name: 'unknown' }, docgenInfo, defaultPropValue });
 };
 
 export const TypeSystemHandlers: Record<string, TypeSystemHandler> = {
