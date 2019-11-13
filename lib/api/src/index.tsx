@@ -178,26 +178,28 @@ class ManagerProvider extends Component<Props, State> {
       const { refs, mapper } = provider.getConfig();
 
       const { origin, pathname } = location;
-      
+
       if (refs) {
         const refsList = Object.entries(refs);
         const match = source === origin || source === `${origin + pathname}iframe.html`;
 
         if (!match) {
-          const [id, url] =
-            refsList.find(([id, url]: any) => url === source) ||
-            refsList.find(([id, url]: any) => url.match(source));
+          const [id, u] =
+            refsList.find(([, url]: any) => url === source) ||
+            refsList.find(([, url]: any) => url.match(source));
 
           Object.entries(data.stories).forEach(([k, v]) => {
+            // eslint-disable-next-line no-param-reassign
             delete data.stories[k];
 
-            const mapped = mapper ? mapper({ id, url }, v) : v;
+            const mapped = mapper ? mapper({ id, url: u }, v) : v;
 
+            // eslint-disable-next-line no-param-reassign
             data.stories[`${id}_${mapped.id}`] = {
               ...mapped,
               id: `${id}_${mapped.id}`,
               knownAs: k,
-              source: url,
+              source: u,
             };
           });
         }
