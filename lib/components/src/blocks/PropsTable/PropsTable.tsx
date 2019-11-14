@@ -191,6 +191,7 @@ const PropsTable: FC<PropsTableProps> = props => {
   if (allRows.length === 0) {
     return <EmptyBlock>No props found for this component</EmptyBlock>;
   }
+  allRows.sort((row1, row2) => (row1.key > row2.key ? 1 : -1));
   return (
     <ResetWrapper>
       <Table className="docblock-propstable">
