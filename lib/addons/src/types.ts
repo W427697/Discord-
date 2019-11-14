@@ -7,6 +7,7 @@ export enum types {
   TOOL = 'tool',
   PREVIEW = 'preview',
   NOTES_ELEMENT = 'notes-element',
+  TOOLEXTRA = 'tool-extra',
 }
 
 export type Types = types | string;
