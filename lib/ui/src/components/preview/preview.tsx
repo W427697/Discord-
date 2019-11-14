@@ -1,5 +1,5 @@
 import window from 'global';
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, ReactElement } from 'react';
 import memoize from 'memoizerific';
 import copy from 'copy-to-clipboard';
 
@@ -17,7 +17,6 @@ import * as S from './components';
 import { ZoomProvider, ZoomConsumer, Zoom } from './zoom';
 
 import { IFrame } from './iframe';
-import { StyledComponent } from '../../../../../examples/angular-cli/src/stories/component-with-style/styled.component';
 
 type Noop = () => void;
 type ViewMode = 'story' | 'info' | 'docs' | 'settings';
@@ -33,10 +32,10 @@ interface PreviewPropsBase {
     currentUrl: string,
     scale: number,
     queryParams: Record<string, any>,
-    frames: {},
+    frames: Record<string, string>,
     storyId: string
   ) => any;
-  frames?: {};
+  frames?: Record<string, string>;
   queryParams: Record<string, any>;
   storyId?: string;
   viewMode?: ViewMode;
@@ -83,7 +82,7 @@ const renderIframe = (
   currentUrl: string,
   scale: number,
   queryParams: {},
-  frames = {},
+  frames: Record<string, string> = {},
   storyId = ''
 ) => (
   <Fragment key="iframe">
@@ -116,11 +115,11 @@ interface ActualPreviewProps {
     currentUrl: string,
     scale: number,
     queryParams: Record<string, any>,
-    frames: {},
+    frames: Record<string, string>,
     storyId: string
-  ) => any;
+  ) => JSX.Element;
   currentUrl: string;
-  frames: {};
+  frames: Record<string, string>;
 }
 
 const ActualPreview = ({
@@ -134,7 +133,14 @@ const ActualPreview = ({
   currentUrl,
   frames,
 }: ActualPreviewProps) => {
-  const data = [viewMode, currentUrl, scale, queryParams, frames, storyId];
+  const data = [viewMode, currentUrl, scale, queryParams, frames, storyId] as [
+    ViewMode,
+    string,
+    number,
+    Record<string, any>,
+    Record<string, string>,
+    string
+  ];
   const base = customCanvas ? customCanvas(...data) : renderIframe(...data);
   return wrappers.reduceRight(
     (acc, wrapper, index) => wrapper.render({ index, children: acc, storyId, active }),
