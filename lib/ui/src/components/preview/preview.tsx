@@ -1,5 +1,5 @@
 import window from 'global';
-import React, { Component, Fragment, ReactElement } from 'react';
+import React, { Component, Fragment } from 'react';
 import memoize from 'memoizerific';
 import copy from 'copy-to-clipboard';
 
