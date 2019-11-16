@@ -1,4 +1,3 @@
-import { State } from 'webpackbar';
 import EventEmitter from 'eventemitter3';
 
 import { Stats } from 'webpack';
