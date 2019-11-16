@@ -1,8 +1,15 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { types } from '@storybook/addons';
 
+import { types } from '@storybook/addons';
 import { Preview, ViewMode } from './preview';
+
+export default {
+  component: Preview,
+  title: 'UI/Preview/Preview',
+};
+
+export const noTabs = () => <Preview {...previewProps} getPreviewElements={() => []} />;
+export const withTabs = () => <Preview {...previewProps} />;
 
 const getPreviewElements = (type: types) => {
   if (type === types.TAB) {
@@ -11,8 +18,8 @@ const getPreviewElements = (type: types) => {
         id: 'notes',
         type: types.TAB,
         title: 'Notes',
-        route: ({ storyId }: { storyId: string }) => `/info/${storyId}`, // todo add type
-        match: ({ viewMode }: { viewMode: ViewM }) => viewMode === 'info', // todo add type
+        route: ({ storyId }: { storyId: string }) => `/info/${storyId}`,
+        match: ({ viewMode }: { viewMode: ViewMode }) => viewMode === 'info',
         render: () => null,
       },
     ];
@@ -20,7 +27,7 @@ const getPreviewElements = (type: types) => {
   return [];
 };
 
-export const previewProps = {
+const previewProps = {
   id: 'string',
   api: {
     on: () => {},
@@ -41,10 +48,3 @@ export const previewProps = {
   actions: {},
   getPreviewElements,
 };
-
-storiesOf('UI/Preview/Preview', module)
-  .addParameters({
-    component: Preview,
-  })
-  .add('no tabs', () => <Preview {...previewProps} getPreviewElements={() => []} />)
-  .add('with tabs', () => <Preview {...previewProps} />);
