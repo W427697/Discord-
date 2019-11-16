@@ -19,11 +19,22 @@ import { ZoomProvider, ZoomConsumer, Zoom } from './zoom';
 import { IFrame } from './iframe';
 
 type Noop = () => void;
-type ViewMode = 'story' | 'info' | 'docs' | 'settings';
+
+export type ViewMode = 'story' | 'info' | 'docs' | 'settings';
+
 type PreviewStory = {
   id?: string;
   source?: string;
   knownAs?: string;
+};
+
+type PreviewElement = {
+  id: string;
+  type: types;
+  title: string;
+  route: ({ storyId: string }) => string;
+  match: ({ viewMode: ViewMode }) => boolean;
+  render: Noop;
 };
 
 interface PreviewPropsBase {
@@ -51,7 +62,7 @@ interface PreviewProps extends PreviewPropsBase {
   story?: PreviewStory;
   path?: string;
   location: {};
-  getElements: () => [];
+  getPreviewElements: (type) => PreviewElement[];
   options: {
     isFullscreen: boolean;
     isToolshown: boolean;
@@ -161,7 +172,7 @@ const IframeWrapper = styled.div(({ theme }) => ({
 
 const defaultWrappers = [
   {
-    render: p => (
+    render: (p: { active: boolean; children: React.ReactNode }) => (
       <IframeWrapper id="storybook-preview-wrapper" hidden={!p.active}>
         {p.children}
       </IframeWrapper>
@@ -336,7 +347,7 @@ class Preview extends Component<PreviewProps, {}> {
       viewMode = 'story',
       storyId = '',
       queryParams,
-      getElements,
+      getPreviewElements: getElements,
       api,
       customCanvas,
       options,
