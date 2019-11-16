@@ -11,10 +11,10 @@ Vue.use(Vuex);
 
 addParameters({
   options: {
-    hierarchyRootSeparator: /\|/,
+    showRoots: true,
   },
   docs: {
-    // inlineStories: true,
+    inlineStories: true,
     iframeHeight: '60px',
   },
 });
