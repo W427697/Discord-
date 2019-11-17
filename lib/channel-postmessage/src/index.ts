@@ -111,7 +111,11 @@ export class PostmsgTransport {
         })
         .map(e => e.contentWindow);
     }
-    return [window.parent];
+    if (window && window.parent) {
+      return [window.parent];
+    }
+
+    return [];
   }
 
   private handleEvent(rawEvent: MessageEvent): void {
