@@ -62,7 +62,7 @@ interface PreviewProps extends PreviewPropsBase {
   story?: PreviewStory;
   path?: string;
   location: {};
-  getPreviewElements: (type) => PreviewElement[];
+  getElements: (type) => PreviewElement[];
   options: {
     isFullscreen: boolean;
     isToolshown: boolean;
@@ -347,7 +347,7 @@ class Preview extends Component<PreviewProps, {}> {
       viewMode = 'story',
       storyId = '',
       queryParams,
-      getPreviewElements: getElements,
+      getElements,
       api,
       customCanvas,
       options,

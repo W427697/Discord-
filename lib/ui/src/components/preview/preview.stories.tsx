@@ -8,10 +8,10 @@ export default {
   title: 'UI/Preview/Preview',
 };
 
-export const noTabs = () => <Preview {...previewProps} getPreviewElements={() => []} />;
+export const noTabs = () => <Preview {...previewProps} getElements={() => []} />;
 export const withTabs = () => <Preview {...previewProps} />;
 
-const getPreviewElements = (type: types) => {
+const getElements = (type: types) => {
   if (type === types.TAB) {
     return [
       {
@@ -46,5 +46,5 @@ const previewProps = {
     isToolshown: true,
   },
   actions: {},
-  getPreviewElements,
+  getElements,
 };
