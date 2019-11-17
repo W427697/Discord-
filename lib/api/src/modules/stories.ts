@@ -226,10 +226,10 @@ const initStoriesApi = ({
 
       const usingShowRoots = typeof showRoots !== 'undefined';
 
-      // Kind splitting behaviour as per https://github.com/storybookjs/storybook/issues/8793
+      // Kind splitting behavior as per https://github.com/storybookjs/storybook/issues/8793
       let root = '';
       let groups: string[];
-      // 1. If the user has passed separators, use the old behaviour but warn them
+      // 1. If the user has passed separators, use the old behavior but warn them
       if (typeof rootSeparator !== 'undefined' || typeof groupSeparator !== 'undefined') {
         warnRemovingHierarchySeparators();
         if (usingShowRoots) warnUsingHierarchySeparatorsAndShowRoots();
@@ -316,7 +316,7 @@ Did you create a path that uses the separator char accidentally, such as 'Vue <d
     // Now create storiesHash by reordering the above by group
     const storiesHash: StoriesHash = Object.values(storiesHashOutOfOrder).reduce(
       addItem,
-      store.getState().storiesHash
+      store.getState().storiesHash || {}
     );
     const settingsPageList = ['about', 'shortcuts'];
     const { storyId, viewMode } = store.getState();
