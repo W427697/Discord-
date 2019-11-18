@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { Fragment, FunctionComponent } from 'react';
 
 import { parseKind } from '@storybook/router';
 import { DocsPage as PureDocsPage, PropsTable, PropsTableProps } from '@storybook/components';
@@ -182,14 +182,14 @@ export const DocsPage: FunctionComponent<DocsPageProps> = ({
           {primary && <DocsStory key={primary.id} {...primary} expanded={false} withToolbar />}
           {propsTableProps && <PropsTable {...propsTableProps} />}
           {subcomponentsTableProps &&
-            Object.keys(subcomponentsTableProps).map(subComponentName => {
-              const subcomponentPropsTableProps = subcomponentsTableProps[subComponentName];
+            Object.keys(subcomponentsTableProps).map(subcomponentName => {
+              const subcomponentPropsTableProps = subcomponentsTableProps[subcomponentName];
 
               return (
-                <>
-                  <SubcomponentPropsHeading>{subComponentName}</SubcomponentPropsHeading>
+                <Fragment key={subcomponentName}>
+                  <SubcomponentPropsHeading>{subcomponentName}</SubcomponentPropsHeading>
                   <PropsTable {...subcomponentPropsTableProps} />
-                </>
+                </Fragment>
               );
             })}
           {stories && stories.length > 0 && <StoriesHeading>Stories</StoriesHeading>}
