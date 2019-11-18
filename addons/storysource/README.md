@@ -24,6 +24,12 @@ Add the following to your `.storybook/presets.js` exports:
 module.exports = ['@storybook/addon-storysource/preset'];
 ```
 
+Register the add-on on your `.storybook/addons.js`:
+
+```js
+import "@storybook/addon-storysource/register";
+```
+
 You can pass configurations into the addon-storysource loader in your `.storybook/presets.js` file, e.g.:
 
 ```javascript
