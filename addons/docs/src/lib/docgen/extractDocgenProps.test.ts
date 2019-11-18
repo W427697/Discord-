@@ -37,7 +37,10 @@ function createFuncType(typeSystemDef: TypeSystemDef, others: Record<string, any
   };
 }
 
-function createComponent(docgenInfo: Record<string, any>): Component {
+function createComponent(
+  docgenInfo: Record<string, any>,
+  defaultProps: Record<string, any> = {}
+): Component {
   const component = () => {};
   // @ts-ignore
   component.__docgenInfo = {
@@ -47,6 +50,9 @@ function createComponent(docgenInfo: Record<string, any>): Component {
         ...docgenInfo,
       },
     },
+  };
+  component.defaultProps = {
+    ...defaultProps,
   };
 
   return component;
@@ -69,6 +75,31 @@ TypeSystems.forEach(x => {
     expect(propDef.description).toBe('Hey! Hey!');
     expect(propDef.required).toBe(false);
     expect(propDef.defaultValue.summary).toBe('Default');
+  });
+
+  it('should map defaultProp value properly when it is missing in docgen', () => {
+    const component = createComponent(
+      {
+        ...createStringType(x),
+        description: 'Hey! Hey!',
+      },
+      { [PROP_NAME]: 'Default' }
+    );
+
+    const { propDef } = extractPropsFromDocgen(component, DOCGEN_SECTION)[0];
+
+    expect(propDef.defaultValue.summary).toBe('Default');
+  });
+
+  it('should map defaultProp value properly when it is missing in both docgen and default prop object', () => {
+    const component = createComponent({
+      ...createStringType(x),
+      description: 'Hey! Hey!',
+    });
+
+    const { propDef } = extractPropsFromDocgen(component, DOCGEN_SECTION)[0];
+
+    expect(propDef.defaultValue).toBe(null);
   });
 
   it('should remove JSDoc tags from the description', () => {

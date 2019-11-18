@@ -25,9 +25,13 @@ const PropSummary: FC<PropSummaryProps> = ({ value }) => {
     style.borderBottom = '1px solid blue';
   }
 
-  return (
+  return typeof summary === 'object' ? (
+    <pre title={title} style={{ ...style, whiteSpace: 'pre-wrap' }}>
+      {JSON.stringify(summary, null, 1)}
+    </pre>
+  ) : (
     <span title={title} style={style}>
-      {summary}
+      {`${summary}`}
     </span>
   );
 };

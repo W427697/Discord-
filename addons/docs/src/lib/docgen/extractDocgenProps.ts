@@ -41,20 +41,23 @@ export const extractPropsFromDocgen: ExtractProps = (component, section) => {
   const docgenPropsKeys = Object.keys(docgenSection);
   const typeSystem = getTypeSystem(docgenSection[docgenPropsKeys[0]]);
   const createPropDef = getPropDefFactory(typeSystem);
+  const { defaultProps = {} } = component;
 
   return docgenPropsKeys
-    .map(propName => {
-      const docgenInfo = docgenSection[propName];
+    .map(name => {
+      const docgenInfo = docgenSection[name];
+      const defaultPropValue = defaultProps[name];
 
       return !isNil(docgenInfo)
-        ? extractProp(propName, docgenInfo, typeSystem, createPropDef)
+        ? extractProp(name, defaultPropValue, docgenInfo, typeSystem, createPropDef)
         : null;
     })
     .filter(x => x);
 };
 
 function extractProp(
-  propName: string,
+  name: string,
+  defaultPropValue: any,
   docgenInfo: DocgenInfo,
   typeSystem: TypeSystem,
   createPropDef: PropDefFactory
@@ -63,7 +66,7 @@ function extractProp(
   const isIgnored = jsDocParsingResult.includesJsDoc && jsDocParsingResult.ignore;
 
   if (!isIgnored) {
-    const propDef = createPropDef(propName, docgenInfo, jsDocParsingResult);
+    const propDef = createPropDef({ name, defaultPropValue, docgenInfo, jsDocParsingResult });
 
     return {
       propDef,
