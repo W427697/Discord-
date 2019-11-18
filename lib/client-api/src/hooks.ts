@@ -30,9 +30,9 @@ export {
 
 export function useAddonState<AddonStateType>(
   addonId: string,
-  value: AddonStateType
+  defaultValue: AddonStateType
 ): [AddonStateType, (s: AddonStateType) => void] {
-  const [state, setState] = useState<AddonStateType>(value);
+  const [state, setState] = useState<AddonStateType>(defaultValue);
   const emit = useChannel(
     {
       [`${ADDON_STATE_CHANGED}-${addonId}`]: s => {
