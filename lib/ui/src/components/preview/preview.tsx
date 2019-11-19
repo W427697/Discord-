@@ -61,19 +61,58 @@ interface PreviewProps extends PreviewPropsBase {
   };
   story?: PreviewStory;
   path?: string;
-  location: {};
-  getElements: (type) => PreviewElement[];
+  location: Location;
+  getElements: (type: any) => PreviewElement[];
   options: {
     isFullscreen: boolean;
     isToolshown: boolean;
   };
 }
+interface Wrapper {
+  render: (child: {
+    index: number;
+    children: React.ReactNode;
+    storyId: string;
+    active: boolean;
+  }) => void;
+}
 
 interface ActualPreviewProps extends PreviewPropsBase {
-  wrappers: any;
+  wrappers: Wrapper[];
   active: boolean;
   scale: number;
   currentUrl: string;
+}
+
+interface ActualPreviewProps {
+  wrappers: Wrapper[];
+  viewMode: ViewMode;
+  storyId: string;
+  active: boolean;
+  scale: number;
+  queryParams: Record<string, any>;
+  customCanvas?: (
+    viewMode: ViewMode,
+    currentUrl: string,
+    scale: number,
+    queryParams: Record<string, any>,
+    frames: Record<string, string>,
+    storyId: string
+  ) => JSX.Element;
+  currentUrl: string;
+  frames: Record<string, string>;
+}
+
+interface Panel {
+  route: (storyPanel: {
+    storyId: string;
+    viewMode: ViewMode;
+    path: string;
+    location: Location;
+  }) => void;
+  id: string;
+  title: string;
+  viewMode: ViewMode;
 }
 
 const DesktopOnly = styled.span({
@@ -114,25 +153,6 @@ const renderIframe = (
 
 const getElementList = memoize(10)((getFn, type, base) => base.concat(Object.values(getFn(type))));
 
-interface ActualPreviewProps {
-  wrappers: any;
-  viewMode: ViewMode;
-  storyId: string;
-  active: boolean;
-  scale: number;
-  queryParams: Record<string, any>;
-  customCanvas?: (
-    viewMode: ViewMode,
-    currentUrl: string,
-    scale: number,
-    queryParams: Record<string, any>,
-    frames: Record<string, string>,
-    storyId: string
-  ) => JSX.Element;
-  currentUrl: string;
-  frames: Record<string, string>;
-}
-
 const ActualPreview = ({
   wrappers,
   viewMode = 'story',
@@ -154,7 +174,8 @@ const ActualPreview = ({
   ];
   const base = customCanvas ? customCanvas(...data) : renderIframe(...data);
   return wrappers.reduceRight(
-    (acc, wrapper, index) => wrapper.render({ index, children: acc, storyId, active }),
+    (acc: any, wrapper: Wrapper, index: number) =>
+      wrapper.render({ index, children: acc, storyId, active }),
     base
   );
 };
@@ -194,12 +215,12 @@ const getTools = memoize(10)(
     currentUrl
   ) => {
     const tools = getElementList(getElements, types.TOOL, [
-      panels.filter(p => p.id !== 'canvas').length
+      panels.filter((p: Panel) => p.id !== 'canvas').length
         ? {
             render: () => (
               <Fragment>
                 <TabBar key="tabs">
-                  {panels.map((t, index) => {
+                  {panels.map((t: Panel, index: any) => {
                     const to = t.route({ storyId, viewMode, path, location });
                     const isActive = path === to;
                     return (
@@ -215,12 +236,17 @@ const getTools = memoize(10)(
           }
         : null,
       {
-        match: p => p.viewMode === 'story',
+        match: (p: Panel) => p.viewMode === 'story',
         render: () => (
           <Fragment>
             <ZoomConsumer>
               {({ set, value }) => (
-                <Zoom key="zoom" current={value} set={v => set(value * v)} reset={() => set(1)} />
+                <Zoom
+                  key="zoom"
+                  current={value}
+                  set={(v: number) => set(value * v)}
+                  reset={() => set(1)}
+                />
               )}
             </ZoomConsumer>
             <Separator />
@@ -278,12 +304,13 @@ const getTools = memoize(10)(
       },
     ]);
 
-    const filter = item =>
-      item && (!item.match || item.match({ storyId, viewMode, location, path }));
+    const filter = (item: {
+      match: (arg0: { storyId: any; viewMode: any; location: any; path: any }) => void;
+    }) => item && (!item.match || item.match({ storyId, viewMode, location, path }));
 
     const displayItems = list =>
       list.reduce(
-        (acc, item, index) =>
+        (acc, item, index: number) =>
           item ? (
             <Fragment key={item.id || item.key || `f-${index}`}>
               {acc}
@@ -360,7 +387,7 @@ class Preview extends Component<PreviewProps, {}> {
     const wrappers = getElementList(getElements, types.PREVIEW, defaultWrappers);
     const panels = getElementList(getElements, types.TAB, [
       {
-        route: p => `/story/${p.storyId}`,
+        route: (p: { storyId: string }) => `/story/${p.storyId}`,
         match: (p: { viewMode: ViewMode }) => p.viewMode && p.viewMode.match(/^(story|docs)$/),
         render: (p: { viewMode: ViewMode; active: boolean }) => (
           <ZoomConsumer>
