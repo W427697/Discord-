@@ -1,4 +1,4 @@
-import window from 'global';
+import { document, navigator } from 'global';
 import React, { Component, CSSProperties } from 'react';
 
 import { styled } from '@storybook/theming';
@@ -40,18 +40,18 @@ const StyledIframe = styled.iframe(
 );
 
 export class IFrame extends Component<IFrameProps, {}> {
-  iframe: { contentDocument: { body: { style: any } }; style: CSSProperties } = null;
+  iframe: HTMLIFrameElement | null;
 
   componentDidMount() {
     const { id } = this.props;
-    this.iframe = window.document.getElementById(id);
+    this.iframe = (document as Document).getElementById(id) as HTMLIFrameElement;
   }
 
   shouldComponentUpdate(nextProps: IFrameProps) {
     const { scale, isActive } = this.props;
 
     if (scale !== nextProps.scale) {
-      if (window.navigator.userAgent.indexOf(FIREFOX_BROWSER) !== -1) {
+      if (navigator.userAgent.indexOf(FIREFOX_BROWSER) !== -1) {
         this.setIframeBodyStyle({
           width: `${nextProps.scale * 100}%`,
           height: `${nextProps.scale * 100}%`,
@@ -78,7 +78,11 @@ export class IFrame extends Component<IFrameProps, {}> {
 
   setIframeBodyStyle(style: CSSProperties) {
     try {
-      return this.iframe !== null && Object.assign(this.iframe.contentDocument.body.style, style);
+      return (
+        this.iframe !== null &&
+        this.iframe.contentDocument &&
+        Object.assign(this.iframe.contentDocument.body.style, style)
+      );
     } catch (e) {
       return false;
     }
@@ -86,7 +90,7 @@ export class IFrame extends Component<IFrameProps, {}> {
 
   setIframeStyle(style: CSSProperties) {
     try {
-      return Object.assign(this.iframe.style, style);
+      return this.iframe !== null && Object.assign(this.iframe.style, style);
     } catch (e) {
       return false;
     }
