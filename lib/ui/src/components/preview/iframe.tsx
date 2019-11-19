@@ -1,5 +1,5 @@
 import window from 'global';
-import React, { Component, CSSProperties, FC } from 'react';
+import React, { Component, CSSProperties } from 'react';
 
 import { styled } from '@storybook/theming';
 

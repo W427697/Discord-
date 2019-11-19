@@ -74,7 +74,12 @@ interface Wrapper {
     children: React.ReactNode;
     storyId: string;
     active: boolean;
-  }) => void;
+  }) => React.ReactNode;
+}
+interface ListItem {
+  id: string;
+  key: string | number;
+  render: () => React.ReactNode;
 }
 
 interface ActualPreviewProps extends PreviewPropsBase {
@@ -103,13 +108,15 @@ interface ActualPreviewProps {
   frames: Record<string, string>;
 }
 
+interface StoryPanel {
+  storyId: string;
+  viewMode: ViewMode;
+  location: Location;
+  path: string;
+}
+
 interface Panel {
-  route: (storyPanel: {
-    storyId: string;
-    viewMode: ViewMode;
-    path: string;
-    location: Location;
-  }) => void;
+  route: (storyPanel: StoryPanel) => void;
   id: string;
   title: string;
   viewMode: ViewMode;
@@ -304,13 +311,12 @@ const getTools = memoize(10)(
       },
     ]);
 
-    const filter = (item: {
-      match: (arg0: { storyId: any; viewMode: any; location: any; path: any }) => void;
-    }) => item && (!item.match || item.match({ storyId, viewMode, location, path }));
+    const filter = (item: { match: (storyPanel: StoryPanel) => void }) =>
+      item && (!item.match || item.match({ storyId, viewMode, location, path }));
 
     const displayItems = list =>
       list.reduce(
-        (acc, item, index: number) =>
+        (acc: React.ReactNode, item: ListItem, index: number) =>
           item ? (
             <Fragment key={item.id || item.key || `f-${index}`}>
               {acc}
