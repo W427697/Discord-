@@ -77,7 +77,7 @@ TypeSystems.forEach(x => {
     expect(propDef.defaultValue.summary).toBe('Default');
   });
 
-  it('should map defaultProp value properly when it is missing in docgen', () => {
+  it('should map defaultProp property from component defaultProps object when it is missing in docgen', () => {
     const component = createComponent(
       {
         ...createStringType(x),
@@ -91,7 +91,7 @@ TypeSystems.forEach(x => {
     expect(propDef.defaultValue.summary).toBe('Default');
   });
 
-  it('should map defaultProp value properly when it is missing in both docgen and default prop object', () => {
+  it('should map defaultProp property to null when it is missing in both docgen and component defaultProps object', () => {
     const component = createComponent({
       ...createStringType(x),
       description: 'Hey! Hey!',
