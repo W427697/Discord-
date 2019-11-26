@@ -60,11 +60,11 @@ export const PropRow: FC<PropRowProps> = ({
 
   return (
     <tr>
-      <td>
+      <td className="docblock-propstable-colname">
         <Name>{name}</Name>
         {required ? <Required title="Required">*</Required> : null}
       </td>
-      <td>
+      <td className="docblock-propstable-coldesc">
         {hasDescription && (
           <Description>
             <Markdown>{description}</Markdown>
@@ -83,7 +83,7 @@ export const PropRow: FC<PropRowProps> = ({
           </Type>
         )}
       </td>
-      <td>
+      <td className="docblock-propstable-coldefault">
         <PropValue value={defaultValue} />
       </td>
     </tr>
