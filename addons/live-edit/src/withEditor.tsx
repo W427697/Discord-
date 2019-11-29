@@ -21,6 +21,7 @@ export function withEditor(storyFn: any) {
   if (state) {
     try {
       return scopeEval(transform(state, { presets: [['react']] }).code, {
+      // @ts-ignore
         ...scope,
         ...scopeComponents,
         React,
