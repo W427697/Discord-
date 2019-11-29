@@ -1,3 +1,32 @@
+## 5.3.0-beta.12 (November 29, 2019)
+
+### Features
+
+* Storyshots: Support a11y tests, generic tests ([#8934](https://github.com/storybookjs/storybook/pull/8934))
+
+### Maintenance
+
+* Dev: Add vscode launch.json for debugging ([#8993](https://github.com/storybookjs/storybook/pull/8993))
+* UI: viewMode proptypes changed to any string ([#8994](https://github.com/storybookjs/storybook/pull/8994))
+* Addon-docs: Remove deprecated framework-specific docs presets ([#8985](https://github.com/storybookjs/storybook/pull/8985))
+
+### Dependency Upgrades
+
+* Addon-docs: Upgrade MDX dependencies ([#8991](https://github.com/storybookjs/storybook/pull/8991))
+
+## 5.3.0-beta.11 (November 28, 2019)
+
+### Features
+
+* UI: Escape hatch CSS on for "active" tablist buttons ([#8989](https://github.com/storybookjs/storybook/pull/8989))
+* Addon-docs: Added dark theme option to source component ([#8732](https://github.com/storybookjs/storybook/pull/8732))
+* Triconfig: Configure UI options overhaul ([#8871](https://github.com/storybookjs/storybook/pull/8871))
+
+### Bug Fixes
+
+* Addon-docs: Fix vertical alignment of props expandable ([#8953](https://github.com/storybookjs/storybook/pull/8953))
+* Addon-links: Fix return type of linkTo and examples ([#8975](https://github.com/storybookjs/storybook/pull/8975))
+
 ## 5.3.0-beta.10 (November 27, 2019)
 
 ### Features
