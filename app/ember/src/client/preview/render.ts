@@ -1,6 +1,8 @@
-/* eslint-disable no-undef */
 import { window, document } from 'global';
 import dedent from 'ts-dedent';
+import { RenderMainArgs, ElementArgs, OptionsArgs } from './types';
+
+declare let Ember: any;
 
 const rootEl = document.getElementById('root');
 
@@ -13,12 +15,11 @@ const app = window.require(`${window.STORYBOOK_NAME}/app`).default.create({
 
 let lastPromise = app.boot();
 let hasRendered = false;
-
-function render(options, el) {
+function render(options: OptionsArgs, el: ElementArgs) {
   const { template, context = {}, element } = options;
 
   if (hasRendered) {
-    lastPromise = lastPromise.then(instance => instance.destroy());
+    lastPromise = lastPromise.then((instance: any) => instance.destroy());
   }
 
   lastPromise = lastPromise
@@ -26,7 +27,7 @@ function render(options, el) {
       const appInstancePrivate = app.buildInstance();
       return appInstancePrivate.boot().then(() => appInstancePrivate);
     })
-    .then(instance => {
+    .then((instance: any) => {
       instance.register(
         'component:story-mode',
         Ember.Component.extend({
@@ -56,10 +57,8 @@ export default function renderMain({
   selectedStory,
   showMain,
   showError,
-  // forceRender,
-}) {
+}: RenderMainArgs) {
   const element = storyFn();
-
   if (!element) {
     showError({
       title: `Expecting a Ember element from the story: "${selectedStory}" of "${selectedKind}".`,
