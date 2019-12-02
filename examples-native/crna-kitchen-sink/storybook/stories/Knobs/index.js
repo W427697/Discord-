@@ -15,7 +15,7 @@ import {
 
 export default () => {
   const name = text('Name', 'Storyteller');
-  const age = number('Age', 70, { range: true, min: 0, max: 90, step: 5 });
+  const age = number('Age', 70, { range: true, min: 0, max: 90, step: 5, showValues: true });
   const fruits = {
     Apple: 'apple',
     Banana: 'banana',
