@@ -12,6 +12,10 @@ const Input = styled.TextInput(({ theme }) => ({
   color: theme.labelColor,
 }));
 
+const ValueText = styled.Text(() => ({
+  fontSize: 10,
+}));
+
 class NumberType extends React.Component {
   constructor(props) {
     super(props);
@@ -54,13 +58,24 @@ class NumberType extends React.Component {
     const { knob, onChange } = this.props;
 
     return (
-      <Slider
-        value={knob.value}
-        minimumValue={knob.min}
-        maximumValue={knob.max}
-        step={knob.step}
-        onSlidingComplete={val => onChange(parseFloat(val))}
-      />
+      <>
+        <Slider
+          value={knob.value}
+          minimumValue={knob.min}
+          maximumValue={knob.max}
+          step={knob.step}
+          onSlidingComplete={val => onChange(parseFloat(val))}
+        />
+
+        {knob.showValues && (
+          <View>
+            <ValueText>Min: {knob.min}</ValueText>
+            <ValueText>Max: {knob.max}</ValueText>
+            <ValueText>Step: {knob.step}</ValueText>
+            <ValueText>Value: {knob.value}</ValueText>
+          </View>
+        )}
+      </>
     );
   }
 
@@ -86,6 +101,7 @@ NumberType.propTypes = {
     min: PropTypes.number,
     max: PropTypes.number,
     range: PropTypes.bool,
+    showValues: PropTypes.bool,
   }),
   onChange: PropTypes.func,
 };
