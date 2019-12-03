@@ -12,8 +12,8 @@ jobs:
     - name: install
       run: |
         yarn bootstrap --core
-    - name: build-examples
-      run: yarn build-examples
+    - name: build examples
+      run: yarn build-storybooks
     - name: upload angular-cli to chromatic
       uses: chromaui/action@v1
       with:
