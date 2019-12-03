@@ -49,6 +49,7 @@ function escapeStrings(obj: any): any {
 interface KnobManagerOptions {
   escapeHTML?: boolean;
   disableDebounce?: boolean;
+  disableQueryParams?: boolean;
 }
 
 export default class KnobManager {
@@ -102,7 +103,7 @@ export default class KnobManager {
       label: name,
     };
 
-    if (knobValuesFromUrl[knobName]) {
+    if (knobValuesFromUrl[knobName] && !this.options.disableQueryParams) {
       const value = deserializers[options.type](knobValuesFromUrl[knobName]);
 
       knobInfo.defaultValue = value;

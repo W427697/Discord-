@@ -483,7 +483,7 @@ You can prevent this by having the handler return `false`.
 
 ### withKnobs options
 
-withKnobs also accepts two optional options as story parameters.
+withKnobs also accepts three optional options as story parameters.
 Usage:
 
 ```js
@@ -506,6 +506,8 @@ defaultView.story = {
       // Escapes strings to be safe for inserting as innerHTML. This option is true by default. It's safe to set it to `false` with frameworks like React which do escaping on their side.
       // You can still set it to false, but it's strongly discouraged to set to true in cases when you host your storybook on some route of your main site or web app.
       escapeHTML: true,
+      // Removes the ability for users to pre-populate knob values via the use of query strings in the URL.
+      disableQueryParams: true,
     }
   }
 };
@@ -522,5 +524,4 @@ You can install them using: (*assuming you are using Typescript >2.0.*)
 
 ```sh
 yarn add @types/node @types/react --dev
-```
-
+``
