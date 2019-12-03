@@ -1,0 +1,28 @@
+name: "Chromatic via manual"
+on: [push]
+
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - uses: actions/checkout@v1
+    - name: install
+      run: |
+        yarn bootstrap --core
+    - name: build-examples
+      run: yarn build-examples
+    - name: upload angular-cli to chromatic
+      uses: chromaui/action@v1
+      with:
+        appCode: tl92yzsj6w
+        token: ${{ secrets.GITHUB_TOKEN }}
+        storybookBuildDir: built-storybooks/angular-cli
+    - name: upload cra-kitchen-sink to chromatic
+      uses: chromaui/action@v1
+      with:
+        appCode: tg55gajmdt
+        token: ${{ secrets.GITHUB_TOKEN }}
+        storybookBuildDir: built-storybooks/cra-kitchen-sink
