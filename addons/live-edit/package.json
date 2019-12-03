@@ -6,7 +6,7 @@
     "addon",
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/knobs",
+  "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/live-edit",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

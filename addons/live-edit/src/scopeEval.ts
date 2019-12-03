@@ -1,6 +1,5 @@
 /* eslint-disable no-new-func */
 export function scopeEval(source: any, scope: any) {
-  // eslint-disable-next-line no-new-func
   const outputWithoutConst = source.replace('const', '');
   const variableName = outputWithoutConst.substring(0, outputWithoutConst.indexOf('=') - 1);
 
@@ -12,6 +11,6 @@ export function scopeEval(source: any, scope: any) {
     })
     .join(';\n')}
   const ${outputWithoutConst};
-  return ${variableName}();
+  return ${variableName}()
 `).bind(scope)();
 }

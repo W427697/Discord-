@@ -10,25 +10,26 @@ export function withEditor(storyFn: any) {
   const [state, setState] = useState('');
   const scope = useParameter('scope');
   const liveEditConfig: LiveEditConfiguration | undefined = useParameter('live-edit');
-  const scopeComponents = liveEditConfig && liveEditConfig.components ? liveEditConfig.components : {};
+  const scopeComponents =
+    liveEditConfig && liveEditConfig.components ? liveEditConfig.components : {};
 
   useChannel({
     [EVENT_ID]: s => {
       setState(s);
-    }
+    },
   });
 
   if (state) {
     try {
       return scopeEval(transform(state, { presets: [['react']] }).code, {
-      // @ts-ignore
+        // @ts-ignore
         ...scope,
         ...scopeComponents,
         React,
       });
-		} catch (e) {
+    } catch (e) {
       return <pre>{e.toString()}</pre>;
     }
   }
-  return scope;
+  return storyFn();
 }

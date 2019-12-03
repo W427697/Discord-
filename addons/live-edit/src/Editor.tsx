@@ -1,13 +1,13 @@
+/* eslint-disable consistent-return */
 import React from 'react';
 import dedent from 'ts-dedent';
 import { useChannel, API } from '@storybook/api';
 // @ts-ignore
 // Being added: https://github.com/DefinitelyTyped/DefinitelyTyped/pull/40674
 import { transform } from '@babel/standalone';
-import memoize from 'memoizerific';
 
 import { LiveProvider, LiveEditor } from 'react-live';
-import { EVENT_ID } from './constants';
+import { EVENT_ID, SET_STORY_RENDERED_EVENT, SourceLoaderEvent } from './constants';
 
 interface CodeLoc {
   col: number;
@@ -34,23 +34,23 @@ interface SourceLoaderInfo {
     story: string;
   };
   location: {
-    currentLocation: LocationMap
+    currentLocation: LocationMap;
+    locationsMap: {
+      [key: string]: LocationMap;
+    };
   };
-  locationsMap: {
-    [key: string]: LocationMap
-  }
 }
 
-const SourceLoaderEvent = `storybook/source-loader/set`;
-
-const Editor = ({ api }: { api: API}) => {
+const Editor = ({ api }: { api: API }) => {
   const emit = useChannel({});
   const [initialCode, setCode] = React.useState('');
+  const [metaData, setMetadata] = React.useState<SourceLoaderInfo | null>(null);
 
-  let previousSource = "";
+  let previousSource = '';
 
-  const loadStoryCode = memoize(1)((sourceLoader: SourceLoaderInfo) => {
+  const loadStoryCode = (sourceLoader: SourceLoaderInfo) => {
     const sourceCode = sourceLoader.edition.source;
+    setMetadata(sourceLoader);
     if (previousSource === sourceCode) {
       return null;
     }
@@ -58,17 +58,37 @@ const Editor = ({ api }: { api: API}) => {
     const sourceSplitted = sourceCode.split('\n');
 
     if (sourceLoader.location) {
-      setCode(
-        sourceSplitted
-          .filter(
-            (_: any, idx: number) =>
-              idx >= sourceLoader.location.currentLocation.startLoc.line - 1 &&
-              idx < sourceLoader.location.currentLocation.endLoc.line
-          )
-          .join('\n').replace('export', '')
-      );
+      const sourceNormalized = sourceSplitted
+        .filter((_: any, idx: number) => {
+          return (
+            idx >= sourceLoader.location.currentLocation.startLoc.line - 1 &&
+            idx < sourceLoader.location.currentLocation.endLoc.line
+          );
+        })
+        .join('\n')
+        .replace('export', '');
+      setCode(sourceNormalized);
     }
-  })
+  };
+
+  useChannel({
+    [SET_STORY_RENDERED_EVENT]: story => {
+      if (metaData) {
+        const sourceLoaded = metaData.edition.source;
+        const sourceNormalized = sourceLoaded
+          .split('\n')
+          .filter((_: any, idx: number) => {
+            return (
+              idx >= metaData.location.locationsMap[story].startLoc.line - 1 &&
+              idx < metaData.location.locationsMap[story].endLoc.line
+            );
+          })
+          .join('\n')
+          .replace('export', '');
+        setCode(sourceNormalized);
+      }
+    },
+  });
 
   React.useEffect(() => {
     api.on(SourceLoaderEvent, loadStoryCode);
