@@ -29,12 +29,16 @@ Then import `rn-addons.js` next to your `getStorybookUI` call.
 import './rn-addons';
 ```
 
+## Usage
+
 See [@storybook/addon-knobs](https://github.com/storybookjs/storybook/blob/master/addons/knobs) to learn how to write stories with knobs and the [crna-kitchen-sink app](../../examples-native/crna-kitchen-sink) for more examples.
 
-Knob of type number with prop range can have prop ShowValues, to display current values below the slider.
+Knob of type number with prop range can have prop showValues, to display current values below the slider.
 
 ```
 {
+    ...
     showValues: true,
+    ...
 }
 ```
