@@ -31,7 +31,7 @@ export const withAButton = () => (
 );
 ```
 
-You can also fine tune and add certain scope variables into your story live edit.
+You can also fine tune and add certain scope variables into your story live edit. This will only add to this story.
 
 ```js
 import MyOtherComponent from './Myothercomponent';
@@ -58,7 +58,7 @@ withAButton.story = {
 ```
 
 In case you want to reference a list of all your components, in cases where you would like to have a certain story where all the components are available, so designers
-and other people that don't code can interact with it!
+and other people that don't code can interact with it! By doing it, all the stories will have these components on it!
 
 Go to your `.storybook/config.js` file: 
 ```js
