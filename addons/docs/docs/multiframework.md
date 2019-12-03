@@ -1,50 +1,42 @@
 # Storybook Docs framework dev guide
 
-Storybook Docs [provides basic support for all non-RN Storybook view layers](../README.md#framework-support) out of the box. However, some frameworks have been docs-optimized, adding features like automatic props table generation and inline story rendering. This document is a dev guide for how to set up a new framework in docs.
+Storybook Docs [provides basic support for all non-RN Storybook view layers](../README.md#framework-support) out of the box. However, some frameworks have been docs-optimized, adding features like automatic props table generation and inline story rendering. This document is a dev guide for how to optimize a new framework in docs.
 
-- [Adding a preset](#adding-a-preset)
+- [Framework-specific configuration](#framework-specific-configuration)
 - [Props tables](#props-tables)
+- [Component descriptions](#component-descriptions)
 - [Inline story rendering](#inline-story-rendering)
 
-## Adding a preset
+## Framework-specific configuration
 
-To get basic support, you need to add a [preset](https://storybook.js.org/docs/presets/introduction). By default this doesn't need to do much.
+Your framework might need framework-specific configuration. This could include adding extra webpack loaders or global decorators/story parameters.
 
-Here's a basic preset for `@storybook/html` in `addons/docs/html/preset.js`:
+Addon-docs handles this kind of customization by file naming convention. Its [common preset](https://github.com/storybookjs/storybook/blob/next/addons/docs/src/frameworks/common/preset.ts) does this by looking for files `../<framework>/{preset,config}.[tj]sx?`, where `<framework>` is the framework identifier, e.g. `vue`, `angular`, `react`, etc.
 
-```js
-module.exports = require('../dist/frameworks/common/makePreset').default('html');
+For example, consider Storybook Docs for Vue, which needs `vue-docgen-loader` in its webpack config, and also has custom extraction functions for [props tables](#props-tables) and [component descriptions](#component-descriptions).
+
+For webpack configuration, Docs for Vue defines [preset.ts](https://github.com/storybookjs/storybook/blob/next/addons/docs/src/frameworks/vue/preset.ts), which follows the [preset](https://storybook.js.org/docs/presets/introduction) file structure:
+
+```
+export function webpack(webpackConfig: any = {}, options: any = {}) {
+  webpackConfig.module.rules.push({
+    test: /\.vue$/,
+    loader: 'vue-docgen-loader',
+    enforce: 'post',
+  });
+  return webpackConfig;
+}
 ```
 
-This automatically adds [DocsPage](./docspage.md) for each story, as well as webpack/babel settings for MDX support.
+This appends `vue-docgen-loader` to the existing configuration, which at this point will also include modifications made by the common preset.
 
-There is also a little hoop-jumping that will hopefully be unnecessary soon.
-
-`addons/docs/src/frameworks/html/config.js`
-
-```js
-import { addParameters } from '@storybook/html';
-import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
-
-addParameters({
-  docs: {
-    container: DocsContainer,
-    page: DocsPage,
-  },
-});
-```
-
-`addons/docs/html/config.js`
-
-```js
-module.exports = require('../dist/frameworks/html/config');
-```
+For props tables and descriptions, both of which are described in more detail below, it defines a file [config.tsx](https://github.com/storybookjs/storybook/blob/next/addons/docs/src/frameworks/vue/config.tsx).
 
 ## Props tables
 
 Props tables are enabled by the framework-specific `docs.extractProps` parameter, which extracts a component's props into a common data structure.
 
-Here's how it's done in Vue's framework-specific `config.js`:
+Here's how it's done in Vue's framework-specific `preview.js`:
 
 ```js
 import { extractProps } from './extractProps';
@@ -57,7 +49,7 @@ addParameters({
 });
 ```
 
-The `extractProps`function receives a component as an argument, and returns an object of type [`PropsTableProps`](https://github.com/storybookjs/storybook/blob/next/lib/components/src/blocks/PropsTable/PropsTable.tsx#L147), which can either be a array of `PropDef` rows (React), or a mapping of section name to an array of `PropDef` rows (e.g. `Props`/`Events`/`Slots` in Vue).
+The `extractProps`function receives a component as an argument, and returns an object of type [`PropsTableProps`](https://github.com/storybookjs/storybook/blob/next/lib/components/src/blocks/PropsTable/PropsTable.tsx#L147), which can either be an array of `PropDef` rows (React), or a mapping of section name to an array of `PropDef` rows (e.g. `Props`/`Events`/`Slots` in Vue).
 
 ```ts
 export interface PropDef {
@@ -77,11 +69,17 @@ So far, in React and Vue, the implementation of this extraction is as follows:
 
 However, for your framework you may want to implement this in some other way. There is also an effort to load data from static JSON files for performance [#7942](https://github.com/storybookjs/storybook/issues/7942).
 
+## Component descriptions
+
+Component descriptions are enabled by the `docs.extractComponentDescription` parameter, which extract's a component description (usually from source code comments) into a markdown string.
+
+It follows the pattern of [Props tables](#props-tables) above, only it's even simpler because the function output is simply a string (or null if there no description).
+
 ## Inline story rendering
 
 Inline story rendering is another framework specific optimization, made possible by the `docs.prepareForInline` parameter.
 
-Again let's look at Vue's framework-specific `config.js`:
+Again let's look at Vue's framework-specific `preview.js`:
 
 ```js
 import toReact from '@egoist/vue-to-react';
