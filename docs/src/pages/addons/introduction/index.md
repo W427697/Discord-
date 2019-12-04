@@ -52,7 +52,6 @@ import Button from './button';
 const styles = {
   textAlign: 'center',
 };
-const CenterDecorator = ;
 
 export default {
   title: 'Button'
