@@ -29,13 +29,13 @@ import Center from './center';
 import Button from './button';
 
 export default {
-  title: 'Button'
-}
+  title: 'Button',
+};
 export const defaultView = () => (
   <Center>
-    <Button onClick={action('clicked')}>Hello Button</Button>
+    <Button>Hello Button</Button>
   </Center>
-)
+);
 ```
 
 ### Storybook Decorators
