@@ -28,14 +28,14 @@ Then we can use it when writing stories.
 import Center from './center';
 import Button from './button';
 
-export default {title: 'Button'}
-export const CenteredButtonWithText = () => {
-  return (
-    <Center>
-      <Button onClick={action('clicked')}>Hello Button</Button>
-    </Center>
-  )
+export default {
+  title: 'Button'
 }
+export const defaultView = () => (
+  <Center>
+    <Button onClick={action('clicked')}>Hello Button</Button>
+  </Center>
+)
 ```
 
 ### Storybook Decorators
@@ -58,15 +58,13 @@ export default {
   decorators: [storyFn => <div style={styles}>{storyFn()}</div>]
 }
 export const text = () => <Button onClick={action('clicked')}>Hello Button</Button>
-export const emojis = () => {
-  return (
-    <Button onClick={action('clicked')}>
-      <span role="img" aria-label="so cool">
-        😀 😎 👍 💯
-      </span>
-    </Button>
-  )
-}
+export const emojis = () => (
+  <Button onClick={action('clicked')}>
+    <span role="img" aria-label="so cool">
+      😀 😎 👍 💯
+    </span>
+  </Button>
+)
 text.story = {
   decorators: [storyFn => <div style={{ color: 'pink' }}>{storyFn()}</div>]
 }
