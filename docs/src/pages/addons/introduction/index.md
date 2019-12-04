@@ -31,17 +31,50 @@ import { action } from '@storybook/addon-actions';
 import Center from './center';
 import Button from './button';
 
-storiesOf('Button', module).add('with text', () => (
-  <Center>
-    <Button onClick={action('clicked')}>Hello Button</Button>
-  </Center>
-));
+export default {title: 'Button'}
+export const CenteredButtonWithText = () => {
+  return (
+    <Center>
+      <Button onClick={action('clicked')}>Hello Button</Button>
+    </Center>
+  )
+}
 ```
 
 ### Storybook Decorators
 
 You can also expose this functionality as a Storybook decorator and use it like this.
 
+CSF
+```js
+import React from 'react';
+import { action } from '@storybook/addon-actions';
+import Button from './button';
+
+const styles = {
+  textAlign: 'center',
+};
+const CenterDecorator = ;
+
+export default {
+  title: 'Button'
+  decorators: [storyFn => <div style={styles}>{storyFn()}</div>]
+}
+export const text = () => <Button onClick={action('clicked')}>Hello Button</Button>
+export const emojis = () => {
+  return (
+    <Button onClick={action('clicked')}>
+      <span role="img" aria-label="so cool">
+        😀 😎 👍 💯
+      </span>
+    </Button>
+  )
+}
+text.story = {
+  decorators: [storyFn => <div style={{ color: 'pink' }}>{storyFn()}</div>]
+}
+```
+storiesOf
 ```js
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
