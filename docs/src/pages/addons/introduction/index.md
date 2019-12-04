@@ -31,6 +31,7 @@ import Button from './button';
 export default {
   title: 'Button',
 };
+
 export const defaultView = () => (
   <Center>
     <Button>Hello Button</Button>
