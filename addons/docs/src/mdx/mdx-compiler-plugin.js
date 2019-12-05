@@ -133,7 +133,7 @@ function genMeta(ast) {
   let id = getAttr(ast.openingElement, 'id');
   let parameters = getAttr(ast.openingElement, 'parameters');
   let decorators = getAttr(ast.openingElement, 'decorators');
-  title = title && `'${title.value}'`;
+  title = title && `'${jsStringEscape(title.value)}'`;
   id = id && `'${id.value}'`;
   if (parameters && parameters.expression) {
     const { code: params } = generate(parameters.expression, {});
