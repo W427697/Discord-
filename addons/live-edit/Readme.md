@@ -51,8 +51,10 @@ export const withAButton = () => (
 
 withAButton.story = {
 	name: 'My button changed',
-	scope: {
-		ThisIsCertainComponent: MyOtherComponent
+	parameters : {
+		scope: {
+			ThisIsCertainComponent: MyOtherComponent
+		}
 	}
 }
 ```

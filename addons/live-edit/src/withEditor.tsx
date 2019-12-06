@@ -4,7 +4,7 @@ import { transform } from '@babel/standalone';
 import { useChannel, useState, useParameter } from '@storybook/addons';
 import { scopeEval } from './scopeEval';
 import { LiveEditConfiguration } from './types';
-import { EVENT_ID } from './constants';
+import { EVENT_NEW_SOURCE } from './constants';
 
 export function withEditor(storyFn: any) {
   const [state, setState] = useState('');
@@ -14,7 +14,7 @@ export function withEditor(storyFn: any) {
     liveEditConfig && liveEditConfig.components ? liveEditConfig.components : {};
 
   useChannel({
-    [EVENT_ID]: s => {
+    [EVENT_NEW_SOURCE]: s => {
       setState(s);
     },
   });

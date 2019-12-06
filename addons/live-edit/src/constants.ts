@@ -1,3 +1,3 @@
-export const EVENT_ID = 'addon-live-edit/new-source';
-export const SET_STORY_RENDERED_EVENT = 'storyRendered';
+export const ADDON_NAME = 'addon-live-edit';
+export const EVENT_NEW_SOURCE = `${ADDON_NAME}/new-source`;
 export const SourceLoaderEvent = `storybook/source-loader/set`;

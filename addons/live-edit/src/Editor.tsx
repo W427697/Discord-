@@ -1,13 +1,10 @@
 /* eslint-disable consistent-return */
 import React from 'react';
-import dedent from 'ts-dedent';
 import { useChannel, API } from '@storybook/api';
-// @ts-ignore
-// Being added: https://github.com/DefinitelyTyped/DefinitelyTyped/pull/40674
-import { transform } from '@babel/standalone';
 
-import { LiveProvider, LiveEditor } from 'react-live';
-import { EVENT_ID, SET_STORY_RENDERED_EVENT, SourceLoaderEvent } from './constants';
+import { STORY_CHANGED } from '@storybook/core-events';
+import { SourceLoaderEvent, EVENT_NEW_SOURCE } from './constants';
+import { useEditor } from './useEditor';
 
 interface CodeLoc {
   col: number;
@@ -43,7 +40,8 @@ interface SourceLoaderInfo {
 
 const Editor = ({ api }: { api: API }) => {
   const emit = useChannel({});
-  const [initialCode, setCode] = React.useState('');
+  const [initialCode, setInitialCode] = useEditor();
+
   const [metaData, setMetadata] = React.useState<SourceLoaderInfo | null>(null);
 
   let previousSource = '';
@@ -67,12 +65,12 @@ const Editor = ({ api }: { api: API }) => {
         })
         .join('\n')
         .replace('export', '');
-      setCode(sourceNormalized);
+      setInitialCode(sourceNormalized);
     }
   };
 
   useChannel({
-    [SET_STORY_RENDERED_EVENT]: story => {
+    [STORY_CHANGED]: story => {
       if (metaData) {
         const sourceLoaded = metaData.edition.source;
         const sourceNormalized = sourceLoaded
@@ -85,7 +83,7 @@ const Editor = ({ api }: { api: API }) => {
           })
           .join('\n')
           .replace('export', '');
-        setCode(sourceNormalized);
+        setInitialCode(sourceNormalized);
       }
     },
   });
@@ -94,22 +92,12 @@ const Editor = ({ api }: { api: API }) => {
     api.on(SourceLoaderEvent, loadStoryCode);
   }, []);
 
-  return initialCode ? (
-    <LiveProvider
-      code={initialCode}
-      transformCode={input => {
-        try {
-          const output = transform(input, { presets: ['react'] }).code;
-          emit(EVENT_ID, dedent(input));
-          return output;
-        } catch (e) {
-          return input;
-        }
-      }}
-    >
-      <LiveEditor />
-    </LiveProvider>
-  ) : null;
+  function handleChangeTextArea(evt: React.ChangeEvent<HTMLTextAreaElement>) {
+    setInitialCode(evt.target.value);
+    emit(EVENT_NEW_SOURCE, evt.target.value);
+  }
+
+  return initialCode ? <textarea onChange={handleChangeTextArea} value={initialCode} /> : null;
 };
 
 export default Editor;

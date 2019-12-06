@@ -354,3 +354,8 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S) {
   const result = api.getCurrentParameter<S>(parameterKey);
   return orDefault<S>(result, defaultValue);
 }
+
+export function useCurrentStory() {
+  const api = useStorybookApi();
+  return api.getCurrentStoryData();
+}
