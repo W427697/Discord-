@@ -5,6 +5,7 @@ import { useChannel, API } from '@storybook/api';
 import { STORY_CHANGED } from '@storybook/core-events';
 import { SourceLoaderEvent, EVENT_NEW_SOURCE } from './constants';
 import { useEditor } from './useEditor';
+import CodeEditor from 'react-simple-code-editor';
 
 interface CodeLoc {
   col: number;
@@ -92,12 +93,17 @@ const Editor = ({ api }: { api: API }) => {
     api.on(SourceLoaderEvent, loadStoryCode);
   }, []);
 
-  function handleChangeTextArea(evt: React.ChangeEvent<HTMLTextAreaElement>) {
-    setInitialCode(evt.target.value);
-    emit(EVENT_NEW_SOURCE, evt.target.value);
+  function handleChangeTextArea(code: string) {
+    setInitialCode(code);
+    emit(EVENT_NEW_SOURCE, code);
   }
 
-  return initialCode ? <textarea onChange={handleChangeTextArea} value={initialCode} /> : null;
+  return initialCode ? (
+    <React.Fragment>
+      <CodeEditor onValueChange={handleChangeTextArea} value={initialCode} />
+
+    </React.Fragment>
+  ) : null;
 };
 
 export default Editor;
