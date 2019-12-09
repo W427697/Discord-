@@ -1,0 +1,20 @@
+tasks:
+    restore-npm:
+        type: restore
+        keys: 
+            - npm-cache-[[ checksum "yarn.lock.json" ]]
+            - npm-cache-
+    bootstrap:
+        image: node:10
+        commands:
+            - yarn bootstrap --core
+    save-npm:
+        type: rebuild
+        key: npm-cache-[[ checksum "yarn.lock.json" ]]
+        paths:
+            - node_modules
+            - .cache
+    examples:
+        image: node:10
+        commands:
+            - yarn build-storybooks
