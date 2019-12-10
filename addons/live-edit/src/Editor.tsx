@@ -1,11 +1,15 @@
 /* eslint-disable consistent-return */
 import React from 'react';
-import { useChannel, API } from '@storybook/api';
-
+import { useChannel, API, useCurrentStory } from '@storybook/api';
 import { STORY_CHANGED } from '@storybook/core-events';
+import CodeEditor from 'react-simple-code-editor';
+// @ts-ignore
+import { highlight, languages } from 'prismjs/components/prism-core';
 import { SourceLoaderEvent, EVENT_NEW_SOURCE } from './constants';
 import { useEditor } from './useEditor';
-import CodeEditor from 'react-simple-code-editor';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/themes/prism.css';
 
 interface CodeLoc {
   col: number;
@@ -41,8 +45,9 @@ interface SourceLoaderInfo {
 
 const Editor = ({ api }: { api: API }) => {
   const emit = useChannel({});
+  const story = useCurrentStory();
+  const storyId = story && story.id ? story.id : '';
   const [initialCode, setInitialCode] = useEditor();
-
   const [metaData, setMetadata] = React.useState<SourceLoaderInfo | null>(null);
 
   let previousSource = '';
@@ -50,7 +55,7 @@ const Editor = ({ api }: { api: API }) => {
   const loadStoryCode = (sourceLoader: SourceLoaderInfo) => {
     const sourceCode = sourceLoader.edition.source;
     setMetadata(sourceLoader);
-    if (previousSource === sourceCode) {
+    if (previousSource === sourceCode || initialCode[storyId]) {
       return null;
     }
     previousSource = sourceCode;
@@ -66,43 +71,48 @@ const Editor = ({ api }: { api: API }) => {
         })
         .join('\n')
         .replace('export', '');
-      setInitialCode(sourceNormalized);
+      setInitialCode(sourceNormalized, storyId);
     }
   };
 
   useChannel({
-    [STORY_CHANGED]: story => {
-      if (metaData) {
+    [STORY_CHANGED]: nextStory => {
+      if (metaData && !initialCode[nextStory]) {
         const sourceLoaded = metaData.edition.source;
         const sourceNormalized = sourceLoaded
           .split('\n')
           .filter((_: any, idx: number) => {
             return (
-              idx >= metaData.location.locationsMap[story].startLoc.line - 1 &&
-              idx < metaData.location.locationsMap[story].endLoc.line
+              idx >= metaData.location.locationsMap[nextStory].startLoc.line - 1 &&
+              idx < metaData.location.locationsMap[nextStory].endLoc.line
             );
           })
           .join('\n')
           .replace('export', '');
-        setInitialCode(sourceNormalized);
+        setInitialCode(sourceNormalized, storyId);
       }
     },
   });
 
   React.useEffect(() => {
-    api.on(SourceLoaderEvent, loadStoryCode);
-  }, []);
+    if (story && storyId) {
+      api.on(SourceLoaderEvent, loadStoryCode);
+    }
+  }, [story]);
 
   function handleChangeTextArea(code: string) {
-    setInitialCode(code);
+    setInitialCode(code, storyId);
     emit(EVENT_NEW_SOURCE, code);
   }
 
-  return initialCode ? (
-    <React.Fragment>
-      <CodeEditor onValueChange={handleChangeTextArea} value={initialCode} />
+  const code = story && storyId ? initialCode[storyId] : '';
 
-    </React.Fragment>
+  return code ? (
+    <CodeEditor
+      value={code}
+      onValueChange={handleChangeTextArea}
+      highlight={editedCode => highlight(editedCode, languages.js)}
+    />
   ) : null;
 };
 

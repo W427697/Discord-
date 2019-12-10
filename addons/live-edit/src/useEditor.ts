@@ -1,20 +1,18 @@
-// @ts-ignore
-import { useAddonState, useCurrentStory } from '@storybook/api';
+import { useAddonState } from '@storybook/api';
 import { ADDON_NAME } from './constants';
 
 export const useEditor = () => {
-  const story = useCurrentStory();
-  const storyId = story && story.id ? story.id : '*';
-  const [addonState, setAddonState] = useAddonState(ADDON_NAME, {
-    [storyId]: '',
-  });
+  const [addonState, setAddonState] = useAddonState(ADDON_NAME, {});
 
-  const setAddonStateFunc = (newSource: string) => {
+  const setAddonStateFunc = (newSource: string, storyId: string) => {
     setAddonState({
       ...addonState,
       [storyId]: newSource,
     });
   };
 
-  return [addonState[storyId], setAddonStateFunc] as [string, (newSource: string) => void];
+  return [addonState, setAddonStateFunc] as [
+    Record<string, string>,
+    (newSource: string, storyId: string) => void
+  ];
 };
