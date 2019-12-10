@@ -33,11 +33,8 @@ export function enhancePropTypesProp(extractedProp: ExtractedProp, rawDefaultPro
       propDef.defaultValue = newDefaultValue;
     }
   }
-
-  const { parent } = extractedProp.docgenInfo;
-  if (parent) {
-    propDef.parent = parent;
-  }
+  // typescript information for types inheritance
+  propDef.parent = extractedProp.docgenInfo.parent;
 
   return propDef;
 }
@@ -50,5 +47,6 @@ export function enhancePropTypesProps(
   const enhancedProps = extractedProps.map(x =>
     enhancePropTypesProp(x, rawDefaultProps[x.propDef.name])
   );
+
   return keepOriginalDefinitionOrder(enhancedProps, component);
 }
