@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
-import { PropRow, PropRowProps } from './PropRow';
+import { PropRows, PropRowsProps } from './PropRows';
 import { SectionRow } from './SectionRow';
 import { CollapsibleRow } from './CollapsibleRow';
 import { PropDef, PropType, PropDefaultValue, PropSummaryValue, PropParent } from './PropDef';
@@ -136,10 +136,6 @@ export enum PropsTableError {
   PROPS_UNSUPPORTED = 'Props unsupported. See Props documentation for your framework.',
 }
 
-export interface PropsTableRowsProps {
-  rows: PropDef[];
-}
-
 export interface PropsTableSectionsProps {
   sections?: Record<string, PropDef[]>;
   expanded?: [string];
@@ -149,20 +145,7 @@ export interface PropsTableErrorProps {
   error: PropsTableError;
 }
 
-export type PropsTableProps = PropsTableRowsProps | PropsTableSectionsProps | PropsTableErrorProps;
-
-const PropsTableRow: FC<PropRowProps> = props => {
-  const { row } = props as PropRowProps;
-  return <PropRow row={row} />;
-};
-
-const PropsTableRows: FC<PropsTableRowsProps & { section?: string }> = ({ section, rows }) => (
-  <>
-    {rows.map(row => (
-      <PropsTableRow key={`${section || ''}${row.name}`} row={row} />
-    ))}
-  </>
-);
+export type PropsTableProps = PropRowsProps | PropsTableSectionsProps | PropsTableErrorProps;
 
 interface SectionTableRowProps {
   section: string;
@@ -176,16 +159,15 @@ const SectionTableRow: FC<SectionTableRowProps> = ({ section, rows, expanded }) 
       <CollapsibleRow
         section={section}
         expanded={expanded.indexOf(section) >= 0}
+        rows={rows}
         numRows={rows.length}
-      >
-        {isExpanded => isExpanded && <PropsTableRows section={section} rows={rows} />}
-      </CollapsibleRow>
+      />
     );
   }
   return (
     <>
       <SectionRow section={section} />
-      <PropsTableRows section={section} rows={rows} />
+      <PropRows section={section} rows={rows} />
     </>
   );
 };
@@ -202,7 +184,7 @@ const PropsTable: FC<PropsTableProps> = props => {
 
   let allRows: any[] = [];
   const { sections, expanded } = props as PropsTableSectionsProps;
-  const { rows } = props as PropsTableRowsProps;
+  const { rows } = props as PropRowsProps;
   if (sections) {
     allRows = Object.keys(sections).map(section => (
       <SectionTableRow
@@ -213,7 +195,7 @@ const PropsTable: FC<PropsTableProps> = props => {
       />
     ));
   } else if (rows) {
-    allRows = <PropsTableRows rows={rows} />;
+    allRows = <PropRows rows={rows} />;
   }
 
   if (allRows.length === 0) {

@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
+import { PropDef } from './PropDef';
+import { PropRows } from './PropRows';
 import { IconButton } from '../../bar/button';
 import { Icons } from '../../icon/icon';
 
@@ -12,7 +14,7 @@ const ExpanderButton = styled(IconButton)<{}>(() => ({
 export interface CollapsibleRowProps {
   section: string;
   expanded: boolean;
-  children: (isExpanded: boolean) => React.ReactNode;
+  rows: PropDef[];
   numRows: number;
 }
 
@@ -26,12 +28,7 @@ const Th = styled.th<{}>(() => ({
   fontWeight: 'normal',
 }));
 
-export const CollapsibleRow: FC<CollapsibleRowProps> = ({
-  section,
-  expanded,
-  numRows,
-  children,
-}) => {
+export const CollapsibleRow: FC<CollapsibleRowProps> = ({ section, expanded, numRows, rows }) => {
   const [isExpanded, setIsExpanded] = React.useState(expanded);
   return (
     <>
@@ -46,7 +43,7 @@ export const CollapsibleRow: FC<CollapsibleRowProps> = ({
         </NameTh>
         <Th colSpan={2}>{!isExpanded && `${numRows} prop${numRows !== 1 ? 's' : ''}`}</Th>
       </tr>
-      {children(isExpanded)}
+      {isExpanded && <PropRows section={section} rows={rows} />}
     </>
   );
 };
