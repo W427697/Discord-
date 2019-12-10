@@ -9,9 +9,9 @@ const ExpanderButton = styled(IconButton)<{}>(() => ({
   border: 'none',
 }));
 
-export interface SectionRowProps {
+export interface CollapsibleRowProps {
   section: string;
-  expanded?: boolean;
+  expanded: boolean;
 }
 
 const NameTh = styled.th<{}>(() => ({
@@ -24,12 +24,12 @@ const Th = styled.th<{}>(() => ({
   fontWeight: 'normal',
 }));
 
-export const CollapsibleRow: FC<SectionRowProps> = ({ section, expanded, children }) => {
+export const CollapsibleRow: FC<CollapsibleRowProps> = ({ section, expanded, children }) => {
   const [isExpanded, setIsExpanded] = React.useState(expanded);
   return (
     <>
       <tr>
-        <NameTh>
+        <NameTh colSpan={isExpanded ? 1 : 3}>
           <ExpanderButton
             onClick={expanded === undefined ? undefined : () => setIsExpanded(!isExpanded)}
           >
@@ -37,8 +37,8 @@ export const CollapsibleRow: FC<SectionRowProps> = ({ section, expanded, childre
           </ExpanderButton>
           {section}
         </NameTh>
-        {!expanded && Array.isArray(children) && (
-          <Th>{`${children.length} prop${children.length !== 1 ? 's' : ''}`}</Th>
+        {!isExpanded && Array.isArray(children) && (
+          <Th colSpan={2}>{`${children.length} prop${children.length !== 1 ? 's' : ''}`}</Th>
         )}
       </tr>
       {isExpanded && children}
