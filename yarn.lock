@@ -25434,6 +25434,11 @@ react-docgen-typescript@^1.15.0:
   resolved "https://registry.yarnpkg.com/react-docgen-typescript/-/react-docgen-typescript-1.15.1.tgz#1648aa422940d9850bc5433c1d179e440d8401f6"
   integrity sha512-/6yjmJJBqJ1fu721gMrCCF3zu4290S03f/EM75w4ZrjU84Bi/lZ096fARdjSWYCUgIPrwRlwZvziTnXUhjalIw==
 
+react-docgen-typescript@^1.16.1:
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/react-docgen-typescript/-/react-docgen-typescript-1.16.1.tgz#3c4570601b2e765280adf570a0f344b35111604d"
+  integrity sha512-r2FyrOa9ynupwKzufHn8IqhWt8aYts3TZz/LWzJGFMyH8AaHQ/Z4LY+fbaI5Gs46DmeyNJvzg2dDELV2k/bL0A==
+
 react-docgen@^5.0.0-beta.1:
   version "5.0.0-beta.1"
   resolved "https://registry.yarnpkg.com/react-docgen/-/react-docgen-5.0.0-beta.1.tgz#3654ab8f5cb7abacbfc122c1950c45d8e77048da"
@@ -32113,6 +32118,14 @@ webpack-merge@^4.2.1:
   integrity sha512-TUE1UGoTX2Cd42j3krGYqObZbOD+xF7u28WB7tfUordytSjbWTIjK/8V0amkBfTYN4/pB/GIDlJZZ657BGG19g==
   dependencies:
     lodash "^4.17.15"
+
+webpack-react-docgen-typescript@^0.9.5:
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/webpack-react-docgen-typescript/-/webpack-react-docgen-typescript-0.9.5.tgz#607835802df47a8b3b93c23bd02f86d22ff1b11e"
+  integrity sha512-XhSYQWmkS22WkvOdj1WS+NYDs27yZU20kfz4uLED9lFW69oH1ImRpidXF70YhvCcdQYER9YH5/C/8arf8HZfJg==
+  dependencies:
+    fs-extra "^8.1.0"
+    react-docgen-typescript "^1.16.1"
 
 webpack-sources@1.4.3, webpack-sources@^1.0.1, webpack-sources@^1.0.2, webpack-sources@^1.1.0, webpack-sources@^1.2.0, webpack-sources@^1.3.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-sources@^1.4.3:
   version "1.4.3"

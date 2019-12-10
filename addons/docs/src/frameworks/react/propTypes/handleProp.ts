@@ -34,6 +34,11 @@ export function enhancePropTypesProp(extractedProp: ExtractedProp, rawDefaultPro
     }
   }
 
+  const { parent } = extractedProp.docgenInfo;
+  if (parent) {
+    propDef.parent = parent;
+  }
+
   return propDef;
 }
 
@@ -45,6 +50,5 @@ export function enhancePropTypesProps(
   const enhancedProps = extractedProps.map(x =>
     enhancePropTypesProp(x, rawDefaultProps[x.propDef.name])
   );
-
   return keepOriginalDefinitionOrder(enhancedProps, component);
 }

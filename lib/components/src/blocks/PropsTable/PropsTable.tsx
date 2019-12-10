@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
 import { PropRow, PropRowProps } from './PropRow';
-import { SectionRow, SectionRowProps } from './SectionRow';
-import { PropDef, PropType, PropDefaultValue, PropSummaryValue } from './PropDef';
+import { SectionRow, SectionContext } from './SectionRow';
+import { PropDef, PropType, PropDefaultValue, PropSummaryValue, PropParent } from './PropDef';
 import { EmptyBlock } from '../EmptyBlock';
 import { ResetWrapper } from '../../typography/DocumentFormatting';
 
@@ -139,6 +139,7 @@ export interface PropsTableRowsProps {
 
 export interface PropsTableSectionsProps {
   sections?: Record<string, PropDef[]>;
+  expanded?: [string];
 }
 
 export interface PropsTableErrorProps {
@@ -147,13 +148,37 @@ export interface PropsTableErrorProps {
 
 export type PropsTableProps = PropsTableRowsProps | PropsTableSectionsProps | PropsTableErrorProps;
 
-const PropsTableRow: FC<SectionRowProps | PropRowProps> = props => {
-  const { section } = props as SectionRowProps;
-  if (section) {
-    return <SectionRow section={section} />;
-  }
+const PropsTableRow: FC<PropRowProps> = props => {
   const { row } = props as PropRowProps;
   return <PropRow row={row} />;
+};
+
+interface SectionTableRowProps {
+  section: string;
+  rows: PropDef[];
+  expanded?: string[];
+}
+
+const SectionRows: FC<SectionTableRowProps> = ({ section, rows }) => {
+  const isExpanded = React.useContext(SectionContext);
+  if (!isExpanded) {
+    return null;
+  }
+  return (
+    <>
+      {rows.map(row => (
+        <PropsTableRow key={`${section}_${row.name}`} row={row} />
+      ))}
+    </>
+  );
+};
+
+const SectionTableRow: FC<SectionTableRowProps> = ({ section, rows, expanded }) => {
+  return (
+    <SectionRow section={section} expanded={expanded ? expanded.indexOf(section) >= 0 : undefined}>
+      <SectionRows section={section} rows={rows} />
+    </SectionRow>
+  );
 };
 
 /**
@@ -167,26 +192,19 @@ const PropsTable: FC<PropsTableProps> = props => {
   }
 
   let allRows: any[] = [];
-  const { sections } = props as PropsTableSectionsProps;
+  const { sections, expanded } = props as PropsTableSectionsProps;
   const { rows } = props as PropsTableRowsProps;
   if (sections) {
-    Object.keys(sections).forEach(section => {
-      const sectionRows = sections[section];
-      if (sectionRows && sectionRows.length > 0) {
-        allRows.push({ key: section, value: { section } });
-        sectionRows.forEach(row => {
-          allRows.push({
-            key: `${section}_${row.name}`,
-            value: { row },
-          });
-        });
-      }
-    });
+    allRows = Object.keys(sections).map(section => (
+      <SectionTableRow
+        key={section}
+        section={section}
+        rows={sections[section]}
+        expanded={expanded}
+      />
+    ));
   } else if (rows) {
-    allRows = rows.map(row => ({
-      key: row.name,
-      value: { row },
-    }));
+    allRows = rows.map(row => <PropsTableRow key={row.name} row={row} />);
   }
 
   if (allRows.length === 0) {
@@ -202,14 +220,10 @@ const PropsTable: FC<PropsTableProps> = props => {
             <th>Default</th>
           </tr>
         </thead>
-        <tbody className="docblock-propstable-body">
-          {allRows.map(row => (
-            <PropsTableRow key={row.key} {...row.value} />
-          ))}
-        </tbody>
+        <tbody className="docblock-propstable-body">{allRows}</tbody>
       </Table>
     </ResetWrapper>
   );
 };
 
-export { PropsTable, PropDef, PropType, PropDefaultValue, PropSummaryValue };
+export { PropsTable, PropDef, PropType, PropDefaultValue, PropSummaryValue, PropParent };

@@ -71,7 +71,38 @@ export const getComponentProps = (
         });
       }
     }
+    if ((props as PropsTableRowsProps).rows) {
+      const propSections = (props as PropsTableRowsProps).rows.reduce(
+        (acc: { [key: string]: PropDef[] }, prop) => {
+          if (prop.parent && prop.parent.name) {
+            if (!acc[prop.parent.name]) {
+              return { ...acc, [prop.parent.name]: [prop] };
+            }
+            return { ...acc, [prop.parent.name]: [...acc[prop.parent.name], prop] };
+          }
+          return acc;
+        },
+        {}
+      );
+      const propSectionsArray = Object.keys(propSections);
+      if (propSectionsArray.length) {
+        // the props are with sections (inherited interfaces in typescript)
 
+        // find out what section is the components own props
+        // by default just use the first listed interface of props
+        let expanded = propSectionsArray[0];
+        if (component.displayName) {
+          // find all sections that contain the component name
+          const nameMatch = propSectionsArray.filter(
+            section => section.indexOf(component.displayName) >= 0
+          );
+          if (nameMatch.length) {
+            [expanded] = nameMatch;
+          }
+        }
+        props = { sections: propSections, expanded: [expanded] };
+      }
+    }
     return props;
   } catch (err) {
     return { error: err.message };
