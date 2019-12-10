@@ -3,11 +3,12 @@ import { styled } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
 import { PropRow, PropRowProps } from './PropRow';
 import { SectionRow } from './SectionRow';
+import { CollapsibleRow } from './CollapsibleRow';
 import { PropDef, PropType, PropDefaultValue, PropSummaryValue, PropParent } from './PropDef';
 import { EmptyBlock } from '../EmptyBlock';
 import { ResetWrapper } from '../../typography/DocumentFormatting';
 
-export const Table = styled.table<{}>(({ theme }) => ({
+export const Table = styled.table<{ expandable: boolean }>(({ theme, expandable }) => ({
   '&&': {
     // Resets for cascading/system styles
     borderCollapse: 'collapse',
@@ -35,7 +36,7 @@ export const Table = styled.table<{}>(({ theme }) => ({
     marginBottom: '40px',
 
     'th:first-of-type, td:first-of-type': {
-      paddingLeft: 20,
+      paddingLeft: '20px',
     },
 
     'th:last-of-type, td:last-of-type': {
@@ -60,7 +61,9 @@ export const Table = styled.table<{}>(({ theme }) => ({
     td: {
       paddingTop: '16px',
       paddingBottom: '16px',
-
+      ':first-of-type': {
+        paddingLeft: expandable ? '40px' : '20px',
+      },
       '&:not(:first-of-type)': {
         paddingLeft: 15,
         paddingRight: 15,
@@ -150,8 +153,7 @@ export type PropsTableProps = PropsTableRowsProps | PropsTableSectionsProps | Pr
 
 const PropsTableRow: FC<PropRowProps> = props => {
   const { row } = props as PropRowProps;
-  const { expanded } = props as PropsTableSectionsProps;
-  return <PropRow row={row} expandable={expanded} />;
+  return <PropRow row={row} />;
 };
 
 interface SectionTableRowProps {
@@ -161,12 +163,19 @@ interface SectionTableRowProps {
 }
 
 const SectionTableRow: FC<SectionTableRowProps> = ({ section, rows, expanded }) => {
+  const rowsNode = rows.map(row => <PropsTableRow key={`${section}_${row.name}`} row={row} />);
+  if (expanded) {
+    return (
+      <CollapsibleRow section={section} expanded={expanded.indexOf(section) >= 0}>
+        {rowsNode}
+      </CollapsibleRow>
+    );
+  }
   return (
-    <SectionRow section={section} expanded={expanded ? expanded.indexOf(section) >= 0 : undefined}>
-      {rows.map(row => (
-        <PropsTableRow key={`${section}_${row.name}`} row={row} expanded={expanded} />
-      ))}
-    </SectionRow>
+    <>
+      <SectionRow section={section} />
+      {rowsNode}
+    </>
   );
 };
 
@@ -201,7 +210,7 @@ const PropsTable: FC<PropsTableProps> = props => {
   }
   return (
     <ResetWrapper>
-      <Table className="docblock-propstable">
+      <Table className="docblock-propstable" expandable={expanded !== undefined}>
         <thead className="docblock-propstable-head">
           <tr>
             <th>Name</th>
