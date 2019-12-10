@@ -32,15 +32,15 @@ export const Table = styled.table<{ expandable: boolean }>(({ theme, expandable 
     width: '100%',
 
     // Margin collapse
-    marginTop: '25px',
-    marginBottom: '40px',
+    marginTop: 25,
+    marginBottom: 40,
 
     'th:first-of-type, td:first-of-type': {
       paddingLeft: '20px',
     },
 
     'th:last-of-type, td:last-of-type': {
-      paddingRight: '20px',
+      paddingRight: 20,
       width: '20%',
     },
 
@@ -70,7 +70,7 @@ export const Table = styled.table<{ expandable: boolean }>(({ theme, expandable 
       },
 
       '&:last-of-type': {
-        paddingRight: '20px',
+        paddingRight: 20,
       },
     },
 
