@@ -12,6 +12,8 @@ const ExpanderButton = styled(IconButton)<{}>(() => ({
 export interface CollapsibleRowProps {
   section: string;
   expanded: boolean;
+  children: (isExpanded: boolean) => React.ReactNode;
+  numRows: number;
 }
 
 const NameTh = styled.th<{}>(() => ({
@@ -24,12 +26,17 @@ const Th = styled.th<{}>(() => ({
   fontWeight: 'normal',
 }));
 
-export const CollapsibleRow: FC<CollapsibleRowProps> = ({ section, expanded, children }) => {
+export const CollapsibleRow: FC<CollapsibleRowProps> = ({
+  section,
+  expanded,
+  numRows,
+  children,
+}) => {
   const [isExpanded, setIsExpanded] = React.useState(expanded);
   return (
     <>
       <tr>
-        <NameTh colSpan={isExpanded ? 1 : 3}>
+        <NameTh colSpan={1}>
           <ExpanderButton
             onClick={expanded === undefined ? undefined : () => setIsExpanded(!isExpanded)}
           >
@@ -37,11 +44,9 @@ export const CollapsibleRow: FC<CollapsibleRowProps> = ({ section, expanded, chi
           </ExpanderButton>
           {section}
         </NameTh>
-        {!isExpanded && Array.isArray(children) && (
-          <Th colSpan={2}>{`${children.length} prop${children.length !== 1 ? 's' : ''}`}</Th>
-        )}
+        <Th colSpan={2}>{!isExpanded && `${numRows} prop${numRows !== 1 ? 's' : ''}`}</Th>
       </tr>
-      {isExpanded && children}
+      {children(isExpanded)}
     </>
   );
 };

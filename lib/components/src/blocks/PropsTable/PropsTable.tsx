@@ -156,6 +156,14 @@ const PropsTableRow: FC<PropRowProps> = props => {
   return <PropRow row={row} />;
 };
 
+const PropsTableRows: FC<PropsTableRowsProps & { section?: string }> = ({ section, rows }) => (
+  <>
+    {rows.map(row => (
+      <PropsTableRow key={`${section || ''}${row.name}`} row={row} />
+    ))}
+  </>
+);
+
 interface SectionTableRowProps {
   section: string;
   rows: PropDef[];
@@ -163,18 +171,21 @@ interface SectionTableRowProps {
 }
 
 const SectionTableRow: FC<SectionTableRowProps> = ({ section, rows, expanded }) => {
-  const rowsNode = rows.map(row => <PropsTableRow key={`${section}_${row.name}`} row={row} />);
   if (expanded) {
     return (
-      <CollapsibleRow section={section} expanded={expanded.indexOf(section) >= 0}>
-        {rowsNode}
+      <CollapsibleRow
+        section={section}
+        expanded={expanded.indexOf(section) >= 0}
+        numRows={rows.length}
+      >
+        {isExpanded => isExpanded && <PropsTableRows section={section} rows={rows} />}
       </CollapsibleRow>
     );
   }
   return (
     <>
       <SectionRow section={section} />
-      {rowsNode}
+      <PropsTableRows section={section} rows={rows} />
     </>
   );
 };
@@ -202,7 +213,7 @@ const PropsTable: FC<PropsTableProps> = props => {
       />
     ));
   } else if (rows) {
-    allRows = rows.map(row => <PropsTableRow key={row.name} row={row} />);
+    allRows = <PropsTableRows rows={rows} />;
   }
 
   if (allRows.length === 0) {
