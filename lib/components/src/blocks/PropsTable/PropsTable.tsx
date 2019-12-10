@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
 import { PropRow, PropRowProps } from './PropRow';
-import { SectionRow, SectionContext } from './SectionRow';
+import { SectionRow } from './SectionRow';
 import { PropDef, PropType, PropDefaultValue, PropSummaryValue, PropParent } from './PropDef';
 import { EmptyBlock } from '../EmptyBlock';
 import { ResetWrapper } from '../../typography/DocumentFormatting';
@@ -159,24 +159,12 @@ interface SectionTableRowProps {
   expanded?: string[];
 }
 
-const SectionRows: FC<SectionTableRowProps> = ({ section, rows }) => {
-  const isExpanded = React.useContext(SectionContext);
-  if (!isExpanded) {
-    return null;
-  }
-  return (
-    <>
-      {rows.map(row => (
-        <PropsTableRow key={`${section}_${row.name}`} row={row} />
-      ))}
-    </>
-  );
-};
-
 const SectionTableRow: FC<SectionTableRowProps> = ({ section, rows, expanded }) => {
   return (
     <SectionRow section={section} expanded={expanded ? expanded.indexOf(section) >= 0 : undefined}>
-      <SectionRows section={section} rows={rows} />
+      {rows.map(row => (
+        <PropsTableRow key={`${section}_${row.name}`} row={row} />
+      ))}
     </SectionRow>
   );
 };

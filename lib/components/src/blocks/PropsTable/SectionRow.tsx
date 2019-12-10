@@ -33,13 +33,11 @@ const SectionTh = styled.th<{ expandable?: boolean }>(({ theme, expandable }) =>
   background: `${theme.background.app} !important`,
 }));
 
-export const SectionContext = React.createContext(true);
-
 export const SectionRow: FC<SectionRowProps> = ({ section, expanded, children }) => {
   const [isExpanded, setIsExpanded] = React.useState(expanded !== undefined ? expanded : true);
   const expandable = expanded !== undefined;
   return (
-    <SectionContext.Provider value={isExpanded}>
+    <>
       <tr>
         <SectionTh colSpan={3} expandable={expandable}>
           {expandable ? (
@@ -56,7 +54,7 @@ export const SectionRow: FC<SectionRowProps> = ({ section, expanded, children })
           )}
         </SectionTh>
       </tr>
-      {children}
-    </SectionContext.Provider>
+      {(!expandable || isExpanded) && children}
+    </>
   );
 };
