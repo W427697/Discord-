@@ -10,9 +10,18 @@ import { codeCommon } from '../../typography/shared';
 
 export interface PropRowProps {
   row: PropDef;
+  expandable?: boolean;
 }
 
-const Name = styled.span({ fontWeight: 'bold' });
+const Name = styled.span(({ expandable }) => {
+  const style = {
+    fontWeight: 'bold',
+  };
+  if (expandable) {
+    style.paddingLeft = 20;
+  }
+  return style;
+});
 
 const Required = styled.span(({ theme }) => ({
   color: theme.color.negative,
@@ -53,6 +62,7 @@ const TypeWithJsDoc = styled.div<{ hasDescription: boolean }>(({ theme, hasDescr
 }));
 
 export const PropRow: FC<PropRowProps> = ({
+  expandable,
   row: { name, type, required, description, defaultValue, jsDocTags },
 }) => {
   const hasDescription = !isNil(description) && description !== '';
@@ -60,7 +70,7 @@ export const PropRow: FC<PropRowProps> = ({
   return (
     <tr>
       <td>
-        <Name>{name}</Name>
+        <Name expandable={expandable}>{name}</Name>
         {required ? <Required title="Required">*</Required> : null}
       </td>
       <td>

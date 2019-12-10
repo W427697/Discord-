@@ -150,7 +150,8 @@ export type PropsTableProps = PropsTableRowsProps | PropsTableSectionsProps | Pr
 
 const PropsTableRow: FC<PropRowProps> = props => {
   const { row } = props as PropRowProps;
-  return <PropRow row={row} />;
+  const { expanded } = props as PropsTableSectionsProps;
+  return <PropRow row={row} expandable={expanded} />;
 };
 
 interface SectionTableRowProps {
@@ -163,7 +164,7 @@ const SectionTableRow: FC<SectionTableRowProps> = ({ section, rows, expanded }) 
   return (
     <SectionRow section={section} expanded={expanded ? expanded.indexOf(section) >= 0 : undefined}>
       {rows.map(row => (
-        <PropsTableRow key={`${section}_${row.name}`} row={row} />
+        <PropsTableRow key={`${section}_${row.name}`} row={row} expanded={expanded} />
       ))}
     </SectionRow>
   );
