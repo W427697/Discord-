@@ -37,6 +37,7 @@ function getPropDefs(component: Component, section: string): PropDef[] {
   if (extractedProps.length === 0) {
     return [];
   }
+
   switch (extractedProps[0].typeSystem) {
     case TypeSystem.JAVASCRIPT:
       return enhancePropTypesProps(extractedProps, component);
