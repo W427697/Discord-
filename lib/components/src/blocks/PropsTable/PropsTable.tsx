@@ -25,7 +25,6 @@ export const Table = styled.table<{ expandable: boolean }>(({ theme, expandable 
       border: 'none',
       verticalAlign: 'top',
       overflow: 'hidden',
-      whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
     },
     // End Resets
