@@ -85,7 +85,7 @@ export const getComponentProps = (
         {}
       );
       const propSectionsArray = Object.keys(propSections);
-      if (propSectionsArray.length) {
+      if (propSectionsArray.length > 1) {
         // the props are with sections (inherited interfaces in typescript)
 
         // find out what section is the components own props
