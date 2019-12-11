@@ -1,7 +1,9 @@
 /* eslint-disable consistent-return */
 import React from 'react';
+// @ts-ignore
 import { useChannel, API, useCurrentStory } from '@storybook/api';
 import { STORY_CHANGED } from '@storybook/core-events';
+import { styled } from '@storybook/theming';
 import CodeEditor from 'react-simple-code-editor';
 // @ts-ignore
 import { highlight, languages } from 'prismjs/components/prism-core';
@@ -9,7 +11,10 @@ import { SourceLoaderEvent, EVENT_NEW_SOURCE } from './constants';
 import { useEditor } from './useEditor';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-markup';
 import 'prismjs/themes/prism.css';
+
+require('prismjs/components/prism-jsx');
 
 interface CodeLoc {
   col: number;
@@ -42,6 +47,10 @@ interface SourceLoaderInfo {
     };
   };
 }
+
+const EditorWrapper = styled.div`
+  padding: 10px;
+`;
 
 const Editor = ({ api }: { api: API }) => {
   const emit = useChannel({});
@@ -108,11 +117,13 @@ const Editor = ({ api }: { api: API }) => {
   const code = story && storyId ? initialCode[storyId] : '';
 
   return code ? (
-    <CodeEditor
-      value={code}
-      onValueChange={handleChangeTextArea}
-      highlight={editedCode => highlight(editedCode, languages.js)}
-    />
+    <EditorWrapper>
+      <CodeEditor
+        value={code}
+        onValueChange={handleChangeTextArea}
+        highlight={editedCode => highlight(editedCode, languages.jsx)}
+      />
+    </EditorWrapper>
   ) : null;
 };
 
