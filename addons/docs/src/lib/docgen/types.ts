@@ -1,4 +1,4 @@
-import { PropsTableProps, PropParent } from '@storybook/components';
+import { PropsTableSectionsProps, PropsTableProps, PropParent } from '@storybook/components';
 import { Component } from '../../blocks/shared';
 
 export type PropsExtractor = (component: Component) => PropsTableProps | null;

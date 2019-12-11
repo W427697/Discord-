@@ -12,6 +12,7 @@ export const Table = styled.table<{ expandable: boolean }>(({ theme, expandable 
   '&&': {
     // Resets for cascading/system styles
     borderCollapse: 'collapse',
+    tableLayout: 'fixed',
     borderSpacing: 0,
     color: theme.color.defaultText,
     tr: {
@@ -23,6 +24,9 @@ export const Table = styled.table<{ expandable: boolean }>(({ theme, expandable 
       padding: 0,
       border: 'none',
       verticalAlign: 'top',
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
     },
     // End Resets
 
@@ -138,7 +142,7 @@ export enum PropsTableError {
 
 export interface PropsTableSectionsProps {
   sections?: Record<string, PropDef[]>;
-  expanded?: [string];
+  expanded?: string[];
 }
 
 export interface PropsTableErrorProps {
@@ -182,7 +186,7 @@ const PropsTable: FC<PropsTableProps> = props => {
     return <EmptyBlock>{error}</EmptyBlock>;
   }
 
-  let allRows: any[] = [];
+  let allRows: React.ReactNode[] | React.ReactNode;
   const { sections, expanded } = props as PropsTableSectionsProps;
   const { rows } = props as PropRowsProps;
   if (sections) {
@@ -198,7 +202,7 @@ const PropsTable: FC<PropsTableProps> = props => {
     allRows = <PropRows rows={rows} />;
   }
 
-  if (allRows.length === 0) {
+  if (Array.isArray(allRows) && allRows.length === 0) {
     return <EmptyBlock>No props found for this component</EmptyBlock>;
   }
   return (
@@ -217,4 +221,12 @@ const PropsTable: FC<PropsTableProps> = props => {
   );
 };
 
-export { PropsTable, PropDef, PropType, PropDefaultValue, PropSummaryValue, PropParent };
+export {
+  PropsTable,
+  PropDef,
+  PropType,
+  PropDefaultValue,
+  PropSummaryValue,
+  PropParent,
+  PropRowsProps,
+};
