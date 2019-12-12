@@ -30,7 +30,7 @@ export interface SubAPI {
   getCurrentParameter<S>(parameterName?: ParameterName): S;
 }
 
-interface Group {
+export interface Group {
   id: StoryId;
   name: string;
   children: StoryId[];
@@ -41,7 +41,7 @@ interface Group {
   isLeaf: boolean;
 }
 
-interface StoryInput {
+export interface StoryInput {
   id: StoryId;
   name: string;
   kind: string;
