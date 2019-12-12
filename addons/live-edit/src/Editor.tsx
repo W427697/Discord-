@@ -86,7 +86,8 @@ const Editor = ({ api }: { api: API }) => {
 
   useChannel({
     [STORY_CHANGED]: nextStory => {
-      if (metaData && !initialCode[nextStory]) {
+      const nextStorySavedCode = initialCode[nextStory];
+      if (metaData && !nextStorySavedCode) {
         const sourceLoaded = metaData.edition.source;
         const sourceNormalized = sourceLoaded
           .split('\n')
@@ -99,6 +100,8 @@ const Editor = ({ api }: { api: API }) => {
           .join('\n')
           .replace('export', '');
         setInitialCode(sourceNormalized, storyId);
+      } else if (nextStorySavedCode) {
+        emit(EVENT_NEW_SOURCE, nextStorySavedCode);
       }
     },
   });
