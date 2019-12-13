@@ -15,6 +15,7 @@ Object.keys(docsComponents).forEach(key => {
 
 interface CommonProps {
   height?: string;
+  width?: string;
   inline?: boolean;
 }
 
@@ -47,7 +48,7 @@ export const getStoryProps = (
   const inputId = id === CURRENT_SELECTION ? currentId : id;
   const previewId = inputId || mdxStoryNameToId[name];
 
-  const { height, inline } = props;
+  const { height, width, inline } = props;
   const data = storyStore.fromId(previewId);
   const { framework = null } = (data && data.parameters) || {};
 
@@ -61,6 +62,7 @@ export const getStoryProps = (
   const {
     inlineStories = inferInlineStories(framework),
     iframeHeight = undefined,
+    iframeWidth = undefined,
     prepareForInline = undefined,
   } = docsParam;
   const { storyFn = undefined, name: storyName = undefined } = data || {};
@@ -71,14 +73,15 @@ export const getStoryProps = (
       `Story '${storyName}' is set to render inline, but no 'prepareForInline' function is implemented in your docs configuration!`
     );
   }
-
-  return {
+  const newVar = {
     inline: storyIsInline,
     id: previewId,
     storyFn: prepareForInline && storyFn ? () => prepareForInline(storyFn) : storyFn,
     height: height || (storyIsInline ? undefined : iframeHeight),
+    width: width || (storyIsInline ? undefined : iframeWidth),
     title: storyName,
   };
+  return newVar;
 };
 
 const StoryContainer: FunctionComponent<StoryProps> = props => (

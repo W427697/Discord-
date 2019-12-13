@@ -7,5 +7,7 @@ export interface AnchorProps {
 }
 
 export const Anchor: FC<AnchorProps> = ({ storyId, children }) => (
-  <div id={anchorBlockIdFromId(storyId)}>{children}</div>
+  <div id={anchorBlockIdFromId(storyId)} style={{ textAlign: 'center' }}>
+    {children}
+  </div>
 );

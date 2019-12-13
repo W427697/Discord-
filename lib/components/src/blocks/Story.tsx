@@ -18,6 +18,7 @@ const MISSING_STORY = (id?: string) => (id ? `Story "${id}" doesn't exist.` : St
 interface CommonProps {
   title: string;
   height?: string;
+  width?: string;
   id: string;
 }
 
@@ -53,8 +54,8 @@ const InlineZoomWrapper: FunctionComponent<{ scale: number }> = ({ scale, childr
   );
 };
 
-const InlineStory: FunctionComponent<InlineStoryProps> = ({ storyFn, height, id }) => (
-  <div style={{ height }}>
+const InlineStory: FunctionComponent<InlineStoryProps> = ({ storyFn, height, id, width }) => (
+  <div style={{ height, width }}>
     <ZoomContext.Consumer>
       {({ scale }) => (
         <InlineZoomWrapper scale={scale}>
@@ -65,8 +66,13 @@ const InlineStory: FunctionComponent<InlineStoryProps> = ({ storyFn, height, id 
   </div>
 );
 
-const IFrameStory: FunctionComponent<IFrameStoryProps> = ({ id, title, height = '500px' }) => (
-  <div style={{ width: '100%', height }}>
+const IFrameStory: FunctionComponent<IFrameStoryProps> = ({
+  id,
+  title,
+  height = '500px',
+  width = '950px',
+}) => (
+  <div style={{ width, height }}>
     <ZoomContext.Consumer>
       {({ scale }) => {
         return (
@@ -96,15 +102,15 @@ const IFrameStory: FunctionComponent<IFrameStoryProps> = ({ id, title, height = 
 const Story: FunctionComponent<StoryProps> = props => {
   const { error } = props as ErrorProps;
   const { storyFn } = props as InlineStoryProps;
-  const { id, inline, title, height } = props;
+  const { id, inline, title, height, width } = props;
 
   if (error) {
     return <EmptyBlock>{error}</EmptyBlock>;
   }
   return inline ? (
-    <InlineStory id={id} storyFn={storyFn} title={title} height={height} />
+    <InlineStory id={id} storyFn={storyFn} title={title} height={height} width={width} />
   ) : (
-    <IFrameStory id={id} title={title} height={height} />
+    <IFrameStory id={id} title={title} height={height} width={width} />
   );
 };
 

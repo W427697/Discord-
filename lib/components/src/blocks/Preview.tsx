@@ -54,6 +54,7 @@ const PreviewContainer = styled.div<PreviewProps>(
     position: 'relative',
     overflow: 'hidden',
     margin: '25px 0 40px',
+    display: 'inline-block',
     ...getBlockBackgroundStyle(theme),
     borderBottomLeftRadius: withSource && isExpanded && 0,
     borderBottomRightRadius: withSource && isExpanded && 0,
