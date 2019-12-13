@@ -1,14 +1,42 @@
 import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
+import { transparentize } from 'polished';
+import { relative } from 'path';
 import { PropDef } from './PropDef';
 import { PropRows } from './PropRows';
-import { IconButton } from '../../bar/button';
 import { Icons } from '../../icon/icon';
 
-const ExpanderButton = styled(IconButton)<{}>(() => ({
-  marginRight: 6,
-  height: 'auto',
+const ExpanderIcon = styled(Icons)(({ theme }) => ({
+  marginRight: 8,
+  marginLeft: -10,
+  marginTop: -2, // optical alignment
+  height: 12,
+  width: 12,
+  color:
+    theme.base === 'light'
+      ? transparentize(0.25, theme.color.defaultText)
+      : transparentize(0.3, theme.color.defaultText),
   border: 'none',
+}));
+
+const ClickIntercept = styled.button<{}>(() => ({
+  // reset button style
+  background: 'none',
+  border: 'none',
+  padding: '0',
+  font: 'inherit',
+  outline: 'inherit',
+
+  // add custom style
+  position: 'absolute',
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
+  height: '100%',
+  width: '100%',
+  color: 'transparent',
+  cursor: 'row-resize !important',
 }));
 
 export interface CollapsibleRowProps {
@@ -18,31 +46,52 @@ export interface CollapsibleRowProps {
   numRows: number;
 }
 
-const NameTh = styled.th<{}>(() => ({
-  fontWeight: 'bold',
+const NameTh = styled.th(({ theme }) => ({
+  fontWeight: theme.typography.weight.bold,
+  color: `${theme.color.defaultText} !important`, // overrides the default th style
   display: 'flex',
   alignItems: 'center',
+  position: 'relative',
 }));
 
-const Th = styled.th<{}>(() => ({
-  fontWeight: 'normal',
+const Th = styled.th(({ theme }) => ({
+  fontWeight: theme.typography.weight.regular,
+  color: transparentize(0.2, theme.color.defaultText),
+  position: 'relative',
+}));
+
+const Tr = styled.tr(({ theme }) => ({
+  '&& > th': {
+    paddingTop: 16,
+    paddingBottom: 16,
+  },
+  '&:hover > th': {
+    backgroundColor: theme.background.hoverable,
+    boxShadow: `${theme.color.mediumlight} 0 - 1px 0 0 inset`,
+  },
 }));
 
 export const CollapsibleRow: FC<CollapsibleRowProps> = ({ section, expanded, numRows, rows }) => {
   const [isExpanded, setIsExpanded] = React.useState(expanded);
   return (
     <>
-      <tr>
+      <Tr>
         <NameTh colSpan={1}>
-          <ExpanderButton
+          <ClickIntercept
             onClick={expanded === undefined ? undefined : () => setIsExpanded(!isExpanded)}
           >
-            {isExpanded ? <Icons icon="arrowdown" /> : <Icons icon="arrowright" />}
-          </ExpanderButton>
+            Expand
+          </ClickIntercept>
+          {isExpanded ? <ExpanderIcon icon="arrowdown" /> : <ExpanderIcon icon="arrowright" />}
           {section}
         </NameTh>
-        <Th colSpan={2}>{!isExpanded && `${numRows} prop${numRows !== 1 ? 's' : ''}`}</Th>
-      </tr>
+        <Th colSpan={2}>
+          <ClickIntercept
+            onClick={expanded === undefined ? undefined : () => setIsExpanded(!isExpanded)}
+          />
+          {!isExpanded && `${numRows} prop${numRows !== 1 ? 's' : ''}`}
+        </Th>
+      </Tr>
       {isExpanded && <PropRows section={section} rows={rows} />}
     </>
   );
