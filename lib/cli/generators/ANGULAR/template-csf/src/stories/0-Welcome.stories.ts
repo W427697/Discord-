@@ -2,13 +2,14 @@ import { Welcome } from '@storybook/angular/demo';
 
 export default {
   title: 'Welcome',
+  component: Welcome,
 };
 
-export const toStorybook = () => ({
+export const ToStorybook = () => ({
   component: Welcome,
   props: {},
 });
 
-toStorybook.story = {
+ToStorybook.story = {
   name: 'to Storybook',
 };
