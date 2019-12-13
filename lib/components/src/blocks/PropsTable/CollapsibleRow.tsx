@@ -73,22 +73,33 @@ const Tr = styled.tr(({ theme }) => ({
 
 export const CollapsibleRow: FC<CollapsibleRowProps> = ({ section, expanded, numRows, rows }) => {
   const [isExpanded, setIsExpanded] = React.useState(expanded);
+
+  let titleHelperText = `Show ${section}'s ${numRows} prop${numRows !== 1 ? 's' : ''}`;
+  if (isExpanded) {
+    titleHelperText = `Hide ${section}'s ${numRows} prop${numRows !== 1 ? 's' : ''}`;
+  }
+
   return (
     <>
       <Tr>
         <NameTh colSpan={1}>
           <ClickIntercept
             onClick={expanded === undefined ? undefined : () => setIsExpanded(!isExpanded)}
+            title={titleHelperText}
           >
-            Expand
+            {titleHelperText}
           </ClickIntercept>
+
           {isExpanded ? <ExpanderIcon icon="arrowdown" /> : <ExpanderIcon icon="arrowright" />}
           {section}
         </NameTh>
         <Th colSpan={2}>
           <ClickIntercept
             onClick={expanded === undefined ? undefined : () => setIsExpanded(!isExpanded)}
-          />
+            title={titleHelperText}
+          >
+            {titleHelperText}
+          </ClickIntercept>
           {!isExpanded && `${numRows} prop${numRows !== 1 ? 's' : ''}`}
         </Th>
       </Tr>
