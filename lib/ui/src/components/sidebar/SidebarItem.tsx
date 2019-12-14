@@ -126,12 +126,10 @@ const SidebarItem = ({
   ...props
 }: SidebarItemProps) => {
   let iconName: ComponentProps<typeof Icons>['icon'];
-  if (isLeaf && isComponent) {
-    iconName = 'document';
+  if (isComponent) {
+    iconName = DOCS_MODE ? 'document' : 'component';
   } else if (isLeaf) {
     iconName = 'bookmarkhollow';
-  } else if (isComponent) {
-    iconName = 'component';
   } else {
     iconName = 'folder';
   }
