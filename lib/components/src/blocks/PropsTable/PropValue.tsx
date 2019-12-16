@@ -8,8 +8,6 @@ import { Icons } from '../../icon/icon';
 import { SyntaxHighlighter } from '../../syntaxhighlighter/syntaxhighlighter';
 import { codeCommon } from '../../typography/shared';
 
-const DIRTY_PADDING_TOP_IN_PX = 3;
-
 interface PropValueProps {
   value?: PropSummaryValue;
 }
@@ -29,19 +27,18 @@ const Text = styled.span(({ theme }) => ({
 
 const Expandable = styled.div<{}>(codeCommon, ({ theme }) => ({
   fontFamily: theme.typography.fonts.mono,
-  lineHeight: '18px',
   color: theme.color.secondary,
   margin: 0,
-  paddingTop: `${DIRTY_PADDING_TOP_IN_PX}px`,
+  whiteSpace: 'nowrap',
   display: 'flex',
   alignItems: 'center',
 }));
 
 const Detail = styled.div<{ width: string }>(({ theme, width }) => ({
   width,
-  minWidth: '200px',
-  maxWidth: '800px',
-  padding: '15px',
+  minWidth: 200,
+  maxWidth: 800,
+  padding: 15,
   // Dont remove the mono fontFamily here even if it seem useless, this is used by the browser to calculate the length of a "ch" unit.
   fontFamily: theme.typography.fonts.mono,
   fontSize: theme.typography.size.s2 - 1,
@@ -57,8 +54,7 @@ const ArrowIcon = styled(Icons)({
   height: 10,
   width: 10,
   minWidth: 10,
-  marginLeft: '4px',
-  marginTop: `-${DIRTY_PADDING_TOP_IN_PX}px`,
+  marginLeft: 4,
 });
 
 const EmptyProp = () => {
