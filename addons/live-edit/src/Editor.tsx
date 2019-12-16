@@ -9,12 +9,12 @@ import CodeEditor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import { SourceLoaderEvent, EVENT_NEW_SOURCE } from './constants';
 import { useEditor } from './useEditor';
+require('prismjs/components/prism-jsx');
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/components/prism-markup';
 import 'prismjs/themes/prism.css';
 
-require('prismjs/components/prism-jsx');
 
 interface CodeLoc {
   col: number;
