@@ -59,3 +59,6 @@ export const DocsPageWrapper: FunctionComponent = ({ children }) => (
     <DocsContent>{children}</DocsContent>
   </DocsWrapper>
 );
+
+DocsWrapper.displayName = 'docs-wrapper';
+DocsContent.displayName = 'docs-content';

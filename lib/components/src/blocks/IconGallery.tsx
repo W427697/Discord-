@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
+import { escapeHatch } from '../escapeHatch';
 import { ResetWrapper } from '../typography/DocumentFormatting';
 
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
@@ -61,7 +62,7 @@ export const IconItem: FunctionComponent<IconItemProps> = ({ name, children }) =
  */
 export const IconGallery: FunctionComponent = ({ children, ...props }) => (
   <ResetWrapper>
-    <List {...props} className="docblock-icongallery">
+    <List {...props} className={`${escapeHatch(IconGallery)} docblock-icongallery`}>
       {children}
     </List>
   </ResetWrapper>

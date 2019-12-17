@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
+import { escapeHatch } from '../../escapeHatch';
 import { PropRow, PropRowProps } from './PropRow';
 import { SectionRow, SectionRowProps } from './SectionRow';
 import { PropDef, PropType, PropDefaultValue, PropSummaryValue } from './PropDef';
@@ -128,6 +129,8 @@ export const Table = styled.table<{}>(({ theme }) => ({
   },
 }));
 
+Table.displayName = 'Table';
+
 export enum PropsTableError {
   NO_COMPONENT = 'No component found',
   PROPS_UNSUPPORTED = 'Props unsupported. See Props documentation for your framework.',
@@ -163,7 +166,7 @@ const PropsTableRow: FC<SectionRowProps | PropRowProps> = props => {
 const PropsTable: FC<PropsTableProps> = props => {
   const { error } = props as PropsTableErrorProps;
   if (error) {
-    return <EmptyBlock>{error}</EmptyBlock>;
+    return <EmptyBlock className={escapeHatch(EmptyBlock)}>{error}</EmptyBlock>;
   }
 
   let allRows: any[] = [];
@@ -190,19 +193,21 @@ const PropsTable: FC<PropsTableProps> = props => {
   }
 
   if (allRows.length === 0) {
-    return <EmptyBlock>No props found for this component</EmptyBlock>;
+    return (
+      <EmptyBlock className={escapeHatch(EmptyBlock)}>No props found for this component</EmptyBlock>
+    );
   }
   return (
     <ResetWrapper>
-      <Table className="docblock-propstable">
-        <thead className="docblock-propstable-head">
+      <Table className={escapeHatch(Table)}>
+        <thead>
           <tr>
             <th>Name</th>
             <th>Description</th>
             <th>Default</th>
           </tr>
         </thead>
-        <tbody className="docblock-propstable-body">
+        <tbody>
           {allRows.map(row => (
             <PropsTableRow key={row.key} {...row.value} />
           ))}

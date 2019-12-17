@@ -35,3 +35,6 @@ export { StorybookIcon } from './brand/StorybookIcon';
 
 // Doc blocks
 export * from './blocks';
+
+// Utils
+export * from './escapeHatch';

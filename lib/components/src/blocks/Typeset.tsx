@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 
+import { escapeHatch } from '../escapeHatch';
 import { withReset } from '../typography/shared';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 
@@ -52,7 +53,7 @@ export const Typeset: FunctionComponent<TypesetProps> = ({
   sampleText,
   ...props
 }) => (
-  <Wrapper {...props} className="docblock-typeset">
+  <Wrapper {...props} className={`${escapeHatch(Typeset)} docblock-typeset`}>
     {fontSizes.map(size => (
       <TypeSpecimen key={size}>
         <Label>{size}</Label>

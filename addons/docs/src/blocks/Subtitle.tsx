@@ -1,5 +1,5 @@
 import React, { useContext, FunctionComponent } from 'react';
-import { Subtitle as PureSubtitle } from '@storybook/components';
+import { Subtitle as PureSubtitle, escapeHatch } from '@storybook/components';
 import { DocsContext } from './DocsContext';
 import { StringSlot } from './shared';
 
@@ -15,5 +15,5 @@ export const Subtitle: FunctionComponent<SubtitleProps> = ({ slot, children }) =
   if (!text) {
     text = slot ? slot(context) : parameters && parameters.componentSubtitle;
   }
-  return text ? <PureSubtitle className="sbdocs-subtitle">{text}</PureSubtitle> : null;
+  return text ? <PureSubtitle className={escapeHatch(Subtitle)}>{text}</PureSubtitle> : null;
 };

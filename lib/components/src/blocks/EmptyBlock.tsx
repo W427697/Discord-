@@ -20,4 +20,6 @@ const Wrapper = styled.div<{}>(withReset, ({ theme }) => ({
       : transparentize(0.6, theme.color.defaultText),
 }));
 
-export const EmptyBlock = (props: any) => <Wrapper {...props} className="docblock-emptyblock" />;
+export const EmptyBlock: FunctionComponent<any> = ({ className, ...props }) => {
+  return <Wrapper {...props} className={`${className || ''} docblock-emptyblock`} />;
+};

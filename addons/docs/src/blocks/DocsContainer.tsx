@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { document, window } from 'global';
 import { MDXProvider } from '@mdx-js/react';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
-import { DocsWrapper, DocsContent } from '@storybook/components';
+import { DocsWrapper, DocsContent, escapeHatch } from '@storybook/components';
 import { components as htmlComponents } from '@storybook/components/html';
 import { DocsContextProps, DocsContext } from './DocsContext';
 import { anchorBlockIdFromId } from './Anchor';
@@ -60,8 +60,8 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, 
     <DocsContext.Provider value={context}>
       <ThemeProvider theme={theme}>
         <MDXProvider components={allComponents}>
-          <DocsWrapper className="sbdocs sbdocs-wrapper">
-            <DocsContent className="sbdocs sbdocs-content">{children}</DocsContent>
+          <DocsWrapper className={escapeHatch(DocsWrapper)}>
+            <DocsContent className={escapeHatch(DocsContent)}>{children}</DocsContent>
           </DocsWrapper>
         </MDXProvider>
       </ThemeProvider>
