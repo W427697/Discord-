@@ -1,9 +1,8 @@
-import { useAddonState } from '@storybook/api';
-import { formatter } from '@storybook/components/dist/syntaxhighlighter/formatter';
+import { useStoryState } from '@storybook/api';
 import { ADDON_NAME } from './constants';
 
 export const useEditor = () => {
-  const [addonState, setAddonState] = useAddonState(ADDON_NAME, {});
+  const [addonState, setAddonState] = useStoryState(ADDON_NAME, {});
 
   const setAddonStateFunc = (newSource: string, storyId: string) => {
     setAddonState({
