@@ -4,17 +4,9 @@ import React from 'react';
 import { useChannel, API, useCurrentStory } from '@storybook/api';
 import { STORY_CHANGED } from '@storybook/core-events';
 import { styled } from '@storybook/theming';
-import CodeEditor from 'react-simple-code-editor';
-// @ts-ignore
-import { highlight, languages } from 'prismjs/components/prism-core';
+import { SyntaxHighlighter } from '@storybook/components';
 import { SourceLoaderEvent, EVENT_NEW_SOURCE } from './constants';
 import { useEditor } from './useEditor';
-require('prismjs/components/prism-jsx');
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-markup';
-import 'prismjs/themes/prism.css';
-
 
 interface CodeLoc {
   col: number;
@@ -50,6 +42,23 @@ interface SourceLoaderInfo {
 
 const EditorWrapper = styled.div`
   padding: 10px;
+`;
+
+const CodeEditor = styled.textarea`
+  position: absolute;
+  margin: 0px;
+  border: 0;
+  padding: 0;
+  font-family: 'Operator Mono', 'Fira Code Retina', 'Fira Code', 'FiraCode-Retina', 'Andale Mono',
+    'Lucida Console', Consolas, Monaco, monospace;
+  line-height: 18px;
+  top: 10px;
+  left: 12px;
+  -webkit-text-fill-color: transparent;
+  z-index: 999;
+  background: transparent;
+  height: 97%;
+  width: 98%;
 `;
 
 const Editor = ({ api }: { api: API }) => {
@@ -121,11 +130,10 @@ const Editor = ({ api }: { api: API }) => {
 
   return code ? (
     <EditorWrapper>
-      <CodeEditor
-        value={code}
-        onValueChange={handleChangeTextArea}
-        highlight={editedCode => highlight(editedCode, languages.jsx)}
-      />
+      <CodeEditor onChange={evt => handleChangeTextArea(evt.target.value)}>{code}</CodeEditor>
+      <SyntaxHighlighter language="jsx" format={false}>
+        {code}
+      </SyntaxHighlighter>
     </EditorWrapper>
   ) : null;
 };

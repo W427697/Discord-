@@ -1,4 +1,5 @@
 import { useAddonState } from '@storybook/api';
+import { formatter } from '@storybook/components/dist/syntaxhighlighter/formatter';
 import { ADDON_NAME } from './constants';
 
 export const useEditor = () => {
@@ -7,7 +8,7 @@ export const useEditor = () => {
   const setAddonStateFunc = (newSource: string, storyId: string) => {
     setAddonState({
       ...addonState,
-      [storyId]: newSource,
+      [storyId]: newSource.trimLeft(),
     });
   };
 
