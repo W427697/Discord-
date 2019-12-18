@@ -6,6 +6,7 @@ import { PropSummaryValue } from './PropDef';
 import { WithTooltipPure } from '../../tooltip/WithTooltip';
 import { Icons } from '../../icon/icon';
 import { SyntaxHighlighter } from '../../syntaxhighlighter/syntaxhighlighter';
+import { docsEscapeHatch } from '../../docsEscapeHatch';
 import { codeCommon } from '../../typography/shared';
 
 interface PropValueProps {
@@ -97,7 +98,7 @@ const PropSummary: FC<PropSummaryProps> = ({ value }) => {
         </Detail>
       }
     >
-      <Expandable className="sbdocs-expandable">
+      <Expandable className={docsEscapeHatch(Expandable)}>
         <span>{summary}</span>
         <ArrowIcon icon={isOpen ? 'arrowup' : 'arrowdown'} />
       </Expandable>

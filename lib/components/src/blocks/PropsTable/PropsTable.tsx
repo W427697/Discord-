@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
-import { escapeHatch } from '../../escapeHatch';
+import { docsEscapeHatch } from '../../docsEscapeHatch';
 import { PropRow, PropRowProps } from './PropRow';
 import { SectionRow, SectionRowProps } from './SectionRow';
 import { PropDef, PropType, PropDefaultValue, PropSummaryValue } from './PropDef';
@@ -166,7 +166,7 @@ const PropsTableRow: FC<SectionRowProps | PropRowProps> = props => {
 const PropsTable: FC<PropsTableProps> = props => {
   const { error } = props as PropsTableErrorProps;
   if (error) {
-    return <EmptyBlock className={escapeHatch(EmptyBlock)}>{error}</EmptyBlock>;
+    return <EmptyBlock className={docsEscapeHatch(EmptyBlock)}>{error}</EmptyBlock>;
   }
 
   let allRows: any[] = [];
@@ -194,12 +194,14 @@ const PropsTable: FC<PropsTableProps> = props => {
 
   if (allRows.length === 0) {
     return (
-      <EmptyBlock className={escapeHatch(EmptyBlock)}>No props found for this component</EmptyBlock>
+      <EmptyBlock className={docsEscapeHatch(EmptyBlock)}>
+        No props found for this component
+      </EmptyBlock>
     );
   }
   return (
     <ResetWrapper>
-      <Table className={escapeHatch(Table)}>
+      <Table className={docsEscapeHatch(Table)}>
         <thead>
           <tr>
             <th>Name</th>

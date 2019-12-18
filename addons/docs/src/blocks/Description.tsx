@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext } from 'react';
 import {
   Description,
   DescriptionProps as PureDescriptionProps,
-  escapeHatch,
+  docsEscapeHatch,
 } from '@storybook/components';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { Component, CURRENT_SELECTION, DescriptionSlot } from './shared';
@@ -72,7 +72,9 @@ const DescriptionContainer: FunctionComponent<DescriptionProps> = props => {
   if (slot) {
     markdown = slot(markdown, context);
   }
-  return markdown ? <Description markdown={markdown} className={escapeHatch(Description)} /> : null;
+  return markdown ? (
+    <Description markdown={markdown} className={docsEscapeHatch(Description)} />
+  ) : null;
 };
 
 // since we are in the docs blocks, assume default description if for primary component story

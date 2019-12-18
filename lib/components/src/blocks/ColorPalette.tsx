@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 
-import { escapeHatch } from '../escapeHatch';
+import { docsEscapeHatch } from '../docsEscapeHatch';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 import { ResetWrapper } from '../typography/DocumentFormatting';
 
@@ -158,7 +158,7 @@ export const ColorItem: FunctionComponent<ColorProps> = ({ title, subtitle, colo
  */
 export const ColorPalette: FunctionComponent = ({ children, ...props }) => (
   <ResetWrapper>
-    <List {...props} className={`${escapeHatch(ColorPalette)} docblock-colorpalette`}>
+    <List {...props} className={docsEscapeHatch(ColorPalette, 'docblock-colorpalette')}>
       <ListHeading>
         <ListName>Name</ListName>
         <ListSwatches>Swatches</ListSwatches>

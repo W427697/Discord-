@@ -3,6 +3,7 @@ import Markdown from 'markdown-to-jsx';
 import { isNil } from 'lodash';
 import { transparentize } from 'polished';
 import { styled } from '@storybook/theming';
+import { docsEscapeHatch } from '../../docsEscapeHatch';
 import { PropDef } from './PropDef';
 import { PropJsDoc } from './PropJsDoc';
 import { PropValue } from './PropValue';
@@ -59,11 +60,11 @@ export const PropRow: FC<PropRowProps> = ({
 
   return (
     <tr>
-      <td>
+      <td className={docsEscapeHatch(PropRow)}>
         <Name>{name}</Name>
         {required ? <Required title="Required">*</Required> : null}
       </td>
-      <td>
+      <td className={docsEscapeHatch(PropRow)}>
         {hasDescription && (
           <Description>
             <Markdown>{description}</Markdown>
@@ -82,7 +83,7 @@ export const PropRow: FC<PropRowProps> = ({
           </Type>
         )}
       </td>
-      <td>
+      <td className={docsEscapeHatch(PropRow)}>
         <PropValue value={defaultValue} />
       </td>
     </tr>

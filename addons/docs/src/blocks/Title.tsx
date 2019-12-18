@@ -1,6 +1,6 @@
 import React, { useContext, FunctionComponent } from 'react';
 import { parseKind } from '@storybook/csf';
-import { Title as PureTitle, escapeHatch } from '@storybook/components';
+import { Title as PureTitle, docsEscapeHatch } from '@storybook/components';
 
 import { DocsContext } from './DocsContext';
 import { StringSlot } from './shared';
@@ -45,5 +45,5 @@ export const Title: FunctionComponent<TitleProps> = ({ slot, children }) => {
       text = defaultTitleSlot({ selectedKind, parameters });
     }
   }
-  return text ? <PureTitle className={escapeHatch(Title)}>{text}</PureTitle> : null;
+  return text ? <PureTitle className={docsEscapeHatch(Title)}>{text}</PureTitle> : null;
 };

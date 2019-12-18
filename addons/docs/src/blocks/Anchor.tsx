@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { escapeHatch } from '@storybook/components';
+import { docsEscapeHatch } from '@storybook/components';
 
 export const anchorBlockIdFromId = (storyId: string) => `anchor--${storyId}`;
 
@@ -8,7 +8,7 @@ export interface AnchorProps {
 }
 
 export const Anchor: FC<AnchorProps> = ({ storyId, children }) => (
-  <div id={anchorBlockIdFromId(storyId)} className={escapeHatch(Anchor)}>
+  <div id={anchorBlockIdFromId(storyId)} className={docsEscapeHatch(Anchor)}>
     {children}
   </div>
 );

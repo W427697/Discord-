@@ -2,6 +2,7 @@ import React, { Children, FunctionComponent, ReactElement, ReactNode, useState }
 import { styled } from '@storybook/theming';
 import { darken } from 'polished';
 import { logger } from '@storybook/client-logger';
+import { docsEscapeHatch } from '../docsEscapeHatch';
 
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 import { Source, SourceProps } from './Source';
@@ -150,7 +151,6 @@ const Preview: FunctionComponent<PreviewProps> = ({
   const [expanded, setExpanded] = useState(isExpanded);
   const { source, actionItem } = getSource(withSource, expanded, setExpanded);
   const [scale, setScale] = useState(1);
-  const previewClasses = className ? `${className} sbdocs sbdocs-preview` : 'sbdocs sbdocs-preview';
 
   if (withToolbar && Array.isArray(children)) {
     logger.warn('Cannot use toolbar with multiple preview children, disabling');
@@ -160,7 +160,7 @@ const Preview: FunctionComponent<PreviewProps> = ({
     <PreviewContainer
       {...{ withSource, withToolbar: showToolbar }}
       {...props}
-      className={previewClasses}
+      className={docsEscapeHatch(Preview, className)}
     >
       {showToolbar && (
         <PositionedToolbar

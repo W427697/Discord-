@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { styled, ThemeProvider, convert, themes } from '@storybook/theming';
-import { escapeHatch } from '../escapeHatch';
+import { docsEscapeHatch } from '../docsEscapeHatch';
 import { EmptyBlock } from './EmptyBlock';
 
 import { SyntaxHighlighter } from '../syntaxhighlighter/syntaxhighlighter';
@@ -57,7 +57,7 @@ const Source: FunctionComponent<SourceProps> = props => {
       copyable
       format={format}
       language={language}
-      className={`${escapeHatch(Source)} docblock-source`}
+      className={docsEscapeHatch(Source, 'docblock-source')}
       {...rest}
     >
       {code}
