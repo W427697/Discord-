@@ -401,3 +401,10 @@ export function useAddonState<S>(addonId: string, defaultState?: S) {
     },
   ] as [S, (newStateOrMerger: S | StateMerger<S>, options?: Options) => void];
 }
+
+export const useStoryState = (prefix = 'global') => {
+  const { id } = useCurrentStory();
+  const [state, setState] = useAddonState<number>(`${prefix}${id}`);
+
+  return [state, setState];
+};
