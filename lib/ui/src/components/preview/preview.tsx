@@ -1,5 +1,5 @@
 import window from 'global';
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, FunctionComponent } from 'react';
 import memoize from 'memoizerific';
 import copy from 'copy-to-clipboard';
 
@@ -10,6 +10,7 @@ import { Icons, IconButton, TabButton, TabBar, Separator } from '@storybook/comp
 
 import { Helmet } from 'react-helmet-async';
 
+import { API } from '@storybook/api';
 import { Toolbar } from './toolbar';
 
 import * as S from './components';
@@ -17,110 +18,7 @@ import * as S from './components';
 import { ZoomProvider, ZoomConsumer, Zoom } from './zoom';
 
 import { IFrame } from './iframe';
-
-type Noop = () => void;
-
-export type ViewMode = 'story' | 'info' | 'docs' | 'settings';
-
-type PreviewStory = {
-  id?: string;
-  source?: string;
-  knownAs?: string;
-};
-
-type PreviewElement = {
-  id: string;
-  type: types;
-  title: string;
-  route: ({ storyId: string }) => string;
-  match: ({ viewMode: ViewMode }) => boolean;
-  render: Noop;
-};
-
-interface PreviewPropsBase {
-  customCanvas?: (
-    viewMode: ViewMode,
-    currentUrl: string,
-    scale: number,
-    queryParams: Record<string, any>,
-    frames: Record<string, string>,
-    storyId: string
-  ) => any;
-  frames?: Record<string, string>;
-  queryParams: Record<string, any>;
-  storyId?: string;
-  viewMode?: ViewMode;
-}
-interface PreviewProps extends PreviewPropsBase {
-  description?: string;
-  api: {
-    on: Noop;
-    off: Noop;
-    emit: (eventType: string, { storyId: string, viewMode: ViewMode }) => void;
-    toggleFullScreen: Noop;
-  };
-  story?: PreviewStory;
-  path?: string;
-  location: Location;
-  getElements: (type: any) => PreviewElement[];
-  options: {
-    isFullscreen: boolean;
-    isToolshown: boolean;
-  };
-}
-interface Wrapper {
-  render: (child: {
-    index: number;
-    children: React.ReactNode;
-    storyId: string;
-    active: boolean;
-  }) => React.ReactNode;
-}
-interface ListItem {
-  id: string;
-  key: string | number;
-  render: () => React.ReactNode;
-}
-
-interface ActualPreviewProps extends PreviewPropsBase {
-  wrappers: Wrapper[];
-  active: boolean;
-  scale: number;
-  currentUrl: string;
-}
-
-interface ActualPreviewProps {
-  wrappers: Wrapper[];
-  viewMode: ViewMode;
-  storyId: string;
-  active: boolean;
-  scale: number;
-  queryParams: Record<string, any>;
-  customCanvas?: (
-    viewMode: ViewMode,
-    currentUrl: string,
-    scale: number,
-    queryParams: Record<string, any>,
-    frames: Record<string, string>,
-    storyId: string
-  ) => JSX.Element;
-  currentUrl: string;
-  frames: Record<string, string>;
-}
-
-interface StoryPanel {
-  storyId: string;
-  viewMode: ViewMode;
-  location: Location;
-  path: string;
-}
-
-interface Panel {
-  route: (storyPanel: StoryPanel) => void;
-  id: string;
-  title: string;
-  viewMode: ViewMode;
-}
+import { ViewMode, ActualPreviewProps, Wrapper, PreviewProps, Panel } from './preview-types';
 
 const DesktopOnly = styled.span({
   // Hides full screen icon at mobile breakpoint defined in app.js
@@ -160,7 +58,7 @@ const renderIframe = (
 
 const getElementList = memoize(10)((getFn, type, base) => base.concat(Object.values(getFn(type))));
 
-const ActualPreview = ({
+const ActualPreview: FunctionComponent<ActualPreviewProps> = ({
   wrappers,
   viewMode = 'story',
   storyId,
@@ -171,18 +69,11 @@ const ActualPreview = ({
   currentUrl,
   frames,
 }: ActualPreviewProps) => {
-  const data = [viewMode, currentUrl, scale, queryParams, frames, storyId] as [
-    ViewMode,
-    string,
-    number,
-    Record<string, any>,
-    Record<string, string>,
-    string
-  ];
-  const base = customCanvas ? customCanvas(...data) : renderIframe(...data);
+  const base = customCanvas
+    ? customCanvas(viewMode, currentUrl, scale, queryParams, frames, storyId)
+    : renderIframe(viewMode, currentUrl, scale, queryParams, frames, storyId);
   return wrappers.reduceRight(
-    (acc: any, wrapper: Wrapper, index: number) =>
-      wrapper.render({ index, children: acc, storyId, active }),
+    (acc, wrapper, index) => wrapper.render({ index, children: acc, storyId, active }),
     base
   );
 };
@@ -198,9 +89,9 @@ const IframeWrapper = styled.div(({ theme }) => ({
   background: theme.background.content,
 }));
 
-const defaultWrappers = [
+const defaultWrappers: Wrapper[] = [
   {
-    render: (p: { active: boolean; children: React.ReactNode }) => (
+    render: p => (
       <IframeWrapper id="storybook-preview-wrapper" hidden={!p.active}>
         {p.children}
       </IframeWrapper>
@@ -210,24 +101,26 @@ const defaultWrappers = [
 
 const getTools = memoize(10)(
   (
-    getElements,
-    queryParams,
-    panels,
-    api,
-    options,
-    storyId,
-    viewMode = 'story',
-    location,
-    path,
-    currentUrl
+    getElements: PreviewProps['getElements'],
+    queryParams: PreviewProps['queryParams'],
+    panels: Panel[],
+    api: API,
+
+    docsOnly: boolean,
+    options: PreviewProps['options'],
+    storyId: PreviewProps['storyId'],
+    viewMode: ViewMode,
+    location: Location,
+    path: string,
+    currentUrl: string
   ) => {
     const tools = getElementList(getElements, types.TOOL, [
-      panels.filter((p: Panel) => p.id !== 'canvas').length
+      panels.filter(p => p.id !== 'canvas').length
         ? {
             render: () => (
               <Fragment>
                 <TabBar key="tabs">
-                  {panels.map((t: Panel, index: any) => {
+                  {panels.map((t, index) => {
                     const to = t.route({ storyId, viewMode, path, location });
                     const isActive = path === to;
                     return (
@@ -243,17 +136,12 @@ const getTools = memoize(10)(
           }
         : null,
       {
-        match: (p: Panel) => p.viewMode === 'story',
+        match: p => p.viewMode === 'story',
         render: () => (
           <Fragment>
             <ZoomConsumer>
               {({ set, value }) => (
-                <Zoom
-                  key="zoom"
-                  current={value}
-                  set={(v: number) => set(value * v)}
-                  reset={() => set(1)}
-                />
+                <Zoom key="zoom" current={value} set={v => set(value * v)} reset={() => set(1)} />
               )}
             </ZoomConsumer>
             <Separator />
@@ -264,12 +152,12 @@ const getTools = memoize(10)(
 
     const extraTools = getElementList(getElements, types.TOOLEXTRA, [
       {
-        match: (p: { viewMode: ViewMode }) => p.viewMode === 'story',
+        match: p => p.viewMode === 'story',
         render: () => (
           <DesktopOnly>
             <IconButton
               key="full"
-              onClick={api.toggleFullscreen}
+              onClick={() => api.toggleFullscreen()}
               title={options.isFullscreen ? 'Exit full screen' : 'Go full screen'}
             >
               <Icons icon={options.isFullscreen ? 'close' : 'expand'} />
@@ -278,7 +166,7 @@ const getTools = memoize(10)(
         ),
       },
       {
-        match: (p: { viewMode: ViewMode }) => p.viewMode === 'story',
+        match: p => p.viewMode === 'story',
         render: () => (
           <IconButton
             key="opener"
@@ -292,7 +180,7 @@ const getTools = memoize(10)(
         ),
       },
       {
-        match: (p: { viewMode: ViewMode }) => p.viewMode === 'story',
+        match: p => p.viewMode === 'story',
         render: () => (
           <IconButton
             key="copy"
@@ -311,12 +199,19 @@ const getTools = memoize(10)(
       },
     ]);
 
-    const filter = (item: { match: (storyPanel: StoryPanel) => void }) =>
-      item && (!item.match || item.match({ storyId, viewMode, location, path }));
+    const filter = item =>
+      item &&
+      (!item.match ||
+        item.match({
+          storyId,
+          viewMode: docsOnly && viewMode === 'story' ? 'docs' : viewMode,
+          location,
+          path,
+        }));
 
     const displayItems = list =>
       list.reduce(
-        (acc: React.ReactNode, item: ListItem, index: number) =>
+        (acc, item, index) =>
           item ? (
             <Fragment key={item.id || item.key || `f-${index}`}>
               {acc}
@@ -335,41 +230,49 @@ const getTools = memoize(10)(
   }
 );
 
-const getUrl = (story: PreviewStory) => (story && story.source) || `iframe.html`;
+const getUrl = story => {
+  return (story && story.source) || `iframe.html`;
+};
 
-const getDocumentTitle = (description: string): string => {
+const getDocumentTitle = description => {
   return description ? `${description} ⋅ Storybook` : 'Storybook';
 };
 
-class Preview extends Component<PreviewProps, {}> {
-  shouldComponentUpdate({ storyId, viewMode, options, queryParams, story = {} }: PreviewProps) {
+class Preview extends Component<PreviewProps> {
+  shouldComponentUpdate({
+    storyId,
+    viewMode,
+    options,
+    docsOnly,
+    queryParams,
+    story,
+  }: PreviewProps) {
     const { props } = this;
     const newUrl = getUrl(story);
-    const oldUrl = props.story && getUrl(props.story);
+    const oldUrl = getUrl(props.story);
 
     return (
       options.isFullscreen !== props.options.isFullscreen ||
       options.isToolshown !== props.options.isToolshown ||
       viewMode !== props.viewMode ||
       storyId !== props.storyId ||
+      docsOnly !== props.docsOnly ||
       queryParams !== props.queryParams ||
       newUrl !== oldUrl
     );
   }
 
-  componentDidUpdate(prevProps: PreviewProps) {
-    const { api, storyId, viewMode, story }: PreviewProps = this.props;
+  componentDidUpdate(prevProps) {
+    const { api, storyId, viewMode, story } = this.props;
 
     const { viewMode: prevViewMode } = prevProps;
 
     if (
-      (story && story.id !== (prevProps.story ? prevProps.story.id : prevProps.storyId)) ||
-      (viewMode && viewMode !== prevViewMode)
+      story &&
+      (story.id !== (prevProps.story ? prevProps.story.id : prevProps.storyId) ||
+        (viewMode && viewMode !== prevViewMode))
     ) {
-      api.emit(SET_CURRENT_STORY, {
-        storyId: (story && story.knownAs) || (story && story.id) || storyId,
-        viewMode,
-      });
+      api.emit(SET_CURRENT_STORY, { storyId: story.knownAs || story.id || storyId, viewMode });
     }
   }
 
@@ -378,37 +281,40 @@ class Preview extends Component<PreviewProps, {}> {
       path,
       location,
       viewMode = 'story',
-      storyId = '',
+      storyId,
       queryParams,
       getElements,
       api,
+
+      docsOnly = false,
       customCanvas,
       options,
       description,
       frames = {},
       story,
-    }: PreviewProps = this.props;
-    const currentUrl = story && getUrl(story);
+    } = this.props;
+    const currentUrl = getUrl(story);
     const toolbarHeight = options.isToolshown ? 40 : 0;
     const wrappers = getElementList(getElements, types.PREVIEW, defaultWrappers);
     const panels = getElementList(getElements, types.TAB, [
       {
-        route: (p: { storyId: string }) => `/story/${p.storyId}`,
-        match: (p: { viewMode: ViewMode }) => p.viewMode && p.viewMode.match(/^(story|docs)$/),
-        render: (p: { viewMode: ViewMode; active: boolean }) => (
+        route: p => `/story/${p.storyId}`,
+        match: p => p.viewMode && p.viewMode.match(/^(story|docs)$/),
+        render: p => (
           <ZoomConsumer>
             {({ value }) => {
               const props = {
                 viewMode,
                 active: p.active,
                 wrappers,
+                story,
                 storyId,
                 queryParams,
                 scale: value,
                 customCanvas,
               };
 
-              return <ActualPreview {...props} frames={frames} currentUrl={currentUrl || ''} />;
+              return <ActualPreview {...props} frames={frames} currentUrl={currentUrl} />;
             }}
           </ZoomConsumer>
         ),
@@ -416,12 +322,12 @@ class Preview extends Component<PreviewProps, {}> {
         id: 'canvas',
       },
     ]);
-
     const { left, right } = getTools(
       getElements,
       queryParams,
       panels,
       api,
+      docsOnly,
       options,
       storyId,
       viewMode,
@@ -435,7 +341,7 @@ class Preview extends Component<PreviewProps, {}> {
         <Fragment>
           {viewMode === 'story' && (
             <Helmet key="description">
-              <title>{getDocumentTitle(description || '')}</title>
+              <title>{getDocumentTitle(description)}</title>
             </Helmet>
           )}
           <Toolbar key="toolbar" shown={options.isToolshown} border>
