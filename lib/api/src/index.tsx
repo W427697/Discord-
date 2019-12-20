@@ -205,13 +205,15 @@ class ManagerProvider extends Component<Props, State> {
 
             const mapped = mapper ? mapper({ id, url: u }, v) : v;
 
-            // eslint-disable-next-line no-param-reassign
-            data.stories[`${id}_${mapped.id}`] = {
-              ...mapped,
-              id: `${id}_${mapped.id}`,
-              knownAs: k,
-              source: u,
-            };
+            if (mapped) {
+              // eslint-disable-next-line no-param-reassign
+              data.stories[`${id}_${mapped.id}`] = {
+                ...mapped,
+                id: `${id}_${mapped.id}`,
+                knownAs: k,
+                source: u,
+              };
+            }
           });
         }
       } else {
