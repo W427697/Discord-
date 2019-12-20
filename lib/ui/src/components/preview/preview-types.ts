@@ -44,7 +44,7 @@ export interface PreviewProps extends PreviewPropsBase {
   story?: PreviewStory;
   path: string;
   location: Location;
-  getElements: (type: any) => PreviewElement[];
+  getElements: API['getElements'];
   options: {
     isFullscreen: boolean;
     isToolshown: boolean;

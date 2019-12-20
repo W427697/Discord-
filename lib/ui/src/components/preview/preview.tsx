@@ -293,6 +293,7 @@ class Preview extends Component<PreviewProps> {
       frames = {},
       story,
     } = this.props;
+
     const currentUrl = getUrl(story);
     const toolbarHeight = options.isToolshown ? 40 : 0;
     const wrappers = getElementList(getElements, types.PREVIEW, defaultWrappers);

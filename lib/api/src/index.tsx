@@ -22,6 +22,7 @@ import initStories, {
   SubState as StoriesSubState,
   SubAPI as StoriesAPI,
   StoriesRaw,
+  Story,
 } from './modules/stories';
 import initLayout, { SubState as LayoutSubState, SubAPI as LayoutAPI } from './modules/layout';
 import initShortcuts, {
@@ -100,6 +101,12 @@ type StatePartial = Partial<State>;
 
 export type Props = Children & RouterData & ProviderData & DocsModeData;
 
+interface InceptionRef {
+  id: string;
+  url: string;
+}
+type Mapper = (ref: InceptionRef, story: Story) => Story;
+
 class ManagerProvider extends Component<Props, State> {
   api: API;
 
@@ -174,8 +181,12 @@ class ManagerProvider extends Component<Props, State> {
     });
 
     api.on(SET_STORIES, function handleSetStories(data: { stories: StoriesRaw }) {
+      const defaultMapper: Mapper = (b: InceptionRef, a: Story): Story => {
+        return { ...a, kind: `${b.id}/${a.kind.replace('|', '/')}` };
+      };
+
       const { source } = this;
-      const { refs, mapper } = provider.getConfig();
+      const { refs, mapper = defaultMapper } = provider.getConfig();
 
       const { origin, pathname } = location;
 
