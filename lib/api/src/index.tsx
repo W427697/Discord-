@@ -41,7 +41,8 @@ import initVersions, {
   SubAPI as VersionsAPI,
 } from './modules/versions';
 
-export { Options as StoreOptions, Listener as ChannelListener };
+export type ChannelListener = Listener;
+export type StoreOptions = Options;
 
 const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
 
