@@ -1,11 +1,16 @@
 const withTests = {
-  presets: [
-    [
-      '@babel/preset-env',
-      { shippedProposals: true, useBuiltIns: 'usage', corejs: '3', targets: { node: 'current' } },
-    ],
-  ],
   plugins: [
+    [
+      '@babel/plugin-transform-runtime',
+      {
+        absoluteRuntime: false,
+        corejs: false,
+        helpers: true,
+        regenerator: true,
+        useESModules: false,
+      },
+    ],
+
     'babel-plugin-require-context-hook',
     'babel-plugin-dynamic-import-node',
     '@babel/plugin-transform-runtime',
@@ -17,13 +22,19 @@ module.exports = {
     './lib/codemod/src/transforms/__testfixtures__',
     './lib/postinstall/src/__testfixtures__',
   ],
-  presets: [
-    ['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage', corejs: '3' }],
-    '@babel/preset-typescript',
-    '@babel/preset-react',
-    '@babel/preset-flow',
-  ],
+  presets: ['@babel/preset-typescript', '@babel/preset-react', '@babel/preset-flow'],
   plugins: [
+    [
+      '@babel/plugin-transform-runtime',
+      {
+        absoluteRuntime: false,
+        corejs: false,
+        helpers: true,
+        regenerator: true,
+        useESModules: false,
+      },
+    ],
+
     [
       '@babel/plugin-proposal-decorators',
       {
@@ -50,17 +61,11 @@ module.exports = {
     },
     {
       test: './examples/rax-kitchen-sink',
-      presets: [
-        ['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage', corejs: '3' }],
-        ['babel-preset-rax', { development: process.env.BABEL_ENV === 'development' }],
-      ],
+      presets: [['babel-preset-rax', { development: process.env.BABEL_ENV === 'development' }]],
     },
     {
       test: './lib',
-      presets: [
-        ['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage', corejs: '3' }],
-        '@babel/preset-react',
-      ],
+      presets: ['@babel/preset-react'],
       plugins: [
         ['@babel/plugin-proposal-object-rest-spread', { loose: true, useBuiltIns: true }],
         '@babel/plugin-proposal-export-default-from',
@@ -88,20 +93,18 @@ module.exports = {
         '**/src/server/**',
         '**/src/bin/**',
       ],
-      presets: [
+      plugins: [
         [
-          '@babel/preset-env',
+          '@babel/plugin-transform-runtime',
           {
-            shippedProposals: true,
-            useBuiltIns: 'usage',
-            targets: {
-              node: '8.11',
-            },
-            corejs: '3',
+            absoluteRuntime: false,
+            corejs: false,
+            helpers: true,
+            regenerator: true,
+            useESModules: false,
           },
         ],
-      ],
-      plugins: [
+
         'emotion',
         'babel-plugin-macros',
         ['@babel/plugin-proposal-class-properties', { loose: true }],

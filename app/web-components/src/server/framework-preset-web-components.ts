@@ -22,19 +22,21 @@ export function webpack(config: Configuration) {
             loader: 'babel-loader',
             options: {
               plugins: [
+                [
+                  '@babel/plugin-transform-runtime',
+                  {
+                    absoluteRuntime: false,
+                    corejs: false,
+                    helpers: true,
+                    regenerator: true,
+                    useESModules: false,
+                  },
+                ],
+
                 '@babel/plugin-syntax-dynamic-import',
                 '@babel/plugin-syntax-import-meta',
                 // webpack does not support import.meta.url yet, so we rewrite them in babel
                 ['bundled-import-meta', { importStyle: 'baseURI' }],
-              ],
-              presets: [
-                [
-                  '@babel/preset-env',
-                  {
-                    useBuiltIns: 'entry',
-                    corejs: 3,
-                  },
-                ],
               ],
               babelrc: false,
             },

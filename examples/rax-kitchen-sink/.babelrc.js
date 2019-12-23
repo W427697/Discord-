@@ -1,6 +1,15 @@
 module.exports = {
-  presets: [
-    ['@babel/preset-env', { shippedProposals: true, useBuiltIns: 'usage', corejs: '3' }],
-    ['babel-preset-rax', { development: process.env.BABEL_ENV === 'development' }],
+  presets: [['babel-preset-rax', { development: process.env.BABEL_ENV === 'development' }]],
+  plugins: [
+    [
+      '@babel/plugin-transform-runtime',
+      {
+        absoluteRuntime: false,
+        corejs: false,
+        helpers: true,
+        regenerator: true,
+        useESModules: false,
+      },
+    ],
   ],
 };

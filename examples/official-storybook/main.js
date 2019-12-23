@@ -36,10 +36,6 @@ module.exports = {
               options: {
                 cacheDirectory: `.cache/storybook`,
                 presets: [
-                  [
-                    '@babel/preset-env',
-                    { shippedProposals: true, useBuiltIns: 'usage', corejs: 3 },
-                  ],
                   '@babel/preset-typescript',
                   configType === 'PRODUCTION' && [
                     'babel-preset-minify',
