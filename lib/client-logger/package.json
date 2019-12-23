@@ -26,9 +26,6 @@
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
-  "dependencies": {
-    "core-js": "^3.0.1"
-  },
   "publishConfig": {
     "access": "public"
   },

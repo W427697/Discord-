@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 
-require('../dist/server/build');
+require('esm')(module, { cache: true })('../dist/server/build');
