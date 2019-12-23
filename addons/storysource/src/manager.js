@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 
 import StoryPanel from './StoryPanel';
 import { ADDON_ID, PANEL_ID } from '.';

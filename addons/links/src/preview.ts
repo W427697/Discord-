@@ -5,7 +5,7 @@ import {
   __STORYBOOK_CLIENT_API__ as clientApi,
 } from 'global';
 import qs from 'qs';
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import { STORY_CHANGED, SELECT_STORY } from '@storybook/core-events';
 import { toId } from '@storybook/csf';
 import { logger } from '@storybook/client-logger';

@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment, import/no-extraneous-dependencies */
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import Events from '@storybook/core-events';
+import { SELECT_STORY } from '@storybook/core-events';
 import { AddonStore } from '@storybook/addons';
 import { API } from '@storybook/api';
 import { StoryStore } from '@storybook/client-api';
@@ -55,11 +55,11 @@ interface BackgroundPanelState {
 
 export default class BackgroundPanel extends Component<BackgroundPanelProps, BackgroundPanelState> {
   componentDidMount() {
-    this.props.channel.on(Events.SELECT_STORY, this.onStorySelected);
+    this.props.channel.on(SELECT_STORY, this.onStorySelected);
   }
 
   componentWillUnmount() {
-    this.props.channel.removeListener(Events.SELECT_STORY, this.onStorySelected);
+    this.props.channel.removeListener(SELECT_STORY, this.onStorySelected);
   }
 
   setBackgroundFromSwatch = (background: string) => {

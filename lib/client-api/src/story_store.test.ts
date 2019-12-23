@@ -1,7 +1,7 @@
 import createChannel from '@storybook/channel-postmessage';
 import { toId } from '@storybook/csf';
-import addons from '@storybook/addons';
-import Events from '@storybook/core-events';
+import { addons } from '@storybook/addons';
+import { STORY_RENDER } from '@storybook/core-events';
 
 import StoryStore from './story_store';
 import { defaultDecorateStory } from './client_api';
@@ -187,11 +187,11 @@ describe('preview.story_store', () => {
     it('is syncronously emits STORY_RENDER if the channel is defined', async () => {
       const onChannelRender = jest.fn();
       const testChannel = createChannel({ page: 'preview' });
-      testChannel.on(Events.STORY_RENDER, onChannelRender);
+      testChannel.on(STORY_RENDER, onChannelRender);
 
       const onStoreRender = jest.fn();
       const store = new StoryStore({ channel: testChannel });
-      store.on(Events.STORY_RENDER, onStoreRender);
+      store.on(STORY_RENDER, onStoreRender);
 
       store.setSelection({ storyId: 'storyId', viewMode: 'viewMode' }, undefined);
       expect(onChannelRender).toHaveBeenCalled();
@@ -206,11 +206,11 @@ describe('preview.story_store', () => {
     it('is asychronously emits STORY_RENDER if the channel is not yet defined', async () => {
       const onChannelRender = jest.fn();
       const testChannel = createChannel({ page: 'preview' });
-      testChannel.on(Events.STORY_RENDER, onChannelRender);
+      testChannel.on(STORY_RENDER, onChannelRender);
 
       const onStoreRender = jest.fn();
       const store = new StoryStore({ channel: undefined });
-      store.on(Events.STORY_RENDER, onStoreRender);
+      store.on(STORY_RENDER, onStoreRender);
 
       store.setSelection({ storyId: 'storyId', viewMode: 'viewMode' }, undefined);
       expect(onChannelRender).not.toHaveBeenCalled();

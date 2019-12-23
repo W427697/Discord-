@@ -6,7 +6,7 @@ import dedent from 'ts-dedent';
 import stable from 'stable';
 
 import { Channel } from '@storybook/channels';
-import Events from '@storybook/core-events';
+import { STORY_RENDER, SET_STORIES } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { Comparator, Parameters, StoryFn } from '@storybook/addons';
 import {
@@ -156,17 +156,17 @@ export default class StoryStore extends EventEmitter {
     // we'll try again later.
     let isStarted = false;
     if (this._channel) {
-      this._channel.emit(Events.STORY_RENDER);
+      this._channel.emit(STORY_RENDER);
       isStarted = true;
     }
 
     setTimeout(() => {
       if (this._channel && !isStarted) {
-        this._channel.emit(Events.STORY_RENDER);
+        this._channel.emit(STORY_RENDER);
       }
 
       // should be deprecated in future.
-      this.emit(Events.STORY_RENDER);
+      this.emit(STORY_RENDER);
     }, 1);
   }
 
@@ -260,7 +260,7 @@ export default class StoryStore extends EventEmitter {
       const stories = this.extract({ includeDocsOnly: true });
 
       // send to the parent frame.
-      this._channel.emit(Events.SET_STORIES, { stories });
+      this._channel.emit(SET_STORIES, { stories });
     }
   }, 0);
 

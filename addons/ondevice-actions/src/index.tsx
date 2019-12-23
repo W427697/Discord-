@@ -1,5 +1,5 @@
 import * as React from 'react';
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import { ADDON_ID, PANEL_ID, PARAM_KEY } from '@storybook/addon-actions';
 import ActionLogger from './containers/ActionLogger';
 

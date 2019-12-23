@@ -1,4 +1,4 @@
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import { window } from 'global';
 import { parse } from 'qs';
 import { getContextNodes, getPropsMap, getRendererFrom, singleton } from './libs';

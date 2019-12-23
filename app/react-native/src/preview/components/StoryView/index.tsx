@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import styled from '@emotion/native';
-import addons from '@storybook/addons';
-import Events from '@storybook/core-events';
+import { addons } from '@storybook/addons';
+import { STORY_RENDER, STORY_RENDERED, FORCE_RE_RENDER } from '@storybook/core-events';
 
 interface Props {
   stories: any;
@@ -21,8 +21,8 @@ const HelpContainer = styled.View`
 export default class StoryView extends Component<Props> {
   componentDidMount() {
     const channel = addons.getChannel();
-    channel.on(Events.STORY_RENDER, this.forceReRender);
-    channel.on(Events.FORCE_RE_RENDER, this.forceReRender);
+    channel.on(STORY_RENDER, this.forceReRender);
+    channel.on(FORCE_RE_RENDER, this.forceReRender);
   }
 
   componentDidUpdate() {
@@ -31,14 +31,14 @@ export default class StoryView extends Component<Props> {
     const { storyId } = stories.getSelection();
 
     if (storyId) {
-      channel.emit(Events.STORY_RENDERED, { storyId });
+      channel.emit(STORY_RENDERED, { storyId });
     }
   }
 
   componentWillUnmount() {
     const channel = addons.getChannel();
-    channel.removeListener(Events.STORY_RENDER, this.forceReRender);
-    channel.removeListener(Events.FORCE_RE_RENDER, this.forceReRender);
+    channel.removeListener(STORY_RENDER, this.forceReRender);
+    channel.removeListener(FORCE_RE_RENDER, this.forceReRender);
   }
 
   forceReRender = () => {

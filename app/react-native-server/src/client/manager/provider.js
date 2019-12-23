@@ -2,8 +2,8 @@ import React from 'react';
 import { Consumer } from '@storybook/api';
 import { Provider } from '@storybook/ui';
 import createChannel from '@storybook/channel-websocket';
-import addons from '@storybook/addons';
-import Events from '@storybook/core-events';
+import { addons } from '@storybook/addons';
+import { CHANNEL_CREATED, SET_CURRENT_STORY, GET_STORIES } from '@storybook/core-events';
 import uuid from 'uuid';
 import PreviewHelp from './components/PreviewHelp';
 
@@ -30,7 +30,7 @@ export default class ReactProvider extends Provider {
     const channel = this.channel || createChannel({ url });
 
     addons.setChannel(channel);
-    channel.emit(Events.CHANNEL_CREATED, {
+    channel.emit(CHANNEL_CREATED, {
       host,
       pairedId: this.pairedId,
       port,
@@ -55,7 +55,7 @@ export default class ReactProvider extends Provider {
       <Consumer filter={mapper} pure>
         {({ storiesHash, storyId, api, viewMode }) => {
           if (storiesHash[storyId]) {
-            api.emit(Events.SET_CURRENT_STORY, { storyId });
+            api.emit(SET_CURRENT_STORY, { storyId });
           }
           return viewMode === 'story' ? <PreviewHelp /> : null;
         }}
@@ -65,6 +65,6 @@ export default class ReactProvider extends Provider {
 
   handleAPI(api) {
     addons.loadAddons(api);
-    api.emit(Events.GET_STORIES);
+    api.emit(GET_STORIES);
   }
 }

@@ -1,8 +1,8 @@
 import React, { Component, FunctionComponent } from 'react';
 import { SafeAreaView } from 'react-native';
 import styled from '@emotion/native';
-import Events from '@storybook/core-events';
-import addons from '@storybook/addons';
+import { SELECT_STORY, STORY_ADDED, SET_CURRENT_STORY } from '@storybook/core-events';
+import { addons } from '@storybook/addons';
 import { Header, Name } from '../Shared/text';
 
 const SearchBar = styled.TextInput(
@@ -88,15 +88,15 @@ export default class StoryListView extends Component<Props, State> {
 
   componentDidMount() {
     const channel = addons.getChannel();
-    channel.on(Events.STORY_ADDED, this.handleStoryAdded);
-    channel.on(Events.SELECT_STORY, this.forceReRender);
+    channel.on(STORY_ADDED, this.handleStoryAdded);
+    channel.on(SELECT_STORY, this.forceReRender);
     this.handleStoryAdded();
   }
 
   componentWillUnmount() {
     const channel = addons.getChannel();
-    channel.removeListener(Events.STORY_ADDED, this.handleStoryAdded);
-    channel.removeListener(Events.SELECT_STORY, this.forceReRender);
+    channel.removeListener(STORY_ADDED, this.handleStoryAdded);
+    channel.removeListener(SELECT_STORY, this.forceReRender);
   }
 
   forceReRender = () => {
@@ -154,7 +154,7 @@ export default class StoryListView extends Component<Props, State> {
 
   changeStory(storyId: string) {
     const channel = addons.getChannel();
-    channel.emit(Events.SET_CURRENT_STORY, { storyId });
+    channel.emit(SET_CURRENT_STORY, { storyId });
   }
 
   render() {

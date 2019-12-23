@@ -2,9 +2,16 @@
 import React, { PureComponent } from 'react';
 import { ThemeProvider } from 'emotion-theming';
 
-import addons from '@storybook/addons';
-import Events from '@storybook/core-events';
-import Channel from '@storybook/channels';
+import { addons } from '@storybook/addons';
+import {
+  CHANNEL_CREATED,
+  GET_STORIES,
+  SET_CURRENT_STORY,
+  SET_STORIES,
+  STORIES_CONFIGURED,
+  SELECT_STORY,
+} from '@storybook/core-events';
+import { Channel } from '@storybook/channels';
 import createChannel from '@storybook/channel-websocket';
 import { StoryStore, ClientApi } from '@storybook/client-api';
 import OnDeviceUI from './components/OnDeviceUI';
@@ -124,11 +131,11 @@ More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#react
       addons.setChannel(channel);
       this._stories.setChannel(channel);
 
-      channel.emit(Events.CHANNEL_CREATED);
+      channel.emit(CHANNEL_CREATED);
     }
 
-    channel.on(Events.GET_STORIES, () => this._sendSetStories());
-    channel.on(Events.SET_CURRENT_STORY, d => this._selectStoryEvent(d));
+    channel.on(GET_STORIES, () => this._sendSetStories());
+    channel.on(SET_CURRENT_STORY, d => this._selectStoryEvent(d));
 
     this._sendSetStories();
 
@@ -169,8 +176,8 @@ More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#react
   _sendSetStories() {
     const channel = addons.getChannel();
     const stories = this._stories.extract();
-    channel.emit(Events.SET_STORIES, { stories });
-    channel.emit(Events.STORIES_CONFIGURED);
+    channel.emit(SET_STORIES, { stories });
+    channel.emit(STORIES_CONFIGURED);
   }
 
   _setInitialStory = async (initialSelection: any, shouldPersistSelection = true) => {
@@ -232,7 +239,7 @@ More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#react
     const channel = addons.getChannel();
 
     this._stories.setSelection({ storyId: story.id, viewMode: 'story' }, null);
-    channel.emit(Events.SELECT_STORY, story);
+    channel.emit(SELECT_STORY, story);
   }
 
   _checkStory(storyId: string) {

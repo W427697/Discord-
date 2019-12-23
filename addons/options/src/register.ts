@@ -1,4 +1,4 @@
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import deprecate from 'util-deprecate';
 import EVENTS, { ADDON_ID } from './constants';
 

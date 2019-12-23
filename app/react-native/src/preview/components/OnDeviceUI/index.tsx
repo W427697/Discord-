@@ -10,8 +10,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import styled from '@emotion/native';
-import addons from '@storybook/addons';
-import Channel from '@storybook/channels';
+import { addons } from '@storybook/addons';
+import { Channel } from '@storybook/channels';
 import StoryListView from '../StoryListView';
 import StoryView from '../StoryView';
 import Addons from './addons';

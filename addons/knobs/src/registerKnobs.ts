@@ -1,4 +1,4 @@
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import { useEffect } from '@storybook/client-api';
 import { STORY_CHANGED, FORCE_RE_RENDER } from '@storybook/core-events';
 import debounce from 'lodash/debounce';

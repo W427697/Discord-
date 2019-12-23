@@ -1,4 +1,4 @@
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import { EVENT_ID } from './events';
 
 const getLocation = (context, locationsMap) => locationsMap[context.id];
