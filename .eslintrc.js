@@ -1,11 +1,37 @@
 module.exports = {
   root: true,
   extends: ['@storybook/eslint-config-storybook'],
+  plugins: ['import'],
+  settings: {
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+        directory: [
+          './tsconfig.json',
+          './addons/*/tsconfig.json',
+          './app/*/tsconfig.json',
+          './lib/*/tsconfig.json',
+          './dev-kits/*/tsconfig.json',
+          './examples/*/tsconfig.json',
+        ],
+      },
+    },
+  },
   rules: {
     'import/extensions': [
       'error',
       'never',
-      { ignorePackages: true, md: 'always', svg: 'always', json: 'always', tag: 'always' },
+      {
+        md: 'always',
+        css: 'always',
+        svg: 'always',
+        tag: 'always',
+        js: 'never',
+        jsx: 'never',
+        json: 'always',
+        ts: 'never',
+        tsx: 'never',
+      },
     ],
     'import/no-unresolved': ['error', { ignore: ['@storybook'] }],
     'react/state-in-constructor': 'off',

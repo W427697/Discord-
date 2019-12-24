@@ -1,4 +1,4 @@
-import { Configuration } from 'webpack'; // eslint-disable-line
+import { Configuration } from 'webpack';
 
 export function webpack(config: Configuration) {
   return {

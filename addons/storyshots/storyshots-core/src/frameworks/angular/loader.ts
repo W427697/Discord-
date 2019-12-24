@@ -1,5 +1,5 @@
-import 'core-js';
-import 'core-js/es/reflect';
+// import 'core-js';
+// import 'core-js/es/reflect';
 import hasDependency from '../hasDependency';
 import configure from '../configure';
 import { Loader } from '../Loader';

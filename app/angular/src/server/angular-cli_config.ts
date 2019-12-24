@@ -102,7 +102,7 @@ export function getAngularCliWebpackConfigOptions(dirToSearch: Path) {
       optimization: {},
       ...projectOptions,
       assets: normalizedAssets,
-      budgets
+      budgets,
     },
   };
 }

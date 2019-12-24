@@ -1,0 +1,37 @@
+{
+  "name": "@storybook/types",
+  "version": "5.3.0-rc.1",
+  "description": "Core Storybook API & Context",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/api",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git"
+  },
+  "license": "MIT",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/lodash": "^4.14.149",
+    "@types/semver": "^6.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "6ad2664adf18b50ea3ce015cbae2ff3e9a60cc4a"
+}
