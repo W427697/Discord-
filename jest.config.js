@@ -8,19 +8,6 @@ module.exports = {
     '\\.(css|scss|stylesheet)$': '<rootDir>/__mocks__/styleMock.js',
     '\\.(md)$': '<rootDir>/__mocks__/htmlMock.js',
 
-    // core-js v2 to v3 mapping
-    'core-js/modules/es6.(.*)': 'core-js/modules/es.$1',
-    'core-js/modules/es7.(.*)': 'core-js/modules/esnext.$1',
-    'core-js/library/fn/(.*)': `core-js/features/$1`,
-    'core-js/es5/(.*)': `core-js/es/$1`,
-    'core-js/es6/(.*)': `core-js/es/$1`,
-    'core-js/es7/reflect': `core-js/proposals/reflect-metadata`,
-    'core-js/es7/(.*)': `core-js/proposals/$1`,
-    'core-js/object$/': `core-js/es/object`,
-    'core-js/object/(.*)': `core-js/es/object/$1`,
-    'babel-runtime/core-js/(.*)': `core-js/es/$1`,
-    // 'babel-runtime/core-js/object/assign'
-    'core-js/library/fn/object/assign': 'core-js/es/object/assign',
     'react-syntax-highlighter/dist/esm/(.*)': 'react-syntax-highlighter/dist/cjs/$1',
   },
   projects: [
@@ -42,10 +29,12 @@ module.exports = {
     '<rootDir>/examples/official-storybook',
   ],
   transform: {
-    '^.+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',
-    '^.+\\.[jt]sx?$': '<rootDir>/scripts/babel-jest.js',
-    '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
+    '(?!node_modules).+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',
+    '(?!node_modules).+\\.[jt]sx?$': '<rootDir>/scripts/babel-jest.js',
+    '(?!node_modules).+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
+    'node_modules/@storybook.+js$': '@swissquote/crafty-preset-jest/src/esm-transformer',
   },
+  transformIgnorePatterns: [],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
     '/node_modules/',

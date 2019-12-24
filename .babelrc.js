@@ -12,8 +12,8 @@ const withTests = {
     ],
 
     'babel-plugin-require-context-hook',
-    'babel-plugin-dynamic-import-node',
-    '@babel/plugin-transform-runtime',
+    '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-transform-modules-commonjs',
   ],
 };
 
@@ -31,7 +31,7 @@ module.exports = {
         corejs: false,
         helpers: true,
         regenerator: true,
-        useESModules: false,
+        useESModules: true,
       },
     ],
 
@@ -46,7 +46,7 @@ module.exports = {
     '@babel/plugin-syntax-dynamic-import',
     ['@babel/plugin-proposal-object-rest-spread', { loose: true, useBuiltIns: true }],
     'babel-plugin-macros',
-    ['emotion', { sourceMap: true, autoLabel: true }],
+    ['emotion', { sourceMap: false, autoLabel: true }],
   ],
   env: {
     test: withTests,
@@ -72,7 +72,7 @@ module.exports = {
         '@babel/plugin-syntax-dynamic-import',
         ['@babel/plugin-proposal-class-properties', { loose: true }],
         'babel-plugin-macros',
-        ['emotion', { sourceMap: true, autoLabel: true }],
+        ['emotion', { sourceMap: false, autoLabel: true }],
         '@babel/plugin-transform-react-constant-elements',
         'babel-plugin-add-react-displayname',
       ],
@@ -83,7 +83,7 @@ module.exports = {
     {
       test: './app/react-native',
       presets: ['module:metro-react-native-babel-preset'],
-      plugins: ['babel-plugin-macros', ['emotion', { sourceMap: true, autoLabel: true }]],
+      plugins: ['babel-plugin-macros', ['emotion', { sourceMap: false, autoLabel: true }]],
     },
     {
       test: [
@@ -101,7 +101,7 @@ module.exports = {
             corejs: false,
             helpers: true,
             regenerator: true,
-            useESModules: false,
+            useESModules: true,
           },
         ],
 
