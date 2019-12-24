@@ -1,4 +1,4 @@
-import addons, { mockChannel } from '@storybook/addons';
+import { addons, mockChannel } from '@storybook/addons';
 
 import { moduleMetadata } from './decorators';
 import { addDecorator, storiesOf, clearDecorators, getStorybook } from '..';

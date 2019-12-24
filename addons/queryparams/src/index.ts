@@ -1,14 +1,14 @@
 import { document, history } from 'global';
 import qs from 'qs';
 
-import { makeDecorator, StoryContext, StoryGetter } from '@storybook/addons';
+import { makeDecorator } from '@storybook/addons';
 
 import { PARAM_KEY } from './constants';
 
 export const withQuery = makeDecorator({
   name: 'withQuery',
   parameterName: PARAM_KEY,
-  wrapper: (getStory: StoryGetter, context: StoryContext, { parameters }) => {
+  wrapper: (getStory, context, { parameters }) => {
     const { location } = document;
     const currentQuery = qs.parse(location.search, { ignoreQueryPrefix: true });
     const additionalQuery =

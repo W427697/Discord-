@@ -1,4 +1,4 @@
-import { makeDecorator, StoryContext, StoryGetter } from '@storybook/addons';
+import { makeDecorator } from '@storybook/addons';
 import deprecate from 'util-deprecate';
 
 // This decorator is kept purely so we produce a decorator that is compatible with both
@@ -7,7 +7,7 @@ export const withBackgrounds = deprecate(
   makeDecorator({
     name: 'withBackgrounds',
     parameterName: 'backgrounds',
-    wrapper: (getStory: StoryGetter, context: StoryContext) => {
+    wrapper: (getStory, context) => {
       return getStory(context);
     },
   }),

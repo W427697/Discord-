@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import addons, { makeDecorator } from '@storybook/addons';
+import { addons, makeDecorator } from '@storybook/addons';
 
 import Events from './constants';
 import Container from './container';

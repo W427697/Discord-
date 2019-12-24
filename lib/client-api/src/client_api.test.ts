@@ -1,5 +1,5 @@
 import { logger } from '@storybook/client-logger';
-import addons, { mockChannel } from '@storybook/addons';
+import { addons, mockChannel } from '@storybook/addons';
 import ClientApi from './client_api';
 import ConfigApi from './config_api';
 import StoryStore from './story_store';

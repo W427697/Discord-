@@ -3,7 +3,7 @@ import axe, { AxeResults, ElementContext, RunOptions, Spec } from 'axe-core';
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 
-import addons, { makeDecorator } from '@storybook/addons';
+import { addons, makeDecorator } from '@storybook/addons';
 import { EVENTS, PARAM_KEY } from './constants';
 
 let progress = Promise.resolve();

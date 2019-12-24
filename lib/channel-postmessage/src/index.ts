@@ -1,5 +1,5 @@
 import { window, document } from 'global';
-import Channel, { ChannelEvent, ChannelHandler } from '@storybook/channels';
+import { Channel, ChannelEvent, ChannelHandler } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
 
 import { isJSON, parse, stringify } from 'telejson';

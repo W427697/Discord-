@@ -15,6 +15,7 @@ const defaultDecorateStory = (getStory: StoryGetter, decorators: DecoratorFn[]) 
 jest.mock('util-deprecate', () => jest.fn(fn => jest.fn((...a) => fn(...a))));
 
 const baseContext = {
+  id: '',
   name: '',
   kind: '',
   parameters: {},
@@ -27,7 +28,7 @@ describe('makeDecorator', () => {
     const story = jest.fn();
     const decoratedStory = defaultDecorateStory(story, [decorator]);
 
-    const context = { kind: '', name: '', parameters: { test: 'test-val' } };
+    const context = { id: '', kind: '', name: '', parameters: { test: 'test-val' } };
     decoratedStory(context);
 
     expect(wrapper).toHaveBeenCalledWith(expect.any(Function), context, { parameters: 'test-val' });
