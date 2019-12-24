@@ -31,7 +31,7 @@ module.exports = {
         corejs: false,
         helpers: true,
         regenerator: true,
-        useESModules: true,
+        useESModules: false,
       },
     ],
 
@@ -101,7 +101,7 @@ module.exports = {
             corejs: false,
             helpers: true,
             regenerator: true,
-            useESModules: true,
+            useESModules: false,
           },
         ],
 

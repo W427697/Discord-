@@ -7,7 +7,14 @@ module.exports = {
       '<rootDir>/__mocks__/fileMock.js',
     '\\.(css|scss|stylesheet)$': '<rootDir>/__mocks__/styleMock.js',
     '\\.(md)$': '<rootDir>/__mocks__/htmlMock.js',
-
+    '@storybook/addon-storyshots-puppeteer/(.*)': '<rootDir>/addons/storyshots/storyshots-core/$1',
+    '@storybook/addon-storyshots/(.*)': '<rootDir>/addons/storyshots/storyshots-puppeteer/$1',
+    '@storybook/(addons|api|channel-postmessage|channel-websocket|channels|cli|cli-sb|sli-storybook|client-api|client-logger|codemod|components|core|core-events|node-logger|postinstall|router|source-loader|theming|ui)(.*)':
+      '<rootDir>/lib/$1$2',
+    '@storybook/(angular|ember|html|marko|mitril|polymer|preact|rax|react|react-native|react-native-server|riot|svelte|vue|web-components)(.*)':
+      '<rootDir>/app/$1$2',
+    '@storybook/addons-(a11y|actions|backgrounds|centered|contexts|cssresources|design-assets|docs|essentials|events|google-analytics|graphql|info|jest|knobs|links|notes|)(.*)':
+      '<rootDir>/addons/$1$2',
     'react-syntax-highlighter/dist/esm/(.*)': 'react-syntax-highlighter/dist/cjs/$1',
   },
   projects: [
@@ -29,12 +36,10 @@ module.exports = {
     '<rootDir>/examples/official-storybook',
   ],
   transform: {
-    '(?!node_modules).+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',
-    '(?!node_modules).+\\.[jt]sx?$': '<rootDir>/scripts/babel-jest.js',
-    '(?!node_modules).+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
-    'node_modules/@storybook.+js$': '@swissquote/crafty-preset-jest/src/esm-transformer',
+    '^.+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',
+    '^.+\\.[jt]sx?$': '<rootDir>/scripts/babel-jest.js',
+    '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
-  transformIgnorePatterns: [],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
     '/node_modules/',
