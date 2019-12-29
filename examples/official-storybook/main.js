@@ -5,7 +5,7 @@ module.exports = {
     './stories/**/*.stories.(js|tsx|mdx)',
   ],
   addons: [
-    '@storybook/addon-docs/preset',
+    '@storybook/addon-docs',
     '@storybook/addon-storysource/register',
     '@storybook/addon-design-assets/register',
     '@storybook/addon-actions/register',
