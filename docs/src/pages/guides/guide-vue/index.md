@@ -43,7 +43,7 @@ Then add the following NPM script to your `package.json` in order to start the s
 {
   "scripts": {
     "storybook": "start-storybook"
-  }
+    }
 }
 ```
 
