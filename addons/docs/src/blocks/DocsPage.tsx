@@ -21,6 +21,6 @@ export const DocsPage: FunctionComponent<DocsPageProps> = ({
     <Description slot={descriptionSlot} />
     <Primary slot={primarySlot} />
     <Props slot={propsSlot} />
-    <Stories slot={storiesSlot} />
+    {storiesSlot && <Stories slot={storiesSlot} />}
   </>
 );
