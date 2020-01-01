@@ -10,7 +10,8 @@ import html from 'react-syntax-highlighter/dist/esm/languages/prism/markup';
 import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
 import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
 
-import { PrismLight as ReactSyntaxHighlighter } from 'react-syntax-highlighter';
+// cannot use package import: https://github.com/conorhastings/react-syntax-highlighter/issues/228
+import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-light';
 
 import { ActionBar } from '../ActionBar/ActionBar';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
