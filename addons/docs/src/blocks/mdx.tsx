@@ -99,7 +99,6 @@ export const AnchorMdx: FC<AnchorMdxProps> = props => {
     if (storyPath.length === 2) {
       const { storyStore, channel } = useContext(DocsContext);
       const [kind, ...storyIdParts] = storyPath[1].split('/');
-      console.log(kind, storyIdParts);
       const storyId = (storyIdParts && storyIdParts.length ? storyIdParts.join('/') : kind).split(
         '#'
       )[0];
