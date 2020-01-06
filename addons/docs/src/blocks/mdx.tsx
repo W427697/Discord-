@@ -1,5 +1,6 @@
-import React, { FC, SyntheticEvent } from 'react';
+import React, { FC, SyntheticEvent, useContext } from 'react';
 import { Source } from '@storybook/components';
+import { SELECT_STORY } from '@storybook/core-events';
 import { Code, components } from '@storybook/components/html';
 import { document, window } from 'global';
 import { isNil } from 'lodash';
@@ -92,6 +93,30 @@ export const AnchorMdx: FC<AnchorMdxProps> = props => {
     // Enable scrolling for in-page anchors.
     if (href.startsWith('#')) {
       return <AnchorInPage hash={href}>{children}</AnchorInPage>;
+    }
+    // allow href="?path=/" and href="/?path=/"
+    const storyPath = href.split('?path=/');
+    if (storyPath.length === 2) {
+      const { storyStore, channel } = useContext(DocsContext);
+      const [kind, ...storyIdParts] = storyPath[1].split('/');
+      console.log(kind, storyIdParts);
+      const storyId = (storyIdParts && storyIdParts.length ? storyIdParts.join('/') : kind).split(
+        '#'
+      )[0];
+      const story = storyStore.fromId(storyId);
+      if (story) {
+        return (
+          <A
+            onClick={(event: SyntheticEvent) => {
+              event.preventDefault();
+              channel.emit(SELECT_STORY, story);
+            }}
+            {...props}
+          >
+            {children}
+          </A>
+        );
+      }
     }
 
     // Links to other pages of SB should use the base URL of the top level iframe instead of the base URL of the preview iframe.
