@@ -402,9 +402,17 @@ export function useAddonState<S>(addonId: string, defaultState?: S) {
   ] as [S, (newStateOrMerger: S | StateMerger<S>, options?: Options) => void];
 }
 
-export function useStoryState<S>(prefix = 'global', defaultState: S) {
-  const { id } = useCurrentStory();
-  const [state, setState] = useAddonState<S>(`${prefix}${id}`, defaultState);
+type useStoryStateType<S> = [S, (a: S) => void];
 
-  return [state, setState] as [S, (newState: S) => void];
-};
+export function useStoryState<S>(prefix = 'global', defaultState: S): useStoryStateType<S> {
+  const story = useCurrentStory();
+  let storyId = '';
+
+  React.useEffect(() => {
+    if (story) {
+      storyId = story.id;
+    }
+  }, [story]);
+
+  return useAddonState<S>(`${prefix}${storyId}`, defaultState);
+}

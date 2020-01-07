@@ -1,7 +1,6 @@
 /* eslint-disable consistent-return */
 import React from 'react';
-// @ts-ignore
-import { useChannel, API, useCurrentStory } from '@storybook/api';
+import { useChannel, API } from '@storybook/api';
 import { STORY_CHANGED } from '@storybook/core-events';
 import { styled } from '@storybook/theming';
 import { SyntaxHighlighter } from '@storybook/components';
@@ -63,8 +62,6 @@ const CodeEditor = styled.textarea`
 
 const Editor = ({ api }: { api: API }) => {
   const emit = useChannel({});
-  const story = useCurrentStory();
-  const storyId = story && story.id ? story.id : '';
   const [initialCode, setInitialCode] = useEditor();
   const [metaData, setMetadata] = React.useState<SourceLoaderInfo | null>(null);
 
@@ -73,7 +70,7 @@ const Editor = ({ api }: { api: API }) => {
   const loadStoryCode = (sourceLoader: SourceLoaderInfo) => {
     const sourceCode = sourceLoader.edition.source;
     setMetadata(sourceLoader);
-    if (previousSource === sourceCode || initialCode[storyId]) {
+    if (previousSource === sourceCode || initialCode) {
       return null;
     }
     previousSource = sourceCode;
@@ -89,7 +86,7 @@ const Editor = ({ api }: { api: API }) => {
         })
         .join('\n')
         .replace('export', '');
-      setInitialCode(sourceNormalized, storyId);
+      setInitialCode(sourceNormalized);
     }
   };
 
@@ -108,7 +105,7 @@ const Editor = ({ api }: { api: API }) => {
           })
           .join('\n')
           .replace('export', '');
-        setInitialCode(sourceNormalized, storyId);
+        setInitialCode(sourceNormalized);
       } else if (nextStorySavedCode) {
         emit(EVENT_NEW_SOURCE, nextStorySavedCode);
       }
@@ -116,21 +113,19 @@ const Editor = ({ api }: { api: API }) => {
   });
 
   React.useEffect(() => {
-    if (story && storyId) {
-      api.on(SourceLoaderEvent, loadStoryCode);
-    }
-  }, [story]);
+    api.on(SourceLoaderEvent, loadStoryCode);
+  }, []);
 
   function handleChangeTextArea(code: string) {
-    setInitialCode(code, storyId);
+    setInitialCode(code);
     emit(EVENT_NEW_SOURCE, code);
   }
 
-  const code = story && storyId ? initialCode[storyId] : '';
+  const code = initialCode;
 
   return code ? (
     <EditorWrapper>
-      <CodeEditor onChange={evt => handleChangeTextArea(evt.target.value)}>{code}</CodeEditor>
+      <CodeEditor onChange={evt => handleChangeTextArea(evt.target.value)} value={code} />
       <SyntaxHighlighter language="jsx" format={false}>
         {code}
       </SyntaxHighlighter>
