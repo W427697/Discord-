@@ -1,6 +1,6 @@
 import { queryFromLocation } from '@storybook/router';
 import { toId } from '@storybook/csf';
-
+import { navigate as navigateRouter, NavigateOptions } from '@reach/router';
 import { Module } from '../index';
 import { PanelPositions } from './layout';
 
@@ -92,6 +92,7 @@ export interface QueryParams {
 }
 
 export interface SubAPI {
+  navigateUrl: (url: string, options: NavigateOptions<{}>) => void;
   getQueryParam: (key: string) => string | undefined;
   getUrlState: () => {
     queryParams: QueryParams;
@@ -138,6 +139,9 @@ export default function({ store, navigate, state, provider, ...rest }: Module) {
           }, queryParams),
         },
       });
+    },
+    navigateUrl(url: string, options: NavigateOptions<{}>) {
+      navigateRouter(url, options);
     },
   };
 

@@ -1,5 +1,6 @@
-import React, { FC, SyntheticEvent } from 'react';
+import React, { FC, SyntheticEvent, useContext } from 'react';
 import { Source } from '@storybook/components';
+import { NAVIGATE_URL } from '@storybook/core-events';
 import { Code, components } from '@storybook/components/html';
 import { document, window } from 'global';
 import { isNil } from 'lodash';
@@ -98,9 +99,17 @@ export const AnchorMdx: FC<AnchorMdxProps> = props => {
     if (target !== '_blank') {
       const parentUrl = new URL(window.parent.location.href);
       const newHref = `${parentUrl.origin}${href}`;
-
+      const { channel } = useContext(DocsContext);
       return (
-        <A href={newHref} target={target} {...rest}>
+        <A
+          href={newHref}
+          onClick={(event: SyntheticEvent) => {
+            event.preventDefault();
+            channel.emit(NAVIGATE_URL, href);
+          }}
+          target={target}
+          {...rest}
+        >
           {children}
         </A>
       );

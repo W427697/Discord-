@@ -1,9 +1,11 @@
 import { Context, createContext } from 'react';
+import { Channel } from '@storybook/channels';
 
 export interface DocsContextProps {
   id?: string;
   selectedKind?: string;
   selectedStory?: string;
+  channel?: Channel;
 
   /**
    * mdxStoryNameToKey is an MDX-compiler-generated mapping of an MDX story's
