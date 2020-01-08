@@ -2,6 +2,7 @@
 
 - [Migration](#migration)
   - [From version 5.2.x to 5.3.x](#from-version-52x-to-53x)
+    - [To main.js configuration](#to-mainjs-configuration)
     - [Create React App preset](#create-react-app-preset)
     - [Description doc block](#description-doc-block)
     - [React Native Async Storage](#react-native-async-storage)
@@ -75,6 +76,81 @@
     - [Deprecated embedded addons](#deprecated-embedded-addons)
 
 ## From version 5.2.x to 5.3.x
+
+### To main.js configuration
+
+In storybook 5.3 3 new files for configuration were introduced, that replaced some previous files.
+
+These files are now soft-deprecated, (_they still work, but over time we will promote users to migrate_):
+
+- `presets.js` has been renamed to `main.js`. `main.js` is the main point of configuration for storybook.
+- `config.js` has been renamed to `preview.js`. `preview.js` configures the "preview" iframe that renders your components.
+- `addons.js` has been renamed to `manager.js`. `manager.js` configures Storybook's "manager" UI that wraps the preview, and also configures addons panel.
+
+#### Using main.js
+
+`main.js` is now the main point of configuration for Storybook. This is what a basic `main.js` looks like:
+
+```js
+module.exports = {
+  stories: ['../**/*.stories.js'],
+  addons: ['@storybook/addon-knobs'],
+};
+```
+
+You remove all "register" import from `addons.js` and place them inside the array. You can also safely remove the `/register` suffix from these entries, for a cleaner, more readable configuration. If this means `addons.js` is now empty for you, it's safe to remove.
+
+Next you remove the code that imports/requires all your stories from `config.js`, and change it to a glob-pattern and place that glob in the `stories` array. If this means `config.js` is empty, it's safe to remove.
+
+If you had a `presets.js` file before you can add the array of presets to the main.js file and remove `presets.js` like so:
+
+```js
+module.exports = {
+  stories: ['../**/*.stories.js'],
+  addons: [
+    '@storybook/preset-create-react-app'
+    {
+      name: '@storybook/addon-docs',
+      options: { configureJSX: true }
+    }
+  ],
+};
+```
+
+By default, adding a package to the `addons` array will first try to load its `preset` entry, then its `register` entry, and finally, it will just assume the package itself is a preset.
+
+If you want to load a specific package entry, for example you want to use `@storybook/addon-docs/register`, you can also include that in the addons array and Storybook will do the right thing.
+
+#### Using preview.js
+
+If after migrating the imports/requires of your stories to `main.js` you're left with some code in `config.js` it's likely the usage of `addParameters` & `addDecorator`.
+
+This is fine, rename `config.js` to `preview.js`.
+
+This file can also be used to inject global stylesheets, fonts etc, into the preview bundle.
+
+#### Using manager.js
+
+If you are setting storybook options in `config.js`, especially `theme`, you should migrate it to `manager.js`:
+
+```js
+import { addons } from '@storybook/addons';
+import { create } from '@storybook/theming/create';
+
+const theme = create({
+  base: 'light',
+  brandTitle: 'My custom title',
+});
+
+addons.setConfig({
+  showRoots: true,
+  panelPosition: 'bottom',
+  theme,
+});
+```
+
+This makes storybook load and use the theme in the manager directly.
+This allows for richer theming in the future, and has a much better performance!
 
 ### Create React App preset
 
@@ -187,7 +263,7 @@ For example, here's how to sort by story ID using `storySort`:
 addParameters({
   options: {
     storySort: (a, b) =>
-      a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, { numeric: true }),
+      a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
   },
 });
 ```
