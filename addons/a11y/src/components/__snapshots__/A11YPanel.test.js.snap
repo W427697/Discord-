@@ -950,7 +950,7 @@ exports[`A11YPanel should render report 1`] = `
           horizontal={true}
           vertical={true}
         >
-          <SimpleBar
+          <l
             className="emotion-0"
             scrollableNodeProps={
               Object {
@@ -1088,7 +1088,7 @@ exports[`A11YPanel should render report 1`] = `
                 />
               </div>
             </div>
-          </SimpleBar>
+          </l>
         </Component>
       </Styled(Component)>
     </ScrollArea>
