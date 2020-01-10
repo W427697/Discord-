@@ -2,6 +2,8 @@ import * as React from 'react';
 // @ts-ignore
 import { transform } from '@babel/standalone';
 import { useChannel, useState, useParameter } from '@storybook/addons';
+// @ts-ignore;
+import { useStoryId } from '@storybook/client-api';
 import { scopeEval } from './scopeEval';
 import { LiveEditConfiguration } from './types';
 import { EVENT_NEW_SOURCE } from './constants';
@@ -18,6 +20,10 @@ export function withEditor(storyFn: any) {
       setState(s);
     },
   });
+
+  const storyId = useStoryId();
+
+  console.log({ storyId });
 
   if (state) {
     try {

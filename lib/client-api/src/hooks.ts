@@ -1,4 +1,4 @@
-import { ADDON_STATE_CHANGED, ADDON_STATE_SET } from '@storybook/core-events';
+import { ADDON_STATE_CHANGED, ADDON_STATE_SET, STORY_CHANGED } from '@storybook/core-events';
 
 import {
   addons,
@@ -63,4 +63,22 @@ export function useAddonState<S>(addonId: string, defaultState?: S): [S, (s: S) 
       emit(`${ADDON_STATE_CHANGED}-client-${addonId}`, s);
     },
   ];
+}
+
+export function useStoryId(): string {
+  const channel = addons.getChannel();
+  // useChannel({
+  //   [STORY_CHANGED]: nextStory => {
+
+  //   },
+  // });
+
+  const [lastValue] = channel.last(STORY_CHANGED) || [];
+
+  console.log({
+    addons,
+    channel,
+  });
+
+  return lastValue;
 }

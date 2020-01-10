@@ -1,7 +1,7 @@
 function webpack(webpackConfig = {}, options = {}) {
-	// @ts-ignore
-	const { module = {} } = webpackConfig;
-	// @ts-ignore
+  // @ts-ignore
+  const { module = {} } = webpackConfig;
+  // @ts-ignore
   const { loaderOptions, rule = {} } = options;
 
   return {

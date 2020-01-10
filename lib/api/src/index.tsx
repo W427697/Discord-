@@ -333,9 +333,9 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S) {
   return orDefault<S>(result, defaultValue);
 }
 
-export function useCurrentStory() {
-  const api = useStorybookApi();
-  return api.getCurrentStoryData();
+export function useCurrentStoryId() {
+  const { storyId } = useStorybookState();
+  return storyId;
 }
 
 type StateMerger<S> = (input: S) => S;
@@ -402,17 +402,16 @@ export function useAddonState<S>(addonId: string, defaultState?: S) {
   ] as [S, (newStateOrMerger: S | StateMerger<S>, options?: Options) => void];
 }
 
-type useStoryStateType<S> = [S, (a: S) => void];
+export function useStoryState<S>(prefix = 'global', defaultState: S) {
+  const story = useCurrentStoryId();
+  const storyId = story;
 
-export function useStoryState<S>(prefix = 'global', defaultState: S): useStoryStateType<S> {
-  const story = useCurrentStory();
-  let storyId = '';
-
-  React.useEffect(() => {
-    if (story) {
-      storyId = story.id;
-    }
-  }, [story]);
+  // React.useEffect(() => {
+  //   if (story !== '*') {
+  //     storyId = story;
+  //   }
+  //   console.log('blah dentro do useEffect');
+  // }, [story]);
 
   return useAddonState<S>(`${prefix}${storyId}`, defaultState);
 }

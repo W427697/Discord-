@@ -1,11 +1,10 @@
-/* eslint-disable consistent-return */
 import React from 'react';
-import { useChannel, API } from '@storybook/api';
-import { STORY_CHANGED } from '@storybook/core-events';
+// @ts-ignore
+import { useChannel, API, useStoryState } from '@storybook/api';
+// import { STORY_CHANGED } from '@storybook/core-events';
 import { styled } from '@storybook/theming';
 import { SyntaxHighlighter } from '@storybook/components';
-import { SourceLoaderEvent, EVENT_NEW_SOURCE } from './constants';
-import { useEditor } from './useEditor';
+import { SourceLoaderEvent, EVENT_NEW_SOURCE, ADDON_NAME } from './constants';
 
 interface CodeLoc {
   col: number;
@@ -62,15 +61,15 @@ const CodeEditor = styled.textarea`
 
 const Editor = ({ api }: { api: API }) => {
   const emit = useChannel({});
-  const [initialCode, setInitialCode] = useEditor();
+  const [currentCode, setCurrentCode] = useStoryState(ADDON_NAME, '');
   const [metaData, setMetadata] = React.useState<SourceLoaderInfo | null>(null);
 
   let previousSource = '';
 
+  // eslint-disable-next-line
   const loadStoryCode = (sourceLoader: SourceLoaderInfo) => {
     const sourceCode = sourceLoader.edition.source;
-    setMetadata(sourceLoader);
-    if (previousSource === sourceCode || initialCode) {
+    if (previousSource === sourceCode) {
       return null;
     }
     previousSource = sourceCode;
@@ -86,48 +85,23 @@ const Editor = ({ api }: { api: API }) => {
         })
         .join('\n')
         .replace('export', '');
-      setInitialCode(sourceNormalized);
+      setCurrentCode(sourceNormalized);
     }
   };
 
   useChannel({
-    [STORY_CHANGED]: nextStory => {
-      const nextStorySavedCode = initialCode[nextStory];
-      if (metaData && !nextStorySavedCode) {
-        const sourceLoaded = metaData.edition.source;
-        const sourceNormalized = sourceLoaded
-          .split('\n')
-          .filter((_: any, idx: number) => {
-            return (
-              idx >= metaData.location.locationsMap[nextStory].startLoc.line - 1 &&
-              idx < metaData.location.locationsMap[nextStory].endLoc.line
-            );
-          })
-          .join('\n')
-          .replace('export', '');
-        setInitialCode(sourceNormalized);
-      } else if (nextStorySavedCode) {
-        emit(EVENT_NEW_SOURCE, nextStorySavedCode);
-      }
-    },
+    [SourceLoaderEvent]: loadStoryCode,
   });
 
-  React.useEffect(() => {
-    api.on(SourceLoaderEvent, loadStoryCode);
-  }, []);
-
-  function handleChangeTextArea(code: string) {
-    setInitialCode(code);
-    emit(EVENT_NEW_SOURCE, code);
+  function handleChangeTextArea(evt: any) {
+    setCurrentCode(evt.target.value);
   }
 
-  const code = initialCode;
-
-  return code ? (
+  return currentCode ? (
     <EditorWrapper>
-      <CodeEditor onChange={evt => handleChangeTextArea(evt.target.value)} value={code} />
+      <CodeEditor onChange={handleChangeTextArea} value={currentCode} />
       <SyntaxHighlighter language="jsx" format={false}>
-        {code}
+        {currentCode}
       </SyntaxHighlighter>
     </EditorWrapper>
   ) : null;
