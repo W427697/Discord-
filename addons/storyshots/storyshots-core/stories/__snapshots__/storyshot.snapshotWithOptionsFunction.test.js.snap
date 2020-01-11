@@ -45,7 +45,7 @@ exports[`Storyshots Another Button with text 1`] = `
 </button>
 `;
 
-exports[`Storyshots Async With Timeout 1`] = `
+exports[`Storyshots Async with 5ms timeout simulating async operation 1`] = `
 <h1>
   
 </h1>
