@@ -17,7 +17,7 @@ The default export defines metadata about your component, including the `compone
 import MyComponent from './MyComponent';
 
 export default {
-  title: 'Path|To/MyComponent',
+  title: 'Path/To/MyComponent',
   component: MyComponent,
   decorators: [ ... ],
   parameters: { ... }
@@ -70,7 +70,11 @@ Simple.story = {
 
 Storybook handles named exports and `story.name` slightly differently. When should you use one vs. the other?
 
-In general, you should use named exports. Storybook passes them through a `storyNameFromExport` function ([#7901](https://github.com/storybookjs/storybook/pull/7901)), which is implemented with `lodash.startCase`:
+The named export is always used to determine the story ID / URL.
+
+If you specify `story.name`, it will be used as the story display name in the UI.
+
+If you don't specify `story.name`, the named export will be used to generate the display name. Storybook passes the named export through a `storyNameFromExport` function ([#7901](https://github.com/storybookjs/storybook/pull/7901)), which is implemented with `lodash.startCase`:
 
 ```js
 it('should format CSF exports with sensible defaults', () => {
@@ -97,7 +101,7 @@ You should use the `story.name` option in the following cases:
 
 ## Non-story exports
 
-In some cases, you may want to export a mixture of story and non-stories. For example., it can be useful to export data that's used in your stories.
+In some cases, you may want to export a mixture of story and non-stories. For example, it can be useful to export data that's used in your stories.
 
 To make this possible, you can use optional `includeStories` and `excludeStories` configuration fields in the default export, which can be set to either an array of strings, or a regular expression.
 

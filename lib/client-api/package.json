@@ -1,6 +1,6 @@
 {
   "name": "@storybook/client-api",
-  "version": "5.2.8",
+  "version": "5.3.0-rc.13",
   "description": "Storybook Client API",
   "keywords": [
     "storybook"
@@ -27,13 +27,12 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "5.2.8",
-    "@storybook/channel-postmessage": "5.2.8",
-    "@storybook/channels": "5.2.8",
-    "@storybook/client-logger": "5.2.8",
-    "@storybook/core-events": "5.2.8",
-    "@storybook/router": "5.2.8",
-    "common-tags": "^1.8.0",
+    "@storybook/addons": "5.3.0-rc.13",
+    "@storybook/channel-postmessage": "5.3.0-rc.13",
+    "@storybook/channels": "5.3.0-rc.13",
+    "@storybook/client-logger": "5.3.0-rc.13",
+    "@storybook/core-events": "5.3.0-rc.13",
+    "@storybook/csf": "0.0.1",
     "core-js": "^3.0.1",
     "eventemitter3": "^4.0.0",
     "global": "^4.3.2",
@@ -42,9 +41,11 @@
     "memoizerific": "^1.11.3",
     "qs": "^6.6.0",
     "stable": "^0.1.8",
+    "ts-dedent": "^1.1.0",
     "util-deprecate": "^1.0.2"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "4b9d901add9452525135caae98ae5f78dd8da9ff"
 }

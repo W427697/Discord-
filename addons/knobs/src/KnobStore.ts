@@ -40,11 +40,10 @@ export default class KnobStore {
   }
 
   update(key: string, options: Partial<KnobStoreKnob>) {
-    const updatedKnob = {
+    this.store[key] = {
       ...this.store[key],
       ...options,
-    };
-    this.store[key] = updatedKnob as KnobStoreKnob;
+    } as KnobStoreKnob;
   }
 
   get(key: string) {

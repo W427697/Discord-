@@ -18,7 +18,7 @@ const stylesheetBase = {
   button: {
     base: {
       fontFamily: 'sans-serif',
-      fontSize: '12px',
+      fontSize: 12,
       display: 'block',
       position: 'fixed',
       border: 'none',
@@ -167,7 +167,7 @@ class Story extends Component {
       ...stylesheet.button.topRight,
     };
 
-    const infoStyle = Object.assign({}, stylesheet.info);
+    const infoStyle = { ...stylesheet.info };
     if (!open) {
       infoStyle.display = 'none';
     }

@@ -38,7 +38,7 @@ export { Options as StoreOptions, Listener as ChannelListener };
 
 const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
 
-const { STORY_CHANGED, SET_STORIES, SELECT_STORY } = Events;
+const { STORY_CHANGED, SET_STORIES, SELECT_STORY, NAVIGATE_URL } = Events;
 
 export type Module = StoreData &
   RouterData &
@@ -101,11 +101,11 @@ type StatePartial = Partial<State>;
 export type Props = Children & RouterData & ProviderData & DocsModeData;
 
 class ManagerProvider extends Component<Props, State> {
-  static displayName = 'Manager';
-
   api: API;
 
   modules: any[];
+
+  static displayName = 'Manager';
 
   constructor(props: Props) {
     super(props);
@@ -186,6 +186,9 @@ class ManagerProvider extends Component<Props, State> {
         api.selectStory(kind, story, rest);
       }
     );
+    api.on(NAVIGATE_URL, (url: string, options: { [k: string]: any }) => {
+      api.navigateUrl(url, options);
+    });
 
     this.state = state;
     this.api = api;
@@ -253,11 +256,11 @@ interface SubState {
 }
 
 class ManagerConsumer extends Component<ConsumerProps<SubState, Combo>> {
-  dataMemory?: (combo: Combo) => SubState;
-
   prevChildren?: ReactElement<any> | null;
 
   prevData?: SubState;
+
+  dataMemory?: (combo: Combo) => SubState;
 
   constructor(props: ConsumerProps<SubState, Combo>) {
     super(props);

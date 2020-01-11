@@ -2,7 +2,7 @@
 import EventEmitter from 'eventemitter3';
 import memoize from 'memoizerific';
 import debounce from 'lodash/debounce';
-import { stripIndents } from 'common-tags';
+import dedent from 'ts-dedent';
 import stable from 'stable';
 
 import { Channel } from '@storybook/channels';
@@ -35,6 +35,9 @@ const getId = (): number => {
 const toExtracted = <T>(obj: T) =>
   Object.entries(obj).reduce((acc, [key, value]) => {
     if (typeof value === 'function') {
+      return acc;
+    }
+    if (key === 'hooks') {
       return acc;
     }
     if (Array.isArray(value)) {
@@ -119,7 +122,7 @@ export default class StoryStore extends EventEmitter {
 
   extract(options?: StoryOptions) {
     const stories = Object.entries(this._data);
-    // determine if we should apply a sort to the stories or just use default import order
+    // determine if we should apply a sort to the stories or use default import order
     if (Object.values(this._data).length > 0) {
       const index = Object.keys(this._data).find(
         key =>
@@ -142,9 +145,16 @@ export default class StoryStore extends EventEmitter {
       data === undefined ? this._selection : { storyId: data.storyId, viewMode: data.viewMode };
     this._error = error === undefined ? this._error : error;
 
+    // Try and emit the STORY_RENDER event synchronously, but if the channel is not ready (RN),
+    // we'll try again later.
+    let isStarted = false;
+    if (this._channel) {
+      this._channel.emit(Events.STORY_RENDER);
+      isStarted = true;
+    }
+
     setTimeout(() => {
-      // preferred method to emit event.
-      if (this._channel) {
+      if (this._channel && !isStarted) {
         this._channel.emit(Events.STORY_RENDER);
       }
 
@@ -185,7 +195,7 @@ export default class StoryStore extends EventEmitter {
     const { _data } = this;
 
     if (_data[id]) {
-      logger.warn(stripIndents`
+      logger.warn(dedent`
         Story with id ${id} already exists in the store!
 
         Perhaps you added the same story twice, or you have a name collision?
