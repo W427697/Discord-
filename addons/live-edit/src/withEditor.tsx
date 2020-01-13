@@ -3,7 +3,9 @@ import * as React from 'react';
 import { transform } from '@babel/standalone';
 import { useChannel, useState, useParameter } from '@storybook/addons';
 // @ts-ignore;
-import { useStoryId } from '@storybook/client-api';
+// import { useStoryId } from '@storybook/client-api';
+// @ts-ignore
+// import { useStoryState } from '@storybook/api';
 import { scopeEval } from './scopeEval';
 import { LiveEditConfiguration } from './types';
 import { EVENT_NEW_SOURCE } from './constants';
@@ -15,15 +17,15 @@ export function withEditor(storyFn: any) {
   const scopeComponents =
     liveEditConfig && liveEditConfig.components ? liveEditConfig.components : {};
 
+  // const [something, setSomething] = useStoryState();
+
   useChannel({
     [EVENT_NEW_SOURCE]: s => {
       setState(s);
     },
   });
 
-  const storyId = useStoryId();
-
-  console.log({ storyId });
+  const storyId = '';
 
   if (state) {
     try {

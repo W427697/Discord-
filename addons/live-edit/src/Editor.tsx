@@ -3,6 +3,7 @@ import React from 'react';
 import { useChannel, API, useStoryState } from '@storybook/api';
 // import { STORY_CHANGED } from '@storybook/core-events';
 import { styled } from '@storybook/theming';
+// @ts-ignore
 import { SyntaxHighlighter } from '@storybook/components';
 import { SourceLoaderEvent, EVENT_NEW_SOURCE, ADDON_NAME } from './constants';
 

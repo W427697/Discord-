@@ -67,18 +67,13 @@ export function useAddonState<S>(addonId: string, defaultState?: S): [S, (s: S) 
 
 export function useStoryId(): string {
   const channel = addons.getChannel();
-  // useChannel({
-  //   [STORY_CHANGED]: nextStory => {
-
-  //   },
-  // });
-
   const [lastValue] = channel.last(STORY_CHANGED) || [];
-
-  console.log({
-    addons,
-    channel,
-  });
-
   return lastValue;
+}
+
+export function useStoryState<S>(prefix = 'global', defaultState: S) {
+  const storyId = useStoryId();
+  const [state, setState] = useAddonState(`${prefix}-${storyId}`, defaultState);
+
+  return [state, setState] as [S, (newState: S) => void];
 }
