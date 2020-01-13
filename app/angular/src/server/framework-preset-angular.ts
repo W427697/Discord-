@@ -39,7 +39,7 @@ export function webpack(
           use: [
             { loader: 'raw-loader' },
             {
-              loader: require.resolve('postcss-loader'),
+              loader: require.resolve('postcss-loader') as string,
               options: {
                 plugins: [autoprefixer()],
               },
