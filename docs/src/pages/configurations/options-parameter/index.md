@@ -38,12 +38,6 @@ addons.setConfig({
   panelPosition: 'bottom',
 
   /**
-   * display the top-level grouping as a "root" in the sidebar
-   * @type {Boolean}
-   */
-  showRoots: false,
-
-  /**
    * sidebar tree animations
    * @type {Boolean}
    */
@@ -74,6 +68,24 @@ addons.setConfig({
 });
 ```
 
+### showRoots
+
+Import and use `addParameters` with the `options` key in your `preview.js` file.
+
+```js
+import { addParameters } from '@storybook/react';
+
+addParameters({
+  options: {
+    /**
+     * display the top-level grouping as a "root" in the sidebar
+     * @type {Boolean}
+     */
+    showRoots: false,
+  },
+};
+```
+
 ### Sorting stories
 
 By default, stories are sorted in the order in which they were imported. This can be overridden by adding `storySort` to the `options` parameters in your `preview.js` file.
@@ -81,7 +93,7 @@ By default, stories are sorted in the order in which they were imported. This ca
 The most powerful method of sorting is to provide a function to `storySort`. Any custom sorting can be achieved with this method.
 
 ```js
-import { addParameters, configure } from '@storybook/react';
+import { addParameters } from '@storybook/react';
 
 addParameters({
   options: {
