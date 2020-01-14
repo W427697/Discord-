@@ -2814,6 +2814,21 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
   integrity sha512-ONhaKPIufzzrlNbqtWFFd+jlnemX6lJAgq9ZeiZtS7I1PIf/la7CW4m83rTXRnVnsMbW2k56pGYu7AUFJD9Pow==
 
+"@storybook/react-native@5.1.0-alpha.20":
+  version "5.1.0-alpha.20"
+  resolved "https://registry.yarnpkg.com/@storybook/react-native/-/react-native-5.1.0-alpha.20.tgz#81bc949380fcc87b78c7ebfb385b2bcd69c42ef9"
+  integrity sha512-3vP+S7hGYwN3QAQi5qpw+qJkSedhC8pqrSven3FvOVAGzDpyoK1w2IVTJ+0LYI6vTXi0Nr6ZwO4jP3DZc6FsUA==
+  dependencies:
+    "@storybook/addons" "5.1.0-alpha.20"
+    "@storybook/channel-websocket" "5.1.0-alpha.20"
+    "@storybook/channels" "5.1.0-alpha.20"
+    "@storybook/client-api" "5.1.0-alpha.20"
+    "@storybook/core-events" "5.1.0-alpha.20"
+    core-js "^2.6.5"
+    prop-types "^15.7.2"
+    react-native-swipe-gestures "^1.0.3"
+    rn-host-detect "^1.1.5"
+
 "@svgr/babel-plugin-add-jsx-attribute@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-4.0.0.tgz#5acf239cd2747b1a36ec7e708de05d914cb9b948"
@@ -21514,6 +21529,13 @@ react-native-color-picker@^0.4.0:
   dependencies:
     prop-types "^15.5.10"
     tinycolor2 "^1.4.1"
+
+react-native-final-tree-view@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-final-tree-view/-/react-native-final-tree-view-2.0.0.tgz#01a9a8782ef91c4324499e950dd1680ff0565637"
+  integrity sha512-2b7d4Qud33LcXV+p0IsGcSD2R5OC+V2kVtHDtyNI5odEtlTzAA3O7+baKLH6EbU2ccBkagwGzqcbvk+cV46gGQ==
+  dependencies:
+    lodash.get "^4.4.2"
 
 react-native-gesture-handler@~1.0.14:
   version "1.0.17"

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { SectionList, Text, TextInput, TouchableOpacity, View, SafeAreaView, ScrollView } from 'react-native';
 import Events from '@storybook/core-events';
 import style from './style';
-import TreeView from '../TreeView'
+import StoryTreeView from '../StoryTreeView'
 
 const SectionHeader = ({ title, selected }) => (
   <View key={title} style={style.header}>
@@ -66,7 +66,9 @@ export default class StoryListView extends Component {
     let hashmap={};
     let result=[];
     stories.reverse().forEach(story=>{
-      let components=story.kind.split("/");
+      let components=story.kind.split(this.props.clientApi.getSeparators().hierarchyRootSeparator);
+      components = components.map(component => component.split(this.props.clientApi.getSeparators().hierarchySeparator));
+      components = components.flat(1);
       components.forEach((component, i)=>{
         let parentComponentId=components.slice(0,i).join("/");
         let componentId=components.slice(0,i+1).join("/");
@@ -171,33 +173,35 @@ export default class StoryListView extends Component {
           style={style.searchBar}
         />
         <ScrollView style={style.sectionList}>
-        <TreeView
-        ref={ref => (this.treeView = ref)}
-        data={this.state.data}
-        onItemPress={(node, level)=>{
-          if(!node.children){
-             this.changeStory(node.kind, node.name)
-          }
-        }}
-        renderItem={(item, level) => (
-          <View>
-            <Text
-              style={{
-                marginLeft: 25 * level,
-                fontWeight:(item.kind === selectedKind && item.name === selectedStory)?"bold":"normal"
-              }}
-            >
-              {item.collapsed !== null ? (
-                <Text>{item.collapsed ? ' ▶ ' : ' ▼ '}</Text>
-              ) : (
-                <Text> - </Text>
-              )}
-              {item.name}
-            </Text>
-          </View>
-        )}
-      />
-      </ScrollView>
+          <StoryTreeView
+            selectedKind={selectedKind}
+            selectedStory={selectedStory}
+            ref={ref => (this.treeView = ref)}
+            data={this.state.data}
+            onNodePress={({node, level})=>{
+              if(!node.children){
+                this.changeStory(node.kind, node.name)
+              }
+            }}
+            renderNode={({node, level, isExpanded, hasChildrenNodes}) => (
+              <View>
+                <Text
+                  style={{
+                    marginLeft: 25 * level,
+                    fontWeight:(node.kind === selectedKind && node.name === selectedStory)?"bold":"normal"
+                  }}
+                >
+                  {isExpanded !== null && hasChildrenNodes ? (
+                    <Text>{isExpanded ? ' ▼ ' : ' ▶ '}</Text>
+                  ) : (
+                    <Text> - </Text>
+                  )}
+                  {node.name}
+                </Text>
+              </View>
+            )}
+          />
+        </ScrollView>
       </SafeAreaView>
     );
   }

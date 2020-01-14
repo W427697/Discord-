@@ -113,6 +113,7 @@ export default class Preview {
         if (onDeviceUI) {
           return (
             <OnDeviceUI
+              clientApi={preview._clientApi}
               stories={preview._stories}
               events={channel}
               url={webUrl}
