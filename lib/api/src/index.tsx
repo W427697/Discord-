@@ -404,14 +404,13 @@ export function useAddonState<S>(addonId: string, defaultState?: S) {
 
 export function useStoryState<S>(prefix = 'global', defaultState: S) {
   const story = useCurrentStoryId();
-  const storyId = story;
+  let storyId = story;
 
-  // React.useEffect(() => {
-  //   if (story !== '*') {
-  //     storyId = story;
-  //   }
-  //   console.log('blah dentro do useEffect');
-  // }, [story]);
+  React.useEffect(() => {
+    if (story !== '*') {
+      storyId = story;
+    }
+  }, [story]);
 
   return useAddonState<S>(`${prefix}${storyId}`, defaultState);
 }

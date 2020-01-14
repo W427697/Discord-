@@ -73,7 +73,6 @@ export function useStoryId(): string {
 
 export function useStoryState<S>(prefix = 'global', defaultState: S) {
   const storyId = useStoryId();
-  const [state, setState] = useAddonState(`${prefix}-${storyId}`, defaultState);
-
+  const [state, setState] = useAddonState(`${prefix}${storyId}`, defaultState);
   return [state, setState] as [S, (newState: S) => void];
 }

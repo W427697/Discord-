@@ -13,6 +13,15 @@ module.exports = {
             presets: [['react-app', { flow: false, typescript: true }]],
           },
         },
+        {
+          test: [/\.stories\.(jsx?$|tsx?$)/],
+          enforce: 'pre',
+          use: [
+            {
+              loader: require.resolve('@storybook/source-loader'),
+            },
+          ],
+        },
       ],
     },
     resolve: {

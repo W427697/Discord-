@@ -1,7 +1,7 @@
 import React from 'react';
 // @ts-ignore
 import { useChannel, API, useStoryState } from '@storybook/api';
-// import { STORY_CHANGED } from '@storybook/core-events';
+// @ts-ignore
 import { styled } from '@storybook/theming';
 // @ts-ignore
 import { SyntaxHighlighter } from '@storybook/components';

@@ -26,8 +26,9 @@ function webpack(webpackConfig = {}, options = {}) {
   };
 }
 
-function addons(entry = []) {
-  return [...entry, require.resolve('@storybook/addon-live-edit/dist/register.js')];
+function addons(someAddons: any) {
+  console.log('SOME ADDONS', someAddons);
+  return [require.resolve('@storybook/addon-live-edit/dist/register.js')];
 }
 
 module.exports = { webpack, addons };
