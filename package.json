@@ -153,7 +153,6 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.7.1",
     "babel-loader": "^8.0.5",
-    "babel-plugin-add-react-displayname": "^0.0.5",
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "babel-plugin-emotion": "^10.0.20",
     "babel-plugin-macros": "^2.7.0",

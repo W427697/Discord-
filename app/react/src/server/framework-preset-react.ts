@@ -11,7 +11,6 @@ export function babelDefault(config: TransformOptions) {
     plugins: [
       ...(config.plugins || []),
       require.resolve('@babel/plugin-transform-react-constant-elements'),
-      require.resolve('babel-plugin-add-react-displayname'),
     ],
   };
 }

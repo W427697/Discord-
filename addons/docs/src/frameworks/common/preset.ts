@@ -4,11 +4,8 @@ import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 
 function createBabelOptions(babelOptions?: any, configureJSX?: boolean) {
-  if (!configureJSX) {
-    return babelOptions;
-  }
-
   const babelPlugins = (babelOptions && babelOptions.plugins) || [];
+
   return {
     ...babelOptions,
     // for frameworks that are not working with react, we need to configure
@@ -16,10 +13,10 @@ function createBabelOptions(babelOptions?: any, configureJSX?: boolean) {
     // for more complex solutions we can find alone that we need to add '@babel/plugin-transform-react-jsx'
     plugins: [
       ...babelPlugins,
-      '@babel/plugin-transform-react-jsx',
+      configureJSX && '@babel/plugin-transform-react-jsx',
       'babel-plugin-react-docgen',
       'babel-plugin-add-react-displayname',
-    ],
+    ].filter(Boolean),
   };
 }
 
@@ -32,6 +29,8 @@ export function webpack(webpackConfig: any = {}, options: any = {}) {
     configureJSX = options.framework !== 'react', // if not user-specified
     sourceLoaderOptions = {},
   } = options;
+
+  const babelPresets = (babelOptions && babelOptions.presets) || [];
 
   const mdxLoaderOptions = {
     remarkPlugins: [remarkSlug, remarkExternalLinks],
@@ -61,9 +60,24 @@ export function webpack(webpackConfig: any = {}, options: any = {}) {
           use: [
             {
               loader: 'babel-loader',
-              options: {
-                presets: [[require.resolve('@babel/preset-env'), { modules: 'commonjs' }]],
-              },
+              options: createBabelOptions(
+                {
+                  presets: [
+                    ...babelPresets,
+                    [require.resolve('@babel/preset-env'), { modules: 'commonjs' }],
+                  ],
+                },
+                false
+              ),
+            },
+          ],
+        },
+        {
+          test: /\.[tj]sx$/,
+          use: [
+            {
+              loader: 'babel-loader',
+              options: createBabelOptions(babelOptions, configureJSX),
             },
           ],
         },

@@ -69,7 +69,6 @@ module.exports = {
         'babel-plugin-macros',
         ['emotion', { sourceMap: true, autoLabel: true }],
         '@babel/plugin-transform-react-constant-elements',
-        'babel-plugin-add-react-displayname',
       ],
       env: {
         test: withTests,
