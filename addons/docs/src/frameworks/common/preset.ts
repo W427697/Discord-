@@ -2,8 +2,13 @@
 import createCompiler from '@storybook/addon-docs/mdx-compiler-plugin';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
+import { TransformOptions } from '@babel/core';
 
 function createBabelOptions(babelOptions?: any, configureJSX?: boolean) {
+  if (!configureJSX) {
+    return babelOptions;
+  }
+
   const babelPlugins = (babelOptions && babelOptions.plugins) || [];
 
   return {
@@ -11,12 +16,30 @@ function createBabelOptions(babelOptions?: any, configureJSX?: boolean) {
     // for frameworks that are not working with react, we need to configure
     // the jsx to transpile mdx, for now there will be a flag for that
     // for more complex solutions we can find alone that we need to add '@babel/plugin-transform-react-jsx'
-    plugins: [
-      ...babelPlugins,
-      configureJSX && '@babel/plugin-transform-react-jsx',
+    plugins: [...babelPlugins, '@babel/plugin-transform-react-jsx'],
+  };
+}
+
+// eslint-disable-next-line no-shadow
+export function babel(config: TransformOptions) {
+  // Ensure plugins are defined or fallback to an array to avoid empty values.
+  const babelConfigPlugins = config.plugins || [];
+
+  const extraPlugins = [
+    [
       'babel-plugin-react-docgen',
+      {
+        DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES',
+      },
       'babel-plugin-add-react-displayname',
-    ].filter(Boolean),
+    ],
+  ];
+
+  // If `babelConfigPlugins` is not an `Array`, calling `concat` will inject it
+  // as a single value, if it is an `Array` it will spread.
+  return {
+    ...config,
+    plugins: [].concat(babelConfigPlugins, extraPlugins),
   };
 }
 
@@ -29,8 +52,6 @@ export function webpack(webpackConfig: any = {}, options: any = {}) {
     configureJSX = options.framework !== 'react', // if not user-specified
     sourceLoaderOptions = {},
   } = options;
-
-  const babelPresets = (babelOptions && babelOptions.presets) || [];
 
   const mdxLoaderOptions = {
     remarkPlugins: [remarkSlug, remarkExternalLinks],
@@ -60,24 +81,9 @@ export function webpack(webpackConfig: any = {}, options: any = {}) {
           use: [
             {
               loader: 'babel-loader',
-              options: createBabelOptions(
-                {
-                  presets: [
-                    ...babelPresets,
-                    [require.resolve('@babel/preset-env'), { modules: 'commonjs' }],
-                  ],
-                },
-                false
-              ),
-            },
-          ],
-        },
-        {
-          test: /\.[tj]sx$/,
-          use: [
-            {
-              loader: 'babel-loader',
-              options: createBabelOptions(babelOptions, configureJSX),
+              options: {
+                presets: [[require.resolve('@babel/preset-env'), { modules: 'commonjs' }]],
+              },
             },
           ],
         },
