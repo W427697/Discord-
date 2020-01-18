@@ -14,7 +14,12 @@ function createBabelOptions(babelOptions?: any, configureJSX?: boolean) {
     // for frameworks that are not working with react, we need to configure
     // the jsx to transpile mdx, for now there will be a flag for that
     // for more complex solutions we can find alone that we need to add '@babel/plugin-transform-react-jsx'
-    plugins: [...babelPlugins, '@babel/plugin-transform-react-jsx'],
+    plugins: [
+      ...babelPlugins,
+      '@babel/plugin-transform-react-jsx',
+      'babel-plugin-react-docgen',
+      'babel-plugin-add-react-displayname',
+    ],
   };
 }
 
