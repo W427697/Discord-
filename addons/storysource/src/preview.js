@@ -7,9 +7,11 @@ function setStorySource(context, source, locationsMap) {
   const currentLocation = getLocation(context, locationsMap);
 
   addons.getChannel().emit(EVENT_ID, {
-    source,
-    currentLocation,
-    locationsMap,
+    edition: { source },
+    location: {
+      currentLocation,
+      locationsMap
+    }
   });
 }
 
