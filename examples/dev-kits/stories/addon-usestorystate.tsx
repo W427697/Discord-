@@ -7,7 +7,7 @@ export default {
 };
 
 export const storyState1 = () => {
-  const [state, setState] = useStoryState<number>(10);
+  const [state, setState] = useStoryState<number>(11);
 
   return (
     <div style={{ color: 'white' }}>
@@ -20,7 +20,7 @@ export const storyState1 = () => {
 };
 
 export const storyState2 = () => {
-  const [state, setState] = useStoryState<number>(10);
+  const [state, setState] = useStoryState<number>(12);
 
   return (
     <div style={{ color: 'white' }}>
@@ -33,7 +33,7 @@ export const storyState2 = () => {
 };
 
 export const storyState3 = () => {
-  const [state, setState] = useStoryState<number>(10);
+  const [state, setState] = useStoryState<number>(13);
 
   return (
     <div style={{ color: 'white' }}>

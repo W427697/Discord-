@@ -13,9 +13,9 @@ addons.setConfig({
 });
 
 const StatePanel = ({ active, key }) => {
-  const [managerState, setManagerState] = useAddonState('manager', 10);
+  const [managerState, setManagerState] = useAddonState('manager', 20);
   const [previewState, setPreviewState] = useAddonState('preview');
-  const [storyState, setstoryState] = useStoryState(10);
+  const [storyState, setstoryState] = useStoryState();
   return (
     <AddonPanel key={key} active={active}>
       <div>

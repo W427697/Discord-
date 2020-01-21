@@ -69,7 +69,25 @@ export function useAddonState<S>(addonId: string, defaultState?: S): [S, (s: S) 
   return useSharedState<S>(addonId, defaultState);
 }
 
+function orDefault<S>(fromStore: S, defaultState: S): S {
+  if (typeof fromStore === 'undefined') {
+    return defaultState;
+  }
+  return fromStore;
+}
+
 export function useStoryState<S>(defaultState?: S): [S, (s: S) => void] {
   const { id: storyId } = useStoryContext();
-  return useSharedState<S>(`story-state-${storyId}`, defaultState);
+  const [state, setState] = useSharedState<{ [storyId: string]: S }>(`story-state`, {
+    [storyId]: defaultState,
+  });
+
+  if (state[storyId] === undefined && defaultState !== undefined) {
+    setState({ ...state, [storyId]: defaultState });
+  }
+
+  return [
+    orDefault<S>(state[storyId], defaultState),
+    value => setState({ ...state, [storyId]: value }),
+  ];
 }

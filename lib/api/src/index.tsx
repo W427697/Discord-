@@ -340,16 +340,23 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S) {
 
 type StateMerger<S> = (input: S) => S;
 
+const useLastValue = (eventId: string, otherEventId: string) => {
+  const api = useStorybookApi();
+  const channel = api.getChannel();
+
+  return channel.last(eventId) || channel.last(otherEventId) || [];
+};
+
 // shared state
 export function useSharedState<S>(stateId: string, defaultState?: S) {
   const api = useStorybookApi();
-  const existingState = useStorybookState().addons[stateId];
   const channel = api.getChannel();
+  const existingState = useStorybookState().addons[stateId];
 
-  const [lastValue] =
-    channel.last(`${SHARED_STATE_CHANGED}-client-${stateId}`) ||
-    channel.last(`${SHARED_STATE_SET}-client-${stateId}`) ||
-    [];
+  const [lastValue] = useLastValue(
+    `${SHARED_STATE_CHANGED}-client-${stateId}`,
+    `${SHARED_STATE_SET}-client-${stateId}`
+  );
 
   const state = orDefault<S>(existingState, lastValue || defaultState);
   const setState = (s: S | StateMerger<S>, options?: Options) => {
@@ -363,10 +370,15 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
     };
     const stateInitializationHandlers = {
       [STORIES_CONFIGURED]: () => {
-        if (lastValue) {
+        const [lastValue2] =
+          channel.last(`${SHARED_STATE_CHANGED}-client-${stateId}`) ||
+          channel.last(`${SHARED_STATE_SET}-client-${stateId}`) ||
+          [];
+
+        if (lastValue2 !== undefined) {
           // this happens when HMR
-          setState(lastValue);
-          api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, lastValue);
+          setState(lastValue2);
+          api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, lastValue2);
         } else if (defaultState !== undefined) {
           // if not HMR, yet the defaults are form the manager
           setState(defaultState);
@@ -375,7 +387,12 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
         }
       },
       [STORY_CHANGED]: () => {
-        if (api.getAddonState(stateId) !== lastValue) {
+        const [lastValue2] =
+          channel.last(`${SHARED_STATE_CHANGED}-client-${stateId}`) ||
+          channel.last(`${SHARED_STATE_SET}-client-${stateId}`) ||
+          [];
+
+        if (api.getAddonState(stateId) !== lastValue2) {
           api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, api.getAddonState(stateId));
         }
       },
@@ -402,7 +419,15 @@ export function useAddonState<S>(addonId: string, defaultState?: S) {
   return useSharedState<S>(addonId, defaultState);
 }
 
-export function useStoryState<S>(defaultState?: S) {
+export function useStoryState<S>() {
+  const defaultState: S = undefined;
   const { storyId } = useStorybookState();
-  return useSharedState<S>(`story-state-${storyId}`, defaultState);
+  const [state, setState] = useSharedState<{ [storyId: string]: S }>(`story-state`, {
+    [storyId]: defaultState,
+  });
+
+  return [
+    orDefault(state[storyId], defaultState),
+    (value: S) => setState({ ...state, [storyId]: value || defaultState }),
+  ];
 }
