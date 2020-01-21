@@ -31,3 +31,16 @@ export const storyState2 = () => {
     </div>
   );
 };
+
+export const storyState3 = () => {
+  const [state, setState] = useStoryState<number>(10);
+
+  return (
+    <div style={{ color: 'white' }}>
+      Story counter: {state}
+      <br />
+      <Button onClick={() => setState(state - 1)}>decrement</Button>
+      <Button onClick={() => setState(state + 1)}>increment</Button>
+    </div>
+  );
+};
