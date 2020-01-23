@@ -38,8 +38,13 @@ export const Table = styled.table<{ expandable: boolean }>(({ theme, expandable 
     marginTop: 25,
     marginBottom: 40,
 
+    'thead th:first-of-type': {
+      width: '30%',
+    },
+
     'th:first-of-type, td:first-of-type': {
       paddingLeft: '20px',
+      wordBreak: 'break-all',
     },
 
     'th:last-of-type, td:last-of-type': {
