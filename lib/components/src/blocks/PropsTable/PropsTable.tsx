@@ -67,8 +67,8 @@ export const Table = styled.table<{ expandable: boolean }>(({ theme, expandable 
     },
 
     td: {
-      paddingTop: '16px',
-      paddingBottom: '16px',
+      paddingTop: '10px',
+      paddingBottom: '10px',
       ':first-of-type': {
         paddingLeft: expandable ? '45px' : '20px',
       },

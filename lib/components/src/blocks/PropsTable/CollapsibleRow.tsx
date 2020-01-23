@@ -62,8 +62,8 @@ const Th = styled.th(({ theme }) => ({
 
 const Tr = styled.tr(({ theme }) => ({
   '&& > th': {
-    paddingTop: 16,
-    paddingBottom: 16,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   '&:hover > th': {
     backgroundColor: theme.background.hoverable,
