@@ -92,6 +92,17 @@ addons.register(ADDON_ID, api => {
   });
 });
 ```
+#### Note:
+Vue users need to pass h variable to render function: 
+```js
+const render = (h) => ({ active, key }) => (
+    <AddonPanel active={active} key={key}>
+      <MyPanel />
+    </AddonPanel>
+  );
+```
+
+
 
 ### register the addon
 
