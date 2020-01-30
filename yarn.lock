@@ -24080,7 +24080,7 @@ recast@^0.17.3:
     private "^0.1.8"
     source-map "~0.6.1"
 
-recast@^0.18.1:
+recast@^0.18.1, recast@^0.18.5:
   version "0.18.5"
   resolved "https://registry.yarnpkg.com/recast/-/recast-0.18.5.tgz#9d5adbc07983a3c8145f3034812374a493e0fe4d"
   integrity sha512-sD1WJrpLQAkXGyQZyGzTM75WJvyAd98II5CHdK3IYbt/cZlU0UzCRVU11nUFNXX9fBVEt4E9ajkMjBlUlG+Oog==

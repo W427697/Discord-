@@ -37,7 +37,7 @@
     "jscodeshift": "^0.7.0",
     "lodash": "^4.17.15",
     "prettier": "^1.16.4",
-    "recast": "^0.16.1",
+    "recast": "^0.18.5",
     "regenerator-runtime": "^0.13.3"
   },
   "publishConfig": {
