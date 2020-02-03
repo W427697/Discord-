@@ -106,6 +106,14 @@ Docs has peer dependencies on `react`, `react-is`, and `babel-loader`. If you wa
 yarn add -D react react-is babel-loader
 ```
 
+If using Create React App, enable [this preset](https://github.com/storybookjs/presets/tree/master/packages/preset-create-react-app). Otherwise
+
+```sh
+yarn add -D babel-plugin-react-docgen
+```
+
+and add `react-docgen` to babelrc 
+
 Then add the following to your `.storybook/main.js`:
 
 ```js
