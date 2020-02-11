@@ -308,7 +308,10 @@ export default class StoryStore extends EventEmitter {
     const { state } = this._data[id];
     this._data[id].state = { ...state, ...newState };
 
+    // TODO: Sort out what is going on with both the store and the channel being event emitters.
+    // It has something to do with React Native, but need to get to the bottom of it
     this._channel.emit(Events.STORY_STATE_CHANGED, id, this._data[id].state);
+    this.emit(Events.STORY_STATE_CHANGED, id, this._data[id].state);
   }
 
   // This API is a reimplementation of Storybook's original getStorybook() API.
