@@ -161,7 +161,7 @@ export function applyAngularCliWebpackConfig(baseConfig: any, cliWebpackConfigOp
   // todo add type for acc
   const entry = [
     ...baseConfig.entry,
-    ...Object.values(cliStyleConfig.entry).reduce((acc: any, item) => acc.concat(item), []),
+    ...Object.values<any>(cliStyleConfig.entry).reduce((acc: any, item) => acc.concat(item), []),
   ];
 
   const module = {
