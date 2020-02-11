@@ -17,7 +17,8 @@ export const axeTest = (customConfig: Partial<CommonConfig> = {}) =>
     ...customConfig,
     async testBody(page, options) {
       const parameters = options.context.parameters.a11y;
-      const include = parameters?.element ?? '#root';
+      const element = (parameters === null || parameters === undefined) ? undefined : parameters.element;
+      const include = (element === null || element === undefined) ? '#root' : element;
       await expect(page).toPassAxeTests({ ...parameters, include });
     },
   });
