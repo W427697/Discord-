@@ -19793,9 +19793,9 @@ marko-starter@^2.1.0:
     try-require "^1.2.1"
 
 marko@^4.1.1, marko@^4.10.0, marko@^4.18.39:
-  version "4.18.42"
-  resolved "https://registry.yarnpkg.com/marko/-/marko-4.18.42.tgz#f791d267022ad84e0322736fe2728a97f6241c6e"
-  integrity sha512-pwPOqEMacUSMV5pnmnlzsbYbR5mUg07LX+lTRvU4ZHC/pQmnbTr4paL55SPyefTcINBSNgoSDFNg21bzCRfpig==
+  version "4.18.44"
+  resolved "https://registry.yarnpkg.com/marko/-/marko-4.18.44.tgz#cf7d9f8af27d9e6adb45df2978c07d6c09a8cf89"
+  integrity sha512-himY8n8mRuK2itSPgGZDRaxQrdGq6qSY2bJkoXNHjsfgdUGvN7FQbr7mQjyCI8H9Y6vsPVRRiJb8mb9YSOO1eQ==
   dependencies:
     app-module-path "^2.2.0"
     argly "^1.0.0"
