@@ -299,8 +299,11 @@ export default class StoryStore extends EventEmitter {
   }
 
   setStoryState(id: string, newState: StoryState) {
+    if (!this._data[id]) throw new Error(`No story for id ${id}`);
     const { state } = this._data[id];
     this._data[id].state = { ...state, ...newState };
+
+    this._channel.emit(Events.STORY_STATE_CHANGED, id, this._data[id].state);
   }
 
   // This API is a reimplementation of Storybook's original getStorybook() API.
