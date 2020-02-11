@@ -112,7 +112,7 @@
     "@angular/compiler": "^8.2.8",
     "@angular/core": "^8.2.8",
     "@angular/forms": "^8.2.8",
-    "@angular/platform-browser": "^8.2.8",
+    "@angular/platform-browser": "^9.0.0",
     "@angular/platform-browser-dynamic": "^8.2.8",
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.4",
