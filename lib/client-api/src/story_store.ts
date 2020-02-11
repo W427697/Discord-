@@ -225,6 +225,7 @@ export default class StoryStore extends EventEmitter {
         ...p,
         hooks,
         parameters: { ...parameters, ...(p && p.parameters) },
+        state: _data[id].state,
       });
 
     _data[id] = {
