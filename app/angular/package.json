@@ -33,6 +33,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
+    "@angular/compiler-cli": "^8.2.8",
+    "@angular-devkit/build-angular": "~0.803.6",
     "@storybook/addons": "6.0.0-alpha.10",
     "@storybook/core": "6.0.0-alpha.10",
     "@storybook/node-logger": "6.0.0-alpha.10",
