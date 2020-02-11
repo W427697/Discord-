@@ -20,6 +20,8 @@ export interface StoreItem extends StoryContext {
   story: string;
   storyFn: StoryFn;
   hooks: HooksContext;
+  parameters: StoryParameters;
+  state: StoryState;
 }
 
 export interface StoreData {
@@ -41,6 +43,14 @@ export interface AddStoryArgs {
   name: string;
   storyFn: StoryFn;
   parameters: Parameters;
+}
+
+export interface StoryParameters {
+  [key: string]: any;
+}
+
+export interface StoryState {
+  [key: string]: any;
 }
 
 export interface ClientApiAddon<StoryFnReturnType = unknown> extends Addon {

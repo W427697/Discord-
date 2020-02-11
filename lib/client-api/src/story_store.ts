@@ -14,6 +14,7 @@ import {
   StoreData,
   AddStoryArgs,
   StoreItem,
+  StoryState,
   ErrorLike,
   GetStorybookKind,
 } from './types';
@@ -231,6 +232,7 @@ export default class StoryStore extends EventEmitter {
       storyFn,
 
       parameters,
+      state: {},
     };
 
     // Store 1-based order of kind loading to preserve sorting on HMR
@@ -294,6 +296,11 @@ export default class StoryStore extends EventEmitter {
       return acc;
     }, {});
     this.pushToManager();
+  }
+
+  setStoryState(id: string, newState: StoryState) {
+    const { state } = this._data[id];
+    this._data[id].state = { ...state, ...newState };
   }
 
   // This API is a reimplementation of Storybook's original getStorybook() API.
