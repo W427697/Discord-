@@ -76,13 +76,17 @@ export default class StoryStore extends EventEmitter {
     this._data = {} as any;
     this._revision = 0;
     this._selection = {} as any;
-    this._channel = params.channel;
     this._error = undefined;
     this._kindOrder = {};
+
+    if (params.channel) this.setChannel(params.channel);
   }
 
   setChannel = (channel: Channel) => {
     this._channel = channel;
+    channel.on(Events.CHANGE_STORY_STATE, (id: string, newState: StoryState) =>
+      this.setStoryState(id, newState)
+    );
   };
 
   // NEW apis
