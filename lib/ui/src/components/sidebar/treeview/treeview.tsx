@@ -49,6 +49,7 @@ const linked = (
   }: { onClick: Function; onKeyUp: Function; Link: ComponentType; prefix: string }
 ) => {
   const Linked = React.memo(p => (
+    // @ts-ignore
     <L
       prefix={prefix}
       {...p}
