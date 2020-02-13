@@ -80,7 +80,9 @@
     "@types/util-deprecate": "^1.0.0",
     "babel-plugin-react-docgen": "^4.1.0",
     "jest-specific-snapshot": "^2.0.0",
-    "require-from-string": "^2.0.2"
+    "memory-fs": "^0.5.0",
+    "require-from-string": "^2.0.2",
+    "vue-loader": "^15.9.0"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0-0",
