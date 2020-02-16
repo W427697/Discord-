@@ -6,11 +6,12 @@ export const importPolyfills = () => {
   if (!window.fetch) {
     // manually patch window.fetch;
     //    see issue: <https://github.com/developit/unfetch/issues/101#issuecomment-454451035>
-    const patch = ({ default: fetch }) => {
-      window.fetch = fetch;
-    };
-
-    polyfills.push(import('unfetch/dist/unfetch').then(patch));
+    // todo needs review
+    polyfills.push(
+      import('unfetch').then(res => {
+        window.fetch = res.default;
+      })
+    );
   }
 
   return Promise.all(polyfills);
