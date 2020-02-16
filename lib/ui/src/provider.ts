@@ -1,9 +1,9 @@
 export default class Provider {
-  getElements() {
+  getElements(type: string) {
     throw new Error('Provider.getElements() is not implemented!');
   }
 
-  handleAPI() {
+  handleAPI(api: any) {
     throw new Error('Provider.handleAPI() is not implemented!');
   }
 
