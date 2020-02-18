@@ -63,7 +63,7 @@ export const managerWebpack: PresetMergeAsyncFn<Webpack> = async (_, config) => 
           mains: files.js.filter(i => !i.includes('metadata')),
           examples: files.js.filter(i => i.includes('metadata')),
         }),
-        template: require.resolve('@storybook/server/templates/index.ejs'),
+        template: require.resolve('@storybook/serve/templates/index.ejs'),
       }),
       new CaseSensitivePathsPlugin(),
       plugin,

@@ -51,7 +51,7 @@ export const webpack: PresetMergeAsyncFn<Webpack> = async (_, config) => {
           mains: files.js.filter(i => !i.includes('preview')),
           examples: files.js.filter(i => i.includes('preview')),
         }),
-        template: require.resolve('@storybook/server/templates/index.ejs'),
+        template: require.resolve('@storybook/serve/templates/index.ejs'),
       }),
       new CaseSensitivePathsPlugin(),
       plugin,
