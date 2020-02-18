@@ -81,8 +81,8 @@
     "@types/rollup-plugin-node-builtins": "^2.1.1",
     "@types/rollup-plugin-node-resolve": "^4.0.0",
     "@types/serve-favicon": "^2.2.31",
-    "@types/webpack": "^4.39.8",
-    "@types/webpack-dev-server": "^3.4.0",
+    "@types/webpack": "^4.41.0",
+    "@types/webpack-dev-server": "^3.10.0",
     "@types/webpack-merge": "^4.1.5",
     "@types/webpack-plugin-serve": "^0.10.0"
   },

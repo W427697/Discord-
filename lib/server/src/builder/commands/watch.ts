@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import setTitle from 'node-bash-title';
 import webpack from 'webpack';
 
@@ -135,7 +136,10 @@ const commands = {
       ]
     );
 
-    const webpackConfig: WebpackConfig = await getWebpackConfig(type, config);
+    const webpackConfig: WebpackConfig = ((await getWebpackConfig(
+      type,
+      config
+    )) as any) as WebpackConfig;
 
     watcher = await watch(webpackConfig);
     return watcher;

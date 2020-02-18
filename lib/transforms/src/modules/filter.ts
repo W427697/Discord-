@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import * as t from '@babel/types';
 import { TraverseOptions, NodePath } from '@babel/traverse';
 import { transformFileAsync } from '@babel/core';
@@ -69,7 +70,7 @@ const createFilterCollectorPlugin = (targets: string[]) => {
 
     const visitor: TraverseOptions = {
       ExportNamedDeclaration(p) {
-        const declaration = p.get('declaration');
+        const declaration = p.get('declaration') as NodePath<t.Declaration>;
         if (declaration.isVariableDeclaration()) {
           const declarations = declaration.get('declarations');
 
@@ -127,7 +128,7 @@ const createFilterCollectorPlugin = (targets: string[]) => {
 
           body.forEach(b => {
             if (b.isExportNamedDeclaration()) {
-              const declaration = b.get('declaration');
+              const declaration = b.get('declaration') as NodePath<t.Declaration>;
 
               if (declaration.isVariableDeclaration()) {
                 const { declarations } = declaration.node;
@@ -195,6 +196,7 @@ export const filter = async (file: string, config: string[]) =>
         const visitor: TraverseOptions = {
           Program: {
             exit(p) {
+              // eslint-disable-next-line no-param-reassign
               p.node.body = p.node.body.sort((a, b) => {
                 return t.isImportDeclaration(a) ? -1 : 0;
               });

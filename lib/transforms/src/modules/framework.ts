@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import * as t from '@babel/types';
 import { NodePath, TraverseOptions } from '@babel/traverse';
 

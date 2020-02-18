@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import path from 'path';
 import fse from 'fs-extra';
 import resolve from 'enhanced-resolve';
@@ -45,7 +46,7 @@ export const detectSubConfigs = (ast: t.File): string[] => {
 export const removeSubConfigRefs = (): TraverseOptions => {
   return {
     ExportNamedDeclaration(p) {
-      const declaration = p.get('declaration');
+      const declaration = p.get('declaration') as NodePath<t.Declaration>;
 
       if (declaration.isVariableDeclaration()) {
         const declarations = declaration.get('declarations');
@@ -106,7 +107,7 @@ export const collectSubConfigs = async (files: string[]): Promise<string[]> => {
 
 const findMatchingDeclaration = (p: NodePath<t.Statement>, name: string) => {
   if (p.isExportNamedDeclaration()) {
-    const declaration = p.get('declaration');
+    const declaration = p.get('declaration') as NodePath<t.Declaration>;
     if (declaration.isVariableDeclaration()) {
       const declarations = declaration.get('declarations');
       return declarations.find(d => {
@@ -152,7 +153,7 @@ const createExport = (combined: NodePath<t.Program>, d: NodePath<t.VariableDecla
 const addToCombined = (combined: NodePath<t.Program>) => (
   p: NodePath<t.ExportNamedDeclaration>
 ) => {
-  const declaration = p.get('declaration');
+  const declaration = p.get('declaration') as NodePath<t.Declaration>;
 
   if (declaration.isVariableDeclaration()) {
     const declarations = declaration.get('declarations');
@@ -268,10 +269,10 @@ export const collector = async (files: string[]) => {
           const list: { [k: string]: Binding['path'] } = {};
 
           const findRootStatementUp = (p: NodePath, boundary: NodePath): null | NodePath => {
-            if (p.parentPath === boundary) {
+            if (p.parentPath && p.parentPath === boundary) {
               return null;
             }
-            if (p.parentPath.isProgram()) {
+            if (p.parentPath && p.parentPath.isProgram()) {
               return p;
             }
             if (p.parentPath) {
@@ -378,6 +379,7 @@ export const collector = async (files: string[]) => {
           const visitor: TraverseOptions = {
             Program: {
               exit(p) {
+                // eslint-disable-next-line no-param-reassign
                 p.node.body = p.node.body.sort((a, b) => {
                   return t.isImportDeclaration(a) ? -1 : 0;
                 });

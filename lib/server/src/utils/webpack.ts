@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import webpack from 'webpack';
 import webpackMerge from 'webpack-merge';
 import { WebpackPluginServe } from 'webpack-plugin-serve';
@@ -75,6 +76,7 @@ const addReporterPlugin = (
   type: ConfigPrefix,
   reporter: Reporter
 ): PresetMergeAsyncFn<WebpackConfig> => async base => {
+  // @ts-ignore
   return webpackMerge(base, {
     plugins: [
       new WebpackBar({

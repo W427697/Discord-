@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import * as t from '@babel/types';
 import { TraverseOptions, NodePath, Node, Visitor } from '@babel/traverse';
 import { Framework } from './framework';
@@ -102,7 +103,7 @@ export const removeNonMetadata = (framework: Framework): TraverseOptions => ({
     }
   },
   ExportNamedDeclaration(path) {
-    const declaration = path.get('declaration');
+    const declaration = path.get('declaration') as NodePath<t.Declaration>;
     const specifiers = path.get('specifiers');
 
     if (declaration.isVariableDeclaration()) {
