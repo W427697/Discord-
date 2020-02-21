@@ -10,3 +10,6 @@ declare module 'babel-plugin-react-docgen';
 declare module 'require-from-string';
 declare module 'memory-fs';
 declare module 'vue-loader/lib/plugin';
+declare module 'tmp';
+declare module 'cross-spawn';
+declare module 'styled-components';
