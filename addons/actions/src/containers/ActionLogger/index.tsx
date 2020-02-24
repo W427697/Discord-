@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { FunctionComponent, useState, useCallback } from 'react';
 import deepEqual from 'fast-deep-equal';
 
-import { API } from '@storybook/api';
+import { useChannel } from '@storybook/api';
 import { STORY_RENDERED } from '@storybook/core-events';
 
 import { ActionLogger as ActionLoggerComponent } from '../../components/ActionLogger';
@@ -10,11 +10,6 @@ import { ActionDisplay } from '../../models';
 
 interface ActionLoggerProps {
   active: boolean;
-  api: API;
-}
-
-interface ActionLoggerState {
-  actions: ActionDisplay[];
 }
 
 const safeDeepEqual = (a: any, b: any): boolean => {
@@ -25,41 +20,12 @@ const safeDeepEqual = (a: any, b: any): boolean => {
   }
 };
 
-export default class ActionLogger extends Component<ActionLoggerProps, ActionLoggerState> {
-  private mounted: boolean;
+export const ActionLogger: FunctionComponent<ActionLoggerProps> = ({ active }) => {
+  const [state, setState] = useState([]);
 
-  constructor(props: ActionLoggerProps) {
-    super(props);
-
-    this.state = { actions: [] };
-  }
-
-  componentDidMount() {
-    this.mounted = true;
-    const { api } = this.props;
-
-    api.on(EVENT_ID, this.addAction);
-    api.on(STORY_RENDERED, this.handleStoryChange);
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-    const { api } = this.props;
-
-    api.off(STORY_RENDERED, this.handleStoryChange);
-    api.off(EVENT_ID, this.addAction);
-  }
-
-  handleStoryChange = () => {
-    const { actions } = this.state;
-    if (actions.length > 0 && actions[0].options.clearOnStoryChange) {
-      this.clearActions();
-    }
-  };
-
-  addAction = (action: ActionDisplay) => {
-    this.setState((prevState: ActionLoggerState) => {
-      const actions = [...prevState.actions];
+  const emit = useChannel({
+    [EVENT_ID]: (action: ActionDisplay) => {
+      const actions = state;
       const previous = actions.length && actions[0];
       if (previous && safeDeepEqual(previous.data, action.data)) {
         previous.count++; // eslint-disable-line
@@ -67,21 +33,22 @@ export default class ActionLogger extends Component<ActionLoggerProps, ActionLog
         action.count = 1; // eslint-disable-line
         actions.unshift(action);
       }
-      return { actions: actions.slice(0, action.options.limit) };
-    });
-  };
+      setState(actions.slice(0, action.options.limit));
+    },
+    [STORY_RENDERED]: () => {
+      if (state.length > 0 && state[0].options.clearOnStoryChange) {
+        setState([]);
+      }
+    },
+  });
 
-  clearActions = () => {
-    this.setState({ actions: [] });
-  };
+  const clear = useCallback(() => {
+    setState([]);
+  }, []);
 
-  render() {
-    const { actions = [] } = this.state;
-    const { active } = this.props;
-    const props = {
-      actions,
-      onClear: this.clearActions,
-    };
-    return active ? <ActionLoggerComponent {...props} /> : null;
-  }
-}
+  const props = {
+    actions: state,
+    onClear: clear,
+  };
+  return active ? <ActionLoggerComponent {...props} /> : null;
+};
