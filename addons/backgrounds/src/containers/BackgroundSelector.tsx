@@ -1,7 +1,7 @@
-import React, { Component, Fragment, ReactElement } from 'react';
+import React, { Fragment, ReactElement, useCallback, FunctionComponent } from 'react';
 import memoize from 'memoizerific';
 
-import { Combo, Consumer, API } from '@storybook/api';
+import { Combo, Consumer, useStorybookApi } from '@storybook/api';
 import { Global, Theme } from '@storybook/theming';
 
 import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
@@ -103,64 +103,58 @@ interface GlobalState {
   selected: string | undefined;
 }
 
-interface Props {
-  api: API;
-}
-
-export class BackgroundSelector extends Component<Props> {
-  change = ({ selected, name }: GlobalState) => {
-    const { api } = this.props;
+export const BackgroundSelector: FunctionComponent = () => {
+  const change = useCallback(({ selected, name }: GlobalState) => {
+    const api = useStorybookApi();
     if (typeof selected === 'string') {
       api.setAddonState<string>(PARAM_KEY, selected);
     }
     api.emit(EVENTS.UPDATE, { selected, name });
-  };
+  }, []);
 
-  render() {
-    return (
-      <Consumer filter={mapper}>
-        {({ items, selected }: ReturnType<typeof mapper>) => {
-          const selectedBackgroundColor = getSelectedBackgroundColor(items, selected);
+  return (
+    <Consumer filter={mapper}>
+      {({ items, selected }: ReturnType<typeof mapper>) => {
+        const selectedBackgroundColor = getSelectedBackgroundColor(items, selected);
 
-          return items.length ? (
-            <Fragment>
-              {selectedBackgroundColor ? (
-                <Global
-                  styles={(theme: Theme) => ({
-                    [`#${iframeId}`]: {
-                      backgroundColor:
-                        selectedBackgroundColor === 'transparent'
-                          ? theme.background.content
-                          : selectedBackgroundColor,
-                    },
+        return items.length ? (
+          <Fragment>
+            {selectedBackgroundColor ? (
+              <Global
+                styles={(theme: Theme) => ({
+                  [`#${iframeId}`]: {
+                    backgroundColor:
+                      selectedBackgroundColor === 'transparent'
+                        ? theme.background.content
+                        : selectedBackgroundColor,
+                  },
+                })}
+              />
+            ) : null}
+            <WithTooltip
+              placement="top"
+              trigger="click"
+              tooltip={({ onHide }) => (
+                <TooltipLinkList
+                  links={getDisplayedItems(items, selectedBackgroundColor, i => {
+                    change(i);
+                    onHide();
                   })}
                 />
-              ) : null}
-              <WithTooltip
-                placement="top"
-                trigger="click"
-                tooltip={({ onHide }) => (
-                  <TooltipLinkList
-                    links={getDisplayedItems(items, selectedBackgroundColor, i => {
-                      this.change(i);
-                      onHide();
-                    })}
-                  />
-                )}
-                closeOnClick
+              )}
+              closeOnClick
+            >
+              <IconButton
+                key="background"
+                active={selectedBackgroundColor !== 'transparent'}
+                title="Change the background of the preview"
               >
-                <IconButton
-                  key="background"
-                  active={selectedBackgroundColor !== 'transparent'}
-                  title="Change the background of the preview"
-                >
-                  <Icons icon="photo" />
-                </IconButton>
-              </WithTooltip>
-            </Fragment>
-          ) : null;
-        }}
-      </Consumer>
-    );
-  }
-}
+                <Icons icon="photo" />
+              </IconButton>
+            </WithTooltip>
+          </Fragment>
+        ) : null;
+      }}
+    </Consumer>
+  );
+};
