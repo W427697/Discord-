@@ -3,9 +3,9 @@
 
 
 "@alib/build-scripts@^0.1.8":
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/@alib/build-scripts/-/build-scripts-0.1.13.tgz#22228b0d68bf0fb467a98e47a899e5d00f81f66d"
-  integrity sha512-JRPJ++BBZXl+xDTG6Yh/xaNsHWNTq8eUuPsbwg6vikbFpsjEU0MMdRvHPXnSAA39XLbR+3+i7IXkl27+OMi4tA==
+  version "0.1.14"
+  resolved "https://registry.yarnpkg.com/@alib/build-scripts/-/build-scripts-0.1.14.tgz#e65017f28481d58a9bb8170fa7f4554075614893"
+  integrity sha512-BjSMjatJNM7PQOtlpSM9KDiOT12Ps8+TneDIPGPQQYa6WBd0AvdhLlQy2amh8vwEGsvJrJJ90Yt9Z1KUgQns6g==
   dependencies:
     address "^1.1.0"
     camelcase "^5.3.1"
