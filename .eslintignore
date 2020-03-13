@@ -26,4 +26,4 @@ examples/rax-kitchen-sink/src/document/*
 !.eslintrc-markdown.js
 !.jest.config.js
 !.storybook
-
+lib/cra-template/template

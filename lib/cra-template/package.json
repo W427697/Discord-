@@ -1,0 +1,33 @@
+{
+  "name": "@storybook/cra-template",
+  "version": "6.0.0-alpha.25",
+  "description": "Storybook's official template for Create React App",
+  "keywords": [
+    "cra-template",
+    "create-react-app",
+    "template",
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/cra-template",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "lib/cra-template"
+  },
+  "license": "MIT",
+  "author": "Storybook Team",
+  "files": [
+    "template",
+    "template.json"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "4b9d901add9452525135caae98ae5f78dd8da9ff"
+}

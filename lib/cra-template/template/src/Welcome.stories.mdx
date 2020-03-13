@@ -1,0 +1,28 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { action } from '@storybook/addon-actions';
+import { Welcome, Button } from '@storybook/react/demo';
+
+<Meta title="Welcome" component={Button} />
+
+# Welcome to storybook
+
+This is a UI component dev environment for your app.
+
+We've added some basic stories inside the `src/` directory.  
+A story is a single state of one or more UI components. You can have as many stories as you want.  
+(Basically a story is like a visual test case.)
+
+See this sample story for a component called Button.
+
+<Preview withToolbar>
+  <Story name="to Storybook">
+    <Button onClick={action('clicked')}>Hello Button</Button>
+  </Story>
+</Preview>
+
+Just like that, you can add your own components as stories.  
+You can also edit those components and see changes right away.  
+(Try editing this story located at `src/Welcome.stories.mdx`.)
+
+Usually we create stories with smaller UI components in the app.  
+Have a look at the [Writing Stories](https://storybook.js.org/docs/basics/writing-stories/) section in our documentation.

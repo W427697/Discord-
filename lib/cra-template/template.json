@@ -1,0 +1,17 @@
+{
+  "package": {
+    "scripts": {
+      "storybook": "start-storybook -p 6006",
+      "build-storybook": "build-storybook"
+    },
+    "dependencies": {
+      "@testing-library/react": "^9.3.2",
+      "@testing-library/jest-dom": "^4.2.4",
+      "@testing-library/user-event": "^7.1.2",
+      "@storybook/addon-actions": "6.0.0-alpha.25",
+      "@storybook/addon-docs": "6.0.0-alpha.25",
+      "@storybook/addons": "6.0.0-alpha.25",
+      "@storybook/react": "6.0.0-alpha.25"
+    }
+  }
+}
