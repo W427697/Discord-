@@ -19,12 +19,13 @@
   },
   "license": "MIT",
   "author": "Storybook Team",
+  "main": "template.json",
   "files": [
     "template",
     "template.json"
   ],
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "publishConfig": {
     "access": "public"
