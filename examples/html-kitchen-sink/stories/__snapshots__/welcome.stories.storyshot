@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Storyshots Welcome Async Welcome 1`] = `[object Promise]`;
+
 exports[`Storyshots Welcome Welcome 1`] = `
 <div
   class="main"
