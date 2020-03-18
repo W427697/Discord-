@@ -11,4 +11,4 @@ export default {
 
 export const Welcome = () => welcome;
 
-export const WelcomeAsync = () => welcomeAsync;
+export const WelcomeAsync = async () => welcomeAsync;
