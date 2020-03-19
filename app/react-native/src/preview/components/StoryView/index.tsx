@@ -77,7 +77,7 @@ export default class StoryView extends Component<Props> {
       const { id, storyFn } = story;
       return (
         <View key={id} testID={id} style={{ flex: 1 }}>
-          {storyFn()}
+          <StoryFn />
         </View>
       );
     }
