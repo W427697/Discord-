@@ -35,23 +35,25 @@ export const LeafStyle = styled.div<{ depth: number; isSelected: boolean }>(
   })
 );
 
-export const DefaultLeaf: FunctionComponent<{ name: ReactNode; depth: number } & Record<
-  string,
-  any
->> = ({ name, isSelected, depth, ...rest }) => (
-  <LeafStyle isSelected={isSelected} depth={depth} {...rest}>
+export const DefaultLeaf: FunctionComponent<{
+  name: ReactNode;
+  tags: string;
+  depth: number;
+} & Record<string, any>> = ({ name, tags, isSelected, depth, ...rest }) => (
+  <LeafStyle isSelected={isSelected} depth={depth} data-tags={tags} {...rest}>
     {name}
   </LeafStyle>
 );
 
 export const DefaultHead: FunctionComponent<{
   name: ReactNode;
+  tags: string;
   depth: number;
   isExpanded?: boolean;
   isSelected?: boolean;
   isComponent?: boolean;
-}> = ({ name, depth, isExpanded = false, isSelected = false, isComponent = false }) => (
-  <LeafStyle isSelected={isSelected} depth={depth}>
+}> = ({ name, tags, depth, isExpanded = false, isSelected = false, isComponent = false }) => (
+  <LeafStyle isSelected={isSelected} depth={depth} data-tags={tags}>
     <span>
       {isExpanded ? '-' : '+'}
       {isComponent ? '!' : ''}
@@ -65,10 +67,16 @@ export const DefaultRootTitle = styled.h4({});
 export const DefaultLink: FunctionComponent<{
   id: string;
   prefix: string;
+  tags: string;
   children: string[];
   onClick: Function;
-}> = ({ id, prefix, children, ...rest }) => (
-  <A href={`#!${prefix}${id}`} {...rest} onClick={e => prevent(e) || rest.onClick(e)}>
+}> = ({ id, prefix, tags, children, ...rest }) => (
+  <A
+    href={`#!${prefix}${id}`}
+    data-tags={tags}
+    {...rest}
+    onClick={e => prevent(e) || rest.onClick(e)}
+  >
     {children}
   </A>
 );

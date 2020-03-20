@@ -88,6 +88,7 @@ const loadStories = (
     const {
       title: kindName,
       id: componentId,
+      tags: componentTags,
       parameters: kindParameters,
       decorators: kindDecorators,
       component,
@@ -118,7 +119,8 @@ const loadStories = (
     Object.keys(exports).forEach(key => {
       if (isExportStory(key, meta)) {
         const storyFn = exports[key];
-        const { name, parameters, decorators, args, argTypes } = storyFn.story || {};
+        const { name, tags: storyTags, parameters, decorators, args, argTypes } =
+          storyFn.story || {};
         if (parameters && parameters.decorators) {
           deprecate(() => {},
           `${kindName} => ${name || key}: story.parameters.decorators is deprecated; use story.decorators instead.`)();
@@ -134,7 +136,7 @@ const loadStories = (
           args,
           argTypes,
         };
-        kind.add(name || exportName, storyFn, storyParams);
+        kind.add(name || exportName, storyFn, storyParams, componentTags, storyTags);
       }
     });
   });
