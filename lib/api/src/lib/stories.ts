@@ -12,6 +12,7 @@ export interface Root {
   id: StoryId;
   depth: 0;
   name: string;
+  componentTags?: string;
   children: StoryId[];
   isComponent: false;
   isRoot: true;
@@ -27,6 +28,7 @@ export interface Group {
   id: StoryId;
   depth: number;
   name: string;
+  componentTags?: string;
   children: StoryId[];
   parent?: StoryId;
   isComponent: boolean;
@@ -45,6 +47,8 @@ export interface Story {
   parent: StoryId;
   name: string;
   kind: string;
+  componentTags?: string;
+  storyTags?: string;
   children?: StoryId[];
   isComponent: boolean;
   isRoot: false;
@@ -67,6 +71,8 @@ export interface StoryInput {
   id: StoryId;
   name: string;
   kind: string;
+  componentTags?: string;
+  storyTags?: string;
   children: string[];
   parameters: {
     fileName: string;
@@ -136,7 +142,7 @@ export const transformStoriesRawToStoriesHash = (
   );
 
   const storiesHashOutOfOrder = Object.values(input).reduce((acc, item) => {
-    const { kind, parameters } = item;
+    const { kind, componentTags, parameters } = item;
     const {
       hierarchyRootSeparator: rootSeparator = undefined,
       hierarchySeparator: groupSeparator = undefined,
@@ -208,6 +214,7 @@ export const transformStoriesRawToStoriesHash = (
           ...group,
           id,
           parent,
+          componentTags,
           depth: index,
           children: [],
           isComponent: false,
@@ -223,11 +230,24 @@ export const transformStoriesRawToStoriesHash = (
     // Ok, now let's add everything to the store
     rootAndGroups.forEach((group, index) => {
       const child = paths[index + 1];
-      const { id } = group;
+      const { id, name, depth, parent, isComponent, isLeaf } = group as Group;
       acc[id] = merge(acc[id] || {}, {
-        ...group,
+        id,
+        name,
+        depth,
+        parent,
+        isComponent,
+        isLeaf,
         ...(child && { children: [child] }),
       });
+      acc[id].isRoot = group.isRoot;
+      if (group.componentTags) {
+        if (!acc[id].componentTags) {
+          acc[id].componentTags = group.componentTags;
+        } else if (!acc[id].componentTags.includes(group.componentTags)) {
+          acc[id].componentTags += `|${group.componentTags}`;
+        }
+      }
     });
 
     const story = { ...item, parent: rootAndGroups[rootAndGroups.length - 1].id, isLeaf: true };

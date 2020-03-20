@@ -60,6 +60,7 @@ describe('core.preview.loadCsf', () => {
       a: {
         default: {
           title: 'a',
+          tags: 'a',
         },
         1: () => 0,
         2: () => 0,
@@ -67,9 +68,10 @@ describe('core.preview.loadCsf', () => {
       b: {
         default: {
           title: 'b',
+          tags: 'b',
         },
         1: () => 0,
-        2: Object.assign(() => 0, { story: { name: 'two' } }),
+        2: Object.assign(() => 0, { story: { name: 'two', tags: 'two' } }),
       },
     };
     configure(makeRequireContext(input), mod, 'react');
@@ -77,13 +79,13 @@ describe('core.preview.loadCsf', () => {
     const mockedStoriesOf = clientApi.storiesOf as jest.Mock;
     expect(mockedStoriesOf).toHaveBeenCalledWith('a', true);
     const aApi = mockedStoriesOf.mock.results[0].value;
-    expect(aApi.add).toHaveBeenCalledWith('1', input.a[1], { __id: 'a--1' });
-    expect(aApi.add).toHaveBeenCalledWith('2', input.a[2], { __id: 'a--2' });
+    expect(aApi.add).toHaveBeenCalledWith('1', input.a[1], { __id: 'a--1' }, 'a', undefined);
+    expect(aApi.add).toHaveBeenCalledWith('2', input.a[2], { __id: 'a--2' }, 'a', undefined);
 
     expect(mockedStoriesOf).toHaveBeenCalledWith('b', true);
     const bApi = mockedStoriesOf.mock.results[1].value;
-    expect(bApi.add).toHaveBeenCalledWith('1', input.b[1], { __id: 'b--1' });
-    expect(bApi.add).toHaveBeenCalledWith('two', input.b[2], { __id: 'b--2' });
+    expect(bApi.add).toHaveBeenCalledWith('1', input.b[1], { __id: 'b--1' }, 'b', undefined);
+    expect(bApi.add).toHaveBeenCalledWith('two', input.b[2], { __id: 'b--2' }, 'b', 'two');
   });
 
   it('adds stories in the right order if __namedExportsOrder is supplied', () => {
@@ -170,7 +172,13 @@ describe('core.preview.loadCsf', () => {
 
     const mockedStoriesOf = clientApi.storiesOf as jest.Mock;
     const aApi = mockedStoriesOf.mock.results[0].value;
-    expect(aApi.add).toHaveBeenCalledWith('X', input.a.x, { __id: 'random--x' });
+    expect(aApi.add).toHaveBeenCalledWith(
+      'X',
+      input.a.x,
+      { __id: 'random--x' },
+      undefined,
+      undefined
+    );
   });
 
   it('sets various parameters on components', () => {
@@ -246,13 +254,19 @@ describe('core.preview.loadCsf', () => {
 
     const mockedStoriesOf = clientApi.storiesOf as jest.Mock;
     const aApi = mockedStoriesOf.mock.results[0].value;
-    expect(aApi.add).toHaveBeenCalledWith('X', input.a.x, {
-      x: 'y',
-      decorators: [decorator],
-      __id: 'a--x',
-      args: { b: 1 },
-      argTypes: { b: 'string' },
-    });
+    expect(aApi.add).toHaveBeenCalledWith(
+      'X',
+      input.a.x,
+      {
+        x: 'y',
+        decorators: [decorator],
+        __id: 'a--x',
+        args: { b: 1 },
+        argTypes: { b: 'string' },
+      },
+      undefined,
+      undefined
+    );
   });
 
   it('allows passing decorators on parameters (deprecated)', () => {
@@ -271,10 +285,16 @@ describe('core.preview.loadCsf', () => {
 
     const mockedStoriesOf = clientApi.storiesOf as jest.Mock;
     const aApi = mockedStoriesOf.mock.results[0].value;
-    expect(aApi.add).toHaveBeenCalledWith('X', input.a.x, {
-      decorators: [decorator],
-      __id: 'a--x',
-    });
+    expect(aApi.add).toHaveBeenCalledWith(
+      'X',
+      input.a.x,
+      {
+        decorators: [decorator],
+        __id: 'a--x',
+      },
+      undefined,
+      undefined
+    );
   });
 
   it('handles HMR correctly when adding stories', () => {

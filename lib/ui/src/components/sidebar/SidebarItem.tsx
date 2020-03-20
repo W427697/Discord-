@@ -63,8 +63,8 @@ const Icon = styled(Icons)<IconProps>(
   ({ isSelected = false }) => (isSelected ? { color: 'inherit' } : {})
 );
 
-export const Item = styled(({ className, children, id }) => (
-  <div className={className} id={id}>
+export const Item = styled(({ className, children, id, tags }) => (
+  <div className={className} id={id} data-tags={tags}>
     {children}
   </div>
 ))(

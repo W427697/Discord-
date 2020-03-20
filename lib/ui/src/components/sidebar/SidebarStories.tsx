@@ -71,6 +71,7 @@ const targetId = (childIds?: string[]) =>
 export const Link: FunctionComponent<{
   id: string;
   name: string;
+  tags: string;
   isLeaf: boolean;
   prefix: string;
   onKeyUp: Function;
@@ -83,6 +84,7 @@ export const Link: FunctionComponent<{
   id,
   prefix,
   name,
+  tags,
   children,
   isLeaf,
   isComponent,
@@ -98,6 +100,7 @@ export const Link: FunctionComponent<{
         <PlainRouterLink
           title={name}
           id={prefix + id}
+          data-tags={tags}
           to={`/${viewMode(currentViewMode, isLeaf && isComponent, parameters)}/${targetId(
             childIds
           ) || id}`}
@@ -109,7 +112,7 @@ export const Link: FunctionComponent<{
       )}
     </Location>
   ) : (
-    <PlainLink title={name} id={prefix + id} onKeyUp={onKeyUp} onClick={onClick}>
+    <PlainLink title={name} id={prefix + id} data-tags={tags} onKeyUp={onKeyUp} onClick={onClick}>
       {children}
     </PlainLink>
   );

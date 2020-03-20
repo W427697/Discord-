@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import memoize from 'memoizerific';
 import addons from '@storybook/addons';
+import { Story } from '@storybook/api/dist/lib/stories';
 import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
 import debounce from 'lodash/debounce';
 
@@ -37,6 +38,8 @@ import {
   DefaultMessage,
 } from './components';
 
+const noTags = 'none';
+
 const createHandler = memoize(10000)((item, cb) => (...args: any[]) => cb(...args, item));
 
 const linked = (
@@ -45,18 +48,20 @@ const linked = (
     onClick,
     onKeyUp,
     prefix = '',
+    tags = noTags,
     Link: L,
-  }: { onClick: Function; onKeyUp: Function; Link: ComponentType; prefix: string }
+  }: { onClick: Function; onKeyUp: Function; Link: ComponentType; tags: string; prefix: string }
 ) => {
   const Linked = React.memo(p => (
     <L
       prefix={prefix}
+      data-tags={tags}
       {...p}
       // @ts-ignore
       onKeyUp={createHandler(p, onKeyUp)}
       onClick={createHandler(p, onClick)}
     >
-      <C {...p} />
+      <C data-tags={tags} {...p} />
     </L>
   ));
   Linked.displayName = `Linked${C.displayName}`;
@@ -71,12 +76,14 @@ const getHead = memoize(1)(
     Head: ComponentType<any>,
     Link: ComponentType<any>,
     prefix: string,
-    events: Record<string, any>
+    events: Record<string, any>,
+    tags: string
   ) =>
     linked(Head || DefaultHead, {
       onClick: events.onClick,
       onKeyUp: events.onKeyUp,
       prefix,
+      tags,
       Link: getLink(Link),
     })
 );
@@ -86,12 +93,14 @@ const getLeaf = memoize(1)(
     Leaf: ComponentType<any>,
     Link: ComponentType<any>,
     prefix: string,
-    events: Record<string, any>
+    events: Record<string, any>,
+    tags: string
   ) =>
     linked(Leaf || DefaultLeaf, {
       onClick: events.onClick,
       onKeyUp: events.onKeyUp,
       prefix,
+      tags,
       Link: getLink(Link),
     })
 );
@@ -121,10 +130,11 @@ const branchOrLeaf = (
     depth,
   }: { root: string; dataset: Dataset; expanded: ExpandedSet; selected: SelectedSet; depth: number }
 ) => {
-  const node = dataset[root];
+  const node = dataset[root] as Story;
   return node.children ? (
     <Branch
       key={node.id}
+      tags={node.componentTags || noTags}
       {...{
         Branch,
         Leaf,
@@ -138,7 +148,13 @@ const branchOrLeaf = (
       }}
     />
   ) : (
-    <Leaf key={node.id} {...node} depth={depth} isSelected={selected[node.id]} />
+    <Leaf
+      key={node.id}
+      {...node}
+      depth={depth}
+      isSelected={selected[node.id]}
+      tags={node.storyTags || node.componentTags || noTags}
+    />
   );
 };
 
@@ -146,6 +162,7 @@ const Tree: FunctionComponent<{
   root: string;
   depth: number;
   dataset: Dataset;
+  tags: string;
   expanded: ExpandedSet;
   selected: SelectedSet;
   events?: any;
@@ -159,6 +176,7 @@ const Tree: FunctionComponent<{
     root,
     depth,
     dataset,
+    tags = noTags,
     expanded,
     selected,
     Branch = Tree,
@@ -187,6 +205,7 @@ const Tree: FunctionComponent<{
         <Fragment>
           <Head
             {...node}
+            tags={tags}
             depth={depth}
             isExpanded={expanded[node.id]}
             isSelected={selected[node.id]}
@@ -200,7 +219,9 @@ const Tree: FunctionComponent<{
       return <List>{children.map(mapNode)}</List>;
     }
     case node.isLeaf: {
-      return <Leaf key={node.id} {...node} depth={depth} isSelected={selected[node.id]} />;
+      return (
+        <Leaf key={node.id} {...node} depth={depth} isSelected={selected[node.id]} tags={tags} />
+      );
     }
     default: {
       return null;
@@ -470,15 +491,13 @@ class TreeState extends PureComponent<TreeStateProps, TreeStateState> {
       state: { filter, unfilteredExpanded, filteredExpanded },
       props,
     } = this;
-    const { prefix, dataset, selectedId } = props;
+    const { prefix, dataset, selectedId, Leaf, Head } = props;
 
     const Filter = getFilter(props.Filter);
     const List = getFilter(props.List);
     const Branch = Tree;
     const Title = getTitle(props.Title);
     const Link = getLink(props.Link);
-    const Leaf = getLeaf(props.Leaf, Link, prefix, events);
-    const Head = getHead(props.Head, Link, prefix, events);
     const Section = getContainer(props.Section);
     const Message = getMessage(props.Message);
 
@@ -492,19 +511,20 @@ class TreeState extends PureComponent<TreeStateProps, TreeStateState> {
         {!roots.length && !others.length && <Message>This filter resulted in 0 results</Message>}
 
         {others.length ? (
-          <Section key="other">
-            {others.map(({ id }) => (
+          <Section key="other" className="sidebar-section">
+            {others.map(({ id, componentTags: tags }) => (
               <Branch
                 key={id}
                 depth={0}
                 dataset={filteredDataset}
+                tags={tags}
                 selected={selected}
                 expanded={expanded}
                 root={id}
                 events={events}
                 Link={Link}
-                Head={Head}
-                Leaf={Leaf}
+                Head={getHead(Head, Link, prefix, events, tags)}
+                Leaf={getLeaf(Leaf, Link, prefix, events, tags)}
                 Branch={Branch}
               />
             ))}
@@ -512,25 +532,29 @@ class TreeState extends PureComponent<TreeStateProps, TreeStateState> {
         ) : null}
 
         {roots.map(({ id, name, children }) => (
-          <Section key={id}>
+          <Section key={id} className="sidebar-section">
             <Title type="section" mods={['uppercase']}>
               {name}
             </Title>
-            {children.map(key => (
-              <Branch
-                key={key}
-                depth={0}
-                dataset={filteredDataset}
-                selected={selected}
-                expanded={expanded}
-                root={key}
-                events={events}
-                Head={Head}
-                Leaf={Leaf}
-                Branch={Branch}
-                List={List}
-              />
-            ))}
+            {children.map(key => {
+              const { componentTags: tags } = filteredDataset[key] || {};
+              return (
+                <Branch
+                  key={key}
+                  tags={tags}
+                  depth={0}
+                  dataset={filteredDataset}
+                  selected={selected}
+                  expanded={expanded}
+                  root={key}
+                  events={events}
+                  Head={getHead(Head, Link, prefix, events, tags)}
+                  Leaf={getLeaf(Leaf, Link, prefix, events, tags)}
+                  Branch={Branch}
+                  List={List}
+                />
+              );
+            })}
           </Section>
         ))}
       </Fragment>

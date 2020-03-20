@@ -1,6 +1,7 @@
 import {
   Addon,
   StoryIdentifier,
+  StoryTags,
   StoryFn,
   Parameters,
   Args,
@@ -25,12 +26,16 @@ export interface StoryMetadata {
 export type ParameterEnhancer = (context: StoryContext) => Parameters;
 
 export type AddStoryArgs = StoryIdentifier & {
+  componentTags?: StoryTags;
+  storyTags?: StoryTags;
   storyFn: StoryFn<any>;
   parameters?: Parameters;
   decorators?: DecoratorFunction[];
 };
 
 export type StoreItem = StoryIdentifier & {
+  componentTags?: StoryTags;
+  storyTags?: StoryTags;
   parameters: Parameters;
   getDecorated: () => StoryFn<any>;
   getOriginal: () => StoryFn<any>;
