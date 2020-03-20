@@ -15,6 +15,7 @@ export interface Root {
   depth: 0;
   name: string;
   refId?: string;
+  componentTags?: string;
   children: StoryId[];
   isComponent: false;
   isRoot: true;
@@ -30,6 +31,7 @@ export interface Group {
   id: StoryId;
   depth: number;
   name: string;
+  componentTags?: string;
   children: StoryId[];
   refId?: string;
   parent?: StoryId;
@@ -51,6 +53,8 @@ export interface Story {
   name: string;
   kind: StoryKind;
   refId?: string;
+  componentTags?: string;
+  storyTags?: string;
   children?: StoryId[];
   isComponent: boolean;
   isRoot: false;
@@ -74,7 +78,9 @@ export interface StoryInput {
   id: StoryId;
   name: string;
   refId?: string;
-  kind: StoryKind;
+  kind: string;
+  componentTags?: string;
+  storyTags?: string;
   children: string[];
   parameters: {
     fileName: string;

@@ -87,6 +87,7 @@ const loadStories = (
     const {
       title: kindName,
       id: componentId,
+      tags: componentTags,
       parameters: kindParameters,
       decorators: kindDecorators,
       component,
@@ -126,7 +127,8 @@ const loadStories = (
     storyExports.forEach((key) => {
       if (isExportStory(key, meta)) {
         const storyFn = exports[key];
-        const { name, parameters, decorators, args, argTypes } = storyFn.story || {};
+        const { name, tags: storyTags, parameters, decorators, args, argTypes } =
+          storyFn.story || {};
         const decoratorParams = decorators ? { decorators } : null;
         const exportName = storyNameFromExport(key);
         const idParams = { __id: toId(componentId || kindName, exportName) };
@@ -138,7 +140,7 @@ const loadStories = (
           args,
           argTypes,
         };
-        kind.add(name || exportName, storyFn, storyParams);
+        kind.add(name || exportName, storyFn, storyParams, componentTags, storyTags);
       }
     });
   });

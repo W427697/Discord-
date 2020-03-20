@@ -18,6 +18,7 @@ export function isSupportedType(type: Types): boolean {
 
 export type StoryId = string;
 export type StoryKind = string;
+export type StoryTags = string;
 export type StoryName = string;
 export type ViewMode = 'story' | 'docs';
 
@@ -54,6 +55,8 @@ export interface StoryIdentifier {
 
 export type StoryContext = StoryIdentifier & {
   [key: string]: any;
+  componentTags?: StoryTags;
+  storyTags?: StoryTags;
   parameters: Parameters;
   args: Args;
   globalArgs: Args;
@@ -124,7 +127,9 @@ export interface StoryApi<StoryFnReturnType = unknown> {
   add: (
     storyName: StoryName,
     storyFn: StoryFn<StoryFnReturnType>,
-    parameters?: Parameters
+    parameters?: Parameters,
+    componentTags?: StoryTags,
+    storyTags?: StoryTags
   ) => StoryApi<StoryFnReturnType>;
   addDecorator: (decorator: DecoratorFunction<StoryFnReturnType>) => StoryApi<StoryFnReturnType>;
   addParameters: (parameters: Parameters) => StoryApi<StoryFnReturnType>;

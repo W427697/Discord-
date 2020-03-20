@@ -248,6 +248,8 @@ export default class StoryStore {
       id,
       kind,
       name,
+      componentTags,
+      storyTags,
       storyFn: original,
       parameters: storyParameters = {},
       decorators: storyDecorators = [],
@@ -284,6 +286,8 @@ export default class StoryStore {
       id,
       kind,
       name,
+      componentTags,
+      storyTags,
       story: name, // legacy
     };
 

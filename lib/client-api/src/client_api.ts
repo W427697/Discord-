@@ -169,7 +169,9 @@ export default class ClientApi {
     api.add = (
       storyName: string,
       storyFn: StoryFn<StoryFnReturnType>,
-      parameters: Parameters = {}
+      parameters: Parameters = {},
+      componentTags,
+      storyTags
     ) => {
       hasAdded = true;
 
@@ -196,6 +198,8 @@ export default class ClientApi {
           id,
           kind,
           name: storyName,
+          componentTags,
+          storyTags,
           storyFn,
           parameters: { fileName, ...storyParameters },
           decorators,

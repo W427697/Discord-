@@ -9,6 +9,8 @@ const defaultContext: StoryContext = {
   id: 'unspecified',
   name: 'unspecified',
   kind: 'unspecified',
+  componentTags: 'unspecified',
+  storyTags: 'unspecified',
   parameters: {},
   args: {},
   globalArgs: {},
