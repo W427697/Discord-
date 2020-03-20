@@ -384,3 +384,55 @@ Baz.story = {
 ```
 
 Storybook will prioritize the `id` over the title for ID generation, if provided, and will prioritize the `story.name` over the export key for display.
+
+## Adding tags to story links in the sidebar
+
+Components are rendered in the sidebar as links that include a `data-tags` attribute which defaults to `data-tags="none"`
+Users can add tags to components and stories so they will show up in the `data-tags` atribute
+
+These tags can be used to show or hide stories based on plain css selectors:
+for instance users can add a rule to hide all stories with `data-tags="hidden"`:
+```css
+[data-tags=hidden] {
+  display: none;
+}
+```
+or more complex to hide all stories that do not have a certain TAG so only the stories that belong to that TAG will show:
+```css
+[data-tags]:not([data-tags~=TAG] {
+  display: none;
+}
+```
+> NOTE: - these css options are not included in the code, the user must add these themselves, depending on the solution they are looking for.
+
+to add the tags to the stories you only need to add it to the default like so:
+```js
+export default {
+  title: 'Welcome',
+  tags: 'hidden',
+};
+```
+or to a specific story like this:
+```js
+Button.story = {
+  tags: 'hidden'
+}
+```
+
+Users can specify multiple tags using the pipe symbol `|` e.g. `tags: 'web|app'` to specify that the component or story belongs to the `web` and to the `app`
+if a user would add `tags: 'web|app'` to default and then add `tags: 'web'` to a story and `tags: 'app'` to another, one could show and hide different stories based on a selected TAG
+if components are created under the same branch, the branch will receive the tags from all component and pipe `|` them together e.g. if one storyfile has 
+```js
+export default {
+  title: 'Components/Category/Headings',
+  tags: 'web'
+}
+```
+and another storyfile has
+```js
+export default {
+  title: 'Components/Category/Buttons',
+  tags: 'app'
+}
+```
+the resulting link in the sidebar to `Category` will have `data-tags="web|app"`
