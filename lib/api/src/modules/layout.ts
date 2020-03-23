@@ -11,8 +11,15 @@ import Store from '../store';
 import { Provider } from '../init-provider-api';
 
 export type PanelPositions = 'bottom' | 'right';
+export type ActiveTabsType = 'sidebar' | 'canvas' | 'addons';
+export const ActiveTabs = {
+  SIDEBAR: 'sidebar' as 'sidebar',
+  CANVAS: 'canvas' as 'canvas',
+  ADDONS: 'addons' as 'addons',
+};
 
 export interface Layout {
+  initialActive: ActiveTabsType;
   isFullscreen: boolean;
   showPanel: boolean;
   panelPosition: PanelPositions;
@@ -47,9 +54,8 @@ export interface SubAPI {
 type PartialSubState = Partial<SubState>;
 type PartialThemeVars = Partial<ThemeVars>;
 type PartialLayout = Partial<Layout>;
-type PartialUI = Partial<UI>;
 
-interface Options extends ThemeVars {
+export interface UIOptions {
   name?: string;
   url?: string;
   goFullScreen: boolean;
@@ -89,16 +95,19 @@ const deprecationMessage = (optionsMap: OptionsMap, prefix = '') =>
     prefix ? `${prefix}'s` : ''
   } { ${Object.values(optionsMap).join(', ')} } instead.`;
 
-const applyDeprecatedThemeOptions = deprecate(({ name, url, theme }: Options): PartialThemeVars => {
-  const { brandTitle, brandUrl, brandImage }: PartialThemeVars = theme || {};
-  return {
-    brandTitle: brandTitle || name,
-    brandUrl: brandUrl || url,
-    brandImage: brandImage || null,
-  };
-}, deprecationMessage(deprecatedThemeOptions));
+const applyDeprecatedThemeOptions = deprecate(
+  ({ name, url, theme }: UIOptions): PartialThemeVars => {
+    const { brandTitle, brandUrl, brandImage }: PartialThemeVars = theme || {};
+    return {
+      brandTitle: brandTitle || name,
+      brandUrl: brandUrl || url,
+      brandImage: brandImage || null,
+    };
+  },
+  deprecationMessage(deprecatedThemeOptions)
+);
 
-const applyDeprecatedLayoutOptions = deprecate((options: Options): PartialLayout => {
+const applyDeprecatedLayoutOptions = deprecate((options: Partial<UIOptions>): PartialLayout => {
   const layoutUpdate: PartialLayout = {};
 
   ['goFullScreen', 'showStoriesPanel', 'showAddonPanel'].forEach(
@@ -116,27 +125,28 @@ const applyDeprecatedLayoutOptions = deprecate((options: Options): PartialLayout
   return layoutUpdate;
 }, deprecationMessage(deprecatedLayoutOptions));
 
-const checkDeprecatedThemeOptions = (options: Options) => {
+const checkDeprecatedThemeOptions = (options: UIOptions) => {
   if (Object.keys(deprecatedThemeOptions).find(v => v in options)) {
     return applyDeprecatedThemeOptions(options);
   }
   return {};
 };
 
-const checkDeprecatedLayoutOptions = (options: Options) => {
+const checkDeprecatedLayoutOptions = (options: Partial<UIOptions>) => {
   if (Object.keys(deprecatedLayoutOptions).find(v => v in options)) {
     return applyDeprecatedLayoutOptions(options);
   }
   return {};
 };
 
-const initial: SubState = {
+const defaultState: SubState = {
   ui: {
     enableShortcuts: true,
     sidebarAnimations: true,
     docsMode: false,
   },
   layout: {
+    initialActive: ActiveTabs.SIDEBAR,
     isToolshown: true,
     isFullscreen: false,
     showPanel: true,
@@ -153,7 +163,6 @@ export const focusableUIElements = {
   storyPanelRoot: 'storybook-panel-root',
 };
 
-let hasSetOptions = false;
 export default function({ store, provider }: { store: Store; provider: Provider }) {
   const api = {
     toggleFullscreen(toggled?: boolean) {
@@ -274,31 +283,23 @@ export default function({ store, provider }: { store: Store; provider: Provider 
       const { theme, selectedPanel, ...options } = provider.getConfig();
 
       return {
-        ...initial,
+        ...defaultState,
         layout: {
-          ...initial.layout,
-          ...pick(options, Object.keys(initial.layout)),
+          ...defaultState.layout,
+          ...pick(options, Object.keys(defaultState.layout)),
           ...checkDeprecatedLayoutOptions(options),
         },
         ui: {
-          ...initial.ui,
-          ...pick(options, Object.keys(initial.ui)),
+          ...defaultState.ui,
+          ...pick(options, Object.keys(defaultState.ui)),
         },
-        selectedPanel: selectedPanel || initial.selectedPanel,
-        theme: theme || initial.theme,
+        selectedPanel: selectedPanel || defaultState.selectedPanel,
+        theme: theme || defaultState.theme,
       };
     },
 
     setOptions: (options: any) => {
-      // The very first time the user sets their options, we don't consider what is in the store.
-      // At this point in time, what is in the store is what we *persisted*. We did that in order
-      // to avoid a FOUC (e.g. initial rendering the wrong theme while we waited for the stories to load)
-      // However, we don't want to have a memory about these things, otherwise we see bugs like the
-      // user setting a name for their storybook, persisting it, then never being able to unset it
-      // without clearing localstorage. See https://github.com/storybookjs/storybook/issues/5857
-      const { layout, ui, selectedPanel, theme } = hasSetOptions
-        ? store.getState()
-        : api.getInitialOptions();
+      const { layout, ui, selectedPanel, theme } = store.getState();
 
       if (options) {
         const updatedLayout = {
@@ -326,9 +327,6 @@ export default function({ store, provider }: { store: Store; provider: Provider 
         if (!deepEqual(layout, updatedLayout)) {
           modification.layout = updatedLayout;
         }
-        if (!deepEqual(theme, updatedTheme)) {
-          modification.theme = updatedTheme;
-        }
         if (options.selectedPanel && !deepEqual(selectedPanel, options.selectedPanel)) {
           modification.selectedPanel = options.selectedPanel;
         }
@@ -336,13 +334,14 @@ export default function({ store, provider }: { store: Store; provider: Provider 
         if (Object.keys(modification).length) {
           store.setState(modification, { persistence: 'permanent' });
         }
-
-        hasSetOptions = true;
+        if (!deepEqual(theme, updatedTheme)) {
+          store.setState({ theme: updatedTheme });
+        }
       }
     },
   };
 
-  const persisted = pick(store.getState(), 'layout', 'ui', 'selectedPanel', 'theme');
+  const persisted = pick(store.getState(), 'layout', 'ui', 'selectedPanel');
 
   return { api, state: merge(api.getInitialOptions(), persisted) };
 }

@@ -1,26 +1,46 @@
+/* eslint-disable react/prop-types */
 import { window, File } from 'global';
 import React, { Fragment } from 'react';
-import {
-  action,
-  actions,
-  configureActions,
-  decorate,
-  decorateAction,
-} from '@storybook/addon-actions';
+import { action, actions, configureActions, decorate } from '@storybook/addon-actions';
 import { Form } from '@storybook/components';
 
 const { Button } = Form;
 
 const pickNative = decorate([args => [args[0].nativeEvent]]);
-const pickNativeAction = decorateAction([args => [args[0].nativeEvent]]);
 
 export default {
   title: 'Addons/Actions',
   parameters: {
+    passArgsFirst: true,
     options: {
       selectedPanel: 'storybook/actions/panel',
     },
   },
+};
+
+export const ArgTypesExample = ({ onClick, onFocus }) => (
+  <Button {...{ onClick, onFocus }}>Hello World</Button>
+);
+
+ArgTypesExample.story = {
+  argTypes: {
+    onClick: { action: 'clicked!' },
+    onFocus: { action: true },
+  },
+};
+
+export const ArgTypesRegexExample = (args, context) => {
+  const { someFunction, onClick, onFocus } = args;
+  return (
+    <Button onMouseOver={someFunction} {...{ onClick, onFocus }}>
+      Hello World
+    </Button>
+  );
+};
+
+ArgTypesRegexExample.story = {
+  parameters: { actions: { argTypesRegex: '^on.*' } },
+  argTypes: { someFunction: {}, onClick: {}, onFocus: {} },
 };
 
 export const BasicExample = () => <Button onClick={action('hello-world')}>Hello World</Button>;

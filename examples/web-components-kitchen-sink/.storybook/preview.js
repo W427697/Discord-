@@ -1,11 +1,6 @@
 /* global window */
 
-import {
-  configure,
-  addParameters,
-  addDecorator,
-  setCustomElements,
-} from '@storybook/web-components';
+import { configure, addParameters, setCustomElements } from '@storybook/web-components';
 
 import customElements from '../custom-elements.json';
 
@@ -26,9 +21,11 @@ addParameters({
 
 // configure(require.context('../stories', true, /\.stories\.(js|mdx)$/), module);
 
-// force full reload to not reregister web components
+// force full reload to not re-register web components
 const req = require.context('../stories', true, /\.stories\.(js|mdx)$/);
+
 configure(req, module);
+
 if (module.hot) {
   module.hot.accept(req.id, () => {
     const currentLocationHref = window.location.href;
