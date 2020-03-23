@@ -7,7 +7,7 @@ const optionsOrCallOptions = (opts: any, story: any) => (isFunction(opts) ? opts
 
 export const snapshotWithOptions = (
   options: { renderer?: any; serializer?: any } | Function = {}
-) => ({
+) => async ({
   story,
   context,
   renderTree,
@@ -17,8 +17,8 @@ export const snapshotWithOptions = (
   context: any;
   renderTree: RenderTree;
   snapshotFileName: string;
-}): Promise<void> | void => {
-  const result = renderTree(story, context, optionsOrCallOptions(options, story));
+}): Promise<void> => {
+  const result = await renderTree(story, context, optionsOrCallOptions(options, story));
 
   function match(tree: any) {
     if (snapshotFileName) {
