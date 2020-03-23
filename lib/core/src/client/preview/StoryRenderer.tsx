@@ -19,8 +19,26 @@ interface RenderMetadata {
   viewMode: ViewMode;
 }
 
-type Layout = 'centered' | 'fullscreen' | 'padded';
-type StyleKeyValue = { centered: string; fullscreen: string; padded: string };
+type Layout = keyof typeof layouts;
+
+const layouts = {
+  centered: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    margin: 0,
+    padding: '1rem',
+    boxSizing: 'border-box',
+  },
+  fullscreen: {
+    margin: 0,
+  },
+  padded: {
+    margin: 0,
+    padding: '1rem',
+  },
+} as const;
 
 const classes = {
   MAIN: 'sb-show-main',
@@ -47,7 +65,7 @@ export class StoryRenderer {
 
   previousMetadata?: RenderMetadata;
 
-  previousStyles?: string;
+  previousStyles?: typeof layouts[keyof typeof layouts];
 
   constructor({
     render,
@@ -68,8 +86,10 @@ export class StoryRenderer {
   setupListeners() {
     // Channel can be null in StoryShots
     if (this.channel) {
-      this.channel.on(Events.FORCE_RE_RENDER, () => this.forceReRender());
       this.channel.on(Events.RENDER_CURRENT_STORY, () => this.renderCurrentStory(false));
+      this.channel.on(Events.STORY_ARGS_UPDATED, () => this.forceReRender());
+      this.channel.on(Events.GLOBAL_ARGS_UPDATED, () => this.forceReRender());
+      this.channel.on(Events.FORCE_RE_RENDER, () => this.forceReRender());
     }
   }
 
@@ -95,7 +115,7 @@ export class StoryRenderer {
     const metadata: RenderMetadata = {
       id,
       kind,
-      viewMode: docsOnly ? 'docs' : (urlViewMode as ViewMode),
+      viewMode: docsOnly ? 'docs' : urlViewMode,
       revision: storyStore.getRevision(),
     };
 
@@ -199,28 +219,10 @@ export class StoryRenderer {
   }
 
   applyLayout(layout: Layout) {
-    const layouts: StyleKeyValue = {
-      centered: `
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
-        padding: 1rem;
-        box-sizing: border-box;
-      `,
-      fullscreen: `
-        margin: 0;
-      `,
-      padded: `
-        margin: 0;
-        padding: 1rem;
-      `,
-    };
     const styles = layouts[layout] || layouts.padded;
 
     if (styles !== this.previousStyles) {
-      document.body.style = styles;
+      Object.assign(document.body.style, styles);
       this.previousStyles = styles;
     }
   }
@@ -282,6 +284,10 @@ export class StoryRenderer {
     }
 
     const docs = parameters.docs || {};
+    if (docs.page && !docs.container) {
+      throw new Error('No `docs.container` set, did you run `addon-docs/preset`?');
+    }
+
     const DocsContainer =
       docs.container || (({ children }: { children: Element }) => <>{children}</>);
     const Page = docs.page || NoDocs;
