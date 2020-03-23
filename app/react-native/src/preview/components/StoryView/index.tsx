@@ -74,7 +74,7 @@ export default class StoryView extends Component<Props> {
     const story = stories.fromId(storyId);
 
     if (story && story.storyFn) {
-      const { id, storyFn } = story;
+      const { id, storyFn: StoryFn } = story;
       return (
         <View key={id} testID={id} style={{ flex: 1 }}>
           <StoryFn />
