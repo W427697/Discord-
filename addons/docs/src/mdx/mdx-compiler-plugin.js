@@ -127,7 +127,7 @@ function genPreviewExports(ast, context, sources = []) {
     if (child.type === 'JSXElement' && child.openingElement.name.name === 'Story') {
       const storyExport = genStoryExport(child, {
         ...context,
-        source: sources[context.counter]
+        source: sources[context.counter],
       });
       if (storyExport) {
         Object.assign(previewExports, storyExport);
@@ -242,6 +242,7 @@ function extractExports(node, options) {
       if (vueSfc) {
         // eslint-disable-next-line no-param-reassign
         child.value = vueSfc.story;
+        // eslint-disable-next-line no-param-reassign
         child.source = vueSfc.source;
       }
 
