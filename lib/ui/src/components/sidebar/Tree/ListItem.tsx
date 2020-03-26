@@ -116,6 +116,7 @@ export type ListItemProps = ComponentProps<typeof Item> & {
   name: string;
   kind: string;
   refId?: string;
+  tags?: string;
   depth: number;
   parameters: Record<string, any>;
 };
@@ -125,6 +126,7 @@ export const ListItem: FunctionComponent<ListItemProps> = ({
   id,
   kind,
   refId,
+  tags,
   isComponent = false,
   isLeaf = false,
   isExpanded = false,
@@ -150,7 +152,14 @@ export const ListItem: FunctionComponent<ListItemProps> = ({
   );
 
   return (
-    <Item isSelected={isSelected} depth={depth} {...props} className={classes} id={id}>
+    <Item
+      isSelected={isSelected}
+      depth={depth}
+      data-tags={tags}
+      {...props}
+      className={classes}
+      id={id}
+    >
       {!isLeaf ? (
         <Expander className="sidebar-expander" depth={depth} isExpanded={isExpanded} />
       ) : null}

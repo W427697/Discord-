@@ -243,10 +243,11 @@ export const ContentBlock: FunctionComponent<{
     <Spaced row={1.5}>
       {others.length ? (
         <Section data-title="categorized" key="categorized">
-          {others.map(({ id }) => (
+          {others.map(({ id, componentTags }) => (
             <Tree
               key={id}
               depth={0}
+              tags={componentTags}
               dataset={dataSet}
               selected={selectedSet}
               expanded={expandedSet}
@@ -257,13 +258,14 @@ export const ContentBlock: FunctionComponent<{
         </Section>
       ) : null}
 
-      {roots.map(({ id, name, children }) => (
+      {roots.map(({ id, name, componentTags, children }) => (
         <Section data-title={name} key={id}>
           <RootHeading className="sidebar-subheading">{name}</RootHeading>
           {children.map(child => (
             <Tree
               key={child}
               depth={0}
+              tags={componentTags}
               dataset={dataSet}
               selected={selectedSet}
               expanded={expandedSet}
