@@ -1,8 +1,11 @@
 import React, { ComponentType, FunctionComponent } from 'react';
 
+import { Story } from '@storybook/api';
 import { Dataset, ExpandedSet, SelectedSet } from './utils';
 
 import { DefaultList, DefaultLeaf, DefaultHead } from './components';
+
+const noTags = 'none';
 
 const branchOrLeaf = (
   {
@@ -24,7 +27,7 @@ const branchOrLeaf = (
     depth,
   }: { root: string; dataset: Dataset; expanded: ExpandedSet; selected: SelectedSet; depth: number }
 ) => {
-  const node = dataset[root];
+  const node = dataset[root] as Story;
 
   if (!node) {
     return null;
@@ -33,6 +36,7 @@ const branchOrLeaf = (
   return node.children ? (
     <Branch
       key={node.id}
+      tags={node.componentTags || noTags}
       {...{
         Branch,
         Leaf,
@@ -46,13 +50,20 @@ const branchOrLeaf = (
       }}
     />
   ) : (
-    <Leaf key={node.id} {...node} depth={depth} isSelected={selected[node.id]} />
+    <Leaf
+      key={node.id}
+      tags={node.storyTags || node.componentTags || noTags}
+      {...node}
+      depth={depth}
+      isSelected={selected[node.id]}
+    />
   );
 };
 
 const Tree: FunctionComponent<{
   root: string;
   depth: number;
+  tags: string;
   dataset: Dataset;
   expanded: ExpandedSet;
   selected: SelectedSet;
@@ -64,6 +75,7 @@ const Tree: FunctionComponent<{
   const {
     root,
     depth,
+    tags = noTags,
     dataset,
     expanded,
     selected,
@@ -93,6 +105,7 @@ const Tree: FunctionComponent<{
         <>
           <Head
             {...node}
+            tags={tags}
             depth={depth}
             isExpanded={expanded[node.id]}
             isSelected={selected[node.id]}
@@ -106,7 +119,9 @@ const Tree: FunctionComponent<{
       return <List>{children.map(mapNode)}</List>;
     }
     case node.isLeaf: {
-      return <Leaf key={node.id} {...node} depth={depth} isSelected={selected[node.id]} />;
+      return (
+        <Leaf key={node.id} tags={tags} {...node} depth={depth} isSelected={selected[node.id]} />
+      );
     }
     default: {
       return null;
