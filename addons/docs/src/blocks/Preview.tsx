@@ -30,6 +30,7 @@ const getPreviewProps = (
     return props;
   }
   if (mdxSource) {
+    console.log({ mdxSource });
     return {
       ...props,
       withSource: getSourceProps({ code: decodeURI(mdxSource) }, { storyStore }),

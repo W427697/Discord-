@@ -45,8 +45,11 @@ export const getSourceProps = (
       })
       .join('\n\n');
   }
+
+  console.log({ source });
+
   return source
-    ? { code: source, language: props.language || 'jsx', dark: props.dark || false }
+    ? { code: source, language: props.language || 'jsx', dark: props.dark || false, format: true }
     : { error: SourceError.SOURCE_UNAVAILABLE };
 };
 
