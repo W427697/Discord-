@@ -48,7 +48,7 @@ For example, Storybook's Vue support uses presets internally and here's how it c
 export function babelDefault(config) {
   return {
     ...config,
-    presets: [...config.presets, require.resolve('babel-preset-vue')],
+    presets: [...config.presets, require.resolve('@vue/cli-plugin-babel/preset')],
   };
 }
 ```
