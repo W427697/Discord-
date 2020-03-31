@@ -28125,9 +28125,9 @@ stylesheet-loader@^0.6.5, stylesheet-loader@^0.6.8:
     loader-utils "^1.2.3"
 
 stylesheet-loader@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/stylesheet-loader/-/stylesheet-loader-0.8.0.tgz#9591b4b5b02d085aa4151419e3be707a136b0ccb"
-  integrity sha512-36JLLsLEGYxDy5+/iT/mXiXEPmcjLZKp0vJhBO7ERl9J5El44mm+qEU6/yv1Rrr2M2BX486YW7gCFa+A4+eeWg==
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/stylesheet-loader/-/stylesheet-loader-0.8.2.tgz#90202ebfc1b6997e8ca8f9f53a426093ad08bb09"
+  integrity sha512-8i+Ssikyl651hF0DPFrCLuKL8z5V4l6T4YyL1vZv9qNBjPvO6vvEIGkYDAYrWlCwQr8ZQo0s8zsbZFVk6OFxtw==
   dependencies:
     camelcase "^3.0.0"
     chalk "^1.1.3"
