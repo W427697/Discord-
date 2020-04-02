@@ -28,11 +28,12 @@ const fixtures = [
   '9465-ts-type-props',
   '8428-js-static-prop-types',
   '9764-ts-extend-props',
+  '9922-ts-component-props',
 ];
 
 const stories = storiesOf('Properties/React', module);
 
-fixtures.forEach(fixture => {
+fixtures.forEach((fixture) => {
   // eslint-disable-next-line import/no-dynamic-require, global-require
   const { component } = require(`./__testfixtures__/${fixture}/input`);
   const props = extractProps(component);

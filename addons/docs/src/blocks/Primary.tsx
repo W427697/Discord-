@@ -1,16 +1,16 @@
-import React, { useContext, FunctionComponent } from 'react';
+import React, { useContext, FC } from 'react';
 import { DocsContext } from './DocsContext';
 import { DocsStory } from './DocsStory';
 import { getDocsStories } from './utils';
-import { StorySlot } from './shared';
 
 interface PrimaryProps {
-  slot?: StorySlot;
+  name?: string;
 }
 
-export const Primary: FunctionComponent<PrimaryProps> = ({ slot }) => {
+export const Primary: FC<PrimaryProps> = ({ name }) => {
   const context = useContext(DocsContext);
   const componentStories = getDocsStories(context);
-  const story = slot ? slot(componentStories, context) : componentStories && componentStories[0];
-  return story ? <DocsStory {...story} expanded withToolbar /> : null;
+  if (!componentStories || componentStories.length === 0) return null;
+  const story = name ? componentStories.find(s => s.name === name) : componentStories[0];
+  return <DocsStory {...story} expanded withToolbar />;
 };

@@ -1,11 +1,13 @@
 <h1>Migration</h1>
 
 - [From version 5.3.x to 6.0.x](#from-version-53x-to-60x)
+  - [DocsPage slots removed](#docspage-slots-removed)
   - [React prop tables with Typescript](#react-prop-tables-with-typescript)
     - [React.FC interfaces](#reactfc-interfaces)
     - [Imported types](#imported-types)
     - [Rolling back](#rolling-back)
   - [New addon presets](#new-addon-presets)
+  - [Removed Deprecated APIs](#removed-deprecated-apis)
   - [Client API changes](#client-api-changes)
     - [Removed Legacy Story APIs](#removed-legacy-story-apis)
     - [Can no longer add decorators/parameters after stories](#can-no-longer-add-decoratorsparameters-after-stories)
@@ -13,6 +15,9 @@
   - [Simplified Render Context](#simplified-render-context)
   - [Story Store immutable outside of configuration](#story-store-immutable-outside-of-configuration)
   - [Improved story source handling](#improved-story-source-handling)
+  - [Actions Addon API changes](#actions-addon-api-changes)
+    - [Actions Addon uses parameters](#actions-addon-uses-parameters)
+    - [Removed action decorator APIs](#removed-action-decorator-apis)
 - [From version 5.2.x to 5.3.x](#from-version-52x-to-53x)
   - [To main.js configuration](#to-mainjs-configuration)
     - [Using main.js](#using-mainjs)
@@ -50,6 +55,7 @@
   - [Addon cssresources name attribute renamed](#addon-cssresources-name-attribute-renamed)
   - [Addon viewport uses parameters](#addon-viewport-uses-parameters)
   - [Addon a11y uses parameters, decorator renamed](#addon-a11y-uses-parameters-decorator-renamed)
+  - [Addon centered decorator deprecated](#addon-centered-decorator-deprecated)
   - [New keyboard shortcuts defaults](#new-keyboard-shortcuts-defaults)
   - [New URL structure](#new-url-structure)
   - [Rename of the `--secure` cli parameter to `--https`](#rename-of-the---secure-cli-parameter-to---https)
@@ -93,6 +99,25 @@
 
 ## From version 5.3.x to 6.0.x
 
+### DocsPage slots removed
+
+In SB5.2, we introduced the concept of [DocsPage slots](https://github.com/storybookjs/storybook/blob/0de8575eab73bfd5c5c7ba5fe33e53a49b92db3a/addons/docs/docs/docspage.md#docspage-slots) for customizing the DocsPage.
+
+In 5.3, we introduced `docs.x` story parameters like `docs.prepareForInline` which get filled in by frameworks and can also be overwritten by users, which is a more natural/convenient way to make global customizations.
+
+We also introduced introduced [Custom DocsPage](https://github.com/storybookjs/storybook/blob/next/addons/docs/docs/docspage.md#replacing-docspage), which makes it possible to add/remove/update DocBlocks on the page.
+
+These mechanisms are superior to slots, so we've removed slots in 6.0. For each slot, we provide a migration path here:
+
+| Slot        | Slot function     | Replacement                                  |
+| ----------- | ----------------- | -------------------------------------------- |
+| Title       | `titleSlot`       | Custom DocsPage                              |
+| Subtitle    | `subtitleSlot`    | Custom DocsPage                              |
+| Description | `descriptionSlot` | `docs.extractComponentDescription` parameter |
+| Primary     | `primarySlot`     | Custom DocsPage                              |
+| Props       | `propsSlot`       | `docs.extractProps` parameter                |
+| Stories     | `storiesSlot`     | Custom DocsPage                              |
+
 ### React prop tables with Typescript
 
 Starting in 6.0 we are changing our recommended setup for extracting prop tables in `addon-docs` for React projects using TypeScript.
@@ -100,6 +125,13 @@ Starting in 6.0 we are changing our recommended setup for extracting prop tables
 In earlier versions, we recommended `react-docgen-typescript-loader` (`RDTL`) and bundled it with `@storybook/preset-create-react-app` and `@storybook/preset-typescript` for this reason. We now recommend `babel-plugin-react-docgen`, which is already bundled as part of `@storybook/react`.
 
 As a consequence we've removed `RDTL` from the presets, which is a breaking change. We made this change because `react-docgen` now supports TypeScript natively, and fewer dependencies simplifies things for everybody.
+
+The Babel-based `react-docgen` version is the default in:
+
+- `@storybook/preset-create-react-app` @ `^2.1.0`
+- `@storybook/preset-typescript` @ `^3.0.0`
+
+> NOTE: If you're using `preset-create-react-app` you don't need `preset-typescript`!
 
 We will be updating this section with migration information as we collect information from our users, and fixing issues as they come up throughout the 6.0 prerelease process. We are cataloging known issues [here](https://github.com/storybookjs/storybook/blob/next/addons/docs/docs/props-tables.md#known-limitations).
 
@@ -133,7 +165,8 @@ type NewType = SomeType & { foo: string };
 const MyComponent: FC<NewType> = ...
 ```
 
-This was also an issue in `RDTL` so it doesn't get worse with `react-docgen`. There's an open PR for this https://github.com/reactjs/react-docgen/pull/352 which you can upvote if it affects you.
+This isn't an issue with `RDTL` so unfortunately it gets worse with `react-docgen`.
+There's an open PR for this https://github.com/reactjs/react-docgen/pull/352 which you can upvote if it affects you.
 
 #### Rolling back
 
@@ -166,7 +199,7 @@ module.exports = {
 
 In Storybook 5.3 we introduced a declarative [main.js configuration](#to-mainjs-configuration), which is now the recommended way to configure Storybook. Part of the change is a simplified syntax for registering addons, which in 6.0 automatically registers many addons _using a preset_, which is a slightly different behavior than in earlier versions.
 
-This breaking change currently applies to: `addon-a11y`, `addon-knobs`, `addon-links`, `addon-queryparams`.
+This breaking change currently applies to: `addon-a11y`, `addon-actions`, `addon-knobs`, `addon-links`, `addon-queryparams`.
 
 Consider the following `main.js` config for the accessibility addon, `addon-a11y`:
 
@@ -206,6 +239,18 @@ MyNonCheckedStory.story = {
   },
 };
 ```
+
+### Removed Deprecated APIs
+
+In 6.0 we removed a number of APIs that were previously deprecated.
+
+See the migration guides for further details:
+
+- [Addon a11y uses parameters, decorator renamed](#addon-a11y-uses-parameters-decorator-renamed)
+- [Addon backgrounds uses parameters](#addon-backgrounds-uses-parameters)
+- [Source-loader](#source-loader)
+- [Unified docs preset](#unified-docs-preset)
+- [Addon centered decorator deprecated](#addon-centered-decorator-deprecated)
 
 ### Client API changes
 
@@ -299,6 +344,35 @@ The MDX analog:
   <Button />
 </Story>
 ```
+
+### Actions Addon API changes
+
+#### Actions Addon uses parameters
+
+Leveraging the new preset `@storybook/addon-actions` uses parameters to pass action options. If you previously had:
+
+```js
+import { withactions } from `@storybook/addon-actions`;
+
+export StoryOne = ...;
+StoryOne.story = {
+  decorators: [withActions('mouseover', 'click .btn')],
+}
+
+```
+
+You should replace it with:
+
+```js
+export StoryOne = ...;
+StoryOne.story = {
+  parameters: { actions: ['mouseover', 'click .btn'] },
+}
+```
+
+#### Removed action decorator APIs
+
+In 6.0 we removed the actions addon decorate API. Actions handles can be configured globaly, for a collection of stories or per story via parameters. The ability to manipulate the data arguments of an event is only relevant in a few frameworks and is not a common enough usecase to be worth the complexity of supporting.
 
 ## From version 5.2.x to 5.3.x
 
@@ -868,6 +942,26 @@ You can also pass `a11y` parameters at the component level (via `storiesOf(...).
 Furthermore, the decorator `checkA11y` has been deprecated and renamed to `withA11y` to make it consistent with other Storybook decorators.
 
 See the [a11y addon README](https://github.com/storybookjs/storybook/blob/master/addons/a11y/README.md) for more information.
+
+### Addon centered decorator deprecated
+
+If you previously had:
+
+```js
+import centered from '@storybook/addon-centered';
+```
+
+You should replace it with the React or Vue version as appropriate
+
+```js
+import centered from '@storybook/addon-centered/react';
+```
+
+or
+
+```js
+import centered from '@storybook/addon-centered/vue';
+```
 
 ### New keyboard shortcuts defaults
 

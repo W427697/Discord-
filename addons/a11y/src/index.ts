@@ -1,12 +1,13 @@
 import { document } from 'global';
+import debounce from 'lodash/debounce';
+import memoize from 'memoizerific';
 import axe, { AxeResults, ElementContext, RunOptions, Spec } from 'axe-core';
-import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
 
-import addons, { makeDecorator } from '@storybook/addons';
+import addons, { DecoratorFunction } from '@storybook/addons';
+import { STORY_RENDERED } from '@storybook/core-events';
+import { Listener } from '@storybook/channels';
 import { EVENTS, PARAM_KEY } from './constants';
 
-let progress = Promise.resolve();
 interface Setup {
   element?: ElementContext;
   config: Spec;
@@ -14,7 +15,7 @@ interface Setup {
   manual: boolean;
 }
 
-let setup: Setup = { element: undefined, config: {}, options: {}, manual: false };
+const setup: Setup = { element: undefined, config: {}, options: {}, manual: false };
 
 const getElement = () => {
   const storyRoot = document.getElementById('story-root');
@@ -25,25 +26,43 @@ const getElement = () => {
   return document.getElementById('root');
 };
 
-const report = (input: AxeResults) => addons.getChannel().emit(EVENTS.RESULT, input);
+const performRun = (() => {
+  let isRunning = false;
 
-const run = (element: ElementContext, config: Spec, options: RunOptions) => {
-  progress = progress.then(() => {
-    axe.reset();
-    if (config) {
-      axe.configure(config);
+  return debounce(async (s, callback) => {
+    if (isRunning) {
+      return;
     }
-    return axe
-      .run(
-        element || getElement(),
-        options ||
-          ({
-            restoreScroll: true,
-          } as RunOptions) // cast to RunOptions is necessary because axe types are not up to date
+
+    isRunning = true;
+
+    await run(s)
+      .then(
+        (result) => callback(undefined, result),
+        (error) => callback(error)
       )
-      .then(report)
-      .catch(error => addons.getChannel().emit(EVENTS.ERROR, String(error)));
-  });
+      .then(() => {
+        isRunning = false;
+      });
+  }, 100);
+})();
+
+const run = async (input: Setup) => {
+  const {
+    element = getElement(),
+    config,
+    options = {
+      restoreScroll: true,
+    },
+  } = input;
+
+  await axe.reset();
+
+  if (config) {
+    await axe.configure(config);
+  }
+
+  return axe.run(element, options);
 };
 
 if (module && module.hot && module.hot.decline) {
@@ -52,56 +71,49 @@ if (module && module.hot && module.hot.decline) {
 
 let storedDefaultSetup: Setup | null = null;
 
-export const withA11y = makeDecorator({
-  name: 'withA11Y',
-  parameterName: PARAM_KEY,
-  wrapper: (getStory, context, { parameters }) => {
-    if (parameters) {
-      if (storedDefaultSetup === null) {
-        storedDefaultSetup = { ...setup };
-      }
-      Object.assign(setup, parameters as Partial<Setup>);
-    } else if (storedDefaultSetup !== null) {
-      Object.assign(setup, storedDefaultSetup);
-      storedDefaultSetup = null;
+const performSetup = (parameter: Partial<Setup> | undefined) => {
+  if (parameter) {
+    if (storedDefaultSetup === null) {
+      storedDefaultSetup = { ...setup };
     }
+    Object.assign(setup, parameter);
+  }
+  if (storedDefaultSetup !== null) {
+    Object.assign(setup, storedDefaultSetup);
+    storedDefaultSetup = null;
+  }
+};
 
-    addons
-      .getChannel()
-      .on(EVENTS.REQUEST, () => run(setup.element as ElementContext, setup.config, setup.options));
-    addons.getChannel().emit(EVENTS.MANUAL, setup.manual);
+const usePermanentChannel = memoize(1)((eventMap: Record<string, Listener>) => {
+  const channel = addons.getChannel();
+  const emit = channel.emit.bind(channel);
 
-    return getStory(context);
-  },
+  Object.entries(eventMap).forEach(([type, handler]) => {
+    channel.on(type, handler);
+  });
+
+  return emit;
 });
 
-// TODO: REMOVE at v6.0.0
-export const withA11Y = deprecate(
-  // @ts-ignore
-  (...args: any[]) => withA11y(...args),
-  'withA11Y has been renamed withA11y'
-);
+export const withA11y: DecoratorFunction = (storyFn, storyContext) => {
+  const respond = () => {
+    const parameter = storyContext.parameters[PARAM_KEY] as Partial<Setup>;
 
-// TODO: REMOVE at v6.0.0
-export const checkA11y = deprecate(
-  // @ts-ignore
-  (...args: any[]) => withA11y(...args),
-  'checkA11y has been renamed withA11y'
-);
+    performSetup(parameter);
 
-// TODO: REMOVE at v6.0.0
-export const configureA11y = deprecate(
-  (config: any) => {
-    setup = config;
-  },
-  dedent`
-    configureA11y is deprecated, please configure addon-a11y using the addParameter api:
-    
-    addParameters({
-      a11y: {
-        // ... axe options
-        element: '#root', // optional selector which element to inspect
-      },
+    performRun(setup, (error: Error, result: AxeResults) => {
+      if (error) {
+        emit(EVENTS.ERROR, String(error));
+      } else {
+        emit(EVENTS.RESULT, result);
+      }
     });
-  `
-);
+  };
+
+  const emit = usePermanentChannel({
+    [EVENTS.REQUEST]: respond,
+    [STORY_RENDERED]: respond,
+  });
+
+  return storyFn(storyContext);
+};

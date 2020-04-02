@@ -53,6 +53,21 @@ const includeStory = (story: StoreItem, options: StoryOptions = { includeDocsOnl
   return !isStoryDocsOnly(story.parameters);
 };
 
+const inJest = () => process.env.JEST_WORKER_ID !== undefined;
+
+const checkGlobalArgs = (parameters: Parameters) => {
+  const { globalArgs, globalArgTypes } = parameters;
+  if ((globalArgs || globalArgTypes) && !inJest()) {
+    logger.error(
+      'Global args/argTypes can only be set globally',
+      JSON.stringify({
+        globalArgs,
+        globalArgTypes,
+      })
+    );
+  }
+};
+
 type AllowUnsafeOption = { allowUnsafe?: boolean };
 
 const toExtracted = <T>(obj: T) =>
@@ -138,8 +153,18 @@ export default class StoryStore {
     const storyIds = Object.keys(this._stories);
     if (storyIds.length) {
       const {
-        parameters: { globalArgs },
+        parameters: { globalArgs: initialGlobalArgs, globalArgTypes },
       } = this.fromId(storyIds[0]);
+
+      const defaultGlobalArgs: Args = globalArgTypes
+        ? Object.entries(globalArgTypes as Record<string, { defaultValue: any }>).reduce(
+            (acc, [arg, { defaultValue }]) => {
+              if (defaultValue) acc[arg] = defaultValue;
+              return acc;
+            },
+            {} as Args
+          )
+        : {};
 
       // To deal with HMR, we consider the previous value of global args, and:
       //   1. Remove any keys that are not in the new parameter
@@ -151,12 +176,20 @@ export default class StoryStore {
 
           return acc;
         },
-        globalArgs
+        { ...defaultGlobalArgs, ...initialGlobalArgs }
       );
     }
   }
 
   addGlobalMetadata({ parameters, decorators }: StoryMetadata) {
+    if (parameters) {
+      const { args, argTypes } = parameters;
+      if (args || argTypes)
+        logger.warn(
+          'Found args/argTypes in global parameters.',
+          JSON.stringify({ args, argTypes })
+        );
+    }
     const globalParameters = this._globalMetadata.parameters;
 
     this._globalMetadata.parameters = combineParameters(globalParameters, parameters);
@@ -180,6 +213,7 @@ export default class StoryStore {
 
   addKindMetadata(kind: string, { parameters, decorators }: StoryMetadata) {
     this.ensureKind(kind);
+    if (parameters) checkGlobalArgs(parameters);
     this._kinds[kind].parameters = combineParameters(this._kinds[kind].parameters, parameters);
 
     this._kinds[kind].decorators.push(...decorators);
@@ -212,6 +246,8 @@ export default class StoryStore {
       throw new Error(
         'Cannot add a story when not configuring, see https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-store-immutable-outside-of-configuration'
       );
+
+    if (storyParameters) checkGlobalArgs(storyParameters);
 
     const { _stories } = this;
 
@@ -375,8 +411,8 @@ export default class StoryStore {
 
   raw(options?: StoryOptions) {
     return Object.values(this._stories)
-      .filter(i => !!i.getDecorated)
-      .filter(i => includeStory(i, options))
+      .filter((i) => !!i.getDecorated)
+      .filter((i) => includeStory(i, options))
       .map(({ id }) => this.fromId(id));
   }
 
@@ -385,7 +421,7 @@ export default class StoryStore {
     // determine if we should apply a sort to the stories or use default import order
     if (Object.values(this._stories).length > 0) {
       const index = Object.keys(this._stories).find(
-        key =>
+        (key) =>
           !!(
             this._stories[key] &&
             this._stories[key].parameters &&
@@ -456,15 +492,15 @@ export default class StoryStore {
   };
 
   getStoryKinds() {
-    return Array.from(new Set(this.raw().map(s => s.kind)));
+    return Array.from(new Set(this.raw().map((s) => s.kind)));
   }
 
   getStoriesForKind(kind: string) {
-    return this.raw().filter(story => story.kind === kind);
+    return this.raw().filter((story) => story.kind === kind);
   }
 
   getRawStory(kind: string, name: string) {
-    return this.getStoriesForKind(kind).find(s => s.name === name);
+    return this.getStoriesForKind(kind).find((s) => s.name === name);
   }
 
   getRevision() {
@@ -482,7 +518,7 @@ export default class StoryStore {
   }
 
   cleanHooksForKind(kind: string) {
-    this.getStoriesForKind(kind).map(story => this.cleanHooks(story.id));
+    this.getStoriesForKind(kind).map((story) => this.cleanHooks(story.id));
   }
 
   // This API is a reimplementation of Storybook's original getStorybook() API.

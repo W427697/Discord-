@@ -67,10 +67,10 @@ describe('preview.story_store', () => {
     it('produces a story with inherited decorators applied', () => {
       const store = new StoryStore({ channel });
 
-      const globalDecorator = jest.fn().mockImplementation(s => s());
+      const globalDecorator = jest.fn().mockImplementation((s) => s());
       store.addGlobalMetadata({ parameters: {}, decorators: [globalDecorator] });
 
-      const kindDecorator = jest.fn().mockImplementation(s => s());
+      const kindDecorator = jest.fn().mockImplementation((s) => s());
       store.addKindMetadata('a', { parameters: {}, decorators: [kindDecorator] });
 
       const story = jest.fn();
@@ -206,6 +206,26 @@ describe('preview.story_store', () => {
           arg1: 'arg1',
           arg2: 2,
           arg3: { complex: { object: ['type'] } },
+        },
+      });
+      store.finishConfiguring();
+      expect(store.getRawStory('a', '1').globalArgs).toEqual({
+        arg1: 'arg1',
+        arg2: 2,
+        arg3: { complex: { object: ['type'] } },
+      });
+    });
+
+    it('is initialized to the default values stored in parameters.globalArgsTypes on the first story', () => {
+      const store = new StoryStore({ channel });
+      addStoryToStore(store, 'a', '1', () => 0, {
+        globalArgs: {
+          arg1: 'arg1',
+          arg2: 2,
+        },
+        globalArgTypes: {
+          arg2: { defaultValue: 'arg2' },
+          arg3: { defaultValue: { complex: { object: ['type'] } } },
         },
       });
       store.finishConfiguring();
