@@ -1,7 +1,7 @@
-import React, { Fragment, ReactElement, useCallback, FunctionComponent } from 'react';
+import React, { Component, Fragment, ReactElement } from 'react';
 import memoize from 'memoizerific';
 
-import { Combo, Consumer, useStorybookApi } from '@storybook/api';
+import { Combo, Consumer, API } from '@storybook/api';
 import { Global, Theme } from '@storybook/theming';
 
 import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
@@ -52,20 +52,19 @@ const getSelectedBackgroundColor = (list: Input[], currentSelectedValue: string)
     return currentSelectedValue;
   }
 
-  if (list.find(i => i.value === currentSelectedValue)) {
+  if (list.find((i) => i.value === currentSelectedValue)) {
     return currentSelectedValue;
   }
 
-  if (list.find(i => i.default)) {
-    return list.find(i => i.default).value;
+  if (list.find((i) => i.default)) {
+    return list.find((i) => i.default).value;
   }
 
   return 'transparent';
 };
 
 const mapper = ({ api, state }: Combo): { items: Input[]; selected: string | null } => {
-  const story = state.storiesHash[state.storyId];
-  const list = story ? api.getParameters(story.id, PARAM_KEY) : [];
+  const list = api.getCurrentParameter<Input[]>(PARAM_KEY);
   const selected = state.addons[PARAM_KEY] || null;
 
   return { items: list || [], selected };
@@ -103,58 +102,64 @@ interface GlobalState {
   selected: string | undefined;
 }
 
-export const BackgroundSelector: FunctionComponent = () => {
-  const change = useCallback(({ selected, name }: GlobalState) => {
-    const api = useStorybookApi();
+interface Props {
+  api: API;
+}
+
+export class BackgroundSelector extends Component<Props> {
+  change = ({ selected, name }: GlobalState) => {
+    const { api } = this.props;
     if (typeof selected === 'string') {
       api.setAddonState<string>(PARAM_KEY, selected);
     }
     api.emit(EVENTS.UPDATE, { selected, name });
-  }, []);
+  };
 
-  return (
-    <Consumer filter={mapper}>
-      {({ items, selected }: ReturnType<typeof mapper>) => {
-        const selectedBackgroundColor = getSelectedBackgroundColor(items, selected);
+  render() {
+    return (
+      <Consumer filter={mapper}>
+        {({ items, selected }: ReturnType<typeof mapper>) => {
+          const selectedBackgroundColor = getSelectedBackgroundColor(items, selected);
 
-        return items.length ? (
-          <Fragment>
-            {selectedBackgroundColor ? (
-              <Global
-                styles={(theme: Theme) => ({
-                  [`#${iframeId}`]: {
-                    backgroundColor:
-                      selectedBackgroundColor === 'transparent'
-                        ? theme.background.content
-                        : selectedBackgroundColor,
-                  },
-                })}
-              />
-            ) : null}
-            <WithTooltip
-              placement="top"
-              trigger="click"
-              tooltip={({ onHide }) => (
-                <TooltipLinkList
-                  links={getDisplayedItems(items, selectedBackgroundColor, i => {
-                    change(i);
-                    onHide();
+          return items.length ? (
+            <Fragment>
+              {selectedBackgroundColor ? (
+                <Global
+                  styles={(theme: Theme) => ({
+                    [`#${iframeId}`]: {
+                      backgroundColor:
+                        selectedBackgroundColor === 'transparent'
+                          ? theme.background.content
+                          : selectedBackgroundColor,
+                    },
                   })}
                 />
-              )}
-              closeOnClick
-            >
-              <IconButton
-                key="background"
-                active={selectedBackgroundColor !== 'transparent'}
-                title="Change the background of the preview"
+              ) : null}
+              <WithTooltip
+                placement="top"
+                trigger="click"
+                tooltip={({ onHide }) => (
+                  <TooltipLinkList
+                    links={getDisplayedItems(items, selectedBackgroundColor, (i) => {
+                      this.change(i);
+                      onHide();
+                    })}
+                  />
+                )}
+                closeOnClick
               >
-                <Icons icon="photo" />
-              </IconButton>
-            </WithTooltip>
-          </Fragment>
-        ) : null;
-      }}
-    </Consumer>
-  );
-};
+                <IconButton
+                  key="background"
+                  active={selectedBackgroundColor !== 'transparent'}
+                  title="Change the background of the preview"
+                >
+                  <Icons icon="photo" />
+                </IconButton>
+              </WithTooltip>
+            </Fragment>
+          ) : null;
+        }}
+      </Consumer>
+    );
+  }
+}

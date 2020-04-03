@@ -13,7 +13,6 @@ module.exports = {
     '@storybook/addon-actions',
     '@storybook/addon-links',
     '@storybook/addon-events',
-    '@storybook/addon-options',
     '@storybook/addon-knobs',
     '@storybook/addon-cssresources',
     '@storybook/addon-backgrounds',
@@ -22,6 +21,8 @@ module.exports = {
     '@storybook/addon-viewport',
     '@storybook/addon-graphql',
     '@storybook/addon-contexts',
+    '@storybook/addon-toolbars',
+    '@storybook/addon-queryparams',
   ],
   webpackFinal: async (config, { configType }) => ({
     ...config,

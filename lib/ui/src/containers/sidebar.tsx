@@ -1,114 +1,13 @@
 import { DOCS_MODE } from 'global';
-import React, { FunctionComponent } from 'react';
-import memoize from 'memoizerific';
+import React, { FunctionComponent, useMemo } from 'react';
+import rfdc from 'rfdc';
 
-import { Badge } from '@storybook/components';
 import { Consumer, Combo, StoriesHash, Story } from '@storybook/api';
 
-import { shortcutToHumanString } from '../libs/shortcut';
-
-import ListItemIcon from '../components/sidebar/ListItemIcon';
 import SidebarComponent from '../components/sidebar/Sidebar';
+import { useMenu } from './menu';
 
-type Item = StoriesHash[keyof StoriesHash];
-
-const focusableUIElements = {
-  storySearchField: 'storybook-explorer-searchfield',
-  storyListMenu: 'storybook-explorer-menu',
-  storyPanelRoot: 'storybook-panel-root',
-};
-
-const shortcutToHumanStringIfEnabled = (shortcuts: string[], enableShortcuts: boolean) =>
-  enableShortcuts ? shortcutToHumanString(shortcuts) : null;
-
-const createMenu = memoize(1)(
-  (api, shortcutKeys, isFullscreen, showPanel, showNav, enableShortcuts) => [
-    {
-      id: 'S',
-      title: 'Show sidebar',
-      onClick: () => api.toggleNav(),
-      right: shortcutToHumanStringIfEnabled(shortcutKeys.toggleNav, enableShortcuts),
-      left: showNav ? <ListItemIcon icon="check" /> : <ListItemIcon />,
-    },
-    {
-      id: 'A',
-      title: 'Show addons',
-      onClick: () => api.togglePanel(),
-      right: shortcutToHumanStringIfEnabled(shortcutKeys.togglePanel, enableShortcuts),
-      left: showPanel ? <ListItemIcon icon="check" /> : <ListItemIcon />,
-    },
-    {
-      id: 'D',
-      title: 'Change addons orientation',
-      onClick: () => api.togglePanelPosition(),
-      right: shortcutToHumanStringIfEnabled(shortcutKeys.panelPosition, enableShortcuts),
-      left: <ListItemIcon />,
-    },
-    {
-      id: 'F',
-      title: 'Go full screen',
-      onClick: api.toggleFullscreen,
-      right: shortcutToHumanStringIfEnabled(shortcutKeys.fullScreen, enableShortcuts),
-      left: isFullscreen ? 'check' : <ListItemIcon />,
-    },
-    {
-      id: '/',
-      title: 'Search',
-      onClick: () => api.focusOnUIElement(focusableUIElements.storySearchField),
-      right: shortcutToHumanStringIfEnabled(shortcutKeys.search, enableShortcuts),
-      left: <ListItemIcon />,
-    },
-    {
-      id: 'up',
-      title: 'Previous component',
-      onClick: () => api.jumpToComponent(-1),
-      right: shortcutToHumanStringIfEnabled(shortcutKeys.prevComponent, enableShortcuts),
-      left: <ListItemIcon />,
-    },
-    {
-      id: 'down',
-      title: 'Next component',
-      onClick: () => api.jumpToComponent(1),
-      right: shortcutToHumanStringIfEnabled(shortcutKeys.nextComponent, enableShortcuts),
-      left: <ListItemIcon />,
-    },
-    {
-      id: 'prev',
-      title: 'Previous story',
-      onClick: () => api.jumpToStory(-1),
-      right: shortcutToHumanStringIfEnabled(shortcutKeys.prevStory, enableShortcuts),
-      left: <ListItemIcon />,
-    },
-    {
-      id: 'next',
-      title: 'Next story',
-      onClick: () => api.jumpToStory(1),
-      right: shortcutToHumanStringIfEnabled(shortcutKeys.nextStory, enableShortcuts),
-      left: <ListItemIcon />,
-    },
-    {
-      id: 'about',
-      title: 'About your Storybook',
-      onClick: () => api.navigate('/settings/about'),
-      right: api.versionUpdateAvailable() && <Badge status="positive">Update</Badge>,
-      left: <ListItemIcon />,
-    },
-    {
-      id: 'shortcuts',
-      title: 'Keyboard shortcuts',
-      onClick: () => api.navigate('/settings/shortcuts'),
-      right: shortcutToHumanStringIfEnabled(shortcutKeys.shortcutsPage, enableShortcuts),
-      left: <ListItemIcon />,
-    },
-    {
-      id: 'collapse',
-      title: 'Collapse all',
-      onClick: () => api.collapseAll(),
-      right: shortcutToHumanString(shortcutKeys.collapseAll),
-      left: <ListItemIcon />,
-    },
-  ]
-);
+export type Item = StoriesHash[keyof StoriesHash];
 
 export const collapseAllStories = (stories: StoriesHash) => {
   // keep track of component IDs that have been rewritten to the ID of their first leaf child
@@ -116,11 +15,11 @@ export const collapseAllStories = (stories: StoriesHash) => {
 
   // 1) remove all leaves
   const leavesRemoved = Object.values(stories).filter(
-    item => !(item.isLeaf && stories[item.parent].isComponent)
+    (item) => !(item.isLeaf && stories[item.parent].isComponent)
   );
 
   // 2) make all components leaves and rewrite their ID's to the first leaf child
-  const componentsFlattened = leavesRemoved.map(item => {
+  const componentsFlattened = leavesRemoved.map((item) => {
     const { id, isComponent, isRoot, children, ...rest } = item;
 
     // this is a folder, so just leave it alone
@@ -130,7 +29,9 @@ export const collapseAllStories = (stories: StoriesHash) => {
 
     const nonLeafChildren: string[] = [];
     const leafChildren: string[] = [];
-    children.forEach(child => (stories[child].isLeaf ? leafChildren : nonLeafChildren).push(child));
+    children.forEach((child) =>
+      (stories[child].isLeaf ? leafChildren : nonLeafChildren).push(child)
+    );
 
     if (leafChildren.length === 0) {
       return item; // pass through, we'll handle you later
@@ -159,19 +60,19 @@ export const collapseAllStories = (stories: StoriesHash) => {
   });
 
   // 3) rewrite all the children as needed
-  const childrenRewritten = componentsFlattened.map(item => {
+  const childrenRewritten = componentsFlattened.map((item) => {
     if (item.isLeaf) {
       return item;
     }
 
     const { children, ...rest } = item;
-    const rewritten = children.map(child => componentIdToLeafId[child] || child);
+    const rewritten = children.map((child) => componentIdToLeafId[child] || child);
 
     return { children: rewritten, ...rest };
   });
 
   const result = {} as StoriesHash;
-  childrenRewritten.forEach(item => {
+  childrenRewritten.forEach((item) => {
     result[item.id] = item as Item;
   });
   return result;
@@ -180,7 +81,7 @@ export const collapseAllStories = (stories: StoriesHash) => {
 export const collapseDocsOnlyStories = (storiesHash: StoriesHash) => {
   // keep track of component IDs that have been rewritten to the ID of their first leaf child
   const componentIdToLeafId: Record<string, string> = {};
-  const docsOnlyStoriesRemoved = Object.values(storiesHash).filter(item => {
+  const docsOnlyStoriesRemoved = Object.values(storiesHash).filter((item) => {
     if (item.isLeaf && item.parameters && item.parameters.docsOnly) {
       componentIdToLeafId[item.parent] = item.id;
       return false; // filter it out
@@ -188,7 +89,7 @@ export const collapseDocsOnlyStories = (storiesHash: StoriesHash) => {
     return true;
   });
 
-  const docsOnlyComponentsCollapsed = docsOnlyStoriesRemoved.map(item => {
+  const docsOnlyComponentsCollapsed = docsOnlyStoriesRemoved.map((item) => {
     // collapse docs-only components
     const { isComponent, children, id } = item;
     if (isComponent && children.length === 1) {
@@ -206,7 +107,7 @@ export const collapseDocsOnlyStories = (storiesHash: StoriesHash) => {
 
     // update groups
     if (children) {
-      const rewritten = children.map(child => componentIdToLeafId[child] || child);
+      const rewritten = children.map((child) => componentIdToLeafId[child] || child);
       return { ...item, children: rewritten };
     }
 
@@ -215,40 +116,52 @@ export const collapseDocsOnlyStories = (storiesHash: StoriesHash) => {
   });
 
   const result = {} as StoriesHash;
-  docsOnlyComponentsCollapsed.forEach(item => {
+  docsOnlyComponentsCollapsed.forEach((item) => {
     result[item.id] = item as Item;
   });
   return result;
 };
 
-export const mapper = ({ state, api }: Combo) => {
-  const {
-    ui: { name, url, enableShortcuts },
-    viewMode,
-    storyId,
-    layout: { isFullscreen, showPanel, showNav },
-    storiesHash,
-    storiesConfigured,
-  } = state;
-  const stories = DOCS_MODE
-    ? collapseAllStories(storiesHash)
-    : collapseDocsOnlyStories(storiesHash);
+const clone = rfdc({ circles: true });
 
-  const shortcutKeys = api.getShortcutKeys();
-  return {
-    loading: !storiesConfigured,
-    title: name,
-    url,
-    stories,
-    storyId,
-    viewMode,
-    menu: createMenu(api, shortcutKeys, isFullscreen, showPanel, showNav, enableShortcuts),
-    menuHighlighted: api.versionUpdateAvailable(),
+const Sidebar: FunctionComponent<{}> = React.memo(() => {
+  const mapper = ({ state, api }: Combo) => {
+    const {
+      ui: { name, url, enableShortcuts },
+      viewMode,
+      storyId,
+      layout: { isFullscreen, showPanel, showNav },
+      storiesHash,
+      refs,
+    } = state;
+
+    const stories = useMemo(() => {
+      // protect against mutation
+      const copy = clone(storiesHash);
+
+      return DOCS_MODE ? collapseAllStories(copy) : collapseDocsOnlyStories(copy);
+    }, [DOCS_MODE, storiesHash]);
+
+    const menu = useMenu(api, isFullscreen, showPanel, showNav, enableShortcuts);
+
+    return {
+      title: name,
+      url,
+      stories,
+      refs,
+      storyId,
+      viewMode,
+      menu,
+      menuHighlighted: api.versionUpdateAvailable(),
+    };
   };
-};
-
-const Sidebar: FunctionComponent<any> = props => (
-  <Consumer filter={mapper}>{fromState => <SidebarComponent {...props} {...fromState} />}</Consumer>
-);
+  return (
+    <Consumer filter={mapper}>
+      {(fromState) => {
+        return <SidebarComponent {...fromState} />;
+      }}
+    </Consumer>
+  );
+});
 
 export default Sidebar;

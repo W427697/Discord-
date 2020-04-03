@@ -68,6 +68,8 @@ const defaultContext: StoryContext = {
   name: 'unspecified',
   kind: 'unspecified',
   parameters: {},
+  args: {},
+  globalArgs: {},
 };
 
 function decorateStory(
@@ -96,7 +98,7 @@ function decorateStory(
 
       return prepare(decoratedStory, story);
     },
-    context => prepare(storyFn(context))
+    (context) => prepare(storyFn(context))
   );
 }
 const framework = 'vue';

@@ -1,13 +1,17 @@
-import addons, { Parameters, StoryFn } from '@storybook/addons';
+import addons, { Parameters } from '@storybook/addons';
 import { normalize, sep } from 'upath';
 import { ADD_TESTS } from './shared';
+
+interface AddonParameters extends Parameters {
+  jest?: string | string[] | { disable: true };
+}
 
 const findTestResults = (
   testFiles: string[],
   jestTestResults: { testResults: { name: string }[] },
   jestTestFilesExt: string
 ) =>
-  Object.values(testFiles).map(name => {
+  Object.values(testFiles).map((name) => {
     const fileName = `${sep}${name}${jestTestFilesExt}`;
 
     if (jestTestResults && jestTestResults.testResults) {
@@ -16,7 +20,7 @@ const findTestResults = (
       return {
         fileName,
         name,
-        result: jestTestResults.testResults.find(test =>
+        result: jestTestResults.testResults.find((test) =>
           Boolean(normalize(test.name).match(fileNamePattern))
         ),
       };

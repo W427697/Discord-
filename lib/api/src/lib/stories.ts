@@ -1,7 +1,10 @@
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import { sanitize, parseKind } from '@storybook/csf';
+
+import { Args } from '../index';
 import merge from './merge';
+import { Provider } from '../modules/provider';
 
 export type StoryId = string;
 
@@ -9,6 +12,7 @@ export interface Root {
   id: StoryId;
   depth: 0;
   name: string;
+  refId?: string;
   children: StoryId[];
   isComponent: false;
   isRoot: true;
@@ -25,6 +29,7 @@ export interface Group {
   depth: number;
   name: string;
   children: StoryId[];
+  refId?: string;
   parent?: StoryId;
   isComponent: boolean;
   isRoot: false;
@@ -42,12 +47,13 @@ export interface Story {
   parent: StoryId;
   name: string;
   kind: string;
+  refId?: string;
   children?: StoryId[];
   isComponent: boolean;
   isRoot: false;
   isLeaf: true;
   parameters?: {
-    filename: string;
+    fileName: string;
     options: {
       hierarchyRootSeparator?: RegExp;
       hierarchySeparator?: RegExp;
@@ -57,15 +63,17 @@ export interface Story {
     docsOnly?: boolean;
     [k: string]: any;
   };
+  args: Args;
 }
 
 export interface StoryInput {
   id: StoryId;
   name: string;
+  refId?: string;
   kind: string;
   children: string[];
   parameters: {
-    filename: string;
+    fileName: string;
     options: {
       hierarchyRootSeparator: RegExp;
       hierarchySeparator: RegExp;
@@ -76,6 +84,7 @@ export interface StoryInput {
     [parameterName: string]: any;
   };
   isLeaf: boolean;
+  args: Args;
 }
 
 export interface StoriesHash {
@@ -124,7 +133,8 @@ const toGroup = (name: string) => ({
 
 export const transformStoriesRawToStoriesHash = (
   input: StoriesRaw,
-  base: StoriesHash
+  base: StoriesHash,
+  { provider }: { provider: Provider }
 ): StoriesHash => {
   const anyKindMatchesOldHierarchySeparators = Object.values(input).some(({ kind }) =>
     kind.match(/\.|\|/)
@@ -136,7 +146,7 @@ export const transformStoriesRawToStoriesHash = (
       hierarchyRootSeparator: rootSeparator = undefined,
       hierarchySeparator: groupSeparator = undefined,
       showRoots = undefined,
-    } = (parameters && parameters.options) || {};
+    } = { ...provider.getConfig(), ...((parameters && parameters.options) || {}) };
 
     const usingShowRoots = typeof showRoots !== 'undefined';
 
@@ -213,7 +223,7 @@ export const transformStoriesRawToStoriesHash = (
         return soFar.concat([result]);
       }, [] as GroupsList);
 
-    const paths = [...rootAndGroups.map(g => g.id), item.id];
+    const paths = [...rootAndGroups.map((g) => g.id), item.id];
 
     // Ok, now let's add everything to the store
     rootAndGroups.forEach((group, index) => {
@@ -225,8 +235,15 @@ export const transformStoriesRawToStoriesHash = (
       });
     });
 
-    const story = { ...item, parent: rootAndGroups[rootAndGroups.length - 1].id, isLeaf: true };
-    acc[item.id] = story as Story;
+    const story: Story = {
+      ...item,
+      depth: rootAndGroups.length,
+      parent: rootAndGroups[rootAndGroups.length - 1].id,
+      isLeaf: true,
+      isComponent: false,
+      isRoot: false,
+    };
+    acc[item.id] = story;
 
     return acc;
   }, {} as StoriesHash);
@@ -237,15 +254,15 @@ export const transformStoriesRawToStoriesHash = (
       acc[item.id] = item;
       const { children } = item;
       if (children) {
-        const childNodes = children.map(id => storiesHashOutOfOrder[id]) as (Story | Group)[];
-        acc[item.id].isComponent = childNodes.every(childNode => childNode.isLeaf);
-        childNodes.forEach(childNode => addItem(acc, childNode));
+        const childNodes = children.map((id) => storiesHashOutOfOrder[id]) as (Story | Group)[];
+        acc[item.id].isComponent = childNodes.every((childNode) => childNode.isLeaf);
+        childNodes.forEach((childNode) => addItem(acc, childNode));
       }
     }
     return acc;
   }
 
-  return Object.values(storiesHashOutOfOrder).reduce(addItem, base);
+  return Object.values(storiesHashOutOfOrder).reduce(addItem, { ...base });
 };
 
 export type Item = StoriesHash[keyof StoriesHash];

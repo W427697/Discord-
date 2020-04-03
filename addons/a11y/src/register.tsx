@@ -14,7 +14,7 @@ const Hidden = styled.div(() => ({
   },
 }));
 
-const PreviewWrapper: FunctionComponent<{}> = p => (
+const PreviewWrapper: FunctionComponent<{}> = (p) => (
   <Fragment>
     {p.children}
     <Hidden>
@@ -82,7 +82,7 @@ const PreviewWrapper: FunctionComponent<{}> = p => (
   </Fragment>
 );
 
-addons.register(ADDON_ID, () => {
+addons.register(ADDON_ID, (api) => {
   addons.add(PANEL_ID, {
     title: '',
     type: types.TOOL,
@@ -93,7 +93,7 @@ addons.register(ADDON_ID, () => {
   addons.add(PANEL_ID, {
     title: 'Accessibility',
     type: types.PANEL,
-    render: ({ active = true, key }) => <A11YPanel key={key} active={active} />,
+    render: ({ active = true, key }) => <A11YPanel key={key} api={api} active={active} />,
     paramKey: PARAM_KEY,
   });
 
