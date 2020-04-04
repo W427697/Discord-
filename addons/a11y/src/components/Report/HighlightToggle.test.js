@@ -1,9 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { Provider } from 'react-redux';
 import { ThemeProvider, themes, convert } from '@storybook/theming';
 import HighlightToggle from './HighlightToggle';
-import store from '../../redux-config';
 
 function ThemedHighlightToggle(props) {
   return (
@@ -16,11 +14,7 @@ function ThemedHighlightToggle(props) {
 describe('HighlightToggle component', () => {
   test('should render', () => {
     // given
-    const wrapper = mount(
-      <Provider store={store}>
-        <ThemedHighlightToggle />
-      </Provider>
-    );
+    const wrapper = mount(<ThemedHighlightToggle />);
 
     // then
     expect(wrapper.exists()).toBe(true);
@@ -28,11 +22,7 @@ describe('HighlightToggle component', () => {
 
   test('should match snapshot', () => {
     // given
-    const wrapper = mount(
-      <Provider store={store}>
-        <ThemedHighlightToggle />
-      </Provider>
-    );
+    const wrapper = mount(<ThemedHighlightToggle />);
 
     // then
     expect(wrapper).toMatchSnapshot();

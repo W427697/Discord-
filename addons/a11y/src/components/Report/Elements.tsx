@@ -47,7 +47,6 @@ const Element: FunctionComponent<ElementProps> = ({ element, type }) => {
             toggleId={highlightToggleId}
             type={type}
             elementsToHighlight={[element]}
-            label={highlightLabel}
           />
         </HighlightToggleElement>
       </ItemTitle>

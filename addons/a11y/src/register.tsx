@@ -4,7 +4,8 @@ import { styled } from '@storybook/theming';
 import { addons, types } from '@storybook/addons';
 import { ADDON_ID, PANEL_ID, PARAM_KEY } from './constants';
 import { ColorBlindness } from './components/ColorBlindness';
-import { A11YPanel } from './components/A11YPanel';
+import A11YPanel from './components/A11YPanel';
+import { A11yContextProvider } from './components/A11yContext';
 
 const Hidden = styled.div(() => ({
   '&, & svg': {
@@ -93,7 +94,11 @@ addons.register(ADDON_ID, (api) => {
   addons.add(PANEL_ID, {
     title: 'Accessibility',
     type: types.PANEL,
-    render: ({ active = true, key }) => <A11YPanel key={key} api={api} active={active} />,
+    render: ({ active = true, key }) => (
+      <A11yContextProvider>
+        <A11YPanel key={key} api={api} active={active} />
+      </A11yContextProvider>
+    ),
     paramKey: PARAM_KEY,
   });
 

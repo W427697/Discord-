@@ -1,18 +1,18 @@
 /* eslint-disable react/destructuring-assignment,default-case,consistent-return,no-case-declarations */
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 
 import { styled } from '@storybook/theming';
+import { STORY_CHANGED } from '@storybook/core-events';
 
 import { ActionBar, Icons, ScrollArea } from '@storybook/components';
 
 import { AxeResults, Result } from 'axe-core';
-import { API } from '@storybook/api';
-import { Provider } from 'react-redux';
+import { API, useChannel } from '@storybook/api';
 import { Report } from './Report';
-import { Tabs } from './Tabs';
+import Tabs from './Tabs';
 import { EVENTS } from '../constants';
 
-import store, { clearElements } from '../redux-config';
+import { useA11yContext } from './A11yContext';
 
 export enum RuleType {
   VIOLATION,
@@ -93,184 +93,159 @@ interface A11YPanelProps {
   api: API;
 }
 
-export class A11YPanel extends Component<A11YPanelProps, A11YPanelState> {
-  state: A11YPanelState = {
-    status: 'initial',
-  };
+const A11YPanel: React.FC<A11YPanelProps> = ({ api, active }) => {
+  const [status, setStatus] = React.useState<A11YPanelState['status']>('initial');
+  const [passes, setPasses] = React.useState<Result[]>([]);
+  const [violations, setViolations] = React.useState<Result[]>([]);
+  const [incomplete, setIncomplete] = React.useState<Result[]>([]);
+  const [error, setError] = React.useState<unknown>(undefined);
+  const { clearElements } = useA11yContext();
+  const emit = useChannel({
+    [EVENTS.REQUEST]: (...args) => console.log('EVENTS.REQUEST', ...args),
+    [STORY_CHANGED]: (...args) => console.log('STORY_CHANGED', ...args),
+  });
 
-  componentDidMount() {
-    const { api } = this.props;
+  React.useEffect(() => {
+    api.on(EVENTS.RESULT, handleResult);
+    api.on(EVENTS.ERROR, handleError);
+    api.on(EVENTS.MANUAL, handleManual);
 
-    api.on(EVENTS.RESULT, this.onResult);
-    api.on(EVENTS.ERROR, this.onError);
-    api.on(EVENTS.MANUAL, this.onManual);
-  }
+    return () => {
+      api.off(EVENTS.RESULT, handleResult);
+      api.off(EVENTS.ERROR, handleError);
+      api.off(EVENTS.MANUAL, handleManual);
+    };
+  });
 
-  componentDidUpdate(prevProps: A11YPanelProps) {
-    // TODO: might be able to remove this
-    const { active } = this.props;
-
-    if (!prevProps.active && active) {
-      // removes all elements from the redux map in store from the previous panel
-      store.dispatch(clearElements());
+  React.useEffect(() => {
+    if (!active) {
+      clearElements();
     }
-  }
+  }, [active]);
 
-  componentWillUnmount() {
-    const { api } = this.props;
+  const handleResult = ({
+    passes: passesResult,
+    violations: violationsResult,
+    incomplete: incompleteResult,
+  }: AxeResults) => {
+    setStatus('ran');
+    setPasses(passesResult);
+    setViolations(violationsResult);
+    setIncomplete(incompleteResult);
 
-    api.off(EVENTS.RESULT, this.onResult);
-    api.off(EVENTS.ERROR, this.onError);
-    api.off(EVENTS.MANUAL, this.onManual);
-  }
-
-  onResult = ({ passes, violations, incomplete }: AxeResults) => {
-    this.setState(
-      {
-        status: 'ran',
-        passes,
-        violations,
-        incomplete,
-      },
-      () => {
-        setTimeout(() => {
-          const { status } = this.state;
-          if (status === 'ran') {
-            this.setState({
-              status: 'ready',
-            });
-          }
-        }, 900);
+    setTimeout(() => {
+      if (status === 'ran') {
+        setStatus('ready');
       }
-    );
+    }, 900);
   };
 
-  onError = (error: unknown) => {
-    this.setState({
-      status: 'error',
-      error,
-    });
+  const handleError = (err: unknown) => {
+    setStatus('error');
+    setError(err);
   };
 
-  onManual = (manual: boolean) => {
+  const handleManual = (manual: boolean) => {
     if (manual) {
-      this.setState({
-        status: 'manual',
-      });
+      setStatus('manual');
     } else {
-      this.request();
+      request();
     }
   };
 
-  request = () => {
-    const { api } = this.props;
-    this.setState(
-      {
-        status: 'running',
-      },
-      () => {
-        api.emit(EVENTS.REQUEST);
-        // removes all elements from the redux map in store from the previous panel
-        store.dispatch(clearElements());
-      }
-    );
+  const request = () => {
+    setStatus('running');
+    api.emit(EVENTS.REQUEST);
+    // removes all elements from the context map from the previous panel
+    clearElements();
   };
 
-  render() {
-    const { active } = this.props;
-    if (!active) return null;
+  if (!active) return null;
 
-    switch (this.state.status) {
-      case 'initial':
-        return <Centered>Initializing...</Centered>;
-      case 'manual':
-        return (
+  switch (status) {
+    case 'initial':
+      return <Centered>Initializing...</Centered>;
+    case 'manual':
+      return (
+        <Fragment>
+          <Centered>Manually run the accessibility scan.</Centered>
+          <ActionBar key="actionbar" actionItems={[{ title: 'Run test', onClick: request }]} />
+        </Fragment>
+      );
+    case 'running':
+      return (
+        <Centered>
+          <RotatingIcon inline icon="sync" /> Please wait while the accessibility scan is running
+          ...
+        </Centered>
+      );
+    case 'ready':
+    case 'ran':
+      const actionTitle =
+        status === 'ready' ? (
+          'Rerun tests'
+        ) : (
           <Fragment>
-            <Centered>Manually run the accessibility scan.</Centered>
-            <ActionBar
-              key="actionbar"
-              actionItems={[{ title: 'Run test', onClick: this.request }]}
-            />
+            <Icon inline icon="check" /> Tests completed
           </Fragment>
         );
-      case 'running':
-        return (
-          <Centered>
-            <RotatingIcon inline icon="sync" /> Please wait while the accessibility scan is running
-            ...
-          </Centered>
-        );
-      case 'ready':
-      case 'ran':
-        const { passes, violations, incomplete, status } = this.state;
-        const actionTitle =
-          status === 'ready' ? (
-            'Rerun tests'
-          ) : (
-            <Fragment>
-              <Icon inline icon="check" /> Tests completed
-            </Fragment>
-          );
-        return (
-          <Provider store={store}>
-            <ScrollArea vertical horizontal>
-              <Tabs
-                key="tabs"
-                tabs={[
-                  {
-                    label: <Violations>{violations.length} Violations</Violations>,
-                    panel: (
-                      <Report
-                        items={violations}
-                        type={RuleType.VIOLATION}
-                        empty="No accessibility violations found."
-                      />
-                    ),
-                    items: violations,
-                    type: RuleType.VIOLATION,
-                  },
-                  {
-                    label: <Passes>{passes.length} Passes</Passes>,
-                    panel: (
-                      <Report
-                        items={passes}
-                        type={RuleType.PASS}
-                        empty="No accessibility checks passed."
-                      />
-                    ),
-                    items: passes,
-                    type: RuleType.PASS,
-                  },
-                  {
-                    label: <Incomplete>{incomplete.length} Incomplete</Incomplete>,
-                    panel: (
-                      <Report
-                        items={incomplete}
-                        type={RuleType.INCOMPLETION}
-                        empty="No accessibility checks incomplete."
-                      />
-                    ),
-                    items: incomplete,
-                    type: RuleType.INCOMPLETION,
-                  },
-                ]}
-              />
-            </ScrollArea>
-            <ActionBar
-              key="actionbar"
-              actionItems={[{ title: actionTitle, onClick: this.request }]}
+      return (
+        <>
+          <ScrollArea vertical horizontal>
+            <Tabs
+              key="tabs"
+              tabs={[
+                {
+                  label: <Violations>{violations.length} Violations</Violations>,
+                  panel: (
+                    <Report
+                      items={violations}
+                      type={RuleType.VIOLATION}
+                      empty="No accessibility violations found."
+                    />
+                  ),
+                  items: violations,
+                  type: RuleType.VIOLATION,
+                },
+                {
+                  label: <Passes>{passes.length} Passes</Passes>,
+                  panel: (
+                    <Report
+                      items={passes}
+                      type={RuleType.PASS}
+                      empty="No accessibility checks passed."
+                    />
+                  ),
+                  items: passes,
+                  type: RuleType.PASS,
+                },
+                {
+                  label: <Incomplete>{incomplete.length} Incomplete</Incomplete>,
+                  panel: (
+                    <Report
+                      items={incomplete}
+                      type={RuleType.INCOMPLETION}
+                      empty="No accessibility checks incomplete."
+                    />
+                  ),
+                  items: incomplete,
+                  type: RuleType.INCOMPLETION,
+                },
+              ]}
             />
-          </Provider>
-        );
-      case 'error':
-        const { error } = this.state;
-        return (
-          <Centered>
-            The accessibility scan encountered an error.
-            <br />
-            {error}
-          </Centered>
-        );
-    }
+          </ScrollArea>
+          <ActionBar key="actionbar" actionItems={[{ title: actionTitle, onClick: request }]} />
+        </>
+      );
+    case 'error':
+      return (
+        <Centered>
+          The accessibility scan encountered an error.
+          <br />
+          {error}
+        </Centered>
+      );
   }
-}
+};
+
+export default A11YPanel;
