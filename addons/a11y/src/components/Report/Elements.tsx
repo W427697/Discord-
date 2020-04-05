@@ -36,7 +36,6 @@ const Element: FunctionComponent<ElementProps> = ({ element, type }) => {
   const { any, all, none } = element;
   const rules = [...any, ...all, ...none];
   const highlightToggleId = `${type}-${element.target[0]}`;
-  const highlightLabel = `Highlight`;
 
   return (
     <Item>

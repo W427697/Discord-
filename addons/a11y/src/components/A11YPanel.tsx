@@ -2,17 +2,17 @@
 import React, { Fragment } from 'react';
 
 import { styled } from '@storybook/theming';
-import { STORY_CHANGED } from '@storybook/core-events';
+import { STORY_CHANGED, STORY_RENDERED } from '@storybook/core-events';
 
 import { ActionBar, Icons, ScrollArea } from '@storybook/components';
 
 import { AxeResults, Result } from 'axe-core';
-import { API, useChannel } from '@storybook/api';
+import { API, useChannel, useStorybookApi, useStorybookState } from '@storybook/api';
 import { Report } from './Report';
 import Tabs from './Tabs';
-import { EVENTS } from '../constants';
 
 import { useA11yContext } from './A11yContext';
+import performRun, { Setup } from '../run';
 
 export enum RuleType {
   VIOLATION,
@@ -49,72 +49,45 @@ const Centered = styled.span<{}>({
   height: '100%',
 });
 
-interface InitialState {
-  status: 'initial';
-}
-
-interface ManualState {
-  status: 'manual';
-}
-
-interface RunningState {
-  status: 'running';
-}
-
-interface RanState {
-  status: 'ran';
-  passes: Result[];
-  violations: Result[];
-  incomplete: Result[];
-}
-
-interface ReadyState {
-  status: 'ready';
-  passes: Result[];
-  violations: Result[];
-  incomplete: Result[];
-}
-
-interface ErrorState {
-  status: 'error';
-  error: unknown;
-}
-
-type A11YPanelState =
-  | InitialState
-  | ManualState
-  | RunningState
-  | RanState
-  | ReadyState
-  | ErrorState;
+type Status = 'initial' | 'manual' | 'running' | 'error' | 'ran' | 'ready';
 
 interface A11YPanelProps {
   active: boolean;
   api: API;
 }
 
-const A11YPanel: React.FC<A11YPanelProps> = ({ api, active }) => {
-  const [status, setStatus] = React.useState<A11YPanelState['status']>('initial');
+const setup: Setup = { element: undefined, config: {}, options: {}, manual: false };
+
+const A11YPanel: React.FC<A11YPanelProps> = ({ active }) => {
+  const [status, setStatus] = React.useState<Status>('initial');
   const [passes, setPasses] = React.useState<Result[]>([]);
   const [violations, setViolations] = React.useState<Result[]>([]);
   const [incomplete, setIncomplete] = React.useState<Result[]>([]);
   const [error, setError] = React.useState<unknown>(undefined);
   const { clearElements } = useA11yContext();
-  const emit = useChannel({
-    [EVENTS.REQUEST]: (...args) => console.log('EVENTS.REQUEST', ...args),
-    [STORY_CHANGED]: (...args) => console.log('STORY_CHANGED', ...args),
-  });
 
-  React.useEffect(() => {
-    api.on(EVENTS.RESULT, handleResult);
-    api.on(EVENTS.ERROR, handleError);
-    api.on(EVENTS.MANUAL, handleManual);
+  const parameters = useStorybookState();
 
-    return () => {
-      api.off(EVENTS.RESULT, handleResult);
-      api.off(EVENTS.ERROR, handleError);
-      api.off(EVENTS.MANUAL, handleManual);
-    };
+  const run = async () => {
+    // removes all elements from the context map from the previous panel
+    clearElements();
+    console.log('Running...');
+    try {
+      setStatus('running');
+      const result = await performRun(setup);
+
+      if (result) {
+        handleResult(result);
+      }
+    } catch (err) {
+      setStatus('error');
+      setError(err);
+    }
+  };
+
+  useChannel({
+    [STORY_CHANGED]: run,
+    [STORY_RENDERED]: run,
   });
 
   React.useEffect(() => {
@@ -140,24 +113,9 @@ const A11YPanel: React.FC<A11YPanelProps> = ({ api, active }) => {
     }, 900);
   };
 
-  const handleError = (err: unknown) => {
-    setStatus('error');
-    setError(err);
-  };
-
-  const handleManual = (manual: boolean) => {
-    if (manual) {
-      setStatus('manual');
-    } else {
-      request();
-    }
-  };
-
   const request = () => {
     setStatus('running');
-    api.emit(EVENTS.REQUEST);
-    // removes all elements from the context map from the previous panel
-    clearElements();
+    run();
   };
 
   if (!active) return null;
