@@ -1,39 +1,38 @@
-# Storybook for Vue
+# Storybook dla Vue
 
-Storybook for Vue is a UI development environment for your Vue components.
-With it, you can visualize different states of your UI components and develop them interactively.
+Storybook dla Vue to środowisko programistyczne interfejsu użytkownika dla komponentów Vue.
+Dzięki niemu możesz wizualizować różne stany składników interfejsu użytkownika i rozwijać je interaktywnie.
 
 ![Storybook Screenshot](https://github.com/storybookjs/storybook/blob/master/media/storybook-intro.gif)
 
-Storybook runs outside of your app.
-So you can develop UI components in isolation without worrying about app specific dependencies and requirements.
+Storybook działa poza twoją aplikacją.
+Dzięki temu możesz samodzielnie opracowywać komponenty interfejsu użytkownika, nie martwiąc się o zależności i wymagania specyficzne dla aplikacji.
 
-## Getting Started
+## Rozpocznij
 
 ```sh
 cd my-vue-app
 npx -p @storybook/cli sb init
 ```
 
-For more information visit: [storybook.js.org](https://storybook.js.org)
+Aby uzyskać więcej informacji zobacz: [storybook.js.org](https://storybook.js.org)
 
-## Starter Storybook-for-Vue Boilerplate project with [Vuetify](https://github.com/vuetifyjs/vuetify) Material Component Framework
+## Projekt początkowy Storybook-for-Vue Boilerplate z [Vuetify](https://github.com/vuetifyjs/vuetify) Material Component Framework
 
 <https://github.com/white-rabbit-japan/vue-vuetify-storybook>
 
 ---
 
-Storybook also comes with a lot of [addons](https://storybook.js.org/addons/introduction) and a great API to customize as you wish.
-You can also build a [static version](https://storybook.js.org/basics/exporting-storybook) of your storybook and deploy it anywhere you want.
+Storybook zawiera również wiele [dodatków](https://storybook.js.org/addons/introduction) oraz świetny interfejs API, który można dowolnie dostosowywać.
+Możesz także zbudować [wersję statyczną](https://storybook.js.org/basics/exporting-storybook) swojego storybooka i wdrażać go w dowolnym miejscu.
 
-## Vue Notes
+## Notatki Vue
 
-- When using global custom components or extension (e.g `Vue.use`). You will need to declare those in the `./storybook/preview.js`.
+- Podczas korzystania z globalnych niestandardowych komponentów lub rozszerzenia (np. `Vue.use`). Będziesz musiał zadeklarować je w `./storybook/preview.js`.
 
-## Known Limitations
+## Znane ograniczenia
 
-In Storybook story and decorator components you can not access the Vue instance
-in factory functions for default prop values:
+W Storybook i komponentach dekoratora nie można uzyskać dostępu do instancji Vue w funkcjach fabrycznych dla domyślnych wartości prop:
 
 ```js
 {
