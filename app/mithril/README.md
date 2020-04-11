@@ -1,23 +1,23 @@
-# Storybook for Mithril
+# Storybook dla Mithril
 
-Storybook for Mithril is a UI development environment for your Mithril components.
-With it, you can visualize different states of your UI components and develop them interactively.
+Storybook dla Mithril to środowisko programistyczne interfejsu użytkownika dla komponentów Mithril.
+Dzięki niemu możesz wizualizować różne stany składników interfejsu użytkownika i rozwijać je interaktywnie.
 
 ![Storybook Screenshot](https://github.com/storybookjs/storybook/blob/master/media/storybook-intro.gif)
 
-Storybook runs outside of your app.
-So you can develop UI components in isolation without worrying about app specific dependencies and requirements.
+Storybook działa poza twoją aplikacją.
+Dzięki temu możesz samodzielnie opracowywać komponenty interfejsu użytkownika, nie martwiąc się o zależności i wymagania specyficzne dla aplikacji.
 
-## Getting Started
+## Rozpocznij
 
 ```sh
 cd my-mithril-app
 npx -p @storybook/cli sb init
 ```
 
-For more information visit: [storybook.js.org](https://storybook.js.org)
+Po więcej informacji odwiedź: [storybook.js.org](https://storybook.js.org)
 
 ---
 
-Storybook also comes with a lot of [addons](https://storybook.js.org/addons/introduction) and a great API to customize as you wish.
-You can also build a [static version](https://storybook.js.org/basics/exporting-storybook) of your storybook and deploy it anywhere you want.
+Storybook zawiera również wiele [dodatków](https://storybook.js.org/addons/introduction) oraz świetny interfejs API, który można dowolnie dostosowywać.
+Możesz także stworzyć [wersję statyczną](https://storybook.js.org/basics/exporting-storybook) swojego storybooka i wdrażać go w dowolnym miejscu.
