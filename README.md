@@ -182,13 +182,13 @@ We have a badge! Link it to your live Storybook example.
 
 If you're looking for material to use in your presentation about storybook, like logo's video material and the colors we use etc, you can find all of that at our [brand repo](https://github.com/storybookjs/brand).
 
-## Community
+## Społeczność
 
-- Tweeting via [@storybookjs](https://twitter.com/storybookjs)
-- Blogging at [Medium](https://medium.com/storybookjs)
-- Chatting on [Slack](https://now-examples-slackin-rrirkqohko.now.sh/)
-- Discussions on [Discord](https://discord.gg/sMFvFsG)
-- Streaming saved at [Youtube](https://www.youtube.com/channel/UCr7Quur3eIyA_oe8FNYexfg)
+- Twitter: [@storybookjs](https://twitter.com/storybookjs)
+- Blog: [Medium](https://medium.com/storybookjs)
+- Chat: [Slack](https://now-examples-slackin-rrirkqohko.now.sh/)
+- Dyskusje: [Discord](https://discord.gg/sMFvFsG)
+- Streaming zapisany na: [Youtube](https://www.youtube.com/channel/UCr7Quur3eIyA_oe8FNYexfg)
 
 ## Contributing
 
@@ -231,9 +231,9 @@ Storybook is organized as a monorepo using [Lerna](https://lerna.js.org/). Usefu
 
 - `yarn run test --core --watch` - will run core tests in watch-mode
 
-### Sponsors
+### Sponsorzy
 
-Become a sponsor and get your logo on our README on Github with a link to your site. \[[Become a sponsor](https://opencollective.com/storybook#sponsor)]
+Zostań sponsorem i zdobądź logo na naszym README na GitHub z linkiem do Twojej witryny. \[[Zostań sponsorem](https://opencollective.com/storybook#sponsor)]
 
 <a href="https://opencollective.com/storybook/sponsor/0/website" target="_blank"><img src="https://opencollective.com/storybook/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/storybook/sponsor/1/website" target="_blank"><img src="https://opencollective.com/storybook/sponsor/1/avatar.svg"></a>
@@ -268,7 +268,7 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 
 ### Backers
 
-Support us with a monthly donation and help us continue our activities. \[[Become a backer](https://opencollective.com/storybook#backer)]
+Wesprzyj nas co miesiąc darowizną i pomóż nam kontynuować nasze działania. \[[Zostań backerem](https://opencollective.com/storybook#backer)]
 
 <a href="https://opencollective.com/storybook/backer/0/website" target="_blank"><img src="https://opencollective.com/storybook/backer/0/avatar.svg"></a>
 <a href="https://opencollective.com/storybook/backer/1/website" target="_blank"><img src="https://opencollective.com/storybook/backer/1/avatar.svg"></a>
@@ -301,8 +301,12 @@ Support us with a monthly donation and help us continue our activities. \[[Becom
 <a href="https://opencollective.com/storybook/backer/28/website" target="_blank"><img src="https://opencollective.com/storybook/backer/28/avatar.svg"></a>
 <a href="https://opencollective.com/storybook/backer/29/website" target="_blank"><img src="https://opencollective.com/storybook/backer/29/avatar.svg"></a>
 
-## License
+## Licencja
 
 [MIT](https://github.com/storybookjs/storybook/blob/master/LICENSE)
 
--the end-
+-Koniec-
+
+_________________________________________
+
+Stworzone przez @[storybookjs](https://github.com/storybookjs) polska wersja od @[mbiesiad](https://github.com/mbiesiad)
