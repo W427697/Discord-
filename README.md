@@ -69,18 +69,18 @@ Storybook przychodzi z wieloma [dodatkami](https://storybook.js.org/addons/intro
 
 ## Spis treści
 
-- 🚀[Getting Started](#getting-started)
-- 📒[Projects](#projects)
-  - 🛠[Supported Frameworks & Examples](#supported-frameworks)
-  - 🚇[Sub Projects](#sub-projects)
-  - 🔗[Addons](#addons)
-- 🏅[Badges & Presentation materials](#badges--presentation-materials)
-- 👥[Community](#community)
-- 👏[Contributing](#contributing)
-  - 👨‍💻[Development scripts](#development-scripts)
+- 🚀[Rozpocznij](#rozpocznij)
+- 📒[Projekty](#projekty)
+  - 🛠[Wspierane frameworki & przykłady](#wspieraneframeworki--przykłady)
+  - 🚇[Podprojekty](#podprojekty)
+  - 🔗[Rozszerzenia, dodatki](#rozszerzeniadodatki)
+- 🏅[Odznaki & materiały prezentacyjne](#odznaki--materiały-prezentacyjne)
+- 👥[Społeczność](#społeczność)
+- 👏[Współtworzenie](#współtworzenie)
+  - 👨‍💻[Skrypty programistyczne](#skrypty-programistyczne)
   - 💵[Backers](#backers)
-  - 💸[Sponsors](#sponsors)
-- :memo:[License](#license)
+  - 💸[Sponsorzy](#sponsorzy)
+- :memo:[Licencja](#licencja)
 
 ## Rozpocznij
 
@@ -131,8 +131,8 @@ Aby uzyskać dodatkową pomoc, dołącz do nas [na naszym Discord](https://disco
 
 ### Podprojekty
 
-- [CLI](lib/cli) - Streamlined installation for a variety of app types
-- [examples](examples) - Code examples to illustrate different Storybook use cases
+- [CLI](lib/cli) - Usprawniona instalacja dla różnych typów aplikacji
+- [przykłady](examples) - Przykłady kodu ilustrujące różne przypadki użycia Storybook
 
 ### Rozszerzenia, dodatki
 
@@ -157,7 +157,7 @@ Aby uzyskać dodatkową pomoc, dołącz do nas [na naszym Discord](https://disco
 | [storysource](addons/storysource/)          | View the code of your stories within the Storybook UI                      |
 | [viewport](addons/viewport/)                | Change display sizes and layouts for responsive components using Storybook |
 
-See [Addon / Framework Support Table](ADDONS_SUPPORT.md)
+Zobacz [Addon / Framework Support Table](ADDONS_SUPPORT.md)
 
 ### Przestarzałe dodatki
 
@@ -168,11 +168,11 @@ See [Addon / Framework Support Table](ADDONS_SUPPORT.md)
 
 Aby nadal ulepszać twoje wrażenia, musimy ostatecznie wycofać niektóre dodatki na rzecz nowych, lepszych narzędzi.
 
-If you're using info/notes, we highly recommend you to migrate to [docs](addons/docs/) instead, and [here is a guide](addons/docs/docs/recipes.md#migrating-from-notesinfo-addons) to help you.
+Jeśli korzystasz z info/notes, zalecamy migrację do [docs](addons/docs/), a [tutaj jest poradnik](addons/docs/docs/recipes.md#migrating-from-notesinfo-addons), aby ci pomóc.
 
-## Badges & Presentation materials
+## Odznaki & materiały prezentacyjne
 
-We have a badge! Link it to your live Storybook example.
+Mamy badge'a! Połącz go ze swoim przykładem Storybook.
 
 ![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg)
 
@@ -180,7 +180,7 @@ We have a badge! Link it to your live Storybook example.
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg)](link to site)
 ```
 
-If you're looking for material to use in your presentation about storybook, like logo's video material and the colors we use etc, you can find all of that at our [brand repo](https://github.com/storybookjs/brand).
+Jeśli szukasz materiału do wykorzystania w prezentacji na temat Storybook, takiego jak materiał wideo logo i kolory, których używamy itp. Możesz znaleźć to wszystko na naszej stronie [brand repo](https://github.com/storybookjs/brand).
 
 ## Społeczność
 
@@ -190,26 +190,26 @@ If you're looking for material to use in your presentation about storybook, like
 - Dyskusje: [Discord](https://discord.gg/sMFvFsG)
 - Streaming zapisany na: [Youtube](https://www.youtube.com/channel/UCr7Quur3eIyA_oe8FNYexfg)
 
-## Contributing
+## Współtworzenie
 
-We welcome contributions to Storybook!
+Zachęcamy do współtworzenia Storybook!
 
-- 📥 Pull requests and 🌟 Stars are always welcome.
-- Read our [contributing guide](CONTRIBUTING.md) to get started.
-  or find us on [Discord](https://discord.gg/sMFvFsG), we're will take the time to guide you
+- 📥 Pull requesty oraz 🌟 Stars są mile widziane.
+- Przeczytaj nasz [contributing guide](CONTRIBUTING.md), aby zacząć.
+  lub znajdź nas na [Discord](https://discord.gg/sMFvFsG), poświęcimy czas, aby ci pomóc
 
-Looking for a first issue to tackle?
+Szukasz pierwszego problemu do rozwiązania?
 
-- We tag issues with [![Good First Issue](https://img.shields.io/github/issues/storybookjs/storybook/good%20first%20issue.svg)](https://github.com/storybookjs/storybook/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) when we think they are well suited for people who are new to the codebase or OSS in general.
-- [Talk to us](https://discord.gg/sMFvFsG), we'll find something to suits your skills and learning interest.
+- Oznaczamy problemy za pomocą [![Good First Issue](https://img.shields.io/github/issues/storybookjs/storybook/good%20first%20issue.svg)](https://github.com/storybookjs/storybook/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) gdy uważamy, że są one odpowiednie dla osób, które są nowicjuszami w kodowaniu lub ogólnie OSS.
+- [Rozmawiaj z nami](https://discord.gg/sMFvFsG), znajdziemy coś odpowiadającego twoim umiejętnościom i zainteresowaniom edukacyjnym.
 
-### Development scripts
+### Skrypty programistyczne
 
-Storybook is organized as a monorepo using [Lerna](https://lerna.js.org/). Useful scripts include:
+Storybook jest zorganizowany jako użycie monorepo [Lerna](https://lerna.js.org/). Przydatne skrypty to:
 
 #### `yarn bootstrap`
 
-> Installs package dependencies and links packages together - using lerna
+> Instaluje zależności pakietów i łączy pakiety razem - za pomocą lerna
 
 #### `yarn run publish`
 
