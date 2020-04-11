@@ -84,7 +84,7 @@ Storybook przychodzi z wieloma [dodatkami](https://storybook.js.org/addons/intro
 
 ## Rozpocznij
 
-Na początku zainstraluj storybook:
+Na początku zainstaluj Storybook:
 
 ```sh
 cd my-react-app
