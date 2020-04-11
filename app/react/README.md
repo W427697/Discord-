@@ -1,46 +1,46 @@
-# Storybook for React
+# Storybook dla React
 
-Storybook for React is a UI development environment for your React components.
-With it, you can visualize different states of your UI components and develop them interactively.
+Storybook dla React to środowisko programistyczne interfejsu użytkownika dla komponentów React.
+Dzięki niemu możesz wizualizować różne stany składników interfejsu użytkownika i rozwijać je interaktywnie.
 
 ![Storybook Screenshot](https://github.com/storybookjs/storybook/blob/master/media/storybook-intro.gif)
 
-Storybook runs outside of your app.
-So you can develop UI components in isolation without worrying about app specific dependencies and requirements.
+Storybook działa poza twoją aplikacją.
+Dzięki temu możesz samodzielnie opracowywać komponenty interfejsu użytkownika, nie martwiąc się o zależności i wymagania specyficzne dla aplikacji.
 
-## Getting Started
+## Rozpocznij
 
 ```sh
 cd my-react-app
 npx -p @storybook/cli sb init
 ```
 
-For more information visit: [storybook.js.org](https://storybook.js.org)
+Aby uzyskać więcej informacji sprawdź: [storybook.js.org](https://storybook.js.org)
 
 ---
 
-Storybook also comes with a lot of [addons](https://storybook.js.org/addons/introduction) and a great API to customize as you wish.
-You can also build a [static version](https://storybook.js.org/basics/exporting-storybook) of your storybook and deploy it anywhere you want.
+Storybook przychodzi również z wieloma [addons](https://storybook.js.org/addons/introduction) oraz świetny interfejs API, który można dowolnie dostosowywać.
+Możesz także zbudować [wersję statyczną](https://storybook.js.org/basics/exporting-storybook) swojego storybooka i wdrożyć go w dowolnym miejscu.
 
-Here are some featured storybooks that you can reference to see how Storybook works:
+Oto kilka polecanych scenariuszy, do których można się odwołać, aby zobaczyć, jak działa Storybook:
 
-- [Demo of React Dates](http://airbnb.io/react-dates/) - [source](https://github.com/airbnb/react-dates)
-- [Demo of React Native Web](https://necolas.github.io/react-native-web/docs/) - [source](https://github.com/necolas/react-native-web)
+- [Demo of React Dates](http://airbnb.io/react-dates/) - [źródło](https://github.com/airbnb/react-dates)
+- [Demo of React Native Web](https://necolas.github.io/react-native-web/docs/) - [źródło](https://github.com/necolas/react-native-web)
 
-## Create React App
+## Utwórz aplikację React
 
-Support for [Create React App](https://create-react-app.dev/) is handled by [`@storybook/preset-create-react-app`](https://github.com/storybookjs/presets/tree/master/packages/preset-create-react-app).
+Wsparcie dla [Create React App](https://create-react-app.dev/) jest obsługiwany przez [`@storybook/preset-create-react-app`](https://github.com/storybookjs/presets/tree/master/packages/preset-create-react-app).
 
-This preset enables support for all Create React App features, including Sass/SCSS and TypeScript.
+To ustawienie wstępne obsługuje wszystkie funkcje Create React App, w tym Sass / SCSS i TypeScript.
 
 ## Typescript
 
-`@storybook/react` is now exporting its own types to use with Typescript.
-You don't need to have `@types/storybook__react` installed anymore if it was your case.
-But you probably also need to use types from `@types/node @types/react`.
+`@storybook/react` teraz eksportuje własne typy do użycia z Typescript.
+Nie potrzebujesz mieć zainstalowanego `@types/storybook__react` już więcej razy, jeśli to był twój przypadek.
+Ale prawdopodobnie potrzebujesz także użyć typów z `@types/node @types/react`.
 
-## Docs
+## Dokumentacja
 
-- [Basics](https://storybook.js.org/basics/introduction)
-- [Configurations](https://storybook.js.org/configurations/default-config)
-- [Addons](https://storybook.js.org/addons/introduction)
+- [Podstawy](https://storybook.js.org/basics/introduction)
+- [Konfiguracja](https://storybook.js.org/configurations/default-config)
+- [Dodatki](https://storybook.js.org/addons/introduction)
