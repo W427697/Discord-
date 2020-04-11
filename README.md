@@ -71,9 +71,9 @@ Storybook przychodzi z wieloma [dodatkami](https://storybook.js.org/addons/intro
 
 - 🚀[Rozpocznij](#rozpocznij)
 - 📒[Projekty](#projekty)
-  - 🛠[Wspierane frameworki & przykłady](#wspieraneframeworki--przykłady)
+  - 🛠[Wspierane frameworki & przykłady](#wspierane-frameworki)
   - 🚇[Podprojekty](#podprojekty)
-  - 🔗[Rozszerzenia, dodatki](#rozszerzeniadodatki)
+  - 🔗[Rozszerzenia, dodatki](#rozszerzenia-dodatki)
 - 🏅[Odznaki & materiały prezentacyjne](#odznaki--materiały-prezentacyjne)
 - 👥[Społeczność](#społeczność)
 - 👏[Współtworzenie](#współtworzenie)
