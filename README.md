@@ -4,7 +4,7 @@
   </a>
 </p>
 
-<p align="center">Build bulletproof UI components faster</p>
+<p align="center">Buduj szybciej kuloodporne elementy interfejsu użytkownika</p>
 
 <br/>
 
@@ -42,8 +42,8 @@
   </a>
 </p>
 
-Storybook is a development environment for UI components.
-It allows you to browse a component library, view the different states of each component, and interactively develop and test components.
+Storybook to środowisko programistyczne dla komponentów interfejsu użytkownika.
+Umożliwia przeglądanie biblioteki komponentów, przeglądanie różnych stanów każdego komponentu oraz interaktywne rozwijanie i testowanie komponentów.
 
 <center>
   <img src="https://raw.githubusercontent.com/storybookjs/storybook/master/media/storybook-intro.gif" width="100%" />
@@ -55,19 +55,19 @@ It allows you to browse a component library, view the different states of each c
   <a href="https://github.com/storybookjs/storybook/blob/next/README.md" title="next"><img alt="next" src="https://img.shields.io/npm/v/@storybook/core/next.svg" /></a>
 </p>
 
-## Intro
+## Wprowadzenie
 
-Storybook runs outside of your app. This allows you to develop UI components in isolation, which can improve component reuse, testability, and development speed. You can build quickly without having to worry about application-specific dependencies.
+Storybook działa poza twoją aplikacją. Pozwala to na tworzenie komponentów interfejsu użytkownika w izolacji, co może poprawić ponowne użycie komponentów, testowalność i szybkość programowania. Możesz budować szybko, nie martwiąc się o zależności specyficzne dla aplikacji.
 
-Here are some featured examples that you can reference to see how Storybook works: <https://storybook.js.org/examples/>
+Oto kilka polecanych przykładów, do których możesz się odwołać, aby zobaczyć, jak działa Storybook: <https://storybook.js.org/examples/>
 
-Storybook comes with a lot of [addons](https://storybook.js.org/addons/introduction/) for component design, documentation, testing, interactivity, and so on. Storybook's API makes it possible to configure and extend in various ways. It has even been extended to support React Native development for mobile.
+Storybook przychodzi z wieloma [dodatkami](https://storybook.js.org/addons/introduction/) do projektowania komponentów, dokumentacji, testowania, interaktywności i tak dalej. Interfejs API Storybook umożliwia konfigurowanie i rozszerzanie na różne sposoby. Został nawet rozszerzony, aby wspierać rozwój React Native na urządzenia mobilne.
 
-## Translations
+## Tłumaczenia
 
-- [Polish](https://github.com/mbiesiad/storybook/tree/pl_PL)
+- [Polski](https://github.com/mbiesiad/storybook/tree/pl_PL)
 
-## Table of contents
+## Spis treści
 
 - 🚀[Getting Started](#getting-started)
 - 📒[Projects](#projects)
@@ -82,36 +82,36 @@ Storybook comes with a lot of [addons](https://storybook.js.org/addons/introduct
   - 💸[Sponsors](#sponsors)
 - :memo:[License](#license)
 
-## Getting Started
+## Rozpocznij
 
-First install storybook:
+Na początku zainstraluj storybook:
 
 ```sh
 cd my-react-app
 npx -p @storybook/cli sb init
 ```
 
-If you'd rather set up your project manually, take a look at our [Slow Start Guide](https://storybook.js.org/basics/slow-start-guide/).
+Jeśli wolisz samodzielnie skonfigurować projekt, zapoznaj się z naszym [Slow Start Guide](https://storybook.js.org/basics/slow-start-guide/).
 
-Once it's installed, you can `npm run storybook` and it will run the development server on your local machine, and give you a URL to browse some sample stories.
+Po zainstalowaniu możesz `npm run storybook` i uruchomić serwer programistyczny na twoim komputerze lokalnym i uzyskasz URL do przeglądania przykładowych historii.
 
-**Storybook v2.x migration note**:
-If you're using Storybook v2.x and want to shift to 4.x version the easiest way is:
+**Storybook v2.x notatka migracji**:
+Jeśli używasz Storybook v2.x i chcesz przejść do wersji 4.x, najłatwiej jest to zrobić tak:
 
 ```sh
 cd my-storybook-v2-app
 npx -p @storybook/cli sb init
 ```
 
-It runs a codemod to update all package names. Read all migration details in our [Migration Guide](MIGRATION.md)
+Działa w trybie codemod, aby zaktualizować wszystkie nazwy pakietów. Przeczytaj wszystkie szczegóły migracji w naszym [Migration Guide](MIGRATION.md)
 
-For full documentation on using Storybook visit: [storybook.js.org](https://storybook.js.org)
+Aby uzyskać pełną dokumentację dotyczącą korzystania ze Storybook, odwiedź stronę: [storybook.js.org](https://storybook.js.org)
 
-For additional help, join us [in our Discord](https://discord.gg/sMFvFsG) or [Slack](https://now-examples-slackin-rrirkqohko.now.sh/)
+Aby uzyskać dodatkową pomoc, dołącz do nas [na naszym Discord](https://discord.gg/sMFvFsG) lub [Slack](https://now-examples-slackin-rrirkqohko.now.sh/)
 
-## Projects
+## Projekty
 
-### Supported Frameworks
+### Wspierane frameworki
 
 | Framework                        | Demo                                                                        |                                                                                                |
 | -------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
@@ -129,12 +129,12 @@ For additional help, join us [in our Discord](https://discord.gg/sMFvFsG) or [Sl
 | [Preact](app/preact)             | [v5.3.0](https://storybookjs.netlify.com/preact-kitchen-sink/)              | [![Preact](https://img.shields.io/npm/dm/@storybook/preact.svg)](app/preact)                   |
 | [Rax](app/rax)                   | [v5.3.0](https://storybookjs.netlify.com/rax-kitchen-sink/)                 | [![Rax](https://img.shields.io/npm/dm/@storybook/rax.svg)](app/rax)                            |
 
-### Sub Projects
+### Podprojekty
 
 - [CLI](lib/cli) - Streamlined installation for a variety of app types
 - [examples](examples) - Code examples to illustrate different Storybook use cases
 
-### Addons
+### Rozszerzenia, dodatki
 
 | Addons                                      |                                                                            |
 | ------------------------------------------- | -------------------------------------------------------------------------- |
@@ -159,14 +159,14 @@ For additional help, join us [in our Discord](https://discord.gg/sMFvFsG) or [Sl
 
 See [Addon / Framework Support Table](ADDONS_SUPPORT.md)
 
-### Deprecated Addons
+### Przestarzałe dodatki
 
 | Addons                                      |                                                                            |
 | ------------------------------------------- | -------------------------------------------------------------------------- |
 | [info](https://github.com/storybookjs/storybook/tree/master/addons/info)                                        | Annotate stories with extra component usage information                    |
 | [notes](https://github.com/storybookjs/storybook/tree/master/addons/notes)                                       | Annotate Storybook stories with notes                                      |
 
-In order to continue improving your experience, we have to eventually deprecate certain addons in favor of new, better tools.
+Aby nadal ulepszać twoje wrażenia, musimy ostatecznie wycofać niektóre dodatki na rzecz nowych, lepszych narzędzi.
 
 If you're using info/notes, we highly recommend you to migrate to [docs](addons/docs/) instead, and [here is a guide](addons/docs/docs/recipes.md#migrating-from-notesinfo-addons) to help you.
 
