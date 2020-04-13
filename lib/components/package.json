@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "6.0.0-alpha.28",
+  "version": "6.0.0-alpha.32",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -28,8 +28,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/client-logger": "6.0.0-alpha.28",
-    "@storybook/theming": "6.0.0-alpha.28",
+    "@storybook/client-logger": "6.0.0-alpha.32",
+    "@storybook/theming": "6.0.0-alpha.32",
     "@types/overlayscrollbars": "^1.9.0",
     "@types/react-syntax-highlighter": "11.0.4",
     "@types/react-textarea-autosize": "^4.3.3",
@@ -44,9 +44,8 @@
     "popper.js": "^1.14.7",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "react-focus-lock": "^2.1.0",
     "react-helmet-async": "^1.0.2",
-    "react-popper-tooltip": "^2.8.3",
+    "react-popper-tooltip": "^2.11.0",
     "react-syntax-highlighter": "^11.0.2",
     "react-textarea-autosize": "^7.1.0",
     "ts-dedent": "^1.1.1"
@@ -54,7 +53,7 @@
   "devDependencies": {
     "css": "^2.2.4",
     "enzyme": "^3.9.0",
-    "jest": "^25.1.0",
+    "jest": "^25.2.4",
     "jest-enzyme": "^7.0.2"
   },
   "peerDependencies": {
