@@ -5,8 +5,9 @@ import chalk from 'chalk';
 import detectFreePort from 'detect-port';
 import dedent from 'ts-dedent';
 import fs from 'fs';
-
 import nodeCleanup from 'node-cleanup';
+
+import { listOfPackages } from './utils/list-packages';
 
 const logger = console;
 
@@ -124,19 +125,6 @@ const publish = (packages, url) =>
       });
     });
   }, Promise.resolve());
-
-const listOfPackages = () =>
-  new Promise((res, rej) => {
-    const command = `./node_modules/.bin/lerna list --json`;
-    exec(command, (e, result) => {
-      if (e) {
-        rej(e);
-      } else {
-        const data = JSON.parse(result.toString().trim());
-        res(data);
-      }
-    });
-  });
 
 const askForPermission = () =>
   inquirer
