@@ -192,7 +192,7 @@
     "jest-image-snapshot": "^3.0.1",
     "jest-jasmine2": "^25.2.4",
     "jest-matcher-utils": "^25.1.0",
-    "jest-preset-angular": "^6.0.1",
+    "jest-preset-angular": "^8.1.3",
     "jest-raw-loader": "^1.0.1",
     "jest-serializer-html": "^7.0.0",
     "jest-teamcity": "^1.7.0",
