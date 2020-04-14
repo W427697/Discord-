@@ -91,6 +91,33 @@ jobs:
           root: .
           paths:
             - built-storybooks
+  publish:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: running local registry
+          command: yarn local-registry --publish
+      - run:
+          name: something
+          command: echo this was fun
+      - persist_to_workspace:
+          root: .
+          paths:
+            - verdaccio-storage
+  examples-v2:
+    <<: *defaults
+    # parallelism: 10
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: examples
+          command: |
+            echo "yey"
   e2e:
     working_directory: /tmp/storybook
     docker:
@@ -256,6 +283,7 @@ jobs:
       - run:
           name: Upload coverage
           command: yarn coverage
+
 workflows:
   test:
     jobs:
@@ -291,3 +319,16 @@ workflows:
     jobs:
       - docs
       - frontpage
+  cli:
+    jobs:
+      - install
+      - build:
+          requires:
+            - install
+      - publish:
+          requires:
+            - build
+      - examples-v2:
+          requires:
+            - publish
+

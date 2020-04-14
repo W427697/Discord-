@@ -1,19 +1,13 @@
 #!/usr/bin/env node -r esm
 import { spawn, exec } from 'child_process';
+import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { program } from 'commander';
 import detectFreePort from 'detect-port';
 import dedent from 'ts-dedent';
 import fs from 'fs';
 import nodeCleanup from 'node-cleanup';
 
 import { listOfPackages } from './utils/list-packages';
-
-program
-  .option('-o, --open', 'keep process open')
-  .option('-p, --publish', 'should publish packages');
-
-program.parse(process.argv);
 
 const logger = console;
 
@@ -132,6 +126,68 @@ const publish = (packages, url) =>
     });
   }, Promise.resolve());
 
+const askForPermission = () =>
+  inquirer
+    .prompt([
+      {
+        type: 'confirm',
+        message: `${chalk.red('BE WARNED')} do you want to change your ${chalk.underline(
+          'system'
+        )} default registry to the temp verdacio registry?`,
+        name: 'sure',
+      },
+    ])
+    .then(({ sure }) => sure);
+
+const askForReset = () =>
+  inquirer
+    .prompt([
+      {
+        type: 'confirm',
+        message: `${chalk.red(
+          'THIS IS BAD'
+        )} looks like something bad happened, OR you're already using a local registry, shall we reset to the default registry https://registry.npmjs.org/ ?`,
+        name: 'sure',
+      },
+    ])
+    .then(({ sure }) => {
+      if (sure) {
+        logger.log(`↩️ changing system config`);
+        return registriesUrl('https://registry.npmjs.org/');
+      }
+      return process.exit(1);
+    });
+
+const askForPublish = (packages, url, version) =>
+  inquirer
+    .prompt([
+      {
+        type: 'confirm',
+        message: `${chalk.green('READY TO PUBLISH')} shall we kick off a publish?`,
+        name: 'sure',
+      },
+    ])
+    .then(({ sure }) => {
+      if (sure) {
+        logger.log(`🚀 publishing version ${version}`);
+        return publish(packages, url).then(() => askForPublish(packages, url, version));
+      }
+      return false;
+    });
+
+const askForSubset = (packages) =>
+  inquirer
+    .prompt([
+      {
+        type: 'checkbox',
+        message: 'which packages?',
+        name: 'subset',
+        pageSize: packages.length,
+        choices: packages.map((p) => ({ name: p.name, checked: true })),
+      },
+    ])
+    .then(({ subset }) => packages.filter((p) => subset.includes(p.name)));
+
 const run = async () => {
   const port = await freePort(4873);
   logger.log(`🌏 found a open port: ${port}`);
@@ -142,6 +198,7 @@ const run = async () => {
     originalYarnRegistryUrl.includes('localhost') ||
     originalNpmRegistryUrl.includes('localhost')
   ) {
+    await askForReset();
     originalYarnRegistryUrl = 'https://registry.npmjs.org/';
     originalNpmRegistryUrl = 'https://registry.npmjs.org/';
   }
@@ -151,6 +208,7 @@ const run = async () => {
   logger.log(`🎬 starting verdaccio (this takes ±20 seconds, so be patient)`);
 
   const [shouldOverwrite, verdaccioUrl, packages, version] = await Promise.all([
+    askForPermission(),
     startVerdaccio(port),
     listOfPackages(),
     currentVersion(),
@@ -195,16 +253,15 @@ const run = async () => {
 
   logger.log(`📦 found ${packages.length} storybook packages at version ${chalk.blue(version)}`);
 
-  if (program.publish) {
-    await publish(packages, verdaccioUrl);
-  }
+  const subset = await askForSubset(packages);
 
-  if (!program.open) {
-    verdaccioProcess.kill();
-  }
+  await askForPublish(subset, verdaccioUrl, version);
+
+  logger.log(dedent`
+    The verdaccio registry will now be terminated (this can take ±15 seconds, please be patient)
+  `);
+
+  verdaccioProcess.kill();
 };
 
-run().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+run();

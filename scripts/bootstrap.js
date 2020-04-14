@@ -134,7 +134,7 @@ function run() {
       defaultValue: false,
       option: '--reg',
       command: () => {
-        spawn('./scripts/run-registry.js');
+        spawn('./scripts/run-registry-dev.js');
       },
       order: 11,
     }),
