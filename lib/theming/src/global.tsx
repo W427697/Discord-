@@ -1,5 +1,8 @@
+import React from 'react';
 import memoize from 'memoizerific';
-import { Color, Background, Typography } from './types';
+import { Global as EmotionGlobal, CSSObject } from '@emotion/core';
+import { Color, Background, Typography, Theme } from './types';
+import { Context } from './context';
 
 type Value = string | number;
 interface Return {
@@ -113,3 +116,16 @@ export const createGlobal = memoize(1)(
     };
   }
 );
+
+type GlobalProps = {
+  styles: CSSObject | ((theme: Theme) => CSSObject);
+};
+
+export const Global: React.FC<GlobalProps> = ({ styles }) => {
+  if (typeof styles === 'function') {
+    return (
+      <Context.Consumer>{(theme) => <EmotionGlobal styles={styles(theme)} />}</Context.Consumer>
+    );
+  }
+  return <EmotionGlobal styles={styles} />;
+};
