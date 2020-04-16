@@ -10,7 +10,7 @@ export * from './types';
 export { default as isPropValid } from '@emotion/is-prop-valid';
 export { keyframes } from '@emotion/core';
 
-export { createGlobal, createReset, Global } from './global';
+export { createGlobal, createReset, Global, CSSObject } from './global';
 export * from './theme-provider';
 export * from './with-theme';
 export * from './use-theme';

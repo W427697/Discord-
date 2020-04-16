@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, FunctionComponent } from 'react';
 import { styled, withTheme, Theme } from '@storybook/theming';
 
 import Inspector from 'react-inspector';
@@ -24,9 +24,11 @@ interface InspectorProps {
   data: any;
 }
 
-const ThemedInspector = withTheme(({ theme, ...props }: InspectorProps) => (
+const MyInpector: FunctionComponent<InspectorProps> = ({ theme, ...props }) => (
   <Inspector theme={theme.addonActionsTheme || 'chromeLight'} {...props} />
-));
+);
+
+const ThemedInspector = withTheme(MyInpector);
 
 interface ActionLoggerProps {
   actions: ActionDisplay[];

@@ -122,7 +122,7 @@ const getStyles = (
   return isRotated ? flip(result) : result;
 };
 
-export const ViewportTool: FunctionComponent = memo(
+export const ViewportTool = memo(
   withTheme(({ theme }: { theme: Theme }) => {
     const {
       viewports = MINIMAL_VIEWPORTS,

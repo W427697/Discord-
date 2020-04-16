@@ -129,3 +129,5 @@ export const Global: React.FC<GlobalProps> = ({ styles }) => {
   }
   return <EmotionGlobal styles={styles} />;
 };
+
+export { CSSObject };
