@@ -159,7 +159,7 @@
     "chalk": "^3.0.0",
     "codecov": "^3.5.0",
     "codelyzer": "^5.0.0",
-    "commander": "^4.0.1",
+    "commander": "^5.0.0",
     "concurrently": "^5.1.0",
     "core-js": "^3.0.1",
     "corejs-upgrade-webpack-plugin": "^4.0.1",
@@ -235,7 +235,8 @@
   },
   "optionalDependencies": {
     "@cypress/webpack-preprocessor": "^4.1.0",
-    "cypress": "^4.0.2"
+    "cypress": "^4.0.2",
+    "puppeteer": "^2.1.1"
   },
   "engines": {
     "node": ">=8.10.0",
