@@ -1,7 +1,6 @@
-#!/usr/bin/env node -r esm
 import { spawn, exec } from 'child_process';
 import chalk from 'chalk';
-import { program } from 'commander';
+import program from 'commander';
 import detectFreePort from 'detect-port';
 import dedent from 'ts-dedent';
 import fs from 'fs';
