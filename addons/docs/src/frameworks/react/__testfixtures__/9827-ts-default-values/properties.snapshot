@@ -11,32 +11,41 @@ Object {
       "description": "",
       "name": "title",
       "required": false,
+      "sbType": Object {
+        "name": "string",
+      },
       "type": Object {
         "detail": undefined,
         "summary": "string",
       },
     },
     Object {
-      "defaultValue": Object {
-        "detail": undefined,
-        "summary": "1",
-      },
+      "defaultValue": null,
       "description": "",
       "name": "foo",
       "required": true,
+      "sbType": Object {
+        "name": "boolean",
+      },
       "type": Object {
         "detail": undefined,
         "summary": "boolean",
       },
     },
     Object {
-      "defaultValue": Object {
-        "detail": undefined,
-        "summary": "2",
-      },
+      "defaultValue": null,
       "description": "",
       "name": "bar",
       "required": false,
+      "sbType": Object {
+        "name": "array",
+        "raw": "string[]",
+        "value": Array [
+          Object {
+            "name": "string",
+          },
+        ],
+      },
       "type": Object {
         "detail": undefined,
         "summary": "Array",

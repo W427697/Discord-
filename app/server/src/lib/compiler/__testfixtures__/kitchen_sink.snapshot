@@ -1,16 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`json-to-csf-compiler kitchen_sink.json 1`] = `
-"import { withA11y } from '@storybook/addon-a11y';
-import { withLinks } from '@storybook/addon-links';
-import { array, boolean, color, date, number, object, select, text, withKnobs } from '@storybook/addon-knobs';
-import { withActions } from '@storybook/addon-actions';
+"import { array, boolean, color, date, number, object, select, text, withKnobs } from '@storybook/addon-knobs';
 
 export default {
   title: 'Kitchen Sink',
   decorators: [
-    withA11y,
-    withLinks,
     withKnobs
   ],
   parameters: {
@@ -43,17 +38,15 @@ export const Heading = () => {
   };
 };
 Heading.story = {
-  decorators: [
-    withActions(
+  name: 'Heading',
+  parameters: {
+    actions: [
       'click',
       'contextmenu',
       {
         clearOnStoryChange: false
       }
-    )
-  ],
-  name: 'Heading',
-  parameters: {
+    ],
     notes: 'My notes on some bold text',
     server: {
       id: 'demo/heading',

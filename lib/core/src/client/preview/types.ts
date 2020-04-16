@@ -1,3 +1,5 @@
+import { RenderContext } from '@storybook/client-api';
+
 export interface PreviewError {
   message?: string;
   stack?: string;
@@ -20,3 +22,8 @@ export type RequireContext = {
 };
 export type LoaderFunction = () => void | any[];
 export type Loadable = RequireContext | RequireContext[] | LoaderFunction;
+
+export { RenderContext };
+
+// The function used by a framework to render story to the DOM
+export type RenderStoryFunction = (context: RenderContext) => void;

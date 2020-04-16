@@ -4,39 +4,48 @@ exports[`react component properties 9764-ts-extend-props 1`] = `
 Object {
   "rows": Array [
     Object {
-      "defaultValue": Object {
-        "detail": undefined,
-        "summary": "0",
-      },
+      "defaultValue": null,
       "description": "The input content value",
       "name": "value",
       "required": false,
+      "sbType": Object {
+        "name": "union",
+        "raw": "string | number",
+        "value": Array [
+          Object {
+            "name": "string",
+          },
+          Object {
+            "name": "number",
+          },
+        ],
+      },
       "type": Object {
         "detail": undefined,
         "summary": "union",
       },
     },
     Object {
-      "defaultValue": Object {
-        "detail": undefined,
-        "summary": "1",
-      },
+      "defaultValue": null,
       "description": "",
       "name": "defaultChecked",
       "required": false,
+      "sbType": Object {
+        "name": "boolean",
+      },
       "type": Object {
         "detail": undefined,
         "summary": "boolean",
       },
     },
     Object {
-      "defaultValue": Object {
-        "detail": undefined,
-        "summary": "2",
-      },
+      "defaultValue": null,
       "description": "",
       "name": "checked",
       "required": false,
+      "sbType": Object {
+        "name": "boolean",
+      },
       "type": Object {
         "detail": undefined,
         "summary": "boolean",

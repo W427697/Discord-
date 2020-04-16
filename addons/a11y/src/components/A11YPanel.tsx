@@ -26,7 +26,7 @@ const Icon = styled(Icons)({
   marginRight: 4,
 });
 
-const RotatingIcon = styled(Icon)(({ theme }) => ({
+const RotatingIcon = styled(Icon)<{}>(({ theme }) => ({
   animation: `${theme.animation.rotate360} 1s linear infinite;`,
 }));
 
@@ -169,7 +169,7 @@ export class A11YPanel extends Component<A11YPanelProps, A11YPanelState> {
         status: 'running',
       },
       () => {
-        api.emit(EVENTS.REQUEST);
+        api.emit(EVENTS.REQUEST, api.getCurrentStoryData().id);
         // removes all elements from the redux map in store from the previous panel
         store.dispatch(clearElements());
       }

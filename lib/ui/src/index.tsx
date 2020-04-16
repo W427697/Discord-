@@ -13,6 +13,7 @@ import Provider from './provider';
 
 // @ts-ignore
 ThemeProvider.displayName = 'ThemeProvider';
+// @ts-ignore
 HelmetProvider.displayName = 'HelmetProvider';
 
 const getDocsMode = () => {
@@ -34,7 +35,7 @@ export const Root: FunctionComponent<RootProps> = ({ provider }) => (
     <HelmetProvider key="helmet.Provider">
       <LocationProvider key="location.provider">
         <Location key="location.consumer">
-          {locationData => (
+          {(locationData) => (
             <ManagerProvider
               key="manager"
               provider={provider}
@@ -43,7 +44,7 @@ export const Root: FunctionComponent<RootProps> = ({ provider }) => (
             >
               {({ state, api }: Combo) => {
                 const panelCount = Object.keys(api.getPanels()).length;
-                const story = state.storiesHash[state.storyId];
+                const story = api.getData(state.storyId);
 
                 return (
                   <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>

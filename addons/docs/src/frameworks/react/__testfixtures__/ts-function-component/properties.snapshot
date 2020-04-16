@@ -11,6 +11,9 @@ Object {
       "description": "Is primary?",
       "name": "primary",
       "required": false,
+      "sbType": Object {
+        "name": "boolean",
+      },
       "type": Object {
         "detail": undefined,
         "summary": "boolean",
@@ -24,19 +27,23 @@ Object {
       "description": "default is false",
       "name": "secondary",
       "required": false,
+      "sbType": Object {
+        "name": "boolean",
+      },
       "type": Object {
         "detail": undefined,
         "summary": "boolean",
       },
     },
     Object {
-      "defaultValue": Object {
-        "detail": undefined,
-        "summary": "2",
-      },
+      "defaultValue": null,
       "description": "Simple click handler",
       "name": "onClick",
       "required": false,
+      "sbType": Object {
+        "name": "function",
+        "raw": "() => void",
+      },
       "type": Object {
         "detail": undefined,
         "summary": "signature",
