@@ -1,5 +1,5 @@
 /* eslint-disable no-fallthrough */
-import React, { Fragment, ReactNode, useEffect, useRef, FunctionComponent, memo } from 'react';
+import React, { Fragment, ReactNode, useEffect, useRef, memo } from 'react';
 import memoize from 'memoizerific';
 
 import { styled, Global, Theme, withTheme } from '@storybook/theming';

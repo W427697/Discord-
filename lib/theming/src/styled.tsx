@@ -1,5 +1,4 @@
-import React from 'react';
-import type { ElementType } from 'react';
+import React, { ElementType } from 'react';
 import emotionStyled, { StyledOptions } from '@emotion/styled';
 import { Context } from './context';
 
