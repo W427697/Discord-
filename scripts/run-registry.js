@@ -98,23 +98,24 @@ const currentVersion = async () => {
   return version;
 };
 
-const publishAll = (packages, url) =>
-  packages.reduce((acc, { name, location }) => {
-    return acc.then(() => {
-      return new Promise((res, rej) => {
-        logger.log(`🛫 publishing ${name} (${location})`);
-        const command = `cd ${location} && npm publish --registry ${url} --force --access restricted`;
-        exec(command, (e) => {
-          if (e) {
-            rej(e);
-          } else {
-            logger.log(`🛬 successful publish of ${name}!`);
-            res();
-          }
-        });
-      });
-    });
-  }, Promise.resolve());
+const publishAllParallel = (packages, url) =>
+  Promise.all(
+    packages.map(
+      ({ name, location }) =>
+        new Promise((res, rej) => {
+          logger.log(`🛫 publishing ${name} (${location})`);
+          const command = `cd ${location} && npm publish --registry ${url} --force --access restricted`;
+          exec(command, (e) => {
+            if (e) {
+              rej(e);
+            } else {
+              logger.log(`🛬 successful publish of ${name}!`);
+              res();
+            }
+          });
+        })
+    )
+  );
 
 const run = async () => {
   const port = await freePort(program.port);
@@ -156,7 +157,7 @@ const run = async () => {
   logger.log(`📦 found ${packages.length} storybook packages at version ${chalk.blue(version)}`);
 
   if (program.publish) {
-    await publishAll(packages, verdaccioUrl);
+    await publishAllParallel(packages, verdaccioUrl);
   }
 
   if (!program.open) {
