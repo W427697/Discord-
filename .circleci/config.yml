@@ -120,8 +120,11 @@ jobs:
           name: wait for registry
           command: yarn wait-on http://localhost:6000
       - run:
-          name: Authenticate with registry
+          name: set registry
           command: echo "http://localhost:6000/" > /tmp/storybook/.npmrc
+      - run:
+          name: set registry some more
+          command: yarn config set registry http://localhost:6000/
       - run:
           name: check registry
           command: yarn config get registry
