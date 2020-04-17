@@ -27,19 +27,20 @@ const startVerdaccio = (port) => {
   let resolved = false;
   return Promise.race([
     new Promise((resolve) => {
-      const getConfig = () => {
-        return yaml.safeLoad(fs.readFileSync(path.join(__dirname, 'verdaccio.yaml'), 'utf8'));
+      const cache = path.join(__dirname, '..', '.verdaccio-cache');
+      const config = {
+        ...yaml.safeLoad(fs.readFileSync(path.join(__dirname, 'verdaccio.yaml'), 'utf8')),
+        self_path: cache,
       };
 
-      const cache = path.join(__dirname, '..', '.verdaccio-cache');
-      const config = { ...getConfig(), self_path: cache };
-
-      startVerdaccioServer(config, 6000, cache, '1.0.0', 'verdaccio', (webServer) => {
+      const onReady = (webServer) => {
         webServer.listen(port, () => {
           resolved = true;
           resolve(webServer);
         });
-      });
+      };
+
+      startVerdaccioServer(config, 6000, cache, '1.0.0', 'verdaccio', onReady);
     }),
     new Promise((res, rej) => {
       setTimeout(() => {
