@@ -146,8 +146,8 @@ function run() {
             const baseWatchCommand = `lerna exec --scope "${glob}" -- cross-env-shell node ${resolve(
               __dirname
             )}`;
-            const watchTsc = `${baseWatchCommand}/watch-tsc.js`;
-            const watchBabel = `${baseWatchCommand}/watch-babel.js`;
+            const watchTsc = `${baseWatchCommand}/utils/watch-tsc.js`;
+            const watchBabel = `${baseWatchCommand}/utils/watch-babel.js`;
             const command = `concurrently --kill-others "${watchTsc}" "${watchBabel}"`;
             spawn(command);
           };

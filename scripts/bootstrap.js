@@ -3,7 +3,7 @@
 /* eslint-disable global-require */
 const { lstatSync, readdirSync } = require('fs');
 const { join } = require('path');
-const { checkDependenciesAndRun, spawn } = require('./cli-utils');
+const { checkDependenciesAndRun, spawn } = require('./utils/cli-utils');
 
 function run() {
   const inquirer = require('inquirer');
