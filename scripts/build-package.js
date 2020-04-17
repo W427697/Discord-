@@ -3,7 +3,7 @@
 /* eslint-disable global-require */
 const { resolve } = require('path');
 const terminalSize = require('window-size');
-const { checkDependenciesAndRun, spawn } = require('./cli-utils');
+const { checkDependenciesAndRun, spawn } = require('./utils/cli-utils');
 
 const getStorybookPackages = () => {
   const listCommand = spawn(`lerna list`, {
