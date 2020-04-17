@@ -120,7 +120,7 @@ jobs:
           name: wait for registry
           command: yarn wait-on http://localhost:6000
       - run:
-          name: set registry some more
+          name: set registry
           command: yarn config set registry http://localhost:6000/
       - run:
           name: test local registry
