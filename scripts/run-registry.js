@@ -9,6 +9,7 @@ import yaml from 'js-yaml';
 import nodeCleanup from 'node-cleanup';
 
 import startVerdaccioServer from 'verdaccio';
+import pLimit from 'p-limit';
 import { listOfPackages } from './utils/list-packages';
 
 program
@@ -98,10 +99,31 @@ const currentVersion = async () => {
   return version;
 };
 
-const publishAllParallel = (packages, url) =>
-  Promise.all(
-    packages.map(
-      ({ name, location }) =>
+// const publishAllParallel = (packages, url) =>
+//   Promise.all(
+//     packages.map(
+//       ({ name, location }) =>
+//         new Promise((res, rej) => {
+//           logger.log(`🛫 publishing ${name} (${location})`);
+//           const command = `cd ${location} && npm publish --registry ${url} --force --access restricted`;
+//           exec(command, (e) => {
+//             if (e) {
+//               rej(e);
+//             } else {
+//               logger.log(`🛬 successful publish of ${name}!`);
+//               res();
+//             }
+//           });
+//         })
+//     )
+//   );
+
+const publishAllSemiParallel = (packages, url) => {
+  const limit = pLimit(3);
+
+  const all = packages.map(({ name, location }) =>
+    limit(
+      () =>
         new Promise((res, rej) => {
           logger.log(`🛫 publishing ${name} (${location})`);
           const command = `cd ${location} && npm publish --registry ${url} --force --access restricted`;
@@ -116,6 +138,9 @@ const publishAllParallel = (packages, url) =>
         })
     )
   );
+
+  return Promise.all(all);
+};
 
 const run = async () => {
   const port = await freePort(program.port);
@@ -157,7 +182,7 @@ const run = async () => {
   logger.log(`📦 found ${packages.length} storybook packages at version ${chalk.blue(version)}`);
 
   if (program.publish) {
-    await publishAllParallel(packages, verdaccioUrl);
+    await publishAllSemiParallel(packages, verdaccioUrl);
   }
 
   if (!program.open) {
