@@ -21,7 +21,6 @@ program.parse(process.argv);
 
 const logger = console;
 
-// prefer given port
 const freePort = (port) => port || detectFreePort(port);
 
 const startVerdaccio = (port) => {
@@ -100,47 +99,28 @@ const currentVersion = async () => {
   return version;
 };
 
-// const publishAllParallel = (packages, url) =>
-//   Promise.all(
-//     packages.map(
-//       ({ name, location }) =>
-//         new Promise((res, rej) => {
-//           logger.log(`🛫 publishing ${name} (${location})`);
-//           const command = `cd ${location} && npm publish --registry ${url} --force --access restricted`;
-//           exec(command, (e) => {
-//             if (e) {
-//               rej(e);
-//             } else {
-//               logger.log(`🛬 successful publish of ${name}!`);
-//               res();
-//             }
-//           });
-//         })
-//     )
-//   );
-
-const publishAllSemiParallel = (packages, url) => {
+const publish = (packages, url) => {
   const limit = pLimit(3);
 
-  const all = packages.map(({ name, location }) =>
-    limit(
-      () =>
-        new Promise((res, rej) => {
-          logger.log(`🛫 publishing ${name} (${location})`);
-          const command = `cd ${location} && npm publish --registry ${url} --force --access restricted`;
-          exec(command, (e) => {
-            if (e) {
-              rej(e);
-            } else {
-              logger.log(`🛬 successful publish of ${name}!`);
-              res();
-            }
-          });
-        })
+  return Promise.all(
+    packages.map(({ name, location }) =>
+      limit(
+        () =>
+          new Promise((res, rej) => {
+            logger.log(`🛫 publishing ${name} (${location})`);
+            const command = `cd ${location} && npm publish --registry ${url} --force --access restricted`;
+            exec(command, (e) => {
+              if (e) {
+                rej(e);
+              } else {
+                logger.log(`🛬 successful publish of ${name}!`);
+                res();
+              }
+            });
+          })
+      )
     )
   );
-
-  return Promise.all(all);
 };
 
 const run = async () => {
@@ -183,7 +163,7 @@ const run = async () => {
   logger.log(`📦 found ${packages.length} storybook packages at version ${chalk.blue(version)}`);
 
   if (program.publish) {
-    await publishAllSemiParallel(packages, verdaccioUrl);
+    await publish(packages, verdaccioUrl);
   }
 
   if (!program.open) {
