@@ -113,7 +113,7 @@ jobs:
           at: .
       - run:
           name: running local registry
-          command: yarn local-registry --port="6000"
+          command: yarn local-registry --port 6000
           background: true
       - run:
           name: wait for registry

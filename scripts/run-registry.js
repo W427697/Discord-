@@ -15,7 +15,7 @@ import { listOfPackages } from './utils/list-packages';
 program
   .option('-O, --open', 'keep process open')
   .option('-P, --publish', 'should publish packages')
-  .option('-p, --port', 'port to run https server on');
+  .option('-p, --port <port>', 'port to run https server on');
 
 program.parse(process.argv);
 
