@@ -9,8 +9,9 @@ import nodeCleanup from 'node-cleanup';
 import { listOfPackages } from './utils/list-packages';
 
 program
-  .option('-o, --open', 'keep process open')
-  .option('-p, --publish', 'should publish packages');
+  .option('-O, --open', 'keep process open')
+  .option('-P, --publish', 'should publish packages')
+  .option('-p, --port', 'port to run https server on');
 
 program.parse(process.argv);
 
@@ -132,7 +133,7 @@ const publish = (packages, url) =>
   }, Promise.resolve());
 
 const run = async () => {
-  const port = await freePort(4873);
+  const port = await freePort(program.port);
   logger.log(`🌏 found a open port: ${port}`);
 
   logger.log(`🔖 reading current registry settings`);

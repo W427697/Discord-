@@ -100,9 +100,6 @@ jobs:
       - run:
           name: running local registry
           command: yarn local-registry --publish
-      - run:
-          name: something
-          command: echo this was fun
       - persist_to_workspace:
           root: .
           paths:
@@ -115,9 +112,15 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: examples
-          command: |
-            echo "yey"
+          name: running local registry
+          command: yarn local-registry --port="6000"
+          background: true
+      - run:
+          name: wait for registry
+          command: wait-on http://localhost:6000
+      - run:
+          name: test local registry
+          command: yarn info @storybook/core
   e2e:
     working_directory: /tmp/storybook
     docker:
