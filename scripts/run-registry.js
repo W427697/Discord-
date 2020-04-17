@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { exec } from 'child_process';
 import chalk from 'chalk';
 import path from 'path';
