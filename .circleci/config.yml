@@ -15,6 +15,7 @@ jobs:
           name: Restore core dependencies cache
           keys:
             - core-dependencies-v5-{{ checksum "yarn.lock" }}
+            - core-dependencies-v5-
       - run:
           name: Install dependencies
           command: yarn install
