@@ -149,7 +149,7 @@ const run = async () => {
   logger.log(`🚛 listing storybook packages`);
   logger.log(`🎬 starting verdaccio (this takes ±20 seconds, so be patient)`);
 
-  const [shouldOverwrite, verdaccioUrl, packages, version] = await Promise.all([
+  const [verdaccioUrl, packages, version] = await Promise.all([
     startVerdaccio(port),
     listOfPackages(),
     currentVersion(),
@@ -157,38 +157,12 @@ const run = async () => {
 
   logger.log(`🌿 verdaccio running on ${verdaccioUrl}`);
 
-  if (shouldOverwrite) {
-    logger.log(dedent`
-      You have chosen to change your system's default registry url. If this process fails for some reason and doesn't exit correctly, you may be stuck with a npm/yarn config that's broken.
-      To fix this you can revert back to the registry urls you had before by running:
-
-      > npm config set registry ${originalNpmRegistryUrl}
-      > yarn config set registry ${originalYarnRegistryUrl}
-
-      You can now use regular install procedure anywhere on your machine and the storybook packages will be installed from this local registry
-
-      The registry url is: ${verdaccioUrl}
-    `);
-  } else {
-    logger.log(dedent`
-      You have chosen to NOT change your system's default registry url. 
-
-      The registry is running locally, but you'll need to add a npm/yarn config file in your project in that points to the registry.
-      Here's a documentation for npm: https://docs.npmjs.com/files/npmrc
-      Yarn is able to read this file as well
-
-      The registry url is: ${verdaccioUrl}
-    `);
-  }
-
-  if (shouldOverwrite) {
-    await applyRegistriesUrl(
-      verdaccioUrl,
-      verdaccioUrl,
-      originalYarnRegistryUrl,
-      originalNpmRegistryUrl
-    );
-  }
+  await applyRegistriesUrl(
+    verdaccioUrl,
+    verdaccioUrl,
+    originalYarnRegistryUrl,
+    originalNpmRegistryUrl
+  );
 
   await addUser(verdaccioUrl);
 
