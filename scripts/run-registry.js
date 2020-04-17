@@ -21,7 +21,7 @@ program.parse(process.argv);
 
 const logger = console;
 
-const freePort = (port) => detectFreePort(port);
+const freePort = (port) => port || detectFreePort(port);
 
 const startVerdaccio = (port) => {
   let resolved = false;
