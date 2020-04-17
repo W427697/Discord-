@@ -196,6 +196,7 @@
     "jest-teamcity": "^1.7.0",
     "jest-vue-preprocessor": "^1.5.0",
     "jest-watch-typeahead": "^0.4.0",
+    "js-yaml": "^3.13.1",
     "lerna": "^3.19.0",
     "lint-staged": "^10.0.10",
     "lodash": "^4.17.15",
@@ -235,7 +236,8 @@
     "@cypress/webpack-preprocessor": "^4.1.0",
     "cypress": "^4.0.2",
     "puppeteer": "^2.1.1",
-    "verdaccio": "^4.5.1"
+    "verdaccio": "^4.5.1",
+    "verdaccio-auth-memory": "^9.4.0"
   },
   "engines": {
     "node": ">=8.10.0",

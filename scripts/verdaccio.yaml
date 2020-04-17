@@ -1,8 +1,14 @@
-storage: ../.verdaccio--cache
+storage: .verdaccio-cache
 
 auth:
-  htpasswd:
-    file: ./htpasswd
+  auth-memory:
+    users:
+      foo:
+        name: foo
+        password: s3cret
+      bar:
+        name: bar
+        password: s3cret
 
 uplinks:
   npmjs:
@@ -45,4 +51,4 @@ packages:
     proxy: npmjs
 
 logs:
-  - { type: stdout, format: pretty, level: http }
+  - { type: stdout, format: pretty, level: warn }

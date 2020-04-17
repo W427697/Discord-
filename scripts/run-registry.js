@@ -1,11 +1,14 @@
-import { spawn, exec } from 'child_process';
+import { exec } from 'child_process';
 import chalk from 'chalk';
+import path from 'path';
 import program from 'commander';
 import detectFreePort from 'detect-port';
 import dedent from 'ts-dedent';
 import fs from 'fs';
+import yaml from 'js-yaml';
 import nodeCleanup from 'node-cleanup';
 
+import startVerdaccioServer from 'verdaccio';
 import { listOfPackages } from './utils/list-packages';
 
 program
@@ -19,40 +22,29 @@ const logger = console;
 
 const freePort = (port) => detectFreePort(port);
 
-let verdaccioProcess;
-
 const startVerdaccio = (port) => {
   let resolved = false;
   return Promise.race([
-    new Promise((res) => {
-      verdaccioProcess = spawn('npx', [
-        'verdaccio@4.0.1',
-        '-c',
-        'scripts/verdaccio.yaml',
-        '-l',
-        port,
-      ]);
-      verdaccioProcess.stdout.on('data', (data) => {
-        if (!resolved && data && data.toString().match(/http address/)) {
-          const [url] = data.toString().match(/(http:.*\d\/)/);
-          res(url);
+    new Promise((resolve) => {
+      const getConfig = () => {
+        return yaml.safeLoad(fs.readFileSync(path.join(__dirname, 'verdaccio.yaml'), 'utf8'));
+      };
+
+      const cache = path.join(__dirname, '..', '.verdaccio-cache');
+      const config = { ...getConfig(), self_path: cache };
+
+      startVerdaccioServer(config, 6000, cache, '1.0.0', 'verdaccio', (webServer) => {
+        webServer.listen(port, () => {
           resolved = true;
-        }
-        fs.appendFile('verdaccio.log', data, (err) => {
-          if (err) {
-            throw err;
-          }
+          resolve(webServer);
         });
       });
     }),
     new Promise((res, rej) => {
       setTimeout(() => {
         if (!resolved) {
-          rej(new Error(`TIMEOUT - verdaccio didn't start within 60s`));
-
           resolved = true;
-
-          verdaccioProcess.kill();
+          rej(new Error(`TIMEOUT - verdaccio didn't start within 60s`));
         }
       }, 60000);
     }),
@@ -72,14 +64,6 @@ const registryUrl = (command, url) =>
 
 const registriesUrl = (yarnUrl, npmUrl) =>
   Promise.all([registryUrl('yarn', yarnUrl), registryUrl('npm', npmUrl || yarnUrl)]);
-
-nodeCleanup(() => {
-  try {
-    verdaccioProcess.kill();
-  } catch (e) {
-    //
-  }
-});
 
 const applyRegistriesUrl = (yarnUrl, npmUrl, originalYarnUrl, originalNpmUrl) => {
   logger.log(`↪️  changing system config`);
@@ -114,7 +98,7 @@ const currentVersion = async () => {
   return version;
 };
 
-const publish = (packages, url) =>
+const publishAll = (packages, url) =>
   packages.reduce((acc, { name, location }) => {
     return acc.then(() => {
       return new Promise((res, rej) => {
@@ -136,6 +120,8 @@ const run = async () => {
   const port = await freePort(program.port);
   logger.log(`🌏 found a open port: ${port}`);
 
+  const verdaccioUrl = `http://localhost:${port}`;
+
   logger.log(`🔖 reading current registry settings`);
   let [originalYarnRegistryUrl, originalNpmRegistryUrl] = await registriesUrl();
   if (
@@ -148,9 +134,9 @@ const run = async () => {
 
   logger.log(`📐 reading version of storybook`);
   logger.log(`🚛 listing storybook packages`);
-  logger.log(`🎬 starting verdaccio (this takes ±20 seconds, so be patient)`);
+  logger.log(`🎬 starting verdaccio (this takes ±5 seconds, so be patient)`);
 
-  const [verdaccioUrl, packages, version] = await Promise.all([
+  const [verdaccioServer, packages, version] = await Promise.all([
     startVerdaccio(port),
     listOfPackages(),
     currentVersion(),
@@ -170,11 +156,11 @@ const run = async () => {
   logger.log(`📦 found ${packages.length} storybook packages at version ${chalk.blue(version)}`);
 
   if (program.publish) {
-    await publish(packages, verdaccioUrl);
+    await publishAll(packages, verdaccioUrl);
   }
 
   if (!program.open) {
-    verdaccioProcess.kill();
+    verdaccioServer.close();
   }
 };
 
