@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const svelte = require('svelte/compiler');
 
 function process(src, filename) {

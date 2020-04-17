@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const tsTransformer = require('jest-preset-angular/preprocessor');
 const babelTransformer = require('./jest-transform-js');
 
