@@ -21,6 +21,7 @@ program.parse(process.argv);
 
 const logger = console;
 
+// prefer given port
 const freePort = (port) => port || detectFreePort(port);
 
 const startVerdaccio = (port) => {
