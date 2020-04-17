@@ -172,6 +172,6 @@ const run = async () => {
 };
 
 run().catch((e) => {
-  console.error(e);
+  logger.error(e);
   process.exit(1);
 });
