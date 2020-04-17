@@ -1,4 +1,4 @@
-storage: ./verdaccio-storage
+storage: ../.verdaccio--cache
 
 auth:
   htpasswd:
