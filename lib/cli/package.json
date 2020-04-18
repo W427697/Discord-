@@ -61,6 +61,9 @@
     "strip-json-comments": "^3.0.1",
     "update-notifier": "^4.0.0"
   },
+  "devDependencies": {
+    "fs-extra": "9.0.0"
+  },
   "peerDependencies": {
     "jest": "*"
   },
