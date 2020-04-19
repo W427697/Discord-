@@ -26,6 +26,12 @@ packages:
     publish: $all
     proxy: npmjs
 
+  # storybook's packages not hosted in this monorepo
+  '@storybook/csf':
+    access: $all
+    publish: $all
+    proxy: npmjs
+
   # storybook packages are NOT proxied to global registry
   # allowing us to republish any version during tests
   '@storybook/*':
