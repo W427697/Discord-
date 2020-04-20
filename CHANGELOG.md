@@ -1,3 +1,28 @@
+## 6.0.0-alpha.40 (April 20, 2020)
+
+### Bug Fixes
+
+- Addon-docs: Fix controls column display logic ([#10473](https://github.com/storybookjs/storybook/pull/10473))
+
+## 6.0.0-alpha.39 (April 18, 2020)
+
+### Breaking Changes
+
+- Addon-docs: Inline stories in Vue by default ([#10463](https://github.com/storybookjs/storybook/pull/10463))
+
+### Features
+
+- Addon-docs: Provide better props include/exclude features ([#10464](https://github.com/storybookjs/storybook/pull/10464))
+- UI: Improve loading state ([#10444](https://github.com/storybookjs/storybook/pull/10444))
+
+### Bug Fixes
+
+- UI: Fix bad shortcutpage layout ([#10445](https://github.com/storybookjs/storybook/pull/10445))
+
+## 6.0.0-alpha.38 (April 18, 2020)
+
+Failed publish
+
 ## 6.0.0-alpha.37 (April 17, 2020)
 
 ### Features
