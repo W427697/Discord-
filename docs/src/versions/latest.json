@@ -1,0 +1,1 @@
+{"version":"5.3.17","info":{"plain":"### Bug Fixes\n\n- Components: Change react-syntax-highlighter from esm to cjs ([#9780](https://github.com/storybookjs/storybook/pull/9780))"}}

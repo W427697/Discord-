@@ -1,0 +1,60 @@
+{
+  "name": "@storybook/addon-cssresources",
+  "version": "5.3.18",
+  "description": "A storybook addon to switch between css resources at runtime for your story",
+  "keywords": [
+    "addon",
+    "cssresources",
+    "react",
+    "storybook"
+  ],
+  "homepage": "https://storybook.js.org",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "addons/cssresources"
+  },
+  "license": "MIT",
+  "author": "nm123github",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts",
+    "ts3.5/**/*"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/addons": "5.3.18",
+    "@storybook/api": "5.3.18",
+    "@storybook/components": "5.3.18",
+    "@storybook/core-events": "5.3.18",
+    "core-js": "^3.0.1",
+    "global": "^4.3.2",
+    "react": "^16.8.3"
+  },
+  "devDependencies": {
+    "@types/webpack-env": "^1.15.0"
+  },
+  "peerDependencies": {
+    "react": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "5e5197e6b5fd49b20380859ac3b4d1878e95259c",
+  "typesVersions": {
+    "<=3.5": {
+      "*": [
+        "ts3.5/*"
+      ]
+    }
+  }
+}

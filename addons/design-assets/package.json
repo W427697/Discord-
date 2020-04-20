@@ -1,0 +1,60 @@
+{
+  "name": "@storybook/addon-design-assets",
+  "version": "5.3.18",
+  "description": "Design asset preview for storybook",
+  "keywords": [
+    "addon",
+    "assets",
+    "design",
+    "files",
+    "parameter",
+    "storybook",
+    "viewer"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook#readme",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/storybookjs/storybook.git",
+    "directory": "addons/design-assets"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts",
+    "ts3.5/**/*"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/addons": "5.3.18",
+    "@storybook/api": "5.3.18",
+    "@storybook/client-logger": "5.3.18",
+    "@storybook/components": "5.3.18",
+    "@storybook/core-events": "5.3.18",
+    "@storybook/theming": "5.3.18",
+    "core-js": "^3.0.1",
+    "global": "^4.3.2",
+    "react": "^16.8.3",
+    "ts-dedent": "^1.1.0",
+    "use-image": "^1.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "5e5197e6b5fd49b20380859ac3b4d1878e95259c",
+  "typesVersions": {
+    "<=3.5": {
+      "*": [
+        "ts3.5/*"
+      ]
+    }
+  }
+}

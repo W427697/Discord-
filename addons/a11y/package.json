@@ -1,0 +1,68 @@
+{
+  "name": "@storybook/addon-a11y",
+  "version": "5.3.18",
+  "description": "a11y addon for storybook",
+  "keywords": [
+    "a11y",
+    "accessibility",
+    "addon",
+    "storybook",
+    "valid",
+    "verify"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook#readme",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/storybookjs/storybook.git",
+    "directory": "addons/a11y"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts",
+    "ts3.5/**/*"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/addons": "5.3.18",
+    "@storybook/api": "5.3.18",
+    "@storybook/client-logger": "5.3.18",
+    "@storybook/components": "5.3.18",
+    "@storybook/core-events": "5.3.18",
+    "@storybook/theming": "5.3.18",
+    "axe-core": "^3.3.2",
+    "core-js": "^3.0.1",
+    "global": "^4.3.2",
+    "memoizerific": "^1.11.3",
+    "react": "^16.8.3",
+    "react-redux": "^7.0.2",
+    "react-sizeme": "^2.5.2",
+    "redux": "^4.0.1",
+    "ts-dedent": "^1.1.0",
+    "util-deprecate": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/react-redux": "^7.0.6",
+    "@types/webpack-env": "^1.15.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "5e5197e6b5fd49b20380859ac3b4d1878e95259c",
+  "typesVersions": {
+    "<=3.5": {
+      "*": [
+        "ts3.5/*"
+      ]
+    }
+  }
+}
