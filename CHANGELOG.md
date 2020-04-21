@@ -1,3 +1,58 @@
+## 6.0.0-alpha.41 (April 21, 2020)
+
+### Features
+
+- Addon-docs: Reset styles in Preview component ([#10274](https://github.com/storybookjs/storybook/pull/10274))
+
+### Bug Fixes
+
+- Addon-docs: Port Vue to ArgsTable ([#10482](https://github.com/storybookjs/storybook/pull/10482))
+- Addon-docs: Fix Props controls to point to primary story ([#10480](https://github.com/storybookjs/storybook/pull/10480))
+- Core: Fix addon tab in react-native-server ([#10468](https://github.com/storybookjs/storybook/pull/10468))
+
+### Dependency Upgrades
+
+- Misc upgrades ([#10460](https://github.com/storybookjs/storybook/pull/10460))
+
+## 6.0.0-alpha.40 (April 20, 2020)
+
+### Bug Fixes
+
+- Addon-docs: Fix controls column display logic ([#10473](https://github.com/storybookjs/storybook/pull/10473))
+
+## 6.0.0-alpha.39 (April 18, 2020)
+
+### Breaking Changes
+
+- Addon-docs: Inline stories in Vue by default ([#10463](https://github.com/storybookjs/storybook/pull/10463))
+
+### Features
+
+- Addon-docs: Provide better props include/exclude features ([#10464](https://github.com/storybookjs/storybook/pull/10464))
+- UI: Improve loading state ([#10444](https://github.com/storybookjs/storybook/pull/10444))
+
+### Bug Fixes
+
+- UI: Fix bad shortcutpage layout ([#10445](https://github.com/storybookjs/storybook/pull/10445))
+
+## 6.0.0-alpha.38 (April 18, 2020)
+
+Failed publish
+
+## 6.0.0-alpha.37 (April 17, 2020)
+
+### Features
+
+- Addon-actions: Make arg auto-generation more aggressive ([#10451](https://github.com/storybookjs/storybook/pull/10451))
+
+### Maintenance
+
+- Examples: Format stringified parameters ([#10435](https://github.com/storybookjs/storybook/pull/10435))
+
+### Dependency Upgrades
+
+- Bump recast from 0.16.2 to 0.19.0 ([#10415](https://github.com/storybookjs/storybook/pull/10415))
+
 ## 6.0.0-alpha.36 (April 16, 2020)
 
 ### Bug Fixes
