@@ -1,5 +1,5 @@
-import React from 'react';
-import { styled, withTheme } from '@storybook/theming';
+import React, { FC } from 'react';
+import { styled, useTheme } from '@storybook/theming';
 
 import { StorybookLogo } from '@storybook/components';
 
@@ -24,41 +24,37 @@ export const LogoLink = styled.a({
   textDecoration: 'none',
 });
 
-export const Brand = withTheme(
-  ({
-    theme: {
-      brand: { title = 'Storybook', url = './', image },
-    },
-  }) => {
-    const targetValue = url === './' ? '' : '_blank';
-    if (image === undefined && url === null) {
-      return <StorybookLogoStyled alt={title} />;
-    }
-    if (image === undefined && url) {
-      return (
-        <LogoLink title={title} href={url} target={targetValue}>
-          <StorybookLogoStyled alt={title} />
-        </LogoLink>
-      );
-    }
-    if (image === null && url === null) {
-      return title;
-    }
-    if (image === null && url) {
-      return (
-        <LogoLink href={url} target={targetValue} dangerouslySetInnerHTML={{ __html: title }} />
-      );
-    }
-    if (image && url === null) {
-      return <Img src={image} alt={title} />;
-    }
-    if (image && url) {
-      return (
-        <LogoLink title={title} href={url} target={targetValue}>
-          <Img src={image} alt={title} />
-        </LogoLink>
-      );
-    }
-    return null;
+export const Brand: FC = () => {
+  const {
+    brand: { title = 'Storybook', url = './', image },
+  } = useTheme();
+
+  const targetValue = url === './' ? '' : '_blank';
+  if (image === undefined && url === null) {
+    return <StorybookLogoStyled alt={title} />;
   }
-);
+  if (image === undefined && url) {
+    return (
+      <LogoLink title={title} href={url} target={targetValue}>
+        <StorybookLogoStyled alt={title} />
+      </LogoLink>
+    );
+  }
+  if (image === null && url === null) {
+    return <>{title}</>;
+  }
+  if (image === null && url) {
+    return <LogoLink href={url} target={targetValue} dangerouslySetInnerHTML={{ __html: title }} />;
+  }
+  if (image && url === null) {
+    return <Img src={image} alt={title} />;
+  }
+  if (image && url) {
+    return (
+      <LogoLink title={title} href={url} target={targetValue}>
+        <Img src={image} alt={title} />
+      </LogoLink>
+    );
+  }
+  return null;
+};
