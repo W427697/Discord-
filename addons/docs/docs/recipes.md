@@ -13,7 +13,6 @@
 - [Disabling docs stories](#disabling-docs-stories)
   - [DocsPage](#docspage)
   - [MDX Stories](#mdx-stories)
-- [Controlling a story's view mode](#controlling-a-storys-view-mode)
 - [More resources](#more-resources)
 
 ## Component Story Format (CSF) with DocsPage
