@@ -2,6 +2,7 @@ import { spawn, SpawnOptions } from 'child_process';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { remove, ensureDir, pathExists } from 'fs-extra';
 
+// TODO: @gaetanmaisse Lets use shelljs instead of implementing our own function
 export const exec = async (command: string, args: string[] = [], options: SpawnOptions = {}) =>
   new Promise((resolve, reject) => {
     const child = spawn(command, args, {

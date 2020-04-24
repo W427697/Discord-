@@ -30,7 +30,7 @@ add a toggle-able list of examples in the yarn bootstrap command, so we're still
 ```
 e2e/
   |-- angular/  
-  |      |-- xxx.test.ts
+  |      |-- xxx.ts
   |      |
   |      
   |-- cra/  

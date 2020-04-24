@@ -11,8 +11,11 @@ const generateAngularAppWithAngularCLI = async (
   logger.info(`🏗 Bootstraping Angular project with @angular/cli@${packageVersion}`);
 
   try {
+    // TODO: @gaetanmaisse Create an empty `node_modules` and use npx
     await exec(`echo`, [`"{}" > package.json`], { cwd: path });
     await exec(`yarn`, [`add`, `@angular/cli@${packageVersion}`], { cwd: path });
+
+    // TODO: @gaetanmaisse In the future, extract this into a JSON file
     await exec(
       `yarn`,
       [
@@ -49,10 +52,10 @@ const addRequiredDeps = async (path: string) => {
       `yarn `,
       [
         `add -D`,
-        // FIXME: Move this deps to @storybook/angular
+        // FIXME: Move `react` and `react-dom` deps to @storybook/angular
         `react`,
-        // FIXME: Move this deps to @storybook/angular
         `react-dom`,
+        // TODO: @ndelangen Cypress can be removed and we should use the one from the monorepo
         `http-server`,
         `cypress`,
         `@cypress/webpack-preprocessor`,
@@ -68,6 +71,7 @@ const addRequiredDeps = async (path: string) => {
 
 const setupCypressTests = async (path: string) => {
   logger.info(`🎛 Setup Cypress tests`);
+  // TODO: @ndelangen Remove this and use monorepo cypress tests instead (be careful `cypress-tests` contains custom tests)
   try {
     await exec(`echo`, [`"{}" > cypress.json`], { cwd: path });
     await exec(`cp`, [`-R`, `../../../cypress-tests`, `cypress`], { cwd: path });
@@ -87,9 +91,15 @@ const buildStorybook = async (path: string) => {
   }
 };
 
+const serveStorybook = async (path: string) => {
+  // TODO: Just start an http-server with built storybook, and provide a way to stop it when tests are ran
+};
+
 const runCypressTests = async (path: string) => {
   logger.info(`🤖 Running Cypress tests`);
-
+  // TODO: Split in 2 steps:
+  // - run SB with http-server
+  // - then run cypress with env variable/args and use global cypress tests
   try {
     await exec(
       `yarn concurrently`,
@@ -128,6 +138,7 @@ const runTests = async (angularVersion: string) => {
 
   await runCypressTests(testAppPath);
 
+  // TODO: Add a variable to skip this cleaning (based on  process.env.CI?), in order to simplify debuging for instance
   logger.info(`🗑 Cleaning test dir for Angular ${angularVersion}`);
   await cleanDirectory(basePath);
 
