@@ -1,15 +1,20 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable jest/valid-expect */
-const baseUrl = 'http://localhost:8001';
-
 type StorybookApps = 'official-storybook';
 
 type Addons = 'Knobs';
 
+const getUrl = (app: string, route: string) => {
+  if (Cypress.env('location')) {
+    return `${Cypress.env('location')}/${route}`;
+  }
+  return `'http://localhost:8001'/${app}/${route}`;
+};
+
 export const visitExample = (app: StorybookApps, route = '') => {
   return cy
     .clearLocalStorage()
-    .visit(`${baseUrl}/${app}/${route}`)
+    .visit(getUrl(app, route))
     .get(`#storybook-preview-iframe`)
     .then({ timeout: 10000 }, (iframe) => {
       return cy.wrap(iframe, { timeout: 10000 }).should(() => {
