@@ -2,8 +2,9 @@
 import express from 'express';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import serveStatic from 'serve-static';
+import { Server } from 'http';
 
-export const serve = async (location: string, port: string) => {
+export const serve = async (location: string, port: string): Promise<Server> => {
   return new Promise((resolve, reject) => {
     const app = express();
 
