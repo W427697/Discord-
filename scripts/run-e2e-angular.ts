@@ -10,7 +10,7 @@ const parameters = {
   name: 'angular',
   version: 'latest',
   generator: `
-    npx -p @angular/cli@{{version}} ng new {{name}}-v{{version}} --routing=true --minimal=true --style=scss --skipInstall=true
+    npx -p @angular/cli@{{version}} ng new {{name}}-v{{version}} --routing=true --minimal=true --style=scss --skipInstall=true --directory ./
   `,
 };
 
