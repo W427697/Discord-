@@ -1,4 +1,5 @@
 import path from 'path';
+import shell from 'shelljs';
 import { remove, ensureDir, pathExists } from 'fs-extra';
 import { serve } from './utils/serve';
 import { exec } from './utils/command';
@@ -21,7 +22,15 @@ interface Options {
   cwd?: string;
 }
 
-const initDirectory = async (options: Options): Promise<void> => {
+const rootDir = path.join(__dirname, '..');
+
+const prepareDirectory = async (options: Options): Promise<void> => {
+  await shell.mv(
+    '-n',
+    path.join(rootDir, 'node_modules'),
+    path.join(rootDir, 'temp_renamed_node_modules')
+  );
+
   if (await pathExists(options.cwd)) {
     await cleanDirectory(options);
   }
@@ -29,7 +38,13 @@ const initDirectory = async (options: Options): Promise<void> => {
   return ensureDir(options.cwd);
 };
 
-const cleanDirectory = ({ cwd }: Options): Promise<void> => {
+const cleanDirectory = async ({ cwd }: Options): Promise<void> => {
+  await shell.mv(
+    '-n',
+    path.join(rootDir, 'temp_renamed_node_modules'),
+    path.join(rootDir, 'node_modules')
+  );
+
   return remove(cwd);
 };
 
@@ -38,8 +53,6 @@ const generate = async ({ cwd, name, version, generator }: Options) => {
   logger.info(`🏗 Bootstrapping ${name} project with "${command}"`);
 
   try {
-    // TODO: @gaetanmaisse Create an empty `node_modules` and use npx
-    await exec(`echo "{}" > package.json`, { cwd });
     await exec(command, { cwd });
   } catch (e) {
     logger.error(`‼️ Error during ${name} bootstrapping`);
@@ -104,7 +117,7 @@ const runTests = async ({ name, version, ...rest }: Options) => {
 
   logger.info(`📡 Starting E2E for ${name} ${version}`);
 
-  await initDirectory(options);
+  await prepareDirectory(options);
 
   await generate(options);
 
