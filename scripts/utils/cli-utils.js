@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies, global-require, no-octal-escape */
+/* eslint-disable global-require, no-octal-escape */
 const childProcess = require('child_process');
 
 const logger = console;

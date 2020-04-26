@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies, no-console */
+/* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
 const shell = require('shelljs');
