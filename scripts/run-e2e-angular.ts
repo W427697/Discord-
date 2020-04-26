@@ -1,7 +1,5 @@
 import path from 'path';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { remove, ensureDir, pathExists } from 'fs-extra';
-// @ts-ignore
 import { serve } from './utils/serve';
 import { exec } from './utils/command';
 

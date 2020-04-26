@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import shell from 'shelljs';
 
 // TODO: @gaetanmaisse Lets use shelljs instead of implementing our own function

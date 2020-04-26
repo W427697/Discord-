@@ -1,6 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import express from 'express';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import serveStatic from 'serve-static';
 import { Server } from 'http';
 
