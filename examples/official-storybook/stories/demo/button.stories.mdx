@@ -36,25 +36,3 @@ import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
     }}
   </Story>
 </Preview>
-
-<!-- temp -->
-## temporary repro story
-
-<Preview>
-  <Story name="temporary story">
-    {() => {
-      return (
-        <ul>
-          {[{ id: 1, title: 'a' }, { id: 2, title: 'b' }]
-            .map((item, idx) => {
-              return (
-                <li key={item.id}>
-                  {item.title}
-                </li>
-              )
-          })}
-        </ul>
-      )
-    }}
-  </Story>
-</Preview>
