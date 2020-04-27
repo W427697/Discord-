@@ -4,7 +4,7 @@ import dedent from 'ts-dedent';
 import { Options as PrettierOptions } from 'prettier';
 import prettier from 'prettier/standalone';
 
-const supportedLanguages = ['jsx', 'js', 'html', 'css', 'scss'] as const;
+const supportedLanguages = ['jsx', 'js', 'html', 'css', 'scss', 'vue', 'angular'] as const;
 type SupportedLanguage = typeof supportedLanguages[number];
 const isSupported = (lang: string | undefined): lang is SupportedLanguage =>
   supportedLanguages.includes(lang as SupportedLanguage);
@@ -53,6 +53,28 @@ const getFormatterOptions = async (language: SupportedLanguage): Promise<Prettie
             /* webpackChunkName: "prettier-css" */
             /* webpackMode: "lazy" */
             'prettier/parser-postcss'
+          ),
+        ],
+      };
+    case 'vue':
+      return {
+        parser: 'vue',
+        plugins: [
+          await import(
+            /* webpackChunkName: "prettier-html" */
+            /* webpackMode: "lazy" */
+            'prettier/parser-html'
+          ),
+        ],
+      };
+    case 'angular':
+      return {
+        parser: 'angular',
+        plugins: [
+          await import(
+            /* webpackChunkName: "prettier-angular" */
+            /* webpackMode: "lazy" */
+            'prettier/parser-angular'
           ),
         ],
       };
