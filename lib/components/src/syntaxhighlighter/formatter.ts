@@ -15,22 +15,46 @@ const getFormatterOptions = async (language: SupportedLanguage): Promise<Prettie
     case 'jsx':
       return {
         parser: 'babel',
-        plugins: [await import('prettier/parser-babel')],
+        plugins: [
+          await import(
+            /* webpackChunkName: "prettier-babel" */
+            /* webpackMode: "lazy" */
+            'prettier/parser-babel'
+          ),
+        ],
       };
     case 'html':
       return {
         parser: 'html',
-        plugins: [await import('prettier/parser-html')],
+        plugins: [
+          await import(
+            /* webpackChunkName: "prettier-html" */
+            /* webpackMode: "lazy" */
+            'prettier/parser-html'
+          ),
+        ],
       };
     case 'css':
       return {
         parser: 'css',
-        plugins: [await import('prettier/parser-postcss')],
+        plugins: [
+          await import(
+            /* webpackChunkName: "prettier-css" */
+            /* webpackMode: "lazy" */
+            'prettier/parser-postcss'
+          ),
+        ],
       };
     case 'scss':
       return {
         parser: 'scss',
-        plugins: [await import('prettier/parser-postcss')],
+        plugins: [
+          await import(
+            /* webpackChunkName: "prettier-css" */
+            /* webpackMode: "lazy" */
+            'prettier/parser-postcss'
+          ),
+        ],
       };
     default: {
       // fail at typechecking if switch is not exhaustive
