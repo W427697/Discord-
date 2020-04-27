@@ -121,6 +121,8 @@ export default class CheckboxesType extends Component<CheckboxesTypeProps, Check
   render() {
     const { knob, isInline } = this.props;
 
+    this.state = { values: knob.value };
+
     return (
       <CheckboxFieldset>
         <CheckboxesWrapper isInline={isInline}>{this.renderCheckboxList(knob)}</CheckboxesWrapper>
