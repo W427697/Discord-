@@ -61,6 +61,16 @@ const getFormatterOptions = async (language: SupportedLanguage): Promise<Prettie
         parser: 'vue',
         plugins: [
           await import(
+            /* webpackChunkName: "prettier-babel" */
+            /* webpackMode: "lazy" */
+            'prettier/parser-babel'
+          ),
+          await import(
+            /* webpackChunkName: "prettier-css" */
+            /* webpackMode: "lazy" */
+            'prettier/parser-postcss'
+          ),
+          await import(
             /* webpackChunkName: "prettier-html" */
             /* webpackMode: "lazy" */
             'prettier/parser-html'
@@ -71,6 +81,11 @@ const getFormatterOptions = async (language: SupportedLanguage): Promise<Prettie
       return {
         parser: 'angular',
         plugins: [
+          await import(
+            /* webpackChunkName: "prettier-html" */
+            /* webpackMode: "lazy" */
+            'prettier/parser-html'
+          ),
           await import(
             /* webpackChunkName: "prettier-angular" */
             /* webpackMode: "lazy" */
