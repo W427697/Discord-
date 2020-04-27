@@ -3,7 +3,6 @@ import React, {
   FunctionComponent,
   MouseEvent,
   useState,
-  useEffect,
   useLayoutEffect,
 } from 'react';
 import { styled } from '@storybook/theming';

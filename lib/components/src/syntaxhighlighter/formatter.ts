@@ -1,7 +1,7 @@
 import memoize from 'memoizerific';
 import dedent from 'ts-dedent';
 
-import type { Options as PrettierOptions } from 'prettier';
+import { Options as PrettierOptions } from 'prettier';
 import prettier from 'prettier/standalone';
 
 const supportedLanguages = ['jsx', 'js', 'html', 'css', 'scss'] as const;
