@@ -92,14 +92,14 @@ const buildStorybook = async ({ cwd }: Options) => {
 };
 
 const serveStorybook = async ({ cwd }: Options, port: string) => {
-  return serve(cwd, port);
+  return serve(path.join(cwd, 'storybook-static'), port);
 };
 
 const runCypress = async (_: Options, location: string) => {
   logger.info(`🤖 Running Cypress tests`);
   try {
     await exec(`yarn cypress run --env location="${location}"`, {
-      cwd: path.join(__dirname, '..', '..'),
+      cwd: path.join(__dirname, '..'),
     });
   } catch (e) {
     logger.error(`‼️ Error during cypress tests execution`);
