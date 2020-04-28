@@ -1,5 +1,3 @@
-/* eslint-disable jest/expect-expect */
-// TODO: @yannbf Fix the issue above
 import { visit, clickAddon } from '../helper';
 
 describe('Basic Flow', () => {
