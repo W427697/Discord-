@@ -120,15 +120,15 @@ const runTests = async ({ name, version, ...rest }: Options) => {
 
   logger.info(`📡 Starting E2E for ${name} ${version}`);
 
-  // await prepareDirectory(options);
+  await prepareDirectory(options);
 
-  // await generate(options);
+  await generate(options);
 
-  // await initStorybook(options);
+  await initStorybook(options);
 
-  // await addRequiredDeps(options);
+  await addRequiredDeps(options);
 
-  // await buildStorybook(options);
+  await buildStorybook(options);
 
   const server = await serveStorybook(options, '4000');
 
@@ -136,7 +136,7 @@ const runTests = async ({ name, version, ...rest }: Options) => {
 
   // TODO: Add a variable to skip this cleaning (based on  process.env.CI?), in order to simplify debugging for instance
   logger.info(`🗑 Cleaning test dir for ${name} ${version}`);
-  // await cleanDirectory(options);
+  await cleanDirectory(options);
   server.close();
 
   logger.info(`🎉 Storybook is working great with ${name} ${version}!`);
