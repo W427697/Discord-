@@ -157,7 +157,7 @@ jobs:
           command: yarn await-serve-storybooks
       - run:
           name: cypress run
-          command: yarn cypress run
+          command: yarn test:e2e
 
   smoke-tests:
     <<: *defaults
