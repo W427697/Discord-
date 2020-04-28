@@ -37,7 +37,6 @@ Cypress.Commands.add(
   }
 );
 
-// TODO @yannbf: add typings for this
 Cypress.Commands.add('getStoryElement', {}, () => {
   return cy.get(`#storybook-preview-iframe`).then({ timeout: 20000 }, (iframe) => {
     const content = iframe[0].contentDocument;
