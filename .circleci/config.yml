@@ -107,7 +107,7 @@ jobs:
             - .verdaccio-cache
   examples-v2:
     docker:
-      - image: cypress/base:8
+      - image: cypress/base:10
         environment:
           TERM: xterm
     working_directory: /tmp/storybook
@@ -135,7 +135,7 @@ jobs:
   e2e:
     working_directory: /tmp/storybook
     docker:
-      - image: cypress/base:8
+      - image: cypress/base:10
         environment:
           TERM: xterm
     steps:
