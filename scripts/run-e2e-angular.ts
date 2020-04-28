@@ -1,6 +1,8 @@
 import path from 'path';
 import shell from 'shelljs';
 import { remove, ensureDir, pathExists } from 'fs-extra';
+import { prompt } from 'enquirer';
+
 import { serve } from './utils/serve';
 import { exec } from './utils/command';
 
@@ -24,18 +26,35 @@ interface Options {
 
 const rootDir = path.join(__dirname, '..');
 
-const prepareDirectory = async (options: Options): Promise<void> => {
-  await shell.mv(
-    '-n',
-    path.join(rootDir, 'node_modules'),
-    path.join(rootDir, 'temp_renamed_node_modules')
-  );
+const prepareDirectory = async (options: Options): Promise<boolean> => {
+  const exists = await pathExists(options.cwd);
 
-  if (await pathExists(options.cwd)) {
-    await cleanDirectory(options);
+  if (exists) {
+    return true;
   }
 
-  return ensureDir(options.cwd);
+  await ensureDir(options.cwd);
+
+  return false;
+};
+
+const prepareRootDirectory = async (options: Options): Promise<void> => {
+  if (await pathExists(path.join(rootDir, 'node_modules'))) {
+    await shell.mv(
+      '-n',
+      path.join(rootDir, 'node_modules'),
+      path.join(rootDir, 'temp_renamed_node_modules')
+    );
+  }
+};
+const restoreRootDirectory = async (options: Options): Promise<void> => {
+  if (await pathExists(path.join(rootDir, 'node_modules'))) {
+    await shell.mv(
+      '-n',
+      path.join(rootDir, 'temp_renamed_node_modules'),
+      path.join(rootDir, 'node_modules')
+    );
+  }
 };
 
 const cleanDirectory = async ({ cwd }: Options): Promise<void> => {
@@ -120,23 +139,24 @@ const runTests = async ({ name, version, ...rest }: Options) => {
 
   logger.info(`📡 Starting E2E for ${name} ${version}`);
 
-  await prepareDirectory(options);
+  await prepareRootDirectory(options);
 
-  await generate(options);
+  if (!(await prepareDirectory(options))) {
+    await generate(options);
 
-  await initStorybook(options);
+    await initStorybook(options);
 
-  await addRequiredDeps(options);
+    await addRequiredDeps(options);
 
-  await buildStorybook(options);
+    await buildStorybook(options);
+  }
 
   const server = await serveStorybook(options, '4000');
 
+  await restoreRootDirectory(options);
+
   await runCypress(options, 'http://localhost:4000');
 
-  // TODO: Add a variable to skip this cleaning (based on  process.env.CI?), in order to simplify debugging for instance
-  logger.info(`🗑 Cleaning test dir for ${name} ${version}`);
-  await cleanDirectory(options);
   server.close();
 
   logger.info(`🎉 Storybook is working great with ${name} ${version}!`);
@@ -149,7 +169,24 @@ if (!angularCliVersions || angularCliVersions.length === 0) {
 }
 
 // Run tests!
-runTests(parameters).catch((e) => {
-  logger.error(`🚨 E2E tests fails\n${e}`);
-  process.exit(1);
-});
+runTests(parameters)
+  .catch((e) => {
+    logger.error(`🚨 E2E tests fails\n${e}`);
+    process.exitCode = 1;
+  })
+  .then(async () => {
+    if (!process.env.CI) {
+      const { name, version } = parameters;
+
+      logger.info(`🗑 Cleaning test dir for ${name} ${version}`);
+      const cleanup = await prompt({
+        type: 'confirm',
+        name: 'cleanup',
+        message: 'Should perform cleanup?',
+      });
+
+      if (cleanup) {
+        await cleanDirectory(parameters);
+      }
+    }
+  });
