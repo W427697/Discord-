@@ -46,7 +46,7 @@
     "react-router": "^4.3.1",
     "react-stack-grid": "^0.7.1",
     "recompose": "^0.30.0",
-    "sitemap": "^4.1.1",
+    "sitemap": "^6.1.2",
     "styled-components": "^4.4.1",
     "ts-dedent": "^1.1.0",
     "validatorjs": "^3.18.0"
