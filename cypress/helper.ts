@@ -8,7 +8,7 @@ const getUrl = (app: string, route: string) => {
   if (Cypress.env('location')) {
     return `${Cypress.env('location')}/${route}`;
   }
-  return `'http://localhost:8001'/${app}/${route}`;
+  return `http://localhost:8001/${app}/${route}`;
 };
 
 export const visitExample = (app: StorybookApps, route = '') => {
