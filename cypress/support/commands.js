@@ -37,7 +37,8 @@ Cypress.Commands.add(
   }
 );
 
-Cypress.Commands.add('preview', {}, () => {
+// TODO @yannbf: add typings for this
+Cypress.Commands.add('getStoryElement', {}, () => {
   return cy.get(`#storybook-preview-iframe`).then({ timeout: 20000 }, (iframe) => {
     const content = iframe[0].contentDocument;
     const element = content !== null ? content.documentElement : null;
