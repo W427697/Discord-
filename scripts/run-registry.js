@@ -159,7 +159,7 @@ const run = async () => {
     originalNpmRegistryUrl
   );
 
-  await addUser(verdaccioUrl);
+  // await addUser(verdaccioUrl);
 
   logger.log(`📦 found ${packages.length} storybook packages at version ${chalk.blue(version)}`);
 
