@@ -106,7 +106,11 @@ jobs:
           paths:
             - .verdaccio-cache
   examples-v2:
-    <<: *defaults
+    docker:
+      - image: cypress/base:8
+        environment:
+          TERM: xterm
+    working_directory: /tmp/storybook
     # parallelism: 10
     steps:
       - checkout
