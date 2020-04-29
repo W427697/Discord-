@@ -1,18 +1,18 @@
+/* eslint-disable no-irregular-whitespace */
 import path from 'path';
-import shell from 'shelljs';
-import { remove, ensureDir, pathExists } from 'fs-extra';
+import { remove, ensureDir, pathExists, writeFile } from 'fs-extra';
 import { prompt } from 'enquirer';
+import dedent from 'ts-dedent';
 
 import { serve } from './utils/serve';
 import { exec } from './utils/command';
 
 const logger = console;
-const defaultAngularCliVersion = 'latest';
 
 const parameters = {
   name: 'angular',
   version: 'latest',
-  generator: `
+  generator: dedent`
     npx -p @angular/cli@{{version}} ng new {{name}}-v{{version}} --routing=true --minimal=true --style=scss --skipInstall=true --directory ./
   `,
 };
@@ -25,11 +25,20 @@ interface Options {
 }
 
 const rootDir = path.join(__dirname, '..');
+const siblingDir = path.join(__dirname, '..', '..', 'storybook-e2e-testing');
 
 const prepareDirectory = async (options: Options): Promise<boolean> => {
-  const exists = await pathExists(options.cwd);
+  const siblingExists = await pathExists(siblingDir);
 
-  if (exists) {
+  if (!siblingExists) {
+    await ensureDir(siblingDir);
+    await exec('git init', { cwd: siblingDir });
+    await writeFile(path.join(siblingDir, '.gitignore'), 'node_modules\n');
+  }
+
+  const cwdExists = await pathExists(options.cwd);
+
+  if (cwdExists) {
     return true;
   }
 
@@ -38,38 +47,14 @@ const prepareDirectory = async (options: Options): Promise<boolean> => {
   return false;
 };
 
-const prepareRootDirectory = async (options: Options): Promise<void> => {
-  if (await pathExists(path.join(rootDir, 'node_modules'))) {
-    await shell.mv(
-      '-n',
-      path.join(rootDir, 'node_modules'),
-      path.join(rootDir, 'temp_renamed_node_modules')
-    );
-  }
-};
-const restoreRootDirectory = async (options: Options): Promise<void> => {
-  if (await pathExists(path.join(rootDir, 'node_modules'))) {
-    await shell.mv(
-      '-n',
-      path.join(rootDir, 'temp_renamed_node_modules'),
-      path.join(rootDir, 'node_modules')
-    );
-  }
-};
-
 const cleanDirectory = async ({ cwd }: Options): Promise<void> => {
-  await shell.mv(
-    '-n',
-    path.join(rootDir, 'temp_renamed_node_modules'),
-    path.join(rootDir, 'node_modules')
-  );
-
   return remove(cwd);
 };
 
 const generate = async ({ cwd, name, version, generator }: Options) => {
   const command = generator.replace(/{{name}}/g, name).replace(/{{version}}/g, version);
-  logger.info(`🏗 Bootstrapping ${name} project with "${command}"`);
+  logger.info(`🏗 Bootstrapping ${name} project`);
+  logger.debug(command);
 
   try {
     await exec(command, { cwd });
@@ -80,7 +65,7 @@ const generate = async ({ cwd, name, version, generator }: Options) => {
 };
 
 const initStorybook = async ({ cwd }: Options) => {
-  logger.info(`🎨 Initializing Storybook with @storybook/cli`);
+  logger.info(`🎨 Initializing Storybook with @storybook/cli`);
   try {
     await exec(`npx -p @storybook/cli sb init --skip-install --yes`, { cwd });
   } catch (e) {
@@ -90,41 +75,47 @@ const initStorybook = async ({ cwd }: Options) => {
 };
 
 const addRequiredDeps = async ({ cwd }: Options) => {
-  logger.info(`🌍 Adding needed deps & installing all deps`);
+  logger.info(`🌍 Adding needed deps & installing all deps`);
   try {
     // FIXME: Move `react` and `react-dom` deps to @storybook/angular
-    await exec(`yarn add -D react react-dom`, { cwd });
+    await exec(
+      `yarn add -D react react-dom --no-lockfile --non-interactive --silent --no-progress`,
+      { cwd }
+    );
   } catch (e) {
-    logger.error(`‼️ Error dependencies installation`);
+    logger.error(`🚨 Dependencies installation failed`);
     throw e;
   }
 };
 
 const buildStorybook = async ({ cwd }: Options) => {
-  logger.info(`👷 Building Storybook`);
+  logger.info(`👷 Building Storybook`);
   try {
-    await exec(`yarn build-storybook`, { cwd });
+    await exec(`yarn build-storybook --quiet`, { cwd });
   } catch (e) {
-    logger.error(`‼️ Error during Storybook build`);
+    logger.error(`🚨 Storybook build failed`);
     throw e;
   }
 };
 
 const serveStorybook = async ({ cwd }: Options, port: string) => {
-  return serve(path.join(cwd, 'storybook-static'), port);
+  const staticDirectory = path.join(cwd, 'storybook-static');
+  logger.info(`🌍 Serving ${staticDirectory} on http://localhost:${port}`);
+
+  return serve(staticDirectory, port);
 };
 
-const runCypress = async (_: Options, location: string) => {
-  logger.info(`🤖 Running Cypress tests`);
+const runCypress = async ({ name, version }: Options, location: string) => {
+  logger.info(`🤖 Running Cypress tests`);
   try {
     await exec(
       `yarn cypress run --config integrationFolder="cypress/generated" --env location="${location}"`,
-      {
-        cwd: path.join(__dirname, '..'),
-      }
+      { cwd: rootDir }
     );
+    logger.info(`✅ E2E tests success`);
+    logger.info(`🎉 Storybook is working great with ${name} ${version}!`);
   } catch (e) {
-    logger.error(`‼️ Error during cypress tests execution`);
+    logger.error(`🚨 E2E tests fails`);
     throw e;
   }
 };
@@ -134,51 +125,48 @@ const runTests = async ({ name, version, ...rest }: Options) => {
     name,
     version,
     ...rest,
-    cwd: path.join(__dirname, '..', 'e2e', name, version),
+    cwd: path.join(siblingDir, name, version),
   };
 
-  logger.info(`📡 Starting E2E for ${name} ${version}`);
-
-  await prepareRootDirectory(options);
+  logger.info(`🏃‍♀️ Starting for ${name} ${version}`);
+  logger.log();
+  logger.debug(options);
+  logger.log();
 
   if (!(await prepareDirectory(options))) {
     await generate(options);
+    logger.log();
 
     await initStorybook(options);
+    logger.log();
 
     await addRequiredDeps(options);
+    logger.log();
 
     await buildStorybook(options);
+    logger.log();
   }
 
   const server = await serveStorybook(options, '4000');
-
-  await restoreRootDirectory(options);
+  logger.log();
 
   await runCypress(options, 'http://localhost:4000');
+  logger.log();
 
   server.close();
-
-  logger.info(`🎉 Storybook is working great with ${name} ${version}!`);
 };
-
-let angularCliVersions = process.argv.slice(2);
-
-if (!angularCliVersions || angularCliVersions.length === 0) {
-  angularCliVersions = [defaultAngularCliVersion];
-}
 
 // Run tests!
 runTests(parameters)
   .catch((e) => {
-    logger.error(`🚨 E2E tests fails\n${e}`);
+    logger.error(`🛑 an error occurred\n${e}`);
     process.exitCode = 1;
   })
   .then(async () => {
     if (!process.env.CI) {
       const { name, version } = parameters;
+      const cwd = path.join(siblingDir, name, version);
 
-      logger.info(`🗑 Cleaning test dir for ${name} ${version}`);
       const cleanup = await prompt({
         type: 'confirm',
         name: 'cleanup',
@@ -186,7 +174,14 @@ runTests(parameters)
       });
 
       if (cleanup) {
-        await cleanDirectory(parameters);
+        logger.log();
+        logger.info(`🗑 Cleaning ${cwd}`);
+        await cleanDirectory({ ...parameters, cwd });
+      } else {
+        logger.log();
+        logger.info(`🚯 No cleanup happened: ${cwd}`);
       }
+
+      process.exit(process.exitCode || 0);
     }
   });
