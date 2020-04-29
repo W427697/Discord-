@@ -107,11 +107,12 @@ const serveStorybook = async ({ cwd }: Options, port: string) => {
   return serve(staticDirectory, port);
 };
 
-const runCypress = async ({ name, version }: Options, location: string) => {
+const runCypress = async ({ name, version }: Options, location: string, open: boolean) => {
+  const cypressCommand = open ? 'open' : 'run';
   logger.info(`🤖 Running Cypress tests`);
   try {
     await exec(
-      `yarn cypress run --config integrationFolder="cypress/generated" --env location="${location}"`,
+      `yarn cypress ${cypressCommand} --config integrationFolder="cypress/generated" --env location="${location}"`,
       { cwd: rootDir }
     );
     logger.info(`✅ E2E tests success`);
@@ -152,7 +153,16 @@ const runTests = async ({ name, version, ...rest }: Options) => {
   const server = await serveStorybook(options, '4000');
   logger.log();
 
-  await runCypress(options, 'http://localhost:4000');
+  let open = false;
+  if (!process.env.CI) {
+    ({ open } = await prompt({
+      type: 'confirm',
+      name: 'open',
+      message: 'Should open cypress?',
+    }));
+  }
+
+  await runCypress(options, 'http://localhost:4000', open);
   logger.log();
 
   server.close();

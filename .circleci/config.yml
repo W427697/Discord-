@@ -26,9 +26,7 @@ jobs:
           name: Cache core dependencies
           key: core-dependencies-v5-{{ checksum "yarn.lock" }}
           paths:
-            - ~/.cache
             - node_modules
-            - /root/.cache
       - persist_to_workspace:
           root: .
           paths:
@@ -142,13 +140,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - save_cache:
-          name: Cache core dependencies
-          key: core-dependencies-v5-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache
-            - node_modules
-            - /root/.cache
       - run:
           name: running example
           command: yarn serve-storybooks
@@ -244,10 +235,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - restore_cache:
-          name: Restore docs dependencies cache
-          keys:
-            - docs-dependencies-v3-{{ checksum "docs/yarn.lock" }}
       - run:
           name: Install dependencies
           command: |
@@ -258,11 +245,6 @@ jobs:
           command: |
             cd docs
             yarn build
-      - save_cache:
-          name: Cache docs dependencies
-          key: docs-dependencies-v3-{{ checksum "docs/yarn.lock" }}
-          paths:
-            - ~/.cache
   lint:
     <<: *defaults
     steps:
