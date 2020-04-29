@@ -130,6 +130,9 @@ jobs:
       - run:
           name: run angular e2e tests (version 9.1)
           command: yarn test:e2e-angular latest
+      - store_artifacts:
+          path: /tmp/storybook/cypress
+          destination: cypress
   e2e:
     working_directory: /tmp/storybook
     docker:
@@ -308,20 +311,13 @@ workflows:
       - chromatic:
           requires:
             - examples
-  deploy:
-    jobs:
-      - docs
-      - frontpage
-  cli:
-    jobs:
-      - install
-      - build:
-          requires:
-            - install
       - publish:
           requires:
             - build
       - examples-v2:
           requires:
             - publish
-
+  deploy:
+    jobs:
+      - docs
+      - frontpage
