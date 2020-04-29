@@ -3,18 +3,20 @@
 
 
 "@alib/build-scripts@^0.1.8":
-  version "0.1.18"
-  resolved "https://registry.yarnpkg.com/@alib/build-scripts/-/build-scripts-0.1.18.tgz#42812724067eb2885a5e140c245a5446307d7cac"
-  integrity sha512-dDerG8ybgwmUGmhmOu9xQgi4GvQfIZ+9rC/w3/q+iBAIDj/J4fOqVdjw/vcuSW9jxMIZJHOughNjLa2/FlG+/g==
+  version "0.1.20"
+  resolved "https://registry.yarnpkg.com/@alib/build-scripts/-/build-scripts-0.1.20.tgz#9043fbd3b36f53363e29edbd9a7ba951a2f47ffd"
+  integrity sha512-PvACFV8he8/bL6Pn8T5G641ZSET+D+v+b2/Ug+xe/k6mx1XIMQ9ch8ao09Tvc6sGSYAsWhVElXbS1qWhuhuBNQ==
   dependencies:
     address "^1.1.0"
     camelcase "^5.3.1"
     chalk "^2.4.1"
+    chokidar "^3.3.1"
     commander "^2.19.0"
     deepmerge "^4.0.0"
     detect-port "^1.3.0"
     fs-extra "^8.1.0"
     jest "^24.9.0"
+    json5 "^2.1.3"
     lodash "^4.17.15"
     npmlog "^4.1.2"
     react-dev-utils "^9.0.4"
@@ -18401,7 +18403,7 @@ json3@^3.3.2:
   resolved "https://registry.yarnpkg.com/json3/-/json3-3.3.3.tgz#7fc10e375fc5ae42c4705a5cc0aa6f62be305b81"
   integrity sha512-c7/8mbUsKigAbLkD5B010BK4D9LZm7A1pNItkEwiUZRpIN66exu/e7YQWysGun+TRKaJp8MhemM+VkfWv42aCA==
 
-json5@2.x, json5@^2.0.0, json5@^2.1.0, json5@^2.1.1, json5@^2.1.2:
+json5@2.x, json5@^2.0.0, json5@^2.1.0, json5@^2.1.1, json5@^2.1.2, json5@^2.1.3:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/json5/-/json5-2.1.3.tgz#c9b0f7fa9233bfe5807fe66fcf3a5617ed597d43"
   integrity sha512-KXPvOm8K9IJKFM0bmdn8QXh7udDh1g/giieX0NLCaMnb4hEiVFqnop2ImTXCc5e0/oHz3LTqmHGtExn5hfMkOA==
