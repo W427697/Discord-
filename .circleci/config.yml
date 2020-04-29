@@ -107,7 +107,7 @@ jobs:
             - .verdaccio-cache
   examples-v2:
     docker:
-      - image: cypress/base:10
+      - image: cypress/base:14.0.0
         environment:
           TERM: xterm
     working_directory: /tmp/storybook
@@ -116,9 +116,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run:
-          name: upgrade yarn
-          command: curl -o- -L https://yarnpkg.com/install.sh | bash
       - run:
           name: running local registry
           command: yarn local-registry --port 6000 --open
@@ -138,7 +135,7 @@ jobs:
   e2e:
     working_directory: /tmp/storybook
     docker:
-      - image: cypress/base:10
+      - image: cypress/base:14.0.0
         environment:
           TERM: xterm
     steps:
