@@ -2,7 +2,6 @@
 import path from 'path';
 import { remove, ensureDir, pathExists, writeFile } from 'fs-extra';
 import { prompt } from 'enquirer';
-import dedent from 'ts-dedent';
 
 import { serve } from './utils/serve';
 import { exec } from './utils/command';
@@ -12,9 +11,10 @@ const logger = console;
 const parameters = {
   name: 'angular',
   version: 'latest',
-  generator: dedent`
-    npx -p @angular/cli@{{version}} ng new {{name}}-v{{version}} --routing=true --minimal=true --style=scss --skipInstall=true --directory ./
-  `,
+  generator: [
+    `yarn add @angular/cli@{{version}} --no-lockfile --non-interactive --silent --no-progress`,
+    `npx ng new {{name}}-v{{version}} --routing=true --minimal=true --style=scss --skipInstall=true`,
+  ].join(' && '),
 };
 
 interface Options {
@@ -33,6 +33,7 @@ const prepareDirectory = async (options: Options): Promise<boolean> => {
   if (!siblingExists) {
     await ensureDir(siblingDir);
     await exec('git init', { cwd: siblingDir });
+    await exec('npm init -y', { cwd: siblingDir });
     await writeFile(path.join(siblingDir, '.gitignore'), 'node_modules\n');
   }
 
@@ -48,18 +49,19 @@ const prepareDirectory = async (options: Options): Promise<boolean> => {
 };
 
 const cleanDirectory = async ({ cwd }: Options): Promise<void> => {
-  return remove(cwd);
+  await remove(cwd);
+  await remove(path.join(siblingDir, 'node_modules'));
 };
 
 const generate = async ({ cwd, name, version, generator }: Options) => {
   const command = generator.replace(/{{name}}/g, name).replace(/{{version}}/g, version);
-  logger.info(`🏗 Bootstrapping ${name} project`);
+  logger.info(`🏗  Bootstrapping ${name} project`);
   logger.debug(command);
 
   try {
     await exec(command, { cwd });
   } catch (e) {
-    logger.error(`‼️ Error during ${name} bootstrapping`);
+    logger.error(`🚨 Bootstrapping ${name} failed`);
     throw e;
   }
 };
@@ -69,7 +71,7 @@ const initStorybook = async ({ cwd }: Options) => {
   try {
     await exec(`npx -p @storybook/cli sb init --skip-install --yes`, { cwd });
   } catch (e) {
-    logger.error(`‼️ Error during Storybook initialization`);
+    logger.error(`🚨 Storybook initialization failed`);
     throw e;
   }
 };
@@ -83,7 +85,7 @@ const addRequiredDeps = async ({ cwd }: Options) => {
       { cwd }
     );
   } catch (e) {
-    logger.error(`🚨 Dependencies installation failed`);
+    logger.error(`🚨 Dependencies installation failed`);
     throw e;
   }
 };
@@ -93,7 +95,7 @@ const buildStorybook = async ({ cwd }: Options) => {
   try {
     await exec(`yarn build-storybook --quiet`, { cwd });
   } catch (e) {
-    logger.error(`🚨 Storybook build failed`);
+    logger.error(`🚨 Storybook build failed`);
     throw e;
   }
 };
@@ -125,7 +127,7 @@ const runTests = async ({ name, version, ...rest }: Options) => {
     name,
     version,
     ...rest,
-    cwd: path.join(siblingDir, name, version),
+    cwd: path.join(siblingDir, `${name}-v${version}`),
   };
 
   logger.info(`🏃‍♀️ Starting for ${name} ${version}`);
@@ -134,7 +136,7 @@ const runTests = async ({ name, version, ...rest }: Options) => {
   logger.log();
 
   if (!(await prepareDirectory(options))) {
-    await generate(options);
+    await generate({ ...options, cwd: siblingDir });
     logger.log();
 
     await initStorybook(options);
@@ -159,15 +161,18 @@ const runTests = async ({ name, version, ...rest }: Options) => {
 // Run tests!
 runTests(parameters)
   .catch((e) => {
-    logger.error(`🛑 an error occurred\n${e}`);
+    logger.error(`🛑 an error occurred:\n${e}`);
+    logger.log();
+    logger.error(e);
+    logger.log();
     process.exitCode = 1;
   })
   .then(async () => {
     if (!process.env.CI) {
       const { name, version } = parameters;
-      const cwd = path.join(siblingDir, name, version);
+      const cwd = path.join(siblingDir, `${name}-v${version}`);
 
-      const cleanup = await prompt({
+      const { cleanup } = await prompt({
         type: 'confirm',
         name: 'cleanup',
         message: 'Should perform cleanup?',
@@ -175,7 +180,7 @@ runTests(parameters)
 
       if (cleanup) {
         logger.log();
-        logger.info(`🗑 Cleaning ${cwd}`);
+        logger.info(`🗑  Cleaning ${cwd}`);
         await cleanDirectory({ ...parameters, cwd });
       } else {
         logger.log();
