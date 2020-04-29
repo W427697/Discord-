@@ -107,7 +107,7 @@ jobs:
             - .verdaccio-cache
   examples-v2:
     docker:
-      - image: cypress/base:14.0.0
+      - image: cypress/included:4.5.0
         environment:
           TERM: xterm
     working_directory: /tmp/storybook
@@ -135,16 +135,13 @@ jobs:
   e2e:
     working_directory: /tmp/storybook
     docker:
-      - image: cypress/base:14.0.0
+      - image: cypress/included:4.5.0
         environment:
           TERM: xterm
     steps:
       - checkout
       - attach_workspace:
           at: .
-      - run:
-          name: install cypress
-          command: yarn cypress install
       - save_cache:
           name: Cache core dependencies
           key: core-dependencies-v5-{{ checksum "yarn.lock" }}
