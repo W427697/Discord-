@@ -29,7 +29,7 @@ describe('Basic Flow', () => {
       cy.get('#explorerbutton--text').find('.selected').should('be.visible');
 
       // check for content
-      cy.getStoryElement().should('contain.text', 'Hello Button');
+      cy.getStoryElement().find('button').should('contain.text', 'Hello Button');
     });
 
     it('with action', () => {
