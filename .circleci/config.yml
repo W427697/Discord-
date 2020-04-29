@@ -117,6 +117,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: upgrade yarn
+          command: curl -o- -L https://yarnpkg.com/install.sh | bash
+      - run:
           name: running local registry
           command: yarn local-registry --port 6000 --open
           background: true
