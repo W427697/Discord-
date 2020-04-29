@@ -1,3 +1,34 @@
+## 6.0.0-alpha.46 (April 29, 2020)
+
+### Breaking Changes
+
+* Core: Normalize parameters in store/channel ([#10373](https://github.com/storybookjs/storybook/pull/10373))
+* React: Remove deprecated CRA preset ([#10571](https://github.com/storybookjs/storybook/pull/10571))
+
+### Features
+
+* Addon-docs: Props controls for Vue ([#10559](https://github.com/storybookjs/storybook/pull/10559))
+
+### Bug Fixes
+
+* Addon-docs: Add subcomponents prop to Meta block ([#10573](https://github.com/storybookjs/storybook/pull/10573))
+
+## 6.0.0-alpha.45 (April 28, 2020)
+
+## Breaking changes
+
+- Core: Pass args first to stories by default ([#10452](https://github.com/storybookjs/storybook/pull/10452))
+
+## 6.0.0-alpha.44 (April 27, 2020)
+
+### Features
+
+- CLI: Automatically detect typescript in `sb init` ([#10547](https://github.com/storybookjs/storybook/pull/10547))
+
+### Bug Fixes
+
+- UI: Fix `viewMode` parameter handling ([#10292](https://github.com/storybookjs/storybook/pull/10292))
+
 ## 6.0.0-alpha.43 (April 24, 2020)
 
 ### Features
