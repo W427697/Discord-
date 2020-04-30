@@ -193,9 +193,9 @@ const runE2E = (parameters: Parameters, overrideTasks: Partial<Tasks> = {}) =>
           logger.log();
           logger.info(`🚯 No cleanup happened: ${cwd}`);
         }
-
-        process.exit(process.exitCode || 0);
       }
+
+      process.exit(process.exitCode || 0);
     });
 
 export default runE2E;
