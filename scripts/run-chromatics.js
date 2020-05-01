@@ -33,7 +33,12 @@ const hasChromaticAppCode = (l) => {
   const text = readFileSync(l, 'utf8');
   const json = JSON.parse(text);
 
-  return !!(json && json.storybook && json.storybook.chromatic && json.storybook.chromatic.appCode);
+  return !!(
+    json &&
+    json.storybook &&
+    json.storybook.chromatic &&
+    json.storybook.chromatic.projectToken
+  );
 };
 
 const handleExamples = async (deployables) => {
@@ -44,18 +49,18 @@ const handleExamples = async (deployables) => {
     const cwd = p([]);
     const {
       storybook: {
-        chromatic: { appCode },
+        chromatic: { projectToken },
       },
     } = JSON.parse(readFileSync(p(['examples', d, 'package.json'])));
 
-    if (appCode) {
+    if (projectToken) {
       await exec(
         `yarn`,
         [
           'chromatic',
           `--storybook-build-dir="${out}"`,
           '--exit-zero-on-changes',
-          `--app-code="${appCode}"`,
+          `--project-token="${projectToken}"`,
         ],
         { cwd }
       );
