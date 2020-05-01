@@ -9,6 +9,13 @@ export const angular: Parameters = {
   ].join(' && '),
 };
 
+export const svelte: Parameters = {
+  name: 'svelte',
+  version: 'latest',
+  generator: 'npx degit sveltejs/template {{name}}-v{{version}}',
+  autoDetect: false,
+};
+
 export const vue: Parameters = {
   name: 'vue',
   version: 'latest',

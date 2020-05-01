@@ -15,6 +15,7 @@ export interface Parameters {
   name: string;
   version: string;
   generator: string;
+  autoDetect?: boolean;
 }
 
 export interface Options extends Parameters {
@@ -67,10 +68,11 @@ const generate = async ({ cwd, name, version, generator }: Options) => {
   }
 };
 
-const initStorybook = async ({ cwd }: Options) => {
+const initStorybook = async ({ cwd, autoDetect = true, name }: Options) => {
   logger.info(`🎨 Initializing Storybook with @storybook/cli`);
   try {
-    await exec(`npx -p @storybook/cli sb init --skip-install --yes`, { cwd });
+    const type = autoDetect ? '' : `--type ${name}`;
+    await exec(`npx -p @storybook/cli sb init --skip-install --yes ${type}`, { cwd });
   } catch (e) {
     logger.error(`🚨 Storybook initialization failed`);
     throw e;
@@ -205,7 +207,7 @@ const runE2E = (parameters: Parameters) =>
 
 const frameworkArgs = process.argv.slice(2);
 const typedConfigs: { [key: string]: Parameters } = configs;
-const e2eConfigs: { [key: string]: Parameters } = typedConfigs;
+let e2eConfigs: { [key: string]: Parameters } = {};
 
 if (frameworkArgs.length > 0) {
   // eslint-disable-next-line no-restricted-syntax
@@ -215,6 +217,8 @@ if (frameworkArgs.length > 0) {
       version,
     };
   }
+} else {
+  e2eConfigs = typedConfigs;
 }
 
 const perform = () => {
