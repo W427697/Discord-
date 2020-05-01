@@ -3,18 +3,18 @@ import { visit, clickAddon } from '../helper';
 describe('addon-action', () => {
   before(() => {
     visit();
-    cy.get('#explorerbutton').click();
+    cy.get('#button').click();
   });
 
   it('should trigger an action', () => {
     // click on the button
-    cy.get('#explorerbutton--with-some-emoji-and-action').click();
+    cy.get('#button--with-some-emoji-and-action').click();
 
     // assert url changes
     cy.url().should('include', 'path=/story/button--with-some-emoji-and-action');
 
     // check for selected element
-    cy.get('#explorerbutton--with-some-emoji-and-action').find('.selected').should('be.visible');
+    cy.get('#button--with-some-emoji-and-action').find('.selected').should('be.visible');
 
     // check for content
     cy.getStoryElement().find('button').click();
