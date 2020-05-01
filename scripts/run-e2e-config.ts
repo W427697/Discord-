@@ -9,6 +9,13 @@ export const angular: Parameters = {
   ].join(' && '),
 };
 
+export const preact: Parameters = {
+  name: 'preact',
+  version: 'latest',
+  generator:
+    'npx preact-cli create preactjs-templates/default {{name}}-v{{version}} --yarn --install=false --git=false --force',
+};
+
 export const svelte: Parameters = {
   name: 'svelte',
   version: 'latest',
@@ -19,5 +26,5 @@ export const svelte: Parameters = {
 export const vue: Parameters = {
   name: 'vue',
   version: 'latest',
-  generator: `npx @vue/cli@{{version}} create {{name}}-v{{version}} --default --packageManager yarn --no-git --force`,
+  generator: `npx @vue/cli@{{version}} create {{name}}-v{{version}} --default --packageManager=yarn --no-git --force`,
 };
