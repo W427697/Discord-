@@ -129,7 +129,7 @@ jobs:
           command: yarn info @storybook/core
       - run:
           name: run angular e2e tests (version 9.1)
-          command: yarn test:e2e-angular latest
+          command: yarn test:e2e-framework
       - store_artifacts:
           path: /tmp/storybook/cypress
           destination: cypress

@@ -2,9 +2,12 @@
 import path from 'path';
 import { remove, ensureDir, pathExists, writeFile } from 'fs-extra';
 import { prompt } from 'enquirer';
+import pLimit from 'p-limit';
 
 import { serve } from './utils/serve';
 import { exec } from './utils/command';
+
+import * as configs from './run-e2e-config';
 
 const logger = console;
 
@@ -74,11 +77,16 @@ const initStorybook = async ({ cwd }: Options) => {
   }
 };
 
-const addRequiredDeps = async (options: Options, tasks: Partial<Tasks>) => {
+const addRequiredDeps = async ({ cwd }: Options) => {
   logger.info(`🌍 Adding needed deps & installing all deps`);
   try {
-    const task = () => exec(`yarn`, { cwd: options.cwd });
-    await (tasks.addRequiredDeps || task)(options);
+    // FIXME: Move `react` and `react-dom` deps to @storybook/angular
+    await exec(
+      `yarn add -D react react-dom --no-lockfile --non-interactive --silent --no-progress`,
+      {
+        cwd,
+      }
+    );
   } catch (e) {
     logger.error(`🚨 Dependencies installation failed`);
     throw e;
@@ -118,12 +126,11 @@ const runCypress = async ({ name, version }: Options, location: string, open: bo
   }
 };
 
-const runTests = async ({ name, version, ...rest }: Parameters, overrideTasks: Partial<Tasks>) => {
+const runTests = async ({ name, version, ...rest }: Parameters) => {
   const options = {
     name,
     version,
     ...rest,
-    ...overrideTasks,
     cwd: path.join(siblingDir, `${name}-v${version}`),
   };
 
@@ -139,7 +146,7 @@ const runTests = async ({ name, version, ...rest }: Parameters, overrideTasks: P
     await initStorybook(options);
     logger.log();
 
-    await addRequiredDeps(options, overrideTasks);
+    await addRequiredDeps(options);
     logger.log();
 
     await buildStorybook(options);
@@ -165,8 +172,8 @@ const runTests = async ({ name, version, ...rest }: Parameters, overrideTasks: P
 };
 
 // Run tests!
-const runE2E = (parameters: Parameters, overrideTasks: Partial<Tasks> = {}) =>
-  runTests(parameters, overrideTasks)
+const runE2E = (parameters: Parameters) =>
+  runTests(parameters)
     .catch((e) => {
       logger.error(`🛑 an error occurred:\n${e}`);
       logger.log();
@@ -194,8 +201,27 @@ const runE2E = (parameters: Parameters, overrideTasks: Partial<Tasks> = {}) =>
           logger.info(`🚯 No cleanup happened: ${cwd}`);
         }
       }
-
-      process.exit(process.exitCode || 0);
     });
 
-export default runE2E;
+const frameworkArgs = process.argv.slice(2);
+const typedConfigs: { [key: string]: Parameters } = configs;
+const e2eConfigs: { [key: string]: Parameters } = typedConfigs;
+
+if (frameworkArgs.length > 0) {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [framework, version = 'latest'] of frameworkArgs.map((arg) => arg.split('@'))) {
+    e2eConfigs[framework] = {
+      ...typedConfigs[framework],
+      version,
+    };
+  }
+}
+
+const perform = () => {
+  const limit = pLimit(1);
+  return Promise.all(Object.values(e2eConfigs).map((config) => limit(() => runE2E(config))));
+};
+
+perform().then(() => {
+  process.exit(process.exitCode || 0);
+});

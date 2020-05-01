@@ -76,7 +76,7 @@
     "test:e2e": "cypress run",
     "test:e2e-angular": "ts-node ./scripts/run-e2e-angular.ts",
     "test:e2e-gui": "concurrently --success first --kill-others \"cypress open\" \"yarn serve-storybooks\"",
-    "test:e2e-vue": "ts-node ./scripts/run-e2e-vue.ts",
+    "test:e2e-framework": "ts-node ./scripts/run-e2e.ts",
     "test:e2e-yarn-2": "ts-node ./scripts/run-e2e-yarn-2-cra.ts"
   },
   "husky": {
