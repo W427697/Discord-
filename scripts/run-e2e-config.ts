@@ -1,7 +1,7 @@
 import { Parameters } from './run-e2e';
 
 const fromDeps = (...args: string[]): string =>
-  ['cd {{name}}-v{{version}}', 'yarn init --yes', args && `yarn add ${args.join(' ')}`]
+  ['cd {{name}}-v{{version}}', 'yarn init --yes', args.length && `yarn add ${args.join(' ')}`]
     .filter(Boolean)
     .join(' && ');
 
@@ -64,6 +64,7 @@ export const preact: Parameters = {
   version: 'latest',
   generator:
     'npx preact-cli@{{version}} create preactjs-templates/default {{name}}-v{{version}} --yarn --install=false --git=false',
+  ensureDir: false,
 };
 
 // export const rax: Parameters = {
@@ -90,11 +91,10 @@ export const cra: Parameters = {
   generator: 'npx create-react-app@{{version}} {{name}}-v{{version}}',
 };
 
-// no cli
 // export const riot: Parameters = {
 //   name: 'riot',
 //   version: 'latest',
-//   generator: '',
+//   generator: fromDeps('riot', 'riot-compiler', 'riot-tmpl'),
 // };
 
 // export const sfcVue: Parameters = {
