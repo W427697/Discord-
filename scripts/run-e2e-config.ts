@@ -9,6 +9,7 @@ export const angular: Parameters = {
   ].join(' && '),
 };
 
+// TODO: not working yet, help needed
 export const ember: Parameters = {
   name: 'ember',
   version: 'latest',
@@ -29,10 +30,13 @@ export const ember: Parameters = {
 //   generator: '',
 // };
 
+// TODO: not working on start-storybook
+// help needed
 // export const marko: Parameters = {
 //   name: 'marko',
 //   version: 'latest',
-//   generator: '',
+//   generator: 'npx marko-cli@{{version}} create {{name}}-v{{version}}',
+//   ensureDir: false,
 // };
 
 // export const meteor: Parameters = {
@@ -41,7 +45,7 @@ export const ember: Parameters = {
 //   generator: '',
 // };
 
-// export const mithrim: Parameters = {
+// export const mithril: Parameters = {
 //   name: 'mithril',
 //   version: 'latest',
 //   generator: '',
@@ -51,7 +55,7 @@ export const preact: Parameters = {
   name: 'preact',
   version: 'latest',
   generator:
-    'npx preact-cli create preactjs-templates/default {{name}}-v{{version}} --yarn --install=false --git=false --force',
+    'npx preact-cli create preactjs-templates/default {{name}}-v{{version}} --yarn --install=false --git=false',
 };
 
 // export const rax: Parameters = {

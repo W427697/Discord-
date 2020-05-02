@@ -17,6 +17,8 @@ export interface Parameters {
   generator: string;
   autoDetect?: boolean;
   preBuildCommand?: string;
+  /** When cli complains when folder already exists */
+  ensureDir?: boolean;
 }
 
 export interface Options extends Parameters {
@@ -30,7 +32,10 @@ interface Tasks {
 const rootDir = path.join(__dirname, '..');
 const siblingDir = path.join(__dirname, '..', '..', 'storybook-e2e-testing');
 
-const prepareDirectory = async (options: Options): Promise<boolean> => {
+const prepareDirectory = async ({
+  cwd,
+  ensureDir: ensureDirOption = true,
+}: Options): Promise<boolean> => {
   const siblingExists = await pathExists(siblingDir);
 
   if (!siblingExists) {
@@ -40,13 +45,15 @@ const prepareDirectory = async (options: Options): Promise<boolean> => {
     await writeFile(path.join(siblingDir, '.gitignore'), 'node_modules\n');
   }
 
-  const cwdExists = await pathExists(options.cwd);
+  const cwdExists = await pathExists(cwd);
 
   if (cwdExists) {
     return true;
   }
 
-  await ensureDir(options.cwd);
+  if (ensureDirOption) {
+    await ensureDir(cwd);
+  }
 
   return false;
 };
