@@ -1,5 +1,10 @@
 import { Parameters } from './run-e2e';
 
+const fromDeps = (...args: string[]): string =>
+  ['cd {{name}}-v{{version}}', 'yarn init --yes', args && `yarn add ${args.join(' ')}`]
+    .filter(Boolean)
+    .join(' && ');
+
 export const angular: Parameters = {
   name: 'angular',
   version: 'latest',
@@ -10,18 +15,18 @@ export const angular: Parameters = {
 };
 
 // TODO: not working yet, help needed
-export const ember: Parameters = {
-  name: 'ember',
-  version: 'latest',
-  generator:
-    'npx ember-cli@{{version}} new {{name}}-v{{version}} --skip-git --skip-npm --yarn --skip-bower',
-  preBuildCommand: 'ember build',
-};
+// export const ember: Parameters = {
+//   name: 'ember',
+//   version: 'latest',
+//   generator:
+//     'npx ember-cli@{{version}} new {{name}}-v{{version}} --skip-git --skip-npm --yarn --skip-bower',
+//   preBuildCommand: 'ember build',
+// };
 
 export const html: Parameters = {
   name: 'html',
   version: 'latest',
-  generator: ['cd {{name}}-v{{version}}', 'yarn init --yes'].join(' && '),
+  generator: fromDeps(),
   autoDetect: false,
 };
 
@@ -29,7 +34,7 @@ export const html: Parameters = {
 // export const marionette: Parameters = {
 //   name: 'marionette',
 //   version: 'latest',
-//   generator: ['cd {{name}}-v{{version}}', 'yarn init --yes', 'yarn add backbone.marionette@{{version}}'].join(' && '),
+//   generator: fromDeps('backbone.marionette@{{version}}'),
 // };
 
 // TODO: not working on start-storybook
@@ -51,9 +56,7 @@ export const html: Parameters = {
 export const mithril: Parameters = {
   name: 'mithril',
   version: 'latest',
-  generator: ['cd {{name}}-v{{version}}', 'yarn init --yes', 'yarn add mithril@{{version}}'].join(
-    ' && '
-  ),
+  generator: fromDeps('mithril@{{version}}'),
 };
 
 export const preact: Parameters = {
@@ -112,11 +115,12 @@ export const vue: Parameters = {
   generator: `npx @vue/cli@{{version}} create {{name}}-v{{version}} --default --packageManager=yarn --no-git --force`,
 };
 
-// export const webComponents: Parameters = {
-//   name: 'webComponents',
-//   version: 'latest',
-//   generator: '',
-// };
+export const web_components: Parameters = {
+  name: 'web_components',
+  version: 'latest',
+  generator: fromDeps('lit-html'),
+  autoDetect: false,
+};
 
 // export const webpackReact: Parameters = {
 //   name: 'webpackReact',
