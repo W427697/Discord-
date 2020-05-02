@@ -16,6 +16,7 @@ export interface Parameters {
   version: string;
   generator: string;
   autoDetect?: boolean;
+  preBuildCommand?: string;
 }
 
 export interface Options extends Parameters {
@@ -95,9 +96,12 @@ const addRequiredDeps = async ({ cwd }: Options) => {
   }
 };
 
-const buildStorybook = async ({ cwd }: Options) => {
+const buildStorybook = async ({ cwd, preBuildCommand }: Options) => {
   logger.info(`👷 Building Storybook`);
   try {
+    if (preBuildCommand) {
+      await exec(preBuildCommand, { cwd });
+    }
     await exec(`yarn build-storybook --quiet`, { cwd });
   } catch (e) {
     logger.error(`🚨 Storybook build failed`);

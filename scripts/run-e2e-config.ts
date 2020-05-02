@@ -13,7 +13,8 @@ export const ember: Parameters = {
   name: 'ember',
   version: 'latest',
   generator:
-    'npx ember-cli@{{version}} help new {{name}}-v{{version}} --skip-git --skip-npm --yarn --skip-bower',
+    'npx ember-cli@{{version}} new {{name}}-v{{version}} --skip-git --skip-npm --yarn --skip-bower',
+  preBuildCommand: 'ember build',
 };
 
 // export const html: Parameters = {
