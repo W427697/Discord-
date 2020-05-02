@@ -10,7 +10,7 @@ describe('Basic Flow', () => {
     cy.url().should('include', 'path=/story/welcome--to-storybook');
 
     // check for selected element
-    cy.get('#welcome--to-storybook').find('.selected').should('be.visible');
+    cy.get('#welcome--to-storybook').should('have.class', 'selected');
 
     // check for content
     cy.getStoryElement().should('contain.text', 'Welcome to storybook');
@@ -26,7 +26,7 @@ describe('Basic Flow', () => {
       cy.url().should('include', 'path=/story/button--text');
 
       // check for selected element
-      cy.get('#button--text').find('.selected').should('be.visible');
+      cy.get('#button--text').should('have.class', 'selected');
 
       // check for content
       cy.getStoryElement().find('button').should('contain.text', 'Hello Button');

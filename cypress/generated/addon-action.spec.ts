@@ -14,7 +14,7 @@ describe('addon-action', () => {
     cy.url().should('include', 'path=/story/button--with-some-emoji-and-action');
 
     // check for selected element
-    cy.get('#button--with-some-emoji-and-action').find('.selected').should('be.visible');
+    cy.get('#button--with-some-emoji-and-action').should('have.class', 'selected');
 
     // check for content
     cy.getStoryElement().find('button').click();
@@ -24,9 +24,8 @@ describe('addon-action', () => {
 
     // TODO @yannbf improve tab identifier on addons
     // get the logs
-    cy.get('#storybook-panel-root .simplebar-content')
-      .find('li')
-      .first()
-      .should('contain.text', 'This was clicked ');
+    cy.get('#storybook-panel-root')
+      .contains(/This was clicked/)
+      .should('be.visible');
   });
 });

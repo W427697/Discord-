@@ -14,7 +14,7 @@ describe('addon-link', () => {
     cy.url().should('include', 'path=/story/button--button-with-link-to-another-story');
 
     // check for selected element
-    cy.get('#button--button-with-link-to-another-story').find('.selected').should('be.visible');
+    cy.get('#button--button-with-link-to-another-story').should('have.class', 'selected');
 
     // check for content
     cy.getStoryElement().find('button').click();
