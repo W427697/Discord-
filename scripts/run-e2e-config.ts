@@ -46,11 +46,11 @@ export const ember: Parameters = {
 //   generator: 'meteor create {{name}}-v{{version}} --minimal --react',
 // };
 
-// export const mithril: Parameters = {
-//   name: 'mithril',
-//   version: 'latest',
-//   generator: '',
-// };
+export const mithril: Parameters = {
+  name: 'mithril',
+  version: 'latest',
+  generator: ['cd {{name}}-v{{version}}', 'yarn init --yes', 'yarn add mithril'].join(' && '),
+};
 
 export const preact: Parameters = {
   name: 'preact',
