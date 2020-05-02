@@ -39,10 +39,11 @@ export const ember: Parameters = {
 //   ensureDir: false,
 // };
 
+// TODO: need to install meteor first
 // export const meteor: Parameters = {
 //   name: 'meteor',
 //   version: 'latest',
-//   generator: '',
+//   generator: 'meteor create {{name}}-v{{version}} --minimal --react',
 // };
 
 // export const mithril: Parameters = {
@@ -99,7 +100,6 @@ export const svelte: Parameters = {
   name: 'svelte',
   version: 'latest',
   generator: 'npx degit sveltejs/template {{name}}-v{{version}}',
-  autoDetect: false,
 };
 
 export const vue: Parameters = {

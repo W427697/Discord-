@@ -15,7 +15,6 @@ export interface Parameters {
   name: string;
   version: string;
   generator: string;
-  autoDetect?: boolean;
   preBuildCommand?: string;
   /** When cli complains when folder already exists */
   ensureDir?: boolean;
@@ -76,11 +75,10 @@ const generate = async ({ cwd, name, version, generator }: Options) => {
   }
 };
 
-const initStorybook = async ({ cwd, autoDetect = true, name }: Options) => {
+const initStorybook = async ({ cwd, name }: Options) => {
   logger.info(`🎨 Initializing Storybook with @storybook/cli`);
   try {
-    const type = autoDetect ? '' : `--type ${name}`;
-    await exec(`npx -p @storybook/cli sb init --skip-install --yes ${type}`, { cwd });
+    await exec(`npx -p @storybook/cli sb init --skip-install --yes`, { cwd });
   } catch (e) {
     logger.error(`🚨 Storybook initialization failed`);
     throw e;
