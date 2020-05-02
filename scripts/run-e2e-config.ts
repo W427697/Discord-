@@ -18,16 +18,18 @@ export const ember: Parameters = {
   preBuildCommand: 'ember build',
 };
 
-// export const html: Parameters = {
-//   name: 'html',
-//   version: 'latest',
-//   generator: '',
-// };
+export const html: Parameters = {
+  name: 'html',
+  version: 'latest',
+  generator: ['cd {{name}}-v{{version}}', 'yarn init --yes'].join(' && '),
+  autoDetect: false,
+};
 
+// TODO: broken
 // export const marionette: Parameters = {
 //   name: 'marionette',
 //   version: 'latest',
-//   generator: '',
+//   generator: ['cd {{name}}-v{{version}}', 'yarn init --yes', 'yarn add backbone.marionette@{{version}}'].join(' && '),
 // };
 
 // TODO: not working on start-storybook
@@ -39,23 +41,26 @@ export const ember: Parameters = {
 //   ensureDir: false,
 // };
 
+// TODO: need to install meteor first
 // export const meteor: Parameters = {
 //   name: 'meteor',
 //   version: 'latest',
-//   generator: '',
+//   generator: 'meteor create {{name}}-v{{version}} --minimal --react',
 // };
 
 export const mithril: Parameters = {
   name: 'mithril',
   version: 'latest',
-  generator: ['cd {{name}}-v{{version}}', 'yarn init --yes', 'yarn add mithril'].join(' && '),
+  generator: ['cd {{name}}-v{{version}}', 'yarn init --yes', 'yarn add mithril@{{version}}'].join(
+    ' && '
+  ),
 };
 
 export const preact: Parameters = {
   name: 'preact',
   version: 'latest',
   generator:
-    'npx preact-cli create preactjs-templates/default {{name}}-v{{version}} --yarn --install=false --git=false',
+    'npx preact-cli@{{version}} create preactjs-templates/default {{name}}-v{{version}} --yarn --install=false --git=false',
 };
 
 // export const rax: Parameters = {
@@ -99,7 +104,6 @@ export const svelte: Parameters = {
   name: 'svelte',
   version: 'latest',
   generator: 'npx degit sveltejs/template {{name}}-v{{version}}',
-  autoDetect: false,
 };
 
 export const vue: Parameters = {
