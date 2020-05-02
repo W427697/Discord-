@@ -73,15 +73,16 @@ export const preact: Parameters = {
 // export const reactNative: Parameters = {
 //   name: 'reactNative',
 //   version: 'latest',
-//   generator: '',
+//   generator: 'npx expo-cli init {{name}}-v{{version}} --template=bare-minimum --yarn',
 // };
 
-// export const reactScripts: Parameters = {
-//   name: 'reactScripts',
-//   version: 'latest',
-//   generator: '',
-// };
+export const cra: Parameters = {
+  name: 'cra',
+  version: 'latest',
+  generator: 'npx create-react-app@{{version}} {{name}}-v{{version}}',
+};
 
+// no cli
 // export const riot: Parameters = {
 //   name: 'riot',
 //   version: 'latest',
