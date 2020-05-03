@@ -97,11 +97,11 @@ export const react: Parameters = {
 // };
 
 // TODO: issue in @storybook/cli init
-// export const cra: Parameters = {
-//   name: 'cra',
-//   version: 'latest',
-//   generator: 'npx create-react-app@{{version}} {{name}}-v{{version}}',
-// };
+export const cra: Parameters = {
+  name: 'cra',
+  version: 'latest',
+  generator: 'npx create-react-app@{{version}} {{name}}-v{{version}}',
+};
 
 // export const riot: Parameters = {
 //   name: 'riot',
