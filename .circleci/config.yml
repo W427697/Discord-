@@ -128,7 +128,7 @@ jobs:
           name: test local registry
           command: yarn info @storybook/core
       - run:
-          name: run angular e2e tests (version 9.1)
+          name: run e2e tests
           command: yarn test:e2e-framework
       - store_artifacts:
           path: /tmp/storybook/cypress
