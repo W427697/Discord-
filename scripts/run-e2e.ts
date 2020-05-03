@@ -4,6 +4,7 @@ import { remove, ensureDir, pathExists, writeFile } from 'fs-extra';
 import { prompt } from 'enquirer';
 import pLimit from 'p-limit';
 
+import shell from 'shelljs';
 import { serve } from './utils/serve';
 import { exec } from './utils/command';
 
@@ -63,6 +64,10 @@ const prepareDirectory = async ({
 const cleanDirectory = async ({ cwd }: Options): Promise<void> => {
   await remove(cwd);
   await remove(path.join(siblingDir, 'node_modules'));
+
+  // TODO: Move this somewhere else
+  //   Remove Yarn 2 specific stuffs generated
+  await shell.rm('-rf', [path.join(siblingDir, '.yarn'), path.join(siblingDir, '.yarnrc.yml')]);
 };
 
 const generate = async ({ cwd, name, version, generator }: Options) => {
@@ -93,11 +98,11 @@ const addRequiredDeps = async ({ cwd, additionalDeps }: Options) => {
   logger.info(`🌍 Adding needed deps & installing all deps`);
   try {
     if (additionalDeps && additionalDeps.length > 0) {
-      await exec(`yarn add -D ${additionalDeps.join(' ')}`, {
+      await exec(`yarn add -D ${additionalDeps.join(' ')} --silent`, {
         cwd,
       });
     } else {
-      await exec(`yarn install`, {
+      await exec(`yarn install --silent`, {
         cwd,
       });
     }
