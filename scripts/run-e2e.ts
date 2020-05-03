@@ -19,6 +19,8 @@ export interface Parameters {
   preBuildCommand?: string;
   /** When cli complains when folder already exists */
   ensureDir?: boolean;
+  /** Dependencies to add before building Storybook */
+  additionalDeps?: string[];
 }
 
 export interface Options extends Parameters {
@@ -87,16 +89,18 @@ const initStorybook = async ({ cwd, autoDetect = true, name }: Options) => {
   }
 };
 
-const addRequiredDeps = async ({ cwd }: Options) => {
+const addRequiredDeps = async ({ cwd, additionalDeps }: Options) => {
   logger.info(`🌍 Adding needed deps & installing all deps`);
   try {
-    // FIXME: Move `react` and `react-dom` deps to @storybook/angular
-    await exec(
-      `yarn add -D react react-dom --no-lockfile --non-interactive --silent --no-progress`,
-      {
+    if (additionalDeps && additionalDeps.length > 0) {
+      await exec(`yarn add -D ${additionalDeps.join(' ')}`, {
         cwd,
-      }
-    );
+      });
+    } else {
+      await exec(`yarn install`, {
+        cwd,
+      });
+    }
   } catch (e) {
     logger.error(`🚨 Dependencies installation failed`);
     throw e;

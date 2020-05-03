@@ -16,6 +16,7 @@ export const angular: Parameters = {
     `yarn add @angular/cli@{{version}} --no-lockfile --non-interactive --silent --no-progress`,
     `npx ng new {{name}}-v{{version}} --routing=true --minimal=true --style=scss --skipInstall=true`,
   ].join(' && '),
+  additionalDeps: ['react', 'react-dom'],
 };
 
 // TODO: not working yet, help needed
@@ -32,6 +33,7 @@ export const html: Parameters = {
   version: 'latest',
   generator: fromDeps(),
   autoDetect: false,
+  additionalDeps: ['react', 'react-dom'],
 };
 
 // TODO: broken
@@ -63,6 +65,7 @@ export const mithril: Parameters = {
   name: 'mithril',
   version: 'latest',
   generator: fromDeps('mithril@{{version}}'),
+  additionalDeps: ['react', 'react-dom'],
 };
 
 export const preact: Parameters = {
@@ -78,6 +81,7 @@ export const rax: Parameters = {
   version: 'latest',
   // Rax versions are inconsistent 1.1.0-1 for some
   generator: fromDeps('rax', 'rax-image', 'rax-link', 'rax-text', 'rax-view'),
+  additionalDeps: ['react', 'react-dom'],
 };
 
 export const react: Parameters = {
@@ -109,24 +113,28 @@ export const sfcVue: Parameters = {
   name: 'sfcVue',
   version: 'latest',
   generator: fromDeps('vue', 'vue-loader', 'babel-preset-vue', 'vue-template-compiler'),
+  additionalDeps: ['react', 'react-dom'],
 };
 
 export const svelte: Parameters = {
   name: 'svelte',
   version: 'latest',
   generator: 'npx degit sveltejs/template {{name}}-v{{version}}',
+  additionalDeps: ['react', 'react-dom'],
 };
 
 export const vue: Parameters = {
   name: 'vue',
   version: 'latest',
   generator: `npx @vue/cli@{{version}} create {{name}}-v{{version}} --default --packageManager=yarn --no-git --force`,
+  additionalDeps: ['react', 'react-dom'],
 };
 
 export const web_components: Parameters = {
   name: 'web_components',
   version: 'latest',
   generator: fromDeps('lit-html', 'lit-element'),
+  additionalDeps: ['react', 'react-dom'],
 };
 
 export const webpackReact: Parameters = {
