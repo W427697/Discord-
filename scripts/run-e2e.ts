@@ -234,6 +234,9 @@ if (frameworkArgs.length > 0) {
   }
 } else {
   e2eConfigs = typedConfigs;
+  // FIXME: For now Yarn 2 E2E tests must be run by explicitly call `yarn test:e2e-framework yarn2Cra@latest`
+  //   Because it is telling Yarn to use version 2
+  delete e2eConfigs.yarn2Cra;
 }
 
 const perform = () => {

@@ -143,7 +143,6 @@ export const webpackReact: Parameters = {
   generator: fromDeps('react', 'webpack'),
 };
 
-// Yarn 2 Tests MUST stay the last for now as it is telling Yarn to use version 2
 export const yarn2Cra: Parameters = {
   name: 'yarn-2-cra',
   version: 'latest',
