@@ -71,17 +71,18 @@ export const preact: Parameters = {
   ensureDir: false,
 };
 
-// export const rax: Parameters = {
-//   name: 'rax',
-//   version: 'latest',
-//   generator: '',
-// };
+export const rax: Parameters = {
+  name: 'rax',
+  version: 'latest',
+  // Rax versions are inconsistent 1.1.0-1 for some
+  generator: fromDeps('rax', 'rax-image', 'rax-link', 'rax-text', 'rax-view'),
+};
 
-// export const react: Parameters = {
-//   name: 'react',
-//   version: 'latest',
-//   generator: '',
-// };
+export const react: Parameters = {
+  name: 'react',
+  version: 'latest',
+  generator: fromDeps('react'),
+};
 
 // export const reactNative: Parameters = {
 //   name: 'reactNative',
@@ -89,11 +90,12 @@ export const preact: Parameters = {
 //   generator: 'npx expo-cli init {{name}}-v{{version}} --template=bare-minimum --yarn',
 // };
 
-export const cra: Parameters = {
-  name: 'cra',
-  version: 'latest',
-  generator: 'npx create-react-app@{{version}} {{name}}-v{{version}}',
-};
+// TODO: issue in @storybook/cli init
+// export const cra: Parameters = {
+//   name: 'cra',
+//   version: 'latest',
+//   generator: 'npx create-react-app@{{version}} {{name}}-v{{version}}',
+// };
 
 // export const riot: Parameters = {
 //   name: 'riot',
@@ -101,11 +103,11 @@ export const cra: Parameters = {
 //   generator: fromDeps('riot', 'riot-compiler', 'riot-tmpl'),
 // };
 
-// export const sfcVue: Parameters = {
-//   name: 'sfcVue',
-//   version: 'latest',
-//   generator: '',
-// };
+export const sfcVue: Parameters = {
+  name: 'sfcVue',
+  version: 'latest',
+  generator: fromDeps('vue-loader'),
+};
 
 export const svelte: Parameters = {
   name: 'svelte',
@@ -122,12 +124,11 @@ export const vue: Parameters = {
 export const web_components: Parameters = {
   name: 'web_components',
   version: 'latest',
-  generator: fromDeps('lit-html'),
-  autoDetect: false,
+  generator: fromDeps('lit-html', 'lit-element'),
 };
 
 export const webpackReact: Parameters = {
   name: 'webpackReact',
   version: 'latest',
-  generator: fromDeps('react', 'react-dom'),
+  generator: fromDeps('react', 'webpack'),
 };
