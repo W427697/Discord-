@@ -42,7 +42,9 @@ export const html: Parameters = {
 // };
 
 // TODO: not working on start-storybook
-// help needed
+//  - Marko CLI is failing with Node 12 and looks to work with Node 10
+//  - Demo components of @storybook/marko must be updated
+//  - Marko Story templates of @storybook/cli must be updated
 // export const marko: Parameters = {
 //   name: 'marko',
 //   version: 'latest',
