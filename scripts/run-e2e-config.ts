@@ -1,7 +1,11 @@
 import { Parameters } from './run-e2e';
 
 const fromDeps = (...args: string[]): string =>
-  ['cd {{name}}-v{{version}}', 'yarn init --yes', args.length && `yarn add ${args.join(' ')}`]
+  [
+    'cd {{name}}-v{{version}}',
+    'yarn init --yes',
+    args.length && `yarn add ${args.join(' ')} --silent`,
+  ]
     .filter(Boolean)
     .join(' && ');
 
@@ -122,8 +126,8 @@ export const web_components: Parameters = {
   autoDetect: false,
 };
 
-// export const webpackReact: Parameters = {
-//   name: 'webpackReact',
-//   version: 'latest',
-//   generator: '',
-// };
+export const webpackReact: Parameters = {
+  name: 'webpackReact',
+  version: 'latest',
+  generator: fromDeps('react', 'react-dom'),
+};
