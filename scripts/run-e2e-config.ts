@@ -106,7 +106,7 @@ export const react: Parameters = {
 export const sfcVue: Parameters = {
   name: 'sfcVue',
   version: 'latest',
-  generator: fromDeps('vue-loader'),
+  generator: fromDeps('vue', 'vue-loader', 'babel-preset-vue', 'vue-template-compiler'),
 };
 
 export const svelte: Parameters = {
