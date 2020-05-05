@@ -1,8 +1,9 @@
 import React from 'react';
 import { DocgenButton } from '../../components/DocgenButton';
 
-const ForwardedButton = React.forwardRef((props = { label: '' }, ref) => (
-  <DocgenButton ref={ref} {...props} />
+// eslint-disable-next-line react/prop-types
+const ForwardedButton = React.forwardRef(({ label = '', ...props }, ref) => (
+  <DocgenButton ref={ref} label={label} {...props} />
 ));
 
 export default {
