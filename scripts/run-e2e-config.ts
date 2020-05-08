@@ -151,19 +151,3 @@ export const yarn2Cra: Parameters = {
     `yarn dlx create-react-app@{{version}} {{name}}-v{{version}}`,
   ].join(' && '),
 };
-
-export const frameworkConfigs: Record<string, Parameters> = {
-  angular,
-  cra,
-  html,
-  mithril,
-  preact,
-  rax,
-  react,
-  sfcVue,
-  svelte,
-  vue,
-  web_components,
-  webpackReact,
-  yarn2Cra,
-};
