@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@packtracker/webpack-plugin": "^2.0.1",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.2.0",
     "@storybook/addon-a11y": "6.0.0-beta.4",
     "@storybook/addon-actions": "6.0.0-beta.4",
     "@storybook/addon-backgrounds": "6.0.0-beta.4",
@@ -55,6 +56,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
+    "react-refresh": "^0.8.2",
     "terser-webpack-plugin": "^3.0.0",
     "ts-loader": "^6.0.0",
     "uuid": "^8.0.0",

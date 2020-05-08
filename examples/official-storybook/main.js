@@ -1,3 +1,5 @@
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
 module.exports = {
   stories: [
     // FIXME: Breaks e2e tests './intro.stories.mdx',
@@ -61,6 +63,7 @@ module.exports = {
                     'babel-plugin-react-docgen',
                     { DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES' },
                   ],
+                  require.resolve('react-refresh/babel'),
                 ],
               },
             },
@@ -69,6 +72,7 @@ module.exports = {
         },
       ],
     },
+    plugins: [...config.plugins, new ReactRefreshWebpackPlugin()],
     resolve: {
       ...config.resolve,
       extensions: [...(config.resolve.extensions || []), '.ts', '.tsx'],
