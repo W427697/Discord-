@@ -196,13 +196,6 @@ const runTests = async ({ name, version, ...rest }: Parameters) => {
 // Run tests!
 const runE2E = (parameters: Parameters) =>
   runTests(parameters)
-    .catch((e) => {
-      logger.error(`🛑 an error occurred:\n${e}`);
-      logger.log();
-      logger.error(e);
-      logger.log();
-      process.exitCode = 1;
-    })
     .then(async () => {
       if (!process.env.CI) {
         const { name, version } = parameters;
@@ -223,6 +216,13 @@ const runE2E = (parameters: Parameters) =>
           logger.info(`🚯 No cleanup happened: ${cwd}`);
         }
       }
+    })
+    .catch((e) => {
+      logger.error(`🛑 an error occurred:\n${e}`);
+      logger.log();
+      logger.error(e);
+      logger.log();
+      process.exitCode = 1;
     });
 
 const frameworkArgs = process.argv.slice(2);
