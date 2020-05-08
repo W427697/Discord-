@@ -109,7 +109,7 @@ jobs:
         environment:
           TERM: xterm
     working_directory: /tmp/storybook
-    # parallelism: 10
+    parallelism: 4
     steps:
       - checkout
       - attach_workspace:
