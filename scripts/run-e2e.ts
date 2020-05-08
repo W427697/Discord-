@@ -8,7 +8,7 @@ import shell from 'shelljs';
 import { serve } from './utils/serve';
 import { exec } from './utils/command';
 
-import * as configs from './run-e2e-config';
+import { frameworkConfigs } from './run-e2e-config';
 
 const logger = console;
 
@@ -226,19 +226,18 @@ const runE2E = (parameters: Parameters) =>
     });
 
 const frameworkArgs = process.argv.slice(2);
-const typedConfigs: { [key: string]: Parameters } = configs;
-let e2eConfigs: { [key: string]: Parameters } = {};
+let e2eConfigs: Record<string, Parameters> = {};
 
 if (frameworkArgs.length > 0) {
   // eslint-disable-next-line no-restricted-syntax
   for (const [framework, version = 'latest'] of frameworkArgs.map((arg) => arg.split('@'))) {
     e2eConfigs[framework] = {
-      ...typedConfigs[framework],
+      ...frameworkConfigs[framework],
       version,
     };
   }
 } else {
-  e2eConfigs = typedConfigs;
+  e2eConfigs = frameworkConfigs;
   // FIXME: For now Yarn 2 E2E tests must be run by explicitly call `yarn test:e2e-framework yarn2Cra@latest`
   //   Because it is telling Yarn to use version 2
   delete e2eConfigs.yarn2Cra;
