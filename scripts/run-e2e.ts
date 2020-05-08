@@ -137,7 +137,7 @@ const runCypress = async ({ name, version }: Options, location: string, open: bo
   logger.info(`🤖 Running Cypress tests`);
   try {
     await exec(
-      `yarn cypress ${cypressCommand} --config integrationFolder="cypress/generated" --env location="${location}"`,
+      `yarn cypress ${cypressCommand} --config integrationFolder="cypress/generated" --env location="${location}" --reporter junit --reporter-options "mochaFile=results/${name}@${version}.xml"`,
       { cwd: rootDir }
     );
     logger.info(`✅ E2E tests success`);
@@ -252,6 +252,9 @@ const perform = () => {
   const offset = step * a;
 
   const list = narrowedConfigs.slice().splice(offset, step);
+
+  logger.info(`📑 Assigning jobs ${list} to node ${a} (on ${b})`);
+
   return Promise.all(list.map((config) => limit(() => runE2E(config))));
 };
 
