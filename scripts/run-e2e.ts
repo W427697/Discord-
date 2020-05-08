@@ -246,7 +246,13 @@ if (frameworkArgs.length > 0) {
 
 const perform = () => {
   const limit = pLimit(1);
-  return Promise.all(Object.values(e2eConfigs).map((config) => limit(() => runE2E(config))));
+  const narrowedConfigs = Object.values(e2eConfigs);
+  const [a, b] = [+process.env.CIRCLE_NODE_INDEX || 0, +process.env.CIRCLE_NODE_TOTAL || 1];
+  const step = Math.ceil(narrowedConfigs.length / b);
+  const offset = step * a;
+
+  const list = narrowedConfigs.slice().splice(offset, step);
+  return Promise.all(list.map((config) => limit(() => runE2E(config))));
 };
 
 perform().then(() => {
