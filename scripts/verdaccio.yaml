@@ -36,7 +36,7 @@ packages:
     publish: $all
     proxy: npmjs
   # preset dependencies
-  '@storybook/node-logger@5.3.x':
+  '@storybook/node-logger':
     access: $all
     publish: $all
     proxy: npmjs
