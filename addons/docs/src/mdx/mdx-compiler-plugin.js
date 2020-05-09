@@ -14,14 +14,14 @@ const META_REGEX = /^<Meta[\s>]/;
 const RESERVED = /^(?:do|if|in|for|let|new|try|var|case|else|enum|eval|false|null|this|true|void|with|await|break|catch|class|const|super|throw|while|yield|delete|export|import|public|return|static|switch|typeof|default|extends|finally|package|private|continue|debugger|function|arguments|interface|protected|implements|instanceof)$/;
 
 function getAttr(elt, what) {
-  const attr = elt.attributes.find(n => n.name.name === what);
+  const attr = elt.attributes.find((n) => n.name.name === what);
   return attr && attr.value;
 }
 
-const isReserved = name => RESERVED.exec(name);
-const startsWithNumber = name => /^\d/.exec(name);
+const isReserved = (name) => RESERVED.exec(name);
+const startsWithNumber = (name) => /^\d/.exec(name);
 
-const sanitizeName = name => {
+const sanitizeName = (name) => {
   let key = camelCase(name);
   if (startsWithNumber(key)) {
     key = `_${key}`;
@@ -32,6 +32,15 @@ const sanitizeName = name => {
 };
 
 const getStoryKey = (name, counter) => (name ? sanitizeName(name) : `story${counter}`);
+
+function genAttribute(key, element) {
+  const value = getAttr(element, key);
+  if (value && value.expression) {
+    const { code } = generate(value.expression, {});
+    return code;
+  }
+  return undefined;
+}
 
 function genStoryExport(ast, context) {
   let storyName = getAttr(ast.openingElement, 'name');
@@ -53,37 +62,44 @@ function genStoryExport(ast, context) {
   const statements = [];
   const storyKey = getStoryKey(storyName, context.counter);
 
-  let body = ast.children.find(n => n.type !== 'JSXText');
+  const bodyNodes = ast.children.filter((n) => n.type !== 'JSXText');
   let storyCode = null;
-
-  if (!body) {
+  let storyVal = null;
+  if (!bodyNodes.length) {
     // plain text node
     const { code } = generate(ast.children[0], {});
     storyCode = `'${code}'`;
+    storyVal = `() => (
+      ${storyCode}
+    )`;
   } else {
-    if (body.type === 'JSXExpressionContainer') {
-      // FIXME: handle fragments
-      body = body.expression;
+    const bodyParts = bodyNodes.map((bodyNode) => {
+      const body = bodyNode.type === 'JSXExpressionContainer' ? bodyNode.expression : bodyNode;
+      const { code } = generate(body, {});
+      return { code, body };
+    });
+    // if we have more than two children
+    // 1. Add line breaks
+    // 2. Enclose in <> ... </>
+    storyCode = bodyParts.map(({ code }) => code).join('\n');
+    const storyReactCode = bodyParts.length > 1 ? `<>\n${storyCode}\n</>` : storyCode;
+    // keep track if an indentifier or function call
+    // avoid breaking change for 5.3
+    switch (bodyParts.length === 1 && bodyParts[0].body.type) {
+      // We don't know what type the identifier is, but this code
+      // assumes it's a function from CSF. Let's see who complains!
+      case 'Identifier':
+        storyVal = `assertIsFn(${storyCode})`;
+        break;
+      case 'ArrowFunctionExpression':
+        storyVal = `(${storyCode})`;
+        break;
+      default:
+        storyVal = `() => (
+          ${storyReactCode}
+        )`;
+        break;
     }
-    const { code } = generate(body, {});
-    storyCode = code;
-  }
-
-  let storyVal = null;
-  switch (body && body.type) {
-    // We don't know what type the identifier is, but this code
-    // assumes it's a function from CSF. Let's see who complains!
-    case 'Identifier':
-      storyVal = `assertIsFn(${storyCode})`;
-      break;
-    case 'ArrowFunctionExpression':
-      storyVal = `(${storyCode})`;
-      break;
-    default:
-      storyVal = `() => (
-        ${storyCode}
-      )`;
-      break;
   }
 
   statements.push(`export const ${storyKey} = ${storyVal};`);
@@ -91,6 +107,12 @@ function genStoryExport(ast, context) {
 
   // always preserve the name, since CSF exports can get modified by displayName
   statements.push(`${storyKey}.story.name = '${storyName}';`);
+
+  const argTypes = genAttribute('argTypes', ast.openingElement);
+  if (argTypes) statements.push(`${storyKey}.story.argTypes = ${argTypes};`);
+
+  const args = genAttribute('args', ast.openingElement);
+  if (args) statements.push(`${storyKey}.story.args = ${args};`);
 
   let parameters = getAttr(ast.openingElement, 'parameters');
   parameters = parameters && parameters.expression;
@@ -142,8 +164,6 @@ function genPreviewExports(ast, context, sources = []) {
 function genMeta(ast, options) {
   let title = getAttr(ast.openingElement, 'title');
   let id = getAttr(ast.openingElement, 'id');
-  let parameters = getAttr(ast.openingElement, 'parameters');
-  let decorators = getAttr(ast.openingElement, 'decorators');
   if (title) {
     if (title.type === 'StringLiteral') {
       title = "'".concat(jsStringEscape(title.value), "'");
@@ -162,19 +182,22 @@ function genMeta(ast, options) {
     }
   }
   id = id && `'${id.value}'`;
-  if (parameters && parameters.expression) {
-    const { code: params } = generate(parameters.expression, {});
-    parameters = params;
-  }
-  if (decorators && decorators.expression) {
-    const { code: decos } = generate(decorators.expression, {});
-    decorators = decos;
-  }
+  const parameters = genAttribute('parameters', ast.openingElement);
+  const decorators = genAttribute('decorators', ast.openingElement);
+  const component = genAttribute('component', ast.openingElement);
+  const subcomponents = genAttribute('subcomponents', ast.openingElement);
+  const args = genAttribute('args', ast.openingElement);
+  const argTypes = genAttribute('argTypes', ast.openingElement);
+
   return {
     title,
     id,
     parameters,
     decorators,
+    component,
+    subcomponents,
+    args,
+    argTypes,
   };
 }
 
@@ -225,18 +248,18 @@ function stringifyMeta(meta) {
   return result;
 }
 
-const hasStoryChild = node => {
+const hasStoryChild = (node) => {
   if (node.openingElement && node.openingElement.name.name === 'Story') {
     return node;
   }
   if (node.children && node.children.length > 0) {
-    return node.children.find(child => hasStoryChild(child));
+    return node.children.find((child) => hasStoryChild(child));
   }
   return null;
 };
 
 function extractExports(node, options) {
-  node.children.forEach(child => {
+  node.children.forEach((child) => {
     if (child.type === 'jsx') {
       const vueSfc = transformSfc(child.value);
       if (vueSfc) {
@@ -266,7 +289,7 @@ function extractExports(node, options) {
               value: encodeURI(
                 ast.children
                   .map(
-                    el =>
+                    (el) =>
                       generate(el, {
                         quotes: 'double',
                       }).code
@@ -304,7 +327,7 @@ function extractExports(node, options) {
     counter: 0,
     storyNameToKey: {},
   };
-  node.children.forEach(n => {
+  node.children.forEach((n) => {
     const exports = getExports(n, context, options);
     if (exports) {
       const { stories, meta } = exports;
@@ -348,7 +371,7 @@ function extractExports(node, options) {
 
 function createCompiler(mdxOptions) {
   return function compiler(options = {}) {
-    this.Compiler = tree => extractExports(tree, options, mdxOptions);
+    this.Compiler = (tree) => extractExports(tree, options, mdxOptions);
   };
 }
 

@@ -1,9 +1,7 @@
 import { Parser } from 'acorn';
-// @ts-ignore
 import jsx from 'acorn-jsx';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import estree from 'estree';
-// @ts-ignore
 import * as acornWalk from 'acorn-walk';
 import {
   InspectionType,
@@ -37,7 +35,7 @@ function extractIdentifierName(identifierNode: any) {
 }
 
 function filterAncestors(ancestors: estree.Node[]): estree.Node[] {
-  return ancestors.filter(x => x.type === 'ObjectExpression' || x.type === 'ArrayExpression');
+  return ancestors.filter((x) => x.type === 'ObjectExpression' || x.type === 'ArrayExpression');
 }
 
 function calculateNodeDepth(node: estree.Expression): number {

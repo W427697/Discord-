@@ -5,10 +5,13 @@ import '../demo-wc-card.js';
 export default {
   title: 'Addons/Backgrounds',
   parameters: {
-    backgrounds: [
-      { name: 'light', value: '#eeeeee' },
-      { name: 'dark', value: '#222222', default: true },
-    ],
+    backgrounds: {
+      default: 'dark',
+      values: [
+        { name: 'light', value: '#eeeeee' },
+        { name: 'dark', value: '#222222' },
+      ],
+    },
   },
 };
 
@@ -17,7 +20,5 @@ export const Story1 = () => html`
 `;
 Story1.story = { name: 'story 1' };
 
-export const Story2 = () => html`
-  <demo-wc-card back-side>This one too!</demo-wc-card>
-`;
+export const Story2 = () => html` <demo-wc-card back-side>This one too!</demo-wc-card> `;
 Story2.story = { name: 'story 2' };
