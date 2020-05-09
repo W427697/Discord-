@@ -3,7 +3,6 @@ import deepEqual from 'fast-deep-equal';
 import { Form } from '../form';
 import { ControlProps, ObjectValue, ObjectConfig } from './types';
 import { ArgType } from '../blocks';
-import _ from 'lodash';
 
 const format = (value: any) => (value ? JSON.stringify(value) : '');
 
