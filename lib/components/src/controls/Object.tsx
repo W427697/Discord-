@@ -3,6 +3,7 @@ import deepEqual from 'fast-deep-equal';
 import { Form } from '../form';
 import { ControlProps, ObjectValue, ObjectConfig } from './types';
 import { ArgType } from '../blocks';
+import _ from 'lodash';
 
 const format = (value: any) => (value ? JSON.stringify(value) : '');
 
@@ -22,6 +23,14 @@ export type ObjectProps = ControlProps<ObjectValue> & ObjectConfig;
 export const ObjectControl: FC<ObjectProps> = ({ name, argType, value, onChange }) => {
   const [valid, setValid] = useState(true);
   const [text, setText] = useState(format(value));
+
+  let prettyText;
+  try {
+    const jsonText = JSON.parse(text);
+    prettyText = JSON.stringify(jsonText, null, 2);
+  } catch (error) {
+    prettyText = text;
+  }
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -44,7 +53,7 @@ export const ObjectControl: FC<ObjectProps> = ({ name, argType, value, onChange 
     <Form.Textarea
       name={name}
       valid={valid ? undefined : 'error'}
-      value={text}
+      value={prettyText}
       onChange={handleChange}
       size="flex"
     />
