@@ -1,6 +1,6 @@
 import React, { FC, useCallback } from 'react';
 import { Args, ArgType } from './types';
-import _ from 'lodash';
+import debounce from 'lodash/debounce';
 import {
   ArrayControl,
   BooleanControl,
@@ -22,7 +22,7 @@ export interface ArgControlProps {
 export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
   const { name, control } = row;
   const onChange = useCallback(
-    _.debounce(
+    debounce(
       (argName: string, argVal: any) => {
         updateArgs({ [name]: argVal });
         return argVal;
