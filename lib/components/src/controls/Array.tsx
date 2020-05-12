@@ -12,14 +12,6 @@ const format = (value: ArrayValue, separator: string) => {
 
 export type ArrayProps = ControlProps<ArrayValue> & ArrayConfig;
 export const ArrayControl: FC<ArrayProps> = ({ name, value, onChange, separator = ',' }) => {
-  const text = format(value, separator);
-  let prettyText;
-  try {
-    const jsonText = JSON.parse(text);
-    prettyText = JSON.stringify(jsonText, null, 2);
-  } catch (error) {
-    prettyText = text;
-  }
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLTextAreaElement>): void => {
       const { value: newVal } = e.target;
@@ -32,7 +24,7 @@ export const ArrayControl: FC<ArrayProps> = ({ name, value, onChange, separator 
     <Form.Textarea
       id={name}
       name={name}
-      value={prettyText}
+      value={format(value, separator)}
       onChange={handleChange}
       size="flex"
     />

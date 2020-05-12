@@ -4,7 +4,7 @@ import { Form } from '../form';
 import { ControlProps, ObjectValue, ObjectConfig } from './types';
 import { ArgType } from '../blocks';
 
-const format = (value: any) => (value ? JSON.stringify(value) : '');
+const format = (value: any) => (value ? JSON.stringify(value, null, 2) : '');
 
 const parse = (value: string) => {
   const trimmed = value && value.trim();
@@ -22,14 +22,6 @@ export type ObjectProps = ControlProps<ObjectValue> & ObjectConfig;
 export const ObjectControl: FC<ObjectProps> = ({ name, argType, value, onChange }) => {
   const [valid, setValid] = useState(true);
   const [text, setText] = useState(format(value));
-
-  let prettyText;
-  try {
-    const jsonText = JSON.parse(text);
-    prettyText = JSON.stringify(jsonText, null, 2);
-  } catch (error) {
-    prettyText = text;
-  }
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -52,7 +44,7 @@ export const ObjectControl: FC<ObjectProps> = ({ name, argType, value, onChange 
     <Form.Textarea
       name={name}
       valid={valid ? undefined : 'error'}
-      value={prettyText}
+      value={text}
       onChange={handleChange}
       size="flex"
     />
