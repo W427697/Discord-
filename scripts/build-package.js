@@ -143,7 +143,7 @@ function run() {
 
         if (watchMode) {
           const runWatchMode = () => {
-            spawn(`lerna run prepare --parallel --scope "${glob}" -- --watch`);
+            spawn(`lerna run prepare --stream --scope "${glob}" -- --watch`);
           };
 
           if (packageNames.length < 5) {
@@ -165,7 +165,7 @@ function run() {
               });
           }
         } else {
-          spawn(`lerna run prepare --parallel --no-prefix --scope "${glob}"`);
+          spawn(`lerna run prepare --stream --no-prefix --scope "${glob}"`);
         }
         process.stdout.write('\x07');
       }

@@ -94,7 +94,7 @@ function run() {
       option: '--build',
       command: () => {
         log.info(prefix, 'prepare');
-        spawn('lerna run prepare --parallel --no-prefix');
+        spawn('lerna run prepare --stream');
       },
       order: 2,
     }),

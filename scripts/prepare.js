@@ -150,7 +150,7 @@ const run = async (options) => {
 
 const isWatchingEnabled = !!process.argv.find((a) => a === '--watch');
 
-run({ watch: isWatchingEnabled }).catch((e) => {
+run({ watch: isWatchingEnabled, silent: false }).catch((e) => {
   console.error(e);
   process.exitCode = 1;
   // throw e;
