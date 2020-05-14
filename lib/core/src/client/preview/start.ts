@@ -7,7 +7,7 @@ import Events from '@storybook/core-events';
 
 import { initializePath, setPath } from './url';
 import { RenderStoryFunction } from './types';
-import { makeConfigure } from './makeConfigure';
+import { loadCsf } from './loadCsf';
 import { StoryRenderer } from './StoryRenderer';
 
 const isBrowser =
@@ -65,15 +65,19 @@ export default function start(
 
   // Only try and do URL/event based stuff in a browser context (i.e. not in storyshots)
   if (isBrowser) {
-    // Initialize the story store with the selection in the URL
-    const { storyId, viewMode } = initializePath(storyStore);
+    const afterStoriesSet = () => {
+      // Initialize the story store with the selection in the URL
+      const { storyId, viewMode } = initializePath(storyStore);
 
-    if (storyId !== '*') {
-      storyStore.setSelection({ storyId, viewMode });
+      if (storyId !== '*') {
+        storyStore.setSelection({ storyId, viewMode });
 
-      // Keep the URL updated based on the current story
-      channel.on(Events.CURRENT_STORY_WAS_SET, setPath);
-    }
+        // Keep the URL updated based on the current story
+        channel.on(Events.CURRENT_STORY_WAS_SET, setPath);
+      }
+    };
+
+    channel.once(Events.SET_STORIES, afterStoriesSet);
 
     // Handle keyboard shortcuts
     window.onkeydown = (event: KeyboardEvent) => {
@@ -93,6 +97,12 @@ export default function start(
     window.__STORYBOOK_ADDONS_CHANNEL__ = channel; // may not be defined
   }
 
-  const configure = makeConfigure({ clientApi, storyStore, configApi });
-  return { configure, clientApi, configApi, forceReRender: () => storyRenderer.forceReRender() };
+  const configure = loadCsf({ clientApi, storyStore, configApi });
+  return {
+    configure,
+    clientApi,
+    configApi,
+    channel,
+    forceReRender: () => storyRenderer.forceReRender(),
+  };
 }

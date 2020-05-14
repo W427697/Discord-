@@ -126,7 +126,6 @@ It can be immensely helpful to get feedback in your editor, if you're using VsCo
 "eslint.alwaysShowStatus": true
 ```
 
-
 This should enable auto-fix for all source files, and give linting warnings and errors within your editor.
 
 ### 2d. Run Cypress tests
@@ -140,7 +139,6 @@ Then run `yarn serve-storybooks`, this will run the static site on the port cypr
 Then run `yarn add cypress -W --optional`. When this has completed cypress should be installed on your system. If it is already on your system, this step can be skipped.
 
 Then run `yarn cypress open` if you want to see the tests run in the UI, or `yarn cypress run` to run the tests headless.
-
 
 ### Reproductions
 
@@ -225,6 +223,8 @@ Before you submit a new PR, make sure you run `yarn test`. Do not submit a PR if
 
 **As a PR submitter**, you should reference the issue if there is one, include a short description of what you contributed and, if it is a code change, instructions for how to manually test out the change. This is informally enforced by our [PR template](https://github.com/storybookjs/storybook/blob/master/.github/PULL_REQUEST_TEMPLATE.md). If your PR is reviewed as only needing trivial changes (e.g. small typos etc), and you have commit access then you can merge the PR after making those changes.
 
+> NOTE: Although the latest stable version of storybook corresponds to the `master` branch, nearly all Storybook development happens in the `next` branch. If you submit a PR, branch off `next` and target your PR to `next`.
+
 **As a PR reviewer**, you should read through the changes and comment on any potential problems. If you see something cool, a kind word never hurts either! Additionally, you should follow the testing instructions and manually test the changes. If the instructions are missing, unclear, or overly complex, feel free to request better instructions from the submitter. Unless the PR is tagged with the `do not merge` label, if you approve the review and there is no other required discussion or changes, you should also go ahead and merge the PR.
 
 ## Issue Triage
@@ -294,6 +294,17 @@ _This method is slow_
 1.  `yarn bootstrap --all`
 2.  Take a break 🍵
 3.  `yarn test` (to verify everything worked)
+
+#### Building specific packages
+
+If you're working on one or a few packages, for every change that you make, you have to rebuild those packages. To make the process easier, there is a CLI command for that:
+
+- Run `yarn build` to bring you a list of packages to select from. There will be also an option to run in watch mode.
+- Run `yarn build <package-name>` to build that package specifically. \
+  For the package name, use its short version. Example: for `@storybook/addon-docs`, run `yarn build addon-docs`.
+- Run `yarn build --all` to build everything.
+- Add `--watch` to run automatically in watch more if you are either building a selection of packages by name or building all.
+  Example: `yarn build core addon-docs --watch` or `yarn build --all --watch`.
 
 ### Working with the kitchen sink apps
 

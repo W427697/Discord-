@@ -26,6 +26,8 @@ module.exports = {
         '/guides/guide-ember/',
         '/guides/guide-riot/',
         '/guides/guide-svelte/',
+        '/guides/guide-preact/',
+        '/guides/guide-web-components/',
       ],
       configurations: [
         '/configurations/overview/',

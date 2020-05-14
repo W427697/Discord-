@@ -1,17 +1,20 @@
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import { sanitize, parseKind } from '@storybook/csf';
+import { mapValues } from 'lodash';
 
-import { Args } from '../index';
+import { StoryId, StoryKind, Args, Parameters, combineParameters } from '../index';
 import merge from './merge';
-import { Provider } from '../init-provider-api';
+import { Provider } from '../modules/provider';
+import { ViewMode } from '../modules/addons';
 
-export type StoryId = string;
+export { StoryId };
 
 export interface Root {
   id: StoryId;
   depth: 0;
   name: string;
+  refId?: string;
   children: StoryId[];
   isComponent: false;
   isRoot: true;
@@ -28,6 +31,7 @@ export interface Group {
   depth: number;
   name: string;
   children: StoryId[];
+  refId?: string;
   parent?: StoryId;
   isComponent: boolean;
   isRoot: false;
@@ -35,7 +39,8 @@ export interface Group {
   // MDX stories are "Group" type
   parameters?: {
     docsOnly?: boolean;
-    [k: string]: any;
+    viewMode?: ViewMode;
+    [parameterName: string]: any;
   };
 }
 
@@ -44,7 +49,8 @@ export interface Story {
   depth: number;
   parent: StoryId;
   name: string;
-  kind: string;
+  kind: StoryKind;
+  refId?: string;
   children?: StoryId[];
   isComponent: boolean;
   isRoot: false;
@@ -55,10 +61,11 @@ export interface Story {
       hierarchyRootSeparator?: RegExp;
       hierarchySeparator?: RegExp;
       showRoots?: boolean;
-      [k: string]: any;
+      [optionName: string]: any;
     };
     docsOnly?: boolean;
-    [k: string]: any;
+    viewMode?: ViewMode;
+    [parameterName: string]: any;
   };
   args: Args;
 }
@@ -66,7 +73,8 @@ export interface Story {
 export interface StoryInput {
   id: StoryId;
   name: string;
-  kind: string;
+  refId?: string;
+  kind: StoryKind;
   children: string[];
   parameters: {
     fileName: string;
@@ -74,12 +82,14 @@ export interface StoryInput {
       hierarchyRootSeparator: RegExp;
       hierarchySeparator: RegExp;
       showRoots?: boolean;
-      [key: string]: any;
+      [optionName: string]: any;
     };
     docsOnly?: boolean;
+    viewMode?: ViewMode;
     [parameterName: string]: any;
   };
   isLeaf: boolean;
+  args: Args;
 }
 
 export interface StoriesHash {
@@ -92,6 +102,20 @@ export type GroupsList = (Root | Group)[];
 
 export interface StoriesRaw {
   [id: string]: StoryInput;
+}
+
+export interface SetStoriesPayload {
+  v?: number;
+  stories: StoriesRaw;
+}
+
+export interface SetStoriesPayloadV2 extends SetStoriesPayload {
+  v: 2;
+  error?: Error;
+  globalParameters: Parameters;
+  kindParameters: {
+    [kind: string]: Parameters;
+  };
 }
 
 const warnUsingHierarchySeparatorsAndShowRoots = deprecate(
@@ -125,6 +149,21 @@ const toGroup = (name: string) => ({
   name,
   id: toKey(name),
 });
+
+export const denormalizeStoryParameters = ({
+  globalParameters,
+  kindParameters,
+  stories,
+}: SetStoriesPayloadV2): StoriesRaw => {
+  return mapValues(stories, (storyData) => ({
+    ...storyData,
+    parameters: combineParameters(
+      globalParameters,
+      kindParameters[storyData.kind],
+      (storyData.parameters as unknown) as Parameters
+    ),
+  }));
+};
 
 export const transformStoriesRawToStoriesHash = (
   input: StoriesRaw,
@@ -218,7 +257,7 @@ export const transformStoriesRawToStoriesHash = (
         return soFar.concat([result]);
       }, [] as GroupsList);
 
-    const paths = [...rootAndGroups.map(g => g.id), item.id];
+    const paths = [...rootAndGroups.map((g) => g.id), item.id];
 
     // Ok, now let's add everything to the store
     rootAndGroups.forEach((group, index) => {
@@ -230,8 +269,15 @@ export const transformStoriesRawToStoriesHash = (
       });
     });
 
-    const story = { ...item, parent: rootAndGroups[rootAndGroups.length - 1].id, isLeaf: true };
-    acc[item.id] = story as Story;
+    const story: Story = {
+      ...item,
+      depth: rootAndGroups.length,
+      parent: rootAndGroups[rootAndGroups.length - 1].id,
+      isLeaf: true,
+      isComponent: false,
+      isRoot: false,
+    };
+    acc[item.id] = story;
 
     return acc;
   }, {} as StoriesHash);
@@ -242,9 +288,9 @@ export const transformStoriesRawToStoriesHash = (
       acc[item.id] = item;
       const { children } = item;
       if (children) {
-        const childNodes = children.map(id => storiesHashOutOfOrder[id]) as (Story | Group)[];
-        acc[item.id].isComponent = childNodes.every(childNode => childNode.isLeaf);
-        childNodes.forEach(childNode => addItem(acc, childNode));
+        const childNodes = children.map((id) => storiesHashOutOfOrder[id]) as (Story | Group)[];
+        acc[item.id].isComponent = childNodes.every((childNode) => childNode.isLeaf);
+        childNodes.forEach((childNode) => addItem(acc, childNode));
       }
     }
     return acc;

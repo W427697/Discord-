@@ -12,12 +12,12 @@ const ArgUpdater = ({ args, updateArgs }) => {
       <h3>Hooks args:</h3>
       <pre>{JSON.stringify(args)}</pre>
       <form
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
           updateArgs(JSON.parse(argsInput));
         }}
       >
-        <textarea value={argsInput} onChange={e => updateArgsInput(e.target.value)} />
+        <textarea value={argsInput} onChange={(e) => updateArgsInput(e.target.value)} />
         <br />
         <button type="submit">Change</button>
       </form>
@@ -27,8 +27,9 @@ const ArgUpdater = ({ args, updateArgs }) => {
 
 export default {
   title: 'Core/Global Args',
+  parameters: { passArgsFirst: false },
   decorators: [
-    story => {
+    (story) => {
       const [globalArgs, updateGlobalArgs] = useGlobalArgs();
 
       return (
