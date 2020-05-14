@@ -117,6 +117,17 @@ const exists = async (location) => {
   }
 };
 
+const allSettled = async (list) => {
+  return Promise.all(
+    list.map((l) =>
+      l.then(
+        () => false,
+        (e) => e
+      )
+    )
+  );
+};
+
 const run = async (options) => {
   const [src, dist] = await Promise.all([fs.exists('src'), fs.exists('dist')]);
 
@@ -126,32 +137,43 @@ const run = async (options) => {
 
   const info = await getInfo();
   const checksum = await compareChecksum(info);
+  const logline = chalk.bold(`${info.package.name}@${info.package.version}`);
 
   if (
     !dist ||
     options.watch ||
     checksum !== (info.package.storybook && info.package.storybook.checksum)
   ) {
+    removeDist();
+
     const checksumTask = writeChecksum(checksum, info);
     const babelTask = babelify(options).then(cleanup);
     const typescriptTask = tscfy(options);
 
-    removeDist();
+    const output = await allSettled([checksumTask, babelTask, typescriptTask]);
 
-    await Promise.all([checksumTask, babelTask, typescriptTask]);
+    const error = output.find((o) => o !== false);
 
-    console.log(chalk.gray(`Built: ${chalk.bold(`${info.package.name}@${info.package.version}`)}`));
+    if (error) {
+      console.log(chalk.gray(`Failed: ${logline}`));
+      throw error;
+    }
+
+    console.log(chalk.gray(`Built: ${logline}`));
 
     return Promise.resolve();
   }
-  console.log(chalk.gray(`Skipped: ${chalk.bold(`${info.package.name}@${info.package.version}`)}`));
+  console.log(chalk.gray(`Skipped: ${logline}`));
   return Promise.resolve();
 };
 
 const isWatchingEnabled = !!process.argv.find((a) => a === '--watch');
+const isSilentEnabled = !!process.argv.find((a) => a === '--silent');
 
-run({ watch: isWatchingEnabled, silent: false }).catch((e) => {
+run({ watch: isWatchingEnabled, silent: isSilentEnabled }).catch((e) => {
   console.error(e);
+
+  removeDist();
+
   process.exitCode = 1;
-  // throw e;
 });
