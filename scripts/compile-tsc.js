@@ -33,8 +33,7 @@ function getCommand(watch) {
 
 const exists = async (location) => {
   try {
-    await fs.exists(location);
-    return true;
+    return !!(await fs.exists(location));
   } catch (e) {
     return false;
   }
@@ -43,7 +42,7 @@ const exists = async (location) => {
 async function tscfy(options = {}) {
   const { watch = false, silent = !watch } = options;
 
-  const [src, tsConfigFile] = await Promise.all([fs.exists('src'), fs.exists('tsconfig.json')]);
+  const [src, tsConfigFile] = await Promise.all([exists('src'), exists('tsconfig.json')]);
 
   if (!src || !tsConfigFile) {
     return Promise.resolve();

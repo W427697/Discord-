@@ -37,8 +37,7 @@ function getCommand(watch) {
 
 const exists = async (location) => {
   try {
-    await fs.exists(location);
-    return true;
+    return !!(await fs.exists(location));
   } catch (e) {
     return false;
   }
@@ -46,7 +45,7 @@ const exists = async (location) => {
 
 async function babelify(options = {}) {
   const { watch = false, silent = !watch } = options;
-  const [src] = await Promise.all([fs.exists('src')]);
+  const [src] = await Promise.all([exists('src')]);
 
   if (!src) {
     return Promise.resolve();
