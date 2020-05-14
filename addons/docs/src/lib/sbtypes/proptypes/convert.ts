@@ -2,9 +2,7 @@
 import mapValues from 'lodash/mapValues';
 import { PTType } from './types';
 import { SBType } from '../types';
-
-const QUOTE_REGEX = /^['"]|['"]$/g;
-const trimQuotes = (str: string) => str.replace(QUOTE_REGEX, '');
+import { trimQuotes } from '../utils';
 
 export const convert = (type: PTType): SBType | any => {
   const { name, raw, computed, value } = type;
@@ -22,6 +20,7 @@ export const convert = (type: PTType): SBType | any => {
     case 'func':
       return { ...base, name: 'function' };
     case 'bool':
+    case 'boolean':
       return { ...base, name: 'boolean' };
     case 'arrayOf':
     case 'array':

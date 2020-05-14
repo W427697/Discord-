@@ -2,7 +2,7 @@
   <img src="../docs/media/angular-hero.png" width="100%" />
 </center>
 
-# Storybook Docs for Angular
+<h1>Storybook Docs for Angular</h1>
 
 > migration guide: This page documents the method to configure storybook introduced recently in 5.3.0, consult the [migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md) if you want to migrate to this format of configuring storybook.
 
@@ -10,12 +10,11 @@ Storybook Docs transforms your Storybook stories into world-class component docu
 
 To learn more about Storybook Docs, read the [general documentation](../README.md). To learn the Angular specifics, read on!
 
-- [Storybook Docs for Angular](#storybook-docs-for-angular)
-  - [Installation](#installation)
-  - [DocsPage](#docspage)
-  - [MDX](#mdx)
-  - [IFrame height](#iframe-height)
-  - [More resources](#more-resources)
+- [Installation](#installation)
+- [DocsPage](#docspage)
+- [MDX](#mdx)
+- [IFrame height](#iframe-height)
+- [More resources](#more-resources)
 
 ## Installation
 
@@ -133,6 +132,49 @@ Some **markdown** description, or whatever you want.
 Yes, it's redundant to declare `component` twice. [Coming soon](https://github.com/storybookjs/storybook/issues/8673).
 
 Also, to use the `Props` doc block, you need to set up Compodoc, [as described above](#docspage).
+
+When you are using `template`, `moduleMetadata` and/or `addDecorators` with `storiesOf` then you can easily translate your story to MDX, too:
+
+```md
+import { Meta, Story, Props } from '@storybook/addon-docs/blocks';
+import { CheckboxComponent, RadioButtonComponent } from './my-components';
+import { moduleMetadata } from '@storybook/angular';
+
+<Meta title='Checkbox' decorators={[
+  moduleMetadata({
+    declarations: [CheckboxComponent]
+  })
+]} />
+
+# Basic Checkbox
+
+<Story name='basic check' height='400px'>{{
+  template: `
+    <div class="some-wrapper-with-padding">
+      <my-checkbox [checked]="checked">Some Checkbox</my-checkbox>
+    </div>
+  `,
+  props: {
+    checked: true
+  }
+}}</Story>
+
+# Basic Radiobutton
+
+<Story name='basic radio' height='400px'>{{
+  moduleMetadata: {
+    declarations: [RadioButtonComponent]
+  }
+  template: `
+    <div class="some-wrapper-with-padding">
+      <my-radio-btn [checked]="checked">Some Checkbox</my-radio-btn>
+    </div>
+  `,
+  props: {
+    checked: true
+  }
+}}</Story>
+```
 
 ## IFrame height
 

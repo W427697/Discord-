@@ -14,8 +14,8 @@ import { StoryStore } from '@storybook/client-api';
 import Events from '@storybook/core-events';
 
 import { DocsContext, DocsContextProps } from './DocsContext';
-import { Component, CURRENT_SELECTION } from './types';
-import { getComponentName } from './utils';
+import { Component, CURRENT_SELECTION, PRIMARY_STORY } from './types';
+import { getComponentName, getDocsStories } from './utils';
 import { ArgTypesExtractor } from '../lib/docgen/types';
 import { lookupStoryId } from './Story';
 
@@ -138,27 +138,49 @@ export const StoryTable: FC<StoryProps & { components: Record<string, Component>
   let storyArgTypes;
   try {
     let storyId;
-    if (story === CURRENT_SELECTION) {
-      storyId = currentId;
-      storyArgTypes = argTypes;
-    } else {
-      storyId = lookupStoryId(story, context);
-      const data = storyStore.fromId(storyId);
-      storyArgTypes = data.parameters.argTypes;
+    switch (story) {
+      case CURRENT_SELECTION: {
+        storyId = currentId;
+        storyArgTypes = argTypes;
+        break;
+      }
+      case PRIMARY_STORY: {
+        const primaryStory = getDocsStories(context)[0];
+        storyId = primaryStory.id;
+        storyArgTypes = primaryStory.parameters.argTypes;
+        break;
+      }
+      default: {
+        storyId = lookupStoryId(story, context);
+        const data = storyStore.fromId(storyId);
+        storyArgTypes = data.parameters.argTypes;
+      }
     }
     storyArgTypes = filterArgTypes(storyArgTypes, include, exclude);
 
+    // This code handles three cases:
+    //  1. the story has args, in which case we want to show controls for the story
+    //  2. the story has args, and the user specifies showComponents, in which case
+    //     we want to show controls for the primary component AND show props for each component
+    //  3. the story has NO args, in which case we want to show props for each component
+
     // eslint-disable-next-line prefer-const
     let [args, updateArgs] = useArgs(storyId, storyStore);
-    if (!storyArgTypes || !Object.values(storyArgTypes).find((v) => !!v?.control)) {
-      updateArgs = null;
-    }
-
     let tabs = { Story: { rows: storyArgTypes, args, updateArgs } } as Record<
       string,
       ArgsTableProps
     >;
-    if (showComponents) {
+
+    // Use the dynamically generated component tabs if there are no controls
+    const storyHasArgsWithControls =
+      storyArgTypes && Object.values(storyArgTypes).find((v) => !!v?.control);
+
+    if (!storyHasArgsWithControls) {
+      updateArgs = null;
+      tabs = {};
+    }
+
+    if (showComponents || !storyHasArgsWithControls) {
       tabs = addComponentTabs(tabs, components, context, include, exclude);
     }
 
