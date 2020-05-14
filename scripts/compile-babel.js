@@ -36,7 +36,7 @@ function getCommand(watch) {
 }
 
 async function babelify(options = {}) {
-  const { watch = false, silent = true } = options;
+  const { watch = false, silent = !watch } = options;
 
   try {
     await fs.exists('src');

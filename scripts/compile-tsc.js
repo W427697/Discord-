@@ -32,7 +32,7 @@ function getCommand(watch) {
 }
 
 async function tscfy(options = {}) {
-  const { watch = false, silent = true } = options;
+  const { watch = false, silent = !watch } = options;
   const tsConfigFile = 'tsconfig.json';
 
   try {

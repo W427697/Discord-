@@ -108,7 +108,7 @@ async function cleanup() {
   return Promise.resolve();
 }
 
-const run = async () => {
+const run = async (options) => {
   try {
     await fs.exists('src');
   } catch (e) {
@@ -119,10 +119,10 @@ const run = async () => {
 
   const checksum = await compareChecksum(info);
 
-  if (checksum !== (info.package.storybook && info.package.storybook.checksum)) {
+  if (options.watch || checksum !== (info.package.storybook && info.package.storybook.checksum)) {
     const checksumTask = writeChecksum(checksum, info);
-    const babelTask = babelify();
-    const typescriptTask = tscfy();
+    const babelTask = babelify(options);
+    const typescriptTask = tscfy(options);
 
     removeDist();
 
@@ -134,9 +134,12 @@ const run = async () => {
     return Promise.resolve();
   }
   console.log(chalk.gray(`Skipped: ${chalk.bold(`${info.package.name}@${info.package.version}`)}`));
+  return Promise.resolve();
 };
 
-run().catch((e) => {
+const isWatchingEnabled = !!process.argv.find((a) => a === '--watch');
+
+run({ watch: isWatchingEnabled }).catch((e) => {
   console.error(e);
   process.exitCode = 1;
   // throw e;

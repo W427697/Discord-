@@ -143,13 +143,7 @@ function run() {
 
         if (watchMode) {
           const runWatchMode = () => {
-            const baseWatchCommand = `lerna exec --scope "${glob}" -- cross-env-shell node ${resolve(
-              __dirname
-            )}`;
-            const watchTsc = `${baseWatchCommand}/watch-tsc.js`;
-            const watchBabel = `${baseWatchCommand}/watch-babel.js`;
-            const command = `concurrently --kill-others "${watchTsc}" "${watchBabel}"`;
-            spawn(command);
+            spawn(`lerna run prepare --parallel --scope "${glob}" -- --watch`);
           };
 
           if (packageNames.length < 5) {
@@ -171,7 +165,7 @@ function run() {
               });
           }
         } else {
-          spawn(`lerna run prepare --parallel --scope "${glob}"`);
+          spawn(`lerna run prepare --parallel --no-prefix --scope "${glob}"`);
         }
         process.stdout.write('\x07');
       }
