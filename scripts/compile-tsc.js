@@ -31,17 +31,25 @@ function getCommand(watch) {
   return `${tsc} ${args.join(' ')} && ${downlevelDts} dist ts3.5/dist`;
 }
 
+const exists = async (location) => {
+  try {
+    await fs.exists(location);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 async function tscfy(options = {}) {
   const { watch = false, silent = !watch } = options;
-  const tsConfigFile = 'tsconfig.json';
 
-  try {
-    await Promise.all([fs.exists('src'), fs.exists(tsConfigFile)]);
-  } catch (e) {
+  const [src, tsConfigFile] = await Promise.all([fs.exists('src'), fs.exists('tsconfig.json')]);
+
+  if (!src || !tsConfigFile) {
     return Promise.resolve();
   }
 
-  const tsConfig = await fs.readJSON(tsConfigFile);
+  const tsConfig = await fs.readJSON('tsconfig.json');
 
   if (tsConfig && tsConfig.lerna && tsConfig.lerna.disabled === true) {
     if (!silent) {

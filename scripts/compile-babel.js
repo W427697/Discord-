@@ -35,12 +35,20 @@ function getCommand(watch) {
   return `${babel} ${args.join(' ')}`;
 }
 
+const exists = async (location) => {
+  try {
+    await fs.exists(location);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 async function babelify(options = {}) {
   const { watch = false, silent = !watch } = options;
+  const [src] = await Promise.all([fs.exists('src')]);
 
-  try {
-    await fs.exists('src');
-  } catch (e) {
+  if (!src) {
     return Promise.resolve();
   }
 

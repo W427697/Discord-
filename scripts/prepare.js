@@ -108,26 +108,37 @@ async function cleanup() {
   return Promise.resolve();
 }
 
-const run = async (options) => {
+const exists = async (location) => {
   try {
-    await fs.exists('src');
+    await fs.exists(location);
+    return true;
   } catch (e) {
+    return false;
+  }
+};
+
+const run = async (options) => {
+  const [src, dist] = await Promise.all([fs.exists('src'), fs.exists('dist')]);
+
+  if (!src) {
     return Promise.resolve();
   }
 
   const info = await getInfo();
-
   const checksum = await compareChecksum(info);
 
-  if (options.watch || checksum !== (info.package.storybook && info.package.storybook.checksum)) {
+  if (
+    !dist ||
+    options.watch ||
+    checksum !== (info.package.storybook && info.package.storybook.checksum)
+  ) {
     const checksumTask = writeChecksum(checksum, info);
-    const babelTask = babelify(options);
+    const babelTask = babelify(options).then(cleanup);
     const typescriptTask = tscfy(options);
 
     removeDist();
 
     await Promise.all([checksumTask, babelTask, typescriptTask]);
-    await cleanup();
 
     console.log(chalk.gray(`Built: ${chalk.bold(`${info.package.name}@${info.package.version}`)}`));
 
