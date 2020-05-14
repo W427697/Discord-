@@ -70,5 +70,8 @@
         "ts3.5/*"
       ]
     }
+  },
+  "storybook": {
+    "checksum": "Slm3PZRo54tVbFmCwVu4dKn5erw="
   }
 }

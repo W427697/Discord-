@@ -1,12 +1,11 @@
-/* eslint-disable no-console */
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const shell = require('shelljs');
 
 function getCommand(watch) {
   // Compile angular with tsc
   if (process.cwd().includes(path.join('app', 'angular'))) {
-    return '';
+    return null;
   }
 
   const babel = path.join(__dirname, '..', 'node_modules', '.bin', 'babel');
@@ -36,31 +35,29 @@ function getCommand(watch) {
   return `${babel} ${args.join(' ')}`;
 }
 
-function handleExit(code, stderr, errorCallback) {
-  if (code !== 0) {
-    if (errorCallback && typeof errorCallback === 'function') {
-      errorCallback(stderr);
-    }
+async function babelify(options = {}) {
+  const { watch = false, silent = true } = options;
 
-    shell.exit(code);
-  }
-}
-
-function babelify(options = {}) {
-  const { watch = false, silent = true, errorCallback } = options;
-
-  if (!fs.existsSync('src')) {
-    if (!silent) {
-      console.log('No src dir');
-    }
-    return;
+  try {
+    await fs.exists('src');
+  } catch (e) {
+    return Promise.resolve();
   }
 
   const command = getCommand(watch);
-  if (command !== '') {
-    const { code, stderr } = shell.exec(command, { silent });
-    handleExit(code, stderr, errorCallback);
+
+  if (command) {
+    return new Promise((resolve, reject) => {
+      shell.exec(command, { silent }, (code, stdout, stderr) => {
+        if (code === 0) {
+          resolve(stdout);
+        } else {
+          reject(stderr);
+        }
+      });
+    });
   }
+  return Promise.resolve();
 }
 
 module.exports = {

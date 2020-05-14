@@ -171,7 +171,7 @@ function run() {
               });
           }
         } else {
-          spawn(`lerna run prepare --scope "${glob}"`);
+          spawn(`lerna run prepare --parallel --scope "${glob}"`);
         }
         process.stdout.write('\x07');
       }

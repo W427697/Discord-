@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const shell = require('shelljs');
 
@@ -31,40 +31,36 @@ function getCommand(watch) {
   return `${tsc} ${args.join(' ')} && ${downlevelDts} dist ts3.5/dist`;
 }
 
-function handleExit(code, stderr, errorCallback) {
-  if (code !== 0) {
-    if (errorCallback && typeof errorCallback === 'function') {
-      errorCallback(stderr);
-    }
-    shell.exit(code);
-  }
-}
-
-function tscfy(options = {}) {
-  const { watch = false, silent = false, errorCallback } = options;
+async function tscfy(options = {}) {
+  const { watch = false, silent = true } = options;
   const tsConfigFile = 'tsconfig.json';
 
-  if (!fs.existsSync(tsConfigFile)) {
-    if (!silent) {
-      console.log(`No ${tsConfigFile}`);
-    }
-    return;
+  try {
+    await Promise.all([fs.exists('src'), fs.exists(tsConfigFile)]);
+  } catch (e) {
+    return Promise.resolve();
   }
 
-  const content = fs.readFileSync(tsConfigFile);
-  const tsConfig = JSON.parse(content);
+  const tsConfig = await fs.readJSON(tsConfigFile);
 
   if (tsConfig && tsConfig.lerna && tsConfig.lerna.disabled === true) {
     if (!silent) {
       console.log('Lerna disabled');
     }
-    return;
+    return Promise.resolve();
   }
 
   const command = getCommand(watch);
-  const { code, stderr } = shell.exec(command, { silent });
 
-  handleExit(code, stderr, errorCallback);
+  return new Promise((resolve, reject) => {
+    shell.exec(command, { silent }, (code, stdout, stderr) => {
+      if (code === 0) {
+        resolve(stdout);
+      } else {
+        reject(stderr);
+      }
+    });
+  });
 }
 
 module.exports = {
