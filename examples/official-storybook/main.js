@@ -3,7 +3,7 @@ module.exports = {
     // FIXME: Breaks e2e tests './intro.stories.mdx',
     '../../lib/ui/src/**/*.stories.(js|tsx|mdx)',
     '../../lib/components/src/**/*.stories.(js|tsx|mdx)',
-    './stories/**/*.stories.(js|tsx|mdx)',
+    './stories/**/*.stories.(js|ts|tsx|mdx)',
     './../../addons/docs/**/*.stories.tsx',
   ],
   addons: [
@@ -20,7 +20,6 @@ module.exports = {
     '@storybook/addon-jest',
     '@storybook/addon-viewport',
     '@storybook/addon-graphql',
-    '@storybook/addon-contexts',
     '@storybook/addon-toolbars',
     '@storybook/addon-queryparams',
   ],

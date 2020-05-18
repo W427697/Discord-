@@ -4,6 +4,7 @@ import { ThemeProvider, themes, ensure as ensureTheme } from '@storybook/theming
 import Sidebar from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
 import { mockDataset } from './mockdata';
+import { RefType } from './RefHelpers';
 
 export default {
   component: Sidebar,
@@ -18,30 +19,44 @@ const storyId = '1-12-121';
 export const simpleData = { menu, stories, storyId };
 export const loadingData = { menu, stories: {} };
 
-const refs = {
-  completed: {
-    id: 'completed',
-    title: 'All completed',
+const refs: Record<string, RefType> = {
+  optimized: {
+    id: 'optimized',
+    title: 'It is optimized',
     url: 'https://example.com',
+    ready: false,
+    startInjected: false,
     stories,
   },
-  loading: {
-    id: 'loading',
-    title: 'This is Loading',
+  empty: {
+    id: 'empty',
+    title: 'It is empty',
     url: 'https://example.com',
+    ready: false,
+    startInjected: false,
     stories: {},
   },
-  startInjected: {
-    id: 'startInjected',
-    title: 'Start Injected',
+  startInjected_loading: {
+    id: 'startInjected_loading',
+    title: 'It started injected and is loading',
     url: 'https://example.com',
-    stories,
     startInjected: true,
+    ready: false,
+    stories,
+  },
+  startInjected_ready: {
+    id: 'startInjected_ready',
+    title: 'It started injected and is ready',
+    url: 'https://example.com',
+    startInjected: true,
+    ready: true,
+    stories,
   },
   versions: {
     id: 'versions',
     title: 'It has versions',
     url: 'https://example.com',
+    startInjected: false,
     stories,
     versions: { '1.0.0': 'https://example.com/v1', '2.0.0': 'https://example.com' },
   },
@@ -49,6 +64,7 @@ const refs = {
     id: 'error',
     title: 'This has problems',
     url: 'https://example.com',
+    startInjected: false,
     stories: {},
     error: (() => {
       try {
@@ -62,6 +78,7 @@ const refs = {
     id: 'Authentication',
     title: 'This requires a login',
     url: 'https://example.com',
+    startInjected: false,
     stories: {},
     authUrl: 'https://example.com',
   },
@@ -70,6 +87,7 @@ const refs = {
     title: 'This storybook has a very very long name for some reason',
     url: 'https://example.com',
     stories,
+    startInjected: false,
     versions: {
       '111.111.888-new': 'https://example.com/new',
       '111.111.888': 'https://example.com',
@@ -77,18 +95,30 @@ const refs = {
   },
 };
 
-export const simple = () => <Sidebar menu={menu} stories={stories} storyId={storyId} refs={{}} />;
-export const isLoading = () => <Sidebar menu={menu} stories={{}} isLoading refs={{}} />;
-export const withRefs = () => <Sidebar menu={menu} stories={stories} isLoading refs={refs} />;
+export const simple = () => (
+  <Sidebar storiesConfigured menu={menu} stories={stories} storyId={storyId} refs={{}} />
+);
+export const isLoading = () => (
+  <Sidebar storiesConfigured={false} menu={menu} stories={{}} isLoading refs={{}} />
+);
+export const isEmpty = () => (
+  <Sidebar storiesConfigured menu={menu} stories={{}} isLoading refs={{}} />
+);
+export const withRefs = () => (
+  <Sidebar storiesConfigured menu={menu} stories={stories} isLoading refs={refs} />
+);
 
 export const darkWithRefs = () => (
   <ThemeProvider theme={ensureTheme(themes.dark)}>
-    <Sidebar menu={menu} stories={stories} isLoading refs={refs} />
+    <Sidebar storiesConfigured menu={menu} stories={stories} isLoading refs={refs} />
   </ThemeProvider>
 );
 
 darkWithRefs.story = {
   parameters: {
-    backgrounds: [{ name: 'dark', value: '#222222', default: true }],
+    backgrounds: {
+      default: 'dark',
+      values: [{ name: 'dark', value: '#222222', default: true }],
+    },
   },
 };

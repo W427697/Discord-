@@ -4,9 +4,9 @@ import { ButtonGroup, SubGroup } from '../../components/ButtonGroup';
 import { ForwardRefButton } from '../../components/ForwardRefButton';
 import { MemoButton } from '../../components/MemoButton';
 
-<Meta title="Addons/Docs/props" component={ButtonGroup} parameters={{ passArgsFirst: true }} />
+<Meta title="Addons/Docs/props" component={ButtonGroup} />
 
-export const FooBar = ({ foo, bar } = {}) => (
+export const FooBar = ({ foo, bar, baz } = {}) => (
   <table>
     <tr>
       <td>Foo</td>
@@ -15,6 +15,10 @@ export const FooBar = ({ foo, bar } = {}) => (
     <tr>
       <td>Bar</td>
       <td>{bar}</td>
+    </tr>
+    <tr>
+      <td>Baz</td>
+      <td>{baz && baz.toString()}</td>
     </tr>
   </table>
 );
@@ -27,10 +31,16 @@ export const FooBar = ({ foo, bar } = {}) => (
     args={{
       foo: false,
       bar: '',
+      baz: ['a', 'b'],
     }}
     argTypes={{
       foo: { name: 'foo', type: { name: 'boolean' }, description: 'foo description' },
       bar: { name: 'bar', type: { name: 'string' }, description: 'bar description' },
+      baz: {
+        name: 'baz',
+        type: { name: 'array', value: { name: 'string' } },
+        description: 'baz description',
+      },
     }}
   >
     {(args) => <FooBar {...args} />}
@@ -63,7 +73,10 @@ export const FooBar = ({ foo, bar } = {}) => (
 
 <Preview>
   <Story name="Component" argTypes={{ background: { control: { type: 'color' } } }}>
-    {(args) => <DocgenButton {...args} />}
+    {({ background, children }) => {
+      const contents = children && children.length > 0 ? children : <DocgenButton label="child" />;
+      return <ButtonGroup background={background}>{contents}</ButtonGroup>;
+    }}
   </Story>
 </Preview>
 
