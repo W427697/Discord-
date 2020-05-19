@@ -4,7 +4,7 @@ module.exports = {
     ember: {
       id: 'ember',
       title: 'Ember',
-      url: 'https://next--storybookjs.netlify.app/ember-cli',
+      url: 'https://next--storybookjs.netlify.app/ember-cli2',
     },
     cra: 'https://next--storybookjs.netlify.app/cra-ts-kitchen-sink',
   },
