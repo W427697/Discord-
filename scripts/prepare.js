@@ -26,7 +26,7 @@ async function getInfo() {
     packagePath,
     checksumPath,
     package: await fs.readJSON(packagePath),
-    checksum: {},
+    checksum: await fs.readJSON(checksumPath),
   };
 }
 
@@ -57,7 +57,15 @@ async function compareChecksum(info) {
 
   const future = await createChecksum(info);
 
-  return existing === future ? existing : future;
+  const equal = existing === future;
+  const checksum = equal ? existing : future;
+
+  return {
+    existing,
+    future,
+    checksum,
+    equal,
+  };
 }
 
 function removeDist() {
@@ -139,10 +147,11 @@ const run = async (options) => {
   }
 
   const info = await getInfo();
-  const checksum = await compareChecksum(info);
+  const { checksum, equal } = await compareChecksum(info);
+
   const logline = chalk.bold(`${info.package.name}@${info.package.version}`);
 
-  if (!dist || options.watch || checksum !== (info.checksum && info.checksum.checksum)) {
+  if (!dist || options.watch || !equal) {
     removeDist();
 
     const checksumTask = writeChecksum(checksum, info);

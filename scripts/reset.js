@@ -7,14 +7,7 @@ const logger = console;
 
 fs.writeFileSync('reset.log', '');
 
-// let results = [];
-const cleaningProcess = spawn('git', [
-  'clean',
-  '-xdf',
-  '-n',
-  '--exclude=".vscode"',
-  '--exclude=".idea"',
-]);
+const cleaningProcess = spawn('git', ['clean', '-xdf', '-n']);
 
 cleaningProcess.stdout.on('data', (data) => {
   if (data && data.toString()) {
@@ -26,6 +19,13 @@ cleaningProcess.stdout.on('data', (data) => {
 
         if (uri) {
           if (
+            uri.match(/dist/) ||
+            uri.match(/.vscode/) ||
+            uri.match(/.idea/) ||
+            uri.match(/reset.log/)
+          ) {
+            // ignore, don't remove these files
+          } else if (
             uri.match(/node_modules/) ||
             uri.match(/dist/) ||
             uri.match(/ts3\.5/) ||
@@ -42,7 +42,9 @@ cleaningProcess.stdout.on('data', (data) => {
               })
               .catch((e) => {
                 logger.log('failed to trash, will try permanent delete');
-                trash(uri);
+                del(uri).then(() => {
+                  logger.log(`deleted ${uri}`);
+                });
               });
           }
         }
