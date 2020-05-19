@@ -126,7 +126,7 @@ function run() {
   }
 
   selection
-    .then((list) => {
+    .then(async (list) => {
       if (list.length === 0) {
         log.warn(prefix, 'Nothing to build!');
       } else {
@@ -136,33 +136,33 @@ function run() {
           .map((key) => key.suffix)
           .filter(Boolean);
 
-        const glob =
+        let glob =
           packageNames.length > 1
             ? `@storybook/{${packageNames.join(',')}}`
             : `@storybook/${packageNames[0]}`;
 
+        const isAllPackages = process.argv.includes('--all');
+        if (isAllPackages) {
+          glob = '@storybook/*';
+        }
+
         if (watchMode) {
-          const runWatchMode = () => {
-            spawn(`lerna run prepare --stream --scope "${glob}" -- --watch`);
-          };
+          let confirmation = true;
 
           if (packageNames.length < 5) {
-            runWatchMode();
-          } else {
-            inquirer
-              .prompt([
-                {
-                  type: 'confirm',
-                  message:
-                    'You selected a lot of packages on watch mode. This is a very expensive action and might slow your computer down. Do you want to continue?',
-                  name: 'confirmation',
-                },
-              ])
-              .then(({ confirmation }) => {
-                if (confirmation === true) {
-                  runWatchMode();
-                }
-              });
+            ({ confirmation } = await inquirer.prompt([
+              {
+                type: 'confirm',
+                message:
+                  'You selected a lot of packages on watch mode. This is a very expensive action and might slow your computer down. Do you want to continue?',
+                name: 'confirmation',
+              },
+            ]));
+
+            if (confirmation === false) {
+              process.exit(0);
+            }
+            spawn(`lerna run prepare --stream --scope "${glob}" -- --watch`);
           }
         } else {
           spawn(`lerna run prepare --stream --no-prefix --scope "${glob}"`);

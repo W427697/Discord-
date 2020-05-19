@@ -1,6 +1,6 @@
 {
   "name": "@storybook/ui",
-  "version": "6.0.0-beta.7",
+  "version": "6.0.0-beta.8",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -29,14 +29,14 @@
   },
   "dependencies": {
     "@emotion/core": "^10.0.20",
-    "@storybook/addons": "6.0.0-beta.7",
-    "@storybook/api": "6.0.0-beta.7",
-    "@storybook/channels": "6.0.0-beta.7",
-    "@storybook/client-logger": "6.0.0-beta.7",
-    "@storybook/components": "6.0.0-beta.7",
-    "@storybook/core-events": "6.0.0-beta.7",
-    "@storybook/router": "6.0.0-beta.7",
-    "@storybook/theming": "6.0.0-beta.7",
+    "@storybook/addons": "6.0.0-beta.8",
+    "@storybook/api": "6.0.0-beta.8",
+    "@storybook/channels": "6.0.0-beta.8",
+    "@storybook/client-logger": "6.0.0-beta.8",
+    "@storybook/components": "6.0.0-beta.8",
+    "@storybook/core-events": "6.0.0-beta.8",
+    "@storybook/router": "6.0.0-beta.8",
+    "@storybook/theming": "6.0.0-beta.8",
     "@types/markdown-to-jsx": "^6.9.1",
     "@types/rfdc": "^1.1.0",
     "copy-to-clipboard": "^3.0.8",
