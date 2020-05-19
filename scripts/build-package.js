@@ -149,7 +149,7 @@ function run() {
         if (watchMode) {
           let confirmation = true;
 
-          if (packageNames.length < 5) {
+          if (packageNames.length > 5) {
             ({ confirmation } = await inquirer.prompt([
               {
                 type: 'confirm',
