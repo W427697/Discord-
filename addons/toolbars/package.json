@@ -42,8 +42,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "storybook": {
-    "checksum": "2jziZTPE0eSZOK4Szr2ZXDP2wGM="
   }
 }

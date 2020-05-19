@@ -59,8 +59,5 @@
         "ts3.5/*"
       ]
     }
-  },
-  "storybook": {
-    "checksum": "bGFWBavrCRN0dqfI/fh3u34MaUw="
   }
 }

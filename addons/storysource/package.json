@@ -57,8 +57,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "4b9d901add9452525135caae98ae5f78dd8da9ff",
-  "storybook": {
-    "checksum": "9E75rYxw3ZVLdrpRcOF2xMaKVWk="
-  }
+  "gitHead": "4b9d901add9452525135caae98ae5f78dd8da9ff"
 }

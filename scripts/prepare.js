@@ -12,17 +12,25 @@ const { tscfy } = require('./compile-tsc');
 async function getInfo() {
   const modulePath = path.resolve('./');
   const packagePath = path.join(modulePath, 'package.json');
+  const checksumPath = path.join(modulePath, 'dist', 'checksum.json');
+
+  const exists = await fs.exists(checksumPath);
+
+  if (!exists) {
+    await fs.ensureFile(checksumPath);
+    await fs.writeJSON(checksumPath, {});
+  }
 
   return {
     modulePath,
     packagePath,
+    checksumPath,
     package: await fs.readJSON(packagePath),
+    checksum: {},
   };
 }
 
-async function createChecksum() {
-  const modulePath = path.resolve('./');
-
+async function createChecksum({ modulePath }) {
   const { hash } = await hashElement(path.join(modulePath, 'src'), {
     folders: { exclude: ['tests', '__mocks__', '__tests__'] },
     files: {
@@ -34,16 +42,20 @@ async function createChecksum() {
   return hash;
 }
 
-async function writeChecksum(checksum, info) {
-  const { packagePath, package } = info;
+async function writeChecksum(checksum, { checksumPath }) {
+  const exists = await fs.exists(checksumPath);
 
-  return fs.writeJSON(packagePath, { ...package, storybook: { checksum } }, { spaces: 2 });
+  if (!exists) {
+    await fs.ensureFile(checksumPath);
+  }
+
+  return fs.writeJSON(checksumPath, { checksum }, { spaces: 2 });
 }
 
 async function compareChecksum(info) {
-  const { checksum: existing } = info.package.storybook || {};
+  const { checksum: existing } = info.checksum || {};
 
-  const future = await createChecksum();
+  const future = await createChecksum(info);
 
   return existing === future ? existing : future;
 }
@@ -108,15 +120,6 @@ async function cleanup() {
   return Promise.resolve();
 }
 
-const exists = async (location) => {
-  try {
-    await fs.exists(location);
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
-
 const allSettled = async (list) => {
   return Promise.all(
     list.map((l) =>
@@ -139,11 +142,7 @@ const run = async (options) => {
   const checksum = await compareChecksum(info);
   const logline = chalk.bold(`${info.package.name}@${info.package.version}`);
 
-  if (
-    !dist ||
-    options.watch ||
-    checksum !== (info.package.storybook && info.package.storybook.checksum)
-  ) {
+  if (!dist || options.watch || checksum !== (info.checksum && info.checksum.checksum)) {
     removeDist();
 
     const checksumTask = writeChecksum(checksum, info);
