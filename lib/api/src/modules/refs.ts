@@ -25,9 +25,10 @@ export interface SubAPI {
   getRefs: () => Refs;
   checkRef: (ref: SetRefData) => Promise<void>;
   changeRefVersion: (id: string, url: string) => void;
+  changeRefState: (id: string, ready: boolean) => void;
 }
 
-export type Mapper = (ref: ComposedRef, story: StoryInput) => StoryInput;
+export type StoryMapper = (ref: ComposedRef, story: StoryInput) => StoryInput;
 export interface ComposedRef {
   id: string;
   title?: string;
@@ -63,7 +64,7 @@ export const getSourceType = (source: string) => {
   return [null, null];
 };
 
-export const defaultMapper: Mapper = (b, a) => {
+export const defaultStoryMapper: StoryMapper = (b, a) => {
   return { ...a, kind: a.kind.replace('|', '/') };
 };
 
@@ -73,17 +74,21 @@ const addRefIds = (input: StoriesHash, ref: ComposedRef): StoriesHash => {
   }, {} as StoriesHash);
 };
 
-const map = (input: StoriesRaw, ref: ComposedRef, options: { mapper?: Mapper }): StoriesRaw => {
-  const { mapper } = options;
-  if (mapper) {
+const map = (
+  input: StoriesRaw,
+  ref: ComposedRef,
+  options: { storyMapper?: StoryMapper }
+): StoriesRaw => {
+  const { storyMapper } = options;
+  if (storyMapper) {
     return Object.entries(input).reduce((acc, [id, item]) => {
-      return { ...acc, [id]: mapper(ref, item) };
+      return { ...acc, [id]: storyMapper(ref, item) };
     }, {} as StoriesRaw);
   }
   return input;
 };
 
-export const init: ModuleFn = ({ store, provider }) => {
+export const init: ModuleFn = ({ store, provider, fullAPI }) => {
   const api: SubAPI = {
     findRef: (source) => {
       const refs = api.getRefs();
@@ -95,6 +100,15 @@ export const init: ModuleFn = ({ store, provider }) => {
       const ref = { ...previous, stories: {}, url } as SetRefData;
 
       api.checkRef(ref);
+    },
+    changeRefState: (id, ready) => {
+      const refs = api.getRefs();
+      store.setState({
+        refs: {
+          ...refs,
+          [id]: { ...refs[id], ready },
+        },
+      });
     },
     checkRef: async (ref) => {
       const { id, url } = ref;
@@ -138,14 +152,11 @@ export const init: ModuleFn = ({ store, provider }) => {
     },
 
     setRef: (id, { stories, ...rest }, ready = false) => {
+      const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
       const after = stories
         ? addRefIds(
-            transformStoriesRawToStoriesHash(
-              map(stories, ref, { mapper: defaultMapper }),
-              {},
-              { provider }
-            ),
+            transformStoriesRawToStoriesHash(map(stories, ref, { storyMapper }), {}, { provider }),
             ref
           )
         : undefined;
