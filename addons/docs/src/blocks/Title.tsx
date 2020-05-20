@@ -5,8 +5,13 @@ import { DocsContext, DocsContextProps } from './DocsContext';
 
 interface TitleProps {
   children?: JSX.Element | string;
+  useName?: boolean;
 }
-export const extractTitle = ({ kind, parameters }: DocsContextProps) => {
+export const extractTitle = ({ name, kind, parameters }: DocsContextProps, useName?: boolean) => {
+  if (useName && name) {
+    return name;
+  }
+
   const {
     showRoots,
     hierarchyRootSeparator: rootSeparator = '|',
@@ -27,11 +32,11 @@ export const extractTitle = ({ kind, parameters }: DocsContextProps) => {
   return (groups && groups[groups.length - 1]) || kind;
 };
 
-export const Title: FunctionComponent<TitleProps> = ({ children }) => {
+export const Title: FunctionComponent<TitleProps> = ({ children, useName = false }) => {
   const context = useContext(DocsContext);
   let text: JSX.Element | string = children;
   if (!text) {
-    text = extractTitle(context);
+    text = extractTitle(context, useName);
   }
   return text ? <PureTitle className="sbdocs-title">{text}</PureTitle> : null;
 };
