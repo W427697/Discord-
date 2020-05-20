@@ -1,3 +1,6 @@
+export * from './EmptyBlock';
+export * from './ZoomContext';
+
 export * from './Description';
 export * from './DocsPage';
 export * from './Preview';
