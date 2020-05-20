@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@packtracker/webpack-plugin": "^2.0.1",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.2.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.3.1",
     "@storybook/addon-a11y": "6.0.0-beta.8",
     "@storybook/addon-actions": "6.0.0-beta.8",
     "@storybook/addon-backgrounds": "6.0.0-beta.8",

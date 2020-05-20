@@ -72,7 +72,14 @@ module.exports = {
         },
       ],
     },
-    plugins: [...config.plugins, new ReactRefreshWebpackPlugin()],
+    plugins: [
+      ...config.plugins,
+      new ReactRefreshWebpackPlugin({
+        overlay: {
+          sockIntegration: 'whm',
+        },
+      }),
+    ],
     resolve: {
       ...config.resolve,
       extensions: [...(config.resolve.extensions || []), '.ts', '.tsx'],
