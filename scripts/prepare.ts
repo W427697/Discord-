@@ -114,7 +114,6 @@ async function cleanup() {
     })
   );
 
-  console.log(info);
   const files = info.filter(({ filePath, isDir }) => {
     // Do not remove folder
     // And do not clean anything for @storybook/cli/dist/generators/**/template* because these are the template files
