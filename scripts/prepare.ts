@@ -1,36 +1,47 @@
 /* eslint-disable no-console */
-const path = require('path');
-const shell = require('shelljs');
-const chalk = require('chalk');
-const fs = require('fs-extra');
+import path from 'path';
+import shell from 'shelljs';
+import chalk from 'chalk';
+import fse from 'fs-extra';
+import { PackageJson } from 'type-fest';
 
 const { hashElement } = require('folder-hash');
 
 const { babelify } = require('./utils/compile-babel');
 const { tscfy } = require('./utils/compile-tsc');
 
-async function getInfo() {
+interface Info {
+  modulePath: string;
+  packagePath: string;
+  checksumPath: string;
+  package: PackageJson;
+  checksum: {
+    checksum: string;
+  };
+}
+
+async function getInfo(): Promise<Info> {
   const modulePath = path.resolve('./');
   const packagePath = path.join(modulePath, 'package.json');
   const checksumPath = path.join(modulePath, 'dist', 'checksum.json');
 
-  const exists = await fs.exists(checksumPath);
+  const exists = await fse.pathExists(checksumPath);
 
   if (!exists) {
-    await fs.ensureFile(checksumPath);
-    await fs.writeJSON(checksumPath, {});
+    await fse.ensureFile(checksumPath);
+    await fse.writeJSON(checksumPath, {});
   }
 
   return {
     modulePath,
     packagePath,
     checksumPath,
-    package: await fs.readJSON(packagePath),
-    checksum: await fs.readJSON(checksumPath),
+    package: await fse.readJSON(packagePath),
+    checksum: await fse.readJSON(checksumPath),
   };
 }
 
-async function createChecksum({ modulePath }) {
+async function createChecksum({ modulePath }: Info) {
   const { hash } = await hashElement(path.join(modulePath, 'src'), {
     folders: { exclude: ['tests', '__mocks__', '__tests__'] },
     files: {
@@ -42,17 +53,17 @@ async function createChecksum({ modulePath }) {
   return hash;
 }
 
-async function writeChecksum(checksum, { checksumPath }) {
-  const exists = await fs.exists(checksumPath);
+async function writeChecksum(checksum: string, { checksumPath }: Info) {
+  const exists = await fse.pathExists(checksumPath);
 
   if (!exists) {
-    await fs.ensureFile(checksumPath);
+    await fse.ensureFile(checksumPath);
   }
 
-  return fs.writeJSON(checksumPath, { checksum }, { spaces: 2 });
+  return fse.writeJSON(checksumPath, { checksum }, { spaces: 2 });
 }
 
-async function compareChecksum(info) {
+async function compareChecksum(info: Info) {
   const { checksum: existing } = info.checksum || {};
 
   const future = await createChecksum(info);
@@ -88,14 +99,14 @@ async function cleanup() {
   const dist = path.join(process.cwd(), 'dist');
 
   try {
-    await fs.exist(dist);
+    await fse.pathExists(dist);
   } catch (e) {
     return Promise.resolve();
   }
 
   const info = await Promise.all(
     shell.find('dist').map(async (filePath) => {
-      const isDir = await fs.lstat(filePath).isDirectory();
+      const isDir = (await fse.lstat(filePath)).isDirectory();
       return {
         filePath,
         isDir,
@@ -103,6 +114,7 @@ async function cleanup() {
     })
   );
 
+  console.log(info);
   const files = info.filter(({ filePath, isDir }) => {
     // Do not remove folder
     // And do not clean anything for @storybook/cli/dist/generators/**/template* because these are the template files
@@ -116,19 +128,20 @@ async function cleanup() {
       return true;
     }
 
+    // @ts-ignore - TS
     return ignore.reduce((acc, pattern) => {
       return acc || !!filePath.match(pattern);
     }, false);
   });
 
   if (files.length) {
-    shell.rm('-f', ...files);
+    shell.rm('-f', ...files.map((f) => f.filePath));
   }
 
   return Promise.resolve();
 }
 
-const allSettled = async (list) => {
+const allSettled = async (list: Promise<any>[]) => {
   return Promise.all(
     list.map((l) =>
       l.then(
@@ -139,8 +152,14 @@ const allSettled = async (list) => {
   );
 };
 
-const run = async (options) => {
-  const [src, dist] = await Promise.all([fs.exists('src'), fs.exists('dist')]);
+interface Options {
+  watch: boolean;
+  regen: boolean;
+  silent: boolean;
+}
+
+const run = async (options: Options) => {
+  const [src, dist] = await Promise.all([fse.pathExists('src'), fse.pathExists('dist')]);
 
   if (!src) {
     return Promise.resolve();
@@ -185,7 +204,7 @@ const isWatchingEnabled = !!process.argv.find((a) => a === '--watch');
 const isSilentEnabled = !!process.argv.find((a) => a === '--silent');
 const isRegen = !!process.argv.find((a) => a === '--regen');
 
-run({ watch: isWatchingEnabled, silent: isSilentEnabled, regen: isRegen }).catch((e) => {
+run({ watch: isWatchingEnabled, silent: isSilentEnabled, regen: isRegen } as Options).catch((e) => {
   console.error(e);
 
   removeDist();

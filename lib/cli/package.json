@@ -32,7 +32,7 @@
     "versions.json"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js",
+    "prepare": "ts-node ../../scripts/prepare.ts",
     "postprepare": "node -r esm ./scripts/generate-app-versions.js",
     "test": "cd test && ./run_tests.sh",
     "test-latest-cra": "cd test && ./test_latest_cra.sh",

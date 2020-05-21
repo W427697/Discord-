@@ -28,7 +28,7 @@
   "scripts": {
     "build-storybook": "build-storybook",
     "example": "jest storyshot.test",
-    "prepare": "node ../../../scripts/prepare.js",
+    "prepare": "ts-node ../../../scripts/prepare.ts",
     "storybook": "start-storybook -p 6006"
   },
   "dependencies": {
