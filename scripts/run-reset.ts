@@ -11,10 +11,10 @@ const cleaningProcess = spawn('git', ['clean', '-xdf', '-n']);
 
 cleaningProcess.stdout.on('data', (data) => {
   if (data && data.toString()) {
-    const l = data
+    data
       .toString()
       .split(/\n/)
-      .forEach((i) => {
+      .forEach((i: string) => {
         const [, uri] = i.match(/Would remove (.*)$/) || [];
 
         if (uri) {
@@ -40,7 +40,7 @@ cleaningProcess.stdout.on('data', (data) => {
               .then(() => {
                 logger.log(`trashed ${uri}`);
               })
-              .catch((e) => {
+              .catch(() => {
                 logger.log('failed to trash, will try permanent delete');
                 del(uri).then(() => {
                   logger.log(`deleted ${uri}`);

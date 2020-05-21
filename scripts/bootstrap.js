@@ -72,7 +72,7 @@ function run() {
       option: '--reset',
       command: () => {
         log.info(prefix, 'git clean');
-        spawn('node -r esm ./scripts/reset.js');
+        spawn('ts-node ./scripts/run-reset.ts');
       },
       order: 0,
     }),
