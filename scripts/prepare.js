@@ -151,8 +151,14 @@ const run = async (options) => {
 
   const logline = chalk.bold(`${info.package.name}@${info.package.version}`);
 
-  if (!dist || options.watch || !equal) {
+  if (options.regen) {
     removeDist();
+  }
+
+  if (!dist || options.watch || !equal) {
+    if (!options.watch) {
+      removeDist();
+    }
 
     const checksumTask = writeChecksum(checksum, info);
     const babelTask = babelify(options).then(cleanup);
@@ -177,8 +183,9 @@ const run = async (options) => {
 
 const isWatchingEnabled = !!process.argv.find((a) => a === '--watch');
 const isSilentEnabled = !!process.argv.find((a) => a === '--silent');
+const isRegen = !!process.argv.find((a) => a === '--regen');
 
-run({ watch: isWatchingEnabled, silent: isSilentEnabled }).catch((e) => {
+run({ watch: isWatchingEnabled, silent: isSilentEnabled, regen: isRegen }).catch((e) => {
   console.error(e);
 
   removeDist();

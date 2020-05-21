@@ -25,10 +25,12 @@ function getCommand(watch) {
   }
 
   if (watch) {
-    args.push('-w');
+    args.push('-w --incremental');
   }
 
-  return `${tsc} ${args.join(' ')} && ${downlevelDts} dist ts3.5/dist`;
+  return watch
+    ? `${tsc} ${args.join(' ')}`
+    : `${tsc} ${args.join(' ')} && ${downlevelDts} dist ts3.5/dist`;
 }
 
 const exists = async (location) => {

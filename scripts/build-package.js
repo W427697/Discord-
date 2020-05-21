@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 /* eslint-disable global-require */
-const { resolve } = require('path');
 const terminalSize = require('window-size');
 const { checkDependenciesAndRun, spawn } = require('./utils/cli-utils');
 
@@ -18,6 +17,11 @@ const getStorybookPackages = () => {
   return packages;
 };
 
+const flags = (list) => list.filter(Boolean).join(' ');
+
+const buildFlags = ['--stream', '--no-prefix'];
+const watchFlags = ['--parallel'];
+
 function run() {
   const inquirer = require('inquirer');
   const program = require('commander');
@@ -33,6 +37,7 @@ function run() {
     .map((package) => {
       return {
         name: package,
+        isPackage: true,
         suffix: package.replace('@storybook/', ''),
         defaultValue: false,
         helpText: `build only the ${package} package`,
@@ -50,11 +55,17 @@ function run() {
       suffix: '--watch',
       helpText: 'build on watch mode',
     },
+    regen: {
+      name: `regen`,
+      defaultValue: false,
+      suffix: '--regen',
+      helpText: 'rebuild everything from scratch',
+    },
     ...packageTasks,
   };
 
   const groups = {
-    'mode (leave unselected if you just want to build)': ['watch'],
+    'mode (leave unselected if you just want to build)': ['watch', 'regen'],
     packages,
   };
 
@@ -87,6 +98,7 @@ function run() {
 
   let selection;
   let watchMode = false;
+  let regenMode = false;
   if (
     !Object.keys(tasks)
       .map((key) => tasks[key].value)
@@ -111,13 +123,15 @@ function run() {
       ])
       .then(({ todo }) => {
         watchMode = todo.includes('watch');
+        regenMode = todo.includes('regen');
         return todo
-          .filter((name) => name !== 'watch') // remove watch option as it served its purpose
+          .filter((name) => name !== 'watch' || name !== 'regen') // remove watch option as it served its purpose
           .map((name) => tasks[Object.keys(tasks).find((i) => tasks[i].name === name)]);
       });
   } else {
     // hits here when running yarn build --packagename
     watchMode = process.argv.includes('--watch');
+    regenMode = process.argv.includes('--regen');
     selection = Promise.resolve(
       Object.keys(tasks)
         .map((key) => tasks[key])
@@ -132,19 +146,19 @@ function run() {
       } else {
         const packageNames = list
           // filters out watch command if --watch is used
-          .filter((key) => key.name !== 'watch')
+          .filter((key) => key.name !== 'watch' || key.name !== 'regen')
           .map((key) => key.suffix)
           .filter(Boolean);
 
-        let glob =
-          packageNames.length > 1
-            ? `@storybook/{${packageNames.join(',')}}`
-            : `@storybook/${packageNames[0]}`;
-
         const isAllPackages = process.argv.includes('--all');
-        if (isAllPackages) {
-          glob = '@storybook/*';
-        }
+        const scopes = isAllPackages
+          ? '--scope @storybook/*'
+          : packageNames.map((n) => `--scope @storybook/${n}`);
+
+        const extraFlags = [regenMode ? '--regen' : false, watchMode ? '--watch' : false];
+        const baseFlags = watchMode ? watchFlags : buildFlags;
+
+        spawn(`lerna run prepare ${flags([...baseFlags, ...scopes])} -- ${flags(extraFlags)}`);
 
         if (watchMode) {
           let confirmation = true;
@@ -158,14 +172,13 @@ function run() {
                 name: 'confirmation',
               },
             ]));
-
-            if (confirmation === false) {
-              process.exit(0);
-            }
-            spawn(`lerna run prepare --stream --scope "${glob}" -- --watch`);
           }
-        } else {
-          spawn(`lerna run prepare --stream --no-prefix --scope "${glob}"`);
+          if (confirmation === false) {
+            process.exit(0);
+          }
+
+          // run everything in parallel watch mode
+          spawn(`lerna run prepare ${flags(...baseFlags, ...scopes)} -- --watch`);
         }
         process.stdout.write('\x07');
       }

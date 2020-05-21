@@ -29,7 +29,7 @@ function getCommand(watch) {
   }
 
   if (watch) {
-    args.push('-w');
+    args.push('-w --skip-initial-build');
   }
 
   return `${babel} ${args.join(' ')}`;
