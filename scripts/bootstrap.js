@@ -94,7 +94,7 @@ function run() {
       option: '--build',
       command: () => {
         log.info(prefix, 'prepare');
-        spawn('lerna run prepare');
+        spawn('yarn build --all');
       },
       order: 2,
     }),

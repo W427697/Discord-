@@ -19,7 +19,7 @@ const getStorybookPackages = () => {
 
 const flags = (list) => list.filter(Boolean).join(' ');
 
-const buildFlags = ['--stream', '--no-prefix'];
+const buildFlags = process.env.CI ? [] : ['--stream', '--no-prefix'];
 const watchFlags = ['--parallel'];
 
 function run() {
@@ -152,7 +152,7 @@ function run() {
 
         const isAllPackages = process.argv.includes('--all');
         const scopes = isAllPackages
-          ? '--scope @storybook/*'
+          ? ['--scope @storybook/*']
           : packageNames.map((n) => `--scope @storybook/${n}`);
 
         const extraFlags = [regenMode ? '--regen' : false, watchMode ? '--watch' : false];
