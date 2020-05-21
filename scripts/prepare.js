@@ -6,8 +6,8 @@ const fs = require('fs-extra');
 
 const { hashElement } = require('folder-hash');
 
-const { babelify } = require('./compile-babel');
-const { tscfy } = require('./compile-tsc');
+const { babelify } = require('./utils/compile-babel');
+const { tscfy } = require('./utils/compile-tsc');
 
 async function getInfo() {
   const modulePath = path.resolve('./');

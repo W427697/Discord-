@@ -8,12 +8,12 @@ function getCommand(watch) {
     return null;
   }
 
-  const babel = path.join(__dirname, '..', 'node_modules', '.bin', 'babel');
+  const babel = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'babel');
 
   const args = [
     './src',
     '--out-dir ./dist',
-    `--config-file ${path.resolve(__dirname, '../.babelrc.js')}`,
+    `--config-file ${path.resolve(__dirname, '../../.babelrc.js')}`,
     `--copy-files`,
   ];
 
