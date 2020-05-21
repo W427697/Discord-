@@ -158,6 +158,10 @@ interface Options {
 }
 
 const run = async (options: Options) => {
+  if (options.regen) {
+    removeDist();
+  }
+
   const [src, dist] = await Promise.all([fse.pathExists('src'), fse.pathExists('dist')]);
 
   if (!src) {
@@ -168,10 +172,6 @@ const run = async (options: Options) => {
   const { checksum, equal } = await compareChecksum(info);
 
   const logline = chalk.bold(`${info.package.name}@${info.package.version}`);
-
-  if (options.regen) {
-    removeDist();
-  }
 
   if (!dist || options.watch || !equal) {
     if (!options.watch) {
