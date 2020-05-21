@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import path from 'path';
-import shell from 'shelljs';
+import * as shell from 'shelljs';
 import chalk from 'chalk';
 import fse from 'fs-extra';
 import { PackageJson } from 'type-fest';
@@ -105,7 +105,7 @@ async function cleanup() {
   }
 
   const info = await Promise.all(
-    shell.find('dist').map(async (filePath) => {
+    [...shell.find('dist')].map(async (filePath) => {
       const isDir = (await fse.lstat(filePath)).isDirectory();
       return {
         filePath,

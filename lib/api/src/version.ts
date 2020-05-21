@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-extraneous-dependencies */
 // @ts-ignore
 import preval from 'preval.macro';
 
