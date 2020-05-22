@@ -36,7 +36,7 @@
   ],
   "scripts": {
     "createDlls": "node -r esm ./scripts/createDlls.js",
-    "prepare": "ts-node ../../scripts/prepare.ts"
+    "prepare": "ts-node --transpile-only ../../scripts/prepare.ts"
   },
   "dependencies": {
     "@babel/generator": "^7.9.6",
