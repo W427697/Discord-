@@ -1,7 +1,8 @@
 import { NpmOptions } from '../NpmOptions';
-import { StoryFormat } from '../project_types';
+import { StoryFormat, SupportedLanguage } from '../project_types';
 
 export type GeneratorOptions = {
+  language: SupportedLanguage;
   storyFormat: StoryFormat;
 };
 

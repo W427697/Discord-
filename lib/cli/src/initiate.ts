@@ -58,13 +58,13 @@ const installStorybook = (projectType: ProjectType, options: CommandOptions): Pr
     skipInstall: options.skipInstall,
   };
 
+  const language = detectLanguage();
   const defaultStoryFormat =
-    detectLanguage() === SupportedLanguage.TYPESCRIPT
-      ? StoryFormat.CSF_TYPESCRIPT
-      : StoryFormat.CSF;
+    language === SupportedLanguage.TYPESCRIPT ? StoryFormat.CSF_TYPESCRIPT : StoryFormat.CSF;
 
   const generatorOptions = {
     storyFormat: options.storyFormat || defaultStoryFormat,
+    language,
   };
 
   const runStorybookCommand = useYarn ? 'yarn storybook' : 'npm run storybook';

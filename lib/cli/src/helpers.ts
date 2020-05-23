@@ -9,7 +9,7 @@ import stripJsonComments from 'strip-json-comments';
 
 import { latestVersion } from './latest_version';
 import { npmInit } from './npm_init';
-import { StoryFormat } from './project_types';
+import { StoryFormat, SupportedFrameworks, SupportedLanguage } from './project_types';
 import { PackageJson } from './PackageJson';
 import { NpmOptions } from './NpmOptions';
 
@@ -338,4 +338,26 @@ export function copyTemplate(templateRoot: string, storyFormat: StoryFormat) {
     throw new Error(`Unsupported story format: ${storyFormat}`);
   }
   fse.copySync(templateDir, '.', { overwrite: true });
+}
+
+export function copyComponents(framework: SupportedFrameworks, language: SupportedLanguage) {
+  const languageFolderMapping: { [key in SupportedLanguage]: string } = {
+    javascript: 'js',
+    typescript: 'ts',
+  };
+  const componentsPath = () => {
+    const frameworkPath = path.resolve(__dirname, `framework/${framework}`);
+    const languageSpecific = path.resolve(frameworkPath, languageFolderMapping[language]);
+    if (fs.existsSync(languageSpecific)) {
+      return languageSpecific;
+    }
+    if (fs.existsSync(frameworkPath)) {
+      return frameworkPath;
+    }
+    throw new Error(`Unsupported framework: ${framework}`);
+  };
+
+  const destinationPath = './src';
+  fse.ensureDir(destinationPath);
+  fse.copySync(componentsPath(), destinationPath, { overwrite: true });
 }
