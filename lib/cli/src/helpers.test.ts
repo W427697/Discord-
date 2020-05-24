@@ -10,6 +10,7 @@ jest.mock('fs', () => ({
 
 jest.mock('fs-extra', () => ({
   copySync: jest.fn(() => ({})),
+  ensureDir: jest.fn(() => {}),
 }));
 
 jest.mock('path', () => ({
@@ -80,6 +81,11 @@ describe('Helpers', () => {
         );
       }
     );
+
+    it(`should create a src folder`, () => {
+      helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
+      expect(fse.ensureDir).toHaveBeenCalledWith('./src');
+    });
 
     it(`should throw an error for unsupported framework`, () => {
       const framework = 'unknown framework' as SupportedFrameworks;
