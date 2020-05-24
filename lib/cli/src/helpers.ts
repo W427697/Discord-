@@ -358,6 +358,6 @@ export function copyComponents(framework: SupportedFrameworks, language: Support
   };
 
   const destinationPath = './src';
-  fse.ensureDir(destinationPath);
+  fse.ensureDirSync(destinationPath);
   fse.copySync(componentsPath(), destinationPath, { overwrite: true });
 }
