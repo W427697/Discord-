@@ -6,6 +6,7 @@ import {
   getPackageJson,
   writeFileAsJson,
   copyTemplate,
+  copyComponents,
   readFileAsJson,
 } from '../../helpers';
 import { Generator } from '../Generator';
@@ -26,7 +27,8 @@ function addStorybookExcludeGlobToTsConfig() {
   tsConfigJson.exclude = [...exclude, glob];
   writeFileAsJson('tsconfig.json', tsConfigJson);
 }
-const generator: Generator = async (npmOptions, { storyFormat = StoryFormat.CSF }) => {
+const generator: Generator = async (npmOptions, { storyFormat = StoryFormat.CSF, language }) => {
+  copyComponents('aurelia', language);
   copyTemplate(__dirname, storyFormat);
   const packages = [
     '@storybook/aurelia',

@@ -11,7 +11,8 @@ export type SupportedFrameworks =
   | 'meteor'
   | 'preact'
   | 'svelte'
-  | 'rax';
+  | 'rax'
+  | 'aurelia';
 
 export enum ProjectType {
   UNDETECTED = 'UNDETECTED',
