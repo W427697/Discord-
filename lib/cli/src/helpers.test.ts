@@ -2,7 +2,7 @@ import fs from 'fs';
 import fse from 'fs-extra';
 
 import * as helpers from './helpers';
-import { StoryFormat } from './project_types';
+import { StoryFormat, SupportedLanguage, SupportedFrameworks } from './project_types';
 
 jest.mock('fs', () => ({
   existsSync: jest.fn(),
@@ -51,6 +51,41 @@ describe('Helpers', () => {
       const expectedMessage = `Unsupported story format: ${storyFormat}`;
       expect(() => {
         helpers.copyTemplate('', storyFormat);
+      }).toThrowError(expectedMessage);
+    });
+  });
+
+  describe('copyComponents', () => {
+    it.each`
+      language        | exists   | folder   | expected
+      ${'javascript'} | ${true}  | ${'/js'} | ${'/js'}
+      ${'typescript'} | ${true}  | ${'/ts'} | ${'/ts'}
+      ${'javascript'} | ${false} | ${'/js'} | ${'/'}
+      ${'typescript'} | ${false} | ${'/ts'} | ${'/'}
+    `(
+      `should fallback to $expected when $folder existance is $exists`,
+      ({ language, exists, folder, expected }) => {
+        const componentDirectory = `framework/react/${folder}`;
+        const expectedDirectory = `framework/react/${expected}`;
+        (fs.existsSync as jest.Mock).mockImplementation((filePath) => {
+          return filePath === componentDirectory && exists;
+        });
+        helpers.copyComponents('react', language);
+
+        const copySyncSpy = jest.spyOn(fse, 'copySync');
+        expect(copySyncSpy).toHaveBeenCalledWith(
+          expectedDirectory,
+          expect.anything(),
+          expect.anything()
+        );
+      }
+    );
+
+    it(`should throw an error for unsupported framework`, () => {
+      const framework = 'unknown framework' as SupportedFrameworks;
+      const expectedMessage = `Unsupported framework: ${framework}`;
+      expect(() => {
+        helpers.copyComponents(framework, SupportedLanguage.JAVASCRIPT);
       }).toThrowError(expectedMessage);
     });
   });
