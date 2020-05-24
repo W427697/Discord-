@@ -7,11 +7,12 @@ import {
   getBabelDependencies,
   installDependencies,
   copyTemplate,
+  copyComponents,
 } from '../../helpers';
 import { StoryFormat } from '../../project_types';
 import { Generator } from '../Generator';
 
-const generator: Generator = async (npmOptions, { storyFormat }) => {
+const generator: Generator = async (npmOptions, { storyFormat, language }) => {
   const packages = [
     '@storybook/react',
     '@storybook/preset-create-react-app',
@@ -26,6 +27,7 @@ const generator: Generator = async (npmOptions, { storyFormat }) => {
 
   const versionedPackages = await getVersionedPackages(npmOptions, ...packages);
 
+  copyComponents('react', language);
   copyTemplate(__dirname, storyFormat);
 
   const packageJson = await retrievePackageJson();
