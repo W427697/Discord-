@@ -7,10 +7,11 @@ import {
   getBabelDependencies,
   installDependencies,
   copyTemplate,
+  copyComponents,
 } from '../../helpers';
 import { Generator } from '../Generator';
 
-const generator: Generator = async (npmOptions, { storyFormat }) => {
+const generator: Generator = async (npmOptions, { storyFormat, language }) => {
   const [
     storybookVersion,
     actionsVersion,
@@ -34,6 +35,7 @@ const generator: Generator = async (npmOptions, { storyFormat }) => {
     '@babel/preset-react'
   );
 
+  copyComponents('react', language);
   copyTemplate(__dirname, storyFormat);
 
   const packageJson = await retrievePackageJson();

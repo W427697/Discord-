@@ -5,10 +5,11 @@ import {
   getBabelDependencies,
   installDependencies,
   copyTemplate,
+  copyComponents,
 } from '../../helpers';
 import { Generator } from '../Generator';
 
-const generator: Generator = async (npmOptions, { storyFormat }) => {
+const generator: Generator = async (npmOptions, { storyFormat, language }) => {
   const [
     storybookVersion,
     actionsVersion,
@@ -26,6 +27,7 @@ const generator: Generator = async (npmOptions, { storyFormat }) => {
     'svelte-loader'
   );
 
+  copyComponents('svelte', language);
   copyTemplate(__dirname, storyFormat);
 
   const packageJson = await retrievePackageJson();

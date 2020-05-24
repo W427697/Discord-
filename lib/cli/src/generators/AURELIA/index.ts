@@ -10,7 +10,7 @@ import {
   readFileAsJson,
 } from '../../helpers';
 import { Generator } from '../Generator';
-import { StoryFormat } from '../../project_types';
+import { StoryFormat, SupportedLanguage } from '../../project_types';
 
 function addStorybookExcludeGlobToTsConfig() {
   const tsConfigJson = readFileAsJson('tsconfig.json', true);
@@ -27,8 +27,8 @@ function addStorybookExcludeGlobToTsConfig() {
   tsConfigJson.exclude = [...exclude, glob];
   writeFileAsJson('tsconfig.json', tsConfigJson);
 }
-const generator: Generator = async (npmOptions, { storyFormat = StoryFormat.CSF, language }) => {
-  copyComponents('aurelia', language);
+const generator: Generator = async (npmOptions, { storyFormat = StoryFormat.CSF }) => {
+  copyComponents('aurelia', SupportedLanguage.TYPESCRIPT);
   copyTemplate(__dirname, storyFormat);
   const packages = [
     '@storybook/aurelia',
