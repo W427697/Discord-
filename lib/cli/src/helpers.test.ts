@@ -11,6 +11,7 @@ jest.mock('fs', () => ({
 jest.mock('fs-extra', () => ({
   copySync: jest.fn(() => ({})),
   ensureDir: jest.fn(() => {}),
+  existsSync: jest.fn(),
 }));
 
 jest.mock('path', () => ({
