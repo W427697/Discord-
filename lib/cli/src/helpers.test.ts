@@ -88,7 +88,11 @@ describe('Helpers', () => {
       return filePath === 'frameworks/react' || filePath === './src';
     });
     helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
-    expect(fse.copySync).toHaveBeenCalledWith(expect.anything(), './src', expect.anything());
+    expect(fse.copySync).toHaveBeenCalledWith(
+      expect.anything(),
+      './src/stories',
+      expect.anything()
+    );
   });
 
   it(`should copy to root folder when src doesn't exist`, () => {
@@ -96,7 +100,7 @@ describe('Helpers', () => {
       return filePath === 'frameworks/react';
     });
     helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
-    expect(fse.copySync).toHaveBeenCalledWith(expect.anything(), '.', expect.anything());
+    expect(fse.copySync).toHaveBeenCalledWith(expect.anything(), './stories', expect.anything());
   });
 
   it(`should throw an error for unsupported framework`, () => {
