@@ -4,7 +4,9 @@ function mainConfigurationGenerator(addons?: string[], custom?: any) {
   const hasSrc = fse.existsSync('./src');
 
   const config = {
-    stories: ['../stories/**/*.stories.*', hasSrc && '../src/**/*.stories.*'].filter(Boolean),
+    stories: [!hasSrc && '../stories/**/*.stories.*', hasSrc && '../src/**/*.stories.*'].filter(
+      Boolean
+    ),
     addons: ['@storybook/addon-essentials', '@storybook/addon-links', ...addons],
     ...custom,
   };
