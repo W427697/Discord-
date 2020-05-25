@@ -48,7 +48,7 @@ const generator = async (
 
   configure(extraAddons);
   copyComponents(framework, language);
-  copyTemplate(dirname, storyFormat);
+  copyTemplate(dirname || __dirname, storyFormat);
 
   const packageJson = await retrievePackageJson();
 

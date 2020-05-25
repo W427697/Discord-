@@ -328,7 +328,6 @@ export function addToDevDependenciesIfNotPresent(
 
 export function copyTemplate(templateRoot: string, storyFormat: StoryFormat) {
   const templateDir = path.resolve(templateRoot, `template-${storyFormat}/`);
-  console.log('templateRoot', templateRoot);
   if (
     storyFormat !== StoryFormat.MDX &&
     templateRoot.match(/generators$/) // Means we're using base config and migrated
