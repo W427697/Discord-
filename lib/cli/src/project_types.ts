@@ -12,7 +12,8 @@ export type SupportedFrameworks =
   | 'preact'
   | 'svelte'
   | 'rax'
-  | 'aurelia';
+  | 'aurelia'
+  | 'html';
 
 export enum ProjectType {
   UNDETECTED = 'UNDETECTED',

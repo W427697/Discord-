@@ -5,11 +5,12 @@ import {
   getBabelDependencies,
   installDependencies,
   copyTemplate,
+  copyComponents,
 } from '../../helpers';
 import { StoryFormat } from '../../project_types';
 import { Generator } from '../Generator';
 
-const generator: Generator = async (npmOptions, { storyFormat }) => {
+const generator: Generator = async (npmOptions, { storyFormat, language }) => {
   const packages = ['@storybook/html', '@storybook/addon-actions', '@storybook/addon-links'];
 
   const versionedPackages = await getVersionedPackages(npmOptions, ...packages);
@@ -17,6 +18,7 @@ const generator: Generator = async (npmOptions, { storyFormat }) => {
     packages.push('@storybook/addon-docs');
   }
 
+  copyComponents('html', language);
   copyTemplate(__dirname, storyFormat);
 
   const packageJson = await retrievePackageJson();
