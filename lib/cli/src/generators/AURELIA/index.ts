@@ -9,7 +9,7 @@ import {
   copyComponents,
   readFileAsJson,
 } from '../../helpers';
-import { Generator } from '../Generator';
+import { Generator } from '../generator';
 import { StoryFormat, SupportedLanguage } from '../../project_types';
 
 function addStorybookExcludeGlobToTsConfig() {

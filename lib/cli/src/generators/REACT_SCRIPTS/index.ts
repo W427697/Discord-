@@ -1,55 +1,18 @@
 import path from 'path';
 import fs from 'fs';
-import {
-  retrievePackageJson,
-  getVersionedPackages,
-  writePackageJson,
-  getBabelDependencies,
-  installDependencies,
-  copyTemplate,
-  copyComponents,
-} from '../../helpers';
-import { StoryFormat } from '../../project_types';
-import { Generator } from '../Generator';
+import { retrievePackageJson, writePackageJson } from '../../helpers';
 
-const generator: Generator = async (npmOptions, { storyFormat, language }) => {
-  const packages = [
-    '@storybook/react',
-    '@storybook/preset-create-react-app',
-    '@storybook/addon-actions',
-    '@storybook/addon-links',
-    '@storybook/addons',
-  ];
+import baseGenerator, { Generator } from '../generator';
 
-  if (storyFormat === StoryFormat.MDX) {
-    packages.push('@storybook/addon-docs');
-  }
-
-  const versionedPackages = await getVersionedPackages(npmOptions, ...packages);
-
-  copyComponents('react', language);
-  copyTemplate(__dirname, storyFormat);
-
-  const packageJson = await retrievePackageJson();
-
-  packageJson.dependencies = packageJson.dependencies || {};
-  packageJson.devDependencies = packageJson.devDependencies || {};
-
-  packageJson.scripts = packageJson.scripts || {};
-  packageJson.scripts.storybook = 'start-storybook -p 9009';
-  packageJson.scripts['build-storybook'] = 'build-storybook';
-
+const generator: Generator = async (npmOptions, options) => {
+  await baseGenerator(npmOptions, options, 'react', [], ['@storybook/preset-create-react-app']);
   if (fs.existsSync(path.resolve('./public'))) {
+    const packageJson = await retrievePackageJson();
     // has a public folder and add support to it.
     packageJson.scripts.storybook += ' -s public';
     packageJson.scripts['build-storybook'] += ' -s public';
+    writePackageJson(packageJson);
   }
-
-  writePackageJson(packageJson);
-
-  const babelDependencies = await getBabelDependencies(npmOptions, packageJson);
-
-  installDependencies({ ...npmOptions, packageJson }, [...versionedPackages, ...babelDependencies]);
 };
 
 export default generator;

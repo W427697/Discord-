@@ -328,6 +328,16 @@ export function addToDevDependenciesIfNotPresent(
 
 export function copyTemplate(templateRoot: string, storyFormat: StoryFormat) {
   const templateDir = path.resolve(templateRoot, `template-${storyFormat}/`);
+  const newTemplates = [/WEBPACK_REACT/, /REACT/, /REACT_SCRIPTS/];
+  const reactNative = /REACT_NATIVE/;
+  if (
+    newTemplates.some((t) => templateRoot.match(t)) &&
+    storyFormat !== StoryFormat.MDX &&
+    !templateRoot.match(reactNative)
+  ) {
+    return;
+  }
+
   if (!fs.existsSync(templateDir)) {
     // Fallback to CSF plain first, in case format is typescript but template is not available.
     if (storyFormat === StoryFormat.CSF_TYPESCRIPT) {
@@ -346,7 +356,7 @@ export function copyComponents(framework: SupportedFrameworks, language: Support
     typescript: 'ts',
   };
   const componentsPath = () => {
-    const frameworkPath = `framework/${framework}`;
+    const frameworkPath = `frameworks/${framework}`;
     const languageSpecific = path.resolve(
       __dirname,
       `${frameworkPath}/${languageFolderMapping[language]}`

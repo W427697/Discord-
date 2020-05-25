@@ -16,7 +16,7 @@ import {
 } from '../../helpers';
 import { StoryFormat } from '../../project_types';
 import { NpmOptions } from '../../NpmOptions';
-import { Generator, GeneratorOptions } from '../Generator';
+import { Generator, GeneratorOptions } from '../generator';
 
 async function addDependencies(npmOptions: NpmOptions, { storyFormat }: GeneratorOptions) {
   const packages = [

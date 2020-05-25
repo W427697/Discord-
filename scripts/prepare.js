@@ -36,13 +36,13 @@ function cleanup() {
       // Do not remove folder
       // And do not clean anything for:
       // - @storybook/cli/dist/generators/**/template*
-      // - @storybook/cli/dist/framework/*
+      // - @storybook/cli/dist/frameworks/*
       // because these are the template files
       // that will be copied to init SB on users' projects
       if (
         fs.lstatSync(filePath).isDirectory() ||
         /generators\/.+\/template.*/.test(filePath) ||
-        /dist\/framework\/.*/.test(filePath)
+        /dist\/frameworks\/.*/.test(filePath)
       ) {
         return false;
       }

@@ -1,3 +1,4 @@
+// Should match @storybook/<framework>
 export type SupportedFrameworks =
   | 'react'
   | 'react-native'
@@ -13,7 +14,8 @@ export type SupportedFrameworks =
   | 'svelte'
   | 'rax'
   | 'aurelia'
-  | 'html';
+  | 'html'
+  | 'web-components';
 
 export enum ProjectType {
   UNDETECTED = 'UNDETECTED',

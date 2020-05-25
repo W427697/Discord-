@@ -66,10 +66,10 @@ describe('Helpers', () => {
   `(
     `should copy $expected when folder $exists exists for language $language`,
     ({ language, exists, expected }) => {
-      const componentsDirectory = exists.map((folder: string) => `framework/react/${folder}`);
-      const expectedDirectory = `framework/react${expected}`;
+      const componentsDirectory = exists.map((folder: string) => `frameworks/react/${folder}`);
+      const expectedDirectory = `frameworks/react${expected}`;
       (fse.existsSync as jest.Mock).mockImplementation((filePath) => {
-        return componentsDirectory.includes(filePath) || filePath === 'framework/react';
+        return componentsDirectory.includes(filePath) || filePath === 'frameworks/react';
       });
       helpers.copyComponents('react', language);
 
@@ -84,7 +84,7 @@ describe('Helpers', () => {
 
   it(`should copy to src folder when exists`, () => {
     (fse.existsSync as jest.Mock).mockImplementation((filePath) => {
-      return filePath === 'framework/react' || filePath === './src';
+      return filePath === 'frameworks/react' || filePath === './src';
     });
     helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
     expect(fse.copySync).toHaveBeenCalledWith(expect.anything(), './src', expect.anything());
@@ -92,7 +92,7 @@ describe('Helpers', () => {
 
   it(`should copy to root folder when src doesn't exist`, () => {
     (fse.existsSync as jest.Mock).mockImplementation((filePath) => {
-      return filePath === 'framework/react';
+      return filePath === 'frameworks/react';
     });
     helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
     expect(fse.copySync).toHaveBeenCalledWith(expect.anything(), '.', expect.anything());

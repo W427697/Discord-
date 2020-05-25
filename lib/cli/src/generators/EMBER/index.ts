@@ -5,10 +5,11 @@ import {
   getBabelDependencies,
   installDependencies,
   copyTemplate,
+  copyComponents,
 } from '../../helpers';
-import { Generator } from '../Generator';
+import { Generator } from '../generator';
 
-const generator: Generator = async (npmOptions, { storyFormat }) => {
+const generator: Generator = async (npmOptions, { storyFormat, language }) => {
   const [
     storybookVersion,
     babelPluginEmberModulePolyfillVersion,
@@ -28,6 +29,7 @@ const generator: Generator = async (npmOptions, { storyFormat }) => {
     '@storybook/addons'
   );
 
+  copyComponents('ember', language);
   copyTemplate(__dirname, storyFormat);
 
   const packageJson = await retrievePackageJson();
