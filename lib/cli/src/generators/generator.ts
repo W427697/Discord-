@@ -16,18 +16,30 @@ export type GeneratorOptions = {
   storyFormat: StoryFormat;
 };
 
+export interface FrameworkOptions {
+  extraPackages?: string[];
+  extraAddons?: string[];
+  dirname?: string;
+}
+
 export type Generator = (npmOptions: NpmOptions, options: GeneratorOptions) => Promise<void>;
 
+const defaultOptions: FrameworkOptions = {
+  extraPackages: [],
+  extraAddons: [],
+  dirname: __dirname,
+};
 const generator = async (
   npmOptions: NpmOptions,
   { storyFormat, language }: GeneratorOptions,
   framework: SupportedFrameworks,
-  extraPackages?: string[],
-  extraAddons?: string[]
+  options: FrameworkOptions = defaultOptions
 ) => {
+  const { extraAddons, extraPackages, dirname } = { ...defaultOptions, ...options };
   const packages = [
     `@storybook/${framework}`,
     '@storybook/addon-essentials',
+    '@storybook/addon-actions',
     '@storybook/addon-links',
     ...extraPackages,
     ...extraAddons,
@@ -36,7 +48,7 @@ const generator = async (
 
   configure(extraAddons);
   copyComponents(framework, language);
-  copyTemplate(__dirname, storyFormat);
+  copyTemplate(dirname, storyFormat);
 
   const packageJson = await retrievePackageJson();
 

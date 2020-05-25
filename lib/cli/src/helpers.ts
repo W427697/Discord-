@@ -328,12 +328,10 @@ export function addToDevDependenciesIfNotPresent(
 
 export function copyTemplate(templateRoot: string, storyFormat: StoryFormat) {
   const templateDir = path.resolve(templateRoot, `template-${storyFormat}/`);
-  const newTemplates = [/WEBPACK_REACT/, /REACT/, /REACT_SCRIPTS/];
-  const reactNative = /REACT_NATIVE/;
+  console.log('templateRoot', templateRoot);
   if (
-    newTemplates.some((t) => templateRoot.match(t)) &&
     storyFormat !== StoryFormat.MDX &&
-    !templateRoot.match(reactNative)
+    templateRoot.match(/generators$/) // Means we're using base config and migrated
   ) {
     return;
   }

@@ -10,6 +10,7 @@ function mainConfigurationGenerator(addons?: string[], custom?: any) {
   };
 
   const stringified = `module.exports = ${JSON.stringify(config, null, 2)}`;
+  fse.ensureDirSync('./.storybook');
   fse.writeFileSync('./.storybook/main.js', stringified, { encoding: 'utf8' });
 }
 
