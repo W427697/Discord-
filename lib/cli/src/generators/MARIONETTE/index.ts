@@ -7,7 +7,7 @@ import {
   installDependencies,
   retrievePackageJson,
 } from '../../helpers';
-import { Generator } from '../Generator';
+import { Generator } from '../generator';
 
 const generator: Generator = async (npmOptions) => {
   const storybookVersion = await getVersion(npmOptions, '@storybook/marionette');

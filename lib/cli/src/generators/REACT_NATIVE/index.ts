@@ -10,7 +10,7 @@ import {
   copyTemplate,
 } from '../../helpers';
 import { NpmOptions } from '../../NpmOptions';
-import { GeneratorOptions } from '../Generator';
+import { GeneratorOptions } from '../generator';
 
 export default async (
   npmOptions: NpmOptions,

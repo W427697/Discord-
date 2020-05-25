@@ -7,7 +7,7 @@ import {
   copyTemplate,
 } from '../../helpers';
 import { StoryFormat } from '../../project_types';
-import { Generator } from '../Generator';
+import { Generator } from '../generator';
 
 const generator: Generator = async (npmOptions, { storyFormat }) => {
   const packages = [

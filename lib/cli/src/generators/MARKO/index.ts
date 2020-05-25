@@ -6,7 +6,7 @@ import {
   installDependencies,
   copyTemplate,
 } from '../../helpers';
-import { Generator } from '../Generator';
+import { Generator } from '../generator';
 
 const generator: Generator = async (npmOptions, { storyFormat }) => {
   const [storybookVersion, addonActionVersion, addonKnobsVersion] = await getVersions(

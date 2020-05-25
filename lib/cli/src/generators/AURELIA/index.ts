@@ -8,7 +8,7 @@ import {
   copyTemplate,
   readFileAsJson,
 } from '../../helpers';
-import { Generator } from '../Generator';
+import { Generator } from '../generator';
 import { StoryFormat } from '../../project_types';
 
 function addStorybookExcludeGlobToTsConfig() {
