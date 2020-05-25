@@ -346,18 +346,35 @@ export function copyComponents(framework: SupportedFrameworks, language: Support
     typescript: 'ts',
   };
   const componentsPath = () => {
-    const frameworkPath = path.resolve(__dirname, `framework/${framework}`);
-    const languageSpecific = path.resolve(frameworkPath, languageFolderMapping[language]);
-    if (fs.existsSync(languageSpecific)) {
+    const frameworkPath = `framework/${framework}`;
+    const languageSpecific = path.resolve(
+      __dirname,
+      `${frameworkPath}/${languageFolderMapping[language]}`
+    );
+    if (fse.existsSync(languageSpecific)) {
       return languageSpecific;
     }
-    if (fs.existsSync(frameworkPath)) {
-      return frameworkPath;
+    const jsFallback = path.resolve(
+      __dirname,
+      `${frameworkPath}/${languageFolderMapping.javascript}`
+    );
+    if (fse.existsSync(jsFallback)) {
+      return jsFallback;
+    }
+    const frameworkRootPath = path.resolve(__dirname, frameworkPath);
+    if (fse.existsSync(frameworkRootPath)) {
+      return frameworkRootPath;
     }
     throw new Error(`Unsupported framework: ${framework}`);
   };
 
-  const destinationPath = './src';
-  fse.ensureDirSync(destinationPath);
+  const targetPath = () => {
+    if (fse.existsSync('./src')) {
+      return './src';
+    }
+    return '.';
+  };
+
+  const destinationPath = targetPath();
   fse.copySync(componentsPath(), destinationPath, { overwrite: true });
 }

@@ -56,43 +56,53 @@ describe('Helpers', () => {
     });
   });
 
-  describe('copyComponents', () => {
-    it.each`
-      language        | exists   | folder   | expected
-      ${'javascript'} | ${true}  | ${'/js'} | ${'/js'}
-      ${'typescript'} | ${true}  | ${'/ts'} | ${'/ts'}
-      ${'javascript'} | ${false} | ${'/js'} | ${'/'}
-      ${'typescript'} | ${false} | ${'/ts'} | ${'/'}
-    `(
-      `should fallback to $expected when $folder existance is $exists`,
-      ({ language, exists, folder, expected }) => {
-        const componentDirectory = `framework/react/${folder}`;
-        const expectedDirectory = `framework/react/${expected}`;
-        (fs.existsSync as jest.Mock).mockImplementation((filePath) => {
-          return filePath === componentDirectory && exists;
-        });
-        helpers.copyComponents('react', language);
+  it.each`
+    language        | exists          | expected
+    ${'javascript'} | ${['js', 'ts']} | ${'/js'}
+    ${'typescript'} | ${['js', 'ts']} | ${'/ts'}
+    ${'typescript'} | ${['js']}       | ${'/js'}
+    ${'javascript'} | ${[]}           | ${''}
+    ${'typescript'} | ${[]}           | ${''}
+  `(
+    `should copy $expected when folder $exists exists for language $language`,
+    ({ language, exists, expected }) => {
+      const componentsDirectory = exists.map((folder: string) => `framework/react/${folder}`);
+      const expectedDirectory = `framework/react${expected}`;
+      (fse.existsSync as jest.Mock).mockImplementation((filePath) => {
+        return componentsDirectory.includes(filePath) || filePath === 'framework/react';
+      });
+      helpers.copyComponents('react', language);
 
-        const copySyncSpy = jest.spyOn(fse, 'copySync');
-        expect(copySyncSpy).toHaveBeenCalledWith(
-          expectedDirectory,
-          expect.anything(),
-          expect.anything()
-        );
-      }
-    );
+      const copySyncSpy = jest.spyOn(fse, 'copySync');
+      expect(copySyncSpy).toHaveBeenCalledWith(
+        expectedDirectory,
+        expect.anything(),
+        expect.anything()
+      );
+    }
+  );
 
-    it(`should create a src folder`, () => {
-      helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
-      expect(fse.ensureDir).toHaveBeenCalledWith('./src');
+  it(`should copy to src folder when exists`, () => {
+    (fse.existsSync as jest.Mock).mockImplementation((filePath) => {
+      return filePath === 'framework/react' || filePath === './src';
     });
+    helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
+    expect(fse.copySync).toHaveBeenCalledWith(expect.anything(), './src', expect.anything());
+  });
 
-    it(`should throw an error for unsupported framework`, () => {
-      const framework = 'unknown framework' as SupportedFrameworks;
-      const expectedMessage = `Unsupported framework: ${framework}`;
-      expect(() => {
-        helpers.copyComponents(framework, SupportedLanguage.JAVASCRIPT);
-      }).toThrowError(expectedMessage);
+  it(`should copy to root folder when src doesn't exist`, () => {
+    (fse.existsSync as jest.Mock).mockImplementation((filePath) => {
+      return filePath === 'framework/react';
     });
+    helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
+    expect(fse.copySync).toHaveBeenCalledWith(expect.anything(), '.', expect.anything());
+  });
+
+  it(`should throw an error for unsupported framework`, () => {
+    const framework = 'unknown framework' as SupportedFrameworks;
+    const expectedMessage = `Unsupported framework: ${framework}`;
+    expect(() => {
+      helpers.copyComponents(framework, SupportedLanguage.JAVASCRIPT);
+    }).toThrowError(expectedMessage);
   });
 });
