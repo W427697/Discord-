@@ -15,6 +15,8 @@ function getCommand(watch) {
     '--out-dir ./dist',
     `--config-file ${path.resolve(__dirname, '../../.babelrc.js')}`,
     `--copy-files`,
+    `--ignore "*.@(spec|test|stories).*"`,
+    `--no-copy-ignored`,
   ];
 
   /*

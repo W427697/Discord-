@@ -8,7 +8,7 @@ import { PackageJson } from 'type-fest';
 const { hashElement } = require('folder-hash');
 
 const { babelify } = require('./utils/compile-babel');
-const { tscfy } = require('./utils/compile-tsc');
+const { tscfy, downgrade } = require('./utils/compile-tsc');
 
 interface Info {
   modulePath: string;
@@ -81,63 +81,7 @@ async function compareChecksum(info: Info) {
 
 function removeDist() {
   shell.rm('-rf', 'dist');
-}
-
-const ignore = [
-  '__mocks__',
-  '__snapshots__',
-  '__testfixtures__',
-  '__tests__',
-  '/tests/',
-  /.+\.test\..+/,
-];
-
-async function cleanup() {
-  // remove files after babel --copy-files output
-  // --copy-files option doesn't work with --ignore
-  // https://github.com/babel/babel/issues/6226
-  const dist = path.join(process.cwd(), 'dist');
-
-  try {
-    await fse.pathExists(dist);
-  } catch (e) {
-    return Promise.resolve();
-  }
-
-  const info = await Promise.all(
-    [...shell.find('dist')].map(async (filePath) => {
-      const isDir = (await fse.lstat(filePath)).isDirectory();
-      return {
-        filePath,
-        isDir,
-      };
-    })
-  );
-
-  const files = info.filter(({ filePath, isDir }) => {
-    // Do not remove folder
-    // And do not clean anything for @storybook/cli/dist/generators/**/template* because these are the template files
-    // that will be copied to init SB on users' projects
-    if (isDir || /generators\/.+\/template.*/.test(filePath)) {
-      return false;
-    }
-
-    // Remove all copied TS files (but not the .d.ts)
-    if (/\.tsx?$/.test(filePath) && !/\.d\.ts$/.test(filePath)) {
-      return true;
-    }
-
-    // @ts-ignore - TS
-    return ignore.reduce((acc, pattern) => {
-      return acc || !!filePath.match(pattern);
-    }, false);
-  });
-
-  if (files.length) {
-    shell.rm('-f', ...files.map((f) => f.filePath));
-  }
-
-  return Promise.resolve();
+  shell.rm('-f', 'tsconfig.tsbuildinfo');
 }
 
 const allSettled = async (list: Promise<any>[]) => {
@@ -179,23 +123,29 @@ const run = async (options: Options) => {
     }
 
     const checksumTask = writeChecksum(checksum, info);
-    const babelTask = babelify(options).then(cleanup);
+    const babelTask = babelify(options);
     const typescriptTask = tscfy(options);
 
     const output = await allSettled([checksumTask, babelTask, typescriptTask]);
 
+    // console.log({ output });
+
     const error = output.find((o) => o !== false);
 
+    if (!options.watch && !error) {
+      await downgrade(options);
+    }
+
     if (error) {
-      console.log(chalk.gray(`Failed: ${logline}`));
+      console.log(chalk.red(`Failed: ${logline}`));
       throw error;
     }
 
-    console.log(chalk.gray(`Built: ${logline}`));
+    console.log(chalk.yellow(`Built: ${logline}`));
 
     return Promise.resolve();
   }
-  console.log(chalk.gray(`Skipped: ${logline}`));
+  console.log(chalk.blue(`Skipped: ${logline}`));
   return Promise.resolve();
 };
 

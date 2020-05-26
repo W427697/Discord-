@@ -146,7 +146,7 @@ function run() {
       } else {
         const packageNames = list
           // filters out watch command if --watch is used
-          .filter((key) => key.name !== 'watch' || key.name !== 'regen')
+          .filter((key) => key.name !== 'watch' && key.name !== 'regen')
           .map((key) => key.suffix)
           .filter(Boolean);
 
@@ -155,31 +155,30 @@ function run() {
           ? ['--scope @storybook/*']
           : packageNames.map((n) => `--scope @storybook/${n}`);
 
-        const extraFlags = [regenMode ? '--regen' : false, watchMode ? '--watch' : false];
-        const baseFlags = watchMode ? watchFlags : buildFlags;
+        const extraFlags = [regenMode ? '--regen' : false];
 
-        spawn(`lerna run prepare ${flags([...baseFlags, ...scopes])} -- ${flags(extraFlags)}`);
+        let confirmWatch = true;
 
         if (watchMode) {
-          let confirmation = true;
-
           if (packageNames.length > 5) {
-            ({ confirmation } = await inquirer.prompt([
+            ({ confirmWatch } = await inquirer.prompt([
               {
                 type: 'confirm',
                 message:
                   'You selected a lot of packages on watch mode. This is a very expensive action and might slow your computer down. Do you want to continue?',
-                name: 'confirmation',
+                name: 'confirmWatch',
               },
             ]));
           }
-          if (confirmation === false) {
-            process.exit(0);
-          }
-
-          // run everything in parallel watch mode
-          spawn(`lerna run prepare ${flags(...baseFlags, ...scopes)} -- --watch`);
         }
+
+        spawn(`lerna run prepare ${flags([...buildFlags, ...scopes])} -- ${flags(extraFlags)}`);
+
+        if (watchMode && confirmWatch) {
+          // run everything in parallel watch mode
+          spawn(`lerna run prepare ${flags([...watchFlags, ...scopes])} -- --watch`);
+        }
+
         process.stdout.write('\x07');
       }
     })
