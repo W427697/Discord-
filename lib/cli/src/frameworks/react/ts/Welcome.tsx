@@ -106,10 +106,10 @@ const NavButton: FunctionComponent<NavButtonProps> = ({ children, onClick, ...pr
   </button>
 );
 
-interface WelcomeProps {
+export interface WelcomeProps {
   showApp: () => void;
 }
-const Welcome: FunctionComponent<WelcomeProps> = ({ showApp }) => (
+export const Welcome: FunctionComponent<WelcomeProps> = ({ showApp }: WelcomeProps) => (
   <Main>
     <Title>Welcome to storybook</Title>
     <p>This is a UI component dev environment for your app.</p>

@@ -79,7 +79,7 @@ const NavButton = ({ children, onClick, ...props }) => (
   </button>
 );
 
-const Welcome = ({ showApp }) => (
+export const Welcome = ({ showApp }) => (
   <Main>
     <Title>Welcome to storybook</Title>
     <p>This is a UI component dev environment for your app.</p>
@@ -124,5 +124,3 @@ const Welcome = ({ showApp }) => (
     </Note>
   </Main>
 );
-
-export default Welcome;

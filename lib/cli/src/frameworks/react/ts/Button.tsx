@@ -10,8 +10,8 @@ const styles = {
   margin: 10,
 };
 
-type Props = Pick<HTMLAttributes<HTMLButtonElement>, 'onClick'>;
-const Button: FunctionComponent<Props> = ({ children, onClick }) => (
+export type ButtonProps = HTMLAttributes<HTMLButtonElement>;
+export const Button: FunctionComponent<ButtonProps> = ({ children, onClick }: ButtonProps) => (
   <button onClick={onClick} style={styles} type="button">
     {children}
   </button>

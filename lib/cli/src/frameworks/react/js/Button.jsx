@@ -10,10 +10,8 @@ const styles = {
   margin: 10,
 };
 
-const Button = ({ children, onClick }) => (
+export const Button = ({ children, onClick }) => (
   <button onClick={onClick} style={styles} type="button">
     {children}
   </button>
 );
-
-export default Button;
