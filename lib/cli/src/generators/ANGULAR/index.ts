@@ -5,48 +5,9 @@ import {
   getAngularAppTsConfigJson,
   getAngularAppTsConfigPath,
 } from './angular-helpers';
-import {
-  retrievePackageJson,
-  getVersionedPackages,
-  writePackageJson,
-  getBabelDependencies,
-  installDependencies,
-  writeFileAsJson,
-  copyTemplate,
-} from '../../helpers';
+import { writeFileAsJson } from '../../helpers';
 import { StoryFormat } from '../../project_types';
-import { NpmOptions } from '../../NpmOptions';
-import { Generator, GeneratorOptions } from '../generator';
-
-async function addDependencies(npmOptions: NpmOptions, { storyFormat }: GeneratorOptions) {
-  const packages = [
-    '@storybook/angular',
-    '@storybook/addon-actions',
-    '@storybook/addon-links',
-    '@storybook/addons',
-  ];
-
-  if (storyFormat === StoryFormat.MDX) {
-    packages.push('@storybook/addon-docs');
-  }
-
-  const versionedPackages = await getVersionedPackages(npmOptions, ...packages);
-
-  const packageJson = await retrievePackageJson();
-
-  packageJson.dependencies = packageJson.dependencies || {};
-  packageJson.devDependencies = packageJson.devDependencies || {};
-
-  packageJson.scripts = packageJson.scripts || {};
-  packageJson.scripts.storybook = 'start-storybook -p 6006';
-  packageJson.scripts['build-storybook'] = 'build-storybook';
-
-  writePackageJson(packageJson);
-
-  const babelDependencies = await getBabelDependencies(npmOptions, packageJson);
-
-  installDependencies({ ...npmOptions, packageJson }, [...versionedPackages, ...babelDependencies]);
-}
+import baseGenerator, { Generator } from '../generator';
 
 function editAngularAppTsConfig() {
   const tsConfigJson = getAngularAppTsConfigJson();
@@ -64,16 +25,16 @@ function editAngularAppTsConfig() {
   writeFileAsJson(getAngularAppTsConfigPath(), tsConfigJson);
 }
 
-const generator: Generator = async (npmOptions, { storyFormat, language }) => {
+const generator: Generator = async (npmOptions, options) => {
   if (!isDefaultProjectSet()) {
     throw new Error(
       'Could not find a default project in your Angular workspace.\nSet a defaultProject in your angular.json and re-run the installation.'
     );
   }
+  baseGenerator(npmOptions, options, 'angular', {
+    dirname: options.storyFormat === StoryFormat.MDX ? __dirname : undefined,
+  });
 
-  copyTemplate(__dirname, storyFormat);
-
-  await addDependencies(npmOptions, { storyFormat, language });
   editAngularAppTsConfig();
   editStorybookTsConfig(path.resolve('./.storybook/tsconfig.json'));
 };
