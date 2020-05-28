@@ -72,7 +72,7 @@ function run() {
       option: '--reset',
       command: () => {
         log.info(prefix, 'git clean');
-        spawn('ts-node --transpile-only ./scripts/run-reset.ts');
+        spawn('ts-node-script ./scripts/run-reset.ts');
       },
       order: 0,
     }),
@@ -94,7 +94,7 @@ function run() {
       option: '--build',
       command: () => {
         log.info(prefix, 'prepare');
-        spawn('yarn build --all');
+        spawn('yarn build --all --downgrade');
       },
       order: 2,
     }),

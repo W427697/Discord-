@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
+import glob from 'glob';
 import shell from 'shelljs';
 
 function getCommand(watch: boolean) {
@@ -10,14 +11,25 @@ function getCommand(watch: boolean) {
 
   const babel = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'babel');
 
+  const ignored = glob.sync('./src/**/*.@(d|spec|test|stories).@(js|jsx|ts|tsx)');
+
   const args = [
-    './src',
-    '--out-dir ./dist',
+    '"./src"',
+    '--out-dir "./dist"',
     `--config-file ${path.resolve(__dirname, '../../.babelrc.js')}`,
     `--copy-files`,
-    `--ignore "*.@(spec|test|stories).*"`,
     `--no-copy-ignored`,
   ];
+
+  if (ignored && ignored.length) {
+    // the ignore glob doesn't seem to be working at all
+    args.push(
+      `--ignore ${glob
+        .sync('./src/**/*.@(d|spec|test|stories).@(js|jsx|ts|tsx)')
+        .map((n) => `"${n}"`)
+        .join(',')}`
+    );
+  }
 
   /*
    * angular needs to be compiled with tsc; a compilation with babel is possible but throws
@@ -37,14 +49,6 @@ function getCommand(watch: boolean) {
   return `${babel} ${args.join(' ')}`;
 }
 
-const exists = async (location: string) => {
-  try {
-    return !!(await fs.pathExists(location));
-  } catch (e) {
-    return false;
-  }
-};
-
 interface Options {
   watch?: boolean;
   silent?: boolean;
@@ -52,7 +56,7 @@ interface Options {
 
 async function babelify(options: Options = {}) {
   const { watch = false, silent = !watch } = options;
-  const [src] = await Promise.all([exists('src')]);
+  const src = await fs.pathExists('src');
 
   if (!src) {
     return Promise.resolve();

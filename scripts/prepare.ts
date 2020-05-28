@@ -84,6 +84,8 @@ function removeDist() {
   shell.rm('-f', 'tsconfig.tsbuildinfo');
 }
 
+// turn a list of promises into a single promise that resolves into Array<false | Error>
+// used to perform tasks in parallel, and assert no errors occurred
 const allSettled = async (list: Promise<any>[]) => {
   return Promise.all(
     list.map((l) =>
@@ -128,11 +130,9 @@ const run = async (options: Options) => {
 
     const output = await allSettled([checksumTask, babelTask, typescriptTask]);
 
-    // console.log({ output });
-
     const error = output.find((o) => o !== false);
 
-    if (!options.watch && !error) {
+    if (!options.downgrade && !error) {
       await downgrade(options);
     }
 
@@ -150,10 +150,16 @@ const run = async (options: Options) => {
 };
 
 const isWatchingEnabled = !!process.argv.find((a) => a === '--watch');
+const isDowngrade = !!process.argv.find((a) => a === '--tsdowngrade');
 const isSilentEnabled = !!process.argv.find((a) => a === '--silent');
 const isRegen = !!process.argv.find((a) => a === '--regen');
 
-run({ watch: isWatchingEnabled, silent: isSilentEnabled, regen: isRegen } as Options).catch((e) => {
+run({
+  watch: isWatchingEnabled,
+  silent: isSilentEnabled,
+  regen: isRegen,
+  downgrade: isDowngrade,
+} as Options).catch((e) => {
   console.error(e);
 
   removeDist();

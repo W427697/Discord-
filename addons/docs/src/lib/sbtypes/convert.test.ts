@@ -784,7 +784,11 @@ const transformToModule = (inputCode: string) => {
 const annotateWithDocgen = (inputCode: string, filename: string) => {
   const options = {
     presets: ['@babel/typescript', '@babel/react'],
-    plugins: ['babel-plugin-react-docgen', '@babel/plugin-proposal-class-properties'],
+    plugins: [
+      'babel-plugin-react-docgen',
+      ['@babel/plugin-proposal-private-methods', { loose: true }],
+      ['@babel/plugin-proposal-class-properties', { loose: true }],
+    ],
     babelrc: false,
     filename,
   };

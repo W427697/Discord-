@@ -54,7 +54,8 @@ module.exports = {
                 ].filter(Boolean),
                 plugins: [
                   '@babel/plugin-proposal-object-rest-spread',
-                  '@babel/plugin-proposal-class-properties',
+                  ['@babel/plugin-proposal-private-methods', { loose: true }],
+                  ['@babel/plugin-proposal-class-properties', { loose: true }],
                   '@babel/plugin-syntax-dynamic-import',
                   ['babel-plugin-emotion', { sourceMap: true, autoLabel: true }],
                   'babel-plugin-macros',

@@ -104,6 +104,7 @@ interface Options {
 }
 
 async function tscfy(options: Options = {}) {
+  const startTime = Date.now();
   const perform = await shouldRun(options);
 
   if (!perform) {
@@ -154,7 +155,8 @@ async function tscfy(options: Options = {}) {
 
     child.on('close', (code) => {
       if (code === 0) {
-        console.log(`Successfully compiled ${files.length} files with TSC.`);
+        const time = Date.now() - startTime;
+        console.log(`Successfully compiled ${files.length} files with TSC (${time}ms).`);
         waitOn({ resources: files }).then(resolve);
       } else {
         reject(stderr || stdout);
