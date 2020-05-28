@@ -22,7 +22,7 @@
     "storybook-server": "./bin/index.js"
   },
   "scripts": {
-    "prepare": "ts-node --transpile-only ../../scripts/prepare.ts"
+    "prepare": "ts-node-script ../../scripts/prepare.ts"
   },
   "dependencies": {
     "@storybook/core": "6.0.0-beta.13",

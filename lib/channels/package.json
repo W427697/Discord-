@@ -25,7 +25,7 @@
     "ts3.5/**/*"
   ],
   "scripts": {
-    "prepare": "ts-node --transpile-only ../../scripts/prepare.ts"
+    "prepare": "ts-node-script ../../scripts/prepare.ts"
   },
   "dependencies": {
     "core-js": "^3.0.1",

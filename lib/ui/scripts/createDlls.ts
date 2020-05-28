@@ -1,10 +1,10 @@
 import path from 'path';
-import webpack from 'webpack';
+import webpack, { Configuration } from 'webpack';
 
 import config from './webpackDllsConfig';
 
-const resolveLocal = (dir) => path.join(__dirname, dir);
-const webpackAsPromised = (c) =>
+const resolveLocal = (dir: string) => path.join(__dirname, dir);
+const webpackAsPromised = (c: Configuration) =>
   new Promise((res, rej) => {
     webpack(c).run((err, stats) => {
       if (err || stats.hasErrors() || stats.hasWarnings()) {

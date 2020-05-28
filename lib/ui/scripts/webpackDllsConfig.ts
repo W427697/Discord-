@@ -1,13 +1,18 @@
 import path from 'path';
-import { ProgressPlugin, DllPlugin } from 'webpack';
+import { ProgressPlugin, DllPlugin, Configuration } from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
 
-const resolveLocal = (dir) => path.join(__dirname, dir);
+const resolveLocal = (dir: string) => path.join(__dirname, dir);
 
 const r = resolveLocal('../../../node_modules');
 const out = resolveLocal('../../core/dll');
 
-export default ({ entry, provided = [] }) => ({
+export interface Options {
+  entry: Configuration['entry'];
+  provided?: Configuration['externals'];
+}
+
+export default ({ entry, provided = [] }: Options): Configuration => ({
   name: 'storybook_ui',
   mode: 'development',
 

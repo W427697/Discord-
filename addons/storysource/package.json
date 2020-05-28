@@ -26,7 +26,7 @@
     "ts3.5/**/*"
   ],
   "scripts": {
-    "prepare": "ts-node --transpile-only ../../scripts/prepare.ts"
+    "prepare": "ts-node-script ../../scripts/prepare.ts"
   },
   "dependencies": {
     "@storybook/addons": "6.0.0-beta.13",
