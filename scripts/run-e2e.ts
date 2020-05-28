@@ -85,7 +85,10 @@ const initStorybook = async ({ cwd, autoDetect = true, name }: Options) => {
   logger.info(`🎨 Initializing Storybook with @storybook/cli`);
   try {
     const type = autoDetect ? '' : `--type ${name}`;
-    await exec(`npx -p @storybook/cli sb init --skip-install --yes ${type}`, { cwd });
+    await exec(`node ../../storybook/lib/cli/dist/generate.js init --skip-install --yes ${type}`, {
+      cwd,
+    });
+    // await exec(`npx -p @storybook/cli sb init --skip-install --yes ${type}`, { cwd });
   } catch (e) {
     logger.error(`🚨 Storybook initialization failed`);
     throw e;
