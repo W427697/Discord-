@@ -101,6 +101,7 @@ interface Options {
   watch: boolean;
   regen: boolean;
   silent: boolean;
+  downgrade: boolean;
 }
 
 const run = async (options: Options) => {
