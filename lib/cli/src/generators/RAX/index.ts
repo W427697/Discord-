@@ -1,31 +1,9 @@
-import {
-  getVersions,
-  retrievePackageJson,
-  writePackageJson,
-  getBabelDependencies,
-  installDependencies,
-  copyTemplate,
-} from '../../helpers';
-import { Generator } from '../generator';
+import { getVersions, retrievePackageJson, writePackageJson } from '../../helpers';
+import baseGenerator, { Generator } from '../generator';
+import { StoryFormat } from '../../project_types';
 
-const generator: Generator = async (npmOptions, { storyFormat }) => {
-  const [
-    storybookVersion,
-    actionsVersion,
-    linksVersion,
-    addonsVersion,
-    latestRaxVersion,
-  ] = await getVersions(
-    npmOptions,
-    '@storybook/rax',
-    '@storybook/addon-actions',
-    '@storybook/addon-links',
-    '@storybook/addons',
-    'rax'
-  );
-
-  copyTemplate(__dirname, storyFormat);
-
+const generator: Generator = async (npmOptions, options) => {
+  const [latestRaxVersion] = await getVersions(npmOptions, 'rax');
   const packageJson = await retrievePackageJson();
 
   packageJson.dependencies = packageJson.dependencies || {};
@@ -42,21 +20,12 @@ const generator: Generator = async (npmOptions, { storyFormat }) => {
   packageJson.dependencies['rax-text'] = packageJson.dependencies['rax-text'] || raxVersion;
   packageJson.dependencies['rax-view'] = packageJson.dependencies['rax-view'] || raxVersion;
 
-  packageJson.scripts = packageJson.scripts || {};
-  packageJson.scripts.storybook = 'start-storybook -p 6006';
-  packageJson.scripts['build-storybook'] = 'build-storybook';
-
   writePackageJson(packageJson);
 
-  const babelDependencies = await getBabelDependencies(npmOptions, packageJson);
-
-  installDependencies({ ...npmOptions, packageJson }, [
-    `@storybook/rax@${storybookVersion}`,
-    `@storybook/addon-actions@${actionsVersion}`,
-    `@storybook/addon-links@${linksVersion}`,
-    `@storybook/addons@${addonsVersion}`,
-    ...babelDependencies,
-  ]);
+  baseGenerator(npmOptions, options, 'rax', {
+    dirname: options.storyFormat === StoryFormat.MDX ? __dirname : undefined,
+    extraPackages: ['rax'],
+  });
 };
 
 export default generator;

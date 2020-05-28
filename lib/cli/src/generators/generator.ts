@@ -20,6 +20,7 @@ export interface FrameworkOptions {
   extraPackages?: string[];
   extraAddons?: string[];
   dirname?: string;
+  staticDir?: string;
 }
 
 export type Generator = (npmOptions: NpmOptions, options: GeneratorOptions) => Promise<void>;
@@ -28,6 +29,7 @@ const defaultOptions: FrameworkOptions = {
   extraPackages: [],
   extraAddons: [],
   dirname: __dirname,
+  staticDir: undefined,
 };
 const generator = async (
   npmOptions: NpmOptions,
@@ -35,7 +37,7 @@ const generator = async (
   framework: SupportedFrameworks,
   options: FrameworkOptions = defaultOptions
 ) => {
-  const { extraAddons, extraPackages, dirname } = { ...defaultOptions, ...options };
+  const { extraAddons, extraPackages, dirname, staticDir } = { ...defaultOptions, ...options };
   const packages = [
     `@storybook/${framework}`,
     '@storybook/addon-essentials',
@@ -55,9 +57,10 @@ const generator = async (
   packageJson.dependencies = packageJson.dependencies || {};
   packageJson.devDependencies = packageJson.devDependencies || {};
 
+  const staticParameter = staticDir ? `-s ${staticDir}` : '';
   packageJson.scripts = packageJson.scripts || {};
-  packageJson.scripts.storybook = 'start-storybook -p 6006';
-  packageJson.scripts['build-storybook'] = 'build-storybook';
+  packageJson.scripts.storybook = `start-storybook -p 6006 ${staticParameter}`.trim();
+  packageJson.scripts['build-storybook'] = `build-storybook ${staticParameter}`.trim();
 
   writePackageJson(packageJson);
 
