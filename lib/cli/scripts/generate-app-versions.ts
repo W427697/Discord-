@@ -1,6 +1,5 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { parse } from 'json5';
 
 const logger = console;
 
@@ -10,9 +9,7 @@ const run = async () => {
   const apps = await fs.readdir(appsFolder);
   const versions = await Promise.all(
     apps.map(async (appName) => {
-      const { name, version } = parse(
-        await fs.readFile(path.join(appsFolder, appName, 'package.json'))
-      );
+      const { name, version } = await fs.readJSON(path.join(appsFolder, appName, 'package.json'));
 
       return {
         name,

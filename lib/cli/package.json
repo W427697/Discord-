@@ -33,7 +33,7 @@
   ],
   "scripts": {
     "prepare": "ts-node --transpile-only ../../scripts/prepare.ts",
-    "postprepare": "ts-node ./scripts/generate-app-versions.js",
+    "postprepare": "ts-node ./scripts/generate-app-versions.ts",
     "test": "cd test && ./run_tests.sh",
     "test-latest-cra": "cd test && ./test_latest_cra.sh",
     "test-yarn-2": "cd test && ./run_tests_yarn_2.sh"
@@ -54,7 +54,6 @@
     "get-port": "^5.1.1",
     "inquirer": "^7.0.0",
     "jscodeshift": "^0.6.3",
-    "json5": "^2.1.1",
     "leven": "^3.1.0",
     "pkg-add-deps": "^0.1.0",
     "puppeteer-core": "^2.0.0",

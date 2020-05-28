@@ -59,7 +59,7 @@
   "devDependencies": {
     "@storybook/client-api": "6.0.0-beta.13",
     "@types/node": "^13.13.4",
-    "@types/webpack": "^4.41.12"
+    "@types/webpack": "^4.41.13"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.1",

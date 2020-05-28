@@ -31,6 +31,7 @@
     "@storybook/client-logger": "6.0.0-beta.13",
     "@storybook/csf": "0.0.1",
     "@storybook/theming": "6.0.0-beta.13",
+    "@storybook/api": "6.0.0-beta.13",
     "@types/overlayscrollbars": "^1.9.0",
     "@types/react-color": "^3.0.1",
     "@types/react-syntax-highlighter": "11.0.4",

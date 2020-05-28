@@ -33,7 +33,7 @@
     "@babel/plugin-transform-classes": "^7.9.2",
     "@storybook/addons": "6.0.0-beta.13",
     "@storybook/api": "6.0.0-beta.13",
-    "@types/webpack": "^4.41.9",
+    "@types/webpack": "^4.41.13",
     "babel-loader": "^8.0.6",
     "core-js": "^3.0.1",
     "global": "^4.3.2",
