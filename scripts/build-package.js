@@ -157,6 +157,10 @@ function run() {
 
         const extraFlags = [regenMode ? '--regen' : false];
 
+        if (program.all) {
+          extraFlags.push('--tsdowngrade');
+        }
+
         let confirmWatch = true;
 
         if (watchMode) {
