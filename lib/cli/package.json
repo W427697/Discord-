@@ -33,7 +33,7 @@
   ],
   "scripts": {
     "prepare": "ts-node --transpile-only ../../scripts/prepare.ts",
-    "postprepare": "node -r esm ./scripts/generate-app-versions.js",
+    "postprepare": "ts-node ./scripts/generate-app-versions.js",
     "test": "cd test && ./run_tests.sh",
     "test-latest-cra": "cd test && ./test_latest_cra.sh",
     "test-yarn-2": "cd test && ./run_tests_yarn_2.sh"

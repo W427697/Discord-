@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
-const fs = require('fs-extra');
-const path = require('path');
-const { spawn } = require('child_process');
+import fs from 'fs-extra';
+import path from 'path';
+import waitOn from 'wait-on';
+import { spawn } from 'child_process';
 
 const getTSCModulePath = () => {
   return path.join(__dirname, '..', '..', 'node_modules', '.bin', 'tsc');
@@ -9,7 +10,11 @@ const getTSCModulePath = () => {
 const getDownlevelModulePath = () => {
   return path.join(__dirname, '..', '..', 'node_modules', '.bin', 'downlevel-dts');
 };
-const getArguments = ({ watch, isAngular, isStoryshots }) => {
+const getArguments = ({
+  watch,
+  isAngular,
+  isStoryshots,
+}: Options & { isAngular: boolean; isStoryshots: boolean }) => {
   const args = ['--outDir', './dist', '--incremental'];
 
   if (!isAngular && !isStoryshots) {
@@ -30,9 +35,9 @@ const getArguments = ({ watch, isAngular, isStoryshots }) => {
   return args;
 };
 
-const exists = async (location) => {
+const exists = async (location: string) => {
   try {
-    return !!(await fs.exists(location));
+    return !!(await fs.pathExists(location));
   } catch (e) {
     return false;
   }
@@ -74,7 +79,7 @@ async function downgrade(options = {}) {
   });
 }
 
-const shouldRun = async ({ silent }) => {
+const shouldRun = async ({ silent }: Options) => {
   const [src, tsConfigFile] = await Promise.all([exists('src'), exists('tsconfig.json')]);
 
   if (!src || !tsConfigFile) {
@@ -93,7 +98,12 @@ const shouldRun = async ({ silent }) => {
   return true;
 };
 
-async function tscfy(options = {}) {
+interface Options {
+  watch?: boolean;
+  silent?: boolean;
+}
+
+async function tscfy(options: Options = {}) {
   const perform = await shouldRun(options);
 
   if (!perform) {
@@ -110,19 +120,19 @@ async function tscfy(options = {}) {
 
   return new Promise((resolve, reject) => {
     const child = spawn(tscPath, args, { cwd, stdio: [null, null, null] });
-    let count = 0;
+    const files: string[] = [];
     let stderr = '';
     let stdout = '';
 
     child.stdout.on('data', (data) => {
       if (data) {
-        const { files, out } = data
+        const { entries, out } = data
           .toString()
           .split(/\r?\n/)
           .reduce(
-            (acc, line) => {
+            (acc: { entries: string[]; out: string[] }, line: string) => {
               if (line.toString().startsWith('TSFILE')) {
-                acc.files.push(line);
+                acc.entries.push(line.replace('TSFILE: ', ''));
               } else {
                 acc.out.push(line);
                 if (options.watch) {
@@ -131,10 +141,10 @@ async function tscfy(options = {}) {
               }
               return acc;
             },
-            { files: [], out: [] }
+            { entries: [], out: [] }
           );
         stdout += out;
-        count += files.length;
+        files.push(...entries);
       }
     });
 
@@ -144,8 +154,8 @@ async function tscfy(options = {}) {
 
     child.on('close', (code) => {
       if (code === 0) {
-        console.log(`Successfully compiled ${count} files with TSC.`);
-        resolve();
+        console.log(`Successfully compiled ${files.length} files with TSC.`);
+        waitOn({ resources: files }).then(resolve);
       } else {
         reject(stderr || stdout);
       }

@@ -1,9 +1,9 @@
 import { statSync } from 'fs';
 import { join } from 'path';
 
-const p = (l) => join(__dirname, '..', '..', ...l);
+const p = (l: string[]) => join(__dirname, '..', '..', ...l);
 
-export const getDeployables = (files, extraFilter) => {
+export const getDeployables = (files: string[], extraFilter: (location: string) => boolean) => {
   return files.filter((f) => {
     const packageJsonLocation = p(['examples', f, 'package.json']);
     let stats = null;

@@ -1,17 +1,17 @@
 import { spawn } from 'child_process';
 import { promisify } from 'util';
 
-import { readdir as readdirRaw, readFileSync } from 'fs';
+import { readdir as readdirRaw, readFileSync } from 'fs-extra';
 import { join } from 'path';
 
 import { getDeployables } from './utils/list-examples';
 
 const readdir = promisify(readdirRaw);
 
-const p = (l) => join(__dirname, '..', ...l);
+const p = (l: string[]) => join(__dirname, '..', ...l);
 const logger = console;
 
-const exec = async (command, args = [], options = {}) =>
+const exec = async (command: string, args: string[] = [], options = {}) =>
   new Promise((resolve, reject) => {
     const child = spawn(command, args, { ...options, stdio: 'inherit', shell: true });
 
@@ -29,7 +29,7 @@ const exec = async (command, args = [], options = {}) =>
       });
   });
 
-const hasChromaticAppCode = (l) => {
+const hasChromaticAppCode = (l: string) => {
   const text = readFileSync(l, 'utf8');
   const json = JSON.parse(text);
 
@@ -41,7 +41,7 @@ const hasChromaticAppCode = (l) => {
   );
 };
 
-const handleExamples = async (deployables) => {
+const handleExamples = async (deployables: string[]) => {
   await deployables.reduce(async (acc, d) => {
     await acc;
 
@@ -51,7 +51,7 @@ const handleExamples = async (deployables) => {
       storybook: {
         chromatic: { projectToken },
       },
-    } = JSON.parse(readFileSync(p(['examples', d, 'package.json'])));
+    } = JSON.parse(readFileSync(p(['examples', d, 'package.json'])).toString());
 
     if (projectToken) {
       await exec(
@@ -77,10 +77,13 @@ const handleExamples = async (deployables) => {
 };
 
 const run = async () => {
-  const examples = await readdir(p(['examples']));
+  const examples = (await readdir(p(['examples']))) as string[];
 
   const { length } = examples;
-  const [a, b] = [process.env.CIRCLE_NODE_INDEX || 0, process.env.CIRCLE_NODE_TOTAL || 1];
+  const [a, b] = [
+    parseInt(process.env.CIRCLE_NODE_INDEX, 10) || 0,
+    parseInt(process.env.CIRCLE_NODE_TOTAL, 10) || 1,
+  ];
   const step = Math.ceil(length / b);
   const offset = step * a;
 
@@ -96,6 +99,7 @@ const run = async () => {
     deployables.length &&
     (process.env.CIRCLE_NODE_INDEX === undefined ||
       process.env.CIRCLE_NODE_INDEX === '0' ||
+      // @ts-ignore
       process.env.CIRCLE_NODE_INDEX === 0)
   ) {
     logger.log('-------');

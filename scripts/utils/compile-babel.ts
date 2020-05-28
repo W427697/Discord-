@@ -1,8 +1,8 @@
-const fs = require('fs-extra');
-const path = require('path');
-const shell = require('shelljs');
+import fs from 'fs-extra';
+import path from 'path';
+import shell from 'shelljs';
 
-function getCommand(watch) {
+function getCommand(watch: boolean) {
   // Compile angular with tsc
   if (process.cwd().includes(path.join('app', 'angular'))) {
     return null;
@@ -37,15 +37,20 @@ function getCommand(watch) {
   return `${babel} ${args.join(' ')}`;
 }
 
-const exists = async (location) => {
+const exists = async (location: string) => {
   try {
-    return !!(await fs.exists(location));
+    return !!(await fs.pathExists(location));
   } catch (e) {
     return false;
   }
 };
 
-async function babelify(options = {}) {
+interface Options {
+  watch?: boolean;
+  silent?: boolean;
+}
+
+async function babelify(options: Options = {}) {
   const { watch = false, silent = !watch } = options;
   const [src] = await Promise.all([exists('src')]);
 
