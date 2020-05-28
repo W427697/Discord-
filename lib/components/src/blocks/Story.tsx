@@ -1,6 +1,5 @@
 import React, { createElement, ElementType, FunctionComponent, Fragment } from 'react';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Parameters } from '@storybook/api';
 
 import { IFrame } from './IFrame';

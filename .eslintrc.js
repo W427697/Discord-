@@ -5,7 +5,7 @@ module.exports = {
     {
       files: [
         '**/__tests__/**',
-        'scripts/**',
+        '**/scripts/**',
         '**/__testfixtures__/**',
         '**/*.test.*',
         '**/*.stories.*',

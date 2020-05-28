@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`react component properties 8428-js-static-prop-types 1`] = `
-"function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-import React from 'react';
+"import React from 'react';
 import PropTypes from 'prop-types'; // eslint-disable-next-line react/prefer-stateless-function
 
 export default class Test extends React.Component {
@@ -12,14 +10,12 @@ export default class Test extends React.Component {
   }
 
 }
-
-_defineProperty(Test, \\"propTypes\\", {
+Test.propTypes = {
   /**
    * Please work...
    */
   test: PropTypes.string
-});
-
+};
 export const component = Test;
 Test.__docgenInfo = {
   \\"description\\": \\"\\",
