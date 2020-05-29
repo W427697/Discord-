@@ -4,6 +4,7 @@ import { promisify } from 'util';
 import { readdir as readdirRaw, readFileSync } from 'fs';
 import { join } from 'path';
 
+import { dispatch } from './utils/ci-dispatch';
 import { getDeployables } from './utils/list-examples';
 
 const readdir = promisify(readdirRaw);
@@ -79,12 +80,8 @@ const handleExamples = async (deployables) => {
 const run = async () => {
   const examples = await readdir(p(['examples']));
 
-  const { length } = examples;
-  const [a, b] = [process.env.CIRCLE_NODE_INDEX || 0, process.env.CIRCLE_NODE_TOTAL || 1];
-  const step = Math.ceil(length / b);
-  const offset = step * a;
+  const list = dispatch(examples);
 
-  const list = examples.slice().splice(offset, step);
   const deployables = getDeployables(list, hasChromaticAppCode);
 
   if (deployables.length) {
