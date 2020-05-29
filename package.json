@@ -247,14 +247,14 @@
     "ts-node": "^8.9.1",
     "typescript": "^3.4.0",
     "wait-on": "^4.0.0",
-    "window-size": "^1.1.1"
+    "window-size": "^1.1.1",
+    "verdaccio": "^4.5.1",
+    "verdaccio-auth-memory": "^9.4.0"
   },
   "optionalDependencies": {
     "@cypress/webpack-preprocessor": "^5.1.2",
     "cypress": "^4.5.0",
-    "puppeteer": "^2.0.0",
-    "verdaccio": "^4.5.1",
-    "verdaccio-auth-memory": "^9.4.0"
+    "puppeteer": "^2.0.0"
   },
   "engines": {
     "node": ">=8.10.0",
