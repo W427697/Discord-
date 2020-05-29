@@ -63,6 +63,9 @@ const generator = async (
 
   const packageJson = await retrievePackageJson();
 
+  packageJson.dependencies = packageJson.dependencies || {};
+  packageJson.devDependencies = packageJson.devDependencies || {};
+
   if (addScripts) {
     const staticParameter = staticDir ? `-s ${staticDir}` : '';
     packageJson.scripts = packageJson.scripts || {};
