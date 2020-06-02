@@ -95,6 +95,7 @@ function run() {
       command: () => {
         log.info(prefix, 'prepare');
         spawn('yarn build --all');
+        spawn('yarn build --all --downgrade');
       },
       order: 2,
     }),

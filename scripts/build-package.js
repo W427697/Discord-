@@ -69,7 +69,10 @@ function run() {
     packages,
   };
 
-  const main = program.version('5.0.0').option('--all', `build everything ${chalk.gray('(all)')}`);
+  const main = program
+    .version('6.0.0')
+    .option('--all', `build everything ${chalk.gray('(all)')}`)
+    .option('--downgrade', `generate ts downgraded types ${chalk.gray('(downgrade)')}`);
 
   Object.keys(tasks)
     .reduce((acc, key) => acc.option(tasks[key].suffix, tasks[key].helpText), main)
@@ -151,14 +154,19 @@ function run() {
           .filter(Boolean);
 
         const isAllPackages = process.argv.includes('--all');
+        const downgradeMode = process.argv.includes('--downgrade');
+
         const scopes = isAllPackages
           ? ['--scope @storybook/*']
           : packageNames.map((n) => `--scope @storybook/${n}`);
 
-        const extraFlags = [regenMode ? '--regen' : false];
+        const extraFlags = [];
 
-        if (program.all) {
+        if (downgradeMode) {
           extraFlags.push('--tsdowngrade');
+        }
+        if (regenMode) {
+          extraFlags.push('--regen');
         }
 
         let confirmWatch = true;

@@ -120,6 +120,11 @@ const run = async (options: Options) => {
 
   const logline = chalk.bold(`${info.package.name}@${info.package.version}`);
 
+  if (options.downgrade) {
+    await downgrade(options);
+    console.log(chalk.blue(`Downgraded: ${logline}`));
+    return Promise.resolve();
+  }
   if (!dist || options.watch || !equal) {
     if (!options.watch) {
       removeDist();
@@ -132,10 +137,6 @@ const run = async (options: Options) => {
     const output = await allSettled([checksumTask, babelTask, typescriptTask]);
 
     const error = output.find((o) => o !== false);
-
-    if (!options.downgrade && !error) {
-      await downgrade(options);
-    }
 
     if (error) {
       console.log(chalk.red(`Failed: ${logline}`));
