@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Root as App } from './index';
 import { PrettyFakeProvider, FakeProvider } from './FakeProvider';
-import Provider from './provider';
+import Provider from './BaseProvider';
 
 export default {
   title: 'UI/App',

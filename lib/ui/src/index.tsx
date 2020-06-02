@@ -9,7 +9,8 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import App from './app';
 
-import Provider from './provider';
+import BaseProvider from './BaseProvider';
+import DefaultProvider from './DefaultProvider';
 
 // @ts-ignore
 ThemeProvider.displayName = 'ThemeProvider';
@@ -27,7 +28,7 @@ const getDocsMode = () => {
 const Container = process.env.XSTORYBOOK_EXAMPLE_APP ? React.StrictMode : React.Fragment;
 
 export interface RootProps {
-  provider: Provider;
+  provider: BaseProvider;
 }
 
 export const Root: FunctionComponent<RootProps> = ({ provider }) => (
@@ -66,13 +67,13 @@ export const Root: FunctionComponent<RootProps> = ({ provider }) => (
   </Container>
 );
 
-function renderStorybookUI(domNode: HTMLElement, provider: Provider) {
-  if (!(provider instanceof Provider)) {
+function renderStorybookUI(domNode: HTMLElement, provider: BaseProvider = new DefaultProvider()) {
+  if (!(provider instanceof BaseProvider)) {
     throw new Error('provider is not extended from the base Provider');
   }
 
   ReactDOM.render(<Root key="root" provider={provider} />, domNode);
 }
 
-export { Provider };
+export { BaseProvider as Provider };
 export { renderStorybookUI as default };

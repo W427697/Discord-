@@ -1,7 +1,8 @@
-import { Provider } from '@storybook/ui';
-import addons from '@storybook/addons';
+import addons, { Types, Channel, AddonStore } from '@storybook/addons';
 import createChannel from '@storybook/channel-postmessage';
 import Events from '@storybook/core-events';
+
+import Provider from './BaseProvider';
 
 export default class ReactProvider extends Provider {
   constructor() {
@@ -16,7 +17,11 @@ export default class ReactProvider extends Provider {
     this.channel = channel;
   }
 
-  getElements(type) {
+  addons: AddonStore;
+
+  channel: Channel;
+
+  getElements(type: Types) {
     return this.addons.getElements(type);
   }
 
@@ -24,7 +29,7 @@ export default class ReactProvider extends Provider {
     return this.addons.getConfig();
   }
 
-  handleAPI(api) {
+  handleAPI(api: any) {
     this.addons.loadAddons(api);
   }
 }

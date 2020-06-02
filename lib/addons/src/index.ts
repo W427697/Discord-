@@ -28,17 +28,17 @@ export interface Addon {
 
 export type Loader = (api: API) => void;
 
-interface Loaders {
+export interface Loaders {
   [key: string]: Loader;
 }
 export interface Collection {
   [key: string]: Addon;
 }
-interface Elements {
+export interface Elements {
   [key: string]: Collection;
 }
 
-interface Config {
+export interface Config {
   theme?: ThemeVars;
   [key: string]: any;
 }

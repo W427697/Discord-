@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { addons } from '@storybook/addons';
-import Provider from './provider';
+import Provider from './BaseProvider';
 
 export class FakeProvider extends Provider {
   constructor() {
