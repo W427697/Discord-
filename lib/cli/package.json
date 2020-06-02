@@ -32,8 +32,8 @@
     "versions.json"
   ],
   "scripts": {
-    "prepare": "ts-node-script ../../scripts/prepare.ts",
-    "postprepare": "ts-node-script ./scripts/generate-app-versions.ts",
+    "prepare": "ts-node-transpile-only ../../scripts/prepare.ts",
+    "postprepare": "ts-node-transpile-only ./scripts/generate-app-versions.ts",
     "test": "cd test && ./run_tests.sh",
     "test-latest-cra": "cd test && ./test_latest_cra.sh",
     "test-yarn-2": "cd test && ./run_tests_yarn_2.sh"

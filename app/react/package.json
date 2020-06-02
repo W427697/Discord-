@@ -31,7 +31,7 @@
     "ts3.5/**/*"
   ],
   "scripts": {
-    "prepare": "ts-node-script ../../scripts/prepare.ts"
+    "prepare": "ts-node-transpile-only ../../scripts/prepare.ts"
   },
   "dependencies": {
     "@babel/plugin-transform-react-constant-elements": "^7.6.3",

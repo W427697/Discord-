@@ -17,7 +17,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "prepare": "ts-node-script ../../scripts/prepare.ts"
+    "prepare": "ts-node-transpile-only ../../scripts/prepare.ts"
   },
   "dependencies": {
     "@storybook/addons": "6.0.0-beta.20",

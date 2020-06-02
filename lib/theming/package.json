@@ -25,7 +25,7 @@
     "ts3.5/**/*"
   ],
   "scripts": {
-    "prepare": "ts-node-script ../../scripts/prepare.ts"
+    "prepare": "ts-node-transpile-only ../../scripts/prepare.ts"
   },
   "dependencies": {
     "@emotion/core": "^10.0.20",
