@@ -204,3 +204,27 @@ pxblue:
   demo: https://pxblue-components.github.io/
   source: https://github.com/pxblue/react-component-library/tree/master/demos/storybook
   site: https://pxblue.github.io
+reactPakistanCommons:
+  thumbnail: react-commons-collection.jpg
+  title: React Pakistan - React Commons Collection
+  description: React Commons collection library is the most generic form of components, these components can be extended into anything specific as per your design specs.
+  demo: https://taimoormk.github.io/react-commons-collection/?path=/story/1-react-pakistan-intro--page
+  site: https://www.npmjs.com/package/@react-pakistan/react-commons-collection
+reactPakistanUI:
+  thumbnail: react-ui-collection.jpg
+  title: React Pakistan - React UI Collection
+  description: React UI collection library is extended on React Commons collection library, creating semi-dynamic UI/UX implementation of various interfaces e.g. eCommerce app and more.
+  demo: https://taimoormk.github.io/react-ui-collection/?path=/story/1-react-pakistan-intro--page
+  site: https://www.npmjs.com/package/@react-pakistan/react-ui-collection
+reactPakistanIcon:
+  thumbnail: react-icon-collection.jpg
+  title: React Pakistan - React Icon Collection
+  description: React Icon collection library is a categorised sets of Reactified versions of SVG icon components, designed to be friendly for developers, you can customise icons on the fly, e.g its colors, size etc.
+  demo: https://taimoormk.github.io/react-icon-collection/?path=/docs/react-pakistan-intro--page
+  site: https://www.npmjs.com/package/@react-pakistan/react-icon-collection
+reactPakistanLogo:
+  thumbnail: react-logo-collection.jpg
+  title: React Pakistan - React Logo Collection
+  description: React Logo collection library is a categorised sets of Reactified versions of SVG logo components, designed to be friendly for developers, you can customise icons on the fly, e.g its colors, size etc.
+  demo: https://taimoormk.github.io/react-logo-collection/?path=/story/react-pakistan-intro--page
+  site: https://www.npmjs.com/package/@react-pakistan/react-logo-collection
