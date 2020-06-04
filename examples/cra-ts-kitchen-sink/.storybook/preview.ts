@@ -1,5 +1,6 @@
 import { addParameters, addDecorator } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
+import { initStartup } from '@storybook/addon-startup/init';
 
 addDecorator(withKnobs);
 addParameters({
@@ -9,3 +10,4 @@ addParameters({
     showRoots: true,
   },
 });
+initStartup();
