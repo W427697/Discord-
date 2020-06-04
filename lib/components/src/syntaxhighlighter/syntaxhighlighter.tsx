@@ -3,29 +3,30 @@ import { styled } from '@storybook/theming';
 import { document, window } from 'global';
 import memoize from 'memoizerific';
 
+import js from 'refractor/lang/javascript';
+import jsx from 'refractor/lang/jsx';
+import jsExtra from 'refractor/lang/js-extras';
 // @ts-ignore
-import jsx from 'react-syntax-highlighter/dist/cjs/languages/prism/jsx';
-// @ts-ignore
-import bash from 'react-syntax-highlighter/dist/cjs/languages/prism/bash';
-// @ts-ignore
-import css from 'react-syntax-highlighter/dist/cjs/languages/prism/css';
-// @ts-ignore
-import json from 'react-syntax-highlighter/dist/cjs/languages/prism/json';
-// @ts-ignore
-import html from 'react-syntax-highlighter/dist/cjs/languages/prism/markup';
-// @ts-ignore
-import md from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown';
-// @ts-ignore
-import yml from 'react-syntax-highlighter/dist/cjs/languages/prism/yaml';
-// @ts-ignore
-import tsx from 'react-syntax-highlighter/dist/cjs/languages/prism/tsx';
-// @ts-ignore
-import typescript from 'react-syntax-highlighter/dist/cjs/languages/prism/typescript';
+import jsTemplates from 'refractor/lang/js-templates';
+import jsDoc from 'refractor/lang/jsdoc';
+import bash from 'refractor/lang/bash';
+import graphql from 'refractor/lang/graphql';
+import css from 'refractor/lang/css';
+import cssExtra from 'refractor/lang/css-extras';
+import json from 'refractor/lang/json';
+import json5 from 'refractor/lang/json5';
+import regex from 'refractor/lang/regex';
+import html from 'refractor/lang/markup';
+import md from 'refractor/lang/markdown';
+import yml from 'refractor/lang/yaml';
+import tsx from 'refractor/lang/tsx';
+import typescript from 'refractor/lang/typescript';
 
 // @ts-ignore
 import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/cjs/prism-light';
 // @ts-ignore
 import createElement from 'react-syntax-highlighter/dist/cjs/create-element';
+
 import { ActionBar } from '../ActionBar/ActionBar';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
 
@@ -33,12 +34,20 @@ import { formatter } from './formatter';
 
 export { createElement as createSyntaxHighlighterElement };
 
+ReactSyntaxHighlighter.registerLanguage('js', js);
 ReactSyntaxHighlighter.registerLanguage('jsx', jsx);
+ReactSyntaxHighlighter.registerLanguage('jsExtra', jsExtra);
+ReactSyntaxHighlighter.registerLanguage('jsTemplates', jsTemplates);
+ReactSyntaxHighlighter.registerLanguage('jsDoc', jsDoc);
 ReactSyntaxHighlighter.registerLanguage('json', json);
+ReactSyntaxHighlighter.registerLanguage('json5', json5);
 ReactSyntaxHighlighter.registerLanguage('yml', yml);
+ReactSyntaxHighlighter.registerLanguage('graphql', graphql);
 ReactSyntaxHighlighter.registerLanguage('md', md);
+ReactSyntaxHighlighter.registerLanguage('regex', regex);
 ReactSyntaxHighlighter.registerLanguage('bash', bash);
 ReactSyntaxHighlighter.registerLanguage('css', css);
+ReactSyntaxHighlighter.registerLanguage('cssExtra', cssExtra);
 ReactSyntaxHighlighter.registerLanguage('html', html);
 ReactSyntaxHighlighter.registerLanguage('tsx', tsx);
 ReactSyntaxHighlighter.registerLanguage('typescript', typescript);
