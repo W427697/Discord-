@@ -6,7 +6,7 @@ import { assertIsFn, AddContext } from '@storybook/addon-docs/blocks';
 
 import { Meta, Story } from '@storybook/addon-docs/blocks';
 export const basicFn = () => <Button mdxType=\\"Button\\" />;
-const makeShortcode = name =>
+const makeShortcode = (name) =>
   function MDXDefaultShortcode(props) {
     console.warn(
       'Component ' +
@@ -37,9 +37,8 @@ function MDXContent({ components, ...props }) {
 MDXContent.isMDXComponent = true;
 
 export const basic = assertIsFn(basicFn);
-basic.story = {};
-basic.story.name = 'basic';
-basic.story.parameters = { mdxSource: 'basicFn' };
+basic.storyName = 'basic';
+basic.parameters = { storySource: { source: 'basicFn' } };
 
 const componentMeta = { title: 'story-function-var', includeStories: ['basic'] };
 

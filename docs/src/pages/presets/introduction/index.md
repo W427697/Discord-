@@ -3,6 +3,8 @@ id: 'introduction'
 title: 'Intro to Presets'
 ---
 
+> migration guide: This page documents the method to configure storybook introduced recently in 5.3.0, consult the [migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md) if you want to migrate to this format of configuring storybook.
+
 Storybook **presets** are grouped collections of `babel`, `webpack`, and `addons` configurations that support specific use cases.
 
 For example, to write your stories in Typescript, rather than [manually configuring Storybook for typescript](../../configurations/typescript-config/) with individual [babel](../../configurations/custom-babel-config/) and [webpack](../../configurations/custom-webpack-config/) configs, you can use the `@storybook/preset-typescript` package, which does the heavy lifting for you.
@@ -29,7 +31,7 @@ That's it. When Storybook starts up, it will configure itself for typescript wit
 
 ## Preset configuration
 
-Presets can also take optional parameters. Sometimes these used by the preset itself, and another common case is to pass them through to configure webpack loaders that are used by the presets.
+Presets can also take optional parameters. These can be used by the preset itself or passed through to configure the webpack loaders that are used by the preset.
 
 Consider this example:
 
@@ -40,8 +42,8 @@ module.exports = {
     {
       name: '@storybook/preset-typescript',
       options: {
-        tsDocgenLoaderOptions: {
-          tsconfigPath: path.resolve(__dirname, '../tsconfig.json'),
+        tsLoaderOptions: {
+          configFile: path.resolve(__dirname, '../tsconfig.json'),
         },
         include: [path.resolve(__dirname)],
       },
@@ -50,7 +52,7 @@ module.exports = {
 };
 ```
 
-This configures the typescript docgen loader using the app's `tsconfig.json` and also tells the typescript loaders to only be applied to the current directory.
+This configures the typescript loader using the app's `tsconfig.json` and also tells the typescript loader to only be applied to the current directory.
 
 Each preset has its own option and those options should be documented in the preset's README.
 
