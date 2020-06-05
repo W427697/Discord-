@@ -3,24 +3,26 @@ import { styled } from '@storybook/theming';
 import { document, window } from 'global';
 import memoize from 'memoizerific';
 
-import js from 'refractor/lang/javascript';
+// import js from 'refractor/lang/javascript';
 import jsx from 'refractor/lang/jsx';
 import jsExtra from 'refractor/lang/js-extras';
-// @ts-ignore
-import jsTemplates from 'refractor/lang/js-templates';
-import jsDoc from 'refractor/lang/jsdoc';
-import bash from 'refractor/lang/bash';
-import graphql from 'refractor/lang/graphql';
+// // @ts-ignore
+// import jsTemplates from 'refractor/lang/js-templates';
+// import jsDoc from 'refractor/lang/jsdoc';
+// import bash from 'refractor/lang/bash';
+// import graphql from 'refractor/lang/graphql';
 import css from 'refractor/lang/css';
 import cssExtra from 'refractor/lang/css-extras';
-import json from 'refractor/lang/json';
-import json5 from 'refractor/lang/json5';
-import regex from 'refractor/lang/regex';
-import html from 'refractor/lang/markup';
-import md from 'refractor/lang/markdown';
-import yml from 'refractor/lang/yaml';
-import tsx from 'refractor/lang/tsx';
-import typescript from 'refractor/lang/typescript';
+// import json from 'refractor/lang/json';
+// import json5 from 'refractor/lang/json5';
+// import regex from 'refractor/lang/regex';
+// import html from 'refractor/lang/markup';
+// import md from 'refractor/lang/markdown';
+// import yml from 'refractor/lang/yaml';
+// import tsx from 'refractor/lang/tsx';
+// import typescript from 'refractor/lang/typescript';
+
+import refract from 'refractor/core';
 
 // @ts-ignore
 import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/cjs/prism-light';
@@ -32,25 +34,31 @@ import { ScrollArea } from '../ScrollArea/ScrollArea';
 
 import { formatter } from './formatter';
 
+refract.register(css);
+refract.register(cssExtra);
+refract.register(jsExtra);
+refract.register(jsx);
+console.log(refract.listLanguages());
+
 export { createElement as createSyntaxHighlighterElement };
 
-ReactSyntaxHighlighter.registerLanguage('js', js);
-ReactSyntaxHighlighter.registerLanguage('jsx', jsx);
-ReactSyntaxHighlighter.registerLanguage('jsExtra', jsExtra);
-ReactSyntaxHighlighter.registerLanguage('jsTemplates', jsTemplates);
-ReactSyntaxHighlighter.registerLanguage('jsDoc', jsDoc);
-ReactSyntaxHighlighter.registerLanguage('json', json);
-ReactSyntaxHighlighter.registerLanguage('json5', json5);
-ReactSyntaxHighlighter.registerLanguage('yml', yml);
-ReactSyntaxHighlighter.registerLanguage('graphql', graphql);
-ReactSyntaxHighlighter.registerLanguage('md', md);
-ReactSyntaxHighlighter.registerLanguage('regex', regex);
-ReactSyntaxHighlighter.registerLanguage('bash', bash);
-ReactSyntaxHighlighter.registerLanguage('css', css);
-ReactSyntaxHighlighter.registerLanguage('cssExtra', cssExtra);
-ReactSyntaxHighlighter.registerLanguage('html', html);
-ReactSyntaxHighlighter.registerLanguage('tsx', tsx);
-ReactSyntaxHighlighter.registerLanguage('typescript', typescript);
+// ReactSyntaxHighlighter.registerLanguage('js', js);
+// ReactSyntaxHighlighter.registerLanguage('jsx', jsx);
+// ReactSyntaxHighlighter.registerLanguage('jsExtra', jsExtra);
+// // ReactSyntaxHighlighter.registerLanguage('jsTemplates', jsTemplates);
+// ReactSyntaxHighlighter.registerLanguage('jsDoc', jsDoc);
+// ReactSyntaxHighlighter.registerLanguage('json', json);
+// ReactSyntaxHighlighter.registerLanguage('json5', json5);
+// ReactSyntaxHighlighter.registerLanguage('yml', yml);
+// ReactSyntaxHighlighter.registerLanguage('graphql', graphql);
+// ReactSyntaxHighlighter.registerLanguage('md', md);
+// // ReactSyntaxHighlighter.registerLanguage('regex', regex);
+// // ReactSyntaxHighlighter.registerLanguage('bash', bash);
+// ReactSyntaxHighlighter.registerLanguage('css', css);
+// ReactSyntaxHighlighter.registerLanguage('cssExtra', cssExtra);
+// // ReactSyntaxHighlighter.registerLanguage('html', html);
+// // ReactSyntaxHighlighter.registerLanguage('tsx', tsx);
+// // ReactSyntaxHighlighter.registerLanguage('typescript', typescript);
 
 const themedSyntax = memoize(2)((theme) =>
   Object.entries(theme.code || {}).reduce((acc, [key, val]) => ({ ...acc, [`* .${key}`]: val }), {})
@@ -161,6 +169,8 @@ export const SyntaxHighlighter: FunctionComponent<Props> = ({
 
     window.setTimeout(() => setCopied(false), 1500);
   };
+
+  console.log(refract.highlight(children, language));
 
   return children ? (
     <Wrapper bordered={bordered} padded={padded} className={className}>
