@@ -21,6 +21,8 @@ export interface FrameworkOptions {
   extraAddons?: string[];
   dirname?: string;
   staticDir?: string;
+  addScripts?: boolean;
+  addComponents?: boolean;
 }
 
 export type Generator = (npmOptions: NpmOptions, options: GeneratorOptions) => Promise<void>;
@@ -30,6 +32,8 @@ const defaultOptions: FrameworkOptions = {
   extraAddons: [],
   dirname: __dirname,
   staticDir: undefined,
+  addScripts: true,
+  addComponents: true,
 };
 const generator = async (
   npmOptions: NpmOptions,
@@ -37,7 +41,10 @@ const generator = async (
   framework: SupportedFrameworks,
   options: FrameworkOptions = defaultOptions
 ) => {
-  const { extraAddons, extraPackages, dirname, staticDir } = { ...defaultOptions, ...options };
+  const { extraAddons, extraPackages, dirname, staticDir, addScripts, addComponents } = {
+    ...defaultOptions,
+    ...options,
+  };
   const packages = [
     `@storybook/${framework}`,
     '@storybook/addon-essentials',
@@ -49,7 +56,9 @@ const generator = async (
   const versionedPackages = await getVersionedPackages(npmOptions, ...packages);
 
   configure(extraAddons);
-  copyComponents(framework, language);
+  if (addComponents) {
+    copyComponents(framework, language);
+  }
   copyTemplate(dirname || __dirname, storyFormat);
 
   const packageJson = await retrievePackageJson();
@@ -57,10 +66,12 @@ const generator = async (
   packageJson.dependencies = packageJson.dependencies || {};
   packageJson.devDependencies = packageJson.devDependencies || {};
 
-  const staticParameter = staticDir ? `-s ${staticDir}` : '';
-  packageJson.scripts = packageJson.scripts || {};
-  packageJson.scripts.storybook = `start-storybook -p 6006 ${staticParameter}`.trim();
-  packageJson.scripts['build-storybook'] = `build-storybook ${staticParameter}`.trim();
+  if (addScripts) {
+    const staticParameter = staticDir ? `-s ${staticDir}` : '';
+    packageJson.scripts = packageJson.scripts || {};
+    packageJson.scripts.storybook = `start-storybook -p 6006 ${staticParameter}`.trim();
+    packageJson.scripts['build-storybook'] = `build-storybook ${staticParameter}`.trim();
+  }
 
   writePackageJson(packageJson);
 
