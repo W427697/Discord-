@@ -177,11 +177,19 @@ export const extractArgTypesFromData = (componentData: Class | Directive | Injec
         isMethod(item) || section !== 'inputs'
           ? { name: 'void' }
           : extractType(item as Property, defaultValue);
+      const decorators = (item.decorators || [])
+        .map(({ name, stringifiedArguments }) => {
+          return `@${name}${stringifiedArguments ? `(${stringifiedArguments})` : ''}`;
+        })
+        .join(' ');
+      const description = [item.description, decorators ? `\`${decorators}\`` : '']
+        .filter(Boolean)
+        .join('<br />');
       const argType = {
         name: item.name,
-        description: item.description,
-        defaultValue,
+        description,
         type,
+        defaultValue,
         table: {
           category: section,
           type: {
