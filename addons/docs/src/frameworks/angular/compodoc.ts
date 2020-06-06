@@ -106,6 +106,10 @@ const displaySignature = (item: Method): string => {
   return `(${args.join(', ')}) => ${item.returnType}`;
 };
 
+const doesHaveModifier = (kind: number, modifierKind?: number[]) => {
+  return (modifierKind || []).includes(kind);
+};
+
 const extractTypeFromValue = (defaultValue: any) => {
   const valueType = typeof defaultValue;
   return defaultValue || valueType === 'boolean' ? valueType : null;
@@ -183,6 +187,7 @@ export const extractArgTypesFromData = (componentData: Class | Directive | Injec
           type: {
             summary: isMethod(item) ? displaySignature(item) : item.type,
             required: isMethod(item) ? false : !item.optional,
+            private: doesHaveModifier(112 /* SyntaxKind.PrivateKeyword */, item.modifierKind),
           },
         },
       };
