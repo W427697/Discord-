@@ -37,11 +37,11 @@ const defaultOptions: FrameworkOptions = {
 };
 const generator = async (
   npmOptions: NpmOptions,
-  { storyFormat, language }: GeneratorOptions,
+  { language }: GeneratorOptions,
   framework: SupportedFrameworks,
   options: FrameworkOptions = defaultOptions
 ) => {
-  const { extraAddons, extraPackages, dirname, staticDir, addScripts, addComponents } = {
+  const { extraAddons, extraPackages, staticDir, addScripts, addComponents } = {
     ...defaultOptions,
     ...options,
   };
@@ -59,7 +59,6 @@ const generator = async (
   if (addComponents) {
     copyComponents(framework, language);
   }
-  copyTemplate(dirname || __dirname, storyFormat);
 
   const packageJson = await retrievePackageJson();
 

@@ -1,4 +1,4 @@
-import { writeFileAsJson, readFileAsJson } from '../../helpers';
+import { writeFileAsJson, readFileAsJson, copyTemplate } from '../../helpers';
 import { StoryFormat } from '../../project_types';
 import baseGenerator, { Generator } from '../generator';
 
@@ -24,6 +24,7 @@ const generator: Generator = async (npmOptions, options) => {
     dirname: options.storyFormat === StoryFormat.MDX ? __dirname : undefined,
     extraPackages: ['aurelia'],
   });
+  copyTemplate(__dirname, options.storyFormat);
 };
 
 export default generator;

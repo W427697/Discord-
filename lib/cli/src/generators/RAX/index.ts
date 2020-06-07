@@ -1,6 +1,5 @@
 import { getVersions, retrievePackageJson, writePackageJson } from '../../helpers';
 import baseGenerator, { Generator } from '../generator';
-import { StoryFormat } from '../../project_types';
 
 const generator: Generator = async (npmOptions, options) => {
   const [latestRaxVersion] = await getVersions(npmOptions, 'rax');
@@ -23,7 +22,6 @@ const generator: Generator = async (npmOptions, options) => {
   writePackageJson(packageJson);
 
   baseGenerator(npmOptions, options, 'rax', {
-    dirname: options.storyFormat === StoryFormat.MDX ? __dirname : undefined,
     extraPackages: ['rax'],
   });
 };

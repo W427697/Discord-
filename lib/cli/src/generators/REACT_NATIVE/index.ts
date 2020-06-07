@@ -1,6 +1,6 @@
 import shell from 'shelljs';
 import chalk from 'chalk';
-import { retrievePackageJson, paddedLog } from '../../helpers';
+import { retrievePackageJson, paddedLog, copyTemplate } from '../../helpers';
 import { NpmOptions } from '../../NpmOptions';
 import baseGenerator, { GeneratorOptions } from '../generator';
 
@@ -41,6 +41,7 @@ const generator = async (
     addScripts: installServer,
     addComponents: false, // We copy template-csf as it's wrapped in a storybook folder
   });
+  copyTemplate(__dirname, options.storyFormat);
 };
 
 export default generator;

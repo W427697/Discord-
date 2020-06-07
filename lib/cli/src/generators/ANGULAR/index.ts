@@ -5,7 +5,7 @@ import {
   getAngularAppTsConfigJson,
   getAngularAppTsConfigPath,
 } from './angular-helpers';
-import { writeFileAsJson } from '../../helpers';
+import { writeFileAsJson, copyTemplate } from '../../helpers';
 import { StoryFormat } from '../../project_types';
 import baseGenerator, { Generator } from '../generator';
 
@@ -34,6 +34,7 @@ const generator: Generator = async (npmOptions, options) => {
   baseGenerator(npmOptions, options, 'angular', {
     dirname: options.storyFormat === StoryFormat.MDX ? __dirname : undefined,
   });
+  copyTemplate(__dirname, options.storyFormat);
 
   editAngularAppTsConfig();
   editStorybookTsConfig(path.resolve('./.storybook/tsconfig.json'));

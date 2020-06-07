@@ -333,12 +333,6 @@ export function addToDevDependenciesIfNotPresent(
 
 export function copyTemplate(templateRoot: string, storyFormat: StoryFormat) {
   const templateDir = path.resolve(templateRoot, `template-${storyFormat}/`);
-  if (
-    storyFormat !== StoryFormat.MDX &&
-    templateRoot.match(/generators$/) // Means we're using base config and migrated
-  ) {
-    return;
-  }
 
   if (!fs.existsSync(templateDir)) {
     // Fallback to CSF plain first, in case format is typescript but template is not available.
