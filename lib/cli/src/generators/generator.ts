@@ -6,7 +6,6 @@ import {
   writePackageJson,
   getBabelDependencies,
   installDependencies,
-  copyTemplate,
   copyComponents,
 } from '../helpers';
 import configure from './configure';
