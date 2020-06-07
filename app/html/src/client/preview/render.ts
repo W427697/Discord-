@@ -1,5 +1,7 @@
 import { document, Node } from 'global';
 import dedent from 'ts-dedent';
+import ReactDOMServer from 'react-dom/server';
+import { isValidElement } from 'react';
 import { RenderContext } from './types';
 
 const rootElement = document.getElementById('root');
@@ -25,9 +27,12 @@ export default function renderMain({
 
     rootElement.innerHTML = '';
     rootElement.appendChild(element);
+  } else if (isValidElement(element)) {
+    rootElement.innerHTML = '';
+    rootElement.innerHTML = ReactDOMServer.renderToStaticMarkup(element);
   } else {
     showError({
-      title: `Expecting an HTML snippet or DOM node from the story: "${name}" of "${kind}".`,
+      title: `Expecting an HTML snippet, DOM node or JSX element from the story: "${name}" of "${kind}".`,
       description: dedent`
         Did you forget to return the HTML snippet from the story?
         Use "() => <your snippet or node>" or when defining the story.
