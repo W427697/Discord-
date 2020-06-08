@@ -7,7 +7,12 @@ function mainConfigurationGenerator(addons?: string[], custom?: any) {
     stories: [!hasSrc && '../stories/**/*.stories.*', hasSrc && '../src/**/*.stories.*'].filter(
       Boolean
     ),
-    addons: ['@storybook/addon-essentials', '@storybook/addon-links', ...addons],
+    addons: [
+      '@storybook/addon-actions',
+      '@storybook/addon-links',
+      '@storybook/addon-docs',
+      ...addons,
+    ],
     ...custom,
   };
 

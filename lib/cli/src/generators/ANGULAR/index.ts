@@ -6,12 +6,11 @@ import {
   getAngularAppTsConfigPath,
 } from './angular-helpers';
 import { writeFileAsJson, copyTemplate } from '../../helpers';
-import { StoryFormat } from '../../project_types';
 import baseGenerator, { Generator } from '../generator';
 
 function editAngularAppTsConfig() {
   const tsConfigJson = getAngularAppTsConfigJson();
-  const glob = '**/*.stories.ts';
+  const glob = '**/*.stories.*';
   if (!tsConfigJson) {
     return;
   }
@@ -31,9 +30,7 @@ const generator: Generator = async (npmOptions, options) => {
       'Could not find a default project in your Angular workspace.\nSet a defaultProject in your angular.json and re-run the installation.'
     );
   }
-  baseGenerator(npmOptions, options, 'angular', {
-    dirname: options.storyFormat === StoryFormat.MDX ? __dirname : undefined,
-  });
+  baseGenerator(npmOptions, options, 'angular');
   copyTemplate(__dirname, options.storyFormat);
 
   editAngularAppTsConfig();

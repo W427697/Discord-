@@ -18,7 +18,6 @@ export type GeneratorOptions = {
 export interface FrameworkOptions {
   extraPackages?: string[];
   extraAddons?: string[];
-  dirname?: string;
   staticDir?: string;
   addScripts?: boolean;
   addComponents?: boolean;
@@ -29,7 +28,6 @@ export type Generator = (npmOptions: NpmOptions, options: GeneratorOptions) => P
 const defaultOptions: FrameworkOptions = {
   extraPackages: [],
   extraAddons: [],
-  dirname: __dirname,
   staticDir: undefined,
   addScripts: true,
   addComponents: true,
@@ -46,7 +44,7 @@ const generator = async (
   };
   const packages = [
     `@storybook/${framework}`,
-    '@storybook/addon-essentials',
+    '@storybook/addon-docs',
     '@storybook/addon-actions',
     '@storybook/addon-links',
     ...extraPackages,
