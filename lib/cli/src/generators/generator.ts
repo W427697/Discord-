@@ -44,12 +44,13 @@ const generator = async (
   };
   const packages = [
     `@storybook/${framework}`,
-    '@storybook/addon-docs',
+    // https://github.com/storybookjs/storybook/issues/9103
+    framework !== 'angular' && '@storybook/addon-essentials',
     '@storybook/addon-actions',
     '@storybook/addon-links',
     ...extraPackages,
     ...extraAddons,
-  ];
+  ].filter(Boolean);
   const versionedPackages = await getVersionedPackages(npmOptions, ...packages);
 
   configure(extraAddons);
