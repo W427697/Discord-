@@ -1,5 +1,4 @@
 import { writeFileAsJson, readFileAsJson, copyTemplate } from '../../helpers';
-import { StoryFormat } from '../../project_types';
 import baseGenerator, { Generator } from '../generator';
 
 function addStorybookExcludeGlobToTsConfig() {
@@ -21,7 +20,6 @@ function addStorybookExcludeGlobToTsConfig() {
 const generator: Generator = async (npmOptions, options) => {
   addStorybookExcludeGlobToTsConfig();
   baseGenerator(npmOptions, options, 'aurelia', {
-    dirname: options.storyFormat === StoryFormat.MDX ? __dirname : undefined,
     extraPackages: ['aurelia'],
   });
   copyTemplate(__dirname, options.storyFormat);
