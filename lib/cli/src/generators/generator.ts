@@ -46,10 +46,12 @@ export async function baseGenerator(
 
   const addons = [
     '@storybook/addon-links',
-    // If angular add only `actions` because docs is buggy for now (https://github.com/storybookjs/storybook/issues/9103)
+    '@storybook/addon-actions',
+    // If angular skip `docs` because docs is buggy for now (https://github.com/storybookjs/storybook/issues/9103)
     // for others framework add `essentials` i.e. `actions`, `backgrounds`, `docs`, `viewport`
-    framework !== 'angular' ? '@storybook/addon-essentials' : '@storybook/addon-actions',
-  ];
+    // API of essentials needs to be clarified whether we need to add dependencies or not
+    framework !== 'angular' && '@storybook/addon-docs',
+  ].filter(Boolean);
 
   // ⚠️ Some addons have peer deps that must be added too, like '@storybook/addon-docs' => 'react-is'
   const addonsPeerDeps = addons.some(
