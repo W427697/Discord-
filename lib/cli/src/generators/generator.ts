@@ -50,9 +50,20 @@ const generator = async (
     framework !== 'angular' ? '@storybook/addon-essentials' : '@storybook/addon-actions',
   ];
 
-  const packages = [`@storybook/${framework}`, ...addons, ...extraPackages, ...extraAddons].filter(
-    Boolean
-  );
+  // ⚠️ Some addons have peer deps that must be added too, like '@storybook/addon-docs' => 'react-is'
+  const addonsPeerDeps = addons.some(
+    (addon) => addon === '@storybook/addon-essentials' || addon === '@storybook/addon-docs'
+  )
+    ? ['react-is']
+    : [];
+
+  const packages = [
+    `@storybook/${framework}`,
+    ...addons,
+    ...extraPackages,
+    ...extraAddons,
+    ...addonsPeerDeps,
+  ].filter(Boolean);
   const versionedPackages = await getVersionedPackages(npmOptions, ...packages);
 
   configure([...addons, ...extraAddons]);
