@@ -347,7 +347,7 @@ export function copyTemplate(templateRoot: string, storyFormat: StoryFormat) {
 }
 
 export function copyComponents(framework: SupportedFrameworks, language: SupportedLanguage) {
-  const languageFolderMapping: { [key in SupportedLanguage]: string } = {
+  const languageFolderMapping: Record<SupportedLanguage, string> = {
     javascript: 'js',
     typescript: 'ts',
   };

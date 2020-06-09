@@ -2,7 +2,7 @@ import shell from 'shelljs';
 import chalk from 'chalk';
 import { retrievePackageJson, paddedLog, copyTemplate } from '../../helpers';
 import { NpmOptions } from '../../NpmOptions';
-import baseGenerator, { GeneratorOptions } from '../generator';
+import { baseGenerator, GeneratorOptions } from '../generator';
 
 const generator = async (
   npmOptions: NpmOptions,

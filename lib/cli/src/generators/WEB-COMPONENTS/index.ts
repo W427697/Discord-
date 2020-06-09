@@ -1,4 +1,4 @@
-import baseGenerator, { Generator } from '../generator';
+import { baseGenerator, Generator } from '../generator';
 import { copyTemplate } from '../../helpers';
 
 const generator: Generator = async (npmOptions, options) => {

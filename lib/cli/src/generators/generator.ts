@@ -32,12 +32,13 @@ const defaultOptions: FrameworkOptions = {
   addScripts: true,
   addComponents: true,
 };
-const generator = async (
+
+export async function baseGenerator(
   npmOptions: NpmOptions,
   { language }: GeneratorOptions,
   framework: SupportedFrameworks,
   options: FrameworkOptions = defaultOptions
-) => {
+) {
   const { extraAddons, extraPackages, staticDir, addScripts, addComponents } = {
     ...defaultOptions,
     ...options,
@@ -88,6 +89,4 @@ const generator = async (
   const babelDependencies = await getBabelDependencies(npmOptions, packageJson);
 
   installDependencies({ ...npmOptions, packageJson }, [...versionedPackages, ...babelDependencies]);
-};
-
-export default generator;
+}

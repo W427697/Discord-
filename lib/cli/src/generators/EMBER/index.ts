@@ -1,4 +1,4 @@
-import baseGenerator, { Generator } from '../generator';
+import { baseGenerator, Generator } from '../generator';
 
 const generator: Generator = async (npmOptions, options) => {
   baseGenerator(npmOptions, options, 'ember', {
