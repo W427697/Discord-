@@ -1,18 +1,13 @@
 import fse from 'fs-extra';
 
-function mainConfigurationGenerator(addons?: string[], custom?: any) {
+function mainConfigurationGenerator(addons: string[], custom?: any) {
   const hasSrc = fse.existsSync('./src');
 
   const config = {
     stories: [!hasSrc && '../stories/**/*.stories.*', hasSrc && '../src/**/*.stories.*'].filter(
       Boolean
     ),
-    addons: [
-      '@storybook/addon-actions',
-      '@storybook/addon-links',
-      '@storybook/addon-docs',
-      ...addons,
-    ],
+    addons,
     ...custom,
   };
 

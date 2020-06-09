@@ -42,18 +42,20 @@ const generator = async (
     ...defaultOptions,
     ...options,
   };
-  const packages = [
-    `@storybook/${framework}`,
-    // https://github.com/storybookjs/storybook/issues/9103
-    framework !== 'angular' && '@storybook/addon-essentials',
-    '@storybook/addon-actions',
+
+  const addons = [
     '@storybook/addon-links',
-    ...extraPackages,
-    ...extraAddons,
-  ].filter(Boolean);
+    // If angular add only `actions` because docs is buggy for now (https://github.com/storybookjs/storybook/issues/9103)
+    // for others framework add `essentials` i.e. `actions`, `backgrounds`, `docs`, `viewport`
+    framework !== 'angular' ? '@storybook/addon-essentials' : '@storybook/addon-actions',
+  ];
+
+  const packages = [`@storybook/${framework}`, ...addons, ...extraPackages, ...extraAddons].filter(
+    Boolean
+  );
   const versionedPackages = await getVersionedPackages(npmOptions, ...packages);
 
-  configure(extraAddons);
+  configure([...addons, ...extraAddons]);
   if (addComponents) {
     copyComponents(framework, language);
   }
