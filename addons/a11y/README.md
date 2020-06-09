@@ -22,6 +22,15 @@ module.exports = {
 };
 ```
 
+To enable `a11y` globally for all stories, add this to your `preview.js` file.
+
+```js
+import { addDecorator } from '@storybook/react';
+import { withA11y } from '@storybook/addon-a11y';
+
+addDecorator(withA11y);
+```
+
 ```js
 import React from 'react';
 
