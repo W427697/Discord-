@@ -1,6 +1,9 @@
 <h1>Migration</h1>
 
 - [From version 5.3.x to 6.0.x](#from-version-53x-to-60x)
+  - [Hoisted CSF annotations](#hoisted-csf-annotations)
+  - [Zero config typescript](#zero-config-typescript)
+  - [Correct globs in main.js](#correct-globs-in-mainjs)
   - [Backgrounds addon has a new api](#backgrounds-addon-has-a-new-api)
   - [CRA preset removed](#cra-preset-removed)
   - [Args passed as first argument to story](#args-passed-as-first-argument-to-story)
@@ -9,10 +12,8 @@
     - [Docs theme separated](#docs-theme-separated)
     - [DocsPage slots removed](#docspage-slots-removed)
     - [React prop tables with Typescript](#react-prop-tables-with-typescript)
-      - [React.FC interfaces](#reactfc-interfaces)
-      - [Imported types](#imported-types)
-      - [Rolling back](#rolling-back)
   - [New addon presets](#new-addon-presets)
+  - [Removed babel-preset-vue from Vue preset](#removed-babel-preset-vue-from-vue-preset)
   - [Removed Deprecated APIs](#removed-deprecated-apis)
   - [New setStories event](#new-setstories-event)
   - [Client API changes](#client-api-changes)
@@ -23,13 +24,15 @@
   - [Story Store immutable outside of configuration](#story-store-immutable-outside-of-configuration)
   - [Improved story source handling](#improved-story-source-handling)
   - [6.0 Addon API changes](#60-addon-api-changes)
-    - [Actions Addon uses parameters](#actions-addon-uses-parameters)
+    - [Actions addon uses parameters](#actions-addon-uses-parameters)
     - [Removed action decorator APIs](#removed-action-decorator-apis)
     - [Removed withA11y decorator](#removed-witha11y-decorator)
-  - [6.0 Deprecated addons](#60-deprecated-addons)
+    - [Essentials addon disables differently](#essentials-addon-disables-differently)
+  - [6.0 Deprecations](#60-deprecations)
     - [Deprecated addon-info, addon-notes](#deprecated-addon-info-addon-notes)
     - [Deprecated addon-contexts](#deprecated-addon-contexts)
     - [Removed addon-centered](#removed-addon-centered)
+    - [Deprecated polymer](#deprecated-polymer)
 - [From version 5.2.x to 5.3.x](#from-version-52x-to-53x)
   - [To main.js configuration](#to-mainjs-configuration)
     - [Using main.js](#using-mainjs)
@@ -110,6 +113,70 @@
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
 ## From version 5.3.x to 6.0.x
+
+### Hoisted CSF annotations
+
+Storybook 6 introduces hoisted CSF annotations and deprecates the `StoryFn.story` object-style annotation.
+
+In 5.x CSF, you would annotate a story like this:
+
+```js
+export const Basic = () => <Button />
+Basic.story = {
+  name: 'foo',
+  parameters: { ... },
+  decorators: [ ... ],
+};
+```
+
+In 6.0 CSF this becomes:
+
+```js
+export const Basic = () => <Button />
+Basic.storyName = 'foo';
+Basic.parameters = { ... };
+Basic.decorators = [ ... ];
+```
+
+1. The new syntax is slightly more compact/ergonomic compared the the old one
+2. Similar to React's `displayName`, `propTypes`, `defaultProps` annotations
+3. We're introducing a new feature, [Storybook Args](https://docs.google.com/document/d/1Mhp1UFRCKCsN8pjlfPdz8ZdisgjNXeMXpXvGoALjxYM/edit?usp=sharing), where the new syntax will be significantly more ergonomic
+
+To help you upgrade your stories, we've crated a codemod:
+
+```
+npx @storybook/cli@next migrate csf-hoist-story-annotations --glob="**/*.stories.js"
+```
+
+For more information, [see the documentation](https://github.com/storybookjs/storybook/blob/next/lib/codemod/README.md#csf-hoist-story-annotations).
+
+### Zero config typescript
+
+Storybook has built-in Typescript support in 6.0. That means you should remove your complex Typescript configurations from your `.storybook` config. We've tried to pick sensible defaults that work out of the box, especially for nice prop table generation in `@storybook/addon-docs`.
+
+To migrate from an old setup, we recommend deleting any typescript-specific webpack/babel configurations in your project. You should also remove `@storybook/preset-typescript`, which is superceded by the built-in configuration.
+
+If you want to override the defaults, see the [typescript configuration docs](https://github.com/storybookjs/storybook/blob/next/docs/src/pages/configurations/typescript-config/index.md).
+
+### Correct globs in main.js
+
+In 5.3 we introduced the `main.js` file with a `stories` property. This property was documented as a "glob" pattern. This was our intention, however the implementation allowed for non valid globs to be specified and work. In fact, we promoted invalid globs in our documentation and CLI templates.
+
+We've corrected this, the CLI templates have been changed to use valid globs.
+
+We've also changed the code that resolves these globs, so that invalid globs will log a warning. They will break in the future, so if you see this warning, please ensure you're specifying a valid glob.
+
+Example of an **invalid** glob:
+
+```
+stories: ['./**/*.stories.(ts|js)']
+```
+
+Example of a **valid** glob:
+
+```
+stories: ['./**/*.stories.@(ts|js)']
+```
 
 ### Backgrounds addon has a new api
 
@@ -213,80 +280,11 @@ These mechanisms are superior to slots, so we've removed slots in 6.0. For each 
 
 #### React prop tables with Typescript
 
-Starting in 6.0 we are changing our recommended setup for extracting prop tables in `addon-docs` for React projects using TypeScript.
+Props handling in React has changed in 6.0 and should be much less error-prone. This is not a breaking change per se, but documenting the change here since this is an area that has a lot of issues and we've gone back and forth on it.
 
-In earlier versions, we recommended `react-docgen-typescript-loader` (`RDTL`) and bundled it with `@storybook/preset-create-react-app` and `@storybook/preset-typescript` for this reason. We now recommend `babel-plugin-react-docgen`, which is already bundled as part of `@storybook/react`.
+Starting in 6.0, we have [zero-config typescript support](#zero-config-typescript). The out-of-box experience should be much better now, since the default configuration is designed to work well with `addon-docs`.
 
-As a consequence we've removed `RDTL` from the presets, which is a breaking change. We made this change because `react-docgen` now supports TypeScript natively, and fewer dependencies simplifies things for everybody.
-
-The Babel-based `react-docgen` version is the default in:
-
-- `@storybook/preset-create-react-app` @ `^2.1.0`
-- `@storybook/preset-typescript` @ `^3.0.0`
-
-> NOTE: If you're using `preset-create-react-app` you don't need `preset-typescript`!
-
-We will be updating this section with migration information as we collect information from our users, and fixing issues as they come up throughout the 6.0 prerelease process. We are cataloging known issues [here](https://github.com/storybookjs/storybook/blob/next/addons/docs/docs/props-tables.md#known-limitations).
-
-##### React.FC interfaces
-
-The biggest known issue is https://github.com/reactjs/react-docgen/issues/387, which means that the following common pattern **DOESN'T WORK**:
-
-```tsx
-import React, { FC } from 'react';
-interface IProps { ... };
-const MyComponent: FC<IProps> = ({ ... }) => ...
-```
-
-The following workaround is needed:
-
-```tsx
-const MyComponent: FC<IProps> = ({ ... }: IProps) => ...
-```
-
-Please upvote https://github.com/reactjs/react-docgen/issues/387 if this is affecting your productivity, or better yet, submit a fix!
-
-##### Imported types
-
-Another major issue is support for imported types.
-
-```tsx
-import React, { FC } from 'react';
-import SomeType from './someFile';
-
-type NewType = SomeType & { foo: string };
-const MyComponent: FC<NewType> = ...
-```
-
-This isn't an issue with `RDTL` so unfortunately it gets worse with `react-docgen`.
-There's an open PR for this https://github.com/reactjs/react-docgen/pull/352 which you can upvote if it affects you.
-
-##### Rolling back
-
-In the meantime, if you're not ready to make the move you have two options:
-
-1. Pin your to a specific preset version: `preset-create-react-app@1.5.2` or `preset-typescript@1.2.2`
-
-2. OR: Manually configure your setup to add back `react-docgen-typescript-loader`, add the following to your `.storybook/main.js`:
-
-```js
-module.exports = {
-  webpack: async (config, { configType }) => ({
-    ...config,
-    module: {
-      ...config.module,
-      rules: [
-        ...config.module.rules,
-        {
-          test: /\.tsx?$/,
-          loader: require.resolve('react-docgen-typescript-loader'),
-          options: {}, // your options here
-        },
-      ],
-    },
-  }),
-};
-```
+There are also two typescript handling options that can be set in `.storybook/main.js`. `react-docgen-typescript` (default) and `react-docgen`. This is [discussed in detail in the docs](https://github.com/storybookjs/storybook/blob/next/addons/docs/react/README.md#typescript-props-with-react-docgen).
 
 ### New addon presets
 
@@ -332,6 +330,23 @@ MyNonCheckedStory.story = {
   },
 };
 ```
+
+### Removed babel-preset-vue from Vue preset
+
+`babel-preset-vue` is not included by default anymore when using Storybook with Vue.
+This preset is outdated and [caused problems](https://github.com/storybookjs/storybook/issues/4475) with more modern setups.
+
+If you have an older Vue setup that relied on this preset, make sure it is included in your babel config
+(install `babel-preset-vue` and add it to the presets).
+
+```json
+{
+  "presets": ["babel-preset-vue"]
+}
+```
+
+However, please take a moment to review why this preset is necessary in your setup.
+One usecase used to be to enable JSX in your stories. For this case, we recommend to use `@vue/babel-preset-jsx` instead.
 
 ### Removed Deprecated APIs
 
@@ -469,7 +484,7 @@ The MDX analog:
 
 ### 6.0 Addon API changes
 
-#### Actions Addon uses parameters
+#### Actions addon uses parameters
 
 Leveraging the new preset `@storybook/addon-actions` uses parameters to pass action options. If you previously had:
 
@@ -514,9 +529,13 @@ addParameters({
 };
 ```
 
-### 6.0 Deprecated addons
+#### Essentials addon disables differently
 
-We've deprecated the following addons in 6.0: `addon-info`, `addon-notes`, `addon-contexts`, `addon-centered`.
+In 6.0, `addon-essentials` doesn't configure addons if the user has already configured them in `main.js`. In 5.3 it previously checked to see whether the package had been installed in `package.json` to disable configuration. The new setup is preferably because now users' can install essential packages and import from them without disabling their configuration.
+
+### 6.0 Deprecations
+
+We've deprecated the following in 6.0: `addon-info`, `addon-notes`, `addon-contexts`, `addon-centered`, `polymer`.
 
 #### Deprecated addon-info, addon-notes
 
@@ -544,6 +563,10 @@ MyStory.story = {
 ```
 
 Other possible values are: `padded` (default) and `fullscreen`.
+
+#### Deprecated polymer
+
+We've deprecated `@storybook/polymer` and are focusing on `@storybook/web-components`. If you use Polymer and are interested in maintaining it, please get in touch on [our Discord](https://discordapp.com/invite/UUt2PJb).
 
 ## From version 5.2.x to 5.3.x
 
@@ -821,7 +844,7 @@ After a few iterations, this approach seems to be working. However, there are a 
 
 We'll update this section as we find more problem cases. If you have a `core-js` problem, please file an issue (preferably with a repro), and we'll do our best to get you sorted.
 
-__Update__: [corejs-upgrade-webpack-plugin](https://github.com/ndelangen/corejs-upgrade-webpack-plugin) has been removed again after running into further issues as described in [https://github.com/storybookjs/storybook/issues/7445](https://github.com/storybookjs/storybook/issues/7445).
+**Update**: [corejs-upgrade-webpack-plugin](https://github.com/ndelangen/corejs-upgrade-webpack-plugin) has been removed again after running into further issues as described in [https://github.com/storybookjs/storybook/issues/7445](https://github.com/storybookjs/storybook/issues/7445).
 
 ## From version 5.0.1 to 5.0.2
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { action } from '@storybook/addon-actions';
 import { ArgRow } from './ArgRow';
 import { TableWrapper } from './ArgsTable';
 import { ResetWrapper } from '../../typography/DocumentFormatting';
@@ -22,6 +23,7 @@ export const stringType = {
   name: 'someString',
   description: 'someString description',
   type: { required: true },
+  control: { type: 'text' },
   table: {
     type: { summary: 'string' },
     defaultValue: { summary: 'fixme' },
@@ -115,12 +117,59 @@ export const markdownType = {
   },
 };
 
-export const string = () => <ArgRow row={stringType} />;
-export const longName = () => <ArgRow row={longNameType} />;
-export const longDesc = () => <ArgRow row={longDescType} />;
-export const number = () => <ArgRow row={numberType} />;
-export const objectOf = () => <ArgRow row={objectType} />;
-export const arrayOf = () => <ArgRow row={arrayType} />;
-export const complexObject = () => <ArgRow row={complexType} />;
-export const func = () => <ArgRow row={funcType} />;
-export const markdown = () => <ArgRow row={markdownType} />;
+const withArgs = {
+  arg: 'string value',
+  updateArgs: action('updateArgs'),
+};
+
+export const String = (args) => <ArgRow {...args} />;
+String.args = {
+  row: stringType,
+};
+export const LongName = (args) => <ArgRow {...args} />;
+LongName.args = {
+  row: longNameType,
+};
+export const LongDesc = (args) => <ArgRow {...args} />;
+LongDesc.args = {
+  row: longDescType,
+};
+export const Number = (args) => <ArgRow {...args} />;
+Number.args = {
+  row: numberType,
+};
+export const ObjectOf = (args) => <ArgRow {...args} />;
+ObjectOf.args = {
+  row: objectType,
+};
+export const ArrayOf = (args) => <ArgRow {...args} />;
+ArrayOf.args = {
+  row: arrayType,
+};
+export const ComplexObject = (args) => <ArgRow {...args} />;
+ComplexObject.args = {
+  row: complexType,
+};
+export const Func = (args) => <ArgRow {...args} />;
+Func.args = {
+  row: funcType,
+};
+export const Markdown = (args) => <ArgRow {...args} />;
+Markdown.args = {
+  row: markdownType,
+};
+export const StringCompact = (args) => <ArgRow {...args} />;
+StringCompact.args = {
+  ...String.args,
+  compact: true,
+};
+export const Args = (args) => <ArgRow {...args} />;
+Args.args = {
+  ...String.args,
+  ...withArgs,
+};
+export const ArgsCompact = (args) => <ArgRow {...args} />;
+ArgsCompact.args = {
+  ...Args.args,
+  compact: true,
+};
