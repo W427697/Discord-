@@ -2,7 +2,7 @@ import { NpmOptions } from '../NpmOptions';
 import { StoryFormat, SupportedLanguage, SupportedFrameworks } from '../project_types';
 import { getBabelDependencies, copyComponents } from '../helpers';
 import configure from './configure';
-import { JsPackageManager, writePackageJson } from '../js-package-manager';
+import { JsPackageManager } from '../js-package-manager';
 
 export type GeneratorOptions = {
   language: SupportedLanguage;
@@ -75,18 +75,12 @@ export async function baseGenerator(
 
   const packageJson = packageManager.retrievePackageJson();
 
-  packageJson.dependencies = packageJson.dependencies || {};
-  packageJson.devDependencies = packageJson.devDependencies || {};
-
   if (addScripts) {
-    const staticParameter = staticDir ? `-s ${staticDir}` : '';
-    packageJson.scripts = packageJson.scripts || {};
-    packageJson.scripts.storybook = `start-storybook -p 6006 ${staticParameter}`.trim();
-    packageJson.scripts['build-storybook'] = `build-storybook ${staticParameter}`.trim();
+    packageManager.addStorybookCommandInScripts({
+      port: 6006,
+      staticFolder: staticDir,
+    });
   }
-
-  writePackageJson(packageJson);
-
   const babelDependencies = await getBabelDependencies(packageManager, packageJson);
   packageManager.addDependencies({ ...npmOptions, packageJson }, [
     ...versionedPackages,
