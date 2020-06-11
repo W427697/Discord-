@@ -66,8 +66,8 @@ export async function baseGenerator(
     ...extraAddons,
     ...addonsPeerDeps,
   ].filter(Boolean);
-  const versionedPackages = await packageManager.getVersions(...packages);
-
+  const versionedPackages = await packageManager.getVersionedPackages(...packages);
+  console.log('versionedPackages', versionedPackages);
   configure([...addons, ...extraAddons]);
   if (addComponents) {
     copyComponents(framework, language);

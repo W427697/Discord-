@@ -129,6 +129,7 @@ export abstract class JsPackageManager {
    * @param packageNames
    */
   public getVersions(...packageNames: string[]): Promise<string[]> {
+    console.log('getVersions', packageNames);
     return Promise.all(packageNames.map((packageName) => this.getVersion(packageName)));
   }
 

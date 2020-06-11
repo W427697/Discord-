@@ -5,9 +5,6 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   const [latestRaxVersion] = await packageManager.getVersions('rax');
   const packageJson = packageManager.retrievePackageJson();
 
-  packageJson.dependencies = packageJson.dependencies || {};
-  packageJson.devDependencies = packageJson.devDependencies || {};
-
   const raxVersion = packageJson.dependencies.rax || latestRaxVersion;
 
   // in case Rax project is not detected, `rax` package is not available either
