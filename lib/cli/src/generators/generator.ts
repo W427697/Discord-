@@ -1,14 +1,8 @@
 import { NpmOptions } from '../NpmOptions';
 import { StoryFormat, SupportedLanguage, SupportedFrameworks } from '../project_types';
-import {
-  retrievePackageJson,
-  getVersionedPackages,
-  writePackageJson,
-  getBabelDependencies,
-  installDependencies,
-  copyComponents,
-} from '../helpers';
+import { getBabelDependencies, copyComponents } from '../helpers';
 import configure from './configure';
+import { JsPackageManager, writePackageJson } from '../js-package-manager';
 
 export type GeneratorOptions = {
   language: SupportedLanguage;
@@ -23,7 +17,11 @@ export interface FrameworkOptions {
   addComponents?: boolean;
 }
 
-export type Generator = (npmOptions: NpmOptions, options: GeneratorOptions) => Promise<void>;
+export type Generator = (
+  packageManager: JsPackageManager,
+  npmOptions: NpmOptions,
+  options: GeneratorOptions
+) => Promise<void>;
 
 const defaultOptions: FrameworkOptions = {
   extraPackages: [],
@@ -34,6 +32,7 @@ const defaultOptions: FrameworkOptions = {
 };
 
 export async function baseGenerator(
+  packageManager: JsPackageManager,
   npmOptions: NpmOptions,
   { language }: GeneratorOptions,
   framework: SupportedFrameworks,
@@ -67,14 +66,14 @@ export async function baseGenerator(
     ...extraAddons,
     ...addonsPeerDeps,
   ].filter(Boolean);
-  const versionedPackages = await getVersionedPackages(npmOptions, ...packages);
+  const versionedPackages = await packageManager.getVersions(...packages);
 
   configure([...addons, ...extraAddons]);
   if (addComponents) {
     copyComponents(framework, language);
   }
 
-  const packageJson = await retrievePackageJson();
+  const packageJson = packageManager.retrievePackageJson();
 
   packageJson.dependencies = packageJson.dependencies || {};
   packageJson.devDependencies = packageJson.devDependencies || {};
@@ -88,7 +87,9 @@ export async function baseGenerator(
 
   writePackageJson(packageJson);
 
-  const babelDependencies = await getBabelDependencies(npmOptions, packageJson);
-
-  installDependencies({ ...npmOptions, packageJson }, [...versionedPackages, ...babelDependencies]);
+  const babelDependencies = await getBabelDependencies(packageManager, packageJson);
+  packageManager.addDependencies({ ...npmOptions, packageJson }, [
+    ...versionedPackages,
+    ...babelDependencies,
+  ]);
 }

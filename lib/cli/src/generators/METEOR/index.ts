@@ -2,8 +2,8 @@ import fs from 'fs';
 import JSON5 from 'json5';
 import { baseGenerator, Generator } from '../generator';
 
-const generator: Generator = async (npmOptions, options) => {
-  baseGenerator(npmOptions, options, 'react', {
+const generator: Generator = async (packageManager, npmOptions, options) => {
+  baseGenerator(packageManager, npmOptions, options, 'react', {
     extraPackages: ['react', 'react-dom', '@babel/preset-env', '@babel/preset-react'],
     staticDir: 'dist',
   });

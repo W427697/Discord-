@@ -24,13 +24,13 @@ function editAngularAppTsConfig() {
   writeFileAsJson(getAngularAppTsConfigPath(), tsConfigJson);
 }
 
-const generator: Generator = async (npmOptions, options) => {
+const generator: Generator = async (packageManager, npmOptions, options) => {
   if (!isDefaultProjectSet()) {
     throw new Error(
       'Could not find a default project in your Angular workspace.\nSet a defaultProject in your angular.json and re-run the installation.'
     );
   }
-  baseGenerator(npmOptions, options, 'angular');
+  baseGenerator(packageManager, npmOptions, options, 'angular');
   copyTemplate(__dirname, options.storyFormat);
 
   editAngularAppTsConfig();

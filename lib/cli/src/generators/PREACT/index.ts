@@ -1,7 +1,7 @@
 import { baseGenerator, Generator } from '../generator';
 
-const generator: Generator = async (npmOptions, options) => {
-  baseGenerator(npmOptions, options, 'preact');
+const generator: Generator = async (packageManager, npmOptions, options) => {
+  baseGenerator(packageManager, npmOptions, options, 'preact');
 };
 
 export default generator;

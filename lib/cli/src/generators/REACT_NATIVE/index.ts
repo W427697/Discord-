@@ -1,10 +1,12 @@
 import shell from 'shelljs';
 import chalk from 'chalk';
-import { retrievePackageJson, paddedLog, copyTemplate } from '../../helpers';
+import { paddedLog, copyTemplate } from '../../helpers';
 import { NpmOptions } from '../../NpmOptions';
 import { baseGenerator, GeneratorOptions } from '../generator';
+import { JsPackageManager } from '../../js-package-manager';
 
 const generator = async (
+  packageManager: JsPackageManager,
   npmOptions: NpmOptions,
   installServer: boolean,
   options: GeneratorOptions
@@ -27,13 +29,13 @@ const generator = async (
     }
   }
 
-  const packageJson = await retrievePackageJson();
+  const packageJson = packageManager.retrievePackageJson();
 
   const missingReactDom =
     !packageJson.dependencies['react-dom'] && !packageJson.devDependencies['react-dom'];
   const reactVersion = packageJson.dependencies.react;
 
-  await baseGenerator(npmOptions, options, 'react-native', {
+  await baseGenerator(packageManager, npmOptions, options, 'react-native', {
     extraPackages: [
       missingReactDom && reactVersion && `react-dom@${reactVersion}`,
       installServer && '@storybook/react-native-server',

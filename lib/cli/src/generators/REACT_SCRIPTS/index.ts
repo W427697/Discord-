@@ -5,8 +5,8 @@ import { baseGenerator, Generator } from '../generator';
 import { copyTemplate } from '../../helpers';
 import { StoryFormat } from '../../project_types';
 
-const generator: Generator = async (npmOptions, options) => {
-  await baseGenerator(npmOptions, options, 'react', {
+const generator: Generator = async (packageManager, npmOptions, options) => {
+  await baseGenerator(packageManager, npmOptions, options, 'react', {
     extraAddons: ['@storybook/preset-create-react-app'],
     staticDir: fs.existsSync(path.resolve('./public')) ? 'public' : undefined,
   });

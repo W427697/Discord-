@@ -17,9 +17,9 @@ function addStorybookExcludeGlobToTsConfig() {
   writeFileAsJson('tsconfig.json', tsConfigJson);
 }
 
-const generator: Generator = async (npmOptions, options) => {
+const generator: Generator = async (packageManager, npmOptions, options) => {
   addStorybookExcludeGlobToTsConfig();
-  baseGenerator(npmOptions, options, 'aurelia', {
+  baseGenerator(packageManager, npmOptions, options, 'aurelia', {
     extraPackages: ['aurelia'],
   });
   copyTemplate(__dirname, options.storyFormat);
