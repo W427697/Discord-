@@ -27,7 +27,6 @@ const run = () =>
           '@storybook/components',
           '@storybook/core-events',
           '@storybook/theming',
-          'airbnb-js-shims',
           'emotion-theming',
           'react',
           'react-dom',
