@@ -30,7 +30,8 @@
     "core-js": "^3.0.1",
     "global": "^4.3.2",
     "html-loader": "^1.0.0",
-    "regenerator-runtime": "^0.13.3"
+    "regenerator-runtime": "^0.13.3",
+    "webpack": "5.0.0-beta.17"
   },
   "devDependencies": {
     "backbone.marionette": "*"

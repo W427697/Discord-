@@ -1,5 +1,6 @@
-import { join } from 'path';
 import { ContextReplacementPlugin, Configuration } from 'webpack';
+
+const { join } = require('path');
 
 export const managerWebpack = async (config: Configuration) => {
   // See https://github.com/graphql/graphql-language-service/issues/111#issuecomment-306723400
@@ -12,7 +13,7 @@ export const managerWebpack = async (config: Configuration) => {
     test: /\.js$/,
     use: [
       {
-        loader: require.resolve('babel-loader'),
+        loader: require.resolve('babel-loader').toString(),
         options: {
           sourceType: 'unambiguous',
           plugins: [[require.resolve('@babel/plugin-transform-classes'), { loose: true }]],

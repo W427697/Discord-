@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Configuration } from 'webpack';
+import type { Configuration } from 'webpack';
 
+// @ts-ignore
 export function webpack(config: Configuration) {
   return {
     ...config,
