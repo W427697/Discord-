@@ -1,0 +1,52 @@
+{
+  "name": "@storybook/builder",
+  "version": "6.0.0-beta.30",
+  "description": "Core Storybook dependencies builder",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/builder",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "lib/builder"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts",
+    "ts3.5/**/*"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "webpack": "^4.43.0",
+    "webpack-dev-middleware": "^3.7.0",
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-virtual-modules": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/webpack-dev-middleware": "^3.7.0",
+    "@types/webpack-hot-middleware": "^2.25.0",
+    "@types/webpack-virtual-modules": "^0.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "4b9d901add9452525135caae98ae5f78dd8da9ff",
+  "typesVersions": {
+    "<=3.5": {
+      "*": [
+        "ts3.5/*"
+      ]
+    }
+  }
+}
