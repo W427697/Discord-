@@ -1,3 +1,26 @@
+## 6.0.0-beta.32 (June 19, 2020)
+
+### Bug Fixes
+
+- Addon-knobs: Update select types for undefined, null and boolean ([#11202](https://github.com/storybookjs/storybook/pull/11202))
+
+### Maintenance
+
+- Composition: rename auth url & add tests for modules/refs ([#11215](https://github.com/storybookjs/storybook/pull/11215))
+- Examples: Add design-system to official example ([#11081](https://github.com/storybookjs/storybook/pull/11081))
+
+## 6.0.0-beta.31 (June 17, 2020)
+
+### Bug Fixes
+
+- React: Fix react-docgen for JS files ([#11217](https://github.com/storybookjs/storybook/pull/11217))
+- React: Load root tsconfig.json into docgen-typescript if none provided ([#11184](https://github.com/storybookjs/storybook/pull/11184))
+- Composition: Remove manual redirects ([#11196](https://github.com/storybookjs/storybook/pull/11196))
+
+### Dependency Upgrades
+
+- Bump react-draggable from 4.4.2 to 4.4.3 ([#11192](https://github.com/storybookjs/storybook/pull/11192))
+
 ## 6.0.0-beta.30 (June 16, 2020)
 
 ### Features
