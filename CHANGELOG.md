@@ -1,10 +1,78 @@
+## 6.0.0-beta.32 (June 19, 2020)
+
+### Bug Fixes
+
+- Addon-knobs: Update select types for undefined, null and boolean ([#11202](https://github.com/storybookjs/storybook/pull/11202))
+
+### Maintenance
+
+- Composition: rename auth url & add tests for modules/refs ([#11215](https://github.com/storybookjs/storybook/pull/11215))
+- Examples: Add design-system to official example ([#11081](https://github.com/storybookjs/storybook/pull/11081))
+
+## 6.0.0-beta.31 (June 17, 2020)
+
+### Bug Fixes
+
+- React: Fix react-docgen for JS files ([#11217](https://github.com/storybookjs/storybook/pull/11217))
+- React: Load root tsconfig.json into docgen-typescript if none provided ([#11184](https://github.com/storybookjs/storybook/pull/11184))
+- Composition: Remove manual redirects ([#11196](https://github.com/storybookjs/storybook/pull/11196))
+
+### Dependency Upgrades
+
+- Bump react-draggable from 4.4.2 to 4.4.3 ([#11192](https://github.com/storybookjs/storybook/pull/11192))
+
+## 6.0.0-beta.30 (June 16, 2020)
+
+### Features
+
+- MDX: Support function.bind({}) syntax ([#11198](https://github.com/storybookjs/storybook/pull/11198))
+
+### Bug Fixes
+
+- Addon-docs: Remove render preprocessing for react components w/o docgen ([#11195](https://github.com/storybookjs/storybook/pull/11195))
+- Core: Fix addon load order ([#11178](https://github.com/storybookjs/storybook/pull/11178))
+- Core: Add global box-sizing setting. Fixes #10207 ([#11055](https://github.com/storybookjs/storybook/pull/11055))
+
+### Maintenance
+
+- Addon-controls: Add examples to angular, ember, html, svelte, vue, web-components ([#11197](https://github.com/storybookjs/storybook/pull/11197))
+
+## 6.0.0-beta.29 (June 16, 2020)
+
+### Features
+
+- Addon-docs: Add syntax highlighting to Code and Description blocks ([#11183](https://github.com/storybookjs/storybook/pull/11183))
+
+### Bug Fixes
+
+- MDX: Don't use root babelrc by default ([#11185](https://github.com/storybookjs/storybook/pull/11185))
+- Addon-docs: Fix 'show source' for stories with dynamic title ([#10959](https://github.com/storybookjs/storybook/pull/10959))
+
+## 6.0.0-beta.28 (June 15, 2020)
+
+### Features
+
+- Addon-docs: Add argTypes type/control shorthand ([#11174](https://github.com/storybookjs/storybook/pull/11174))
+
+### Bug Fixes
+
+- Core: Remove boxSizing to fix weird CSS layouts ([#11175](https://github.com/storybookjs/storybook/pull/11175))
+- Addon-docs: Fix forwardRef & invalid hook call ([#11154](https://github.com/storybookjs/storybook/pull/11154))
+- Client-API: Add @types/qs typings ([#11162](https://github.com/storybookjs/storybook/pull/11162))
+
+### Maintenance
+
+- CLI: Colocate stories and components, centralize main.js ([#11136](https://github.com/storybookjs/storybook/pull/11136))
+- Build: Exclude stories from collecting coverage ([#11164](https://github.com/storybookjs/storybook/pull/11164))
+- Core: Extend router/utils test set ([#11156](https://github.com/storybookjs/storybook/pull/11156))
+
 ## 6.0.0-beta.27 (June 14, 2020)
 
 ### Maintenance
 
-* UI: Remove unused modules ([#11159](https://github.com/storybookjs/storybook/pull/11159))
-* UI: Remove unused & duplicated code ([#11155](https://github.com/storybookjs/storybook/pull/11155))
-* REMOVE unused dependencies && FIX versions ([#11143](https://github.com/storybookjs/storybook/pull/11143))
+- UI: Remove unused modules ([#11159](https://github.com/storybookjs/storybook/pull/11159))
+- UI: Remove unused & duplicated code ([#11155](https://github.com/storybookjs/storybook/pull/11155))
+- REMOVE unused dependencies && FIX versions ([#11143](https://github.com/storybookjs/storybook/pull/11143))
 
 ## 6.0.0-beta.26 (June 12, 2020)
 
