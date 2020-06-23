@@ -24,6 +24,8 @@ If you're using [Create React App](https://create-react-app.dev/) (or a fork of 
 npx -p @storybook/cli sb init --type react_scripts
 ```
 
+If you're using [Create React App](https://create-react-app.dev/) (or a fork of `react-scripts`) with TypeScript, you shold follow this [instructions](https://gist.github.com/shilman/bc9cbedb2a7efb5ec6710337cbd20c0c).
+
 Note: You must have a `package.json` in your project or the above commands will fail.
 
 ## Manual setup
