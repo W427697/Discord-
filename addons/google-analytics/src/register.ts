@@ -1,3 +1,4 @@
+import { window } from 'global';
 import { addons } from '@storybook/addons';
 import { STORY_CHANGED, STORY_ERRORED, STORY_MISSING } from '@storybook/core-events';
 
@@ -5,7 +6,10 @@ import ReactGA from 'react-ga';
 import { PARAM_KEY, ADDON_ID } from './constants';
 
 addons.register(ADDON_ID, (api: any) => {
-  const { reactGAId, reactGAOptions } = api.getCurrentParameter(PARAM_KEY);
+  const {
+    reactGAId = window.STORYBOOK_GA_ID,
+    reactGAOptions = window.STORYBOOK_REACT_GA_OPTIONS,
+  } = api.getCurrentParameter(PARAM_KEY);
 
   ReactGA.initialize(reactGAId, reactGAOptions);
 
