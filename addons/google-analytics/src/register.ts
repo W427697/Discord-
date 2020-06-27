@@ -1,3 +1,4 @@
+import { window } from 'global';
 import { addons } from '@storybook/addons';
 import { STORY_CHANGED, STORY_ERRORED, STORY_MISSING } from '@storybook/core-events';
 
@@ -9,8 +10,8 @@ import { trackedEvents } from './utils';
 
 addons.register(ADDON_ID, (api: any) => {
   const {
-    reactGAId,
-    reactGAOptions,
+    reactGAId = window.STORYBOOK_GA_ID,
+    reactGAOptions = window.STORYBOOK_GA_OPTIONS,
     events: userSpecifiedEvents = DEFAULT_EVENT_MAPPING,
   }: AnalyticsAddonParameter = api.getCurrentParameter(PARAM_KEY);
 

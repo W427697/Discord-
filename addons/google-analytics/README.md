@@ -28,7 +28,8 @@ module.exports = {
 
 ## Basic configuration
 
-The analytics addon is configured by story parameters with the `analytics` key.  To configure globally, import `addParameters` from your app layer in your `preview.js` file.
+The analytics addon can be configured using story parameters with the `analytics` key.
+To configure globally, import `addParameters` from your app layer in your `preview.js` file.
 
 ```js
 import { addParameters } from '@storybook/client-api';
@@ -39,6 +40,13 @@ addParameters({
     reactGAOptions: {},
   },
 });
+```
+
+Or alternatively define the parameters as global variables in `main.js`
+
+```js
+window.STORYBOOK_GA_ID = UA-000000-01
+window.STORYBOOK_REACT_GA_OPTIONS = {}
 ```
 
 ## Advanced configuration
