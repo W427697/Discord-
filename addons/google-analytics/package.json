@@ -16,6 +16,13 @@
     "directory": "addons/google-analytics"
   },
   "license": "MIT",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts",
+    "ts3.5/**/*"
+  ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
@@ -23,7 +30,6 @@
     "@storybook/addons": "6.0.0-beta.37",
     "@storybook/core-events": "6.0.0-beta.37",
     "core-js": "^3.0.1",
-    "global": "^4.3.2",
     "react-ga": "^2.5.7",
     "regenerator-runtime": "^0.13.3"
   },

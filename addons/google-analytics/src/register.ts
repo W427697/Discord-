@@ -1,19 +1,11 @@
 import { addons } from '@storybook/addons';
 import { STORY_CHANGED, STORY_ERRORED, STORY_MISSING } from '@storybook/core-events';
-import { PARAM_KEY, ADDON_ID } from './constants';
-import { useParameter } from '@storybook/api';
 
 import ReactGA from 'react-ga';
-
-interface GoogleAnalyticsAddonParameter {
-  reactGAId?: string | [];
-  reactGAOptions?: {};
-}
+import { PARAM_KEY, ADDON_ID } from './constants';
 
 addons.register(ADDON_ID, (api: any) => {
-  let { reactGAId, reactGAOptions } = api.getCurrentParameter<GoogleAnalyticsAddonParameter>(
-    PARAM_KEY
-  );
+  const { reactGAId, reactGAOptions } = api.getCurrentParameter(PARAM_KEY);
 
   ReactGA.initialize(reactGAId, reactGAOptions);
 
