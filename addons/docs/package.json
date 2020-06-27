@@ -78,10 +78,16 @@
     "ts-dedent": "^1.1.1",
     "util-deprecate": "^1.0.2",
     "vue-docgen-api": "^4.7.0",
-    "vue-docgen-loader": "^1.4.0"
+    "vue-docgen-loader": "^1.4.0",
+    "@angular/common": "8.2.14",
+    "@angular/compiler": "8.2.14",
+    "@angular/platform-browser": "8.2.14",
+    "@angular/platform-browser-dynamic": "8.2.14",
+    "reflect-metadata": "0.1.13",
+    "zone.js": "^0.10.2",
+    "@angular/core": "^9.1.0"
   },
   "devDependencies": {
-    "@angular/core": "^9.1.0",
     "@babel/core": "^7.9.6",
     "@emotion/core": "^10.0.20",
     "@emotion/styled": "^10.0.17",
@@ -115,8 +121,7 @@
     "tmp": "^0.2.1",
     "tslib": "^2.0.0",
     "web-component-analyzer": "^1.0.3",
-    "webpack": "^4.33.0",
-    "zone.js": "^0.10.2"
+    "webpack": "^4.33.0"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0-0",
