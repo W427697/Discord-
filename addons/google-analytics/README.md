@@ -1,15 +1,21 @@
-# Storybook Addon Google Analytics
+# Storybook Google Analytics Addon
 
 Storybook Addon Google Analytics can be used to support google analytics in [Storybook](https://storybook.js.org).
 
 [Framework Support](https://github.com/storybookjs/storybook/blob/master/ADDONS_SUPPORT.md)
 
-## Getting Started
+## Installation
 
-Install:
+Install the following npm module:
 
 ```sh
-yarn add @storybook/addon-google-analytics --dev
+npm i --save-dev @storybook/addon-google-analytics
+```
+
+or with yarn:
+
+```sh
+yarn add -D @storybook/addon-google-analytics
 ```
 
 within `.storybook/main.js`:
@@ -20,9 +26,17 @@ module.exports = {
 }
 ```
 
-Then, set an environment variable
+## Configuration
 
-```
-window.STORYBOOK_GA_ID = UA-000000-01
-window.STORYBOOK_REACT_GA_OPTIONS = {}
+The analytics addon is configured by story parameters with the `analytics` key.  To configure globally, import `addParameters` from your app layer in your `preview.js` file.
+
+```js
+import { addParameters } from '@storybook/client-api';
+
+addParameters({
+  analytics: {
+    reactGAId: 'UA-000000-01',
+    reactGAOptions: {}
+  },
+});
 ```
