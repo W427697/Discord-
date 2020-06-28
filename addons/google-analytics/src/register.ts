@@ -12,15 +12,15 @@ addons.register(ADDON_ID, (api: any) => {
   const {
     reactGAId = window.STORYBOOK_GA_ID,
     reactGAOptions = window.STORYBOOK_GA_OPTIONS,
-    events: userSpecifiedEvents = DEFAULT_EVENT_MAPPING,
+    events,
   }: AnalyticsAddonParameter = api.getCurrentParameter(PARAM_KEY);
 
   // NOTE: interpolate default event mapping, with user specified event mapping
-  const events: EventMap = { ...DEFAULT_EVENT_MAPPING, ...userSpecifiedEvents };
+  const eventsWithDefaults: EventMap = { ...DEFAULT_EVENT_MAPPING, ...events };
 
   // NOTE: returns a function that will check the provided key and return a boolean
   // denoting if we should track this event
-  const isTrackedEvent = trackedEvents(events, api);
+  const isTrackedEvent = trackedEvents(eventsWithDefaults, api);
 
   // NOTE: Initialize ReactGA with user provided ReactGA options.
   if (typeof reactGAId === 'string') {
