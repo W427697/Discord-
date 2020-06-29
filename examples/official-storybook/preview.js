@@ -76,6 +76,7 @@ export const parameters = {
 
 export const globalArgs = {
   foo: 'fooValue',
+  colorScheme: 'dark',
 };
 
 export const globalArgTypes = {
