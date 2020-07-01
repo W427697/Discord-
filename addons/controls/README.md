@@ -39,6 +39,7 @@ Controls replaces [Storybook Knobs](https://github.com/storybookjs/storybook/tre
 - [FAQs](#faqs)
   - [How will this replace addon-knobs?](#how-will-this-replace-addon-knobs)
   - [How do I migrate from addon-knobs?](#how-do-i-migrate-from-addon-knobs)
+  - [My controls aren't being auto-generated. What should I do?](#my-controls-arent-being-auto-generated-what-should-i-do)
 
 ## Installation
 
@@ -246,12 +247,7 @@ This generates the following UI with a custom range slider:
   <img src="https://raw.githubusercontent.com/storybookjs/storybook/next/addons/controls/docs/media/addon-controls-args-reflow-slider.png" width="80%" />
 </center>
 
-**Note:** If you add an `ArgType` that is not part of the component, Storybook will _only_ use your argTypes definitions.  
-If you want to merge new controls with the existing component properties, you must enable this parameter:
-
-```jsx
-  docs: { forceExtractedArgTypes: true },
-```
+**Note:** If you set a `component` for your stories, these `argTypes` will always be added automatically. If you ONLY want to use custom `argTypes`, don't set a `component`. You can still show metadata about your component by adding it to `subcomponents`.
 
 #### Angular
 
@@ -478,3 +474,34 @@ export const Reflow = ({ count, label, ...args }) => (
 Reflow.args = { count: 3, label: 'reflow' };
 Reflow.argTypes = { count: { control: { type: 'range', min: 0, max: 20 } } };
 ```
+
+### My controls aren't being auto-generated. What should I do?
+
+There are a few known cases where controls can't be auto-generated:
+
+- You're using a framework for which automatic generation [isn't supported](#framework-support)
+- You're trying to generate controls for a component defined in an external library
+
+With a little manual work you can still use controls in such cases. Consider the following example:
+
+```js
+import { Button } from 'some-external-library';
+
+export default {
+  title: 'Button',
+  argTypes: {
+    label: { control: 'text' },
+    borderWidth: { control: { type: 'number', min: 0, max: 10 }},
+  },
+};
+
+export const Basic = (args) => <Button {...args} />;
+Basic.args = {
+  label: 'hello';
+  borderWidth: 1;
+};
+```
+
+The `argTypes` annotation (which can also be applied to individual stories if needed), gives Storybook the hints it needs to generate controls in these unsupported cases. See [control annotations](#control-annotations) for a full list of control types.
+
+It's also possible that your Storybook is misconfigured. If you think this might be the case, please search through Storybook's [Github issues](https://github.com/storybookjs/storybook/issues), and file a new issue if you don't find one that matches your use case.

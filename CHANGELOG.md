@@ -1,3 +1,106 @@
+## 6.0.0-beta.38 (June 30, 2020)
+
+### Breaking Changes
+
+- Configuration: Remove hierarchy separators ([#11344](https://github.com/storybookjs/storybook/pull/11344))
+
+### Features
+
+- Addon-docs: Dynamic Source rendering for React ([#11332](https://github.com/storybookjs/storybook/pull/11332))
+- Args: Store global args in session storage ([#11345](https://github.com/storybookjs/storybook/pull/11345))
+- Addon-docs: Add opt-in Markdown transclusion in MDX ([#11334](https://github.com/storybookjs/storybook/pull/11334))
+
+### Bug Fixes
+
+- Core: Fix preset options handling ([#11333](https://github.com/storybookjs/storybook/pull/11333))
+- UI: Revert theming greys flip ([#11297](https://github.com/storybookjs/storybook/pull/11297))
+- Core: Composition QA ([#11224](https://github.com/storybookjs/storybook/pull/11224))
+
+### Maintenance
+
+- Examples: Dual theme rendering ([#11295](https://github.com/storybookjs/storybook/pull/11295))
+- Examples: Recreate stories for sidebaritem ([#11298](https://github.com/storybookjs/storybook/pull/11298))
+
+## 6.0.0-beta.37 (June 26, 2020)
+
+### Breaking Changes
+
+- Core: Deprecate `setAddon` from `storiesOf` API ([#11322](https://github.com/storybookjs/storybook/pull/11322))
+
+### Bug Fixes
+
+- Revert "Core: Fix source-map strategy for production" ([#11320](https://github.com/storybookjs/storybook/pull/11320))
+- Core: Set viewMode to story when navating from non story pages ([#11317](https://github.com/storybookjs/storybook/pull/11317))
+
+### Dependency Upgrades
+
+- Bump react-textarea-autosize to 8.1.1 ([#11319](https://github.com/storybookjs/storybook/pull/11319))
+
+## 6.0.0-beta.36 (June 25, 2020)
+
+### Features
+
+- Composition: Allow refs versions in config ([#11294](https://github.com/storybookjs/storybook/pull/11294))
+
+### Bug Fixes
+
+- CLI: Fix docs & essentials version on `sb@next init` ([#11303](https://github.com/storybookjs/storybook/pull/11303))
+- Composition: Fix list of versions missing current version ([#11259](https://github.com/storybookjs/storybook/pull/11259))
+- Composition: Fix undefined/undefined in url on init ([#11293](https://github.com/storybookjs/storybook/pull/11293))
+
+### Maintenance
+
+- Essentials example: Fix typescript error ([#11305](https://github.com/storybookjs/storybook/pull/11305))
+
+## 6.0.0-beta.35 (June 24, 2020)
+
+### Features
+
+- Essentials: Add addon-controls ([#11285](https://github.com/storybookjs/storybook/pull/11285))
+
+### Bug Fixes
+
+- Addon-docs markdown tables right align support ([#11280](https://github.com/storybookjs/storybook/pull/11280))
+
+### Maintenance
+
+- Addon-docs: Simplify argType inference ([#11284](https://github.com/storybookjs/storybook/pull/11284))
+
+## 6.0.0-beta.34 (June 23, 2020)
+
+### Features
+
+- Addon-backgrounds: Allow gradients in story preview ([#11265](https://github.com/storybookjs/storybook/pull/11265))
+
+### Bug Fixes
+
+- Core: Fix invalid glob warning for absolute paths ([#11247](https://github.com/storybookjs/storybook/pull/11247))
+
+### Maintenance
+
+- UI: Replace document.execCommand with navigator.clipboard ([#11251](https://github.com/storybookjs/storybook/pull/11251))
+- ArgsTable: Updated Boolean control ([#11263](https://github.com/storybookjs/storybook/pull/11263))
+- Core; Preserve watch output when running dev mode ([#11150](https://github.com/storybookjs/storybook/pull/11150))
+
+### Dependency Upgrades
+
+- Bump lint-staged from 10.2.6 to 10.2.10 ([#11187](https://github.com/storybookjs/storybook/pull/11187))
+
+## 6.0.0-beta.33 (June 22, 2020)
+
+### Features
+
+- ArgsTable: Add subsections and design cleanup ([#11216](https://github.com/storybookjs/storybook/pull/11216))
+- Core: Improve startup events ([#11080](https://github.com/storybookjs/storybook/pull/11080))
+
+### Bug Fixes
+
+- Preact: Fix Preact 8 compatibility ([#11225](https://github.com/storybookjs/storybook/pull/11225))
+
+### Maintenance
+
+- Core :Add deprecation message for selectedName/Kind urls ([#11111](https://github.com/storybookjs/storybook/pull/11111))
+
 ## 6.0.0-beta.32 (June 19, 2020)
 
 ### Bug Fixes
