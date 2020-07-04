@@ -271,27 +271,27 @@
     "@aurelia/runtime" "^0.8.0-dev.202005200307"
     "@aurelia/scheduler" "^0.8.0-dev.202005200307"
 
-"@aurelia/kernel@^0.8.0-dev.202005200307":
-  version "0.8.0-dev.202005200307"
-  resolved "https://registry.yarnpkg.com/@aurelia/kernel/-/kernel-0.8.0-dev.202005200307.tgz#e70afd984a15141c4f52c90e47f77f36c9d680e6"
-  integrity sha512-aonZjKeCAOQjF+Ml5YCoByMApo39SXa4obTMxPNJrmSsC5UWQYcWTTmFVKrfDfWl+iA6QFe4Z6SIzbG0ym2XCQ==
+"@aurelia/kernel@^0.8.0-dev.202005200307", "@aurelia/kernel@^0.8.0-dev.202006241024":
+  version "0.8.0-dev.202006241024"
+  resolved "https://registry.yarnpkg.com/@aurelia/kernel/-/kernel-0.8.0-dev.202006241024.tgz#989c72c7791a383d640fa940a01a671838e3d94f"
+  integrity sha512-Mg60UTfrqnZXv2JxDveePfIW3/xaN3CFfRFc8WJyk9fWpOXOIOfWTURrXryPuDBlqg81mujYY2QQAdEd8hrNEg==
   dependencies:
-    "@aurelia/metadata" "^0.8.0-dev.202005200307"
+    "@aurelia/metadata" "^0.8.0-dev.202006241024"
 
-"@aurelia/metadata@^0.8.0-dev.202005200307":
-  version "0.8.0-dev.202005200307"
-  resolved "https://registry.yarnpkg.com/@aurelia/metadata/-/metadata-0.8.0-dev.202005200307.tgz#296276e6978012e8830ce237d9d2b740b9c1efcf"
-  integrity sha512-qsazQG0Z4klyTBFNJsD50C74p088YI6N3Q3et2eS4zhFTPk+F49f+arAsKZNyB8aA//gKuWJt/QNmr9D1aoSMQ==
+"@aurelia/metadata@^0.8.0-dev.202005200307", "@aurelia/metadata@^0.8.0-dev.202006241024":
+  version "0.8.0-dev.202006241024"
+  resolved "https://registry.yarnpkg.com/@aurelia/metadata/-/metadata-0.8.0-dev.202006241024.tgz#8fff6e266171ea372f99053b3d43e5744376c541"
+  integrity sha512-oMwL1RjMhSFZzulWT9h77DrY7oXDxBENAOBx0dzRlVuf+cevJJAzSz6OvCD69IYUwuFuSOfKdDtxlOH0A/8fJQ==
 
-"@aurelia/plugin-conventions@^0.8.0-dev.202005200307":
-  version "0.8.0-dev.202005200307"
-  resolved "https://registry.yarnpkg.com/@aurelia/plugin-conventions/-/plugin-conventions-0.8.0-dev.202005200307.tgz#a52d29dacc0f17b6eb46519d0ed82857d1d80db5"
-  integrity sha512-s+76+WSBqHQxs5Vq6wpQiNjdSPBbztx4P5bbKrYdb8HSr/l3Hm4BRrmF022bK9mL15Z93pFgWgVMeRNeTzRV8g==
+"@aurelia/plugin-conventions@^0.8.0-dev.202006241024":
+  version "0.8.0-dev.202006241024"
+  resolved "https://registry.yarnpkg.com/@aurelia/plugin-conventions/-/plugin-conventions-0.8.0-dev.202006241024.tgz#c0848f422daff6f8ef5291f36928c7b61b5834ec"
+  integrity sha512-OJQLKkMP+eJa524EQs+z+btddGgolMAC1t5twV4AYSjtfxws5TI/0LPZ3hXAMf814bLw3kNhF5zKAo4R11PbPw==
   dependencies:
-    "@aurelia/kernel" "^0.8.0-dev.202005200307"
-    "@aurelia/metadata" "^0.8.0-dev.202005200307"
-    "@aurelia/runtime" "^0.8.0-dev.202005200307"
-    "@aurelia/scheduler" "^0.8.0-dev.202005200307"
+    "@aurelia/kernel" "^0.8.0-dev.202006241024"
+    "@aurelia/metadata" "^0.8.0-dev.202006241024"
+    "@aurelia/runtime" "^0.8.0-dev.202006241024"
+    "@aurelia/scheduler" "^0.8.0-dev.202006241024"
     modify-code "^1.2.0"
     parse5 "^5.1.1"
     typescript "^3.8.3"
@@ -335,14 +335,14 @@
     "@aurelia/runtime" "^0.8.0-dev.202005200307"
     "@aurelia/scheduler" "^0.8.0-dev.202005200307"
 
-"@aurelia/runtime@^0.8.0-dev.202005200307":
-  version "0.8.0-dev.202005200307"
-  resolved "https://registry.yarnpkg.com/@aurelia/runtime/-/runtime-0.8.0-dev.202005200307.tgz#83fcf0857f3c333234949b7eaf9544ea6884ecb7"
-  integrity sha512-EPzk8SWaPwaxklPDWIWx7nXZ+wWSypbpyLomael8ReaVtLIsjFtcGClxzlY50G9D/G5/bSrFlLWGbEHjl7SblA==
+"@aurelia/runtime@^0.8.0-dev.202005200307", "@aurelia/runtime@^0.8.0-dev.202006241024":
+  version "0.8.0-dev.202006241024"
+  resolved "https://registry.yarnpkg.com/@aurelia/runtime/-/runtime-0.8.0-dev.202006241024.tgz#f45d2e27e903fe4d885fa471e5e3f786f6c702f9"
+  integrity sha512-TOTa2uq9wTFz/BFw2BbmMVUCagfrrP0rZdAIWWfY06JZ3H7bGBdrhV6a5mYSjCaHkSi8bG1T5quLUYGusB3nfQ==
   dependencies:
-    "@aurelia/kernel" "^0.8.0-dev.202005200307"
-    "@aurelia/metadata" "^0.8.0-dev.202005200307"
-    "@aurelia/scheduler" "^0.8.0-dev.202005200307"
+    "@aurelia/kernel" "^0.8.0-dev.202006241024"
+    "@aurelia/metadata" "^0.8.0-dev.202006241024"
+    "@aurelia/scheduler" "^0.8.0-dev.202006241024"
 
 "@aurelia/scheduler-dom@^0.8.0-dev.202005200307":
   version "0.8.0-dev.202005200307"
@@ -353,24 +353,24 @@
     "@aurelia/metadata" "^0.8.0-dev.202005200307"
     "@aurelia/scheduler" "^0.8.0-dev.202005200307"
 
-"@aurelia/scheduler@^0.8.0-dev.202005200307":
-  version "0.8.0-dev.202005200307"
-  resolved "https://registry.yarnpkg.com/@aurelia/scheduler/-/scheduler-0.8.0-dev.202005200307.tgz#ba215dcf94c388c50c9360d46917e5a8d2784a02"
-  integrity sha512-0zUDUd2YicBxrlv6iAy7zWFYpA9l6X9kOklq6ouboomkH7zlaxrdKvvAp0F4/WkJ0YWHUlf6ufA9wo10/aM2rA==
+"@aurelia/scheduler@^0.8.0-dev.202005200307", "@aurelia/scheduler@^0.8.0-dev.202006241024":
+  version "0.8.0-dev.202006241024"
+  resolved "https://registry.yarnpkg.com/@aurelia/scheduler/-/scheduler-0.8.0-dev.202006241024.tgz#437757c78f28eb84d497a2b8dcb1831826cce436"
+  integrity sha512-n8Ckxqey8aJHYXDhSFT9JW/AyClidAl7tO23a6m5/EXBFa+BEcBZlU16T0uzfwH/crHjrPr2P0NosuJgA4ZCGw==
   dependencies:
-    "@aurelia/kernel" "^0.8.0-dev.202005200307"
-    "@aurelia/metadata" "^0.8.0-dev.202005200307"
+    "@aurelia/kernel" "^0.8.0-dev.202006241024"
+    "@aurelia/metadata" "^0.8.0-dev.202006241024"
 
 "@aurelia/webpack-loader@dev":
-  version "0.8.0-dev.202005200307"
-  resolved "https://registry.yarnpkg.com/@aurelia/webpack-loader/-/webpack-loader-0.8.0-dev.202005200307.tgz#147b918d362468254f8806b95b24dbae772beeb8"
-  integrity sha512-dffvCzo8J51oBq0F4ltskxz/SxQnBnnFqiLtGo+wxeWiC1BOIzqJaO22lYwLbu8NgiL2SucQ78099VZyuzEuZA==
+  version "0.8.0-dev.202006241024"
+  resolved "https://registry.yarnpkg.com/@aurelia/webpack-loader/-/webpack-loader-0.8.0-dev.202006241024.tgz#7751fe063f5e15808aeb4dadf2b0786d8919562b"
+  integrity sha512-/cmTcAAXbCkWuzntubBgR3gqPYmDzYwfLc1xf/b90xVigoS/EiqGJy0TCidaDLlrlj6/AD0W94z80g1R6D8uHg==
   dependencies:
-    "@aurelia/kernel" "^0.8.0-dev.202005200307"
-    "@aurelia/metadata" "^0.8.0-dev.202005200307"
-    "@aurelia/plugin-conventions" "^0.8.0-dev.202005200307"
-    "@aurelia/runtime" "^0.8.0-dev.202005200307"
-    "@aurelia/scheduler" "^0.8.0-dev.202005200307"
+    "@aurelia/kernel" "^0.8.0-dev.202006241024"
+    "@aurelia/metadata" "^0.8.0-dev.202006241024"
+    "@aurelia/plugin-conventions" "^0.8.0-dev.202006241024"
+    "@aurelia/runtime" "^0.8.0-dev.202006241024"
+    "@aurelia/scheduler" "^0.8.0-dev.202006241024"
     loader-utils "^1.2.3"
     webpack "^4.41.4"
 
