@@ -6,6 +6,13 @@ import { trimQuotes } from '../utils';
 
 const SIGNATURE_REGEXP = /^\(.*\) => /;
 
+const parseEnumValue = (val: string) => {
+  if (val.trim() === 'undefined') {
+    return undefined;
+  }
+  return JSON.parse(val);
+};
+
 export const convert = (type: PTType): SBType | any => {
   const { name, raw, computed, value } = type;
   const base: any = {};
@@ -47,7 +54,7 @@ export const convert = (type: PTType): SBType | any => {
         // (like if a user has turned off shouldExtractValuesFromUnion) so here we
         // try to recover and construct one.
         try {
-          const literalValues = name.split('|').map((v: string) => JSON.parse(v));
+          const literalValues = name.split('|').map((v: string) => parseEnumValue(v));
           return { ...base, name: 'enum', value: literalValues };
         } catch (err) {
           // fall through
