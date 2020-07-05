@@ -1,3 +1,162 @@
+## 6.0.0-beta.43 (July 5, 2020)
+
+### Features
+
+- Composition: Ignore globals from non-local refs ([#11407](https://github.com/storybookjs/storybook/pull/11407))
+
+### Maintenance
+
+- Core: Remove manager redirects on boot ([#11390](https://github.com/storybookjs/storybook/pull/11390))
+
+## 6.0.0-beta.42 (July 5, 2020)
+
+### Bug Fixes
+
+- Addon-docs: Fix Props subcomponents regression ([#11420](https://github.com/storybookjs/storybook/pull/11420))
+
+### Maintenance
+
+- Core: Deprecate `addParameters` and `addDecorator` ([#11417](https://github.com/storybookjs/storybook/pull/11417))
+
+## 6.0.0-beta.41 (July 4, 2020)
+
+### Bug Fixes
+
+- Addon-docs: Fix subcomponents display logic ([#11415](https://github.com/storybookjs/storybook/pull/11415))
+- Addon-docs: Fix Source rendering corner case ([#11414](https://github.com/storybookjs/storybook/pull/11414))
+
+## 6.0.0-beta.40 (July 4, 2020)
+
+### Features
+
+- CLI: Add upgrade utility with version consistency check ([#11396](https://github.com/storybookjs/storybook/pull/11396))
+
+### Maintenance
+
+- Build: Fix CI breaks ([#11410](https://github.com/storybookjs/storybook/pull/11410))
+- Core: Deprecate immutable options as parameters ([#11387](https://github.com/storybookjs/storybook/pull/11387))
+
+## 6.0.0-beta.39 (July 2, 2020)
+
+### Breaking Changes
+
+- CSF: Forbid duplicate kinds ([#11369](https://github.com/storybookjs/storybook/pull/11369))
+- Args: Rename `globalArgs` to `globals` ([#11385](https://github.com/storybookjs/storybook/pull/11385))
+
+### Features
+
+- Args: Disable rows and controls in argTypes ([#11388](https://github.com/storybookjs/storybook/pull/11388))
+- Composition: Add auto disable ([#11364](https://github.com/storybookjs/storybook/pull/11364))
+- CLI: use addon-essentials & args ([#11282](https://github.com/storybookjs/storybook/pull/11282))
+
+### Maintenance
+
+- Build: Add artifacts for e2e CI task ([#11365](https://github.com/storybookjs/storybook/pull/11365))
+- Build: Remove cli fixtures in favor of e2e ([#11357](https://github.com/storybookjs/storybook/pull/11357))
+
+## 6.0.0-beta.38 (June 30, 2020)
+
+### Breaking Changes
+
+- Configuration: Remove hierarchy separators ([#11344](https://github.com/storybookjs/storybook/pull/11344))
+
+### Features
+
+- Addon-docs: Dynamic Source rendering for React ([#11332](https://github.com/storybookjs/storybook/pull/11332))
+- Args: Store global args in session storage ([#11345](https://github.com/storybookjs/storybook/pull/11345))
+- Addon-docs: Add opt-in Markdown transclusion in MDX ([#11334](https://github.com/storybookjs/storybook/pull/11334))
+
+### Bug Fixes
+
+- Core: Fix preset options handling ([#11333](https://github.com/storybookjs/storybook/pull/11333))
+- UI: Revert theming greys flip ([#11297](https://github.com/storybookjs/storybook/pull/11297))
+- Core: Composition QA ([#11224](https://github.com/storybookjs/storybook/pull/11224))
+
+### Maintenance
+
+- Examples: Dual theme rendering ([#11295](https://github.com/storybookjs/storybook/pull/11295))
+- Examples: Recreate stories for sidebaritem ([#11298](https://github.com/storybookjs/storybook/pull/11298))
+
+## 6.0.0-beta.37 (June 26, 2020)
+
+### Breaking Changes
+
+- Core: Deprecate `setAddon` from `storiesOf` API ([#11322](https://github.com/storybookjs/storybook/pull/11322))
+
+### Bug Fixes
+
+- Revert "Core: Fix source-map strategy for production" ([#11320](https://github.com/storybookjs/storybook/pull/11320))
+- Core: Set viewMode to story when navating from non story pages ([#11317](https://github.com/storybookjs/storybook/pull/11317))
+
+### Dependency Upgrades
+
+- Bump react-textarea-autosize to 8.1.1 ([#11319](https://github.com/storybookjs/storybook/pull/11319))
+
+## 6.0.0-beta.36 (June 25, 2020)
+
+### Features
+
+- Composition: Allow refs versions in config ([#11294](https://github.com/storybookjs/storybook/pull/11294))
+
+### Bug Fixes
+
+- CLI: Fix docs & essentials version on `sb@next init` ([#11303](https://github.com/storybookjs/storybook/pull/11303))
+- Composition: Fix list of versions missing current version ([#11259](https://github.com/storybookjs/storybook/pull/11259))
+- Composition: Fix undefined/undefined in url on init ([#11293](https://github.com/storybookjs/storybook/pull/11293))
+
+### Maintenance
+
+- Essentials example: Fix typescript error ([#11305](https://github.com/storybookjs/storybook/pull/11305))
+
+## 6.0.0-beta.35 (June 24, 2020)
+
+### Features
+
+- Essentials: Add addon-controls ([#11285](https://github.com/storybookjs/storybook/pull/11285))
+
+### Bug Fixes
+
+- Addon-docs markdown tables right align support ([#11280](https://github.com/storybookjs/storybook/pull/11280))
+
+### Maintenance
+
+- Addon-docs: Simplify argType inference ([#11284](https://github.com/storybookjs/storybook/pull/11284))
+
+## 6.0.0-beta.34 (June 23, 2020)
+
+### Features
+
+- Addon-backgrounds: Allow gradients in story preview ([#11265](https://github.com/storybookjs/storybook/pull/11265))
+
+### Bug Fixes
+
+- Core: Fix invalid glob warning for absolute paths ([#11247](https://github.com/storybookjs/storybook/pull/11247))
+
+### Maintenance
+
+- UI: Replace document.execCommand with navigator.clipboard ([#11251](https://github.com/storybookjs/storybook/pull/11251))
+- ArgsTable: Updated Boolean control ([#11263](https://github.com/storybookjs/storybook/pull/11263))
+- Core; Preserve watch output when running dev mode ([#11150](https://github.com/storybookjs/storybook/pull/11150))
+
+### Dependency Upgrades
+
+- Bump lint-staged from 10.2.6 to 10.2.10 ([#11187](https://github.com/storybookjs/storybook/pull/11187))
+
+## 6.0.0-beta.33 (June 22, 2020)
+
+### Features
+
+- ArgsTable: Add subsections and design cleanup ([#11216](https://github.com/storybookjs/storybook/pull/11216))
+- Core: Improve startup events ([#11080](https://github.com/storybookjs/storybook/pull/11080))
+
+### Bug Fixes
+
+- Preact: Fix Preact 8 compatibility ([#11225](https://github.com/storybookjs/storybook/pull/11225))
+
+### Maintenance
+
+- Core :Add deprecation message for selectedName/Kind urls ([#11111](https://github.com/storybookjs/storybook/pull/11111))
+
 ## 6.0.0-beta.32 (June 19, 2020)
 
 ### Bug Fixes
