@@ -5,24 +5,10 @@ import {
   STORY_RENDERED,
   DOCS_RENDERED,
   UPDATE_STORY_ARGS,
-  UPDATE_GLOBAL_ARGS,
+  UPDATE_GLOBALS,
 } from '@storybook/core-events';
 import { addons } from './index';
 import { StoryGetter, StoryContext, Args } from './types';
-
-interface StoryStore {
-  fromId: (
-    id: string
-  ) => {
-    parameters: {
-      [parameterKey: string]: any;
-    };
-  };
-  getSelection: () => {
-    storyId: string;
-    viewMode: string;
-  };
-}
 
 interface Hook {
   name: string;
@@ -421,7 +407,7 @@ export function useArgs(): [Args, (newArgs: Args) => void] {
   const { id: storyId, args } = useStoryContext();
 
   const updateArgs = useCallback(
-    (newArgs: Args) => channel.emit(UPDATE_STORY_ARGS, storyId, newArgs),
+    (updatedArgs: Args) => channel.emit(UPDATE_STORY_ARGS, { storyId, updatedArgs }),
     [channel, storyId]
   );
 
@@ -429,14 +415,14 @@ export function useArgs(): [Args, (newArgs: Args) => void] {
 }
 
 /* Returns current value of global args */
-export function useGlobalArgs(): [Args, (newGlobalArgs: Args) => void] {
+export function useGlobals(): [Args, (newGlobals: Args) => void] {
   const channel = addons.getChannel();
-  const { globalArgs } = useStoryContext();
+  const { globals } = useStoryContext();
 
-  const updateGlobalArgs = useCallback(
-    (newGlobalArgs: Args) => channel.emit(UPDATE_GLOBAL_ARGS, newGlobalArgs),
+  const updateGlobals = useCallback(
+    (newGlobals: Args) => channel.emit(UPDATE_GLOBALS, { globals: newGlobals }),
     [channel]
   );
 
-  return [globalArgs, updateGlobalArgs];
+  return [globals, updateGlobals];
 }

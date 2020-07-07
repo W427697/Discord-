@@ -14,7 +14,6 @@ module.exports = {
           tsconfigPath: path.resolve(__dirname, '../tsconfig.json'),
           shouldExtractLiteralValuesFromEnum: true,
           propFilter: (prop: any) => {
-            // Currently not working, prop.parent is always null.
             if (prop.parent) {
               return !prop.parent.fileName.includes('node_modules/@types/react/');
             }
@@ -28,6 +27,8 @@ module.exports = {
     '@storybook/addon-actions',
     '@storybook/addon-links',
     '@storybook/addon-a11y',
+    './localAddon/register.tsx',
+    './localAddon/preset.ts',
   ],
   webpackFinal: (config: Configuration) => {
     // add monorepo root as a valid directory to import modules from
