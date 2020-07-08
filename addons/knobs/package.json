@@ -42,7 +42,7 @@
     "escape-html": "^1.0.3",
     "fast-deep-equal": "^3.1.1",
     "global": "^4.3.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.17",
     "prop-types": "^15.7.2",
     "qs": "^6.6.0",
     "react-color": "^2.17.0",
@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@types/enzyme": "^3.10.5",
-    "@types/escape-html": "0.0.20",
+    "@types/escape-html": "1.0.0",
     "@types/react-lifecycles-compat": "^3.0.1",
     "@types/react-select": "^3.0.12",
     "@types/webpack-env": "^1.15.2",

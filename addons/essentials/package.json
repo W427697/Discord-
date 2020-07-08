@@ -41,7 +41,7 @@
     "ts-dedent": "^1.1.1"
   },
   "devDependencies": {
-    "@types/jest": "^25.1.1",
+    "@types/jest": "^26.0.4",
     "@types/webpack-env": "^1.15.2"
   },
   "peerDependencies": {
