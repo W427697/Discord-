@@ -1,4 +1,4 @@
-import { UpdateNotifier, IPackage } from 'update-notifier';
+import { UpdateNotifier, Package } from 'update-notifier';
 import chalk from 'chalk';
 import inquirer from 'inquirer';
 import { detect, isStorybookInstalled, detectLanguage } from './detect';
@@ -262,7 +262,7 @@ const projectTypeInquirer = async (options: { yes?: boolean }) => {
   return Promise.resolve();
 };
 
-export default function (options: CommandOptions, pkg: IPackage): Promise<void> {
+export default function (options: CommandOptions, pkg: Package): Promise<void> {
   const welcomeMessage = 'sb init - the simplest way to add a storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 

@@ -2,8 +2,7 @@ import React, { FunctionComponent, ReactNode, useState, useEffect } from 'react'
 import { styled } from '@storybook/theming';
 import { document } from 'global';
 
-import TooltipTrigger from 'react-popper-tooltip';
-import { Modifiers, Placement } from 'popper.js';
+import TooltipTrigger, { TooltipTriggerProps } from 'react-popper-tooltip';
 import { Tooltip } from './Tooltip';
 
 // A target that doesn't speak popper
@@ -24,8 +23,8 @@ export interface WithTooltipPureProps {
   svg?: boolean;
   trigger?: 'none' | 'hover' | 'click' | 'right-click';
   closeOnClick?: boolean;
-  placement?: Placement;
-  modifiers?: Modifiers;
+  placement?: TooltipTriggerProps['placement'];
+  modifiers?: TooltipTriggerProps['modifiers'];
   hasChrome?: boolean;
   tooltip: ReactNode | ((p: WithHideFn) => ReactNode);
   children: ReactNode;
@@ -93,7 +92,7 @@ WithTooltipPure.defaultProps = {
   trigger: 'hover',
   closeOnClick: false,
   placement: 'top',
-  modifiers: {},
+  modifiers: [],
   hasChrome: true,
   tooltipShown: false,
 };
