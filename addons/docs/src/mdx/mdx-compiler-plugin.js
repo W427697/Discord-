@@ -135,7 +135,6 @@ function genStoryExport(ast, context) {
     statements.push(`${storyKey}.decorators = ${decos};`);
   }
 
-  // eslint-disable-next-line no-param-reassign
   context.storyNameToKey[storyName] = storyKey;
 
   return {
@@ -153,7 +152,6 @@ function genPreviewExports(ast, context) {
       const storyExport = genStoryExport(child, context);
       if (storyExport) {
         Object.assign(previewExports, storyExport);
-        // eslint-disable-next-line no-param-reassign
         context.counter += 1;
       }
     }

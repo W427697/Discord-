@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-prop-types */
 import React, { FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 import { Badge } from '@storybook/components';

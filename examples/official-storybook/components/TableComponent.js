@@ -43,6 +43,7 @@ TableComponent.propTypes = {
       propType: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
       required: PropTypes.bool.isRequired,
       description: PropTypes.string,
+      // eslint-disable-next-line react/forbid-prop-types
       defaultValue: PropTypes.any,
     })
   ),
