@@ -37,7 +37,7 @@
     "core-js": "^3.0.1",
     "fast-deep-equal": "^3.1.1",
     "global": "^4.3.2",
-    "lodash": "^4.17.17",
+    "lodash": "^4.17.19",
     "polished": "^3.4.4",
     "prop-types": "^15.7.2",
     "react": "^16.8.3",
@@ -48,7 +48,7 @@
     "uuid": "^8.0.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.150",
+    "@types/lodash": "^4.14.157",
     "@types/uuid": "^8.0.0",
     "@types/webpack-env": "^1.15.2"
   },

@@ -40,7 +40,7 @@
     "core-js": "^3.0.1",
     "fast-deep-equal": "^3.1.1",
     "global": "^4.3.2",
-    "lodash": "^4.17.17",
+    "lodash": "^4.17.19",
     "memoizerific": "^1.11.3",
     "react": "^16.8.3",
     "regenerator-runtime": "^0.13.3",
@@ -50,7 +50,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.150",
+    "@types/lodash": "^4.14.157",
     "@types/semver": "^7.1.0",
     "flush-promises": "^1.0.2",
     "qs": "^6.6.0"

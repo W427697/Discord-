@@ -36,7 +36,9 @@ interface QueryMatchProps {
 }
 interface RouteProps {
   path: string;
+  // eslint-disable-next-line react/require-default-props
   startsWith?: boolean;
+  // eslint-disable-next-line react/require-default-props
   hideOnly?: boolean;
   children: ReactNode;
 }

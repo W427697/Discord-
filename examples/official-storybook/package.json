@@ -52,7 +52,7 @@
     "global": "^4.3.2",
     "graphql": "^15.0.0",
     "jest-emotion": "^10.0.17",
-    "lodash": "^4.17.17",
+    "lodash": "^4.17.19",
     "paths.macro": "^3.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.3",
