@@ -28,8 +28,11 @@ const startVerdaccio = (port: number) => {
   return Promise.race([
     new Promise((resolve) => {
       const cache = path.join(__dirname, '..', '.verdaccio-cache');
+      const loadedConfig = yaml.safeLoad(
+        fs.readFileSync(path.join(__dirname, 'verdaccio.yaml'), 'utf8')
+      );
       const config = {
-        ...yaml.safeLoad(fs.readFileSync(path.join(__dirname, 'verdaccio.yaml'), 'utf8')),
+        ...(typeof loadedConfig === 'string' ? {} : loadedConfig),
         self_path: cache,
       };
 
