@@ -1,12 +1,17 @@
-import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { WithText } from '../../../../examples/official-storybook/stories/demo/button.stories';
+import { Basic } from '../../../../examples/official-storybook/stories/addon-controls.stories';
 import { renderStory } from '../../render';
 
 it('renders a story', () => {
-  render(renderStory(WithText));
+  render(renderStory(Basic));
 
-  expect(screen.getByRole('button')).toHaveTextContent('Hello Button');
+  expect(screen.getByRole('button')).toHaveTextContent('basic');
+});
+
+it('renders a story with different args', () => {
+  render(renderStory(Basic, { children: 'test content' }));
+
+  expect(screen.getByRole('button')).toHaveTextContent('test content');
 });

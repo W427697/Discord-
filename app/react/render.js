@@ -1,7 +1,8 @@
+/* eslint-disable prefer-object-spread */
 const React = require('react');
 
 module.exports = {
-  renderStory(Story) {
-    return React.createElement(Story, Story.args);
+  renderStory(Story, args = {}) {
+    return React.createElement(Story, Object.assign({}, Story.args, args));
   },
 };
