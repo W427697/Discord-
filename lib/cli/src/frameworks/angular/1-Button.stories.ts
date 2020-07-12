@@ -24,6 +24,19 @@ Emoji.args = {
   text: '😀 😎 👍 💯',
 };
 
+export const WithCustomBackground = Template.bind({});
+WithCustomBackground.args = {
+  text: 'Defined via addon-backgrounds!',
+};
+
+WithCustomBackground.storyName = 'With custom background';
+
+WithCustomBackground.parameters = {
+  backgrounds: {
+    default: 'dark',
+  },
+};
+
 export const TextWithAction = () => ({
   component: Button,
   props: {

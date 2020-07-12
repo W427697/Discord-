@@ -23,6 +23,19 @@ Emoji.args = {
   ),
 };
 
+export const WithCustomBackground = Template.bind({});
+WithCustomBackground.args = {
+  children: 'Defined via addon-backgrounds!',
+};
+
+WithCustomBackground.storyName = 'With custom background';
+
+WithCustomBackground.parameters = {
+  backgrounds: {
+    default: 'dark',
+  },
+};
+
 export const ButtonWithLinkToAnotherStory = () => (
   <Button onClick={linkTo('example-introduction--page')}>Go to Welcome Story</Button>
 );

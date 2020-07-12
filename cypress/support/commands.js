@@ -62,6 +62,13 @@ Cypress.Commands.add('getStoryElement', {}, () => {
     .then((storyRoot) => cy.wrap(storyRoot, { log: false }));
 });
 
+Cypress.Commands.add('getPreviewIframe', {}, () => {
+  cy.log('getPreviewIframe');
+  return cy
+    .get(`#storybook-preview-iframe`, { log: false })
+    .then((iframe) => cy.wrap(iframe, { log: false }));
+});
+
 Cypress.Commands.add('getDocsElement', {}, () => {
   cy.log('getDocsElement');
   return cy

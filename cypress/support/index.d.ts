@@ -10,9 +10,15 @@ declare namespace Cypress {
     visitStorybook(): Chainable<Element>;
 
     /**
+     * Custom command to select the DOM element of the preview iframe in the canvas tab.
+     */
+    getPreviewIframe(): Chainable<Element>;
+
+    /**
      * Custom command to select the DOM element of a story in the canvas tab.
      */
     getStoryElement(): Chainable<Element>;
+
     /**
      * Custom command to select the DOM element of a docs story in the canvas tab.
      */
