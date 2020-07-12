@@ -36,7 +36,6 @@ export const TextWithAction = () => ({
 });
 
 TextWithAction.storyName = 'With an action';
-TextWithAction.parameters = { notes: 'My notes on a button with emojis' };
 
 export const ButtonWithLinkToAnotherStory = () => ({
   component: Button,

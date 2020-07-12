@@ -24,8 +24,6 @@ Emoji.args = {
   text: '😀 😎 👍 💯',
 };
 
-Emoji.parameters = { notes: 'My notes on a button with emojis' };
-
 export const TextWithAction = () => ({
   component: Button,
   props: {
@@ -35,7 +33,6 @@ export const TextWithAction = () => ({
 });
 
 TextWithAction.storyName = 'With an action';
-TextWithAction.parameters = { notes: 'My notes on a button with emojis' };
 
 export const ButtonWithLinkToAnotherStory = () => ({
   component: Button,
