@@ -1,4 +1,4 @@
-import { start } from '@storybook/core/client';
+import client from '@storybook/core/client';
 import { ClientStoryApi, Loadable } from '@storybook/addons';
 
 import './globals';
@@ -16,7 +16,7 @@ interface ClientApi extends ClientStoryApi<StoryFnServerReturnType> {
   raw: () => any; // todo add type
 }
 
-const api = start(render);
+const api = client.start(render);
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({
@@ -28,7 +28,7 @@ const setRenderFetchAndConfigure: ClientApi['configure'] = (loader, module, opti
   if (options && options.fetchStoryHtml) {
     setFetchStoryHtml(options.fetchStoryHtml);
   }
-  api.configure(loader, module, framework);
+  api.configure(framework, loader, module);
 };
 
 export const configure: ClientApi['configure'] = setRenderFetchAndConfigure;
@@ -37,7 +37,6 @@ export const {
   addParameters,
   clearDecorators,
   setAddon,
-  forceReRender,
   getStorybook,
   raw,
 } = api.clientApi;

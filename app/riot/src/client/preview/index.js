@@ -1,11 +1,11 @@
-import { start } from '@storybook/core/client';
+import client from '@storybook/core/client';
 
 import './globals';
 import riot, { tag2, mount as vendorMount } from 'riot';
 import render from './render';
 import { compileNow as unboundCompileNow, asCompiledCode } from './compileStageFunctions';
 
-const { configure: coreConfigure, clientApi, forceReRender } = start(render);
+const { configure: coreConfigure, clientApi, forceReRender } = client.start(render);
 
 export const {
   setAddon,

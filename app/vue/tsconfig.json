@@ -3,7 +3,9 @@
   "compilerOptions": {
     "rootDir": "./src",
     "types": ["webpack-env"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "strict": true,
+    "noImplicitReturns": true
   },
   "include": [
     "src/**/*"

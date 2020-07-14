@@ -73,7 +73,13 @@ function mountView({ Component, target, props, on, Wrapper, WrapperData }: Mount
   previousComponent = component;
 }
 
-export default function render({ storyFn, kind, name, showMain, showError }: RenderContext) {
+export default function render({
+  storyFn,
+  kind,
+  name,
+  showMain,
+  showError,
+}: RenderContext<MountViewArgs>) {
   const {
     /** @type {SvelteComponent} */
     Component,

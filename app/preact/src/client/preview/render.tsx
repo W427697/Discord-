@@ -18,7 +18,13 @@ function preactRender(element: StoryFnPreactReturnType | null): void {
   }
 }
 
-export default function renderMain({ storyFn, kind, name, showMain, showError }: RenderContext) {
+export default function renderMain({
+  storyFn,
+  kind,
+  name,
+  showMain,
+  showError,
+}: RenderContext<StoryFnPreactReturnType>) {
   const element = storyFn();
 
   if (!element) {

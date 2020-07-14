@@ -23,9 +23,9 @@ export interface ErrorLike {
 }
 
 // Metadata about a story that can be set at various levels: global, for a kind, or for a single story.
-export interface StoryMetadata {
+export interface StoryMetadata<StoryFnReturnType = unknown> {
   parameters: Parameters;
-  decorators: DecoratorFunction[];
+  decorators: DecoratorFunction<StoryFnReturnType>[];
 }
 export type ArgTypesEnhancer = (context: StoryContext) => ArgTypes;
 
@@ -41,17 +41,17 @@ export interface StoreSelection {
   viewMode: ViewMode;
 }
 
-export type AddStoryArgs = StoryIdentifier & {
-  storyFn: StoryFn<any>;
+export type AddStoryArgs<StoryFnReturnType = unknown> = StoryIdentifier & {
+  storyFn: StoryFn<StoryFnReturnType>;
   parameters?: Parameters;
-  decorators?: DecoratorFunction[];
+  decorators?: DecoratorFunction<StoryFnReturnType>[];
 };
 
-export type StoreItem = StoryIdentifier & {
+export type StoreItem<StoryFnReturnType = unknown> = StoryIdentifier & {
   parameters: Parameters;
-  getDecorated: () => StoryFn<any>;
-  getOriginal: () => StoryFn<any>;
-  storyFn: StoryFn<any>;
+  getDecorated: () => StoryFn<StoryFnReturnType>;
+  getOriginal: () => StoryFn<StoryFnReturnType>;
+  storyFn: StoryFn<StoryFnReturnType>;
   hooks: HooksContext;
   args: Args;
 };
@@ -60,13 +60,13 @@ export type PublishedStoreItem = StoreItem & {
   globals: Args;
 };
 
-export interface StoreData {
-  [key: string]: StoreItem;
+export interface StoreData<StoryFnReturnType = unknown> {
+  [key: string]: StoreItem<StoryFnReturnType>;
 }
 
-export interface ClientApiParams {
+export interface ClientApiParams<StoryFnReturnType = unknown> {
   storyStore: StoryStore;
-  decorateStory?: DecorateStoryFunction;
+  decorateStory?: DecorateStoryFunction<StoryFnReturnType>;
   noStoryModuleAddMethodHotDispose?: boolean;
 }
 
@@ -82,9 +82,9 @@ export interface ClientApiAddons<StoryFnReturnType> {
   [key: string]: ClientApiAddon<StoryFnReturnType>;
 }
 
-export interface GetStorybookStory {
+export interface GetStorybookStory<StoryFnReturnType = unknown> {
   name: string;
-  render: StoryFn;
+  render: StoryFn<StoryFnReturnType>;
 }
 
 export interface GetStorybookKind {
@@ -95,7 +95,7 @@ export interface GetStorybookKind {
 
 // This really belongs in lib/core, but that depends on lib/ui which (dev) depends on app/react
 // which needs this type. So we put it here to avoid the circular dependency problem.
-export type RenderContext = StoreItem & {
+export type RenderContext<StoryFnReturnType = unknown> = StoreItem<StoryFnReturnType> & {
   forceRender: boolean;
 
   showMain: () => void;

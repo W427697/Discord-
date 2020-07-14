@@ -26,4 +26,6 @@ export type Loadable = RequireContext | RequireContext[] | LoaderFunction;
 export { RenderContext };
 
 // The function used by a framework to render story to the DOM
-export type RenderStoryFunction = (context: RenderContext) => void;
+export type RenderStoryFunction<StoryFnReturnType = unknown> = (
+  context: RenderContext<StoryFnReturnType>
+) => void;

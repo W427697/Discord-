@@ -1,18 +1,15 @@
 import dedent from 'ts-dedent';
-import Vue from 'vue';
-import { RenderContext } from './types';
-
-export const COMPONENT = 'STORYBOOK_COMPONENT';
-export const VALUES = 'STORYBOOK_VALUES';
+import Vue, { VNode, VueConstructor, FunctionalComponentOptions } from 'vue';
+import { RenderContext, COMPONENT, VALUES } from './types';
 
 const root = new Vue({
-  data() {
+  data(): Record<string, any> {
     return {
       [COMPONENT]: undefined,
       [VALUES]: {},
     };
   },
-  render(h) {
+  render(h): VNode {
     const children = this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
     return h('div', { attrs: { id: 'root' } }, children);
   },
@@ -27,7 +24,7 @@ export default function render({
   showError,
   showException,
   forceRender,
-}: RenderContext) {
+}: RenderContext<VueConstructor>): void {
   Vue.config.errorHandler = showException;
 
   // FIXME: move this into root[COMPONENT] = element
@@ -53,8 +50,7 @@ export default function render({
     root[COMPONENT] = element;
   }
 
-  // @ts-ignore https://github.com/storybookjs/storrybook/pull/7578#discussion_r307986139
-  root[VALUES] = { ...element.options[VALUES], ...args };
+  root[VALUES] = { ...(element.options as FunctionalComponentOptions)[VALUES], ...args };
 
   if (!root.$el) {
     root.$mount('#root');

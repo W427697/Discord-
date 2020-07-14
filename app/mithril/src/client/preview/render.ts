@@ -1,14 +1,20 @@
 import { document } from 'global';
 /** @jsx m */
 
-import m from 'mithril';
+import m, { ComponentTypes } from 'mithril';
 import dedent from 'ts-dedent';
 
 import { RenderContext } from './types';
 
 const rootEl = document.getElementById('root');
 
-export default function renderMain({ storyFn, kind, name, showMain, showError }: RenderContext) {
+export default function renderMain({
+  storyFn,
+  kind,
+  name,
+  showMain,
+  showError,
+}: RenderContext<ComponentTypes>) {
   const element = storyFn();
 
   if (!element) {

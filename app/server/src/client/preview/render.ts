@@ -21,7 +21,7 @@ export async function renderMain({
   showError,
   forceRender,
   parameters,
-}: RenderContext) {
+}: RenderContext<Record<string, string>>) {
   const storyParams = storyFn();
 
   const {

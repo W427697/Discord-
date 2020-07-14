@@ -57,7 +57,13 @@ function render(options: OptionsArgs, el: ElementArgs) {
     });
 }
 
-export default function renderMain({ storyFn, kind, name, showMain, showError }: RenderContext) {
+export default function renderMain({
+  storyFn,
+  kind,
+  name,
+  showMain,
+  showError,
+}: RenderContext<OptionsArgs>) {
   const element = storyFn();
 
   if (!element) {

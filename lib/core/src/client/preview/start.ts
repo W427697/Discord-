@@ -54,9 +54,9 @@ function focusInInput(event: Event) {
 }
 
 // todo improve typings
-export default function start(
-  render: RenderStoryFunction,
-  { decorateStory }: { decorateStory?: DecorateStoryFunction } = {}
+export default function start<StoryFnReturnType = unknown>(
+  render: RenderStoryFunction<StoryFnReturnType>,
+  { decorateStory }: { decorateStory?: DecorateStoryFunction<StoryFnReturnType> } = {}
 ) {
   const channel = getOrCreateChannel();
   const { clientApi, storyStore } = getClientApi(decorateStory, channel);

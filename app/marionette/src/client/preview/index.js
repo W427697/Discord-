@@ -1,9 +1,9 @@
-import { start } from '@storybook/core/client';
+import client from '@storybook/core/client';
 
 import './globals';
 import render from './render';
 
-const { load: coreLoad, clientApi, configApi, forceReRender } = start(render);
+const { load: coreLoad, clientApi, configApi, forceReRender } = client.start(render);
 
 export const {
   setAddon,

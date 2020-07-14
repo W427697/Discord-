@@ -1,4 +1,4 @@
-import { start } from '@storybook/core/client';
+import client from '@storybook/core/client';
 
 import './globals';
 import { ClientStoryApi, Loadable } from '@storybook/addons';
@@ -6,7 +6,7 @@ import render from './render';
 
 import { IStorybookSection, StoryFnMithrilReturnType } from './types';
 
-const { configure: coreConfigure, clientApi, forceReRender } = start(render);
+const { configure: coreConfigure, clientApi, forceReRender } = client.start(render);
 
 const framework = 'mithril';
 

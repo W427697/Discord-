@@ -1,6 +1,5 @@
-/* eslint-disable prefer-destructuring */
-import Vue, { VueConstructor, ComponentOptions } from 'vue';
-import { start } from '@storybook/core/client';
+import Vue, { VueConstructor, FunctionalComponentOptions } from 'vue';
+import client from '@storybook/core/client';
 import {
   ClientStoryApi,
   StoryFn,
@@ -10,51 +9,47 @@ import {
 } from '@storybook/addons';
 
 import './globals';
-import { IStorybookSection, StoryFnVueReturnType } from './types';
-
-import render, { VALUES } from './render';
+import { VueOptions, IStorybookSection, StoryFnVueReturnType, VALUES, WRAPS } from './types';
+import render from './render';
 import { extractProps } from './util';
 
-export const WRAPS = 'STORYBOOK_WRAPS';
+const isVueConstructor = (component: unknown): component is VueConstructor =>
+  (component as VueConstructor)._isVue; // eslint-disable-line no-underscore-dangle
 
+function prepare(rawStory: undefined, innerStory?: VueConstructor): undefined;
+function prepare(rawStory: StoryFnVueReturnType, innerStory?: VueConstructor): VueConstructor;
 function prepare(
-  rawStory: StoryFnVueReturnType,
+  rawStory?: StoryFnVueReturnType,
   innerStory?: VueConstructor
-): VueConstructor | null {
-  let story: ComponentOptions<Vue> | VueConstructor;
-
-  if (typeof rawStory === 'string') {
-    story = { template: rawStory };
-  } else if (rawStory != null) {
-    story = rawStory as ComponentOptions<Vue>;
-  } else {
-    return null;
+): VueConstructor | undefined {
+  if (!rawStory) {
+    return undefined;
   }
 
-  // @ts-ignore
-  // eslint-disable-next-line no-underscore-dangle
-  if (!story._isVue) {
+  let story: VueOptions | VueConstructor =
+    typeof rawStory === 'string' ? { template: rawStory } : rawStory;
+
+  if (!isVueConstructor(story)) {
     if (innerStory) {
-      story.components = { ...(story.components || {}), story: innerStory };
+      story.components = { ...story.components, story: innerStory };
     }
     story = Vue.extend(story);
-    // @ts-ignore // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
-  } else if (story.options[WRAPS]) {
-    return story as VueConstructor;
+  } else if ((story.options as FunctionalComponentOptions)[WRAPS]) {
+    return story;
   }
 
   return Vue.extend({
-    // @ts-ignore // https://github.com/storybookjs/storybook/pull/7578#discussion_r307985279
     [WRAPS]: story,
-    // @ts-ignore // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
-    [VALUES]: { ...(innerStory ? innerStory.options[VALUES] : {}), ...extractProps(story) },
+    [VALUES]: {
+      ...(innerStory ? (innerStory.options as FunctionalComponentOptions)[VALUES] : undefined),
+      ...extractProps(story),
+    },
     functional: true,
     render(h, { data, parent, children }) {
       return h(
         story,
         {
           ...data,
-          // @ts-ignore // https://github.com/storybookjs/storybook/pull/7578#discussion_r307986196
           props: { ...(data.props || {}), ...parent.$root[VALUES] },
         },
         children
@@ -77,11 +72,13 @@ function decorateStory(
   decorators: DecoratorFunction<VueConstructor>[]
 ): StoryFn<VueConstructor> {
   return decorators.reduce(
-    (decorated: StoryFn<VueConstructor>, decorator) => (context: StoryContext = defaultContext) => {
+    (decorated: StoryFn<VueConstructor>, decorator) => (
+      context: StoryContext = defaultContext
+    ): VueConstructor => {
       let story;
 
       const decoratedStory = decorator(
-        ({ parameters, ...innerContext }: StoryContext = {} as StoryContext) => {
+        ({ parameters, ...innerContext }: Partial<StoryContext> = {}) => {
           story = decorated({ ...context, ...innerContext });
           return story;
         },
@@ -109,11 +106,11 @@ interface ClientApi extends ClientStoryApi<StoryFnVueReturnType> {
   getStorybook(): IStorybookSection[];
   clearDecorators(): void;
   forceReRender(): void;
-  raw: () => any; // todo add type
+  raw: () => ReturnType<typeof api.clientApi['raw']>;
   load: (...args: any[]) => void;
 }
 
-const api = start(render, { decorateStory });
+const api = client.start(render, { decorateStory });
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({
@@ -122,8 +119,12 @@ export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
 };
 
 export const configure: ClientApi['configure'] = (...args) => api.configure(framework, ...args);
-export const addDecorator: ClientApi['addDecorator'] = api.clientApi.addDecorator;
-export const addParameters: ClientApi['addParameters'] = api.clientApi.addParameters;
+export const addDecorator: ClientApi['addDecorator'] = api.clientApi
+  .addDecorator as ClientApi['addDecorator'];
+export const addParameters: ClientApi['addParameters'] = api.clientApi
+  .addParameters as ClientApi['addParameters'];
+
+/* eslint-disable prefer-destructuring */
 export const clearDecorators: ClientApi['clearDecorators'] = api.clientApi.clearDecorators;
 export const setAddon: ClientApi['setAddon'] = api.clientApi.setAddon;
 export const forceReRender: ClientApi['forceReRender'] = api.forceReRender;

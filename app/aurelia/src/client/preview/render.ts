@@ -8,23 +8,22 @@ import {
   Constructable,
   IViewModel,
 } from 'aurelia';
-import { RenderMainArgs } from './types';
+import { RenderContext } from '@storybook/core';
+import { StoryFnAureliaReturnType } from './types';
 import { generateKnobsFor } from '.';
 
 const host = document.getElementById('root'); // the root iframe provided by storybook
 let previousAurelia: Aurelia;
 export default async function render({
   storyFn,
-  selectedKind,
-  selectedStory,
   showMain,
   showError,
-}: RenderMainArgs) {
+}: RenderContext<Partial<StoryFnAureliaReturnType>>) {
   const element = storyFn();
 
   if (!element) {
     showError({
-      title: `Expecting an Aurelia component from the story: "${selectedStory}" of "${selectedKind}".`,
+      title: `Expecting an Aurelia component from the story.`,
       description: `
         Did you forget to return the Aurelia component from the story?
         Use "() => ({ template: '<custom-component></custom-component>' })" when defining the story.

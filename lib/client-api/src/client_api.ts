@@ -26,7 +26,10 @@ const addDecoratorDeprecationWarning = deprecate(
 Instead, use \`export const decorators = [];\` in your \`preview.js\`.
 Read more at https://github.com/storybookjs/storybook/MIGRATION.md#deprecated-addparameters-and-adddecorator).`
 );
-export const addDecorator = (decorator: DecoratorFunction, deprecationWarning = true) => {
+export const addDecorator = <StoryFnReturnType extends unknown>(
+  decorator: DecoratorFunction<StoryFnReturnType>,
+  deprecationWarning = true
+) => {
   if (!singleton)
     throw new Error(`Singleton client API not yet initialized, cannot call addDecorator`);
 
@@ -98,7 +101,9 @@ export default class ClientApi {
     `
   );
 
-  addDecorator = (decorator: DecoratorFunction) => {
+  addDecorator = <StoryFnReturnType extends unknown>(
+    decorator: DecoratorFunction<StoryFnReturnType>
+  ) => {
     this._storyStore.addGlobalMetadata({ decorators: [decorator], parameters: {} });
   };
 
