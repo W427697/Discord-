@@ -40,6 +40,7 @@ export interface SubState {
   viewMode: ViewMode;
   storiesConfigured: boolean;
   storiesFailed?: Error;
+  lastSuccessfulStoryPath: string;
 }
 
 export interface SubAPI {
@@ -344,10 +345,9 @@ export const init: ModuleFn = ({
     }) {
       const { sourceType } = getEventMetadata(this, fullAPI);
 
-      if (fullAPI.isSettingsScreenActive()) return;
-
-      if (sourceType === 'local' && storyId && viewMode) {
+      if (sourceType === 'local' && storyId && viewMode && viewMode.match(/(story|docs)/)) {
         navigate(`/${viewMode}/${storyId}`);
+        store.setState({ lastSuccessfulStoryPath: `/${viewMode}/${storyId}` });
       }
     });
 
@@ -361,6 +361,7 @@ export const init: ModuleFn = ({
           checkDeprecatedOptionParameters(options);
           fullAPI.setOptions(options);
         }
+        store.setState({ lastSuccessfulStoryPath: store.getState().path });
       }
     });
 
@@ -429,6 +430,7 @@ export const init: ModuleFn = ({
       storyId: initialStoryId,
       viewMode: initialViewMode,
       storiesConfigured: false,
+      lastSuccessfulStoryPath: undefined,
     },
     init: initModule,
   };

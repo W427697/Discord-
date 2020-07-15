@@ -25,7 +25,7 @@ export interface SubAPI {
   showReleaseNotesOnLaunch: () => boolean;
 }
 
-export const init: ModuleFn = ({ store }) => {
+export const init: ModuleFn = ({ store, fullAPI }) => {
   const releaseNotesData = getReleaseNotesData();
   const getReleaseNotesViewed = () => {
     const { releaseNotesViewed: persistedReleaseNotesViewed } = store.getState();
@@ -52,7 +52,11 @@ export const init: ModuleFn = ({ store }) => {
     },
   };
 
-  const initModule = () => {};
+  const initModule = () => {
+    if (api.showReleaseNotesOnLaunch()) {
+      fullAPI.navigate('/settings/release-notes');
+    }
+  };
 
   return { init: initModule, api };
 };

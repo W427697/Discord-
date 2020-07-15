@@ -140,10 +140,6 @@ function toShortcutState(shortcutKeys: ShortcutsScreenProps['shortcutKeys']) {
   );
 }
 
-const keyMap = {
-  CLOSE: 'escape',
-};
-
 export interface ShortcutsScreenState {
   activeFeature: Feature;
   successField: Feature;
@@ -155,7 +151,6 @@ export interface ShortcutsScreenProps {
   setShortcut: Function;
   restoreDefaultShortcut: Function;
   restoreAllDefaultShortcuts: Function;
-  onClose: (e?: KeyboardEvent) => void;
 }
 
 class ShortcutsScreen extends Component<ShortcutsScreenProps, ShortcutsScreenState> {
@@ -303,21 +298,18 @@ class ShortcutsScreen extends Component<ShortcutsScreenProps, ShortcutsScreenSta
   );
 
   render() {
-    const { onClose } = this.props;
     const layout = this.renderKeyForm();
     return (
-      <GlobalHotKeys handlers={{ CLOSE: onClose }} keyMap={keyMap}>
-        <Container>
-          <Header>Keyboard shortcuts</Header>
+      <Container>
+        <Header>Keyboard shortcuts</Header>
 
-          {layout}
-          <Button tertiary small id="restoreDefaultsHotkeys" onClick={this.restoreDefaults}>
-            Restore defaults
-          </Button>
+        {layout}
+        <Button tertiary small id="restoreDefaultsHotkeys" onClick={this.restoreDefaults}>
+          Restore defaults
+        </Button>
 
-          <SettingsFooter />
-        </Container>
-      </GlobalHotKeys>
+        <SettingsFooter />
+      </Container>
     );
   }
 }

@@ -30,7 +30,7 @@ export const useMenu = (
     () => ({
       id: 'about',
       title: 'About your Storybook',
-      onClick: () => api.navigateToSettingsPage('/settings/about'),
+      onClick: () => api.navigate('/settings/about'),
       right: api.versionUpdateAvailable() && <Badge status="positive">Update</Badge>,
       left: <MenuItemIcon />,
     }),
@@ -41,7 +41,7 @@ export const useMenu = (
     () => ({
       id: 'release-notes',
       title: 'Release notes',
-      onClick: () => api.navigateToSettingsPage('/settings/release-notes'),
+      onClick: () => api.navigate('/settings/release-notes'),
       left: <MenuItemIcon />,
     }),
     [api, shortcutToHumanStringIfEnabled, enableShortcuts, shortcutKeys]
@@ -51,7 +51,7 @@ export const useMenu = (
     () => ({
       id: 'shortcuts',
       title: 'Keyboard shortcuts',
-      onClick: () => api.navigateToSettingsPage('/settings/shortcuts'),
+      onClick: () => api.navigate('/settings/shortcuts'),
       right: shortcutToHumanStringIfEnabled(shortcutKeys.shortcutsPage, enableShortcuts),
       left: <MenuItemIcon />,
       style: {
