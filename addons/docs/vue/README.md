@@ -65,7 +65,7 @@ When you [install docs](#installation) you should get basic [DocsPage](../docs/d
 
 ## Props tables
 
-Getting [Props tables](../docs/props-tables.md) for your components requires a few more steps. Docs for Vue relies on [`vue-docgen-loader`](https://github.com/pocka/vue-docgen-loader). It supports `props`, `events`, and `slots` as first class prop types.
+Getting [Props tables](../docs/props-tables.md) for your components requires a few more steps. Docs for Vue relies on [`vue-simple-docgen-loader`](https://github.com/vue-styleguidist/vue-styleguidist/tree/dev/packages/vue-simple-docgen-loader). It supports `props`, `events`, and `slots` as first class prop types.
 
 Finally, be sure to fill in the `component` field in your story metadata:
 

@@ -14,7 +14,7 @@ Your framework might need framework-specific configuration. This could include a
 
 Addon-docs handles this kind of customization by file naming convention. Its [common preset](https://github.com/storybookjs/storybook/blob/next/addons/docs/src/frameworks/common/preset.ts) does this by looking for files `../<framework>/{preset,config}.[tj]sx?`, where `<framework>` is the framework identifier, e.g. `vue`, `angular`, `react`, etc.
 
-For example, consider Storybook Docs for Vue, which needs `vue-docgen-loader` in its webpack config, and also has custom extraction functions for [props tables](#props-tables) and [component descriptions](#component-descriptions).
+For example, consider Storybook Docs for Vue, which needs `vue-simple-docgen-loader` in its webpack config, and also has custom extraction functions for [props tables](#props-tables) and [component descriptions](#component-descriptions).
 
 For webpack configuration, Docs for Vue defines [preset.ts](https://github.com/storybookjs/storybook/blob/next/addons/docs/src/frameworks/vue/preset.ts), which follows the [preset](https://storybook.js.org/docs/presets/introduction) file structure:
 
@@ -22,14 +22,14 @@ For webpack configuration, Docs for Vue defines [preset.ts](https://github.com/s
 export function webpack(webpackConfig: any = {}, options: any = {}) {
   webpackConfig.module.rules.push({
     test: /\.vue$/,
-    loader: 'vue-docgen-loader',
+    loader: 'vue-simple-docgen-loader',
     enforce: 'post',
   });
   return webpackConfig;
 }
 ```
 
-This appends `vue-docgen-loader` to the existing configuration, which at this point will also include modifications made by the common preset.
+This appends `vue-simple-docgen-loader` to the existing configuration, which at this point will also include modifications made by the common preset.
 
 For props tables and descriptions, both of which are described in more detail below, it defines a file [config.tsx](https://github.com/storybookjs/storybook/blob/next/addons/docs/src/frameworks/vue/config.tsx).
 
