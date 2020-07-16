@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { styled, keyframes } from '@storybook/theming';
-import { GlobalHotKeys } from 'react-hotkeys';
 
 import {
   eventToShortcut,
