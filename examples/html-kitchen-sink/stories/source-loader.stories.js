@@ -1,3 +1,4 @@
+import React from 'dom-chef';
 import button from './button.html';
 
 const packageName = './button.html';
@@ -24,3 +25,14 @@ export const SimpleStory = () =>
       </strong>
     </p>`;
 SimpleStory.storyName = 'Very simple story';
+
+function JSXComponent() {
+  return (
+    <p>
+      <strong>This is a rendered using JSX</strong>
+    </p>
+  );
+}
+
+export const JSXElement = () => <JSXComponent />;
+JSXElement.storyName = 'Story using JSX';

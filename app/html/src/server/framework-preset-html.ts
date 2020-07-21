@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Configuration } from 'webpack';
+import { TransformOptions } from '@babel/core';
 
 export function webpack(config: Configuration) {
   return {
@@ -18,5 +19,12 @@ export function webpack(config: Configuration) {
         },
       ],
     },
+  };
+}
+
+export function babelDefault(config: TransformOptions) {
+  return {
+    ...config,
+    plugins: [...config.plugins, ['@babel/plugin-transform-react-jsx', {}, 'jsx-to-dom']],
   };
 }

@@ -12710,6 +12710,11 @@ dom-accessibility-api@^0.5.4:
   resolved "https://registry.yarnpkg.com/dom-accessibility-api/-/dom-accessibility-api-0.5.4.tgz#b06d059cdd4a4ad9a79275f9d414a5c126241166"
   integrity sha512-TvrjBckDy2c6v6RLxPv5QXOnU+SmF9nBII5621Ve5fu6Z/BDrENurBEvlC1f44lKEUVqOpK4w9E5Idc5/EgkLQ==
 
+dom-chef@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/dom-chef/-/dom-chef-4.2.2.tgz#0144f059d95d64d8ee2a6fa20a7bd6297cbde6ad"
+  integrity sha512-EHDTYdlf1z4tL6ywXMBx/2PBz6TIELo3tHh0UQOLVzlNyI10IM/V8G6yb39TXKexqvFH47cHbmbp9dGcOQStUQ==
+
 dom-converter@^0.2:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/dom-converter/-/dom-converter-0.2.0.tgz#6721a9daee2e293682955b6afe416771627bb768"
