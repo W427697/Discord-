@@ -146,11 +146,9 @@ export const init: ModuleFn = ({
     getCurrentParameter: (parameterName) => {
       const { storyId, refId } = store.getState();
       const parameters = api.getParameters({ storyId, refId }, parameterName);
-
-      if (parameters) {
-        return parameters;
-      }
-      return undefined;
+      // FIXME Returning falsey parameters breaks a bunch of toolbars code,
+      // so this strange logic needs to be here until various client code is updated.
+      return parameters || undefined;
     },
     jumpToComponent: (direction) => {
       const { storiesHash, storyId, refs, refId } = store.getState();
@@ -263,7 +261,7 @@ export const init: ModuleFn = ({
         // eslint-disable-next-line no-nested-ternary
         const id = s ? (s.children ? s.children[0] : s.id) : kindOrId;
         let viewMode =
-          viewModeFromArgs || (s && s.parameters.viewMode)
+          s && !isRoot(s) && (viewModeFromArgs || s.parameters.viewMode)
             ? s.parameters.viewMode
             : viewModeFromState;
 

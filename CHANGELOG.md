@@ -1,3 +1,66 @@
+## 6.0.0-rc.14 (July 22, 2020)
+
+### Bug Fixes
+
+- Addon-docs: Re-enable source-loader by default ([#11650](https://github.com/storybookjs/storybook/pull/11650))
+- Core: Remove duplicate decorators and warn ([#11643](https://github.com/storybookjs/storybook/pull/11643))
+- Storyshots: Fix metadata (parameters/decorators) handling ([#11518](https://github.com/storybookjs/storybook/pull/11518))
+- Addon-docs: Skip dynamic source rendering when not needed ([#11640](https://github.com/storybookjs/storybook/pull/11640))
+- Core: Fix prefix redirect ([#11637](https://github.com/storybookjs/storybook/pull/11637))
+
+### Maintenance
+
+- Core: Log message length on channel message ([#11646](https://github.com/storybookjs/storybook/pull/11646))
+
+## 6.0.0-rc.13 (July 21, 2020)
+
+### Bug Fixes
+
+- Core: Improve translation of globs for main.js stories ([#11531](https://github.com/storybookjs/storybook/pull/11531))
+- Core: Optimize `storiesHash` by removing unused parameters ([#11624](https://github.com/storybookjs/storybook/pull/11624))
+- Composition: Fix docs-only stories in composed refs ([#11584](https://github.com/storybookjs/storybook/pull/11584))
+- CLI: Generate `docs:json` command dynamically for Angular project ([#11622](https://github.com/storybookjs/storybook/pull/11622))
+
+## 6.0.0-rc.12 (July 20, 2020)
+
+### Bug Fixes
+
+- Addon-controls: Fix undefined args handling ([#11619](https://github.com/storybookjs/storybook/pull/11619))
+- UI: Fix the color of the menu separator ([#11564](https://github.com/storybookjs/storybook/pull/11564))
+- Storyshots: Don't show `configure` deprecation warning ([#11611](https://github.com/storybookjs/storybook/pull/11611))
+- Addon-docs: Fix Props `components` input ([#11612](https://github.com/storybookjs/storybook/pull/11612))
+
+### Maintenance
+
+- Examples: Remove deprecated hierarchy separators ([#11615](https://github.com/storybookjs/storybook/pull/11615))
+- Hoist CSF `.story` annotations ([#11617](https://github.com/storybookjs/storybook/pull/11617))
+
+## 6.0.0-rc.11 (July 19, 2020)
+
+### Features
+
+- Addon-controls: Expose `presetColors` for the color control ([#11606](https://github.com/storybookjs/storybook/pull/11606))
+
+### Bug Fixes
+
+- Addon-docs: Fix Vue defaultValue in props table ([#11603](https://github.com/storybookjs/storybook/pull/11603))
+
+## 6.0.0-rc.10 (July 18, 2020)
+
+### Features
+
+- Addon-docs: Automatic source selection based on story type ([#11601](https://github.com/storybookjs/storybook/pull/11601))
+
+## 6.0.0-rc.9 (July 17, 2020)
+
+### Bug Fixes
+
+- Addon-controls: Fix no-args warning if argTypes are used ([#11598](https://github.com/storybookjs/storybook/pull/11598))
+- Core: Pass denormalized stories to the sort function ([#11572](https://github.com/storybookjs/storybook/pull/11572))
+- Addon-docs: Fix Vue inline rendering with Args and decorators ([#11594](https://github.com/storybookjs/storybook/pull/11594))
+- Composition: Fix missing refId on getData calls ([#11541](https://github.com/storybookjs/storybook/pull/11541))
+- UI: Fix scrollbars in flexbar ([#11579](https://github.com/storybookjs/storybook/pull/11579))
+
 ## 6.0.0-rc.8 (July 16, 2020)
 
 ### Features
