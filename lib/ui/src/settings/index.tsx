@@ -32,26 +32,34 @@ const TabBarButton: FunctionComponent<{ id: string; title: string }> = ({ id, ti
   </Location>
 );
 
-const Content = styled(ScrollArea)({
-  position: 'absolute',
-  top: 40,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  overflow: 'auto',
-});
+const Content = styled(ScrollArea)(
+  {
+    position: 'absolute',
+    top: 40,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    overflow: 'auto',
+  },
+  ({ theme }) => ({
+    background: theme.background.content,
+  })
+);
 
 const keyMap = {
   CLOSE: 'escape',
 };
 
-const Pages: FunctionComponent<{ onClose: API['closeSettings'] }> = ({ onClose }) => (
+const Pages: FunctionComponent<{ onClose: API['closeSettings']; hasReleaseNotes?: boolean }> = ({
+  onClose,
+  hasReleaseNotes = false,
+}) => (
   <Fragment>
     <FlexBar border>
       <TabBar role="tablist">
         <TabBarButton id="about" title="About" />
+        {hasReleaseNotes && <TabBarButton id="release-notes" title="Release notes" />}
         <TabBarButton id="shortcuts" title="Keyboard shortcuts" />
-        <TabBarButton id="release-notes" title="Release notes" />
       </TabBar>
       <IconButton
         onClick={(e: SyntheticEvent) => {
@@ -73,9 +81,7 @@ const Pages: FunctionComponent<{ onClose: API['closeSettings'] }> = ({ onClose }
         <ShortcutsPage key="shortcuts" />
       </Route>
     </Content>
-    <Route path="settings">
-      <GlobalHotKeys handlers={{ CLOSE: onClose }} keyMap={keyMap} />
-    </Route>
+    <GlobalHotKeys handlers={{ CLOSE: onClose }} keyMap={keyMap} />
   </Fragment>
 );
 
@@ -85,6 +91,7 @@ const SettingsPages: FunctionComponent = () => {
 
   return (
     <Pages
+      hasReleaseNotes={!!api.releaseNotesVersion()}
       onClose={() =>
         lastSuccessfulStoryPath ? api.navigate(lastSuccessfulStoryPath) : api.selectFirstStory()
       }

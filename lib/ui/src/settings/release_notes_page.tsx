@@ -1,5 +1,5 @@
 import { useStorybookApi } from '@storybook/api';
-import React, { FunctionComponent, useEffect, Fragment } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 
 import { ReleaseNotesScreen } from './release_notes';
 
@@ -12,11 +12,7 @@ const ReleaseNotesPage: FunctionComponent<{}> = () => {
 
   const version = api.releaseNotesVersion();
 
-  return version ? (
-    <ReleaseNotesScreen version={version} />
-  ) : (
-    <Fragment>Sorry, we don't know what version to load</Fragment>
-  );
+  return <ReleaseNotesScreen version={version} />;
 };
 
 export { ReleaseNotesPage };

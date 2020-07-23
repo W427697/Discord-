@@ -24,6 +24,9 @@ export interface SubAPI {
   setDidViewReleaseNotes: () => void;
   showReleaseNotesOnLaunch: () => boolean;
 }
+export interface SubState {
+  releaseNotesViewed: string[];
+}
 
 export const init: ModuleFn = ({ store, fullAPI }) => {
   const releaseNotesData = getReleaseNotesData();
