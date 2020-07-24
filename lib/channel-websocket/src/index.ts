@@ -45,7 +45,7 @@ export class WebsocketTransport {
   }
 
   private sendNow(event: any) {
-    const data = stringify(event, { maxDepth: 15, allowFunction: true });
+    const data = stringify(event, { maxDepth: 15, allowFunction: false });
     this.socket.send(data);
   }
 

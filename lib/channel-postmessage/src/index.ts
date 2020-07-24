@@ -57,7 +57,7 @@ export class PostmsgTransport {
    */
   send(event: ChannelEvent, options?: any): Promise<any> {
     let depth = 25;
-    let allowFunction = true;
+    let allowFunction = false;
     let target;
 
     if (options && typeof options.allowFunction === 'boolean') {
@@ -163,10 +163,15 @@ export class PostmsgTransport {
   }
 
   private handleEvent(rawEvent: MessageEvent): void {
-    try {
-      const { data } = rawEvent;
-      const { key, event, refId } = typeof data === 'string' && isJSON(data) ? parse(data) : data;
+    const { data } = rawEvent;
 
+    if (typeof data !== 'string' || !isJSON(data)) {
+      return;
+    }
+
+    const { key, event, refId } = parse(data);
+
+    try {
       if (key === KEY) {
         const pageString =
           this.config.page === 'manager'
