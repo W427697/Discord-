@@ -1,5 +1,8 @@
 import { Configuration } from 'webpack'; // eslint-disable-line
 
+const sveltePreprocess = require.resolve('svelte-preprocess');
+const preprocess = sveltePreprocess({ postcss: true })
+
 export function webpack(config: Configuration) {
   return {
     ...config,
@@ -10,7 +13,7 @@ export function webpack(config: Configuration) {
         {
           test: /\.(svelte|html)$/,
           loader: require.resolve('svelte-loader'),
-          options: {},
+          options: { preprocess },
         },
       ],
     },
