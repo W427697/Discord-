@@ -13,7 +13,11 @@ This is ideal for verifying what the user sees:
 
 Storybook is a fantastic tool for visual testing because every story is essentially a test specification. Any time you write or update a story you get a spec for free.
 
-> Visual vs snapshot tests. Snapshot tests compare the rendered markup of every story against known baselines. When used to test how things look, snapshot tests generate a lot of false positives because code changes don’t always yield visual changes.
+<div class=".aside">
+
+Visual vs snapshot tests. Snapshot tests compare the rendered markup of every story against known baselines. When used to test how things look, snapshot tests generate a lot of false positives because code changes don’t always yield visual changes.
+
+</div>
 
 
 ![Visually testing a component in Storybook](./component-visual-testing.gif)

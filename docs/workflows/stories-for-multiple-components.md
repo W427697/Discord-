@@ -75,7 +75,7 @@ OneItem.args = {
 
 Now that `children` is an arg, we can potentially reuse it in another story. As things stand (we hope to improve this soon) you cannot edit children in a control yet.
 
-### Creating a Template Component
+### Creating a template component
 
 Another option that is more “data”-based is to create a special “story-generating” template component:
 
@@ -100,8 +100,4 @@ export const OneItem = ListTemplate.bind({});
 OneItem.args = { items: [Unchecked.args] };
 ```
 
-This approach is a little more complex to setup, but it means you can more easily reuse the `args` to each story in a composite component. It also means that you can alter the args to the component with the Controls addon:
-
-<div style="background-color:#F8FAFC">
-TODO: mention of a gif in the SB 6.0 doc (needs to be vetted)
-</div>
+This approach is a little more complex to setup, but it means you can more easily reuse the `args` to each story in a composite component. It also means that you can alter the args to the component with the Controls addon.

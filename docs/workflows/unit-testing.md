@@ -24,7 +24,7 @@ import { Primary } from './Button.stories';
 
 it('renders the button in the primary state’, () => {
   render(renderStory(Primary));
-  expect(screen.getByRole('button')).toHaveTextContent(‘Primary’);
+  expect(screen.getByRole('button')).toHaveTextContent('Primary');
 });
 ```
 
