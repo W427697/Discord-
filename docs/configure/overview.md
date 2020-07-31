@@ -2,14 +2,13 @@
 title: 'Overview'
 ---
 
-Storybook is configured via a folder, called `.storybook` which contains various configuration files. 
+Storybook is configured via a folder, called `.storybook` which contains various configuration files.
 
 <div class="aside">
 
 Note you can change the folder that Storybook uses by setting the `-c` flag to your `start-storybook` and `build-storybook` scripts.
 
 </div>
-
 
 ### Configure your Storybook project
 
@@ -20,15 +19,15 @@ The main configuration file is `main.js`. This file controls the behaviour of th
 
 module.exports = {
   stories: ['../src/**/*.stories.(js|mdx)'],
-  addons: ['@storybook/addon-essentials']
-}
+  addons: ['@storybook/addon-essentials'],
+};
 ```
 
 The `main.js` configuration file is a [preset](../api/addons#addon-presets) and as such has a powerful interface, but the key fields within it are:
 
 - `stories` - a array of globs that indicates the [location of your story files](#configure-story-loading), relative to `main.js`.
 - `addons` - a list of the [addons](/addons) you are using.
-- `webpackFinal` - custom [webpack configuration](./integration#extending-storybooks-webpack-config).
+- `webpackFinal` - custom [webpack configuration](./integration.md#extending-storybooks-webpack-config).
 - `babel` - custom [babel configuration](./integration#babel).
 
 ### Configure story loading
@@ -56,9 +55,9 @@ module.exports = {
 
 ### Configure story rendering
 
-To control the way stories are rendered and add global [decorators](../writing-stories/decorators#global-decorators) and [parameters](..writing-stories/parameters#global-parameters), create a  `.storybook/preview.js` file. This is loaded in the Canvas tab, the “preview” iframe that renders your components in isolation. Use `preview.js` for global code (such as [CSS imports](../get-started/setup#render-component-styles) or JavaScript mocks) that applies to all stories.
+To control the way stories are rendered and add global [decorators](../writing-stories/decorators#global-decorators) and [parameters](..writing-stories/parameters#global-parameters), create a `.storybook/preview.js` file. This is loaded in the Canvas tab, the “preview” iframe that renders your components in isolation. Use `preview.js` for global code (such as [CSS imports](../get-started/setup#render-component-styles) or JavaScript mocks) that applies to all stories.
 
-The `preview.js` file can be an ES module and export the following keys: 
+The `preview.js` file can be an ES module and export the following keys:
 
 - `decorators` - an array of global [decorators](../writing-stories/decorators#global-decorators)
 - `parameters` - an object of global [parameters](..writing-stories/parameters#global-parameters)
