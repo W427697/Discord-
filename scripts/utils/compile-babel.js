@@ -6,6 +6,11 @@ const shell = require('shelljs');
 function getCommand(watch) {
   // Compile angular with tsc
   if (process.cwd().includes(path.join('app', 'angular'))) {
+    // build-package.js uses `concurrently --kill-others`, so tsc gets killed when this
+    // script dies.
+    if (watch) {
+      require('net').createServer().listen();
+    }
     return '';
   }
 
