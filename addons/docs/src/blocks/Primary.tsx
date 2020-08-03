@@ -14,5 +14,7 @@ export const Primary: FC<PrimaryProps> = ({ name }) => {
   if (componentStories) {
     story = name ? componentStories.find((s) => s.name === name) : componentStories[0];
   }
-  return story ? <DocsStory {...story} expanded={false} withToolbar /> : null;
+  return story ? (
+    <DocsStory {...story} className="sbdocs sbdocs-primary" expanded={false} withToolbar />
+  ) : null;
 };
