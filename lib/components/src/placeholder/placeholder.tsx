@@ -14,10 +14,19 @@ const Message = styled.div(({ theme }) => ({
   fontSize: theme.typography.size.s2 - 1,
 }));
 
-export const Placeholder: FunctionComponent = ({ children, ...props }) => {
+interface PlaceholderProps {
+  children?: React.ReactNode;
+  className?: string;
+}
+
+export const Placeholder: FunctionComponent<PlaceholderProps> = ({
+  children,
+  className,
+  ...props
+}) => {
   const [title, desc] = Children.toArray(children);
   return (
-    <Message {...props}>
+    <Message className={className} {...props}>
       <Title>{title}</Title>
       {desc && <Desc>{desc}</Desc>}
     </Message>

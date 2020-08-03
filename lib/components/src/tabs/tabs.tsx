@@ -150,14 +150,25 @@ export interface TabsProps {
   backgroundColor?: string;
   absolute?: boolean;
   bordered?: boolean;
+  className?: string;
 }
 
 export const Tabs: FunctionComponent<TabsProps> = memo(
-  ({ children, selected, actions, absolute, bordered, tools, backgroundColor, id: htmlId }) => {
+  ({
+    children,
+    selected,
+    actions,
+    absolute,
+    bordered,
+    tools,
+    backgroundColor,
+    id: htmlId,
+    className,
+  }) => {
     const list = childrenToList(children, selected);
 
     return list.length ? (
-      <Wrapper absolute={absolute} bordered={bordered} id={htmlId}>
+      <Wrapper className={className} absolute={absolute} bordered={bordered} id={htmlId}>
         <FlexBar border backgroundColor={backgroundColor}>
           <TabBar role="tablist">
             {list.map(({ title, id, active, color }) => {
@@ -188,7 +199,7 @@ export const Tabs: FunctionComponent<TabsProps> = memo(
         </Content>
       </Wrapper>
     ) : (
-      <Placeholder>
+      <Placeholder className={className}>
         <Fragment key="title">Nothing found</Fragment>
       </Placeholder>
     );
@@ -212,6 +223,7 @@ export interface TabsStateProps {
   absolute: boolean;
   bordered: boolean;
   backgroundColor: string;
+  className?: string;
 }
 
 export interface TabsStateState {
@@ -225,6 +237,7 @@ export class TabsState extends Component<TabsStateProps, TabsStateState> {
     absolute: false,
     bordered: false,
     backgroundColor: '',
+    className: '',
   };
 
   constructor(props: TabsStateProps) {
@@ -240,10 +253,11 @@ export class TabsState extends Component<TabsStateProps, TabsStateState> {
   };
 
   render() {
-    const { bordered = false, absolute = false, children, backgroundColor } = this.props;
+    const { bordered = false, absolute = false, children, backgroundColor, className } = this.props;
     const { selected } = this.state;
     return (
       <Tabs
+        className={className}
         bordered={bordered}
         absolute={absolute}
         selected={selected}

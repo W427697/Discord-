@@ -204,6 +204,7 @@ export interface ArgsTableRowProps {
 
 export interface ArgsTableErrorProps {
   error: ArgsTableError;
+  className?: string;
 }
 
 export type ArgsTableProps = ArgsTableRowProps | ArgsTableErrorProps;
@@ -252,10 +253,10 @@ const groupRows = (rows: ArgType) => {
  * ArgDefs, usually derived from docgen info for the component.
  */
 export const ArgsTable: FC<ArgsTableProps> = (props) => {
-  const { error } = props as ArgsTableErrorProps;
+  const { error, className } = props as ArgsTableErrorProps;
   if (error) {
     return (
-      <EmptyBlock>
+      <EmptyBlock className={className}>
         {error}&nbsp;
         <Link href="http://storybook.js.org/docs/" target="_blank" withArrow>
           Read the docs
@@ -274,7 +275,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     Object.entries(groups.ungroupedSubsections).length === 0
   ) {
     return (
-      <EmptyBlock>
+      <EmptyBlock className={className}>
         No inputs found for this component.&nbsp;
         <Link href="http://storybook.js.org/docs/" target="_blank" withArrow>
           Read the docs
@@ -290,7 +291,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
 
   const common = { updateArgs, compact, inAddonPanel };
   return (
-    <ResetWrapper>
+    <ResetWrapper className={className}>
       <TableWrapper {...{ compact, inAddonPanel }} className="docblock-argstable">
         <thead className="docblock-argstable-head">
           <tr>

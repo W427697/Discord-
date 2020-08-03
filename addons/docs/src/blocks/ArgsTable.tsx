@@ -24,6 +24,7 @@ type PropDescriptor = string[] | RegExp;
 interface BaseProps {
   include?: PropDescriptor;
   exclude?: PropDescriptor;
+  className?: string;
 }
 
 type OfProps = BaseProps & {
@@ -146,7 +147,7 @@ export const StoryTable: FC<
     parameters: { argTypes },
     storyStore,
   } = context;
-  const { story, component, subcomponents, showComponent, include, exclude } = props;
+  const { story, component, subcomponents, showComponent, include, exclude, className } = props;
   let storyArgTypes;
   try {
     let storyId;
@@ -195,18 +196,18 @@ export const StoryTable: FC<
     if (subcomponents) {
       tabs = addComponentTabs(tabs, subcomponents, context, include, exclude);
     }
-    return <TabbedArgsTable tabs={tabs} />;
+    return <TabbedArgsTable className={className} tabs={tabs} />;
   } catch (err) {
-    return <PureArgsTable error={err.message} />;
+    return <PureArgsTable className={className} error={err.message} />;
   }
 };
 
 export const ComponentsTable: FC<ComponentsProps> = (props) => {
   const context = useContext(DocsContext);
-  const { components, include, exclude } = props;
+  const { components, include, exclude, className } = props;
 
   const tabs = addComponentTabs({}, components, context, include, exclude);
-  return <TabbedArgsTable tabs={tabs} />;
+  return <TabbedArgsTable className={className} tabs={tabs} />;
 };
 
 export const ArgsTable: FC<ArgsTableProps> = (props) => {
@@ -215,12 +216,19 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     parameters: { subcomponents },
   } = context;
 
-  const { include, exclude, components } = props as ComponentsProps;
+  const { include, exclude, components, className } = props as ComponentsProps;
   const { story } = props as StoryProps;
 
   const main = getComponent(props, context);
   if (story) {
-    return <StoryTable {...(props as StoryProps)} component={main} subcomponents={subcomponents} />;
+    return (
+      <StoryTable
+        className={className}
+        {...(props as StoryProps)}
+        component={main}
+        subcomponents={subcomponents}
+      />
+    );
   }
 
   if (!components && !subcomponents) {
@@ -230,17 +238,24 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     } catch (err) {
       mainProps = { error: err.message };
     }
-    return <PureArgsTable {...mainProps} />;
+    return <PureArgsTable className={className} {...mainProps} />;
   }
 
   if (components) {
-    return <ComponentsTable {...(props as ComponentsProps)} components={components} />;
+    return (
+      <ComponentsTable
+        {...(props as ComponentsProps)}
+        className={className}
+        components={components}
+      />
+    );
   }
 
   const mainLabel = getComponentName(main);
   return (
     <ComponentsTable
       {...(props as ComponentsProps)}
+      className={className}
       components={{ [mainLabel]: main, ...subcomponents }}
     />
   );
@@ -248,4 +263,5 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
 
 ArgsTable.defaultProps = {
   story: PRIMARY_STORY,
+  className: 'sbdocs sbdocs-argsTable',
 };
