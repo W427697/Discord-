@@ -70,7 +70,9 @@ ${extractComponentDescription(target) || ''}
 const DescriptionContainer: FunctionComponent<DescriptionProps> = (props) => {
   const context = useContext(DocsContext);
   const { markdown } = getDescriptionProps(props, context);
-  return markdown ? <Description markdown={markdown} /> : null;
+  return markdown ? (
+    <Description className="sbdocs sbdocs-description" markdown={markdown} />
+  ) : null;
 };
 
 // since we are in the docs blocks, assume default description if for primary component story
