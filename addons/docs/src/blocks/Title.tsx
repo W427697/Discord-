@@ -17,5 +17,5 @@ export const Title: FunctionComponent<TitleProps> = ({ children }) => {
   if (!text) {
     text = extractTitle(context);
   }
-  return text ? <PureTitle className="sbdocs-title">{text}</PureTitle> : null;
+  return text ? <PureTitle className="sbdocs sbdocs-title">{text}</PureTitle> : null;
 };
