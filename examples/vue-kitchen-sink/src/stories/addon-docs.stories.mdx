@@ -86,6 +86,56 @@ Just like in React, we can easily reference other stories in our docs:
 
 <Story id="nonexistent-story" />
 
+## Multi-Previews
+
+export const VIcon = MyButton;
+
+<Preview mdxSource={`
+<v-icon name="star" color="--light-blue" sup />
+<v-icon name="accessibility_new" color="--red" x-small />
+<v-icon name="warning" color="--purple" small />
+<v-icon name="gesture" color="--blue" />
+<v-icon name="security" color="--green" large />
+<v-icon name="person" color="--orange" x-large />
+`}>
+	<Story name="sup" height="60px">
+		{{
+			components: { VIcon },
+			template: `<v-icon name="star" color="--light-blue" sup />`
+		}}
+	</Story>
+	<Story name="x-small" height="60px">
+		{{
+			components: { VIcon },
+			template: `<v-icon name="accessibility_new" color="--red" x-small />`
+		}}
+	</Story>
+	<Story name="small" height="60px">
+		{{
+			components: { VIcon },
+			template: `<v-icon name="warning" color="--purple" small />`
+		}}
+	</Story>
+	<Story name="default" height="60px">
+		{{
+			components: { VIcon },
+			template: `<v-icon name="gesture" color="--blue" />`
+		}}
+	</Story>
+	<Story name="large" height="60px">
+		{{
+			components: { VIcon },
+			template: `<v-icon name="security" color="--green" large />`
+		}}
+	</Story>
+	<Story name="x-large" height="60px">
+		{{
+			components: { VIcon },
+			template: `<v-icon name="person" color="--orange" x-large />`
+		}}
+	</Story>
+</Preview>
+
 ## More info
 
 For more info, check out the [Storybook Docs Technical Canvas](https://docs.google.com/document/d/1un6YX7xDKEKl5-MVb-egnOYN8dynb5Hf7mq0hipk8JE/edit?usp=sharing).
