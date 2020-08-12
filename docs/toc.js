@@ -192,6 +192,11 @@ module.exports = {
           type: 'link',
         },
         {
+          pathSegment: 'story-layout',
+          title: 'Story Layout',
+          type: 'link',
+        },
+        {
           pathSegment: '',
           title: 'User interface',
           type: 'menu',
