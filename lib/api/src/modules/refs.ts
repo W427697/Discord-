@@ -66,7 +66,7 @@ const allSettled = (promises: Promise<Response>[]): Promise<(Response | false)[]
   Promise.all(
     promises.map((promise) =>
       promise.then(
-        (r) => (r.ok ? r : (false as const)),
+        (r) => (r.type === 'opaque' || r.ok ? r : (false as const)),
         () => false as const
       )
     )
