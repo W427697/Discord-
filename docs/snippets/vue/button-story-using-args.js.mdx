@@ -1,0 +1,25 @@
+```js
+// Button.stories.js
+import BaseButton from './BaseButton.vue'
+
+export default {
+  title: 'BaseButton',
+  component: BaseButton,
+}
+
+const Template = (args) => ({
+  props: Object.keys(args),
+  components: { BaseButton },
+  template: `<base-button :variant="variant" :size="size" />`,
+})
+
+export const Primary = Template.bind({})
+Primary.args = { variant: 'primary', size: 'medium' }
+
+export const Secondary = Template.bind({})
+Secondary.args = { ...Primary.args, variant: 'secondary' }
+
+export const Text = Template.bind({})
+Text.args = { ...Primary.args, variant: 'text' }
+
+```

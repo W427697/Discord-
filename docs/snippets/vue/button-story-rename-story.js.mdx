@@ -1,0 +1,15 @@
+```js
+import BaseButton from './BaseButton.vue'
+
+export default {
+  title: 'Components/BaseButton',
+  component: BaseButton,
+}
+
+export const Primary = () => ({
+ components: { BaseButton },
+ template: `<base-button variant="primary" size="medium">Button</button>`,
+})
+
+Primary.storyName='I am the primary';
+```

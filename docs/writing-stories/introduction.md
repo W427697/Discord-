@@ -32,6 +32,7 @@ The default export metadata controls how Storybook lists your stories and provid
     'react/button-story-default-export-with-component.js.mdx',
     'react/button-story-default-export-with-component.ts.mdx',
     'angular/button-story-default-export-with-component.ts.mdx',
+    'vue/button-story-default-export-with-component.js.mdx',
   ]}
 />
 
@@ -48,6 +49,7 @@ Use the named exports of a CSF file to define your componentâ€™s stories. Hereâ€
     'react/button-story.js.mdx',
     'react/button-story.ts.mdx',
     'angular/button-story.ts.mdx',
+    'vue/button-story.js.mdx',
   ]}
 />
 
@@ -64,6 +66,7 @@ You can rename any particular story you need. For instance to give it a more cle
     'react/button-story-rename-story.js.mdx',
     'react/button-story-rename-story.ts.mdx',
     'angular/button-story-rename-story.ts.mdx',
+    'vue/button-story-rename-story.ts.mdx',
   ]}
 />
 
@@ -82,6 +85,7 @@ A story is a function that describes how to render a component. You can have mul
     'react/button-story-with-emojis.js.mdx',
     'react/button-story-with-emojis.ts.mdx',
     'angular/button-story-with-emojis.ts.mdx',
+    'vue/button-story-with-emojis.ts.mdx',
   ]}
 />
 

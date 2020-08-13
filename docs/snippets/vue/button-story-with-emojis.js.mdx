@@ -1,0 +1,23 @@
+```ts
+import BaseButton from './BaseButton.vue'
+
+export default {
+  title: 'Components/BaseButton',
+  component: BaseButton,
+}
+
+export const Primary = () => ({
+ components: { BaseButton },
+ template: `<base-button variant="primary" size="medium">Button</button>`,
+})
+
+export const Secondary = () => ({
+ components: { BaseButton },
+ template: `<base-button variant="secondary" size="medium">Button</button>`,
+})
+
+export const Text = () => ({
+ components: { BaseButton },
+ template: `<base-button variant="text" size="medium">Button</button>`,
+})
+```
