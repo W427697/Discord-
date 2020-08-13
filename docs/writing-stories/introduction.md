@@ -46,7 +46,7 @@ Use the named exports of a CSF file to define your componentâ€™s stories. Hereâ€
 <CodeSnippets
   paths={[
     'react/button-story.js.mdx',
-    'react/button-story.ts.mdx',
+    'react/button-story.tsx.mdx',
     'angular/button-story.ts.mdx',
   ]}
 />
