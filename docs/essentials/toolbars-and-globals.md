@@ -12,7 +12,25 @@ When the globals change, the story re-renders and the decorators rerun with the 
 
 ## Global types and the toolbar annotation
 
-Storybook has a simple, declarative syntax for configuring toolbar menus. In your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering), you can add your own toolbars by creating `globalTypes` with a `toolbar` annotation:
+Storybook has a simple, declarative syntax for configuring toolbar menus. First, install `@storybook/addon-toolbars`:
+
+```
+npm i -D @storybook/addon-toolbars
+```
+
+And register the addon in your `.storybook/main.js` file:
+
+```
+module.exports = {
+  stories: [...],
+  addons: [
+    '@storybook/addon-toolbars'
+  ],
+};
+
+```
+
+Then, in your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering), you can add your own toolbars by creating `globalTypes` with a `toolbar` annotation:
 
 <!-- prettier-ignore-start -->
 
