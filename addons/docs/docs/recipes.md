@@ -70,7 +70,7 @@ import { SomeComponent } from 'path/to/SomeComponent';
 
 I can define a story with the function imported from CSF:
 
-<Story name="basic">{stories.basic()}</Story>
+<Story story={stories.basic} />
 
 And I can also embed arbitrary markdown & JSX in this file.
 
@@ -80,7 +80,8 @@ And I can also embed arbitrary markdown & JSX in this file.
 What's happening here:
 
 - Your stories are defined in CSF, but because of `includeStories: []`, they are not actually added to Storybook.
-- The MDX file is simply importing stories as functions in the MDX, and other aspects of the CSF file, such as decorators, parameters, and any other metadata should be applied as needed in the MDX from the import.
+- The named story exports are annotated with story-level decorators, parameters, args, and the `<Story story={}>` construct respects this.
+- All component-level decorators, parameters, etc. from `Button.stories` default export must be manually copied over into `<Meta>` if desired.
 
 ## CSF Stories with arbitrary MDX
 
@@ -269,7 +270,7 @@ These two methods are complementary. The former is useful for story-specific, an
 
 What happens if you want to add some wrapper for your MDX page, or add some other kind of React context?
 
-When you're writing stories you can do this by adding a [decorator](https://storybook.js.org/docs/basics/writing-stories/#decorators), but when you're adding arbitrary JSX to your MDX documentation outside of a `<Story>` block, decorators no longer apply, and you need to use the `docs.container` parameter.
+When you're writing stories you can do this by adding a [decorator](https://storybook.js.org/docs/react/writing-stories/decorators), but when you're adding arbitrary JSX to your MDX documentation outside of a `<Story>` block, decorators no longer apply, and you need to use the `docs.container` parameter.
 
 The closest Docs equivalent of a decorator is the `container`, a wrapper element that is rendered around the page that is being rendered. Here's an example of adding a solid red border around the page. It uses Storybook's default page container (that sets up various contexts and other magic) and then inserts its own logic between that container and the contents of the page:
 

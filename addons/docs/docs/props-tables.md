@@ -38,11 +38,11 @@ export default {
 
 ### MDX
 
-To use the props table in [MDX](./mdx.md), use the `Props` block:
+To use the props table in [MDX](./mdx.md), use the `ArgsTable` block:
 
 ```js
 // MyComponent.stories.mdx
-import { Props } from '@storybook/addon-docs/blocks';
+import { ArgsTable } from '@storybook/addon-docs/blocks';
 import { MyComponent } from './MyComponent';
 
 # My Component!
@@ -52,7 +52,7 @@ import { MyComponent } from './MyComponent';
 
 ## Controls
 
-Starting in SB 6.0, the `Props` block has built-in `Controls` (formerly known as "knobs") for editing stories dynamically.
+Starting in SB 6.0, the `ArgsTable` block has built-in `Controls` (formerly known as "knobs") for editing stories dynamically.
 
 <center>
   <img src="./media/args-controls.gif" width="80%" />
@@ -60,7 +60,7 @@ Starting in SB 6.0, the `Props` block has built-in `Controls` (formerly known as
 
 <br/>
 
-These controls are implemented appear automatically in the props table when your story accepts [Storybook Args](https://github.com/storybookjs/storybook/blob/next/docs/src/pages/formats/component-story-format/index.md#args-story-inputs) as its input. This is done slightly differently depending on whether you're using `DocsPage` or `MDX`.
+These controls are implemented appear automatically in the props table when your story accepts [Storybook Args](https://storybook.js.org/docs/react/api/csf#args-story-inputs) as its input. This is done slightly differently depending on whether you're using `DocsPage` or `MDX`.
 
 **DocsPage.** In [DocsPage](./docspage.md), simply write your story to consume args and the auto-generated props table will display controls in the right-most column:
 
@@ -73,7 +73,7 @@ export default {
 export const WithControls = (args) => <MyComponent {...args} />;
 ```
 
-**MDX.** In [MDX](./mdx.md), the `Props` controls are more configurable than in DocsPage. In order to show controls, `Props` must be a function of a story, not a component:
+**MDX.** In [MDX](./mdx.md), the `ArgsTable` controls are more configurable than in DocsPage. In order to show controls, `ArgsTable` must be a function of a story, not a component:
 
 ```js
 <Story name="WithControls">
