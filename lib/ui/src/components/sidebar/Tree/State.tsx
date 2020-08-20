@@ -129,7 +129,6 @@ export const ExpanderContext = React.createContext<{
 
 const useExpanded = (
   type: FilteredType,
-  parents: Item[],
   initialFiltered: BooleanSet,
   initialUnfiltered: BooleanSet
 ) => {
@@ -142,14 +141,7 @@ const useExpanded = (
     expandedSets.filtered[1](initialFiltered);
     expandedSets.unfiltered[1](initialUnfiltered);
   }, [initialFiltered, initialUnfiltered]);
-  const set = useMemo(
-    () => ({
-      ...state,
-      ...parents.reduce((acc, item) => ({ ...acc, [item.id]: true }), {} as BooleanSet),
-    }),
-    [state, parents]
-  );
-  return { expandedSet: set, setExpanded: setState };
+  return { expandedSet: state, setExpanded: setState };
 };
 
 const useSelected = (dataset: DataSet, storyId: string) => {
@@ -203,13 +195,15 @@ export const useDataset = (storiesHash: DataSet = {}, filter: string, storyId: s
     }),
     []
   );
+  const parents = useMemo(() => getParents(storyId, dataset), [dataset[storyId]]);
   const datasetKeys = useMemo(() => Object.keys(dataset), [dataset]);
   const initial = useMemo(() => {
     if (datasetKeys.length) {
       return Object.keys(dataset).reduce(
         (acc, k) => {
           acc.filtered[k] = true;
-          acc.unfiltered[k] = false;
+          // For initial expanded, parents should be expanded
+          acc.unfiltered[k] = !!parents.find(({ id }) => id === k);
           return acc;
         },
         { filtered: {} as BooleanSet, unfiltered: {} as BooleanSet }
@@ -218,13 +212,7 @@ export const useDataset = (storiesHash: DataSet = {}, filter: string, storyId: s
     return emptyInitial;
   }, [dataset]);
   const type: FilteredType = filter.length >= 2 ? 'filtered' : 'unfiltered';
-  const parents = useMemo(() => getParents(storyId, dataset), [dataset[storyId]]);
-  const { expandedSet, setExpanded } = useExpanded(
-    type,
-    parents,
-    initial.filtered,
-    initial.unfiltered
-  );
+  const { expandedSet, setExpanded } = useExpanded(type, initial.filtered, initial.unfiltered);
   const selectedSet = useSelected(dataset, storyId);
   const filteredSet = useFiltered(dataset, filter, parents, storyId);
   const length = useMemo(() => Object.keys(filteredSet).length, [filteredSet]);
