@@ -367,7 +367,7 @@ If you wish to selectively disable `knobs` checks for a subset of stories, you c
 export const MyNonCheckedStory = () => <SomeComponent />;
 MyNonCheckedStory.story = {
   parameters: {
-    knobs: { disable: true },
+    knobs: { disabled: true },
   },
 };
 ```
@@ -474,7 +474,7 @@ It's unclear and confusing what would happened if you did. If you want to disabl
 
 ```js
 export StoryOne = ...;
-StoryOne.story = { parameters: { addon: { disable: true } } };
+StoryOne.story = { parameters: { addon: { disabled: true } } };
 ```
 
 If you want to use a parameter for a subset of stories in a kind, simply use a variable to do so:
