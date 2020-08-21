@@ -195,9 +195,11 @@ export const useDataset = (storiesHash: DataSet = {}, filter: string, storyId: s
     }),
     []
   );
+  // On initial render, without a storyId specified, parents is undefined
   const parents = useMemo(() => getParents(storyId, dataset), [dataset[storyId]]);
   const datasetKeys = useMemo(() => Object.keys(dataset), [dataset]);
   const initial = useMemo(() => {
+    // only want this to run on initial
     if (datasetKeys.length) {
       return Object.keys(dataset).reduce(
         (acc, k) => {
@@ -210,7 +212,8 @@ export const useDataset = (storiesHash: DataSet = {}, filter: string, storyId: s
       );
     }
     return emptyInitial;
-  }, [dataset]);
+    // Parents are dependency relied upon for initial expanded
+  }, [dataset, parents]);
   const type: FilteredType = filter.length >= 2 ? 'filtered' : 'unfiltered';
   const { expandedSet, setExpanded } = useExpanded(type, initial.filtered, initial.unfiltered);
   const selectedSet = useSelected(dataset, storyId);
