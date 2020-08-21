@@ -213,7 +213,9 @@ export const useDataset = (storiesHash: DataSet = {}, filter: string, storyId: s
     }
     return emptyInitial;
     // Parents are dependency relied upon for initial expanded
-  }, [dataset, parents]);
+    // Really just need to check if storyId is defined or not
+    // storyId is undefined on initial render. Always defined after
+  }, [dataset, typeof storyId === 'undefined']);
   const type: FilteredType = filter.length >= 2 ? 'filtered' : 'unfiltered';
   const { expandedSet, setExpanded } = useExpanded(type, initial.filtered, initial.unfiltered);
   const selectedSet = useSelected(dataset, storyId);
