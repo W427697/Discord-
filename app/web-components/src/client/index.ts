@@ -9,6 +9,10 @@ export {
   raw,
 } from './preview';
 
+export * from './preview/types-6-0';
+
+export { StoryFnHtmlReturnType as IStory } from './preview/types';
+
 export {
   getCustomElements,
   setCustomElements,
