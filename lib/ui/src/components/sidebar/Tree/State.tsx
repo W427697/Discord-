@@ -218,7 +218,7 @@ export const useDataset = (storiesHash: DataSet = {}, filter: string, storyId: s
     return emptyInitial;
     // Parents are dependency relied upon for initial expanded
     // don't want initial to run on every story change
-  }, [dataset, isEmptyParents]);
+  }, [isEmptyParents]);
   const type: FilteredType = filter.length >= 2 ? 'filtered' : 'unfiltered';
   const { expandedSet, setExpanded } = useExpanded(type, initial.filtered, initial.unfiltered);
   const selectedSet = useSelected(dataset, storyId);
