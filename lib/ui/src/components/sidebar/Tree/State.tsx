@@ -198,9 +198,13 @@ export const useDataset = (storiesHash: DataSet = {}, filter: string, storyId: s
   // On initial render, without a storyId specified, parents is undefined
   const parents = useMemo(() => getParents(storyId, dataset), [dataset[storyId]]);
   const datasetKeys = useMemo(() => Object.keys(dataset), [dataset]);
+  // don't want initial to rerun on every parents change,
+  // only when parents goes from an empty array to one with length
+  const isEmptyParents = useMemo(() => parents.length === 0, [parents]);
   const initial = useMemo(() => {
-    // only want this to run on initial
-    if (datasetKeys.length) {
+    // parents is empty on initial render
+    // on second render, when the url redirects, this will be at least 1
+    if (datasetKeys.length && parents.length) {
       return Object.keys(dataset).reduce(
         (acc, k) => {
           acc.filtered[k] = true;
@@ -213,9 +217,8 @@ export const useDataset = (storiesHash: DataSet = {}, filter: string, storyId: s
     }
     return emptyInitial;
     // Parents are dependency relied upon for initial expanded
-    // Really just need to check if storyId is defined or not
-    // storyId is undefined on initial render. Always defined after
-  }, [dataset, typeof storyId === 'undefined']);
+    // don't want initial to run on every story change
+  }, [dataset, isEmptyParents]);
   const type: FilteredType = filter.length >= 2 ? 'filtered' : 'unfiltered';
   const { expandedSet, setExpanded } = useExpanded(type, initial.filtered, initial.unfiltered);
   const selectedSet = useSelected(dataset, storyId);
