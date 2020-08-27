@@ -157,12 +157,8 @@ function run() {
             )}`;
             const watchTsc = `${baseWatchCommand}/utils/watch-tsc.js`;
             const watchBabel = `${baseWatchCommand}/utils/watch-babel.js`;
-            if (packageNames.length === 1 && packageNames[0] === 'angular') {
-              spawn(watchTsc);
-            } else {
-              const command = `concurrently --kill-others "${watchTsc}" "${watchBabel}"`;
-              spawn(command);
-            }
+            const command = `concurrently "${watchTsc}" "${watchBabel}"`;
+            spawn(command);
           };
 
           runWatchMode();
