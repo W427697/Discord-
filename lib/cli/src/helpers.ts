@@ -178,7 +178,11 @@ export function copyTemplate(templateRoot: string, storyFormat: StoryFormat) {
   fse.copySync(templateDir, '.', { overwrite: true });
 }
 
-export function copyComponents(framework: SupportedFrameworks, language: SupportedLanguage) {
+export function copyComponents(
+  framework: SupportedFrameworks,
+  language: SupportedLanguage,
+  createStoryFolder?: boolean
+) {
   const languageFolderMapping: Record<SupportedLanguage, string> = {
     javascript: 'js',
     typescript: 'ts',
@@ -206,14 +210,16 @@ export function copyComponents(framework: SupportedFrameworks, language: Support
     throw new Error(`Unsupported framework: ${framework}`);
   };
 
-  const targetPath = () => {
+  const targetPath = (wouldCreateStory?: boolean) => {
+    if (wouldCreateStory) {
+      return '.';
+    }
     if (fse.existsSync('./src')) {
       return './src/stories';
     }
     return './stories';
   };
 
-  const destinationPath = targetPath();
-  fse.copySync(componentsPath(), destinationPath, { overwrite: true });
-  fse.copySync(path.resolve(__dirname, 'frameworks/common'), destinationPath, { overwrite: true });
+  fse.copySync(componentsPath(), targetPath(createStoryFolder), { overwrite: true });
+  fse.copySync(path.resolve(__dirname, 'frameworks/common'), targetPath(), { overwrite: true });
 }

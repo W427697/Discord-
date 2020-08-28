@@ -15,6 +15,8 @@ export interface FrameworkOptions {
   staticDir?: string;
   addScripts?: boolean;
   addComponents?: boolean;
+  /** directly copy the framework folder as-is */
+  rawCopy?: boolean;
 }
 
 export type Generator = (
@@ -29,6 +31,7 @@ const defaultOptions: FrameworkOptions = {
   staticDir: undefined,
   addScripts: true,
   addComponents: true,
+  rawCopy: false,
 };
 
 export async function baseGenerator(
@@ -38,7 +41,7 @@ export async function baseGenerator(
   framework: SupportedFrameworks,
   options: FrameworkOptions = defaultOptions
 ) {
-  const { extraAddons, extraPackages, staticDir, addScripts, addComponents } = {
+  const { extraAddons, extraPackages, staticDir, addScripts, addComponents, rawCopy } = {
     ...defaultOptions,
     ...options,
   };
@@ -64,7 +67,7 @@ export async function baseGenerator(
 
   configure(framework, [...addons, ...extraAddons]);
   if (addComponents) {
-    copyComponents(framework, language);
+    copyComponents(framework, language, rawCopy);
   }
 
   const packageJson = packageManager.retrievePackageJson();
