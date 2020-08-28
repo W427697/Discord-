@@ -2,13 +2,13 @@ import { html } from 'lit-html';
 import { Header } from './Header';
 
 export interface PageProps {
-  user: unknown;
-  onLogin: () => void;
-  onLogout: () => void;
-  onCreateAccount: () => void;
+  user?: unknown;
+  onLogin?: () => void;
+  onLogout?: () => void;
+  onCreateAccount?: () => void;
 }
 
-export const Page = ({ user, onLogin, onLogout, onCreateAccount }: Partial<PageProps>) => html`
+export const Page = ({ user, onLogin, onLogout, onCreateAccount }: PageProps) => html`
   <article>
     ${Header({
       user,

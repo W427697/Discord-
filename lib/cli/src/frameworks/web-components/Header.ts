@@ -3,13 +3,13 @@ import { html } from 'lit-html';
 import { Button } from './Button';
 
 export interface HeaderProps {
-  user: unknown;
-  onLogin: () => void;
-  onLogout: () => void;
-  onCreateAccount: () => void;
+  user?: unknown;
+  onLogin?: () => void;
+  onLogout?: () => void;
+  onCreateAccount?: () => void;
 }
 
-export const Header = ({ user, onLogin, onLogout, onCreateAccount }: Partial<HeaderProps>) => html`
+export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => html`
   <header>
     <div class="wrapper">
       <div>

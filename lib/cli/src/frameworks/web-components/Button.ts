@@ -1,11 +1,11 @@
 import { html } from 'lit-html';
 
 export interface ButtonProps {
-  primary: boolean;
-  backgroundColor: string;
-  size: string;
-  label: string;
-  onClick: () => void;
+  primary?: boolean;
+  backgroundColor?: string;
+  size?: string;
+  label?: string;
+  onClick?: () => void;
 }
 
 /**
@@ -17,7 +17,7 @@ export const Button = ({
   size,
   label,
   onClick,
-}: Partial<ButtonProps>) => {
+}: ButtonProps) => {
   const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
 
   return html`

@@ -5,7 +5,7 @@ export default {
   title: 'Example/Header',
 } as Meta;
 
-const Template: Story<Partial<HeaderProps>> = (args) => Header(args);
+const Template: Story<HeaderProps> = (args) => Header(args);
 
 export const LoggedIn = Template.bind({});
 LoggedIn.args = {

@@ -6,7 +6,7 @@ export default {
   title: 'Example/Page',
 } as Meta;
 
-const Template: Story<Partial<PageProps>> = (args) => Page(args);
+const Template: Story<PageProps> = (args) => Page(args);
 
 export const LoggedIn = Template.bind({});
 LoggedIn.args = {
