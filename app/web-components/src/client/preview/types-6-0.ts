@@ -1,4 +1,5 @@
 import { Args as DefaultArgs, Annotations, BaseMeta, BaseStory } from '@storybook/addons';
+import { StoryFnHtmlReturnType } from './types';
 
 export { Args, ArgTypes, Parameters, StoryContext } from '@storybook/addons';
 
