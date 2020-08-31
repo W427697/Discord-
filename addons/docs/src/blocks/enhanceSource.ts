@@ -54,7 +54,7 @@ export const enhanceSource = (context: StoryContext): Parameters => {
   }
 
   const input = extract(id, storySource);
-  const code = transformSource ? transformSource(input, id) : input;
+  const code = transformSource ? transformSource(input, id, context) : input;
 
   return { docs: combineParameters(docs, { source: { code } }) };
 };

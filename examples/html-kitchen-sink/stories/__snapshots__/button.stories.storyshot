@@ -6,6 +6,12 @@ exports[`Storyshots Demo Button 1`] = `
 </button>
 `;
 
+exports[`Storyshots Demo Button With Custom Source Code 1`] = `
+<button>
+  Click Me
+</button>
+`;
+
 exports[`Storyshots Demo Effect 1`] = `
 <button
   id="button"
