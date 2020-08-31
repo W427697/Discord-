@@ -2,7 +2,7 @@
 
 exports[`Storyshots Demo Button 1`] = `
 <button>
-  Hello Button
+  Click Me
 </button>
 `;
 
