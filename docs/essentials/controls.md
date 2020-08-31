@@ -188,6 +188,29 @@ And here's what the resulting UI looks like:
 
 ![Controls addon expanded](./addon-controls-expanded.png)
 
+## Hide controls for certain fields on a particular story
+
+The `argTypes` annotation can be used to hide controls for a particular row, or even hide rows.
+
+Suppose you have a `Button` component with `borderWidth` and `label` properties (auto-generated or otherwise) and you want to hide the `borderWidth` row completely and disable controls for the `label` row on a specific story. Here's how you'd do that:
+
+```js
+import { Button } from 'button';
+
+export default {
+  title: 'Button',
+  component: Button,
+};
+
+export const CustomControls = (args) => <Button {...args} />;
+CustomControls.argTypes = {
+  borderWidth: { table: { disable: true } },
+  label: { control: { disable: true } },
+};
+```
+
+Like [story parameters](https://storybook.js.org/docs/react/writing-stories/parameters), `args` and `argTypes` annotations are hierarchically merged, so story-level annotations overwrite component-level annotations.
+
 ## Hide NoControls warning
 
 If you don't plan to handle the control args inside your Story, you can remove the warning with:
