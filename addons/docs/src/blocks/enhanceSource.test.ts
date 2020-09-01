@@ -74,13 +74,6 @@ describe('addon-docs enhanceSource', () => {
         code: 'formatted: Source',
       });
     });
-    it('receives StoryContext as second argument', () => {
-      const transformSource = jest.fn();
-      const parameters = { ...baseContext.parameters, docs: { transformSource } };
-      const context = { ...baseContext, parameters };
-      enhanceSource(context);
-      expect(transformSource).toHaveBeenCalledWith('Source', context.id, context);
-    });
   });
   describe('custom docs.source provided', () => {
     const baseContext = {
@@ -98,17 +91,6 @@ describe('addon-docs enhanceSource', () => {
       const { source } = baseContext.parameters.docs;
       const parameters = { ...baseContext.parameters, docs: { source, transformSource } };
       expect(enhanceSource({ ...baseContext, parameters })).toBeNull();
-    });
-    it('receives StoryContext as second argument', () => {
-      const transformSource = jest.fn();
-      const parameters = { ...baseContext.parameters, docs: { transformSource } };
-      const context = { ...baseContext, parameters };
-      enhanceSource(context);
-      expect(transformSource).toHaveBeenCalledWith(
-        context.parameters.storySource.source,
-        context.id,
-        context
-      );
     });
   });
 });
