@@ -21,7 +21,7 @@ module.exports = {
   ],
   webpackFinal: async (config) => {
     config.module.rules.push({
-      test: [/\.stories\.js$/, /index\.js$/],
+      test: [/\.stories\.js$/, /index\.js$/, /\.stories\.svelte$/],
       loaders: [require.resolve('@storybook/source-loader')],
       include: [path.resolve(__dirname, '../src')],
       enforce: 'pre',
