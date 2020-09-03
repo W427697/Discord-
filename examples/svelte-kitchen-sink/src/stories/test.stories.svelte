@@ -1,5 +1,5 @@
 <script>
-  import { Meta, Story } from '@storybooks/svelte'
+  import { Meta, Story } from '@storybook/svelte'
   import { action } from '@storybook/addon-actions'
 
   import Button from './Button.svelte'
