@@ -1,17 +1,22 @@
-<script>
-  import { Meta, Story } from '@storybook/svelte';
-  import { action } from '@storybook/addon-actions';
-
-  import Button from '../components/Button.svelte';
+<script context="module">
+  export const ShowCase = () => ({
+    Component: ControlShowcaseView,
+  });
 </script>
 
-<Meta title="My|Stories"  />
+<script>
+  import ControlShowcaseView from './views/ControlShowcaseView.svelte';
+  import { Meta, Story } from '@storybook/svelte';
+  import { action } from '@storybook/addon-actions';
+</script>
 
-<Story name="first" >
+<Meta title="Svelte|Syntax" />
+
+<Story name="first">
   <p>Here's the component:</p>
-  <Button>Click me!</Button>
+  <ControlShowcaseView>Click me!</ControlShowcaseView>
 </Story>
 
 <Story name="actions">
-  <Button onClick={action('clicked')}>Click me!</Button>
+  <ControlShowcaseView onClick={action('clicked')}>Click me!</ControlShowcaseView>
 </Story>
