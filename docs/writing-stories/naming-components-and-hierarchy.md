@@ -111,4 +111,4 @@ Which would result in this story ordering:
 7. `Components` and `Components/*` stories
 8. All other stories
 
-Note that the `order` option is independent of the `method` option; stories are sorted first by the `order` array and then by either the `method: 'alphabetical'` or the default `configure()` import order.
+Note that the `order` option is independent of the `method` option; stories are sorted first by the `order` array and then by the `method: 'alphabetical'`.
