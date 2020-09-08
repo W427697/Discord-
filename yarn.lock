@@ -198,10 +198,12 @@
   resolved "https://registry.yarnpkg.com/@angular/core/-/core-9.1.9.tgz#db4241f867d6e14b81ed6e7c50334813c6ebfc10"
   integrity sha512-q/DERgVU6vK2LtTcdVCGGBcoO424WsEfImh3Vcuy+P/ZVmthlDUC/+q+tSKt8MMf4hLpxFDQJE8vUSkktj7QEw==
 
-"@angular/forms@^9.1.0":
-  version "9.1.9"
-  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-9.1.9.tgz#20c9a79d1dcb2cace45df9e2f304b658e02c1687"
-  integrity sha512-r675yImnb/0pY7K5W3V2ITa7YETu1I2AS+bRfII6UQ6gthyeFFOHb5noa7YneC2yqQiM6E4DQmF5ig3daPuFNg==
+"@angular/forms@^10.1.0":
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-10.1.0.tgz#1f55bb48b5a360cbee07c40d21840da5dec45d60"
+  integrity sha512-1onL5To+QAaI1v642WcjfchwwJrUqIPrJ40a4l5yvcd/iZydOBHS/bbw1nYjQDiKeGL2+gzpP04qrh4nHeG7OA==
+  dependencies:
+    tslib "^2.0.0"
 
 "@angular/platform-browser-dynamic@^9.1.0":
   version "9.1.9"
