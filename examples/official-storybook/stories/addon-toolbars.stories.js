@@ -13,7 +13,7 @@ const getCaptionForLocale = (locale) => {
       return 'Bonjour!';
     case 'zh':
       return '你好!';
-    case 'kr':
+    case 'ko':
       return '안녕하세요!';
     case 'en':
     default:
