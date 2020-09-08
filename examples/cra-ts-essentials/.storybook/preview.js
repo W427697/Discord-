@@ -20,7 +20,7 @@ export const globalTypes = {
         { value: 'en', right: '🇺🇸', title: 'English' },
         { value: 'es', right: '🇪🇸', title: 'Español' },
         { value: 'zh', right: '🇨🇳', title: '中文' },
-        { value: 'kr', right: '🇰🇷', title: '한국어' },
+        { value: 'ko', right: '🇰🇷', title: '한국어' },
       ],
     },
   },
