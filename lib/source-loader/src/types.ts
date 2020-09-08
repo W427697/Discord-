@@ -1,15 +1,2 @@
-export interface SourceLoc {
-  line: number;
-  col: number;
-}
-
-export interface SourceBlock {
-  startBody: SourceLoc;
-  endBody: SourceLoc;
-  startLoc: SourceLoc;
-  endLoc: SourceLoc;
-}
-
-export interface LocationsMap {
-  [key: string]: SourceBlock;
-}
+// This file should eventually go away, but it remains inc ase someone needs these types
+export { SourceLoc, SourceBlock, LocationsMap } from '@storybook/addons';
