@@ -50,11 +50,20 @@ async function run({ watch, dir, silent, errorCallback }) {
   const command = getCommand(watch, dir);
 
   if (command !== '') {
-    const { code, stderr } = shell.exec(command, {
+    const child = shell.exec(command, {
+      async: true,
       silent,
       env: { ...process.env, BABEL_ESM: dir.includes('esm') },
     });
-    handleExit(code, stderr, errorCallback);
+    let stderr = '';
+
+    child.stderr.on('data', (data) => {
+      stderr += data.toString();
+    });
+
+    child.on('exit', (code) => {
+      handleExit(code, stderr, errorCallback);
+    });
   }
 }
 
