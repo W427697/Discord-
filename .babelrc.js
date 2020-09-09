@@ -94,7 +94,6 @@ module.exports = {
         '**/src/server/**',
         '**/src/bin/**',
       ],
-      ignore: ['**/virtualModuleEntry.template.js'],
       presets: [
         [
           '@babel/preset-env',
@@ -122,6 +121,23 @@ module.exports = {
       env: {
         test: withTests,
       },
+    },
+    {
+      test: ['**/virtualModuleEntry.template.js'],
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            shippedProposals: true,
+            useBuiltIns: 'usage',
+            targets: {
+              node: '8.11',
+            },
+            corejs: '3',
+            modules: false,
+          },
+        ],
+      ],
     },
   ],
 };
