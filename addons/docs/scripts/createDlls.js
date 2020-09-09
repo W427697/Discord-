@@ -32,7 +32,7 @@ const run = () =>
           'react',
           'react-dom',
           'regenerator-runtime/runtime',
-          resolveLocal('../dist/public_api.js'),
+          resolveLocal('../dist/esm/public_api.js'),
         ],
       },
     })

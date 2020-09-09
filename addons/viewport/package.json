@@ -16,14 +16,15 @@
     "directory": "addons/viewport"
   },
   "license": "MIT",
-  "main": "dist/preview.js",
+  "main": "dist/cjs/preview.js",
+  "module": "dist/esm/preview.js",
   "types": "dist/preview.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
     "*.js",
     "*.d.ts",
-    "ts3.5/**/*"
+    "ts3.7/**/*"
   ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
@@ -50,9 +51,9 @@
   },
   "gitHead": "d053c5c0c37db26f06fbec7f3ae3afd698fdac54",
   "typesVersions": {
-    "<=3.5": {
+    "<3.8": {
       "*": [
-        "ts3.5/*"
+        "ts3.7/*"
       ]
     }
   }

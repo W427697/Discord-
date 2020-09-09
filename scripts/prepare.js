@@ -7,9 +7,7 @@ const log = require('npmlog');
 const { babelify } = require('./utils/compile-babel');
 const { tscfy } = require('./utils/compile-tsc');
 
-function getPackageJson() {
-  const modulePath = path.resolve('./');
-
+function getPackageJson(modulePath) {
   // eslint-disable-next-line global-require,import/no-dynamic-require
   return require(path.join(modulePath, 'package.json'));
 }
@@ -71,11 +69,19 @@ function logError(type, packageJson, errorLogs) {
   );
 }
 
-const packageJson = getPackageJson();
+const nonEsmPackages = [/storyshots/, /lib\/cli$/];
+const modulePath = path.resolve('./');
+const packageJson = getPackageJson(modulePath);
+const modules =
+  (modulePath.includes('/lib/') || modulePath.includes('/addons/')) &&
+  !nonEsmPackages.some((name) => modulePath.match(name));
 
 removeDist();
 
-babelify({ errorCallback: (errorLogs) => logError('js', packageJson, errorLogs) });
+babelify({
+  modules,
+  errorCallback: (errorLogs) => logError('js', packageJson, errorLogs),
+});
 tscfy({ errorCallback: (errorLogs) => logError('ts', packageJson, errorLogs) });
 
 cleanup();

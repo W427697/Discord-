@@ -16,14 +16,15 @@
     "directory": "addons/storysource"
   },
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
     "*.js",
     "*.d.ts",
-    "ts3.5/**/*"
+    "ts3.7/**/*"
   ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
@@ -57,5 +58,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "d053c5c0c37db26f06fbec7f3ae3afd698fdac54"
+  "gitHead": "d053c5c0c37db26f06fbec7f3ae3afd698fdac54",
+  "typesVersions": {
+    "<3.8": {
+      "*": [
+        "ts3.7/*"
+      ]
+    }
+  }
 }

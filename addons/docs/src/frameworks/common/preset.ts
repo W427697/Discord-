@@ -1,6 +1,7 @@
 import path from 'path';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
+import glob from 'glob';
 
 import { DllReferencePlugin } from 'webpack';
 
@@ -39,7 +40,11 @@ function createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }: Bab
 }
 
 export const webpackDlls = (dlls: string[], options: any) => {
-  return options.dll ? [...dlls, './sb_dll/storybook_docs_dll.js'] : [];
+  const uiDlls = glob
+    .sync(path.join(__dirname, '../../../../dll/*storybook_docs_dll.js'))
+    .map((file) => `./sb_dll/${path.basename(file)}`);
+
+  return options.dll ? [...dlls, ...uiDlls] : [];
 };
 
 export function webpack(webpackConfig: any = {}, options: any = {}) {
@@ -147,25 +152,11 @@ export function webpack(webpackConfig: any = {}, options: any = {}) {
     result.plugins.push(
       new DllReferencePlugin({
         context,
+        scope: 'sb_dll',
         manifest: require.resolve('@storybook/core/dll/storybook_docs-manifest.json'),
       })
     );
   }
 
   return result;
-}
-
-export function managerEntries(entry: any[] = [], options: any) {
-  return [...entry, require.resolve('../../register')];
-}
-
-export function config(entry: any[] = [], options: any = {}) {
-  const { framework } = options;
-  const docsConfig = [require.resolve('./config')];
-  try {
-    docsConfig.push(require.resolve(`../${framework}/config`));
-  } catch (err) {
-    // there is no custom config for the user's framework, do nothing
-  }
-  return [...docsConfig, ...entry];
 }

@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const shell = require('shelljs');
 
-function getCommand(watch) {
+function getCommand(watch, dir) {
   // Compile angular with tsc
   if (process.cwd().includes(path.join('app', 'angular'))) {
     return '';
@@ -13,7 +13,7 @@ function getCommand(watch) {
 
   const args = [
     './src',
-    '--out-dir ./dist',
+    `--out-dir ${dir}`,
     `--config-file ${path.resolve(__dirname, '../../.babelrc.js')}`,
     `--copy-files`,
   ];
@@ -46,8 +46,20 @@ function handleExit(code, stderr, errorCallback) {
   }
 }
 
-function babelify(options = {}) {
-  const { watch = false, silent = true, errorCallback } = options;
+async function run({ watch, dir, silent, errorCallback }) {
+  const command = getCommand(watch, dir);
+
+  if (command !== '') {
+    const { code, stderr } = shell.exec(command, {
+      silent,
+      env: { ...process.env, BABEL_ESM: dir.includes('esm') },
+    });
+    handleExit(code, stderr, errorCallback);
+  }
+}
+
+async function babelify(options = {}) {
+  const { watch = false, silent = true, modules, errorCallback } = options;
 
   if (!fs.existsSync('src')) {
     if (!silent) {
@@ -56,10 +68,21 @@ function babelify(options = {}) {
     return;
   }
 
-  const command = getCommand(watch);
-  if (command !== '') {
-    const { code, stderr } = shell.exec(command, { silent });
-    handleExit(code, stderr, errorCallback);
+  const dir = (modules && './dist/cjs') || './dist';
+
+  if (watch) {
+    await Promise.all([
+      run({ watch, dir, silent, errorCallback }),
+      modules ? run({ watch, dir: './dist/esm', silent, errorCallback }) : Promise.resolve(),
+    ]);
+  } else {
+    // cjs
+    await run({ dir, silent, errorCallback });
+
+    if (modules) {
+      // esm
+      await run({ dir: './dist/esm', silent, errorCallback });
+    }
   }
 }
 
