@@ -32,9 +32,8 @@ const defaultStoryName = (xports: { [x: string]: any }) => {
 // Extracts CSF from a Svelte component's `module.exports` object. The returned
 // value is expected to be used to replace the component's `module.exports` in
 // order to turn the component module into a proper CSF module.
-export default (xports: { default?: any }) => {
+export default (xports: { default?: any }, args: any) => {
   const Stories = xports.default;
-
   const result: {
     default?: any;
     [key: string]: any;
@@ -45,11 +44,13 @@ export default (xports: { default?: any }) => {
       if (result.default) {
         throw new Error('Only one meta component is allowed per stories file');
       }
+
       result.default = config;
     },
-    addStory: (story: { name: any }) => {
-      const { name } = story;
-      const storyFn = () => ({
+    addStory: (story: { name: any; parameters: any; decorators: any; argTypes: any }) => {
+      const { name, parameters, decorators, argTypes } = story;
+
+      const storyFn = (_args: any) => ({
         Component: Preview,
         props: {
           Stories,
@@ -57,7 +58,19 @@ export default (xports: { default?: any }) => {
           selectedStory: name,
         },
       });
-      storyFn.story = story;
+      if (name) {
+        storyFn.storyName = name;
+      }
+      if (parameters) {
+        storyFn.parameters = parameters;
+      }
+      if (decorators) {
+        storyFn.decorators = decorators;
+      }
+      if (argTypes) {
+        storyFn.argTypes = argTypes;
+      }
+
       const prop = name === 'default' ? defaultStoryName(xports) : name;
       result[prop] = storyFn;
     },

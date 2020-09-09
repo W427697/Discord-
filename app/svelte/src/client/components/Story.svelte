@@ -3,6 +3,7 @@
   export let name;
   export let parameters;
   export let decorators;
+  export let argTypes;
   if (!name) {
     throw new Error('Missing Story name');
   }
@@ -14,6 +15,7 @@
       name,
       decorators,
       parameters,
+      argTypes,
     });
   }
 </script>

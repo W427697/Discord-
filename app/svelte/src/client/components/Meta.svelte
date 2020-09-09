@@ -3,6 +3,7 @@
   export let title;
   export let decorators;
   export let parameters;
+  export let argTypes;
   const register = getRegister();
   const render = getRender();
   const isMyKind = ({ selectedKind }) => selectedKind === title;
@@ -11,6 +12,7 @@
       title,
       decorators,
       parameters,
+      argTypes,
     });
   }
 </script>

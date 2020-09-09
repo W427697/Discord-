@@ -5,38 +5,42 @@
   import { withKnobs, text, number } from '@storybook/addon-knobs';
   import Button from '../components/Button.svelte';
 
-  const paramTest = {
-    argTypes: {
-      range: { defaultValue: 0, control: { type: 'range', min: 0, max: 100 } },
-      loadingState: {
-        control: {
-          type: 'inline-radio',
-          options: ['loading', 'error', 'ready'],
-        },
+  const parameters = {
+    storySource: {
+      source: 'insert source code here :(',
+    },
+  };
+
+  const argTypes = {
+    range: { defaultValue: 0, control: { type: 'range', min: 0, max: 100 } },
+    loadingState: {
+      control: {
+        type: 'inline-radio',
+        options: ['loading', 'error', 'ready'],
       },
-      food: {
-        control: {
-          type: 'inline-check',
-          options: ['apple', 'banana', 'orange'],
-        },
+    },
+    food: {
+      control: {
+        type: 'inline-check',
+        options: ['apple', 'banana', 'orange'],
       },
-      car: {
-        control: {
-          type: 'select',
-          options: ['Truck', 'SUV', 'Tesla'],
-        },
+    },
+    car: {
+      control: {
+        type: 'select',
+        options: ['Truck', 'SUV', 'Tesla'],
       },
-      color: {
-        control: 'color',
-      },
-      date: {
-        control: 'date',
-      },
+    },
+    color: {
+      control: 'color',
+    },
+    date: {
+      control: 'date',
     },
   };
 </script>
 
-<Meta title="Svelte-Syntax" decorators={[withKnobs]} parameters={paramTest} />
+<Meta title="Svelte Syntax" decorators={[withKnobs]} {parameters} />
 
 <Story name="Default">
   <p>Here's the component:</p>
@@ -49,6 +53,6 @@
   </Button>
 </Story>
 
-<Story name="with Controls">
+<Story name="with Controls" {argTypes}>
   <ControlShowcaseView>Click me!</ControlShowcaseView>
 </Story>
