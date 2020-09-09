@@ -31,7 +31,7 @@ const defaultStoryName = (xports: { [x: string]: any }) => {
 
 // Extracts CSF from a Svelte component's `module.exports` object. The returned
 // value is expected to be used to replace the component's `module.exports` in
-// order to turn the component module into a propper CSF module.
+// order to turn the component module into a proper CSF module.
 export default (xports: { default?: any }) => {
   const Stories = xports.default;
 

@@ -2,7 +2,7 @@
   import { getRegister, getRender } from './context';
   export let name;
   export let parameters;
-  export let decorators; // TODO
+  export let decorators;
   if (!name) {
     throw new Error('Missing Story name');
   }

@@ -1,7 +1,3 @@
-function posixify(file: string) {
-  return file.replace(/[/\\]/g, '/');
-}
-
 const extractCsf = require.resolve('../client/extract-csf.js');
 
 const post = `
@@ -11,21 +7,13 @@ const post = `
 }
 `;
 
-// intermediate transform function, guaranteed to be synchronous: used in
-// svelte transform for jest storyshots
-function transform({ code, map }: any) {
-  const transformedCode = code + post;
-  return {
-    code: transformedCode,
-    map,
-  };
+function posixify(file: string) {
+  return file.replace(/[/\\]/g, '/');
 }
 
 function svelteStoriesLoader(code: string, map: any) {
-  const transformed = transform({ code, map });
-  this.callback(null, transformed.code, transformed.map);
+  const transformedCode = code + post;
+  return transformedCode;
 }
 
-module.exports = Object.assign(svelteStoriesLoader, {
-  transform,
-});
+export default svelteStoriesLoader;
