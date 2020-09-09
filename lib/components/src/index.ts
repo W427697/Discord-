@@ -9,11 +9,9 @@ export { DocumentWrapper } from './typography/DocumentWrapper';
 export type {
   SyntaxHighlighterProps,
   SyntaxHighlighterRendererProps,
-} from './syntaxhighlighter/syntaxhighlighter';
-export {
-  createSyntaxHighlighterElement,
-  SyntaxHighlighter,
-} from './syntaxhighlighter/syntaxhighlighter';
+} from './syntaxhighlighter/syntaxhighlighter-types';
+export { createSyntaxHighlighterElement } from './syntaxhighlighter/syntaxhighlighter-types';
+export { SyntaxHighlighter } from './syntaxhighlighter/lazy-syntaxhighlighter';
 
 // UI
 export { ActionBar } from './ActionBar/ActionBar';
@@ -26,7 +24,7 @@ export { Button } from './Button/Button';
 export { Form } from './form/index';
 
 // Tooltips
-export { WithTooltip, WithTooltipPure } from './tooltip/WithTooltip';
+export { WithTooltip, WithTooltipPure } from './tooltip/lazy-WithTooltip';
 export { TooltipMessage } from './tooltip/TooltipMessage';
 export { TooltipNote } from './tooltip/TooltipNote';
 export { TooltipLinkList } from './tooltip/TooltipLinkList';
