@@ -6,9 +6,6 @@
   import { withKnobs, text, number } from '@storybook/addon-knobs';
   import Button from '../components/Button.svelte';
 
-  const args = getContext('__STORYBOOK_args');
-
-  console.log(args);
   const parameters = {
     storySource: {
       source: 'insert source code here :(',
@@ -45,6 +42,6 @@
 </script>
 
 <Meta title="Svelte Syntax" decorators={[withKnobs]} {parameters} />
-<Story name="with Controls" {argTypes}>
+<Story name="with Controls" {argTypes} let:args>
   <ControlShowcaseView {...args}>Click me!</ControlShowcaseView>
 </Story>
