@@ -59,7 +59,6 @@ export const createArgTypes = (docs: Docgen) => {
       },
     };
   });
-
   return results;
 };
 

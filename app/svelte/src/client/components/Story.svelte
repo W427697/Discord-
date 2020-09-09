@@ -1,9 +1,10 @@
 <script>
-  import { getRegister, getRender } from './context';
+  import { getArgs, getRegister, getRender } from './context';
   export let name;
   export let parameters;
   export let decorators;
   export let argTypes;
+  const args = getArgs();
   if (!name) {
     throw new Error('Missing Story name');
   }
@@ -21,5 +22,7 @@
 </script>
 
 {#if renderThis}
-  <slot />
+  <p>argument is now = {JSON.stringify(args)}</p>
+
+  <slot {args}><em>no content was provided</em></slot>
 {/if}

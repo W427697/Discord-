@@ -7,4 +7,5 @@
   setRegister(register);
 </script>
 
+<svelte:options accessors={true} />
 <svelte:component this={Stories} />
