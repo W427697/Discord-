@@ -3,11 +3,9 @@
   import { Meta, Story } from '@storybook/svelte';
   import { action } from '@storybook/addon-actions';
   import { withKnobs, text, number } from '@storybook/addon-knobs';
+  import Button from '../components/Button.svelte';
 
   const paramTest = {
-    myAddon: {
-      data: 'this data is passed to the addon',
-    },
     argTypes: {
       range: { defaultValue: 0, control: { type: 'range', min: 0, max: 100 } },
       loadingState: {
@@ -38,24 +36,19 @@
   };
 </script>
 
-<Meta title="Svelte-Syntax" decorators={[withKnobs]} />
+<Meta title="Svelte-Syntax" decorators={[withKnobs]} parameters={paramTest} />
 
-<Story name="default" parameters={paramTest}>
+<Story name="Default">
   <p>Here's the component:</p>
   <ControlShowcaseView>Click me!</ControlShowcaseView>
 </Story>
 
-<Story name="with actions">
-  <p>with actions:</p>
-  <ControlShowcaseView onClick={action('clicked')}>Click me!</ControlShowcaseView>
+<Story name="with Actions and Knobs">
+  <Button on:click={action('clicked inside svelte CSF')} text={text('Display', 'Text Here')}>
+    Click me!
+  </Button>
 </Story>
 
-<Story name="with knobs">
-  <p>with knobs:</p>
-  <ControlShowcaseView
-    onClick={action('clicked')}
-    count={number('Width', 200, { range: true, min: 100, max: 1000, step: 100 })}
-    text={text('Background', 'green')}>
-    Click me!
-  </ControlShowcaseView>
+<Story name="with Controls">
+  <ControlShowcaseView>Click me!</ControlShowcaseView>
 </Story>
