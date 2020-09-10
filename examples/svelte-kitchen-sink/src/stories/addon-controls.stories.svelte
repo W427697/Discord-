@@ -40,7 +40,11 @@
   };
 </script>
 
-<Meta title="Svelte Syntax" component={ControlShowcaseView} decorators={[withKnobs]} {parameters} />
-<Story name="with Controls" {argTypes} let:args>
-  <ControlShowcaseView {...args}>Click me!</ControlShowcaseView>
+<Meta title="Svelte Syntax" component={ControlShowcaseView} {argTypes} />
+<Story name="with Controls">
+  <ControlShowcaseView />
+</Story>
+
+<Story name="with Actions and Knobs" component={Button} decorators={[withKnobs]}>
+  <Button on:click={action('clicked inside svelte CSF')} text={text('Display', 'Text Here')} />
 </Story>
