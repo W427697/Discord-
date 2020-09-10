@@ -33,6 +33,7 @@
     "@babel/core": "^7.11.5",
     "@babel/plugin-transform-classes": "^7.10.4",
     "@storybook/addons": "6.1.0-alpha.6",
+    "@storybook/api": "6.1.0-alpha.6",
     "babel-loader": "^8.0.6",
     "core-js": "^3.0.1",
     "global": "^4.3.2",
