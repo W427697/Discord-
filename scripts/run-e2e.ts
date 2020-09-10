@@ -118,7 +118,7 @@ const initStorybook = async ({ cwd, autoDetect = true, name }: Options) => {
     const type = autoDetect ? '' : `--type ${name}`;
 
     const sbCLICommand = useLocalSbCli
-      ? 'node ../../storybook/lib/cli/dist/cjs/generate'
+      ? 'node ../../storybook/lib/cli/dist/generate'
       : 'npx -p @storybook/cli sb';
 
     await exec(`${sbCLICommand} init --yes ${type}`, { cwd });

@@ -83,7 +83,7 @@ async function prepare() {
     modules,
     errorCallback: (errorLogs) => logError('js', packageJson, errorLogs),
   });
-  tscfy({ errorCallback: (errorLogs) => console.log('ts here', { packageJson, errorLogs }) });
+  tscfy({ errorCallback: (errorLogs) => logError('ts', packageJson, errorLogs) });
 
   cleanup();
   console.log(chalk.gray(`Built: ${chalk.bold(`${packageJson.name}@${packageJson.version}`)}`));
