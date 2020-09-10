@@ -204,6 +204,6 @@ export const cra_bench: Parameters = {
   generator: [
     'npx create-react-app@{{version}} {{name}}-{{version}}',
     'cd {{name}}-{{version}}',
-    "npx @storybook/bench 'npx sb init' --label cra",
+    "npx @storybook/bench 'npx sb init' --label cra --extra-flags '--no-dll'",
   ].join(' && '),
 };
