@@ -1,5 +1,4 @@
 <script>
-  import { getContext, setContext } from 'svelte';
   import ControlShowcaseView from './views/ControlShowcaseView.svelte';
   import { Meta, Story } from '@storybook/svelte';
   import { action } from '@storybook/addon-actions';
@@ -41,7 +40,7 @@
   };
 </script>
 
-<Meta title="Svelte Syntax" decorators={[withKnobs]} {parameters} />
+<Meta title="Svelte Syntax" component={ControlShowcaseView} decorators={[withKnobs]} {parameters} />
 <Story name="with Controls" {argTypes} let:args>
   <ControlShowcaseView {...args}>Click me!</ControlShowcaseView>
 </Story>

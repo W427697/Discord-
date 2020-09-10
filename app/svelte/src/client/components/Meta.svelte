@@ -1,22 +1,18 @@
 <script>
-  import { getRegister, getRender } from './context';
+  import { getRegister } from './context';
   export let title;
   export let decorators;
   export let parameters;
   export let argTypes;
+  export let component;
   const register = getRegister();
-  const render = getRender();
-  const isMyKind = ({ selectedKind }) => selectedKind === title;
   if (register) {
     register.addMeta({
       title,
+      component,
       decorators,
       parameters,
       argTypes,
     });
   }
 </script>
-
-{#if register || (render && isMyKind(render))}
-  <slot />
-{/if}

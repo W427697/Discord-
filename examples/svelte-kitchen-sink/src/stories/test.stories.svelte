@@ -1,8 +1,7 @@
 <script>
-  import ControlShowcaseView from './views/ControlShowcaseView.svelte';
   import { Meta, Story } from '@storybook/svelte';
   import { action } from '@storybook/addon-actions';
-  import { withKnobs, text, number } from '@storybook/addon-knobs';
+  import { withKnobs, text } from '@storybook/addon-knobs';
   import Button from '../components/Button.svelte';
 
   const parameters = {
@@ -40,14 +39,14 @@
   };
 </script>
 
-<Meta title="Svelte" decorators={[withKnobs]} {parameters} />
+<Meta title="Svelte" component={Button} decorators={[withKnobs]} {parameters} />
 
 <Story name="Default">
   <p>Here's the component:</p>
-  <ControlShowcaseView>Click me!</ControlShowcaseView>
+  <Button>Click me!</Button>
 </Story>
 
-<Story name="with Actions and Knobs">
+<Story name="with Actions and Knobs" component={Button}>
   <Button on:click={action('clicked inside svelte CSF')} text={text('Display', 'Text Here')}>
     Click me!
   </Button>

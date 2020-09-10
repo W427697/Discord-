@@ -1,7 +1,5 @@
 /* eslint-env browser */
-
 import RegisterContext from './components/RegisterContext.svelte';
-import Preview from './components/Preview.svelte';
 
 // This is the name that will be used for the story named 'default'.
 //
@@ -47,18 +45,19 @@ export default (xports: { default?: any }) => {
 
       result.default = config;
     },
-    addStory: (story: { name: any; parameters: any; decorators: any; argTypes: any }) => {
-      const { name, parameters, decorators, argTypes } = story;
+    addStory: (story: {
+      name: any;
+      component: any;
+      parameters: any;
+      decorators: any;
+      argTypes: any;
+    }) => {
+      const { name, parameters, decorators, argTypes, component } = story;
 
       const storyFn = (args: any) => {
         return {
-          Component: Preview,
-          props: {
-            args,
-            Stories,
-            selectedKind: result.default.title,
-            selectedStory: name,
-          },
+          Component: component || result.default.component,
+          props: args,
         };
       };
       if (name) {
