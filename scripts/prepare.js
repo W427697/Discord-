@@ -76,14 +76,17 @@ const modules =
   (modulePath.includes('/lib/') || modulePath.includes('/addons/')) &&
   !nonEsmPackages.some((name) => modulePath.match(name));
 
-removeDist();
+async function prepare() {
+  removeDist();
 
-babelify({
-  modules,
-  errorCallback: (errorLogs) => logError('js', packageJson, errorLogs),
-});
-tscfy({ errorCallback: (errorLogs) => logError('ts', packageJson, errorLogs) });
+  await babelify({
+    modules,
+    errorCallback: (errorLogs) => logError('js', packageJson, errorLogs),
+  });
+  tscfy({ errorCallback: (errorLogs) => console.log('ts here', { packageJson, errorLogs }) });
 
-cleanup();
+  cleanup();
+  console.log(chalk.gray(`Built: ${chalk.bold(`${packageJson.name}@${packageJson.version}`)}`));
+}
 
-console.log(chalk.gray(`Built: ${chalk.bold(`${packageJson.name}@${packageJson.version}`)}`));
+prepare();

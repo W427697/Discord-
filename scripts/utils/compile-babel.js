@@ -47,24 +47,33 @@ function handleExit(code, stderr, errorCallback) {
 }
 
 async function run({ watch, dir, silent, errorCallback }) {
-  const command = getCommand(watch, dir);
+  return new Promise((resolve, reject) => {
+    const command = getCommand(watch, dir);
 
-  if (command !== '') {
-    const child = shell.exec(command, {
-      async: true,
-      silent,
-      env: { ...process.env, BABEL_ESM: dir.includes('esm') },
-    });
-    let stderr = '';
+    if (command !== '') {
+      const child = shell.exec(command, {
+        async: true,
+        silent,
+        env: { ...process.env, BABEL_ESM: dir.includes('esm') },
+      });
+      let stderr = '';
 
-    child.stderr.on('data', (data) => {
-      stderr += data.toString();
-    });
+      child.stderr.on('data', (data) => {
+        stderr += data.toString();
+      });
 
-    child.on('exit', (code) => {
-      handleExit(code, stderr, errorCallback);
-    });
-  }
+      child.stdout.on('data', (data) => {
+        console.log(data);
+      });
+
+      child.on('exit', (code) => {
+        resolve();
+        handleExit(code, stderr, errorCallback);
+      });
+    } else {
+      resolve();
+    }
+  });
 }
 
 async function babelify(options = {}) {

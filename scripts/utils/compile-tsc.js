@@ -36,6 +36,7 @@ function handleExit(code, stderr, errorCallback) {
     if (errorCallback && typeof errorCallback === 'function') {
       errorCallback(stderr);
     }
+
     shell.exit(code);
   }
 }
