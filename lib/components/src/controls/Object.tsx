@@ -1,7 +1,7 @@
 import React, { FC, ChangeEvent, useState, useCallback, useEffect } from 'react';
 import { styled } from '@storybook/theming';
 
-import deepEqual from 'fast-deep-equal';
+import { dequal } from 'dequal/lite';
 import { Form } from '../form';
 import { ControlProps, ObjectValue, ObjectConfig } from './types';
 import { ArgType } from '../blocks';
@@ -46,7 +46,7 @@ export const ObjectControl: FC<ObjectProps> = ({
       try {
         const newVal = parse(e.target.value);
         const newValid = validate(newVal, argType);
-        if (newValid && !deepEqual(value, newVal)) {
+        if (newValid && !dequal(value, newVal)) {
           onChange(newVal);
         }
         setValid(newValid);
