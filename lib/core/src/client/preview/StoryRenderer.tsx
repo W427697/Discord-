@@ -47,6 +47,7 @@ const layouts = {
     alignItems: 'initial',
     minHeight: 'initial',
   },
+  none: {},
 } as const;
 
 const classes = {
