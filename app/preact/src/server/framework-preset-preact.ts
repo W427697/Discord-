@@ -22,8 +22,8 @@ export function webpackFinal(config: Configuration) {
       // Alias react imports to "preact/compat":
       alias: {
         ...config.resolve.alias,
-        react: 'preact/compat',
-        'react-dom': 'preact/compat',
+        react: require.resolve('preact/compat'),
+        'react-dom': require.resolve('preact/compat'),
       },
     },
   };
