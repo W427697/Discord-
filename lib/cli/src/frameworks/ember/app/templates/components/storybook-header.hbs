@@ -12,22 +12,23 @@
             <h1>Acme</h1>
         </div>
         <div>
-            {{#if user}}
-            {{storybook-button 
-                size="small"     
-                onClick=(action onLogout) 
-                label="Log out"
-            }}
+            {{#if this.user}}
+                <StorybookButton
+                    @size="small"
+                    @onClick={{this.onLogout}}
+                    @label="Log out"
+                />
             {{else}}
-            {{storybook-button 
-                size="small"
-                onClick=(action onLogin)
-                label="Log in"
-            }}
-            {{storybook-button  
-                primary size="small"     
-                onClick=(action onCreateAccount)
-                label="Sign up"}}
+                <StorybookButton
+                    @size="small"
+                    @onClick={{this.onLogin}}
+                    @label="Log in"
+                />
+                <StorybookButton
+                    @primary size="small"
+                    @onClick={{this.onCreateAccount}}
+                    @label="Sign up"
+                />
             {{/if}}
         </div>
     </div>

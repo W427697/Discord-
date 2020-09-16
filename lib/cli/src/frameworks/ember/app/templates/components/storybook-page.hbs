@@ -1,8 +1,10 @@
 <article>
-    {{storybook-header user=user 
-    onCreateAccount=(action onCreateAccount)
-    onLogin=(action onLogin)
-    onLogout=(action onLogout)}}
+    <StorybookHeader
+        @user={{this.user}}
+        @onCreateAccount={{this.onCreateAccount}}
+        @onLogin={{this.onLogin}}
+        @onLogout={{this.onLogout}}
+    />
     <section>
         <h2>Pages in Storybook</h2>
         <p>
