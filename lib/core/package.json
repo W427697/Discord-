@@ -71,6 +71,7 @@
     "@types/node-fetch": "^2.5.4",
     "airbnb-js-shims": "^2.2.1",
     "ansi-to-html": "^0.6.11",
+    "are-you-es5": "^2.1.1",
     "autoprefixer": "^9.7.2",
     "babel-loader": "^8.0.6",
     "babel-plugin-emotion": "^10.0.20",
