@@ -118,6 +118,7 @@ export type ListItemProps = ComponentProps<typeof Item> & {
   kind: string;
   refId?: string;
   depth: number;
+  prefix?: React.ReactNode;
 };
 
 export const ListItem: FunctionComponent<ListItemProps> = ({
@@ -131,6 +132,7 @@ export const ListItem: FunctionComponent<ListItemProps> = ({
   isSelected = false,
   className,
   depth,
+  prefix,
   ...props
 }) => {
   let iconName: ComponentProps<typeof Icons>['icon'];
@@ -155,6 +157,7 @@ export const ListItem: FunctionComponent<ListItemProps> = ({
         <Expander className="sidebar-expander" depth={depth} isExpanded={isExpanded} />
       ) : null}
       <Icon className="sidebar-svg-icon" icon={iconName} isSelected={isSelected} />
+      {prefix}
       <span>{name}</span>
     </Item>
   );

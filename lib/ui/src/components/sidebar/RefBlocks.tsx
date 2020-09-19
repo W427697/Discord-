@@ -327,9 +327,12 @@ export const ContentBlock: FunctionComponent<{
         </Section>
       ) : null}
 
-      {roots.map(({ id, name, children }) => (
+      {roots.map(({ id, name, children, prefix }) => (
         <Section data-title={name} key={id}>
-          <RootHeading className="sidebar-subheading">{name}</RootHeading>
+          <RootHeading className="sidebar-subheading">
+            {prefix}
+            {name}
+          </RootHeading>
           {children.map((child) => (
             <Tree
               key={child}
