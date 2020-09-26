@@ -137,13 +137,6 @@ describe('type', () => {
               },
             },
             {
-              key: 'prop5',
-              value: {
-                name: 'string',
-                required: true,
-              },
-            },
-            {
               key: 'prop6',
               value: {
                 name: 'string',
