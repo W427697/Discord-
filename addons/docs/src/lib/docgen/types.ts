@@ -23,6 +23,7 @@ export interface DocgenFlowType extends DocgenType {
   raw?: string;
   signature?: any;
   elements?: any[];
+  value?: any;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

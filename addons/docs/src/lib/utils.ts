@@ -11,6 +11,10 @@ export function isTooLongForDefaultValueSummary(value: string): boolean {
   return value.length > MAX_DEFAULT_VALUE_SUMMARY_LENGTH;
 }
 
+export function isUnsafeToSplit(summary: string): boolean {
+  return /[(){}[\]<>]/.test(summary);
+}
+
 export function createSummaryValue(summary: string, detail?: string): PropSummaryValue {
   if (summary === detail) {
     return { summary };

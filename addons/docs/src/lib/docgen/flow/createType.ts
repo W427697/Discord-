@@ -1,94 +1,120 @@
 import { PropType } from '@storybook/components';
 import { DocgenFlowType } from '../types';
-import { createSummaryValue, isTooLongForTypeSummary } from '../../utils';
+import { createSummaryValue, isTooLongForTypeSummary, isUnsafeToSplit } from '../../utils';
 
 enum FlowTypesType {
   UNION = 'union',
+  INTERSECTION = 'intersection',
   SIGNATURE = 'signature',
+  LITERAL = 'literal',
+  ARRAY = 'Array',
 }
 
-interface DocgenFlowUnionElement {
-  name: string;
-  value?: string;
-  elements?: DocgenFlowUnionElement[];
-  raw?: string;
+interface FlowTypeObjectParameters {
+  key: string | DocgenFlowType;
+  value: DocgenFlowType;
 }
 
-interface DocgenFlowUnionType extends DocgenFlowType {
-  elements: DocgenFlowUnionElement[];
+interface FlowTypeFunctionArguments {
+  name?: string;
+  type: DocgenFlowType;
 }
 
-function generateUnionElement({ name, value, elements, raw }: DocgenFlowUnionElement): string {
-  if (value != null) {
-    return value;
+function getSummary({ raw, type, name }: DocgenFlowType) {
+  if (raw == null || isTooLongForTypeSummary(raw)) {
+    return type || name;
   }
 
-  if (elements != null) {
-    return elements.map(generateUnionElement).join(' | ');
-  }
-
-  if (raw != null) {
-    return raw;
-  }
-
-  return name;
+  return raw.replace(/^\|\s*/, '');
 }
 
-function generateUnion({ name, raw, elements }: DocgenFlowUnionType): PropType {
-  if (elements != null) {
-    return createSummaryValue(elements.map(generateUnionElement).join(' | '));
+function generateObjectDetail({ signature, raw }: DocgenFlowType): string {
+  if (!signature) {
+    return raw || '{}';
   }
 
-  if (raw != null) {
-    // Flow Unions can be defined with or without a leading `|` character, so try to remove it.
-    return createSummaryValue(raw.replace(/^\|\s*/, ''));
+  const { constructor, properties = [] } = signature;
+  const generatedProperties = properties.map(({ key, value }: FlowTypeObjectParameters) => {
+    let propKey = key;
+    if (typeof key !== 'string') {
+      propKey = `[${generateDetail(key)}]`;
+    }
+    const requiredness = value.required === false ? '?' : '';
+    return `${propKey}${requiredness}: ${generateDetail(value)}`;
+  });
+
+  // The constructor property is different than other signatures so we just use the raw value
+  if (constructor && constructor.raw) {
+    generatedProperties.unshift(constructor.raw);
   }
 
-  return createSummaryValue(name);
+  return generatedProperties.length ? `{ ${generatedProperties.join(', ')} }` : '{}';
 }
 
-function generateFuncSignature({ type, raw }: DocgenFlowType): PropType {
-  if (raw != null) {
-    return createSummaryValue(raw);
+function generateFuncDetail({ signature, raw }: DocgenFlowType): string {
+  if (!signature) {
+    return raw || '() => void';
   }
 
-  return createSummaryValue(type);
+  const { arguments: argumentsValues = [], return: returnValue = { name: 'void' } } = signature;
+  const generatedArguments = argumentsValues.map(({ name, type }: FlowTypeFunctionArguments) => {
+    return name ? `${name}: ${generateDetail(type)}` : generateDetail(type);
+  });
+
+  return `(${generatedArguments.join(', ')}) => ${generateDetail(returnValue)}`;
 }
 
-function generateObjectSignature({ type, raw }: DocgenFlowType): PropType {
-  if (raw != null) {
-    return !isTooLongForTypeSummary(raw) ? createSummaryValue(raw) : createSummaryValue(type, raw);
+function generateArrayDetail({ elements }: DocgenFlowType): string {
+  if (!Array.isArray(elements) || elements.length === 0) {
+    return '';
   }
 
-  return createSummaryValue(type);
+  return `Array<${elements.map(generateDetail).join(' | ')}>`;
 }
 
-function generateSignature(flowType: DocgenFlowType): PropType {
-  const { type } = flowType;
+function generateDetail(flowType: DocgenFlowType): string | null {
+  const { name, type, value, raw, elements = [] } = flowType;
 
-  return type === 'object' ? generateObjectSignature(flowType) : generateFuncSignature(flowType);
-}
-
-function generateDefault({ name, raw }: DocgenFlowType): PropType {
-  if (raw != null) {
-    return !isTooLongForTypeSummary(raw) ? createSummaryValue(raw) : createSummaryValue(name, raw);
+  switch (name) {
+    case FlowTypesType.LITERAL:
+      return value;
+    case FlowTypesType.UNION:
+      return elements.map(generateDetail).join(' | ');
+    case FlowTypesType.INTERSECTION:
+      return elements.map(generateDetail).join(' & ');
+    case FlowTypesType.SIGNATURE:
+      return type === 'object' ? generateObjectDetail(flowType) : generateFuncDetail(flowType);
+    case FlowTypesType.ARRAY:
+      return generateArrayDetail(flowType);
+    default:
+      return raw || type || name;
   }
-
-  return createSummaryValue(name);
 }
 
-export function createType(type: DocgenFlowType): PropType {
+export function createType(flowType: DocgenFlowType): PropType {
   // A type could be null if a defaultProp has been provided without a type definition.
-  if (type == null) {
+  if (flowType == null) {
     return null;
   }
 
-  switch (type.name) {
+  const summary = getSummary(flowType);
+  const detail = generateDetail(flowType);
+
+  if (!detail) {
+    return createSummaryValue(summary);
+  }
+
+  switch (flowType.name) {
     case FlowTypesType.UNION:
-      return generateUnion(type as DocgenFlowUnionType);
+      return isUnsafeToSplit(detail)
+        ? createSummaryValue(summary, detail)
+        : createSummaryValue(detail);
     case FlowTypesType.SIGNATURE:
-      return generateSignature(type);
+    case FlowTypesType.ARRAY:
+      return isTooLongForTypeSummary(detail)
+        ? createSummaryValue(summary, detail)
+        : createSummaryValue(detail);
     default:
-      return generateDefault(type);
+      return createSummaryValue(detail);
   }
 }
