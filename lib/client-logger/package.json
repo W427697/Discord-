@@ -1,6 +1,6 @@
 {
   "name": "@storybook/client-logger",
-  "version": "6.1.0-alpha.14",
+  "version": "6.1.0-alpha.17",
   "description": "",
   "keywords": [
     "storybook"
@@ -34,7 +34,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "4571582a90b646e361cb37df525f62312486307a",
+  "gitHead": "328283b5ccfa01c38eb2ca0b82ab60485b5eb903",
   "typesVersions": {
     "<3.8": {
       "*": [
