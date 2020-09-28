@@ -9,16 +9,6 @@ import { Welcome, Button } from '@storybook/angular/demo';
 import * as MyStories from './My.stories';
 import { Other } from './Other.stories';
 
-const makeShortcode = (name) =>
-  function MDXDefaultShortcode(props) {
-    console.warn(
-      'Component ' +
-        name +
-        ' was not imported, exported, or provided by MDXProvider as global scope'
-    );
-    return <div {...props} />;
-  };
-
 const layoutProps = {};
 const MDXLayout = 'wrapper';
 function MDXContent({ components, ...props }) {
