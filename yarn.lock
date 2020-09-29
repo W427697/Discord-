@@ -5280,6 +5280,11 @@
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
 
+"@types/configstore@*":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/configstore/-/configstore-4.0.0.tgz#cb718f9507e9ee73782f40d07aaca1cd747e36fa"
+  integrity sha512-SvCBBPzOIe/3Tu7jTl2Q8NjITjLmq9m7obzjSyb8PXWWZ31xVK6w4T6v8fOx+lrgQnqk3Yxc00LDolFsSakKCA==
+
 "@types/connect@*":
   version "3.4.33"
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.33.tgz#31610c901eca573b8713c3330abc6e6b9f588546"
@@ -5817,10 +5822,13 @@
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.3.tgz#9c088679876f374eb5983f150d4787aa6fb32d7e"
   integrity sha512-FvUupuM3rlRsRtCN+fDudtmytGO6iHJuuRKS1Ss0pG5z8oX0diNEw94UEL7hgDbpN94rgaK5R7sWm6RrSkZuAQ==
 
-"@types/update-notifier@^0.0.30":
-  version "0.0.30"
-  resolved "https://registry.yarnpkg.com/@types/update-notifier/-/update-notifier-0.0.30.tgz#5148ffc81189832870ee3f19cf2bb1a35250b05e"
-  integrity sha1-UUj/yBGJgyhw7j8Zzyuxo1JQsF4=
+"@types/update-notifier@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@types/update-notifier/-/update-notifier-4.1.1.tgz#370a2159db6ca85a0c7bb1ed08e4346c7b12ea46"
+  integrity sha512-iPySyshoFAgiPMj6MC41X1rbNjkTGBhCQju9xAldSGe1Y6utyWG2Fbdr7OXuuqcH96KMZbuJjviu9bXgfVbJUg==
+  dependencies:
+    "@types/configstore" "*"
+    boxen "^4.2.0"
 
 "@types/util-deprecate@^1.0.0":
   version "1.0.0"
