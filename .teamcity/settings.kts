@@ -450,7 +450,7 @@ object Docs : BuildType({
                 set -e -x
                 
                 yarn install
-                yarn build
+                yarn build --all
             """.trimIndent()
             dockerImage = "node:10"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
