@@ -217,7 +217,7 @@ type NumericInputStyleProps = Omit<InputStyleProps, 'size'> & {
 type NumericInputOwnProps = {
   value?: number;
   defaultValue?: number;
-  onChange: (value: number) => number | void;
+  onChange: (value: number | '') => number | void;
 } & NumericInputStyleProps;
 type NumericInputProps = Omit<HTMLProps<HTMLInputElement>, keyof NumericInputOwnProps> &
   NumericInputOwnProps;
