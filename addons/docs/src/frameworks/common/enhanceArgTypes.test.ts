@@ -181,6 +181,41 @@ describe('enhanceArgTypes', () => {
         `);
       });
 
+      it('will fail with a falsey value if an arg isnt passed', () => {
+        expect(
+          enhance({
+            argType: { defaultValue: 0, control: { type: 'range', step: 50 } },
+            arg: undefined,
+            extractedArgTypes: { input: { name: 'input' } },
+          }).input
+        ).toMatchInlineSnapshot(`
+          {
+            "name": "input",
+            "defaultValue": 0,
+            "control": {
+              "type": "range",
+              "step": 50
+            }
+          }
+        `);
+        expect(
+          enhance({
+            argType: { defaultValue: false, control: { type: 'range', step: 50 } },
+            arg: undefined,
+            extractedArgTypes: { input: { name: 'input' } },
+          }).input
+        ).toMatchInlineSnapshot(`
+          {
+            "name": "input",
+            "defaultValue": false,
+            "control": {
+              "type": "range",
+              "step": 50
+            }
+          }
+        `);
+      });
+
       it('user-specified controls take precedence over inferred controls', () => {
         expect(
           enhance({
