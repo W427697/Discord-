@@ -60,7 +60,7 @@ export const Typeset: FunctionComponent<TypesetProps> = ({
             fontFamily,
             fontSize: size,
             fontWeight,
-            lineHeight: size,
+            lineHeight: `${size}px`,
           }}
         >
           {sampleText || 'Was he a beast if music could move him so?'}
