@@ -1,8 +1,8 @@
-import React, { Component, ChangeEvent, Validator } from 'react';
+import React, { Component, Validator } from 'react';
 import PropTypes from 'prop-types';
+import ReactJson from 'react-json-view';
 import deepEqual from 'fast-deep-equal';
 import { polyfill } from 'react-lifecycles-compat';
-import { Form } from '@storybook/components';
 import { KnobControlConfig, KnobControlProps } from './types';
 
 export type ObjectTypeKnob<T> = KnobControlConfig<T>;
@@ -10,7 +10,6 @@ type ObjectTypeProps<T> = KnobControlProps<T>;
 
 interface ObjectTypeState<T> {
   value: string;
-  failed: boolean;
   json?: T;
 }
 
@@ -25,7 +24,7 @@ class ObjectType<T> extends Component<ObjectTypeProps<T>> {
 
   static defaultProps: ObjectTypeProps<any> = {
     knob: {} as any,
-    onChange: (value) => value,
+    onChange: (value: Record<string, any>) => value,
   };
 
   static serialize: { <T>(object: T): string } = (object) => JSON.stringify(object);
@@ -40,11 +39,10 @@ class ObjectType<T> extends Component<ObjectTypeProps<T>> {
       try {
         return {
           value: JSON.stringify(props.knob.value, null, 2),
-          failed: false,
           json: props.knob.value,
         };
       } catch (e) {
-        return { value: 'Object cannot be stringified', failed: true };
+        return { value: 'Object cannot be stringified' };
       }
     }
     return null;
@@ -52,44 +50,31 @@ class ObjectType<T> extends Component<ObjectTypeProps<T>> {
 
   state: ObjectTypeState<T> = {
     value: '',
-    failed: false,
     json: {} as any,
   };
 
-  handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const { value } = e.target;
-    const { json: stateJson } = this.state;
-    const { knob, onChange } = this.props;
+  // TODO: fix types
+  handleChange = ({ existing_value, new_value, updated_src }: any) => {
+    const { onChange } = this.props;
 
-    try {
-      const json = JSON.parse(value.trim());
+    if (existing_value !== new_value) {
       this.setState({
-        value,
-        json,
-        failed: false,
+        value: JSON.stringify(updated_src),
+        json: updated_src,
       });
-      if (deepEqual(knob.value, stateJson)) {
-        onChange(json);
-      }
-    } catch (err) {
-      this.setState({
-        value,
-        failed: true,
-      });
+      onChange(updated_src);
     }
   };
 
   render() {
-    const { value, failed } = this.state;
+    const { value } = this.state;
     const { knob } = this.props;
-
     return (
-      <Form.Textarea
+      <ReactJson
         name={knob.name}
-        valid={failed ? 'error' : undefined}
-        value={value}
-        onChange={this.handleChange}
-        size="flex"
+        onEdit={this.handleChange}
+        theme="summerfruit:inverted"
+        src={JSON.parse(value)}
       />
     );
   }
