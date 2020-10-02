@@ -34,6 +34,7 @@ const warnOptionsTheme = deprecate(
 );
 
 export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, children }) => {
+  const docsWrapperRef = React.useRef<HTMLDivElement | null>(null);
   const { id: storyId = null, parameters = {} } = context || {};
   const { options = {}, docs = {} } = parameters;
   let themeVars = docs.theme;
@@ -75,6 +76,10 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, 
           scrollToElement(scrollTarget, 'start');
         }, 200);
       }
+      // Handles scroll when element is undefined
+      setTimeout(() => {
+        scrollToElement(docsWrapperRef.current, 'start');
+      }, 200);
     }
   }, [storyId]);
 
@@ -83,8 +88,8 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, 
       <SourceContainer>
         <ThemeProvider theme={theme}>
           <MDXProvider components={allComponents}>
-            <DocsWrapper className="sbdocs sbdocs-wrapper">
-              <DocsContent className="sbdocs sbdocs-content">{children}</DocsContent>
+            <DocsWrapper className="sbdocs sbdocs-wrapper" ref={docsWrapperRef}>
+              <DocsContent className="sbdocs sbdocs-content">poop{children}</DocsContent>
             </DocsWrapper>
           </MDXProvider>
         </ThemeProvider>
