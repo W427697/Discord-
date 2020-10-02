@@ -89,7 +89,7 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, 
         <ThemeProvider theme={theme}>
           <MDXProvider components={allComponents}>
             <DocsWrapper className="sbdocs sbdocs-wrapper" ref={docsWrapperRef}>
-              <DocsContent className="sbdocs sbdocs-content">poop{children}</DocsContent>
+              <DocsContent className="sbdocs sbdocs-content">{children}</DocsContent>
             </DocsWrapper>
           </MDXProvider>
         </ThemeProvider>
