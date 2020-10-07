@@ -37,7 +37,61 @@ export interface NumberConfig {
 export type RangeConfig = NumberConfig;
 
 export type ObjectValue = any;
-export interface ObjectConfig {}
+export interface ObjectConfig {
+  /**
+   * Style of expand/collapse icons. Accepted values are "circle", triangle" or "square".
+   *
+   * Default: {}
+   */
+  iconStyle?: 'circle' | 'triangle' | 'square';
+  /**
+   * Set the indent-width for nested objects.
+   *
+   * Default: 4
+   */
+  indentWidth?: number;
+  /**
+   * When set to true, all nodes will be collapsed by default.
+   * Use an integer value to collapse at a particular depth.
+   *
+   * Default: false
+   */
+  collapsed?: boolean | number;
+  /**
+   * When an integer value is assigned, strings will be cut off at that length.
+   * Collapsed strings are followed by an ellipsis.
+   * String content can be expanded and collapsed by clicking on the string value.
+   *
+   * Default: false
+   */
+  collapseStringsAfterLength?: number | false;
+  /**
+   * When an integer value is assigned, arrays will be displayed in groups by count of the value.
+   * Groups are displayed with brakcet notation and can be expanded and collapsed by clickong on the brackets.
+   *
+   * Default: 100
+   */
+  groupArraysAfterLength?: number;
+  /**
+   * When prop is not false, the user can copy objects and arrays to clipboard by clicking on the clipboard icon.
+   * Copy callbacks are supported.
+   *
+   * Default: true
+   */
+  enableClipboard?: boolean;
+  /**
+   * When set to true, objects and arrays are labeled with size.
+   *
+   * Default: true
+   */
+  displayObjectSize?: boolean;
+  /**
+   * When set to true, data type labels prefix values.
+   *
+   * Default: true
+   */
+  displayDataTypes?: boolean;
+}
 
 export type OptionsSingleSelection = any;
 export type OptionsMultiSelection = any[];

@@ -1,24 +1,10 @@
-import React, { FC, ChangeEvent, useState, useCallback, useEffect } from 'react';
+import React, { FC, useCallback } from 'react';
 import { styled } from '@storybook/theming';
 
 import deepEqual from 'fast-deep-equal';
-import { Form } from '../form';
+import ReactJson from 'react-json-view';
+import type { InteractionProps } from 'react-json-view';
 import { ControlProps, ObjectValue, ObjectConfig } from './types';
-import { ArgType } from '../blocks';
-
-const format = (value: any) => (value ? JSON.stringify(value) : '');
-
-const parse = (value: string) => {
-  const trimmed = value && value.trim();
-  return trimmed ? JSON.parse(trimmed) : {};
-};
-
-const validate = (value: any, argType: ArgType) => {
-  if (argType && argType.type.name === 'array') {
-    return Array.isArray(value);
-  }
-  return true;
-};
 
 const Wrapper = styled.label({
   display: 'flex',
@@ -27,46 +13,44 @@ const Wrapper = styled.label({
 export type ObjectProps = ControlProps<ObjectValue> & ObjectConfig;
 export const ObjectControl: FC<ObjectProps> = ({
   name,
-  argType,
   value,
   onChange,
-  onBlur,
-  onFocus,
+  // ReactJSON Props
+  iconStyle = 'triangle',
+  indentWidth = 4,
+  collapsed = false,
+  collapseStringsAfterLength = false as false,
+  groupArraysAfterLength = 100,
+  enableClipboard = true,
+  displayObjectSize = true,
+  displayDataTypes = true,
 }) => {
-  const [valid, setValid] = useState(true);
-  const [text, setText] = useState(format(value));
-
-  useEffect(() => {
-    const newText = format(value);
-    if (text !== newText) setText(newText);
-  }, [value]);
-
   const handleChange = useCallback(
-    (e: ChangeEvent<HTMLTextAreaElement>) => {
-      try {
-        const newVal = parse(e.target.value);
-        const newValid = validate(newVal, argType);
-        if (newValid && !deepEqual(value, newVal)) {
-          onChange(newVal);
-        }
-        setValid(newValid);
-      } catch (err) {
-        setValid(false);
+    (payload: InteractionProps) => {
+      // Compare just the modified value, but if accepted, refresh whole tree.
+      if (!deepEqual(payload.existing_value, payload.new_value)) {
+        onChange(payload.updated_src);
       }
-      setText(e.target.value);
     },
-    [onChange, setValid]
+    [onChange]
   );
 
   return (
     <Wrapper>
-      <Form.Textarea
-        valid={valid ? undefined : 'error'}
-        value={text}
-        onChange={handleChange}
-        size="flex"
-        placeholder="Adjust object dynamically"
-        {...{ name, onBlur, onFocus }}
+      <ReactJson
+        name={name}
+        src={value}
+        onEdit={handleChange}
+        // NOT documenting/exposing the "theme" property as we would like to
+        // tree-shake unused themes in future for bundle weight optimization.
+        iconStyle={iconStyle}
+        indentWidth={indentWidth}
+        collapsed={collapsed}
+        collapseStringsAfterLength={collapseStringsAfterLength}
+        groupArraysAfterLength={groupArraysAfterLength}
+        enableClipboard={enableClipboard}
+        displayObjectSize={displayObjectSize}
+        displayDataTypes={displayDataTypes}
       />
     </Wrapper>
   );
