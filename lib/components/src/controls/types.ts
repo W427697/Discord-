@@ -91,6 +91,12 @@ export interface ObjectConfig {
    * Default: true
    */
   displayDataTypes?: boolean;
+  /**
+   * Set to true to sort object keys.
+   *
+   * Default: false
+   */
+  sortKeys?: boolean;
 }
 
 export type OptionsSingleSelection = any;

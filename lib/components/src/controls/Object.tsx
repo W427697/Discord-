@@ -24,6 +24,7 @@ export const ObjectControl: FC<ObjectProps> = ({
   enableClipboard = true,
   displayObjectSize = true,
   displayDataTypes = true,
+  sortKeys = false,
 }) => {
   const handleChange = useCallback(
     (payload: InteractionProps) => {
@@ -51,6 +52,7 @@ export const ObjectControl: FC<ObjectProps> = ({
         enableClipboard={enableClipboard}
         displayObjectSize={displayObjectSize}
         displayDataTypes={displayDataTypes}
+        sortKeys={sortKeys}
       />
     </Wrapper>
   );
