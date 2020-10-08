@@ -4,6 +4,7 @@ import React, {
   HTMLProps,
   SelectHTMLAttributes,
   ChangeEvent,
+  KeyboardEvent,
 } from 'react';
 import { styled, Theme, CSSObject } from '@storybook/theming';
 
@@ -201,6 +202,7 @@ const numericSizes = ({ value, size }: { value?: number; size?: NumericSizes }):
         width: `calc(${value ? value.toString().length : 1}ch + 20px)`,
         boxSizing: 'content-box',
         padding: '6px 10px',
+        // Override the default 32 as we are using content-box.
         minHeight: 20,
       };
     }
@@ -223,12 +225,30 @@ type NumericInputProps = Omit<HTMLProps<HTMLInputElement>, keyof NumericInputOwn
   NumericInputOwnProps;
 export const NumericInput = Object.assign(
   styled(
-    forwardRef<any, NumericInputProps>(({ size, valid, align, onChange, ...props }, ref) => {
-      const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        onChange(parse(event.target.value));
-      };
-      return <input type="number" onChange={handleChange} {...props} ref={ref} />;
-    })
+    forwardRef<any, NumericInputProps>(
+      ({ size, valid, align, onChange, onKeyDown, ...props }, ref) => {
+        const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+          onChange(parse(event.target.value));
+        };
+        const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+          if (event.keyCode === 27) {
+            event.currentTarget.blur();
+          }
+          if (onKeyDown) {
+            onKeyDown(event);
+          }
+        };
+        return (
+          <input
+            type="number"
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            {...props}
+            ref={ref}
+          />
+        );
+      }
+    )
   )<NumericInputStyleProps>(
     styles,
     alignment,

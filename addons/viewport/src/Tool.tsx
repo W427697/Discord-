@@ -102,7 +102,7 @@ const ActiveViewportSize = styled.div(() => ({
 const ActiveViewportNumericInput = styled(Form.NumericInput)(() => ({
   flexGrow: 0,
   alignSelf: 'center',
-  padding: '3px 10px',
+  padding: '2px 2px 2px 6px',
 }));
 
 const ActiveViewportIconButton = styled(IconButton)(() => ({
