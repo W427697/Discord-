@@ -12,7 +12,9 @@
     "ng": "ng",
     "start": "ng serve",
     "storybook": "yarn storybook:prebuild && start-storybook -p 9008 -s src/assets",
+    "storybook-typedoc": "yarn storybook:prebuild-typedoc && start-storybook -p 9008 -s src/assets",
     "storybook:prebuild": "yarn test:generate-output && yarn docs:json",
+    "storybook:prebuild-typedoc": "yarn test:generate-output && yarn typedoc",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:generate-output": "jest --json --config=jest.addon-config.js --outputFile=addon-jest.testresults.json || true",
@@ -62,6 +64,7 @@
     "jest-preset-angular": "^8.2.0",
     "protractor": "~7.0.0",
     "ts-node": "^8.10.2",
+    "typedoc": "^0.19.2",
     "typescript": "^3.9.3"
   },
   "storybook": {

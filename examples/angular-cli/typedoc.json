@@ -1,0 +1,8 @@
+{
+  "inputFiles": ["./src"],
+  "mode": "modules",
+  "exclude": ["**/node_modules/**", "**/*+(.spec|.e2e|.stories).ts", "./src/karma.ts", "./src/polyfills.ts"],
+  "excludePrivate": true,
+  "includes": "./src/",
+  "json": "documentation.json"
+}
