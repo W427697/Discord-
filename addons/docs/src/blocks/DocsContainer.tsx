@@ -75,11 +75,11 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, 
         setTimeout(() => {
           scrollToElement(scrollTarget, 'start');
         }, 200);
+      } else if (docsWrapperRef.current) {
+        setTimeout(() => {
+          scrollToElement(docsWrapperRef.current, 'start');
+        }, 200);
       }
-      // Handles scroll when element is undefined
-      setTimeout(() => {
-        scrollToElement(docsWrapperRef.current, 'start');
-      }, 200);
     }
   }, [storyId]);
 
