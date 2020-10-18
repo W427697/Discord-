@@ -179,8 +179,10 @@ export default class StoryStore {
 
     const defaultGlobals: Args = Object.entries(
       globalTypes as Record<string, { defaultValue: any }>
-    ).reduce((acc, [arg, { defaultValue }]) => {
-      if (defaultValue) acc[arg] = defaultValue;
+    ).reduce((acc, [arg, argType]) => {
+      if (argType && typeof argType.defaultValue !== 'undefined') {
+        acc[arg] = argType.defaultValue;
+      }
       return acc;
     }, {} as Args);
 
@@ -448,8 +450,10 @@ export default class StoryStore {
     const passedArgs: Args = combinedParameters.args;
     const defaultArgs: Args = Object.entries(
       argTypes as Record<string, { defaultValue: any }>
-    ).reduce((acc, [arg, { defaultValue }]) => {
-      if (defaultValue) acc[arg] = defaultValue;
+    ).reduce((acc, [arg, argType]) => {
+      if (argType && typeof argType.defaultValue !== 'undefined') {
+        acc[arg] = argType.defaultValue;
+      }
       return acc;
     }, {} as Args);
 
