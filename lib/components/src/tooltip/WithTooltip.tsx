@@ -126,7 +126,6 @@ const WithToolTipState: FunctionComponent<
 
   useEffect(() => {
     const hide = () => onVisibilityChange(false);
-    document.addEventListener('keydown', hide, false);
 
     // Find all iframes on the screen and bind to clicks inside them (waiting until the iframe is ready)
     const iframes: HTMLIFrameElement[] = Array.from(document.getElementsByTagName('iframe'));
@@ -157,7 +156,6 @@ const WithToolTipState: FunctionComponent<
     });
 
     return () => {
-      document.removeEventListener('keydown', hide);
       unbinders.forEach((unbind) => {
         unbind();
       });

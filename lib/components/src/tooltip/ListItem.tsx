@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, ComponentProps } from 'react';
+import React, { FunctionComponent, ReactNode, ComponentProps, useEffect } from 'react';
 import { styled } from '@storybook/theming';
 import memoize from 'memoizerific';
 import { transparentize } from 'polished';
@@ -145,10 +145,10 @@ const Item = styled.a<ItemProps>(
       paddingLeft: 10,
     },
 
-    '&:hover': {
+    '&:hover, &:focus': {
       background: theme.background.hoverable,
     },
-    '&:hover svg': {
+    '&:hover svg, &:focus svg': {
       opacity: 1,
     },
   }),
@@ -194,6 +194,7 @@ export interface ListItemProps extends Omit<ComponentProps<typeof Item>, 'href' 
   disabled?: boolean;
   href?: string;
   LinkWrapper?: LinkWrapperType;
+  autoFocus?: boolean;
 }
 
 const ListItem: FunctionComponent<ListItemProps> = ({
@@ -207,13 +208,22 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   href,
   onClick,
   LinkWrapper,
+  autoFocus,
   ...rest
 }) => {
+  const listItemRef = React.useRef<HTMLAnchorElement>(null);
+
   const itemProps = getItemProps(onClick, href, LinkWrapper);
   const commonProps = { active, disabled };
 
+  useEffect(() => {
+    if (autoFocus && listItemRef.current) {
+      listItemRef.current.focus();
+    }
+  }, [autoFocus]);
+
   return (
-    <Item {...commonProps} {...rest} {...itemProps}>
+    <Item {...commonProps} {...rest} {...itemProps} ref={listItemRef}>
       {left && <Left {...commonProps}>{left}</Left>}
       {title || center ? (
         <Center>
