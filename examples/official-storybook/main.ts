@@ -34,6 +34,7 @@ module.exports = {
     '@storybook/addon-queryparams',
   ],
   logLevel: 'debug',
+  options: { ie11: true },
   webpackFinal: async (config, { configType }) => ({
     ...config,
     module: {

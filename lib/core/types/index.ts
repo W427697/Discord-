@@ -31,6 +31,10 @@ export interface StorybookConfig {
     config: Configuration,
     options: StorybookOptions
   ) => Configuration | Promise<Configuration>;
+  /**
+   * Pass runtime options to storybook
+   */
+  options?: Partial<Options>;
 }
 
 /**
@@ -40,6 +44,7 @@ export interface StorybookOptions {
   configType: 'DEVELOPMENT' | 'PRODUCTION';
   presetsList: Preset[];
   typescriptOptions: TypescriptOptions;
+  options: Options;
   [key: string]: any;
 }
 
@@ -70,4 +75,12 @@ export interface TypescriptOptions {
    * @see https://github.com/storybookjs/storybook/blob/next/lib/core/src/server/config/defaults.js#L4-L6
    */
   reactDocgenTypescriptOptions: PluginOptions;
+}
+
+export interface Options {
+  /** Sets extra transpilation to be IE 11 compatible
+   *
+   * @default `true`
+   */
+  ie11: boolean;
 }

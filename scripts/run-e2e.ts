@@ -1,6 +1,6 @@
 /* eslint-disable no-irregular-whitespace */
 import path from 'path';
-import { remove, ensureDir, pathExists, writeFile, readJSON, writeJSON } from 'fs-extra';
+import { remove, ensureDir, pathExists, readFile, writeFile, readJSON, writeJSON } from 'fs-extra';
 import { prompt } from 'enquirer';
 import pLimit from 'p-limit';
 
@@ -34,6 +34,12 @@ export interface Parameters {
   additionalDeps?: string[];
   /** Add typescript dependency and creates a tsconfig.json file */
   typescript?: boolean;
+  /** Extra options added to main.js / main.ts */
+  mainOptions?: {
+    options: {
+      ie11: boolean;
+    };
+  };
 }
 
 export interface Options extends Parameters {
@@ -201,6 +207,24 @@ const addTypescript = async ({ cwd }: Options) => {
   }
 };
 
+const configureStorybook = async ({ cwd, mainOptions }: Options) => {
+  logger.info(`🧨 Adding extra configuration to Storybook`);
+  try {
+    const mainPath = path.resolve(cwd, '.storybook', 'main.js');
+    const mainFile = await readFile(mainPath, { encoding: 'utf8' });
+    const config = JSON.parse(mainFile.replace('module.exports = ', ''));
+    const stringified = `module.exports = ${JSON.stringify(
+      { ...config, ...mainOptions },
+      null,
+      2
+    )}`;
+    await writeFile(mainPath, stringified, { encoding: 'utf8' });
+  } catch (e) {
+    logger.error(`🚨 Creating tsconfig.json failed`);
+    throw e;
+  }
+};
+
 const buildStorybook = async ({ cwd, preBuildCommand }: Options) => {
   logger.info(`👷 Building Storybook`);
   try {
@@ -271,6 +295,9 @@ const runTests = async ({ name, version, ...rest }: Parameters) => {
     await initStorybook(options);
     logger.log();
 
+    await configureStorybook(options);
+    logger.log();
+
     await addRequiredDeps(options);
     logger.log();
 
@@ -338,6 +365,7 @@ const runE2E = async (parameters: Parameters) => {
 
 program.option('--clean', 'Clean up existing projects before running the tests', false);
 program.option('--use-yarn-2', 'Run tests using Yarn 2 instead of Yarn 1 + npx', false);
+program.option('--no-ie11', 'Add configuration to skip IE 11');
 program.option(
   '--use-local-sb-cli',
   'Run tests using local @storybook/cli package (⚠️ Be sure @storybook/cli is properly build as it will not be rebuild before running the tests)',
@@ -345,7 +373,7 @@ program.option(
 );
 program.parse(process.argv);
 
-const { useYarn2, useLocalSbCli, clean: startWithCleanSlate, args: frameworkArgs } = program;
+const { ie11, useYarn2, useLocalSbCli, clean: startWithCleanSlate, args: frameworkArgs } = program;
 
 const typedConfigs: { [key: string]: Parameters } = configs;
 let e2eConfigs: { [key: string]: Parameters } = {};
@@ -380,7 +408,9 @@ const perform = () => {
 
   logger.info(`📑 Will run E2E tests for:${list.map((c) => c.name).join(', ')}`);
 
-  return Promise.all(list.map((config) => limit(() => runE2E(config))));
+  return Promise.all(
+    list.map((config) => limit(() => runE2E({ ...config, mainOptions: { options: { ie11 } } })))
+  );
 };
 
 perform().then(() => {
