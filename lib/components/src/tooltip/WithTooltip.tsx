@@ -50,6 +50,13 @@ const WithTooltipPure: FunctionComponent<WithTooltipPureProps> = ({
 }) => {
   const Container = svg ? TargetSvgContainer : TargetContainer;
 
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Tab' || event.key === 'Escape') {
+      event.preventDefault();
+      onVisibilityChange(false);
+    }
+  };
+
   return (
     <TooltipTrigger
       placement={placement}
@@ -70,6 +77,7 @@ const WithTooltipPure: FunctionComponent<WithTooltipPureProps> = ({
           tooltipRef={tooltipRef}
           arrowRef={arrowRef}
           arrowProps={getArrowProps()}
+          onKeyDown={handleKeyDown}
           {...getTooltipProps()}
         >
           {typeof tooltip === 'function'
@@ -126,7 +134,6 @@ const WithToolTipState: FunctionComponent<
 
   useEffect(() => {
     const hide = () => onVisibilityChange(false);
-
     // Find all iframes on the screen and bind to clicks inside them (waiting until the iframe is ready)
     const iframes: HTMLIFrameElement[] = Array.from(document.getElementsByTagName('iframe'));
     const unbinders: (() => void)[] = [];

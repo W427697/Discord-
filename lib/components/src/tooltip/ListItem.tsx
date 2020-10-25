@@ -127,24 +127,8 @@ export interface ItemProps {
   disabled?: boolean;
 }
 
-const Item = styled.a<ItemProps>(
+const Item = styled.li<ItemProps>(
   ({ theme }) => ({
-    fontSize: theme.typography.size.s1,
-    transition: 'all 150ms ease-out',
-    color: transparentize(0.5, theme.color.defaultText),
-    textDecoration: 'none',
-    cursor: 'pointer',
-    justifyContent: 'space-between',
-
-    lineHeight: '18px',
-    padding: '7px 15px',
-    display: 'flex',
-    alignItems: 'center',
-
-    '& > * + *': {
-      paddingLeft: 10,
-    },
-
     '&:hover, &:focus': {
       background: theme.background.hoverable,
     },
@@ -159,6 +143,24 @@ const Item = styled.a<ItemProps>(
         }
       : {}
 );
+
+const A = styled.a(({ theme }) => ({
+  fontSize: theme.typography.size.s1,
+  transition: 'all 150ms ease-out',
+  color: transparentize(0.5, theme.color.defaultText),
+  textDecoration: 'none',
+  cursor: 'pointer',
+  justifyContent: 'space-between',
+
+  lineHeight: '18px',
+  padding: '7px 15px',
+  display: 'flex',
+  alignItems: 'center',
+
+  '& > * + *': {
+    paddingLeft: 10,
+  },
+}));
 
 const getItemProps = memoize(100)((onClick, href, LinkWrapper) => {
   const result = {};
@@ -184,7 +186,7 @@ const getItemProps = memoize(100)((onClick, href, LinkWrapper) => {
 
 export type LinkWrapperType = FunctionComponent;
 
-export interface ListItemProps extends Omit<ComponentProps<typeof Item>, 'href' | 'title'> {
+export interface ListItemProps extends Omit<ComponentProps<typeof A>, 'href' | 'title'> {
   loading?: boolean;
   left?: ReactNode;
   title?: ReactNode;
@@ -211,7 +213,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   autoFocus,
   ...rest
 }) => {
-  const listItemRef = React.useRef<HTMLAnchorElement>(null);
+  const listItemRef = React.useRef<HTMLLIElement>(null);
 
   const itemProps = getItemProps(onClick, href, LinkWrapper);
   const commonProps = { active, disabled };
@@ -223,19 +225,21 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   }, [autoFocus]);
 
   return (
-    <Item {...commonProps} {...rest} {...itemProps} ref={listItemRef}>
-      {left && <Left {...commonProps}>{left}</Left>}
-      {title || center ? (
-        <Center>
-          {title && (
-            <Title {...commonProps} loading={loading}>
-              {title}
-            </Title>
-          )}
-          {center && <CenterText {...commonProps}>{center}</CenterText>}
-        </Center>
-      ) : null}
-      {right && <Right {...commonProps}>{right}</Right>}
+    <Item ref={listItemRef} {...commonProps} tabIndex={0}>
+      <A {...rest} {...itemProps} role="menuitem" tabIndex={-1}>
+        {left && <Left {...commonProps}>{left}</Left>}
+        {title || center ? (
+          <Center>
+            {title && (
+              <Title {...commonProps} loading={loading}>
+                {title}
+              </Title>
+            )}
+            {center && <CenterText {...commonProps}>{center}</CenterText>}
+          </Center>
+        ) : null}
+        {right && <Right {...commonProps}>{right}</Right>}
+      </A>
     </Item>
   );
 };

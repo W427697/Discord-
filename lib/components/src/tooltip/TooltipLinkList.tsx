@@ -3,12 +3,15 @@ import { styled } from '@storybook/theming';
 import { document } from 'global';
 import ListItem, { LinkWrapperType, ListItemProps } from './ListItem';
 
-const List = styled.div<{}>(
+const List = styled.ul<{}>(
   {
     minWidth: 180,
     overflow: 'hidden',
     overflowY: 'auto',
     maxHeight: 13.5 * 32, // 11.5 items
+    listStyle: 'none',
+    margin: 0,
+    padding: 0,
   },
   ({ theme }) => ({
     borderRadius: theme.appBorderRadius * 2,
@@ -50,7 +53,7 @@ const Item: FunctionComponent<TooltipLinkListProps['links'][number]> = (props) =
   );
 };
 
-function nextItem(list: HTMLDivElement, item: HTMLElement): HTMLElement {
+function nextItem(list: HTMLUListElement, item: HTMLElement): HTMLElement {
   if (list === item) {
     return list.firstChild as HTMLElement;
   }
@@ -60,7 +63,7 @@ function nextItem(list: HTMLDivElement, item: HTMLElement): HTMLElement {
   return list.firstChild as HTMLElement;
 }
 
-function previousItem(list: HTMLDivElement, item: HTMLElement): HTMLElement {
+function previousItem(list: HTMLUListElement, item: HTMLElement): HTMLElement {
   if (list === item) {
     return list.lastChild as HTMLElement;
   }
@@ -71,9 +74,9 @@ function previousItem(list: HTMLDivElement, item: HTMLElement): HTMLElement {
 }
 
 function moveFocus(
-  list: HTMLDivElement,
+  list: HTMLUListElement,
   currentFocus: HTMLElement,
-  traversalFunction: (list: HTMLDivElement, item: Element) => HTMLElement | null
+  traversalFunction: (list: HTMLUListElement, item: Element) => HTMLElement | null
 ) {
   let wrappedOnce = false;
   const nextFocus = traversalFunction(list, currentFocus);
@@ -96,9 +99,9 @@ export const TooltipLinkList: FunctionComponent<TooltipLinkListProps> = ({
   links,
   LinkWrapper,
 }) => {
-  const listRef = React.useRef<HTMLDivElement>(null);
+  const listRef = React.useRef<HTMLUListElement>(null);
 
-  const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
+  const handleKeyDown: React.KeyboardEventHandler<HTMLUListElement> = (event) => {
     const list = listRef.current;
     const { key } = event;
     const currentFocus = ((list && list.ownerDocument) || document).activeElement;
@@ -120,7 +123,7 @@ export const TooltipLinkList: FunctionComponent<TooltipLinkListProps> = ({
   };
 
   return (
-    <List ref={listRef} onKeyDown={handleKeyDown}>
+    <List ref={listRef} onKeyDown={handleKeyDown} role="menu">
       {links.map(({ isGatsby, ...p }, index) => (
         <Item
           key={p.id}
