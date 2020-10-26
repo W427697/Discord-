@@ -11,7 +11,7 @@ interface WebsocketTransportArgs {
 
 interface CreateChannelArgs {
   url: string;
-  async: boolean;
+  useAsync: boolean;
   onError: OnError;
 }
 
@@ -73,7 +73,7 @@ export class WebsocketTransport {
   }
 }
 
-export default function createChannel({ url, async, onError }: CreateChannelArgs) {
+export default function createChannel({ url, useAsync, onError }: CreateChannelArgs) {
   const transport = new WebsocketTransport({ url, onError });
-  return new Channel({ transport, async });
+  return new Channel({ transport, useAsync });
 }

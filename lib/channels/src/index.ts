@@ -24,7 +24,7 @@ interface EventsKeyValue {
 
 interface ChannelArgs {
   transport?: ChannelTransport;
-  async?: boolean;
+  useAsync?: boolean;
 }
 
 const generateRandomId = () => {
@@ -43,8 +43,8 @@ export class Channel {
 
   private readonly transport: ChannelTransport;
 
-  constructor({ transport, async = false }: ChannelArgs = {}) {
-    this.isAsync = async;
+  constructor({ transport, useAsync = false }: ChannelArgs = {}) {
+    this.isAsync = useAsync;
     if (transport) {
       this.transport = transport;
       this.transport.setHandler((event) => this.handleEvent(event));

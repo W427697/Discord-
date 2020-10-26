@@ -33,7 +33,7 @@ describe('Channel', () => {
     });
 
     it('should set isAsync to true if passed as an argument', () => {
-      channel = new Channel({ async: true });
+      channel = new Channel({ useAsync: true });
       expect(channel.isAsync).toBeTruthy();
     });
   });
@@ -110,8 +110,8 @@ describe('Channel', () => {
       expect(sendSpy.mock.calls[0][1]).toEqual({ depth: 1 });
     });
 
-    it('should use setImmediate if async is true', () => {
-      channel = new Channel({ async: true, transport });
+    it('should use setImmediate if useAsync is true', () => {
+      channel = new Channel({ useAsync: true, transport });
       channel.addListener('event1', jest.fn());
     });
   });
