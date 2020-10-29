@@ -40,13 +40,13 @@
     "core-js": "^3.0.1",
     "global": "^4.3.2",
     "html-loader": "^1.0.0",
+    "react": "^16.8.3 || ^17.0.0",
+    "react-dom": "^16.13.1 || ^17.0.0",
     "regenerator-runtime": "^0.13.3",
     "ts-dedent": "^1.1.1"
   },
   "peerDependencies": {
-    "@babel/core": "*",
-    "react": "*",
-    "react-dom": "*"
+    "@babel/core": "*"
   },
   "engines": {
     "node": ">=8.0.0"

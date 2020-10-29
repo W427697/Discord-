@@ -38,6 +38,8 @@
     "@storybook/core": "6.0.28-alpha.3",
     "core-js": "^3.0.1",
     "global": "^4.3.2",
+    "react": "^16.8.3 || ^17.0.0",
+    "react-dom": "^16.13.1 || ^17.0.0",
     "regenerator-runtime": "^0.13.3",
     "ts-dedent": "^1.1.1"
   },
@@ -48,8 +50,6 @@
   },
   "peerDependencies": {
     "@babel/core": "*",
-    "react": "*",
-    "react-dom": "*",
     "svelte": "^3.1.0",
     "svelte-loader": "^2.9.1"
   },

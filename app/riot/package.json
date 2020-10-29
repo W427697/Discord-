@@ -38,6 +38,8 @@
     "core-js": "^3.0.1",
     "global": "^4.3.2",
     "raw-loader": "^4.0.1",
+    "react": "^16.8.3 || ^17.0.0",
+    "react-dom": "^16.13.1 || ^17.0.0",
     "regenerator-runtime": "^0.13.3",
     "ts-dedent": "^1.1.1"
   },
@@ -49,8 +51,6 @@
   },
   "peerDependencies": {
     "@babel/core": "*",
-    "react": "*",
-    "react-dom": "*",
     "riot": "^3.0.0 || ^4.0.0",
     "riot-compiler": "^3.5.1 || ^4.0.0",
     "riot-hot-reload": "^1.0.0",
