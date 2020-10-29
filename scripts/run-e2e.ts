@@ -169,7 +169,7 @@ const addRequiredDeps = async ({ cwd, additionalDeps }: Options) => {
         cwd,
       });
     } else {
-      await exec(`yarn install`, {
+      await exec(`yarn install --ignore-engines`, {
         cwd,
       });
     }
