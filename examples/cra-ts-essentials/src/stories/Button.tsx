@@ -17,7 +17,7 @@ export interface ButtonProps {
   /**
    * Button contents
    */
-  label: string;
+  children: React.ReactNode;
   /**
    * Optional click handler
    */
@@ -27,22 +27,17 @@ export interface ButtonProps {
 /**
  * Primary UI component for user interaction
  */
-export const Button: React.FC<ButtonProps> = ({
-  primary = false,
-  size = 'medium',
-  backgroundColor,
-  label,
-  ...props
-}) => {
+export const Button: React.FC<ButtonProps> = (props) => {
+  const { primary = false, size = 'medium', backgroundColor, children, ...otherProps } = props;
   const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
   return (
     <button
       type="button"
       className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
       style={{ backgroundColor }}
-      {...props}
+      {...otherProps}
     >
-      {label}
+      {children}
     </button>
   );
 };

@@ -1,13 +1,25 @@
+import { Story } from '@storybook/react';
 import React from 'react';
 
 export const decorators = [
-  (StoryFn, { globals: { locale = 'en' } }) => (
+  (
+    StoryFn: Story,
+    {
+      globals: {
+        locale: { value = 'en' },
+      },
+    }
+  ) => (
     <>
-      <div>{locale}</div>
+      <div>{value}</div>
       <StoryFn />
     </>
   ),
 ];
+
+export const parameters = {
+  passArgsFirst: true, // default value
+};
 
 export const globalTypes = {
   locale: {
