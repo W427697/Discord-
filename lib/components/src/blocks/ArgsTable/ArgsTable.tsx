@@ -181,7 +181,7 @@ export const TableWrapper = styled.table<{ compact?: boolean; inAddonPanel?: boo
   })
 );
 
-const ResetButton = styled.button(({ theme }) => ({
+const UtilityButton = styled.button(({ theme }) => ({
   border: 0,
   borderRadius: '3em',
   cursor: 'pointer',
@@ -221,6 +221,12 @@ const ControlHeadingWrapper = styled.span({
   justifyContent: 'space-between',
 });
 
+const ControlButtons = styled.span({
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: '12px',
+});
+
 export enum ArgsTableError {
   NO_COMPONENT = 'No component found.',
   ARGS_UNSUPPORTED = 'Args unsupported. See Args documentation for your framework.',
@@ -229,6 +235,7 @@ export enum ArgsTableError {
 export interface ArgsTableRowProps {
   rows: ArgTypes;
   args?: Args;
+  copyArgs?: () => void;
   updateArgs?: (args: Args) => void;
   resetArgs?: (argNames?: string[]) => void;
   compact?: boolean;
@@ -302,6 +309,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     rows,
     args,
     updateArgs,
+    copyArgs,
     resetArgs,
     compact,
     inAddonPanel,
@@ -343,11 +351,18 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
               <th>
                 <ControlHeadingWrapper>
                   Control{' '}
-                  {resetArgs && (
-                    <ResetButton onClick={() => resetArgs()} title="Reset controls">
-                      <Icons icon="sync" aria-hidden />
-                    </ResetButton>
-                  )}
+                  <ControlButtons>
+                    {copyArgs && (
+                      <UtilityButton onClick={() => copyArgs()} title="Copy controls in url">
+                        <Icons icon="share" aria-hidden />
+                      </UtilityButton>
+                    )}
+                    {resetArgs && (
+                      <UtilityButton onClick={() => resetArgs()} title="Reset controls">
+                        <Icons icon="sync" aria-hidden />
+                      </UtilityButton>
+                    )}
+                  </ControlButtons>
                 </ControlHeadingWrapper>
               </th>
             ) : null}

@@ -1,5 +1,6 @@
-import React, { FC, useEffect } from 'react';
-import { ArgsTable, NoControlsWarning } from '@storybook/components';
+import React, { FC, useCallback, useEffect } from 'react';
+import copy from 'copy-to-clipboard';
+import { ActionBar, ArgsTable, NoControlsWarning } from '@storybook/components';
 import { useArgs, useArgTypes, useParameter } from '@storybook/api';
 import { getQueryParams } from '@storybook/client-api';
 
@@ -35,15 +36,29 @@ export const ControlsPanel: FC = () => {
     }
   }, []);
 
+  const copyArgs = useCallback(() => {
+    // const { location } = window.document;
+    // const query = qs.parse(location.search, { ignoreQueryPrefix: true });
+
+    Object.entries(args).forEach(([name, arg]) => {
+      console.log({ name, arg });
+      // query[`control-${name}`] = getKnobControl(knob.type).serialize(knob.value);
+    });
+    // copy(`${location.origin + location.pathname}?${qs.stringify(query, { encode: false })}`);
+  }, [args]);
+
+  const isControlsEnabled = hasControls && isArgsStory;
+
   return (
     <>
-      {(hasControls && isArgsStory) || hideNoControlsWarning ? null : <NoControlsWarning />}
+      {isControlsEnabled || hideNoControlsWarning ? null : <NoControlsWarning />}
       <ArgsTable
         {...{
           compact: !expanded && hasControls,
           rows,
           args,
           updateArgs,
+          copyArgs,
           resetArgs,
           inAddonPanel: true,
         }}
