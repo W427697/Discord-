@@ -256,10 +256,20 @@ export interface BaseMeta<ComponentType> {
 }
 
 export interface BaseStory<Args, StoryFnReturnType> {
-  (args: Args, context: StoryContext): StoryFnReturnType;
-
+  (args: Args | StoryContext, context?: StoryContext): StoryFnReturnType;
   /**
    * Override the display name in the UI
    */
   storyName?: string;
+  /**
+   * @deprecated
+   * Object-styled story annotation
+   * @see [Migrating to hoist Story Annotations](https://github.com/storybookjs/storybook/blob/next/lib/codemod/README.md#csf-hoist-story-annotations)
+   */
+  story?: Annotations<Args, StoryFnReturnType>;
+  /**
+   * Dynamic data that are passed into stories (component examples) by Storybook addons
+   * @see [Pass args first parameter](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#args-passed-as-first-argument-to-story)
+   */
+  args?: Partial<Args>;
 }
