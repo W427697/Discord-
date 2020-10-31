@@ -34,13 +34,13 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/plugin-transform-react-jsx": "^7.12.1",
     "@storybook/addons": "6.0.0-beta.31",
     "@storybook/core": "6.0.0-beta.31",
-    "@types/webpack-env": "^1.15.2",
-    "core-js": "^3.0.1",
-    "global": "^4.3.2",
-    "regenerator-runtime": "^0.13.3",
+    "@types/webpack-env": "^1.15.3",
+    "core-js": "^3.6.5",
+    "global": "^4.4.0",
+    "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^1.1.1",
     "webpack": "5.3.2"
   },

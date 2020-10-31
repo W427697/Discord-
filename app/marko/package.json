@@ -36,9 +36,9 @@
     "@marko/webpack": "^2.1.0",
     "@storybook/client-logger": "6.0.0-beta.31",
     "@storybook/core": "6.0.0-beta.31",
-    "core-js": "^3.0.1",
-    "global": "^4.3.2",
-    "regenerator-runtime": "^0.13.3",
+    "core-js": "^3.6.5",
+    "global": "^4.4.0",
+    "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^1.1.1",
     "webpack": "5.3.2"
   },
@@ -47,7 +47,7 @@
     "marko": "^4.15.2",
     "react": "*",
     "react-dom": "*",
-    "webpack": "^4"
+    "webpack": "^5"
   },
   "engines": {
     "node": ">=8.0.0"
