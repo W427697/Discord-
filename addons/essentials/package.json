@@ -35,16 +35,16 @@
     "@storybook/addons": "6.0.0-beta.31",
     "@storybook/api": "6.0.0-beta.31",
     "@storybook/node-logger": "6.0.0-beta.31",
-    "core-js": "^3.0.1",
-    "regenerator-runtime": "^0.13.3",
+    "core-js": "^3.6.5",
+    "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^1.1.1"
   },
   "devDependencies": {
     "@types/jest": "^25.1.1",
-    "@types/webpack-env": "^1.15.2"
+    "@types/webpack-env": "^1.15.3"
   },
   "peerDependencies": {
-    "babel-loader": "^8.0.0",
+    "babel-loader": "^8.1.0",
     "react": "^16.8.0",
     "react-dom": "*",
     "react-is": "^16.8.0"

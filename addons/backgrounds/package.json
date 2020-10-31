@@ -38,13 +38,13 @@
     "@storybook/components": "6.0.0-beta.31",
     "@storybook/core-events": "6.0.0-beta.31",
     "@storybook/theming": "6.0.0-beta.31",
-    "core-js": "^3.0.1",
+    "core-js": "^3.6.5",
     "memoizerific": "^1.11.3",
     "react": "^16.8.3",
-    "regenerator-runtime": "^0.13.3"
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.15.2"
+    "@types/webpack-env": "^1.15.3"
   },
   "peerDependencies": {
     "react-dom": "*"

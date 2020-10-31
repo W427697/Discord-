@@ -33,9 +33,9 @@
     "@storybook/node-logger": "6.0.0-beta.31",
     "@types/jest-image-snapshot": "^2.8.0",
     "@wordpress/jest-puppeteer-axe": "^1.5.0",
-    "core-js": "^3.0.1",
+    "core-js": "^3.6.5",
     "jest-image-snapshot": "^3.0.1",
-    "regenerator-runtime": "^0.13.3"
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
     "@storybook/csf": "0.0.1",
