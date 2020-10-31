@@ -113,7 +113,8 @@
   },
   "browserslist": "defaults",
   "resolutions": {
-    "serialize-javascript": "^3.0.0"
+    "serialize-javascript": "^3.0.0",
+    "webpack": "^5.3.2"
   },
   "devDependencies": {
     "@angular/common": "^9.1.0",
