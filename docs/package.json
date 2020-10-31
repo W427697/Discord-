@@ -17,7 +17,7 @@
   "dependencies": {
     "@storybook/components": "5.2.5",
     "@storybook/theming": "5.2.5",
-    "babel-loader": "^6.4.1",
+    "babel-loader": "^8.1.0",
     "babel-plugin-styled-components": "^1.10.6",
     "bootstrap": "^4.3.1",
     "gatsby": "^1.9.279",

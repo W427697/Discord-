@@ -96,7 +96,7 @@
     "@types/react-is": "^16.7.1",
     "@types/tmp": "^0.1.0",
     "@types/util-deprecate": "^1.0.0",
-    "babel-loader": "^8.0.6",
+    "babel-loader": "^8.1.0",
     "babel-plugin-react-docgen": "^4.1.0",
     "cross-spawn": "^7.0.1",
     "fs-extra": "^9.0.0",
