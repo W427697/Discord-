@@ -133,10 +133,19 @@ export const react_typescript: Parameters = {
 //   generator: 'npx expo-cli init {{name}}-{{version}} --template=bare-minimum --yarn',
 // };
 
-// TODO: issue in @storybook/cli init
 export const cra: Parameters = {
   name: 'cra',
   version: 'latest',
+  generator: [
+    'npx create-react-app@{{version}} {{name}}-{{version}}',
+    'cd {{name}}-{{version}}',
+    'echo "FAST_REFRESH=true" > .env',
+  ].join(' && '),
+};
+
+export const cra3: Parameters = {
+  name: 'cra',
+  version: '3.4.1',
   generator: [
     'npx create-react-app@{{version}} {{name}}-{{version}}',
     'cd {{name}}-{{version}}',
@@ -195,6 +204,18 @@ export const webpack_react: Parameters = {
   name: 'webpack_react',
   version: 'latest',
   generator: fromDeps('react', 'react-dom', 'webpack@webpack-4'),
+};
+
+export const webpack_react16_13: Parameters = {
+  name: 'webpack_react',
+  version: '16.13.1',
+  generator: fromDeps('react@16.13.1', 'react-dom@16.13.1', 'webpack@webpack-4'),
+};
+
+export const webpack_react16_14: Parameters = {
+  name: 'webpack_react',
+  version: '16.14.0',
+  generator: fromDeps('react@16.14.0', 'react-dom@16.14.0', 'webpack@webpack-4'),
 };
 
 export const react_in_yarn_workspace: Parameters = {
