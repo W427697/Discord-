@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useState, useEffect } from 'react';
+import React, { FunctionComponent, ReactNode, useState, useEffect, useRef } from 'react';
 import { styled } from '@storybook/theming';
 import { document } from 'global';
 
@@ -48,14 +48,27 @@ const WithTooltipPure: FunctionComponent<WithTooltipPureProps> = ({
   onVisibilityChange,
   ...props
 }) => {
-  const Container = svg ? TargetSvgContainer : TargetContainer;
-
-  const handleKeyDown = (event: KeyboardEvent) => {
+  const internalTriggerRef = useRef(null);
+  const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
     if (event.key === 'Tab' || event.key === 'Escape') {
       event.preventDefault();
       onVisibilityChange(false);
     }
   };
+
+  const prevOpen = React.useRef(tooltipShown);
+  React.useEffect(() => {
+    console.log('tooltipOpen changed', tooltipShown);
+    console.log(prevOpen.current);
+    console.log(internalTriggerRef);
+    if (prevOpen.current === true && tooltipShown === false) {
+      // eslint-disable-next-line no-unused-expressions
+      internalTriggerRef.current?.focus();
+    }
+    prevOpen.current = tooltipShown;
+  }, [tooltipShown]);
+
+  const Container = svg ? TargetSvgContainer : TargetContainer;
 
   return (
     <TooltipTrigger
@@ -85,10 +98,13 @@ const WithTooltipPure: FunctionComponent<WithTooltipPureProps> = ({
             : tooltip}
         </Tooltip>
       )}
+      getTriggerRef={(element) => {
+        internalTriggerRef.current = internalTriggerRef.current || element;
+      }}
     >
       {({ getTriggerProps, triggerRef }) => (
         // @ts-ignore
-        <Container ref={triggerRef} {...getTriggerProps()} {...props}>
+        <Container ref={triggerRef} tabIndex={0} {...getTriggerProps()} {...props}>
           {children}
         </Container>
       )}
