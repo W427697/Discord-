@@ -1,1 +1,1 @@
-export * from './compodoc';
+export * from './typedoc';

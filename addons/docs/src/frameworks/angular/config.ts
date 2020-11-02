@@ -1,4 +1,4 @@
-import { extractArgTypes, extractComponentDescription } from './compodoc';
+import { extractArgTypes, extractComponentDescription } from './typedoc';
 
 export const parameters = {
   docs: {

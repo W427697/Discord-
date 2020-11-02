@@ -43,7 +43,7 @@ export interface Pipe {
   rawdescription?: string;
 }
 
-export interface Directive {
+export interface Directive extends Function {
   name: string;
   type: 'directive' | 'component';
   propertiesClass: Property[];
