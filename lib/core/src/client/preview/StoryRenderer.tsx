@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { document } from 'global';
 import AnsiToHtml from 'ansi-to-html';
+import dedent from 'ts-dedent';
 
 import { StoryId, StoryKind, StoryFn, ViewMode, Channel } from '@storybook/addons';
 import Events from '@storybook/core-events';
@@ -19,35 +20,12 @@ interface RenderMetadata {
   getDecorated: () => StoryFn<any>;
 }
 
-type Layout = keyof typeof layouts;
-
-const layouts = {
-  centered: {
-    margin: 0,
-    padding: '1rem',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
-    boxSizing: 'border-box',
-  },
-  fullscreen: {
-    margin: 0,
-    padding: 0,
-    display: 'block',
-    justifyContent: 'initial',
-    alignItems: 'initial',
-    minHeight: 'initial',
-  },
-  padded: {
-    margin: 0,
-    padding: '1rem',
-    display: 'block',
-    justifyContent: 'initial',
-    alignItems: 'initial',
-    minHeight: 'initial',
-  },
+const layoutClassMap = {
+  centered: 'sb-main-centered',
+  fullscreen: 'sb-main-fullscreen',
+  padded: 'sb-main-padded',
 } as const;
+type Layout = keyof typeof layoutClassMap | 'none';
 
 const classes = {
   MAIN: 'sb-show-main',
@@ -74,7 +52,7 @@ export class StoryRenderer {
 
   previousMetadata?: RenderMetadata;
 
-  previousStyles?: typeof layouts[keyof typeof layouts];
+  previousLayoutClass?: typeof layoutClassMap[keyof typeof layoutClassMap] | null;
 
   constructor({
     render,
@@ -95,9 +73,9 @@ export class StoryRenderer {
   setupListeners() {
     // Channel can be null in StoryShots
     if (this.channel) {
-      this.channel.on(Events.RENDER_CURRENT_STORY, () => this.renderCurrentStory(false));
+      this.channel.on(Events.CURRENT_STORY_WAS_SET, () => this.renderCurrentStory(false));
       this.channel.on(Events.STORY_ARGS_UPDATED, () => this.forceReRender());
-      this.channel.on(Events.GLOBAL_ARGS_UPDATED, () => this.forceReRender());
+      this.channel.on(Events.GLOBALS_UPDATED, () => this.forceReRender());
       this.channel.on(Events.FORCE_RE_RENDER, () => this.forceReRender());
     }
   }
@@ -106,7 +84,7 @@ export class StoryRenderer {
     this.renderCurrentStory(true);
   }
 
-  renderCurrentStory(forceRender: boolean) {
+  async renderCurrentStory(forceRender: boolean) {
     const { storyStore } = this;
 
     const loadError = storyStore.getError();
@@ -115,7 +93,7 @@ export class StoryRenderer {
       return;
     }
 
-    const { storyId, viewMode: urlViewMode } = storyStore.getSelection();
+    const { storyId, viewMode: urlViewMode } = storyStore.getSelection() || {};
 
     const data = storyStore.fromId(storyId);
     const { kind, id, parameters = {}, getDecorated } = data || {};
@@ -128,7 +106,7 @@ export class StoryRenderer {
       getDecorated,
     };
 
-    this.applyLayout(layout);
+    this.applyLayout(metadata.viewMode === 'docs' ? 'fullscreen' : layout);
 
     const context: RenderContext = {
       id: storyId, // <- in case data is null, at least we'll know what we tried to render
@@ -140,10 +118,10 @@ export class StoryRenderer {
       showException: (err: Error) => this.renderException(err),
     };
 
-    this.renderStoryIfChanged({ metadata, context });
+    await this.renderStoryIfChanged({ metadata, context });
   }
 
-  renderStoryIfChanged({
+  async renderStoryIfChanged({
     metadata,
     context,
   }: {
@@ -217,7 +195,7 @@ export class StoryRenderer {
       }
       case 'story':
       default: {
-        this.renderStory({ context });
+        await this.renderStory({ context });
         break;
       }
     }
@@ -230,12 +208,28 @@ export class StoryRenderer {
     }
   }
 
-  applyLayout(layout: Layout) {
-    const styles = layouts[layout] || layouts.padded;
+  applyLayout(layout: Layout = 'padded') {
+    if (layout === 'none') {
+      document.body.classList.remove(this.previousLayoutClass);
+      this.previousLayoutClass = null;
+      return;
+    }
 
-    if (styles !== this.previousStyles) {
-      Object.assign(document.body.style, styles || {});
-      this.previousStyles = styles;
+    this.checkIfLayoutExists(layout);
+
+    const layoutClass = layoutClassMap[layout];
+
+    document.body.classList.remove(this.previousLayoutClass);
+    document.body.classList.add(layoutClass);
+    this.previousLayoutClass = layoutClass;
+  }
+
+  checkIfLayoutExists(layout: keyof typeof layoutClassMap) {
+    if (!layoutClassMap[layout]) {
+      logger.warn(
+        dedent`The desired layout: ${layout} is not a valid option.
+         The possible options are: ${Object.keys(layoutClassMap).join(', ')}, none.`
+      );
     }
   }
 
@@ -273,16 +267,17 @@ export class StoryRenderer {
     document.getElementById('root').removeAttribute('hidden');
   }
 
-  renderStory({ context, context: { id, getDecorated } }: { context: RenderContext }) {
+  async renderStory({ context, context: { id, getDecorated } }: { context: RenderContext }) {
     if (getDecorated) {
-      (async () => {
-        try {
-          await this.render(context);
-          this.channel.emit(Events.STORY_RENDERED, id);
-        } catch (err) {
-          this.renderException(err);
-        }
-      })();
+      try {
+        const { applyLoaders, unboundStoryFn } = context;
+        const storyContext = await applyLoaders();
+        const storyFn = () => unboundStoryFn(storyContext);
+        await this.render({ ...context, storyFn });
+        this.channel.emit(Events.STORY_RENDERED, id);
+      } catch (err) {
+        this.renderException(err);
+      }
     } else {
       this.showNoPreview();
       this.channel.emit(Events.STORY_MISSING, id);

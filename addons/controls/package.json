@@ -34,14 +34,15 @@
     "@storybook/api": "6.1.0-alpha.35",
     "@storybook/client-api": "6.1.0-alpha.35",
     "@storybook/components": "6.1.0-alpha.35",
+    "@storybook/node-logger": "6.1.0-alpha.35",
     "@storybook/theming": "6.1.0-alpha.35",
-    "core-js": "^3.6.5"
-  },
-  "peerDependencies": {
-    "react": "*",
-    "react-dom": "*"
+    "core-js": "^3.0.1",
+    "react": "^16.8.3 || ^17.0.0",
+    "react-dom": "^16.8.3 || ^17.0.0",
+    "ts-dedent": "^2.0.0"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "76bb5211363a4259b9962590a3a5e62a00921b91"
 }

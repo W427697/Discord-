@@ -12,6 +12,7 @@ export interface HeadingProps {
 const BrandArea = styled.div(({ theme }) => ({
   fontSize: theme.typography.size.s2,
   fontWeight: theme.typography.weight.bold,
+  color: theme.color.defaultText,
   marginRight: 40,
   display: 'flex',
   width: '100%',
@@ -28,7 +29,7 @@ const BrandArea = styled.div(({ theme }) => ({
 
 const HeadingWrapper = styled.div({
   display: 'flex',
-  alignItems: 'flex-start',
+  alignItems: 'center',
   justifyContent: 'space-between',
   position: 'relative',
 });

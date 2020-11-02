@@ -27,27 +27,24 @@
     "README.md",
     "*.js",
     "*.d.ts",
-    "ts3.5/**/*"
+    "ts3.4/**/*"
   ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@marko/webpack": "^2.1.0",
+    "@marko/webpack": "^6.2.8",
     "@storybook/client-logger": "6.1.0-alpha.35",
     "@storybook/core": "6.1.0-alpha.35",
-    "core-js": "^3.6.5",
-    "global": "^4.4.0",
+    "core-js": "^3.0.1",
+    "global": "^4.3.2",
     "regenerator-runtime": "^0.13.7",
-    "ts-dedent": "^1.1.1",
-    "webpack": "5.3.2"
+    "ts-dedent": "^2.0.0"
   },
   "peerDependencies": {
     "@babel/core": "*",
-    "marko": "^4.15.2",
-    "react": "*",
-    "react-dom": "*",
-    "webpack": "^5"
+    "marko": "^4.15.2 || ^5.0.0-next || ^5",
+    "webpack": "^4"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -55,5 +52,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "4b9d901add9452525135caae98ae5f78dd8da9ff"
+  "gitHead": "76bb5211363a4259b9962590a3a5e62a00921b91",
+  "typesVersions": {
+    "<3.8": {
+      "*": [
+        "ts3.4/*"
+      ]
+    }
+  }
 }

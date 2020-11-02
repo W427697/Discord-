@@ -22,18 +22,15 @@
   "dependencies": {
     "@storybook/addons": "6.1.0-alpha.35",
     "@storybook/core-events": "6.1.0-alpha.35",
-    "core-js": "^3.6.5",
-    "global": "^4.4.0",
+    "core-js": "^3.0.1",
+    "global": "^4.3.2",
+    "react": "^16.8.3 || ^17.0.0",
+    "react-dom": "^16.8.3 || ^17.0.0",
     "react-ga": "^2.5.7",
     "regenerator-runtime": "^0.13.7"
-  },
-  "peerDependencies": {
-    "prop-types": "^15.6.0",
-    "react": "^15.6.2 || ^16.0",
-    "react-dom": "*"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "4b9d901add9452525135caae98ae5f78dd8da9ff"
+  "gitHead": "76bb5211363a4259b9962590a3a5e62a00921b91"
 }

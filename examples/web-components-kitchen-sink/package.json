@@ -30,7 +30,7 @@
     "@storybook/core-events": "6.1.0-alpha.35",
     "@storybook/source-loader": "6.1.0-alpha.35",
     "@storybook/web-components": "6.1.0-alpha.35",
-    "babel-loader": "^8.1.0",
+    "babel-loader": "^8.0.5",
     "eventemitter3": "^4.0.0",
     "format-json": "^1.0.3",
     "global": "^4.3.2",

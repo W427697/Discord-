@@ -23,7 +23,7 @@
     "README.md",
     "*.js",
     "*.d.ts",
-    "ts3.5/**/*"
+    "ts3.4/**/*"
   ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
@@ -36,26 +36,29 @@
     "@storybook/router": "6.1.0-alpha.35",
     "@storybook/source-loader": "6.1.0-alpha.35",
     "@storybook/theming": "6.1.0-alpha.35",
-    "core-js": "^3.6.5",
+    "core-js": "^3.0.1",
     "estraverse": "^4.2.0",
     "loader-utils": "^2.0.0",
-    "prettier": "^2.1.2",
+    "prettier": "~2.0.5",
     "prop-types": "^15.7.2",
-    "react": "^16.9.17",
-    "react-syntax-highlighter": "^12.2.1",
+    "react": "^16.8.3 || ^17.0.0",
+    "react-dom": "^16.8.3 || ^17.0.0",
+    "react-syntax-highlighter": "^13.5.0",
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
     "@types/react": "^16.9.27",
     "@types/react-syntax-highlighter": "^11.0.4"
   },
-  "peerDependencies": {
-    "@storybook/source-loader": "*",
-    "react": "*",
-    "react-dom": "*"
-  },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "4b9d901add9452525135caae98ae5f78dd8da9ff"
+  "gitHead": "76bb5211363a4259b9962590a3a5e62a00921b91",
+  "typesVersions": {
+    "<3.8": {
+      "*": [
+        "ts3.4/*"
+      ]
+    }
+  }
 }

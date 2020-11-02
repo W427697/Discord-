@@ -28,7 +28,7 @@
     "README.md",
     "*.js",
     "*.d.ts",
-    "ts3.5/**/*"
+    "ts3.4/**/*"
   ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
@@ -36,33 +36,36 @@
   "dependencies": {
     "@babel/preset-flow": "^7.12.1",
     "@babel/preset-react": "^7.12.1",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.2",
     "@storybook/addons": "6.1.0-alpha.35",
     "@storybook/core": "6.1.0-alpha.35",
     "@storybook/node-logger": "6.1.0-alpha.35",
     "@storybook/semver": "^7.3.2",
     "@svgr/webpack": "^5.4.0",
-    "@types/webpack-env": "^1.15.3",
+    "@types/webpack-env": "^1.15.2",
     "babel-plugin-add-react-displayname": "^0.0.5",
-    "babel-plugin-named-asset-import": "^0.3.7",
+    "babel-plugin-named-asset-import": "^0.3.1",
     "babel-plugin-react-docgen": "^4.2.1",
-    "core-js": "^3.6.5",
-    "global": "^4.4.0",
-    "lodash": "^4.17.20",
+    "core-js": "^3.0.1",
+    "global": "^4.3.2",
+    "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
+    "react": "^16.8.3 || ^17.0.0",
     "react-dev-utils": "^10.0.0",
-    "react-docgen-typescript-plugin": "^0.5.0",
+    "react-docgen-typescript-plugin": "^0.6.0",
+    "react-dom": "^16.8.3 || ^17.0.0",
+    "react-refresh": "^0.8.3",
     "regenerator-runtime": "^0.13.7",
-    "ts-dedent": "^1.1.1",
-    "webpack": "5.3.2"
+    "ts-dedent": "^2.0.0",
+    "webpack": "^4.43.0"
   },
   "devDependencies": {
     "@storybook/client-api": "6.1.0-alpha.35",
-    "@types/node": "^14.0.10"
+    "@types/node": "^14.0.10",
+    "@types/webpack": "^4.41.12"
   },
   "peerDependencies": {
-    "@babel/core": "^7.12.3",
-    "react": "*",
-    "react-dom": "*"
+    "@babel/core": "^7.11.5"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -70,11 +73,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "4b9d901add9452525135caae98ae5f78dd8da9ff",
+  "gitHead": "76bb5211363a4259b9962590a3a5e62a00921b91",
   "typesVersions": {
-    "<=3.5": {
+    "<3.8": {
+      "types-6-0": [
+        "ts3.4/dist/client/preview/types-6-0.d.ts"
+      ],
       "*": [
-        "ts3.5/*"
+        "ts3.4/*"
       ]
     }
   }

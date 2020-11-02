@@ -28,24 +28,26 @@
     "README.md",
     "*.js",
     "*.d.ts",
-    "ts3.5/**/*"
+    "ts3.4/**/*"
   ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
     "@storybook/addons": "6.1.0-alpha.35",
+    "@storybook/api": "6.1.0-alpha.35",
+    "@storybook/client-api": "6.1.0-alpha.35",
     "@storybook/core": "6.1.0-alpha.35",
-    "@storybook/node-logger": "^5.2.8",
-    "@types/webpack-env": "^1.15.3",
-    "core-js": "^3.6.5",
-    "global": "^4.4.0",
+    "@storybook/node-logger": "6.1.0-alpha.35",
+    "@types/webpack-env": "^1.15.2",
+    "core-js": "^3.0.1",
+    "global": "^4.3.2",
     "regenerator-runtime": "^0.13.7",
     "safe-identifier": "^0.4.1",
-    "ts-dedent": "^1.1.1"
+    "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "fs-extra": "^9.0.1"
+    "fs-extra": "^9.0.0"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -53,5 +55,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6ad2664adf18b50ea3ce015cbae2ff3e9a60cc4a"
+  "gitHead": "76bb5211363a4259b9962590a3a5e62a00921b91",
+  "typesVersions": {
+    "<3.8": {
+      "*": [
+        "ts3.4/*"
+      ]
+    }
+  }
 }

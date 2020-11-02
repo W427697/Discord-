@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent, useMemo, useEffect } from 'react';
+import React, { Fragment, FunctionComponent, useMemo, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import merge from '@storybook/api/dist/lib/merge';
@@ -60,10 +60,9 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
             ...defaultWrappers,
           ]);
 
-          const isLoading = !!(
-            (!story && !(storiesFailed || storiesConfigured)) ||
-            (story && refId && refs[refId] && !refs[refId].ready)
-          );
+          const isLoading = story
+            ? !!refs[refId] && !refs[refId].ready
+            : !storiesFailed && !storiesConfigured;
 
           return (
             <ZoomConsumer>
@@ -124,7 +123,7 @@ const useTabs = (
   }, [getElements]);
 
   return useMemo(() => {
-    if (story && story.parameters) {
+    if (story?.parameters) {
       return filterTabs([canvas, ...tabsFromConfig], story.parameters);
     }
 
@@ -147,10 +146,20 @@ const Preview: FunctionComponent<PreviewProps> = (props) => {
 
   const tabs = useTabs(previewId, baseUrl, withLoader, getElements, story);
 
+  const shouldScale = viewMode === 'story';
   const isToolshown =
     !(viewMode === 'docs' && tabs.filter((t) => !t.hidden).length < 2) && options.isToolshown;
 
+  const initialRender = useRef(true);
   useEffect(() => {
+    // Don't emit the event on first ("real") render, only when story or mode changes
+    if (initialRender.current) {
+      // We initially render without a story set, which isn't all that interesting, let's ignore
+      if (story) {
+        initialRender.current = false;
+      }
+      return;
+    }
     if (story && viewMode && viewMode.match(/docs|story/)) {
       const { refId, id } = story;
       api.emit(SET_CURRENT_STORY, {
@@ -170,7 +179,7 @@ const Preview: FunctionComponent<PreviewProps> = (props) => {
           <title>{description}</title>
         </Helmet>
       )}
-      <ZoomProvider>
+      <ZoomProvider shouldScale={shouldScale}>
         <ToolbarComp key="tools" story={story} api={api} isShown={isToolshown} tabs={tabs} />
         <S.FrameWrap key="frame" offset={isToolshown ? 40 : 0}>
           {tabs.map(({ render: Render, match, ...t }, i) => {

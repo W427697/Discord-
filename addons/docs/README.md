@@ -46,7 +46,7 @@ For more information on how it works, see the [`DocsPage` reference](./docs/docs
 Here's an example file:
 
 ```md
-import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
 import { Checkbox } from './Checkbox';
 
 <Meta title="MDX/Checkbox" component={Checkbox} />
@@ -56,7 +56,7 @@ import { Checkbox } from './Checkbox';
 With `MDX` we can define a story for `Checkbox` right in the middle of our
 markdown documentation.
 
-<Preview>
+<Canvas>
   <Story name="all checkboxes">
     <form>
       <Checkbox id="Unchecked" label="Unchecked" />
@@ -64,7 +64,7 @@ markdown documentation.
       <Checkbox appearance="secondary" id="second" label="Secondary" checked />
     </form>
   </Story>
-</Preview>
+</Canvas>
 ```
 
 And here's how that's rendered in Storybook:
@@ -89,7 +89,7 @@ Storybook Docs supports all view layers that Storybook supports except for React
 | Props table       |   +   |  +  |    +    |   +   |       +        |      |        |        |      |         |       |
 | Props controls    |   +   |  +  |         |       |                |      |        |        |      |         |       |
 | Description       |   +   |  +  |    +    |   +   |       +        |      |        |        |      |         |       |
-| Inline stories    |   +   |  +  |         |       |       +        |      |        |        |      |         |       |
+| Inline stories    |   +   |  +  |         |       |       +        |  +   |        |        |      |         |       |
 
 **Note:** `#` = WIP support
 
@@ -103,10 +103,10 @@ First add the package. Make sure that the versions for your `@storybook/*` packa
 yarn add -D @storybook/addon-docs
 ```
 
-Docs has peer dependencies on `react`, `react-is`, and `babel-loader`. If you want to write stories in MDX, you may need to add these dependencies as well:
+Docs has peer dependencies on `react` and `babel-loader`. If you want to write stories in MDX, you may need to add these dependencies as well:
 
 ```sh
-yarn add -D react react-is babel-loader
+yarn add -D react babel-loader
 ```
 
 Then add the following to your `.storybook/main.js`:
@@ -226,7 +226,7 @@ addParameters({
 
 ## TypeScript configuration
 
-As of SB6 [TypeScript is zero-config](https://github.com/storybookjs/storybook/blob/next/docs/src/pages/configurations/typescript-config/index.md) and should work with SB Docs out of the box. For advanced configuration options, refer to the [Props documentation](./docs/props-tables.md).
+As of SB6 [TypeScript is zero-config](https://storybook.js.org/docs/react/configure/typescript) and should work with SB Docs out of the box. For advanced configuration options, refer to the [Props documentation](./docs/props-tables.md).
 
 ## More resources
 

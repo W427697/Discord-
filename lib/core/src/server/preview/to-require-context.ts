@@ -9,7 +9,7 @@ const fixBadGlob = deprecate(
     return match.input.replace(match[1], `@${match[1]}`);
   },
   dedent`
-    You're specified an invalid glob, we've attempted to fix it, please ensure the glob you specify is a valid glob. See: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#correct-globs-in-mainjs
+    You have specified an invalid glob, we've attempted to fix it, please ensure that the glob you specify is valid. See: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#correct-globs-in-mainjs
   `
 );
 const detectBadGlob = (val: string) => {
@@ -31,14 +31,15 @@ export const toRequireContext = (input: any) => {
     case typeof input === 'string': {
       const { base, glob } = globBase(fixedInput);
 
-      const recursive = glob.startsWith('**');
-      const indicator = glob.replace(/^(\*\*\/)*/, '');
-      const regex = makeRe(indicator, { fastpaths: false, noglobstar: false, bash: true });
+      const recursive = glob.includes('**') || glob.split('/').length > 1;
+      const regex = makeRe(glob, { fastpaths: false, noglobstar: false, bash: false });
       const { source } = regex;
 
       if (source.startsWith('^')) {
-        // prepended '^' char causes webpack require.context to fail
-        const match = source.substring(1);
+        // webpack's require.context matches against paths starting `./`
+        // Globs starting `**` require special treatment due to the regex they
+        // produce, specifically a negative look-ahead
+        const match = ['^\\.', glob.startsWith('**') ? '' : '\\/', source.substring(1)].join('');
 
         return { path: base, recursive, match };
       }
