@@ -142,7 +142,7 @@
 
 #### Deprecated DLL flags
 
-Earlier versions of Storybook used Webpack DLLs as a performance crutch. In 6.1, we've removed Storybook's built-in DLLs and have deprecated the command-line parameters `--no-dll` and `--ui-dll`. They will be removed in 7.0.
+Earlier versions of Storybook used Webpack DLLs as a performance crutch. In 6.1, we've removed Storybook's built-in DLLs and have deprecated the command-line parameters `--no-dll`, `--ui-dll`, and `--docs-dll`. They will be removed in 7.0.
 
 #### Deprecated storyFn
 
