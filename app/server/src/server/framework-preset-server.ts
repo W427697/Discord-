@@ -1,8 +1,11 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Configuration } from 'webpack';
 import path from 'path';
 
-export function webpack(config: Configuration) {
+// import { Configuration } from 'webpack';
+import type { StorybookOptions } from '@storybook/core/types';
+
+type Configuration = any;
+
+export async function webpack(config: Configuration, options: StorybookOptions) {
   return {
     ...config,
     module: {

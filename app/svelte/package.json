@@ -40,6 +40,7 @@
     "global": "^4.4.0",
     "regenerator-runtime": "^0.13.7",
     "sveltedoc-parser": "^3.0.4",
+    "webpack": "^5.3.2",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {

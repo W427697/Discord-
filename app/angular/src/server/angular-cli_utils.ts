@@ -14,7 +14,7 @@ import {
 } from '@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs';
 import { logger } from '@storybook/node-logger';
 
-import { RuleSetRule, Configuration } from 'webpack';
+import type { RuleSetRule, Configuration } from 'webpack';
 
 function isDirectory(assetPath: string) {
   try {
@@ -53,7 +53,7 @@ function isStylingRule(rule: RuleSetRule) {
 }
 
 export function filterOutStylingRules(config: Configuration) {
-  return config.module.rules.filter((rule) => !isStylingRule(rule));
+  return config.module.rules.filter((rule) => !isStylingRule(rule as RuleSetRule));
 }
 
 export function isBuildAngularInstalled() {

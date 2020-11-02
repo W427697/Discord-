@@ -5,7 +5,7 @@ import { Options } from 'ts-loader';
 
 export default function (tsLoaderOptions: Partial<Options>) {
   if (tsLoaderOptions && tsLoaderOptions.configFile) {
-    // this config is busted, read the errors it throws and read the docs / do TS wizardy that i dont understand
+    // this config is busted, read the errors it throws and read the docs / do TS wizardry that I don't understand
     return new ForkTsCheckerWebpackPlugin({
       typescript: { configFile: tsLoaderOptions.configFile },
       async: false,

@@ -2,8 +2,13 @@ import path from 'path';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 
+// import { Configuration } from 'webpack';
+import type { StorybookOptions } from '@storybook/core/types';
+
 // @ts-ignore
 import createCompiler from '../../mdx/mdx-compiler-plugin';
+
+type Configuration = any;
 
 // for frameworks that are not working with react, we need to configure
 // the jsx to transpile mdx, for now there will be a flag for that
@@ -30,7 +35,7 @@ function createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }: Bab
   };
 }
 
-export function webpack(webpackConfig: any = {}, options: any = {}) {
+export function webpack(webpackConfig: Configuration, options: StorybookOptions) {
   const { module = {} } = webpackConfig;
   // it will reuse babel options that are already in use in storybook
   // also, these babel options are chained with other presets.
