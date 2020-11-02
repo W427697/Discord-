@@ -33,7 +33,7 @@
     "@storybook/source-loader": "6.1.0-alpha.35",
     "eventemitter3": "^4.0.0",
     "format-json": "^1.0.3",
-    "global": "^4.3.2",
+    "global": "^4.4.0",
     "postcss-color-rebeccapurple": "^6.0.0"
   },
   "storybook": {

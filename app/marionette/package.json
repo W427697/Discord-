@@ -27,8 +27,8 @@
   "dependencies": {
     "@storybook/core": "6.1.0-alpha.35",
     "common-tags": "^1.8.0",
-    "core-js": "^3.0.1",
-    "global": "^4.3.2",
+    "core-js": "^3.6.5",
+    "global": "^4.4.0",
     "html-loader": "^1.0.0",
     "regenerator-runtime": "^0.13.7"
   },

@@ -9,7 +9,7 @@
     "storybook": "start-storybook -p 9009 -s public"
   },
   "dependencies": {
-    "global": "^4.3.2",
+    "global": "^4.4.0",
     "preact": "^8.4.2"
   },
   "devDependencies": {
@@ -30,7 +30,7 @@
     "cross-env": "^7.0.0",
     "file-loader": "^6.0.0",
     "preact-render-to-json": "^3.6.6",
-    "raw-loader": "^4.0.1",
+    "raw-loader": "^4.0.2",
     "svg-url-loader": "^5.0.0",
     "webpack": "^4.33.0",
     "webpack-dev-server": "^3.8.2"

@@ -38,8 +38,8 @@
     "@storybook/addons": "6.1.0-alpha.35",
     "@storybook/core": "6.1.0-alpha.35",
     "@types/webpack-env": "^1.15.2",
-    "core-js": "^3.0.1",
-    "global": "^4.3.2",
+    "core-js": "^3.6.5",
+    "global": "^4.4.0",
     "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0"
   },

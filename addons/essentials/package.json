@@ -37,7 +37,7 @@
     "@storybook/addons": "6.1.0-alpha.35",
     "@storybook/api": "6.1.0-alpha.35",
     "@storybook/node-logger": "6.1.0-alpha.35",
-    "core-js": "^3.0.1",
+    "core-js": "^3.6.5",
     "react": "^16.8.3 || ^17.0.0",
     "react-dom": "^16.8.3 || ^17.0.0",
     "regenerator-runtime": "^0.13.7",
@@ -52,7 +52,7 @@
   "peerDependencies": {
     "@babel/core": "^7.9.6",
     "@storybook/vue": "6.1.0-alpha.35",
-    "babel-loader": "^8.0.0",
+    "babel-loader": "^8.1.0",
     "webpack": ">=4"
   },
   "peerDependenciesMeta": {
