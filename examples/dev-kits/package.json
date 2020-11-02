@@ -34,9 +34,9 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.3 || ^17.0.0",
     "react-dom": "^16.8.3 || ^17.0.0",
-    "ts-loader": "^6.2.0",
+    "ts-loader": "^8.0.7",
     "uuid": "^8.0.0",
-    "webpack": "^4.33.0"
+    "webpack": "5.3.2"
   },
   "storybook": {
     "chromatic": {

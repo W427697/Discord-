@@ -53,7 +53,7 @@
     "riot-compiler": "^3.5.1 || ^4.0.0",
     "riot-hot-reload": "^1.0.0",
     "riot-tag-loader": "^2.0.0 || ^3.0.0",
-    "webpack": "*"
+    "webpack": "5.3.2"
   },
   "engines": {
     "node": ">=8.0.0"

@@ -186,7 +186,7 @@
     "mocha-list-tests": "^1.0.2",
     "node-cleanup": "^2.1.2",
     "node-fetch": "^2.6.0",
-    "node-sass": "^4.14.0",
+    "node-sass": "^5.0.0",
     "npmlog": "^4.1.2",
     "p-limit": "^2.3.0",
     "prettier": "~2.0.5",
@@ -214,14 +214,14 @@
     "ts-node": "^8.10.2",
     "typescript": "^3.9.3",
     "wait-on": "^4.0.0",
-    "webpack": "^4.43.0",
+    "webpack": "5.3.2",
     "window-size": "^1.1.1"
   },
   "optionalDependencies": {
     "@cypress/webpack-preprocessor": "^5.1.2",
     "cypress": "4.7.0",
     "puppeteer": "^2.0.0",
-    "ts-loader": "^8.0.4",
+    "ts-loader": "^8.0.7",
     "verdaccio": "^4.5.1",
     "verdaccio-auth-memory": "^9.4.0"
   },
