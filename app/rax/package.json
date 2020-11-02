@@ -46,7 +46,7 @@
     "rax": "^1.1.0"
   },
   "peerDependencies": {
-    "@babel/core": "*",
+    "@babel/core": "^7.12.3",
     "rax": "^0.4.0 || ^1.0.0"
   },
   "publishConfig": {

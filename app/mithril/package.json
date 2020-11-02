@@ -49,7 +49,7 @@
     "mithril": "^1.1.6"
   },
   "peerDependencies": {
-    "@babel/core": "*",
+    "@babel/core": "^7.12.3",
     "mithril": "^1.1.6 || ^2.0.0"
   },
   "engines": {

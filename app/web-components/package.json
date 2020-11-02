@@ -53,7 +53,7 @@
     "lit-html": "^1.0.0"
   },
   "peerDependencies": {
-    "@babel/core": "*",
+    "@babel/core": "^7.12.3",
     "babel-loader": "^8.1.0",
     "lit-html": "^1.0.0"
   },

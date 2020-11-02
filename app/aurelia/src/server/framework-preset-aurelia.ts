@@ -17,7 +17,7 @@ export function webpack(
     module: {
       ...config.module,
       rules: [
-        ...config.module.rules,
+        ...[].concat(config.module.rules),
         {
           test: /\.(png|woff|woff2|eot|ttf|svg)$/,
           loader: `${require.resolve('url-loader')}?limit=100000`,

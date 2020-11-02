@@ -36,7 +36,7 @@
     "backbone.marionette": "*"
   },
   "peerDependencies": {
-    "@babel/core": "*",
+    "@babel/core": "^7.12.3",
     "backbone": "*",
     "backbone.marionette": "*",
     "underscore": "*"

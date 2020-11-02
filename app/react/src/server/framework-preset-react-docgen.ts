@@ -1,5 +1,5 @@
 import type { TransformOptions } from '@babel/core';
-import type { Configuration } from 'webpack';
+import { Configuration } from 'webpack';
 import ReactDocgenTypescriptPlugin from 'react-docgen-typescript-plugin';
 import type { StorybookOptions } from './types';
 

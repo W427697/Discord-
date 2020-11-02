@@ -32,7 +32,7 @@
     "preact-render-to-json": "^3.6.6",
     "raw-loader": "^4.0.2",
     "svg-url-loader": "^6.0.0",
-    "webpack": "5.3.2",
+    "webpack": "^5.3.2",
     "webpack-dev-server": "^3.8.2"
   },
   "storybook": {
