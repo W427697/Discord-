@@ -39,17 +39,19 @@ module.exports = {
 Fast refresh is an opt-in feature that can be used in Storybook React.
 There are two ways that you can enable it, go ahead and pick one:
 
-* You can set a `FAST_REFRESH` environment variable in your `.env` file:
+- You can set a `FAST_REFRESH` environment variable in your `.env` file:
+
 ```
 FAST_REFRESH=true
 ```
 
-* Or you can set the following properties in your `.storybook/main.js` files:
+- Or you can set the following properties in your `.storybook/main.js` files:
+
 ```js
 module.exports = {
   reactOptions: {
     fastRefresh: true,
-  }
+  },
 };
 ```
 
@@ -60,6 +62,7 @@ module.exports = {
 A common error is that an addon tries to access the "channel", but the channel is not set. This can happen in a few different cases:
 
 1.  You're trying to access addon channel (e.g. by calling `setOptions`) in a non-browser environment like Jest. You may need to add a channel mock:
+
     ```js
     import addons, { mockChannel } from '@storybook/addons';
 
@@ -89,11 +92,10 @@ class MyComponent extends Component {
     };
   }
   // ...
-};
+}
 
 export const defaultView = () => <MyComponent initialState={} />;
 ```
-
 
 ### Why aren't Controls visible in the Canvas panel but visible in the Docs panel?
 
@@ -113,17 +115,13 @@ Composition is a new feature that we released with version 6.0 and there's still
 
 For now the addons you're using in a composed Storybook will not work.
 
-We're working on overcoming this limitation, soon you'll be able to use them  as if you working with a non composed Storybook.
-
-### Why i'm getting errors with react-popper and Storybook?
-
-If you're using the `react-popper` in your own project and you're experiencing issues with Storybook. You can solve them by adding the `--no-dll` command line flag. Take a look at the [cli options page](../api/cli-options.md) to see how you can use the flag in your project.
+We're working on overcoming this limitation, soon you'll be able to use them as if you working with a non composed Storybook.
 
 ### Which community addons are compatible with the latest version of Storybook?
 
 Starting with Storybook version 6.0 we've introduced some great features aimed at streamlining your development workflow.
 
-With this we would like to point out that if you plan on using addons created by our fantastic community, you need to take in consideration that some of those addons might be working with a outdated version of Storybook. 
+With this we would like to point out that if you plan on using addons created by our fantastic community, you need to take in consideration that some of those addons might be working with a outdated version of Storybook.
 
 We're actively working in providing a better way to address this situation, but in the meantime we would ask a bit of caution on your end so that you don't run into unexpected problems. Let us know by creating a issue in the [Storybook repo](https://github.com/storybookjs/storybook/issues) so that we can gather information and create a curated list with those addons to help not only you but the rest of the community.
 
@@ -134,7 +132,7 @@ With the release of version 6.0, we also updated our documentation as well. That
 We're only covering version 5.3 and 5.0 as they were important milestones for Storybook. If you want to go back in time a little more you'll have to check the specific release in the monorepo.
 
 | Section          | Page                                       | Current Location                                                                   | Version 5.3 location                                                                                                                                                                                                                                                                         | Version 5.0 location                                                                                                                                                                                                                                                                         |
-|------------------|--------------------------------------------|------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ---------------- | ------------------------------------------ | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Get Started      | Install                                    | [See current documentation](../get-started/install.md)                             | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/guides/quick-start-guide)                                                                                                                                                             | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/guides/quick-start-guide)                                                                                                                                                             |
 |                  | What's a story                             | [See current documentation](../get-started/whats-a-story.md)                       | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/blob/release/5.3/docs/src/pages/guides)                                                                                                                                                            | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/blob/release/5.0/docs/src/pages/guides)                                                                                                                                                            |
 |                  | Browse Stories                             | [See current documentation](../get-started/browse-stories.md)                      | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/blob/release/5.3/docs/src/pages/guides)                                                                                                                                                            | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/blob/release/5.0/docs/src/pages/guides)                                                                                                                                                            |
@@ -180,7 +178,6 @@ We're only covering version 5.3 and 5.0 as they were important milestones for St
 |                  | Addons/Addons API                          | [See current documentation](../api/addons-api.md)                                  | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/addons/api)                                                                                                                                                                           | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/addons/api)                                                                                                                                                                           |
 |                  | Frameworks                                 | [See current documentation](../api/new-frameworks.md)                              | Non existing feature or undocumented                                                                                                                                                                                                                                                         | Non existing feature or undocumented                                                                                                                                                                                                                                                         |
 |                  | CLI options                                | [See current documentation](../api/cli-options.md)                                 | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/cli-options)                                                                                                                                                           | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/cli-options)                                                                                                                                                           |
-
 
 <div class="aside">
 With the release of version 5.3 we've updated how you can write your stories to a more compact and easier way. It doesn't mean that the <code>storiesOf</code> format has been removed. For the time being we're still supporting it and we have documentation for it. But be advised that this is bound to change in the future.
