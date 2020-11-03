@@ -218,6 +218,18 @@ describe('preview.story_store', () => {
       });
     });
 
+    it('handles undefined story arg value correctly', () => {
+      const store = new StoryStore({ channel });
+      addStoryToStore(store, 'a', '1', () => 0, {
+        args: {
+          arg1: undefined,
+        },
+      });
+      expect(store.getRawStory('a', '1').args).toEqual({
+        arg1: undefined,
+      });
+    });
+
     it('updateStoryArgs changes the args of a story, per-key', () => {
       const store = new StoryStore({ channel });
       addStoryToStore(store, 'a', '1', () => 0);
