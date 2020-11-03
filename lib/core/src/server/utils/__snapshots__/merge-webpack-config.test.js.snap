@@ -2,7 +2,7 @@
 
 exports[`mergeConfigs merges partial custom config 1`] = `
 Object {
-  "devtool": "source-maps",
+  "devtool": "source-map",
   "entry": Object {
     "bundle": "index.js",
   },
@@ -44,7 +44,7 @@ Object {
 
 exports[`mergeConfigs merges successfully if custom config is empty 1`] = `
 Object {
-  "devtool": "source-maps",
+  "devtool": "source-map",
   "entry": Object {
     "bundle": "index.js",
   },
@@ -83,7 +83,7 @@ Object {
 
 exports[`mergeConfigs merges two full configs in one 1`] = `
 Object {
-  "devtool": "source-maps",
+  "devtool": "source-map",
   "entry": Object {
     "bundle": "index.js",
   },

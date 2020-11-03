@@ -30,6 +30,11 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
+    "stream-browserify": "^3.0.0",
+    "path-browserify": "^1.0.1",
+    "crypto-browserify": "^3.0.0",
+    "buffer": "^5.7.0",
+    "vm-browserify": "^1.1.2",
     "@babel/core": "^7.12.3",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-proposal-decorators": "^7.12.1",
