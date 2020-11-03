@@ -37,7 +37,7 @@ export function addons(options: PresetOptions = {}) {
 
   const main = requireMain(options.configDir);
   return (
-    ['docs', 'controls', 'actions', 'backgrounds', 'viewport', 'toolbars']
+    ['actions', 'backgrounds', 'viewport', 'toolbars']
       .filter((key) => (options as any)[key] !== false)
       .map((key) => `@storybook/addon-${key}`)
       .filter((addon) => !checkInstalled(addon, main))
