@@ -23,6 +23,7 @@ describe('extractType', () => {
       ['[]', { name: 'object' }],
       ['"primary" | "secondary"', { name: 'enum', value: ['primary', 'secondary'] }],
     ])('%s', (compodocType, expected) => {
+
       expect(extractType(makeProperty(compodocType), null)).toEqual(expected);
     });
   });
