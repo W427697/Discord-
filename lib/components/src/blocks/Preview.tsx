@@ -20,7 +20,6 @@ export interface PreviewProps {
   columns?: number;
   withSource?: SourceProps;
   isExpanded?: boolean;
-  isRefreshed?: boolean;
   withToolbar?: boolean;
   className?: string;
   additionalActions?: ActionItem[];
