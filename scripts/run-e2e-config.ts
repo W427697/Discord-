@@ -140,13 +140,10 @@ export const cra: Parameters = {
 };
 
 export const cra3: Parameters = {
+  source: 'repository',
   name: 'cra',
   version: '3.4.1',
-  generator: [
-    'npx create-react-app@{{version}} {{name}}-{{version}}',
-    'cd {{name}}-{{version}}',
-    'echo "FAST_REFRESH=true" > .env',
-  ].join(' && '),
+  repository: 'https://github.com/storybookjs/e2e-testing-starter.git',
 };
 
 export const cra_typescript: Parameters = {

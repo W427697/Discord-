@@ -17,13 +17,11 @@ import * as configs from './run-e2e-config';
 
 const logger = console;
 
-export interface Parameters {
+interface BaseParameters {
   /** E2E configuration name */
   name: string;
   /** framework version */
   version: string;
-  /** CLI to bootstrap the project */
-  generator: string;
   /** Use storybook framework detection */
   autoDetect?: boolean;
   /** Pre-build hook */
@@ -36,17 +34,33 @@ export interface Parameters {
   typescript?: boolean;
 }
 
-export interface Options extends Parameters {
-  cwd?: string;
+interface GeneratorParameter extends BaseParameters {
+  source?: 'generator';
+  /** CLI to bootstrap the project */
+  generator: string;
+}
+interface RepositoryParameter extends BaseParameters {
+  source: 'repository';
+  repository: string;
 }
 
+export type Parameters = GeneratorParameter | RepositoryParameter;
+
+export type Options = Parameters & {
+  rootCwd?: string;
+  cwd?: string;
+};
+
 const rootDir = path.join(__dirname, '..');
+const parentDir = path.join(__dirname, '..', '..');
 const siblingDir = path.join(__dirname, '..', '..', 'storybook-e2e-testing');
 
-const prepareDirectory = async ({
-  cwd,
-  ensureDir: ensureDirOption = true,
-}: Options): Promise<boolean> => {
+const prepareDirectory = async (options: Options): Promise<boolean> => {
+  const { cwd, source, ensureDir: ensureDirOption = true } = options;
+  if (source === 'repository') {
+    // git clone will create repository for us
+    return cloneRepository(options);
+  }
   const siblingExists = await pathExists(siblingDir);
 
   if (!siblingExists) {
@@ -69,12 +83,16 @@ const prepareDirectory = async ({
   return false;
 };
 
-const cleanDirectory = async ({ cwd }: Options): Promise<void> => {
-  await remove(cwd);
-  await remove(path.join(siblingDir, 'node_modules'));
+const cleanDirectory = async ({ cwd, rootCwd, source }: Options): Promise<void> => {
+  if (source === 'repository') {
+    await remove(rootCwd);
+  } else {
+    await remove(cwd);
+    await remove(path.join(rootCwd, 'node_modules'));
 
-  if (useYarn2) {
-    await shell.rm('-rf', [path.join(siblingDir, '.yarn'), path.join(siblingDir, '.yarnrc.yml')]);
+    if (useYarn2) {
+      await shell.rm('-rf', [path.join(rootCwd, '.yarn'), path.join(rootCwd, '.yarnrc.yml')]);
+    }
   }
 };
 
@@ -104,20 +122,44 @@ const configureYarn2 = async ({ cwd }: Options) => {
   }
 };
 
-const generate = async ({ cwd, name, version, generator }: Options) => {
-  let command = generator.replace(/{{name}}/g, name).replace(/{{version}}/g, version);
-  if (useYarn2) {
-    command = command.replace(/npx/g, `yarn dlx`);
+const cloneRepository = async (options: Options): Promise<boolean> => {
+  if (options.source !== 'repository') {
+    return false;
   }
 
-  logger.info(`🏗  Bootstrapping ${name} project`);
-  logger.debug(command);
+  const { repository, cwd } = options;
 
-  try {
-    await exec(command, { cwd });
-  } catch (e) {
-    logger.error(`🚨 Bootstrapping ${name} failed`);
-    throw e;
+  const repositoryExists = await pathExists(cwd);
+  if (repositoryExists) {
+    return true;
+  }
+  logger.info(`Cloning repository ${repository}`);
+  await exec(`git clone ${repository}`, { cwd: parentDir });
+  return false;
+};
+
+/** There are 2 ways of generating a e2e config
+ * - using the generator function
+ * - cloning the repository
+ */
+const generate = async (options: Options) => {
+  if (options.source === 'generator') {
+    const { cwd, name, version } = options;
+
+    let command = options.generator.replace(/{{name}}/g, name).replace(/{{version}}/g, version);
+    if (useYarn2) {
+      command = command.replace(/npx/g, `yarn dlx`);
+    }
+
+    logger.info(`🏗  Bootstrapping ${name} project`);
+    logger.debug(command);
+
+    try {
+      await exec(command, { cwd });
+    } catch (e) {
+      logger.error(`🚨 Bootstrapping ${name} failed`);
+      throw e;
+    }
   }
 };
 
@@ -238,13 +280,8 @@ const runCypress = async ({ name, version }: Options, location: string, open: bo
   }
 };
 
-const runTests = async ({ name, version, ...rest }: Parameters) => {
-  const options = {
-    name,
-    version,
-    ...rest,
-    cwd: path.join(siblingDir, `${name}-${version}`),
-  };
+const runTests = async (options: Options) => {
+  const { name, version, rootCwd } = options;
 
   logger.log();
   logger.info(`🏃‍♀️ Starting for ${name} ${version}`);
@@ -254,10 +291,10 @@ const runTests = async ({ name, version, ...rest }: Parameters) => {
 
   if (!(await prepareDirectory(options))) {
     if (useYarn2) {
-      await configureYarn2({ ...options, cwd: siblingDir });
+      await configureYarn2({ ...options, cwd: rootCwd });
     }
 
-    await generate({ ...options, cwd: siblingDir });
+    await generate({ ...options, cwd: rootCwd });
     logger.log();
 
     await setResolutions(options);
@@ -301,14 +338,28 @@ const runTests = async ({ name, version, ...rest }: Parameters) => {
 // Run tests!
 const runE2E = async (parameters: Parameters) => {
   const { name, version } = parameters;
-  const cwd = path.join(siblingDir, `${name}-${version}`);
+  let rootCwd = siblingDir;
+  if (parameters.source === 'repository') {
+    // Extract name from repo url
+    const [, repoName] = parameters.repository.match(/^.*\/(.*).git$/);
+    const repositoryFolder = path.join(parentDir, repoName);
+    rootCwd = repositoryFolder;
+  }
+  const cwd = path.join(rootCwd, `${name}-${version}`);
+  const options = {
+    name,
+    version,
+    rootCwd,
+    cwd,
+    ...parameters,
+  };
   if (startWithCleanSlate) {
     logger.log();
     logger.info(`♻️  Starting with a clean slate, removing existing ${name} folder`);
-    await cleanDirectory({ ...parameters, cwd });
+    await cleanDirectory(options);
   }
 
-  return runTests(parameters)
+  return runTests(options)
     .then(async () => {
       if (!process.env.CI) {
         const { cleanup } = await prompt<{ cleanup: boolean }>({
@@ -320,7 +371,7 @@ const runE2E = async (parameters: Parameters) => {
         if (cleanup) {
           logger.log();
           logger.info(`🗑  Cleaning ${cwd}`);
-          await cleanDirectory({ ...parameters, cwd });
+          await cleanDirectory(options);
         } else {
           logger.log();
           logger.info(`🚯 No cleanup happened: ${cwd}`);
