@@ -280,6 +280,7 @@ const Preview: FunctionComponent<PreviewProps> = ({
       <ZoomContext.Provider value={{ scale }}>
         <Relative className="docs-story">
           <ChildrenContainer
+            key={String(refreshed)}
             isColumn={isColumn || !Array.isArray(children)}
             columns={columns}
             zoom={scale}
@@ -289,7 +290,7 @@ const Preview: FunctionComponent<PreviewProps> = ({
               // eslint-disable-next-line react/no-array-index-key
               element.map((child, i) => <div key={i}>{child}</div>)
             ) : (
-              <div key={String(refreshed)}>{element}</div>
+              <div>{element}</div>
             )}
           </ChildrenContainer>
           <ActionBar actionItems={actionItems} />
