@@ -451,8 +451,8 @@ export default class StoryStore {
     };
     const defaultArgs: Args = Object.entries(
       argTypes as Record<string, { defaultValue: any }>
-    ).reduce((acc, [arg, argProps]) => {
-      if (argProps && argProps.defaultValue) acc[arg] = argProps.defaultValue;
+    ).reduce((acc, [arg, argType]) => {
+      if (argType?.defaultValue) acc[arg] = argType.defaultValue;
       return acc;
     }, {} as Args);
 
