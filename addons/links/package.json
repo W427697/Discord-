@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-links",
-  "version": "6.1.0-beta.0",
+  "version": "6.1.0-beta.3",
   "description": "Story Links addon for storybook",
   "keywords": [
     "addon",
@@ -29,29 +29,38 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.1.0-beta.0",
-    "@storybook/client-logger": "6.1.0-beta.0",
-    "@storybook/core-events": "6.1.0-beta.0",
+    "@storybook/addons": "6.1.0-beta.3",
+    "@storybook/client-logger": "6.1.0-beta.3",
+    "@storybook/core-events": "6.1.0-beta.3",
     "@storybook/csf": "0.0.1",
-    "@storybook/router": "6.1.0-beta.0",
+    "@storybook/router": "6.1.0-beta.3",
     "@types/qs": "^6.9.0",
     "core-js": "^3.0.1",
     "global": "^4.3.2",
     "prop-types": "^15.7.2",
     "qs": "^6.6.0",
-    "react": "^16.8.3 || ^17.0.0",
-    "react-dom": "^16.8.3 || ^17.0.0",
     "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.15.2",
-    "enzyme": "^3.11.0"
+    "@types/webpack-env": "^1.15.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "807eccd6055990db31a8c80c64e502d4f3990be9",
+  "gitHead": "2e11de30450cb6443661568bec770f36b20c42d2",
   "typesVersions": {
     "<3.8": {
       "*": [

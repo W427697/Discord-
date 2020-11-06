@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "6.1.0-beta.0",
+  "version": "6.1.0-beta.3",
   "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -37,12 +37,12 @@
     "@babel/preset-flow": "^7.12.1",
     "@babel/preset-react": "^7.12.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.2",
-    "@storybook/addons": "6.1.0-beta.0",
-    "@storybook/core": "6.1.0-beta.0",
-    "@storybook/node-logger": "6.1.0-beta.0",
+    "@storybook/addons": "6.1.0-beta.3",
+    "@storybook/core": "6.1.0-beta.3",
+    "@storybook/node-logger": "6.1.0-beta.3",
     "@storybook/semver": "^7.3.2",
     "@svgr/webpack": "^5.4.0",
-    "@types/webpack-env": "^1.15.2",
+    "@types/webpack-env": "^1.15.3",
     "babel-plugin-add-react-displayname": "^0.0.5",
     "babel-plugin-named-asset-import": "^0.3.1",
     "babel-plugin-react-docgen": "^4.2.1",
@@ -50,22 +50,22 @@
     "global": "^4.3.2",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
-    "react": "^16.8.3 || ^17.0.0",
     "react-dev-utils": "^10.0.0",
     "react-docgen-typescript-plugin": "^0.6.0",
-    "react-dom": "^16.8.3 || ^17.0.0",
     "react-refresh": "^0.8.3",
     "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0",
-    "webpack": "^4.43.0"
+    "webpack": "^4.44.2"
   },
   "devDependencies": {
-    "@storybook/client-api": "6.1.0-beta.0",
+    "@storybook/client-api": "6.1.0-beta.3",
     "@types/node": "^14.0.10",
-    "@types/webpack": "^4.41.12"
+    "@types/webpack": "^4.41.24"
   },
   "peerDependencies": {
-    "@babel/core": "^7.11.5"
+    "@babel/core": "^7.11.5",
+    "react": "^16.8.0 || ^17.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -73,7 +73,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "807eccd6055990db31a8c80c64e502d4f3990be9",
+  "gitHead": "2e11de30450cb6443661568bec770f36b20c42d2",
   "typesVersions": {
     "<3.8": {
       "types-6-0": [
