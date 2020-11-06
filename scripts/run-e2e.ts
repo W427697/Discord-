@@ -143,23 +143,24 @@ const cloneRepository = async (options: Options): Promise<boolean> => {
  * - cloning the repository
  */
 const generate = async (options: Options) => {
-  if (options.source === 'generator') {
-    const { cwd, name, version } = options;
+  if (options.source === 'repository') {
+    return;
+  }
+  const { cwd, name, version } = options;
 
-    let command = options.generator.replace(/{{name}}/g, name).replace(/{{version}}/g, version);
-    if (useYarn2) {
-      command = command.replace(/npx/g, `yarn dlx`);
-    }
+  let command = options.generator.replace(/{{name}}/g, name).replace(/{{version}}/g, version);
+  if (useYarn2) {
+    command = command.replace(/npx/g, `yarn dlx`);
+  }
 
-    logger.info(`🏗  Bootstrapping ${name} project`);
-    logger.debug(command);
+  logger.info(`🏗  Bootstrapping ${name} project`);
+  logger.debug(command);
 
-    try {
-      await exec(command, { cwd });
-    } catch (e) {
-      logger.error(`🚨 Bootstrapping ${name} failed`);
-      throw e;
-    }
+  try {
+    await exec(command, { cwd });
+  } catch (e) {
+    logger.error(`🚨 Bootstrapping ${name} failed`);
+    throw e;
   }
 };
 
