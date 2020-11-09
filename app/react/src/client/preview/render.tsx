@@ -1,8 +1,15 @@
 import { document, FRAMEWORK_OPTIONS } from 'global';
-import React, { Component, FunctionComponent, ReactElement, StrictMode, Fragment } from 'react';
+import React, {
+  Component,
+  FunctionComponent,
+  ReactElement,
+  StrictMode,
+  Fragment,
+  createContext,
+} from 'react';
 import ReactDOM from 'react-dom';
 
-import { RenderContext } from './types';
+import { StoryFn, StoryContext, RenderContext, DecoratorFunction } from './types';
 
 const rootEl = document ? document.getElementById('root') : null;
 
@@ -45,19 +52,42 @@ class ErrorBoundary extends Component<{
 
 const Wrapper = FRAMEWORK_OPTIONS?.strictMode ? StrictMode : Fragment;
 
+const StoryContextContext = createContext<StoryContext | undefined>(undefined);
+
+export const applyDecorator = (story: StoryFn, decorator: DecoratorFunction) => {
+  const Story = story as FunctionComponent<StoryContext>;
+  // You cannot override the parameters key, it is fixed
+  const BoundStory = (
+    { parameters, ...innerStoryContext }: StoryContext | { parameters: {} } = { parameters: {} }
+  ) => {
+    return (
+      <StoryContextContext.Consumer>
+        {(storyContext) => <Story {...{ ...storyContext, ...innerStoryContext }} />}
+      </StoryContextContext.Consumer>
+    );
+  };
+
+  return (storyContext: StoryContext) => decorator(BoundStory, storyContext);
+};
+
+export const decorateStory = (storyFn: StoryFn, decorators: DecoratorFunction[]) =>
+  decorators.reduce(applyDecorator, storyFn);
+
 export default async function renderMain({
-  storyFn,
+  storyContext,
+  unboundStoryFn,
   showMain,
   showException,
   forceRender,
 }: RenderContext) {
-  // storyFn has context bound in by now so can be treated as a function component with no args
-  const StoryFn = storyFn as FunctionComponent;
+  const Story = unboundStoryFn as FunctionComponent<StoryContext>;
 
   const content = (
-    <ErrorBoundary showMain={showMain} showException={showException}>
-      <StoryFn />
-    </ErrorBoundary>
+    <StoryContextContext.Provider value={storyContext}>
+      <ErrorBoundary showMain={showMain} showException={showException}>
+        <Story {...storyContext} />
+      </ErrorBoundary>
+    </StoryContextContext.Provider>
   );
 
   // For React 15, StrictMode & Fragment doesn't exists.

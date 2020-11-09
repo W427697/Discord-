@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 export { RenderContext } from '@storybook/client-api';
+export { StoryFn, StoryContext, DecoratorFunction } from '@storybook/addons';
 
 export interface ShowErrorArgs {
   title: string;
