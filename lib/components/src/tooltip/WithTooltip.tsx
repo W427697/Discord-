@@ -58,9 +58,6 @@ const WithTooltipPure: FunctionComponent<WithTooltipPureProps> = ({
 
   const prevOpen = React.useRef(tooltipShown);
   React.useEffect(() => {
-    console.log('tooltipOpen changed', tooltipShown);
-    console.log(prevOpen.current);
-    console.log(internalTriggerRef);
     if (prevOpen.current === true && tooltipShown === false) {
       // eslint-disable-next-line no-unused-expressions
       internalTriggerRef.current?.focus();
