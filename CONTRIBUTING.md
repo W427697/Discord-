@@ -439,3 +439,23 @@ yarn run publish:latest
 # update the release page
 open https://github.com/storybookjs/storybook/releases
 ```
+
+## Performance benchmarks
+
+Storybook benchmarks every build using a package `@storybook/bench`, and deposits the results publicly in [Storybook Benchmark](https://datastudio.google.com/reporting/c34f64ee-400f-4d06-ad4f-5c2133e226da) for every PR.
+
+To replicate the results locally on your development machine after building using `yarn bootstrap --core` or `yarn dev` or `yarn build`
+
+```
+cd examples/cra-essentials
+yarn bench
+```
+
+The results for each run are deposited into `bench.csv` / `bench.json`
+
+Notes:
+
+- The CI version always runs the latest version of CRA/`sb init` from scratch. `cra-essentials` is a snapshot from `2020-11-10`.
+- `cra-essentials` does not benchmark installation time.
+- To clear cached manager bundle, remove `node_modules/.cache/storybook/dev-server`. The CI benchmark never caches the manager bundle.
+- The results are only directionally accurate, since so much depends on machine specifics (CPU speed, memory, etc.)
