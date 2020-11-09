@@ -159,6 +159,7 @@ export const sfcVue: Parameters = {
   generator: fromDeps('vue', 'vue-loader', 'vue-template-compiler'),
   additionalDeps: [
     'webpack@webpack-4',
+    'react',
     // TODO: remove when https://github.com/storybookjs/storybook/issues/11255 is solved
     'core-js',
   ],
