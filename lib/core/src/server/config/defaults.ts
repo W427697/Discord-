@@ -1,5 +1,6 @@
 export const typeScriptDefaults = {
   check: false,
+  exclude: 'node_modules',
   reactDocgen: 'react-docgen-typescript',
   reactDocgenTypescriptOptions: {
     shouldExtractLiteralValuesFromEnum: true,
