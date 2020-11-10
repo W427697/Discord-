@@ -440,7 +440,15 @@ yarn run publish:latest
 open https://github.com/storybookjs/storybook/releases
 ```
 
-## Performance benchmarks
+## Performance
+
+### Packtracker
+
+Storybook's bundle size is tracked on [Packtracker](https://app.packtracker.io/organizations/184/projects/150?days_ago=180)
+
+You can use it to see the bundle size trend across commits, and for each commit you can drill in to see the size breakdown of the bundle contents.
+
+### Benchmarks
 
 Storybook benchmarks every build using a package `@storybook/bench`, and deposits the results publicly in [Storybook Benchmark](https://datastudio.google.com/reporting/c34f64ee-400f-4d06-ad4f-5c2133e226da) for every PR.
 
