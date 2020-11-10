@@ -3,7 +3,6 @@ import { IconButton, Icons, FlexBar, TabBar, TabButton, ScrollArea } from '@stor
 import { useStorybookApi } from '@storybook/api';
 import { Location, Route } from '@storybook/router';
 import { styled } from '@storybook/theming';
-import { GlobalHotKeys } from 'react-hotkeys';
 import { AboutPage } from './about_page';
 import { ReleaseNotesPage } from './release_notes_page';
 import { ShortcutsPage } from './shortcuts_page';
@@ -85,7 +84,6 @@ const Pages: FunctionComponent<{
         <ShortcutsPage key="shortcuts" />
       </Route>
     </Content>
-    <GlobalHotKeys handlers={{ CLOSE: onClose }} keyMap={keyMap} />
   </Fragment>
 );
 
