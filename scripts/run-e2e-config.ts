@@ -84,6 +84,14 @@ export const preact: Parameters = {
   ensureDir: false,
 };
 
+export const preact_typescript: Parameters = {
+  name: 'preact_typescript',
+  version: 'latest',
+  generator:
+    'npx preact-cli@{{version}} create typescript {{name}}-{{version}} --yarn --install=false --git=false',
+  ensureDir: false,
+};
+
 export const rax: Parameters = {
   name: 'rax',
   version: 'latest',
