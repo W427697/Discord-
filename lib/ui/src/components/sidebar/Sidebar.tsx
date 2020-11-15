@@ -120,25 +120,30 @@ export const Sidebar: FunctionComponent<SidebarProps> = React.memo(
               {...lastViewed}
             >
               {({
-                inputValue,
-                inputHasFocus,
+                query,
                 results,
+                isBrowsing,
+                closeMenu,
                 getMenuProps,
                 getItemProps,
                 highlightedIndex,
               }) => (
-                <Swap condition={!!(inputHasFocus || inputValue)}>
-                  <SearchResults
-                    isSearching={!!inputValue}
-                    results={results}
-                    getMenuProps={getMenuProps}
-                    getItemProps={getItemProps}
-                    highlightedIndex={highlightedIndex}
-                  />
+                <Swap condition={isBrowsing}>
                   <Explorer
                     dataset={dataset}
                     selected={selected}
-                    isBrowsing={!inputHasFocus && !inputValue}
+                    isLoading={isLoading}
+                    isBrowsing={isBrowsing}
+                  />
+                  <SearchResults
+                    query={query}
+                    results={results}
+                    closeMenu={closeMenu}
+                    getMenuProps={getMenuProps}
+                    getItemProps={getItemProps}
+                    highlightedIndex={highlightedIndex}
+                    enableShortcuts={enableShortcuts}
+                    isLoading={isLoading}
                   />
                 </Swap>
               )}
