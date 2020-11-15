@@ -105,6 +105,7 @@ export const TooltipLinkList: FunctionComponent<TooltipLinkListProps> = ({
     const list = listRef.current;
     const { key } = event;
     const currentFocus = ((list && list.ownerDocument) || document).activeElement;
+    if (event.shiftKey || event.metaKey || event.ctrlKey || event.altKey) return;
 
     if (key === 'ArrowDown') {
       // Prevent scroll of the page
