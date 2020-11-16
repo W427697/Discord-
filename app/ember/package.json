@@ -43,8 +43,9 @@
   "peerDependencies": {
     "@babel/core": "*",
     "babel-plugin-ember-modules-api-polyfill": "^2.12.0",
-    "babel-plugin-htmlbars-inline-precompile": "2 || 3",
-    "ember-source": "^3.16.0"
+    "babel-plugin-htmlbars-inline-precompile": "2 || 3 || 4",
+    "ember-cli-htmlbars": "5",
+    "ember-source": ">=3.16.0"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -55,6 +56,9 @@
   "gitHead": "c174d7429c2593e051cc2dd1361bb28bff71f75b",
   "typesVersions": {
     "<3.8": {
+      "types-6-0": [
+        "ts3.4/dist/client/preview/types-6-0.d.ts"
+      ],
       "*": [
         "ts3.4/*"
       ]
