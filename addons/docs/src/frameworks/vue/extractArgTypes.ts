@@ -3,7 +3,7 @@ import { ArgTypesExtractor, hasDocgen, extractComponentProps } from '../../lib/d
 import { convert } from '../../lib/convert';
 import { trimQuotes } from '../../lib/convert/utils';
 
-const SECTIONS = ['props', 'events', 'slots'];
+const SECTIONS = ['props', 'events', 'slots', 'methods'];
 
 const trim = (val: any) => (val && typeof val === 'string' ? trimQuotes(val) : val);
 
