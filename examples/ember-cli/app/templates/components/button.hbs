@@ -1,0 +1,11 @@
+<button
+  {{on "click" (fn @onClick)}}
+>
+  <span>
+    {{@emoji}}
+  </span>
+  {{yield}}
+  <span>
+    {{@emoji}}
+  </span>
+</button>
