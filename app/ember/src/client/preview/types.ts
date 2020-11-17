@@ -1,5 +1,5 @@
 import { Args as DefaultArgs } from '@storybook/addons';
-import { hbs } from 'ember-cli-htmlbars';
+import { TemplateFactory } from 'ember-cli-htmlbars';
 
 export { RenderContext } from '@storybook/core';
 
@@ -19,6 +19,6 @@ export interface OptionsArgs {
 }
 
 export interface StoryFnEmberReturnType<Args = DefaultArgs> {
-  template: ReturnType<typeof hbs>;
+  template: TemplateFactory;
   context: Args;
 }
