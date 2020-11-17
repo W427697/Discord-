@@ -8,7 +8,7 @@ export default {
 
 const Template: Story<ButtonArgs> = (args) => ({
   template: hbs`
-  <Button @emoji={{this.emoji}} @onClick={{this.onClick}}>
+  <Button @emoji={{this.emoji}} {{on "click" this.onClick}}>
     Glimmer
   </Button>`,
   context: {
