@@ -43,9 +43,7 @@
   "peerDependencies": {
     "@babel/core": "*",
     "babel-plugin-ember-modules-api-polyfill": "^2.12.0",
-    "babel-plugin-htmlbars-inline-precompile": "2 || 3 || 4",
-    "ember-cli-htmlbars": "5",
-    "ember-source": ">=3.16.0"
+    "ember-cli-htmlbars": ">=5.2.1"
   },
   "engines": {
     "node": ">=8.0.0"
