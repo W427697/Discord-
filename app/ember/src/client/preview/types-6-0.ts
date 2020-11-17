@@ -1,4 +1,4 @@
-import { Args as DefaultArgs, Annotations, BaseMeta, BaseStory } from '@storybook/addons';
+import { Args as DefaultArgs, Annotations, BaseStory } from '@storybook/addons';
 import { StoryFnEmberReturnType } from './types';
 
 export { Args, ArgTypes, Parameters, StoryContext } from '@storybook/addons';
