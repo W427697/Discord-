@@ -336,7 +336,7 @@ program.option('--use-yarn-2', 'Run tests using Yarn 2 instead of Yarn 1 + npx',
 program.option(
   '--use-local-sb-cli',
   'Run tests using local @storybook/cli package (⚠️ Be sure @storybook/cli is properly build as it will not be rebuild before running the tests)',
-  false
+  true
 );
 program.parse(process.argv);
 
