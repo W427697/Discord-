@@ -1,7 +1,8 @@
 /* eslint-disable no-irregular-whitespace */
 import path from 'path';
-import { remove, ensureDir, pathExists, writeFile, writeJSON } from 'fs-extra';
+import { remove, ensureDir, pathExists, writeFile, writeJSON, readJson, writeJson } from 'fs-extra';
 import { prompt } from 'enquirer';
+import { PackageJson } from 'type-fest';
 import pLimit from 'p-limit';
 
 import shell from 'shelljs';
@@ -127,7 +128,7 @@ const initStorybook = async ({ cwd, autoDetect = true, name }: Options) => {
     const type = autoDetect ? '' : `--type ${name}`;
 
     const sbCLICommand = useLocalSbCli
-      ? 'node ../../storybook/lib/cli/dist/generate'
+      ? `node ${__dirname}/../lib/cli/dist/generate`
       : 'npx -p @storybook/cli sb';
 
     await exec(`${sbCLICommand} init --yes ${type}`, { cwd });
@@ -151,6 +152,24 @@ const addRequiredDeps = async ({ cwd, additionalDeps }: Options) => {
     }
   } catch (e) {
     logger.error(`🚨 Dependencies installation failed`);
+    throw e;
+  }
+};
+
+const addResolutions = async ({ cwd }: Options) => {
+  logger.info(`🌍 Adding resolutions to resolve to file dependencies`);
+  const jsonFile = path.join(cwd, 'package.json');
+  try {
+    const json: PackageJson = await readJson(jsonFile);
+    const versions = require('../lib/cli/versions.js');
+    // console.log({ json, versions });
+
+    await writeJson(jsonFile, {
+      ...json,
+      resolutions: { ...versions, ...(json.resolutions || {}) },
+    });
+  } catch (e) {
+    logger.error(`🚨 Adding resolutions failed`);
     throw e;
   }
 };
@@ -238,6 +257,11 @@ const runTests = async ({ name, version, ...rest }: Parameters) => {
 
     if (options.typescript) {
       await addTypescript(options);
+      logger.log();
+    }
+
+    if (process.env.LOCAL_STORYBOOK_PACKAGES_INSTALL) {
+      await addResolutions(options);
       logger.log();
     }
 

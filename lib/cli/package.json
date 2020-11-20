@@ -29,7 +29,8 @@
     "*.js",
     "*.d.ts",
     "ts3.4/**/*",
-    "versions.json"
+    "versions.json",
+    "versions.js"
   ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js && node ./scripts/generate-sb-packages-versions.js",

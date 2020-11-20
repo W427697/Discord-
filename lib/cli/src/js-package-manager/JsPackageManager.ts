@@ -7,7 +7,7 @@ import { readPackageJson, writePackageJson } from './PackageJsonHelper';
 
 const logger = console;
 // Cannot be `import` as it's not under TS root dir
-const storybookPackagesVersions = require('../../versions.json');
+const storybookPackagesVersions = require('../../versions.js');
 
 export abstract class JsPackageManager {
   public abstract readonly type: 'npm' | 'yarn1' | 'yarn2';
@@ -141,6 +141,10 @@ export abstract class JsPackageManager {
 
     if (/@storybook/.test(packageName)) {
       current = storybookPackagesVersions[packageName];
+
+      if (process.env.LOCAL_STORYBOOK_PACKAGES_INSTALL) {
+        return current;
+      }
     }
 
     let latest;
