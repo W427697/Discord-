@@ -9,8 +9,6 @@ executors:
         enum: ['small', 'medium', 'large', 'xlarge']
         default: 'medium'
     working_directory: /tmp/storybook
-    environment:
-      LOCAL_STORYBOOK_PACKAGES_INSTALL: true
     docker:
       - image: circleci/node:10-browsers
         environment:
@@ -159,6 +157,8 @@ jobs:
     executor:
       class: medium
       name: sb_node
+    environment:
+      LOCAL_STORYBOOK_PACKAGES_INSTALL: true
     working_directory: /tmp/storybook
     parallelism: 4
     steps:
@@ -178,6 +178,8 @@ jobs:
     executor:
       class: medium
       name: sb_node_12
+    environment:
+      LOCAL_STORYBOOK_PACKAGES_INSTALL: true
     working_directory: /tmp/storybook
     steps:
       - checkout
@@ -196,6 +198,8 @@ jobs:
     executor:
       class: medium
       name: sb_node
+    environment:
+      LOCAL_STORYBOOK_PACKAGES_INSTALL: true
     working_directory: /tmp/storybook
     steps:
       - checkout
