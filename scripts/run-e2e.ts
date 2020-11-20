@@ -161,8 +161,8 @@ const addResolutions = async ({ cwd }: Options) => {
   const jsonFile = path.join(cwd, 'package.json');
   try {
     const json: PackageJson = await readJson(jsonFile);
+    // eslint-disable-next-line global-require
     const versions = require('../lib/cli/versions.js');
-    // console.log({ json, versions });
 
     await writeJson(jsonFile, {
       ...json,
