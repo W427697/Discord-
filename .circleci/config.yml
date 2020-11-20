@@ -9,6 +9,8 @@ executors:
         enum: ['small', 'medium', 'large', 'xlarge']
         default: 'medium'
     working_directory: /tmp/storybook
+    environment:
+      LOCAL_STORYBOOK_PACKAGES_INSTALL: true
     docker:
       - image: circleci/node:10-browsers
         environment:
@@ -153,21 +155,6 @@ jobs:
           root: .
           paths:
             - built-storybooks
-  publish:
-    executor:
-      class: medium
-      name: sb_node
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run:
-          name: running local registry
-          command: yarn local-registry --publish
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .verdaccio-cache
   examples-v2:
     executor:
       class: medium
@@ -178,19 +165,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run:
-          name: running local registry
-          command: yarn local-registry --port 6000 --open
-          background: true
-      - run:
-          name: wait for registry
-          command: yarn wait-on http://localhost:6000
-      - run:
-          name: set registry
-          command: yarn config set registry http://localhost:6000/
-      - run:
-          name: test local registry
-          command: yarn info @storybook/core
       - run:
           name: Install Cypress binary
           command: yarn cypress install
@@ -210,19 +184,6 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Running local registry
-          command: yarn local-registry --port 6000 --open
-          background: true
-      - run:
-          name: Wait for registry
-          command: yarn wait-on http://localhost:6000
-      - run:
-          name: Set registry
-          command: yarn config set registry http://localhost:6000/
-      - run:
-          name: Test local registry
-          command: yarn info @storybook/core
-      - run:
           name: Install Cypress binary
           command: yarn cypress install
       - run:
@@ -240,19 +201,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run:
-          name: running local registry
-          command: yarn local-registry --port 6000 --open
-          background: true
-      - run:
-          name: wait for registry
-          command: yarn wait-on http://localhost:6000
-      - run:
-          name: set registry
-          command: yarn config set registry http://localhost:6000/
-      - run:
-          name: test local registry
-          command: yarn info @storybook/core
       - run:
           name: Install Cypress binary
           command: yarn cypress install
@@ -435,19 +383,18 @@ workflows:
       - chromatic:
           requires:
             - examples
-      - publish:
+      - examples-v2:
           requires:
             - install-e2e-deps
             - build
-      - examples-v2:
-          requires:
-            - publish
       - examples-v2-yarn-2:
           requires:
-            - publish
+            - install-e2e-deps
+            - build
       - examples-v2-cra-bench:
           requires:
-            - publish
+            - install-e2e-deps
+            - build
   deploy:
     jobs:
       - frontpage
