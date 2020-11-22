@@ -36,7 +36,7 @@ When you start your Storybook, you should see a new dropdown in your toolbar wit
 
 We have a `global` defined, let's wire it up! We can consume our new `theme` global in a decorator using the `context.globals.theme` value.
 
-For example, suppose you are using `styled-components`. You can add a theme provider decorator to your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) config:
+For example, suppose you are using `styled-components`. You can add a theme provider decorator to your [`.storybook/preview.jsx`](../configure/overview.md#configure-story-rendering) config:
 
 <!-- prettier-ignore-start -->
 
