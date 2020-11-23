@@ -25,11 +25,9 @@ const cache = Cache({
 });
 
 const writeStats = async (name: string, stats: Stats) => {
-  await fs.writeFile(
-    resolvePathInStorybookCache(`public/${name}-stats.json`),
-    JSON.stringify(stats.toJson(), null, 2),
-    'utf8'
-  );
+  const statsFilePath = resolvePathInStorybookCache(`public/${name}-stats.json`);
+  await fs.ensureFile(statsFilePath);
+  await fs.writeFile(statsFilePath, JSON.stringify(stats.toJson(), null, 2), 'utf8');
 };
 
 const getFreePort = (port: number) =>
