@@ -94,12 +94,12 @@ export interface ReleaseNotesData {
 }
 
 export interface PreviewResult {
-  previewStats: Stats;
+  previewStats?: Stats;
   previewTotalTime: [number, number];
 }
 
 export interface ManagerResult {
-  managerStats: Stats;
+  managerStats?: Stats;
   managerTotalTime: [number, number];
 }
 

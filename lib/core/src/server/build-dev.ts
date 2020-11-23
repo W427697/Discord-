@@ -218,11 +218,13 @@ function outputStartupInformation(options: {
   );
 }
 
-async function outputStats(previewStats: Stats, managerStats: Stats) {
+async function outputStats(previewStats: Stats | undefined, managerStats: Stats | undefined) {
   if (previewStats) {
     await writeStats('preview', previewStats);
   }
-  await writeStats('manager', managerStats);
+  if (managerStats) {
+    await writeStats('manager', managerStats);
+  }
   logger.info(
     `stats written to => ${chalk.cyan(resolvePathInStorybookCache('public/[name].json'))}`
   );
@@ -282,9 +284,9 @@ export async function buildDevStandalone(
 
     if (options.smokeTest) {
       await outputStats(previewStats, managerStats);
-      const managerWarnings = (managerStats as any).toJson().warnings.length > 0;
+      const managerWarnings = !!managerStats && managerStats.toJson().warnings.length > 0;
       const previewWarnings =
-        !options.ignorePreview && (previewStats as any).toJson().warnings.length > 0;
+        !options.ignorePreview && !!previewStats && previewStats.toJson().warnings.length > 0;
       process.exit(managerWarnings || previewWarnings ? 1 : 0);
       return;
     }
