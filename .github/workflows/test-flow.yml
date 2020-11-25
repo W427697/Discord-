@@ -1,0 +1,34 @@
+name: Unit tests
+
+on: [push]
+
+jobs:
+  build:
+    name: Bootstrap
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - uses: actions/checkout@v2
+    - name: Cache node modules
+      uses: actions/cache@v1
+      with:
+        path: node_modules
+        key: build-v2-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          build-v2-${{ env.cache-name }}-
+          build-v2-
+    - name: install, bootstrap
+      run: |
+        yarn bootstrap --core
+
+  examples:
+    name: Build examples
+    needs: [build]
+    strategy:
+      matrix:
+        example: [official-storybook, cra-kitchen-sink]
+    - name: test
+      run: |
+        echo ${{ matrix.example }}

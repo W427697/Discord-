@@ -401,53 +401,53 @@ jobs:
           command: yarn coverage
 
 workflows:
-  test:
-    jobs:
-      - build
-      - install-e2e-deps
-      - install-examples-deps
-      - lint:
-          requires:
-            - install-examples-deps
-            - build
-      - examples:
-          requires:
-            - install-examples-deps
-            - build
-      - e2e:
-          requires:
-            - examples
-      - smoke-tests:
-          requires:
-            - install-examples-deps
-            - build
-      - packtracker:
-          requires:
-            - install-examples-deps
-            - build
-      - test:
-          requires:
-            - install-examples-deps
-            - build
-      - coverage:
-          requires:
-            - test
-      - chromatic:
-          requires:
-            - examples
-      - publish:
-          requires:
-            - install-e2e-deps
-            - build
-      - examples-v2:
-          requires:
-            - publish
-      - examples-v2-yarn-2:
-          requires:
-            - publish
-      - examples-v2-cra-bench:
-          requires:
-            - publish
+  # test:
+  #   jobs:
+  #     - build
+  #     - install-e2e-deps
+  #     - install-examples-deps
+  #     - lint:
+  #         requires:
+  #           - install-examples-deps
+  #           - build
+  #     - examples:
+  #         requires:
+  #           - install-examples-deps
+  #           - build
+  #     - e2e:
+  #         requires:
+  #           - examples
+  #     - smoke-tests:
+  #         requires:
+  #           - install-examples-deps
+  #           - build
+  #     - packtracker:
+  #         requires:
+  #           - install-examples-deps
+  #           - build
+  #     - test:
+  #         requires:
+  #           - install-examples-deps
+  #           - build
+  #     - coverage:
+  #         requires:
+  #           - test
+  #     - chromatic:
+  #         requires:
+  #           - examples
+  #     - publish:
+  #         requires:
+  #           - install-e2e-deps
+  #           - build
+  #     - examples-v2:
+  #         requires:
+  #           - publish
+  #     - examples-v2-yarn-2:
+  #         requires:
+  #           - publish
+  #     - examples-v2-cra-bench:
+  #         requires:
+  #           - publish
   deploy:
     jobs:
       - frontpage
