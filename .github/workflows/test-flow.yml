@@ -3,32 +3,41 @@ name: Test flow
 on: [push]
 
 jobs:
-  build:
-    name: Bootstrap
+  # bootstrap repo with all node_modules installed and packages built
+  bootstrap:
+    name: Bootstrap core
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
-    - uses: actions/checkout@v2
-    - name: Cache node modules
-      uses: actions/cache@v1
-      with:
-        path: node_modules
-        key: build-v2-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          build-v2-${{ env.cache-name }}-
-          build-v2-
-    - name: install, bootstrap
-      run: |
-        yarn bootstrap --core
+      - uses: actions/checkout@v2
+      - uses: c-hive/gha-yarn-cache@v1
+      - name: install
+        run: echo "bootstrap --core"
+      - name: upload root
+        uses: actions/upload-artifact@v2
+        with:
+          name: bootstrapped
+          path: ${{ github.workspace }}/**
 
+  # run every example in parallel
   examples:
-    name: Build examples
-    needs: [build]
+    name: Build examples matrix
+    runs-on: ubuntu-latest
+    needs: [bootstrap]
     strategy:
       matrix:
-        example: ['official-storybook', 'cra-kitchen-sink']
-    - name: test
-      run: |
-        echo ${{ matrix.example }}
+        example: [official-storybook, cra-kitchen-sink]
+    steps:
+      - name: restore workspace
+        uses: actions/download-artifact@v2
+        with:
+          name: bootstrapped
+          path: ${{ github.workspace }}
+      - name: test
+        run: |
+          echo ${{ matrix.example }}
+      - name: chromatic # should use upload-only flag
+        run: |
+          echo ${{ matrix.example }}
+      - name: e2e
+        run: |
+          echo ${{ matrix.example }}
