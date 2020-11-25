@@ -28,7 +28,7 @@ jobs:
     needs: [build]
     strategy:
       matrix:
-        example: [official-storybook, cra-kitchen-sink]
+        example: ["official-storybook", "cra-kitchen-sink"]
     - name: test
       run: |
         echo ${{ matrix.example }}
