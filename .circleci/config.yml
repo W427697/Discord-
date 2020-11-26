@@ -403,52 +403,52 @@ jobs:
 workflows:
   test:
     jobs:
-      - build
+#      - build
       - install-e2e-deps
-      - install-examples-deps
-      - lint:
-          requires:
-            - install-examples-deps
-            - build
-      - examples:
-          requires:
-            - install-examples-deps
-            - build
-      - e2e:
-          requires:
-            - examples
-      - smoke-tests:
-          requires:
-            - install-examples-deps
-            - build
-      - packtracker:
-          requires:
-            - install-examples-deps
-            - build
-      - test:
-          requires:
-            - install-examples-deps
-            - build
-      - coverage:
-          requires:
-            - test
-      - chromatic:
-          requires:
-            - examples
-      - publish:
-          requires:
-            - install-e2e-deps
-            - build
+#      - install-examples-deps
+#      - lint:
+#          requires:
+#            - install-examples-deps
+#            - build
+#      - examples:
+#          requires:
+#            - install-examples-deps
+#            - build
+#      - e2e:
+#          requires:
+#            - examples
+#      - smoke-tests:
+#          requires:
+#            - install-examples-deps
+#            - build
+#      - packtracker:
+#          requires:
+#            - install-examples-deps
+#            - build
+#      - test:
+#          requires:
+#            - install-examples-deps
+#            - build
+#      - coverage:
+#          requires:
+#            - test
+#      - chromatic:
+#          requires:
+#            - examples
+#      - publish:
+#          requires:
+#            - install-e2e-deps
+#            - build
       # too slow/expensive. disabling for now
       # - examples-v2:
       #     requires:
       #       - publish
-      - examples-v2-yarn-2:
-          requires:
-            - publish
-      - examples-v2-cra-bench:
-          requires:
-            - publish
-  deploy:
-    jobs:
-      - frontpage
+#      - examples-v2-yarn-2:
+#          requires:
+#            - publish
+#      - examples-v2-cra-bench:
+#          requires:
+#            - publish
+#  deploy:
+#    jobs:
+#      - frontpage
