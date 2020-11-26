@@ -1,6 +1,19 @@
 version: 2.1
 
 executors:
+  sb_node_10_classic:
+    parameters:
+      class:
+        description: The Resource class
+        type: enum
+        enum: ['small', 'medium', 'large', 'xlarge']
+        default: 'medium'
+    working_directory: /tmp/storybook
+    docker:
+      - image: circleci/node:10
+        environment:
+          NODE_OPTIONS: --max_old_space_size=4096
+    resource_class: <<parameters.class>>
   sb_node:
     parameters:
       class:
@@ -91,7 +104,7 @@ jobs:
   install-e2e-deps:
     executor:
       class: medium
-      name: sb_node
+      name: sb_node_10_classic
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
