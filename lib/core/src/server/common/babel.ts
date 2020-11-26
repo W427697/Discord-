@@ -47,7 +47,7 @@ export const babelConfig: () => TransformOptions = () => {
     presets: [...presets],
     plugins: [
       ...plugins,
-      [require.resolve('babel-plugin-emotion'), { sourceMap: true, autoLabel: true }],
+      [require.resolve('@emotion/babel-plugin'), { sourceMap: true, autoLabel: 'always' }],
     ],
   };
 };

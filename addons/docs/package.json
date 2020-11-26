@@ -19,13 +19,6 @@
   "license": "MIT",
   "main": "dist/public_api.js",
   "types": "dist/public_api.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "*": [
-        "ts3.4/*"
-      ]
-    }
-  },
   "files": [
     "dist/**/*",
     "angular/**/*",
@@ -90,8 +83,8 @@
   "devDependencies": {
     "@angular/core": "^11.0.0",
     "@babel/core": "^7.12.3",
-    "@emotion/core": "^10.1.1",
-    "@emotion/styled": "^10.0.23",
+    "@emotion/react": "^11.0.0",
+    "@emotion/styled": "^11.0.0",
     "@storybook/react": "6.1.6",
     "@storybook/vue": "6.1.6",
     "@storybook/web-components": "6.1.6",
@@ -154,5 +147,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "1f89b5b967974abd3badb3b63d88303dfee4467b"
+  "gitHead": "1f89b5b967974abd3badb3b63d88303dfee4467b",
+  "typesVersions": {
+    "<3.8": {
+      "*": [
+        "ts3.4/*"
+      ]
+    }
+  }
 }

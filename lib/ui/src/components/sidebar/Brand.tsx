@@ -31,7 +31,7 @@ export const LogoLink = styled.a(({ theme }) => ({
   },
 }));
 
-export const Brand = withTheme(
+export const Brand = withTheme<React.ComponentType<{ theme: any }>>(
   ({
     theme: {
       brand: { title = 'Storybook', url = './', image },

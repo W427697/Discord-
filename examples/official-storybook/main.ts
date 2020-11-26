@@ -64,7 +64,7 @@ module.exports = {
                   '@babel/plugin-proposal-object-rest-spread',
                   '@babel/plugin-proposal-class-properties',
                   '@babel/plugin-syntax-dynamic-import',
-                  ['babel-plugin-emotion', { sourceMap: true, autoLabel: true }],
+                  ['@emotion', { sourceMap: true, autoLabel: 'always' }],
                   'babel-plugin-macros',
                   'babel-plugin-add-react-displayname',
                   [
