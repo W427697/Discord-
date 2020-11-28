@@ -1,3 +1,32 @@
+## 6.1.8 (November 27, 2020)
+
+### Bug Fixes
+
+- Core: Fix preview URL dropped hashes ([#13308](https://github.com/storybookjs/storybook/pull/13308))
+- Core: Fix template script tag support ([#13271](https://github.com/storybookjs/storybook/pull/13271))
+- Addon-docs: Fix Vue source snippets for function attributes ([#13288](https://github.com/storybookjs/storybook/pull/13288))
+- Components: Fix Zoom for IE11 ([#13302](https://github.com/storybookjs/storybook/pull/13302))
+- React: Don't add FastRefresh if already enabled ([#13303](https://github.com/storybookjs/storybook/pull/13303))
+- CLI: Fix storybook-deployer upgrade warning ([#13306](https://github.com/storybookjs/storybook/pull/13306))
+
+### Maintenance
+
+- React: Expose StorybookConfig types ([#13309](https://github.com/storybookjs/storybook/pull/13309))
+- React: Fix unit tests for react preset ([#13315](https://github.com/storybookjs/storybook/pull/13315))
+
+## 6.1.7 (November 27, 2020)
+
+### Bug Fixes
+
+- CLI: Fix not printing managerTotalTime when using cached manager ([#13294](https://github.com/storybookjs/storybook/pull/13294))
+- Core: Only apply `express.json()` middleware to /runtime-error route ([#13295](https://github.com/storybookjs/storybook/pull/13295))
+- Core: Don't use prebuilt or cached manager when running smoke test ([#13266](https://github.com/storybookjs/storybook/pull/13266))
+- Core: Detect arg inference for cyclic args and warn ([#13263](https://github.com/storybookjs/storybook/pull/13263))
+
+### Dependency Upgrades
+
+- Remove unused dependency @svgr/webpack ([#13281](https://github.com/storybookjs/storybook/pull/13281))
+
 ## 6.1.6 (November 25, 2020)
 
 ### Bug Fixes
