@@ -90,7 +90,7 @@ module.exports = {
         ],
       ],
       plugins: [
-        'emotion',
+        ['@emotion', { sourceMap: true, autoLabel: 'always' }],
         'babel-plugin-macros',
         '@babel/plugin-transform-arrow-functions',
         '@babel/plugin-transform-shorthand-properties',

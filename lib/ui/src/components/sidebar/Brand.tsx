@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled, withTheme } from '@storybook/theming';
+import { styled, withTheme, Theme } from '@storybook/theming';
 
 import { StorybookLogo } from '@storybook/components';
 
@@ -31,7 +31,7 @@ export const LogoLink = styled.a(({ theme }) => ({
   },
 }));
 
-export const Brand = withTheme<React.ComponentType<{ theme: any }>>(
+export const Brand = withTheme<React.ComponentType<{ theme: Theme }>>(
   ({
     theme: {
       brand: { title = 'Storybook', url = './', image },
@@ -49,7 +49,7 @@ export const Brand = withTheme<React.ComponentType<{ theme: any }>>(
       );
     }
     if (image === null && url === null) {
-      return title;
+      return <>{title}</>;
     }
     if (image === null && url) {
       return (
