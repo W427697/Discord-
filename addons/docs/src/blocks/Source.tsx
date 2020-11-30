@@ -119,8 +119,7 @@ export const getSourceProps = (
 
   const language = props.language || parameters.docs?.source?.language || 'jsx';
   const prismTheme = props.prismTheme || parameters.docs?.source?.prismTheme;
-  // Default to dark if no prism theme is supplied (as well as no `dark` parameter)
-  const dark = props.dark || parameters.docs?.source?.dark || !prismTheme;
+  const dark = props.dark || parameters.docs?.source?.dark || false;
 
   return source
     ? {

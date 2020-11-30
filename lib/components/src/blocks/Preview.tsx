@@ -66,25 +66,16 @@ const ChildrenContainer = styled.div<PreviewProps & { layout: layout }>(
       : {}
 );
 
-const StyledSource = styled(Source)<SourceProps>(({ theme, prismTheme }) => ({
+const StyledSource = styled(Source)<SourceProps>(({ theme }) => ({
   margin: 0,
   borderTopLeftRadius: 0,
   borderTopRightRadius: 0,
   borderBottomLeftRadius: theme.appBorderRadius,
   borderBottomRightRadius: theme.appBorderRadius,
   border: 'none',
-
-  ...(prismTheme
-    ? {}
-    : {
-        background:
-          theme.base === 'light' ? 'rgba(0, 0, 0, 0.85)' : darken(0.05, theme.background.content),
-        color: theme.color.lightest,
-        button: {
-          background:
-            theme.base === 'light' ? 'rgba(0, 0, 0, 0.85)' : darken(0.05, theme.background.content),
-        },
-      }),
+  borderTopWidth: 1,
+  borderTopStyle: 'solid',
+  borderTopColor: theme.color.border,
 }));
 
 const PreviewContainer = styled.div<PreviewProps>(
