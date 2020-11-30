@@ -66,7 +66,7 @@ const ChildrenContainer = styled.div<PreviewProps & { layout: layout }>(
       : {}
 );
 
-const StyledSource = styled(Source)<{}>(({ theme }) => ({
+const StyledSource = styled(Source)<SourceProps>(({ theme, prismTheme }) => ({
   margin: 0,
   borderTopLeftRadius: 0,
   borderTopRightRadius: 0,
@@ -74,13 +74,17 @@ const StyledSource = styled(Source)<{}>(({ theme }) => ({
   borderBottomRightRadius: theme.appBorderRadius,
   border: 'none',
 
-  background:
-    theme.base === 'light' ? 'rgba(0, 0, 0, 0.85)' : darken(0.05, theme.background.content),
-  color: theme.color.lightest,
-  button: {
-    background:
-      theme.base === 'light' ? 'rgba(0, 0, 0, 0.85)' : darken(0.05, theme.background.content),
-  },
+  ...(prismTheme
+    ? {}
+    : {
+        background:
+          theme.base === 'light' ? 'rgba(0, 0, 0, 0.85)' : darken(0.05, theme.background.content),
+        color: theme.color.lightest,
+        button: {
+          background:
+            theme.base === 'light' ? 'rgba(0, 0, 0, 0.85)' : darken(0.05, theme.background.content),
+        },
+      }),
 }));
 
 const PreviewContainer = styled.div<PreviewProps>(
@@ -119,7 +123,7 @@ const getSource = (
     }
     case expanded: {
       return {
-        source: <StyledSource {...withSource} dark />,
+        source: <StyledSource {...withSource} />,
         actionItem: { title: 'Hide code', onClick: () => setExpanded(false) },
       };
     }

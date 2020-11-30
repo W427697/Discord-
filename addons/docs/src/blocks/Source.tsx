@@ -19,6 +19,7 @@ interface CommonProps {
   language?: string;
   dark?: boolean;
   code?: string;
+  prismTheme?: any;
 }
 
 type SingleSourceProps = {
@@ -99,11 +100,14 @@ export const getSourceProps = (
   const singleProps = props as SingleSourceProps;
   const multiProps = props as MultiSourceProps;
 
+  const targetId =
+    singleProps.id === CURRENT_SELECTION || !singleProps.id ? currentId : singleProps.id;
+  const targetIds = multiProps.ids || [targetId];
+
+  const { parameters } = getStoryContext(targetIds[0], docsContext);
+
   let source = codeProps.code; // prefer user-specified code
   if (!source) {
-    const targetId =
-      singleProps.id === CURRENT_SELECTION || !singleProps.id ? currentId : singleProps.id;
-    const targetIds = multiProps.ids || [targetId];
     source = targetIds
       .map((storyId) => {
         const storySource = getStorySource(storyId, sourceContext);
@@ -112,8 +116,15 @@ export const getSourceProps = (
       })
       .join('\n\n');
   }
+
   return source
-    ? { code: source, language: props.language || 'jsx', dark: props.dark || false }
+    ? {
+        code: source,
+        language: parameters.docs?.source?.language || 'jsx',
+        // Default to dark if no prism theme is supplied (as well as no `dark` parameter)
+        dark: parameters.docs?.source?.dark || !parameters.docs?.source?.prismTheme,
+        prismTheme: parameters.docs?.source?.prismTheme,
+      }
     : { error: SourceError.SOURCE_UNAVAILABLE };
 };
 
