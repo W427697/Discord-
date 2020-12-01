@@ -1,6 +1,6 @@
 {
   "name": "@storybook/rax",
-  "version": "6.1.0-rc.6",
+  "version": "6.2.0-alpha.1",
   "description": "Storybook for Rax: Develop Rax Component in isolation.",
   "keywords": [
     "rax",
@@ -34,7 +34,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/core": "6.1.0-rc.6",
+    "@storybook/core": "6.2.0-alpha.1",
     "babel-preset-rax": "^1.0.0-beta.0",
     "core-js": "^3.0.1",
     "driver-dom": "^2.0.0",
@@ -54,7 +54,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "9009e5399d5fa470689e5f2457ea9132ec1c1b34",
+  "gitHead": "211db5358500cb71c73d6183e86f40df1638752b",
   "typesVersions": {
     "<3.8": {
       "*": [
