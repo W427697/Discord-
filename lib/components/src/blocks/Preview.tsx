@@ -1,5 +1,4 @@
 import React, { Children, FunctionComponent, ReactElement, ReactNode, useState } from 'react';
-import { darken } from 'polished';
 import { styled } from '@storybook/theming';
 
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
