@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-cssresources",
-  "version": "6.1.0-alpha.19",
+  "version": "6.2.0-alpha.0",
   "description": "A storybook addon to switch between css resources at runtime for your story",
   "keywords": [
     "addon",
@@ -21,6 +21,13 @@
   "author": "nm123github",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "*": [
+        "ts3.4/*"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -32,31 +39,32 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.1.0-alpha.19",
-    "@storybook/api": "6.1.0-alpha.19",
-    "@storybook/components": "6.1.0-alpha.19",
-    "@storybook/core-events": "6.1.0-alpha.19",
-    "@storybook/theming": "6.1.0-alpha.19",
+    "@storybook/addons": "6.2.0-alpha.0",
+    "@storybook/api": "6.2.0-alpha.0",
+    "@storybook/components": "6.2.0-alpha.0",
+    "@storybook/core-events": "6.2.0-alpha.0",
+    "@storybook/theming": "6.2.0-alpha.0",
     "core-js": "^3.0.1",
     "global": "^4.3.2",
-    "react": "^16.8.3",
-    "react-dom": "^16.8.3",
-    "regenerator-runtime": "^0.13.3"
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.15.2",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2"
+    "@types/webpack-env": "^1.15.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6a3203004afecbcf8fa027d38a6088fd927714b1",
-  "typesVersions": {
-    "<3.8": {
-      "*": [
-        "ts3.4/*"
-      ]
-    }
-  }
+  "gitHead": "c44dc96274577a6f1c4006c88b0f9db524e821c4"
 }
