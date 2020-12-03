@@ -18,6 +18,7 @@ export const Img = styled.img({
 
 export const LogoLink = styled.a(({ theme }) => ({
   display: 'inline-block',
+  width: '100%',
   height: '100%',
   margin: '-3px -4px',
   padding: '2px 3px',
