@@ -1,212 +1,277 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { ThemeProvider, themes, ensure } from '@storybook/theming';
-import { SyntaxHighlighter } from './lazy-syntaxhighlighter';
 
-storiesOf('Basics/SyntaxHighlighter', module)
-  .add('bash', () => (
-    <SyntaxHighlighter language="bash" copyable={false}>
-      npx npm-check-updates '/storybook/' -u && npm install
-    </SyntaxHighlighter>
-  ))
-  .add('css', () => (
-    <SyntaxHighlighter language="css" copyable={false}>
-      {`
-        .className {
-          border: 1px solid hotpink;
-        }
-      `}
-    </SyntaxHighlighter>
-  ))
-  .add('json', () => (
-    <SyntaxHighlighter language="json" copyable={false}>
-      {`
-      {
-        "number": 1,
-        "string": "something",
-        "object": {
-          "property": "value",
-        },
-        array: [1,2,3],
+export default {
+  title: 'Basics/SyntaxHighlighter',
+  loaders: [() => import('./syntaxhighlighter')],
+};
+
+const Template = (args, { loaded }) => {
+  const { SyntaxHighlighter } = loaded;
+  return <SyntaxHighlighter {...args} />;
+};
+
+export const Bash = Template.bind({});
+
+Bash.args = {
+  language: 'bash',
+  copyable: false,
+  children: `npx npm-check-updates '/storybook/' -u && npm install`,
+};
+
+export const CSS = Template.bind({});
+
+CSS.args = {
+  language: 'css',
+  copyable: false,
+  children: `
+    .className {
+      border: 1px solid hotpink;
+    }
+  `,
+};
+
+export const JSON = Template.bind({});
+
+JSON.args = {
+  language: 'json',
+  copyable: false,
+  children: `
+  {
+    "number": 1,
+    "string": "something",
+    "object": {
+      "property": "value",
+    },
+    array: [1,2,3],
+  }
+  `,
+};
+
+export const Markdown = Template.bind({});
+
+Markdown.args = {
+  language: 'markdown',
+  copyable: false,
+  children: `
+  # a big header
+
+  some code:
+
+  ~~~js
+  const name = "a string";
+  ~~~
+
+  > crazy
+
+  `,
+};
+
+export const YAML = Template.bind({});
+
+YAML.args = {
+  language: 'yaml',
+  copyable: false,
+  children: `
+    product:
+    - sku         : BL394D
+      quantity    : 4
+      description : Basketball
+      price       : 450.00
+  `,
+};
+
+export const JSX = Template.bind({});
+
+JSX.args = {
+  language: 'jsx',
+  copyable: false,
+  children: `
+  import { Good, Things } from 'life';
+
+  const result = () => <Good><Things all={true} /></Good>;
+
+  export { result as default };
+  `,
+};
+
+export const JS = Template.bind({});
+
+JS.args = {
+  language: 'jsx',
+  copyable: false,
+  children: `
+  import React, { createElement } from 'react';
+  import { Good, Things } from 'life';
+
+  const result = () => createElement(Good, [createElement(Things, [], { all: true }), []);
+
+  console.log(result);
+
+  export { result as default };
+  `,
+};
+
+export const GraphQL = Template.bind({});
+
+GraphQL.args = {
+  language: 'graphql',
+  copyable: false,
+  children: `
+  query HeroNameAndFriends($episode: Episode) {
+    hero(episode: $episode) {
+      name
+      friends {
+        name
       }
-      `}
-    </SyntaxHighlighter>
-  ))
-  .add('markdown', () => (
-    <SyntaxHighlighter language="markdown" copyable={false}>
-      {`
-      # a big header
+    }
+  }
+  `,
+};
 
-      some code:
+export const Unsupported = Template.bind({});
 
-      ~~~js
-      const name = "a string";
-      ~~~
+Unsupported.args = {
+  language: 'C#',
+  bordered: true,
+  copyable: true,
+  children: `
+  // A Hello World! program in C#.
+  using System;
+  namespace HelloWorld
+  {
+    class Hello
+    {
+      static void Main()
+      {
+        Console.WriteLine("Hello World!");
 
-      > crazy
+        // Keep the console window open in debug mode.
+        Console.WriteLine("Press any key to exit.");
+        Console.ReadKey();
+      }
+    }
+  }
+  `,
+};
 
-      `}
-    </SyntaxHighlighter>
-  ))
-  .add('yaml', () => (
-    <SyntaxHighlighter language="yaml" copyable={false}>
-      {`
-        product:
-        - sku         : BL394D
-          quantity    : 4
-          description : Basketball
-          price       : 450.00
-      `}
-    </SyntaxHighlighter>
-  ))
-  .add('jsx', () => (
-    <SyntaxHighlighter language="jsx" copyable={false}>
-      {`import { Good, Things } from 'life';
+export const DarkUnsupported = Template.bind({});
 
-        const result = () => <Good><Things all={true} /></Good>;
-
-        export { result as default };
-      `}
-    </SyntaxHighlighter>
-  ))
-  .add('js', () => (
-    <SyntaxHighlighter language="jsx" copyable={false}>
-      {`import React, { createElement } from 'react';
-        import { Good, Things } from 'life';
-
-        const result = () => createElement(Good, [createElement(Things, [], { all: true }), []);
-
-        console.log(result);
-
-        export { result as default };
-      `}
-    </SyntaxHighlighter>
-  ))
-  .add('graphql', () => (
-    <SyntaxHighlighter language="graphql" copyable={false}>
-      {`query HeroNameAndFriends($episode: Episode) {
-          hero(episode: $episode) {
-            name
-            friends {
-              name
-            }
-          }
-        }
-      `}
-    </SyntaxHighlighter>
-  ))
-  .add('unsupported', () => (
-    <SyntaxHighlighter language="C#" bordered copyable>
-      {`
-        // A Hello World! program in C#.
-        using System;
-        namespace HelloWorld
-        {
-          class Hello 
-          {
-            static void Main() 
-            {
-              Console.WriteLine("Hello World!");
-
-              // Keep the console window open in debug mode.
-              Console.WriteLine("Press any key to exit.");
-              Console.ReadKey();
-            }
-          }
-        }
-      `}
-    </SyntaxHighlighter>
-  ))
-  .add('dark unsupported', () => {
+DarkUnsupported.decorators = [
+  (Story) => {
     const theme = ensure(themes.dark);
     return (
       <ThemeProvider theme={theme}>
-        <SyntaxHighlighter bordered language="C#" copyable>
-          {`
-            // A Hello World! program in C#.
-            using System;
-            namespace HelloWorld
-            {
-              class Hello 
-              {
-                static void Main() 
-                {
-                  Console.WriteLine("Hello World!");
-
-                  // Keep the console window open in debug mode.
-                  Console.WriteLine("Press any key to exit.");
-                  Console.ReadKey();
-                }
-              }
-            }
-          `}
-        </SyntaxHighlighter>
+        <Story />
       </ThemeProvider>
     );
-  })
-  .add('story', () => (
-    <SyntaxHighlighter language="jsx" copyable={false}>
-      {`
-        import React from 'react';
-        import { storiesOf } from '@storybook/react';
-        import { styled } from '@storybook/theming';
+  },
+];
 
-        import Heading from './heading';
+DarkUnsupported.args = {
+  language: 'C#',
+  bordered: true,
+  copyable: true,
+  children: `
+  // A Hello World! program in C#.
+  using System;
+  namespace HelloWorld
+  {
+    class Hello
+    {
+      static void Main()
+      {
+        Console.WriteLine("Hello World!");
 
-        const Holder = styled.div({
-          margin: 10,
-          border: '1px dashed deepskyblue',
-          // overflow: 'hidden',
-        });
+        // Keep the console window open in debug mode.
+        Console.WriteLine("Press any key to exit.");
+        Console.ReadKey();
+      }
+    }
+  }
+  `,
+};
 
-        storiesOf('Basics|Heading', module).add('types', () => (
-          <div>
-            <Holder>
-              <Heading>DEFAULT WITH ALL CAPS</Heading>
-            </Holder>
-            <Holder>
-              <Heading sub="With a great sub">THIS LONG DEFAULT WITH ALL CAPS & SUB</Heading>
-            </Holder>
-            <Holder>
-              <Heading type="page">page type</Heading>
-            </Holder>
-            <Holder>
-              <Heading type="page" sub="With a sub">
-                page type
-              </Heading>
-            </Holder>
-          </div>
-        ));
-      `}
-    </SyntaxHighlighter>
-  ))
-  .add('bordered & copy-able', () => (
-    <SyntaxHighlighter language="jsx" copyable bordered>
-      {`import { Good, Things } from 'life';
+export const Story = Template.bind({});
 
-        const result = () => <Good><Things /></Good>;
+Story.args = {
+  language: 'jsx',
+  copyable: false,
+  children: `
+  import React from 'react';
+  import { storiesOf } from '@storybook/react';
+  import { styled } from '@storybook/theming';
 
-        export { result as default };
-      `}
-    </SyntaxHighlighter>
-  ))
-  .add('padded', () => (
-    <SyntaxHighlighter language="jsx" padded>
-      {`import { Good, Things } from 'life';
+  import Heading from './heading';
 
-        const result = () => <Good><Things /></Good>;
+  const Holder = styled.div({
+    margin: 10,
+    border: '1px dashed deepskyblue',
+    // overflow: 'hidden',
+  });
 
-        export { result as default };
-      `}
-    </SyntaxHighlighter>
-  ))
-  .add('showLineNumbers', () => (
-    <SyntaxHighlighter language="jsx" copyable={false} showLineNumbers>
-      {`import { Good, Things } from 'life';
-
-        const result = () => <Good><Things /></Good>;
-
-        export { result as default };
-      `}
-    </SyntaxHighlighter>
+  storiesOf('Basics|Heading', module).add('types', () => (
+    <div>
+      <Holder>
+        <Heading>DEFAULT WITH ALL CAPS</Heading>
+      </Holder>
+      <Holder>
+        <Heading sub="With a great sub">THIS LONG DEFAULT WITH ALL CAPS & SUB</Heading>
+      </Holder>
+      <Holder>
+        <Heading type="page">page type</Heading>
+      </Holder>
+      <Holder>
+        <Heading type="page" sub="With a sub">
+          page type
+        </Heading>
+      </Holder>
+    </div>
   ));
+  `,
+};
+
+export const BorderedCopyable = Template.bind({});
+
+BorderedCopyable.args = {
+  language: 'jsx',
+  bordered: true,
+  copyable: true,
+  children: `
+  import { Good, Things } from 'life';
+
+  const result = () => <Good><Things /></Good>;
+
+  export { result as default };
+  `,
+};
+
+export const Padded = Template.bind({});
+
+Padded.args = {
+  language: 'jsx',
+  padded: true,
+  children: `
+  import { Good, Things } from 'life';
+
+  const result = () => <Good><Things /></Good>;
+
+  export { result as default };
+  `,
+};
+
+export const ShowLineNumbers = Template.bind({});
+
+ShowLineNumbers.args = {
+  language: 'jsx',
+  copyable: false,
+  showLineNumbers: true,
+  children: `
+  import { Good, Things } from 'life';
+
+  const result = () => <Good><Things /></Good>;
+
+  export { result as default };
+  `,
+};
