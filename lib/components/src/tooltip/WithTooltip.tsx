@@ -59,7 +59,6 @@ const WithTooltipPure: FunctionComponent<WithTooltipPureProps> = ({
   const prevOpen = React.useRef(tooltipShown);
   React.useEffect(() => {
     if (prevOpen.current === true && tooltipShown === false) {
-      // eslint-disable-next-line no-unused-expressions
       internalTriggerRef.current?.focus();
     }
     prevOpen.current = tooltipShown;
@@ -101,8 +100,18 @@ const WithTooltipPure: FunctionComponent<WithTooltipPureProps> = ({
     >
       {({ getTriggerProps, triggerRef }) => (
         // @ts-ignore
-        <Container ref={triggerRef} tabIndex={0} {...getTriggerProps()} {...props}>
-          {children}
+        <Container ref={triggerRef} {...getTriggerProps()} {...props}>
+          {React.Children.map(children, (child) => {
+            // there shoudn't be more than one child
+            if (React.isValidElement(child)) {
+              return React.cloneElement(child, {
+                tabIndex: 0,
+                'aria-expanded': tooltipShown ? 'true' : 'false',
+                'aria-haspopup': 'true',
+              });
+            }
+            return child;
+          })}
         </Container>
       )}
     </TooltipTrigger>
