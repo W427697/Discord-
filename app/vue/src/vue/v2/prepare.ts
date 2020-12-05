@@ -2,7 +2,7 @@ import Vue, { VueConstructor, ComponentOptions } from 'vue';
 
 import { StoryFnVueReturnType } from './types';
 
-import render, { VALUES } from './render';
+import { VALUES } from './render';
 
 function getType(fn: Function) {
   const match = fn && fn.toString().match(/^\s*function (\w+)/);

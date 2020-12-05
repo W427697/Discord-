@@ -61,10 +61,8 @@
     "@types/webpack": "^4.41.24",
     "@vue/compiler-sfc": "^3.0.0",
     "chalk": "^2.4.2",
-    "rimraf": "^2.7.1",
     "vue": "^3.0.0",
-    "vue-loader": "^16.0.0",
-    "vue2": "npm:vue@^2.6.12"
+    "vue-loader": "^16.0.0"
   },
   "peerDependencies": {
     "@babel/core": "*",

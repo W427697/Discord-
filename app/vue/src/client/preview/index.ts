@@ -46,7 +46,7 @@ function decorateStory(
         return story;
       }
 
-      return prepare(decoratedStory, story);
+      return prepare(decoratedStory, story as any);
     },
     (context) => prepare(storyFn(context))
   );
