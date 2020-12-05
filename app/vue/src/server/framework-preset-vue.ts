@@ -1,5 +1,6 @@
 import { Configuration } from 'webpack';
-import { VueLoaderPlugin } from '../vue';
+// @ts-ignore
+import { VueLoaderPlugin } from 'vue';
 
 export function webpack(config: Configuration) {
   return {

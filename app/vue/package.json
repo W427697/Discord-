@@ -38,7 +38,6 @@
     "ts3.4/**/*"
   ],
   "scripts": {
-    "postinstall": "node ./scripts/switchVueVersion.js && node ../../scripts/prepare.js",
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
@@ -59,10 +58,10 @@
   "devDependencies": {
     "@types/node": "^14.0.10",
     "@types/webpack": "^4.41.24",
-    "@vue/compiler-sfc": "^3.0.0",
     "chalk": "^2.4.2",
-    "vue": "^3.0.0",
-    "vue-loader": "^16.0.0"
+    "vue": "^2.6.8",
+    "vue-loader": "^15.9.5",
+    "vue-template-compiler": "^2.6.8"
   },
   "peerDependencies": {
     "@babel/core": "*",
@@ -70,7 +69,7 @@
     "css-loader": "*",
     "ts-loader": "^6.2.2",
     "vue": "^2.6.8 || >=3.0.0",
-    "vue-loader": "^15.7.0 || ^16.0.0"
+    "vue-loader": "^15.9.5 || ^16.0.0"
   },
   "optionalDependencies": {
     "@vue/compiler-sfc": "^3.0.0",

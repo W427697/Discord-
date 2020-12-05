@@ -1,5 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import { start } from '@storybook/core/client';
+import * as Vue from 'vue';
 import {
   ClientStoryApi,
   StoryFn,
@@ -10,7 +11,10 @@ import {
 
 import './globals';
 import { IStorybookSection, StoryFnVueReturnType } from './types';
-import { prepare, render } from '../../vue';
+import * as vue3 from './v3/index';
+import * as vue2 from './v2/index';
+
+const currentVue = Vue.version[0] === '3' ? vue3 : vue2;
 
 const defaultContext: StoryContext = {
   id: 'unspecified',
@@ -46,9 +50,9 @@ function decorateStory(
         return story;
       }
 
-      return prepare(decoratedStory, story as any);
+      return currentVue.prepare(decoratedStory, story as any);
     },
-    (context) => prepare(storyFn(context))
+    (context) => currentVue.prepare(storyFn(context))
   );
 }
 
@@ -64,7 +68,7 @@ interface ClientApi extends ClientStoryApi<StoryFnVueReturnType> {
   load: (...args: any[]) => void;
 }
 
-const api = start(render, { decorateStory });
+const api = start(currentVue.render, { decorateStory });
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({

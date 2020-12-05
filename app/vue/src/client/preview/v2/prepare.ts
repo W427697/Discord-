@@ -1,43 +1,18 @@
-import Vue, { VueConstructor, ComponentOptions } from 'vue';
-
-import { StoryFnVueReturnType } from './types';
-
+import { StoryFnVueReturnType } from '../types';
 import { VALUES } from './render';
+import { extractProps } from '../util';
 
-function getType(fn: Function) {
-  const match = fn && fn.toString().match(/^\s*function (\w+)/);
-  return match ? match[1] : '';
-}
-
-// https://github.com/vuejs/vue/blob/dev/src/core/util/props.js#L92
-function resolveDefault({ type, default: def }: any) {
-  if (typeof def === 'function' && getType(type) !== 'Function') {
-    // known limitation: we don't have the component instance to pass
-    return def.call();
-  }
-
-  return def;
-}
-
-function extractProps(component?: VueConstructor) {
-  // @ts-ignore this options business seems not good according to the types
-  return Object.entries(component.props || {})
-    .map(([name, prop]) => ({ [name]: resolveDefault(prop) }))
-    .reduce((wrap, prop) => ({ ...wrap, ...prop }), {});
-}
+const Vue: any = require('vue');
 
 export const WRAPS = 'STORYBOOK_WRAPS';
 
-export function prepare(
-  rawStory: StoryFnVueReturnType,
-  innerStory?: VueConstructor
-): VueConstructor | null {
-  let story: ComponentOptions<Vue> | VueConstructor;
+export function prepare(rawStory: StoryFnVueReturnType, innerStory?: any): any {
+  let story: any;
 
   if (typeof rawStory === 'string') {
     story = { template: rawStory };
   } else if (rawStory != null) {
-    story = rawStory as ComponentOptions<Vue>;
+    story = rawStory;
   } else {
     return null;
   }
@@ -51,7 +26,7 @@ export function prepare(
     story = Vue.extend(story);
     // @ts-ignore // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
   } else if (story.options[WRAPS]) {
-    return story as VueConstructor;
+    return story;
   }
 
   return Vue.extend({
@@ -60,6 +35,7 @@ export function prepare(
     // @ts-ignore // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
     [VALUES]: { ...(innerStory ? innerStory.options[VALUES] : {}), ...extractProps(story) },
     functional: true,
+    // @ts-ignore
     render(h, { data, parent, children }) {
       return h(
         story,
