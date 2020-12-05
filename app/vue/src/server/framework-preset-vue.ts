@@ -1,5 +1,5 @@
-import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import { Configuration } from 'webpack';
+import { VueLoaderPlugin } from '../vue';
 
 export function webpack(config: Configuration) {
   return {
