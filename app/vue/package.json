@@ -61,7 +61,8 @@
     "chalk": "^2.4.2",
     "vue": "^2.6.8",
     "vue-loader": "^15.9.5",
-    "vue-template-compiler": "^2.6.8"
+    "vue-template-compiler": "^2.6.8",
+    "vue3": "npm:vue@^3.0.0"
   },
   "peerDependencies": {
     "@babel/core": "*",

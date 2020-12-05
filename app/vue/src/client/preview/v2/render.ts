@@ -1,7 +1,7 @@
 import dedent from 'ts-dedent';
 import { RenderContext } from '../types';
 
-const Vue: any = require('vue');
+const Vue: any = require('vue').default;
 
 export const COMPONENT = 'STORYBOOK_COMPONENT';
 export const VALUES = 'STORYBOOK_VALUES';

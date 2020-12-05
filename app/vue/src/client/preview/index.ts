@@ -1,6 +1,5 @@
 /* eslint-disable prefer-destructuring */
 import { start } from '@storybook/core/client';
-import * as Vue from 'vue';
 import {
   ClientStoryApi,
   StoryFn,
@@ -11,10 +10,9 @@ import {
 
 import './globals';
 import { IStorybookSection, StoryFnVueReturnType } from './types';
-import * as vue3 from './v3/index';
-import * as vue2 from './v2/index';
+import { vueVersion } from '../../vue-version';
 
-const currentVue = Vue.version[0] === '3' ? vue3 : vue2;
+const currentVue = vueVersion === 3 ? require('./v3/index') : require('./v2/index');
 
 const defaultContext: StoryContext = {
   id: 'unspecified',

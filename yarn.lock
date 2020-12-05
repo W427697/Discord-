@@ -32908,7 +32908,7 @@ vue-inbrowser-compiler-utils@^4.33.6:
   dependencies:
     camelcase "^5.3.1"
 
-vue-loader@^15.7.0, vue-loader@^15.9.1:
+vue-loader@^15.7.0, vue-loader@^15.9.1, vue-loader@^15.9.5:
   version "15.9.5"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-15.9.5.tgz#7a960dc420a3439deaacdda038fdcdbf7c432706"
   integrity sha512-oeMOs2b5o5gRqkxfds10bCx6JeXYTwivRgbb8hzOrcThD2z1+GqEKE3EX9A2SGbsYDf4rXwRg6D5n1w0jO5SwA==
@@ -32918,15 +32918,6 @@ vue-loader@^15.7.0, vue-loader@^15.9.1:
     loader-utils "^1.1.0"
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
-
-vue-loader@^16.0.0:
-  version "16.1.1"
-  resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-16.1.1.tgz#f5b286d60ac6886684c63a17a184391cc9e0199a"
-  integrity sha512-wz/+HFg/3SBayHWAlZXARcnDTl3VOChrfW9YnxvAweiuyKX/7IGx1ad/4yJHmwhgWlOVYMAbTiI7GV8G33PfGQ==
-  dependencies:
-    chalk "^4.1.0"
-    hash-sum "^2.0.0"
-    loader-utils "^2.0.0"
 
 vue-property-decorator@8.3.0:
   version "8.3.0"
@@ -32961,12 +32952,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^2.6.8:
-  version "2.6.12"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
-  integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
-
-vue@^3.0.0:
+"vue3@npm:vue@^3.0.0":
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.0.4.tgz#872c65c143f5717bd5387c61613d9f55f4cc0f43"
   integrity sha512-2o+AiQF8sAupyhbyl3oxVCl3WCwC/n5NI7VMM+gVQ231qvSB8eI7sCBloloqDJK6yA367EEtmRSeSCf4sxCC+A==
@@ -32974,6 +32960,11 @@ vue@^3.0.0:
     "@vue/compiler-dom" "3.0.4"
     "@vue/runtime-dom" "3.0.4"
     "@vue/shared" "3.0.4"
+
+vue@^2.6.8:
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
+  integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
 
 vuex@^3.1.0:
   version "3.6.0"

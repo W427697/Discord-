@@ -1,4 +1,6 @@
-import { Component, ComponentOptions, defineComponent, h } from 'vue';
+// @ts-ignore
+import { defineComponent, h } from 'vue';
+import type { ComponentOptions, Component } from 'vue3';
 import { StoryFnVueReturnType } from '../types';
 import { propsContainer } from './render';
 import { extractProps } from '../util';

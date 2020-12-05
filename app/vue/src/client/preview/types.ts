@@ -1,4 +1,5 @@
-import { ComponentOptions, Component } from 'vue';
+import { Component } from 'vue';
+import type { ComponentOptions } from 'vue3';
 
 export { RenderContext } from '@storybook/core';
 

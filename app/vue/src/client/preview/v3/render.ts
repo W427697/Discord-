@@ -1,6 +1,8 @@
 import { Args } from '@storybook/addons';
 import dedent from 'ts-dedent';
-import { createApp, h, shallowRef, reactive, ComponentOptions } from 'vue';
+// @ts-ignore
+import { createApp, h, shallowRef, reactive } from 'vue';
+import type { ComponentOptions } from 'vue3';
 import { RenderContext, StoryFnVueReturnType } from '../types';
 
 let mounted = false;

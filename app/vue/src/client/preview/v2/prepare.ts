@@ -2,7 +2,7 @@ import { StoryFnVueReturnType } from '../types';
 import { VALUES } from './render';
 import { extractProps } from '../util';
 
-const Vue: any = require('vue');
+const Vue: any = require('vue').default;
 
 export const WRAPS = 'STORYBOOK_WRAPS';
 

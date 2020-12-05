@@ -1,11 +1,16 @@
+/* eslint-disable global-require */
 import { Configuration } from 'webpack';
-// @ts-ignore
-import { VueLoaderPlugin } from 'vue';
+import { vueVersion } from '../vue-version';
+
+function getVueLoaderPlugin() {
+  const vueLoader = require('vue-loader');
+  return vueLoader.VueLoaderPlugin || require('vue-loader/lib/plugin').default;
+}
 
 export function webpack(config: Configuration) {
   return {
     ...config,
-    plugins: [...config.plugins, new VueLoaderPlugin()],
+    plugins: [...config.plugins, new (getVueLoaderPlugin())()],
     module: {
       ...config.module,
       rules: [
@@ -34,7 +39,8 @@ export function webpack(config: Configuration) {
       extensions: [...config.resolve.extensions, '.vue'],
       alias: {
         ...config.resolve.alias,
-        vue$: require.resolve('vue/dist/vue.esm.js'),
+        vue$:
+          vueVersion === 2 ? require.resolve('vue/dist/vue.esm.js') : 'vue/dist/vue.esm-bundler.js',
       },
     },
   };
