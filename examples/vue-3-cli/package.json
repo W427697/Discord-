@@ -1,0 +1,36 @@
+{
+  "name": "vue-3-cli",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "prestorybook": "node link-vue.js",
+    "prebuild-storybook": "node link-vue.js",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "build-storybook": "build-storybook",
+    "storybook": "trap 'node link-vue.js unlink' SIGINT; start-storybook -p 9009"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "vue": "3.0.4"
+  },
+  "devDependencies": {
+    "@storybook/addon-controls": "6.2.0-alpha.3",
+    "@storybook/addon-essentials": "6.2.0-alpha.3",
+    "@storybook/preset-scss": "^1.0.2",
+    "@storybook/source-loader": "6.2.0-alpha.3",
+    "@storybook/vue": "6.2.0-alpha.3",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "vue-loader": "^16.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "workspaces": {
+    "nohoist": ["vue", "vue-loader"]
+  }
+}

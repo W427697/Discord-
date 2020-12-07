@@ -4,9 +4,10 @@ import { addons, StoryContext } from '@storybook/addons';
 import { logger } from '@storybook/client-logger';
 import prettier from 'prettier/standalone';
 import prettierHtml from 'prettier/parser-html';
-import { Vue, isVue3 } from './vue';
-
-import { SourceType, SNIPPET_RENDERED } from '../../shared';
+// @ts-ignore
+import { createApp, h, Text } from 'vue';
+import type { VNode } from 'vue3';
+import { SourceType, SNIPPET_RENDERED } from '../../../shared';
 
 export const skipSourceRender = (context: StoryContext) => {
   const sourceParams = context?.parameters.docs?.source;
@@ -36,28 +37,13 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
     // Also, I couldn't see any notable difference from the implementation with
     // per-story-cache.
     // But if there is a more performant way, we should replace it with that ASAP.
-    const vm = isVue3
-      ? Vue.createApp({
-          setup() {
-            return () => Vue.h(story);
-          },
-        })
-      : new Vue({
-          data() {
-            return {
-              STORYBOOK_VALUES: context.args,
-            };
-          },
-          render(h: Function) {
-            return h(story);
-          },
-        });
+    const vm = createApp({
+      setup() {
+        return () => h(story);
+      },
+    });
 
-    if (isVue3) {
-      vm.mount();
-    } else {
-      vm.$mount();
-    }
+    // vm.mount();
 
     const channel = addons.getChannel();
 
@@ -86,37 +72,51 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
 };
 
 export function vnodeToString(vnode: VNode): string {
+  const childrenToString = (children: VNode['children']) => {
+    let str = '';
+    if (Array.isArray(children)) {
+      str = children.map(vnodeToString).join('');
+    } else if (typeof children === 'string') {
+      str = children;
+    } else if (typeof children.$stable === 'boolean') {
+      // TODO: RawSlots
+      str = '<slot />';
+    }
+    return str;
+  };
+
   const attrString = [
-    ...(vnode.data?.slot ? ([['slot', vnode.data.slot]] as [string, any][]) : []),
-    ['class', stringifyClassAttribute(vnode)],
-    ...(vnode.componentOptions?.propsData ? Object.entries(vnode.componentOptions.propsData) : []),
-    ...(vnode.data?.attrs ? Object.entries(vnode.data.attrs) : []),
+    // ...(vnode.data?.slot ? ([['slot', vnode.data.slot]] as [string, any][]) : []),
+    ...Object.entries(vnode.props),
   ]
     .filter(([name], index, list) => list.findIndex((item) => item[0] === name) === index)
     .map(([name, value]) => stringifyAttr(name, value))
     .filter(Boolean)
     .join(' ');
 
-  if (!vnode.componentOptions) {
+  if (!vnode.component) {
     // Non-component elements (div, span, etc...)
-    if (vnode.tag) {
+    if (vnode.type) {
       if (!vnode.children) {
-        return `<${vnode.tag} ${attrString}/>`;
+        return `<${String(vnode.type)} ${attrString}/>`;
       }
 
-      return `<${vnode.tag} ${attrString}>${vnode.children.map(vnodeToString).join('')}</${
-        vnode.tag
-      }>`;
+      return `<${String(vnode.type)} ${attrString}>${childrenToString(vnode.children)}</${String(
+        vnode.type
+      )}>`;
     }
 
     // TextNode
-    if (vnode.text) {
-      if (/[<>"&]/.test(vnode.text)) {
-        return `{{\`${vnode.text.replace(/`/g, '\\`')}\`}}`;
+    if ((vnode.type as symbol) === Text) {
+      const text = vnode.children as string;
+      if (/[<>"&]/.test(text)) {
+        return `{{\`${text.replace(/`/g, '\\`')}\`}}`;
       }
 
-      return vnode.text;
+      return text;
     }
+
+    // TODO: Add fragment type
 
     // Unknown
     return '';
@@ -124,52 +124,15 @@ export function vnodeToString(vnode: VNode): string {
 
   // Probably users never see the "unknown-component". It seems that vnode.tag
   // is always set.
-  const tag = vnode.componentOptions.tag || vnode.tag || 'unknown-component';
+  const { type } = vnode.component;
+  // eslint-disable-next-line no-underscore-dangle
+  const tag = type.name || type.displayName || type.__file || 'unknown-component';
 
-  if (!vnode.componentOptions.children) {
+  if (!vnode.children) {
     return `<${tag} ${attrString}/>`;
   }
 
-  return `<${tag} ${attrString}>${vnode.componentOptions.children
-    .map(vnodeToString)
-    .join('')}</${tag}>`;
-}
-
-function stringifyClassAttribute(vnode: VNode): string | undefined {
-  if (!vnode.data || (!vnode.data.staticClass && !vnode.data.class)) {
-    return undefined;
-  }
-
-  return (
-    [...(vnode.data.staticClass?.split(' ') ?? []), ...normalizeClassBinding(vnode.data.class)]
-      .filter(Boolean)
-      .join(' ') || undefined
-  );
-}
-
-// https://vuejs.org/v2/guide/class-and-style.html#Binding-HTML-Classes
-function normalizeClassBinding(binding: unknown): readonly string[] {
-  if (!binding) {
-    return [];
-  }
-
-  if (typeof binding === 'string') {
-    return [binding];
-  }
-
-  if (binding instanceof Array) {
-    // To handle an object-in-array binding smartly, we use recursion
-    return binding.map(normalizeClassBinding).reduce((a, b) => [...a, ...b], []);
-  }
-
-  if (typeof binding === 'object') {
-    return Object.entries(binding)
-      .filter(([, active]) => !!active)
-      .map(([className]) => className);
-  }
-
-  // Unknown class binding
-  return [];
+  return `<${tag} ${attrString}>${childrenToString(vnode.children)}</${tag}>`;
 }
 
 function stringifyAttr(attrName: string, value?: any): string | null {
@@ -201,18 +164,9 @@ function quote(value: string) {
  * https://github.com/pocka/storybook-addon-vue-info/pull/113
  */
 function getStoryComponent(w: any) {
-  let matched;
-
-  if (isVue3) {
-    matched = w.STORYBOOK_WRAPS;
-    while (matched?.options?.components?.story?.options?.STORYBOOK_WRAPS) {
-      matched = matched?.options?.components?.story?.options?.STORYBOOK_WRAPS;
-    }
-  } else {
-    matched = w.options.STORYBOOK_WRAPS;
-    while (matched?.options?.components?.story?.options?.STORYBOOK_WRAPS) {
-      matched = matched?.options?.components?.story?.options?.STORYBOOK_WRAPS;
-    }
+  let matched = w.STORYBOOK_WRAPS;
+  while (matched?.components?.story?.STORYBOOK_WRAPS) {
+    matched = matched?.components?.story?.STORYBOOK_WRAPS;
   }
   return matched;
 }

@@ -5,6 +5,8 @@ import { StoryFnVueReturnType } from '../types';
 import { propsContainer } from './render';
 import { extractProps } from '../util';
 
+export const WRAPS = 'STORYBOOK_WRAPS';
+
 export function prepare(
   rawStory: StoryFnVueReturnType,
   innerStory?: ComponentOptions
@@ -27,6 +29,7 @@ export function prepare(
   propsContainer.props = extractProps(story.props);
 
   return defineComponent({
+    [WRAPS]: story,
     render() {
       return h(story, propsContainer.props);
     },

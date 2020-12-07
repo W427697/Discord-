@@ -1,7 +1,16 @@
 import { extractArgTypes } from './extractArgTypes';
 import { extractComponentDescription } from '../../lib/docgen';
-import { prepareForInline } from './prepareForInline';
-import { sourceDecorator } from './sourceDecorator';
+import { isVue3 } from './vue';
+
+let prepareForInline;
+let sourceDecorator;
+if (isVue3) {
+  prepareForInline = require('./v3/prepareForInline').prepareForInline;
+  sourceDecorator = require('./v3/sourceDecorator').sourceDecorator;
+} else {
+  prepareForInline = require('./v2/prepareForInline').prepareForInline;
+  sourceDecorator = require('./v2/sourceDecorator').sourceDecorator;
+}
 
 export const parameters = {
   docs: {

@@ -60,7 +60,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
   }
 
   let renderedJSX = code;
-  const Type = renderedJSX.type;
+  const Type = renderedJSX.type as any;
 
   for (let i = 0; i < options.skip; i += 1) {
     if (typeof renderedJSX === 'undefined') {

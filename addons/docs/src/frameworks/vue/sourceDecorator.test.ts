@@ -2,7 +2,7 @@
 
 import { ComponentOptions } from 'vue';
 import Vue from 'vue/dist/vue';
-import { vnodeToString } from './sourceDecorator';
+import { vnodeToString } from './v2/sourceDecorator';
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
