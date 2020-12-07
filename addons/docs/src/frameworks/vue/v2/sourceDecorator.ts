@@ -42,7 +42,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
           STORYBOOK_VALUES: context.args,
         };
       },
-      render(h) {
+      render(h: Function) {
         return h(story);
       },
     }).$mount();

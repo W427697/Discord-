@@ -4,7 +4,7 @@ import { addons, StoryContext } from '@storybook/addons';
 import { logger } from '@storybook/client-logger';
 import prettier from 'prettier/standalone';
 import prettierHtml from 'prettier/parser-html';
-import { createApp, h, Text, VNode3 } from 'vue';
+import { h, Text, VNode3, ComponentOptions3 } from 'vue';
 import { SourceType, SNIPPET_RENDERED } from '../../../shared';
 
 export const skipSourceRender = (context: StoryContext) => {
@@ -35,21 +35,17 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
     // Also, I couldn't see any notable difference from the implementation with
     // per-story-cache.
     // But if there is a more performant way, we should replace it with that ASAP.
-    const vm = createApp({
-      setup() {
-        return () => h(story);
-      },
-    });
-
-    // vm.mount();
-
     const channel = addons.getChannel();
 
     const storyComponent = getStoryComponent(story);
 
-    const storyNode = lookupStoryInstance(vm, storyComponent);
-
-    const code = vnodeToString(storyNode._vnode);
+    let code;
+    if (storyComponent.template) {
+      code = storyComponent.template;
+    } else if (storyComponent.render) {
+      const storyNode = lookupStoryInstance(storyComponent.render(h), storyComponent);
+      code = vnodeToString(storyNode);
+    }
 
     channel.emit(
       SNIPPET_RENDERED,
@@ -82,23 +78,22 @@ export function vnodeToString(vnode: VNode3): string {
 
   const attrString = [
     // ...(vnode.data?.slot ? ([['slot', vnode.data.slot]] as [string, any][]) : []),
-    ...Object.entries(vnode.props),
+    ...Object.entries(vnode.props || {}),
   ]
     .filter(([name], index, list) => list.findIndex((item) => item[0] === name) === index)
     .map(([name, value]) => stringifyAttr(name, value))
     .filter(Boolean)
     .join(' ');
 
+  const tag = extractVnodeTag(vnode);
   if (!vnode.component) {
     // Non-component elements (div, span, etc...)
     if (vnode.type) {
       if (!vnode.children) {
-        return `<${String(vnode.type)} ${attrString}/>`;
+        return `<${tag} ${attrString}/>`;
       }
 
-      return `<${String(vnode.type)} ${attrString}>${childrenToString(vnode.children)}</${String(
-        vnode.type
-      )}>`;
+      return `<${tag} ${attrString}>${childrenToString(vnode.children)}</${tag}>`;
     }
 
     // TextNode
@@ -117,17 +112,27 @@ export function vnodeToString(vnode: VNode3): string {
     return '';
   }
 
-  // Probably users never see the "unknown-component". It seems that vnode.tag
-  // is always set.
-  const { type } = vnode.component;
-  // eslint-disable-next-line no-underscore-dangle
-  const tag = type.name || type.displayName || type.__file || 'unknown-component';
-
   if (!vnode.children) {
     return `<${tag} ${attrString}/>`;
   }
 
   return `<${tag} ${attrString}>${childrenToString(vnode.children)}</${tag}>`;
+}
+
+function extractVnodeTag(vnode: VNode3) {
+  const { type } = vnode;
+  let tag;
+  if (typeof type === 'object') {
+    const t = type as any;
+    tag =
+      t.name ||
+      t.__docgenInfo?.displayName || // eslint-disable-line no-underscore-dangle
+      t.__file.split('/').slice(-1)[0].replace('.vue', '') || // eslint-disable-line no-underscore-dangle
+      'unknown-component';
+  } else {
+    tag = String(type);
+  }
+  return tag;
 }
 
 function stringifyAttr(attrName: string, value?: any): string | null {
@@ -158,41 +163,17 @@ function quote(value: string) {
  * Skip decorators and grab a story component itself.
  * https://github.com/pocka/storybook-addon-vue-info/pull/113
  */
-function getStoryComponent(w: any) {
-  let matched = w.STORYBOOK_WRAPS;
+function getStoryComponent(w: any): ComponentOptions3 {
+  let matched = w;
   while (matched?.components?.story?.STORYBOOK_WRAPS) {
-    matched = matched?.components?.story?.STORYBOOK_WRAPS;
+    matched = matched?.components?.story;
   }
-  return matched;
-}
-
-interface VueInternal {
-  // We need to access this private property, in order to grab the vnode of the
-  // component instead of the "vnode of the parent of the component".
-  // Probably it's safe to rely on this because vm.$vnode is a reference for this.
-  // https://github.com/vuejs/vue/issues/6070#issuecomment-314389883
-  _vnode: VNode3;
+  return matched.STORYBOOK_WRAPS || null;
 }
 
 /**
  * Find the story's instance from VNode tree.
  */
-function lookupStoryInstance(instance: any, storyComponent: any): any {
-  if (
-    instance.$vnode &&
-    instance.$vnode.componentOptions &&
-    instance.$vnode.componentOptions.Ctor === storyComponent
-  ) {
-    return instance as Vue & VueInternal;
-  }
-
-  for (let i = 0, l = instance.$children.length; i < l; i += 1) {
-    const found = lookupStoryInstance(instance.$children[i], storyComponent);
-
-    if (found) {
-      return found;
-    }
-  }
-
-  return null;
+function lookupStoryInstance(vnode: VNode3, storyComponent: any): VNode3 {
+  return vnode;
 }

@@ -23,11 +23,11 @@ export const prepareForInline = (storyFn: StoryFn, { args }: StoryContext) => {
           [VALUES]: args,
         };
       },
-      render(h) {
+      render(h: Function) {
         const children = this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
         return h('div', { attrs: { id: 'root' } }, children);
       },
-    }).$mount();
+    });
     return () => root.$destroy();
   });
 

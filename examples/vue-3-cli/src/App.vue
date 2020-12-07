@@ -7,13 +7,14 @@
 </template>
 
 <script setup>
-import { version, onMounted, ref } from 'vue'
+import { version, onMounted, ref, getCurrentInstance } from 'vue'
 import Button from './button/Button'
 
 const btn = ref(null)
 
 onMounted(() => {
-  window.app = btn;
+  window.app = getCurrentInstance();
+  window.btn = btn;
 })
 </script>
 

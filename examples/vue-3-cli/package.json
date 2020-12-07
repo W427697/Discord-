@@ -3,13 +3,18 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "prestorybook": "node link-vue.js",
-    "prebuild-storybook": "node link-vue.js",
-    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "prebuild-storybook": "node link-vue.js",
     "build-storybook": "build-storybook",
+    "serve": "vue-cli-service serve",
+    "prestorybook": "node link-vue.js",
     "storybook": "trap 'node link-vue.js unlink' SIGINT; start-storybook -p 9009"
   },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
   "dependencies": {
     "core-js": "^3.6.5",
     "vue": "3.0.4"
@@ -24,13 +29,5 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "vue-loader": "^16.0.0"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ],
-  "workspaces": {
-    "nohoist": ["vue", "vue-loader"]
   }
 }

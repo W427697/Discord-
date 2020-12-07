@@ -2,13 +2,13 @@ import { CompilerOptions } from '@vue/compiler-dom';
 import { RenderFunction } from '@vue/runtime-dom';
 import { Vue } from "vue/typings/vue";
 
-declare module 'vue' {
+declare module 'vue/dist/vue' {
 
   export declare function compile(template: string | HTMLElement, options?: CompilerOptions): RenderFunction;
 
   export * from "@vue/runtime-dom";
 
-  export { VNode as VNode3, ComponentOptions as ComponentOptions3 } from '@vue/runtime-dom';
+  export { VNode as VNode3, ComponentOptions as ComponentOptions3, Component as Component3 } from '@vue/runtime-dom';
 
   export default Vue;
 

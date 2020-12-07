@@ -8,7 +8,6 @@
 <script>
 import { version } from 'vue'
 export default {
-  name: 'salam',
   props: {
     size: {
       type: String,

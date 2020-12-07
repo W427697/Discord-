@@ -1,8 +1,6 @@
 import { Args } from '@storybook/addons';
 import dedent from 'ts-dedent';
-// @ts-ignore
-import { createApp, h, shallowRef, reactive } from 'vue';
-import type { ComponentOptions } from 'vue3';
+import { createApp, h, shallowRef, reactive, ComponentOptions3 } from 'vue';
 import { RenderContext, StoryFnVueReturnType } from '../types';
 
 let mounted = false;
@@ -14,7 +12,7 @@ const root = createApp({
   setup() {
     return () => {
       if (!activeComponent.value) throw new Error();
-      return h(activeComponent.value as ComponentOptions, propsContainer.props);
+      return h(activeComponent.value as ComponentOptions3, propsContainer.props);
     };
   },
 });

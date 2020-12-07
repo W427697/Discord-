@@ -1,5 +1,4 @@
-import { Component } from 'vue';
-import type { ComponentOptions } from 'vue3';
+import { Component, ComponentOptions3 } from 'vue';
 
 export { RenderContext } from '@storybook/core';
 
@@ -8,7 +7,7 @@ export interface ShowErrorArgs {
   description: string;
 }
 
-export type StoryFnVueReturnType = ComponentOptions | Component | string;
+export type StoryFnVueReturnType = ComponentOptions3 | Component | string;
 
 export interface IStorybookStory {
   name: string;
