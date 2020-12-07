@@ -4,9 +4,7 @@ import { addons, StoryContext } from '@storybook/addons';
 import { logger } from '@storybook/client-logger';
 import prettier from 'prettier/standalone';
 import prettierHtml from 'prettier/parser-html';
-// @ts-ignore
-import { createApp, h, Text } from 'vue';
-import type { VNode } from 'vue3';
+import { createApp, h, Text, VNode3 } from 'vue';
 import { SourceType, SNIPPET_RENDERED } from '../../../shared';
 
 export const skipSourceRender = (context: StoryContext) => {
@@ -71,16 +69,13 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
   return story;
 };
 
-export function vnodeToString(vnode: VNode): string {
-  const childrenToString = (children: VNode['children']) => {
+export function vnodeToString(vnode: VNode3): string {
+  const childrenToString = (children: VNode3['children']) => {
     let str = '';
     if (Array.isArray(children)) {
       str = children.map(vnodeToString).join('');
     } else if (typeof children === 'string') {
       str = children;
-    } else if (typeof children.$stable === 'boolean') {
-      // TODO: RawSlots
-      str = '<slot />';
     }
     return str;
   };
@@ -176,13 +171,13 @@ interface VueInternal {
   // component instead of the "vnode of the parent of the component".
   // Probably it's safe to rely on this because vm.$vnode is a reference for this.
   // https://github.com/vuejs/vue/issues/6070#issuecomment-314389883
-  _vnode: VNode;
+  _vnode: VNode3;
 }
 
 /**
  * Find the story's instance from VNode tree.
  */
-function lookupStoryInstance(instance: Vue, storyComponent: any): (Vue & VueInternal) | null {
+function lookupStoryInstance(instance: any, storyComponent: any): any {
   if (
     instance.$vnode &&
     instance.$vnode.componentOptions &&
