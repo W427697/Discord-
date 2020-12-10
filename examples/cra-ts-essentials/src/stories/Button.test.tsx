@@ -1,20 +1,20 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { composeStory } from '@storybook/react';
+import { composeStories } from '@storybook/react';
 
-import Meta, { Primary, Secondary } from './Button.stories';
 import * as globalConfig from '../../.storybook/preview';
+import * as stories from './Button.stories';
 
-test('renders button', () => {
-  const PrimaryComponent = composeStory(Meta, Primary, globalConfig);
-  const { getByText } = render(<PrimaryComponent>Hello world</PrimaryComponent>);
+const { Primary, Secondary } = composeStories(stories, globalConfig);
+
+test('renders primary button', () => {
+  const { getByText } = render(<Primary>Hello world</Primary>);
   const buttonElement = getByText(/Hello world/i);
   expect(buttonElement).not.toBeNull();
 });
 
 test('renders secondary button with argsfirst false', () => {
-  const SecondaryComponent = composeStory(Meta, Secondary, globalConfig);
-  const { getByText } = render(<SecondaryComponent>Hello world</SecondaryComponent>);
+  const { getByText } = render(<Secondary>Hello world</Secondary>);
   const buttonElement = getByText(/Hello world/i);
   expect(buttonElement).not.toBeNull();
 });
