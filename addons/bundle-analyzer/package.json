@@ -1,14 +1,14 @@
 {
-  "name": "@storybook/addon-bundle-analyser",
+  "name": "@storybook/addon-bundle-analyzer",
   "version": "6.2.0-alpha.5",
-  "description": "React storybook addon that show component jest report",
+  "description": "Webpack Bundle Analyzer for Storybook",
   "keywords": [
     "addon",
     "bundle",
-    "analyser",
+    "analyzer",
     "webpack"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/bundle-analyser",
+  "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/bundle-analyzer",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

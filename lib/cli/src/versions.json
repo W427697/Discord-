@@ -2,7 +2,7 @@
   "@storybook/addon-a11y": "6.2.0-alpha.5",
   "@storybook/addon-actions": "6.2.0-alpha.5",
   "@storybook/addon-backgrounds": "6.2.0-alpha.5",
-  "@storybook/addon-bundle-analyser": "6.2.0-alpha.5",
+  "@storybook/addon-bundle-analyzer": "6.2.0-alpha.5",
   "@storybook/addon-controls": "6.2.0-alpha.5",
   "@storybook/addon-cssresources": "6.2.0-alpha.5",
   "@storybook/addon-design-assets": "6.2.0-alpha.5",

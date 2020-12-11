@@ -6,7 +6,7 @@ import Panel from './components/Panel';
 
 addons.register(ADDON_ID, () => {
   addons.addPanel(PANEL_ID, {
-    title: 'Bundle Analyser',
+    title: 'Bundle Analyzer',
     render: ({ active, key }) => <Panel key={key} active={active} />,
     paramKey: PARAM_KEY,
   });

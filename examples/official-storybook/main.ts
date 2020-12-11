@@ -19,7 +19,7 @@ module.exports = {
     },
     { name: '@storybook/addon-essentials' },
     '@storybook/addon-storysource',
-    '@storybook/addon-bundle-analyser',
+    '@storybook/addon-bundle-analyzer',
     '@storybook/addon-design-assets',
     '@storybook/addon-links',
     '@storybook/addon-events',

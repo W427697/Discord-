@@ -12,10 +12,11 @@ const Panel = ({ active }: Props) =>
   active ? (
     <iframe
       style={{ margin: 0, border: 0, width: '100%' }}
-      title="bundle-analyser"
+      title="bundle-analyzer"
       src={ANALYSER_ADDRESS}
     />
   ) : null;
+
 Panel.defaultProps = {
   tests: null,
 };

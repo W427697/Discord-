@@ -12,7 +12,7 @@ async function managerGlobals(config, { configType }) {
     ANALYSER_ADDRESS:
       configType === 'DEVELOPMENT'
         ? `http://localhost:${await analyzerPort}`
-        : `./bundle-analyser.html`,
+        : `./bundle-analyzer.html`,
   };
 }
 
@@ -21,7 +21,7 @@ async function webpack(config, { configType, ...other }) {
   const options =
     configType === 'DEVELOPMENT'
       ? { analyzerPort: await analyzerPort, analyzerMode: 'server' }
-      : { reportFilename: 'bundle-analyser.html', analyzerMode: 'static' };
+      : { reportFilename: 'bundle-analyzer.html', analyzerMode: 'static' };
 
   config.plugins.push(
     new BundleAnalyzerPlugin({ openAnalyzer: false, defaultSizes: 'gzip', ...options })
