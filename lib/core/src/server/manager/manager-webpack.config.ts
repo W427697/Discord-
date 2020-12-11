@@ -35,6 +35,7 @@ export default async ({
 }: ManagerWebpackOptions): Promise<Configuration> => {
   const { raw, stringified } = loadEnv();
   const logLevel = await presets.apply('logLevel', undefined);
+  const globals = await presets.apply('managerGlobals', undefined);
   const isProd = configType === 'PRODUCTION';
   const refsTemplate = fse.readFileSync(path.join(__dirname, 'virtualModuleRef.template.js'), {
     encoding: 'utf8',
@@ -88,6 +89,7 @@ export default async ({
             RELEASE_NOTES_DATA: JSON.stringify(releaseNotesData),
             DOCS_MODE: docsMode, // global docs mode
             PREVIEW_URL: previewUrl, // global preview URL
+            ...globals,
           },
           headHtmlSnippet: getManagerHeadHtml(configDir, process.env),
         }),
