@@ -11,7 +11,7 @@ const rootFactory = () =>
   createApp({
     setup() {
       return () => {
-        if (!activeComponent.value) throw new Error();
+        if (!activeComponent.value) throw new Error('Component is not set correctly');
         return h(activeComponent.value as ComponentOptions, propsContainer.props);
       };
     },

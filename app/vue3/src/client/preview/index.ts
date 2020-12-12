@@ -45,9 +45,14 @@ function prepare(story: StoryFnVueReturnType, innerStory?: ComponentOptions): Co
 
   return defineComponent({
     props: story.props,
-    inject: [PROPS],
+    inject: {
+      props: {
+        from: PROPS,
+        default: null,
+      },
+    },
     render() {
-      return h(story, this[PROPS] || this.$props);
+      return h(story, this.props || this.$props);
     },
   });
 }

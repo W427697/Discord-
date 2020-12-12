@@ -44,6 +44,8 @@ export default {
     },
   },
 
+  emits: ['onLogin', 'onLogout', 'onCreateAccount'],
+
   setup(props, { emit }) {
     return {
       onLogin() {

@@ -30,6 +30,8 @@ export default {
     },
   },
 
+  emits: ['onClick'],
+
   setup (props, { emit }) {
     props = reactive(props)
     return {
