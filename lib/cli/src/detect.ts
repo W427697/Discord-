@@ -12,8 +12,13 @@ import {
 import { getBowerJson } from './helpers';
 import { PackageJson, readPackageJson } from './js-package-manager';
 
-const hasDependency = (packageJson: PackageJson, name: string) => {
-  return !!packageJson.dependencies?.[name] || !!packageJson.devDependencies?.[name];
+const hasDependency = (
+  packageJson: PackageJson,
+  name: string,
+  matcher?: (v: string) => boolean
+) => {
+  const dependency = packageJson.dependencies?.[name] || packageJson.devDependencies?.[name];
+  return typeof matcher === 'function' ? dependency && matcher(dependency) : !!dependency;
 };
 
 const hasPeerDependency = (packageJson: PackageJson, name: string) => {
@@ -34,6 +39,11 @@ const getFrameworkPreset = (
 
   if (Array.isArray(dependencies) && dependencies.length > 0) {
     matcher.dependencies = dependencies.map((name) => hasDependency(packageJson, name));
+  }
+  if (typeof dependencies === 'object') {
+    matcher.dependencies = Object.entries(dependencies).map(([name, dependencyMatcher]) =>
+      hasDependency(packageJson, name, dependencyMatcher)
+    );
   }
 
   if (Array.isArray(peerDependencies) && peerDependencies.length > 0) {

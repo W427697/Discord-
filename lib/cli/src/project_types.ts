@@ -3,6 +3,7 @@ export type SupportedFrameworks =
   | 'react'
   | 'react-native'
   | 'vue'
+  | 'vue3'
   | 'angular'
   | 'mithril'
   | 'riot'
@@ -26,6 +27,7 @@ export enum ProjectType {
   REACT_PROJECT = 'REACT_PROJECT',
   WEBPACK_REACT = 'WEBPACK_REACT',
   VUE = 'VUE',
+  VUE3 = 'VUE3',
   SFC_VUE = 'SFC_VUE',
   ANGULAR = 'ANGULAR',
   EMBER = 'EMBER',
@@ -82,8 +84,8 @@ export type TemplateMatcher = {
 export type TemplateConfiguration = {
   preset: ProjectType;
   /** will be checked both against dependencies and devDependencies */
-  dependencies?: string[];
-  peerDependencies?: string[];
+  dependencies?: string[] | { [key: string]: (version: string) => boolean };
+  peerDependencies?: string[] | { [key: string]: (version: string) => boolean };
   files?: string[];
   matcherFunction: (matcher: TemplateMatcher) => boolean;
 };
@@ -113,6 +115,15 @@ export const supportedTemplates: TemplateConfiguration[] = [
   {
     preset: ProjectType.VUE,
     dependencies: ['vue', 'nuxt'],
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.some(Boolean);
+    },
+  },
+  {
+    preset: ProjectType.VUE3,
+    dependencies: {
+      vue: (v) => v.replace(/^[^\w]+/, '').charAt(0) === '3',
+    },
     matcherFunction: ({ dependencies }) => {
       return dependencies.some(Boolean);
     },
