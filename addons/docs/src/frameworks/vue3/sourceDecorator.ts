@@ -5,7 +5,7 @@ import { logger } from '@storybook/client-logger';
 import prettier from 'prettier/standalone';
 import prettierHtml from 'prettier/parser-html';
 import { h, Text, VNode3, ComponentOptions3 } from 'vue';
-import { SourceType, SNIPPET_RENDERED } from '../../../shared';
+import { SourceType, SNIPPET_RENDERED } from '../../shared';
 
 export const skipSourceRender = (context: StoryContext) => {
   const sourceParams = context?.parameters.docs?.source;

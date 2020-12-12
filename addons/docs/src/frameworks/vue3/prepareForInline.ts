@@ -21,7 +21,9 @@ export const prepareForInline = (storyFn: StoryFn, { args }: StoryContext) => {
 
   React.useEffect(() => {
     propsContainer.props = args;
+
     root.mount(el.current);
+
     return () => root.unmount(el.current);
   });
 

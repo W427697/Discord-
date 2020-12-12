@@ -1,7 +1,7 @@
 import { extractArgTypes } from './extractArgTypes';
 import { extractComponentDescription } from '../../lib/docgen';
 import { prepareForInline } from './prepareForInline';
-import { sourceDecorator } from './sourceDecorator';
+// import { sourceDecorator } from './sourceDecorator';
 
 export const parameters = {
   docs: {
@@ -12,4 +12,5 @@ export const parameters = {
   },
 };
 
-export const decorators = [sourceDecorator];
+// TODO: Implement source decorator for Vue3
+// export const decorators = [sourceDecorator];

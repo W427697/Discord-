@@ -1,5 +1,5 @@
-import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import { Configuration } from 'webpack';
+import { VueLoaderPlugin } from 'vue-loader';
 
 export function webpack(config: Configuration) {
   return {
@@ -33,7 +33,7 @@ export function webpack(config: Configuration) {
       extensions: [...config.resolve.extensions, '.vue'],
       alias: {
         ...config.resolve.alias,
-        vue$: require.resolve('vue/dist/vue.esm.js'),
+        vue$: require.resolve('vue/dist/vue.esm-bundler.js'),
       },
     },
   };

@@ -10,7 +10,7 @@ export const parameters = {
         // eslint-disable-next-line react/no-danger
         return <div dangerouslySetInnerHTML={{ __html: html }} />;
       }
-      return <div ref={(node) => (node ? node.appendChild(html) : null)} />;
+      return <div ref={(node: any) => (node ? node.appendChild(html) : null)} />;
     },
   },
 };

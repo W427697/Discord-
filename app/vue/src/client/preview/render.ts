@@ -1,7 +1,6 @@
 import dedent from 'ts-dedent';
-import { RenderContext } from '../types';
-
-const Vue: any = require('vue').default;
+import Vue from 'vue';
+import { RenderContext } from './types';
 
 export const COMPONENT = 'STORYBOOK_COMPONENT';
 export const VALUES = 'STORYBOOK_VALUES';
@@ -9,17 +8,17 @@ export const VALUES = 'STORYBOOK_VALUES';
 const root = new Vue({
   data() {
     return {
-      [COMPONENT]: undefined as any,
+      [COMPONENT]: undefined,
       [VALUES]: {},
     };
   },
-  render(h: any) {
+  render(h) {
     const children = this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
     return h('div', { attrs: { id: 'root' } }, children);
   },
 });
 
-export function render({
+export default function render({
   storyFn,
   kind,
   name,

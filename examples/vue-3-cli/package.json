@@ -4,11 +4,9 @@
   "private": true,
   "scripts": {
     "build": "vue-cli-service build",
-    "prebuild-storybook": "node link-vue.js",
     "build-storybook": "build-storybook",
     "serve": "vue-cli-service serve",
-    "prestorybook": "node link-vue.js",
-    "storybook": "trap 'node link-vue.js unlink' SIGINT; start-storybook -p 9009"
+    "storybook": "start-storybook -p 9009"
   },
   "browserslist": [
     "> 1%",
@@ -24,7 +22,7 @@
     "@storybook/addon-essentials": "6.2.0-alpha.3",
     "@storybook/preset-scss": "^1.0.2",
     "@storybook/source-loader": "6.2.0-alpha.3",
-    "@storybook/vue": "6.2.0-alpha.3",
+    "@storybook/vue3": "6.2.0-alpha.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",

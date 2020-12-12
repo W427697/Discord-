@@ -1,11 +1,12 @@
-import { Component, AsyncComponent } from 'vue';
 import { Args as DefaultArgs, Annotations, BaseMeta, BaseStory } from '@storybook/addons';
+import { ComponentOptions } from 'vue';
 import { StoryFnVueReturnType } from './types';
 
 export { Args, ArgTypes, Parameters, StoryContext } from '@storybook/addons';
 
-type VueComponent = Component<any, any, any, any> | AsyncComponent<any, any, any, any>;
 type VueReturnType = StoryFnVueReturnType;
+
+type VueComponent = ComponentOptions;
 
 /**
  * Metadata to configure the stories for a component.

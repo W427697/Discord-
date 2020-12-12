@@ -6,7 +6,7 @@ import prettier from 'prettier/standalone';
 import prettierHtml from 'prettier/parser-html';
 import Vue from 'vue';
 
-import { SourceType, SNIPPET_RENDERED } from '../../../shared';
+import { SourceType, SNIPPET_RENDERED } from '../../shared';
 
 export const skipSourceRender = (context: StoryContext) => {
   const sourceParams = context?.parameters.docs?.source;
@@ -42,7 +42,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
           STORYBOOK_VALUES: context.args,
         };
       },
-      render(h: Function) {
+      render(h) {
         return h(story);
       },
     }).$mount();

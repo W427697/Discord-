@@ -1,6 +1,6 @@
 import React from 'react';
-import { StoryFn, StoryContext } from '@storybook/addons';
 import Vue from 'vue';
+import { StoryFn, StoryContext } from '@storybook/addons';
 
 // Inspired by https://github.com/egoist/vue-to-react,
 // modified to store args as props in the root store
@@ -23,7 +23,7 @@ export const prepareForInline = (storyFn: StoryFn, { args }: StoryContext) => {
           [VALUES]: args,
         };
       },
-      render(h: Function) {
+      render(h) {
         const children = this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
         return h('div', { attrs: { id: 'root' } }, children);
       },

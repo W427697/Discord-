@@ -1,21 +1,23 @@
 import { Args } from '@storybook/addons';
 import dedent from 'ts-dedent';
-import { createApp, h, shallowRef, reactive, ComponentOptions3 } from 'vue';
-import { RenderContext, StoryFnVueReturnType } from '../types';
-
-let mounted = false;
+import { createApp, h, shallowRef, reactive, ComponentOptions, ComponentPublicInstance } from 'vue';
+import { RenderContext, StoryFnVueReturnType } from './types';
 
 const activeComponent = shallowRef<StoryFnVueReturnType | null>(null);
 export const propsContainer = reactive<{ props: Args }>({ props: {} });
 
-const root = createApp({
-  setup() {
-    return () => {
-      if (!activeComponent.value) throw new Error();
-      return h(activeComponent.value as ComponentOptions3, propsContainer.props);
-    };
-  },
-});
+let rootVm: ComponentPublicInstance = null;
+const rootFactory = () =>
+  createApp({
+    setup() {
+      return () => {
+        if (!activeComponent.value) throw new Error();
+        return h(activeComponent.value as ComponentOptions, propsContainer.props);
+      };
+    },
+  });
+
+let root = rootFactory();
 
 export function render({
   storyFn,
@@ -25,6 +27,7 @@ export function render({
   showMain,
   showError,
   showException,
+  forceRender,
 }: RenderContext) {
   root.config.errorHandler = showException;
 
@@ -45,8 +48,14 @@ export function render({
   showMain();
 
   activeComponent.value = element;
-  if (!mounted) {
-    root.mount('#root');
-    mounted = true;
+
+  if (forceRender && rootVm) {
+    root.unmount('#root');
+    root = rootFactory();
+    rootVm = null;
+  }
+
+  if (!rootVm) {
+    rootVm = root.mount('#root');
   }
 }

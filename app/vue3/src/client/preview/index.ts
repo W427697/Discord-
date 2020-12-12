@@ -1,5 +1,4 @@
 /* eslint-disable prefer-destructuring */
-import Vue, { VueConstructor, ComponentOptions } from 'vue';
 import { start } from '@storybook/core/client';
 import {
   ClientStoryApi,
@@ -10,58 +9,10 @@ import {
 } from '@storybook/addons';
 
 import './globals';
+import { Component, ComponentOptions, defineComponent, h, provide, inject, reactive } from 'vue';
 import { IStorybookSection, StoryFnVueReturnType } from './types';
-
-import render, { VALUES } from './render';
 import { extractProps } from './util';
-
-export const WRAPS = 'STORYBOOK_WRAPS';
-
-function prepare(
-  rawStory: StoryFnVueReturnType,
-  innerStory?: VueConstructor
-): VueConstructor | null {
-  let story: ComponentOptions<Vue> | VueConstructor;
-
-  if (typeof rawStory === 'string') {
-    story = { template: rawStory };
-  } else if (rawStory != null) {
-    story = rawStory as ComponentOptions<Vue>;
-  } else {
-    return null;
-  }
-
-  // @ts-ignore
-  // eslint-disable-next-line no-underscore-dangle
-  if (!story._isVue) {
-    if (innerStory) {
-      story.components = { ...(story.components || {}), story: innerStory };
-    }
-    story = Vue.extend(story);
-    // @ts-ignore // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
-  } else if (story.options[WRAPS]) {
-    return story as VueConstructor;
-  }
-
-  return Vue.extend({
-    // @ts-ignore // https://github.com/storybookjs/storybook/pull/7578#discussion_r307985279
-    [WRAPS]: story,
-    // @ts-ignore // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
-    [VALUES]: { ...(innerStory ? innerStory.options[VALUES] : {}), ...extractProps(story) },
-    functional: true,
-    render(h, { data, parent, children }) {
-      return h(
-        story,
-        {
-          ...data,
-          // @ts-ignore // https://github.com/storybookjs/storybook/pull/7578#discussion_r307986196
-          props: { ...(data.props || {}), ...parent.$root[VALUES] },
-        },
-        children
-      );
-    },
-  });
-}
+import { render } from './render';
 
 const defaultContext: StoryContext = {
   id: 'unspecified',
@@ -73,12 +24,41 @@ const defaultContext: StoryContext = {
   globals: {},
 };
 
+const PROPS = 'STORYBOOK_PROPS';
+
+function prepare(story: StoryFnVueReturnType, innerStory?: ComponentOptions): Component | null {
+  if (story == null) {
+    return null;
+  }
+
+  if (innerStory) {
+    return {
+      ...story,
+      components: { story: innerStory },
+      props: innerStory.props,
+      provide() {
+        return {
+          [PROPS]: this.$props,
+        };
+      },
+    };
+  }
+
+  return defineComponent({
+    props: story.props,
+    inject: [PROPS],
+    render() {
+      return h(story, this[PROPS]);
+    },
+  });
+}
+
 function decorateStory(
   storyFn: StoryFn<StoryFnVueReturnType>,
-  decorators: DecoratorFunction<VueConstructor>[]
-): StoryFn<VueConstructor> {
+  decorators: DecoratorFunction[]
+): StoryFn {
   return decorators.reduce(
-    (decorated: StoryFn<VueConstructor>, decorator) => (context: StoryContext = defaultContext) => {
+    (decorated: StoryFn, decorator) => (context: StoryContext = defaultContext) => {
       let story;
 
       const decoratedStory = decorator(
@@ -102,7 +82,8 @@ function decorateStory(
     (context) => prepare(storyFn(context))
   );
 }
-const framework = 'vue';
+
+const framework = 'vue3';
 
 interface ClientApi extends ClientStoryApi<StoryFnVueReturnType> {
   setAddon(addon: any): void;
