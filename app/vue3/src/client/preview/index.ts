@@ -9,9 +9,8 @@ import {
 } from '@storybook/addons';
 
 import './globals';
-import { Component, ComponentOptions, defineComponent, h, provide, inject, reactive } from 'vue';
+import { Component, ComponentOptions, defineComponent, h } from 'vue';
 import { IStorybookSection, StoryFnVueReturnType } from './types';
-import { extractProps } from './util';
 import { render } from './render';
 
 const defaultContext: StoryContext = {

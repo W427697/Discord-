@@ -1,21 +1,25 @@
 <template>
   <div>
     Welcome to Your Vue {{ version }} App
-    <br>
+    <br />
     <Button ref="btn">TEST</Button>
   </div>
 </template>
 
-<script setup>
-import { version, onMounted, ref, getCurrentInstance } from 'vue'
+<script>
+import { version } from 'vue';
 import Button from './button/Button'
 
-const btn = ref(null)
-
-onMounted(() => {
-  window.app = getCurrentInstance();
-  window.btn = btn;
-})
+export default {
+  components: {
+    Button,
+  },
+  setup() {
+    return {
+      version
+    }
+  }
+}
 </script>
 
 <style>
