@@ -106,6 +106,15 @@ export const supportedTemplates: TemplateConfiguration[] = [
     },
   },
   {
+    preset: ProjectType.VUE3,
+    dependencies: {
+      vue: (v) => v.replace(/^[^\w]+/, '').charAt(0) === '3',
+    },
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.some(Boolean);
+    },
+  },
+  {
     preset: ProjectType.SFC_VUE,
     dependencies: ['vue-loader', 'vuetify'],
     matcherFunction: ({ dependencies }) => {
@@ -115,15 +124,6 @@ export const supportedTemplates: TemplateConfiguration[] = [
   {
     preset: ProjectType.VUE,
     dependencies: ['vue', 'nuxt'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.some(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.VUE3,
-    dependencies: {
-      vue: (v) => v.replace(/^[^\w]+/, '').charAt(0) === '3',
-    },
     matcherFunction: ({ dependencies }) => {
       return dependencies.some(Boolean);
     },

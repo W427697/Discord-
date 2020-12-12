@@ -37,10 +37,9 @@ const getFrameworkPreset = (
 
   const { preset, files, dependencies, peerDependencies, matcherFunction } = framework;
 
-  if (Array.isArray(dependencies) && dependencies.length > 0) {
+  if (Array.isArray(dependencies)) {
     matcher.dependencies = dependencies.map((name) => hasDependency(packageJson, name));
-  }
-  if (typeof dependencies === 'object') {
+  } else if (typeof dependencies === 'object') {
     matcher.dependencies = Object.entries(dependencies).map(([name, dependencyMatcher]) =>
       hasDependency(packageJson, name, dependencyMatcher)
     );

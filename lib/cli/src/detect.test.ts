@@ -53,6 +53,16 @@ const MOCK_FRAMEWORK_FILES = [
     },
   },
   {
+    name: ProjectType.VUE3,
+    files: {
+      'package.json': {
+        dependencies: {
+          vue: '^3.0.0',
+        },
+      },
+    },
+  },
+  {
     name: ProjectType.EMBER,
     files: {
       'package.json': {
