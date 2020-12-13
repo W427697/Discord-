@@ -6,19 +6,16 @@ import { RenderContext, StoryFnVueReturnType } from './types';
 const activeComponent = shallowRef<StoryFnVueReturnType | null>(null);
 export const propsContainer = reactive<{ props: Args }>({ props: {} });
 
-let rootVm: ComponentPublicInstance = null;
-const rootFactory = () =>
-  createApp({
-    setup() {
-      return () => {
-        if (!activeComponent.value) throw new Error('Component is not set correctly');
-        return h(activeComponent.value as ComponentOptions, propsContainer.props);
-      };
-    },
-  });
+export const app = createApp({
+  setup() {
+    return () => {
+      if (!activeComponent.value) throw new Error('Component is not set correctly');
+      return h(activeComponent.value as ComponentOptions, propsContainer.props);
+    };
+  },
+});
 
-let root = rootFactory();
-
+let appVm: ComponentPublicInstance = null;
 export function render({
   storyFn,
   kind,
@@ -27,9 +24,8 @@ export function render({
   showMain,
   showError,
   showException,
-  forceRender,
 }: RenderContext) {
-  root.config.errorHandler = showException;
+  app.config.errorHandler = showException;
 
   const element: StoryFnVueReturnType = storyFn();
   propsContainer.props = args;
@@ -49,13 +45,7 @@ export function render({
 
   activeComponent.value = element;
 
-  if (forceRender && rootVm) {
-    root.unmount('#root');
-    root = rootFactory();
-    rootVm = null;
-  }
-
-  if (!rootVm) {
-    rootVm = root.mount('#root');
+  if (!appVm) {
+    appVm = app.mount('#root');
   }
 }
