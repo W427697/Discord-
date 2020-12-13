@@ -1,7 +1,6 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { TemplateResult, SVGTemplateResult } from 'lit-element';
+import type { TemplateResult, SVGTemplateResult } from 'lit-html';
 
-export { RenderContext } from '@storybook/core';
+export type { RenderContext } from '@storybook/core';
 
 export type StoryFnHtmlReturnType = string | Node | TemplateResult | SVGTemplateResult;
 

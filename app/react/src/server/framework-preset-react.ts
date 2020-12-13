@@ -1,5 +1,5 @@
 import path from 'path';
-import { TransformOptions } from '@babel/core';
+import type { TransformOptions } from '@babel/core';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import type { Configuration } from 'webpack';
 

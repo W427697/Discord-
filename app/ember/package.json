@@ -48,7 +48,6 @@
     "ts-dedent": "^2.0.0"
   },
   "peerDependencies": {
-    "@babel/core": "*",
     "babel-plugin-ember-modules-api-polyfill": "^2.12.0",
     "babel-plugin-htmlbars-inline-precompile": "2 || 3",
     "ember-source": "^3.16.0"

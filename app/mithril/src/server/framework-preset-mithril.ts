@@ -1,4 +1,4 @@
-import { TransformOptions } from '@babel/core';
+import type { TransformOptions } from '@babel/core';
 
 export function babelDefault(config: TransformOptions) {
   return {

@@ -44,6 +44,7 @@
     "@babel/plugin-transform-react-jsx": "^7.12.1",
     "@storybook/addons": "6.2.0-alpha.6",
     "@storybook/core": "6.2.0-alpha.6",
+    "@types/babel__core": "^7.1.12",
     "@types/webpack-env": "^1.15.3",
     "core-js": "^3.0.1",
     "global": "^4.3.2",
@@ -56,7 +57,6 @@
     "preact": "^10.4.0"
   },
   "peerDependencies": {
-    "@babel/core": "*",
     "preact": "^8.0.0||^10.0.0"
   },
   "engines": {
