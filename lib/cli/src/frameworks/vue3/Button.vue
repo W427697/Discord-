@@ -30,7 +30,7 @@ export default {
     },
   },
 
-  emits: ['onClick'],
+  emits: ['click'],
 
   setup (props, { emit }) {
     props = reactive(props)
@@ -45,7 +45,7 @@ export default {
         backgroundColor: props.backgroundColor
       })),
       onClick: () => {
-        emit('onClick');
+        emit('click');
       }
     }
   },

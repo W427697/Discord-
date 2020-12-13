@@ -2,9 +2,9 @@
   <article>
     <my-header
       :user="user"
-      @onLogin="onLogin"
-      @onLogout="onLogout"
-      @onCreateAccount="onCreateAccount"
+      @login="onLogin"
+      @logout="onLogout"
+      @createAccount="onCreateAccount"
     />
 
     <section>
@@ -73,18 +73,18 @@ export default {
     },
   },
 
-  emits: ['onLogin', 'onLogout', 'onCreateAccount'],
+  emits: ['login', 'logout', 'createAccount'],
 
   setup (props, { emit }) {
     return {
       onLogin() {
-        emit('onLogin');
+        emit('login');
       },
       onLogout() {
-        emit('onLogout');
+        emit('logout');
       },
       onCreateAccount() {
-        emit('onCreateAccount');
+        emit('createAccount');
       },
     }
   }
