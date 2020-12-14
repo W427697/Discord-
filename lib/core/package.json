@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core",
-  "version": "6.2.0-alpha.3",
+  "version": "6.2.0-alpha.6",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -28,6 +28,7 @@
     "dist/**/*",
     "dll/**/*",
     "prebuilt/**/*",
+    "!prebuilt/report.html",
     "types/**/*",
     "*.js",
     "*.d.ts",
@@ -59,20 +60,20 @@
     "@babel/preset-react": "^7.12.1",
     "@babel/preset-typescript": "^7.12.1",
     "@babel/register": "^7.12.1",
-    "@storybook/addons": "6.2.0-alpha.3",
-    "@storybook/api": "6.2.0-alpha.3",
-    "@storybook/channel-postmessage": "6.2.0-alpha.3",
-    "@storybook/channels": "6.2.0-alpha.3",
-    "@storybook/client-api": "6.2.0-alpha.3",
-    "@storybook/client-logger": "6.2.0-alpha.3",
-    "@storybook/components": "6.2.0-alpha.3",
-    "@storybook/core-events": "6.2.0-alpha.3",
+    "@storybook/addons": "6.2.0-alpha.6",
+    "@storybook/api": "6.2.0-alpha.6",
+    "@storybook/channel-postmessage": "6.2.0-alpha.6",
+    "@storybook/channels": "6.2.0-alpha.6",
+    "@storybook/client-api": "6.2.0-alpha.6",
+    "@storybook/client-logger": "6.2.0-alpha.6",
+    "@storybook/components": "6.2.0-alpha.6",
+    "@storybook/core-events": "6.2.0-alpha.6",
     "@storybook/csf": "0.0.1",
-    "@storybook/node-logger": "6.2.0-alpha.3",
-    "@storybook/router": "6.2.0-alpha.3",
+    "@storybook/node-logger": "6.2.0-alpha.6",
+    "@storybook/router": "6.2.0-alpha.6",
     "@storybook/semver": "^7.3.2",
-    "@storybook/theming": "6.2.0-alpha.3",
-    "@storybook/ui": "6.2.0-alpha.3",
+    "@storybook/theming": "6.2.0-alpha.6",
+    "@storybook/ui": "6.2.0-alpha.6",
     "@types/glob-base": "^0.3.0",
     "@types/micromatch": "^4.0.1",
     "@types/node-fetch": "^2.5.4",
@@ -126,7 +127,6 @@
     "regenerator-runtime": "^0.13.7",
     "resolve-from": "^5.0.0",
     "serve-favicon": "^2.5.0",
-    "shelljs": "^0.8.4",
     "stable": "^0.1.8",
     "style-loader": "^1.2.1",
     "telejson": "^5.0.2",
@@ -155,7 +155,8 @@
     "@types/webpack-dev-middleware": "^3.7.2",
     "@types/webpack-hot-middleware": "^2.25.3",
     "@types/webpack-virtual-modules": "^0.1.0",
-    "mock-fs": "^4.12.0"
+    "mock-fs": "^4.12.0",
+    "webpack-bundle-analyzer": "^4.2.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",
@@ -169,5 +170,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "70078d0fbd3af8290e82831109a00eddd133e4db"
+  "gitHead": "e741f5e3af491b8515668abd5a31fb8e2c201770"
 }

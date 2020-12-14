@@ -1,5 +1,6 @@
 import { logger } from '@storybook/node-logger';
 import open from 'better-opn';
+import chalk from 'chalk';
 import express, { Express, Router } from 'express';
 import { pathExists, readFile } from 'fs-extra';
 import http from 'http';
@@ -23,6 +24,7 @@ import loadConfig from './config';
 import loadManagerConfig from './manager/manager-config';
 import { resolvePathInStorybookCache } from './utils/resolve-path-in-sb-cache';
 import { getPrebuiltDir } from './utils/prebuilt-manager';
+import { parseStaticDir } from './utils/static-files';
 import { ManagerResult, PreviewResult } from './types';
 
 const defaultFavIcon = require.resolve('./public/favicon.ico');
@@ -78,32 +80,27 @@ async function getServer(
 }
 
 async function useStatics(router: any, options: { staticDir?: string[] }) {
-  const { staticDir } = options;
-
   let hasCustomFavicon = false;
 
-  if (staticDir && staticDir.length) {
+  if (options.staticDir && options.staticDir.length > 0) {
     await Promise.all(
-      staticDir.map(async (dir) => {
-        const [dirname, location = '/'] = dir.split(':');
-        const dirpath = path.resolve(dirname);
-        const endpoint = location.startsWith('/') ? location : `/${location}`;
+      options.staticDir.map(async (dir) => {
+        try {
+          const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(dir);
+          logger.info(
+            chalk`=> Serving static files from {cyan ${staticDir}} at {cyan ${targetEndpoint}}`
+          );
+          router.use(targetEndpoint, express.static(staticPath, { index: false }));
 
-        if (!(await pathExists(dirpath))) {
-          logger.warn(`Failed to load static files, no such directory: ${dirpath}`);
-          logger.warn(`You should create this directory, or omit the -s (--static-dir) option.`);
-          return;
-        }
-
-        logger.info(`=> Loading static files from ${dirpath} and serving at ${endpoint}.`);
-        router.use(endpoint, express.static(dirpath, { index: false }));
-
-        if (!hasCustomFavicon) {
-          const faviconPath = path.resolve(dirpath, 'favicon.ico');
-          if (await pathExists(faviconPath)) {
-            hasCustomFavicon = true;
-            router.use(favicon(faviconPath));
+          if (!hasCustomFavicon && targetEndpoint === '/') {
+            const faviconPath = path.join(staticPath, 'favicon.ico');
+            if (await pathExists(faviconPath)) {
+              hasCustomFavicon = true;
+              router.use(favicon(faviconPath));
+            }
           }
+        } catch (e) {
+          logger.warn(e.message);
         }
       })
     );
@@ -195,7 +192,7 @@ const useProgressReporting = async (
     reportProgress(progress);
   };
 
-  const modulesCount = (await options.cache?.get('modulesCount')) || 1000;
+  const modulesCount = (await options.cache?.get('modulesCount').catch(() => {})) || 1000;
   new ProgressPlugin({ handler, modulesCount }).apply(compiler);
 };
 
@@ -203,7 +200,7 @@ const useManagerCache = async (fsc: FileSystemCache, managerConfig: webpack.Conf
   // Drop the `cache` property because it'll change as a result of writing to the cache.
   const { cache: _, ...baseConfig } = managerConfig;
   const configString = stringify(baseConfig);
-  const cachedConfig = await fsc.get('managerConfig');
+  const cachedConfig = await fsc.get('managerConfig').catch(() => {});
   await fsc.set('managerConfig', configString);
   return configString === cachedConfig;
 };

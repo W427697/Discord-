@@ -1,8 +1,8 @@
 ---
-title: 'Writing your own Storybook Preset'
+title: 'Write a preset addon'
 ---
 
-[Storybook presets](./presets.md) are grouped collections of `babel`, `webpack`, and `addons` configurations that support specific use cases in Storybook, such as typescript or MDX support.
+[Storybook preset addons](./addon-types.md#preset-addons) are grouped collections of `babel`, `webpack`, and `addons` configurations that support specific use cases in Storybook, such as typescript or MDX support.
 
 This doc covers the [presets API](#presets-api) and how to use the presets mechanism for [advanced configuration](#advanced-configuration).
 
@@ -177,6 +177,24 @@ If it doesn't exist yet, create a file `.storybook/main.js`:
 
 <!-- prettier-ignore-end -->
 
+### Preview/Manager templates
+
+It's also possible to to programmatically modify the preview head/body HTML using a preset, similar to the way `preview-head.html`/`preview-body.html` can be used to [configure story rendering](../configure/story-rendering.md). The `previewHead` and `previewBody` functions accept a string, which is the existing head/body, and return a modified string.
+
+For example, the following snippet adds a style tag to the preview head programatically:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-main-preview-head.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Similarly, the `managerHead` can be used to modify the surrounding "manager" UI, analogous to `manager-head.html`.
+
 ## Sharing advanced configuration
 
 Change your `main.js` file to:
@@ -202,6 +220,5 @@ and extract the configuration to a new file `./storybook/my-preset.js`:
 />
 
 <!-- prettier-ignore-end -->
-
 
 Place your `my-preset.js` file wherever you want, if you want to share it far and wide you'll want to make it its own package.
