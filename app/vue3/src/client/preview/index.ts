@@ -25,7 +25,11 @@ const defaultContext: StoryContext = {
 
 const PROPS = 'STORYBOOK_PROPS';
 
-function prepare(story: StoryFnVueReturnType, innerStory?: ComponentOptions): Component | null {
+function prepare(
+  story: StoryFnVueReturnType,
+  innerStory?: ComponentOptions,
+  injectProps?: boolean
+): Component | null {
   if (story == null) {
     return null;
   }
@@ -35,11 +39,15 @@ function prepare(story: StoryFnVueReturnType, innerStory?: ComponentOptions): Co
       ...story,
       components: { story: innerStory },
       props: innerStory.props,
-      provide() {
-        return {
-          [PROPS]: this.$props,
-        };
-      },
+      ...(injectProps
+        ? {
+            provide() {
+              return {
+                [PROPS]: this.$props,
+              };
+            },
+          }
+        : {}),
     };
   }
 
@@ -62,7 +70,7 @@ function decorateStory(
   decorators: DecoratorFunction[]
 ): StoryFn {
   return decorators.reduce(
-    (decorated: StoryFn, decorator) => (context: StoryContext = defaultContext) => {
+    (decorated: StoryFn, decorator, i) => (context: StoryContext = defaultContext) => {
       let story;
 
       const decoratedStory = decorator(
@@ -81,7 +89,7 @@ function decorateStory(
         return story;
       }
 
-      return prepare(decoratedStory, story);
+      return prepare(decoratedStory, story, i === decorators.length - 1);
     },
     (context) => prepare(storyFn(context))
   );
