@@ -1,7 +1,7 @@
 import { fail, danger } from 'danger';
 import { execSync } from 'child_process';
 
-execSync('npm install lodash');
+execSync('yarn install lodash');
 
 const flatten = require('lodash/flatten');
 const intersection = require('lodash/intersection');
