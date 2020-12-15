@@ -220,7 +220,7 @@ Earlier versions of Storybook used Webpack DLLs as a performance crutch. In 6.1,
 
 #### Deprecated storyFn
 
-Each item in the story store contains a field called `storyFn`, which is a fully decorated story that's applied to the denormalized story parameters. Starting in 6.0 we've stopped using this API internally, and have replaced it with a new field called `unboundStoryFn` which, unlike `storyFn`, must passed a story context, typically produced by `applyLoaders`;
+Each item in the story store contains a field called `storyFn`, which is a fully decorated story that's applied to the denormalized story parameters. Starting in 6.0 we've stopped using this API internally, and have replaced it with a new field called `unboundStoryFn` which, unlike `storyFn`, must be passed a story context, typically produced by `applyLoaders`;
 
 Before:
 
