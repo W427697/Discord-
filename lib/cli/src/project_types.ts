@@ -1,3 +1,5 @@
+import { minVersion } from '@storybook/semver';
+
 // Should match @storybook/<framework>
 export type SupportedFrameworks =
   | 'react'
@@ -108,7 +110,7 @@ export const supportedTemplates: TemplateConfiguration[] = [
   {
     preset: ProjectType.VUE3,
     dependencies: {
-      vue: (v) => v.replace(/^[^\w]+/, '').charAt(0) === '3',
+      vue: (v) => v === 'next' || minVersion(v).major === 3,
     },
     matcherFunction: ({ dependencies }) => {
       return dependencies.some(Boolean);
