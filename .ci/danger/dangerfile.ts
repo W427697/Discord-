@@ -1,7 +1,7 @@
 import { fail, danger } from 'danger';
 import { execSync } from 'child_process';
 
-execSync('yarn add lodash');
+execSync('yarn add lodash -W');
 
 const flatten = require('lodash/flatten');
 const intersection = require('lodash/intersection');
