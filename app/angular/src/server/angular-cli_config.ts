@@ -1,21 +1,23 @@
-import { CompilerOptions } from 'typescript';
+import typescript, { CompilerOptions, ScriptTarget } from 'typescript';
 import { Path } from '@angular-devkit/core';
 import path from 'path';
 import fs from 'fs';
 import { logger } from '@storybook/node-logger';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import stripJsonComments from 'strip-json-comments';
+import { Configuration, Resolve } from 'webpack';
 import {
-  isBuildAngularInstalled,
-  normalizeAssetPatterns,
   filterOutStylingRules,
   getAngularCliParts,
+  isBuildAngularInstalled,
+  normalizeAssetPatterns,
 } from './angular-cli_utils';
 
 // todo add more accurate typings
 interface BasicOptions {
   options: {
     baseUrl?: string | undefined;
+    scriptTarget: ScriptTarget;
   };
   raw: object;
   fileNames: string[];
@@ -24,7 +26,9 @@ interface BasicOptions {
 
 function getTsConfigOptions(tsConfigPath: Path) {
   const basicOptions: BasicOptions = {
-    options: {},
+    options: {
+      scriptTarget: ScriptTarget.ES5,
+    },
     raw: {},
     fileNames: [],
     errors: [],
@@ -36,11 +40,15 @@ function getTsConfigOptions(tsConfigPath: Path) {
 
   const tsConfig = JSON.parse(stripJsonComments(fs.readFileSync(tsConfigPath, 'utf8')));
 
-  const { baseUrl } = tsConfig.compilerOptions as CompilerOptions;
+  const { baseUrl, target } = tsConfig.compilerOptions as CompilerOptions;
 
   if (baseUrl) {
     const tsConfigDirName = path.dirname(tsConfigPath);
     basicOptions.options.baseUrl = path.resolve(tsConfigDirName, baseUrl);
+  }
+
+  if (target) {
+    basicOptions.options.scriptTarget = target;
   }
 
   return basicOptions;
@@ -118,12 +126,16 @@ export function getAngularCliWebpackConfigOptions(dirToSearch: Path) {
   const outputPath = projectOptions.outputPath || 'dist/storybook-angular';
   const styles = projectOptions.styles || [];
 
+  const supportES2015 =
+    projectOptions.scriptTarget !== typescript.ScriptTarget.JSON &&
+    projectOptions.scriptTarget > typescript.ScriptTarget.ES5;
+
   return {
     root: dirToSearch,
     projectRoot,
     tsConfigPath,
     tsConfig,
-    supportES2015: false,
+    supportES2015,
     buildOptions: {
       sourceMap: false,
       optimization: {},
@@ -138,7 +150,10 @@ export function getAngularCliWebpackConfigOptions(dirToSearch: Path) {
 }
 
 // todo add types
-export function applyAngularCliWebpackConfig(baseConfig: any, cliWebpackConfigOptions: any) {
+export function applyAngularCliWebpackConfig(
+  baseConfig: any,
+  cliWebpackConfigOptions: any
+): Configuration {
   if (!cliWebpackConfigOptions) {
     return baseConfig;
   }
@@ -178,7 +193,14 @@ export function applyAngularCliWebpackConfig(baseConfig: any, cliWebpackConfigOp
   // We use cliCommonConfig plugins to serve static assets files.
   const plugins = [...cliStyleConfig.plugins, ...cliCommonConfig.plugins, ...baseConfig.plugins];
 
-  const resolve = {
+  const mainFields = [
+    ...(cliWebpackConfigOptions.supportES2015 ? ['es2015'] : []),
+    'browser',
+    'module',
+    'main',
+  ];
+
+  const resolve: Resolve = {
     ...baseConfig.resolve,
     modules: Array.from(
       new Set([...baseConfig.resolve.modules, ...cliCommonConfig.resolve.modules])
@@ -186,17 +208,10 @@ export function applyAngularCliWebpackConfig(baseConfig: any, cliWebpackConfigOp
     plugins: [
       new TsconfigPathsPlugin({
         configFile: cliWebpackConfigOptions.buildOptions.tsConfig,
-        // After ng build my-lib the default value of 'main' in the package.json is 'umd'
-        // This causes that you cannot import components directly from dist
-        // https://github.com/angular/angular-cli/blob/9f114aee1e009c3580784dd3bb7299bdf4a5918c/packages/angular_devkit/build_angular/src/angular-cli-files/models/webpack-configs/browser.ts#L68
-        mainFields: [
-          ...(cliWebpackConfigOptions.supportES2015 ? ['es2015'] : []),
-          'browser',
-          'module',
-          'main',
-        ],
+        mainFields,
       }),
     ],
+    mainFields,
   };
 
   return {
