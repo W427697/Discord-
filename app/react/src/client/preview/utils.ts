@@ -40,19 +40,17 @@ function composeStory<GenericArgs>(
     });
 }
 
-export function composeStories(
-  storiesImport: { default: Meta } & { [key: string]: Story },
+export function composeStories<T extends { default: Meta } & { [key: string]: Story }>(
+  storiesImport: T,
   globalConfig: GlobalConfig = {}
 ) {
   const { default: meta, ...stories } = storiesImport;
+  const initial: { [key: string]: Story } = {};
   // Compose an object containing all processed stories passed as parameters
-  return Object.entries(stories).reduce(
-    (storiesMap: Record<string, Story>, [key, value]: [string, Story]) => {
-      // @ts-ignore TODO: fix this
-      // eslint-disable-next-line no-param-reassign
-      storiesMap[key] = composeStory(meta, globalConfig, value);
-      return storiesMap;
-    },
-    {}
-  );
+  return Object.entries(stories).reduceRight((storiesMap, [key, value]: [string, Story]) => {
+    // @ts-ignore FIX THIS LATER PLEASE!
+    // eslint-disable-next-line no-param-reassign
+    storiesMap[key] = composeStory(meta, globalConfig, value);
+    return storiesMap;
+  }, initial);
 }

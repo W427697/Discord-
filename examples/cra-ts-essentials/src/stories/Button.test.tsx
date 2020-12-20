@@ -5,6 +5,13 @@ import { composeStories } from '@storybook/react';
 import * as globalConfig from '../../.storybook/preview';
 import * as stories from './Button.stories';
 
+// Useful to extract information from stories types
+// type T = typeof stories;
+// function prop<T>(obj: T): {[K in keyof T]: T[K]} {
+//   return obj;
+// }
+// const bar = prop(stories);
+
 const { Primary, Secondary } = composeStories(stories, globalConfig);
 
 test('renders primary button', () => {

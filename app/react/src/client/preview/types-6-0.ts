@@ -6,6 +6,7 @@ import {
   Parameters,
   BaseMeta,
   BaseStory,
+  BaseDecorators,
 } from '@storybook/addons';
 import { StoryFnReactReturnType } from './types';
 
@@ -37,7 +38,7 @@ export type Story<Args = DefaultArgs> = BaseStory<Args, ReactReturnType> &
  * @see [Unit testing with Storybook](https://storybook.js.org/docs/react/workflows/unit-testing)
  */
 export type GlobalConfig = {
-  decorators?: any[]; // TODO: figure out a proper type here
+  decorators?: BaseDecorators<ReactReturnType>;
   parameters?: Parameters;
   argTypes?: ArgTypes;
   [key: string]: any;
