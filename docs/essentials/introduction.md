@@ -49,13 +49,10 @@ In your terminal run the following command:
 
 ```shell
 npm install --save-dev @storybook/addon-essentials
+
+# if you're using yarn
+yarn add -D @storybook/addon-essentials
 ```
-
-<div class="aside">
-  
-If you're using <a href="https://yarnpkg.com/">yarn</a>, you'll need to adjust the command accordingly.
-
-</div>
 
 Update your Storybook configuration (in `.storybook/main.js`) to include the essentials addon.
 
