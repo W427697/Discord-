@@ -2,7 +2,7 @@ import program from 'commander';
 import path from 'path';
 import chalk from 'chalk';
 import envinfo from 'envinfo';
-import leven from 'leven';
+import { distance } from 'fastest-levenshtein';
 import { sync } from 'read-pkg-up';
 import initiate from './initiate';
 import { add } from './add';
@@ -93,7 +93,7 @@ program.on('command:*', ([invalidCmd]) => {
   logger.error(' Invalid command: %s.\n See --help for a list of available commands.', invalidCmd);
   // eslint-disable-next-line
   const availableCommands = program.commands.map((cmd) => cmd._name);
-  const suggestion = availableCommands.find((cmd) => leven(cmd, invalidCmd) < 3);
+  const suggestion = availableCommands.find((cmd) => distance(cmd, invalidCmd) < 3);
   if (suggestion) {
     logger.log(`\n Did you mean ${suggestion}?`);
   }
