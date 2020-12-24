@@ -1,5 +1,3 @@
-// TODO: add client-api as dependency
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { defaultDecorateStory, combineParameters } from '@storybook/client-api';
 import { GlobalConfig, Meta, Story, StoryContext } from './types-6-0';
 
