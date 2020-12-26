@@ -5,6 +5,7 @@
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "strictBindCallApply": true,
     "jsx": "react",
     "module": "commonjs",
     "skipDefaultLibCheck": true,
