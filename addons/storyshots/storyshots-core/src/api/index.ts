@@ -37,6 +37,7 @@ function testStorySnapshots(options: StoryshotsOptions = {}) {
     suite,
     storyNameRegex,
     storyKindRegex,
+    storyFilterFunction,
     stories2snapsConverter,
     testMethod,
     integrityOptions,
@@ -49,7 +50,11 @@ function testStorySnapshots(options: StoryshotsOptions = {}) {
   };
 
   const data = storybook.raw().reduce(
-    (acc, item) => {
+    (acc, item, index) => {
+      if (storyFilterFunction && !storyFilterFunction(item, index)) {
+        return acc;
+      }
+
       if (storyNameRegex && !item.name.match(storyNameRegex)) {
         return acc;
       }
