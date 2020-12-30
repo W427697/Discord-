@@ -1,7 +1,7 @@
-import { Story } from '@storybook/react';
+import { Story, DecoratorFn } from '@storybook/react';
 import React from 'react';
 
-export const decorators = [
+export const decorators: DecoratorFn[] = [
   (
     StoryFn: Story,
     {
