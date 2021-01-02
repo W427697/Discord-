@@ -35,7 +35,12 @@ export function composeStory<GenericArgs>(
 ) {
   const finalStoryFn = (context: StoryContext) => {
     const { passArgsFirst = true } = context.parameters;
-    return passArgsFirst ? story(context.args as GenericArgs, context) : story(context);
+    if (!passArgsFirst) {
+      throw new Error(
+        'composeStory does not support legacy style stories (with passArgsFirst = false).'
+      );
+    }
+    return story(context.args as GenericArgs, context);
   };
 
   const combinedDecorators = [
@@ -56,10 +61,12 @@ export function composeStory<GenericArgs>(
       parameters: combineParameters(
         globalConfig.parameters || {},
         meta.parameters || {},
+        story.story?.parameters || {},
         story.parameters || {}
       ),
       args: {
         ...meta.args,
+        ...story.story?.args,
         ...story.args,
         ...extraArgs,
       },

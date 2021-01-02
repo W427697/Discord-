@@ -12,20 +12,15 @@ export default {
   },
 } as Meta;
 
-const ArgsFirstTemplate: Story<ButtonProps> = (args) => <Button {...args} />;
+const Template: Story<ButtonProps> = (args) => <Button {...args} />;
 
-export const Primary = ArgsFirstTemplate.bind({});
+export const Primary = Template.bind({});
 Primary.args = {
   children: 'foo',
   size: 'large',
 };
 
-const ContextTemplate: Story<ButtonProps> = ({ args }) => <Button {...args} />;
-
-export const Secondary = ContextTemplate.bind({});
-Secondary.parameters = {
-  passArgsFirst: false,
-};
+export const Secondary = Template.bind({});
 Secondary.args = {
   children: 'Children coming from story args!',
   primary: false,

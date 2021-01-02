@@ -17,21 +17,7 @@ test('renders primary button', () => {
   expect(buttonElement).not.toBeNull();
 });
 
-test('renders secondary button with argsfirst false', () => {
-  const { getByText } = render(<Secondary>Hello world</Secondary>);
-  const buttonElement = getByText(/Hello world/i);
-  expect(buttonElement).not.toBeNull();
-});
-
-// TODO: this would only work when composeStories returns type Story<Partial<Props>>
-// eslint-disable-next-line jest/no-commented-out-tests
-// test('reuses args from composeStories', () => {
-//   const { getByText } = render(<Primary />);
-//   const buttonElement = getByText(/foo/i);
-//   expect(buttonElement).not.toBeNull();
-// });
-
-test('reuses args from composeStory', () => {
+test('reuses args from composed story', () => {
   const { getByText } = render(<Secondary />);
   const buttonElement = getByText(/Children coming from story args!/i);
   expect(buttonElement).not.toBeNull();
@@ -44,3 +30,14 @@ test('onclick handler is called', async () => {
   buttonElement.click();
   expect(onClickSpy).toHaveBeenCalled();
 });
+
+/**
+ * FIXME: this would only work in typescript projects when composeStories returns type Story<Partial<Props>>.
+ * It breaks now because Primary contains non-optional props.
+ * */
+// eslint-disable-next-line jest/no-commented-out-tests
+// test('reuses args from composeStories', () => {
+//   const { getByText } = render(<Primary />);
+//   const buttonElement = getByText(/foo/i);
+//   expect(buttonElement).not.toBeNull();
+// });

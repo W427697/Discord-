@@ -17,10 +17,6 @@ export const decorators: DecoratorFn[] = [
   ),
 ];
 
-export const parameters = {
-  passArgsFirst: true, // default value
-};
-
 export const globalTypes = {
   locale: {
     name: 'Locale',
