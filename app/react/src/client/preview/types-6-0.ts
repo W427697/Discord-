@@ -34,7 +34,7 @@ export type Story<Args = DefaultArgs> = BaseStory<Args, ReactReturnType> &
 /**
  * Object representing the preview.ts module
  *
- * Add something descriptive here
+ * Used in storybook testing utilities.
  * @see [Unit testing with Storybook](https://storybook.js.org/docs/react/workflows/unit-testing)
  */
 export type GlobalConfig = {
