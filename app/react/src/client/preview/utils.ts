@@ -25,8 +25,8 @@ import { GlobalConfig, Meta, Story, StoryContext } from './types-6-0';
  *```
  *
  * @param story
- * @param meta e.g. (import Meta from './Button.stories')
- * @param globalConfig e.g. (import * as globalConfig from '../.storybook/preview')
+ * @param meta - e.g. (import Meta from './Button.stories')
+ * @param [globalConfig] - e.g. (import * as globalConfig from '../.storybook/preview')
  */
 export function composeStory<GenericArgs>(
   story: Story<GenericArgs>,
@@ -96,8 +96,8 @@ export function composeStory<GenericArgs>(
  * });
  *```
  *
- * @param storiesImport e.g. (import * as stories from './Button.stories')
- * @param globalConfig e.g. (import * as globalConfig from '../.storybook/preview')
+ * @param storiesImport - e.g. (import * as stories from './Button.stories')
+ * @param [globalConfig] - e.g. (import * as globalConfig from '../.storybook/preview')
  */
 export function composeStories<T extends { default: Meta } & { [K in keyof T]: T[K] }>(
   storiesImport: T,
