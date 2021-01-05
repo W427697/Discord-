@@ -7027,8 +7027,6 @@ __metadata:
     "@types/shelljs": ^0.8.7
     "@types/webpack": ^4.41.24
     "@types/webpack-env": ^1.15.3
-    angular-cli: "workspace:*"
-    aurelia-kitchen-sink: "workspace:*"
     babel-core: ^7.0.0-bridge.0
     babel-eslint: ^10.0.1
     babel-jest: ^26.0.0
@@ -7044,16 +7042,11 @@ __metadata:
     commander: ^6.2.0
     concurrently: ^5.2.0
     core-js: ^3.0.1
-    cra-kitchen-sink: "workspace:*"
-    cra-react15: "workspace:*"
-    cra-ts-essentials: "workspace:*"
-    cra-ts-kitchen-sink: "workspace:*"
     cross-env: ^7.0.0
     cypress: 4.7.0
     danger: ^10.1.1
     detect-port: ^1.3.0
     downlevel-dts: ^0.6.0
-    ember-example: "workspace:*"
     enquirer: ^2.3.5
     enzyme: ^3.9.0
     enzyme-adapter-react-16: ^1.9.1
@@ -7067,7 +7060,6 @@ __metadata:
     fs-extra: ^9.0.0
     github-release-from-changelog: ^2.1.0
     glob: ^7.1.3
-    html-kitchen-sink: "workspace:*"
     http-server: ^0.12.3
     husky: ^4.0.10
     jest: ^26.0.0
@@ -7085,34 +7077,25 @@ __metadata:
     lerna: ^3.19.0
     lint-staged: ^10.2.1
     lodash: ^4.17.15
-    marko-cli: "workspace:*"
-    mithril-example: "workspace:*"
     mocha-list-tests: ^1.0.2
     node-cleanup: ^2.1.2
     node-fetch: ^2.6.0
     npmlog: ^4.1.2
-    official-storybook: "workspace:*"
     p-limit: ^2.3.0
-    preact-example: "workspace:*"
     prettier: ~2.0.5
     prompts: ^2.0.0
     puppeteer: ^2.0.0
     raf: ^3.4.0
-    rax-kitchen-sink: "workspace:*"
     regenerator-runtime: ^0.13.7
     remark: ^12.0.0
     remark-cli: ^8.0.0
     remark-lint: ^7.0.0
     remark-preset-lint-recommended: ^4.0.0
-    riot-example: "workspace:*"
     riot-jest-transformer: ^2.0.0
     serve-static: ^1.14.1
-    server-kitchen-sink: "workspace:*"
     shelljs: ^0.8.4
     shx: ^0.3.2
     sort-package-json: ^1.42.1
-    standalone-preview: "workspace:*"
-    svelte-example: "workspace:*"
     teamcity-service-messages: ^0.1.11
     trash: ^6.1.1
     ts-dedent: ^2.0.0
@@ -7122,11 +7105,8 @@ __metadata:
     typescript: ^3.9.3
     verdaccio: ^4.5.1
     verdaccio-auth-memory: ^9.4.0
-    vue-cli-example: "workspace:*"
-    vue-example: "workspace:*"
     wait-on: ^5.2.0
     web-component-analyzer: ^1.1.6
-    web-components-kitchen-sink: "workspace:*"
     webpack: ^4.44.2
     window-size: ^1.1.1
   dependenciesMeta:
@@ -10317,7 +10297,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"angular-cli@workspace:*, angular-cli@workspace:examples/angular-cli":
+"angular-cli@workspace:examples/angular-cli":
   version: 0.0.0-use.local
   resolution: "angular-cli@workspace:examples/angular-cli"
   dependencies:
@@ -11212,7 +11192,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aurelia-kitchen-sink@workspace:*, aurelia-kitchen-sink@workspace:examples/aurelia-kitchen-sink":
+"aurelia-kitchen-sink@workspace:examples/aurelia-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "aurelia-kitchen-sink@workspace:examples/aurelia-kitchen-sink"
   dependencies:
@@ -16820,7 +16800,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cra-kitchen-sink@workspace:*, cra-kitchen-sink@workspace:examples/cra-kitchen-sink":
+"cra-kitchen-sink@workspace:examples/cra-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "cra-kitchen-sink@workspace:examples/cra-kitchen-sink"
   dependencies:
@@ -16846,7 +16826,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cra-react15@workspace:*, cra-react15@workspace:examples/cra-react15":
+"cra-react15@workspace:examples/cra-react15":
   version: 0.0.0-use.local
   resolution: "cra-react15@workspace:examples/cra-react15"
   dependencies:
@@ -16865,7 +16845,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cra-ts-essentials@workspace:*, cra-ts-essentials@workspace:examples/cra-ts-essentials":
+"cra-ts-essentials@workspace:examples/cra-ts-essentials":
   version: 0.0.0-use.local
   resolution: "cra-ts-essentials@workspace:examples/cra-ts-essentials"
   dependencies:
@@ -16885,7 +16865,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cra-ts-kitchen-sink@workspace:*, cra-ts-kitchen-sink@workspace:examples/cra-ts-kitchen-sink":
+"cra-ts-kitchen-sink@workspace:examples/cra-ts-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "cra-ts-kitchen-sink@workspace:examples/cra-ts-kitchen-sink"
   dependencies:
@@ -19551,7 +19531,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-example@workspace:*, ember-example@workspace:examples/ember-cli":
+"ember-example@workspace:examples/ember-cli":
   version: 0.0.0-use.local
   resolution: "ember-example@workspace:examples/ember-cli"
   dependencies:
@@ -24433,7 +24413,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"html-kitchen-sink@workspace:*, html-kitchen-sink@workspace:examples/html-kitchen-sink":
+"html-kitchen-sink@workspace:examples/html-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "html-kitchen-sink@workspace:examples/html-kitchen-sink"
   dependencies:
@@ -30885,7 +30865,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"marko-cli@workspace:*, marko-cli@workspace:examples/marko-cli":
+"marko-cli@workspace:examples/marko-cli":
   version: 0.0.0-use.local
   resolution: "marko-cli@workspace:examples/marko-cli"
   dependencies:
@@ -31758,7 +31738,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"mithril-example@workspace:*, mithril-example@workspace:examples/mithril-kitchen-sink":
+"mithril-example@workspace:examples/mithril-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "mithril-example@workspace:examples/mithril-kitchen-sink"
   dependencies:
@@ -33079,7 +33059,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"official-storybook@workspace:*, official-storybook@workspace:examples/official-storybook":
+"official-storybook@workspace:examples/official-storybook":
   version: 0.0.0-use.local
   resolution: "official-storybook@workspace:examples/official-storybook"
   dependencies:
@@ -35816,7 +35796,7 @@ opn@latest:
   languageName: node
   linkType: hard
 
-"preact-example@workspace:*, preact-example@workspace:examples/preact-kitchen-sink":
+"preact-example@workspace:examples/preact-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "preact-example@workspace:examples/preact-kitchen-sink"
   dependencies:
@@ -37094,7 +37074,7 @@ proxy-middleware@latest:
   languageName: node
   linkType: hard
 
-"rax-kitchen-sink@workspace:*, rax-kitchen-sink@workspace:examples/rax-kitchen-sink":
+"rax-kitchen-sink@workspace:examples/rax-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "rax-kitchen-sink@workspace:examples/rax-kitchen-sink"
   dependencies:
@@ -39607,7 +39587,7 @@ resolve@1.18.1:
   languageName: node
   linkType: hard
 
-"riot-example@workspace:*, riot-example@workspace:examples/riot-kitchen-sink":
+"riot-example@workspace:examples/riot-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "riot-example@workspace:examples/riot-kitchen-sink"
   dependencies:
@@ -40392,7 +40372,7 @@ resolve@1.18.1:
   languageName: node
   linkType: hard
 
-"server-kitchen-sink@workspace:*, server-kitchen-sink@workspace:examples/server-kitchen-sink":
+"server-kitchen-sink@workspace:examples/server-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "server-kitchen-sink@workspace:examples/server-kitchen-sink"
   dependencies:
@@ -41429,7 +41409,7 @@ resolve@1.18.1:
   languageName: node
   linkType: hard
 
-"standalone-preview@workspace:*, standalone-preview@workspace:examples/standalone-preview":
+"standalone-preview@workspace:examples/standalone-preview":
   version: 0.0.0-use.local
   resolution: "standalone-preview@workspace:examples/standalone-preview"
   dependencies:
@@ -42340,7 +42320,7 @@ resolve@1.18.1:
   languageName: node
   linkType: hard
 
-"svelte-example@workspace:*, svelte-example@workspace:examples/svelte-kitchen-sink":
+"svelte-example@workspace:examples/svelte-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "svelte-example@workspace:examples/svelte-kitchen-sink"
   dependencies:
@@ -45328,7 +45308,7 @@ typescript@4.0.5:
   languageName: node
   linkType: hard
 
-"vue-cli-example@workspace:*, vue-cli-example@workspace:examples/vue-cli":
+"vue-cli-example@workspace:examples/vue-cli":
   version: 0.0.0-use.local
   resolution: "vue-cli-example@workspace:examples/vue-cli"
   dependencies:
@@ -45383,7 +45363,7 @@ typescript@4.0.5:
   languageName: node
   linkType: hard
 
-"vue-example@workspace:*, vue-example@workspace:examples/vue-kitchen-sink":
+"vue-example@workspace:examples/vue-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "vue-example@workspace:examples/vue-kitchen-sink"
   dependencies:
@@ -45708,7 +45688,7 @@ typescript@4.0.5:
   languageName: node
   linkType: hard
 
-"web-components-kitchen-sink@workspace:*, web-components-kitchen-sink@workspace:examples/web-components-kitchen-sink":
+"web-components-kitchen-sink@workspace:examples/web-components-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "web-components-kitchen-sink@workspace:examples/web-components-kitchen-sink"
   dependencies:
