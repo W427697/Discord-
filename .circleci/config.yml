@@ -427,9 +427,6 @@ jobs:
           name: Install dependencies
           command: yarn install --immutable
       - run:
-          name: Bootstrap
-          command: yarn bootstrap
-      - run:
           name: Trigger build
           command: ./scripts/build-frontpage.js
   lint:
