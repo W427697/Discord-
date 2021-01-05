@@ -76,7 +76,7 @@ commands:
 jobs:
   build:
     executor:
-      class: medium
+      class: large
       name: sb_node_10_classic
     steps:
       - git-shallow-clone/checkout_advanced:
