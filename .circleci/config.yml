@@ -90,14 +90,8 @@ jobs:
             - build-yarn-cache-v4--{{ checksum "yarn.lock" }}
             - build-yarn-cache-v4--
       - run:
-          name: Debug
-          command:
-            wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-            unzip ngrok-stable-linux-amd64.zip
-            ./ngrok http 22
-      - run:
           name: Install dependencies
-          command: yarn install --immutable
+          command: yarn install --immutable | cat -e
       - run:
           name: Debug
           command: echo Hello world
