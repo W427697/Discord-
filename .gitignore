@@ -32,3 +32,6 @@ cypress/screenshots
 examples/ember-cli/ember-output
 .verdaccio-cache
 tsconfig.tsbuildinfo
+/.yarn/*
+!/.yarn/releases
+!/.yarn/plugins
