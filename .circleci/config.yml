@@ -91,7 +91,7 @@ jobs:
             - build-yarn-cache-v4--
       - run:
           name: Install dependencies
-          command: node --version; yarn install --immutable | cat -e
+          command: "node --version && yarn install --immutable | cat -e"
       - run:
           name: Debug
           command: echo Hello world
