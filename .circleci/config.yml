@@ -93,6 +93,9 @@ jobs:
           name: Install dependencies
           command: yarn install --immutable
       - run:
+          name: Debug
+          command: echo Hello world
+      - run:
           name: Bootstrap
           command: yarn bootstrap --core
       - save_cache:
