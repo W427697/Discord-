@@ -6557,7 +6557,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/example-devkits@workspace:*, @storybook/example-devkits@workspace:examples/dev-kits":
+"@storybook/example-devkits@workspace:examples/dev-kits":
   version: 0.0.0-use.local
   resolution: "@storybook/example-devkits@workspace:examples/dev-kits"
   dependencies:
@@ -6593,7 +6593,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/example-react-ts@workspace:*, @storybook/example-react-ts@workspace:examples/react-ts":
+"@storybook/example-react-ts@workspace:examples/react-ts":
   version: 0.0.0-use.local
   resolution: "@storybook/example-react-ts@workspace:examples/react-ts"
   dependencies:
@@ -6985,8 +6985,6 @@ __metadata:
     "@storybook/core-events": "workspace:*"
     "@storybook/ember": "workspace:*"
     "@storybook/eslint-config-storybook": ^2.4.0
-    "@storybook/example-devkits": "workspace:*"
-    "@storybook/example-react-ts": "workspace:*"
     "@storybook/html": "workspace:*"
     "@storybook/linter-config": ^2.5.0
     "@storybook/marionette": "workspace:*"

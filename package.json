@@ -153,8 +153,6 @@
     "@storybook/core-events": "workspace:*",
     "@storybook/ember": "workspace:*",
     "@storybook/eslint-config-storybook": "^2.4.0",
-    "@storybook/example-devkits": "workspace:*",
-    "@storybook/example-react-ts": "workspace:*",
     "@storybook/html": "workspace:*",
     "@storybook/linter-config": "^2.5.0",
     "@storybook/marionette": "workspace:*",
