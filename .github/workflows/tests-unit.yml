@@ -21,6 +21,7 @@ jobs:
           build-v2-
     - name: install, bootstrap
       run: |
+        yarn install
         yarn bootstrap --core
     - name: test
       run: |
