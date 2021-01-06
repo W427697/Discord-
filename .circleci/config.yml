@@ -91,13 +91,7 @@ jobs:
             - build-yarn-cache-v4--
       - run:
           name: Install dependencies
-          command: "node --version && yarn install --immutable | cat -e"
-      - run:
-          name: Debug
-          command: echo Hello world
-      - run:
-          name: Bootstrap
-          command: yarn bootstrap --core
+          command: "yarn install"
       - save_cache:
           name: Save Yarn cache
           key: build-yarn-cache-v4--{{ checksum "yarn.lock" }}
