@@ -76,7 +76,7 @@ commands:
 jobs:
   build:
     executor:
-      class: large
+      class: medium
       name: sb_node_10_classic
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -91,7 +91,10 @@ jobs:
             - build-yarn-cache-v4--
       - run:
           name: Install dependencies
-          command: "yarn install"
+          command: yarn install
+      - run:
+          name: Bootstrap
+          command: yarn bootstrap --core
       - save_cache:
           name: Save Yarn cache
           key: build-yarn-cache-v4--{{ checksum "yarn.lock" }}
