@@ -59,7 +59,7 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.1",
-    "@babel/register": "^7.12.1",
+    "@babel/register": "^7.12.10",
     "@storybook/addons": "6.2.0-alpha.12",
     "@storybook/api": "6.2.0-alpha.12",
     "@storybook/channel-postmessage": "6.2.0-alpha.12",
