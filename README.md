@@ -15,6 +15,9 @@
   <a href="https://www.codefactor.io/repository/github/storybookjs/storybook">
     <img src="https://www.codefactor.io/repository/github/storybookjs/storybook/badge" alt="CodeFactor" />
   </a>
+  <a href="https://meercode.io/storybookjs/storybook">
+    <img src="https://meercode.io/badge/storybookjs/storybook?type=ci-score&branch=next" alt="CI Score" />
+  </a>
   <a href="https://snyk.io/test/github/storybookjs/storybook">
     <img src="https://snyk.io/test/github/storybookjs/storybook/badge.svg" alt="Known Vulnerabilities" />
   </a>
