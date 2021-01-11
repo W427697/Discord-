@@ -15,6 +15,9 @@
   <a href="https://www.codefactor.io/repository/github/storybookjs/storybook">
     <img src="https://www.codefactor.io/repository/github/storybookjs/storybook/badge" alt="CodeFactor" />
   </a>
+  <a href="https://meercode.io/storybookjs/storybook">
+    <img src="https://meercode.io/badge/storybookjs/storybook?type=ci-score&branch=next" alt="CI Score" />
+  </a>
   <a href="https://snyk.io/test/github/storybookjs/storybook">
     <img src="https://snyk.io/test/github/storybookjs/storybook/badge.svg" alt="Known Vulnerabilities" />
   </a>
@@ -181,7 +184,7 @@ We welcome contributions to Storybook!
 
 Looking for a first issue to tackle?
 
-- We tag issues with [![Good First Issue](https://img.shields.io/github/issues/storybookjs/storybook/good%20first%20issue.svg)](https://github.com/storybookjs/storybook/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) [![Meercode CI Score](https://meercode.io/badge/storybookjs/storybook?type=ci-score&branch=next)](https://meercode.io/storybookjs/storybook) when we think they are well suited for people who are new to the codebase or OSS in general.
+- We tag issues with [![Good First Issue](https://img.shields.io/github/issues/storybookjs/storybook/good%20first%20issue.svg)](https://github.com/storybookjs/storybook/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) when we think they are well suited for people who are new to the codebase or OSS in general.
 - [Talk to us](https://discord.gg/sMFvFsG), we'll find something to suits your skills and learning interest.
 
 ### Development scripts
