@@ -8,14 +8,14 @@ export const getCaptionForLocale = (locale) => {
     case 'kr': return '안녕하세요!';
     case 'zh': return '你好!';
     default:
-      return 'Hello!',
+      return 'Hello!';
   }
 }
 
 <Story name="StoryWithLocale">
   {(args, { globals: { locale } }) => {
     const caption = getCaptionForLocale(locale);
-    return <>{caption}</>;
+    return `<p>${caption}</p>`;
   }}
 </Story>
 ```
