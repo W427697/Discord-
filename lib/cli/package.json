@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-env": "^7.12.11",
     "@storybook/codemod": "6.2.0-alpha.12",
     "@storybook/node-logger": "6.2.0-alpha.12",
     "@storybook/semver": "^7.3.2",
