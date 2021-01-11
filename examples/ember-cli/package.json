@@ -15,7 +15,7 @@
     "ember-template-compiler": "^1.9.0-alpha"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.3",
+    "@babel/core": "^7.12.10",
     "@ember/optional-features": "^2.0.0",
     "@storybook/addon-a11y": "6.2.0-alpha.12",
     "@storybook/addon-actions": "6.2.0-alpha.12",

@@ -43,7 +43,7 @@
     "postversion": "node ./scripts/generate-sb-packages-versions.js"
   },
   "dependencies": {
-    "@babel/core": "^7.12.3",
+    "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.1",
     "@storybook/codemod": "6.2.0-alpha.12",
     "@storybook/node-logger": "6.2.0-alpha.12",

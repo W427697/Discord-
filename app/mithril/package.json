@@ -41,7 +41,6 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@babel/core": "^7.12.3",
     "@babel/plugin-transform-react-jsx": "^7.12.1",
     "@storybook/addons": "6.2.0-alpha.12",
     "@storybook/core": "6.2.0-alpha.12",

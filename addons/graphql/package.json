@@ -36,7 +36,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@babel/core": "^7.12.3",
+    "@babel/core": "^7.12.10",
     "@babel/plugin-transform-classes": "^7.12.1",
     "@storybook/addons": "6.2.0-alpha.12",
     "@storybook/api": "6.2.0-alpha.12",
