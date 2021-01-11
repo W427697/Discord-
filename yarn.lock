@@ -29,10 +29,10 @@
   resolved "https://registry.yarnpkg.com/@aduh95/viz.js/-/viz.js-3.2.1.tgz#189d7bc08d83e487487fe6c1810cf50fd8747a94"
   integrity sha512-5Hmejfgemk1qJw24M5I+NabADKmD5Io7LU2fxHw/E6Bo0ji9EdmHP16KrFnt6Sz0/w7VIzc1ZAasyLULaPLGJQ==
 
-"@alib/build-scripts@^0.1.8":
-  version "0.1.29"
-  resolved "https://registry.yarnpkg.com/@alib/build-scripts/-/build-scripts-0.1.29.tgz#46b794bbf5c103b82f00e5dd9df19a58a7442581"
-  integrity sha512-k186NnLmgFOjzUMqXnfomPNO88qhhNGqG0aViBGjmkuEERuPJE5sUOltRmA7xTMhhofygPS8YHfIaGssAdchIQ==
+"@alib/build-scripts@^0.1.30":
+  version "0.1.30"
+  resolved "https://registry.yarnpkg.com/@alib/build-scripts/-/build-scripts-0.1.30.tgz#81d7071ba9776ec40b65189f5abb237e96bdc177"
+  integrity sha512-Kt/lOjHB/SR5gj5yUunOlAUuCrvcnKf446h06pYxsKTrOBACf61rKj6NQuqfwiNVeZgRJgr8ybFGprnGlenR8A==
   dependencies:
     address "^1.1.0"
     camelcase "^5.3.1"
