@@ -97,7 +97,7 @@
     "@types/cross-spawn": "^6.0.1",
     "@types/doctrine": "^0.0.3",
     "@types/enzyme": "^3.10.3",
-    "@types/estree": "^0.0.44",
+    "@types/estree": "^0.0.46",
     "@types/jest": "^25.1.1",
     "@types/prop-types": "^15.5.9",
     "@types/tmp": "^0.1.0",
