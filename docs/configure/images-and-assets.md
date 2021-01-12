@@ -56,6 +56,16 @@ You can also pass a list of directories separated by commas without spaces inste
 }
 ```
 
+Static directories can be split using a `:` to specify the path where they are accessible.
+
+```json
+{
+    "scripts": {
+        "start-storybook": "start-storybook -s ./public/images:/assets/images -p 9001"
+    }
+}
+```
+
 ### Reference assets from a CDN
 
 Upload your files to an online CDN and reference them. In this example we’re using a placeholder image service.
