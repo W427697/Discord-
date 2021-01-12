@@ -4261,15 +4261,17 @@
     styled-components "^4.4.1"
     uuid "^3.3.3"
 
-"@storybook/ember-cli-storybook@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@storybook/ember-cli-storybook/-/ember-cli-storybook-0.2.1.tgz#12fa8a122fc75a5faabf9e3842eb6575febc4fd3"
-  integrity sha512-V5zqMqMHNrvwI0Ut0X0gnTAf+psbhKGV9HMN810gYZ+4ke3LQGdW4Zvq2CRk/wO6+FPNswImSf7fKEd/nOdaUA==
+"@storybook/ember-cli-storybook@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@storybook/ember-cli-storybook/-/ember-cli-storybook-0.3.0.tgz#c169d9f87e1c728fb5d56add8ee67c93489a5786"
+  integrity sha512-IJRyx9rsiVZa80J3CfrQnNEHPYGn4aLdDZOHrtVfWJ1dAt6TkTdKAllT334tOQMgk2ocyfK4/c/OFeRYyZSjxg==
   dependencies:
     broccoli-funnel "^2.0.2"
+    broccoli-merge-trees "^3.0.2"
     cheerio "^1.0.0-rc.2"
     ember-cli-addon-docs-yuidoc "^0.2.3"
-    ember-cli-babel "^7.1.2"
+    ember-cli-babel "^7.23.0"
+    ember-cli-htmlbars "^5.3.1"
 
 "@storybook/eslint-config-storybook@^2.4.0":
   version "2.4.0"
@@ -13279,7 +13281,7 @@ ember-cli-babel@^6.12.0:
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
-ember-cli-babel@^7.1.2, ember-cli-babel@^7.13.0, ember-cli-babel@^7.13.2, ember-cli-babel@^7.18.0, ember-cli-babel@^7.19.0, ember-cli-babel@^7.21.0, ember-cli-babel@^7.22.1, ember-cli-babel@^7.5.0, ember-cli-babel@^7.7.3:
+ember-cli-babel@^7.13.0, ember-cli-babel@^7.13.2, ember-cli-babel@^7.18.0, ember-cli-babel@^7.19.0, ember-cli-babel@^7.21.0, ember-cli-babel@^7.22.1, ember-cli-babel@^7.23.0, ember-cli-babel@^7.5.0, ember-cli-babel@^7.7.3:
   version "7.23.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-7.23.0.tgz#ec580aa2c115d0810e454dd5c2fffce238284b92"
   integrity sha512-ix58DlRDAbGITtdJoRUPcAoQwKLYr/x/kIXjU9u1ATyhmuUjqb+0FDXghOWbkNihGiNOqBBR49+LBgK9AeBcNw==
@@ -13336,7 +13338,7 @@ ember-cli-htmlbars@^4.2.2, ember-cli-htmlbars@^4.3.1:
     strip-bom "^4.0.0"
     walk-sync "^2.0.2"
 
-ember-cli-htmlbars@^5.2.0:
+ember-cli-htmlbars@^5.2.0, ember-cli-htmlbars@^5.3.1:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-5.3.1.tgz#61793964fc2599ce750db9e972ab55c6dd177c48"
   integrity sha512-ZjQTt44euDoqLvUkWbt1svgNCXgLzOztEbc2qqYMQvhQig416LMrWK7l3SSbNU+BtLD5UIxmwvLfF1tsO2CVyA==
