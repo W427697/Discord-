@@ -58,7 +58,7 @@
   },
   "devDependencies": {
     "@types/enzyme": "^3.10.5",
-    "@types/escape-html": "0.0.20",
+    "@types/escape-html": "^1.0.0",
     "@types/react-color": "^3.0.1",
     "@types/react-lifecycles-compat": "^3.0.1",
     "@types/react-select": "^3.0.12",
