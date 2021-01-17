@@ -228,6 +228,8 @@ const runTests = async ({ name, version, ...rest }: Parameters) => {
   if (!(await prepareDirectory(options))) {
     if (useYarn2PnP) {
       await configureYarn2PnP({ ...options, cwd: siblingDir });
+    } else {
+      await exec('yarn config set nodeLinker node-modules', { cwd: siblingDir });
     }
 
     await generate({ ...options, cwd: siblingDir });
