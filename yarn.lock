@@ -7287,9 +7287,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preset-create-react-app@npm:^3.1.5":
-  version: 3.1.5
-  resolution: "@storybook/preset-create-react-app@npm:3.1.5"
+"@storybook/preset-create-react-app@npm:^3.1.6-alpha.0":
+  version: 3.1.6-alpha.0
+  resolution: "@storybook/preset-create-react-app@npm:3.1.6-alpha.0"
   dependencies:
     "@types/babel__core": ^7.1.7
     "@types/webpack": ^4.41.13
@@ -7302,7 +7302,7 @@ __metadata:
     "@storybook/node-logger": "*"
     "@storybook/react": ">=5.2"
     react-scripts: ">=3.0.0"
-  checksum: 231925119a93bea5619104e799fe768921c47e16055753f69f4bd494299cd0b77dda432ab1497b7f7e79ff17753dc07eaa2fd8e37d5c800518a4433690b497da
+  checksum: 12fae309ec2b1accc57e48eb560eb3624161d3cabe9d91b1ec615ecca2fe0b09e591edf0f80762495e4c18b95487b4d38ef6ce91c74b145d81ebfeb1e85acf48
   languageName: node
   linkType: hard
 
@@ -16770,7 +16770,7 @@ __metadata:
   dependencies:
     "@storybook/addon-essentials": 6.2.0-alpha.16
     "@storybook/addons": 6.2.0-alpha.16
-    "@storybook/preset-create-react-app": ^3.1.5
+    "@storybook/preset-create-react-app": ^3.1.6-alpha.0
     "@storybook/react": 6.2.0-alpha.16
     "@types/jest": 25.2.3
     "@types/node": 14.14.20
@@ -16794,7 +16794,7 @@ __metadata:
     "@storybook/addon-knobs": 6.2.0-alpha.16
     "@storybook/addon-links": 6.2.0-alpha.16
     "@storybook/addons": 6.2.0-alpha.16
-    "@storybook/preset-create-react-app": ^3.1.5
+    "@storybook/preset-create-react-app": ^3.1.6-alpha.0
     "@storybook/react": 6.2.0-alpha.16
     "@types/enzyme": ^3.10.8
     "@types/jest": 25.2.3
