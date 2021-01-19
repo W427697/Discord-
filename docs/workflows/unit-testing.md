@@ -24,7 +24,7 @@ Here is an example of how you can use it in a testing library:
 
 ## Testing more complex components
 
-When your components use functionality from tools like [styled components](http://styled-components.com/) or [redux](https://redux.js.org/), it's necessary to wrap your stories in [decorators](../writing-stories/decorators#story-decorators) so that the extra functionality is available in your stories. If that is the case, you can use a testing utility (currently only available in Storybook for React) to reuse your stories in your tests, and all the decorators, parameters and args of that story will be automatically applied in the component. This makes your test file look quite clean and just reuse the configuration done in the Storybook side, making the maintenance of your testing setup simpler.
+When your components use functionality from tools like [styled components](http://styled-components.com/) or [redux](https://redux.js.org/), it's necessary to wrap your stories in [decorators](../writing-stories/decorators#story-decorators) so that the extra functionality is available in your stories. If that is the case, you can use a testing utility (currently only available in Storybook for React) to reuse your stories in your tests, and all the decorators, parameters, and args of that story will be automatically applied in the component. This makes your test file look quite clean and just reuse the configuration done in the Storybook side, making the maintenance of your testing setup simpler.
 
 Here is an example of how you can use it in a testing library:
 
@@ -37,5 +37,19 @@ Here is an example of how you can use it in a testing library:
 />
 
 <!-- prettier-ignore-end -->
+
+In case you have a global configuration for your stories (such as decorators in your preview.js file), they won't be picked up automatically in the code above. For that, you need to tell Storybook what is your global configuration, before running any code with `composeStories`:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/button-test-utility-setup.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+If you're using jest, you can configure on a [setup file](https://jestjs.io/docs/en/configuration#setupfiles-array), otherwise, just make sure the configuration runs only once and before you execute `composeStories`.
 
 Unit tests can be brittle and expensive to maintain for _every_ component. We recommend combining unit tests with other testing methods like [visual regression testing](./visual-testing.md) for comprehensive coverage with less maintenance work.

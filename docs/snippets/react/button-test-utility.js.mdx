@@ -5,11 +5,9 @@ import React from 'react';
 import { composeStories } from '@storybook/react';
 import { render, screen } from '@testing-library/react';
 import * as stories from './Button.stories';
-import * as globalConfig from '../.storybook/preview';
 import '@testing-library/jest-dom/extend-expect';
 
-// globalConfig is optional, only in case you have global decorators
-const { Primary } = composeStories(stories, globalConfig);
+const { Primary } = composeStories(stories);
 
 it('renders the button in the primary state with custom text', () => {
   render(<Primary>Hello world</Primary>);
