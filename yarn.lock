@@ -16734,6 +16734,7 @@ __metadata:
     "@storybook/addon-storyshots": 6.2.0-alpha.16
     "@storybook/addons": 6.2.0-alpha.16
     "@storybook/client-logger": 6.2.0-alpha.16
+    "@storybook/preset-create-react-app": ^3.1.6-alpha.0
     "@storybook/react": 6.2.0-alpha.16
     "@storybook/theming": 6.2.0-alpha.16
     global: ^4.4.0
@@ -16752,6 +16753,7 @@ __metadata:
     "@storybook/addon-actions": 6.2.0-alpha.16
     "@storybook/addon-links": 6.2.0-alpha.16
     "@storybook/addons": 6.2.0-alpha.16
+    "@storybook/preset-create-react-app": ^3.1.6-alpha.0
     "@storybook/react": 6.2.0-alpha.16
     "@storybook/theming": 6.2.0-alpha.16
     babel-core: 6
