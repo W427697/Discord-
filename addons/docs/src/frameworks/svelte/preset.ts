@@ -5,6 +5,7 @@ import { Configuration } from 'webpack';
 export function webpackFinal(webpackConfig: Configuration, options: any = {}) {
   webpackConfig.module.rules.push({
     test: /\.svelte$/,
+    exclude: /\.stories\.svelte$/,
     loader: path.resolve(`${__dirname}/svelte-docgen-loader`),
     enforce: 'post',
   });

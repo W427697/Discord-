@@ -1,0 +1,14 @@
+```html
+<!-- Button.stories.svelte -->
+
+<script>
+  import { Meta, Template, Story } from '@storybook/svelte';
+  import Button from './Button.svelte';
+</script>
+
+<Template let:args>
+  <Button {...args}/>
+</Template>
+
+<Story args={{primary: true, label: 'Primary'}}/>
+```

@@ -48,6 +48,7 @@ module.exports = {
     '^.+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',
     '^.+\\.[jt]sx?$': '<rootDir>/scripts/utils/jest-transform-js.js',
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
+    '^.+\\.svelte$': '<rootDir>/scripts/utils/jest-transform-svelte.js',
   },
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [

@@ -1,0 +1,21 @@
+```html
+<!-- Button.stories.svelte -->
+<script>
+  import { Story, Template } from '@storybook/svelte';
+  import Button from './Button.svelte';
+
+  const primaryArgs = { background: "#ff0", label: 'Button' };
+</script>
+
+// We create a “template” of how args map to rendering
+<Template let:args>
+  <Button  {...args}/>
+</Template>
+
+// Each story then reuses that template
+<Story name="Primary" args={primaryArgs}/>
+
+<Story name="Secondary" args={{...primaryArgs, label: '😄👍😍💯'}}/>
+
+<Story name="Tertiary" args={{...primaryArgs, label: '📚📕📈🤓'}}/>
+```

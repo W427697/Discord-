@@ -1,0 +1,28 @@
+```html
+<! -- List.stories.svelte -->
+<script>
+  import { Meta, Template, Story } from '@storybook/svelte';
+  import List from './List.svelte';
+  import ListItem from './ListItem.svelte';
+</script>
+
+<Meta title='List' component={List}/>
+
+<Story name="Empty" let:args>
+  <List {...args} />
+</Story>
+
+<Story name="OneItem" let:args>
+  <List {...args}>
+    <ListItem />
+  </List>
+</Story>
+
+<Story name="ManyItems" let:args>
+  <List {...args}>
+    <ListItem />
+    <ListItem />
+    <ListItem />
+  </List>
+</Story>
+```

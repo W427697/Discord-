@@ -1,0 +1,15 @@
+```html
+<!-- List.stories.js -->
+<script>
+  import { Meta, Template, Story } from '@storybook/svelte';
+  import List from './List.svelte';
+</script>
+
+<Meta title='List' component={List}/>
+
+<!-- Always an empty list, not super interesting -->
+<Template let:args>
+  <List {...args}/>
+</Template>
+
+```

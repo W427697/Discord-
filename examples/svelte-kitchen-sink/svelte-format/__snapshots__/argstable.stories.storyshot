@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Args Table (Svelte) ArgsTable 1`] = `
+<section
+  class="storybook-snapshot-container"
+>
+   
+  <pre>
+    {
+  "string": "string",
+  "number": 0,
+  "unionstr": "a",
+  "unionnumeric": 1,
+  "required": ""
+}
+  </pre>
+   
+  <div />
+   
+  <div />
+   
+   
+  
+  
+</section>
+`;

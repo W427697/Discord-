@@ -83,7 +83,11 @@ const loadStories = (
 
   const added = Array.from(currentExports.keys()).filter((exp) => !previousExports.has(exp));
 
-  added.forEach((fileExports) => {
+  added.forEach((fE) => {
+    // Dynamic stories generator ?
+    // eslint-disable-next-line no-underscore-dangle
+    const fileExports = fE.__dynamicStoriesGenerator ? fE.__dynamicStoriesGenerator(fE) : fE;
+
     // An old-style story file
     if (!fileExports.default) {
       return;
@@ -136,7 +140,7 @@ const loadStories = (
       framework,
       component,
       subcomponents,
-      fileName: currentExports.get(fileExports),
+      fileName: currentExports.get(fE),
       ...kindParameters,
       args: kindArgs,
       argTypes: kindArgTypes,

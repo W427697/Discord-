@@ -1,0 +1,19 @@
+```html
+<!-- YourComponent.stories.svelte -->
+
+<script>
+  import { Meta, Template, Story } from '@storybook/svelte';
+  import YourComponent from './YourComponent.svelte';
+</script>
+
+<!-- This component determines where your story goes in the story list -->
+<Meta title='YourComponent' component={YourComponent}/>
+
+<Template let:args>
+  <YourComponent {...args}/>
+</Template>
+
+<Story args={{
+  /* the args you need here will depend on your component */
+}}/>
+```

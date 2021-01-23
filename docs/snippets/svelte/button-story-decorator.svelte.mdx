@@ -1,0 +1,20 @@
+```html
+<!-- Button.stories.js -->
+<script>
+  const marginDecorator = (storyFn) => {
+    const story = storyFun();
+
+    return {
+      Component: MarginDecorator,
+      props: {
+        child: story.Component,
+        props: story.props,
+      },
+    }
+  }
+</script>
+
+<Story decorators={[marginDecorator]}>
+  ...
+</Story>
+```

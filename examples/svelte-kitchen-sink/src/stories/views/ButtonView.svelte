@@ -5,7 +5,6 @@
    */
   import Button from '../../components/Button.svelte';
 
-
   /**
    * Rounds the button
    */
