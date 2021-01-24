@@ -8,6 +8,9 @@ function getCommand(watch, dir) {
   if (process.cwd().includes(path.join('app', 'angular'))) {
     return '';
   }
+  if (process.cwd().includes(path.join('app', 'angular-new'))) {
+    return '';
+  }
   if (process.cwd().includes(path.join('addons', 'storyshots'))) {
     return '';
   }

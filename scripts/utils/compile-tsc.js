@@ -4,7 +4,7 @@ const path = require('path');
 const shell = require('shelljs');
 
 function getCommand(watch) {
-  const tsc = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'tsc');
+  let tsc = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'tsc');
   const downlevelDts = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'downlevel-dts');
 
   const args = ['--outDir ./dist/ts3.9', '--listEmittedFiles true', '--declaration true'];
@@ -15,9 +15,14 @@ function getCommand(watch) {
    * with tsc. (see comments in compile-babel.js)
    */
   const isAngular = process.cwd().includes(path.join('app', 'angular'));
+  const isAngularNew = process.cwd().includes(path.join('app', 'angular-new'));
   const isStoryshots = process.cwd().includes(path.join('addons', 'storyshots'));
-  if (!isAngular && !isStoryshots) {
+  if (!isAngularNew && !isAngular && !isStoryshots) {
     args.push('--emitDeclarationOnly');
+  }
+
+  if (isAngularNew) {
+    tsc = path.join(__dirname, '..', '..', 'app', 'angular-new', 'node_modules', '.bin', 'tsc');
   }
 
   if (watch) {

@@ -1,0 +1,76 @@
+// simple app to add un render to test for angular 🤷‍♂️
+
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { NgModule, Component, Input } from '@angular/core';
+
+import { BrowserModule } from '@angular/platform-browser';
+
+// eslint-disable-next-line no-undef
+const staticRoot = document.getElementById('root');
+
+// eslint-disable-next-line no-undef
+const storybookWrapperElement = document.createElement('my-app');
+staticRoot.innerHTML = '';
+staticRoot.appendChild(storybookWrapperElement);
+
+console.log('yolo', staticRoot.innerHTML);
+
+@Component({
+  selector: 'squared-value',
+  template: `{{ valueSquared() }}`,
+})
+export class SquareComponent {
+  @Input() value: number;
+
+  public valueSquared(): number {
+    return this.value * this.value;
+  }
+}
+
+@Component({
+  selector: 'cubed-value',
+  template: `{{ valueCubed() }}`,
+})
+export class CubeComponent {
+  @Input() value: number;
+
+  public valueCubed(): number {
+    return this.value * this.value * this.value;
+  }
+}
+
+@Component({
+  selector: 'quadrupal-value',
+  template: `{{ valueQuadrupaled() }}`,
+})
+export class QuadComponent {
+  @Input() value: number;
+
+  public valueQuadrupaled(): number {
+    return this.value * this.value * this.value * this.value;
+  }
+}
+
+@Component({
+  selector: 'app',
+  template: `
+    Hello {{ name }}
+    <hr />
+    <squared-value [value]="4"></squared-value>
+    <cubed-value [value]="4"></cubed-value>
+    <quadrupal-value [value]="4"></quadrupal-value>
+    <hr />
+  `,
+})
+export class AppComponent {
+  name = 'Sean';
+}
+
+@NgModule({
+  imports: [BrowserModule],
+  declarations: [AppComponent, SquareComponent, CubeComponent, QuadComponent],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+
+platformBrowserDynamic().bootstrapModule(AppModule);

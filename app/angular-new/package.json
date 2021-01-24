@@ -1,0 +1,83 @@
+{
+  "name": "@storybook/angular-new",
+  "version": "6.2.0-alpha.16",
+  "description": "Storybook for Angular: View Angular components in isolation with hot reloading.",
+  "keywords": [
+    "storybook",
+    "Angular"
+  ],
+  "homepage": "https://github.com/storybookjs/framework/app/framework",
+  "bugs": {
+    "url": "https://github.com/storybookjs/framework/issues"
+  },
+  "repository": {
+    "type": "git",
+    "directory": "app/angular-new"
+  },
+  "license": "MIT",
+  "main": "dist/ts3.9/client/index.js",
+  "module": "dist/ts3.9/client/index.js",
+  "types": "dist/ts3.9/client/index.d.ts",
+  "bin": {
+    "build-storybook": "./bin/build.js",
+    "start-storybook": "./bin/index.js",
+    "storybook-server": "./bin/index.js"
+  },
+  "files": [
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/addons": "6.2.0-alpha.16",
+    "@storybook/client-api": "6.2.0-alpha.16",
+    "@storybook/core": "6.2.0-alpha.16",
+    "@storybook/core-events": "6.2.0-alpha.16",
+    "@storybook/node-logger": "^6.1.15",
+    "@storybook/source-loader": "6.2.0-alpha.16",
+    "@types/webpack": "^4.41.3",
+    "@types/webpack-env": "^1.16.0",
+    "core-js": "^3.8.2",
+    "fork-ts-checker-webpack-plugin": "^4.1.6",
+    "global": "^4.4.0",
+    "read-pkg-up": "^7.0.1",
+    "regenerator-runtime": "^0.13.3",
+    "ts-dedent": "^2.0.0",
+    "ts-loader": "^8.0.14"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": ">=0.8.9",
+    "@angular-devkit/core": "^0.6.1 || >=7.0.0",
+    "@angular/common": ">=6.0.0",
+    "@angular/compiler": ">=6.0.0",
+    "@angular/compiler-cli": ">=6.0.0",
+    "@angular/core": ">=6.0.0",
+    "@angular/forms": ">=6.0.0",
+    "@angular/platform-browser": ">=6.0.0",
+    "@angular/platform-browser-dynamic": ">=6.0.0",
+    "@ngtools/webpack": "^11.0.7",
+    "typescript": "4.0.2"
+  },
+  "peerDependencies": {
+    "@angular-devkit/build-angular": ">=0.8.9",
+    "@angular-devkit/core": "^0.6.1 || >=7.0.0",
+    "@angular/common": ">=6.0.0",
+    "@angular/compiler": ">=6.0.0",
+    "@angular/compiler-cli": ">=6.0.0",
+    "@angular/core": ">=6.0.0",
+    "@angular/forms": ">=6.0.0",
+    "@angular/platform-browser": ">=6.0.0",
+    "@angular/platform-browser-dynamic": ">=6.0.0",
+    "@ngtools/webpack": "^11.0.7",
+    "typescript": ">=4.0.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,5 +4,5 @@
  */
 export const useBaseTsSupport = (framework: string) => {
   // These packages both have their own TS implementation.
-  return !['vue', 'angular'].includes(framework);
+  return !['vue', 'angular', 'angular-new'].includes(framework);
 };
