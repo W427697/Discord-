@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "6.2.0-alpha.16",
+  "version": "6.2.0-alpha.18",
   "description": "Storybook for Angular: Develop Angular Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -41,16 +41,16 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.2.0-alpha.16",
-    "@storybook/core": "6.2.0-alpha.16",
-    "@storybook/node-logger": "6.2.0-alpha.16",
+    "@storybook/addons": "6.2.0-alpha.18",
+    "@storybook/core": "6.2.0-alpha.18",
+    "@storybook/node-logger": "6.2.0-alpha.18",
     "@types/webpack-env": "^1.16.0",
     "autoprefixer": "^9.8.6",
     "core-js": "^3.8.2",
     "fork-ts-checker-webpack-plugin": "^4.1.6",
     "global": "^4.4.0",
     "postcss": "^7.0.35",
-    "postcss-loader": "npm:@phated/postcss-loader@4.2.0-phated.1",
+    "postcss-loader": "^4.2.0",
     "raw-loader": "^4.0.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
@@ -65,15 +65,15 @@
     "webpack": "^4.46.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1100.1",
-    "@angular-devkit/core": "^11.0.6",
-    "@angular/common": "^11.0.9",
-    "@angular/compiler": "^11.0.9",
-    "@angular/compiler-cli": "^11.0.9",
-    "@angular/core": "^11.0.9",
-    "@angular/forms": "^11.0.9",
-    "@angular/platform-browser": "^11.0.9",
-    "@angular/platform-browser-dynamic": "^11.0.9",
+    "@angular-devkit/build-angular": "~0.1101.0",
+    "@angular-devkit/core": "^11.1.0",
+    "@angular/common": "^11.1.0",
+    "@angular/compiler": "^11.1.0",
+    "@angular/compiler-cli": "^11.1.0",
+    "@angular/core": "^11.1.0",
+    "@angular/forms": "^11.1.0",
+    "@angular/platform-browser": "^11.1.0",
+    "@angular/platform-browser-dynamic": "^11.1.0",
     "@nrwl/workspace": "^11.1.5",
     "@types/autoprefixer": "^9.7.2",
     "@types/jest": "^25.2.3",
@@ -108,5 +108,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "2cc64efa1dcb90b72806d4c88c295f38dd92e427"
+  "gitHead": "ed19e4b88b0fbc36d10379149b7c98194254897e"
 }
