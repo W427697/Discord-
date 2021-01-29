@@ -14,6 +14,9 @@ export function stringifyObject(object: any, level = 0, excludeOuterParams = fal
     if (excludeOuterParams) return arrayString;
     return `[\n${indent}  ${arrayString}\n${indent}]`;
   }
+  if (object === null) {
+    return '';
+  }
   if (typeof object === 'object') {
     let objectString = '';
     if (Object.keys(object).length > 0) {
