@@ -1,13 +1,13 @@
 <script>
-    /**
-     * @component
-     * @wrapper
-     */
-    import { createRenderContext } from './context';
+  /**
+   * @component
+   * @wrapper
+   */
+  import { createRenderContext } from './context';
 
-    export let Stories;
+  export let Stories;
 
-    createRenderContext($$props);
+  createRenderContext($$props);
 </script>
 
 <svelte:component this={Stories}/>
