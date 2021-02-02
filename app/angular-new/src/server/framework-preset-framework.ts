@@ -3,6 +3,7 @@ import { Configuration } from 'webpack';
 // import { AngularCompilerPlugin } from '@ngtools/webpack';
 // import path from 'path';
 
+import { AngularCompilerPlugin } from '@ngtools/webpack';
 import createForkTsCheckerInstance from './create-fork-ts-checker-plugin';
 import getTsLoaderOptions from './ts_config';
 
@@ -15,23 +16,23 @@ export function webpack(config: Configuration, { configDir }: { configDir: strin
       rules: [
         ...config.module.rules,
 
-        {
-          test: /\.ts$/i,
-          use: [{ loader: require.resolve('ts-loader'), options: tsLoaderOptions }],
-          exclude: /node_modules/,
-        },
-        {
-          test: /\.html$/,
-          use: [
-            {
-              loader: require.resolve('html-loader'),
-            },
-          ],
-        },
         // {
-        //   test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
-        //   loader: '@ngtools/webpack',
+        //   test: /\.ts$/i,
+        //   use: [{ loader: require.resolve('ts-loader'), options: tsLoaderOptions }],
+        //   exclude: /node_modules/,
         // },
+        // {
+        //   test: /\.html$/,
+        //   use: [
+        //     {
+        //       loader: require.resolve('html-loader'),
+        //     },
+        //   ],
+        // },
+        {
+          test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
+          loader: '@ngtools/webpack',
+        },
         // {
         //   test: /\.scss$/,
         //   use: ['raw-loader', 'sass-loader'],
@@ -43,12 +44,17 @@ export function webpack(config: Configuration, { configDir }: { configDir: strin
 
     plugins: [
       ...config.plugins,
-      createForkTsCheckerInstance(tsLoaderOptions),
+      // createForkTsCheckerInstance(tsLoaderOptions),
 
-      // new AngularCompilerPlugin({
-      //   tsConfigPath: tsLoaderOptions.configFile,
-      //   sourceMap: true,
-      // }),
+      new AngularCompilerPlugin({
+        tsConfigPath: tsLoaderOptions.configFile,
+        sourceMap: true,
+        // entryModule: '',
+        skipCodeGeneration: true,
+        compilerOptions: {
+          enableIvy: true,
+        },
+      }),
     ],
   };
 }

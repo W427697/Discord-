@@ -77,6 +77,7 @@ export const getStorybookModuleMetadata = (
   };
 };
 
+// MEETING
 export const createStorybookModule = (ngModule: NgModule): Type<unknown> => {
   @NgModule(ngModule)
   class StorybookModule {}
