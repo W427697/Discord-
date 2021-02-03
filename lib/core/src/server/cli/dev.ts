@@ -13,6 +13,7 @@ export interface DevCliOptions {
   sslCert?: string;
   sslKey?: string;
   smokeTest?: boolean;
+  buildOnly?: boolean;
   ci?: boolean;
   loglevel?: string;
   quiet?: boolean;
@@ -50,6 +51,7 @@ export async function getDevCli(packageJson: {
     .option('--ssl-cert <cert>', 'Provide an SSL certificate. (Required with --https)')
     .option('--ssl-key <key>', 'Provide an SSL key. (Required with --https)')
     .option('--smoke-test', 'Exit after successful start')
+    .option('--build-only', 'Only build, don’t start the server (useful to warm up the cache)')
     .option('--ci', "CI mode (skip interactive prompts, don't open browser)")
     .option('--loglevel [level]', 'Control level of logging during build')
     .option('--quiet', 'Suppress verbose build output')

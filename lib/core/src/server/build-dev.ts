@@ -254,7 +254,13 @@ export async function buildDevStandalone(
         : Promise.resolve(getReleaseNotesFailedState(version)),
     ]);
 
-    if (!options.ci && !options.smokeTest && options.port != null && port !== options.port) {
+    if (
+      !options.buildOnly &&
+      !options.ci &&
+      !options.smokeTest &&
+      options.port != null &&
+      port !== options.port
+    ) {
       const { shouldChangePort } = await prompts({
         type: 'confirm',
         initial: true,
@@ -283,10 +289,15 @@ export async function buildDevStandalone(
 
     if (options.smokeTest) {
       await outputStats(previewStats, managerStats);
+
       const hasManagerWarnings = managerStats && managerStats.toJson().warnings.length > 0;
       const hasPreviewWarnings = previewStats && previewStats.toJson().warnings.length > 0;
       process.exit(hasManagerWarnings || (hasPreviewWarnings && !options.ignorePreview) ? 1 : 0);
       return;
+    }
+
+    if (options.buildOnly) {
+      process.exit(0);
     }
 
     outputStartupInformation({

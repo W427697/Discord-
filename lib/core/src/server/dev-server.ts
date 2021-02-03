@@ -365,7 +365,6 @@ export function getServerAddresses(port: number, host: string, proto: string) {
 
 export async function storybookDevServer(options: any) {
   const app = express();
-  const server = await getServer(app, options);
 
   const configDir = path.resolve(options.configDir);
   const outputDir = options.smokeTest
@@ -373,37 +372,46 @@ export async function storybookDevServer(options: any) {
     : path.resolve(options.outputDir || resolvePathInStorybookCache('public'));
   const configType = 'DEVELOPMENT';
   const startTime = process.hrtime();
-
-  if (typeof options.extendServer === 'function') {
-    options.extendServer(server);
-  }
-
-  app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-  });
-
-  // User's own static files
-  await useStatics(router, options);
-
-  getMiddleware(configDir)(router);
-  app.use(router);
-
-  const { port, host } = options;
-  const proto = options.https ? 'https' : 'http';
-  const { address, networkAddress } = getServerAddresses(port, host, proto);
-
-  await new Promise((resolve, reject) => {
-    // FIXME: Following line doesn't match TypeScript signature at all 🤔
-    // @ts-ignore
-    server.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
-  });
-
   const prebuiltDir = await getPrebuiltDir({ configDir, options });
+  let address;
+  let networkAddress;
 
-  // Manager static files
-  router.use('/', express.static(prebuiltDir || outputDir));
+  if (!options.buildOnly) {
+    const server = await getServer(app, options);
+
+    if (typeof options.extendServer === 'function') {
+      options.extendServer(server);
+    }
+
+    app.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+      next();
+    });
+
+    // User's own static files
+    await useStatics(router, options);
+
+    getMiddleware(configDir)(router);
+    app.use(router);
+
+    const proto = options.https ? 'https' : 'http';
+    const serverAddresses = getServerAddresses(options.port, options.host, proto);
+    networkAddress = serverAddresses.networkAddress;
+    address = serverAddresses.address;
+
+    await new Promise((resolve, reject) => {
+      // FIXME: Following line doesn't match TypeScript signature at all 🤔
+      // @ts-ignore
+      server.listen({ port: options.port, host: options.host }, (error: Error) =>
+        // @ts-ignore
+        error ? reject(error) : resolve()
+      );
+    });
+
+    // Manager static files
+    router.use('/', express.static(prebuiltDir || outputDir));
+  }
 
   // Build the manager and preview in parallel.
   // Start the server (and open the browser) as soon as the manager is ready.
@@ -413,14 +421,16 @@ export async function storybookDevServer(options: any) {
     startManager({ startTime, options, configType, outputDir, configDir, prebuiltDir })
       // TODO #13083 Restore this when compiling the preview is fast enough
       // .then((result) => {
-      //   if (!options.ci && !options.smokeTest) openInBrowser(address);
+      //   if (!options.ci && !options.smokeTest && !options.buildOnly) openInBrowser(address);
       //   return result;
       // })
       .catch(bailPreview),
   ]);
 
   // TODO #13083 Remove this when compiling the preview is fast enough
-  if (!options.ci && !options.smokeTest) openInBrowser(host ? networkAddress : address);
+  if (!options.ci && !options.smokeTest && !options.buildOnly) {
+    openInBrowser(options.host ? networkAddress : address);
+  }
 
   return { ...previewResult, ...managerResult, address, networkAddress };
 }

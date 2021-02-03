@@ -64,6 +64,7 @@ sslCa <ca>              Provide an SSL certificate authority. (Optional with "ht
 sslCert <cert>          Provide an SSL certificate. (Required with "https")
 sslKey <key>            Provide an SSL key. (Required with "https")
 smokeTest               Exit after successful start
+buildOnly               Only build, don’t start the server (useful to warm up the cache)
 ci                      CI mode (skip interactive prompts, don't open browser)
 quiet                   Suppress verbose build output
 ```
