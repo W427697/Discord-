@@ -3,11 +3,17 @@ import { ContextReplacementPlugin, Configuration } from 'webpack';
 import autoprefixer from 'autoprefixer';
 import getTsLoaderOptions from './ts_config';
 import createForkTsCheckerInstance from './create-fork-ts-checker-plugin';
+import { runNgcc } from './ngcc-execution';
 
 export function webpack(
   config: Configuration,
   { configDir }: { configDir: string }
 ): Configuration {
+  // Just for testing ngcc
+  // Move somwhere else
+  runNgcc();
+  // ---------------------
+
   const tsLoaderOptions = getTsLoaderOptions(configDir);
   return {
     ...config,
@@ -53,6 +59,15 @@ export function webpack(
     },
     resolve: {
       ...config.resolve,
+      mainFields: [
+        'es2015_ivy_ngcc',
+        'module_ivy_ngcc',
+        'main__ivy_ngcc',
+        'es2015',
+        'browser',
+        'module',
+        'main',
+      ],
     },
     plugins: [
       ...config.plugins,
