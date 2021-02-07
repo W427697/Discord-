@@ -22,4 +22,4 @@ jobs:
         yarn bootstrap --core
     - name: test
       run: |
-        yarn test
+        yarn test --runInBand --ci
