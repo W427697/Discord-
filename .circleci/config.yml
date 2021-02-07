@@ -439,7 +439,7 @@ jobs:
           at: .
       - run:
           name: Test
-          command: yarn test --coverage --w2
+          command: yarn test --coverage
       - persist_to_workspace:
           root: .
           paths:
