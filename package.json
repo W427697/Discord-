@@ -94,10 +94,6 @@
   "resolutions": {
     "serialize-javascript": "^3.1.0"
   },
-  "dependencies": {
-    "@compodoc/compodoc": "^1.1.11",
-    "web-component-analyzer": "^1.1.6"
-  },
   "devDependencies": {
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
