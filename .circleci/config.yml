@@ -237,7 +237,7 @@ jobs:
           command: yarn wait-on http://localhost:6000
       - run:
           name: Set registry
-          command: yarn config set registry http://localhost:6000/
+          command: yarn config set npmRegistryServer http://localhost:6000/
       - run:
           name: Test local registry
           command: yarn info @storybook/core
