@@ -1,7 +1,6 @@
 const config = require('../../jest.config');
 
 module.exports = {
-  verbose: true,
   ...config,
   roots: [__dirname],
   transform: {
