@@ -1,20 +1,10 @@
 ```html
 <!-- Button.stories.js -->
 <script>
-  const marginDecorator = (storyFn) => {
-    const story = storyFun();
-
-    return {
-      Component: MarginDecorator,
-      props: {
-        child: story.Component,
-        props: story.props,
-      },
-    }
-  }
+  import MarginDecorator from './MarginDecorator.svelte';
 </script>
 
-<Story decorators={[marginDecorator]}>
+<Story decorators={[() => MarginDecorator]}>
   ...
 </Story>
 ```
