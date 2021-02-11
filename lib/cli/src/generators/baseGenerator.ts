@@ -64,13 +64,22 @@ export async function baseGenerator(
   const yarn2Dependencies =
     packageManager.type === 'yarn2' ? ['@storybook/addon-docs', '@mdx-js/react'] : [];
 
+  const packageJson = packageManager.retrievePackageJson();
+  const alreadyInstalledDependencies = [
+    ...Object.keys(packageJson.dependencies),
+    ...Object.keys(packageJson.devDependencies),
+  ];
+
   const packages = [
     `@storybook/${framework}`,
     ...addonPackages,
     ...extraPackages,
     ...extraAddons,
     ...yarn2Dependencies,
-  ].filter(Boolean);
+  ]
+    .filter(Boolean)
+    .filter((packageToInstall) => !alreadyInstalledDependencies.includes(packageToInstall));
+
   const versionedPackages = await packageManager.getVersionedPackages(...packages);
 
   configure(framework, [...addons, ...extraAddons]);
@@ -78,7 +87,6 @@ export async function baseGenerator(
     copyComponents(framework, language);
   }
 
-  const packageJson = packageManager.retrievePackageJson();
   const babelDependencies = addBabel ? await getBabelDependencies(packageManager, packageJson) : [];
   packageManager.addDependencies({ ...npmOptions, packageJson }, [
     ...versionedPackages,
