@@ -11,8 +11,8 @@ import RenderContext from './components/RenderContext.svelte';
  * the rendering of every <Story/> and <Template/> but instead
  * collects names and properties.
  *
- * For every discovered <Story/>, it creates a storyFun which
- * instanciate the main Stories component: Every Story but
+ * For every discovered <Story/>, it creates a storyFn which
+ * instantiate the main Stories component: Every Story but
  * the one selected is disabled.
  */
 
