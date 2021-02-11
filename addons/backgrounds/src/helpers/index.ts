@@ -5,7 +5,7 @@ import { logger } from '@storybook/client-logger';
 
 import { Background } from '../types';
 
-export const clearBackground: Background = { name: 'Remove custom theme', value: 'transparent' };
+export const clearBackground: Background = { name: 'Clear the background or CSS of the preview', value: 'transparent' };
 const variablesStyleIdentifier = 'addon-backgrounds-variables';
 const variablesStyleLinkIdentifier = 'addon-backgrounds-variables-link';
 

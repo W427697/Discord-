@@ -131,7 +131,7 @@ export const BackgroundSelector: FunctionComponent = memo(() => {
       >
         <IconButton
           key="background"
-          title="Change the theme of the preview"
+          title="Change the background or CSS of the preview"
           active={selectedBackground.value !== 'transparent'}
         >
           <Icons icon="photo" />
