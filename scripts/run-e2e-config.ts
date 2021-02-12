@@ -185,7 +185,7 @@ export const react_in_yarn_workspace: Parameters = {
   generator: [
     'cd {{name}}-{{version}}',
     'echo "{ \\"name\\": \\"workspace-root\\", \\"private\\": true, \\"workspaces\\": [] }" > package.json',
-    `yarn add react react-dom --silent -W`,
+    `yarn add react react-dom --silent`,
   ].join(' && '),
 };
 
