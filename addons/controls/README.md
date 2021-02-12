@@ -28,11 +28,15 @@ The usage is documented in the [documentation](https://storybook.js.org/docs/rea
 
 ## FAQs
 
-- [How will this replace addon-knobs?](#how-will-this-replace-addon-knobs)
-- [How do I migrate from addon-knobs?](#how-do-i-migrate-from-addon-knobs)
-- [My controls aren't being auto-generated. What should I do?](#my-controls-arent-being-auto-generated-what-should-i-do)
-- [How can I disable controls for certain fields on a particular story?](#how-can-i-disable-controls-for-certain-fields-on-a-particular-story)
-- [How do controls work with MDX?](#how-do-controls-work-with-mdx)
+- [Storybook Controls Addon](#storybook-controls-addon)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [FAQs](#faqs)
+    - [How will this replace addon-knobs?](#how-will-this-replace-addon-knobs)
+    - [How do I migrate from addon-knobs?](#how-do-i-migrate-from-addon-knobs)
+    - [My controls aren't being auto-generated. What should I do?](#my-controls-arent-being-auto-generated-what-should-i-do)
+    - [How can I disable controls for certain fields on a particular story?](#how-can-i-disable-controls-for-certain-fields-on-a-particular-story)
+    - [How do controls work with MDX?](#how-do-controls-work-with-mdx)
 
 ### How will this replace addon-knobs?
 
@@ -117,7 +121,7 @@ export default {
   title: 'Button',
   argTypes: {
     label: { control: 'text' },
-    borderWidth: { control: { type: 'number', min: 0, max: 10 }},
+    borderWidth: { control: { type: 'number', min: 0, max: 10 } },
   },
 };
 
@@ -148,7 +152,7 @@ export default {
 
 export const CustomControls = (args) => <Button {...args} />;
 CustomControls.argTypes = {
-  borderWidth: { table: { disable: true } },
+  borderWidth: { disable: true },
   label: { control: { disable: true } },
 };
 ```

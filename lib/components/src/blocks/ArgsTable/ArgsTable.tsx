@@ -2,6 +2,8 @@ import React, { FC } from 'react';
 import pickBy from 'lodash/pickBy';
 import { styled, ignoreSsrWarning } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
+import dedent from 'ts-dedent';
+import deprecate from 'util-deprecate';
 import { Icons } from '../../icon/icon';
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
@@ -9,6 +11,15 @@ import { ArgType, ArgTypes, Args } from './types';
 import { EmptyBlock } from '../EmptyBlock';
 import { Link } from '../../typography/link/link';
 import { ResetWrapper } from '../../typography/DocumentFormatting';
+
+const warnTableDisableDeprecated = deprecate(
+  () => {},
+  dedent`
+    Use 'disable' instead of 'table.disable' to disable ArgsTable rows.
+    
+    https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#improved-args-disabling
+  `
+);
 
 export const TableWrapper = styled.table<{ compact?: boolean; inAddonPanel?: boolean }>(
   ({ theme, compact, inAddonPanel }) => ({
@@ -308,7 +319,10 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     initialExpandedArgs,
   } = props as ArgsTableRowProps;
 
-  const groups = groupRows(pickBy(rows, (row) => !row?.table?.disable));
+  if (Object.values(rows).some((row) => row?.table?.disable)) {
+    warnTableDisableDeprecated();
+  }
+  const groups = groupRows(pickBy(rows, (row) => !(row?.table?.disable || row?.disable)));
 
   if (
     groups.ungrouped.length === 0 &&

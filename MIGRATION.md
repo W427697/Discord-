@@ -5,9 +5,10 @@
     - [New Angular storyshots format](#new-angular-storyshots-format)
     - [Deprecated Angular story component](#deprecated-angular-story-component)
     - [New Angular renderer](#new-angular-renderer)
-  - [6.2 deprecations](#62-deprecations)
-    - [Deprecated implicit postcss loader](#deprecated-implicit-postcss-loader)
+  - [6.2 Deprecations](#62-deprecations)
+    - [Deprecated implicit PostCSS loader](#deprecated-implicit-postcss-loader)
     - [Deprecated default PostCSS plugins](#deprecated-default-postcss-plugins)
+    - [Improved args disabling](#improved-args-disabling)
 - [From version 6.0.x to 6.1.0](#from-version-60x-to-610)
   - [Addon-backgrounds preset](#addon-backgrounds-preset)
   - [Single story hoisting](#single-story-hoisting)
@@ -221,8 +222,24 @@ module.exports = {
     require('autoprefixer')({
       flexbox: 'no-2009',
     }),
-  ]
-}
+  ],
+};
+```
+
+#### Improved args disabling
+
+We've simplified disabling arg display in 6.2 by hoisting the `table.disable` property. It is now the disable property instead.
+
+Before:
+
+```js
+const argTypes = { foo: { table: { disable: true } } };
+```
+
+After:
+
+```js
+const argTypes = { foo: { disable: true } };
 ```
 
 ## From version 6.0.x to 6.1.0
