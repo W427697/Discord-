@@ -115,6 +115,7 @@ export interface ArgType {
   name?: string;
   description?: string;
   defaultValue?: any;
+  disable?: boolean;
   [key: string]: any;
 }
 
