@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { getCustomElements, isValidComponent, isValidMetaData } from '@storybook/web-components';
 import { ArgTypes } from '@storybook/api';
 import { logger } from '@storybook/client-logger';

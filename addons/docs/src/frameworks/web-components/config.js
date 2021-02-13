@@ -1,4 +1,5 @@
 /* global window */
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { render } from 'lit-html';
 import { extractArgTypes, extractComponentDescription } from './custom-elements';
