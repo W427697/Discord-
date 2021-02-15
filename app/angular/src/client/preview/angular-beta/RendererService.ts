@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { enableProdMode, PlatformRef } from '@angular/core';
+import { enableProdMode, PlatformRef, ɵresetCompiledComponents } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -75,6 +75,10 @@ export class RendererService {
       this.storyProps$.complete();
     }
     this.storyProps$ = new BehaviorSubject<ICollection>(storyFnAngular.props);
+
+    // try to move to mod['hot'].dispose like angular-cli 🤷‍♂️
+    // https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/build_angular/src/webpack/plugins/hmr/hmr-accept.ts#L50
+    ɵresetCompiledComponents();
 
     this.initAngularBootstrapElement();
     await this.platform.bootstrapModule(
