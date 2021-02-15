@@ -42,6 +42,10 @@ export const createStorybookWrapperComponent = (
   styles: string[],
   initialProps?: ICollection
 ): Type<any> => {
+  // In ivy, a '' selector is not allowed, therefore we need to just set it to anything if
+  // storyComponent was not provided.
+  const viewChildSelector = storyComponent ?? '__storybook-noop';
+
   @Component({
     selector: RendererService.SELECTOR_STORYBOOK_WRAPPER,
     template,
@@ -52,9 +56,9 @@ export const createStorybookWrapperComponent = (
 
     private storyWrapperPropsSubscription: Subscription;
 
-    @ViewChild(storyComponent ?? '', { static: true }) storyComponentElementRef: ElementRef;
+    @ViewChild(viewChildSelector, { static: true }) storyComponentElementRef: ElementRef;
 
-    @ViewChild(storyComponent ?? '', { read: ViewContainerRef, static: true })
+    @ViewChild(viewChildSelector, { read: ViewContainerRef, static: true })
     storyComponentViewContainerRef: ViewContainerRef;
 
     // eslint-disable-next-line no-useless-constructor
