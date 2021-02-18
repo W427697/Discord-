@@ -30,11 +30,9 @@ const Template = (args, { argTypes }) => {
   return {
     props: Object.keys(argTypes),
     components: { OverrideArgs },
-    template: '<override-args v-bind="$props" :icon="icon" />',
-    setup(props) {
-      return {
-        icon: icons[props.icon],
-      };
+    template: '<override-args v-bind="$props" />',
+    setup(props, context) {
+      context.props.icon = icons[context.props.icon];
     },
   };
 };
