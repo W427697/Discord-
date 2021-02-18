@@ -1,4 +1,5 @@
 import { getEnvironment } from 'lazy-universal-dotenv';
+import mapKeys from 'lodash/mapKeys';
 import { nodePathsToArray } from './paths';
 
 // Load environment variables starts with STORYBOOK_ to the client side.
@@ -36,8 +37,13 @@ export function loadEnv(
 
   fullRaw.NODE_PATH = nodePathsToArray(fullRaw.NODE_PATH || '');
 
+  const stringifiedWithProcessEnv = mapKeys(
+    { ...base, ...stringified },
+    (value, key) => `process.env.${key}`
+  );
+
   return {
-    stringified: { ...base, ...stringified },
+    stringified: stringifiedWithProcessEnv,
     raw: fullRaw,
   };
 }

@@ -106,7 +106,7 @@ export default async ({
       (new Dotenv({ silent: true }) as any) as WebpackPluginInstance,
       // graphql sources check process variable
       new DefinePlugin({
-        'process.env': stringified,
+        ...stringified,
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       }) as WebpackPluginInstance,
       // isProd &&
