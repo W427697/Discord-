@@ -46,7 +46,19 @@ The command above will make the following changes to your local environment:
 - 🛠 Add the default Storybook configuration.
 - 📝 Add some boilerplate stories to get you started.
 
-Depending on your framework, first build your app and then check that everything worked by running:
+Depending on your framework, first build your app and then check that everything worked. Add a script into a package.json:
+
+```javascript
+{
+  "scripts": {
+    # ...
+    "storybook": "start-storybook -p 9001",
+    # ...
+  }
+}
+```
+
+Then, run:
 
 ```shell
 npm run storybook
