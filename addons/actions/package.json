@@ -40,7 +40,7 @@
     "lodash": "^4.17.15",
     "polished": "^3.4.4",
     "prop-types": "^15.7.2",
-    "react-inspector": "^5.0.1",
+    "react-inspector": "^5.1.0",
     "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2",
