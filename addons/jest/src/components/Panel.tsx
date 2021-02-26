@@ -1,7 +1,8 @@
+/* eslint-disable react/default-props-match-prop-types */
 import React, { Fragment } from 'react';
 import { styled, themes, convert } from '@storybook/theming';
 import { ScrollArea, TabsState, Link, Placeholder } from '@storybook/components';
-import { SizeMe } from 'react-sizeme';
+import { SizeMe } from '@hypnosphi/react-sizeme';
 import Result from './Result';
 import provideJestResult, { Test } from '../hoc/provideJestResult';
 

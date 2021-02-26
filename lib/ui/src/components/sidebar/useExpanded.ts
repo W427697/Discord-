@@ -1,8 +1,9 @@
-import { StoriesHash } from '@storybook/api';
+import { StoriesHash, useStorybookApi } from '@storybook/api';
+import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
 import { document } from 'global';
 import throttle from 'lodash/throttle';
 import React, { Dispatch, MutableRefObject, useCallback, useEffect, useReducer } from 'react';
-import { matchesKeyCode, matchesModifiers } from './keybinding';
+import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 import { Highlight } from './types';
 
 import { isAncestor, getAncestorIds, getDescendantIds, scrollIntoView } from './utils';
@@ -47,6 +48,8 @@ const initializeExpanded = ({
   );
 };
 
+const noop = () => {};
+
 export const useExpanded = ({
   containerRef,
   isBrowsing,
@@ -58,6 +61,8 @@ export const useExpanded = ({
   selectedStoryId,
   onSelectStoryId,
 }: ExpandedProps): [Record<string, boolean>, Dispatch<ExpandAction>] => {
+  const api = useStorybookApi();
+
   // Track the set of currently expanded nodes within this tree.
   // Root nodes are expanded by default (and cannot be collapsed).
   const [expanded, setExpanded] = useReducer<
@@ -76,8 +81,7 @@ export const useExpanded = ({
   );
 
   const getElementByDataItemId = useCallback(
-    (id: string) =>
-      containerRef.current && containerRef.current.querySelector(`[data-item-id="${id}"]`),
+    (id: string) => containerRef.current?.querySelector(`[data-item-id="${id}"]`),
     [containerRef]
   );
 
@@ -93,7 +97,7 @@ export const useExpanded = ({
     ({ ids, value }) => {
       setExpanded({ ids, value });
       if (ids.length === 1) {
-        const element = containerRef.current.querySelector(
+        const element = containerRef.current?.querySelector(
           `[data-item-id="${ids[0]}"][data-ref-id="${refId}"]`
         );
         if (element) highlightElement(element);
@@ -106,6 +110,27 @@ export const useExpanded = ({
   useEffect(() => {
     setExpanded({ ids: getAncestorIds(data, selectedStoryId), value: true });
   }, [data, selectedStoryId]);
+
+  const collapseAll = useCallback(() => {
+    const ids = Object.keys(data).filter((id) => !rootIds.includes(id));
+    setExpanded({ ids, value: false });
+  }, [data, rootIds]);
+
+  const expandAll = useCallback(() => {
+    setExpanded({ ids: Object.keys(data), value: true });
+  }, [data]);
+
+  useEffect(() => {
+    if (!api) return noop;
+
+    api.on(STORIES_COLLAPSE_ALL, collapseAll);
+    api.on(STORIES_EXPAND_ALL, expandAll);
+
+    return () => {
+      api.off(STORIES_COLLAPSE_ALL, collapseAll);
+      api.off(STORIES_EXPAND_ALL, expandAll);
+    };
+  }, [api, collapseAll, expandAll]);
 
   // Expand, collapse or select nodes in the tree using keyboard shortcuts.
   useEffect(() => {

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { styled } from '@storybook/theming';
 import { NodeResult, Result } from 'axe-core';
-import { SizeMe } from 'react-sizeme';
+import { SizeMe } from '@hypnosphi/react-sizeme';
 import HighlightToggle from './Report/HighlightToggle';
 import { RuleType } from './A11YPanel';
 import { useA11yContext } from './A11yContext';
@@ -112,7 +112,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
   const highlightLabel = `Highlight results`;
   return (
     <SizeMe refreshMode="debounce">
-      {({ size }: { size: any }) => (
+      {({ size }) => (
         <Container>
           <List>
             <TabsWrapper>
@@ -130,7 +130,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
             </TabsWrapper>
           </List>
           {tabs[activeTab].items.length > 0 ? (
-            <GlobalToggle elementWidth={size.width}>
+            <GlobalToggle elementWidth={size.width || 0}>
               <HighlightToggleLabel htmlFor={highlightToggleId}>
                 {highlightLabel}
               </HighlightToggleLabel>
