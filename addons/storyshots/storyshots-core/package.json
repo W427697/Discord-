@@ -1,10 +1,11 @@
 {
   "name": "@storybook/addon-storyshots",
-  "version": "6.2.0-alpha.25",
+  "version": "6.2.0-beta.4",
   "description": "Take a code snapshot of every story automatically with Jest",
   "keywords": [
     "addon",
-    "storybook"
+    "storybook",
+    "test"
   ],
   "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/storyshots/storyshots-core",
   "bugs": {
@@ -40,11 +41,12 @@
   },
   "dependencies": {
     "@jest/transform": "^26.6.2",
-    "@storybook/addons": "6.2.0-alpha.25",
-    "@storybook/client-api": "6.2.0-alpha.25",
-    "@storybook/core": "6.2.0-alpha.25",
+    "@storybook/addons": "6.2.0-beta.4",
+    "@storybook/client-api": "6.2.0-beta.4",
+    "@storybook/core": "6.2.0-beta.4",
+    "@storybook/core-common": "6.2.0-beta.4",
     "@types/glob": "^7.1.3",
-    "@types/jest": "^25.2.3",
+    "@types/jest": "^26.0.16",
     "@types/jest-specific-snapshot": "^0.5.3",
     "babel-plugin-require-context-hook": "^1.0.0",
     "core-js": "^3.8.2",
@@ -58,10 +60,13 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/addon-docs": "6.2.0-alpha.25",
-    "@storybook/angular": "6.2.0-alpha.25",
-    "@storybook/react": "6.2.0-alpha.25",
-    "@storybook/vue3": "6.2.0-alpha.25",
+    "@angular/core": "^11.2.0",
+    "@angular/platform-browser-dynamic": "^11.2.0",
+    "@storybook/addon-docs": "6.2.0-beta.4",
+    "@storybook/angular": "6.2.0-beta.4",
+    "@storybook/react": "6.2.0-beta.4",
+    "@storybook/vue": "6.2.0-beta.4",
+    "@storybook/vue3": "6.2.0-beta.4",
     "babel-loader": "^8.2.2",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.1",
@@ -72,6 +77,8 @@
     "vue-jest": "^5.0.0-alpha.8"
   },
   "peerDependencies": {
+    "@angular/core": ">=6.0.0",
+    "@angular/platform-browser-dynamic": ">=6.0.0",
     "@storybook/angular": "*",
     "@storybook/react": "*",
     "@storybook/vue": "*",
@@ -86,6 +93,12 @@
     "vue-jest": "*"
   },
   "peerDependenciesMeta": {
+    "@angular/core": {
+      "optional": true
+    },
+    "@angular/platform-browser-dynamic": {
+      "optional": true
+    },
     "@storybook/angular": {
       "optional": true
     },
@@ -112,13 +125,19 @@
     },
     "vue": {
       "optional": true
-    },
-    "vue-jest": {
-      "optional": true
     }
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "d4ff49b2dee7c5a3c50e992832bd0ae4d3e52e41"
+  "gitHead": "09707a9b0355643753e78a6dd49f047792efae45",
+  "storybook": {
+    "displayName": "Storyshots",
+    "icon": "https://user-images.githubusercontent.com/263385/101991676-48cdf300-3c7c-11eb-8aa1-944dab6ab29b.png",
+    "unsupportedFrameworks": [
+      "ember",
+      "mithril",
+      "marko"
+    ]
+  }
 }

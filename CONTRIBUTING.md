@@ -53,7 +53,7 @@ yarn test
 The options for running tests can be selected from the cli or be passed to `yarn test` with specific parameters. Available modes include `--watch`, `--coverage`, and `--runInBand`, which will respectively run tests in watch mode, output code coverage, and run selected test suites serially in the current process.
 
 You can use the `--update` flag (or `jest -u`) to update snapshots or screenshots as needed.
- 
+
 > NOTE: on Windows, remember to make sure git config `core.autocrlf` is set to false, in order to not override EOL in snapshots ( `git config --global core.autocrlf false` to set it globally). It is also recommended to run tests from WSL2 to avoid errors with unix-style paths.
 
 You can also pick suites from CLI. Suites available are listed below.
@@ -133,7 +133,7 @@ git commit -m "reproduction for issue #123"
 
 # fork the storybook repo to your account, then add the resulting remote
 git remote add <your-username> https://github.com/<your-username>/storybook.git
-git push -u <your-username> master
+git push -u <your-username> next
 ```
 
 If you follow that process, you can then link to the GitHub repository in the issue. See <https://github.com/storybookjs/storybook/issues/708#issuecomment-290589886> for an example.
@@ -183,7 +183,7 @@ When creating new unit test files, the tests should adhere to a particular folde
 
 We welcome all contributions. There are many ways you can help us. This is few of those ways:
 
-Before you submit a new PR, make sure you run `yarn test`. Do not submit a PR if tests are failing. If you need any help, the best way is to [join the discord server and ask in the maintenance channel](https://discord.gg/sMFvFsG).
+Before you submit a new PR, make sure you run `yarn test`. Do not submit a PR if tests are failing. If you need any help, the best way is to [join the discord server and ask in the maintenance channel](https://discord.gg/storybook).
 
 ### Reviewing PRs
 
