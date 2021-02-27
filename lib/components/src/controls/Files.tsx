@@ -25,7 +25,7 @@ export const FilesControl: FunctionComponent<FilesControlProps> = ({
   name,
   accept = 'image/*',
   value,
-  readonly,
+  readOnly,
 }) => {
   function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) {
@@ -44,7 +44,7 @@ export const FilesControl: FunctionComponent<FilesControlProps> = ({
       onChange={handleFileChange}
       accept={accept}
       size="flex"
-      {...{ readonly }}
+      {...{ readOnly }}
     />
   );
 };

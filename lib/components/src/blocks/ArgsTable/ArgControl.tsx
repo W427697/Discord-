@@ -22,7 +22,7 @@ const NoControl = () => <>-</>;
 
 export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
   const { key, control } = row;
-  console.log('row', row);
+
   const [isFocused, setFocused] = useState(false);
   // box because arg can be a fn (e.g. actions) and useState calls fn's
   const [boxedValue, setBoxedValue] = useState({ value: arg });
@@ -43,8 +43,10 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
   const onBlur = useCallback(() => setFocused(false), []);
   const onFocus = useCallback(() => setFocused(true), []);
 
-  if (control?.disable && control?.readonly) {
-    console.warn(`Both "disable" and "readonly" options were defined, applying "disable".`);
+  if (control?.disable && control?.readOnly) {
+    console.warn(
+      `Both "disable" and "readOnly" options were defined. The "disable" option takes precedence.`
+    );
   }
 
   if (!control || control.disable) return <NoControl />;

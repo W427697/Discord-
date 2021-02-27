@@ -63,7 +63,7 @@ export const DateControl: FC<DateProps> = ({
   onChange,
   onFocus,
   onBlur,
-  readonly,
+  readOnly,
 }) => {
   const [valid, setValid] = useState(true);
   const dateRef = useRef<HTMLInputElement>();
@@ -109,7 +109,7 @@ export const DateControl: FC<DateProps> = ({
         id={`${name}date`}
         name={`${name}date`}
         onChange={onDateChange}
-        {...{ onFocus, onBlur, readonly }}
+        {...{ onFocus, onBlur, readOnly }}
       />
       <Form.Input
         type="time"

@@ -9,7 +9,7 @@ export interface ControlProps<T> {
   onChange: (value: T) => T | void;
   onFocus?: (evt: any) => void;
   onBlur?: (evt: any) => void;
-  readonly?: boolean;
+  readOnly?: boolean;
 }
 
 export type ArrayValue = string[] | readonly string[];

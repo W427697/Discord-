@@ -26,7 +26,7 @@ export const NumberControl: FC<NumberProps> = ({
   step,
   onBlur,
   onFocus,
-  readonly,
+  readOnly,
 }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange(parse(event.target.value));
@@ -40,7 +40,7 @@ export const NumberControl: FC<NumberProps> = ({
         size="flex"
         placeholder="Adjust number dynamically"
         value={value === null ? undefined : value}
-        {...{ name, min, max, step, onFocus, onBlur, readonly }}
+        {...{ name, min, max, step, onFocus, onBlur, readOnly }}
       />
     </Wrapper>
   );

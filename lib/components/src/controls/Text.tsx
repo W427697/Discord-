@@ -18,7 +18,7 @@ export const TextControl: FC<TextProps> = ({
   onChange,
   onFocus,
   onBlur,
-  readonly,
+  readOnly,
 }) => {
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     onChange(event.target.value);
@@ -30,7 +30,7 @@ export const TextControl: FC<TextProps> = ({
         onChange={handleChange}
         size="flex"
         placeholder="Adjust string dynamically"
-        {...{ name, value: format(value), onFocus, onBlur, readonly }}
+        {...{ name, value: format(value), onFocus, onBlur, readOnly }}
       />
     </Wrapper>
   );

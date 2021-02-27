@@ -7,10 +7,17 @@ export default {
   argTypes: {
     children: { control: 'text', name: 'Children' },
     readonlyInput: {
-      name: 'readonlyInput',
+      name: 'Readonly input',
       control: {
         type: 'text',
-        readonly: true,
+        readOnly: true,
+      },
+    },
+    disabledInput: {
+      name: 'Disabled input',
+      control: {
+        type: 'text',
+        disable: true,
       },
     },
     type: { control: 'text', name: 'Type' },

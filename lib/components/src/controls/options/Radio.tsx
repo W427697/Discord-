@@ -53,7 +53,7 @@ export const RadioControl: FC<RadioProps> = ({
   value,
   onChange,
   isInline,
-  readonly,
+  readOnly,
 }) => {
   const selection = selectedKey(value, options);
   return (
@@ -69,7 +69,7 @@ export const RadioControl: FC<RadioProps> = ({
               value={key}
               onChange={(e) => onChange(options[e.currentTarget.value])}
               checked={key === selection}
-              {...{ readonly }}
+              {...{ readOnly }}
             />
             <Text>{key}</Text>
           </Label>

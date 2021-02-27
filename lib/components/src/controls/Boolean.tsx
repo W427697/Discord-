@@ -86,7 +86,7 @@ export const BooleanControl: FC<BooleanProps> = ({
   onChange,
   onBlur,
   onFocus,
-  readonly,
+  readOnly,
 }) => (
   <Label htmlFor={name} title={value ? 'Change to false' : 'Change to true'}>
     <input
@@ -94,7 +94,7 @@ export const BooleanControl: FC<BooleanProps> = ({
       type="checkbox"
       onChange={(e) => onChange(e.target.checked)}
       checked={value || false}
-      {...{ name, onBlur, onFocus, readonly }}
+      {...{ name, onBlur, onFocus, readOnly }}
     />
     <span>True</span>
     <span>False</span>
