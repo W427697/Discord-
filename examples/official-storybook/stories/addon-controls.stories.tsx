@@ -6,6 +6,13 @@ export default {
   component: Button,
   argTypes: {
     children: { control: 'text', name: 'Children' },
+    readonlyInput: {
+      control: 'text',
+      name: 'readonlyInput',
+      controls: {
+        readonly: true,
+      },
+    },
     type: { control: 'text', name: 'Type' },
     json: { control: 'object', name: 'JSON' },
     imageUrls: { control: { type: 'file', accept: '.png' }, name: 'Image Urls' },
