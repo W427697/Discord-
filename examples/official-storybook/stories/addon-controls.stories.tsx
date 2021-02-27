@@ -7,9 +7,9 @@ export default {
   argTypes: {
     children: { control: 'text', name: 'Children' },
     readonlyInput: {
-      control: 'text',
       name: 'readonlyInput',
-      controls: {
+      control: {
+        type: 'text',
         readonly: true,
       },
     },
@@ -142,3 +142,8 @@ FilteredWithExcludeRegex.parameters = {
     exclude: /hello*/,
   },
 };
+export const Readonly = Template.bind({});
+Readonly.args = {
+  readonlyInput: 'This is read-only',
+};
+Readonly.parameters = {};
