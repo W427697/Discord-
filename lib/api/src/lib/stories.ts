@@ -19,6 +19,7 @@ export interface Root {
   isComponent: false;
   isRoot: true;
   isLeaf: false;
+  startCollapsed?: boolean;
 }
 
 export interface Group {
@@ -59,6 +60,7 @@ export interface Story {
     [parameterName: string]: any;
   };
   args: Args;
+  initialArgs: Args;
 }
 
 export interface StoryInput {
@@ -78,6 +80,7 @@ export interface StoryInput {
   };
   isLeaf: boolean;
   args: Args;
+  initialArgs: Args;
 }
 
 export interface StoriesHash {
@@ -107,6 +110,14 @@ export type SetStoriesPayload =
       v?: number;
       stories: StoriesRaw;
     } & Record<string, never>);
+
+const warnLegacyShowRoots = deprecate(
+  () => {},
+  dedent`
+    The 'showRoots' config option is deprecated and will be removed in Storybook 7.0. Use 'sidebar.showRoots' instead.
+    Read more about it in the migration guide: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md
+  `
+);
 
 const warnChangedDefaultHierarchySeparators = deprecate(
   () => {},
@@ -141,7 +152,12 @@ export const transformStoriesRawToStoriesHash = (
 
   const storiesHashOutOfOrder = values.reduce((acc, item) => {
     const { kind, parameters } = item;
-    const { showRoots } = provider.getConfig();
+    const { sidebar = {}, showRoots: deprecatedShowRoots } = provider.getConfig();
+    const { showRoots = deprecatedShowRoots, collapsedRoots = [] } = sidebar;
+
+    if (typeof deprecatedShowRoots !== 'undefined') {
+      warnLegacyShowRoots();
+    }
 
     const setShowRoots = typeof showRoots !== 'undefined';
     if (usesOldHierarchySeparator && !setShowRoots) {
@@ -174,6 +190,7 @@ export const transformStoriesRawToStoriesHash = (
           isComponent: false,
           isLeaf: false,
           isRoot: true,
+          startCollapsed: collapsedRoots.includes(id),
         });
       } else {
         list.push({

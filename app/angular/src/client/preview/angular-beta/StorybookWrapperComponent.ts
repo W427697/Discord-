@@ -61,6 +61,9 @@ export const createStorybookWrapperComponent = (
     @ViewChild(viewChildSelector, { read: ViewContainerRef, static: true })
     storyComponentViewContainerRef: ViewContainerRef;
 
+    // Used in case of a component without selector
+    storyComponent = storyComponent ?? '';
+
     // eslint-disable-next-line no-useless-constructor
     constructor(
       @Inject(STORY_PROPS) private storyProps$: Subject<ICollection | undefined>,

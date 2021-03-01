@@ -15,4 +15,7 @@ addons.setConfig({
       hidden: true,
     },
   },
+  sidebar: {
+    collapsedRoots: ['other'],
+  },
 });
