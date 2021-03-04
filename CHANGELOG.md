@@ -8,7 +8,7 @@
 
 ## 6.1.20 (February 24, 2021)
 
-- Deps: upgrade react-dev-utils to get newer immer ([#14015](https://github.com/storybookjs/storybook/pull/14015))
+- Deps: upgrade react-dev-utils to get newer immer (security) ([#14015](https://github.com/storybookjs/storybook/pull/14015))
 
 ## 6.1.19 (February 23, 2021)
 
