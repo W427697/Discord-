@@ -75,7 +75,9 @@ export class RendererService {
     this.storyProps$ = new BehaviorSubject<ICollection>(storyFnAngular.props);
 
     try {
-      // try to move to mod['hot'].dispose like angular-cli 🤷‍♂️
+      // Clear global Angular component cache in order to be able to re-render the same component across multiple stories
+      //
+      // References:
       // https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/build_angular/src/webpack/plugins/hmr/hmr-accept.ts#L50
       // https://github.com/angular/angular/blob/2ebe2bcb2fe19bf672316b05f15241fd7fd40803/packages/core/src/render3/jit/module.ts#L377-L384
       ɵresetCompiledComponents();
