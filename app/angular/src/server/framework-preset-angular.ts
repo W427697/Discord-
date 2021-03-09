@@ -3,17 +3,11 @@ import { ContextReplacementPlugin, Configuration } from 'webpack';
 import autoprefixer from 'autoprefixer';
 import getTsLoaderOptions from './ts_config';
 import createForkTsCheckerInstance from './create-fork-ts-checker-plugin';
-import { runNgcc } from './ngcc-execution';
 
 export function webpack(
   config: Configuration,
   { configDir }: { configDir: string }
 ): Configuration {
-  // Just for testing ngcc
-  // Move somwhere else
-  runNgcc();
-  // ---------------------
-
   const tsLoaderOptions = getTsLoaderOptions(configDir);
   return {
     ...config,

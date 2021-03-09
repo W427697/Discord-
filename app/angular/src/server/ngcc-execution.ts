@@ -1,17 +1,16 @@
-import { logger } from '@storybook/node-logger';
-import { sync as spawnSync } from 'cross-spawn';
+import path from 'path';
+import { process as ngccProcess } from '@angular/compiler-cli/ngcc';
 
+/**
+ * Run ngcc for converting modules to ivy format before starting storybook
+ * This step is needed in order to support Ivy in storybook
+ *
+ * Information about Ivy can be found here https://angular.io/guide/ivy
+ */
 export function runNgcc() {
-  logger.info('=> Run ngcc if available');
-  const ngccArgs = [
-    '--create-ivy-entry-points',
-    '--target',
-    '@angular/platform-browser-dynamic',
-    '--first-only',
-  ];
-
-  // TODO: force yarn for test purposes
-  spawnSync('yarn ngcc', ngccArgs, {
-    stdio: 'inherit',
+  ngccProcess({
+    basePath: path.join(process.cwd(), 'node_modules'), // absolute path to node_modules
+    createNewEntryPointFormats: true, // --create-ivy-entry-points
+    compileAllFormats: false, // --first-only
   });
 }
