@@ -74,9 +74,19 @@ export class RendererService {
     }
     this.storyProps$ = new BehaviorSubject<ICollection>(storyFnAngular.props);
 
-    // try to move to mod['hot'].dispose like angular-cli 🤷‍♂️
-    // https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/build_angular/src/webpack/plugins/hmr/hmr-accept.ts#L50
-    ɵresetCompiledComponents();
+    try {
+      // try to move to mod['hot'].dispose like angular-cli 🤷‍♂️
+      // https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/build_angular/src/webpack/plugins/hmr/hmr-accept.ts#L50
+      ɵresetCompiledComponents();
+    } catch (e) {
+      /**
+       * noop catch
+       * This means angular removed or modified ɵresetCompiledComponents
+       *
+       * Prorably, they added a clearCache mechanism to platform.destroy() and
+       * we can simply remove this in case no errors are thrown during runtime
+       */
+    }
 
     await this.newPlatformBrowserDynamic().bootstrapModule(
       createStorybookModule(
