@@ -1,5 +1,4 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { CommonModule } from '@angular/common';
 import { ChipsModule } from './angular-src/chips.module';
 import { ChipsGroupComponent } from './angular-src/chips-group.component';
 import { ChipComponent } from './angular-src/chip.component';
@@ -8,7 +7,7 @@ export default {
   title: 'Basics / NgModule / Module with multiple component',
   decorators: [
     moduleMetadata({
-      imports: [CommonModule, ChipsModule],
+      imports: [ChipsModule],
     }),
   ],
 } as Meta;
