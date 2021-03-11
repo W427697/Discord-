@@ -13,6 +13,10 @@ import reactOptions from '../../../app/react/src/server/options';
 import vue3Options from '../../../app/vue3/src/server/options';
 import htmlOptions from '../../../app/html/src/server/options';
 import webComponentsOptions from '../../../app/web-components/src/server/options';
+import { outputStats } from './utils/output-stats';
+
+// this only applies to this file
+jest.setTimeout(10000);
 
 jest.mock('@storybook/builder-webpack5', () => {
   const actualBuilder = jest.requireActual('@storybook/builder-webpack5');
@@ -50,6 +54,8 @@ jest.mock('@storybook/node-logger', () => ({
 jest.mock('./utils/output-startup-information', () => ({
   outputStartupInformation: jest.fn(),
 }));
+
+jest.mock('./utils/output-stats');
 
 const cache = Cache({
   basePath: resolvePathInStorybookCache('dev-server'),
@@ -113,52 +119,48 @@ describe.each([
   ['vue-3-cli', vue3Options],
   ['web-components-kitchen-sink', webComponentsOptions],
   ['html-kitchen-sink', htmlOptions],
-])(
-  '%s',
-  (example, frameworkOptions) => {
-    beforeEach(() => {
-      jest.clearAllMocks();
-      cache.clear();
+])('%s', (example, frameworkOptions) => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    cache.clear();
+  });
+
+  const options = {
+    ...baseOptions,
+    ...frameworkOptions,
+    configDir: path.resolve(`${__dirname}/../../../examples/${example}/.storybook`),
+  };
+
+  describe('manager', () => {
+    it('dev mode', async () => {
+      await buildDevStandalone({ ...options, ignorePreview: true });
+
+      const managerConfig = prepareSnap(managerExecutor.get, 'manager');
+      expect(managerConfig).toMatchSpecificSnapshot(snap(`${example}_manager-dev`));
     });
+    it('production mode', async () => {
+      await buildStaticStandalone({ ...options, ignorePreview: true });
 
-    const options = {
-      ...baseOptions,
-      ...frameworkOptions,
-      configDir: path.resolve(`${__dirname}/../../../examples/${example}/.storybook`),
-    };
-
-    describe('manager', () => {
-      it('dev mode', async () => {
-        await buildDevStandalone({ ...options, ignorePreview: true });
-
-        const managerConfig = prepareSnap(managerExecutor.get, 'manager');
-        expect(managerConfig).toMatchSpecificSnapshot(snap(`${example}_manager-dev`));
-      });
-      it('production mode', async () => {
-        await buildStaticStandalone({ ...options, ignorePreview: true });
-
-        const managerConfig = prepareSnap(managerExecutor.get, 'manager');
-        expect(managerConfig).toMatchSpecificSnapshot(snap(`${example}_manager-prod`));
-      });
+      const managerConfig = prepareSnap(managerExecutor.get, 'manager');
+      expect(managerConfig).toMatchSpecificSnapshot(snap(`${example}_manager-prod`));
     });
+  });
 
-    describe('preview', () => {
-      it('dev mode', async () => {
-        await buildDevStandalone({ ...options, managerCache: true });
+  describe('preview', () => {
+    it('dev mode', async () => {
+      await buildDevStandalone({ ...options, managerCache: true });
 
-        const previewConfig = prepareSnap(previewExecutor.get, 'preview');
-        expect(previewConfig).toMatchSpecificSnapshot(snap(`${example}_preview-dev`));
-      });
-      it('production mode', async () => {
-        await buildStaticStandalone({ ...options, managerCache: true });
-
-        const previewConfig = prepareSnap(previewExecutor.get, 'preview');
-        expect(previewConfig).toMatchSpecificSnapshot(snap(`${example}_preview-prod`));
-      });
+      const previewConfig = prepareSnap(previewExecutor.get, 'preview');
+      expect(previewConfig).toMatchSpecificSnapshot(snap(`${example}_preview-dev`));
     });
-  },
-  10000
-);
+    it('production mode', async () => {
+      await buildStaticStandalone({ ...options, managerCache: true });
+
+      const previewConfig = prepareSnap(previewExecutor.get, 'preview');
+      expect(previewConfig).toMatchSpecificSnapshot(snap(`${example}_preview-prod`));
+    });
+  });
+});
 
 const progressPlugin = (config) =>
   config.plugins.find((p) => p.constructor.name === 'ProgressPlugin');
@@ -184,6 +186,18 @@ describe('dev cli flags', () => {
     expect(progressPlugin(config)).toBeFalsy();
   });
 
+  it('--webpack-stats-json calls output-stats', async () => {
+    await buildDevStandalone(cliOptions);
+    expect(outputStats).not.toHaveBeenCalled();
+
+    await buildDevStandalone({ ...cliOptions, webpackStatsJson: '/tmp/dir' });
+    expect(outputStats).toHaveBeenCalledWith(
+      '/tmp/dir',
+      expect.objectContaining({}),
+      expect.objectContaining({})
+    );
+  });
+
   describe.each([
     ['root directory /', '/', "Won't remove directory '/'. Check your outputDir!"],
     ['empty string ""', '', "Won't remove current directory. Check your outputDir!"],
@@ -202,5 +216,25 @@ describe('dev cli flags', () => {
         expectedErrorMessage
       );
     });
+  });
+});
+
+describe('build cli flags', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    cache.clear();
+  });
+  const cliOptions = { ...reactOptions, ...baseOptions };
+
+  it('--webpack-stats-json calls output-stats', async () => {
+    await buildStaticStandalone(cliOptions);
+    expect(outputStats).not.toHaveBeenCalled();
+
+    await buildStaticStandalone({ ...cliOptions, webpackStatsJson: '/tmp/dir' });
+    expect(outputStats).toHaveBeenCalledWith(
+      '/tmp/dir',
+      expect.objectContaining({}),
+      expect.objectContaining({})
+    );
   });
 });
