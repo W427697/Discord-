@@ -28,12 +28,23 @@ export const es6Transpiler: () => RuleSetRule = () => {
         loader: require.resolve('babel-loader'),
         options: {
           sourceType: 'unambiguous',
+          assumptions: {
+            noClassCalls: true,
+            constantReexports: true,
+            constantSuper: true,
+            ignoreFunctionLength: true,
+            ignoreToPrimitiveHint: true,
+            privateFieldsAsProperties: true,
+            setSpreadProperties: true,
+            pureGetters: true,
+            setPublicClassFields: true,
+          },
           presets: [
             [
               require.resolve('@babel/preset-env'),
               {
                 shippedProposals: true,
-                modules: false,
+                modules: true,
                 targets: 'defaults',
               },
             ],

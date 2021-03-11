@@ -3,19 +3,11 @@ import { TransformOptions } from '@babel/core';
 const plugins = [
   require.resolve('@babel/plugin-transform-shorthand-properties'),
   require.resolve('@babel/plugin-transform-block-scoping'),
-  /*
-   * Added for TypeScript experimental decorator support
-   * https://babeljs.io/docs/en/babel-plugin-transform-typescript#typescript-compiler-options
-   */
-  [require.resolve('@babel/plugin-proposal-decorators'), { legacy: true }],
-  [require.resolve('@babel/plugin-proposal-class-properties'), { loose: true }],
-  [require.resolve('@babel/plugin-proposal-private-methods'), { loose: true }],
+  require.resolve('@babel/plugin-proposal-class-properties'),
+  require.resolve('@babel/plugin-proposal-private-methods'),
   require.resolve('@babel/plugin-proposal-export-default-from'),
   require.resolve('@babel/plugin-syntax-dynamic-import'),
-  [
-    require.resolve('@babel/plugin-proposal-object-rest-spread'),
-    { loose: true, useBuiltIns: true },
-  ],
+  [require.resolve('@babel/plugin-proposal-object-rest-spread'), { useBuiltIns: true }],
   require.resolve('@babel/plugin-transform-classes'),
   require.resolve('@babel/plugin-transform-arrow-functions'),
   require.resolve('@babel/plugin-transform-parameters'),
@@ -23,14 +15,6 @@ const plugins = [
   require.resolve('@babel/plugin-transform-spread'),
   require.resolve('@babel/plugin-transform-for-of'),
   require.resolve('babel-plugin-macros'),
-  /*
-   * Optional chaining and nullish coalescing are supported in
-   * @babel/preset-env, but not yet supported in Webpack due to support
-   * missing from acorn. These can be removed once Webpack has support.
-   * See https://github.com/facebook/create-react-app/issues/8445#issuecomment-588512250
-   */
-  require.resolve('@babel/plugin-proposal-optional-chaining'),
-  require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
   [
     require.resolve('babel-plugin-polyfill-corejs3'),
     {
@@ -50,6 +34,17 @@ const presets = [
 export const babelConfig: () => TransformOptions = () => {
   return {
     sourceType: 'unambiguous',
+    assumptions: {
+      noClassCalls: true,
+      constantReexports: true,
+      constantSuper: true,
+      ignoreFunctionLength: true,
+      ignoreToPrimitiveHint: true,
+      privateFieldsAsProperties: true,
+      setSpreadProperties: true,
+      pureGetters: true,
+      setPublicClassFields: true,
+    },
     presets: [...presets],
     plugins: [...plugins],
   };
