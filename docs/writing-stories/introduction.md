@@ -34,6 +34,7 @@ The _default_ export metadata controls how Storybook lists your stories and prov
     'vue/button-story-default-export-with-component.js.mdx',
     'angular/button-story-default-export-with-component.ts.mdx',
     'svelte/button-story-default-export-with-component.js.mdx',
+    'web-components/button-story-default-export-with-component.js.mdx',
   ]}
 />
 
@@ -49,13 +50,21 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
   paths={[
     'react/button-story.js.mdx',
     'react/button-story.ts.mdx',
+    'react/button-story.with-hooks.js.mdx',
     'vue/button-story.js.mdx',
     'angular/button-story.ts.mdx',
     'svelte/button-story.js.mdx',
+    'web-components/button-story.js.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
+
+<div class="aside">
+
+💡 <strong>Note</strong>: Using framework specific elements such as [React Hooks](https://reactjs.org/docs/hooks-intro.html) alongside your stories is a perfectly valid approach, but should be used as an advanced use case. We <strong>recommend</strong> using [args](./args.md) as much as possible when writing your own stories.
+
+</div>
 
 ### Rename stories
 
@@ -70,6 +79,7 @@ You can rename any particular story you need. For instance to give it a clearer 
     'vue/button-story-rename-story.js.mdx',
     'angular/button-story-rename-story.ts.mdx',
     'svelte/button-story-rename-story.js.mdx',
+    'web-components/button-story-rename-story.js.mdx',
   ]}
 />
 
@@ -90,6 +100,7 @@ A story is a function that describes how to render a component. You can have mul
     'vue/button-story-with-emojis.js.mdx',
     'angular/button-story-with-emojis.ts.mdx',
     'svelte/button-story-with-emojis.js.mdx',
+    'web-components/button-story-with-emojis.js.mdx',
   ]}
 />
 
@@ -111,6 +122,7 @@ Refine this pattern by defining a master template for a component’s stories th
     'vue/button-story-using-args.3.js.mdx',
     'angular/button-story-using-args.ts.mdx',
     'svelte/button-story-using-args.js.mdx',
+    'web-components/button-story-using-args.js.mdx',
   ]}
 />
 
@@ -170,6 +182,7 @@ For instance, suppose you wanted to test your Button component against a differe
     'vue/button-story-with-blue-args.js.mdx',
     'angular/button-story-with-blue-args.ts.mdx',
     'svelte/button-story-with-blue-args.js.mdx',
+    'web-components/button-story-with-blue-args.js.mdx',
   ]}
 />
 
@@ -194,6 +207,7 @@ A simple example is adding padding to a component’s stories. Accomplish this u
     'vue/button-story-component-decorator.js.mdx',
     'angular/button-story-component-decorator.ts.mdx',
     'svelte/button-story-component-decorator.js.mdx',
+    'web-components/button-story-component-decorator.js.mdx',
   ]}
 />
 

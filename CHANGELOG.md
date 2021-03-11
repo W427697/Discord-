@@ -1,3 +1,100 @@
+## 6.2.0-beta.13 (March 11, 2021)
+
+### Features
+
+- CLI: Add a `--webpack-stats-json` flag ([#14186](https://github.com/storybookjs/storybook/pull/14186))
+
+### Bug Fixes
+
+- Core: Fix standalone and add tests ([#14196](https://github.com/storybookjs/storybook/pull/14196))
+- Core: Fix dotenv file loading and add `env` to main.js ([#14191](https://github.com/storybookjs/storybook/pull/14191))
+- Core: Fix main.ts/preview.ts ([#14184](https://github.com/storybookjs/storybook/pull/14184))
+
+## 6.2.0-beta.12 (March 10, 2021)
+
+### Features
+
+- Core: Hoist 'control.options', validate them in core and introduce 'control.labels' ([#14169](https://github.com/storybookjs/storybook/pull/14169))
+
+### Bug Fixes
+
+- UI: Fix React unique key warning when using renderLabel ([#14172](https://github.com/storybookjs/storybook/pull/14172))
+
+### Maintenance
+
+- Controls: Remove auto inference and add to CLI template ([#14182](https://github.com/storybookjs/storybook/pull/14182))
+
+## 6.2.0-beta.11 (March 9, 2021)
+
+### Bug Fixes
+
+- React: Fix fast refresh socket connection error ([#14165](https://github.com/storybookjs/storybook/pull/14165))
+
+### Dependency Upgrades
+
+- Update sveltedoc-parser to 4.1.0 ([#14164](https://github.com/storybookjs/storybook/pull/14164))
+
+## 6.2.0-beta.10 (March 5, 2021)
+
+### Bug Fixes
+
+- Angular: Keep story templates with an empty value ([#14113](https://github.com/storybookjs/storybook/pull/14113))
+- Core: Fix standalone API ... again ([#14140](https://github.com/storybookjs/storybook/pull/14140))
+
+## 6.2.0-beta.9 (March 4, 2021)
+
+### Bug Fixes
+
+- Core: Fix standalone API ([#14122](https://github.com/storybookjs/storybook/pull/14122))
+- Core: Fix main.ts/preview.ts handling ([#14123](https://github.com/storybookjs/storybook/pull/14123))
+
+## 6.2.0-beta.8 (March 4, 2021)
+
+### Features
+
+- Core: Add 'mapping' to support complex arg values ([#14100](https://github.com/storybookjs/storybook/pull/14100))
+
+## 6.2.0-beta.7 (March 4, 2021)
+
+Failed publish
+
+## 6.1.21 (March 3, 2021)
+
+### Bug Fixes
+
+- IE11: Transpile prettier down to ES5 ([#14047](https://github.com/storybookjs/storybook/pull/14047))
+- CLI: Add `--legacy-peer-deps` for NPM7 install ([#14106](https://github.com/storybookjs/storybook/pull/14106))
+- SyntaxHighlighter: Safely access clipboard on global.navigator ([#14035](https://github.com/storybookjs/storybook/pull/14035))
+
+## 6.2.0-beta.6 (March 3, 2021)
+
+### Features
+
+- Svelte: Fix async loaders in docs panel ([#14080](https://github.com/storybookjs/storybook/pull/14080))
+
+### Bug Fixes
+
+- CLI: Add `--legacy-peer-deps` for NPM7 install ([#14106](https://github.com/storybookjs/storybook/pull/14106))
+
+### Dependency Upgrades
+
+- [Security] Bump pug from 3.0.0 to 3.0.1 ([#14104](https://github.com/storybookjs/storybook/pull/14104))
+- [Security] Bump pug-code-gen from 3.0.1 to 3.0.2 ([#14105](https://github.com/storybookjs/storybook/pull/14105))
+
+## 6.2.0-beta.5 (March 1, 2021)
+
+### Features
+
+- Core: Add `renderLabel` to customize sidebar tree labels ([#13121](https://github.com/storybookjs/storybook/pull/13121))
+
+### Maintenance
+
+- Core: Namespace sidebar config options ([#14067](https://github.com/storybookjs/storybook/pull/14067))
+
+### Dependency Upgrades
+
+- Move back to the original react-sizeme package ([#14069](https://github.com/storybookjs/storybook/pull/14069))
+
 ## 6.2.0-beta.4 (February 26, 2021)
 
 ### Features

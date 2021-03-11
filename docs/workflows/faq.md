@@ -12,6 +12,10 @@ Create React App does not allow providing options to Jest in your `package.json`
 npm test -- --coverage --collectCoverageFrom='["src/**/*.{js,jsx}","!src/**/stories/*"]'
 ```
 
+<div class="aside">
+💡 <strong>Note</strong>: If you're using <a href="https://yarnpkg.com/">yarn</a> as a package manager, you'll need to adjust the command accordingly. 
+</div>
+
 ### I see `ReferenceError: React is not defined` when using storybooks with Next.js
 
 Next automatically defines `React` for all of your files via a babel plugin. You must define `React` for JSX to work. You can solve this either by:
@@ -239,6 +243,25 @@ npx http-server storybook-static
 If you don't want to run the command above frequently. Add <code>http-server</code> as a development dependency and create a new script to preview your production build of Storybook.
 </div>
 
-### Can I use Storybook with Vue 3
+### Can I use Storybook with Vue 3?
 
 Yes, Storybook support for Vue 3 is currently being finalized and will be released in version 6.2. See the [install page](../get-started/install.md) for instructions.
+
+
+### Is snapshot testing with Storyshots supported for Vue 3?
+
+Yes, if you're using Vue 3 in your project you can use the [`Storyshots addon`](https://www.npmjs.com/package/@storybook/addon-storyshots). You'll need to adjust your `config` object and manually specify the framework. 
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-storyshots-custom-framework.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### Why are my MDX stories not working in IE11?
+
+Currently there's an issue when using MDX stories with IE11. This issue does <strong>not</strong> apply to [DocsPage](../writing-docs/docs-page.md). If you're interested in helping us fix this issue, read our <a href="https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING.md">Contribution guidelines</a> and submit a pull request.

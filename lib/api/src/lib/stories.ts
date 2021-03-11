@@ -1,3 +1,4 @@
+import React from 'react';
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import { sanitize } from '@storybook/csf';
@@ -19,6 +20,7 @@ export interface Root {
   isComponent: false;
   isRoot: true;
   isLeaf: false;
+  renderLabel?: (item: Root) => React.ReactNode;
   startCollapsed?: boolean;
 }
 
@@ -32,6 +34,7 @@ export interface Group {
   isComponent: boolean;
   isRoot: false;
   isLeaf: false;
+  renderLabel?: (item: Group) => React.ReactNode;
   // MDX docs-only stories are "Group" type
   parameters?: {
     docsOnly?: boolean;
@@ -50,6 +53,7 @@ export interface Story {
   isComponent: boolean;
   isRoot: false;
   isLeaf: true;
+  renderLabel?: (item: Story) => React.ReactNode;
   parameters?: {
     fileName: string;
     options: {
@@ -153,7 +157,7 @@ export const transformStoriesRawToStoriesHash = (
   const storiesHashOutOfOrder = values.reduce((acc, item) => {
     const { kind, parameters } = item;
     const { sidebar = {}, showRoots: deprecatedShowRoots } = provider.getConfig();
-    const { showRoots = deprecatedShowRoots, collapsedRoots = [] } = sidebar;
+    const { showRoots = deprecatedShowRoots, collapsedRoots = [], renderLabel } = sidebar;
 
     if (typeof deprecatedShowRoots !== 'undefined') {
       warnLegacyShowRoots();
@@ -190,6 +194,7 @@ export const transformStoriesRawToStoriesHash = (
           isComponent: false,
           isLeaf: false,
           isRoot: true,
+          renderLabel,
           startCollapsed: collapsedRoots.includes(id),
         });
       } else {
@@ -202,6 +207,7 @@ export const transformStoriesRawToStoriesHash = (
           isComponent: false,
           isLeaf: false,
           isRoot: false,
+          renderLabel,
           parameters: {
             docsOnly: parameters?.docsOnly,
             viewMode: parameters?.viewMode,
@@ -224,15 +230,15 @@ export const transformStoriesRawToStoriesHash = (
       });
     });
 
-    const story: Story = {
+    acc[item.id] = {
       ...item,
       depth: rootAndGroups.length,
       parent: rootAndGroups[rootAndGroups.length - 1].id,
       isLeaf: true,
       isComponent: false,
       isRoot: false,
+      renderLabel,
     };
-    acc[item.id] = story;
 
     return acc;
   }, {} as StoriesHash);
