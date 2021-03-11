@@ -43,6 +43,7 @@
     "@storybook/core-events": "6.2.0-beta.13",
     "@storybook/csf": "0.0.1",
     "@storybook/ui": "6.2.0-beta.13",
+    "airbnb-js-shims": "^2.2.1",
     "ansi-to-html": "^0.6.11",
     "core-js": "^3.8.2",
     "global": "^4.4.0",

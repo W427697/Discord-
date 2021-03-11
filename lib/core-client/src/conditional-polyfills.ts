@@ -3,9 +3,13 @@ import { window } from 'global';
 export const importPolyfills = () => {
   const polyfills = [];
 
-  // import 'regenerator-runtime/runtime';
-  // import 'airbnb-js-shims';
-  // import 'core-js/features/symbol';
+  // TODO: make these conditional
+  // @ts-ignore
+  polyfills.push(import('regenerator-runtime/runtime'));
+  // @ts-ignore
+  polyfills.push(import('airbnb-js-shims'));
+  // @ts-ignore
+  polyfills.push(import('core-js/features/symbol'));
 
   if (!window.fetch) {
     // manually patch window.fetch;
