@@ -1,6 +1,6 @@
 {
   "name": "@storybook/theming",
-  "version": "6.1.8",
+  "version": "6.2.0-beta.13",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -15,14 +15,22 @@
     "directory": "lib/theming"
   },
   "license": "MIT",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "ts3.4/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
@@ -32,12 +40,12 @@
     "@emotion/react": "^11.0.0",
     "@emotion/serialize": "^1.0.0",
     "@emotion/styled": "^11.0.0",
-    "@storybook/client-logger": "6.1.8",
-    "core-js": "^3.0.1",
+    "@storybook/client-logger": "6.2.0-beta.13",
+    "core-js": "^3.8.2",
     "deep-object-diff": "^1.1.0",
-    "global": "^4.3.2",
+    "global": "^4.4.0",
     "memoizerific": "^1.11.3",
-    "polished": "^3.4.4",
+    "polished": "^4.0.5",
     "resolve-from": "^5.0.0",
     "ts-dedent": "^2.0.0"
   },
@@ -48,12 +56,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6c4d0ed4beea726a121cddd365cc5258d6828be9",
-  "typesVersions": {
-    "<3.8": {
-      "*": [
-        "ts3.4/*"
-      ]
-    }
-  }
+  "gitHead": "9b7aad4bda5a705ae6faaaaae64c0eaee4cf99c5"
 }

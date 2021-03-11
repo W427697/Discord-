@@ -1,13 +1,15 @@
 {
   "name": "@storybook/addon-toolbars",
-  "version": "6.1.8",
-  "description": "Storybook toolbars addon",
+  "version": "6.2.0-beta.13",
+  "description": "Create your own toolbar items that control story rendering",
   "keywords": [
     "addon",
     "storybook",
     "theming",
     "i18n",
-    "internationalization"
+    "internationalization",
+    "test",
+    "essentials"
   ],
   "homepage": "https://github.com/storybookjs/storybook/tree/next/addons/toolbars",
   "bugs": {
@@ -19,7 +21,16 @@
     "directory": "addons/toolbars"
   },
   "license": "MIT",
-  "main": "dist/register.js",
+  "main": "dist/cjs/register.js",
+  "module": "dist/esm/register.js",
+  "types": "dist/ts3.9/register.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -30,11 +41,11 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.1.8",
-    "@storybook/api": "6.1.8",
-    "@storybook/client-api": "6.1.8",
-    "@storybook/components": "6.1.8",
-    "core-js": "^3.0.1"
+    "@storybook/addons": "6.2.0-beta.13",
+    "@storybook/api": "6.2.0-beta.13",
+    "@storybook/client-api": "6.2.0-beta.13",
+    "@storybook/components": "6.2.0-beta.13",
+    "core-js": "^3.8.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",
@@ -51,5 +62,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6c4d0ed4beea726a121cddd365cc5258d6828be9"
+  "gitHead": "9b7aad4bda5a705ae6faaaaae64c0eaee4cf99c5",
+  "storybook": {
+    "displayName": "Toolbars",
+    "icon": "https://user-images.githubusercontent.com/263385/101991677-48cdf300-3c7c-11eb-93b4-19b0e3366959.png",
+    "unsupportedFrameworks": [
+      "react-native"
+    ]
+  }
 }
