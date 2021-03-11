@@ -1,13 +1,15 @@
 import { document, FRAMEWORK_OPTIONS } from 'global';
-import React, { Component, FunctionComponent, ReactElement, StrictMode, Fragment } from 'react';
+import React, { Component, FunctionComponent, StrictMode, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 
 import { StoryContext, RenderContext } from './types';
 
 const rootEl = document ? document.getElementById('root') : null;
 
-const render = (node: ReactElement, el: Element) =>
-  new Promise((resolve) => {
+type RenderArgs = Parameters<typeof ReactDOM.render>;
+
+const render = (node: RenderArgs[0], el: RenderArgs[1]) =>
+  new Promise<void>((resolve) => {
     ReactDOM.render(node, el, resolve);
   });
 
@@ -72,5 +74,5 @@ export default async function renderMain({
     ReactDOM.unmountComponentAtNode(rootEl);
   }
 
-  await render(element, rootEl);
+  await render([element], rootEl);
 }
