@@ -1,12 +1,13 @@
 {
   "name": "@storybook/addon-cssresources",
-  "version": "6.0.0-beta.38",
+  "version": "6.2.0-beta.13",
   "description": "A storybook addon to switch between css resources at runtime for your story",
   "keywords": [
     "addon",
     "cssresources",
     "react",
-    "storybook"
+    "storybook",
+    "style"
   ],
   "homepage": "https://storybook.js.org",
   "bugs": {
@@ -19,48 +20,58 @@
   },
   "license": "MIT",
   "author": "nm123github",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "ts3.5/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.0.0-beta.38",
-    "@storybook/api": "6.0.0-beta.38",
-    "@storybook/components": "6.0.0-beta.38",
-    "@storybook/core-events": "6.0.0-beta.38",
-    "@storybook/theming": "6.0.0-beta.38",
-    "core-js": "^3.0.1",
-    "global": "^4.3.2",
-    "react": "^16.8.3",
-    "regenerator-runtime": "^0.13.3"
+    "@storybook/addons": "6.2.0-beta.13",
+    "@storybook/api": "6.2.0-beta.13",
+    "@storybook/components": "6.2.0-beta.13",
+    "@storybook/core-events": "6.2.0-beta.13",
+    "@storybook/theming": "6.2.0-beta.13",
+    "core-js": "^3.8.2",
+    "global": "^4.4.0",
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.15.2",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2",
-    "react-dom": "^16.12.0"
+    "@types/webpack-env": "^1.16.0"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-dom": "*"
+    "react": "^16.8.0 || ^17.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "4b9d901add9452525135caae98ae5f78dd8da9ff",
-  "typesVersions": {
-    "<=3.5": {
-      "*": [
-        "ts3.5/*"
-      ]
-    }
+  "gitHead": "9b7aad4bda5a705ae6faaaaae64c0eaee4cf99c5",
+  "storybook": {
+    "displayName": "CSS Resources",
+    "unsupportedFrameworks": [
+      "react-native"
+    ]
   }
 }

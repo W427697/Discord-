@@ -1,3 +1,4 @@
+import React from 'react';
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import { sanitize } from '@storybook/csf';
@@ -8,7 +9,7 @@ import merge from './merge';
 import { Provider } from '../modules/provider';
 import { ViewMode } from '../modules/addons';
 
-export { StoryId };
+export type { StoryId };
 
 export interface Root {
   id: StoryId;
@@ -19,11 +20,8 @@ export interface Root {
   isComponent: false;
   isRoot: true;
   isLeaf: false;
-  // MDX stories are "Group" type
-  parameters?: {
-    docsOnly?: boolean;
-    [k: string]: any;
-  };
+  renderLabel?: (item: Root) => React.ReactNode;
+  startCollapsed?: boolean;
 }
 
 export interface Group {
@@ -36,11 +34,11 @@ export interface Group {
   isComponent: boolean;
   isRoot: false;
   isLeaf: false;
-  // MDX stories are "Group" type
+  renderLabel?: (item: Group) => React.ReactNode;
+  // MDX docs-only stories are "Group" type
   parameters?: {
     docsOnly?: boolean;
     viewMode?: ViewMode;
-    [parameterName: string]: any;
   };
 }
 
@@ -55,6 +53,7 @@ export interface Story {
   isComponent: boolean;
   isRoot: false;
   isLeaf: true;
+  renderLabel?: (item: Story) => React.ReactNode;
   parameters?: {
     fileName: string;
     options: {
@@ -65,6 +64,7 @@ export interface Story {
     [parameterName: string]: any;
   };
   args: Args;
+  initialArgs: Args;
 }
 
 export interface StoryInput {
@@ -84,6 +84,7 @@ export interface StoryInput {
   };
   isLeaf: boolean;
   args: Args;
+  initialArgs: Args;
 }
 
 export interface StoriesHash {
@@ -98,20 +99,29 @@ export interface StoriesRaw {
   [id: string]: StoryInput;
 }
 
-export interface SetStoriesPayload {
-  v?: number;
-  stories: StoriesRaw;
-}
+export type SetStoriesPayload =
+  | {
+      v: 2;
+      error?: Error;
+      globals: Args;
+      globalParameters: Parameters;
+      stories: StoriesRaw;
+      kindParameters: {
+        [kind: string]: Parameters;
+      };
+    }
+  | ({
+      v?: number;
+      stories: StoriesRaw;
+    } & Record<string, never>);
 
-export interface SetStoriesPayloadV2 extends SetStoriesPayload {
-  v: 2;
-  error?: Error;
-  globalArgs: Args;
-  globalParameters: Parameters;
-  kindParameters: {
-    [kind: string]: Parameters;
-  };
-}
+const warnLegacyShowRoots = deprecate(
+  () => {},
+  dedent`
+    The 'showRoots' config option is deprecated and will be removed in Storybook 7.0. Use 'sidebar.showRoots' instead.
+    Read more about it in the migration guide: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md
+  `
+);
 
 const warnChangedDefaultHierarchySeparators = deprecate(
   () => {},
@@ -122,19 +132,11 @@ const warnChangedDefaultHierarchySeparators = deprecate(
   `
 );
 
-const toKey = (input: string) =>
-  input.replace(/[^a-z0-9]+([a-z0-9])/gi, (...params) => params[1].toUpperCase());
-
-const toGroup = (name: string) => ({
-  name,
-  id: toKey(name),
-});
-
 export const denormalizeStoryParameters = ({
   globalParameters,
   kindParameters,
   stories,
-}: SetStoriesPayloadV2): StoriesRaw => {
+}: SetStoriesPayload): StoriesRaw => {
   return mapValues(stories, (storyData) => ({
     ...storyData,
     parameters: combineParameters(
@@ -147,104 +149,99 @@ export const denormalizeStoryParameters = ({
 
 export const transformStoriesRawToStoriesHash = (
   input: StoriesRaw,
-  base: StoriesHash,
   { provider }: { provider: Provider }
 ): StoriesHash => {
-  const anyKindMatchesOldHierarchySeparators = Object.values(input)
-    .filter(Boolean)
-    .some(({ kind }) => kind.match(/\.|\|/));
+  const values = Object.values(input).filter(Boolean);
+  const usesOldHierarchySeparator = values.some(({ kind }) => kind.match(/\.|\|/)); // dot or pipe
 
-  const storiesHashOutOfOrder = Object.values(input)
-    .filter(Boolean)
-    .reduce((acc, item) => {
-      const { kind, parameters } = item;
-      const { showRoots } = provider.getConfig();
+  const storiesHashOutOfOrder = values.reduce((acc, item) => {
+    const { kind, parameters } = item;
+    const { sidebar = {}, showRoots: deprecatedShowRoots } = provider.getConfig();
+    const { showRoots = deprecatedShowRoots, collapsedRoots = [], renderLabel } = sidebar;
 
-      const setShowRoots = typeof showRoots !== 'undefined';
-      if (anyKindMatchesOldHierarchySeparators && !setShowRoots) {
-        warnChangedDefaultHierarchySeparators();
-      }
+    if (typeof deprecatedShowRoots !== 'undefined') {
+      warnLegacyShowRoots();
+    }
 
-      let root = '';
-      let groups: string[];
-      const parts: string[] = kind.split('/');
-      // Default showRoots to true if they didn't set it.
-      if ((!setShowRoots || showRoots) && parts.length > 1) {
-        [root, ...groups] = parts;
-      } else {
-        groups = parts;
-      }
+    const setShowRoots = typeof showRoots !== 'undefined';
+    if (usesOldHierarchySeparator && !setShowRoots) {
+      warnChangedDefaultHierarchySeparators();
+    }
 
-      const rootAndGroups = []
-        .concat(root || [])
-        .concat(groups)
-        .map(toGroup)
-        // Map a bunch of extra fields onto the groups, collecting the path as we go (thus the reduce)
-        .reduce((soFar, group, index, original) => {
-          const { name } = group;
-          const parent = index > 0 && soFar[index - 1].id;
-          const id = sanitize(parent ? `${parent}-${name}` : name);
-          if (parent === id) {
-            throw new Error(
-              dedent`
+    const groups = kind.split('/').map((part) => part.trim());
+    const root = (!setShowRoots || showRoots) && groups.length > 1 ? [groups.shift()] : [];
+
+    const rootAndGroups = [...root, ...groups].reduce((list, name, index) => {
+      const parent = index > 0 && list[index - 1].id;
+      const id = sanitize(parent ? `${parent}-${name}` : name);
+
+      if (parent === id) {
+        throw new Error(
+          dedent`
               Invalid part '${name}', leading to id === parentId ('${id}'), inside kind '${kind}'
 
               Did you create a path that uses the separator char accidentally, such as 'Vue <docs/>' where '/' is a separator char? See https://github.com/storybookjs/storybook/issues/6128
             `
-            );
-          }
+        );
+      }
 
-          if (!!root && index === 0) {
-            const result: Root = {
-              ...group,
-              id,
-              depth: index,
-              children: [],
-              isComponent: false,
-              isLeaf: false,
-              isRoot: true,
-              parameters,
-            };
-            return soFar.concat([result]);
-          }
-          const result: Group = {
-            ...group,
-            id,
-            parent,
-            depth: index,
-            children: [],
-            isComponent: false,
-            isLeaf: false,
-            isRoot: false,
-            parameters,
-          };
-          return soFar.concat([result]);
-        }, [] as GroupsList);
-
-      const paths = [...rootAndGroups.map((g) => g.id), item.id];
-
-      // Ok, now let's add everything to the store
-      rootAndGroups.forEach((group, index) => {
-        const child = paths[index + 1];
-        const { id } = group;
-        acc[id] = merge(acc[id] || {}, {
-          ...group,
-          ...(child && { children: [child] }),
+      if (root.length && index === 0) {
+        list.push({
+          id,
+          name,
+          depth: index,
+          children: [],
+          isComponent: false,
+          isLeaf: false,
+          isRoot: true,
+          renderLabel,
+          startCollapsed: collapsedRoots.includes(id),
         });
+      } else {
+        list.push({
+          id,
+          name,
+          parent,
+          depth: index,
+          children: [],
+          isComponent: false,
+          isLeaf: false,
+          isRoot: false,
+          renderLabel,
+          parameters: {
+            docsOnly: parameters?.docsOnly,
+            viewMode: parameters?.viewMode,
+          },
+        });
+      }
+
+      return list;
+    }, [] as GroupsList);
+
+    const paths = [...rootAndGroups.map(({ id }) => id), item.id];
+
+    // Ok, now let's add everything to the store
+    rootAndGroups.forEach((group, index) => {
+      const child = paths[index + 1];
+      const { id } = group;
+      acc[id] = merge(acc[id] || {}, {
+        ...group,
+        ...(child && { children: [child] }),
       });
+    });
 
-      const story: Story = {
-        ...item,
-        depth: rootAndGroups.length,
-        parent: rootAndGroups[rootAndGroups.length - 1].id,
-        isLeaf: true,
-        isComponent: false,
-        isRoot: false,
-      };
-      acc[item.id] = story;
+    acc[item.id] = {
+      ...item,
+      depth: rootAndGroups.length,
+      parent: rootAndGroups[rootAndGroups.length - 1].id,
+      isLeaf: true,
+      isComponent: false,
+      isRoot: false,
+      renderLabel,
+    };
 
-      return acc;
-    }, {} as StoriesHash);
+    return acc;
+  }, {} as StoriesHash);
 
   function addItem(acc: StoriesHash, item: Story | Group) {
     if (!acc[item.id]) {

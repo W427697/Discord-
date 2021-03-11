@@ -1,8 +1,21 @@
+import { validRange, minVersion } from '@storybook/semver';
+
+function ltMajor(versionRange: string, major: number) {
+  // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
+  return validRange(versionRange) && minVersion(versionRange).major < major;
+}
+
+function eqMajor(versionRange: string, major: number) {
+  // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
+  return validRange(versionRange) && minVersion(versionRange).major === major;
+}
+
 // Should match @storybook/<framework>
 export type SupportedFrameworks =
   | 'react'
   | 'react-native'
   | 'vue'
+  | 'vue3'
   | 'angular'
   | 'mithril'
   | 'riot'
@@ -19,6 +32,7 @@ export type SupportedFrameworks =
 
 export enum ProjectType {
   UNDETECTED = 'UNDETECTED',
+  UNSUPPORTED = 'UNSUPPORTED',
   REACT_SCRIPTS = 'REACT_SCRIPTS',
   METEOR = 'METEOR',
   REACT = 'REACT',
@@ -26,6 +40,7 @@ export enum ProjectType {
   REACT_PROJECT = 'REACT_PROJECT',
   WEBPACK_REACT = 'WEBPACK_REACT',
   VUE = 'VUE',
+  VUE3 = 'VUE3',
   SFC_VUE = 'SFC_VUE',
   ANGULAR = 'ANGULAR',
   EMBER = 'EMBER',
@@ -40,12 +55,14 @@ export enum ProjectType {
   PREACT = 'PREACT',
   SVELTE = 'SVELTE',
   RAX = 'RAX',
+  AURELIA = 'AURELIA',
 }
 
 export const SUPPORTED_FRAMEWORKS: SupportedFrameworks[] = [
   'react',
   'react-native',
   'vue',
+  'vue3',
   'angular',
   'mithril',
   'riot',
@@ -56,12 +73,20 @@ export const SUPPORTED_FRAMEWORKS: SupportedFrameworks[] = [
   'preact',
   'svelte',
   'rax',
+  'aurelia',
 ];
 
 export enum StoryFormat {
   CSF = 'csf',
+  /** @deprecated only template-csf left for some frameworks */
   CSF_TYPESCRIPT = 'csf-ts',
+  /** @deprecated only template-csf left for some frameworks */
   MDX = 'mdx',
+}
+
+export enum Builder {
+  Webpack4 = 'webpack4',
+  Webpack5 = 'webpack5',
 }
 
 export enum SupportedLanguage {
@@ -78,8 +103,8 @@ export type TemplateMatcher = {
 export type TemplateConfiguration = {
   preset: ProjectType;
   /** will be checked both against dependencies and devDependencies */
-  dependencies?: string[];
-  peerDependencies?: string[];
+  dependencies?: string[] | { [dependency: string]: (version: string) => boolean };
+  peerDependencies?: string[] | { [dependency: string]: (version: string) => boolean };
   files?: string[];
   matcherFunction: (matcher: TemplateMatcher) => boolean;
 };
@@ -108,7 +133,21 @@ export const supportedTemplates: TemplateConfiguration[] = [
   },
   {
     preset: ProjectType.VUE,
-    dependencies: ['vue', 'nuxt'],
+    // This Vue template only works with Vue or Nuxt under v3
+    dependencies: {
+      vue: (versionRange) => ltMajor(versionRange, 3),
+      nuxt: (versionRange) => ltMajor(versionRange, 3),
+    },
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.some(Boolean);
+    },
+  },
+  {
+    preset: ProjectType.VUE3,
+    dependencies: {
+      // This Vue template works with Vue 3
+      vue: (versionRange) => versionRange === 'next' || eqMajor(versionRange, 3),
+    },
     matcherFunction: ({ dependencies }) => {
       return dependencies.some(Boolean);
     },
@@ -221,10 +260,32 @@ export const supportedTemplates: TemplateConfiguration[] = [
       return dependencies.every(Boolean);
     },
   },
+  {
+    preset: ProjectType.AURELIA,
+    dependencies: ['aurelia-bootstrapper'],
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.every(Boolean);
+    },
+  },
 ];
+
+// A TemplateConfiguration that matches unsupported frameworks
+// Framework matchers can be added to this object to give
+// users an "Unsupported framework" message
+export const unsupportedTemplate: TemplateConfiguration = {
+  preset: ProjectType.UNSUPPORTED,
+  dependencies: {
+    // TODO(blaine): Remove when we support Nuxt 3
+    nuxt: (versionRange) => eqMajor(versionRange, 3),
+  },
+  matcherFunction: ({ dependencies }) => {
+    return dependencies.some(Boolean);
+  },
+};
 
 const notInstallableProjectTypes: ProjectType[] = [
   ProjectType.UNDETECTED,
+  ProjectType.UNSUPPORTED,
   ProjectType.ALREADY_HAS_STORYBOOK,
   ProjectType.UPDATE_PACKAGE_ORGANIZATIONS,
 ];

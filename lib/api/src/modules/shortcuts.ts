@@ -122,10 +122,13 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
         shortcutMatchesShortcut(shortcut, shortcuts[feature])
       );
       if (matchedFeature) {
+        // Event.prototype.preventDefault is missing when received from the MessageChannel.
+        if (event?.preventDefault) event.preventDefault();
         api.handleShortcutFeature(matchedFeature);
       }
     },
 
+    // warning: event might not have a full prototype chain because it may originate from the channel
     handleShortcutFeature(feature) {
       const {
         layout: { isFullscreen, showNav, showPanel },
@@ -164,7 +167,7 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
           }
 
           setTimeout(() => {
-            fullAPI.focusOnUIElement(focusableUIElements.storySearchField);
+            fullAPI.focusOnUIElement(focusableUIElements.storySearchField, true);
           }, 0);
           break;
         }

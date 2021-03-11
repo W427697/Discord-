@@ -1,12 +1,34 @@
 import fs from 'fs';
-import { basename, dirname, normalize, relative, resolve, Path } from '@angular-devkit/core';
 import {
-  getCommonConfig,
-  getStylesConfig,
-} from '@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs';
+  basename,
+  dirname,
+  normalize,
+  relative,
+  resolve,
+  Path,
+  getSystemPath,
+} from '@angular-devkit/core';
 import { logger } from '@storybook/node-logger';
 
 import { RuleSetRule, Configuration } from 'webpack';
+
+// We need to dynamically require theses functions as they are not part of the public api and so their paths
+// aren't the same in all versions of Angular
+let angularWebpackConfig: {
+  getCommonConfig: (config: unknown) => Configuration;
+  getStylesConfig: (config: unknown) => Configuration;
+};
+try {
+  // First we look for webpack config according to directory structure of Angular 11
+  // eslint-disable-next-line global-require
+  angularWebpackConfig = require('@angular-devkit/build-angular/src/webpack/configs');
+} catch (e) {
+  // We fallback on directory structure of Angular 10 (and below)
+  // eslint-disable-next-line global-require
+  angularWebpackConfig = require('@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs');
+}
+
+const { getCommonConfig, getStylesConfig } = angularWebpackConfig;
 
 function isDirectory(assetPath: string) {
   try {
@@ -17,7 +39,7 @@ function isDirectory(assetPath: string) {
 }
 
 function getAssetsParts(resolvedAssetPath: Path, assetPath: Path) {
-  if (isDirectory(resolvedAssetPath)) {
+  if (isDirectory(getSystemPath(resolvedAssetPath))) {
     return {
       glob: '**/*', // Folders get a recursive star glob.
       input: assetPath, // Input directory is their original path.
@@ -45,6 +67,7 @@ function isStylingRule(rule: RuleSetRule) {
 }
 
 export function filterOutStylingRules(config: Configuration) {
+  // @ts-ignore
   return config.module.rules.filter((rule) => !isStylingRule(rule));
 }
 
