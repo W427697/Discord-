@@ -38,10 +38,7 @@ export const previewMainTemplate = () => getPreviewMainTemplate();
 
 export const managerMainTemplate = () => getManagerMainTemplate();
 
-export const previewEntries = () => [
-  require.resolve('../globals/polyfills'),
-  require.resolve('../globals/globals'),
-];
+export const previewEntries = () => [require.resolve('../globals/globals')];
 
 export const typescript = () => ({
   check: false,
