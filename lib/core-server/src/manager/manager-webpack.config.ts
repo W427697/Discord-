@@ -107,7 +107,10 @@ export default async ({
       // graphql sources check process variable
       new DefinePlugin({
         'process.env': stringifyEnvs(envs),
-        ...stringifyEnvs(envs),
+        ...Object.entries(stringifyEnvs(envs)).reduce<Record<string, string>>((acc, [k, v]) => {
+          acc[`process.env.${k}`] = v;
+          return acc;
+        }, {}),
         NODE_ENV: JSON.stringify(envs.NODE_ENV),
       }) as WebpackPluginInstance,
       // isProd &&

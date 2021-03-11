@@ -169,7 +169,11 @@ export default async ({
       }),
       new DefinePlugin({
         'process.env': stringifyEnvs(envs),
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        ...Object.entries(stringifyEnvs(envs)).reduce<Record<string, string>>((acc, [k, v]) => {
+          acc[`process.env.${k}`] = v;
+          return acc;
+        }, {}),
+        NODE_ENV: JSON.stringify(envs.NODE_ENV),
       }),
       isProd ? null : new WatchMissingNodeModulesPlugin(nodeModulesPaths),
       isProd ? null : new HotModuleReplacementPlugin(),
