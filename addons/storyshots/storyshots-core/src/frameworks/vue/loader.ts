@@ -12,13 +12,13 @@ function test(options: StoryshotsOptions): boolean {
   return options.framework === 'vue' || (!options.framework && hasDependency('@storybook/vue'));
 }
 
-function load(options: StoryshotsOptions) {
+async function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'vue';
   mockVueToIncludeCompiler();
 
   const storybook = jest.requireActual('@storybook/vue');
 
-  configure({ ...options, storybook });
+  await configure({ ...options, storybook });
 
   return {
     framework: 'vue' as const,

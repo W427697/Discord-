@@ -7,10 +7,10 @@ function test(options: StoryshotsOptions): boolean {
   return options.framework === 'react' || (!options.framework && hasDependency('@storybook/react'));
 }
 
-function load(options: StoryshotsOptions) {
+async function load(options: StoryshotsOptions) {
   const storybook = jest.requireActual('@storybook/react');
 
-  configure({ ...options, storybook });
+  await configure({ ...options, storybook });
 
   return {
     framework: 'react' as const,

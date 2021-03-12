@@ -30,12 +30,12 @@ function test(options: StoryshotsOptions): boolean {
   );
 }
 
-function load(options: StoryshotsOptions) {
+async function load(options: StoryshotsOptions) {
   setupAngularJestPreset();
 
   const storybook = jest.requireActual('@storybook/angular');
 
-  configure({ ...options, storybook });
+  await configure({ ...options, storybook });
 
   return {
     framework: 'angular' as const,

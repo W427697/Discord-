@@ -18,7 +18,7 @@ function getLoaders(): Loader[] {
     .map((loader) => require(loader).default);
 }
 
-function loadFramework(options: StoryshotsOptions) {
+async function loadFramework(options: StoryshotsOptions) {
   const loaders = getLoaders();
 
   const loader = loaders.find((frameworkLoader) => frameworkLoader.test(options));

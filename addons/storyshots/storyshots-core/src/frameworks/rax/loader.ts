@@ -8,12 +8,12 @@ function test(options: StoryshotsOptions): boolean {
   return options.framework === 'rax' || (!options.framework && hasDependency('@storybook/rax'));
 }
 
-function load(options: StoryshotsOptions) {
+async function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'rax';
 
   const storybook = jest.requireActual('@storybook/rax');
 
-  configure({ ...options, storybook });
+  await configure({ ...options, storybook });
 
   return {
     framework: 'rax' as const,

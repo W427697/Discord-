@@ -12,12 +12,12 @@ function test(options: StoryshotsOptions): boolean {
   );
 }
 
-function load(options: StoryshotsOptions) {
+async function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'preact';
 
   const storybook = jest.requireActual('@storybook/preact');
 
-  configure({ ...options, storybook });
+  await configure({ ...options, storybook });
 
   return {
     framework: 'preact' as const,

@@ -7,12 +7,12 @@ function test(options: StoryshotsOptions): boolean {
   return options.framework === 'web-components';
 }
 
-function load(options: StoryshotsOptions) {
+async function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'web-components';
 
   const storybook = jest.requireActual('@storybook/web-components');
 
-  configure({ ...options, storybook });
+  await configure({ ...options, storybook });
 
   return {
     framework: 'web-components' as const,

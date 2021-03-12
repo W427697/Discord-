@@ -1,5 +1,6 @@
 import global, { describe } from 'global';
 import addons, { mockChannel } from '@storybook/addons';
+import sp from 'synchronized-promise';
 import ensureOptionsDefaults from './ensureOptionsDefaults';
 import snapshotsTests from './snapshotsTestsTemplate';
 import integrityTest from './integrityTestTemplate';
@@ -31,7 +32,8 @@ function testStorySnapshots(options: StoryshotsOptions = {}) {
 
   addons.setChannel(mockChannel());
 
-  const { storybook, framework, renderTree, renderShallowTree } = loadFramework(options);
+  const syncLoadFramework = sp(loadFramework);
+  const { storybook, framework, renderTree, renderShallowTree } = syncLoadFramework(options);
   const {
     asyncJest,
     suite,

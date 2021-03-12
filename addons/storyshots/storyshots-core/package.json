@@ -51,6 +51,7 @@
     "babel-plugin-require-context-hook": "^1.0.0",
     "core-js": "^3.8.2",
     "glob": "^7.1.6",
+    "synchronized-promise": "^0.3.1",
     "global": "^4.4.0",
     "jest-specific-snapshot": "^4.0.0",
     "pretty-format": "^26.6.2",
