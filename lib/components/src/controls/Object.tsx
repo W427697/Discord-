@@ -239,21 +239,10 @@ export const ObjectControl: React.FC<ObjectProps> = ({ name, value, onChange }) 
   const updateRaw = useCallback(
     (raw) => {
       try {
-<<<<<<< HEAD
-        const newVal = parse(e.target.value);
-        const newValid = validate(newVal, argType);
-        if (newValid && !dequal(value, newVal)) {
-          onChange(newVal);
-        }
-        setValid(newValid);
-      } catch (err) {
-        setValid(false);
-=======
         if (raw) onChange(JSON.parse(raw));
         setParseError(undefined);
       } catch (e) {
         setParseError(e);
->>>>>>> next
       }
     },
     [onChange]
