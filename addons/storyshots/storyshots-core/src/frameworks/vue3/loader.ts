@@ -8,12 +8,12 @@ function test(options: StoryshotsOptions): boolean {
   return options.framework === 'vue3' || (!options.framework && hasDependency('@storybook/vue3'));
 }
 
-async function load(options: StoryshotsOptions) {
+function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'vue3';
 
   const storybook = jest.requireActual('@storybook/vue3');
 
-  await configure({ ...options, storybook });
+  configure({ ...options, storybook });
 
   return {
     framework: 'vue3' as const,

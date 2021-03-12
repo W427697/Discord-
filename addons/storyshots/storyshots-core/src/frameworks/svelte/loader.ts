@@ -10,12 +10,12 @@ function test(options: StoryshotsOptions): boolean {
   );
 }
 
-async function load(options: StoryshotsOptions) {
+function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'svelte';
 
   const storybook = jest.requireActual('@storybook/svelte');
 
-  await configure({ ...options, storybook });
+  configure({ ...options, storybook });
 
   return {
     framework: 'svelte' as const,

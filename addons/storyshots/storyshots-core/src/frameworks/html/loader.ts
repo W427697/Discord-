@@ -7,12 +7,12 @@ function test(options: StoryshotsOptions): boolean {
   return options.framework === 'html';
 }
 
-async function load(options: StoryshotsOptions) {
+function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'html';
 
   const storybook = jest.requireActual('@storybook/html');
 
-  await configure({ ...options, storybook });
+  configure({ ...options, storybook });
 
   return {
     framework: 'html' as const,

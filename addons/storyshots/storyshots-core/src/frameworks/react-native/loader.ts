@@ -23,10 +23,10 @@ function configure(options: StoryshotsOptions, storybook: any) {
   jest.requireActual(resolvedConfigPath);
 }
 
-async function load(options: StoryshotsOptions) {
+function load(options: StoryshotsOptions) {
   const storybook = jest.requireActual('@storybook/react-native');
 
-  await configure(options, storybook);
+  configure(options, storybook);
 
   return {
     renderTree: require('../react/renderTree').default,

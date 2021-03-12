@@ -12,13 +12,13 @@ function test(options: StoryshotsOptions): boolean {
   return options.framework === 'riot' || (!options.framework && hasDependency('@storybook/riot'));
 }
 
-async function load(options: StoryshotsOptions) {
+function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'riot';
   mockRiotToIncludeCompiler();
 
   const storybook = jest.requireActual('@storybook/riot');
 
-  await configure({ ...options, storybook });
+  configure({ ...options, storybook });
 
   return {
     framework: 'riot' as const,

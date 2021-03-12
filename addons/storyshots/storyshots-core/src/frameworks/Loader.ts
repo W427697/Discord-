@@ -18,11 +18,11 @@ export interface ClientApi extends ClientStoryApi<unknown> {
 export interface Loader {
   load: (
     options: StoryshotsOptions
-  ) => Promise<{
+  ) => {
     framework: SupportedFramework;
     renderTree: RenderTree;
     renderShallowTree: any;
     storybook: ClientApi;
-  }>;
+  };
   test: (options: StoryshotsOptions) => boolean;
 }
