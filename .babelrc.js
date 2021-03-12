@@ -1,23 +1,6 @@
-const withTests = {
-  presets: [
-    [
-      '@babel/preset-env',
-      {
-        shippedProposals: true,
-        useBuiltIns: 'usage',
-        corejs: '3',
-        targets: { node: 'current' },
-      },
-    ],
-  ],
-  plugins: [
-    'babel-plugin-require-context-hook',
-    'babel-plugin-dynamic-import-node',
-    '@babel/plugin-transform-runtime',
-  ],
-};
-
 const modules = process.env.BABEL_ESM === 'true' ? false : 'auto';
+
+const isTest = process.env.NODE_ENV === 'test';
 
 module.exports = {
   ignore: [
@@ -25,7 +8,11 @@ module.exports = {
     './lib/postinstall/src/__testfixtures__',
     './addons/docs/src/frameworks/angular/__testfixtures__',
   ],
-  targets: 'defaults',
+  targets: isTest
+    ? {
+        node: 'current',
+      }
+    : 'defaults',
   assumptions: {
     noClassCalls: true,
     constantReexports: true,
@@ -63,10 +50,14 @@ module.exports = {
     '@babel/plugin-transform-destructuring',
     '@babel/plugin-transform-shorthand-properties',
     'babel-plugin-macros',
+    ...(isTest
+      ? [
+          'babel-plugin-require-context-hook',
+          'babel-plugin-dynamic-import-node',
+          '@babel/plugin-transform-runtime',
+        ]
+      : []),
   ],
-  env: {
-    test: withTests,
-  },
   overrides: [
     // packages that have react components of ours
     {
@@ -75,9 +66,6 @@ module.exports = {
         'babel-plugin-add-react-displayname',
         ['emotion', { sourceMap: false, autoLabel: true }],
       ],
-      env: {
-        test: withTests,
-      },
     },
 
     // packages that will run in node
@@ -111,22 +99,15 @@ module.exports = {
           },
         ],
       ],
-      env: {
-        test: withTests,
-      },
     },
 
     // odd edge-cases, like examples and template-files
     {
       test: './examples/vue-kitchen-sink',
       presets: ['@vue/babel-preset-jsx'],
-      env: {
-        test: withTests,
-      },
     },
     {
       test: './addons/docs/src/frameworks/angular/__testfixtures__',
-
       plugins: [
         ['@babel/plugin-proposal-decorators', { legacy: true }],
         ['@babel/plugin-proposal-class-properties', { loose: true }],
@@ -136,9 +117,6 @@ module.exports = {
         ['@babel/plugin-proposal-private-methods', { loose: true }],
         ['@babel/plugin-syntax-dynamic-import', { loose: true }],
       ],
-      env: {
-        test: withTests,
-      },
     },
     {
       test: ['**/virtualModuleEntry.template.js'],
