@@ -52,15 +52,9 @@ const getStoryContext = (storyId: StoryId, docsContext: DocsContextProps): Story
 
 const getStorySource = (storyId: StoryId, sourceContext: SourceContextProps): string => {
   const { sources } = sourceContext;
-
-  const source = sources?.[storyId];
-
-  if (!source) {
-    logger.warn(`Unable to find source for story ID '${storyId}'`);
-    return '';
-  }
-
-  return source;
+  // source rendering is async so source is unavailable at the start of the render cycle,
+  // so we fail gracefully here without warning
+  return sources?.[storyId] || '';
 };
 
 const getSnippet = (snippet: string, storyContext?: StoryContext): string => {
@@ -99,7 +93,7 @@ export const getSourceProps = (
   docsContext: DocsContextProps,
   sourceContext: SourceContextProps
 ): PureSourceProps => {
-  const { id: currentId } = docsContext;
+  const { id: currentId, parameters = {} } = docsContext;
 
   const codeProps = props as CodeProps;
   const singleProps = props as SingleSourceProps;
@@ -118,8 +112,13 @@ export const getSourceProps = (
       })
       .join('\n\n');
   }
+
+  const { docs: docsParameters = {} } = parameters;
+  const { source: sourceParameters = {} } = docsParameters;
+  const { language: docsLanguage = null } = sourceParameters;
+
   return source
-    ? { code: source, language: props.language || 'jsx', dark: props.dark || false }
+    ? { code: source, language: props.language || docsLanguage || 'jsx', dark: props.dark || false }
     : { error: SourceError.SOURCE_UNAVAILABLE };
 };
 

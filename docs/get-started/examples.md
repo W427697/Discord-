@@ -11,7 +11,7 @@ This is a curated list of Storybooks for your inspiration.
 - [Official Storybook](https://next--storybookjs.netlify.app/official-storybook/): Storybook application UI
 - [Storybook Design System](https://master--5ccbc373887ca40020446347.chromatic.com/): Reusable components that adhere to Storybook's design language
 - [Marketing and docs](https://master--5be26744d2f6250024a9117d.chromatic.com/): Main website that has stories for components and pages.
-- [Learn Storybook](https://master--5cf841a3f3e3d200208ffc74.chromatic.com/): Tutorial site that has stories for components and pages.
+- [Storybook tutorials](https://master--5cf841a3f3e3d200208ffc74.chromatic.com/): Tutorial site that has stories for components and pages.
 
 ## Websites
 
@@ -19,12 +19,15 @@ See how to build UIs using a [component driven](https://www.componentdriven.org/
 
 - [BBC Psammead](https://bbc.github.io/psammead/?path=/story/components-brand--without-brand-link)
 - [The Guardian](https://master--5dfcbf3012392c0020e7140b.chromatic.com)
-<!-- 
+
+<!--
+
 NOTE for contributors: This is a curated list. Here's what qualifies:
 - Website or app Storybook that illustrates how to build UIs from small components to pages
 - Used in production by a medium/large company or large open source community
 - Must be developed actively
-  -->
+
+-->
 
 ## Design systems and component libraries
 
@@ -44,9 +47,16 @@ Learn how leading teams build design systems.
 - [AppNexus Lucid](https://appnexus.github.io/lucid/?path=/docs/documentation-introduction--introduction)
 - [AnyVision UI](http://storybook.anyvision.co/)
 - [Skyscanner Backpack](https://backpack.github.io/storybook/)
-<!-- 
+- [GitLab UI](https://gitlab-org.gitlab.io/gitlab-ui)
+- [Grafana UI](https://developers.grafana.com/ui/latest/index.html)
+- [PX Blue](https://pxblue-components.github.io/)
+- [Audi](https://react.ui.audi/)
+
+<!--
+
 NOTE for contributors: This is a curated list. Here's what qualifies:
 - Design system or component library
 - Used in production by a medium/large company or large open source community (Grommet, Chakra)
 - Must have greater than 20+ contributors OR 1k+ GitHub stars OR show exceptional use of SB features
-  -->
+
+-->

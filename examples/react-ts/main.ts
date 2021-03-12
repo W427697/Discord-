@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/core/types';
+import type { StorybookConfig } from '@storybook/react/types';
 
 module.exports = {
   stories: ['./src/*.stories.*'],
@@ -16,6 +16,7 @@ module.exports = {
         },
       },
     },
+    '@storybook/addon-storyshots',
   ],
   typescript: {
     check: true,
@@ -23,5 +24,8 @@ module.exports = {
     reactDocgenTypescriptOptions: {
       propFilter: (prop) => ['label', 'disabled'].includes(prop.name),
     },
+  },
+  core: {
+    builder: 'webpack4',
   },
 } as StorybookConfig;

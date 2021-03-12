@@ -1,30 +1,42 @@
 import React, { ComponentProps, FunctionComponent, MouseEvent, useState } from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
-import { navigator, window } from 'global';
+import { navigator, document, window } from 'global';
 import memoize from 'memoizerific';
 
+// @ts-ignore
 import jsx from 'react-syntax-highlighter/dist/cjs/languages/prism/jsx';
+// @ts-ignore
 import bash from 'react-syntax-highlighter/dist/cjs/languages/prism/bash';
+// @ts-ignore
 import css from 'react-syntax-highlighter/dist/cjs/languages/prism/css';
+// @ts-ignore
+import jsExtras from 'react-syntax-highlighter/dist/cjs/languages/prism/js-extras';
+// @ts-ignore
 import json from 'react-syntax-highlighter/dist/cjs/languages/prism/json';
+// @ts-ignore
 import graphql from 'react-syntax-highlighter/dist/cjs/languages/prism/graphql';
+// @ts-ignore
 import html from 'react-syntax-highlighter/dist/cjs/languages/prism/markup';
+// @ts-ignore
 import md from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown';
+// @ts-ignore
 import yml from 'react-syntax-highlighter/dist/cjs/languages/prism/yaml';
+// @ts-ignore
 import tsx from 'react-syntax-highlighter/dist/cjs/languages/prism/tsx';
+// @ts-ignore
 import typescript from 'react-syntax-highlighter/dist/cjs/languages/prism/typescript';
 
-import { PrismLight as ReactSyntaxHighlighter } from 'react-syntax-highlighter';
 // @ts-ignore
-import createElement from 'react-syntax-highlighter/dist/cjs/create-element';
+import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/cjs/prism-light';
+
 import { ActionBar } from '../ActionBar/ActionBar';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
 
 import { formatter } from './formatter';
+import type { SyntaxHighlighterProps } from './syntaxhighlighter-types';
 
-export { createElement as createSyntaxHighlighterElement };
-
+ReactSyntaxHighlighter.registerLanguage('jsextra', jsExtras);
 ReactSyntaxHighlighter.registerLanguage('jsx', jsx);
 ReactSyntaxHighlighter.registerLanguage('json', json);
 ReactSyntaxHighlighter.registerLanguage('yml', yml);
@@ -40,6 +52,24 @@ const themedSyntax = memoize(2)((theme) =>
   Object.entries(theme.code || {}).reduce((acc, [key, val]) => ({ ...acc, [`* .${key}`]: val }), {})
 );
 
+let copyToClipboard: (text: string) => Promise<void>;
+
+if (navigator?.clipboard) {
+  copyToClipboard = (text: string) => navigator.clipboard.writeText(text);
+} else {
+  copyToClipboard = async (text: string) => {
+    const tmp = document.createElement('TEXTAREA');
+    const focus = document.activeElement;
+
+    tmp.value = text;
+
+    document.body.appendChild(tmp);
+    tmp.select();
+    document.execCommand('copy');
+    document.body.removeChild(tmp);
+    focus.focus();
+  };
+}
 export interface WrapperProps {
   bordered?: boolean;
   padded?: boolean;
@@ -94,21 +124,6 @@ const Code = styled.code({
   opacity: 1,
 });
 
-export interface SyntaxHighlighterRendererProps {
-  rows: any[];
-  stylesheet: string;
-  useInlineStyles: boolean;
-}
-export interface SyntaxHighlighterProps {
-  language: string;
-  copyable?: boolean;
-  bordered?: boolean;
-  padded?: boolean;
-  format?: boolean;
-  className?: string;
-  renderer?: (props: SyntaxHighlighterRendererProps) => React.ReactNode;
-}
-
 export interface SyntaxHighlighterState {
   copied: boolean;
 }
@@ -116,6 +131,7 @@ export interface SyntaxHighlighterState {
 type ReactSyntaxHighlighterProps = ComponentProps<typeof ReactSyntaxHighlighter>;
 
 type Props = SyntaxHighlighterProps & ReactSyntaxHighlighterProps;
+
 export const SyntaxHighlighter: FunctionComponent<Props> = ({
   children,
   language = 'jsx',
@@ -137,8 +153,7 @@ export const SyntaxHighlighter: FunctionComponent<Props> = ({
   const onClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    navigator.clipboard
-      .writeText(highlightableCode)
+    copyToClipboard(highlightableCode)
       .then(() => {
         setCopied(true);
         window.setTimeout(() => setCopied(false), 1500);
@@ -170,3 +185,5 @@ export const SyntaxHighlighter: FunctionComponent<Props> = ({
     </Wrapper>
   );
 };
+
+export default SyntaxHighlighter;
