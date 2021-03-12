@@ -44,7 +44,7 @@ export const es6Transpiler: () => RuleSetRule = () => {
               require.resolve('@babel/preset-env'),
               {
                 shippedProposals: true,
-                modules: true,
+                modules: false,
                 targets: 'defaults',
               },
             ],

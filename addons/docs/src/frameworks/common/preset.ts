@@ -95,7 +95,7 @@ export function webpack(webpackConfig: any = {}, options: any = {}) {
             {
               loader: resolvedBabelLoader,
               options: {
-                presets: [[require.resolve('@babel/preset-env'), { modules: 'commonjs' }]],
+                presets: [[require.resolve('@babel/preset-env'), { modules: false }]],
               },
             },
           ],
