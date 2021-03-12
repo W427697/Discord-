@@ -31,6 +31,8 @@ function testStorySnapshots(options: StoryshotsOptions = {}) {
 
   addons.setChannel(mockChannel());
 
+  process.env.STORYBOOK_DISABLE_POLYFILLS = 'true';
+
   const { storybook, framework, renderTree, renderShallowTree } = loadFramework(options);
   const {
     asyncJest,

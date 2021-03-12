@@ -91,10 +91,15 @@ export default function start(
     window.__STORYBOOK_ADDONS_CHANNEL__ = channel; // may not be defined
   }
 
-  const configure = (...args: Parameters<ReturnType<typeof loadCsf>>) =>
-    importPolyfills().then(() => {
+  const configure = (...args: Parameters<ReturnType<typeof loadCsf>>) => {
+    if (process.env.STORYBOOK_DISABLE_POLYFILLS) {
+      return loadCsf({ clientApi, storyStore, configApi })(...args);
+    }
+
+    return importPolyfills().then(() => {
       return loadCsf({ clientApi, storyStore, configApi })(...args);
     });
+  };
 
   return {
     configure,
