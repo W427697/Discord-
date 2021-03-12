@@ -89,11 +89,16 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
     await outputStats(options.webpackStatsJson, previewStats, managerStats);
   }
 
+  const warningsFilter = [/eslint/, /cannot be statically extracted/];
+
   if (options.smokeTest) {
-    const hasManagerWarnings = managerStats && managerStats.toJson().warnings.length > 0;
     // I'm a little reticent to import webpack types in this file :shrug:
     // @ts-ignore
-    const hasPreviewWarnings = previewStats && previewStats.toJson().warnings.length > 0;
+    const previewWarnings = previewStats ? previewStats.toJson({ warningsFilter }).warnings : [];
+    const managerWarnings = managerStats && managerStats.toJson({ warningsFilter }).warnings;
+    const hasManagerWarnings = managerWarnings.length > 0;
+    const hasPreviewWarnings = previewWarnings.length > 0;
+
     process.exit(hasManagerWarnings || (hasPreviewWarnings && !options.ignorePreview) ? 1 : 0);
     return;
   }
