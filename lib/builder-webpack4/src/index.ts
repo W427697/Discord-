@@ -4,7 +4,7 @@ import webpack4, { Stats, Configuration } from '@types/webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
-import { Builder, useProgressReporting } from '@storybook/core-common';
+import { Builder, useProgressReporting, checkWebpackVersion } from '@storybook/core-common';
 
 let compilation: ReturnType<typeof webpackDevMiddleware>;
 let reject: (reason?: any) => void;
@@ -12,6 +12,9 @@ let reject: (reason?: any) => void;
 type WebpackBuilder = Builder<Configuration, Stats>;
 
 const webpack = (webpackReal as any) as typeof webpack4;
+
+const checkWebpackVersion4 = (webpackInstance: { version?: string }) =>
+  checkWebpackVersion(webpackInstance, '4.x', 'builder-webpack4');
 
 export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
   const { presets } = options;
@@ -39,7 +42,16 @@ export const executor = {
   get: webpack,
 };
 
+export const makeStatsFromError: (err: string) => Stats = (err) =>
+  ({
+    hasErrors: () => true,
+    hasWarnings: () => false,
+    toJson: () => ({ warnings: [] as any[], errors: [err] }),
+  } as any);
+
 export const start: WebpackBuilder['start'] = async ({ startTime, options, router }) => {
+  checkWebpackVersion4(executor.get);
+
   const config = await getConfig(options);
   const compiler = executor.get(config);
   if (!compiler) {
@@ -48,11 +60,7 @@ export const start: WebpackBuilder['start'] = async ({ startTime, options, route
     return {
       bail,
       totalTime: process.hrtime(startTime),
-      stats: ({
-        hasErrors: () => true,
-        hasWarngins: () => false,
-        toJson: () => ({ warnings: [] as any[], errors: [err] }),
-      } as any) as Stats,
+      stats: makeStatsFromError(err),
     };
   }
 
@@ -110,6 +118,8 @@ export const bail: WebpackBuilder['bail'] = (e: Error) => {
 };
 
 export const build: WebpackBuilder['build'] = async ({ options, startTime }) => {
+  checkWebpackVersion4(executor.get);
+
   logger.info('=> Compiling preview..');
   const config = await getConfig(options);
 
@@ -117,10 +127,10 @@ export const build: WebpackBuilder['build'] = async ({ options, startTime }) => 
   if (!compiler) {
     const err = `${config.name}: missing webpack compiler at runtime!`;
     logger.error(err);
-    return;
+    return Promise.resolve(makeStatsFromError(err));
   }
 
-  await new Promise<Stats>((succeed, fail) => {
+  return new Promise((succeed, fail) => {
     compiler.run((error, stats) => {
       if (error || !stats || stats.hasErrors()) {
         logger.error('=> Failed to build the preview');
