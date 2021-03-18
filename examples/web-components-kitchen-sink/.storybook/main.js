@@ -1,5 +1,6 @@
 module.exports = {
   logLevel: 'debug',
+  stories: ['../stories/**/*.stories.js', '../stories/**/*.stories.mdx'],
   addons: [
     '@storybook/addon-docs',
     '@storybook/addon-controls',
@@ -11,7 +12,4 @@ module.exports = {
     '@storybook/addon-storysource',
     '@storybook/addon-viewport',
   ],
-  core: {
-    builder: 'webpack4',
-  },
 };
