@@ -24,31 +24,9 @@ For more information visit: [storybook.js.org](https://storybook.js.org)
 Storybook also comes with a lot of [addons](https://storybook.js.org/docs/web-components/configure/storybook-addons) and a great API to customize as you wish.
 You can also build a [static version](https://storybook.js.org/docs/web-components/workflows/publish-storybook) of your storybook and deploy it anywhere you want.
 
-# Setup page reload via HMR
+# Hot Module Reloading (HMR)
 
-As web components register on a global registry which only accepts a certain name/class once it can lead to errors when using classical HMR.
-There are ideas on how to archive HMR with a static registry but there is no proven solution yet.
-
-Therefore the best approach for now is to do full page reloads.
-If you keep your stories to specific states of components (which we would recommend anyways) this usually means it is fast.
-To activate full page reload
-
-```js
-// ==> REPLACE
-configure(require.context('../stories', true, /\.stories\.(js|mdx)$/), module);
-
-// ==> WITH
-// force full reload to not reregister web components
-const req = require.context('../stories', true, /\.stories\.(js|mdx)$/);
-configure(req, module);
-if (module.hot) {
-  module.hot.accept(req.id, () => {
-    const currentLocationHref = window.location.href;
-    window.history.pushState(null, null, currentLocationHref);
-    window.location.reload();
-  });
-}
-```
+As web components register on a global registry which only accepts a certain name/class once it can lead to errors when using classical HMR.  There are ideas on how to archive HMR with a static registry but there is no proven solution yet. Therefore the best approach for now is to do full page reloads.  If you keep your stories to specific states of components (which we would recommend anyways) this usually means it is fast.
 
 # Setup es6/7 dependencies
 
@@ -87,7 +65,3 @@ As you can see the `src` folder is also included.
 The reason for that is as it has some extra configuration to allow for example `import.meta`.
 If you use a different folder you will need to make sure webpack/babel can handle it.
 
-# FAQ
-
-- While working on my component I get the error `Failed to execute 'define' on 'CustomElementRegistry': the name "..." has already been used with this registry`
-  => please see <a href="#user-content-setup-page-reload-via-hmr">Setup page reload via HMR</a>

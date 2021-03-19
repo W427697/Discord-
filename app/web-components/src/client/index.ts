@@ -21,6 +21,8 @@ export {
 export * from './preview/types-6-0';
 
 if (module && module.hot) {
+  module.hot.decline();
+
   // forcing full reloads for customElements as elements can only be defined once per page
   const hmr = new EventSource('__webpack_hmr');
   hmr.addEventListener('message', function fullPageReload(event: { data: string }) {
