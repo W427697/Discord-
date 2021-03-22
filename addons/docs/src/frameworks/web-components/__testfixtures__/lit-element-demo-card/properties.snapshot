@@ -19,40 +19,6 @@ Object {
       "name": "void",
     },
   },
-  "attributes:header": Object {
-    "description": "Header message",
-    "name": "header",
-    "required": false,
-    "table": Object {
-      "category": "attributes",
-      "defaultValue": Object {
-        "summary": "\\"Your Message\\"",
-      },
-      "type": Object {
-        "summary": "string",
-      },
-    },
-    "type": Object {
-      "name": "void",
-    },
-  },
-  "attributes:rows": Object {
-    "description": "Data rows",
-    "name": "rows",
-    "required": false,
-    "table": Object {
-      "category": "attributes",
-      "defaultValue": Object {
-        "summary": "[]",
-      },
-      "type": Object {
-        "summary": "object",
-      },
-    },
-    "type": Object {
-      "name": "void",
-    },
-  },
   "css custom properties:--demo-wc-card-back-color": Object {
     "description": "Font color for back",
     "name": "--demo-wc-card-back-color",
