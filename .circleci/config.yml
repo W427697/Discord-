@@ -6,7 +6,7 @@ executors:
       class:
         description: The Resource class
         type: enum
-        enum: [ 'small', 'medium', 'large', 'xlarge' ]
+        enum: ['small', 'medium', 'large', 'xlarge']
         default: 'medium'
     working_directory: /tmp/storybook
     docker:
@@ -176,12 +176,12 @@ jobs:
           condition:
             and:
               - not:
-                  equal: [ master, << pipeline.git.branch >> ]
+                  equal: [master, << pipeline.git.branch >>]
               - not:
-                  equal: [ next, << pipeline.git.branch >> ]
+                  equal: [next, << pipeline.git.branch >>]
           steps:
             - ensure-pr-is-labeled-with:
-                label: "run e2e extended test suite"
+                label: 'run e2e extended test suite'
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
@@ -218,12 +218,12 @@ jobs:
           condition:
             and:
               - not:
-                  equal: [ master, << pipeline.git.branch >> ]
+                  equal: [master, << pipeline.git.branch >>]
               - not:
-                  equal: [ next, << pipeline.git.branch >> ]
+                  equal: [next, << pipeline.git.branch >>]
           steps:
             - ensure-pr-is-labeled-with:
-                label: "run e2e extended test suite"
+                label: 'run e2e extended test suite'
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
@@ -285,7 +285,7 @@ jobs:
   e2e-tests-yarn-2-pnp:
     executor:
       class: medium
-      name: sb_node_10_browsers
+      name: sb_node_12_browsers
     working_directory: /tmp/storybook
     steps:
       - git-shallow-clone/checkout_advanced:
