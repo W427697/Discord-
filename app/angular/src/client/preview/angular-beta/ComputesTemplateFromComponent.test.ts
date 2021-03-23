@@ -47,7 +47,7 @@ describe('angular source decorator', () => {
 
   describe('with component with attribute and value selector', () => {
     @Component({
-      selector: 'doc-button[foo=bar]',
+      selector: 'doc-button[foo="bar"]',
       template: '<button></button>',
     })
     class WithAttributeValueComponent {}

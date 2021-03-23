@@ -436,3 +436,5 @@ Object {
   ],
 }
 `;
+
+exports[`cra-ts-essentials preview production mode 1`] = `null`;
