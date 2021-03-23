@@ -1,6 +1,6 @@
-import {Type} from '@angular/core';
-import {ArgType, ArgTypes} from '@storybook/api';
-import {ICollection} from '../types';
+import { Type } from '@angular/core';
+import { ArgType, ArgTypes } from '@storybook/api';
+import { ICollection } from '../types';
 import {
   ComponentInputsOutputs,
   getComponentDecoratorMetadata,
@@ -44,7 +44,7 @@ export const computesTemplateFromComponent = (
     return `<ng-container *ngComponentOutlet="storyComponent"></ng-container>`;
   }
 
-  const {inputs: initialInputs, outputs: initialOutputs} = separateInputsOutputsAttributes(
+  const { inputs: initialInputs, outputs: initialOutputs } = separateInputsOutputsAttributes(
     ngComponentInputsOutputs,
     initialProps
   );
@@ -56,19 +56,24 @@ export const computesTemplateFromComponent = (
       ? ` ${initialOutputs.map((i) => `(${i})="${i}($event)"`).join(' ')}`
       : '';
 
-  return buildTemplate(ngComponentMetadata.selector, innerTemplate, templateInputs, templateOutputs);
+  return buildTemplate(
+    ngComponentMetadata.selector,
+    innerTemplate,
+    templateInputs,
+    templateOutputs
+  );
 };
 
 const createAngularInputProperty = ({
-                                      propertyName,
-                                      value,
-                                      argType,
-                                    }: {
+  propertyName,
+  value,
+  argType,
+}: {
   propertyName: string;
   value: any;
   argType?: ArgType;
 }) => {
-  const {name: type = null, summary = null} = argType?.type || {};
+  const { name: type = null, summary = null } = argType?.type || {};
   let templateValue = type === 'enum' && !!summary ? `${summary}.${value}` : value;
 
   const actualType = type === 'enum' && summary ? 'enum' : typeof value;
@@ -105,7 +110,7 @@ export const computesTemplateSourceFromComponent = (
   }
 
   const ngComponentInputsOutputs = getComponentInputsOutputs(component);
-  const {inputs: initialInputs, outputs: initialOutputs} = separateInputsOutputsAttributes(
+  const { inputs: initialInputs, outputs: initialOutputs } = separateInputsOutputsAttributes(
     ngComponentInputsOutputs,
     initialProps
   );
@@ -113,14 +118,14 @@ export const computesTemplateSourceFromComponent = (
   const templateInputs =
     initialInputs.length > 0
       ? ` ${initialInputs
-        .map((propertyName) =>
-          createAngularInputProperty({
-            propertyName,
-            value: initialProps[propertyName],
-            argType: argTypes?.[propertyName],
-          })
-        )
-        .join(' ')}`
+          .map((propertyName) =>
+            createAngularInputProperty({
+              propertyName,
+              value: initialProps[propertyName],
+              argType: argTypes?.[propertyName],
+            })
+          )
+          .join(' ')}`
       : '';
   const templateOutputs =
     initialOutputs.length > 0
@@ -130,13 +135,23 @@ export const computesTemplateSourceFromComponent = (
   return buildTemplate(ngComponentMetadata.selector, '', templateInputs, templateOutputs);
 };
 
-const buildTemplate = (selector: string, innerTemplate: string, inputs: string, outputs: string) => {
-  const getTemplate = (s: string): string => [
-    [/(^\..+)/, 'div$1'], [/(^\[.+?\])/, 'div$1'],
-    [/([\w-\s]+)(,.+)/, `$1`], [/#([\w-]+)/, ` id="$1"`],
-    [/((\.[\w-]+)+)/, (_: any, c: any) => ` class="${c.split`.`.join` `.trim()}"`],
-    [/(\[.+?\])/g, (_: any, a: any) => " " + a.slice(1, -1)],
-    [/([\S]+)(.*)/, `<$1$2${inputs}${outputs}>${innerTemplate}</$1>`]
-  ].map((r) => s = (<any>s).replace(...r))[6];
+const buildTemplate = (
+  selector: string,
+  innerTemplate: string,
+  inputs: string,
+  outputs: string
+) => {
+  /* eslint-disable no-return-assign, no-param-reassign */
+  const getTemplate = (s: string): string =>
+    [
+      [/(^\..+)/, 'div$1'],
+      [/(^\[.+?])/, 'div$1'],
+      [/([\w[\]]+)(\s*,[\w\s-[\],]+)+/, `$1`],
+      [/#([\w-]+)/, ` id="$1"`],
+      [/((\.[\w-]+)+)/, (_: any, c: any) => ` class="${c.split`.`.join` `.trim()}"`],
+      [/(\[.+?])/g, (_: any, a: any) => ` ${a.slice(1, -1)}`],
+      [/([\S]+)(.*)/, `<$1$2${inputs}${outputs}>${innerTemplate}</$1>`],
+    ].map((r) => (s = (s as any).replace(...r)))[6];
+  /* eslint-enable no-return-assign, no-param-reassign */
   return getTemplate(selector);
-}
+};

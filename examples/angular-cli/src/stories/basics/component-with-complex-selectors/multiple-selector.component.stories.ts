@@ -1,8 +1,7 @@
-import {MultipleSelectorComponent} from './multiple-selector.component';
-import {AttributeSelectorComponent} from './attribute-selector.component';
-import {ClassSelectorComponent} from './class-selector.component';
-import {AllSelectorsComponent} from './all-selectors.component';
-import {Story} from '@storybook/angular';
+import { Story } from '@storybook/angular';
+import { MultipleSelectorComponent } from './multiple-selector.component';
+import { AttributeSelectorComponent } from './attribute-selector.component';
+import { ClassSelectorComponent } from './class-selector.component';
 
 export default {
   title: 'Basics / Component / With Complex Selectors',
@@ -10,16 +9,16 @@ export default {
 
 export const MultipleSelectors: Story = (args) => ({
   props: args,
-  template: '<storybook-multiple-selector random [label]="label"></storybook-multiple-selector>'
+  template: '<storybook-multiple-selector [label]="label"></storybook-multiple-selector>',
 });
 
 MultipleSelectors.storyName = 'multiple selectors';
 MultipleSelectors.parameters = {
-  component: MultipleSelectorComponent
+  component: MultipleSelectorComponent,
 };
 MultipleSelectors.args = {
-  label: 'foo'
-}
+  label: 'foo',
+};
 
 export const AttributeSelectors = () => ({});
 
@@ -34,14 +33,3 @@ ClassSelectors.storyName = 'class selectors';
 ClassSelectors.parameters = {
   component: ClassSelectorComponent,
 };
-
-export const AllSelectors = () => ({});
-
-AllSelectors.storyName = 'all selectors';
-AllSelectors.parameters = {
-  component: AllSelectorsComponent
-};
-AllSelectors.args = {
-  label: 'foo'
-}
-

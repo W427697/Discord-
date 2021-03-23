@@ -1,13 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots Basics / Component / With Complex Selectors Input Selectors 1`] = `
-<storybook-wrapper>
-  <foo>
-    foo
-  </foo>
-</storybook-wrapper>
-`;
-
 exports[`Storyshots Basics / Component / With Complex Selectors attribute selectors 1`] = `
 <storybook-wrapper>
   <storybook-attribute-selector
@@ -40,9 +32,11 @@ exports[`Storyshots Basics / Component / With Complex Selectors class selectors 
 
 exports[`Storyshots Basics / Component / With Complex Selectors multiple selectors 1`] = `
 <storybook-wrapper>
-  <storybook-multiple-selector>
+  <storybook-multiple-selector
+    ng-reflect-label="foo"
+  >
     <h3>
-      Multiple selector
+      Multiple selector - foo
     </h3>
      Selector: "storybook-multiple-selector, storybook-multiple-selector2" 
     <br />
