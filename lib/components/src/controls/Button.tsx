@@ -41,7 +41,6 @@ export const ButtonControl: FC<ButtonProps> = ({
   label = name, // FIXME: Use name if label is missing?
   defaultValue,
   value = defaultValue,
-  onChange, // FIXME: how to use this?
   onBlur,
   onFocus,
 }) => (
