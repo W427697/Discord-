@@ -42,19 +42,19 @@ export const sourceDecorator = (storyFn: StoryFn<IStory>, context: StoryContext)
     parameters: { component, argTypes },
   } = context;
 
+  if (template) {
+    channel.emit(SNIPPET_RENDERED, context.id, prettyUp(template));
+    return story;
+  }
+
   if (component) {
     const source = computesTemplateSourceFromComponent(component, props, argTypes);
 
     // We might have a story with a Directive or Service defined as the component
     // In these cases there might exist a template, even if we aren't able to create source from component
-    if (source || template) {
-      channel.emit(SNIPPET_RENDERED, context.id, prettyUp(source || template));
+    if (source) {
+      channel.emit(SNIPPET_RENDERED, context.id, prettyUp(source));
     }
-    return story;
-  }
-
-  if (template) {
-    channel.emit(SNIPPET_RENDERED, context.id, prettyUp(template));
     return story;
   }
 
