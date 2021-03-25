@@ -15,6 +15,9 @@ export default {
       control: { type: 'select', labels: { Bold: 'BOLD' } },
       mapping: { Bold: <b>Bold</b> },
     },
+    buttonAction: {
+      control: { type: 'button', label: 'Click me!' },
+    },
     background: {
       name: 'Background color',
       control: {
@@ -45,6 +48,7 @@ export const Basic = Template.bind({});
 Basic.args = {
   children: 'basic',
   json: DEFAULT_NESTED_OBJECT,
+  buttonAction: () => console.warn('ey! stop this!'),
 };
 Basic.parameters = { chromatic: { disable: false } };
 
