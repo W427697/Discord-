@@ -48,7 +48,10 @@ export const Basic = Template.bind({});
 Basic.args = {
   children: 'basic',
   json: DEFAULT_NESTED_OBJECT,
-  buttonAction: () => console.warn('ey! stop this!'),
+  buttonAction: () => {
+    console.log({ DEFAULT_NESTED_OBJECT });
+    console.log('ey! stop this!');
+  },
 };
 Basic.parameters = { chromatic: { disable: false } };
 
