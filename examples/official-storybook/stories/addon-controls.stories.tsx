@@ -55,6 +55,29 @@ Basic.args = {
 };
 Basic.parameters = { chromatic: { disable: false } };
 
+export const Counter = ({ count }) => (
+  <>
+    <p>You clicked {count} times</p>
+  </>
+);
+Counter.argTypes = {
+  plusClick: {
+    control: { type: 'button', label: 'Add one' },
+  },
+  minusClick: {
+    control: { type: 'button', label: 'Remove one' },
+  },
+};
+Counter.args = {
+  count: 0,
+  plusClick: ({ count, ...args }) => {
+    return { count: count + 1, ...args };
+  },
+  minusClick: ({ count, ...args }) => {
+    return { count: count - 1, ...args };
+  },
+};
+
 export const Action = Template.bind({});
 Action.args = {
   children: 'hmmm',
