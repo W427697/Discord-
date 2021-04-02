@@ -34,7 +34,7 @@ export function boolean(name: string, value: boolean, groupId?: string) {
 
 export function number(
   name: string,
-  value: number,
+  value: number | null,
   options: NumberTypeKnobOptions = {},
   groupId?: string
 ) {

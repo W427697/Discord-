@@ -5,7 +5,7 @@ import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';
 import { KnobControlConfig, KnobControlProps } from './types';
 
-type NumberTypeKnobValue = number;
+type NumberTypeKnobValue = number | null;
 
 export interface NumberTypeKnobOptions {
   range?: boolean;
@@ -95,12 +95,13 @@ export default class NumberType extends Component<NumberTypeProps> {
 
   render() {
     const { knob } = this.props;
+    const inputValue = knob.value === null ? '' : knob.value;
 
     return knob.range ? (
       <RangeWrapper>
         <RangeLabel>{knob.min}</RangeLabel>
         <RangeInput
-          value={knob.value}
+          value={inputValue}
           type="range"
           name={knob.name}
           min={knob.min}
@@ -112,7 +113,7 @@ export default class NumberType extends Component<NumberTypeProps> {
       </RangeWrapper>
     ) : (
       <Form.Input
-        value={knob.value}
+        value={inputValue}
         type="number"
         name={knob.name}
         min={knob.min}

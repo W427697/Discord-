@@ -135,7 +135,7 @@ const RangeInput = styled.input(({ theme }) => ({
   },
   '&:focus::-ms-fill-lower': { background: '#dddddd' },
   '&:focus::-ms-fill-upper': { background: '#e0e0e0' },
-  '@supports (-ms-ime-align:auto)': { 'input[type=range]': { margin: '0' } },
+  '@supports (msImeAlign:auto)': { 'input[type=range]': { margin: '0' } },
 }));
 
 const RangeLabel = styled.span({
@@ -164,13 +164,16 @@ export const RangeControl: FC<RangeProps> = ({
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange(parse(event.target.value));
   };
+  const inputValue = value === null ? '' : value;
+
   return (
     <RangeWrapper>
       <RangeLabel>{min}</RangeLabel>
       <RangeInput
         type="range"
         onChange={handleChange}
-        {...{ name, value, min, max, step, onFocus, onBlur }}
+        value={inputValue}
+        {...{ name, min, max, step, onFocus, onBlur }}
       />
       <RangeLabel>{`${value} / ${max}`}</RangeLabel>
     </RangeWrapper>
