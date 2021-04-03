@@ -1,3 +1,4 @@
+import upperFirst from 'lodash/upperFirst';
 import { ArgTypes } from '@storybook/api';
 import { ArgTypesExtractor, hasDocgen, extractComponentProps } from '../../lib/docgen';
 import { convert } from '../../lib/convert';
@@ -21,8 +22,10 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
         // eslint-disable-next-line no-empty
       } catch {}
 
-      results[name] = {
-        name,
+      const argName = name in results && section === 'slots' ? `slot${upperFirst(name)}` : name;
+
+      results[argName] = {
+        name: argName,
         description,
         type: { required, ...sbType },
         defaultValue,
