@@ -35,7 +35,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
       };
 
       // split props, slots etc which could clash on name
-      if (results.section === undefined) {
+      if (results[section] === undefined) {
         // add non-enumerable property for section
         Object.defineProperty(results, section, { value: {}, enumerable: false });
       }
