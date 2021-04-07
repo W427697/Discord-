@@ -213,7 +213,11 @@
     "wait-on": "^5.2.1",
     "webpack": "4",
     "webpack-dev-middleware": "^3.7.3",
-    "window-size": "^1.1.1"
+    "window-size": "^1.1.1",
+    "@nrwl/workspace": "^11.6.1",
+    "@nrwl/cli": "^11.6.1",
+    "@nrwl/tao": "^11.6.1",
+    "@nrwl/nx-cloud": "^11.2.0"
   },
   "optionalDependencies": {
     "@cypress/webpack-preprocessor": "^5.5.0",
