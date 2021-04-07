@@ -21,7 +21,7 @@ export const ControlsPanel: FC = () => {
     presetColors,
     hideNoControlsWarning = false,
   } = useParameter<ControlsParameters>(PARAM_KEY, {});
-  const { path } = useStorybookState();
+  const { refId, storyId } = useStorybookState();
 
   const hasControls = Object.values(rows).some((arg) => arg?.control);
   const showWarning = !(hasControls && isArgsStory) && !hideNoControlsWarning;
@@ -37,7 +37,7 @@ export const ControlsPanel: FC = () => {
       {showWarning && <NoControlsWarning />}
       <ArgsTable
         {...{
-          key: path, // resets state when switching stories
+          key: refId ? `${refId}_${storyId}` : storyId, // resets state when switching stories
           compact: !expanded && hasControls,
           rows: withPresetColors,
           args,
