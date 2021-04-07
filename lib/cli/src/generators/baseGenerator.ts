@@ -18,6 +18,9 @@ export interface FrameworkOptions {
   addComponents?: boolean;
   addBabel?: boolean;
   addESLint?: boolean;
+  extraMain?: any;
+  extensions?: string[];
+  commonJs?: boolean;
 }
 
 export type Generator = (
@@ -34,6 +37,9 @@ const defaultOptions: FrameworkOptions = {
   addComponents: true,
   addBabel: true,
   addESLint: false,
+  extraMain: undefined,
+  extensions: undefined,
+  commonJs: false,
 };
 
 export async function baseGenerator(
@@ -51,6 +57,8 @@ export async function baseGenerator(
     addComponents,
     addBabel,
     addESLint,
+    extraMain,
+    extensions,
   } = {
     ...defaultOptions,
     ...options,
@@ -87,15 +95,21 @@ export async function baseGenerator(
 
   const versionedPackages = await packageManager.getVersionedPackages(...packages);
 
-  const extraMain =
+  const mainOptions =
     builder !== Builder.Webpack4
       ? {
           core: {
             builder,
           },
+          ...extraMain,
         }
-      : undefined;
-  configure(framework, [...addons, ...extraAddons], extraMain);
+      : extraMain;
+  configure(framework, {
+    addons: [...addons, ...extraAddons],
+    extensions,
+    commonJs: options.commonJs,
+    ...mainOptions,
+  });
   if (addComponents) {
     copyComponents(framework, language);
   }

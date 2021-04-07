@@ -16,6 +16,7 @@ import {
 import * as managerBuilder from './manager/builder';
 
 import { getProdCli } from './cli';
+import { outputStats } from './utils/output-stats';
 import { getPrebuiltDir } from './utils/prebuilt-manager';
 import { cache } from './utils/cache';
 import { copyAllStaticFiles } from './utils/copy-all-static-files';
@@ -27,6 +28,10 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
 
   if (options.outputDir === '') {
     throw new Error("Won't remove current directory. Check your outputDir!");
+  }
+
+  if (options.staticDir?.includes('/')) {
+    throw new Error("Won't copy root directory. Check your staticDirs!");
   }
 
   options.outputDir = path.isAbsolute(options.outputDir)
@@ -85,7 +90,11 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
         options: fullOptions,
       });
 
-  await Promise.all([manager, preview]);
+  const [managerStats, previewStats] = await Promise.all([manager, preview]);
+
+  if (options.webpackStatsJson) {
+    await outputStats(options.webpackStatsJson, previewStats, managerStats);
+  }
 
   logger.info(`=> Output directory: ${options.outputDir}`);
 }

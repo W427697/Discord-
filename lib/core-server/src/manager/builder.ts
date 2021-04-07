@@ -1,7 +1,7 @@
 import webpack, { Stats, Configuration, ProgressPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import { logger } from '@storybook/node-logger';
-import { Builder, useProgressReporting } from '@storybook/core-common';
+import { Builder, useProgressReporting, checkWebpackVersion } from '@storybook/core-common';
 import { pathExists } from 'fs-extra';
 import express from 'express';
 import { getManagerWebpackConfig } from './manager-config';
@@ -13,13 +13,25 @@ let reject: (reason?: any) => void;
 
 type WebpackBuilder = Builder<Configuration, Stats>;
 
+const checkWebpackVersion4 = (webpackInstance: { version?: string }) =>
+  checkWebpackVersion(webpackInstance, '4.x', 'manager-builder');
+
 export const getConfig: WebpackBuilder['getConfig'] = getManagerWebpackConfig;
 
 export const executor = {
   get: webpack,
 };
 
+export const makeStatsFromError = (err: string) =>
+  (({
+    hasErrors: () => true,
+    hasWarnings: () => false,
+    toJson: () => ({ warnings: [] as any[], errors: [err] }),
+  } as any) as Stats);
+
 export const start: WebpackBuilder['start'] = async ({ startTime, options, router }) => {
+  checkWebpackVersion4(executor.get);
+
   const prebuiltDir = await getPrebuiltDir(options);
   const config = await getConfig(options);
 
@@ -47,7 +59,12 @@ export const start: WebpackBuilder['start'] = async ({ startTime, options, route
   if (!compiler) {
     const err = `${config.name}: missing webpack compiler at runtime!`;
     logger.error(err);
-    return;
+    // eslint-disable-next-line consistent-return
+    return {
+      bail,
+      totalTime: process.hrtime(startTime),
+      stats: makeStatsFromError(err),
+    };
   }
 
   const { handler, modulesCount } = await useProgressReporting(router, startTime, options);
@@ -96,6 +113,8 @@ export const bail: WebpackBuilder['bail'] = (e: Error) => {
 
 export const build: WebpackBuilder['build'] = async ({ options, startTime }) => {
   logger.info('=> Compiling manager..');
+  checkWebpackVersion4(executor.get);
+
   const config = await getConfig(options);
   const statsOptions = typeof config.stats === 'boolean' ? 'minimal' : config.stats;
 
@@ -103,10 +122,10 @@ export const build: WebpackBuilder['build'] = async ({ options, startTime }) => 
   if (!compiler) {
     const err = `${config.name}: missing webpack compiler at runtime!`;
     logger.error(err);
-    return;
+    return Promise.resolve(makeStatsFromError(err));
   }
 
-  await new Promise<void>((succeed, fail) => {
+  return new Promise((succeed, fail) => {
     compiler.run((error, stats) => {
       if (error || !stats || stats.hasErrors()) {
         logger.error('=> Failed to build the manager');
@@ -131,7 +150,7 @@ export const build: WebpackBuilder['build'] = async ({ options, startTime }) => 
         );
         statsData?.warnings?.forEach((e) => logger.warn(e));
 
-        succeed();
+        succeed(stats);
       }
     });
   });

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/node-logger",
-  "version": "6.2.0-beta.4",
+  "version": "6.2.5",
   "description": "",
   "keywords": [
     "storybook"
@@ -48,5 +48,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "09707a9b0355643753e78a6dd49f047792efae45"
+  "gitHead": "fd587f55266ddb52ba0a508b11089895ce8c3b59"
 }

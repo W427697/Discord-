@@ -9,17 +9,16 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-// @ts-ignore
-import FilterWarningsPlugin from 'webpack-filter-warnings-plugin';
 
 import themingPaths from '@storybook/theming/paths';
 
 import {
   toRequireContextString,
   es6Transpiler,
-  loadEnv,
+  stringifyEnvs,
   nodeModulesPaths,
   interpolate,
+  Options,
 } from '@storybook/core-common';
 import { createBabelLoader } from './babel-loader-preview';
 
@@ -60,15 +59,15 @@ export default async ({
   frameworkPath,
   presets,
   typescriptOptions,
-}: any): Promise<Configuration> => {
+}: Options & Record<string, any>): Promise<Configuration> => {
+  const envs = await presets.apply<Record<string, string>>('env');
   const logLevel = await presets.apply('logLevel', undefined);
   const frameworkOptions = await presets.apply(`${framework}Options`, {});
 
-  const headHtmlSnippet = await presets.apply('previewHeadTemplate');
-  const bodyHtmlSnippet = await presets.apply('previewBodyTemplate');
-  const template = await presets.apply('previewMainTemplate');
+  const headHtmlSnippet = await presets.apply('previewHead');
+  const bodyHtmlSnippet = await presets.apply('previewBody');
+  const template = await presets.apply<string>('previewMainTemplate');
 
-  const { raw, stringified } = loadEnv({ production: true });
   const babelLoader = createBabelLoader(babelOptions, framework);
   const isProd = configType === 'PRODUCTION';
   // TODO FIX ME - does this need to be ESM?
@@ -120,7 +119,7 @@ export default async ({
     entry: entries,
     output: {
       path: path.resolve(process.cwd(), outputDir),
-      filename: '[name].[hash].bundle.js',
+      filename: isProd ? '[name].[contenthash:8].iframe.bundle.js' : '[name].iframe.bundle.js',
       publicPath: '',
     },
     stats: {
@@ -131,13 +130,15 @@ export default async ({
       aggregateTimeout: 10,
       ignored: /node_modules/,
     },
+    ignoreWarnings: [
+      {
+        message: /export '\S+' was not found in 'global'/,
+      },
+    ],
     plugins: [
-      new FilterWarningsPlugin({
-        exclude: /export '\S+' was not found in 'global'/,
-      }),
       Object.keys(virtualModuleMapping).length > 0
         ? new VirtualModulePlugin(virtualModuleMapping)
-        : null,
+        : (null as any),
       new HtmlWebpackPlugin({
         filename: `iframe.html`,
         // FIXME: `none` isn't a known option
@@ -167,7 +168,7 @@ export default async ({
         template,
       }),
       new DefinePlugin({
-        'process.env': stringified,
+        'process.env': stringifyEnvs(envs),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       }),
       isProd ? null : new WatchMissingNodeModulesPlugin(nodeModulesPaths),
@@ -193,8 +194,8 @@ export default async ({
     },
     resolve: {
       extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json', '.cjs'],
-      modules: ['node_modules'].concat((raw.NODE_PATH as string[]) || []),
-      mainFields: ['browser', 'main'],
+      modules: ['node_modules'].concat(envs.NODE_PATH || []),
+      mainFields: ['browser', 'module', 'main'],
       alias: {
         ...themingPaths,
         ...storybookPaths,
@@ -218,7 +219,6 @@ export default async ({
       runtimeChunk: true,
       sideEffects: true,
       usedExports: true,
-      concatenateModules: true,
       minimizer: isProd
         ? [
             new TerserWebpackPlugin({

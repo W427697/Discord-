@@ -73,7 +73,6 @@ export const Pre = styled.pre<{}>(withReset, withMargin, ({ theme }) => ({
 const Link: FunctionComponent<any> = ({ href: input, children, ...props }) => {
   const isStorybookPath = /^\//.test(input);
   const isAnchorUrl = /^#.*/.test(input);
-
   const href = isStorybookPath ? `?path=${input}` : input;
   const target = isAnchorUrl ? '_self' : '_top';
 
@@ -166,21 +165,23 @@ export const Table = styled.table<{}>(withReset, withMargin, ({ theme }) => ({
   borderCollapse: 'collapse',
   '& tr': {
     borderTop: `1px solid ${theme.appBorderColor}`,
-    backgroundColor: 'white',
+    backgroundColor: theme.appContentBg,
     margin: 0,
     padding: 0,
   },
   '& tr:nth-of-type(2n)': {
-    backgroundColor: `${theme.color.lighter}`,
+    backgroundColor: theme.base === 'dark' ? theme.color.darker : theme.color.lighter,
   },
   '& tr th': {
     fontWeight: 'bold',
+    color: theme.color.defaultText,
     border: `1px solid ${theme.appBorderColor}`,
     margin: 0,
     padding: '6px 13px',
   },
   '& tr td': {
     border: `1px solid ${theme.appBorderColor}`,
+    color: theme.color.defaultText,
     margin: 0,
     padding: '6px 13px',
   },

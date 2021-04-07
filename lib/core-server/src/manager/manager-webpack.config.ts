@@ -14,7 +14,7 @@ import uiPaths from '@storybook/ui/paths';
 import readPackage from 'read-pkg-up';
 import {
   resolvePathInStorybookCache,
-  loadEnv,
+  stringifyEnvs,
   es6Transpiler,
   getManagerHeadTemplate,
   getManagerMainTemplate,
@@ -36,7 +36,7 @@ export default async ({
   releaseNotesData,
   presets,
 }: Options & ManagerWebpackOptions): Promise<Configuration> => {
-  const { raw, stringified } = loadEnv();
+  const envs = await presets.apply<Record<string, string>>('env');
   const logLevel = await presets.apply('logLevel', undefined);
   const template = await presets.apply('managerMainTemplate', getManagerMainTemplate());
 
@@ -63,7 +63,7 @@ export default async ({
     entry: entries,
     output: {
       path: outputDir,
-      filename: '[name].[chunkhash].bundle.js',
+      filename: isProd ? '[name].[contenthash].manager.bundle.js' : '[name].manager.bundle.js',
       publicPath: '',
     },
     watchOptions: {
@@ -106,8 +106,8 @@ export default async ({
       (new Dotenv({ silent: true }) as any) as WebpackPluginInstance,
       // graphql sources check process variable
       new DefinePlugin({
-        'process.env': stringified,
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        'process.env': stringifyEnvs(envs),
+        NODE_ENV: JSON.stringify(envs.NODE_ENV),
       }) as WebpackPluginInstance,
       // isProd &&
       //   BundleAnalyzerPlugin &&
@@ -133,7 +133,9 @@ export default async ({
           test: /\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/,
           loader: require.resolve('file-loader'),
           options: {
-            name: 'static/media/[name].[hash:8].[ext]',
+            name: isProd
+              ? 'static/media/[name].[contenthash:8].[ext]'
+              : 'static/media/[path][name].[ext]',
           },
         },
         {
@@ -141,15 +143,17 @@ export default async ({
           loader: require.resolve('url-loader'),
           options: {
             limit: 10000,
-            name: 'static/media/[name].[hash:8].[ext]',
+            name: isProd
+              ? 'static/media/[name].[contenthash:8].[ext]'
+              : 'static/media/[path][name].[ext]',
           },
         },
       ],
     },
     resolve: {
       extensions: ['.mjs', '.js', '.jsx', '.json', '.cjs', '.ts', '.tsx'],
-      modules: ['node_modules'].concat((raw.NODE_PATH as string[]) || []),
-      mainFields: ['module', 'main'],
+      modules: ['node_modules'].concat(envs.NODE_PATH || []),
+      mainFields: ['browser', 'module', 'main'],
       alias: {
         ...themingPaths,
         ...uiPaths,

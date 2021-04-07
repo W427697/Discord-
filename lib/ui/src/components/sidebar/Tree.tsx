@@ -1,4 +1,5 @@
-import { Group, Story, StoriesHash, isRoot, isStory } from '@storybook/api';
+import type { Group, Story, StoriesHash } from '@storybook/api';
+import { isRoot, isStory } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import { transparentize } from 'polished';
@@ -137,7 +138,7 @@ const Node = React.memo<NodeProps>(
             onSelectStoryId(item.id);
           }}
         >
-          {item.name}
+          {item.renderLabel?.(item) || item.name}
         </LeafNode>
       );
     }
@@ -162,12 +163,13 @@ const Node = React.memo<NodeProps>(
             }}
           >
             <CollapseIcon isExpanded={isExpanded} />
-            {item.name}
+            {item.renderLabel?.(item) || item.name}
           </CollapseButton>
           {isExpanded && (
             <Action
               type="button"
               className="sidebar-subheading-action"
+              aria-label="expand"
               data-action="expand-all"
               data-expanded={isFullyExpanded}
               onClick={(event) => {
@@ -205,7 +207,7 @@ const Node = React.memo<NodeProps>(
           if (item.isComponent && !isExpanded) onSelectStoryId(item.id);
         }}
       >
-        {item.name}
+        {item.renderLabel?.(item) || item.name}
       </BranchNode>
     );
   }

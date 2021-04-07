@@ -5,6 +5,7 @@ module.exports = {
     {
       files: ['./src/stories/addon-jest.stories.ts'],
       rules: {
+        '@typescript-eslint/ban-ts-comment': 'warn',
         'import/no-useless-path-segments': ignore,
       },
       settings: {

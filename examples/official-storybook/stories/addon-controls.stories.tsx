@@ -5,10 +5,29 @@ export default {
   title: 'Addons/Controls',
   component: Button,
   argTypes: {
-    children: { control: 'text', name: 'Children' },
+    children: { control: 'text', name: 'Children', mapping: { basic: 'BASIC' } },
     type: { control: 'text', name: 'Type' },
     json: { control: 'object', name: 'JSON' },
     imageUrls: { control: { type: 'file', accept: '.png' }, name: 'Image Urls' },
+    label: {
+      name: 'Label',
+      options: ['Plain', 'Bold'],
+      control: { type: 'select', labels: { Bold: 'BOLD' } },
+      mapping: { Bold: <b>Bold</b> },
+    },
+    background: {
+      name: 'Background color',
+      control: {
+        type: 'color',
+        presetColors: [
+          '#fe4a49',
+          '#FED766',
+          'rgba(0, 159, 183, 1)',
+          'HSLA(240,11%,91%,0.5)',
+          'slategray',
+        ],
+      },
+    },
   },
   parameters: { chromatic: { disable: true } },
 };
@@ -17,7 +36,7 @@ const DEFAULT_NESTED_OBJECT = { a: 4, b: { c: 'hello', d: [1, 2, 3] } };
 
 const Template = (args) => (
   <div>
-    <Button type={args.type}>{args.children}</Button>
+    <Button type={args.type}>{args.label || args.children}</Button>
     {args.json && <pre>{JSON.stringify(args.json, null, 2)}</pre>}
   </div>
 );

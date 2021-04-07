@@ -18,7 +18,7 @@ import themingPaths from '@storybook/theming/paths';
 
 import {
   toRequireContextString,
-  loadEnv,
+  stringifyEnvs,
   es6Transpiler,
   interpolate,
   nodeModulesPaths,
@@ -67,12 +67,11 @@ export default async ({
   const logLevel = await presets.apply('logLevel', undefined);
   const frameworkOptions = await presets.apply(`${framework}Options`, {});
 
-  const headHtmlSnippet = await presets.apply('previewHeadTemplate');
-  const bodyHtmlSnippet = await presets.apply('previewBodyTemplate');
+  const headHtmlSnippet = await presets.apply('previewHead');
+  const bodyHtmlSnippet = await presets.apply('previewBody');
   const template = await presets.apply<string>('previewMainTemplate');
+  const envs = await presets.apply<Record<string, string>>('env');
 
-  // TODO: envs should come rom presets
-  const { raw, stringified } = loadEnv({ production: true });
   const babelLoader = createBabelLoader(babelOptions, framework);
   const isProd = configType === 'PRODUCTION';
   // TODO FIX ME - does this need to be ESM?
@@ -125,13 +124,13 @@ export default async ({
     // stats: 'errors-only',
     output: {
       path: path.resolve(process.cwd(), outputDir),
-      filename: '[name].[hash].bundle.js',
+      filename: isProd ? '[name].[contenthash:8].iframe.bundle.js' : '[name].iframe.bundle.js',
       publicPath: '',
     },
-    // watchOptions: {
-    //   aggregateTimeout: 10,
-    //   ignored: /node_modules/,
-    // },
+    watchOptions: {
+      aggregateTimeout: 10,
+      ignored: /node_modules/,
+    },
     plugins: [
       new FilterWarningsPlugin({
         exclude: /export '\S+' was not found in 'global'/,
@@ -168,8 +167,8 @@ export default async ({
         template,
       }),
       new DefinePlugin({
-        'process.env': stringified,
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        'process.env': stringifyEnvs(envs),
+        NODE_ENV: JSON.stringify(envs.NODE_ENV),
       }),
       isProd ? null : new WatchMissingNodeModulesPlugin(nodeModulesPaths),
       isProd ? null : new HotModuleReplacementPlugin(),
@@ -194,8 +193,8 @@ export default async ({
     },
     resolve: {
       extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json', '.cjs'],
-      modules: ['node_modules'].concat((raw.NODE_PATH as string[]) || []),
-      mainFields: isProd ? undefined : ['browser', 'main'],
+      modules: ['node_modules'].concat(envs.NODE_PATH || []),
+      mainFields: ['browser', 'module', 'main'],
       alias: {
         ...themingPaths,
         ...storybookPaths,
@@ -218,7 +217,6 @@ export default async ({
       runtimeChunk: true,
       sideEffects: true,
       usedExports: true,
-      concatenateModules: true,
       minimizer: isProd
         ? [
             new TerserWebpackPlugin({

@@ -79,21 +79,26 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
     fullOptions
   );
 
-  // @ts-ignore
-  const previewTotalTime = previewResult?.totalTime;
-  // @ts-ignore
-  const managerTotalTime = managerResult?.totalTime;
+  const previewTotalTime = previewResult && previewResult.totalTime;
+  const managerTotalTime = managerResult && managerResult.totalTime;
+
+  const previewStats = previewResult && previewResult.stats;
+  const managerStats = managerResult && managerResult.stats;
+
+  if (options.webpackStatsJson) {
+    await outputStats(options.webpackStatsJson, previewStats, managerStats);
+  }
 
   if (options.smokeTest) {
+    const managerWarnings = (managerStats && managerStats.toJson().warnings) || [];
+    if (managerWarnings.length > 0) logger.warn(`manager: ${managerWarnings}`);
+    // I'm a little reticent to import webpack types in this file :shrug:
     // @ts-ignore
-    const previewStats = previewResult?.stats;
-    // @ts-ignore
-    const managerStats = managerResult?.stats;
-
-    await outputStats(previewStats, managerStats);
-    const hasManagerWarnings = managerStats && managerStats.toJson().warnings.length > 0;
-    const hasPreviewWarnings = previewStats && previewStats.toJson().warnings.length > 0;
-    process.exit(hasManagerWarnings || (hasPreviewWarnings && !options.ignorePreview) ? 1 : 0);
+    const previewWarnings = (previewStats && previewStats.toJson().warnings) || [];
+    if (previewWarnings.length > 0) logger.warn(`preview: ${previewWarnings}`);
+    process.exit(
+      managerWarnings.length > 0 || (previewWarnings.length > 0 && !options.ignorePreview) ? 1 : 0
+    );
     return;
   }
 
