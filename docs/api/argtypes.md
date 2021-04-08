@@ -14,7 +14,7 @@ You can also use argTypes to “annotate” args with information that is used b
 
 The most concrete realization of argTypes is the [Args Table](../writing-docs/doc-blocks.md#argstable) doc block. Each row in the table corresponds to a single argType, as well as the current value of that arg.
 
-![Storybook infering automatically the argType](./argstable.png)
+![Storybook inferring automatically the argType](./argstable.png)
 
 ## Automatic argType inference
 
@@ -84,6 +84,12 @@ These values--description, table.type, and controls.type--get merged over the de
 <!-- prettier-ignore-end -->
 
 In particular, this would render a row with a modified description, a type display with a dropdown that shows the detail, and no control.
+
+<div class="aside">
+
+As it happens with other properties such as `args`, `argTypes` can be overridden in a single story.
+
+</div>
 
 #### Using argTypes in addons
 

@@ -24,7 +24,8 @@ export type ViewMode = 'story' | 'docs';
 export interface Parameters {
   fileName?: string;
   options?: OptionsParameter;
-  layout?: 'centered' | 'fullscreen' | 'padded';
+  /** The layout property defines basic styles added to the preview body where the story is rendered. If you pass 'none', no styles are applied. */
+  layout?: 'centered' | 'fullscreen' | 'padded' | 'none';
   docsOnly?: boolean;
   [key: string]: any;
 }
@@ -59,6 +60,7 @@ export type StoryContext = StoryIdentifier & {
   argTypes: ArgTypes;
   globals: Args;
   hooks?: HooksContext;
+  viewMode?: ViewMode;
 };
 
 export interface WrapperSettings {
@@ -128,6 +130,7 @@ export interface StoryApi<StoryFnReturnType = unknown> {
     parameters?: Parameters
   ) => StoryApi<StoryFnReturnType>;
   addDecorator: (decorator: DecoratorFunction<StoryFnReturnType>) => StoryApi<StoryFnReturnType>;
+  addLoader: (decorator: LoaderFunction) => StoryApi<StoryFnReturnType>;
   addParameters: (parameters: Parameters) => StoryApi<StoryFnReturnType>;
   [k: string]: string | ClientApiReturnFn<StoryFnReturnType>;
 }
@@ -136,6 +139,8 @@ export type DecoratorFunction<StoryFnReturnType = unknown> = (
   fn: StoryFn<StoryFnReturnType>,
   c: StoryContext
 ) => ReturnType<StoryFn<StoryFnReturnType>>;
+
+export type LoaderFunction = (c: StoryContext) => Promise<Record<string, any>>;
 
 export type DecorateStoryFunction<StoryFnReturnType = unknown> = (
   storyFn: StoryFn<StoryFnReturnType>,
@@ -158,10 +163,10 @@ export type BaseDecorators<StoryFnReturnType> = Array<
   (story: () => StoryFnReturnType, context: StoryContext) => StoryFnReturnType
 >;
 
-export interface Annotations<Args, StoryFnReturnType> {
+export interface BaseAnnotations<Args, StoryFnReturnType> {
   /**
    * Dynamic data that are provided (and possibly updated by) Storybook and its addons.
-   * @see [Arg story inputs](https://github.com/storybookjs/storybook/blob/next/docs/src/pages/formats/component-story-format/index.md#args-story-inputs)
+   * @see [Arg story inputs](https://storybook.js.org/docs/react/api/csf#args-story-inputs)
    */
   args?: Partial<Args>;
 
@@ -184,7 +189,10 @@ export interface Annotations<Args, StoryFnReturnType> {
    * @see [Decorators](https://storybook.js.org/docs/addons/introduction/#1-decorators)
    */
   decorators?: BaseDecorators<StoryFnReturnType>;
+}
 
+export interface Annotations<Args, StoryFnReturnType>
+  extends BaseAnnotations<Args, StoryFnReturnType> {
   /**
    * Used to only include certain named exports as stories. Useful when you want to have non-story exports such as mock data or ignore a few stories.
    * @example

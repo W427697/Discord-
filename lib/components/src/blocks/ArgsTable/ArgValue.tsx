@@ -3,9 +3,9 @@ import { styled } from '@storybook/theming';
 import memoize from 'memoizerific';
 import uniq from 'lodash/uniq';
 import { PropSummaryValue } from './types';
-import { WithTooltipPure } from '../../tooltip/WithTooltip';
+import { WithTooltipPure } from '../../tooltip/lazy-WithTooltip';
 import { Icons } from '../../icon/icon';
-import { SyntaxHighlighter } from '../../syntaxhighlighter/syntaxhighlighter';
+import { SyntaxHighlighter } from '../../syntaxhighlighter/lazy-syntaxhighlighter';
 import { codeCommon } from '../../typography/shared';
 
 interface ArgValueProps {
@@ -141,7 +141,7 @@ const ArgSummary: FC<ArgSummaryProps> = ({ value, initialExpandedArgs }) => {
     const cannotBeSafelySplitted = /[(){}[\]<>]/.test(summaryAsString);
 
     if (cannotBeSafelySplitted) {
-      return <ArgText text={summaryAsString} simple={summaryAsString.includes('|')} />;
+      return <ArgText text={summaryAsString} />;
     }
 
     const summaryItems = getSummaryItems(summaryAsString);
