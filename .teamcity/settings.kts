@@ -125,10 +125,10 @@ object Build : BuildType({
                 #!/bin/bash
                 set -e -x
                 
-                yarn install --frozen-lockfile
+                yarn install --immutable
                 yarn bootstrap --core
             """.trimIndent()
-            dockerImage = "node:10"
+            dockerImage = "node:12"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
         }
     }
@@ -315,7 +315,7 @@ object E2E : BuildType({
                 #!/bin/bash
                 set -e -x
                 
-                yarn install
+                yarn install --immutable
                 yarn cypress install
                 yarn serve-storybooks &
                 yarn await-serve-storybooks
@@ -362,7 +362,7 @@ object SmokeTests : BuildType({
                 #!/bin/bash
                 set -e -x
                 
-                yarn install
+                yarn install --immutable
                 
                 cd examples/cra-kitchen-sink
                 yarn storybook --smoke-test --quiet
@@ -400,7 +400,7 @@ object SmokeTests : BuildType({
                 cd ../cra-react15
                 yarn storybook --smoke-test --quiet
             """.trimIndent()
-            dockerImage = "node:10"
+            dockerImage = "node:12"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
         }
     }
@@ -415,11 +415,12 @@ object Frontpage : BuildType({
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
+                yarn install --immutable
                 yarn bootstrap --install
                 node ./scripts/build-frontpage.js
             """.trimIndent()
-            dockerImage = "node:10"
+            dockerImage = "node:12"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
         }
     }
@@ -464,7 +465,7 @@ object Test : BuildType({
 
                 yarn jest --coverage -w 2 --reporters=${'$'}PWD/temp-jest-teamcity/node_modules/jest-teamcity
             """.trimIndent()
-            dockerImage = "node:10"
+            dockerImage = "node:12"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
         }
     }
@@ -495,7 +496,7 @@ object Coverage : BuildType({
                 yarn install
                 yarn coverage
             """.trimIndent()
-            dockerImage = "node:10"
+            dockerImage = "node:12"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
         }
     }
