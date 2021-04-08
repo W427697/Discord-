@@ -1,1 +1,1 @@
-{"version":"6.1.0-beta.5","info":{"plain":"### Features\n\n* UI: Single story hoisting in sidebar ([#13039](https://github.com/storybookjs/storybook/pull/13039))"}}
+{"version":"6.3.0-alpha.0","info":{"plain":"### Maintenance\n\n- Build: Move monorepo to Yarn 2 ([#13907](https://github.com/storybookjs/storybook/pull/13907))"}}

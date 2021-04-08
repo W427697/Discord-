@@ -9,6 +9,7 @@ import React, {
   useEffect,
 } from 'react';
 import { ControllerStateAndHelpers } from 'downshift';
+import { transparentize } from 'polished';
 
 import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
 import {
@@ -20,6 +21,7 @@ import {
   SearchResult,
 } from './types';
 import { getLink } from './utils';
+import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 
 const ResultsList = styled.ol({
   listStyle: 'none',
@@ -33,8 +35,11 @@ const ResultRow = styled.li<{ isHighlighted: boolean }>(({ theme, isHighlighted 
   display: 'block',
   margin: 0,
   padding: 0,
-  background: isHighlighted ? `${theme.color.secondary}11` : 'transparent',
+  background: isHighlighted ? transparentize(0.9, theme.color.secondary) : 'transparent',
   cursor: 'pointer',
+  'a:hover, button:hover': {
+    background: 'transparent',
+  },
 }));
 
 const NoResults = styled.div(({ theme }) => ({
@@ -124,7 +129,7 @@ const Result: FunctionComponent<
   const nameMatch = matches.find((match: Match) => match.key === 'name');
   const pathMatches = matches.filter((match: Match) => match.key === 'path');
   const label = (
-    <div>
+    <div className="search-result-item--label">
       <strong>
         <Highlight match={nameMatch}>{item.name}</Highlight>
       </strong>
@@ -169,83 +174,104 @@ export const SearchResults: FunctionComponent<{
   getMenuProps: ControllerStateAndHelpers<DownshiftItem>['getMenuProps'];
   getItemProps: ControllerStateAndHelpers<DownshiftItem>['getItemProps'];
   highlightedIndex: number | null;
-}> = React.memo(({ query, results, closeMenu, getMenuProps, getItemProps, highlightedIndex }) => {
-  useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      const target = event.target as Element;
-      if (target?.id === 'storybook-explorer-searchfield') return; // handled by downshift
-      closeMenu();
-    };
-
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, []);
-
-  return (
-    <ResultsList {...getMenuProps()}>
-      {results.length > 0 && !query && (
-        <li>
-          <RootNode>Recently opened</RootNode>
-        </li>
-      )}
-      {results.length === 0 && query && (
-        <li>
-          <NoResults>
-            <strong>No components found</strong>
-            <br />
-            <small>Find components by name or path.</small>
-          </NoResults>
-        </li>
-      )}
-      {results.map((result: DownshiftItem, index) => {
-        if (isCloseType(result)) {
-          return (
-            <BackActionRow
-              {...result}
-              {...getItemProps({ key: index, index, item: result })}
-              isHighlighted={highlightedIndex === index}
-            >
-              <ActionIcon icon="arrowleft" />
-              <ActionLabel>Back to components</ActionLabel>
-              <ActionKey>ESC</ActionKey>
-            </BackActionRow>
-          );
+  isLoading?: boolean;
+  enableShortcuts?: boolean;
+}> = React.memo(
+  ({
+    query,
+    results,
+    closeMenu,
+    getMenuProps,
+    getItemProps,
+    highlightedIndex,
+    isLoading = false,
+    enableShortcuts = true,
+  }) => {
+    useEffect(() => {
+      const handleEscape = (event: KeyboardEvent) => {
+        if (!enableShortcuts || isLoading || event.repeat) return;
+        if (matchesModifiers(false, event) && matchesKeyCode('Escape', event)) {
+          const target = event.target as Element;
+          if (target?.id === 'storybook-explorer-searchfield') return; // handled by downshift
+          event.preventDefault();
+          closeMenu();
         }
-        if (isClearType(result)) {
-          return (
-            <ActionRow
-              {...result}
-              {...getItemProps({ key: index, index, item: result })}
-              isHighlighted={highlightedIndex === index}
-            >
-              <ActionIcon icon="trash" />
-              <ActionLabel>Clear history</ActionLabel>
-            </ActionRow>
-          );
-        }
-        if (isExpandType(result)) {
-          return (
-            <ActionRow
-              {...result}
-              {...getItemProps({ key: index, index, item: result })}
-              isHighlighted={highlightedIndex === index}
-            >
-              <ActionIcon icon="plus" />
-              <ActionLabel>Show {result.moreCount} more results</ActionLabel>
-            </ActionRow>
-          );
-        }
+      };
 
-        const { item } = result;
-        const key = `${item.refId}::${item.id}`;
-        return (
-          <Result
-            {...result}
-            {...getItemProps({ key, index, item: result })}
-            isHighlighted={highlightedIndex === index}
-          />
-        );
-      })}
-    </ResultsList>
-  );
-});
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
+    }, [enableShortcuts, isLoading]);
+
+    return (
+      <ResultsList {...getMenuProps()}>
+        {results.length > 0 && !query && (
+          <li>
+            <RootNode className="search-result-recentlyOpened">Recently opened</RootNode>
+          </li>
+        )}
+        {results.length === 0 && query && (
+          <li>
+            <NoResults>
+              <strong>No components found</strong>
+              <br />
+              <small>Find components by name or path.</small>
+            </NoResults>
+          </li>
+        )}
+        {results.map((result: DownshiftItem, index) => {
+          if (isCloseType(result)) {
+            return (
+              <BackActionRow
+                {...result}
+                {...getItemProps({ key: index, index, item: result })}
+                isHighlighted={highlightedIndex === index}
+                className="search-result-back"
+              >
+                <ActionIcon icon="arrowleft" />
+                <ActionLabel>Back to components</ActionLabel>
+                <ActionKey>ESC</ActionKey>
+              </BackActionRow>
+            );
+          }
+          if (isClearType(result)) {
+            return (
+              <ActionRow
+                {...result}
+                {...getItemProps({ key: index, index, item: result })}
+                isHighlighted={highlightedIndex === index}
+                className="search-result-clearHistory"
+              >
+                <ActionIcon icon="trash" />
+                <ActionLabel>Clear history</ActionLabel>
+              </ActionRow>
+            );
+          }
+          if (isExpandType(result)) {
+            return (
+              <ActionRow
+                {...result}
+                {...getItemProps({ key: index, index, item: result })}
+                isHighlighted={highlightedIndex === index}
+                className="search-result-more"
+              >
+                <ActionIcon icon="plus" />
+                <ActionLabel>Show {result.moreCount} more results</ActionLabel>
+              </ActionRow>
+            );
+          }
+
+          const { item } = result;
+          const key = `${item.refId}::${item.id}`;
+          return (
+            <Result
+              {...result}
+              {...getItemProps({ key, index, item: result })}
+              isHighlighted={highlightedIndex === index}
+              className="search-result-item"
+            />
+          );
+        })}
+      </ResultsList>
+    );
+  }
+);
