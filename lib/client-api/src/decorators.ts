@@ -1,5 +1,4 @@
 import { StoryContext, StoryFn } from '@storybook/addons';
-import { first } from 'lodash';
 import { DecoratorFunction } from './types';
 
 interface StoryContextUpdate {
