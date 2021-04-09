@@ -54,6 +54,16 @@ const Wrapper = FRAMEWORK_OPTIONS?.strictMode ? StrictMode : Fragment;
 
 const StoryContextContext = createContext<StoryContext | undefined>(undefined);
 
+export const contextProviderDecorator: DecoratorFunction = (story, storyContext) => {
+  const Story = story as FunctionComponent<StoryContext>;
+
+  return (
+    <StoryContextContext.Provider value={storyContext}>
+      <Story {...storyContext} />
+    </StoryContextContext.Provider>
+  );
+};
+
 export const applyDecorator = (story: StoryFn, decorator: DecoratorFunction) => {
   const Story = story as FunctionComponent<StoryContext>;
   // You cannot override the parameters key, it is fixed
@@ -71,7 +81,7 @@ export const applyDecorator = (story: StoryFn, decorator: DecoratorFunction) => 
 };
 
 export const decorateStory = (storyFn: StoryFn, decorators: DecoratorFunction[]) =>
-  decorators.reduce(applyDecorator, storyFn);
+  [...decorators, contextProviderDecorator].reduce(applyDecorator, storyFn);
 
 export default async function renderMain({
   storyContext,
@@ -83,11 +93,9 @@ export default async function renderMain({
   const Story = unboundStoryFn as FunctionComponent<StoryContext>;
 
   const content = (
-    <StoryContextContext.Provider value={storyContext}>
-      <ErrorBoundary showMain={showMain} showException={showException}>
-        <Story {...storyContext} />
-      </ErrorBoundary>
-    </StoryContextContext.Provider>
+    <ErrorBoundary showMain={showMain} showException={showException}>
+      <Story {...storyContext} />
+    </ErrorBoundary>
   );
 
   // For React 15, StrictMode & Fragment doesn't exists.
