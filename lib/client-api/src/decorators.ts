@@ -1,4 +1,5 @@
 import { StoryContext, StoryFn } from '@storybook/addons';
+import { first } from 'lodash';
 import { DecoratorFunction } from './types';
 
 interface StoryContextUpdate {
@@ -15,6 +16,12 @@ const defaultContext: StoryContext = {
   globals: {},
 };
 
+let currentStoryContext: StoryContext;
+// You cannot override the parameters key, it is fixed
+function overrideStoryContext({ parameters, ...innerContext }: StoryContextUpdate = {}) {
+  return { ...currentStoryContext, ...innerContext };
+}
+
 /**
  * When you call the story function inside a decorator, e.g.:
  *
@@ -26,14 +33,18 @@ const defaultContext: StoryContext = {
  * merged in with the default context
  */
 export const decorateStory = (storyFn: StoryFn, decorator: DecoratorFunction) => {
-  return (context: StoryContext = defaultContext) =>
-    decorator(
-      // You cannot override the parameters key, it is fixed
-      ({ parameters, ...innerContext }: StoryContextUpdate = {}) =>
-        storyFn({ ...context, ...innerContext }),
-      context
-    );
+  return (innerContext: StoryContext = defaultContext) => {
+    currentStoryContext = overrideStoryContext(innerContext);
+    return decorator(storyFn, currentStoryContext);
+  };
 };
 
-export const defaultDecorateStory = (storyFn: StoryFn, decorators: DecoratorFunction[]) =>
-  decorators.reduce(decorateStory, storyFn);
+export const defaultDecorateStory = (storyFn: StoryFn, decorators: DecoratorFunction[]) => {
+  const decorated = decorators.reduce(decorateStory, (finalInnerStoryContext) =>
+    storyFn(overrideStoryContext(finalInnerStoryContext))
+  );
+  return (firstStoryContext: StoryContext) => {
+    currentStoryContext = firstStoryContext;
+    return decorated(firstStoryContext);
+  };
+};
