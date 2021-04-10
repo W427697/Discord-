@@ -1,3 +1,52 @@
+## 6.3.0-alpha.4 (April 10, 2021)
+
+### Features
+
+- Core: Expose Server instance through the pluggable Builder API ([#14468](https://github.com/storybookjs/storybook/pull/14468))
+
+### Maintenance
+
+- Core: Don't shadow the window global variable ([#14472](https://github.com/storybookjs/storybook/pull/14472))
+
+## 6.3.0-alpha.3 (April 10, 2021)
+
+### Features
+
+- UI: Support `*` wildcard option in storySort order array ([#14531](https://github.com/storybookjs/storybook/pull/14531))
+
+### Bug Fixes
+
+- UI: Add show toolbar T in menu ([#14437](https://github.com/storybookjs/storybook/pull/14437))
+
+### Maintenance
+
+- Refactor: Replace `lodash/range` with `Array.from` ([#14323](https://github.com/storybookjs/storybook/pull/14323))
+- Maintenance: Add TypeScript plugin for Yarn ([#14534](https://github.com/storybookjs/storybook/pull/14534))
+
+## 6.2.7 (April 9, 2021)
+
+### Bug Fixes
+
+- CLI: Fix prerelease upgrade ([#14529](https://github.com/storybookjs/storybook/pull/14529))
+
+## 6.3.0-alpha.2 (April 9, 2021)
+
+### Features
+
+- Web-components: Add full reload listening to server-side-events ([#14445](https://github.com/storybookjs/storybook/pull/14445))
+- Core: Pass watchOptions from webpack config to webpackDevMiddleware ([#14461](https://github.com/storybookjs/storybook/pull/14461))
+
+### Bug Fixes
+
+- CLI: Fix prerelease upgrade ([#14529](https://github.com/storybookjs/storybook/pull/14529))
+
+## 6.2.6 (April 9, 2021)
+
+### Bug Fixes
+
+- Core: Allow string in object arg and support fractional numbers in URL args ([#14511](https://github.com/storybookjs/storybook/pull/14511))
+- UI: Skip duplicate storyId breaking sidebar ([#14502](https://github.com/storybookjs/storybook/pull/14502))
+
 ## 6.3.0-alpha.1 (April 9, 2021)
 
 ### Features
