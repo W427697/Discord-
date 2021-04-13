@@ -118,23 +118,22 @@ For additional help, join us in the [Storybook Discord](https://discord.gg/story
 
 | Addons                                      |                                                                            |
 | ------------------------------------------- | -------------------------------------------------------------------------- |
-| [a11y](addons/a11y/)                        | Test components for user accessibility in Storybook                        |
-| [actions](addons/actions/)                  | Log actions as users interact with components in the Storybook UI          |
-| [backgrounds](addons/backgrounds/)          | Let users choose backgrounds in the Storybook UI                           |
-| [cssresources](addons/cssresources/)        | Dynamically add/remove css resources to the component iframe               |
-| [design assets](addons/design-assets/)      | View images, videos, weblinks alongside your story                         |
-| [docs](addons/docs/)                        | Add high quality documentation to your components                          |
-| [events](addons/events/)                    | Interactively fire events to components that respond to EventEmitter       |
-| [google-analytics](addons/google-analytics) | Reports google analytics on stories                                        |
-| [graphql](addons/graphql/)                  | Query a GraphQL server within Storybook stories                            |
-| [jest](addons/jest/)                        | View the results of components' unit tests in Storybook                    |
-| [knobs](addons/knobs/)                      | Interactively edit component prop data in the Storybook UI                 |
-| [links](addons/links/)                      | Create links between stories                                               |
-| [query params](addons/queryparams/)         | Mock query params                                                          |
-| [storyshots](addons/storyshots/)            | Snapshot testing for components in Storybook                               |
-| [storysource](addons/storysource/)          | View the code of your stories within the Storybook UI                      |
-| [viewport](addons/viewport/)                | Change display sizes and layouts for responsive components using Storybook |
-
+| [a11y](https://github.com/storybookjs/storybook/tree/next/addons/a11y/)                        | Test components for user accessibility in Storybook                        |
+| [actions](https://github.com/storybookjs/storybook/tree/next/addons/actions/)                  | Log actions as users interact with components in the Storybook UI          |
+| [backgrounds](https://github.com/storybookjs/storybook/tree/next/addons/backgrounds/)          | Let users choose backgrounds in the Storybook UI                           |
+| [cssresources](https://github.com/storybookjs/storybook/tree/next/addons/cssresources/)        | Dynamically add/remove css resources to the component iframe               |
+| [design assets](https://github.com/storybookjs/storybook/tree/next/addons/design-assets/)      | View images, videos, weblinks alongside your story                         |
+| [docs](https://github.com/storybookjs/storybook/tree/next/addons/docs/)                        | Add high quality documentation to your components                          |
+| [events](https://github.com/storybookjs/storybook/tree/next/addons/events/)                    | Interactively fire events to components that respond to EventEmitter       |
+| [google-analytics](https://github.com/storybookjs/storybook/tree/next/addons/google-analytics) | Reports google analytics on stories                                        |
+| [graphql](https://github.com/storybookjs/storybook/tree/next/addons/graphql/)                  | Query a GraphQL server within Storybook stories                            |
+| [jest](https://github.com/storybookjs/storybook/tree/next/addons/jest/)                        | View the results of components' unit tests in Storybook                    |
+| [knobs](https://github.com/storybookjs/storybook/tree/next/addons/knobs)                      | Interactively edit component prop data in the Storybook UI                 |
+| [links](https://github.com/storybookjs/storybook/tree/next/addons/links/)                      | Create links between stories                                               |
+| [query params](https://github.com/storybookjs/storybook/tree/next/addons/queryparams/)         | Mock query params                                                          |
+| [storyshots](https://github.com/storybookjs/storybook/tree/next/addons/storyshots/)            | Snapshot testing for components in Storybook                               |
+| [storysource](https://github.com/storybookjs/storybook/tree/next/addons/storysource/)          | View the code of your stories within the Storybook UI                      |
+| [viewport](https://github.com/storybookjs/storybook/tree/next/addons/viewport/)                | Change display sizes and layouts for responsive components using Storybook |
 See [Addon / Framework Support Table](https://storybook.js.org/docs/react/api/frameworks-feature-support)
 
 ### Deprecated Addons
