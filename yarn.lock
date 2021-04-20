@@ -11274,6 +11274,7 @@ __metadata:
     node-sass: ^4.14.1
     protractor: ~7.0.0
     rxjs: ^6.6.3
+    storybook-addon-angular-ivy: ^0.0.1
     ts-jest: ^26.4.4
     ts-node: ^9.1.0
     typescript: ^4.1.3
@@ -39188,6 +39189,15 @@ resolve@1.19.0:
   version: 2.12.0
   resolution: "store2@npm:2.12.0"
   checksum: ea0c9d89aa61dd0e398f55b88841a7f5f09f5179852415db861d2b134c5a779d39a9686937e4cd17fcf2866ea08a812b1a918e03d1500ef29724bd7661f46e24
+  languageName: node
+  linkType: hard
+
+"storybook-addon-angular-ivy@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "storybook-addon-angular-ivy@npm:0.0.1"
+  peerDependencies:
+    "@storybook/addons": ">= 6.3.0-alpha.11"
+  checksum: 4346e6522c214538cfaf3511710977582f33a6c70a696cd3b6994ceb71e46718605805f4ee51f4d5c9ecc426151bb9f061880ea74992082f59088b2475842533
   languageName: node
   linkType: hard
 
