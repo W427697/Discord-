@@ -16,8 +16,10 @@ export default {
   //👇 Creates specific argTypes with options
   argTypes: {
     propertyA: {
-      options: ['Item One', 'Item Two', 'Item Three'],
-      control: { type: 'select' } // automatically inferred when 'options' is defined
+      control: { 
+        type: 'select' 
+        options: ['Item One', 'Item Two', 'Item Three'],
+      }
     },
     propertyB: {
       options: ['Another Item One', 'Another Item Two', 'Another Item Three'],
