@@ -162,9 +162,13 @@ const hookify = (fn: AbstractFunction) => (...args: any[]) => {
 let numberOfRenders = 0;
 const RENDER_LIMIT = 25;
 export const applyHooks = (
-  applyDecorators: (getStory: StoryGetter, decorators: Decorator[]) => StoryGetter
-) => (getStory: StoryGetter, decorators: Decorator[]) => {
-  const decorated = applyDecorators(hookify(getStory), decorators.map(hookify));
+  applyDecorators: (
+    getStory: StoryGetter,
+    decorators: Decorator[],
+    getStoryContext: () => StoryContext
+  ) => StoryGetter
+) => (getStory: StoryGetter, decorators: Decorator[], getStoryContext: () => StoryContext) => {
+  const decorated = applyDecorators(hookify(getStory), decorators.map(hookify), getStoryContext);
   return (context: StoryContext) => {
     const { hooks } = context;
     hooks.prevMountedDecorators = hooks.mountedDecorators;

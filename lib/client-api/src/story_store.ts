@@ -124,6 +124,9 @@ export default class StoryStore {
   // Keyed on storyId
   _stories: StoreData;
 
+  // A map of the context of the currently rendering story(ies)
+  _storyContexts: Record<StoryId, StoryContext>;
+
   _argTypesEnhancers: ArgTypesEnhancer[];
 
   _selectionSpecifier?: StoreSelectionSpecifier;
@@ -140,6 +143,7 @@ export default class StoryStore {
     this._globalMetadata = { parameters: {}, decorators: [], loaders: [] };
     this._kinds = {};
     this._stories = {};
+    this._storyContexts = {};
     this._argTypesEnhancers = [ensureArgTypes];
     this._error = undefined;
     this._channel = params.channel;
@@ -342,7 +346,11 @@ export default class StoryStore {
       applyDecorators,
       allowUnsafe = false,
     }: {
-      applyDecorators: (fn: LegacyStoryFn, decorators: DecoratorFunction[]) => any;
+      applyDecorators: (
+        fn: LegacyStoryFn,
+        decorators: DecoratorFunction[],
+        getStoryContext: () => StoryContext
+      ) => any;
     } & AllowUnsafeOption
   ) {
     if (!this._configuring && !allowUnsafe)
@@ -399,7 +407,7 @@ export default class StoryStore {
 
     // lazily decorate the story when it's loaded
     const getDecorated: () => LegacyStoryFn = memoize(1)(() =>
-      applyDecorators(finalStoryFn, decorators)
+      applyDecorators(finalStoryFn, decorators, () => this.getStoryContext(id))
     );
 
     const hooks = new HooksContext();
@@ -432,9 +440,8 @@ export default class StoryStore {
 
     const storyParametersWithArgTypes = { ...storyParameters, argTypes, __isArgsStory };
 
-    const storyFn: LegacyStoryFn = (runtimeContext: StoryContext) => {
-      storyFnWarning();
-      return getDecorated()({
+    const createStoryContext = (runtimeContext: Partial<StoryContext>) => {
+      this._storyContexts[id] = {
         ...identification,
         ...runtimeContext,
         // Calculate "combined" parameters at render time (NOTE: for perf we could just use combinedParameters from above?)
@@ -444,22 +451,24 @@ export default class StoryStore {
         argTypes,
         globals: this._globals,
         viewMode: this._selection?.viewMode,
-      });
+      };
+
+      return this._storyContexts[id];
     };
 
-    const unboundStoryFn: LegacyStoryFn = (context: StoryContext) => getDecorated()(context);
+    const unboundStoryFn: LegacyStoryFn = (context: StoryContext) => {
+      const result = getDecorated()(context);
+      // delete this._storyContexts[id]; // <- FIXME when to delete this?
+      return result;
+    };
+
+    const storyFn: LegacyStoryFn = (runtimeContext: StoryContext) => {
+      storyFnWarning();
+      return unboundStoryFn(createStoryContext(runtimeContext));
+    };
 
     const applyLoaders = async () => {
-      const context = {
-        ...identification,
-        // Calculate "combined" parameters at render time (NOTE: for perf we could just use combinedParameters from above?)
-        parameters: this.combineStoryParameters(storyParametersWithArgTypes, kind),
-        hooks,
-        args: _stories[id].args,
-        argTypes,
-        globals: this._globals,
-        viewMode: this._selection?.viewMode,
-      };
+      const context = createStoryContext({});
       const loadResults = await Promise.all(loaders.map((loader) => loader(context)));
       const loaded = Object.assign({}, ...loadResults);
       return { ...context, loaded };
@@ -571,6 +580,11 @@ export default class StoryStore {
       return null;
     }
   };
+
+  getStoryContext(id: StoryId) {
+    console.log(this._storyContexts, id, this._storyContexts[id]);
+    return this._storyContexts[id];
+  }
 
   raw(options?: StoryOptions): PublishedStoreItem[] {
     return Object.values(this._stories)

@@ -144,7 +144,8 @@ export type LoaderFunction = (c: StoryContext) => Promise<Record<string, any>>;
 
 export type DecorateStoryFunction<StoryFnReturnType = unknown> = (
   storyFn: StoryFn<StoryFnReturnType>,
-  decorators: DecoratorFunction<StoryFnReturnType>[]
+  decorators: DecoratorFunction<StoryFnReturnType>[],
+  getStoryContext: () => StoryContext
 ) => StoryFn<StoryFnReturnType>;
 
 export interface ClientStoryApi<StoryFnReturnType = unknown> {

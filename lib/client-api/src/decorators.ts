@@ -25,15 +25,23 @@ const defaultContext: StoryContext = {
  * This will override the `foo` property on the `innerContext`, which gets
  * merged in with the default context
  */
-export const decorateStory = (storyFn: StoryFn, decorator: DecoratorFunction) => {
-  return (context: StoryContext = defaultContext) =>
-    decorator(
-      // You cannot override the parameters key, it is fixed
-      ({ parameters, ...innerContext }: StoryContextUpdate = {}) =>
-        storyFn({ ...context, ...innerContext }),
-      context
-    );
+export const decorateStory = (
+  storyFn: StoryFn,
+  decorator: DecoratorFunction,
+  getStoryContext: () => StoryContext
+) => {
+  // Bind the partially decorated storyFn so that when it is called it always knows about the story context,
+  // no matter what it is passed directly. This is because we cannot guarantee a decorator will
+  // pass the context down to the next decorator in the chain.
+  // (NOTE: You cannot override the parameters key, it is fixed)
+  const boundStoryFunction = ({ parameters, ...innerContext }: StoryContextUpdate = {}) =>
+    storyFn({ ...getStoryContext(), ...innerContext });
+
+  return (context: StoryContext = defaultContext) => decorator(boundStoryFunction, context);
 };
 
-export const defaultDecorateStory = (storyFn: StoryFn, decorators: DecoratorFunction[]) =>
-  decorators.reduce(decorateStory, storyFn);
+export const defaultDecorateStory = (
+  storyFn: StoryFn,
+  decorators: DecoratorFunction[],
+  getStoryContext: () => StoryContext
+) => decorators.reduce((s, d) => decorateStory(s, d, getStoryContext), storyFn);
