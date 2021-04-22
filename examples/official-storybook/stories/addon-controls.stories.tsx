@@ -31,8 +31,9 @@ export default {
     staticDisable: {
       name: 'Static disabled',
       disable: true,
-      table: { hidden: true },
     },
+    mutuallyExclusiveA: { control: 'text', disable: 'mutuallyExclusiveB' },
+    mutuallyExclusiveB: { control: 'text', disable: 'mutuallyExclusiveA' },
     colorMode: {
       control: 'boolean',
     },
@@ -62,8 +63,6 @@ export default {
     someText: { control: 'text' },
     subText: { control: 'text', disable: '!someText' },
     anotherText: { control: 'text', disable: '!someText' },
-    mutuallyExclusiveA: { control: 'text', disable: 'mutuallyExclusiveB' },
-    mutuallyExclusiveB: { control: 'text', disable: 'mutuallyExclusiveA' },
   },
   parameters: { chromatic: { disable: true } },
 };
