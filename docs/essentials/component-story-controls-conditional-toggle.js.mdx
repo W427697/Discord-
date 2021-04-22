@@ -1,0 +1,18 @@
+```js
+// Button.stories.js
+
+import { Button } from './button';
+
+export default {
+  component: Button,
+  title: 'Button',
+  argTypes: {
+    label: { control: 'text' }, // always shows
+    advanced: { control: 'boolean' },
+    // below are hidden when advanced is "false"
+    margin: { control: 'number', disable: '!advanced' },
+    padding: { control: 'number', disable: '!advanced' },
+    cornerRadius: { control: 'number', disable: '!advanced' },
+  },
+};
+```

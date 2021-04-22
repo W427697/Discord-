@@ -53,7 +53,7 @@ export interface ArgType {
   name?: string;
   description?: string;
   defaultValue?: any;
-  disable?: boolean;
+  disable?: boolean | string;
   [key: string]: any;
 }
 

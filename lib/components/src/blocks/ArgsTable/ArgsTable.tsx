@@ -332,6 +332,17 @@ const groupRows = (rows: ArgType, sort: SortType) => {
   return sorted;
 };
 
+export const shouldDisable = (disable: boolean | string | undefined, args: Args) => {
+  if (disable === true) return true;
+  if (typeof disable === 'string' && disable.length > 0) {
+    if (disable[0] === '!') {
+      return !args[disable.substr(1)];
+    }
+    return !!args[disable];
+  }
+  return !!disable;
+};
+
 /**
  * Display the props for a component as a props table. Each row is a collection of
  * ArgDefs, usually derived from docgen info for the component.
@@ -365,7 +376,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
   }
 
   const groups = groupRows(
-    pickBy(rows, (row) => !(row?.table?.disable || row?.disable)),
+    pickBy(rows, (row) => !(row?.table?.disable || shouldDisable(row?.disable, args))),
     sort
   );
 

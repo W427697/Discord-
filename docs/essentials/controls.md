@@ -245,11 +245,7 @@ For `color` controls, you can specify an array of `presetColors`, either on the 
 
 export const parameters = {
   controls: {
-    presetColors: [
-      { color: '#ff4785', title: 'Coral' },
-      'rgba(0, 159, 183, 1)',
-      '#fe4a49',
-    ]
+    presetColors: [{ color: '#ff4785', title: 'Coral' }, 'rgba(0, 159, 183, 1)', '#fe4a49'],
   },
 };
 ```
@@ -284,18 +280,50 @@ Resulting in the following change in Storybook UI:
 
 The previous example also removed the prop documentation from the table. In some cases this is fine, however sometimes you might want to still render the prop documentation but without a control. The following example illustrates how:
 
+<!-- prettier-ignore-start -->
+
 <CodeSnippets
-paths={[
-'common/component-story-disable-controls-alt.js.mdx',
-'common/component-story-disable-controls-alt.mdx.mdx'
-]}
+  paths={[
+    'common/component-story-disable-controls-alt.js.mdx',
+    'common/component-story-disable-controls-alt.mdx.mdx'
+  ]}
 />
+
+<!-- prettier-ignore-end -->
 
 <div class="aside">
 
 As with other Storybook properties, such as [decorators](../writing-stories/decorators.md) the same principle can also be applied at a story-level for more granular cases.
 
 </div>
+
+### Conditional disabling
+
+In some cases, it's useful to be able to conditionally disable a control based on the value of another control. Controls supports basic versions of these use cases with the `disable` option, which can take a boolean value, or a string which can refer to the value of another arg.
+
+Consider a collection of "advanced" settings that are only visible when the user toggles an "advanced" toggle.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/component-story-controls-conditional-toggle.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Or consider a constraint where if the user sets one control value, it doesn't make sense for the user to be able to set another value.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/component-story-controls-mutual-exclusion.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## Hide NoControls warning
 

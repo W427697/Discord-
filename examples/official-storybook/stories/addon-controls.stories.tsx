@@ -28,6 +28,42 @@ export default {
         ],
       },
     },
+    staticDisable: {
+      name: 'Static disabled',
+      disable: true,
+      table: { hidden: true },
+    },
+    colorMode: {
+      control: 'boolean',
+    },
+    dynamicText: {
+      disable: 'colorMode',
+      control: 'text',
+    },
+    dynamicColor: {
+      disable: '!colorMode',
+      control: 'color',
+    },
+    advanced: {
+      control: 'boolean',
+    },
+    margin: {
+      control: 'number',
+      disable: '!advanced',
+    },
+    padding: {
+      control: 'number',
+      disable: '!advanced',
+    },
+    cornerRadius: {
+      control: 'number',
+      disable: '!advanced',
+    },
+    someText: { control: 'text' },
+    subText: { control: 'text', disable: '!someText' },
+    anotherText: { control: 'text', disable: '!someText' },
+    mutuallyExclusiveA: { control: 'text', disable: 'mutuallyExclusiveB' },
+    mutuallyExclusiveB: { control: 'text', disable: 'mutuallyExclusiveA' },
   },
   parameters: { chromatic: { disable: true } },
 };
