@@ -581,7 +581,6 @@ export default class StoryStore {
   };
 
   getStoryContext(id: StoryId) {
-    console.log(this._storyContexts, id, this._storyContexts[id]);
     return this._storyContexts[id];
   }
 
