@@ -458,7 +458,6 @@ export default class StoryStore {
 
     const unboundStoryFn: LegacyStoryFn = (context: StoryContext) => {
       const result = getDecorated()(context);
-      // delete this._storyContexts[id]; // <- FIXME when to delete this?
       return result;
     };
 
