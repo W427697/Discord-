@@ -266,6 +266,29 @@ describe('preview.story_store', () => {
       );
     });
 
+    it('disabled changes arg values that are passed to the story in the context', () => {
+      const storyFn = jest.fn();
+      const store = new StoryStore({ channel });
+      addStoryToStore(store, 'a', '1', storyFn, {
+        argTypes: {
+          truthy: {},
+          falsey: { disable: false },
+          one: { disable: true },
+          two: { disable: 'truthy' },
+          three: { disable: '!truthy' },
+          four: { disable: 'falsey' },
+          five: { disable: '!falsey' },
+        },
+        args: { truthy: 'hello', falsey: undefined, one: 1, two: 2, three: 3, four: 4, five: 5 },
+      });
+      store.getRawStory('a', '1').storyFn();
+
+      expect(storyFn).toHaveBeenCalledWith(
+        { truthy: 'hello', falsey: undefined, three: 3, four: 4 },
+        expect.objectContaining({ args: { truthy: 'hello', falsey: undefined, three: 3, four: 4 } })
+      );
+    });
+
     it('updateStoryArgs emits STORY_ARGS_UPDATED', () => {
       const onArgsChangedChannel = jest.fn();
       const testChannel = mockChannel();

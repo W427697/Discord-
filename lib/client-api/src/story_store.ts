@@ -107,6 +107,17 @@ const toExtracted = <T>(obj: T) =>
     return Object.assign(acc, { [key]: value });
   }, {});
 
+const shouldDisable = (disable: boolean | string | undefined, args: Args) => {
+  if (disable === true) return true;
+  if (typeof disable === 'string' && disable.length > 0) {
+    if (disable[0] === '!') {
+      return !args[disable.substr(1)];
+    }
+    return !!args[disable];
+  }
+  return !!disable;
+};
+
 export default class StoryStore {
   _error?: ErrorLike;
 
@@ -386,13 +397,25 @@ export default class StoryStore {
     const finalStoryFn = (context: StoryContext) => {
       const { args = {}, argTypes = {}, parameters } = context;
       const { passArgsFirst = true } = parameters;
+
+      const mappedArgs = Object.entries(args).reduce((acc, [key, val]) => {
+        const { mapping } = argTypes[key] || {};
+        acc[key] = mapping && val in mapping ? mapping[val] : val;
+        return acc;
+      }, {} as Args);
+
+      const enabledArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
+        const { disable } = argTypes[key] || {};
+        const disabled = shouldDisable(disable, mappedArgs);
+        if (!disabled) {
+          acc[key] = val;
+        }
+        return acc;
+      }, {} as Args);
+
       const mapped = {
         ...context,
-        args: Object.entries(args).reduce((acc, [key, val]) => {
-          const { mapping } = argTypes[key] || {};
-          acc[key] = mapping && val in mapping ? mapping[val] : val;
-          return acc;
-        }, {} as Args),
+        args: enabledArgs,
       };
       return passArgsFirst ? (original as ArgsStoryFn)(mapped.args, mapped) : original(mapped);
     };
