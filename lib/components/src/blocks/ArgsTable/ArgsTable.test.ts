@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { shouldDisable } from './ArgsTable';
 
 describe('disabling logic', () => {
