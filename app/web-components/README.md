@@ -55,8 +55,11 @@ By default the following folders are included
 
 - `src/*.js`
 - `packages/*/src/*.js`
+- `node_modules/lit/*.js`
 - `node_modules/lit-html/*.js`
 - `node_modules/lit-element/*.js`
+- `node_modules/@lit/*.js`
+- `node_modules/@lit-labs/*.js`
 - `node_modules/@open-wc/*.js`
 - `node_modules/@polymer/*.js`
 - `node_modules/@vaadin/*.js`

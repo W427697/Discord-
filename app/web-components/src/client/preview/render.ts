@@ -1,6 +1,8 @@
 import { document, Node } from 'global';
 import dedent from 'ts-dedent';
-import { render, TemplateResult } from 'lit-html';
+import { render } from 'lit';
+// eslint-disable-next-line import/extensions
+import { isTemplateResult } from 'lit/directive-helpers.js';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/client-api';
 import { RenderContext } from './types';
 
@@ -17,7 +19,7 @@ export default function renderMain({
   const element = storyFn();
 
   showMain();
-  if (element instanceof TemplateResult) {
+  if (isTemplateResult(element)) {
     // `render` stores the TemplateInstance in the Node and tries to update based on that.
     // Since we reuse `rootElement` for all stories, remove the stored instance first.
     // But forceRender means that it's the same story, so we want too keep the state in that case.
