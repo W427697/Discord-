@@ -34,7 +34,7 @@
     "eventemitter3": "^4.0.7",
     "format-json": "^1.0.3",
     "global": "^4.4.0",
-    "lit-element": "^2.4.0"
+    "lit": "^2.0.0-rc.1"
   },
   "storybook": {
     "chromatic": {
