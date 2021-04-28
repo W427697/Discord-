@@ -1,6 +1,6 @@
 /* global window */
 import React from 'react';
-import { render } from 'lit-html';
+import { render } from 'lit';
 import { extractArgTypes, extractComponentDescription } from './custom-elements';
 
 export const parameters = {

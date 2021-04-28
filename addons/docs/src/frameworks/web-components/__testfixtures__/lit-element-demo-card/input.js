@@ -1,5 +1,5 @@
 import { CustomEvent } from 'global';
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from 'lit';
 
 const demoWcCardStyle = css`
   :host {

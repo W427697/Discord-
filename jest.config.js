@@ -1,3 +1,5 @@
+const esModules = ['lit', 'lit-element', 'lit-html', '@lit'].join('|');
+
 module.exports = {
   cacheDirectory: '.cache/jest',
   clearMocks: true,
@@ -49,6 +51,7 @@ module.exports = {
     '^.+\\.[jt]sx?$': '<rootDir>/scripts/utils/jest-transform-js.js',
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
+  transformIgnorePatterns: [`<rootDir>/node_modules/(?!${esModules})`],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
     '/node_modules/',
