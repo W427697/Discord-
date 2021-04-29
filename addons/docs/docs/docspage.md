@@ -13,6 +13,7 @@ When you install [Storybook Docs](../README.md), `DocsPage` is the zero-config d
   - [Remixing DocsPage using doc blocks](#remixing-docspage-using-doc-blocks)
 - [Story file names](#story-file-names)
 - [Inline stories vs. Iframe stories](#inline-stories-vs-iframe-stories)
+- [Show/Hide code](#showhide-code)
 - [More resources](#more-resources)
 
 ## Motivation
@@ -34,7 +35,7 @@ However, `DocsPage` brings the following improvements:
 
 Storybook uses `component` to extract the component's description and props, and will rely on it further in future releases. We encourage you to add it to existing stories and use it in all new stories.
 
-Here's how to set the component in [Component Story Format (CSF)](https://storybook.js.org/docs/formats/component-story-format/):
+Here's how to set the component in [Component Story Format (CSF)](https://storybook.js.org/docs/react/api/csf):
 
 ```js
 import { Badge } from './Badge';
@@ -126,7 +127,7 @@ import {
   Subtitle,
   Description,
   Primary,
-  Props,
+  ArgsTable,
   Stories,
 } from '@storybook/addon-docs/blocks';
 import { DocgenButton } from '../../components/DocgenButton';
@@ -142,7 +143,7 @@ export default {
           <Subtitle />
           <Description />
           <Primary />
-          <Props />
+          <ArgsTable />
           <Stories />
         </>
       ),
@@ -182,6 +183,24 @@ addParameters({
 ```
 
 With that function, anyone using the docs addon for `@storybook/vue` can make their stories render inline, either globally with the `inlineStories` docs parameter, or on a per-story-basis using the `inline` prop on the `<Story>` doc block. If you come up with an elegant and flexible implementation for the `prepareForInline` function for your own framework, let us know! We'd love to make it the default configuration, to make inline stories more accessible for a larger variety of frameworks!
+
+## Show/Hide code
+
+By default, the code block under the Preview is collapsed and you have to click on "Show code" to reveal it.
+
+You can override this default behavior in `.storybook/preview.js` (or in any of your components/stories):
+
+```js
+export const parameters = {
+  docs: {
+    source: {
+      state: 'open',
+    },
+  },
+};
+```
+
+With that flag, now the docs addon will show all code blocks open by default.
 
 ## More resources
 

@@ -120,7 +120,7 @@ describe('preview.client_api', () => {
 
       const result = storyStore.fromId('kind--name').storyFn();
       // @ts-ignore
-      const { docs, fileName, options, argTypes, ...rest } = result;
+      const { docs, fileName, options, argTypes, __isArgsStory, ...rest } = result;
 
       expect(rest).toEqual({ a: 1 });
     });
@@ -215,6 +215,22 @@ describe('preview.client_api', () => {
       } = getContext();
 
       addDecorator((fn) => `bb-${fn()}`);
+
+      storiesOf('kind', module).add('name', () => 'Hello');
+      const f = storyStore.fromId('x');
+
+      expect(storyStore.fromId('kind--name').storyFn()).toBe('bb-Hello');
+    });
+
+    it('should not add global decorators twice', () => {
+      const {
+        clientApi: { addDecorator, storiesOf },
+        storyStore,
+      } = getContext();
+
+      const decorator = (fn) => `bb-${fn()}`;
+      addDecorator(decorator);
+      addDecorator(decorator); // this one is ignored
 
       storiesOf('kind', module).add('name', () => 'Hello');
       const f = storyStore.fromId('x');
@@ -475,7 +491,7 @@ describe('preview.client_api', () => {
       mockChannelEmit.mockClear();
 
       // simulate an HMR of kind1, which would cause it to go to the end
-      // if the original order is not maintainaed
+      // if the original order is not maintained
       module1.hot.reload();
       storyStore.startConfiguring();
       storiesOf('kind1', (module1 as unknown) as NodeModule).add('story1', jest.fn());
@@ -493,7 +509,7 @@ describe('preview.client_api', () => {
       expect(getStorybook().map((story) => story.kind)).toEqual(['kind1', 'kind2']);
     });
 
-    it('should call `module.hot.dispose` inside add and soriesOf by default', () => {
+    it('should call `module.hot.dispose` inside add and storiesOf by default', () => {
       const mod = (new MockModule() as unknown) as NodeModule;
       const mockHotDispose = jest.fn();
       mod.hot.dispose = mockHotDispose;
@@ -540,6 +556,7 @@ describe('preview.client_api', () => {
         a: 'global',
         b: 'kind',
         c: 'story',
+        __isArgsStory: false,
         fileName: expect.any(String),
         argTypes: {},
       });
@@ -593,6 +610,7 @@ describe('preview.client_api', () => {
             local: true,
           },
         },
+        __isArgsStory: false,
         fileName: expect.any(String),
         argTypes: {},
       });
@@ -639,6 +657,18 @@ describe('preview.client_api', () => {
 
           expect(entry.stories[0].render()).toBe('story2');
         }
+      });
+
+      it('should throw an error if story is in wrong format', () => {
+        const {
+          clientApi: { storiesOf },
+        } = getContext();
+
+        expect(() => {
+          storiesOf('kind', module).add('test', 'String that should be a function instead' as any);
+        }).toThrow(
+          'Cannot load story "test" in "kind" due to invalid format. Storybook expected a function but received string instead.'
+        );
       });
     });
   });

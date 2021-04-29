@@ -5,9 +5,29 @@ type LoggerMethod = 'log' | 'info' | 'debug';
 declare namespace Cypress {
   interface Chainable {
     /**
+     * Visit storybook's introduction page
+     */
+    visitStorybook(): Chainable<Element>;
+
+    /**
      * Custom command to select the DOM element of a story in the canvas tab.
      */
     getStoryElement(): Chainable<Element>;
+
+    /**
+     * Custom command to select the DOM element of a docs story in the canvas tab.
+     */
+    getDocsElement(): Chainable<Element>;
+
+    /**
+     * Custom command to select the DOM element of the preview iframe in the canvas tab.
+     */
+    getCanvasElement(): Chainable<Element>;
+
+    /**
+     * Custom command to select the DOM element of the body from the preview iframe in the canvas tab.
+     */
+    getCanvasBodyElement(): Chainable<Element>;
 
     /**
      * Navigate to a story.
