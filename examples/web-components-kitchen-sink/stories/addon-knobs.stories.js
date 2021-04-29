@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 import { action } from '@storybook/addon-actions';
-import { html } from 'lit-html';
+import { html } from 'lit';
 import '../demo-wc-card.js';
 
 import {

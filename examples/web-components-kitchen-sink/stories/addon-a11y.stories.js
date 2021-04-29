@@ -1,5 +1,5 @@
 import { document, setTimeout } from 'global';
-import { html } from 'lit-html';
+import { html } from 'lit';
 
 const text = 'Testing the a11y addon';
 

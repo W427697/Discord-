@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 import { CustomEvent } from 'global';
-import { LitElement, html } from 'lit-element';
+import { LitElement, html } from 'lit';
 import { demoWcCardStyle } from './demoWcCardStyle.css.js';
 
 /**
