@@ -63,7 +63,7 @@
     "@storybook/vue": "6.3.0-alpha.16",
     "@storybook/web-components": "6.3.0-alpha.16",
     "babel-loader": "^8.0.0",
-    "lit-html": "^1.0.0",
+    "lit": "^2.0.0-rc.1",
     "react": "^16.8.0 || ^17.0.0",
     "react-dom": "^16.8.0 || ^17.0.0",
     "webpack": "*"
@@ -75,7 +75,7 @@
     "@storybook/web-components": {
       "optional": true
     },
-    "lit-html": {
+    "lit": {
       "optional": true
     },
     "react": {
