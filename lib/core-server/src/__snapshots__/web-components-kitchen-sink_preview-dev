@@ -193,8 +193,11 @@ Object {
         "test": Array [
           "/src(.*)\\\\.js$/",
           "/packages(\\\\/|\\\\\\\\)*(\\\\/|\\\\\\\\)src(\\\\/|\\\\\\\\)(.*)\\\\.js$/",
+          "NODE_MODULES(\\\\/|\\\\\\\\)lit(.*)\\\\.js$/",
           "NODE_MODULES(\\\\/|\\\\\\\\)lit-html(.*)\\\\.js$/",
           "NODE_MODULES(\\\\/|\\\\\\\\)lit-element(.*)\\\\.js$/",
+          "NODE_MODULES(\\\\/|\\\\\\\\)@lit(.*)\\\\.js$/",
+          "NODE_MODULES(\\\\/|\\\\\\\\)@lit-labs(.*)\\\\.js$/",
           "NODE_MODULES(\\\\/|\\\\\\\\)@open-wc(.*)\\\\.js$/",
           "NODE_MODULES(\\\\/|\\\\\\\\)@polymer(.*)\\\\.js$/",
           "NODE_MODULES(\\\\/|\\\\\\\\)@vaadin(.*)\\\\.js$/",

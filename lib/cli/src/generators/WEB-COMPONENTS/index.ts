@@ -3,7 +3,7 @@ import { copyTemplate } from '../../helpers';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   baseGenerator(packageManager, npmOptions, options, 'web-components', {
-    extraPackages: ['lit-html'],
+    extraPackages: ['lit'],
   });
   copyTemplate(__dirname, options.storyFormat);
 };
