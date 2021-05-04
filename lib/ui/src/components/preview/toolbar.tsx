@@ -182,8 +182,7 @@ export function filterTools(
     path: State['path'];
   }
 ) {
-  const tabsTool = createTabsTool(tabs);
-  const toolsLeft = [tabsTool, ...tools];
+  const toolsLeft = [createTabsTool(tabs), ...tools];
   const toolsRight = [...toolsExtra];
 
   const filter = (item: Partial<Addon>) =>
