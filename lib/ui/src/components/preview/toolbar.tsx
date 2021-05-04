@@ -74,30 +74,32 @@ const tabsMapper = ({ state }: Combo) => ({
 
 export const createTabsTool = (tabs: Addon[]): Addon => ({
   title: 'title',
-  render: () => (
-    <Consumer filter={tabsMapper}>
-      {(rp) => (
-        <Fragment>
-          <TabBar key="tabs">
-            {tabs
-              .filter((p) => !p.hidden)
-              .map((t, index) => {
+  render: () => {
+    const activeTabs = tabs.filter((p) => !p.hidden);
+    const hasSingleTab = activeTabs.length === 1;
+    return (
+      <Consumer filter={tabsMapper}>
+        {(rp) => (
+          <Fragment>
+            <TabBar key="tabs">
+              {activeTabs.map((t, index) => {
                 const to = t.route(rp);
                 const isActive = rp.path === to;
                 return (
                   <S.UnstyledLink key={t.id || `l${index}`} to={to}>
-                    <TabButton disabled={t.disabled} active={isActive}>
+                    <TabButton disabled={t.disabled || hasSingleTab} active={isActive}>
                       {t.title}
                     </TabButton>
                   </S.UnstyledLink>
                 );
               })}
-          </TabBar>
-          <Separator />
-        </Fragment>
-      )}
-    </Consumer>
-  ),
+            </TabBar>
+            <Separator />
+          </Fragment>
+        )}
+      </Consumer>
+    );
+  },
 });
 
 export const defaultTools: Addon[] = [zoomTool];
@@ -140,7 +142,6 @@ export interface ToolData {
 export const ToolRes: FunctionComponent<ToolData & RenderData> = React.memo<ToolData & RenderData>(
   ({ api, story, tabs, isShown, location, path, viewMode }) => {
     const { left, right } = useTools(api.getElements, tabs, viewMode, story, location, path);
-
     return left || right ? (
       <Toolbar key="toolbar" shown={isShown} border>
         <Tools key="left" list={left} />
@@ -182,7 +183,7 @@ export function filterTools(
   }
 ) {
   const tabsTool = createTabsTool(tabs);
-  const toolsLeft = [tabs.filter((p) => !p.hidden).length > 1 ? tabsTool : null, ...tools];
+  const toolsLeft = [tabsTool, ...tools];
   const toolsRight = [...toolsExtra];
 
   const filter = (item: Partial<Addon>) =>

@@ -56,6 +56,12 @@ export const TabButton = styled(ButtonOrLink, { shouldForwardProp: isPropValid }
       outline: '0 none',
       borderBottomColor: theme.color.secondary,
     },
+
+    '&:disabled': {
+      cursor: 'default',
+      borderBottomColor: theme.barTextColor,
+      color: theme.barTextColor,
+    },
   }),
   ({ active, textColor, theme }) =>
     active

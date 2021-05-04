@@ -155,7 +155,6 @@ export interface TabsProps {
 export const Tabs: FunctionComponent<TabsProps> = memo(
   ({ children, selected, actions, absolute, bordered, tools, backgroundColor, id: htmlId }) => {
     const list = childrenToList(children, selected);
-
     return list.length ? (
       <Wrapper absolute={absolute} bordered={bordered} id={htmlId}>
         <FlexBar border backgroundColor={backgroundColor}>
