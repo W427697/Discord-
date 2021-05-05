@@ -124,7 +124,7 @@ export interface CLIOptions {
   ignorePreview?: boolean;
   previewUrl?: string;
   host?: string;
-  staticDir?: string[];
+  staticDirs?: string[];
   configDir?: string;
   https?: boolean;
   sslCa?: string[];

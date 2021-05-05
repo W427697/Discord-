@@ -30,7 +30,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     throw new Error("Won't remove current directory. Check your outputDir!");
   }
 
-  if (options.staticDir?.includes('/')) {
+  if (options.staticDirs?.includes('/')) {
     throw new Error("Won't copy root directory. Check your staticDirs!");
   }
 
@@ -49,7 +49,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   await fs.emptyDir(options.outputDir);
 
   await cpy(defaultFavIcon, options.outputDir);
-  await copyAllStaticFiles(options.staticDir, options.outputDir);
+  await copyAllStaticFiles(options.staticDirs, options.outputDir);
 
   const previewBuilder: Builder<unknown, unknown> = await getPreviewBuilder(options.configDir);
 

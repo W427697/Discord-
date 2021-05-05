@@ -9,12 +9,12 @@ import dedent from 'ts-dedent';
 
 const defaultFavIcon = require.resolve('../public/favicon.ico');
 
-export async function useStatics(router: any, options: { staticDir?: string[] }) {
+export async function useStatics(router: any, options: { staticDirs?: string[] }) {
   let hasCustomFavicon = false;
 
-  if (options.staticDir && options.staticDir.length > 0) {
+  if (options.staticDirs && options.staticDirs.length > 0) {
     await Promise.all(
-      options.staticDir.map(async (dir) => {
+      options.staticDirs.map(async (dir) => {
         try {
           const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(dir);
           logger.info(
