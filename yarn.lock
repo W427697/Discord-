@@ -5501,7 +5501,7 @@ __metadata:
     axe-core: ^4.2.0
     core-js: ^3.8.2
     global: ^4.4.0
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     react-sizeme: ^3.0.1
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
@@ -5532,7 +5532,7 @@ __metadata:
     core-js: ^3.8.2
     fast-deep-equal: ^3.1.3
     global: ^4.4.0
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     polished: ^4.0.5
     prop-types: ^15.7.2
     react-inspector: ^5.1.0
@@ -5663,7 +5663,7 @@ __metadata:
     lit-element: ^2.4.0
     lit-html: ^1.3.0
     loader-utils: ^2.0.0
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     prettier: ~2.2.1
     prop-types: ^15.7.2
     react-element-to-jsx-string: ^14.3.2
@@ -5861,7 +5861,7 @@ __metadata:
     escape-html: ^1.0.3
     fast-deep-equal: ^3.1.3
     global: ^4.4.0
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     prop-types: ^15.7.2
     qs: ^6.10.0
     react-colorful: ^5.1.2
@@ -6218,7 +6218,7 @@ __metadata:
     fast-deep-equal: ^3.1.3
     flush-promises: ^1.0.2
     global: ^4.4.0
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     memoizerific: ^1.11.3
     preval.macro: ^5.0.0
     qs: ^6.10.0
@@ -6495,7 +6495,7 @@ __metadata:
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
     global: ^4.4.0
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     memoizerific: ^1.11.3
     qs: ^6.10.0
     regenerator-runtime: ^0.13.7
@@ -6531,7 +6531,7 @@ __metadata:
     jest: ^26.6.3
     jest-specific-snapshot: ^4.0.0
     jscodeshift: ^0.7.0
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     prettier: ~2.2.1
     recast: ^0.19.0
     regenerator-runtime: ^0.13.7
@@ -6555,7 +6555,7 @@ __metadata:
     fast-deep-equal: ^3.1.3
     global: ^4.4.0
     jest: ^26.6.3
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     markdown-to-jsx: ^7.1.0
     memoizerific: ^1.11.3
     overlayscrollbars: ^1.13.1
@@ -6588,7 +6588,7 @@ __metadata:
     ansi-to-html: ^0.6.11
     core-js: ^3.8.2
     global: ^4.4.0
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     qs: ^6.10.0
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
@@ -7060,7 +7060,7 @@ __metadata:
     babel-plugin-react-docgen: ^4.2.1
     core-js: ^3.8.2
     global: ^4.4.0
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     prop-types: ^15.7.2
     react-dev-utils: ^11.0.3
     react-docgen-typescript-plugin: ^0.6.2
@@ -7227,7 +7227,7 @@ __metadata:
     js-yaml: ^3.14.1
     lerna: ^3.22.1
     lint-staged: ^10.5.4
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     mocha-list-tests: ^1.0.5
     node-cleanup: ^2.1.2
     node-fetch: ^2.6.1
@@ -7287,7 +7287,7 @@ __metadata:
     core-js: ^3.8.2
     fast-deep-equal: ^3.1.3
     global: ^4.4.0
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     memoizerific: ^1.11.3
     qs: ^6.10.0
     ts-dedent: ^2.0.0
@@ -7347,7 +7347,7 @@ __metadata:
     estraverse: ^5.2.0
     global: ^4.4.0
     loader-utils: ^2.0.0
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     prettier: ~2.2.1
     regenerator-runtime: ^0.13.7
   peerDependencies:
@@ -7435,7 +7435,7 @@ __metadata:
     flush-promises: ^1.0.2
     fuse.js: ^3.6.1
     global: ^4.4.0
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     markdown-to-jsx: ^6.11.4
     memoizerific: ^1.11.3
     polished: ^4.0.5
@@ -31564,7 +31564,7 @@ fsevents@^1.2.7:
     global: ^4.4.0
     graphql: ^15.4.0
     jest-emotion: ^10.0.32
-    lodash: ^4.17.20
+    lodash: ^4.17.21
     paths.macro: ^3.0.1
     prop-types: ^15.7.2
     react: 16.14.0
