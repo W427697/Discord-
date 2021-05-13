@@ -6267,26 +6267,26 @@ __metadata:
     case-sensitive-paths-webpack-plugin: ^2.3.0
     core-js: ^3.8.2
     css-loader: ^5.0.1
-    dotenv-webpack: ^6.0.0
+    dotenv-webpack: ^7.0.2
     file-loader: ^6.2.0
-    fork-ts-checker-webpack-plugin: ^6.0.4
+    fork-ts-checker-webpack-plugin: ^6.2.7
     fs-extra: ^9.0.1
     glob: ^7.1.6
     glob-promise: ^3.4.0
-    html-webpack-plugin: ^5.0.0
-    pnp-webpack-plugin: 1.6.4
+    html-webpack-plugin: ^5.3.1
+    pnp-webpack-plugin: ^1.6.4
     raw-loader: ^4.0.2
     react-dev-utils: ^11.0.3
     stable: ^0.1.8
     style-loader: ^2.0.0
-    terser-webpack-plugin: ^5.0.3
+    terser-webpack-plugin: ^5.1.2
     ts-dedent: ^2.0.0
     url-loader: ^4.1.1
     util-deprecate: ^1.0.2
-    webpack: ^5.36.2
-    webpack-dev-middleware: ^4.1.0
+    webpack: ^5.37.0
+    webpack-dev-middleware: ^4.2.0
     webpack-hot-middleware: ^2.25.0
-    webpack-virtual-modules: ^0.4.1
+    webpack-virtual-modules: ^0.4.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -17821,14 +17821,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv-webpack@npm:^6.0.0":
-  version: 6.0.2
-  resolution: "dotenv-webpack@npm:6.0.2"
+"dotenv-webpack@npm:^7.0.2":
+  version: 7.0.2
+  resolution: "dotenv-webpack@npm:7.0.2"
   dependencies:
     dotenv-defaults: ^2.0.1
   peerDependencies:
-    webpack: ^1 || ^2 || ^3 || ^4 || ^5
-  checksum: 4458763c622b7515d58497906ddcea34b09503f60d7ed2eeb24e1946793fe5df37bd96e6a722685004b18b749a773021491ec705aff256463d4372392632ba72
+    webpack: ^4 || ^5
+  checksum: fca3a495ad2ce057d8b956daaf8fd75f5f16159afd43c048ca7d0dd763f9dbcb278e2e1007bb55cd044e1d4511ac7f815715e5ba74767307ed072c6b03b8f4e1
   languageName: node
   linkType: hard
 
@@ -21363,6 +21363,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fork-ts-checker-webpack-plugin@npm:^6.2.7":
+  version: 6.2.7
+  resolution: "fork-ts-checker-webpack-plugin@npm:6.2.7"
+  dependencies:
+    "@babel/code-frame": ^7.8.3
+    "@types/json-schema": ^7.0.5
+    chalk: ^4.1.0
+    chokidar: ^3.4.2
+    cosmiconfig: ^6.0.0
+    deepmerge: ^4.2.2
+    fs-extra: ^9.0.0
+    glob: ^7.1.6
+    memfs: ^3.1.2
+    minimatch: ^3.0.4
+    schema-utils: 2.7.0
+    semver: ^7.3.2
+    tapable: ^1.0.0
+  checksum: 6ccb77ffe8ced334152e166bb1c7270df68ef8d6949a6c88a6a796d732013d98ba6e86935043d4daf6ba54ac17f182a001c5d504486070f159aa95877ffe55a3
+  languageName: node
+  linkType: hard
+
 "form-data@npm:^2.5.0":
   version: 2.5.1
   resolution: "form-data@npm:2.5.1"
@@ -21616,6 +21637,13 @@ __metadata:
   version: 1.0.1
   resolution: "fs-monkey@npm:1.0.1"
   checksum: 2fab7af2a3946cef8f45441b763c644b50d4137a50ead736a93bd433cd84238c627b0a53098f50341266e130e2c509d61d9ed13ec0a27328dd0d4f1a8bda2048
+  languageName: node
+  linkType: hard
+
+"fs-monkey@npm:1.0.3":
+  version: 1.0.3
+  resolution: "fs-monkey@npm:1.0.3"
+  checksum: 197fd276d224d54a27c6267c69887ec29ccd4bedd83d72b5050abf3b6c6ef83d7b86a85a87f615c24a4e6f9a4888fd151c9f16a37ffb23e37c4c2d14c1da6275
   languageName: node
   linkType: hard
 
@@ -23315,19 +23343,18 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"html-webpack-plugin@npm:^5.0.0":
-  version: 5.2.0
-  resolution: "html-webpack-plugin@npm:5.2.0"
+"html-webpack-plugin@npm:^5.3.1":
+  version: 5.3.1
+  resolution: "html-webpack-plugin@npm:5.3.1"
   dependencies:
     "@types/html-minifier-terser": ^5.0.0
     html-minifier-terser: ^5.0.1
-    loader-utils: ^2.0.0
     lodash: ^4.17.20
     pretty-error: ^2.1.1
     tapable: ^2.0.0
   peerDependencies:
     webpack: ^5.20.0
-  checksum: bf64f3cfd81bd32c7ff270e2a7d1aa22b5b7360285660b2b97da8bbbc145f8932289581a81ecc9218c6d67330b51c1442e08eb30d5b3a8f6257b5bafefca17aa
+  checksum: 79b2c07057e102d37db99211b7b7c88bdea2dcb890a9fa757a482e8e50fc6e021f507dc1e65e866cb7f665695981808165dcdd05a40cd015bf34e478882fd539
   languageName: node
   linkType: hard
 
@@ -29208,13 +29235,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mem@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "mem@npm:8.0.0"
+"mem@npm:^8.1.1":
+  version: 8.1.1
+  resolution: "mem@npm:8.1.1"
   dependencies:
     map-age-cleaner: ^0.1.3
     mimic-fn: ^3.1.0
-  checksum: 81b2a9b18f626dc8c117b4e78fdd6637a80f79440f8420bc6eff1d1b82a5700559341c78f922c1d9cc2567dab0f3e2df068aa5a6684ae776e596660c4fbda769
+  checksum: 5829c404d024c1accaf76ebacbc7eae9b59e5ce5722d184aa24e8387a8097a499f6aa7e181021003c51eb87b2dcdc9a2270050c58753cce761de206643cba91c
   languageName: node
   linkType: hard
 
@@ -29227,12 +29254,21 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"memfs@npm:^3.1.2, memfs@npm:^3.2.0":
+"memfs@npm:^3.1.2":
   version: 3.2.0
   resolution: "memfs@npm:3.2.0"
   dependencies:
     fs-monkey: 1.0.1
   checksum: 7de3364f427c8e0094bba071b5db7567715f665c20ab3a2bbe6b9bd0dc04b6005e7d108498ae090acf970190d6b19c2febd9d549130e574ecb8dd3b443bf2cbf
+  languageName: node
+  linkType: hard
+
+"memfs@npm:^3.2.2":
+  version: 3.2.2
+  resolution: "memfs@npm:3.2.2"
+  dependencies:
+    fs-monkey: 1.0.3
+  checksum: 3dcdeb5f823c15725f8bbd4cfde4790461611cadafd0fe88357e2fa1666ee67317b476be9e28dba2872c24d7dca0fca12bc20cf4ecfef875391137b54b595d99
   languageName: node
   linkType: hard
 
@@ -29499,12 +29535,28 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mime-types@npm:^2.1.12, mime-types@npm:^2.1.18, mime-types@npm:^2.1.25, mime-types@npm:^2.1.26, mime-types@npm:^2.1.27, mime-types@npm:^2.1.28, mime-types@npm:~2.1.17, mime-types@npm:~2.1.19, mime-types@npm:~2.1.24":
+"mime-db@npm:1.47.0":
+  version: 1.47.0
+  resolution: "mime-db@npm:1.47.0"
+  checksum: 059c380d6587a0c2d1c854a466871cfeb0bb5dcd941611e3dd311fe4596b155d6a1a55a63d24d41dbfe60e274cde80e0c88747c57a7e8daf47cafb960d8def25
+  languageName: node
+  linkType: hard
+
+"mime-types@npm:^2.1.12, mime-types@npm:^2.1.18, mime-types@npm:^2.1.25, mime-types@npm:^2.1.26, mime-types@npm:^2.1.27, mime-types@npm:~2.1.17, mime-types@npm:~2.1.19, mime-types@npm:~2.1.24":
   version: 2.1.29
   resolution: "mime-types@npm:2.1.29"
   dependencies:
     mime-db: 1.46.0
   checksum: 73f9d18d79baef7103c4b342881c0d79769ef30125f4f640873172b5025dd980467b28dcc42322f27483f3c63b38715462c70b19a588396710030193418065d4
+  languageName: node
+  linkType: hard
+
+"mime-types@npm:^2.1.30":
+  version: 2.1.30
+  resolution: "mime-types@npm:2.1.30"
+  dependencies:
+    mime-db: 1.47.0
+  checksum: 92e5cf94346316b8dd15ee160c2451ce2c910bd93e737a51c6259a29c5346b117aaa6891ac4e4bacb34300cd5d76ea5b17e94e41e42efe1a76e07d197b5ada0c
   languageName: node
   linkType: hard
 
@@ -40050,6 +40102,22 @@ resolve@1.19.0:
   languageName: node
   linkType: hard
 
+"terser-webpack-plugin@npm:^5.1.2":
+  version: 5.1.2
+  resolution: "terser-webpack-plugin@npm:5.1.2"
+  dependencies:
+    jest-worker: ^26.6.2
+    p-limit: ^3.1.0
+    schema-utils: ^3.0.0
+    serialize-javascript: ^5.0.1
+    source-map: ^0.6.1
+    terser: ^5.7.0
+  peerDependencies:
+    webpack: ^5.1.0
+  checksum: 502bd684430390b263561783f904861878239a7e2f071b0807f9d9d44ee0cb5a278e8654606a6ba3fbedc3a378c3f71aa361b35508dea355ee28310ef68ffa3c
+  languageName: node
+  linkType: hard
+
 "terser@npm:5.5.1":
   version: 5.5.1
   resolution: "terser@npm:5.5.1"
@@ -40099,6 +40167,19 @@ resolve@1.19.0:
   bin:
     terser: bin/terser
   checksum: 82e6100693e42bd2442f016e221e55049fe55669843436167482e21f14df2fbd55ef32c133594d1f393ca2452a56913c8c370cd4416c3879824adf843bf9d3cd
+  languageName: node
+  linkType: hard
+
+"terser@npm:^5.7.0":
+  version: 5.7.0
+  resolution: "terser@npm:5.7.0"
+  dependencies:
+    commander: ^2.20.0
+    source-map: ~0.7.2
+    source-map-support: ~0.5.19
+  bin:
+    terser: bin/terser
+  checksum: b02067e05a0c80fdb0cfdbcef868947bc6c1c38a72856729bd6a29d7c29b22bad6b811d2969a62038d6fa19a672938995a9e522eb9bbe122ffb58e09455678a2
   languageName: node
   linkType: hard
 
@@ -42984,19 +43065,19 @@ typescript@4.1.3:
   languageName: node
   linkType: hard
 
-"webpack-dev-middleware@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "webpack-dev-middleware@npm:4.1.0"
+"webpack-dev-middleware@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "webpack-dev-middleware@npm:4.2.0"
   dependencies:
-    colorette: ^1.2.1
-    mem: ^8.0.0
-    memfs: ^3.2.0
-    mime-types: ^2.1.28
+    colorette: ^1.2.2
+    mem: ^8.1.1
+    memfs: ^3.2.2
+    mime-types: ^2.1.30
     range-parser: ^1.2.1
     schema-utils: ^3.0.0
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
-  checksum: 678918da5456b77e29eb25e72e164c769c542bca18fe6048689aaae9cd4e95a4d512295c3c63ac733fb1d72ae44325498d9077836a5837205cd3c3fe41653211
+  checksum: 728c4815b3ed2455ab985b20058b804db1de40f8387a597e50a62ba4785b2b08b4a7aab2d5577a86bd8fe933aa94ad7fdf272a00e40e27781094313bec4687d7
   languageName: node
   linkType: hard
 
@@ -43252,7 +43333,7 @@ typescript@4.1.3:
   languageName: node
   linkType: hard
 
-"webpack-virtual-modules@npm:^0.4.1":
+"webpack-virtual-modules@npm:^0.4.2":
   version: 0.4.2
   resolution: "webpack-virtual-modules@npm:0.4.2"
   checksum: 7b434545db88676f4ca7da5e771283817d7cba0219097f809c3b3a6c532fbd68ed6133fbed5d77642d7d5d1e0eba53fbaf6a75b5a515d9580e8eac7bb442b1bc
@@ -43404,7 +43485,7 @@ typescript@4.1.3:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.36.2":
+"webpack@npm:^5.37.0":
   version: 5.37.0
   resolution: "webpack@npm:5.37.0"
   dependencies:
