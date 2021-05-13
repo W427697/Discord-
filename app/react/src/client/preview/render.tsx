@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 
 import { StoryContext, RenderContext } from './types';
 
-const rootEl = document ? document.getElementById('root') : null;
+const rootElement = document ? document.getElementById('root') : null;
 
 const render = (node: ReactElement, el: Element) =>
   new Promise((resolve) => {
@@ -51,7 +51,7 @@ export default async function renderMain({
   showMain,
   showException,
   forceRender,
-  targetDOMNode = rootEl,
+  targetDOMNode = rootElement,
 }: RenderContext) {
   const Story = unboundStoryFn as FunctionComponent<StoryContext>;
 

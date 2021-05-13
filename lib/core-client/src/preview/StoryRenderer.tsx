@@ -44,7 +44,7 @@ const ansiConverter = new AnsiToHtml({
  * on the body etc.
  */
 
-const cache = {};
+const cache: Record<string, boolean> = {};
 export class StoryRenderer {
   render: RenderStoryFunction;
 
@@ -80,8 +80,9 @@ export class StoryRenderer {
       this.channel.on(Events.GLOBALS_UPDATED, () => this.forceReRender());
       this.channel.on(Events.FORCE_RE_RENDER, () => this.forceReRender());
       this.channel.on(Events.DOCS_TARGETTED_RENDER, (data) => {
-        console.log('DOCS_TARGETTED_RENDER received');
-        this.renderDocsStoryOutOfContext(data);
+        setTimeout(() => {
+          this.renderDocsStoryOutOfContext(data);
+        }, 1);
       });
     }
   }
@@ -90,7 +91,8 @@ export class StoryRenderer {
     this.renderCurrentStory(true);
   }
 
-  async renderDocsStoryOutOfContext({ id, identifier, name }) {
+  async renderDocsStoryOutOfContext({ id, identifier, name }: Record<string, string>) {
+    // TODO, the channel seems to invoke this twice
     if (cache[id]) {
       return;
     }
@@ -111,14 +113,7 @@ export class StoryRenderer {
       context: RenderContextWithoutStoryContext;
     } = this.getStoryMetadataAndContext(this.storyStore, id, 'docs', false);
 
-    const { getDecorated, viewMode } = metadata;
-
-    console.log({ metadata });
-    if (viewMode !== 'docs') {
-      cache[id] = false;
-
-      return;
-    }
+    const { getDecorated } = metadata;
 
     if (getDecorated) {
       try {
@@ -139,14 +134,13 @@ export class StoryRenderer {
         console.timeEnd(`render_${id}`);
 
         this.channel.emit(Events.STORY_RENDERED, id);
-        cache[id] = false;
       } catch (err) {
-        cache[id] = false;
         this.renderException(err);
       }
     } else {
       console.error('could not find story to render', { id, name });
     }
+    cache[id] = false;
   }
 
   async renderCurrentStory(forceRender: boolean) {
@@ -184,7 +178,7 @@ export class StoryRenderer {
     const metadata: RenderMetadata = {
       id,
       kind,
-      viewMode: docsOnly ? 'docs' : urlViewMode,
+      viewMode: (docsOnly ? 'docs' : urlViewMode) as RenderMetadata['viewMode'],
       getDecorated,
     };
 
