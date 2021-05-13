@@ -51,6 +51,7 @@ export default async function renderMain({
   showMain,
   showException,
   forceRender,
+  targetDOMNode = rootEl,
 }: RenderContext) {
   const Story = unboundStoryFn as FunctionComponent<StoryContext>;
 
@@ -68,9 +69,17 @@ export default async function renderMain({
   // This could leads to issues like below:
   // https://github.com/storybookjs/react-storybook/issues/81
   // But forceRender means that it's the same story, so we want too keep the state in that case.
-  if (!forceRender) {
-    ReactDOM.unmountComponentAtNode(rootEl);
+  if (!targetDOMNode) {
+    debugger;
   }
 
-  await render(element, rootEl);
+  if (!forceRender) {
+    try {
+      ReactDOM.unmountComponentAtNode(targetDOMNode);
+    } catch (e) {
+      debugger;
+    }
+  }
+
+  await render(element, targetDOMNode);
 }
