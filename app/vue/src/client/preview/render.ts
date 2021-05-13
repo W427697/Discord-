@@ -5,6 +5,8 @@ import { RenderContext } from './types';
 export const COMPONENT = 'STORYBOOK_COMPONENT';
 export const VALUES = 'STORYBOOK_VALUES';
 
+const rootElement = document.getElementById('root');
+
 const root = new Vue({
   data() {
     return {
@@ -27,6 +29,7 @@ export default function render({
   showError,
   showException,
   forceRender,
+  targetDOMNode = rootElement,
 }: RenderContext) {
   Vue.config.errorHandler = showException;
 
@@ -57,6 +60,6 @@ export default function render({
   root[VALUES] = { ...element.options[VALUES], ...args };
 
   if (!root.$el) {
-    root.$mount('#root');
+    root.$mount(targetDOMNode);
   }
 }

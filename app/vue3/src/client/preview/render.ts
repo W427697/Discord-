@@ -3,6 +3,7 @@ import { createApp, h, shallowRef, ComponentPublicInstance } from 'vue';
 import { RenderContext, StoryFnVueReturnType } from './types';
 
 const activeStoryComponent = shallowRef<StoryFnVueReturnType | null>(null);
+const rootElement = document.getElementById('root');
 
 let root: ComponentPublicInstance | null = null;
 
@@ -30,6 +31,7 @@ export default function render({
   showError,
   showException,
   forceRender,
+  targetDOMNode = rootElement,
 }: RenderContext) {
   storybookApp.config.errorHandler = showException;
 
@@ -51,6 +53,6 @@ export default function render({
   activeStoryComponent.value = element;
 
   if (!root) {
-    root = storybookApp.mount('#root');
+    root = storybookApp.mount(targetDOMNode);
   }
 }

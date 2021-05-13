@@ -5,6 +5,7 @@ import PreviewRender from './PreviewRender.svelte';
 type Component = any;
 
 let previousComponent: Component = null;
+const rootElement = document.getElementById('root');
 
 function cleanUpPreviousStory() {
   if (!previousComponent) {
@@ -14,15 +15,20 @@ function cleanUpPreviousStory() {
   previousComponent = null;
 }
 
-export default function render({ storyFn, kind, name, showMain, showError }: RenderContext) {
+export default function render({
+  storyFn,
+  kind,
+  name,
+  showMain,
+  showError,
+  targetDOMNode = rootElement,
+}: RenderContext) {
   cleanUpPreviousStory();
 
-  const target = document.getElementById('root');
-
-  target.innerHTML = '';
+  targetDOMNode.innerHTML = '';
 
   previousComponent = new PreviewRender({
-    target,
+    targetDOMNode,
     props: {
       storyFn,
       name,

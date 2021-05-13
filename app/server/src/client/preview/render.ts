@@ -56,6 +56,7 @@ export async function renderMain({
   storyFn,
   args,
   argTypes,
+  targetDOMNode = rootElement,
 }: RenderContext) {
   // Some addons wrap the storyFn so we need to call it even though Server doesn't need the answer
   storyFn();
@@ -71,16 +72,16 @@ export async function renderMain({
 
   showMain();
   if (typeof element === 'string') {
-    rootElement.innerHTML = element;
-    simulatePageLoad(rootElement);
+    targetDOMNode.innerHTML = element;
+    simulatePageLoad(targetDOMNode);
   } else if (element instanceof Node) {
     // Don't re-mount the element if it didn't change and neither did the story
-    if (rootElement.firstChild === element && forceRender === true) {
+    if (targetDOMNode.firstChild === element && forceRender === true) {
       return;
     }
 
-    rootElement.innerHTML = '';
-    rootElement.appendChild(element);
+    targetDOMNode.innerHTML = '';
+    targetDOMNode.appendChild(element);
     simulateDOMContentLoaded();
   } else {
     showError({

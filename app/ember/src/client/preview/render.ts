@@ -4,12 +4,12 @@ import { RenderContext, ElementArgs, OptionsArgs } from './types';
 
 declare let Ember: any;
 
-const rootEl = document.getElementById('root');
+const rootElement = document.getElementById('root');
 
 const config = globalWindow.require(`${globalWindow.STORYBOOK_NAME}/config/environment`);
 const app = globalWindow.require(`${globalWindow.STORYBOOK_NAME}/app`).default.create({
   autoboot: false,
-  rootElement: rootEl,
+  rootElement,
   ...config.APP,
 });
 
@@ -63,7 +63,7 @@ export default function renderMain({
   name,
   showMain,
   showError,
-  targetDOMNode = rootEl,
+  targetDOMNode = rootElement,
 }: RenderContext) {
   const element = storyFn();
 
@@ -81,5 +81,5 @@ export default function renderMain({
   }
 
   showMain();
-  render(element, targetDOMNode);
+  render(element, { el: targetDOMNode });
 }

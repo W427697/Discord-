@@ -6,13 +6,20 @@ import { RenderContext } from './types';
 
 const rootElement = document.getElementById('root');
 
-export default function renderMain({ storyFn, kind, name, showMain, showError }: RenderContext) {
+export default function renderMain({
+  storyFn,
+  kind,
+  name,
+  showMain,
+  showError,
+  targetDOMNode = rootElement,
+}: RenderContext) {
   const element = storyFn();
 
   showMain();
 
-  if (isTemplateResult(element)) {
-    render(element, rootElement);
+  if (isTemplateResult(element) && targetDOMNode) {
+    render(element, targetDOMNode);
   } else {
     showError({
       title: `Expecting an lit template result from the story: "${name}" of "${kind}".`,

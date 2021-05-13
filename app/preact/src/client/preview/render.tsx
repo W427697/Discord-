@@ -7,12 +7,12 @@ const rootElement = document ? document.getElementById('root') : null;
 
 let renderedStory: Element;
 
-function preactRender(story: StoryFnPreactReturnType): void {
+function preactRender(story: StoryFnPreactReturnType, targetDOMNode: HTMLElement): void {
   if (preact.Fragment) {
     // Preact 10 only:
-    preact.render(story, rootElement);
+    preact.render(story, targetDOMNode);
   } else {
-    renderedStory = (preact.render(story, rootElement, renderedStory) as unknown) as Element;
+    renderedStory = (preact.render(story, targetDOMNode, renderedStory) as unknown) as Element;
   }
 }
 
@@ -43,13 +43,14 @@ export default function renderMain({
   showMain,
   showError,
   forceRender,
+  targetDOMNode = rootElement,
 }: RenderContext) {
   // But forceRender means that it's the same story, so we want to keep the state in that case.
   if (!forceRender) {
-    preactRender(null);
+    preactRender(null, targetDOMNode);
   }
 
   showMain();
 
-  preactRender(preact.h(StoryHarness, { name, kind, showError, storyFn }));
+  preactRender(preact.h(StoryHarness, { name, kind, showError, storyFn }), targetDOMNode);
 }
