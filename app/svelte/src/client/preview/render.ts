@@ -11,7 +11,11 @@ function cleanUpPreviousStory() {
   if (!previousComponent) {
     return;
   }
-  previousComponent.$destroy();
+  try {
+    previousComponent.$destroy();
+  } catch (e) {
+    //
+  }
   previousComponent = null;
 }
 
@@ -19,23 +23,33 @@ export default function render({
   storyFn,
   kind,
   name,
-  showMain,
   showError,
   targetDOMNode = rootElement,
 }: RenderContext) {
   cleanUpPreviousStory();
 
-  targetDOMNode.innerHTML = '';
+  // targetDOMNode.innerHTML = '';
 
-  previousComponent = new PreviewRender({
-    targetDOMNode,
-    props: {
-      storyFn,
-      name,
-      kind,
-      showError,
-    },
-  });
-
-  showMain();
+  if (targetDOMNode === rootElement) {
+    previousComponent = new PreviewRender({
+      targetDOMNode,
+      props: {
+        storyFn,
+        name,
+        kind,
+        showError,
+      },
+    });
+  } else {
+    // eslint-disable-next-line no-new
+    new PreviewRender({
+      targetDOMNode,
+      props: {
+        storyFn,
+        name,
+        kind,
+        showError,
+      },
+    });
+  }
 }
