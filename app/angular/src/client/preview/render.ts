@@ -5,7 +5,7 @@ import { renderNgApp } from './angular/helpers';
 import { StoryFnAngularReturnType } from './types';
 import { Parameters } from './types-6-0';
 
-const rootElement = document ? document.getElementById('root') : null;
+const rootElement = global.document.getElementById('root');
 
 // add proper types
 export default function renderMain({
@@ -18,6 +18,7 @@ export default function renderMain({
   showMain: () => void;
   forceRender: boolean;
   parameters: Parameters;
+  targetDOMNode: HTMLElement;
 }) {
   if (parameters.angularLegacyRendering) {
     renderNgApp(storyFn, forceRender);

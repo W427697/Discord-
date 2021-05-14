@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { document, Node } from 'global';
 import dedent from 'ts-dedent';
 import { render, TemplateResult } from 'lit-html';

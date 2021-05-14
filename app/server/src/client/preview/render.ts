@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { document, fetch, Node } from 'global';
 import dedent from 'ts-dedent';
 import { Args, ArgTypes } from '@storybook/api';

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import dedent from 'ts-dedent';
 import { createApp, h, shallowRef, ComponentPublicInstance, render } from 'vue';
 import { RenderContext, StoryFnVueReturnType } from './types';
