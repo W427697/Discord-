@@ -171,7 +171,8 @@ export const RangeControl: FC<RangeProps> = ({
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange(parse(event.target.value));
   };
-  const hasValue = value !== undefined;
+  const isValidType = typeof value === 'number' || typeof value === 'undefined';
+  const hasValue = isValidType && value !== undefined;
   return (
     <RangeWrapper>
       <RangeLabel>{min}</RangeLabel>
