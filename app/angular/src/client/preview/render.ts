@@ -5,20 +5,20 @@ import { renderNgApp } from './angular/helpers';
 import { StoryFnAngularReturnType } from './types';
 import { Parameters } from './types-6-0';
 
+const rootElement = document ? document.getElementById('root') : null;
+
 // add proper types
-export default function render({
+export default function renderMain({
   storyFn,
-  showMain,
   forceRender,
   parameters,
+  targetDOMNode = rootElement,
 }: {
   storyFn: StoryFn<StoryFnAngularReturnType>;
   showMain: () => void;
   forceRender: boolean;
   parameters: Parameters;
 }) {
-  showMain();
-
   if (parameters.angularLegacyRendering) {
     renderNgApp(storyFn, forceRender);
     return;

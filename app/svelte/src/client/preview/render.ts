@@ -19,7 +19,7 @@ function cleanUpPreviousStory() {
   previousComponent = null;
 }
 
-export default function render({
+export default function renderMain({
   storyFn,
   kind,
   name,

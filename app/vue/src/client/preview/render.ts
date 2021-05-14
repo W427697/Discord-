@@ -5,7 +5,7 @@ import { RenderContext } from './types';
 export const COMPONENT = 'STORYBOOK_COMPONENT';
 export const VALUES = 'STORYBOOK_VALUES';
 
-const rootElement = document.getElementById('root');
+const rootElement = global.document.getElementById('root');
 
 const root = new Vue({
   data() {
@@ -20,7 +20,7 @@ const root = new Vue({
   },
 });
 
-export default function render({
+export default function renderMain({
   storyFn,
   kind,
   name,
