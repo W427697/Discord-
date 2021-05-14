@@ -4,7 +4,7 @@ import { createApp, h, shallowRef, ComponentPublicInstance, render } from 'vue';
 import { RenderContext, StoryFnVueReturnType } from './types';
 
 const activeStoryComponent = shallowRef<StoryFnVueReturnType | null>(null);
-const rootElement = document.getElementById('root');
+const rootElement = global.document.getElementById('root');
 
 let root: ComponentPublicInstance | null = null;
 
