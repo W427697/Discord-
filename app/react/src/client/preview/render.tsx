@@ -69,15 +69,11 @@ export default async function renderMain({
   // This could leads to issues like below:
   // https://github.com/storybookjs/react-storybook/issues/81
   // But forceRender means that it's the same story, so we want too keep the state in that case.
-  if (!targetDOMNode) {
-    debugger;
-  }
-
   if (!forceRender) {
     try {
       ReactDOM.unmountComponentAtNode(targetDOMNode);
     } catch (e) {
-      debugger;
+      //
     }
   }
 
