@@ -61,7 +61,6 @@ export default function renderMain({
   storyFn,
   kind,
   name,
-  showMain,
   showError,
   targetDOMNode = rootElement,
 }: RenderContext) {
@@ -80,6 +79,5 @@ export default function renderMain({
     return;
   }
 
-  showMain();
   render(element, { el: targetDOMNode });
 }

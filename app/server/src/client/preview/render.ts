@@ -48,7 +48,6 @@ export async function renderMain({
   id,
   kind,
   name,
-  showMain,
   showError,
   forceRender,
   parameters,
@@ -70,7 +69,6 @@ export async function renderMain({
   const storyParams = { ...params, ...storyArgs };
   const element = await fetchStoryHtml(url, fetchId, storyParams, storyContext);
 
-  showMain();
   if (typeof element === 'string') {
     targetDOMNode.innerHTML = element;
     simulatePageLoad(targetDOMNode);

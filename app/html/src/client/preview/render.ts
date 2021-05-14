@@ -9,13 +9,11 @@ export default function renderMain({
   storyFn,
   kind,
   name,
-  showMain,
   showError,
   forceRender,
   targetDOMNode = rootElement,
 }: RenderContext) {
   const element = storyFn();
-  showMain();
   if (typeof element === 'string') {
     targetDOMNode.innerHTML = element;
     simulatePageLoad(targetDOMNode);

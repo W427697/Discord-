@@ -10,14 +10,12 @@ export default function renderMain({
   storyFn,
   kind,
   name,
-  showMain,
   showError,
   forceRender,
   targetDOMNode = rootElement,
 }: RenderContext) {
   const element = storyFn();
 
-  showMain();
   if (element instanceof TemplateResult) {
     // `render` stores the TemplateInstance in the Node and tries to update based on that.
     // Since we reuse `rootElement` for all stories, remove the stored instance first.

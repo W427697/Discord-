@@ -27,7 +27,6 @@ export default function renderMain({
   kind,
   name,
   args,
-  showMain,
   showError,
   showException,
   forceRender,
