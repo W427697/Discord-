@@ -5929,6 +5929,8 @@ __metadata:
       optional: true
     preact:
       optional: true
+    preact-render-to-string:
+      optional: true
     react:
       optional: true
     react-dom:
