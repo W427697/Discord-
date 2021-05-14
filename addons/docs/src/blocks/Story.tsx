@@ -53,7 +53,7 @@ const Placeholder: FunctionComponent<any> = ({ id, name }) => {
 
   return (
     <div id={identifier} data-name={name}>
-      loading story...
+      <span data-is-loadering-indicator="true">loading story...</span>
     </div>
   );
 };

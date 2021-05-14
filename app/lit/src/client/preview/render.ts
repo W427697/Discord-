@@ -19,15 +19,6 @@ export default function renderMain({
     return;
   }
 
-  // in docs-mode we initially render a placeholder, lit will NOT replace it, but rather render BELOW
-  // We clear out the loading-indicator, lit however will not render a second time if we cleared the contents.
-  // So we detect if our loading-indicator exists, and if it does, we clear the contents
-  // nodeType 8 is a html-comment, which is what lit injects, so I use that to detect if lit has rendered
-  if (targetDOMNode && targetDOMNode.id !== 'root' && targetDOMNode.firstChild?.nodeType !== 8) {
-    // eslint-disable-next-line no-param-reassign
-    targetDOMNode.innerHTML = '';
-  }
-
   if (isTemplateResult(element) && targetDOMNode) {
     render(element, targetDOMNode);
   } else {

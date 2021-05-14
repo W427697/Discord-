@@ -40,7 +40,6 @@ export default function renderMain({
   storyFn,
   kind,
   name,
-  showMain,
   showError,
   forceRender,
   targetDOMNode = rootElement,
@@ -49,8 +48,6 @@ export default function renderMain({
   if (!forceRender) {
     preactRender(null, targetDOMNode);
   }
-
-  showMain();
 
   preactRender(preact.h(StoryHarness, { name, kind, showError, storyFn }), targetDOMNode);
 }

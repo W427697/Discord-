@@ -123,6 +123,10 @@ export class StoryRenderer {
         console.timeEnd(`applyLoaders_${id}`);
         const storyFn = () => unboundStoryFn(storyContext);
 
+        if (targetDOMNode.querySelector('[data-is-loadering-indicator="true"')) {
+          targetDOMNode.querySelector('[data-is-loadering-indicator="true"').remove();
+        }
+
         console.time(`render_${id}`);
         await this.render({
           ...context,
