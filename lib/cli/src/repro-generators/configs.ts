@@ -128,6 +128,16 @@ export const web_components_typescript: Parameters = {
 
 // #endregion
 
+// #region  lit
+export const lit: Parameters = {
+  framework: 'lit',
+  name: 'lit',
+  version: 'latest',
+  generator: fromDeps('lit'),
+};
+
+// #endregion
+
 // #region  vue
 
 export const vue: Parameters = {
