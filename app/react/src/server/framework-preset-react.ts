@@ -45,6 +45,7 @@ const hasJsxRuntime = () => {
   }
 };
 
+// @ts-ignore
 export async function babelDefault(config: TransformOptions) {
   const presetReactOptions = hasJsxRuntime() ? { runtime: 'automatic' } : {};
   return {

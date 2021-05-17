@@ -2,6 +2,7 @@ import path from 'path';
 import type { TransformOptions } from '@babel/core';
 import type { Configuration } from 'webpack';
 
+// @ts-ignore
 export function babelDefault(config: TransformOptions) {
   return {
     ...config,

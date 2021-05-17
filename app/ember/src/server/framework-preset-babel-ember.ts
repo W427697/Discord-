@@ -12,6 +12,7 @@ function precompileWithPlugins(string: string, options: any) {
   return precompile(string, precompileOptions);
 }
 
+// @ts-ignore
 export function babel(config: TransformOptions, options: any) {
   if (options && options.presetsList) {
     options.presetsList.forEach((e: any, index: number) => {
