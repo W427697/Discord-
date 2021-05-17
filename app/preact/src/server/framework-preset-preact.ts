@@ -1,6 +1,6 @@
 import path from 'path';
-import { TransformOptions } from '@babel/core';
-import { Configuration } from 'webpack';
+import type { TransformOptions } from '@babel/core';
+import type { Configuration } from 'webpack';
 
 export function babelDefault(config: TransformOptions) {
   return {

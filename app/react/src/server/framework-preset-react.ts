@@ -1,7 +1,7 @@
 import path from 'path';
-import { TransformOptions } from '@babel/core';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import type { TransformOptions } from '@babel/core';
 import type { Configuration } from 'webpack';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 import { logger } from '@storybook/node-logger';
 import type { Options } from '@storybook/core-common';

@@ -2,8 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import JSON5 from 'json5';
 
+import type { TransformOptions } from '@babel/core';
+
 import { logger } from '@storybook/node-logger';
-import { TransformOptions } from '@babel/core';
 
 function removeReactHmre(presets: TransformOptions['presets']) {
   const index = presets.indexOf('react-hmre');

@@ -1,4 +1,4 @@
-import { TransformOptions } from '@babel/core';
+import type { TransformOptions } from '@babel/core';
 import { precompile } from 'ember-source/dist/ember-template-compiler';
 
 let emberOptions: any;

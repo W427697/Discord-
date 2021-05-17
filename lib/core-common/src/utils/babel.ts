@@ -1,4 +1,4 @@
-import { TransformOptions } from '@babel/core';
+import type { TransformOptions } from '@babel/core';
 
 const plugins = [
   require.resolve('@babel/plugin-transform-shorthand-properties'),

@@ -1,7 +1,7 @@
 import type ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import type { PluginOptions } from 'react-docgen-typescript-plugin';
-import { Configuration, Stats } from 'webpack';
-import { TransformOptions } from '@babel/core';
+import type { TransformOptions } from '@babel/core';
+import type { Configuration, Stats } from 'webpack';
 import { Router } from 'express';
 import { FileSystemCache } from 'file-system-cache';
 import { Server } from 'http';
