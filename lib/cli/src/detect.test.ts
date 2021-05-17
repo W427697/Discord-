@@ -250,6 +250,16 @@ const MOCK_FRAMEWORK_FILES = [
       },
     },
   },
+  {
+    name: ProjectType.LIT,
+    files: {
+      'package.json': {
+        dependencies: {
+          lit: '^2.0.0-rc.2',
+        },
+      },
+    },
+  },
 ];
 
 describe('Detect', () => {

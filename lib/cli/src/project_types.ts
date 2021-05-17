@@ -28,7 +28,8 @@ export type SupportedFrameworks =
   | 'rax'
   | 'aurelia'
   | 'html'
-  | 'web-components';
+  | 'web-components'
+  | 'lit';
 
 export enum ProjectType {
   UNDETECTED = 'UNDETECTED',
@@ -56,6 +57,7 @@ export enum ProjectType {
   SVELTE = 'SVELTE',
   RAX = 'RAX',
   AURELIA = 'AURELIA',
+  LIT = 'LIT',
 }
 
 export const SUPPORTED_FRAMEWORKS: SupportedFrameworks[] = [
@@ -74,6 +76,7 @@ export const SUPPORTED_FRAMEWORKS: SupportedFrameworks[] = [
   'svelte',
   'rax',
   'aurelia',
+  'lit',
 ];
 
 export enum StoryFormat {
@@ -268,6 +271,13 @@ export const supportedTemplates: TemplateConfiguration[] = [
   {
     preset: ProjectType.AURELIA,
     dependencies: ['aurelia-bootstrapper'],
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.every(Boolean);
+    },
+  },
+  {
+    preset: ProjectType.LIT,
+    dependencies: ['lit'],
     matcherFunction: ({ dependencies }) => {
       return dependencies.every(Boolean);
     },
