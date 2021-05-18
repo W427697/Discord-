@@ -75,7 +75,6 @@ const ZoomWrapper = React.memo<{ set: Function; value: number }>(({ set, value }
 
 export const zoomTool: Addon = {
   title: 'zoom',
-  id: 'zoom',
   match: ({ viewMode }) => viewMode === 'story',
   render: React.memo(() => (
     <>

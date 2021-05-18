@@ -3,9 +3,9 @@ import React, { Fragment, useMemo, FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 
 import { FlexBar, IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
-import { Consumer, Combo, API, Story, Group, State, merge } from '@storybook/api';
+import { Consumer, Combo, API, Story, Group, State } from '@storybook/api';
 import { shortcutToHumanString } from '@storybook/api/shortcut';
-import addons, { Addon, types } from '@storybook/addons';
+import { Addon, types } from '@storybook/addons';
 
 import { Location, RenderData } from '@storybook/router';
 import { zoomTool } from './tools/zoom';
@@ -46,7 +46,6 @@ const fullScreenMapper = ({ api, state }: Combo) => ({
 
 export const fullScreenTool: Addon = {
   title: 'fullscreen',
-  id: 'fullscreen',
   match: (p) => ['story', 'docs'].includes(p.viewMode),
   render: () => (
     <Consumer filter={fullScreenMapper}>
@@ -75,7 +74,6 @@ const tabsMapper = ({ state }: Combo) => ({
 
 export const createTabsTool = (tabs: Addon[]): Addon => ({
   title: 'title',
-  id: 'title',
   render: () => (
     <Consumer filter={tabsMapper}>
       {(rp) => (
@@ -167,16 +165,6 @@ export const Tools = React.memo<{ list: Addon[] }>(({ list }) => (
   </>
 ));
 
-function toolbarItemHasBeenExcluded(item: Partial<Addon>, story: PreviewProps['story']) {
-  const toolbarItemsFromStoryParameters =
-    'toolbar' in story.parameters ? story.parameters.toolbar : undefined;
-  const { toolbar: toolbarItemsFromAddonsConfig } = addons.getConfig();
-
-  const toolbarItems = merge(toolbarItemsFromAddonsConfig, toolbarItemsFromStoryParameters);
-
-  return toolbarItems ? !!toolbarItems[item.id]?.hidden : false;
-}
-
 export function filterTools(
   tools: Addon[],
   toolsExtra: Addon[],
@@ -205,8 +193,7 @@ export function filterTools(
         viewMode,
         location,
         path,
-      })) &&
-    !toolbarItemHasBeenExcluded(item, story);
+      }));
 
   const left = toolsLeft.filter(filter);
   const right = toolsRight.filter(filter);

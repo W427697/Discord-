@@ -25,13 +25,6 @@ addons.setConfig({
     graphiql: {
       hidden: true,
     },
-    toolbar: {
-      title: { hidden: false },
-      zoom: { hidden: false },
-      eject: { hidden: false },
-      copy: { hidden: false },
-      fullscreen: { hidden: false },
-    },
   },
   sidebar: {
     collapsedRoots: ['other'],
