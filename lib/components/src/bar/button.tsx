@@ -98,7 +98,7 @@ export const IconButton = styled(ButtonOrLink, { shouldForwardProp: isPropValid 
 
     '&:hover, &:focus': {
       outline: '0 none',
-      color: theme.color.secondary,
+      color: theme.barIconHoverColor || theme.color.secondary,
     },
     '& > svg': {
       width: 15,
@@ -108,7 +108,7 @@ export const IconButton = styled(ButtonOrLink, { shouldForwardProp: isPropValid 
     active
       ? {
           outline: '0 none',
-          borderBottomColor: theme.color.secondary,
+          borderBottomColor: theme.barIconActiveColor || theme.color.secondary,
         }
       : {}
 );
