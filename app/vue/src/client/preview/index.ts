@@ -1,5 +1,4 @@
 /* eslint-disable prefer-destructuring */
-import Vue, { VueConstructor, ComponentOptions } from 'vue';
 import { start } from '@storybook/core/client';
 import { ClientStoryApi, Loadable } from '@storybook/addons';
 
@@ -9,8 +8,6 @@ import { IStorybookSection, StoryFnVueReturnType } from './types';
 import render from './render';
 
 import decorateStory from './decorateStory';
-
-export const WRAPS = 'STORYBOOK_WRAPS';
 
 const framework = 'vue';
 

@@ -1,3 +1,4 @@
+import Vue, { ComponentOptions, VueConstructor } from 'vue';
 import { StoryFn, DecoratorFunction, StoryContext } from '@storybook/addons';
 
 import './globals';
@@ -5,6 +6,8 @@ import { StoryFnVueReturnType } from './types';
 
 import { VALUES } from './render';
 import { extractProps } from './util';
+
+export const WRAPS = 'STORYBOOK_WRAPS';
 
 function prepare(
   rawStory: StoryFnVueReturnType,
