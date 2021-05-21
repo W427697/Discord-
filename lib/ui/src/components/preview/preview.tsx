@@ -1,8 +1,7 @@
 import React, { Fragment, useMemo, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import merge from '@storybook/api/dist/lib/merge';
-import { API, Consumer, Combo } from '@storybook/api';
+import { API, Consumer, Combo, merge } from '@storybook/api';
 import { SET_CURRENT_STORY } from '@storybook/core-events';
 import addons, { types, Addon } from '@storybook/addons';
 
@@ -147,8 +146,7 @@ const Preview = React.memo<PreviewProps>((props) => {
   const tabs = useTabs(previewId, baseUrl, withLoader, getElements, story);
 
   const shouldScale = viewMode === 'story';
-  const isToolshown =
-    !(viewMode === 'docs' && tabs.filter((t) => !t.hidden).length < 2) && options.isToolshown;
+  const { isToolshown } = options;
 
   const initialRender = useRef(true);
   useEffect(() => {

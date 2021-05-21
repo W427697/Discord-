@@ -1,4 +1,4 @@
-import { document, window } from 'global';
+import { document, window as globalWindow } from 'global';
 import {
   Dispatch,
   MutableRefObject,
@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { matchesKeyCode, matchesModifiers } from './keybinding';
+import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 
 import { CombinedDataset, Highlight, Selection } from './types';
 import { cycle, isAncestor, scrollIntoView } from './utils';
@@ -67,12 +67,12 @@ export const useHighlighted = ({
       const { itemId, refId } = highlight;
       setTimeout(() => {
         scrollIntoView(
-          containerRef.current.querySelector(`[data-item-id="${itemId}"][data-ref-id="${refId}"]`),
+          containerRef.current?.querySelector(`[data-item-id="${itemId}"][data-ref-id="${refId}"]`),
           true // make sure it's clearly visible by centering it
         );
       }, 0);
     }
-  }, [dataset, highlightedRef, selected]);
+  }, [dataset, highlightedRef, containerRef, selected]);
 
   // Highlight nodes up/down the tree using arrow keys
   useEffect(() => {
@@ -88,8 +88,8 @@ export const useHighlighted = ({
       if (!(isArrowUp || isArrowDown)) return;
       event.preventDefault();
 
-      const requestId = window.requestAnimationFrame(() => {
-        window.cancelAnimationFrame(lastRequestId);
+      const requestId = globalWindow.requestAnimationFrame(() => {
+        globalWindow.cancelAnimationFrame(lastRequestId);
         lastRequestId = requestId;
 
         const target = event.target as Element;

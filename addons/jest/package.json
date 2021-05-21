@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-jest",
-  "version": "6.2.0-alpha.3",
+  "version": "6.3.0-alpha.36",
   "description": "React storybook addon that show component jest report",
   "keywords": [
     "addon",
@@ -9,7 +9,8 @@
     "report",
     "results",
     "storybook",
-    "unit-testing"
+    "unit-testing",
+    "test"
   ],
   "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/jest",
   "bugs": {
@@ -20,14 +21,19 @@
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "addons/jest"
   },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
   "license": "MIT",
   "author": "Renaud Tertrais <renaud.tertrais@gmail.com> (https://github.com/renaudtertrais)",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
       "*": [
-        "ts3.4/*"
+        "dist/ts3.4/*"
       ]
     }
   },
@@ -35,26 +41,25 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "ts3.4/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.2.0-alpha.3",
-    "@storybook/api": "6.2.0-alpha.3",
-    "@storybook/components": "6.2.0-alpha.3",
-    "@storybook/core-events": "6.2.0-alpha.3",
-    "@storybook/theming": "6.2.0-alpha.3",
-    "core-js": "^3.0.1",
-    "global": "^4.3.2",
-    "react-sizeme": "^2.5.2",
+    "@storybook/addons": "6.3.0-alpha.36",
+    "@storybook/api": "6.3.0-alpha.36",
+    "@storybook/components": "6.3.0-alpha.36",
+    "@storybook/core-events": "6.3.0-alpha.36",
+    "@storybook/theming": "6.3.0-alpha.36",
+    "core-js": "^3.8.2",
+    "global": "^4.4.0",
+    "react-sizeme": "^3.0.1",
     "regenerator-runtime": "^0.13.7",
-    "upath": "^1.1.0"
+    "upath": "^1.2.0"
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.15.3"
+    "@types/webpack-env": "^1.16.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",
@@ -71,5 +76,13 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "70078d0fbd3af8290e82831109a00eddd133e4db"
+  "gitHead": "9f21c0e4dbd25594603101e108bede75b3d184c9",
+  "sbmodern": "dist/modern/index.js",
+  "storybook": {
+    "displayName": "Jest",
+    "icon": "https://pbs.twimg.com/profile_images/821713465245102080/mMtKIMax_400x400.jpg",
+    "unsupportedFrameworks": [
+      "react-native"
+    ]
+  }
 }

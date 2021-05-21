@@ -1,8 +1,11 @@
 import React, { FC, ReactElement, ReactNode, ReactNodeArray, useContext } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { toId, storyNameFromExport } from '@storybook/csf';
-import { resetComponents } from '@storybook/components/html';
-import { Preview as PurePreview, PreviewProps as PurePreviewProps } from '@storybook/components';
+import {
+  resetComponents,
+  Preview as PurePreview,
+  PreviewProps as PurePreviewProps,
+} from '@storybook/components';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { SourceContext, SourceContextProps } from './SourceContainer';
 import { getSourceProps } from './Source';
@@ -19,16 +22,13 @@ type CanvasProps = PurePreviewProps & {
 };
 
 const getPreviewProps = (
-  {
-    withSource = SourceState.CLOSED,
-    mdxSource,
-    children,
-    ...props
-  }: CanvasProps & { children?: ReactNode },
+  { withSource, mdxSource, children, ...props }: CanvasProps & { children?: ReactNode },
   docsContext: DocsContextProps,
   sourceContext: SourceContextProps
 ): PurePreviewProps => {
-  if (withSource === SourceState.NONE) {
+  const { mdxComponentMeta, mdxStoryNameToKey, parameters } = docsContext;
+  const sourceState = withSource || parameters?.docs?.source?.state || SourceState.CLOSED;
+  if (sourceState === SourceState.NONE) {
     return props;
   }
   if (mdxSource) {
@@ -41,7 +41,6 @@ const getPreviewProps = (
   const stories = childArray.filter(
     (c: ReactElement) => c.props && (c.props.id || c.props.name)
   ) as ReactElement[];
-  const { mdxComponentMeta, mdxStoryNameToKey } = docsContext;
   const targetIds = stories.map(
     (s) =>
       s.props.id ||
@@ -54,7 +53,7 @@ const getPreviewProps = (
   return {
     ...props, // pass through columns etc.
     withSource: sourceProps,
-    isExpanded: withSource === SourceState.OPEN,
+    isExpanded: sourceState === SourceState.OPEN,
   };
 };
 

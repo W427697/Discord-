@@ -1,10 +1,11 @@
 {
   "name": "@storybook/addon-links",
-  "version": "6.2.0-alpha.3",
-  "description": "Story Links addon for storybook",
+  "version": "6.3.0-alpha.36",
+  "description": "Link stories together to build demos and prototypes with your UI components",
   "keywords": [
     "addon",
-    "storybook"
+    "storybook",
+    "organize"
   ],
   "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/links",
   "bugs": {
@@ -15,13 +16,18 @@
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "addons/links"
   },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
   "license": "MIT",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
       "*": [
-        "ts3.4/*"
+        "dist/ts3.4/*"
       ]
     }
   },
@@ -29,28 +35,27 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "ts3.4/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.2.0-alpha.3",
-    "@storybook/client-logger": "6.2.0-alpha.3",
-    "@storybook/core-events": "6.2.0-alpha.3",
+    "@storybook/addons": "6.3.0-alpha.36",
+    "@storybook/client-logger": "6.3.0-alpha.36",
+    "@storybook/core-events": "6.3.0-alpha.36",
     "@storybook/csf": "0.0.1",
-    "@storybook/router": "6.2.0-alpha.3",
-    "@types/qs": "^6.9.0",
-    "core-js": "^3.0.1",
-    "global": "^4.3.2",
+    "@storybook/router": "6.3.0-alpha.36",
+    "@types/qs": "^6.9.5",
+    "core-js": "^3.8.2",
+    "global": "^4.4.0",
     "prop-types": "^15.7.2",
-    "qs": "^6.6.0",
+    "qs": "^6.10.0",
     "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.15.3"
+    "@types/webpack-env": "^1.16.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",
@@ -67,5 +72,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "70078d0fbd3af8290e82831109a00eddd133e4db"
+  "gitHead": "9f21c0e4dbd25594603101e108bede75b3d184c9",
+  "sbmodern": "dist/modern/index.js",
+  "storybook": {
+    "displayName": "Links",
+    "icon": "https://user-images.githubusercontent.com/263385/101991673-48355c80-3c7c-11eb-9b6e-b627c96a75f6.png",
+    "unsupportedFrameworks": [
+      "marko",
+      "react-native"
+    ]
+  }
 }

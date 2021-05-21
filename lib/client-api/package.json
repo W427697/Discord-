@@ -1,6 +1,6 @@
 {
   "name": "@storybook/client-api",
-  "version": "6.2.0-alpha.3",
+  "version": "6.3.0-alpha.36",
   "description": "Storybook Client API",
   "keywords": [
     "storybook"
@@ -14,13 +14,19 @@
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "lib/client-api"
   },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
   "license": "MIT",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
       "*": [
-        "ts3.4/*"
+        "dist/ts3.4/*"
       ]
     }
   },
@@ -28,29 +34,28 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "ts3.4/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.2.0-alpha.3",
-    "@storybook/channel-postmessage": "6.2.0-alpha.3",
-    "@storybook/channels": "6.2.0-alpha.3",
-    "@storybook/client-logger": "6.2.0-alpha.3",
-    "@storybook/core-events": "6.2.0-alpha.3",
+    "@storybook/addons": "6.3.0-alpha.36",
+    "@storybook/channel-postmessage": "6.3.0-alpha.36",
+    "@storybook/channels": "6.3.0-alpha.36",
+    "@storybook/client-logger": "6.3.0-alpha.36",
+    "@storybook/core-events": "6.3.0-alpha.36",
     "@storybook/csf": "0.0.1",
-    "@types/qs": "^6.9.0",
-    "@types/webpack-env": "^1.15.3",
-    "core-js": "^3.0.1",
-    "global": "^4.3.2",
-    "lodash": "^4.17.15",
+    "@types/qs": "^6.9.5",
+    "@types/webpack-env": "^1.16.0",
+    "core-js": "^3.8.2",
+    "global": "^4.4.0",
+    "lodash": "^4.17.20",
     "memoizerific": "^1.11.3",
-    "qs": "^6.6.0",
+    "qs": "^6.10.0",
     "regenerator-runtime": "^0.13.7",
     "stable": "^0.1.8",
-    "store2": "^2.7.1",
+    "store2": "^2.12.0",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
@@ -61,5 +66,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "70078d0fbd3af8290e82831109a00eddd133e4db"
+  "gitHead": "9f21c0e4dbd25594603101e108bede75b3d184c9",
+  "sbmodern": "dist/modern/index.js"
 }

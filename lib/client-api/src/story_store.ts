@@ -10,6 +10,7 @@ import deprecate from 'util-deprecate';
 import { Channel } from '@storybook/channels';
 import Events from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
+import { sanitize, toId } from '@storybook/csf';
 import {
   Comparator,
   Parameters,
@@ -29,10 +30,13 @@ import {
   PublishedStoreItem,
   ErrorLike,
   GetStorybookKind,
+  ArgsEnhancer,
   ArgTypesEnhancer,
   StoreSelectionSpecifier,
   StoreSelection,
+  StorySpecifier,
 } from './types';
+import { combineArgs, mapArgsToTypes, validateOptions } from './args';
 import { HooksContext } from './hooks';
 import { storySort } from './storySort';
 import { combineParameters } from './parameters';
@@ -47,6 +51,22 @@ interface StoryOptions {
 type KindMetadata = StoryMetadata & { order: number };
 
 const STORAGE_KEY = '@storybook/preview/store';
+
+function extractSanitizedKindNameFromStorySpecifier(storySpecifier: StorySpecifier): string {
+  if (typeof storySpecifier === 'string') {
+    return storySpecifier.split('--').shift();
+  }
+
+  return sanitize(storySpecifier.kind);
+}
+
+function extractIdFromStorySpecifier(storySpecifier: StorySpecifier): string {
+  if (typeof storySpecifier === 'string') {
+    return storySpecifier;
+  }
+
+  return toId(storySpecifier.kind, storySpecifier.name);
+}
 
 const isStoryDocsOnly = (parameters?: Parameters) => {
   return parameters && parameters.docsOnly;
@@ -83,6 +103,14 @@ const storyFnWarning = deprecate(
   \`storyFn\` is deprecated and will be removed in Storybook 7.0.
 
   https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-storyfn`
+);
+
+const argTypeDefaultValueWarning = deprecate(
+  () => {},
+  dedent`
+  \`argType.defaultValue\` is deprecated and will be removed in Storybook 7.0.
+
+  https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-argtype-defaultValue`
 );
 
 interface AllowUnsafeOption {
@@ -123,6 +151,8 @@ export default class StoryStore {
   // Keyed on storyId
   _stories: StoreData;
 
+  _argsEnhancers: ArgsEnhancer[];
+
   _argTypesEnhancers: ArgTypesEnhancer[];
 
   _selectionSpecifier?: StoreSelectionSpecifier;
@@ -139,6 +169,7 @@ export default class StoryStore {
     this._globalMetadata = { parameters: {}, decorators: [], loaders: [] };
     this._kinds = {};
     this._stories = {};
+    this._argsEnhancers = [];
     this._argTypesEnhancers = [ensureArgTypes];
     this._error = undefined;
     this._channel = params.channel;
@@ -219,7 +250,8 @@ export default class StoryStore {
     const stories = this.sortedStories();
     let foundStory;
     if (this._selectionSpecifier && !this._selection) {
-      const { storySpecifier, viewMode } = this._selectionSpecifier;
+      const { storySpecifier, viewMode, args: urlArgs } = this._selectionSpecifier;
+
       if (storySpecifier === '*') {
         // '*' means select the first story. If there is none, we have no selection.
         [foundStory] = stories;
@@ -237,6 +269,11 @@ export default class StoryStore {
       }
 
       if (foundStory) {
+        if (urlArgs) {
+          const mappedUrlArgs = mapArgsToTypes(urlArgs, foundStory.argTypes);
+          foundStory.args = combineArgs(foundStory.args, mappedUrlArgs);
+        }
+        foundStory.args = validateOptions(foundStory.args, foundStory.argTypes);
         this.setSelection({ storyId: foundStory.id, viewMode });
         this._channel.emit(Events.STORY_SPECIFIED, { storyId: foundStory.id, viewMode });
       }
@@ -294,6 +331,10 @@ export default class StoryStore {
   }
 
   addKindMetadata(kind: string, { parameters = {}, decorators = [], loaders = [] }: StoryMetadata) {
+    if (this.shouldBlockAddingKindMetadata(kind)) {
+      return;
+    }
+
     this.ensureKind(kind);
     if (parameters) {
       checkGlobals(parameters);
@@ -305,9 +346,16 @@ export default class StoryStore {
     this._kinds[kind].loaders.push(...loaders);
   }
 
+  addArgsEnhancer(argsEnhancer: ArgsEnhancer) {
+    if (Object.keys(this._stories).length > 0)
+      throw new Error('Cannot add an args enhancer to the store after a story has been added.');
+
+    this._argsEnhancers.push(argsEnhancer);
+  }
+
   addArgTypesEnhancer(argTypesEnhancer: ArgTypesEnhancer) {
     if (Object.keys(this._stories).length > 0)
-      throw new Error('Cannot add a parameter enhancer to the store after a story has been added.');
+      throw new Error('Cannot add an argTypes enhancer to the store after a story has been added.');
 
     this._argTypesEnhancers.push(argTypesEnhancer);
   }
@@ -318,6 +366,21 @@ export default class StoryStore {
       this._globalMetadata.parameters,
       this._kinds[kind].parameters,
       parameters
+    );
+  }
+
+  shouldBlockAddingStory(id: string): boolean {
+    return (
+      this.isSingleStoryMode() &&
+      id !== extractIdFromStorySpecifier(this._selectionSpecifier.storySpecifier)
+    );
+  }
+
+  shouldBlockAddingKindMetadata(kind: string): boolean {
+    return (
+      this.isSingleStoryMode() &&
+      sanitize(kind) !==
+        extractSanitizedKindNameFromStorySpecifier(this._selectionSpecifier.storySpecifier)
     );
   }
 
@@ -342,6 +405,10 @@ export default class StoryStore {
       throw new Error(
         'Cannot add a story when not configuring, see https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-store-immutable-outside-of-configuration'
       );
+
+    if (this.shouldBlockAddingStory(id)) {
+      return;
+    }
 
     checkGlobals(storyParameters);
     checkStorySort(storyParameters);
@@ -377,8 +444,19 @@ export default class StoryStore {
     const loaders = [...this._globalMetadata.loaders, ...kindMetadata.loaders, ...storyLoaders];
 
     const finalStoryFn = (context: StoryContext) => {
-      const { passArgsFirst = true } = context.parameters;
-      return passArgsFirst ? (original as ArgsStoryFn)(context.args, context) : original(context);
+      const { args = {}, argTypes = {}, parameters } = context;
+      const { passArgsFirst = true } = parameters;
+      const mapped = {
+        ...context,
+        args: Object.entries(args).reduce((acc, [key, val]) => {
+          const { mapping } = argTypes[key] || {};
+          acc[key] = mapping && val in mapping ? mapping[val] : val;
+          return acc;
+        }, {} as Args),
+      };
+      return passArgsFirst
+        ? (original as ArgsStoryFn)(mapped.args, mapped)
+        : (original as LegacyStoryFn)(mapped);
     };
 
     // lazily decorate the story when it's loaded
@@ -457,11 +535,30 @@ export default class StoryStore {
     const defaultArgs: Args = Object.entries(
       argTypes as Record<string, { defaultValue: any }>
     ).reduce((acc, [arg, { defaultValue }]) => {
-      if (defaultValue) acc[arg] = defaultValue;
+      if (typeof defaultValue !== 'undefined') {
+        acc[arg] = defaultValue;
+      }
       return acc;
     }, {} as Args);
+    if (Object.keys(defaultArgs).length > 0) {
+      argTypeDefaultValueWarning();
+    }
 
-    const initialArgs = { ...defaultArgs, ...passedArgs };
+    const initialArgsBeforeEnhancers = { ...defaultArgs, ...passedArgs };
+    const initialArgs = this._argsEnhancers.reduce(
+      (accumulatedArgs: Args, enhancer) => ({
+        ...accumulatedArgs,
+        ...enhancer({
+          ...identification,
+          parameters: combinedParameters,
+          args: initialArgsBeforeEnhancers,
+          argTypes,
+          globals: {},
+        }),
+      }),
+      initialArgsBeforeEnhancers
+    );
+
     _stories[id] = {
       ...identification,
 
@@ -636,6 +733,15 @@ export default class StoryStore {
     if (this._channel) {
       this._channel.emit(Events.CURRENT_STORY_WAS_SET, this._selection);
     }
+  }
+
+  isSingleStoryMode(): boolean {
+    if (!this._selectionSpecifier) {
+      return false;
+    }
+
+    const { singleStory, storySpecifier } = this._selectionSpecifier;
+    return storySpecifier && storySpecifier !== '*' && singleStory;
   }
 
   getSelection = (): StoreSelection => this._selection;

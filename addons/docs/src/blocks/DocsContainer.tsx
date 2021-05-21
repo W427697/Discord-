@@ -1,11 +1,10 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { document, window } from 'global';
+import { document, window as globalWindow } from 'global';
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import { MDXProvider } from '@mdx-js/react';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
-import { DocsWrapper, DocsContent } from '@storybook/components';
-import { components as htmlComponents } from '@storybook/components/html';
+import { DocsWrapper, DocsContent, components as htmlComponents } from '@storybook/components';
 import { DocsContextProps, DocsContext } from './DocsContext';
 import { anchorBlockIdFromId } from './Anchor';
 import { storyBlockIdFromId } from './Story';
@@ -47,7 +46,7 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, 
   useEffect(() => {
     let url;
     try {
-      url = new URL(window.parent.location);
+      url = new URL(globalWindow.parent.location);
     } catch (err) {
       return;
     }

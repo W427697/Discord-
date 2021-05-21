@@ -1,10 +1,12 @@
 {
   "name": "@storybook/addon-viewport",
-  "version": "6.2.0-alpha.3",
-  "description": "Storybook addon to change the viewport size to mobile",
+  "version": "6.3.0-alpha.36",
+  "description": "Build responsive components by adjusting Storybook’s viewport size and orientation",
   "keywords": [
     "addon",
-    "storybook"
+    "storybook",
+    "style",
+    "essentials"
   ],
   "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/viewport",
   "bugs": {
@@ -15,13 +17,18 @@
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "addons/viewport"
   },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
   "license": "MIT",
-  "main": "dist/preview.js",
-  "types": "dist/preview.d.ts",
+  "main": "dist/cjs/preview.js",
+  "module": "dist/esm/preview.js",
+  "types": "dist/ts3.9/preview.d.ts",
   "typesVersions": {
     "<3.8": {
       "*": [
-        "ts3.4/*"
+        "dist/ts3.4/*"
       ]
     }
   },
@@ -29,21 +36,20 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "ts3.4/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.2.0-alpha.3",
-    "@storybook/api": "6.2.0-alpha.3",
-    "@storybook/client-logger": "6.2.0-alpha.3",
-    "@storybook/components": "6.2.0-alpha.3",
-    "@storybook/core-events": "6.2.0-alpha.3",
-    "@storybook/theming": "6.2.0-alpha.3",
-    "core-js": "^3.0.1",
-    "global": "^4.3.2",
+    "@storybook/addons": "6.3.0-alpha.36",
+    "@storybook/api": "6.3.0-alpha.36",
+    "@storybook/client-logger": "6.3.0-alpha.36",
+    "@storybook/components": "6.3.0-alpha.36",
+    "@storybook/core-events": "6.3.0-alpha.36",
+    "@storybook/theming": "6.3.0-alpha.36",
+    "core-js": "^3.8.2",
+    "global": "^4.4.0",
     "memoizerific": "^1.11.3",
     "prop-types": "^15.7.2",
     "regenerator-runtime": "^0.13.7"
@@ -63,5 +69,13 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "70078d0fbd3af8290e82831109a00eddd133e4db"
+  "gitHead": "9f21c0e4dbd25594603101e108bede75b3d184c9",
+  "sbmodern": "dist/modern/preview.js",
+  "storybook": {
+    "displayName": "Viewport",
+    "icon": "https://user-images.githubusercontent.com/263385/101991678-48cdf300-3c7c-11eb-9764-f8af293c1b28.png",
+    "unsupportedFrameworks": [
+      "react-native"
+    ]
+  }
 }
