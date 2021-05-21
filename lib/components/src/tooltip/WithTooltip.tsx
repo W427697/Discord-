@@ -1,4 +1,11 @@
-import React, { FunctionComponent, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  FunctionComponent,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { styled } from '@storybook/theming';
 import { document } from 'global';
 
@@ -57,7 +64,7 @@ const WithTooltipPure: FunctionComponent<WithTooltipPureProps> = ({
   };
 
   const prevOpen = useRef(tooltipShown);
-  React.useEffect(() => {
+  useEffect(() => {
     if (prevOpen.current === true && tooltipShown === false) {
       internalTriggerRef.current?.focus();
     }
