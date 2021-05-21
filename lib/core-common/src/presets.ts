@@ -57,9 +57,9 @@ function resolvePresetFunction<T = any>(
 export const resolveAddonName = (configDir: string, name: string) => {
   let path;
 
-  if (name.startsWith('.')) {
+  if (name[0] === '.') {
     path = resolveFrom(configDir, name);
-  } else if (name.startsWith('/')) {
+  } else if (name[0] === '/') {
     path = name;
   } else if (name.match(/\/(preset|register(-panel)?)(\.(js|ts|tsx|jsx))?$/)) {
     path = name;
