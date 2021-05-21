@@ -15,7 +15,7 @@ export const axeTest = (customConfig: Partial<AxeConfig> = {}) => {
   const config = { ...defaultAxeConfig, ...customConfig };
   const { beforeAxeTest } = config;
 
-  puppeteerTest({
+  return puppeteerTest({
     ...config,
     async testBody(page, options) {
       const parameters = options.context.parameters.a11y;
