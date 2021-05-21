@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, ComponentProps, useEffect } from 'react';
+import React, { FunctionComponent, ReactNode, ComponentProps, useEffect, useRef } from 'react';
 import { styled } from '@storybook/theming';
 import memoize from 'memoizerific';
 import { transparentize } from 'polished';
@@ -213,7 +213,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   autoFocus,
   ...rest
 }) => {
-  const listItemRef = React.useRef<HTMLLIElement>(null);
+  const listItemRef = useRef<HTMLLIElement>(null);
 
   const itemProps = getItemProps(onClick, href, LinkWrapper);
   const commonProps = { active, disabled };

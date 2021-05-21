@@ -74,10 +74,13 @@ function previousItem(list: HTMLUListElement, item: HTMLElement): HTMLElement {
 }
 
 function moveFocus(
+  event: React.KeyboardEvent<any>,
   list: HTMLUListElement,
   currentFocus: HTMLElement,
   traversalFunction: (list: HTMLUListElement, item: Element) => HTMLElement | null
 ) {
+  event.preventDefault();
+
   let wrappedOnce = false;
   const nextFocus = traversalFunction(list, currentFocus);
 
@@ -109,17 +112,13 @@ export const TooltipLinkList: FunctionComponent<TooltipLinkListProps> = ({
 
     if (key === 'ArrowDown') {
       // Prevent scroll of the page
-      event.preventDefault();
-      moveFocus(list, currentFocus, nextItem);
+      moveFocus(event, list, currentFocus, nextItem);
     } else if (key === 'ArrowUp') {
-      event.preventDefault();
-      moveFocus(list, currentFocus, previousItem);
+      moveFocus(event, list, currentFocus, previousItem);
     } else if (key === 'Home') {
-      event.preventDefault();
-      moveFocus(list, null, nextItem);
+      moveFocus(event, list, null, nextItem);
     } else if (key === 'End') {
-      event.preventDefault();
-      moveFocus(list, null, previousItem);
+      moveFocus(event, list, null, previousItem);
     }
   };
 
