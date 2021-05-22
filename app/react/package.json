@@ -46,8 +46,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@babel/preset-flow": "^7.12.1",
-    "@babel/preset-react": "^7.12.10",
+    "@babel/preset-flow": "^7.13.13",
+    "@babel/preset-react": "^7.13.13",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "@storybook/addons": "6.3.0-alpha.36",
     "@storybook/core": "6.3.0-alpha.36",
@@ -57,23 +57,23 @@
     "@storybook/semver": "^7.3.2",
     "@types/webpack-env": "^1.16.0",
     "babel-plugin-add-react-displayname": "^0.0.5",
-    "babel-plugin-named-asset-import": "^0.3.1",
+    "babel-plugin-named-asset-import": "^0.3.7",
     "babel-plugin-react-docgen": "^4.2.1",
-    "core-js": "^3.8.2",
+    "core-js": "^3.12.1",
     "global": "^4.4.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
-    "react-dev-utils": "^11.0.3",
+    "react-dev-utils": "^11.0.4",
     "react-refresh": "^0.8.3",
     "read-pkg-up": "^7.0.1",
     "regenerator-runtime": "^0.13.7",
-    "ts-dedent": "^2.0.0",
+    "ts-dedent": "^2.1.1",
     "webpack": "4"
   },
   "devDependencies": {
     "@storybook/client-api": "6.3.0-alpha.36",
-    "@types/node": "^14.14.20",
-    "@types/prompts": "^2.0.9"
+    "@types/node": "^14.17.0",
+    "@types/prompts": "^2.0.12"
   },
   "peerDependencies": {
     "@babel/core": "^7.11.5",

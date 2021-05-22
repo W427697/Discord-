@@ -22,7 +22,7 @@
     "@storybook/addon-links": "6.3.0-alpha.36",
     "@storybook/addons": "6.3.0-alpha.36",
     "@storybook/builder-webpack4": "6.3.0-alpha.36",
-    "@storybook/preset-create-react-app": "^3.1.6",
+    "@storybook/preset-create-react-app": "^3.1.7",
     "@storybook/react": "6.3.0-alpha.36",
     "@storybook/theming": "6.3.0-alpha.36",
     "babel-core": "6",

@@ -41,17 +41,17 @@
   },
   "dependencies": {
     "@emotion/core": "^10.1.1",
-    "@emotion/is-prop-valid": "^0.8.6",
+    "@emotion/is-prop-valid": "^0.8.8",
     "@emotion/styled": "^10.0.27",
     "@storybook/client-logger": "6.3.0-alpha.36",
-    "core-js": "^3.8.2",
+    "core-js": "^3.12.1",
     "deep-object-diff": "^1.1.0",
     "emotion-theming": "^10.0.27",
     "global": "^4.4.0",
     "memoizerific": "^1.11.3",
-    "polished": "^4.0.5",
+    "polished": "^4.1.2",
     "resolve-from": "^5.0.0",
-    "ts-dedent": "^2.0.0"
+    "ts-dedent": "^2.1.1"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",

@@ -52,17 +52,17 @@
     "@storybook/core-common": "6.3.0-alpha.36",
     "@storybook/node-logger": "6.3.0-alpha.36",
     "@types/webpack-env": "^1.16.0",
-    "core-js": "^3.8.2",
+    "core-js": "^3.12.1",
     "global": "^4.4.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "read-pkg-up": "^7.0.1",
     "regenerator-runtime": "^0.13.7",
-    "safe-identifier": "^0.4.1",
-    "ts-dedent": "^2.0.0"
+    "safe-identifier": "^0.4.2",
+    "ts-dedent": "^2.1.1"
   },
   "devDependencies": {
-    "fs-extra": "^9.0.1"
+    "fs-extra": "^9.1.0"
   },
   "engines": {
     "node": ">=10.13.0"

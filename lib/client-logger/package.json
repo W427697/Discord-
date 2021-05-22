@@ -40,7 +40,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "core-js": "^3.8.2",
+    "core-js": "^3.12.1",
     "global": "^4.4.0"
   },
   "publishConfig": {

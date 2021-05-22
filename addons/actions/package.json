@@ -47,20 +47,20 @@
     "@storybook/components": "6.3.0-alpha.36",
     "@storybook/core-events": "6.3.0-alpha.36",
     "@storybook/theming": "6.3.0-alpha.36",
-    "core-js": "^3.8.2",
+    "core-js": "^3.12.1",
     "fast-deep-equal": "^3.1.3",
     "global": "^4.4.0",
-    "lodash": "^4.17.20",
-    "polished": "^4.0.5",
+    "lodash": "^4.17.21",
+    "polished": "^4.1.2",
     "prop-types": "^15.7.2",
-    "react-inspector": "^5.1.0",
+    "react-inspector": "^5.1.1",
     "regenerator-runtime": "^0.13.7",
-    "ts-dedent": "^2.0.0",
+    "ts-dedent": "^2.1.1",
     "util-deprecate": "^1.0.2",
     "uuid-browser": "^3.1.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.167",
+    "@types/lodash": "^4.14.170",
     "@types/webpack-env": "^1.16.0"
   },
   "peerDependencies": {

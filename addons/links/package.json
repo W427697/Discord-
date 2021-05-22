@@ -46,13 +46,13 @@
     "@storybook/core-events": "6.3.0-alpha.36",
     "@storybook/csf": "0.0.1",
     "@storybook/router": "6.3.0-alpha.36",
-    "@types/qs": "^6.9.5",
-    "core-js": "^3.8.2",
+    "@types/qs": "^6.9.6",
+    "core-js": "^3.12.1",
     "global": "^4.4.0",
     "prop-types": "^15.7.2",
-    "qs": "^6.10.0",
+    "qs": "^6.10.1",
     "regenerator-runtime": "^0.13.7",
-    "ts-dedent": "^2.0.0"
+    "ts-dedent": "^2.1.1"
   },
   "devDependencies": {
     "@types/webpack-env": "^1.16.0"

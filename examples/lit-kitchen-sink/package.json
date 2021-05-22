@@ -46,7 +46,7 @@
     "@storybook/ui": "portal:../../lib/ui"
   },
   "dependencies": {
-    "lit": "^2.0.0-rc.1"
+    "lit": "^2.0.0-rc.2"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "*",

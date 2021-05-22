@@ -40,8 +40,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "core-js": "^3.8.2",
-    "ts-dedent": "^2.0.0",
+    "core-js": "^3.12.1",
+    "ts-dedent": "^2.1.1",
     "util-deprecate": "^1.0.2"
   },
   "publishConfig": {

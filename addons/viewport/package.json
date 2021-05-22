@@ -48,7 +48,7 @@
     "@storybook/components": "6.3.0-alpha.36",
     "@storybook/core-events": "6.3.0-alpha.36",
     "@storybook/theming": "6.3.0-alpha.36",
-    "core-js": "^3.8.2",
+    "core-js": "^3.12.1",
     "global": "^4.4.0",
     "memoizerific": "^1.11.3",
     "prop-types": "^15.7.2",
