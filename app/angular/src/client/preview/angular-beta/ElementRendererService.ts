@@ -15,8 +15,6 @@ import { Parameters } from '../types-6-0';
 import { getStorybookModuleMetadata } from './StorybookModule';
 import { RendererService } from './RendererService';
 
-const customElementsVersions: Record<string, number> = {};
-
 /**
  * Bootstrap angular application to generate a web component with angular element
  */
@@ -29,53 +27,24 @@ export class ElementRendererService {
   public async renderAngularElement({
     storyFnAngular,
     parameters,
-    targetDOMNode,
   }: {
     storyFnAngular: StoryFnAngularReturnType;
     parameters: Parameters;
-    targetDOMNode: HTMLElement;
-  }): Promise<void> {
-    const id = `${targetDOMNode.id}`;
-
-    // Upgrade story version in order that the next defined component has a unique key
-    customElementsVersions[id] =
-      customElementsVersions[id] !== undefined ? customElementsVersions[id] + 1 : 0;
-
-    const targetSelector = `${id}_${customElementsVersions[id]}`;
-
+  }): Promise<CustomElementConstructor> {
     const ngModule = getStorybookModuleMetadata(
-      { storyFnAngular, parameters },
+      { storyFnAngular, parameters, targetSelector: RendererService.SELECTOR_STORYBOOK_WRAPPER },
       new BehaviorSubject<ICollection>(storyFnAngular.props)
     );
 
-    await this.rendererService.newPlatformBrowserDynamic();
-
-    this.rendererService.initAngularRootElement(targetDOMNode);
-
-    await this.rendererService.platform
-      .bootstrapModule(createElementsModule(ngModule, targetSelector))
-      .then(async (m) => {
-        await this.rendererService.destroyPlatformBrowserDynamic();
-
-        /** Hack :
-         * After `destroyPlatformBrowserDynamic` we add the customElements previously created
-         * Note: If it is added before the `destroyPlatformBrowserDynamic` it will be deleted with it :/
-         * Not sure if this is the best way to do it.
-         * /!\ Does not work with ivy
-         */
-        // eslint-disable-next-line no-param-reassign
-        targetDOMNode.innerHTML = '';
-        // eslint-disable-next-line no-undef
-        targetDOMNode.appendChild(document.createElement(targetSelector));
-      });
+    return this.rendererService
+      .newPlatformBrowserDynamic()
+      .bootstrapModule(createElementsModule(ngModule))
+      .then((m) => m.instance.ngEl);
   }
 }
 
-const createElementsModule = (
-  ngModule: NgModule,
-  targetSelector: string
-): Type<{ ngEl: CustomElementConstructor }> => {
-  @NgModule({ ...ngModule, entryComponents: [] })
+const createElementsModule = (ngModule: NgModule): Type<{ ngEl: CustomElementConstructor }> => {
+  @NgModule({ ...ngModule })
   class ElementsModule {
     public ngEl: NgElementConstructor<unknown>;
 
@@ -83,8 +52,6 @@ const createElementsModule = (
       this.ngEl = createCustomElement(ngModule.bootstrap[0] as Type<unknown>, {
         injector: this.injector,
       });
-      // eslint-disable-next-line no-undef
-      customElements.define(targetSelector, this.ngEl);
     }
 
     ngDoBootstrap() {}

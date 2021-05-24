@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { enableProdMode, NgModule, PlatformRef, ɵALLOW_MULTIPLE_PLATFORMS } from '@angular/core';
+import { enableProdMode, NgModule, PlatformRef } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -24,6 +24,8 @@ export class RendererService {
   }
 
   public platform: PlatformRef;
+
+  private staticRoot = document.getElementById('root');
 
   // Observable to change the properties dynamically without reloading angular module&component
   private storyProps$: Subject<ICollection | undefined>;
@@ -58,15 +60,16 @@ export class RendererService {
     storyFnAngular,
     forced,
     parameters,
-    targetDOMNode,
   }: {
     storyFnAngular: StoryFnAngularReturnType;
     forced: boolean;
     parameters: Parameters;
-    targetDOMNode: HTMLElement;
   }) {
     const storyProps$ = new BehaviorSubject<ICollection>(storyFnAngular.props);
-    const moduleMetadata = getStorybookModuleMetadata({ storyFnAngular, parameters }, storyProps$);
+    const moduleMetadata = getStorybookModuleMetadata(
+      { storyFnAngular, parameters, targetSelector: RendererService.SELECTOR_STORYBOOK_WRAPPER },
+      storyProps$
+    );
 
     if (
       !this.fullRendererRequired({
@@ -105,56 +108,34 @@ export class RendererService {
     }
     this.storyProps$ = storyProps$;
 
-    this.initAngularRootElement(targetDOMNode);
-
-    await this.newPlatformBrowserDynamic();
-    await this.platform.bootstrapModule(createStorybookModule(moduleMetadata));
+    await this.newPlatformBrowserDynamic().bootstrapModule(createStorybookModule(moduleMetadata));
   }
 
-  public async newPlatformBrowserDynamic() {
-    await this.destroyPlatformBrowserDynamic();
+  public newPlatformBrowserDynamic() {
+    // Before creating a new platform, we destroy the previous one cleanly.
+    this.destroyPlatformBrowserDynamic();
+
+    this.initAngularRootElement();
     this.platform = platformBrowserDynamic();
+
+    return this.platform;
   }
 
-  // Wait and destroy the platform
   public destroyPlatformBrowserDynamic() {
-    return new Promise<void>((resolve) => {
-      if (this.platform && !this.platform.destroyed) {
-        this.platform.onDestroy(() => {
-          try {
-            // Clear global Angular component cache in order to be able to re-render the same component across multiple stories
-            //
-            // References:
-            // https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/build_angular/src/webpack/plugins/hmr/hmr-accept.ts#L50
-            // https://github.com/angular/angular/blob/2ebe2bcb2fe19bf672316b05f15241fd7fd40803/packages/core/src/render3/jit/module.ts#L377-L384
-            // eslint-disable-next-line global-require
-            const resetCompiledComponents = require('@angular/core').ɵresetCompiledComponents;
-            resetCompiledComponents();
-          } catch (e) {
-            /**
-             * noop catch
-             * This means angular removed or modified ɵresetCompiledComponents
-             *
-             * Probably, they added a clearCache mechanism to platform.destroy() and
-             * we can simply remove this in case no errors are thrown during runtime
-             */
-          }
-          resolve();
-        });
-        // Destroys the current Angular platform and all Angular applications on the page.
-        // So call each angular ngOnDestroy and avoid memory leaks
-        this.platform.destroy();
-        return;
-      }
-      resolve();
-    });
+    if (this.platform && !this.platform.destroyed) {
+      // Destroys the current Angular platform and all Angular applications on the page.
+      // So call each angular ngOnDestroy and avoid memory leaks
+      this.platform.destroy();
+    }
   }
 
-  public initAngularRootElement(targetDOMNode: HTMLElement) {
+  private initAngularRootElement() {
     // Adds DOM element that angular will use as bootstrap component
-    // eslint-disable-next-line no-param-reassign
-    targetDOMNode.innerHTML = '';
-    targetDOMNode.appendChild(document.createElement(RendererService.SELECTOR_STORYBOOK_WRAPPER));
+    const storybookWrapperElement = document.createElement(
+      RendererService.SELECTOR_STORYBOOK_WRAPPER
+    );
+    this.staticRoot.innerHTML = '';
+    this.staticRoot.appendChild(storybookWrapperElement);
   }
 
   private fullRendererRequired({

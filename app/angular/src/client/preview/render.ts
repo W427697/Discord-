@@ -1,46 +1,39 @@
 import { StoryFn } from '@storybook/addons';
-import { RendererService } from './angular-beta/RendererService';
 
 import { renderNgApp } from './angular/helpers';
 import { StoryFnAngularReturnType } from './types';
 import { Parameters } from './types-6-0';
 
-import { ElementRendererService } from '../../element-renderer';
+import { RendererFactory } from './angular-beta/RendererFactory';
 
 const rootElement = global.document.getElementById('root');
 
-// add proper types
+const rendererFactory = new RendererFactory();
+
 export default async function renderMain({
   storyFn,
   forceRender,
   parameters,
   targetDOMNode = rootElement,
+  id,
 }: {
   storyFn: StoryFn<StoryFnAngularReturnType>;
   showMain: () => void;
   forceRender: boolean;
   parameters: Parameters;
   targetDOMNode: HTMLElement;
+  id: string;
 }) {
-  if (targetDOMNode.id !== 'root') {
-    const elementRendererService = new ElementRendererService();
-    await elementRendererService.renderAngularElement({
-      storyFnAngular: storyFn(),
-      parameters,
-      targetDOMNode,
-    });
-    return;
-  }
-
   if (parameters.angularLegacyRendering) {
     renderNgApp(storyFn, forceRender);
     return;
   }
 
-  RendererService.getInstance().render({
+  const renderer = rendererFactory.getRendererInstance(id, targetDOMNode);
+
+  await renderer.render({
     storyFnAngular: storyFn(),
     parameters,
     forced: forceRender,
-    targetDOMNode,
   });
 }
