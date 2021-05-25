@@ -1,6 +1,6 @@
 import { combineParameters } from '@storybook/client-api';
 import { StoryContext, Parameters } from '@storybook/addons';
-import { extractSource, LocationsMap } from '@storybook/source-loader';
+import type { LocationsMap } from '@storybook/source-loader';
 
 interface StorySource {
   source: string;
@@ -25,7 +25,8 @@ const extract = (targetId: string, { source, locationsMap }: StorySource) => {
   }
   const lines = source.split('\n');
 
-  return extractSource(location, lines);
+  // eslint-disable-next-line global-require
+  return require('@storybook/source-loader').extractSource(location, lines);
 };
 
 export const enhanceSource = (context: StoryContext): Parameters => {
