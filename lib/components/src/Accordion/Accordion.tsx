@@ -159,20 +159,18 @@ const Wrapper = styled.ul<WrapperProps>`
   ${({ theme }) => css`
     background-color: ${theme.background.content};
 
-    [data-sb-accordion-header] {
-      padding: 16px;
-    }
-
-    [data-sb-accordion-body] {
-      font-size: 14px;
-    }
-
     [data-sb-accordion-item] {
       [data-sb-accordion-header] {
+        padding: 16px;
         cursor: pointer;
+
         &:hover {
           background-color: ${theme.background.hoverable};
         }
+      }
+
+      [data-sb-accordion-body] {
+        font-size: 14px;
       }
 
       &[aria-expanded='true'] {

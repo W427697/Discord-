@@ -38,7 +38,7 @@ const Wrapper = styled(Accordion)`
       margin-top: 3px;
     }
 
-    [data-sb-accordion-body-inner] {
+    [data-sb-accordion-body] {
       font-size: 13px;
     }
 
