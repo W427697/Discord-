@@ -1,10 +1,11 @@
 import React from 'react';
-import type { Story as StoryType, Meta } from '@storybook/react';
 import { AccordionList as AccordionListProxy } from './AccordionList';
 import { AccordionItem } from '../Accordion/AccordionItem';
 import { AccordionHeader } from '../Accordion/AccordionHeader';
 import { AccordionBody } from '../Accordion/AccordionBody';
 
+// eslint-disable-next-line import/order
+import type { Story, Meta } from '@storybook/react';
 import type { AccordionListProps } from './AccordionList';
 
 export default {
@@ -12,7 +13,7 @@ export default {
   component: AccordionListProxy,
 } as Meta;
 
-const Template: StoryType<AccordionListProps> = (args) => {
+const Template: Story<AccordionListProps> = (args) => {
   return (
     <AccordionListProxy {...args}>
       <AccordionItem>
@@ -110,7 +111,7 @@ DefaultStory.args = {
   rounded: true,
 };
 
-export const HeadersOnly: StoryType<AccordionListProps> = (args) => {
+export const HeadersOnly: Story<AccordionListProps> = (args) => {
   return (
     <AccordionListProxy {...args}>
       <AccordionItem>
