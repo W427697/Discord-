@@ -1,7 +1,8 @@
 import React from 'react';
-import type { Story as StoryType, Meta } from '@storybook/react';
 import { AccordionBody as AccordionBodyProxy } from './AccordionBody';
 
+// eslint-disable-next-line import/order
+import type { Story, Meta } from '@storybook/react';
 import type { AccordionBodyProps } from './AccordionBody';
 
 export default {
@@ -9,7 +10,7 @@ export default {
   component: AccordionBodyProxy,
 } as Meta;
 
-const Template: StoryType<AccordionBodyProps> = (args) => {
+const Template: Story<AccordionBodyProps> = (args) => {
   return (
     <AccordionBodyProxy {...args}>
       Minim proident eu aliqua irure tempor incididunt fugiat. Adipisicing aliquip cillum esse amet.

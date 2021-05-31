@@ -5,7 +5,7 @@ import { AccordionHeader } from './AccordionHeader';
 import { AccordionBody } from './AccordionBody';
 
 // eslint-disable-next-line import/order
-import type { Story as StoryType, Meta } from '@storybook/react';
+import type { Story, Meta } from '@storybook/react';
 import type { AccordionProps } from './Accordion';
 
 export default {
@@ -13,7 +13,7 @@ export default {
   component: AccordionProxy,
 } as Meta;
 
-const Template: StoryType<AccordionProps> = (args) => {
+const Template: Story<AccordionProps> = (args) => {
   return (
     <AccordionProxy {...args}>
       <AccordionItem>
@@ -58,7 +58,7 @@ DefaultStory.args = {
   lined: true,
 };
 
-export const HeadersOnly: StoryType<AccordionProps> = (args) => {
+export const HeadersOnly: Story<AccordionProps> = (args) => {
   return (
     <AccordionProxy {...args}>
       <AccordionItem>

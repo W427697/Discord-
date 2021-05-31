@@ -1,9 +1,10 @@
 import React from 'react';
-import type { Story as StoryType, Meta } from '@storybook/react';
 import { AccordionItem as AccordionItemProxy } from './AccordionItem';
 import { AccordionHeader } from './AccordionHeader';
 import { AccordionBody } from './AccordionBody';
 
+// eslint-disable-next-line import/order
+import type { Story, Meta } from '@storybook/react';
 import type { AccordionItemProps } from './AccordionItem';
 
 export default {
@@ -11,7 +12,7 @@ export default {
   component: AccordionItemProxy,
 } as Meta;
 
-const Template: StoryType<AccordionItemProps> = (args) => {
+const Template: Story<AccordionItemProps> = (args) => {
   return (
     <AccordionItemProxy {...args}>
       <AccordionHeader>Item 1</AccordionHeader>

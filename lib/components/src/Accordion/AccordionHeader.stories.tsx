@@ -1,7 +1,8 @@
 import React from 'react';
-import type { Story as StoryType, Meta } from '@storybook/react';
 import { AccordionHeader as AccordionHeaderProxy } from './AccordionHeader';
 
+// eslint-disable-next-line import/order
+import type { Story, Meta } from '@storybook/react';
 import type { AccordionHeaderProps } from './AccordionHeader';
 
 export default {
@@ -9,7 +10,7 @@ export default {
   component: AccordionHeaderProxy,
 } as Meta;
 
-const Template: StoryType<AccordionHeaderProps> = (args) => {
+const Template: Story<AccordionHeaderProps> = (args) => {
   return <AccordionHeaderProxy {...args}>Item 1</AccordionHeaderProxy>;
 };
 
