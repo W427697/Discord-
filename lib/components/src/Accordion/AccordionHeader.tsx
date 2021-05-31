@@ -50,7 +50,7 @@ export const AccordionHeader = ({
     }
   }, [context, setOpen]);
 
-  const LabelProps: React.HTMLAttributes<HTMLDivElement> = {};
+  const LabelProps: React.HTMLAttributes<HTMLDivElement> = { ..._LabelProps };
 
   if (id.current) {
     LabelProps.id = id.current;
