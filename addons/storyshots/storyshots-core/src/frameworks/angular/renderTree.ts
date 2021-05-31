@@ -5,7 +5,6 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { addSerializer } from 'jest-specific-snapshot';
 import { getStorybookModuleMetadata } from '@storybook/angular/renderer';
 import { BehaviorSubject } from 'rxjs';
-import { getPlatform } from '@angular/core';
 
 addSerializer(HTMLCommentSerializer);
 addSerializer(AngularSnapshotSerializer);

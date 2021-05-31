@@ -7,6 +7,7 @@ export class CanvasRenderer extends AbstractRenderer {
     storyFnAngular: StoryFnAngularReturnType;
     forced: boolean;
     parameters: Parameters;
+    targetDOMNode: HTMLElement;
   }) {
     await super.render(options).then(async () => {
       await CanvasRenderer.resetCompiledComponents();

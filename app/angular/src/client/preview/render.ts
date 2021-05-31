@@ -29,11 +29,12 @@ export default async function renderMain({
     return;
   }
 
-  const renderer = rendererFactory.getRendererInstance(id, targetDOMNode);
+  const renderer = await rendererFactory.getRendererInstance(id, targetDOMNode);
 
   await renderer.render({
     storyFnAngular: storyFn(),
     parameters,
     forced: forceRender,
+    targetDOMNode,
   });
 }

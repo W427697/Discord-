@@ -25,9 +25,8 @@ export abstract class AbstractRenderer {
   /**
    * Wait and destroy the platform
    */
-  protected static resetPlatformBrowserDynamic() {
+  public static resetPlatformBrowserDynamic() {
     return new Promise<void>((resolve) => {
-      resolve();
       if (platformRef && !platformRef.destroyed) {
         platformRef.onDestroy(async () => {
           await AbstractRenderer.resetCompiledComponents();
@@ -70,7 +69,7 @@ export abstract class AbstractRenderer {
   // Observable to change the properties dynamically without reloading angular module&component
   protected storyProps$: Subject<ICollection | undefined>;
 
-  constructor(public storyId: string, public targetDOMNode: HTMLElement) {
+  constructor(public storyId: string) {
     if (typeof NODE_ENV === 'string' && NODE_ENV !== 'development') {
       try {
         // platform should be set after enableProdMode()
@@ -83,10 +82,6 @@ export abstract class AbstractRenderer {
   }
 
   protected abstract beforeFullRender(): Promise<void>;
-
-  protected get targetSelector(): string {
-    return `${this.targetDOMNode.id}`;
-  }
 
   /**
    * Bootstrap main angular module with main component or send only new `props` with storyProps$
@@ -101,14 +96,18 @@ export abstract class AbstractRenderer {
     storyFnAngular,
     forced,
     parameters,
+    targetDOMNode,
   }: {
     storyFnAngular: StoryFnAngularReturnType;
     forced: boolean;
     parameters: Parameters;
+    targetDOMNode: HTMLElement;
   }) {
+    const targetSelector = `${this.storyId}`;
+
     const newStoryProps$ = new BehaviorSubject<ICollection>(storyFnAngular.props);
     const moduleMetadata = getStorybookModuleMetadata(
-      { storyFnAngular, parameters, targetSelector: this.targetSelector },
+      { storyFnAngular, parameters, targetSelector },
       newStoryProps$
     );
 
@@ -131,15 +130,16 @@ export abstract class AbstractRenderer {
     }
     this.storyProps$ = newStoryProps$;
 
-    this.initAngularRootElement();
+    this.initAngularRootElement(targetDOMNode, targetSelector);
 
     await getPlatform().bootstrapModule(createStorybookModule(moduleMetadata));
   }
 
-  protected initAngularRootElement() {
+  protected initAngularRootElement(targetDOMNode: HTMLElement, targetSelector: string) {
     // Adds DOM element that angular will use as bootstrap component
-    this.targetDOMNode.innerHTML = '';
-    this.targetDOMNode.appendChild(document.createElement(this.targetSelector));
+    // eslint-disable-next-line no-param-reassign
+    targetDOMNode.innerHTML = '';
+    targetDOMNode.appendChild(document.createElement(targetSelector));
   }
 
   protected reset(): void {

@@ -9,6 +9,7 @@ export class DocsRenderer extends AbstractRenderer {
     storyFnAngular: StoryFnAngularReturnType;
     forced: boolean;
     parameters: Parameters;
+    targetDOMNode: HTMLElement;
   }) {
     // Note : no optimization on rendering when only args change
     // the doc empties the html container every time, so we have to reset renderer
@@ -30,7 +31,7 @@ export class DocsRenderer extends AbstractRenderer {
       await DocsRenderer.resetPlatformBrowserDynamic();
     });
 
-    await super.render(options);
+    await super.render({ ...options, forced: false });
   }
 
   async beforeFullRender(): Promise<void> {

@@ -8,25 +8,27 @@ export class RendererFactory {
 
   private rendererMap = new Map<string, AbstractRenderer>();
 
-  public getRendererInstance(storyId: string, targetDOMNode: HTMLElement) {
+  public async getRendererInstance(storyId: string, targetDOMNode: HTMLElement) {
+    const renderType = getRenderType(targetDOMNode);
     // keep only instances of the same type
-    if (this.lastRenderType && this.lastRenderType !== getRenderType(targetDOMNode)) {
+    if (this.lastRenderType && this.lastRenderType !== renderType) {
       this.rendererMap.clear();
+      await AbstractRenderer.resetPlatformBrowserDynamic();
     }
 
     if (!this.rendererMap.has(storyId)) {
-      this.rendererMap.set(storyId, this.buildRenderer(storyId, targetDOMNode));
+      this.rendererMap.set(storyId, this.buildRenderer(storyId, renderType));
     }
 
-    this.lastRenderType = getRenderType(targetDOMNode);
+    this.lastRenderType = renderType;
     return this.rendererMap.get(storyId);
   }
 
-  private buildRenderer(storyId: string, targetDOMNode: HTMLElement) {
-    if (getRenderType(targetDOMNode) === 'docs') {
-      return new DocsRenderer(storyId, targetDOMNode);
+  private buildRenderer(storyId: string, renderType: 'canvas' | 'docs') {
+    if (renderType === 'docs') {
+      return new DocsRenderer(storyId);
     }
-    return new CanvasRenderer(storyId, targetDOMNode);
+    return new CanvasRenderer(storyId);
   }
 }
 
