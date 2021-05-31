@@ -57,7 +57,7 @@ export const AccordionHeader = ({
   }
 
   return (
-    <Wrapper data-sb-accordion-header="" role="button" onClick={handleOnClick} {...rest}>
+    <Wrapper data-sb-accordion-header="" onClick={handleOnClick} {...rest}>
       <Expander data-sb-accordion-expander="" open={open}>
         {Icon !== undefined ? (
           Icon
