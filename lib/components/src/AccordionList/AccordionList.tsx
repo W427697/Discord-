@@ -28,22 +28,22 @@ export const AccordionList = ({
 
 const Wrapper = styled(Accordion)`
   [data-sb-accordion-item] {
-    [data-sb-accordion-header] {
+    & > [data-sb-accordion-header] {
       font-size: 13px;
       padding: 12px 10px;
+
+      & > [data-sb-accordion-expander] {
+        margin-right: 10px;
+        margin-top: 3px;
+      }
     }
 
-    [data-sb-accordion-expander] {
-      margin-right: 10px;
-      margin-top: 3px;
-    }
-
-    [data-sb-accordion-body] {
+    & > [data-sb-accordion-body] {
       font-size: 13px;
     }
 
     &[aria-expanded='true'] {
-      [data-sb-accordion-body-inner] {
+      & > [data-sb-accordion-body] > [data-sb-accordion-body-inner] {
         padding: 10px 10px 10px 30px;
       }
     }

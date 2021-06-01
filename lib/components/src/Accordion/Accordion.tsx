@@ -142,7 +142,7 @@ const Wrapper = styled.ul<WrapperProps>`
   ${({ theme, lined }) =>
     lined
       ? css`
-          & [data-sb-accordion-item] {
+          & > [data-sb-accordion-item] {
             border-bottom: 1px solid ${theme.appBorderColor};
 
             &:last-child {
@@ -150,7 +150,7 @@ const Wrapper = styled.ul<WrapperProps>`
             }
 
             &[aria-expanded='true'] {
-              [data-sb-accordion-header] {
+              & > [data-sb-accordion-header] {
                 border-bottom: 1px solid ${theme.appBorderColor};
               }
             }
@@ -168,8 +168,8 @@ const Wrapper = styled.ul<WrapperProps>`
   ${({ theme }) => css`
     background-color: ${theme.background.content};
 
-    [data-sb-accordion-item] {
-      [data-sb-accordion-header] {
+    & > [data-sb-accordion-item] {
+      & > [data-sb-accordion-header] {
         padding: 16px;
         cursor: pointer;
 
@@ -178,19 +178,19 @@ const Wrapper = styled.ul<WrapperProps>`
         }
       }
 
-      [data-sb-accordion-body] {
+      & > [data-sb-accordion-body] {
         font-size: 14px;
       }
 
       &[aria-expanded='true'] {
-        [data-sb-accordion-body-inner] {
+        & > [data-sb-accordion-body] > [data-sb-accordion-body-inner] {
           padding: 16px 16px 16px 42px;
           background-color: ${theme.background.app};
         }
       }
 
       &[data-sb-state-prevent-expander='true'] {
-        [data-sb-accordion-header] {
+        & > [data-sb-accordion-header] {
           cursor: default;
         }
       }
