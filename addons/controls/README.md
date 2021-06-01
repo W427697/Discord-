@@ -85,8 +85,8 @@ export const Reflow = () => {
   const label = text('Label', 'reflow');
   return (
     <>
-      {range(count).map((i) => (
-        <Button label={`button ${i}`} />
+      {[...Array(count)].map((_, i) => (
+        <Button key={i} label={`button ${i}`} />
       ))}
     </>
   );
@@ -97,11 +97,26 @@ And again, as above, this can be rewritten using [fully custom args](https://sto
 
 ```jsx
 export const Reflow = ({ count, label, ...args }) => (
-  <>{range(count).map((i) => <Button label={`${label} ${i}` {...args}} />)}</>
+  <>
+    {[...Array(count)].map((_, i) => (
+      <Button key={i} label={`${label} ${i}`} {...args} />
+    ))}
+  </>
 );
-Reflow.args = { count: 3, label: 'reflow' };
+
+Reflow.args = {
+  count: 3,
+  label: 'reflow',
+};
+
 Reflow.argTypes = {
-  count: { control: { type: 'range', min: 0, max: 20 } }
+  count: {
+    control: {
+      type: 'range',
+      min: 0,
+      max: 20,
+    },
+  },
 };
 ```
 
@@ -126,6 +141,7 @@ export default {
 };
 
 export const Basic = (args) => <Button {...args} />;
+
 Basic.args = {
   label: 'hello',
   borderWidth: 1,
