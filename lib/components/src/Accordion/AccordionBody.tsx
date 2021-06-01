@@ -35,6 +35,7 @@ type InnerWrapperProps = {
 
 const InnerWrapper = styled.div<InnerWrapperProps>(({ open, theme }) => ({
   height: open ? 'auto' : 0,
+  display: open ? 'block' : 'none',
   transition: `height 175ms ease-in-out`,
   color: theme.color.defaultText,
 }));

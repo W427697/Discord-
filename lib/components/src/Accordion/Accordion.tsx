@@ -172,6 +172,7 @@ const Wrapper = styled.ul<WrapperProps>`
       & > [data-sb-accordion-header] {
         padding: 16px;
         cursor: pointer;
+        border: 1px solid transparent;
 
         &:hover {
           background-color: ${theme.background.hoverable};
