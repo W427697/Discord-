@@ -50,6 +50,9 @@ export const AccordionHeader = ({
     }
   }, [context, setOpen]);
 
+  // If custom DOM is provided in the header, then we can no longer automate
+  // aria-labelledby="" for the <AccordionItem /> and user has to provide both the
+  // id for the label and add aria-labelledby on <AccordionItem /> to match
   const LabelProps: React.HTMLAttributes<HTMLDivElement> = { ..._LabelProps };
 
   if (id.current) {
