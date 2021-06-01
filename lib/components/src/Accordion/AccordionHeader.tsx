@@ -76,6 +76,7 @@ export const AccordionHeader = ({
 };
 
 const Wrapper = styled.button`
+  width: 100%;
   display: flex;
   align-items: center;
   padding: 0;
@@ -113,4 +114,5 @@ const Chevron = styled(Icons)`
 
 const Label = styled.div(({ theme }) => ({
   color: theme.color.defaultText,
+  width: '100%',
 }));
