@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { css, styled } from '@storybook/theming';
 import { Accordion } from '../Accordion/Accordion';
 
 import type { AccordionProps } from '../Accordion/Accordion';
@@ -31,7 +31,7 @@ const Wrapper = styled(Accordion)`
   & > [data-sb-accordion-item] {
     & > [data-sb-accordion-header] {
       font-size: 13px;
-      padding: 12px 10px;
+      padding: 12px 15px 12px 10px;
 
       & > [data-sb-accordion-expander] {
         margin-right: 10px;
@@ -45,8 +45,15 @@ const Wrapper = styled(Accordion)`
 
     &[aria-expanded='true'] {
       & > [data-sb-accordion-body] > [data-sb-accordion-body-inner] {
-        padding: 10px 10px 10px 30px;
+        padding: 16px 15px 16px 30px;
       }
     }
   }
+
+  ${({ theme }) => css`
+    & > [data-sb-accordion-item] {
+      &:last-child {
+        border-bottom: 1px solid ${theme.appBorderColor};
+      }
+  `}
 `;
