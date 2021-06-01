@@ -11,6 +11,10 @@ import type { AccordionProps } from './Accordion';
 export default {
   title: 'Basics/Accordion',
   component: AccordionProxy,
+  argTypes: { onOpen: { action: 'open' }, onClose: { action: 'close' } },
+  parameters: {
+    layout: 'padded',
+  },
 } as Meta;
 
 const Template: Story<AccordionProps> = (args) => {

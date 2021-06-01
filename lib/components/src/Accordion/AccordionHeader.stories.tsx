@@ -8,6 +8,9 @@ import type { AccordionHeaderProps } from './AccordionHeader';
 export default {
   title: 'Basics/Accordion/Components',
   component: AccordionHeaderProxy,
+  parameters: {
+    layout: 'padded',
+  },
 } as Meta;
 
 const Template: Story<AccordionHeaderProps> = (args) => {

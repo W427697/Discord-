@@ -78,17 +78,26 @@ export const Accordion = ({
 
   const onItemExpand = useCallback(
     (id: string) => {
-      const newExpanded = { ...open };
+      const newOpen = { ...open };
+      let oldOpen: StateChange | undefined;
 
       if (allowMultipleOpen) {
-        newExpanded[id] = true;
+        newOpen[id] = true;
       } else {
         Object.keys(open).forEach((key) => {
-          newExpanded[key] = id === key;
+          if (open[key]) {
+            oldOpen = { id: key, index: itemMap.current[key].index };
+          }
+
+          newOpen[key] = id === key;
         });
       }
 
-      setOpen({ ...open, ...newExpanded });
+      if (oldOpen) {
+        onClose(oldOpen);
+      }
+
+      setOpen({ ...open, ...newOpen });
       onOpen({ id, index: itemMap.current[id].index });
     },
     [open, setOpen]

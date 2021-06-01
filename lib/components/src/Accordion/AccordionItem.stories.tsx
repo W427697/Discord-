@@ -10,6 +10,9 @@ import type { AccordionItemProps } from './AccordionItem';
 export default {
   title: 'Basics/Accordion/Components',
   component: AccordionItemProxy,
+  parameters: {
+    layout: 'padded',
+  },
 } as Meta;
 
 const Template: Story<AccordionItemProps> = (args) => {

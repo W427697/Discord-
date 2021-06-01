@@ -8,6 +8,9 @@ import type { AccordionBodyProps } from './AccordionBody';
 export default {
   title: 'Basics/Accordion/Components',
   component: AccordionBodyProxy,
+  parameters: {
+    layout: 'padded',
+  },
 } as Meta;
 
 const Template: Story<AccordionBodyProps> = (args) => {
