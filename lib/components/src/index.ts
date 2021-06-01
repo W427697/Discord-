@@ -49,6 +49,10 @@ export * from './controls';
 // Loader
 export { Loader } from './Loader/Loader';
 
+// Accordion
+export { Accordion, AccordionItem, AccordionHeader, AccordionBody } from './Accordion';
+export { AccordionList } from './AccordionList/AccordionList';
+
 export * from './typography/DocumentFormatting';
 
 export { rawComponents as components };
