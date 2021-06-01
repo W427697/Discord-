@@ -60,44 +60,6 @@ DefaultStory.args = {
   lined: true,
 };
 
-export const OneForcedOpen: Story<AccordionProps> = (args) => (
-  <Accordion {...args}>
-    <AccordionItem>
-      <AccordionHeader>Item 1</AccordionHeader>
-      <AccordionBody>
-        Minim proident eu aliqua irure tempor incididunt fugiat. Adipisicing aliquip cillum esse
-        amet. Consequat qui consectetur duis laboris aliqua fugiat Lorem eiusmod ut cupidatat
-        excepteur. Magna nulla nulla velit voluptate duis nulla quis Lorem dolore labore aliqua sit
-        ipsum.
-      </AccordionBody>
-    </AccordionItem>
-    <AccordionItem open>
-      <AccordionHeader>Forced Open</AccordionHeader>
-      <AccordionBody>
-        Minim proident eu aliqua irure tempor incididunt fugiat. Adipisicing aliquip cillum esse
-        amet. Consequat qui consectetur duis laboris aliqua fugiat Lorem eiusmod ut cupidatat
-        excepteur. Magna nulla nulla velit voluptate duis nulla quis Lorem dolore labore aliqua sit
-        ipsum.
-      </AccordionBody>
-    </AccordionItem>
-    <AccordionItem>
-      <AccordionHeader>Item 3</AccordionHeader>
-      <AccordionBody>
-        Minim proident eu aliqua irure tempor incididunt fugiat. Adipisicing aliquip cillum esse
-        amet. Consequat qui consectetur duis laboris aliqua fugiat Lorem eiusmod ut cupidatat
-        excepteur. Magna nulla nulla velit voluptate duis nulla quis Lorem dolore labore aliqua sit
-        ipsum.
-      </AccordionBody>
-    </AccordionItem>
-  </Accordion>
-);
-OneForcedOpen.args = {
-  allowMultipleOpen: false,
-  bordered: true,
-  rounded: true,
-  lined: true,
-};
-
 export const HeadersOnly: Story<AccordionProps> = (args) => (
   <Accordion {...args}>
     <AccordionItem>
