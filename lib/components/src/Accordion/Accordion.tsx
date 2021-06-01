@@ -100,14 +100,14 @@ export const Accordion = ({
       setOpen({ ...open, ...newOpen });
       onOpen({ id, index: itemMap.current[id].index });
     },
-    [open, setOpen]
+    [open, setOpen, itemMap]
   );
 
   useEffect(() => {
     if (Object.keys(itemMap.current).length === Children.count(children)) {
       setOpen({ ...open, ...openMap.current });
     }
-  }, [itemMap.current, openMap.current]);
+  }, [itemMap, openMap]);
 
   return (
     <AccordionContext.Provider
