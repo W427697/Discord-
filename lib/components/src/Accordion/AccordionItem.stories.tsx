@@ -1,5 +1,5 @@
 import React from 'react';
-import { AccordionItem as AccordionItemProxy } from './AccordionItem';
+import { AccordionItem } from './AccordionItem';
 import { AccordionHeader } from './AccordionHeader';
 import { AccordionBody } from './AccordionBody';
 
@@ -9,27 +9,24 @@ import type { AccordionItemProps } from './AccordionItem';
 
 export default {
   title: 'Basics/Accordion/Components',
-  component: AccordionItemProxy,
+  component: AccordionItem,
   parameters: {
     layout: 'padded',
   },
 } as Meta;
 
-const Template: Story<AccordionItemProps> = (args) => {
-  return (
-    <AccordionItemProxy {...args}>
-      <AccordionHeader>Item 1</AccordionHeader>
-      <AccordionBody>
-        Minim proident eu aliqua irure tempor incididunt fugiat. Adipisicing aliquip cillum esse
-        amet. Consequat qui consectetur duis laboris aliqua fugiat Lorem eiusmod ut cupidatat
-        excepteur. Magna nulla nulla velit voluptate duis nulla quis Lorem dolore labore aliqua sit
-        ipsum.
-      </AccordionBody>
-    </AccordionItemProxy>
-  );
-};
+const Template: Story<AccordionItemProps> = (args) => (
+  <AccordionItem {...args}>
+    <AccordionHeader>Item 1</AccordionHeader>
+    <AccordionBody>
+      Minim proident eu aliqua irure tempor incididunt fugiat. Adipisicing aliquip cillum esse amet.
+      Consequat qui consectetur duis laboris aliqua fugiat Lorem eiusmod ut cupidatat excepteur.
+      Magna nulla nulla velit voluptate duis nulla quis Lorem dolore labore aliqua sit ipsum.
+    </AccordionBody>
+  </AccordionItem>
+);
 
-export const AccordionItem = Template.bind({});
-AccordionItem.args = {
+export const Item = Template.bind({});
+Item.args = {
   open: false,
 };
