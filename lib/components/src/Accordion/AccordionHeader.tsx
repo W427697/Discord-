@@ -84,8 +84,6 @@ const Wrapper = styled.button`
   width: 100%;
   text-align: left;
   background-color: transparent;
-  border-radius: 0;
-  box-sizing: border-box;
 `;
 
 type ExpanderProps = {
