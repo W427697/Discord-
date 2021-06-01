@@ -62,11 +62,7 @@ export const AccordionHeader = ({
   return (
     <Wrapper data-sb-accordion-header="" onClick={handleOnClick} {...rest}>
       <Expander data-sb-accordion-expander="" open={open}>
-        {Icon !== undefined ? (
-          Icon
-        ) : (
-          <Icons icon="chevrondown" style={{ transform: 'rotate(-90deg)' }} />
-        )}
+        {Icon !== undefined ? Icon : <Chevron icon="chevrondown" />}
       </Expander>
       <Label data-sb-accordion-label="" {...LabelProps}>
         {label || children}
@@ -105,6 +101,10 @@ const Expander = styled.div<ExpanderProps>`
     transition: transform 0.1s ease-in-out;
     align-self: flex-start;
   `}
+`;
+
+const Chevron = styled(Icons)`
+  transform: rotate(-90deg);
 `;
 
 const Label = styled.div(({ theme }) => ({
