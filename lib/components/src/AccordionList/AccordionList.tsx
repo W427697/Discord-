@@ -16,11 +16,12 @@ export type AccordionListProps = {} & AccordionProps;
  */
 export const AccordionList = ({
   allowMultipleOpen = true,
+  lined = true,
   children,
   ...rest
 }: AccordionListProps) => {
   return (
-    <Wrapper lined allowMultipleOpen={allowMultipleOpen} {...rest}>
+    <Wrapper lined={lined} allowMultipleOpen={allowMultipleOpen} {...rest}>
       {children}
     </Wrapper>
   );
