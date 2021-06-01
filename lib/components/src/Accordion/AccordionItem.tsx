@@ -45,17 +45,17 @@ export const AccordionItem = ({ children, open: _open = false, ...rest }: Accord
   // Possible outside influences such as from prop or from context provider
   useEffect(() => {
     if (!preventOpen) {
-      let newExpanded = open;
+      let newOpen = open;
 
       if (_open !== open) {
-        newExpanded = _open;
+        newOpen = _open;
       }
 
       if (context !== null) {
-        newExpanded = context.open[id.current];
+        newOpen = context.open[id.current];
       }
 
-      setOpen(newExpanded);
+      setOpen(newOpen);
     }
   }, [context, _open, preventOpen]);
 
