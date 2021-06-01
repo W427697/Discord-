@@ -12,10 +12,10 @@ export const AccordionItem = ({ children, open: _open = false, ...rest }: Accord
   const [open, setOpen] = useState(_open);
   const context = useContext(AccordionContext);
   const id = useRef(uniqueId('AccordionItem-'));
-  const preventExpander = Children.count(children) < 2;
+  const preventOpen = Children.count(children) < 2;
 
   const onExpand = useCallback(() => {
-    if (!preventExpander) {
+    if (!preventOpen) {
       if (context !== null) {
         context.onOpen(id.current);
       } else {
@@ -25,7 +25,7 @@ export const AccordionItem = ({ children, open: _open = false, ...rest }: Accord
   }, [setOpen, context]);
 
   const onCollapse = useCallback(() => {
-    if (!preventExpander) {
+    if (!preventOpen) {
       if (context !== null) {
         context.onClose(id.current);
       } else {
@@ -44,7 +44,7 @@ export const AccordionItem = ({ children, open: _open = false, ...rest }: Accord
 
   // Possible outside influences such as from prop or from context provider
   useEffect(() => {
-    if (!preventExpander) {
+    if (!preventOpen) {
       let newExpanded = open;
 
       if (_open !== open) {
@@ -57,12 +57,12 @@ export const AccordionItem = ({ children, open: _open = false, ...rest }: Accord
 
       setOpen(newExpanded);
     }
-  }, [context, _open]);
+  }, [context, _open, preventOpen]);
 
   return (
     <AccordionItemContext.Provider
       value={{
-        open: preventExpander ? false : open,
+        open: preventOpen ? false : open,
         onClose: onCollapse,
         onOpen: onExpand,
         id: id.current,
@@ -72,8 +72,8 @@ export const AccordionItem = ({ children, open: _open = false, ...rest }: Accord
         aria-labelledby={`${id.current}-label`}
         aria-expanded={open ? 'true' : 'false'}
         data-sb-accordion-item=""
-        data-sb-state-prevent-expander={preventExpander ? 'true' : 'false'}
-        preventExpander={preventExpander}
+        data-sb-state-prevent-expander={preventOpen ? 'true' : 'false'}
+        preventOpen={preventOpen}
         {...rest}
       >
         {children}
@@ -83,7 +83,7 @@ export const AccordionItem = ({ children, open: _open = false, ...rest }: Accord
 };
 
 type WrapperProps = {
-  preventExpander: boolean;
+  preventOpen: boolean;
 };
 
 const Wrapper = styled.li<WrapperProps>`
@@ -91,8 +91,8 @@ const Wrapper = styled.li<WrapperProps>`
   margin: 0;
   list-style: none;
 
-  ${({ preventExpander }) =>
-    preventExpander
+  ${({ preventOpen }) =>
+    preventOpen
       ? css`
           [data-sb-accordion-expander] {
             display: none;
