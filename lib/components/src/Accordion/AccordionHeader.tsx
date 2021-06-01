@@ -62,7 +62,11 @@ export const AccordionHeader = ({
   return (
     <Wrapper data-sb-accordion-header="" onClick={handleOnClick} {...rest}>
       <Expander data-sb-accordion-expander="" open={open}>
-        {Icon !== undefined ? Icon : <Chevron icon="chevrondown" />}
+        {Icon !== undefined ? (
+          Icon
+        ) : (
+          <Chevron role="img" aria-label="expander" icon="chevrondown" />
+        )}
       </Expander>
       <Label data-sb-accordion-label="" {...LabelProps}>
         {label || children}

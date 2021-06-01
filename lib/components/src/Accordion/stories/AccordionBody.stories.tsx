@@ -1,9 +1,9 @@
 import React from 'react';
-import { AccordionBody } from './AccordionBody';
+import { AccordionBody } from '../AccordionBody';
 
 // eslint-disable-next-line import/order
 import type { Story, Meta } from '@storybook/react';
-import type { AccordionBodyProps } from './AccordionBody';
+import type { AccordionBodyProps } from '../AccordionBody';
 
 export default {
   title: 'Basics/Accordion/Components',

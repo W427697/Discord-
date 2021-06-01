@@ -1,11 +1,11 @@
 import React from 'react';
-import { AccordionItem } from './AccordionItem';
-import { AccordionHeader } from './AccordionHeader';
-import { AccordionBody } from './AccordionBody';
+import { AccordionItem } from '../AccordionItem';
+import { AccordionHeader } from '../AccordionHeader';
+import { AccordionBody } from '../AccordionBody';
 
 // eslint-disable-next-line import/order
 import type { Story, Meta } from '@storybook/react';
-import type { AccordionItemProps } from './AccordionItem';
+import type { AccordionItemProps } from '../AccordionItem';
 
 export default {
   title: 'Basics/Accordion/Components',

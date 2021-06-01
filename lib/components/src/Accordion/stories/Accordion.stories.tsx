@@ -1,12 +1,12 @@
 import React from 'react';
-import { Accordion } from './Accordion';
-import { AccordionItem } from './AccordionItem';
-import { AccordionHeader } from './AccordionHeader';
-import { AccordionBody } from './AccordionBody';
+import { Accordion } from '../Accordion';
+import { AccordionItem } from '../AccordionItem';
+import { AccordionHeader } from '../AccordionHeader';
+import { AccordionBody } from '../AccordionBody';
 
 // eslint-disable-next-line import/order
 import type { Story, Meta } from '@storybook/react';
-import type { AccordionProps } from './Accordion';
+import type { AccordionProps } from '../Accordion';
 
 export default {
   title: 'Basics/Accordion',
@@ -54,6 +54,44 @@ const Template: Story<AccordionProps> = (args) => (
 
 export const DefaultStory = Template.bind({});
 DefaultStory.args = {
+  allowMultipleOpen: false,
+  bordered: true,
+  rounded: true,
+  lined: true,
+};
+
+export const OneForcedOpen: Story<AccordionProps> = (args) => (
+  <Accordion {...args}>
+    <AccordionItem>
+      <AccordionHeader>Item 1</AccordionHeader>
+      <AccordionBody>
+        Minim proident eu aliqua irure tempor incididunt fugiat. Adipisicing aliquip cillum esse
+        amet. Consequat qui consectetur duis laboris aliqua fugiat Lorem eiusmod ut cupidatat
+        excepteur. Magna nulla nulla velit voluptate duis nulla quis Lorem dolore labore aliqua sit
+        ipsum.
+      </AccordionBody>
+    </AccordionItem>
+    <AccordionItem open>
+      <AccordionHeader>Forced Open</AccordionHeader>
+      <AccordionBody>
+        Minim proident eu aliqua irure tempor incididunt fugiat. Adipisicing aliquip cillum esse
+        amet. Consequat qui consectetur duis laboris aliqua fugiat Lorem eiusmod ut cupidatat
+        excepteur. Magna nulla nulla velit voluptate duis nulla quis Lorem dolore labore aliqua sit
+        ipsum.
+      </AccordionBody>
+    </AccordionItem>
+    <AccordionItem>
+      <AccordionHeader>Item 3</AccordionHeader>
+      <AccordionBody>
+        Minim proident eu aliqua irure tempor incididunt fugiat. Adipisicing aliquip cillum esse
+        amet. Consequat qui consectetur duis laboris aliqua fugiat Lorem eiusmod ut cupidatat
+        excepteur. Magna nulla nulla velit voluptate duis nulla quis Lorem dolore labore aliqua sit
+        ipsum.
+      </AccordionBody>
+    </AccordionItem>
+  </Accordion>
+);
+OneForcedOpen.args = {
   allowMultipleOpen: false,
   bordered: true,
   rounded: true,
