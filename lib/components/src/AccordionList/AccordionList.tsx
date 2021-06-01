@@ -27,7 +27,7 @@ export const AccordionList = ({
 };
 
 const Wrapper = styled(Accordion)`
-  [data-sb-accordion-item] {
+  & > [data-sb-accordion-item] {
     & > [data-sb-accordion-header] {
       font-size: 13px;
       padding: 12px 10px;
