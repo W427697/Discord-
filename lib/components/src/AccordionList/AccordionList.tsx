@@ -17,17 +17,22 @@ export type AccordionListProps = {} & AccordionProps;
 export const AccordionList = ({
   allowMultipleOpen = true,
   lined = true,
+  bordered,
   children,
   ...rest
 }: AccordionListProps) => {
   return (
-    <Wrapper lined={lined} allowMultipleOpen={allowMultipleOpen} {...rest}>
+    <Wrapper bordered={bordered} lined={lined} allowMultipleOpen={allowMultipleOpen} {...rest}>
       {children}
     </Wrapper>
   );
 };
 
-const Wrapper = styled(Accordion)`
+type WrapperProps = {
+  bordered: boolean;
+};
+
+const Wrapper = styled(Accordion)<WrapperProps>`
   & > [data-sb-accordion-item] {
     & > [data-sb-accordion-header] {
       font-size: 13px;
@@ -50,10 +55,13 @@ const Wrapper = styled(Accordion)`
     }
   }
 
-  ${({ theme }) => css`
+  ${({ theme, bordered }) =>
+    !bordered
+      ? css`
     & > [data-sb-accordion-item] {
       &:last-child {
         border-bottom: 1px solid ${theme.appBorderColor};
       }
-  `}
+  `
+      : null}
 `;

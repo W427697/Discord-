@@ -3,6 +3,7 @@ import { Accordion } from '../Accordion';
 import { AccordionItem } from '../AccordionItem';
 import { AccordionHeader } from '../AccordionHeader';
 import { AccordionBody } from '../AccordionBody';
+import { Icons } from '../../icon/icon';
 
 // eslint-disable-next-line import/order
 import type { Story, Meta } from '@storybook/react';
@@ -14,6 +15,7 @@ export default {
   argTypes: { onOpen: { action: 'open' }, onClose: { action: 'close' } },
   parameters: {
     layout: 'padded',
+    test: { disable: true },
   },
 } as Meta;
 
@@ -41,6 +43,18 @@ const Template: Story<AccordionProps> = (args) => (
       </AccordionBody>
     </AccordionItem>
     <AccordionItem>
+      <AccordionHeader>Header only no body</AccordionHeader>
+    </AccordionItem>
+    <AccordionItem>
+      <AccordionHeader Icon={<Icons icon="lightning" />}>Custom Icon</AccordionHeader>
+      <AccordionBody>
+        Minim proident eu aliqua irure tempor incididunt fugiat. Adipisicing aliquip cillum esse
+        amet. Consequat qui consectetur duis laboris aliqua fugiat Lorem eiusmod ut cupidatat
+        excepteur. Magna nulla nulla velit voluptate duis nulla quis Lorem dolore labore aliqua sit
+        ipsum.
+      </AccordionBody>
+    </AccordionItem>
+    <AccordionItem>
       <AccordionHeader>Item 3</AccordionHeader>
       <AccordionBody>
         Minim proident eu aliqua irure tempor incididunt fugiat. Adipisicing aliquip cillum esse
@@ -54,6 +68,7 @@ const Template: Story<AccordionProps> = (args) => (
 
 export const DefaultStory = Template.bind({});
 DefaultStory.args = {
+  defaultOpen: 1,
   allowMultipleOpen: false,
   bordered: true,
   rounded: true,

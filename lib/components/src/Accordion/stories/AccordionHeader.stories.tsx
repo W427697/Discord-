@@ -1,13 +1,16 @@
 import React from 'react';
+import { withTests } from '@storybook/addon-jest';
 import { AccordionHeader } from '../AccordionHeader';
+import results from '../../../../../.jest-test-results.json';
 
 // eslint-disable-next-line import/order
 import type { Story, Meta } from '@storybook/react';
 import type { AccordionHeaderProps } from '../AccordionHeader';
 
 export default {
-  title: 'Basics/Accordion/Components',
+  title: 'Basics/Accordion/Components/Header',
   component: AccordionHeader,
+  decorators: [withTests({ results })],
   parameters: {
     layout: 'padded',
   },
