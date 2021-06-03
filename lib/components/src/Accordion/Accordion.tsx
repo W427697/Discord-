@@ -1,5 +1,5 @@
 import React, { Children, useCallback, useEffect, useRef, useState } from 'react';
-import { css, styled } from '@storybook/theming';
+import { styled } from '@storybook/theming';
 import { AccordionContext } from './AccordionContext';
 
 import type { AddToMapFn, OpenMap } from './AccordionContext';
@@ -9,7 +9,7 @@ type AccordionMap = Record<string, { index: number; id: string }>;
 interface StateChange {
   id: string;
   index: number;
-};
+}
 
 export type AccordionProps = {
   allowMultipleOpen?: boolean;

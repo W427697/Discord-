@@ -86,17 +86,18 @@ type WrapperProps = {
   preventOpen: boolean;
 };
 
-const Wrapper = styled.li<WrapperProps>`
-  padding: 0;
-  margin: 0;
-  list-style: none;
-
-  ${({ preventOpen }) =>
+const Wrapper = styled.li<WrapperProps>(
+  {
+    padding: 0,
+    margin: 0,
+    listStyle: 'none',
+  },
+  ({ preventOpen }) =>
     preventOpen
-      ? css`
-          [data-sb-accordion-expander] {
-            display: none;
-          }
-        `
-      : null}
-`;
+      ? {
+          '[data-sb-accordion-expander]': {
+            display: 'none',
+          },
+        }
+      : null
+);

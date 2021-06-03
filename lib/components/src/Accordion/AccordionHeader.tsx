@@ -61,7 +61,7 @@ export const AccordionHeader = ({
 
   return (
     <Wrapper data-sb-accordion-header="" onClick={handleOnClick} {...rest}>
-      <Expander data-sb-accordion-expander="" open={open}>
+      <Expander data-sb-accordion-expander="" isOpen={open}>
         {Icon !== undefined ? (
           Icon
         ) : (
@@ -75,42 +75,39 @@ export const AccordionHeader = ({
   );
 };
 
-const Wrapper = styled.button`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 0;
-  margin: 0;
-  border: 0 none;
-  width: 100%;
-  text-align: left;
-  background-color: transparent;
-`;
+const Wrapper = styled.button({
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  padding: '0',
+  margin: '0',
+  border: '0 none',
+  textAlign: 'left',
+  backgroundColor: 'transparent',
+});
 
 type ExpanderProps = {
-  open: boolean;
+  isOpen: boolean;
 };
 
-const Expander = styled.div<ExpanderProps>`
-  ${({ theme, open }) => css`
-    color: ${theme.color.mediumdark};
-    width: 10px;
-    min-width: 10px;
-    min-height: 10px;
-    max-width: 10px;
-    max-height: 10px;
-    height: 10px;
-    margin-right: 16px;
-    margin-top: 5px;
-    transform: rotate(${open ? 90 : 0}deg);
-    transition: transform 0.1s ease-in-out;
-    align-self: flex-start;
-  `}
-`;
+const Expander = styled.div<ExpanderProps>(({ theme, isOpen }) => ({
+  color: theme.color.mediumdark,
+  width: '10px',
+  minWidth: '10px',
+  minHeight: '10px',
+  maxWidth: '10px',
+  maxHeight: '10px',
+  height: '10px',
+  marginRight: '16px',
+  marginTop: '5px',
+  transform: `rotate(${isOpen ? 90 : 0}deg)`,
+  transition: 'transform 0.1s ease-in-out',
+  alignSelf: 'flex-start',
+}));
 
-const Chevron = styled(Icons)`
-  transform: rotate(-90deg);
-`;
+const Chevron = styled(Icons)({
+  transform: 'rotate(-90deg)',
+});
 
 const Label = styled.div(({ theme }) => ({
   color: theme.color.defaultText,

@@ -17,51 +17,33 @@ export type AccordionListProps = {} & AccordionProps;
 export const AccordionList = ({
   allowMultipleOpen = true,
   lined = true,
-  bordered,
   children,
   ...rest
 }: AccordionListProps) => {
   return (
-    <Wrapper bordered={bordered} lined={lined} allowMultipleOpen={allowMultipleOpen} {...rest}>
+    <Wrapper lined={lined} allowMultipleOpen={allowMultipleOpen} {...rest}>
       {children}
     </Wrapper>
   );
 };
 
-type WrapperProps = {
-  bordered: boolean;
-};
-
-const Wrapper = styled(Accordion)<WrapperProps>`
-  & > [data-sb-accordion-item] {
-    & > [data-sb-accordion-header] {
-      font-size: 13px;
-      padding: 12px 15px 12px 10px;
-
-      & > [data-sb-accordion-expander] {
-        margin-right: 10px;
-        margin-top: 3px;
-      }
-    }
-
-    & > [data-sb-accordion-body] {
-      font-size: 13px;
-    }
-
-    &[aria-expanded='true'] {
-      & > [data-sb-accordion-body] > [data-sb-accordion-body-inner] {
-        padding: 16px 15px 16px 30px;
-      }
-    }
-  }
-
-  ${({ theme, bordered }) =>
-    !bordered
-      ? css`
-    & > [data-sb-accordion-item] {
-      &:last-child {
-        border-bottom: 1px solid ${theme.appBorderColor};
-      }
-  `
-      : null}
-`;
+const Wrapper = styled(Accordion)({
+  '& > [data-sb-accordion-item]': {
+    '& > [data-sb-accordion-header]': {
+      fontSize: '13px',
+      padding: '12px 15px 12px 10px',
+      '& > [data-sb-accordion-expander]': {
+        marginRight: '10px',
+        marginTop: '3px',
+      },
+    },
+    '& > [data-sb-accordion-body]': {
+      fontSize: '13px',
+    },
+    '&[aria-expanded="true"]': {
+      '& > [data-sb-accordion-body] > [data-sb-accordion-body-inner]': {
+        padding: '16px 15px 16px 30px',
+      },
+    },
+  },
+});
