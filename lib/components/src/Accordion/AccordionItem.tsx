@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef, useState, Children } from 'react';
 import { uniqueId } from 'lodash';
-import { css, styled } from '@storybook/theming';
+import { styled } from '@storybook/theming';
 import { AccordionContext } from './AccordionContext';
 import { AccordionItemContext } from './AccordionItemContext';
 

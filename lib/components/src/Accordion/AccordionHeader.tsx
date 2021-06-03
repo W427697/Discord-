@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { css, styled } from '@storybook/theming';
+import { styled } from '@storybook/theming';
 import { Icons } from '../icon/icon';
 import { AccordionItemContext } from './AccordionItemContext';
 

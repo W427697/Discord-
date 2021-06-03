@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, styled } from '@storybook/theming';
+import { styled } from '@storybook/theming';
 import { Accordion } from '../Accordion/Accordion';
 
 import type { AccordionProps } from '../Accordion/Accordion';
