@@ -132,75 +132,67 @@ type WrapperProps = {
   lined: boolean;
 };
 
-const Wrapper = styled.ul<WrapperProps>`
-  overflow: hidden;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  ${({ theme, bordered }) =>
+const Wrapper = styled.ul<WrapperProps>(
+  ({ theme }) => ({
+    overflow: 'hidden',
+    listStyle: 'none',
+    margin: 0,
+    padding: 0,
+    backgroundColor: theme.background.content,
+  }),
+  ({ theme, bordered }) =>
     bordered
-      ? css`
-          border: 1px solid ${theme.appBorderColor};
-        `
-      : null}
-
-  ${({ theme, lined }) =>
-    lined
-      ? css`
-          & > [data-sb-accordion-item] {
-            border-bottom: 1px solid ${theme.appBorderColor};
-
-            &:last-child {
-              border-bottom: 0 none;
-            }
-
-            &[aria-expanded='true'] {
-              & > [data-sb-accordion-header] {
-                border-bottom: 1px solid ${theme.appBorderColor};
-              }
-            }
-          }
-        `
-      : null}
-
-  ${({ theme, rounded }) =>
+      ? {
+          border: `1px solid ${theme.appBorderColor}`,
+        }
+      : {},
+  ({ theme, rounded }) =>
     rounded
-      ? css`
-          border-radius: ${theme.appBorderRadius}px;
-        `
-      : null}
-
-  ${({ theme }) => css`
-    background-color: ${theme.background.content};
-
-    & > [data-sb-accordion-item] {
-      & > [data-sb-accordion-header] {
-        padding: 16px;
-        cursor: pointer;
-        border: 1px solid transparent;
-
-        &:hover {
-          background-color: ${theme.background.hoverable};
+      ? {
+          borderRadius: theme.appBorderRadius,
         }
-      }
-
-      & > [data-sb-accordion-body] {
-        font-size: 14px;
-      }
-
-      &[aria-expanded='true'] {
-        & > [data-sb-accordion-body] > [data-sb-accordion-body-inner] {
-          padding: 16px 16px 16px 42px;
-          background-color: ${theme.background.app};
+      : {},
+  ({ theme, lined }) =>
+    lined
+      ? {
+          '& > [data-sb-accordion-item]': {
+            borderBottom: `1px solid ${theme.appBorderColor}`,
+            '&:last-child': {
+              borderBottom: '0 none',
+            },
+            '&[aria-expanded="true"]': {
+              '& > [data-sb-accordion-header]': {
+                borderBottom: `1px solid ${theme.appBorderColor}`,
+              },
+            },
+          },
         }
-      }
+      : {},
 
-      &[data-sb-state-prevent-expander='true'] {
-        & > [data-sb-accordion-header] {
-          cursor: default;
-        }
-      }
-    }
-  `}
-`;
+  ({ theme }) => ({
+    '& > [data-sb-accordion-item]': {
+      '& > [data-sb-accordion-header]': {
+        padding: 16,
+        cursor: 'pointer',
+        border: '1px solid transparent',
+        '&:hover': {
+          backgroundColor: theme.background.hoverable,
+        },
+      },
+      '& > [data-sb-accordion-body]': {
+        fontSize: 14,
+      },
+      '&[aria-expanded="true"]': {
+        '& > [data-sb-accordion-body] > [data-sb-accordion-body-inner]': {
+          padding: '16px 16px 16px 42px',
+          backgroundColor: theme.background.app,
+        },
+      },
+      '&[data-sb-state-prevent-expander="true"]': {
+        '& > [data-sb-accordion-header]': {
+          cursor: 'default',
+        },
+      },
+    },
+  })
+);
