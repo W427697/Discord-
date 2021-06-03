@@ -41,8 +41,8 @@ export const Accordion = ({
   rounded = false,
   bordered = false,
   lined = false,
-  onOpen = () => {},
-  onClose = () => {},
+  onOpen,
+  onClose,
   ...rest
 }: AccordionProps) => {
   const [open, setOpen] = useState<OpenMap>({});
@@ -71,9 +71,12 @@ export const Accordion = ({
   const onItemClose = useCallback(
     (id: string) => {
       setOpen({ ...open, [id]: false });
-      onClose({ id, index: itemMap.current[id].index });
+
+      if (onClose) {
+        onClose({ id, index: itemMap.current[id].index });
+      }
     },
-    [open, setOpen, onOpen, itemMap]
+    [open, setOpen, onClose, itemMap]
   );
 
   const onItemExpand = useCallback(
@@ -98,9 +101,12 @@ export const Accordion = ({
       }
 
       setOpen({ ...open, ...newOpen });
-      onOpen({ id, index: itemMap.current[id].index });
+
+      if (onOpen) {
+        onOpen({ id, index: itemMap.current[id].index });
+      }
     },
-    [open, setOpen, itemMap]
+    [open, setOpen, onOpen, itemMap]
   );
 
   useEffect(() => {
