@@ -18,7 +18,7 @@ export const AccordionBody = ({ children, open: _open, ...rest }: AccordionBodyP
 
   return (
     <Wrapper data-sb-accordion-body="" {...rest}>
-      <InnerWrapper data-sb-accordion-body-inner="" open={open}>
+      <InnerWrapper data-sb-accordion-body-inner="" isOpen={open}>
         {children}
       </InnerWrapper>
     </Wrapper>
@@ -30,12 +30,12 @@ const Wrapper = styled.div`
 `;
 
 type InnerWrapperProps = {
-  open: boolean;
+  isOpen: boolean;
 };
 
-const InnerWrapper = styled.div<InnerWrapperProps>(({ open, theme }) => ({
-  height: open ? 'auto' : 0,
-  display: open ? 'block' : 'none',
+const InnerWrapper = styled.div<InnerWrapperProps>(({ isOpen, theme }) => ({
+  height: isOpen ? 'auto' : 0,
+  display: isOpen ? 'block' : 'none',
   transition: `height 175ms ease-in-out`,
   color: theme.color.defaultText,
 }));
