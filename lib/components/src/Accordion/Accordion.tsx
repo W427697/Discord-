@@ -6,7 +6,7 @@ import type { AddToMapFn, OpenMap } from './AccordionContext';
 
 type AccordionMap = Record<string, { index: number; id: string }>;
 
-type StateChange = {
+interface StateChange {
   id: string;
   index: number;
 };
