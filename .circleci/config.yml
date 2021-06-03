@@ -78,7 +78,7 @@ commands:
 jobs:
   build:
     executor:
-      class: large
+      class: xlarge
       name: sb_node_12_classic
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -194,11 +194,9 @@ jobs:
           name: Wait for registry
           command: yarn wait-on http://localhost:6000
       - run:
-          name: Set registry
-          command: yarn config set npmRegistryServer http://localhost:6000/
-      - run:
           name: Run E2E tests
-          command: yarn test:e2e-framework --clean --skip angular@latest --skip vue3@next --skip web_components_typescript@latest --skip cra@latest
+          command: yarn test:e2e-framework --clean --all --skip angular11 --skip angular --skip vue3 --skip web_components_typescript --skip cra
+          no_output_timeout: 5m
       - store_artifacts:
           path: /tmp/storybook/cypress
           destination: cypress
@@ -220,16 +218,15 @@ jobs:
           name: Wait for registry
           command: yarn wait-on http://localhost:6000
       - run:
-          name: Set registry
-          command: yarn config set npmRegistryServer http://localhost:6000/
-      - run:
           name: Run E2E tests
-          # Do not test CRA nor Web Components here because it's done in PnP part
-          command: yarn test:e2e-framework angular@latest vue3@next
+          # Do not test CRA here because it's done in PnP part
+          # TODO: Remove `web_components_typescript` as soon as Lit 2 stable is released
+          command: yarn test:e2e-framework vue3 angular angular11 web_components_typescript web_components_lit2
+          no_output_timeout: 5m
       - store_artifacts:
           path: /tmp/storybook/cypress
           destination: cypress
-  e2e-tests-cra-bench:
+  cra-bench:
     executor:
       class: medium
       name: sb_cypress_6_node_12
@@ -247,14 +244,12 @@ jobs:
           name: Wait for registry
           command: yarn wait-on http://localhost:6000
       - run:
-          name: Set registry
-          command: yarn config set npmRegistryServer http://localhost:6000/
-      - run:
           name: Run @storybook/bench on a CRA project
-          command: yarn test:e2e-framework cra_bench
-      - store_artifacts:
-          path: /tmp/storybook/cypress
-          destination: cypress
+          command: |
+            cd ..
+            npx create-react-app cra-bench
+            cd cra-bench
+            npx @storybook/bench 'npx sb init' --label cra --extra-flags "--modern"
   e2e-tests-pnp:
     executor:
       class: medium
@@ -273,11 +268,8 @@ jobs:
           name: Wait for registry
           command: yarn wait-on http://localhost:6000
       - run:
-          name: Set registry
-          command: yarn config set npmRegistryServer http://localhost:6000/
-      - run:
           name: run e2e tests
-          command: yarn test:e2e-framework --use-yarn-2-pnp sfcVue@latest cra@latest web_components_typescript@latest
+          command: yarn test:e2e-framework --pnp sfcVue cra
       - store_artifacts:
           path: /tmp/storybook/cypress
           destination: cypress
@@ -451,7 +443,7 @@ workflows:
       - e2e-tests-pnp:
           requires:
             - publish
-      - e2e-tests-cra-bench:
+      - cra-bench:
           requires:
             - publish
   deploy:

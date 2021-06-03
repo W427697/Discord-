@@ -31,37 +31,16 @@
     "@storybook/addon-controls": {
       "implicitDependencies": []
     },
-    "@storybook/addon-cssresources": {
-      "implicitDependencies": []
-    },
-    "@storybook/addon-design-assets": {
-      "implicitDependencies": []
-    },
     "@storybook/addon-docs": {
       "implicitDependencies": []
     },
     "@storybook/addon-essentials": {
       "implicitDependencies": []
     },
-    "@storybook/addon-events": {
-      "implicitDependencies": []
-    },
-    "@storybook/addon-google-analytics": {
-      "implicitDependencies": []
-    },
-    "@storybook/addon-graphql": {
-      "implicitDependencies": []
-    },
     "@storybook/addon-jest": {
       "implicitDependencies": []
     },
-    "@storybook/addon-knobs": {
-      "implicitDependencies": []
-    },
     "@storybook/addon-links": {
-      "implicitDependencies": []
-    },
-    "@storybook/addon-queryparams": {
       "implicitDependencies": []
     },
     "@storybook/addon-storyshots": {
@@ -86,6 +65,15 @@
       "implicitDependencies": []
     },
     "@storybook/html": {
+      "implicitDependencies": []
+    },
+    "@storybook/lit": {
+      "implicitDependencies": []
+    },
+    "@storybook/manager-webpack4": {
+      "implicitDependencies": []
+    },
+    "@storybook/manager-webpack5": {
       "implicitDependencies": []
     },
     "@storybook/preact": {
@@ -233,6 +221,9 @@
       "implicitDependencies": []
     },
     "@storybook/theming": {
+      "implicitDependencies": []
+    },
+    "@storybook/csf-tools": {
       "implicitDependencies": []
     },
     "@storybook/ui": {
