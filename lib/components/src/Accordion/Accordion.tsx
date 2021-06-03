@@ -152,13 +152,13 @@ const Wrapper = styled.ul<WrapperProps>(
           borderRadius: theme.appBorderRadius,
         }
       : {},
-  ({ theme, lined }) =>
+  ({ theme, lined, bordered }) =>
     lined
       ? {
           '& > [data-sb-accordion-item]': {
             borderBottom: `1px solid ${theme.appBorderColor}`,
             '&:last-child': {
-              borderBottom: '0 none',
+              borderBottomColor: bordered ? 'transparent' : theme.appBorderColor,
             },
             '&[aria-expanded="true"]': {
               '& > [data-sb-accordion-header]': {
