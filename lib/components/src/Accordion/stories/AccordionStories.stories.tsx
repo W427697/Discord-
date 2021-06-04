@@ -265,7 +265,9 @@ export const NestedExample: Story = () => (
       </AccordionBody>
     </AccordionItem>
     <AccordionItem open indentBody>
-      <AccordionHeader Icon={<Icons icon="info" />}>Forced open with custom icon</AccordionHeader>
+      <AccordionHeader Icon={<Icons icon="document" />}>
+        Forced open with custom icon
+      </AccordionHeader>
       <AccordionBody>This Body has been indented</AccordionBody>
     </AccordionItem>
     <AccordionItem>

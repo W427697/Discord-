@@ -145,7 +145,7 @@ const Wrapper = styled.li<WrapperProps>(
       borderLeft: '0 none',
       borderRight: '0 none',
       '[data-sb-accordion-expander-wrapper]': {
-        marginRight: narrow ? 10 : 16,
+        marginRight: narrow ? 10 : 12,
         paddingTop: 1,
         '[data-sb-accordion-expander]': {
           minWidth: narrow ? 14 : 18,
@@ -168,8 +168,8 @@ const Wrapper = styled.li<WrapperProps>(
     '&[aria-expanded="true"]': {
       '& > [data-sb-accordion-body] > [data-sb-accordion-body-inner]': {
         padding: narrow
-          ? `12px 10px 12px ${indentBody ? '34px' : '10px'}`
-          : `16px 16px 16px ${indentBody ? '50px' : '16px'}`,
+          ? `20px 10px 20px ${indentBody ? '34px' : '10px'}`
+          : `24px 16px 24px ${indentBody ? '46px' : '16px'}`,
         backgroundColor: theme.background.app,
       },
     },
