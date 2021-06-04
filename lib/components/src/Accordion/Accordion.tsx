@@ -107,7 +107,7 @@ export const Accordion = ({
     [openState, setOpenState, onClose, itemMap]
   );
 
-  const onItemExpand = useCallback(
+  const onItemOpen = useCallback(
     (id: string) => {
       const newOpen = { ...openState };
       let oldOpen: StateChange | undefined;
@@ -148,7 +148,7 @@ export const Accordion = ({
       value={{
         addToMap,
         onClose: onItemClose,
-        onOpen: onItemExpand,
+        onOpen: onItemOpen,
         bordered,
         openState,
         indentBody,
