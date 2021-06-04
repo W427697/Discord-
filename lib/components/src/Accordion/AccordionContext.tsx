@@ -5,10 +5,15 @@ export type AddToMapFn = (id: string) => void;
 export type OpenMap = Record<string, boolean>;
 
 export type AccordionContextProps = {
+  openState: OpenMap;
   addToMap: AddToMapFn;
   onOpen: (id: string) => void;
   onClose: (id: string) => void;
-  open: OpenMap;
+  lined?: boolean | undefined;
+  bordered?: boolean | undefined;
+  indentBody?: boolean | undefined;
+  narrow?: boolean | undefined;
+  preventToggle: boolean | undefined;
 };
 
 export const AccordionContext = createContext<AccordionContextProps | null>(null);

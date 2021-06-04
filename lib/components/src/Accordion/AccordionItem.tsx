@@ -4,18 +4,33 @@ import { styled } from '@storybook/theming';
 import { AccordionContext } from './AccordionContext';
 import { AccordionItemContext } from './AccordionItemContext';
 
+// Props are also available from Accordion context provider, but local props
+// takes predecense for scope control
 export type AccordionItemProps = {
   open?: boolean;
+  indentBody?: boolean;
+  lined?: boolean;
+  narrow?: boolean;
+  preventToggle?: boolean;
 } & React.HTMLAttributes<HTMLLIElement>;
 
-export const AccordionItem = ({ children, open: _open = false, ...rest }: AccordionItemProps) => {
+export const AccordionItem = ({
+  children,
+  open: _open,
+  indentBody: _indentBody,
+  narrow: _narrow,
+  lined: _lined,
+  preventToggle: _preventToggle,
+  ...rest
+}: AccordionItemProps) => {
   const [open, setOpen] = useState(_open);
   const context = useContext(AccordionContext);
   const id = useRef(uniqueId('AccordionItem-'));
   const preventOpen = Children.count(children) < 2;
+  const initialOpen = useRef(_open);
 
   const onExpand = useCallback(() => {
-    if (!preventOpen) {
+    if (!preventOpen && _open !== true) {
       if (context !== null) {
         context.onOpen(id.current);
       } else {
@@ -25,7 +40,7 @@ export const AccordionItem = ({ children, open: _open = false, ...rest }: Accord
   }, [setOpen, context]);
 
   const onCollapse = useCallback(() => {
-    if (!preventOpen) {
+    if (!preventOpen && _open !== true) {
       if (context !== null) {
         context.onClose(id.current);
       } else {
@@ -44,7 +59,7 @@ export const AccordionItem = ({ children, open: _open = false, ...rest }: Accord
 
   // Possible outside influences such as from prop or from context provider
   useEffect(() => {
-    if (!preventOpen) {
+    if (!preventOpen && _open !== true) {
       let newOpen = open;
 
       if (_open !== open) {
@@ -52,27 +67,46 @@ export const AccordionItem = ({ children, open: _open = false, ...rest }: Accord
       }
 
       if (context !== null) {
-        newOpen = context.open[id.current];
+        newOpen = context.openState[id.current];
       }
 
       setOpen(newOpen);
     }
   }, [context, _open, preventOpen]);
 
+  let indentBody = _indentBody;
+  let narrow = _narrow;
+  let lined = _lined;
+  let preventToggle = _preventToggle;
+  let bordered = false;
+
+  if (context) {
+    indentBody = _indentBody === true ? true : context.indentBody;
+    narrow = _narrow === true ? true : context.narrow;
+    lined = _lined === true ? true : context.lined;
+    preventToggle = _preventToggle === true ? true : context.preventToggle || initialOpen.current;
+    bordered = context.bordered;
+  }
+
   return (
     <AccordionItemContext.Provider
       value={{
-        open: preventOpen ? false : open,
+        id: id.current,
+        open,
+        preventOpen,
+        preventToggle,
         onClose: onCollapse,
         onOpen: onExpand,
-        id: id.current,
       }}
     >
       <Wrapper
         aria-labelledby={`${id.current}-label`}
         aria-expanded={open ? 'true' : 'false'}
         data-sb-accordion-item=""
-        data-sb-state-prevent-expander={preventOpen ? 'true' : 'false'}
+        bordered={bordered}
+        lined={lined}
+        indentBody={indentBody}
+        narrow={narrow}
         preventOpen={preventOpen}
         {...rest}
       >
@@ -82,9 +116,13 @@ export const AccordionItem = ({ children, open: _open = false, ...rest }: Accord
   );
 };
 
-type WrapperProps = {
+interface WrapperProps {
+  bordered: boolean;
+  lined: boolean;
+  indentBody: boolean;
   preventOpen: boolean;
-};
+  narrow: boolean;
+}
 
 const Wrapper = styled.li<WrapperProps>(
   {
@@ -93,11 +131,61 @@ const Wrapper = styled.li<WrapperProps>(
     listStyle: 'none',
   },
   ({ preventOpen }) =>
-    preventOpen
+    preventOpen && {
+      '& > [data-sb-accordion-header]': {
+        cursor: 'default',
+      },
+    },
+  ({ theme, narrow, indentBody }) => ({
+    '& > [data-sb-accordion-header]': {
+      padding: narrow ? '12px 10px' : 16,
+      fontSize: narrow ? 13 : 16,
+      borderTop: '1px solid transparent',
+      borderBottom: '1px solid transparent',
+      borderLeft: '0 none',
+      borderRight: '0 none',
+      '[data-sb-accordion-expander-wrapper]': {
+        marginRight: narrow ? 10 : 16,
+        paddingTop: 1,
+        '[data-sb-accordion-expander]': {
+          minWidth: narrow ? 14 : 18,
+          minHeight: narrow ? 14 : 18,
+          width: narrow ? 14 : 18,
+          height: narrow ? 14 : 18,
+        },
+        '[data-sb-accordion-chevron]': {
+          width: narrow ? 10 : 12,
+          height: narrow ? 10 : 12,
+        },
+      },
+      '&:hover': {
+        backgroundColor: theme.background.hoverable,
+      },
+    },
+    '& > [data-sb-accordion-body]': {
+      fontSize: narrow ? 13 : 14,
+    },
+    '&[aria-expanded="true"]': {
+      '& > [data-sb-accordion-body] > [data-sb-accordion-body-inner]': {
+        padding: narrow
+          ? `12px 10px 12px ${indentBody ? '34px' : '10px'}`
+          : `16px 16px 16px ${indentBody ? '50px' : '16px'}`,
+        backgroundColor: theme.background.app,
+      },
+    },
+  }),
+  ({ theme, lined, bordered }) =>
+    lined
       ? {
-          '[data-sb-accordion-expander]': {
-            display: 'none',
+          borderBottom: `1px solid ${theme.appBorderColor}`,
+          '&:last-child': {
+            borderBottomWidth: bordered ? 0 : 1,
+          },
+          '&[aria-expanded="true"]': {
+            '& > [data-sb-accordion-header]': {
+              borderBottom: `1px solid ${theme.appBorderColor}`,
+            },
           },
         }
-      : null
+      : {}
 );

@@ -8,7 +8,7 @@ import type { Story, Meta } from '@storybook/react';
 import type { AccordionBodyProps } from '../AccordionBody';
 
 export default {
-  title: 'Basics/Accordion/Components/Body',
+  title: 'Basics/Accordion/AccordionBody',
   component: AccordionBody,
   decorators: [withTests({ results })],
   parameters: {
@@ -24,7 +24,7 @@ const Template: Story<AccordionBodyProps> = (args) => (
   </AccordionBody>
 );
 
-export const Body = Template.bind({});
-Body.args = {
+export const Controllable = Template.bind({});
+Controllable.args = {
   open: true,
 };

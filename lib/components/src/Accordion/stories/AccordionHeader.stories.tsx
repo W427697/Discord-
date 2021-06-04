@@ -8,8 +8,9 @@ import type { Story, Meta } from '@storybook/react';
 import type { AccordionHeaderProps } from '../AccordionHeader';
 
 export default {
-  title: 'Basics/Accordion/Components/Header',
+  title: 'Basics/Accordion/AccordionHeader',
   component: AccordionHeader,
+  argTypes: { onOpen: { action: 'open' }, onClose: { action: 'close' } },
   decorators: [withTests({ results })],
   parameters: {
     layout: 'padded',
@@ -20,7 +21,9 @@ const Template: Story<AccordionHeaderProps> = (args) => (
   <AccordionHeader {...args}>Item 1</AccordionHeader>
 );
 
-export const Header = Template.bind({});
-Header.args = {
+export const Controllable = Template.bind({});
+Controllable.args = {
   open: false,
+  hideIcon: false,
+  preventToggle: false,
 };

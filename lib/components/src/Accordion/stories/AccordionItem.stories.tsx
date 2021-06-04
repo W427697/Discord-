@@ -10,7 +10,7 @@ import type { Story, Meta } from '@storybook/react';
 import type { AccordionItemProps } from '../AccordionItem';
 
 export default {
-  title: 'Basics/Accordion/Components/Item',
+  title: 'Basics/Accordion/AccordionItem',
   component: AccordionItem,
   decorators: [withTests({ results })],
   parameters: {
@@ -29,7 +29,10 @@ const Template: Story<AccordionItemProps> = (args) => (
   </AccordionItem>
 );
 
-export const Item = Template.bind({});
-Item.args = {
+export const Controllable = Template.bind({});
+Controllable.args = {
   open: false,
+  narrow: false,
+  indentBody: false,
+  preventToggle: false,
 };

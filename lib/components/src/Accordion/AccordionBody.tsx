@@ -11,8 +11,7 @@ export const AccordionBody = ({ children, open: _open, ...rest }: AccordionBodyP
 
   let open = _open;
 
-  // eslint-disable-next-line react/destructuring-assignment
-  if (context !== null && context.open !== open) {
+  if (context !== null) {
     open = context.open;
   }
 
@@ -29,9 +28,9 @@ const Wrapper = styled.div`
   overflow: hidden;
 `;
 
-type InnerWrapperProps = {
+interface InnerWrapperProps {
   isOpen: boolean;
-};
+}
 
 const InnerWrapper = styled.div<InnerWrapperProps>(({ isOpen, theme }) => ({
   height: isOpen ? 'auto' : 0,

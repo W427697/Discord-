@@ -12,12 +12,37 @@ interface StateChange {
 }
 
 export type AccordionProps = {
+  /** Set to true to allow for more than one AccordionItem open at the time */
   allowMultipleOpen?: boolean;
+  /** Index number or array of index numbers of AccordionItems's to open as default */
   defaultOpen?: number | number[];
+  /** Set to true to add theme border around the Accordion */
   bordered?: boolean;
+  /** Set to true to add rounded borders from theme to Accordion */
   rounded?: boolean;
+  /**
+   * Set to true to add theme borders between AccordionItem's
+   * Note: can be overridden on AccordionItem
+   */
   lined?: boolean;
+  /**
+   * Set to true to indent AccordionBody content left to match the AccordionHeader text
+   * Note: can be overridden on AccordionItem
+   */
+  indentBody?: boolean;
+  /**
+   * Set to true to apply narrow paddings and smaller text in all AccordionItem's
+   * Note: can be overridden on AccordionItem
+   */
+  narrow?: boolean;
+  /**
+   * Set to true to prevent toggle between open and close for all AccordionItem's
+   * Note: can be overridden on AccordionItem
+   */
+  preventToggle?: boolean;
+  /** Courtesy callback prop for when a new accordion opens */
   onOpen?: (change: StateChange) => void;
+  /** Courtesy callback prop for when an accordion closes */
   onClose?: (change: StateChange) => void;
 } & React.HTMLAttributes<HTMLUListElement>;
 
@@ -40,12 +65,15 @@ export const Accordion = ({
   defaultOpen,
   rounded = false,
   bordered = false,
-  lined = false,
+  narrow, // To be carried to AccordionItem children via context
+  lined, // To be carried to AccordionItem children via context
+  indentBody, // To be carried to AccordionItem children via context
+  preventToggle, // To be carried to AccordionItem children via context
   onOpen,
   onClose,
   ...rest
 }: AccordionProps) => {
-  const [open, setOpen] = useState<OpenMap>({});
+  const [openState, setOpenState] = useState<OpenMap>({});
   const itemMap = useRef<AccordionMap>({});
   const itemMapIndex = useRef(0);
   const openMap = useRef<OpenMap>({});
@@ -70,25 +98,25 @@ export const Accordion = ({
 
   const onItemClose = useCallback(
     (id: string) => {
-      setOpen({ ...open, [id]: false });
+      setOpenState({ ...openState, [id]: false });
 
       if (onClose) {
         onClose({ id, index: itemMap.current[id].index });
       }
     },
-    [open, setOpen, onClose, itemMap]
+    [openState, setOpenState, onClose, itemMap]
   );
 
   const onItemExpand = useCallback(
     (id: string) => {
-      const newOpen = { ...open };
+      const newOpen = { ...openState };
       let oldOpen: StateChange | undefined;
 
       if (allowMultipleOpen) {
         newOpen[id] = true;
       } else {
-        Object.keys(open).forEach((key) => {
-          if (open[key]) {
+        Object.keys(openState).forEach((key) => {
+          if (openState[key]) {
             oldOpen = { id: key, index: itemMap.current[key].index };
           }
 
@@ -96,28 +124,38 @@ export const Accordion = ({
         });
       }
 
-      if (oldOpen) {
+      if (oldOpen && onClose) {
         onClose(oldOpen);
       }
 
-      setOpen({ ...open, ...newOpen });
+      setOpenState({ ...openState, ...newOpen });
 
       if (onOpen) {
         onOpen({ id, index: itemMap.current[id].index });
       }
     },
-    [open, setOpen, onOpen, itemMap]
+    [openState, setOpenState, onOpen, itemMap]
   );
 
   useEffect(() => {
     if (Object.keys(itemMap.current).length === Children.count(children)) {
-      setOpen({ ...open, ...openMap.current });
+      setOpenState({ ...openState, ...openMap.current });
     }
   }, [itemMap, openMap]);
 
   return (
     <AccordionContext.Provider
-      value={{ addToMap, onClose: onItemClose, onOpen: onItemExpand, open }}
+      value={{
+        addToMap,
+        onClose: onItemClose,
+        onOpen: onItemExpand,
+        bordered,
+        openState,
+        indentBody,
+        lined,
+        narrow,
+        preventToggle,
+      }}
     >
       <Wrapper data-sb-accordion="" bordered={bordered} rounded={rounded} lined={lined} {...rest}>
         {children}
@@ -126,11 +164,11 @@ export const Accordion = ({
   );
 };
 
-type WrapperProps = {
+interface WrapperProps {
   bordered: boolean;
   rounded: boolean;
   lined: boolean;
-};
+}
 
 const Wrapper = styled.ul<WrapperProps>(
   ({ theme }) => ({
@@ -151,48 +189,5 @@ const Wrapper = styled.ul<WrapperProps>(
       ? {
           borderRadius: theme.appBorderRadius,
         }
-      : {},
-  ({ theme, lined, bordered }) =>
-    lined
-      ? {
-          '& > [data-sb-accordion-item]': {
-            borderBottom: `1px solid ${theme.appBorderColor}`,
-            '&:last-child': {
-              borderBottomColor: bordered ? 'transparent' : theme.appBorderColor,
-            },
-            '&[aria-expanded="true"]': {
-              '& > [data-sb-accordion-header]': {
-                borderBottom: `1px solid ${theme.appBorderColor}`,
-              },
-            },
-          },
-        }
-      : {},
-
-  ({ theme }) => ({
-    '& > [data-sb-accordion-item]': {
-      '& > [data-sb-accordion-header]': {
-        padding: 16,
-        cursor: 'pointer',
-        border: '1px solid transparent',
-        '&:hover': {
-          backgroundColor: theme.background.hoverable,
-        },
-      },
-      '& > [data-sb-accordion-body]': {
-        fontSize: 14,
-      },
-      '&[aria-expanded="true"]': {
-        '& > [data-sb-accordion-body] > [data-sb-accordion-body-inner]': {
-          padding: '16px 16px 16px 42px',
-          backgroundColor: theme.background.app,
-        },
-      },
-      '&[data-sb-state-prevent-expander="true"]': {
-        '& > [data-sb-accordion-header]': {
-          cursor: 'default',
-        },
-      },
-    },
-  })
+      : {}
 );
