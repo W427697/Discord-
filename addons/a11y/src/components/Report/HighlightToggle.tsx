@@ -52,7 +52,7 @@ const HighlightToggle: React.FC<ToggleProps> = ({ toggleId, elementsToHighlight 
 
   const handleToggle = React.useCallback((): void => {
     toggleHighlight(
-      elementsToHighlight.map((e) => e.target[0]),
+      elementsToHighlight.map((elem) => elem.target[0]),
       checkBoxState !== CheckBoxStates.CHECKED
     );
   }, [elementsToHighlight, checkBoxState, toggleHighlight]);
@@ -65,6 +65,9 @@ const HighlightToggle: React.FC<ToggleProps> = ({ toggleId, elementsToHighlight 
       aria-label="Highlight result"
       disabled={!elementsToHighlight.length}
       onChange={handleToggle}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
       checked={checkBoxState === CheckBoxStates.CHECKED}
     />
   );

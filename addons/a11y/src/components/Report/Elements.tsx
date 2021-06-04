@@ -7,12 +7,13 @@ import { Rules } from './Rules';
 import { RuleType } from '../A11YPanel';
 import HighlightToggle from './HighlightToggle';
 
-const Item = styled.li({
+const Item = styled.li(({ theme }) => ({
   fontWeight: 600,
-});
-
-const ItemTitle = styled.span<{}>(({ theme }) => ({
+  marginBottom: 10,
   borderBottom: `1px solid ${theme.appBorderColor}`,
+}));
+
+const ItemTitle = styled.span(() => ({
   width: '100%',
   display: 'flex',
   paddingBottom: 6,
@@ -23,9 +24,8 @@ const ItemTitle = styled.span<{}>(({ theme }) => ({
 const HighlightToggleElement = styled.span({
   fontWeight: 'normal',
   alignSelf: 'center',
-  paddingRight: 15,
   input: {
-    margin: 0,
+    margin: '0 0 0 10px',
     display: 'block',
   },
 });
@@ -59,10 +59,15 @@ interface ElementsProps {
 }
 
 export const Elements: FunctionComponent<ElementsProps> = ({ elements, type }) => (
-  <ol>
+  <ElementWrapper>
     {elements.map((element, index) => (
       // eslint-disable-next-line react/no-array-index-key
       <Element element={element} key={index} type={type} />
     ))}
-  </ol>
+  </ElementWrapper>
 );
+
+const ElementWrapper = styled.ol`
+  padding: 0 0 0 32px;
+  margin: 0;
+`;

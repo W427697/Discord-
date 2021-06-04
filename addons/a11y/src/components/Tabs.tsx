@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { styled } from '@storybook/theming';
+import { Accordion, AccordionItem, AccordionHeader } from '@storybook/components';
 import { NodeResult, Result } from 'axe-core';
 import { SizeMe } from 'react-sizeme';
 import HighlightToggle from './Report/HighlightToggle';
@@ -8,6 +9,7 @@ import { RuleType } from './A11YPanel';
 import { useA11yContext } from './A11yContext';
 
 // TODO: reuse the Tabs component from @storybook/theming instead of re-building identical functionality
+const maxWidthBeforeBreak = 450;
 
 const Container = styled.div({
   width: '100%',
@@ -21,30 +23,23 @@ const HighlightToggleLabel = styled.label<{}>(({ theme }) => ({
   color: theme.color.dark,
 }));
 
-const GlobalToggle = styled.div<{ elementWidth: number }>(({ elementWidth, theme }) => {
-  const maxWidthBeforeBreak = 450;
-  return {
-    cursor: 'pointer',
-    fontSize: 13,
-    lineHeight: '20px',
-    padding: elementWidth > maxWidthBeforeBreak ? '10px 15px 10px 0' : '10px 0px 10px 15px',
-    height: '40px',
-    border: 'none',
-    marginTop: elementWidth > maxWidthBeforeBreak ? -40 : 0,
-    float: elementWidth > maxWidthBeforeBreak ? 'right' : 'left',
-    display: 'flex',
-    alignItems: 'center',
-    width: elementWidth > maxWidthBeforeBreak ? 'auto' : '100%',
-    borderBottom: elementWidth > maxWidthBeforeBreak ? 'none' : `1px solid ${theme.appBorderColor}`,
+const GlobalToggle = styled.div`
+  cursor: pointer;
+  font-size: 13;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
 
-    input: {
-      marginLeft: 10,
-      marginRight: 0,
-      marginTop: -1,
-      marginBottom: 0,
-    },
-  };
-});
+  input {
+    margin: 0 0 0 10px;
+  }
+`;
+
+const GlobalToggleTab = styled(GlobalToggle)`
+  padding-right: 15px;
+`;
+
+const GlobalToggleList = styled(GlobalToggle)``;
 
 const Item = styled.button<{ active?: boolean }>(
   ({ theme }) => ({
@@ -109,6 +104,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
 
   const highlightToggleId = `${tabs[activeTab].type}-global-checkbox`;
   const highlightLabel = `Highlight results`;
+
   return (
     <SizeMe refreshMode="debounce">
       {({ size }) => (
@@ -127,18 +123,36 @@ export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
                 </Item>
               ))}
             </TabsWrapper>
+            {(size.width || 0) > maxWidthBeforeBreak && tabs[activeTab].items.length > 0 && (
+              <GlobalToggleTab>
+                <HighlightToggleLabel htmlFor={highlightToggleId}>
+                  {highlightLabel}
+                </HighlightToggleLabel>
+                <HighlightToggle
+                  toggleId={highlightToggleId}
+                  elementsToHighlight={retrieveAllNodesFromResults(tabs[activeTab].items)}
+                />
+              </GlobalToggleTab>
+            )}
           </List>
-          {tabs[activeTab].items.length > 0 ? (
-            <GlobalToggle elementWidth={size.width || 0}>
-              <HighlightToggleLabel htmlFor={highlightToggleId}>
-                {highlightLabel}
-              </HighlightToggleLabel>
-              <HighlightToggle
-                toggleId={highlightToggleId}
-                elementsToHighlight={retrieveAllNodesFromResults(tabs[activeTab].items)}
-              />
-            </GlobalToggle>
+          {(size.width || 0) <= maxWidthBeforeBreak && tabs[activeTab].items.length > 0 ? (
+            <Accordion narrow lined allowMultipleOpen>
+              <AccordionItem>
+                <AccordionHeader LabelProps={{ style: { justifyContent: 'flex-end' } }}>
+                  <GlobalToggleList>
+                    <HighlightToggleLabel htmlFor={highlightToggleId}>
+                      {highlightLabel}
+                    </HighlightToggleLabel>
+                    <HighlightToggle
+                      toggleId={highlightToggleId}
+                      elementsToHighlight={retrieveAllNodesFromResults(tabs[activeTab].items)}
+                    />
+                  </GlobalToggleList>
+                </AccordionHeader>
+              </AccordionItem>
+            </Accordion>
           ) : null}
+
           {tabs[activeTab].panel}
         </Container>
       )}
