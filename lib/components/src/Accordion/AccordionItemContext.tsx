@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-export type AccordionItemContextProps = {
+interface AccordionItemContextProps {
   id: string;
   onOpen: () => void;
   onClose: () => void;
@@ -17,6 +17,6 @@ export type AccordionItemContextProps = {
    * or self control
    */
   open: boolean | undefined;
-};
+}
 
 export const AccordionItemContext = createContext<AccordionItemContextProps | null>(null);
