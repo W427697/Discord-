@@ -7,7 +7,6 @@ import { Icons } from '../../icon/icon';
 
 // eslint-disable-next-line import/order
 import type { Story, Meta } from '@storybook/react';
-import type { AccordionProps } from '../Accordion';
 
 export default {
   title: 'Basics/Accordion/Stories',
