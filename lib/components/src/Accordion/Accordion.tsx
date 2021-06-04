@@ -157,7 +157,7 @@ export const Accordion = ({
         preventToggle,
       }}
     >
-      <Wrapper data-sb-accordion="" bordered={bordered} rounded={rounded} lined={lined} {...rest}>
+      <Wrapper data-sb-accordion="" bordered={bordered} rounded={rounded} {...rest}>
         {children}
       </Wrapper>
     </AccordionContext.Provider>
@@ -167,7 +167,6 @@ export const Accordion = ({
 interface WrapperProps {
   bordered: boolean;
   rounded: boolean;
-  lined: boolean;
 }
 
 const Wrapper = styled.ul<WrapperProps>(
