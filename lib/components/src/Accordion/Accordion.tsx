@@ -178,15 +178,11 @@ const Wrapper = styled.ul<WrapperProps>(
     backgroundColor: theme.background.content,
   }),
   ({ theme, bordered }) =>
-    bordered
-      ? {
-          border: `1px solid ${theme.appBorderColor}`,
-        }
-      : {},
+    bordered && {
+      border: `1px solid ${theme.appBorderColor}`,
+    },
   ({ theme, rounded }) =>
-    rounded
-      ? {
-          borderRadius: theme.appBorderRadius,
-        }
-      : {}
+    rounded && {
+      borderRadius: theme.appBorderRadius,
+    }
 );
