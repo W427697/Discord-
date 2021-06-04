@@ -1,9 +1,7 @@
 import React from 'react';
-import { withTests } from '@storybook/addon-jest';
 import { AccordionItem } from '../AccordionItem';
 import { AccordionHeader } from '../AccordionHeader';
 import { AccordionBody } from '../AccordionBody';
-import results from '../../../../../.jest-test-results.json';
 
 // eslint-disable-next-line import/order
 import type { Story, Meta } from '@storybook/react';
@@ -12,7 +10,6 @@ import type { AccordionItemProps } from '../AccordionItem';
 export default {
   title: 'Basics/Accordion/AccordionItem',
   component: AccordionItem,
-  decorators: [withTests({ results })],
   parameters: {
     layout: 'padded',
   },

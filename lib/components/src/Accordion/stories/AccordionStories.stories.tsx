@@ -218,8 +218,19 @@ export const CustomIcon: Story = () => (
   </Accordion>
 );
 
-export const NestedExample: Story = () => (
+export const NestedAndVarious: Story = () => (
   <Accordion bordered lined rounded allowMultipleOpen>
+    <AccordionItem open>
+      <AccordionHeader Icon={<Icons icon="document" />}>
+        Forced open with custom icon
+      </AccordionHeader>
+      <AccordionBody>
+        Minim proident eu aliqua irure tempor incididunt fugiat. Adipisicing aliquip cillum esse
+        amet. Consequat qui consectetur duis laboris aliqua fugiat Lorem eiusmod ut cupidatat
+        excepteur. Magna nulla nulla velit voluptate duis nulla quis Lorem dolore labore aliqua sit
+        ipsum.
+      </AccordionBody>
+    </AccordionItem>
     <AccordionItem>
       <AccordionHeader>Accessibility Report</AccordionHeader>
       <AccordionBody>
@@ -253,21 +264,6 @@ export const NestedExample: Story = () => (
         excepteur. Magna nulla nulla velit voluptate duis nulla quis Lorem dolore labore aliqua sit
         ipsum.
       </AccordionBody>
-    </AccordionItem>
-    <AccordionItem open>
-      <AccordionHeader hideIcon>Forced open with icon hidden</AccordionHeader>
-      <AccordionBody>
-        Minim proident eu aliqua irure tempor incididunt fugiat. Adipisicing aliquip cillum esse
-        amet. Consequat qui consectetur duis laboris aliqua fugiat Lorem eiusmod ut cupidatat
-        excepteur. Magna nulla nulla velit voluptate duis nulla quis Lorem dolore labore aliqua sit
-        ipsum.
-      </AccordionBody>
-    </AccordionItem>
-    <AccordionItem open indentBody>
-      <AccordionHeader Icon={<Icons icon="document" />}>
-        Forced open with custom icon
-      </AccordionHeader>
-      <AccordionBody>This Body has been indented</AccordionBody>
     </AccordionItem>
     <AccordionItem>
       <AccordionHeader>Item 4</AccordionHeader>
