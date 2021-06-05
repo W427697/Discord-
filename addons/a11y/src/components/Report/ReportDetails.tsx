@@ -7,6 +7,7 @@ import {
   AccordionHeader,
   AccordionBody,
   Icons,
+  IconKey,
 } from '@storybook/components';
 import { NodeResult } from 'axe-core';
 
@@ -14,6 +15,12 @@ import { ReportRuleList } from './ReportRulesList';
 import { RuleType } from '../A11YPanel';
 import HighlightToggle from './HighlightToggle';
 import { ADDON_ID } from '../../constants';
+
+const iconMap: Record<RuleType, IconKey> = {
+  0: 'facesad',
+  1: 'facehappy',
+  2: 'faceneutral',
+};
 
 export type ElementsProps = {
   elements: NodeResult[];
@@ -25,10 +32,12 @@ export const ReportDetails = ({ elements, type }: ElementsProps) => {
   const keyRef = useRef(uniqueId(id));
   const [openIds, setOpenIds] = useState([]);
 
+  const icon = iconMap[type];
+
   return (
     <Accordion narrow lined rounded bordered allowMultipleOpen indentBody defaultOpen={openIds}>
-      <AccordionItem>
-        <AccordionHeader Icon={<Icons icon="batchaccept" />}>
+      <AccordionItem preventToggle>
+        <AccordionHeader Icon={<Icons icon={icon} />}>
           <ControlWrapper>
             <div>Details</div>
             <Controls>
@@ -38,7 +47,7 @@ export const ReportDetails = ({ elements, type }: ElementsProps) => {
                   setOpenIds([]);
                 }}
               />
-              <Icons icon="expand" />
+              <Icons icon="expandalt" />
             </Controls>
           </ControlWrapper>
         </AccordionHeader>
