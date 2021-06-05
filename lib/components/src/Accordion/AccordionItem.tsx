@@ -131,12 +131,6 @@ const Wrapper = styled.li<WrapperProps>(
     margin: 0,
     listStyle: 'none',
   },
-  ({ preventOpen }) =>
-    preventOpen && {
-      '& > [data-sb-accordion-header]': {
-        cursor: 'default',
-      },
-    },
   ({ theme, narrow, indentBody }) => ({
     '& > [data-sb-accordion-header]': {
       padding: narrow ? '12px 10px' : 16,
@@ -175,6 +169,15 @@ const Wrapper = styled.li<WrapperProps>(
       },
     },
   }),
+  ({ preventOpen }) =>
+    preventOpen && {
+      '& > [data-sb-accordion-header]': {
+        cursor: 'default',
+        '&:hover': {
+          backgroundColor: 'transparent',
+        },
+      },
+    },
   ({ theme, lined, bordered }) =>
     lined
       ? {
