@@ -6,20 +6,11 @@ import { TagValue } from 'axe-core';
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin: 12px 0;
 `;
 
 const Item = styled.div`
-  padding: 5px;
-  margin: 0 6px;
-
-  &:first-child {
-    margin-left: 0;
-  }
-
-  &:last-child {
-    margin-right: 0;
-  }
+  padding: 10px 12px;
+  margin: 0 6px 6px 0;
 
   ${({ theme }) => css`
     border: 1px solid ${theme.appBorderColor};
@@ -28,13 +19,13 @@ const Item = styled.div`
   `}
 `;
 
-interface TagsProps {
+type TagsProps = {
   tags: TagValue[];
-}
+} & React.HTMLAttributes<HTMLDivElement>;
 
-export const Tags: FunctionComponent<TagsProps> = ({ tags }) => {
+export const Tags: FunctionComponent<TagsProps> = ({ tags, ...rest }) => {
   return (
-    <Wrapper>
+    <Wrapper {...rest}>
       {tags.map((tag) => (
         <Item key={tag}>{tag}</Item>
       ))}

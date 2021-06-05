@@ -51,6 +51,12 @@ export { Loader } from './Loader/Loader';
 
 // Accordion
 export { Accordion, AccordionItem, AccordionHeader, AccordionBody } from './Accordion';
+export type {
+  AccordionProps,
+  AccordionItemProps,
+  AccordionHeaderProps,
+  AccordionBodyProps,
+} from './Accordion';
 
 export * from './typography/DocumentFormatting';
 

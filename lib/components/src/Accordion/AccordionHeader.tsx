@@ -102,7 +102,11 @@ export const AccordionHeader = ({
       preventOpen={preventOpen}
       {...rest}
     >
-      <ExpanderWrapper data-sb-accordion-expander-wrapper="" hideIcon={hideIcon}>
+      <ExpanderWrapper
+        data-sb-accordion-expander-wrapper=""
+        hideIcon={hideIcon}
+        hasCustomIcon={Icon !== undefined}
+      >
         <Expander data-sb-accordion-expander="" isOpen={open} preventToggle={preventToggle}>
           {Icon !== undefined ? (
             Icon
@@ -143,6 +147,7 @@ const Wrapper = styled.button<WrapperProps>(({ preventToggle, preventOpen }) => 
 
 interface ExpanderWrapperProps {
   hideIcon: boolean;
+  hasCustomIcon: boolean;
 }
 
 const ExpanderWrapper = styled.div<ExpanderWrapperProps>(
@@ -152,8 +157,9 @@ const ExpanderWrapper = styled.div<ExpanderWrapperProps>(
     alignItems: 'center',
     justifyContent: 'center',
   },
-  ({ hideIcon }) =>
-    hideIcon && {
+  ({ hideIcon, hasCustomIcon }) =>
+    hideIcon &&
+    !hasCustomIcon && {
       display: 'none',
     }
 );

@@ -4,10 +4,10 @@ import { styled } from '@storybook/theming';
 import { NodeResult } from 'axe-core';
 import { useA11yContext } from '../A11yContext';
 
-interface ToggleProps {
+type ToggleProps = {
   elementsToHighlight: NodeResult[];
   toggleId?: string;
-}
+} & React.HTMLAttributes<HTMLInputElement>;
 
 enum CheckBoxStates {
   CHECKED,
@@ -35,7 +35,11 @@ function areAllRequiredElementsHighlighted(
     : CheckBoxStates.INDETERMINATE;
 }
 
-const HighlightToggle: React.FC<ToggleProps> = ({ toggleId, elementsToHighlight = [] }) => {
+const HighlightToggle: React.FC<ToggleProps> = ({
+  toggleId,
+  elementsToHighlight = [],
+  ...rest
+}) => {
   const { toggleHighlight, highlighted } = useA11yContext();
   const checkBoxRef = React.useRef<HTMLInputElement>(null);
   const [checkBoxState, setChecked] = React.useState(
@@ -69,6 +73,7 @@ const HighlightToggle: React.FC<ToggleProps> = ({ toggleId, elementsToHighlight 
         e.stopPropagation();
       }}
       checked={checkBoxState === CheckBoxStates.CHECKED}
+      {...rest}
     />
   );
 };

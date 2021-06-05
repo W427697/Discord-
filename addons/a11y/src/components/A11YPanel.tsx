@@ -6,7 +6,7 @@ import { ActionBar, Icons, ScrollArea } from '@storybook/components';
 
 import { AxeResults } from 'axe-core';
 import { useChannel, useParameter, useStorybookState } from '@storybook/api';
-import { Report } from './Report';
+import { Report } from './Report/Report';
 import { Tabs } from './Tabs';
 
 import { useA11yContext } from './A11yContext';

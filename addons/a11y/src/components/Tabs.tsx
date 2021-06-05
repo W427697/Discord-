@@ -25,7 +25,7 @@ const HighlightToggleLabel = styled.label<{}>(({ theme }) => ({
 
 const GlobalToggle = styled.div`
   cursor: pointer;
-  font-size: 13;
+  font-size: 13px;
   line-height: 20px;
   display: flex;
   align-items: center;
@@ -136,7 +136,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
             )}
           </List>
           {(size.width || 0) <= maxWidthBeforeBreak && tabs[activeTab].items.length > 0 ? (
-            <Accordion narrow lined allowMultipleOpen>
+            <Accordion narrow lined>
               <AccordionItem>
                 <AccordionHeader LabelProps={{ style: { justifyContent: 'flex-end' } }}>
                   <GlobalToggleList>
