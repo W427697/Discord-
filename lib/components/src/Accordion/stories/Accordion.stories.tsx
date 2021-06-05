@@ -14,7 +14,6 @@ export default {
   component: Accordion,
   argTypes: { onOpen: { action: 'open' }, onClose: { action: 'close' } },
   parameters: {
-    layout: 'padded',
     test: { disable: true },
     storysource: { disable: true },
   },
