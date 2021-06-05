@@ -2,19 +2,15 @@ import React from 'react';
 import { AccordionHeader } from '../AccordionHeader';
 
 // eslint-disable-next-line import/order
-import type { Story, Meta } from '@storybook/react';
-import type { AccordionHeaderProps } from '../AccordionHeader';
+import type { ComponentStory, Meta } from '@storybook/react';
 
 export default {
   title: 'Basics/Accordion/AccordionHeader',
   component: AccordionHeader,
   argTypes: { onOpen: { action: 'open' }, onClose: { action: 'close' } },
-  parameters: {
-    layout: 'padded',
-  },
 } as Meta;
 
-const Template: Story<AccordionHeaderProps> = (args) => (
+const Template: ComponentStory<typeof AccordionHeader> = (args) => (
   <AccordionHeader {...args}>Item 1</AccordionHeader>
 );
 

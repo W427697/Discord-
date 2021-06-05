@@ -6,21 +6,19 @@ import { AccordionBody } from '../AccordionBody';
 import { Icons } from '../../icon/icon';
 
 // eslint-disable-next-line import/order
-import type { Story, Meta } from '@storybook/react';
-import type { AccordionProps } from '../Accordion';
+import type { ComponentStory, Meta } from '@storybook/react';
 
 export default {
   title: 'Basics/Accordion',
   component: Accordion,
   argTypes: { onOpen: { action: 'open' }, onClose: { action: 'close' } },
   parameters: {
-    layout: 'padded',
     test: { disable: true },
     storysource: { disable: true },
   },
 } as Meta;
 
-const Template: Story<AccordionProps> = (args) => (
+const Template: ComponentStory<typeof Accordion> = (args) => (
   <Accordion {...args}>
     <AccordionItem>
       <AccordionHeader>Default AccordionItem</AccordionHeader>

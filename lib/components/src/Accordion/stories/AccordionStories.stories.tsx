@@ -12,7 +12,6 @@ export default {
   title: 'Basics/Accordion/Stories',
   component: Accordion,
   parameters: {
-    layout: 'padded',
     actions: { disable: true },
     test: { disable: true },
     controls: { disable: true },
