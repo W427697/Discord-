@@ -28,9 +28,10 @@ export const AccordionItem = ({
   const id = useRef(uniqueId('AccordionItem-'));
   const preventOpen = Children.count(children) < 2;
   const initialOpen = useRef(_open);
+  const allowDynamicOpen = !preventOpen && _open !== true;
 
   const onExpand = useCallback(() => {
-    if (!preventOpen && _open !== true) {
+    if (allowDynamicOpen) {
       if (context !== null) {
         context.onOpen(id.current);
       } else {
@@ -40,7 +41,7 @@ export const AccordionItem = ({
   }, [setOpen, context]);
 
   const onCollapse = useCallback(() => {
-    if (!preventOpen && _open !== true) {
+    if (allowDynamicOpen) {
       if (context !== null) {
         context.onClose(id.current);
       } else {
@@ -59,7 +60,7 @@ export const AccordionItem = ({
 
   // Possible outside influences such as from prop or from context provider
   useEffect(() => {
-    if (!preventOpen && _open !== true) {
+    if (allowDynamicOpen) {
       let newOpen = open;
 
       if (_open !== open) {
