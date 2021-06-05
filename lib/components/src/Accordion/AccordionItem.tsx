@@ -5,7 +5,7 @@ import { AccordionContext } from './AccordionContext';
 import { AccordionItemContext } from './AccordionItemContext';
 
 // Props are also available from Accordion context provider, but local props
-// takes predecense for scope control
+// takes precedence for scope control
 export type AccordionItemProps = {
   open?: boolean;
   indentBody?: boolean;
