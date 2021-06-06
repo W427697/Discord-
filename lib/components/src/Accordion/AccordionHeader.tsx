@@ -18,7 +18,7 @@ export const AccordionHeader = ({
   label,
   children,
   Icon,
-  hideIcon: _hideIcon,
+  hideIcon,
   LabelProps: _LabelProps = {},
   onOpen,
   onClose,
@@ -84,14 +84,15 @@ export const AccordionHeader = ({
     LabelProps.id = id.current;
   }
 
-  let hideIcon = _hideIcon;
   let preventToggle = _preventToggle;
   let preventOpen = false;
+  let preventIcon = false;
+  const hasCustomIcon = Icon !== undefined;
 
   if (context !== null) {
     preventToggle = _preventToggle === true ? true : context.preventToggle;
     preventOpen = context.preventOpen || false;
-    hideIcon = _hideIcon ? true : context.preventOpen;
+    preventIcon = preventOpen;
   }
 
   return (
@@ -100,15 +101,17 @@ export const AccordionHeader = ({
       onClick={handleOnClick}
       preventToggle={preventToggle}
       preventOpen={preventOpen}
+      disabled={preventToggle || preventOpen}
       {...rest}
     >
       <ExpanderWrapper
         data-sb-accordion-expander-wrapper=""
         hideIcon={hideIcon}
-        hasCustomIcon={Icon !== undefined}
+        hasCustomIcon={hasCustomIcon}
+        preventIcon={preventIcon}
       >
         <Expander data-sb-accordion-expander="" isOpen={open} preventToggle={preventToggle}>
-          {Icon !== undefined ? (
+          {hasCustomIcon ? (
             Icon
           ) : (
             <Chevron
@@ -132,7 +135,7 @@ interface WrapperProps {
   preventOpen: boolean;
 }
 
-const Wrapper = styled.button<WrapperProps>(({ preventToggle, preventOpen }) => ({
+const Wrapper = styled.button<WrapperProps>(({ theme, preventToggle, preventOpen }) => ({
   width: '100%',
   display: 'flex',
   alignItems: 'center',
@@ -142,11 +145,12 @@ const Wrapper = styled.button<WrapperProps>(({ preventToggle, preventOpen }) => 
   textAlign: 'left',
   backgroundColor: 'transparent',
   cursor: preventToggle || preventOpen ? 'default' : 'pointer',
-  fontSize: 16,
+  fontSize: theme.typography.size.s3,
 }));
 
 interface ExpanderWrapperProps {
   hideIcon: boolean;
+  preventIcon: boolean;
   hasCustomIcon: boolean;
 }
 
@@ -157,9 +161,13 @@ const ExpanderWrapper = styled.div<ExpanderWrapperProps>(
     alignItems: 'center',
     justifyContent: 'center',
   },
-  ({ hideIcon, hasCustomIcon }) =>
-    hideIcon &&
-    !hasCustomIcon && {
+  ({ hasCustomIcon, preventIcon }) =>
+    !hasCustomIcon &&
+    preventIcon && {
+      display: 'none',
+    },
+  ({ hideIcon }) =>
+    hideIcon && {
       display: 'none',
     }
 );

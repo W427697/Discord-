@@ -9,12 +9,26 @@ import {
   Icons,
   IconKey,
 } from '@storybook/components';
-import { NodeResult } from 'axe-core';
-
 import { ReportRuleList } from './ReportRulesList';
-import { RuleType } from '../A11YPanel';
-import HighlightToggle from './HighlightToggle';
-import { ADDON_ID } from '../../constants';
+import { RuleType } from '../A11yContext';
+import { HighlightToggle, HighlightWrapper } from './GlobalHighlight';
+import { ADDON_ID } from '../constants';
+
+/* eslint-disable import/order */
+import type { NodeResult } from 'axe-core';
+
+const createKeyArray = (length: number) => {
+  const keyArray: number[] = [];
+  let i = 0;
+
+  // eslint-disable-next-line no-plusplus
+  for (i; i < length; i++) {
+    // Plus 2 because we have a header in the list that is not expandable
+    keyArray.push(i + 2);
+  }
+
+  return keyArray;
+};
 
 const iconMap: Record<RuleType, IconKey> = {
   0: 'facesad',
@@ -28,26 +42,35 @@ export type ElementsProps = {
 };
 
 export const ReportDetails = ({ elements, type }: ElementsProps) => {
+  const allOpenIds = createKeyArray(elements.length || 0);
+
   const id = `${ADDON_ID}-report-details`;
   const keyRef = useRef(uniqueId(id));
-  const [openIds, setOpenIds] = useState([]);
+  const [openIds, setOpenIds] = useState<number[]>([...allOpenIds]);
 
   const icon = iconMap[type];
 
   return (
-    <Accordion narrow lined rounded bordered allowMultipleOpen indentBody defaultOpen={openIds}>
+    <Accordion narrow lined rounded bordered allowMultipleOpen indentBody open={openIds}>
       <AccordionItem preventToggle>
         <AccordionHeader Icon={<Icons icon={icon} />}>
           <ControlWrapper>
             <div>Details</div>
             <Controls>
               <Icons
+                aria-label="Expand All"
+                icon="expandalt"
+                onClick={() => {
+                  setOpenIds([...allOpenIds]);
+                }}
+              />
+              <Icons
+                aria-label="Collapse All"
                 icon="collapse"
                 onClick={() => {
                   setOpenIds([]);
                 }}
               />
-              <Icons icon="expandalt" />
             </Controls>
           </ControlWrapper>
         </AccordionHeader>
@@ -66,13 +89,13 @@ export const ReportDetails = ({ elements, type }: ElementsProps) => {
                   {index + 1}. {element.target[0]}
                 </div>
                 <div>
-                  <HighlightToggleElement>
+                  <HighlightWrapper>
                     <HighlightToggle toggleId={highlightToggleId} elementsToHighlight={[element]} />
-                  </HighlightToggleElement>
+                  </HighlightWrapper>
                 </div>
               </Label>
             </AccordionHeader>
-            <AccordionBody>
+            <AccordionBody style={{ backgroundColor: 'transparent' }}>
               <ReportRuleList rules={rules} />
             </AccordionBody>
           </AccordionItem>
@@ -104,14 +127,5 @@ const Controls = styled.div({
     cursor: 'pointer',
     width: 12,
     height: 12,
-  },
-});
-
-const HighlightToggleElement = styled.span({
-  fontWeight: 'normal',
-  alignSelf: 'center',
-  input: {
-    margin: '0 0 0 10px',
-    display: 'block',
   },
 });

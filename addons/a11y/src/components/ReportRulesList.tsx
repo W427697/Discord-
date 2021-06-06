@@ -1,9 +1,11 @@
 import React, { useRef } from 'react';
-import { CheckResult } from 'axe-core';
 import { uniqueId } from 'lodash';
 import { styled } from '@storybook/theming';
 import { ReportRuleItem } from './ReportRuleItem';
-import { ADDON_ID } from '../../constants';
+import { ADDON_ID } from '../constants';
+
+/* eslint-disable import/order */
+import type { CheckResult } from 'axe-core';
 
 interface ReportRuleListProps {
   rules: CheckResult[];

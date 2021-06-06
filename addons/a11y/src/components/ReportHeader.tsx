@@ -1,8 +1,9 @@
 import React from 'react';
-
 import { styled } from '@storybook/theming';
-import { Result } from 'axe-core';
 import { Tags } from './Tags';
+
+/* eslint-disable import/order */
+import type { Result } from 'axe-core';
 
 interface ReportInfoProps {
   item: Result;
@@ -13,7 +14,7 @@ export const ReportHeader = ({ item }: ReportInfoProps) => {
     <Wrapper>
       <Help>{item.help}</Help>
       <Link href={item.helpUrl} target="_blank">
-        More info...
+        Learn more...
       </Link>
       <Tags tags={item.tags} key="tags" />
     </Wrapper>
@@ -29,6 +30,5 @@ const Help = styled.div({
 const Link = styled.a({
   marginBottom: 16,
   textDecoration: 'underline',
-  color: 'inherit',
-  display: 'block',
+  display: 'inline-block',
 });

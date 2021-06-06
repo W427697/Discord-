@@ -2,18 +2,14 @@ import React from 'react';
 import { AccordionBody } from '../AccordionBody';
 
 // eslint-disable-next-line import/order
-import type { Story, Meta } from '@storybook/react';
-import type { AccordionBodyProps } from '../AccordionBody';
+import type { ComponentStory, Meta } from '@storybook/react';
 
 export default {
   title: 'Basics/Accordion/AccordionBody',
   component: AccordionBody,
-  parameters: {
-    layout: 'padded',
-  },
 } as Meta;
 
-const Template: Story<AccordionBodyProps> = (args) => (
+const Template: ComponentStory<typeof AccordionBody> = (args) => (
   <AccordionBody {...args}>
     Minim proident eu aliqua irure tempor incididunt fugiat. Adipisicing aliquip cillum esse amet.
     Consequat qui consectetur duis laboris aliqua fugiat Lorem eiusmod ut cupidatat excepteur. Magna

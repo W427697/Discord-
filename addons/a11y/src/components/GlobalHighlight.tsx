@@ -1,19 +1,20 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-
-import { NodeResult } from 'axe-core';
 import { useA11yContext } from '../A11yContext';
 
-type ToggleProps = {
-  elementsToHighlight: NodeResult[];
-  toggleId?: string;
-} & React.HTMLAttributes<HTMLInputElement>;
+/* eslint-disable import/order */
+import type { NodeResult, Result } from 'axe-core';
 
 enum CheckBoxStates {
   CHECKED,
   UNCHECKED,
   INDETERMINATE,
 }
+
+type ToggleProps = {
+  elementsToHighlight: NodeResult[];
+  toggleId?: string;
+} & React.HTMLAttributes<HTMLInputElement>;
 
 const Checkbox = styled.input<{ disabled: boolean }>(({ disabled }) => ({
   cursor: disabled ? 'not-allowed' : 'pointer',
@@ -35,7 +36,7 @@ function areAllRequiredElementsHighlighted(
     : CheckBoxStates.INDETERMINATE;
 }
 
-const HighlightToggle: React.FC<ToggleProps> = ({
+export const HighlightToggle: React.FC<ToggleProps> = ({
   toggleId,
   elementsToHighlight = [],
   ...rest
@@ -78,4 +79,39 @@ const HighlightToggle: React.FC<ToggleProps> = ({
   );
 };
 
-export default HighlightToggle;
+function retrieveAllNodesFromResults(items: Result[]): NodeResult[] {
+  return items.reduce((acc, item) => acc.concat(item.nodes), [] as NodeResult[]);
+}
+
+export type GlobalHighlightProps = {
+  elements: Result[];
+  id: string;
+  label: string;
+};
+
+export const GlobalHighlight = ({ elements, id, label }: GlobalHighlightProps) => {
+  return (
+    <HighlightWrapper>
+      <HighlightLabel htmlFor={id}>{label}</HighlightLabel>
+      <HighlightToggle toggleId={id} elementsToHighlight={retrieveAllNodesFromResults(elements)} />
+    </HighlightWrapper>
+  );
+};
+
+export const HighlightWrapper = styled.div`
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+
+  input {
+    margin: 0 0 0 10px;
+  }
+`;
+
+const HighlightLabel = styled.label<{}>(({ theme }) => ({
+  cursor: 'pointer',
+  userSelect: 'none',
+  color: theme.color.dark,
+}));

@@ -5,7 +5,7 @@ import { AccordionContext } from './AccordionContext';
 import { AccordionItemContext } from './AccordionItemContext';
 
 // Props are also available from Accordion context provider, but local props
-// takes predecense for scope control
+// takes precedence for scope control
 export type AccordionItemProps = {
   open?: boolean;
   indentBody?: boolean;
@@ -28,9 +28,10 @@ export const AccordionItem = ({
   const id = useRef(uniqueId('AccordionItem-'));
   const preventOpen = Children.count(children) < 2;
   const initialOpen = useRef(_open);
+  const allowDynamicOpen = !preventOpen && _open !== true;
 
   const onExpand = useCallback(() => {
-    if (!preventOpen && _open !== true) {
+    if (allowDynamicOpen) {
       if (context !== null) {
         context.onOpen(id.current);
       } else {
@@ -40,7 +41,7 @@ export const AccordionItem = ({
   }, [setOpen, context]);
 
   const onCollapse = useCallback(() => {
-    if (!preventOpen && _open !== true) {
+    if (allowDynamicOpen) {
       if (context !== null) {
         context.onClose(id.current);
       } else {
@@ -59,7 +60,7 @@ export const AccordionItem = ({
 
   // Possible outside influences such as from prop or from context provider
   useEffect(() => {
-    if (!preventOpen && _open !== true) {
+    if (allowDynamicOpen) {
       let newOpen = open;
 
       if (_open !== open) {
@@ -130,20 +131,11 @@ const Wrapper = styled.li<WrapperProps>(
     margin: 0,
     listStyle: 'none',
   },
-  ({ preventOpen }) =>
-    preventOpen && {
-      '& > [data-sb-accordion-header]': {
-        cursor: 'default',
-      },
-    },
   ({ theme, narrow, indentBody }) => ({
-    '& > [data-sb-accordion-header]': {
-      padding: narrow ? '12px 10px' : 16,
-      fontSize: narrow ? 13 : 16,
-      borderTop: '1px solid transparent',
-      borderBottom: '1px solid transparent',
-      borderLeft: '0 none',
-      borderRight: '0 none',
+    '[data-sb-accordion-header]': {
+      padding: narrow ? '12px 16px' : 16,
+      fontSize: narrow ? theme.typography.size.s2 : theme.typography.size.s3,
+      border: '1px solid transparent',
       '[data-sb-accordion-expander-wrapper]': {
         marginRight: narrow ? 10 : 12,
         paddingTop: 1,
@@ -162,18 +154,32 @@ const Wrapper = styled.li<WrapperProps>(
         backgroundColor: theme.background.hoverable,
       },
     },
-    '& > [data-sb-accordion-body]': {
-      fontSize: narrow ? 13 : 14,
+    '[data-sb-accordion-body]': {
+      fontSize: theme.typography.size.s2,
+      backgroundColor: theme.background.app,
     },
     '&[aria-expanded="true"]': {
-      '& > [data-sb-accordion-body] > [data-sb-accordion-body-inner]': {
+      '[data-sb-accordion-body-inner]': {
         padding: narrow
-          ? `20px 10px 20px ${indentBody ? '34px' : '10px'}`
-          : `24px 16px 24px ${indentBody ? '46px' : '16px'}`,
-        backgroundColor: theme.background.app,
+          ? `20px 16px 20px ${indentBody ? '41px' : '17px'}`
+          : `24px 16px 24px ${indentBody ? '47px' : '17px'}`,
+      },
+    },
+    '&:hover': {
+      '[data-sb-accordion-body]': {
+        // backgroundColor: theme.background.app,
       },
     },
   }),
+  ({ preventOpen }) =>
+    preventOpen && {
+      '[data-sb-accordion-header]': {
+        cursor: 'default',
+        '&:hover': {
+          backgroundColor: 'transparent',
+        },
+      },
+    },
   ({ theme, lined, bordered }) =>
     lined
       ? {

@@ -1,5 +1,4 @@
 import React from 'react';
-import { SizeMe } from 'react-sizeme';
 import { styled } from '@storybook/theming';
 import { Badge } from '@storybook/components';
 
@@ -39,34 +38,20 @@ export const ReportRuleItem = ({ rule }: ReportRuleItemProps) => {
       break;
   }
   return (
-    <SizeMe refreshMode="debounce">
-      {({ size }) => {
-        const narrowView = (size.width || 0) < maxWidthBeforeBreak;
-        return (
-          <Item narrowView={narrowView}>
-            <StyledBadge status={badgeType}>{formatSeverityText(rule.impact)}</StyledBadge>
-            <Message narrowView={narrowView}>{rule.message}</Message>
-          </Item>
-        );
-      }}
-    </SizeMe>
+    <Item>
+      <StyledBadge status={badgeType}>{formatSeverityText(rule.impact)}</StyledBadge>
+      <Message>{rule.message}</Message>
+    </Item>
   );
 };
 
-const maxWidthBeforeBreak = 350;
-
-interface ItemProps {
-  narrowView: boolean;
-}
-
-const Item = styled.div<ItemProps>(({ narrowView }) => ({
+const Item = styled.div({
   display: 'flex',
-  flexDirection: narrowView ? 'column-reverse' : 'row',
   marginBottom: 12,
   '&:last-of-type': {
     marginBottom: 0,
   },
-}));
+});
 
 const StyledBadge = styled(Badge)({
   minWidth: 65,
@@ -77,12 +62,7 @@ const StyledBadge = styled(Badge)({
   alignSelf: 'flex-start',
 });
 
-interface MessageProps {
-  narrowView: boolean;
-}
-
-const Message = styled.div<MessageProps>(({ narrowView }) => ({
+const Message = styled.div({
   fontSize: 13,
-  paddingTop: 2,
-  marginBottom: narrowView ? 6 : 0,
-}));
+  paddingTop: 1,
+});

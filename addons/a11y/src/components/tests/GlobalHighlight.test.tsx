@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { NodeResult } from 'axe-core';
-import HighlightToggle from '../HighlightToggle';
+import { HighlightToggle } from '../GlobalHighlight';
 import { A11yContext } from '../../A11yContext';
 
 const nodeResult = (target: string): NodeResult => ({

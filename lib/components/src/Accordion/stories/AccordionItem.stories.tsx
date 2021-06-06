@@ -4,18 +4,14 @@ import { AccordionHeader } from '../AccordionHeader';
 import { AccordionBody } from '../AccordionBody';
 
 // eslint-disable-next-line import/order
-import type { Story, Meta } from '@storybook/react';
-import type { AccordionItemProps } from '../AccordionItem';
+import type { ComponentStory, Meta } from '@storybook/react';
 
 export default {
   title: 'Basics/Accordion/AccordionItem',
   component: AccordionItem,
-  parameters: {
-    layout: 'padded',
-  },
 } as Meta;
 
-const Template: Story<AccordionItemProps> = (args) => (
+const Template: ComponentStory<typeof AccordionItem> = (args) => (
   <AccordionItem {...args}>
     <AccordionHeader>Item 1</AccordionHeader>
     <AccordionBody>

@@ -5575,6 +5575,7 @@ __metadata:
     lodash: ^4.17.20
     react-sizeme: ^3.0.1
     regenerator-runtime: ^0.13.7
+    resize-observer-polyfill: ^1.5.1
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
   peerDependencies:
@@ -36904,6 +36905,13 @@ fsevents@^1.2.7:
   version: 4.0.0
   resolution: "reselect@npm:4.0.0"
   checksum: b5957ad2a8fa1ad0c6510da6bd199511eee8bb0ea9278ca67a6f92d8b968ca632b46955a4332de19cc983325123c5cdc88e5887c8fc5b0d4b5938d1807cc3882
+  languageName: node
+  linkType: hard
+
+"resize-observer-polyfill@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "resize-observer-polyfill@npm:1.5.1"
+  checksum: 5e882475067f0b97dc07e0f37c3e335ac5bc3520d463f777cec7e894bb273eddbfecb857ae668e6fb6881fd6f6bb7148246967172139302da50fa12ea3a15d95
   languageName: node
   linkType: hard
 
