@@ -6,6 +6,13 @@ import type { AddToMapFn, OpenMap } from './AccordionContext';
 
 type AccordionMap = Record<string, { index: number; id: string }>;
 
+type GetItemByIndexProps = {
+  index: number;
+  accordionMap: AccordionMap;
+};
+
+const getItemIdByIndex = ({ index, accordionMap }: GetItemByIndexProps) => {};
+
 interface StateChange {
   id: string;
   index: number;
@@ -14,8 +21,8 @@ interface StateChange {
 export type AccordionProps = {
   /** Set to true to allow for more than one AccordionItem open at the time */
   allowMultipleOpen?: boolean;
-  /** Index number or array of index numbers of AccordionItems's to open as default */
-  defaultOpen?: number | number[];
+  /** Ability to control which panel(s) are open or closed externally - or use to set default opens */
+  open?: number | number[];
   /** Set to true to add theme border around the Accordion */
   bordered?: boolean;
   /** Set to true to add rounded borders from theme to Accordion */
@@ -62,7 +69,7 @@ export type AccordionProps = {
 export const Accordion = ({
   allowMultipleOpen,
   children,
-  defaultOpen,
+  open,
   rounded = false,
   bordered = false,
   narrow, // To be carried to AccordionItem children via context
@@ -74,26 +81,26 @@ export const Accordion = ({
   ...rest
 }: AccordionProps) => {
   const [openState, setOpenState] = useState<OpenMap>({});
-  const itemMap = useRef<AccordionMap>({});
-  const itemMapIndex = useRef(0);
-  const openMap = useRef<OpenMap>({});
+  const openStateMap = useRef<OpenMap>({});
+  const accordionMap = useRef<AccordionMap>({});
+  const accordionMapIndex = useRef(0);
 
   const addToMap: AddToMapFn = useCallback(
     (id) => {
-      const index = itemMapIndex.current + 1;
-      itemMap.current = { ...itemMap.current, [id]: { id, index } };
-      itemMapIndex.current = index;
+      const index = accordionMapIndex.current + 1;
+      accordionMap.current = { ...accordionMap.current, [id]: { id, index } };
+      accordionMapIndex.current = index;
 
-      if (typeof defaultOpen === 'number') {
-        openMap.current = { ...openMap.current, [id]: defaultOpen === index };
-      } else if (Array.isArray(defaultOpen) && allowMultipleOpen) {
-        const isExpanded = defaultOpen.includes(index);
-        openMap.current = { ...openMap.current, [id]: isExpanded };
+      if (typeof open === 'number') {
+        openStateMap.current = { ...openStateMap.current, [id]: open === index };
+      } else if (Array.isArray(open)) {
+        const isExpanded = open.includes(index);
+        openStateMap.current = { ...openStateMap.current, [id]: isExpanded };
       } else {
-        openMap.current = { ...openMap.current, [id]: false };
+        openStateMap.current = { ...openStateMap.current, [id]: false };
       }
     },
-    [itemMap, openMap]
+    [accordionMap, openStateMap, open]
   );
 
   const onItemClose = useCallback(
@@ -101,10 +108,10 @@ export const Accordion = ({
       setOpenState({ ...openState, [id]: false });
 
       if (onClose) {
-        onClose({ id, index: itemMap.current[id].index });
+        onClose({ id, index: accordionMap.current[id].index });
       }
     },
-    [openState, setOpenState, onClose, itemMap]
+    [openState, setOpenState, onClose, accordionMap]
   );
 
   const onItemOpen = useCallback(
@@ -117,7 +124,7 @@ export const Accordion = ({
       } else {
         Object.keys(openState).forEach((key) => {
           if (openState[key]) {
-            oldOpen = { id: key, index: itemMap.current[key].index };
+            oldOpen = { id: key, index: accordionMap.current[key].index };
           }
 
           newOpen[key] = id === key;
@@ -131,17 +138,37 @@ export const Accordion = ({
       setOpenState({ ...openState, ...newOpen });
 
       if (onOpen) {
-        onOpen({ id, index: itemMap.current[id].index });
+        onOpen({ id, index: accordionMap.current[id].index });
       }
     },
-    [openState, setOpenState, onOpen, itemMap]
+    [openState, setOpenState, onOpen, accordionMap]
   );
 
   useEffect(() => {
-    if (Object.keys(itemMap.current).length === Children.count(children)) {
-      setOpenState({ ...openState, ...openMap.current });
+    if (Object.keys(accordionMap.current).length === Children.count(children)) {
+      setOpenState({ ...openState, ...openStateMap.current });
     }
-  }, [itemMap, openMap]);
+  }, [accordionMap, openStateMap]);
+
+  useEffect(() => {
+    let newOpen: number[] = [];
+
+    if (typeof open === 'number') {
+      newOpen.push(open);
+    } else if (Array.isArray(open)) {
+      newOpen = open;
+    }
+
+    let newOpenState = { ...openState };
+
+    Object.keys(accordionMap.current).forEach((key) => {
+      const item = accordionMap.current[key];
+
+      newOpenState = { ...newOpenState, [item.id]: newOpen.includes(item.index) };
+    });
+
+    setOpenState({ ...openState, ...newOpenState });
+  }, [open]);
 
   return (
     <AccordionContext.Provider

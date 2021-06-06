@@ -101,6 +101,7 @@ export const AccordionHeader = ({
       onClick={handleOnClick}
       preventToggle={preventToggle}
       preventOpen={preventOpen}
+      disabled={preventToggle || preventOpen}
       {...rest}
     >
       <ExpanderWrapper
@@ -134,7 +135,7 @@ interface WrapperProps {
   preventOpen: boolean;
 }
 
-const Wrapper = styled.button<WrapperProps>(({ preventToggle, preventOpen }) => ({
+const Wrapper = styled.button<WrapperProps>(({ theme, preventToggle, preventOpen }) => ({
   width: '100%',
   display: 'flex',
   alignItems: 'center',
@@ -144,7 +145,7 @@ const Wrapper = styled.button<WrapperProps>(({ preventToggle, preventOpen }) => 
   textAlign: 'left',
   backgroundColor: 'transparent',
   cursor: preventToggle || preventOpen ? 'default' : 'pointer',
-  fontSize: 16,
+  fontSize: theme.typography.size.s3,
 }));
 
 interface ExpanderWrapperProps {
@@ -178,15 +179,12 @@ interface ExpanderProps {
 
 const Expander = styled.div<ExpanderProps>(({ theme, isOpen, preventToggle }) => ({
   color: theme.color.mediumdark,
-  width: 18,
-  height: 18,
-  minWidth: 18,
-  minHeight: 18,
   transform: preventToggle ? 'rotate(0deg)' : `rotate(${isOpen ? 90 : 0}deg)`,
   transition: 'transform 0.1s ease-in-out',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  alignSelf: 'stretch',
 }));
 
 const Chevron = styled(Icons)({
