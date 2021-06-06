@@ -56,7 +56,6 @@ export const Tabs = forwardRef(
     const initialTabList = childrenToList(children, _selected);
     const initialSelectedIndex = getChildIndexById(_selected, initialTabList);
     const tabList = useRef(initialTabList);
-    const tabButtonRefMap = useRef<Record<string, React.RefObject<HTMLButtonElement>>>({});
 
     const [updateTrigger, setUpdateTrigger] = useState(0);
     const [tabState, setTabState] = useState<SelectedState>({
@@ -71,8 +70,6 @@ export const Tabs = forwardRef(
       const { id } = tabList.current[index];
 
       setTabState({ ...tabState, id, index });
-
-      const currentId = tabList.current[currentIndex].id;
     }, [tabList, tabState, setTabState]);
 
     const pullActiveTab = useCallback(() => {
@@ -134,7 +131,6 @@ export const Tabs = forwardRef(
               return (
                 <TabButton
                   aria-selected={active ? 'true' : 'false'}
-                  autoFocus={active}
                   aria-labelledby={labelId}
                   role="tab"
                   id={id}
@@ -142,7 +138,7 @@ export const Tabs = forwardRef(
                   className={`tabbutton ${active ? 'tabbutton-active' : ''}`}
                   active={active}
                   textColor={color}
-                  onKeyDownCapture={(event: React.KeyboardEvent<HTMLButtonElement>) => {
+                  onKeyDown={(event: React.KeyboardEvent<HTMLButtonElement>) => {
                     // Adding keyboard navigation support for tabs
                     // https://www.w3.org/TR/wai-aria-practices-1.1/examples/tabs/tabs-1/tabs.html
                     switch (event.key) {

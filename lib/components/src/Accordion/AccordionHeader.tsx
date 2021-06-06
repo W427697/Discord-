@@ -179,15 +179,12 @@ interface ExpanderProps {
 
 const Expander = styled.div<ExpanderProps>(({ theme, isOpen, preventToggle }) => ({
   color: theme.color.mediumdark,
-  width: 18,
-  height: 18,
-  minWidth: 18,
-  minHeight: 18,
   transform: preventToggle ? 'rotate(0deg)' : `rotate(${isOpen ? 90 : 0}deg)`,
   transition: 'transform 0.1s ease-in-out',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  alignSelf: 'stretch',
 }));
 
 const Chevron = styled(Icons)({

@@ -7,15 +7,15 @@ import {
   AccordionHeader,
   AccordionBody,
   Icons,
-  IconKey,
 } from '@storybook/components';
-import { ReportRuleList } from './ReportRulesList';
+import { RuleImpactList } from './RuleImpactList';
 import { RuleType } from '../A11yContext';
-import { HighlightToggle, HighlightWrapper } from './GlobalHighlight';
+import { GlobalHighlight } from './GlobalHighlight';
 import { ADDON_ID } from '../constants';
 
 /* eslint-disable import/order */
 import type { NodeResult } from 'axe-core';
+import { ImpactBadge } from './ImpactBadge';
 
 const createKeyArray = (length: number) => {
   const keyArray: number[] = [];
@@ -30,10 +30,33 @@ const createKeyArray = (length: number) => {
   return keyArray;
 };
 
-const iconMap: Record<RuleType, IconKey> = {
-  0: 'facesad',
-  1: 'facehappy',
-  2: 'faceneutral',
+const extractBadgesFromElements = (elements: NodeResult[], id: string) => {
+  const occurenceMap: Record<string, number> = {};
+
+  elements.forEach((element) => {
+    const { any, all, none } = element;
+    const rules = [...any, ...all, ...none];
+
+    rules.forEach(({ impact }) => {
+      if (impact) {
+        if (!occurenceMap[impact]) {
+          occurenceMap[impact] = 1;
+        } else {
+          occurenceMap[impact] += 1;
+        }
+      }
+    });
+  });
+
+  const badges = Object.keys(occurenceMap).map((impact) => {
+    const occurences = occurenceMap[impact];
+
+    return (
+      <ImpactBadge key={`${id}-rule-badge-${impact}`} impact={impact} text={`${occurences} x`} />
+    );
+  });
+
+  return badges;
 };
 
 export type ElementsProps = {
@@ -46,16 +69,16 @@ export const ReportDetails = ({ elements, type }: ElementsProps) => {
 
   const id = `${ADDON_ID}-report-details`;
   const keyRef = useRef(uniqueId(id));
-  const [openIds, setOpenIds] = useState<number[]>([...allOpenIds]);
+  const [openIds, setOpenIds] = useState<number[]>([]);
 
-  const icon = iconMap[type];
+  const ruleBadges = extractBadgesFromElements(elements, id);
 
   return (
     <Accordion narrow lined rounded bordered allowMultipleOpen indentBody open={openIds}>
       <AccordionItem preventToggle>
-        <AccordionHeader Icon={<Icons icon={icon} />}>
+        <AccordionHeader>
           <ControlWrapper>
-            <div>Details</div>
+            <BadgeWrapper>{ruleBadges.map((r) => r)}</BadgeWrapper>
             <Controls>
               <Icons
                 aria-label="Expand All"
@@ -88,15 +111,11 @@ export const ReportDetails = ({ elements, type }: ElementsProps) => {
                 <div>
                   {index + 1}. {element.target[0]}
                 </div>
-                <div>
-                  <HighlightWrapper>
-                    <HighlightToggle toggleId={highlightToggleId} elementsToHighlight={[element]} />
-                  </HighlightWrapper>
-                </div>
+                <GlobalHighlight id={highlightToggleId} results={[element]} />
               </Label>
             </AccordionHeader>
             <AccordionBody style={{ backgroundColor: 'transparent' }}>
-              <ReportRuleList rules={rules} />
+              <RuleImpactList rules={rules} />
             </AccordionBody>
           </AccordionItem>
         );
@@ -109,13 +128,22 @@ const Label = styled.div({
   display: 'flex',
   justifyContent: 'space-between',
   paddingRight: 5,
-  fontWeight: 500,
+  fontSize: 13,
 });
 
 const ControlWrapper = styled.div({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
+  padding: '6px 0',
+});
+
+const BadgeWrapper = styled.div({
+  display: 'flex',
+  flexGrow: 1,
+  '& > div': {
+    marginRight: 8,
+  },
 });
 
 const Controls = styled.div({

@@ -84,18 +84,22 @@ function retrieveAllNodesFromResults(items: Result[]): NodeResult[] {
 }
 
 export type GlobalHighlightProps = {
-  elements: Result[];
+  elements?: Result[];
+  results?: NodeResult[];
   id: string;
-  label: string;
+  label?: string;
 };
 
-export const GlobalHighlight = ({ elements, id, label }: GlobalHighlightProps) => {
-  return (
+export const GlobalHighlight = ({ elements, id, label, results }: GlobalHighlightProps) => {
+  const items =
+    // eslint-disable-next-line no-nested-ternary
+    results !== undefined ? results : elements ? retrieveAllNodesFromResults(elements) : [];
+  return items.length > 0 ? (
     <HighlightWrapper>
-      <HighlightLabel htmlFor={id}>{label}</HighlightLabel>
-      <HighlightToggle toggleId={id} elementsToHighlight={retrieveAllNodesFromResults(elements)} />
+      {label && <HighlightLabel htmlFor={id}>{label}</HighlightLabel>}
+      <HighlightToggle toggleId={id} elementsToHighlight={items} />
     </HighlightWrapper>
-  );
+  ) : null;
 };
 
 export const HighlightWrapper = styled.div`

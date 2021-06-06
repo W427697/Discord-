@@ -136,22 +136,24 @@ const Wrapper = styled.li<WrapperProps>(
       padding: narrow ? '12px 16px' : 16,
       fontSize: narrow ? theme.typography.size.s2 : theme.typography.size.s3,
       border: '1px solid transparent',
-      '[data-sb-accordion-expander-wrapper]': {
-        marginRight: narrow ? 10 : 12,
-        paddingTop: 1,
-        '[data-sb-accordion-expander]': {
-          minWidth: narrow ? 14 : 18,
-          minHeight: narrow ? 14 : 18,
-          width: narrow ? 14 : 18,
-          height: narrow ? 14 : 18,
-        },
-        '[data-sb-accordion-chevron]': {
-          width: narrow ? 10 : 12,
-          height: narrow ? 10 : 12,
-        },
-      },
       '&:hover': {
         backgroundColor: theme.background.hoverable,
+      },
+    },
+    '[data-sb-accordion-expander-wrapper]': {
+      marginRight: narrow ? 12 : 16,
+      paddingTop: 3,
+    },
+    '[data-sb-accordion-expander]': {
+      minWidth: narrow ? 14 : 16,
+      minHeight: narrow ? 14 : 16,
+      svg: {
+        height: narrow ? 14 : 16,
+        width: 'auto',
+      },
+      'svg[data-sb-accordion-chevron]': {
+        width: narrow ? 10 : 12,
+        height: narrow ? 10 : 12,
       },
     },
     '[data-sb-accordion-body]': {
@@ -161,8 +163,8 @@ const Wrapper = styled.li<WrapperProps>(
     '&[aria-expanded="true"]': {
       '[data-sb-accordion-body-inner]': {
         padding: narrow
-          ? `20px 16px 20px ${indentBody ? '41px' : '17px'}`
-          : `24px 16px 24px ${indentBody ? '47px' : '17px'}`,
+          ? `20px 16px 20px ${indentBody ? '43px' : '17px'}`
+          : `24px 16px 24px ${indentBody ? '49px' : '17px'}`,
       },
     },
     '&:hover': {

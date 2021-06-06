@@ -5,11 +5,11 @@ import {
   Accordion,
   AccordionItem,
   AccordionHeader,
-  AccordionBody,
+  AccordionBody as _AccordionBody,
 } from '@storybook/components';
-import { ReportHeader } from './ReportHeader';
 import { ReportDetails } from './ReportDetails';
-import { HighlightToggle, HighlightWrapper } from './GlobalHighlight';
+import { GlobalHighlight } from './GlobalHighlight';
+import { Tags } from './Tags';
 
 /* eslint-disable import/order */
 import type { Result } from 'axe-core';
@@ -32,23 +32,18 @@ export const Report = ({ items, empty, type }: ReportListProps) => (
             <AccordionHeader>
               <Label>
                 <div>{item.description}</div>
-                <div>
-                  <HighlightWrapper>
-                    <HighlightToggle
-                      toggleId={highlightToggleId}
-                      elementsToHighlight={item.nodes}
-                    />
-                  </HighlightWrapper>
-                </div>
+                <GlobalHighlight id={highlightToggleId} results={item.nodes} />
               </Label>
             </AccordionHeader>
             <AccordionBody>
-              <Body>
-                <BodyHeader>
-                  <ReportHeader item={item} />
-                </BodyHeader>
-                <ReportDetails elements={item.nodes} type={type} />
-              </Body>
+              <ReportHeader>
+                <Help>{item.help}</Help>
+                <Link href={item.helpUrl} target="_blank">
+                  Learn more...
+                </Link>
+                <Tags tags={item.tags} key="tags" />
+              </ReportHeader>
+              <ReportDetails elements={item.nodes} type={type} />
             </AccordionBody>
           </AccordionItem>
         );
@@ -62,13 +57,23 @@ export const Report = ({ items, empty, type }: ReportListProps) => (
 const Label = styled.div({
   display: 'flex',
   justifyContent: 'space-between',
-  paddingRight: -1,
+  marginRight: -2,
 });
 
-const Body = styled.div({
+const AccordionBody = styled(_AccordionBody)({
   paddingRight: 24,
 });
 
-const BodyHeader = styled.div({
+const ReportHeader = styled.div({
   marginBottom: 10,
+});
+
+const Help = styled.div({
+  marginBottom: 4,
+});
+
+const Link = styled.a({
+  marginBottom: 16,
+  textDecoration: 'underline',
+  display: 'inline-block',
 });

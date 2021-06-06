@@ -2,8 +2,6 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import { Badge } from '@storybook/components';
 
-import type { CheckResult } from 'axe-core';
-
 const formatSeverityText = (severity: string) => {
   return severity.charAt(0).toUpperCase().concat(severity.slice(1));
 };
@@ -15,13 +13,14 @@ export enum ImpactValue {
   CRITICAL = 'critical',
 }
 
-interface ReportRuleItemProps {
-  rule: CheckResult;
-}
+type ImpactBadgeProps = {
+  text?: string;
+  impact: string;
+};
 
-export const ReportRuleItem = ({ rule }: ReportRuleItemProps) => {
+export const ImpactBadge = ({ text, impact }: ImpactBadgeProps) => {
   let badgeType: any = null;
-  switch (rule.impact) {
+  switch (impact) {
     case ImpactValue.CRITICAL:
       badgeType = 'critical';
       break;
@@ -38,31 +37,17 @@ export const ReportRuleItem = ({ rule }: ReportRuleItemProps) => {
       break;
   }
   return (
-    <Item>
-      <StyledBadge status={badgeType}>{formatSeverityText(rule.impact)}</StyledBadge>
-      <Message>{rule.message}</Message>
-    </Item>
+    <Wrapper status={badgeType}>
+      {text && `${text} `}
+      {formatSeverityText(impact)}
+    </Wrapper>
   );
 };
 
-const Item = styled.div({
-  display: 'flex',
-  marginBottom: 12,
-  '&:last-of-type': {
-    marginBottom: 0,
-  },
-});
-
-const StyledBadge = styled(Badge)({
+const Wrapper = styled(Badge)({
   minWidth: 65,
   maxWidth: 'fit-content',
-  marginRight: 8,
   width: '100%',
   textAlign: 'center',
   alignSelf: 'flex-start',
-});
-
-const Message = styled.div({
-  fontSize: 13,
-  paddingTop: 1,
 });
