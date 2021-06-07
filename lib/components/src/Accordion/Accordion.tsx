@@ -6,11 +6,6 @@ import type { AddToMapFn, OpenMap } from './AccordionContext';
 
 type AccordionMap = Record<string, { index: number; id: string }>;
 
-type GetItemByIndexProps = {
-  index: number;
-  accordionMap: AccordionMap;
-};
-
 interface StateChange {
   id: string;
   index: number;

@@ -11,7 +11,7 @@ interface AccordionItemContextProps {
   /**
    * Carries down to AccordionItem children and ise used by AccordionHeader
    */
-  preventToggle?: boolean | undefined;
+  preventToggle: boolean | undefined;
   /**
    * Used by AccordionHeader and AccordionBody for state control by AccordionItem's parent
    * or self control

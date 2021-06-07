@@ -9,10 +9,10 @@ interface AccordionContextProps {
   addToMap: AddToMapFn;
   onOpen: (id: string) => void;
   onClose: (id: string) => void;
-  lined?: boolean | undefined;
-  bordered?: boolean | undefined;
-  indentBody?: boolean | undefined;
-  narrow?: boolean | undefined;
+  lined: boolean | undefined;
+  bordered: boolean | undefined;
+  indentBody: boolean | undefined;
+  narrow: boolean | undefined;
   preventToggle: boolean | undefined;
 }
 
