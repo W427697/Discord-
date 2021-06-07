@@ -20,14 +20,12 @@ export const AddonPanelTabs = ({ results }: AddonPanelTabsProps) => {
   const { tab, setTab } = useA11yContext();
   const theme = useTheme<Theme>();
 
+  if (results === null) {
+    return null;
+  }
+
   const highlightToggleId = `${RuleType[tab]}-global-checkbox`;
   const highlightLabel = `Highlight results`;
-
-  const resultsMap = {
-    [RuleType.VIOLATION]: results.violations,
-    [RuleType.PASS]: results.passes,
-    [RuleType.INCOMPLETION]: results.incomplete,
-  };
 
   const handleOnSelect = useCallback(
     ({ index }) => {
@@ -36,7 +34,13 @@ export const AddonPanelTabs = ({ results }: AddonPanelTabsProps) => {
     [setTab]
   );
 
-  return results !== null ? (
+  const resultsMap = {
+    [RuleType.VIOLATION]: results.violations,
+    [RuleType.PASS]: results.passes,
+    [RuleType.INCOMPLETION]: results.incomplete,
+  };
+
+  return (
     <FFTabs
       backgroundColor={theme.background.hoverable}
       onSelect={handleOnSelect}
@@ -87,5 +91,5 @@ export const AddonPanelTabs = ({ results }: AddonPanelTabsProps) => {
         )}
       </FFTabItem>
     </FFTabs>
-  ) : null;
+  );
 };
