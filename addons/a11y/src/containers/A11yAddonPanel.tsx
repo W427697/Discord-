@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { ActionBar, Icons, ScrollArea } from '@storybook/components';
 import { useChannel, useParameter, useStorybookState } from '@storybook/api';
-import { AddonPanelTabs } from '../components/AddonPanelTabs';
+import { PanelTabs } from '../components/PanelTabs';
 import { useA11yContext } from '../A11yContext';
 import { EVENTS } from '../constants';
 
@@ -95,7 +95,7 @@ export const A11yAddonPanel = () => {
       {(status === 'ready' || status === 'ran') && (
         <>
           <ScrollArea vertical horizontal>
-            <AddonPanelTabs key="tabs" results={results} />
+            <PanelTabs key="tabs" results={results} />
           </ScrollArea>
           <ActionBar key="actionbar" actionItems={readyActionItems} />
         </>

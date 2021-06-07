@@ -15,8 +15,8 @@ interface AddonPanelTabsProps {
   results: Results;
 }
 
-export const AddonPanelTabs = ({ results }: AddonPanelTabsProps) => {
-  const idRef = useRef(uniqueId(`${ADDON_ID}-a11y-addon-tabs-`));
+export const PanelTabs = ({ results }: AddonPanelTabsProps) => {
+  const idRef = useRef(uniqueId(`${ADDON_ID}-panel-tabs`));
   const { tab, setTab } = useA11yContext();
   const theme = useTheme<Theme>();
 
