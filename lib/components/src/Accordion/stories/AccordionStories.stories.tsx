@@ -19,7 +19,7 @@ export default {
 } as Meta;
 
 export const OneDefaultOpen: Story = () => (
-  <Accordion defaultOpen={1}>
+  <Accordion open={1}>
     <AccordionItem>
       <AccordionHeader>Item 1 - Default open</AccordionHeader>
       <AccordionBody>
@@ -60,7 +60,7 @@ export const OneDefaultOpen: Story = () => (
 );
 
 export const MultipleDefaultOpen: Story = () => (
-  <Accordion defaultOpen={[1, 2]} allowMultipleOpen>
+  <Accordion open={[1, 2]} allowMultipleOpen>
     <AccordionItem>
       <AccordionHeader>Item 1 - Default open</AccordionHeader>
       <AccordionBody>
@@ -177,7 +177,7 @@ export const OneHeaderOnly: Story = () => (
 );
 
 export const CustomIcon: Story = () => (
-  <Accordion defaultOpen={1}>
+  <Accordion open={1}>
     <AccordionItem>
       <AccordionHeader>Item 1 - Default open</AccordionHeader>
       <AccordionBody>

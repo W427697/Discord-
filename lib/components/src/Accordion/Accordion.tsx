@@ -11,8 +11,6 @@ type GetItemByIndexProps = {
   accordionMap: AccordionMap;
 };
 
-const getItemIdByIndex = ({ index, accordionMap }: GetItemByIndexProps) => {};
-
 interface StateChange {
   id: string;
   index: number;
