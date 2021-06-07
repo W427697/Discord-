@@ -8,14 +8,13 @@ import {
   AccordionBody,
   Icons,
 } from '@storybook/components';
-import { RuleImpactList } from './RuleImpactList';
+import { ImpactBadge } from './ImpactBadge';
 import { RuleType } from '../A11yContext';
 import { GlobalHighlight } from './GlobalHighlight';
 import { ADDON_ID } from '../constants';
 
 /* eslint-disable import/order */
 import type { NodeResult } from 'axe-core';
-import { ImpactBadge } from './ImpactBadge';
 
 const createKeyArray = (length: number) => {
   const keyArray: number[] = [];
@@ -115,7 +114,15 @@ export const ReportDetails = ({ elements, type }: ElementsProps) => {
               </Label>
             </AccordionHeader>
             <AccordionBody style={{ backgroundColor: 'transparent' }}>
-              <RuleImpactList rules={rules} />
+              {rules.map((rule, ruleIndex) => {
+                const ruleKey = `${key}-rule-${ruleIndex}`;
+                return (
+                  <Rule key={ruleKey}>
+                    <ImpactBadge impact={rule.impact} />
+                    <Message>{rule.message}</Message>
+                  </Rule>
+                );
+              })}
             </AccordionBody>
           </AccordionItem>
         );
@@ -156,4 +163,18 @@ const Controls = styled.div({
     width: 12,
     height: 12,
   },
+});
+
+const Rule = styled.div({
+  display: 'flex',
+  marginBottom: 16,
+  '&:last-of-type': {
+    marginBottom: 0,
+  },
+});
+
+const Message = styled.div({
+  fontSize: 13,
+  paddingTop: 1,
+  marginLeft: 16,
 });
