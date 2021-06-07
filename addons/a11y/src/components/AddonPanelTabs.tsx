@@ -36,7 +36,7 @@ export const AddonPanelTabs = ({ results }: AddonPanelTabsProps) => {
     [setTab]
   );
 
-  return results ? (
+  return results !== null ? (
     <FFTabs
       backgroundColor={theme.background.hoverable}
       onSelect={handleOnSelect}

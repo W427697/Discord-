@@ -45,7 +45,6 @@ export const childrenToList = (children: React.ReactNode, selected: string): Chi
       index
     ) => {
       const active = selected ? id === selected : index === 0;
-      const key = id;
       const child = Array.isArray(childrenOfChild) ? childrenOfChild[0] : childrenOfChild;
       const childProps: TabChildRenderProps = {
         id: `${id}-content`,
