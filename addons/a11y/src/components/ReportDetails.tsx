@@ -58,12 +58,12 @@ const extractBadgesFromElements = (elements: NodeResult[], id: string) => {
   return badges;
 };
 
-export type ElementsProps = {
+interface ReportDetailsProps {
   elements: NodeResult[];
   type: RuleType;
-};
+}
 
-export const ReportDetails = ({ elements, type }: ElementsProps) => {
+export const ReportDetails = ({ elements, type }: ReportDetailsProps) => {
   const allOpenIds = createKeyArray(elements.length || 0);
 
   const id = `${ADDON_ID}-report-details`;
