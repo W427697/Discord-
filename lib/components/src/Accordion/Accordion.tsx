@@ -2,6 +2,8 @@ import React, { Children, useCallback, useEffect, useRef, useState } from 'react
 import { styled } from '@storybook/theming';
 import { AccordionContext } from './AccordionContext';
 
+/* eslint-disable import/order */
+import type { FC } from 'react';
 import type { AddToMapFn, OpenMap } from './AccordionContext';
 
 type AccordionMap = Record<string, { index: number; id: string }>;
@@ -59,7 +61,7 @@ export type AccordionProps = {
  * If no ```<AccordionBody />``` is inside an ```<AccordionItem />``` the open/close
  * functionality will be removed by default, as well as the icon and pointer cursor.
  */
-export const Accordion = ({
+export const Accordion: FC<AccordionProps> = ({
   allowMultipleOpen,
   children,
   open,
@@ -72,7 +74,7 @@ export const Accordion = ({
   onOpen,
   onClose,
   ...rest
-}: AccordionProps) => {
+}) => {
   const [openState, setOpenState] = useState<OpenMap>({});
   const openStateMap = useRef<OpenMap>({});
   const accordionMap = useRef<AccordionMap>({});

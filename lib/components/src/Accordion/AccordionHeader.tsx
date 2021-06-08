@@ -3,6 +3,9 @@ import { styled } from '@storybook/theming';
 import { Icons } from '../icon/icon';
 import { AccordionItemContext } from './AccordionItemContext';
 
+/* eslint-disable import/order */
+import type { FC } from 'react';
+
 export type AccordionHeaderProps = {
   label?: string;
   hideIcon?: boolean;
@@ -14,7 +17,7 @@ export type AccordionHeaderProps = {
   preventToggle?: boolean;
 } & React.HTMLAttributes<HTMLButtonElement>;
 
-export const AccordionHeader = ({
+export const AccordionHeader: FC<AccordionHeaderProps> = ({
   label,
   children,
   Icon,
@@ -25,7 +28,7 @@ export const AccordionHeader = ({
   open: _open,
   preventToggle: _preventToggle,
   ...rest
-}: AccordionHeaderProps) => {
+}) => {
   const [open, setOpen] = useState(_open);
   const context = useContext(AccordionItemContext);
   const id = useRef('');

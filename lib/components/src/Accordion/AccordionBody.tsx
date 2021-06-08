@@ -2,11 +2,14 @@ import React, { useContext } from 'react';
 import { styled } from '@storybook/theming';
 import { AccordionItemContext } from './AccordionItemContext';
 
+/* eslint-disable import/order */
+import type { FC } from 'react';
+
 export type AccordionBodyProps = {
   open?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export const AccordionBody = ({ children, open: _open, ...rest }: AccordionBodyProps) => {
+export const AccordionBody: FC<AccordionBodyProps> = ({ children, open: _open, ...rest }) => {
   const context = useContext(AccordionItemContext);
 
   let open = _open;

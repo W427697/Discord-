@@ -1,8 +1,14 @@
 import React, { useCallback, useContext, useEffect, useRef, useState, Children } from 'react';
+// @TODO get rid of lodash usage
+// shilman wish to get rid of lodash for bundle size, so maybe "nanoid" can be
+// added for unique id requirements?
 import { uniqueId } from 'lodash';
 import { styled } from '@storybook/theming';
 import { AccordionContext } from './AccordionContext';
 import { AccordionItemContext } from './AccordionItemContext';
+
+/* eslint-disable import/order */
+import type { FC } from 'react';
 
 // Props are also available from Accordion context provider, but local props
 // takes precedence for scope control
@@ -14,7 +20,7 @@ export type AccordionItemProps = {
   preventToggle?: boolean;
 } & React.HTMLAttributes<HTMLLIElement>;
 
-export const AccordionItem = ({
+export const AccordionItem: FC<AccordionItemProps> = ({
   children,
   open: _open,
   indentBody: _indentBody,
@@ -22,7 +28,7 @@ export const AccordionItem = ({
   lined: _lined,
   preventToggle: _preventToggle,
   ...rest
-}: AccordionItemProps) => {
+}) => {
   const [open, setOpen] = useState(_open);
   const context = useContext(AccordionContext);
   const id = useRef(uniqueId('AccordionItem-'));
