@@ -35,7 +35,7 @@ function fibonacci(num: number, memo?: FibonacciMap): number {
 interface Panels {
   [key: string]: {
     title: string;
-    color: string;
+    color?: string;
     render: ({ active, key }: { active: boolean; key: Key }) => JSX.Element;
   };
 }

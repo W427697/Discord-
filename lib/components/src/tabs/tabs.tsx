@@ -29,6 +29,8 @@ export type TabsProps = {
   bordered?: boolean;
   onSelect?: (state: OnSelectProps) => void;
   onChange?: (state: OnChangeProps) => void;
+  /** @deprecated use selected to control selected tab from outside */
+  initial?: string;
   /** @deprecated use normal on_ events directly on props */
   actions?: {
     /** @deprecated use onSelect directly on props */
@@ -38,23 +40,27 @@ export type TabsProps = {
 
 export const Tabs: FC<TabsProps> = memo(
   ({
-    actions,
     absolute,
-    bordered,
+    actions,
     backgroundColor,
-    selected: _selected,
+    bordered,
     children,
+    initial,
+    selected: _selected,
     tools,
     onSelect,
     onChange,
     ...rest
   }) => {
-    const tabList = useRef(childrenToList(children, _selected));
+    /** deprecated support for initial prop */
+    const selected = _selected || initial;
+
+    const tabList = useRef(childrenToList(children, selected));
 
     const [updateTrigger, setUpdateTrigger] = useState(0);
     const [tabState, setTabState] = useState<SelectedState>({
-      id: _selected,
-      index: getChildIndexById(_selected, tabList.current) || 0,
+      id: selected,
+      index: getChildIndexById(selected, tabList.current) || 0,
     });
 
     const pushActiveTab = useCallback(() => {
@@ -62,8 +68,6 @@ export const Tabs: FC<TabsProps> = memo(
       const currentIsLast = currentIndex + 1 === tabList.current.length;
       const index = currentIsLast ? 0 : currentIndex + 1;
       const { id } = tabList.current[index];
-
-      console.log('current index -> ', currentIndex, ' | next index -> ', index);
 
       setTabState({ ...tabState, id, index });
     }, [tabList, tabState, setTabState]);
@@ -91,10 +95,10 @@ export const Tabs: FC<TabsProps> = memo(
     }, [tabList, tabState, setTabState]);
 
     useEffect(() => {
-      if (_selected !== undefined && _selected !== tabState.id) {
-        setTabState({ ...tabState, id: _selected });
+      if (selected !== undefined && selected !== tabState.id) {
+        setTabState({ ...tabState, id: selected });
       }
-    }, [_selected]);
+    }, [selected]);
 
     useEffect(() => {
       const newTabList = childrenToList(children, tabState.id);
@@ -108,7 +112,7 @@ export const Tabs: FC<TabsProps> = memo(
     // This is to gracefully support support from the "old" Tabs component where id
     // is the controller to identify the selected tab and control state
     useEffect(() => {
-      if (_selected === undefined && tabList.current.length > 0) {
+      if (selected === undefined && tabList.current.length > 0) {
         setTabState({
           ...tabState,
           id: tabList.current[0].id,

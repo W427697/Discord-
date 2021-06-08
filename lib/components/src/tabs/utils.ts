@@ -1,17 +1,5 @@
 import { Children } from 'react';
-
-export type TabListChildProps = {
-  id: string;
-  color: string;
-  title: string | (() => string);
-} & React.HTMLAttributes<HTMLDivElement>;
-
-export type TabChildRenderProps = {
-  key: string;
-  active: boolean;
-  id: string;
-  index: number;
-};
+import { TabChildRenderProps, TabListChildProps } from './types';
 
 export type ChildToListItem = {
   active: boolean;
@@ -36,8 +24,8 @@ export const getChildIndexById = (id: string, list: ChildToListItem[]) => {
   return index;
 };
 
-export const childrenToList = (children: React.ReactNode, selected: string): ChildToListItem[] => {
-  const list = Children.toArray(children).map(
+export const childrenToList = (children: React.ReactNode, selected: string) => {
+  const list: ChildToListItem[] = Children.toArray(children).map(
     (
       {
         props: { title, id, color, children: childrenOfChild },
@@ -50,6 +38,7 @@ export const childrenToList = (children: React.ReactNode, selected: string): Chi
         id: `${id}-content`,
         key: `${id}-content`,
         active,
+        selected,
         index,
       };
 
