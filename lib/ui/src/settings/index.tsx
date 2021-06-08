@@ -1,5 +1,5 @@
 import { useStorybookApi, useStorybookState } from '@storybook/api';
-import { IconButton, Icons, FlexBar, TabBar, TabButton, ScrollArea } from '@storybook/components';
+import { IconButton, Icons, FlexBar, TabButton, ScrollArea } from '@storybook/components';
 import { Location, Route } from '@storybook/router';
 import { styled } from '@storybook/theming';
 import global from 'global';
@@ -11,6 +11,14 @@ import { ShortcutsPage } from './shortcuts_page';
 import { matchesModifiers, matchesKeyCode } from '../keybinding';
 
 const { document } = global;
+
+const TabBar = styled.div({
+  overflow: 'hidden',
+
+  '&:first-of-type': {
+    marginLeft: 0,
+  },
+});
 
 const TabBarButton = React.memo<{
   changeTab: (tab: string) => void;
