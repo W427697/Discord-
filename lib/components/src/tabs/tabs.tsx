@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, memo, FC } from 'react';
 import { styled } from '@storybook/theming';
 import { FlexBar } from '../bar/bar';
 import { TabButton } from '../bar/button';
@@ -36,30 +36,25 @@ export type TabsProps = {
   };
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export const Tabs = forwardRef(
-  (
-    {
-      actions,
-      absolute,
-      bordered,
-      backgroundColor,
-      selected: _selected,
-      children,
-      tools,
-      onSelect,
-      onChange,
-      ...rest
-    }: TabsProps,
-    ref: React.ForwardedRef<HTMLDivElement>
-  ) => {
-    const initialTabList = childrenToList(children, _selected);
-    const initialSelectedIndex = getChildIndexById(_selected, initialTabList);
-    const tabList = useRef(initialTabList);
+export const Tabs: FC<TabsProps> = memo(
+  ({
+    actions,
+    absolute,
+    bordered,
+    backgroundColor,
+    selected: _selected,
+    children,
+    tools,
+    onSelect,
+    onChange,
+    ...rest
+  }) => {
+    const tabList = useRef(childrenToList(children, _selected));
 
     const [updateTrigger, setUpdateTrigger] = useState(0);
     const [tabState, setTabState] = useState<SelectedState>({
       id: _selected,
-      index: initialSelectedIndex || 0,
+      index: getChildIndexById(_selected, tabList.current) || 0,
     });
 
     const pushActiveTab = useCallback(() => {
@@ -67,6 +62,8 @@ export const Tabs = forwardRef(
       const currentIsLast = currentIndex + 1 === tabList.current.length;
       const index = currentIsLast ? 0 : currentIndex + 1;
       const { id } = tabList.current[index];
+
+      console.log('current index -> ', currentIndex, ' | next index -> ', index);
 
       setTabState({ ...tabState, id, index });
     }, [tabList, tabState, setTabState]);
@@ -97,13 +94,13 @@ export const Tabs = forwardRef(
       if (_selected !== undefined && _selected !== tabState.id) {
         setTabState({ ...tabState, id: _selected });
       }
-    }, [_selected, tabState, setTabState]);
+    }, [_selected]);
 
     useEffect(() => {
       const newTabList = childrenToList(children, tabState.id);
       tabList.current = newTabList;
       setUpdateTrigger(updateTrigger + 1);
-    }, [tabState, tabList]);
+    }, [children, tabState]);
 
     // Since we have to use the ID as selected state control from outside both for initial
     // selected and later outside control we have to make a first update to provide default
@@ -121,11 +118,12 @@ export const Tabs = forwardRef(
     }, []);
 
     return tabList.current.length > 0 ? (
-      <TabsWrapper absolute={absolute} bordered={bordered} {...rest} ref={ref}>
+      <Wrapper absolute={absolute} bordered={bordered} {...rest}>
         <FlexBar border backgroundColor={backgroundColor}>
-          <TabButtonBar role="tablist">
-            {tabList.current.map(({ title, id, active, color }, index) => {
+          <TabBar role="tablist">
+            {tabList.current.map(({ title: _title, id, active, color }, index) => {
               const labelId = `${id}-label`;
+              const title = typeof _title === 'function' ? _title() : _title;
 
               return (
                 <TabButton
@@ -137,7 +135,7 @@ export const Tabs = forwardRef(
                   className={`tabbutton ${active ? 'tabbutton-active' : ''}`}
                   active={active}
                   textColor={color}
-                  onKeyDown={(event: React.KeyboardEvent<HTMLButtonElement>) => {
+                  onKeyDownCapture={(event: React.KeyboardEvent<HTMLButtonElement>) => {
                     // Adding keyboard navigation support for tabs
                     // https://www.w3.org/TR/wai-aria-practices-1.1/examples/tabs/tabs-1/tabs.html
                     switch (event.key) {
@@ -187,23 +185,25 @@ export const Tabs = forwardRef(
                 </TabButton>
               );
             })}
-          </TabButtonBar>
+          </TabBar>
           {tools}
         </FlexBar>
         <TabContent bordered={bordered} absolute={absolute}>
-          {tabList.current.map(({ active, content, id }) => (
-            <div
-              aria-hidden={active ? 'false' : 'true'}
-              aria-labelledby={`${id}-label`}
-              role="tabpanel"
-              key={`${id}-tabpanel`}
-              hidden={!active}
-            >
-              {content}
-            </div>
-          ))}
+          {tabList.current.map(({ active, content, id }) => {
+            return (
+              <div
+                aria-hidden={active ? 'false' : 'true'}
+                aria-labelledby={`${id}-label`}
+                role="tabpanel"
+                key={`${id}-tabpanel`}
+                hidden={!active}
+              >
+                {content}
+              </div>
+            );
+          })}
         </TabContent>
-      </TabsWrapper>
+      </Wrapper>
     ) : (
       <Placeholder>
         <React.Fragment key="title">Nothing found</React.Fragment>
@@ -214,12 +214,24 @@ export const Tabs = forwardRef(
 
 export const TabsState = Tabs;
 
-export interface TabsWrapperProps {
+export interface TabWrapperProps {
+  active: boolean;
+  render?: () => JSX.Element;
+  children?: React.ReactNode;
+}
+
+export const TabWrapper: FC<TabWrapperProps> = ({ active, render, children }) => (
+  <div aria-hidden={active ? 'false' : 'true'} hidden={!active}>
+    {render ? render() : children}
+  </div>
+);
+
+export interface WrapperProps {
   bordered?: boolean;
   absolute?: boolean;
 }
 
-export const TabsWrapper = styled.div<TabsWrapperProps>(
+export const Wrapper = styled.div<WrapperProps>(
   ({ theme, bordered }) =>
     bordered
       ? {
@@ -244,7 +256,7 @@ export const TabsWrapper = styled.div<TabsWrapperProps>(
         }
 );
 
-export const TabButtonBar = styled.div({
+export const TabBar = styled.div({
   overflow: 'hidden',
 
   '&:first-of-type': {

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Tabs } from '../../tabs/Tabs';
+import { Tabs } from '../../tabs/tabs';
 import { TabItem } from '../../tabs/TabItem';
 import { ArgsTable, ArgsTableProps, SortType } from './ArgsTable';
 

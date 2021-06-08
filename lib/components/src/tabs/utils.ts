@@ -15,7 +15,7 @@ export type TabChildRenderProps = {
 
 export type ChildToListItem = {
   active: boolean;
-  title: string;
+  title: string | (() => string);
   id: string;
   color: string;
   content: React.ReactNode;
@@ -37,10 +37,10 @@ export const getChildIndexById = (id: string, list: ChildToListItem[]) => {
 };
 
 export const childrenToList = (children: React.ReactNode, selected: string): ChildToListItem[] => {
-  return Children.toArray(children).map(
+  const list = Children.toArray(children).map(
     (
       {
-        props: { title: _title, id, color, children: childrenOfChild },
+        props: { title, id, color, children: childrenOfChild },
       }: React.ReactElement<TabListChildProps>,
       index
     ) => {
@@ -52,11 +52,12 @@ export const childrenToList = (children: React.ReactNode, selected: string): Chi
         active,
         index,
       };
-      const title = typeof _title === 'function' ? _title() : _title;
 
       const content = typeof child === 'function' ? child(childProps) : child;
 
       return { active, title, id, color, content };
     }
   );
+
+  return list;
 };
