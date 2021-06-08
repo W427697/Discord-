@@ -17,6 +17,7 @@
     "lib": ["es2019", "dom"]
   },
   "exclude": [
+    "dist",
     "**/dist",
     "node_modules",
     "**/node_modules",
