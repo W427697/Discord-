@@ -9,6 +9,7 @@ import {
 } from './utils/children-to-tabs-items-props';
 import { TabsBarItem, TabsBarItemProps } from './TabsBarItem';
 import { getListItemIndexById } from './utils/get-list-item-index-by-id';
+import { createSelectedItem } from './utils/create-selected-item';
 
 interface OnChangeProps {
   event: OnClickEvent;
@@ -118,16 +119,7 @@ export const Tabs: FC<TabsProps> = ({
 
                     if (onSelect) {
                       onSelect({
-                        selected: {
-                          id: list[selectedIndex] ? list[selectedIndex].id : undefined,
-                          color: list[selectedIndex] ? list[selectedIndex].color : undefined,
-                          index: list[selectedIndex] ? list[selectedIndex].index : undefined,
-                          content: list[selectedIndex] ? list[selectedIndex].content : undefined,
-                          icon: list[selectedIndex] ? list[selectedIndex].icon : undefined,
-                          type: list[selectedIndex] ? list[selectedIndex].type : undefined,
-                          props: list[selectedIndex] ? list[selectedIndex].props : undefined,
-                          ...(list[selectedIndex] ? list[selectedIndex] : {}),
-                        },
+                        selected: createSelectedItem(list, selectedIndex),
                         event,
                       });
                     }
@@ -135,42 +127,8 @@ export const Tabs: FC<TabsProps> = ({
                     if (onChange) {
                       onChange({
                         event,
-                        previous: {
-                          id: list[previousSelectedIndex.current]
-                            ? list[previousSelectedIndex.current].id
-                            : undefined,
-                          color: list[previousSelectedIndex.current]
-                            ? list[previousSelectedIndex.current].color
-                            : undefined,
-                          index: list[previousSelectedIndex.current]
-                            ? list[previousSelectedIndex.current].index
-                            : undefined,
-                          content: list[previousSelectedIndex.current]
-                            ? list[previousSelectedIndex.current].content
-                            : undefined,
-                          icon: list[previousSelectedIndex.current]
-                            ? list[previousSelectedIndex.current].icon
-                            : undefined,
-                          type: list[previousSelectedIndex.current]
-                            ? list[previousSelectedIndex.current].type
-                            : undefined,
-                          props: list[previousSelectedIndex.current]
-                            ? list[previousSelectedIndex.current].props
-                            : undefined,
-                          ...(list[previousSelectedIndex.current]
-                            ? list[previousSelectedIndex.current]
-                            : {}),
-                        },
-                        selected: {
-                          id: list[selectedIndex] ? list[selectedIndex].id : undefined,
-                          color: list[selectedIndex] ? list[selectedIndex].color : undefined,
-                          index: list[selectedIndex] ? list[selectedIndex].index : undefined,
-                          content: list[selectedIndex] ? list[selectedIndex].content : undefined,
-                          icon: list[selectedIndex] ? list[selectedIndex].icon : undefined,
-                          type: list[selectedIndex] ? list[selectedIndex].type : undefined,
-                          props: list[selectedIndex] ? list[selectedIndex].props : undefined,
-                          ...(list[selectedIndex] ? list[selectedIndex] : {}),
-                        },
+                        previous: createSelectedItem(list, previousSelectedIndex.current),
+                        selected: createSelectedItem(list, selectedIndex),
                       });
                     }
 
@@ -202,42 +160,8 @@ export const Tabs: FC<TabsProps> = ({
                   key: `${id}-content`,
                   active,
                   index,
-                  selected: {
-                    id: list[selectedIndex] ? list[selectedIndex].id : undefined,
-                    color: list[selectedIndex] ? list[selectedIndex].color : undefined,
-                    index: list[selectedIndex] ? list[selectedIndex].index : undefined,
-                    content: list[selectedIndex] ? list[selectedIndex].content : undefined,
-                    icon: list[selectedIndex] ? list[selectedIndex].icon : undefined,
-                    type: list[selectedIndex] ? list[selectedIndex].type : undefined,
-                    props: list[selectedIndex] ? list[selectedIndex].props : undefined,
-                    ...(list[selectedIndex] ? list[selectedIndex] : {}),
-                  },
-                  previous: {
-                    id: list[previousSelectedIndex.current]
-                      ? list[previousSelectedIndex.current].id
-                      : undefined,
-                    color: list[previousSelectedIndex.current]
-                      ? list[previousSelectedIndex.current].color
-                      : undefined,
-                    index: list[previousSelectedIndex.current]
-                      ? list[previousSelectedIndex.current].index
-                      : undefined,
-                    content: list[previousSelectedIndex.current]
-                      ? list[previousSelectedIndex.current].content
-                      : undefined,
-                    icon: list[previousSelectedIndex.current]
-                      ? list[previousSelectedIndex.current].icon
-                      : undefined,
-                    type: list[previousSelectedIndex.current]
-                      ? list[previousSelectedIndex.current].type
-                      : undefined,
-                    props: list[previousSelectedIndex.current]
-                      ? list[previousSelectedIndex.current].props
-                      : undefined,
-                    ...(list[previousSelectedIndex.current]
-                      ? list[previousSelectedIndex.current]
-                      : {}),
-                  },
+                  selected: createSelectedItem(list, selectedIndex),
+                  previous: createSelectedItem(list, previousSelectedIndex.current),
                 });
               }
 

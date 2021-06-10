@@ -59,12 +59,12 @@ const Template: ComponentStory<typeof Tabs> = (args) => (
       <Content>Content Tab 5</Content>
     </TabsItem>
     <TabsItem id="test6" title="Button Type" type="button" />
-    <TabsItem id="test7" title="Menu Type" type="menu">
-      <div>hello 1</div>
-      <div>hello 2</div>
-      <div>hello 3</div>
-      <div>hello 4</div>
-    </TabsItem>
+    <TabsItem
+      id="test7"
+      title="Menu Type"
+      type="menu"
+      menu={[{ label: 'first item', icon: 'globe' }]}
+    />
   </Tabs>
 );
 

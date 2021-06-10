@@ -1,4 +1,12 @@
-import React, { FC, HTMLAttributes, ReactNode, useState, useEffect, useRef } from 'react';
+import React, {
+  FC,
+  HTMLAttributes,
+  ReactNode,
+  useState,
+  useEffect,
+  useRef,
+  createRef,
+} from 'react';
 import { createPortal } from 'react-dom';
 import { styled } from '@storybook/theming';
 import { TabButton as BarButton, TabButtonProps as BarButtonProps } from '../bar/button';
@@ -6,6 +14,7 @@ import { IconsProps, Icons } from '../icon/icon';
 import { icons } from '../icon/icons';
 import { OnClickEvent } from './types';
 import { useContentRect } from '../hooks/useContentRect';
+import { TabsButtonMenu, TabsMenuItem } from './TabButtonMenu';
 
 export type TabButtonProps = {
   id?: string;
@@ -13,6 +22,7 @@ export type TabButtonProps = {
   label?: string;
   type?: 'content' | 'button' | 'menu';
   open?: boolean;
+  menu?: TabsMenuItem[];
 } & BarButtonProps &
   HTMLAttributes<HTMLButtonElement>;
 
@@ -23,11 +33,12 @@ export const TabButton: FC<TabButtonProps> = ({
   icon,
   type,
   children,
+  menu,
   open: _open,
   ...rest
 }) => {
   const baseRectRef = useRef<HTMLDivElement>();
-  const menuRectRef = useRef<HTMLDivElement>();
+  const menuRectRef = createRef<HTMLDivElement>();
   const { x, y, width: baseRectWidth } = useContentRect(baseRectRef);
   const { width: menuRectWidth } = useContentRect(menuRectRef);
   const [open, setOpen] = useState(_open);
@@ -79,19 +90,15 @@ export const TabButton: FC<TabButtonProps> = ({
           </Label>
         </Content>
       </BarButton>
-      {type === 'menu' &&
-        createPortal(
-          <Menu
-            ref={menuRectRef}
-            open={open}
-            top={y + 32}
-            left={x - (menuRectWidth - baseRectWidth) / 2}
-          >
-            {children}
-          </Menu>,
-          // eslint-disable-next-line no-undef
-          document.getElementsByTagName('body')[0]
-        )}
+
+      {type === 'menu' && (
+        <TabsButtonMenu
+          menu={menu}
+          ref={menuRectRef}
+          top={y + 32}
+          left={x - (menuRectWidth - baseRectWidth) / 2}
+        />
+      )}
     </>
   );
 };
