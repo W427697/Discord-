@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Tabs } from '../../tabs/tabs';
-import { TabItem } from '../../tabs/TabItem';
+import { TabsItem } from '../../tabs/TabsItem';
 import { ArgsTable, ArgsTableProps, SortType } from './ArgsTable';
 
 export interface TabbedArgsTableProps {
@@ -21,9 +21,9 @@ export const TabbedArgsTable: FC<TabbedArgsTableProps> = ({ tabs, ...props }) =>
         const [label, table] = entry;
         const id = `prop_table_div_${label}`;
         return (
-          <TabItem key={id} id={id} title={label}>
+          <TabsItem key={id} id={id} title={label}>
             <ArgsTable key={`prop_table_${label}`} {...table} {...props} />
-          </TabItem>
+          </TabsItem>
         );
       })}
     </Tabs>

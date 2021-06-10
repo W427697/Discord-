@@ -1,7 +1,7 @@
 import React, { Component, Fragment, ReactElement } from 'react';
 import { shortcutToHumanString } from '@storybook/api/shortcut';
 import { styled } from '@storybook/theming';
-import { Tabs, Icons, IconButton } from '@storybook/components';
+import { Tabs, Icons, IconButton, TabsItem } from '@storybook/components';
 import { State } from '@storybook/api';
 
 const DesktopOnlyIconButton = styled(IconButton)({
@@ -38,9 +38,9 @@ class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
       return <h1>Something went wrong.</h1>;
     }
     return (
-      <SafeTabContent id={id} title={title}>
+      <TabsItem id={id} title={title}>
         {children}
-      </SafeTabContent>
+      </TabsItem>
     );
   }
 }

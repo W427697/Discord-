@@ -1,13 +1,13 @@
+import type { MouseEvent, KeyboardEvent } from 'react';
+import type { ChildrenToTabsItemProps } from './utils/children-to-tabs-items-props';
+
 export type TabChildRenderProps = {
   key: string;
   active: boolean;
   id: string;
   index: number;
-  selected: string;
+  selected: ChildrenToTabsItemProps;
+  previous: ChildrenToTabsItemProps;
 };
 
-export type TabListChildProps = {
-  id: string;
-  color: string;
-  title: string | (() => string);
-} & React.HTMLAttributes<HTMLDivElement>;
+export type OnClickEvent = MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>;

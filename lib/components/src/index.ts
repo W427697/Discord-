@@ -30,8 +30,8 @@ export { TooltipNote } from './tooltip/TooltipNote';
 export { TooltipLinkList } from './tooltip/TooltipLinkList';
 
 // Toolbar and subcomponents
-export { Tabs, TabsState, TabWrapper, TabBar } from './tabs/tabs';
-export { TabItem } from './tabs/TabItem';
+export { Tabs, Tabs as TabsBar, Tabs as TabsState, TabWrapper, TabBar } from './tabs/tabs';
+export { TabsItem } from './tabs/TabsItem';
 export { IconButton, TabButton } from './bar/button';
 export { Separator, interleaveSeparators } from './bar/separator';
 export { Bar, FlexBar } from './bar/bar';

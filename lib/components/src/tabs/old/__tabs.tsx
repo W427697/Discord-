@@ -10,9 +10,9 @@ import React, {
 import { styled } from '@storybook/theming';
 import { sanitize } from '@storybook/csf';
 
-import { Placeholder } from '../placeholder/placeholder';
-import { FlexBar } from '../bar/bar';
-import { TabButton } from '../bar/button';
+import { Placeholder } from '../../placeholder/placeholder';
+import { FlexBar } from '../../bar/bar';
+import { TabButton } from '../../bar/button';
 
 const ignoreSsrWarning =
   '/* emotion-disable-server-rendering-unsafe-selector-warning-please-do-not-use-this-the-warning-exists-for-a-reason */';

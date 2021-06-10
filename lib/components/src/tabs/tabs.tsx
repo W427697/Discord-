@@ -1,36 +1,38 @@
 import React, { useState, useEffect, useRef, useCallback, memo, FC } from 'react';
 import { styled } from '@storybook/theming';
 import { FlexBar } from '../bar/bar';
-import { TabButton } from '../bar/button';
 import { Placeholder } from '../placeholder/placeholder';
-import { childrenToList, getChildIndexById } from './utils';
-
-interface SelectedState {
-  id: string;
-  index: number;
-}
+import { OnClickEvent, TabChildRenderProps } from './types';
+import {
+  childrenToTabsItemProps,
+  ChildrenToTabsItemProps,
+} from './utils/children-to-tabs-items-props';
+import { TabsBarItem, TabsBarItemProps } from './TabsBarItem';
+import { getListItemIndexById } from './utils/get-list-item-index-by-id';
 
 interface OnChangeProps {
-  event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>;
-  previous: SelectedState;
-  current: SelectedState;
+  event: OnClickEvent;
+  previous: ChildrenToTabsItemProps;
+  selected: ChildrenToTabsItemProps;
 }
 
-interface OnSelectProps extends SelectedState {
-  event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>;
+interface OnSelectProps {
+  selected: ChildrenToTabsItemProps;
+  event: OnClickEvent;
 }
 
 export type TabsProps = {
-  tools?: React.ReactNode;
-  /** @todo index position as selected should also be possible */
-  selected?: string;
-  backgroundColor?: string;
   absolute?: boolean;
+  tools?: React.ReactNode;
+  /** @info breaking change! index position instead of id's */
+  selected?: number | string;
+  /** @info breaking change! index position instead of id's */
+  initial?: number | string;
+  backgroundColor?: string;
   bordered?: boolean;
+  rounded?: boolean;
   onSelect?: (state: OnSelectProps) => void;
   onChange?: (state: OnChangeProps) => void;
-  /** @deprecated use selected to control selected tab from outside */
-  initial?: string;
   /** @deprecated use normal on_ events directly on props */
   actions?: {
     /** @deprecated use onSelect directly on props */
@@ -38,201 +40,232 @@ export type TabsProps = {
   };
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export const Tabs: FC<TabsProps> = memo(
-  ({
-    absolute,
-    actions,
-    backgroundColor,
-    bordered,
-    children,
-    initial,
-    selected: _selected,
-    tools,
-    onSelect,
-    onChange,
-    ...rest
-  }) => {
-    /** deprecated support for initial prop */
-    const selected = _selected || initial;
+export const Tabs: FC<TabsProps> = ({
+  actions,
+  backgroundColor,
+  bordered,
+  rounded,
+  children,
+  initial,
+  selected,
+  tools,
+  onSelect,
+  onChange,
+  ...rest
+}) => {
+  const [list, setList] = useState<ChildrenToTabsItemProps[]>(childrenToTabsItemProps(children));
+  const [selectedIndex, setSelectedIndex] = useState<number>();
+  const previousSelectedIndex = useRef<number>();
 
-    const tabList = useRef(childrenToList(children, selected));
+  useEffect(() => {
+    let index;
 
-    const [updateTrigger, setUpdateTrigger] = useState(0);
-    const [tabState, setTabState] = useState<SelectedState>({
-      id: selected,
-      index: getChildIndexById(selected, tabList.current) || 0,
-    });
+    if (initial !== undefined) {
+      index = typeof initial === 'string' ? getListItemIndexById(initial, list) : initial;
+    }
 
-    const pushActiveTab = useCallback(() => {
-      const currentIndex = tabState.index;
-      const currentIsLast = currentIndex + 1 === tabList.current.length;
-      const index = currentIsLast ? 0 : currentIndex + 1;
-      const { id } = tabList.current[index];
+    setSelectedIndex(index);
+  }, []);
 
-      setTabState({ ...tabState, id, index });
-    }, [tabList, tabState, setTabState]);
+  useEffect(() => {
+    const newList = childrenToTabsItemProps(children);
+    setList(newList);
+  }, [children]);
 
-    const pullActiveTab = useCallback(() => {
-      const currentIsFirst = tabState.index === 0;
-      const index = currentIsFirst ? tabList.current.length - 1 : tabState.index - 1;
-      const { id } = tabList.current[index];
+  useEffect(() => {
+    let index;
 
-      setTabState({ ...tabState, id, index });
-    }, [tabList, tabState, setTabState]);
+    if (selected !== undefined) {
+      index = typeof selected === 'string' ? getListItemIndexById(selected, list) : selected;
+    }
 
-    const setActiveTabToLast = useCallback(() => {
-      const index = tabList.current.length - 1;
-      const { id } = tabList.current[index];
+    if (index !== selectedIndex) {
+      previousSelectedIndex.current = selectedIndex;
+      setSelectedIndex(index);
+    }
+  }, [selected]);
 
-      setTabState({ ...tabState, id, index });
-    }, [tabList, tabState, setTabState]);
+  return list.length > 0 ? (
+    <Wrapper bordered={bordered} rounded={rounded} {...rest}>
+      <FlexBar border backgroundColor={backgroundColor}>
+        <TabBar role="tablist">
+          {list.map(({ title: _title, index, ...item }) => {
+            const active = index === selectedIndex;
+            const title = typeof _title === 'function' ? _title() : _title;
 
-    const setActiveTabToFirst = useCallback(() => {
-      const index = 0;
-      const { id } = tabList.current[index];
+            let tabsItemProps: TabsBarItemProps = {
+              ...item,
+              active,
+              title,
+              index,
+              list,
+              selectedIndex,
+              previousSelectedIndex: previousSelectedIndex.current,
+            };
 
-      setTabState({ ...tabState, id, index });
-    }, [tabList, tabState, setTabState]);
-
-    useEffect(() => {
-      if (selected !== undefined && selected !== tabState.id) {
-        setTabState({ ...tabState, id: selected });
-      }
-    }, [selected]);
-
-    useEffect(() => {
-      const newTabList = childrenToList(children, tabState.id);
-      tabList.current = newTabList;
-      setUpdateTrigger(updateTrigger + 1);
-    }, [children, tabState]);
-
-    // Since we have to use the ID as selected state control from outside both for initial
-    // selected and later outside control we have to make a first update to provide default
-    // setting first tab as active if prop is omitted (we need the right first id in the selected state)
-    // This is to gracefully support support from the "old" Tabs component where id
-    // is the controller to identify the selected tab and control state
-    useEffect(() => {
-      if (selected === undefined && tabList.current.length > 0) {
-        setTabState({
-          ...tabState,
-          id: tabList.current[0].id,
-          index: 0,
-        });
-      }
-    }, []);
-
-    return tabList.current.length > 0 ? (
-      <Wrapper absolute={absolute} bordered={bordered} {...rest}>
-        <FlexBar border backgroundColor={backgroundColor}>
-          <TabBar role="tablist">
-            {tabList.current.map(({ title: _title, id, active, color }, index) => {
-              const labelId = `${id}-label`;
-              const title = typeof _title === 'function' ? _title() : _title;
-
-              return (
-                <TabButton
-                  aria-selected={active ? 'true' : 'false'}
-                  aria-labelledby={labelId}
-                  role="tab"
-                  id={id}
-                  key={`${id}-tabbutton`}
-                  className={`tabbutton ${active ? 'tabbutton-active' : ''}`}
-                  active={active}
-                  textColor={color}
-                  onKeyDownCapture={(event: React.KeyboardEvent<HTMLButtonElement>) => {
-                    // Adding keyboard navigation support for tabs
-                    // https://www.w3.org/TR/wai-aria-practices-1.1/examples/tabs/tabs-1/tabs.html
-                    switch (event.key) {
-                      case 'ArrowRight':
-                        pushActiveTab();
-                        break;
-                      case 'ArrowLeft':
-                        pullActiveTab();
-                        break;
-                      case 'End':
-                        setActiveTabToLast();
-                        break;
-                      case 'Home':
-                        setActiveTabToFirst();
-                        break;
-                      default:
-                        break;
-                    }
-                  }}
-                  onClick={(
-                    event:
-                      | React.MouseEvent<HTMLButtonElement>
-                      | React.KeyboardEvent<HTMLButtonElement>
-                  ) => {
+            if (item.type === 'content') {
+              tabsItemProps = {
+                ...tabsItemProps,
+                props: {
+                  ...tabsItemProps.props,
+                  onClick: (event: OnClickEvent) => {
                     event.preventDefault();
-
-                    const previousSelected = { ...tabState };
-                    const currentSelected = { ...tabState, id, index };
-
-                    setTabState({ ...tabState, id, index });
 
                     // Deprecation support
                     if (actions && actions.onSelect) {
-                      actions.onSelect(id);
+                      actions.onSelect(item.id);
                     }
 
                     if (onSelect) {
-                      onSelect({ ...currentSelected, event });
+                      onSelect({
+                        selected: {
+                          id: list[selectedIndex] ? list[selectedIndex].id : undefined,
+                          color: list[selectedIndex] ? list[selectedIndex].color : undefined,
+                          index: list[selectedIndex] ? list[selectedIndex].index : undefined,
+                          content: list[selectedIndex] ? list[selectedIndex].content : undefined,
+                          icon: list[selectedIndex] ? list[selectedIndex].icon : undefined,
+                          type: list[selectedIndex] ? list[selectedIndex].type : undefined,
+                          props: list[selectedIndex] ? list[selectedIndex].props : undefined,
+                          ...(list[selectedIndex] ? list[selectedIndex] : {}),
+                        },
+                        event,
+                      });
                     }
 
                     if (onChange) {
-                      onChange({ event, previous: previousSelected, current: currentSelected });
+                      onChange({
+                        event,
+                        previous: {
+                          id: list[previousSelectedIndex.current]
+                            ? list[previousSelectedIndex.current].id
+                            : undefined,
+                          color: list[previousSelectedIndex.current]
+                            ? list[previousSelectedIndex.current].color
+                            : undefined,
+                          index: list[previousSelectedIndex.current]
+                            ? list[previousSelectedIndex.current].index
+                            : undefined,
+                          content: list[previousSelectedIndex.current]
+                            ? list[previousSelectedIndex.current].content
+                            : undefined,
+                          icon: list[previousSelectedIndex.current]
+                            ? list[previousSelectedIndex.current].icon
+                            : undefined,
+                          type: list[previousSelectedIndex.current]
+                            ? list[previousSelectedIndex.current].type
+                            : undefined,
+                          props: list[previousSelectedIndex.current]
+                            ? list[previousSelectedIndex.current].props
+                            : undefined,
+                          ...(list[previousSelectedIndex.current]
+                            ? list[previousSelectedIndex.current]
+                            : {}),
+                        },
+                        selected: {
+                          id: list[selectedIndex] ? list[selectedIndex].id : undefined,
+                          color: list[selectedIndex] ? list[selectedIndex].color : undefined,
+                          index: list[selectedIndex] ? list[selectedIndex].index : undefined,
+                          content: list[selectedIndex] ? list[selectedIndex].content : undefined,
+                          icon: list[selectedIndex] ? list[selectedIndex].icon : undefined,
+                          type: list[selectedIndex] ? list[selectedIndex].type : undefined,
+                          props: list[selectedIndex] ? list[selectedIndex].props : undefined,
+                          ...(list[selectedIndex] ? list[selectedIndex] : {}),
+                        },
+                      });
                     }
-                  }}
-                >
-                  <span id={labelId}>{title}</span>
-                </TabButton>
-              );
-            })}
-          </TabBar>
-          {tools}
-        </FlexBar>
-        <TabContent bordered={bordered} absolute={absolute}>
-          {tabList.current.map(({ active, content, id }) => {
-            return (
-              <div
-                aria-hidden={active ? 'false' : 'true'}
-                aria-labelledby={`${id}-label`}
-                role="tabpanel"
-                key={`${id}-tabpanel`}
-                hidden={!active}
-              >
-                {content}
-              </div>
-            );
+
+                    previousSelectedIndex.current = selectedIndex;
+                    setSelectedIndex(index);
+                  },
+                },
+              };
+            }
+
+            return <TabsBarItem key={item.id} {...tabsItemProps} />;
           })}
-        </TabContent>
-      </Wrapper>
-    ) : (
-      <Placeholder>
-        <React.Fragment key="title">Nothing found</React.Fragment>
-      </Placeholder>
-    );
-  }
-);
+        </TabBar>
+        {tools}
+      </FlexBar>
+      <TabContent bordered={bordered}>
+        {list.length > 0
+          ? list.map(({ content: _content, id, type, index }) => {
+              const active = index === selectedIndex;
+              let content = _content;
 
-export const TabsState = Tabs;
+              if (typeof content === 'function') {
+                const contentProxy = _content as (
+                  renderProps: TabChildRenderProps
+                ) => React.ReactNode;
 
-export interface TabWrapperProps {
-  active: boolean;
-  render?: () => JSX.Element;
-  children?: React.ReactNode;
-}
+                content = contentProxy({
+                  id: `${id}-content`,
+                  key: `${id}-content`,
+                  active,
+                  index,
+                  selected: {
+                    id: list[selectedIndex] ? list[selectedIndex].id : undefined,
+                    color: list[selectedIndex] ? list[selectedIndex].color : undefined,
+                    index: list[selectedIndex] ? list[selectedIndex].index : undefined,
+                    content: list[selectedIndex] ? list[selectedIndex].content : undefined,
+                    icon: list[selectedIndex] ? list[selectedIndex].icon : undefined,
+                    type: list[selectedIndex] ? list[selectedIndex].type : undefined,
+                    props: list[selectedIndex] ? list[selectedIndex].props : undefined,
+                    ...(list[selectedIndex] ? list[selectedIndex] : {}),
+                  },
+                  previous: {
+                    id: list[previousSelectedIndex.current]
+                      ? list[previousSelectedIndex.current].id
+                      : undefined,
+                    color: list[previousSelectedIndex.current]
+                      ? list[previousSelectedIndex.current].color
+                      : undefined,
+                    index: list[previousSelectedIndex.current]
+                      ? list[previousSelectedIndex.current].index
+                      : undefined,
+                    content: list[previousSelectedIndex.current]
+                      ? list[previousSelectedIndex.current].content
+                      : undefined,
+                    icon: list[previousSelectedIndex.current]
+                      ? list[previousSelectedIndex.current].icon
+                      : undefined,
+                    type: list[previousSelectedIndex.current]
+                      ? list[previousSelectedIndex.current].type
+                      : undefined,
+                    props: list[previousSelectedIndex.current]
+                      ? list[previousSelectedIndex.current].props
+                      : undefined,
+                    ...(list[previousSelectedIndex.current]
+                      ? list[previousSelectedIndex.current]
+                      : {}),
+                  },
+                });
+              }
 
-export const TabWrapper: FC<TabWrapperProps> = ({ active, render, children }) => (
-  <div aria-hidden={active ? 'false' : 'true'} hidden={!active}>
-    {render ? render() : children}
-  </div>
-);
+              return type === 'content' ? (
+                <div
+                  aria-hidden={active ? 'false' : 'true'}
+                  aria-labelledby={`${id}-label`}
+                  role="tabpanel"
+                  key={id}
+                  hidden={!active}
+                >
+                  {content}
+                </div>
+              ) : null;
+            })
+          : null}
+      </TabContent>
+    </Wrapper>
+  ) : (
+    <Placeholder>
+      <React.Fragment key="title">Nothing found</React.Fragment>
+    </Placeholder>
+  );
+};
 
 export interface WrapperProps {
-  bordered?: boolean;
-  absolute?: boolean;
+  bordered: boolean;
+  rounded: boolean;
 }
 
 export const Wrapper = styled.div<WrapperProps>(
@@ -241,23 +274,14 @@ export const Wrapper = styled.div<WrapperProps>(
       ? {
           backgroundClip: 'padding-box',
           border: `1px solid ${theme.appBorderColor}`,
-          borderRadius: theme.appBorderRadius,
           overflow: 'hidden',
           boxSizing: 'border-box',
         }
       : {},
-  ({ absolute }) =>
-    absolute
-      ? {
-          width: '100%',
-          height: '100%',
-          boxSizing: 'border-box',
-          display: 'flex',
-          flexDirection: 'column',
-        }
-      : {
-          display: 'block',
-        }
+  ({ theme, rounded }) =>
+    rounded && {
+      borderRadius: theme.appBorderRadius,
+    }
 );
 
 export const TabBar = styled.div({
@@ -269,48 +293,25 @@ export const TabBar = styled.div({
 });
 
 export type TabContentProps = {
-  absolute?: boolean;
   bordered?: boolean;
 };
 
-const ignoreSsrWarning =
-  '/* emotion-disable-server-rendering-unsafe-selector-warning-please-do-not-use-this-the-warning-exists-for-a-reason */';
+const TabContent = styled.div<TabContentProps>(({ theme }) => ({
+  fontSize: theme.typography.size.s2 - 1,
+  background: theme.background.content,
+  color: theme.color.defaultText,
+}));
 
-const TabContent = styled.div<TabContentProps>(
-  {
-    display: 'block',
-    position: 'relative',
-  },
-  ({ theme }) => ({
-    fontSize: theme.typography.size.s2 - 1,
-    background: theme.background.content,
-  }),
-  ({ bordered, theme }) =>
-    bordered
-      ? {
-          borderRadius: `0 0 ${theme.appBorderRadius - 1}px ${theme.appBorderRadius - 1}px`,
-        }
-      : {},
-  ({ absolute, bordered }) =>
-    absolute
-      ? {
-          height: `calc(100% - ${bordered ? 42 : 40}px)`,
+/** @todo Old courtesy exports that needs to be removed */
 
-          position: 'absolute',
-          left: 0 + (bordered ? 1 : 0),
-          right: 0 + (bordered ? 1 : 0),
-          bottom: 0 + (bordered ? 1 : 0),
-          top: 40 + (bordered ? 1 : 0),
-          overflow: 'auto',
-          [`& > *:first-child${ignoreSsrWarning}`]: {
-            position: 'absolute',
-            left: 0 + (bordered ? 1 : 0),
-            right: 0 + (bordered ? 1 : 0),
-            bottom: 0 + (bordered ? 1 : 0),
-            top: 0 + (bordered ? 1 : 0),
-            height: `calc(100% - ${bordered ? 2 : 0}px)`,
-            overflow: 'auto',
-          },
-        }
-      : {}
+export interface TabWrapperProps {
+  active: boolean;
+  render?: () => JSX.Element;
+  children?: React.ReactNode;
+}
+
+export const TabWrapper: FC<TabWrapperProps> = ({ active, render, children }) => (
+  <div aria-hidden={active ? 'false' : 'true'} hidden={!active}>
+    {render ? render() : children}
+  </div>
 );
