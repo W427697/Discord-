@@ -1,5 +1,13 @@
 import { styled } from '@storybook/theming';
-import React, { forwardRef, HTMLAttributes, memo, ReactNode, RefObject, useRef } from 'react';
+import React, {
+  forwardRef,
+  HTMLAttributes,
+  memo,
+  ReactNode,
+  RefObject,
+  useEffect,
+  useRef,
+} from 'react';
 import { TabButtonProps as BarButtonProps } from '../bar/button';
 import { useContentRect } from '../hooks/useContentRect';
 import { Icons, IconsProps } from '../icon/icon';
@@ -43,7 +51,9 @@ export const TabButton = memo(
       ref: RefObject<HTMLButtonElement>
     ) => {
       const innerRef = useRef<HTMLDivElement>();
-      const { height, x, y, width } = useContentRect(innerRef);
+      const rect = useContentRect(innerRef);
+      const oldRectRef = useRef(rect);
+      const { height, x, y, width } = rect;
       let Icon: ReactNode = icon;
 
       /** @todo Use icon & Icon instead of dual purpose on one prop */
@@ -59,9 +69,20 @@ export const TabButton = memo(
       const label = _label || (typeof Icon === 'string' ? Icon : id);
       const hasLabel = _label !== undefined;
 
-      if (onRectChange) {
-        onRectChange({ height, x, y, width });
-      }
+      useEffect(() => {
+        if (onRectChange) {
+          const oldRect = {
+            height: oldRectRef.current.height,
+            width: oldRectRef.current.width,
+            x: oldRectRef.current.x,
+            y: oldRectRef.current.y,
+          };
+          const newRect = { height, width, x, y };
+          if (JSON.stringify(oldRect) !== JSON.stringify(newRect)) {
+            onRectChange(newRect);
+          }
+        }
+      }, [rect]);
 
       return (
         <Wrapper

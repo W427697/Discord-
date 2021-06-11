@@ -20,7 +20,7 @@ export const TabMenuItem = memo(
   forwardRef(
     (
       {
-        Icon,
+        Icon: IconComponent,
         center,
         highlighted,
         icon,
@@ -40,10 +40,10 @@ export const TabMenuItem = memo(
           <WrapperInner>
             {left !== undefined && <Left>{left}</Left>}
             {icon !== undefined && iconPosition === 'left' && <IconLeft icon={icon} />}
-            {Icon !== undefined && iconPosition === 'left' && Icon}
+            {Icon !== undefined && iconPosition === 'left' && IconComponent}
             <Label>{label}</Label>
             <Center>{center}</Center>
-            {Icon !== undefined && iconPosition === 'right' && <div>{Icon}</div>}
+            {Icon !== undefined && iconPosition === 'right' && IconComponent}
             {icon !== undefined && iconPosition === 'right' && <IconRight icon={icon} />}
             {right !== undefined && <Right>{right}</Right>}
           </WrapperInner>

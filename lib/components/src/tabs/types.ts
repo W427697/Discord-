@@ -10,4 +10,15 @@ export type TabChildRenderProps = {
   previous: ChildrenToTabsItemProps;
 };
 
+export interface OnChangeProps {
+  event: OnClickEvent;
+  previous: ChildrenToTabsItemProps;
+  selected: ChildrenToTabsItemProps;
+}
+
+export interface OnSelectProps {
+  selected: ChildrenToTabsItemProps;
+  event: OnClickEvent;
+}
+
 export type OnClickEvent = MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>;

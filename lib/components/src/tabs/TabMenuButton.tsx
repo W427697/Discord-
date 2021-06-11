@@ -10,6 +10,7 @@ export type TabMenuButtonProps = {
   menu?: TabMenuItemProps[];
   menuWidth?: number;
   open?: boolean;
+  offsetX?: number;
   selected?: string;
   onMenuClose?: () => void;
   onMenuItemSelect?: (item: TabMenuItemProps) => void;
@@ -22,6 +23,7 @@ export const TabMenuButton: FC<TabMenuButtonProps> = memo(
     menu,
     menuWidth = defaultTabsMenuWidth,
     open,
+    offsetX = 0,
     selected,
     onMenuClose,
     onMenuItemSelect,
@@ -38,8 +40,6 @@ export const TabMenuButton: FC<TabMenuButtonProps> = memo(
       },
       [onMenuItemSelect]
     );
-
-    console.log(props);
 
     const handleMenuOpenChange = useCallback(
       (changes: UseSelectStateChange<TabMenuItemProps>) => {
@@ -82,7 +82,7 @@ export const TabMenuButton: FC<TabMenuButtonProps> = memo(
         <TabsMenu
           getItemProps={getItemProps}
           highlightedIndex={highlightedIndex}
-          x={rectRef.current.x - (menuWidth - rectRef.current.width) / 2}
+          x={rectRef.current.x - (menuWidth - rectRef.current.width) / 2 - offsetX}
           y={rectRef.current.y + 44}
           menu={menu}
           open={isOpen}

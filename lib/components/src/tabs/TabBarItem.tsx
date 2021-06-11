@@ -5,6 +5,7 @@ import { ChildrenToTabsItemProps } from './utils/children-to-tabs-items-props';
 
 export type TabBarItemProps = {
   index: number;
+  offsetX: number;
   list: ChildrenToTabsItemProps[];
   previousSelectedIndex: number | undefined;
   selectedIndex: number | undefined;
@@ -20,6 +21,7 @@ export const TabBarItem: FC<TabBarItemProps> = memo(
     menu,
     narrow,
     props: _props,
+    offsetX,
     title,
     type,
     onMenuItemSelect,
@@ -43,6 +45,7 @@ export const TabBarItem: FC<TabBarItemProps> = memo(
     if (type === 'menu') {
       tabMenuButtonProps = {
         ...tabButtonProps,
+        offsetX,
         onMenuItemSelect,
         onMenuOpen,
         onMenuClose,
@@ -51,9 +54,17 @@ export const TabBarItem: FC<TabBarItemProps> = memo(
     }
 
     return type === 'menu' ? (
-      <TabMenuButton {...tabMenuButtonProps} type={type} />
+      <TabMenuButton
+        {...tabMenuButtonProps}
+        style={{ ...(tabMenuButtonProps.style || {}), whiteSpace: 'nowrap' }}
+        type={type}
+      />
     ) : (
-      <TabButton {...tabButtonProps} type={type} />
+      <TabButton
+        {...tabButtonProps}
+        style={{ ...(tabButtonProps.style || {}), whiteSpace: 'nowrap' }}
+        type={type}
+      />
     );
   }
 );

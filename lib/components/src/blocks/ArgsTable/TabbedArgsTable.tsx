@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Tabs } from '../../tabs/tabs';
+import { TabsBar } from '../../tabs/TabsBar';
 import { TabItem } from '../../tabs/TabItem';
 import { ArgsTable, ArgsTableProps, SortType } from './ArgsTable';
 
@@ -16,7 +16,7 @@ export const TabbedArgsTable: FC<TabbedArgsTableProps> = ({ tabs, ...props }) =>
   }
 
   return (
-    <Tabs>
+    <TabsBar>
       {entries.map((entry) => {
         const [label, table] = entry;
         const id = `prop_table_div_${label}`;
@@ -26,6 +26,6 @@ export const TabbedArgsTable: FC<TabbedArgsTableProps> = ({ tabs, ...props }) =>
           </TabItem>
         );
       })}
-    </Tabs>
+    </TabsBar>
   );
 };

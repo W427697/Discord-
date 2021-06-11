@@ -19,7 +19,9 @@ export const useContentRect = (ref: any) => {
     const onResize = ([entry]: ResizeObserverEntry[]) => {
       const newBounds = entry.target.getBoundingClientRect().toJSON();
 
-      setBounds(newBounds);
+      if (JSON.stringify(bounds) !== JSON.stringify(newBounds)) {
+        setBounds(newBounds);
+      }
     };
 
     const observer = new ResizeObserver(onResize);

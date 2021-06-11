@@ -37,7 +37,12 @@ export const TabsMenu = memo(
     ) => {
       return createPortal(
         <>
-          <Wrapper isOpen={open} left={x} top={y} width={width} ref={menuRef || ref} {...rest}>
+          <Wrapper
+            isOpen={open}
+            ref={menuRef || ref}
+            {...rest}
+            style={{ ...(rest.style || {}), left: x || 0, top: y || 0, width }}
+          >
             {menu.length > 0 &&
               menu.map((item, index) => {
                 const key = `${item.label || ''}-${index}`;
@@ -64,17 +69,13 @@ export const TabsMenu = memo(
 
 type WrapperProps = {
   isOpen: boolean;
-  left: number;
-  top: number;
-  width: number;
 };
 
-const Wrapper = styled.ul<WrapperProps>(({ theme, isOpen, left, top, width }) => ({
+const Wrapper = styled.ul<WrapperProps>(({ theme, isOpen }) => ({
   // borderTop: `3px solid ${theme.color.secondary}`,
   backgroundColor: theme.background.content,
   borderRadius: theme.appBorderRadius,
   filter: 'drop-shadow(0px 5px 5px rgba(0,0,0,0.05)) drop-shadow(0 1px 3px rgba(0,0,0,0.1))',
-  left: left || 0,
   listStyle: 'none',
   margin: 0,
   maxHeight: '70vh',
@@ -83,11 +84,9 @@ const Wrapper = styled.ul<WrapperProps>(({ theme, isOpen, left, top, width }) =>
   overflowY: 'scroll',
   padding: 0,
   position: 'absolute',
-  top: top || 0,
   transform: `translateY(${isOpen ? '0px' : '6px'})`,
   transformOrigin: 'center',
   transition: `transform ${isOpen ? '250ms' : '175ms'} ease-in-out, opacity 250ms ease-in-out`,
-  width,
   zIndex: 9999,
 }));
 

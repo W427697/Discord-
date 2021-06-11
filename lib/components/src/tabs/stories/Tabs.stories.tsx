@@ -1,22 +1,22 @@
 import React from 'react';
 import { ComponentStory, Meta } from '@storybook/react';
 import { styled } from '@storybook/theming';
-import { Tabs } from '../tabs';
+import { TabsBar } from '../TabsBar';
 import { TabItem } from '../TabItem';
 
 export default {
   title: 'Basics/TabsBar',
-  component: Tabs,
+  component: TabsBar,
   argTypes: {
     onSelect: { action: 'onSelect', table: { disable: true } },
     onChange: { action: 'onChange', table: { disable: true } },
     backgroundColor: { control: { type: 'color' } },
     initial: {
-      options: [undefined, 'test1', 'test2', 'test3', 'test4', 0, 1, 2, 3],
+      options: ['test1', 'test2', 'test3', 'test4', 0, 1, 2, 3],
       control: { type: 'select' },
     },
     selected: {
-      options: [undefined, 'test1', 'test2', 'test3', 'test4', 0, 1, 2, 3],
+      options: ['test1', 'test2', 'test3', 'test4', 0, 1, 2, 3],
       control: { type: 'select' },
     },
   },
@@ -40,8 +40,8 @@ const Text = styled.div({
   fontSize: 13,
 });
 
-const Template: ComponentStory<typeof Tabs> = (args) => (
-  <Tabs {...args}>
+const Template: ComponentStory<typeof TabsBar> = (args) => (
+  <TabsBar {...args}>
     <TabItem id="test1" title="Content 1">
       <Content>
         <Title>Content Tab 1</Title>
@@ -105,9 +105,6 @@ const Template: ComponentStory<typeof Tabs> = (args) => (
       id="test10"
       type="menu"
       icon="accessibility"
-      onMenuItemSelect={(item) => {
-        console.log(item);
-      }}
       menu={[
         { id: 'menu-11', label: 'Global Entry', icon: 'globe', right: 'alpha' },
         { id: 'menu-12', label: 'Action Bind', icon: 'accessibility', right: 'beta' },
@@ -121,7 +118,7 @@ const Template: ComponentStory<typeof Tabs> = (args) => (
         },
       ]}
     />
-  </Tabs>
+  </TabsBar>
 );
 
 export const Controllable = Template.bind({});
