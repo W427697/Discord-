@@ -13,6 +13,9 @@ export type TabItemCore = {
   narrow?: boolean;
   title?: string | (() => string);
   type?: 'content' | 'button' | 'menu';
+  onMenuClose?: () => void;
+  onMenuItemSelect?: (item: TabMenuItemProps) => void;
+  onMenuOpen?: () => void;
 };
 
 export type TabItemProps = TabItemCore &

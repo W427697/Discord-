@@ -18,10 +18,8 @@ export const useContentRect = (ref: any) => {
   useEffect(() => {
     const onResize = ([entry]: ResizeObserverEntry[]) => {
       const newBounds = entry.target.getBoundingClientRect().toJSON();
-      setBounds({
-        ...bounds,
-        ...newBounds,
-      });
+
+      setBounds(newBounds);
     };
 
     const observer = new ResizeObserver(onResize);

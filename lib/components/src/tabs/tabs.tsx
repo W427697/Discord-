@@ -110,6 +110,7 @@ export const Tabs: FC<TabsProps> = ({
                 props: {
                   ...tabsItemProps.props,
                   onClick: (event: OnClickEvent) => {
+                    event.persist();
                     event.preventDefault();
 
                     // Deprecation support

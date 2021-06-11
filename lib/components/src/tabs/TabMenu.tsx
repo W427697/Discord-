@@ -1,6 +1,6 @@
 import { styled } from '@storybook/theming';
 import { UseSelectGetItemPropsOptions } from 'downshift';
-import React, { forwardRef, HTMLAttributes, RefObject } from 'react';
+import React, { forwardRef, HTMLAttributes, memo, RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { TabMenuItem, TabMenuItemProps } from './TabMenuItem';
 
@@ -18,46 +18,48 @@ export type TabMenuProps = {
   getItemProps?: (options: UseSelectGetItemPropsOptions<TabMenuItemProps>) => any;
 } & HTMLAttributes<HTMLUListElement>;
 
-export const TabsMenu = forwardRef(
-  (
-    {
-      open,
-      x,
-      y,
-      menu,
-      getItemProps,
-      menuRef,
-      selected,
-      highlightedIndex,
-      width = defaultWidth,
-      ...rest
-    }: TabMenuProps,
-    ref: RefObject<HTMLUListElement>
-  ) => {
-    return createPortal(
-      <>
-        <Wrapper isOpen={open} left={x} top={y} width={width} ref={menuRef || ref} {...rest}>
-          {menu.length > 0 &&
-            menu.map((item, index) => {
-              const key = `${item.label || ''}-${index}`;
+export const TabsMenu = memo(
+  forwardRef(
+    (
+      {
+        open,
+        x,
+        y,
+        menu,
+        getItemProps,
+        menuRef,
+        selected,
+        highlightedIndex,
+        width = defaultWidth,
+        ...rest
+      }: TabMenuProps,
+      ref: RefObject<HTMLUListElement>
+    ) => {
+      return createPortal(
+        <>
+          <Wrapper isOpen={open} left={x} top={y} width={width} ref={menuRef || ref} {...rest}>
+            {menu.length > 0 &&
+              menu.map((item, index) => {
+                const key = `${item.label || ''}-${index}`;
 
-              return (
-                <TabMenuItem
-                  highlighted={highlightedIndex === index}
-                  key={key}
-                  selected={selected === item.id}
-                  {...item}
-                  {...getItemProps({ refKey: 'menuItemRef', item, index })}
-                />
-              );
-            })}
-        </Wrapper>
-        <Triangle isOpen={open} left={x + width / 2 - 5} top={y} />
-      </>,
-      // eslint-disable-next-line no-undef
-      document.getElementsByTagName('body')[0]
-    );
-  }
+                return (
+                  <TabMenuItem
+                    highlighted={highlightedIndex === index}
+                    key={key}
+                    selected={selected === item.id}
+                    {...item}
+                    {...getItemProps({ refKey: 'menuItemRef', item, index })}
+                  />
+                );
+              })}
+          </Wrapper>
+          <Triangle isOpen={open} left={x + width / 2 - 5} top={y} />
+        </>,
+        // eslint-disable-next-line no-undef
+        document.getElementsByTagName('body')[0]
+      );
+    }
+  )
 );
 
 type WrapperProps = {

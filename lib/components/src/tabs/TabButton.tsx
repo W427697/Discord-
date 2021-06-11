@@ -1,5 +1,5 @@
 import { styled } from '@storybook/theming';
-import React, { FC, forwardRef, HTMLAttributes, ReactNode, RefObject, useRef } from 'react';
+import React, { forwardRef, HTMLAttributes, memo, ReactNode, RefObject, useRef } from 'react';
 import { TabButtonProps as BarButtonProps } from '../bar/button';
 import { useContentRect } from '../hooks/useContentRect';
 import { Icons, IconsProps } from '../icon/icon';
@@ -24,65 +24,67 @@ export type TabButtonProps = {
 } & BarButtonProps &
   HTMLAttributes<HTMLButtonElement>;
 
-export const TabButton: FC<TabButtonProps> = forwardRef(
-  (
-    {
-      LabelProps = {},
-      active,
-      buttonRef,
-      children,
-      icon,
-      id,
-      label: _label,
-      narrow,
-      type,
-      onRectChange,
-      ...rest
-    },
-    ref: RefObject<HTMLButtonElement>
-  ) => {
-    const innerRef = useRef<HTMLDivElement>();
-    const { height, x, y, width } = useContentRect(innerRef);
-    let Icon: ReactNode = icon;
+export const TabButton = memo(
+  forwardRef(
+    (
+      {
+        LabelProps = {},
+        active,
+        buttonRef,
+        children,
+        icon,
+        id,
+        label: _label,
+        narrow,
+        type,
+        onRectChange,
+        ...rest
+      }: TabButtonProps,
+      ref: RefObject<HTMLButtonElement>
+    ) => {
+      const innerRef = useRef<HTMLDivElement>();
+      const { height, x, y, width } = useContentRect(innerRef);
+      let Icon: ReactNode = icon;
 
-    /** @todo Use icon & Icon instead of dual purpose on one prop */
-    if (typeof icon === 'string') {
-      if (icons[icon as IconsProps['icon']]) {
-        Icon = <Icons icon={icon as IconsProps['icon']} />;
-      } else {
-        Icon = icon;
+      /** @todo Use icon & Icon instead of dual purpose on one prop */
+      if (typeof icon === 'string') {
+        if (icons[icon as IconsProps['icon']]) {
+          Icon = <Icons icon={icon as IconsProps['icon']} />;
+        } else {
+          Icon = icon;
+        }
       }
+
+      const labelId = `${id}-label`;
+      const label = _label || (typeof Icon === 'string' ? Icon : id);
+      const hasLabel = _label !== undefined;
+
+      if (onRectChange) {
+        onRectChange({ height, x, y, width });
+      }
+
+      return (
+        <Wrapper
+          aria-labelledby={labelId}
+          role="tab"
+          id={id}
+          key={`${id}-tabbutton`}
+          narrow={narrow}
+          active={active}
+          className={`tabbutton ${active ? 'tabbutton-active' : ''}`}
+          ref={buttonRef || ref}
+          {...rest}
+        >
+          <WrapperInner ref={innerRef} narrow={narrow}>
+            {Icon && <IconWrapper hasLabel={hasLabel}>{Icon}</IconWrapper>}
+            <Label id={labelId} hasLabel={hasLabel} {...LabelProps}>
+              {label}
+            </Label>
+          </WrapperInner>
+        </Wrapper>
+      );
     }
-
-    const labelId = `${id}-label`;
-    const label = _label || (typeof Icon === 'string' ? Icon : id);
-    const hasLabel = _label !== undefined;
-
-    if (onRectChange) {
-      onRectChange({ height, x, y, width });
-    }
-
-    return (
-      <Wrapper
-        aria-labelledby={labelId}
-        role="tab"
-        id={id}
-        key={`${id}-tabbutton`}
-        narrow={narrow}
-        active={active}
-        className={`tabbutton ${active ? 'tabbutton-active' : ''}`}
-        ref={buttonRef || ref}
-        {...rest}
-      >
-        <WrapperInner ref={innerRef} narrow={narrow}>
-          {Icon && <IconWrapper hasLabel={hasLabel}>{Icon}</IconWrapper>}
-          <Label id={labelId} hasLabel={hasLabel} {...LabelProps}>
-            {label}
-          </Label>
-        </WrapperInner>
-      </Wrapper>
-    );
-  }
+  )
 );
 
 export interface WrapperProps {

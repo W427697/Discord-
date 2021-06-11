@@ -18,6 +18,9 @@ export const childrenToTabsItemProps = (node: React.ReactNode) => {
       type = 'content',
       menu,
       narrow,
+      onMenuClose,
+      onMenuItemSelect,
+      onMenuOpen,
       ...rest
     } = props;
     let children: TabItemProps['children'] = childrenOfChild;
@@ -39,6 +42,9 @@ export const childrenToTabsItemProps = (node: React.ReactNode) => {
       icon,
       type,
       menu,
+      onMenuClose,
+      onMenuItemSelect,
+      onMenuOpen,
       props: rest || {},
     };
 

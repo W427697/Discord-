@@ -105,6 +105,9 @@ const Template: ComponentStory<typeof Tabs> = (args) => (
       id="test10"
       type="menu"
       icon="accessibility"
+      onMenuItemSelect={(item) => {
+        console.log(item);
+      }}
       menu={[
         { id: 'menu-11', label: 'Global Entry', icon: 'globe', right: 'alpha' },
         { id: 'menu-12', label: 'Action Bind', icon: 'accessibility', right: 'beta' },

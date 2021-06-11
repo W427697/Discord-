@@ -1,5 +1,5 @@
 import { styled } from '@storybook/theming';
-import React, { forwardRef, HTMLAttributes, ReactNode, RefObject } from 'react';
+import React, { forwardRef, HTMLAttributes, memo, ReactNode, RefObject } from 'react';
 import { Icons, IconsProps } from '../icon/icon';
 
 export type TabMenuItemProps = {
@@ -16,39 +16,41 @@ export type TabMenuItemProps = {
   selected?: boolean;
 } & HTMLAttributes<HTMLLIElement>;
 
-export const TabMenuItem = forwardRef(
-  (
-    {
-      Icon,
-      center,
-      highlighted,
-      icon,
-      iconPosition = 'left',
-      id,
-      label,
-      left,
-      menuItemRef,
-      right,
-      selected,
-      ...rest
-    }: TabMenuItemProps,
-    ref: RefObject<HTMLLIElement>
-  ) => {
-    return (
-      <Wrapper selected={selected} highlighted={highlighted} ref={menuItemRef || ref} {...rest}>
-        <WrapperInner>
-          {left !== undefined && <Left>{left}</Left>}
-          {icon !== undefined && iconPosition === 'left' && <IconLeft icon={icon} />}
-          {Icon !== undefined && iconPosition === 'left' && Icon}
-          <Label>{label}</Label>
-          <Center>{center}</Center>
-          {Icon !== undefined && iconPosition === 'right' && <div>{Icon}</div>}
-          {icon !== undefined && iconPosition === 'right' && <IconRight icon={icon} />}
-          {right !== undefined && <Right>{right}</Right>}
-        </WrapperInner>
-      </Wrapper>
-    );
-  }
+export const TabMenuItem = memo(
+  forwardRef(
+    (
+      {
+        Icon,
+        center,
+        highlighted,
+        icon,
+        iconPosition = 'left',
+        id,
+        label,
+        left,
+        menuItemRef,
+        right,
+        selected,
+        ...rest
+      }: TabMenuItemProps,
+      ref: RefObject<HTMLLIElement>
+    ) => {
+      return (
+        <Wrapper selected={selected} highlighted={highlighted} ref={menuItemRef || ref} {...rest}>
+          <WrapperInner>
+            {left !== undefined && <Left>{left}</Left>}
+            {icon !== undefined && iconPosition === 'left' && <IconLeft icon={icon} />}
+            {Icon !== undefined && iconPosition === 'left' && Icon}
+            <Label>{label}</Label>
+            <Center>{center}</Center>
+            {Icon !== undefined && iconPosition === 'right' && <div>{Icon}</div>}
+            {icon !== undefined && iconPosition === 'right' && <IconRight icon={icon} />}
+            {right !== undefined && <Right>{right}</Right>}
+          </WrapperInner>
+        </Wrapper>
+      );
+    }
+  )
 );
 
 interface WrapperProps {
