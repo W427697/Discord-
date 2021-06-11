@@ -2620,6 +2620,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.13.10":
+  version: 7.14.5
+  resolution: "@babel/runtime@npm:7.14.5"
+  dependencies:
+    regenerator-runtime: ^0.13.4
+  checksum: c90562c15dee8cb5504c0ed4f24c0b18bf59a614fc0ce0180b816eff85603f6a4dc396606a78f44664583830ab4b1ed8f086cb00275ee16af423090aed6ee04d
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:7.12.7":
   version: 7.12.7
   resolution: "@babel/template@npm:7.12.7"
@@ -6544,6 +6553,7 @@ __metadata:
     color-convert: ^2.0.1
     core-js: ^3.8.2
     css: ^3.0.0
+    downshift: ^6.1.3
     fast-deep-equal: ^3.1.3
     global: ^4.4.0
     jest: ^26.6.3
@@ -15571,7 +15581,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"compute-scroll-into-view@npm:^1.0.16":
+"compute-scroll-into-view@npm:^1.0.16, compute-scroll-into-view@npm:^1.0.17":
   version: 1.0.17
   resolution: "compute-scroll-into-view@npm:1.0.17"
   checksum: 98ba88a3af2e4d9c39e1a329f9d1615eeed0e528350ce01b63fb43d1c611dfc31c0639f47844dc8e7bf4d429745bce88efbb035ee2116d51d33b33d55d794f0c
@@ -18083,6 +18093,20 @@ __metadata:
   peerDependencies:
     react: ">=16.12.0"
   checksum: 6d4b0216a9ddaedbcbfa271e557bbb04ee4ece299910e636bca9f6c220fc4c7908292eec1b617f2bc7c8e332ccfbba93a0282b2939bd669ab5ce2a911d5fd516
+  languageName: node
+  linkType: hard
+
+"downshift@npm:^6.1.3":
+  version: 6.1.3
+  resolution: "downshift@npm:6.1.3"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    compute-scroll-into-view: ^1.0.17
+    prop-types: ^15.7.2
+    react-is: ^17.0.2
+  peerDependencies:
+    react: ">=16.12.0"
+  checksum: c0aa401c3627eac6358608354b8e724dd42e0aea758ff27463fa1020926182934ad389841788495af0c9ba1984dd1e0cc0e0c4dafbc1a7f243a3b98446aead31
   languageName: node
   linkType: hard
 
@@ -35296,6 +35320,13 @@ fsevents@^1.2.7:
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 33977da7a5f1a287936a0c85639fec6ca74f4f15ef1e59a6bc20338fc73dc69555381e211f7a3529b8150a1f71e4225525b41b60b52965bda53ce7d47377ada1
+  languageName: node
+  linkType: hard
+
+"react-is@npm:^17.0.2":
+  version: 17.0.2
+  resolution: "react-is@npm:17.0.2"
+  checksum: 2bdb6b93fbb1820b024b496042cce405c57e2f85e777c9aabd55f9b26d145408f9f74f5934676ffdc46f3dcff656d78413a6e43968e7b3f92eea35b3052e9053
   languageName: node
   linkType: hard
 

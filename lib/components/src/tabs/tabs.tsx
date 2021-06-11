@@ -7,7 +7,7 @@ import {
   childrenToTabsItemProps,
   ChildrenToTabsItemProps,
 } from './utils/children-to-tabs-items-props';
-import { TabsBarItem, TabsBarItemProps } from './TabsBarItem';
+import { TabBarItem, TabBarItemProps } from './TabBarItem';
 import { getListItemIndexById } from './utils/get-list-item-index-by-id';
 import { createSelectedItem } from './utils/create-selected-item';
 
@@ -24,16 +24,16 @@ interface OnSelectProps {
 
 export type TabsProps = {
   absolute?: boolean;
-  tools?: React.ReactNode;
-  /** @info breaking change! index position instead of id's */
-  selected?: number | string;
-  /** @info breaking change! index position instead of id's */
-  initial?: number | string;
   backgroundColor?: string;
   bordered?: boolean;
+  /** @info breaking change! index position instead of id's */
+  initial?: number | string;
   rounded?: boolean;
-  onSelect?: (state: OnSelectProps) => void;
+  /** @info breaking change! index position instead of id's */
+  selected?: number | string;
+  tools?: React.ReactNode;
   onChange?: (state: OnChangeProps) => void;
+  onSelect?: (state: OnSelectProps) => void;
   /** @deprecated use normal on_ events directly on props */
   actions?: {
     /** @deprecated use onSelect directly on props */
@@ -42,16 +42,16 @@ export type TabsProps = {
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export const Tabs: FC<TabsProps> = ({
-  actions,
   backgroundColor,
   bordered,
-  rounded,
   children,
   initial,
+  rounded,
   selected,
   tools,
-  onSelect,
+  actions,
   onChange,
+  onSelect,
   ...rest
 }) => {
   const [list, setList] = useState<ChildrenToTabsItemProps[]>(childrenToTabsItemProps(children));
@@ -94,14 +94,14 @@ export const Tabs: FC<TabsProps> = ({
             const active = index === selectedIndex;
             const title = typeof _title === 'function' ? _title() : _title;
 
-            let tabsItemProps: TabsBarItemProps = {
+            let tabsItemProps: TabBarItemProps = {
               ...item,
               active,
-              title,
               index,
               list,
-              selectedIndex,
               previousSelectedIndex: previousSelectedIndex.current,
+              selectedIndex,
+              title,
             };
 
             if (item.type === 'content') {
@@ -139,14 +139,14 @@ export const Tabs: FC<TabsProps> = ({
               };
             }
 
-            return <TabsBarItem key={item.id} {...tabsItemProps} />;
+            return <TabBarItem key={item.id} {...tabsItemProps} />;
           })}
         </TabBar>
         {tools}
       </FlexBar>
       <TabContent bordered={bordered}>
         {list.length > 0
-          ? list.map(({ content: _content, id, type, index }) => {
+          ? list.map(({ children: _content, id, type, index }) => {
               const active = index === selectedIndex;
               let content = _content;
 
@@ -156,12 +156,12 @@ export const Tabs: FC<TabsProps> = ({
                 ) => React.ReactNode;
 
                 content = contentProxy({
-                  id: `${id}-content`,
-                  key: `${id}-content`,
                   active,
+                  id: `${id}-content`,
                   index,
-                  selected: createSelectedItem(list, selectedIndex),
+                  key: `${id}-content`,
                   previous: createSelectedItem(list, previousSelectedIndex.current),
+                  selected: createSelectedItem(list, selectedIndex),
                 });
               }
 
@@ -169,9 +169,9 @@ export const Tabs: FC<TabsProps> = ({
                 <div
                   aria-hidden={active ? 'false' : 'true'}
                   aria-labelledby={`${id}-label`}
-                  role="tabpanel"
-                  key={id}
                   hidden={!active}
+                  key={id}
+                  role="tabpanel"
                 >
                   {content}
                 </div>

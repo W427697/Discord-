@@ -1,112 +1,152 @@
-import React, {
-  FC,
-  HTMLAttributes,
-  ReactNode,
-  useState,
-  useEffect,
-  useRef,
-  createRef,
-} from 'react';
-import { createPortal } from 'react-dom';
 import { styled } from '@storybook/theming';
-import { TabButton as BarButton, TabButtonProps as BarButtonProps } from '../bar/button';
-import { IconsProps, Icons } from '../icon/icon';
-import { icons } from '../icon/icons';
-import { OnClickEvent } from './types';
+import React, { FC, forwardRef, HTMLAttributes, ReactNode, RefObject, useRef } from 'react';
+import { TabButtonProps as BarButtonProps } from '../bar/button';
 import { useContentRect } from '../hooks/useContentRect';
-import { TabsButtonMenu, TabsMenuItem } from './TabButtonMenu';
+import { Icons, IconsProps } from '../icon/icon';
+import { icons } from '../icon/icons';
+
+export type TabButtonRect = {
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+};
 
 export type TabButtonProps = {
-  id?: string;
+  LabelProps?: HTMLAttributes<HTMLSpanElement>;
+  buttonRef?: RefObject<HTMLButtonElement>;
   icon?: IconsProps['icon'] | ReactNode;
+  id?: string;
   label?: string;
+  narrow?: boolean;
   type?: 'content' | 'button' | 'menu';
-  open?: boolean;
-  menu?: TabsMenuItem[];
+  onRectChange?: (rect: TabButtonRect) => void;
 } & BarButtonProps &
   HTMLAttributes<HTMLButtonElement>;
 
-export const TabButton: FC<TabButtonProps> = ({
-  active,
-  id,
-  label: _label,
-  icon,
-  type,
-  children,
-  menu,
-  open: _open,
-  ...rest
-}) => {
-  const baseRectRef = useRef<HTMLDivElement>();
-  const menuRectRef = createRef<HTMLDivElement>();
-  const { x, y, width: baseRectWidth } = useContentRect(baseRectRef);
-  const { width: menuRectWidth } = useContentRect(menuRectRef);
-  const [open, setOpen] = useState(_open);
-  let Icon: ReactNode = icon;
+export const TabButton: FC<TabButtonProps> = forwardRef(
+  (
+    {
+      LabelProps = {},
+      active,
+      buttonRef,
+      children,
+      icon,
+      id,
+      label: _label,
+      narrow,
+      type,
+      onRectChange,
+      ...rest
+    },
+    ref: RefObject<HTMLButtonElement>
+  ) => {
+    const innerRef = useRef<HTMLDivElement>();
+    const { height, x, y, width } = useContentRect(innerRef);
+    let Icon: ReactNode = icon;
 
-  useEffect(() => {
-    if (open !== _open) {
-      setOpen(open);
+    /** @todo Use icon & Icon instead of dual purpose on one prop */
+    if (typeof icon === 'string') {
+      if (icons[icon as IconsProps['icon']]) {
+        Icon = <Icons icon={icon as IconsProps['icon']} />;
+      } else {
+        Icon = icon;
+      }
     }
-  }, [_open]);
 
-  if (typeof icon === 'string') {
-    if (icons[icon as IconsProps['icon']]) {
-      Icon = <Icons icon={icon as IconsProps['icon']} />;
-    } else {
-      Icon = icon;
+    const labelId = `${id}-label`;
+    const label = _label || (typeof Icon === 'string' ? Icon : id);
+    const hasLabel = _label !== undefined;
+
+    if (onRectChange) {
+      onRectChange({ height, x, y, width });
     }
-  }
 
-  const labelId = `${id}-label`;
-  const label = _label || (typeof Icon === 'string' ? Icon : id);
-  const hasLabel = _label !== undefined;
-
-  return (
-    <>
-      <BarButton
-        aria-selected={active ? 'true' : 'false'}
+    return (
+      <Wrapper
         aria-labelledby={labelId}
         role="tab"
         id={id}
         key={`${id}-tabbutton`}
-        active={active || open}
+        narrow={narrow}
+        active={active}
         className={`tabbutton ${active ? 'tabbutton-active' : ''}`}
+        ref={buttonRef || ref}
         {...rest}
-        onClick={(event: OnClickEvent) => {
-          if (rest.onClick) {
-            rest.onClick(event as React.MouseEvent<HTMLButtonElement, MouseEvent>);
-          }
-
-          if (type === 'menu') {
-            setOpen(!open);
-          }
-        }}
       >
-        <Content ref={baseRectRef}>
+        <WrapperInner ref={innerRef} narrow={narrow}>
           {Icon && <IconWrapper hasLabel={hasLabel}>{Icon}</IconWrapper>}
-          <Label id={labelId} hasLabel={hasLabel}>
+          <Label id={labelId} hasLabel={hasLabel} {...LabelProps}>
             {label}
           </Label>
-        </Content>
-      </BarButton>
+        </WrapperInner>
+      </Wrapper>
+    );
+  }
+);
 
-      {type === 'menu' && (
-        <TabsButtonMenu
-          menu={menu}
-          ref={menuRectRef}
-          top={y + 32}
-          left={x - (menuRectWidth - baseRectWidth) / 2}
-        />
-      )}
-    </>
-  );
-};
+export interface WrapperProps {
+  active?: boolean;
+  textColor?: string;
+  narrow?: boolean;
+}
 
-const Content = styled.div({
+export const Wrapper = styled.button<WrapperProps>(
+  {
+    whiteSpace: 'normal',
+    display: 'inline-flex',
+    overflow: 'hidden',
+    verticalAlign: 'top',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    textDecoration: 'none',
+
+    '&:empty': {
+      display: 'none',
+    },
+  },
+  ({ theme, narrow }) => ({
+    padding: 0,
+    margin: narrow ? '0 8px' : '0',
+    transition: 'color 0.2s linear, border-bottom-color 0.2s linear',
+    height: 40,
+    lineHeight: '12px',
+    cursor: 'pointer',
+    background: 'transparent',
+    border: '0 solid transparent',
+    borderTop: '3px solid transparent',
+    borderBottom: '3px solid transparent',
+    fontWeight: 'bold',
+    fontSize: 13,
+
+    '&:focus': {
+      outline: '0 none',
+      borderBottomColor: theme.color.secondary,
+    },
+  }),
+  ({ active, textColor, theme }) =>
+    active
+      ? {
+          color: textColor || theme.barSelectedColor,
+          borderBottomColor: theme.barSelectedColor,
+        }
+      : {
+          color: textColor || theme.barTextColor,
+          borderBottomColor: 'transparent',
+        }
+);
+
+export interface WrapperInnerProps {
+  narrow?: boolean;
+}
+
+const WrapperInner = styled.div<WrapperInnerProps>(({ narrow }) => ({
+  padding: narrow ? '0' : '0 16px',
   display: 'flex',
   alignItems: 'center',
-});
+  height: 40,
+}));
 
 interface IconWrapperProps {
   hasLabel?: boolean;
@@ -127,25 +167,4 @@ const Label = styled.span<LabelProps>(({ hasLabel }) => ({
   visibility: hasLabel ? 'visible' : 'hidden',
   opacity: hasLabel ? 1 : 0,
   width: hasLabel ? 'auto' : 0,
-}));
-
-interface MenuProps {
-  open: boolean;
-  top: number;
-  left: number;
-}
-
-const Menu = styled.div<MenuProps>(({ theme, open, left, top }) => ({
-  position: 'absolute',
-  left,
-  top,
-  opacity: open ? 1 : 0,
-  visibility: open ? 'visible' : 'hidden',
-  backgroundColor: theme.background.content,
-  boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
-  borderRadius: theme.appBorderRadius,
-  zIndex: 9999,
-  overflow: 'hidden',
-  // borderTop: `3px solid ${theme.color.secondary}`,
-  minWidth: 180,
 }));

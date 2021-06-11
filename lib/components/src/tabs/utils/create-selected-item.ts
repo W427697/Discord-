@@ -5,7 +5,7 @@ export const createSelectedItem = (list: ChildrenToTabsItemProps[], index: numbe
     id: list[index] ? list[index].id : undefined,
     color: list[index] ? list[index].color : undefined,
     index: list[index] ? list[index].index : undefined,
-    content: list[index] ? list[index].content : undefined,
+    children: list[index] ? list[index].children : undefined,
     icon: list[index] ? list[index].icon : undefined,
     type: list[index] ? list[index].type : undefined,
     props: list[index] ? list[index].props : undefined,
