@@ -31,13 +31,22 @@ export const MenuArea: FC<MenuAreaProps> = ({
   onTabChange,
   onScroll,
 }) => {
+  const handleScroll = useCallback(
+    (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
+      const { scrollLeft: scroll } = event.currentTarget;
+
+      onScroll(scroll);
+    },
+    [onScroll]
+  );
+
   return (
     <Wrapper
       role="tablist"
       bordered={selectedIndex === undefined ? false : bordered}
       backgroundColor={backgroundColor}
       vertical={false}
-      horizontalPosition="top"
+      onScroll={handleScroll}
     >
       <TabsArea>
         {list.map(({ title: _title, index, ...item }) => {

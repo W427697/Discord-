@@ -35,11 +35,12 @@ export type ScrollBarProps = {
 
 export const ScrollBar: FC<ScrollBarProps> = ({
   vertical: showVertical = true,
-  verticalPosition = 'left',
+  verticalPosition = 'right',
   horizontal: showHorizontal = true,
-  horizontalPosition = 'top',
+  horizontalPosition = 'bottom',
   sliderSize = scrollSliderSize,
   trackPadding = scrollTrackPadding,
+  onScroll,
   children,
   ...rest
 }) => {
@@ -78,6 +79,11 @@ export const ScrollBar: FC<ScrollBarProps> = ({
         horizontal: horizontalStateValue,
         vertical: verticalStateValue,
       });
+
+      if (onScroll) {
+        event.persist();
+        onScroll(event);
+      }
     },
     [state, setState, outerHeight, outerWidth]
   );
@@ -160,10 +166,10 @@ export const ScrollBar: FC<ScrollBarProps> = ({
   const verticalLeft = verticalPosition === 'left' ? 0 : outerWidth - delta;
 
   return (
-    <>
-      <Wrapper data-sb-scrollbar="" ref={outerRef} {...rest} onScroll={handleScroll}>
-        <InnerWrapper ref={innerRef}>{children}</InnerWrapper>
-      </Wrapper>
+    <Wrapper>
+      <ScrollController data-sb-scrollbar="" ref={outerRef} {...rest} onScroll={handleScroll}>
+        <ScrollInner ref={innerRef}>{children}</ScrollInner>
+      </ScrollController>
       {state.vertical.show && (
         <VerticalTrack
           data-sb-scrollbar-track=""
@@ -200,11 +206,15 @@ export const ScrollBar: FC<ScrollBarProps> = ({
           </HorizontalSlider>
         </HorizontalTrack>
       )}
-    </>
+    </Wrapper>
   );
 };
 
 const Wrapper = styled.div({
+  position: 'relative',
+});
+
+const ScrollController = styled.div({
   overflowX: 'scroll',
   overflowY: 'scroll',
   /* Hide scrollbar for IE, Edge and Firefox */
@@ -221,7 +231,7 @@ const Wrapper = styled.div({
   },
 });
 
-const InnerWrapper = styled.div({
+const ScrollInner = styled.div({
   display: 'inline-block',
 });
 
@@ -270,7 +280,7 @@ interface SliderInnerProps {
 
 const SliderInner = styled.div<SliderInnerProps>(({ theme }) => ({
   backgroundColor: theme.color.secondary,
-  borderRadius: 4,
+  borderRadius: 2,
 }));
 
 const HorizontalSliderInner = styled(SliderInner)(({ sliderSize }) => ({
