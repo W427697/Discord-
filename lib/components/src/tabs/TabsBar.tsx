@@ -54,6 +54,31 @@ export const TabsBar: FC<TabsBarProps> = ({
     [setScrollLeft]
   );
 
+  const handleTabChange = useCallback(
+    (changeProps: OnChangeProps) => {
+      if (onChange) {
+        onChange(changeProps);
+      }
+
+      const {
+        selected: { index: current },
+        previous: { index: previous },
+      } = changeProps;
+      previousSelectedIndex.current = previous;
+      setSelectedIndex(current);
+    },
+    [onChange, setSelectedIndex]
+  );
+
+  const handleTabSelect = useCallback(
+    (selectedProps: OnSelectProps) => {
+      if (onSelect) {
+        onSelect(selectedProps);
+      }
+    },
+    [onSelect]
+  );
+
   useEffect(() => {
     let index;
 
@@ -93,23 +118,8 @@ export const TabsBar: FC<TabsBarProps> = ({
         bordered={selectedIndex === undefined ? false : bordered}
         backgroundColor={backgroundColor}
         onScroll={handleScroll}
-        onTabChange={(changeProps: OnChangeProps) => {
-          if (onChange) {
-            onChange(changeProps);
-          }
-
-          const {
-            selected: { index: current },
-            previous: { index: previous },
-          } = changeProps;
-          previousSelectedIndex.current = previous;
-          setSelectedIndex(current);
-        }}
-        onTabSelect={(selectedProps: OnSelectProps) => {
-          if (onSelect) {
-            onSelect(selectedProps);
-          }
-        }}
+        onTabChange={handleTabChange}
+        onTabSelect={handleTabSelect}
       />
       <ContentArea
         list={list}

@@ -3,7 +3,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import { useCallbackRef } from './useCallbackRef';
 
 export const useContentRect = (ref: any) => {
-  const [element, attachRef] = useCallbackRef<any>();
+  const { ref: element, fn: attachRef } = useCallbackRef<any>();
   const [bounds, setBounds] = useState({
     height: 0,
     width: 0,

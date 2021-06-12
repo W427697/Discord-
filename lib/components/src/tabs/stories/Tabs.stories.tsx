@@ -118,6 +118,11 @@ const Template: ComponentStory<typeof TabsBar> = (args) => (
         },
       ]}
     />
+    <TabItem id="test11" title="Button Type" type="button" />
+    <TabItem id="test12" title="Button Type" type="button" />
+    <TabItem id="test13" title="Button Type" type="button" />
+    <TabItem id="test14" title="Button Type" type="button" />
+    <TabItem id="test15" title="Button Type" type="button" />
   </TabsBar>
 );
 

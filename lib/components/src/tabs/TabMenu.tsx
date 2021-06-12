@@ -1,6 +1,6 @@
 import { styled } from '@storybook/theming';
 import { UseSelectGetItemPropsOptions } from 'downshift';
-import React, { forwardRef, HTMLAttributes, memo, RefObject } from 'react';
+import React, { forwardRef, HTMLAttributes, memo, RefObject, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { TabMenuItem, TabMenuItemProps } from './TabMenuItem';
 
@@ -35,13 +35,31 @@ export const TabsMenu = memo(
       }: TabMenuProps,
       ref: RefObject<HTMLUListElement>
     ) => {
+      const [stoveAway, setStoveAway] = useState(!open);
+
+      useEffect(() => {
+        if (open) {
+          setStoveAway(false);
+        } else {
+          setTimeout(() => {
+            setStoveAway(true);
+          }, 500);
+        }
+      }, [open]);
+
       return createPortal(
         <>
           <Wrapper
             isOpen={open}
             ref={menuRef || ref}
+            stoveAway={stoveAway}
             {...rest}
-            style={{ ...(rest.style || {}), left: x || 0, top: y || 0, width }}
+            style={{
+              ...(rest.style || {}),
+              left: stoveAway ? 0 : x || 0,
+              top: stoveAway ? 0 : y || 0,
+              width,
+            }}
           >
             {menu.length > 0 &&
               menu.map((item, index) => {
@@ -58,7 +76,11 @@ export const TabsMenu = memo(
                 );
               })}
           </Wrapper>
-          <Triangle isOpen={open} left={x + width / 2 - 5} top={y} />
+          <Triangle
+            stoveAway={stoveAway}
+            isOpen={open}
+            style={{ left: x + width / 2 - 5, top: y }}
+          />
         </>,
         // eslint-disable-next-line no-undef
         document.getElementsByTagName('body')[0]
@@ -69,37 +91,36 @@ export const TabsMenu = memo(
 
 type WrapperProps = {
   isOpen: boolean;
+  stoveAway: boolean;
 };
 
-const Wrapper = styled.ul<WrapperProps>(({ theme, isOpen }) => ({
+const Wrapper = styled.ul<WrapperProps>(({ theme, isOpen, stoveAway }) => ({
   // borderTop: `3px solid ${theme.color.secondary}`,
   backgroundColor: theme.background.content,
   borderRadius: theme.appBorderRadius,
   filter: 'drop-shadow(0px 5px 5px rgba(0,0,0,0.05)) drop-shadow(0 1px 3px rgba(0,0,0,0.1))',
   listStyle: 'none',
   margin: 0,
-  maxHeight: '70vh',
+  maxHeight: 'calc(70vh - 40px)',
   opacity: isOpen ? 1 : 0,
   outline: '0 none',
-  overflowY: 'scroll',
+  overflow: 'scroll',
   padding: 0,
+  visibility: stoveAway ? 'hidden' : 'visible',
   position: 'absolute',
   transform: `translateY(${isOpen ? '0px' : '6px'})`,
   transformOrigin: 'center',
   transition: `transform ${isOpen ? '250ms' : '175ms'} ease-in-out, opacity 250ms ease-in-out`,
-  zIndex: 9999,
 }));
 
 interface TriangleProps {
-  left: number;
-  top: number;
+  stoveAway: boolean;
   isOpen: boolean;
 }
 
-const Triangle = styled.div<TriangleProps>(({ isOpen, theme, left, top }) => ({
+const Triangle = styled.div<TriangleProps>(({ isOpen, theme, stoveAway }) => ({
   position: 'absolute',
-  left,
-  top,
+  visibility: stoveAway ? 'hidden' : 'visible',
   zIndex: 9998,
   borderLeft: '5px solid transparent',
   borderRight: '5px solid transparent',

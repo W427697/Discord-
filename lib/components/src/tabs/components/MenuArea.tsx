@@ -1,9 +1,10 @@
 import { styled } from '@storybook/theming';
 import React, { FC, MouseEvent, ReactNode, useCallback } from 'react';
 import { TabBarItem, TabBarItemProps } from '../TabBarItem';
-import { OnChangeProps, OnSelectProps } from '../types';
+import { ScrollBar } from '../../ScrollBar/ScrollBar';
 import { ChildrenToTabsItemProps } from '../utils/children-to-tabs-items-props';
 import { createSelectedItem } from '../utils/create-selected-item';
+import { OnChangeProps, OnSelectProps } from '../types';
 
 type MenuAreaProps = {
   list: ChildrenToTabsItemProps[];
@@ -30,19 +31,13 @@ export const MenuArea: FC<MenuAreaProps> = ({
   onTabChange,
   onScroll,
 }) => {
-  const handleScroll = useCallback(
-    (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
-      onScroll(event.currentTarget.scrollLeft);
-    },
-    [onScroll]
-  );
-
   return (
     <Wrapper
       role="tablist"
       bordered={selectedIndex === undefined ? false : bordered}
       backgroundColor={backgroundColor}
-      onScroll={handleScroll}
+      vertical={false}
+      horizontalPosition="top"
     >
       <TabsArea>
         {list.map(({ title: _title, index, ...item }) => {
@@ -97,26 +92,21 @@ export interface WrapperProps {
   bordered: boolean;
 }
 
-export const Wrapper = styled.div<WrapperProps>(({ theme, backgroundColor, bordered }) => ({
+export const Wrapper = styled(ScrollBar)<WrapperProps>(({ theme, backgroundColor, bordered }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
   backgroundColor: backgroundColor || theme.background.content,
   borderBottom: bordered ? `1px solid ${theme.color.border}` : '0 none',
-  overflowX: 'scroll',
-  overflowY: 'hidden',
+  zIndex: 9999,
 }));
 
 const TabsArea = styled.div({
   display: 'flex',
-  flexWrap: 'nowrap',
-  flexShrink: 0,
   alignItems: 'center',
 });
 
 const ToolsArea = styled.div({
   display: 'flex',
-  flexWrap: 'nowrap',
-  flexShrink: 0,
   alignItems: 'center',
 });

@@ -1,11 +1,14 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, RefObject } from 'react';
 
 // @TODO should be React.MutableRefObject....
-export function useCallbackRef<T = unknown>() {
-  const [ref, setRef] = useState<T | null>(null);
-  const fn = useCallback((node: T | null) => {
-    setRef(node);
-  }, []);
+export function useCallbackRef<T extends HTMLElement = HTMLElement>() {
+  const [ref, setRef] = useState<RefObject<T | null>>(null);
+  const fn = useCallback(
+    (node: RefObject<T | null>) => {
+      setRef(node);
+    },
+    [setRef]
+  );
 
-  return [ref, fn];
+  return { ref, fn };
 }
