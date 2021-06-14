@@ -5,8 +5,8 @@ import semverRegex from 'semver-regex';
 
 function isPreactX() {
   const preactPackage = require('preact/package.json');
-  const version = semverRegex().exec(preactPackage.version);
-  const major = parseFloat(version.toString().split('.')[0]);
+  const version = preactPackage.version.match(semverRegex())[0];
+  const major = parseFloat(version.split('.')[0]);
   return major >= 10;
 }
 
