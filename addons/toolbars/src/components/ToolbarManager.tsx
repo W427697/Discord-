@@ -22,9 +22,9 @@ export const ToolbarManager: FC = () => {
       <Separator />
       {globalIds.map((id) => {
         const normalizedArgType = normalizeArgType(id, globalTypes[id] as ToolbarArgType);
-        const isCycle = normalizedArgType.toolbar.toggle === true;
+        const isToggle = normalizedArgType.toolbar.toggle === true;
 
-        return isCycle ? (
+        return isToggle ? (
           <ToolbarMenuToggle key={id} id={id} {...normalizedArgType} />
         ) : (
           <ToolbarMenuList key={id} id={id} {...normalizedArgType} />
