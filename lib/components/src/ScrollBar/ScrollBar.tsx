@@ -1,10 +1,14 @@
+import { styled, Theme } from '@storybook/theming';
 import React, { FC, HTMLAttributes, useCallback, useEffect, useRef, useState } from 'react';
-import { styled } from '@storybook/theming';
 import { useContentRect } from '../hooks/useContentRect';
+import { getHorizontalValues } from './utils/get-horiztontal-values';
+import { getVerticalValues } from './utils/get-vertical-values';
 import { getStateValues } from './utils/get-state-values';
 
-const scrollTrackPadding = 3;
-const scrollSliderSize = 3;
+const defaultSliderPadding = 2;
+const defaultSliderSize = 6;
+const defaultSliderOpacity = 0.5;
+const defaultSliderColor = '#444444';
 
 interface Scroll {
   left: number;
@@ -12,8 +16,9 @@ interface Scroll {
 }
 
 interface StateItem {
-  size: number;
-  position: number;
+  sliderSize: number;
+  trackSize: number;
+  sliderPosition: number;
   show: boolean;
 }
 
@@ -30,55 +35,67 @@ export type ScrollBarProps = {
   horizontalPosition?: 'top' | 'bottom';
   sliderSize?: number;
   sliderColor?: string;
-  trackPadding?: number;
+  sliderPadding?: number;
+  sliderOpacity?: number;
+  sliderType?: keyof Theme['color'];
+  showOn?: 'always' | 'hover' | 'scroll';
 } & HTMLAttributes<HTMLDivElement>;
 
 export const ScrollBar: FC<ScrollBarProps> = ({
-  vertical: showVertical = true,
+  vertical: showVertical,
   verticalPosition = 'right',
-  horizontal: showHorizontal = true,
+  horizontal: showHorizontal,
   horizontalPosition = 'bottom',
-  sliderSize = scrollSliderSize,
-  trackPadding = scrollTrackPadding,
-  sliderColor,
+  sliderSize = defaultSliderSize,
+  sliderPadding = defaultSliderPadding,
+  sliderOpacity = defaultSliderOpacity,
+  sliderColor = defaultSliderColor,
+  sliderType,
+  showOn = 'hover',
   onScroll,
   children,
   ...rest
 }) => {
+  const sliderSafePadding = 4;
+  const sliderSafeSpacing = sliderSize + sliderPadding + sliderSafePadding * 2;
   const outerRef = useRef<HTMLDivElement>();
   const innerRef = useRef<HTMLDivElement>();
-  const { width: outerWidth, height: outerHeight, x } = useContentRect(outerRef);
+  const { width: outerWidth, height: outerHeight } = useContentRect(outerRef);
   const { width: innerWidth, height: innerHeight } = useContentRect(innerRef);
 
   const [state, setState] = useState<State>({
     scroll: { left: 0, top: 0 },
-    vertical: { size: 100, position: 0, show: showVertical },
-    horizontal: { size: 100, position: 0, show: showHorizontal },
+    vertical: { sliderSize: 0, trackSize: 0, sliderPosition: 0, show: showVertical },
+    horizontal: { sliderSize: 0, trackSize: 0, sliderPosition: 0, show: showHorizontal },
   });
 
   const handleScroll = useCallback(
     (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
       const { scrollLeft, scrollTop } = event.currentTarget;
 
-      const horizontalStateValue = getStateValues({
-        scroll: scrollLeft,
-        outerSize: outerWidth,
-        innerSize: innerWidth,
-        show: showHorizontal,
-      });
-
-      const verticalStateValue = getStateValues({
-        scroll: scrollTop,
-        outerSize: outerHeight,
-        innerSize: innerHeight,
-        show: showVertical,
-      });
-
       setState({
         ...state,
         scroll: { left: scrollLeft, top: scrollTop },
-        horizontal: horizontalStateValue,
-        vertical: verticalStateValue,
+        horizontal: getHorizontalValues({
+          innerWidth,
+          outerWidth,
+          scrollLeft,
+          showHorizontal,
+          showVertical: state.vertical.show,
+          sliderSafePadding,
+          sliderSafeSpacing,
+          outerRef,
+        }),
+        vertical: getVerticalValues({
+          innerHeight,
+          outerHeight,
+          scrollTop,
+          showHorizontal: state.horizontal.show,
+          showVertical,
+          sliderSafePadding,
+          sliderSafeSpacing,
+          outerRef,
+        }),
       });
 
       if (onScroll) {
@@ -86,32 +103,37 @@ export const ScrollBar: FC<ScrollBarProps> = ({
         onScroll(event);
       }
     },
-    [state, setState, outerHeight, outerWidth]
+    [state, setState, outerHeight, outerWidth, sliderSafePadding, sliderSafeSpacing]
   );
 
   // Get initial scroll position once outerRef and innerRef are not null
   useEffect(() => {
     if (outerRef !== null && outerRef.current && innerRef !== null && innerRef.current) {
       const { scrollTop, scrollLeft } = outerRef.current;
-      const horizontalStateValue = getStateValues({
-        scroll: scrollLeft,
-        outerSize: outerWidth,
-        innerSize: innerWidth,
-        show: showHorizontal,
-      });
-
-      const verticalStateValue = getStateValues({
-        scroll: scrollTop,
-        outerSize: outerHeight,
-        innerSize: innerHeight,
-        show: showVertical,
-      });
 
       setState({
         ...state,
         scroll: { left: scrollLeft, top: scrollTop },
-        horizontal: horizontalStateValue,
-        vertical: verticalStateValue,
+        horizontal: getHorizontalValues({
+          innerWidth,
+          outerWidth,
+          scrollLeft,
+          showHorizontal,
+          showVertical: state.vertical.show,
+          sliderSafePadding,
+          sliderSafeSpacing,
+          outerRef,
+        }),
+        vertical: getVerticalValues({
+          innerHeight,
+          outerHeight,
+          scrollTop,
+          showHorizontal: state.horizontal.show,
+          showVertical,
+          sliderSafePadding,
+          sliderSafeSpacing,
+          outerRef,
+        }),
       });
     }
   }, [outerRef, innerRef]);
@@ -120,11 +142,15 @@ export const ScrollBar: FC<ScrollBarProps> = ({
     let verticalStateValue: StateItem = { ...state.vertical };
 
     if (innerHeight > outerHeight && showVertical) {
-      verticalStateValue = getStateValues({
-        scroll: state.scroll.top,
-        outerSize: outerHeight,
-        innerSize: innerHeight,
-        show: showVertical,
+      verticalStateValue = getVerticalValues({
+        scrollTop: state.scroll.top,
+        outerHeight,
+        innerHeight,
+        showHorizontal: state.horizontal.show,
+        showVertical,
+        sliderSafePadding,
+        sliderSafeSpacing,
+        outerRef,
       });
     } else {
       verticalStateValue = {
@@ -143,11 +169,15 @@ export const ScrollBar: FC<ScrollBarProps> = ({
     let horizontalStateValue: StateItem = { ...state.horizontal };
 
     if (innerWidth > outerWidth && showHorizontal) {
-      horizontalStateValue = getStateValues({
-        scroll: state.scroll.left,
-        outerSize: outerWidth,
-        innerSize: innerWidth,
-        show: showHorizontal,
+      horizontalStateValue = getHorizontalValues({
+        innerWidth,
+        outerWidth,
+        scrollLeft: state.scroll.left,
+        showHorizontal,
+        showVertical: state.vertical.show,
+        sliderSafePadding,
+        sliderSafeSpacing,
+        outerRef,
       });
     } else {
       horizontalStateValue = {
@@ -162,52 +192,97 @@ export const ScrollBar: FC<ScrollBarProps> = ({
     });
   }, [innerWidth, outerWidth]);
 
-  const delta = trackPadding * 2 + sliderSize;
-  const horizontalTop = horizontalPosition === 'top' ? 0 : outerHeight - delta;
-  const verticalLeft = verticalPosition === 'left' ? 0 : outerWidth - delta;
+  /*
+    let borderHorizontalDelta = 0;
+    let borderVerticalDelta = 0;
+
+    if (outerRef.current) {
+      try {
+        borderHorizontalDelta =
+          Number(outerRef.current.style.borderLeftWidth.replace(/[^0-9.]/gi, '')) +
+          Number(outerRef.current.style.borderRightWidth.replace(/[^0-9.]/gi, ''));
+        borderVerticalDelta =
+          Number(outerRef.current.style.borderTopWidth.replace(/[^0-9.]/gi, '')) +
+          Number(outerRef.current.style.borderBottomWidth.replace(/[^0-9.]/gi, ''));
+        // eslint-disable-next-line no-empty
+      } catch (e) {}
+    }
+  */
+
+  // Calculate the values to get the tracks into the right position for the scroll container
+  const delta = sliderPadding * 2 + sliderSize;
+
+  const horizontalTrackTopPosition = horizontalPosition === 'top' ? 0 : outerHeight - delta;
+  let horizontalTrackLeftPosition = sliderSafePadding;
+  const verticalTrackLeftPosition = verticalPosition === 'left' ? 0 : outerWidth - delta;
+  let verticalTrackTopPosition = sliderSafePadding;
+
+  if (showVertical && verticalPosition === 'left') {
+    horizontalTrackLeftPosition = sliderSafeSpacing - sliderSafePadding;
+  }
+
+  if (showHorizontal && horizontalPosition === 'top') {
+    verticalTrackTopPosition = sliderSafeSpacing - sliderSafePadding;
+  }
 
   return (
     <Wrapper>
-      <ScrollController data-sb-scrollbar="" ref={outerRef} {...rest} onScroll={handleScroll}>
+      <ScrollController
+        data-sb-scrollbar=""
+        ref={outerRef}
+        sliderOpacity={sliderOpacity}
+        tabIndex={0}
+        {...rest}
+        onScroll={handleScroll}
+      >
         <ScrollInner ref={innerRef}>{children}</ScrollInner>
       </ScrollController>
       {state.vertical.show && (
         <VerticalTrack
           data-sb-scrollbar-track=""
-          trackPadding={trackPadding}
-          style={{ top: 0, left: verticalLeft, height: outerHeight }}
+          sliderPadding={sliderPadding}
+          sliderOpacity={sliderOpacity}
+          style={{
+            top: verticalTrackTopPosition,
+            left: verticalTrackLeftPosition,
+            height: state.vertical.trackSize,
+          }}
         >
           <VerticalSlider
             data-sb-scrollbar-slider=""
+            sliderColor={sliderColor}
+            sliderType={sliderType}
+            sliderSize={sliderSize}
             style={{
-              transform: `translateY(${state.vertical.position}px)`,
-              height: state.vertical.size,
+              transform: `translateY(${state.vertical.sliderPosition}px)`,
+              height: state.vertical.sliderSize,
+              width: sliderSize,
             }}
-          >
-            <VerticalSliderInner
-              sliderSize={sliderSize}
-              sliderColor={sliderColor}
-              style={{ height: state.vertical.size - (trackPadding * 2 + sliderSize * 2) }}
-            />
-          </VerticalSlider>
+          />
         </VerticalTrack>
       )}
       {state.horizontal.show && (
         <HorizontalTrack
           data-sb-scrollbar-track=""
-          trackPadding={trackPadding + sliderSize}
-          style={{ top: horizontalTop, left: 0, width: outerWidth }}
+          sliderOpacity={sliderOpacity}
+          sliderPadding={sliderPadding}
+          style={{
+            top: horizontalTrackTopPosition,
+            left: horizontalTrackLeftPosition,
+            width: state.horizontal.trackSize,
+          }}
         >
           <HorizontalSlider
             data-sb-scrollbar-slider=""
-            trackPadding={trackPadding}
+            sliderColor={sliderColor}
+            sliderType={sliderType}
+            sliderSize={sliderSize}
             style={{
-              transform: `translateX(${state.horizontal.position}px)`,
-              width: state.horizontal.size,
+              transform: `translateX(${state.horizontal.sliderPosition}px)`,
+              width: state.horizontal.sliderSize,
+              height: sliderSize,
             }}
-          >
-            <HorizontalSliderInner sliderColor={sliderColor} sliderSize={sliderSize} />
-          </HorizontalSlider>
+          />
         </HorizontalTrack>
       )}
     </Wrapper>
@@ -218,7 +293,11 @@ const Wrapper = styled.div({
   position: 'relative',
 });
 
-const ScrollController = styled.div({
+interface ScrollControllerProps {
+  sliderOpacity: number;
+}
+
+const ScrollController = styled.div<ScrollControllerProps>(({ sliderOpacity }) => ({
   overflowX: 'scroll',
   overflowY: 'scroll',
   /* Hide scrollbar for IE, Edge and Firefox */
@@ -229,93 +308,65 @@ const ScrollController = styled.div({
     display: 'none',
   },
   '&:hover': {
-    '& ~ [data-sb-scrollbar-track]': {
-      opacity: 0.8,
+    '&~[data-sb-scrollbar-track]': {
+      opacity: sliderOpacity,
     },
   },
-});
+}));
 
 const ScrollInner = styled.div({
   display: 'inline-block',
 });
 
 interface TrackProps {
-  trackPadding: number;
+  sliderPadding: number;
+  sliderOpacity: number;
 }
 
 const Track = styled.div<TrackProps>({
   position: 'absolute',
   opacity: 0,
   overflow: 'hidden',
-  transition: 'opacity 200ms ease-in-out',
+  transition: 'opacity 200ms ease-in-out, transform 200ms ease-in-out',
+});
+
+const HorizontalTrack = styled(Track)(({ sliderPadding, sliderOpacity }) => ({
+  paddingTop: sliderPadding,
+  paddingBottom: sliderPadding,
   '&:hover': {
-    opacity: 0.8,
+    opacity: sliderOpacity,
+    '&~[data-sb-scrollbar-track]': {
+      opacity: sliderOpacity,
+    },
   },
-});
-
-const HorizontalTrack = styled(Track)(({ trackPadding }) => ({
-  paddingTop: trackPadding,
-  paddingBottom: trackPadding,
 }));
 
-const VerticalTrack = styled(Track)(({ trackPadding }) => ({
-  paddingLeft: trackPadding,
-  paddingRight: trackPadding,
-}));
-
-const VerticalSlider = styled.div({
-  display: 'flex',
-  alignItems: 'center',
-});
-
-interface HorizontalSliderProps {
-  trackPadding: number;
-}
-
-const HorizontalSlider = styled.div<HorizontalSliderProps>(({ trackPadding }) => ({
-  position: 'relative',
-  paddingLeft: trackPadding * 2,
-  paddingRight: trackPadding * 2,
-}));
-
-interface SliderInnerProps {
-  sliderSize: number;
-  sliderColor?: string;
-}
-
-const SliderInner = styled.div<SliderInnerProps>(({ theme, sliderColor }) => ({
-  position: 'relative',
-  backgroundColor: sliderColor || theme.color.secondary,
-}));
-
-interface SliderPointerProps {
-  sliderSize: number;
-  sliderColor?: string;
-  position: 'start' | 'end';
-}
-
-const SliderPointer = styled.div<SliderPointerProps>(({ theme, sliderColor, sliderSize }) => ({
-  backgroundColor: sliderColor || theme.color.secondary,
-  width: sliderSize,
-  height: sliderSize,
-  borderRadius: '100%',
-}));
-
-const HorizontalSliderInner = styled(SliderInner)(({ sliderSize }) => ({
-  width: '100%',
-  height: sliderSize,
-  '&::before': {
-    content: ' ',
-    position: 'relative',
-    top: 0,
-    left: 0,
-    height: sliderSize,
-    width: sliderSize,
-    borderRadius: '100%',
+const VerticalTrack = styled(Track)(({ sliderPadding, sliderOpacity }) => ({
+  paddingLeft: sliderPadding,
+  paddingRight: sliderPadding,
+  '&:hover': {
+    opacity: sliderOpacity,
+    // transform: 'scaleX(1.1)',
+    '&~[data-sb-scrollbar-track]': {
+      opacity: sliderOpacity,
+    },
   },
-  '&::after': {},
 }));
 
-const VerticalSliderInner = styled(SliderInner)(({ sliderSize }) => ({
-  width: sliderSize,
+interface SliderProps {
+  sliderColor?: string;
+  sliderType?: keyof Theme['color'];
+  sliderSize: number;
+}
+
+const Slider = styled.div<SliderProps>(({ theme, sliderColor, sliderType, sliderSize }) => ({
+  backgroundColor: sliderType ? theme.color[sliderType] : sliderColor,
+  borderTopLeftRadius: sliderSize / 2,
+  borderTopRightRadius: sliderSize / 2,
+  borderBottomLeftRadius: sliderSize / 2,
+  borderBottomRightRadius: sliderSize / 2,
 }));
+
+const VerticalSlider = styled(Slider)({});
+
+const HorizontalSlider = styled(Slider)({});

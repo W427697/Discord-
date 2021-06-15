@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 import { useCallbackRef } from './useCallbackRef';
 
@@ -33,7 +33,7 @@ export const useContentRect = (ref: any) => {
   useEffect(() => {
     const onResize = ([entry]: ResizeObserverEntry[]) => {
       const newBounds = entry.target.getBoundingClientRect().toJSON();
-      const isDirty = useMemo(() => isStateDirty(bounds, newBounds), [bounds, newBounds]);
+      const isDirty = isStateDirty(bounds, newBounds);
 
       if (isDirty) {
         setBounds(newBounds);

@@ -1,30 +1,60 @@
-import { getPosition } from './get-position';
-import { getSize } from './get-size';
+const getRatio = (inner: number, outer: number) => {
+  let ratio = 0;
+
+  if (outer === 0) {
+    return ratio;
+  }
+
+  ratio = outer / inner;
+
+  return ratio;
+};
 
 type GetStateValuesProps = {
-  scroll: number;
-  outerSize: number;
   innerSize: number;
+  outerSize: number;
+  scroll: number;
   show: boolean;
+  sliderSafeSpacing: number;
+  borderOffset: number;
 };
 
 type GetStateValuesResult = {
-  size: number;
-  position: number;
+  sliderPosition: number;
+  sliderSize: number;
+  trackSize: number;
   show: boolean;
 };
 
-export const getStateValues = ({ scroll, outerSize, innerSize, show }: GetStateValuesProps) => {
-  let stateValues: GetStateValuesResult = { size: 0, position: 0, show: false };
+export const getStateValues = ({
+  innerSize,
+  outerSize,
+  scroll,
+  show,
+  sliderSafeSpacing,
+  borderOffset,
+}: GetStateValuesProps) => {
+  let stateValues: GetStateValuesResult = {
+    sliderSize: 0,
+    trackSize: 0,
+    sliderPosition: 0,
+    show: false,
+  };
 
-  if (innerSize < outerSize || !show) {
+  if (innerSize <= outerSize || !show) {
     return stateValues;
   }
 
-  const size = getSize({ outerSize, innerSize });
-  const position = getPosition({ scroll, outerSize, innerSize });
+  const outerSafe = outerSize - borderOffset;
 
-  stateValues = { ...stateValues, size, position, show };
+  const containerRatio = getRatio(innerSize, outerSize);
+  const trackSize = outerSize - sliderSafeSpacing;
+  const sliderSize = containerRatio * trackSize;
+  const scrollRatio = getRatio(innerSize - outerSafe, scroll);
+  const availableSlideSpace = trackSize - sliderSize;
+  const sliderPosition = scrollRatio * availableSlideSpace;
+
+  stateValues = { ...stateValues, trackSize, sliderSize, sliderPosition, show };
 
   return stateValues;
 };
