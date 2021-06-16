@@ -16,10 +16,10 @@ export { SyntaxHighlighter } from './syntaxhighlighter/lazy-syntaxhighlighter';
 export { ActionBar } from './ActionBar/ActionBar';
 export { Spaced } from './spaced/Spaced';
 export { Placeholder } from './placeholder/placeholder';
+export { Zoom } from './Zoom/Zoom';
 export { ScrollArea } from './ScrollArea/ScrollArea';
 export { ScrollBar } from './ScrollBar/ScrollBar';
 export type { ScrollBarProps } from './ScrollBar/ScrollBar';
-export { Zoom } from './Zoom/Zoom';
 
 // Forms
 export { Button } from './Button/Button';
