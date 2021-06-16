@@ -5,59 +5,57 @@ import * as Styled from './styled';
 import { getHorizontalValues } from './utils/get-horiztontal-values';
 import { getVerticalValues } from './utils/get-vertical-values';
 
+const sliderSafePadding = 4;
+const defaultSliderColor = '#444444';
+const defaultSliderOpacity = 0.5;
 const defaultSliderPadding = 2;
 const defaultSliderSize = 6;
-const defaultSliderOpacity = 0.5;
-const defaultSliderColor = '#444444';
 
 interface StateItem {
-  sliderSize: number;
-  trackSize: number;
-  sliderPosition: number;
   enabled: boolean;
-  trackTop: number;
-  trackLeft: number;
   show: boolean;
+  sliderPosition: number;
+  sliderSize: number;
+  trackLeft: number;
+  trackSize: number;
+  trackTop: number;
 }
 
 interface State {
-  vertical: StateItem;
   horizontal: StateItem;
+  vertical: StateItem;
 }
 
 export type ScrollBarProps = {
-  vertical?: boolean;
-  verticalPosition?: 'left' | 'right';
   horizontal?: boolean;
   horizontalPosition?: 'top' | 'bottom';
-  sliderSize?: number;
-  sliderColor?: string;
-  sliderPadding?: number;
-  sliderOpacity?: number;
-  sliderType?: keyof Theme['color'];
   showOn?: 'always' | 'hover' | 'never';
+  sliderColor?: string;
+  sliderOpacity?: number;
+  sliderPadding?: number;
+  sliderSize?: number;
+  sliderType?: keyof Theme['color'];
+  vertical?: boolean;
+  verticalPosition?: 'left' | 'right';
 } & HTMLAttributes<HTMLDivElement>;
 
 export const ScrollBar: FC<ScrollBarProps> = ({
-  vertical: enableVertical,
-  verticalPosition = 'right',
   horizontal: enableHorizontal,
   horizontalPosition = 'bottom',
-  sliderSize = defaultSliderSize,
-  sliderPadding = defaultSliderPadding,
-  sliderOpacity = defaultSliderOpacity,
-  sliderColor = defaultSliderColor,
-  sliderType,
   showOn = 'always',
+  sliderColor = defaultSliderColor,
+  sliderOpacity = defaultSliderOpacity,
+  sliderPadding = defaultSliderPadding,
+  sliderSize = defaultSliderSize,
+  sliderType,
+  vertical: enableVertical,
+  verticalPosition = 'right',
   onScroll,
   children,
   ...rest
 }) => {
-  const sliderSafePadding = 4;
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
-  const horizontalTrackRef = useRef<HTMLDivElement>(null);
-  const verticalTrackRef = useRef<HTMLDivElement>(null);
   const verticalDragRef = useRef(0);
   const horizontalDragRef = useRef(0);
   const { width: outerWidth, height: outerHeight } = useContentRect(outerRef);
@@ -131,7 +129,21 @@ export const ScrollBar: FC<ScrollBarProps> = ({
         onScroll(event);
       }
     },
-    [state, setState, outerHeight, outerWidth, sliderSafePadding]
+    [
+      enableHorizontal,
+      enableVertical,
+      horizontalPosition,
+      innerWidth,
+      outerHeight,
+      outerRef,
+      outerWidth,
+      setState,
+      sliderPadding,
+      sliderSafePadding,
+      sliderSize,
+      state,
+      verticalPosition,
+    ]
   );
 
   const handleMouseEnter = useCallback(
@@ -361,6 +373,7 @@ export const ScrollBar: FC<ScrollBarProps> = ({
     });
   }, [innerWidth, outerWidth, innerHeight, outerHeight]);
 
+  // Make sure we can handle new props coming from the outside without problems
   useEffect(() => {
     const { scrollTop, scrollLeft } = outerRef.current;
 
@@ -428,13 +441,13 @@ export const ScrollBar: FC<ScrollBarProps> = ({
       {state.vertical.enabled && (
         <Styled.VerticalTrack
           data-sb-scrollbar-track=""
-          sliderPadding={sliderPadding}
-          sliderOpacity={sliderOpacity}
-          showOn={showOn}
+          data-sb-scrollbar-track-vertical=""
           show={state.vertical.show}
+          showOn={showOn}
+          sliderOpacity={sliderOpacity}
+          sliderPadding={sliderPadding}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          ref={verticalTrackRef}
           style={{
             left: state.vertical.trackLeft,
             top: state.vertical.trackTop,
@@ -443,9 +456,10 @@ export const ScrollBar: FC<ScrollBarProps> = ({
         >
           <Styled.VerticalSlider
             data-sb-scrollbar-slider=""
+            data-sb-scrollbar-slider-vertical=""
             sliderColor={sliderColor}
-            sliderType={sliderType}
             sliderSize={sliderSize}
+            sliderType={sliderType}
             onMouseDown={verticalDragStart}
             style={{
               transform: `translateY(${state.vertical.sliderPosition}px)`,
@@ -457,11 +471,11 @@ export const ScrollBar: FC<ScrollBarProps> = ({
       {state.horizontal.enabled && (
         <Styled.HorizontalTrack
           data-sb-scrollbar-track=""
+          data-sb-scrollbar-track-horizontal=""
+          show={state.horizontal.show}
+          showOn={showOn}
           sliderOpacity={sliderOpacity}
           sliderPadding={sliderPadding}
-          showOn={showOn}
-          show={state.horizontal.show}
-          ref={horizontalTrackRef}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           style={{
@@ -472,9 +486,10 @@ export const ScrollBar: FC<ScrollBarProps> = ({
         >
           <Styled.HorizontalSlider
             data-sb-scrollbar-slider=""
+            data-sb-scrollbar-slider-horizontal=""
             sliderColor={sliderColor}
-            sliderType={sliderType}
             sliderSize={sliderSize}
+            sliderType={sliderType}
             onMouseDown={horizontalDragStart}
             style={{
               transform: `translateX(${state.horizontal.sliderPosition}px)`,
