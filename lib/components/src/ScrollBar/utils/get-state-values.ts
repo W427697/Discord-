@@ -14,7 +14,7 @@ type GetStateValuesProps = {
   innerSize: number;
   outerSize: number;
   scroll: number;
-  show: boolean;
+  enabled: boolean;
   sliderSafeSpacing: number;
   borderOffset: number;
 };
@@ -23,14 +23,14 @@ type GetStateValuesResult = {
   sliderPosition: number;
   sliderSize: number;
   trackSize: number;
-  show: boolean;
+  enabled: boolean;
 };
 
 export const getStateValues = ({
   innerSize,
   outerSize,
   scroll,
-  show,
+  enabled,
   sliderSafeSpacing,
   borderOffset,
 }: GetStateValuesProps) => {
@@ -38,10 +38,10 @@ export const getStateValues = ({
     sliderSize: 0,
     trackSize: 0,
     sliderPosition: 0,
-    show: false,
+    enabled: false,
   };
 
-  if (innerSize <= outerSize || !show) {
+  if (innerSize <= outerSize || !enabled) {
     return stateValues;
   }
 
@@ -54,7 +54,7 @@ export const getStateValues = ({
   const availableSlideSpace = trackSize - sliderSize;
   const sliderPosition = scrollRatio * availableSlideSpace;
 
-  stateValues = { ...stateValues, trackSize, sliderSize, sliderPosition, show };
+  stateValues = { ...stateValues, trackSize, sliderSize, sliderPosition, enabled };
 
   return stateValues;
 };

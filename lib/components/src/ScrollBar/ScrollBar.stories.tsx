@@ -12,10 +12,8 @@ export default {
     sliderOpacity: { control: { type: 'range', min: 0, max: 1, step: 0.05 } },
   },
   parameters: {
-    options: {
-      test: { disabled: true },
-      actions: { disabled: true },
-    },
+    test: { disabled: true },
+    actions: { disabled: true },
     layout: 'centered',
   },
 } as ComponentMeta<typeof ScrollBar>;
@@ -27,7 +25,7 @@ const Template: ComponentStory<typeof ScrollBar> = (args) => (
       width: 800,
       height: 400,
       borderRadius: 4,
-      border: '10px solid #cccccc',
+      border: '1px solid #cccccc',
       backgroundColor: '#ffffff',
       color: '#000000',
     }}
@@ -107,4 +105,5 @@ Controllable.args = {
   horizontal: true,
   horizontalPosition: 'bottom',
   sliderOpacity: 0.5,
+  showOn: 'always',
 };

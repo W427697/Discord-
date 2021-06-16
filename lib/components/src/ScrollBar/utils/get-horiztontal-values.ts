@@ -1,14 +1,19 @@
 import { RefObject } from 'react';
+import { getHorizontalPosition } from './get-horizontal-position';
 import { getStateValues } from './get-state-values';
 
 interface GetHorizontalValues {
   scrollLeft: number;
   outerWidth: number;
   innerWidth: number;
-  showHorizontal: boolean;
-  showVertical: boolean;
-  sliderSafeSpacing: number;
+  enableHorizontal: boolean;
+  sliderPadding: number;
+  sliderSize: number;
+  horizontalPosition: 'top' | 'bottom';
+  verticalPosition: 'left' | 'right';
+  outerHeight: number;
   sliderSafePadding: number;
+  enableVertical: boolean;
   outerRef: RefObject<HTMLDivElement>;
 }
 
@@ -16,14 +21,19 @@ export const getHorizontalValues = ({
   scrollLeft,
   outerWidth,
   innerWidth,
-  showHorizontal,
-  showVertical,
-  sliderSafeSpacing,
+  enableHorizontal,
+  sliderPadding,
+  sliderSize,
+  horizontalPosition,
+  verticalPosition,
+  outerHeight,
   sliderSafePadding,
+  enableVertical,
   outerRef,
 }: GetHorizontalValues) => {
   // Borders mess with scroll values
   let borderOffset = 0;
+  const sliderSafeSpacing = sliderSize + sliderPadding + sliderSafePadding * 2;
 
   if (outerRef.current) {
     try {
@@ -34,12 +44,24 @@ export const getHorizontalValues = ({
     } catch (e) {}
   }
 
-  return getStateValues({
-    scroll: scrollLeft,
-    outerSize: outerWidth,
-    innerSize: innerWidth,
-    show: showHorizontal,
-    sliderSafeSpacing: showVertical ? sliderSafeSpacing : sliderSafePadding * 2,
-    borderOffset,
-  });
+  return {
+    ...getHorizontalPosition({
+      sliderPadding,
+      sliderSize,
+      horizontalPosition,
+      outerHeight,
+      sliderSafePadding,
+      sliderSafeSpacing,
+      enableVertical,
+      verticalPosition,
+    }),
+    ...getStateValues({
+      scroll: scrollLeft,
+      outerSize: outerWidth,
+      innerSize: innerWidth,
+      enabled: enableHorizontal,
+      sliderSafeSpacing: enableVertical ? sliderSafeSpacing : sliderSafePadding * 2,
+      borderOffset,
+    }),
+  };
 };

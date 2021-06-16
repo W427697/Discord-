@@ -1,31 +1,28 @@
-import { styled, Theme } from '@storybook/theming';
+import { Theme } from '@storybook/theming';
 import React, { FC, HTMLAttributes, useCallback, useEffect, useRef, useState } from 'react';
 import { useContentRect } from '../hooks/useContentRect';
+import * as Styled from './styled';
 import { getHorizontalValues } from './utils/get-horiztontal-values';
 import { getVerticalValues } from './utils/get-vertical-values';
-import { getStateValues } from './utils/get-state-values';
 
 const defaultSliderPadding = 2;
 const defaultSliderSize = 6;
 const defaultSliderOpacity = 0.5;
 const defaultSliderColor = '#444444';
 
-interface Scroll {
-  left: number;
-  top: number;
-}
-
 interface StateItem {
   sliderSize: number;
   trackSize: number;
   sliderPosition: number;
+  enabled: boolean;
+  trackTop: number;
+  trackLeft: number;
   show: boolean;
 }
 
 interface State {
   vertical: StateItem;
   horizontal: StateItem;
-  scroll: Scroll;
 }
 
 export type ScrollBarProps = {
@@ -38,35 +35,53 @@ export type ScrollBarProps = {
   sliderPadding?: number;
   sliderOpacity?: number;
   sliderType?: keyof Theme['color'];
-  showOn?: 'always' | 'hover' | 'scroll';
+  showOn?: 'always' | 'hover' | 'never';
 } & HTMLAttributes<HTMLDivElement>;
 
 export const ScrollBar: FC<ScrollBarProps> = ({
-  vertical: showVertical,
+  vertical: enableVertical,
   verticalPosition = 'right',
-  horizontal: showHorizontal,
+  horizontal: enableHorizontal,
   horizontalPosition = 'bottom',
   sliderSize = defaultSliderSize,
   sliderPadding = defaultSliderPadding,
   sliderOpacity = defaultSliderOpacity,
   sliderColor = defaultSliderColor,
   sliderType,
-  showOn = 'hover',
+  showOn = 'always',
   onScroll,
   children,
   ...rest
 }) => {
   const sliderSafePadding = 4;
-  const sliderSafeSpacing = sliderSize + sliderPadding + sliderSafePadding * 2;
-  const outerRef = useRef<HTMLDivElement>();
-  const innerRef = useRef<HTMLDivElement>();
+  const outerRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const horizontalTrackRef = useRef<HTMLDivElement>(null);
+  const verticalTrackRef = useRef<HTMLDivElement>(null);
+  const verticalDragRef = useRef(0);
+  const horizontalDragRef = useRef(0);
   const { width: outerWidth, height: outerHeight } = useContentRect(outerRef);
   const { width: innerWidth, height: innerHeight } = useContentRect(innerRef);
 
   const [state, setState] = useState<State>({
-    scroll: { left: 0, top: 0 },
-    vertical: { sliderSize: 0, trackSize: 0, sliderPosition: 0, show: showVertical },
-    horizontal: { sliderSize: 0, trackSize: 0, sliderPosition: 0, show: showHorizontal },
+    vertical: {
+      enabled: enableVertical,
+      sliderPosition: 0,
+      sliderSize: 0,
+      trackLeft: 0,
+      trackSize: 0,
+      trackTop: 0,
+      show: showOn === 'always',
+    },
+    horizontal: {
+      enabled: enableHorizontal,
+      sliderPosition: 0,
+      sliderSize: 0,
+      trackLeft: 0,
+      trackSize: 0,
+      trackTop: 0,
+      show: showOn === 'always',
+    },
   });
 
   const handleScroll = useCallback(
@@ -75,27 +90,40 @@ export const ScrollBar: FC<ScrollBarProps> = ({
 
       setState({
         ...state,
-        scroll: { left: scrollLeft, top: scrollTop },
-        horizontal: getHorizontalValues({
-          innerWidth,
-          outerWidth,
-          scrollLeft,
-          showHorizontal,
-          showVertical: state.vertical.show,
-          sliderSafePadding,
-          sliderSafeSpacing,
-          outerRef,
-        }),
-        vertical: getVerticalValues({
-          innerHeight,
-          outerHeight,
-          scrollTop,
-          showHorizontal: state.horizontal.show,
-          showVertical,
-          sliderSafePadding,
-          sliderSafeSpacing,
-          outerRef,
-        }),
+        horizontal: {
+          ...state.horizontal,
+          ...getHorizontalValues({
+            enableHorizontal,
+            enableVertical,
+            horizontalPosition,
+            innerWidth,
+            outerHeight,
+            outerRef,
+            outerWidth,
+            scrollLeft,
+            sliderPadding,
+            sliderSafePadding,
+            sliderSize,
+            verticalPosition,
+          }),
+        },
+        vertical: {
+          ...state.vertical,
+          ...getVerticalValues({
+            enableHorizontal,
+            enableVertical,
+            horizontalPosition,
+            innerHeight,
+            outerHeight,
+            outerRef,
+            outerWidth,
+            scrollTop,
+            sliderPadding,
+            sliderSafePadding,
+            sliderSize,
+            verticalPosition,
+          }),
+        },
       });
 
       if (onScroll) {
@@ -103,7 +131,125 @@ export const ScrollBar: FC<ScrollBarProps> = ({
         onScroll(event);
       }
     },
-    [state, setState, outerHeight, outerWidth, sliderSafePadding, sliderSafeSpacing]
+    [state, setState, outerHeight, outerWidth, sliderSafePadding]
+  );
+
+  const handleMouseEnter = useCallback(
+    (event) => {
+      if (showOn === 'hover') {
+        setState({
+          ...state,
+          horizontal: { ...state.horizontal, show: true },
+          vertical: { ...state.vertical, show: true },
+        });
+      }
+
+      if (rest.onMouseEnter) {
+        event.persist();
+        rest.onMouseEnter(event);
+      }
+    },
+    [rest, showOn, state, setState]
+  );
+
+  const handleMouseLeave = useCallback(
+    (event) => {
+      if (showOn === 'hover') {
+        setState({
+          ...state,
+          horizontal: { ...state.horizontal, show: false },
+          vertical: { ...state.vertical, show: false },
+        });
+      }
+
+      if (rest.onMouseLeave) {
+        event.persist();
+        rest.onMouseLeave(event);
+      }
+    },
+    [rest]
+  );
+
+  const handleVerticalDrag = useCallback(
+    (event: MouseEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const delta = event.screenY - verticalDragRef.current;
+
+      const maxSliderPosition = state.vertical.trackSize - state.vertical.sliderSize;
+      const maxRefScroll = innerHeight - outerHeight;
+      const currentSliderPosition = state.vertical.sliderPosition;
+      const newSliderPosition = currentSliderPosition + delta;
+
+      if (newSliderPosition > 0 && newSliderPosition <= maxSliderPosition) {
+        const sliderRatio = newSliderPosition / maxSliderPosition;
+        const scrollTop = sliderRatio * maxRefScroll;
+        outerRef.current.scrollTo({ top: scrollTop, left: outerRef.current.scrollLeft });
+      }
+    },
+    [verticalDragRef, state, outerRef, outerHeight, innerHeight]
+  );
+
+  const verticalDragEnd = useCallback(() => {
+    // eslint-disable-next-line no-undef
+    document.removeEventListener('mousemove', handleVerticalDrag);
+    // eslint-disable-next-line no-undef
+    document.removeEventListener('mouseup', verticalDragEnd);
+
+    verticalDragRef.current = 0;
+  }, [state, setState, handleVerticalDrag]);
+
+  const verticalDragStart = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      verticalDragRef.current = event.screenY;
+      // eslint-disable-next-line no-undef
+      document.addEventListener('mousemove', handleVerticalDrag);
+      // eslint-disable-next-line no-undef
+      document.addEventListener('mouseup', verticalDragEnd);
+    },
+    [state, setState, handleVerticalDrag, verticalDragEnd]
+  );
+
+  const handleHorizontalDrag = useCallback(
+    (event: MouseEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const delta = event.screenX - horizontalDragRef.current;
+
+      const maxSliderPosition = state.horizontal.trackSize - state.horizontal.sliderSize;
+      const maxRefScroll = innerWidth - outerWidth;
+      const currentSliderPosition = state.horizontal.sliderPosition;
+      const newSliderPosition = currentSliderPosition + delta;
+
+      if (newSliderPosition > 0 && newSliderPosition <= maxSliderPosition) {
+        const sliderRatio = newSliderPosition / maxSliderPosition;
+        const scrollLeft = sliderRatio * maxRefScroll;
+        outerRef.current.scrollTo({ top: outerRef.current.scrollTop, left: scrollLeft });
+      }
+    },
+    [horizontalDragRef, state, outerRef, outerWidth, innerWidth]
+  );
+
+  const horizontalDragEnd = useCallback(() => {
+    // eslint-disable-next-line no-undef
+    document.removeEventListener('mousemove', handleHorizontalDrag);
+    // eslint-disable-next-line no-undef
+    document.removeEventListener('mouseup', horizontalDragEnd);
+
+    horizontalDragRef.current = 0;
+  }, [state, setState, handleHorizontalDrag]);
+
+  const horizontalDragStart = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      horizontalDragRef.current = event.screenX;
+      // eslint-disable-next-line no-undef
+      document.addEventListener('mousemove', handleHorizontalDrag);
+      // eslint-disable-next-line no-undef
+      document.addEventListener('mouseup', horizontalDragEnd);
+    },
+    [state, setState, handleHorizontalDrag, horizontalDragEnd]
   );
 
   // Get initial scroll position once outerRef and innerRef are not null
@@ -113,260 +259,230 @@ export const ScrollBar: FC<ScrollBarProps> = ({
 
       setState({
         ...state,
-        scroll: { left: scrollLeft, top: scrollTop },
-        horizontal: getHorizontalValues({
-          innerWidth,
-          outerWidth,
-          scrollLeft,
-          showHorizontal,
-          showVertical: state.vertical.show,
-          sliderSafePadding,
-          sliderSafeSpacing,
-          outerRef,
-        }),
-        vertical: getVerticalValues({
-          innerHeight,
-          outerHeight,
-          scrollTop,
-          showHorizontal: state.horizontal.show,
-          showVertical,
-          sliderSafePadding,
-          sliderSafeSpacing,
-          outerRef,
-        }),
+        horizontal: {
+          ...state.horizontal,
+          ...getHorizontalValues({
+            enableHorizontal,
+            enableVertical,
+            horizontalPosition,
+            innerWidth,
+            outerHeight,
+            outerRef,
+            outerWidth,
+            scrollLeft,
+            sliderPadding,
+            sliderSafePadding,
+            sliderSize,
+            verticalPosition,
+          }),
+        },
+        vertical: {
+          ...state.vertical,
+          ...getVerticalValues({
+            enableHorizontal,
+            enableVertical,
+            horizontalPosition,
+            innerHeight,
+            outerHeight,
+            outerRef,
+            outerWidth,
+            scrollTop,
+            sliderPadding,
+            sliderSafePadding,
+            sliderSize,
+            verticalPosition,
+          }),
+        },
       });
     }
   }, [outerRef, innerRef]);
 
+  // Get new state in case the dimensions of either inner or outer changes
   useEffect(() => {
+    let horizontalStateValue: StateItem = { ...state.horizontal };
     let verticalStateValue: StateItem = { ...state.vertical };
+    const allowVertical = innerHeight > outerHeight && enableVertical;
+    const allowHorizontal = innerWidth > outerWidth && enableHorizontal;
 
-    if (innerHeight > outerHeight && showVertical) {
-      verticalStateValue = getVerticalValues({
-        scrollTop: state.scroll.top,
-        outerHeight,
-        innerHeight,
-        showHorizontal: state.horizontal.show,
-        showVertical,
-        sliderSafePadding,
-        sliderSafeSpacing,
-        outerRef,
-      });
+    if (allowVertical) {
+      verticalStateValue = {
+        ...state.vertical,
+        ...getVerticalValues({
+          enableHorizontal: allowHorizontal,
+          enableVertical,
+          horizontalPosition,
+          innerHeight,
+          outerHeight,
+          outerRef,
+          outerWidth,
+          scrollTop: outerRef.current.scrollTop,
+          sliderPadding,
+          sliderSafePadding,
+          sliderSize,
+          verticalPosition,
+        }),
+      };
     } else {
       verticalStateValue = {
         ...verticalStateValue,
-        show: false,
+        enabled: false,
       };
     }
 
-    setState({
-      ...state,
-      vertical: verticalStateValue,
-    });
-  }, [innerHeight, outerHeight]);
-
-  useEffect(() => {
-    let horizontalStateValue: StateItem = { ...state.horizontal };
-
-    if (innerWidth > outerWidth && showHorizontal) {
-      horizontalStateValue = getHorizontalValues({
-        innerWidth,
-        outerWidth,
-        scrollLeft: state.scroll.left,
-        showHorizontal,
-        showVertical: state.vertical.show,
-        sliderSafePadding,
-        sliderSafeSpacing,
-        outerRef,
-      });
+    if (allowHorizontal) {
+      horizontalStateValue = {
+        ...state.horizontal,
+        ...getHorizontalValues({
+          enableHorizontal,
+          enableVertical: allowVertical,
+          horizontalPosition,
+          innerWidth,
+          outerHeight,
+          outerRef,
+          outerWidth,
+          scrollLeft: outerRef.current.scrollLeft,
+          sliderPadding,
+          sliderSafePadding,
+          sliderSize,
+          verticalPosition,
+        }),
+      };
     } else {
       horizontalStateValue = {
         ...horizontalStateValue,
-        show: false,
+        enabled: false,
       };
     }
 
     setState({
       ...state,
       horizontal: horizontalStateValue,
+      vertical: verticalStateValue,
     });
-  }, [innerWidth, outerWidth]);
+  }, [innerWidth, outerWidth, innerHeight, outerHeight]);
 
-  /*
-    let borderHorizontalDelta = 0;
-    let borderVerticalDelta = 0;
+  useEffect(() => {
+    const { scrollTop, scrollLeft } = outerRef.current;
 
-    if (outerRef.current) {
-      try {
-        borderHorizontalDelta =
-          Number(outerRef.current.style.borderLeftWidth.replace(/[^0-9.]/gi, '')) +
-          Number(outerRef.current.style.borderRightWidth.replace(/[^0-9.]/gi, ''));
-        borderVerticalDelta =
-          Number(outerRef.current.style.borderTopWidth.replace(/[^0-9.]/gi, '')) +
-          Number(outerRef.current.style.borderBottomWidth.replace(/[^0-9.]/gi, ''));
-        // eslint-disable-next-line no-empty
-      } catch (e) {}
-    }
-  */
-
-  // Calculate the values to get the tracks into the right position for the scroll container
-  const delta = sliderPadding * 2 + sliderSize;
-
-  const horizontalTrackTopPosition = horizontalPosition === 'top' ? 0 : outerHeight - delta;
-  let horizontalTrackLeftPosition = sliderSafePadding;
-  const verticalTrackLeftPosition = verticalPosition === 'left' ? 0 : outerWidth - delta;
-  let verticalTrackTopPosition = sliderSafePadding;
-
-  if (showVertical && verticalPosition === 'left') {
-    horizontalTrackLeftPosition = sliderSafeSpacing - sliderSafePadding;
-  }
-
-  if (showHorizontal && horizontalPosition === 'top') {
-    verticalTrackTopPosition = sliderSafeSpacing - sliderSafePadding;
-  }
+    setState({
+      ...state,
+      horizontal: {
+        ...state.horizontal,
+        ...getHorizontalValues({
+          enableHorizontal,
+          enableVertical,
+          horizontalPosition,
+          innerWidth,
+          outerHeight,
+          outerRef,
+          outerWidth,
+          scrollLeft,
+          sliderPadding,
+          sliderSafePadding,
+          sliderSize,
+          verticalPosition,
+        }),
+      },
+      vertical: {
+        ...state.vertical,
+        ...getVerticalValues({
+          enableHorizontal,
+          enableVertical,
+          horizontalPosition,
+          innerHeight,
+          outerHeight,
+          outerRef,
+          outerWidth,
+          scrollTop,
+          sliderPadding,
+          sliderSafePadding,
+          sliderSize,
+          verticalPosition,
+        }),
+      },
+    });
+  }, [
+    enableHorizontal,
+    enableVertical,
+    horizontalPosition,
+    verticalPosition,
+    sliderSize,
+    sliderPadding,
+    showOn,
+  ]);
 
   return (
-    <Wrapper>
-      <ScrollController
+    <Styled.Wrapper>
+      <Styled.ScrollableContainer
         data-sb-scrollbar=""
         ref={outerRef}
         sliderOpacity={sliderOpacity}
         tabIndex={0}
         {...rest}
         onScroll={handleScroll}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        <ScrollInner ref={innerRef}>{children}</ScrollInner>
-      </ScrollController>
-      {state.vertical.show && (
-        <VerticalTrack
+        <Styled.ScrollInner ref={innerRef}>{children}</Styled.ScrollInner>
+      </Styled.ScrollableContainer>
+      {state.vertical.enabled && (
+        <Styled.VerticalTrack
           data-sb-scrollbar-track=""
           sliderPadding={sliderPadding}
           sliderOpacity={sliderOpacity}
+          showOn={showOn}
+          show={state.vertical.show}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          ref={verticalTrackRef}
           style={{
-            top: verticalTrackTopPosition,
-            left: verticalTrackLeftPosition,
+            left: state.vertical.trackLeft,
+            top: state.vertical.trackTop,
             height: state.vertical.trackSize,
           }}
         >
-          <VerticalSlider
+          <Styled.VerticalSlider
             data-sb-scrollbar-slider=""
             sliderColor={sliderColor}
             sliderType={sliderType}
             sliderSize={sliderSize}
+            onMouseDown={verticalDragStart}
             style={{
               transform: `translateY(${state.vertical.sliderPosition}px)`,
               height: state.vertical.sliderSize,
-              width: sliderSize,
             }}
           />
-        </VerticalTrack>
+        </Styled.VerticalTrack>
       )}
-      {state.horizontal.show && (
-        <HorizontalTrack
+      {state.horizontal.enabled && (
+        <Styled.HorizontalTrack
           data-sb-scrollbar-track=""
           sliderOpacity={sliderOpacity}
           sliderPadding={sliderPadding}
+          showOn={showOn}
+          show={state.horizontal.show}
+          ref={horizontalTrackRef}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
           style={{
-            top: horizontalTrackTopPosition,
-            left: horizontalTrackLeftPosition,
+            left: state.horizontal.trackLeft,
+            top: state.horizontal.trackTop,
             width: state.horizontal.trackSize,
           }}
         >
-          <HorizontalSlider
+          <Styled.HorizontalSlider
             data-sb-scrollbar-slider=""
             sliderColor={sliderColor}
             sliderType={sliderType}
             sliderSize={sliderSize}
+            onMouseDown={horizontalDragStart}
             style={{
               transform: `translateX(${state.horizontal.sliderPosition}px)`,
               width: state.horizontal.sliderSize,
-              height: sliderSize,
             }}
           />
-        </HorizontalTrack>
+        </Styled.HorizontalTrack>
       )}
-    </Wrapper>
+    </Styled.Wrapper>
   );
 };
-
-const Wrapper = styled.div({
-  position: 'relative',
-});
-
-interface ScrollControllerProps {
-  sliderOpacity: number;
-}
-
-const ScrollController = styled.div<ScrollControllerProps>(({ sliderOpacity }) => ({
-  overflowX: 'scroll',
-  overflowY: 'scroll',
-  /* Hide scrollbar for IE, Edge and Firefox */
-  msOverflowStyle: 'none' /* IE and Edge */,
-  scrollbarWidth: 'none' /* Firefox */,
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  '&::-webkit-scrollbar': {
-    display: 'none',
-  },
-  '&:hover': {
-    '&~[data-sb-scrollbar-track]': {
-      opacity: sliderOpacity,
-    },
-  },
-}));
-
-const ScrollInner = styled.div({
-  display: 'inline-block',
-});
-
-interface TrackProps {
-  sliderPadding: number;
-  sliderOpacity: number;
-}
-
-const Track = styled.div<TrackProps>({
-  position: 'absolute',
-  opacity: 0,
-  overflow: 'hidden',
-  transition: 'opacity 200ms ease-in-out, transform 200ms ease-in-out',
-});
-
-const HorizontalTrack = styled(Track)(({ sliderPadding, sliderOpacity }) => ({
-  paddingTop: sliderPadding,
-  paddingBottom: sliderPadding,
-  '&:hover': {
-    opacity: sliderOpacity,
-    '&~[data-sb-scrollbar-track]': {
-      opacity: sliderOpacity,
-    },
-  },
-}));
-
-const VerticalTrack = styled(Track)(({ sliderPadding, sliderOpacity }) => ({
-  paddingLeft: sliderPadding,
-  paddingRight: sliderPadding,
-  '&:hover': {
-    opacity: sliderOpacity,
-    // transform: 'scaleX(1.1)',
-    '&~[data-sb-scrollbar-track]': {
-      opacity: sliderOpacity,
-    },
-  },
-}));
-
-interface SliderProps {
-  sliderColor?: string;
-  sliderType?: keyof Theme['color'];
-  sliderSize: number;
-}
-
-const Slider = styled.div<SliderProps>(({ theme, sliderColor, sliderType, sliderSize }) => ({
-  backgroundColor: sliderType ? theme.color[sliderType] : sliderColor,
-  borderTopLeftRadius: sliderSize / 2,
-  borderTopRightRadius: sliderSize / 2,
-  borderBottomLeftRadius: sliderSize / 2,
-  borderBottomRightRadius: sliderSize / 2,
-}));
-
-const VerticalSlider = styled(Slider)({});
-
-const HorizontalSlider = styled(Slider)({});

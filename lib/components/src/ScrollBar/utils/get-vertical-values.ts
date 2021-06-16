@@ -1,29 +1,39 @@
 import { RefObject } from 'react';
 import { getStateValues } from './get-state-values';
+import { getVerticalPosition } from './get-vertical-position';
 
 interface GetVerticalValues {
-  scrollTop: number;
-  outerHeight: number;
+  enableHorizontal: boolean;
+  enableVertical: boolean;
+  horizontalPosition: 'top' | 'bottom';
   innerHeight: number;
-  showHorizontal: boolean;
-  showVertical: boolean;
-  sliderSafeSpacing: number;
-  sliderSafePadding: number;
+  outerHeight: number;
   outerRef: RefObject<HTMLDivElement>;
+  outerWidth: number;
+  scrollTop: number;
+  sliderPadding: number;
+  sliderSafePadding: number;
+  sliderSize: number;
+  verticalPosition: 'left' | 'right';
 }
 
 export const getVerticalValues = ({
   scrollTop,
   outerHeight,
   innerHeight,
-  showHorizontal,
-  showVertical,
-  sliderSafeSpacing,
-  sliderSafePadding,
+  enableVertical,
   outerRef,
+  sliderPadding,
+  sliderSize,
+  horizontalPosition,
+  outerWidth,
+  sliderSafePadding,
+  enableHorizontal,
+  verticalPosition,
 }: GetVerticalValues) => {
   // Borders mess with scroll values
   let borderOffset = 0;
+  const sliderSafeSpacing = sliderSize + sliderPadding + sliderSafePadding * 2;
 
   if (outerRef.current) {
     try {
@@ -38,12 +48,24 @@ export const getVerticalValues = ({
     } catch (e) {}
   }
 
-  return getStateValues({
-    scroll: scrollTop,
-    outerSize: outerHeight,
-    innerSize: innerHeight,
-    show: showVertical,
-    sliderSafeSpacing: showHorizontal ? sliderSafeSpacing : sliderSafePadding * 2,
-    borderOffset,
-  });
+  return {
+    ...getVerticalPosition({
+      sliderPadding,
+      sliderSize,
+      horizontalPosition,
+      outerWidth,
+      sliderSafePadding,
+      sliderSafeSpacing,
+      enableHorizontal,
+      verticalPosition,
+    }),
+    ...getStateValues({
+      scroll: scrollTop,
+      outerSize: outerHeight,
+      innerSize: innerHeight,
+      enabled: enableVertical,
+      sliderSafeSpacing: enableHorizontal ? sliderSafeSpacing : sliderSafePadding * 2,
+      borderOffset,
+    }),
+  };
 };
