@@ -5,10 +5,10 @@ import * as Styled from './styled';
 import { getHorizontalValues } from './utils/get-horiztontal-values';
 import { getVerticalValues } from './utils/get-vertical-values';
 
-const sliderSafePadding = 4;
+const sliderSafePadding = 3;
 const defaultSliderColor = '#444444';
 const defaultSliderOpacity = 0.5;
-const defaultSliderPadding = 2;
+const defaultSliderPadding = 4;
 const defaultSliderSize = 6;
 
 interface StateItem {
@@ -29,7 +29,7 @@ interface State {
 export type ScrollBarProps = {
   horizontal?: boolean;
   horizontalPosition?: 'top' | 'bottom';
-  showOn?: 'always' | 'hover' | 'never';
+  showOn?: 'always' | 'hover' | 'never' | 'scroll';
   sliderColor?: string;
   sliderOpacity?: number;
   sliderPadding?: number;
@@ -58,6 +58,9 @@ export const ScrollBar: FC<ScrollBarProps> = ({
   const innerRef = useRef<HTMLDivElement>(null);
   const verticalDragRef = useRef(0);
   const horizontalDragRef = useRef(0);
+  const scrollRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+  const scrollTopRef = useRef(0);
   const { width: outerWidth, height: outerHeight } = useContentRect(outerRef);
   const { width: innerWidth, height: innerHeight } = useContentRect(innerRef);
 
@@ -85,6 +88,16 @@ export const ScrollBar: FC<ScrollBarProps> = ({
   const handleScroll = useCallback(
     (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
       const { scrollLeft, scrollTop } = event.currentTarget;
+      const oldScrollRef = scrollRef.current;
+      scrollRef.current += 1;
+
+      const oldScrollLeft = scrollLeftRef.current;
+      const oldScrollTop = scrollTopRef.current;
+      scrollTopRef.current = scrollTop;
+      scrollLeftRef.current = scrollLeft;
+
+      const verticalScrollChange = scrollTop !== oldScrollTop;
+      const horizontalScrollChange = scrollLeft !== oldScrollLeft;
 
       setState({
         ...state,
@@ -104,6 +117,7 @@ export const ScrollBar: FC<ScrollBarProps> = ({
             sliderSize,
             verticalPosition,
           }),
+          show: showOn === 'scroll' ? horizontalScrollChange : state.horizontal.show,
         },
         vertical: {
           ...state.vertical,
@@ -121,6 +135,7 @@ export const ScrollBar: FC<ScrollBarProps> = ({
             sliderSize,
             verticalPosition,
           }),
+          show: showOn === 'scroll' ? verticalScrollChange : state.vertical.show,
         },
       });
 
@@ -128,6 +143,23 @@ export const ScrollBar: FC<ScrollBarProps> = ({
         event.persist();
         onScroll(event);
       }
+
+      setTimeout(() => {
+        if (oldScrollRef + 1 === scrollRef.current) {
+          scrollRef.current = 0;
+          setState({
+            ...state,
+            horizontal: {
+              ...state.horizontal,
+              show: showOn === 'scroll' ? false : state.horizontal.show,
+            },
+            vertical: {
+              ...state.vertical,
+              show: showOn === 'scroll' ? false : state.vertical.show,
+            },
+          });
+        }
+      }, 350);
     },
     [
       enableHorizontal,
@@ -268,6 +300,8 @@ export const ScrollBar: FC<ScrollBarProps> = ({
   useEffect(() => {
     if (outerRef !== null && outerRef.current && innerRef !== null && innerRef.current) {
       const { scrollTop, scrollLeft } = outerRef.current;
+      scrollTopRef.current = scrollTop;
+      scrollLeftRef.current = scrollLeft;
 
       setState({
         ...state,
@@ -315,6 +349,9 @@ export const ScrollBar: FC<ScrollBarProps> = ({
     let verticalStateValue: StateItem = { ...state.vertical };
     const allowVertical = innerHeight > outerHeight && enableVertical;
     const allowHorizontal = innerWidth > outerWidth && enableHorizontal;
+
+    scrollTopRef.current = outerRef.current.scrollTop;
+    scrollLeftRef.current = outerRef.current.scrollLeft;
 
     if (allowVertical) {
       verticalStateValue = {

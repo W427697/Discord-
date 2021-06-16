@@ -27,22 +27,22 @@ export const ScrollInner = styled.div({
 interface TrackProps {
   sliderPadding: number;
   sliderOpacity: number;
-  showOn: 'always' | 'hover' | 'scroll' | 'never';
+  showOn: 'always' | 'hover' | 'scroll' | 'never' | 'scroll';
   show: boolean;
 }
 
 export const Track = styled.div<TrackProps>(({ showOn, sliderOpacity, show }) => ({
   position: 'absolute',
   opacity: showOn === 'always' || show === true ? sliderOpacity : 0,
-  transition: 'opacity 200ms ease-in-out, transform 200ms ease-in-out',
+  transition: 'opacity 275ms ease-in-out',
 }));
 
-export const HorizontalTrack = styled(Track)(({ sliderPadding, sliderOpacity }) => ({
+export const HorizontalTrack = styled(Track)(({ sliderPadding }) => ({
   paddingTop: sliderPadding,
   paddingBottom: sliderPadding,
 }));
 
-export const VerticalTrack = styled(Track)(({ sliderPadding, sliderOpacity }) => ({
+export const VerticalTrack = styled(Track)(({ sliderPadding }) => ({
   paddingLeft: sliderPadding,
   paddingRight: sliderPadding,
 }));
