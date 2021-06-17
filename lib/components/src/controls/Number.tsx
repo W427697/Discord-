@@ -1,7 +1,8 @@
-import React, { FC, ChangeEvent, useState, useCallback } from 'react';
+import React, { FC, ChangeEvent, useState, useCallback, useEffect, useRef } from 'react';
 import { styled } from '@storybook/theming';
 
 import { Form } from '../form';
+import { getControlId } from './helpers';
 import { ControlProps, NumberValue, NumberConfig } from './types';
 
 const Wrapper = styled.label({
@@ -27,27 +28,51 @@ export const NumberControl: FC<NumberProps> = ({
   onBlur,
   onFocus,
 }) => {
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange(parse(event.target.value));
-  };
+  const [inputValue, setInputValue] = useState(typeof value === 'number' ? value : '');
+  const [forceVisible, setForceVisible] = useState(false);
+  const [parseError, setParseError] = useState<Error>(null);
 
-  const [forceVisible, onSetForceVisible] = useState(false);
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setInputValue(event.target.value);
+
+      const result = parseFloat(event.target.value);
+      if (Number.isNaN(result)) {
+        setParseError(new Error(`'${event.target.value}' is not a number`));
+      } else {
+        onChange(result);
+        setParseError(null);
+      }
+    },
+    [onChange, setParseError]
+  );
+
   const onForceVisible = useCallback(() => {
+    setInputValue('0');
     onChange(0);
-    onSetForceVisible(true);
-  }, [onSetForceVisible]);
-  if (value === undefined) {
+    setForceVisible(true);
+  }, [setForceVisible]);
+
+  const htmlElRef = useRef(null);
+  useEffect(() => {
+    if (forceVisible && htmlElRef.current) htmlElRef.current.select();
+  }, [forceVisible]);
+
+  if (!forceVisible && value === undefined) {
     return <Form.Button onClick={onForceVisible}>Set number</Form.Button>;
   }
 
   return (
     <Wrapper>
       <Form.Input
+        ref={htmlElRef}
+        id={getControlId(name)}
         type="number"
         onChange={handleChange}
         size="flex"
         placeholder="Edit number..."
-        value={value}
+        value={inputValue}
+        valid={parseError ? 'error' : null}
         autoFocus={forceVisible}
         {...{ name, min, max, step, onFocus, onBlur }}
       />
