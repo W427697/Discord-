@@ -1,6 +1,6 @@
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
-import { document, DOCS_MODE } from 'global';
+import global from 'global';
 import React, {
   FunctionComponent,
   MouseEventHandler,
@@ -21,7 +21,9 @@ import {
   SearchResult,
 } from './types';
 import { getLink } from './utils';
-import { matchesKeyCode, matchesModifiers } from './keybinding';
+import { matchesKeyCode, matchesModifiers } from '../../keybinding';
+
+const { document, DOCS_MODE } = global;
 
 const ResultsList = styled.ol({
   listStyle: 'none',

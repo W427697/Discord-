@@ -1,1 +1,1 @@
-{"version":"6.2.0-alpha.5","info":{"plain":"### Bug Fixes\n\n- Core: Fix `--static-dir` with absolute path on Windows ([#13344](https://github.com/storybookjs/storybook/pull/13344))"}}
+{"version":"6.3.0-rc.9","info":{"plain":"### Dependency Upgrades\n\n* Bump postcss to 7.0.36 with security fix ([#15276](https://github.com/storybookjs/storybook/pull/15276))\n* Fix monorepo peer deps ([#15277](https://github.com/storybookjs/storybook/pull/15277))"}}

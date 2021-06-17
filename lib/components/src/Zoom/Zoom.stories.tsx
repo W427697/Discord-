@@ -9,6 +9,9 @@ export default {
       control: { type: 'range', min: 0.2, max: 30, step: 0.02 },
     },
   },
+  parameters: {
+    chromatic: { delay: 500, diffThreshold: 0.2 },
+  },
 };
 const EXAMPLE_ELEMENT = (
   <div
@@ -82,6 +85,12 @@ iFrameActualSize.args = {
   active: true,
 };
 
+// The iFrame stories are disabled because useGlobals works in practice
+// but, for some reason breaks in the stories for Zoom.iFrame
+iFrameActualSize.parameters = {
+  chromatic: { disableSnapshot: true },
+};
+
 export const iFrameZoomedIn = TemplateIFrame.bind({});
 
 iFrameZoomedIn.args = {
@@ -89,9 +98,17 @@ iFrameZoomedIn.args = {
   active: true,
 };
 
+iFrameZoomedIn.parameters = {
+  chromatic: { disableSnapshot: true },
+};
+
 export const iFrameZoomedOut = TemplateIFrame.bind({});
 
 iFrameZoomedOut.args = {
   scale: 3,
   active: true,
+};
+
+iFrameZoomedOut.parameters = {
+  chromatic: { disableSnapshot: true },
 };

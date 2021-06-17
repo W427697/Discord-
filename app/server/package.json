@@ -1,6 +1,6 @@
 {
   "name": "@storybook/server",
-  "version": "6.2.0-alpha.5",
+  "version": "6.3.0-rc.10",
   "description": "Storybook for Server: View HTML snippets from a server in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -13,6 +13,10 @@
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "app/server"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
   "main": "dist/cjs/client/index.js",
@@ -41,29 +45,33 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.2.0-alpha.5",
-    "@storybook/api": "6.2.0-alpha.5",
-    "@storybook/client-api": "6.2.0-alpha.5",
-    "@storybook/core": "6.2.0-alpha.5",
-    "@storybook/node-logger": "6.2.0-alpha.5",
-    "@types/webpack-env": "^1.15.3",
-    "core-js": "^3.0.1",
-    "global": "^4.3.2",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "@storybook/addons": "6.3.0-rc.10",
+    "@storybook/api": "6.3.0-rc.10",
+    "@storybook/client-api": "6.3.0-rc.10",
+    "@storybook/core": "6.3.0-rc.10",
+    "@storybook/core-common": "6.3.0-rc.10",
+    "@storybook/node-logger": "6.3.0-rc.10",
+    "@types/webpack-env": "^1.16.0",
+    "core-js": "^3.8.2",
+    "global": "^4.4.0",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
     "read-pkg-up": "^7.0.1",
     "regenerator-runtime": "^0.13.7",
     "safe-identifier": "^0.4.1",
-    "ts-dedent": "^2.0.0"
+    "ts-dedent": "^2.0.0",
+    "yaml-loader": "^0.6.0"
   },
   "devDependencies": {
-    "fs-extra": "^9.0.0"
+    "fs-extra": "^9.0.1",
+    "yaml": "^1.10.0"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=10.13.0"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "850a0d8b98f2ddab1cd4d652e9beac11e21a369c"
+  "gitHead": "0be387fceb10059326232a99b46c8d2a4a54beb0",
+  "sbmodern": "dist/modern/client/index.js"
 }
