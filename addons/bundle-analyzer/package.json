@@ -15,7 +15,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/jest"
+    "directory": "addons/bundle-analyzer"
   },
   "license": "MIT",
   "author": "Norbert de Langen <ndelangen@me.com> (https://github.com/ndelangen)",
