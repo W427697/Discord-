@@ -13,7 +13,7 @@ const Panel = ({ active }: Props) =>
     <iframe
       style={{ margin: 0, border: 0, width: '100%' }}
       title="bundle-analyzer"
-      src={ANALYSER_ADDRESS}
+      src={ANALYZER_ADDRESS}
     />
   ) : null;
 
