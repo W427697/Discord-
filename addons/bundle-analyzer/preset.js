@@ -9,7 +9,7 @@ function managerEntries(entry = [], options) {
 async function managerGlobals(config, { configType }) {
   return {
     ...config,
-    ANALYSER_ADDRESS:
+    ANALYZER_ADDRESS:
       configType === 'DEVELOPMENT'
         ? `http://localhost:${await analyzerPort}`
         : `./bundle-analyzer.html`,
