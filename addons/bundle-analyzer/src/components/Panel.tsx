@@ -1,5 +1,5 @@
 /* eslint-disable react/default-props-match-prop-types */
-import { ANALYSER_ADDRESS } from 'global';
+import { ANALYZER_ADDRESS } from 'global';
 import React, { Fragment } from 'react';
 // import { styled } from '@storybook/theming';
 import { ScrollArea, Placeholder } from '@storybook/components';
