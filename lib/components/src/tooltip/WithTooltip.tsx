@@ -7,11 +7,13 @@ import React, {
   useState,
 } from 'react';
 import { styled } from '@storybook/theming';
-import { document } from 'global';
+import global from 'global';
 
 import TooltipTrigger from 'react-popper-tooltip';
 import { Modifier, Placement } from '@popperjs/core';
 import { Tooltip } from './Tooltip';
+
+const { document } = global;
 
 // A target that doesn't speak popper
 const TargetContainer = styled.div<{ mode: string }>`

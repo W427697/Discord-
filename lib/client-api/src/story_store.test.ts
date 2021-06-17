@@ -1,9 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import createChannel from '@storybook/channel-postmessage';
 import { toId } from '@storybook/csf';
-import addons, { mockChannel } from '@storybook/addons';
+import { addons, mockChannel } from '@storybook/addons';
 import Events from '@storybook/core-events';
-import store2 from 'store2';
 
 import StoryStore from './story_store';
 import { defaultDecorateStory } from './decorators';
@@ -15,8 +14,6 @@ jest.mock('@storybook/node-logger', () => ({
     error: jest.fn(),
   },
 }));
-
-jest.mock('store2');
 
 let channel;
 beforeEach(() => {
@@ -49,6 +46,7 @@ const addStoryToStore = (store, kind, name, storyFn, parameters = {}) =>
       id: toId(kind, name),
     },
     {
+      // FIXME: need applyHooks, but this breaks the current tests
       applyDecorators: defaultDecorateStory,
     }
   );
@@ -148,8 +146,8 @@ describe('preview.story_store', () => {
       const story = jest.fn();
       addStoryToStore(store, 'a', '1', story);
 
-      const { getDecorated } = store.getRawStory('a', '1');
-      getDecorated()();
+      const context = store.getRawStory('a', '1');
+      context.getDecorated()(context);
 
       expect(globalDecorator).toHaveBeenCalled();
       expect(kindDecorator).toHaveBeenCalled();
@@ -433,14 +431,6 @@ describe('preview.story_store', () => {
       });
     });
 
-    it('sets session storage on initialization', () => {
-      (store2.session.set as any).mockClear();
-      const store = new StoryStore({ channel });
-      addStoryToStore(store, 'a', '1', () => 0);
-      store.finishConfiguring();
-      expect(store2.session.set).toHaveBeenCalled();
-    });
-
     it('on HMR it sensibly re-initializes with memory', () => {
       const store = new StoryStore({ channel });
       addons.setChannel(channel);
@@ -509,7 +499,10 @@ describe('preview.story_store', () => {
     });
 
     it('sensibly re-initializes with memory based on session storage', () => {
-      (store2.session.get as any).mockReturnValueOnce({
+      const store = new StoryStore({ channel });
+      store.setSelectionSpecifier({
+        storySpecifier: '*',
+        viewMode: 'story',
         globals: {
           arg1: 'arg1',
           arg2: 2,
@@ -517,8 +510,6 @@ describe('preview.story_store', () => {
           arg4: 4,
         },
       });
-
-      const store = new StoryStore({ channel });
       addons.setChannel(channel);
 
       addStoryToStore(store, 'a', '1', () => 0);
@@ -541,6 +532,7 @@ describe('preview.story_store', () => {
       expect(store.getRawStory('a', '1').globals).toEqual({
         // We should keep the previous values because we cannot tell if the user changed it or not in the UI
         // and we don't want to revert to the defaults every HMR
+        // arg1 is missing because it's not one of allowedGlobals
         arg2: 2,
         arg3: { complex: { object: ['type'] } },
         arg4: 4,
@@ -559,15 +551,6 @@ describe('preview.story_store', () => {
 
       store.updateGlobals({ baz: 'bing' });
       expect(store.getRawStory('a', '1').globals).toEqual({ foo: 'bar', baz: 'bing' });
-    });
-
-    it('updateGlobals sets session storage', () => {
-      const store = new StoryStore({ channel });
-      addStoryToStore(store, 'a', '1', () => 0);
-
-      (store2.session.set as any).mockClear();
-      store.updateGlobals({ foo: 'bar' });
-      expect(store2.session.set).toHaveBeenCalled();
     });
 
     it('is passed to the story in the context', () => {
@@ -601,13 +584,27 @@ describe('preview.story_store', () => {
 
       const store = new StoryStore({ channel: testChannel });
       addStoryToStore(store, 'a', '1', () => 0);
+      store.addGlobalMetadata({
+        parameters: {
+          globalTypes: {
+            foo: { defaultValue: 'Foo' },
+            bar: { defaultValue: 'Bar' },
+          },
+          globals: { baz: 'Baz', qux: 'Qux' },
+        },
+      });
+      store.finishConfiguring();
 
-      store.updateGlobals({ foo: 'bar' });
-      expect(onGlobalsChangedChannel).toHaveBeenCalledWith({ globals: { foo: 'bar' } });
-
-      store.updateGlobals({ baz: 'bing' });
+      store.updateGlobals({ foo: 'FUD' });
       expect(onGlobalsChangedChannel).toHaveBeenCalledWith({
-        globals: { foo: 'bar', baz: 'bing' },
+        globals: { foo: 'FUD', bar: 'Bar', baz: 'Baz', qux: 'Qux' },
+        initialGlobals: { foo: 'Foo', bar: 'Bar', baz: 'Baz', qux: 'Qux' },
+      });
+
+      store.updateGlobals({ baz: 'BING' });
+      expect(onGlobalsChangedChannel).toHaveBeenCalledWith({
+        globals: { foo: 'FUD', bar: 'Bar', baz: 'BING', qux: 'Qux' },
+        initialGlobals: { foo: 'Foo', bar: 'Bar', baz: 'Baz', qux: 'Qux' },
       });
     });
 
