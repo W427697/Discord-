@@ -1,6 +1,7 @@
 export * from './presets';
 
 export * from './utils/babel';
+export * from './utils/check-webpack-version';
 export * from './utils/envs';
 export * from './utils/es6Transpiler';
 export * from './utils/interpret-files';
@@ -15,6 +16,7 @@ export * from './utils/merge-webpack-config';
 export * from './utils/paths';
 export * from './utils/progress-reporting';
 export * from './utils/resolve-path-in-sb-cache';
+export * from './utils/cache';
 export * from './utils/template';
 export * from './utils/interpolate';
 export * from './utils/validate-configuration-files';

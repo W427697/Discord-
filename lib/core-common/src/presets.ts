@@ -113,7 +113,7 @@ const map = ({ configDir }: InterPresetOptions) => (item: any) => {
     return resolveAddonName(configDir, name);
   } catch (err) {
     logger.error(
-      `Addon value should end in /register OR it should be a valid preset https://storybook.js.org/docs/presets/introduction/\n${item}`
+      `Addon value should end in /register OR it should be a valid preset https://storybook.js.org/docs/react/addons/writing-presets/\n${item}`
     );
   }
   return undefined;
@@ -242,7 +242,16 @@ function applyPresets(
       const extensionFn = change;
       const context = {
         preset,
-        combinedOptions: { ...storybookOptions, ...args, ...options, presetsList: presets },
+        combinedOptions: {
+          ...storybookOptions,
+          ...args,
+          ...options,
+          presetsList: presets,
+          presets: {
+            apply: async (ext: string, c: any, a = {}) =>
+              applyPresets(presets, ext, c, a, storybookOptions),
+          },
+        },
       };
 
       return accumulationPromise.then((newConfig) =>

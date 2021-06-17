@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useMemo } from 'react';
-import sizeMe from '@hypnosphi/react-sizeme';
+import sizeMe from 'react-sizeme';
 
 import { State } from '@storybook/api';
 import { Symbols } from '@storybook/components';
@@ -61,7 +61,7 @@ const App = React.memo<AppProps>(
     if (!width || !height) {
       content = <div />;
     } else if (width < 600) {
-      content = <Mobile {...props} viewMode={viewMode} options={layout} />;
+      content = <Mobile {...props} viewMode={viewMode} options={layout} docsOnly={docsOnly} />;
     } else {
       content = (
         <Desktop

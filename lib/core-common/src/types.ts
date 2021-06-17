@@ -1,5 +1,5 @@
 import type ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import type { PluginOptions } from 'react-docgen-typescript-plugin';
+import type { PluginOptions } from '@storybook/react-docgen-typescript-plugin';
 import { Configuration, Stats } from 'webpack';
 import { TransformOptions } from '@babel/core';
 import { Router } from 'express';
@@ -20,8 +20,9 @@ export interface TypescriptConfig {
   };
 }
 
-interface CoreConfig {
+export interface CoreConfig {
   builder: 'webpack4' | 'webpack5';
+  disableWebpackDefaults?: boolean;
 }
 
 export interface Presets {
@@ -123,6 +124,7 @@ export interface CLIOptions {
   port?: number;
   ignorePreview?: boolean;
   previewUrl?: string;
+  forceBuildPreview?: boolean;
   host?: string;
   staticDir?: string[];
   configDir?: string;
@@ -142,7 +144,9 @@ export interface CLIOptions {
   docsDll?: boolean;
   uiDll?: boolean;
   debugWebpack?: boolean;
+  webpackStatsJson?: string | boolean;
   outputDir?: string;
+  modern?: boolean;
 }
 
 export interface BuilderOptions {
@@ -151,8 +155,10 @@ export interface BuilderOptions {
   cache: FileSystemCache;
   configDir: string;
   docsMode: boolean;
+  previewCsfV3?: boolean;
   versionCheck?: VersionCheck;
   releaseNotesData?: ReleaseNotesData;
+  disableWebpackDefaults?: boolean;
 }
 
 export interface StorybookConfigOptions {
@@ -168,12 +174,16 @@ export interface Builder<Config, Stats> {
     options: Options;
     startTime: ReturnType<typeof process.hrtime>;
     router: Router;
+    server: Server;
   }) => Promise<void | {
     stats: Stats;
     totalTime: ReturnType<typeof process.hrtime>;
     bail: (e?: Error) => Promise<void>;
   }>;
-  build: (arg: { options: Options; startTime: ReturnType<typeof process.hrtime> }) => Promise<void>;
+  build: (arg: {
+    options: Options;
+    startTime: ReturnType<typeof process.hrtime>;
+  }) => Promise<void | Stats>;
   bail: (e?: Error) => Promise<void>;
   corePresets?: string[];
   overridePresets?: string[];
@@ -224,6 +234,24 @@ export interface StorybookConfig {
         options?: any;
       }
   >;
+  core?: CoreConfig;
+  logLevel?: string;
+  features?: {
+    /**
+     * Allows to disable deprecated implicit PostCSS loader.
+     */
+    postcss?: boolean;
+
+    /**
+     * Build stories.json automatically on start/build
+     */
+    buildStoriesJson?: boolean;
+
+    /**
+     * Activate preview of CSF v3.0
+     */
+    previewCsfV3?: boolean;
+  };
   /**
    * Tells Storybook where to find stories.
    *

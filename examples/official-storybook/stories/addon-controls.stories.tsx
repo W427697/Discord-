@@ -5,19 +5,40 @@ export default {
   title: 'Addons/Controls',
   component: Button,
   argTypes: {
-    children: { control: 'text', name: 'Children' },
+    children: { control: 'text', name: 'Children', mapping: { basic: 'BASIC' } },
     type: { control: 'text', name: 'Type' },
     json: { control: 'object', name: 'JSON' },
     imageUrls: { control: { type: 'file', accept: '.png' }, name: 'Image Urls' },
+    label: {
+      name: 'Label',
+      options: ['Plain', 'Bold'],
+      control: { type: 'select', labels: { Bold: 'BOLD' } },
+      mapping: { Bold: <b>Bold</b> },
+    },
+    background: {
+      name: 'Background color',
+      control: {
+        type: 'color',
+        presetColors: [
+          '#fe4a49',
+          '#FED766',
+          'rgba(0, 159, 183, 1)',
+          'HSLA(240,11%,91%,0.5)',
+          'slategray',
+        ],
+      },
+    },
   },
-  parameters: { chromatic: { disable: true } },
+  parameters: {
+    chromatic: { disable: true },
+  },
 };
 
 const DEFAULT_NESTED_OBJECT = { a: 4, b: { c: 'hello', d: [1, 2, 3] } };
 
 const Template = (args) => (
   <div>
-    <Button type={args.type}>{args.children}</Button>
+    <Button type={args.type}>{args.label || args.children}</Button>
     {args.json && <pre>{JSON.stringify(args.json, null, 2)}</pre>}
   </div>
 );
@@ -27,7 +48,10 @@ Basic.args = {
   children: 'basic',
   json: DEFAULT_NESTED_OBJECT,
 };
-Basic.parameters = { chromatic: { disable: false } };
+Basic.parameters = {
+  chromatic: { disable: false },
+  docs: { source: { state: 'open' } },
+};
 
 export const Action = Template.bind({});
 Action.args = {
@@ -38,7 +62,7 @@ Action.args = {
 
 export const ImageFileControl = (args) => <img src={args.imageUrls[0]} alt="Your Example Story" />;
 ImageFileControl.args = {
-  imageUrls: ['http://placehold.it/350x150'],
+  imageUrls: ['http://place-hold.it/350x150'],
 };
 
 export const CustomControls = Template.bind({});
@@ -59,12 +83,16 @@ const hasCycle: any = {};
 hasCycle.cycle = hasCycle;
 
 export const CyclicArgs = Template.bind({});
-CyclicArgs.args = {
-  hasCycle,
-};
+// No warnings in tests
+if (process.env.NODE_ENV !== 'test') {
+  CyclicArgs.args = {
+    hasCycle,
+  };
+}
 CyclicArgs.parameters = {
   docs: { disable: true },
   chromatic: { disable: true },
+  storyshots: { disable: true },
 };
 
 export const CustomControlMatchers = Template.bind({});
@@ -74,6 +102,7 @@ CustomControlMatchers.parameters = {
       date: /whateverIwant/,
     },
   },
+  docs: { source: { state: 'open' } },
 };
 CustomControlMatchers.args = {
   whateverIwant: '10/10/2020',
@@ -135,3 +164,8 @@ FilteredWithExcludeRegex.parameters = {
     exclude: /hello*/,
   },
 };
+
+// https://github.com/storybookjs/storybook/issues/14752
+export const MissingRadioOptions = Template.bind({});
+MissingRadioOptions.argTypes = { invalidRadio: { control: 'radio' } };
+MissingRadioOptions.args = { invalidRadio: 'someValue' };

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-jest",
-  "version": "6.2.0-beta.2",
+  "version": "6.3.0-rc.9",
   "description": "React storybook addon that show component jest report",
   "keywords": [
     "addon",
@@ -20,6 +20,10 @@
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "addons/jest"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
   "author": "Renaud Tertrais <renaud.tertrais@gmail.com> (https://github.com/renaudtertrais)",
@@ -43,14 +47,14 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@hypnosphi/react-sizeme": "^2.6.13",
-    "@storybook/addons": "6.2.0-beta.2",
-    "@storybook/api": "6.2.0-beta.2",
-    "@storybook/components": "6.2.0-beta.2",
-    "@storybook/core-events": "6.2.0-beta.2",
-    "@storybook/theming": "6.2.0-beta.2",
+    "@storybook/addons": "6.3.0-rc.9",
+    "@storybook/api": "6.3.0-rc.9",
+    "@storybook/components": "6.3.0-rc.9",
+    "@storybook/core-events": "6.3.0-rc.9",
+    "@storybook/theming": "6.3.0-rc.9",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
+    "react-sizeme": "^3.0.1",
     "regenerator-runtime": "^0.13.7",
     "upath": "^1.2.0"
   },
@@ -72,7 +76,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6836920db1cfc4bdfff3cead66265e03ec253eb6",
+  "gitHead": "a9256a360ce67dc2eab408046a4baa4e13430a8b",
+  "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Jest",
     "icon": "https://pbs.twimg.com/profile_images/821713465245102080/mMtKIMax_400x400.jpg",

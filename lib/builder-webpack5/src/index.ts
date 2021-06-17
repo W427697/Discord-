@@ -2,7 +2,12 @@ import webpack, { Stats, Configuration, ProgressPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
-import { Builder, useProgressReporting } from '@storybook/core-common';
+import {
+  Builder,
+  useProgressReporting,
+  checkWebpackVersion,
+  Options,
+} from '@storybook/core-common';
 
 let compilation: ReturnType<typeof webpackDevMiddleware>;
 let reject: (reason?: any) => void;
@@ -32,12 +37,21 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
 };
 
 export const executor = {
-  get: webpack,
+  get: async (options: Options) => {
+    const version = ((await options.presets.apply('webpackVersion')) || '5') as string;
+    const webpackInstance =
+      (await options.presets.apply<{ default: typeof webpack }>('webpackInstance'))?.default ||
+      webpack;
+    checkWebpackVersion({ version }, '5', 'builder-webpack5');
+    return webpackInstance;
+  },
 };
 
 export const start: WebpackBuilder['start'] = async ({ startTime, options, router }) => {
+  const webpackInstance = await executor.get(options);
+
   const config = await getConfig(options);
-  const compiler = executor.get(config);
+  const compiler = webpackInstance(config);
   if (!compiler) {
     const err = `${config.name}: missing webpack compiler at runtime!`;
     logger.error(err);
@@ -101,11 +115,13 @@ export const bail: WebpackBuilder['bail'] = (e: Error) => {
 };
 
 export const build: WebpackBuilder['build'] = async ({ options, startTime }) => {
+  const webpackInstance = await executor.get(options);
+
   logger.info('=> Compiling preview..');
   const config = await getConfig(options);
 
   return new Promise((succeed, fail) => {
-    webpack(config).run((error, stats) => {
+    webpackInstance(config).run((error, stats) => {
       if (error || !stats || stats.hasErrors()) {
         logger.error('=> Failed to build the preview');
         process.exitCode = 1;
@@ -130,7 +146,7 @@ export const build: WebpackBuilder['build'] = async ({ options, startTime }) => 
         stats.toJson({ warnings: true }).warnings.forEach((e) => logger.warn(e.message));
       }
 
-      return succeed();
+      return succeed(stats);
     });
   });
 };
