@@ -1,8 +1,6 @@
 /* eslint-disable react/default-props-match-prop-types */
 import { ANALYZER_ADDRESS } from 'global';
-import React, { Fragment } from 'react';
-// import { styled } from '@storybook/theming';
-import { ScrollArea, Placeholder } from '@storybook/components';
+import React from 'react';
 
 interface Props {
   active: boolean;
