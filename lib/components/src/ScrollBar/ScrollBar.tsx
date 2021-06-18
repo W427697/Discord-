@@ -1,15 +1,41 @@
 import { Theme } from '@storybook/theming';
-import React, { FC, HTMLAttributes, useCallback, useEffect, useRef, useState } from 'react';
-import { useContentRect } from '../hooks/useContentRect';
+import React, {
+  FC,
+  HTMLAttributes,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { document as _document } from 'global';
+import { useContentRect } from '@storybook/addons';
 import * as Styled from './styled';
 import { getHorizontalValues } from './utils/get-horiztontal-values';
 import { getVerticalValues } from './utils/get-vertical-values';
+
+const document = _document as Document;
 
 const sliderSafePadding = 3;
 const defaultSliderColor = '#444444';
 const defaultSliderOpacity = 0.5;
 const defaultSliderPadding = 4;
 const defaultSliderSize = 6;
+
+export interface ScrollBarRenderProps {
+  left: number;
+  bottom: number;
+  top: number;
+  right: number;
+  x: number;
+  y: number;
+  innerWidth: number;
+  innerHeight: number;
+  outerWidth: number;
+  outerHeight: number;
+  scrollLeft: number;
+  scrollTop: number;
+}
 
 interface StateItem {
   enabled: boolean;
@@ -27,6 +53,7 @@ interface State {
 }
 
 export type ScrollBarProps = {
+  children?: ReactNode | ((renderProps: ScrollBarRenderProps) => ReactNode);
   horizontal?: boolean;
   horizontalPosition?: 'top' | 'bottom';
   showOn?: 'always' | 'hover' | 'never' | 'scroll';
@@ -42,7 +69,7 @@ export type ScrollBarProps = {
 export const ScrollBar: FC<ScrollBarProps> = ({
   horizontal: enableHorizontal,
   horizontalPosition = 'bottom',
-  showOn = 'always',
+  showOn = 'hover',
   sliderColor = defaultSliderColor,
   sliderOpacity = defaultSliderOpacity,
   sliderPadding = defaultSliderPadding,
@@ -61,7 +88,9 @@ export const ScrollBar: FC<ScrollBarProps> = ({
   const scrollRef = useRef(0);
   const scrollLeftRef = useRef(0);
   const scrollTopRef = useRef(0);
-  const { width: outerWidth, height: outerHeight } = useContentRect(outerRef);
+  const { width: outerWidth, height: outerHeight, top, bottom, left, right, x, y } = useContentRect(
+    outerRef
+  );
   const { width: innerWidth, height: innerHeight } = useContentRect(innerRef);
 
   const [state, setState] = useState<State>({
@@ -236,9 +265,7 @@ export const ScrollBar: FC<ScrollBarProps> = ({
   );
 
   const verticalDragEnd = useCallback(() => {
-    // eslint-disable-next-line no-undef
     document.removeEventListener('mousemove', handleVerticalDrag);
-    // eslint-disable-next-line no-undef
     document.removeEventListener('mouseup', verticalDragEnd);
 
     verticalDragRef.current = 0;
@@ -247,9 +274,7 @@ export const ScrollBar: FC<ScrollBarProps> = ({
   const verticalDragStart = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       verticalDragRef.current = event.screenY;
-      // eslint-disable-next-line no-undef
       document.addEventListener('mousemove', handleVerticalDrag);
-      // eslint-disable-next-line no-undef
       document.addEventListener('mouseup', verticalDragEnd);
     },
     [state, setState, handleVerticalDrag, verticalDragEnd]
@@ -277,9 +302,7 @@ export const ScrollBar: FC<ScrollBarProps> = ({
   );
 
   const horizontalDragEnd = useCallback(() => {
-    // eslint-disable-next-line no-undef
     document.removeEventListener('mousemove', handleHorizontalDrag);
-    // eslint-disable-next-line no-undef
     document.removeEventListener('mouseup', horizontalDragEnd);
 
     horizontalDragRef.current = 0;
@@ -288,9 +311,7 @@ export const ScrollBar: FC<ScrollBarProps> = ({
   const horizontalDragStart = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       horizontalDragRef.current = event.screenX;
-      // eslint-disable-next-line no-undef
       document.addEventListener('mousemove', handleHorizontalDrag);
-      // eslint-disable-next-line no-undef
       document.addEventListener('mouseup', horizontalDragEnd);
     },
     [state, setState, handleHorizontalDrag, horizontalDragEnd]
@@ -462,9 +483,9 @@ export const ScrollBar: FC<ScrollBarProps> = ({
   ]);
 
   return (
-    <Styled.Wrapper>
+    <Styled.Wrapper data-sb-scrollbar="" {...rest}>
       <Styled.ScrollableContainer
-        data-sb-scrollbar=""
+        data-sb-scrollbar-container=""
         ref={outerRef}
         sliderOpacity={sliderOpacity}
         tabIndex={0}
@@ -473,7 +494,24 @@ export const ScrollBar: FC<ScrollBarProps> = ({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <Styled.ScrollInner ref={innerRef}>{children}</Styled.ScrollInner>
+        <Styled.ScrollInner ref={innerRef}>
+          {typeof children === 'function'
+            ? children({
+                top,
+                bottom,
+                left,
+                right,
+                innerWidth,
+                outerWidth,
+                innerHeight,
+                outerHeight,
+                x,
+                y,
+                scrollLeft: scrollLeftRef.current,
+                scrollTop: scrollTopRef.current,
+              })
+            : children}
+        </Styled.ScrollInner>
       </Styled.ScrollableContainer>
       {state.vertical.enabled && (
         <Styled.VerticalTrack
