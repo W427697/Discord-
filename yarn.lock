@@ -6102,6 +6102,7 @@ __metadata:
     core-js: ^3.8.2
     global: ^4.4.0
     regenerator-runtime: ^0.13.7
+    resize-observer-polyfill: ^1.5.1
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -6531,6 +6532,7 @@ __metadata:
   resolution: "@storybook/components@workspace:lib/components"
   dependencies:
     "@popperjs/core": ^2.6.0
+    "@storybook/addons": 6.3.0-rc.5
     "@storybook/client-logger": 6.3.0-rc.5
     "@storybook/csf": 0.0.1
     "@storybook/theming": 6.3.0-rc.5
@@ -6554,7 +6556,6 @@ __metadata:
     react-syntax-highlighter: ^13.5.3
     react-textarea-autosize: ^8.3.0
     regenerator-runtime: ^0.13.7
-    resize-observer-polyfill: ^1.5.1
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
   peerDependencies:
