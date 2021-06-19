@@ -10,17 +10,21 @@ export const Wrapper = styled.div<WrapperProps>(
     overflow: 'hidden',
   },
   ({ absolute }) =>
-    absolute && {
-      position: 'absolute',
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-    }
+    absolute
+      ? {
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+        }
+      : { display: 'flex' }
 );
 
 interface ScrollableContainerProps {
   absolute: boolean;
+  parentWidth: number;
+  parentHeight: number;
 }
 
 export const ScrollableContainer = styled.div<ScrollableContainerProps>(
@@ -38,15 +42,14 @@ export const ScrollableContainer = styled.div<ScrollableContainerProps>(
   ({ absolute }) =>
     absolute
       ? {
+          display: 'grid',
           position: 'absolute',
           top: 0,
           right: 0,
           bottom: 0,
           left: 0,
         }
-      : {
-          display: 'flex',
-        }
+      : {}
 );
 
 interface ScrollableContentProps {
@@ -56,7 +59,8 @@ interface ScrollableContentProps {
 export const ScrollableContent = styled.div<ScrollableContentProps>(({ absolute }) =>
   absolute
     ? {
-        display: 'block',
+        display: 'inline-block',
+        width: '100%',
       }
     : {
         flexGrow: 1,

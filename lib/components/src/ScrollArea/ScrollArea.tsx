@@ -17,7 +17,7 @@ import { getVerticalValues } from './utils/get-vertical-values';
 const document = _document as Document;
 
 const sliderSafePadding = 3;
-const defaultSliderColor = '#444444';
+const defaultSliderColor = '#1ea7fd';
 const defaultSliderOpacity = 0.5;
 const defaultSliderPadding = 4;
 const defaultSliderSize = 6;
@@ -520,6 +520,8 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
         ref={outerRef}
         tabIndex={0}
         absolute={absolute}
+        parentWidth={outerWidth}
+        parentHeight={outerHeight}
         {...ContainerProps}
         onScroll={handleScroll}
         onMouseEnter={handleMouseEnter}

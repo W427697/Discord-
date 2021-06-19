@@ -22,8 +22,8 @@ const Template: ComponentStory<typeof ScrollArea> = (args) => (
   <ScrollArea
     {...args}
     style={{
-      width: 800,
-      height: 400,
+      maxWidth: 800,
+      maxHeight: 400,
       borderRadius: 4,
       border: '1px solid #cccccc',
       backgroundColor: '#ffffff',
@@ -106,4 +106,5 @@ Controllable.args = {
   horizontalPosition: 'bottom',
   sliderOpacity: 0.5,
   showOn: 'always',
+  absolute: false,
 };
