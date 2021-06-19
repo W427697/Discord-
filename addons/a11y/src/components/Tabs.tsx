@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { styled } from '@storybook/theming';
 import { NodeResult, Result } from 'axe-core';
 import { useContentRect } from '@storybook/addons';
+import { ScrollBar } from '@storybook/components';
 import HighlightToggle from './Report/HighlightToggle';
 import { RuleType } from './A11YPanel';
 import { useA11yContext } from './A11yContext';
@@ -36,21 +37,19 @@ export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
   const highlightLabel = `Highlight results`;
   return (
     <Container ref={contentRectRef}>
-      <List>
-        <TabsWrapper>
-          {tabs.map((tab, index) => (
-            <Item
-              /* eslint-disable-next-line react/no-array-index-key */
-              key={index}
-              data-index={index}
-              active={activeTab === index}
-              onClick={handleToggle}
-            >
-              {tab.label}
-            </Item>
-          ))}
-        </TabsWrapper>
-      </List>
+      <ScrollableTabsMenu horizontal>
+        {tabs.map((tab, index) => (
+          <Item
+            /* eslint-disable-next-line react/no-array-index-key */
+            key={index}
+            data-index={index}
+            active={activeTab === index}
+            onClick={handleToggle}
+          >
+            {tab.label}
+          </Item>
+        ))}
+      </ScrollableTabsMenu>
       {tabs[activeTab].items.length > 0 ? (
         <GlobalToggle elementWidth={width || 0}>
           <HighlightToggleLabel htmlFor={highlightToggleId}>{highlightLabel}</HighlightToggleLabel>
@@ -130,12 +129,9 @@ const Item = styled.button<{ active?: boolean }>(
       : {}
 );
 
-const TabsWrapper = styled.div({});
-
-const List = styled.div<{}>(({ theme }) => ({
+const ScrollableTabsMenu = styled(ScrollBar)(({ theme }) => ({
   boxShadow: `${theme.appBorderColor} 0 -1px 0 0 inset`,
   background: 'rgba(0, 0, 0, .05)',
   display: 'flex',
-  justifyContent: 'space-between',
   whiteSpace: 'nowrap',
 }));

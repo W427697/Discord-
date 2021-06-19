@@ -5544,7 +5544,6 @@ __metadata:
     core-js: ^3.8.2
     global: ^4.4.0
     lodash: ^4.17.20
-    react-sizeme: ^3.0.1
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
@@ -5826,7 +5825,6 @@ __metadata:
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
     global: ^4.4.0
-    react-sizeme: ^3.0.1
     regenerator-runtime: ^0.13.7
     upath: ^1.2.0
   peerDependencies:
@@ -6537,7 +6535,6 @@ __metadata:
     "@storybook/csf": 0.0.1
     "@storybook/theming": 6.3.0-rc.5
     "@types/color-convert": ^2.0.0
-    "@types/overlayscrollbars": ^1.12.0
     "@types/react-syntax-highlighter": 11.0.5
     color-convert: ^2.0.1
     core-js: ^3.8.2
@@ -6548,7 +6545,6 @@ __metadata:
     lodash: ^4.17.20
     markdown-to-jsx: ^7.1.3
     memoizerific: ^1.11.3
-    overlayscrollbars: ^1.13.1
     polished: ^4.0.5
     prop-types: ^15.7.2
     react-colorful: ^5.1.2
@@ -7549,7 +7545,6 @@ __metadata:
     qs: ^6.10.0
     react-draggable: ^4.4.3
     react-helmet-async: ^1.0.7
-    react-sizeme: ^3.0.1
     regenerator-runtime: ^0.13.7
     resolve-from: ^5.0.0
     store2: ^2.12.0
@@ -8755,13 +8750,6 @@ __metadata:
   version: 4.1.2
   resolution: "@types/npmlog@npm:4.1.2"
   checksum: 09a3395759651f0a867b5811ee33147803106684ff1f013ded27c632a2f8071766d95d862229feac112166b8ff9c6f3df49eb1e27875668a4e2e7fb5f579d3dd
-  languageName: node
-  linkType: hard
-
-"@types/overlayscrollbars@npm:^1.12.0":
-  version: 1.12.0
-  resolution: "@types/overlayscrollbars@npm:1.12.0"
-  checksum: eba2a858eab3c22a22657cff98d985d68dffdff1cdc6bd778c1a8127922fbefeb8fae5d871206fc08f9f250af4c92efe79d4a51779f192ebda2a43781dbdd2be
   languageName: node
   linkType: hard
 
@@ -12946,13 +12934,6 @@ __metadata:
   dependencies:
     safe-buffer: 5.1.2
   checksum: 05f56db3a0fc31c89c86b605231e32ee143fb6ae38dc60616bc0970ae6a0f034172def99e69d3aed0e2c9e7cac84e2d63bc51a0b5ff6ab5fc8808cc8b29923c1
-  languageName: node
-  linkType: hard
-
-"batch-processor@npm:1.0.0":
-  version: 1.0.0
-  resolution: "batch-processor@npm:1.0.0"
-  checksum: 048b868811bed4cd03a0eec35264055f0f3fe4ab62f501809dce4a8a7b845d905fa5051b4af8b3c5123181116b1e2b6dfabf608829043b60cf61f4da3a359b60
   languageName: node
   linkType: hard
 
@@ -18360,15 +18341,6 @@ __metadata:
   version: 1.0.1
   resolution: "elegant-spinner@npm:1.0.1"
   checksum: df607c83c20fc3ce56c514175dd5d1ee7f667da00cee13d04d32c70d55e76555091fa236689e691cf7dedba17b0020fec635e499cdde84dbea2ef8639314e5f8
-  languageName: node
-  linkType: hard
-
-"element-resize-detector@npm:^1.2.2":
-  version: 1.2.2
-  resolution: "element-resize-detector@npm:1.2.2"
-  dependencies:
-    batch-processor: 1.0.0
-  checksum: 1df68352be4825168513ca782fd4520ec2986a228f66abe49c5f5fefc64c6955b86b114efabaf46e32fde2f9a591e6bf40769b153ebb878d205d454edd68485d
   languageName: node
   linkType: hard
 
@@ -31771,13 +31743,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"overlayscrollbars@npm:^1.13.1":
-  version: 1.13.1
-  resolution: "overlayscrollbars@npm:1.13.1"
-  checksum: e3eed665fc157bf5ae97a6762d2f8234d058230085e55af3b8c41ffc4d1d7c75947b877169b089462d041e361761a627f855a98b85563ddccb4869f00ddc0c28
-  languageName: node
-  linkType: hard
-
 "override-require@npm:^1.1.1":
   version: 1.1.1
   resolution: "override-require@npm:1.1.1"
@@ -36031,21 +35996,6 @@ fsevents@^1.2.7:
   peerDependencies:
     react: ^16.0.0 || ^17.0.0
   checksum: b95f7ee2d88cf093e5b370663943ceb9199b8dff4217cb8cbffdf5e60966286f898a3ce7257b3c31bab54d698a3c80e70e92b0a8320bc69bdcf4d565678261c9
-  languageName: node
-  linkType: hard
-
-"react-sizeme@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "react-sizeme@npm:3.0.1"
-  dependencies:
-    element-resize-detector: ^1.2.2
-    invariant: ^2.2.4
-    shallowequal: ^1.1.0
-    throttle-debounce: ^3.0.1
-  peerDependencies:
-    react: ^0.14.0 || ^15.0.0-0 || ^16.0.0 || ^17.0.0
-    react-dom: ^0.14.0 || ^15.0.0-0 || ^16.0.0 || ^17.0.0
-  checksum: 80ba5b25dd26ce72e3597ad5ff05718ac90e5778ae270f0c6a196a643773d6b0ac9fbcef3ba3785b29505594c7323f3df28fb29aa18030ddb72f04ee9ac0465b
   languageName: node
   linkType: hard
 
@@ -40996,13 +40946,6 @@ resolve@1.19.0:
   version: 5.0.0
   resolution: "throat@npm:5.0.0"
   checksum: 1b9c661dabf93ff9026fecd781ccfd9b507c41b9d5e581614884fffd09f3f9ebfe26d3be668ccf904fd324dd3f6efe1a3ec7f83e91b1dff9fdcc6b7d39b8bfe3
-  languageName: node
-  linkType: hard
-
-"throttle-debounce@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "throttle-debounce@npm:3.0.1"
-  checksum: c8e558479463b7ed8bac30d6b10cc87abd1c9fc64edfce2db4109be1a04acaef5d2d0557f49c1a3845ea07d9f79e6e0389b1b60db0a77c44e5b7a1216596f285
   languageName: node
   linkType: hard
 

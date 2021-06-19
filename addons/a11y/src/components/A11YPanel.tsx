@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { styled } from '@storybook/theming';
-import { ActionBar, Icons, ScrollBar } from '@storybook/components';
+import { ActionBar, Icons } from '@storybook/components';
 import { AxeResults } from 'axe-core';
 import { useChannel, useParameter, useStorybookState } from '@storybook/api';
 import { Report } from './Report';
@@ -163,9 +163,7 @@ export const A11YPanel: React.FC = () => {
       )}
       {(status === 'ready' || status === 'ran') && (
         <>
-          <ScrollBar vertical horizontal>
-            <Tabs key="tabs" tabs={tabs} />
-          </ScrollBar>
+          <Tabs key="tabs" tabs={tabs} />
           <ActionBar key="actionbar" actionItems={readyActionItems} />
         </>
       )}
