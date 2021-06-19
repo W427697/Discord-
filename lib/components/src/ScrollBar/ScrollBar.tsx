@@ -52,8 +52,11 @@ interface State {
   vertical: StateItem;
 }
 
+type ChildRenderFunction = (renderProps: ScrollBarRenderProps) => ReactNode;
+
 export type ScrollBarProps = {
-  children?: ReactNode | ((renderProps: ScrollBarRenderProps) => ReactNode);
+  absolute?: boolean;
+  children?: ChildRenderFunction | ReactNode;
   horizontal?: boolean;
   horizontalPosition?: 'top' | 'bottom';
   showOn?: 'always' | 'hover' | 'never' | 'scroll';
@@ -64,9 +67,12 @@ export type ScrollBarProps = {
   sliderType?: keyof Theme['color'];
   vertical?: boolean;
   verticalPosition?: 'left' | 'right';
+  InnerProps?: HTMLAttributes<HTMLDivElement>;
+  ContainerProps?: HTMLAttributes<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;
 
 export const ScrollBar: FC<ScrollBarProps> = ({
+  absolute,
   horizontal: enableHorizontal,
   horizontalPosition = 'bottom',
   showOn = 'hover',
@@ -79,6 +85,8 @@ export const ScrollBar: FC<ScrollBarProps> = ({
   verticalPosition = 'right',
   onScroll,
   children,
+  InnerProps = {},
+  ContainerProps = {},
   ...rest
 }) => {
   const outerRef = useRef<HTMLDivElement>(null);
@@ -482,36 +490,49 @@ export const ScrollBar: FC<ScrollBarProps> = ({
     showOn,
   ]);
 
+  let child = children;
+
+  if (children instanceof Function) {
+    try {
+      child = children as ChildRenderFunction;
+      child = children({
+        top,
+        bottom,
+        left,
+        right,
+        innerWidth,
+        outerWidth,
+        innerHeight,
+        outerHeight,
+        x,
+        y,
+        scrollLeft: scrollLeftRef.current,
+        scrollTop: scrollTopRef.current,
+      });
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
+  }
+
   return (
-    <Styled.Wrapper data-sb-scrollbar="" {...rest}>
+    <Styled.Wrapper data-sb-scrollbar="" absolute={absolute} {...rest}>
       <Styled.ScrollableContainer
         data-sb-scrollbar-container=""
         ref={outerRef}
-        sliderOpacity={sliderOpacity}
         tabIndex={0}
-        {...rest}
+        absolute={absolute}
+        {...ContainerProps}
         onScroll={handleScroll}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <Styled.ScrollInner ref={innerRef}>
-          {typeof children === 'function'
-            ? children({
-                top,
-                bottom,
-                left,
-                right,
-                innerWidth,
-                outerWidth,
-                innerHeight,
-                outerHeight,
-                x,
-                y,
-                scrollLeft: scrollLeftRef.current,
-                scrollTop: scrollTopRef.current,
-              })
-            : children}
-        </Styled.ScrollInner>
+        <Styled.ScrollableContent
+          data-sb-scrollbar-content=""
+          ref={innerRef}
+          absolute={absolute}
+          {...InnerProps}
+        >
+          {child}
+        </Styled.ScrollableContent>
       </Styled.ScrollableContainer>
       {state.vertical.enabled && (
         <Styled.VerticalTrack

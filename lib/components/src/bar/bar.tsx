@@ -35,38 +35,39 @@ const Side = styled.div<SideProps>(
 );
 Side.displayName = 'Side';
 
-export const Bar = styled(({ children, className }) => (
-  <ScrollBar horizontal className={className}>
+export const Bar = styled(({ children, className, backgroundColor }) => (
+  <ScrollBar
+    horizontal
+    showOn="hover"
+    className={className}
+    ContainerProps={{ style: { backgroundColor: backgroundColor || '' } }}
+  >
     {children}
   </ScrollBar>
 ))(
   ({ theme }) => ({
     color: theme.barTextColor,
-    width: '100%',
     height: 40,
     flexShrink: 0,
-    overflow: 'auto',
-    overflowY: 'hidden',
   }),
-  ({ theme, border }) =>
+  ({ theme, border, backgroundColor }) =>
     border
       ? {
           boxShadow: `${theme.appBorderColor}  0 -1px 0 0 inset`,
-          background: theme.barBg,
+          background: backgroundColor || theme.barBg,
         }
       : {}
 );
 Bar.displayName = 'Bar';
 
-const BarInner = styled.div<{ bgColor: string }>(({ bgColor }) => ({
+const BarInner = styled.div({
   display: 'flex',
   justifyContent: 'space-between',
   position: 'relative',
   flexWrap: 'nowrap',
   flexShrink: 0,
   height: 40,
-  backgroundColor: bgColor || '',
-}));
+});
 
 export interface FlexBarProps {
   border?: boolean;
@@ -74,15 +75,11 @@ export interface FlexBarProps {
   backgroundColor?: string;
 }
 
-export const FlexBar: FunctionComponent<FlexBarProps> = ({
-  children,
-  backgroundColor,
-  ...rest
-}) => {
+export const FlexBar: FunctionComponent<FlexBarProps> = ({ children, ...rest }) => {
   const [left, right] = Children.toArray(children);
   return (
     <Bar {...rest}>
-      <BarInner bgColor={backgroundColor}>
+      <BarInner>
         <Side left>{left}</Side>
         {right ? <Side right>{right}</Side> : null}
       </BarInner>

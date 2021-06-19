@@ -1,28 +1,68 @@
 import { styled, Theme } from '@storybook/theming';
 
-export const Wrapper = styled.div({
-  position: 'relative',
-});
-
-interface ScrollableContainerProps {
-  sliderOpacity: number;
+interface WrapperProps {
+  absolute: boolean;
 }
 
-export const ScrollableContainer = styled.div<ScrollableContainerProps>(({ sliderOpacity }) => ({
-  overflowX: 'scroll',
-  overflowY: 'scroll',
-  /* Hide scrollbar for IE, Edge and Firefox */
-  msOverflowStyle: 'none' /* IE and Edge */,
-  scrollbarWidth: 'none' /* Firefox */,
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  '&::-webkit-scrollbar': {
-    display: 'none',
+export const Wrapper = styled.div<WrapperProps>(
+  {
+    position: 'relative',
+    overflow: 'hidden',
   },
-}));
+  ({ absolute }) =>
+    absolute && {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+    }
+);
 
-export const ScrollInner = styled.div({
-  display: 'inline-block',
-});
+interface ScrollableContainerProps {
+  absolute: boolean;
+}
+
+export const ScrollableContainer = styled.div<ScrollableContainerProps>(
+  {
+    overflowX: 'scroll',
+    overflowY: 'scroll',
+    /* Hide scrollbar for IE, Edge and Firefox */
+    msOverflowStyle: 'none' /* IE and Edge */,
+    scrollbarWidth: 'none' /* Firefox */,
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
+  ({ absolute }) =>
+    absolute
+      ? {
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+        }
+      : {
+          display: 'flex',
+        }
+);
+
+interface ScrollableContentProps {
+  absolute: boolean;
+}
+
+export const ScrollableContent = styled.div<ScrollableContentProps>(({ absolute }) =>
+  absolute
+    ? {
+        display: 'block',
+      }
+    : {
+        flexGrow: 1,
+        display: 'inline-block',
+      }
+);
 
 interface TrackProps {
   sliderPadding: number;
