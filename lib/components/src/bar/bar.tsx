@@ -1,7 +1,7 @@
 import React, { Children, FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 
-import { ScrollBar } from '../ScrollBar/ScrollBar';
+import { ScrollArea } from '../ScrollArea/ScrollArea';
 
 export interface SideProps {
   left?: boolean;
@@ -36,14 +36,14 @@ const Side = styled.div<SideProps>(
 Side.displayName = 'Side';
 
 export const Bar = styled(({ children, className, backgroundColor }) => (
-  <ScrollBar
+  <ScrollArea
     horizontal
     showOn="hover"
     className={className}
     ContainerProps={{ style: { backgroundColor: backgroundColor || '' } }}
   >
     {children}
-  </ScrollBar>
+  </ScrollArea>
 ))(
   ({ theme }) => ({
     color: theme.barTextColor,

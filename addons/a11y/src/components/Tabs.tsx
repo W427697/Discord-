@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { styled } from '@storybook/theming';
 import { NodeResult, Result } from 'axe-core';
 import { useContentRect } from '@storybook/addons';
-import { ScrollBar } from '@storybook/components';
+import { ScrollArea } from '@storybook/components';
 import HighlightToggle from './Report/HighlightToggle';
 import { RuleType } from './A11YPanel';
 import { useA11yContext } from './A11yContext';
@@ -129,7 +129,7 @@ const Item = styled.button<{ active?: boolean }>(
       : {}
 );
 
-const ScrollableTabsMenu = styled(ScrollBar)(({ theme }) => ({
+const ScrollableTabsMenu = styled(ScrollArea)(({ theme }) => ({
   boxShadow: `${theme.appBorderColor} 0 -1px 0 0 inset`,
   background: 'rgba(0, 0, 0, .05)',
   display: 'flex',

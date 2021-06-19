@@ -1,5 +1,5 @@
 import { useStorybookApi, useStorybookState } from '@storybook/api';
-import { IconButton, Icons, TabButton, ScrollBar, Tabs } from '@storybook/components';
+import { IconButton, Icons, TabButton, ScrollArea, Tabs } from '@storybook/components';
 import { Location, Route } from '@storybook/router';
 import { styled } from '@storybook/theming';
 import global from 'global';
@@ -37,7 +37,7 @@ const TabBarButton = React.memo<{
   </Location>
 ));
 
-const Content = styled(ScrollBar)(({ theme }) => ({
+const Content = styled(ScrollArea)(({ theme }) => ({
   top: 40,
   backgroundColor: theme.background.content,
 }));

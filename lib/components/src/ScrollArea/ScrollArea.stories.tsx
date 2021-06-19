@@ -1,10 +1,10 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { ScrollBar } from './ScrollBar';
+import { ScrollArea } from './ScrollArea';
 
 export default {
-  title: 'Basics/ScrollBar',
-  component: ScrollBar,
+  title: 'Basics/ScrollArea',
+  component: ScrollArea,
   argTypes: {
     sliderColor: { control: { type: 'color' } },
     sliderSize: { control: { type: 'number' } },
@@ -16,10 +16,10 @@ export default {
     actions: { disable: true },
     layout: 'centered',
   },
-} as ComponentMeta<typeof ScrollBar>;
+} as ComponentMeta<typeof ScrollArea>;
 
-const Template: ComponentStory<typeof ScrollBar> = (args) => (
-  <ScrollBar
+const Template: ComponentStory<typeof ScrollArea> = (args) => (
+  <ScrollArea
     {...args}
     style={{
       width: 800,
@@ -95,7 +95,7 @@ const Template: ComponentStory<typeof ScrollBar> = (args) => (
         reprehenderit occaecat. Aliqua et proident do sunt duis laboris mollit do.
       </p>
     </div>
-  </ScrollBar>
+  </ScrollArea>
 );
 
 export const Controllable = Template.bind({});

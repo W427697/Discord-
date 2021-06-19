@@ -22,7 +22,7 @@ const defaultSliderOpacity = 0.5;
 const defaultSliderPadding = 4;
 const defaultSliderSize = 6;
 
-export interface ScrollBarRenderProps {
+export interface ScrollAreaRenderProps {
   left: number;
   bottom: number;
   top: number;
@@ -52,9 +52,9 @@ interface State {
   vertical: StateItem;
 }
 
-type ChildRenderFunction = (renderProps: ScrollBarRenderProps) => ReactNode;
+type ChildRenderFunction = (renderProps: ScrollAreaRenderProps) => ReactNode;
 
-export type ScrollBarProps = {
+export type ScrollAreaProps = {
   absolute?: boolean;
   children?: ChildRenderFunction | ReactNode;
   horizontal?: boolean;
@@ -71,7 +71,7 @@ export type ScrollBarProps = {
   ContainerProps?: HTMLAttributes<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;
 
-export const ScrollBar: FC<ScrollBarProps> = ({
+export const ScrollArea: FC<ScrollAreaProps> = ({
   absolute,
   horizontal: enableHorizontal,
   horizontalPosition = 'bottom',
@@ -514,9 +514,9 @@ export const ScrollBar: FC<ScrollBarProps> = ({
   }
 
   return (
-    <Styled.Wrapper data-sb-scrollbar="" absolute={absolute} {...rest}>
+    <Styled.Wrapper data-sb-scrollarea="" absolute={absolute} {...rest}>
       <Styled.ScrollableContainer
-        data-sb-scrollbar-container=""
+        data-sb-scrollarea-container=""
         ref={outerRef}
         tabIndex={0}
         absolute={absolute}
@@ -526,7 +526,7 @@ export const ScrollBar: FC<ScrollBarProps> = ({
         onMouseLeave={handleMouseLeave}
       >
         <Styled.ScrollableContent
-          data-sb-scrollbar-content=""
+          data-sb-scrollarea-content=""
           ref={innerRef}
           absolute={absolute}
           {...InnerProps}
@@ -536,8 +536,8 @@ export const ScrollBar: FC<ScrollBarProps> = ({
       </Styled.ScrollableContainer>
       {state.vertical.enabled && (
         <Styled.VerticalTrack
-          data-sb-scrollbar-track=""
-          data-sb-scrollbar-track-vertical=""
+          data-sb-scrollarea-track=""
+          data-sb-scrollarea-track-vertical=""
           show={state.vertical.show}
           showOn={showOn}
           sliderOpacity={sliderOpacity}
@@ -551,8 +551,8 @@ export const ScrollBar: FC<ScrollBarProps> = ({
           }}
         >
           <Styled.VerticalSlider
-            data-sb-scrollbar-slider=""
-            data-sb-scrollbar-slider-vertical=""
+            data-sb-scrollarea-slider=""
+            data-sb-scrollarea-slider-vertical=""
             sliderColor={sliderColor}
             sliderSize={sliderSize}
             sliderType={sliderType}
@@ -566,8 +566,8 @@ export const ScrollBar: FC<ScrollBarProps> = ({
       )}
       {state.horizontal.enabled && (
         <Styled.HorizontalTrack
-          data-sb-scrollbar-track=""
-          data-sb-scrollbar-track-horizontal=""
+          data-sb-scrollarea-track=""
+          data-sb-scrollarea-track-horizontal=""
           show={state.horizontal.show}
           showOn={showOn}
           sliderOpacity={sliderOpacity}
@@ -581,8 +581,8 @@ export const ScrollBar: FC<ScrollBarProps> = ({
           }}
         >
           <Styled.HorizontalSlider
-            data-sb-scrollbar-slider=""
-            data-sb-scrollbar-slider-horizontal=""
+            data-sb-scrollarea-slider=""
+            data-sb-scrollarea-slider-horizontal=""
             sliderColor={sliderColor}
             sliderSize={sliderSize}
             sliderType={sliderType}

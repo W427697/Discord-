@@ -18,7 +18,7 @@ import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typesc
 import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-light';
 
 import { ActionBar } from '../ActionBar/ActionBar';
-import { ScrollBar } from '../ScrollBar/ScrollBar';
+import { ScrollArea } from '../ScrollArea/ScrollArea';
 
 import { formatter } from './formatter';
 
@@ -151,7 +151,7 @@ const Wrapper = styled.div<WrapperProps>(
       : {}
 );
 
-const Scrollable = styled(ScrollBar)(
+const Scrollable = styled(ScrollArea)(
   ({ theme }) => ({
     color: theme.color.defaultText,
     '& code': {

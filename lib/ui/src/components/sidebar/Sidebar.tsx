@@ -2,7 +2,7 @@ import global from 'global';
 import React, { FunctionComponent, useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
-import { Spaced, ScrollBar } from '@storybook/components';
+import { Spaced, ScrollArea } from '@storybook/components';
 import type { StoriesHash, State } from '@storybook/api';
 
 import { Heading } from './Heading';
@@ -89,7 +89,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = React.memo(
     const lastViewedProps = useLastViewed(selected);
 
     return (
-      <ScrollBar vertical absolute sliderPadding={8} className="container sidebar-container">
+      <ScrollArea vertical absolute sliderPadding={8} className="container sidebar-container">
         <StyledSpaced row={1.6}>
           <Heading className="sidebar-header" menuHighlighted={menuHighlighted} menu={menu} />
 
@@ -129,7 +129,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = React.memo(
             )}
           </Search>
         </StyledSpaced>
-      </ScrollBar>
+      </ScrollArea>
     );
   }
 );
