@@ -18,7 +18,7 @@ export const Wrapper = styled.div<WrapperProps>(
           bottom: 0,
           left: 0,
         }
-      : { display: 'flex' }
+      : {}
 );
 
 interface ScrollableContainerProps {
@@ -29,6 +29,7 @@ interface ScrollableContainerProps {
 
 export const ScrollableContainer = styled.div<ScrollableContainerProps>(
   {
+    display: 'grid',
     overflowX: 'scroll',
     overflowY: 'scroll',
     /* Hide scrollbar for IE, Edge and Firefox */
@@ -39,10 +40,15 @@ export const ScrollableContainer = styled.div<ScrollableContainerProps>(
       display: 'none',
     },
   },
+  ({ parentHeight, parentWidth }) =>
+    parentHeight &&
+    parentWidth && {
+      height: parentHeight,
+      width: parentWidth,
+    },
   ({ absolute }) =>
     absolute
       ? {
-          display: 'grid',
           position: 'absolute',
           top: 0,
           right: 0,
@@ -56,17 +62,9 @@ interface ScrollableContentProps {
   absolute: boolean;
 }
 
-export const ScrollableContent = styled.div<ScrollableContentProps>(({ absolute }) =>
-  absolute
-    ? {
-        display: 'inline-block',
-        width: '100%',
-      }
-    : {
-        flexGrow: 1,
-        display: 'inline-block',
-      }
-);
+export const ScrollableContent = styled.div<ScrollableContentProps>({
+  display: 'block',
+});
 
 interface TrackProps {
   sliderPadding: number;

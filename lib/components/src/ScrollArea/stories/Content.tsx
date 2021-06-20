@@ -1,41 +1,9 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { ScrollArea } from './ScrollArea';
+import React, { FC, HTMLAttributes } from 'react';
+import { styled } from '@storybook/theming';
 
-export default {
-  title: 'Basics/ScrollArea',
-  component: ScrollArea,
-  argTypes: {
-    sliderColor: { control: { type: 'color' } },
-    sliderSize: { control: { type: 'number' } },
-    sliderPadding: { control: { type: 'number' } },
-    sliderOpacity: { control: { type: 'range', min: 0, max: 1, step: 0.05 } },
-  },
-  parameters: {
-    test: { disable: true },
-    actions: { disable: true },
-    layout: 'centered',
-  },
-} as ComponentMeta<typeof ScrollArea>;
-
-const Template: ComponentStory<typeof ScrollArea> = (args) => (
-  <ScrollArea
-    {...args}
-    style={{
-      maxWidth: 800,
-      maxHeight: 400,
-      borderRadius: 4,
-      border: '1px solid #cccccc',
-      backgroundColor: '#ffffff',
-      color: '#000000',
-    }}
-  >
-    <div
-      style={{
-        padding: 32,
-        width: 1200,
-      }}
-    >
+export const Content: FC<HTMLAttributes<HTMLDivElement>> = ({ style, ...rest }) => {
+  return (
+    <Wrapper style={{ padding: 32, ...style }} {...rest}>
       <h1>Nulla non quis enim proident</h1>
       <p>
         Labore nisi adipisicing eiusmod commodo mollit tempor velit nostrud fugiat. Anim nulla
@@ -94,17 +62,12 @@ const Template: ComponentStory<typeof ScrollArea> = (args) => (
         anim dolor ut. Proident eiusmod anim pariatur proident et non adipisicing minim ut sit enim
         reprehenderit occaecat. Aliqua et proident do sunt duis laboris mollit do.
       </p>
-    </div>
-  </ScrollArea>
-);
-
-export const Controllable = Template.bind({});
-Controllable.args = {
-  vertical: true,
-  verticalPosition: 'right',
-  horizontal: true,
-  horizontalPosition: 'bottom',
-  sliderOpacity: 0.5,
-  showOn: 'always',
-  absolute: false,
+    </Wrapper>
+  );
 };
+
+const Wrapper = styled.div({
+  '& > p:last-of-type': {
+    marginBottom: 0,
+  },
+});

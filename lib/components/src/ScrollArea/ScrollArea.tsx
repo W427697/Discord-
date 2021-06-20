@@ -40,6 +40,7 @@ export interface ScrollAreaRenderProps {
 interface StateItem {
   enabled: boolean;
   show: boolean;
+  grabIntent: boolean;
   sliderPosition: number;
   sliderSize: number;
   trackLeft: number;
@@ -67,7 +68,7 @@ export type ScrollAreaProps = {
   sliderType?: keyof Theme['color'];
   vertical?: boolean;
   verticalPosition?: 'left' | 'right';
-  InnerProps?: HTMLAttributes<HTMLDivElement>;
+  ContentProps?: HTMLAttributes<HTMLDivElement>;
   ContainerProps?: HTMLAttributes<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;
 
@@ -85,11 +86,12 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
   verticalPosition = 'right',
   onScroll,
   children,
-  InnerProps = {},
+  ContentProps = {},
   ContainerProps = {},
   ...rest
 }) => {
   const outerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const verticalDragRef = useRef(0);
   const horizontalDragRef = useRef(0);
@@ -104,6 +106,7 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
   const [state, setState] = useState<State>({
     vertical: {
       enabled: enableVertical,
+      grabIntent: false,
       sliderPosition: 0,
       sliderSize: 0,
       trackLeft: 0,
@@ -113,6 +116,7 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
     },
     horizontal: {
       enabled: enableHorizontal,
+      grabIntent: false,
       sliderPosition: 0,
       sliderSize: 0,
       trackLeft: 0,
@@ -181,22 +185,18 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
         onScroll(event);
       }
 
-      setTimeout(() => {
-        if (oldScrollRef + 1 === scrollRef.current) {
-          scrollRef.current = 0;
-          setState({
-            ...state,
-            horizontal: {
-              ...state.horizontal,
-              show: showOn === 'scroll' ? false : state.horizontal.show,
-            },
-            vertical: {
-              ...state.vertical,
-              show: showOn === 'scroll' ? false : state.vertical.show,
-            },
-          });
-        }
-      }, 350);
+      if (showOn === 'scroll') {
+        setTimeout(() => {
+          if (oldScrollRef + 1 === scrollRef.current) {
+            scrollRef.current = 0;
+            setState({
+              ...state,
+              horizontal: { ...state.horizontal, show: false },
+              vertical: { ...state.vertical, show: false },
+            });
+          }
+        }, 350);
+      }
     },
     [
       enableHorizontal,
@@ -266,10 +266,10 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
       if (newSliderPosition > 0 && newSliderPosition <= maxSliderPosition) {
         const sliderRatio = newSliderPosition / maxSliderPosition;
         const scrollTop = sliderRatio * maxRefScroll;
-        outerRef.current.scrollTo({ top: scrollTop, left: outerRef.current.scrollLeft });
+        containerRef.current.scrollTo({ top: scrollTop, left: containerRef.current.scrollLeft });
       }
     },
-    [verticalDragRef, state, outerRef, outerHeight, innerHeight]
+    [verticalDragRef, state, containerRef, outerHeight, innerHeight]
   );
 
   const verticalDragEnd = useCallback(() => {
@@ -303,10 +303,10 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
       if (newSliderPosition > 0 && newSliderPosition <= maxSliderPosition) {
         const sliderRatio = newSliderPosition / maxSliderPosition;
         const scrollLeft = sliderRatio * maxRefScroll;
-        outerRef.current.scrollTo({ top: outerRef.current.scrollTop, left: scrollLeft });
+        containerRef.current.scrollTo({ top: containerRef.current.scrollTop, left: scrollLeft });
       }
     },
-    [horizontalDragRef, state, outerRef, outerWidth, innerWidth]
+    [horizontalDragRef, state, containerRef, outerWidth, innerWidth]
   );
 
   const horizontalDragEnd = useCallback(() => {
@@ -514,14 +514,14 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
   }
 
   return (
-    <Styled.Wrapper data-sb-scrollarea="" absolute={absolute} {...rest}>
+    <Styled.Wrapper data-sb-scrollarea="" absolute={absolute} {...rest} ref={outerRef}>
       <Styled.ScrollableContainer
         data-sb-scrollarea-container=""
-        ref={outerRef}
         tabIndex={0}
         absolute={absolute}
         parentWidth={outerWidth}
         parentHeight={outerHeight}
+        ref={containerRef}
         {...ContainerProps}
         onScroll={handleScroll}
         onMouseEnter={handleMouseEnter}
@@ -531,7 +531,7 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
           data-sb-scrollarea-content=""
           ref={innerRef}
           absolute={absolute}
-          {...InnerProps}
+          {...ContentProps}
         >
           {child}
         </Styled.ScrollableContent>
