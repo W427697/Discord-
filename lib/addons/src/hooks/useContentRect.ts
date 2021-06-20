@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, RefObject } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 import { useCallbackRef } from './useCallbackRef';
 
@@ -17,8 +17,8 @@ export interface UseContentRectBounds {
   y: number;
 }
 
-export const useContentRect = (ref: any) => {
-  const { ref: element, fn: attachRef } = useCallbackRef<any>();
+export const useContentRect = <T extends HTMLElement = HTMLDivElement>(ref: RefObject<T>) => {
+  const { ref: element, fn: attachRef } = useCallbackRef<T>();
   const [bounds, setBounds] = useState<UseContentRectBounds>({
     height: 0,
     width: 0,
