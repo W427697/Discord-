@@ -2,11 +2,11 @@ import { useState, useEffect, RefObject } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 import { useCallbackRef } from './useCallbackRef';
 
-const isStateDirty = (a: UseContentRectBounds, b: UseContentRectBounds) => {
+const isStateDirty = (a: UseDOMRectBounds, b: UseDOMRectBounds) => {
   return JSON.stringify(a) !== JSON.stringify(b);
 };
 
-export interface UseContentRectBounds {
+export interface UseDOMRectBounds {
   height: number;
   width: number;
   left: number;
@@ -17,18 +17,20 @@ export interface UseContentRectBounds {
   y: number;
 }
 
-export const useContentRect = <T extends HTMLElement = HTMLDivElement>(ref: RefObject<T>) => {
+const initialState: UseDOMRectBounds = {
+  height: 0,
+  width: 0,
+  left: 0,
+  top: 0,
+  bottom: 0,
+  right: 0,
+  x: 0,
+  y: 0,
+};
+
+export const useDOMRect = <T extends HTMLElement = HTMLDivElement>(ref: RefObject<T>) => {
   const { ref: element, fn: attachRef } = useCallbackRef<T>();
-  const [bounds, setBounds] = useState<UseContentRectBounds>({
-    height: 0,
-    width: 0,
-    left: 0,
-    top: 0,
-    bottom: 0,
-    right: 0,
-    x: 0,
-    y: 0,
-  });
+  const [bounds, setBounds] = useState<UseDOMRectBounds>({ ...initialState });
 
   useEffect(() => {
     const onResize = ([entry]: ResizeObserverEntry[]) => {
