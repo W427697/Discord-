@@ -1,7 +1,7 @@
 import React, { Children, FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 
-import { ScrollArea } from '../ScrollArea/ScrollArea';
+import { ScrollArea } from '../ScrollBar/ScrollArea';
 
 export interface SideProps {
   left?: boolean;

@@ -18,7 +18,7 @@ import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typesc
 import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-light';
 
 import { ActionBar } from '../ActionBar/ActionBar';
-import { ScrollArea } from '../ScrollArea/ScrollArea';
+import { ScrollArea } from '../ScrollBar/ScrollArea';
 
 import { formatter } from './formatter';
 
