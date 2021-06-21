@@ -6532,6 +6532,7 @@ __metadata:
   resolution: "@storybook/components@workspace:lib/components"
   dependencies:
     "@popperjs/core": ^2.6.0
+    "@storybook/addons": 6.3.0-rc.11
     "@storybook/client-logger": 6.3.0-rc.11
     "@storybook/csf": 0.0.1
     "@storybook/theming": 6.3.0-rc.11
