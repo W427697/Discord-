@@ -28,6 +28,22 @@ const initialState: UseDOMRectBounds = {
   y: 0,
 };
 
+/**
+ * ### useDOMRect
+ * Hook that returns an object which describes the size and position of a DOM node everytime
+ * one of the properties changes
+ *
+ * https://developer.mozilla.org/en-US/docs/Web/API/DOMRect
+ *
+ * #### Example:
+ * ```
+ * const ref = useRef<HTMLDivElement>(null);
+ * const { width, height } = useDOMRect<HTMLDivElement>(ref);
+ * ```
+ *
+ * @param ref React DOM reference object
+ * @returns Object that describes the size and position of a DOM node (width, height, left, top, bottom, right, x, y)
+ */
 export const useDOMRect = <T extends HTMLElement = HTMLDivElement>(ref: RefObject<T>) => {
   const { ref: element, fn: attachRef } = useCallbackRef<T>();
   const [bounds, setBounds] = useState<UseDOMRectBounds>({ ...initialState });
