@@ -3,7 +3,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import { useCallbackRef } from './useCallbackRef';
 
 const isStateDirty = (a: UseDOMRectBounds, b: UseDOMRectBounds) => {
-  return JSON.stringify(a) !== JSON.stringify(b);
+  return !Object.keys(a).every((k: keyof UseDOMRectBounds) => a[k] === b[k]);
 };
 
 export interface UseDOMRectBounds {
