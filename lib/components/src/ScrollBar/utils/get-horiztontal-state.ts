@@ -1,6 +1,5 @@
 import { SLIDER_SAFE_PADDING } from '../const';
 import { HorizontalPositionType, VerticalPositionType } from '../types';
-import { getHorizontalTrackPosition } from './get-horizontal-track-position';
 import { getStateValues } from './get-state-values';
 
 interface GetHorizontalStateProps {
@@ -26,7 +25,21 @@ export const getHorizontalState = ({
   sliderSize,
   verticalPosition,
 }: GetHorizontalStateProps) => {
-  const sliderSafeSpacing = sliderSize + sliderPadding + SLIDER_SAFE_PADDING * 2;
+  const sliderSafeSpacing = enableVertical
+    ? SLIDER_SAFE_PADDING * 2 + sliderSize + sliderPadding
+    : SLIDER_SAFE_PADDING * 2;
+
+  // Calculate the values to get the tracks into the right position for the scroll container
+  const trackDelta = sliderPadding * 2 + sliderSize;
+
+  const trackTop = horizontalPosition === 'top' ? 0 : outerRect.height - trackDelta;
+  let trackLeft = SLIDER_SAFE_PADDING;
+
+  if (enableVertical && verticalPosition === 'left') {
+    trackLeft = sliderSafeSpacing - SLIDER_SAFE_PADDING;
+  }
+
+  const trackSize = outerRect.width - sliderSafeSpacing;
 
   return {
     ...getStateValues({
@@ -34,16 +47,8 @@ export const getHorizontalState = ({
       innerSize: innerRect.width,
       outerSize: outerRect.width,
       scroll: scrollLeft,
-      sliderSafeSpacing: enableVertical ? sliderSafeSpacing : SLIDER_SAFE_PADDING * 2,
-    }),
-    track: getHorizontalTrackPosition({
-      enableVertical,
-      horizontalPosition,
-      outerRect,
-      sliderPadding,
       sliderSafeSpacing,
-      sliderSize,
-      verticalPosition,
     }),
+    track: { top: trackTop, left: trackLeft, size: trackSize },
   };
 };

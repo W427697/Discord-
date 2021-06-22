@@ -3,7 +3,6 @@ import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { TrackHorizontal } from './components/TrackHorizontal';
 import { TrackVertical } from './components/TrackVertical';
 import {
-  SLIDER_DEFAULT_COLOR,
   SLIDER_DEFAULT_FADEOUT,
   SLIDER_DEFAULT_OPACITY,
   SLIDER_DEFAULT_PADDING,
@@ -20,7 +19,7 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
   horizontal: enableHorizontal = true,
   horizontalPosition = 'bottom',
   showOn = 'hover',
-  sliderColor = SLIDER_DEFAULT_COLOR,
+  sliderColor,
   sliderFadeout = SLIDER_DEFAULT_FADEOUT,
   sliderOpacity = SLIDER_DEFAULT_OPACITY,
   sliderPadding = SLIDER_DEFAULT_PADDING,
@@ -129,13 +128,16 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
       const verticalScrollChange = scrollTop !== oldScrollTop;
       const horizontalScrollChange = scrollLeft !== oldScrollLeft;
 
+      const allowVertical = innerRect.height > outerRect.height && enableVertical;
+      const allowHorizontal = innerRect.width > outerRect.width && enableHorizontal;
+
       setState({
         ...state,
         horizontal: {
           ...state.horizontal,
           ...getHorizontalState({
             enableHorizontal,
-            enableVertical,
+            enableVertical: allowVertical,
             horizontalPosition,
             innerRect,
             outerRect,
@@ -149,7 +151,7 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
         vertical: {
           ...state.vertical,
           ...getVerticalState({
-            enableHorizontal,
+            enableHorizontal: allowHorizontal,
             enableVertical,
             horizontalPosition,
             innerRect,
@@ -272,6 +274,8 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
     verticalPosition,
     sliderSize,
     sliderPadding,
+    sliderOpacity,
+    sliderFadeout,
     showOn,
   ]);
 
