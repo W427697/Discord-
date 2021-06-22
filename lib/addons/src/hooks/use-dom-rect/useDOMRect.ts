@@ -1,12 +1,12 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import global from 'global';
+import { MutableRefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
   install as installResizeObserver,
   ResizeObserver as WindowResizeObserver,
 } from 'resize-observer';
 import { useCallbackRef } from '../useCallbackRef';
 
-const window = global.window as Window & { ResizeObserver: typeof WindowResizeObserver };
+const window = global.window as Window & { ResizeObserver?: typeof WindowResizeObserver };
 const { ResizeObserver } = window;
 
 if (!window.ResizeObserver) {
@@ -24,45 +24,53 @@ const initialState = {
   y: 0,
 };
 
-export type UseDOMRectBounds = typeof initialState;
+type UseDOMRectBounds = typeof initialState;
 
-export type UseDOMRectBoundsKeys = keyof UseDOMRectBounds;
+type DOMRectKeys = keyof UseDOMRectBounds;
 
-const isStateDirty = (a: UseDOMRectBounds, b: UseDOMRectBounds) => {
-  // You can not iterate a DOMRect with Object.keys - so we use the initialState mock
-  return !Object.keys(initialState).every((k: UseDOMRectBoundsKeys) => a[k] === b[k]);
+const isStateDirty = (a: DOMRect, b: DOMRect) => {
+  // You can not iterate a DOMRect instance with Object.keys, so we use
+  // the initialState mock, which will also steer us clear of .toJSON
+  return !Object.keys(initialState).every((k: DOMRectKeys) => a[k] === b[k]);
 };
 
-const getRoundedValues = (a: UseDOMRectBounds) => {
-  const b = { ...initialState };
+const getRoundedValues = (rect: DOMRect) => {
+  const roundedRect = { ...initialState };
 
-  // `Math.round` is in line with how CSS resolves sub-pixel values
-  // You can not iterate a DOMRect with Object.keys - so we use the initialState mock
-  Object.keys(b).forEach((k: UseDOMRectBoundsKeys) => {
-    b[k] = Math.round(a[k]);
+  // You can not iterate a DOMRect instance with Object.keys, so we use
+  // the initialState mock, which will also steer us clear of .toJSON
+  Object.keys(roundedRect).forEach((k: DOMRectKeys) => {
+    // `Math.round` is in line with how CSS resolves sub-pixel values
+    roundedRect[k] = Math.round(rect[k]);
   });
 
-  return b as DOMRect;
+  return roundedRect as DOMRect;
 };
 
-export interface UseDOMRectProps {
+export interface UseDOMRectProps<T extends HTMLElement = HTMLDivElement> {
   rounded?: boolean;
   live?: boolean;
+  ref?: MutableRefObject<T>;
 }
 
 /**
- * **@storybook/addons/useDOMRect**
+ * ### @storybook/addons
+ * ## useDOMRect
+ * #### Hook that returns a DOMRect description of the size/position of a reference, and the reference itself.
  *
- * Hook that returns a reference object to use, and a DOMRect description of the size
- * and position of this DOM node everytime one of its properties changes
+ * - Without the option `{ ref: ... }` a ref will be provided and returned by the hook
+ * - With the option `{ live: true }` it will update everytime DOMRect changes
+ * - With the option `{ rounded: true}` values will be rounded like CSS resolves sub-pixel values
+ *
+ * Returns `{ ref: MutableRefObject, rect: DOMRect }`
  *
  * https://developer.mozilla.org/en-US/docs/Web/API/DOMRect
  *
  * #### Example:
  * ```
  * const Component = () => {
- *   const { ref, DOMRect: { width } } = useDOMRect<HTMLSpanElement>();
- *   return (<span ref={ref}>{`I am ${width}px wide`}</span>)
+ *   const { ref, rect } = useDOMRect<HTMLSpanElement>();
+ *   return (<span ref={ref}>{`I am ${rect.width}px wide`}</span>)
  * }
  * ```
  *
@@ -70,10 +78,13 @@ export interface UseDOMRectProps {
 export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
   rounded,
   live,
-}: UseDOMRectProps = {}) => {
-  const internalRef = useRef<T>(null);
-  const { ref, fn: attachRef } = useCallbackRef<T>();
-  const [bounds, setBounds] = useState<UseDOMRectBounds>({ ...initialState });
+  ref: customRef,
+}: UseDOMRectProps<T> = {}) => {
+  const hookRef = useRef<T>(null);
+  const ref: MutableRefObject<T> = customRef || hookRef;
+  const { callbackRef, setCallbackRef } = useCallbackRef<T>();
+  const [_rect, setRect] = useState<UseDOMRectBounds>({ ...initialState });
+  const rect = _rect as DOMRect;
 
   useEffect(() => {
     let observer: WindowResizeObserver;
@@ -81,27 +92,27 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
     if (live) {
       const onResize = ([entry]: ResizeObserverEntry[]) => {
         let newBounds = entry.target.getBoundingClientRect();
-        const isDirty = isStateDirty(bounds, newBounds);
+        const isDirty = isStateDirty(rect, newBounds);
 
         if (isDirty) {
           if (rounded) {
             newBounds = getRoundedValues(newBounds);
           }
 
-          setBounds(newBounds);
+          setRect(newBounds);
         }
       };
 
       observer = new ResizeObserver(onResize);
     }
 
-    if (ref && ref.current) {
+    if (callbackRef && callbackRef.current) {
       if (observer) {
-        observer.observe(ref.current);
+        observer.observe(callbackRef.current);
       }
 
-      const newBounds = ref.current.getBoundingClientRect();
-      setBounds(newBounds);
+      const newBounds = callbackRef.current.getBoundingClientRect();
+      setRect(newBounds);
     }
 
     return () => {
@@ -109,11 +120,11 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
         observer.disconnect();
       }
     };
-  }, [ref]);
+  }, [callbackRef]);
 
   useLayoutEffect(() => {
-    attachRef(internalRef);
-  }, [attachRef, internalRef]);
+    setCallbackRef(ref);
+  }, [setCallbackRef, ref]);
 
-  return { ref, DOMRect: bounds as DOMRect };
+  return { ref: callbackRef, rect: rect as DOMRect };
 };
