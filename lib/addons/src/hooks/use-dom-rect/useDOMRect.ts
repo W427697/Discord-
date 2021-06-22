@@ -17,7 +17,7 @@ type UseDOMRectBounds = typeof initialState;
 
 type DOMRectKeys = keyof UseDOMRectBounds;
 
-const isStateDirty = (a: DOMRect, b: DOMRect) => {
+const isRectDirty = (a: DOMRect, b: DOMRect) => {
   // You can not iterate a DOMRect instance with Object.keys, so we use
   // the initialState mock, which will also steer us clear of .toJSON
   return !Object.keys(initialState).every((k: DOMRectKeys) => a[k] === b[k]);
@@ -86,7 +86,7 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
           newRect = getRoundedValues(newRect);
         }
 
-        const isDirty = isStateDirty(rect, newRect);
+        const isDirty = isRectDirty(rect, newRect);
 
         if (isDirty) {
           setRect(newRect);
