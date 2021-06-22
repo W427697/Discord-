@@ -68,9 +68,6 @@ export const CustomRef = () => {
 };
 
 export const Rounded = () => {
-  const customRef = useRef<HTMLUListElement>(null);
-  // Not required to use the returned ref from hook, but will show typesafety
-  // when you hover over it for demonstration purposes
   const { ref, rect } = useDOMRect<HTMLUListElement>({ rounded: true });
 
   return (
