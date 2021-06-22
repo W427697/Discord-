@@ -79,7 +79,7 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
     let observer: ResizeObserver;
 
     if (live) {
-      const onResize = ([entry]: ResizeObserverEntry[]) => {
+      const onResize = ([entry]: { target: Element }[]) => {
         let newRect = entry.target.getBoundingClientRect();
         const isDirty = isStateDirty(rect, newRect);
 
