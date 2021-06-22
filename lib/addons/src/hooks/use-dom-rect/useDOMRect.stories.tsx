@@ -67,7 +67,33 @@ export const CustomRef = () => {
   );
 };
 
-export const Rounded = () => {
+export const SubPixelsDefault = () => {
+  const { ref, rect } = useDOMRect<HTMLUListElement>();
+
+  return (
+    <ul
+      ref={ref}
+      style={{
+        border: '1px solid #cccccc',
+        padding: 32,
+        position: 'absolute',
+        top: 22.5,
+        left: 22.5,
+      }}
+    >
+      <li>{`width: ${rect.width}px`}</li>
+      <li>{`height: ${rect.height}px`}</li>
+      <li>{`left: ${rect.left}px`}</li>
+      <li>{`right: ${rect.right}px`}</li>
+      <li>{`top: ${rect.top}px`}</li>
+      <li>{`bottom: ${rect.bottom}px`}</li>
+      <li>{`x: ${rect.x}px`}</li>
+      <li>{`y: ${rect.y}px`}</li>
+    </ul>
+  );
+};
+
+export const SubPixelsRounded = () => {
   const { ref, rect } = useDOMRect<HTMLUListElement>({ rounded: true });
 
   return (

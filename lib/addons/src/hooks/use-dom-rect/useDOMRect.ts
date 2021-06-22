@@ -81,13 +81,14 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
     if (live) {
       const onResize = ([entry]: { target: Element }[]) => {
         let newRect = entry.target.getBoundingClientRect();
+
+        if (rounded) {
+          newRect = getRoundedValues(newRect);
+        }
+
         const isDirty = isStateDirty(rect, newRect);
 
         if (isDirty) {
-          if (rounded) {
-            newRect = getRoundedValues(newRect);
-          }
-
           setRect(newRect);
         }
       };
@@ -100,7 +101,12 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
         observer.observe(callbackRef.current);
       }
 
-      const newRect = callbackRef.current.getBoundingClientRect();
+      let newRect = callbackRef.current.getBoundingClientRect();
+
+      if (rounded) {
+        newRect = getRoundedValues(newRect);
+      }
+
       setRect(newRect);
     }
 
