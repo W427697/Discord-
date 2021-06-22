@@ -1,7 +1,7 @@
 import React, { FC, useRef } from 'react';
 import { styled } from '@storybook/theming';
 import { Badge } from '@storybook/components';
-import { useContentRect } from '@storybook/addons';
+import { useDOMRect } from '@storybook/addons';
 import { CheckResult } from 'axe-core';
 
 const List = styled.div({
@@ -52,8 +52,10 @@ const formatSeverityText = (severity: string) => {
 };
 
 const Rule: FC<RuleProps> = ({ rule }) => {
-  const rectRef = useRef<HTMLDivElement>(null);
-  const { width } = useContentRect(rectRef);
+  const {
+    ref: rectRef,
+    rect: { width },
+  } = useDOMRect({ live: true });
 
   let badgeType: any = null;
   switch (rule.impact) {

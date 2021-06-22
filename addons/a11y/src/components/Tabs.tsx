@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { styled } from '@storybook/theming';
 import { NodeResult, Result } from 'axe-core';
-import { useContentRect } from '@storybook/addons';
+import { useDOMRect } from '@storybook/addons';
 import { ScrollArea } from '@storybook/components';
 import HighlightToggle from './Report/HighlightToggle';
 import { RuleType } from './A11YPanel';
@@ -22,8 +22,10 @@ function retrieveAllNodesFromResults(items: Result[]): NodeResult[] {
 }
 
 export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
-  const contentRectRef = useRef<HTMLDivElement>(null);
-  const { width } = useContentRect(contentRectRef);
+  const {
+    ref: rectRef,
+    rect: { width },
+  } = useDOMRect({ live: true });
   const { tab: activeTab, setTab } = useA11yContext();
 
   const handleToggle = React.useCallback(
@@ -36,7 +38,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
   const highlightToggleId = `${tabs[activeTab].type}-global-checkbox`;
   const highlightLabel = `Highlight results`;
   return (
-    <Container ref={contentRectRef}>
+    <Container ref={rectRef}>
       <ScrollableTabsMenu horizontal>
         {tabs.map((tab, index) => (
           <Item

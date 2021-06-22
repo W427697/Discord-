@@ -1,5 +1,5 @@
 /* eslint-disable react/default-props-match-prop-types */
-import { useContentRect } from '@storybook/addons';
+import { useDOMRect } from '@storybook/addons';
 import { Link, Placeholder, TabsState } from '@storybook/components';
 import { convert, styled, themes } from '@storybook/theming';
 import React, { Fragment, useRef } from 'react';
@@ -113,11 +113,13 @@ const getColorByType = (type: string) => {
 };
 
 const Content = styled(({ tests, className }: ContentProps) => {
-  const contentRectRef = useRef<HTMLDivElement>(null);
-  const { width } = useContentRect(contentRectRef);
+  const {
+    ref: rectRef,
+    rect: { width },
+  } = useDOMRect({ live: true });
 
   return (
-    <div className={className} ref={contentRectRef}>
+    <div className={className} ref={rectRef}>
       {tests.map(({ name, result }) => {
         if (!result || !result.assertionResults) {
           return (

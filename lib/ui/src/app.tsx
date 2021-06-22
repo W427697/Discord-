@@ -1,4 +1,4 @@
-import { useContentRect } from '@storybook/addons';
+import { useDOMRect } from '@storybook/addons';
 import { State } from '@storybook/api';
 import { Symbols } from '@storybook/components';
 import { Route } from '@storybook/router';
@@ -20,8 +20,10 @@ export interface AppProps {
 }
 
 const App: FC<AppProps> = ({ viewMode, docsOnly, layout, panelCount }) => {
-  const viewRef = useRef<HTMLDivElement>(null);
-  const { width, height } = useContentRect(viewRef);
+  const {
+    ref: viewRef,
+    rect: { width, height },
+  } = useDOMRect({ live: true });
 
   const props = useMemo(
     () => ({
