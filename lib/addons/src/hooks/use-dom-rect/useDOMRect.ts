@@ -80,15 +80,15 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
 
     if (live) {
       const onResize = ([entry]: ResizeObserverEntry[]) => {
-        let newBounds = entry.target.getBoundingClientRect();
-        const isDirty = isStateDirty(rect, newBounds);
+        let newRect = entry.target.getBoundingClientRect();
+        const isDirty = isStateDirty(rect, newRect);
 
         if (isDirty) {
           if (rounded) {
-            newBounds = getRoundedValues(newBounds);
+            newRect = getRoundedValues(newRect);
           }
 
-          setRect(newBounds);
+          setRect(newRect);
         }
       };
 
@@ -100,8 +100,8 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
         observer.observe(callbackRef.current);
       }
 
-      const newBounds = callbackRef.current.getBoundingClientRect();
-      setRect(newBounds);
+      const newRect = callbackRef.current.getBoundingClientRect();
+      setRect(newRect);
     }
 
     return () => {
