@@ -96,7 +96,7 @@ interface SliderProps {
 }
 
 export const Slider = styled.div<SliderProps>(({ theme, sliderColor, sliderType, sliderSize }) => ({
-  backgroundColor: sliderType ? theme.color[sliderType] : sliderColor,
+  backgroundColor: sliderType ? theme.color[sliderType] : sliderColor || theme.color.dark,
   borderTopLeftRadius: sliderSize / 2,
   borderTopRightRadius: sliderSize / 2,
   borderBottomLeftRadius: sliderSize / 2,
