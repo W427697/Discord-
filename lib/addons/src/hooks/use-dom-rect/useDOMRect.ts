@@ -17,13 +17,13 @@ type UseDOMRectBounds = typeof initialState;
 
 type DOMRectKeys = keyof UseDOMRectBounds;
 
-const isStateDirty = (a: DOMRect, b: DOMRect) => {
+const isRectDirty = (a: DOMRect, b: DOMRect) => {
   // You can not iterate a DOMRect instance with Object.keys, so we use
   // the initialState mock, which will also steer us clear of .toJSON
   return !Object.keys(initialState).every((k: DOMRectKeys) => a[k] === b[k]);
 };
 
-const getRoundedValues = (rect: DOMRect) => {
+const getRoundedRect = (rect: DOMRect) => {
   const roundedRect = { ...initialState };
 
   // You can not iterate a DOMRect instance with Object.keys, so we use
@@ -81,13 +81,14 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
     if (live) {
       const onResize = ([entry]: { target: Element }[]) => {
         let newRect = entry.target.getBoundingClientRect();
-        const isDirty = isStateDirty(rect, newRect);
+
+        if (rounded) {
+          newRect = getRoundedRect(newRect);
+        }
+
+        const isDirty = isRectDirty(rect, newRect);
 
         if (isDirty) {
-          if (rounded) {
-            newRect = getRoundedValues(newRect);
-          }
-
           setRect(newRect);
         }
       };
@@ -100,7 +101,12 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
         observer.observe(callbackRef.current);
       }
 
-      const newRect = callbackRef.current.getBoundingClientRect();
+      let newRect = callbackRef.current.getBoundingClientRect();
+
+      if (rounded) {
+        newRect = getRoundedRect(newRect);
+      }
+
       setRect(newRect);
     }
 
