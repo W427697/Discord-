@@ -23,7 +23,7 @@ const isRectDirty = (a: DOMRect, b: DOMRect) => {
   return !Object.keys(initialState).every((k: DOMRectKeys) => a[k] === b[k]);
 };
 
-const getRoundedValues = (rect: DOMRect) => {
+const getRoundedRect = (rect: DOMRect) => {
   const roundedRect = { ...initialState };
 
   // You can not iterate a DOMRect instance with Object.keys, so we use
@@ -83,7 +83,7 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
         let newRect = entry.target.getBoundingClientRect();
 
         if (rounded) {
-          newRect = getRoundedValues(newRect);
+          newRect = getRoundedRect(newRect);
         }
 
         const isDirty = isRectDirty(rect, newRect);
@@ -104,7 +104,7 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
       let newRect = callbackRef.current.getBoundingClientRect();
 
       if (rounded) {
-        newRect = getRoundedValues(newRect);
+        newRect = getRoundedRect(newRect);
       }
 
       setRect(newRect);
