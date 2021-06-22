@@ -90,18 +90,20 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
   ContainerProps = {},
   ...rest
 }) => {
-  const outerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const innerRef = useRef<HTMLDivElement>(null);
   const verticalDragRef = useRef(0);
   const horizontalDragRef = useRef(0);
   const scrollRef = useRef(0);
   const scrollLeftRef = useRef(0);
   const scrollTopRef = useRef(0);
-  const { width: outerWidth, height: outerHeight, top, bottom, left, right, x, y } = useDOMRect(
-    outerRef
-  );
-  const { width: innerWidth, height: innerHeight } = useDOMRect(innerRef);
+  const {
+    ref: outerRef,
+    rect: { width: outerWidth, height: outerHeight, top, bottom, left, right, x, y },
+  } = useDOMRect({ live: true });
+  const {
+    ref: innerRef,
+    rect: { width: innerWidth, height: innerHeight },
+  } = useDOMRect({ live: true });
 
   const [state, setState] = useState<State>({
     vertical: {
