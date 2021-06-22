@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-storysource",
-  "version": "6.3.0-rc.5",
+  "version": "6.3.0-rc.11",
   "description": "View a story’s source code to see how it works and paste into your app",
   "keywords": [
     "addon",
@@ -41,13 +41,13 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.3.0-rc.5",
-    "@storybook/api": "6.3.0-rc.5",
-    "@storybook/client-logger": "6.3.0-rc.5",
-    "@storybook/components": "6.3.0-rc.5",
-    "@storybook/router": "6.3.0-rc.5",
-    "@storybook/source-loader": "6.3.0-rc.5",
-    "@storybook/theming": "6.3.0-rc.5",
+    "@storybook/addons": "6.3.0-rc.11",
+    "@storybook/api": "6.3.0-rc.11",
+    "@storybook/client-logger": "6.3.0-rc.11",
+    "@storybook/components": "6.3.0-rc.11",
+    "@storybook/router": "6.3.0-rc.11",
+    "@storybook/source-loader": "6.3.0-rc.11",
+    "@storybook/theming": "6.3.0-rc.11",
     "core-js": "^3.8.2",
     "estraverse": "^5.2.0",
     "loader-utils": "^2.0.0",
@@ -75,7 +75,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "9fee93508654bf56f3ee9f28a884b43c902d6af7",
+  "gitHead": "db9968a8a241edf423c5780e229eca3f5e5ce773",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Storysource",

@@ -6,6 +6,7 @@ const config: StorybookConfig = {
   stories: [
     // FIXME: Breaks e2e tests './intro.stories.mdx',
     '../../lib/ui/src/**/*.stories.@(js|tsx|mdx)',
+    '../../lib/addons/src/**/*.stories.@(js|tsx|mdx)',
     '../../lib/components/src/**/*.stories.@(js|tsx|mdx)',
     './stories/**/*stories.@(js|ts|tsx|mdx)',
     './../../addons/docs/**/*.stories.tsx',
@@ -30,6 +31,9 @@ const config: StorybookConfig = {
     builder: 'webpack4',
   },
   logLevel: 'debug',
+  features: {
+    previewCsfV3: true,
+  },
 };
 
 module.exports = config;

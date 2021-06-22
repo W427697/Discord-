@@ -1,3 +1,55 @@
+## 6.3.0-rc.11 (June 18, 2021)
+
+### Dependency Upgrades
+
+- Upgrade react-docgen-typescript-plugin per PR#46 ([#15287](https://github.com/storybookjs/storybook/pull/15287))
+- Fix peer deps ([#15288](https://github.com/storybookjs/storybook/pull/15288))
+
+## 6.3.0-rc.10 (June 17, 2021)
+
+### Bug Fixes
+
+- Angular: Fix nx project with workspace.json ([#15267](https://github.com/storybookjs/storybook/pull/15267))
+- Angular: Fix some Ivy rendering glitches ([#15279](https://github.com/storybookjs/storybook/pull/15279))
+
+## 6.3.0-rc.9 (June 17, 2021)
+
+### Dependency Upgrades
+
+- Bump postcss to 7.0.36 with security fix ([#15276](https://github.com/storybookjs/storybook/pull/15276))
+- Fix monorepo peer deps ([#15277](https://github.com/storybookjs/storybook/pull/15277))
+
+## 6.3.0-rc.8 (June 16, 2021)
+
+### Features
+
+- Angular: Add built-in Ivy support instead of relying on addon ([#15229](https://github.com/storybookjs/storybook/pull/15229))
+
+### Bug Fixes
+
+- Addon-docs: Fix MDX compiler export to match new location ([#15266](https://github.com/storybookjs/storybook/pull/15266))
+- Addon-viewport: Fix CSS for scale reset on firefox ([#15128](https://github.com/storybookjs/storybook/pull/15128))
+
+## 6.3.0-rc.7 (June 15, 2021)
+
+### Dependency Upgrades
+
+- Upgrade react-docgen-typescript-plugin to RDT 2.0 ([#15247](https://github.com/storybookjs/storybook/pull/15247))
+
+## 6.3.0-rc.6 (June 15, 2021)
+
+### Bug Fixes
+
+- Core: Only call setup function on story navigation ([#15244](https://github.com/storybookjs/storybook/pull/15244))
+
+### Maintenance
+
+- Official-storybook: Add CSF3 setup function demo ([#15245](https://github.com/storybookjs/storybook/pull/15245))
+
+### Dependency Upgrades
+
+- Use @storybook/react-docgen-typescript-plugin canary with PR#45 ([#15243](https://github.com/storybookjs/storybook/pull/15243))
+
 ## 6.3.0-rc.5 (June 14, 2021)
 
 ### Bug Fixes
