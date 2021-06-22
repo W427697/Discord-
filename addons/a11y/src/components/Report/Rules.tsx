@@ -1,8 +1,8 @@
-import React, { FC, useRef } from 'react';
-import { styled } from '@storybook/theming';
-import { Badge } from '@storybook/components';
 import { useDOMRect } from '@storybook/addons';
+import { Badge } from '@storybook/components';
+import { styled } from '@storybook/theming';
 import { CheckResult } from 'axe-core';
+import React, { FC } from 'react';
 
 const List = styled.div({
   display: 'flex',
