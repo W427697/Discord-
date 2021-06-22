@@ -1,143 +1,130 @@
-import { Theme } from '@storybook/theming';
-import React, {
-  FC,
-  HTMLAttributes,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { document as _document } from 'global';
 import { useDOMRect } from '@storybook/addons';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { TrackHorizontal } from './components/TrackHorizontal';
+import { TrackVertical } from './components/TrackVertical';
+import {
+  SLIDER_DEFAULT_COLOR,
+  SLIDER_DEFAULT_FADEOUT,
+  SLIDER_DEFAULT_OPACITY,
+  SLIDER_DEFAULT_PADDING,
+  SLIDER_DEFAULT_SIZE,
+} from './const';
 import * as Styled from './styled';
-import { getHorizontalValues } from './utils/get-horiztontal-values';
-import { getVerticalValues } from './utils/get-vertical-values';
-
-const document = _document as Document;
-
-const sliderSafePadding = 3;
-const defaultSliderColor = '#1ea7fd';
-const defaultSliderOpacity = 0.5;
-const defaultSliderPadding = 4;
-const defaultSliderSize = 6;
-
-export interface ScrollAreaRenderProps {
-  left: number;
-  bottom: number;
-  top: number;
-  right: number;
-  x: number;
-  y: number;
-  innerWidth: number;
-  innerHeight: number;
-  outerWidth: number;
-  outerHeight: number;
-  scrollLeft: number;
-  scrollTop: number;
-}
-
-interface StateItem {
-  enabled: boolean;
-  show: boolean;
-  grabIntent: boolean;
-  sliderPosition: number;
-  sliderSize: number;
-  trackLeft: number;
-  trackSize: number;
-  trackTop: number;
-}
-
-interface State {
-  horizontal: StateItem;
-  vertical: StateItem;
-}
-
-type ChildRenderFunction = (renderProps: ScrollAreaRenderProps) => ReactNode;
-
-export type ScrollAreaProps = {
-  absolute?: boolean;
-  children?: ChildRenderFunction | ReactNode;
-  horizontal?: boolean;
-  horizontalPosition?: 'top' | 'bottom';
-  showOn?: 'always' | 'hover' | 'never' | 'scroll';
-  sliderColor?: string;
-  sliderOpacity?: number;
-  sliderPadding?: number;
-  sliderSize?: number;
-  sliderType?: keyof Theme['color'];
-  vertical?: boolean;
-  verticalPosition?: 'left' | 'right';
-  ContentProps?: HTMLAttributes<HTMLDivElement>;
-  ContainerProps?: HTMLAttributes<HTMLDivElement>;
-} & HTMLAttributes<HTMLDivElement>;
+import { ScrollAreaProps, ScrollAreaState, ScrollAreaStateItem } from './types';
+import { getHorizontalState } from './utils/get-horiztontal-state';
+import { getVerticalState } from './utils/get-vertical-state';
 
 export const ScrollArea: FC<ScrollAreaProps> = ({
   absolute,
+  children,
   horizontal: enableHorizontal = true,
   horizontalPosition = 'bottom',
   showOn = 'hover',
-  sliderColor = defaultSliderColor,
-  sliderOpacity = defaultSliderOpacity,
-  sliderPadding = defaultSliderPadding,
-  sliderSize = defaultSliderSize,
+  sliderColor = SLIDER_DEFAULT_COLOR,
+  sliderFadeout = SLIDER_DEFAULT_FADEOUT,
+  sliderOpacity = SLIDER_DEFAULT_OPACITY,
+  sliderPadding = SLIDER_DEFAULT_PADDING,
+  sliderSize = SLIDER_DEFAULT_SIZE,
   sliderType,
   vertical: enableVertical = true,
   verticalPosition = 'right',
   onScroll,
-  children,
   ContentProps = {},
   ContainerProps = {},
   ...rest
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const verticalDragRef = useRef(0);
-  const horizontalDragRef = useRef(0);
-  const scrollRef = useRef(0);
-  const scrollLeftRef = useRef(0);
-  const scrollTopRef = useRef(0);
-  const {
-    ref: outerRef,
-    rect: { width: outerWidth, height: outerHeight, top, bottom, left, right, x, y },
-  } = useDOMRect({ live: true });
-  const {
-    ref: innerRef,
-    rect: { width: innerWidth, height: innerHeight },
-  } = useDOMRect({ live: true });
+  const scrollRef = useRef({ i: 0, left: 0, top: 0 });
+  const { ref: outerRef, rect: outerRect } = useDOMRect({ live: true });
+  const { ref: innerRef, rect: innerRect } = useDOMRect({ live: true });
 
-  const [state, setState] = useState<State>({
+  const [state, setState] = useState<ScrollAreaState>({
     vertical: {
       enabled: enableVertical,
-      grabIntent: false,
-      sliderPosition: 0,
-      sliderSize: 0,
-      trackLeft: 0,
-      trackSize: 0,
-      trackTop: 0,
       show: showOn === 'always',
+      slider: { position: 0, size: 0 },
+      track: { size: 0, left: 0, top: 0 },
     },
     horizontal: {
       enabled: enableHorizontal,
-      grabIntent: false,
-      sliderPosition: 0,
-      sliderSize: 0,
-      trackLeft: 0,
-      trackSize: 0,
-      trackTop: 0,
       show: showOn === 'always',
+      slider: { position: 0, size: 0 },
+      track: { size: 0, left: 0, top: 0 },
     },
   });
+
+  const handleChanges = useCallback(() => {
+    let horizontal: ScrollAreaStateItem = { ...state.horizontal };
+    let vertical: ScrollAreaStateItem = { ...state.vertical };
+    const allowVertical = innerRect.height > outerRect.height && enableVertical;
+    const allowHorizontal = innerRect.width > outerRect.width && enableHorizontal;
+
+    scrollRef.current.top = outerRef ? outerRef.current.scrollTop : 0;
+    scrollRef.current.left = outerRef ? outerRef.current.scrollLeft : 0;
+
+    if (allowVertical) {
+      vertical = {
+        ...state.vertical,
+        ...getVerticalState({
+          enableHorizontal: allowHorizontal,
+          enableVertical,
+          horizontalPosition,
+          innerRect,
+          outerRect,
+          scrollTop: outerRef.current.scrollTop,
+          sliderPadding,
+          sliderSize,
+          verticalPosition,
+        }),
+      };
+    } else {
+      vertical = { ...vertical, enabled: false };
+    }
+
+    if (allowHorizontal) {
+      horizontal = {
+        ...state.horizontal,
+        ...getHorizontalState({
+          enableHorizontal,
+          enableVertical: allowVertical,
+          horizontalPosition,
+          innerRect,
+          outerRect,
+          scrollLeft: outerRef.current.scrollLeft,
+          sliderPadding,
+          sliderSize,
+          verticalPosition,
+        }),
+      };
+    } else {
+      horizontal = { ...horizontal, enabled: false };
+    }
+
+    setState({ ...state, horizontal, vertical });
+  }, [
+    state,
+    setState,
+    innerRect,
+    outerRect,
+    enableVertical,
+    enableHorizontal,
+    scrollRef,
+    horizontalPosition,
+    verticalPosition,
+    sliderPadding,
+    sliderSize,
+  ]);
 
   const handleScroll = useCallback(
     (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
       const { scrollLeft, scrollTop } = event.currentTarget;
-      const oldScrollRef = scrollRef.current;
-      scrollRef.current += 1;
+      const oldScrollRef = scrollRef.current.i;
+      scrollRef.current.i += 1;
 
-      const oldScrollLeft = scrollLeftRef.current;
-      const oldScrollTop = scrollTopRef.current;
-      scrollTopRef.current = scrollTop;
-      scrollLeftRef.current = scrollLeft;
+      const oldScrollLeft = scrollRef.current.left;
+      const oldScrollTop = scrollRef.current.top;
+      scrollRef.current.top = scrollTop;
+      scrollRef.current.left = scrollLeft;
 
       const verticalScrollChange = scrollTop !== oldScrollTop;
       const horizontalScrollChange = scrollLeft !== oldScrollLeft;
@@ -146,16 +133,14 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
         ...state,
         horizontal: {
           ...state.horizontal,
-          ...getHorizontalValues({
+          ...getHorizontalState({
             enableHorizontal,
             enableVertical,
             horizontalPosition,
-            innerWidth,
-            outerHeight,
-            outerWidth,
+            innerRect,
+            outerRect,
             scrollLeft,
             sliderPadding,
-            sliderSafePadding,
             sliderSize,
             verticalPosition,
           }),
@@ -163,16 +148,14 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
         },
         vertical: {
           ...state.vertical,
-          ...getVerticalValues({
+          ...getVerticalState({
             enableHorizontal,
             enableVertical,
             horizontalPosition,
-            innerHeight,
-            outerHeight,
-            outerWidth,
+            innerRect,
+            outerRect,
             scrollTop,
             sliderPadding,
-            sliderSafePadding,
             sliderSize,
             verticalPosition,
           }),
@@ -187,28 +170,30 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
 
       if (showOn === 'scroll') {
         setTimeout(() => {
-          if (oldScrollRef + 1 === scrollRef.current) {
-            scrollRef.current = 0;
+          if (oldScrollRef + 1 === scrollRef.current.i) {
+            scrollRef.current.i = 0;
             setState({
               ...state,
               horizontal: { ...state.horizontal, show: false },
               vertical: { ...state.vertical, show: false },
             });
           }
-        }, 350);
+        }, sliderFadeout);
       }
     },
     [
       enableHorizontal,
       enableVertical,
+      getHorizontalState,
+      getVerticalState,
       horizontalPosition,
-      innerWidth,
-      outerHeight,
+      innerRect,
+      outerRect,
       outerRef,
-      outerWidth,
       setState,
+      showOn,
+      sliderFadeout,
       sliderPadding,
-      sliderSafePadding,
       sliderSize,
       state,
       verticalPosition,
@@ -252,228 +237,34 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
   );
 
   const handleVerticalDrag = useCallback(
-    (event: MouseEvent) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      const delta = event.screenY - verticalDragRef.current;
-
-      const maxSliderPosition = state.vertical.trackSize - state.vertical.sliderSize;
-      const maxRefScroll = innerHeight - outerHeight;
-      const currentSliderPosition = state.vertical.sliderPosition;
-      const newSliderPosition = currentSliderPosition + delta;
-
-      if (newSliderPosition > 0 && newSliderPosition <= maxSliderPosition) {
-        const sliderRatio = newSliderPosition / maxSliderPosition;
-        const scrollTop = sliderRatio * maxRefScroll;
-        containerRef.current.scrollTo({ top: scrollTop, left: containerRef.current.scrollLeft });
-      }
+    (scrollTop: number) => {
+      containerRef.current.scrollTo({ top: scrollTop, left: containerRef.current.scrollLeft });
     },
-    [verticalDragRef, state, containerRef, outerHeight, innerHeight]
-  );
-
-  const verticalDragEnd = useCallback(() => {
-    document.removeEventListener('mousemove', handleVerticalDrag);
-    document.removeEventListener('mouseup', verticalDragEnd);
-
-    verticalDragRef.current = 0;
-  }, [state, setState, handleVerticalDrag]);
-
-  const verticalDragStart = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      verticalDragRef.current = event.screenY;
-      document.addEventListener('mousemove', handleVerticalDrag);
-      document.addEventListener('mouseup', verticalDragEnd);
-    },
-    [state, setState, handleVerticalDrag, verticalDragEnd]
+    [containerRef]
   );
 
   const handleHorizontalDrag = useCallback(
-    (event: MouseEvent) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      const delta = event.screenX - horizontalDragRef.current;
-
-      const maxSliderPosition = state.horizontal.trackSize - state.horizontal.sliderSize;
-      const maxRefScroll = innerWidth - outerWidth;
-      const currentSliderPosition = state.horizontal.sliderPosition;
-      const newSliderPosition = currentSliderPosition + delta;
-
-      if (newSliderPosition > 0 && newSliderPosition <= maxSliderPosition) {
-        const sliderRatio = newSliderPosition / maxSliderPosition;
-        const scrollLeft = sliderRatio * maxRefScroll;
-        containerRef.current.scrollTo({ top: containerRef.current.scrollTop, left: scrollLeft });
-      }
+    (scrollLeft: number) => {
+      containerRef.current.scrollTo({ top: containerRef.current.scrollTop, left: scrollLeft });
     },
-    [horizontalDragRef, state, containerRef, outerWidth, innerWidth]
-  );
-
-  const horizontalDragEnd = useCallback(() => {
-    document.removeEventListener('mousemove', handleHorizontalDrag);
-    document.removeEventListener('mouseup', horizontalDragEnd);
-
-    horizontalDragRef.current = 0;
-  }, [state, setState, handleHorizontalDrag]);
-
-  const horizontalDragStart = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      horizontalDragRef.current = event.screenX;
-      document.addEventListener('mousemove', handleHorizontalDrag);
-      document.addEventListener('mouseup', horizontalDragEnd);
-    },
-    [state, setState, handleHorizontalDrag, horizontalDragEnd]
+    [containerRef]
   );
 
   // Get initial scroll position once outerRef and innerRef are not null
   useEffect(() => {
     if (outerRef !== null && outerRef.current && innerRef !== null && innerRef.current) {
-      const { scrollTop, scrollLeft } = outerRef.current;
-      scrollTopRef.current = scrollTop;
-      scrollLeftRef.current = scrollLeft;
-
-      setState({
-        ...state,
-        horizontal: {
-          ...state.horizontal,
-          ...getHorizontalValues({
-            enableHorizontal,
-            enableVertical,
-            horizontalPosition,
-            innerWidth,
-            outerHeight,
-            outerWidth,
-            scrollLeft,
-            sliderPadding,
-            sliderSafePadding,
-            sliderSize,
-            verticalPosition,
-          }),
-        },
-        vertical: {
-          ...state.vertical,
-          ...getVerticalValues({
-            enableHorizontal,
-            enableVertical,
-            horizontalPosition,
-            innerHeight,
-            outerHeight,
-            outerWidth,
-            scrollTop,
-            sliderPadding,
-            sliderSafePadding,
-            sliderSize,
-            verticalPosition,
-          }),
-        },
-      });
+      handleChanges();
     }
   }, [outerRef, innerRef]);
 
   // Get new state in case the dimensions of either inner or outer changes
   useEffect(() => {
-    let horizontalStateValue: StateItem = { ...state.horizontal };
-    let verticalStateValue: StateItem = { ...state.vertical };
-    const allowVertical = innerHeight > outerHeight && enableVertical;
-    const allowHorizontal = innerWidth > outerWidth && enableHorizontal;
-
-    scrollTopRef.current = outerRef.current.scrollTop;
-    scrollLeftRef.current = outerRef.current.scrollLeft;
-
-    if (allowVertical) {
-      verticalStateValue = {
-        ...state.vertical,
-        ...getVerticalValues({
-          enableHorizontal: allowHorizontal,
-          enableVertical,
-          horizontalPosition,
-          innerHeight,
-          outerHeight,
-          outerWidth,
-          scrollTop: outerRef.current.scrollTop,
-          sliderPadding,
-          sliderSafePadding,
-          sliderSize,
-          verticalPosition,
-        }),
-      };
-    } else {
-      verticalStateValue = {
-        ...verticalStateValue,
-        enabled: false,
-      };
-    }
-
-    if (allowHorizontal) {
-      horizontalStateValue = {
-        ...state.horizontal,
-        ...getHorizontalValues({
-          enableHorizontal,
-          enableVertical: allowVertical,
-          horizontalPosition,
-          innerWidth,
-          outerHeight,
-          outerWidth,
-          scrollLeft: outerRef.current.scrollLeft,
-          sliderPadding,
-          sliderSafePadding,
-          sliderSize,
-          verticalPosition,
-        }),
-      };
-    } else {
-      horizontalStateValue = {
-        ...horizontalStateValue,
-        enabled: false,
-      };
-    }
-
-    setState({
-      ...state,
-      horizontal: horizontalStateValue,
-      vertical: verticalStateValue,
-    });
-  }, [innerWidth, outerWidth, innerHeight, outerHeight]);
+    handleChanges();
+  }, [innerRect, outerRect]);
 
   // Make sure we can handle new props coming from the outside without problems
   useEffect(() => {
-    const { scrollTop, scrollLeft } = outerRef.current;
-
-    setState({
-      ...state,
-      horizontal: {
-        ...state.horizontal,
-        ...getHorizontalValues({
-          enableHorizontal,
-          enableVertical,
-          horizontalPosition,
-          innerWidth,
-          outerHeight,
-          outerWidth,
-          scrollLeft,
-          sliderPadding,
-          sliderSafePadding,
-          sliderSize,
-          verticalPosition,
-        }),
-      },
-      vertical: {
-        ...state.vertical,
-        ...getVerticalValues({
-          enableHorizontal,
-          enableVertical,
-          horizontalPosition,
-          innerHeight,
-          outerHeight,
-          outerWidth,
-          scrollTop,
-          sliderPadding,
-          sliderSafePadding,
-          sliderSize,
-          verticalPosition,
-        }),
-      },
-    });
+    handleChanges();
   }, [
     enableHorizontal,
     enableVertical,
@@ -487,24 +278,11 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
   let child = children;
 
   if (children instanceof Function) {
-    try {
-      child = children as ChildRenderFunction;
-      child = children({
-        top,
-        bottom,
-        left,
-        right,
-        innerWidth,
-        outerWidth,
-        innerHeight,
-        outerHeight,
-        x,
-        y,
-        scrollLeft: scrollLeftRef.current,
-        scrollTop: scrollTopRef.current,
-      });
-      // eslint-disable-next-line no-empty
-    } catch (e) {}
+    child = children({
+      inner: innerRect,
+      outer: outerRect,
+      scroll: { left: scrollRef.current.left, top: scrollRef.current.top },
+    });
   }
 
   return (
@@ -513,8 +291,8 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
         data-sb-scrollarea-container=""
         tabIndex={0}
         absolute={absolute}
-        parentWidth={outerWidth}
-        parentHeight={outerHeight}
+        parentWidth={outerRect.width}
+        parentHeight={outerRect.height}
         ref={containerRef}
         {...ContainerProps}
         onScroll={handleScroll}
@@ -531,68 +309,32 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
           {child}
         </Styled.ScrollableContent>
       </Styled.ScrollableContainer>
-      {state.vertical.enabled && (
-        <Styled.VerticalTrack
-          data-sb-scrollarea-track=""
-          data-sb-scrollarea-track-vertical=""
-          show={state.vertical.show}
-          showOn={showOn}
-          sliderOpacity={sliderOpacity}
-          sliderPadding={sliderPadding}
-          onMouseOver={handleMouseEnter}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          style={{
-            left: state.vertical.trackLeft,
-            top: state.vertical.trackTop,
-            height: state.vertical.trackSize,
-          }}
-        >
-          <Styled.VerticalSlider
-            data-sb-scrollarea-slider=""
-            data-sb-scrollarea-slider-vertical=""
-            sliderColor={sliderColor}
-            sliderSize={sliderSize}
-            sliderType={sliderType}
-            onMouseDown={verticalDragStart}
-            style={{
-              transform: `translateY(${state.vertical.sliderPosition}px)`,
-              height: state.vertical.sliderSize,
-            }}
-          />
-        </Styled.VerticalTrack>
-      )}
-      {state.horizontal.enabled && (
-        <Styled.HorizontalTrack
-          data-sb-scrollarea-track=""
-          data-sb-scrollarea-track-horizontal=""
-          show={state.horizontal.show}
-          showOn={showOn}
-          sliderOpacity={sliderOpacity}
-          sliderPadding={sliderPadding}
-          onMouseOver={handleMouseEnter}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          style={{
-            left: state.horizontal.trackLeft,
-            top: state.horizontal.trackTop,
-            width: state.horizontal.trackSize,
-          }}
-        >
-          <Styled.HorizontalSlider
-            data-sb-scrollarea-slider=""
-            data-sb-scrollarea-slider-horizontal=""
-            sliderColor={sliderColor}
-            sliderSize={sliderSize}
-            sliderType={sliderType}
-            onMouseDown={horizontalDragStart}
-            style={{
-              transform: `translateX(${state.horizontal.sliderPosition}px)`,
-              width: state.horizontal.sliderSize,
-            }}
-          />
-        </Styled.HorizontalTrack>
-      )}
+      <TrackVertical
+        state={state.vertical}
+        sliderColor={sliderColor}
+        sliderType={sliderType}
+        sliderSize={sliderSize}
+        showOn={showOn}
+        sliderPadding={sliderPadding}
+        sliderOpacity={sliderOpacity}
+        maxScroll={innerRect.height - outerRect.height}
+        onDrag={handleVerticalDrag}
+        onMouseOver={handleMouseEnter}
+        onMouseOut={handleMouseLeave}
+      />
+      <TrackHorizontal
+        state={state.horizontal}
+        sliderColor={sliderColor}
+        sliderType={sliderType}
+        sliderSize={sliderSize}
+        showOn={showOn}
+        sliderPadding={sliderPadding}
+        sliderOpacity={sliderOpacity}
+        maxScroll={innerRect.width - outerRect.width}
+        onDrag={handleHorizontalDrag}
+        onMouseOver={handleMouseEnter}
+        onMouseOut={handleMouseLeave}
+      />
     </Styled.Wrapper>
   );
 };

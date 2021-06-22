@@ -1,3 +1,5 @@
+import { ScrollAreaStateItemSlider } from '../types';
+
 const getRatio = (inner: number, outer: number) => {
   let ratio = 0;
 
@@ -19,9 +21,7 @@ type GetStateValuesProps = {
 };
 
 type GetStateValuesResult = {
-  sliderPosition: number;
-  sliderSize: number;
-  trackSize: number;
+  slider: ScrollAreaStateItemSlider;
   enabled: boolean;
 };
 
@@ -33,10 +33,8 @@ export const getStateValues = ({
   sliderSafeSpacing,
 }: GetStateValuesProps) => {
   let stateValues: GetStateValuesResult = {
-    sliderSize: 0,
-    trackSize: 0,
-    sliderPosition: 0,
     enabled: false,
+    slider: { size: 0, position: 0 },
   };
 
   if (innerSize <= outerSize || !enabled) {
@@ -50,7 +48,10 @@ export const getStateValues = ({
   const availableSlideSpace = trackSize - sliderSize;
   const sliderPosition = scrollRatio * availableSlideSpace;
 
-  stateValues = { ...stateValues, trackSize, sliderSize, sliderPosition, enabled };
+  stateValues = {
+    enabled,
+    slider: { size: sliderSize, position: sliderPosition },
+  };
 
   return stateValues;
 };
