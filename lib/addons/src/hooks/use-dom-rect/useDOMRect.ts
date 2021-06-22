@@ -1,17 +1,6 @@
-import global from 'global';
 import { MutableRefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import {
-  install as installResizeObserver,
-  ResizeObserver as WindowResizeObserver,
-} from 'resize-observer';
+import { ResizeObserver } from 'resize-observer';
 import { useCallbackRef } from '../useCallbackRef';
-
-const window = global.window as Window & { ResizeObserver?: typeof WindowResizeObserver };
-const { ResizeObserver } = window;
-
-if (!window.ResizeObserver) {
-  installResizeObserver();
-}
 
 const initialState = {
   height: 0,
@@ -87,7 +76,7 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
   const rect = _rect as DOMRect;
 
   useEffect(() => {
-    let observer: WindowResizeObserver;
+    let observer: ResizeObserver;
 
     if (live) {
       const onResize = ([entry]: ResizeObserverEntry[]) => {
