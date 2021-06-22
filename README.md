@@ -89,7 +89,7 @@ Storybook comes with a lot of [addons](https://storybook.js.org/docs/react/confi
 For additional help, join us in the [Storybook Discord](https://discord.gg/storybook).
 
 ## Projects
-
+<a href="https://www.rently.pk">Rently</a>
 ### Supported Frameworks
 
 | Framework                                                   | Demo                                                                        |                                                                                                |
