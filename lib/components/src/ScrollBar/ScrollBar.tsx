@@ -28,8 +28,8 @@ export type ScrollBarProps = {
   verticalPosition?: 'left' | 'right';
   horizontal?: boolean;
   horizontalPosition?: 'top' | 'bottom';
-  absolute?: boolean;
   sliderSize?: number;
+  sliderColor?: string;
   trackPadding?: number;
 } & HTMLAttributes<HTMLDivElement>;
 
@@ -40,6 +40,7 @@ export const ScrollBar: FC<ScrollBarProps> = ({
   horizontalPosition = 'bottom',
   sliderSize = scrollSliderSize,
   trackPadding = scrollTrackPadding,
+  sliderColor,
   onScroll,
   children,
   ...rest
@@ -177,6 +178,7 @@ export const ScrollBar: FC<ScrollBarProps> = ({
           style={{ top: 0, left: verticalLeft, height: outerHeight }}
         >
           <VerticalSlider
+            data-sb-scrollbar-slider=""
             style={{
               transform: `translateY(${state.vertical.position}px)`,
               height: state.vertical.size,
@@ -184,6 +186,7 @@ export const ScrollBar: FC<ScrollBarProps> = ({
           >
             <VerticalSliderInner
               sliderSize={sliderSize}
+              sliderColor={sliderColor}
               style={{ height: state.vertical.size - (trackPadding * 2 + sliderSize * 2) }}
             />
           </VerticalSlider>
@@ -192,17 +195,18 @@ export const ScrollBar: FC<ScrollBarProps> = ({
       {state.horizontal.show && (
         <HorizontalTrack
           data-sb-scrollbar-track=""
-          trackPadding={trackPadding}
+          trackPadding={trackPadding + sliderSize}
           style={{ top: horizontalTop, left: 0, width: outerWidth }}
         >
           <HorizontalSlider
+            data-sb-scrollbar-slider=""
             trackPadding={trackPadding}
             style={{
               transform: `translateX(${state.horizontal.position}px)`,
               width: state.horizontal.size,
             }}
           >
-            <HorizontalSliderInner sliderSize={sliderSize} />
+            <HorizontalSliderInner sliderColor={sliderColor} sliderSize={sliderSize} />
           </HorizontalSlider>
         </HorizontalTrack>
       )}
@@ -276,16 +280,40 @@ const HorizontalSlider = styled.div<HorizontalSliderProps>(({ trackPadding }) =>
 
 interface SliderInnerProps {
   sliderSize: number;
+  sliderColor?: string;
 }
 
-const SliderInner = styled.div<SliderInnerProps>(({ theme }) => ({
-  backgroundColor: theme.color.secondary,
-  borderRadius: 2,
+const SliderInner = styled.div<SliderInnerProps>(({ theme, sliderColor }) => ({
+  position: 'relative',
+  backgroundColor: sliderColor || theme.color.secondary,
+}));
+
+interface SliderPointerProps {
+  sliderSize: number;
+  sliderColor?: string;
+  position: 'start' | 'end';
+}
+
+const SliderPointer = styled.div<SliderPointerProps>(({ theme, sliderColor, sliderSize }) => ({
+  backgroundColor: sliderColor || theme.color.secondary,
+  width: sliderSize,
+  height: sliderSize,
+  borderRadius: '100%',
 }));
 
 const HorizontalSliderInner = styled(SliderInner)(({ sliderSize }) => ({
   width: '100%',
   height: sliderSize,
+  '&::before': {
+    content: ' ',
+    position: 'relative',
+    top: 0,
+    left: 0,
+    height: sliderSize,
+    width: sliderSize,
+    borderRadius: '100%',
+  },
+  '&::after': {},
 }));
 
 const VerticalSliderInner = styled(SliderInner)(({ sliderSize }) => ({
