@@ -3,13 +3,13 @@ import { once } from '@storybook/client-logger';
 import isPlainObject from 'lodash/isPlainObject';
 import dedent from 'ts-dedent';
 
-type ValueType = { name: string; value?: ObjectValueType | ValueType };
+type ValueType = { name?: string; summary?: string; value?: ObjectValueType | ValueType };
 type ObjectValueType = Record<string, ValueType>;
 
 const INCOMPATIBLE = Symbol('incompatible');
 const map = (arg: unknown, type: ValueType): any => {
   if (arg === undefined || arg === null || !type) return arg;
-  switch (type.name) {
+  switch (type.name || type.summary) {
     case 'string':
       return String(arg);
     case 'enum':
