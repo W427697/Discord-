@@ -216,7 +216,7 @@
     "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^7.28.0",
     "eslint-plugin-cypress": "^2.11.2",
-    "eslint-teamcity": "^4.0.0",
+    "eslint-teamcity": "^3.0.1",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "fs-extra": "^9.0.1",
