@@ -11,6 +11,22 @@ module.exports = {
   ignorePatterns: ['.eslintrc', 'package.json'],
   overrides: [
     {
+      files: ['**/*.json', '**/*.html'],
+      parserOptions: {
+        project: null,
+        sourceType: 'module',
+      },
+      rules: {
+        // these rules require typechecking, which is obviously not happening on json & html files
+        // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin
+        '@typescript-eslint/dot-notation': 'off',
+        '@typescript-eslint/no-implied-eval': 'off',
+        '@typescript-eslint/no-throw-literal': 'off',
+        '@typescript-eslint/return-await': 'off',
+        '@typescript-eslint/require-await': 'off',
+      },
+    },
+    {
       files: [
         '**/__tests__/**',
         'scripts/**',
