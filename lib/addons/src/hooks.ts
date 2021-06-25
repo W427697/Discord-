@@ -436,4 +436,5 @@ export function useGlobals(): [Args, (newGlobals: Args) => void] {
 }
 
 export { useCallbackRef } from './hooks/useCallbackRef';
+export { useWindowSize } from './hooks/useWindowSize';
 export { useDOMRect } from './hooks/use-dom-rect/useDOMRect';
