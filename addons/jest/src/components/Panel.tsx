@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { styled, themes, convert } from '@storybook/theming';
 import { ScrollArea, TabsState, Link, Placeholder } from '@storybook/components';
 import { SizeMe } from 'react-sizeme';
-import Result from './Result';
+import { Result } from './Result';
 import provideJestResult, { Test } from '../hoc/provideJestResult';
 
 const StatusTypes = {
