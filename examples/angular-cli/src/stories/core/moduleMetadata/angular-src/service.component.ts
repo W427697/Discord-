@@ -11,6 +11,7 @@ import { DummyService } from './dummy.service';
   `,
 })
 export class ServiceComponent implements OnInit {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   items: {};
 
   @Input()

@@ -1,4 +1,4 @@
-/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable no-undef, react/display-name, react/no-unused-prop-types */
 import React from 'react';
 // @ts-ignore
 import PropTypes, { string, shape } from 'prop-types';
@@ -394,9 +394,7 @@ PropTypesProps.defaultProps = {
   string: 'Default string',
   func: () => {},
   funcWithJsDoc: (foo, bar) => {
-    // eslint-disable-next-line
     const yo = window.document;
-    // eslint-disable-next-line
     const pouf = souffle;
 
     return { foo, bar };
