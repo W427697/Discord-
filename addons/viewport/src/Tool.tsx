@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import React, { Fragment, ReactNode, useEffect, useRef, memo } from 'react';
 import memoize from 'memoizerific';
 
@@ -42,7 +43,6 @@ const toLinks = memoize(50)((list: ViewportItem[], active: LinkBase, set, state,
             return null;
           }
         }
-        // eslint-disable-next-line no-fallthrough
         default: {
           return {
             ...i,

@@ -7,6 +7,7 @@ module.exports = {
   },
   rules: {
     '@typescript-eslint/ban-ts-comment': 'warn',
+    'eslint-comments/disable-enable-pair': 'off',
   },
   ignorePatterns: ['.eslintrc', 'package.json'],
   overrides: [

@@ -64,7 +64,6 @@ export const A11yContextProvider: React.FC<A11yContextProviderProps> = ({ active
         : prevHighlighted.filter((t) => !target.includes(t))
     );
   }, []);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleRun = (renderedStoryId: string) => {
     emit(EVENTS.REQUEST, renderedStoryId);
   };
