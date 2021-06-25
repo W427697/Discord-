@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable jest/valid-expect */
+/* eslint-disable @typescript-eslint/no-unused-expressions, jest/valid-expect */
 type StorybookApps = 'official-storybook';
 
 type Addons = 'Actions' | 'Knobs';
@@ -35,8 +34,6 @@ export const getStorybookPreview = () =>
   cy.get(`#storybook-preview-iframe`).then({ timeout: 10000 }, (iframe) => {
     const content: Document | null = (iframe[0] as HTMLIFrameElement).contentDocument;
     const element: HTMLElement | null = content !== null ? content.documentElement : null;
-
-    console.log({ element, content, iframe });
 
     return cy
       .wrap(iframe)
