@@ -1,6 +1,5 @@
 import { styled } from '@storybook/theming';
-import React, { FC, HTMLAttributes, ReactNode } from 'react';
-import { IconsProps } from '../icon/icon';
+import React, { FC } from 'react';
 import { TabsButton, TabsButtonProps } from './TabsButton';
 
 export const TabsTool: FC<TabsButtonProps> = ({ ...rest }) => {
