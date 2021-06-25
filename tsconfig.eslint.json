@@ -5,9 +5,12 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.json",
+    "*.json",
+    "tsconfig.json",
     "**/tsconfig.json",
     "**/.eslintrc.js",
-    "**/.storybook/*.js",
+    "**/.storybook/*.*",
+    "**/.storybook/**/*.*",
     "**/*.html",
     "**/*.js",
     "**/.*.js",
@@ -16,6 +19,9 @@
   "exclude": [
     "**/dist",
     "node_modules",
-    "**/node_modules"
+    "**/node_modules",
+    "**/*.bundle.js",
+    "**/*.js.map",
+    "**/*.d.ts"
   ]
 }
