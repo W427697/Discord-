@@ -40,9 +40,7 @@ const Icon = styled<any, any>(Icons)(({ theme }) => ({
   display: 'inline-flex',
 }));
 
-const capitalizeFirstLetter = (text: string) => {
-  return text.charAt(0).toUpperCase().concat(text.slice(1));
-};
+const capitalizeFirstLetter = (text: string) => text.charAt(0).toUpperCase().concat(text.slice(1));
 
 interface ResultProps {
   fullName?: string;

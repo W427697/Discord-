@@ -108,9 +108,9 @@ describe('renderJsx', () => {
   });
 
   it('forwardRef component', () => {
-    const MyExoticComponent = React.forwardRef(function MyExoticComponent(props: any, _ref: any) {
-      return <div>{props.children}</div>;
-    });
+    const MyExoticComponent = React.forwardRef((props: any, _ref: any) => (
+      <div>{props.children}</div>
+    ));
 
     expect(renderJsx(<MyExoticComponent>I'm forwardRef!</MyExoticComponent>, {}))
       .toMatchInlineSnapshot(`
@@ -121,9 +121,7 @@ describe('renderJsx', () => {
   });
 
   it('memo component', () => {
-    const MyMemoComponent = React.memo(function MyMemoComponent(props: any) {
-      return <div>{props.children}</div>;
-    });
+    const MyMemoComponent = React.memo((props: any) => <div>{props.children}</div>);
 
     expect(renderJsx(<MyMemoComponent>I'm memo!</MyMemoComponent>, {})).toMatchInlineSnapshot(`
       <MyMemoComponent>
@@ -133,9 +131,9 @@ describe('renderJsx', () => {
   });
 
   it('should not add default props to string if the prop value has not changed', () => {
-    const Container = ({ className, children }: { className: string; children: string }) => {
-      return <div className={className}>{children}</div>;
-    };
+    const Container = ({ className, children }: { className: string; children: string }) => (
+      <div className={className}>{children}</div>
+    );
 
     Container.propTypes = {
       children: PropTypes.string.isRequired,

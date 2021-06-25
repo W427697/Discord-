@@ -41,9 +41,7 @@ function createDocgenProp({
 
 // eslint-disable-next-line react/forbid-foreign-prop-types
 function createComponent({ propTypes = {}, defaultProps = {}, docgenInfo = {} }): Component {
-  const component = () => {
-    return <div>Hey!</div>;
-  };
+  const component = () => <div>Hey!</div>;
   component.propTypes = propTypes;
   component.defaultProps = defaultProps;
 
@@ -1267,9 +1265,7 @@ describe('enhancePropTypesProp', () => {
       it('should support named function', () => {
         const component = createTestComponent(null);
 
-        const { defaultValue } = extractPropDef(component, function hello() {
-          return 'world!';
-        });
+        const { defaultValue } = extractPropDef(component, () => 'world!');
 
         expect(defaultValue.summary).toBe('hello()');
         expect(defaultValue.detail).toBeUndefined();
@@ -1278,9 +1274,7 @@ describe('enhancePropTypesProp', () => {
       it('should support named function with params', () => {
         const component = createTestComponent(null);
 
-        const { defaultValue } = extractPropDef(component, function add(a: number, b: number) {
-          return a + b;
-        });
+        const { defaultValue } = extractPropDef(component, (a: number, b: number) => a + b);
 
         expect(defaultValue.summary).toBe('add( ... )');
         expect(defaultValue.detail).toBeUndefined();
@@ -1359,9 +1353,9 @@ describe('enhancePropTypesProp', () => {
         it(`should support inlined anonymous React functional component for ${x}`, () => {
           const component = createTestComponent(null, x);
 
-          const { defaultValue } = extractPropDef(component, () => {
-            return <div>Inlined FunctionalComponent!</div>;
-          });
+          const { defaultValue } = extractPropDef(component, () => (
+            <div>Inlined FunctionalComponent!</div>
+          ));
 
           expect(defaultValue.summary).toBe('element');
           expect(defaultValue.detail).toBeUndefined();
@@ -1370,9 +1364,9 @@ describe('enhancePropTypesProp', () => {
         it(`should support inlined anonymous React functional component with props for ${x}`, () => {
           const component = createTestComponent(null, x);
 
-          const { defaultValue } = extractPropDef(component, ({ foo }: { foo: string }) => {
-            return <div>{foo}</div>;
-          });
+          const { defaultValue } = extractPropDef(component, ({ foo }: { foo: string }) => (
+            <div>{foo}</div>
+          ));
 
           expect(defaultValue.summary).toBe('element');
           expect(defaultValue.detail).toBeUndefined();
@@ -1381,9 +1375,9 @@ describe('enhancePropTypesProp', () => {
         it(`should support inlined named React functional component for ${x}`, () => {
           const component = createTestComponent(null, x);
 
-          const { defaultValue } = extractPropDef(component, function InlinedFunctionalComponent() {
-            return <div>Inlined FunctionalComponent!</div>;
-          });
+          const { defaultValue } = extractPropDef(component, () => (
+            <div>Inlined FunctionalComponent!</div>
+          ));
 
           expect(defaultValue.summary).toBe('<InlinedFunctionalComponent />');
           expect(defaultValue.detail).toBeUndefined();
@@ -1392,12 +1386,9 @@ describe('enhancePropTypesProp', () => {
         it(`should support inlined named React functional component with props for ${x}`, () => {
           const component = createTestComponent(null, x);
 
-          const { defaultValue } = extractPropDef(
-            component,
-            function InlinedFunctionalComponent({ foo }: { foo: string }) {
-              return <div>{foo}</div>;
-            }
-          );
+          const { defaultValue } = extractPropDef(component, ({ foo }: { foo: string }) => (
+            <div>{foo}</div>
+          ));
 
           expect(defaultValue.summary).toBe('<InlinedFunctionalComponent />');
           expect(defaultValue.detail).toBeUndefined();

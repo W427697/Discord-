@@ -20,12 +20,10 @@ interface TagsProps {
   tags: TagValue[];
 }
 
-export const Tags: FunctionComponent<TagsProps> = ({ tags }) => {
-  return (
-    <Wrapper>
-      {tags.map((tag) => (
-        <Item key={tag}>{tag}</Item>
-      ))}
-    </Wrapper>
-  );
-};
+export const Tags: FunctionComponent<TagsProps> = ({ tags }) => (
+  <Wrapper>
+    {tags.map((tag) => (
+      <Item key={tag}>{tag}</Item>
+    ))}
+  </Wrapper>
+);

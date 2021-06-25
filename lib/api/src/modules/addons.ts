@@ -155,9 +155,7 @@ export const init: ModuleFn = ({ provider, store, fullAPI }) => {
         .setState({ addons: { ...existing, [addonId]: nextState } }, options)
         .then(() => api.getAddonState(addonId));
     },
-    getAddonState: (addonId) => {
-      return store.getState().addons[addonId];
-    },
+    getAddonState: (addonId) => store.getState().addons[addonId],
   };
 
   return {

@@ -8,22 +8,20 @@ export const ApplyWrappers: FunctionComponent<ApplyWrappersProps> = ({
   storyId,
   active,
   children,
-}) => {
-  return (
-    <Fragment>
-      {wrappers.reduceRight(
-        (acc, wrapper, index) => wrapper.render({ index, children: acc, id, storyId, active }),
-        children
-      )}
-    </Fragment>
-  );
-};
+}) => (
+  <Fragment>
+    {wrappers.reduceRight(
+      (acc, wrapper, index) => wrapper.render({ index, children: acc, id, storyId, active }),
+      children
+    )}
+  </Fragment>
+);
 
 export const defaultWrappers = [
   {
-    render: (p) => (
-      <IframeWrapper id="storybook-preview-wrapper" hidden={!p.active}>
-        {p.children}
+    render: ({ children, active }) => (
+      <IframeWrapper id="storybook-preview-wrapper" hidden={!active}>
+        {children}
       </IframeWrapper>
     ),
   } as Wrapper,

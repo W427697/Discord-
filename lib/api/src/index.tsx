@@ -308,9 +308,10 @@ function ManagerConsumer<P = Combo>({
 
   const data = filterer.current(c);
 
-  const l = useMemo(() => {
-    return [...Object.entries(data).reduce((acc, keyval) => acc.concat(keyval), [])];
-  }, [c.state]);
+  const l = useMemo(
+    () => [...Object.entries(data).reduce((acc, keyval) => acc.concat(keyval), [])],
+    [c.state]
+  );
 
   return useMemo(() => {
     const Child = renderer.current as FunctionComponent<P>;

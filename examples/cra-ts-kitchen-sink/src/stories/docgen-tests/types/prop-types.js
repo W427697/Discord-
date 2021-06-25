@@ -21,9 +21,7 @@ const NAMED_SHAPE = PropTypes.shape({
 
 export const POSITIONS = ['top-left', 'top-right', 'top-center'];
 
-const FunctionalComponent = () => {
-  return <div>FunctionalComponent!</div>;
-};
+const FunctionalComponent = () => <div>FunctionalComponent!</div>;
 
 class ClassComponent extends React.PureComponent {
   render() {
@@ -82,17 +80,11 @@ const SOME_INLINE_DEFAULT_PROPS = {
     { foo: 'bar' },
   ],
   inlineFunctionalElement: <FunctionalComponent />,
-  inlineFunctionalElementInline: () => {
-    return <div>Inlined FunctionalComponent!</div>;
-  },
-  inlineFunctionalElementInlineReturningNull: () => {
-    return null;
-  },
+  inlineFunctionalElementInline: () => <div>Inlined FunctionalComponent!</div>,
+  inlineFunctionalElementInlineReturningNull: () => null,
   inlineHtmlElement: <div>Hey!</div>,
   // eslint-disable-next-line react/prop-types
-  inlineFunctionalElementInlineWithProps: ({ foo }) => {
-    return <div>{foo}</div>;
-  },
+  inlineFunctionalElementInlineWithProps: ({ foo }) => <div>{foo}</div>,
   inlineFunctionalElementNamedInline: function InlinedFunctionalComponent() {
     return <div>Inlined FunctionalComponent!</div>;
   },
@@ -417,9 +409,7 @@ PropTypesProps.defaultProps = {
   symbol: Symbol('Default symbol'),
   node: <div>Hello!</div>,
   functionalElement: <FunctionalComponent className="toto" />,
-  functionalElementInline: () => {
-    return <div>Inlined FunctionalComponent!</div>;
-  },
+  functionalElementInline: () => <div>Inlined FunctionalComponent!</div>,
   functionalElementNamedInline: function InlinedFunctionalComponent() {
     return <div>Inlined FunctionalComponent!</div>;
   },

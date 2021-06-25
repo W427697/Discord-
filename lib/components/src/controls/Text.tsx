@@ -3,7 +3,7 @@ import { styled } from '@storybook/theming';
 
 import { Form } from '../form';
 import { getControlId } from './helpers';
-import { ControlProps, TextValue, TextConfig } from './types';
+import { ControlProps, TextValue, TextConfig } from '../types';
 
 export type TextProps = ControlProps<TextValue | undefined> & TextConfig;
 

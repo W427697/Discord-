@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react';
 import { styled } from '@storybook/theming';
-import icons, { IconKey } from './icons';
+import { icons, IconKey } from './icons';
 
 import Svg from './svg';
 

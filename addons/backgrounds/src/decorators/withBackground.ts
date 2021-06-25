@@ -28,14 +28,15 @@ export const withBackground = (StoryFn: StoryFunction, context: StoryContext) =>
   const selector =
     context.viewMode === 'docs' ? `#anchor--${context.id} .docs-story` : '.sb-show-main';
 
-  const backgroundStyles = useMemo(() => {
-    return `
+  const backgroundStyles = useMemo(
+    () => `
       ${selector} {
         background: ${selectedBackgroundColor} !important;
         transition: background-color 0.3s;
       }
-    `;
-  }, [selectedBackgroundColor, selector]);
+    `,
+    [selectedBackgroundColor, selector]
+  );
 
   useEffect(() => {
     const selectorId =

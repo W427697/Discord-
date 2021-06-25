@@ -14,7 +14,7 @@ import { styled, useTheme, Theme } from '@storybook/theming';
 // @ts-ignore
 import { JsonTree, getObjectType } from './react-editable-json-tree';
 import { getControlId } from './helpers';
-import type { ControlProps, ObjectValue, ObjectConfig } from './types';
+import type { ControlProps, ObjectValue, ObjectConfig } from '../types';
 import { Form } from '../form';
 import { Icons, IconsProps } from '../icon/icon';
 import { IconButton } from '../bar/button';

@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { CSSProperties, useEffect, useState } from 'react';
 import { Zoom } from './Zoom';
 

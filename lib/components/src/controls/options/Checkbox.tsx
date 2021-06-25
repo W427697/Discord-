@@ -1,7 +1,7 @@
 import React, { FC, ChangeEvent, useState, Fragment } from 'react';
 import { styled } from '@storybook/theming';
 import { logger } from '@storybook/client-logger';
-import { ControlProps, OptionsMultiSelection, NormalizedOptionsConfig } from '../types';
+import { ControlProps, OptionsMultiSelection, NormalizedOptionsConfig } from '../../types';
 import { selectedKeys, selectedValues } from './helpers';
 import { getControlId } from '../helpers';
 

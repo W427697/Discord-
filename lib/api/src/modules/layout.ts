@@ -189,16 +189,14 @@ export const init: ModuleFn = ({ store, provider, singleStory }) => {
 
     resetLayout() {
       return store.setState(
-        (state: State) => {
-          return {
-            layout: {
-              ...state.layout,
-              showNav: false,
-              showPanel: false,
-              isFullscreen: false,
-            },
-          };
-        },
+        (state: State) => ({
+          layout: {
+            ...state.layout,
+            showNav: false,
+            showPanel: false,
+            isFullscreen: false,
+          },
+        }),
         { persistence: 'session' }
       );
     },

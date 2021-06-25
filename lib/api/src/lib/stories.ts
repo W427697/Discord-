@@ -136,8 +136,8 @@ export const denormalizeStoryParameters = ({
   globalParameters,
   kindParameters,
   stories,
-}: SetStoriesPayload): StoriesRaw => {
-  return mapValues(stories, (storyData) => ({
+}: SetStoriesPayload): StoriesRaw =>
+  mapValues(stories, (storyData) => ({
     ...storyData,
     parameters: combineParameters(
       globalParameters,
@@ -145,7 +145,6 @@ export const denormalizeStoryParameters = ({
       (storyData.parameters as unknown) as Parameters
     ),
   }));
-};
 
 const STORY_KIND_PATH_SEPARATOR = /\s*\/\s*/;
 

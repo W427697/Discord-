@@ -65,9 +65,7 @@ function extractIdFromStorySpecifier(storySpecifier: StorySpecifier): string {
   return toId(storySpecifier.kind, storySpecifier.name);
 }
 
-const isStoryDocsOnly = (parameters?: Parameters) => {
-  return parameters && parameters.docsOnly;
-};
+const isStoryDocsOnly = (parameters?: Parameters) => parameters && parameters.docsOnly;
 
 const includeStory = (story: StoreItem, options: StoryOptions = { includeDocsOnly: false }) => {
   if (options.includeDocsOnly) {
@@ -765,16 +763,14 @@ export default class StoryStore {
 
   getSelection = (): StoreSelection => this._selection;
 
-  getDataForManager = () => {
-    return {
-      v: 2,
-      globalParameters: this._globalMetadata.parameters,
-      globals: this._globals,
-      error: this.getError(),
-      kindParameters: mapValues(this._kinds, (metadata) => metadata.parameters),
-      stories: this.extract({ includeDocsOnly: true, normalizeParameters: true }),
-    };
-  };
+  getDataForManager = () => ({
+    v: 2,
+    globalParameters: this._globalMetadata.parameters,
+    globals: this._globals,
+    error: this.getError(),
+    kindParameters: mapValues(this._kinds, (metadata) => metadata.parameters),
+    stories: this.extract({ includeDocsOnly: true, normalizeParameters: true }),
+  });
 
   getStoriesJsonData = () => {
     const value = this.getDataForManager();

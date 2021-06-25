@@ -12,7 +12,7 @@ import convert from 'color-convert';
 import throttle from 'lodash/throttle';
 
 import { styled } from '@storybook/theming';
-import { ControlProps, ColorValue, ColorConfig, PresetColor } from './types';
+import { ControlProps, ColorValue, ColorConfig, PresetColor } from '../types';
 import { TooltipNote } from '../tooltip/TooltipNote';
 import { WithTooltip } from '../tooltip/lazy-WithTooltip';
 import { Form } from '../form';

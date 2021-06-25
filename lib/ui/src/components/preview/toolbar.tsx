@@ -125,11 +125,13 @@ const useTools = (
     toolsExtraFromConfig,
   ]);
 
-  return useMemo(() => {
-    return story && story.parameters
-      ? filterTools(tools, toolsExtra, tabs, { viewMode, story, location, path })
-      : { left: tools, right: toolsExtra };
-  }, [viewMode, story, location, path, tools, toolsExtra, tabs]);
+  return useMemo(
+    () =>
+      story && story.parameters
+        ? filterTools(tools, toolsExtra, tabs, { viewMode, story, location, path })
+        : { left: tools, right: toolsExtra },
+    [viewMode, story, location, path, tools, toolsExtra, tabs]
+  );
 };
 
 export interface ToolData {

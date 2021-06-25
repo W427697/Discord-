@@ -34,8 +34,8 @@ const responsiveViewport: ViewportItem = {
 
 const baseViewports: ViewportItem[] = [responsiveViewport];
 
-const toLinks = memoize(50)((list: ViewportItem[], active: LinkBase, set, state, close): Link[] => {
-  return list
+const toLinks = memoize(50)((list: ViewportItem[], active: LinkBase, set, state, close): Link[] =>
+  list
     .map((i) => {
       switch (i.id) {
         case responsiveViewport.id: {
@@ -54,8 +54,8 @@ const toLinks = memoize(50)((list: ViewportItem[], active: LinkBase, set, state,
         }
       }
     })
-    .filter(Boolean);
-});
+    .filter(Boolean)
+);
 
 const iframeId = 'storybook-preview-iframe';
 const wrapperId = 'storybook-preview-wrapper';

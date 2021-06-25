@@ -15,9 +15,8 @@ import {
   Directive,
 } from './types';
 
-export const isMethod = (methodOrProp: Method | Property): methodOrProp is Method => {
-  return (methodOrProp as Method).args !== undefined;
-};
+export const isMethod = (methodOrProp: Method | Property): methodOrProp is Method =>
+  (methodOrProp as Method).args !== undefined;
 
 export const setCompodocJson = (compodocJson: CompodocJson) => {
   // @ts-ignore

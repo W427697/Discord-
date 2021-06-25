@@ -154,9 +154,7 @@ function extractParam(tag: doctrine.Tag): ExtractedJsDocParam {
 
         return tag.name;
       },
-      getTypeName: () => {
-        return tag.type != null ? extractTypeName(tag.type) : null;
-      },
+      getTypeName: () => (tag.type != null ? extractTypeName(tag.type) : null),
     };
   }
 
@@ -168,9 +166,7 @@ function extractReturns(tag: doctrine.Tag): ExtractedJsDocReturns {
     return {
       type: tag.type,
       description: tag.description,
-      getTypeName: () => {
-        return extractTypeName(tag.type);
-      },
+      getTypeName: () => extractTypeName(tag.type),
     };
   }
 

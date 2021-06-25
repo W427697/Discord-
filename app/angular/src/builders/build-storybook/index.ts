@@ -46,9 +46,7 @@ function commandBuilder(
       angularBrowserTarget: options.browserTarget,
     })),
     switchMap((standaloneOptions) => runInstance({ ...standaloneOptions, mode: 'static' })),
-    map(() => {
-      return { success: true };
-    })
+    map(() => ({ success: true }))
   );
 }
 

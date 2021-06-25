@@ -90,9 +90,7 @@ export const extractComponentArgTypes = (
   return argTypes;
 };
 
-const isShortcut = (value?: string) => {
-  return value && [CURRENT_SELECTION, PRIMARY_STORY].includes(value);
-};
+const isShortcut = (value?: string) => value && [CURRENT_SELECTION, PRIMARY_STORY].includes(value);
 
 export const getComponent = (props: ArgsTableProps = {}, context: DocsContextProps): Component => {
   const { of } = props as OfProps;

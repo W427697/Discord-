@@ -39,13 +39,7 @@ const Sidebar: FunctionComponent<{}> = React.memo(() => {
       enableShortcuts,
     };
   };
-  return (
-    <Consumer filter={mapper}>
-      {(fromState) => {
-        return <SidebarComponent {...fromState} />;
-      }}
-    </Consumer>
-  );
+  return <Consumer filter={mapper}>{(fromState) => <SidebarComponent {...fromState} />}</Consumer>;
 });
 
 export default Sidebar;

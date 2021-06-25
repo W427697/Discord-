@@ -3,14 +3,13 @@ import { styled } from '@storybook/theming';
 
 import { Form } from '../form';
 import { getControlId } from './helpers';
-import { ControlProps, ArrayValue, ArrayConfig } from './types';
+import { ControlProps, ArrayValue, ArrayConfig } from '../types';
 
 const parse = (value: string, separator: string): ArrayValue =>
   !value || value.trim() === '' ? [] : value.split(separator);
 
-const format = (value: ArrayValue | undefined, separator: string) => {
-  return value && Array.isArray(value) ? value.join(separator) : '';
-};
+const format = (value: ArrayValue | undefined, separator: string) =>
+  value && Array.isArray(value) ? value.join(separator) : '';
 
 const Wrapper = styled.label({
   display: 'flex',

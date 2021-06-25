@@ -137,19 +137,15 @@ const Content = styled(({ tests, className }: ContentProps) => (
                   <SuiteTotals {...{ result, width }} />
                   {width > 240 ? (
                     <ProgressWrapper>
-                      {sortedTestsByCount.map((entry: any) => {
-                        return (
-                          <SuiteProgressPortion
-                            key={`progress-portion-${entry[0]}`}
-                            color={getColorByType(entry[0])}
-                            progressPercent={
-                              entry[1]
-                                ? (entry[1].length / result.assertionResults.length) * 100
-                                : 0
-                            }
-                          />
-                        );
-                      })}
+                      {sortedTestsByCount.map((entry: any) => (
+                        <SuiteProgressPortion
+                          key={`progress-portion-${entry[0]}`}
+                          color={getColorByType(entry[0])}
+                          progressPercent={
+                            entry[1] ? (entry[1].length / result.assertionResults.length) * 100 : 0
+                          }
+                        />
+                      ))}
                     </ProgressWrapper>
                   ) : null}
                 </SuiteHead>

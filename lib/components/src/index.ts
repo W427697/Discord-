@@ -43,6 +43,8 @@ export { StorybookLogo } from './brand/StorybookLogo';
 export { StorybookIcon } from './brand/StorybookIcon';
 
 // Doc blocks
+// FIXME DEPENDENCY CYCLE
+// eslint-disable-next-line import/no-cycle
 export * from './blocks';
 export * from './controls';
 
@@ -50,8 +52,6 @@ export * from './controls';
 export { Loader } from './Loader/Loader';
 
 export * from './typography/DocumentFormatting';
-
-export { rawComponents as components };
 
 const resetComponents: Record<string, ElementType> = {};
 

@@ -3,7 +3,7 @@ import { styled } from '@storybook/theming';
 
 import { Form } from '../form';
 import { getControlId } from './helpers';
-import { ControlProps, NumberValue, NumberConfig } from './types';
+import { ControlProps, NumberValue, NumberConfig } from '../types';
 
 const Wrapper = styled.label({
   display: 'flex',
