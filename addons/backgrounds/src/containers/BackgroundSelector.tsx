@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { FunctionComponent, Fragment, useCallback, useMemo, memo } from 'react';
 import memoize from 'memoizerific';
 
@@ -101,7 +102,7 @@ export const BackgroundSelector: FunctionComponent = memo(() => {
     (value: string) => {
       updateGlobals({ [BACKGROUNDS_PARAM_KEY]: { ...globals[BACKGROUNDS_PARAM_KEY], value } });
     },
-    [backgroundsConfig, globals, updateGlobals]
+    [globals, updateGlobals]
   );
 
   if (backgroundsConfig.disable) {

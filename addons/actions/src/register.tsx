@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { useState, useEffect } from 'react';
 import { addons, types } from '@storybook/addons';
 import { STORY_CHANGED } from '@storybook/core-events';
@@ -11,6 +12,7 @@ addons.register(ADDON_ID, (api) => {
       const onEvent = () => setActionsCount((previous) => previous + 1);
       const onChange = () => setActionsCount(0);
 
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       useEffect(() => {
         api.on(EVENT_ID, onEvent);
         api.on(STORY_CHANGED, onChange);
