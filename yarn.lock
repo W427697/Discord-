@@ -6968,12 +6968,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/eslint-config-storybook@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "@storybook/eslint-config-storybook@npm:3.1.1"
+"@storybook/eslint-config-storybook@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "@storybook/eslint-config-storybook@npm:3.1.2"
   dependencies:
-    "@storybook/linter-config": 3.1.1
-  checksum: e3dc5b09c690b7504d542b5c20a6e87277cb5aae8288e7035c821f0cfcfe42194a2a8dc06f3afb39a373b59a617e32bc6f9ca21000f1e541a3a0c4c4fea7b946
+    "@storybook/linter-config": 3.1.2
+  checksum: dc366d302702aa2cfaaaa2c49d361d53355adb8ff59c3f77021c338ab830899b47f4c44f67565628de7a8dfabda5f84c8d8585f3faab97d5098bc4d87fa4802d
   languageName: node
   linkType: hard
 
@@ -7044,9 +7044,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/linter-config@npm:3.1.1, @storybook/linter-config@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "@storybook/linter-config@npm:3.1.1"
+"@storybook/linter-config@npm:3.1.2, @storybook/linter-config@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "@storybook/linter-config@npm:3.1.2"
   dependencies:
     "@typescript-eslint/eslint-plugin": ^4.27.0
     eslint-config-airbnb-typescript: ^12.3.1
@@ -7067,7 +7067,7 @@ __metadata:
     remark-preset-lint-recommended: ^5.0.0
   peerDependencies:
     remark: ^12.0.0 || ^13.0.0
-  checksum: 062f350cc3f8fe0ddd9cadb16aef3d8f3352d21e483a9323757e3bfbcd7e8393c433153588b949ad73b6a0c77aef1e47ba3065aef99a6183fde6dec07bd26e34
+  checksum: 41140d14cb9a543adcbd4adc5fd57f2a048732f182e517a048d9f5ecebf827375b3c639ca324824a5e28cf29c52eb2509261a30b12cf72ac636c898b35e215e3
   languageName: node
   linkType: hard
 
@@ -7395,9 +7395,9 @@ __metadata:
     "@storybook/core-events": "workspace:*"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/ember": "workspace:*"
-    "@storybook/eslint-config-storybook": ^3.1.1
+    "@storybook/eslint-config-storybook": ^3.1.2
     "@storybook/html": "workspace:*"
-    "@storybook/linter-config": ^3.1.1
+    "@storybook/linter-config": ^3.1.2
     "@storybook/node-logger": "workspace:*"
     "@storybook/postinstall": "workspace:*"
     "@storybook/preact": "workspace:*"
