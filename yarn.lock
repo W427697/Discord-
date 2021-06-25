@@ -7456,7 +7456,7 @@ __metadata:
     enzyme-adapter-react-16: ^1.15.5
     eslint: ^7.28.0
     eslint-plugin-cypress: ^2.11.2
-    eslint-teamcity: ^4.0.0
+    eslint-teamcity: ^3.0.1
     esm: ^3.2.25
     express: ^4.17.1
     fs-extra: ^9.0.1
@@ -7504,6 +7504,7 @@ __metadata:
     ts-jest: ^26.4.4
     ts-loader: ^8.0.14
     ts-node: ^9.1.0
+    typescript: ^3.9.7
     verdaccio: ^4.10.0
     verdaccio-auth-memory: ^9.7.2
     wait-on: ^5.2.1
@@ -20542,12 +20543,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-teamcity@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "eslint-teamcity@npm:4.0.0"
+"eslint-teamcity@npm:^3.0.1":
+  version: 3.1.0
+  resolution: "eslint-teamcity@npm:3.1.0"
   dependencies:
-    fs-extra: ^10.0.x
-  checksum: fae9f0e6138686e931be80309775b8d1399a9f19cdd2208dc9c82dd99dc65237a3b8c69d6f5f8876e7991111fd7be8e7d8eba342a177a8bbe0e5672bb190ac52
+    fs-extra: ^9.0.x
+  checksum: 4a34dc51b02108ee96459d9d5a1e116f0fcb2b0bccd35d1f86b99af15bd08bf9f64efa9a2fff916e5a3691b9c5f9b3a61582575ec1d3ad534e50f06df26ebdde
   languageName: node
   linkType: hard
 
@@ -22390,17 +22391,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:^10.0.x":
-  version: 10.0.0
-  resolution: "fs-extra@npm:10.0.0"
-  dependencies:
-    graceful-fs: ^4.2.0
-    jsonfile: ^6.0.1
-    universalify: ^2.0.0
-  checksum: 85802f3d9e49d197744a8372f0d78d5a1faa3df73f4c5375d6366a4b9f745197d3da1f095841443d50f29a9f81cdc01363eb6d17bef2ba70c268559368211040
-  languageName: node
-  linkType: hard
-
 "fs-extra@npm:^4.0.2":
   version: 4.0.3
   resolution: "fs-extra@npm:4.0.3"
@@ -22445,7 +22435,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:^9.0.0, fs-extra@npm:^9.0.1, fs-extra@npm:^9.1.0":
+"fs-extra@npm:^9.0.0, fs-extra@npm:^9.0.1, fs-extra@npm:^9.0.x, fs-extra@npm:^9.1.0":
   version: 9.1.0
   resolution: "fs-extra@npm:9.1.0"
   dependencies:
