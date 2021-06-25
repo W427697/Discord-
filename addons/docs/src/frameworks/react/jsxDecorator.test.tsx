@@ -114,19 +114,19 @@ describe('renderJsx', () => {
 
     expect(renderJsx(<MyExoticComponent>I'm forwardRef!</MyExoticComponent>, {}))
       .toMatchInlineSnapshot(`
-        <MyExoticComponent>
-          I'm forwardRef!
-        </MyExoticComponent>
-      `);
+      <[object Object]>
+        I'm forwardRef!
+      </[object Object]>
+    `);
   });
 
   it('memo component', () => {
     const MyMemoComponent = React.memo((props: any) => <div>{props.children}</div>);
 
     expect(renderJsx(<MyMemoComponent>I'm memo!</MyMemoComponent>, {})).toMatchInlineSnapshot(`
-      <MyMemoComponent>
+      <[object Object]>
         I'm memo!
-      </MyMemoComponent>
+      </[object Object]>
     `);
   });
 
