@@ -1,3 +1,10 @@
 {
-  "deepscan.enable": true
+  "deepscan.enable": true,
+  "cSpell.words": [
+    "DOCGEN",
+    "displayname",
+    "oneof",
+    "proptypes",
+    "testfixtures"
+  ]
 }

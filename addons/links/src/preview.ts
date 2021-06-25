@@ -33,13 +33,12 @@ const generateUrl = (id: string) => {
   )}`;
 };
 
-const valueOrCall = (args: string[]) => (value: string | ((...args: string[]) => string)) =>
+const valueOrCall = (args: string[]) => (value: string | ((...a: string[]) => string)) =>
   typeof value === 'function' ? value(...args) : value;
 
-export const linkTo = (
-  idOrKindInput: string,
-  storyInput?: string | ((...args: any[]) => string)
-) => (...args: any[]) => {
+export const linkTo = (idOrKindInput: string, storyInput?: string | ((...a: any[]) => string)) => (
+  ...args: any[]
+) => {
   const resolver = valueOrCall(args);
   const { storyId } = storyStore.getSelection();
   const current = storyStore.fromId(storyId) || {};

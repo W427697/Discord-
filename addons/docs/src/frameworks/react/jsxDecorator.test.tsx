@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/display-name, jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { addons, StoryContext } from '@storybook/addons';
@@ -152,15 +152,22 @@ describe('renderJsx', () => {
   });
 });
 
-// @ts-ignore
-const makeContext = (name: string, parameters: any, args: any, extra?: object): StoryContext => ({
-  id: `jsx-test--${name}`,
-  kind: 'js-text',
-  name,
-  parameters,
-  args,
-  ...extra,
-});
+const makeContext = (
+  name: string,
+  parameters: any,
+  args: any,
+  extra: Partial<StoryContext> = {}
+): StoryContext => {
+  // @ts-ignore
+  return {
+    id: `jsx-test--${name}`,
+    kind: 'js-text',
+    name,
+    parameters,
+    args,
+    ...extra,
+  };
+};
 
 describe('jsxDecorator', () => {
   let mockChannel: { on: jest.Mock; emit?: jest.Mock };

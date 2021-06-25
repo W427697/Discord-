@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Component } from '../../../blocks/types';
@@ -46,6 +44,7 @@ function createComponent({ propTypes = {}, defaultProps = {}, docgenInfo = {} })
   component.defaultProps = defaultProps;
 
   // @ts-ignore
+  // eslint-disable-next-line no-underscore-dangle
   component.__docgenInfo = createDocgenSection(docgenInfo);
 
   return component;

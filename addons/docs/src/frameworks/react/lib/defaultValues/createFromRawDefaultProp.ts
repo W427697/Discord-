@@ -26,6 +26,7 @@ function isReactElement(element: any): boolean {
   return element.$$typeof != null;
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function extractFunctionName(func: Function, propName: string): string {
   const { name } = func;
 

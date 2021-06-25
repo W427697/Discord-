@@ -1,7 +1,7 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, FunctionComponent, useState } from 'react';
 import { styled, themes, convert } from '@storybook/theming';
 import { Icons } from '@storybook/components';
-import Message from './Message';
+import { Message } from './Message';
 
 const Wrapper = styled.div<{ status: string }>(({ theme, status }) => ({
   display: 'flex',
@@ -49,14 +49,17 @@ interface ResultProps {
   status: string;
 }
 
-export function Result(props: ResultProps) {
+export const Result: FunctionComponent<ResultProps> = ({
+  fullName,
+  title,
+  failureMessages,
+  status,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onToggle = () => {
     setIsOpen(!isOpen);
   };
-
-  const { fullName, title, failureMessages, status } = props;
   return (
     <Fragment>
       <Wrapper status={status}>
@@ -84,6 +87,6 @@ export function Result(props: ResultProps) {
       ) : null}
     </Fragment>
   );
-}
+};
 
 export default Result;

@@ -1,37 +1,11 @@
 import doctrine, { Annotation } from 'doctrine';
-
-export interface ExtractedJsDocParam {
-  name: string;
-  type?: any;
-  description?: string;
-  getPrettyName: () => string;
-  getTypeName: () => string;
-}
-
-export interface ExtractedJsDocReturns {
-  type?: any;
-  description?: string;
-  getTypeName: () => string;
-}
-
-export interface ExtractedJsDoc {
-  params?: ExtractedJsDocParam[];
-  returns?: ExtractedJsDocReturns;
-  ignore: boolean;
-}
-
-export interface JsDocParsingOptions {
-  tags?: string[];
-}
-
-export interface JsDocParsingResult {
-  includesJsDoc: boolean;
-  ignore: boolean;
-  description?: string;
-  extractedTags?: ExtractedJsDoc;
-}
-
-export type ParseJsDoc = (value?: string, options?: JsDocParsingOptions) => JsDocParsingResult;
+import {
+  ExtractedJsDoc,
+  ExtractedJsDocParam,
+  ExtractedJsDocReturns,
+  JsDocParsingOptions,
+  ParseJsDoc,
+} from './docgen/types';
 
 function containsJsDoc(value?: string): boolean {
   return value != null && value.includes('@');
