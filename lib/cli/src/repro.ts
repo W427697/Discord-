@@ -4,8 +4,9 @@ import path from 'path';
 import chalk from 'chalk';
 import boxen from 'boxen';
 import dedent from 'ts-dedent';
-import { createAndInit, Parameters, exec } from './repro-generators/scripts';
+import { createAndInit, exec } from './repro-generators/scripts';
 import * as configs from './repro-generators/configs';
+import type { Parameters } from './repro-generators/configs';
 import { SupportedFrameworks } from './project_types';
 
 const logger = console;
@@ -22,13 +23,18 @@ interface ReproOptions {
 
 const TEMPLATES = configs as Record<string, Parameters>;
 
-const FRAMEWORKS = Object.values(configs).reduce<Record<SupportedFrameworks, Parameters[]>>(
-  (acc, cur) => {
-    acc[cur.framework] = [...(acc[cur.framework] || []), cur];
-    return acc;
-  },
-  {} as Record<SupportedFrameworks, Parameters[]>
-);
+// Create a curate list of template because some of them only make sense in E2E
+// context, fon instance react_in_yarn_workspace
+const CURATED_TEMPLATES = Object.fromEntries(
+  Object.entries(configs).filter((entry) => entry[0] !== 'react_in_yarn_workspace')
+) as Record<string, Parameters>;
+
+const FRAMEWORKS = Object.values(CURATED_TEMPLATES).reduce<
+  Record<SupportedFrameworks, Parameters[]>
+>((acc, cur) => {
+  acc[cur.framework] = [...(acc[cur.framework] || []), cur];
+  return acc;
+}, {} as Record<SupportedFrameworks, Parameters[]>);
 
 export const repro = async ({
   outputDirectory,
@@ -39,6 +45,21 @@ export const repro = async ({
   e2e,
   pnp,
 }: ReproOptions) => {
+  logger.info(
+    boxen(
+      dedent`
+        🤗 Welcome to ${chalk.yellow('sb repro')}! 🤗 
+
+        Create a ${chalk.green('new project')} to minimally reproduce Storybook issues.
+        
+        1. select an environment that most closely matches your project setup.
+        2. select a location for the reproduction, outside of your project.
+        
+        After the reproduction is ready, we'll guide you through the next steps.
+        `.trim(),
+      { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
+    )
+  );
   if (list) {
     logger.info('🌈 Available templates');
     Object.entries(FRAMEWORKS).forEach(([fmwrk, templates]) => {
@@ -62,6 +83,9 @@ export const repro = async ({
         choices: Object.keys(FRAMEWORKS).map((f) => ({ title: f, value: f })),
       });
       selectedFramework = frameworkOpt;
+    }
+    if (!selectedFramework) {
+      throw new Error('🚨 Repro: please select a framework!');
     }
     selectedTemplate = (
       await prompts({

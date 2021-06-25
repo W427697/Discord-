@@ -1,10 +1,13 @@
-/* eslint-disable no-param-reassign */
-import { document, Node } from 'global';
+import global from 'global';
 import dedent from 'ts-dedent';
-import { render, TemplateResult } from 'lit-html';
+import { render } from 'lit-html';
+// Keep `.js` extension to avoid issue with Webpack (related to export map?)
+// eslint-disable-next-line import/extensions
+import { isTemplateResult } from 'lit-html/directive-helpers.js';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/client-api';
 import { RenderContext } from './types';
 
+const { document, Node } = global;
 const rootElement = document.getElementById('root');
 
 export default function renderMain({
@@ -17,14 +20,14 @@ export default function renderMain({
 }: RenderContext) {
   const element = storyFn();
 
-  if (element instanceof TemplateResult) {
+  if (isTemplateResult(element)) {
     // `render` stores the TemplateInstance in the Node and tries to update based on that.
     // Since we reuse `rootElement` for all stories, remove the stored instance first.
     // But forceRender means that it's the same story, so we want too keep the state in that case.
     if (!forceRender || !rootElement.querySelector('[id="root-inner"]')) {
       targetDOMNode.innerHTML = '<div id="root-inner"></div>';
     }
-    const renderTo = targetDOMNode.querySelector('[id="root-inner"]');
+    const renderTo = targetDOMNode.querySelector<HTMLElement>('[id="root-inner"]');
 
     render(element, renderTo);
     simulatePageLoad(targetDOMNode);

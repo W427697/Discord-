@@ -5,7 +5,7 @@
 Storybook for Server is a UI development environment for your plain HTML snippets rendered by your server backend.
 With it, you can visualize different states of your UI components and develop them interactively.
 
-![Storybook Screenshot](https://github.com/storybookjs/storybook/blob/master/media/storybook-intro.gif)
+![Storybook Screenshot](https://github.com/storybookjs/storybook/blob/main/media/storybook-intro.gif)
 
 Storybook runs outside of your app.
 So you can develop UI components in isolation without worrying about app specific dependencies and requirements.
@@ -33,7 +33,7 @@ For more information visit: [storybook.js.org](https://storybook.js.org)
 
 ## Writing Stories
 
-To write a story, use whatever API is natural for your server-side rendering framework to generate set of JSON files of stories analogous to CSF files (see the [`server-kitchen-sink`](../../examples/server-kitchen-sink/stories) example for ideas).
+To write a story, use whatever API is natural for your server-side rendering framework to generate set of JSON or YAML files of stories analogous to CSF files (see the [`server-kitchen-sink`](../../examples/server-kitchen-sink/stories) example for ideas).
 
 ```json
 {
