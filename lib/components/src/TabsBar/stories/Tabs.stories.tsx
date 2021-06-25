@@ -4,7 +4,7 @@ import { TabsBar } from '../TabsBar';
 import { TabsTool } from '../TabsTool';
 
 export default {
-  title: 'Basics/TabsBarA',
+  title: 'Basics/TabsBar',
   component: TabsBar,
   argTypes: {
     onSelect: { action: 'onSelect', table: { disable: true, hidden: true } },
@@ -18,11 +18,11 @@ export default {
     textColor: { control: { type: 'color' } },
     activeColor: { control: { type: 'color' } },
     initial: {
-      options: ['c', 'd', 'e'],
+      options: ['canvas', 'docs'],
       control: { type: 'select' },
     },
     selected: {
-      options: ['c', 'd', 'e'],
+      options: ['canvas', 'docs'],
       control: { type: 'select' },
     },
   },
