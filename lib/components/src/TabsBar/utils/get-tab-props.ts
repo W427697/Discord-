@@ -2,17 +2,19 @@ import { HTMLAttributes } from 'react';
 import type { TabProps, TabPropKey } from '../types';
 
 const tabPropKeys: TabPropKey[] = [
+  'id',
   'Icon',
-  'color',
+  'textColor',
+  'active',
+  'activeColor',
   'content',
   'icon',
-  'id',
   'label',
   'menu',
   'narrow',
   'selected',
+  'initial',
   'type',
-  'active',
 ];
 
 export const getTabProps = <T extends HTMLElement = HTMLButtonElement>(

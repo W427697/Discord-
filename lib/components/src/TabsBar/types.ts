@@ -24,7 +24,6 @@ export type TabProps = {
   textColor?: string;
   active?: boolean;
   activeColor?: string;
-  color?: string;
   content?: ReactNode;
   icon?: IconsProps['icon'];
   label?: ReactNode;
