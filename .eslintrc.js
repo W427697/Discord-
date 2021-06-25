@@ -69,5 +69,12 @@ module.exports = {
         'react-hooks/rules-of-hooks': 'off',
       },
     },
+    {
+      files: ['**/*.stories.*'],
+      rules: {
+        'react/display-name': 'off',
+        'react/destructuring-assignment': 'off',
+      },
+    },
   ],
 };
