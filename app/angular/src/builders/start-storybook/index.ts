@@ -35,7 +35,7 @@ export type StorybookBuilderOptions = JsonObject & {
     | 'docs'
   >;
 
-export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
+export type StorybookBuilderOutput = JsonObject & BuilderOutput & Record<string, any>;
 
 export default createBuilder(commandBuilder);
 
