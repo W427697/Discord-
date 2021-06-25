@@ -1,36 +1,86 @@
-import React, { FC, HTMLAttributes } from 'react';
 import { styled } from '@storybook/theming';
+import React, { forwardRef, HTMLAttributes, ReactNode, RefObject } from 'react';
+import { Icons, IconsProps } from '../icon/icon';
 
 export type TabsButtonProps = {
+  adornmentEnd?: ReactNode;
+  adornmentStart?: ReactNode;
   active?: boolean;
-  color?: string;
+  activeColor?: string;
+  textColor?: string;
+  icon?: IconsProps['icon'];
+  Icon?: ReactNode;
+  narrow?: boolean;
+  label?: ReactNode;
+  LabelProps?: HTMLAttributes<HTMLSpanElement>;
 } & HTMLAttributes<HTMLButtonElement>;
 
-export const TabsButton: FC<TabsButtonProps> = ({ active, color, ...rest }) => {
-  return <Wrapper active={active} textColor={color} {...rest} />;
-};
+export const TabsButton = forwardRef(
+  (props: TabsButtonProps, ref: RefObject<HTMLButtonElement>) => {
+    const {
+      active,
+      adornmentStart,
+      adornmentEnd,
+      textColor,
+      icon,
+      Icon,
+      label,
+      narrow,
+      activeColor,
+      LabelProps = {},
+      ...rest
+    } = props;
+    let ButtonIcon = Icon;
+
+    if (icon) {
+      ButtonIcon = <Icons icon={icon} />;
+    }
+
+    return (
+      <Wrapper
+        data-sb-tabs-button=""
+        active={active}
+        narrow={narrow}
+        textColor={textColor}
+        activeColor={activeColor}
+        ref={ref}
+        {...rest}
+      >
+        {ButtonIcon && (
+          <IconWrapper data-sb-tabsbutton-icon="" hasLabel={label !== undefined}>
+            {ButtonIcon}
+          </IconWrapper>
+        )}
+        {adornmentStart}
+        {label && (
+          <span data-sb-tabsbutton-label="" {...LabelProps}>
+            {label}
+          </span>
+        )}
+        {adornmentEnd}
+      </Wrapper>
+    );
+  }
+);
 
 interface WrapperProps {
   active: boolean;
   textColor: string;
+  activeColor: string;
+  narrow: boolean;
 }
 
 const Wrapper = styled.button<WrapperProps>(
   {
-    whiteSpace: 'normal',
+    whiteSpace: 'nowrap',
     display: 'inline-flex',
-    overflow: 'hidden',
-    verticalAlign: 'top',
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
     textDecoration: 'none',
-  },
-  ({ theme }) => ({
-    padding: '0 15px',
-    transition: 'color 0.2s linear, border-bottom-color 0.2s linear',
     height: 40,
-    lineHeight: 12,
+    transition: 'color 0.2s linear, border-bottom-color 0.2s linear',
+    lineHeight: '12px',
     cursor: 'pointer',
     background: 'transparent',
     border: '0 solid transparent',
@@ -38,25 +88,49 @@ const Wrapper = styled.button<WrapperProps>(
     borderBottom: '3px solid transparent',
     fontWeight: 'bold',
     fontSize: 13,
-
-    '&:focus': {
+  },
+  ({ narrow }) => ({
+    padding: `0 ${narrow ? 0 : 16}px`,
+  }),
+  ({ theme, activeColor }) => ({
+    '&:focus,&:active': {
       outline: '0 none',
-      borderBottomColor: theme.color.secondary,
-    },
-
-    '& > svg': {
-      height: 15,
-      marginRight: 4,
+      color: activeColor || theme.barSelectedColor,
+      borderBottomColor: activeColor || theme.barSelectedColor,
     },
   }),
-  ({ active, textColor, theme }) =>
+  ({ activeColor, theme }) => ({
+    '&:hover': {
+      color: activeColor || theme.barSelectedColor,
+    },
+  }),
+  ({ active, textColor, activeColor, theme }) =>
     active
       ? {
-          color: textColor || theme.barSelectedColor,
-          borderBottomColor: theme.barSelectedColor,
+          color: activeColor || theme.barSelectedColor,
+          borderBottomColor: activeColor || theme.barSelectedColor,
         }
       : {
           color: textColor || theme.barTextColor,
           borderBottomColor: 'transparent',
         }
+);
+
+interface IconWrapperProps {
+  hasLabel: boolean;
+}
+
+const IconWrapper = styled.span<IconWrapperProps>(
+  {
+    '& svg': {
+      height: 15,
+    },
+  },
+  ({ hasLabel }) =>
+    hasLabel && {
+      '& svg': {
+        height: 11,
+        marginRight: 4,
+      },
+    }
 );

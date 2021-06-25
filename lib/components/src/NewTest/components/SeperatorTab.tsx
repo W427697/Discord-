@@ -1,13 +1,10 @@
+import React, { FC, useContext, useEffect } from 'react';
 import { styled } from '@storybook/theming';
-import React, { FC, HTMLAttributes, useContext, useEffect } from 'react';
 import { TabsBarContext } from '../TabsBarContext';
-import { TabsButton as _TabsButton } from '../TabsButton';
 import { TabProps } from '../types';
 import { getTabProps } from '../utils/get-tab-props';
 
-type ButtonTabProps = TabProps & HTMLAttributes<HTMLButtonElement>;
-
-export const ButtonTab: FC<ButtonTabProps> = (props) => {
+export const SeperatorTab: FC<TabProps> = (props) => {
   const { addToMap, removeFromMap } = useContext(TabsBarContext);
   const tabProps = getTabProps(props);
 
@@ -19,9 +16,17 @@ export const ButtonTab: FC<ButtonTabProps> = (props) => {
     };
   }, []);
 
-  return <TabsButton data-sb-tabs-button-tab="" narrow {...props} />;
+  return <Wrapper data-sb-tabs-seperator-tab="" {...props} />;
 };
 
-const TabsButton = styled(_TabsButton)({
+interface WrapperProps {
+  textColor?: string;
+}
+
+const Wrapper = styled.span<WrapperProps>(({ theme, textColor }) => ({
+  width: 1,
+  height: 24,
+  backgroundColor: textColor || theme.barTextColor,
   margin: '0 8px',
-});
+  opacity: 0.4,
+}));

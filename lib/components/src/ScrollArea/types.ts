@@ -1,10 +1,15 @@
 import type { ReactNode, HTMLAttributes } from 'react';
 import type { Theme } from '@storybook/theming';
 
+export interface ScrollValue {
+  left: number;
+  top: number;
+}
+
 export interface ScrollAreaRenderProps {
   inner: DOMRect;
   outer: DOMRect;
-  scroll: { left: number; top: number };
+  scroll: ScrollValue;
 }
 
 export type ChildRenderFunction = (renderProps: ScrollAreaRenderProps) => ReactNode;
@@ -70,4 +75,5 @@ export type ScrollAreaProps = {
   verticalPosition?: VerticalPositionType;
   ContentProps?: HTMLAttributes<HTMLDivElement>;
   ContainerProps?: HTMLAttributes<HTMLDivElement>;
+  onScrollChange?: (values: ScrollValue) => void;
 } & HTMLAttributes<HTMLDivElement>;

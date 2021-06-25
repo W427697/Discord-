@@ -1,5 +1,5 @@
 import { styled } from '@storybook/theming';
-import { borderRadius } from 'polished';
+import { nanoid } from 'nanoid';
 import React, {
   Children,
   FC,
@@ -10,42 +10,64 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { ScrollArea } from '../ScrollArea/ScrollArea';
+import { ScrollAreaProps, ScrollValue } from '../ScrollArea/types';
 import { ButtonTab } from './components/ButtonTab';
 import { ContentTab } from './components/ContentTab';
 import { MenuTab } from './components/MenuTab';
+import { SeperatorTab } from './components/SeperatorTab';
+import { ToolTab } from './components/ToolTab';
+import { ScrollContext } from './ScrollContext';
 import { AddToMapFn, RemoveFromMapFn, TabsBarContext } from './TabsBarContext';
-import { TabProps } from './types';
-import { sanitizeTabProps } from './utils/sanitize-tab-props';
+import { TabMenu, TabProps } from './types';
 
-type TabItems = (React.ReactNode | (() => ReactNode))[];
+type TabMapItem = { index: number; props: TabProps };
 
-type TabMap = Record<string, { index: number; props: TabProps }>;
+type TabMap = Record<string, TabMapItem>;
 
 export type TabsBarProps = {
+  absolute?: boolean;
   tabs?: TabProps[];
   tools?: ReactNode;
   staticTools?: boolean;
   selected?: string;
+  initial?: string;
   bordered?: boolean;
+  textColor?: string;
+  backgroundColor?: string;
   rounded?: boolean;
+  activeColor?: string;
+  onMenuClose?: () => void;
+  onMenuItemSelect?: (item: TabMenu) => void;
+  onMenuOpen?: () => void;
 } & HTMLAttributes<HTMLDivElement>;
 
 export const TabsBar: FC<TabsBarProps> = ({
+  absolute,
   children,
   tabs = [],
   tools,
   selected,
   bordered,
+  initial,
   staticTools,
+  backgroundColor,
+  textColor,
+  activeColor,
   rounded,
+  onMenuClose,
+  onMenuItemSelect,
+  onMenuOpen,
   ...rest
 }) => {
   const [contentItems, setContentItems] = useState<TabProps[]>([]);
   const [tabItems, setTabItems] = useState<ReactNode[]>([]);
+  const [scrollOffset, setScrollOffset] = useState(0);
   const [selectedTabId, setSelectedTabId] = useState(selected);
   const tabsMap = useRef<TabMap>({});
   const tabsMapIndexRef = useRef(0);
   const tabItemsLength = children ? Children.count(children) : tabs.length;
+  const idRef = useRef(nanoid());
 
   const addToMap: AddToMapFn = useCallback(
     (tab) => {
@@ -58,6 +80,19 @@ export const TabsBar: FC<TabsBarProps> = ({
           .map((key) => tabsMap.current[key].props)
           .filter((props) => props.type === 'content')
           .map((props) => props);
+
+        let firstId = '';
+        Object.keys(tabsMap.current)
+          .map((i) => tabsMap.current[i])
+          .some((tabItem) => {
+            const hit = tabItem.props.type === 'content' && tabItem.props.content;
+            firstId = hit ? tabItem.props.id : '';
+            return hit;
+          });
+
+        if (!initial && !selected) {
+          setSelectedTabId(firstId);
+        }
 
         setContentItems(newContentItems);
       }
@@ -83,30 +118,86 @@ export const TabsBar: FC<TabsBarProps> = ({
     [setSelectedTabId]
   );
 
+  const handleScroll = useCallback(
+    ({ left }: ScrollValue) => {
+      setScrollOffset(left);
+    },
+    [scrollOffset, setScrollOffset]
+  );
+
   useEffect(() => {
     if (tabs.length > 0 && !children) {
       setTabItems(
-        tabs
-          .map((tabProps) => sanitizeTabProps(tabProps))
-          .map(({ tabProps, htmlProps }) => {
-            let Tab: ReactNode;
+        tabs.map((_props) => {
+          const props = { ..._props, type: _props.type || 'content' };
+          const id = `${idRef.current}-${props.id}`;
+          let Tab: ReactNode;
 
-            switch (tabProps.type) {
-              case 'content':
-                Tab = <ContentTab {...tabProps} {...htmlProps} />;
-                break;
-              case 'button':
-                Tab = <ButtonTab {...tabProps} {...htmlProps} />;
-                break;
-              case 'menu':
-                Tab = <MenuTab {...tabProps} {...htmlProps} />;
-                break;
-              default:
-                break;
-            }
+          switch (props.type) {
+            case 'content':
+              Tab = (
+                <ContentTab
+                  key={`tab-${props.id}`}
+                  textColor={textColor}
+                  activeColor={activeColor}
+                  {...props}
+                  id={id}
+                />
+              );
+              break;
+            case 'button':
+              Tab = (
+                <ButtonTab
+                  key={`tab-${props.id}`}
+                  textColor={textColor}
+                  activeColor={activeColor}
+                  {...props}
+                  id={id}
+                />
+              );
+              break;
+            case 'seperator':
+              Tab = (
+                <SeperatorTab
+                  key={`tab-${props.id}`}
+                  textColor={textColor}
+                  activeColor={activeColor}
+                  {...props}
+                  id={id}
+                />
+              );
+              break;
+            case 'tool':
+              Tab = (
+                <ToolTab
+                  key={`tab-${props.id}`}
+                  textColor={textColor}
+                  activeColor={activeColor}
+                  {...props}
+                  id={id}
+                />
+              );
+              break;
+            case 'menu':
+              Tab = (
+                <MenuTab
+                  key={`tab-${props.id}`}
+                  onMenuClose={onMenuClose}
+                  onMenuOpen={onMenuOpen}
+                  onMenuItemSelect={onMenuItemSelect}
+                  textColor={textColor}
+                  activeColor={activeColor}
+                  {...props}
+                  id={id}
+                />
+              );
+              break;
+            default:
+              break;
+          }
 
-            return Tab;
-          })
+          return Tab;
+        })
       );
     }
   }, [children, tabs]);
@@ -115,47 +206,136 @@ export const TabsBar: FC<TabsBarProps> = ({
     setSelectedTabId(selected);
   }, [selected]);
 
+  useEffect(() => {
+    setSelectedTabId(initial);
+  }, [initial]);
+
+  const scrollAreaProps: ScrollAreaProps = {
+    style: { width: '100%' },
+    onScrollChange: handleScroll,
+  };
+
   return (
     <TabsBarContext.Provider
       value={{ addToMap, removeFromMap, onSelect: handleSelect, selectedTabId }}
     >
-      <Wrapper bordered={bordered} rounded={rounded} {...rest}>
-        <BarArea>
-          <Tabs>{children || tabItems}</Tabs>
-          <Tool>{tools}</Tool>
-        </BarArea>
-        <ContentArea bordered={contentItems.length > 0 && selectedTabId !== undefined}>
-          {contentItems.map(({ id, content }) => {
-            return (
-              <div hidden={id !== selectedTabId}>
-                {content instanceof Function ? content() : content}
-              </div>
-            );
-          })}
-        </ContentArea>
-      </Wrapper>
+      <ScrollContext.Provider value={scrollOffset}>
+        <Wrapper
+          data-sb-tabs-bar=""
+          absolute={absolute}
+          bordered={bordered}
+          rounded={rounded}
+          staticTools={staticTools}
+          {...rest}
+        >
+          {staticTools ? (
+            <StaticTabsArea
+              data-sb-tabs-bar-tabarea=""
+              backgroundColor={backgroundColor}
+              textColor={textColor}
+            >
+              <ScrollArea data-sb-tabs-bar-tabsscrollarea="" {...scrollAreaProps}>
+                <Tabs data-sb-tabs-bar-tabs="">{children || tabItems}</Tabs>
+              </ScrollArea>
+              <Tools data-sb-tabs-bar-tools="">{tools}</Tools>
+            </StaticTabsArea>
+          ) : (
+            <ScrollArea data-sb-tabs-bar-scrollarea="" {...scrollAreaProps}>
+              <ScrollAreaInner
+                data-sb-tabs-bar-scrollarea-inner=""
+                backgroundColor={backgroundColor}
+                textColor={textColor}
+              >
+                <Tabs data-sb-tabs-bar-tabs="">{children || tabItems}</Tabs>
+                <Tools data-sb-tabs-bar-tools="">{tools}</Tools>
+              </ScrollAreaInner>
+            </ScrollArea>
+          )}
+          <ContentArea
+            data-sb-contentarea=""
+            bordered={contentItems.length > 0 && selectedTabId !== undefined}
+          >
+            {contentItems.map(({ id, content }) => {
+              return (
+                <div key={`content-${id}`} hidden={id !== selectedTabId}>
+                  {content instanceof Function ? content() : content}
+                </div>
+              );
+            })}
+          </ContentArea>
+        </Wrapper>
+      </ScrollContext.Provider>
     </TabsBarContext.Provider>
   );
 };
 
 interface WrapperProps {
+  absolute: boolean;
   bordered: boolean;
   rounded: boolean;
+  staticTools: boolean;
 }
 
-const Wrapper = styled.div<WrapperProps>(({ bordered, theme, rounded }) => ({
-  border: bordered ? `1px solid ${theme.color.border}` : '0 none',
-  borderRadius: rounded ? theme.appBorderRadius : '0',
-}));
+const Wrapper = styled.div<WrapperProps>(
+  ({ bordered, theme, rounded }) => ({
+    border: bordered ? `1px solid ${theme.color.border}` : '0 none',
+    borderRadius: rounded ? theme.appBorderRadius : '0',
+  }),
+  ({ absolute }) =>
+    absolute && {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+    }
+);
 
-const BarArea = styled.div({
+interface ScrollableBarBaseProps {
+  backgroundColor: string;
+  textColor: string;
+}
+
+const ScrollableBarBase = styled.div<ScrollableBarBaseProps>(
+  ({ backgroundColor, textColor, theme }) => ({
+    backgroundColor: backgroundColor || theme.background.bar,
+    color: textColor || theme.barTextColor,
+  })
+);
+
+const ScrollAreaInner = styled(ScrollableBarBase)({
   display: 'flex',
+  alignItems: 'center',
   justifyContent: 'space-between',
 });
 
-const Tabs = styled.div({});
+const StaticTabsArea = styled(ScrollableBarBase)({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
 
-const Tool = styled.div({});
+  '& [data-sb-tabs-bar-tools]': {
+    justifySelf: 'flex-end',
+  },
+});
+
+const Tabs = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+});
+
+const Tools = styled.div({
+  display: 'flex',
+  paddingRight: 16,
+  paddingLeft: 16,
+
+  '& > *': {
+    marginRight: 16,
+    '&:last-child': {
+      marginRight: 0,
+    },
+  },
+});
 
 interface ContentAreaProps {
   bordered: boolean;

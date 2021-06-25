@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { IconsProps } from '../icon/icon';
 
-export type TabType = 'content' | 'button' | 'menu';
+export type TabType = 'content' | 'button' | 'menu' | 'seperator' | 'tool';
 
 export type TabIconPosition = 'left' | 'right';
 
@@ -21,14 +21,17 @@ export type TabMenu = {
 export type TabProps = {
   id: string;
   Icon?: ReactNode;
+  textColor?: string;
   active?: boolean;
+  activeColor?: string;
   color?: string;
   content?: ReactNode;
   icon?: IconsProps['icon'];
   label?: ReactNode;
   menu?: TabMenu[];
   narrow?: boolean;
-  selected?: boolean;
+  selected?: string;
+  initial?: string;
   type?: TabType;
 };
 

@@ -27,6 +27,7 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
   sliderType,
   vertical: enableVertical = true,
   verticalPosition = 'right',
+  onScrollChange,
   onScroll,
   ContentProps = {},
   ContainerProps = {},
@@ -168,6 +169,10 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
       if (onScroll) {
         event.persist();
         onScroll(event);
+      }
+
+      if (onScrollChange) {
+        onScrollChange({ left: scrollLeft, top: scrollTop });
       }
 
       if (showOn === 'scroll') {

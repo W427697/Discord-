@@ -1,13 +1,11 @@
 import { styled } from '@storybook/theming';
-import React, { FC, HTMLAttributes, useContext, useEffect } from 'react';
+import React, { FC, useContext, useEffect } from 'react';
 import { TabsBarContext } from '../TabsBarContext';
-import { TabsButton as _TabsButton } from '../TabsButton';
+import { TabsTool as _TabsTool } from '../TabsTool';
 import { TabProps } from '../types';
 import { getTabProps } from '../utils/get-tab-props';
 
-type ButtonTabProps = TabProps & HTMLAttributes<HTMLButtonElement>;
-
-export const ButtonTab: FC<ButtonTabProps> = (props) => {
+export const ToolTab: FC<TabProps> = (props) => {
   const { addToMap, removeFromMap } = useContext(TabsBarContext);
   const tabProps = getTabProps(props);
 
@@ -19,9 +17,9 @@ export const ButtonTab: FC<ButtonTabProps> = (props) => {
     };
   }, []);
 
-  return <TabsButton data-sb-tabs-button-tab="" narrow {...props} />;
+  return <TabsTool data-sb-tabs-tool-tab="" {...props} />;
 };
 
-const TabsButton = styled(_TabsButton)({
+const TabsTool = styled(_TabsTool)({
   margin: '0 8px',
 });
