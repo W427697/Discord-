@@ -8,6 +8,7 @@ import { ADDON_ID, EVENT_ID, PANEL_ID, PARAM_KEY } from './constants';
 addons.register(ADDON_ID, (api) => {
   addons.addPanel(PANEL_ID, {
     title() {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const [actionsCount, setActionsCount] = useState(0);
       const onEvent = () => setActionsCount((previous) => previous + 1);
       const onChange = () => setActionsCount(0);
