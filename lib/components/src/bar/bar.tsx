@@ -39,7 +39,7 @@ export const Bar = styled(({ children, className, backgroundColor }) => (
     horizontal
     showOn="hover"
     className={className}
-    ContainerProps={{ style: { backgroundColor: backgroundColor || '' } }}
+    containerProps={{ style: { backgroundColor: backgroundColor || '' } }}
   >
     {children}
   </ScrollArea>
