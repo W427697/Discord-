@@ -139,7 +139,7 @@ const Wrapper = styled.li<WrapperProps>(
   },
   ({ theme, narrow, indentBody }) => ({
     '[data-sb-accordion-header]': {
-      padding: narrow ? '12px 16px' : 16,
+      padding: narrow ? '10px 15px' : 15,
       fontSize: theme.typography.size.s2 - 1,
       border: '1px solid transparent',
       '&:hover': {
