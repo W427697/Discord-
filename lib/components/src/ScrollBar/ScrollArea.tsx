@@ -28,8 +28,8 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
   vertical: enableVertical = true,
   verticalPosition = 'right',
   onScroll,
-  ContentProps = {},
-  ContainerProps = {},
+  contentProps = {},
+  containerProps = {},
   ...rest
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -298,7 +298,7 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
         parentWidth={outerRect.width}
         parentHeight={outerRect.height}
         ref={containerRef}
-        {...ContainerProps}
+        {...containerProps}
         onScroll={handleScroll}
         onMouseOver={handleMouseEnter}
         onMouseEnter={handleMouseEnter}
@@ -308,7 +308,7 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
           data-sb-scrollarea-content=""
           ref={innerRef}
           absolute={absolute}
-          {...ContentProps}
+          {...contentProps}
         >
           {child}
         </Styled.ScrollableContent>

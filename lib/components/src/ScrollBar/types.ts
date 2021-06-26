@@ -68,6 +68,6 @@ export type ScrollAreaProps = {
   sliderType?: SliderType;
   vertical?: boolean;
   verticalPosition?: VerticalPositionType;
-  ContentProps?: HTMLAttributes<HTMLDivElement>;
-  ContainerProps?: HTMLAttributes<HTMLDivElement>;
+  contentProps?: HTMLAttributes<HTMLDivElement>;
+  containerProps?: HTMLAttributes<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;
