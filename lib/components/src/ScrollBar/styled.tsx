@@ -101,7 +101,6 @@ export const Slider = styled.div<SliderProps>(({ theme, sliderColor, sliderType,
   borderTopRightRadius: sliderSize / 2,
   borderBottomLeftRadius: sliderSize / 2,
   borderBottomRightRadius: sliderSize / 2,
-  cursor: 'grabbing',
 }));
 
 export const VerticalSlider = styled(Slider)(({ sliderSize }) => ({
