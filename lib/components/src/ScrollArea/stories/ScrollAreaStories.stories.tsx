@@ -4,7 +4,7 @@ import { Content } from './Content';
 import { ScrollArea } from '../ScrollArea';
 
 export default {
-  title: 'Basics/ScrollArea/Stories',
+  title: 'Basics/ScrollBars/Stories',
   component: ScrollArea,
   parameters: {
     test: { disable: true },
