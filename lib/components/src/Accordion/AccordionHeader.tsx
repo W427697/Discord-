@@ -148,7 +148,7 @@ const Wrapper = styled.button<WrapperProps>(({ theme, preventToggle, preventOpen
   textAlign: 'left',
   backgroundColor: 'transparent',
   cursor: preventToggle || preventOpen ? 'default' : 'pointer',
-  fontSize: theme.typography.size.s3,
+  fontSize: theme.typography.size.s2 - 1,
 }));
 
 interface ExpanderWrapperProps {

@@ -140,7 +140,7 @@ const Wrapper = styled.li<WrapperProps>(
   ({ theme, narrow, indentBody }) => ({
     '[data-sb-accordion-header]': {
       padding: narrow ? '12px 16px' : 16,
-      fontSize: narrow ? theme.typography.size.s2 : theme.typography.size.s3,
+      fontSize: theme.typography.size.s2 - 1,
       border: '1px solid transparent',
       '&:hover': {
         backgroundColor: theme.background.hoverable,
@@ -163,7 +163,7 @@ const Wrapper = styled.li<WrapperProps>(
       },
     },
     '[data-sb-accordion-body]': {
-      fontSize: theme.typography.size.s2,
+      fontSize: theme.typography.size.s2 - 1,
       backgroundColor: theme.background.app,
     },
     '&[aria-expanded="true"]': {
