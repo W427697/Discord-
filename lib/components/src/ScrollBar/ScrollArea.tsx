@@ -202,41 +202,25 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
     ]
   );
 
-  const handleMouseEnter = useCallback(
-    (event) => {
-      if (showOn === 'hover') {
-        setState({
-          ...state,
-          horizontal: { ...state.horizontal, show: true },
-          vertical: { ...state.vertical, show: true },
-        });
-      }
+  const handleMouseEnter = useCallback(() => {
+    if (showOn === 'hover') {
+      setState({
+        ...state,
+        horizontal: { ...state.horizontal, show: true },
+        vertical: { ...state.vertical, show: true },
+      });
+    }
+  }, [rest, showOn, state, setState]);
 
-      if (rest.onMouseEnter) {
-        event.persist();
-        rest.onMouseEnter(event);
-      }
-    },
-    [rest, showOn, state, setState]
-  );
-
-  const handleMouseLeave = useCallback(
-    (event) => {
-      if (showOn === 'hover') {
-        setState({
-          ...state,
-          horizontal: { ...state.horizontal, show: false },
-          vertical: { ...state.vertical, show: false },
-        });
-      }
-
-      if (rest.onMouseLeave) {
-        event.persist();
-        rest.onMouseLeave(event);
-      }
-    },
-    [rest]
-  );
+  const handleMouseLeave = useCallback(() => {
+    if (showOn === 'hover') {
+      setState({
+        ...state,
+        horizontal: { ...state.horizontal, show: false },
+        vertical: { ...state.vertical, show: false },
+      });
+    }
+  }, [rest]);
 
   const handleVerticalDrag = useCallback(
     (scrollTop: number) => {
