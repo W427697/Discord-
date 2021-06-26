@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useRef, useState, Children }
 // @TODO get rid of lodash usage
 // shilman wish to get rid of lodash for bundle size, so maybe "nanoid" can be
 // added for unique id requirements?
-import { uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 import { styled } from '@storybook/theming';
 import { AccordionContext } from './AccordionContext';
 import { AccordionItemContext } from './AccordionItemContext';
