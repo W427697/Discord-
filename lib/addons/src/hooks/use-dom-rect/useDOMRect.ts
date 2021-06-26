@@ -1,6 +1,5 @@
-import { MutableRefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { ResizeObserver } from 'resize-observer';
-import { useCallbackRef } from '../useCallbackRef';
 
 const initialState = {
   height: 0,
@@ -71,7 +70,6 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
 }: UseDOMRectProps<T> = {}) => {
   const hookRef = useRef<T>(null);
   const ref: MutableRefObject<T> = customRef || hookRef;
-  const { callbackRef, setCallbackRef } = useCallbackRef<T>();
   const [_rect, setRect] = useState<UseDOMRectBounds>({ ...initialState });
   const rect = _rect as DOMRect;
 
@@ -96,12 +94,12 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
       observer = new ResizeObserver(onResize);
     }
 
-    if (callbackRef && callbackRef.current) {
+    if (ref && ref.current) {
       if (observer) {
-        observer.observe(callbackRef.current);
+        observer.observe(ref.current);
       }
 
-      let newRect = callbackRef.current.getBoundingClientRect();
+      let newRect = ref.current.getBoundingClientRect();
 
       if (rounded) {
         newRect = getRoundedRect(newRect);
@@ -115,11 +113,7 @@ export const useDOMRect = <T extends HTMLElement = HTMLDivElement>({
         observer.disconnect();
       }
     };
-  }, [callbackRef]);
+  }, [ref]);
 
-  useLayoutEffect(() => {
-    setCallbackRef(ref);
-  }, [setCallbackRef, ref]);
-
-  return { ref: callbackRef, rect: rect as DOMRect };
+  return { ref, rect: rect as DOMRect };
 };
