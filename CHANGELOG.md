@@ -1,3 +1,20 @@
+## 6.4.0-alpha.3 (June 26, 2021)
+
+### Bug Fixes
+
+* CSF3: Genericize feature flagging and fix webpack5 ([#15375](https://github.com/storybookjs/storybook/pull/15375))
+* Webpack5: Fix warnings typo ([#15374](https://github.com/storybookjs/storybook/pull/15374))
+
+## 6.4.0-alpha.2 (June 25, 2021)
+
+### Bug Fixes
+
+- Core: Only use dotenv-webpack when a user has a dotenv file ([#15365](https://github.com/storybookjs/storybook/pull/15365))
+
+### Maintenance
+
+- CSF3: Rename setup to play ([#15358](https://github.com/storybookjs/storybook/pull/15358))
+
 ## 6.4.0-alpha.1 (June 25, 2021)
 
 ### Bug Fixes
