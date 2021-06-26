@@ -435,5 +435,4 @@ export function useGlobals(): [Args, (newGlobals: Args) => void] {
   return [globals, updateGlobals];
 }
 
-export { useCallbackRef } from './hooks/useCallbackRef';
 export { useDOMRect } from './hooks/use-dom-rect/useDOMRect';
