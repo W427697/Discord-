@@ -1,7 +1,6 @@
-/* global document */
-
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { document } from 'window-or-global';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
