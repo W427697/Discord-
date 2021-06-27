@@ -6,6 +6,7 @@ export type AugmentedWindow = {
   __STORYBOOK_CLIENT_API__?: ClientApi;
   __STORYBOOK_STORY_STORE__?: StoryStore;
   __STORYBOOK_ADDONS_CHANNEL__?: Channel;
+  NODE_ENV: 'string' | 'development' | undefined;
   STORYBOOK_ENV?:
     | 'SERVER'
     | 'angular'
