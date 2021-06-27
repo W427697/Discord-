@@ -23,6 +23,7 @@ import {
   applyHooks,
 } from '@storybook/addons';
 import ReactDOM from 'react-dom';
+import root from 'window-or-global';
 
 import { StoryRenderer } from './StoryRenderer';
 
@@ -36,8 +37,7 @@ jest.mock('@storybook/client-logger', () => ({
   },
 }));
 
-jest.mock('global', () => ({
-  // @ts-ignore
+jest.mock('window-or-global', () => ({
   ...global,
   FEATURES: { previewCsfV3: true },
 }));

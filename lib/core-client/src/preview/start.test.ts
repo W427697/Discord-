@@ -1,22 +1,19 @@
-import global from 'global';
-
+import globalThis from 'window-or-global';
+import { AugmentedWindow } from '../types';
 import start from './start';
 
-const { document, window: globalWindow } = global;
+const root = globalThis as AugmentedWindow;
+const { document } = root;
 
 jest.mock('@storybook/client-logger');
-jest.mock('global', () => ({
+jest.mock('window-or-global', () => ({
   history: { replaceState: jest.fn() },
   location: { search: '' },
   navigator: { userAgent: 'browser', platform: '' },
-  window: {
-    __STORYBOOK_CLIENT_API__: undefined,
-    addEventListener: jest.fn(),
-    postMessage: jest.fn(),
-    location: { search: '' },
-    history: { replaceState: jest.fn() },
-    matchMedia: jest.fn().mockReturnValue({ matches: false }),
-  },
+  __STORYBOOK_CLIENT_API__: undefined,
+  addEventListener: jest.fn(),
+  postMessage: jest.fn(),
+  matchMedia: jest.fn().mockReturnValue({ matches: false }),
   document: {
     addEventListener: jest.fn(),
     getElementById: jest.fn().mockReturnValue({}),
@@ -27,7 +24,7 @@ jest.mock('global', () => ({
 }));
 
 afterEach(() => {
-  globalWindow.__STORYBOOK_CLIENT_API__ = undefined;
+  root.__STORYBOOK_CLIENT_API__ = undefined;
 });
 
 it('returns apis', () => {
@@ -51,7 +48,7 @@ it('reuses the current client api when the lib is reloaded', () => {
 
   const { clientApi } = start(render);
 
-  const valueOfClientApi = globalWindow.__STORYBOOK_CLIENT_API__;
+  const valueOfClientApi = root.__STORYBOOK_CLIENT_API__;
 
   const { clientApi: newClientApi } = start(render);
 

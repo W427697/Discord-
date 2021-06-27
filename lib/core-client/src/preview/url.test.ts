@@ -1,10 +1,8 @@
-import global from 'global';
+import { history, document } from 'window-or-global';
 
 import { pathToId, setPath, parseQueryParameters, getSelectionSpecifierFromPath } from './url';
 
-const { history, document } = global;
-
-jest.mock('global', () => ({
+jest.mock('window-or-global', () => ({
   history: { replaceState: jest.fn() },
   document: {
     location: {

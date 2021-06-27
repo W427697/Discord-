@@ -1,5 +1,10 @@
-import global from 'global';
+import root from 'window-or-global';
+import { AugmentedWindow } from '../types';
 
-const { window: globalWindow } = global;
+const rootProxy = root as AugmentedWindow;
 
-globalWindow.STORYBOOK_REACT_CLASSES = {};
+rootProxy.__STORYBOOK_CLIENT_API__ = undefined;
+rootProxy.__STORYBOOK_STORY_STORE__ = undefined;
+rootProxy.__STORYBOOK_ADDONS_CHANNEL__ = undefined;
+rootProxy.STORYBOOK_REACT_CLASSES = {};
+rootProxy.FEATURES = { previewCsfV3: false };

@@ -1,12 +1,9 @@
-import global from 'global';
+import { StoryId, ViewMode } from '@storybook/addons';
+import { StoreSelection, StoreSelectionSpecifier } from '@storybook/client-api';
 import qs from 'qs';
 import deprecate from 'util-deprecate';
-import { StoreSelectionSpecifier, StoreSelection } from '@storybook/client-api';
-import { StoryId, ViewMode } from '@storybook/addons';
-
+import { history, document } from 'window-or-global';
 import { parseArgsParam } from './parseArgsParam';
-
-const { history, document } = global;
 
 export function pathToId(path: string) {
   const match = (path || '').match(/^\/story\/(.+)/);
@@ -52,8 +49,7 @@ const getFirstString = (v: ValueOf<qs.ParsedQs>): string | void => {
     return getFirstString(v[0]);
   }
   if (isObject(v)) {
-    // @ts-ignore
-    return getFirstString(Object.values(v));
+    return getFirstString(Object.values(v) as ValueOf<qs.ParsedQs>);
   }
   return undefined;
 };
