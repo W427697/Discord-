@@ -1,7 +1,5 @@
-import global from 'global';
+import { document } from 'window-or-global';
 import React from 'react';
-
-const { document } = global;
 
 export default {
   title: 'Addons/QueryParams',

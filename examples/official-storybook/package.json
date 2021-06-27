@@ -11,6 +11,9 @@
     "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true start-storybook -p 9011 -c ./",
     "storyshots-puppeteer": "yarn run build-storybook && yarn run do-storyshots-puppeteer"
   },
+  "dependencies": {
+    "window-or-global": "^1.0.1"
+  },
   "devDependencies": {
     "@packtracker/webpack-plugin": "^2.3.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
@@ -37,6 +40,7 @@
     "@storybook/theming": "6.4.0-alpha.3",
     "@testing-library/dom": "^7.31.2",
     "@testing-library/user-event": "^13.1.9",
+    "@types/window-or-global": "^1.0.4",
     "chromatic": "^5.6.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
@@ -44,7 +48,6 @@
     "eventemitter3": "^4.0.7",
     "express": "^4.17.1",
     "format-json": "^1.0.3",
-    "global": "^4.4.0",
     "jest-emotion": "^10.0.32",
     "lodash": "^4.17.20",
     "paths.macro": "^3.0.1",

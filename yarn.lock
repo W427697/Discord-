@@ -31710,6 +31710,7 @@ fsevents@^1.2.7:
     "@storybook/theming": 6.4.0-alpha.3
     "@testing-library/dom": ^7.31.2
     "@testing-library/user-event": ^13.1.9
+    "@types/window-or-global": ^1.0.4
     chromatic: ^5.6.0
     cors: ^2.8.5
     cross-env: ^7.0.3
@@ -31717,7 +31718,6 @@ fsevents@^1.2.7:
     eventemitter3: ^4.0.7
     express: ^4.17.1
     format-json: ^1.0.3
-    global: ^4.4.0
     jest-emotion: ^10.0.32
     lodash: ^4.17.20
     paths.macro: ^3.0.1
@@ -31728,6 +31728,7 @@ fsevents@^1.2.7:
     uuid: ^8.3.2
     uuid-browser: ^3.1.0
     webpack: 4
+    window-or-global: ^1.0.1
   peerDependencies:
     puppeteer: ^2.0.0 || ^3.0.0
   languageName: unknown
