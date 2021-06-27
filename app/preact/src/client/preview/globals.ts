@@ -1,7 +1,6 @@
-import global from 'global';
+import { AugmentedWindow } from '@storybook/core-client';
+import _root from 'window-or-global';
 
-const { window: globalWindow } = global;
+const root = _root as AugmentedWindow;
 
-if (globalWindow) {
-  globalWindow.STORYBOOK_ENV = 'preact';
-}
+root.STORYBOOK_ENV = 'preact';

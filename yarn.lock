@@ -7023,6 +7023,7 @@ __metadata:
     "@storybook/addons": 6.4.0-alpha.3
     "@storybook/client-api": 6.4.0-alpha.3
     "@storybook/core": 6.4.0-alpha.3
+    "@storybook/core-client": 6.4.0-alpha.3
     "@storybook/core-common": 6.4.0-alpha.3
     "@types/webpack-env": ^1.16.0
     "@types/window-or-global": ^1.0.4
@@ -7225,14 +7226,15 @@ __metadata:
     "@storybook/core": 6.4.0-alpha.3
     "@storybook/core-common": 6.4.0-alpha.3
     "@types/webpack-env": ^1.16.0
+    "@types/window-or-global": ^1.0.4
     core-js: ^3.8.2
-    global: ^4.4.0
     preact: ^10.5.13
     react: 16.14.0
     react-dom: 16.14.0
     read-pkg-up: ^7.0.1
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
+    window-or-global: ^1.0.1
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0

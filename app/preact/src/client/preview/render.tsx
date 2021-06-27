@@ -1,9 +1,8 @@
 import * as preact from 'preact';
-import global from 'global';
+import { document } from 'window-or-global';
 import dedent from 'ts-dedent';
 import { RenderContext, StoryFnPreactReturnType } from './types';
 
-const { document } = global;
 const rootElement = document ? document.getElementById('root') : null;
 
 let renderedStory: Element;
