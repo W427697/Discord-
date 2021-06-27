@@ -1,4 +1,4 @@
-import global from 'global';
+import { DOCS_MODE } from 'window-or-global';
 import { toId, sanitize } from '@storybook/csf';
 import {
   UPDATE_STORY_ARGS,
@@ -30,8 +30,6 @@ import type {
 
 import { Args, ModuleFn } from '../index';
 import { ComposedRef } from './refs';
-
-const { DOCS_MODE } = global;
 
 type Direction = -1 | 1;
 type ParameterName = string;

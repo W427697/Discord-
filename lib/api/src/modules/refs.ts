@@ -1,4 +1,4 @@
-import global from 'global';
+import { location, fetch } from 'window-or-global';
 import dedent from 'ts-dedent';
 import {
   transformStoriesRawToStoriesHash,
@@ -8,8 +8,6 @@ import {
 } from '../lib/stories';
 
 import { ModuleFn } from '../index';
-
-const { location, fetch } = global;
 
 export interface SubState {
   refs: Refs;
@@ -187,7 +185,8 @@ export const init: ModuleFn = ({ store, provider, singleStory }, { runCheck = tr
               },
               credentials,
               cache: 'no-cache',
-            }).catch(() => false)
+              // @todo - need help here shilman
+            }).catch(() => false) as any
           ),
         ]);
 
