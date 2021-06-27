@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import global from 'global';
+import root from 'window-or-global';
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import { MDXProvider } from '@mdx-js/react';
@@ -12,7 +12,7 @@ import { SourceContainer } from './SourceContainer';
 import { CodeOrSourceMdx, AnchorMdx, HeadersMdx } from './mdx';
 import { scrollToElement } from './utils';
 
-const { document, window: globalWindow } = global;
+const { document } = root;
 
 export interface DocsContainerProps {
   context: DocsContextProps;
@@ -48,7 +48,7 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, 
   useEffect(() => {
     let url;
     try {
-      url = new URL(globalWindow.parent.location);
+      url = new URL(root.parent.location.toString());
     } catch (err) {
       return;
     }
