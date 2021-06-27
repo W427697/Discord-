@@ -1,6 +1,4 @@
-import global from 'global';
-
-const { window, EventSource } = global;
+import root, { EventSource } from 'window-or-global';
 
 export {
   storiesOf,
@@ -33,7 +31,7 @@ if (module && module.hot && module.hot.decline) {
       // Only care for built events.  Heartbeats are not parsable so we ignore those
       const { action } = JSON.parse(event.data);
       if (action === 'built') {
-        window.location.reload();
+        root.location.reload();
       }
     } catch (error) {
       // Most part we only get here from the data in the server-sent event not being parsable which is ok

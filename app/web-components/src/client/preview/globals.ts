@@ -1,5 +1,6 @@
-import global from 'global';
+import _root from 'window-or-global';
+import { AugmentedGlobal } from '@storybook/core-client';
 
-const { window: globalWindow } = global;
+const root = _root as AugmentedGlobal;
 
-globalWindow.STORYBOOK_ENV = 'web-components';
+root.STORYBOOK_ENV = 'web-components';
