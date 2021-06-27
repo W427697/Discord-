@@ -6163,11 +6163,11 @@ __metadata:
     "@types/autoprefixer": ^9.7.2
     "@types/jest": ^26.0.16
     "@types/webpack-env": ^1.16.0
+    "@types/window-or-global": ^1.0.4
     "@webcomponents/custom-elements": ^1.4.3
     autoprefixer: ^9.8.6
     core-js: ^3.8.2
     fork-ts-checker-webpack-plugin: ^4.1.6
-    global: ^4.4.0
     jest: ^26.6.3
     jest-preset-angular: ^8.3.2
     postcss: ^7.0.36
@@ -6185,6 +6185,7 @@ __metadata:
     tsconfig-paths-webpack-plugin: ^3.3.0
     util-deprecate: ^1.0.2
     webpack: 4
+    window-or-global: ^1.0.1
   peerDependencies:
     "@angular-devkit/architect": ">=0.8.9"
     "@angular-devkit/build-angular": ">=0.8.9"

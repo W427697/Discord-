@@ -1,7 +1,7 @@
-import global from 'global';
-
+import _root from 'window-or-global';
+import { AugmentedWindow } from '@storybook/core-client';
 import './angular-polyfills';
 
-const { window: globalWindow } = global;
+const root = _root as AugmentedWindow;
 
-globalWindow.STORYBOOK_ENV = 'angular';
+root.STORYBOOK_ENV = 'angular';
