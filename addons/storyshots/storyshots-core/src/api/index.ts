@@ -1,23 +1,29 @@
-import global from 'global';
+import _root from 'window-or-global';
 import { addons, mockChannel } from '@storybook/addons';
+import { AugmentedWindow } from '@storybook/core-client';
 import ensureOptionsDefaults from './ensureOptionsDefaults';
 import snapshotsTests from './snapshotsTestsTemplate';
 import integrityTest from './integrityTestTemplate';
 import loadFramework from '../frameworks/frameworkLoader';
 import { StoryshotsOptions } from './StoryshotsOptions';
 
-const { describe } = global;
-global.STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES || {};
+const root = _root as AugmentedWindow;
 
-type TestMethod = 'beforeAll' | 'beforeEach' | 'afterEach' | 'afterAll';
-const methods: TestMethod[] = ['beforeAll', 'beforeEach', 'afterEach', 'afterAll'];
+const { describe } = root;
+root.STORYBOOK_REACT_CLASSES = root.STORYBOOK_REACT_CLASSES || {};
 
-function callTestMethodGlobals(
-  testMethod: { [key in TestMethod]?: Function & { timeout?: number } } & { [key in string]: any }
-) {
+type TestMethodType = 'beforeAll' | 'beforeEach' | 'afterEach' | 'afterAll';
+type TestMethodFunction = Function & { timeout?: number } & Record<string, unknown>;
+type TestMethod = {
+  [key in TestMethodType]?: TestMethodFunction;
+};
+
+const methods: TestMethodType[] = ['beforeAll', 'beforeEach', 'afterEach', 'afterAll'];
+
+function callTestMethodGlobals(testMethod: any) {
   methods.forEach((method) => {
     if (typeof testMethod[method] === 'function') {
-      global[method](testMethod[method], testMethod[method].timeout);
+      root[method](testMethod[method], testMethod[method].timeout);
     }
   });
 }

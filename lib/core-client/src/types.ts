@@ -6,6 +6,18 @@ export type AugmentedWindow = {
   __STORYBOOK_CLIENT_API__?: ClientApi;
   __STORYBOOK_STORY_STORE__?: StoryStore;
   __STORYBOOK_ADDONS_CHANNEL__?: Channel;
+  STORYBOOK_ENV?:
+    | 'SERVER'
+    | 'angular'
+    | 'ember'
+    | 'html'
+    | 'preact'
+    | 'rax'
+    | 'riot'
+    | 'svelte'
+    | 'vue'
+    | 'vue3'
+    | 'web-components';
   STORYBOOK_REACT_CLASSES: Record<string, unknown>;
   FEATURES: {
     previewCsfV3?: boolean;

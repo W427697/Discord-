@@ -1,7 +1,5 @@
-import global from 'global';
+import { document } from 'window-or-global';
 import { set_current_component } from 'svelte/internal';
-
-const { document } = global;
 
 /**
  * Provides functionality to convert your raw story to the resulting markup.

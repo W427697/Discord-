@@ -1,11 +1,14 @@
 /** @jsxRuntime classic */
 /** @jsx h */
 
-import global from 'global';
+import { AugmentedWindow } from '@storybook/core-client';
+import _root from 'window-or-global';
+import { StoryshotsOptions } from '../../api/StoryshotsOptions';
 import configure from '../configure';
 import hasDependency from '../hasDependency';
 import { Loader } from '../Loader';
-import { StoryshotsOptions } from '../../api/StoryshotsOptions';
+
+const root = _root as AugmentedWindow;
 
 function test(options: StoryshotsOptions): boolean {
   return (
@@ -14,7 +17,7 @@ function test(options: StoryshotsOptions): boolean {
 }
 
 function load(options: StoryshotsOptions) {
-  global.STORYBOOK_ENV = 'preact';
+  root.STORYBOOK_ENV = 'preact';
 
   const storybook = jest.requireActual('@storybook/preact');
 

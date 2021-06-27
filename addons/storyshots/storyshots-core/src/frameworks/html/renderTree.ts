@@ -1,6 +1,4 @@
-import global from 'global';
-
-const { document, Node } = global;
+import { document, Node } from 'window-or-global';
 
 function getRenderedTree(story: { render: () => any }) {
   const component = story.render();

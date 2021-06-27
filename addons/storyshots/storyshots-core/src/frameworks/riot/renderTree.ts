@@ -1,6 +1,4 @@
-import global from 'global';
-
-const { document } = global;
+import { document } from 'window-or-global';
 
 const riotForStorybook = jest.requireActual('@storybook/riot');
 
