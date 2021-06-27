@@ -1,5 +1,5 @@
 // Based on http://backbonejs.org/docs/backbone.html#section-164
-import global from 'global';
+import { document, Element } from 'window-or-global';
 import { useEffect } from '@storybook/client-api';
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
@@ -8,8 +8,6 @@ import { makeDecorator } from '@storybook/addons';
 import { actions } from './actions';
 
 import { PARAM_KEY } from '../constants';
-
-const { document, Element } = global;
 
 const delegateEventSplitter = /^(\S+)\s*(.*)$/;
 
