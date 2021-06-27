@@ -1,4 +1,4 @@
-import _root from 'window-or-global';
+import root from 'window-or-global';
 import { logger } from '@storybook/client-logger';
 import {
   FORCE_RE_RENDER,
@@ -10,8 +10,6 @@ import {
 } from '@storybook/core-events';
 import { addons } from './index';
 import { StoryGetter, StoryContext, Args } from './types';
-
-const root = _root as typeof _root & { STORYBOOK_HOOKS_CONTEXT: HooksContext };
 
 interface Hook {
   name: string;
