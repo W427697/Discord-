@@ -1,11 +1,9 @@
-import global from 'global';
+import { document } from 'window-or-global';
 import { addons } from '@storybook/addons';
 import { STORY_CHANGED } from '@storybook/core-events';
 import { EVENTS, HIGHLIGHT_STYLE_ID } from './constants';
 
 import { highlightStyle } from './highlight';
-
-const { document } = global;
 
 if (module && module.hot && module.hot.decline) {
   module.hot.decline();
@@ -42,7 +40,7 @@ const highlight = (infos: HighlightInfo) => {
 const resetHighlight = () => {
   const id = HIGHLIGHT_STYLE_ID;
   const sheetToBeRemoved = document.getElementById(id);
-  if (sheetToBeRemoved) {
+  if (sheetToBeRemoved && sheetToBeRemoved.parentNode) {
     sheetToBeRemoved.parentNode.removeChild(sheetToBeRemoved);
   }
 };
