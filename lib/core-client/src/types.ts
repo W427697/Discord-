@@ -6,6 +6,7 @@ export type AugmentedGlobal = {
   __STORYBOOK_CLIENT_API__?: ClientApi;
   __STORYBOOK_STORY_STORE__?: StoryStore;
   __STORYBOOK_ADDONS_CHANNEL__?: Channel;
+  FRAMEWORK_OPTIONS?: Record<string, unknown>;
   STORYBOOK_NAME?: string;
   NODE_ENV?: 'string' | 'development' | undefined;
   STORYBOOK_ENV?:
@@ -18,6 +19,8 @@ export type AugmentedGlobal = {
     | 'riot'
     | 'svelte'
     | 'vue'
+    | 'react'
+    | 'react-native'
     | 'vue3'
     | 'web-components';
   STORYBOOK_REACT_CLASSES: Record<string, unknown>;
