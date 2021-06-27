@@ -23,7 +23,6 @@ import {
   applyHooks,
 } from '@storybook/addons';
 import ReactDOM from 'react-dom';
-import root from 'window-or-global';
 
 import { StoryRenderer } from './StoryRenderer';
 
