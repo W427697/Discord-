@@ -1,13 +1,13 @@
 import _root from 'window-or-global';
 import { addons, mockChannel } from '@storybook/addons';
-import { AugmentedWindow } from '@storybook/core-client';
+import { AugmentedGlobal } from '@storybook/core-client';
 import ensureOptionsDefaults from './ensureOptionsDefaults';
 import snapshotsTests from './snapshotsTestsTemplate';
 import integrityTest from './integrityTestTemplate';
 import loadFramework from '../frameworks/frameworkLoader';
 import { StoryshotsOptions } from './StoryshotsOptions';
 
-const root = _root as AugmentedWindow;
+const root = _root as AugmentedGlobal;
 
 const { describe } = root;
 root.STORYBOOK_REACT_CLASSES = root.STORYBOOK_REACT_CLASSES || {};

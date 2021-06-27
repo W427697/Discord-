@@ -3,13 +3,13 @@ import createChannel from '@storybook/channel-postmessage';
 import { ClientApi, ConfigApi, StoryStore } from '@storybook/client-api';
 import Events from '@storybook/core-events';
 import _root from 'window-or-global';
-import { AugmentedWindow } from '../types';
+import { AugmentedGlobal } from '../types';
 import { loadCsf } from './loadCsf';
 import { StoryRenderer } from './StoryRenderer';
 import { RenderStoryFunction } from './types';
 import { getSelectionSpecifierFromPath, setPath } from './url';
 
-const root = _root as AugmentedWindow;
+const root = _root as AugmentedGlobal;
 
 const { navigator } = root;
 const isBrowser =

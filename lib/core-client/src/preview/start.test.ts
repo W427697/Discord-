@@ -1,8 +1,8 @@
 import globalThis from 'window-or-global';
-import { AugmentedWindow } from '../types';
+import { AugmentedGlobal } from '../types';
 import start from './start';
 
-const root = globalThis as AugmentedWindow;
+const root = globalThis as AugmentedGlobal;
 const { document } = root;
 
 jest.mock('@storybook/client-logger');

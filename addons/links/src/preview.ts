@@ -1,7 +1,7 @@
 import root from 'window-or-global';
 import qs from 'qs';
 import { addons, makeDecorator } from '@storybook/addons';
-import { AugmentedWindow } from '@storybook/core-client';
+import { AugmentedGlobal } from '@storybook/core-client';
 import { STORY_CHANGED, SELECT_STORY } from '@storybook/core-events';
 import { toId } from '@storybook/csf';
 import { logger } from '@storybook/client-logger';
@@ -12,7 +12,7 @@ const {
   HTMLElement,
   __STORYBOOK_STORY_STORE__: storyStore,
   __STORYBOOK_CLIENT_API__: clientApi,
-} = root as AugmentedWindow;
+} = root as AugmentedGlobal;
 
 interface ParamsId {
   storyId: string;

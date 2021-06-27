@@ -1,7 +1,7 @@
 import root from 'window-or-global';
-import { AugmentedWindow } from '../types';
+import { AugmentedGlobal } from '../types';
 
-const rootProxy = root as AugmentedWindow;
+const rootProxy = root as AugmentedGlobal;
 
 rootProxy.__STORYBOOK_CLIENT_API__ = undefined;
 rootProxy.__STORYBOOK_STORY_STORE__ = undefined;

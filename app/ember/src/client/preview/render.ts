@@ -1,9 +1,9 @@
-import { AugmentedWindow } from '@storybook/core-client';
+import { AugmentedGlobal } from '@storybook/core-client';
 import dedent from 'ts-dedent';
 import _root from 'window-or-global';
 import { OptionsArgs, RenderContext } from './types';
 
-const root = _root as AugmentedWindow;
+const root = _root as AugmentedGlobal;
 const { document, STORYBOOK_NAME } = root;
 
 declare let Ember: any;

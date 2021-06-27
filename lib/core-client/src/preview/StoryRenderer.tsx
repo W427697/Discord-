@@ -7,11 +7,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import dedent from 'ts-dedent';
 import _root from 'window-or-global';
-import { AugmentedWindow } from '../types';
+import { AugmentedGlobal } from '../types';
 import { NoDocs } from './NoDocs';
 import { RenderContextWithoutStoryContext, RenderStoryFunction } from './types';
 
-const root = _root as AugmentedWindow;
+const root = _root as AugmentedGlobal;
 const { document, FEATURES = {} } = root;
 
 // We have "changed" story if this changes

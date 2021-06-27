@@ -1,11 +1,11 @@
-import { AugmentedWindow } from '@storybook/core-client';
+import { AugmentedGlobal } from '@storybook/core-client';
 import _root from 'window-or-global';
 import { StoryshotsOptions } from '../../api/StoryshotsOptions';
 import configure from '../configure';
 import hasDependency from '../hasDependency';
 import { Loader } from '../Loader';
 
-const root = _root as AugmentedWindow;
+const root = _root as AugmentedGlobal;
 
 function mockVueToIncludeCompiler() {
   jest.mock('vue', () => jest.requireActual('vue/dist/vue.common.js'));

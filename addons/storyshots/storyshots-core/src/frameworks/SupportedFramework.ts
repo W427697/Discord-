@@ -1,3 +1,3 @@
-import type { AugmentedWindow } from '@storybook/core-client';
+import type { AugmentedGlobal } from '@storybook/core-client';
 
-export type SupportedFramework = AugmentedWindow['STORYBOOK_ENV'];
+export type SupportedFramework = AugmentedGlobal['STORYBOOK_ENV'];
