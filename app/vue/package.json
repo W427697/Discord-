@@ -47,10 +47,10 @@
   "dependencies": {
     "@storybook/addons": "6.4.0-alpha.3",
     "@storybook/core": "6.4.0-alpha.3",
+    "@storybook/core-client": "6.4.0-alpha.3",
     "@storybook/core-common": "6.4.0-alpha.3",
     "@types/webpack-env": "^1.16.0",
     "core-js": "^3.8.2",
-    "global": "^4.4.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "read-pkg-up": "^7.0.1",
@@ -59,10 +59,12 @@
     "ts-loader": "^8.0.14",
     "vue-docgen-api": "^4.38.0",
     "vue-docgen-loader": "^1.5.0",
-    "webpack": "4"
+    "webpack": "4",
+    "window-or-global": "^1.0.1"
   },
   "devDependencies": {
     "@types/node": "^14.14.20",
+    "@types/window-or-global": "^1.0.4",
     "vue": "^2.6.12",
     "vue-loader": "^15.9.6",
     "vue-template-compiler": "^2.6.12"
