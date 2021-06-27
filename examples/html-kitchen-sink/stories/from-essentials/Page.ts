@@ -1,9 +1,7 @@
-import global from 'global';
+import { document } from 'window-or-global';
 
 import './page.css';
 import { createHeader } from './Header';
-
-const { document } = global;
 
 export interface PageProps {
   user?: {};

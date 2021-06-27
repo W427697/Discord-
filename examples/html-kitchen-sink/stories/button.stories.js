@@ -1,8 +1,6 @@
-import global from 'global';
+import { document } from 'window-or-global';
 import { action } from '@storybook/addon-actions';
 import { useEffect } from '@storybook/client-api';
-
-const { document } = global;
 
 export default {
   title: 'Demo',
