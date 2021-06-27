@@ -28,6 +28,7 @@
     "core-js": "^3.8.2",
     "node-sass": "^4.14.1",
     "rxjs": "^6.6.3",
+    "window-or-global": "^1.0.1",
     "zone.js": "^0.11.3"
   },
   "devDependencies": {
@@ -53,9 +54,9 @@
     "@types/jest": "^26.0.16",
     "@types/node": "^14.14.20",
     "@types/webpack-env": "^1.16.0",
+    "@types/window-or-global": "^1.0.4",
     "@webcomponents/custom-elements": "^1.4.3",
     "babel-plugin-require-context-hook": "^1.0.0",
-    "global": "^4.4.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.2",
     "jest": "^26.6.3",
