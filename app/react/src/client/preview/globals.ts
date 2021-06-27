@@ -1,7 +1,6 @@
-import global from 'global';
+import { AugmentedGlobal } from '@storybook/core-client';
+import _root from 'window-or-global';
 
-const { window: globalWindow } = global;
+const root = _root as AugmentedGlobal;
 
-if (globalWindow) {
-  globalWindow.STORYBOOK_ENV = 'react';
-}
+root.STORYBOOK_ENV = 'react';

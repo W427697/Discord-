@@ -1,14 +1,15 @@
-import global from 'global';
-import React, { Component, FunctionComponent, ReactElement, StrictMode, Fragment } from 'react';
+import { AugmentedGlobal } from '@storybook/core-client';
+import React, { Component, Fragment, FunctionComponent, ReactElement, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
+import _root from 'window-or-global';
+import { RenderContext, StoryContext } from './types';
 
-import { StoryContext, RenderContext } from './types';
-
-const { document, FRAMEWORK_OPTIONS } = global;
+const root = _root as AugmentedGlobal;
+const { document, FRAMEWORK_OPTIONS } = root;
 
 const rootEl = document ? document.getElementById('root') : null;
 
-const render = (node: ReactElement, el: Element) =>
+const render = (node: ReactElement, el: HTMLElement) =>
   new Promise((resolve) => {
     ReactDOM.render(node, el, resolve);
   });
