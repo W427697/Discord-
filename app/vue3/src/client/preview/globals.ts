@@ -1,6 +1,7 @@
-import global from 'global';
+import _root from 'window-or-global';
+import { AugmentedGlobal } from '@storybook/core-client';
 
-const { window: globalWindow } = global;
+const root = _root as AugmentedGlobal;
 
-globalWindow.STORYBOOK_REACT_CLASSES = {};
-globalWindow.STORYBOOK_ENV = 'vue3';
+root.STORYBOOK_REACT_CLASSES = {};
+root.STORYBOOK_ENV = 'vue3';
