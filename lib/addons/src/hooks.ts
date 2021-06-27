@@ -1,4 +1,4 @@
-import global from 'global';
+import _root from 'window-or-global';
 import { logger } from '@storybook/client-logger';
 import {
   FORCE_RE_RENDER,
@@ -11,7 +11,7 @@ import {
 import { addons } from './index';
 import { StoryGetter, StoryContext, Args } from './types';
 
-const { window: globalWindow } = global;
+const root = _root as typeof _root & { STORYBOOK_HOOKS_CONTEXT: HooksContext };
 
 interface Hook {
   name: string;
@@ -142,10 +142,10 @@ const hookify = (fn: AbstractFunction) => (...args: any[]) => {
   }
   hooks.nextHookIndex = 0;
 
-  const prevContext = globalWindow.STORYBOOK_HOOKS_CONTEXT;
-  globalWindow.STORYBOOK_HOOKS_CONTEXT = hooks;
+  const prevContext = root.STORYBOOK_HOOKS_CONTEXT;
+  root.STORYBOOK_HOOKS_CONTEXT = hooks;
   const result = fn(...args);
-  globalWindow.STORYBOOK_HOOKS_CONTEXT = prevContext;
+  root.STORYBOOK_HOOKS_CONTEXT = prevContext;
 
   if (hooks.currentPhase === 'UPDATE' && hooks.getNextHook() != null) {
     throw new Error(
@@ -198,7 +198,7 @@ const invalidHooksError = () =>
   new Error('Storybook preview hooks can only be called inside decorators and story functions.');
 
 function getHooksContextOrNull(): HooksContext | null {
-  return globalWindow.STORYBOOK_HOOKS_CONTEXT || null;
+  return root.STORYBOOK_HOOKS_CONTEXT || null;
 }
 
 function getHooksContextOrThrow(): HooksContext {
