@@ -6,6 +6,7 @@ import React, {
   useState,
   ChangeEvent,
   FocusEvent,
+  CSSProperties,
 } from 'react';
 import { HexColorPicker, HslaStringColorPicker, RgbaStringColorPicker } from 'react-colorful';
 import convert from 'color-convert';
@@ -70,7 +71,12 @@ const SwatchColor = styled.div<{ active: boolean }>(({ theme, active }) => ({
 
 const swatchBackground = `url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill-opacity=".05"><path d="M8 0h8v8H8zM0 8h8v8H0z"/></svg>')`;
 
-type SwatchProps = { value: string; active?: boolean; onClick?: () => void; style?: object };
+type SwatchProps = {
+  value: string;
+  active?: boolean;
+  onClick?: () => void;
+  style?: CSSProperties;
+};
 const Swatch = ({ value, active, onClick, style, ...props }: SwatchProps) => {
   const backgroundImage = `linear-gradient(${value}, ${value}), ${swatchBackground}, linear-gradient(#fff, #fff)`;
   return <SwatchColor {...props} {...{ active, onClick }} style={{ ...style, backgroundImage }} />;

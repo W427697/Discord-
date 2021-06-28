@@ -69,7 +69,7 @@ export const DateControl: FC<DateProps> = ({ name, value, onChange, onFocus, onB
         timeRef.current.value = formatTime(value);
       }
     }
-  }, [value]);
+  }, [valid, value]);
 
   const onDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     const parsed = parseDate(e.target.value);

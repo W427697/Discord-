@@ -263,7 +263,7 @@ export const ObjectControl: React.FC<ObjectProps> = ({ name, value, onChange }) 
   const onForceVisible = useCallback(() => {
     onChange({});
     setForceVisible(true);
-  }, [setForceVisible]);
+  }, [onChange]);
 
   const htmlElRef = useRef(null);
   useEffect(() => {

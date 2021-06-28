@@ -51,7 +51,7 @@ export const NumberControl: FC<NumberProps> = ({
     setInputValue('0');
     onChange(0);
     setForceVisible(true);
-  }, [setForceVisible]);
+  }, [onChange]);
 
   const htmlElRef = useRef(null);
   useEffect(() => {

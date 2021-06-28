@@ -29,14 +29,14 @@ export const ArrayControl: FC<ArrayProps> = ({
       const { value: newVal } = e.target;
       onChange(parse(newVal, separator));
     },
-    [onChange]
+    [onChange, separator]
   );
 
   const [forceVisible, setForceVisible] = useState(false);
   const onForceVisible = useCallback(() => {
     onChange([]);
     setForceVisible(true);
-  }, [setForceVisible]);
+  }, [onChange]);
   if (value === undefined) {
     return <Form.Button onClick={onForceVisible}>Set array</Form.Button>;
   }

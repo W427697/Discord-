@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { ComponentProps } from 'react';
 import { styled } from '@storybook/theming';
 import { icons, IconKey } from './icons';

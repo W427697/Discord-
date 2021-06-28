@@ -56,6 +56,7 @@ export const CheckboxControl: FC<CheckboxProps> = ({
   }
 
   const initial = selectedKeys(value, options);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [selected, setSelected] = useState(initial);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

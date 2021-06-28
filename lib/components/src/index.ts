@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { createElement, ElementType } from 'react';
 import { components as rawComponents } from './typography/DocumentFormatting';
 

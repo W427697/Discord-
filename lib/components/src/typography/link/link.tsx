@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, FunctionComponent, MouseEvent } from 'react';
+import React, { AnchorHTMLAttributes, CSSProperties, FunctionComponent, MouseEvent } from 'react';
 import { styled } from '@storybook/theming';
 import { darken } from 'polished';
 
@@ -178,7 +178,7 @@ const A = styled.a<LinkStylesProps>(
 export interface LinkProps extends LinkInnerProps, LinkStylesProps {
   cancel?: boolean;
   className?: string;
-  style?: object;
+  style?: CSSProperties;
   onClick?: (e: MouseEvent) => void;
   href?: string;
 }

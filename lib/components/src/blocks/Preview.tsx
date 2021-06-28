@@ -66,7 +66,7 @@ const ChildrenContainer = styled.div<PreviewProps & { layout: Layout }>(
       : {}
 );
 
-const StyledSource = styled(Source)<{}>(({ theme }) => ({
+const StyledSource = styled(Source)(({ theme }) => ({
   margin: 0,
   borderTopLeftRadius: 0,
   borderTopRightRadius: 0,
@@ -104,6 +104,7 @@ interface SourceItem {
 const getSource = (
   withSource: SourceProps,
   expanded: boolean,
+  // eslint-disable-next-line @typescript-eslint/ban-types
   setExpanded: Function
 ): SourceItem => {
   switch (true) {

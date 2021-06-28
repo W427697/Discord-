@@ -54,7 +54,7 @@ const Text = styled.span<{ simple?: boolean }>(codeCommon, ({ theme, simple = fa
   }),
 }));
 
-const ExpandButton = styled.button<{}>(({ theme }) => ({
+const ExpandButton = styled.button(({ theme }) => ({
   fontFamily: theme.typography.fonts.mono,
   color: theme.color.secondary,
   marginBottom: '4px',
@@ -62,7 +62,7 @@ const ExpandButton = styled.button<{}>(({ theme }) => ({
   border: 'none',
 }));
 
-const Expandable = styled.div<{}>(codeCommon, ({ theme }) => ({
+const Expandable = styled.div(codeCommon, ({ theme }) => ({
   fontFamily: theme.typography.fonts.mono,
   color: theme.color.secondary,
   fontSize: theme.typography.size.s1, // overrides codeCommon
