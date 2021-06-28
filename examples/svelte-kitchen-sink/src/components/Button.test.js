@@ -1,5 +1,7 @@
-import { document } from 'window-or-global';
+import root from '@storybook/global-root';
 import Button from './Button.svelte';
+
+const { document } = root;
 
 let target;
 let component;

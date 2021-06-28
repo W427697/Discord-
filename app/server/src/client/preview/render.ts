@@ -1,8 +1,10 @@
 import { Args, ArgTypes } from '@storybook/api';
 import { simulateDOMContentLoaded, simulatePageLoad } from '@storybook/client-api';
 import dedent from 'ts-dedent';
-import { document, fetch, Node } from 'window-or-global';
+import root from '@storybook/global-root';
 import { FetchStoryHtmlType, RenderContext } from './types';
+
+const { document, fetch, Node } = root;
 
 const rootElement = document.getElementById('root');
 

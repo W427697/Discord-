@@ -1,4 +1,4 @@
-import root, { EventSource } from 'window-or-global';
+import root from '@storybook/global-root';
 
 export {
   storiesOf,
@@ -25,7 +25,7 @@ if (module && module.hot && module.hot.decline) {
   module.hot.decline();
 
   // forcing full reloads for customElements as elements can only be defined once per page
-  const hmr = new EventSource('__webpack_hmr');
+  const hmr = new root.EventSource('__webpack_hmr');
   hmr.addEventListener('message', function fullPageReload(event: { data: string }) {
     try {
       // Only care for built events.  Heartbeats are not parsable so we ignore those

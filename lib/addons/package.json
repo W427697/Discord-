@@ -44,14 +44,11 @@
     "@storybook/channels": "6.4.0-alpha.3",
     "@storybook/client-logger": "6.4.0-alpha.3",
     "@storybook/core-events": "6.4.0-alpha.3",
+    "@storybook/global-root": "6.4.0-alpha.3",
     "@storybook/router": "6.4.0-alpha.3",
     "@storybook/theming": "6.4.0-alpha.3",
     "core-js": "^3.8.2",
-    "regenerator-runtime": "^0.13.7",
-    "window-or-global": "^1.0.1"
-  },
-  "devDependencies": {
-    "@types/window-or-global": "^1.0.4"
+    "regenerator-runtime": "^0.13.7"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",

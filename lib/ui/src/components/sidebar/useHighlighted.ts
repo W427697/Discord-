@@ -1,4 +1,4 @@
-import root from 'window-or-global';
+import root from '@storybook/global-root';
 import {
   Dispatch,
   MutableRefObject,
@@ -9,7 +9,6 @@ import {
   useState,
 } from 'react';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
-
 import { CombinedDataset, Highlight, Selection } from './types';
 import { cycle, isAncestor, scrollIntoView } from './utils';
 

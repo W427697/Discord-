@@ -73,6 +73,7 @@
     "@storybook/core-events": "6.4.0-alpha.3",
     "@storybook/csf": "0.0.1",
     "@storybook/csf-tools": "6.4.0-alpha.3",
+    "@storybook/global-root": "6.4.0-alpha.3",
     "@storybook/node-logger": "6.4.0-alpha.3",
     "@storybook/postinstall": "6.4.0-alpha.3",
     "@storybook/source-loader": "6.4.0-alpha.3",
@@ -96,8 +97,7 @@
     "remark-external-links": "^8.0.0",
     "remark-slug": "^6.0.0",
     "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2",
-    "window-or-global": "^1.0.1"
+    "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
     "@angular/core": "^11.2.14",
@@ -117,7 +117,6 @@
     "@types/prop-types": "^15.7.3",
     "@types/tmp": "^0.2.0",
     "@types/util-deprecate": "^1.0.0",
-    "@types/window-or-global": "^1.0.4",
     "babel-loader": "^8.2.2",
     "babel-plugin-react-docgen": "^4.2.1",
     "cross-spawn": "^7.0.3",

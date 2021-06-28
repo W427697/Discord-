@@ -1,15 +1,14 @@
-import { DOCS_MODE } from 'window-or-global';
+import { Combo, Provider as ManagerProvider } from '@storybook/api';
+import root from '@storybook/global-root';
+import { History, Location, LocationProvider } from '@storybook/router';
+import { ensure as ensureTheme, ThemeProvider } from '@storybook/theming';
 import React, { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
-
-import { Location, LocationProvider, History } from '@storybook/router';
-import { Provider as ManagerProvider, Combo } from '@storybook/api';
-import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 import { HelmetProvider } from 'react-helmet-async';
-
 import App from './app';
-
 import Provider from './provider';
+
+const { DOCS_MODE } = root;
 
 // @ts-ignore
 ThemeProvider.displayName = 'ThemeProvider';

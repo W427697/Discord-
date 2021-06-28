@@ -1,15 +1,15 @@
-import _root from 'window-or-global';
 import { logger } from '@storybook/client-logger';
 import {
-  FORCE_RE_RENDER,
-  STORY_RENDERED,
   DOCS_RENDERED,
-  UPDATE_STORY_ARGS,
+  FORCE_RE_RENDER,
   RESET_STORY_ARGS,
+  STORY_RENDERED,
   UPDATE_GLOBALS,
+  UPDATE_STORY_ARGS,
 } from '@storybook/core-events';
+import _root from '@storybook/global-root';
 import { addons } from './index';
-import { StoryGetter, StoryContext, Args } from './types';
+import { Args, StoryContext, StoryGetter } from './types';
 
 const root = _root as typeof _root & { STORYBOOK_HOOKS_CONTEXT?: HooksContext };
 

@@ -28,7 +28,6 @@
     "core-js": "^3.8.2",
     "node-sass": "^4.14.1",
     "rxjs": "^6.6.3",
-    "window-or-global": "^1.0.1",
     "zone.js": "^0.11.3"
   },
   "devDependencies": {
@@ -49,12 +48,12 @@
     "@storybook/addon-storysource": "6.4.0-alpha.3",
     "@storybook/addons": "6.4.0-alpha.3",
     "@storybook/angular": "6.4.0-alpha.3",
+    "@storybook/global-root": "6.4.0-alpha.3",
     "@storybook/source-loader": "6.4.0-alpha.3",
     "@types/core-js": "^2.5.4",
     "@types/jest": "^26.0.16",
     "@types/node": "^14.14.20",
     "@types/webpack-env": "^1.16.0",
-    "@types/window-or-global": "^1.0.4",
     "@webcomponents/custom-elements": "^1.4.3",
     "babel-plugin-require-context-hook": "^1.0.0",
     "jasmine-core": "~3.6.0",

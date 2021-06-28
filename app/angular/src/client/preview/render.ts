@@ -1,5 +1,5 @@
 import { StoryFn } from '@storybook/addons';
-import root from 'window-or-global';
+import root from '@storybook/global-root';
 
 import { renderNgApp } from './angular/helpers';
 import { StoryFnAngularReturnType } from './types';

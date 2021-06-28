@@ -1,11 +1,9 @@
-import root from 'window-or-global';
-import React, { FunctionComponent, useState, useCallback, Fragment } from 'react';
-
-import { Icons, WithTooltip, Spaced, Button, Link } from '@storybook/components';
 import { logger } from '@storybook/client-logger';
+import { Button, Icons, Link, Spaced, WithTooltip } from '@storybook/components';
+import root from '@storybook/global-root';
 import { styled } from '@storybook/theming';
-
-import { Loader, Contained } from './Loader';
+import React, { Fragment, FunctionComponent, useCallback, useState } from 'react';
+import { Contained, Loader } from './Loader';
 
 const { document } = root;
 

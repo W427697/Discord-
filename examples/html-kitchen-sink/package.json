@@ -12,9 +12,6 @@
     "generate-addon-jest-testresults": "jest --config=tests/addon-jest.config.json --json --outputFile=stories/addon-jest.testresults.json",
     "storybook": "start-storybook -p 9006"
   },
-  "dependencies": {
-    "window-or-global": "^1.0.1"
-  },
   "devDependencies": {
     "@storybook/addon-a11y": "6.4.0-alpha.3",
     "@storybook/addon-actions": "6.4.0-alpha.3",
@@ -33,7 +30,6 @@
     "@storybook/core-events": "6.4.0-alpha.3",
     "@storybook/html": "6.4.0-alpha.3",
     "@storybook/source-loader": "6.4.0-alpha.3",
-    "@types/window-or-global": "^1.0.4",
     "autoprefixer": "^10.0.1",
     "eventemitter3": "^4.0.7",
     "format-json": "^1.0.3",

@@ -1,7 +1,6 @@
-import { rgba, lighten, darken } from 'polished';
-import root from 'window-or-global';
-
 import { logger } from '@storybook/client-logger';
+import root from '@storybook/global-root';
+import { darken, lighten, rgba } from 'polished';
 
 export const mkColor = (color: string) => ({ color });
 

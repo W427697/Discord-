@@ -1,4 +1,6 @@
-import { document, setTimeout } from 'window-or-global';
+import root from '@storybook/global-root';
+
+const { document, setTimeout } = root;
 
 const text = 'Testing the a11y addon';
 

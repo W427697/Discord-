@@ -1,4 +1,4 @@
-import root from 'window-or-global';
+import root from '@storybook/global-root';
 import * as EVENTS from '@storybook/core-events';
 import Channel, { ChannelEvent, ChannelHandler } from '@storybook/channels';
 import { logger, pretty } from '@storybook/client-logger';

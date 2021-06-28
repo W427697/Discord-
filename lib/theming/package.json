@@ -44,17 +44,14 @@
     "@emotion/is-prop-valid": "^0.8.6",
     "@emotion/styled": "^10.0.27",
     "@storybook/client-logger": "6.4.0-alpha.3",
+    "@storybook/global-root": "6.4.0-alpha.3",
     "core-js": "^3.8.2",
     "deep-object-diff": "^1.1.0",
     "emotion-theming": "^10.0.27",
     "memoizerific": "^1.11.3",
     "polished": "^4.0.5",
     "resolve-from": "^5.0.0",
-    "ts-dedent": "^2.0.0",
-    "window-or-global": "^1.0.1"
-  },
-  "devDependencies": {
-    "@types/window-or-global": "^1.0.4"
+    "ts-dedent": "^2.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",

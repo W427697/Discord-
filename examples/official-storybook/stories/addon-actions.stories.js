@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
-import root, { File } from 'window-or-global';
-import React, { Fragment } from 'react';
 import { action, actions, configureActions } from '@storybook/addon-actions';
 import { Form } from '@storybook/components';
+import root from '@storybook/global-root';
+import React, { Fragment } from 'react';
+
+const { File } = root;
 
 const { Button } = Form;
 

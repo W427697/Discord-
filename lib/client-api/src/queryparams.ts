@@ -1,5 +1,7 @@
-import { document } from 'window-or-global';
+import root from '@storybook/global-root';
 import { parse } from 'qs';
+
+const { document } = root;
 
 export const getQueryParams = () => {
   // document.location is not defined in react-native

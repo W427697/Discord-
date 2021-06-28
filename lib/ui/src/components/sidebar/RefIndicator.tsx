@@ -1,11 +1,9 @@
-import root from 'window-or-global';
-import React, { FunctionComponent, useMemo, ComponentProps, useCallback, forwardRef } from 'react';
-
-import { Icons, WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
+import { useStorybookApi } from '@storybook/api';
+import { Icons, Spaced, TooltipLinkList, WithTooltip } from '@storybook/components';
+import root from '@storybook/global-root';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
-import { useStorybookApi } from '@storybook/api';
-
+import React, { ComponentProps, forwardRef, FunctionComponent, useCallback, useMemo } from 'react';
 import { MenuItemIcon } from './Menu';
 import { RefType } from './types';
 import { getStateType } from './utils';

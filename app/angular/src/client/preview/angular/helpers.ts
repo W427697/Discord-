@@ -1,4 +1,4 @@
-import { document } from 'window-or-global';
+import root from '@storybook/global-root';
 import { enableProdMode, NgModule, Component, NgModuleRef, Type, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -8,6 +8,8 @@ import { StoryFn } from '@storybook/addons';
 import { AppComponent } from './components/app.component';
 import { STORY } from './app.token';
 import { NgModuleMetadata, StoryFnAngularReturnType } from '../types';
+
+const { document } = root;
 
 declare global {
   interface Window {

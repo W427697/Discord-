@@ -1,15 +1,15 @@
-import React, { FunctionComponent, useEffect } from 'react';
-import root from 'window-or-global';
-import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
 import { MDXProvider } from '@mdx-js/react';
-import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
-import { DocsWrapper, DocsContent, components as htmlComponents } from '@storybook/components';
-import { DocsContextProps, DocsContext } from './DocsContext';
+import { components as htmlComponents, DocsContent, DocsWrapper } from '@storybook/components';
+import root from '@storybook/global-root';
+import { ensure as ensureTheme, ThemeProvider } from '@storybook/theming';
+import React, { FunctionComponent, useEffect } from 'react';
+import dedent from 'ts-dedent';
+import deprecate from 'util-deprecate';
 import { anchorBlockIdFromId } from './Anchor';
-import { storyBlockIdFromId } from './Story';
+import { DocsContext, DocsContextProps } from './DocsContext';
+import { AnchorMdx, CodeOrSourceMdx, HeadersMdx } from './mdx';
 import { SourceContainer } from './SourceContainer';
-import { CodeOrSourceMdx, AnchorMdx, HeadersMdx } from './mdx';
+import { storyBlockIdFromId } from './Story';
 import { scrollToElement } from './utils';
 
 const { document } = root;

@@ -1,13 +1,14 @@
 import type { StoriesHash } from '@storybook/api';
 import { useStorybookApi } from '@storybook/api';
 import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
-import { document } from 'window-or-global';
+import root from '@storybook/global-root';
 import throttle from 'lodash/throttle';
 import React, { Dispatch, MutableRefObject, useCallback, useEffect, useReducer } from 'react';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 import { Highlight } from './types';
+import { getAncestorIds, getDescendantIds, isAncestor, scrollIntoView } from './utils';
 
-import { isAncestor, getAncestorIds, getDescendantIds, scrollIntoView } from './utils';
+const { document } = root;
 
 export type ExpandedState = Record<string, boolean>;
 

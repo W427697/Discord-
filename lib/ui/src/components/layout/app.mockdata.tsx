@@ -1,15 +1,16 @@
-import { setInterval } from 'window-or-global';
-import React, { Component, FunctionComponent } from 'react';
-import { styled } from '@storybook/theming';
 import { Collection } from '@storybook/addons';
 import { State } from '@storybook/api';
-import { Sidebar, SidebarProps } from '../sidebar/Sidebar';
+import root from '@storybook/global-root';
+import { styled } from '@storybook/theming';
+import React, { Component, FunctionComponent } from 'react';
 import Panel from '../panel/panel';
 import { Preview } from '../preview/preview';
-
 import { previewProps } from '../preview/preview.mockdata';
 import { mockDataset } from '../sidebar/mockdata';
+import { Sidebar, SidebarProps } from '../sidebar/Sidebar';
 import { DesktopProps } from './desktop';
+
+const { setInterval } = root;
 
 export const shortcuts: State['shortcuts'] = {
   fullScreen: ['F'],

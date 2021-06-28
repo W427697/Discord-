@@ -30,16 +30,15 @@
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-scripts": "^4.0.2",
-    "typescript": "^3.9.7",
-    "window-or-global": "^1.0.1"
+    "typescript": "^3.9.7"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "6.4.0-alpha.3",
     "@storybook/addons": "6.4.0-alpha.3",
     "@storybook/builder-webpack4": "6.4.0-alpha.3",
+    "@storybook/global-root": "6.4.0-alpha.3",
     "@storybook/preset-create-react-app": "^3.1.6",
     "@storybook/react": "6.4.0-alpha.3",
-    "@types/window-or-global": "^1.0.4",
     "webpack": "4"
   },
   "storybook": {

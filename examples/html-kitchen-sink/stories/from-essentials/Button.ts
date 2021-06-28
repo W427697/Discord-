@@ -1,4 +1,6 @@
-import { document } from 'window-or-global';
+import root from '@storybook/global-root';
+
+const { document } = root;
 
 import './button.css';
 

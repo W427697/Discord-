@@ -1,5 +1,7 @@
-import { CustomEvent } from 'window-or-global';
+import root from '@storybook/global-root';
 import { LitElement, html, css } from 'lit-element';
+
+const { CustomEvent } = root;
 
 const demoWcCardStyle = css`
   :host {

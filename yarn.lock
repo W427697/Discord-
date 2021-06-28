@@ -5602,6 +5602,7 @@ __metadata:
     "@storybook/client-logger": 6.4.0-alpha.3
     "@storybook/components": 6.4.0-alpha.3
     "@storybook/core-events": 6.4.0-alpha.3
+    "@storybook/global-root": 6.4.0-alpha.3
     "@storybook/theming": 6.4.0-alpha.3
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
@@ -5670,6 +5671,7 @@ __metadata:
     "@storybook/core-events": 6.4.0-alpha.3
     "@storybook/csf": 0.0.1
     "@storybook/csf-tools": 6.4.0-alpha.3
+    "@storybook/global-root": 6.4.0-alpha.3
     "@storybook/node-logger": 6.4.0-alpha.3
     "@storybook/postinstall": 6.4.0-alpha.3
     "@storybook/react": 6.4.0-alpha.3
@@ -5686,7 +5688,6 @@ __metadata:
     "@types/prop-types": ^15.7.3
     "@types/tmp": ^0.2.0
     "@types/util-deprecate": ^1.0.0
-    "@types/window-or-global": ^1.0.4
     acorn: ^7.4.1
     acorn-jsx: ^5.3.1
     acorn-walk: ^7.2.0
@@ -5724,7 +5725,6 @@ __metadata:
     vue: ^2.6.10
     web-component-analyzer: ^1.1.6
     webpack: 4
-    window-or-global: ^1.0.1
     zone.js: ^0.11.3
   peerDependencies:
     "@storybook/angular": 6.4.0-alpha.3
@@ -6098,12 +6098,11 @@ __metadata:
     "@storybook/channels": 6.4.0-alpha.3
     "@storybook/client-logger": 6.4.0-alpha.3
     "@storybook/core-events": 6.4.0-alpha.3
+    "@storybook/global-root": 6.4.0-alpha.3
     "@storybook/router": 6.4.0-alpha.3
     "@storybook/theming": 6.4.0-alpha.3
-    "@types/window-or-global": ^1.0.4
     core-js: ^3.8.2
     regenerator-runtime: ^0.13.7
-    window-or-global: ^1.0.1
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -6447,11 +6446,10 @@ __metadata:
     "@storybook/channels": 6.4.0-alpha.3
     "@storybook/client-logger": 6.4.0-alpha.3
     "@storybook/core-events": 6.4.0-alpha.3
-    "@types/window-or-global": ^1.0.4
+    "@storybook/global-root": 6.4.0-alpha.3
     core-js: ^3.8.2
     qs: ^6.10.0
     telejson: ^5.3.2
-    window-or-global: ^1.0.1
   languageName: unknown
   linkType: soft
 
@@ -6460,10 +6458,9 @@ __metadata:
   resolution: "@storybook/channel-websocket@workspace:lib/channel-websocket"
   dependencies:
     "@storybook/channels": 6.4.0-alpha.3
-    "@types/window-or-global": ^1.0.4
+    "@storybook/global-root": 6.4.0-alpha.3
     core-js: ^3.8.2
     telejson: ^5.3.2
-    window-or-global: ^1.0.1
   languageName: unknown
   linkType: soft
 
@@ -6543,9 +6540,9 @@ __metadata:
     "@storybook/client-logger": 6.4.0-alpha.3
     "@storybook/core-events": 6.4.0-alpha.3
     "@storybook/csf": 0.0.1
+    "@storybook/global-root": 6.4.0-alpha.3
     "@types/qs": ^6.9.5
     "@types/webpack-env": ^1.16.0
-    "@types/window-or-global": ^1.0.4
     core-js: ^3.8.2
     lodash: ^4.17.20
     memoizerific: ^1.11.3
@@ -6555,7 +6552,6 @@ __metadata:
     store2: ^2.12.0
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
-    window-or-global: ^1.0.1
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -6589,8 +6585,8 @@ __metadata:
     "@mdx-js/mdx": ^1.6.22
     "@storybook/csf": 0.0.1
     "@storybook/csf-tools": 6.4.0-alpha.3
+    "@storybook/global-root": 6.4.0-alpha.3
     "@storybook/node-logger": 6.4.0-alpha.3
-    "@types/window-or-global": ^1.0.4
     core-js: ^3.8.2
     cross-spawn: ^7.0.3
     globby: ^11.0.2
@@ -6601,7 +6597,6 @@ __metadata:
     prettier: ~2.2.1
     recast: ^0.19.0
     regenerator-runtime: ^0.13.7
-    window-or-global: ^1.0.1
   languageName: unknown
   linkType: soft
 
@@ -7558,15 +7553,14 @@ __metadata:
   dependencies:
     "@reach/router": ^1.3.4
     "@storybook/client-logger": 6.4.0-alpha.3
+    "@storybook/global-root": 6.4.0-alpha.3
     "@types/reach__router": ^1.3.7
-    "@types/window-or-global": ^1.0.4
     core-js: ^3.8.2
     fast-deep-equal: ^3.1.3
     lodash: ^4.17.20
     memoizerific: ^1.11.3
     qs: ^6.10.0
     ts-dedent: ^2.0.0
-    window-or-global: ^1.0.1
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -7690,7 +7684,7 @@ __metadata:
     "@emotion/is-prop-valid": ^0.8.6
     "@emotion/styled": ^10.0.27
     "@storybook/client-logger": 6.4.0-alpha.3
-    "@types/window-or-global": ^1.0.4
+    "@storybook/global-root": 6.4.0-alpha.3
     core-js: ^3.8.2
     deep-object-diff: ^1.1.0
     emotion-theming: ^10.0.27
@@ -7698,7 +7692,6 @@ __metadata:
     polished: ^4.0.5
     resolve-from: ^5.0.0
     ts-dedent: ^2.0.0
-    window-or-global: ^1.0.1
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -7740,12 +7733,12 @@ __metadata:
     "@storybook/client-logger": 6.4.0-alpha.3
     "@storybook/components": 6.4.0-alpha.3
     "@storybook/core-events": 6.4.0-alpha.3
+    "@storybook/global-root": 6.4.0-alpha.3
     "@storybook/router": 6.4.0-alpha.3
     "@storybook/semver": ^7.3.2
     "@storybook/theming": 6.4.0-alpha.3
     "@testing-library/react": ^11.2.2
     "@types/markdown-to-jsx": ^6.11.3
-    "@types/window-or-global": ^1.0.4
     babel-loader: ^8.2.2
     chromatic: ^5.6.0
     copy-to-clipboard: ^3.3.1
@@ -7769,7 +7762,6 @@ __metadata:
     store2: ^2.12.0
     terser-webpack-plugin: ^5.0.3
     webpack: 4
-    window-or-global: ^1.0.1
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -11500,12 +11492,12 @@ __metadata:
     "@storybook/addon-storysource": 6.4.0-alpha.3
     "@storybook/addons": 6.4.0-alpha.3
     "@storybook/angular": 6.4.0-alpha.3
+    "@storybook/global-root": 6.4.0-alpha.3
     "@storybook/source-loader": 6.4.0-alpha.3
     "@types/core-js": ^2.5.4
     "@types/jest": ^26.0.16
     "@types/node": ^14.14.20
     "@types/webpack-env": ^1.16.0
-    "@types/window-or-global": ^1.0.4
     "@webcomponents/custom-elements": ^1.4.3
     babel-plugin-require-context-hook: ^1.0.0
     core-js: ^3.8.2
@@ -11520,7 +11512,6 @@ __metadata:
     ts-jest: ^26.4.4
     ts-node: ^9.1.0
     typescript: ^4.1.3
-    window-or-global: ^1.0.1
     zone.js: ^0.11.3
   languageName: unknown
   linkType: soft
@@ -16460,10 +16451,10 @@ __metadata:
     "@storybook/addon-links": 6.4.0-alpha.3
     "@storybook/addons": 6.4.0-alpha.3
     "@storybook/builder-webpack4": 6.4.0-alpha.3
+    "@storybook/global-root": 6.4.0-alpha.3
     "@storybook/preset-create-react-app": ^3.1.6
     "@storybook/react": 6.4.0-alpha.3
     "@storybook/theming": 6.4.0-alpha.3
-    "@types/window-or-global": ^1.0.4
     babel-core: 6
     babel-loader: 8.2.2
     babel-runtime: 6
@@ -16471,7 +16462,6 @@ __metadata:
     react-dom: ^15.7.0
     react-scripts: 3.4.4
     webpack: 4
-    window-or-global: ^1.0.1
   languageName: unknown
   linkType: soft
 
@@ -16482,19 +16472,18 @@ __metadata:
     "@storybook/addon-essentials": 6.4.0-alpha.3
     "@storybook/addons": 6.4.0-alpha.3
     "@storybook/builder-webpack4": 6.4.0-alpha.3
+    "@storybook/global-root": 6.4.0-alpha.3
     "@storybook/preset-create-react-app": ^3.1.6
     "@storybook/react": 6.4.0-alpha.3
     "@types/jest": ^26.0.16
     "@types/node": 14.14.20
     "@types/react": ^16.14.2
     "@types/react-dom": 16.9.10
-    "@types/window-or-global": ^1.0.4
     react: 16.14.0
     react-dom: 16.14.0
     react-scripts: ^4.0.2
     typescript: ^3.9.7
     webpack: 4
-    window-or-global: ^1.0.1
   languageName: unknown
   linkType: soft
 
@@ -23733,13 +23722,11 @@ fsevents@^1.2.7:
     "@storybook/core-events": 6.4.0-alpha.3
     "@storybook/html": 6.4.0-alpha.3
     "@storybook/source-loader": 6.4.0-alpha.3
-    "@types/window-or-global": ^1.0.4
     autoprefixer: ^10.0.1
     eventemitter3: ^4.0.7
     format-json: ^1.0.3
     postcss: ^8.2.4
     postcss-color-rebeccapurple: ^6.0.0
-    window-or-global: ^1.0.1
   languageName: unknown
   linkType: soft
 
@@ -31684,13 +31671,13 @@ fsevents@^1.2.7:
     "@storybook/components": 6.4.0-alpha.3
     "@storybook/core-events": 6.4.0-alpha.3
     "@storybook/design-system": ^5.4.7
+    "@storybook/global-root": 6.4.0-alpha.3
     "@storybook/node-logger": 6.4.0-alpha.3
     "@storybook/react": 6.4.0-alpha.3
     "@storybook/source-loader": 6.4.0-alpha.3
     "@storybook/theming": 6.4.0-alpha.3
     "@testing-library/dom": ^7.31.2
     "@testing-library/user-event": ^13.1.9
-    "@types/window-or-global": ^1.0.4
     chromatic: ^5.6.0
     cors: ^2.8.5
     cross-env: ^7.0.3
@@ -31708,7 +31695,6 @@ fsevents@^1.2.7:
     uuid: ^8.3.2
     uuid-browser: ^3.1.0
     webpack: 4
-    window-or-global: ^1.0.1
   peerDependencies:
     puppeteer: ^2.0.0 || ^3.0.0
   languageName: unknown
@@ -40503,12 +40489,11 @@ resolve@1.19.0:
     "@storybook/addon-storysource": 6.4.0-alpha.3
     "@storybook/addon-viewport": 6.4.0-alpha.3
     "@storybook/addons": 6.4.0-alpha.3
+    "@storybook/global-root": 6.4.0-alpha.3
     "@storybook/source-loader": 6.4.0-alpha.3
     "@storybook/svelte": 6.4.0-alpha.3
-    "@types/window-or-global": ^1.0.4
     svelte-jester: 1.3.0
     svelte-preprocess: 4.6.8
-    window-or-global: ^1.0.1
   languageName: unknown
   linkType: soft
 

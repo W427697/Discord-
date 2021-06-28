@@ -1,11 +1,10 @@
-import memoize from 'memoizerific';
-import root from 'window-or-global';
-import { SyntheticEvent } from 'react';
 import type { StoriesHash } from '@storybook/api';
 import { isRoot } from '@storybook/api';
-
+import root from '@storybook/global-root';
+import memoize from 'memoizerific';
+import { SyntheticEvent } from 'react';
 import { DEFAULT_REF_ID } from './data';
-import { Item, RefType, Dataset, SearchItem } from './types';
+import { Dataset, Item, RefType, SearchItem } from './types';
 
 const { document, DOCS_MODE } = root;
 
