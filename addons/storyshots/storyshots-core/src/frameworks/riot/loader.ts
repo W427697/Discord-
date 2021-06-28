@@ -1,11 +1,8 @@
-import { AugmentedGlobal } from '@storybook/core-client';
-import _root from 'window-or-global';
+import root from '@storybook/global-root';
 import { StoryshotsOptions } from '../../api/StoryshotsOptions';
 import configure from '../configure';
 import hasDependency from '../hasDependency';
 import { Loader } from '../Loader';
-
-const root = _root as AugmentedGlobal;
 
 function mockRiotToIncludeCompiler() {
   jest.mock('riot', () => jest.requireActual('riot/riot.js'));

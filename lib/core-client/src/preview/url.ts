@@ -2,8 +2,10 @@ import { StoryId, ViewMode } from '@storybook/addons';
 import { StoreSelection, StoreSelectionSpecifier } from '@storybook/client-api';
 import qs from 'qs';
 import deprecate from 'util-deprecate';
-import { history, document } from 'window-or-global';
+import root from '@storybook/global-root';
 import { parseArgsParam } from './parseArgsParam';
+
+const { history, document } = root;
 
 export function pathToId(path: string) {
   const match = (path || '').match(/^\/story\/(.+)/);

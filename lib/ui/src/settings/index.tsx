@@ -2,15 +2,13 @@ import { useStorybookApi, useStorybookState } from '@storybook/api';
 import { IconButton, Icons, FlexBar, TabBar, TabButton, ScrollArea } from '@storybook/components';
 import { Location, Route } from '@storybook/router';
 import { styled } from '@storybook/theming';
-import global from 'global';
+import { document } from 'window-or-global';
 import React, { FunctionComponent, SyntheticEvent, Fragment } from 'react';
 
 import { AboutPage } from './about_page';
 import { ReleaseNotesPage } from './release_notes_page';
 import { ShortcutsPage } from './shortcuts_page';
 import { matchesModifiers, matchesKeyCode } from '../keybinding';
-
-const { document } = global;
 
 const TabBarButton = React.memo<{
   changeTab: (tab: string) => void;

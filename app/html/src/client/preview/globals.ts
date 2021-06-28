@@ -1,6 +1,3 @@
-import { AugmentedGlobal } from '@storybook/core-client';
-import _root from 'window-or-global';
-
-const root = _root as AugmentedGlobal;
+import root from '@storybook/global-root';
 
 root.STORYBOOK_ENV = 'html';

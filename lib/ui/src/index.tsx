@@ -1,4 +1,4 @@
-import global from 'global';
+import { DOCS_MODE } from 'window-or-global';
 import React, { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -10,8 +10,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import App from './app';
 
 import Provider from './provider';
-
-const { DOCS_MODE } = global;
 
 // @ts-ignore
 ThemeProvider.displayName = 'ThemeProvider';

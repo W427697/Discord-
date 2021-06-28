@@ -1,15 +1,12 @@
 import { addons } from '@storybook/addons';
 import { SELECT_STORY } from '@storybook/core-events';
-
-import _root from 'window-or-global';
-import { AugmentedGlobal } from '@storybook/core-client';
+import root from '@storybook/global-root';
 import { linkTo, hrefTo } from './preview';
 
-const root = _root as AugmentedGlobal;
 const __STORYBOOK_STORY_STORE__ = root.__STORYBOOK_STORY_STORE__ as any;
 
 jest.mock('@storybook/addons');
-jest.mock('window-or-global', () => ({
+jest.mock('@storybook/global-root', () => ({
   document: global.document,
   window: global,
   __STORYBOOK_STORY_STORE__: {

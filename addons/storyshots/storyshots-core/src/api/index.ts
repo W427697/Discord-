@@ -1,22 +1,16 @@
-import _root from 'window-or-global';
+import root from '@storybook/global-root';
 import { addons, mockChannel } from '@storybook/addons';
-import { AugmentedGlobal } from '@storybook/core-client';
 import ensureOptionsDefaults from './ensureOptionsDefaults';
 import snapshotsTests from './snapshotsTestsTemplate';
 import integrityTest from './integrityTestTemplate';
 import loadFramework from '../frameworks/frameworkLoader';
 import { StoryshotsOptions } from './StoryshotsOptions';
 
-const root = _root as AugmentedGlobal;
+const { describe, STORYBOOK_REACT_CLASSES } = root;
 
-const { describe } = root;
-root.STORYBOOK_REACT_CLASSES = root.STORYBOOK_REACT_CLASSES || {};
+root.STORYBOOK_REACT_CLASSES = STORYBOOK_REACT_CLASSES || {};
 
 type TestMethodType = 'beforeAll' | 'beforeEach' | 'afterEach' | 'afterAll';
-type TestMethodFunction = Function & { timeout?: number } & Record<string, unknown>;
-type TestMethod = {
-  [key in TestMethodType]?: TestMethodFunction;
-};
 
 const methods: TestMethodType[] = ['beforeAll', 'beforeEach', 'afterEach', 'afterAll'];
 

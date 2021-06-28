@@ -1,11 +1,10 @@
 import { logger } from '@storybook/client-logger';
 import { storyNameFromExport, toId } from '@storybook/csf';
+import root from '@storybook/global-root';
 import dedent from 'ts-dedent';
 import deprecate from 'util-deprecate';
-import root from 'window-or-global';
-import { AugmentedGlobal } from '../types';
 
-const { FEATURES = {} } = root as AugmentedGlobal;
+const { FEATURES = {} } = root;
 
 const deprecatedStoryAnnotation = dedent`
 CSF .story annotations deprecated; annotate story functions directly:

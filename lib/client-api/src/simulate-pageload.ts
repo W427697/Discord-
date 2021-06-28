@@ -1,6 +1,4 @@
-import global from 'global';
-
-const { document } = global;
+import { document } from 'window-or-global';
 
 // https://html.spec.whatwg.org/multipage/scripting.html
 const runScriptTypes = [

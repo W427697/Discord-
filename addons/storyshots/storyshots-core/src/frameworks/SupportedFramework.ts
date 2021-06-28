@@ -1,3 +1,3 @@
-import type { AugmentedGlobal } from '@storybook/core-client';
+import root from '@storybook/global-root';
 
-export type SupportedFramework = AugmentedGlobal['STORYBOOK_ENV'];
+export type SupportedFramework = typeof root['STORYBOOK_ENV'];

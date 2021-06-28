@@ -1,8 +1,9 @@
-import { history, document } from 'window-or-global';
-
+import root from '@storybook/global-root';
 import { pathToId, setPath, parseQueryParameters, getSelectionSpecifierFromPath } from './url';
 
-jest.mock('window-or-global', () => ({
+const { history, document } = root;
+
+jest.mock('@storybook/global-root', () => ({
   history: { replaceState: jest.fn() },
   document: {
     location: {

@@ -1,10 +1,11 @@
-import { DOCS_MODE, document } from 'window-or-global';
+import root from '@storybook/global-root';
 import pick from 'lodash/pick';
 import deepEqual from 'fast-deep-equal';
 import { themes, ThemeVars } from '@storybook/theming';
-
 import merge from '../lib/merge';
 import { State, ModuleFn } from '../index';
+
+const { DOCS_MODE, document } = root;
 
 export type PanelPositions = 'bottom' | 'right';
 export type ActiveTabsType = 'sidebar' | 'canvas' | 'addons';

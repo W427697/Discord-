@@ -1,10 +1,8 @@
-import { AugmentedGlobal } from '@storybook/core-client';
+import root from '@storybook/global-root';
 import React, { Component, Fragment, FunctionComponent, ReactElement, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
-import _root from 'window-or-global';
 import { RenderContext, StoryContext } from './types';
 
-const root = _root as AugmentedGlobal;
 const { document, FRAMEWORK_OPTIONS } = root;
 
 const rootEl = document ? document.getElementById('root') : null;

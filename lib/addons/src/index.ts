@@ -7,7 +7,7 @@ import { logger } from '@storybook/client-logger';
 import { ThemeVars } from '@storybook/theming';
 import { types, Types } from './types';
 
-const root = _root as typeof _root & { __STORYBOOK_ADDONS: AddonStore };
+const root = _root as typeof _root & { __STORYBOOK_ADDONS?: AddonStore };
 
 export { Channel };
 

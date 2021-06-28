@@ -1,5 +1,5 @@
 import * as Vue from 'vue';
-import { document } from 'window-or-global';
+import root from '@storybook/global-root';
 import dedent from 'ts-dedent';
 
 // This is cast as `any` to workaround type errors caused by Vue 2 types
@@ -13,7 +13,7 @@ function getRenderedTree(story: any) {
   // Vue 3's Jest renderer throws if all of the required props aren't specified
   // So we try/catch and warn the user if they forgot to specify one in their args
   try {
-    render(vnode, document.createElement('div'));
+    render(vnode, root.document.createElement('div'));
   } catch (err) {
     // Jest throws an error when you call `console.error`
     // eslint-disable-next-line no-console

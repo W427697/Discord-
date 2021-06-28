@@ -1,4 +1,4 @@
-import { location, fetch } from 'window-or-global';
+import root from '@storybook/global-root';
 import dedent from 'ts-dedent';
 import {
   transformStoriesRawToStoriesHash,
@@ -8,6 +8,8 @@ import {
 } from '../lib/stories';
 
 import { ModuleFn } from '../index';
+
+const { location, fetch } = root;
 
 export interface SubState {
   refs: Refs;

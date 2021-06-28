@@ -1,8 +1,10 @@
 /* eslint-disable jest/valid-title */
 /* eslint-disable jest/no-export */
 /* eslint-disable jest/expect-expect */
-import { describe, it } from 'window-or-global';
+import root from '@storybook/global-root';
 import { addSerializer } from 'jest-specific-snapshot';
+
+const { describe, it } = root;
 
 function snapshotTest({ item, asyncJest, framework, testMethod, testMethodParams }: any) {
   const { name } = item;

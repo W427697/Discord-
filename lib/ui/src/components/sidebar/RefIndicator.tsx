@@ -1,4 +1,4 @@
-import global from 'global';
+import root from 'window-or-global';
 import React, { FunctionComponent, useMemo, ComponentProps, useCallback, forwardRef } from 'react';
 
 import { Icons, WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
@@ -10,7 +10,7 @@ import { MenuItemIcon } from './Menu';
 import { RefType } from './types';
 import { getStateType } from './utils';
 
-const { document, window: globalWindow } = global;
+const { document } = root;
 
 export type ClickHandler = ComponentProps<typeof TooltipLinkList>['links'][number]['onClick'];
 export interface IndicatorIconProps {
@@ -251,7 +251,7 @@ const ReadyMessage: FunctionComponent<{
 const LoginRequiredMessage: FunctionComponent<RefType> = ({ loginUrl, id }) => {
   const open = useCallback((e) => {
     e.preventDefault();
-    const childWindow = globalWindow.open(loginUrl, `storybook_auth_${id}`, 'resizable,scrollbars');
+    const childWindow = root.open(loginUrl, `storybook_auth_${id}`, 'resizable,scrollbars');
 
     // poll for window to close
     const timer = setInterval(() => {

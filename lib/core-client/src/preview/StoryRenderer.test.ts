@@ -36,7 +36,7 @@ jest.mock('@storybook/client-logger', () => ({
   },
 }));
 
-jest.mock('window-or-global', () => ({
+jest.mock('@storybook/global-root', () => ({
   ...global,
   FEATURES: { previewCsfV3: true },
 }));

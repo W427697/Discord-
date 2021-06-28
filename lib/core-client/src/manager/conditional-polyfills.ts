@@ -1,4 +1,4 @@
-import root from 'window-or-global';
+import root from '@storybook/global-root';
 
 export const importPolyfills = () => {
   const polyfills = [];

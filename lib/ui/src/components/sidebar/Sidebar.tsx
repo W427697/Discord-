@@ -1,4 +1,4 @@
-import global from 'global';
+import { DOCS_MODE } from 'window-or-global';
 import React, { FunctionComponent, useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
@@ -13,8 +13,6 @@ import { Search } from './Search';
 import { SearchResults } from './SearchResults';
 import { Refs, CombinedDataset, Selection } from './types';
 import { useLastViewed } from './useLastViewed';
-
-const { DOCS_MODE } = global;
 
 const Container = styled.nav({
   position: 'absolute',

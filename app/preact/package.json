@@ -48,19 +48,17 @@
     "@babel/plugin-transform-react-jsx": "^7.12.12",
     "@storybook/addons": "6.4.0-alpha.3",
     "@storybook/core": "6.4.0-alpha.3",
-    "@storybook/core-client": "6.4.0-alpha.3",
     "@storybook/core-common": "6.4.0-alpha.3",
+    "@storybook/global-root": "6.4.0-alpha.3",
     "@types/webpack-env": "^1.16.0",
     "core-js": "^3.8.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "read-pkg-up": "^7.0.1",
     "regenerator-runtime": "^0.13.7",
-    "ts-dedent": "^2.0.0",
-    "window-or-global": "^1.0.1"
+    "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@types/window-or-global": "^1.0.4",
     "preact": "^10.5.13"
   },
   "peerDependencies": {

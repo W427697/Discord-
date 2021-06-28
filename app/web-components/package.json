@@ -53,8 +53,7 @@
     "@storybook/addons": "6.4.0-alpha.3",
     "@storybook/client-api": "6.4.0-alpha.3",
     "@storybook/core": "6.4.0-alpha.3",
-    "@storybook/core-client": "6.4.0-alpha.3",
-    "@storybook/core-common": "6.4.0-alpha.3",
+    "@storybook/global-root": "6.4.0-alpha.3",
     "@types/webpack-env": "^1.16.0",
     "babel-plugin-bundled-import-meta": "^0.3.1",
     "core-js": "^3.8.2",
@@ -62,11 +61,9 @@
     "react-dom": "16.14.0",
     "read-pkg-up": "^7.0.1",
     "regenerator-runtime": "^0.13.7",
-    "ts-dedent": "^2.0.0",
-    "window-or-global": "^1.0.1"
+    "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@types/window-or-global": "^1.0.4",
     "lit-html": "^2.0.0-rc.3"
   },
   "peerDependencies": {

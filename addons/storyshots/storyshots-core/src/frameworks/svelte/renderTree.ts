@@ -1,4 +1,4 @@
-import { document } from 'window-or-global';
+import root from '@storybook/global-root';
 import { set_current_component } from 'svelte/internal';
 
 /**
@@ -21,7 +21,7 @@ function getRenderedTree(story: any) {
   const DefaultCompatComponent = Component.default || Component;
 
   // We need to create a target to mount onto.
-  const target = document.createElement('section');
+  const target = root.document.createElement('section');
 
   new DefaultCompatComponent({ target, props }); // eslint-disable-line
 

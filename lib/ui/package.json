@@ -57,7 +57,6 @@
     "downshift": "^6.0.15",
     "emotion-theming": "^10.0.27",
     "fuse.js": "^3.6.1",
-    "global": "^4.4.0",
     "lodash": "^4.17.20",
     "markdown-to-jsx": "^6.11.4",
     "memoizerific": "^1.11.3",
@@ -68,11 +67,13 @@
     "react-sizeme": "^3.0.1",
     "regenerator-runtime": "^0.13.7",
     "resolve-from": "^5.0.0",
-    "store2": "^2.12.0"
+    "store2": "^2.12.0",
+    "window-or-global": "^1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@testing-library/react": "^11.2.2",
+    "@types/window-or-global": "^1.0.4",
     "babel-loader": "^8.2.2",
     "chromatic": "^5.6.0",
     "enzyme": "^3.11.0",

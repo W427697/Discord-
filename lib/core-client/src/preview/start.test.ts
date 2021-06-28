@@ -1,12 +1,10 @@
-import globalThis from 'window-or-global';
-import { AugmentedGlobal } from '../types';
+import root from '@storybook/global-root';
 import start from './start';
 
-const root = globalThis as AugmentedGlobal;
 const { document } = root;
 
 jest.mock('@storybook/client-logger');
-jest.mock('window-or-global', () => ({
+jest.mock('@storybook/global-root', () => ({
   history: { replaceState: jest.fn() },
   location: { search: '' },
   navigator: { userAgent: 'browser', platform: '' },

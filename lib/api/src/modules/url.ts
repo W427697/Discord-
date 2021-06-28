@@ -9,14 +9,12 @@ import {
 import { queryFromLocation, navigate as queryNavigate, buildArgsParam } from '@storybook/router';
 import { toId, sanitize } from '@storybook/csf';
 import deepEqual from 'fast-deep-equal';
-import root from 'window-or-global';
+import root from '@storybook/global-root';
 import dedent from 'ts-dedent';
 
 import { ModuleArgs, ModuleFn } from '../index';
 import { Layout, UI } from './layout';
 import { isStory } from '../lib/stories';
-
-const { window: globalWindow } = global;
 
 export interface SubState {
   customQueryParams: QueryParams;

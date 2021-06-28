@@ -43,21 +43,19 @@
   "dependencies": {
     "@storybook/addons": "6.4.0-alpha.3",
     "@storybook/client-logger": "6.4.0-alpha.3",
-    "@storybook/core-client": "6.4.0-alpha.3",
     "@storybook/core-events": "6.4.0-alpha.3",
     "@storybook/csf": "0.0.1",
+    "@storybook/global-root": "6.4.0-alpha.3",
     "@storybook/router": "6.4.0-alpha.3",
     "@types/qs": "^6.9.5",
     "core-js": "^3.8.2",
     "prop-types": "^15.7.2",
     "qs": "^6.10.0",
     "regenerator-runtime": "^0.13.7",
-    "ts-dedent": "^2.0.0",
-    "window-or-global": "^1.0.1"
+    "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.16.0",
-    "@types/window-or-global": "^1.0.4"
+    "@types/webpack-env": "^1.16.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",

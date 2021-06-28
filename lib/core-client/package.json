@@ -47,6 +47,7 @@
     "@storybook/client-logger": "6.4.0-alpha.3",
     "@storybook/core-events": "6.4.0-alpha.3",
     "@storybook/csf": "0.0.1",
+    "@storybook/global-root": "6.4.0-alpha.3",
     "@storybook/ui": "6.4.0-alpha.3",
     "airbnb-js-shims": "^2.2.1",
     "ansi-to-html": "^0.6.11",
@@ -56,11 +57,7 @@
     "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0",
     "unfetch": "^4.2.0",
-    "util-deprecate": "^1.0.2",
-    "window-or-global": "^1.0.1"
-  },
-  "devDependencies": {
-    "@types/window-or-global": "^1.0.4"
+    "util-deprecate": "^1.0.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",

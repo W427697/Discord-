@@ -1,11 +1,9 @@
-import _root from 'window-or-global';
+import root from '@storybook/global-root';
 import axe from 'axe-core';
 import { addons } from '@storybook/addons';
-import { AugmentedGlobal } from '@storybook/core-client';
 import { EVENTS } from './constants';
 import { A11yParameters } from './params';
 
-const root = _root as AugmentedGlobal;
 const { document } = root;
 
 if (module && module.hot && module.hot.decline) {

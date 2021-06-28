@@ -2459,8 +2459,8 @@ __metadata:
     "@storybook/router": 6.4.0-alpha.3
     "@storybook/theming": 6.4.0-alpha.3
     core-js: ^3.8.2
-    global: ^4.4.0
     regenerator-runtime: ^0.13.7
+    window-or-global: ^1.0.1
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -2479,10 +2479,8 @@ __metadata:
     "@storybook/router": 6.4.0-alpha.3
     "@storybook/semver": ^7.3.2
     "@storybook/theming": 6.4.0-alpha.3
-    "@types/reach__router": ^1.3.7
     core-js: ^3.8.2
     fast-deep-equal: ^3.1.3
-    global: ^4.4.0
     lodash: ^4.17.20
     memoizerific: ^1.11.3
     qs: ^6.10.0
@@ -2491,6 +2489,7 @@ __metadata:
     telejson: ^5.3.2
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
+    window-or-global: ^1.0.1
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -2588,9 +2587,9 @@ __metadata:
     "@storybook/client-logger": 6.4.0-alpha.3
     "@storybook/core-events": 6.4.0-alpha.3
     core-js: ^3.8.2
-    global: ^4.4.0
     qs: ^6.10.0
     telejson: ^5.3.2
+    window-or-global: ^1.0.1
   languageName: node
   linkType: soft
 
@@ -2617,7 +2616,6 @@ __metadata:
     "@types/qs": ^6.9.5
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
-    global: ^4.4.0
     lodash: ^4.17.20
     memoizerific: ^1.11.3
     qs: ^6.10.0
@@ -2626,6 +2624,7 @@ __metadata:
     store2: ^2.12.0
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
+    window-or-global: ^1.0.1
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -2637,7 +2636,7 @@ __metadata:
   resolution: "@storybook/client-logger@portal:../../lib/client-logger::locator=web-components-kitchen-sink%40workspace%3A."
   dependencies:
     core-js: ^3.8.2
-    global: ^4.4.0
+    window-or-global: ^1.0.1
   languageName: node
   linkType: soft
 
@@ -2655,7 +2654,6 @@ __metadata:
     color-convert: ^2.0.1
     core-js: ^3.8.2
     fast-deep-equal: ^3.1.3
-    global: ^4.4.0
     lodash: ^4.17.20
     markdown-to-jsx: ^7.1.3
     memoizerific: ^1.11.3
@@ -2669,6 +2667,7 @@ __metadata:
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
+    window-or-global: ^1.0.1
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -2952,14 +2951,13 @@ __metadata:
   dependencies:
     "@reach/router": ^1.3.4
     "@storybook/client-logger": 6.4.0-alpha.3
-    "@types/reach__router": ^1.3.7
     core-js: ^3.8.2
     fast-deep-equal: ^3.1.3
-    global: ^4.4.0
     lodash: ^4.17.20
     memoizerific: ^1.11.3
     qs: ^6.10.0
     ts-dedent: ^2.0.0
+    window-or-global: ^1.0.1
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -3009,11 +3007,11 @@ __metadata:
     core-js: ^3.8.2
     deep-object-diff: ^1.1.0
     emotion-theming: ^10.0.27
-    global: ^4.4.0
     memoizerific: ^1.11.3
     polished: ^4.0.5
     resolve-from: ^5.0.0
     ts-dedent: ^2.0.0
+    window-or-global: ^1.0.1
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -3041,7 +3039,6 @@ __metadata:
     downshift: ^6.0.15
     emotion-theming: ^10.0.27
     fuse.js: ^3.6.1
-    global: ^4.4.0
     lodash: ^4.17.20
     markdown-to-jsx: ^6.11.4
     memoizerific: ^1.11.3
@@ -3053,6 +3050,7 @@ __metadata:
     regenerator-runtime: ^0.13.7
     resolve-from: ^5.0.0
     store2: ^2.12.0
+    window-or-global: ^1.0.1
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -3378,15 +3376,6 @@ __metadata:
   version: 6.9.6
   resolution: "@types/qs@npm:6.9.6"
   checksum: 2e97fdbd6cb16d78c00c86bfc34824132b7ce0b3fb98c79b3ea7a1eb28f0194b93bb09d0bf330f0949bd115e7abf9a95f0e0df785dbaeeb7496f12e35c7c9bb7
-  languageName: node
-  linkType: hard
-
-"@types/reach__router@npm:^1.3.7":
-  version: 1.3.7
-  resolution: "@types/reach__router@npm:1.3.7"
-  dependencies:
-    "@types/react": "*"
-  checksum: 478db11afd23547bb82b9584d49cf110b143f38a24239857fbdd4c9249010a82d9c88b407205c5bfa13ad70df92bedfb1a5c77414f79402426e6e9895a08dd9c
   languageName: node
   linkType: hard
 

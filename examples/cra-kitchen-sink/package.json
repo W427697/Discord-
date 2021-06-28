@@ -12,12 +12,12 @@
   },
   "dependencies": {
     "@storybook/client-logger": "6.4.0-alpha.3",
+    "@storybook/global-root": "6.4.0-alpha.3",
     "prop-types": "^15.7.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-lifecycles-compat": "^3.0.4",
-    "react-scripts": "^4.0.2",
-    "window-or-global": "^1.0.1"
+    "react-scripts": "^4.0.2"
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
@@ -33,7 +33,6 @@
     "@storybook/preset-create-react-app": "^3.1.6",
     "@storybook/react": "6.4.0-alpha.3",
     "@storybook/theming": "6.4.0-alpha.3",
-    "@types/window-or-global": "^1.0.4",
     "webpack": "4"
   },
   "storybook": {

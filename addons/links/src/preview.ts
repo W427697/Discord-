@@ -1,10 +1,9 @@
-import root from 'window-or-global';
-import qs from 'qs';
 import { addons, makeDecorator } from '@storybook/addons';
-import { AugmentedGlobal } from '@storybook/core-client';
-import { STORY_CHANGED, SELECT_STORY } from '@storybook/core-events';
-import { toId } from '@storybook/csf';
 import { logger } from '@storybook/client-logger';
+import { SELECT_STORY, STORY_CHANGED } from '@storybook/core-events';
+import { toId } from '@storybook/csf';
+import root from '@storybook/global-root';
+import qs from 'qs';
 import { PARAM_KEY } from './constants';
 
 const {
@@ -12,7 +11,7 @@ const {
   HTMLElement,
   __STORYBOOK_STORY_STORE__: storyStore,
   __STORYBOOK_CLIENT_API__: clientApi,
-} = root as AugmentedGlobal;
+} = root;
 
 interface ParamsId {
   storyId: string;
@@ -51,7 +50,7 @@ export const linkTo = (
 
   const item =
     fromid ||
-    clientApi.raw().find((i) => {
+    clientApi.raw().find((i: any) => {
       if (kindVal && storyVal) {
         return i.kind === kindVal && i.name === storyVal;
       }

@@ -1,5 +1,5 @@
 import memoize from 'memoizerific';
-import global from 'global';
+import root from 'window-or-global';
 import { SyntheticEvent } from 'react';
 import type { StoriesHash } from '@storybook/api';
 import { isRoot } from '@storybook/api';
@@ -7,7 +7,7 @@ import { isRoot } from '@storybook/api';
 import { DEFAULT_REF_ID } from './data';
 import { Item, RefType, Dataset, SearchItem } from './types';
 
-const { document, window: globalWindow, DOCS_MODE } = global;
+const { document, DOCS_MODE } = root;
 
 export const createId = (itemId: string, refId?: string) =>
   !refId || refId === DEFAULT_REF_ID ? itemId : `${refId}_${itemId}`;
@@ -66,7 +66,7 @@ export const scrollIntoView = (element: Element, center = false) => {
   if (!element) return;
   const { top, bottom } = element.getBoundingClientRect();
   const isInView =
-    top >= 0 && bottom <= (globalWindow.innerHeight || document.documentElement.clientHeight);
+    top >= 0 && bottom <= (root.innerHeight || document.documentElement.clientHeight);
   if (!isInView) element.scrollIntoView({ block: center ? 'center' : 'nearest' });
 };
 
