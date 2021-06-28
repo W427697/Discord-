@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import webpackReal, { ProgressPlugin } from 'webpack';
 // @ts-ignore
 import webpackType, { Stats, Configuration } from '@types/webpack';
@@ -100,7 +101,7 @@ export const start: WebpackBuilder['start'] = async ({ startTime, options, route
   }
 
   if (stats.hasErrors()) {
-    throw stats;
+    throw new Error(stats);
   }
 
   return {
