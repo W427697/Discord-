@@ -281,7 +281,7 @@ describe('core.preview.StoryRenderer', () => {
 
       const err = { message: 'message', stack: 'stack' };
       render.mockImplementation(() => {
-        throw err;
+        throw new Error(err);
       });
 
       addAndSelectStory(storyStore, 'a', '1');

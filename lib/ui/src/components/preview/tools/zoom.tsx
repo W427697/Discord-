@@ -49,6 +49,7 @@ const Zoom = React.memo<{
 
 export { Zoom, ZoomConsumer, ZoomProvider };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const ZoomWrapper = React.memo<{ set: Function; value: number }>(({ set, value }) => {
   const zoomIn = useCallback(
     (e: SyntheticEvent) => {

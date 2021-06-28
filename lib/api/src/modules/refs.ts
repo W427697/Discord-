@@ -7,7 +7,7 @@ import {
   StoriesHash,
 } from '../lib/stories';
 
-import { ModuleFn } from '../index';
+import type { ModuleFn } from '../index';
 
 const { location, fetch } = global;
 

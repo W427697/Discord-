@@ -4,10 +4,10 @@ import dedent from 'ts-dedent';
 import { sanitize } from '@storybook/csf';
 import mapValues from 'lodash/mapValues';
 
-import { StoryId, StoryKind, Args, Parameters, combineParameters } from '../index';
+import type { StoryId, StoryKind, Args, Parameters } from '../index';
 import merge from './merge';
-import { Provider } from '../modules/provider';
-import { ViewMode } from '../modules/addons';
+import type { Provider } from '../modules/provider';
+import type { ViewMode } from '../modules/addons';
 
 export type { StoryId };
 
