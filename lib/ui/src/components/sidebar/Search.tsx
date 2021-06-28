@@ -171,7 +171,7 @@ export const Search = React.memo<{
         inputRef.current.blur();
         showAllComponents(false);
       },
-      [api, inputRef, showAllComponents, DEFAULT_REF_ID]
+      [api, inputRef, showAllComponents]
     );
 
     const list: SearchItem[] = useMemo(

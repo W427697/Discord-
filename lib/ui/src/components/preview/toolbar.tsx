@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { Fragment, useMemo, FunctionComponent } from 'react';
 
 import { styled } from '@storybook/theming';
@@ -116,12 +117,8 @@ const useTools = (
   const toolsFromConfig = useMemo(() => getTools(getElements), [getElements]);
   const toolsExtraFromConfig = useMemo(() => getToolsExtra(getElements), [getElements]);
 
-  const tools = useMemo(() => [...defaultTools, ...toolsFromConfig], [
-    defaultTools,
-    toolsFromConfig,
-  ]);
+  const tools = useMemo(() => [...defaultTools, ...toolsFromConfig], [toolsFromConfig]);
   const toolsExtra = useMemo(() => [...defaultToolsExtra, ...toolsExtraFromConfig], [
-    defaultToolsExtra,
     toolsExtraFromConfig,
   ]);
 

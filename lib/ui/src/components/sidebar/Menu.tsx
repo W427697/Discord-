@@ -93,7 +93,7 @@ export const SidebarMenuList: FunctionComponent<{
           onHide();
         }) as ClickHandler,
       })),
-    [menu]
+    [menu, onHide]
   );
   return <TooltipLinkList links={links} />;
 };

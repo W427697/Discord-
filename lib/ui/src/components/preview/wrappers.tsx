@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { Fragment, FunctionComponent } from 'react';
 import { ApplyWrappersProps, Wrapper } from './utils/types';
 import { IframeWrapper } from './utils/components';

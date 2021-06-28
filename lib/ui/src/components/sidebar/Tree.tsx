@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import type { Group, Story, StoriesHash } from '@storybook/api';
 import { isRoot, isStory } from '@storybook/api';
 import { styled } from '@storybook/theming';
@@ -319,7 +320,7 @@ export const Tree = React.memo<{
     // Omit single-story components from the list of nodes.
     const collapsedItems = useMemo(
       () => orphansFirst.filter((id) => !singleStoryComponentIds.includes(id)),
-      [orphanIds, orphansFirst, singleStoryComponentIds]
+      [orphansFirst, singleStoryComponentIds]
     );
 
     // Rewrite the dataset to place the child story in place of the component.
@@ -339,7 +340,7 @@ export const Tree = React.memo<{
           },
           { ...data }
         ),
-      [data]
+      [data, singleStoryComponentIds]
     );
 
     const ancestry = useMemo(

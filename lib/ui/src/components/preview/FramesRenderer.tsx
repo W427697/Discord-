@@ -69,7 +69,7 @@ export const FramesRenderer: FunctionComponent<FramesRendererProps> = ({
       );
 
     setFrames(newFrames);
-  }, [storyId, story, refs]);
+  }, [storyId, story, refs, frames, viewMode, stringifiedQueryParams]);
 
   return (
     <Fragment>

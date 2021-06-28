@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { Component, SyntheticEvent, useCallback, MouseEventHandler } from 'react';
 
 import { Icons, IconButton, Separator } from '@storybook/components';

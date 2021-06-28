@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { Fragment, useMemo, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 
@@ -119,7 +120,7 @@ const useTabs = (
     }
 
     return [canvas, ...tabsFromConfig];
-  }, [story, canvas, ...tabsFromConfig]);
+  }, [story?.parameters, canvas, tabsFromConfig]);
 };
 
 const Preview = React.memo<PreviewProps>((props) => {
@@ -163,7 +164,7 @@ const Preview = React.memo<PreviewProps>((props) => {
         }
       }
     }
-  }, [story, viewMode]);
+  }, [api, story, storyId, viewMode]);
 
   return (
     <Fragment>
