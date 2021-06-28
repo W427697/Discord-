@@ -68,7 +68,8 @@ const run = async (storyId: string) => {
 
 /** Returns story parameters or default ones. */
 const getParams = (storyId: string): A11yParameters => {
-  const __STORYBOOK_STORY_STORE__ = root && root.__STORYBOOK_STORY_STORE__;
+  const { __STORYBOOK_STORY_STORE__ } = root;
+
   let a11yParameters: A11yParameters = {
     config: {},
     options: {},
