@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import path from 'path';
 import { writeFile } from 'fs-extra';
 import puppeteerCore from 'puppeteer-core';
