@@ -1,6 +1,5 @@
-/* eslint-disable no-undef, react/display-name, react/no-unused-prop-types */
+/* eslint-disable react/no-unused-prop-types, react/display-name */
 import React from 'react';
-// @ts-ignore
 import PropTypes, { string, shape } from 'prop-types';
 import momentPropTypes from 'react-moment-proptypes';
 import { PRESET_SHAPE, SOME_PROP_TYPES } from './ext';
