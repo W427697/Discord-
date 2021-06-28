@@ -1,9 +1,9 @@
 import React from 'react';
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
+import mapValues from 'lodash/mapValues';
 import { sanitize } from '@storybook/csf';
 import { combineParameters } from './combineParameters';
-import mapValues from 'lodash/mapValues';
 
 import type { StoryId, StoryKind, Args, Parameters } from '../index';
 import merge from './merge';

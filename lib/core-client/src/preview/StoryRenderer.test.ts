@@ -281,7 +281,8 @@ describe('core.preview.StoryRenderer', () => {
 
       const err = { message: 'message', stack: 'stack' };
       render.mockImplementation(() => {
-        throw new Error(err);
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        throw err;
       });
 
       addAndSelectStory(storyStore, 'a', '1');

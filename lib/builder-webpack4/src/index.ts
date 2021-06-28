@@ -101,7 +101,8 @@ export const start: WebpackBuilder['start'] = async ({ startTime, options, route
   }
 
   if (stats.hasErrors()) {
-    throw new Error(stats);
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
+    throw stats;
   }
 
   return {
