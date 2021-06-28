@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint no-underscore-dangle: 0 */
 import memoize from 'memoizerific';
 import dedent from 'ts-dedent';
@@ -20,7 +21,7 @@ import {
   StoryKind,
   StoryId,
 } from '@storybook/addons';
-import {
+import type {
   DecoratorFunction,
   StoryMetadata,
   StoreData,
@@ -129,7 +130,7 @@ const toExtracted = <T>(obj: T) =>
     return Object.assign(acc, { [key]: value });
   }, {});
 
-export default class StoryStore {
+export class StoryStore {
   _error?: ErrorLike;
 
   _channel: Channel;
@@ -848,3 +849,5 @@ export default class StoryStore {
     };
   }
 }
+
+export { StoryStore as default };

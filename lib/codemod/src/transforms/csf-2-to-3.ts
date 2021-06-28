@@ -4,7 +4,7 @@ import * as t from '@babel/types';
 import { CsfFile, formatCsf, loadCsf } from '@storybook/csf-tools';
 import { jscodeshiftToPrettierParser } from '../lib/utils';
 
-const _rename = (annotation: string) => (annotation === 'storyName' ? 'name' : annotation);
+const renameIdentifier = (annotation: string) => (annotation === 'storyName' ? 'name' : annotation);
 
 const getTemplateBindVariable = (init: t.Expression) =>
   t.isCallExpression(init) &&
@@ -90,7 +90,7 @@ function transform({ source }: { source: string }, api: any, options: { parser?:
   const objectExports: Record<string, t.Statement> = {};
   Object.entries(csf._storyExports).forEach(([key, decl]) => {
     const annotations = Object.entries(csf._storyAnnotations[key]).map(([annotation, val]) =>
-      t.objectProperty(t.identifier(_rename(annotation)), val as t.Expression)
+      t.objectProperty(t.identifier(renameIdentifier(annotation)), val as t.Expression)
     );
 
     const { init, id } = decl;

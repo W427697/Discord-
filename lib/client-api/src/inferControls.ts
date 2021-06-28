@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import mapValues from 'lodash/mapValues';
 import { ArgType } from '@storybook/addons';
 import { logger } from '@storybook/client-logger';
