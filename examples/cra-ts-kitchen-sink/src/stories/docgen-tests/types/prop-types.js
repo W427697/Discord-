@@ -394,9 +394,6 @@ PropTypesProps.defaultProps = {
   string: 'Default string',
   func: () => {},
   funcWithJsDoc: (foo, bar) => {
-    const yo = window.document;
-    const pouf = souffle;
-
     return { foo, bar };
   },
   namedDefaultFunc: concat,
