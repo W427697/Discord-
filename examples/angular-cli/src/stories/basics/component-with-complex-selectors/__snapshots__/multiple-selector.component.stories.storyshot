@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Basics / Component / With Complex Selectors attribute selectors 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-attribute-selector
     foo="bar"
   >
@@ -12,11 +12,11 @@ exports[`Storyshots Basics / Component / With Complex Selectors attribute select
     <br />
      Generated template: "&lt;storybook-attribute-selector foo="bar"&gt;&lt;/storybook-attribute-selector&gt;" 
   </storybook-attribute-selector>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Basics / Component / With Complex Selectors class selectors 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-attribute-value-selector
     class="foo"
   >
@@ -27,11 +27,11 @@ exports[`Storyshots Basics / Component / With Complex Selectors class selectors 
     <br />
      Generated template: "&lt;storybook-class-selector class="bar"&gt;&lt;/storybook-class-selector&gt;" 
   </storybook-attribute-value-selector>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Basics / Component / With Complex Selectors multiple selectors 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-multiple-selector>
     <h3>
       Multiple selector
@@ -40,5 +40,5 @@ exports[`Storyshots Basics / Component / With Complex Selectors multiple selecto
     <br />
      Generated template: "&lt;storybook-multiple-selector&gt;&lt;/storybook-multiple-selector&gt;" 
   </storybook-multiple-selector>
-</storybook-wrapper>
+</ng-component>
 `;

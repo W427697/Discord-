@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Core / Parameters / With Bootstrap Options With Preserve Whitespaces 1`] = `
-<storybook-wrapper>
+<ng-component>
   <component-with-whitespace>
     <div>
       <p>
@@ -9,5 +9,5 @@ exports[`Storyshots Core / Parameters / With Bootstrap Options With Preserve Whi
       </p>
     </div>
   </component-with-whitespace>
-</storybook-wrapper>
+</ng-component>
 `;

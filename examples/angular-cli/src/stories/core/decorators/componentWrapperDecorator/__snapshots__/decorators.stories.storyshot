@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Core / Decorators / ComponentWrapperDecorator Angular Legacy Rendering 1`] = `
-<storybook-wrapper>
+<ng-component>
   Grandparent<br /><div
     style="margin: 3em; border:solid;"
   >
@@ -12,11 +12,11 @@ exports[`Storyshots Core / Decorators / ComponentWrapperDecorator Angular Legacy
       Child Template
     </div>
   </div>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Core / Decorators / ComponentWrapperDecorator With Component 1`] = `
-<storybook-wrapper>
+<ng-component>
   Grandparent<br /><div
     style="margin: 3em; border:solid;"
   >
@@ -36,11 +36,11 @@ exports[`Storyshots Core / Decorators / ComponentWrapperDecorator With Component
       <br />
     </child-component>
   </div>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Core / Decorators / ComponentWrapperDecorator With Component Wrapper Decorator 1`] = `
-<storybook-wrapper>
+<ng-component>
   Grandparent<br /><div
     style="margin: 3em; border:solid;"
   >
@@ -75,11 +75,11 @@ exports[`Storyshots Core / Decorators / ComponentWrapperDecorator With Component
       </div>
     </parent-component>
   </div>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Core / Decorators / ComponentWrapperDecorator With Component Wrapper Decorator And Args 1`] = `
-<storybook-wrapper>
+<ng-component>
   Grandparent<br /><div
     style="margin: 3em; border:solid;"
   >
@@ -114,11 +114,11 @@ exports[`Storyshots Core / Decorators / ComponentWrapperDecorator With Component
       </div>
     </parent-component>
   </div>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Core / Decorators / ComponentWrapperDecorator With Component Wrapper Decorator And Props 1`] = `
-<storybook-wrapper>
+<ng-component>
   Grandparent<br /><div
     style="margin: 3em; border:solid;"
   >
@@ -155,11 +155,11 @@ exports[`Storyshots Core / Decorators / ComponentWrapperDecorator With Component
       </div>
     </parent-component>
   </div>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Core / Decorators / ComponentWrapperDecorator With Custom Decorator 1`] = `
-<storybook-wrapper>
+<ng-component>
   Grandparent<br /><div
     style="margin: 3em; border:solid;"
   >
@@ -170,11 +170,11 @@ exports[`Storyshots Core / Decorators / ComponentWrapperDecorator With Custom De
       Child Template
     </div>
   </div>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Core / Decorators / ComponentWrapperDecorator With Legacy Component 1`] = `
-<storybook-wrapper>
+<ng-component>
   Grandparent<br /><div
     style="margin: 3em; border:solid;"
   >
@@ -194,15 +194,15 @@ exports[`Storyshots Core / Decorators / ComponentWrapperDecorator With Legacy Co
       <br />
     </child-component>
   </div>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Core / Decorators / ComponentWrapperDecorator With Template 1`] = `
-<storybook-wrapper>
+<ng-component>
   Grandparent<br /><div
     style="margin: 3em; border:solid;"
   >
     Child Template
   </div>
-</storybook-wrapper>
+</ng-component>
 `;

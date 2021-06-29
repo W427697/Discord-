@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Basics / NgModule / Module with multiple component Chip 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-chip
     ng-reflect-display-text="Chip"
     style="background-color: rgb(238, 238, 238);"
@@ -21,11 +21,11 @@ exports[`Storyshots Basics / NgModule / Module with multiple component Chip 1`] 
       </span>
     </div>
   </storybook-chip>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Basics / NgModule / Module with multiple component Chips Group 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-chips-group
     ng-reflect-chips="[object Object],[object Object"
   >
@@ -77,5 +77,5 @@ exports[`Storyshots Basics / NgModule / Module with multiple component Chips Gro
        Remove All 
     </div>
   </storybook-chips-group>
-</storybook-wrapper>
+</ng-component>
 `;

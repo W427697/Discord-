@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Addons/Controls Basic 1`] = `
-<storybook-wrapper>
+<ng-component>
   <my-button
     ng-reflect-is-disabled="false"
     ng-reflect-label="Args test"
@@ -19,11 +19,11 @@ exports[`Storyshots Addons/Controls Basic 1`] = `
   
     </button>
   </my-button>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Addons/Controls Disabled 1`] = `
-<storybook-wrapper>
+<ng-component>
   <my-button
     ng-reflect-is-disabled="true"
     ng-reflect-label="Disabled"
@@ -41,11 +41,11 @@ exports[`Storyshots Addons/Controls Disabled 1`] = `
   
     </button>
   </my-button>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Addons/Controls No Template 1`] = `
-<storybook-wrapper>
+<ng-component>
   <my-button
     ng-reflect-is-disabled="false"
     ng-reflect-label="No template"
@@ -62,5 +62,5 @@ exports[`Storyshots Addons/Controls No Template 1`] = `
   
     </button>
   </my-button>
-</storybook-wrapper>
+</ng-component>
 `;

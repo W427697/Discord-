@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Core / Story host styles With Args 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-button-component
     _ngcontent-a-c21=""
     _nghost-a-c22=""
@@ -13,11 +13,11 @@ exports[`Storyshots Core / Story host styles With Args 1`] = `
       Button with custom styles
     </button>
   </storybook-button-component>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Core / Story host styles With story template 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-button-component
     _ngcontent-a-c19=""
     _nghost-a-c20=""
@@ -29,5 +29,5 @@ exports[`Storyshots Core / Story host styles With story template 1`] = `
       Button with custom styles
     </button>
   </storybook-button-component>
-</storybook-wrapper>
+</ng-component>
 `;

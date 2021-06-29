@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Addons/Docs/MDX with Template Disabled 1`] = `
-<storybook-wrapper>
+<ng-component>
   <my-button
     ng-reflect-is-disabled="true"
     ng-reflect-label="Disabled"
@@ -19,11 +19,11 @@ exports[`Storyshots Addons/Docs/MDX with Template Disabled 1`] = `
   
     </button>
   </my-button>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Addons/Docs/MDX with Template Normal 1`] = `
-<storybook-wrapper>
+<ng-component>
   <my-button
     ng-reflect-label="Normal"
   >
@@ -39,5 +39,5 @@ exports[`Storyshots Addons/Docs/MDX with Template Normal 1`] = `
   
     </button>
   </my-button>
-</storybook-wrapper>
+</ng-component>
 `;

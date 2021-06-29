@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Addons/Docs/DocPipe Basic 1`] = `
-<storybook-wrapper>
+<ng-component>
   <div>
     <h1>
       DOCPIPE
     </h1>
   </div>
-</storybook-wrapper>
+</ng-component>
 `;

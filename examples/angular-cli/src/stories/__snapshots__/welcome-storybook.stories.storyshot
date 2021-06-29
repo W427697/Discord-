@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Welcome/ To Storybook To Storybook 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-welcome-component
     _nghost-a-c25=""
   >
@@ -126,5 +126,5 @@ exports[`Storyshots Welcome/ To Storybook To Storybook 1`] = `
       </p>
     </main>
   </storybook-welcome-component>
-</storybook-wrapper>
+</ng-component>
 `;

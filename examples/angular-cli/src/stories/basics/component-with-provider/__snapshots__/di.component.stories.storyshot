@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Basics / Component / With Provider inputs and inject dependencies 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-di-component
     ng-reflect-title="Component dependencies"
   >
@@ -26,11 +26,11 @@ exports[`Storyshots Basics / Component / With Provider inputs and inject depende
       </div>
     </div>
   </storybook-di-component>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Basics / Component / With Provider inputs and inject dependencies with args 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-di-component
     ng-reflect-title="Component dependencies"
   >
@@ -55,5 +55,5 @@ exports[`Storyshots Basics / Component / With Provider inputs and inject depende
       </div>
     </div>
   </storybook-di-component>
-</storybook-wrapper>
+</ng-component>
 `;

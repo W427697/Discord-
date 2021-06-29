@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Core / ModuleMetadata / In export default with decorator Story 1 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-simple-token-component
     ng-reflect-name="Prop Name"
   >
@@ -21,11 +21,11 @@ exports[`Storyshots Core / ModuleMetadata / In export default with decorator Sto
       </li>
     </ul>
   </storybook-simple-token-component>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Core / ModuleMetadata / In export default with decorator Story 2 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-simple-token-component>
     <h3>
       Provider Name
@@ -43,5 +43,5 @@ exports[`Storyshots Core / ModuleMetadata / In export default with decorator Sto
       </li>
     </ul>
   </storybook-simple-token-component>
-</storybook-wrapper>
+</ng-component>
 `;

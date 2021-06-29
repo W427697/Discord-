@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Basics / Component / without selector / Custom wrapper *NgComponentOutlet Custom wrapper *NgComponentOutlet 1`] = `
-<storybook-wrapper>
+<ng-component>
   <ng-component-outlet-wrapper
     ng-reflect-color="green"
     ng-reflect-component-outlet="function WithoutSelectorCompon"
@@ -19,5 +19,5 @@ exports[`Storyshots Basics / Component / without selector / Custom wrapper *NgCo
       https://angular.io/api/common/NgComponentOutlet
     </ng-component>
   </ng-component-outlet-wrapper>
-</storybook-wrapper>
+</ng-component>
 `;

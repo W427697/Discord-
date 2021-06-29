@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Addons/Actions Component Output with ArgsTypes 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-button-component
     _nghost-a-c4=""
     ng-reflect-text="Button 🥁"
@@ -12,11 +12,11 @@ exports[`Storyshots Addons/Actions Component Output with ArgsTypes 1`] = `
       Button 🥁
     </button>
   </storybook-button-component>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Addons/Actions Component Output with EventEmitter 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-button-component
     _nghost-a-c2=""
     ng-reflect-text="Button 🥁"
@@ -27,19 +27,19 @@ exports[`Storyshots Addons/Actions Component Output with EventEmitter 1`] = `
       Button 🥁
     </button>
   </storybook-button-component>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Addons/Actions Story with template 1`] = `
-<storybook-wrapper>
+<ng-component>
   <button>
     Button
   </button>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Addons/Actions Use action in method 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-button-component
     _nghost-a-c3=""
     ng-reflect-text="Button 🥁"
@@ -50,5 +50,5 @@ exports[`Storyshots Addons/Actions Use action in method 1`] = `
       Button 🥁
     </button>
   </storybook-button-component>
-</storybook-wrapper>
+</ng-component>
 `;

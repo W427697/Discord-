@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Legacy / Story with storiesOf() with some emoji 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-button-component
     _nghost-a-c1=""
     ng-reflect-text="😀 😎 👍 💯"
@@ -21,11 +21,11 @@ exports[`Storyshots Legacy / Story with storiesOf() with some emoji 1`] = `
       😀 😎 👍 💯
     </button>
   </storybook-button-component>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Legacy / Story with storiesOf() with text 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-button-component
     _nghost-a-c0=""
     ng-reflect-text="Hello Button"
@@ -36,5 +36,5 @@ exports[`Storyshots Legacy / Story with storiesOf() with text 1`] = `
       Hello Button
     </button>
   </storybook-button-component>
-</storybook-wrapper>
+</ng-component>
 `;

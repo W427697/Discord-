@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Basics / Component / With ng-content / Button with different contents Always Define Template Or Component 1`] = `
-<storybook-wrapper>
+<ng-component>
   <sb-button>
     <button>
       <sb-button>
@@ -11,19 +11,19 @@ exports[`Storyshots Basics / Component / With ng-content / Button with different
       </sb-button>
     </button>
   </sb-button>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Basics / Component / With ng-content / Button with different contents Empty Button 1`] = `
-<storybook-wrapper>
+<ng-component>
   <sb-button>
     <button />
   </sb-button>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Basics / Component / With ng-content / Button with different contents In <h1> 1`] = `
-<storybook-wrapper>
+<ng-component>
   <sb-button>
     <button>
       <h1>
@@ -31,11 +31,11 @@ exports[`Storyshots Basics / Component / With ng-content / Button with different
       </h1>
     </button>
   </sb-button>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Basics / Component / With ng-content / Button with different contents With Component 1`] = `
-<storybook-wrapper>
+<ng-component>
   <sb-button>
     <button>
       <sb-emoji>
@@ -43,11 +43,11 @@ exports[`Storyshots Basics / Component / With ng-content / Button with different
       </sb-emoji>
     </button>
   </sb-button>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Basics / Component / With ng-content / Button with different contents With Component And Args 1`] = `
-<storybook-wrapper>
+<ng-component>
   <sb-button>
     <button>
       <sb-emoji
@@ -57,15 +57,15 @@ exports[`Storyshots Basics / Component / With ng-content / Button with different
       </sb-emoji>
     </button>
   </sb-button>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Basics / Component / With ng-content / Button with different contents With Dynamic Content And Args 1`] = `
-<storybook-wrapper>
+<ng-component>
   <sb-button>
     <button>
       My button text
     </button>
   </sb-button>
-</storybook-wrapper>
+</ng-component>
 `;

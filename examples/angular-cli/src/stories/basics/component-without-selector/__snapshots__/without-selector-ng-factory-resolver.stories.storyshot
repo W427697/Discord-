@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Basics / Component / without selector / Custom wrapper ComponentFactoryResolver Custom wrapper ComponentFactoryResolver 1`] = `
-<storybook-wrapper>
+<ng-component>
   <component-factory-wrapper
     ng-reflect-args="[object Object]"
     ng-reflect-component-outlet="function WithoutSelectorCompon"
@@ -13,5 +13,5 @@ exports[`Storyshots Basics / Component / without selector / Custom wrapper Compo
       Dixie Normous
     </div>
   </ng-component>
-</storybook-wrapper>
+</ng-component>
 `;

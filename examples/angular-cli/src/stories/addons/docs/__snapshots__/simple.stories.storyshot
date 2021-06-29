@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Addons/Docs/SimpleButton with text 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-button-component
     _nghost-a-c11=""
     ng-reflect-text="Hello 👋"
@@ -12,5 +12,5 @@ exports[`Storyshots Addons/Docs/SimpleButton with text 1`] = `
       Hello 👋
     </button>
   </storybook-button-component>
-</storybook-wrapper>
+</ng-component>
 `;

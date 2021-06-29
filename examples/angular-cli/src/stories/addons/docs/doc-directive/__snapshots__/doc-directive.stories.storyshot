@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Addons/Docs/DocDirective Basic 1`] = `
-<storybook-wrapper>
+<ng-component>
   <div
     docdirective=""
     ng-reflect-has-gray-background="true"
@@ -11,5 +11,5 @@ exports[`Storyshots Addons/Docs/DocDirective Basic 1`] = `
       DocDirective
     </h1>
   </div>
-</storybook-wrapper>
+</ng-component>
 `;

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Addons/Links button with link to another story 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-button-component
     _nghost-a-c12=""
     ng-reflect-text="Go to Welcome Story"
@@ -12,5 +12,5 @@ exports[`Storyshots Addons/Links button with link to another story 1`] = `
       Go to Welcome Story
     </button>
   </storybook-button-component>
-</storybook-wrapper>
+</ng-component>
 `;

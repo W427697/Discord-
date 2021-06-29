@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Basics / Component / With ng-content / Simple Default 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-with-ng-content>
     Content value: 
     <div
@@ -12,22 +12,22 @@ exports[`Storyshots Basics / Component / With ng-content / Simple Default 1`] = 
       </h1>
     </div>
   </storybook-with-ng-content>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Basics / Component / With ng-content / Simple Only Component 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-with-ng-content>
     Content value: 
     <div
       style="color: #1e88e5;"
     />
   </storybook-with-ng-content>
-</storybook-wrapper>
+</ng-component>
 `;
 
 exports[`Storyshots Basics / Component / With ng-content / Simple With Dynamic Content And Args 1`] = `
-<storybook-wrapper>
+<ng-component>
   <storybook-with-ng-content>
     Content value: 
     <div
@@ -38,5 +38,5 @@ exports[`Storyshots Basics / Component / With ng-content / Simple With Dynamic C
       </h1>
     </div>
   </storybook-with-ng-content>
-</storybook-wrapper>
+</ng-component>
 `;
