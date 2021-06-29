@@ -11,7 +11,7 @@ import React, {
   useState,
 } from 'react';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
-import { ScrollAreaProps, ScrollValue } from '../ScrollArea/types';
+import { ScrollAreaProps } from '../ScrollArea/types';
 import { ButtonTab } from './components/ButtonTab';
 import { ContentTab } from './components/ContentTab';
 import { MenuTab } from './components/MenuTab';
@@ -119,8 +119,9 @@ export const TabsBar: FC<TabsBarProps> = ({
   );
 
   const handleScroll = useCallback(
-    ({ left }: ScrollValue) => {
-      setScrollOffset(left);
+    (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
+      const { scrollLeft } = event.currentTarget;
+      setScrollOffset(scrollLeft);
     },
     [scrollOffset, setScrollOffset]
   );
@@ -212,7 +213,7 @@ export const TabsBar: FC<TabsBarProps> = ({
 
   const scrollAreaProps: ScrollAreaProps = {
     style: { width: '100%' },
-    onScrollChange: handleScroll,
+    onScroll: handleScroll,
   };
 
   return (
