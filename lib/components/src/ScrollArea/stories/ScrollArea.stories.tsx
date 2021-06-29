@@ -4,7 +4,7 @@ import { Content } from './Content';
 import { ScrollArea } from '../ScrollArea';
 
 export default {
-  title: 'Basics/ScrollArea',
+  title: 'Basics/ScrollBars',
   component: ScrollArea,
   argTypes: {
     sliderColor: { control: { type: 'color' } },

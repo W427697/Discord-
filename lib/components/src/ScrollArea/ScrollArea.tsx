@@ -27,10 +27,9 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
   sliderType,
   vertical: enableVertical = true,
   verticalPosition = 'right',
-  onScrollChange,
   onScroll,
-  ContentProps = {},
-  ContainerProps = {},
+  contentProps = {},
+  containerProps = {},
   ...rest
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -171,10 +170,6 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
         onScroll(event);
       }
 
-      if (onScrollChange) {
-        onScrollChange({ left: scrollLeft, top: scrollTop });
-      }
-
       if (showOn === 'scroll') {
         setTimeout(() => {
           if (oldScrollRef + 1 === scrollRef.current.i) {
@@ -207,41 +202,25 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
     ]
   );
 
-  const handleMouseEnter = useCallback(
-    (event) => {
-      if (showOn === 'hover') {
-        setState({
-          ...state,
-          horizontal: { ...state.horizontal, show: true },
-          vertical: { ...state.vertical, show: true },
-        });
-      }
+  const handleMouseEnter = useCallback(() => {
+    if (showOn === 'hover') {
+      setState({
+        ...state,
+        horizontal: { ...state.horizontal, show: true },
+        vertical: { ...state.vertical, show: true },
+      });
+    }
+  }, [rest, showOn, state, setState]);
 
-      if (rest.onMouseEnter) {
-        event.persist();
-        rest.onMouseEnter(event);
-      }
-    },
-    [rest, showOn, state, setState]
-  );
-
-  const handleMouseLeave = useCallback(
-    (event) => {
-      if (showOn === 'hover') {
-        setState({
-          ...state,
-          horizontal: { ...state.horizontal, show: false },
-          vertical: { ...state.vertical, show: false },
-        });
-      }
-
-      if (rest.onMouseLeave) {
-        event.persist();
-        rest.onMouseLeave(event);
-      }
-    },
-    [rest]
-  );
+  const handleMouseLeave = useCallback(() => {
+    if (showOn === 'hover') {
+      setState({
+        ...state,
+        horizontal: { ...state.horizontal, show: false },
+        vertical: { ...state.vertical, show: false },
+      });
+    }
+  }, [rest]);
 
   const handleVerticalDrag = useCallback(
     (scrollTop: number) => {
@@ -303,7 +282,7 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
         parentWidth={outerRect.width}
         parentHeight={outerRect.height}
         ref={containerRef}
-        {...ContainerProps}
+        {...containerProps}
         onScroll={handleScroll}
         onMouseOver={handleMouseEnter}
         onMouseEnter={handleMouseEnter}
@@ -313,7 +292,7 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
           data-sb-scrollarea-content=""
           ref={innerRef}
           absolute={absolute}
-          {...ContentProps}
+          {...contentProps}
         >
           {child}
         </Styled.ScrollableContent>

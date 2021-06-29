@@ -4,7 +4,7 @@ import { Content } from './Content';
 import { ScrollArea } from '../ScrollArea';
 
 export default {
-  title: 'Basics/ScrollArea/Stories',
+  title: 'Basics/ScrollBars/Stories',
   component: ScrollArea,
   parameters: {
     test: { disable: true },
@@ -66,7 +66,7 @@ export const BorderedContainerExaggerated = () => (
     sliderColor="#FF0000"
     sliderOpacity={1}
     style={{ height: 250, width: 250 }}
-    ContainerProps={{ style: { border: '14px solid #0000FF' } }}
+    containerProps={{ style: { border: '14px solid #0000FF' } }}
   >
     <Content style={{ width: 4000 }} />
   </ScrollArea>
@@ -77,7 +77,7 @@ export const BorderedContainerUseful = () => (
     style={{ height: 250, width: 250 }}
     sliderColor="#CCCCCC"
     sliderOpacity={1}
-    ContainerProps={{ style: { border: '1px solid #CCCCCC' } }}
+    containerProps={{ style: { border: '1px solid #CCCCCC' } }}
   >
     <Content style={{ width: 4000 }} />
   </ScrollArea>
