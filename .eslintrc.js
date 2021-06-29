@@ -39,6 +39,8 @@ module.exports = {
       rules: {
         '@typescript-eslint/no-empty-function': 'off',
         'import/no-extraneous-dependencies': 'off',
+        'react/display-name': 'off',
+        'react/destructuring-assignment': 'off',
       },
     },
     {
@@ -67,6 +69,7 @@ module.exports = {
       files: ['examples/**', 'app/**'],
       rules: {
         'react-hooks/rules-of-hooks': 'off',
+        'react/display-name': 'off',
       },
     },
     {
