@@ -1,10 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
 import { styled } from '@storybook/theming';
+import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import { Icons } from '../icon/icon';
 import { AccordionItemContext } from './AccordionItemContext';
-
-/* eslint-disable import/order */
-import type { FC } from 'react';
 
 export type AccordionHeaderProps = {
   label?: string;

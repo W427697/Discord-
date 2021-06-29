@@ -1,8 +1,6 @@
+import type { ComponentStory, Meta } from '@storybook/react';
 import React from 'react';
 import { AccordionHeader } from '../AccordionHeader';
-
-// eslint-disable-next-line import/order
-import type { ComponentStory, Meta } from '@storybook/react';
 
 export default {
   title: 'Basics/Accordion/AccordionHeader',

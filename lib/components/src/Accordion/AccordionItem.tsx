@@ -1,14 +1,8 @@
-import React, { useCallback, useContext, useEffect, useRef, useState, Children } from 'react';
-// @TODO get rid of lodash usage
-// shilman wish to get rid of lodash for bundle size, so maybe "nanoid" can be
-// added for unique id requirements?
-import uniqueId from 'lodash/uniqueId';
 import { styled } from '@storybook/theming';
+import { nanoid } from 'nanoid';
+import React, { Children, FC, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { AccordionContext } from './AccordionContext';
 import { AccordionItemContext } from './AccordionItemContext';
-
-/* eslint-disable import/order */
-import type { FC } from 'react';
 
 // Props are also available from Accordion context provider, but local props
 // takes precedence for scope control
@@ -31,7 +25,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
 }) => {
   const [open, setOpen] = useState(_open);
   const context = useContext(AccordionContext);
-  const id = useRef(uniqueId('AccordionItem-'));
+  const id = useRef(nanoid());
   const preventOpen = Children.count(children) < 2;
   const initialOpen = useRef(_open);
   const allowDynamicOpen = !preventOpen && _open !== true;

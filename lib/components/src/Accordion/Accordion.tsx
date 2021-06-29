@@ -1,10 +1,7 @@
-import React, { Children, useCallback, useEffect, useRef, useState } from 'react';
 import { styled } from '@storybook/theming';
-import { AccordionContext } from './AccordionContext';
-
-/* eslint-disable import/order */
-import type { FC } from 'react';
+import React, { Children, useCallback, useEffect, useRef, useState, FC } from 'react';
 import type { AddToMapFn, OpenMap } from './AccordionContext';
+import { AccordionContext } from './AccordionContext';
 
 type AccordionMap = Record<string, { index: number; id: string }>;
 

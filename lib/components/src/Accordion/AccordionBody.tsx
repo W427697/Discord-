@@ -1,9 +1,6 @@
-import React, { useContext } from 'react';
 import { styled } from '@storybook/theming';
+import React, { FC, useContext } from 'react';
 import { AccordionItemContext } from './AccordionItemContext';
-
-/* eslint-disable import/order */
-import type { FC } from 'react';
 
 export type AccordionBodyProps = {
   open?: boolean;

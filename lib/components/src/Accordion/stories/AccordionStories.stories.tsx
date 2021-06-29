@@ -1,11 +1,9 @@
+import type { Meta, Story } from '@storybook/react';
 import React from 'react';
 import { Accordion } from '../Accordion';
-import { AccordionItem } from '../AccordionItem';
-import { AccordionHeader } from '../AccordionHeader';
 import { AccordionBody } from '../AccordionBody';
-
-// eslint-disable-next-line import/order
-import type { Story, Meta } from '@storybook/react';
+import { AccordionHeader } from '../AccordionHeader';
+import { AccordionItem } from '../AccordionItem';
 
 export default {
   title: 'Basics/Accordion/Stories',
