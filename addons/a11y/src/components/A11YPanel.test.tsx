@@ -16,9 +16,9 @@ const axeResult = {
       id: 'color-contrast',
       impact: 'serious',
       tags: ['cat.color', 'wcag2aa', 'wcag143'],
-      description:
+      description: 'Elements must have sufficient color contrast',
+      help:
         'Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds',
-      help: 'Elements must have sufficient color contrast',
       helpUrl: 'https://dequeuniversity.com/rules/axe/3.2/color-contrast?application=axeAPI',
       nodes: [],
     },
@@ -28,8 +28,8 @@ const axeResult = {
       id: 'aria-allowed-attr',
       impact: null,
       tags: ['cat.aria', 'wcag2a', 'wcag412'],
-      description: "Ensures ARIA attributes are allowed for an element's role",
-      help: 'Elements must only use allowed ARIA attributes',
+      description: 'Elements must only use allowed ARIA attributes',
+      help: "Ensures ARIA attributes are allowed for an element's role",
       helpUrl: 'https://dequeuniversity.com/rules/axe/3.2/aria-allowed-attr?application=axeAPI',
       nodes: [],
     },
@@ -39,9 +39,9 @@ const axeResult = {
       id: 'color-contrast',
       impact: 'serious',
       tags: ['cat.color', 'wcag2aa', 'wcag143'],
-      description:
+      description: 'Elements must have sufficient color contrast',
+      help:
         'Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds',
-      help: 'Elements must have sufficient color contrast',
       helpUrl: 'https://dequeuniversity.com/rules/axe/3.2/color-contrast?application=axeAPI',
       nodes: [],
     },
