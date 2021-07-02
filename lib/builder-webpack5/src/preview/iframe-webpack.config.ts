@@ -129,7 +129,6 @@ export default async ({
       logging: 'error',
     },
     watchOptions: {
-      aggregateTimeout: 10,
       ignored: /node_modules/,
     },
     ignoreWarnings: [
