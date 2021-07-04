@@ -7776,7 +7776,7 @@ __metadata:
 
 "@storybook/stencil@file:../../app/stencil::locator=stencil-kitchen-sink%40workspace%3Aexamples%2Fstencil-kitchen-sink":
   version: 6.4.0-alpha.11
-  resolution: "@storybook/stencil@file:../../app/stencil#../../app/stencil::hash=97e8d2&locator=stencil-kitchen-sink%40workspace%3Aexamples%2Fstencil-kitchen-sink"
+  resolution: "@storybook/stencil@file:../../app/stencil#../../app/stencil::hash=f10df4&locator=stencil-kitchen-sink%40workspace%3Aexamples%2Fstencil-kitchen-sink"
   dependencies:
     "@babel/plugin-syntax-dynamic-import": ^7.8.3
     "@babel/plugin-syntax-import-meta": ^7.10.4
@@ -7801,7 +7801,7 @@ __metadata:
     build-storybook: ./bin/build.js
     start-storybook: ./bin/index.js
     storybook-server: ./bin/index.js
-  checksum: c35c66795efdc2c1b1f151b0a598a3977d8951f210e43cd01f218e3626c248a53906c35074b884b3291f53f764bbb1a944a991af3093893205ce05dd134264ff
+  checksum: f7c40c11a05263501c09fd0ca020c948be1a91b5592c74776e29b7d7cec295a0dfdd304a337f75d260202d5fa9cc16002b1b2dd451015cccab5b017bda85d317
   languageName: node
   linkType: hard
 
