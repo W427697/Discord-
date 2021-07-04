@@ -50,6 +50,12 @@ and so the json file will be re-generated every time code or tests change.
 npm run test:generate-output -- --watch
 ```
 
+and in the jest config, add `jest-test-results.json` to `modulePathIgnorePatterns`.
+
+```js
+modulePathIgnorePatterns: ['node_modules', 'jest-test-results.json'],
+```
+
 This change will then be HMR (hot module reloaded) using webpack and displayed by this addon.
 
 If you want to pre-run jest automatically during development or a static build,
@@ -94,7 +100,7 @@ export default {
 
 export const defaultView = () => <div>Jest results in storybook</div>;
 defaultView.parameters = {
-  jest: ['MyComponent.test.js', 'MyOtherComponent.test.js'],
+  jest: ['MyComponent.test.js', 'MyOtherComponent.test.js']
 };
 ```
 
