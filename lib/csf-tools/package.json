@@ -1,11 +1,11 @@
 {
   "name": "@storybook/csf-tools",
-  "version": "6.4.0-alpha.6",
+  "version": "6.4.0-alpha.11",
   "description": "",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/csf-tools",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/csf-tools",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -64,6 +64,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "e15d4e0276d925a601ee25fd819d5f050920e1ab",
+  "gitHead": "52cc8f0ba8fc0601c38620f7173a47b0fd7d38e2",
   "sbmodern": "dist/modern/index.js"
 }

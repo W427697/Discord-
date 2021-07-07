@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-a11y",
-  "version": "6.4.0-alpha.6",
+  "version": "6.4.0-alpha.11",
   "description": "Test component compliance with web accessibility standards",
   "keywords": [
     "a11y",
@@ -11,13 +11,13 @@
     "verify",
     "test"
   ],
-  "homepage": "https://github.com/storybookjs/storybook#readme",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/a11y",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/storybookjs/storybook.git",
+    "url": "https://github.com/storybookjs/storybook.git",
     "directory": "addons/a11y"
   },
   "funding": {
@@ -45,14 +45,14 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.4.0-alpha.6",
-    "@storybook/api": "6.4.0-alpha.6",
-    "@storybook/channels": "6.4.0-alpha.6",
-    "@storybook/client-api": "6.4.0-alpha.6",
-    "@storybook/client-logger": "6.4.0-alpha.6",
-    "@storybook/components": "6.4.0-alpha.6",
-    "@storybook/core-events": "6.4.0-alpha.6",
-    "@storybook/theming": "6.4.0-alpha.6",
+    "@storybook/addons": "6.4.0-alpha.11",
+    "@storybook/api": "6.4.0-alpha.11",
+    "@storybook/channels": "6.4.0-alpha.11",
+    "@storybook/client-api": "6.4.0-alpha.11",
+    "@storybook/client-logger": "6.4.0-alpha.11",
+    "@storybook/components": "6.4.0-alpha.11",
+    "@storybook/core-events": "6.4.0-alpha.11",
+    "@storybook/theming": "6.4.0-alpha.11",
     "axe-core": "^4.2.0",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
@@ -81,7 +81,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "e15d4e0276d925a601ee25fd819d5f050920e1ab",
+  "gitHead": "52cc8f0ba8fc0601c38620f7173a47b0fd7d38e2",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Accessibility",

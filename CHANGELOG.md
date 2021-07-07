@@ -1,3 +1,64 @@
+## 6.4.0-alpha.11 (July 3, 2021)
+
+### Bug Fixes
+
+- UI: Fix sidebar toggle in fullscreen mode ([#15459](https://github.com/storybookjs/storybook/pull/15459))
+- Angular: Fix circular reference not being handled in moduleMetadata ([#15410](https://github.com/storybookjs/storybook/pull/15410))
+
+### Maintenance
+
+- Addon-a11y: Reverse help and description labels in accordion ([#15466](https://github.com/storybookjs/storybook/pull/15466))
+
+## 6.4.0-alpha.10 (July 2, 2021)
+
+### Features
+
+- UI: Display menu icon on the toolbar when the sidebar is collapsed ([#15369](https://github.com/storybookjs/storybook/pull/15369))
+
+### Bug Fixes
+
+- Core: Fix double rebuilds by removing aggregateTimeout ([#15372](https://github.com/storybookjs/storybook/pull/15372))
+- CLI: Fix NPM typo ([#15461](https://github.com/storybookjs/storybook/pull/15461))
+
+### Maintenance
+
+- Addon-docs: Cache DocsContext on window to prevent duplication ([#15428](https://github.com/storybookjs/storybook/pull/15428))
+
+## 6.3.2 (June 30, 2021)
+
+### Bug Fixes
+
+- Essentials: Update measure and outline. Fix alt+tab issues on windows. ([#15402](https://github.com/storybookjs/storybook/pull/15402))
+- Core: Fix decorator context update ([#15408](https://github.com/storybookjs/storybook/pull/15408))
+- Revert "Vue3: Update args without re-mounting component" ([#15409](https://github.com/storybookjs/storybook/pull/15409))
+- Upgrade bad release of `react-docgen-typescript-plugin` ([#15432](https://github.com/storybookjs/storybook/pull/15432))
+
+## 6.4.0-alpha.9 (June 30, 2021)
+
+### Dependency Upgrades
+
+- Upgrade bad release of `react-docgen-typescript-plugin` ([#15432](https://github.com/storybookjs/storybook/pull/15432))
+
+## 6.4.0-alpha.8 (June 30, 2021)
+
+### Features
+
+- Web-components: Custom Elements Manifest v1 support ([#15138](https://github.com/storybookjs/storybook/pull/15138))
+
+### Bug Fixes
+
+- CSF: Fix auto-title generation for standard config dir ([#15430](https://github.com/storybookjs/storybook/pull/15430))
+
+### Dependency Upgrades
+
+- Upgrade `react-docgen-typescript-plugin` for refresh perf regression ([#15431](https://github.com/storybookjs/storybook/pull/15431))
+
+## 6.4.0-alpha.7 (June 29, 2021)
+
+### Features
+
+- CSF: Generate default titles based on file path ([#15376](https://github.com/storybookjs/storybook/pull/15376))
+
 ## 6.4.0-alpha.6 (June 29, 2021)
 
 ### Bug Fixes
