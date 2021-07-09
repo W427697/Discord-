@@ -15,6 +15,7 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import FilterWarningsPlugin from 'webpack-filter-warnings-plugin';
 
 import themingPaths from '@storybook/theming/paths';
+
 import {
   toRequireContextString,
   stringifyEnvs,
