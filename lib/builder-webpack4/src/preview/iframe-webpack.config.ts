@@ -15,7 +15,6 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import FilterWarningsPlugin from 'webpack-filter-warnings-plugin';
 
 import themingPaths from '@storybook/theming/paths';
-
 import {
   toRequireContextString,
   stringifyEnvs,
@@ -166,6 +165,7 @@ export default async ({
           },
           headHtmlSnippet,
           bodyHtmlSnippet,
+          lang: envs.STORYBOOK_PREVIEW_HTML_LANG || 'en',
         }),
         minify: {
           collapseWhitespace: true,
