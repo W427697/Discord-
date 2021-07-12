@@ -345,7 +345,7 @@ export const Code = ({
     .filter(isReactChildString)
     .some((child) => child.match(isInlineCodeRegex));
 
-  if (isInlineCode) {
+  if (isInlineCode && !language) {
     return (
       <DefaultCodeBlock {...props} className={className}>
         {childrenArray}
