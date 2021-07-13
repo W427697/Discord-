@@ -1,4 +1,3 @@
-// eslint-disable react/prop-types
 /**
  * The button component will render a clickable button
  */
