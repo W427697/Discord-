@@ -1,13 +1,22 @@
-import { document } from 'global';
+import global from 'global';
 import dedent from 'ts-dedent';
 
 import { logger } from '@storybook/client-logger';
 
 import { Background } from '../types';
 
-export const clearBackground: Background = { name: 'Clear the background or CSS of the preview', value: 'transparent' };
+export const clearBackground: Background = {
+  name: 'Clear the background or CSS of the preview',
+  value: 'transparent',
+};
 const variablesStyleIdentifier = 'addon-backgrounds-variables';
 const variablesStyleLinkIdentifier = 'addon-backgrounds-variables-link';
+const { document, window } = global;
+
+export const isReduceMotionEnabled = () => {
+  const prefersReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  return prefersReduceMotion.matches;
+};
 
 export const getBackgroundColorByName = (
   currentSelectedValue: string,

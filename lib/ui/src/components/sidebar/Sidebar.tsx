@@ -1,9 +1,9 @@
-import { DOCS_MODE } from 'global';
+import global from 'global';
 import React, { FunctionComponent, useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 import { ScrollArea, Spaced } from '@storybook/components';
-import { StoriesHash, State } from '@storybook/api';
+import type { StoriesHash, State } from '@storybook/api';
 
 import { Heading } from './Heading';
 
@@ -13,6 +13,8 @@ import { Search } from './Search';
 import { SearchResults } from './SearchResults';
 import { Refs, CombinedDataset, Selection } from './types';
 import { useLastViewed } from './useLastViewed';
+
+const { DOCS_MODE } = global;
 
 const Container = styled.nav({
   position: 'absolute',

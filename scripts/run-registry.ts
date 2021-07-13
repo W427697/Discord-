@@ -50,16 +50,16 @@ const startVerdaccio = (port: number) => {
       setTimeout(() => {
         if (!resolved) {
           resolved = true;
-          rej(new Error(`TIMEOUT - verdaccio didn't start within 60s`));
+          rej(new Error(`TIMEOUT - verdaccio didn't start within 10s`));
         }
-      }, 60000);
+      }, 10000);
     }),
   ]);
 };
 const registryUrl = (command: string, url?: string) =>
   new Promise<string>((res, rej) => {
     const args = url ? ['config', 'set', 'registry', url] : ['config', 'get', 'registry'];
-    exec(`${command} ${args.join(' ')}`, (e, stdout) => {
+    exec(`${command} ${args.join(' ')}`, { cwd: path.join(process.cwd(), '..') }, (e, stdout) => {
       if (e) {
         rej(e);
       } else {
@@ -69,7 +69,7 @@ const registryUrl = (command: string, url?: string) =>
   });
 
 const registriesUrl = (yarnUrl?: string, npmUrl?: string) =>
-  Promise.all([registryUrl('yarn', yarnUrl), registryUrl('npm', npmUrl || yarnUrl)]);
+  Promise.all([registryUrl('/usr/local/bin/yarn', yarnUrl), registryUrl('npm', npmUrl || yarnUrl)]);
 
 const applyRegistriesUrl = (
   yarnUrl: string,

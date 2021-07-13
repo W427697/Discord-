@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-jest",
-  "version": "6.2.0-alpha.25",
+  "version": "6.4.0-alpha.16",
   "description": "React storybook addon that show component jest report",
   "keywords": [
     "addon",
@@ -9,9 +9,10 @@
     "report",
     "results",
     "storybook",
-    "unit-testing"
+    "unit-testing",
+    "test"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/jest",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/jest",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -19,6 +20,10 @@
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "addons/jest"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
   "author": "Renaud Tertrais <renaud.tertrais@gmail.com> (https://github.com/renaudtertrais)",
@@ -42,14 +47,14 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.2.0-alpha.25",
-    "@storybook/api": "6.2.0-alpha.25",
-    "@storybook/components": "6.2.0-alpha.25",
-    "@storybook/core-events": "6.2.0-alpha.25",
-    "@storybook/theming": "6.2.0-alpha.25",
+    "@storybook/addons": "6.4.0-alpha.16",
+    "@storybook/api": "6.4.0-alpha.16",
+    "@storybook/components": "6.4.0-alpha.16",
+    "@storybook/core-events": "6.4.0-alpha.16",
+    "@storybook/theming": "6.4.0-alpha.16",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
-    "react-sizeme": "^2.6.12",
+    "react-sizeme": "^3.0.1",
     "regenerator-runtime": "^0.13.7",
     "upath": "^1.2.0"
   },
@@ -71,5 +76,13 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "d4ff49b2dee7c5a3c50e992832bd0ae4d3e52e41"
+  "gitHead": "3afa39c64e2efe01e567ce8946e80586d77a8b73",
+  "sbmodern": "dist/modern/index.js",
+  "storybook": {
+    "displayName": "Jest",
+    "icon": "https://pbs.twimg.com/profile_images/821713465245102080/mMtKIMax_400x400.jpg",
+    "unsupportedFrameworks": [
+      "react-native"
+    ]
+  }
 }

@@ -8,6 +8,7 @@ import {
   clearBackground,
   applyOrRemoveCssVariables,
   removeCssVariables,
+  isReduceMotionEnabled,
 } from '../helpers';
 
 export const withBackground = (StoryFn: StoryFunction, context: StoryContext) => {
@@ -27,19 +28,19 @@ export const withBackground = (StoryFn: StoryFunction, context: StoryContext) =>
     );
   }, [backgroundsConfig, globalsBackgroundColor]);
 
-  const isActive = useMemo(
-    () => selectedBackground && selectedBackground.value !== 'transparent',
-    [selectedBackground]
-  );
+  const isActive = useMemo(() => selectedBackground && selectedBackground.value !== 'transparent', [
+    selectedBackground,
+  ]);
 
   const selector =
     context.viewMode === 'docs' ? `#anchor--${context.id} .docs-story` : '.sb-show-main';
 
   const backgroundStyles = useMemo(() => {
+    const transitionStyle = 'transition: background-color 0.3s;';
     return `
       ${selector} {
         background: ${selectedBackground.value} !important;
-        transition: background-color 0.3s;
+        ${isReduceMotionEnabled() ? '' : transitionStyle}
       }
     `;
   }, [selectedBackground, selector]);
