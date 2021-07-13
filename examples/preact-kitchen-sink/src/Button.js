@@ -1,8 +1,4 @@
-/** @jsx h */
-/* eslint-disable react/prop-types */
-
-import { h } from 'preact';
-
+// eslint-disable react/prop-types
 /**
  * The button component will render a clickable button
  */
