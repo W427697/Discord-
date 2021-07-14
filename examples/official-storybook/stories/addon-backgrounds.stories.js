@@ -18,7 +18,7 @@ export default {
   },
 };
 
-const Template = (args) => <BaseButton style={{color: 'var(--text-color)'}} {...args} />;
+const Template = (args) => <BaseButton style={{ color: 'var(--text-color)' }} {...args} />;
 
 export const Story1 = Template.bind({});
 Story1.args = {
@@ -116,7 +116,16 @@ AlignedGridWhenFullScreen.parameters = {
   layout: 'fullscreen',
 };
 
-export const WithCssVariables = Template.bind({});
+const CSSVariablesTemplate = (args) => (
+  <div style={{ background: 'var(--wrapper-bg-color)', padding: 20 }}>
+    <p>
+      Wrapper should use css variable color --wrapper-bg-color and button should use --text-color
+    </p>
+    <BaseButton style={{ color: 'var(--text-color)' }} {...args} />
+  </div>
+);
+
+export const WithCssVariables = CSSVariablesTemplate.bind({});
 WithCssVariables.args = {
   label: 'This text should have a color provided through the CSS variables',
 };
@@ -126,16 +135,17 @@ WithCssVariables.parameters = {
     values: [
       {
         name: 'theme-with-css-variables',
-        value: '#ff4785',
-        variables: {
-          '--text-color': '#ff4785',
+        value: 'green',
+        cssVariables: {
+          '--text-color': 'brown',
+          '--wrapper-bg-color': '#a2a2fe',
         },
       },
     ],
   },
 };
 
-export const WithCssVariablesFromAsset = Template.bind({});
+export const WithCssVariablesFromAsset = CSSVariablesTemplate.bind({});
 WithCssVariablesFromAsset.args = {
   label: 'This text should have a color provided through the CSS variables from an asset file',
 };
@@ -145,8 +155,8 @@ WithCssVariablesFromAsset.parameters = {
     values: [
       {
         name: 'theme-with-css-variables-from-asset-file',
-        value: '#ff4785',
-        variablesAsset: 'assets/sample-theme-variables.css',
+        value: 'red',
+        cssVariablesAsset: 'assets/sample-theme-variables.css',
       },
     ],
   },

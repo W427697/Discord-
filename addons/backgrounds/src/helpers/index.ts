@@ -134,9 +134,9 @@ export const applyOrRemoveCssVariablesFromAssetFile = (variablesAsset: string) =
   }
 };
 
-export const applyOrRemoveCssVariables = ({ variables, variablesAsset }: Background) => {
-  applyOrRemoveCssVariablesFromAssetFile(variablesAsset);
-  applyOrRemoveCssVariablesFromConfiguration(variables);
+export const applyOrRemoveCssVariables = ({ cssVariables, cssVariablesAsset }: Background) => {
+  applyOrRemoveCssVariablesFromAssetFile(cssVariablesAsset);
+  applyOrRemoveCssVariablesFromConfiguration(cssVariables);
 };
 
 export const removeCssVariables = () => {
