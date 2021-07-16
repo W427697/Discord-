@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { ConfigApi, ClientApi, StoryStore } from '@storybook/client-api';
 import { isExportStory } from '@storybook/csf';
 import { logger } from '@storybook/client-logger';
@@ -6,6 +7,7 @@ import deprecate from 'util-deprecate';
 
 import { Loadable, LoaderFunction, RequireContext } from './types';
 import { normalizeStory } from './normalizeStory';
+import { autoTitle } from './autoTitle';
 
 const duplicateKindWarning = deprecate(
   (kindName: string) => {
@@ -80,15 +82,18 @@ const loadStories = (
       return;
     }
 
-    if (!fileExports.default.title) {
+    const { default: defaultExport, __namedExportsOrder, ...namedExports } = fileExports;
+    let exports = namedExports;
+
+    const fileName = currentExports.get(fileExports);
+    const title = autoTitle(defaultExport, fileName);
+    if (!title) {
       throw new Error(
         `Unexpected default export without title: ${JSON.stringify(fileExports.default)}`
       );
     }
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { default: meta, __namedExportsOrder, ...namedExports } = fileExports;
-    let exports = namedExports;
+    const meta = { ...defaultExport, title };
 
     // prefer a user/loader provided `__namedExportsOrder` array if supplied
     // we do this as es module exports are always ordered alphabetically
@@ -127,7 +132,7 @@ const loadStories = (
       framework,
       component,
       subcomponents,
-      fileName: currentExports.get(fileExports),
+      fileName,
       ...kindParameters,
       args: kindArgs,
       argTypes: kindArgTypes,

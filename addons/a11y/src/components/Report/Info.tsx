@@ -7,7 +7,7 @@ const Wrapper = styled.div({
   padding: 12,
   marginBottom: 10,
 });
-const Help = styled.p({
+const Description = styled.p({
   margin: '0 0 12px',
 });
 const Link = styled.a({
@@ -21,11 +21,13 @@ interface InfoProps {
   item: Result;
 }
 
-export const Info: FunctionComponent<InfoProps> = ({ item }) => (
-  <Wrapper>
-    <Help>{item.help}</Help>
-    <Link href={item.helpUrl} target="_blank">
-      More info...
-    </Link>
-  </Wrapper>
-);
+export const Info: FunctionComponent<InfoProps> = ({ item }) => {
+  return (
+    <Wrapper>
+      <Description>{item.description}</Description>
+      <Link href={item.helpUrl} target="_blank">
+        More info...
+      </Link>
+    </Wrapper>
+  );
+};

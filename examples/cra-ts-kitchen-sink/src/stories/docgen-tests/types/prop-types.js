@@ -1,4 +1,4 @@
-/* eslint-disable react/no-unused-prop-types, react/display-name */
+/* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 import PropTypes, { string, shape } from 'prop-types';
 import momentPropTypes from 'react-moment-proptypes';

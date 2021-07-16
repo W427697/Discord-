@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useMemo, ComponentProps } from 'react';
 
 import { styled } from '@storybook/theming';
-import { WithTooltip, TooltipLinkList, Button, Icons } from '@storybook/components';
+import { WithTooltip, TooltipLinkList, Button, Icons, IconButton } from '@storybook/components';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
 
@@ -82,34 +82,51 @@ export const SidebarMenuList: FunctionComponent<{
   menu: MenuList;
   onHide: () => void;
 }> = ({ menu, onHide }) => {
-  const links = useMemo(
-    () =>
-      menu.map(({ onClick, ...rest }) => ({
-        ...rest,
-        onClick: ((event, item) => {
-          if (onClick) {
-            onClick(event, item);
-          }
-          onHide();
-        }) as ClickHandler,
-      })),
-    [menu, onHide]
-  );
+  const links = useMemo(() => {
+    return menu.map(({ onClick, ...rest }) => ({
+      ...rest,
+      onClick: ((event, item) => {
+        if (onClick) {
+          onClick(event, item);
+        }
+        onHide();
+      }) as ClickHandler,
+    }));
+  }, [menu]);
   return <TooltipLinkList links={links} />;
 };
 
 export const SidebarMenu: FunctionComponent<{
   menu: MenuList;
   isHighlighted: boolean;
-}> = ({ isHighlighted, menu }) => (
-  <WithTooltip
-    placement="top"
-    trigger="click"
-    closeOnClick
-    tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
-  >
-    <MenuButton outline small containsIcon highlighted={isHighlighted} title="Shortcuts">
-      <Icons icon="ellipsis" />
-    </MenuButton>
-  </WithTooltip>
-);
+}> = ({ isHighlighted, menu }) => {
+  return (
+    <WithTooltip
+      placement="top"
+      trigger="click"
+      closeOnClick
+      tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
+    >
+      <MenuButton outline small containsIcon highlighted={isHighlighted} title="Shortcuts">
+        <Icons icon="ellipsis" />
+      </MenuButton>
+    </WithTooltip>
+  );
+};
+
+export const ToolbarMenu: FunctionComponent<{
+  menu: MenuList;
+}> = ({ menu }) => {
+  return (
+    <WithTooltip
+      placement="bottom"
+      trigger="click"
+      closeOnClick
+      tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
+    >
+      <IconButton title="Shortcuts" aria-label="Shortcuts">
+        <Icons icon="menu" />
+      </IconButton>
+    </WithTooltip>
+  );
+};

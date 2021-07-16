@@ -8,6 +8,8 @@ import {
   useProgressReporting,
   checkWebpackVersion,
   Options,
+  normalizeStories,
+  StoriesEntry,
 } from '@storybook/core-common';
 
 let compilation: ReturnType<typeof webpackDevMiddleware>;
@@ -20,7 +22,13 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
   const typescriptOptions = await presets.apply('typescript', {}, options);
   const babelOptions = await presets.apply('babel', {}, { ...options, typescriptOptions });
   const entries = await presets.apply('entries', [], options);
-  const stories = await presets.apply('stories', [], options);
+  const stories = normalizeStories(
+    (await presets.apply('stories', [], options)) as StoriesEntry[],
+    {
+      configDir: options.configDir,
+      workingDir: process.cwd(),
+    }
+  );
   const frameworkOptions = await presets.apply(`${options.framework}Options`, {}, options);
 
   return presets.apply(
@@ -61,7 +69,7 @@ export const start: WebpackBuilder['start'] = async ({ startTime, options, route
       totalTime: process.hrtime(startTime),
       stats: ({
         hasErrors: () => true,
-        hasWarngins: () => false,
+        hasWarnings: () => false,
         toJson: () => ({ warnings: [] as any[], errors: [err] }),
       } as any) as Stats,
     };
@@ -123,14 +131,19 @@ export const build: WebpackBuilder['build'] = async ({ options, startTime }) => 
   const config = await getConfig(options);
 
   return new Promise((succeed, fail) => {
-    webpackInstance(config).run((error, stats) => {
+    const compiler = webpackInstance(config);
+
+    compiler.run((error, stats) => {
       if (error || !stats || stats.hasErrors()) {
         logger.error('=> Failed to build the preview');
         process.exitCode = 1;
 
         if (error) {
           logger.error(error.message);
-          return fail(error);
+
+          compiler.close(() => fail(error));
+
+          return;
         }
 
         if (stats && (stats.hasErrors() || stats.hasWarnings())) {
@@ -139,7 +152,9 @@ export const build: WebpackBuilder['build'] = async ({ options, startTime }) => 
           errors.forEach((e) => logger.error(e.message));
           warnings.forEach((e) => logger.error(e.message));
 
-          return fail(stats);
+          compiler.close(() => fail(stats));
+
+          return;
         }
       }
 
@@ -148,7 +163,15 @@ export const build: WebpackBuilder['build'] = async ({ options, startTime }) => 
         stats.toJson({ warnings: true }).warnings.forEach((e) => logger.warn(e.message));
       }
 
-      return succeed(stats);
+      // https://webpack.js.org/api/node/#run
+      // #15227
+      compiler.close((closeErr) => {
+        if (closeErr) {
+          return fail(closeErr);
+        }
+
+        return succeed(stats);
+      });
     });
   });
 };

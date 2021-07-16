@@ -1,4 +1,5 @@
 import { Component, Input, InjectionToken, Injector, ElementRef, Inject } from '@angular/core';
+import { stringify } from 'telejson';
 
 export const TEST_TOKEN = new InjectionToken<string>('test');
 
@@ -22,6 +23,6 @@ export class DiComponent {
   }
 
   elRefStr(): string {
-    return JSON.stringify(this.elRef);
+    return stringify(this.elRef, { maxDepth: 1 });
   }
 }
