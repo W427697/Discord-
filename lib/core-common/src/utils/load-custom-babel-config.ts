@@ -75,10 +75,7 @@ function loadFromPath(babelConfigPath: string): TransformOptions {
   return config;
 }
 
-export const loadCustomBabelConfig = async (
-  configDir: string,
-  getDefaultConfig: () => TransformOptions
-) => {
+export const loadCustomBabelConfig = async (configDir: string) => {
   // Between versions 5.1.0 - 5.1.9 this loaded babel.config.js from the project
   // root, which was an unintentional breaking change. We can add back project support
   // in 6.0.
@@ -99,5 +96,5 @@ export const loadCustomBabelConfig = async (
     return babelConfig;
   }
 
-  return getDefaultConfig();
+  return null;
 };
