@@ -87,6 +87,7 @@ export const loadCustomBabelConfig = async (
     loadFromPath(path.resolve(configDir, '.babelrc.json')) ||
     loadFromPath(path.resolve(configDir, '.babelrc.js')) ||
     loadFromPath(path.resolve(configDir, 'babel.config.json')) ||
+    loadFromPath(path.resolve(configDir, 'babel.config.ts')) ||
     loadFromPath(path.resolve(configDir, 'babel.config.js'));
 
   if (babelConfig) {
