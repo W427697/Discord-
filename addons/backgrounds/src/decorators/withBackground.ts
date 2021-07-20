@@ -1,4 +1,10 @@
-import { StoryFn as StoryFunction, StoryContext, useMemo, useEffect } from '@storybook/addons';
+import {
+  StoryFn as StoryFunction,
+  StoryContext,
+  useMemo,
+  useEffect,
+  useGlobals,
+} from '@storybook/addons';
 
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
 import {
@@ -12,6 +18,7 @@ export const withBackground = (StoryFn: StoryFunction, context: StoryContext) =>
   const { globals, parameters } = context;
   const globalsBackgroundColor = globals[BACKGROUNDS_PARAM_KEY]?.value;
   const backgroundsConfig = parameters[BACKGROUNDS_PARAM_KEY];
+  const [, updateGlobals] = useGlobals();
 
   const selectedBackgroundColor = useMemo(() => {
     if (backgroundsConfig.disable) {
@@ -42,6 +49,17 @@ export const withBackground = (StoryFn: StoryFunction, context: StoryContext) =>
       }
     `;
   }, [selectedBackgroundColor, selector]);
+
+  useEffect(() => {
+    if (selectedBackgroundColor !== globalsBackgroundColor) {
+      updateGlobals({
+        [BACKGROUNDS_PARAM_KEY]: {
+          ...globals[BACKGROUNDS_PARAM_KEY],
+          value: selectedBackgroundColor,
+        },
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const selectorId =
