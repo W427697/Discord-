@@ -50,6 +50,8 @@ const presets = [
 export const babelConfig: () => TransformOptions = () => {
   return {
     sourceType: 'unambiguous',
+    babelrc: false,
+    configFile: false,
     presets: [...presets],
     plugins: [...plugins],
   };
