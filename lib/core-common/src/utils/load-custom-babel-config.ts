@@ -4,6 +4,7 @@ import JSON5 from 'json5';
 
 import { logger } from '@storybook/node-logger';
 import { TransformOptions } from '@babel/core';
+import { serverRequire } from '..';
 
 function removeReactHmre(presets: TransformOptions['presets']) {
   const index = presets.indexOf('react-hmre');
@@ -25,7 +26,7 @@ function loadFromPath(babelConfigPath: string): TransformOptions {
 
     try {
       // eslint-disable-next-line global-require, import/no-dynamic-require
-      config = require(babelConfigPath);
+      config = serverRequire(babelConfigPath);
       logger.info('=> Loading custom babel config as JS');
     } catch (e) {
       error.js = e;
@@ -52,7 +53,7 @@ function loadFromPath(babelConfigPath: string): TransformOptions {
       config = config();
     }
 
-    config = { ...config, babelrc: false };
+    config = { ...config, babelrc: false, configFile: false };
   }
 
   if (!config) {
