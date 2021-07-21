@@ -28,7 +28,13 @@ You can also build a [static version](https://storybook.js.org/docs/vue/workflow
 
 ## Vue Notes
 
-- When using global custom components or extensions (e.g., `Vue.use`). You will need to declare those in the `./storybook/preview.js`.
+When using global custom components or extensions, you will need to declare those in the `./storybook/preview.js` like so:
+
+```js
+import { app } from "@storybook/vue3";
+import VueExtensionOrComponent from ...;
+app.use(VueExtensionOrComponent);
+```
 
 ## Known Limitations
 
