@@ -8,8 +8,11 @@ declare let Ember: any;
 
 const rootEl = document.getElementById('root');
 
-const config = globalWindow.require(`${globalWindow.STORYBOOK_NAME}/config/environment`);
-const app = globalWindow.require(`${globalWindow.STORYBOOK_NAME}/app`).default.create({
+const requireFuncName = globalWindow.STORYBOOK_REQUIRE_ALIAS || 'require';
+const requireFunc = globalWindow[requireFuncName];
+
+const config = requireFunc(`${globalWindow.STORYBOOK_NAME}/config/environment`);
+const app = requireFunc(`${globalWindow.STORYBOOK_NAME}/app`).default.create({
   autoboot: false,
   rootElement: rootEl,
   ...config.APP,
