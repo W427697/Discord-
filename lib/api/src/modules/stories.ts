@@ -371,8 +371,8 @@ export const init: ModuleFn = ({
     });
 
     fullAPI.on(SET_STORIES, function handler(data: SetStoriesPayload) {
-      // TODO: Resolve api root somehow + use .json suffix
-      const url = 'http://localhost:5000/api/stories';
+      // TODO: Resolve api root somehow
+      const url = 'http://localhost:5000/api/stories.json';
 
       // eslint-disable-next-line
       console.log('api - set stories');
