@@ -12,7 +12,7 @@ jest.mock('fs', () => ({
 }));
 
 describe('normalizeStoriesEntry', () => {
-  it('direcotry/files glob', () => {
+  it('directory/files glob', () => {
     expect(normalizeStoriesEntry('../**/*.stories.mdx', '')).toMatchInlineSnapshot(`
       {
         "glob": "../**/*.stories.mdx",
