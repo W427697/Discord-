@@ -371,6 +371,29 @@ export const init: ModuleFn = ({
     });
 
     fullAPI.on(SET_STORIES, function handler(data: SetStoriesPayload) {
+      // TODO: Resolve api root somehow + use .json suffix
+      const url = 'http://localhost:5000/api/stories';
+
+      // eslint-disable-next-line
+      console.log('api - set stories');
+
+      // TODO: Import fetch
+      // eslint-disable-next-line
+      fetch(url)
+        .then((d) => d.json())
+        .then(({ stories }) => {
+          // eslint-disable-next-line
+          console.log('api - received stories', stories);
+
+          fullAPI.setStories(stories);
+        })
+        .catch((error) => {
+          // We can get here if there is a connectivity issue for example
+          fullAPI.setStories(null, error);
+        });
+
+      // TODO: What's a ref? Does it have to be restored?
+      /*
       const { ref } = getEventMetadata(this, fullAPI);
       const error = data.error || undefined;
       const stories = data.v ? denormalizeStoryParameters(data) : data.stories;
@@ -387,6 +410,7 @@ export const init: ModuleFn = ({
       } else {
         fullAPI.setRef(ref.id, { ...ref, ...data, stories }, true);
       }
+      */
     });
 
     fullAPI.on(
