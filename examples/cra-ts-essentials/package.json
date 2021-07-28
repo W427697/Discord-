@@ -1,13 +1,13 @@
 {
   "name": "cra-ts-essentials",
-  "version": "6.3.0-beta.4",
+  "version": "6.4.0-alpha.22",
   "private": true,
   "scripts": {
     "build": "react-scripts build",
     "build-storybook": "build-storybook -s public",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
-    "storybook": "start-storybook -p 9009 -s public",
+    "storybook": "start-storybook -p 9009 -s public --no-manager-cache",
     "test": "react-scripts test"
   },
   "browserslist": {

@@ -152,6 +152,11 @@ module.exports = {
           title: 'Toolbars & globals',
           type: 'link',
         },
+        {
+          pathSegment: 'measure-and-outline',
+          title: 'Measure & Outline',
+          type: 'link',
+        },
       ],
     },
     {
@@ -413,7 +418,7 @@ module.exports = {
       children: [
         {
           pathSegment: 'how-to-contribute',
-          title: 'How to Contribute',
+          title: 'How to',
           type: 'link',
         },
         {
@@ -427,16 +432,21 @@ module.exports = {
           type: 'menu',
           children: [
             {
+              pathSegment: 'documentation-updates',
+              title: 'Content',
+              type: 'link',
+            },
+            {
               pathSegment: 'new-snippets',
               title: 'Code snippets',
               type: 'link',
             },
-            {
-              pathSegment: 'documentation-updates',
-              title: 'Updates',
-              type: 'link',
-            },
           ],
+        },
+        {
+          pathSegment: 'how-to-reproduce',
+          title: 'Reproduce',
+          type: 'link',
         },
       ],
     },

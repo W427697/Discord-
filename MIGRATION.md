@@ -4,10 +4,11 @@
   - [Webpack 5 manager build](#webpack-5-manager-build)
   - [Angular 12 upgrade](#angular-12-upgrade)
   - [Lit support](#lit-support)
+  - [No longer inferring default values of args](#no-longer-inferring-default-values-of-args)
   - [6.3 deprecations](#63-deprecations)
     - [Deprecated addon-knobs](#deprecated-addon-knobs)
     - [Deprecated scoped blocks imports](#deprecated-scoped-blocks-imports)
-    - [Deprecated `argType.defaultValue`](#deprecated-argtypedefaultvalue)
+    - [Deprecated layout URL params](#deprecated-layout-url-params)
 - [From version 6.1.x to 6.2.0](#from-version-61x-to-620)
   - [MDX pattern tweaked](#mdx-pattern-tweaked)
   - [6.2 Angular overhaul](#62-angular-overhaul)
@@ -175,6 +176,14 @@ yarn add @storybook/manager-webpack5 --dev
 npm install @storybook/manager-webpack5 --save-dev
 ```
 
+Because Storybook uses `webpack@4` as the default, it's possible for the wrong version of webpack to get hoisted by your package manager. If you receive an error that looks like you might be using the wrong version of webpack, install `webpack@5` explicitly as a dev dependency to force it to be hoisted:
+
+```shell
+yarn add webpack@5 --dev
+# Or
+npm install webpack@5 --save-dev
+```
+
 ### Angular 12 upgrade
 
 Storybook 6.3 supports Angular 12 out of the box when you install it fresh. However, if you're upgrading your project from a previous version, you'll need to do the following steps to force Storybook to use webpack 5 for building your project:
@@ -203,6 +212,36 @@ To do so, it relies on helpers added in the latest minor versions of `lit-html`/
 
 According to the package manager you are using, it can be handled automatically when updating Storybook or can require to manually update the versions and regenerate the lockfile.
 
+### No longer inferring default values of args
+
+Previously, unset `args` were set to the `argType.defaultValue` if set or inferred from the component's prop types (etc.). In 6.3 we no longer infer default values and instead set arg values to `undefined` when unset, allowing the framework to supply the default value.
+
+If you were using `argType.defaultValue` to fix issues with the above inference, it should no longer be necessary, you can remove that code.
+
+If you were using `argType.defaultValue` or relying on inference to set a default value for an arg, you should now set a value for the arg at the component level:
+
+```js
+export default {
+  component: MyComponent,
+  args: {
+    argName: 'default-value',
+  },
+};
+```
+
+To manually configure the value that is shown in the ArgsTable doc block, you can configure the `table.defaultValue` setting:
+
+```js
+export default {
+  component: MyComponent,
+  argTypes: {
+    argName: {
+      table: { defaultValue: { summary: 'SomeType<T>' } },
+    },
+  },
+};
+```
+
 ### 6.3 deprecations
 
 #### Deprecated addon-knobs
@@ -226,20 +265,15 @@ import { Meta, Story } from '@storybook/addon-docs/blocks';
 import { Meta, Story } from '@storybook/addon-docs';
 ```
 
-#### Deprecated `argType.defaultValue`
+#### Deprecated layout URL params
 
-Previously, unset `args` were set to the `argType.defaultValue` if set or inferred from the component's prop types (etc.). In 6.3 we no longer infer default values and instead set arg values to `undefined` when unset, allowing the framework to supply the default value.
+Several URL params to control the manager layout have been deprecated and will be removed in 7.0:
 
-If you were using `argType.defaultValue` to fix issues with the above inference, it should no longer be necessary, you can remove that code. If you were using it to set a default value for an arg, there is a simpler way; simply set a value for the arg at the component level:
+- `addons=0`: use `panel=false` instead
+- `panelRight=1`: use `panel=right` instead
+- `stories=0`: use `nav=false` instead
 
-```js
-export default {
-  component: MyComponent,
-  args: {
-    argName: 'default-value',
-  },
-};
-```
+Additionally, support for legacy URLs using `selectedKind` and `selectedStory` will be removed in 7.0. Use `path` instead.
 
 ## From version 6.1.x to 6.2.0
 
@@ -309,7 +343,7 @@ transformIgnorePatterns: ['/node_modules/(?!@storybook)']
 
 #### Deprecated implicit PostCSS loader
 
-Previously, `@storybook/core` would automatically add the `postcss-loader` to your preview. This caused issues for consumers when PostCSS upgraded to v8 and tools, like Autoprefixer and Tailwind, starting requiring the new version. Implictly adding `postcss-loader` will be removed in Storybook 7.0.
+Previously, `@storybook/core` would automatically add the `postcss-loader` to your preview. This caused issues for consumers when PostCSS upgraded to v8 and tools, like Autoprefixer and Tailwind, starting requiring the new version. Implicitly adding `postcss-loader` will be removed in Storybook 7.0.
 
 Instead of continuing to include PostCSS inside the core library, it has been moved to [`@storybook/addon-postcss`](https://github.com/storybookjs/addon-postcss). This addon provides more fine-grained customization and will be upgraded more flexibly to track PostCSS upgrades.
 
@@ -485,7 +519,7 @@ console.log(unboundStoryFn(context));
 
 If you're not using loaders, `storyFn` will work as before. If you are, you'll need to use the new approach.
 
-> NOTE: If you're using `@storybook/addon-docs`, this deprecation warning is triggered by the Docs tab in 6.1. It's safe to ignore and we will be providing a proper fix in 6.2. You can track the issue at https://github.com/storybookjs/storybook/issues/13074.
+> NOTE: If you're using `@storybook/addon-docs`, this deprecation warning is triggered by the Docs tab in 6.1. It's safe to ignore and we will be providing a proper fix in a future release. You can track the issue at https://github.com/storybookjs/storybook/issues/13074.
 
 #### Deprecated onBeforeRender
 
@@ -863,7 +897,7 @@ npx sb@next migrate upgrade-hierarchy-separators --glob="*/**/*.stories.@(tsx|js
 We also now default to showing "roots", which are non-expandable groupings in the sidebar for the top-level groups. If you'd like to disable this, set the `showRoots` option in `.storybook/manager.js`:
 
 ```js
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 
 addons.setConfig({
   showRoots: false,
@@ -1150,7 +1184,7 @@ You should use `addon.setConfig` to set them:
 
 ```js
 // in .storybook/manager.js
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 
 addons.setConfig({
   showRoots: false,

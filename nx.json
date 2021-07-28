@@ -43,6 +43,12 @@
     "@storybook/addon-links": {
       "implicitDependencies": []
     },
+    "@storybook/addon-measure": {
+      "implicitDependencies": []
+    },
+    "@storybook/addon-outline": {
+      "implicitDependencies": []
+    },
     "@storybook/addon-storyshots": {
       "implicitDependencies": []
     },
@@ -65,9 +71,6 @@
       "implicitDependencies": []
     },
     "@storybook/html": {
-      "implicitDependencies": []
-    },
-    "@storybook/lit": {
       "implicitDependencies": []
     },
     "@storybook/manager-webpack4": {

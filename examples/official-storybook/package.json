@@ -1,6 +1,6 @@
 {
   "name": "official-storybook",
-  "version": "6.3.0-beta.4",
+  "version": "6.4.0-alpha.22",
   "private": true,
   "scripts": {
     "build-storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true build-storybook -c ./",
@@ -8,7 +8,7 @@
     "do-storyshots-puppeteer": "../../node_modules/.bin/jest --projects=./storyshots-puppeteer",
     "generate-addon-jest-testresults": "jest --config=tests/addon-jest.config.json --json --outputFile=stories/addon-jest.testresults.json",
     "packtracker": "yarn storybook --smoke-test --webpack-stats-json /tmp --quiet && cross-env PT_PROJECT_TOKEN=1af1d41b-d737-41d4-ac00-53c8f3913b53 packtracker-upload --stats=/tmp/manager-stats.json",
-    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true start-storybook -p 9011 -c ./",
+    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true start-storybook -p 9011 -c ./ --no-manager-cache",
     "storyshots-puppeteer": "yarn run build-storybook && yarn run do-storyshots-puppeteer"
   },
   "resolutions": {
@@ -89,6 +89,8 @@
     "@storybook/react": "*",
     "@storybook/source-loader": "*",
     "@storybook/theming": "*",
+    "@testing-library/dom": "^7.31.2",
+    "@testing-library/user-event": "^13.1.9",
     "chromatic": "^5.6.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",

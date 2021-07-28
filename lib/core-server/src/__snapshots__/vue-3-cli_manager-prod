@@ -12,7 +12,8 @@ Object {
     "ROOT/addons/backgrounds/dist/esm/register.js",
     "ROOT/addons/viewport/dist/esm/register.js",
     "ROOT/addons/toolbars/dist/esm/register.js",
-    "ROOT/examples/vue-3-cli/.storybook/generated-refs.js",
+    "ROOT/addons/measure/dist/esm/register.js",
+    "ROOT/addons/outline/dist/esm/register.js",
   ],
   "keys": Array [
     "name",

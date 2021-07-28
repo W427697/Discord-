@@ -12,7 +12,7 @@ import { StoryStore } from '@storybook/client-api';
 import { NoDocs } from './NoDocs';
 import { RenderStoryFunction, RenderContextWithoutStoryContext } from './types';
 
-const { document } = global;
+const { document, FEATURES = {} } = global;
 
 // We have "changed" story if this changes
 interface RenderMetadata {
@@ -277,10 +277,13 @@ export class StoryRenderer {
   }) {
     if (getDecorated) {
       try {
-        const { applyLoaders, unboundStoryFn } = context;
+        const { applyLoaders, runPlayFunction, unboundStoryFn, forceRender } = context;
         const storyContext = await applyLoaders();
         const storyFn = () => unboundStoryFn(storyContext);
         await this.render({ ...context, storyContext, storyFn });
+        if (FEATURES.previewCsfV3 && !forceRender) {
+          await runPlayFunction();
+        }
         this.channel.emit(Events.STORY_RENDERED, id);
       } catch (err) {
         this.renderException(err);

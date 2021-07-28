@@ -20,8 +20,9 @@ export interface TypescriptConfig {
   };
 }
 
-interface CoreConfig {
+export interface CoreConfig {
   builder: 'webpack4' | 'webpack5';
+  disableWebpackDefaults?: boolean;
 }
 
 export interface Presets {
@@ -32,7 +33,7 @@ export interface Presets {
   ): Promise<TypescriptConfig>;
   apply(extension: 'babel', config: {}, args: any): Promise<TransformOptions>;
   apply(extension: 'entries', config: [], args: any): Promise<unknown>;
-  apply(extension: 'stories', config: [], args: any): Promise<unknown>;
+  apply(extension: 'stories', config: [], args: any): Promise<StoriesEntry[]>;
   apply(
     extension: 'webpack',
     config: {},
@@ -154,8 +155,10 @@ export interface BuilderOptions {
   cache: FileSystemCache;
   configDir: string;
   docsMode: boolean;
+  features?: StorybookConfig['features'];
   versionCheck?: VersionCheck;
   releaseNotesData?: ReleaseNotesData;
+  disableWebpackDefaults?: boolean;
 }
 
 export interface StorybookConfigOptions {
@@ -215,6 +218,19 @@ export interface TypescriptOptions {
   reactDocgenTypescriptOptions: PluginOptions;
 }
 
+interface StoriesSpecifier {
+  directory: string;
+  files?: string;
+  titlePrefix?: string;
+}
+
+export type StoriesEntry = string | StoriesSpecifier;
+
+export interface NormalizedStoriesEntry {
+  glob: string;
+  specifier?: StoriesSpecifier;
+}
+
 /**
  * The interface for Storybook configuration in `main.ts` files.
  */
@@ -233,19 +249,28 @@ export interface StorybookConfig {
   >;
   core?: CoreConfig;
   logLevel?: string;
-  /**
-   * Allows to disable deprecated implicit PostCSS loader.
-   */
   features?: {
+    /**
+     * Allows to disable deprecated implicit PostCSS loader.
+     */
     postcss?: boolean;
+
+    /**
+     * Build stories.json automatically on start/build
+     */
     buildStoriesJson?: boolean;
+
+    /**
+     * Activate preview of CSF v3.0
+     */
+    previewCsfV3?: boolean;
   };
   /**
    * Tells Storybook where to find stories.
    *
    * @example `['./src/*.stories.@(j|t)sx?']`
    */
-  stories: string[];
+  stories: StoriesEntry[];
   /**
    * Controls how Storybook handles TypeScript files.
    */
