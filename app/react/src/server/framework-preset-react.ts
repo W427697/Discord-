@@ -38,7 +38,7 @@ const context = storybookReactDirName.includes('node_modules')
 
 const hasJsxRuntime = () => {
   try {
-    require.resolve('react/jsx-runtime', { paths: [context] });
+    require.resolve('react/jsx-runtime', { paths: [path.join(storybookReactDirName, '../../node_modules', path.join(storybookReactDirName, '../../'))] });
     return true;
   } catch (e) {
     return false;
