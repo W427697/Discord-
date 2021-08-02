@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { drawSelectedElement } from '@storybook/addon-measure/dist/cjs/box-model/visualizer';
