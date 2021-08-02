@@ -4,6 +4,7 @@ import ClientApi, {
   addLoader,
   addArgsEnhancer,
   addArgTypesEnhancer,
+  setGlobalRender,
 } from './client_api';
 import { defaultDecorateStory } from './decorators';
 import { StoryStore } from './story_store';
@@ -29,6 +30,7 @@ export {
   addDecorator,
   addLoader,
   addParameters,
+  setGlobalRender,
   ClientApi,
   ConfigApi,
   defaultDecorateStory,
