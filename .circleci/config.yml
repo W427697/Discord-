@@ -312,46 +312,55 @@ jobs:
           name: Run react kitchen-sink (smoke test)
           command: |
             cd examples/cra-kitchen-sink
+            yarn
             yarn storybook --smoke-test --quiet
       - run:
           name: Run react typescript kitchen-sink (smoke test)
           command: |
             cd examples/cra-ts-kitchen-sink
+            yarn
             yarn storybook --smoke-test --quiet
       - run:
           name: Run vue kitchen-sink (smoke test)
           command: |
             cd examples/vue-kitchen-sink
+            yarn
             yarn storybook --smoke-test --quiet
       - run:
           name: Run svelte kitchen-sink (smoke test)
           command: |
             cd examples/svelte-kitchen-sink
+            yarn
             yarn storybook --smoke-test --quiet
       - run:
           name: Run angular-cli (smoke test)
           command: |
             cd examples/angular-cli
+            yarn
             yarn storybook --smoke-test --quiet
       - run:
           name: Run ember-cli (smoke test)
           command: |
             cd examples/ember-cli
+            yarn
             yarn storybook --smoke-test --quiet
       - run:
           name: Run official-storybook (smoke test)
           command: |
             cd examples/official-storybook
+            yarn
             yarn storybook --smoke-test --quiet
       - run:
           name: Run preact kitchen-sink (smoke test)
           command: |
             cd examples/preact-kitchen-sink
+            yarn
             yarn storybook --smoke-test --quiet
       - run:
           name: Run cra react15 (smoke test)
           command: |
             cd examples/cra-react15
+            yarn
             yarn storybook --smoke-test --quiet
   frontpage:
     executor: sb_node_12_browsers

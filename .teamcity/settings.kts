@@ -371,30 +371,39 @@ object SmokeTests : BuildType({
                 yarn install --immutable
                 
                 cd examples/cra-kitchen-sink
+                yarn
                 yarn storybook --smoke-test --quiet
                 
                 cd ../cra-ts-kitchen-sink
+                yarn
                 yarn storybook --smoke-test --quiet
                 
                 cd ../vue-kitchen-sink
+                yarn
                 yarn storybook --smoke-test --quiet
                 
                 cd ../svelte-kitchen-sink
+                yarn
                 yarn storybook --smoke-test --quiet
                 
                 cd ../angular-cli
+                yarn
                 yarn storybook --smoke-test --quiet
                 
                 cd ../ember-cli
+                yarn
                 yarn storybook --smoke-test --quiet
                 
                 cd ../official-storybook
+                yarn
                 yarn storybook --smoke-test --quiet
                 
                 cd ../preact-kitchen-sink
+                yarn
                 yarn storybook --smoke-test --quiet
                 
                 cd ../cra-react15
+                yarn
                 yarn storybook --smoke-test --quiet
             """.trimIndent()
             dockerImage = "node:12"
