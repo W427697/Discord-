@@ -1,4 +1,5 @@
 import { TransformOptions } from '@babel/core';
+// eslint-disable-next-line import/no-unresolved
 import { precompile } from 'ember-source/dist/ember-template-compiler';
 
 let emberOptions: any;

@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-interpolation-in-snapshots */
 import { Configuration } from 'webpack';
 import { logger } from '@storybook/node-logger';
 import { Options, webpackFinal } from './framework-preset-angular-cli';

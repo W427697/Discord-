@@ -1,5 +1,4 @@
 import React from 'react';
-import base from 'paths.macro';
 
 import BaseButton from '../components/BaseButton';
 
