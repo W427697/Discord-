@@ -257,6 +257,7 @@
     "shelljs": "^0.8.4",
     "shx": "^0.3.2",
     "sort-package-json": "^1.48.1",
+    "svelte-jester": "^1.7.0",
     "teamcity-service-messages": "^0.1.11",
     "trash": "^7.0.0",
     "ts-dedent": "^2.0.0",

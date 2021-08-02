@@ -6272,6 +6272,7 @@ __metadata:
     shelljs: ^0.8.4
     shx: ^0.3.2
     sort-package-json: ^1.48.1
+    svelte-jester: ^1.7.0
     teamcity-service-messages: ^0.1.11
     trash: ^7.0.0
     ts-dedent: ^2.0.0
@@ -29742,6 +29743,16 @@ resolve@1.17.0:
   peerDependencies:
     svelte: ">=3.19.0"
   checksum: 658cd4b5351f5aea60d824789b27de44101b03626b110e80d2943caf51877de5f4b3c7f6cd58cb261a3450d56a7b99f4386f343185f30fbad2c565b711469b8c
+  languageName: node
+  linkType: hard
+
+"svelte-jester@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "svelte-jester@npm:1.7.0"
+  peerDependencies:
+    jest: <= 26
+    svelte: ">= 3"
+  checksum: 96612e7ffb7fce1943037b913a80a86bf6fa4d940c2f291cba63b402149c748655a851655ce97e518e3339d6664d733eef41008b565e6bdd134929c7c793780a
   languageName: node
   linkType: hard
 
