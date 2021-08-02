@@ -12,6 +12,7 @@
     "storyshots-puppeteer": "yarn run build-storybook && yarn run do-storyshots-puppeteer"
   },
   "resolutions": {
+    "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@storybook/addon-a11y": "portal:../../addons/a11y",
     "@storybook/addon-actions": "portal:../../addons/actions",
     "@storybook/addon-backgrounds": "portal:../../addons/backgrounds",
@@ -29,7 +30,6 @@
     "@storybook/angular": "portal:../../app/angular",
     "@storybook/api": "portal:../../lib/api",
     "@storybook/builder-webpack4": "portal:../../lib/builder-webpack4",
-    "@storybook/builder-webpack5": "portal:../../lib/builder-webpack5",
     "@storybook/channel-postmessage": "portal:../../lib/channel-postmessage",
     "@storybook/channel-websocket": "portal:../../lib/channel-websocket",
     "@storybook/channels": "portal:../../lib/channels",
@@ -48,7 +48,6 @@
     "@storybook/html": "portal:../../app/html",
     "@storybook/lit": "portal:../../app/lit",
     "@storybook/manager-webpack4": "portal:../../lib/manager-webpack4",
-    "@storybook/manager-webpack5": "portal:../../lib/manager-webpack5",
     "@storybook/node-logger": "portal:../../lib/node-logger",
     "@storybook/postinstall": "portal:../../lib/postinstall",
     "@storybook/preact": "portal:../../app/preact",
@@ -62,6 +61,9 @@
     "@storybook/vue": "portal:../../app/vue",
     "@storybook/vue3": "portal:../../app/vue3",
     "@storybook/web-components": "portal:../../app/web-components",
+    "babel-plugin-macros": "3.1.0",
+    "fork-ts-checker-webpack-plugin": "6.2.13",
+    "jscodeshift": "0.11.0",
     "sb": "portal:../../lib/cli-sb",
     "storybook": "portal:../../lib/cli-storybook"
   },
