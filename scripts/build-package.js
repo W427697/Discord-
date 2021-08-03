@@ -1,22 +1,13 @@
 #!/usr/bin/env node
 
 /* eslint-disable global-require */
-const { resolve } = require('path');
 const terminalSize = require('window-size');
 const { checkDependenciesAndRun, spawn } = require('./utils/cli-utils');
+const versionFile = require('../lib/cli/src/versions.json');
 
-const getStorybookPackages = () => {
-  const listCommand = spawn(`lerna list`, {
-    stdio: 'pipe',
-  });
-
-  const packages = listCommand.output
-    .toString()
-    .match(/@storybook\/(.)*/g)
-    .sort();
-
-  return packages;
-};
+const storybookPackages = Object.keys(versionFile).map((sbPackage) =>
+  sbPackage.replace('@storybook/', '')
+);
 
 function run() {
   const prompts = require('prompts');
@@ -28,8 +19,7 @@ function run() {
   const prefix = 'build';
   log.addLevel('aborted', 3001, { fg: 'red', bold: true });
 
-  const packages = getStorybookPackages();
-  const packageTasks = packages
+  const packageTasks = storybookPackages
     .map((package) => {
       return {
         name: package,
@@ -88,7 +78,7 @@ function run() {
         hint:
           'You can also run directly with package name like `yarn build core`, or `yarn build --all` for all packages!',
         optionsPerPage: terminalSize.height - 3, // 3 lines for extra info
-        choices: packages.map((key) => ({
+        choices: storybookPackages.map((key) => ({
           value: key,
           title: tasks[key].name || key,
           selected: (tasks[key] && tasks[key].defaultValue) || false,
@@ -134,19 +124,17 @@ function run() {
 
         if (watchMode) {
           const runWatchMode = () => {
-            const baseWatchCommand = `lerna exec --scope '${glob}' --parallel -- cross-env-shell node ${resolve(
-              __dirname
-            )}`;
-            const watchTsc = `${baseWatchCommand}/utils/watch-tsc.js`;
-            const watchBabel = `${baseWatchCommand}/utils/watch-babel.js`;
-            const command = `concurrently --kill-others-on-fail "${watchTsc}" "${watchBabel}"`;
+            const watchTsc = `yarn workspaces foreach --include "${glob}" --parallel --interlaced --jobs 100 --verbose run build:watch-tsc`;
+            const watchBabel = `yarn workspaces foreach --include "${glob}" --parallel --interlaced --jobs 100 --verbose run build:watch-babel`;
+            const command = `concurrently --kill-others "${watchTsc}" "${watchBabel}"`;
 
             spawn(command);
           };
 
           runWatchMode();
         } else {
-          spawn(`lerna run prepare --scope "${glob}"`);
+          const yarnCommand = `yarn workspaces foreach --include "${glob}" --parallel --interlaced --verbose run prepare`;
+          spawn(yarnCommand);
         }
         process.stdout.write('\x07');
       }

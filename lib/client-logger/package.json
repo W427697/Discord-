@@ -37,7 +37,9 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ${PROJECT_CWD}/scripts/prepare.js",
+    "build:watch-babel": "node ${PROJECT_CWD}/scripts/utils/watch-babel.js",
+    "build:watch-tsc": "node ${PROJECT_CWD}/scripts/utils/watch-tsc.js"
   },
   "dependencies": {
     "core-js": "^3.8.2",
