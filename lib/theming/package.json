@@ -1,11 +1,11 @@
 {
   "name": "@storybook/theming",
-  "version": "6.2.0-rc.12",
+  "version": "6.4.0-alpha.22",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/theming",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/theming",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -13,6 +13,10 @@
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "lib/theming"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
   "sideEffects": false,
@@ -39,7 +43,7 @@
     "@emotion/core": "^10.1.1",
     "@emotion/is-prop-valid": "^0.8.6",
     "@emotion/styled": "^10.0.27",
-    "@storybook/client-logger": "6.2.0-rc.12",
+    "@storybook/client-logger": "6.4.0-alpha.22",
     "core-js": "^3.8.2",
     "deep-object-diff": "^1.1.0",
     "emotion-theming": "^10.0.27",
@@ -56,5 +60,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "5ee73396dba34362f070dbb6b8508fe18a3775dd"
+  "gitHead": "1af5a50d379d84d33f9bbe798f18e8141d967010",
+  "sbmodern": "dist/modern/index.js"
 }

@@ -14,7 +14,7 @@ Object {
       },
     },
     "type": Object {
-      "name": "void",
+      "name": "string",
     },
   },
   "_value": Object {
@@ -30,7 +30,7 @@ Object {
       },
     },
     "type": Object {
-      "name": "void",
+      "name": "string",
     },
   },
   "accent": Object {
@@ -129,7 +129,7 @@ Object {
       },
     },
     "type": Object {
-      "name": "void",
+      "name": "string",
     },
   },
   "isDisabled": Object {
@@ -180,6 +180,7 @@ Object {
     },
   },
   "onClick": Object {
+    "action": "onClick",
     "defaultValue": undefined,
     "description": "<p>Handler to be called when the button is clicked by a user.</p>
 <p>Will also block the emission of the event if <code>isDisabled</code> is true.</p>
@@ -224,7 +225,7 @@ Object {
       },
     },
     "type": Object {
-      "name": "void",
+      "name": "object",
     },
   },
   "protectedMethod": Object {
