@@ -47,6 +47,12 @@ const a = fn({
   b: 2,
 });
 \`\`\`
+
+A single line block:
+
+\`\`\`jsx
+import React from 'react'
+\`\`\`
 `;
 
 const Template = (args: React.ComponentProps<typeof Description>) => <Description {...args} />;
