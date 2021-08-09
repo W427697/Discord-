@@ -1,9 +1,13 @@
+## 6.3.7 (August 10, 2021)
+
+Fix bad publish of `6.4.0-alpha.27` to the `latest` tag
+
 ## 6.3.6 (July 26, 2021)
 
 ### Bug Fixes
 
-* CLI: Fix debug webpack output in static build ([#15674](https://github.com/storybookjs/storybook/pull/15674))
-* CSF3: Fix custom render function ([#15668](https://github.com/storybookjs/storybook/pull/15668))
+- CLI: Fix debug webpack output in static build ([#15674](https://github.com/storybookjs/storybook/pull/15674))
+- CSF3: Fix custom render function ([#15668](https://github.com/storybookjs/storybook/pull/15668))
 
 ## 6.3.5 (July 22, 2021)
 
