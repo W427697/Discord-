@@ -1,1 +1,1 @@
-{"version":"6.3.6","info":{"plain":"### Bug Fixes\n\n* CLI: Fix debug webpack output in static build ([#15674](https://github.com/storybookjs/storybook/pull/15674))\n* CSF3: Fix custom render function ([#15668](https://github.com/storybookjs/storybook/pull/15668))"}}
+{"version":"6.3.7","info":{"plain":"Fix bad publish of `6.4.0-alpha.27` to the `latest` tag"}}
