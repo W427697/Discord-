@@ -1,6 +1,6 @@
 {
   "name": "@storybook/builder-webpack4",
-  "version": "6.4.0-alpha.25",
+  "version": "6.4.0-alpha.26",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -134,6 +134,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "09a919286d2d3caf1709026386085eafaa1ebea9",
+  "gitHead": "6962d573023a8c779b676c3221b14b9d89c20cfc",
   "sbmodern": "dist/modern/index.js"
 }

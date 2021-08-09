@@ -1,6 +1,6 @@
 {
   "name": "official-storybook",
-  "version": "6.4.0-alpha.25",
+  "version": "6.4.0-alpha.26",
   "private": true,
   "scripts": {
     "build-storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true build-storybook -c ./",

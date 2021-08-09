@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "6.4.0-alpha.25",
+  "version": "6.4.0-alpha.26",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -84,8 +84,8 @@
     "jest-specific-snapshot": "^4.0.0"
   },
   "peerDependencies": {
-    "@storybook/builder-webpack5": "6.4.0-alpha.25",
-    "@storybook/manager-webpack5": "6.4.0-alpha.25",
+    "@storybook/builder-webpack5": "6.4.0-alpha.26",
+    "@storybook/manager-webpack5": "6.4.0-alpha.26",
     "react": "^16.8.0 || ^17.0.0",
     "react-dom": "^16.8.0 || ^17.0.0"
   },
@@ -103,6 +103,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "09a919286d2d3caf1709026386085eafaa1ebea9",
+  "gitHead": "6962d573023a8c779b676c3221b14b9d89c20cfc",
   "sbmodern": "dist/modern/index.js"
 }

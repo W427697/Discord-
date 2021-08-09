@@ -1,6 +1,6 @@
 {
   "name": "preact-example",
-  "version": "6.4.0-alpha.25",
+  "version": "6.4.0-alpha.26",
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
