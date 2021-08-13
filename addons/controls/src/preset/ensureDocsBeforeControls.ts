@@ -30,11 +30,12 @@ export const ensureDocsBeforeControls = (configDir: string) => {
   try {
     // eslint-disable-next-line global-require,import/no-dynamic-require
     const main = require(mainFile);
-    if (!main?.addons) {
+    const addons = main?.addons || main?.default?.addons;
+    if (!addons) {
       logger.warn(`Unable to find main.js addons: ${mainFile}`);
       return;
     }
-    if (!verifyDocsBeforeControls(main.addons)) {
+    if (!verifyDocsBeforeControls(addons)) {
       logger.warn(dedent`
         Expected '@storybook/addon-docs' to be listed before '@storybook/addon-controls' (or '@storybook/addon-essentials'). Check your main.js?
         If addon-docs or addon-essentials is included by another addon/preset you can safely ignore this warning.
