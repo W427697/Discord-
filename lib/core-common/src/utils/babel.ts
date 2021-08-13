@@ -8,8 +8,6 @@ const plugins = [
    * https://babeljs.io/docs/en/babel-plugin-transform-typescript#typescript-compiler-options
    */
   [require.resolve('@babel/plugin-proposal-decorators'), { legacy: true }],
-  [require.resolve('@babel/plugin-proposal-class-properties'), { loose: true }],
-  [require.resolve('@babel/plugin-proposal-private-methods'), { loose: true }],
   require.resolve('@babel/plugin-proposal-export-default-from'),
   require.resolve('@babel/plugin-syntax-dynamic-import'),
   [
