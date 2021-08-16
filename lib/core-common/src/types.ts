@@ -277,6 +277,10 @@ export interface StorybookConfig {
    */
   typescript?: Partial<TypescriptOptions>;
   /**
+   * Modify or return a custom Babel config.
+   */
+  babel?: (config: TransformOptions) => TransformOptions | Promise<TransformOptions>;
+  /**
    * Modify or return a custom Webpack config.
    */
   webpackFinal?: (

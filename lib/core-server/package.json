@@ -40,6 +40,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
+    "@babel/core": "^7.0.0",
     "@storybook/builder-webpack4": "6.4.0-alpha.30",
     "@storybook/core-client": "6.4.0-alpha.30",
     "@storybook/core-common": "6.4.0-alpha.30",
@@ -47,6 +48,7 @@
     "@storybook/manager-webpack4": "6.4.0-alpha.30",
     "@storybook/node-logger": "6.4.0-alpha.30",
     "@storybook/semver": "^7.3.2",
+    "@types/babel__core": "^7",
     "@types/node": "^14.0.10",
     "@types/node-fetch": "^2.5.7",
     "@types/pretty-hrtime": "^1.0.0",

@@ -585,7 +585,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.15.0, @babel/core@npm:^7.14.6":
+"@babel/core@npm:7.15.0, @babel/core@npm:^7.0.0, @babel/core@npm:^7.14.6":
   version: 7.15.0
   resolution: "@babel/core@npm:7.15.0"
   dependencies:
@@ -7990,6 +7990,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core-server@workspace:lib/core-server"
   dependencies:
+    "@babel/core": ^7.0.0
     "@storybook/builder-webpack4": 6.4.0-alpha.30
     "@storybook/builder-webpack5": 6.4.0-alpha.30
     "@storybook/core-client": 6.4.0-alpha.30
@@ -7998,6 +7999,7 @@ __metadata:
     "@storybook/manager-webpack4": 6.4.0-alpha.30
     "@storybook/node-logger": 6.4.0-alpha.30
     "@storybook/semver": ^7.3.2
+    "@types/babel__core": ^7
     "@types/compression": ^1.7.0
     "@types/ip": ^1.1.0
     "@types/node": ^14.0.10
@@ -9449,6 +9451,19 @@ __metadata:
     "@types/browserslist": "*"
     postcss: 7.x.x
   checksum: da38f831d092203c37a4511754a40e2b6f926d75248285f2de3770f6cd552853de459f36c6277377e62f44ff74ba1fe0cd29343f8b75639c9a8ddda96464ea39
+  languageName: node
+  linkType: hard
+
+"@types/babel__core@npm:^7":
+  version: 7.1.15
+  resolution: "@types/babel__core@npm:7.1.15"
+  dependencies:
+    "@babel/parser": ^7.1.0
+    "@babel/types": ^7.0.0
+    "@types/babel__generator": "*"
+    "@types/babel__template": "*"
+    "@types/babel__traverse": "*"
+  checksum: 4c7f4d6fa112ea0f795ed3d8260b0f41d6887757fc1f0720485b962d65ba4e6a98dd131133ea78278527c5eba8de02702c2d99f73946938a9876f66e8e934785
   languageName: node
   linkType: hard
 
