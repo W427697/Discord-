@@ -1,11 +1,11 @@
 {
   "name": "@storybook/ui",
-  "version": "6.3.0-alpha.8",
+  "version": "6.4.0-alpha.30",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/ui",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/ui",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -13,6 +13,10 @@
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "lib/ui"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
   "sideEffects": false,
@@ -37,16 +41,15 @@
   },
   "dependencies": {
     "@emotion/core": "^10.1.1",
-    "@storybook/addons": "6.3.0-alpha.8",
-    "@storybook/api": "6.3.0-alpha.8",
-    "@storybook/channels": "6.3.0-alpha.8",
-    "@storybook/client-logger": "6.3.0-alpha.8",
-    "@storybook/components": "6.3.0-alpha.8",
-    "@storybook/core-events": "6.3.0-alpha.8",
-    "@storybook/router": "6.3.0-alpha.8",
+    "@storybook/addons": "6.4.0-alpha.30",
+    "@storybook/api": "6.4.0-alpha.30",
+    "@storybook/channels": "6.4.0-alpha.30",
+    "@storybook/client-logger": "6.4.0-alpha.30",
+    "@storybook/components": "6.4.0-alpha.30",
+    "@storybook/core-events": "6.4.0-alpha.30",
+    "@storybook/router": "6.4.0-alpha.30",
     "@storybook/semver": "^7.3.2",
-    "@storybook/theming": "6.3.0-alpha.8",
-    "@types/markdown-to-jsx": "^6.11.3",
+    "@storybook/theming": "6.4.0-alpha.30",
     "copy-to-clipboard": "^3.3.1",
     "core-js": "^3.8.2",
     "core-js-pure": "^3.8.2",
@@ -55,7 +58,7 @@
     "fuse.js": "^3.6.1",
     "global": "^4.4.0",
     "lodash": "^4.17.20",
-    "markdown-to-jsx": "^6.11.4",
+    "markdown-to-jsx": "^7.1.3",
     "memoizerific": "^1.11.3",
     "polished": "^4.0.5",
     "qs": "^6.10.0",
@@ -69,7 +72,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@testing-library/react": "^11.2.2",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^8.0.0",
     "chromatic": "^5.6.0",
     "enzyme": "^3.11.0",
     "flush-promises": "^1.0.2",
@@ -83,5 +86,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "2459eb428208887e4eafab91256c72389e60d934"
+  "gitHead": "271665e76bd5ef0287fe0651831f771e693b3b1c",
+  "sbmodern": "dist/modern/index.js"
 }

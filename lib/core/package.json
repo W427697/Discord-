@@ -1,11 +1,11 @@
 {
   "name": "@storybook/core",
-  "version": "6.3.0-alpha.8",
+  "version": "6.4.0-alpha.30",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/core",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -13,6 +13,10 @@
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "lib/core"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
   "main": "dist/cjs/index.js",
@@ -36,13 +40,14 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/core-client": "6.3.0-alpha.8",
-    "@storybook/core-server": "6.3.0-alpha.8"
+    "@storybook/core-client": "6.4.0-alpha.30",
+    "@storybook/core-server": "6.4.0-alpha.30"
   },
   "peerDependencies": {
-    "@storybook/builder-webpack5": "6.3.0-alpha.8",
+    "@storybook/builder-webpack5": "6.4.0-alpha.30",
     "react": "^16.8.0 || ^17.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0"
+    "react-dom": "^16.8.0 || ^17.0.0",
+    "webpack": "*"
   },
   "peerDependenciesMeta": {
     "@storybook/builder-webpack5": {
@@ -55,5 +60,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "2459eb428208887e4eafab91256c72389e60d934"
+  "gitHead": "271665e76bd5ef0287fe0651831f771e693b3b1c",
+  "sbmodern": "dist/modern/index.js"
 }

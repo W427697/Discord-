@@ -1,11 +1,11 @@
 {
   "name": "@storybook/builder-webpack4",
-  "version": "6.3.0-alpha.8",
+  "version": "6.4.0-alpha.30",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/core",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -13,6 +13,10 @@
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "lib/core"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
   "main": "dist/cjs/index.js",
@@ -57,24 +61,24 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.7",
-    "@storybook/addons": "6.3.0-alpha.8",
-    "@storybook/api": "6.3.0-alpha.8",
-    "@storybook/channel-postmessage": "6.3.0-alpha.8",
-    "@storybook/channels": "6.3.0-alpha.8",
-    "@storybook/client-api": "6.3.0-alpha.8",
-    "@storybook/client-logger": "6.3.0-alpha.8",
-    "@storybook/components": "6.3.0-alpha.8",
-    "@storybook/core-common": "6.3.0-alpha.8",
-    "@storybook/core-events": "6.3.0-alpha.8",
-    "@storybook/node-logger": "6.3.0-alpha.8",
-    "@storybook/router": "6.3.0-alpha.8",
+    "@storybook/addons": "6.4.0-alpha.30",
+    "@storybook/api": "6.4.0-alpha.30",
+    "@storybook/channel-postmessage": "6.4.0-alpha.30",
+    "@storybook/channels": "6.4.0-alpha.30",
+    "@storybook/client-api": "6.4.0-alpha.30",
+    "@storybook/client-logger": "6.4.0-alpha.30",
+    "@storybook/components": "6.4.0-alpha.30",
+    "@storybook/core-common": "6.4.0-alpha.30",
+    "@storybook/core-events": "6.4.0-alpha.30",
+    "@storybook/node-logger": "6.4.0-alpha.30",
+    "@storybook/router": "6.4.0-alpha.30",
     "@storybook/semver": "^7.3.2",
-    "@storybook/theming": "6.3.0-alpha.8",
-    "@storybook/ui": "6.3.0-alpha.8",
+    "@storybook/theming": "6.4.0-alpha.30",
+    "@storybook/ui": "6.4.0-alpha.30",
     "@types/node": "^14.0.10",
     "@types/webpack": "^4.41.26",
     "autoprefixer": "^9.8.6",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^8.0.0",
     "babel-plugin-macros": "^2.8.0",
     "babel-plugin-polyfill-corejs3": "^0.1.0",
     "case-sensitive-paths-webpack-plugin": "^2.3.0",
@@ -90,7 +94,7 @@
     "global": "^4.4.0",
     "html-webpack-plugin": "^4.0.0",
     "pnp-webpack-plugin": "1.6.4",
-    "postcss": "^7.0.35",
+    "postcss": "^7.0.36",
     "postcss-flexbugs-fixes": "^4.2.1",
     "postcss-loader": "^4.2.0",
     "raw-loader": "^4.0.2",
@@ -128,5 +132,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "2459eb428208887e4eafab91256c72389e60d934"
+  "gitHead": "271665e76bd5ef0287fe0651831f771e693b3b1c",
+  "sbmodern": "dist/modern/index.js"
 }

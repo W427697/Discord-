@@ -3,6 +3,7 @@ import { enableProdMode, NgModule, PlatformRef } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { BehaviorSubject, Subject } from 'rxjs';
+import { stringify } from 'telejson';
 import { ICollection, StoryFnAngularReturnType } from '../types';
 import { Parameters } from '../types-6-0';
 import { createStorybookModule, getStorybookModuleMetadata } from './StorybookModule';
@@ -66,7 +67,10 @@ export class RendererService {
     parameters: Parameters;
   }) {
     const storyProps$ = new BehaviorSubject<ICollection>(storyFnAngular.props);
-    const moduleMetadata = getStorybookModuleMetadata({ storyFnAngular, parameters }, storyProps$);
+    const moduleMetadata = getStorybookModuleMetadata(
+      { storyFnAngular, parameters, targetSelector: RendererService.SELECTOR_STORYBOOK_WRAPPER },
+      storyProps$
+    );
 
     if (
       !this.fullRendererRequired({
@@ -80,13 +84,35 @@ export class RendererService {
       return;
     }
 
+    try {
+      // Clear global Angular component cache in order to be able to re-render the same component across multiple stories
+      //
+      // References:
+      // https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/build_angular/src/webpack/plugins/hmr/hmr-accept.ts#L50
+      // https://github.com/angular/angular/blob/2ebe2bcb2fe19bf672316b05f15241fd7fd40803/packages/core/src/render3/jit/module.ts#L377-L384
+      // eslint-disable-next-line global-require
+      const resetCompiledComponents = require('@angular/core').ɵresetCompiledComponents;
+      resetCompiledComponents();
+    } catch (e) {
+      /**
+       * noop catch
+       * This means angular removed or modified ɵresetCompiledComponents
+       *
+       * Probably, they added a clearCache mechanism to platform.destroy() and
+       * we can simply remove this in case no errors are thrown during runtime
+       */
+    }
+
     // Complete last BehaviorSubject and set a new one for the current module
     if (this.storyProps$) {
       this.storyProps$.complete();
     }
     this.storyProps$ = storyProps$;
 
-    await this.newPlatformBrowserDynamic().bootstrapModule(createStorybookModule(moduleMetadata));
+    await this.newPlatformBrowserDynamic().bootstrapModule(
+      createStorybookModule(moduleMetadata),
+      parameters.bootstrapModuleOptions ?? undefined
+    );
   }
 
   public newPlatformBrowserDynamic() {
@@ -129,7 +155,7 @@ export class RendererService {
 
     this.currentStoryRender = {
       storyFnAngular,
-      moduleMetadataSnapshot: JSON.stringify(moduleMetadata),
+      moduleMetadataSnapshot: stringify(moduleMetadata),
     };
 
     if (
