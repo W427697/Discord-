@@ -146,7 +146,7 @@ export async function buildStatic({ packageJson, ...loadOptions }: LoadOptions) 
     });
   } catch (error) {
     if (error instanceof Error) {
-      logger.error(error);
+      logger.error(error.message);
     }
 
     process.exit(1);
