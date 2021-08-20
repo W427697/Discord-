@@ -144,8 +144,11 @@ export async function buildStatic({ packageJson, ...loadOptions }: LoadOptions) 
       configType: 'PRODUCTION',
       cache,
     });
-  } catch (e) {
-    logger.error(e);
+  } catch (error) {
+    if (error instanceof Error) {
+      logger.error(error);
+    }
+
     process.exit(1);
   }
 }
