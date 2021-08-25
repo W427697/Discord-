@@ -2,7 +2,7 @@
 title: 'Introduction to Storybook'
 ---
 
-Storybook is a tool for UI development. It makes development faster and easier by isolating components. This allows you to work on one component at a time. You can develop entire UIs without needing to start up a complex dev stack, force certain data into your database, or navigate around your application.
+**Storybook** is a tool for UI development. By isolating components, it speeds up and simplifies development. This enables you to focus and work on a single component at a time. You can create complete UIs without having to set up a complicated development environment, forcing specific data into your database, or navigating around your application.
 
 <video autoPlay muted playsInline loop>
   <source
@@ -15,7 +15,7 @@ Use Storybook to build small atomic components and complex pages in your web app
 
 ![Storybook relationship](./storybook-relationship.png)
 
-Storybook helps you **document** components for reuse and automatically **visually test** your components to prevent bugs. Extend Storybook with an ecosystem of **addons** that help you do things like fine-tune responsive layouts or verify accessibility.
+Storybook assists you in the **documentation** of components for reuse as well as the automated **visual testing** of components to avoid bugs. Extend Storybook's functionality with an ecosystem of **addons** that allow you to do things like fine-tune responsive layouts and test accessibility.
 
 Storybook integrates with most popular JavaScript UI frameworks and (experimentally) supports server-rendered component frameworks such as [Ruby on Rails](https://rubyonrails.org/).
 
