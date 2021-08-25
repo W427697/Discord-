@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import sizeMe from 'react-sizeme';
 
 import { State } from '@storybook/api';
@@ -47,15 +47,21 @@ const App = React.memo<AppProps>(
           {
             key: 'settings',
             render: () => <SettingsPages />,
-            route: (({ children }) => (
-              <Route path="/settings" startsWith>
-                {children}
-              </Route>
-            )) as FunctionComponent,
+            route: ({ children }: { children: JSX.Element }) => {
+              if (viewMode === 'settings') {
+                return (
+                  <Route path="/settings" startsWith>
+                    {children}
+                  </Route>
+                );
+              }
+
+              return null;
+            },
           },
         ],
       }),
-      []
+      [viewMode]
     );
 
     if (!width || !height) {
