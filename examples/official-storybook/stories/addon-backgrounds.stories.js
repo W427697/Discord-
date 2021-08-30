@@ -101,6 +101,7 @@ GridCellProperties.args = {
 GridCellProperties.parameters = {
   backgrounds: {
     grid: {
+      isActive: true,
       cellSize: 10,
       cellAmount: 4,
       opacity: 0.2,

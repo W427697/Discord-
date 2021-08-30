@@ -18,7 +18,9 @@ const deprecatedCellSizeWarning = deprecate(
 export const withGrid = (StoryFn: StoryFunction, context: StoryContext) => {
   const { globals, parameters } = context;
   const gridParameters = parameters[BACKGROUNDS_PARAM_KEY].grid;
-  const isActive = globals[BACKGROUNDS_PARAM_KEY]?.grid === true && gridParameters.disable !== true;
+  const isActive =
+    (globals[BACKGROUNDS_PARAM_KEY]?.grid === true || gridParameters?.isActive === true) &&
+    gridParameters.disable !== true;
   const { cellAmount, cellSize, opacity } = gridParameters;
   const isInDocs = context.viewMode === 'docs';
 
