@@ -11,6 +11,7 @@ import {
   STORY_CHANGED,
   STORY_UNCHANGED,
   STORY_RENDERED,
+  IGNORED_EXCEPTION,
 } from '@storybook/core-events';
 import { toId } from '@storybook/csf';
 import {
@@ -291,6 +292,23 @@ describe('core.preview.StoryRenderer', () => {
 
       expect(renderer.showErrorDisplay).toHaveBeenCalledWith(err);
       expect(onStoryThrewException).toHaveBeenCalledWith(err);
+    });
+
+    it('ignores exception if the render function throws IGNORED_EXCEPTION', async () => {
+      const { render, channel, storyStore, renderer } = prepareRenderer();
+
+      const onStoryThrewException = jest.fn();
+      channel.on(STORY_THREW_EXCEPTION, onStoryThrewException);
+
+      render.mockImplementation(() => {
+        throw IGNORED_EXCEPTION;
+      });
+
+      addAndSelectStory(storyStore, 'a', '1');
+      await renderer.renderCurrentStory(false);
+
+      expect(renderer.showErrorDisplay).not.toHaveBeenCalled();
+      expect(onStoryThrewException).not.toHaveBeenCalled();
     });
 
     it('renders an error if the story is missing', async () => {

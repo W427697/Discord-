@@ -327,9 +327,11 @@ export class StoryRenderer {
   }
 
   // renderException is used if we fail to render the story and it is uncaught by the app layer
-  renderException(err: Error) {
+  renderException(err: Error | typeof Events.IGNORED_EXCEPTION) {
+    if (err === Events.IGNORED_EXCEPTION) return;
+
     this.channel.emit(Events.STORY_THREW_EXCEPTION, err);
-    this.showErrorDisplay(err);
+    this.showErrorDisplay(err as Error);
 
     // Log the stack to the console. So, user could check the source code.
     logger.error(err);

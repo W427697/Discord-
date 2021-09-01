@@ -39,8 +39,12 @@ enum events {
   NAVIGATE_URL = 'navigateUrl',
 }
 
+const symbols = {
+  IGNORED_EXCEPTION: Symbol('IgnoredException'),
+};
+
 // Enables: `import Events from ...`
-export default events;
+export default { ...events, ...symbols };
 
 // Enables: `import * as Events from ...` or `import { CHANNEL_CREATED } as Events from ...`
 // This is the preferred method
@@ -72,3 +76,5 @@ export const {
   SHARED_STATE_SET,
   NAVIGATE_URL,
 } = events;
+
+export const { IGNORED_EXCEPTION } = symbols;
