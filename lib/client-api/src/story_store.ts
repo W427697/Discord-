@@ -554,20 +554,21 @@ export default class StoryStore {
       argTypeDefaultValueWarning();
     }
 
-    const initialArgsBeforeEnhancers = { ...defaultArgs, ...passedArgs };
+    const originalArgs = { ...defaultArgs, ...passedArgs };
     const initialArgs = this._argsEnhancers.reduce(
       (accumulatedArgs: Args, enhancer) => ({
         ...accumulatedArgs,
         ...enhancer({
           ...identification,
           parameters: combinedParameters,
-          args: initialArgsBeforeEnhancers,
+          args: accumulatedArgs,
           argTypes,
           globals: {},
+          originalArgs,
           originalStoryFn: getOriginal(),
         }),
       }),
-      initialArgsBeforeEnhancers
+      originalArgs
     );
 
     const runPlayFunction = async () => {

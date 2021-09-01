@@ -658,20 +658,44 @@ describe('preview.story_store', () => {
       expect(store.getRawStory('a', '1').args).toEqual({ a: 'b', c: 'd' });
     });
 
-    it('does not pass result of earlier enhancers into subsequent ones, but composes their output', () => {
+    it('passes result of earlier enhancers into subsequent ones, and composes their output', () => {
       const store = new StoryStore({ channel });
 
-      const enhancerOne = jest.fn((context) => ({ c: 'd' }));
+      const enhancerOne = jest.fn((context) => ({ b: 'B' }));
+      const enhancerTwo = jest.fn(({ args }) =>
+        Object.entries(args).reduce((acc, [key, val]) => ({ ...acc, [key]: `enhanced ${val}` }), {})
+      );
+      const enhancerThree = jest.fn((context) => ({ c: 'C' }));
+
       store.addArgsEnhancer(enhancerOne);
-
-      const enhancerTwo = jest.fn((context) => ({ e: 'f' }));
       store.addArgsEnhancer(enhancerTwo);
+      store.addArgsEnhancer(enhancerThree);
 
-      addStoryToStore(store, 'a', '1', (args: any) => 0, { args: { a: 'b' } });
+      addStoryToStore(store, 'a', '1', (args: any) => 0, { args: { a: 'A' } });
 
-      expect(enhancerOne).toHaveBeenCalledWith(expect.objectContaining({ args: { a: 'b' } }));
-      expect(enhancerTwo).toHaveBeenCalledWith(expect.objectContaining({ args: { a: 'b' } }));
-      expect(store.getRawStory('a', '1').args).toEqual({ a: 'b', c: 'd', e: 'f' });
+      expect(enhancerOne).toHaveBeenCalledWith(
+        expect.objectContaining({
+          args: { a: 'A' },
+          originalArgs: { a: 'A' },
+        })
+      );
+      expect(enhancerTwo).toHaveBeenCalledWith(
+        expect.objectContaining({
+          args: { a: 'A', b: 'B' },
+          originalArgs: { a: 'A' },
+        })
+      );
+      expect(enhancerThree).toHaveBeenCalledWith(
+        expect.objectContaining({
+          args: { a: 'enhanced A', b: 'enhanced B' },
+          originalArgs: { a: 'A' },
+        })
+      );
+      expect(store.getRawStory('a', '1').args).toEqual({
+        a: 'enhanced A',
+        b: 'enhanced B',
+        c: 'C',
+      });
     });
   });
 
