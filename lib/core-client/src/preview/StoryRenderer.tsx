@@ -282,7 +282,9 @@ export class StoryRenderer {
         const storyFn = () => unboundStoryFn(storyContext);
         await this.render({ ...context, storyContext, storyFn });
         if (FEATURES.previewCsfV3 && !forceRender) {
-          await runPlayFunction();
+          const canvasId =
+            storyContext.viewMode === 'docs' ? `story--${storyContext.storyId}` : 'root';
+          await runPlayFunction({ ...storyContext, canvasId });
         }
         this.channel.emit(Events.STORY_RENDERED, id);
       } catch (err) {

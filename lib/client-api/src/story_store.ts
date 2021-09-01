@@ -34,6 +34,7 @@ import {
   StoreSelectionSpecifier,
   StoreSelection,
   StorySpecifier,
+  PlayContext,
 } from './types';
 import { combineArgs, mapArgsToTypes, validateOptions } from './args';
 import { HooksContext } from './hooks';
@@ -571,9 +572,9 @@ export default class StoryStore {
       originalArgs
     );
 
-    const runPlayFunction = async () => {
-      const { play } = combinedParameters as { play?: () => any };
-      return play ? play() : undefined;
+    const runPlayFunction = async (context: PlayContext) => {
+      const { play } = combinedParameters as { play?: StoreItem['runPlayFunction'] };
+      return play ? play(context) : undefined;
     };
 
     _stories[id] = {

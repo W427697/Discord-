@@ -54,12 +54,16 @@ export type AddStoryArgs = StoryIdentifier & {
   loaders?: LoaderFunction[];
 };
 
+export type PlayContext = StoryContext & {
+  canvasId: string;
+};
+
 export type StoreItem = StoryIdentifier & {
   parameters: Parameters;
   getDecorated: () => StoryFn<any>;
   getOriginal: () => StoryFn<any>;
   applyLoaders: () => Promise<StoryContext>;
-  runPlayFunction: () => Promise<any>;
+  runPlayFunction: (context: PlayContext) => Promise<any>;
   storyFn: StoryFn<any>;
   unboundStoryFn: StoryFn<any>;
   hooks: HooksContext;
