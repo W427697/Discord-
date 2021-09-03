@@ -1,3 +1,9 @@
+## 6.3.8 (September 3, 2021)
+
+### Maintenance
+
+- Core: Write JSON stats file in streaming fashion and omit `chunks` for brevity ([#15889](https://github.com/storybookjs/storybook/pull/15889))
+
 ## 6.3.7 (August 10, 2021)
 
 Fix bad publish of `6.4.0-alpha.27` to the `latest` tag
