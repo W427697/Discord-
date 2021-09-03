@@ -1,1 +1,1 @@
-{"version":"6.3.7","info":{"plain":"Fix bad publish of `6.4.0-alpha.27` to the `latest` tag"}}
+{"version":"6.3.8","info":{"plain":"### Maintenance\n\n- Core: Write JSON stats file in streaming fashion and omit `chunks` for brevity ([#15889](https://github.com/storybookjs/storybook/pull/15889))"}}
