@@ -6,6 +6,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
+import ResolveTypeScriptPlugin from 'resolve-typescript-plugin';
 
 import themingPaths from '@storybook/theming/paths';
 import uiPaths from '@storybook/ui/paths';
@@ -60,7 +61,6 @@ export async function managerWebpack(
     packageJson: { version },
   } = await readPackage({ cwd: __dirname });
 
-  // @ts-ignore
   // const { BundleAnalyzerPlugin } = await import('webpack-bundle-analyzer').catch(() => ({}));
 
   return {
@@ -158,6 +158,7 @@ export async function managerWebpack(
       ],
     },
     resolve: {
+      plugins: [new ResolveTypeScriptPlugin()],
       extensions: ['.mjs', '.js', '.jsx', '.json', '.cjs', '.ts', '.tsx'],
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
       mainFields: [modern ? 'sbmodern' : null, 'browser', 'module', 'main'].filter(Boolean),
