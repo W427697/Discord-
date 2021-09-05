@@ -64,7 +64,7 @@ export const enableModuleFederation = async (config: Configuration): Promise<Con
 
   newConfig.entry = finalEntries;
 
-  if (newConfig?.optimization?.runtimeChunk) {
+  if (newConfig.optimization?.runtimeChunk) {
     logger.info('=> Turning off runtimeChunk optimization as it interferes with Module Federation');
     newConfig.optimization.runtimeChunk = false;
   }
