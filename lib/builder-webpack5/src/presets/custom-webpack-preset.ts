@@ -5,8 +5,9 @@ import type { Configuration } from 'webpack';
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import { createDefaultWebpackConfig } from '../preview/base-webpack.config';
+import { checkForModuleFederation, enableModuleFederation } from './module-federation';
 
-export async function webpack(config: Configuration, options: Options) {
+export async function webpack(config: Configuration, options: Options): Promise<Configuration> {
   // @ts-ignore
   const { configDir, configType, presets, webpackConfig } = options;
 
@@ -17,7 +18,7 @@ export async function webpack(config: Configuration, options: Options) {
     defaultConfig = await createDefaultWebpackConfig(config, options);
   }
 
-  const finalDefaultConfig = await presets.apply('webpackFinal', defaultConfig, options);
+  const appliedDefaultConfig = await presets.apply('webpackFinal', defaultConfig, options);
 
   // through standalone webpackConfig option
   if (webpackConfig) {
@@ -26,19 +27,30 @@ export async function webpack(config: Configuration, options: Options) {
       dedent`
         You've provided a webpack config directly in CallOptions, this is not recommended. Please use presets instead. This feature will be removed in 7.0
       `
-    )(finalDefaultConfig);
+    )(appliedDefaultConfig);
   }
 
   // Check whether user has a custom webpack config file and
   // return the (extended) base configuration if it's not available.
   const customConfig = loadCustomWebpackConfig(configDir);
 
+  let finalDefaultConfig;
+
   if (typeof customConfig === 'function') {
     logger.info('=> Loading custom Webpack config (full-control mode).');
-    return customConfig({ config: finalDefaultConfig, mode: configType });
+    finalDefaultConfig = customConfig({ config: appliedDefaultConfig, mode: configType });
+  } else {
+    logger.info('=> Using default Webpack5 setup');
+    finalDefaultConfig = appliedDefaultConfig;
   }
 
-  logger.info('=> Using default Webpack5 setup');
+  // Check whether user has added ModuleFederationPlugin
+  // If true, create an async barrier, turn off runtimeChunk optimization
+  // and remove publicPath if set to empty string
+  if (checkForModuleFederation(finalDefaultConfig)) {
+    return enableModuleFederation(finalDefaultConfig);
+  }
+
   return finalDefaultConfig;
 }
 
