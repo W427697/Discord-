@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import type { Configuration, EntryObject } from 'webpack';
+import type { Configuration } from 'webpack';
 import { logger } from '@storybook/node-logger';
 import WebpackVirtualModules from 'webpack-virtual-modules';
 import { checkForModuleFederation, enableModuleFederation } from './module-federation';
