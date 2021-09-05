@@ -1,9 +1,24 @@
-import type { Configuration, EntryObject } from 'webpack';
+import type { Configuration, EntryObject, WebpackPluginFunction } from 'webpack';
 import { logger } from '@storybook/node-logger';
 import WebpackVirtualModules from 'webpack-virtual-modules';
 
+interface VirtualModules {
+  [key: string]: string;
+}
+
+interface FinalEntries {
+  entries: EntryObject;
+  virtualModules: VirtualModules;
+}
+
+const sampleEntry: EntryObject = {};
+
+type EntrtDesc = typeof sampleEntry.sample;
+
 export const checkForModuleFederation = (config: Configuration): boolean =>
-  !!config?.plugins?.find((plugin: any) => plugin.constructor.name === 'ModuleFederationPlugin');
+  !!config?.plugins?.find(
+    (plugin: WebpackPluginFunction) => plugin.constructor.name === 'ModuleFederationPlugin'
+  );
 
 const getEntries = async (config: Configuration): Promise<EntryObject> => {
   const { entry } = config;
@@ -34,22 +49,40 @@ const getEntries = async (config: Configuration): Promise<EntryObject> => {
   }, {});
 };
 
-const getBootstrapValues = (value: any) => {
+const getBootstrapValues = (value: EntrtDesc): string => {
+  if (typeof value === 'string') {
+    return `import '${value}';`;
+  }
+
   if (Array.isArray(value)) {
     return value.map((entryFile) => `import '${entryFile}';`).join('\n');
+  }
+
+  if (Array.isArray(value.import)) {
+    return value.import.map((entryFile: string) => `import '${entryFile}';`).join('\n');
   }
 
   return `import '${value.import}';`;
 };
 
-const createVirtualModules = (entry: EntryObject) =>
-  Object.entries(entry).reduce((acc, [key, value]) => {
-    return {
-      ...acc,
-      [`./__entry_${key}.js`]: `import('./__bootstrap_${key}.js');`,
-      [`./__bootstrap_${key}.js`]: getBootstrapValues(value),
-    };
-  }, {});
+const createEntries = (entry: EntryObject): FinalEntries =>
+  Object.entries(entry).reduce(
+    (acc: FinalEntries, [key, value]) => {
+      const entryFile = `./__entry_${key}.js`;
+
+      if (Array.isArray(value) || typeof value === 'string') {
+        acc.entries[key] = entryFile;
+      } else if (value.import) {
+        acc.entries[key] = { ...value, import: entryFile };
+      }
+
+      acc.virtualModules[entryFile] = `import('./__bootstrap_${key}.js');`;
+      acc.virtualModules[`./__bootstrap_${key}.js`] = getBootstrapValues(value);
+
+      return acc;
+    },
+    { entries: {}, virtualModules: {} }
+  );
 
 export const enableModuleFederation = async (config: Configuration): Promise<Configuration> => {
   logger.info('=> Module Federation detected, creating async barrier');
@@ -57,12 +90,12 @@ export const enableModuleFederation = async (config: Configuration): Promise<Con
   const newConfig = { ...config };
 
   const entry = await getEntries(newConfig);
-  const virtualModules = createVirtualModules(entry);
-  const finalEntries = Object.keys(virtualModules).filter((key) => key.includes('__entry'));
+
+  const { entries, virtualModules } = createEntries(entry);
 
   newConfig.plugins.unshift(new WebpackVirtualModules(virtualModules));
 
-  newConfig.entry = finalEntries;
+  newConfig.entry = entries;
 
   if (newConfig.optimization?.runtimeChunk) {
     logger.info('=> Turning off runtimeChunk optimization as it interferes with Module Federation');
