@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import type { Configuration } from 'webpack';
+import type { Configuration, WebpackPluginFunction } from 'webpack';
 import { logger } from '@storybook/node-logger';
 import WebpackVirtualModules from 'webpack-virtual-modules';
 import { checkForModuleFederation, enableModuleFederation } from './module-federation';
@@ -8,6 +8,7 @@ jest.mock(
   '@storybook/node-logger',
   () => ({
     logger: {
+      error: jest.fn(),
       info: jest.fn(),
     },
   }),
@@ -261,6 +262,37 @@ describe('module-federation', () => {
 
       expect(WebpackVirtualModules).toHaveBeenCalledTimes(1);
       expect(WebpackVirtualModules).toHaveBeenNthCalledWith(1, virtualModules);
+    });
+
+    it('should handle entrypoint errors and return config unchanged', async () => {
+      const mockEntryFunction = () => {
+        throw new Error('Mock error');
+      };
+
+      mockConfig = {
+        entry: mockEntryFunction,
+        plugins: [],
+        output: {
+          publicPath: '',
+        },
+        optimization: {
+          runtimeChunk: 'single',
+        },
+      };
+
+      const actual = await enableModuleFederation(mockConfig);
+
+      expect(logger.error).toHaveBeenCalledTimes(2);
+      expect(logger.error).toHaveBeenNthCalledWith(
+        1,
+        '=> Error thrown while enabling Module Federation. Returning unmodified configuration'
+      );
+      expect(logger.error).toHaveBeenNthCalledWith(2, 'Mock error');
+
+      expect(actual.entry).toEqual(mockEntryFunction);
+      expect(actual.plugins.length).toEqual(0);
+      expect(actual.output.publicPath).toEqual('');
+      expect(actual.optimization.runtimeChunk).toEqual('single');
     });
   });
 });

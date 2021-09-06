@@ -2,9 +2,7 @@ import type { Configuration, EntryObject, WebpackPluginFunction } from 'webpack'
 import { logger } from '@storybook/node-logger';
 import WebpackVirtualModules from 'webpack-virtual-modules';
 
-interface VirtualModules {
-  [key: string]: string;
-}
+type VirtualModules = Record<string, string>;
 
 interface FinalEntries {
   entries: EntryObject;
@@ -13,7 +11,7 @@ interface FinalEntries {
 
 const sampleEntry: EntryObject = {};
 
-type EntrtDesc = typeof sampleEntry.sample;
+type EntryDescription = typeof sampleEntry.sample;
 
 export const checkForModuleFederation = (config: Configuration): boolean =>
   !!config?.plugins?.find(
@@ -49,7 +47,7 @@ const getEntries = async (config: Configuration): Promise<EntryObject> => {
   }, {});
 };
 
-const getBootstrapValues = (value: EntrtDesc): string => {
+const getBootstrapValues = (value: EntryDescription): string => {
   if (typeof value === 'string') {
     return `import '${value}';`;
   }
@@ -85,29 +83,36 @@ const createEntries = (entry: EntryObject): FinalEntries =>
   );
 
 export const enableModuleFederation = async (config: Configuration): Promise<Configuration> => {
-  logger.info('=> Module Federation detected, creating async barrier');
+  try {
+    /* eslint-disable no-param-reassign */
+    logger.info('=> Module Federation detected, creating async barrier');
+    const entry = await getEntries(config);
 
-  const newConfig = { ...config };
+    const { entries, virtualModules } = createEntries(entry);
 
-  const entry = await getEntries(newConfig);
+    config.plugins.unshift(new WebpackVirtualModules(virtualModules));
 
-  const { entries, virtualModules } = createEntries(entry);
+    config.entry = entries;
 
-  newConfig.plugins.unshift(new WebpackVirtualModules(virtualModules));
+    if (config.optimization?.runtimeChunk) {
+      logger.info(
+        '=> Turning off runtimeChunk optimization as it interferes with Module Federation'
+      );
+      config.optimization.runtimeChunk = false;
+    }
 
-  newConfig.entry = entries;
-
-  if (newConfig.optimization?.runtimeChunk) {
-    logger.info('=> Turning off runtimeChunk optimization as it interferes with Module Federation');
-    newConfig.optimization.runtimeChunk = false;
-  }
-
-  if (typeof newConfig.output?.publicPath === 'string' && newConfig.output?.publicPath === '') {
-    logger.info(
-      '=> Setting publicPath to undefined. An empty string will prevent correct chunk resolution for federated modules'
+    if (typeof config.output?.publicPath === 'string' && config.output?.publicPath === '') {
+      logger.info(
+        '=> Setting publicPath to undefined. An empty string will prevent correct chunk resolution for federated modules'
+      );
+      delete config.output.publicPath;
+    }
+  } catch (error) {
+    logger.error(
+      '=> Error thrown while enabling Module Federation. Returning unmodified configuration'
     );
-    delete newConfig.output.publicPath;
+    logger.error(error.message);
   }
 
-  return newConfig;
+  return config;
 };
