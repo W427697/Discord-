@@ -14,7 +14,7 @@ export function webpackFinal(webpackConfig: any = {}, options: Options) {
   });
 
   webpackConfig.module.rules.push({
-    test: /\.vue$/,
+    test: /\.((j|t)sx|vue)$/,
     loader: require.resolve('vue-docgen-loader', { paths: [require.resolve('@storybook/vue')] }),
     enforce: 'post',
     options: {
