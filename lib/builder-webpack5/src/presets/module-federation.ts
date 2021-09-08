@@ -1,3 +1,5 @@
+import path from 'path';
+import os from 'os';
 import type { Configuration, EntryObject, WebpackPluginFunction } from 'webpack';
 import { logger } from '@storybook/node-logger';
 import WebpackVirtualModules from 'webpack-virtual-modules';
@@ -47,23 +49,46 @@ const getEntries = async (config: Configuration): Promise<EntryObject> => {
   }, {});
 };
 
-const getBootstrapValues = (value: EntryDescription): string => {
+const correctImportPath = (context: string, entryFile: string) => {
+  if (os.platform() !== 'win32') {
+    return entryFile;
+  }
+
+  if (entryFile.match(/^\.?\.\\/) || !entryFile.match(/^[A-Z]:\\\\/i)) {
+    return entryFile.replace(/\\/g, '/');
+  }
+
+  const joint = path.win32.relative(context, entryFile);
+  const relative = joint.replace(/\\/g, '/');
+
+  if (relative.includes('node_modules/')) {
+    return relative.split('node_modules/')[1];
+  }
+
+  return `./${relative}`;
+};
+
+const getBootstrapValues = (context: string, value: EntryDescription): string => {
   if (typeof value === 'string') {
-    return `import '${value}';`;
+    return `import '${correctImportPath(context, value)}';`;
   }
 
   if (Array.isArray(value)) {
-    return value.map((entryFile) => `import '${entryFile}';`).join('\n');
+    return value
+      .map((entryFile) => `import '${correctImportPath(context, entryFile)}';`)
+      .join('\n');
   }
 
   if (Array.isArray(value.import)) {
-    return value.import.map((entryFile: string) => `import '${entryFile}';`).join('\n');
+    return value.import
+      .map((entryFile: string) => `import '${correctImportPath(context, entryFile)}';`)
+      .join('\n');
   }
 
-  return `import '${value.import}';`;
+  return `import '${correctImportPath(context, value.import)}';`;
 };
 
-const createEntries = (entry: EntryObject): FinalEntries =>
+const createEntries = (context: string, entry: EntryObject): FinalEntries =>
   Object.entries(entry).reduce(
     (acc: FinalEntries, [key, value]) => {
       const entryFile = `./__entry_${key}.js`;
@@ -75,7 +100,7 @@ const createEntries = (entry: EntryObject): FinalEntries =>
       }
 
       acc.virtualModules[entryFile] = `import('./__bootstrap_${key}.js');`;
-      acc.virtualModules[`./__bootstrap_${key}.js`] = getBootstrapValues(value);
+      acc.virtualModules[`./__bootstrap_${key}.js`] = getBootstrapValues(context, value);
 
       return acc;
     },
@@ -87,8 +112,9 @@ export const enableModuleFederation = async (config: Configuration): Promise<Con
     /* eslint-disable no-param-reassign */
     logger.info('=> Module Federation detected, creating async barrier');
     const entry = await getEntries(config);
+    const context = config.context || process.cwd();
 
-    const { entries, virtualModules } = createEntries(entry);
+    const { entries, virtualModules } = createEntries(context, entry);
 
     config.plugins.unshift(new WebpackVirtualModules(virtualModules));
 

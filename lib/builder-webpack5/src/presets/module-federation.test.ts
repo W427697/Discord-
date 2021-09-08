@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import type { Configuration } from 'webpack';
+import os from 'os';
 import { logger } from '@storybook/node-logger';
 import WebpackVirtualModules from 'webpack-virtual-modules';
 import { checkForModuleFederation, enableModuleFederation } from './module-federation';
@@ -15,6 +16,11 @@ jest.mock(
   { virtual: true }
 );
 jest.mock('webpack-virtual-modules');
+jest.mock('os', () => ({
+  platform: jest.fn(),
+}));
+
+const cwd = jest.spyOn(process, 'cwd');
 
 let mockConfig: Configuration;
 
@@ -263,6 +269,71 @@ describe('module-federation', () => {
       expect(WebpackVirtualModules).toHaveBeenCalledTimes(1);
       expect(WebpackVirtualModules).toHaveBeenNthCalledWith(1, virtualModules);
     });
+
+    it.each([
+      [
+        ['.\\file.js'],
+        { main: './__entry_main.js' },
+        {
+          './__entry_main.js': "import('./__bootstrap_main.js');",
+          './__bootstrap_main.js': "import './file.js';",
+        },
+      ],
+      [
+        ['..\\thisfile.js'],
+        { main: './__entry_main.js' },
+        {
+          './__entry_main.js': "import('./__bootstrap_main.js');",
+          './__bootstrap_main.js': "import '../thisfile.js';",
+        },
+      ],
+      [
+        ['C:\\\\path\\to\\dir\\otherfile.js'],
+        { main: './__entry_main.js' },
+        {
+          './__entry_main.js': "import('./__bootstrap_main.js');",
+          './__bootstrap_main.js': "import './otherfile.js';",
+        },
+      ],
+      [
+        ['c:\\\\path\\to\\dir\\otherfile.js'],
+        { main: './__entry_main.js' },
+        {
+          './__entry_main.js': "import('./__bootstrap_main.js');",
+          './__bootstrap_main.js': "import './otherfile.js';",
+        },
+      ],
+      [
+        ['C:\\\\path\\to\\dir\\node_modules\\@scope\\module'],
+        { main: './__entry_main.js' },
+        {
+          './__entry_main.js': "import('./__bootstrap_main.js');",
+          './__bootstrap_main.js': "import '@scope/module';",
+        },
+      ],
+      [
+        ['@scope\\module'],
+        { main: './__entry_main.js' },
+        {
+          './__entry_main.js': "import('./__bootstrap_main.js');",
+          './__bootstrap_main.js': "import '@scope/module';",
+        },
+      ],
+    ])(
+      'should set up entries correctly on windows',
+      async (entryInput, entryOutput, virtualModules) => {
+        (os.platform as jest.Mock).mockReturnValue('win32');
+        cwd.mockReturnValue('C:\\path\\to\\dir');
+        mockConfig.entry = entryInput;
+
+        const actual = await enableModuleFederation(mockConfig);
+
+        expect(actual.entry).toEqual(entryOutput);
+
+        expect(WebpackVirtualModules).toHaveBeenCalledTimes(1);
+        expect(WebpackVirtualModules).toHaveBeenNthCalledWith(1, virtualModules);
+      }
+    );
 
     it('should handle entrypoint errors and return config unchanged', async () => {
       const mockEntryFunction = () => {
