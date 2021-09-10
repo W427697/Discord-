@@ -1,17 +1,28 @@
-import React, { FunctionComponent, ReactNode, ElementType, ComponentProps } from 'react';
+import React, {
+  FunctionComponent,
+  ReactNode,
+  ElementType,
+  ComponentProps,
+  useContext,
+} from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { resetComponents, Story as PureStory } from '@storybook/components';
-import { toId, storyNameFromExport } from '@storybook/csf';
-import { Args, BaseAnnotations } from '@storybook/addons';
-import { CURRENT_SELECTION } from './types';
+import { StoryId, toId, storyNameFromExport, StoryAnnotations, AnyFramework } from '@storybook/csf';
+import { Story as StoryType } from '@storybook/store';
 
+import { CURRENT_SELECTION } from './types';
 import { DocsContext, DocsContextProps } from './DocsContext';
+import { useStory } from './useStory';
 
 export const storyBlockIdFromId = (storyId: string) => `story--${storyId}`;
 
 type PureStoryProps = ComponentProps<typeof PureStory>;
 
-type CommonProps = BaseAnnotations<Args, any> & {
+type Annotations = Pick<
+  StoryAnnotations<AnyFramework>,
+  'decorators' | 'parameters' | 'args' | 'argTypes' | 'loaders'
+>;
+type CommonProps = Annotations & {
   height?: string;
   inline?: boolean;
 };
@@ -34,22 +45,26 @@ export type StoryProps = (StoryDefProps | StoryRefProps | StoryImportProps) & Co
 
 export const lookupStoryId = (
   storyName: string,
-  { mdxStoryNameToKey, mdxComponentMeta }: DocsContextProps
+  { mdxStoryNameToKey, mdxComponentAnnotations }: DocsContextProps<any>
 ) =>
   toId(
-    mdxComponentMeta.id || mdxComponentMeta.title,
+    mdxComponentAnnotations.id || mdxComponentAnnotations.title,
     storyNameFromExport(mdxStoryNameToKey[storyName])
   );
 
-export const getStoryProps = (props: StoryProps, context: DocsContextProps): PureStoryProps => {
+export const getStoryId = (props: StoryProps, context: DocsContextProps<AnyFramework>): StoryId => {
   const { id } = props as StoryRefProps;
   const { name } = props as StoryDefProps;
   const inputId = id === CURRENT_SELECTION ? context.id : id;
-  const previewId = inputId || lookupStoryId(name, context);
-  const data = context.storyStore.fromId(previewId) || {};
+  return inputId || lookupStoryId(name, context);
+};
 
-  const { height, inline } = props;
-  const { storyFn = undefined, name: storyName = undefined, parameters = {} } = data;
+export const getStoryProps = (
+  { height, inline }: StoryProps,
+  story: StoryType<any>,
+  context: DocsContextProps<any>
+): PureStoryProps => {
+  const { name: storyName, parameters } = story;
   const { docs = {} } = parameters;
 
   if (docs.disable) {
@@ -65,33 +80,41 @@ export const getStoryProps = (props: StoryProps, context: DocsContextProps): Pur
     );
   }
 
+  const boundStoryFn = () =>
+    story.unboundStoryFn({
+      ...context.getStoryContext(story),
+      loaded: {},
+    });
   return {
     parameters,
     inline: storyIsInline,
-    id: previewId,
-    storyFn: prepareForInline && storyFn ? () => prepareForInline(storyFn, data) : storyFn,
+    id: story.id,
+    storyFn: prepareForInline ? () => prepareForInline(boundStoryFn, story) : boundStoryFn,
     height: height || (storyIsInline ? undefined : iframeHeight),
     title: storyName,
   };
 };
 
-const Story: FunctionComponent<StoryProps> = (props) => (
-  <DocsContext.Consumer>
-    {(context) => {
-      const storyProps = getStoryProps(props, context);
-      if (!storyProps) {
-        return null;
-      }
-      return (
-        <div id={storyBlockIdFromId(storyProps.id)}>
-          <MDXProvider components={resetComponents}>
-            <PureStory {...storyProps} />
-          </MDXProvider>
-        </div>
-      );
-    }}
-  </DocsContext.Consumer>
-);
+const Story: FunctionComponent<StoryProps> = (props) => {
+  const context = useContext(DocsContext);
+  const story = useStory(getStoryId(props, context), context);
+
+  if (!story) {
+    return <div>Loading...</div>;
+  }
+
+  const storyProps = getStoryProps(props, story, context);
+  if (!storyProps) {
+    return null;
+  }
+  return (
+    <div id={storyBlockIdFromId(storyProps.id)}>
+      <MDXProvider components={resetComponents}>
+        <PureStory {...storyProps} />
+      </MDXProvider>
+    </div>
+  );
+};
 
 Story.defaultProps = {
   children: null,
