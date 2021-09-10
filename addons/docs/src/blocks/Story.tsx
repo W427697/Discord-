@@ -4,11 +4,14 @@ import React, {
   ElementType,
   ComponentProps,
   useContext,
+  useRef,
+  useEffect,
 } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { resetComponents, Story as PureStory } from '@storybook/components';
 import { StoryId, toId, storyNameFromExport, StoryAnnotations, AnyFramework } from '@storybook/csf';
 import { Story as StoryType } from '@storybook/store';
+import global from 'global';
 
 import { CURRENT_SELECTION } from './types';
 import { DocsContext, DocsContextProps } from './DocsContext';
@@ -97,10 +100,44 @@ export const getStoryProps = (
 
 const Story: FunctionComponent<StoryProps> = (props) => {
   const context = useContext(DocsContext);
+  const ref = useRef();
   const story = useStory(getStoryId(props, context), context);
 
   if (!story) {
     return <div>Loading...</div>;
+  }
+
+  const { componentId, id, title, name } = story;
+  const renderContext = {
+    componentId,
+    title,
+    kind: title,
+    id,
+    name,
+    story: name,
+    // TODO what to do when these fail?
+    showMain: () => {},
+    showError: () => {},
+    showException: () => {},
+  };
+  useEffect(() => {
+    let cleanup: () => void;
+    if (story && ref.current) {
+      cleanup = context.renderStoryToElement({
+        story,
+        renderContext,
+        element: ref.current as Element,
+      });
+    }
+    return () => cleanup && cleanup();
+  }, [story]);
+
+  if (global?.FEATURES.modernInlineRender) {
+    // We do this so React doesn't complain when we replace the span in a secondary render
+    const htmlContents = `<span data-is-loading-indicator="true">loading story...</span>`;
+    return (
+      <div ref={ref} data-name={story.name} dangerouslySetInnerHTML={{ __html: htmlContents }} />
+    );
   }
 
   const storyProps = getStoryProps(props, story, context);
