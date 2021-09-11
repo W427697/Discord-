@@ -585,7 +585,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.15.0, @babel/core@npm:^7.0.0, @babel/core@npm:^7.14.6":
+"@babel/core@npm:7.15.0, @babel/core@npm:^7.14.6":
   version: 7.15.0
   resolution: "@babel/core@npm:7.15.0"
   dependencies:
@@ -7089,7 +7089,7 @@ __metadata:
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
   peerDependencies:
-    "@babel/core": ^7.9.6
+    "@babel/core": ^7.12.10
     "@storybook/vue": 6.4.0-alpha.34
     "@storybook/web-components": 6.4.0-alpha.34
     babel-loader: ^8.0.0
@@ -8015,7 +8015,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core-server@workspace:lib/core-server"
   dependencies:
-    "@babel/core": ^7.0.0
+    "@babel/core": ^7.12.10
     "@discoveryjs/json-ext": ^0.5.3
     "@storybook/builder-webpack4": 6.4.0-alpha.34
     "@storybook/builder-webpack5": 6.4.0-alpha.34
@@ -8559,7 +8559,7 @@ __metadata:
     ts-dedent: ^2.0.0
     webpack: 4
   peerDependencies:
-    "@babel/core": ^7.11.5
+    "@babel/core": ^7.12.10
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
   peerDependenciesMeta:

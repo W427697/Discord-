@@ -61,7 +61,7 @@
     "@types/webpack-env": "^1.16.0"
   },
   "peerDependencies": {
-    "@babel/core": "^7.9.6",
+    "@babel/core": "^7.12.10",
     "@storybook/vue": "6.4.0-alpha.34",
     "@storybook/web-components": "6.4.0-alpha.34",
     "babel-loader": "^8.0.0",
