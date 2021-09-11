@@ -1,3 +1,71 @@
+## 6.4.0-alpha.34 (September 7, 2021)
+
+### Features
+
+- Angular: Support storybook configuration for projects with only angular Library ([#15744](https://github.com/storybookjs/storybook/pull/15744))
+- CLI: Show framework name in startup banner ([#15966](https://github.com/storybookjs/storybook/pull/15966))
+
+### Bug Fixes
+
+- CLI: Fix sb link to yarn3 repos ([#15989](https://github.com/storybookjs/storybook/pull/15989))
+- Core: Pass proper stack of an error ([#15864](https://github.com/storybookjs/storybook/pull/15864))
+- Addon-docs/Angular: Fix default values in ArgsTable ([#15881](https://github.com/storybookjs/storybook/pull/15881))
+
+### Maintenance
+
+- Core: Replaced `process.env` override in `DefinePlugin` config ([#15925](https://github.com/storybookjs/storybook/pull/15925))
+- CSF: Infer defaultValue of argtype based on arg ([#15798](https://github.com/storybookjs/storybook/pull/15798))
+
+## 6.3.8 (September 3, 2021)
+
+### Maintenance
+
+- Core: Write JSON stats file in streaming fashion and omit `chunks` for brevity ([#15889](https://github.com/storybookjs/storybook/pull/15889))
+
+## 6.4.0-alpha.33 (September 1, 2021)
+
+### Bug Fixes
+
+- TypeScript: Fix glob pattern used in package `typesVersions` config ([#15918](https://github.com/storybookjs/storybook/pull/15918))
+
+### Maintenance
+
+- Core: Add Babel mode v7 ([#15928](https://github.com/storybookjs/storybook/pull/15928))
+- Core: Write JSON stats file in streaming fashion and omit `chunks` for brevity ([#15889](https://github.com/storybookjs/storybook/pull/15889))
+- UI: Add playback icons ([#15909](https://github.com/storybookjs/storybook/pull/15909))
+- Misc: Generate and push repros to a GitHub repo every night ([#15877](https://github.com/storybookjs/storybook/pull/15877))
+
+### Dependency Upgrades
+
+- Bump cpy to 8.1.2 for security ([#15953](https://github.com/storybookjs/storybook/pull/15953))
+
+## 6.4.0-alpha.32 (August 24, 2021)
+
+### Features
+
+- CLI/Storyshots: Specify custom sb extract Chromium exe ([#15878](https://github.com/storybookjs/storybook/pull/15878))
+
+### Bug Fixes
+
+- Angular: Fix Cannot read property 'selector' of undefined ([#15874](https://github.com/storybookjs/storybook/pull/15874))
+- Addon-docs: Fix refs support in Docs pages ([#15890](https://github.com/storybookjs/storybook/pull/15890))
+
+## 6.4.0-alpha.31 (August 23, 2021)
+
+### Features
+
+- UI: Add skip to canvas/sidebar links ([#15740](https://github.com/storybookjs/storybook/pull/15740))
+- Controls: Add id to setter button for undefined values ([#15729](https://github.com/storybookjs/storybook/pull/15729))
+
+### Bug Fixes
+
+- CSF3: Normalize windows paths in autoTitle ([#15770](https://github.com/storybookjs/storybook/pull/15770))
+- Addon-docs: Fix newline handling in ArgsTable code blocks ([#12882](https://github.com/storybookjs/storybook/pull/12882))
+
+### Maintenance
+
+- Build: Update `caniuse-lite` dependency ([#15863](https://github.com/storybookjs/storybook/pull/15863))
+
 ## 6.4.0-alpha.30 (August 14, 2021)
 
 ### Maintenance
