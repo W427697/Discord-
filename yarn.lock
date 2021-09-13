@@ -7176,7 +7176,9 @@ __metadata:
     "@storybook/client-logger": 6.4.0-alpha.34
     "@storybook/core-events": 6.4.0-alpha.34
     "@storybook/csf": 0.0.2--canary.062665d.0
+    "@storybook/preview-web": 6.4.0-alpha.34
     "@storybook/router": 6.4.0-alpha.34
+    "@storybook/store": 6.4.0-alpha.34
     "@types/qs": ^6.9.5
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2

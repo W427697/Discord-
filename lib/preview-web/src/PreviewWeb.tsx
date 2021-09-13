@@ -39,7 +39,7 @@ function focusInInput(event: Event) {
 type InitialRenderPhase = 'init' | 'loaded' | 'rendered' | 'done';
 type MaybePromise<T> = Promise<T> | T;
 
-export class PreviewWeb<TFramework extends AnyFramework> {
+export class PreviewWeb<TFramework extends AnyFramework = AnyFramework> {
   channel: Channel;
 
   urlStore: UrlStore;
