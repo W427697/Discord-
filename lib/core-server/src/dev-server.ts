@@ -8,6 +8,7 @@ import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
 import { useStatics } from './utils/server-statics';
 import { useStoriesJson } from './utils/stories-json';
+import { useAnnotations } from './utils/annotations';
 
 import { openInBrowser } from './utils/open-in-browser';
 import { getPreviewBuilder } from './utils/get-preview-builder';
@@ -40,6 +41,7 @@ export async function storybookDevServer(options: Options) {
   if (features?.buildStoriesJson || features?.storyStoreV7) {
     await useStoriesJson(router, options);
   }
+  await useAnnotations(router);
 
   getMiddleware(options.configDir)(router);
   app.use(router);

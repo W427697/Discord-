@@ -240,9 +240,18 @@ export class StoryStore<TFramework extends AnyFramework> {
     });
   }
 
+  async loadCSFAnnotationsByStoryId({ storyId }: { storyId: StoryId }) {
+    const { importPath } = this.storyIndex.storyIdToEntry(storyId);
+    const url = `${importPath}.annotations.json`;
+    // TODO this file shouldn't use fetch
+    const res = await global.fetch(url);
+    console.log(await res.text());
+  }
+
   // Load the CSF file for a story and prepare the story from it and the project annotations.
   async loadStory({ storyId }: { storyId: StoryId }): Promise<Story<TFramework>> {
     const csfFile = await this.loadCSFFileByStoryId(storyId, { sync: false });
+    await this.loadCSFAnnotationsByStoryId({ storyId });
     return this.storyFromCSFFile({ storyId, csfFile });
   }
 
