@@ -1,1 +1,1 @@
-{"version":"6.3.8","info":{"plain":"### Maintenance\n\n- Core: Write JSON stats file in streaming fashion and omit `chunks` for brevity ([#15889](https://github.com/storybookjs/storybook/pull/15889))"}}
+{"version":"6.3.9","info":{"plain":"### Maintenance\n\n- CLI: Add webpack5 builder to CRA5 `sb init` ([#16194](https://github.com/storybookjs/storybook/pull/16194))"}}
