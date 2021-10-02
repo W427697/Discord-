@@ -1,11 +1,11 @@
-/* eslint-env browser */
-
 import { useStorybookApi } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import Downshift, { DownshiftState, StateChangeOptions } from 'downshift';
 import Fuse, { FuseOptions } from 'fuse.js';
-import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react';
+import global from 'global';
+import { transparentize } from 'polished';
+import React, { useMemo, useRef, useState, useCallback } from 'react';
 
 import { DEFAULT_REF_ID } from './data';
 import {
@@ -21,6 +21,8 @@ import {
   isCloseType,
 } from './types';
 import { searchItem } from './utils';
+
+const { document } = global;
 
 const DEFAULT_MAX_SEARCH_RESULTS = 50;
 
@@ -75,7 +77,7 @@ const Input = styled.input(({ theme }) => ({
   height: 28,
   paddingLeft: 28,
   paddingRight: 28,
-  border: `1px solid ${theme.color.mediumdark}66`,
+  border: `1px solid ${transparentize(0.6, theme.color.mediumdark)}`,
   background: 'transparent',
   borderRadius: 28,
   fontSize: `${theme.typography.size.s1}px`,
@@ -85,7 +87,7 @@ const Input = styled.input(({ theme }) => ({
   '&:focus, &:active': {
     outline: 0,
     borderColor: theme.color.secondary,
-    background: theme.barBg,
+    background: theme.background.app,
   },
   '&::placeholder': {
     color: theme.textMutedColor,
@@ -172,21 +174,6 @@ export const Search = React.memo<{
       [api, inputRef, showAllComponents, DEFAULT_REF_ID]
     );
 
-    useEffect(() => {
-      const focusSearch = (event: KeyboardEvent) => {
-        if (!enableShortcuts || isLoading || !inputRef.current) return;
-        if (event.shiftKey || event.metaKey || event.ctrlKey || event.altKey) return;
-        if (event.key === '/' && inputRef.current !== document.activeElement) {
-          inputRef.current.focus();
-          event.preventDefault();
-        }
-      };
-
-      // Keyup prevents slashes from ending up in the input field when held down
-      document.addEventListener('keyup', focusSearch);
-      return () => document.removeEventListener('keyup', focusSearch);
-    }, [inputRef, isLoading, enableShortcuts]);
-
     const list: SearchItem[] = useMemo(() => {
       return dataset.entries.reduce((acc: SearchItem[], [refId, { stories }]) => {
         if (stories) {
@@ -203,17 +190,20 @@ export const Search = React.memo<{
         if (!input) return [];
 
         let results: DownshiftItem[] = [];
-        const componentResults = (fuse.search(input) as SearchResult[]).filter(
-          ({ item }) => item.isComponent
-        );
+        const resultIds: Set<string> = new Set();
+        const distinctResults = (fuse.search(input) as SearchResult[]).filter(({ item }) => {
+          if (!(item.isComponent || item.isLeaf) || resultIds.has(item.parent)) return false;
+          resultIds.add(item.id);
+          return true;
+        });
 
-        if (componentResults.length) {
-          results = componentResults.slice(0, allComponents ? 1000 : DEFAULT_MAX_SEARCH_RESULTS);
-          if (componentResults.length > DEFAULT_MAX_SEARCH_RESULTS && !allComponents) {
+        if (distinctResults.length) {
+          results = distinctResults.slice(0, allComponents ? 1000 : DEFAULT_MAX_SEARCH_RESULTS);
+          if (distinctResults.length > DEFAULT_MAX_SEARCH_RESULTS && !allComponents) {
             results.push({
               showAll: () => showAllComponents(true),
-              totalCount: componentResults.length,
-              moreCount: componentResults.length - DEFAULT_MAX_SEARCH_RESULTS,
+              totalCount: distinctResults.length,
+              moreCount: distinctResults.length - DEFAULT_MAX_SEARCH_RESULTS,
             });
           }
         }
@@ -354,7 +344,10 @@ export const Search = React.memo<{
           return (
             <>
               <ScreenReaderLabel {...getLabelProps()}>Search for components</ScreenReaderLabel>
-              <SearchField {...getRootProps({ refKey: '' }, { suppressRefError: true })}>
+              <SearchField
+                {...getRootProps({ refKey: '' }, { suppressRefError: true })}
+                className="search-field"
+              >
                 <SearchIcon icon="search" />
                 <Input {...inputProps} />
                 {enableShortcuts && <FocusKey>/</FocusKey>}

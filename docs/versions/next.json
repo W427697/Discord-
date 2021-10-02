@@ -1,1 +1,1 @@
-{"version":"6.1.0-rc.4","info":{"plain":"### Maintenance\n\n- Build: Fix Yarn 2 E2E tests ([#13129](https://github.com/storybookjs/storybook/pull/13129))\n- UI: Reduce rerenders when changing the selected story ([#13107](https://github.com/storybookjs/storybook/pull/13107))\n- Build: Update example to Angular 10 ([#13048](https://github.com/storybookjs/storybook/pull/13048))"}}
+{"version":"6.4.0-beta.3","info":{"plain":"### Maintenance\n\n- CLI: Add webpack5 builder to CRA5 `sb init` ([#16194](https://github.com/storybookjs/storybook/pull/16194))"}}

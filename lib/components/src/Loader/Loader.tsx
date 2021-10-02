@@ -1,8 +1,11 @@
-import { EventSource, CONFIG_TYPE } from 'global';
+import global from 'global';
+import { transparentize } from 'polished';
 import React, { ComponentProps, FunctionComponent, useEffect, useState } from 'react';
 import { styled, keyframes } from '@storybook/theming';
 import { Icons } from '../icon/icon';
 import { rotate360 } from '../shared/animation';
+
+const { EventSource, CONFIG_TYPE } = global;
 
 const LoaderWrapper = styled.div<{ size?: number }>(({ size = 32 }) => ({
   borderRadius: '50%',
@@ -44,7 +47,7 @@ const ProgressTrack = styled.div(({ theme }) => ({
   maxWidth: 300,
   height: 5,
   borderRadius: 5,
-  background: `${theme.color.secondary}33`,
+  background: transparentize(0.8, theme.color.secondary),
   overflow: 'hidden',
   cursor: 'progress',
 }));
