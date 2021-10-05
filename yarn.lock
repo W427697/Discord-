@@ -8153,7 +8153,7 @@ __metadata:
   resolution: "@storybook/csf@npm:0.0.2--canary.87bc651.0"
   dependencies:
     lodash: ^4.17.15
-  checksum: e3762b9c31f84ef96932502dabb0fba42b9a07993a79ef92ae4ec7897ca0086cba4f63e1bc479eac99628ed9383c39df0741e75471af3bd97ea6d62aca851f58
+  checksum: 0e7c378b358666ddae637ffba4c4345bed0a2603138528cbc5049f416a62a74cd8ab917856d444bf0b7b3dc0ba52186456c24b21ccb1f028dc5cd43e7f2509dc
   languageName: node
   linkType: hard
 
