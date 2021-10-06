@@ -73,6 +73,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "248f316bd9a5e511c7047420de0b48f28ca85ca8",
+  "gitHead": "591d742fd3b9986d5aef4ed66b9f50084eee02e4",
   "sbmodern": "dist/modern/client/index.js"
 }
