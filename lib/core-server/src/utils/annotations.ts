@@ -1,7 +1,12 @@
+import * as fs from 'fs';
 import * as path from 'path';
 import ts from 'typescript';
-import * as docGen from 'react-docgen-typescript';
+import * as ReactDocGenTS from 'react-docgen-typescript';
+// @ts-ignore How to type react-docgen?
+import * as ReactDocGen from 'react-docgen';
 // TODO: Apply react-docgen for regular js(x)
+
+console.log('react doc gen', ReactDocGen);
 
 export async function useAnnotations(router: any) {
   router.use(async (req: any, res: any, next: any) => {
@@ -17,22 +22,24 @@ export async function useAnnotations(router: any) {
     const exampleBase = 'examples/official-storybook';
     const storyFile = req.path.split('.annotations.json')[0];
     const storyPath = path.join(projectBase, exampleBase, storyFile);
+    const extName = path.extname(storyFile);
+    let documentation = {};
 
-    // The assumption here is that we're parsing React (ts(x)) which probably
-    // isn't correct. How do we know which parser to apply?
-    const documentation = parseReactDocumentation(storyPath);
+    // TODO: Handle vue etc. -> switch/case
+    if (['.ts', '.tsx'].includes(extName)) {
+      documentation = parseTSReactDocumentation(storyPath);
+    } else if (['.js', '.jsx'].includes(extName)) {
+      documentation = parseJSReactDocumentation(storyPath);
+    }
 
-    // console.log(projectBase, storyPath, documentation);
-
-    // TODO: Which is the right story to test against?
     res.json(documentation);
   });
 }
 
 // TODO: Push this to the right place (type parsers for different targets)
-function parseReactDocumentation(filePath: string) {
+function parseTSReactDocumentation(filePath: string) {
   // The simplest option
-  // const componentDocs = docGen.parse(filename);
+  // const componentDocs = reactDocGenTS.parse(filename);
 
   // react-docgen-typescript-plugin does something along this to allow
   // customizability
@@ -41,10 +48,26 @@ function parseReactDocumentation(filePath: string) {
     module: ts.ModuleKind.CommonJS,
     target: ts.ScriptTarget.Latest,
   };
-  const docgenOptions = {};
+  const reactDocgenTSOptions = {};
   const tsProgram = ts.createProgram([filePath], compilerOptions);
-  const docGenParser = docGen.withCompilerOptions(compilerOptions, docgenOptions);
-  const componentDocs = docGenParser.parseWithProgramProvider([filePath], () => tsProgram);
+  const reactDocGenTSParser = ReactDocGenTS.withCompilerOptions(
+    compilerOptions,
+    reactDocgenTSOptions
+  );
+  const componentDocs = reactDocGenTSParser.parseWithProgramProvider([filePath], () => tsProgram);
 
   return componentDocs;
+}
+
+// Adapted from https://github.com/storybookjs/babel-plugin-react-docgen
+const defaultHandlers = Object.values(ReactDocGen.handlers).map((handler) => handler);
+
+function parseJSReactDocumentation(filePath: string) {
+  const source = fs.readFileSync(filePath);
+
+  return ReactDocGen.parse(
+    source,
+    ReactDocGen.resolver.findAllExportedComponentDefinitions,
+    defaultHandlers
+  );
 }
