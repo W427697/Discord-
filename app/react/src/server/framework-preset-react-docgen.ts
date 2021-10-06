@@ -1,9 +1,13 @@
 import type { TransformOptions } from '@babel/core';
 import type { Configuration } from 'webpack';
-import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
-import type { Options, TypescriptConfig } from '@storybook/core-common';
+// import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
+// import type { Options, TypescriptConfig } from '@storybook/core-common';
 
-export async function babel(config: TransformOptions, { presets }: Options) {
+export async function babel(config: TransformOptions /* { presets }: Options */) {
+  return config;
+
+  // TODO: This code should vanish with a type annotation server
+  /*
   const typescriptOptions = await presets.apply<TypescriptConfig>('typescript', {} as any);
 
   const { reactDocgen } = typescriptOptions;
@@ -28,9 +32,14 @@ export async function babel(config: TransformOptions, { presets }: Options) {
       },
     ],
   };
+  */
 }
 
-export async function webpackFinal(config: Configuration, { presets }: Options) {
+export async function webpackFinal(config: Configuration /* { presets }: Options */) {
+  return config;
+
+  // TODO: This code should vanish with a type annotation server
+  /*
   const typescriptOptions = await presets.apply<TypescriptConfig>('typescript', {} as any);
 
   const { reactDocgen, reactDocgenTypescriptOptions } = typescriptOptions;
@@ -50,4 +59,5 @@ export async function webpackFinal(config: Configuration, { presets }: Options) 
       }),
     ],
   };
+  */
 }

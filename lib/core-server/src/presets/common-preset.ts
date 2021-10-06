@@ -51,7 +51,8 @@ export const previewEntries = (entries: any[] = [], options: { modern?: boolean 
 export const typescript = () => ({
   check: false,
   // 'react-docgen' faster but produces lower quality typescript results
-  reactDocgen: 'react-docgen-typescript',
+  // TODO: Disabled for now as the type annotation server should take care of this
+  reactDocgen: false, // 'react-docgen-typescript',
   reactDocgenTypescriptOptions: {
     shouldExtractLiteralValuesFromEnum: true,
     shouldRemoveUndefinedFromOptional: true,

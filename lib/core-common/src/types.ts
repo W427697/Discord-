@@ -209,6 +209,7 @@ export interface TypescriptOptions {
    *
    * @default `'react-docgen-typescript'`
    */
+  // TODO: This should vanish
   reactDocgen: 'react-docgen-typescript' | 'react-docgen' | false;
   /**
    * Configures `react-docgen-typescript-plugin`

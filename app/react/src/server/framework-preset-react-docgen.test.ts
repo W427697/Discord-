@@ -18,7 +18,7 @@ describe('framework-preset-react-docgen', () => {
         apply: async () =>
           ({
             check: false,
-            reactDocgen: 'react-docgen',
+            reactDocgen: false, // TODO: This should vanish 'react-docgen',
           } as TypescriptConfig),
       },
     } as any);
@@ -54,7 +54,7 @@ describe('framework-preset-react-docgen', () => {
         apply: async () =>
           ({
             check: false,
-            reactDocgen: 'react-docgen-typescript',
+            reactDocgen: false, // TODO: This should vanish 'react-docgen-typescript',
           } as TypescriptConfig),
       },
     });

@@ -1,6 +1,7 @@
 import * as path from 'path';
 import ts from 'typescript';
 import * as docGen from 'react-docgen-typescript';
+// TODO: Apply react-docgen for regular js(x)
 
 export async function useAnnotations(router: any) {
   router.use(async (req: any, res: any, next: any) => {
