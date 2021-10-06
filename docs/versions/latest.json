@@ -1,1 +1,1 @@
-{"version":"6.3.9","info":{"plain":"### Maintenance\n\n- CLI: Add webpack5 builder to CRA5 `sb init` ([#16194](https://github.com/storybookjs/storybook/pull/16194))"}}
+{"version":"6.3.10","info":{"plain":"### Bug Fixes\n\n* CLI: Don't upgrade preset-create-react-app if react-scripts < 5 ([#16255](https://github.com/storybookjs/storybook/pull/16255))"}}
