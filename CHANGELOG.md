@@ -1,3 +1,10 @@
+## 6.3.10 (October 6, 2021)
+
+### Bug Fixes
+
+* CLI: Don't upgrade preset-create-react-app if react-scripts < 5 ([#16255](https://github.com/storybookjs/storybook/pull/16255))
+
+
 ## 6.3.9 (October 1, 2021)
 
 ### Maintenance
