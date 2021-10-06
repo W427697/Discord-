@@ -4,9 +4,6 @@ import ts from 'typescript';
 import * as ReactDocGenTS from 'react-docgen-typescript';
 // @ts-ignore How to type react-docgen?
 import * as ReactDocGen from 'react-docgen';
-// TODO: Apply react-docgen for regular js(x)
-
-console.log('react doc gen', ReactDocGen);
 
 export async function useAnnotations(router: any) {
   router.use(async (req: any, res: any, next: any) => {
