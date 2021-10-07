@@ -8680,7 +8680,7 @@ __metadata:
     babel-plugin-macros: ^3.0.1
     babel-plugin-require-context-hook: ^1.0.0
     chalk: ^4.1.0
-    chromatic: 6.0.2-canary.0
+    chromatic: 6.0.2-canary.1
     codecov: ^3.8.1
     commander: ^6.2.1
     concurrently: ^5.3.0
@@ -8967,7 +8967,7 @@ __metadata:
     "@storybook/theming": 6.4.0-beta.6
     "@testing-library/react": ^11.2.2
     babel-loader: ^8.0.0
-    chromatic: 6.0.2-canary.0
+    chromatic: 6.0.2-canary.1
     copy-to-clipboard: ^3.3.1
     core-js: ^3.8.2
     core-js-pure: ^3.8.2
@@ -16430,14 +16430,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromatic@npm:6.0.2-canary.0":
-  version: 6.0.2-canary.0
-  resolution: "chromatic@npm:6.0.2-canary.0"
+"chromatic@npm:6.0.2-canary.1":
+  version: 6.0.2-canary.1
+  resolution: "chromatic@npm:6.0.2-canary.1"
   bin:
     chroma: bin/main.cjs
     chromatic: bin/main.cjs
     chromatic-cli: bin/main.cjs
-  checksum: 74be31b9f0433875b49eb2d5881e9dc3f2639987aa93e9cfb19f6da3ad87227ace3a9a242ccaefdadca803cf6c35146d50484d8780193c2fc24e8b57004c280f
+  checksum: bfb2ebedc78f7d8c7986316aa48f3abb128f3dc4ba2b5e980ce405629cb64a154b82bf80e643ff2f0125dd5f72d85888ab234f3f7c84ee504cef482e634cc904
   languageName: node
   linkType: hard
 
@@ -33033,7 +33033,7 @@ fsevents@^1.2.7:
     "@storybook/theming": 6.4.0-beta.6
     "@testing-library/dom": ^7.31.2
     "@testing-library/user-event": ^13.1.9
-    chromatic: 6.0.2-canary.0
+    chromatic: 6.0.2-canary.1
     cors: ^2.8.5
     cross-env: ^7.0.3
     enzyme-to-json: ^3.6.1
