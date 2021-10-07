@@ -243,16 +243,18 @@ export class StoryStore<TFramework extends AnyFramework> {
   async loadCSFAnnotationsByStoryId({ storyId }: { storyId: StoryId }) {
     const { importPath } = this.storyIndex.storyIdToEntry(storyId);
     const url = `${importPath}.annotations.json`;
-    // TODO this file shouldn't use fetch
+    // TODO this file shouldn't use fetch. What should it use instead?
     const res = await global.fetch(url);
-    console.log(await res.text());
+    const annotations = await res.json();
+
+    return annotations;
   }
 
   // Load the CSF file for a story and prepare the story from it and the project annotations.
   async loadStory({ storyId }: { storyId: StoryId }): Promise<Story<TFramework>> {
     const csfFile = await this.loadCSFFileByStoryId(storyId, { sync: false });
-    await this.loadCSFAnnotationsByStoryId({ storyId });
-    return this.storyFromCSFFile({ storyId, csfFile });
+    const annotations = await this.loadCSFAnnotationsByStoryId({ storyId });
+    return this.storyFromCSFFile({ storyId, csfFile, annotations });
   }
 
   // This function is synchronous for convenience -- often times if you have a CSF file already
@@ -260,15 +262,26 @@ export class StoryStore<TFramework extends AnyFramework> {
   storyFromCSFFile({
     storyId,
     csfFile,
+    annotations,
   }: {
     storyId: StoryId;
     csfFile: CSFFile<TFramework>;
+    // TODO: There's a better type for this (same for all).
+    // It's whatever react-docgen is using most likely.
+    annotations?: Record<string, unknown>;
   }): Story<TFramework> {
     const storyAnnotations = csfFile.stories[storyId];
     if (!storyAnnotations) {
       throw new Error(`Didn't find '${storyId}' in CSF file, this is unexpected`);
     }
     const componentAnnotations = csfFile.meta;
+
+    if (annotations) {
+      // TODO: How to inject type information to the component?
+      // @ts-ignore The idea is to try to inject docgen info here (verify!)
+      // eslint-disable-next-line
+      componentAnnotations.__docgenInfo = annotations;
+    }
 
     const story = this.prepareStoryWithCache(
       storyAnnotations,
