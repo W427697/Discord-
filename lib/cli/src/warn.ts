@@ -10,7 +10,7 @@ export const warn = ({ hasTSDependency }: Options) => {
     const hasTSFiles = !!globby.sync(['**/*.@(ts|tsx)', '!**/node_modules', '!**/*.d.ts']).length;
     if (hasTSFiles) {
       logger.warn(
-        'We have detected TypeScript files in your project directory, however TypeScript is not listed as a project dependency.'
+        'We have detected TypeScript files in your project directory, however TypeScript is not listed in the dependencies section of your package.json.'
       );
       logger.warn('Storybook will continue as though this is a JavaScript project.');
       logger.line();
