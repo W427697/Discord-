@@ -5,12 +5,12 @@ import { ClientApi } from '@storybook/client-api';
 import { addons } from '@storybook/addons';
 import createChannel from '@storybook/channel-postmessage';
 
-import { importFn } from './{{storiesFilename}}';
+import { importFn } from './{{{storiesFilename}}}';
 
 const getProjectAnnotations = () =>
   composeConfigs([
     {{#each configs}}
-    require('{{this}}'),
+    require('{{{this}}}'),
     {{/each}}
   ]);
 
@@ -27,12 +27,12 @@ window.__STORYBOOK_CLIENT_API__ = new ClientApi({ storyStore: preview.storyStore
 preview.initialize({ importFn, getProjectAnnotations });
 
 if (module.hot) {
-  module.hot.accept('./{{storiesFilename}}', () => {
+  module.hot.accept('./{{{storiesFilename}}}', () => {
     // importFn has changed so we need to patch the new one in
     preview.onStoriesChanged({ importFn });
   });
 
-  module.hot.accept([{{#each configs}}'{{this}}',{{/each}}], () => {
+  module.hot.accept([{{#each configs}}'{{{this}}}',{{/each}}], () => {
     // getProjectAnnotations has changed so we need to patch the new one in
     preview.onGetProjectAnnotationsChanged({ getProjectAnnotations });
   });

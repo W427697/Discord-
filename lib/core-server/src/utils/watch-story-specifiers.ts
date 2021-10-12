@@ -1,4 +1,5 @@
 import Watchpack from 'watchpack';
+import slash from 'slash'
 import { NormalizedStoriesSpecifier } from '@storybook/core-common';
 import { Path } from '@storybook/store';
 
@@ -18,10 +19,11 @@ export function watchStorySpecifiers(
   });
 
   function onChangeOrRemove(watchpackPath: Path, removed: boolean) {
+    console.log({ watchpackPath})
     // Watchpack passes paths either with no leading './' - e.g. `src/Foo.stories.js`,
     // or with a leading `../` (etc), e.g. `../src/Foo.stories.js`.
     // We want to deal in importPaths relative to the working dir, or absolute paths.
-    const importPath = watchpackPath.startsWith('.') ? watchpackPath : `./${watchpackPath}`;
+    const importPath = slash(watchpackPath.startsWith('.') ? watchpackPath : `./${watchpackPath}`);
 
     const specifier = specifiers.find((ns) => ns.importPathMatcher.exec(importPath));
     if (specifier) {

@@ -98,13 +98,15 @@ export default async (options: Options & Record<string, any>): Promise<Configura
 
     virtualModuleMapping[storiesPath] = toImportFn(stories);
     const configEntryPath = path.resolve(path.join(configDir, 'storybook-config-entry.js'));
+    console.log({configs})
     virtualModuleMapping[configEntryPath] = handlebars(
       await readTemplate(path.join(__dirname, 'virtualModuleModernEntry.js.handlebars')),
       {
         storiesFilename,
-        configs,
+        configs: configs.map(c => c.replace(/\\/g, '\\\\')),
       }
     );
+    console.log(virtualModuleMapping[configEntryPath])
     entries.push(configEntryPath);
   } else {
     const frameworkInitEntry = path.resolve(

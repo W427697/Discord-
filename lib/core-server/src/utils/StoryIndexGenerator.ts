@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import glob from 'globby';
+import slash from 'slash'
 
 import {
   autoTitleFromSpecifier,
@@ -65,7 +66,8 @@ export class StoryIndexGenerator {
         const pathToSubIndex = {} as SpecifierStoriesCache;
 
         const fullGlob = path.join(this.options.workingDir, specifier.directory, specifier.files);
-        const files = await glob(fullGlob);
+        const files = await glob(slash(fullGlob));
+        console.log({fullGlob, specifier, files})
         files.forEach((absolutePath: Path) => {
           const ext = path.extname(absolutePath);
           const relativePath = path.relative(this.options.workingDir, absolutePath);
@@ -107,7 +109,7 @@ export class StoryIndexGenerator {
       const entry = this.storyIndexEntries.get(specifier);
       const fileStories = {} as StoryIndex['stories'];
 
-      const importPath = relativePath[0] === '.' ? relativePath : `./${relativePath}`;
+      const importPath = slash(relativePath[0] === '.' ? relativePath : `./${relativePath}`);
       const defaultTitle = autoTitleFromSpecifier(importPath, specifier);
       const csf = (await readCsfOrMdx(absolutePath, { defaultTitle })).parse();
       csf.stories.forEach(({ id, name }) => {
@@ -181,6 +183,7 @@ export class StoryIndexGenerator {
 
   invalidate(specifier: NormalizedStoriesSpecifier, importPath: Path, removed: boolean) {
     const absolutePath = path.resolve(this.options.workingDir, importPath);
+    console.log({ importPath, absolutePath })
     const pathToEntries = this.storyIndexEntries.get(specifier);
 
     if (removed) {

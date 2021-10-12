@@ -11,6 +11,7 @@ export function toImportFnPart(specifier: NormalizedStoriesSpecifier) {
   // '^' and any leading '.' off the regexp and match on that.
   // It's imperfect as it could match extra things in extremely unusual cases, but it'll do for now.
   const webpackIncludeRegex = new RegExp(importPathMatcher.source.replace(/^\^\\\.*/, ''));
+  console.log({webpackIncludeRegex})
 
   return dedent`
       async (path) => {
