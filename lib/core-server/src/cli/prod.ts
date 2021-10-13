@@ -4,24 +4,21 @@ import { logger } from '@storybook/node-logger';
 import type { CLIOptions } from '@storybook/core-common';
 import { parseList, getEnvConfig, checkDeprecatedFlags } from './utils';
 
-export type ProdCliOptions = Pick<
-  CLIOptions,
-  | 'configDir'
-  | 'debugWebpack'
-  | 'dll'
-  | 'docs'
-  | 'docsDll'
-  | 'forceBuildPreview'
-  | 'loglevel'
-  | 'modern'
-  | 'outputDir'
-  | 'previewUrl'
-  | 'quiet'
-  | 'staticDir'
-  | 'uiDll'
-> & {
-  watch?: boolean;
-};
+export interface ProdCliOptions {
+  staticDir?: string[];
+  outputDir?: string;
+  configDir?: string;
+  quiet?: boolean;
+  loglevel?: string;
+  dll?: boolean;
+  docsDll?: boolean;
+  uiDll?: boolean;
+  debugWebpack?: boolean;
+  previewUrl?: string;
+  forceBuildPreview?: boolean;
+  docs?: boolean;
+  modern?: boolean;
+}
 
 export function getProdCli(packageJson: {
   version: string;
@@ -34,7 +31,6 @@ export function getProdCli(packageJson: {
     .option('-s, --static-dir <dir-names>', 'Directory where to load static files from', parseList)
     .option('-o, --output-dir <dir-name>', 'Directory where to store built files')
     .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
-    .option('-w, --watch', 'Enable watch mode')
     .option('--quiet', 'Suppress verbose build output')
     .option('--loglevel <level>', 'Control level of logging during build')
     .option('--no-dll', 'Do not use dll reference (no-op)')
