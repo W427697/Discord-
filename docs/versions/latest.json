@@ -1,1 +1,1 @@
-{"version":"6.3.11","info":{"plain":"### Bug Fixes\n\n- CLI: Fix CRA version detection crash ([#16308](https://github.com/storybookjs/storybook/pull/16308))"}}
+{"version":"6.3.12","info":{"plain":"### Bug Fixes\n\n* CLI: Force `sb upgrade` to use latest version of `npm-check-updates` ([#16336](https://github.com/storybookjs/storybook/pull/16336))"}}
