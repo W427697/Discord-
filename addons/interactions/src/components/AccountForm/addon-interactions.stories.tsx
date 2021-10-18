@@ -9,9 +9,6 @@ export default {
   title: 'Addons/Interactions/AccountForm',
   component: AccountForm,
   parameters: { layout: 'centered', theme: 'light' },
-  argTypes: {
-    onSubmit: { action: true },
-  },
 } as Meta;
 
 type CSF3Story = ComponentStoryObj<typeof AccountForm>;

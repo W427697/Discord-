@@ -147,6 +147,9 @@ export const decorators = [
 
 export const parameters = {
   exportedParameter: 'exportedParameter',
+  actions: {
+    argTypesRegex: '^on.*',
+  },
   a11y: {
     config: {},
     options: {
