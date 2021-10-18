@@ -101,9 +101,16 @@ export const StandardFailHover: CSF3Story = {
   play: async (context) => {
     const canvas = within(context.canvasElement);
     await StandardPasswordFailed.play(context);
-    await waitFor(async () => {
-      await userEvent.hover(canvas.getByTestId('password-error-info'));
-    });
+
+    // TODO: check why this waitFor is needed. Might be a bug?
+    // Without it, it fails when first rendering the component (it doesn't in any other scenario)
+    await waitFor(
+      async () => {
+        const hint = await canvas.findByTestId('password-error-info');
+        await userEvent.hover(hint);
+      },
+      { timeout: 2000 }
+    );
   },
 };
 
