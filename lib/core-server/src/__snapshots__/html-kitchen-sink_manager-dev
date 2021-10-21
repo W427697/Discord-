@@ -14,7 +14,6 @@ Object {
     "ROOT/addons/links/dist/esm/register.js",
     "ROOT/addons/storysource/dist/esm/register.js",
     "ROOT/addons/viewport/dist/esm/register.js",
-    "ROOT/examples/html-kitchen-sink/.storybook/generated-refs.js",
   ],
   "keys": Array [
     "name",
@@ -47,6 +46,8 @@ Object {
           Object {
             "loader": "NODE_MODULES/babel-loader/lib/index.js",
             "options": Object {
+              "babelrc": false,
+              "configFile": false,
               "plugins": Array [
                 "NODE_MODULES/@babel/plugin-transform-shorthand-properties/lib/index.js",
                 "NODE_MODULES/@babel/plugin-transform-block-scoping/lib/index.js",
@@ -217,7 +218,6 @@ Object {
     "VirtualModulesPlugin",
     "HtmlWebpackPlugin",
     "CaseSensitivePathsPlugin",
-    "DefinePlugin",
     "DefinePlugin",
   ],
 }

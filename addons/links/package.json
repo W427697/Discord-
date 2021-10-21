@@ -1,13 +1,13 @@
 {
   "name": "@storybook/addon-links",
-  "version": "6.3.0-beta.15",
+  "version": "6.4.0-beta.16",
   "description": "Link stories together to build demos and prototypes with your UI components",
   "keywords": [
     "addon",
     "storybook",
     "organize"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/links",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/links",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -26,7 +26,7 @@
   "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
-      "*": [
+      "dist/ts3.9/*": [
         "dist/ts3.4/*"
       ]
     }
@@ -41,11 +41,11 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.3.0-beta.15",
-    "@storybook/client-logger": "6.3.0-beta.15",
-    "@storybook/core-events": "6.3.0-beta.15",
-    "@storybook/csf": "0.0.1",
-    "@storybook/router": "6.3.0-beta.15",
+    "@storybook/addons": "6.4.0-beta.16",
+    "@storybook/client-logger": "6.4.0-beta.16",
+    "@storybook/core-events": "6.4.0-beta.16",
+    "@storybook/csf": "0.0.2--canary.87bc651.0",
+    "@storybook/router": "6.4.0-beta.16",
     "@types/qs": "^6.9.5",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
@@ -72,7 +72,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6b5425b747b6d4caf46a93b2d3d33da656e868a7",
+  "gitHead": "51cd442b428ccbb626003da5cc4491e670a1f281",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Links",

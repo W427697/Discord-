@@ -1,5 +1,5 @@
 import global from 'global';
-import addons, { mockChannel } from '@storybook/addons';
+import { addons, mockChannel } from '@storybook/addons';
 import ensureOptionsDefaults from './ensureOptionsDefaults';
 import snapshotsTests from './snapshotsTestsTemplate';
 import integrityTest from './integrityTestTemplate';
@@ -24,7 +24,6 @@ function callTestMethodGlobals(
 
 const isDisabled = (parameter: any) =>
   parameter === false || (parameter && parameter.disable === true);
-
 function testStorySnapshots(options: StoryshotsOptions = {}) {
   if (typeof describe !== 'function') {
     throw new Error('testStorySnapshots is intended only to be used inside jest');

@@ -14,6 +14,8 @@ import {
   Builder,
   StorybookConfig,
   cache,
+  normalizeStories,
+  logConfig,
 } from '@storybook/core-common';
 
 import { getProdCli } from './cli';
@@ -66,19 +68,28 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     ...options,
   });
 
+  const features = await presets.apply<StorybookConfig['features']>('features');
+  if (features?.buildStoriesJson || features?.storyStoreV7) {
+    const directories = {
+      configDir: options.configDir,
+      workingDir: process.cwd(),
+    };
+    const stories = normalizeStories(await presets.apply('stories'), directories);
+    await extractStoriesJson(path.join(options.outputDir, 'stories.json'), stories, {
+      ...directories,
+      storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+    });
+  }
+
   const fullOptions: Options = {
     ...options,
     presets,
+    features,
   };
 
-  const features = await presets.apply<StorybookConfig['features']>('features');
-  if (features?.buildStoriesJson) {
-    const storiesGlobs = (await presets.apply('stories')) as StorybookConfig['stories'];
-    await extractStoriesJson(
-      path.join(options.outputDir, 'stories.json'),
-      storiesGlobs,
-      options.configDir
-    );
+  if (options.debugWebpack) {
+    logConfig('Preview webpack config', await previewBuilder.getConfig(fullOptions));
+    logConfig('Manager webpack config', await managerBuilder.getConfig(fullOptions));
   }
 
   const core = await presets.apply<{ builder?: string }>('core');

@@ -1,11 +1,11 @@
 {
   "name": "@storybook/channel-postmessage",
-  "version": "6.3.0-beta.15",
+  "version": "6.4.0-beta.16",
   "description": "",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/channel-postmessage",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/channel-postmessage",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -25,7 +25,7 @@
   "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
-      "*": [
+      "dist/ts3.9/*": [
         "dist/ts3.4/*"
       ]
     }
@@ -40,9 +40,9 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/channels": "6.3.0-beta.15",
-    "@storybook/client-logger": "6.3.0-beta.15",
-    "@storybook/core-events": "6.3.0-beta.15",
+    "@storybook/channels": "6.4.0-beta.16",
+    "@storybook/client-logger": "6.4.0-beta.16",
+    "@storybook/core-events": "6.4.0-beta.16",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "qs": "^6.10.0",
@@ -51,6 +51,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6b5425b747b6d4caf46a93b2d3d33da656e868a7",
+  "gitHead": "51cd442b428ccbb626003da5cc4491e670a1f281",
   "sbmodern": "dist/modern/index.js"
 }

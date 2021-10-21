@@ -1,11 +1,11 @@
 {
   "name": "storybook",
-  "version": "6.3.0-beta.15",
+  "version": "6.4.0-beta.16",
   "description": "Storybook CLI",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/cli",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/cli",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -27,10 +27,10 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/cli": "6.3.0-beta.15"
+    "@storybook/cli": "6.4.0-beta.16"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6b5425b747b6d4caf46a93b2d3d33da656e868a7"
+  "gitHead": "51cd442b428ccbb626003da5cc4491e670a1f281"
 }
