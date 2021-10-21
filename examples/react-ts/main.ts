@@ -1,8 +1,9 @@
 import type { StorybookConfig } from '@storybook/react/types';
 
 const config: StorybookConfig = {
-  stories: [{ directory: './src', titlePrefix: 'Demo' }],
+  stories: [{ directory: './src', titlePrefix: 'Demo' }, './src/foo'],
   logLevel: 'debug',
+  //framework: '@storybook/react',
   addons: [
     '@storybook/react',
     '@storybook/addon-essentials',
