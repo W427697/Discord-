@@ -17,7 +17,6 @@ const cleaningProcess = spawn('git', [
 
 cleaningProcess.stdout.on('data', (data) => {
   if (data && data.toString()) {
-    const l = data
       .toString()
       .split(/\n/)
       .forEach((i) => {
