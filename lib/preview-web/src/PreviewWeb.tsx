@@ -170,10 +170,7 @@ export class PreviewWeb<TFramework extends AnyFramework> {
   }
 
   async setGlobalsAndRenderSelection() {
-    const { globals } = this.urlStore.selectionSpecifier || {};
-    if (globals) {
-      this.storyStore.globals.updateFromPersisted(globals);
-    }
+    this.storyStore.globals.updateFromPersisted(this.urlStore.selectionSpecifier?.globals);
     this.channel.emit(Events.SET_GLOBALS, {
       globals: this.storyStore.globals.get() || {},
       globalTypes: this.storyStore.projectAnnotations.globalTypes || {},
@@ -604,6 +601,9 @@ export class PreviewWeb<TFramework extends AnyFramework> {
       // If we still haven't completed, reload the page (iframe) to ensure we have a clean slate
       // for the next render. Since the reload can take a brief moment to happen, we want to stop
       // further rendering by awaiting a never-resolving promise (which is destroyed on reload).
+      // We persist the current globals to a variable on the parent window (manager), so they can be
+      // restored after reloading.
+      this.storyStore.globals.persist();
       global.window.location.reload();
       await new Promise(() => {});
     };

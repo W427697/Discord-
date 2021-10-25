@@ -1,6 +1,7 @@
-import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
 import { Globals, GlobalTypes } from '@storybook/csf';
+import global from 'global';
+import dedent from 'ts-dedent';
+import deprecate from 'util-deprecate';
 
 import { deepDiff, DEEPLY_EQUAL } from './args';
 
@@ -43,11 +44,18 @@ export class GlobalsStore {
     }, {} as Globals);
   }
 
-  updateFromPersisted(persisted: Globals) {
-    const allowedUrlGlobals = this.filterAllowedGlobals(persisted);
-    // Note that unlike args, we do not have the same type information for globals to allow us
-    // to type check them here, so we just set them naively
-    this.globals = { ...this.globals, ...allowedUrlGlobals };
+  updateFromPersisted(urlGlobals?: Globals) {
+    if (urlGlobals) {
+      // Note that unlike args, we do not have the same type information for globals to allow us
+      // to type check them here, so we just set them naively
+      this.globals = { ...this.globals, ...this.filterAllowedGlobals(urlGlobals) };
+    }
+    try {
+      // eslint-disable-next-line no-underscore-dangle
+      this.globals = { ...this.globals, ...global.window.parent.__STORYBOOK_GLOBALS__ };
+    } catch (e) {
+      // Accessing window.parent might fail due to CORS restrictions
+    }
   }
 
   get() {
@@ -62,5 +70,14 @@ export class GlobalsStore {
     });
 
     this.globals = { ...this.globals, ...newGlobals };
+  }
+
+  persist() {
+    try {
+      // eslint-disable-next-line no-underscore-dangle
+      global.window.parent.__STORYBOOK_GLOBALS__ = this.globals;
+    } catch (e) {
+      // Accessing window.parent might fail due to CORS restrictions
+    }
   }
 }
