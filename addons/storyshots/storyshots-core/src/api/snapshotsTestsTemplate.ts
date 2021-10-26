@@ -7,41 +7,47 @@ import { addSerializer } from 'jest-specific-snapshot';
 const { describe, it } = global;
 
 function snapshotTest({ item, asyncJest, framework, testMethod, testMethodParams }: any) {
-  const { name } = item;
-  const context = { ...item, framework };
+  const { name, importPath, getStory, getRender } = item;
 
   if (asyncJest === true) {
     it(
       name,
-      () =>
-        new Promise<void>((resolve, reject) =>
+      async () => {
+        const story = await getStory();
+        const render = await getRender();
+        await new Promise<void>((resolve, reject) =>
           testMethod({
             done: (error: any) => (error ? reject(error) : resolve()),
-            story: item,
-            context,
+            story: { ...story, render },
+            context: { ...story, fileName: importPath, framework },
             ...testMethodParams,
           })
-        ),
+        );
+      },
+
       testMethod.timeout
     );
   } else {
     it(
       name,
-      () =>
+      async () => {
+        const story = await getStory();
+        const render = await getRender();
         testMethod({
-          story: item,
-          context,
+          story: { ...story, render },
+          context: { ...story, fileName: importPath, framework },
           ...testMethodParams,
-        }),
+        });
+      },
       testMethod.timeout
     );
   }
 }
 
 function snapshotTestSuite({ item, suite, ...restParams }: any) {
-  const { kind, children } = item;
+  const { title, children } = item;
   describe(suite, () => {
-    describe(kind, () => {
+    describe(title, () => {
       children.forEach((c: any) => {
         snapshotTest({ item: c, ...restParams });
       });

@@ -1,5 +1,8 @@
 import global from 'global';
 import { addons, mockChannel } from '@storybook/addons';
+import { Story, StoryIndexEntry, StoryStore } from '@storybook/store';
+import { AnyFramework, ComponentTitle, LegacyStoryFn } from '@storybook/csf';
+
 import ensureOptionsDefaults from './ensureOptionsDefaults';
 import snapshotsTests from './snapshotsTestsTemplate';
 import integrityTest from './integrityTestTemplate';
@@ -31,7 +34,7 @@ function testStorySnapshots(options: StoryshotsOptions = {}) {
 
   addons.setChannel(mockChannel());
 
-  const { storybook, framework, renderTree, renderShallowTree } = loadFramework(options);
+  const { framework, renderTree, renderShallowTree } = loadFramework(options);
   const {
     asyncJest,
     suite,
@@ -48,35 +51,50 @@ function testStorySnapshots(options: StoryshotsOptions = {}) {
     stories2snapsConverter,
   };
 
-  const data = storybook.raw().reduce(
+  const store = global.__STORYBOOK_STORY_STORE__ as StoryStore<AnyFramework>;
+
+  const data = Object.values(store.storyIndex.stories).reduce(
     (acc, item) => {
       if (storyNameRegex && !item.name.match(storyNameRegex)) {
         return acc;
       }
 
-      if (storyKindRegex && !item.kind.match(storyKindRegex)) {
+      if (storyKindRegex && !item.title.match(storyKindRegex)) {
         return acc;
       }
 
-      const { kind, storyFn: render, parameters } = item;
-      const existing = acc.find((i: any) => i.kind === kind);
-      const { fileName } = item.parameters;
+      const { id, title } = item;
+      const existing = acc.find((i) => i.title === title);
 
-      if (!isDisabled(parameters.storyshots)) {
-        if (existing) {
-          existing.children.push({ ...item, render, fileName });
-        } else {
-          acc.push({
-            kind,
-            children: [{ ...item, render, fileName }],
-          });
-        }
+      const getStory = async () => store.loadStory({ storyId: id });
+      const getRender = async () => {
+        const story = await getStory();
+        return () =>
+          story.unboundStoryFn({
+            ...store.getStoryContext(story),
+            viewMode: 'story',
+          } as any);
+      };
+      // FIXME
+      // if (!isDisabled(parameters.storyshots)) {
+      if (existing) {
+        existing.children.push({ ...item, getStory, getRender });
+      } else {
+        acc.push({
+          title,
+          children: [{ ...item, getStory, getRender }] as any,
+        });
       }
+      // }
       return acc;
     },
     [] as {
-      kind: string;
-      children: any[];
+      title: ComponentTitle;
+      children: StoryIndexEntry &
+        {
+          getStory: () => Promise<Story<AnyFramework>>;
+          getRender: () => Promise<LegacyStoryFn<AnyFramework>>;
+        }[];
     }[]
   );
 
