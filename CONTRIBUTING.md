@@ -13,7 +13,7 @@ In the interest of fostering an open and welcoming environment, we as contributo
     
  <h2>Ways to contribute</h2>
 
-    [Code]https://storybook.js.org/docs/react/contribute/code: Features, bug fixes, dependency updates
+    [Code](https://storybook.js.org/docs/react/contribute/code): Features, bug fixes, dependency updates
     Docs: Typos, clarifications
     Integrations: Integrate Storybook with your favorite library
     Addons: Build an addon and share it with the community
