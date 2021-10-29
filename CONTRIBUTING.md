@@ -13,15 +13,15 @@ In the interest of fostering an open and welcoming environment, we as contributo
     
  <h2>Ways to contribute</h2>
 
-    [Code](https://storybook.js.org/docs/react/contribute/code): Features, bug fixes, dependency updates
-    Docs: Typos, clarifications
-    Integrations: Integrate Storybook with your favorite library
-    Addons: Build an addon and share it with the community
- 
+[Code](https://storybook.js.org/docs/react/contribute/code): Features, bug fixes, dependency updates
+[Docs](https://storybook.js.org/docs/react/contribute/documentation-updates): Typos, clarifications
+[Integrations](https://storybook.js.org/docs/react/api/new-frameworks): Integrate Storybook with your favorite library
+[Addons](https://storybook.js.org/docs/react/addons/introduction): Build an addon and share it with the community
+
 <h2>Not sure how to get started?</h2>
 
-    Chat in Discord #contributing
-    Browse "good first issues" to fix
-    Submit a bug report or feature request
+[Chat in Discord #contributing](https://discord.com/invite/storybook)
+[Browse "good first issues" to fix](https://github.com/storybookjs/storybook/issues?q=is%3Aissue+is%3Aopen+label%3A"good+first+issue")
+[Submit a bug report or feature request](https://github.com/storybookjs/storybook/issues)
 
-During the transition, we're also preserving our [OLD, out of date contributing guide](./CONTRIBUTING.old.md) in parallel.
+We're also preserving our [OLD, out of date contributing guide](./CONTRIBUTING.old.md) in parallel.
