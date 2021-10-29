@@ -14,19 +14,24 @@ import { createConsoleLogger } from '@angular-devkit/core/node';
 import {
   WebpackConfigOptions,
   BuildOptions,
+  WebpackTestOptions,
 } from '@angular-devkit/build-angular/src/utils/build-options';
 
 import { moduleIsAvailable } from './utils/module-is-available';
 import { normalizeAssetPatterns } from './utils/normalize-asset-patterns';
 import { normalizeOptimization } from './utils/normalize-optimization';
 
-const importAngularCliWebpackConfigGenerator = (): {
-  getCommonConfig: (config: unknown) => webpack.Configuration;
-  getStylesConfig: (config: unknown) => webpack.Configuration;
-} => {
+const importAngularCliWebpackConfigGenerator = async (): Promise<{
+  getCommonConfig: (
+    config: WebpackConfigOptions<WebpackTestOptions>
+  ) => Promise<webpack.Configuration>;
+  getStylesConfig: (
+    config: WebpackConfigOptions<WebpackTestOptions>
+  ) => Promise<webpack.Configuration>;
+}> => {
   let angularWebpackConfig;
 
-  // First we look for webpack config according to directory structure of Angular 11
+  // First we look for webpack config according to directory structure of Angular >= 11
   if (moduleIsAvailable('@angular-devkit/build-angular/src/webpack/configs')) {
     // eslint-disable-next-line global-require
     angularWebpackConfig = require('@angular-devkit/build-angular/src/webpack/configs');
@@ -103,7 +108,7 @@ const buildWebpackConfigOptions = async (
     getSystemPath(workspaceRootNormalized),
     projectBuildOptions.tsConfig as string
   );
-  const tsConfig = importAngularCliReadTsconfigUtil().readTsconfig(tsConfigPath);
+  const tsConfig = await importAngularCliReadTsconfigUtil().readTsconfig(tsConfigPath);
 
   const ts = await import('typescript');
   const scriptTarget = tsConfig.options.target || ts.ScriptTarget.ES5;
@@ -139,6 +144,10 @@ const buildWebpackConfigOptions = async (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     forkTypeChecker: false,
+    cache: {
+      enabled: false,
+      path: path.resolve(project.sourceRoot, '.angular/cache'),
+    },
   };
 
   return {
@@ -151,6 +160,7 @@ const buildWebpackConfigOptions = async (
     tsConfig,
     tsConfigPath,
     scriptTarget,
+    projectName: 'projectName', // to complete
   };
 };
 
@@ -182,7 +192,7 @@ export async function extractAngularCliWebpackConfig(
   target: workspaces.TargetDefinition,
   confName?: string
 ): Promise<AngularCliWebpackConfig> {
-  const { getCommonConfig, getStylesConfig } = importAngularCliWebpackConfigGenerator();
+  const { getCommonConfig, getStylesConfig } = await importAngularCliWebpackConfigGenerator();
 
   const webpackConfigOptions = await buildWebpackConfigOptions(
     dirToSearch,
@@ -191,8 +201,9 @@ export async function extractAngularCliWebpackConfig(
     confName
   );
 
-  const cliCommonConfig = getCommonConfig(webpackConfigOptions);
-  const cliStyleConfig = getStylesConfig(webpackConfigOptions);
+  // for angular 12 getCommonConfig & getStylesConfig are now a Promise
+  const cliCommonConfig = await getCommonConfig(webpackConfigOptions);
+  const cliStyleConfig = await getStylesConfig(webpackConfigOptions);
 
   return {
     cliCommonWebpackConfig: {

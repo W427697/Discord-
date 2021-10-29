@@ -19,13 +19,13 @@
     "postinstall": "ngcc --source ../../node_modules"
   },
   "dependencies": {
-    "@angular/common": "^12.1.4",
-    "@angular/compiler": "^12.1.4",
-    "@angular/core": "^12.1.4",
-    "@angular/forms": "^12.1.4",
-    "@angular/platform-browser": "^12.1.4",
-    "@angular/platform-browser-dynamic": "^12.1.4",
-    "@ngrx/store": "^12.0.0",
+    "@angular/common": "^13.0.0-rc.2",
+    "@angular/compiler": "^13.0.0-rc.2",
+    "@angular/core": "^13.0.0-rc.2",
+    "@angular/forms": "^13.0.0-rc.2",
+    "@angular/platform-browser": "^13.0.0-rc.2",
+    "@angular/platform-browser-dynamic": "^13.0.0-rc.2",
+    "@ngrx/store": "^13.0.0",
     "core-js": "^3.8.2",
     "node-sass": "^4.14.1",
     "rxjs": "^6.6.3",
@@ -33,11 +33,11 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^12.1.4",
-    "@angular-devkit/core": "^12.1.4",
-    "@angular/cli": "^12.1.4",
-    "@angular/compiler-cli": "^12.1.4",
-    "@angular/elements": "^12.1.4",
+    "@angular-devkit/build-angular": "^13.0.0-rc.2",
+    "@angular-devkit/core": "^13.0.0-rc.2",
+    "@angular/cli": "^13.0.0-rc.2",
+    "@angular/compiler-cli": "^13.0.0-rc.2",
+    "@angular/elements": "^13.0.0-rc.2",
     "@compodoc/compodoc": "^1.1.14",
     "@storybook/addon-a11y": "6.4.0-beta.22",
     "@storybook/addon-actions": "6.4.0-beta.22",
@@ -69,7 +69,7 @@
     "storybook-addon-angular-ivy": "^0.0.1",
     "ts-jest": "^26.4.4",
     "ts-node": "^9.1.0",
-    "typescript": "4.2.4"
+    "typescript": "4.4.4"
   },
   "storybook": {
     "chromatic": {
