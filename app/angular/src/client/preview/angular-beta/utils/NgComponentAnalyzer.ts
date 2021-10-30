@@ -86,7 +86,11 @@ export const isDeclarable = (component: any): boolean => {
     : component[decoratorKey];
 
   return !!(decorators || []).find(
-    (d) => d instanceof Directive || d instanceof Pipe || d instanceof Component
+    (d) =>
+      d instanceof Directive ||
+      d instanceof Pipe ||
+      d instanceof Component ||
+      d.ngMetadataName === 'Component'
   );
 };
 
@@ -99,7 +103,7 @@ export const isComponent = (component: any): component is Type<unknown> => {
   const decorators: any[] = Reflect.getOwnPropertyDescriptor(component, decoratorKey)
     ? Reflect.getOwnPropertyDescriptor(component, decoratorKey).value
     : component[decoratorKey];
-  return (decorators || []).some((d) => d instanceof Component);
+  return (decorators || []).some((d) => d instanceof Component || d.ngMetadataName === 'Component');
 };
 
 /**
@@ -146,5 +150,5 @@ export const getComponentDecoratorMetadata = (component: any): Component | undef
     );
   }
 
-  return decorators.find((d) => d instanceof Component);
+  return decorators.find((d) => d instanceof Component || d.ngMetadataName === 'Component');
 };
