@@ -120,7 +120,16 @@ function mergeAngularCliWebpackConfig(
 
   const module = {
     ...baseConfig.module,
-    rules: [...cliStyleWebpackConfig.module.rules, ...rulesExcludingStyles],
+    rules: [
+      ...cliStyleWebpackConfig.module.rules,
+      ...rulesExcludingStyles,
+      {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+    ],
   };
 
   // We use cliCommonConfig plugins to serve static assets files.
