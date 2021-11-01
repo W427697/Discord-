@@ -14,6 +14,8 @@ This prevents UI bugs in [Storybook itself](https://www.chromatic.com/library?ap
 
 We also maintain [StoryShots](https://github.com/storybookjs/storybook/tree/master/addons/storyshots), a snapshot testing addon that integrates with [jest-image-snapshot](https://github.com/storybookjs/storybook/tree/master/addons/storyshots#configure-storyshots-for-image-snapshots).
 
+Read more about [Building a Regression Testing Strategy](https://www.lambdatest.com/blog/building-a-regression-testing-strategy-for-agile-teams/) on this cool blog by LambdaTets.
+
 <div class="aside">
 
 Visual vs snapshot tests. [Snapshot tests](./snapshot-testing.md) compare the rendered markup of every story against known baselines. When used to test how things look, snapshot tests generate a lot of false positives because code changes don’t always yield visual changes.
