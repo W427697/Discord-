@@ -15,6 +15,7 @@ const layoutClassMap = {
 type Layout = keyof typeof layoutClassMap | 'none';
 
 const classes = {
+  PREPARING: 'sb-show-preparing',
   MAIN: 'sb-show-main',
   NOPREVIEW: 'sb-show-nopreview',
   ERROR: 'sb-show-errordisplay',
@@ -84,6 +85,7 @@ export class WebView {
 
     document.body.classList.remove(classes.MAIN);
     document.body.classList.remove(classes.NOPREVIEW);
+    document.body.classList.remove(classes.PREPARING);
 
     document.body.classList.add(classes.ERROR);
   }
@@ -91,6 +93,7 @@ export class WebView {
   showNoPreview() {
     document.body.classList.remove(classes.MAIN);
     document.body.classList.remove(classes.ERROR);
+    document.body.classList.remove(classes.PREPARING);
 
     document.body.classList.add(classes.NOPREVIEW);
 
@@ -99,9 +102,18 @@ export class WebView {
     this.docsRoot()?.setAttribute('hidden', 'true');
   }
 
+  showPreparing() {
+    document.body.classList.remove(classes.MAIN);
+    document.body.classList.remove(classes.ERROR);
+    document.body.classList.remove(classes.NOPREVIEW);
+
+    document.body.classList.add(classes.PREPARING);
+  }
+
   showMain() {
     document.body.classList.remove(classes.NOPREVIEW);
     document.body.classList.remove(classes.ERROR);
+    document.body.classList.remove(classes.PREPARING);
 
     document.body.classList.add(classes.MAIN);
   }
