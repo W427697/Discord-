@@ -70,7 +70,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       () => this.urlStore.selection,
       dedent`
         \`__STORYBOOK_STORY_STORE__.getSelection()\` is deprecated and will be removed in 7.0.
-  
+
         To get the current selection, use the \`useStoryContext()\` hook from \`@storybook/addons\`.
       `
     );
@@ -435,7 +435,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       // In v6 mode, if your preview.js throws, we never get a chance to initialize the preview
       // or store, and the error is simply logged to the browser console. This is the best we can do
       throw new Error(dedent`Failed to initialize Storybook.
-      
+
       Do you have an error in your \`preview.js\`? Check your Storybook's browser console for errors.`);
     }
 
@@ -482,8 +482,9 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   }
 
   // renderException is used if we fail to render the story and it is uncaught by the app layer
-  renderException(storyId: StoryId, err: Error) {
-    this.channel.emit(STORY_THREW_EXCEPTION, err);
+  renderException(storyId: StoryId, error: Error) {
+    const { name, message, stack } = error;
+    this.channel.emit(STORY_THREW_EXCEPTION, { name, message, stack });
     this.channel.emit(STORY_RENDER_PHASE_CHANGED, { newPhase: 'errored', storyId });
 
     // Ignored exceptions exist for control flow purposes, and are typically handled elsewhere.

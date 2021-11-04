@@ -87,9 +87,9 @@ const RowLabel = styled('button', { shouldForwardProp: (prop) => !['call'].inclu
   },
 }));
 
-const RowActions = styled.div(({ theme }) => ({
+const RowActions = styled.div({
   padding: 6,
-}));
+});
 
 export const StyledIconButton = styled(IconButton as any)(({ theme }) => ({
   color: theme.color.mediumdark,
