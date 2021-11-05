@@ -102,7 +102,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@angular/core": "^12.1.4",
+    "@angular/core": "^13.0.0",
     "@babel/core": "^7.12.10",
     "@emotion/core": "^10.1.1",
     "@emotion/styled": "^10.0.27",
@@ -129,7 +129,7 @@
     "lit-element": "^3.0.0-rc.2",
     "lit-html": "^2.0.0-rc.3",
     "require-from-string": "^2.0.2",
-    "rxjs": "^6.6.3",
+    "rxjs": "^7.4.0",
     "styled-components": "^5.2.1",
     "terser-webpack-plugin": "^5.0.3",
     "tmp": "^0.2.1",

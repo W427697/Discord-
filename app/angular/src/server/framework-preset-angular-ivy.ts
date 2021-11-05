@@ -1,5 +1,4 @@
 import { Configuration } from 'webpack';
-import { process as ngccProcess } from '@angular/compiler-cli/ngcc';
 import * as path from 'path';
 import { Options } from './framework-preset-angular-cli';
 

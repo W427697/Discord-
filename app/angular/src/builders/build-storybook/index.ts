@@ -29,7 +29,7 @@ export type StorybookBuilderOptions = JsonObject & {
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
 
-export default createBuilder(commandBuilder);
+export default createBuilder<any>(commandBuilder);
 
 function commandBuilder(
   options: StorybookBuilderOptions,
