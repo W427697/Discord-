@@ -113,12 +113,16 @@ export class PreviewWeb<TFramework extends AnyFramework> {
     importFn: ModuleImportFn;
     getProjectAnnotations: () => MaybePromise<WebProjectAnnotations<TFramework>>;
   }): PromiseLike<void> {
+    console.log('pw init');
+    console.log(global.FEATURES?.storyStoreV7);
     return this.getProjectAnnotationsOrRenderError(getProjectAnnotations).then(
       (projectAnnotations) => {
+        console.log('pw got PA');
         this.storyStore.setProjectAnnotations(projectAnnotations);
 
         this.setupListeners();
 
+        console.log(global.FEATURES?.storyStoreV7, getStoryIndex);
         let storyIndexPromise: PromiseLike<StoryIndex>;
         if (global.FEATURES?.storyStoreV7) {
           storyIndexPromise = this.getStoryIndexFromServer();
@@ -131,6 +135,7 @@ export class PreviewWeb<TFramework extends AnyFramework> {
 
         return storyIndexPromise
           .then((storyIndex: StoryIndex) => {
+            console.log('got story index');
             return this.storyStore
               .initialize({
                 storyIndex,

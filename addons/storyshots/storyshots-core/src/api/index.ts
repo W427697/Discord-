@@ -53,7 +53,10 @@ function testStorySnapshots(options: StoryshotsOptions = {}) {
   // will run *immediately* (in the same tick), and thus the `snapshotsTests`, and
   // subsequent calls to `it()` etc will all happen within this tick, which is required
   // by Jest (cannot add tests asynchronously)
+  console.log('await init');
+  console.log(global.FEATURES?.storyStoreV7);
   globalWindow.__STORYBOOK_STORY_STORE__.initializationPromise.then(() => {
+    console.log('init-ed');
     const data = storybook.raw().reduce(
       (acc, item) => {
         if (storyNameRegex && !item.name.match(storyNameRegex)) {

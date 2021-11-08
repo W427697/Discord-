@@ -1,5 +1,6 @@
 import type { StorybookConfig } from '@storybook/react/types';
 
+console.log(global.navigator?.userAgent, global.navigator?.userAgent?.match?.('jsdom'));
 const config: StorybookConfig = {
   stories: [
     {
