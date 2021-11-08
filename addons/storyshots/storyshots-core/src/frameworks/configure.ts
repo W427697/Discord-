@@ -58,6 +58,7 @@ function getConfigPathParts(input: string): Output {
     }
     if (main) {
       const { stories = [], features = {} } = jest.requireActual(main);
+      console.log(stories);
 
       output.features = features;
 
@@ -105,6 +106,7 @@ function configure<TFramework extends AnyFramework>(
     ...specifier,
     importPathMatcher: specifier.importPathMatcher.source,
   }));
+  console.log(global.STORIES);
 
   if (preview) {
     // This is essentially the same code as lib/core/src/server/preview/virtualModuleEntry.template

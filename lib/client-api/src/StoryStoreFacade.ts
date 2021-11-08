@@ -144,6 +144,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     // eslint-disable-next-line prefer-const
     let { id: componentId, title } = defaultExport || {};
 
+    console.log(global.STORIES);
     title =
       title ||
       autoTitle(
