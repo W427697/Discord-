@@ -161,9 +161,15 @@ export class PreviewWeb<TFramework extends AnyFramework> {
   getProjectAnnotationsOrRenderError(
     getProjectAnnotations: () => MaybePromise<WebProjectAnnotations<TFramework>>
   ): PromiseLike<ProjectAnnotations<TFramework>> {
+    console.log('getPAORE init');
     return SynchronousPromise.resolve()
-      .then(() => getProjectAnnotations())
+      .then(() => {
+        const pa = getProjectAnnotations();
+        console.log('got PA', pa);
+        return pa;
+      })
       .then((projectAnnotations) => {
+        console.log('got PA in promise');
         this.renderToDOM = projectAnnotations.renderToDOM;
         if (!this.renderToDOM) {
           throw new Error(dedent`
@@ -179,6 +185,7 @@ export class PreviewWeb<TFramework extends AnyFramework> {
         return projectAnnotations;
       })
       .catch((err) => {
+        console.log('got error', err);
         logger.warn(err);
         // This is an error extracting the projectAnnotations (i.e. evaluating the previewEntries) and
         // needs to be show to the user as a simple error

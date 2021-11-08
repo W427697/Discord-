@@ -101,7 +101,9 @@ export function start<TFramework extends AnyFramework>(
       // We need to run the `executeLoadableForChanges` function *inside* the `getProjectAnnotations
       // function in case it throws. So we also need to process its output there also
       const getProjectAnnotations = () => {
+        console.log('running getProjectAnnotations');
         const { added, removed } = executeLoadableForChanges(loadable, m);
+        console.log('got loadable changes');
 
         Array.from(added.entries()).forEach(([fileName, fileExports]) =>
           clientApi.facade.addStoriesFromExports(fileName, fileExports)
@@ -110,6 +112,8 @@ export function start<TFramework extends AnyFramework>(
         Array.from(removed.entries()).forEach(([fileName]) =>
           clientApi.facade.clearFilenameExports(fileName)
         );
+
+        console.log('returning annotations');
 
         return {
           ...clientApi.facade.projectAnnotations,
