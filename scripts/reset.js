@@ -38,8 +38,8 @@ cleaningProcess.stdout.on('data', (data) => {
               .then(() => {
                 logger.log(`trashed ${uri}`);
               })
-              .catch((e) => {
-                logger.error(e);
+              .catch(() => {
+
                 logger.log('failed to trash, will try permanent delete');
                 remove(uri);
               });
