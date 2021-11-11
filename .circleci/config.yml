@@ -6,7 +6,7 @@ executors:
       class:
         description: The Resource class
         type: enum
-        enum: [ 'small', 'medium', 'large', 'xlarge' ]
+        enum: ['small', 'medium', 'large', 'xlarge']
         default: 'medium'
     working_directory: /tmp/storybook
     docker:
@@ -176,12 +176,12 @@ jobs:
           condition:
             and:
               - not:
-                  equal: [ master, << pipeline.git.branch >> ]
+                  equal: [master, << pipeline.git.branch >>]
               - not:
-                  equal: [ next, << pipeline.git.branch >> ]
+                  equal: [next, << pipeline.git.branch >>]
           steps:
             - ensure-pr-is-labeled-with:
-                label: "run e2e extended test suite"
+                label: 'run e2e extended test suite'
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
@@ -218,12 +218,12 @@ jobs:
           condition:
             and:
               - not:
-                  equal: [ master, << pipeline.git.branch >> ]
+                  equal: [master, << pipeline.git.branch >>]
               - not:
-                  equal: [ next, << pipeline.git.branch >> ]
+                  equal: [next, << pipeline.git.branch >>]
           steps:
             - ensure-pr-is-labeled-with:
-                label: "run e2e extended test suite"
+                label: 'run e2e extended test suite'
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
@@ -407,17 +407,6 @@ jobs:
           command: |
             cd examples/cra-react15
             yarn storybook --smoke-test --quiet
-  frontpage:
-    executor: sb_node_10_browsers
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - run:
-          name: Install dependencies
-          command: yarn bootstrap --install
-      - run:
-          name: Trigger build
-          command: ./scripts/build-frontpage.js
   lint:
     executor:
       class: small
@@ -500,6 +489,3 @@ workflows:
       - e2e-tests-cra-bench:
           requires:
             - publish
-  deploy:
-    jobs:
-      - frontpage
