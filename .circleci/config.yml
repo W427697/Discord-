@@ -354,16 +354,6 @@ jobs:
           command: |
             cd examples/cra-react15
             yarn storybook --smoke-test --quiet
-  frontpage:
-    executor: sb_node
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: yarn bootstrap --install
-      - run:
-          name: Trigger build
-          command: ./scripts/build-frontpage.js
   lint:
     executor:
       class: small
@@ -449,6 +439,3 @@ workflows:
       - examples-v2-cra-bench:
           requires:
             - publish
-  deploy:
-    jobs:
-      - frontpage
