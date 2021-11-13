@@ -102,6 +102,9 @@ export const A = styled(Link)<{}>(withReset, ({ theme }) => ({
     left: 0,
     bottom: 0,
   },
+  code: {
+    color: 'inherit',
+  },
 }));
 
 export const HR = styled.hr<{}>(({ theme }) => ({
