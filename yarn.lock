@@ -7072,7 +7072,7 @@ __metadata:
     "@types/prop-types": ^15.7.3
     "@types/tmp": ^0.2.0
     "@types/util-deprecate": ^1.0.0
-    acorn: ^7.4.1
+    acorn: ^8.5.0
     acorn-jsx: ^5.3.1
     acorn-walk: ^7.2.0
     babel-loader: ^8.0.0
@@ -12989,7 +12989,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^7.0.0, acorn@npm:^7.1.0, acorn@npm:^7.1.1, acorn@npm:^7.3.1, acorn@npm:^7.4.0, acorn@npm:^7.4.1":
+"acorn@npm:^7.0.0, acorn@npm:^7.1.0, acorn@npm:^7.1.1, acorn@npm:^7.3.1, acorn@npm:^7.4.0":
   version: 7.4.1
   resolution: "acorn@npm:7.4.1"
   bin:
@@ -13004,6 +13004,15 @@ __metadata:
   bin:
     acorn: bin/acorn
   checksum: b0bd44f8a1174b2f82fcb0d0e8440b9fe88a0dc03e09b31ed621baf866bf8c2d28aaa7d959e39593e90c06f2cad6ad34b97af74c98be15edc6a137fe2a4b6ea9
+  languageName: node
+  linkType: hard
+
+"acorn@npm:^8.5.0":
+  version: 8.5.0
+  resolution: "acorn@npm:8.5.0"
+  bin:
+    acorn: bin/acorn
+  checksum: a0cd0009d215df0c5a6c69ea40a5e784114f1b89d5649d663264ccbb855d4c6b6da6936fed607078b7d681bd8d8f2e730dad25931edbdef709bc4b520c0caa80
   languageName: node
   linkType: hard
 
