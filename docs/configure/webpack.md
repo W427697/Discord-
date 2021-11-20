@@ -133,7 +133,7 @@ When you start your Storybook, you'll see an improvement in loading times. Read 
 When working with TypeScript projects, the default Webpack configuration may fail to resolve module aliases defined in your [`tsconfig` file](https://www.typescriptlang.org/tsconfig). To work around this issue you may use [`tsconfig-paths-webpack-plugin`](https://github.com/dividab/tsconfig-paths-webpack-plugin#tsconfig-paths-webpack-plugin) while [extending Storybook's Webpack config](#extending-storybooks-webpack-config) like:
 
 <!-- prettier-ignore-start -->
-
+<!-- code snippet below should include require statement: const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin'); -->
 <CodeSnippets
   paths={[
     'common/storybook-main-ts-module-resolution.js.mdx',
