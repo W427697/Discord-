@@ -92,7 +92,7 @@ Object {
                   "NODE_MODULES/babel-plugin-polyfill-corejs3/lib/index.js",
                   Object {
                     "absoluteImports": "NODE_MODULES/core-js/index.js",
-                    "method": "usage-global",
+                    "method": "usage-pure",
                     "version": "*",
                   },
                 ],
@@ -162,7 +162,7 @@ Object {
                   "NODE_MODULES/babel-plugin-polyfill-corejs3/lib/index.js",
                   Object {
                     "absoluteImports": "NODE_MODULES/core-js/index.js",
-                    "method": "usage-global",
+                    "method": "usage-pure",
                     "version": "*",
                   },
                 ],
@@ -282,7 +282,7 @@ Object {
                   "NODE_MODULES/babel-plugin-polyfill-corejs3/lib/index.js",
                   Object {
                     "absoluteImports": "NODE_MODULES/core-js/index.js",
-                    "method": "usage-global",
+                    "method": "usage-pure",
                     "version": "*",
                   },
                 ],
@@ -374,7 +374,7 @@ Object {
                   "NODE_MODULES/babel-plugin-polyfill-corejs3/lib/index.js",
                   Object {
                     "absoluteImports": "NODE_MODULES/core-js/index.js",
-                    "method": "usage-global",
+                    "method": "usage-pure",
                     "version": "*",
                   },
                 ],
