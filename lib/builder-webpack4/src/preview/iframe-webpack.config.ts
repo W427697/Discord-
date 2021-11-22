@@ -136,16 +136,17 @@ export default async (options: Options & Record<string, any>): Promise<Configura
       );
       entries.push(`${configFilename}-generated-config-entry.js`);
     });
-    if (stories.length > 0) {
-      const storyTemplate = await readTemplate(
-        path.join(__dirname, 'virtualModuleStory.template.js')
+    const storyTemplate = await readTemplate(
+      path.join(__dirname, 'virtualModuleStory.template.js')
+    );
+    const storiesFilename = path.resolve(path.join(workingDir, `generated-stories-entry.js`));
+    virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, { frameworkImportPath })
+      // Make sure we also replace quotes for this one
+      .replace(
+        "'{{stories}}'",
+        stories.length > 0 ? stories.map(toRequireContextString).join(',') : ''
       );
-      const storiesFilename = path.resolve(path.join(workingDir, `generated-stories-entry.js`));
-      virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, { frameworkImportPath })
-        // Make sure we also replace quotes for this one
-        .replace("'{{stories}}'", stories.map(toRequireContextString).join(','));
-      entries.push(storiesFilename);
-    }
+    entries.push(storiesFilename);
   }
 
   const shouldCheckTs = useBaseTsSupport(framework) && typescriptOptions.check;
