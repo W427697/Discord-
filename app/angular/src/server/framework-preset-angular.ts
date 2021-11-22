@@ -4,6 +4,13 @@ import { ContextReplacementPlugin, Configuration } from 'webpack';
 import autoprefixer from 'autoprefixer';
 import getTsLoaderOptions from './ts_config';
 import createForkTsCheckerInstance from './create-fork-ts-checker-plugin';
+import { extractTypes } from "./type-generator/extract-types";
+
+const types = extractTypes('./.storybook/tsconfig.json');
+export const env = (prevEnv: any) => ({
+  ...prevEnv,
+  STORYBOOK_ANGULAR_COMPONENT_ARGS: types,
+});
 
 export async function webpack(
   config: Configuration,

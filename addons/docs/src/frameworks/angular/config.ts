@@ -1,7 +1,8 @@
 import { SourceType } from '../../shared';
-import { extractArgTypes, extractComponentDescription } from './compodoc';
+// import { extractArgTypes, extractComponentDescription } from './compodoc';
 import { sourceDecorator } from './sourceDecorator';
 import { prepareForInline } from './prepareForInline';
+import { extractArgTypes } from './angular-type-extractor';
 
 export const parameters = {
   docs: {
@@ -9,7 +10,7 @@ export const parameters = {
     inlineStories: false,
     prepareForInline,
     extractArgTypes,
-    extractComponentDescription,
+    // extractComponentDescription,
     source: {
       type: SourceType.DYNAMIC,
       language: 'html',

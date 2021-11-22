@@ -1,10 +1,13 @@
-/* eslint-disable import/extensions, import/no-unresolved */
+/* eslint-disable */
+import addCssWarning from "../src/cssWarning";
+import docJson from '../documentation.json';
 import { setCompodocJson } from '@storybook/addon-docs/angular';
-import addCssWarning from '../src/cssWarning';
 
 // @ts-ignore
-import docJson from '../documentation.json';
-// remove ButtonComponent to test #12009
+window.STORYBOOK_ANGULAR_COMPONENT_ARGS = process.env.STORYBOOK_ANGULAR_COMPONENT_ARGS;
+console.log((window as any).STORYBOOK_ANGULAR_COMPONENT_ARGS);
+
+
 const filtered = !docJson?.components
   ? docJson
   : {
