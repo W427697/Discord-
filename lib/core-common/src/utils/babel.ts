@@ -42,7 +42,7 @@ export const getStorybookBabelConfig = ({ local = false }: { local?: boolean } =
       [
         r('babel-plugin-polyfill-corejs3', local),
         {
-          method: 'usage-global',
+          method: 'usage-pure',
           absoluteImports: r('core-js', local),
           // eslint-disable-next-line global-require
           version: require('core-js/package.json').version,
