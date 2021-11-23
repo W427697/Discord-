@@ -1,4 +1,5 @@
 import { enhanceArgTypes } from './enhanceArgTypes';
+import { extractSnippet } from './extractSnippet';
 
 export const parameters = {
   docs: {
@@ -6,6 +7,7 @@ export const parameters = {
     getContainer: async () => (await import('../../blocks')).DocsContainer,
     getPage: async () => (await import('../../blocks')).DocsPage,
     iframeHeight: 100,
+    extractSnippet,
   },
 };
 
