@@ -74,8 +74,14 @@ export const Pre = styled.pre<{}>(withReset, withMargin, ({ theme }) => ({
 const Link: FunctionComponent<any> = ({ href: input, children, ...props }) => {
   // If storybook is hosted at a non-root path (e.g. `/storybook/`),
   // the base url needs to be prefixed to storybook paths.
-  let storybookBaseUrl =
-    typeof window !== 'undefined' ? window.parent.document.location.pathname : '/';
+  let storybookBaseUrl = '/';
+  if (typeof window !== 'undefined') {
+    try {
+      storybookBaseUrl = window.parent.document.location.pathname;
+    } catch (error) {
+      // For composed storybooks this doesn't work due to a CORS error
+    }
+  }
   if (!storybookBaseUrl.endsWith('/')) storybookBaseUrl += '/';
 
   const isStorybookPath = /^\//.test(input);
