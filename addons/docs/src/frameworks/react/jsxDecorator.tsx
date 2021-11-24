@@ -171,6 +171,21 @@ const mdxToJsx = (node: any) => {
   return createElement(originalType, rest, ...jsxChildren);
 };
 
+export const jsxToSnippet = (jsx: any, context: StoryContext<ReactFramework>) => {
+  const options = {
+    ...defaultOpts,
+    ...(context?.parameters.jsx || {}),
+  } as Required<JSXOptions>;
+
+  const sourceJsx = mdxToJsx(jsx);
+
+  const rendered = renderJsx(sourceJsx, options);
+  if (rendered) {
+    return applyTransformSource(rendered, options, context);
+  }
+  return '';
+};
+
 export const jsxDecorator = (
   storyFn: PartialStoryFn<ReactFramework>,
   context: StoryContext<ReactFramework>
@@ -179,10 +194,10 @@ export const jsxDecorator = (
   const skip = skipJsxRender(context);
   const story = storyFn();
 
-  let jsx = '';
+  let snippet = '';
 
   useEffect(() => {
-    if (!skip) channel.emit(SNIPPET_RENDERED, (context || {}).id, jsx);
+    if (!skip) channel.emit(SNIPPET_RENDERED, (context || {}).id, snippet);
   });
 
   // We only need to render JSX if the source block is actually going to
@@ -191,22 +206,12 @@ export const jsxDecorator = (
     return story;
   }
 
-  const options = {
-    ...defaultOpts,
-    ...(context?.parameters.jsx || {}),
-  } as Required<JSXOptions>;
-
   // Exclude decorators from source code snippet by default
   const storyJsx = context?.parameters.docs?.source?.excludeDecorators
     ? (context.originalStoryFn as ArgsStoryFn<ReactFramework>)(context.args, context)
     : story;
 
-  const sourceJsx = mdxToJsx(storyJsx);
-
-  const rendered = renderJsx(sourceJsx, options);
-  if (rendered) {
-    jsx = applyTransformSource(rendered, options, context);
-  }
+  snippet = jsxToSnippet(storyJsx, context);
 
   return story;
 };
