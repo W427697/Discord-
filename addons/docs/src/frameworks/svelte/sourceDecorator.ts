@@ -8,7 +8,7 @@ import { SourceType, SNIPPET_RENDERED } from '../../shared';
  *
  * @param context StoryContext
  */
-const skipSourceRender = (context: StoryContext<AnyFramework>) => {
+export const skipSourceRender = (context: StoryContext<AnyFramework>) => {
   const sourceParams = context?.parameters.docs?.source;
   const isArgsStory = context?.parameters.__isArgsStory;
 
@@ -139,6 +139,18 @@ function getWrapperProperties(component: any) {
   return { wrapper: true, slotProperty: slotProp?.name as string };
 }
 
+export const storyResultToSnippet = (storyResult: any, context: StoryContext<AnyFramework>) => {
+  const { parameters = {}, args = {} } = context || {};
+  let { Component: component = {} } = storyResult;
+
+  const { wrapper, slotProperty } = getWrapperProperties(component);
+  if (wrapper) {
+    component = parameters.component;
+  }
+
+  return generateSvelteSource(component, args, context?.argTypes, slotProperty);
+};
+
 /**
  * Svelte source decorator.
  * @param storyFn Fn
@@ -160,15 +172,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<AnyFramework
     return story;
   }
 
-  const { parameters = {}, args = {} } = context || {};
-  let { Component: component = {} } = story;
-
-  const { wrapper, slotProperty } = getWrapperProperties(component);
-  if (wrapper) {
-    component = parameters.component;
-  }
-
-  source = generateSvelteSource(component, args, context?.argTypes, slotProperty);
+  source = storyResultToSnippet(story, context);
 
   return story;
 };
