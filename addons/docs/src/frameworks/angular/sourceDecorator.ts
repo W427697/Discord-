@@ -36,6 +36,27 @@ const makePrettyUp = async () => {
   return prettyUpInternal;
 };
 
+export const storyResultToSnippet = async (
+  story: AngularFramework['storyResult'],
+  context: StoryContext
+) => {
+  const prettyUp = await makePrettyUp();
+  const { props, template, userDefinedTemplate } = story;
+  const { component, argTypes } = context;
+  if (component && !userDefinedTemplate) {
+    const source = computesTemplateSourceFromComponent(component, props, argTypes);
+
+    // We might have a story with a Directive or Service defined as the component
+    // In these cases there might exist a template, even if we aren't able to create source from component
+    if (source || template) {
+      return prettyUp(source || template);
+    }
+  } else if (template) {
+    return prettyUp(template);
+  }
+  return '';
+};
+
 /**
  * Angular source decorator.
  * @param storyFn Fn
@@ -50,31 +71,15 @@ export const sourceDecorator = (
     return story;
   }
   const channel = addons.getChannel();
-  const { props, template, userDefinedTemplate } = story;
-
-  const { component, argTypes } = context;
 
   let toEmit: string;
-  const prettyUpPromise = makePrettyUp();
 
   useEffect(() => {
-    prettyUpPromise.then((prettyUp) => {
-      if (toEmit) channel.emit(SNIPPET_RENDERED, context.id, prettyUp(toEmit));
-    });
+    if (toEmit) channel.emit(SNIPPET_RENDERED, context.id, toEmit);
   });
 
-  prettyUpPromise.then((prettyUp) => {
-    if (component && !userDefinedTemplate) {
-      const source = computesTemplateSourceFromComponent(component, props, argTypes);
-
-      // We might have a story with a Directive or Service defined as the component
-      // In these cases there might exist a template, even if we aren't able to create source from component
-      if (source || template) {
-        toEmit = prettyUp(source || template);
-      }
-    } else if (template) {
-      toEmit = prettyUp(template);
-    }
+  storyResultToSnippet(story, context).then((snippet) => {
+    toEmit = snippet;
   });
 
   return story;

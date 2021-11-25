@@ -2,6 +2,7 @@ import { SourceType } from '../../shared';
 import { extractArgTypes, extractComponentDescription } from './compodoc';
 import { sourceDecorator } from './sourceDecorator';
 import { prepareForInline } from './prepareForInline';
+import { extractSnippet } from './extractSnippet';
 
 export const parameters = {
   docs: {
@@ -10,6 +11,7 @@ export const parameters = {
     prepareForInline,
     extractArgTypes,
     extractComponentDescription,
+    extractSnippet,
     source: {
       type: SourceType.DYNAMIC,
       language: 'html',
