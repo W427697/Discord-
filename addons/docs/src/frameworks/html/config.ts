@@ -1,6 +1,7 @@
 import { sourceDecorator } from './sourceDecorator';
 import { prepareForInline } from './prepareForInline';
 import { SourceType } from '../../shared';
+import { extractSnippet } from './extractSnippet';
 
 export const decorators = [sourceDecorator];
 
@@ -12,5 +13,6 @@ export const parameters = {
       type: SourceType.DYNAMIC,
       language: 'html',
     },
+    extractSnippet,
   },
 };

@@ -6,7 +6,7 @@ import { HtmlFramework } from '@storybook/html';
 
 import { SNIPPET_RENDERED, SourceType } from '../../shared';
 
-function skipSourceRender(context: StoryContext<HtmlFramework>) {
+export function skipSourceRender(context: StoryContext<HtmlFramework>) {
   const sourceParams = context?.parameters.docs?.source;
   const isArgsStory = context?.parameters.__isArgsStory;
 
@@ -32,6 +32,25 @@ function applyTransformSource(source: string, context: StoryContext<HtmlFramewor
   return transformSource(source, context);
 }
 
+export function storyResultToSnippet(
+  storyResult: HtmlFramework['storyResult'],
+  context: StoryContext<HtmlFramework>
+) {
+  let source;
+  if (typeof storyResult === 'string') {
+    source = storyResult;
+  }
+  // eslint-disable-next-line no-undef
+  else if (storyResult instanceof Element) {
+    source = storyResult.outerHTML;
+  }
+
+  if (source) {
+    return applyTransformSource(source, context);
+  }
+  return '';
+}
+
 export function sourceDecorator(
   storyFn: PartialStoryFn<HtmlFramework>,
   context: StoryContext<HtmlFramework>
@@ -42,15 +61,7 @@ export function sourceDecorator(
 
   let source: string;
   if (!skipSourceRender(context)) {
-    if (typeof story === 'string') {
-      source = story;
-    }
-    // eslint-disable-next-line no-undef
-    else if (story instanceof Element) {
-      source = story.outerHTML;
-    }
-
-    if (source) source = applyTransformSource(source, context);
+    source = storyResultToSnippet(story, context);
   }
   useEffect(() => {
     if (source) addons.getChannel().emit(SNIPPET_RENDERED, context.id, source);
