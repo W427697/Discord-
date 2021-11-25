@@ -6,7 +6,7 @@ import { WebComponentsFramework } from '@storybook/web-components';
 
 import { SNIPPET_RENDERED, SourceType } from '../../shared';
 
-function skipSourceRender(context: StoryContext<WebComponentsFramework>) {
+export function skipSourceRender(context: StoryContext<WebComponentsFramework>) {
   const sourceParams = context?.parameters.docs?.source;
   const isArgsStory = context?.parameters.__isArgsStory;
 
@@ -29,6 +29,15 @@ function applyTransformSource(
   return transformSource(source, context);
 }
 
+export function storyResultToSnippet(
+  storyResult: WebComponentsFramework['storyResult'],
+  context: StoryContext<WebComponentsFramework>
+) {
+  const container = window.document.createElement('div');
+  render(storyResult, container);
+  return applyTransformSource(container.innerHTML.replace(/<!---->/g, ''), context);
+}
+
 export function sourceDecorator(
   storyFn: PartialStoryFn<WebComponentsFramework>,
   context: StoryContext<WebComponentsFramework>
@@ -42,9 +51,7 @@ export function sourceDecorator(
     if (source) addons.getChannel().emit(SNIPPET_RENDERED, context.id, source);
   });
   if (!skipSourceRender(context)) {
-    const container = window.document.createElement('div');
-    render(story, container);
-    source = applyTransformSource(container.innerHTML.replace(/<!---->/g, ''), context);
+    source = storyResultToSnippet(story, context);
   }
 
   return story;
