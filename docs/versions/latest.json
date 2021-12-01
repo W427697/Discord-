@@ -1,1 +1,1 @@
-{"version":"6.4.3","info":{"plain":"### Bug Fixes\n\n- Don't render with `modernInline` if `inlineStories` is `false` ([#16853](https://github.com/storybookjs/storybook/pull/16853))\n- Preview: Don't hide the story while preparing ([#16850](https://github.com/storybookjs/storybook/pull/16850))"}}
+{"version":"6.4.4","info":{"plain":"### Bug Fixes\n\n* CLI: Fix mainjsFramework automigrate ([#16866](https://github.com/storybookjs/storybook/pull/16866))"}}
