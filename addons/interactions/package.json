@@ -74,7 +74,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "21b21f32a1d9486d957b16061dd5fc113f222b8a",
+  "gitHead": "6adb7e57275a75b7f884e5a6fa77d56183028430",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Interactions",
