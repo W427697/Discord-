@@ -1,3 +1,9 @@
+## 6.4.6 (December 3, 2021)
+
+### Bug Fixes
+
+* Angular: Fix incorrect log ([#16885](https://github.com/storybookjs/storybook/pull/16885))
+
 ## 6.4.5 (December 3, 2021)
 
 ### Bug Fixes
