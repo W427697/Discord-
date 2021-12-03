@@ -55,7 +55,7 @@
     "@storybook/store": "6.4.4",
     "@storybook/theming": "6.4.4",
     "core-js": "^3.8.2",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },
   "peerDependencies": {
