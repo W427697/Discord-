@@ -609,7 +609,7 @@ export class PreviewWeb<TFramework extends AnyFramework> {
         await runPhase('loading', async () => {
           loadedContext = await applyLoaders({
             ...this.storyStore.getStoryContext(story),
-            viewMode: canvasElement === this.view.storyRoot() ? 'story' : 'docs',
+            viewMode: canvasElement?.id === this.view.storyRootId ? 'story' : 'docs',
           } as StoryContextForLoaders<TFramework>);
         });
         if (abortSignal.aborted) return;

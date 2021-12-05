@@ -39,6 +39,10 @@ export class WebView {
 
   testing = false;
 
+  public readonly storyRootId = 'root';
+
+  public readonly docsRootId = 'docs-root';
+
   constructor() {
     // Special code for testing situations
     const { __SPECIAL_TEST_PARAMETER__ } = qs.parse(document.location.search, {
@@ -71,7 +75,7 @@ export class WebView {
   }
 
   storyRoot(): HTMLElement {
-    return document.getElementById('root');
+    return document.getElementById(this.storyRootId);
   }
 
   prepareForDocs() {
@@ -82,7 +86,7 @@ export class WebView {
   }
 
   docsRoot(): HTMLElement {
-    return document.getElementById('docs-root');
+    return document.getElementById(this.docsRootId);
   }
 
   applyLayout(layout: Layout = 'padded') {

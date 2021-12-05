@@ -401,6 +401,7 @@ describe('PreviewWeb', () => {
             initialArgs: { foo: 'a' },
             argTypes: { foo: { name: 'foo', type: { name: 'string' } } },
             args: { foo: 'a' },
+            viewMode: 'story',
           })
         );
       });
@@ -760,6 +761,7 @@ describe('PreviewWeb', () => {
         expect(componentOneExports.default.loaders[0]).toHaveBeenCalledWith(
           expect.objectContaining({
             args: { foo: 'a' },
+            viewMode: 'story',
           })
         );
 
@@ -773,6 +775,7 @@ describe('PreviewWeb', () => {
         expect(componentOneExports.default.loaders[0]).toHaveBeenCalledWith(
           expect.objectContaining({
             args: { foo: 'a', new: 'arg' },
+            viewMode: 'story',
           })
         );
 
