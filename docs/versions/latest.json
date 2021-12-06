@@ -1,1 +1,1 @@
-{"version":"6.4.7","info":{"plain":"### Bug Fixes\n\n- Angular: Fix incorrect log ([#16885](https://github.com/storybookjs/storybook/pull/16885))"}}
+{"version":"6.4.8","info":{"plain":"### Bug Fixes\n\n- Core: Fix auto-title in webpack5 ([#16913](https://github.com/storybookjs/storybook/pull/16913))\n- CLI: Fix `sb repro` clobbering .vuerc ([#16897](https://github.com/storybookjs/storybook/pull/16897))\n\n### Maintenance\n\n- Core: Add feature flag to disable legacy hierarchy separator warning ([#16915](https://github.com/storybookjs/storybook/pull/16915))"}}
