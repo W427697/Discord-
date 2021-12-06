@@ -29,7 +29,7 @@ export const prepareForInline = (
       },
       render(h) {
         const children = this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
-        return h('div', { attrs: { id: 'root' } }, children);
+        return h('div', children);
       },
     });
     return () => root.$destroy();
