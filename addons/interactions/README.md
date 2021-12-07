@@ -41,23 +41,31 @@ Interactions relies on "instrumented" versions of Jest and Testing Library, that
 `@storybook/testing-library` instead of their original package. You can then use these libraries in your `play` function.
 
 ```js
+import { Meta, Interactions } from '@storybook/react'
 import { expect } from '@storybook/jest';
 import { within, userEvent } from '@storybook/testing-library';
+import {Button, ButtonProps } from './Button';
 
 export default {
   title: 'Button',
+  component: Button,
   argTypes: {
     onClick: { action: true },
   },
-};
+} as Meta;
 
-export const Demo = {
+export const Demo: Interactions<ButtonProps> = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole('button'));
     await expect(args.onClick).toHaveBeenCalled();
   },
 };
+
+Demo.args = {
+  children: 'Click me',
+}
+
 ```
 
 In order to enable step-through debugging, calls to `userEvent.*`, `fireEvent`, `findBy*`, `waitFor*` and `expect` have to

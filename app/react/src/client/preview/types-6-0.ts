@@ -9,6 +9,11 @@ export type ReactFramework = {
   storyResult: StoryFnReactReturnType;
 };
 
+export type InteractionsAction<TArgs> = {
+    args: TArgs,
+    canvasElement: HTMLCanvasElement;
+};
+
 /**
  * Metadata to configure the stories for a component.
  *
@@ -39,3 +44,14 @@ export type StoryObj<TArgs = Args> = StoryAnnotations<ReactFramework, TArgs>;
  *
  */
 export type Story<TArgs = Args> = StoryFn<TArgs>;
+
+/**
+ * Interactions to configure the stories for a component.
+ *
+ * @see [Named Story exports](https://storybook.js.org/docs/react/writing-tests/interaction-testing)
+ *
+ */
+
+export declare type Interactions<TArgs = Args> = {
+    play: (action: InteractionsAction<TArgs>) => void;
+} & ComponentAnnotations<ReactFramework, TArgs>;
