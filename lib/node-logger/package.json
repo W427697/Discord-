@@ -1,11 +1,11 @@
 {
   "name": "@storybook/node-logger",
-  "version": "6.4.0-alpha.11",
+  "version": "6.5.0-alpha.1",
   "description": "",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/node-logger",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/node-logger",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -25,7 +25,7 @@
   "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
-      "*": [
+      "dist/ts3.9/*": [
         "dist/ts3.4/*"
       ]
     }
@@ -43,7 +43,7 @@
     "@types/npmlog": "^4.1.2",
     "chalk": "^4.1.0",
     "core-js": "^3.8.2",
-    "npmlog": "^4.1.2",
+    "npmlog": "^5.0.1",
     "pretty-hrtime": "^1.0.3"
   },
   "devDependencies": {
@@ -52,6 +52,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "52cc8f0ba8fc0601c38620f7173a47b0fd7d38e2",
+  "gitHead": "fbf6e247a099ec45c30f8594f255a088847b7957",
   "sbmodern": "dist/modern/index.js"
 }

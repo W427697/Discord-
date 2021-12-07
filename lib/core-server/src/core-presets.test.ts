@@ -22,7 +22,7 @@ import { outputStats } from './utils/output-stats';
 // this only applies to this file
 jest.setTimeout(10000);
 
-const skipStoriesJsonPreset = [{ features: { buildStoriesJson: false } }];
+const skipStoriesJsonPreset = [{ features: { buildStoriesJson: false, storyStoreV7: false } }];
 
 jest.mock('@storybook/builder-webpack4', () => {
   const value = jest.fn();
@@ -41,11 +41,23 @@ jest.mock('@storybook/manager-webpack4', () => {
   return actualBuilder;
 });
 
+// we're not in the right directory for auto-title to work, so just
+// stub it out
+jest.mock('@storybook/store', () => {
+  const actualStore = jest.requireActual('@storybook/store');
+  return {
+    ...actualStore,
+    autoTitle: () => 'auto-title',
+    autoTitleFromSpecifier: () => 'auto-title-from-specifier',
+  };
+});
+
 jest.mock('cpy', () => () => Promise.resolve());
 jest.mock('http', () => ({
   ...jest.requireActual('http'),
-  createServer: () => ({ listen: (_options, cb) => cb() }),
+  createServer: () => ({ listen: (_options, cb) => cb(), on: jest.fn() }),
 }));
+jest.mock('ws');
 jest.mock('@storybook/node-logger', () => ({
   logger: {
     info: jest.fn(),
@@ -72,7 +84,7 @@ const baseOptions = {
   managerOnly, // production
   docsMode: false,
   cache,
-  configDir: path.resolve(`${__dirname}/../../../examples/react-ts`),
+  configDir: path.resolve(`${__dirname}/../../../examples/react-ts/.storybook`),
   outputDir: `${__dirname}/storybook-static`, // production
   ci: true,
   managerCache: false,

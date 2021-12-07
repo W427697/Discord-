@@ -1,7 +1,9 @@
 /* eslint-disable jest/no-interpolation-in-snapshots */
 import { Configuration } from 'webpack';
 import { logger } from '@storybook/node-logger';
-import { Options, webpackFinal } from './framework-preset-angular-cli';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import { webpackFinal } from './framework-preset-angular-cli';
+import { PresetOptions } from './options';
 
 const testPath = __dirname;
 
@@ -24,10 +26,10 @@ function initMockWorkspace(name: string) {
 }
 
 describe('framework-preset-angular-cli', () => {
-  let options: Options;
+  let options: PresetOptions;
 
   beforeEach(() => {
-    options = {} as Options;
+    options = {} as PresetOptions;
   });
 
   describe('without angular.json', () => {
@@ -42,7 +44,9 @@ describe('framework-preset-angular-cli', () => {
 
       const config = await webpackFinal(webpackBaseConfig, options);
 
-      expect(logger.info).toHaveBeenCalledWith('=> Loading angular-cli config');
+      expect(logger.info).toHaveBeenCalledWith(
+        '=> Loading angular-cli config for angular lower than 12.2.0'
+      );
       expect(logger.error).toHaveBeenCalledWith(
         `=> Could not find angular workspace config (angular.json) on this path "${workspaceRoot}"`
       );
@@ -60,7 +64,9 @@ describe('framework-preset-angular-cli', () => {
 
       const config = await webpackFinal(webpackBaseConfig, options);
 
-      expect(logger.info).toHaveBeenCalledWith('=> Loading angular-cli config');
+      expect(logger.info).toHaveBeenCalledWith(
+        '=> Loading angular-cli config for angular lower than 12.2.0'
+      );
       expect(logger.error).toHaveBeenCalledWith(
         '=> Could not find angular project: No angular projects found'
       );
@@ -81,7 +87,9 @@ describe('framework-preset-angular-cli', () => {
 
       const config = await webpackFinal(webpackBaseConfig, options);
 
-      expect(logger.info).toHaveBeenCalledWith('=> Loading angular-cli config');
+      expect(logger.info).toHaveBeenCalledWith(
+        '=> Loading angular-cli config for angular lower than 12.2.0'
+      );
       expect(logger.error).toHaveBeenCalledWith(
         '=> Could not find angular project: No angular projects found'
       );
@@ -102,7 +110,9 @@ describe('framework-preset-angular-cli', () => {
 
       const config = await webpackFinal(webpackBaseConfig, options);
 
-      expect(logger.info).toHaveBeenCalledWith('=> Loading angular-cli config');
+      expect(logger.info).toHaveBeenCalledWith(
+        '=> Loading angular-cli config for angular lower than 12.2.0'
+      );
       expect(logger.error).toHaveBeenCalledWith(
         '=> Could not find angular project: "missing-project" project is not found in angular.json'
       );
@@ -123,7 +133,9 @@ describe('framework-preset-angular-cli', () => {
 
       const config = await webpackFinal(webpackBaseConfig, options);
 
-      expect(logger.info).toHaveBeenCalledWith('=> Loading angular-cli config');
+      expect(logger.info).toHaveBeenCalledWith(
+        '=> Loading angular-cli config for angular lower than 12.2.0'
+      );
       expect(logger.error).toHaveBeenCalledWith(
         '=> Could not find angular project: "build" target is not found in "foo-project" project'
       );
@@ -141,7 +153,7 @@ describe('framework-preset-angular-cli', () => {
     });
     it('throws error', async () => {
       await expect(() => webpackFinal(newWebpackConfiguration(), options)).rejects.toThrowError(
-        'Missing required options in project target. Check "tsConfig, assets, optimization"'
+        'Missing required options in project target. Check "tsConfig"'
       );
       expect(logger.error).toHaveBeenCalledWith(`=> Could not get angular cli webpack config`);
     });
@@ -155,7 +167,10 @@ describe('framework-preset-angular-cli', () => {
       await webpackFinal(baseWebpackConfig, options);
 
       expect(logger.info).toHaveBeenCalledTimes(3);
-      expect(logger.info).toHaveBeenNthCalledWith(1, '=> Loading angular-cli config');
+      expect(logger.info).toHaveBeenNthCalledWith(
+        1,
+        '=> Loading angular-cli config for angular lower than 12.2.0'
+      );
       expect(logger.info).toHaveBeenNthCalledWith(
         2,
         '=> Using angular project "foo-project:build" for configuring Storybook'
@@ -175,7 +190,11 @@ describe('framework-preset-angular-cli', () => {
           ...baseWebpackConfig.resolve,
           modules: expect.arrayContaining(baseWebpackConfig.resolve.modules),
           // the base resolve.plugins are not kept 🤷‍♂️
-          plugins: expect.not.arrayContaining(baseWebpackConfig.resolve.plugins),
+          plugins: expect.arrayContaining([
+            expect.objectContaining({
+              absoluteBaseUrl: expect.any(String),
+            } as TsconfigPathsPlugin),
+          ]),
         },
         resolveLoader: expect.anything(),
       });
@@ -353,6 +372,19 @@ describe('framework-preset-angular-cli', () => {
     });
   });
 
+  describe('when angular.json haven\'t "options.tsConfig" config', () => {
+    beforeEach(() => {
+      initMockWorkspace('without-tsConfig');
+    });
+
+    it('throws error', async () => {
+      await expect(() => webpackFinal(newWebpackConfiguration(), options)).rejects.toThrowError(
+        'Missing required options in project target. Check "tsConfig"'
+      );
+      expect(logger.error).toHaveBeenCalledWith(`=> Could not get angular cli webpack config`);
+    });
+  });
+
   describe('when is a nx with angular.json', () => {
     beforeEach(() => {
       initMockWorkspace('with-nx');
@@ -453,7 +485,11 @@ describe('framework-preset-angular-cli', () => {
           ...baseWebpackConfig.resolve,
           modules: expect.arrayContaining(baseWebpackConfig.resolve.modules),
           // the base resolve.plugins are not kept 🤷‍♂️
-          plugins: expect.not.arrayContaining(baseWebpackConfig.resolve.plugins),
+          plugins: expect.arrayContaining([
+            expect.objectContaining({
+              absoluteBaseUrl: expect.any(String),
+            } as TsconfigPathsPlugin),
+          ]),
         },
         resolveLoader: expect.anything(),
       });
@@ -509,6 +545,60 @@ describe('framework-preset-angular-cli', () => {
     });
   });
 
+  describe('when angular.json have only one lib project', () => {
+    beforeEach(() => {
+      initMockWorkspace('with-lib');
+    });
+
+    it('should extends webpack base config', async () => {
+      const baseWebpackConfig = newWebpackConfiguration();
+      const webpackFinalConfig = await webpackFinal(baseWebpackConfig, options);
+
+      expect(webpackFinalConfig).toEqual({
+        ...baseWebpackConfig,
+        entry: [...(baseWebpackConfig.entry as any[])],
+        module: { ...baseWebpackConfig.module, rules: expect.anything() },
+        plugins: expect.anything(),
+        resolve: {
+          ...baseWebpackConfig.resolve,
+          modules: expect.arrayContaining(baseWebpackConfig.resolve.modules),
+          // the base resolve.plugins are not kept 🤷‍♂️
+          plugins: expect.not.arrayContaining(baseWebpackConfig.resolve.plugins),
+        },
+        resolveLoader: expect.anything(),
+      });
+    });
+
+    it('should set webpack "module.rules"', async () => {
+      const baseWebpackConfig = newWebpackConfiguration();
+      const webpackFinalConfig = await webpackFinal(baseWebpackConfig, options);
+
+      expect(webpackFinalConfig.module.rules).toEqual([
+        {
+          exclude: [],
+          test: /\.css$/,
+          use: expect.anything(),
+        },
+        {
+          exclude: [],
+          test: /\.scss$|\.sass$/,
+          use: expect.anything(),
+        },
+        {
+          exclude: [],
+          test: /\.less$/,
+          use: expect.anything(),
+        },
+        {
+          exclude: [],
+          test: /\.styl$/,
+          use: expect.anything(),
+        },
+        ...baseWebpackConfig.module.rules,
+      ]);
+    });
+  });
+
   describe('when angular.json have some config', () => {
     beforeEach(() => {
       initMockWorkspace('some-config');
@@ -518,7 +608,10 @@ describe('framework-preset-angular-cli', () => {
       await webpackFinal(baseWebpackConfig, options);
 
       expect(logger.info).toHaveBeenCalledTimes(3);
-      expect(logger.info).toHaveBeenNthCalledWith(1, '=> Loading angular-cli config');
+      expect(logger.info).toHaveBeenNthCalledWith(
+        1,
+        '=> Loading angular-cli config for angular lower than 12.2.0'
+      );
       expect(logger.info).toHaveBeenNthCalledWith(
         2,
         '=> Using angular project "foo-project:build" for configuring Storybook'
@@ -530,17 +623,117 @@ describe('framework-preset-angular-cli', () => {
   describe('with angularBrowserTarget option', () => {
     beforeEach(() => {
       initMockWorkspace('with-angularBrowserTarget');
-      options = { angularBrowserTarget: 'target-project:target-build' } as Options;
+      options = { angularBrowserTarget: 'target-project:target-build' } as PresetOptions;
     });
     it('should log', async () => {
       const baseWebpackConfig = newWebpackConfiguration();
       await webpackFinal(baseWebpackConfig, options);
 
       expect(logger.info).toHaveBeenCalledTimes(3);
-      expect(logger.info).toHaveBeenNthCalledWith(1, '=> Loading angular-cli config');
+      expect(logger.info).toHaveBeenNthCalledWith(
+        1,
+        '=> Loading angular-cli config for angular lower than 12.2.0'
+      );
       expect(logger.info).toHaveBeenNthCalledWith(
         2,
         '=> Using angular project "target-project:target-build" for configuring Storybook'
+      );
+      expect(logger.info).toHaveBeenNthCalledWith(3, '=> Using angular-cli webpack config');
+    });
+  });
+
+  describe('with angularBrowserTarget option with configuration', () => {
+    beforeEach(() => {
+      initMockWorkspace('with-angularBrowserTarget');
+    });
+    describe('when angular.json have the target without "configurations" section', () => {
+      beforeEach(() => {
+        options = {
+          angularBrowserTarget: 'no-confs-project:target-build:target-conf',
+        } as PresetOptions;
+      });
+      it('throws error', async () => {
+        await expect(() => webpackFinal(newWebpackConfiguration(), options)).rejects.toThrowError(
+          'Missing "configurations" section in project target'
+        );
+        expect(logger.error).toHaveBeenCalledWith(`=> Could not get angular cli webpack config`);
+      });
+    });
+    describe('when angular.json have the target without required configuration', () => {
+      beforeEach(() => {
+        options = {
+          angularBrowserTarget: 'no-target-conf-project:target-build:target-conf',
+        } as PresetOptions;
+      });
+      it('throws error', async () => {
+        await expect(() => webpackFinal(newWebpackConfiguration(), options)).rejects.toThrowError(
+          'Missing required configuration in project target. Check "target-conf"'
+        );
+        expect(logger.error).toHaveBeenCalledWith(`=> Could not get angular cli webpack config`);
+      });
+    });
+    describe('when angular.json have the target with required configuration', () => {
+      beforeEach(() => {
+        options = {
+          angularBrowserTarget: 'target-project:target-build:target-conf',
+        } as PresetOptions;
+      });
+      it('should log', async () => {
+        const baseWebpackConfig = newWebpackConfiguration();
+        await webpackFinal(baseWebpackConfig, options);
+
+        expect(logger.info).toHaveBeenCalledTimes(3);
+        expect(logger.info).toHaveBeenNthCalledWith(
+          1,
+          '=> Loading angular-cli config for angular lower than 12.2.0'
+        );
+        expect(logger.info).toHaveBeenNthCalledWith(
+          2,
+          '=> Using angular project "target-project:target-build:target-conf" for configuring Storybook'
+        );
+        expect(logger.info).toHaveBeenNthCalledWith(3, '=> Using angular-cli webpack config');
+      });
+      it('should extends webpack base config', async () => {
+        const baseWebpackConfig = newWebpackConfiguration();
+        const webpackFinalConfig = await webpackFinal(baseWebpackConfig, options);
+
+        expect(webpackFinalConfig).toEqual({
+          ...baseWebpackConfig,
+          entry: [...(baseWebpackConfig.entry as any[]), `${workspaceRoot}/src/styles.css`],
+          module: { ...baseWebpackConfig.module, rules: expect.anything() },
+          plugins: expect.anything(),
+          resolve: {
+            ...baseWebpackConfig.resolve,
+            modules: expect.arrayContaining(baseWebpackConfig.resolve.modules),
+            // the base resolve.plugins are not kept 🤷‍♂️
+            plugins: expect.not.arrayContaining(baseWebpackConfig.resolve.plugins),
+          },
+          resolveLoader: expect.anything(),
+        });
+      });
+    });
+  });
+
+  describe('with only tsConfig option', () => {
+    beforeEach(() => {
+      initMockWorkspace('without-projects-entry');
+      options = {
+        tsConfig: 'projects/pattern-lib/tsconfig.lib.json',
+        angularBrowserTarget: null,
+      } as PresetOptions;
+    });
+    it('should log', async () => {
+      const baseWebpackConfig = newWebpackConfiguration();
+      await webpackFinal(baseWebpackConfig, options);
+
+      expect(logger.info).toHaveBeenCalledTimes(3);
+      expect(logger.info).toHaveBeenNthCalledWith(
+        1,
+        '=> Loading angular-cli config for angular lower than 12.2.0'
+      );
+      expect(logger.info).toHaveBeenNthCalledWith(
+        2,
+        '=> Using default angular project with "tsConfig:projects/pattern-lib/tsconfig.lib.json"'
       );
       expect(logger.info).toHaveBeenNthCalledWith(3, '=> Using angular-cli webpack config');
     });

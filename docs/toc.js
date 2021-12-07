@@ -1,7 +1,7 @@
 module.exports = {
   toc: [
     {
-      title: '🚀 Get Started',
+      title: '🚀 Get started',
       pathSegment: 'get-started',
       type: 'menu',
       children: [
@@ -49,7 +49,7 @@ module.exports = {
       ],
     },
     {
-      title: '🖋 Writing Stories',
+      title: '🖋 Writing stories',
       pathSegment: 'writing-stories',
       type: 'menu',
       children: [
@@ -74,6 +74,11 @@ module.exports = {
           type: 'link',
         },
         {
+          pathSegment: 'play-function',
+          title: 'Play function',
+          type: 'link',
+        },
+        {
           pathSegment: 'loaders',
           title: 'Loaders',
           type: 'link',
@@ -86,7 +91,7 @@ module.exports = {
       ],
     },
     {
-      title: '📖 Writing Docs',
+      title: '📖 Writing docs',
       pathSegment: 'writing-docs',
       type: 'menu',
       children: [
@@ -113,6 +118,43 @@ module.exports = {
         {
           pathSegment: 'build-documentation',
           title: 'Preview and build docs',
+          type: 'link',
+        },
+      ],
+    },
+    {
+      title: '🔬 Writing tests',
+      pathSegment: 'writing-tests',
+      type: 'menu',
+      children: [
+        {
+          pathSegment: 'introduction',
+          title: 'Introduction',
+          type: 'link',
+        },
+        {
+          pathSegment: 'visual-testing',
+          title: 'Visual tests',
+          type: 'link',
+        },
+        {
+          pathSegment: 'accessibility-testing',
+          title: 'Accessibility tests',
+          type: 'link',
+        },
+        {
+          pathSegment: 'interaction-testing',
+          title: 'Interaction tests',
+          type: 'link',
+        },
+        {
+          pathSegment: 'snapshot-testing',
+          title: 'Snapshot tests',
+          type: 'link',
+        },
+        {
+          pathSegment: 'importing-stories-in-tests',
+          title: 'Import stories in tests',
           type: 'link',
         },
       ],
@@ -152,8 +194,19 @@ module.exports = {
           title: 'Toolbars & globals',
           type: 'link',
         },
+        {
+          pathSegment: 'measure-and-outline',
+          title: 'Measure & Outline',
+          type: 'link',
+        },
+         {
+          pathSegment: 'interactions',
+          title: 'Interactions',
+          type: 'link',
+        },
       ],
     },
+
     {
       title: '⚙️ Configure',
       pathSegment: 'configure',
@@ -162,6 +215,11 @@ module.exports = {
         {
           pathSegment: 'overview',
           title: 'Overview',
+          type: 'link',
+        },
+        {
+          pathSegment: 'upgrading',
+          title: 'Upgrading',
           type: 'link',
         },
         {
@@ -259,39 +317,6 @@ module.exports = {
           pathSegment: 'stories-for-multiple-components',
           title: 'Stories for multiple components',
           type: 'link',
-        },
-        {
-          title: 'Testing with Storybook',
-          // Despite having a child menu, this does not currently affect the path
-          pathSegment: '',
-          type: 'menu',
-          children: [
-            {
-              pathSegment: 'testing-with-storybook',
-              title: 'Introduction',
-              type: 'link',
-            },
-            {
-              pathSegment: 'unit-testing',
-              title: 'Unit testing',
-              type: 'link',
-            },
-            {
-              pathSegment: 'visual-testing',
-              title: 'Visual testing',
-              type: 'link',
-            },
-            {
-              pathSegment: 'interaction-testing',
-              title: 'Interaction testing',
-              type: 'link',
-            },
-            {
-              pathSegment: 'snapshot-testing',
-              title: 'Snapshot testing',
-              type: 'link',
-            },
-          ],
         },
         {
           pathSegment: 'storybook-composition',
