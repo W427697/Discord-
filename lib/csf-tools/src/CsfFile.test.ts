@@ -10,7 +10,10 @@ expect.addSnapshotSerializer({
 });
 
 const parse = (code: string, includeParameters?: boolean) => {
-  const { stories, meta } = loadCsf(code, { defaultTitle: 'Default Title' }).parse();
+  const { stories, meta } = loadCsf(code, {
+    defaultTitle: 'Default Title',
+    fileName: '/absolute/path/to/my.stories.ts',
+  }).parse();
   const filtered = includeParameters
     ? stories
     : stories.map(({ id, name, parameters, ...rest }) => ({ id, name, ...rest }));
@@ -378,6 +381,98 @@ describe('CsfFile', () => {
             parameters:
               __isArgsStory: false
               __id: foo-bar--a
+      `);
+    });
+
+    it('componentPath with ImportSpecifier', () => {
+      expect(
+        parse(
+          dedent`
+          import { MyComponent } from '../../myComponent'
+          export default { component: MyComponent }
+          export const A = () => {};
+          export const B = () => {};
+      `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          component: MyComponent
+          title: Default Title
+          componentPath: /absolute/myComponent
+        stories:
+          - id: default-title--a
+            name: A
+          - id: default-title--b
+            name: B
+      `);
+    });
+
+    it('componentPath with ImportSpecifier and alias', () => {
+      expect(
+        parse(
+          dedent`
+          import { Component as MyComponent } from '../../myComponent'
+          export default { component: MyComponent }
+          export const A = () => {};
+          export const B = () => {};
+      `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          component: MyComponent
+          title: Default Title
+          componentPath: /absolute/myComponent
+        stories:
+          - id: default-title--a
+            name: A
+          - id: default-title--b
+            name: B
+      `);
+    });
+
+    it('componentPath with ImportDefaultSpecifier', () => {
+      expect(
+        parse(
+          dedent`
+          import MyComponent from '../../myComponent'
+          export default { component: MyComponent }
+          export const A = () => {};
+          export const B = () => {};
+      `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          component: MyComponent
+          title: Default Title
+          componentPath: /absolute/myComponent
+        stories:
+          - id: default-title--a
+            name: A
+          - id: default-title--b
+            name: B
+      `);
+    });
+
+    it('componentPath with ImportNamespaceSpecifier', () => {
+      expect(
+        parse(
+          dedent`
+          import * as MyComponent from '../../myComponent'
+          export default { component: MyComponent }
+          export const A = () => {};
+          export const B = () => {};
+      `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          component: MyComponent
+          title: Default Title
+          componentPath: /absolute/myComponent
+        stories:
+          - id: default-title--a
+            name: A
+          - id: default-title--b
+            name: B
       `);
     });
   });

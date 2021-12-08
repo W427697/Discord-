@@ -5,6 +5,7 @@ import * as t from '@babel/types';
 import generate from '@babel/generator';
 import traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
+import path from 'path';
 import { babelParse } from './babelParse';
 
 const logger = console;
@@ -12,6 +13,7 @@ interface Meta {
   id?: string;
   title?: string;
   component?: string;
+  componentPath?: string;
   includeStories?: string[] | RegExp;
   excludeStories?: string[] | RegExp;
 }
@@ -392,6 +394,46 @@ export class CsfFile {
       self._stories = sortExports(self._stories, self._namedExportsOrder);
     }
 
+    traverse(this._ast, {
+      ImportDeclaration: {
+        enter({ node }) {
+          const modulePath = node.source.value;
+
+          const componentSpecifier = node.specifiers.find((specifier) => {
+            const alias = specifier.local.name;
+            return alias === self._meta.component;
+          });
+
+          if (componentSpecifier) {
+            let name: string;
+            switch (componentSpecifier.type) {
+              case 'ImportSpecifier':
+                name =
+                  t.isIdentifier(componentSpecifier.imported) && componentSpecifier.imported.name;
+                break;
+              case 'ImportDefaultSpecifier':
+                name = 'default';
+                break;
+              case 'ImportNamespaceSpecifier':
+                name = '*';
+                break;
+              default:
+                break;
+            }
+            if (name) {
+              try {
+                const dirname = path.dirname(self._fileName);
+
+                self._meta.componentPath = findComponentPath(dirname, modulePath);
+              } catch (error) {
+                // componentPath remains undefined
+              }
+            }
+          }
+        },
+      },
+    });
+
     return self;
   }
 
@@ -423,4 +465,14 @@ export const writeCsf = async (csf: CsfFile, fileName?: string) => {
   const fname = fileName || csf._fileName;
   if (!fname) throw new Error('Please specify a fileName for writeCsf');
   await fs.writeFile(fileName, await formatCsf(csf));
+};
+
+const findComponentPath = (dirname: string, modulePath: string): string | undefined => {
+  // Try with default import path
+  try {
+    return path.resolve(dirname, modulePath);
+  } catch (_) {
+    /**/
+  }
+  return undefined;
 };
