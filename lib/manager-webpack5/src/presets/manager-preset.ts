@@ -167,6 +167,9 @@ export async function managerWebpack(
         ...themingPaths,
         ...uiPaths,
       },
+      fallback: {
+        path: require.resolve('path-browserify'),
+      },
     },
     recordsPath: resolvePathInStorybookCache('public/records.json'),
     performance: {
