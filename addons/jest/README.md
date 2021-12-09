@@ -162,7 +162,7 @@ Default.args={
   text: 'Jest results in Storybook',
 };
 Default.parameters = {
-  jest: ['MyComponent.test.js'],
+  jest: 'MyComponent.test.js',
 };
 ```
 
@@ -230,7 +230,7 @@ const Template: Story<MyComponent> = (args: MyComponent) => ({
 
 export const Default = Template.bind({});
 Default.parameters = {
-  jest: ['MyComponent.component'],
+  jest: 'MyComponent.component',
 };
 ```
 
