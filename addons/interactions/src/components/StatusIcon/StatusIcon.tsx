@@ -7,7 +7,7 @@ import { transparentize } from 'polished';
 import localTheme from '../../theme';
 
 export interface StatusIconProps extends IconsProps {
-  status: Call['state'];
+  status: Call['status'];
 }
 
 const {
@@ -31,12 +31,19 @@ const StyledStatusIcon = styled(Icons)<StatusIconProps>(({ theme, status }) => {
   };
 });
 
-export const StatusIcon: React.FC<StatusIconProps> = ({ status }) => {
+export const StatusIcon: React.FC<StatusIconProps> = ({ status, className }) => {
   const icon = {
     [CallStates.DONE]: 'check',
     [CallStates.ERROR]: 'stopalt',
     [CallStates.ACTIVE]: 'play',
     [CallStates.WAITING]: 'circle',
   }[status] as IconsProps['icon'];
-  return <StyledStatusIcon data-testid={`icon-${status}`} status={status} icon={icon} />;
+  return (
+    <StyledStatusIcon
+      data-testid={`icon-${status}`}
+      status={status}
+      icon={icon}
+      className={className}
+    />
+  );
 };

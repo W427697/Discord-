@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-interactions",
-  "version": "6.4.0-beta.22",
+  "version": "6.5.0-alpha.2",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -41,22 +41,22 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.4.0-beta.22",
-    "@storybook/api": "6.4.0-beta.22",
-    "@storybook/components": "6.4.0-beta.22",
-    "@storybook/core-common": "6.4.0-beta.22",
-    "@storybook/core-events": "6.4.0-beta.22",
+    "@storybook/addons": "6.5.0-alpha.2",
+    "@storybook/api": "6.5.0-alpha.2",
+    "@storybook/components": "6.5.0-alpha.2",
+    "@storybook/core-common": "6.5.0-alpha.2",
+    "@storybook/core-events": "6.5.0-alpha.2",
     "@storybook/csf": "0.0.2--canary.87bc651.0",
-    "@storybook/instrumenter": "6.4.0-beta.22",
-    "@storybook/theming": "6.4.0-beta.22",
+    "@storybook/instrumenter": "6.5.0-alpha.2",
+    "@storybook/theming": "6.5.0-alpha.2",
     "global": "^4.4.0",
     "jest-mock": "^27.0.6",
     "polished": "^4.0.5",
     "ts-dedent": "^2.2.0"
   },
   "devDependencies": {
-    "@storybook/jest": "^0.0.2",
-    "@storybook/testing-library": "^0.0.3",
+    "@storybook/jest": "^0.0.5",
+    "@storybook/testing-library": "^0.0.7",
     "formik": "^2.2.9"
   },
   "peerDependencies": {
@@ -74,7 +74,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "680a207c0b7d5daee89633349c7320a3ac29b3c6",
+  "gitHead": "ca9d89393f36d156e34819fe120eb7e6819245f4",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Interactions",
