@@ -176,7 +176,7 @@ Object {
                     "loose": true,
                     "modules": false,
                     "shippedProposals": true,
-                    "targets": "defaults",
+                    "targets": "defaults, not ie 11",
                   },
                 ],
                 "NODE_MODULES/@babel/preset-react/lib/index.js",

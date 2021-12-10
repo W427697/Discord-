@@ -50,7 +50,7 @@ export const es6Transpiler: () => RuleSetRule = () => {
                 shippedProposals: true,
                 modules: false,
                 loose: true,
-                targets: 'defaults',
+                targets: 'defaults, not ie 11',
               },
             ],
             require.resolve('@babel/preset-react'),
