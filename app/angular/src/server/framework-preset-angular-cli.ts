@@ -8,6 +8,7 @@ import { logging, JsonObject } from '@angular-devkit/core';
 import { moduleIsAvailable } from './utils/module-is-available';
 import { getWebpackConfig as getWebpackConfig12_2_x } from './angular-cli-webpack-12.2.x';
 import { getWebpackConfig as getWebpackConfig13_x_x } from './angular-cli-webpack-13.x.x';
+import { getWebpackConfig as getWebpackConfig13_1_x } from './angular-cli-webpack-13.1.x';
 import { getWebpackConfig as getWebpackConfigOlder } from './angular-cli-webpack-older';
 import { PresetOptions } from './options';
 import {
@@ -35,6 +36,20 @@ export async function webpackFinal(baseConfig: webpack.Configuration, options: P
       options: PresetOptions
     ): Promise<webpack.Configuration> | webpack.Configuration;
   }[] = [
+    {
+      info: '=> Loading angular-cli config for angular >= 13.1.0',
+      condition: semver.satisfies(angularCliVersion, '>=13.1.0'),
+      getWebpackConfig: async (_baseConfig, _options) => {
+        const builderContext = getBuilderContext(_options);
+        const builderOptions = await getBuilderOptions(_options, builderContext);
+        const legacyDefaultOptions = await getLegacyDefaultBuildOptions(_options);
+
+        return getWebpackConfig13_1_x(_baseConfig, {
+          builderOptions: { ...builderOptions, ...legacyDefaultOptions },
+          builderContext,
+        });
+      },
+    },
     {
       info: '=> Loading angular-cli config for angular >= 13.0.0',
       condition: semver.satisfies(angularCliVersion, '>=13.0.0'),
@@ -172,7 +187,9 @@ async function getLegacyDefaultBuildOptions(options: PresetOptions) {
       browserTarget.target
     );
 
-    logger.info(`=> Using angular project "${browserTarget.project}:${browserTarget.target}" for configuring Storybook`);
+    logger.info(
+      `=> Using angular project "${browserTarget.project}:${browserTarget.target}" for configuring Storybook`
+    );
     return { ...target.options };
   } catch (error) {
     logger.error(`=> Could not find angular project: ${error.message}`);

@@ -2,7 +2,8 @@
 
 ### Bug Fixes
 
-* Core: Support custom PREVIEW URL for block story iframe ([#16773](https://github.com/storybookjs/storybook/pull/16773))
+- Core: Support custom PREVIEW URL for block story iframe ([#16773](https://github.com/storybookjs/storybook/pull/16773))
+- Angular: Support Angular 13.1 ([#16774](https://github.com/storybookjs/storybook/pull/16774))
 
 ## 6.5.0-alpha.2 (December 9, 2021)
 
