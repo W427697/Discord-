@@ -64,6 +64,7 @@ export interface SubAPI {
   ) => void;
   getCurrentStoryData: () => Story | Group;
   setStories: (stories: StoriesRaw, failed?: Error) => Promise<void>;
+  setStoriesUsingStoriesHash: (stories: StoriesHash, failed?: Error) => Promise<void>;
   jumpToComponent: (direction: Direction) => void;
   jumpToStory: (direction: Direction) => void;
   getData: (storyId: StoryId, refId?: string) => Story | Group;
@@ -254,6 +255,13 @@ export const init: ModuleFn = ({
 
       await store.setState({
         storiesHash: hash,
+        storiesConfigured: true,
+        storiesFailed: error,
+      });
+    },
+    setStoriesUsingStoriesHash: async (storiesHash, error) => {
+      await store.setState({
+        storiesHash: storiesHash,
         storiesConfigured: true,
         storiesFailed: error,
       });
