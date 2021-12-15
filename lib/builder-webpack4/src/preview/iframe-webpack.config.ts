@@ -4,6 +4,7 @@ import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin } from 'webpac
 import type { Configuration, RuleSetRule } from '@types/webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
+import WatchMissingNodeModulesPlugin from 'react-dev-utils/WatchMissingNodeModulesPlugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
@@ -18,6 +19,7 @@ import {
   es6Transpiler,
   handlebars,
   interpolate,
+  nodeModulesPaths,
   Options,
   toImportFn,
   normalizeStories,
@@ -210,6 +212,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
         ...stringifyProcessEnvs(envs),
         NODE_ENV: JSON.stringify(envs.NODE_ENV),
       }),
+      isProd ? null : new WatchMissingNodeModulesPlugin(nodeModulesPaths),
       isProd ? null : new HotModuleReplacementPlugin(),
       new CaseSensitivePathsPlugin(),
       quiet ? null : new ProgressPlugin({}),
