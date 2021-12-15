@@ -496,6 +496,7 @@ Object {
     "VirtualModulesPlugin",
     "HtmlWebpackPlugin",
     "DefinePlugin",
+    "WatchMissingNodeModulesPlugin",
     "HotModuleReplacementPlugin",
     "CaseSensitivePathsPlugin",
     "ProgressPlugin",
