@@ -16,7 +16,7 @@
     "global": "^4.4.0",
     "react": "^15.7.0",
     "react-dom": "^15.7.0",
-    "react-scripts": "3.4.4"
+    "react-scripts": "5.0.0"
   },
   "devDependencies": {
     "@storybook/addon-actions": "6.5.0-alpha.3",
