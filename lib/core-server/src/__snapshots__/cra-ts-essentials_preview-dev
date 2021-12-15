@@ -473,7 +473,6 @@ Object {
     "VirtualModulesPlugin",
     "HtmlWebpackPlugin",
     "DefinePlugin",
-    "WatchMissingNodeModulesPlugin",
     "HotModuleReplacementPlugin",
     "CaseSensitivePathsPlugin",
     "ProgressPlugin",
@@ -488,3 +487,5 @@ Object {
   ],
 }
 `;
+
+exports[`cra-ts-essentials preview production mode 1`] = `null`;
