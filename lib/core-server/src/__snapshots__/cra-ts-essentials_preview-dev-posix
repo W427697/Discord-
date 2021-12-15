@@ -479,6 +479,7 @@ Object {
     "InterpolateHtmlPlugin",
     "ModuleNotFoundPlugin",
     "ReactRefreshPlugin",
+    "WatchMissingNodeModulesPlugin",
     "ManifestPlugin",
     "IgnorePlugin",
     "ForkTsCheckerWebpackPlugin",
