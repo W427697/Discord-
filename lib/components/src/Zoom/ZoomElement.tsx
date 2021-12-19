@@ -16,10 +16,6 @@ const ZoomElementWrapper = styled.div<{ scale: number; height: number }>(({ scal
         transform: `scale(${1 / scale})`,
       }
 );
-type ZoomProps = {
-  scale: number;
-  children: ReactElement | ReactElement[];
-};
 
 const useMutationObserver = ({
   element,
@@ -32,9 +28,11 @@ const useMutationObserver = ({
 }): void => {
   const observer = useMemo(
     () =>
-      new MutationObserver((mutationRecord, mutationObserver) => {
-        callback?.(mutationRecord, mutationObserver);
-      }),
+      typeof MutationObserver === 'function'
+        ? new MutationObserver((mutationRecord, mutationObserver) => {
+            callback?.(mutationRecord, mutationObserver);
+          })
+        : undefined,
     [callback]
   );
 
@@ -45,6 +43,11 @@ const useMutationObserver = ({
 
     return () => observer?.disconnect();
   }, [element, observer, options]);
+};
+
+type ZoomProps = {
+  scale: number;
+  children: ReactElement | ReactElement[];
 };
 
 export function ZoomElement({ scale, children }: ZoomProps) {
