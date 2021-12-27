@@ -49,8 +49,16 @@ export const CodeOrSourceMdx: FC<CodeOrSourceMdxProps> = ({ className, children,
   );
 };
 
+function generateHrefWithHash(hash: string): string {
+  // eslint-disable-next-line no-undef
+  const location = window.parent ? window.parent.location : window.location;
+  const href = `${location.search}${hash}`;
+  return href;
+}
+
 function navigate(url: string) {
-  addons.getChannel().emit(NAVIGATE_URL, url);
+  const urlWithHash = generateHrefWithHash(url);
+  addons.getChannel().emit(NAVIGATE_URL, urlWithHash);
 }
 
 // @ts-ignore
