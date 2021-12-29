@@ -1,7 +1,7 @@
 import path from 'path';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin } from 'webpack';
 // @ts-ignore
-import { Configuration, RuleSetRule } from '@types/webpack';
+import type { Configuration, RuleSetRule } from '@types/webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import WatchMissingNodeModulesPlugin from 'react-dev-utils/WatchMissingNodeModulesPlugin';
@@ -64,6 +64,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     framework,
     frameworkPath,
     presets,
+    previewUrl,
     typescriptOptions,
     modern,
     features,
@@ -188,6 +189,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
             FRAMEWORK_OPTIONS: frameworkOptions,
             CHANNEL_OPTIONS: coreOptions?.channelOptions,
             FEATURES: features,
+            PREVIEW_URL: previewUrl,
             STORIES: stories.map((specifier) => ({
               ...specifier,
               importPathMatcher: specifier.importPathMatcher.source,
