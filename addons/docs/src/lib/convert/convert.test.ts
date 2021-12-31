@@ -603,9 +603,9 @@ describe('storybook type system', () => {
           "oneOfNumber": {
             "name": "enum",
             "value": [
-              "1",
-              "2",
-              "3"
+              1,
+              2,
+              3
             ]
           },
           "oneOfString": {

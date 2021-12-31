@@ -2,7 +2,7 @@
 import mapValues from 'lodash/mapValues';
 import { SBType } from '@storybook/csf';
 import { PTType } from './types';
-import { trimQuotes } from '../utils';
+import { QUOTE_REGEX, trimQuotes } from '../utils';
 
 const SIGNATURE_REGEXP = /^\(.*\) => /;
 
@@ -13,7 +13,14 @@ export const convert = (type: PTType): SBType | any => {
 
   switch (name) {
     case 'enum': {
-      const values = computed ? value : value.map((v: PTType) => trimQuotes(v.value));
+      const values = computed
+        ? value
+        : value.map((v: PTType) => {
+            if (QUOTE_REGEX.test(v.value)) {
+              return trimQuotes(v.value);
+            }
+            return Number(v.value);
+          });
       return { ...base, name, value: values };
     }
     case 'string':
