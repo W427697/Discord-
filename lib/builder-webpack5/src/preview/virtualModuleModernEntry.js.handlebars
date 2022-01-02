@@ -11,8 +11,8 @@ import { importFn } from './{{storiesFilename}}';
 
 const { SERVER_CHANNEL_URL } = global;
 
-const getProjectAnnotations = () =>
-  composeConfigs([{{#each configs}}require('{{this}}'),{{/each}}]);
+const getProjectAnnotations = async () =>
+  composeConfigs(await Promise.all([{{#each configs}}import('{{this}}'),{{/each}}]));
 
 const channel = createPostMessageChannel({ page: 'preview' });
 addons.setChannel(channel);
