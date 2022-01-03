@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "6.4.0-beta.29",
+  "version": "6.5.0-alpha.5",
   "description": "Storybook for Angular: Develop Angular Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -45,17 +45,20 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.4.0-beta.29",
-    "@storybook/api": "6.4.0-beta.29",
-    "@storybook/core": "6.4.0-beta.29",
-    "@storybook/core-common": "6.4.0-beta.29",
-    "@storybook/core-events": "6.4.0-beta.29",
+    "@storybook/addons": "6.5.0-alpha.5",
+    "@storybook/api": "6.5.0-alpha.5",
+    "@storybook/core": "6.5.0-alpha.5",
+    "@storybook/core-common": "6.5.0-alpha.5",
+    "@storybook/core-events": "6.5.0-alpha.5",
     "@storybook/csf": "0.0.2--canary.87bc651.0",
-    "@storybook/node-logger": "6.4.0-beta.29",
-    "@storybook/store": "6.4.0-beta.29",
+    "@storybook/node-logger": "6.5.0-alpha.5",
+    "@storybook/semver": "^7.3.2",
+    "@storybook/store": "6.5.0-alpha.5",
+    "@types/node": "^14.14.20 || ^16.0.0",
     "@types/webpack-env": "^1.16.0",
     "autoprefixer": "^9.8.6",
     "core-js": "^3.8.2",
+    "find-up": "^5.0.0",
     "fork-ts-checker-webpack-plugin": "^4.1.6",
     "global": "^4.4.0",
     "postcss": "^7.0.36",
@@ -67,7 +70,7 @@
     "regenerator-runtime": "^0.13.7",
     "sass-loader": "^10.1.0",
     "strip-json-comments": "3.1.1",
-    "telejson": "^5.3.2",
+    "telejson": "^5.3.3",
     "ts-dedent": "^2.0.0",
     "ts-loader": "^8.0.14",
     "tsconfig-paths-webpack-plugin": "^3.3.0",
@@ -78,6 +81,7 @@
     "@angular-devkit/architect": "~0.1102.0",
     "@angular-devkit/build-angular": "~0.1102.13",
     "@angular-devkit/core": "^11.2.13",
+    "@angular/cli": "^11.2.14",
     "@angular/common": "^11.2.14",
     "@angular/compiler": "^11.2.14",
     "@angular/compiler-cli": "^11.2.14",
@@ -96,8 +100,9 @@
   },
   "peerDependencies": {
     "@angular-devkit/architect": ">=0.8.9",
-    "@angular-devkit/build-angular": ">=0.8.9",
+    "@angular-devkit/build-angular": ">=0.8.9 || >= 12.0.0",
     "@angular-devkit/core": "^0.6.1 || >=7.0.0",
+    "@angular/cli": ">=6.0.0",
     "@angular/common": ">=6.0.0",
     "@angular/compiler": ">=6.0.0",
     "@angular/compiler-cli": ">=6.0.0",
@@ -109,11 +114,14 @@
     "@babel/core": "*",
     "@nrwl/workspace": ">=11.1.0",
     "@webcomponents/custom-elements": ">=1.4.3",
-    "rxjs": "^6.0.0",
+    "rxjs": "^6.0.0 || ^7.4.0",
     "typescript": "^3.4.0 || >=4.0.0",
     "zone.js": "^0.8.29 || ^0.9.0 || ^0.10.0 || ^0.11.0"
   },
   "peerDependenciesMeta": {
+    "@angular/cli": {
+      "optional": true
+    },
     "@angular/elements": {
       "optional": true
     },
@@ -131,5 +139,5 @@
     "access": "public"
   },
   "builders": "dist/ts3.9/builders/builders.json",
-  "gitHead": "2e8d1c0f398c1fcea941899abe3a17c1e3b7d7b3"
+  "gitHead": "df18f2ad3794d61c59c6458f66f73635502b8963"
 }

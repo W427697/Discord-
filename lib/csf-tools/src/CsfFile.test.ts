@@ -46,6 +46,32 @@ describe('CsfFile', () => {
       `);
     });
 
+    it('exported const stories', () => {
+      expect(
+        parse(
+          dedent`
+          export default { title: 'foo/bar' };
+          const A = () => {};
+          const B = (args) => {};
+          export { A, B };
+        `,
+          true
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            parameters:
+              __id: foo-bar--a
+          - id: foo-bar--b
+            name: B
+            parameters:
+              __id: foo-bar--b
+      `);
+    });
+
     it('underscores', () => {
       expect(
         parse(
@@ -143,6 +169,27 @@ describe('CsfFile', () => {
           - id: default-title--a
             name: A
           - id: default-title--b
+            name: B
+      `);
+    });
+
+    it('custom component id', () => {
+      expect(
+        parse(
+          dedent`
+          export default { title: 'foo/bar', id: 'custom-id' };
+          export const A = () => {};
+          export const B = () => {};
+      `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+          id: custom-id
+        stories:
+          - id: custom-id--a
+            name: A
+          - id: custom-id--b
             name: B
       `);
     });
@@ -305,6 +352,34 @@ describe('CsfFile', () => {
             name: B
       `);
     });
+
+    it('named exports order', () => {
+      expect(
+        parse(
+          dedent`
+          export default { title: 'foo/bar' };
+          export const A = () => {};
+          export const B = (args) => {};
+          export const __namedExportsOrder = ['B', 'A'];
+        `,
+          true
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--b
+            name: B
+            parameters:
+              __isArgsStory: true
+              __id: foo-bar--b
+          - id: foo-bar--a
+            name: A
+            parameters:
+              __isArgsStory: false
+              __id: foo-bar--a
+      `);
+    });
   });
 
   describe('error handling', () => {
@@ -318,6 +393,7 @@ describe('CsfFile', () => {
         )
       ).toThrow('CSF: missing default export');
     });
+
     it('no metadata', () => {
       expect(() =>
         parse(
@@ -329,6 +405,7 @@ describe('CsfFile', () => {
         )
       ).toThrow('CSF: missing title/component');
     });
+
     it('dynamic titles', () => {
       expect(() =>
         parse(
@@ -340,6 +417,7 @@ describe('CsfFile', () => {
         )
       ).toThrow('CSF: unexpected dynamic title');
     });
+
     it('storiesOf calls', () => {
       expect(() =>
         parse(
@@ -352,6 +430,26 @@ describe('CsfFile', () => {
           true
         )
       ).toThrow('CSF: unexpected storiesOf call');
+    });
+
+    it('function exports', () => {
+      expect(
+        parse(
+          dedent`
+          export default { title: 'foo/bar' };
+          export function A() {}
+          export function B() {}
+      `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+          - id: foo-bar--b
+            name: B
+      `);
     });
   });
 

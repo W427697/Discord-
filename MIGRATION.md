@@ -1,6 +1,7 @@
 <h1>Migration</h1>
 
 - [From version 6.3.x to 6.4.0](#from-version-63x-to-640)
+  - [Automigrate](#automigrate)
   - [CRA5 upgrade](#cra5-upgrade)
   - [CSF3 enabled](#csf3-enabled)
     - [Optional titles](#optional-titles)
@@ -10,11 +11,16 @@
     - [Behavioral differences](#behavioral-differences)
     - [Main.js framework field](#mainjs-framework-field)
     - [Using the v7 store](#using-the-v7-store)
-    - [V7-style story sort](#v7-style-story-sort)
-    - [V7 Store API changes for addon authors](#v7-store-api-changes-for-addon-authors)
+    - [v7-style story sort](#v7-style-story-sort)
+    - [v7 Store API changes for addon authors](#v7-store-api-changes-for-addon-authors)
+    - [Storyshots compatibility in the v7 store](#storyshots-compatibility-in-the-v7-store)
+  - [Emotion11 quasi-compatibility](#emotion11-quasi-compatibility)
   - [Babel mode v7](#babel-mode-v7)
   - [Loader behavior with args changes](#loader-behavior-with-args-changes)
-  - [Angular component parameter removed](#angular-component-parameter-removed)
+  - [6.4 Angular changes](#64-angular-changes)
+    - [SB Angular builder](#sb-angular-builder)
+    - [Angular13](#angular13)
+    - [Angular component parameter removed](#angular-component-parameter-removed)
   - [6.4 deprecations](#64-deprecations)
     - [Deprecated --static-dir CLI flag](#deprecated---static-dir-cli-flag)
 - [From version 6.2.x to 6.3.0](#from-version-62x-to-630)
@@ -184,10 +190,25 @@
 
 ## From version 6.3.x to 6.4.0
 
+### Automigrate
+
+Automigrate is a new 6.4 feature that provides zero-config upgrades to your dependencies, configurations, and story files.
+
+Each automigration analyzes your project, and if it's is applicable, propose a change alongside relevant documentation. If you accept the changes, the automigration will update your files accordingly.
+
+For example, if you're in a webpack5 project but still use Storybook's default webpack4 builder, the automigration can detect this and propose an upgrade. If you opt-in, it will install the webpack5 builder and update your `main.js` configuration automatically.
+
+You can run the existing suite of automigrations to see which ones apply to your project. This won't update any files unless you accept the changes:
+
+```
+npx sb@next automigrate
+```
+
+The automigration suite also runs when you create a new project (`sb init`) or when you update storybook (`sb upgrade`).
+
 ### CRA5 upgrade
 
-Storybook 6.3 supports CRA5 out of the box when you install it fresh. However, if you're upgrading your project from a previous version, you'll need to
-upgrade the configuration. You can do this automatically by running:
+Storybook 6.3 supports CRA5 out of the box when you install it fresh. However, if you're upgrading your project from a previous version, you'll need to upgrade the configuration. You can do this automatically by running:
 
 ```
 npx sb@next automigrate
@@ -196,9 +217,9 @@ npx sb@next automigrate
 Or you can do the following steps manually to force Storybook to use webpack 5 for building your project:
 
 ```shell
-yarn add @storybook/builder-webpack5@next @storybook/manager-webpack5 --dev
+yarn add @storybook/builder-webpack5 @storybook/manager-webpack5 --dev
 # Or
-npm install @storybook/builder-webpack5@next @storybook/manager-webpack5 --save-dev
+npm install @storybook/builder-webpack5 @storybook/manager-webpack5 --save-dev
 ```
 
 Then edit your `.storybook/main.js` config:
@@ -249,7 +270,7 @@ export default {
   title: 'Components/Atoms/Button',
 };
 
-// ✅ undefined 6.3 KO / 7.0 OK
+// ✅ undefined 6.3 OK / 7.0 OK
 export default {
   component: Button,
 };
@@ -341,7 +362,7 @@ module.exports = {
 
 NOTE: `features.storyStoreV7` implies `features.buildStoriesJson` and has the same limitations.
 
-#### V7-style story sort
+#### v7-style story sort
 
 If you've written a custom `storySort` function, you'll need to rewrite it for V7.
 
@@ -377,12 +398,45 @@ function storySort(a, b) {
 },
 ```
 
-#### V7 Store API changes for addon authors
+#### v7 Store API changes for addon authors
 
 The Story Store in v7 mode is async, so synchronous story loading APIs no longer work. In particular:
 
 - `store.fromId()` has been replaced by `store.loadStory()`, which is async (i.e. returns a `Promise` you will need to await).
 - `store.raw()/store.extract()` and friends that list all stories require a prior call to `store.cacheAllCSFFiles()` (which is async). This will load all stories, and isn't generally a good idea in an addon, as it will force the whole store to load.
+
+#### Storyshots compatibility in the v7 store
+
+Storyshots is not currently compatible with the v7 store. However, you can use the following workaround to opt-out of the v7 store when running storyshots; in your `main.js`:
+
+```js
+module.exports = {
+  features: {
+    storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
+  },
+};
+```
+
+There are some caveats with the above approach:
+
+- The code path in the v6 store is different to the v7 store and your mileage may vary in identical behavior. Buyer beware.
+- The story sort API [changed between the stores](#v7-style-story-sort). If you are using a custom story sort function, you will need to ensure it works in both contexts (perhaps using the check `global.navigator.userAgent.match('jsdom')`).
+
+### Emotion11 quasi-compatibility
+
+Now that the web is moving to Emotion 11 for styling, popular libraries like MUI5 and ChakraUI are breaking with Storybook 6.3 which only supports emotion@10.
+
+Unfortunately we're unable to upgrade Storybook to Emotion 11 without a semver major release, and we're not ready for that. So, as a workaround, we've created a feature flag which opts-out of the previous behavior of pinning the Emotion version to v10. To enable this workaround, add the following to your `.storybook/main.js` config:
+
+```js
+module.exports = {
+  features: {
+    emotionAlias: false,
+  },
+};
+```
+
+Setting this should unlock theming for emotion11-based libraries in Storybook 6.4.
 
 ### Babel mode v7
 
@@ -419,7 +473,53 @@ This will create a `.babelrc.json` file. This file includes a bunch of babel plu
 
 In 6.4 the behavior of loaders when arg changes occurred was tweaked so loaders do not re-run. Instead the previous value of the loader is passed to the story, irrespective of the new args.
 
-### Angular component parameter removed
+### 6.4 Angular changes
+
+#### SB Angular builder
+
+Since SB6.3, Storybook for Angular supports a builder configuration in your project's `angular.json`. This provides an Angular-style configuration for running and building your Storybook. The full builder documentation will be shown in the [main documentation page](https://storybook.js.org/docs/angular) soon, but for now you can check out an example here:
+
+- `start-storybook`: https://github.com/storybookjs/storybook/blob/next/examples/angular-cli/angular.json#L78
+- `build-storybook`: https://github.com/storybookjs/storybook/blob/next/examples/angular-cli/angular.json#L86
+
+#### Angular13
+
+Angular 13 introduces breaking changes that require updating your Storybook configuration if you are migrating from a previous version of Angular.
+
+Most notably, the documented way of including global styles is no longer supported by Angular13. Previously you could write the following in your `.storybook/preview.js` config:
+
+```
+import '!style-loader!css-loader!sass-loader!./styles.scss';
+```
+
+If you use Angular 13 and above, you should use the builder configuration instead:
+
+```json
+   "my-default-project": {
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "styles": ["src/styles.css", "src/styles.scss"],
+          }
+        }
+      },
+   },
+```
+
+If you need storybook-specific styles separate from your app, you can configure the styles in the [SB Angular builder](#sb-angular-builder), which completely overrides your project's styles:
+
+```json
+      "storybook": {
+        "builder": "@storybook/angular:start-storybook",
+        "options": {
+          "browserTarget": "my-default-project:build",
+          "styles": [".storybook/custom-styles.scss"],
+        },
+      }
+```
+
+#### Angular component parameter removed
 
 In SB6.3 and earlier, the `default.component` metadata was implemented as a parameter, meaning that stories could set `parameters.component` to override the default export. This was an internal implementation that was never documented, but it was mistakenly used in some Angular examples.
 

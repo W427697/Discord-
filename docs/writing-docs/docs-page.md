@@ -4,7 +4,7 @@ title: 'DocsPage'
 
 <div class="aside">
 
-💡 <strong>NOTE</strong>: Currently there's an issue when using MDX stories with IE11. This issue does <strong>not</strong> apply to DocsPage. If you're interested in helping us fix this issue, read our <a href="https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING.md">Contribution guidelines</a> and submit a pull request.
+💡 Currently there's an issue when using MDX stories with IE11. This issue does <strong>not</strong> apply to DocsPage. If you're interested in helping us fix this issue, read our <a href="https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING.md">Contribution guidelines</a> and submit a pull request.
 
 </div>
 
@@ -176,14 +176,15 @@ Therefore, we recommend inline rendering where possible. It's the default mode f
 
 To toggle the between the two settings, set `docs.inlineStories` in `.storybook/preview.js`. Like most [parameters](../writing-stories/parameters.md), you can also toggle at the component or story level:
 
-```js
-export const parameters = {
-  docs: {
-    // opt-out of inline rendering
-    inlineStories: false,
-  },
-};
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-preview-optout-inline.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ### Custom inline rendering
 

@@ -36,8 +36,6 @@ import { normalizeInputTypes } from './normalizeInputTypes';
 import { inferArgTypes } from './inferArgTypes';
 import { inferControls } from './inferControls';
 
-const { FEATURES } = global;
-
 // TODO -- what are reasonable values for these?
 const CSF_CACHE_SIZE = 1000;
 const STORY_CACHE_SIZE = 10000;
@@ -83,7 +81,7 @@ export class StoryStore<TFramework extends AnyFramework> {
 
   prepareStoryWithCache: typeof prepareStory;
 
-  initializationPromise: Promise<void>;
+  initializationPromise: SynchronousPromise<void>;
 
   resolveInitializationPromise: () => void;
 
@@ -177,9 +175,11 @@ export class StoryStore<TFramework extends AnyFramework> {
   }
 
   cacheAllCSFFiles(): PromiseLike<void> {
-    return this.loadAllCSFFiles().then((csfFiles) => {
-      this.cachedCSFFiles = csfFiles;
-    });
+    return this.initializationPromise.then(() =>
+      this.loadAllCSFFiles().then((csfFiles) => {
+        this.cachedCSFFiles = csfFiles;
+      })
+    );
   }
 
   // Load the CSF file for a story and prepare the story from it and the project annotations.
@@ -296,7 +296,7 @@ export class StoryStore<TFramework extends AnyFramework> {
       (story) => ({
         ...pick(story, ['id', 'name', 'title']),
         importPath: this.storyIndex.stories[story.id].importPath,
-        ...(!FEATURES?.breakingChangesV7 && {
+        ...(!global.FEATURES?.breakingChangesV7 && {
           kind: story.title,
           story: story.name,
           parameters: {

@@ -29,8 +29,6 @@ import { ClientApiAddons, StoryApi } from '@storybook/addons';
 
 import { StoryStoreFacade } from './StoryStoreFacade';
 
-const { FEATURES } = global;
-
 export interface GetStorybookStory<TFramework extends AnyFramework> {
   name: string;
   render: LegacyStoryFn<TFramework>;
@@ -70,7 +68,7 @@ const warnings = {
 };
 
 const checkMethod = (method: string, deprecationWarning: boolean) => {
-  if (FEATURES?.storyStoreV7) {
+  if (global.FEATURES?.storyStoreV7) {
     throw new Error(
       dedent`You cannot use \`${method}\` with the new Story Store.
       
@@ -318,7 +316,7 @@ export class ClientApi<TFramework extends AnyFramework> {
         );
       }
 
-      const { decorators, loaders, ...storyParameters } = parameters;
+      const { decorators, loaders, component, args, argTypes, ...storyParameters } = parameters;
 
       // eslint-disable-next-line no-underscore-dangle
       const storyId = parameters.__id || toId(kind, storyName);
@@ -330,6 +328,9 @@ export class ClientApi<TFramework extends AnyFramework> {
         parameters: { fileName, __id: storyId, ...storyParameters },
         decorators,
         loaders,
+        args,
+        argTypes,
+        component,
         render: storyFn,
       };
       counter += 1;
@@ -360,12 +361,15 @@ Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.m
       return api;
     };
 
-    api.addParameters = (parameters: Parameters) => {
+    api.addParameters = ({ component, args, argTypes, ...parameters }: Parameters) => {
       if (hasAdded)
         throw new Error(`You cannot add parameters after the first story for a kind.
 Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md#can-no-longer-add-decoratorsparameters-after-stories`);
 
       meta.parameters = combineParameters(meta.parameters, parameters);
+      if (component) meta.component = component;
+      if (args) meta.args = { ...meta.args, ...args };
+      if (argTypes) meta.argTypes = { ...meta.argTypes, ...argTypes };
       return api;
     };
 
