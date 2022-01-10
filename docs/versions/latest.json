@@ -1,1 +1,1 @@
-{"version":"6.3.12","info":{"plain":"### Bug Fixes\n\n* CLI: Force `sb upgrade` to use latest version of `npm-check-updates` ([#16336](https://github.com/storybookjs/storybook/pull/16336))"}}
+{"version":"6.3.13","info":{"plain":"### Dependency Upgrades\n\n- Bump cli-table3 to fix colors bug ([#17180](https://github.com/storybookjs/storybook/pull/17180))"}}
