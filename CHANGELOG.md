@@ -1,3 +1,9 @@
+## 5.3.22 (January 10, 2022)
+
+### Dependency Upgrades
+
+- Bump cli-table3 to fix colors.js bug in 5.3 ([#17182](https://github.com/storybookjs/storybook/pull/17182))
+
 ## 5.3.21 (August 28, 2020)
 
 ### Bug Fixes
