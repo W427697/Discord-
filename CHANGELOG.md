@@ -1,8 +1,12 @@
-## 6.4.11 (January 11, 2022)
+## 6.4.12 (January 11, 2022)
 
 ### Bug Fixes
 
-* Angular: Fix for renamed method in angular 13.1 ([#17032](https://github.com/storybookjs/storybook/pull/17032))
+- Angular: Fix for renamed method in angular 13.1 ([#17032](https://github.com/storybookjs/storybook/pull/17032))
+
+## 6.4.11 (January 11, 2022)
+
+Bad NPM publish
 
 ## 6.4.10 (January 10, 2022)
 
