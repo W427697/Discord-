@@ -87,13 +87,13 @@ export async function webpackFinal(baseConfig: webpack.Configuration, options: P
 function getBuilderContext(options: PresetOptions): BuilderContext {
   return (
     options.angularBuilderContext ??
-    (({
+    ({
       target: { project: 'noop-project', builder: '', options: {} },
       workspaceRoot: process.cwd(),
       getProjectMetadata: () => ({}),
       getTargetOptions: () => ({}),
       logger: new logging.Logger('Storybook'),
-    } as unknown) as BuilderContext)
+    } as unknown as BuilderContext)
   );
 }
 
@@ -181,7 +181,9 @@ async function getLegacyDefaultBuildOptions(options: PresetOptions) {
       browserTarget.target
     );
 
-    logger.info(`=> Using angular project "${browserTarget.project}:${browserTarget.target}" for configuring Storybook`);
+    logger.info(
+      `=> Using angular project "${browserTarget.project}:${browserTarget.target}" for configuring Storybook`
+    );
     return { ...target.options };
   } catch (error) {
     logger.error(`=> Could not find angular project: ${error.message}`);
