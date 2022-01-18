@@ -17,11 +17,10 @@ export async function commitEverythingInDirectory(commitMessage) {
 }
 
 /**
- * Init a Git repository with initial branch named with input string
+ * Check if there are some changes in the local Git repository
  *
- * @param {string} branch
- * @return {Promise<void>}
+ * @return {Promise<boolean>}
  */
-export async function initRepo(branch) {
-  await $`git init --initial-branch ${branch}`;
+export async function hasLocalChanges() {
+  return (await $`git status --porcelain`).toString() !== '';
 }

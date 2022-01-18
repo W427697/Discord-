@@ -7,7 +7,7 @@ on:
 # To remove when the branch will be merged
   push:
     branches:
-      - generate-repros
+      - update-repro-on-changes
 
 jobs:
   update:
@@ -23,6 +23,6 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Generate repros with Latest Storybook CLI
-        run: yarn generate-repros --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/repro-templates.git --push --force-push
+        run: yarn generate-repros --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/repro-templates.git --push
       - name: Generate repros with Next Storybook CLI
-        run: yarn generate-repros --next --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/repro-templates.git --push --force-push
+        run: yarn generate-repros --next --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/repro-templates.git --push
