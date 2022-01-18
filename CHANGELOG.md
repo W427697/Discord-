@@ -1,3 +1,249 @@
+## 6.5.0-alpha.19 (January 17, 2022)
+
+### Features
+
+- Core: Add IS_STORYBOOK global variable ([#16676](https://github.com/storybookjs/storybook/pull/16676))
+
+### Bug Fixes
+
+- Addon-docs: Fix `docs.disable` parameter on DocsPage ([#17256](https://github.com/storybookjs/storybook/pull/17256))
+- Controls: Fix number control update when using useArgs hook ([#17247](https://github.com/storybookjs/storybook/pull/17247))
+- Core: Fix issue with recursive glob with prior special chars ([#17252](https://github.com/storybookjs/storybook/pull/17252))
+
+## 6.5.0-alpha.18 (January 16, 2022)
+
+### Bug Fixes
+
+- Webpack: Fix for `process` fallback using `require.resolve` ([#17249](https://github.com/storybookjs/storybook/pull/17249))
+
+### Maintenance
+
+- Official-storybook: Fix ForwardRefButtonInnerPropTypes warning ([#12733](https://github.com/storybookjs/storybook/pull/12733))
+- Fix prettier 2.3 formatting across the codebase ([#17242](https://github.com/storybookjs/storybook/pull/17242))
+
+## 6.4.13 (January 15, 2022)
+
+### Bug Fixes
+
+- Core: Fix `staticDirs` favicon handling by refactor ([#17241](https://github.com/storybookjs/storybook/pull/17241))
+- Angular: Fix 13.1 and add CI test cases ([#17206](https://github.com/storybookjs/storybook/pull/17206))
+- Core: Fix `__namedExportsOrder` warning from preview.js ([#17240](https://github.com/storybookjs/storybook/pull/17240))
+- Webpack5: Fix manager.js `process` references ([#17213](https://github.com/storybookjs/storybook/pull/17213))
+
+### Dependency Upgrades
+
+- React: Remove react-dev-utils ([#17022](https://github.com/storybookjs/storybook/pull/17022))
+- Fix prettier transpile problems ([#17239](https://github.com/storybookjs/storybook/pull/17239))
+
+## 6.5.0-alpha.17 (January 14, 2022)
+
+### Bug Fixes
+
+- Core: Fix `staticDirs` favicon handling by refactor ([#17241](https://github.com/storybookjs/storybook/pull/17241))
+- Core: Fix `__namedExportsOrder` warning from preview.js ([#17240](https://github.com/storybookjs/storybook/pull/17240))
+
+### Dependency Upgrades
+
+- Fix prettier transpile problems ([#17239](https://github.com/storybookjs/storybook/pull/17239))
+
+## 6.5.0-alpha.16 (January 13, 2022)
+
+### Bug Fixes
+
+- Webpack5: Fix named exports order in production mode ([#17229](https://github.com/storybookjs/storybook/pull/17229))
+
+## 6.5.0-alpha.15 (January 12, 2022)
+
+### Bug Fixes
+
+- Angular: Fix 13.1 and add CI test cases ([#17206](https://github.com/storybookjs/storybook/pull/17206))
+- Webpack5: Fix manager.js process references ([#17213](https://github.com/storybookjs/storybook/pull/17213))
+
+### Dependency Upgrades
+
+- React: Restore webpack as a dependency, updated webpack 5 docs ([#17207](https://github.com/storybookjs/storybook/pull/17207))
+
+## 6.5.0-alpha.14 (January 11, 2022)
+
+### Bug Fixes
+
+- Angular: Fix void element selectors ([#15495](https://github.com/storybookjs/storybook/pull/15495))
+
+### Dependency Upgrades
+
+- React: Remove webpack from dependencies, types as devDependencies ([#17192](https://github.com/storybookjs/storybook/pull/17192))
+
+## 6.5.0-alpha.13 (January 11, 2022)
+
+### Features
+
+- UI: Set the current story name in the title ([#17177](https://github.com/storybookjs/storybook/pull/17177))
+
+### Bug Fixes
+
+- Core: Retain iframe.html query parameters ([#17136](https://github.com/storybookjs/storybook/pull/17136))
+- CSF3: Remove `path` from autoTitle browser code ([#17185](https://github.com/storybookjs/storybook/pull/17185))
+
+### Maintenance
+
+- Build: Fix package.json warnings in JetBrains IDEs ([#17184](https://github.com/storybookjs/storybook/pull/17184))
+- Fix github workflow syntax to run unit-tests on push ([#17148](https://github.com/storybookjs/storybook/pull/17148))
+
+## 5.3.22 (January 10, 2022)
+
+### Dependency Upgrades
+
+- Bump cli-table3 to fix colors.js bug in 5.3 ([#17182](https://github.com/storybookjs/storybook/pull/17182))
+
+## 6.3.13 (January 10, 2022)
+
+### Dependency Upgrades
+
+- Bump cli-table3 to fix colors bug ([#17180](https://github.com/storybookjs/storybook/pull/17180))
+
+## 6.4.10 (January 10, 2022)
+
+### Bug Fixes
+
+- Core: Fix process.env assignment ([#17174](https://github.com/storybookjs/storybook/pull/17174))
+- Angular: Fix angular 13.1 JIT error and HMR reload ([#17131](https://github.com/storybookjs/storybook/pull/17131))
+- Router: Fix navigating to hash links ([#17134](https://github.com/storybookjs/storybook/pull/17134))
+- Source-loader: Fix node.declaration edge case ([#17027](https://github.com/storybookjs/storybook/pull/17027))
+- Core: Fix debug output on webpack failures ([#16988](https://github.com/storybookjs/storybook/pull/16988))
+
+### Dependency Upgrades
+
+- Bump cli-table3 to fix colors bug ([#17180](https://github.com/storybookjs/storybook/pull/17180))
+
+## 6.5.0-alpha.12 (January 10, 2022)
+
+### Bug Fixes
+
+- Core: Fix process.env assignment ([#17174](https://github.com/storybookjs/storybook/pull/17174))
+
+### Dependency Upgrades
+
+- Bump cli-table3 to fix colors bug ([#17180](https://github.com/storybookjs/storybook/pull/17180))
+
+## 6.5.0-alpha.11 (January 7, 2022)
+
+### Bug Fixes
+
+- Addon-docs: Fix babel-loader resolution based on builder ([#16752](https://github.com/storybookjs/storybook/pull/16752))
+- Angular: Use ɵReflectionCapabilities to find component & module metadata ([#17156](https://github.com/storybookjs/storybook/pull/17156))
+
+### Dependency Upgrades
+
+- Update react-syntax-highlighter to fix transitive vulnerability ([#17127](https://github.com/storybookjs/storybook/pull/17127))
+
+## 6.5.0-alpha.10 (January 6, 2022)
+
+### Bug Fixes
+
+- Angular: Fix angular 13.1 JIT error and HMR reload ([#17131](https://github.com/storybookjs/storybook/pull/17131))
+- Core: Fix IE support by transpiling more libs to es5 ([#17141](https://github.com/storybookjs/storybook/pull/17141))
+
+## 6.5.0-alpha.9 (January 6, 2022)
+
+### Features
+
+- Allow setting project args/argTypes for v6 store ([#17043](https://github.com/storybookjs/storybook/pull/17043))
+
+### Bug Fixes
+
+- Router: Fix navigating to hash links ([#17134](https://github.com/storybookjs/storybook/pull/17134))
+
+## 6.5.0-alpha.8 (January 6, 2022)
+
+Publish failed
+
+## 6.5.0-alpha.7 (January 4, 2022)
+
+### Bug Fixes
+
+- Addon-measure: Update z-index to fit with libraries with also high z-index ([#15860](https://github.com/storybookjs/storybook/pull/15860))
+
+### Maintenance
+
+- Vue: Fix VueLoaderPlugin import to support vue-loader@16.x ([#14624](https://github.com/storybookjs/storybook/pull/14624))
+
+### Dependency Upgrades
+
+- Upgrade react-syntax-highlighter to pick up security patch upstream in highlight.js ([#17100](https://github.com/storybookjs/storybook/pull/17100))
+
+## 6.5.0-alpha.6 (January 3, 2022)
+
+### Features
+
+- Vue3: Add default render function CSF3 ([#17068](https://github.com/storybookjs/storybook/pull/17068))
+- Addon-docs/Vue: Include methods in ArgsTable ([#16975](https://github.com/storybookjs/storybook/pull/16975))
+
+### Bug Fixes
+
+- CLI: Install `lit-html` in new web components project ([#17106](https://github.com/storybookjs/storybook/pull/17106))
+- Angular: Fix runCompodoc for Windows, local Compodoc, and user specified tsconfig ([#16728](https://github.com/storybookjs/storybook/pull/16728))
+
+### Dependency Upgrades
+
+- React: Remove react-dev-utils ([#17022](https://github.com/storybookjs/storybook/pull/17022))
+
+## 6.5.0-alpha.5 (December 23, 2021)
+
+### Dependency Upgrades
+
+- Update react-refresh@0.11.0 & react-refresh-webpack-plugin@0.5.3 same as cra5 ([#17056](https://github.com/storybookjs/storybook/pull/17056))
+
+## 6.5.0-alpha.4 (December 18, 2021)
+
+### Bug Fixes
+
+- Angular: Fix for renamed method in angular 13.1 ([#17032](https://github.com/storybookjs/storybook/pull/17032))
+- Source-loader: Fix node.declaration edge case ([#17027](https://github.com/storybookjs/storybook/pull/17027))
+- Core: Fix debug output on webpack failures ([#16988](https://github.com/storybookjs/storybook/pull/16988))
+
+### Maintenance
+
+- Build: Run unit tests on more node versions, mac, and windows ([#16744](https://github.com/storybookjs/storybook/pull/16744))
+
+### Dependency Upgrades
+
+- Avoid referencing internal Emotion packages in built types ([#16905](https://github.com/storybookjs/storybook/pull/16905))
+
+## 6.5.0-alpha.3 (December 9, 2021)
+
+### Bug Fixes
+
+- Core: Support custom PREVIEW URL for block story iframe ([#16773](https://github.com/storybookjs/storybook/pull/16773))
+
+## 6.5.0-alpha.2 (December 9, 2021)
+
+### Bug Fixes
+
+- UI: Only push the view back to Story if the viewMode is settings ([#16943](https://github.com/storybookjs/storybook/pull/16943))
+- Core: Ensure we have a full story index before caching ([#16947](https://github.com/storybookjs/storybook/pull/16947))
+- Angular: Fix support for non-roman alphabets in story titles ([#16931](https://github.com/storybookjs/storybook/pull/16931))
+- Core: Be explicit about `viewMode` to fix Vue issue ([#16919](https://github.com/storybookjs/storybook/pull/16919))
+- Core: Remove unused and occluded types ([#16917](https://github.com/storybookjs/storybook/pull/16917))
+- CLI: Fix `sb repro` clobbering .vuerc ([#16897](https://github.com/storybookjs/storybook/pull/16897))
+- Core: Fix auto-title in webpack5 ([#16913](https://github.com/storybookjs/storybook/pull/16913))
+- Angular: Fix incorrect log ([#16885](https://github.com/storybookjs/storybook/pull/16885))
+- Angular: Fix tsConfig paths not resolving for Angular >=12.2 ([#16882](https://github.com/storybookjs/storybook/pull/16882))
+- Core: Add feature flag to disable legacy hierarchy separator warning ([#16915](https://github.com/storybookjs/storybook/pull/16915))
+
+### Dependency Upgrades
+
+- Move @types/node to dependencies and accept v16 types ([#16904](https://github.com/storybookjs/storybook/pull/16904))
+- Bump lodash to 4.17.21 ([#16883](https://github.com/storybookjs/storybook/pull/16883))
+
+## 6.4.9 (December 9, 2021)
+
+### Bug Fixes
+
+- Core: Ensure we have a full story index before caching ([#16947](https://github.com/storybookjs/storybook/pull/16947))
+- Angular: Fix support for non-roman alphabets in story titles ([#16931](https://github.com/storybookjs/storybook/pull/16931))
+- Core: Be explicit about `viewMode` to fix Vue issue ([#16919](https://github.com/storybookjs/storybook/pull/16919))
+- Core: Remove unused and occluded types ([#16917](https://github.com/storybookjs/storybook/pull/16917))
+
 ## 6.4.8 (December 6, 2021)
 
 ### Bug Fixes
