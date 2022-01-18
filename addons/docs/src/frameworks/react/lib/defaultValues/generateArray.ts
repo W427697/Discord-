@@ -1,4 +1,4 @@
-import { PropDefaultValue } from '@storybook/components';
+import type { PropDefaultValue } from '@storybook/components';
 import { ARRAY_CAPTION } from '../captions';
 import { InspectionResult, InspectionArray } from '../inspection';
 import { createSummaryValue, isTooLongForDefaultValueSummary } from '../../../../lib';

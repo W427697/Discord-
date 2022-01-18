@@ -133,7 +133,7 @@ const List = styled.div(({ theme }) => ({
 
 type Colors = string[] | { [key: string]: string };
 
-interface ColorProps {
+interface ColorPaletteProps {
   title: string;
   subtitle: string;
   colors: Colors;
@@ -179,7 +179,7 @@ function renderSwatchSpecimen(colors: Colors) {
  * A single color row your styleguide showing title, subtitle and one or more colors, used
  * as a child of `ColorPalette`.
  */
-export const ColorItem: FunctionComponent<ColorProps> = ({ title, subtitle, colors }) => {
+export const ColorItem: FunctionComponent<ColorPaletteProps> = ({ title, subtitle, colors }) => {
   return (
     <Item>
       <ItemDescription>

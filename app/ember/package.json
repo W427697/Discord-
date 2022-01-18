@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@ember/test-helpers": "^2.1.4",
+    "@storybook/client-api": "6.5.0-alpha.1",
     "@storybook/core": "6.5.0-alpha.1",
     "@storybook/core-common": "6.5.0-alpha.1",
     "@storybook/store": "6.5.0-alpha.1",

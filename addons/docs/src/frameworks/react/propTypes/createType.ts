@@ -1,6 +1,6 @@
-import { PropType } from '@storybook/components';
+import type { PropType } from '@storybook/components';
 import { createSummaryValue, isTooLongForTypeSummary } from '../../../lib';
-import { ExtractedProp, DocgenPropType } from '../../../lib/docgen';
+import type { ExtractedProp, DocgenPropType } from '../../../lib/docgen';
 import {
   generateFuncSignature,
   generateShortFuncSignature,

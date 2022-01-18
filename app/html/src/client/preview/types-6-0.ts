@@ -2,7 +2,7 @@ import { Args, ComponentAnnotations, StoryAnnotations, AnnotatedStoryFn } from '
 
 import { StoryFnHtmlReturnType } from './types';
 
-export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/addons';
+export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/csf';
 
 export type HtmlFramework = {
   component: HTMLElement;

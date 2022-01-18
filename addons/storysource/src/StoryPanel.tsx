@@ -1,17 +1,15 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import { API, Story, useParameter } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { Link } from '@storybook/router';
-import {
-  SyntaxHighlighter,
-  SyntaxHighlighterProps,
-  SyntaxHighlighterRendererProps,
-} from '@storybook/components';
+import { SyntaxHighlighter } from '@storybook/components';
 
 // @ts-expect-error Typedefs don't currently expose `createElement` even though it exists
 import { createElement as createSyntaxHighlighterElement } from 'react-syntax-highlighter';
 
 import { SourceBlock, LocationsMap } from '@storybook/source-loader';
+
+type X = ComponentProps<typeof SyntaxHighlighter>;
 
 const StyledStoryLink = styled(Link)<{ to: string; key: string }>(({ theme }) => ({
   display: 'block',
@@ -29,9 +27,11 @@ const SelectedStoryHighlight = styled.div(({ theme }) => ({
   borderRadius: theme.appBorderRadius,
 }));
 
-const StyledSyntaxHighlighter = styled(SyntaxHighlighter)<SyntaxHighlighterProps>(({ theme }) => ({
-  fontSize: theme.typography.size.s2 - 1,
-}));
+const StyledSyntaxHighlighter = styled(SyntaxHighlighter)<ComponentProps<typeof SyntaxHighlighter>>(
+  ({ theme }) => ({
+    fontSize: theme.typography.size.s2 - 1,
+  })
+);
 
 const areLocationsEqual = (a: SourceBlock, b: SourceBlock): boolean =>
   a.startLoc.line === b.startLoc.line &&
@@ -67,7 +67,7 @@ export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
     }
   }, [selectedStoryRef.current]);
 
-  const createPart = ({ rows, stylesheet, useInlineStyles }: SyntaxHighlighterRendererProps) =>
+  const createPart: X['renderer'] = ({ rows, stylesheet, useInlineStyles }) =>
     rows.map((node, i) =>
       createSyntaxHighlighterElement({
         node,
@@ -84,7 +84,11 @@ export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
     location,
     id,
     refId,
-  }: SyntaxHighlighterRendererProps & { location: SourceBlock; id: string; refId?: string }) => {
+  }: Parameters<X['renderer']>[0] & {
+    location: SourceBlock;
+    id: string;
+    refId?: string;
+  }) => {
     const first = location.startLoc.line - 1;
     const last = location.endLoc.line;
 
@@ -106,7 +110,7 @@ export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
     );
   };
 
-  const createParts = ({ rows, stylesheet, useInlineStyles }: SyntaxHighlighterRendererProps) => {
+  const createParts: X['renderer'] = ({ rows, stylesheet, useInlineStyles }) => {
     const parts = [];
     let lastRow = 0;
 
@@ -134,11 +138,7 @@ export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
     return parts;
   };
 
-  const lineRenderer = ({
-    rows,
-    stylesheet,
-    useInlineStyles,
-  }: SyntaxHighlighterRendererProps): React.ReactNode => {
+  const lineRenderer: X['renderer'] = ({ rows, stylesheet, useInlineStyles }) => {
     // because of the usage of lineRenderer, all lines will be wrapped in a span
     // these spans will receive all classes on them for some reason
     // which makes colours cascade incorrectly

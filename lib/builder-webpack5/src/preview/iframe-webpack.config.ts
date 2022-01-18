@@ -40,6 +40,7 @@ const storybookPaths: Record<string, string> = [
   'channel-postmessage',
   'components',
   'core-events',
+  'core-client',
   'router',
   'theming',
   'semver',
@@ -65,6 +66,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     framework,
     frameworkPath,
     presets,
+    previewUrl,
     typescriptOptions,
     modern,
     features,
@@ -122,7 +124,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     );
 
     configs.forEach((configFilename: any) => {
-      const clientApi = storybookPaths['@storybook/client-api'];
+      const clientApi = storybookPaths['@storybook/core-client'];
       const clientLogger = storybookPaths['@storybook/client-logger'];
 
       virtualModuleMapping[`${configFilename}-generated-config-entry.js`] = interpolate(
@@ -192,6 +194,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
             FRAMEWORK_OPTIONS: frameworkOptions,
             CHANNEL_OPTIONS: coreOptions?.channelOptions,
             FEATURES: features,
+            PREVIEW_URL: previewUrl,
             STORIES: stories.map((specifier) => ({
               ...specifier,
               importPathMatcher: specifier.importPathMatcher.source,

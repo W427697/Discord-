@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useContext } from 'react';
-import { Description, DescriptionProps as PureDescriptionProps } from '@storybook/components';
+import React, { ComponentProps, FunctionComponent, useContext } from 'react';
+import { Description } from '@storybook/components';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { Component, CURRENT_SELECTION } from './types';
 import { str } from '../lib/docgen';
@@ -32,7 +32,7 @@ const noDescription = (component?: Component): string | null => null;
 export const getDescriptionProps = (
   { of, type, markdown, children }: DescriptionProps,
   { id, storyById }: DocsContextProps<any>
-): PureDescriptionProps => {
+): ComponentProps<typeof Description> => {
   const { component, parameters } = storyById(id);
   if (children || markdown) {
     return { markdown: children || markdown };

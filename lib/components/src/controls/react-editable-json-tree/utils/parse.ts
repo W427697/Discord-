@@ -3,7 +3,7 @@
  * @param string {String} string to parse
  * @returns {*}
  */
-function parse(string) {
+function parse(string: string) {
   let result = string;
 
   // Check if string contains 'function' and start with it to eval it

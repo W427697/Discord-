@@ -1,5 +1,5 @@
 import { start } from '@storybook/core/client';
-import { ClientStoryApi, Loadable } from '@storybook/addons';
+import type { ClientStoryApi, Loadable } from '@storybook/addons';
 
 import './globals';
 import { renderToDOM, render } from './render';

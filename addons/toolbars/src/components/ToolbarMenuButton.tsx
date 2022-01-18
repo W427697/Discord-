@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
-import { Icons, IconButton, IconsProps } from '@storybook/components';
+import React, { ComponentProps, FC } from 'react';
+import { Icons, IconButton } from '@storybook/components';
 
 interface ToolbarMenuButtonProps {
   active: boolean;
   title: string;
-  icon: IconsProps['icon'] | '';
+  icon: ComponentProps<typeof Icons>['icon'] | '';
   description: string;
   onClick?: () => void;
 }

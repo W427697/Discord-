@@ -1,9 +1,12 @@
+/* eslint-disable react/default-props-match-prop-types */
 import React, { FunctionComponent, ReactNode, useCallback, useState, useEffect } from 'react';
 import { styled } from '@storybook/theming';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import global from 'global';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import TooltipTrigger from 'react-popper-tooltip';
-import { Modifier, Placement } from '@popperjs/core';
+import type { Modifier, Placement } from '@popperjs/core';
 import { Tooltip } from './Tooltip';
 
 const { document } = global;

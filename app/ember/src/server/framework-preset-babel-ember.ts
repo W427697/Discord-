@@ -1,10 +1,11 @@
-import { TransformOptions } from '@babel/core';
+import type { TransformOptions } from '@babel/core';
 import { precompile } from 'ember-source/dist/ember-template-compiler';
-import { findDistEsm, StorybookConfig } from '@storybook/core-common';
+import type { StorybookConfig, Options } from '@storybook/core-common';
+import { findDistEsm } from '@storybook/core-common';
 
 let emberOptions: any;
 
-function precompileWithPlugins(string: string, options: any) {
+function precompileWithPlugins(string: string, options: Options) {
   const precompileOptions: any = options;
   if (emberOptions && emberOptions.polyfills) {
     precompileOptions.plugins = { ast: emberOptions.polyfills };
@@ -13,7 +14,7 @@ function precompileWithPlugins(string: string, options: any) {
   return precompile(string, precompileOptions);
 }
 
-export function babel(config: TransformOptions, options: any) {
+export async function babel(config: TransformOptions, options: Options): Promise<any> {
   if (options && options.presetsList) {
     options.presetsList.forEach((e: any, index: number) => {
       if (e.preset && e.preset.emberOptions) {

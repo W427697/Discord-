@@ -1,5 +1,4 @@
-import { Args } from '@storybook/addons';
-import { AnyFramework, ArgsEnhancer } from '@storybook/csf';
+import type { Args, AnyFramework, ArgsEnhancer } from '@storybook/csf';
 import { action } from '../index';
 
 // interface ActionsParameter {

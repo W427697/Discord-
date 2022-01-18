@@ -1,4 +1,4 @@
-import { PropDefaultValue } from '@storybook/components';
+import type { PropDefaultValue } from '@storybook/components';
 import { FUNCTION_CAPTION, ELEMENT_CAPTION } from '../captions';
 import {
   InspectionFunction,

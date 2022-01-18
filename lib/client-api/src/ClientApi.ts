@@ -41,7 +41,7 @@ export interface GetStorybookKind<TFramework extends AnyFramework> {
 }
 
 // ClientApi (and StoreStore) are really singletons. However they are not created until the
-// relevant framework instanciates them via `start.js`. The good news is this happens right away.
+// relevant framework instantiates them via `start.js`. The good news is this happens right away.
 let singleton: ClientApi<AnyFramework>;
 
 const warningAlternatives = {

@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { isComponentWillChange } from '../utils/objectTypes';
 import inputUsageTypes from '../types/inputUsageTypes';
 
-class JsonFunctionValue extends Component {
-  constructor(props) {
+class JsonValue extends Component<any, any> {
+  constructor(props: any) {
     super(props);
     const keyPath = [...props.keyPath, props.name];
     this.state = {
@@ -25,16 +25,16 @@ class JsonFunctionValue extends Component {
     this.onKeydown = this.onKeydown.bind(this);
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props: any, state:any) {
     return props.value !== state.value ? { value: props.value } : null;
   }
 
   componentDidUpdate() {
     const { editEnabled, inputRef, name, value, keyPath, deep } = this.state;
     const { readOnly, dataType } = this.props;
-    const readOnlyResult = readOnly(name, value, keyPath, deep, dataType);
+    const isReadOnly = readOnly(name, value, keyPath, deep, dataType);
 
-    if (editEnabled && !readOnlyResult && typeof inputRef.focus === 'function') {
+    if (editEnabled && !isReadOnly && typeof inputRef.focus === 'function') {
       inputRef.focus();
     }
   }
@@ -47,7 +47,7 @@ class JsonFunctionValue extends Component {
     document.removeEventListener('keydown', this.onKeydown);
   }
 
-  onKeydown(event) {
+  onKeydown(event:any) {
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.repeat) return;
     if (event.code === 'Enter' || event.key === 'Enter') {
       event.preventDefault();
@@ -88,7 +88,8 @@ class JsonFunctionValue extends Component {
     });
   }
 
-  refInput(node) {
+  refInput(node: any) {
+    //@ts-ignore
     this.state.inputRef = node;
   }
 
@@ -108,77 +109,67 @@ class JsonFunctionValue extends Component {
       getStyle,
       editButtonElement,
       cancelButtonElement,
-      textareaElementGenerator,
+      inputElementGenerator,
       minusMenuElement,
       keyPath: comeFromKeyPath,
     } = this.props;
 
     const style = getStyle(name, originalValue, keyPath, deep, dataType);
-    let result = null;
-    let minusElement = null;
-    const resultOnlyResult = readOnly(name, originalValue, keyPath, deep, dataType);
+    const isReadOnly = readOnly(name, originalValue, keyPath, deep, dataType);
+    const isEditing = editEnabled && !isReadOnly;
+    const inputElement = inputElementGenerator(
+      inputUsageTypes.VALUE,
+      comeFromKeyPath,
+      deep,
+      name,
+      originalValue,
+      dataType
+    );
 
-    if (editEnabled && !resultOnlyResult) {
-      const textareaElement = textareaElementGenerator(
-        inputUsageTypes.VALUE,
-        comeFromKeyPath,
-        deep,
-        name,
-        originalValue,
-        dataType
-      );
-
-      const editButtonElementLayout = React.cloneElement(editButtonElement, {
-        onClick: this.handleEdit,
-      });
-      const cancelButtonElementLayout = React.cloneElement(cancelButtonElement, {
-        onClick: this.handleCancelEdit,
-      });
-      const textareaElementLayout = React.cloneElement(textareaElement, {
-        ref: this.refInput,
-        defaultValue: originalValue,
-      });
-
-      result = (
-        <span className="rejt-edit-form" style={style.editForm}>
-          {textareaElementLayout} {cancelButtonElementLayout}
-          {editButtonElementLayout}
-        </span>
-      );
-      minusElement = null;
-    } else {
-      /* eslint-disable jsx-a11y/no-static-element-interactions */
-      result = (
-        <span
-          className="rejt-value"
-          style={style.value}
-          onClick={resultOnlyResult ? null : this.handleEditMode}
-        >
-          {value}
-        </span>
-      );
-      /* eslint-enable */
-      const minusMenuLayout = React.cloneElement(minusMenuElement, {
-        onClick: handleRemove,
-        className: 'rejt-minus-menu',
-        style: style.minus,
-      });
-      minusElement = resultOnlyResult ? null : minusMenuLayout;
-    }
+    const editButtonElementLayout = React.cloneElement(editButtonElement, {
+      onClick: this.handleEdit,
+    });
+    const cancelButtonElementLayout = React.cloneElement(cancelButtonElement, {
+      onClick: this.handleCancelEdit,
+    });
+    const inputElementLayout = React.cloneElement(inputElement, {
+      ref: this.refInput,
+      defaultValue: JSON.stringify(originalValue),
+    });
+    const minusMenuLayout = React.cloneElement(minusMenuElement, {
+      onClick: handleRemove,
+      className: 'rejt-minus-menu',
+      style: style.minus,
+    });
 
     return (
-      <li className="rejt-function-value-node" style={style.li}>
+      <li className="rejt-value-node" style={style.li}>
         <span className="rejt-name" style={style.name}>
-          {name} :{' '}
+          {name}
+          {' : '}
         </span>
-        {result}
-        {minusElement}
+        {isEditing ? (
+          <span className="rejt-edit-form" style={style.editForm}>
+            {inputElementLayout} {cancelButtonElementLayout}
+            {editButtonElementLayout}
+          </span>
+        ) : (
+          <span
+            className="rejt-value"
+            style={style.value}
+            onClick={isReadOnly ? null : this.handleEditMode}
+          >
+            {String(value)}
+          </span>
+        )}
+        {!isReadOnly && !isEditing && minusMenuLayout}
       </li>
     );
   }
 }
 
-JsonFunctionValue.propTypes = {
+//@ts-ignore
+JsonValue.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.any.isRequired,
   originalValue: PropTypes.any,
@@ -191,19 +182,20 @@ JsonFunctionValue.propTypes = {
   getStyle: PropTypes.func.isRequired,
   editButtonElement: PropTypes.element,
   cancelButtonElement: PropTypes.element,
-  textareaElementGenerator: PropTypes.func.isRequired,
+  inputElementGenerator: PropTypes.func.isRequired,
   minusMenuElement: PropTypes.element,
   logger: PropTypes.object.isRequired,
   onSubmitValueParser: PropTypes.func.isRequired,
 };
 
-JsonFunctionValue.defaultProps = {
+//@ts-ignore
+JsonValue.defaultProps = {
   keyPath: [],
   deep: 0,
-  handleUpdateValue: () => {},
+  handleUpdateValue: () => Promise.resolve(),
   editButtonElement: <button>e</button>,
   cancelButtonElement: <button>c</button>,
   minusMenuElement: <span> - </span>,
 };
 
-export default JsonFunctionValue;
+export default JsonValue;

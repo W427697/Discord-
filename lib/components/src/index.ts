@@ -1,5 +1,5 @@
-import { createElement, forwardRef, ElementType } from 'react';
-import { components as rawComponents } from './typography/DocumentFormatting';
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./typings.d.ts" />
 
 export { Badge } from './Badge/Badge';
 
@@ -50,13 +50,3 @@ export * from './controls';
 export { Loader } from './Loader/Loader';
 
 export * from './typography/DocumentFormatting';
-
-export { rawComponents as components };
-
-const resetComponents: Record<string, ElementType> = {};
-
-Object.keys(rawComponents).forEach((key) => {
-  resetComponents[key] = forwardRef((props, ref) => createElement(key, { ...props, ref }));
-});
-
-export { resetComponents };

@@ -3,7 +3,7 @@
  * @param obj {*} object to get type
  * @returns {*}
  */
-function getObjectType(obj) {
+function getObjectType(obj:any) {
   if (
     obj !== null &&
     typeof obj === 'object' &&
@@ -21,7 +21,7 @@ function getObjectType(obj) {
  * @param newValue {*} new value
  * @returns {boolean} result
  */
-function isComponentWillChange(oldValue, newValue) {
+function isComponentWillChange(oldValue:any, newValue:any) {
   const oldType = getObjectType(oldValue);
   const newType = getObjectType(newValue);
   return (oldType === 'Function' || newType === 'Function') && newType !== oldType;

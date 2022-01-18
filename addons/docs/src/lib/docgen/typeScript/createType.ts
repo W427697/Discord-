@@ -1,5 +1,5 @@
-import { PropType } from '@storybook/components';
-import { DocgenInfo } from '../types';
+import type { PropType } from '@storybook/components';
+import type { DocgenInfo } from '../types';
 import { createSummaryValue } from '../../utils';
 
 export function createType({ tsType, required }: DocgenInfo): PropType {

@@ -9,8 +9,8 @@ import DATA_TYPES from './types/dataTypes';
 import INPUT_USAGE_TYPES from './types/inputUsageTypes';
 import parse from './utils/parse';
 
-class JsonTree extends Component {
-  constructor(props) {
+class JsonTree extends Component<any, any> {
+  constructor(props:any) {
     super(props);
     this.state = {
       data: props.data,
@@ -21,7 +21,7 @@ class JsonTree extends Component {
     this.removeRoot = this.removeRoot.bind(this);
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props:any, state:any) {
     if (props.data !== state.data || props.rootName !== state.rootName) {
       return {
         data: props.data,
@@ -31,7 +31,7 @@ class JsonTree extends Component {
     return null;
   }
 
-  onUpdate(key, data) {
+  onUpdate(key:any, data:any) {
     this.setState({ data });
     this.props.onFullyUpdate(data);
   }
@@ -113,6 +113,7 @@ class JsonTree extends Component {
   }
 }
 
+//@ts-ignore
 JsonTree.propTypes = {
   data: PropTypes.any.isRequired,
   rootName: PropTypes.string,
@@ -135,10 +136,11 @@ JsonTree.propTypes = {
   onSubmitValueParser: PropTypes.func,
 };
 
+//@ts-ignore
 JsonTree.defaultProps = {
   rootName: 'root',
-  isCollapsed: (keyPath, deep) => deep !== -1,
-  getStyle: (keyName, data, keyPath, deep, dataType) => {
+  isCollapsed: (keyPath:any, deep:any) => deep !== -1,
+  getStyle: (keyName:any, data:any, keyPath:any, deep:any, dataType:any) => {
     switch (dataType) {
       case 'Object':
       case 'Error':
@@ -149,19 +151,20 @@ JsonTree.defaultProps = {
         return value;
     }
   },
-  /* eslint-disable no-unused-vars */
-  readOnly: (keyName, data, keyPath, deep, dataType) => false,
-  onFullyUpdate: (data) => {},
-  onDeltaUpdate: ({ type, keyPath, deep, key, newValue, oldValue }) => {},
-  beforeRemoveAction: (key, keyPath, deep, oldValue) => new Promise((resolve) => resolve()),
-  beforeAddAction: (key, keyPath, deep, newValue) => new Promise((resolve) => resolve()),
-  beforeUpdateAction: (key, keyPath, deep, oldValue, newValue) =>
+  readOnly: () => false,
+  onFullyUpdate: () => {},
+  onDeltaUpdate: () => {},
+  //@ts-ignore
+  beforeRemoveAction: () => new Promise((resolve) => resolve()),
+  //@ts-ignore
+  beforeAddAction: () => new Promise((resolve) => resolve()),
+  beforeUpdateAction: () =>
+  //@ts-ignore
     new Promise((resolve) => resolve()),
   logger: { error: () => {} },
-  onSubmitValueParser: (isEditMode, keyPath, deep, name, rawValue) => parse(rawValue),
-  inputElement: (usage, keyPath, deep, keyName, data, dataType) => <input />,
-  textareaElement: (usage, keyPath, deep, keyName, data, dataType) => <textarea />,
-  /* eslint-enable */
+  onSubmitValueParser: (isEditMode:any, keyPath:any, deep:any, name:any, rawValue:any) => parse(rawValue),
+  inputElement: () => <input />,
+  textareaElement: () => <textarea />,
   fallback: null,
 };
 

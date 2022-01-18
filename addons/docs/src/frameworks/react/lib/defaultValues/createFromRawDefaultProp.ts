@@ -1,4 +1,4 @@
-import { PropDefaultValue } from '@storybook/components';
+import type { PropDefaultValue } from '@storybook/components';
 import isPlainObject from 'lodash/isPlainObject';
 import isFunction from 'lodash/isFunction';
 import isString from 'lodash/isString';

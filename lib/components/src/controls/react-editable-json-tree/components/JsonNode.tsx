@@ -8,8 +8,8 @@ import JsonFunctionValue from './JsonFunctionValue';
 import { getObjectType } from '../utils/objectTypes';
 import dataTypes from '../types/dataTypes';
 
-class JsonNode extends Component {
-  constructor(props) {
+class JsonNode extends Component<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = {
       data: props.data,
@@ -19,7 +19,7 @@ class JsonNode extends Component {
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props:any, state:any) {
     return props.data !== state.data ? { data: props.data } : null;
   }
 
@@ -308,6 +308,7 @@ class JsonNode extends Component {
   }
 }
 
+//@ts-ignore
 JsonNode.propTypes = {
   name: PropTypes.string.isRequired,
   data: PropTypes.any,
@@ -333,7 +334,7 @@ JsonNode.propTypes = {
   logger: PropTypes.object.isRequired,
   onSubmitValueParser: PropTypes.func.isRequired,
 };
-
+//@ts-ignore
 JsonNode.defaultProps = {
   keyPath: [],
   deep: 0,

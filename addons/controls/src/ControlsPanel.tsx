@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { ArgTypes, useArgs, useArgTypes, useParameter, useStorybookState } from '@storybook/api';
-import { ArgsTable, NoControlsWarning, PresetColor, SortType } from '@storybook/components';
+import { ArgsTable, NoControlsWarning } from '@storybook/components';
+import type { PresetColor, SortType } from '@storybook/components';
 
 import { PARAM_KEY } from './constants';
 

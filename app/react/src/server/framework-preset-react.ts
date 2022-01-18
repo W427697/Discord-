@@ -1,12 +1,12 @@
 import path from 'path';
-import { TransformOptions } from '@babel/core';
+import type { TransformOptions } from '@babel/core';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import type { Configuration } from 'webpack';
 
 import { logger } from '@storybook/node-logger';
 import type { Options } from '@storybook/core-common';
 
-export async function babel(config: TransformOptions, options: Options) {
+export async function babel(config: TransformOptions, options: Options): Promise<any> {
   const isDevelopment = options.configType === 'DEVELOPMENT';
   const reactOptions = await options.presets.apply(
     'reactOptions',
@@ -45,7 +45,7 @@ const hasJsxRuntime = () => {
   }
 };
 
-export async function babelDefault(config: TransformOptions) {
+export async function babelDefault(config: TransformOptions): Promise<any> {
   const presetReactOptions = hasJsxRuntime() ? { runtime: 'automatic' } : {};
   return {
     ...config,

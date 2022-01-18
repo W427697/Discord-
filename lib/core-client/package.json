@@ -37,7 +37,9 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "dtsbundle": "dts-bundle-generator --config dtsconfig.js",
+    "oldprepare": "node ../../scripts/prepare.js",
+    "prepare": "node ./scripts/prebundle.js && yarn dtsbundle"
   },
   "dependencies": {
     "@storybook/addons": "6.5.0-alpha.1",
@@ -52,12 +54,24 @@
     "@storybook/ui": "6.5.0-alpha.1",
     "airbnb-js-shims": "^2.2.1",
     "ansi-to-html": "^0.6.11",
-    "core-js": "^3.8.2",
+    "core-js": "^3.8.2"
+  },
+  "devDependencies": {
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@rollup/plugin-typescript": "^8.3.0",
+    "dts-bundle-generator": "^6.2.0",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
     "qs": "^6.10.0",
     "regenerator-runtime": "^0.13.7",
+    "rollup": "^2.60.2",
+    "rollup-plugin-dts": "^3.0.0",
+    "rollup-plugin-flat-dts": "^1.4.0",
     "ts-dedent": "^2.0.0",
+    "tsc-prog": "^2.2.1",
     "unfetch": "^4.2.0",
     "util-deprecate": "^1.0.2"
   },

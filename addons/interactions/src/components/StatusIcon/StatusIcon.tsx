@@ -1,12 +1,12 @@
-import React from 'react';
-import { Icons, IconsProps } from '@storybook/components';
+import React, { ComponentProps } from 'react';
+import { Icons } from '@storybook/components';
 import { Call, CallStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 
 import { transparentize } from 'polished';
 import localTheme from '../../theme';
 
-export interface StatusIconProps extends IconsProps {
+export interface StatusIconProps extends ComponentProps<typeof Icons> {
   status: Call['status'];
 }
 
@@ -37,7 +37,7 @@ export const StatusIcon: React.FC<StatusIconProps> = ({ status, className }) => 
     [CallStates.ERROR]: 'stopalt',
     [CallStates.ACTIVE]: 'play',
     [CallStates.WAITING]: 'circle',
-  }[status] as IconsProps['icon'];
+  }[status] as ComponentProps<typeof Icons>['icon'];
   return (
     <StyledStatusIcon
       data-testid={`icon-${status}`}

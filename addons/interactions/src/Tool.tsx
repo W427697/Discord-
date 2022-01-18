@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { ComponentProps, useState } from 'react';
 import { useChannel, useStorybookApi } from '@storybook/api';
-import { Icons, IconButton } from '@storybook/components';
-import { ButtonProps } from '@storybook/components/dist/ts3.9/Button/Button';
+import { Icons, IconButton, Button } from '@storybook/components';
 import { FORCE_REMOUNT } from '@storybook/core-events';
 import { styled } from '@storybook/theming';
 import { TOOL_ID } from './constants';
 
-interface AnimatedButtonProps extends ButtonProps {
+interface AnimatedButtonProps extends ComponentProps<typeof Button> {
   animating?: boolean;
 }
 const StyledAnimatedIconButton = styled(IconButton)<AnimatedButtonProps>(

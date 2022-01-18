@@ -1,9 +1,5 @@
-import React, { FC, useContext } from 'react';
-import {
-  Source as PureSource,
-  SourceError,
-  SourceProps as PureSourceProps,
-} from '@storybook/components';
+import React, { ComponentProps, FC, useContext } from 'react';
+import { Source as PureSource, SourceError } from '@storybook/components';
 import { StoryId } from '@storybook/api';
 import { Story } from '@storybook/store';
 
@@ -94,7 +90,7 @@ export const getSourceProps = (
   props: SourceProps,
   docsContext: DocsContextProps<any>,
   sourceContext: SourceContextProps
-): PureSourceProps & SourceStateProps => {
+): ComponentProps<typeof PureSource> & SourceStateProps => {
   const { id: currentId, storyById } = docsContext;
   const { parameters } = storyById(currentId);
 

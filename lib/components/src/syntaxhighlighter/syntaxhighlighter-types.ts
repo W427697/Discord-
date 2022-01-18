@@ -10,8 +10,10 @@ export interface SyntaxHighlighterProps {
   language: string;
   copyable?: boolean;
   bordered?: boolean;
+  showLineNumbers?: boolean;
   padded?: boolean;
   format?: boolean;
   className?: string;
   renderer?: (props: SyntaxHighlighterRendererProps) => React.ReactNode;
+  children: any;
 }

@@ -1,12 +1,14 @@
-import React, { FC, ReactElement, ReactNode, ReactNodeArray, useContext } from 'react';
+import React, {
+  ComponentProps,
+  FC,
+  ReactElement,
+  ReactNode,
+  ReactNodeArray,
+  useContext,
+} from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { toId, storyNameFromExport, AnyFramework } from '@storybook/csf';
-import {
-  resetComponents,
-  Preview as PurePreview,
-  PreviewProps as PurePreviewProps,
-  PreviewSkeleton,
-} from '@storybook/components';
+import { resetComponents, Preview as PurePreview, PreviewSkeleton } from '@storybook/components';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { SourceContext, SourceContextProps } from './SourceContainer';
 import { getSourceProps, SourceState } from './Source';
@@ -14,7 +16,7 @@ import { useStories } from './useStory';
 
 export { SourceState };
 
-type CanvasProps = PurePreviewProps & {
+type CanvasProps = ComponentProps<typeof PurePreview> & {
   withSource?: SourceState;
   mdxSource?: string;
 };

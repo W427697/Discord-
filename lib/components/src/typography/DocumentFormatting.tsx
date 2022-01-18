@@ -1,4 +1,5 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import React, { FunctionComponent, ReactNode, createElement, forwardRef, ElementType } from 'react';
+
 import { styled, CSSObject } from '@storybook/theming';
 import { withReset, withMargin, headerCommon, codeCommon } from './shared';
 import { StyledSyntaxHighlighter } from '../blocks/Source';
@@ -417,3 +418,11 @@ export const components = {
     <ResetWrapper {...nameSpaceClassNames(props, 'resetwrapper')} />
   )) as typeof ResetWrapper,
 };
+
+const resetComponents: Record<string, ElementType> = {};
+
+Object.keys(components).forEach((key) => {
+  resetComponents[key] = forwardRef((props, ref) => createElement(key, { ...props, ref }));
+});
+
+export { resetComponents };

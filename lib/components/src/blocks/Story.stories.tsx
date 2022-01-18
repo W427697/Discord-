@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Story, StorySkeleton, StoryError } from './Story';
+import { Story, StoryError } from './Story';
+import { StorySkeleton } from './StorySkeleton';
 import { Button } from '../Button/Button';
 
 export default {

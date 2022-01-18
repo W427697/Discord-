@@ -1,5 +1,5 @@
-import { PropType } from '@storybook/components';
-import { DocgenFlowType } from '../types';
+import type { PropType } from '@storybook/components';
+import type { DocgenFlowType } from '../types';
 import { createSummaryValue, isTooLongForTypeSummary } from '../../utils';
 
 enum FlowTypesType {

@@ -1,6 +1,6 @@
-import React, { Fragment, useState } from 'react';
+import React, { ComponentProps, Fragment, useState } from 'react';
 import { styled, themes, convert } from '@storybook/theming';
-import { Icons, IconsProps } from '@storybook/components';
+import { Icons } from '@storybook/components';
 
 const ListWrapper = styled.ul({
   listStyle: 'none',
@@ -18,7 +18,7 @@ const Wrapper = styled.div({
   },
 });
 
-const Icon = styled(Icons)<IconsProps>({
+const Icon = styled(Icons)<ComponentProps<typeof Icons>>({
   height: 10,
   width: 10,
   minWidth: 10,

@@ -1,16 +1,11 @@
 import React, { FC, useContext, useEffect, useState, useCallback } from 'react';
 import mapValues from 'lodash/mapValues';
-import {
-  ArgsTable as PureArgsTable,
-  ArgsTableProps as PureArgsTableProps,
-  ArgsTableError,
-  SortType,
-  TabbedArgsTable,
-} from '@storybook/components';
+import { ArgsTable as PureArgsTable, ArgsTableError, TabbedArgsTable } from '@storybook/components';
+import type { ArgsTableProps as PureArgsTableProps, SortType } from '@storybook/components';
 import { addons } from '@storybook/addons';
 import { filterArgTypes, PropDescriptor } from '@storybook/store';
 import Events from '@storybook/core-events';
-import { StrictArgTypes, Args } from '@storybook/csf';
+import type { StrictArgTypes, Args } from '@storybook/csf';
 
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { Component, CURRENT_SELECTION, PRIMARY_STORY } from './types';

@@ -5,13 +5,13 @@ import JsonNode from './JsonNode';
 import JsonAddValue from './JsonAddValue';
 import { ADD_DELTA_TYPE, REMOVE_DELTA_TYPE, UPDATE_DELTA_TYPE } from '../types/deltaTypes';
 
-class JsonObject extends Component {
-  constructor(props) {
+class JsonArray extends Component<any, any> {
+  constructor(props: any) {
     super(props);
-    const keyPath = props.deep === -1 ? [] : [...props.keyPath, props.name];
+    const keyPath = [...props.keyPath, props.name];
     this.state = {
-      name: props.name,
       data: props.data,
+      name: props.name,
       keyPath,
       deep: props.deep,
       nextDeep: props.deep + 1,
@@ -21,7 +21,7 @@ class JsonObject extends Component {
 
     // Bind
     this.handleCollapseMode = this.handleCollapseMode.bind(this);
-    this.handleRemoveValue = this.handleRemoveValue.bind(this);
+    this.handleRemoveItem = this.handleRemoveItem.bind(this);
     this.handleAddMode = this.handleAddMode.bind(this);
     this.handleAddValueAdd = this.handleAddValueAdd.bind(this);
     this.handleAddValueCancel = this.handleAddValueCancel.bind(this);
@@ -31,11 +31,11 @@ class JsonObject extends Component {
     this.renderNotCollapsed = this.renderNotCollapsed.bind(this);
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props:any, state:any) {
     return props.data !== state.data ? { data: props.data } : null;
   }
 
-  onChildUpdate(childKey, childData) {
+  onChildUpdate(childKey:any, childData:any) {
     const { data, keyPath } = this.state;
     // Update data
     data[childKey] = childData;
@@ -55,57 +55,30 @@ class JsonObject extends Component {
     });
   }
 
-  handleAddValueCancel() {
-    this.setState({
-      addFormVisible: false,
-    });
+  handleCollapseMode() {
+    this.setState((state:any) => ({
+      collapsed: !state.collapsed,
+    }));
   }
 
-  handleAddValueAdd({ key, newValue }) {
-    const { data, keyPath, nextDeep: deep } = this.state;
-    const { beforeAddAction, logger } = this.props;
-
-    beforeAddAction(key, keyPath, deep, newValue)
-      .then(() => {
-        // Update data
-        data[key] = newValue;
-        this.setState({
-          data,
-        });
-        // Cancel add to close
-        this.handleAddValueCancel();
-        // Spread new update
-        const { onUpdate, onDeltaUpdate } = this.props;
-        onUpdate(keyPath[keyPath.length - 1], data);
-        // Spread delta update
-        onDeltaUpdate({
-          type: ADD_DELTA_TYPE,
-          keyPath,
-          deep,
-          key,
-          newValue,
-        });
-      })
-      .catch(logger.error);
-  }
-
-  handleRemoveValue(key) {
+  handleRemoveItem(index:any) {
     return () => {
       const { beforeRemoveAction, logger } = this.props;
       const { data, keyPath, nextDeep: deep } = this.state;
-      const oldValue = data[key];
+      const oldValue = data[index];
+
       // Before Remove Action
-      beforeRemoveAction(key, keyPath, deep, oldValue)
+      beforeRemoveAction(index, keyPath, deep, oldValue)
         .then(() => {
           const deltaUpdateResult = {
             keyPath,
             deep,
-            key,
+            key: index,
             oldValue,
             type: REMOVE_DELTA_TYPE,
           };
 
-          delete data[key];
+          data.splice(index, 1);
           this.setState({ data });
 
           // Spread new update
@@ -118,13 +91,41 @@ class JsonObject extends Component {
     };
   }
 
-  handleCollapseMode() {
-    this.setState((state) => ({
-      collapsed: !state.collapsed,
-    }));
+  handleAddValueAdd({ newValue }:any) {
+    const { data, keyPath, nextDeep: deep } = this.state;
+    const { beforeAddAction, logger } = this.props;
+
+    beforeAddAction(data.length, keyPath, deep, newValue)
+      .then(() => {
+        // Update data
+        const newData = [...data, newValue];
+        this.setState({
+          data: newData,
+        });
+        // Cancel add to close
+        this.handleAddValueCancel();
+        // Spread new update
+        const { onUpdate, onDeltaUpdate } = this.props;
+        onUpdate(keyPath[keyPath.length - 1], newData);
+        // Spread delta update
+        onDeltaUpdate({
+          type: ADD_DELTA_TYPE,
+          keyPath,
+          deep,
+          key: newData.length - 1,
+          newValue,
+        });
+      })
+      .catch(logger.error);
   }
 
-  handleEditValue({ key, value }) {
+  handleAddValueCancel() {
+    this.setState({
+      addFormVisible: false,
+    });
+  }
+
+  handleEditValue({ key, value }:any) {
     return new Promise((resolve, reject) => {
       const { beforeUpdateAction } = this.props;
       const { data, keyPath, nextDeep: deep } = this.state;
@@ -154,6 +155,7 @@ class JsonObject extends Component {
             oldValue,
           });
           // Resolve
+          //@ts-ignore
           resolve();
         })
         .catch(reject);
@@ -161,11 +163,9 @@ class JsonObject extends Component {
   }
 
   renderCollapsed() {
-    const { name, keyPath, deep, data } = this.state;
-    const { handleRemove, readOnly, dataType, getStyle, minusMenuElement } = this.props;
-
+    const { name, data, keyPath, deep } = this.state;
+    const { handleRemove, readOnly, getStyle, dataType, minusMenuElement } = this.props;
     const { minus, collapsed } = getStyle(name, data, keyPath, deep, dataType);
-    const keyList = Object.getOwnPropertyNames(data);
 
     const isReadOnly = readOnly(name, data, keyPath, deep, dataType);
 
@@ -179,7 +179,7 @@ class JsonObject extends Component {
     return (
       <span className="rejt-collapsed">
         <span className="rejt-collapsed-text" style={collapsed} onClick={this.handleCollapseMode}>
-          {'{...}'} {keyList.length} {keyList.length === 1 ? 'key' : 'keys'}
+          [...] {data.length} {data.length === 1 ? 'item' : 'items'}
         </span>
         {!isReadOnly && removeItemButton}
       </span>
@@ -188,7 +188,7 @@ class JsonObject extends Component {
   }
 
   renderNotCollapsed() {
-    const { name, data, keyPath, deep, nextDeep, addFormVisible } = this.state;
+    const { name, data, keyPath, deep, addFormVisible, nextDeep } = this.state;
     const {
       isCollapsed,
       handleRemove,
@@ -209,9 +209,7 @@ class JsonObject extends Component {
       logger,
       onSubmitValueParser,
     } = this.props;
-
-    const { minus, plus, addForm, ul, delimiter } = getStyle(name, data, keyPath, deep, dataType);
-    const keyList = Object.getOwnPropertyNames(data);
+    const { minus, plus, delimiter, ul, addForm } = getStyle(name, data, keyPath, deep, dataType);
 
     const isReadOnly = readOnly(name, data, keyPath, deep, dataType);
 
@@ -226,52 +224,51 @@ class JsonObject extends Component {
       style: minus,
     });
 
-    const list = keyList.map((key) => (
-      <JsonNode
-        key={key}
-        name={key}
-        data={data[key]}
-        keyPath={keyPath}
-        deep={nextDeep}
-        isCollapsed={isCollapsed}
-        handleRemove={this.handleRemoveValue(key)}
-        handleUpdateValue={this.handleEditValue}
-        onUpdate={this.onChildUpdate}
-        onDeltaUpdate={onDeltaUpdate}
-        readOnly={readOnly}
-        getStyle={getStyle}
-        addButtonElement={addButtonElement}
-        cancelButtonElement={cancelButtonElement}
-        editButtonElement={editButtonElement}
-        inputElementGenerator={inputElementGenerator}
-        textareaElementGenerator={textareaElementGenerator}
-        minusMenuElement={minusMenuElement}
-        plusMenuElement={plusMenuElement}
-        beforeRemoveAction={beforeRemoveAction}
-        beforeAddAction={beforeAddAction}
-        beforeUpdateAction={beforeUpdateAction}
-        logger={logger}
-        onSubmitValueParser={onSubmitValueParser}
-      />
-    ));
-
-    const startObject = '{';
-    const endObject = '}';
-
+    const onlyValue = true;
+    const startObject = '[';
+    const endObject = ']';
     return (
       <span className="rejt-not-collapsed">
         <span className="rejt-not-collapsed-delimiter" style={delimiter}>
           {startObject}
         </span>
-        {!isReadOnly && addItemButton}
+        {!addFormVisible && addItemButton}
         <ul className="rejt-not-collapsed-list" style={ul}>
-          {list}
+          {data.map((item:any, index:number) => (
+            <JsonNode
+              key={index}
+              name={`${index}`}
+              data={item}
+              keyPath={keyPath}
+              deep={nextDeep}
+              isCollapsed={isCollapsed}
+              handleRemove={this.handleRemoveItem(index)}
+              handleUpdateValue={this.handleEditValue}
+              onUpdate={this.onChildUpdate}
+              onDeltaUpdate={onDeltaUpdate}
+              readOnly={readOnly}
+              getStyle={getStyle}
+              addButtonElement={addButtonElement}
+              cancelButtonElement={cancelButtonElement}
+              editButtonElement={editButtonElement}
+              inputElementGenerator={inputElementGenerator}
+              textareaElementGenerator={textareaElementGenerator}
+              minusMenuElement={minusMenuElement}
+              plusMenuElement={plusMenuElement}
+              beforeRemoveAction={beforeRemoveAction}
+              beforeAddAction={beforeAddAction}
+              beforeUpdateAction={beforeUpdateAction}
+              logger={logger}
+              onSubmitValueParser={onSubmitValueParser}
+            />
+          ))}
         </ul>
         {!isReadOnly && addFormVisible && (
           <div className="rejt-add-form" style={addForm}>
             <JsonAddValue
               handleAdd={this.handleAddValueAdd}
               handleCancel={this.handleAddValueCancel}
+              onlyValue={onlyValue}
               addButtonElement={addButtonElement}
               cancelButtonElement={cancelButtonElement}
               inputElementGenerator={inputElementGenerator}
@@ -291,13 +288,13 @@ class JsonObject extends Component {
 
   render() {
     const { name, collapsed, data, keyPath, deep } = this.state;
-    const { getStyle, dataType } = this.props;
+    const { dataType, getStyle } = this.props;
     const value = collapsed ? this.renderCollapsed() : this.renderNotCollapsed();
     const style = getStyle(name, data, keyPath, deep, dataType);
 
     /* eslint-disable jsx-a11y/no-static-element-interactions */
     return (
-      <div className="rejt-object-node">
+      <div className="rejt-array-node">
         <span onClick={this.handleCollapseMode}>
           <span className="rejt-name" style={style.name}>
             {name} :{' '}
@@ -310,8 +307,9 @@ class JsonObject extends Component {
   }
 }
 
-JsonObject.propTypes = {
-  data: PropTypes.object.isRequired,
+//@ts-ignore
+JsonArray.propTypes = {
+  data: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
   isCollapsed: PropTypes.func.isRequired,
   keyPath: PropTypes.array,
@@ -335,12 +333,12 @@ JsonObject.propTypes = {
   logger: PropTypes.object.isRequired,
   onSubmitValueParser: PropTypes.func.isRequired,
 };
-
-JsonObject.defaultProps = {
+//@ts-ignore
+JsonArray.defaultProps = {
   keyPath: [],
   deep: 0,
   minusMenuElement: <span> - </span>,
   plusMenuElement: <span> + </span>,
 };
 
-export default JsonObject;
+export default JsonArray;
