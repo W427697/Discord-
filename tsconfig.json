@@ -8,12 +8,12 @@
     "emitDecoratorMetadata": true,
     "jsx": "react",
     "module": "commonjs",
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "target": "es5",
-    "types": ["jest"],
+    "types": [],
     "lib": ["es2019", "dom"]
   },
   "exclude": [
@@ -25,5 +25,12 @@
     "**/*.test.ts",
     "**/FlowType*",
     "**/setup-jest.ts"
-  ]
+  ],
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "compilerOptions": {
+      "types": ["node"]
+    }
+  }
 }
