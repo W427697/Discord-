@@ -53,6 +53,9 @@
     "@storybook/builder-webpack5": {
       "optional": true
     },
+    "@storybook/manager-webpack5": {
+      "optional": true
+    },
     "typescript": {
       "optional": true
     }

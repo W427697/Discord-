@@ -159,6 +159,9 @@
     "@storybook/angular": {
       "optional": true
     },
+    "@storybook/builder-webpack5": {
+      "optional": true
+    },
     "@storybook/html": {
       "optional": true
     },

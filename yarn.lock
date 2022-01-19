@@ -8209,6 +8209,8 @@ __metadata:
   peerDependenciesMeta:
     "@storybook/angular":
       optional: true
+    "@storybook/builder-webpack5":
+      optional: true
     "@storybook/html":
       optional: true
     "@storybook/react":
@@ -8270,6 +8272,8 @@ __metadata:
     react-dom: ^16.8.0 || ^17.0.0
     webpack: "*"
   peerDependenciesMeta:
+    "@storybook/builder-webpack5":
+      optional: true
     "@storybook/vue":
       optional: true
     "@storybook/web-components":
@@ -9396,6 +9400,8 @@ __metadata:
   peerDependenciesMeta:
     "@storybook/builder-webpack5":
       optional: true
+    "@storybook/manager-webpack5":
+      optional: true
     typescript:
       optional: true
   languageName: unknown
@@ -9958,6 +9964,8 @@ __metadata:
     react-dom: ^16.8.0 || ^17.0.0
   peerDependenciesMeta:
     "@babel/core":
+      optional: true
+    "@storybook/manager-webpack5":
       optional: true
     typescript:
       optional: true

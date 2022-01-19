@@ -71,6 +71,9 @@
     "webpack": "*"
   },
   "peerDependenciesMeta": {
+    "@storybook/builder-webpack5": {
+      "optional": true
+    },
     "@storybook/vue": {
       "optional": true
     },
