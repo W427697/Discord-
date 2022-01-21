@@ -55,6 +55,6 @@ export type FlowType =
   | FlowSigType
   | FlowArrayType;
 
-// We need export something otherwise webpack cache will break
+// We need to export something otherwise webpack cache will break
 // See https://github.com/webpack/webpack/issues/15214
 export function noop () {};

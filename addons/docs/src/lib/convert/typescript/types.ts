@@ -45,6 +45,6 @@ export type TSSigType = TSObjectSigType | TSFuncSigType;
 
 export type TSType = TSScalarType | TSCombinationType | TSSigType | TSArrayType;
 
-// We need export something otherwise webpack cache will break
+// We need to export something otherwise webpack cache will break
 // See https://github.com/webpack/webpack/issues/15214
 export function noop () {};
