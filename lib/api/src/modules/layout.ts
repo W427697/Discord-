@@ -1,7 +1,7 @@
 import global from 'global';
 import pick from 'lodash/pick';
 import deepEqual from 'fast-deep-equal';
-import { themes, ThemeVars } from '@storybook/theming';
+import { ThemeVars, create } from '@storybook/theming';
 
 import merge from '../lib/merge';
 import { State, ModuleFn } from '../index';
@@ -75,7 +75,7 @@ const defaultState: SubState = {
     panelPosition: 'bottom',
   },
   selectedPanel: undefined,
-  theme: themes.light,
+  theme: create(),
 };
 
 export const focusableUIElements = {
