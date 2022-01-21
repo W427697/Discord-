@@ -9,3 +9,7 @@ export type PTType = PTBaseType & {
   raw?: string;
   computed?: boolean;
 };
+
+// We need export something otherwise webpack cache will break
+// See https://github.com/webpack/webpack/issues/15214
+export function noop () {};
