@@ -1,7 +1,6 @@
 import path from 'path';
 import fse from 'fs-extra';
-import { DefinePlugin, Configuration, WebpackPluginInstance } from 'webpack';
-import Dotenv from 'dotenv-webpack';
+import { DefinePlugin, Configuration, WebpackPluginInstance, ProvidePlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
@@ -14,13 +13,12 @@ import readPackage from 'read-pkg-up';
 import {
   loadManagerOrAddonsFile,
   resolvePathInStorybookCache,
-  stringifyEnvs,
+  stringifyProcessEnvs,
   es6Transpiler,
   getManagerHeadTemplate,
   getManagerMainTemplate,
   Options,
   ManagerWebpackOptions,
-  hasDotenv,
 } from '@storybook/core-common';
 
 import { babelLoader } from './babel-loader-manager';
@@ -39,6 +37,8 @@ export async function managerWebpack(
     releaseNotesData,
     presets,
     modern,
+    features,
+    serverChannelUrl,
   }: Options & ManagerWebpackOptions
 ): Promise<Configuration> {
   const envs = await presets.apply<Record<string, string>>('env');
@@ -79,43 +79,42 @@ export async function managerWebpack(
     },
     plugins: [
       refs
-        ? ((new VirtualModulePlugin({
+        ? (new VirtualModulePlugin({
             [path.resolve(path.join(configDir, `generated-refs.js`))]: refsTemplate.replace(
               `'{{refs}}'`,
               JSON.stringify(refs)
             ),
-          }) as any) as WebpackPluginInstance)
+          }) as any as WebpackPluginInstance)
         : null,
-      (new HtmlWebpackPlugin({
+      new HtmlWebpackPlugin({
         filename: `index.html`,
         // FIXME: `none` isn't a known option
         chunksSortMode: 'none' as any,
         alwaysWriteToDisk: true,
         inject: false,
-        templateParameters: (compilation, files, options) => ({
-          compilation,
-          files,
-          options,
+        template,
+        templateParameters: {
           version,
           globals: {
             CONFIG_TYPE: configType,
             LOGLEVEL: logLevel,
+            FEATURES: features,
             VERSIONCHECK: JSON.stringify(versionCheck),
             RELEASE_NOTES_DATA: JSON.stringify(releaseNotesData),
             DOCS_MODE: docsMode, // global docs mode
             PREVIEW_URL: previewUrl, // global preview URL
+            SERVER_CHANNEL_URL: serverChannelUrl,
           },
           headHtmlSnippet,
-        }),
-        template,
-      }) as any) as WebpackPluginInstance,
-      (new CaseSensitivePathsPlugin() as any) as WebpackPluginInstance,
-      hasDotenv() ? new Dotenv({ silent: true }) : null,
+        },
+      }) as any as WebpackPluginInstance,
+      new CaseSensitivePathsPlugin() as any as WebpackPluginInstance,
       // graphql sources check process variable
       new DefinePlugin({
-        'process.env': stringifyEnvs(envs),
+        ...stringifyProcessEnvs(envs),
         NODE_ENV: JSON.stringify(envs.NODE_ENV),
-      }) as WebpackPluginInstance,
+      }),
+      new ProvidePlugin({ process: require.resolve('process/browser.js') }),
       // isProd &&
       //   BundleAnalyzerPlugin &&
       //   new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false }),
@@ -138,21 +137,25 @@ export async function managerWebpack(
         },
         {
           test: /\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/,
-          loader: require.resolve('file-loader'),
-          options: {
-            name: isProd
-              ? 'static/media/[name].[contenthash:8].[ext]'
-              : 'static/media/[path][name].[ext]',
+          type: 'asset/resource',
+          generator: {
+            filename: isProd
+              ? 'static/media/[name].[contenthash:8][ext]'
+              : 'static/media/[path][name][ext]',
           },
         },
         {
           test: /\.(mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/,
-          loader: require.resolve('url-loader'),
-          options: {
-            limit: 10000,
-            name: isProd
-              ? 'static/media/[name].[contenthash:8].[ext]'
-              : 'static/media/[path][name].[ext]',
+          type: 'asset',
+          parser: {
+            dataUrlCondition: {
+              maxSize: 10000,
+            },
+          },
+          generator: {
+            filename: isProd
+              ? 'static/media/[name].[contenthash:8][ext]'
+              : 'static/media/[path][name][ext]',
           },
         },
       ],

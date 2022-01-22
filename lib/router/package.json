@@ -1,6 +1,6 @@
 {
   "name": "@storybook/router",
-  "version": "6.4.0-alpha.33",
+  "version": "6.5.0-alpha.22",
   "description": "Core Storybook Router",
   "keywords": [
     "storybook"
@@ -40,15 +40,16 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@reach/router": "^1.3.4",
-    "@storybook/client-logger": "6.4.0-alpha.33",
-    "@types/reach__router": "^1.3.7",
+    "@storybook/client-logger": "6.5.0-alpha.22",
     "core-js": "^3.8.2",
     "fast-deep-equal": "^3.1.3",
     "global": "^4.4.0",
-    "lodash": "^4.17.20",
+    "history": "5.0.0",
+    "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0",
+    "react-router": "6.0.2",
+    "react-router-dom": "6.0.2",
     "ts-dedent": "^2.0.0"
   },
   "peerDependencies": {
@@ -58,6 +59,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "269aa6d39991bd4002754fda53f45d3b3d34ba98",
+  "gitHead": "585e074db08c2e8814c1342214ecf03505e585e2",
   "sbmodern": "dist/modern/index.js"
 }

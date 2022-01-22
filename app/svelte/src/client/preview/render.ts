@@ -1,12 +1,12 @@
 import global from 'global';
-import { RenderContext } from './types';
+import { ArgsStoryFn } from '@storybook/csf';
+import { RenderContext } from '@storybook/store';
+import { SvelteFramework } from './types';
 import PreviewRender from './PreviewRender.svelte';
 
 const { document } = global;
 
-type Component = any;
-
-let previousComponent: Component = null;
+let previousComponent: SvelteFramework['component'] = null;
 
 function cleanUpPreviousStory() {
   if (!previousComponent) {
@@ -16,7 +16,10 @@ function cleanUpPreviousStory() {
   previousComponent = null;
 }
 
-export default function render({ storyFn, kind, name, showMain, showError }: RenderContext) {
+export function renderToDOM(
+  { storyFn, kind, name, showMain, showError }: RenderContext<SvelteFramework>,
+  domElement: HTMLElement
+) {
   cleanUpPreviousStory();
 
   const target = document.getElementById('root');
@@ -35,3 +38,14 @@ export default function render({ storyFn, kind, name, showMain, showError }: Ren
 
   showMain();
 }
+
+export const render: ArgsStoryFn<SvelteFramework> = (args, context) => {
+  const { id, component: Component } = context;
+  if (!Component) {
+    throw new Error(
+      `Unable to render story ${id} as the component annotation is missing from the default export`
+    );
+  }
+
+  return { Component, props: args };
+};

@@ -1,7 +1,6 @@
 import path from 'path';
 import fse from 'fs-extra';
 import { DefinePlugin, Configuration, WebpackPluginInstance } from 'webpack';
-import Dotenv from 'dotenv-webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
@@ -15,7 +14,7 @@ import readPackage from 'read-pkg-up';
 import {
   loadManagerOrAddonsFile,
   resolvePathInStorybookCache,
-  stringifyEnvs,
+  stringifyProcessEnvs,
   es6Transpiler,
   getManagerHeadTemplate,
   getManagerMainTemplate,
@@ -39,6 +38,8 @@ export async function managerWebpack(
     releaseNotesData,
     presets,
     modern,
+    features,
+    serverChannelUrl,
   }: Options & ManagerWebpackOptions
 ): Promise<Configuration> {
   const envs = await presets.apply<Record<string, string>>('env');
@@ -79,41 +80,39 @@ export async function managerWebpack(
     },
     plugins: [
       refs
-        ? ((new VirtualModulePlugin({
+        ? (new VirtualModulePlugin({
             [path.resolve(path.join(configDir, `generated-refs.js`))]: refsTemplate.replace(
               `'{{refs}}'`,
               JSON.stringify(refs)
             ),
-          }) as any) as WebpackPluginInstance)
+          }) as any as WebpackPluginInstance)
         : null,
-      (new HtmlWebpackPlugin({
+      new HtmlWebpackPlugin({
         filename: `index.html`,
         // FIXME: `none` isn't a known option
         chunksSortMode: 'none' as any,
         alwaysWriteToDisk: true,
         inject: false,
-        templateParameters: (compilation, files, options) => ({
-          compilation,
-          files,
-          options,
+        template,
+        templateParameters: {
           version,
           globals: {
             CONFIG_TYPE: configType,
             LOGLEVEL: logLevel,
+            FEATURES: features,
             VERSIONCHECK: JSON.stringify(versionCheck),
             RELEASE_NOTES_DATA: JSON.stringify(releaseNotesData),
             DOCS_MODE: docsMode, // global docs mode
             PREVIEW_URL: previewUrl, // global preview URL
+            SERVER_CHANNEL_URL: serverChannelUrl,
           },
           headHtmlSnippet,
-        }),
-        template,
-      }) as any) as WebpackPluginInstance,
-      (new CaseSensitivePathsPlugin() as any) as WebpackPluginInstance,
-      (new Dotenv({ silent: true }) as any) as WebpackPluginInstance,
+        },
+      }) as any as WebpackPluginInstance,
+      new CaseSensitivePathsPlugin() as any as WebpackPluginInstance,
       // graphql sources check process variable
       new DefinePlugin({
-        'process.env': stringifyEnvs(envs),
+        ...stringifyProcessEnvs(envs),
         NODE_ENV: JSON.stringify(envs.NODE_ENV),
       }) as WebpackPluginInstance,
       // isProd &&
