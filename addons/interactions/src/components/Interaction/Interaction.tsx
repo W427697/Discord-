@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Call, CallStates, ControlStates } from '@storybook/instrumenter';
+import { IconButton, Icons } from '@storybook/components';
 import { styled, typography } from '@storybook/theming';
 import { transparentize } from 'polished';
 
@@ -7,6 +8,7 @@ import { MatcherResult } from '../MatcherResult';
 import { MethodCall } from '../MethodCall';
 import { StatusIcon } from '../StatusIcon/StatusIcon';
 import { Controls } from '../../Panel';
+import { findElementSelector } from '../../findElementSelectorFromCall';
 
 const MethodCallWrapper = styled.div(() => ({
   fontFamily: typography.fonts.mono,
@@ -14,6 +16,10 @@ const MethodCallWrapper = styled.div(() => ({
   overflowWrap: 'break-word',
   inlineSize: 'calc( 100% - 40px )',
 }));
+const ElementHiglightButton = styled(IconButton)({
+  position: 'absolute',
+  right: '1rem',
+});
 
 const RowContainer = styled('div', { shouldForwardProp: (prop) => !['call'].includes(prop) })<{
   call: Call;
@@ -66,11 +72,13 @@ export const Interaction = ({
   callsById,
   controls,
   controlStates,
+  onElementSelect,
 }: {
   call: Call;
   callsById: Map<Call['id'], Call>;
   controls: Controls;
   controlStates: ControlStates;
+  onElementSelect?: (selector: string) => void;
 }) => {
   const [isHovered, setIsHovered] = React.useState(false);
   return (
@@ -87,6 +95,16 @@ export const Interaction = ({
           <MethodCall call={call} callsById={callsById} />
         </MethodCallWrapper>
       </RowLabel>
+      <ElementHiglightButton
+        onClick={() => {
+          const callResult = findElementSelector(call, callsById);
+          if (callResult && onElementSelect) {
+            onElementSelect(callResult);
+          }
+        }}
+      >
+        <Icons icon="location" />
+      </ElementHiglightButton>
       {call.status === CallStates.ERROR &&
         call.exception &&
         (call.exception.message.startsWith('expect(') ? (
