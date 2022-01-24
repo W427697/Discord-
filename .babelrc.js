@@ -6,7 +6,7 @@ const withTests = {
     ],
   ],
   plugins: [
-    'babel-plugin-require-context-hook',
+    '@storybook/babel-plugin-require-context-hook',
     'babel-plugin-dynamic-import-node',
     '@babel/plugin-transform-runtime',
   ],
@@ -24,6 +24,7 @@ module.exports = {
   ignore: [
     './lib/codemod/src/transforms/__testfixtures__',
     './lib/postinstall/src/__testfixtures__',
+    '**/typings.d.ts',
   ],
   presets: [
     [
