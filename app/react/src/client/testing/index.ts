@@ -3,12 +3,15 @@ import {
   composeStories as originalComposeStories,
   setGlobalConfig as originalSetGlobalConfig,
   CSFExports,
+  loadGlobalConfig,
 } from '@storybook/store';
 import { ProjectAnnotations, Args } from '@storybook/csf';
 
 import { render } from '../preview/render';
 import type { Meta, ReactFramework } from '../preview/types-6-0';
 import type { StoriesWithPartialProps, TestingStory } from './types';
+
+export { loadGlobalConfig };
 
 /** Function that sets the globalConfig of your storybook. The global config is the preview module of your .storybook folder.
  *
