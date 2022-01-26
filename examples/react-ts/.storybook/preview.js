@@ -26,3 +26,5 @@ export const decorators = [
     </ThemeProvider>
   ),
 ];
+
+throw new Error('foo');

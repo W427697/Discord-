@@ -176,6 +176,7 @@ export class PreviewWeb<TFramework extends AnyFramework> {
         // This is an error extracting the projectAnnotations (i.e. evaluating the previewEntries) and
         // needs to be show to the user as a simple error
         this.renderPreviewEntryError('Error reading preview.js:', err);
+        this.initializeStoreAfterFailure();
         throw err;
       });
   }
@@ -200,6 +201,7 @@ export class PreviewWeb<TFramework extends AnyFramework> {
       .then((storyIndex: StoryIndex) => this.initializeWithStoryIndex(storyIndex))
       .catch((err) => {
         this.renderPreviewEntryError('Error loading story index:', err);
+        this.initializeStoreAfterFailure();
         throw err;
       });
   }
@@ -241,6 +243,16 @@ export class PreviewWeb<TFramework extends AnyFramework> {
 
         return this.selectSpecifiedStory();
       });
+  }
+
+  // If we fail to get project annotations or the index, set the store to empty
+  // so that various external API calls like `extract` will still function
+  initializeStoreAfterFailure() {
+    return this.storyStore.initialize({
+      storyIndex: { v: 3, stories: {} },
+      importFn: this.importFn,
+      cache: !global.FEATURES?.storyStoreV7,
+    });
   }
 
   // Use the selection specifier to choose a story, then render it

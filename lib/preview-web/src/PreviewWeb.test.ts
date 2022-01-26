@@ -125,6 +125,7 @@ describe('PreviewWeb', () => {
 
       expect(preview.view.showErrorDisplay).toHaveBeenCalled();
       expect(mockChannel.emit).toHaveBeenCalledWith(Events.CONFIG_ERROR, err);
+      await expect(preview.storyStore.initializationPromise).resolves.toBeFalsy();
     });
 
     it('shows an error if the stories.json endpoint 500s', async () => {
@@ -138,6 +139,7 @@ describe('PreviewWeb', () => {
 
       expect(preview.view.showErrorDisplay).toHaveBeenCalled();
       expect(mockChannel.emit).toHaveBeenCalledWith(Events.CONFIG_ERROR, expect.any(Error));
+      await expect(preview.storyStore.initializationPromise).resolves.toBeFalsy();
     });
 
     it('sets globals from the URL', async () => {
