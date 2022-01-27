@@ -129,7 +129,7 @@ describe('extractType', () => {
       [{ foo: 1 }, { name: 'object' }],
       [undefined, { name: 'void' }],
     ])('%s', (defaultValue, expected) => {
-      expect((makeProperty(null), defaultValue)).toEqual(expected);
+      expect(extractType(makeProperty(null), defaultValue)).toEqual(expected);
     });
   });
 });
