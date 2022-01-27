@@ -1,11 +1,12 @@
-import { extractType, setCompodocJson } from './compodoc';
+import { extractType, setCompodocJson, extractDefaultValue } from './compodoc';
 import { CompodocJson, Decorator } from './types';
 
-const makeProperty = (compodocType?: string) => ({
+const makeProperty = (compodocType?: string, defaultValue?: string) => ({
   type: compodocType,
   name: 'dummy',
   decorators: [] as Decorator[],
   optional: true,
+  defaultValue,
 });
 
 const getDummyCompodocJson = () => {
@@ -128,7 +129,21 @@ describe('extractType', () => {
       [{ foo: 1 }, { name: 'object' }],
       [undefined, { name: 'void' }],
     ])('%s', (defaultValue, expected) => {
-      expect(extractType(makeProperty(null), defaultValue)).toEqual(expected);
+      expect((makeProperty(null), defaultValue)).toEqual(expected);
     });
+  });
+});
+
+describe('extract defaultValue', () => {
+  setCompodocJson(getDummyCompodocJson());
+  it.each([
+    ['string', 'string value', 'string value'],
+    ['string', undefined, undefined],
+    ['boolean', 'true', true],
+    ['number', '123', 123],
+    ['IObj', '{test: true, another: "test"}', { test: true, another: 'test' }],
+    ['[]', '[true, false, true]', [true, false, true]],
+  ])('%s', (compodocType, defaultValue, expected) => {
+    expect(extractDefaultValue(makeProperty(compodocType, defaultValue))).toEqual(expected);
   });
 });

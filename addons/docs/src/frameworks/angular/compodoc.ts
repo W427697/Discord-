@@ -3,6 +3,7 @@
 
 import { ArgType, ArgTypes } from '@storybook/api';
 import { logger } from '@storybook/client-logger';
+import { _$LH } from 'lit-html';
 import {
   Argument,
   Class,
@@ -169,7 +170,7 @@ const castDefaultValue = (property: Property, defaultValue: any) => {
       case 'EventEmitter':
         return undefined;
       default:
-        return defaultValue;
+        return extractCodeValue(defaultValue);
     }
   } else {
     switch (defaultValue) {
@@ -182,8 +183,18 @@ const castDefaultValue = (property: Property, defaultValue: any) => {
       case 'undefined':
         return undefined;
       default:
-        return defaultValue;
+        return extractCodeValue(defaultValue);
     }
+  }
+};
+
+const extractCodeValue = (defaultValue: string) => {
+  try {
+    // eslint-disable-next-line no-new-func
+    const func = new Function(`return ${defaultValue}`);
+    return func();
+  } catch (error) {
+    return defaultValue;
   }
 };
 
@@ -199,7 +210,7 @@ const extractDefaultValueFromComments = (property: Property, value: any) => {
   return commentValue;
 };
 
-const extractDefaultValue = (property: Property) => {
+export const extractDefaultValue = (property: Property) => {
   try {
     let value: string | boolean = property.defaultValue?.replace(/^'(.*)'$/, '$1');
     value = castDefaultValue(property, value);

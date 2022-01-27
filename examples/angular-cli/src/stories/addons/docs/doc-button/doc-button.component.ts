@@ -78,6 +78,10 @@ export class DocButtonComponent<T> {
   @Input()
   public aNumericValue = 123;
 
+  /** Test function default value. */
+  @Input()
+  public aFunctionValue = (test) => console.log(test);
+
   /** Appearance style of the button. */
   @Input()
   public appearance: 'primary' | 'secondary' = 'secondary';
@@ -92,6 +96,12 @@ export class DocButtonComponent<T> {
 
   /** Specifies some arbitrary object. This comment is to test certain chars like apostrophes - it's working */
   @Input() public someDataObject: ISomeInterface;
+
+  @Input() public someSetDataObject: ISomeInterface = {
+    one: 'test',
+    two: false,
+    three: [false, 'test'],
+  };
 
   /**
    * The inner text of the button.
@@ -150,6 +160,7 @@ export class DocButtonComponent<T> {
   @HostListener('click', ['$event'])
   onClickListener(event) {
     console.log('button', event.target);
+    this.aFunctionValue('aFunctionValue called');
     this.handleClick(event);
   }
 
