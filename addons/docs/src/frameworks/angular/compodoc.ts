@@ -3,7 +3,6 @@
 
 import { ArgType, ArgTypes } from '@storybook/api';
 import { logger } from '@storybook/client-logger';
-import { _$LH } from 'lit-html';
 import {
   Argument,
   Class,
