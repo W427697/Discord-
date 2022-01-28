@@ -340,6 +340,7 @@
   "eslint-teamcity": {
     "reporter": "inspections"
   },
+  "packageManager": "yarn@3.1.1",
   "pr-log": {
     "skipLabels": [
       "cleanup"
