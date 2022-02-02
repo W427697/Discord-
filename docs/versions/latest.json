@@ -1,1 +1,1 @@
-{"version":"6.4.17","info":{"plain":"### Bug Fixes\n\n- Revert \"Angular: Retrieve version from core package\" ([#17372](https://github.com/storybookjs/storybook/pull/17372))"}}
+{"version":"6.4.18","info":{"plain":"### Bug Fixes\n\n- CLI: Pin version of `@mdx-js/react` to 1.x.x until we are compatible ([#17395](https://github.com/storybookjs/storybook/pull/17395))"}}
