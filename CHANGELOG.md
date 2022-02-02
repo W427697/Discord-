@@ -2,7 +2,7 @@
 
 ### Bug Fixes
 
-* CLI: Pin version of `@mdx-js/react` to 1.x.x until we are compatible ([#17395](https://github.com/storybookjs/storybook/pull/17395))
+- CLI: Pin version of `@mdx-js/react` to 1.x.x until we are compatible ([#17395](https://github.com/storybookjs/storybook/pull/17395))
 
 ## 6.4.17 (January 31, 2022)
 
