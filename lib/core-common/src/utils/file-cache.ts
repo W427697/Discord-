@@ -1,14 +1,14 @@
 // @ts-ignore - this package has no typings, so we wrap it and add typings that way, because we expose it
 import Cache from 'file-system-cache';
 
-export interface Options {
+export interface FileCacheOptions {
   basePath?: string;
   ns?: string | string[];
   extension?: string;
 }
 
 export class FileSystemCache {
-  constructor(options: Options) {
+  constructor(options: FileCacheOptions) {
     this.internal = Cache(options) as any as FileSystemCache;
   }
 
@@ -60,6 +60,6 @@ export class FileSystemCache {
   }
 }
 
-export function createFileSystemCache(options: Options): FileSystemCache {
+export function createFileSystemCache(options: FileCacheOptions): FileSystemCache {
   return new FileSystemCache(options);
 }

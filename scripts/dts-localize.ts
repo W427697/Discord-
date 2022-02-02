@@ -64,7 +64,9 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
   const host = ts.createCompilerHost(compilerOptions);
   const cwd = options.cwd || process.cwd();
   const pkg = sync({ cwd }).packageJson;
-  const externals = Object.keys({ ...pkg.dependencies, ...pkg.peerDependencies });
+  const externals = ['node', 'typescript', 'http', 'https'].concat(
+    Object.keys({ ...pkg.dependencies, ...pkg.peerDependencies })
+  );
 
   // this to make paths for local packages as they are in node_modules because of yarn
   // but it depends on the way you handle "flatting of files"
@@ -174,6 +176,8 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
         return true;
       }
 
+      console.log({ target });
+
       currentSourceFile = node.getSourceFile().fileName;
 
       if (wasReplacedAlready(currentSourceFile, target)) {
@@ -205,6 +209,8 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
       if (wasIgnored(target)) {
         return true;
       }
+
+      console.log({ target });
 
       currentSourceFile = node.getSourceFile().fileName;
 
@@ -276,6 +282,7 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
           return;
         }
         if (!v) {
+          externals.push(k);
           return;
         }
         const x = sourceFiles.find((f) => f.fileName === v.resolvedFileName);

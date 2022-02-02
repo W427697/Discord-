@@ -4,7 +4,7 @@ export type OptionsEntry = { name: string };
 export type AddonEntry = string | OptionsEntry;
 export type AddonInfo = { name: string; inEssentials: boolean };
 
-interface Options {
+interface CheckAddonOrderOptions {
   before: AddonInfo;
   after: AddonInfo;
   configFile: string;
@@ -25,7 +25,12 @@ const isCorrectOrder = (addons: AddonEntry[], before: AddonInfo, after: AddonInf
   return beforeIndex !== -1 && afterIndex !== -1 && beforeIndex <= afterIndex;
 };
 
-export const checkAddonOrder = async ({ before, after, configFile, getConfig }: Options) => {
+export const checkAddonOrder = async ({
+  before,
+  after,
+  configFile,
+  getConfig,
+}: CheckAddonOrderOptions) => {
   try {
     const config = await getConfig(configFile);
 
