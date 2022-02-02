@@ -37,7 +37,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "ts-node ../../scripts/prebundle.ts"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
@@ -97,7 +97,8 @@
     "@types/interpret": "^1.1.1",
     "@types/mock-fs": "^4.13.0",
     "@types/picomatch": "^2.3.0",
-    "mock-fs": "^4.13.0"
+    "mock-fs": "^4.13.0",
+    "ts-node": "^10.4.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",
@@ -111,6 +112,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "bundlerEntrypoint": "./src/index.ts",
   "gitHead": "5eafd588972634b4d76ca2ebf01bd5ca2aaa0119",
   "sbmodern": "dist/modern/index.js"
 }
