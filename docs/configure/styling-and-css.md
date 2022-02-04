@@ -28,7 +28,14 @@ If your component files import their CSS, Storybook’s webpack config will work
 
 <!-- prettier-ignore-end -->
 
-To use your CSS in all stories, you import it in [`.storybook/preview.js`](./overview.md#configure-story-rendering)
+To use your (S)CSS in all stories, you import it to the styles list of your `build-storybook` configuration like this: 
+```json
+    "build-storybook": {
+      "options": {
+        "styles": ["apps/my-default-app/src/styles.scss"]
+      },
+    }  
+```
 
 ### Adding webfonts
 
