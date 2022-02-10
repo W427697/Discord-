@@ -14,7 +14,7 @@ const Meta: ComponentMeta<typeof TsButton> = {
   ],
 };
 
-export const Meta;
+export default Meta;
 
 const Template: Story = (args) => <TsButton {...args} />;
 
