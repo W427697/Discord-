@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { within, userEvent } from '@storybook/testing-library';
 import { Page } from './Page';
 
-const Meta: ComponentMeta<typeof Page> = {
+const StoryMeta: ComponentMeta<typeof Page> = {
   title: 'Example/Page',
   component: Page,
   parameters: {
@@ -12,7 +12,7 @@ const Meta: ComponentMeta<typeof Page> = {
   },
 };
 
-export default Meta;
+export default StoryMeta;
 
 const Template: ComponentStory<typeof Page> = (args) => <Page {...args} />;
 

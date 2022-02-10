@@ -12,7 +12,7 @@ const someFunction = (valuePropertyA, valuePropertyB) => {
   // Makes some computations and returns something
 };
 
-const Meta: ComponentMeta<typeof YourComponent> = {
+const StoryMeta: ComponentMeta<typeof YourComponent> = {
   /* 👇 The title prop is optional.
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
@@ -30,7 +30,7 @@ const Meta: ComponentMeta<typeof YourComponent> = {
   },
 };
 
-export default Meta;
+export default StoryMeta;
 
 const Template: ComponentStory<typeof YourComponent> = ({ propertyA, propertyB, ...rest }) => {
   //👇 Assigns the result from the function to a variable

@@ -2,7 +2,7 @@ import React from 'react';
 import { ComponentMeta, Story, ComponentStory } from '@storybook/react';
 import TsButton from '../../components/TsButton';
 
-const Meta: ComponentMeta<typeof TsButton> = {
+const StoryMeta: ComponentMeta<typeof TsButton> = {
   title: 'Other/Demo/TsButton',
   component: TsButton,
   decorators: [
@@ -14,7 +14,7 @@ const Meta: ComponentMeta<typeof TsButton> = {
   ],
 };
 
-export default Meta;
+export default StoryMeta;
 
 const Template: Story = (args) => <TsButton {...args} />;
 

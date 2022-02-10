@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { Header } from './Header';
 
-const Meta: ComponentMeta<typeof Header> = {
+const StoryMeta: ComponentMeta<typeof Header> = {
   title: 'Example/Header',
   component: Header,
   parameters: {
@@ -12,7 +12,7 @@ const Meta: ComponentMeta<typeof Header> = {
   },
 };
 
-export default Meta;
+export default StoryMeta;
 
 const Template: ComponentStory<typeof Header> = (args) => <Header {...args} />;
 

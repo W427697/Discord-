@@ -7,7 +7,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { Page } from './Page';
 
-const Meta: ComponentMeta<typeof Page> = {
+const StoryMeta: ComponentMeta<typeof Page> = {
   /* 👇 The title prop is optional.
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
@@ -16,7 +16,7 @@ const Meta: ComponentMeta<typeof Page> = {
   component: Page,
 };
 
-export default Meta;
+export default StoryMeta;
 
 const Template: ComponentStory<typeof Page> = (args) => (
   <Page {...args}>

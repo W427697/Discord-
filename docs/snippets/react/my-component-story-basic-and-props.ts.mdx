@@ -7,7 +7,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { MyComponent } from './MyComponent';
 
-const Meta: ComponentMeta<typeof MyComponent> = {
+const StoryMeta: ComponentMeta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
@@ -16,7 +16,7 @@ const Meta: ComponentMeta<typeof MyComponent> = {
   component: MyComponent,
 };
 
-export default Meta;
+export default StoryMeta;
 
 export const Basic: ComponentStory<typeof MyComponent> = () => <MyComponent/>;
 

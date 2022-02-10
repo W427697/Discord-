@@ -7,8 +7,8 @@ export * from './types-6-0';
  * For the common case where a component's stories are simple components that receives args as props:
  *
  * ```tsx
- * const Meta: ComponentMeta<typeof Button> = { ... };
- * export default Meta;
+ * const StoryMeta: ComponentMeta<typeof Button> = { ... };
+ * export default StoryMeta;
  * ```
  */
 export type ComponentMeta<T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>> =

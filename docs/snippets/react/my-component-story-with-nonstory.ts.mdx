@@ -9,7 +9,7 @@ import { MyComponent } from './MyComponent';
 
 import someData from './data.json';
 
-const Meta: ComponentMeta<typeof MyComponent> = {
+const StoryMeta: ComponentMeta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
@@ -20,7 +20,7 @@ const Meta: ComponentMeta<typeof MyComponent> = {
   excludeStories: /.*Data$/, // 👈 Storybook ignores anything that contains Data
 };
 
-export default Meta;
+export default StoryMeta;
 
 export const simpleData = { foo: 1, bar: 'baz' };
 export const complexData = { foo: 1, foobar: { bar: 'baz', baz: someData } };

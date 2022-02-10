@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Button } from './Button';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-const Meta: ComponentMeta<typeof Button> = {
+const StoryMeta: ComponentMeta<typeof Button> = {
   title: 'Example/Button',
   component: Button,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
@@ -13,7 +13,7 @@ const Meta: ComponentMeta<typeof Button> = {
   },
 };
 
-export default Meta;
+export default StoryMeta;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;

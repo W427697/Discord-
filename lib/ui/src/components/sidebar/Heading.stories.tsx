@@ -10,7 +10,7 @@ import { Heading } from './Heading';
 
 type Story = ComponentStory<typeof Heading>;
 
-const Meta: ComponentMeta<typeof Heading> = {
+const StoryMeta: ComponentMeta<typeof Heading> = {
   component: Heading,
   title: 'UI/Sidebar/Heading',
   excludeStories: /.*Data$/,
@@ -20,7 +20,7 @@ const Meta: ComponentMeta<typeof Heading> = {
   ],
 };
 
-export default Meta;
+export default StoryMeta;
 
 const menuItems = [
   { title: 'Menu Item 1', onClick: action('onActivateMenuItem'), id: '1' },

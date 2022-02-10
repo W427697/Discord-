@@ -11,7 +11,7 @@ import { ListItem } from './ListItem';
 //👇 All ListItem stories are imported
 import * as ListItemStories from './ListItemStories';
 
-const Meta: ComponentMeta<typeof List> = {
+const StoryMeta: ComponentMeta<typeof List> = {
   /* 👇 The title prop is optional.
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
@@ -20,7 +20,7 @@ const Meta: ComponentMeta<typeof List> = {
   component: List,
 };
 
-export default Meta;
+export default StoryMeta;
 
 export const ManyItems: ComponentStory<typeof List> = (args) => (
   <List {...args}>

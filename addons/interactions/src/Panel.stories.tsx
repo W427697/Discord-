@@ -20,7 +20,7 @@ const StyledWrapper = styled.div(({ theme }) => ({
   overflow: 'auto',
 }));
 
-const Meta: ComponentMeta<typeof AddonPanelPure> = {
+const StoryMeta: ComponentMeta<typeof AddonPanelPure> = {
   title: 'Addons/Interactions/Panel',
   component: AddonPanelPure,
   decorators: [
@@ -48,7 +48,7 @@ const Meta: ComponentMeta<typeof AddonPanelPure> = {
   },
 };
 
-export default Meta;
+export default StoryMeta;
 
 type Story = ComponentStoryObj<typeof AddonPanelPure>;
 

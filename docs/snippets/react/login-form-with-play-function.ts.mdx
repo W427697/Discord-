@@ -9,7 +9,7 @@ import { within, userEvent } from '@storybook/testing-library';
 
 import { LoginForm } from './LoginForm';
 
-const Meta: ComponentMeta<typeof LoginForm> = {
+const StoryMeta: ComponentMeta<typeof LoginForm> = {
   /* 👇 The title prop is optional.
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
@@ -18,7 +18,7 @@ const Meta: ComponentMeta<typeof LoginForm> = {
   component: LoginForm,
 };
 
-export default Meta;
+export default StoryMeta;
 
 const Template: ComponentStory<typeof LoginForm> = (args) => <LoginForm {...args} />;
 
