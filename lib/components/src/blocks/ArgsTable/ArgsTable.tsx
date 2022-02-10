@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import pickBy from 'lodash/pickBy';
 import { styled, ignoreSsrWarning } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
+import { Description } from '../Description';
 import { Icons } from '../../icon/icon';
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
@@ -263,6 +264,7 @@ export interface ArgsTableOptionProps {
   resetArgs?: (argNames?: string[]) => void;
   compact?: boolean;
   inAddonPanel?: boolean;
+  showDescription?: boolean;
   initialExpandedArgs?: boolean;
   isLoading?: boolean;
   sort?: SortType;
@@ -392,10 +394,12 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     compact,
     inAddonPanel,
     initialExpandedArgs,
+    showDescription,
     sort = 'none',
   } = props;
   const isLoading = 'isLoading' in props;
-  const { rows, args } = 'rows' in props ? props : argsTableLoadingData;
+  const { rows: allRows = {}, args } = 'rows' in props ? props : argsTableLoadingData;
+  const { __description, ...rows } = allRows;
 
   const groups = groupRows(
     pickBy(rows, (row) => !row?.table?.disable),
@@ -426,6 +430,9 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
 
   return (
     <ResetWrapper>
+      {__description?.description && !inAddonPanel && showDescription && (
+        <Description markdown={__description.description} />
+      )}
       <TableWrapper
         aria-hidden={isLoading}
         {...{ compact, inAddonPanel, isLoading }}

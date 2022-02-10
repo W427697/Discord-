@@ -16,13 +16,20 @@ export const TabbedArgsTable: FC<TabbedArgsTableProps> = ({ tabs, ...props }) =>
 
   return (
     <TabsState>
-      {entries.map((entry) => {
+      {entries.map((entry, index) => {
         const [label, table] = entry;
         const id = `prop_table_div_${label}`;
         return (
           <div key={id} id={id} title={label}>
             {({ active }: { active: boolean }) =>
-              active ? <ArgsTable key={`prop_table_${label}`} {...table} {...props} /> : null
+              active ? (
+                <ArgsTable
+                  showDescription={index !== 0}
+                  key={`prop_table_${label}`}
+                  {...table}
+                  {...props}
+                />
+              ) : null
             }
           </div>
         );
