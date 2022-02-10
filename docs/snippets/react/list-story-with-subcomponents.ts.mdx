@@ -8,7 +8,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { List } from './List';
 import { ListItem } from './ListItem';
 
-export default {
+const Meta: ComponentMeta<typeof List> = {
   /* 👇 The title prop is optional.
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
@@ -17,7 +17,9 @@ export default {
   component: List,
   subcomponents: { ListItem }, //👈 Adds the ListItem component as a subcomponent
   title: 'List',
-} as ComponentMeta<typeof List>;
+};
+
+export const Meta;
 
 const Empty: ComponentStory<typeof List> = (args) => <List {...args} />;
 

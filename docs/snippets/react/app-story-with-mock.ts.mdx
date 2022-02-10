@@ -7,14 +7,16 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import App from './App';
 
-export default {
+const Meta: ComponentMeta<typeof App> = {
   /* 👇 The title prop is optional.
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
   */
   title: 'App',
   component: App,
-} as ComponentMeta<typeof App>;
+};
+
+export default Meta;
 
 const Template: ComponentStory<typeof App> = () => <App />;
 

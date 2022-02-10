@@ -7,14 +7,16 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { List } from './List';
 
-export default {
+const Meta: ComponentMeta<typeof List> = {
   /* 👇 The title prop is optional.
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
   */
   title: 'List',
   component: List,
-} as ComponentMeta<typeof List>;
+};
+
+export const Meta;
 
 //👇 Always an empty list, not super interesting
 const Template: ComponentStory<typeof List> = (args) => <List {...args} />;

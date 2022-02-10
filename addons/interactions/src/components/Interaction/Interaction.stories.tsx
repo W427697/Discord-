@@ -9,7 +9,7 @@ import SubnavStories from '../Subnav/Subnav.stories';
 
 type Story = ComponentStoryObj<typeof Interaction>;
 
-export default {
+const Meta: ComponentMeta<typeof Interaction> = {
   title: 'Addons/Interactions/Interaction',
   component: Interaction,
   args: {
@@ -17,7 +17,9 @@ export default {
     controls: SubnavStories.args.controls,
     controlStates: SubnavStories.args.controlStates,
   },
-} as ComponentMeta<typeof Interaction>;
+};
+
+export default Meta;
 
 export const Active: Story = {
   args: {

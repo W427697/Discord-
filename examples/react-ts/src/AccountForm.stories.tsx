@@ -7,14 +7,16 @@ import { screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { AccountForm } from './AccountForm';
 
-export default {
+const Meta: ComponentMeta<typeof AccountForm> = {
   // Title not needed due to CSF3 auto-title
   // title: 'Demo/AccountForm',
   component: AccountForm,
   parameters: {
     layout: 'centered',
   },
-} as ComponentMeta<typeof AccountForm>;
+};
+
+export default Meta;
 
 // export const Standard = (args: any) => <AccountForm {...args} />;
 // Standard.args = { passwordVerification: false };

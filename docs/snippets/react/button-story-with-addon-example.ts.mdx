@@ -7,7 +7,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { Button } from './Button';
 
-export default {
+const Meta: ComponentMeta<typeof Button> = {
   /* 👇 The title prop is optional.
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
@@ -20,7 +20,9 @@ export default {
       data: 'this data is passed to the addon',
     },
   },
-} as ComponentMeta<typeof Button>;
+};
+
+export default Meta;
 
 const Basic: ComponentStory<typeof Button> = () => <Button>hello</Button>;
 ```

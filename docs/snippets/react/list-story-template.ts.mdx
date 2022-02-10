@@ -11,14 +11,16 @@ import { ListItem } from './ListItem';
 //👇 Imports a specific story from ListItem stories
 import { Unchecked } from './ListItem.stories';
 
-export default {
+const Meta: ComponentMeta<typeof List> = {
   /* 👇 The title prop is optional.
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
   */
   title: 'List',
   component: List,
-} as ComponentMeta<typeof List>;
+};
+
+export const Meta;
 
 const ListTemplate: ComponentStory<typeof ButtonGroup> = (args) => {
   const { items } = args;

@@ -11,7 +11,7 @@ import PageLayout from './PageLayout.stories';
 import DocumentHeader from './DocumentHeader.stories';
 import DocumentList from './DocumentList.stories';
 
-export default {
+const Meta: ComponentMeta<typeof DocumentScreen> = {
   /* 👇 The title prop is optional.
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
@@ -19,8 +19,9 @@ export default {
   title: 'DocumentScreen',
   component: DocumentScreen,
   title: 'DocumentScreen',
-} as ComponentMeta<typeof DocumentScreen>;
+};
 
+export default Meta;
 
 const Template: ComponentStory<typeof DocumentScreen> = (args) => <DocumentScreen {...args} />;
 

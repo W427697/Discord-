@@ -7,14 +7,16 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { MyComponent } from './MyComponent';
 
-export default {
+const Meta: ComponentMeta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading 
   * to learn how to generate automatic titles
   */
   title: 'Disable a11y addon',
   component: MyComponent,
-} as ComponentMeta<typeof MyComponent>;
+};
+
+export default Meta;
 
 const Template: ComponentStory<typeof MyComponent> = () => <MyComponent />;
 

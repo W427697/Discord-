@@ -12,7 +12,7 @@ const someFunction = (someValue: String) => {
   return `i am a ${someValue}`;
 };
 
-export default {
+const Meta: ComponentMeta<typeof Button> = {
   /* 👇 The title prop is optional.
   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
@@ -23,7 +23,9 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof Button>;
+};
+
+export const Meta;
 
 export const ExampleStory: ComponentStory<typeof Button> = (args) => {
   //👇 Destructure the label from the args object
