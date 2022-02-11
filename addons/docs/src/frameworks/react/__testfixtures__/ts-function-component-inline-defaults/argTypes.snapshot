@@ -2,10 +2,6 @@
 
 exports[`react component properties ts-function-component-inline-defaults 1`] = `
 Object {
-  "__description": Object {
-    "jsDocDescription": "A component that renders its props",
-    "name": "Component Description",
-  },
   "arrayOptional": Object {
     "control": Object {
       "type": "object",

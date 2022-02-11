@@ -18,6 +18,7 @@ import { getComponentName } from './utils';
 import { ArgTypesExtractor } from '../lib/docgen/types';
 import { lookupStoryId } from './Story';
 import { useStory } from './useStory';
+import { getDocgenDescription } from '../lib/docgen';
 
 interface BaseProps {
   include?: PropDescriptor;
@@ -88,6 +89,16 @@ export const extractComponentArgTypes = (
     throw new Error(ArgsTableError.ARGS_UNSUPPORTED);
   }
   let argTypes = extractArgTypes(component);
+  const description = getDocgenDescription(component);
+
+  if (description) {
+    // eslint-disable-next-line no-underscore-dangle
+    argTypes.__description = {
+      name: 'Component Description',
+      description,
+    };
+  }
+
   argTypes = filterArgTypes(argTypes, include, exclude);
 
   return argTypes;
