@@ -2,6 +2,10 @@
 
 exports[`react component properties 10278-ts-multiple-components 1`] = `
 Object {
+  "__description": Object {
+    "jsDocDescription": "A component",
+    "name": "Component Description",
+  },
   "aProperty": Object {
     "control": Object {
       "type": "object",
