@@ -1,3 +1,18 @@
+## 6.4.19 (February 12, 2022)
+
+### Features
+
+- CLI/React: Add interactions to cli template ([#17345](https://github.com/storybookjs/storybook/pull/17345))
+- CLI/Angular: Add interactions to cli template ([#17437](https://github.com/storybookjs/storybook/pull/17437))
+
+### Bug Fixes
+
+- Core/CLI: Add `extract` function to `PreviewWeb` and use it in `sb extract` if available ([#17447](https://github.com/storybookjs/storybook/pull/17447))
+- Core: Ensure we show an error when `configure()` throws ([#17435](https://github.com/storybookjs/storybook/pull/17435))
+- Core: Fix `useParameter` with nullish coalescing ([#17327](https://github.com/storybookjs/storybook/pull/17327))
+- Addon-links: Fix export statement in react.d.ts ([#17434](https://github.com/storybookjs/storybook/pull/17434))
+- Addon-docs: Fix typo in ArgsTable tooltip ([#17404](https://github.com/storybookjs/storybook/pull/17404))
+
 ## 6.4.18 (February 2, 2022)
 
 ### Bug Fixes
