@@ -43,7 +43,7 @@ export const checkValidCompodocJson = (compodocJson: CompodocJson) => {
 const hasDecorator = (item: Property, decoratorName: string) =>
   item.decorators && item.decorators.find((x: any) => x.name === decoratorName);
 
-const mapPropertyToSection = (key: string, item: Property) => {
+const mapPropertyToSection = (item: Property) => {
   if (hasDecorator(item, 'ViewChild')) {
     return 'view child';
   }
@@ -73,7 +73,7 @@ const mapItemToSection = (key: string, item: Method | Property): string => {
       if (isMethod(item)) {
         throw new Error("Cannot be of type Method if key === 'propertiesClass'");
       }
-      return mapPropertyToSection(key, item);
+      return mapPropertyToSection(item);
     default:
       throw new Error(`Unknown key: ${key}`);
   }
@@ -120,7 +120,7 @@ const extractTypeFromValue = (defaultValue: any) => {
 
 const extractEnumValues = (compodocType: any) => {
   const compodocJson = getCompodocJson();
-  const enumType = compodocJson?.miscellaneous.enumerations.find((x) => x.name === compodocType);
+  const enumType = compodocJson?.miscellaneous?.enumerations?.find((x) => x.name === compodocType);
 
   if (enumType?.childs.every((x) => x.value)) {
     return enumType.childs.map((x) => x.value);
@@ -217,7 +217,7 @@ const extractDefaultValue = (property: Property) => {
 
 const resolveTypealias = (compodocType: string): string => {
   const compodocJson = getCompodocJson();
-  const typeAlias = compodocJson?.miscellaneous.typealiases.find((x) => x.name === compodocType);
+  const typeAlias = compodocJson?.miscellaneous?.typealiases?.find((x) => x.name === compodocType);
   return typeAlias ? resolveTypealias(typeAlias.rawtype) : compodocType;
 };
 

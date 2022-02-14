@@ -1,13 +1,7 @@
 import fse from 'fs-extra';
 import { getStorybookBabelDependencies } from '@storybook/core-common';
 import { NpmOptions } from '../NpmOptions';
-import {
-  StoryFormat,
-  SupportedLanguage,
-  SupportedFrameworks,
-  Builder,
-  CoreBuilder,
-} from '../project_types';
+import { SupportedLanguage, SupportedFrameworks, Builder, CoreBuilder } from '../project_types';
 import { getBabelDependencies, copyComponents } from '../helpers';
 import { configure } from './configure';
 import { getPackageDetails, JsPackageManager } from '../js-package-manager';
@@ -15,7 +9,6 @@ import { generateStorybookBabelConfigInCWD } from '../babel-config';
 
 export type GeneratorOptions = {
   language: SupportedLanguage;
-  storyFormat: StoryFormat;
   builder: Builder;
   linkable: boolean;
 };
@@ -63,6 +56,11 @@ const builderDependencies = (builder: Builder) => {
   }
 };
 
+const stripVersions = (addons: string[]) => addons.map((addon) => getPackageDetails(addon)[0]);
+
+const hasInteractiveStories = (framework: SupportedFrameworks) =>
+  ['react', 'angular'].includes(framework);
+
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
@@ -91,8 +89,13 @@ export async function baseGenerator(
   // added to package.json
   const addonPackages = [...addons, '@storybook/addon-actions'];
 
+  if (hasInteractiveStories(framework)) {
+    addons.push('@storybook/addon-interactions');
+    addonPackages.push('@storybook/addon-interactions', '@storybook/testing-library');
+  }
+
   const yarn2Dependencies =
-    packageManager.type === 'yarn2' ? ['@storybook/addon-docs', '@mdx-js/react'] : [];
+    packageManager.type === 'yarn2' ? ['@storybook/addon-docs', '@mdx-js/react@1.x.x'] : [];
 
   const files = await fse.readdir(process.cwd());
   const isNewFolder = !files.some(
@@ -101,9 +104,10 @@ export async function baseGenerator(
 
   const packageJson = packageManager.retrievePackageJson();
   const installedDependencies = new Set(Object.keys(packageJson.dependencies));
+  const frameworkPackage = `@storybook/${framework}`;
 
   const packages = [
-    `@storybook/${framework}`,
+    frameworkPackage,
     ...addonPackages,
     ...extraPackages,
     ...extraAddons,
@@ -127,7 +131,8 @@ export async function baseGenerator(
         }
       : extraMain;
   configure(framework, {
-    addons: [...addons, ...extraAddons],
+    framework: frameworkPackage,
+    addons: [...addons, ...stripVersions(extraAddons)],
     extensions,
     commonJs: options.commonJs,
     ...mainOptions,

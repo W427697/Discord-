@@ -7,6 +7,7 @@ module.exports = {
     '@storybook/addon-storysource',
     '@storybook/addon-actions',
     '@storybook/addon-viewport',
+    '@storybook/addon-interactions',
     '@storybook/addon-links',
     '@storybook/addon-jest',
     '@storybook/addon-backgrounds',
@@ -15,9 +16,6 @@ module.exports = {
   ],
   core: {
     builder: 'webpack4',
-  },
-  features: {
-    previewCsfV3: true,
   },
   angularOptions: {
     enableIvy: true,
@@ -41,4 +39,5 @@ module.exports = {
       url: 'https://storybookjs.netlify.app/cra-ts-essentials',
     },
   },
+  staticDirs: ['../src/assets'],
 };
