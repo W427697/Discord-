@@ -56,6 +56,6 @@ export const Hovered: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.hover(canvas.getByRole('button'));
-    await expect(canvas.getByTestId('icon-active')).not.toBeNull();
+    await expect(canvas.getByTestId('icon-active')).toBeInTheDocument();
   },
 };
