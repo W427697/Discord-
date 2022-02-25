@@ -1,6 +1,6 @@
 module.exports = {
   coreFrameworks: ['react', 'vue', 'angular', 'web-components'],
-  communityFrameworks: ['ember', 'html', 'mithril', 'marko', 'svelte', 'riot', 'preact', 'rax'],
+  communityFrameworks: ['ember', 'html', 'svelte', 'preact'],
   featureGroups: [
     {
       name: 'Essentials',
@@ -30,7 +30,7 @@ module.exports = {
           supported: ['react', 'vue', 'angular', 'web-components', 'ember'],
           path: 'essentials/controls',
         },
-         {
+        {
           name: 'Measure',
           unsupported: [],
           path: 'essentials/measure-and-outline#measure-addon',
@@ -79,7 +79,7 @@ module.exports = {
         },
         {
           name: 'links',
-          unsupported: ['marko'],
+          unsupported: [],
         },
         {
           name: 'queryparams',
@@ -87,7 +87,7 @@ module.exports = {
         },
         {
           name: 'Storyshots',
-          unsupported: ['ember', 'mithril', 'marko'],
+          unsupported: ['ember'],
           path: 'workflows/unit-testing',
         },
         {

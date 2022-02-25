@@ -38,15 +38,13 @@ Customize your addon's appearance by adding the `storybook` property with the fo
 | `unsupportedFrameworks` | List of unsupported frameworks                            | `["vue"]`                             |
 | `supportedFrameworks`   | List of supported frameworks                              | `["react", "angular"]`                |
 
-
 Use the table below as a reference when filling in the values for both the `supportedFrameworks` and `unsupportedFrameworks` metadata properties.
 
 | react          | vue        | angular      |
-|----------------|------------|--------------|
+| -------------- | ---------- | ------------ |
 | web-components | ember      | html         |
-| mithril        | marko      | svelte       |
-| riot           | preact     | rax          |
-| aurelia        | marionette | react-native |
+| aurelia        | preact     | svelte       |
+|                | marionette | react-native |
 
 <div class="aside">
 Note: Make sure to copy each item <strong>exactly</strong> as listed so that we can properly index your addon in our catalog.
