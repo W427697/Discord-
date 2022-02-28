@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-essentials",
-  "version": "6.5.0-alpha.23",
+  "version": "6.5.0-alpha.42",
   "description": "Curated addons to bring out the best of Storybook",
   "keywords": [
     "addon",
@@ -39,24 +39,25 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addon-actions": "6.5.0-alpha.23",
-    "@storybook/addon-backgrounds": "6.5.0-alpha.23",
-    "@storybook/addon-controls": "6.5.0-alpha.23",
-    "@storybook/addon-docs": "6.5.0-alpha.23",
-    "@storybook/addon-measure": "6.5.0-alpha.23",
-    "@storybook/addon-outline": "6.5.0-alpha.23",
-    "@storybook/addon-toolbars": "6.5.0-alpha.23",
-    "@storybook/addon-viewport": "6.5.0-alpha.23",
-    "@storybook/addons": "6.5.0-alpha.23",
-    "@storybook/api": "6.5.0-alpha.23",
-    "@storybook/node-logger": "6.5.0-alpha.23",
+    "@storybook/addon-actions": "6.5.0-alpha.42",
+    "@storybook/addon-backgrounds": "6.5.0-alpha.42",
+    "@storybook/addon-controls": "6.5.0-alpha.42",
+    "@storybook/addon-docs": "6.5.0-alpha.42",
+    "@storybook/addon-measure": "6.5.0-alpha.42",
+    "@storybook/addon-outline": "6.5.0-alpha.42",
+    "@storybook/addon-toolbars": "6.5.0-alpha.42",
+    "@storybook/addon-viewport": "6.5.0-alpha.42",
+    "@storybook/addons": "6.5.0-alpha.42",
+    "@storybook/api": "6.5.0-alpha.42",
+    "@storybook/core-common": "6.5.0-alpha.42",
+    "@storybook/node-logger": "6.5.0-alpha.42",
     "core-js": "^3.8.2",
     "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "@storybook/vue": "6.5.0-alpha.23",
+    "@storybook/vue": "6.5.0-alpha.42",
     "@types/jest": "^26.0.16",
     "@types/webpack-env": "^1.16.0"
   },
@@ -71,10 +72,34 @@
     "webpack": "*"
   },
   "peerDependenciesMeta": {
+    "@storybook/angular": {
+      "optional": true
+    },
+    "@storybook/builder-manager4": {
+      "optional": true
+    },
+    "@storybook/builder-manager5": {
+      "optional": true
+    },
+    "@storybook/builder-webpack4": {
+      "optional": true
+    },
+    "@storybook/builder-webpack5": {
+      "optional": true
+    },
+    "@storybook/html": {
+      "optional": true
+    },
     "@storybook/vue": {
       "optional": true
     },
+    "@storybook/vue3": {
+      "optional": true
+    },
     "@storybook/web-components": {
+      "optional": true
+    },
+    "lit": {
       "optional": true
     },
     "lit-html": {
@@ -86,6 +111,15 @@
     "react-dom": {
       "optional": true
     },
+    "svelte": {
+      "optional": true
+    },
+    "sveltedoc-parser": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    },
     "webpack": {
       "optional": true
     }
@@ -93,6 +127,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "0006ec45ff04e42229dbee92cc49764699477e1b",
+  "gitHead": "1477954e18494e721ae8d3c99bc710381eab1351",
   "sbmodern": "dist/modern/index.js"
 }
