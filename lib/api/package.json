@@ -38,6 +38,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
+    "@storybook/api": "6.5.0-alpha.44",
     "@storybook/channels": "6.5.0-alpha.44",
     "@storybook/client-logger": "6.5.0-alpha.44",
     "@storybook/core-events": "6.5.0-alpha.44",

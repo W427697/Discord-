@@ -53,6 +53,7 @@ export interface Shortcuts {
   shortcutsPage: KeyCollection;
   aboutPage: KeyCollection;
   escape: KeyCollection;
+  palette: KeyCollection;
   collapseAll: KeyCollection;
   expandAll: KeyCollection;
 }
@@ -87,6 +88,7 @@ export const defaultShortcuts: Shortcuts = Object.freeze({
   shortcutsPage: [controlOrMetaKey(), 'shift', ','],
   aboutPage: [','],
   escape: ['escape'], // This one is not customizable
+  palette: ['meta', 'K'], // This one is not customizable
   collapseAll: [controlOrMetaKey(), 'shift', 'ArrowUp'],
   expandAll: [controlOrMetaKey(), 'shift', 'ArrowDown'],
 });
@@ -186,12 +188,22 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
       const {
         layout: { isFullscreen, showNav, showPanel },
         ui: { enableShortcuts },
+        palette,
       } = store.getState();
       if (!enableShortcuts) {
         return;
       }
       switch (feature) {
+        case 'palette': {
+          fullAPI.toggleCommandPalette();
+          break;
+        }
+
         case 'escape': {
+          if (palette.isOpen) {
+            fullAPI.closeCommandPalette();
+          }
+
           if (isFullscreen) {
             fullAPI.toggleFullscreen();
           } else if (!showNav) {

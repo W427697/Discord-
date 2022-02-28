@@ -40,6 +40,7 @@ import * as shortcuts from './modules/shortcuts';
 import * as url from './modules/url';
 import * as version from './modules/versions';
 import * as globals from './modules/globals';
+import * as palette from './modules/palette';
 
 const { ActiveTabs } = layout;
 
@@ -67,6 +68,7 @@ export type State = layout.SubState &
   releaseNotes.SubState &
   settings.SubState &
   globals.SubState &
+  palette.SubState &
   RouterData &
   Other;
 
@@ -83,6 +85,7 @@ export type API = addons.SubAPI &
   settings.SubAPI &
   version.SubAPI &
   url.SubAPI &
+  palette.SubAPI &
   Other;
 
 interface Other {
@@ -206,6 +209,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       globals,
       url,
       version,
+      palette,
     ].map((m) => m.init({ ...routeData, ...apiData, state: this.state, fullAPI: this.api }));
 
     // Create our initial state by combining the initial state of all modules, then overlaying any saved state
