@@ -106,6 +106,13 @@ jobs:
             - addons
             - app
             - lib
+      - run:
+          name: prep artifacts
+          when: always
+          command: zip -r /tmp/builder-webpack-4.zip /tmp/storybook/lib/builder-webpack4
+      - store_artifacts:
+          path: /tmp/builder-webpack-4.zip
+          destination: builder-webpack-4.zip
   chromatic:
     executor: sb_node_14_browsers
     parallelism: 17
@@ -226,6 +233,13 @@ jobs:
       - store_artifacts:
           path: /tmp/cypress-record
           destination: cypress
+      - run:
+          name: prep artifacts
+          when: always
+          command: zip -r /tmp/builder-webpack-4-used.zip /tmp/storybook-e2e-testing/web_components_lit2/node_modules/@storybook/builder-webpack4
+      - store_artifacts:
+          path: /tmp/builder-webpack-4-used.zip
+          destination: builder-webpack-4-used.zip
   cra-bench:
     executor:
       class: medium
