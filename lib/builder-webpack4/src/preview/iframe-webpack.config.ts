@@ -11,7 +11,6 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 // @ts-ignore
 import FilterWarningsPlugin from 'webpack-filter-warnings-plugin';
 
-import themingPaths from '@storybook/theming/paths';
 import {
   toRequireContextString,
   stringifyProcessEnvs,
@@ -122,26 +121,24 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     entries.push(frameworkInitEntry);
 
     const entryTemplate = await readTemplate(
-      path.join(__dirname, 'virtualModuleEntry.template.js')
+      require.resolve('@storybook/builder-webpack4/templates/virtualModuleEntry.template.js')
     );
 
     configs.forEach((configFilename: any) => {
       const clientApi = storybookPaths['@storybook/client-api'];
-      const clientLogger = storybookPaths['@storybook/client-logger'];
 
       virtualModuleMapping[`${configFilename}-generated-config-entry.js`] = interpolate(
         entryTemplate,
         {
           configFilename,
           clientApi,
-          clientLogger,
         }
       );
       entries.push(`${configFilename}-generated-config-entry.js`);
     });
     if (stories.length > 0) {
       const storyTemplate = await readTemplate(
-        path.join(__dirname, 'virtualModuleStory.template.js')
+        require.resolve('@storybook/builder-webpack4/templates/virtualModuleStory.template.js')
       );
       const storiesFilename = path.resolve(path.join(workingDir, `generated-stories-entry.js`));
       virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, { frameworkImportPath })
@@ -238,7 +235,6 @@ export default async (options: Options & Record<string, any>): Promise<Configura
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
       mainFields: [modern ? 'sbmodern' : null, 'browser', 'module', 'main'].filter(Boolean),
       alias: {
-        ...(features?.emotionAlias ? themingPaths : {}),
         ...storybookPaths,
         react: path.dirname(require.resolve('react/package.json')),
         'react-dom': path.dirname(require.resolve('react-dom/package.json')),

@@ -1,8 +1,9 @@
 import * as webpackReal from 'webpack';
 import { logger } from '@storybook/node-logger';
-import { CoreConfig, loadCustomWebpackConfig, Options } from '@storybook/core-common';
+import { loadCustomWebpackConfig } from '@storybook/core-common';
+import type { CoreConfig, Options } from '@storybook/core-common';
 import type { Configuration } from 'webpack';
-import { createDefaultWebpackConfig } from '../preview/base-webpack.config';
+import { createDefaultWebpackConfig } from './preview/base-webpack.config';
 
 export async function webpack(config: Configuration, options: Options) {
   // @ts-ignore

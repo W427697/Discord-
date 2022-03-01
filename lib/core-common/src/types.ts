@@ -317,12 +317,12 @@ export interface StorybookConfig {
   logLevel?: string;
   features?: {
     /**
-     * Allows to disable deprecated implicit PostCSS loader.
+     * Allows to disable deprecated implicit PostCSS loader. (will be removed in 7.0)
      */
     postcss?: boolean;
 
     /**
-     * Allows to disable deprecated implicit PostCSS loader.
+     * Allows to disable emotion webpack alias for emotion packages. (will be removed in 7.0)
      */
     emotionAlias?: boolean;
 

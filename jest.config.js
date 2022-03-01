@@ -44,6 +44,7 @@ module.exports = {
     '<rootDir>/lib',
     '<rootDir>/examples/official-storybook',
     '<rootDir>/examples/react-ts',
+    '<rootDir>/scripts',
   ],
   transform: {
     '^.+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',

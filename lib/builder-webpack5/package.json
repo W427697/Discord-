@@ -36,26 +36,25 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "../../node_modules/.bin/ts-node ../../scripts/prepare-localize.ts"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@storybook/addons": "6.5.0-alpha.44",
-    "@storybook/api": "6.5.0-alpha.44",
     "@storybook/channel-postmessage": "6.5.0-alpha.44",
-    "@storybook/channels": "6.5.0-alpha.44",
     "@storybook/client-api": "6.5.0-alpha.44",
-    "@storybook/client-logger": "6.5.0-alpha.44",
-    "@storybook/components": "6.5.0-alpha.44",
     "@storybook/core-common": "6.5.0-alpha.44",
-    "@storybook/core-events": "6.5.0-alpha.44",
     "@storybook/node-logger": "6.5.0-alpha.44",
     "@storybook/preview-web": "6.5.0-alpha.44",
-    "@storybook/router": "6.5.0-alpha.44",
-    "@storybook/semver": "^7.3.2",
-    "@storybook/store": "6.5.0-alpha.44",
-    "@storybook/theming": "6.5.0-alpha.44",
+    "core-js": "^3.8.2"
+  },
+  "devDependencies": {
+    "@types/case-sensitive-paths-webpack-plugin": "^2.1.4",
     "@types/node": "^14.0.10 || ^16.0.0",
+    "@types/terser-webpack-plugin": "^5.0.2",
+    "@types/webpack-dev-middleware": "^4.1.0",
+    "@types/webpack-hot-middleware": "^2.25.6",
+    "@types/webpack-virtual-modules": "^0.1.0",
     "babel-loader": "^8.0.0",
     "babel-plugin-named-exports-order": "^0.0.2",
     "browser-assert": "^1.2.1",
@@ -78,13 +77,6 @@
     "webpack-hot-middleware": "^2.25.1",
     "webpack-virtual-modules": "^0.4.1"
   },
-  "devDependencies": {
-    "@types/case-sensitive-paths-webpack-plugin": "^2.1.4",
-    "@types/terser-webpack-plugin": "^5.0.2",
-    "@types/webpack-dev-middleware": "^4.1.0",
-    "@types/webpack-hot-middleware": "^2.25.6",
-    "@types/webpack-virtual-modules": "^0.1.0"
-  },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",
     "react-dom": "^16.8.0 || ^17.0.0"
@@ -97,6 +89,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "bundlerEntrypoint": [
+    "./src/index.ts",
+    "./src/custom-webpack-preset.ts",
+    "./src/preview-preset.ts"
+  ],
   "gitHead": "0125cb2b688dc1acca71a7fbf2795466fd55c0e3",
   "sbmodern": "dist/modern/index.js"
 }

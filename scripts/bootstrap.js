@@ -2,8 +2,6 @@
 
 /* eslint-disable global-require */
 
-const { lstatSync, readdirSync } = require('fs');
-const { join } = require('path');
 const { maxConcurrentTasks } = require('./utils/concurrency');
 const { checkDependenciesAndRun, spawn } = require('./utils/cli-utils');
 
@@ -19,6 +17,7 @@ function run() {
 
   const main = program
     .version('5.0.0')
+    .option('--optimize', `Ready for release ${chalk.gray('(all)')}`)
     .option('--all', `Bootstrap everything ${chalk.gray('(all)')}`);
 
   const createTask = ({
@@ -105,7 +104,7 @@ function run() {
         spawn(
           `nx run-many --target="prepare" --all --parallel ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
-          } -- --optimized`
+          }${program.optimize ? ' -- --optimized' : ''}`
         );
       },
       order: 2,

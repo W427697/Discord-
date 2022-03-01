@@ -4,7 +4,7 @@ import { loadCustomWebpackConfig, Options, CoreConfig } from '@storybook/core-co
 import type { Configuration } from 'webpack';
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
-import { createDefaultWebpackConfig } from '../preview/base-webpack.config';
+import { createDefaultWebpackConfig } from './preview/base-webpack.config';
 
 export async function webpack(config: Configuration, options: Options) {
   // @ts-ignore

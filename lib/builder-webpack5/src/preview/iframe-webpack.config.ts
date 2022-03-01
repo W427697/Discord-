@@ -12,8 +12,6 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-import themingPaths from '@storybook/theming/paths';
-
 import {
   toRequireContextString,
   es6Transpiler,
@@ -121,7 +119,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     entries.push(frameworkInitEntry);
 
     const entryTemplate = await readTemplate(
-      path.join(__dirname, 'virtualModuleEntry.template.js')
+      require.resolve('@storybook/builder-webpack5/templates/virtualModuleEntry.template.js')
     );
 
     configs.forEach((configFilename: any) => {
@@ -142,7 +140,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     });
     if (stories.length > 0) {
       const storyTemplate = await readTemplate(
-        path.join(__dirname, 'virtualModuleStory.template.js')
+        require.resolve('@storybook/builder-webpack5/templates/virtualModuleStory.template.js')
       );
       // NOTE: this file has a `.cjs` extension as it is a CJS file (from `dist/cjs`) and runs
       // in the user's webpack mode, which may be strict about the use of require/import.
@@ -244,7 +242,6 @@ export default async (options: Options & Record<string, any>): Promise<Configura
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
       mainFields: [modern ? 'sbmodern' : null, 'browser', 'module', 'main'].filter(Boolean),
       alias: {
-        ...(features?.emotionAlias ? themingPaths : {}),
         ...storybookPaths,
         react: path.dirname(require.resolve('react/package.json')),
         'react-dom': path.dirname(require.resolve('react-dom/package.json')),

@@ -1,3 +1,3 @@
 declare module 'lazy-universal-dotenv';
-declare module '@storybook/theming/paths';
+declare module 'pnp-webpack-plugin';
 declare module 'global';

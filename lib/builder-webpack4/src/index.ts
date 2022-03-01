@@ -1,15 +1,12 @@
-import webpackReal, { ProgressPlugin } from 'webpack';
-// @ts-ignore
-import webpackType, { Stats, Configuration } from '@types/webpack';
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./typings.d.ts" />
+
+import webpack, { Configuration, ProgressPlugin, Stats } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
-import {
-  Builder,
-  useProgressReporting,
-  checkWebpackVersion,
-  Options,
-} from '@storybook/core-common';
+import type { Builder, Options } from '@storybook/core-common';
+import { useProgressReporting, checkWebpackVersion } from '@storybook/core-common';
 
 let compilation: ReturnType<typeof webpackDevMiddleware>;
 let reject: (reason?: any) => void;
@@ -20,8 +17,8 @@ export const executor = {
   get: async (options: Options) => {
     const version = ((await options.presets.apply('webpackVersion')) || '4') as string;
     const webpackInstance =
-      (await options.presets.apply<{ default: typeof webpackType }>('webpackInstance'))?.default ||
-      webpackReal;
+      (await options.presets.apply<{ default: typeof webpack }>('webpackInstance'))?.default ||
+      webpack;
     checkWebpackVersion({ version }, '4', 'builder-webpack4');
     return webpackInstance;
   },
@@ -164,5 +161,5 @@ export const build: WebpackBuilder['build'] = async ({ options, startTime }) => 
   });
 };
 
-export const corePresets = [require.resolve('./presets/preview-preset.js')];
-export const overridePresets = [require.resolve('./presets/custom-webpack-preset.js')];
+export const corePresets = [require.resolve('./preview-preset')];
+export const overridePresets = [require.resolve('./custom-webpack-preset')];

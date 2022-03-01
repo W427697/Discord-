@@ -37,7 +37,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "ts-node ../../scripts/prebundle.ts"
+    "prepare": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts"
   },
   "dependencies": {
     "@storybook/client-logger": "6.5.0-alpha.44",
@@ -68,7 +68,6 @@
     "react-syntax-highlighter": "^15.4.5",
     "react-textarea-autosize": "^8.3.0",
     "ts-dedent": "^2.0.0",
-    "ts-node": "^10.4.0",
     "util-deprecate": "^1.0.2"
   },
   "peerDependencies": {
