@@ -66,7 +66,7 @@ function logError(type, packageJson, errorLogs) {
 
 const modules = true;
 
-async function prepare({ cwd, flags }) {
+async function build({ cwd, flags }) {
   const { packageJson } = await readPkgUp(cwd);
   const message = chalk.gray(`Built: ${chalk.bold(`${packageJson.name}@${packageJson.version}`)}`);
   console.time(message);
@@ -94,4 +94,4 @@ async function prepare({ cwd, flags }) {
 const flags = process.argv.slice(2);
 const cwd = process.cwd();
 
-prepare({ cwd, flags });
+build({ cwd, flags });

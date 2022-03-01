@@ -24,7 +24,7 @@
     "storybook": "./index.js"
   },
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/prepare-build.js"
   },
   "dependencies": {
     "@storybook/cli": "6.5.0-alpha.44"

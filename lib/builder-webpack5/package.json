@@ -36,7 +36,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "../../node_modules/.bin/ts-node ../../scripts/prepare-localize.ts"
+    "build": "../../node_modules/.bin/ts-node ../../scripts/prepare-localize.ts"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",

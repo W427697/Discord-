@@ -37,7 +37,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/prepare-build.js"
   },
   "dependencies": {
     "core-js": "^3.8.2"

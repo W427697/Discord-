@@ -36,7 +36,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/prepare-build.js"
   },
   "dependencies": {
     "@discoveryjs/json-ext": "^0.5.3",

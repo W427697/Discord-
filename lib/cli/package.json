@@ -41,7 +41,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js",
+    "build": "node ../../scripts/prepare-build.js",
     "test": "jest test/**/*.test.js"
   },
   "dependencies": {

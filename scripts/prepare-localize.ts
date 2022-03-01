@@ -139,6 +139,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       throw new Error('Failed to install dependencies');
     }
 
+    // minimize the local_modules size
     await rm('-rf', [
       join(location, 'node_modules', `@(${[...builtins, 'string_decoder'].join('|')})`),
 
@@ -186,6 +187,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     // cleanup empty dirs
     await command('find . -type d -empty -print -delete', { cwd: location });
 
+    // convert references in imports, exports and require to reference  the local_modules
     const files = await glob.promise('node_modules/**/*.@(js|cjs)', { cwd: location });
     await files.reduce<any>(async (acc, file) => {
       await acc;
@@ -229,7 +231,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       cwd: dist,
     });
 
-    await rm('-rf', location);
+    // await rm('-rf', location);
   }
 
   console.timeEnd(message);

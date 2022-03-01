@@ -68,7 +68,7 @@ function run() {
       command: () => {
         log.info(prefix, 'prepare');
         spawn(
-          `nx run-many --target=prepare --all --parallel --only-failed ${
+          `nx run-many --target=build --all --parallel --only-failed ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
           }`
         );
@@ -100,9 +100,9 @@ function run() {
       defaultValue: false,
       option: '--build',
       command: () => {
-        log.info(prefix, 'prepare');
+        log.info(prefix, 'build');
         spawn(
-          `nx run-many --target="prepare" --all --parallel ${
+          `nx run-many --target="build" --all --parallel ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
           }${program.optimize ? ' -- --optimized' : ''}`
         );

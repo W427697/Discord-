@@ -39,7 +39,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/prepare-build.js"
   },
   "dependencies": {
     "@ember/test-helpers": "^2.1.4",
