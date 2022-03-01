@@ -6426,7 +6426,6 @@ __metadata:
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
     vue: ^2.6.10
-    webpack: 4
     zone.js: ^0.11.3
   peerDependencies:
     "@storybook/angular": 6.5.0-alpha.45
@@ -6443,7 +6442,6 @@ __metadata:
     svelte: ^3.31.2
     sveltedoc-parser: ^4.1.0
     vue: ^2.6.10 || ^3.0.0
-    webpack: "*"
   peerDependenciesMeta:
     "@storybook/angular":
       optional: true
@@ -6480,8 +6478,6 @@ __metadata:
     sveltedoc-parser:
       optional: true
     vue:
-      optional: true
-    webpack:
       optional: true
   languageName: unknown
   linkType: soft
@@ -7000,7 +6996,6 @@ __metadata:
     ts-loader: ^8.0.14
     tsconfig-paths-webpack-plugin: ^3.3.0
     util-deprecate: ^1.0.2
-    webpack: 4
   peerDependencies:
     "@angular-devkit/architect": ">=0.8.9"
     "@angular-devkit/build-angular": ">=0.8.9 || >= 12.0.0"
@@ -8065,7 +8060,6 @@ __metadata:
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
-    webpack: "*"
   bin:
     build-storybook: ./bin/build.js
     start-storybook: ./bin/index.js
