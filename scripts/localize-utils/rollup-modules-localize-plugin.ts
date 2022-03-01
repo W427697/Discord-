@@ -4,7 +4,7 @@ import { babelModulesLocalizePlugin } from './babel-modules-localize-plugin';
 import { getPackageName } from './localize';
 
 export const rollupModulesLocalisePlugin = (externals: string[]): Plugin => {
-  function localize(this: TransformPluginContext, from: string, required: string) {
+  function localize(this: TransformPluginContext, _from: string, required: string) {
     const packageName = getPackageName(required);
 
     if (externals.includes(packageName)) {

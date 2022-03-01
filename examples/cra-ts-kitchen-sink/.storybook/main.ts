@@ -17,7 +17,7 @@ module.exports = {
   ],
   webpackFinal: (config: Configuration) => {
     // add monorepo root as a valid directory to import modules from
-    config.resolve.plugins.forEach((p) => {
+    config.resolve?.plugins?.forEach((p) => {
       // @ts-ignore
       if (Array.isArray(p.appSrcs)) {
         // @ts-ignore
