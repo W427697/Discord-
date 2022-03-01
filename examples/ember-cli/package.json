@@ -3,11 +3,11 @@
   "version": "6.5.0-alpha.44",
   "private": true,
   "scripts": {
-    "build-ember": "ember build --output-path ember-output",
+    "build-app": "ember build --output-path ember-output",
     "build-storybook": "yarn storybook-prebuild && build-storybook",
     "dev": "ember serve",
-    "storybook": "yarn build && start-storybook -p 9009 --no-manager-cache",
-    "storybook-prebuild": "yarn build-ember && shx cp -r public/* ember-output",
+    "storybook": "yarn build-app && start-storybook -p 9009 --no-manager-cache",
+    "storybook-prebuild": "yarn build-app && shx cp -r public/* ember-output",
     "storybook:dev": "yarn dev & start-storybook -p 9009"
   },
   "dependencies": {
