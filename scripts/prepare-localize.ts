@@ -1,6 +1,6 @@
 import readPkgUp from 'read-pkg-up';
 import builtins from 'builtin-modules';
-import { ensureDir, stat, writeFile } from 'fs-extra';
+import { ensureDir, stat, writeFile, writeJSON } from 'fs-extra';
 import { join } from 'path';
 import rollupTypescript from '@rollup/plugin-typescript';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
@@ -97,6 +97,14 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
     const list = (Dependencies as { descriptor: string; locator: string }[])
       .filter(({ descriptor }) => !descriptor.startsWith('@types/'))
+      .filter(({ descriptor }) => {
+        const name = descriptor.split('@npm')[0];
+        return !pkg.dependencies[name];
+      })
+      .filter(({ descriptor }) => {
+        const name = descriptor.split('@virtual')[0];
+        return !pkg.dependencies[name];
+      })
       .filter(({ locator }) => !locator.includes('workspace:'))
       .map(({ locator, descriptor }) => {
         const version = locator.split('npm:')[1];
@@ -123,13 +131,16 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       console.error(afterInit.stderr);
       throw new Error('Failed to init package');
     }
-    const afterAdd = await command(`npx add-dependencies ./package.json ${list.join(' ')}`, {
-      cwd: location,
+    await readPkgUp({ cwd: location }).then(async (p) => {
+      // eslint-disable-next-line no-param-reassign
+      p.packageJson.dependencies = list.reduce((acc, item) => {
+        Object.assign(acc, { [item.split('@')[0]]: item.split('@')[1] });
+        return acc;
+      }, {});
+
+      writeJSON(join(location, 'package.json'), p.packageJson);
     });
-    if (afterAdd.failed) {
-      console.error(afterAdd.stderr);
-      throw new Error('Failed to add dependencies');
-    }
+
     const afterInstall = await command(
       `yarn install --ignore-scripts --ignore-engines --no-bin-links`,
       { cwd: location }
@@ -140,7 +151,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     }
 
     // minimize the local_modules size
-    await rm('-rf', [
+    const afterRemove = await rm('-rf', [
       join(location, 'node_modules', `@(${[...builtins, 'string_decoder'].join('|')})`),
 
       // remove typings
@@ -158,7 +169,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       join(location, 'node_modules', '**', 'component.json'),
       join(location, 'node_modules', '**', 'gulpfile.js'),
       join(location, 'node_modules', '**', 'gulpfile.babel.js'),
-      join(location, 'node_modules', '**', '@(jest|karma).config.js'),
+      join(location, 'node_modules', '**', '@(jest|karma|webpack|rollup).config.js'),
       join(location, 'node_modules', '**', '*.@(png|jpg|jpeg|gif)'),
       join(location, 'node_modules', '**', '.*'),
 
@@ -176,13 +187,17 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
       // remove tests
       join(location, '**', 'node_modules', `*/@(test|tests|spec|specs)`, '**'),
-      join(location, '**', 'node_modules', `*/@(example)`, '**'),
+      join(location, '**', 'node_modules', `*/@(example|examples)`, '**'),
       join(location, '**', 'node_modules', `!(core-js)`, '**', `@(test|tests|spec|specs).js`),
       join(location, '**', 'node_modules', `object-inspect`, `test-core-js.js`),
       join(location, 'node_modules', '**', '*.test.*'),
       join(location, 'node_modules', '**', '*.spec.*'),
       join(location, 'node_modules', '**', '*.stories.*'),
     ]);
+    if (afterRemove.code !== 0) {
+      console.error(afterRemove.stderr);
+      throw new Error('Failed to remove dependencies');
+    }
 
     // cleanup empty dirs
     await command('find . -type d -empty -print -delete', { cwd: location });
@@ -203,7 +218,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         }
         console.log(`problem`);
         console.log(ref);
-        console.log(err);
+        console.log(err.message);
         console.log(``);
       };
       return transformFileAsync(ref, {
@@ -226,7 +241,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         });
     }, Promise.resolve());
 
-    await cp('-R', join(location, 'node_modules'), join(dist, 'node_modules'));
+    const o = await cp('-R', join(location, 'node_modules'), join(dist, 'node_modules'));
+    if (o.code !== 0) {
+      console.error(o.stderr);
+      throw new Error('Failed to copy node_modules');
+    }
     await command('find . -depth -name node_modules -type d -execdir mv {} local_modules ;', {
       cwd: dist,
     });

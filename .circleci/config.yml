@@ -108,7 +108,7 @@ jobs:
             - lib
   chromatic:
     executor: sb_node_14_browsers
-    parallelism: 4
+    parallelism: 17
     steps:
       # Keep using default checkout because Chromatic needs some git history to work properly
       - checkout
