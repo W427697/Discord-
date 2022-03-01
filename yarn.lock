@@ -7426,7 +7426,6 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
-    webpack: "*"
   peerDependenciesMeta:
     typescript:
       optional: true
@@ -7541,7 +7540,6 @@ __metadata:
     "@types/node-fetch": ^2.5.7
     "@types/pretty-hrtime": ^1.0.0
     "@types/serve-favicon": ^2.5.2
-    "@types/webpack": ^4.41.26
     "@types/ws": ^8
     better-opn: ^2.1.1
     boxen: ^5.1.2
@@ -7570,7 +7568,6 @@ __metadata:
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
     watchpack: ^2.2.0
-    webpack: 4
     ws: ^8.2.3
     x-default-browser: ^0.4.0
   peerDependencies:
@@ -7595,7 +7592,6 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
-    webpack: "*"
   peerDependenciesMeta:
     "@storybook/builder-webpack5":
       optional: true
@@ -8182,7 +8178,6 @@ __metadata:
     read-pkg-up: ^7.0.1
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
-    webpack: 4
   peerDependencies:
     "@babel/core": ^7.11.5
     react: ^16.8.0 || ^17.0.0
@@ -8713,7 +8708,6 @@ __metadata:
     regenerator-runtime: ^0.13.7
     resolve-from: ^5.0.0
     store2: ^2.12.0
-    webpack: 4
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -8744,7 +8738,6 @@ __metadata:
     vue-docgen-api: ^4.44.15
     vue-docgen-loader: ^1.5.0
     vue-loader: ^16.0.0
-    webpack: 4
   peerDependencies:
     "@babel/core": "*"
     "@vue/compiler-sfc": ^3.0.0
@@ -8781,7 +8774,6 @@ __metadata:
     vue-docgen-loader: ^1.5.0
     vue-loader: ^15.9.6
     vue-template-compiler: ^2.6.12
-    webpack: 4
   peerDependencies:
     "@babel/core": "*"
     babel-loader: ^7.0.0 || ^8.0.0
