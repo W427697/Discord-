@@ -10,7 +10,7 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "test", "lint", "package", "build-optimized"],
+        "cacheableOperations": ["build", "test", "lint", "package"],
         "strictlyOrderedTargets": ["build", "package", "build-optimized"],
         "accessToken": "NGVmYTkxMmItYzY3OS00MjkxLTk1ZDktZDFmYTFmNmVlNGY4fHJlYWQ=",
         "canTrackAnalytics": false,
