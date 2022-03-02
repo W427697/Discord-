@@ -37,8 +37,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build": "ts-node ../../scripts/prepare-prebundle.ts",
-    "build-optimized": "ts-node ../../scripts/prepare-prebundle.ts --optimized"
+    "build": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts",
+    "build-optimized": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts --optimized"
   },
   "dependencies": {
     "@storybook/client-logger": "6.5.0-alpha.45",
@@ -54,8 +54,7 @@
     "qs": "^6.10.0",
     "react-router": "6.0.2",
     "react-router-dom": "6.0.2",
-    "ts-dedent": "^2.0.0",
-    "ts-node": "^10.4.0"
+    "ts-dedent": "^2.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",

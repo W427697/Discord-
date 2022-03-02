@@ -37,8 +37,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build": "ts-node ../../scripts/prepare-prebundle.ts",
-    "build-optimized": "ts-node ../../scripts/prepare-prebundle.ts --optimized"
+    "build": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts",
+    "build-optimized": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts --optimized"
   },
   "dependencies": {
     "@storybook/addons": "6.5.0-alpha.45",
@@ -73,7 +73,6 @@
     "react-helmet-async": "^1.0.7",
     "react-sizeme": "^3.0.1",
     "store2": "^2.12.0",
-    "ts-node": "^10.4.0",
     "webpack": "4"
   },
   "peerDependencies": {
