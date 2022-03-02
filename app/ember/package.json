@@ -39,7 +39,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build": "node ../../scripts/prepare-build.js"
+    "build": "node ../../scripts/prepare-build.js",
+    "build-optimized": "node ../../scripts/prepare-build.js --optimized"
   },
   "dependencies": {
     "@ember/test-helpers": "^2.1.4",

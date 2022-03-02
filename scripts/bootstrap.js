@@ -101,11 +101,10 @@ function run() {
       option: '--build',
       command: () => {
         log.info(prefix, 'build');
-        spawn(
-          `nx run-many --target="build" --all --parallel ${
-            process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
-          }${program.optimize ? ' -- --optimized' : ''}`
-        );
+        const command = program.optimize ? 'build-optimized' : 'build';
+        const parallelism = process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : '';
+
+        spawn(`nx run-many --target="${command}" --all --parallel ${parallelism}`);
       },
       order: 2,
     }),

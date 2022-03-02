@@ -17,20 +17,23 @@ function filterObject(obj: Record<string, any>, keys: string[]) {
 }
 
 export const babelModulesLocalizePlugin = (
-  localize: (p: string) => string,
+  localize: (p: string, isResolve?: boolean) => string,
   report = (err: Error): void => {
     throw err;
   }
 ): PluginObj => {
-  const recurseIntoLeftBinaryExpression = (node: t.BinaryExpression): t.BinaryExpression | null => {
+  const recurseIntoLeftBinaryExpression = (
+    node: t.BinaryExpression,
+    isResolve?: boolean
+  ): t.BinaryExpression | null => {
     if (t.isBinaryExpression(node) && t.isStringLiteral(node.left)) {
       if (needsLocalization(node.left.value)) {
         // eslint-disable-next-line no-param-reassign
-        node.left = t.stringLiteral(localize(node.left.value));
+        node.left = t.stringLiteral(localize(node.left.value, isResolve));
         return node;
       }
     } else if (t.isBinaryExpression(node) && t.isBinaryExpression(node.left)) {
-      const left = recurseIntoLeftBinaryExpression(node.left);
+      const left = recurseIntoLeftBinaryExpression(node.left, isResolve);
       if (left) {
         // eslint-disable-next-line no-param-reassign
         node.left = left;
@@ -39,33 +42,33 @@ export const babelModulesLocalizePlugin = (
     }
     return null;
   };
-  const transformArguments = (args: t.CallExpression['arguments']) => {
+  const transformArguments = (args: t.CallExpression['arguments'], isResolve?: boolean) => {
     if (args.length === 1) {
       const arg = args[0];
       if (t.isStringLiteral(arg)) {
         if (needsLocalization(arg.value)) {
-          return t.stringLiteral(localize(arg.value));
+          return t.stringLiteral(localize(arg.value, isResolve));
         }
         return null;
       }
 
       if (t.isBinaryExpression(arg) && t.isStringLiteral(arg.left)) {
         if (needsLocalization(arg.left.value)) {
-          arg.left = t.stringLiteral(localize(arg.left.value));
+          arg.left = t.stringLiteral(localize(arg.left.value, isResolve));
           return arg;
         }
         return null;
       }
 
       if (t.isBinaryExpression(arg) && t.isBinaryExpression(arg.left)) {
-        return recurseIntoLeftBinaryExpression(arg);
+        return recurseIntoLeftBinaryExpression(arg, isResolve);
       }
 
       if (t.isTemplateLiteral(arg) && t.isTemplateElement(arg.quasis[0])) {
         const { cooked, raw } = arg.quasis[0].value;
         if (needsLocalization(cooked)) {
-          arg.quasis[0].value.cooked = localize(cooked);
-          arg.quasis[0].value.raw = localize(raw);
+          arg.quasis[0].value.cooked = localize(cooked, isResolve);
+          arg.quasis[0].value.raw = localize(raw, isResolve);
         }
 
         return arg;
@@ -86,6 +89,7 @@ export const babelModulesLocalizePlugin = (
 
   const needsLocalization = (input: string): boolean => {
     const isRelativePath = input.startsWith('.');
+    // console.log({ input });
 
     if (isRelativePath) {
       return false;
@@ -102,9 +106,11 @@ export const babelModulesLocalizePlugin = (
     visitor: {
       ImportDeclaration: (p) => {
         if (t.isStringLiteral(p.node.source)) {
+          // console.log(1, p.node.source);
           if (needsLocalization(p.node.source.value)) {
             p.get('source').replaceWith(t.stringLiteral(localize(p.node.source.value)));
           }
+          // console.log(2, t.stringLiteral(localize(p.node.source.value)));
         }
       },
       ExportNamedDeclaration: (p) => {
@@ -141,7 +147,7 @@ export const babelModulesLocalizePlugin = (
           t.isIdentifier(p.node.callee.property) &&
           p.node.callee.property.name === 'resolve'
         ) {
-          const x = transformArguments(p.node.arguments);
+          const x = transformArguments(p.node.arguments, true);
           if (x) {
             p.get('arguments')[0].replaceWith(x);
           }

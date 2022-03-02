@@ -1,4 +1,5 @@
-import path from 'path';
+import path, { join } from 'path';
+import { sync } from 'pkg-dir';
 import {
   Configuration,
   DefinePlugin,
@@ -98,11 +99,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     virtualModuleMapping[storiesPath] = toImportFn(stories);
     const configEntryPath = path.resolve(path.join(workingDir, 'storybook-config-entry.js'));
     virtualModuleMapping[configEntryPath] = handlebars(
-      await readTemplate(
-        require.resolve(
-          '@storybook/builder-webpack5/templates/virtualModuleModernEntry.js.handlebars'
-        )
-      ),
+      await readTemplate(join(sync(__dirname), 'templates/virtualModuleModernEntry.js.handlebars')),
       {
         storiesFilename,
         configs,
@@ -119,7 +116,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     entries.push(frameworkInitEntry);
 
     const entryTemplate = await readTemplate(
-      require.resolve('@storybook/builder-webpack5/templates/virtualModuleEntry.template.js')
+      join(sync(__dirname), 'templates/virtualModuleEntry.template.js')
     );
 
     configs.forEach((configFilename: any) => {
@@ -140,7 +137,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     });
     if (stories.length > 0) {
       const storyTemplate = await readTemplate(
-        require.resolve('@storybook/builder-webpack5/templates/virtualModuleStory.template.js')
+        join(sync(__dirname), 'templates/virtualModuleStory.template.js')
       );
       // NOTE: this file has a `.cjs` extension as it is a CJS file (from `dist/cjs`) and runs
       // in the user's webpack mode, which may be strict about the use of require/import.

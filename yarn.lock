@@ -7129,6 +7129,7 @@ __metadata:
     style-loader: ^1.3.0
     terser-webpack-plugin: ^4.2.3
     ts-dedent: ^2.0.0
+    tslib: ^2.3.1
     url-loader: ^4.1.1
     util-deprecate: ^1.0.2
     webpack: 4
@@ -7178,6 +7179,7 @@ __metadata:
     style-loader: ^2.0.0
     terser-webpack-plugin: ^5.0.3
     ts-dedent: ^2.0.0
+    tslib: ^2.3.1
     util-deprecate: ^1.0.2
     webpack: ^5.9.0
     webpack-dev-middleware: ^4.1.0
@@ -44143,7 +44145,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2.3.1, tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.2.0, tslib@npm:^2.3.0":
+"tslib@npm:2.3.1, tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.2.0, tslib@npm:^2.3.0, tslib@npm:^2.3.1":
   version: 2.3.1
   resolution: "tslib@npm:2.3.1"
   checksum: 4efd888895bdb3b987086b2b7793ad1013566f882b0eb7a328384e5ecc0d71cafb16bbeab3196200cbf7f01a73ccc25acc2f131d4ea6ee959be7436a8a306482

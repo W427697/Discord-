@@ -39,7 +39,8 @@
     "!prebuilt/report.html"
   ],
   "scripts": {
-    "build": "node ../../scripts/prepare-build.js"
+    "build": "node ../../scripts/prepare-build.js",
+    "build-optimized": "node ../../scripts/prepare-build.js --optimized"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",

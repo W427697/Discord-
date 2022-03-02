@@ -37,7 +37,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts"
+    "build": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts",
+    "build-optimized": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts --optimized"
   },
   "dependencies": {
     "@storybook/addons": "6.5.0-alpha.45",

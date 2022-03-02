@@ -223,6 +223,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       };
       return transformFileAsync(ref, {
         comments: false,
+        compact: false,
         parserOpts: {
           // needed for watchpack/lib/chokidar.js
           allowReturnOutsideFunction: true,

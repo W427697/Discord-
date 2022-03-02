@@ -37,7 +37,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build": "node ../../scripts/prepare-build.js"
+    "build": "node ../../scripts/prepare-build.js",
+    "build-optimized": "node ../../scripts/prepare-build.js --optimized"
   },
   "dependencies": {
     "@storybook/core-client": "6.5.0-alpha.45",
