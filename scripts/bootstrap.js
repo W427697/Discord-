@@ -17,7 +17,7 @@ function run() {
 
   const main = program
     .version('5.0.0')
-    .option('--optimize', `Ready for release ${chalk.gray('(all)')}`)
+    .option('--optimize', `Ready for release ${chalk.gray('(optimize)')}`)
     .option('--all', `Bootstrap everything ${chalk.gray('(all)')}`);
 
   const createTask = ({
