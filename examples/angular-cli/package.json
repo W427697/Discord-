@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "ng build",
+    "build-app": "ng build",
     "build-storybook": "yarn storybook-prebuild && ng run angular-cli:build-storybook",
     "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
     "e2e": "ng e2e",

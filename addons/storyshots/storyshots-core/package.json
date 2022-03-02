@@ -38,9 +38,10 @@
     "*.d.ts"
   ],
   "scripts": {
+    "build": "node ../../../scripts/prepare-build.js",
+    "build-optimized": "node ../../../scripts/prepare-build.js --optimized",
     "build-storybook": "build-storybook",
     "example": "jest storyshot.test",
-    "prepare": "node ../../../scripts/prepare.js",
     "storybook": "start-storybook -p 6006"
   },
   "dependencies": {

@@ -102,7 +102,7 @@ async function run() {
   }
 
   selection.filter(Boolean).forEach((v) => {
-    const sub = execa.command(`yarn prepare${watchMode ? ' --watch' : ''}`, {
+    const sub = execa.command(`yarn build${watchMode ? ' --watch' : ''}`, {
       cwd: resolve(__dirname, '..', v.location),
       buffer: false,
     });
