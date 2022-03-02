@@ -53,7 +53,7 @@
     "@storybook/node-logger": "6.5.0-alpha.45",
     "@storybook/preview-web": "6.5.0-alpha.45",
     "@storybook/router": "6.5.0-alpha.45",
-    "@storybook/semver": "6.5.0-alpha.45",
+    "@storybook/semver": "^7.3.2",
     "@storybook/store": "6.5.0-alpha.45",
     "@storybook/theming": "6.5.0-alpha.45",
     "core-js": "^3.8.2"
