@@ -5,7 +5,9 @@ import { Story, Meta } from '@storybook/angular/types-6-0';
 
 @Component({
   selector: 'sb-button',
-  template: `<button [style.background-color]="color"><ng-content></ng-content></button>`,
+  template: ` <button [style.background-color]="color">
+    <ng-content></ng-content>
+  </button>`,
   styles: [
     `
       button {
@@ -17,6 +19,23 @@ import { Story, Meta } from '@storybook/angular/types-6-0';
 class SbButtonComponent {
   @Input()
   color = '#5eadf5';
+}
+
+// eslint-disable-next-line no-undef
+if ((window as any).STORYBOOK_ANGULAR_ARG_TYPES !== undefined) {
+  // eslint-disable-next-line no-undef
+  (window as any).STORYBOOK_ANGULAR_ARG_TYPES.SbButtonComponent = {
+    inputs: [
+      {
+        name: 'color123123123',
+        defaultValue: "'#5eadf5'",
+        description: [],
+        type: 'string',
+      },
+    ],
+    outputs: [],
+    propertiesWithoutDecorators: [],
+  };
 }
 
 export default {

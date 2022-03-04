@@ -5,7 +5,6 @@ import { setCompodocJson } from '@storybook/addon-docs/angular';
 
 // @ts-ignore
 window.STORYBOOK_ANGULAR_COMPONENT_ARGS = process.env.STORYBOOK_ANGULAR_COMPONENT_ARGS;
-console.log((window as any).STORYBOOK_ANGULAR_COMPONENT_ARGS);
 
 
 const filtered = !docJson?.components

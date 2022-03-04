@@ -26,11 +26,7 @@ const getAngularRelevantClasses = (sourceFiles: SourceFile[]) =>
     )
     .reduce((acc, val) => acc.concat(val), []);
 
-export const extractTypes = (tsConfigPath: string) => {
-  const project = new Project({
-    tsConfigFilePath: tsConfigPath,
-  });
-
+export const extractTypes = (project: Project) => {
   const sourceFiles = getSourceFiles(project);
   const classesWithProps = getAngularRelevantClasses(sourceFiles).map((classDeclaration) => ({
     name: classDeclaration.getName(),

@@ -11,7 +11,7 @@
     "postinstall": "ngcc --source ../../node_modules",
     "ng": "ng",
     "start": "ng serve",
-    "storybook": "yarn storybook-prebuild && ng run angular-cli:storybook",
+    "storybook": "ng run angular-cli:storybook",
     "storybook-prebuild": "yarn test:generate-output",
     "test": "jest",
     "test:coverage": "jest --coverage",

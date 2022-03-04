@@ -1,4 +1,3 @@
-import { ArgTypes, ArgType } from '@storybook/api';
 import { Component, Directive } from './types';
 
 interface Property {
@@ -42,12 +41,14 @@ type ArgsTableProp = {
   };
 };
 
-
 const getAngularDirectiveProperties = (name: string): ExtractedDirective | undefined =>
   // eslint-disable-next-line no-undef
-  (window as any).STORYBOOK_ANGULAR_COMPONENT_ARGS[name];
+  (window as any).STORYBOOK_ANGULAR_ARG_TYPES[name];
 
-const mapPropToArgsTableProp = (prop: Property, category: 'inputs' | 'outputs' | 'properties'): ArgsTableProp => ({
+const mapPropToArgsTableProp = (
+  prop: Property,
+  category: 'inputs' | 'outputs' | 'properties'
+): ArgsTableProp => ({
   name: prop.name,
   description: prop.description.join(' '),
   defaultValue: prop.defaultValue,
@@ -68,7 +69,7 @@ const mapPropsToArgsTableProps = (directive: ExtractedDirective): any => {
   // const argsTableProps: ArgsTableProps = {};
   const argsTableProps = [];
 
-  // eslint-disable-next-line,no-restricted-syntax
+  // eslint-disable-next-line ,no-restricted-syntax,no-restricted-syntax
   for (const [key, input] of Object.entries(directive.inputs)) {
     argsTableProps.push(mapPropToArgsTableProp(input, 'inputs'));
   }
@@ -93,7 +94,7 @@ const mapPropsToArgsTableProps = (directive: ExtractedDirective): any => {
 
 export const extractArgTypes = (directive: Component | Directive): ArgsTableProps => {
   const props = getAngularDirectiveProperties(directive.name);
-  if(!props) {
+  if (!props) {
     return;
   }
   // eslint-disable-next-line consistent-return

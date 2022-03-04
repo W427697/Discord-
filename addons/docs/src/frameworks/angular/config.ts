@@ -1,8 +1,11 @@
+import global from 'global';
 import { SourceType } from '../../shared';
 // import { extractArgTypes, extractComponentDescription } from './compodoc';
 import { sourceDecorator } from './sourceDecorator';
 import { prepareForInline } from './prepareForInline';
 import { extractArgTypes } from './angular-type-extractor';
+
+global.STORYBOOK_ANGULAR_ARG_TYPES = {};
 
 export const parameters = {
   docs: {

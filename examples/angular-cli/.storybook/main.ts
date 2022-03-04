@@ -1,3 +1,7 @@
+import { TestPlugin } from "./plugin";
+
+const path = require('path');
+
 module.exports = {
   stories: ['../src/stories/**/*.stories.@(ts|mdx)'],
   logLevel: 'debug',
@@ -40,4 +44,25 @@ module.exports = {
     },
   },
   staticDirs: ['../src/assets'],
+  webpackFinal: async (config, { configType }) => {
+    // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
+    // You can change the configuration based on that.
+    // 'PRODUCTION' is used when building the static version of storybook.
+
+    // Make whatever fine-grained changes you need
+    config.module.rules.push({
+      test: /\.stories.ts$/,
+      use: [
+        {
+          loader: path.resolve(__dirname, './loader.ts'),
+          //   options: {},
+        },
+      ],
+    });
+
+    config.plugins.push(new TestPlugin());
+
+    // Return the altered config
+    return config;
+  },
 };
