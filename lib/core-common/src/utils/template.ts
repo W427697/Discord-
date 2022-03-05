@@ -3,7 +3,10 @@ import { sync } from 'pkg-dir';
 import fs from 'fs';
 
 const interpolate = (string: string, data: Record<string, string> = {}) =>
-  Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
+  Object.entries(data).reduce((acc, [k, v]) => {
+    const escaped = k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return acc.replace(new RegExp(`%${escaped}%`, 'g'), v);
+  }, string);
 
 export function getPreviewBodyTemplate(
   configDirPath: string,
