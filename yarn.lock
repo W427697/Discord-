@@ -8314,6 +8314,7 @@ __metadata:
     "@storybook/source-loader": "workspace:*"
     "@storybook/store": "workspace:*"
     "@storybook/svelte": "workspace:*"
+    "@storybook/telemetry": "workspace:*"
     "@storybook/testing-library": ^0.0.7
     "@storybook/theming": "workspace:*"
     "@storybook/ui": "workspace:*"
@@ -8640,6 +8641,15 @@ __metadata:
     build-storybook: ./bin/build.js
     start-storybook: ./bin/index.js
     storybook-server: ./bin/index.js
+  languageName: unknown
+  linkType: soft
+
+"@storybook/telemetry@workspace:*, @storybook/telemetry@workspace:lib/telemetry":
+  version: 0.0.0-use.local
+  resolution: "@storybook/telemetry@workspace:lib/telemetry"
+  dependencies:
+    core-js: ^3.8.2
+    global: ^4.4.0
   languageName: unknown
   linkType: soft
 
