@@ -1,4 +1,4 @@
-import webpack from 'webpack';
+import type { Configuration } from 'webpack';
 import { logger } from '@storybook/node-logger';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { targetFromTargetString, Target } from '@angular-devkit/architect';
@@ -19,7 +19,7 @@ import { PresetOptions } from './options';
 /**
  * Old way currently support version lower than 12.2.x
  */
-export async function getWebpackConfig(baseConfig: webpack.Configuration, options: PresetOptions) {
+export async function getWebpackConfig(baseConfig: Configuration, options: PresetOptions) {
   const dirToSearch = process.cwd();
 
   // Read angular workspace
@@ -97,7 +97,7 @@ export async function getWebpackConfig(baseConfig: webpack.Configuration, option
 
 function mergeAngularCliWebpackConfig(
   { cliCommonWebpackConfig, cliStyleWebpackConfig, tsConfigPath }: AngularCliWebpackConfig,
-  baseConfig: webpack.Configuration
+  baseConfig: Configuration
 ) {
   // Don't use storybooks styling rules because we have to use rules created by @angular-devkit/build-angular
   // because @angular-devkit/build-angular created rules have include/exclude for global style files.

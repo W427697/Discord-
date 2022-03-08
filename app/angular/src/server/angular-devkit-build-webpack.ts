@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import webpack from 'webpack';
+import type { Configuration, Entry, EntryFunc, ResolveLoader, RuleSetRule, Plugin } from 'webpack';
 import { normalize, resolve, workspaces, getSystemPath } from '@angular-devkit/core';
 import { createConsoleLogger } from '@angular-devkit/core/node';
 
@@ -21,8 +21,8 @@ import { normalizeAssetPatterns } from './utils/normalize-asset-patterns';
 import { normalizeOptimization } from './utils/normalize-optimization';
 
 const importAngularCliWebpackConfigGenerator = (): {
-  getCommonConfig: (config: unknown) => webpack.Configuration;
-  getStylesConfig: (config: unknown) => webpack.Configuration;
+  getCommonConfig: (config: unknown) => Configuration;
+  getStylesConfig: (config: unknown) => Configuration;
 } => {
   let angularWebpackConfig;
 
@@ -152,18 +152,18 @@ const buildWebpackConfigOptions = async (
 
 export type AngularCliWebpackConfig = {
   cliCommonWebpackConfig: {
-    plugins: webpack.Plugin[];
+    plugins: Plugin[];
     resolve: {
       modules: string[];
     };
-    resolveLoader: webpack.ResolveLoader;
+    resolveLoader: ResolveLoader;
   };
   cliStyleWebpackConfig: {
-    entry: string | string[] | webpack.Entry | webpack.EntryFunc;
+    entry: string | string[] | Entry | EntryFunc;
     module: {
-      rules: webpack.RuleSetRule[];
+      rules: RuleSetRule[];
     };
-    plugins: webpack.Plugin[];
+    plugins: Plugin[];
   };
   tsConfigPath: string;
 };
