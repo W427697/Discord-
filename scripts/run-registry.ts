@@ -13,6 +13,8 @@ import pLimit from 'p-limit';
 // @ts-ignore
 import { maxConcurrentTasks } from './utils/concurrency';
 import { listOfPackages, Package } from './utils/list-packages';
+// @ts-ignore
+import { spawn } from './utils/cli-utils';
 
 program
   .option('-O, --open', 'keep process open')
@@ -113,6 +115,10 @@ const currentVersion = async () => {
 };
 
 const publish = (packages: { name: string; location: string }[], url: string) => {
+  logger.log(`Running prepublish script with a concurrency of ${maxConcurrentTasks}`);
+  const parallelism = process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : '';
+  spawn(`nx run-many --target="prepublish" --all --parallel ${parallelism}`);
+
   logger.log(`Publishing packages with a concurrency of ${maxConcurrentTasks}`);
 
   const limit = pLimit(maxConcurrentTasks);
