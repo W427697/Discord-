@@ -567,9 +567,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
                       width: bounds.width - navX - 2 * margin,
                       marginTop: -margin,
                     }
-                  : {
-                      marginLeft: -margin,
-                    }
+                  : {}
               }
               axis={isPanelBottom ? 'y' : 'x'}
             />
