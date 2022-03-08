@@ -146,7 +146,7 @@ export async function dts({ input, externals, cwd, ...options }: Options) {
     const localizedDTSout = join(cwd, 'dist/ts3.9');
     await fs.outputFile(bundledDTSfile, out);
 
-    await dtsLozalize.run([bundledDTSfile], localizedDTSout, { externals, cwd });
+    await dtsLocalize.run([bundledDTSfile], localizedDTSout, { externals, cwd });
 
     await fs.remove(join(cwd, 'dist/ts-tmp'));
 
