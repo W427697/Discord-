@@ -1,15 +1,16 @@
 import { VueLoaderPlugin } from 'vue-loader';
-import { Configuration, DefinePlugin } from 'webpack';
 import { findDistEsm } from '@storybook/core-common';
-import type { StorybookConfig } from '@storybook/core-common';
+import type { Options, StorybookConfig } from '@storybook/core-common';
+import type { Configuration } from 'webpack';
 
-export function webpack(config: Configuration): Configuration {
+export async function webpack(config: Configuration, options: Options) {
+  const webpackInstance = await options.presets.apply<any>('webpackInstance', options);
   return {
     ...config,
     plugins: [
       ...config.plugins,
       new VueLoaderPlugin(),
-      new DefinePlugin({
+      new webpackInstance.DefinePlugin({
         __VUE_OPTIONS_API__: JSON.stringify(true),
         __VUE_PROD_DEVTOOLS__: JSON.stringify(true),
       }),

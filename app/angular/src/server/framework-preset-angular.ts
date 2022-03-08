@@ -1,14 +1,17 @@
 import path from 'path';
 import semver from '@storybook/semver';
-import { ContextReplacementPlugin, Configuration } from 'webpack';
+import type { Configuration } from 'webpack';
 import autoprefixer from 'autoprefixer';
+import type { Options } from '@storybook/core-common';
 import getTsLoaderOptions from './ts_config';
 import createForkTsCheckerInstance from './create-fork-ts-checker-plugin';
 
 export async function webpack(
   config: Configuration,
-  { configDir, angularBuilderContext }: { configDir: string; angularBuilderContext: any }
+  options: Options & { configDir: string; angularBuilderContext: any }
 ): Promise<Configuration> {
+  const webpackInstance = await options.presets.apply<any>('webpackInstance', options);
+  const { configDir, angularBuilderContext } = options;
   try {
     // Disable all this webpack stuff if we use angular-cli >= 12
     // Angular cli is in charge of doing all the necessary for angular. If there is any additional configuration to add, it must be done in the preset angular-cli versioned.
@@ -74,7 +77,7 @@ export async function webpack(
     plugins: [
       ...config.plugins,
       // See https://github.com/angular/angular/issues/11580#issuecomment-401127742
-      new ContextReplacementPlugin(
+      new webpackInstance.ContextReplacementPlugin(
         /@angular(\\|\/)core(\\|\/)(fesm5|bundles)/,
         path.resolve(__dirname, '..')
       ),
