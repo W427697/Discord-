@@ -7,7 +7,6 @@ import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 
-import themingPaths from '@storybook/theming/paths';
 import uiPaths from '@storybook/ui/paths';
 
 import readPackage from 'read-pkg-up';
@@ -161,7 +160,6 @@ export async function managerWebpack(
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
       mainFields: [modern ? 'sbmodern' : null, 'browser', 'module', 'main'].filter(Boolean),
       alias: {
-        ...themingPaths,
         ...uiPaths,
       },
       plugins: [
