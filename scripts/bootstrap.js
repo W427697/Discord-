@@ -106,12 +106,12 @@ function run() {
       },
       order: 2,
     }),
-    publish: createTask({
-      name: `Prepublish packages ${chalk.gray('(publish)')}`,
+    prepublish: createTask({
+      name: `Prepublish packages ${chalk.gray('(prepublish)')}`,
       defaultValue: false,
-      option: '--publish',
+      option: '--prepublish',
       command: () => {
-        log.info(prefix, 'publish');
+        log.info(prefix, 'prepublish');
         const command = 'prepublish';
         const parallelism = process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : '';
 
