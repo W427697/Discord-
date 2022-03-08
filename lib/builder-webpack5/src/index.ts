@@ -1,4 +1,8 @@
-import webpack, { Stats, Configuration, ProgressPlugin } from 'webpack';
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./typings.d.ts" />
+
+import webpack, { ProgressPlugin } from 'webpack';
+import type { Stats, Configuration } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
@@ -162,5 +166,5 @@ export const build: WebpackBuilder['build'] = async ({ options, startTime }) => 
   });
 };
 
-export const corePresets = [require.resolve('./presets/preview-preset.js')];
-export const overridePresets = [require.resolve('./presets/custom-webpack-preset.js')];
+export const corePresets = [require.resolve('./preview-preset.js')];
+export const overridePresets = [require.resolve('./custom-webpack-preset.js')];

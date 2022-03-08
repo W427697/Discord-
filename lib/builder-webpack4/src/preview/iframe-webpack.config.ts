@@ -1,4 +1,5 @@
-import path from 'path';
+import path, { dirname, join } from 'path';
+import { sync } from 'pkg-dir';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin } from 'webpack';
 // @ts-ignore
 import type { Configuration, RuleSetRule } from '@types/webpack';
@@ -11,7 +12,6 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 // @ts-ignore
 import FilterWarningsPlugin from 'webpack-filter-warnings-plugin';
 
-import themingPaths from '@storybook/theming/paths';
 import {
   toRequireContextString,
   stringifyProcessEnvs,
@@ -29,32 +29,30 @@ import { createBabelLoader } from './babel-loader-preview';
 import { useBaseTsSupport } from './useBaseTsSupport';
 
 const storybookPaths: Record<string, string> = [
-  'addons',
-  'api',
-  'channels',
-  'channel-postmessage',
-  'components',
-  'core-events',
-  'router',
-  'theming',
-  'semver',
-  'client-api',
-  'client-logger',
-  'preview-web',
-  'store',
+  '@storybook/addons',
+  '@storybook/api',
+  '@storybook/channel-postmessage',
+  '@storybook/channels',
+  '@storybook/client-api',
+  '@storybook/client-logger',
+  '@storybook/components',
+  '@storybook/core-events',
+  '@storybook/preview-web',
+  '@storybook/router',
+  '@storybook/semver',
+  '@storybook/store',
+  '@storybook/theming',
 ].reduce(
   (acc, sbPackage) => ({
     ...acc,
-    [`@storybook/${sbPackage}`]: path.dirname(
-      require.resolve(`@storybook/${sbPackage}/package.json`)
-    ),
+    [sbPackage]: dirname(require.resolve(`${sbPackage}/package.json`)),
   }),
   {}
 );
 export default async (options: Options & Record<string, any>): Promise<Configuration> => {
   const {
     babelOptions,
-    outputDir = path.join('.', 'public'),
+    outputDir = join('.', 'public'),
     quiet,
     packageJson,
     configType,
@@ -94,17 +92,13 @@ export default async (options: Options & Record<string, any>): Promise<Configura
   const virtualModuleMapping: Record<string, string> = {};
   if (features?.storyStoreV7) {
     const storiesFilename = 'storybook-stories.js';
-    const storiesPath = path.resolve(path.join(workingDir, storiesFilename));
+    const storiesPath = path.resolve(join(workingDir, storiesFilename));
 
     virtualModuleMapping[storiesPath] = toImportFn(stories);
 
-    const configEntryPath = path.resolve(path.join(workingDir, 'storybook-config-entry.js'));
+    const configEntryPath = path.resolve(join(workingDir, 'storybook-config-entry.js'));
     virtualModuleMapping[configEntryPath] = handlebars(
-      await readTemplate(
-        require.resolve(
-          '@storybook/builder-webpack4/templates/virtualModuleModernEntry.js.handlebars'
-        )
-      ),
+      await readTemplate(join(sync(__dirname), 'templates/virtualModuleModernEntry.js.handlebars')),
       {
         storiesFilename,
         configs,
@@ -113,36 +107,32 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     ).replace(/\\/g, '\\\\');
     entries.push(configEntryPath);
   } else {
-    const frameworkInitEntry = path.resolve(
-      path.join(workingDir, 'storybook-init-framework-entry.js')
-    );
+    const frameworkInitEntry = path.resolve(join(workingDir, 'storybook-init-framework-entry.js'));
     const frameworkImportPath = frameworkPath || `@storybook/${framework}`;
     virtualModuleMapping[frameworkInitEntry] = `import '${frameworkImportPath}';`;
     entries.push(frameworkInitEntry);
 
     const entryTemplate = await readTemplate(
-      path.join(__dirname, 'virtualModuleEntry.template.js')
+      join(sync(__dirname), 'templates/virtualModuleEntry.template.js')
     );
 
     configs.forEach((configFilename: any) => {
       const clientApi = storybookPaths['@storybook/client-api'];
-      const clientLogger = storybookPaths['@storybook/client-logger'];
 
       virtualModuleMapping[`${configFilename}-generated-config-entry.js`] = interpolate(
         entryTemplate,
         {
           configFilename,
           clientApi,
-          clientLogger,
         }
       );
       entries.push(`${configFilename}-generated-config-entry.js`);
     });
     if (stories.length > 0) {
       const storyTemplate = await readTemplate(
-        path.join(__dirname, 'virtualModuleStory.template.js')
+        join(sync(__dirname), 'templates/virtualModuleStory.template.js')
       );
-      const storiesFilename = path.resolve(path.join(workingDir, `generated-stories-entry.js`));
+      const storiesFilename = path.resolve(join(workingDir, `generated-stories-entry.js`));
       virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, { frameworkImportPath })
         // Make sure we also replace quotes for this one
         .replace("'{{stories}}'", stories.map(toRequireContextString).join(','));
@@ -166,7 +156,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
       publicPath: '',
     },
     watchOptions: {
-      ignored: /node_modules/,
+      ignored: /(node_modules|local_modules)/,
     },
     plugins: [
       new FilterWarningsPlugin({
@@ -237,10 +227,9 @@ export default async (options: Options & Record<string, any>): Promise<Configura
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
       mainFields: [modern ? 'sbmodern' : null, 'browser', 'module', 'main'].filter(Boolean),
       alias: {
-        ...(features?.emotionAlias ? themingPaths : {}),
         ...storybookPaths,
-        react: path.dirname(require.resolve('react/package.json')),
-        'react-dom': path.dirname(require.resolve('react-dom/package.json')),
+        react: dirname(require.resolve('react/package.json')),
+        'react-dom': dirname(require.resolve('react-dom/package.json')),
       },
 
       plugins: [

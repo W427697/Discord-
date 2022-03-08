@@ -23,6 +23,7 @@ module.exports = {
         '**/lib/router/**/*',
         '**/lib/ui/**/*',
         '**/lib/components/**/*',
+        '**/lib/builder-webpack*/**/*',
       ],
       rules: {
         'import/no-extraneous-dependencies': ['error', { bundledDependencies: false }],

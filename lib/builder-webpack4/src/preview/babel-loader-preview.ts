@@ -10,5 +10,5 @@ export const createBabelLoader = (options: any, framework: string) => ({
     },
   ],
   include: [getProjectRoot()],
-  exclude: /node_modules/,
+  exclude: [/node_modules/, /local_modules/, /dist/],
 });

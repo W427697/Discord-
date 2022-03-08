@@ -1,4 +1,6 @@
 import autoprefixer from 'autoprefixer';
+// @ts-ignore
+import postcssFlexbugsFixes from 'postcss-flexbugs-fixes';
 import findUp from 'find-up';
 import path from 'path';
 import { logger } from '@storybook/node-logger';
@@ -11,7 +13,7 @@ const warnImplicitPostcssPlugins = deprecate(
     // Additional config is merged with config, so we have it disabled currently
     config: false,
     plugins: [
-      require('postcss-flexbugs-fixes'), // eslint-disable-line global-require
+      postcssFlexbugsFixes,
       autoprefixer({
         flexbox: 'no-2009',
       }),
