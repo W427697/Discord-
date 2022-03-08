@@ -6,8 +6,8 @@ import {
   loadCustomBabelConfig,
   getStorybookBabelConfig,
   loadEnvs,
-  Options,
 } from '@storybook/core-common';
+import type { Options } from '@storybook/core-common';
 
 export const babel = async (_: unknown, options: Options) => {
   const { configDir, presets } = options;

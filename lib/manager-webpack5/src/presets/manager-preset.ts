@@ -1,6 +1,7 @@
 import path from 'path';
 import fse from 'fs-extra';
-import { DefinePlugin, Configuration, WebpackPluginInstance, ProvidePlugin } from 'webpack';
+import { DefinePlugin, ProvidePlugin } from 'webpack';
+import type { Configuration, WebpackPluginInstance } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
@@ -16,9 +17,8 @@ import {
   es6Transpiler,
   getManagerHeadTemplate,
   getManagerMainTemplate,
-  Options,
-  ManagerWebpackOptions,
 } from '@storybook/core-common';
+import type { Options, ManagerWebpackOptions } from '@storybook/core-common';
 
 import { babelLoader } from './babel-loader-manager';
 
