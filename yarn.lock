@@ -6426,7 +6426,6 @@ __metadata:
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
     vue: ^2.6.10
-    webpack: 4
     zone.js: ^0.11.3
   peerDependencies:
     "@storybook/angular": 6.5.0-alpha.46
@@ -6443,7 +6442,6 @@ __metadata:
     svelte: ^3.31.2
     sveltedoc-parser: ^4.1.0
     vue: ^2.6.10 || ^3.0.0
-    webpack: "*"
   peerDependenciesMeta:
     "@storybook/angular":
       optional: true
@@ -6480,8 +6478,6 @@ __metadata:
     sveltedoc-parser:
       optional: true
     vue:
-      optional: true
-    webpack:
       optional: true
   languageName: unknown
   linkType: soft
@@ -7000,7 +6996,6 @@ __metadata:
     ts-loader: ^8.0.14
     tsconfig-paths-webpack-plugin: ^3.3.0
     util-deprecate: ^1.0.2
-    webpack: 4
   peerDependencies:
     "@angular-devkit/architect": ">=0.8.9"
     "@angular-devkit/build-angular": ">=0.8.9 || >= 12.0.0"
@@ -7450,7 +7445,6 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
-    webpack: "*"
   peerDependenciesMeta:
     typescript:
       optional: true
@@ -7565,7 +7559,6 @@ __metadata:
     "@types/node-fetch": ^2.5.7
     "@types/pretty-hrtime": ^1.0.0
     "@types/serve-favicon": ^2.5.2
-    "@types/webpack": ^4.41.26
     "@types/ws": ^8
     better-opn: ^2.1.1
     boxen: ^5.1.2
@@ -7594,7 +7587,6 @@ __metadata:
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
     watchpack: ^2.2.0
-    webpack: 4
     ws: ^8.2.3
     x-default-browser: ^0.4.0
   peerDependencies:
@@ -7619,7 +7611,6 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
-    webpack: "*"
   peerDependenciesMeta:
     "@storybook/builder-webpack5":
       optional: true
@@ -8093,7 +8084,6 @@ __metadata:
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
-    webpack: "*"
   bin:
     build-storybook: ./bin/build.js
     start-storybook: ./bin/index.js
@@ -8206,7 +8196,6 @@ __metadata:
     read-pkg-up: ^7.0.1
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
-    webpack: 4
   peerDependencies:
     "@babel/core": ^7.11.5
     react: ^16.8.0 || ^17.0.0
@@ -8737,7 +8726,6 @@ __metadata:
     regenerator-runtime: ^0.13.7
     resolve-from: ^5.0.0
     store2: ^2.12.0
-    webpack: 4
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -8768,7 +8756,6 @@ __metadata:
     vue-docgen-api: ^4.44.15
     vue-docgen-loader: ^1.5.0
     vue-loader: ^16.0.0
-    webpack: 4
   peerDependencies:
     "@babel/core": "*"
     "@vue/compiler-sfc": ^3.0.0
@@ -8805,7 +8792,6 @@ __metadata:
     vue-docgen-loader: ^1.5.0
     vue-loader: ^15.9.6
     vue-template-compiler: ^2.6.12
-    webpack: 4
   peerDependencies:
     "@babel/core": "*"
     babel-loader: ^7.0.0 || ^8.0.0
