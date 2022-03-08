@@ -37,7 +37,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts"
+    "prepare": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts",
+    "prepublish": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts --optimized"
   },
   "dependencies": {
     "@storybook/client-logger": "6.5.0-alpha.46",

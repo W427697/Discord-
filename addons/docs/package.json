@@ -131,7 +131,6 @@
     "sveltedoc-parser": "4.1.0",
     "tmp": "^0.2.1",
     "vue": "^2.6.10",
-    "webpack": "4",
     "zone.js": "^0.11.3"
   },
   "peerDependencies": {
@@ -148,8 +147,7 @@
     "react-dom": "^16.8.0 || ^17.0.0",
     "svelte": "^3.31.2",
     "sveltedoc-parser": "^4.1.0",
-    "vue": "^2.6.10 || ^3.0.0",
-    "webpack": "*"
+    "vue": "^2.6.10 || ^3.0.0"
   },
   "peerDependenciesMeta": {
     "@storybook/angular": {
@@ -204,9 +202,6 @@
       "optional": true
     },
     "vue": {
-      "optional": true
-    },
-    "webpack": {
       "optional": true
     }
   },
