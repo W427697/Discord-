@@ -2,6 +2,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { sync } from 'read-pkg-up';
+import builtins from 'builtin-modules';
 
 import * as ts from 'typescript';
 
@@ -273,6 +274,9 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
       Array.from(sourceFile.resolvedModules.entries()).forEach(([k, v]) => {
         // console.log({ k }, v.resolvedFileName);
         if (externals.includes(k)) {
+          return;
+        }
+        if (builtins.includes(k)) {
           return;
         }
         const x = sourceFiles.find((f) => f.fileName === v.resolvedFileName);
