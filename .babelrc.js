@@ -21,6 +21,7 @@ const modules = process.env.BABEL_MODE === 'cjs' ? 'auto' : false;
 const targets = process.env.BABEL_MODE === 'modern' ? { chrome: '79' } : 'defaults';
 
 module.exports = {
+  compact: false,
   ignore: [
     './lib/codemod/src/transforms/__testfixtures__',
     './lib/postinstall/src/__testfixtures__',

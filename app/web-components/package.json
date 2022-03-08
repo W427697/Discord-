@@ -44,7 +44,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare-build.js"
   },
   "dependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",

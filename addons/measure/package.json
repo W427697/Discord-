@@ -41,7 +41,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare-build.js"
   },
   "dependencies": {
     "@storybook/addons": "6.5.0-alpha.46",

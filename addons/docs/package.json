@@ -52,7 +52,7 @@
     "!__testfixtures__"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "node ../../scripts/prepare-build.js"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",

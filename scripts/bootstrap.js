@@ -2,8 +2,6 @@
 
 /* eslint-disable global-require */
 
-const { lstatSync, readdirSync } = require('fs');
-const { join } = require('path');
 const { maxConcurrentTasks } = require('./utils/concurrency');
 const { checkDependenciesAndRun, spawn } = require('./utils/cli-utils');
 
@@ -67,12 +65,11 @@ function run() {
       defaultValue: true,
       option: '--retry',
       command: () => {
-        log.info(prefix, 'prepare');
-        spawn(
-          `nx run-many --target=prepare --all --parallel --only-failed ${
-            process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
-          }`
-        );
+        log.info(prefix, 'build');
+        const command = 'prepare';
+        const parallelism = process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : '';
+
+        spawn(`nx run-many --target="${command}" --all --parallel --only-failed ${parallelism}`);
       },
       order: 1,
     }),
@@ -101,12 +98,24 @@ function run() {
       defaultValue: false,
       option: '--build',
       command: () => {
-        log.info(prefix, 'prepare');
-        spawn(
-          `nx run-many --target="prepare" --all --parallel ${
-            process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
-          } -- --optimized`
-        );
+        log.info(prefix, 'build');
+        const command = 'prepare';
+        const parallelism = process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : '';
+
+        spawn(`nx run-many --target="${command}" --all --parallel ${parallelism}`);
+      },
+      order: 2,
+    }),
+    publish: createTask({
+      name: `Prepublish packages ${chalk.gray('(publish)')}`,
+      defaultValue: false,
+      option: '--publish',
+      command: () => {
+        log.info(prefix, 'publish');
+        const command = 'prepublish';
+        const parallelism = process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : '';
+
+        spawn(`nx run-many --target="${command}" --all --parallel ${parallelism}`);
       },
       order: 2,
     }),
