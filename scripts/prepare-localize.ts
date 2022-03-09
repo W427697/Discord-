@@ -1,6 +1,6 @@
 import readPkgUp from 'read-pkg-up';
 import builtins from 'builtin-modules';
-import { ensureDir, stat, writeFile, writeJSON } from 'fs-extra';
+import { ensureDir, readJson, stat, writeFile, writeJSON } from 'fs-extra';
 import { join } from 'path';
 import rollupTypescript from '@rollup/plugin-typescript';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
@@ -147,7 +147,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         return acc;
       }, {});
 
-      writeJSON(join(location, 'package.json'), p.packageJson);
+      writeJSON(join(location, 'package.json'), p.packageJson, { spaces: 2 });
     });
 
     const afterInstall = await command(
@@ -216,8 +216,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     console.log(`${bold('generated node_modules')}: ${dir}`);
 
     // convert references in imports, exports and require to reference  the local_modules
-    const files = await glob.promise('node_modules/**/*.@(js|cjs)', { cwd: location });
-    await files.reduce<any>(async (acc, file) => {
+    const sourceFiles = await glob.promise('node_modules/**/*.@(js|cjs)', { cwd: location });
+    await sourceFiles.reduce<any>(async (acc, file) => {
       await acc;
       const ref = join(location, file);
 
@@ -265,7 +265,29 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         });
     }, Promise.resolve());
 
-    console.log(`${bold('localized files')}: ${dir}, ${files.length} files`);
+    console.log(`${bold('localized')}: ${dir}, ${sourceFiles.length} files`);
+
+    const packageFiles = await glob.promise('node_modules/**/package.json', { cwd: location });
+    await packageFiles.reduce(async (acc, file) => {
+      await acc;
+      const ref = join(location, file);
+
+      const {
+        files,
+        devDependencies,
+        dependencies,
+        peerDependencies,
+        engines,
+        scripts,
+        husky,
+        directories,
+        ...rest
+      } = await readJson(ref);
+
+      await writeJSON(ref, rest, { spaces: 2 });
+    }, Promise.resolve());
+
+    console.log(`${bold('cleanup package.json')}: ${dir}, ${packageFiles.length} files`);
 
     const o = await cp('-R', join(location, 'node_modules'), join(dist, 'node_modules'));
     if (o.code !== 0) {

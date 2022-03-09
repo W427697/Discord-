@@ -111,8 +111,8 @@ export async function build(options: Options, setting: RollupOptions) {
     await outputs.reduce(async (acc, config) => {
       await acc;
       await bundler.write(config);
-      console.log(`${bold('bundled')}: ${config.dir.replace(cwd, '.')}`);
     }, Promise.resolve());
+    console.log(`${bold('bundled')}: ${setting.input.toString()}`);
 
     await bundler.close();
   }
