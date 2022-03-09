@@ -162,6 +162,13 @@ jobs:
       - run:
           name: running local registry
           command: yarn local-registry --publish
+      - run:
+          name: prep artifacts
+          when: always
+          command: zip -r /tmp/builder-webpack4-dist.zip /tmp/storybook/lib/builder-webpack4
+      - store_artifacts:
+          path: /tmp/builder-webpack4-dist.zip
+          destination: builder-webpack4-dist.zip
       - persist_to_workspace:
           root: .
           paths:
