@@ -214,7 +214,6 @@ jobs:
     executor:
       class: xlarge
       name: sb_cypress_8_node_14
-    parallelism: 2
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -230,35 +229,35 @@ jobs:
       # Do not test CRA here because it's done in PnP part
       # TODO: Remove `web_components_typescript` as soon as Lit 2 stable is released
       - run:
-          name: Run E2E tests
+          name: Run E2E tests for react
           command: yarn test:e2e-framework react
           no_output_timeout: 10m
       - run:
-          name: Run E2E tests
+          name: Run E2E tests for vue3
           command: yarn test:e2e-framework vue3
           no_output_timeout: 5m
       - run:
-          name: Run E2E tests
+          name: Run E2E tests for angular11
           command: yarn test:e2e-framework angular11
           no_output_timeout: 5m
       - run:
-          name: Run E2E tests
+          name: Run E2E tests for angular12
           command: yarn test:e2e-framework angular12
           no_output_timeout: 5m
       - run:
-          name: Run E2E tests
+          name: Run E2E tests for angular13
           command: yarn test:e2e-framework angular13
           no_output_timeout: 5m
       - run:
-          name: Run E2E tests
+          name: Run E2E tests for angular130
           command: yarn test:e2e-framework angular130
           no_output_timeout: 5m
       - run:
-          name: Run E2E tests
+          name: Run E2E tests for web_components_typescript
           command: yarn test:e2e-framework web_components_typescript
           no_output_timeout: 5m
       - run:
-          name: Run E2E tests
+          name: Run E2E tests for web_components_lit2
           command: yarn test:e2e-framework web_components_lit2
           no_output_timeout: 5m
       - store_artifacts:
