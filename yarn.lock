@@ -8648,12 +8648,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/telemetry@workspace:lib/telemetry"
   dependencies:
-    "@types/uuid": ^8.3.4
     core-js: ^3.8.2
     fetch-retry: ^5.0.2
     global: ^4.4.0
     isomorphic-unfetch: ^3.1.0
-    uuid: ^8.3.2
+    nanoid: ^3.3.1
   languageName: unknown
   linkType: soft
 
@@ -10456,13 +10455,6 @@ __metadata:
   version: 1.0.0
   resolution: "@types/util-deprecate@npm:1.0.0"
   checksum: 3f5e23aad8c9427db0ca2ef0c5b05377c11f62ad5710d2b0daf75b55339d7b646007090d5d21f007bdcb32cc62f52d918f977129639686e1856248217bb73663
-  languageName: node
-  linkType: hard
-
-"@types/uuid@npm:^8.3.4":
-  version: 8.3.4
-  resolution: "@types/uuid@npm:8.3.4"
-  checksum: b9ac98f82fcf35962317ef7dc44d9ac9e0f6fdb68121d384c88fe12ea318487d5585d3480fa003cf28be86a3bbe213ca688ba786601dce4a97724765eb5b1cf2
   languageName: node
   linkType: hard
 

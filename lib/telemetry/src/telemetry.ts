@@ -1,6 +1,6 @@
 import originalFetch from 'isomorphic-unfetch';
 import retry from 'fetch-retry';
-import { v4 } from 'uuid';
+import { nanoid } from 'nanoid';
 
 const URL = 'https://storybook.js.org/telemetry';
 
@@ -17,7 +17,10 @@ export async function sendTelemetry(
   data: Record<string, any>,
   options = { delay: 1000 }
 ) {
-  const id = v4();
+  // We use this id so we can de-dupe events that arrive at the index multiple times due to the
+  // use of retries. There are situations in which the request "5xx"s (or times-out), but
+  // the server actually gets the request and stores it anyway.
+  const id = nanoid();
   logger.log('Sending telemetry', { id, name });
 
   try {
