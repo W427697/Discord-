@@ -30,6 +30,7 @@ import {
 import { getPreviewBuilder } from './utils/get-preview-builder';
 import { getManagerBuilder } from './utils/get-manager-builder';
 import { extractStoriesJson } from './utils/stories-json';
+import { extractStorybookMetadata } from './utils/storybook-metadata';
 
 export async function buildStaticStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
   /* eslint-disable no-param-reassign */
@@ -106,6 +107,15 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
       storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
       storyStoreV7: features?.storyStoreV7,
     });
+
+    if (features?.telemetry) {
+      await extractStorybookMetadata(path.join(options.outputDir, 'metadata.json'), stories, {
+        ...directories,
+        packageJson: options.packageJson,
+        storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+        storyStoreV7: features?.storyStoreV7,
+      } as any);
+    }
   }
 
   const fullOptions: Options = {
