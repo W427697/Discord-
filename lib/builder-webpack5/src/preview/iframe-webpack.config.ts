@@ -8,6 +8,7 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
+import type { Options, CoreConfig } from '@storybook/core-common';
 import {
   toRequireContextString,
   es6Transpiler,
@@ -19,7 +20,6 @@ import {
   readTemplate,
   loadPreviewOrConfigFile,
 } from '@storybook/core-common';
-import type { Options, CoreConfig } from '@storybook/core-common';
 import { createBabelLoader } from './babel-loader-preview';
 
 import { useBaseTsSupport } from './useBaseTsSupport';
@@ -163,7 +163,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
       logging: 'error',
     },
     watchOptions: {
-      ignored: /(node_modules|local_modules)/,
+      ignored: /node_modules/,
     },
     ignoreWarnings: [
       {
