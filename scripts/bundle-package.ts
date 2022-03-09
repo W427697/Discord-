@@ -108,7 +108,11 @@ export async function build(options: Options, setting: RollupOptions) {
   } else {
     const bundler = await rollup(setting);
 
-    await Promise.all(outputs.map((config) => bundler.write(config)));
+    await outputs.reduce(async (acc, config) => {
+      await acc;
+      await bundler.write(config);
+      console.log(`${bold('bundled')}: ${config.dir.replace(cwd, '.')}`);
+    }, Promise.resolve());
 
     await bundler.close();
   }
@@ -142,19 +146,28 @@ export async function dts({ input, externals, cwd, ...options }: Options) {
       { followSymlinks: false }
     );
 
-    const bundledDTSfile = join(cwd, 'dist/ts-tmp/index.d.ts');
-    const localizedDTSout = join(cwd, 'dist/ts3.9');
-    await fs.outputFile(bundledDTSfile, out);
+    if (options.optimized) {
+      const bundledDTSfile = join(cwd, 'dist/ts-tmp/index.d.ts');
+      const localizedDTSout = join(cwd, 'dist/ts3.9');
+      await fs.outputFile(bundledDTSfile, out);
+      console.log(`${bold('bundled')}: ${bundledDTSfile.replace(cwd, '.')}`);
 
-    await dtsLocalize.run([bundledDTSfile], localizedDTSout, { externals, cwd });
+      await dtsLocalize.run([bundledDTSfile], localizedDTSout, { externals, cwd });
+      console.log(`${bold('localized')}: ${localizedDTSout.replace(cwd, '.')}`);
 
-    await fs.remove(join(cwd, 'dist/ts-tmp'));
+      await fs.remove(join(cwd, 'dist/ts-tmp'));
 
-    await execa('node', [
-      join(__dirname, '../node_modules/.bin/downlevel-dts'),
-      'dist/ts3.9',
-      'dist/ts3.4',
-    ]);
+      await execa('node', [
+        join(__dirname, '../node_modules/.bin/downlevel-dts'),
+        'dist/ts3.9',
+        'dist/ts3.4',
+      ]);
+      console.log(`${bold('ported')}: ${localizedDTSout.replace(cwd, '.')}`);
+    } else {
+      const bundledDTSfile = join(cwd, 'dist/ts3.9/index.d.ts');
+      await fs.outputFile(bundledDTSfile, out);
+      console.log(`${bold('bundled')}: ${bundledDTSfile.replace(cwd, '.')}`);
+    }
   }
 }
 
@@ -182,33 +195,31 @@ export async function run({ cwd, flags }: { cwd: string; flags: string[] }) {
     watch: flags.includes('--watch'),
   };
 
-  await Promise.all([
-    //
-    build(options, {
-      input,
-      external: externals,
-      treeshake: {
-        preset: 'safest',
-      },
-      plugins: [
-        nodeResolve({
-          browser: true,
-          preferBuiltins: true,
-        }),
-        commonjs({
-          ignoreGlobal: true,
-        }),
-        babel({
-          compact: false,
-          babelHelpers: 'external',
-          skipPreflightCheck: true,
-        }),
-        json(),
-        rollupTypescript({ lib: ['es2015', 'dom', 'esnext'], target: 'es6' }),
-      ],
-    }),
-    dts(options),
-  ]);
+  await build(options, {
+    input,
+    external: externals,
+    treeshake: {
+      preset: 'safest',
+    },
+    plugins: [
+      nodeResolve({
+        browser: true,
+        preferBuiltins: true,
+      }),
+      commonjs({
+        ignoreGlobal: true,
+      }),
+      babel({
+        compact: false,
+        babelHelpers: 'external',
+        skipPreflightCheck: true,
+      }),
+      json(),
+      rollupTypescript({ lib: ['es2015', 'dom', 'esnext'], target: 'es6' }),
+    ],
+  });
+
+  await dts(options);
 
   console.timeEnd(message);
 }

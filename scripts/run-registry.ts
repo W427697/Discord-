@@ -62,10 +62,12 @@ const startVerdaccio = (port: number) => {
 const registryUrlNPM = (url?: string) =>
   new Promise<string>((res, rej) => {
     const args = url ? ['config', 'set', 'registry', url] : ['config', 'get', 'registry'];
-    exec(`npm ${args.join(' ')}`, { cwd: path.join(process.cwd(), '..') }, (e, stdout) => {
+    exec(`npm ${args.join(' ')}`, { cwd: path.join(process.cwd(), '..') }, (e, stdout, stderr) => {
       if (e) {
         rej(e);
       } else {
+        console.log(stderr.toString());
+        console.log(stdout.toString());
         res(url || stdout.toString().trim());
       }
     });
@@ -76,9 +78,10 @@ const registryUrlYarn = (url?: string) =>
     const args = url
       ? ['config', 'set', 'npmRegistryServer', url]
       : ['config', 'get', 'npmRegistryServer'];
-    exec(`yarn ${args.join(' ')}`, { cwd: path.join(__dirname, '..') }, (e, stdout) => {
+    exec(`yarn ${args.join(' ')}`, { cwd: path.join(__dirname, '..') }, (e, stdout, stderr) => {
       if (e) {
         console.log(stdout.toString());
+        console.log(stderr.toString());
         rej(e);
       } else {
         res(url || stdout.toString().trim());
@@ -116,8 +119,7 @@ const currentVersion = async () => {
 
 const publish = (packages: { name: string; location: string }[], url: string) => {
   logger.log(`Running prepublish script with a concurrency of ${maxConcurrentTasks}`);
-  const parallelism = process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : '';
-  spawn(`nx run-many --target="prepublish" --all --parallel ${parallelism}`);
+  spawn(`nx run-many --target="prepublish" --all`);
 
   logger.log(`Publishing packages with a concurrency of ${maxConcurrentTasks}`);
 
@@ -136,8 +138,11 @@ const publish = (packages: { name: string; location: string }[], url: string) =>
               )})`
             );
             const command = `cd ${location} && npm publish --registry ${url} --force --access restricted --ignore-scripts`;
-            exec(command, (e) => {
+            exec(command, (e, stdout, stderr) => {
               if (e) {
+                console.log(stdout.toString());
+                console.log(stderr.toString());
+                console.log(e);
                 rej(e);
               } else {
                 i += 1;

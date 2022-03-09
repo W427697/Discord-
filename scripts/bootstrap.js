@@ -113,9 +113,8 @@ function run() {
       command: () => {
         log.info(prefix, 'prepublish');
         const command = 'prepublish';
-        const parallelism = process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : '';
 
-        spawn(`nx run-many --target="${command}" --all --parallel ${parallelism}`);
+        spawn(`nx run-many --target="${command}" --all`);
       },
       order: 2,
     }),

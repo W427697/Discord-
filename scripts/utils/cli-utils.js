@@ -33,6 +33,11 @@ const spawn = (command, options = {}) => {
   });
 
   if (out.status !== 0) {
+    console.log('error', out.error);
+    console.log('stderr', out.stderr);
+    console.log('stdout', out.stdout);
+    console.log('status', out.status);
+    console.log('signal', out.signal);
     process.exit(out.status);
   }
 

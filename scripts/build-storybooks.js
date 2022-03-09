@@ -33,13 +33,17 @@ const exec = async (command, args = [], options = {}) =>
 
     child
       .on('close', (code) => {
-        if (code) {
-          reject();
-        } else {
+        if (code === 0) {
           resolve();
+        } else {
+          console.log(child.stdout.read().toString());
+          console.log(child.stderr.read().toString());
+          reject();
         }
       })
       .on('error', (e) => {
+        console.log(child.stdout.read().toString());
+        console.log(child.stderr.read().toString());
         logger.error(e);
         reject();
       });
