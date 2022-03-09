@@ -13,8 +13,6 @@ import pLimit from 'p-limit';
 // @ts-ignore
 import { maxConcurrentTasks } from './utils/concurrency';
 import { listOfPackages, Package } from './utils/list-packages';
-// @ts-ignore
-import { spawn } from './utils/cli-utils';
 
 program
   .option('-O, --open', 'keep process open')
