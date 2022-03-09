@@ -133,6 +133,7 @@ export interface PackageJson {
   version: string;
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
+  peerDependencies?: Record<string, string>;
 }
 
 // TODO: This could be exported to the outside world and used in `options.ts` file of each `@storybook/APP`
