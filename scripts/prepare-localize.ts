@@ -62,35 +62,36 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     watch: flags.includes('--watch'),
   };
 
-  await Promise.all([
-    ...inputs.map((input) =>
-      prebundle.build(options, {
-        input,
-        external: [...options.externals, /local_modules/],
-        treeshake: {
-          preset: 'safest',
-        },
-        plugins: [
-          nodeResolve({
-            mainFields: ['main'],
-            preferBuiltins: true,
-          }),
-          commonjs({
-            ignoreGlobal: true,
-          }),
-          flags.includes('--optimized')
-            ? rollupModulesLocalisePlugin([
-                ...Object.keys(pkg.dependencies),
-                ...Object.keys(pkg.peerDependencies),
-              ])
-            : null,
-          json(),
-          rollupTypescript({ lib: ['es2015', 'dom', 'esnext'], target: 'es6' }),
-        ].filter(Boolean),
-      })
-    ),
-    prebundle.dts(options),
-  ]);
+  await inputs.reduce(async (acc, input) => {
+    await acc;
+
+    await prebundle.build(options, {
+      input,
+      external: [...options.externals, /local_modules/],
+      treeshake: {
+        preset: 'safest',
+      },
+      plugins: [
+        nodeResolve({
+          mainFields: ['main'],
+          preferBuiltins: true,
+        }),
+        commonjs({
+          ignoreGlobal: true,
+        }),
+        flags.includes('--optimized')
+          ? rollupModulesLocalisePlugin([
+              ...Object.keys(pkg.dependencies),
+              ...Object.keys(pkg.peerDependencies),
+            ])
+          : null,
+        json(),
+        rollupTypescript({ lib: ['es2015', 'dom', 'esnext'], target: 'es6' }),
+      ].filter(Boolean),
+    });
+  }, Promise.resolve());
+
+  await prebundle.dts(options);
 
   if (flags.includes('--optimized')) {
     const { stdout } = await command(`yarn info ${pkg.name} -R --json`);
@@ -123,11 +124,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         return `${name}@${version}`;
       });
 
-    const location = join(
-      __dirname,
-      '../../storybook-temp-modules',
-      cwd.replace(join(__dirname, '..'), '')
-    );
+    const dir = cwd.replace(join(__dirname, '..'), '');
+    const location = join(__dirname, '../../storybook-temp-modules', dir);
 
     const dist = join(cwd, 'dist');
 
@@ -215,6 +213,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     // cleanup empty dirs
     await command('find . -type d -empty -print -delete', { cwd: location });
 
+    console.log(`${bold('generated node_modules')}: ${dir}`);
+
     // convert references in imports, exports and require to reference  the local_modules
     const files = await glob.promise('node_modules/**/*.@(js|cjs)', { cwd: location });
     await files.reduce<any>(async (acc, file) => {
@@ -265,6 +265,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         });
     }, Promise.resolve());
 
+    console.log(`${bold('localized files')}: ${dir}, ${files.length} files`);
+
     const o = await cp('-R', join(location, 'node_modules'), join(dist, 'node_modules'));
     if (o.code !== 0) {
       console.error(o.stderr);
@@ -274,7 +276,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       cwd: dist,
     });
 
-    // await rm('-rf', location);
+    console.log(`${bold('localized')}: ./dist/local_modules`);
+
+    await rm('-rf', location);
   }
 
   console.timeEnd(message);
