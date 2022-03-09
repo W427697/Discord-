@@ -178,7 +178,7 @@ jobs:
             - .verdaccio-cache
   e2e-tests-extended:
     executor:
-      class: medium
+      class: xlarge
       name: sb_cypress_8_node_14
     parallelism: 4
     steps:
@@ -212,7 +212,7 @@ jobs:
           destination: cypress
   e2e-tests-core:
     executor:
-      class: large
+      class: xlarge
       name: sb_cypress_8_node_14
     parallelism: 2
     steps:
@@ -227,11 +227,39 @@ jobs:
       - run:
           name: Wait for registry
           command: yarn wait-on http://localhost:6000
+      # Do not test CRA here because it's done in PnP part
+      # TODO: Remove `web_components_typescript` as soon as Lit 2 stable is released
       - run:
           name: Run E2E tests
-          # Do not test CRA here because it's done in PnP part
-          # TODO: Remove `web_components_typescript` as soon as Lit 2 stable is released
-          command: yarn test:e2e-framework vue3 angular130 angular13 angular12 angular11 web_components_typescript web_components_lit2 react
+          command: yarn test:e2e-framework react
+          no_output_timeout: 10m
+      - run:
+          name: Run E2E tests
+          command: yarn test:e2e-framework vue3
+          no_output_timeout: 5m
+      - run:
+          name: Run E2E tests
+          command: yarn test:e2e-framework angular11
+          no_output_timeout: 5m
+      - run:
+          name: Run E2E tests
+          command: yarn test:e2e-framework angular12
+          no_output_timeout: 5m
+      - run:
+          name: Run E2E tests
+          command: yarn test:e2e-framework angular13
+          no_output_timeout: 5m
+      - run:
+          name: Run E2E tests
+          command: yarn test:e2e-framework angular130
+          no_output_timeout: 5m
+      - run:
+          name: Run E2E tests
+          command: yarn test:e2e-framework web_components_typescript
+          no_output_timeout: 5m
+      - run:
+          name: Run E2E tests
+          command: yarn test:e2e-framework web_components_lit2
           no_output_timeout: 5m
       - store_artifacts:
           path: /tmp/cypress-record
