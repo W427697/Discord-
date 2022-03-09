@@ -11,7 +11,7 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "cacheableOperations": ["prepare", "test", "lint", "package"],
-        "strictlyOrderedTargets": ["prepare", "package", "build-optimized", "prepublish"],
+        "strictlyOrderedTargets": ["prepare", "package", "prepublish"],
         "accessToken": "NGVmYTkxMmItYzY3OS00MjkxLTk1ZDktZDFmYTFmNmVlNGY4fHJlYWQ=",
         "canTrackAnalytics": false,
         "showUsageWarnings": true
