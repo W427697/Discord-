@@ -134,6 +134,7 @@ function run() {
       command: () => {
         spawn('yarn local-registry --publish --open');
       },
+      pre: ['prepublish'],
       order: 11,
     }),
     dev: createTask({

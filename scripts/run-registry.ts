@@ -167,8 +167,6 @@ const publish = (packages: { name: string; location: string }[], url: string) =>
 //   });
 
 const run = async () => {
-  spawn(`nx run-many --target="prepublish" --all`);
-
   const port = await freePort(program.port);
   logger.log(`🌏 found a open port: ${port}`);
 

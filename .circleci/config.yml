@@ -160,6 +160,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: prep for publish
+          command: yarn nx run-many --target="prepublish" --all
+      - run:
           name: running local registry
           command: yarn local-registry --publish
       - run:
