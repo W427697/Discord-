@@ -118,9 +118,6 @@ const currentVersion = async () => {
 };
 
 const publish = (packages: { name: string; location: string }[], url: string) => {
-  logger.log(`Running prepublish script with a concurrency of ${maxConcurrentTasks}`);
-  spawn(`nx run-many --target="prepublish" --all`);
-
   logger.log(`Publishing packages with a concurrency of ${maxConcurrentTasks}`);
 
   const limit = pLimit(maxConcurrentTasks);
@@ -170,6 +167,8 @@ const publish = (packages: { name: string; location: string }[], url: string) =>
 //   });
 
 const run = async () => {
+  spawn(`nx run-many --target="prepublish" --all`);
+
   const port = await freePort(program.port);
   logger.log(`🌏 found a open port: ${port}`);
 
