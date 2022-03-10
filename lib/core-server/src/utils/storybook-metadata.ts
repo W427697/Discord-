@@ -2,15 +2,12 @@ import fs from 'fs-extra';
 import { execSync } from 'child_process';
 import {
   Options,
-  getInterpretedFile,
-  serverRequire,
   NormalizedStoriesSpecifier,
   normalizeStories,
   StorybookConfig,
   TypescriptOptions,
 } from '@storybook/core-common';
 
-import { resolve } from 'path';
 import global from 'global';
 import { Request, Response, Router } from 'express';
 import { debounce } from 'lodash';
@@ -38,7 +35,11 @@ type StorybookMetadata = {
   typescriptOptions?: Partial<TypescriptOptions>;
   addons?: Dependency[];
   storybookPackages?: Dependency[];
-  metaFramework?: string;
+  metaFramework?: {
+    name: string;
+    packageName: string;
+    version: string;
+  };
   features?: StorybookConfig['features'];
   userSpecifiedFeatures?: StorybookConfig['features'];
   refCount?: number;
@@ -48,7 +49,7 @@ type StorybookMetadata = {
   };
 };
 
-const metaFrameworks = {
+export const metaFrameworks = {
   next: 'Next',
   'react-scripts': 'CRA',
   gatsby: 'Gatsby',
@@ -74,71 +75,6 @@ export const getProjectId = () => {
   return projectId;
 };
 
-export const getStorybookMetadata = (options: Options): Omit<StorybookMetadata, 'index'> => {
-  const metadata: Partial<StorybookMetadata> = {};
-
-  const mainConfigFile = getInterpretedFile(resolve(options.configDir, 'main'));
-
-  const mainConfig = serverRequire(mainConfigFile) as StorybookConfig;
-  // { addons, refs, managerBabel, managerWebpack, features }
-  const allDependencies = {
-    ...options.packageJson?.dependencies,
-    ...options.packageJson?.devDependencies,
-    ...options.packageJson?.peerDependencies,
-  };
-
-  const metaFramework = Object.keys(allDependencies).find((dep) => !!metaFrameworks[dep]);
-  if (metaFramework) {
-    metadata.metaFramework = metaFramework;
-  }
-
-  if (mainConfig.typescript) {
-    metadata.typescriptOptions = mainConfig.typescript;
-  }
-
-  if (mainConfig.core.builder) {
-    const { builder } = mainConfig.core;
-
-    metadata.builder = {
-      name: typeof builder === 'string' ? builder : builder.name,
-      options: typeof builder === 'string' ? {} : builder.options,
-    };
-  }
-
-  if (mainConfig.refs) {
-    metadata.refCount = Object.keys(mainConfig.refs).length;
-  }
-
-  if (mainConfig.features) {
-    metadata.userSpecifiedFeatures = mainConfig.features;
-  }
-
-  const addons = mainConfig.addons
-    ?.map((addon: string) => addon.replace('/register', ''))
-    .map((addon: string) => ({ name: addon, version: allDependencies[addon] }));
-
-  const addonNames = addons.map((addon: Dependency) => addon.name);
-
-  // all Storybook deps minus the addons
-  const storybookPackages = Object.keys(allDependencies)
-    .filter((dep) => dep.includes('storybook') && !addonNames.includes(dep))
-    .map((dep) => ({ name: dep, version: allDependencies[dep] }));
-
-  return {
-    version: '', // @TODO: add this
-    language: 'javascript', // @TODO: use something like detectLanguage from CLI
-    ...metadata,
-    features: options.features,
-    storybookPackages,
-    framework: {
-      name: options.framework,
-      options: getFrameworkOptions(mainConfig),
-    },
-    addons,
-    metaFramework,
-  };
-};
-
 const getFrameworkOptions = (mainConfig: any) => {
   const possibleOptions = [
     'angular',
@@ -160,7 +96,78 @@ const getFrameworkOptions = (mainConfig: any) => {
     }
   }
 
-  return undefined;
+  return {};
+};
+
+export const getStorybookMetadata = (
+  options: Options,
+  mainConfig: StorybookConfig
+): Omit<StorybookMetadata, 'index'> => {
+  const metadata: Partial<StorybookMetadata> = {};
+
+  // { addons, refs, managerBabel, managerWebpack, features }
+  const allDependencies = {
+    ...options.packageJson?.dependencies,
+    ...options.packageJson?.devDependencies,
+    ...options.packageJson?.peerDependencies,
+  };
+
+  const metaFramework = Object.keys(allDependencies).find((dep) => !!metaFrameworks[dep]);
+  if (metaFramework) {
+    metadata.metaFramework = {
+      name: metaFrameworks[metaFramework],
+      packageName: metaFramework,
+      version: allDependencies[metaFramework],
+    };
+  }
+
+  if (mainConfig.typescript) {
+    metadata.typescriptOptions = mainConfig.typescript;
+  }
+
+  if (mainConfig.core?.builder) {
+    const { builder } = mainConfig.core;
+
+    metadata.builder = {
+      name: typeof builder === 'string' ? builder : builder.name,
+      options: typeof builder === 'string' ? {} : builder.options,
+    };
+  }
+
+  if (mainConfig.refs) {
+    metadata.refCount = Object.keys(mainConfig.refs).length;
+  }
+
+  if (mainConfig.features) {
+    metadata.userSpecifiedFeatures = mainConfig.features;
+  }
+
+  let addons: Dependency[] = [];
+  if (mainConfig.addons) {
+    addons = mainConfig.addons
+      ?.map((addon: string) => addon.replace('/register', ''))
+      ?.map((addon: string) => ({ name: addon, version: allDependencies[addon] ?? 'unknown' }));
+  }
+
+  const addonNames = addons.map((addon: Dependency) => addon.name);
+
+  // all Storybook deps minus the addons
+  const storybookPackages = Object.keys(allDependencies)
+    .filter((dep) => dep.includes('storybook') && !addonNames.includes(dep))
+    .map((dep) => ({ name: dep, version: allDependencies[dep] }));
+
+  return {
+    version: '', // @TODO: add this
+    language: 'javascript', // @TODO: use something like detectLanguage from CLI
+    features: options.features,
+    storybookPackages,
+    framework: {
+      name: options.framework,
+      options: getFrameworkOptions(mainConfig),
+    },
+    addons,
+    ...metadata,
+  };
 };
 
 export async function extractStorybookMetadata(
@@ -172,7 +179,8 @@ export async function extractStorybookMetadata(
     storiesV2Compatibility: boolean;
     packageJson: any;
     storyStoreV7: boolean;
-  }
+  },
+  mainConfig: StorybookConfig
 ) {
   const generator = new StoryIndexGenerator(normalizedStories, options);
   await generator.initialize();
@@ -180,7 +188,7 @@ export async function extractStorybookMetadata(
   const index = await generator.getIndex();
   const storyCount = Object.keys(index.stories).length;
   const metadata: StorybookMetadata = {
-    ...getStorybookMetadata(options as any),
+    ...getStorybookMetadata(options as any, mainConfig),
     index: {
       storyCount,
       version: index.v,
@@ -227,20 +235,21 @@ export async function useStorybookMetadata(
   router.use('/metadata.json', async (req: Request, res: Response) => {
     await ensureStarted();
 
+    let index;
     try {
-      const index = await generator.getIndex();
-      const metadata: StorybookMetadata = {
-        ...global.METADATA,
-        index: {
-          storyCount: Object.keys(index.stories).length,
-          version: index.v,
-        },
+      index = await generator.getIndex();
+      // eslint-disable-next-line no-empty
+    } catch (err) {}
+
+    const metadata: StorybookMetadata = global.METADATA;
+    if (index) {
+      metadata.index = {
+        storyCount: Object.keys(index.stories).length,
+        version: index.v,
       };
-      res.header('Content-Type', 'application/json');
-      res.send(JSON.stringify(metadata));
-    } catch (err) {
-      res.status(500);
-      res.send(err.message);
     }
+
+    res.header('Content-Type', 'application/json');
+    res.send(JSON.stringify(metadata));
   });
 }
