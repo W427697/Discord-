@@ -49,11 +49,13 @@ To get started, sign up with your GitHub, GitLab, Bitbucket, or email and genera
 
 Next, install the [Chromatic CLI](https://www.npmjs.com/package/chromatic) package from npm:
 
+With npm:
 ```shell
-# With npm
 npm install --save-dev chromatic
+```
 
-# With yarn
+With yarn:
+```shell
 yarn add --dev chromatic
 ```
 

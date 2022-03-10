@@ -50,13 +50,15 @@ Once you've gone through the prompts, your `package.json` should look like:
 
 ### Build system
 
-We'll need to add the necessary dependencies and make some adjustments. Run the following commands:
+We'll need to add the necessary dependencies and make some adjustments.
 
+Install React and Babel CLI:
 ```shell
-# Installs React and Babel CLI
 yarn add react react-dom @babel/cli
+```
 
-# Adds Storybook:
+Add Storybook:
+```shell
 npx sb init
 ```
 

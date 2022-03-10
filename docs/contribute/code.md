@@ -9,10 +9,10 @@ Contribute a new feature or bug fix to [Storybook's monorepo](https://github.com
 First [fork](https://docs.github.com/en/github/getting-started-with-github/quickstart/fork-a-repo) the Storybook repository then clone and build your fork locally. Run the following commands:
 
 ```shell
-git clone https://github.com/your-username/storybook.git
-cd storybook
-yarn
-yarn bootstrap --core
+git clone https://github.com/your-username/storybook.git && cd storybook
+```
+```shell
+yarn && yarn bootstrap --core
 ```
 
 ## Run tests & examples
@@ -28,8 +28,7 @@ yarn test
 Once the tests finish, check if the examples are working with the following commands:
 
 ```shell
-cd examples/cra-ts-essentials
-yarn storybook
+cd examples/cra-ts-essentials && yarn storybook
 ```
 
 <div class="aside">

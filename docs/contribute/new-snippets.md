@@ -92,9 +92,7 @@ Before submitting your contribution, we advise you to check your work against th
 Start by forking [frontpage repo](https://github.com/storybookjs/frontpage). Then, clone and install the dependencies with the following commands:
 
 ```shell
-git clone https://github.com/your-username/frontpage.git
-cd frontpage
-yarn
+git clone https://github.com/your-username/frontpage.git && cd frontpage && yarn
 ```
 
 Next, you'll need a way to get the documentation linked to the website. Execute the following:

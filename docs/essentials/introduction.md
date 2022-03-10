@@ -18,11 +18,13 @@ If you ran `sb init` to include Storybook in your project, the Essentials addon 
 
 If you're upgrading from a previous Storybook version, you'll need to run the following command in your terminal:
 
+With npm:
 ```shell
-#With npm
 npm install -D @storybook/addon-essentials
+```
 
-#With yarn
+With yarn
+```shell
 yarn add -D @storybook/addon-essentials
 ```
 
@@ -44,12 +46,12 @@ Essentials is "zero-config”. It comes with a recommended configuration out of 
 
 If you need to reconfigure any of the [individual Essentials addons](https://storybook.js.org/addons/tag/essentials), install them manually by following the installation instructions, register them in your Storybook configuration file (i.e., [`.storybook/main.js`](../configure/overview.md#configure-story-rendering)) and adjust the configuration to suit your needs. For example:
 
+With npm:
 ```shell
-#With npm
 npm install -D @storybook/addon-actions
-
-
-#With yarn
+```
+With yarn
+```shell
 yarn add -D @storybook/addon-actions
 ```
 

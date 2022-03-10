@@ -42,12 +42,13 @@ You can import `.json` files and have them expanded to a JavaScript object:
 
 If you want to know the exact details of the webpack config, the best way is to run either of the following:
 
+For development mode:
 ```shell
-
-## Development mode
 yarn start-storybook --debug-webpack
+```
 
-## Production mode
+For production mode:
+```shell
 yarn build-storybook --debug-webpack
 ```
 
