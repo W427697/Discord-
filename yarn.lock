@@ -7558,6 +7558,7 @@ __metadata:
     "@storybook/node-logger": 6.5.0-alpha.46
     "@storybook/semver": ^7.3.2
     "@storybook/store": 6.5.0-alpha.46
+    "@storybook/telemetry": 6.5.0-alpha.46
     "@types/compression": ^1.7.0
     "@types/ip": ^1.1.0
     "@types/node": ^14.0.10 || ^16.0.0
@@ -8644,7 +8645,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/telemetry@workspace:*, @storybook/telemetry@workspace:lib/telemetry":
+"@storybook/telemetry@6.5.0-alpha.46, @storybook/telemetry@workspace:*, @storybook/telemetry@workspace:lib/telemetry":
   version: 0.0.0-use.local
   resolution: "@storybook/telemetry@workspace:lib/telemetry"
   dependencies:

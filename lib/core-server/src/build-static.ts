@@ -6,6 +6,7 @@ import dedent from 'ts-dedent';
 import global from 'global';
 
 import { logger } from '@storybook/node-logger';
+import { telemetry } from '@storybook/telemetry';
 
 import {
   loadAllPresets,
@@ -96,6 +97,10 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   const features = await presets.apply<StorybookConfig['features']>('features');
   global.FEATURES = features;
 
+  if (global.FEATURES?.telemetry) {
+    telemetry('build', {});
+  }
+
   if (features?.buildStoriesJson || features?.storyStoreV7) {
     const directories = {
       configDir: options.configDir,
@@ -182,8 +187,12 @@ export async function buildStatic({ packageJson, ...loadOptions }: LoadOptions) 
       configType: 'PRODUCTION',
       cache,
     });
-  } catch (e) {
-    logger.error(e);
+  } catch (error) {
+    logger.error(error);
+    if (global.FEATURES?.telemetry) {
+      await telemetry('error', { error }, { immediate: true });
+    }
+
     process.exit(1);
   }
 }
