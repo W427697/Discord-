@@ -6,6 +6,7 @@ import dedent from 'ts-dedent';
 import global from 'global';
 
 import { logger } from '@storybook/node-logger';
+import { telemetry } from '@storybook/telemetry';
 
 import {
   loadAllPresets,
@@ -114,6 +115,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
 
   const core = await presets.apply<CoreConfig>('core');
   if (core?.telemetry) {
+    telemetry('build', {});
     await extractStorybookMetadata(path.join(options.outputDir, 'metadata.json'), stories, {
       ...directories,
       packageJson: options.packageJson,
@@ -185,8 +187,13 @@ export async function buildStatic({ packageJson, ...loadOptions }: LoadOptions) 
       configType: 'PRODUCTION',
       cache,
     });
-  } catch (e) {
-    logger.error(e);
+  } catch (error) {
+    logger.error(error);
+    // @TODO: figure out how to get core from here
+    // if (core?.telemetry) {
+    //   await telemetry('error', { error }, { immediate: true });
+    // }
+
     process.exit(1);
   }
 }

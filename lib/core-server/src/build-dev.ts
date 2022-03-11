@@ -8,7 +8,9 @@ import {
   Options,
   cache,
   StorybookConfig,
+  CoreConfig,
 } from '@storybook/core-common';
+import { telemetry } from '@storybook/telemetry';
 import dedent from 'ts-dedent';
 import prompts from 'prompts';
 import global from 'global';
@@ -77,6 +79,11 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
 
   const features = await presets.apply<StorybookConfig['features']>('features');
   global.FEATURES = features;
+
+  const core = await presets.apply<CoreConfig>('core');
+  if (core?.telemetry) {
+    telemetry('start', {});
+  }
 
   const fullOptions: Options = {
     ...options,
@@ -172,6 +179,10 @@ export async function buildDev(loadOptions: LoadOptions) {
         `
     );
     logger.line();
+
+    if (global.FEATURES?.telemetry) {
+      telemetry('error', { error });
+    }
 
     process.exit(1);
   }
