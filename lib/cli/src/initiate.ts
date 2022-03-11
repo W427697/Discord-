@@ -1,6 +1,7 @@
 import { UpdateNotifier, Package } from 'update-notifier';
 import chalk from 'chalk';
 import prompts from 'prompts';
+import { telemetry } from '@storybook/telemetry';
 import { detect, isStorybookInstalled, detectLanguage } from './detect';
 import { installableProjectTypes, ProjectType, Builder, CoreBuilder } from './project_types';
 import { commandLog, codeLog, paddedLog } from './helpers';
@@ -43,6 +44,7 @@ type CommandOptions = {
   builder?: Builder;
   linkable?: boolean;
   commonJs?: boolean;
+  telemetry: boolean;
 };
 
 const installStorybook = (projectType: ProjectType, options: CommandOptions): Promise<void> => {
@@ -288,6 +290,10 @@ const projectTypeInquirer = async (options: { yes?: boolean }) => {
 export async function initiate(options: CommandOptions, pkg: Package): Promise<void> {
   const welcomeMessage = 'sb init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
+
+  if (options.telemetry && process.env.STORYBOOK_NO_TELEMETRY !== undefined) {
+    telemetry('init', {});
+  }
 
   // Update notify code.
   new UpdateNotifier({
