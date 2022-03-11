@@ -133,6 +133,7 @@ export interface PackageJson {
   version: string;
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
+  peerDependencies?: Record<string, string>;
 }
 
 // TODO: This could be exported to the outside world and used in `options.ts` file of each `@storybook/APP`
@@ -378,6 +379,12 @@ export interface StorybookConfig {
      * Preview MDX2 support, will become default in 7.0
      */
     previewMdx2?: boolean;
+
+    /**
+     * Enable Storybook telemetry
+     * @see https://storybook.js.org/telemetry
+     */
+    telemetry?: boolean;
   };
 
   /**
