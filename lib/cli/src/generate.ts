@@ -18,6 +18,8 @@ const pkg = sync({ cwd: __dirname }).packageJson;
 
 const logger = console;
 
+program.option('--no-telemetry', 'disable sending telemetry data', false);
+
 program
   .command('init')
   .description('Initialize Storybook into your project.')

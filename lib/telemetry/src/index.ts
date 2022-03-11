@@ -1,6 +1,6 @@
 export * from './storybook-metadata';
 
-type EventType = 'start' | 'build' | 'migrate' | 'init' | 'error';
+type EventType = 'start' | 'build' | 'upgrade' | 'init' | 'error';
 interface Payload {
   [key: string]: any;
 }
