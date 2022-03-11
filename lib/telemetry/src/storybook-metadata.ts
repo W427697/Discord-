@@ -1,30 +1,21 @@
 import readPkgUp from 'read-pkg-up';
-import fs from 'fs-extra';
 import { execSync } from 'child_process';
 import {
-  Options,
-  NormalizedStoriesSpecifier,
-  normalizeStories,
   StorybookConfig,
   TypescriptOptions,
   loadMainConfig,
   PackageJson,
   getStorybookInfo,
 } from '@storybook/core-common';
-
-import { Request, Response, Router } from 'express';
-import { debounce } from 'lodash';
-import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import { ServerChannel } from './get-server-channel';
-import { StoryIndexGenerator } from './StoryIndexGenerator';
-import { watchStorySpecifiers } from './watch-story-specifiers';
+import path from 'path';
 
 type Dependency = {
   name: string;
   version: string;
 };
 
-type StorybookMetadata = {
+export type StorybookMetadata = {
+  id?: string;
   version: string;
   language: 'typescript' | 'javascript';
   framework: {
@@ -55,6 +46,21 @@ type StorybookMetadata = {
   };
 };
 
+let cachedMetadata: StorybookMetadata;
+export const getStorybookMetadata = (configDir = '.storybook') => {
+  if (cachedMetadata) {
+    return cachedMetadata;
+  }
+
+  console.time('getStorybookMetadata');
+  const packageJson = readPkgUp.sync({ cwd: process.cwd() }).packageJson as PackageJson;
+  const mainConfig = loadMainConfig({ configDir });
+  cachedMetadata = computeStorybookMetadata({ mainConfig, packageJson });
+  // @TODO: remove this, it's for testing purposes and it's taking about 6.5s
+  console.timeEnd('getStorybookMetadata');
+  return cachedMetadata;
+};
+
 export const metaFrameworks = {
   next: 'Next',
   'react-scripts': 'CRA',
@@ -67,8 +73,15 @@ export const metaFrameworks = {
 
 // To be used by events
 export const getProjectId = () => {
-  let projectId = process.cwd();
+  let projectId;
   try {
+    const projectRootBuffer = execSync(`git rev-parse --show-toplevel`, {
+      timeout: 1000,
+      stdio: `pipe`,
+    });
+
+    const projectRootPath = path.relative(process.cwd(), String(projectRootBuffer).trimEnd());
+
     const originBuffer = execSync(`git config --local --get remote.origin.url`, {
       timeout: 1000,
       stdio: `pipe`,
@@ -76,7 +89,7 @@ export const getProjectId = () => {
 
     // we use a combination of remoteUrl and working directory
     // to separate multiple storybooks from the same project (e.g. monorepo)
-    projectId = `${String(originBuffer).trim()}${projectId}`;
+    projectId = `${String(originBuffer).trim()}${projectRootPath}`;
     // eslint-disable-next-line no-empty
   } catch (_) {}
 
@@ -104,24 +117,11 @@ const getFrameworkOptions = (mainConfig: any) => {
     }
   }
 
-  return {};
+  return null;
 };
 
-let cachedMetadata: StorybookMetadata;
-export const getStorybookMetadata = (configDir = '.storybook') => {
-  if (cachedMetadata) {
-    return cachedMetadata;
-  }
-
-  console.time('getStorybookMetadata');
-  const packageJson = readPkgUp.sync({ cwd: process.cwd() }).packageJson as PackageJson;
-  const mainConfig = loadMainConfig({ configDir });
-  cachedMetadata = computeStorybookMetadata({ mainConfig, packageJson });
-  // @TODO: remove this, it's for testing purposes and it's taking about 6.5s
-  console.timeEnd('getStorybookMetadata');
-  return cachedMetadata;
-};
-
+// Analyze a combination of information from main.js and package.json
+// to provide telemetry over a Storybook project
 export const computeStorybookMetadata = ({
   packageJson,
   mainConfig,
@@ -130,6 +130,7 @@ export const computeStorybookMetadata = ({
   mainConfig: StorybookConfig & Record<string, any>;
 }): StorybookMetadata => {
   const metadata: Partial<StorybookMetadata> = {
+    id: getProjectId(),
     metaFramework: null,
     builder: null,
     hasCustomBabel: null,
@@ -175,7 +176,7 @@ export const computeStorybookMetadata = ({
 
     metadata.builder = {
       name: typeof builder === 'string' ? builder : builder.name,
-      options: typeof builder === 'string' ? {} : builder.options,
+      options: typeof builder === 'string' ? null : builder.options,
     };
   }
 
@@ -238,86 +239,3 @@ export const computeStorybookMetadata = ({
     hasStorybookEslint,
   };
 };
-
-export async function extractStorybookMetadata(
-  outputFile: string,
-  normalizedStories: NormalizedStoriesSpecifier[],
-  options: {
-    configDir: string;
-    workingDir: string;
-    storiesV2Compatibility: boolean;
-    packageJson: any;
-    storyStoreV7: boolean;
-  }
-) {
-  const generator = new StoryIndexGenerator(normalizedStories, options);
-  await generator.initialize();
-
-  const index = await generator.getIndex();
-  const storyCount = Object.keys(index.stories).length;
-  const metadata: StorybookMetadata = {
-    ...getStorybookMetadata(),
-    index: {
-      storyCount,
-      version: index.v,
-    },
-  };
-  await fs.writeJson(outputFile, metadata);
-}
-
-export async function useStorybookMetadata(
-  router: Router,
-  serverChannel: ServerChannel,
-  options: Options,
-  workingDir: string = process.cwd()
-) {
-  // @TODO: extract all these normalizeStories + storyIndex stuff to be reused between stories.json and metadata.json
-  const normalizedStories = normalizeStories(await options.presets.apply('stories'), {
-    configDir: options.configDir,
-    workingDir,
-  });
-  const features = await options.presets.apply<StorybookConfig['features']>('features');
-  const generator = new StoryIndexGenerator(normalizedStories, {
-    configDir: options.configDir,
-    workingDir,
-    storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
-    storyStoreV7: features?.storyStoreV7,
-  });
-
-  let started = false;
-  const maybeInvalidate = debounce(() => serverChannel.emit(STORY_INDEX_INVALIDATED), 1000, {
-    leading: true,
-  });
-  async function ensureStarted() {
-    if (started) return;
-    started = true;
-
-    watchStorySpecifiers(normalizedStories, { workingDir }, (specifier, path, removed) => {
-      generator.invalidate(specifier, path, removed);
-      maybeInvalidate();
-    });
-
-    await generator.initialize();
-  }
-
-  router.use('/metadata.json', async (req: Request, res: Response) => {
-    await ensureStarted();
-
-    let index;
-    try {
-      index = await generator.getIndex();
-      // eslint-disable-next-line no-empty
-    } catch (err) {}
-
-    const metadata: StorybookMetadata = getStorybookMetadata();
-    if (index) {
-      metadata.index = {
-        storyCount: Object.keys(index.stories).length,
-        version: index.v,
-      };
-    }
-
-    res.header('Content-Type', 'application/json');
-    res.send(JSON.stringify(metadata));
-  });
-}

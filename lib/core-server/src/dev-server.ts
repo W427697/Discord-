@@ -3,14 +3,12 @@ import compression from 'compression';
 
 import { Builder, logConfig, Options, StorybookConfig } from '@storybook/core-common';
 
-import global from 'global';
-import path from 'path';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
 import { useStatics } from './utils/server-statics';
 import { useStoriesJson } from './utils/stories-json';
-import { getStorybookMetadata, useStorybookMetadata } from './utils/storybook-metadata';
+import { useStorybookMetadata } from './utils/metadata';
 import { getServerChannel } from './utils/get-server-channel';
 
 import { openInBrowser } from './utils/open-in-browser';
