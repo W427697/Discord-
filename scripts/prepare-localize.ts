@@ -41,9 +41,7 @@ const ignoredPackagesWithWarnings = [
   'worker-farm',
 ];
 const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
-  if (flags.includes('--reset')) {
-    await prebundle.removeDist();
-  }
+  await prebundle.removeDist();
 
   const { packageJson: pkg } = await readPkgUp({ cwd });
   const message = gray(`Built: ${bold(`${pkg.name}@${pkg.version}`)}`);
