@@ -6,6 +6,7 @@ import {
   loadMainConfig,
   PackageJson,
   getStorybookInfo,
+  getStorybookConfiguration,
 } from '@storybook/core-common';
 import path from 'path';
 
@@ -47,13 +48,17 @@ export type StorybookMetadata = {
 };
 
 let cachedMetadata: StorybookMetadata;
-export const getStorybookMetadata = (configDir = '.storybook') => {
+export const getStorybookMetadata = () => {
   if (cachedMetadata) {
     return cachedMetadata;
   }
 
   console.time('getStorybookMetadata');
   const packageJson = readPkgUp.sync({ cwd: process.cwd() }).packageJson as PackageJson;
+
+  const configDir =
+    getStorybookConfiguration(packageJson.scripts.storybook, '-c', '--config-dir') ?? '.storybook';
+
   const mainConfig = loadMainConfig({ configDir });
   cachedMetadata = computeStorybookMetadata({ mainConfig, packageJson });
   // @TODO: remove this, it's for testing purposes and it's taking about 6.5s
@@ -130,6 +135,7 @@ export const computeStorybookMetadata = ({
   mainConfig: StorybookConfig & Record<string, any>;
 }): StorybookMetadata => {
   const metadata: Partial<StorybookMetadata> = {
+    // temporary just for testing purposes, should be used elsewhere
     id: getProjectId(),
     metaFramework: null,
     builder: null,
