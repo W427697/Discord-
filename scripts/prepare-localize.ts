@@ -150,12 +150,19 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       writeJSON(join(location, 'package.json'), p.packageJson, { spaces: 2 });
     });
 
+    // Make sure the registries for both npm and yarn are reset to their original urls
+    await command(`npm config set registry https://registry.npmjs.org`, {
+      cwd: location,
+    });
+    await command(`yarn config set npmRegistryServer https://registry.yarnpkg.com`, {
+      cwd: location,
+    });
+
     const afterInstall = await command(
       `yarn install --ignore-scripts --ignore-engines --no-bin-links`,
       { cwd: location }
     );
     if (afterInstall.failed) {
-      console.error(afterInstall.stderr);
       throw new Error('Failed to install dependencies');
     }
 

@@ -172,11 +172,11 @@ const run = async () => {
 
   logger.log(`🔖 reading current registry settings`);
   let [originalYarnRegistryUrl, originalNpmRegistryUrl] = await registriesUrl();
-  if (
-    originalYarnRegistryUrl.includes('localhost') ||
-    originalNpmRegistryUrl.includes('localhost')
-  ) {
-    originalYarnRegistryUrl = 'https://registry.npmjs.org/';
+  if (originalYarnRegistryUrl.includes('localhost')) {
+    originalYarnRegistryUrl = 'https://registry.yarnpkg.org/';
+  }
+
+  if (originalNpmRegistryUrl.includes('localhost')) {
     originalNpmRegistryUrl = 'https://registry.npmjs.org/';
   }
 

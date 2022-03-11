@@ -10,6 +10,8 @@ function run() {
   const program = require('commander');
   const chalk = require('chalk');
   const log = require('npmlog');
+  const shell = require('shelljs');
+  const { join } = require('path');
 
   log.heading = 'storybook';
   const prefix = 'bootstrap';
@@ -127,14 +129,28 @@ function run() {
       },
       order: 3,
     }),
+    clearVerdaccioCache: createTask({
+      name: `Clear verdaccio cache ${chalk.gray('(clear-verdaccio-cache)')}`,
+      defaultValue: false,
+      option: '--clear-verdaccio-cache',
+      command: () => {
+        shell.rm('-rf', [
+          join(__dirname, '..', '.verdaccio-cache/@storybook/**'),
+          join(__dirname, '..', '.verdaccio-cache/storybook'),
+          join(__dirname, '..', '.verdaccio-cache/sb'),
+          join(__dirname, '..', '.verdaccio-cache/.verdaccio-db.json'),
+        ]);
+      },
+      order: 10,
+    }),
     registry: createTask({
       name: `Run local registry ${chalk.gray('(reg)')}`,
       defaultValue: false,
       option: '--reg',
       command: () => {
-        spawn('yarn local-registry --publish --open');
+        spawn('yarn local-registry --port 6000 --publish --open');
       },
-      pre: ['prepublish'],
+      pre: ['clearVerdaccioCache', 'prepublish'],
       order: 11,
     }),
     dev: createTask({
