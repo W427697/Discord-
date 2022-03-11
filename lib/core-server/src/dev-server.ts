@@ -1,14 +1,7 @@
 import express, { Router } from 'express';
 import compression from 'compression';
 
-import {
-  Builder,
-  getInterpretedFile,
-  logConfig,
-  Options,
-  serverRequire,
-  StorybookConfig,
-} from '@storybook/core-common';
+import { Builder, logConfig, Options, StorybookConfig } from '@storybook/core-common';
 
 import global from 'global';
 import path from 'path';
@@ -53,11 +46,7 @@ export async function storybookDevServer(options: Options) {
     await useStoriesJson(router, serverChannel, options);
   }
 
-  const mainConfigFile = getInterpretedFile(path.resolve(options.configDir, 'main'));
-  const mainConfig = serverRequire(mainConfigFile) as StorybookConfig;
-
   if (features?.telemetry) {
-    global.METADATA = getStorybookMetadata(options, mainConfig);
     await useStorybookMetadata(router, serverChannel, options);
   }
 

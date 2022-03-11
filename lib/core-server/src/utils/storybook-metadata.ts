@@ -1,3 +1,4 @@
+import readPkgUp from 'read-pkg-up';
 import fs from 'fs-extra';
 import { execSync } from 'child_process';
 import {
@@ -6,9 +7,11 @@ import {
   normalizeStories,
   StorybookConfig,
   TypescriptOptions,
+  loadMainConfig,
+  PackageJson,
+  getStorybookInfo,
 } from '@storybook/core-common';
 
-import global from 'global';
 import { Request, Response, Router } from 'express';
 import { debounce } from 'lodash';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
@@ -40,10 +43,13 @@ type StorybookMetadata = {
     packageName: string;
     version: string;
   };
+  hasStorybookEslint?: boolean;
+  hasStaticDirs?: boolean;
+  hasCustomWebpack?: boolean;
+  hasCustomBabel?: boolean;
   features?: StorybookConfig['features'];
-  userSpecifiedFeatures?: StorybookConfig['features'];
   refCount?: number;
-  index: {
+  index?: {
     storyCount?: number;
     version?: number;
   };
@@ -55,6 +61,8 @@ export const metaFrameworks = {
   gatsby: 'Gatsby',
   '@nuxtjs/storybook': 'nuxt',
   '@nrwl/storybook': 'nx',
+  '@vue/cli-service': 'vue-cli',
+  '@sveltejs/kit': 'svelte-kit',
 } as Record<string, string>;
 
 // To be used by events
@@ -99,17 +107,50 @@ const getFrameworkOptions = (mainConfig: any) => {
   return {};
 };
 
-export const getStorybookMetadata = (
-  options: Options,
-  mainConfig: StorybookConfig
-): Omit<StorybookMetadata, 'index'> => {
-  const metadata: Partial<StorybookMetadata> = {};
+let cachedMetadata: StorybookMetadata;
+export const getStorybookMetadata = (configDir = '.storybook') => {
+  if (cachedMetadata) {
+    return cachedMetadata;
+  }
 
-  // { addons, refs, managerBabel, managerWebpack, features }
+  console.time('getStorybookMetadata');
+  const packageJson = readPkgUp.sync({ cwd: process.cwd() }).packageJson as PackageJson;
+  const mainConfig = loadMainConfig({ configDir });
+  cachedMetadata = computeStorybookMetadata({ mainConfig, packageJson });
+  // @TODO: remove this, it's for testing purposes and it's taking about 6.5s
+  console.timeEnd('getStorybookMetadata');
+  return cachedMetadata;
+};
+
+export const computeStorybookMetadata = ({
+  packageJson,
+  mainConfig,
+}: {
+  packageJson: PackageJson;
+  mainConfig: StorybookConfig & Record<string, any>;
+}): StorybookMetadata => {
+  const metadata: Partial<StorybookMetadata> = {
+    metaFramework: null,
+    builder: null,
+    hasCustomBabel: null,
+    hasCustomWebpack: null,
+    hasStaticDirs: null,
+    index: null,
+    hasStorybookEslint: null,
+    typescriptOptions: null,
+    framework: null,
+    addons: null,
+    features: null,
+    language: null,
+    refCount: null,
+    storybookPackages: null,
+    version: null,
+  };
+
   const allDependencies = {
-    ...options.packageJson?.dependencies,
-    ...options.packageJson?.devDependencies,
-    ...options.packageJson?.peerDependencies,
+    ...packageJson?.dependencies,
+    ...packageJson?.devDependencies,
+    ...packageJson?.peerDependencies,
   };
 
   const metaFramework = Object.keys(allDependencies).find((dep) => !!metaFrameworks[dep]);
@@ -120,6 +161,10 @@ export const getStorybookMetadata = (
       version: allDependencies[metaFramework],
     };
   }
+
+  metadata.hasCustomBabel = !!mainConfig.babel;
+  metadata.hasCustomWebpack = !!mainConfig.webpackFinal;
+  metadata.hasStaticDirs = !!mainConfig.staticDirs;
 
   if (mainConfig.typescript) {
     metadata.typescriptOptions = mainConfig.typescript;
@@ -139,14 +184,33 @@ export const getStorybookMetadata = (
   }
 
   if (mainConfig.features) {
-    metadata.userSpecifiedFeatures = mainConfig.features;
+    metadata.features = mainConfig.features;
   }
 
   let addons: Dependency[] = [];
   if (mainConfig.addons) {
     addons = mainConfig.addons
-      ?.map((addon: string) => addon.replace('/register', ''))
-      ?.map((addon: string) => ({ name: addon, version: allDependencies[addon] ?? 'unknown' }));
+      .map((addon: string | Record<string, any>) => {
+        if (typeof addon === 'string') {
+          return addon.replace('/register', '');
+        }
+
+        return addon;
+      })
+      .map((addon: string | Record<string, any>) => {
+        if (typeof addon === 'string') {
+          return {
+            name: addon,
+            version: allDependencies[addon],
+          };
+        }
+
+        return {
+          name: addon.name,
+          options: addon.options,
+          version: allDependencies[addon.name],
+        };
+      });
   }
 
   const addonNames = addons.map((addon: Dependency) => addon.name);
@@ -156,17 +220,22 @@ export const getStorybookMetadata = (
     .filter((dep) => dep.includes('storybook') && !addonNames.includes(dep))
     .map((dep) => ({ name: dep, version: allDependencies[dep] }));
 
+  const language = allDependencies.typescript ? 'typescript' : 'javascript';
+
+  const hasStorybookEslint = !!allDependencies['eslint-plugin-storybook'];
+
+  const storybookInfo = getStorybookInfo(packageJson);
   return {
-    version: '', // @TODO: add this
-    language: 'javascript', // @TODO: use something like detectLanguage from CLI
-    features: options.features,
+    ...metadata,
+    version: storybookInfo.version,
+    language,
     storybookPackages,
     framework: {
-      name: options.framework,
+      name: storybookInfo.framework,
       options: getFrameworkOptions(mainConfig),
     },
     addons,
-    ...metadata,
+    hasStorybookEslint,
   };
 };
 
@@ -179,8 +248,7 @@ export async function extractStorybookMetadata(
     storiesV2Compatibility: boolean;
     packageJson: any;
     storyStoreV7: boolean;
-  },
-  mainConfig: StorybookConfig
+  }
 ) {
   const generator = new StoryIndexGenerator(normalizedStories, options);
   await generator.initialize();
@@ -188,7 +256,7 @@ export async function extractStorybookMetadata(
   const index = await generator.getIndex();
   const storyCount = Object.keys(index.stories).length;
   const metadata: StorybookMetadata = {
-    ...getStorybookMetadata(options as any, mainConfig),
+    ...getStorybookMetadata(),
     index: {
       storyCount,
       version: index.v,
@@ -241,7 +309,7 @@ export async function useStorybookMetadata(
       // eslint-disable-next-line no-empty
     } catch (err) {}
 
-    const metadata: StorybookMetadata = global.METADATA;
+    const metadata: StorybookMetadata = getStorybookMetadata();
     if (index) {
       metadata.index = {
         storyCount: Object.keys(index.stories).length,

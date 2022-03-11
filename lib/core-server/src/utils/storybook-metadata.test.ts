@@ -1,61 +1,67 @@
-import merge from 'lodash/merge';
-import { Options } from '@storybook/core-common';
-import { getStorybookMetadata, metaFrameworks } from './storybook-metadata';
+import { PackageJson, StorybookConfig } from '@storybook/core-common';
+import { computeStorybookMetadata, metaFrameworks } from './storybook-metadata';
 
-const getMockOptions = (overrides: Partial<Options> = {}) =>
-  merge(
-    {
-      _version: '6.5.0-alpha.46',
-      managerCache: false,
-      packageJson: {
-        name: '@storybook/react',
-        version: '6.5.0-alpha.46',
-        dependencies: [Object],
-        devDependencies: [Object],
-        peerDependencies: [Object],
-        peerDependenciesMeta: [Object],
-      },
-      framework: 'react',
-      configDir: '.storybook',
-      docsMode: false,
-      features: {
-        postcss: true,
-        emotionAlias: true,
-        telemetry: true,
-        warnOnLegacyHierarchySeparator: true,
-      },
-    },
-    overrides
-  ) as Options;
+const packageJsonMock: PackageJson = {
+  name: 'some-user-project',
+  version: 'x.x.x',
+};
 
-describe('Storybook metadata', () => {
+const mainJsMock: StorybookConfig = {
+  stories: [],
+};
+
+describe('computeStorybookMetadata', () => {
   test('should return frameworkOptions from mainjs', () => {
-    const result = getStorybookMetadata(getMockOptions(), {
-      reactOptions: {
-        fastRefresh: false,
+    const reactResult = computeStorybookMetadata({
+      packageJson: {
+        ...packageJsonMock,
+        devDependencies: {
+          '@storybook/react': 'x.x.x',
+        },
+      },
+      mainConfig: {
+        ...mainJsMock,
+        reactOptions: {
+          fastRefresh: false,
+        },
       },
     });
 
-    expect(result.framework).toEqual({ name: 'react', options: { fastRefresh: false } });
+    expect(reactResult.framework).toEqual({ name: 'react', options: { fastRefresh: false } });
+
+    const angularResult = computeStorybookMetadata({
+      packageJson: {
+        ...packageJsonMock,
+        devDependencies: {
+          '@storybook/angular': 'x.x.x',
+        },
+      },
+      mainConfig: {
+        ...mainJsMock,
+        angularOptions: {
+          enableIvy: true,
+        },
+      },
+    });
+
+    expect(angularResult.framework).toEqual({ name: 'angular', options: { enableIvy: true } });
   });
 
   test('should separate storybook packages and addons', () => {
-    const result = getStorybookMetadata(
-      getMockOptions({
-        packageJson: {
-          name: '',
-          version: '',
-          dependencies: {
-            '@storybook/react': 'x.y.z',
-            '@storybook/addon-essentials': 'x.x.x',
-            'storybook-addon-deprecated': 'x.x.x',
-          },
+    const result = computeStorybookMetadata({
+      packageJson: {
+        ...packageJsonMock,
+        devDependencies: {
+          '@storybook/react': 'x.y.z',
+          '@storybook/addon-essentials': 'x.x.x',
+          'storybook-addon-deprecated': 'x.x.x',
         },
-      }),
-      {
+      },
+      mainConfig: {
+        ...mainJsMock,
         addons: ['@storybook/addon-essentials', 'storybook-addon-deprecated/register'],
-      }
-    );
+      },
+    });
 
     expect(result.addons).toEqual([
       { name: '@storybook/addon-essentials', version: 'x.x.x' },
@@ -64,29 +70,20 @@ describe('Storybook metadata', () => {
     expect(result.storybookPackages).toEqual([{ name: '@storybook/react', version: 'x.y.z' }]);
   });
 
-  test('should separate preset features and user specified features', () => {
-    const userSpecifiedFeatures = {
+  test('should return user specified features', () => {
+    const features = {
       interactionsDebugger: true,
     };
 
-    const presetFeatures = {
-      postcss: true,
-      emotionAlias: true,
-      telemetry: true,
-      warnOnLegacyHierarchySeparator: true,
-    };
+    const result = computeStorybookMetadata({
+      packageJson: packageJsonMock,
+      mainConfig: {
+        ...mainJsMock,
+        features,
+      },
+    });
 
-    const result = getStorybookMetadata(
-      getMockOptions({
-        features: presetFeatures,
-      }),
-      {
-        features: userSpecifiedFeatures,
-      }
-    );
-
-    expect(result.features).toEqual(presetFeatures);
-    expect(result.userSpecifiedFeatures).toEqual(userSpecifiedFeatures);
+    expect(result.features).toEqual(features);
   });
 
   test('should handle different types of builders', () => {
@@ -98,26 +95,38 @@ describe('Storybook metadata', () => {
       },
     };
     expect(
-      getStorybookMetadata(getMockOptions(), {
-        core: {
-          builder: complexBuilder,
+      computeStorybookMetadata({
+        packageJson: packageJsonMock,
+        mainConfig: {
+          ...mainJsMock,
+          core: {
+            builder: complexBuilder,
+          },
         },
       }).builder
     ).toEqual(complexBuilder);
     expect(
-      getStorybookMetadata(getMockOptions(), {
-        core: {
-          builder: simpleBuilder,
+      computeStorybookMetadata({
+        packageJson: packageJsonMock,
+        mainConfig: {
+          ...mainJsMock,
+          core: {
+            builder: simpleBuilder,
+          },
         },
       }).builder
     ).toEqual({ name: simpleBuilder, options: {} });
   });
 
   test('should return the number of refs', () => {
-    const res = getStorybookMetadata(getMockOptions(), {
-      refs: {
-        a: {},
-        b: {},
+    const res = computeStorybookMetadata({
+      packageJson: packageJsonMock,
+      mainConfig: {
+        ...mainJsMock,
+        refs: {
+          a: { title: '', url: '' },
+          b: { title: '', url: '' },
+        },
       },
     });
     expect(res.refCount).toEqual(2);
@@ -126,18 +135,15 @@ describe('Storybook metadata', () => {
   test.each(Object.entries(metaFrameworks))(
     'should detect the supported metaframework: %s',
     (metaFramework, name) => {
-      const res = getStorybookMetadata(
-        getMockOptions({
-          packageJson: {
-            name: '',
-            version: '',
-            dependencies: {
-              [metaFramework]: 'x.x.x',
-            },
+      const res = computeStorybookMetadata({
+        packageJson: {
+          ...packageJsonMock,
+          dependencies: {
+            [metaFramework]: 'x.x.x',
           },
-        }),
-        {}
-      );
+        },
+        mainConfig: mainJsMock,
+      });
       expect(res.metaFramework).toEqual({
         name,
         packageName: metaFramework,

@@ -19,8 +19,6 @@ import {
   normalizeStories,
   logConfig,
   CoreConfig,
-  getInterpretedFile,
-  serverRequire,
 } from '@storybook/core-common';
 
 import { getProdCli } from './cli';
@@ -110,21 +108,13 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
       storyStoreV7: features?.storyStoreV7,
     });
 
-    const mainConfigFile = getInterpretedFile(path.resolve(options.configDir, 'main'));
-    const mainConfig = serverRequire(mainConfigFile) as StorybookConfig;
-
     if (features?.telemetry) {
-      await extractStorybookMetadata(
-        path.join(options.outputDir, 'metadata.json'),
-        stories,
-        {
-          ...directories,
-          packageJson: options.packageJson,
-          storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
-          storyStoreV7: features?.storyStoreV7,
-        } as any,
-        mainConfig
-      );
+      await extractStorybookMetadata(path.join(options.outputDir, 'metadata.json'), stories, {
+        ...directories,
+        packageJson: options.packageJson,
+        storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+        storyStoreV7: features?.storyStoreV7,
+      } as any);
     }
   }
 
