@@ -1,4 +1,4 @@
-import { writeFileAsJson, readFileAsJson, copyTemplate } from '../../helpers';
+import { writeFileAsJson, readFileAsJson, copyTemplate } from '@storybook/package-tools';
 import { baseGenerator, Generator } from '../baseGenerator';
 
 function addStorybookExcludeGlobToTsConfig() {

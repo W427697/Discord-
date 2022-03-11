@@ -1,7 +1,11 @@
 import chalk from 'chalk';
 import shell from 'shelljs';
-import { getBabelDependencies, paddedLog, copyTemplate } from '../../helpers';
-import { JsPackageManager } from '../../js-package-manager';
+import {
+  getBabelDependencies,
+  paddedLog,
+  copyTemplate,
+  JsPackageManager,
+} from '@storybook/package-tools';
 import { NpmOptions } from '../../NpmOptions';
 
 const generator = async (

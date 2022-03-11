@@ -1,4 +1,4 @@
-import { installableProjectTypes, SUPPORTED_FRAMEWORKS } from './project_types';
+import { installableProjectTypes, SUPPORTED_FRAMEWORKS } from './projectTypes';
 
 describe('installableProjectTypes should have an entry for the supported framework', () => {
   SUPPORTED_FRAMEWORKS.forEach((framework) => {

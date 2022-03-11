@@ -2,7 +2,7 @@
 import prompts from 'prompts';
 import chalk from 'chalk';
 import boxen from 'boxen';
-import { JsPackageManagerFactory } from '../js-package-manager';
+import { JsPackageManagerFactory } from '@storybook/package-tools';
 
 import { fixes, Fix } from './fixes';
 

@@ -2,14 +2,14 @@ import fs from 'fs';
 
 import { getBowerJson } from './helpers';
 import { isStorybookInstalled, detectFrameworkPreset, detect, detectLanguage } from './detect';
-import { ProjectType, SUPPORTED_FRAMEWORKS, SupportedLanguage } from './project_types';
-import { readPackageJson } from './js-package-manager';
+import { ProjectType, SUPPORTED_FRAMEWORKS, SupportedLanguage } from './projectTypes';
+import { readPackageJson } from './package-manager';
 
 jest.mock('./helpers', () => ({
   getBowerJson: jest.fn(),
 }));
 
-jest.mock('./js-package-manager', () => ({
+jest.mock('./package-manager', () => ({
   readPackageJson: jest.fn(),
 }));
 

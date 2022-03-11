@@ -1,6 +1,6 @@
 import path from 'path';
 import fse from 'fs-extra';
-import { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
+import type { PackageJsonWithDepsAndDevDeps } from '@storybook/package-tools';
 import { getStorybookConfiguration } from './getStorybookConfiguration';
 
 interface StorybookInfo {

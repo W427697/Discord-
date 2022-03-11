@@ -1,5 +1,5 @@
+import { copyTemplate } from '@storybook/package-tools';
 import { baseGenerator, Generator } from '../baseGenerator';
-import { copyTemplate } from '../../helpers';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   baseGenerator(packageManager, npmOptions, options, 'server', {

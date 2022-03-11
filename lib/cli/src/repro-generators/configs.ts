@@ -1,4 +1,4 @@
-import { SupportedFrameworks } from '../project_types';
+import type { SupportedFrameworks } from '@storybook/package-tools';
 
 export interface Parameters {
   framework: SupportedFrameworks;

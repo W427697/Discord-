@@ -1,5 +1,5 @@
+import { writePackageJson } from '@storybook/package-tools';
 import { baseGenerator, Generator } from '../baseGenerator';
-import { writePackageJson } from '../../js-package-manager';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   const [latestRaxVersion] = await packageManager.getVersions('rax');

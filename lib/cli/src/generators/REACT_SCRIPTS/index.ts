@@ -2,8 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import semver from '@storybook/semver';
 
+import { CoreBuilder } from '@storybook/package-tools';
 import { baseGenerator, Generator } from '../baseGenerator';
-import { CoreBuilder } from '../../project_types';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   const extraMain = options.linkable

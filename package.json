@@ -171,6 +171,7 @@
     "@storybook/jest": "^0.0.5",
     "@storybook/linter-config": "^2.5.0",
     "@storybook/node-logger": "workspace:*",
+    "@storybook/package-tools": "workspace:*",
     "@storybook/postinstall": "workspace:*",
     "@storybook/preact": "workspace:*",
     "@storybook/preview-web": "workspace:*",

@@ -5,8 +5,8 @@ import {
   getPackageDetails,
   JsPackageManagerFactory,
   PackageJsonWithDepsAndDevDeps,
-} from './js-package-manager';
-import { commandLog } from './helpers';
+  commandLog,
+} from '@storybook/package-tools';
 import { automigrate } from './automigrate';
 
 type Package = {

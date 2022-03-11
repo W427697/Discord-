@@ -300,6 +300,10 @@
     "@storybook/preview-web": {
       "root": "lib/preview-web",
       "type": "library"
+    },
+    "@storybook/package-tools": {
+      "root": "lib/package-tools",
+      "type": "library"
     }
   }
 }

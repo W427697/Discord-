@@ -1,8 +1,12 @@
 import path from 'path';
 import fs from 'fs';
 import { sync as spawnSync } from 'cross-spawn';
-import { commandLog } from './helpers';
-import { JsPackageManager, JsPackageManagerFactory, PackageJson } from './js-package-manager';
+import {
+  JsPackageManager,
+  JsPackageManagerFactory,
+  PackageJson,
+  commandLog,
+} from '@storybook/package-tools';
 
 const logger = console;
 export const storybookAddonScope = '@storybook/addon-';

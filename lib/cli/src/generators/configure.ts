@@ -1,6 +1,6 @@
 import fse from 'fs-extra';
 import dedent from 'ts-dedent';
-import { SupportedFrameworks } from '../project_types';
+import type { SupportedFrameworks } from '@storybook/package-tools';
 
 interface ConfigureMainOptions {
   addons: string[];

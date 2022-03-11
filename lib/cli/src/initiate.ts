@@ -1,9 +1,20 @@
 import { UpdateNotifier, Package } from 'update-notifier';
 import chalk from 'chalk';
 import prompts from 'prompts';
-import { detect, isStorybookInstalled, detectLanguage } from './detect';
-import { installableProjectTypes, ProjectType, Builder, CoreBuilder } from './project_types';
-import { commandLog, codeLog, paddedLog } from './helpers';
+import {
+  commandLog,
+  codeLog,
+  paddedLog,
+  installableProjectTypes,
+  ProjectType,
+  Builder,
+  CoreBuilder,
+  JsPackageManagerFactory,
+  readPackageJson,
+  detect,
+  isStorybookInstalled,
+  detectLanguage,
+} from '@storybook/package-tools';
 import angularGenerator from './generators/ANGULAR';
 import aureliaGenerator from './generators/AURELIA';
 import emberGenerator from './generators/EMBER';
@@ -26,7 +37,6 @@ import preactGenerator from './generators/PREACT';
 import svelteGenerator from './generators/SVELTE';
 import raxGenerator from './generators/RAX';
 import serverGenerator from './generators/SERVER';
-import { JsPackageManagerFactory, readPackageJson } from './js-package-manager';
 import { NpmOptions } from './NpmOptions';
 import { automigrate } from './automigrate';
 

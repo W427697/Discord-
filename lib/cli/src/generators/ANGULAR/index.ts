@@ -1,5 +1,6 @@
 import path from 'path';
 import semver from '@storybook/semver';
+import { CoreBuilder, writeFileAsJson, copyTemplate } from '@storybook/package-tools';
 import {
   isDefaultProjectSet,
   editStorybookTsConfig,
@@ -7,9 +8,7 @@ import {
   getAngularAppTsConfigPath,
   getBaseTsConfigName,
 } from './angular-helpers';
-import { writeFileAsJson, copyTemplate } from '../../helpers';
 import { baseGenerator, Generator } from '../baseGenerator';
-import { CoreBuilder } from '../../project_types';
 
 function editAngularAppTsConfig() {
   const tsConfigJson = getAngularAppTsConfigJson();

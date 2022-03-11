@@ -9,9 +9,9 @@ import {
   TemplateConfiguration,
   TemplateMatcher,
   unsupportedTemplate,
-} from './project_types';
+} from './projectTypes';
 import { getBowerJson } from './helpers';
-import { PackageJson, readPackageJson } from './js-package-manager';
+import { PackageJson, readPackageJson } from './package-manager';
 
 const hasDependency = (
   packageJson: PackageJson,
@@ -143,9 +143,9 @@ export function detect(options: { force?: boolean; html?: boolean } = {}) {
     return ProjectType.UNDETECTED;
   }
 
-  const storyBookInstalled = isStorybookInstalled(packageJson, options.force);
-  if (storyBookInstalled) {
-    return storyBookInstalled;
+  const storybookInstalled = isStorybookInstalled(packageJson, options.force);
+  if (storybookInstalled) {
+    return storybookInstalled;
   }
 
   if (options.html) {

@@ -4,10 +4,10 @@ import path from 'path';
 import chalk from 'chalk';
 import boxen from 'boxen';
 import dedent from 'ts-dedent';
+import type { SupportedFrameworks } from '@storybook/package-tools';
 import { createAndInit, exec } from './repro-generators/scripts';
 import * as configs from './repro-generators/configs';
 import type { Parameters } from './repro-generators/configs';
-import { SupportedFrameworks } from './project_types';
 
 const logger = console;
 
