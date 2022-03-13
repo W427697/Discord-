@@ -120,6 +120,11 @@ const SkipToContentLink = styled(Button)(({ theme }) => ({
   },
 }));
 
+const BranchNodeStyleWrapper = styled.div(({ theme }) => ({
+  position: 'relative',
+  display: 'flex',
+}));
+
 interface NodeProps {
   item: Item;
   refId: string;
@@ -224,29 +229,31 @@ const Node = React.memo<NodeProps>(
 
     const BranchNode = item.isComponent ? ComponentNode : GroupNode;
     return (
-      <BranchNode
-        key={id}
-        id={id}
-        className="sidebar-item"
-        data-ref-id={refId}
-        data-item-id={item.id}
-        data-parent-id={item.parent}
-        data-nodetype={item.isComponent ? 'component' : 'group'}
-        data-highlightable={isDisplayed}
-        aria-controls={item.children && item.children[0]}
-        aria-expanded={isExpanded}
-        depth={isOrphan ? item.depth : item.depth - 1}
-        isComponent={item.isComponent}
-        isExpandable={item.children && item.children.length > 0}
-        isExpanded={isExpanded}
-        onClick={(event) => {
-          event.preventDefault();
-          setExpanded({ ids: [item.id], value: !isExpanded });
-          if (item.isComponent && !isExpanded) onSelectStoryId(item.id);
-        }}
-      >
-        {item.renderLabel?.(item) || item.name}
-      </BranchNode>
+      <BranchNodeStyleWrapper>
+        <BranchNode
+          key={id}
+          id={id}
+          className="sidebar-item"
+          data-ref-id={refId}
+          data-item-id={item.id}
+          data-parent-id={item.parent}
+          data-nodetype={item.isComponent ? 'component' : 'group'}
+          data-highlightable={isDisplayed}
+          aria-controls={item.children && item.children[0]}
+          aria-expanded={isExpanded}
+          depth={isOrphan ? item.depth : item.depth - 1}
+          isComponent={item.isComponent}
+          isExpandable={item.children && item.children.length > 0}
+          isExpanded={isExpanded}
+          onClick={(event) => {
+            event.preventDefault();
+            setExpanded({ ids: [item.id], value: !isExpanded });
+            if (item.isComponent && !isExpanded) onSelectStoryId(item.id);
+          }}
+        >
+          {item.renderLabel?.(item) || item.name}
+        </BranchNode>
+      </BranchNodeStyleWrapper>
     );
   }
 );
