@@ -145,7 +145,7 @@ export const upgrade = async ({
 
   commandLog(`Checking for latest versions of '@storybook/*' packages`);
   if (!options.disableTelemetry) {
-    telemetry('upgrade', {});
+    telemetry('upgrade', { prerelease });
   }
 
   let flags = [];
