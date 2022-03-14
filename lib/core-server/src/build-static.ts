@@ -192,7 +192,7 @@ export async function buildStatic({ packageJson, ...loadOptions }: LoadOptions) 
 
     const core = await presets.apply<CoreConfig>('core');
     if (core?.disableTelemetry) {
-      await telemetry('error', { error }, { immediate: true });
+      await telemetry('error-build', { error }, { immediate: true });
     }
 
     process.exit(1);
