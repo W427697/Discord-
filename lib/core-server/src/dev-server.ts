@@ -46,8 +46,8 @@ export async function storybookDevServer(options: Options) {
   }
 
   const core = await options.presets.apply<CoreConfig>('core');
-  if (core?.telemetry) {
-    await useStorybookMetadata(router, serverChannel, options);
+  if (!core?.disableTelemetry) {
+    await useStorybookMetadata(router);
   }
 
   getMiddleware(options.configDir)(router);

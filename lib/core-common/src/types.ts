@@ -51,10 +51,10 @@ export interface CoreConfig {
   disableWebpackDefaults?: boolean;
   channelOptions?: Partial<TelejsonOptions>;
   /**
-   * Enable Storybook telemetry
+   * Disables Storybook telemetry
    * @see https://storybook.js.org/telemetry
    */
-  telemetry?: boolean;
+  disableTelemetry?: boolean;
 }
 
 interface DirectoryMapping {

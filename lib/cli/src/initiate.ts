@@ -44,7 +44,7 @@ type CommandOptions = {
   builder?: Builder;
   linkable?: boolean;
   commonJs?: boolean;
-  telemetry?: boolean;
+  disableTelemetry?: boolean;
 };
 
 const installStorybook = (projectType: ProjectType, options: CommandOptions): Promise<void> => {
@@ -291,7 +291,7 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
   const welcomeMessage = 'sb init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
-  if (options.telemetry) {
+  if (!options.disableTelemetry) {
     telemetry('init', {});
   }
 

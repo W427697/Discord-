@@ -111,14 +111,9 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   }
 
   const core = await presets.apply<CoreConfig>('core');
-  if (core?.telemetry) {
+  if (!core?.disableTelemetry) {
     telemetry('build', {});
-    await extractStorybookMetadata(path.join(options.outputDir, 'metadata.json'), stories, {
-      ...directories,
-      packageJson: options.packageJson,
-      storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
-      storyStoreV7: features?.storyStoreV7,
-    });
+    await extractStorybookMetadata(path.join(options.outputDir, 'metadata.json'));
   }
 
   const fullOptions: Options = {
@@ -196,7 +191,7 @@ export async function buildStatic({ packageJson, ...loadOptions }: LoadOptions) 
     });
 
     const core = await presets.apply<CoreConfig>('core');
-    if (core?.telemetry) {
+    if (core?.disableTelemetry) {
       await telemetry('error', { error }, { immediate: true });
     }
 

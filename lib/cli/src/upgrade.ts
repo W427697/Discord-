@@ -130,7 +130,7 @@ interface UpgradeOptions {
   useNpm: boolean;
   dryRun: boolean;
   yes: boolean;
-  telemetry: boolean;
+  disableTelemetry: boolean;
 }
 
 export const upgrade = async ({
@@ -144,7 +144,7 @@ export const upgrade = async ({
   const packageManager = JsPackageManagerFactory.getPackageManager(useNpm);
 
   commandLog(`Checking for latest versions of '@storybook/*' packages`);
-  if (options.telemetry) {
+  if (!options.disableTelemetry) {
     telemetry('upgrade', {});
   }
 
