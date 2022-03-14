@@ -9,12 +9,13 @@ export const telemetry = async (
   payload: Payload,
   options?: Partial<Options>
 ) => {
+  const metadata = await getStorybookMetadata();
   return sendTelemetry(
     {
       operationType: eventType,
       inCI: process.env.CI === 'true',
       time: Date.now(),
-      metadata: getStorybookMetadata(),
+      metadata,
       payload,
     },
     options

@@ -14,6 +14,7 @@ import { oneWayHash } from './oneWayHash';
 interface Dependency {
   name: string;
   version: string;
+  versionSpecifier: string;
 }
 
 interface StorybookAddon extends Dependency {
@@ -22,7 +23,7 @@ interface StorybookAddon extends Dependency {
 
 export type StorybookMetadata = {
   anonymousId?: string;
-  version: string;
+  storybookVersion: string;
   language: 'typescript' | 'javascript';
   framework: {
     name: string;
@@ -53,7 +54,7 @@ export type StorybookMetadata = {
 };
 
 let cachedMetadata: StorybookMetadata;
-export const getStorybookMetadata = () => {
+export const getStorybookMetadata = async () => {
   if (cachedMetadata) {
     return cachedMetadata;
   }
@@ -63,7 +64,7 @@ export const getStorybookMetadata = () => {
     (getStorybookConfiguration(packageJson.scripts.storybook, '-c', '--config-dir') as string) ??
     '.storybook';
   const mainConfig = loadMainConfig({ configDir });
-  cachedMetadata = computeStorybookMetadata({ mainConfig, packageJson });
+  cachedMetadata = await computeStorybookMetadata({ mainConfig, packageJson });
   return cachedMetadata;
 };
 
@@ -102,7 +103,7 @@ export const getProjectId = () => {
   return projectId;
 };
 
-// TODO: This should be removed in 7.0 as the framework.options field in main.js will replace this
+// @TODO: This should be removed in 7.0 as the framework.options field in main.js will replace this
 const getFrameworkOptions = (mainConfig: any) => {
   const possibleOptions = [
     'angular',
@@ -127,15 +128,33 @@ const getFrameworkOptions = (mainConfig: any) => {
   return null;
 };
 
+const getActualVersions = async (packages: Record<string, Partial<Dependency>>) => {
+  const packageNames = Object.keys(packages);
+  return Promise.all(
+    packageNames.map(async (name) => {
+      try {
+        // eslint-disable-next-line import/no-dynamic-require,global-require
+        const packageJson = require(path.join(name, 'package.json'));
+        return {
+          name,
+          version: packageJson.version,
+        };
+      } catch (err) {
+        return { name, version: null };
+      }
+    })
+  );
+};
+
 // Analyze a combination of information from main.js and package.json
 // to provide telemetry over a Storybook project
-export const computeStorybookMetadata = ({
+export const computeStorybookMetadata = async ({
   packageJson,
   mainConfig,
 }: {
   packageJson: PackageJson;
   mainConfig: StorybookConfig & Record<string, any>;
-}): StorybookMetadata => {
+}): Promise<StorybookMetadata> => {
   const metadata: Partial<StorybookMetadata> = {
     anonymousId: oneWayHash(getProjectId()),
     metaFramework: null,
@@ -152,11 +171,9 @@ export const computeStorybookMetadata = ({
     language: null,
     refCount: null,
     storybookPackages: null,
-    version: null,
+    storybookVersion: null,
   };
 
-  // @TODO we should ask the package manager for the versions of addons etc.
-  // instead of relying solely on package.json containing these entries
   const allDependencies = {
     ...packageJson?.dependencies,
     ...packageJson?.devDependencies,
@@ -201,7 +218,7 @@ export const computeStorybookMetadata = ({
   if (mainConfig.addons) {
     mainConfig.addons.forEach((addon) => {
       let result;
-      let options = {};
+      let options = null;
       if (typeof addon === 'string') {
         result = addon.replace('/register', '');
       } else {
@@ -212,10 +229,16 @@ export const computeStorybookMetadata = ({
       addons[result] = {
         name: result,
         options,
-        version: allDependencies[result],
+        version: null,
+        versionSpecifier: allDependencies[result] ?? null,
       };
     });
   }
+
+  const addonVersions = await getActualVersions(addons);
+  addonVersions.forEach(({ name, version }) => {
+    addons[name].version = version;
+  });
 
   const addonNames = Object.keys(addons);
 
@@ -225,9 +248,14 @@ export const computeStorybookMetadata = ({
     .reduce((acc, dep) => {
       return {
         ...acc,
-        [dep]: { name: dep, version: allDependencies[dep] },
+        [dep]: { name: dep, versionSpecifier: allDependencies[dep] },
       };
-    }, {});
+    }, {}) as Record<string, Dependency>;
+
+  const storybookPackageVersions = await getActualVersions(storybookPackages);
+  storybookPackageVersions.forEach(({ name, version }) => {
+    storybookPackages[name].version = version;
+  });
 
   const language = allDependencies.typescript ? 'typescript' : 'javascript';
 
@@ -236,7 +264,7 @@ export const computeStorybookMetadata = ({
   const storybookInfo = getStorybookInfo(packageJson);
   return {
     ...metadata,
-    version: storybookInfo.version,
+    storybookVersion: storybookInfo.version,
     language,
     storybookPackages,
     framework: {
