@@ -155,6 +155,8 @@ export const computeStorybookMetadata = ({
     version: null,
   };
 
+  // @TODO we should ask the package manager for the versions of addons etc.
+  // instead of relying solely on package.json containing these entries
   const allDependencies = {
     ...packageJson?.dependencies,
     ...packageJson?.devDependencies,
