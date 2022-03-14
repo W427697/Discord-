@@ -10,10 +10,14 @@ import {
 } from '@storybook/core-common';
 import path from 'path';
 
-type Dependency = {
+interface Dependency {
   name: string;
   version: string;
-};
+}
+
+interface StorybookAddon extends Dependency {
+  options: any;
+}
 
 export type StorybookMetadata = {
   id?: string;
@@ -21,15 +25,15 @@ export type StorybookMetadata = {
   language: 'typescript' | 'javascript';
   framework: {
     name: string;
-    options: Record<string, any>;
+    options?: any;
   };
   builder?: {
     name: string;
     options: Record<string, any>;
   };
   typescriptOptions?: Partial<TypescriptOptions>;
-  addons?: Dependency[];
-  storybookPackages?: Dependency[];
+  addons?: Record<string, StorybookAddon>;
+  storybookPackages?: Record<string, Dependency>;
   metaFramework?: {
     name: string;
     packageName: string;
@@ -191,38 +195,37 @@ export const computeStorybookMetadata = ({
     metadata.features = mainConfig.features;
   }
 
-  let addons: Dependency[] = [];
+  const addons: Record<string, StorybookAddon> = {};
   if (mainConfig.addons) {
-    addons = mainConfig.addons
-      .map((addon: string | Record<string, any>) => {
-        if (typeof addon === 'string') {
-          return addon.replace('/register', '');
-        }
+    mainConfig.addons.forEach((addon) => {
+      let result;
+      let options = {};
+      if (typeof addon === 'string') {
+        result = addon.replace('/register', '');
+      } else {
+        options = addon.options;
+        result = addon.name;
+      }
 
-        return addon;
-      })
-      .map((addon: string | Record<string, any>) => {
-        if (typeof addon === 'string') {
-          return {
-            name: addon,
-            version: allDependencies[addon],
-          };
-        }
-
-        return {
-          name: addon.name,
-          options: addon.options,
-          version: allDependencies[addon.name],
-        };
-      });
+      addons[result] = {
+        name: result,
+        options,
+        version: allDependencies[result],
+      };
+    });
   }
 
-  const addonNames = addons.map((addon: Dependency) => addon.name);
+  const addonNames = Object.keys(addons);
 
   // all Storybook deps minus the addons
   const storybookPackages = Object.keys(allDependencies)
     .filter((dep) => dep.includes('storybook') && !addonNames.includes(dep))
-    .map((dep) => ({ name: dep, version: allDependencies[dep] }));
+    .reduce((acc, dep) => {
+      return {
+        ...acc,
+        [dep]: { name: dep, version: allDependencies[dep] },
+      };
+    }, {});
 
   const language = allDependencies.typescript ? 'typescript' : 'javascript';
 

@@ -63,11 +63,28 @@ describe('computeStorybookMetadata', () => {
       },
     });
 
-    expect(result.addons).toEqual([
-      { name: '@storybook/addon-essentials', version: 'x.x.x' },
-      { name: 'storybook-addon-deprecated', version: 'x.x.x' },
-    ]);
-    expect(result.storybookPackages).toEqual([{ name: '@storybook/react', version: 'x.y.z' }]);
+    expect(result.addons).toMatchInlineSnapshot(`
+      Object {
+        "@storybook/addon-essentials": Object {
+          "name": "@storybook/addon-essentials",
+          "options": Object {},
+          "version": "x.x.x",
+        },
+        "storybook-addon-deprecated": Object {
+          "name": "storybook-addon-deprecated",
+          "options": Object {},
+          "version": "x.x.x",
+        },
+      }
+    `);
+    expect(result.storybookPackages).toMatchInlineSnapshot(`
+      Object {
+        "@storybook/react": Object {
+          "name": "@storybook/react",
+          "version": "x.y.z",
+        },
+      }
+    `);
   });
 
   test('should return user specified features', () => {
@@ -115,7 +132,7 @@ describe('computeStorybookMetadata', () => {
           },
         },
       }).builder
-    ).toEqual({ name: simpleBuilder, options: {} });
+    ).toEqual({ name: simpleBuilder, options: null });
   });
 
   test('should return the number of refs', () => {
