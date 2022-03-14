@@ -30,6 +30,7 @@ import {
 import { getPreviewBuilder } from './utils/get-preview-builder';
 import { getManagerBuilder } from './utils/get-manager-builder';
 import { extractStoriesJson } from './utils/stories-json';
+import { extractStorybookMetadata } from './utils/metadata';
 
 export async function buildStaticStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
   /* eslint-disable no-param-reassign */
@@ -95,14 +96,27 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   const features = await presets.apply<StorybookConfig['features']>('features');
   global.FEATURES = features;
 
+  let stories;
+  let directories;
+
   if (features?.buildStoriesJson || features?.storyStoreV7) {
-    const directories = {
+    directories = {
       configDir: options.configDir,
       workingDir: process.cwd(),
     };
-    const stories = normalizeStories(await presets.apply('stories'), directories);
+    stories = normalizeStories(await presets.apply('stories'), directories);
     await extractStoriesJson(path.join(options.outputDir, 'stories.json'), stories, {
       ...directories,
+      storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+      storyStoreV7: features?.storyStoreV7,
+    });
+  }
+
+  const core = await presets.apply<CoreConfig>('core');
+  if (core?.telemetry) {
+    await extractStorybookMetadata(path.join(options.outputDir, 'metadata.json'), stories, {
+      ...directories,
+      packageJson: options.packageJson,
       storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
       storyStoreV7: features?.storyStoreV7,
     });
@@ -119,7 +133,6 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     logConfig('Manager webpack config', await managerBuilder.getConfig(fullOptions));
   }
 
-  const core = await presets.apply<CoreConfig | undefined>('core');
   const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
   const { getPrebuiltDir } =
     builderName === 'webpack5'

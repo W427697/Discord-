@@ -61,6 +61,17 @@ export const typescript = () => ({
   },
 });
 
+/**
+ * If for some reason this config is not applied, the reason is that
+ * likely there is an addon that does `export core = () => ({ someConfig })`,
+ * instead of `export core = (existing) => ({ ...existing, someConfig })`,
+ * just overwriting everything and not merging with the existing values.
+ */
+export const core = async (existing: Record<string, boolean>) => ({
+  ...existing,
+  telemetry: true,
+});
+
 export const features = async (existing: Record<string, boolean>) => ({
   ...existing,
   postcss: true,

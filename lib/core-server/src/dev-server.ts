@@ -1,13 +1,14 @@
 import express, { Router } from 'express';
 import compression from 'compression';
 
-import { Builder, logConfig, Options, StorybookConfig } from '@storybook/core-common';
+import { Builder, CoreConfig, logConfig, Options, StorybookConfig } from '@storybook/core-common';
 
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
 import { useStatics } from './utils/server-statics';
 import { useStoriesJson } from './utils/stories-json';
+import { useStorybookMetadata } from './utils/metadata';
 import { getServerChannel } from './utils/get-server-channel';
 
 import { openInBrowser } from './utils/open-in-browser';
@@ -41,6 +42,11 @@ export async function storybookDevServer(options: Options) {
   const features = await options.presets.apply<StorybookConfig['features']>('features');
   if (features?.buildStoriesJson || features?.storyStoreV7) {
     await useStoriesJson(router, serverChannel, options);
+  }
+
+  const core = await options.presets.apply<CoreConfig>('core');
+  if (core?.telemetry) {
+    await useStorybookMetadata(router, serverChannel, options);
   }
 
   getMiddleware(options.configDir)(router);

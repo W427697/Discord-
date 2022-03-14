@@ -50,6 +50,11 @@ export interface CoreConfig {
   builder: BuilderConfig;
   disableWebpackDefaults?: boolean;
   channelOptions?: Partial<TelejsonOptions>;
+  /**
+   * Enable Storybook telemetry
+   * @see https://storybook.js.org/telemetry
+   */
+  telemetry?: boolean;
 }
 
 interface DirectoryMapping {
@@ -133,6 +138,8 @@ export interface PackageJson {
   version: string;
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
+  peerDependencies?: Record<string, string>;
+  [key: string]: any;
 }
 
 // TODO: This could be exported to the outside world and used in `options.ts` file of each `@storybook/APP`
