@@ -9,6 +9,7 @@ import {
   getStorybookConfiguration,
 } from '@storybook/core-common';
 import path from 'path';
+import { oneWayHash } from './oneWayHash';
 
 interface Dependency {
   name: string;
@@ -20,7 +21,7 @@ interface StorybookAddon extends Dependency {
 }
 
 export type StorybookMetadata = {
-  id?: string;
+  anonymousId?: string;
   version: string;
   language: 'typescript' | 'javascript';
   framework: {
@@ -136,8 +137,7 @@ export const computeStorybookMetadata = ({
   mainConfig: StorybookConfig & Record<string, any>;
 }): StorybookMetadata => {
   const metadata: Partial<StorybookMetadata> = {
-    // temporary just for testing purposes, should be used elsewhere
-    id: getProjectId(),
+    anonymousId: oneWayHash(getProjectId()),
     metaFramework: null,
     builder: null,
     hasCustomBabel: null,
