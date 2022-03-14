@@ -31,146 +31,150 @@ import { extractStoriesJson } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 
 export async function buildStaticStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
-  /* eslint-disable no-param-reassign */
-  options.configType = 'PRODUCTION';
+  let core: CoreConfig;
+  try {
+    /* eslint-disable no-param-reassign */
+    options.configType = 'PRODUCTION';
 
-  if (options.outputDir === '') {
-    throw new Error("Won't remove current directory. Check your outputDir!");
-  }
+    if (options.outputDir === '') {
+      throw new Error("Won't remove current directory. Check your outputDir!");
+    }
 
-  if (options.staticDir?.includes('/')) {
-    throw new Error("Won't copy root directory. Check your staticDirs!");
-  }
+    if (options.staticDir?.includes('/')) {
+      throw new Error("Won't copy root directory. Check your staticDirs!");
+    }
 
-  options.outputDir = path.isAbsolute(options.outputDir)
-    ? options.outputDir
-    : path.join(process.cwd(), options.outputDir);
-  options.configDir = path.resolve(options.configDir);
-  /* eslint-enable no-param-reassign */
+    options.outputDir = path.isAbsolute(options.outputDir)
+      ? options.outputDir
+      : path.join(process.cwd(), options.outputDir);
+    options.configDir = path.resolve(options.configDir);
+    /* eslint-enable no-param-reassign */
 
-  const defaultFavIcon = require.resolve('@storybook/core-server/public/favicon.ico');
+    const defaultFavIcon = require.resolve('@storybook/core-server/public/favicon.ico');
 
-  logger.info(chalk`=> Cleaning outputDir: {cyan ${options.outputDir}}`);
-  if (options.outputDir === '/') {
-    throw new Error("Won't remove directory '/'. Check your outputDir!");
-  }
-  await fs.emptyDir(options.outputDir);
+    logger.info(chalk`=> Cleaning outputDir: {cyan ${options.outputDir}}`);
+    if (options.outputDir === '/') {
+      throw new Error("Won't remove directory '/'. Check your outputDir!");
+    }
+    await fs.emptyDir(options.outputDir);
 
-  await cpy(defaultFavIcon, options.outputDir);
+    await cpy(defaultFavIcon, options.outputDir);
 
-  const previewBuilder: Builder<unknown, unknown> = await getPreviewBuilder(options.configDir);
-  const managerBuilder: Builder<unknown, unknown> = await getManagerBuilder(options.configDir);
+    const previewBuilder: Builder<unknown, unknown> = await getPreviewBuilder(options.configDir);
+    const managerBuilder: Builder<unknown, unknown> = await getManagerBuilder(options.configDir);
 
-  const presets = loadAllPresets({
-    corePresets: [
-      require.resolve('./presets/common-preset'),
-      ...managerBuilder.corePresets,
-      ...previewBuilder.corePresets,
-      require.resolve('./presets/babel-cache-preset'),
-    ],
-    overridePresets: previewBuilder.overridePresets,
-    ...options,
-  });
+    const presets = loadAllPresets({
+      corePresets: [
+        require.resolve('./presets/common-preset'),
+        ...managerBuilder.corePresets,
+        ...previewBuilder.corePresets,
+        require.resolve('./presets/babel-cache-preset'),
+      ],
+      overridePresets: previewBuilder.overridePresets,
+      ...options,
+    });
 
-  const staticDirs = await presets.apply<StorybookConfig['staticDirs']>('staticDirs');
+    const staticDirs = await presets.apply<StorybookConfig['staticDirs']>('staticDirs');
 
-  if (staticDirs && options.staticDir) {
-    throw new Error(dedent`
+    if (staticDirs && options.staticDir) {
+      throw new Error(dedent`
       Conflict when trying to read staticDirs:
       * Storybook's configuration option: 'staticDirs'
       * Storybook's CLI flag: '--staticDir' or '-s'
       
       Choose one of them, but not both.
     `);
-  }
+    }
 
-  if (staticDirs) {
-    await copyAllStaticFilesRelativeToMain(staticDirs, options.outputDir, options.configDir);
-  }
-  if (options.staticDir) {
-    await copyAllStaticFiles(options.staticDir, options.outputDir);
-  }
+    if (staticDirs) {
+      await copyAllStaticFilesRelativeToMain(staticDirs, options.outputDir, options.configDir);
+    }
+    if (options.staticDir) {
+      await copyAllStaticFiles(options.staticDir, options.outputDir);
+    }
 
-  const features = await presets.apply<StorybookConfig['features']>('features');
-  global.FEATURES = features;
+    const features = await presets.apply<StorybookConfig['features']>('features');
+    global.FEATURES = features;
 
-  let stories;
-  let directories;
+    let stories;
+    let directories;
 
-  if (features?.buildStoriesJson || features?.storyStoreV7) {
-    directories = {
-      configDir: options.configDir,
-      workingDir: process.cwd(),
-    };
-    stories = normalizeStories(await presets.apply('stories'), directories);
-    await extractStoriesJson(path.join(options.outputDir, 'stories.json'), stories, {
-      ...directories,
-      storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
-      storyStoreV7: features?.storyStoreV7,
-    });
-  }
-
-  const core = await presets.apply<CoreConfig>('core');
-  if (core?.telemetry) {
-    telemetry('build', {});
-    await extractStorybookMetadata(path.join(options.outputDir, 'metadata.json'), stories, {
-      ...directories,
-      packageJson: options.packageJson,
-      storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
-      storyStoreV7: features?.storyStoreV7,
-    });
-  }
-
-  const fullOptions: Options = {
-    ...options,
-    presets,
-    features,
-  };
-
-  if (options.debugWebpack) {
-    logConfig('Preview webpack config', await previewBuilder.getConfig(fullOptions));
-    logConfig('Manager webpack config', await managerBuilder.getConfig(fullOptions));
-  }
-
-  const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
-  const { getPrebuiltDir } =
-    builderName === 'webpack5'
-      ? // eslint-disable-next-line import/no-extraneous-dependencies
-        await import('@storybook/manager-webpack5/prebuilt-manager')
-      : await import('@storybook/manager-webpack4/prebuilt-manager');
-
-  const prebuiltDir = await getPrebuiltDir(fullOptions);
-
-  const startTime = process.hrtime();
-  // When using the prebuilt manager, we straight up copy it into the outputDir instead of building it
-  const manager = prebuiltDir
-    ? cpy('**', options.outputDir, { cwd: prebuiltDir, parents: true }).then(() => {})
-    : managerBuilder.build({ startTime, options: fullOptions });
-
-  if (options.ignorePreview) {
-    logger.info(`=> Not building preview`);
-  }
-
-  const preview = options.ignorePreview
-    ? Promise.resolve()
-    : previewBuilder.build({
-        startTime,
-        options: fullOptions,
+    if (features?.buildStoriesJson || features?.storyStoreV7) {
+      directories = {
+        configDir: options.configDir,
+        workingDir: process.cwd(),
+      };
+      stories = normalizeStories(await presets.apply('stories'), directories);
+      await extractStoriesJson(path.join(options.outputDir, 'stories.json'), stories, {
+        ...directories,
+        storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+        storyStoreV7: features?.storyStoreV7,
       });
+    }
 
-  const [managerStats, previewStats] = await Promise.all([manager, preview]);
+    core = await presets.apply<CoreConfig>('core');
+    if (!core?.disableTelemetry) {
+      telemetry('build', {});
+      await extractStorybookMetadata(path.join(options.outputDir, 'metadata.json'));
+    }
 
-  if (options.webpackStatsJson) {
-    const target = options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
-    await outputStats(target, previewStats, managerStats);
+    const fullOptions: Options = {
+      ...options,
+      presets,
+      features,
+    };
+
+    if (options.debugWebpack) {
+      logConfig('Preview webpack config', await previewBuilder.getConfig(fullOptions));
+      logConfig('Manager webpack config', await managerBuilder.getConfig(fullOptions));
+    }
+
+    const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
+    const { getPrebuiltDir } =
+      builderName === 'webpack5'
+        ? // eslint-disable-next-line import/no-extraneous-dependencies
+          await import('@storybook/manager-webpack5/prebuilt-manager')
+        : await import('@storybook/manager-webpack4/prebuilt-manager');
+
+    const prebuiltDir = await getPrebuiltDir(fullOptions);
+
+    const startTime = process.hrtime();
+    // When using the prebuilt manager, we straight up copy it into the outputDir instead of building it
+    const manager = prebuiltDir
+      ? cpy('**', options.outputDir, { cwd: prebuiltDir, parents: true }).then(() => {})
+      : managerBuilder.build({ startTime, options: fullOptions });
+
+    if (options.ignorePreview) {
+      logger.info(`=> Not building preview`);
+    }
+
+    const preview = options.ignorePreview
+      ? Promise.resolve()
+      : previewBuilder.build({
+          startTime,
+          options: fullOptions,
+        });
+
+    const [managerStats, previewStats] = await Promise.all([manager, preview]);
+
+    if (options.webpackStatsJson) {
+      const target =
+        options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
+      await outputStats(target, previewStats, managerStats);
+    }
+
+    logger.info(`=> Output directory: ${options.outputDir}`);
+  } catch (error) {
+    if (!core?.disableTelemetry) {
+      await telemetry('error', { error }, { immediate: true });
+    }
+
+    throw error;
   }
-
-  logger.info(`=> Output directory: ${options.outputDir}`);
 }
 
 export async function buildStatic({ packageJson, ...loadOptions }: LoadOptions) {
   const cliOptions = getProdCli(packageJson);
-
   try {
     await buildStaticStandalone({
       ...cliOptions,
@@ -186,11 +190,6 @@ export async function buildStatic({ packageJson, ...loadOptions }: LoadOptions) 
     });
   } catch (error) {
     logger.error(error);
-    // @TODO: figure out how to get core from here
-    // if (core?.telemetry) {
-    //   await telemetry('error', { error }, { immediate: true });
-    // }
-
     process.exit(1);
   }
 }
