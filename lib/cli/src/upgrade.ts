@@ -144,7 +144,7 @@ export const upgrade = async ({
   const packageManager = JsPackageManagerFactory.getPackageManager(useNpm);
 
   commandLog(`Checking for latest versions of '@storybook/*' packages`);
-  if (options.telemetry && process.env.STORYBOOK_NO_TELEMETRY !== undefined) {
+  if (options.telemetry) {
     telemetry('upgrade', {});
   }
 
