@@ -11,7 +11,7 @@ export const telemetry = async (
   payload: Payload,
   options?: Partial<Options>
 ) => {
-  sendTelemetry(
+  return sendTelemetry(
     {
       operationType: eventType,
       inCI: process.env.CI === 'true',
@@ -22,7 +22,4 @@ export const telemetry = async (
     },
     options
   );
-
-  // I want to be able to await, to ensure all fetch request have been sent before continuing
-  // this is important when reporting an error because the next call will be process.exit(), which would kill the process
 };
