@@ -53,16 +53,12 @@ export const getStorybookMetadata = () => {
     return cachedMetadata;
   }
 
-  console.time('getStorybookMetadata');
   const packageJson = readPkgUp.sync({ cwd: process.cwd() }).packageJson as PackageJson;
-
   const configDir =
-    getStorybookConfiguration(packageJson.scripts.storybook, '-c', '--config-dir') ?? '.storybook';
-
+    (getStorybookConfiguration(packageJson.scripts.storybook, '-c', '--config-dir') as string) ??
+    '.storybook';
   const mainConfig = loadMainConfig({ configDir });
   cachedMetadata = computeStorybookMetadata({ mainConfig, packageJson });
-  // @TODO: remove this, it's for testing purposes and it's taking about 6.5s
-  console.timeEnd('getStorybookMetadata');
   return cachedMetadata;
 };
 
@@ -85,7 +81,7 @@ export const getProjectId = () => {
       stdio: `pipe`,
     });
 
-    const projectRootPath = path.relative(process.cwd(), String(projectRootBuffer).trimEnd());
+    const projectRootPath = path.relative(String(projectRootBuffer).trimEnd(), process.cwd());
 
     const originBuffer = execSync(`git config --local --get remote.origin.url`, {
       timeout: 1000,
@@ -101,6 +97,7 @@ export const getProjectId = () => {
   return projectId;
 };
 
+// TODO: This should be removed in 7.0 as the framework.options field in main.js will replace this
 const getFrameworkOptions = (mainConfig: any) => {
   const possibleOptions = [
     'angular',
