@@ -39,6 +39,14 @@ jest.mock('@storybook/builder-webpack4', () => {
   return actualBuilder;
 });
 
+jest.mock('@storybook/telemetry', () => {
+  return {
+    //
+    getStorybookMetadata: jest.fn(() => ({})),
+    telemetry: jest.fn(() => ({})),
+  };
+});
+
 jest.mock('./utils/stories-json', () => {
   const actualStoriesJson = jest.requireActual('./utils/stories-json');
   actualStoriesJson.extractStoriesJson = () => Promise.resolve();

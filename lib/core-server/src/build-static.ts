@@ -190,7 +190,7 @@ export async function buildStatic({ packageJson, ...loadOptions }: LoadOptions) 
     logger.error(error);
 
     const presets = loadAllPresets({
-      corePresets: [],
+      corePresets: [require.resolve('./presets/common-preset')],
       overridePresets: [],
       ...options,
     });
