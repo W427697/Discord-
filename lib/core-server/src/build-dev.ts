@@ -186,7 +186,7 @@ export async function buildDev(loadOptions: LoadOptions) {
     });
 
     const core = await presets.apply<CoreConfig>('core');
-    if (core?.disableTelemetry) {
+    if (!core?.disableTelemetry) {
       await telemetry('error-dev', { error }, { immediate: true });
     }
 
