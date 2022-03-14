@@ -8,19 +8,16 @@ import global from 'global';
 import { logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 
-import {
-  loadAllPresets,
+import type {
   LoadOptions,
   CLIOptions,
   BuilderOptions,
   Options,
   Builder,
   StorybookConfig,
-  cache,
-  normalizeStories,
-  logConfig,
   CoreConfig,
 } from '@storybook/core-common';
+import { loadAllPresets, cache, normalizeStories, logConfig } from '@storybook/core-common';
 
 import { getProdCli } from './cli';
 import { outputStats } from './utils/output-stats';
@@ -31,7 +28,7 @@ import {
 import { getPreviewBuilder } from './utils/get-preview-builder';
 import { getManagerBuilder } from './utils/get-manager-builder';
 import { extractStoriesJson } from './utils/stories-json';
-import { extractStorybookMetadata } from './utils/storybook-metadata';
+import { extractStorybookMetadata } from './utils/metadata';
 
 export async function buildStaticStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
   /* eslint-disable no-param-reassign */
@@ -97,30 +94,31 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   const features = await presets.apply<StorybookConfig['features']>('features');
   global.FEATURES = features;
 
-  if (global.FEATURES?.telemetry) {
-    telemetry('build', {});
-  }
+  let stories;
+  let directories;
 
   if (features?.buildStoriesJson || features?.storyStoreV7) {
-    const directories = {
+    directories = {
       configDir: options.configDir,
       workingDir: process.cwd(),
     };
-    const stories = normalizeStories(await presets.apply('stories'), directories);
+    stories = normalizeStories(await presets.apply('stories'), directories);
     await extractStoriesJson(path.join(options.outputDir, 'stories.json'), stories, {
       ...directories,
       storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
       storyStoreV7: features?.storyStoreV7,
     });
+  }
 
-    if (features?.telemetry) {
-      await extractStorybookMetadata(path.join(options.outputDir, 'metadata.json'), stories, {
-        ...directories,
-        packageJson: options.packageJson,
-        storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
-        storyStoreV7: features?.storyStoreV7,
-      } as any);
-    }
+  const core = await presets.apply<CoreConfig>('core');
+  if (core?.telemetry) {
+    telemetry('build', {});
+    await extractStorybookMetadata(path.join(options.outputDir, 'metadata.json'), stories, {
+      ...directories,
+      packageJson: options.packageJson,
+      storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+      storyStoreV7: features?.storyStoreV7,
+    });
   }
 
   const fullOptions: Options = {
@@ -134,7 +132,6 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     logConfig('Manager webpack config', await managerBuilder.getConfig(fullOptions));
   }
 
-  const core = await presets.apply<CoreConfig | undefined>('core');
   const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
   const { getPrebuiltDir } =
     builderName === 'webpack5'
@@ -174,22 +171,32 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
 export async function buildStatic({ packageJson, ...loadOptions }: LoadOptions) {
   const cliOptions = getProdCli(packageJson);
 
+  const options: CLIOptions & LoadOptions & BuilderOptions = {
+    ...cliOptions,
+    ...loadOptions,
+    packageJson,
+    configDir: loadOptions.configDir || cliOptions.configDir || './.storybook',
+    outputDir: loadOptions.outputDir || cliOptions.outputDir || './storybook-static',
+    ignorePreview:
+      (!!loadOptions.ignorePreview || !!cliOptions.previewUrl) && !cliOptions.forceBuildPreview,
+    docsMode: !!cliOptions.docs,
+    configType: 'PRODUCTION',
+    cache,
+  };
+
   try {
-    await buildStaticStandalone({
-      ...cliOptions,
-      ...loadOptions,
-      packageJson,
-      configDir: loadOptions.configDir || cliOptions.configDir || './.storybook',
-      outputDir: loadOptions.outputDir || cliOptions.outputDir || './storybook-static',
-      ignorePreview:
-        (!!loadOptions.ignorePreview || !!cliOptions.previewUrl) && !cliOptions.forceBuildPreview,
-      docsMode: !!cliOptions.docs,
-      configType: 'PRODUCTION',
-      cache,
-    });
+    await buildStaticStandalone(options);
   } catch (error) {
     logger.error(error);
-    if (global.FEATURES?.telemetry) {
+
+    const presets = loadAllPresets({
+      corePresets: [],
+      overridePresets: [],
+      ...options,
+    });
+
+    const core = await presets.apply<CoreConfig>('core');
+    if (core?.telemetry) {
       await telemetry('error', { error }, { immediate: true });
     }
 

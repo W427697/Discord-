@@ -1,15 +1,15 @@
 import express, { Router } from 'express';
 import compression from 'compression';
 
-import { Builder, logConfig, Options, StorybookConfig } from '@storybook/core-common';
+import type { Builder, CoreConfig, Options, StorybookConfig } from '@storybook/core-common';
+import { logConfig } from '@storybook/core-common';
 
-import global from 'global';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
 import { useStatics } from './utils/server-statics';
 import { useStoriesJson } from './utils/stories-json';
-import { getStorybookMetadata, useStorybookMetadata } from './utils/storybook-metadata';
+import { useStorybookMetadata } from './utils/metadata';
 import { getServerChannel } from './utils/get-server-channel';
 
 import { openInBrowser } from './utils/open-in-browser';
@@ -44,8 +44,9 @@ export async function storybookDevServer(options: Options) {
   if (features?.buildStoriesJson || features?.storyStoreV7) {
     await useStoriesJson(router, serverChannel, options);
   }
-  if (features?.telemetry) {
-    global.METADATA = getStorybookMetadata(options);
+
+  const core = await options.presets.apply<CoreConfig>('core');
+  if (core?.telemetry) {
     await useStorybookMetadata(router, serverChannel, options);
   }
 

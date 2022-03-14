@@ -44,7 +44,7 @@ type CommandOptions = {
   builder?: Builder;
   linkable?: boolean;
   commonJs?: boolean;
-  telemetry: boolean;
+  telemetry?: boolean;
 };
 
 const installStorybook = (projectType: ProjectType, options: CommandOptions): Promise<void> => {

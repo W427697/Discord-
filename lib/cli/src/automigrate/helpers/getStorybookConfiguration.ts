@@ -1,3 +1,4 @@
+// @TODO Yann: this should be deleted and references should be moved to @storybook/core-common
 /*
  * Lifted from chromatic-cli
  *

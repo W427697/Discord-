@@ -1,15 +1,14 @@
 import { logger, instance as npmLog } from '@storybook/node-logger';
-import {
+import type {
   CLIOptions,
   LoadOptions,
   BuilderOptions,
-  resolvePathInStorybookCache,
-  loadAllPresets,
   Options,
-  cache,
   StorybookConfig,
+  CoreConfig,
 } from '@storybook/core-common';
 import { telemetry } from '@storybook/telemetry';
+import { resolvePathInStorybookCache, loadAllPresets, cache } from '@storybook/core-common';
 import dedent from 'ts-dedent';
 import prompts from 'prompts';
 import global from 'global';
@@ -79,7 +78,8 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   const features = await presets.apply<StorybookConfig['features']>('features');
   global.FEATURES = features;
 
-  if (global.FEATURES?.telemetry) {
+  const core = await presets.apply<CoreConfig>('core');
+  if (core?.telemetry) {
     telemetry('start', {});
   }
 

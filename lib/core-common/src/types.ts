@@ -1,8 +1,8 @@
 import type ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import type { Options as TelejsonOptions } from 'telejson';
 import type { PluginOptions } from '@storybook/react-docgen-typescript-plugin';
-import { Configuration, Stats } from 'webpack';
-import { TransformOptions } from '@babel/core';
+import type { Configuration, Stats } from 'webpack';
+import type { TransformOptions } from '@babel/core';
 import { Router } from 'express';
 import { Server } from 'http';
 import { FileSystemCache } from './utils/file-cache';
@@ -50,6 +50,11 @@ export interface CoreConfig {
   builder: BuilderConfig;
   disableWebpackDefaults?: boolean;
   channelOptions?: Partial<TelejsonOptions>;
+  /**
+   * Enable Storybook telemetry
+   * @see https://storybook.js.org/telemetry
+   */
+  telemetry?: boolean;
 }
 
 interface DirectoryMapping {
@@ -134,6 +139,7 @@ export interface PackageJson {
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
   peerDependencies?: Record<string, string>;
+  [key: string]: any;
 }
 
 // TODO: This could be exported to the outside world and used in `options.ts` file of each `@storybook/APP`
@@ -318,12 +324,12 @@ export interface StorybookConfig {
   logLevel?: string;
   features?: {
     /**
-     * Allows to disable deprecated implicit PostCSS loader.
+     * Allows to disable deprecated implicit PostCSS loader. (will be removed in 7.0)
      */
     postcss?: boolean;
 
     /**
-     * Allows to disable deprecated implicit PostCSS loader.
+     * Allows to disable emotion webpack alias for emotion packages. (will be removed in 7.0)
      */
     emotionAlias?: boolean;
 
@@ -379,12 +385,6 @@ export interface StorybookConfig {
      * Preview MDX2 support, will become default in 7.0
      */
     previewMdx2?: boolean;
-
-    /**
-     * Enable Storybook telemetry
-     * @see https://storybook.js.org/telemetry
-     */
-    telemetry?: boolean;
   };
 
   /**
