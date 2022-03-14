@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import compression from 'compression';
 
-import { Builder, logConfig, Options, StorybookConfig } from '@storybook/core-common';
+import { Builder, CoreConfig, logConfig, Options, StorybookConfig } from '@storybook/core-common';
 
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
@@ -44,7 +44,8 @@ export async function storybookDevServer(options: Options) {
     await useStoriesJson(router, serverChannel, options);
   }
 
-  if (features?.telemetry) {
+  const core = await options.presets.apply<CoreConfig>('core');
+  if (core?.telemetry) {
     await useStorybookMetadata(router, serverChannel, options);
   }
 

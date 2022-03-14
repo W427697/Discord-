@@ -50,6 +50,11 @@ export interface CoreConfig {
   builder: BuilderConfig;
   disableWebpackDefaults?: boolean;
   channelOptions?: Partial<TelejsonOptions>;
+  /**
+   * Enable Storybook telemetry
+   * @see https://storybook.js.org/telemetry
+   */
+  telemetry?: boolean;
 }
 
 interface DirectoryMapping {
@@ -380,12 +385,6 @@ export interface StorybookConfig {
      * Preview MDX2 support, will become default in 7.0
      */
     previewMdx2?: boolean;
-
-    /**
-     * Enable Storybook telemetry
-     * @see https://storybook.js.org/telemetry
-     */
-    telemetry?: boolean;
   };
 
   /**

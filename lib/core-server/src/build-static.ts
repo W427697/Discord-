@@ -112,7 +112,8 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     });
   }
 
-  if (features?.telemetry) {
+  const core = await presets.apply<CoreConfig>('core');
+  if (core?.telemetry) {
     await extractStorybookMetadata(path.join(options.outputDir, 'metadata.json'), stories, {
       ...directories,
       packageJson: options.packageJson,
@@ -132,7 +133,6 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     logConfig('Manager webpack config', await managerBuilder.getConfig(fullOptions));
   }
 
-  const core = await presets.apply<CoreConfig | undefined>('core');
   const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
   const { getPrebuiltDir } =
     builderName === 'webpack5'
