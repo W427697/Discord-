@@ -47,6 +47,8 @@ jest.mock('@storybook/telemetry', () => {
   };
 });
 
+jest.mock('./utils/StoryIndexGenerator');
+
 jest.mock('./utils/stories-json', () => {
   const actualStoriesJson = jest.requireActual('./utils/stories-json');
   actualStoriesJson.extractStoriesJson = () => Promise.resolve();
@@ -167,6 +169,7 @@ describe.each([
       ['prod', buildStaticStandalone],
       ['dev', buildDevStandalone],
     ])('%s', async (mode, builder) => {
+      console.log('running for ', mode, builder);
       const options = {
         ...baseOptions,
         ...frameworkOptions,

@@ -23,7 +23,7 @@ export async function useStoriesJson({
   router: Router;
   storyIndexGenerator: StoryIndexGenerator;
   serverChannel: ServerChannel;
-  workingDir: string;
+  workingDir?: string;
   normalizedStories: NormalizedStoriesSpecifier[];
 }) {
   const maybeInvalidate = debounce(() => serverChannel.emit(STORY_INDEX_INVALIDATED), DEBOUNCE, {

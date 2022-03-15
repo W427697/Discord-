@@ -10,9 +10,10 @@ const mainJsMock: StorybookConfig = {
   stories: [],
 };
 
-describe('computeStorybookMetadata', () => {
-  test('should return frameworkOptions from mainjs', () => {
-    const reactResult = computeStorybookMetadata({
+// @TODO: separate `getActualVersions` to a file so we can mock it
+describe('await computeStorybookMetadata', () => {
+  test('should return frameworkOptions from mainjs', async () => {
+    const reactResult = await computeStorybookMetadata({
       packageJson: {
         ...packageJsonMock,
         devDependencies: {
@@ -29,7 +30,7 @@ describe('computeStorybookMetadata', () => {
 
     expect(reactResult.framework).toEqual({ name: 'react', options: { fastRefresh: false } });
 
-    const angularResult = computeStorybookMetadata({
+    const angularResult = await computeStorybookMetadata({
       packageJson: {
         ...packageJsonMock,
         devDependencies: {
@@ -47,8 +48,8 @@ describe('computeStorybookMetadata', () => {
     expect(angularResult.framework).toEqual({ name: 'angular', options: { enableIvy: true } });
   });
 
-  test('should separate storybook packages and addons', () => {
-    const result = computeStorybookMetadata({
+  test('should separate storybook packages and addons', async () => {
+    const result = await computeStorybookMetadata({
       packageJson: {
         ...packageJsonMock,
         devDependencies: {
@@ -67,13 +68,15 @@ describe('computeStorybookMetadata', () => {
       Object {
         "@storybook/addon-essentials": Object {
           "name": "@storybook/addon-essentials",
-          "options": Object {},
-          "version": "x.x.x",
+          "options": null,
+          "version": "6.5.0-alpha.48",
+          "versionSpecifier": "x.x.x",
         },
         "storybook-addon-deprecated": Object {
           "name": "storybook-addon-deprecated",
-          "options": Object {},
-          "version": "x.x.x",
+          "options": null,
+          "version": null,
+          "versionSpecifier": "x.x.x",
         },
       }
     `);
@@ -81,18 +84,19 @@ describe('computeStorybookMetadata', () => {
       Object {
         "@storybook/react": Object {
           "name": "@storybook/react",
-          "version": "x.y.z",
+          "version": "6.5.0-alpha.48",
+          "versionSpecifier": "x.y.z",
         },
       }
     `);
   });
 
-  test('should return user specified features', () => {
+  test('should return user specified features', async () => {
     const features = {
       interactionsDebugger: true,
     };
 
-    const result = computeStorybookMetadata({
+    const result = await computeStorybookMetadata({
       packageJson: packageJsonMock,
       mainConfig: {
         ...mainJsMock,
@@ -103,7 +107,7 @@ describe('computeStorybookMetadata', () => {
     expect(result.features).toEqual(features);
   });
 
-  test('should handle different types of builders', () => {
+  test('should handle different types of builders', async () => {
     const simpleBuilder = 'webpack4';
     const complexBuilder = {
       name: 'webpack5',
@@ -112,31 +116,35 @@ describe('computeStorybookMetadata', () => {
       },
     };
     expect(
-      computeStorybookMetadata({
-        packageJson: packageJsonMock,
-        mainConfig: {
-          ...mainJsMock,
-          core: {
-            builder: complexBuilder,
+      (
+        await computeStorybookMetadata({
+          packageJson: packageJsonMock,
+          mainConfig: {
+            ...mainJsMock,
+            core: {
+              builder: complexBuilder,
+            },
           },
-        },
-      }).builder
+        })
+      ).builder
     ).toEqual(complexBuilder);
     expect(
-      computeStorybookMetadata({
-        packageJson: packageJsonMock,
-        mainConfig: {
-          ...mainJsMock,
-          core: {
-            builder: simpleBuilder,
+      (
+        await computeStorybookMetadata({
+          packageJson: packageJsonMock,
+          mainConfig: {
+            ...mainJsMock,
+            core: {
+              builder: simpleBuilder,
+            },
           },
-        },
-      }).builder
+        })
+      ).builder
     ).toEqual({ name: simpleBuilder, options: null });
   });
 
-  test('should return the number of refs', () => {
-    const res = computeStorybookMetadata({
+  test('should return the number of refs', async () => {
+    const res = await computeStorybookMetadata({
       packageJson: packageJsonMock,
       mainConfig: {
         ...mainJsMock,
@@ -151,8 +159,8 @@ describe('computeStorybookMetadata', () => {
 
   test.each(Object.entries(metaFrameworks))(
     'should detect the supported metaframework: %s',
-    (metaFramework, name) => {
-      const res = computeStorybookMetadata({
+    async (metaFramework, name) => {
+      const res = await computeStorybookMetadata({
         packageJson: {
           ...packageJsonMock,
           dependencies: {
