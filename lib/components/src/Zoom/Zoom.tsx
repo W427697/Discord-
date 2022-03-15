@@ -1,7 +1,7 @@
-import { ZoomElement as Element } from './ZoomElement';
-import { ZoomIFrame as IFrame } from './ZoomIFrame';
+import { ZoomElement } from './ZoomElement';
+import { ZoomIFrame } from './ZoomIFrame';
 
 export const Zoom = {
-  Element,
-  IFrame,
+  Element: ZoomElement,
+  IFrame: ZoomIFrame,
 };

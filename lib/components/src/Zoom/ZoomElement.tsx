@@ -1,5 +1,13 @@
 /* global MutationObserver */
-import React, { ReactElement, RefObject, useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  ReactElement,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+  RefObject,
+  useCallback,
+} from 'react';
 import { styled } from '@storybook/theming';
 import { browserSupportsCssZoom } from './browserSupportsCssZoom';
 
@@ -51,7 +59,7 @@ type ZoomProps = {
 };
 
 export function ZoomElement({ scale, children }: ZoomProps) {
-  const componentWrapperRef = React.useRef(null);
+  const componentWrapperRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
 
   const handleMutations = useCallback(() => {
@@ -72,7 +80,10 @@ export function ZoomElement({ scale, children }: ZoomProps) {
 
   return (
     <ZoomElementWrapper scale={scale} height={height}>
-      <div ref={componentWrapperRef} className="innerZoomElementWrapper">
+      <div
+        ref={browserSupportsCssZoom() ? null : componentWrapperRef}
+        className="innerZoomElementWrapper"
+      >
         {children}
       </div>
     </ZoomElementWrapper>
