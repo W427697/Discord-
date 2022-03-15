@@ -129,7 +129,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
       : undefined;
     telemetry('build', payload);
 
-    await extractStorybookMetadata(path.join(options.outputDir, 'metadata.json'));
+    await extractStorybookMetadata(path.join(options.outputDir, 'project.json'));
   }
 
   const fullOptions: Options = {
