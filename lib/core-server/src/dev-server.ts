@@ -18,7 +18,7 @@ import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
 import { useStatics } from './utils/server-statics';
-import { useStoriesJson, useStoriesJsonOld } from './utils/stories-json';
+import { useStoriesJson } from './utils/stories-json';
 import { useStorybookMetadata } from './utils/metadata';
 import { getServerChannel } from './utils/get-server-channel';
 
@@ -40,6 +40,7 @@ export async function storybookDevServer(options: Options) {
   const serverChannel = getServerChannel(server);
 
   const features = await options.presets.apply<StorybookConfig['features']>('features');
+  const core = await options.presets.apply<CoreConfig>('core');
   // try get index generator, if failed, send telemetry without storyCount, then rethrow the error
   let storyIndex: StoryIndex;
   if (features?.buildStoriesJson || features?.storyStoreV7) {
@@ -71,12 +72,13 @@ export async function storybookDevServer(options: Options) {
       storyIndex = await storyIndexGenerator.getIndex();
       await useStoriesJson(router, storyIndexGenerator);
     } catch (err) {
-      telemetry('start', {});
+      if (!core?.disableTelemetry) {
+        telemetry('start', {});
+      }
       throw err;
     }
   }
 
-  const core = await options.presets.apply<CoreConfig>('core');
   if (!core?.disableTelemetry) {
     const payload = storyIndex
       ? {
