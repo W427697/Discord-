@@ -47,10 +47,6 @@ export type StorybookMetadata = {
   hasCustomBabel?: boolean;
   features?: StorybookConfig['features'];
   refCount?: number;
-  index?: {
-    storyCount?: number;
-    version?: number;
-  };
 };
 
 let cachedMetadata: StorybookMetadata;
@@ -162,7 +158,6 @@ export const computeStorybookMetadata = async ({
     hasCustomBabel: null,
     hasCustomWebpack: null,
     hasStaticDirs: null,
-    index: null,
     hasStorybookEslint: null,
     typescriptOptions: null,
     framework: null,
@@ -202,7 +197,7 @@ export const computeStorybookMetadata = async ({
 
     metadata.builder = {
       name: typeof builder === 'string' ? builder : builder.name,
-      options: typeof builder === 'string' ? null : builder.options,
+      options: typeof builder === 'string' ? null : builder?.options ?? null,
     };
   }
 

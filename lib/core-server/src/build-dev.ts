@@ -78,11 +78,6 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   const features = await presets.apply<StorybookConfig['features']>('features');
   global.FEATURES = features;
 
-  const core = await presets.apply<CoreConfig>('core');
-  if (!core?.disableTelemetry) {
-    telemetry('start', {});
-  }
-
   const fullOptions: Options = {
     ...options,
     presets,

@@ -10,8 +10,8 @@ export async function extractStorybookMetadata(outputFile: string) {
 
 export async function useStorybookMetadata(router: Router) {
   router.use('/metadata.json', async (req: Request, res: Response) => {
-    const metadata = await getStorybookMetadata();
+    const storybookMetadata = await getStorybookMetadata();
     res.header('Content-Type', 'application/json');
-    res.send(JSON.stringify(metadata));
+    res.send(JSON.stringify(storybookMetadata));
   });
 }

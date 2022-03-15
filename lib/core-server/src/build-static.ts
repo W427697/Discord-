@@ -7,7 +7,6 @@ import global from 'global';
 
 import { logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
-
 import type {
   LoadOptions,
   CLIOptions,
@@ -17,7 +16,8 @@ import type {
   StorybookConfig,
   CoreConfig,
 } from '@storybook/core-common';
-import { loadAllPresets, cache, normalizeStories, logConfig } from '@storybook/core-common';
+import { normalizeStories, loadAllPresets, cache, logConfig } from '@storybook/core-common';
+import type { StoryIndex } from '@storybook/store';
 
 import { getProdCli } from './cli';
 import { outputStats } from './utils/output-stats';
@@ -29,6 +29,7 @@ import { getPreviewBuilder } from './utils/get-preview-builder';
 import { getManagerBuilder } from './utils/get-manager-builder';
 import { extractStoriesJson } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
+import { getStoryIndexGenerator } from './utils/stories-index';
 
 export async function buildStaticStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
   /* eslint-disable no-param-reassign */
@@ -94,25 +95,36 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   const features = await presets.apply<StorybookConfig['features']>('features');
   global.FEATURES = features;
 
-  let stories;
-  let directories;
+  let storyIndex: StoryIndex;
 
   if (features?.buildStoriesJson || features?.storyStoreV7) {
-    directories = {
+    const workingDir = process.cwd();
+    const directories = {
       configDir: options.configDir,
-      workingDir: process.cwd(),
+      workingDir,
     };
-    stories = normalizeStories(await presets.apply('stories'), directories);
-    await extractStoriesJson(path.join(options.outputDir, 'stories.json'), stories, {
+    const normalizedStories = normalizeStories(await presets.apply('stories'), directories);
+    const storyIndexGenerator = await getStoryIndexGenerator({
       ...directories,
-      storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
-      storyStoreV7: features?.storyStoreV7,
+      features,
+      normalizedStories,
     });
+    storyIndex = await storyIndexGenerator.getIndex();
+    await extractStoriesJson(path.join(options.outputDir, 'stories.json'), storyIndex);
   }
 
   const core = await presets.apply<CoreConfig>('core');
   if (!core?.disableTelemetry) {
-    telemetry('build', {});
+    const payload = storyIndex
+      ? {
+          storyIndex: {
+            storyCount: Object.keys(storyIndex.stories).length,
+            version: storyIndex.v,
+          },
+        }
+      : undefined;
+    telemetry('build', payload);
+
     await extractStorybookMetadata(path.join(options.outputDir, 'metadata.json'));
   }
 

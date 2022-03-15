@@ -1,29 +1,97 @@
 import express, { Router } from 'express';
 import compression from 'compression';
 
-import type { Builder, CoreConfig, Options, StorybookConfig } from '@storybook/core-common';
-import { logConfig } from '@storybook/core-common';
+import {
+  Builder,
+  CoreConfig,
+  normalizeStories,
+  Options,
+  StorybookConfig,
+  logConfig,
+} from '@storybook/core-common';
 
+import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
+import { debounce } from 'lodash';
+import { telemetry } from '@storybook/telemetry';
+import type { StoryIndex } from '@storybook/store';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
 import { useStatics } from './utils/server-statics';
-import { useStoriesJson } from './utils/stories-json';
+import { useStoriesJson, useStoriesJsonOld } from './utils/stories-json';
 import { useStorybookMetadata } from './utils/metadata';
 import { getServerChannel } from './utils/get-server-channel';
 
 import { openInBrowser } from './utils/open-in-browser';
 import { getPreviewBuilder } from './utils/get-preview-builder';
 import { getManagerBuilder } from './utils/get-manager-builder';
+import { getStoryIndexGenerator } from './utils/stories-index';
+import { watchStorySpecifiers } from './utils/watch-story-specifiers';
 
 // @ts-ignore
 export const router: Router = new Router();
+
+export const DEBOUNCE = 100;
 
 export async function storybookDevServer(options: Options) {
   const startTime = process.hrtime();
   const app = express();
   const server = await getServer(app, options);
   const serverChannel = getServerChannel(server);
+
+  const features = await options.presets.apply<StorybookConfig['features']>('features');
+  // try get index generator, if failed, send telemetry without storyCount, then rethrow the error
+  let storyIndex: StoryIndex;
+  if (features?.buildStoriesJson || features?.storyStoreV7) {
+    try {
+      const workingDir = process.cwd();
+      const normalizedStories = normalizeStories(await options.presets.apply('stories'), {
+        configDir: options.configDir,
+        workingDir,
+      });
+      const storyIndexGenerator = await getStoryIndexGenerator({
+        configDir: options.configDir,
+        workingDir,
+        features,
+        normalizedStories,
+      });
+
+      const maybeInvalidate = debounce(
+        () => serverChannel.emit(STORY_INDEX_INVALIDATED),
+        DEBOUNCE,
+        {
+          leading: true,
+        }
+      );
+      watchStorySpecifiers(normalizedStories, { workingDir }, async (specifier, path, removed) => {
+        storyIndexGenerator.invalidate(specifier, path, removed);
+        maybeInvalidate();
+      });
+
+      storyIndex = await storyIndexGenerator.getIndex();
+      await useStoriesJson(router, storyIndexGenerator);
+    } catch (err) {
+      telemetry('start', {});
+      throw err;
+    }
+  }
+
+  const core = await options.presets.apply<CoreConfig>('core');
+  if (!core?.disableTelemetry) {
+    const payload = storyIndex
+      ? {
+          storyIndex: {
+            storyCount: Object.keys(storyIndex.stories).length,
+            version: storyIndex.v,
+          },
+        }
+      : undefined;
+    telemetry('start', payload);
+  }
+
+  if (!core?.disableTelemetry) {
+    await useStorybookMetadata(router);
+  }
 
   app.use(compression({ level: 1 }));
 
@@ -39,16 +107,6 @@ export async function storybookDevServer(options: Options) {
 
   // User's own static files
   await useStatics(router, options);
-
-  const features = await options.presets.apply<StorybookConfig['features']>('features');
-  if (features?.buildStoriesJson || features?.storyStoreV7) {
-    await useStoriesJson(router, serverChannel, options);
-  }
-
-  const core = await options.presets.apply<CoreConfig>('core');
-  if (!core?.disableTelemetry) {
-    await useStorybookMetadata(router);
-  }
 
   getMiddleware(options.configDir)(router);
   app.use(router);
