@@ -29,7 +29,7 @@ import { getPreviewBuilder } from './utils/get-preview-builder';
 import { getManagerBuilder } from './utils/get-manager-builder';
 import { extractStoriesJson } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
-import { getStoryIndexGenerator } from './utils/stories-index';
+import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
 export async function buildStaticStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
   /* eslint-disable no-param-reassign */
@@ -104,11 +104,15 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
       workingDir,
     };
     const normalizedStories = normalizeStories(await presets.apply('stories'), directories);
-    const storyIndexGenerator = await getStoryIndexGenerator({
+
+    const storyIndexGenerator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
-      features,
-      normalizedStories,
+      storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+      storyStoreV7: features?.storyStoreV7,
     });
+
+    await storyIndexGenerator.initialize();
+
     storyIndex = await storyIndexGenerator.getIndex();
     await extractStoriesJson(path.join(options.outputDir, 'stories.json'), storyIndex);
   }

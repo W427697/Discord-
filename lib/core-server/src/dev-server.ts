@@ -10,8 +10,6 @@ import {
   logConfig,
 } from '@storybook/core-common';
 
-import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import { debounce } from 'lodash';
 import { telemetry } from '@storybook/telemetry';
 import type { StoryIndex } from '@storybook/store';
 import { getMiddleware } from './utils/middleware';
@@ -25,8 +23,7 @@ import { getServerChannel } from './utils/get-server-channel';
 import { openInBrowser } from './utils/open-in-browser';
 import { getPreviewBuilder } from './utils/get-preview-builder';
 import { getManagerBuilder } from './utils/get-manager-builder';
-import { getStoryIndexGenerator } from './utils/stories-index';
-import { watchStorySpecifiers } from './utils/watch-story-specifiers';
+import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
 // @ts-ignore
 export const router: Router = new Router();
@@ -46,31 +43,31 @@ export async function storybookDevServer(options: Options) {
   if (features?.buildStoriesJson || features?.storyStoreV7) {
     try {
       const workingDir = process.cwd();
-      const normalizedStories = normalizeStories(await options.presets.apply('stories'), {
+      const directories = {
         configDir: options.configDir,
         workingDir,
-      });
-      const storyIndexGenerator = await getStoryIndexGenerator({
-        configDir: options.configDir,
+      };
+      const normalizedStories = normalizeStories(
+        await options.presets.apply('stories'),
+        directories
+      );
+      const storyIndexGenerator = new StoryIndexGenerator(normalizedStories, {
+        ...directories,
         workingDir,
-        features,
-        normalizedStories,
+        storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+        storyStoreV7: features?.storyStoreV7,
       });
 
-      const maybeInvalidate = debounce(
-        () => serverChannel.emit(STORY_INDEX_INVALIDATED),
-        DEBOUNCE,
-        {
-          leading: true,
-        }
-      );
-      watchStorySpecifiers(normalizedStories, { workingDir }, async (specifier, path, removed) => {
-        storyIndexGenerator.invalidate(specifier, path, removed);
-        maybeInvalidate();
-      });
+      await storyIndexGenerator.initialize();
 
       storyIndex = await storyIndexGenerator.getIndex();
-      await useStoriesJson(router, storyIndexGenerator);
+      await useStoriesJson({
+        router,
+        storyIndexGenerator,
+        normalizedStories,
+        serverChannel,
+        workingDir,
+      });
     } catch (err) {
       if (!core?.disableTelemetry) {
         telemetry('start', {});
