@@ -3,7 +3,7 @@ import retry from 'fetch-retry';
 import { nanoid } from 'nanoid';
 import { Options } from './types';
 
-const URL = 'https://storybook.js.org/telemetry';
+const URL = 'https://storybook.js.org/event-log';
 
 // const logger = console;
 const logger = {
@@ -18,6 +18,7 @@ let tasks: Promise<any>[] = [];
 // getStorybookMetadata -> packagejson + Main.js
 // event specific data: sessionId, ip, etc..
 // send telemetry
+const sessionId = nanoid();
 
 export async function sendTelemetry(
   data: Record<string, any>,
@@ -31,7 +32,7 @@ export async function sendTelemetry(
   try {
     const request = fetch(URL, {
       method: 'POST',
-      body: JSON.stringify({ ...data, id }),
+      body: JSON.stringify({ ...data, id, sessionId }),
       headers: { 'Content-Type': 'application/json' },
       retries: 3,
       retryOn: [503, 504],
