@@ -2,6 +2,7 @@ import type { EventType, Payload, Options, TelemetryData } from './types';
 import { getStorybookMetadata } from './storybook-metadata';
 import { sendTelemetry } from './telemetry';
 import { notify } from './notify';
+import { getProjectRoot } from './anonymous-id';
 
 export * from './storybook-metadata';
 
@@ -24,8 +25,14 @@ export const telemetry = async (
   } finally {
     const { error } = telemetryData.payload;
     if (error) {
-      telemetryData.payload.error = { message: error.message, stack: error.stack };
+      const cwd = getProjectRoot();
+      // make sure to anonymise possible paths from error messages
+      telemetryData.payload.error = {
+        message: error.message.replaceAll(cwd, 'CWD'),
+        stack: error.stack.replaceAll(cwd, 'CWD'),
+      };
     }
+
     await sendTelemetry(telemetryData, options);
   }
 };

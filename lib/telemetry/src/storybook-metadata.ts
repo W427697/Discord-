@@ -1,5 +1,4 @@
 import readPkgUp from 'read-pkg-up';
-import { execSync } from 'child_process';
 import {
   StorybookConfig,
   TypescriptOptions,
@@ -9,7 +8,7 @@ import {
   getStorybookConfiguration,
 } from '@storybook/core-common';
 import path from 'path';
-import { oneWayHash } from './oneWayHash';
+import { getAnonymousProjectId } from './anonymous-id';
 
 interface Dependency {
   version: string;
@@ -73,31 +72,6 @@ export const metaFrameworks = {
   '@sveltejs/kit': 'svelte-kit',
 } as Record<string, string>;
 
-// To be used by events
-export const getProjectId = () => {
-  let projectId;
-  try {
-    const projectRootBuffer = execSync(`git rev-parse --show-toplevel`, {
-      timeout: 1000,
-      stdio: `pipe`,
-    });
-
-    const projectRootPath = path.relative(String(projectRootBuffer).trimEnd(), process.cwd());
-
-    const originBuffer = execSync(`git config --local --get remote.origin.url`, {
-      timeout: 1000,
-      stdio: `pipe`,
-    });
-
-    // we use a combination of remoteUrl and working directory
-    // to separate multiple storybooks from the same project (e.g. monorepo)
-    projectId = `${String(originBuffer).trim()}${projectRootPath}`;
-    // eslint-disable-next-line no-empty
-  } catch (_) {}
-
-  return projectId;
-};
-
 // @TODO: This should be removed in 7.0 as the framework.options field in main.js will replace this
 const getFrameworkOptions = (mainConfig: any) => {
   const possibleOptions = [
@@ -151,7 +125,7 @@ export const computeStorybookMetadata = async ({
   mainConfig: StorybookConfig & Record<string, any>;
 }): Promise<StorybookMetadata> => {
   const metadata: Partial<StorybookMetadata> = {
-    anonymousId: oneWayHash(getProjectId()),
+    anonymousId: getAnonymousProjectId(),
     metaFramework: null,
     builder: null,
     hasCustomBabel: null,
