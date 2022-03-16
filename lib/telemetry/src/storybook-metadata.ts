@@ -1,50 +1,14 @@
 import readPkgUp from 'read-pkg-up';
 import {
-  StorybookConfig,
-  TypescriptOptions,
   loadMainConfig,
-  PackageJson,
   getStorybookInfo,
   getStorybookConfiguration,
 } from '@storybook/core-common';
-import path from 'path';
+import type { StorybookConfig, PackageJson } from '@storybook/core-common';
+
 import { getAnonymousProjectId } from './anonymous-id';
-
-interface Dependency {
-  version: string;
-}
-
-interface StorybookAddon extends Dependency {
-  options: any;
-}
-
-export type StorybookMetadata = {
-  anonymousId?: string;
-  storybookVersion: string;
-  language: 'typescript' | 'javascript';
-  framework: {
-    name: string;
-    options?: any;
-  };
-  builder?: {
-    name: string;
-    options: Record<string, any>;
-  };
-  typescriptOptions?: Partial<TypescriptOptions>;
-  addons?: Record<string, StorybookAddon>;
-  storybookPackages?: Record<string, Dependency>;
-  metaFramework?: {
-    name: string;
-    packageName: string;
-    version: string;
-  };
-  hasStorybookEslint?: boolean;
-  hasStaticDirs?: boolean;
-  hasCustomWebpack?: boolean;
-  hasCustomBabel?: boolean;
-  features?: StorybookConfig['features'];
-  refCount?: number;
-};
+import type { StorybookMetadata, Dependency, StorybookAddon } from './types';
+import { getActualPackageVersion, getActualPackageVersions } from './package-versions';
 
 let cachedMetadata: StorybookMetadata;
 export const getStorybookMetadata = async (_configDir: string) => {
@@ -97,24 +61,6 @@ const getFrameworkOptions = (mainConfig: any) => {
   return null;
 };
 
-const getActualVersions = async (packages: Record<string, Partial<Dependency>>) => {
-  const packageNames = Object.keys(packages);
-  return Promise.all(
-    packageNames.map(async (name) => {
-      try {
-        // eslint-disable-next-line import/no-dynamic-require,global-require
-        const packageJson = require(path.join(name, 'package.json'));
-        return {
-          name,
-          version: packageJson.version,
-        };
-      } catch (err) {
-        return { name, version: null };
-      }
-    })
-  );
-};
-
 // Analyze a combination of information from main.js and package.json
 // to provide telemetry over a Storybook project
 export const computeStorybookMetadata = async ({
@@ -150,10 +96,11 @@ export const computeStorybookMetadata = async ({
 
   const metaFramework = Object.keys(allDependencies).find((dep) => !!metaFrameworks[dep]);
   if (metaFramework) {
+    const { version } = await getActualPackageVersion(metaFramework);
     metadata.metaFramework = {
       name: metaFrameworks[metaFramework],
       packageName: metaFramework,
-      version: allDependencies[metaFramework],
+      version,
     };
   }
 
@@ -201,7 +148,7 @@ export const computeStorybookMetadata = async ({
     });
   }
 
-  const addonVersions = await getActualVersions(addons);
+  const addonVersions = await getActualPackageVersions(addons);
   addonVersions.forEach(({ name, version }) => {
     addons[name].version = version;
   });
@@ -218,7 +165,7 @@ export const computeStorybookMetadata = async ({
       };
     }, {}) as Record<string, Dependency>;
 
-  const storybookPackageVersions = await getActualVersions(storybookPackages);
+  const storybookPackageVersions = await getActualPackageVersions(storybookPackages);
   storybookPackageVersions.forEach(({ name, version }) => {
     storybookPackages[name].version = version;
   });
