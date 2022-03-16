@@ -424,12 +424,12 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S): S | und
 }
 
 /* Returns current value of story args */
-export function useArgs<SpecificArgs = Args>(): [SpecificArgs, (newArgs: SpecificArgs) => void, (argNames?: (keyof SpecificArgs)[]) => void] {
+export function useArgs<SpecificArgs = Args>(): [SpecificArgs, (newArgs: Partial<SpecificArgs>) => void, (argNames?: (keyof SpecificArgs)[]) => void] {
   const channel = addons.getChannel();
   const { id: storyId, args } = useStoryContext();
 
   const updateArgs = useCallback(
-    (updatedArgs: SpecificArgs) => channel.emit(UPDATE_STORY_ARGS, { storyId, updatedArgs }),
+    (updatedArgs: Partial<SpecificArgs>) => channel.emit(UPDATE_STORY_ARGS, { storyId, updatedArgs }),
     [channel, storyId]
   );
 
@@ -438,7 +438,7 @@ export function useArgs<SpecificArgs = Args>(): [SpecificArgs, (newArgs: Specifi
     [channel, storyId]
   );
 
-  return [args, updateArgs, resetArgs];
+  return [args as SpecificArgs, updateArgs, resetArgs];
 }
 
 /* Returns current value of global args */
