@@ -41,7 +41,6 @@ jest.mock('@storybook/builder-webpack4', () => {
 
 jest.mock('@storybook/telemetry', () => {
   return {
-    //
     getStorybookMetadata: jest.fn(() => ({})),
     telemetry: jest.fn(() => ({})),
   };

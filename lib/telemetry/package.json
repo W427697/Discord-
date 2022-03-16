@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@storybook/core-common": "6.5.0-alpha.48",
+    "chalk": "^4.1.0",
     "core-js": "^3.8.2",
     "fetch-retry": "^5.0.2",
     "global": "^4.4.0",

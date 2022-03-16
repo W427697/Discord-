@@ -1,6 +1,7 @@
 import { EventType, Payload, Options } from './types';
 import { getStorybookMetadata } from './storybook-metadata';
 import { sendTelemetry } from './telemetry';
+import { notify } from './notify';
 
 export * from './storybook-metadata';
 
@@ -9,6 +10,8 @@ export const telemetry = async (
   payload: Payload,
   options?: Partial<Options>
 ) => {
+  await notify();
+
   const metadata = await getStorybookMetadata();
   return sendTelemetry(
     {
