@@ -14,7 +14,6 @@ import { oneWayHash } from './oneWayHash';
 interface Dependency {
   name: string;
   version: string;
-  versionSpecifier: string;
 }
 
 interface StorybookAddon extends Dependency {
@@ -226,7 +225,6 @@ export const computeStorybookMetadata = async ({
         name: result,
         options,
         version: null,
-        versionSpecifier: allDependencies[result] ?? null,
       };
     });
   }
@@ -244,7 +242,7 @@ export const computeStorybookMetadata = async ({
     .reduce((acc, dep) => {
       return {
         ...acc,
-        [dep]: { name: dep, versionSpecifier: allDependencies[dep] },
+        [dep]: { name: dep, version: null },
       };
     }, {}) as Record<string, Dependency>;
 

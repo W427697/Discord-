@@ -70,13 +70,11 @@ describe('await computeStorybookMetadata', () => {
           "name": "@storybook/addon-essentials",
           "options": null,
           "version": "6.5.0-alpha.48",
-          "versionSpecifier": "x.x.x",
         },
         "storybook-addon-deprecated": Object {
           "name": "storybook-addon-deprecated",
           "options": null,
           "version": null,
-          "versionSpecifier": "x.x.x",
         },
       }
     `);
@@ -85,7 +83,6 @@ describe('await computeStorybookMetadata', () => {
         "@storybook/react": Object {
           "name": "@storybook/react",
           "version": "6.5.0-alpha.48",
-          "versionSpecifier": "x.y.z",
         },
       }
     `);
