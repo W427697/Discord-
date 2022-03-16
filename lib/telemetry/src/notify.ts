@@ -17,6 +17,7 @@ export const notify = async () => {
 
   cache.set(TELEMETRY_KEY_NOTIFY_DATE, Date.now());
 
+  logger.log();
   logger.log(
     `${chalk.magenta.bold(
       'attention'

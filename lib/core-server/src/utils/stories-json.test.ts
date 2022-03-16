@@ -22,12 +22,16 @@ const normalizedStories = [
   },
 ];
 
-const storyIndexGenerator = new StoryIndexGenerator(normalizedStories, {
-  configDir: workingDir,
-  workingDir,
-  storiesV2Compatibility: true,
-  storyStoreV7: true,
-});
+const getInitializedStoryIndexGenerator = async () => {
+  const generator = new StoryIndexGenerator(normalizedStories, {
+    configDir: workingDir,
+    workingDir,
+    storiesV2Compatibility: true,
+    storyStoreV7: true,
+  });
+  await generator.initialize();
+  return generator;
+};
 
 describe('useStoriesJson', () => {
   const use = jest.fn();
@@ -45,10 +49,6 @@ describe('useStoriesJson', () => {
     end: jest.fn(),
     on: jest.fn(),
   } as any;
-
-  beforeAll(async () => {
-    await storyIndexGenerator.initialize();
-  });
 
   beforeEach(async () => {
     use.mockClear();
@@ -69,7 +69,7 @@ describe('useStoriesJson', () => {
         serverChannel: mockServerChannel,
         workingDir,
         normalizedStories,
-        storyIndexGenerator,
+        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(),
       });
 
       expect(use).toHaveBeenCalledTimes(1);
@@ -179,7 +179,7 @@ describe('useStoriesJson', () => {
         serverChannel: mockServerChannel,
         workingDir,
         normalizedStories,
-        storyIndexGenerator,
+        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(),
       });
 
       expect(use).toHaveBeenCalledTimes(1);
@@ -208,7 +208,7 @@ describe('useStoriesJson', () => {
         serverChannel: mockServerChannel,
         workingDir,
         normalizedStories,
-        storyIndexGenerator,
+        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(),
       });
 
       expect(use).toHaveBeenCalledTimes(1);
@@ -243,7 +243,7 @@ describe('useStoriesJson', () => {
         serverChannel: mockServerChannel,
         workingDir,
         normalizedStories,
-        storyIndexGenerator,
+        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(),
       });
 
       expect(use).toHaveBeenCalledTimes(1);

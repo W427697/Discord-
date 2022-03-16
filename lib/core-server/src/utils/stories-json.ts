@@ -15,13 +15,13 @@ export const DEBOUNCE = 100;
 
 export async function useStoriesJson({
   router,
-  storyIndexGenerator,
+  initializedStoryIndexGenerator,
   workingDir = process.cwd(),
   serverChannel,
   normalizedStories,
 }: {
   router: Router;
-  storyIndexGenerator: StoryIndexGenerator;
+  initializedStoryIndexGenerator: Promise<StoryIndexGenerator>;
   serverChannel: ServerChannel;
   workingDir?: string;
   normalizedStories: NormalizedStoriesSpecifier[];
@@ -30,13 +30,15 @@ export async function useStoriesJson({
     leading: true,
   });
   watchStorySpecifiers(normalizedStories, { workingDir }, async (specifier, path, removed) => {
-    storyIndexGenerator.invalidate(specifier, path, removed);
+    const generator = await initializedStoryIndexGenerator;
+    generator.invalidate(specifier, path, removed);
     maybeInvalidate();
   });
 
   router.use('/stories.json', async (req: Request, res: Response) => {
     try {
-      const index = await storyIndexGenerator.getIndex();
+      const generator = await initializedStoryIndexGenerator;
+      const index = await generator.getIndex();
       res.header('Content-Type', 'application/json');
       res.send(JSON.stringify(index));
     } catch (err) {

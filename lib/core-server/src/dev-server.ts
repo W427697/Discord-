@@ -11,7 +11,6 @@ import {
 } from '@storybook/core-common';
 
 import { telemetry } from '@storybook/telemetry';
-import type { StoryIndex } from '@storybook/store';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
@@ -39,7 +38,7 @@ export async function storybookDevServer(options: Options) {
   const features = await options.presets.apply<StorybookConfig['features']>('features');
   const core = await options.presets.apply<CoreConfig>('core');
   // try get index generator, if failed, send telemetry without storyCount, then rethrow the error
-  let storyIndex: StoryIndex;
+  let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
   if (features?.buildStoriesJson || features?.storyStoreV7) {
     try {
       const workingDir = process.cwd();
@@ -51,41 +50,46 @@ export async function storybookDevServer(options: Options) {
         await options.presets.apply('stories'),
         directories
       );
-      const storyIndexGenerator = new StoryIndexGenerator(normalizedStories, {
+      const generator = new StoryIndexGenerator(normalizedStories, {
         ...directories,
         workingDir,
         storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
         storyStoreV7: features?.storyStoreV7,
       });
 
-      await storyIndexGenerator.initialize();
-
-      storyIndex = await storyIndexGenerator.getIndex();
+      initializedStoryIndexGenerator = generator.initialize().then(() => generator);
       await useStoriesJson({
         router,
-        storyIndexGenerator,
+        initializedStoryIndexGenerator,
         normalizedStories,
         serverChannel,
         workingDir,
       });
     } catch (err) {
       if (!core?.disableTelemetry) {
-        telemetry('start', {});
+        telemetry('start');
       }
       throw err;
     }
   }
 
   if (!core?.disableTelemetry) {
-    const payload = storyIndex
-      ? {
-          storyIndex: {
-            storyCount: Object.keys(storyIndex.stories).length,
-            version: storyIndex.v,
-          },
-        }
-      : undefined;
-    telemetry('start', payload);
+    initializedStoryIndexGenerator.then(async (generator) => {
+      if (generator) {
+        return;
+      }
+
+      const storyIndex = await generator.getIndex();
+      const payload = storyIndex
+        ? {
+            storyIndex: {
+              storyCount: Object.keys(storyIndex.stories).length,
+              version: storyIndex.v,
+            },
+          }
+        : undefined;
+      telemetry('start', payload, { configDir: options.configDir });
+    });
   }
 
   if (!core?.disableTelemetry) {

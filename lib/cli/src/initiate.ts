@@ -292,7 +292,7 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
   if (!options.disableTelemetry) {
-    telemetry('init', {});
+    telemetry('init');
   }
 
   // Update notify code.

@@ -50,14 +50,15 @@ export type StorybookMetadata = {
 };
 
 let cachedMetadata: StorybookMetadata;
-export const getStorybookMetadata = async () => {
+export const getStorybookMetadata = async (_configDir: string) => {
   if (cachedMetadata) {
     return cachedMetadata;
   }
 
   const packageJson = readPkgUp.sync({ cwd: process.cwd() }).packageJson as PackageJson;
   const configDir =
-    (getStorybookConfiguration(packageJson.scripts.storybook, '-c', '--config-dir') as string) ??
+    (_configDir ||
+      (getStorybookConfiguration(packageJson.scripts.storybook, '-c', '--config-dir') as string)) ??
     '.storybook';
   const mainConfig = loadMainConfig({ configDir });
   cachedMetadata = await computeStorybookMetadata({ mainConfig, packageJson });

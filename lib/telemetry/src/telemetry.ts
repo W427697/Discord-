@@ -1,15 +1,9 @@
 import originalFetch from 'isomorphic-unfetch';
 import retry from 'fetch-retry';
 import { nanoid } from 'nanoid';
-import { Options } from './types';
+import { Options, TelemetryData } from './types';
 
 const URL = 'https://storybook.js.org/event-log';
-
-// const logger = console;
-const logger = {
-  log: (..._args: any[]) => 0,
-  warn: (..._args: any[]) => 0,
-};
 
 const fetch = retry(originalFetch);
 
@@ -21,7 +15,7 @@ let tasks: Promise<any>[] = [];
 const sessionId = nanoid();
 
 export async function sendTelemetry(
-  data: Record<string, any>,
+  data: TelemetryData,
   options: Partial<Options> = { retryDelay: 1000, immediate: false }
 ) {
   // We use this id so we can de-dupe events that arrive at the index multiple times due to the
@@ -40,22 +34,13 @@ export async function sendTelemetry(
     });
     tasks.push(request);
 
-    const { status } = await request;
-
     if (options.immediate) {
       await Promise.all(tasks);
+    } else {
+      await request;
     }
 
     tasks = tasks.filter((task) => task !== request);
-
-    if (status !== 200) {
-      logger.warn(`Failed to send telemetry with status: ${status}`, { id, name: data.eventType });
-      return false;
-    }
-    logger.log('Successfully sent telemetry', { id, name: data.eventType });
-    return true;
-  } catch (err) {
-    logger.warn(`Failed to send telemetry: ${err.message}`, { id, name: data.eventType });
-    return false;
-  }
+    // eslint-disable-next-line no-empty
+  } catch (err) {}
 }

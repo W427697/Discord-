@@ -182,7 +182,14 @@ export async function buildDev(loadOptions: LoadOptions) {
 
     const core = await presets.apply<CoreConfig>('core');
     if (!core?.disableTelemetry) {
-      await telemetry('error-dev', { error }, { immediate: true });
+      await telemetry(
+        'error-dev',
+        { error },
+        {
+          immediate: true,
+          configDir: options.configDir,
+        }
+      );
     }
 
     process.exit(1);

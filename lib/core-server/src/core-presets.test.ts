@@ -46,7 +46,20 @@ jest.mock('@storybook/telemetry', () => {
   };
 });
 
-jest.mock('./utils/StoryIndexGenerator');
+jest.mock('./utils/StoryIndexGenerator', () => {
+  const { StoryIndexGenerator } = jest.requireActual('./utils/StoryIndexGenerator');
+  return {
+    StoryIndexGenerator: class extends StoryIndexGenerator {
+      initialize() {
+        return Promise.resolve(undefined);
+      }
+
+      getIndex() {
+        return { stories: {}, v: 3 };
+      }
+    },
+  };
+});
 
 jest.mock('./utils/stories-json', () => {
   const actualStoriesJson = jest.requireActual('./utils/stories-json');
