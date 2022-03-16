@@ -21,12 +21,16 @@ export async function sendTelemetry(
   // We use this id so we can de-dupe events that arrive at the index multiple times due to the
   // use of retries. There are situations in which the request "5xx"s (or times-out), but
   // the server actually gets the request and stores it anyway.
-  const id = nanoid();
+  const eventId = nanoid();
+
+  // flatten the data before we send it
+  const { payload, metadata, ...rest } = data;
+  const body = { ...rest, ...metadata, ...payload, eventId, sessionId };
 
   try {
     const request = fetch(URL, {
       method: 'POST',
-      body: JSON.stringify({ ...data, id, sessionId }),
+      body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' },
       retries: 3,
       retryOn: [503, 504],
