@@ -6,13 +6,13 @@ import { notify } from './notify';
 export * from './storybook-metadata';
 
 export const telemetry = async (
-  event: EventType,
+  eventType: EventType,
   payload: Payload = {},
   options?: Partial<Options>
 ) => {
   await notify();
   const telemetryData: TelemetryData = {
-    event,
+    eventType,
     payload,
     inCI: process.env.CI === 'true',
     time: Date.now(),
@@ -20,8 +20,12 @@ export const telemetry = async (
   try {
     telemetryData.metadata = await getStorybookMetadata(options.configDir);
   } catch (error) {
-    telemetryData.payload.error = error;
+    if (!telemetryData.payload.error) telemetryData.payload.error = error;
   } finally {
+    const { error } = telemetryData.payload;
+    if (error) {
+      telemetryData.payload.error = { message: error.message, stack: error.stack };
+    }
     await sendTelemetry(telemetryData, options);
   }
 };

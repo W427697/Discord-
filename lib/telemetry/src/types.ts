@@ -22,7 +22,7 @@ export interface Options {
 export interface TelemetryData {
   inCI?: boolean;
   time?: number;
-  event: EventType;
+  eventType: EventType;
   payload: Payload;
   metadata?: StorybookMetadata;
 }
