@@ -58,7 +58,8 @@ export async function storybookDevServer(options: Options) {
       });
 
       initializedStoryIndexGenerator = generator.initialize().then(() => generator);
-      await useStoriesJson({
+
+      useStoriesJson({
         router,
         initializedStoryIndexGenerator,
         normalizedStories,
@@ -90,10 +91,8 @@ export async function storybookDevServer(options: Options) {
         : undefined;
       telemetry('start', payload, { configDir: options.configDir });
     });
-  }
 
-  if (!core?.disableTelemetry) {
-    await useStorybookMetadata(router);
+    useStorybookMetadata(router, options.configDir);
   }
 
   app.use(compression({ level: 1 }));

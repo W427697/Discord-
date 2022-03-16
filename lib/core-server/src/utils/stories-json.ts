@@ -1,6 +1,5 @@
 import { Router, Request, Response } from 'express';
 import fs from 'fs-extra';
-import type { StoryIndex } from '@storybook/store';
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
 import { debounce } from 'lodash';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
@@ -8,12 +7,18 @@ import { StoryIndexGenerator } from './StoryIndexGenerator';
 import { watchStorySpecifiers } from './watch-story-specifiers';
 import { ServerChannel } from './get-server-channel';
 
-export async function extractStoriesJson(outputFile: string, storiesIndex: StoryIndex) {
-  await fs.writeJson(outputFile, storiesIndex);
-}
 export const DEBOUNCE = 100;
 
-export async function useStoriesJson({
+export async function extractStoriesJson(
+  outputFile: string,
+  initializedStoryIndexGenerator: Promise<StoryIndexGenerator>
+) {
+  const generator = await initializedStoryIndexGenerator;
+  const storyIndex = await generator.getIndex();
+  await fs.writeJson(outputFile, storyIndex);
+}
+
+export function useStoriesJson({
   router,
   initializedStoryIndexGenerator,
   workingDir = process.cwd(),

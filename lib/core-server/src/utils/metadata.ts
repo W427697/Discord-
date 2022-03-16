@@ -8,9 +8,9 @@ export async function extractStorybookMetadata(outputFile: string, configDir: st
   await fs.writeJson(outputFile, storybookMetadata);
 }
 
-export async function useStorybookMetadata(router: Router) {
+export function useStorybookMetadata(router: Router, configDir?: string) {
   router.use('/project.json', async (req: Request, res: Response) => {
-    const storybookMetadata = await getStorybookMetadata();
+    const storybookMetadata = await getStorybookMetadata(configDir);
     res.header('Content-Type', 'application/json');
     res.send(JSON.stringify(storybookMetadata));
   });

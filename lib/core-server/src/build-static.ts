@@ -17,7 +17,6 @@ import type {
   CoreConfig,
 } from '@storybook/core-common';
 import { normalizeStories, loadAllPresets, cache, logConfig } from '@storybook/core-common';
-import type { StoryIndex } from '@storybook/store';
 
 import { getProdCli } from './cli';
 import { outputStats } from './utils/output-stats';
@@ -95,8 +94,9 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   const features = await presets.apply<StorybookConfig['features']>('features');
   global.FEATURES = features;
 
-  let storyIndex: StoryIndex;
+  const extractTasks = [];
 
+  let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
   if (features?.buildStoriesJson || features?.storyStoreV7) {
     const workingDir = process.cwd();
     const directories = {
@@ -105,31 +105,43 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     };
     const normalizedStories = normalizeStories(await presets.apply('stories'), directories);
 
-    const storyIndexGenerator = new StoryIndexGenerator(normalizedStories, {
+    const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
       storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
       storyStoreV7: features?.storyStoreV7,
     });
 
-    await storyIndexGenerator.initialize();
-
-    storyIndex = await storyIndexGenerator.getIndex();
-    await extractStoriesJson(path.join(options.outputDir, 'stories.json'), storyIndex);
+    initializedStoryIndexGenerator = generator.initialize().then(() => generator);
+    extractTasks.push(
+      extractStoriesJson(
+        path.join(options.outputDir, 'stories.json'),
+        initializedStoryIndexGenerator
+      )
+    );
   }
 
   const core = await presets.apply<CoreConfig>('core');
   if (!core?.disableTelemetry) {
-    const payload = storyIndex
-      ? {
-          storyIndex: {
-            storyCount: Object.keys(storyIndex.stories).length,
-            version: storyIndex.v,
-          },
-        }
-      : undefined;
-    telemetry('build', payload, { configDir: options.configDir });
+    initializedStoryIndexGenerator.then(async (generator) => {
+      if (generator) {
+        return;
+      }
 
-    await extractStorybookMetadata(path.join(options.outputDir, 'project.json'), options.configDir);
+      const storyIndex = await generator.getIndex();
+      const payload = storyIndex
+        ? {
+            storyIndex: {
+              storyCount: Object.keys(storyIndex.stories).length,
+              version: storyIndex.v,
+            },
+          }
+        : undefined;
+      telemetry('build', payload, { configDir: options.configDir });
+    });
+
+    extractTasks.push(
+      extractStorybookMetadata(path.join(options.outputDir, 'project.json'), options.configDir)
+    );
   }
 
   const fullOptions: Options = {
@@ -169,7 +181,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
         options: fullOptions,
       });
 
-  const [managerStats, previewStats] = await Promise.all([manager, preview]);
+  const [managerStats, previewStats] = await Promise.all([manager, preview, ...extractTasks]);
 
   if (options.webpackStatsJson) {
     const target = options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
