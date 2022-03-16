@@ -12,7 +12,6 @@ import path from 'path';
 import { oneWayHash } from './oneWayHash';
 
 interface Dependency {
-  name: string;
   version: string;
 }
 
@@ -222,7 +221,6 @@ export const computeStorybookMetadata = async ({
       }
 
       addons[result] = {
-        name: result,
         options,
         version: null,
       };
@@ -242,7 +240,7 @@ export const computeStorybookMetadata = async ({
     .reduce((acc, dep) => {
       return {
         ...acc,
-        [dep]: { name: dep, version: null },
+        [dep]: { version: null },
       };
     }, {}) as Record<string, Dependency>;
 

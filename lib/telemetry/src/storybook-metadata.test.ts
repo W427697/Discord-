@@ -67,12 +67,10 @@ describe('await computeStorybookMetadata', () => {
     expect(result.addons).toMatchInlineSnapshot(`
       Object {
         "@storybook/addon-essentials": Object {
-          "name": "@storybook/addon-essentials",
           "options": null,
           "version": "6.5.0-alpha.48",
         },
         "storybook-addon-deprecated": Object {
-          "name": "storybook-addon-deprecated",
           "options": null,
           "version": null,
         },
@@ -81,7 +79,6 @@ describe('await computeStorybookMetadata', () => {
     expect(result.storybookPackages).toMatchInlineSnapshot(`
       Object {
         "@storybook/react": Object {
-          "name": "@storybook/react",
           "version": "6.5.0-alpha.48",
         },
       }
