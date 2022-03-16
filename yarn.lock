@@ -7302,6 +7302,7 @@ __metadata:
     react-textarea-autosize: ^8.3.0
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
+    ts-node: ^10.4.0
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
@@ -8403,6 +8404,7 @@ __metadata:
     react-router-dom: 6.0.2
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
+    ts-node: ^10.4.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -8588,6 +8590,7 @@ __metadata:
     polished: ^4.0.5
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
+    ts-node: ^10.4.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
@@ -8651,6 +8654,7 @@ __metadata:
     regenerator-runtime: ^0.13.7
     resolve-from: ^5.0.0
     store2: ^2.12.0
+    ts-node: ^10.4.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
