@@ -36,8 +36,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "../../node_modules/.bin/ts-node ../../scripts/prepare-localize.ts",
-    "prepublish": "../../node_modules/.bin/ts-node ../../scripts/prepare-localize.ts --optimized"
+    "prepare": "ts-node ../../scripts/prepare-localize.ts",
+    "prepublish": "ts-node ../../scripts/prepare-localize.ts --optimized"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
@@ -58,7 +58,8 @@
     "@storybook/theming": "6.5.0-alpha.48",
     "@storybook/ui": "6.5.0-alpha.48",
     "core-js": "^3.8.2",
-    "node-libs-browser": "^2.2.1"
+    "node-libs-browser": "^2.2.1",
+    "ts-node": "^10.4.0"
   },
   "devDependencies": {
     "@types/case-sensitive-paths-webpack-plugin": "^2.1.4",
