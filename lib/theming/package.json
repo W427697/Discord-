@@ -37,8 +37,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts",
-    "prepublish": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts --optimized"
+    "prepare": "ts-node ../../scripts/prepare-prebundle.ts",
+    "prepublish": "ts-node ../../scripts/prepare-prebundle.ts --optimized"
   },
   "dependencies": {
     "@storybook/client-logger": "6.5.0-alpha.48",
@@ -55,7 +55,8 @@
     "global": "^4.4.0",
     "memoizerific": "^1.11.3",
     "polished": "^4.0.5",
-    "ts-dedent": "^2.0.0"
+    "ts-dedent": "^2.0.0",
+    "ts-node": "^10.4.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",

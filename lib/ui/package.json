@@ -37,8 +37,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts",
-    "prepublish": "../../node_modules/.bin/ts-node ../../scripts/prepare-prebundle.ts --optimized"
+    "prepare": "ts-node ../../scripts/prepare-prebundle.ts",
+    "prepublish": "ts-node ../../scripts/prepare-prebundle.ts --optimized"
   },
   "dependencies": {
     "@storybook/addons": "6.5.0-alpha.48",
@@ -52,7 +52,8 @@
     "@storybook/theming": "6.5.0-alpha.48",
     "core-js": "^3.8.2",
     "regenerator-runtime": "^0.13.7",
-    "resolve-from": "^5.0.0"
+    "resolve-from": "^5.0.0",
+    "ts-node": "^10.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
