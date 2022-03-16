@@ -1,4 +1,4 @@
-import type { OperationType, Payload, Options, TelemetryData } from './types';
+import type { EventType, Payload, Options, TelemetryData } from './types';
 import { getStorybookMetadata } from './storybook-metadata';
 import { sendTelemetry } from './telemetry';
 import { notify } from './notify';
@@ -6,13 +6,13 @@ import { notify } from './notify';
 export * from './storybook-metadata';
 
 export const telemetry = async (
-  operationType: OperationType,
+  event: EventType,
   payload: Payload = {},
   options?: Partial<Options>
 ) => {
   await notify();
   const telemetryData: TelemetryData = {
-    operationType,
+    event,
     payload,
     inCI: process.env.CI === 'true',
     time: Date.now(),

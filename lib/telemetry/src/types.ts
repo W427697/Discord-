@@ -1,6 +1,6 @@
 import { StorybookMetadata } from './storybook-metadata';
 
-export type OperationType =
+export type EventType =
   | 'start'
   | 'build'
   | 'upgrade'
@@ -22,7 +22,7 @@ export interface Options {
 export interface TelemetryData {
   inCI?: boolean;
   time?: number;
-  operationType: OperationType;
+  event: EventType;
   payload: Payload;
   metadata?: StorybookMetadata;
 }
