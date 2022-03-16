@@ -76,7 +76,7 @@ export async function storybookDevServer(options: Options) {
 
   if (!core?.disableTelemetry) {
     initializedStoryIndexGenerator.then(async (generator) => {
-      if (generator) {
+      if (!generator) {
         return;
       }
 
