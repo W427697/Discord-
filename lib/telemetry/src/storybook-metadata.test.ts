@@ -10,6 +10,14 @@ const mainJsMock: StorybookConfig = {
   stories: [],
 };
 
+jest.mock('./package-versions', () => {
+  const actualPackage = jest.requireActual('./package-versions');
+  return {
+    ...actualPackage,
+    getActualPackageVersion: jest.fn(() => Promise.resolve(packageJsonMock)),
+  };
+});
+
 // @TODO: separate `getActualVersions` to a file so we can mock it
 describe('await computeStorybookMetadata', () => {
   test('should return frameworkOptions from mainjs', async () => {
