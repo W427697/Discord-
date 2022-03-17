@@ -67,9 +67,9 @@ export const typescript = () => ({
  * instead of `export core = (existing) => ({ ...existing, someConfig })`,
  * just overwriting everything and not merging with the existing values.
  */
-export const core = async (existing: Record<string, boolean>) => ({
+export const core = async (existing: Record<string, boolean>, options: Options) => ({
   ...existing,
-  telemetry: true,
+  telemetry: options.disableTelemetry !== true,
 });
 
 export const features = async (existing: Record<string, boolean>) => ({

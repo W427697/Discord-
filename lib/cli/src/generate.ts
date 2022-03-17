@@ -18,7 +18,12 @@ const pkg = sync({ cwd: __dirname }).packageJson;
 
 const logger = console;
 
-program.option('--disable-telemetry', 'disable sending telemetry data', false);
+program.option(
+  '--disable-telemetry',
+  'disable sending telemetry data',
+  // default value is false, but if the user sets STORYBOOK_DISABLE_TELEMETRY, it can be true
+  process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
+);
 
 program
   .command('init')

@@ -291,7 +291,11 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
   const welcomeMessage = 'sb init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
-  if (!options.disableTelemetry) {
+  if (
+    !options.disableTelemetry &&
+    process.env.STORYBOOK_DISABLE_TELEMETRY &&
+    process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
+  ) {
     telemetry('init');
   }
 

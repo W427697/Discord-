@@ -164,6 +164,7 @@ export interface CLIOptions {
   ignorePreview?: boolean;
   previewUrl?: string;
   forceBuildPreview?: boolean;
+  disableTelemetry?: boolean;
   host?: string;
   /**
    * @deprecated Use 'staticDirs' Storybook Configuration option instead
