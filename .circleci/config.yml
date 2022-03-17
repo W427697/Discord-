@@ -161,7 +161,7 @@ jobs:
           at: .
       - run:
           name: prep for publish
-          command: yarn nx run-many --target="prepublish" --all
+          command: yarn nx run-many --target="publish" --all
       - run:
           name: running local registry
           command: yarn local-registry --publish

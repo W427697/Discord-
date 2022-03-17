@@ -1,6 +1,6 @@
 import readPkgUp from 'read-pkg-up';
 import builtins from 'builtin-modules';
-import { ensureDir, readJson, stat, writeFile, writeJSON } from 'fs-extra';
+import { ensureDir, readJson, remove, stat, writeFile, writeJSON } from 'fs-extra';
 import { join } from 'path';
 import rollupTypescript from '@rollup/plugin-typescript';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
@@ -299,6 +299,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       console.error(o.stderr);
       throw new Error('Failed to copy node_modules');
     }
+    await remove('./dist/local_modules');
     await command('find . -depth -name node_modules -type d -execdir mv {} local_modules ;', {
       cwd: dist,
     });

@@ -37,7 +37,7 @@
   ],
   "scripts": {
     "prepare": "ts-node ../../scripts/prepare-localize.ts",
-    "prepublish": "ts-node ../../scripts/prepare-localize.ts --optimized"
+    "publish": "ts-node ../../scripts/prepare-localize.ts --optimized"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",

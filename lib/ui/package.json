@@ -38,7 +38,7 @@
   ],
   "scripts": {
     "prepare": "ts-node ../../scripts/prepare-prebundle.ts",
-    "prepublish": "ts-node ../../scripts/prepare-prebundle.ts --optimized"
+    "publish": "ts-node ../../scripts/prepare-prebundle.ts --optimized"
   },
   "dependencies": {
     "@storybook/addons": "6.5.0-alpha.48",

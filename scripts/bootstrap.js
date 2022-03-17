@@ -108,13 +108,13 @@ function run() {
       },
       order: 2,
     }),
-    prepublish: createTask({
-      name: `Prepublish packages ${chalk.gray('(prepublish)')}`,
+    publish: createTask({
+      name: `Prepublish packages ${chalk.gray('(publish)')}`,
       defaultValue: false,
-      option: '--prepublish',
+      option: '--publish',
       command: () => {
-        log.info(prefix, 'prepublish');
-        const command = 'prepublish';
+        log.info(prefix, 'publish');
+        const command = 'publish';
 
         spawn(`nx run-many --target="${command}" --all`);
       },
@@ -150,7 +150,7 @@ function run() {
       command: () => {
         spawn('yarn local-registry --port 6000 --publish --open');
       },
-      pre: ['clearVerdaccioCache', 'prepublish'],
+      pre: ['clearVerdaccioCache', 'publish'],
       order: 11,
     }),
     dev: createTask({
