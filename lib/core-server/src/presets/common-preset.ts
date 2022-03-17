@@ -69,7 +69,7 @@ export const typescript = () => ({
  */
 export const core = async (existing: Record<string, boolean>, options: Options) => ({
   ...existing,
-  telemetry: options.disableTelemetry !== true,
+  disableTelemetry: options.disableTelemetry !== true,
 });
 
 export const features = async (existing: Record<string, boolean>) => ({
