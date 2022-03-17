@@ -1,3 +1,4 @@
+import { logger } from '@storybook/client-logger';
 import type { EventType, Payload, Options, TelemetryData } from './types';
 import { getStorybookMetadata } from './storybook-metadata';
 import { sendTelemetry } from './telemetry';
@@ -34,6 +35,11 @@ export const telemetry = async (
       };
     }
 
-    await sendTelemetry(telemetryData, options);
+    if (process.env?.STORYBOOK_TELEMETRY_DEBUG) {
+      logger.info('\n[telemetry]');
+      logger.info(JSON.stringify(telemetryData, null, 2));
+    } else {
+      await sendTelemetry(telemetryData, options);
+    }
   }
 };
