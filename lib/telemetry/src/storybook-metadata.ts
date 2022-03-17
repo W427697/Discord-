@@ -6,7 +6,6 @@ import {
 } from '@storybook/core-common';
 import type { StorybookConfig, PackageJson } from '@storybook/core-common';
 
-import { getAnonymousProjectId } from './anonymous-id';
 import type { StorybookMetadata, Dependency, StorybookAddon } from './types';
 import { getActualPackageVersion, getActualPackageVersions } from './package-versions';
 
@@ -71,7 +70,6 @@ export const computeStorybookMetadata = async ({
   mainConfig: StorybookConfig & Record<string, any>;
 }): Promise<StorybookMetadata> => {
   const metadata: Partial<StorybookMetadata> = {
-    anonymousId: getAnonymousProjectId(),
     metaFramework: null,
     builder: null,
     hasCustomBabel: null,

@@ -2,7 +2,7 @@ import type { EventType, Payload, Options, TelemetryData } from './types';
 import { getStorybookMetadata } from './storybook-metadata';
 import { sendTelemetry } from './telemetry';
 import { notify } from './notify';
-import { getProjectRoot } from './anonymous-id';
+import { getAnonymousProjectId, getProjectRoot } from './anonymous-id';
 
 export * from './storybook-metadata';
 
@@ -13,6 +13,7 @@ export const telemetry = async (
 ) => {
   await notify();
   const telemetryData: TelemetryData = {
+    anonymousId: getAnonymousProjectId(),
     eventType,
     payload,
     inCI: process.env.CI === 'true',

@@ -16,8 +16,13 @@ export const getProjectRoot = () => {
   return projectRoot;
 };
 
+let anonymousProjectId: string;
 export const getAnonymousProjectId = () => {
-  let projectId;
+  if (anonymousProjectId) {
+    return anonymousProjectId;
+  }
+
+  let unhashedProjectId;
   try {
     const projectRoot = getProjectRoot();
 
@@ -30,9 +35,10 @@ export const getAnonymousProjectId = () => {
 
     // we use a combination of remoteUrl and working directory
     // to separate multiple storybooks from the same project (e.g. monorepo)
-    projectId = `${String(originBuffer).trim()}${projectRootPath}`;
+    unhashedProjectId = `${String(originBuffer).trim()}${projectRootPath}`;
     // eslint-disable-next-line no-empty
   } catch (_) {}
 
-  return oneWayHash(projectId);
+  anonymousProjectId = oneWayHash(unhashedProjectId);
+  return anonymousProjectId;
 };

@@ -18,7 +18,6 @@ export interface StorybookAddon extends Dependency {
 }
 
 export type StorybookMetadata = {
-  anonymousId?: string;
   storybookVersion: string;
   language: 'typescript' | 'javascript';
   framework: {
@@ -56,6 +55,7 @@ export interface Options {
 }
 
 export interface TelemetryData {
+  anonymousId?: string;
   inCI?: boolean;
   time?: number;
   eventType: EventType;
