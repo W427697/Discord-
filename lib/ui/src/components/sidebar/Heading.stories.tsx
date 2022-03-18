@@ -166,11 +166,11 @@ export const CustomBrandImageTall: Story = () => {
         brand: {
           title: 'My Title',
           url: 'https://example.com',
-          image: 'https://via.placeholder.com/100x150',
+          image: 'https://via.placeholder.com/200x350',
         },
       }}
     >
-      <Heading menu={menuItems} />
+      <Heading menu={menuItems} skipLinkHref="#storybook-preview-wrapper" />
     </ThemeProvider>
   );
 };
