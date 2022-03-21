@@ -8653,6 +8653,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/telemetry@workspace:lib/telemetry"
   dependencies:
+    "@storybook/client-logger": 6.5.0-alpha.48
     "@storybook/core-common": 6.5.0-alpha.48
     chalk: ^4.1.0
     core-js: ^3.8.2

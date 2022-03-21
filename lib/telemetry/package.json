@@ -40,6 +40,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
+    "@storybook/client-logger": "6.5.0-alpha.48",
     "@storybook/core-common": "6.5.0-alpha.48",
     "chalk": "^4.1.0",
     "core-js": "^3.8.2",

@@ -1,8 +1,9 @@
+import { logger } from '@storybook/client-logger';
 import type { EventType, Payload, Options, TelemetryData } from './types';
 import { getStorybookMetadata } from './storybook-metadata';
 import { sendTelemetry } from './telemetry';
 import { notify } from './notify';
-import { getProjectRoot } from './anonymous-id';
+import { getAnonymousProjectId, getProjectRoot } from './anonymous-id';
 
 export * from './storybook-metadata';
 
@@ -13,6 +14,7 @@ export const telemetry = async (
 ) => {
   await notify();
   const telemetryData: TelemetryData = {
+    anonymousId: getAnonymousProjectId(),
     eventType,
     payload,
     inCI: process.env.CI === 'true',
@@ -33,6 +35,11 @@ export const telemetry = async (
       };
     }
 
-    await sendTelemetry(telemetryData, options);
+    if (process.env?.STORYBOOK_TELEMETRY_DEBUG) {
+      logger.info('\n[telemetry]');
+      logger.info(JSON.stringify(telemetryData, null, 2));
+    } else {
+      await sendTelemetry(telemetryData, options);
+    }
   }
 };

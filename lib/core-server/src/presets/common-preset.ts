@@ -6,6 +6,8 @@ import {
   loadCustomBabelConfig,
   getStorybookBabelConfig,
   loadEnvs,
+  CoreConfig,
+  StorybookConfig,
 } from '@storybook/core-common';
 import type { Options } from '@storybook/core-common';
 
@@ -67,14 +69,24 @@ export const typescript = () => ({
  * instead of `export core = (existing) => ({ ...existing, someConfig })`,
  * just overwriting everything and not merging with the existing values.
  */
-export const core = async (existing: Record<string, boolean>, options: Options) => ({
+export const core = async (existing: CoreConfig, options: Options): Promise<CoreConfig> => ({
   ...existing,
-  disableTelemetry: options.disableTelemetry !== true,
+  disableTelemetry: options.disableTelemetry === true,
 });
 
-export const features = async (existing: Record<string, boolean>) => ({
+export const features = async (
+  existing: StorybookConfig['features']
+): Promise<StorybookConfig['features']> => ({
   ...existing,
   postcss: true,
   emotionAlias: false, // TODO remove in 7.0, this no longer does anything
   warnOnLegacyHierarchySeparator: true,
+  buildStoriesJson: false,
+  storyStoreV7: false,
+  modernInlineRender: false,
+  breakingChangesV7: false,
+  interactionsDebugger: false,
+  babelModeV7: false,
+  argTypeTargetsV7: false,
+  previewMdx2: false,
 });
