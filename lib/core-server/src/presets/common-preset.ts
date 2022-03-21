@@ -71,7 +71,7 @@ export const typescript = () => ({
  */
 export const core = async (existing: CoreConfig, options: Options): Promise<CoreConfig> => ({
   ...existing,
-  disableTelemetry: options.disableTelemetry !== true,
+  disableTelemetry: options.disableTelemetry === true,
 });
 
 export const features = async (
@@ -82,7 +82,6 @@ export const features = async (
   emotionAlias: false, // TODO remove in 7.0, this no longer does anything
   warnOnLegacyHierarchySeparator: true,
   buildStoriesJson: false,
-  previewCsfV3: true,
   storyStoreV7: false,
   modernInlineRender: false,
   breakingChangesV7: false,

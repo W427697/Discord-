@@ -26,7 +26,7 @@ export type StorybookMetadata = {
   };
   builder?: {
     name: string;
-    options: Record<string, any>;
+    options?: Record<string, any>;
   };
   typescriptOptions?: Partial<TypescriptOptions>;
   addons?: Record<string, StorybookAddon>;

@@ -75,11 +75,11 @@ describe('await computeStorybookMetadata', () => {
     expect(result.addons).toMatchInlineSnapshot(`
       Object {
         "@storybook/addon-essentials": Object {
-          "options": null,
+          "options": undefined,
           "version": "6.5.0-alpha.48",
         },
         "storybook-addon-deprecated": Object {
-          "options": null,
+          "options": undefined,
           "version": null,
         },
       }
@@ -142,7 +142,7 @@ describe('await computeStorybookMetadata', () => {
           },
         })
       ).builder
-    ).toEqual({ name: simpleBuilder, options: null });
+    ).toEqual({ name: simpleBuilder });
   });
 
   test('should return the number of refs', async () => {
