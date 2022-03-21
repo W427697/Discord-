@@ -25,6 +25,14 @@ program.option(
   process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
 );
 
+program.option(
+  '--enable-crash-reports',
+  'enable sending crash reports to telemetry data',
+  // default value is false, but if the user sets STORYBOOK_ENABLE_CRASH_REPORTS, it can be true
+  process.env.STORYBOOK_ENABLE_CRASH_REPORTS &&
+    process.env.STORYBOOK_ENABLE_CRASH_REPORTS !== 'false'
+);
+
 program
   .command('init')
   .description('Initialize Storybook into your project.')

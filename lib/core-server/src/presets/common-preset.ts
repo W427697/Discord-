@@ -72,6 +72,7 @@ export const typescript = () => ({
 export const core = async (existing: CoreConfig, options: Options): Promise<CoreConfig> => ({
   ...existing,
   disableTelemetry: options.disableTelemetry === true,
+  enableCrashReports: options.enableCrashReports === true,
 });
 
 export const features = async (

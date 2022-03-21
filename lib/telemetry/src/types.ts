@@ -52,6 +52,7 @@ export interface Options {
   retryDelay: number;
   immediate: boolean;
   configDir?: string;
+  enableCrashReports?: boolean;
 }
 
 export interface TelemetryData {

@@ -4,6 +4,7 @@ import { getStorybookMetadata } from './storybook-metadata';
 import { sendTelemetry } from './telemetry';
 import { notify } from './notify';
 import { getAnonymousProjectId, getProjectRoot } from './anonymous-id';
+import { sanitizeError } from './sanitize';
 
 export * from './storybook-metadata';
 
@@ -27,19 +28,17 @@ export const telemetry = async (
   } finally {
     const { error } = telemetryData.payload;
     if (error) {
-      const cwd = getProjectRoot();
       // make sure to anonymise possible paths from error messages
-      telemetryData.payload.error = {
-        message: error.message.replaceAll(cwd, 'CWD'),
-        stack: error.stack.replaceAll(cwd, 'CWD'),
-      };
+      telemetryData.payload.error = sanitizeError(error);
     }
 
-    if (process.env?.STORYBOOK_TELEMETRY_DEBUG) {
-      logger.info('\n[telemetry]');
-      logger.info(JSON.stringify(telemetryData, null, 2));
-    } else {
-      await sendTelemetry(telemetryData, options);
+    if (!telemetryData.payload.error || options.enableCrashReports) {
+      if (process.env?.STORYBOOK_TELEMETRY_DEBUG) {
+        logger.info('\n[telemetry]');
+        logger.info(JSON.stringify(telemetryData, null, 2));
+      } else {
+        await sendTelemetry(telemetryData, options);
+      }
     }
   }
 };
