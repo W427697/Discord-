@@ -70,6 +70,7 @@ export const computeStorybookMetadata = async ({
   mainConfig: StorybookConfig & Record<string, any>;
 }): Promise<StorybookMetadata> => {
   const metadata: Partial<StorybookMetadata> = {
+    generatedAt: new Date().getTime(),
     builder: { name: 'webpack4' },
     hasCustomBabel: false,
     hasCustomWebpack: false,

@@ -11,10 +11,20 @@ const mainJsMock: StorybookConfig = {
 };
 
 jest.mock('./package-versions', () => {
-  const actualPackage = jest.requireActual('./package-versions');
+  const getActualPackageVersion = jest.fn((name) =>
+    Promise.resolve({
+      name,
+      version: 'x.x.x',
+    })
+  );
+
+  const getActualPackageVersions = jest.fn((packages) =>
+    Promise.all(Object.keys(packages).map(getActualPackageVersion))
+  );
+
   return {
-    ...actualPackage,
-    getActualPackageVersion: jest.fn(() => Promise.resolve(packageJsonMock)),
+    getActualPackageVersions,
+    getActualPackageVersion,
   };
 });
 
@@ -76,18 +86,18 @@ describe('await computeStorybookMetadata', () => {
       Object {
         "@storybook/addon-essentials": Object {
           "options": undefined,
-          "version": "6.5.0-alpha.48",
+          "version": "x.x.x",
         },
         "storybook-addon-deprecated": Object {
           "options": undefined,
-          "version": null,
+          "version": "x.x.x",
         },
       }
     `);
     expect(result.storybookPackages).toMatchInlineSnapshot(`
       Object {
         "@storybook/react": Object {
-          "version": "6.5.0-alpha.48",
+          "version": "x.x.x",
         },
       }
     `);

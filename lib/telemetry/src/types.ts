@@ -19,6 +19,7 @@ export interface StorybookAddon extends Dependency {
 
 export type StorybookMetadata = {
   storybookVersion: string;
+  generatedAt?: number;
   language: 'typescript' | 'javascript';
   framework: {
     name: string;
