@@ -36,8 +36,8 @@ export function sanitizeError(error: Error, pathSeparator: string = sep): string
   // Hack because Node
   error = JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
 
-  const errorString = JSON.stringify(error);
-
   // Removes all user paths
-  return cleanPaths(errorString, pathSeparator);
+  const errorString = cleanPaths(JSON.stringify(error), pathSeparator);
+
+  return JSON.parse(errorString);
 }
