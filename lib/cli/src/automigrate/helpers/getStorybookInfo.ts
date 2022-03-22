@@ -2,6 +2,7 @@ import path from 'path';
 import fse from 'fs-extra';
 import { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
 import { getStorybookConfiguration } from './getStorybookConfiguration';
+import { viewLayers } from '../../view-layers';
 
 interface StorybookInfo {
   framework: string;
@@ -11,23 +12,6 @@ interface StorybookInfo {
   previewConfig?: string;
   managerConfig?: string;
 }
-
-const viewLayers: Record<string, string> = {
-  '@storybook/react': 'react',
-  '@storybook/vue': 'vue',
-  '@storybook/vue3': 'vue3',
-  '@storybook/angular': 'angular',
-  '@storybook/html': 'html',
-  '@storybook/web-components': 'web-components',
-  '@storybook/polymer': 'polymer',
-  '@storybook/ember': 'ember',
-  '@storybook/marko': 'marko',
-  '@storybook/mithril': 'mithril',
-  '@storybook/riot': 'riot',
-  '@storybook/svelte': 'svelte',
-  '@storybook/preact': 'preact',
-  '@storybook/rax': 'rax',
-};
 
 const logger = console;
 
