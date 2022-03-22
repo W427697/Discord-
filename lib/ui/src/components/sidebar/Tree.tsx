@@ -81,7 +81,6 @@ const CollapseButton = styled.button(({ theme }) => ({
   transition: 'color 150ms, box-shadow 150ms',
 
   'span:first-of-type': {
-    marginTop: 4,
     marginRight: 7,
   },
 
