@@ -3,7 +3,7 @@ import * as generateAnnotations from './generate-annotations';
 
 describe('generateAnnotations', () => {
   describe('getAnnotationsFileContent', () => {
-    test('should fix preview path if it is relative to the same folder', () => {
+    test('should fix preview path if it is absolute', () => {
       const content = generateAnnotations.getAnnotationsFileContent(['preview.ts']);
       expect(content).toEqual(dedent`
         import * as projectAnnotations from "./preview.ts";
@@ -12,13 +12,23 @@ describe('generateAnnotations', () => {
       `);
     });
 
+    test('should not change preview path if it is relative to another folder', () => {
+      const content = generateAnnotations.getAnnotationsFileContent(['../../../preview.ts']);
+      expect(content).toEqual(dedent`
+        import * as projectAnnotations from "../../../preview.ts";
+
+        export default [projectAnnotations];
+      `);
+    });
+
     test('should replace esm with cjs', () => {
-      const content = generateAnnotations.getAnnotationsFileContent([
-        '../node_modules/@storybook/addon-actions/dist/esm/preset/addDecorator.js',
-      ]);
+      const content = generateAnnotations.getAnnotationsFileContent(
+        ['../node_modules/@storybook/addon-actions/dist/esm/preset/addDecorator.js'],
+        true
+      );
 
       expect(content).toEqual(dedent`
-        import * as addonPreset from "@storybook/addon-actions/dist/esm/preset/addDecorator.js";
+        import * as addonPreset from "@storybook/addon-actions/dist/cjs/preset/addDecorator.js";
         
         export default [addonPreset];
       `);

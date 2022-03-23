@@ -12,7 +12,7 @@ export const getAnnotationsFileContent = (presets: string[], replaceEsmWithCjs?:
 
   let previewFile;
   const [firstImport] = presets.slice(-1);
-  if (firstImport.indexOf('preview') !== -1) {
+  if (firstImport.match(/preview\.([tj]sx?)$/)) {
     previewFile = presets.pop();
   }
 
@@ -36,11 +36,13 @@ export const getAnnotationsFileContent = (presets: string[], replaceEsmWithCjs?:
   });
 
   if (previewFile) {
-    // we add ./ to relative paths because they are not provided by default
-    const previewPath = previewFile === 'preview' ? `./${previewFile}` : previewFile;
+    // we add ./ to relative paths like "preview.ts" because they are not provided by default
+    const previewPath = previewFile.match(/^preview\.([tj]sx?)$/)
+      ? `./${previewFile}`
+      : previewFile;
 
     presetNames.push('projectAnnotations');
-    presetImports.push(`import * as projectAnnotations from "./${previewPath}";\n`);
+    presetImports.push(`import * as projectAnnotations from "${previewPath}";\n`);
   }
 
   return dedent`
