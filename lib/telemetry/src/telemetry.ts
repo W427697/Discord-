@@ -25,7 +25,7 @@ export async function sendTelemetry(
 
   // flatten the data before we send it
   const { payload, metadata, ...rest } = data;
-  const body = { ...rest, ...metadata, ...payload, eventId, sessionId };
+  const body = { ...rest, metadata, payload, eventId, sessionId };
 
   try {
     const request = fetch(URL, {

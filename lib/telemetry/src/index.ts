@@ -3,7 +3,7 @@ import type { EventType, Payload, Options, TelemetryData } from './types';
 import { getStorybookMetadata } from './storybook-metadata';
 import { sendTelemetry } from './telemetry';
 import { notify } from './notify';
-import { getAnonymousProjectId, getProjectRoot } from './anonymous-id';
+import { getAnonymousProjectId } from './anonymous-id';
 import { sanitizeError } from './sanitize';
 
 export * from './storybook-metadata';
@@ -19,7 +19,6 @@ export const telemetry = async (
     eventType,
     payload,
     inCI: process.env.CI === 'true',
-    time: Date.now(),
   };
   try {
     telemetryData.metadata = await getStorybookMetadata(options.configDir);
