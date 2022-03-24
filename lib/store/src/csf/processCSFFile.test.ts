@@ -48,7 +48,7 @@ describe('processCSFFile', () => {
     });
   });
 
-  it('ignores __namedExportsOrder', () => {
+  it('adds stories in the right order if __namedExportsOrder is supplied', () => {
     const { stories } = processCSFFile(
       {
         default: { title: 'Component' },
@@ -63,10 +63,10 @@ describe('processCSFFile', () => {
     );
 
     expect(Object.keys(stories)).toEqual([
-      'component--x',
-      'component--y',
-      'component--z',
       'component--w',
+      'component--x',
+      'component--z',
+      'component--y',
     ]);
   });
 
