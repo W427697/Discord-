@@ -97,6 +97,8 @@ export interface ArgType {
   name?: string;
   description?: string;
   defaultValue?: any;
+  addIf?: string;
+  removeIf?: string;
   [key: string]: any;
 }
 
@@ -196,6 +198,7 @@ The input is the story function and the story context (id, parameters, args, etc
 
 ## Dynamic source rendering
 
+
 With the release of Storybook 6.0, we've improved how stories render with the [Source doc block](https://storybook.js.org/docs/react/writing-docs/doc-block-source). One of such improvements is the `dynamic` source type, which renders a snippet based on the output of the story function. 
 
 This dynamic rendering is framework-specific, meaning it needs a custom implementation for each framework.
@@ -265,7 +268,6 @@ import { jsxDecorator } from './jsxDecorator';
 
 export const decorators = [jsxDecorator];
 ```
-
 
 This configures the `jsxDecorator` to be run on every story. 
 
