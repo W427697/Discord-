@@ -1,34 +1,13 @@
 import React, { ClipboardEvent, FunctionComponent, MouseEvent, useCallback, useState } from 'react';
 import { logger } from '@storybook/client-logger';
+import type { Theme } from '@storybook/theming';
 import { styled } from '@storybook/theming';
 import global from 'global';
 import memoize from 'memoizerific';
 
-// @ts-ignore
-import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx';
-// @ts-ignore
-import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
-// @ts-ignore
-import css from 'react-syntax-highlighter/dist/esm/languages/prism/css';
-// @ts-ignore
-import jsExtras from 'react-syntax-highlighter/dist/esm/languages/prism/js-extras';
-// @ts-ignore
-import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
-// @ts-ignore
-import graphql from 'react-syntax-highlighter/dist/esm/languages/prism/graphql';
-// @ts-ignore
-import html from 'react-syntax-highlighter/dist/esm/languages/prism/markup';
-// @ts-ignore
-import md from 'react-syntax-highlighter/dist/esm/languages/prism/markdown';
-// @ts-ignore
-import yml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
-// @ts-ignore
-import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
-// @ts-ignore
-import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
-
-// @ts-ignore
-import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-light';
+import Highlight, { defaultProps } from 'prism-react-renderer';
+import nightTheme from 'prism-react-renderer/themes/nightOwl';
+import githubTheme from 'prism-react-renderer/themes/github';
 
 import { ActionBar } from '../ActionBar/ActionBar';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
@@ -37,20 +16,8 @@ import type { SyntaxHighlighterProps } from './syntaxhighlighter-types';
 
 const { navigator, document, window: globalWindow } = global;
 
-ReactSyntaxHighlighter.registerLanguage('jsextra', jsExtras);
-ReactSyntaxHighlighter.registerLanguage('jsx', jsx);
-ReactSyntaxHighlighter.registerLanguage('json', json);
-ReactSyntaxHighlighter.registerLanguage('yml', yml);
-ReactSyntaxHighlighter.registerLanguage('md', md);
-ReactSyntaxHighlighter.registerLanguage('bash', bash);
-ReactSyntaxHighlighter.registerLanguage('css', css);
-ReactSyntaxHighlighter.registerLanguage('html', html);
-ReactSyntaxHighlighter.registerLanguage('tsx', tsx);
-ReactSyntaxHighlighter.registerLanguage('typescript', typescript);
-ReactSyntaxHighlighter.registerLanguage('graphql', graphql);
-
-const themedSyntax = memoize(2)((theme) =>
-  Object.entries(theme.code || {}).reduce((acc, [key, val]) => ({ ...acc, [`* .${key}`]: val }), {})
+const themedSyntax = memoize(2)((theme: Theme) =>
+  Object.entries(theme.code || {}).reduce((acc, [key, val]) => ({ ...acc, [`${key}`]: val }), {})
 );
 
 const copyToClipboard: (text: string) => Promise<void> = createCopyToClipboardFunction();
@@ -106,32 +73,16 @@ const Scroller = styled(({ children, className }) => (
     '& code': {
       paddingRight: theme.layoutMargin,
     },
-  }),
-  ({ theme }) => themedSyntax(theme)
+  })
 );
-
+const Pre = styled.pre(({ theme }) => themedSyntax(theme));
 export interface PreProps {
   padded?: boolean;
 }
 
-const Pre = styled.pre<PreProps>(({ theme, padded }) => ({
-  display: 'flex',
-  justifyContent: 'flex-start',
-  margin: 0,
-  padding: padded ? theme.layoutMargin : 0,
-}));
-
-const Code = styled.code({
-  flex: 1,
-  paddingRight: 0,
-  opacity: 1,
-});
-
 export interface SyntaxHighlighterState {
   copied: boolean;
 }
-
-// copied from @types/react-syntax-highlighter/index.d.ts
 
 export const SyntaxHighlighter: FunctionComponent<SyntaxHighlighterProps> = ({
   children,
@@ -141,7 +92,6 @@ export const SyntaxHighlighter: FunctionComponent<SyntaxHighlighterProps> = ({
   padded = false,
   format = true,
   formatter = null,
-  className = null,
   showLineNumbers = false,
   ...rest
 }) => {
@@ -170,21 +120,26 @@ export const SyntaxHighlighter: FunctionComponent<SyntaxHighlighterProps> = ({
   );
 
   return (
-    <Wrapper bordered={bordered} padded={padded} className={className} onCopyCapture={onClick}>
+    <Wrapper bordered={bordered} padded={padded} {...rest}>
       <Scroller>
-        <ReactSyntaxHighlighter
-          padded={padded || bordered}
+        <Highlight
+          {...defaultProps}
+          theme={githubTheme}
+          code={highlightableCode}
           language={language}
-          showLineNumbers={showLineNumbers}
-          showInlineLineNumbers={showLineNumbers}
-          useInlineStyles={false}
-          PreTag={Pre}
-          CodeTag={Code}
-          lineNumberContainerStyle={{}}
-          {...rest}
         >
-          {highlightableCode}
-        </ReactSyntaxHighlighter>
+          {({ className, style, tokens, getLineProps, getTokenProps }) => (
+            <pre className={className} style={style}>
+              {tokens.map((line, i) => (
+                <div {...getLineProps({ line, key: i })}>
+                  {line.map((token, key) => (
+                    <span {...getTokenProps({ token, key })} />
+                  ))}
+                </div>
+              ))}
+            </pre>
+          )}
+        </Highlight>
       </Scroller>
 
       {copyable ? (

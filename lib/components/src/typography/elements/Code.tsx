@@ -1,5 +1,6 @@
 import { styled } from '@storybook/theming';
 import React, { Children, ComponentProps } from 'react';
+import type { Language } from 'prism-react-renderer';
 import { StyledSyntaxHighlighter } from '../../blocks/Source';
 import { isReactChildString } from '../lib/isReactChildString';
 import { codeCommon } from '../lib/common';
@@ -44,7 +45,7 @@ export const Code = ({
     <StyledSyntaxHighlighter
       bordered
       copyable
-      language={language?.[1] ?? 'plaintext'}
+      language={(language?.[1] ?? 'plaintext') as Language}
       format={false}
       {...props}
     >

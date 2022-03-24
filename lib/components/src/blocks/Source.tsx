@@ -1,5 +1,6 @@
 import React, { ComponentProps, FunctionComponent } from 'react';
 import { styled, ThemeProvider, convert, themes } from '@storybook/theming';
+import type { Language } from 'prism-react-renderer';
 import { EmptyBlock } from './EmptyBlock';
 
 import { SyntaxHighlighter } from '../syntaxhighlighter/lazy-syntaxhighlighter';
@@ -29,7 +30,7 @@ interface SourceErrorProps {
 }
 
 interface SourceCodeProps {
-  language?: string;
+  language?: Language;
   code?: string;
   format?: ComponentProps<typeof SyntaxHighlighter>['format'];
   dark?: boolean;

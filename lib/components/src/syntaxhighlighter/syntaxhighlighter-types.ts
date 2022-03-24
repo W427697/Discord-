@@ -1,4 +1,5 @@
 import type { BuiltInParserName } from 'prettier';
+import type { Language } from 'prism-react-renderer';
 import type { ReactNode } from 'react';
 
 export interface SyntaxHighlighterRendererProps {
@@ -25,7 +26,7 @@ export type SyntaxHighlighterFormatTypes = boolean | 'dedent' | BuiltInParserNam
 // which will not match one we've localized type-definitions
 type lineTagPropsFunction = (lineNumber: number) => React.HTMLProps<HTMLElement>;
 export interface SyntaxHighlighterBaseProps {
-  language?: string;
+  language?: Language;
   style?: any;
   customStyle?: any;
   lineProps?: lineTagPropsFunction | React.HTMLProps<HTMLElement>;
