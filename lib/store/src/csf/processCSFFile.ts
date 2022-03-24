@@ -48,6 +48,7 @@ export function processCSFFile<TFramework extends AnyFramework>(
   // prefer a user/loader provided `__namedExportsOrder` array if supplied
   // we do this as es module exports are always ordered alphabetically
   // see https://github.com/storybookjs/storybook/issues/9136
+  // This directly affects the order of stories in the docs view and in folders on the sidebar.
   if (Array.isArray(__namedExportsOrder)) {
     exports = {};
     __namedExportsOrder.forEach((name) => {
