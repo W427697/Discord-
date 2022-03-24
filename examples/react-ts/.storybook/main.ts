@@ -8,12 +8,7 @@ const config: StorybookConfig = {
     },
   ],
   logLevel: 'debug',
-  addons: [
-    '@storybook/addon-essentials',
-    '@storybook/addon-storysource',
-    '@storybook/addon-storyshots',
-    '@storybook/addon-a11y',
-  ],
+  addons: ['@storybook/addon-essentials', '@storybook/addon-storyshots', '@storybook/addon-a11y'],
   typescript: {
     check: true,
     checkOptions: {},

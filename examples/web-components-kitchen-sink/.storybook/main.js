@@ -9,7 +9,6 @@ module.exports = {
     '@storybook/addon-backgrounds',
     '@storybook/addon-interactions',
     '@storybook/addon-links',
-    '@storybook/addon-storysource',
     '@storybook/addon-viewport',
     '@storybook/addon-toolbars',
   ],

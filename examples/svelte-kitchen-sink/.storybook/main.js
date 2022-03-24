@@ -9,7 +9,6 @@ module.exports = {
     preprocess: sveltePreprocess(),
   },
   addons: [
-    '@storybook/addon-storysource',
     '@storybook/addon-actions',
     {
       name: '@storybook/addon-docs',

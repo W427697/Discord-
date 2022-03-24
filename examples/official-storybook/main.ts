@@ -20,14 +20,10 @@ const config: StorybookConfig = {
       name: '@storybook/addon-docs',
       options: {
         transcludeMarkdown: true,
-        // needed if you use addon-docs in conjunction
-        // with addon-storysource
-        sourceLoaderOptions: null,
       },
     },
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
-    '@storybook/addon-storysource',
     '@storybook/addon-links',
     '@storybook/addon-jest',
     '@storybook/addon-a11y',
