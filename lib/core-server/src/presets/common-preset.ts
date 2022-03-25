@@ -63,6 +63,22 @@ export const typescript = () => ({
   },
 });
 
+const optionalEnvToBoolean = (input: string | undefined): boolean | undefined => {
+  if (input === undefined) {
+    return undefined;
+  }
+  if (input.toUpperCase() === 'FALSE') {
+    return false;
+  }
+  if (input.toUpperCase() === 'TRUE') {
+    return true;
+  }
+  if (typeof input === 'string') {
+    return true;
+  }
+  return undefined;
+};
+
 /**
  * If for some reason this config is not applied, the reason is that
  * likely there is an addon that does `export core = () => ({ someConfig })`,
@@ -72,7 +88,8 @@ export const typescript = () => ({
 export const core = async (existing: CoreConfig, options: Options): Promise<CoreConfig> => ({
   ...existing,
   disableTelemetry: options.disableTelemetry === true,
-  enableCrashReports: options.enableCrashReports === true,
+  enableCrashReports:
+    options.enableCrashReports || optionalEnvToBoolean(process.env.STORYBOOK_ENABLE_CRASH_REPORTS),
 });
 
 export const features = async (
