@@ -1,33 +1,64 @@
-# Storybook Addon Measure
+# Storybook Addon Highlight
 
-Storybook addon for inspecting layouts and visualizing the box model.
+Storybook addon allows for highlighting specific DOM nodes within your story.
 
-1. Press the <kbd>m</kbd> key to enable the addon:
+Use it to call attention to particular parts of the story. Or use it to enhance other addons that you might be building. For example, [Accessibility](https://storybook.js.org/addons/@storybook/addon-a11y/) addon uses it to highlight DOM nodes that are failing accessibility checks.
 
-2. Hover over a DOM node
-
-3. Storybook will display the dimensions of the selected element—margin, padding, border, width and height—in pixels.
-
-![](https://user-images.githubusercontent.com/42671/119589961-dff9b380-bda1-11eb-9550-7ae28bc70bf4.gif)
+![](https://user-images.githubusercontent.com/42671/160146801-179eaa79-fff8-4bff-b17c-9262fdc94918.png)
 
 ## Usage
 
-This addon requires Storybook 6.3 or later. Measure is part of [essentials](https://storybook.js.org/docs/react/essentials/introduction) and so is installed in all new Storybooks by default. If you need to add it to your Storybook, you can run:
+This addon requires Storybook 6.5 or later. Highlight is part of [essentials](https://storybook.js.org/docs/react/essentials/introduction) and so is installed in all new Storybooks by default. If you need to add it to your Storybook, you can run:
 
 ```sh
-npm i -D @storybook/addon-measure
+npm i -D @storybook/addon-highlight
 ```
 
-Add `"@storybook/addon-measure"` to the addons array in your `.storybook/main.js`:
+Add `"@storybook/addon-highlight"` to the addons array in your `.storybook/main.js`:
 
 ```js
 module.exports = {
-  addons: ['@storybook/addon-measure'],
+  addons: ['@storybook/addon-highlight'],
 };
 ```
 
-### Inspiration
+### Apply or clear highlights
 
-- [Inspx](https://github.com/raunofreiberg/inspx) by Rauno Freiberg
-- [Aaron Westbrook's script](https://gist.github.com/awestbro/e668c12662ad354f02a413205b65fce7)
-- [Visbug](https://visbug.web.app/) from the Chrome team
+Highlight DOM nodes by emitting the `HIGHLIGHT` event from within a story or an addon. The event payload must contain a list of selectors you want to highlight.
+
+```js
+import React, { useEffect } from 'react';
+import { useChannel } from '@storybook/addons';
+import { HIGHLIGHT, RESET_HIGHLIGHT } from '@storybook/addon-highlight';
+import { MyComponent } form './MyComponent';
+
+export default { component: MyComponent };
+
+export const MyStory = () => {
+  const emit = useChannel({});
+
+  useEffect(() => {
+    emit(HIGHLIGHT, {
+      elements: ['.title', '.subtitle'],
+    });
+  }, []);
+
+  return <MyComponent />;
+};
+```
+
+Highlights are automatically cleared when the story changes. You can also manually clear them by emitting the `RESET_HIGHLIGHT` event.
+
+```js
+emit(RESET_HIGHLIGHT);
+```
+
+### Customize style
+
+```js
+emit(HIGHLIGHT, {
+  elements: ['.title', '.subtitle'],
+  color: 'red',
+  style: 'solid', // 'dotted' | 'dashed' | 'solid' | 'double'
+});
+```
