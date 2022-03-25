@@ -19,7 +19,7 @@
     "@storybook/addon-interactions": "6.5.0-alpha.50",
     "@storybook/addon-links": "6.5.0-alpha.50",
     "@storybook/addon-storyshots": "6.5.0-alpha.50",
-    "@storybook/jest": "^0.0.9",
+    "@storybook/jest": "^0.0.10",
     "@storybook/testing-library": "^0.0.9",
     "@storybook/vue3": "6.5.0-alpha.50",
     "@vue/cli-plugin-babel": "~4.5.0",
