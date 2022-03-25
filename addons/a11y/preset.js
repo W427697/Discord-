@@ -3,11 +3,7 @@ function managerEntries(entry = []) {
 }
 
 function config(entry = []) {
-  return [
-    ...entry,
-    require.resolve('./dist/esm/a11yRunner'),
-    require.resolve('./dist/esm/a11yHighlight'),
-  ];
+  return [...entry, require.resolve('./dist/esm/a11yRunner')];
 }
 
 module.exports = { managerEntries, config };

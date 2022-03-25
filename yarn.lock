@@ -6196,6 +6196,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-a11y@workspace:addons/a11y"
   dependencies:
+    "@storybook/addon-highlight": 6.5.0-alpha.50
     "@storybook/addons": 6.5.0-alpha.50
     "@storybook/api": 6.5.0-alpha.50
     "@storybook/channels": 6.5.0-alpha.50

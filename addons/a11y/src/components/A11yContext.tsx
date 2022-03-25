@@ -3,6 +3,7 @@ import { themes, convert } from '@storybook/theming';
 import { Result } from 'axe-core';
 import { useChannel, useStorybookState } from '@storybook/api';
 import { STORY_CHANGED, STORY_RENDERED } from '@storybook/core-events';
+import { HIGHLIGHT } from '@storybook/addon-highlight';
 import { EVENTS } from '../constants';
 
 interface Results {
@@ -76,7 +77,7 @@ export const A11yContextProvider: React.FC<A11yContextProviderProps> = ({ active
   const handleReset = React.useCallback(() => {
     setTab(0);
     setResults(defaultResult);
-    // Highlights is cleared by a11yHighlights.ts
+    // Highlights is cleared by addon-highlight
   }, []);
 
   const emit = useChannel({
@@ -85,7 +86,7 @@ export const A11yContextProvider: React.FC<A11yContextProviderProps> = ({ active
   });
 
   React.useEffect(() => {
-    emit(EVENTS.HIGHLIGHT, { elements: highlighted, color: colorsByType[tab] });
+    emit(HIGHLIGHT, { elements: highlighted, color: colorsByType[tab] });
   }, [highlighted, tab]);
 
   React.useEffect(() => {

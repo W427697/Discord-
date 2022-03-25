@@ -3,6 +3,7 @@ import { AxeResults } from 'axe-core';
 import { render, act } from '@testing-library/react';
 import * as api from '@storybook/api';
 import { STORY_CHANGED } from '@storybook/core-events';
+import { HIGHLIGHT } from '@storybook/addon-highlight';
 
 import { A11yContextProvider, useA11yContext } from './A11yContext';
 import { EVENTS } from '../constants';
@@ -95,7 +96,7 @@ describe('A11YPanel', () => {
     const { rerender } = render(<A11yContextProvider active />);
     rerender(<A11yContextProvider active={false} />);
     expect(emit).toHaveBeenLastCalledWith(
-      EVENTS.HIGHLIGHT,
+      HIGHLIGHT,
       expect.objectContaining({
         color: expect.any(String),
         elements: [],
