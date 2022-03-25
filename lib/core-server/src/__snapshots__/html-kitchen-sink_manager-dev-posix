@@ -18,7 +18,6 @@ Object {
     "ROOT/addons/jest/register.js",
     "ROOT/addons/links/manager.js",
     "ROOT/addons/links/register.js",
-    "ROOT/addons/storysource/dist/esm/manager.js",
     "ROOT/addons/viewport/manager.js",
     "ROOT/addons/viewport/register.js",
   ],
