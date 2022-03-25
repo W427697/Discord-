@@ -1,0 +1,82 @@
+{
+  "name": "@storybook/addon-highlight",
+  "version": "6.5.0-alpha.50",
+  "description": "Highlight DOM nodes within your stories",
+  "keywords": [
+    "storybook-addons",
+    "essentials",
+    "style",
+    "appearance"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/highlight",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "addons/highlight"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "author": "winkerVSbecks",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "dist/ts3.9/*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/addons": "6.5.0-alpha.50",
+    "@storybook/api": "6.5.0-alpha.50",
+    "@storybook/client-logger": "6.5.0-alpha.50",
+    "@storybook/components": "6.5.0-alpha.50",
+    "@storybook/core-events": "6.5.0-alpha.50",
+    "@storybook/csf": "0.0.2--canary.507502b.0",
+    "core-js": "^3.8.2",
+    "global": "^4.4.0"
+  },
+  "devDependencies": {
+    "@types/webpack-env": "^1.16.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "6cf4571e5a1200613de94aa066fe93f75aec6ad1",
+  "sbmodern": "dist/modern/index.js",
+  "storybook": {
+    "displayName": "Highlight",
+    "unsupportedFrameworks": [
+      "react-native"
+    ],
+    "icon": "https://user-images.githubusercontent.com/42671/119589951-dbcd9600-bda1-11eb-9227-078f3cfc1e74.png"
+  }
+}

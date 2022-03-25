@@ -6381,6 +6381,7 @@ __metadata:
     "@storybook/addon-backgrounds": 6.5.0-alpha.50
     "@storybook/addon-controls": 6.5.0-alpha.50
     "@storybook/addon-docs": 6.5.0-alpha.50
+    "@storybook/addon-highlight": 6.5.0-alpha.50
     "@storybook/addon-measure": 6.5.0-alpha.50
     "@storybook/addon-outline": 6.5.0-alpha.50
     "@storybook/addon-toolbars": 6.5.0-alpha.50
@@ -6431,6 +6432,30 @@ __metadata:
     vue:
       optional: true
     webpack:
+      optional: true
+  languageName: unknown
+  linkType: soft
+
+"@storybook/addon-highlight@6.5.0-alpha.50, @storybook/addon-highlight@workspace:addons/highlight":
+  version: 0.0.0-use.local
+  resolution: "@storybook/addon-highlight@workspace:addons/highlight"
+  dependencies:
+    "@storybook/addons": 6.5.0-alpha.50
+    "@storybook/api": 6.5.0-alpha.50
+    "@storybook/client-logger": 6.5.0-alpha.50
+    "@storybook/components": 6.5.0-alpha.50
+    "@storybook/core-events": 6.5.0-alpha.50
+    "@storybook/csf": 0.0.2--canary.507502b.0
+    "@types/webpack-env": ^1.16.0
+    core-js: ^3.8.2
+    global: ^4.4.0
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0
+    react-dom: ^16.8.0 || ^17.0.0
+  peerDependenciesMeta:
+    react:
+      optional: true
+    react-dom:
       optional: true
   languageName: unknown
   linkType: soft
