@@ -1,6 +1,6 @@
+import React, { useEffect } from 'react';
 import { useChannel } from '@storybook/addons';
 import { HIGHLIGHT, RESET_HIGHLIGHT } from '@storybook/addon-highlight';
-import React, { useEffect } from 'react';
 import { Page } from '../components/page/Page';
 
 export default {
@@ -92,11 +92,7 @@ export const Reset = () => {
       style: 'dotted',
     });
 
-    emit(RESET_HIGHLIGHT, {
-      elements: ['ul'],
-      color: '#6c1d5c',
-      style: 'dotted',
-    });
+    emit(RESET_HIGHLIGHT);
   }, []);
 
   return <Page />;
