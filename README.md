@@ -43,8 +43,8 @@
 </p>
 
 <p align="center">
-  <a href="https://app.circleci.com/insights/github/storybookjs/storybook/workflows/test?branch=next">
-    <img src="https://dl.circleci.com/insights-snapshot/gh/angular/angular/next/test/badge.svg" alt="InsightsSnapshot" />
+  <a href="https://app.circleci.com/insights/github/storybookjs/storybook/workflows/master?branch=next">
+    <img src="https://dl.circleci.com/insights-snapshot/gh/angular/angular/next/master/badge.svg" alt="InsightsSnapshot" />
   </a>
 </p>
 
