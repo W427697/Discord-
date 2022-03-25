@@ -42,6 +42,12 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="https://app.circleci.com/insights/github/storybookjs/storybook/workflows/test?branch=next">
+    <img src="https://dl.circleci.com/insights-snapshot/gh/angular/angular/next/test/badge.svg" alt="InsightsSnapshot" />
+  </a>
+</p>
+
 [Storybook](https://storybook.js.org) is a development environment for UI components.
 It allows you to browse a component library, view the different states of each component, and interactively develop and test components. Find out more at https://storybook.js.org.
 
