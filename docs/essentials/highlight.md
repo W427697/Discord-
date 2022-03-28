@@ -17,6 +17,9 @@ Highlight DOM nodes by emitting the `HIGHLIGHT` event from within a story or an 
 <CodeSnippets
   paths={[
     'react/component-story-highlight-addon.js.mdx',
+    'angular/component-story-highlight-addon.ts.mdx',
+    'vue/component-story-highlight-addon.js.mdx',
+    'web-components/component-story-highlight-addon.js.mdx',
   ]}
 />
 
@@ -24,16 +27,24 @@ Highlight DOM nodes by emitting the `HIGHLIGHT` event from within a story or an 
 
 Highlights are automatically cleared when the story changes. You can also manually clear them by emitting the `RESET_HIGHLIGHT` event.
 
-```js
-emit(RESET_HIGHLIGHT);
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/addon-highlight-reset.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## Customize style
 
-```js
-emit(HIGHLIGHT, {
-  elements: ['.title', '.subtitle'],
-  color: 'red',
-  style: 'solid', // 'dotted' | 'dashed' | 'solid' | 'double'
-});
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/addon-highlight-customize.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->

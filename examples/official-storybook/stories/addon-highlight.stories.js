@@ -12,33 +12,33 @@ const Template = () => <Page />;
 
 export const OneSelector = Template.bind({});
 OneSelector.decorators = [
-  (story) => {
+  (storyFn) => {
     const emit = useChannel({});
 
     emit(HIGHLIGHT, {
       elements: ['.page-title'],
     });
 
-    return story();
+    return storyFn();
   },
 ];
 
 export const MultipleSelectors = Template.bind({});
 MultipleSelectors.decorators = [
-  (story) => {
+  (storyFn) => {
     const emit = useChannel({});
 
     emit(HIGHLIGHT, {
       elements: ['a', 'button'],
     });
 
-    return story();
+    return storyFn();
   },
 ];
 
 export const CustomColor = Template.bind({});
 CustomColor.decorators = [
-  (story) => {
+  (storyFn) => {
     const emit = useChannel({});
 
     emit(HIGHLIGHT, {
@@ -47,13 +47,13 @@ CustomColor.decorators = [
       style: 'solid',
     });
 
-    return story();
+    return storyFn();
   },
 ];
 
 export const OutlineStyle = Template.bind({});
 OutlineStyle.decorators = [
-  (story) => {
+  (storyFn) => {
     const emit = useChannel({});
 
     emit(HIGHLIGHT, {
@@ -62,13 +62,13 @@ OutlineStyle.decorators = [
       style: 'double',
     });
 
-    return story();
+    return storyFn();
   },
 ];
 
 export const MultipleEvents = Template.bind({});
 MultipleEvents.decorators = [
-  (story) => {
+  (storyFn) => {
     const emit = useChannel({});
 
     emit(HIGHLIGHT, {
@@ -82,13 +82,13 @@ MultipleEvents.decorators = [
       color: '#6c1d5c',
       style: 'dotted',
     });
-    return story();
+    return storyFn();
   },
 ];
 
 export const Reset = Template.bind({});
 Reset.decorators = [
-  (story) => {
+  (storyFn) => {
     const emit = useChannel({});
 
     emit(HIGHLIGHT, {
@@ -99,6 +99,6 @@ Reset.decorators = [
 
     emit(RESET_HIGHLIGHT);
 
-    return story();
+    return storyFn();
   },
 ];

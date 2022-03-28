@@ -109,6 +109,6 @@ For example, if you wanted to disable the [backgrounds addon](./backgrounds.md),
 
 <div class="aside">
 
-💡 You can use the following keys for each individual addon: `actions`, `backgrounds`, `controls`, `docs`, `viewport`, `toolbars`, `measure`, `outline`.
+💡 You can use the following keys for each individual addon: `actions`, `backgrounds`, `controls`, `docs`, `viewport`, `toolbars`, `measure`, `outline`, `highlight`.
 
 </div>

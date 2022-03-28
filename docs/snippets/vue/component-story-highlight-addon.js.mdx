@@ -1,27 +1,32 @@
 ```js
-// Card.stories.js|jsx
+// Card.stories.js
 
-import React, { useEffect } from 'react';
 import { useChannel } from '@storybook/addons';
 import { HIGHLIGHT, RESET_HIGHLIGHT } from '@storybook/addon-highlight';
-import { Card } form './Card';
+import { Card } form './Card.vue';
 
 export default {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
+  * See https://storybook.js.org/docs/angular/configure/overview#configure-story-loading
   * to learn how to generate automatic titles
   */
   title: 'Card',
   component: Card
 };
 
-export const Default = () => <Card />;
+export const Default: Story = (args) => ({
+  template: '<Card />',
+});
 Default.decorators = [
-  (storyFn) => {
+  (story) => {
+    const emit = useChannel({});
     emit(HIGHLIGHT, {
       elements: ['.title', '.subtitle'],
     });
-    return storyFn();
+    return {
+      components: { story },
+      template: '<story />',
+    };
   },
 ];
 ```
