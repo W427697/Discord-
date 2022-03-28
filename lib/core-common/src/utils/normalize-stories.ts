@@ -124,3 +124,12 @@ interface NormalizeOptions {
 
 export const normalizeStories = (entries: StoriesEntry[], options: NormalizeOptions) =>
   entries.map((entry) => normalizeStoriesEntry(entry, options));
+
+const SCRUBBED_STORY_REGEX = /(story|stories)$/i;
+const SCRUB_REGEX = /\.[^.$]+$/;
+export const scrubFileExtension = (file: string) => {
+  if (SCRUBBED_STORY_REGEX.test(file)) {
+    return file;
+  }
+  return file.replace(SCRUB_REGEX, '');
+};

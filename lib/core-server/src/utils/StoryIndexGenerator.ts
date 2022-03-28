@@ -6,7 +6,7 @@ import slash from 'slash';
 import type { Path, StoryIndex, V2CompatIndexEntry, StoryId } from '@storybook/store';
 import { autoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
-import { normalizeStoryPath } from '@storybook/core-common';
+import { normalizeStoryPath, scrubFileExtension } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
 import { readCsfOrMdx, getStorySortParameter } from '@storybook/csf-tools';
 import type { ComponentTitle } from '@storybook/csf';
@@ -85,15 +85,24 @@ export class StoryIndexGenerator {
     const fileStories = {} as StoryIndex['stories'];
     const entry = this.storyIndexEntries.get(specifier);
     try {
-      const importPath = slash(normalizeStoryPath(relativePath));
+      const normalizedPath = normalizeStoryPath(relativePath);
+      const importPath = slash(normalizedPath);
       const defaultTitle = autoTitleFromSpecifier(importPath, specifier);
       const csf = (await readCsfOrMdx(absolutePath, { defaultTitle })).parse();
+      const storiesImports = await Promise.all(
+        csf.imports.map(async (otherImport) =>
+          otherImport.startsWith('.')
+            ? slash(normalizeStoryPath(path.join(path.dirname(normalizedPath), otherImport)))
+            : otherImport
+        )
+      );
       csf.stories.forEach(({ id, name }) => {
         fileStories[id] = {
           id,
           title: csf.meta.title,
           name,
           importPath,
+          storiesImports,
         };
       });
     } catch (err) {
@@ -137,6 +146,24 @@ export class StoryIndexGenerator {
     // Extract any entries that are currently missing
     // Pull out each file's stories into a list of stories, to be composed and sorted
     const storiesList = await this.ensureExtracted();
+
+    // Compute other imports
+    const allImports = storiesList.reduce((acc, entry) => {
+      Object.values(entry).forEach((story) => {
+        acc[scrubFileExtension(story.importPath)] = story.importPath;
+        return acc;
+      });
+      return acc;
+    }, {} as Record<string, Path>);
+
+    storiesList.forEach((entry) => {
+      Object.values(entry).forEach((story) => {
+        // eslint-disable-next-line no-param-reassign
+        story.storiesImports = story.storiesImports
+          .map((importPath) => allImports[scrubFileExtension(importPath)])
+          .filter(Boolean);
+      });
+    });
 
     const sorted = await this.sortStories(storiesList);
 

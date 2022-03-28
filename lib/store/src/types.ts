@@ -88,6 +88,7 @@ export interface StoryIndexEntry {
   name: StoryName;
   title: ComponentTitle;
   importPath: Path;
+  storiesImports: Path[];
 }
 
 export interface V2CompatIndexEntry extends StoryIndexEntry {

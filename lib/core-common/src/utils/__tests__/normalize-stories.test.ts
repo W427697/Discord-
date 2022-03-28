@@ -1,6 +1,6 @@
 import dedent from 'ts-dedent';
 
-import { normalizeStoriesEntry } from '../normalize-stories';
+import { normalizeStoriesEntry, scrubFileExtension } from '../normalize-stories';
 
 expect.addSnapshotSerializer({
   print: (val: any) => JSON.stringify(val, null, 2),
@@ -305,5 +305,19 @@ describe('normalizeStoriesEntry', () => {
       './file.stories.mdx',
       '../file.stories.mdx',
     ]);
+  });
+});
+
+describe('scrubFileExtension', () => {
+  it.each([
+    ['file.stories.mdx', 'file.stories'],
+    ['file.stories.ts', 'file.stories'],
+    ['file.story.mdx', 'file.story'],
+    ['file.stories', 'file.stories'],
+    ['file.story', 'file.story'],
+    ['file.ts', 'file'],
+    ['file.js', 'file'],
+  ])('scrubs %s', (input, expected) => {
+    expect(scrubFileExtension(input)).toBe(expected);
   });
 });

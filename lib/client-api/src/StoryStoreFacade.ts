@@ -196,6 +196,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
           name,
           title,
           importPath: fileName,
+          storiesImports: [],
         };
       });
   }

@@ -47,8 +47,8 @@ export const sortStoriesV7 = (
 };
 
 const toIndexEntry = (story: any): StoryIndexEntry => {
-  const { id, title, name, parameters } = story;
-  return { id, title, name, importPath: parameters.fileName };
+  const { id, title, name, parameters, storiesImports } = story;
+  return { id, title, name, importPath: parameters.fileName, storiesImports };
 };
 
 export const sortStoriesV6 = (
