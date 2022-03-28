@@ -92,7 +92,8 @@ export const resolveAddonName = (
   }
 
   const path = name;
-  // when user provides full path, we don't need to do anything
+
+  // when user provides full path, we don't need to do anything!
   const managerFile = safeResolve(`${path}/manager`);
   const registerFile = safeResolve(`${path}/register`) || safeResolve(`${path}/register-panel`);
   const previewFile = safeResolve(`${path}/preview`);
@@ -106,13 +107,20 @@ export const resolveAddonName = (
   }
 
   if (managerFile || registerFile || previewFile || presetFile) {
+    const managerEntries = [];
+
+    if (managerFile) {
+      managerEntries.push(managerFile);
+    }
+    // register file is the old way of registering addons
+    if (!managerFile && registerFile && !presetFile) {
+      managerEntries.push(registerFile);
+    }
+
     return {
       type: 'virtual',
       name: path,
-      // register file is the old way of registering addons
-      ...(managerFile || registerFile
-        ? { managerEntries: [managerFile, !presetFile && registerFile].filter(Boolean) }
-        : {}),
+      ...(managerEntries.length ? { managerEntries } : {}),
       ...(previewFile ? { previewAnnotations: [previewFile] } : {}),
       ...(presetFile ? { presets: [{ name: presetFile, options }] } : {}),
     };
