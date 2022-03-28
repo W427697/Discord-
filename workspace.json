@@ -21,6 +21,10 @@
       "root": "addons/docs",
       "type": "library"
     },
+    "@storybook/addon-highlight": {
+      "root": "addons/highlight",
+      "type": "library"
+    },
     "@storybook/addon-essentials": {
       "root": "addons/essentials",
       "type": "library"
