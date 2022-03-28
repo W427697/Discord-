@@ -12,26 +12,15 @@ This addon can be used to enhance other addons. For example, [Accessibility](htt
 
 Highlight DOM nodes by emitting the `HIGHLIGHT` event from within a story or an addon. The event payload must contain a list of selectors you want to highlight.
 
-```js
-import React, { useEffect } from 'react';
-import { useChannel } from '@storybook/addons';
-import { HIGHLIGHT, RESET_HIGHLIGHT } from '@storybook/addon-highlight';
-import { MyComponent } form './MyComponent';
+<!-- prettier-ignore-start -->
 
-export default { component: MyComponent };
+<CodeSnippets
+  paths={[
+    'react/component-story-highlight-addon.js.mdx',
+  ]}
+/>
 
-export const MyStory = () => {
-  const emit = useChannel({});
-
-  useEffect(() => {
-    emit(HIGHLIGHT, {
-      elements: ['.title', '.subtitle'],
-    });
-  }, []);
-
-  return <MyComponent />;
-};
-```
+<!-- prettier-ignore-end -->
 
 Highlights are automatically cleared when the story changes. You can also manually clear them by emitting the `RESET_HIGHLIGHT` event.
 
