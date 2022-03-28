@@ -6196,6 +6196,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-a11y@workspace:addons/a11y"
   dependencies:
+    "@storybook/addon-highlight": 6.5.0-alpha.51
     "@storybook/addons": 6.5.0-alpha.51
     "@storybook/api": 6.5.0-alpha.51
     "@storybook/channels": 6.5.0-alpha.51
@@ -6435,7 +6436,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-highlight@workspace:addons/highlight":
+"@storybook/addon-highlight@6.5.0-alpha.51, @storybook/addon-highlight@workspace:addons/highlight":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-highlight@workspace:addons/highlight"
   dependencies:
