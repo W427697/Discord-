@@ -2,13 +2,14 @@ import React, { FC } from 'react';
 import pickBy from 'lodash/pickBy';
 import { styled, ignoreSsrWarning } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
+import { includeConditionalArg } from '@storybook/csf';
 import { Icons } from '../../icon/icon';
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
 import { ArgType, ArgTypes, Args } from './types';
 import { EmptyBlock } from '../EmptyBlock';
 import { Link } from '../../typography/link/link';
-import { ResetWrapper } from '../../typography/DocumentFormatting';
+import { ResetWrapper } from '../../typography/ResetWrapper';
 
 export const TableWrapper = styled.table<{
   compact?: boolean;
@@ -398,7 +399,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
   const { rows, args } = 'rows' in props ? props : argsTableLoadingData;
 
   const groups = groupRows(
-    pickBy(rows, (row) => !row?.table?.disable),
+    pickBy(rows, (row) => !row?.table?.disable && includeConditionalArg(row, args)),
     sort
   );
 
