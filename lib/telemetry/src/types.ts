@@ -57,9 +57,6 @@ export interface Options {
 }
 
 export interface TelemetryData {
-  anonymousId?: string;
-  inCI?: boolean;
-  time?: number;
   eventType: EventType;
   payload: Payload;
   metadata?: StorybookMetadata;

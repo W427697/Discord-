@@ -18,7 +18,7 @@ it('makes a fetch request with name and data', async () => {
   const body = JSON.parse(fetchMock.mock.calls[0][1].body);
   expect(body).toMatchObject({
     eventType: 'start',
-    foo: 'bar',
+    payload: { foo: 'bar' },
   });
 });
 
