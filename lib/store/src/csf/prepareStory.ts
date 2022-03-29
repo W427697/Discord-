@@ -195,7 +195,7 @@ export function prepareStory<TFramework extends AnyFramework>(
     return decoratedStoryFn(finalContext);
   };
   const playFunction =
-    storyAnnotations.play || componentAnnotations.play || projectAnnotations.play;
+    storyAnnotations.play || componentAnnotations.play;
 
   return Object.freeze({
     ...contextForEnhancers,
