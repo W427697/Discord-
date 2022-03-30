@@ -53,6 +53,7 @@
     "@storybook/ember": "portal:../../app/ember",
     "@storybook/html": "portal:../../app/html",
     "@storybook/instrumenter": "portal:../../lib/instrumenter",
+    "@storybook/jest": "^0.0.5",
     "@storybook/manager-webpack4": "portal:../../lib/manager-webpack4",
     "@storybook/manager-webpack5": "portal:../../lib/manager-webpack5",
     "@storybook/node-logger": "portal:../../lib/node-logger",
