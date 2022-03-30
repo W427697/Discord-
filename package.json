@@ -48,6 +48,7 @@
       "!examples/vue-kitchen-sink",
       "!examples/svelte-kitchen-sink",
       "!examples/vue-cli",
+      "!examples/angular-cli",
       "!examples/vue-3-cli",
       "lib/*",
       "lib/cli/test/run/*"
