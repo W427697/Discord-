@@ -46,6 +46,7 @@
       "examples/*",
       "!examples/web-components-kitchen-sink",
       "!examples/vue-kitchen-sink",
+      "!examples/svelte-kitchen-sink",
       "!examples/vue-cli",
       "!examples/vue-3-cli",
       "lib/*",
