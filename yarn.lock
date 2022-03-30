@@ -45490,41 +45490,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-example@workspace:examples/vue-kitchen-sink":
-  version: 0.0.0-use.local
-  resolution: "vue-example@workspace:examples/vue-kitchen-sink"
-  dependencies:
-    "@babel/core": ^7.12.10
-    "@storybook/addon-a11y": 6.5.0-alpha.51
-    "@storybook/addon-actions": 6.5.0-alpha.51
-    "@storybook/addon-backgrounds": 6.5.0-alpha.51
-    "@storybook/addon-controls": 6.5.0-alpha.51
-    "@storybook/addon-docs": 6.5.0-alpha.51
-    "@storybook/addon-interactions": 6.5.0-alpha.51
-    "@storybook/addon-links": 6.5.0-alpha.51
-    "@storybook/addon-storyshots": 6.5.0-alpha.51
-    "@storybook/addon-storysource": 6.5.0-alpha.51
-    "@storybook/addon-viewport": 6.5.0-alpha.51
-    "@storybook/addons": 6.5.0-alpha.51
-    "@storybook/jest": ^0.0.5
-    "@storybook/source-loader": 6.5.0-alpha.51
-    "@storybook/testing-library": ^0.0.7
-    "@storybook/vue": 6.5.0-alpha.51
-    "@vue/babel-preset-jsx": ^1.2.4
-    babel-loader: ^8.0.0
-    cross-env: ^7.0.3
-    file-loader: ^6.2.0
-    prop-types: ^15.7.2
-    svg-url-loader: ^7.1.1
-    vue: ^2.6.12
-    vue-loader: ^15.9.6
-    vue-style-loader: ^4.1.2
-    vuex: ^3.6.0
-    webpack: 4
-    webpack-dev-server: ^3.11.2
-  languageName: unknown
-  linkType: soft
-
 "vue-hot-reload-api@npm:^2.3.0":
   version: 2.3.4
   resolution: "vue-hot-reload-api@npm:2.3.4"
@@ -45677,15 +45642,6 @@ __metadata:
     "@vue/server-renderer": 3.2.31
     "@vue/shared": 3.2.31
   checksum: 1f18d961b7ea2ffd218630df089186ae0ac2e173da5224b323bc581201db32fae5c66ea787d6f0d004913334f1130bda64f153dfee2bc56e5dd5ec8db50c74a5
-  languageName: node
-  linkType: hard
-
-"vuex@npm:^3.6.0":
-  version: 3.6.2
-  resolution: "vuex@npm:3.6.2"
-  peerDependencies:
-    vue: ^2.0.0
-  checksum: 726f2ff4ecf070bd4c65e98bf31910c3b57a83218be5623a35a57849075ce16ec117fc9f37cc905f9515200ad5e5a6976bdb075a5a701f9fe5c4364d5a72fc71
   languageName: node
   linkType: hard
 

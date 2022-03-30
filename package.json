@@ -45,6 +45,7 @@
       "examples-native/*",
       "examples/*",
       "!examples/web-components-kitchen-sink",
+      "!examples/vue-kitchen-sink",
       "lib/*",
       "lib/cli/test/run/*"
     ]
