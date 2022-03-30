@@ -46,6 +46,8 @@
       "examples/*",
       "!examples/web-components-kitchen-sink",
       "!examples/vue-kitchen-sink",
+      "!examples/cra-kitchen-sink",
+      "!examples/cra-react15",
       "!examples/svelte-kitchen-sink",
       "!examples/vue-cli",
       "!examples/angular-cli",
