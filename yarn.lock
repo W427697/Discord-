@@ -575,7 +575,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.1.0, @babel/core@npm:^7.1.6, @babel/core@npm:^7.11.0, @babel/core@npm:^7.12.0, @babel/core@npm:^7.12.10, @babel/core@npm:^7.12.16, @babel/core@npm:^7.12.3, @babel/core@npm:^7.12.9, @babel/core@npm:^7.13.16, @babel/core@npm:^7.16.0, @babel/core@npm:^7.17.5, @babel/core@npm:^7.3.4, @babel/core@npm:^7.4.5, @babel/core@npm:^7.7.5, @babel/core@npm:^7.8.4, @babel/core@npm:^7.8.6, @babel/core@npm:^7.9.0":
+"@babel/core@npm:^7.1.0, @babel/core@npm:^7.1.6, @babel/core@npm:^7.11.0, @babel/core@npm:^7.12.0, @babel/core@npm:^7.12.10, @babel/core@npm:^7.12.16, @babel/core@npm:^7.12.3, @babel/core@npm:^7.12.9, @babel/core@npm:^7.13.16, @babel/core@npm:^7.16.0, @babel/core@npm:^7.17.5, @babel/core@npm:^7.3.4, @babel/core@npm:^7.4.5, @babel/core@npm:^7.7.5, @babel/core@npm:^7.8.4, @babel/core@npm:^7.8.6":
   version: 7.17.5
   resolution: "@babel/core@npm:7.17.5"
   dependencies:
@@ -8037,17 +8037,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/preset-scss@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "@storybook/preset-scss@npm:1.0.3"
-  peerDependencies:
-    css-loader: "*"
-    sass-loader: "*"
-    style-loader: "*"
-  checksum: 6df3a8edb0d9ff36ad20954355ebda979b5cf32f3e3c24fea995cf22edbff6efbf349f96cbd867b3afb39af069e7e15e347fa15b7caed34a8e06a9e8cfe7eb60
-  languageName: node
-  linkType: hard
-
 "@storybook/preview-web@6.5.0-alpha.51, @storybook/preview-web@workspace:*, @storybook/preview-web@workspace:lib/preview-web":
   version: 0.0.0-use.local
   resolution: "@storybook/preview-web@workspace:lib/preview-web"
@@ -10413,7 +10402,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webpack-env@npm:^1.15.1, @types/webpack-env@npm:^1.15.2, @types/webpack-env@npm:^1.16.0":
+"@types/webpack-env@npm:^1.15.2, @types/webpack-env@npm:^1.16.0":
   version: 1.16.3
   resolution: "@types/webpack-env@npm:1.16.3"
   checksum: 136ece45e58fbcb4d8e02fe7892213105d6874223a66209bccaf4a18ca78ab81a10d121ee9d0944904cfad1274ca730efc9643b9cd8444239f505676adee22a0
@@ -10933,7 +10922,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/babel-preset-app@npm:^4.3.1, @vue/babel-preset-app@npm:^4.5.15":
+"@vue/babel-preset-app@npm:^4.5.15":
   version: 4.5.15
   resolution: "@vue/babel-preset-app@npm:4.5.15"
   dependencies:
@@ -11057,27 +11046,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/cli-overlay@npm:^4.3.1, @vue/cli-overlay@npm:^4.5.15":
+"@vue/cli-overlay@npm:^4.5.15":
   version: 4.5.15
   resolution: "@vue/cli-overlay@npm:4.5.15"
   checksum: cb2f0c6724c6a4b91a10960cc8192ac6edee337849af047fec5c44f784bdf59c886b4f5c6da3a53c9222b94d894916d3d7a835cecad50207931337027452351a
-  languageName: node
-  linkType: hard
-
-"@vue/cli-plugin-babel@npm:~4.3.1":
-  version: 4.3.1
-  resolution: "@vue/cli-plugin-babel@npm:4.3.1"
-  dependencies:
-    "@babel/core": ^7.9.0
-    "@vue/babel-preset-app": ^4.3.1
-    "@vue/cli-shared-utils": ^4.3.1
-    babel-loader: ^8.1.0
-    cache-loader: ^4.1.0
-    thread-loader: ^2.1.3
-    webpack: ^4.0.0
-  peerDependencies:
-    "@vue/cli-service": ^3.0.0 || ^4.0.0-0
-  checksum: 7a96da3f6137534c6f1aabc5dd9010ec99fb2ee8dc81c6fe3da35fe0abcbafa02c8c8411f349c0caff84a4cfc6b180f5f44b00775ed9ae7886506e557b6dd32b
   languageName: node
   linkType: hard
 
@@ -11098,7 +11070,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/cli-plugin-router@npm:^4.3.1, @vue/cli-plugin-router@npm:^4.5.15":
+"@vue/cli-plugin-router@npm:^4.5.15":
   version: 4.5.15
   resolution: "@vue/cli-plugin-router@npm:4.5.15"
   dependencies:
@@ -11106,27 +11078,6 @@ __metadata:
   peerDependencies:
     "@vue/cli-service": ^3.0.0 || ^4.0.0-0
   checksum: a705adee39098d7ccc88622077d4a1f5ffa635fa3ab51f3647f4adf4d0f09e1000df91099e3971b596d7a75d7d9b158043942dfda3d1cc3d2fcc19e476f920c0
-  languageName: node
-  linkType: hard
-
-"@vue/cli-plugin-typescript@npm:~4.3.1":
-  version: 4.3.1
-  resolution: "@vue/cli-plugin-typescript@npm:4.3.1"
-  dependencies:
-    "@types/webpack-env": ^1.15.1
-    "@vue/cli-shared-utils": ^4.3.1
-    cache-loader: ^4.1.0
-    fork-ts-checker-webpack-plugin: ^3.1.1
-    globby: ^9.2.0
-    thread-loader: ^2.1.3
-    ts-loader: ^6.2.2
-    tslint: ^5.20.1
-    webpack: ^4.0.0
-    yorkie: ^2.0.0
-  peerDependencies:
-    "@vue/cli-service": ^3.0.0 || ^4.0.0-0
-    typescript: ">=2"
-  checksum: 96e4f34c95d473f5b8f5705f23ac4e734c93c1b000fdee777aa9b518bb82e4df6d71462da1ca9bb322aa55645201d9fee0c0ff4de24f94eaa931422c3568be18
   languageName: node
   linkType: hard
 
@@ -11159,89 +11110,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/cli-plugin-vuex@npm:^4.3.1, @vue/cli-plugin-vuex@npm:^4.5.15":
+"@vue/cli-plugin-vuex@npm:^4.5.15":
   version: 4.5.15
   resolution: "@vue/cli-plugin-vuex@npm:4.5.15"
   peerDependencies:
     "@vue/cli-service": ^3.0.0 || ^4.0.0-0
   checksum: 69b6d2009e0a0a2e75a2d26a876c35e7d9c7a0ba222c6c53c323e0282551d5f28f7ac5abbc54acf4a59835fb0129cbfcaf9c05e842d0d80e7e4a28cb08969d71
-  languageName: node
-  linkType: hard
-
-"@vue/cli-service@npm:~4.3.1":
-  version: 4.3.1
-  resolution: "@vue/cli-service@npm:4.3.1"
-  dependencies:
-    "@intervolga/optimize-cssnano-plugin": ^1.0.5
-    "@soda/friendly-errors-webpack-plugin": ^1.7.1
-    "@soda/get-current-script": ^1.0.0
-    "@vue/cli-overlay": ^4.3.1
-    "@vue/cli-plugin-router": ^4.3.1
-    "@vue/cli-plugin-vuex": ^4.3.1
-    "@vue/cli-shared-utils": ^4.3.1
-    "@vue/component-compiler-utils": ^3.0.2
-    "@vue/preload-webpack-plugin": ^1.1.0
-    "@vue/web-component-wrapper": ^1.2.0
-    acorn: ^7.1.0
-    acorn-walk: ^7.1.1
-    address: ^1.1.2
-    autoprefixer: ^9.7.5
-    browserslist: ^4.11.1
-    cache-loader: ^4.1.0
-    case-sensitive-paths-webpack-plugin: ^2.3.0
-    cli-highlight: ^2.1.4
-    clipboardy: ^2.3.0
-    cliui: ^6.0.0
-    copy-webpack-plugin: ^5.1.1
-    css-loader: ^3.4.2
-    cssnano: ^4.1.10
-    debug: ^4.1.1
-    default-gateway: ^5.0.5
-    dotenv: ^8.2.0
-    dotenv-expand: ^5.1.0
-    file-loader: ^4.2.0
-    fs-extra: ^7.0.1
-    globby: ^9.2.0
-    hash-sum: ^2.0.0
-    html-webpack-plugin: ^3.2.0
-    launch-editor-middleware: ^2.2.1
-    lodash.defaultsdeep: ^4.6.1
-    lodash.mapvalues: ^4.6.0
-    lodash.transform: ^4.6.0
-    mini-css-extract-plugin: ^0.9.0
-    minimist: ^1.2.5
-    pnp-webpack-plugin: ^1.6.4
-    portfinder: ^1.0.25
-    postcss-loader: ^3.0.0
-    ssri: ^7.1.0
-    terser-webpack-plugin: ^2.3.5
-    thread-loader: ^2.1.3
-    url-loader: ^2.2.0
-    vue-loader: ^15.9.1
-    vue-style-loader: ^4.1.2
-    webpack: ^4.0.0
-    webpack-bundle-analyzer: ^3.6.1
-    webpack-chain: ^6.4.0
-    webpack-dev-server: ^3.10.3
-    webpack-merge: ^4.2.2
-  peerDependencies:
-    vue-template-compiler: ^2.0.0
-  peerDependenciesMeta:
-    less-loader:
-      optional: true
-    pug-plain-loader:
-      optional: true
-    raw-loader:
-      optional: true
-    sass-loader:
-      optional: true
-    stylus-loader:
-      optional: true
-    vue-template-compiler:
-      optional: true
-  bin:
-    vue-cli-service: bin/vue-cli-service.js
-  checksum: 917355eb1bb6b89bd3f95dbca74c83aadd3b22d86b38e152657c087d1b64ceabf06d3f87e879274c37f47868d7c22bb7281671fc5b51fadf52786974b36fdbe5
   languageName: node
   linkType: hard
 
@@ -11332,7 +11206,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/cli-shared-utils@npm:^4.3.1, @vue/cli-shared-utils@npm:^4.5.15":
+"@vue/cli-shared-utils@npm:^4.5.15":
   version: 4.5.15
   resolution: "@vue/cli-shared-utils@npm:4.5.15"
   dependencies:
@@ -11461,7 +11335,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/component-compiler-utils@npm:^3.0.2, @vue/component-compiler-utils@npm:^3.1.0, @vue/component-compiler-utils@npm:^3.1.2":
+"@vue/component-compiler-utils@npm:^3.1.0, @vue/component-compiler-utils@npm:^3.1.2":
   version: 3.3.0
   resolution: "@vue/component-compiler-utils@npm:3.3.0"
   dependencies:
@@ -13502,7 +13376,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:^9.6.1, autoprefixer@npm:^9.7.5, autoprefixer@npm:^9.8.6":
+"autoprefixer@npm:^9.6.1, autoprefixer@npm:^9.8.6":
   version: 9.8.8
   resolution: "autoprefixer@npm:9.8.8"
   dependencies:
@@ -15436,7 +15310,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.0.0, browserslist@npm:^4.11.1, browserslist@npm:^4.12.0, browserslist@npm:^4.14.5, browserslist@npm:^4.16.1, browserslist@npm:^4.16.6, browserslist@npm:^4.17.5, browserslist@npm:^4.19.1, browserslist@npm:^4.6.2, browserslist@npm:^4.6.4, browserslist@npm:^4.6.6, browserslist@npm:^4.9.1":
+"browserslist@npm:^4.0.0, browserslist@npm:^4.12.0, browserslist@npm:^4.14.5, browserslist@npm:^4.16.1, browserslist@npm:^4.16.6, browserslist@npm:^4.17.5, browserslist@npm:^4.19.1, browserslist@npm:^4.6.2, browserslist@npm:^4.6.4, browserslist@npm:^4.6.6, browserslist@npm:^4.9.1":
   version: 4.19.3
   resolution: "browserslist@npm:4.19.3"
   dependencies:
@@ -18108,7 +17982,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-loader@npm:^3.4.2, css-loader@npm:^3.5.3, css-loader@npm:^3.6.0":
+"css-loader@npm:^3.5.3, css-loader@npm:^3.6.0":
   version: 3.6.0
   resolution: "css-loader@npm:3.6.0"
   dependencies:
@@ -41593,7 +41467,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ssri@npm:^7.0.0, ssri@npm:^7.1.0":
+"ssri@npm:^7.0.0":
   version: 7.1.1
   resolution: "ssri@npm:7.1.1"
   dependencies:
@@ -42887,7 +42761,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"terser-webpack-plugin@npm:2.3.8, terser-webpack-plugin@npm:^2.3.5":
+"terser-webpack-plugin@npm:2.3.8":
   version: 2.3.8
   resolution: "terser-webpack-plugin@npm:2.3.8"
   dependencies:
@@ -45426,7 +45300,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"vue-class-component@npm:^7.1.0, vue-class-component@npm:^7.2.6":
+"vue-class-component@npm:^7.1.0":
   version: 7.2.6
   resolution: "vue-class-component@npm:7.2.6"
   peerDependencies:
@@ -45434,27 +45308,6 @@ __metadata:
   checksum: 2c187815e3569b4836929dc45ace5715398c4037312ef5fc27da9cb12fbbc21cabbdfc5fb678451ad45321ffabacbd184907e33db2539c13963c00883a6645c1
   languageName: node
   linkType: hard
-
-"vue-cli-example@workspace:examples/vue-cli":
-  version: 0.0.0-use.local
-  resolution: "vue-cli-example@workspace:examples/vue-cli"
-  dependencies:
-    "@storybook/addon-controls": 6.5.0-alpha.51
-    "@storybook/addon-essentials": 6.5.0-alpha.51
-    "@storybook/preset-scss": ^1.0.3
-    "@storybook/source-loader": 6.5.0-alpha.51
-    "@storybook/vue": 6.5.0-alpha.51
-    "@vue/cli-plugin-babel": ~4.3.1
-    "@vue/cli-plugin-typescript": ~4.3.1
-    "@vue/cli-service": ~4.3.1
-    core-js: ^3.8.2
-    typescript: ^3.9.7
-    vue: ^2.6.12
-    vue-class-component: ^7.2.6
-    vue-property-decorator: ^9.1.2
-    vue-template-compiler: ^2.6.12
-  languageName: unknown
-  linkType: soft
 
 "vue-docgen-api@npm:^4.44.15":
   version: 4.44.17
@@ -45547,7 +45400,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-loader@npm:^15.9.1, vue-loader@npm:^15.9.2, vue-loader@npm:^15.9.6":
+"vue-loader@npm:^15.9.2, vue-loader@npm:^15.9.6":
   version: 15.9.8
   resolution: "vue-loader@npm:15.9.8"
   dependencies:
@@ -45574,16 +45427,6 @@ __metadata:
   dependencies:
     vue-class-component: ^7.1.0
   checksum: 8e0c9ece0a5bb2e8b24bfa9f6516731feabe44773bf75bfdf66ce5cbb59c30fc837d4dbe2b2edf991b12d78fc75b57a76346ca658d561172935eb51db244fc3d
-  languageName: node
-  linkType: hard
-
-"vue-property-decorator@npm:^9.1.2":
-  version: 9.1.2
-  resolution: "vue-property-decorator@npm:9.1.2"
-  peerDependencies:
-    vue: "*"
-    vue-class-component: "*"
-  checksum: f496f420d659ff01e9bef1e11a7ada4b505c4b80b87ed61f96d712b39939af4bc2b4fcb27ebf9dd623b006dc0a6b4be332f164218ff2b71c50c6021aee16c5b0
   languageName: node
   linkType: hard
 
@@ -45911,7 +45754,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-bundle-analyzer@npm:^3.4.1, webpack-bundle-analyzer@npm:^3.6.1, webpack-bundle-analyzer@npm:^3.8.0":
+"webpack-bundle-analyzer@npm:^3.4.1, webpack-bundle-analyzer@npm:^3.8.0":
   version: 3.9.0
   resolution: "webpack-bundle-analyzer@npm:3.9.0"
   dependencies:
@@ -46119,7 +45962,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-dev-server@npm:3.11.3, webpack-dev-server@npm:^3.10.3, webpack-dev-server@npm:^3.11.0, webpack-dev-server@npm:^3.11.2":
+"webpack-dev-server@npm:3.11.3, webpack-dev-server@npm:^3.11.0, webpack-dev-server@npm:^3.11.2":
   version: 3.11.3
   resolution: "webpack-dev-server@npm:3.11.3"
   dependencies:

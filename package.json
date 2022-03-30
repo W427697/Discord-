@@ -46,6 +46,7 @@
       "examples/*",
       "!examples/web-components-kitchen-sink",
       "!examples/vue-kitchen-sink",
+      "!examples/vue-cli",
       "lib/*",
       "lib/cli/test/run/*"
     ]
