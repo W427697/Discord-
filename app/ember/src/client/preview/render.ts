@@ -2,10 +2,9 @@ import global from 'global';
 import dedent from 'ts-dedent';
 import { RenderContext } from '@storybook/store';
 import { OptionsArgs, EmberFramework } from './types';
+import Component from '@ember/component';
 
 const { window: globalWindow, document } = global;
-
-declare let Ember: any;
 
 const rootEl = document.getElementById('root');
 
@@ -38,7 +37,7 @@ function render(options: OptionsArgs, el: HTMLElement) {
     .then((instance: any) => {
       instance.register(
         'component:story-mode',
-        Ember.Component.extend({
+        Component.extend({
           layout: template || options,
           ...context,
         })
