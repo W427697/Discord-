@@ -1,1 +1,1 @@
-{"version":"6.5.0-alpha.49","info":{"plain":"### Bug Fixes\n\n- Addon-docs/Svelte: Fix `HOC.svelte` reference ([#17731](https://github.com/storybookjs/storybook/pull/17731))\n- UI: Fix composition support in safari ([#17679](https://github.com/storybookjs/storybook/pull/17679))"}}
+{"version":"6.5.0-alpha.54","info":{"plain":"### Dependency Upgrades\n\n* React: Update react and react-dom peerDeps for React18 ([#17853](https://github.com/storybookjs/storybook/pull/17853))"}}
