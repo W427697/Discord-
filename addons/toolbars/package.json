@@ -67,7 +67,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6a0da15e6413e00b31f14b3accd082ca328e45a2",
+  "gitHead": "c91a26aff48ee9c5ee555c4788513c6cef16e0a9",
   "sbmodern": "dist/modern/register.js",
   "storybook": {
     "displayName": "Toolbars",
