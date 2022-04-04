@@ -91,8 +91,191 @@ jobs:
           name: Install dependencies
           command: yarn install --immutable
       - run:
-          name: Bootstrap
-          command: yarn bootstrap --core
+          name: lib/node-logger
+          command: cd lib/node-logger && yarn prepare
+      - run:
+          name: lib/client-logger
+          command: cd lib/client-logger && yarn prepare
+
+      - run:
+          name: lib/channels
+          command: cd lib/channels && yarn prepare
+      - run:
+          name: lib/channel-postmessage
+          command: cd lib/channel-postmessage && yarn prepare
+      - run:
+          name: lib/channel-websocket
+          command: cd lib/channel-websocket && yarn prepare
+
+      - run:
+          name: lib/addons
+          command: cd lib/addons && yarn prepare
+      - run:
+          name: lib/core-client
+          command: cd lib/core-client && yarn prepare
+      - run:
+          name: lib/core-common
+          command: cd lib/core-common && yarn prepare
+      - run:
+          name: lib/core-events
+          command: cd lib/core-events && yarn prepare
+      - run:
+          name: lib/core-server
+          command: cd lib/core-server && yarn prepare
+
+      - run:
+          name: router
+          command: yarn build router
+      - run:
+          name: lib/theming
+          command: cd lib/theming && yarn prepare
+
+      - run:
+          name: lib/components
+          command: cd lib/components && yarn prepare
+
+      - run:
+          name: lib/source-loader
+          command: cd lib/source-loader && yarn prepare
+      - run:
+          name: lib/instrumenter
+          command: cd lib/instrumenter && yarn prepare
+      - run:
+          name: lib/preview-web
+          command: cd lib/preview-web && yarn prepare
+      - run:
+          name: lib/docs-tools
+          command: cd lib/docs-tools && yarn prepare
+      - run:
+          name: lib/csf-tools
+          command: cd lib/csf-tools && yarn prepare
+
+      - run:
+          name: lib/client-api
+          command: cd lib/client-api && yarn prepare
+      - run:
+          name: lib/api
+          command: cd lib/api && yarn prepare
+      - run:
+          name: lib/ui
+          command: cd lib/ui && yarn prepare
+
+      - run:
+          name: lib/manager-webpack4
+          command: cd lib/manager-webpack4 && yarn prepare
+      - run:
+          name: lib/manager-webpack5
+          command: cd lib/manager-webpack5 && yarn prepare
+      - run:
+          name: lib/builder-webpack4
+          command: cd lib/builder-webpack4 && yarn prepare
+      - run:
+          name: lib/builder-webpack5
+          command: cd lib/builder-webpack5 && yarn prepare
+
+      - run:
+          name: addon/storyshots/puppeteer
+          command: cd addons/storyshots-puppeteer && yarn prepare
+      - run:
+          name: addon/storyshots/core
+          command: cd addons/storyshots && yarn prepare
+      - run:
+          name: addon/interactions
+          command: cd addons/interactions && yarn prepare
+      - run:
+          name: addon/backgrounds
+          command: cd addons/backgrounds && yarn prepare
+      - run:
+          name: addon/storysource
+          command: cd addons/storysource && yarn prepare
+      - run:
+          name: addon/controls
+          command: cd addons/controls && yarn prepare
+      - run:
+          name: addon/toolbars
+          command: cd addons/toolbars && yarn prepare
+      - run:
+          name: addon/viewport
+          command: cd addons/viewport && yarn prepare
+      - run:
+          name: addon/actions
+          command: cd addons/actions && yarn prepare
+      - run:
+          name: addon/measure
+          command: cd addons/measure && yarn prepare
+      - run:
+          name: addon/outline
+          command: cd addons/outline && yarn prepare
+      - run:
+          name: addon/a11y
+          command: cd addons/a11y && yarn prepare
+      - run:
+          name: addon/docs
+          command: cd addons/docs && yarn prepare
+      - run:
+          name: addon/jest
+          command: cd addons/jest && yarn prepare
+      - run:
+          name: addon/links
+          command: cd addons/links && yarn prepare
+      - run:
+          name: addon/essentials
+          command: cd addons/essentials && yarn prepare
+
+
+      - run:
+          name: postinstall
+          command: cd lib/postinstall && yarn prepare
+      - run:
+          name: codemod
+          command: cd lib/codemod && yarn prepare
+      - run:
+          name: cli
+          command: cd lib/cli && yarn prepare
+      - run:
+          name: cli-storybook
+          command: cd lib/cli-storybook && yarn prepare
+      - run:
+          name: cli-sb
+          command: cd lib/cli-sb && yarn prepare
+
+      - run:
+          name: app/angular
+          command: cd app/angular && yarn prepare
+      - run:
+          name: app/preact
+          command: cd app/preact && yarn prepare
+      - run:
+          name: app/server
+          command: cd app/server && yarn prepare
+      - run:
+          name: app/svelte
+          command: cd app/svelte && yarn prepare
+      - run:
+          name: app/web
+          command: cd app/web && yarn prepare
+      - run:
+          name: app/ember
+          command: cd app/ember && yarn prepare
+      - run:
+          name: app/react
+          command: cd app/react && yarn prepare
+      - run:
+          name: app/store
+          command: cd app/store && yarn prepare
+      - run:
+          name: app/html
+          command: cd app/html && yarn prepare
+      - run:
+          name: app/vue3
+          command: cd app/vue3 && yarn prepare
+      - run:
+          name: app/core
+          command: cd app/core && yarn prepare
+      - run:
+          name: app/vue
+          command: cd app/vue && yarn prepare
+
       - save_cache:
           name: Save Yarn cache
           key: build-yarn-2-cache-v3--{{ checksum "yarn.lock" }}
