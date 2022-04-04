@@ -126,6 +126,12 @@ jobs:
       - run:
           name: lib/store
           command: cd lib/store && yarn prepare
+      - run:
+          name: lib/preview-web
+          command: cd lib/preview-web && yarn prepare
+      - run:
+          name: lib/client-api
+          command: cd lib/client-api && yarn prepare
 
       - run:
           name: lib/core-client
@@ -136,7 +142,6 @@ jobs:
       - run:
           name: lib/core-server
           command: cd lib/core-server && yarn prepare
-
 
       - run:
           name: lib/components
@@ -150,18 +155,12 @@ jobs:
           name: lib/instrumenter
           command: cd lib/instrumenter && yarn prepare
       - run:
-          name: lib/preview-web
-          command: cd lib/preview-web && yarn prepare
-      - run:
           name: lib/docs-tools
           command: cd lib/docs-tools && yarn prepare
       - run:
           name: lib/csf-tools
           command: cd lib/csf-tools && yarn prepare
 
-      - run:
-          name: lib/client-api
-          command: cd lib/client-api && yarn prepare
       - run:
           name: lib/ui
           command: cd lib/ui && yarn prepare
