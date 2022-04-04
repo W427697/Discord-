@@ -140,6 +140,9 @@ jobs:
           name: lib/core-common
           command: cd lib/core-common && yarn prepare
       - run:
+          name: lib/csf-tools
+          command: cd lib/csf-tools && yarn prepare
+      - run:
           name: lib/core-server
           command: cd lib/core-server && yarn prepare
 
@@ -157,9 +160,6 @@ jobs:
       - run:
           name: lib/docs-tools
           command: cd lib/docs-tools && yarn prepare
-      - run:
-          name: lib/csf-tools
-          command: cd lib/csf-tools && yarn prepare
 
       - run:
           name: lib/ui
