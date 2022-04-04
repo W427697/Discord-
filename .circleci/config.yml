@@ -262,8 +262,8 @@ jobs:
           name: app/svelte
           command: cd app/svelte && yarn prepare
       - run:
-          name: app/web
-          command: cd app/web && yarn prepare
+          name: app/web-components
+          command: cd app/web-components && yarn prepare
       - run:
           name: app/ember
           command: cd app/ember && yarn prepare
