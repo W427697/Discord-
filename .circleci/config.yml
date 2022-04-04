@@ -111,6 +111,10 @@ jobs:
           command: cd lib/channel-websocket && yarn prepare
 
       - run:
+          name: lib/api
+          command: cd lib/api && yarn prepare
+
+      - run:
           name: lib/addons
           command: cd lib/addons && yarn prepare
       - run:
@@ -153,9 +157,6 @@ jobs:
       - run:
           name: lib/client-api
           command: cd lib/client-api && yarn prepare
-      - run:
-          name: lib/api
-          command: cd lib/api && yarn prepare
       - run:
           name: lib/ui
           command: cd lib/ui && yarn prepare
