@@ -159,6 +159,9 @@ jobs:
       - run:
           name: lib/core-server
           command: cd lib/core-server && yarn prepare
+      - run:
+          name: lib/core
+          command: cd lib/core && yarn prepare
 
       - run:
           name: lib/components
