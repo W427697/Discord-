@@ -1,12 +1,9 @@
-import webpack, { Stats, Configuration, ProgressPlugin } from 'webpack';
+import webpack, { ProgressPlugin } from 'webpack';
+import type { Stats, Configuration } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import { logger } from '@storybook/node-logger';
-import {
-  Builder,
-  useProgressReporting,
-  checkWebpackVersion,
-  Options,
-} from '@storybook/core-common';
+import { useProgressReporting, checkWebpackVersion } from '@storybook/core-common';
+import type { Builder, Options } from '@storybook/core-common';
 
 import findUp from 'find-up';
 import fs from 'fs-extra';
@@ -25,11 +22,11 @@ export const WEBPACK_VERSION = '5';
 export const getConfig: WebpackBuilder['getConfig'] = getManagerWebpackConfig;
 
 export const makeStatsFromError = (err: string) =>
-  (({
+  ({
     hasErrors: () => true,
     hasWarnings: () => false,
     toJson: () => ({ warnings: [] as any[], errors: [err] }),
-  } as any) as Stats);
+  } as any as Stats);
 
 export const executor = {
   get: async (options: Options) => {

@@ -4,12 +4,8 @@ import webpackType, { Stats, Configuration } from '@types/webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
-import {
-  Builder,
-  useProgressReporting,
-  checkWebpackVersion,
-  Options,
-} from '@storybook/core-common';
+import type { Builder, Options } from '@storybook/core-common';
+import { useProgressReporting, checkWebpackVersion } from '@storybook/core-common';
 
 let compilation: ReturnType<typeof webpackDevMiddleware>;
 let reject: (reason?: any) => void;
@@ -31,8 +27,6 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
   const { presets } = options;
   const typescriptOptions = await presets.apply('typescript', {}, options);
   const babelOptions = await presets.apply('babel', {}, { ...options, typescriptOptions });
-  const entries = await presets.apply('entries', [], options);
-  const stories = await presets.apply('stories', [], options);
   const frameworkOptions = await presets.apply(`${options.framework}Options`, {}, options);
 
   return presets.apply(
@@ -41,8 +35,6 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
     {
       ...options,
       babelOptions,
-      entries,
-      stories,
       typescriptOptions,
       [`${options.framework}Options`]: frameworkOptions,
     }

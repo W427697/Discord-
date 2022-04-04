@@ -1,7 +1,7 @@
 import program, { CommanderStatic } from 'commander';
 import chalk from 'chalk';
 import { logger } from '@storybook/node-logger';
-import { CLIOptions } from '@storybook/core-common';
+import type { CLIOptions } from '@storybook/core-common';
 import { parseList, getEnvConfig, checkDeprecatedFlags } from './utils';
 
 export async function getDevCli(packageJson: {
@@ -29,6 +29,7 @@ export async function getDevCli(packageJson: {
     .option('--ssl-key <key>', 'Provide an SSL key. (Required with --https)')
     .option('--smoke-test', 'Exit after successful start')
     .option('--ci', "CI mode (skip interactive prompts, don't open browser)")
+    .option('--no-open', 'Do not open Storybook automatically in the browser')
     .option('--loglevel <level>', 'Control level of logging during build')
     .option('--quiet', 'Suppress verbose build output')
     .option('--no-version-updates', 'Suppress update check', true)

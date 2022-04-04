@@ -1,13 +1,13 @@
 {
   "name": "@storybook/cli",
-  "version": "6.3.0-rc.4",
+  "version": "6.5.0-alpha.55",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
     "generator",
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/cli",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/cli",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -38,8 +38,7 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "versions.json"
+    "*.d.ts"
   ],
   "scripts": {
     "prepare": "node ../../scripts/prepare.js",
@@ -48,10 +47,12 @@
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-    "@storybook/codemod": "6.3.0-rc.4",
-    "@storybook/node-logger": "6.3.0-rc.4",
+    "@storybook/codemod": "6.5.0-alpha.55",
+    "@storybook/core-common": "6.5.0-alpha.55",
+    "@storybook/csf-tools": "6.5.0-alpha.55",
+    "@storybook/node-logger": "6.5.0-alpha.55",
     "@storybook/semver": "^7.3.2",
-    "boxen": "^4.2.0",
+    "boxen": "^5.1.2",
     "chalk": "^4.1.0",
     "commander": "^6.2.1",
     "core-js": "^3.8.2",
@@ -62,19 +63,19 @@
     "fs-extra": "^9.0.1",
     "get-port": "^5.1.1",
     "globby": "^11.0.2",
-    "jscodeshift": "^0.11.0",
+    "jscodeshift": "^0.13.1",
     "json5": "^2.1.3",
     "leven": "^3.1.0",
     "prompts": "^2.4.0",
     "puppeteer-core": "^2.1.1",
     "read-pkg-up": "^7.0.1",
-    "shelljs": "^0.8.4",
+    "shelljs": "^0.8.5",
     "strip-json-comments": "^3.0.1",
     "ts-dedent": "^2.0.0",
     "update-notifier": "^5.0.1"
   },
   "devDependencies": {
-    "@storybook/client-api": "6.3.0-rc.4",
+    "@storybook/client-api": "6.5.0-alpha.55",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
@@ -82,7 +83,7 @@
     "@types/shelljs": "^0.8.7",
     "@types/update-notifier": "^5.0.0",
     "strip-json-comments": "^3.1.1",
-    "update-notifier": "^4.1.3"
+    "update-notifier": "^5.0.1"
   },
   "peerDependencies": {
     "jest": "*"
@@ -90,5 +91,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "a83fc8b2c0c13c901e09092695f29587f9fe4879"
+  "gitHead": "0d051c3d8efb90e15d8734e6e6914b2439420953"
 }

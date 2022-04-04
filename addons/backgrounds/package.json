@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-backgrounds",
-  "version": "6.3.0-rc.4",
+  "version": "6.5.0-alpha.55",
   "description": "Switch backgrounds to view components in different settings",
   "keywords": [
     "addon",
@@ -10,7 +10,7 @@
     "essentials",
     "design"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/backgrounds",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/backgrounds",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -30,7 +30,7 @@
   "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
-      "*": [
+      "dist/ts3.9/*": [
         "dist/ts3.4/*"
       ]
     }
@@ -45,12 +45,13 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.3.0-rc.4",
-    "@storybook/api": "6.3.0-rc.4",
-    "@storybook/client-logger": "6.3.0-rc.4",
-    "@storybook/components": "6.3.0-rc.4",
-    "@storybook/core-events": "6.3.0-rc.4",
-    "@storybook/theming": "6.3.0-rc.4",
+    "@storybook/addons": "6.5.0-alpha.55",
+    "@storybook/api": "6.5.0-alpha.55",
+    "@storybook/client-logger": "6.5.0-alpha.55",
+    "@storybook/components": "6.5.0-alpha.55",
+    "@storybook/core-events": "6.5.0-alpha.55",
+    "@storybook/csf": "0.0.2--canary.507502b.0",
+    "@storybook/theming": "6.5.0-alpha.55",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "memoizerific": "^1.11.3",
@@ -62,8 +63,8 @@
     "@types/webpack-env": "^1.16.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -76,7 +77,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "a83fc8b2c0c13c901e09092695f29587f9fe4879",
+  "gitHead": "0d051c3d8efb90e15d8734e6e6914b2439420953",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Backgrounds",

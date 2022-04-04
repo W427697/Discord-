@@ -92,6 +92,14 @@ Unit tests ensure that Storybook doesn't break accidentally. If your code can re
 |   +-- [filename].test.ts
 ```
 
+### End-to-end tests (e2e)
+
+Storybook's monorepo is set up to rely on end-to-end testing with [Cypress](https://www.cypress.io/) during CI. To help with testing, we encourage running this test suite before submitting your contribution. Detailed below are some steps you can take:
+
+1. Ensure you have Storybook successfully built in your local branch (i.e., run `yarn bootstrap --core`)
+2. Open a terminal and run `yarn local-registry --port 6000 --open --publish` to publish Storybook's packages into a local registry.
+3. In a second terminal, set up a reproduction using the local registry and run the Cypress tests with `yarn test:e2e-framework`.
+
 ## Submit a pull request
 
 Before submitting your contribution, run the test suite one last time with:
@@ -101,7 +109,7 @@ yarn test
 ```
 
 <div class="aside">
-💡  Storybook uses <a href="https://jestjs.io/"><code>jest</code></a> as part of the testing suite, if you notice that the snapshot tests fail you can re-run and update them with <code>yarn test --update</code>.
+💡  Storybook uses <a href="https://jestjs.io/"><code>jest</code></a> as part of the testing suite, if you notice that the snapshot tests fail you can re-run and update them with <code>yarn test -u</code>.
 </div>
 
 Doing this prevents last-minute bugs and is also a great way to get your contribution merged faster once you submit your pull request. Failing to do so will lead to one of the maintainers mark the pull request with the **Work in Progress** label until all tests pass.
@@ -143,8 +151,8 @@ npx sb@next link --local /path/to/local-repro-directory
 
 <details>
 
-<summary>`yarn dev` watches everything but is resource-intensive</summary>
+<summary>`yarn build --all --watch` watches everything but is resource-intensive</summary>
 
-It's troublesome to know which packages you're going to change ahead of time, and watching all of them can be highly demanding, even on modern machines. If you're working on a powerful enough machine, you can use `yarn dev` instead of `yarn build`.
+It's troublesome to know which packages you're going to change ahead of time, and watching all of them can be highly demanding, even on modern machines. If you're working on a powerful enough machine, you can use `yarn build --all --watch` instead of `yarn build`.
 
 </details>

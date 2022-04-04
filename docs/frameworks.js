@@ -1,6 +1,6 @@
 module.exports = {
   coreFrameworks: ['react', 'vue', 'angular', 'web-components'],
-  communityFrameworks: ['ember', 'html', 'mithril', 'marko', 'svelte', 'riot', 'preact', 'rax'],
+  communityFrameworks: ['ember', 'html', 'svelte', 'preact'],
   featureGroups: [
     {
       name: 'Essentials',
@@ -29,6 +29,16 @@ module.exports = {
           name: 'Controls',
           supported: ['react', 'vue', 'angular', 'web-components', 'ember'],
           path: 'essentials/controls',
+        },
+        {
+          name: 'Measure',
+          unsupported: [],
+          path: 'essentials/measure-and-outline#measure-addon',
+        },
+        {
+          name: 'Outline',
+          unsupported: [],
+          path: 'essentials/measure-and-outline#outline-addon',
         },
       ],
     },
@@ -69,7 +79,7 @@ module.exports = {
         },
         {
           name: 'links',
-          unsupported: ['marko'],
+          unsupported: [],
         },
         {
           name: 'queryparams',
@@ -77,7 +87,7 @@ module.exports = {
         },
         {
           name: 'Storyshots',
-          unsupported: ['ember', 'mithril', 'marko'],
+          unsupported: ['ember'],
           path: 'workflows/unit-testing',
         },
         {
@@ -111,7 +121,7 @@ module.exports = {
         },
         {
           name: 'Dynamic source',
-          supported: ['react', 'vue', 'angular', 'svelte'],
+          supported: ['react', 'vue', 'angular', 'svelte', 'web-components', 'html'],
           path: 'writing-docs/doc-blocks#source',
         },
         {

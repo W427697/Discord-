@@ -1,10 +1,11 @@
 import global from 'global';
 import pick from 'lodash/pick';
 import deepEqual from 'fast-deep-equal';
-import { themes, ThemeVars } from '@storybook/theming';
+import { themes } from '@storybook/theming';
+import type { ThemeVars } from '@storybook/theming';
 
 import merge from '../lib/merge';
-import { State, ModuleFn } from '../index';
+import type { State, ModuleFn } from '../index';
 
 const { DOCS_MODE, document } = global;
 
@@ -156,14 +157,14 @@ export const init: ModuleFn = ({ store, provider, singleStory }) => {
           if (singleStory) return { layout: state.layout };
 
           const { showPanel, isFullscreen } = state.layout;
-          const value = typeof toggled !== 'undefined' ? toggled : !state.layout.showNav;
-          const shouldToggleFullScreen = showPanel === false && value === false;
+          const showNav = typeof toggled !== 'undefined' ? toggled : !state.layout.showNav;
+          const shouldToggleFullScreen = showPanel === false && showNav === false;
 
           return {
             layout: {
               ...state.layout,
-              showNav: value,
-              isFullscreen: shouldToggleFullScreen ? true : isFullscreen,
+              showNav,
+              isFullscreen: shouldToggleFullScreen ? true : !showNav && isFullscreen,
             },
           };
         },

@@ -1,6 +1,8 @@
 import path from 'path';
-import { TransformOptions } from '@babel/core';
-import { Configuration } from 'webpack';
+import type { TransformOptions } from '@babel/core';
+import type { Configuration } from 'webpack';
+import type { StorybookConfig } from '@storybook/core-common';
+import { findDistEsm } from '@storybook/core-common';
 import semverRegex from 'semver-regex';
 
 function isPreactX() {
@@ -10,7 +12,7 @@ function isPreactX() {
   return major >= 10;
 }
 
-export function babelDefault(config: TransformOptions) {
+export function babelDefault(config: TransformOptions): TransformOptions {
   return {
     ...config,
     plugins: [
@@ -20,7 +22,7 @@ export function babelDefault(config: TransformOptions) {
   };
 }
 
-export function webpackFinal(config: Configuration) {
+export function webpackFinal(config: Configuration): Configuration {
   return {
     ...config,
     resolve: {
@@ -40,3 +42,7 @@ export function webpackFinal(config: Configuration) {
     },
   };
 }
+
+export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
+  return [...entry, findDistEsm(__dirname, 'client/preview/config')];
+};
