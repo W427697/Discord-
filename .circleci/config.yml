@@ -181,11 +181,11 @@ jobs:
 
 
       - run:
-          name: addon/storyshots/puppeteer
-          command: cd addons/storyshots/puppeteer && yarn prepare
-      - run:
           name: addon/storyshots/core
-          command: cd addons/storyshots/core && yarn prepare
+          command: cd addons/storyshots/storyshots-core && yarn prepare
+      - run:
+          name: addon/storyshots/puppeteer
+          command: cd addons/storyshots/storyshots-puppeteer && yarn prepare
       - run:
           name: addon/interactions
           command: cd addons/interactions && yarn prepare
