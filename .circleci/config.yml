@@ -277,9 +277,6 @@ jobs:
           name: app/vue3
           command: cd app/vue3 && yarn prepare
       - run:
-          name: app/core
-          command: cd app/core && yarn prepare
-      - run:
           name: app/vue
           command: cd app/vue && yarn prepare
 
