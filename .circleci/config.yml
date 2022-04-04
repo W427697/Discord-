@@ -142,6 +142,20 @@ jobs:
       - run:
           name: lib/csf-tools
           command: cd lib/csf-tools && yarn prepare
+
+      - run:
+          name: lib/manager-webpack4
+          command: cd lib/manager-webpack4 && yarn prepare
+      - run:
+          name: lib/manager-webpack5
+          command: cd lib/manager-webpack5 && yarn prepare
+      - run:
+          name: lib/builder-webpack4
+          command: cd lib/builder-webpack4 && yarn prepare
+      - run:
+          name: lib/builder-webpack5
+          command: cd lib/builder-webpack5 && yarn prepare
+
       - run:
           name: lib/core-server
           command: cd lib/core-server && yarn prepare
@@ -165,18 +179,6 @@ jobs:
           name: lib/ui
           command: cd lib/ui && yarn prepare
 
-      - run:
-          name: lib/manager-webpack4
-          command: cd lib/manager-webpack4 && yarn prepare
-      - run:
-          name: lib/manager-webpack5
-          command: cd lib/manager-webpack5 && yarn prepare
-      - run:
-          name: lib/builder-webpack4
-          command: cd lib/builder-webpack4 && yarn prepare
-      - run:
-          name: lib/builder-webpack5
-          command: cd lib/builder-webpack5 && yarn prepare
 
       - run:
           name: addon/storyshots/puppeteer
