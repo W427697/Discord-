@@ -101,6 +101,9 @@ jobs:
           name: lib/channels
           command: cd lib/channels && yarn prepare
       - run:
+          name: lib/core-events
+          command: cd lib/core-events && yarn prepare
+      - run:
           name: lib/channel-postmessage
           command: cd lib/channel-postmessage && yarn prepare
       - run:
@@ -116,9 +119,6 @@ jobs:
       - run:
           name: lib/core-common
           command: cd lib/core-common && yarn prepare
-      - run:
-          name: lib/core-events
-          command: cd lib/core-events && yarn prepare
       - run:
           name: lib/core-server
           command: cd lib/core-server && yarn prepare
