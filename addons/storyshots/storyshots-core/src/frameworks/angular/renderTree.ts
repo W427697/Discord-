@@ -3,6 +3,7 @@ import HTMLCommentSerializer from 'jest-preset-angular/build/HTMLCommentSerializ
 import { TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { addSerializer } from 'jest-specific-snapshot';
+// @ts-ignore
 import { getStorybookModuleMetadata } from '@storybook/angular/renderer';
 import { BehaviorSubject } from 'rxjs';
 
