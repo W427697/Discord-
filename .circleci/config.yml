@@ -115,9 +115,6 @@ jobs:
           command: cd lib/api && yarn prepare
 
       - run:
-          name: lib/addons
-          command: cd lib/addons && yarn prepare
-      - run:
           name: lib/core-client
           command: cd lib/core-client && yarn prepare
       - run:
@@ -137,6 +134,10 @@ jobs:
       - run:
           name: lib/components
           command: cd lib/components && yarn prepare
+
+      - run:
+          name: lib/addons
+          command: cd lib/addons && yarn prepare
 
       - run:
           name: lib/source-loader
