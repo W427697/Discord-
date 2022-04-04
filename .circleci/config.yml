@@ -120,6 +120,9 @@ jobs:
       - run:
           name: lib/api
           command: cd lib/api && yarn prepare
+      - run:
+          name: app/store
+          command: cd app/store && yarn prepare
 
       - run:
           name: lib/core-client
@@ -263,9 +266,6 @@ jobs:
       - run:
           name: app/react
           command: cd app/react && yarn prepare
-      - run:
-          name: app/store
-          command: cd app/store && yarn prepare
       - run:
           name: app/html
           command: cd app/html && yarn prepare
