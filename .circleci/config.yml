@@ -111,8 +111,8 @@ jobs:
           command: cd lib/channel-websocket && yarn prepare
 
       - run:
-          name: router
-          command: yarn build router
+          name: lib/router
+          command: cd lib/router && yarn prepare
       - run:
           name: lib/theming
           command: cd lib/theming && yarn prepare
@@ -120,6 +120,9 @@ jobs:
       - run:
           name: lib/api
           command: cd lib/api && yarn prepare
+      - run:
+          name: lib/addons
+          command: cd lib/addons && yarn prepare
       - run:
           name: lib/store
           command: cd lib/store && yarn prepare
@@ -139,9 +142,6 @@ jobs:
           name: lib/components
           command: cd lib/components && yarn prepare
 
-      - run:
-          name: lib/addons
-          command: cd lib/addons && yarn prepare
 
       - run:
           name: lib/source-loader
