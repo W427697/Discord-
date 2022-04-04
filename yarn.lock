@@ -6436,7 +6436,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-highlight@6.5.0-alpha.51, @storybook/addon-highlight@workspace:addons/highlight":
+"@storybook/addon-highlight@6.5.0-alpha.51, @storybook/addon-highlight@workspace:*, @storybook/addon-highlight@workspace:addons/highlight":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-highlight@workspace:addons/highlight"
   dependencies:
@@ -8320,6 +8320,7 @@ __metadata:
     "@storybook/addon-controls": "workspace:*"
     "@storybook/addon-docs": "workspace:*"
     "@storybook/addon-essentials": "workspace:*"
+    "@storybook/addon-highlight": "workspace:*"
     "@storybook/addon-interactions": "workspace:*"
     "@storybook/addon-jest": "workspace:*"
     "@storybook/addon-links": "workspace:*"
@@ -33722,6 +33723,7 @@ __metadata:
     "@storybook/addon-backgrounds": 6.5.0-alpha.51
     "@storybook/addon-controls": 6.5.0-alpha.51
     "@storybook/addon-docs": 6.5.0-alpha.51
+    "@storybook/addon-highlight": 6.5.0-alpha.51
     "@storybook/addon-interactions": 6.5.0-alpha.51
     "@storybook/addon-jest": 6.5.0-alpha.51
     "@storybook/addon-links": 6.5.0-alpha.51
