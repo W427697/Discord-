@@ -121,8 +121,8 @@ jobs:
           name: lib/api
           command: cd lib/api && yarn prepare
       - run:
-          name: app/store
-          command: cd app/store && yarn prepare
+          name: lib/store
+          command: cd lib/store && yarn prepare
 
       - run:
           name: lib/core-client
