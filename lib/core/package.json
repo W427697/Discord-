@@ -43,6 +43,10 @@
     "@storybook/core-client": "6.5.0-alpha.55",
     "@storybook/core-server": "6.5.0-alpha.55"
   },
+  "devDependencies": {
+    "react": "16",
+    "react-dom": "16"
+  },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",

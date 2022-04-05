@@ -82,7 +82,9 @@
     "@types/case-sensitive-paths-webpack-plugin": "^2.1.4",
     "@types/terser-webpack-plugin": "^4.2.0",
     "@types/webpack-dev-middleware": "^3.7.3",
-    "@types/webpack-virtual-modules": "^0.1.0"
+    "@types/webpack-virtual-modules": "^0.1.0",
+    "react": "16",
+    "react-dom": "16"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

@@ -60,7 +60,9 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.16.0"
+    "@types/webpack-env": "^1.16.0",
+    "react": "16",
+    "react-dom": "16"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

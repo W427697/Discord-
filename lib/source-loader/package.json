@@ -52,6 +52,10 @@
     "prettier": ">=2.2.1 <=2.3.0",
     "regenerator-runtime": "^0.13.7"
   },
+  "devDependencies": {
+    "react": "16",
+    "react-dom": "16"
+  },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"

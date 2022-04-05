@@ -97,7 +97,9 @@
     "@types/interpret": "^1.1.1",
     "@types/mock-fs": "^4.13.0",
     "@types/picomatch": "^2.3.0",
-    "mock-fs": "^4.13.0"
+    "mock-fs": "^4.13.0",
+    "react": "16",
+    "react-dom": "16"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

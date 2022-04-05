@@ -59,7 +59,9 @@
   "devDependencies": {
     "@storybook/jest": "^0.0.5",
     "@storybook/testing-library": "^0.0.7",
-    "formik": "^2.2.9"
+    "formik": "^2.2.9",
+    "react": "16",
+    "react-dom": "16"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

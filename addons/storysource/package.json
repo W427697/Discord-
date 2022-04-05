@@ -57,7 +57,9 @@
   },
   "devDependencies": {
     "@types/react": "^16.14.23",
-    "@types/react-syntax-highlighter": "^11.0.5"
+    "@types/react-syntax-highlighter": "11.0.5",
+    "react": "16",
+    "react-dom": "16"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

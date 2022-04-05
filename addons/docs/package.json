@@ -87,7 +87,9 @@
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@storybook/mdx2-csf": "canary",
-    "@types/util-deprecate": "^1.0.0"
+    "@types/util-deprecate": "^1.0.0",
+    "react": "16",
+    "react-dom": "16"
   },
   "peerDependencies": {
     "@storybook/mdx2-csf": "*",
