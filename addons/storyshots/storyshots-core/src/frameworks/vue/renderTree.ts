@@ -7,7 +7,9 @@ const VALUES = 'STORYBOOK_VALUES';
 function getRenderedTree(story: any) {
   const component = story.render();
 
+  // @ts-ignore
   const vm = new Vue({
+    // @ts-ignore
     render(h) {
       return h(component);
     },

@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-use-before-define */
 import React, { FC } from 'react';
 import pickBy from 'lodash/pickBy';
 import { styled, ignoreSsrWarning } from '@storybook/theming';
@@ -399,7 +401,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
   const { rows, args } = 'rows' in props ? props : argsTableLoadingData;
 
   const groups = groupRows(
-    pickBy(rows, (row) => !row?.table?.disable && includeConditionalArg(row, args)),
+    pickBy(rows, (row) => !row?.table?.disable && includeConditionalArg(row, args, {})),
     sort
   );
 

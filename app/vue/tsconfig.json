@@ -6,7 +6,9 @@
       "webpack-env",
       "node"
     ],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "isolatedModules": false
   },
   "include": [
     "src/**/*"
