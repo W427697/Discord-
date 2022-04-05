@@ -1,6 +1,6 @@
 {
   "name": "cra-kitchen-sink",
-  "version": "6.5.0-alpha.51",
+  "version": "6.5.0-alpha.55",
   "private": true,
   "scripts": {
     "build": "react-scripts build",
@@ -46,7 +46,7 @@
     "@storybook/core-common": "portal:../../lib/core-common",
     "@storybook/core-events": "portal:../../lib/core-events",
     "@storybook/core-server": "portal:../../lib/core-server",
-    "@storybook/csf": "0.0.2--canary.507502b.0",
+    "@storybook/csf": "0.0.2--canary.7c6c115.0",
     "@storybook/csf-tools": "portal:../../lib/csf-tools",
     "@storybook/docs-tools": "portal:../../lib/docs-tools",
     "@storybook/ember": "portal:../../app/ember",
@@ -77,7 +77,7 @@
     "storybook": "portal:../../lib/cli-storybook"
   },
   "dependencies": {
-    "@storybook/client-logger": "6.5.0-alpha.51",
+    "@storybook/client-logger": "6.5.0-alpha.55",
     "global": "^4.4.0",
     "prop-types": "^15.7.2",
     "react": "16.14.0",
