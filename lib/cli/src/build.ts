@@ -3,7 +3,6 @@ import { buildStaticStandalone } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
 
 export const build = async (cliOptions: any) => {
-  console.log({ cliOptions });
   try {
     await buildStaticStandalone({
       ...cliOptions,

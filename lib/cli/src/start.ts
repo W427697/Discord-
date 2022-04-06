@@ -4,7 +4,6 @@ import { buildDevStandalone } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
 
 export const start = async (cliOptions: any) => {
-  console.log({ cliOptions });
   try {
     await buildDevStandalone({
       ...cliOptions,
