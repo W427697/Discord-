@@ -42,5 +42,7 @@ module.exports = {
   staticDirs: ['../src/assets'],
   features: {
     buildStoriesJson: true,
+    breakingChangesV7: true,
   },
+  framework: '@storybook/angular',
 };

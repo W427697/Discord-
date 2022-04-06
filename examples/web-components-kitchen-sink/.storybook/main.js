@@ -19,5 +19,6 @@ module.exports = {
   features: {
     interactionsDebugger: true,
     buildStoriesJson: true,
+    breakingChangesV7: true,
   },
 };
