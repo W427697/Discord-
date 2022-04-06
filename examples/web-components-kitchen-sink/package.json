@@ -10,6 +10,7 @@
   "scripts": {
     "build-storybook": "sb build",
     "generate-custom-elements-manifest": "yarn custom-elements-manifest analyze --litelement --dev --exclude \"./**/*.stories.ts\" --exclude \"./storybook-static\"",
+    "sb": "node ../../lib/cli/bin/index.js",
     "storybook": "sb start -p 9006 --no-manager-cache"
   },
   "resolutions": {

@@ -7,6 +7,7 @@
     "debug": "cross-env NODE_OPTIONS=--inspect-brk STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb start -p 9011 -c ./",
     "do-storyshots-puppeteer": "../../node_modules/.bin/jest --projects=./storyshots-puppeteer",
     "generate-addon-jest-testresults": "jest --config=tests/addon-jest.config.json --json --outputFile=stories/addon-jest.testresults.json",
+    "sb": "node ../../lib/cli/bin/index.js",
     "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb start -p 9011 -c ./ --no-manager-cache",
     "storyshots-puppeteer": "yarn run sb build && yarn run do-storyshots-puppeteer"
   },

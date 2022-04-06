@@ -3,6 +3,7 @@
   "version": "6.5.0-alpha.57",
   "private": true,
   "scripts": {
+    "sb": "node ../../lib/cli/bin/index.js",
     "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb start -p 9011 -c ../official-storybook --no-manager-cache --preview-url=http://localhost:1337/external-iframe.html",
     "storybook-preview": "cross-env PREVIEW_URL=external-iframe.html parcel ./storybook.html --port 1337"
   },
