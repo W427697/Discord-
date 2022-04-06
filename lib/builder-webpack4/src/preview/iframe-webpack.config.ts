@@ -1,4 +1,5 @@
 import path from 'path';
+import dedent from 'ts-dedent';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin } from 'webpack';
 // @ts-ignore
 import type { Configuration, RuleSetRule } from '@types/webpack';
@@ -67,6 +68,15 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     features,
     serverChannelUrl,
   } = options;
+
+  if (!framework) {
+    throw new Error(dedent`
+      You must to specify a framework in '.storybook/main.js' config.
+
+      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-field-mandatory
+    `);
+  }
+
   const logLevel = await presets.apply('logLevel', undefined);
   const frameworkOptions = await presets.apply(`${framework}Options`, {});
 
