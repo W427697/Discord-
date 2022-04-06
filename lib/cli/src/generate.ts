@@ -221,6 +221,7 @@ program
   .option('--modern', 'Use modern browser modules')
   .option('--no-manager-cache', 'Do not cache the manager UI')
   .action((options) => {
+    process.env.NODE_ENV = process.env.NODE_ENV || 'production';
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}\n`));
 
