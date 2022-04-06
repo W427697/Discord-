@@ -7145,6 +7145,7 @@ __metadata:
     "@storybook/client-api": 6.5.0-alpha.57
     "@storybook/codemod": 6.5.0-alpha.57
     "@storybook/core-common": 6.5.0-alpha.57
+    "@storybook/core-server": 6.5.0-alpha.57
     "@storybook/csf-tools": 6.5.0-alpha.57
     "@storybook/node-logger": 6.5.0-alpha.57
     "@storybook/semver": ^7.3.2

@@ -8,10 +8,10 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "build-storybook": "build-storybook",
+    "build-storybook": "sb build",
     "server": "PORT=1337 nodemon server.js",
     "start": "concurrently \"yarn server\" \"yarn storybook\"",
-    "storybook": "SERVER_PORT=1137 start-storybook -p 9006 --quiet"
+    "storybook": "SERVER_PORT=1137 sb start -p 9006 --quiet"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "6.5.0-alpha.57",

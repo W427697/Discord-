@@ -3,8 +3,8 @@
   "version": "6.5.0-alpha.57",
   "private": true,
   "scripts": {
-    "build-storybook": "build-storybook",
-    "storybook": "start-storybook -p 9009 --no-manager-cache"
+    "build-storybook": "sb build",
+    "storybook": "sb start -p 9009 --no-manager-cache"
   },
   "dependencies": {
     "global": "^4.4.0"

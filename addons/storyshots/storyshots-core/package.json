@@ -38,10 +38,10 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build-storybook": "build-storybook",
+    "build-storybook": "sb build",
     "example": "jest storyshot.test",
     "prepare": "node ../../../scripts/prepare.js",
-    "storybook": "start-storybook -p 6006"
+    "storybook": "sb start -p 6006"
   },
   "dependencies": {
     "@jest/transform": "^26.6.2",
