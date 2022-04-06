@@ -6893,10 +6893,6 @@ __metadata:
       optional: true
     "@nrwl/workspace":
       optional: true
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -7663,10 +7659,6 @@ __metadata:
     babel-plugin-ember-modules-api-polyfill: ^2.12.0
     babel-plugin-htmlbars-inline-precompile: 2 || 3
     ember-source: ^3.16.0
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -7760,10 +7752,6 @@ __metadata:
     webpack: 4
   peerDependencies:
     "@babel/core": "*"
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -8027,10 +8015,6 @@ __metadata:
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -8167,10 +8151,6 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -8506,10 +8486,6 @@ __metadata:
     ts-dedent: ^2.0.0
     yaml: ^1.10.0
     yaml-loader: ^0.6.0
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -8588,10 +8564,6 @@ __metadata:
     "@babel/core": "*"
     svelte: ^3.1.0
     svelte-loader: "*"
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -8755,10 +8727,6 @@ __metadata:
     "@vue/compiler-sfc": ^3.0.0
     babel-loader: ^7.0.0 || ^8.0.0
     vue: ^3.0.0
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -8796,10 +8764,6 @@ __metadata:
     vue: ^2.6.8
     vue-loader: ^15.7.0
     vue-template-compiler: ^2.6.8
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -8832,10 +8796,6 @@ __metadata:
     ts-dedent: ^2.0.0
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 

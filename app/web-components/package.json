@@ -31,13 +31,7 @@
       ]
     }
   },
-  "bin": {
-    "build-storybook": "./bin/build.js",
-    "start-storybook": "./bin/index.js",
-    "storybook-server": "./bin/index.js"
-  },
   "files": [
-    "bin/**/*",
     "dist/**/*",
     "README.md",
     "*.js",
