@@ -6,7 +6,7 @@ import { getProjectRoot } from '@storybook/core-common';
  */
 export const useBaseTsSupport = (framework: string) => {
   // These packages both have their own TS implementation.
-  return !['vue', 'angular'].includes(framework);
+  return !['@storybook/vue', '@storybook/angular'].includes(framework);
 };
 
 export const createBabelLoader = (options: any, framework: string) => ({
