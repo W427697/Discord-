@@ -29,9 +29,10 @@ export const automigrate = async ({ fixId, dryRun, yes }: FixOptions = {}) => {
         boxen(message, { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any)
       );
 
-      const runAnswer =
-        yes || dryRun
-          ? { fix: false }
+      let runAnswer = { fix: false };
+      if (!dryRun) {
+        runAnswer = yes
+          ? { fix: true }
           : await prompts([
               {
                 type: 'confirm',
@@ -39,6 +40,7 @@ export const automigrate = async ({ fixId, dryRun, yes }: FixOptions = {}) => {
                 message: `Do you want to run the '${chalk.cyan(f.id)}' fix on your project?`,
               },
             ]);
+      }
 
       if (runAnswer.fix) {
         try {
