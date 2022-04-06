@@ -18,6 +18,7 @@
     "@storybook/addon-backgrounds": "portal:../../addons/backgrounds",
     "@storybook/addon-controls": "portal:../../addons/controls",
     "@storybook/addon-docs": "portal:../../addons/docs",
+    "@storybook/addon-highlight": "portal:../../addons/highlight",
     "@storybook/addon-interactions": "portal:../../addons/interactions",
     "@storybook/addon-links": "portal:../../addons/links",
     "@storybook/addon-storyshots": "portal:../../addons/storyshots/storyshots-core",
