@@ -227,19 +227,6 @@ const promptCrashReports = async ({ packageJson }: CLIOptions & LoadOptions & Bu
     initial: true,
   });
 
-  if (enableCrashReports) {
-    // 1 - Write into a file. Works everywhere (including CI), but if disabled by one person in the team, disables entire project
-    // const { mainConfig: mainConfigPath } = getStorybookInfo(packageJson);
-    // const mainConfig = await readConfig(mainConfigPath);
-    // const existingCore = mainConfig.getFieldValue(['core']);
-    // mainConfig.setFieldValue(['core'], { ...existingCore, enableCrashReports: true });
-    // await writeConfig(mainConfig);
-    // logger.info(
-    //   'Added crash reports flag to your main file. Thank you for helping us improve Storybook!'
-    // );
-    // 2 - Write into cache
-  }
-
   await cache.set('enableCrashreports', enableCrashReports);
 
   return enableCrashReports;
