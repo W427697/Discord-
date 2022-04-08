@@ -1,5 +1,4 @@
 /// <reference types="node" />
-
 import type { StorybookConfig } from '@storybook/react/types';
 
 const config: StorybookConfig = {
@@ -39,12 +38,19 @@ const config: StorybookConfig = {
   features: {
     modernInlineRender: true,
     interactionsDebugger: true,
+    breakingChangesV7: true,
   },
   staticDirs: [
     './statics/public',
-    { from: './statics/examples/example1', to: '/example1' },
-    { from: './statics/examples/example2', to: '/example2' },
+    {
+      from: './statics/examples/example1',
+      to: '/example1',
+    },
+    {
+      from: './statics/examples/example2',
+      to: '/example2',
+    },
   ],
+  framework: '@storybook/react',
 };
-
 module.exports = config;

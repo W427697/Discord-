@@ -195,18 +195,18 @@ export function loadPreset(
     }
 
     if (isObject(contents)) {
-      const { addons: addonsInput, presets: presetsInput, framework, ...rest } = contents;
+      const { addons: addonsInput, presets: presetsInput, ...rest } = contents;
 
       const subPresets = resolvePresetFunction(
         presetsInput,
         presetOptions,
-        framework,
+        rest.framework,
         storybookOptions
       );
       const subAddons = resolvePresetFunction(
         addonsInput,
         presetOptions,
-        framework,
+        rest.framework,
         storybookOptions
       );
 

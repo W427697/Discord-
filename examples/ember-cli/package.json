@@ -6,9 +6,10 @@
     "build": "ember build --output-path ember-output",
     "build-storybook": "yarn storybook-prebuild && sb build",
     "dev": "ember serve",
-    "storybook": "yarn build && sb start -p 9009 --no-manager-cache",
+    "sb": "node ../../lib/cli/bin/index.js",
+    "storybook": "yarn build && yarn sb dev -p 9009 --no-manager-cache",
     "storybook-prebuild": "yarn build && shx cp -r public/* ember-output",
-    "storybook:dev": "yarn dev & sb start -p 9009"
+    "storybook:dev": "yarn dev & yarn sb dev -p 9009"
   },
   "dependencies": {
     "ember-named-blocks-polyfill": "^0.2.3",

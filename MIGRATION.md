@@ -1,6 +1,8 @@
 <h1>Migration</h1>
 
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
+  - [Breaking changes](#breaking-changes)
+    - [Framework field mandatory](#framework-field-mandatory)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
   - [Deprecated register.js](#deprecated-registerjs)
   - [Dropped support for addon-actions addDecorators](#dropped-support-for-addon-actions-adddecorators)
@@ -199,6 +201,12 @@
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
 ## From version 6.5.x to 7.0.0
+
+### Breaking changes
+
+#### Framework field mandatory
+
+In 6.4 we introduced a new `main.js` field called [`framework`](#mainjs-framework-field). Starting in 7.0, this field is mandatory.
 
 ## From version 6.4.x to 6.5.0
 
