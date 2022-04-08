@@ -11,7 +11,7 @@
     "build-storybook": "sb build",
     "generate-addon-jest-testresults": "jest --config=tests/addon-jest.config.json --json --outputFile=stories/addon-jest.testresults.json",
     "sb": "node ../../lib/cli/bin/index.js",
-    "storybook": "sb start -p 9006 --no-manager-cache"
+    "storybook": "yarn sb start -p 9006 --no-manager-cache"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "6.5.0-alpha.57",

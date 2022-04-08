@@ -8,7 +8,7 @@
     "eject": "react-scripts eject",
     "sb": "node ../../lib/cli/bin/index.js",
     "start": "react-scripts start",
-    "storybook": "sb start -p 9009 --no-manager-cache",
+    "storybook": "yarn sb start -p 9009 --no-manager-cache",
     "test": "react-scripts test"
   },
   "browserslist": {

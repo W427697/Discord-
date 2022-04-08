@@ -11,7 +11,7 @@
     "build-storybook": "sb build",
     "generate-custom-elements-manifest": "yarn custom-elements-manifest analyze --litelement --dev --exclude \"./**/*.stories.ts\" --exclude \"./storybook-static\"",
     "sb": "node ../../lib/cli/bin/index.js",
-    "storybook": "sb start -p 9006 --no-manager-cache"
+    "storybook": "yarn sb start -p 9006 --no-manager-cache"
   },
   "resolutions": {
     "@storybook/addon-a11y": "portal:../../addons/a11y",
