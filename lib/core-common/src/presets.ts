@@ -324,42 +324,18 @@ export function getPresets(presets: PresetConfig[], storybookOptions: InterPrese
   };
 }
 
-/**
- * Get the `framework` provided in main.js and also do error checking up front
- */
-const getFrameworkPackage = (configDir: string) => {
-  const main = serverRequire(resolve(configDir, 'main'));
-  if (!main) return null;
-  const { framework: frameworkPackage, features = {} } = main;
-  if (features.breakingChangesV7 && !frameworkPackage) {
-    throw new Error(dedent`
-      Expected 'framework' in your main.js, didn't find one.
-
-      You can fix this automatically by running:
-
-      npx sb@next automigrate
-    
-      More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field
-    `);
-  }
-  return frameworkPackage;
-};
-
 export function loadAllPresets(
   options: CLIOptions &
     LoadOptions &
     BuilderOptions & {
       corePresets: string[];
       overridePresets: string[];
-      frameworkPresets: string[];
     }
 ) {
-  const { corePresets = [], frameworkPresets = [], overridePresets = [], ...restOptions } = options;
+  const { corePresets = [], overridePresets = [], ...restOptions } = options;
 
-  const frameworkPackage = getFrameworkPackage(options.configDir);
   const presetsConfig: PresetConfig[] = [
     ...corePresets,
-    ...(frameworkPackage ? [] : frameworkPresets),
     ...loadCustomPresets(options),
     ...overridePresets,
   ];

@@ -1,6 +1,6 @@
 import type { StoryContext } from '@storybook/csf';
 
-export type { RenderContext } from '@storybook/core';
+export type { RenderContext } from '@storybook/core-client';
 
 export type StoryFnServerReturnType = any;
 

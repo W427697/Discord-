@@ -1,5 +1,4 @@
-import { sync } from 'read-pkg-up';
-import type { LoadOptions, Options as CoreOptions } from '@storybook/core-common';
+import type { Options as CoreOptions } from '@storybook/core-common';
 
 import { BuilderContext } from '@angular-devkit/architect';
 import { ExtraEntryPoint, StylePreprocessorOptions } from '@angular-devkit/build-angular';
@@ -16,9 +15,3 @@ export type PresetOptions = CoreOptions & {
   angularBuilderContext?: BuilderContext | null;
   tsConfig?: string;
 };
-
-export default {
-  packageJson: sync({ cwd: __dirname }).packageJson,
-  framework: 'angular',
-  frameworkPresets: [require.resolve('./preset')],
-} as LoadOptions;

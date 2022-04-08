@@ -1,4 +1,5 @@
 import dedent from 'ts-dedent';
+import { sync } from 'read-pkg-up';
 import { logger, instance as npmLog } from '@storybook/node-logger';
 import { buildDevStandalone } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
@@ -14,6 +15,7 @@ export const dev = async (cliOptions: any) => {
       ignorePreview: !!cliOptions.previewUrl && !cliOptions.forceBuildPreview,
       docsMode: !!cliOptions.docs,
       cache,
+      packageJson: sync({ cwd: __dirname }).packageJson,
     });
   } catch (error) {
     // this is a weird bugfix, somehow 'node-pre-gyp' is polluting the npmLog header

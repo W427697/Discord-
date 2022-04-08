@@ -48,7 +48,6 @@
     "@storybook/addons": "6.5.0-alpha.57",
     "@storybook/babel-plugin-require-context-hook": "1.0.1",
     "@storybook/client-api": "6.5.0-alpha.57",
-    "@storybook/core": "6.5.0-alpha.57",
     "@storybook/core-client": "6.5.0-alpha.57",
     "@storybook/core-common": "6.5.0-alpha.57",
     "@storybook/csf": "0.0.2--canary.7c6c115.0",

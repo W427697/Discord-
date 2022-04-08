@@ -161,7 +161,6 @@
     "@storybook/client-logger": "workspace:*",
     "@storybook/codemod": "workspace:*",
     "@storybook/components": "workspace:*",
-    "@storybook/core": "workspace:*",
     "@storybook/core-events": "workspace:*",
     "@storybook/csf-tools": "workspace:*",
     "@storybook/docs-tools": "workspace:*",

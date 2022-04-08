@@ -1,3 +1,4 @@
+import { sync } from 'read-pkg-up';
 import { logger } from '@storybook/node-logger';
 import { buildStaticStandalone } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
@@ -12,6 +13,7 @@ export const build = async (cliOptions: any) => {
       docsMode: !!cliOptions.docs,
       configType: 'PRODUCTION',
       cache,
+      packageJson: sync({ cwd: __dirname }).packageJson,
     });
   } catch (e) {
     logger.error(e);

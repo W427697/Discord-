@@ -202,9 +202,6 @@
     "@storybook/components": {
       "implicitDependencies": []
     },
-    "@storybook/core": {
-      "implicitDependencies": []
-    },
     "@storybook/core-client": {
       "implicitDependencies": []
     },

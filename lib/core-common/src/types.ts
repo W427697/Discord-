@@ -147,8 +147,6 @@ export interface PackageJson {
 // like it's described in docs/api/new-frameworks.md
 export interface LoadOptions {
   packageJson: PackageJson;
-  framework: string;
-  frameworkPresets: string[];
   outputDir?: string;
   configDir?: string;
   ignorePreview?: boolean;

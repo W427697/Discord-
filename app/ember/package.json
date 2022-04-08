@@ -36,7 +36,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/core": "6.5.0-alpha.57",
+    "@storybook/core-client": "6.5.0-alpha.57",
     "@storybook/core-common": "6.5.0-alpha.57",
     "@storybook/docs-tools": "6.5.0-alpha.57",
     "@storybook/store": "6.5.0-alpha.57",

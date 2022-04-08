@@ -35,7 +35,6 @@
     "@storybook/client-logger": "portal:../../lib/client-logger",
     "@storybook/codemod": "portal:../../lib/codemod",
     "@storybook/components": "portal:../../lib/components",
-    "@storybook/core": "portal:../../lib/core",
     "@storybook/core-client": "portal:../../lib/core-client",
     "@storybook/core-common": "portal:../../lib/core-common",
     "@storybook/core-events": "portal:../../lib/core-events",

@@ -45,7 +45,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@storybook/addons": "6.5.0-alpha.57",
     "@storybook/client-logger": "6.5.0-alpha.57",
-    "@storybook/core": "6.5.0-alpha.57",
+    "@storybook/core-client": "6.5.0-alpha.57",
     "@storybook/core-common": "6.5.0-alpha.57",
     "@storybook/csf": "0.0.2--canary.7c6c115.0",
     "@storybook/docs-tools": "6.5.0-alpha.57",

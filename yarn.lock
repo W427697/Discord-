@@ -6612,7 +6612,6 @@ __metadata:
     "@storybook/angular": 6.5.0-alpha.57
     "@storybook/babel-plugin-require-context-hook": 1.0.1
     "@storybook/client-api": 6.5.0-alpha.57
-    "@storybook/core": 6.5.0-alpha.57
     "@storybook/core-client": 6.5.0-alpha.57
     "@storybook/core-common": 6.5.0-alpha.57
     "@storybook/csf": 0.0.2--canary.7c6c115.0
@@ -6831,7 +6830,7 @@ __metadata:
     "@storybook/addons": 6.5.0-alpha.57
     "@storybook/api": 6.5.0-alpha.57
     "@storybook/client-logger": 6.5.0-alpha.57
-    "@storybook/core": 6.5.0-alpha.57
+    "@storybook/core-client": 6.5.0-alpha.57
     "@storybook/core-common": 6.5.0-alpha.57
     "@storybook/core-events": 6.5.0-alpha.57
     "@storybook/csf": 0.0.2--canary.7c6c115.0
@@ -7503,26 +7502,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/core@6.5.0-alpha.57, @storybook/core@workspace:*, @storybook/core@workspace:lib/core":
-  version: 0.0.0-use.local
-  resolution: "@storybook/core@workspace:lib/core"
-  dependencies:
-    "@storybook/core-client": 6.5.0-alpha.57
-    "@storybook/core-server": 6.5.0-alpha.57
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    webpack: "*"
-  peerDependenciesMeta:
-    "@storybook/builder-webpack5":
-      optional: true
-    "@storybook/manager-webpack5":
-      optional: true
-    typescript:
-      optional: true
-  languageName: unknown
-  linkType: soft
-
 "@storybook/csf-tools@6.5.0-alpha.57, @storybook/csf-tools@workspace:*, @storybook/csf-tools@workspace:lib/csf-tools":
   version: 0.0.0-use.local
   resolution: "@storybook/csf-tools@workspace:lib/csf-tools"
@@ -7643,7 +7622,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/ember@workspace:app/ember"
   dependencies:
-    "@storybook/core": 6.5.0-alpha.57
+    "@storybook/core-client": 6.5.0-alpha.57
     "@storybook/core-common": 6.5.0-alpha.57
     "@storybook/docs-tools": 6.5.0-alpha.57
     "@storybook/store": 6.5.0-alpha.57
@@ -7715,7 +7694,7 @@ __metadata:
   resolution: "@storybook/html@workspace:app/html"
   dependencies:
     "@storybook/addons": 6.5.0-alpha.57
-    "@storybook/core": 6.5.0-alpha.57
+    "@storybook/core-client": 6.5.0-alpha.57
     "@storybook/core-common": 6.5.0-alpha.57
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.57
@@ -7979,7 +7958,7 @@ __metadata:
   dependencies:
     "@babel/plugin-transform-react-jsx": ^7.12.12
     "@storybook/addons": 6.5.0-alpha.57
-    "@storybook/core": 6.5.0-alpha.57
+    "@storybook/core-client": 6.5.0-alpha.57
     "@storybook/core-common": 6.5.0-alpha.57
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/store": 6.5.0-alpha.57
@@ -8084,7 +8063,7 @@ __metadata:
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.3
     "@storybook/addons": 6.5.0-alpha.57
     "@storybook/client-logger": 6.5.0-alpha.57
-    "@storybook/core": 6.5.0-alpha.57
+    "@storybook/core-client": 6.5.0-alpha.57
     "@storybook/core-common": 6.5.0-alpha.57
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.57
@@ -8200,7 +8179,6 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/codemod": "workspace:*"
     "@storybook/components": "workspace:*"
-    "@storybook/core": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
@@ -8449,7 +8427,7 @@ __metadata:
     "@storybook/addons": 6.5.0-alpha.57
     "@storybook/api": 6.5.0-alpha.57
     "@storybook/client-api": 6.5.0-alpha.57
-    "@storybook/core": 6.5.0-alpha.57
+    "@storybook/core-client": 6.5.0-alpha.57
     "@storybook/core-common": 6.5.0-alpha.57
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/node-logger": 6.5.0-alpha.57
@@ -8522,7 +8500,7 @@ __metadata:
   dependencies:
     "@storybook/addons": 6.5.0-alpha.57
     "@storybook/client-logger": 6.5.0-alpha.57
-    "@storybook/core": 6.5.0-alpha.57
+    "@storybook/core-client": 6.5.0-alpha.57
     "@storybook/core-common": 6.5.0-alpha.57
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.57
@@ -8683,7 +8661,7 @@ __metadata:
   resolution: "@storybook/vue3@workspace:app/vue3"
   dependencies:
     "@storybook/addons": 6.5.0-alpha.57
-    "@storybook/core": 6.5.0-alpha.57
+    "@storybook/core-client": 6.5.0-alpha.57
     "@storybook/core-common": 6.5.0-alpha.57
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.57
@@ -8718,7 +8696,7 @@ __metadata:
   dependencies:
     "@storybook/addons": 6.5.0-alpha.57
     "@storybook/client-logger": 6.5.0-alpha.57
-    "@storybook/core": 6.5.0-alpha.57
+    "@storybook/core-client": 6.5.0-alpha.57
     "@storybook/core-common": 6.5.0-alpha.57
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.57
@@ -8759,7 +8737,7 @@ __metadata:
     "@storybook/addons": 6.5.0-alpha.57
     "@storybook/client-api": 6.5.0-alpha.57
     "@storybook/client-logger": 6.5.0-alpha.57
-    "@storybook/core": 6.5.0-alpha.57
+    "@storybook/core-client": 6.5.0-alpha.57
     "@storybook/core-common": 6.5.0-alpha.57
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.57
@@ -24918,7 +24896,6 @@ __metadata:
     "@storybook/addon-viewport": 6.5.0-alpha.57
     "@storybook/addons": 6.5.0-alpha.57
     "@storybook/client-api": 6.5.0-alpha.57
-    "@storybook/core": 6.5.0-alpha.57
     "@storybook/core-events": 6.5.0-alpha.57
     "@storybook/html": 6.5.0-alpha.57
     "@storybook/source-loader": 6.5.0-alpha.57
