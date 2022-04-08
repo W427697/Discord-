@@ -8,21 +8,15 @@ import { resolvePathInStorybookCache, createFileSystemCache } from '@storybook/c
 import { executor as previewExecutor } from '@storybook/builder-webpack4';
 import { executor as managerExecutor } from '@storybook/manager-webpack4';
 
+import { sync } from 'read-pkg-up';
 import { buildDevStandalone } from './build-dev';
 import { buildStaticStandalone } from './build-static';
 
-// nx-ignore-next-line
-import reactOptions from '../../../app/react/src/server/options';
-// nx-ignore-next-line
-import vue3Options from '../../../app/vue3/src/server/options';
-// nx-ignore-next-line
-import htmlOptions from '../../../app/html/src/server/options';
-// nx-ignore-next-line
-import webComponentsOptions from '../../../app/web-components/src/server/options';
 import { outputStats } from './utils/output-stats';
 
 const { SNAPSHOT_OS } = global;
 const mkdtemp = promisify(mkdtempCb);
+const { packageJson } = sync({ cwd: __dirname });
 
 // this only applies to this file
 jest.setTimeout(10000);
@@ -141,11 +135,11 @@ const prepareSnap = (get: any, name): Pick<Configuration, 'module' | 'entry' | '
 const snap = (name: string) => `__snapshots__/${name}`;
 
 describe.each([
-  ['cra-ts-essentials', reactOptions],
-  ['vue-3-cli', vue3Options],
-  ['web-components-kitchen-sink', webComponentsOptions],
-  ['html-kitchen-sink', htmlOptions],
-])('%s', (example, frameworkOptions) => {
+  ['cra-ts-essentials'],
+  ['vue-3-cli'],
+  ['web-components-kitchen-sink'],
+  ['html-kitchen-sink'],
+])('%s', (example) => {
   describe.each([
     ['manager', managerExecutor],
     ['preview', previewExecutor],
@@ -161,13 +155,13 @@ describe.each([
     ])('%s', async (mode, builder) => {
       const options = {
         ...baseOptions,
-        ...frameworkOptions,
         configDir: path.resolve(`${__dirname}/../../../examples/${example}/.storybook`),
         // Only add an outputDir in production mode.
         outputDir:
           mode === 'prod' ? await mkdtemp(path.join(os.tmpdir(), 'storybook-static-')) : undefined,
         ignorePreview: component === 'manager',
         managerCache: component === 'preview',
+        packageJson,
       };
       await builder(options);
       const config = prepareSnap(executor.get, component);
@@ -187,7 +181,7 @@ describe('dev cli flags', () => {
     await cache.clear();
   });
 
-  const cliOptions = { ...reactOptions, ...baseOptions };
+  const cliOptions = { ...baseOptions, packageJson };
 
   // eslint-disable-next-line jest/no-disabled-tests
   it.skip('baseline', async () => {
@@ -254,9 +248,9 @@ describe('build cli flags', () => {
     await cache.clear();
   });
   const cliOptions = {
-    ...reactOptions,
     ...baseOptions,
     outputDir: `${__dirname}/storybook-static`,
+    packageJson,
   };
 
   // eslint-disable-next-line jest/no-disabled-tests
