@@ -2,6 +2,7 @@ import originalFetch from 'isomorphic-unfetch';
 import retry from 'fetch-retry';
 import { nanoid } from 'nanoid';
 import { Options, TelemetryData } from './types';
+import { getAnonymousProjectId } from './anonymous-id';
 
 const URL = 'https://storybook.js.org/event-log';
 
@@ -21,11 +22,15 @@ export async function sendTelemetry(
   // We use this id so we can de-dupe events that arrive at the index multiple times due to the
   // use of retries. There are situations in which the request "5xx"s (or times-out), but
   // the server actually gets the request and stores it anyway.
-  const eventId = nanoid();
 
   // flatten the data before we send it
   const { payload, metadata, ...rest } = data;
-  const body = { ...rest, ...metadata, ...payload, eventId, sessionId };
+  const context = {
+    anonymousId: getAnonymousProjectId(),
+    inCI: process.env.CI === 'true',
+  };
+  const eventId = nanoid();
+  const body = { ...rest, eventId, sessionId, metadata, payload, context };
 
   try {
     const request = fetch(URL, {

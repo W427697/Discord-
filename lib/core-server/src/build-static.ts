@@ -226,6 +226,7 @@ export async function buildStatic({ packageJson, ...loadOptions }: LoadOptions) 
         {
           immediate: true,
           configDir: options.configDir,
+          enableCrashReports: options.enableCrashReports,
         }
       );
     }

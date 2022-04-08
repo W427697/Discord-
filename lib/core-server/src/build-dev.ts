@@ -188,6 +188,7 @@ export async function buildDev(loadOptions: LoadOptions) {
         {
           immediate: true,
           configDir: options.configDir,
+          enableCrashReports: options.enableCrashReports,
         }
       );
     }

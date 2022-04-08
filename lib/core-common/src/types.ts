@@ -55,6 +55,11 @@ export interface CoreConfig {
    * @see https://storybook.js.org/telemetry
    */
   disableTelemetry?: boolean;
+  /**
+   * Enable crash reports to be sent to Storybook telemetry
+   * @see https://storybook.js.org/telemetry
+   */
+  enableCrashReports?: boolean;
 }
 
 interface DirectoryMapping {
@@ -164,6 +169,8 @@ export interface CLIOptions {
   ignorePreview?: boolean;
   previewUrl?: string;
   forceBuildPreview?: boolean;
+  disableTelemetry?: boolean;
+  enableCrashReports?: boolean;
   host?: string;
   /**
    * @deprecated Use 'staticDirs' Storybook Configuration option instead

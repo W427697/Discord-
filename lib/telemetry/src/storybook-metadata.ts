@@ -6,7 +6,6 @@ import {
 } from '@storybook/core-common';
 import type { StorybookConfig, PackageJson } from '@storybook/core-common';
 
-import { getAnonymousProjectId } from './anonymous-id';
 import type { StorybookMetadata, Dependency, StorybookAddon } from './types';
 import { getActualPackageVersion, getActualPackageVersions } from './package-versions';
 
@@ -58,7 +57,7 @@ const getFrameworkOptions = (mainConfig: any) => {
     }
   }
 
-  return null;
+  return undefined;
 };
 
 // Analyze a combination of information from main.js and package.json
@@ -71,21 +70,13 @@ export const computeStorybookMetadata = async ({
   mainConfig: StorybookConfig & Record<string, any>;
 }): Promise<StorybookMetadata> => {
   const metadata: Partial<StorybookMetadata> = {
-    anonymousId: getAnonymousProjectId(),
-    metaFramework: null,
-    builder: null,
-    hasCustomBabel: null,
-    hasCustomWebpack: null,
-    hasStaticDirs: null,
-    hasStorybookEslint: null,
-    typescriptOptions: null,
-    framework: null,
-    addons: null,
-    features: null,
-    language: null,
-    refCount: null,
-    storybookPackages: null,
-    storybookVersion: null,
+    generatedAt: new Date().getTime(),
+    builder: { name: 'webpack4' },
+    hasCustomBabel: false,
+    hasCustomWebpack: false,
+    hasStaticDirs: false,
+    hasStorybookEslint: false,
+    refCount: 0,
   };
 
   const allDependencies = {
@@ -117,7 +108,7 @@ export const computeStorybookMetadata = async ({
 
     metadata.builder = {
       name: typeof builder === 'string' ? builder : builder.name,
-      options: typeof builder === 'string' ? null : builder?.options ?? null,
+      options: typeof builder === 'string' ? undefined : builder?.options ?? undefined,
     };
   }
 
@@ -133,7 +124,7 @@ export const computeStorybookMetadata = async ({
   if (mainConfig.addons) {
     mainConfig.addons.forEach((addon) => {
       let result;
-      let options = null;
+      let options;
       if (typeof addon === 'string') {
         result = addon.replace('/register', '');
       } else {
@@ -143,7 +134,7 @@ export const computeStorybookMetadata = async ({
 
       addons[result] = {
         options,
-        version: null,
+        version: undefined,
       };
     });
   }
@@ -161,7 +152,7 @@ export const computeStorybookMetadata = async ({
     .reduce((acc, dep) => {
       return {
         ...acc,
-        [dep]: { version: null },
+        [dep]: { version: undefined },
       };
     }, {}) as Record<string, Dependency>;
 

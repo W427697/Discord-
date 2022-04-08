@@ -1,8 +1,9 @@
+import { logger } from '@storybook/client-logger';
 import type { EventType, Payload, Options, TelemetryData } from './types';
 import { getStorybookMetadata } from './storybook-metadata';
 import { sendTelemetry } from './telemetry';
 import { notify } from './notify';
-import { getProjectRoot } from './anonymous-id';
+import { sanitizeError } from './sanitize';
 
 export * from './storybook-metadata';
 
@@ -15,8 +16,6 @@ export const telemetry = async (
   const telemetryData: TelemetryData = {
     eventType,
     payload,
-    inCI: process.env.CI === 'true',
-    time: Date.now(),
   };
   try {
     telemetryData.metadata = await getStorybookMetadata(options.configDir);
@@ -25,14 +24,17 @@ export const telemetry = async (
   } finally {
     const { error } = telemetryData.payload;
     if (error) {
-      const cwd = getProjectRoot();
       // make sure to anonymise possible paths from error messages
-      telemetryData.payload.error = {
-        message: error.message.replaceAll(cwd, 'CWD'),
-        stack: error.stack.replaceAll(cwd, 'CWD'),
-      };
+      telemetryData.payload.error = sanitizeError(error);
     }
 
-    await sendTelemetry(telemetryData, options);
+    if (!telemetryData.payload.error || options.enableCrashReports) {
+      if (process.env?.STORYBOOK_DEBUG_TELEMETRY) {
+        logger.info('\n[telemetry]');
+        logger.info(JSON.stringify(telemetryData, null, 2));
+      } else {
+        await sendTelemetry(telemetryData, options);
+      }
+    }
   }
 };

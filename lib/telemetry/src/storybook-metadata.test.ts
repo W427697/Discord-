@@ -10,6 +10,24 @@ const mainJsMock: StorybookConfig = {
   stories: [],
 };
 
+jest.mock('./package-versions', () => {
+  const getActualPackageVersion = jest.fn((name) =>
+    Promise.resolve({
+      name,
+      version: 'x.x.x',
+    })
+  );
+
+  const getActualPackageVersions = jest.fn((packages) =>
+    Promise.all(Object.keys(packages).map(getActualPackageVersion))
+  );
+
+  return {
+    getActualPackageVersions,
+    getActualPackageVersion,
+  };
+});
+
 // @TODO: separate `getActualVersions` to a file so we can mock it
 describe('await computeStorybookMetadata', () => {
   test('should return frameworkOptions from mainjs', async () => {
@@ -67,19 +85,19 @@ describe('await computeStorybookMetadata', () => {
     expect(result.addons).toMatchInlineSnapshot(`
       Object {
         "@storybook/addon-essentials": Object {
-          "options": null,
-          "version": "6.5.0-alpha.48",
+          "options": undefined,
+          "version": "x.x.x",
         },
         "storybook-addon-deprecated": Object {
-          "options": null,
-          "version": null,
+          "options": undefined,
+          "version": "x.x.x",
         },
       }
     `);
     expect(result.storybookPackages).toMatchInlineSnapshot(`
       Object {
         "@storybook/react": Object {
-          "version": "6.5.0-alpha.48",
+          "version": "x.x.x",
         },
       }
     `);
@@ -134,7 +152,7 @@ describe('await computeStorybookMetadata', () => {
           },
         })
       ).builder
-    ).toEqual({ name: simpleBuilder, options: null });
+    ).toEqual({ name: simpleBuilder });
   });
 
   test('should return the number of refs', async () => {
