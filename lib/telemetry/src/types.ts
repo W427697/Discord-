@@ -1,4 +1,4 @@
-import { StorybookConfig, TypescriptOptions } from '@storybook/core-common';
+import type { StorybookConfig, TypescriptOptions } from '@storybook/core-common';
 
 export type EventType =
   | 'start'

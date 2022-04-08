@@ -34,7 +34,7 @@ export async function sendTelemetry(
       headers: { 'Content-Type': 'application/json' },
       retries: 3,
       retryOn: [503, 504],
-      retryDelay: (attempt) => 2 ** attempt * options.retryDelay,
+      retryDelay: (attempt: number) => 2 ** attempt * options.retryDelay,
     });
     tasks.push(request);
 
