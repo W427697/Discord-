@@ -21,4 +21,5 @@ module.exports = {
     buildStoriesJson: true,
     breakingChangesV7: true,
   },
+  framework: '@storybook/web-components',
 };
