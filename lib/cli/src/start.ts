@@ -4,6 +4,8 @@ import { buildDevStandalone } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
 
 export const start = async (cliOptions: any) => {
+  process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
   try {
     await buildDevStandalone({
       ...cliOptions,
