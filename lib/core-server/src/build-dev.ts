@@ -1,16 +1,20 @@
 import { logger, instance as npmLog } from '@storybook/node-logger';
-import type {
+import { readConfig, writeConfig } from '@storybook/csf-tools';
+import prompts from 'prompts';
+import {
   CLIOptions,
   LoadOptions,
   BuilderOptions,
   Options,
   StorybookConfig,
   CoreConfig,
+  getStorybookInfo,
+  resolvePathInStorybookCache,
+  loadAllPresets,
+  cache,
 } from '@storybook/core-common';
 import { telemetry } from '@storybook/telemetry';
-import { resolvePathInStorybookCache, loadAllPresets, cache } from '@storybook/core-common';
 import dedent from 'ts-dedent';
-import prompts from 'prompts';
 import global from 'global';
 
 import path from 'path';
@@ -182,17 +186,48 @@ export async function buildDev(loadOptions: LoadOptions) {
 
     const core = await presets.apply<CoreConfig>('core');
     if (!core?.disableTelemetry) {
+      let enableCrashReports;
+      if (core.enableCrashReports !== undefined) {
+        enableCrashReports = core.enableCrashReports;
+      } else {
+        const valueFromCache = await cache.get('enableCrashreports');
+        if (valueFromCache !== undefined) {
+          enableCrashReports = valueFromCache;
+        } else {
+          const valueFromPrompt = await promptCrashReports(options);
+          if (valueFromPrompt !== undefined) {
+            enableCrashReports = valueFromPrompt;
+          }
+        }
+      }
+
       await telemetry(
         'error-dev',
         { error },
         {
           immediate: true,
           configDir: options.configDir,
-          enableCrashReports: options.enableCrashReports,
+          enableCrashReports,
         }
       );
     }
-
     process.exit(1);
   }
 }
+
+const promptCrashReports = async ({ packageJson }: CLIOptions & LoadOptions & BuilderOptions) => {
+  if (process.env.CI) {
+    return undefined;
+  }
+
+  const { enableCrashReports } = await prompts({
+    type: 'confirm',
+    name: 'enableCrashReports',
+    message: `Would you like to send crash reports to Storybook?`,
+    initial: true,
+  });
+
+  await cache.set('enableCrashreports', enableCrashReports);
+
+  return enableCrashReports;
+};
