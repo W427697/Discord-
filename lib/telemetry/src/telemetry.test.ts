@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import fetch from 'isomorphic-unfetch';
 
 import { sendTelemetry } from './telemetry';
@@ -46,4 +47,39 @@ it('gives up if fetch repeatedly fails', async () => {
   );
 
   expect(fetch).toHaveBeenCalledTimes(4);
+});
+
+it('await all pending telemetry when passing in immediate = true', async () => {
+  let numberOfResolvedTasks = 0;
+
+  // when we call sendTelemetry with immediate = true
+  // all pending tasks will be awaited
+  // to test this we add a few telemetry tasks that will be in the 'queue'
+  // we do NOT await these tasks!
+  sendTelemetry({
+    eventType: 'init',
+    payload: { foo: 'bar' },
+  }).then(() => {
+    numberOfResolvedTasks++;
+  });
+  sendTelemetry({
+    eventType: 'start',
+    payload: { foo: 'bar' },
+  }).then(() => {
+    numberOfResolvedTasks++;
+  });
+
+  // here we await
+  await sendTelemetry(
+    {
+      eventType: 'error-dev',
+      payload: { foo: 'bar' },
+    },
+    { retryDelay: 0, immediate: true }
+  ).then(() => {
+    numberOfResolvedTasks++;
+  });
+
+  expect(fetch).toHaveBeenCalledTimes(3);
+  expect(numberOfResolvedTasks).toBe(3);
 });
