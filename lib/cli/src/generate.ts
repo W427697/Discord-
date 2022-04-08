@@ -16,7 +16,7 @@ import { repro } from './repro';
 import { link } from './link';
 import { automigrate } from './automigrate';
 import { generateStorybookBabelConfigInCWD } from './babel-config';
-import { start } from './start';
+import { dev } from './dev';
 import { build } from './build';
 import { parseList, getEnvConfig } from './utils';
 
@@ -145,7 +145,7 @@ program
   );
 
 program
-  .command('start')
+  .command('dev')
   .option('-p, --port <number>', 'Port to run Storybook', (str) => parseInt(str, 10))
   .option('-h, --host <string>', 'Host to run Storybook')
   .option('-s, --static-dir <dir-names>', 'Directory where to load static files from', parseList)
@@ -200,7 +200,7 @@ program
       program.port = parseInt(program.port, 10);
     }
 
-    start({ ...options, packageJson: pkg });
+    dev({ ...options, packageJson: pkg });
   });
 
 program

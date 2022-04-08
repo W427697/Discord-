@@ -41,7 +41,7 @@
     "build-storybook": "sb build",
     "example": "jest storyshot.test",
     "prepare": "node ../../../scripts/prepare.js",
-    "storybook": "yarn sb start -p 6006"
+    "storybook": "yarn sb dev -p 6006"
   },
   "dependencies": {
     "@jest/transform": "^26.6.2",
