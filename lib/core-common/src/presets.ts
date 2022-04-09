@@ -1,5 +1,4 @@
 import dedent from 'ts-dedent';
-import { resolve } from 'path';
 import { logger } from '@storybook/node-logger';
 import {
   CLIOptions,
@@ -10,7 +9,6 @@ import {
   BuilderOptions,
 } from './types';
 import { loadCustomPresets } from './utils/load-custom-presets';
-import { serverRequire } from './utils/interpret-require';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
 
 const isObject = (val: unknown): val is Record<string, any> =>

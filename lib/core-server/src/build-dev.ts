@@ -1,4 +1,4 @@
-import { logger, instance as npmLog } from '@storybook/node-logger';
+import { logger } from '@storybook/node-logger';
 import type {
   CLIOptions,
   LoadOptions,
