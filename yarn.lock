@@ -7630,26 +7630,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/core@workspace:lib/core":
-  version: 0.0.0-use.local
-  resolution: "@storybook/core@workspace:lib/core"
-  dependencies:
-    "@storybook/core-client": 6.5.0-alpha.60
-    "@storybook/core-server": 6.5.0-alpha.60
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    webpack: "*"
-  peerDependenciesMeta:
-    "@storybook/builder-webpack5":
-      optional: true
-    "@storybook/manager-webpack5":
-      optional: true
-    typescript:
-      optional: true
-  languageName: unknown
-  linkType: soft
-
 "@storybook/csf-tools@6.5.0-alpha.60, @storybook/csf-tools@workspace:*, @storybook/csf-tools@workspace:lib/csf-tools":
   version: 0.0.0-use.local
   resolution: "@storybook/csf-tools@workspace:lib/csf-tools"
