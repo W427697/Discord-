@@ -4,6 +4,7 @@
   - [Breaking changes](#breaking-changes)
     - [Framework field mandatory](#framework-field-mandatory)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
+  - [React18 new root API](#react18-new-root-api)
   - [Deprecated register.js](#deprecated-registerjs)
   - [Dropped support for addon-actions addDecorators](#dropped-support-for-addon-actions-adddecorators)
   - [Vite builder renamed](#vite-builder-renamed)
@@ -209,6 +210,18 @@
 In 6.4 we introduced a new `main.js` field called [`framework`](#mainjs-framework-field). Starting in 7.0, this field is mandatory.
 
 ## From version 6.4.x to 6.5.0
+
+### React18 new root API
+
+React 18 introduces a [new root API](https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html#updates-to-client-rendering-apis). Starting in 6.5, Storybook for React will auto-detect your react version and use the new root API automatically if you're on React18.
+
+If you wish to opt out of the new root API, set the `reactOptions.legacyRootApi` flag in your `.storybook/main.js` config:
+
+```js
+module.exports = {
+  reactOptions: { legacyRootApi: true },
+};
+```
 
 ### Deprecated register.js
 
