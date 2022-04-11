@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-highlight",
-  "version": "6.5.0-alpha.59",
+  "version": "6.5.0-alpha.61",
   "description": "Highlight DOM nodes within your stories",
   "keywords": [
     "storybook-addons",
@@ -43,8 +43,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.0-alpha.59",
-    "@storybook/core-events": "6.5.0-alpha.59",
+    "@storybook/addons": "6.5.0-alpha.61",
+    "@storybook/core-events": "6.5.0-alpha.61",
     "core-js": "^3.8.2",
     "global": "^4.4.0"
   },
