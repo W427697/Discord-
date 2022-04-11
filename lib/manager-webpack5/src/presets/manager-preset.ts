@@ -86,7 +86,7 @@ export async function managerWebpack(
           }) as any as WebpackPluginInstance)
         : null,
       new HtmlWebpackPlugin({
-        title: 'Storybook loading...',
+        title: 'Storybook loading…',
         filename: `index.html`,
         // FIXME: `none` isn't a known option
         chunksSortMode: 'none' as any,
