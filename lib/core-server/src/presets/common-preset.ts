@@ -92,6 +92,10 @@ export const core = async (existing: CoreConfig, options: Options): Promise<Core
     options.enableCrashReports || optionalEnvToBoolean(process.env.STORYBOOK_ENABLE_CRASH_REPORTS),
 });
 
+export const config = async (base: any, options: Options) => {
+  return [...(await options.presets.apply('previewAnnotations', [], options)), ...base];
+};
+
 export const features = async (
   existing: StorybookConfig['features']
 ): Promise<StorybookConfig['features']> => ({

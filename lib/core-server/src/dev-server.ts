@@ -104,8 +104,20 @@ export async function storybookDevServer(options: Options) {
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    // These headers are required to enable SharedArrayBuffer
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer
     next();
   });
+
+  if (core?.crossOriginIsolated) {
+    app.use((req, res, next) => {
+      // These headers are required to enable SharedArrayBuffer
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer
+      res.header('Cross-Origin-Opener-Policy', 'same-origin');
+      res.header('Cross-Origin-Embedder-Policy', 'require-corp');
+      next();
+    });
+  }
 
   // User's own static files
   await useStatics(router, options);
@@ -148,14 +160,20 @@ export async function storybookDevServer(options: Options) {
   });
 
   const [previewResult, managerResult] = await Promise.all([
-    preview,
+    preview.catch(async (err) => {
+      await managerBuilder.bail();
+      throw err;
+    }),
     manager
       // TODO #13083 Restore this when compiling the preview is fast enough
       // .then((result) => {
       //   if (!options.ci && !options.smokeTest) openInBrowser(address);
       //   return result;
       // })
-      .catch(previewBuilder.bail),
+      .catch(async (err) => {
+        await previewBuilder.bail();
+        throw err;
+      }),
   ]);
 
   // TODO #13083 Remove this when compiling the preview is fast enough

@@ -181,7 +181,17 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
         options: fullOptions,
       });
 
-  const [managerStats, previewStats] = await Promise.all([manager, preview, ...extractTasks]);
+  const [managerStats, previewStats] = await Promise.all([
+    manager.catch(async (err) => {
+      await previewBuilder.bail();
+      throw err;
+    }),
+    preview.catch(async (err) => {
+      await managerBuilder.bail();
+      throw err;
+    }),
+    ...extractTasks,
+  ]);
 
   if (options.webpackStatsJson) {
     const target = options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
