@@ -1,4 +1,4 @@
-const build = require('@storybook/core/standalone');
+const build = require('@storybook/core-server/standalone');
 const frameworkOptions = require('./dist/ts3.9/server/options').default;
 
 async function buildStandalone(options) {

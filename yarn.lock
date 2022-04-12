@@ -6987,6 +6987,7 @@ __metadata:
     "@storybook/core-client": 6.5.0-alpha.61
     "@storybook/core-common": 6.5.0-alpha.61
     "@storybook/core-events": 6.5.0-alpha.61
+    "@storybook/core-server": 6.5.0-alpha.61
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.61
     "@storybook/node-logger": 6.5.0-alpha.61
@@ -7743,6 +7744,7 @@ __metadata:
   dependencies:
     "@storybook/core-client": 6.5.0-alpha.61
     "@storybook/core-common": 6.5.0-alpha.61
+    "@storybook/core-server": 6.5.0-alpha.61
     "@storybook/docs-tools": 6.5.0-alpha.61
     "@storybook/store": 6.5.0-alpha.61
     core-js: ^3.8.2
@@ -7845,6 +7847,7 @@ __metadata:
     "@storybook/addons": 6.5.0-alpha.61
     "@storybook/core-client": 6.5.0-alpha.61
     "@storybook/core-common": 6.5.0-alpha.61
+    "@storybook/core-server": 6.5.0-alpha.61
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.61
     "@storybook/preview-web": 6.5.0-alpha.61
@@ -8109,6 +8112,7 @@ __metadata:
     "@storybook/addons": 6.5.0-alpha.61
     "@storybook/core-client": 6.5.0-alpha.61
     "@storybook/core-common": 6.5.0-alpha.61
+    "@storybook/core-server": 6.5.0-alpha.61
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/store": 6.5.0-alpha.61
     "@types/node": ^14.14.20 || ^16.0.0
@@ -8214,6 +8218,7 @@ __metadata:
     "@storybook/client-logger": 6.5.0-alpha.61
     "@storybook/core-client": 6.5.0-alpha.61
     "@storybook/core-common": 6.5.0-alpha.61
+    "@storybook/core-server": 6.5.0-alpha.61
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.61
     "@storybook/node-logger": 6.5.0-alpha.61
@@ -8578,6 +8583,7 @@ __metadata:
     "@storybook/client-api": 6.5.0-alpha.61
     "@storybook/core-client": 6.5.0-alpha.61
     "@storybook/core-common": 6.5.0-alpha.61
+    "@storybook/core-server": 6.5.0-alpha.61
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/node-logger": 6.5.0-alpha.61
     "@storybook/preview-web": 6.5.0-alpha.61
@@ -8651,6 +8657,7 @@ __metadata:
     "@storybook/client-logger": 6.5.0-alpha.61
     "@storybook/core-client": 6.5.0-alpha.61
     "@storybook/core-common": 6.5.0-alpha.61
+    "@storybook/core-server": 6.5.0-alpha.61
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.61
     "@storybook/node-logger": 6.5.0-alpha.61
@@ -8798,6 +8805,7 @@ __metadata:
     "@storybook/addons": 6.5.0-alpha.61
     "@storybook/core-client": 6.5.0-alpha.61
     "@storybook/core-common": 6.5.0-alpha.61
+    "@storybook/core-server": 6.5.0-alpha.61
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.61
     "@storybook/store": 6.5.0-alpha.61
@@ -8833,6 +8841,7 @@ __metadata:
     "@storybook/client-logger": 6.5.0-alpha.61
     "@storybook/core-client": 6.5.0-alpha.61
     "@storybook/core-common": 6.5.0-alpha.61
+    "@storybook/core-server": 6.5.0-alpha.61
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.61
     "@storybook/store": 6.5.0-alpha.61
@@ -8874,6 +8883,7 @@ __metadata:
     "@storybook/client-logger": 6.5.0-alpha.61
     "@storybook/core-client": 6.5.0-alpha.61
     "@storybook/core-common": 6.5.0-alpha.61
+    "@storybook/core-server": 6.5.0-alpha.61
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.61
     "@storybook/preview-web": 6.5.0-alpha.61
