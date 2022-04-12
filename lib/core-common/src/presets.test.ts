@@ -501,7 +501,9 @@ describe('loadPreset', () => {
             "type": "virtual",
           },
           "options": Object {},
-          "preset": Object {},
+          "preset": Object {
+            "framework": "@storybook/react",
+          },
         },
       ]
     `);
