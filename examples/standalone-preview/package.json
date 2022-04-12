@@ -1,6 +1,6 @@
 {
   "name": "standalone-preview",
-  "version": "6.5.0-alpha.60",
+  "version": "6.5.0-alpha.61",
   "private": true,
   "scripts": {
     "sb": "node ../../lib/cli/bin/index.js",
@@ -8,9 +8,9 @@
     "storybook-preview": "cross-env PREVIEW_URL=external-iframe.html parcel ./storybook.html --port 1337"
   },
   "devDependencies": {
-    "@storybook/addon-docs": "6.5.0-alpha.60",
-    "@storybook/cli": "6.5.0-alpha.60",
-    "@storybook/react": "6.5.0-alpha.60",
+    "@storybook/addon-docs": "6.5.0-alpha.61",
+    "@storybook/cli": "6.5.0-alpha.61",
+    "@storybook/react": "6.5.0-alpha.61",
     "cross-env": "^7.0.3",
     "parcel": "2.0.1",
     "react": "16.14.0",
