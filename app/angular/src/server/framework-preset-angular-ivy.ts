@@ -1,7 +1,7 @@
 import { Configuration } from 'webpack';
 import * as path from 'path';
 
-import { PresetOptions } from './options';
+import type { PresetOptions } from './preset-options';
 
 /**
  * Source : https://github.com/angular/angular-cli/blob/ebccb5de4a455af813c5e82483db6af20666bdbd/packages/angular_devkit/build_angular/src/utils/load-esm.ts#L23

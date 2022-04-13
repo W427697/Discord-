@@ -1,8 +1,7 @@
 const build = require('@storybook/core-server/standalone');
-const frameworkOptions = require('./dist/cjs/server/options').default;
 
 async function buildStandalone(options) {
-  return build(options, frameworkOptions);
+  return build(options);
 }
 
 module.exports = buildStandalone;

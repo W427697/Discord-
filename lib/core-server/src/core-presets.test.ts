@@ -8,7 +8,7 @@ import { resolvePathInStorybookCache, createFileSystemCache } from '@storybook/c
 import { executor as previewExecutor } from '@storybook/builder-webpack4';
 import { executor as managerExecutor } from '@storybook/manager-webpack4';
 
-import { sync } from 'read-pkg-up';
+import { sync as readUpSync } from 'read-pkg-up';
 import { buildDevStandalone } from './build-dev';
 import { buildStaticStandalone } from './build-static';
 
@@ -16,7 +16,7 @@ import { outputStats } from './utils/output-stats';
 
 const { SNAPSHOT_OS } = global;
 const mkdtemp = promisify(mkdtempCb);
-const { packageJson } = sync({ cwd: __dirname });
+const { packageJson } = readUpSync({ cwd: __dirname });
 
 // this only applies to this file
 jest.setTimeout(10000);
