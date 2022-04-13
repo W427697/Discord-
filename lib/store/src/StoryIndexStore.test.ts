@@ -4,8 +4,8 @@ import { StoryIndex } from './types';
 jest.mock('@storybook/channel-websocket', () => () => ({ on: jest.fn() }));
 
 const storyIndex: StoryIndex = {
-  v: 3,
-  stories: {
+  v: 4,
+  entries: {
     'component-one--a': {
       title: 'Component One',
       name: 'A',
@@ -26,8 +26,8 @@ const storyIndex: StoryIndex = {
 
 const makeStoryIndex = (titlesAndNames) => {
   return {
-    v: 3,
-    stories: Object.fromEntries(
+    v: 4,
+    entries: Object.fromEntries(
       titlesAndNames.map(([title, name]) => [
         `${title}--${name}`.replace('/', '-'), // poor man's sanitize
         {

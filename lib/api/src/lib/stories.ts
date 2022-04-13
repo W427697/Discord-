@@ -114,15 +114,22 @@ export interface StoriesRaw {
 }
 
 type Path = string;
-export interface StoryIndexStory {
+export interface StoryIndexEntry {
   id: StoryId;
   name: StoryName;
   title: ComponentTitle;
   importPath: Path;
+  type?: 'story' | 'docs';
 }
+
+export interface StoryIndexV3 {
+  v: 3;
+  stories: Record<StoryId, StoryIndexEntry>;
+}
+
 export interface StoryIndex {
   v: number;
-  stories: Record<StoryId, StoryIndexStory>;
+  entries: Record<StoryId, StoryIndexEntry>;
 }
 
 export type SetStoriesPayload =
@@ -179,8 +186,8 @@ export const transformStoryIndexToStoriesHash = (
   index: StoryIndex,
   { provider }: { provider: Provider }
 ): StoriesHash => {
-  const countByTitle = countBy(Object.values(index.stories), 'title');
-  const input = Object.entries(index.stories).reduce((acc, [id, { title, name, importPath }]) => {
+  const countByTitle = countBy(Object.values(index.entries), 'title');
+  const input = Object.entries(index.entries).reduce((acc, [id, { title, name, importPath }]) => {
     const docsOnly = name === 'Page' && countByTitle[title] === 1;
     acc[id] = {
       id,

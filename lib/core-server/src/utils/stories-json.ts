@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import fs from 'fs-extra';
 import type { Options, NormalizedStoriesSpecifier, StorybookConfig } from '@storybook/core-common';
+import type { StoryIndex, StoryIndexV3, StoryIndexEntry } from '@storybook/store';
 import { normalizeStories } from '@storybook/core-common';
 import Events from '@storybook/core-events';
 import debounce from 'lodash/debounce';
@@ -68,7 +69,7 @@ export async function useStoriesJson(
     return startedPromise;
   }
 
-  router.use('/stories.json', async (req: Request, res: Response) => {
+  router.use('/index.json', async (req: Request, res: Response) => {
     await ensureStarted();
 
     try {
@@ -80,4 +81,31 @@ export async function useStoriesJson(
       res.send(err.message);
     }
   });
+
+  router.use('/stories.json', async (req: Request, res: Response) => {
+    await ensureStarted();
+
+    try {
+      const index = convertToIndexV3(await generator.getIndex());
+      res.header('Content-Type', 'application/json');
+      res.send(JSON.stringify(index));
+    } catch (err) {
+      res.status(500);
+      res.send(err.message);
+    }
+  });
 }
+
+const isStory = (entry: StoryIndexEntry) => !entry.type || entry.type === 'story';
+
+export const convertToIndexV3 = (index: StoryIndex): StoryIndexV3 => {
+  const { entries } = index;
+  const stories = Object.entries(entries).reduce((acc, [id, entry]) => {
+    if (isStory(entry)) acc[id] = entry;
+    return acc;
+  }, {} as StoryIndexV3['stories']);
+  return {
+    v: 3,
+    stories,
+  };
+};

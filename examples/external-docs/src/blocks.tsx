@@ -66,7 +66,7 @@ export const DocsProvider: React.FC = ({ children }) => {
 
   const storyIds = new Map<StoryExport, StoryId>();
 
-  const storyIndex: StoryIndex = { v: 3, stories: {} };
+  const storyIndex: StoryIndex = { v: 4, entries: {} };
   const knownCsfFiles: Record<Path, ModuleExports> = {};
 
   const addStory = (storyExport: StoryExport, storyMeta?: MetaExport) => {

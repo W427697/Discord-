@@ -35,8 +35,8 @@ export const projectAnnotations = {
 export const getProjectAnnotations = () => projectAnnotations;
 
 export const storyIndex: StoryIndex = {
-  v: 3,
-  stories: {
+  v: 4,
+  entries: {
     'component-one--a': {
       id: 'component-one--a',
       title: 'Component One',

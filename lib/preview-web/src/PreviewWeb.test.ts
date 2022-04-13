@@ -281,9 +281,9 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({
           importFn: newImportFn,
           storyIndex: {
-            v: 3,
-            stories: {
-              ...storyIndex.stories,
+            v: 4,
+            entries: {
+              ...storyIndex.entries,
               'component-one--d': {
                 id: 'component-one--d',
                 title: 'Component One',
@@ -331,9 +331,9 @@ describe('PreviewWeb', () => {
           preview.onStoriesChanged({
             importFn: newImportFn,
             storyIndex: {
-              v: 3,
-              stories: {
-                ...storyIndex.stories,
+              v: 4,
+              entries: {
+                ...storyIndex.entries,
                 'component-one--d': {
                   id: 'component-one--d',
                   title: 'Component One',
@@ -2449,11 +2449,11 @@ describe('PreviewWeb', () => {
       const newImportFn = jest.fn(async (path) => ({ ...componentOneExports }));
 
       const newStoryIndex = {
-        v: 3,
-        stories: {
-          ...storyIndex.stories,
+        v: 4,
+        entries: {
+          ...storyIndex.entries,
           'component-one--a': {
-            ...storyIndex.stories['component-one--a'],
+            ...storyIndex.entries['component-one--a'],
             importPath: './src/ComponentOne-new.stories.js',
           },
         },
@@ -2632,9 +2632,9 @@ describe('PreviewWeb', () => {
       });
 
       const newStoryIndex = {
-        v: 3,
-        stories: {
-          'component-one--b': storyIndex.stories['component-one--b'],
+        v: 4,
+        entries: {
+          'component-one--b': storyIndex.entries['component-one--b'],
         },
       };
 

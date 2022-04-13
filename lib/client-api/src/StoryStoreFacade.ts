@@ -29,7 +29,7 @@ export interface GetStorybookKind<TFramework extends AnyFramework> {
 export class StoryStoreFacade<TFramework extends AnyFramework> {
   projectAnnotations: NormalizedProjectAnnotations<TFramework>;
 
-  stories: StoryIndex['stories'];
+  entries: StoryIndex['entries'];
 
   csfExports: Record<Path, ModuleExports>;
 
@@ -44,7 +44,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       argTypes: {},
     };
 
-    this.stories = {};
+    this.entries = {};
 
     this.csfExports = {};
   }
@@ -63,7 +63,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     const fileNameOrder = Object.keys(this.csfExports);
     const storySortParameter = this.projectAnnotations.parameters?.options?.storySort;
 
-    const storyEntries = Object.entries(this.stories);
+    const storyEntries = Object.entries(this.entries);
     // Add the kind parameters and global parameters to each entry
     const sortableV6: [StoryId, Story<TFramework>, Parameters, Parameters][] = storyEntries.map(
       ([storyId, { importPath }]) => {
@@ -101,16 +101,16 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       }
       throw err;
     }
-    const stories = sortedV7.reduce((acc, s) => {
+    const entries = sortedV7.reduce((acc, s) => {
       // We use the original entry we stored in `this.stories` because it is possible that the CSF file itself
       // exports a `parameters.fileName` which can be different and mess up our `importFn`.
       // In fact, in Storyshots there is a Jest transformer that does exactly that.
       // NOTE: this doesn't actually change the story object, just the index.
-      acc[s.id] = this.stories[s.id];
+      acc[s.id] = this.entries[s.id];
       return acc;
-    }, {} as StoryIndex['stories']);
+    }, {} as StoryIndex['entries']);
 
-    return { v: 3, stories };
+    return { v: 4, entries };
   }
 
   clearFilenameExports(fileName: Path) {
@@ -119,9 +119,9 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     }
 
     // Clear this module's stories from the storyList and existing exports
-    Object.entries(this.stories).forEach(([id, { importPath }]) => {
+    Object.entries(this.entries).forEach(([id, { importPath }]) => {
       if (importPath === fileName) {
-        delete this.stories[id];
+        delete this.entries[id];
       }
     });
 
@@ -191,7 +191,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
           storyExport.story?.name ||
           exportName;
 
-        this.stories[id] = {
+        this.entries[id] = {
           id,
           name,
           title,

@@ -354,7 +354,7 @@ export class ClientApi<TFramework extends AnyFramework> {
       };
       counter += 1;
 
-      this.facade.stories[storyId] = {
+      this.facade.entries[storyId] = {
         id: storyId,
         title: csfExports.default.title,
         name: storyName,
@@ -397,10 +397,12 @@ Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.m
   };
 
   getStorybook = (): GetStorybookKind<TFramework>[] => {
-    const { stories } = this.storyStore.storyIndex;
+    const { entries } = this.storyStore.storyIndex;
 
     const kinds: Record<ComponentTitle, GetStorybookKind<TFramework>> = {};
-    Object.entries(stories).forEach(([storyId, { title, name, importPath }]) => {
+    Object.entries(entries).forEach(([storyId, { title, name, importPath, type }]) => {
+      if (type && type !== 'story') return;
+
       if (!kinds[title]) {
         kinds[title] = { kind: title, fileName: importPath, stories: [] };
       }

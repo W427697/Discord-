@@ -6,7 +6,7 @@ import {
   StoryInput,
   StoriesHash,
   transformStoryIndexToStoriesHash,
-  StoryIndexStory,
+  StoryIndexEntry,
 } from '../lib/stories';
 
 import { ModuleFn, StoryId } from '../index';
@@ -236,8 +236,8 @@ export const init: ModuleFn = ({ store, provider, singleStory }, { runCheck = tr
         } else if (!v) {
           throw new Error('Composition: Missing stories.json version');
         } else {
-          const index = stories as unknown as Record<StoryId, StoryIndexStory>;
-          storiesHash = transformStoryIndexToStoriesHash({ v, stories: index }, { provider });
+          const index = stories as unknown as Record<StoryId, StoryIndexEntry>;
+          storiesHash = transformStoryIndexToStoriesHash({ v, entries: index }, { provider });
         }
         storiesHash = addRefIds(storiesHash, ref);
       }

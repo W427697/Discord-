@@ -94,6 +94,7 @@ export interface StoryIndexEntry {
   title: ComponentTitle;
   importPath: Path;
   storiesImports: Path[];
+  type?: 'story' | 'docs';
 }
 
 export interface V2CompatIndexEntry extends StoryIndexEntry {
@@ -102,9 +103,14 @@ export interface V2CompatIndexEntry extends StoryIndexEntry {
   parameters: Parameters;
 }
 
-export interface StoryIndex {
+export interface StoryIndexV3 {
   v: number;
   stories: Record<StoryId, StoryIndexEntry>;
+}
+
+export interface StoryIndex {
+  v: number;
+  entries: Record<StoryId, StoryIndexEntry>;
 }
 
 export type StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';

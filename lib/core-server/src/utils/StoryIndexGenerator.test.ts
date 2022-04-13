@@ -37,7 +37,7 @@ describe('StoryIndexGenerator', () => {
 
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
           Object {
-            "stories": Object {
+            "entries": Object {
               "a--story-one": Object {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
@@ -46,7 +46,7 @@ describe('StoryIndexGenerator', () => {
                 "title": "A",
               },
             },
-            "v": 3,
+            "v": 4,
           }
         `);
       });
@@ -63,7 +63,7 @@ describe('StoryIndexGenerator', () => {
 
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
           Object {
-            "stories": Object {
+            "entries": Object {
               "nested-button--story-one": Object {
                 "id": "nested-button--story-one",
                 "importPath": "./src/nested/Button.stories.ts",
@@ -79,7 +79,7 @@ describe('StoryIndexGenerator', () => {
                 "title": "second-nested/G",
               },
             },
-            "v": 3,
+            "v": 4,
           }
         `);
       });
@@ -97,7 +97,7 @@ describe('StoryIndexGenerator', () => {
 
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
           Object {
-            "stories": Object {
+            "entries": Object {
               "a--story-one": Object {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
@@ -141,7 +141,7 @@ describe('StoryIndexGenerator', () => {
                 "title": "second-nested/G",
               },
             },
-            "v": 3,
+            "v": 4,
           }
         `);
       });
@@ -162,7 +162,7 @@ describe('StoryIndexGenerator', () => {
         order: ['D', 'B', 'nested', 'A', 'second-nested', 'first-nested/deeply'],
       });
 
-      expect(Object.keys((await generator.getIndex()).stories)).toEqual([
+      expect(Object.keys((await generator.getIndex()).entries)).toEqual([
         'd--story-one',
         'b--story-one',
         'nested-button--story-one',
@@ -305,7 +305,7 @@ describe('StoryIndexGenerator', () => {
 
           generator.invalidate(specifier, './src/B.stories.ts', true);
 
-          expect(Object.keys((await generator.getIndex()).stories)).not.toContain('b--story-one');
+          expect(Object.keys((await generator.getIndex()).entries)).not.toContain('b--story-one');
         });
       });
     });

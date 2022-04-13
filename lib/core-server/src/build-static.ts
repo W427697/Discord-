@@ -26,7 +26,8 @@ import {
 } from './utils/copy-all-static-files';
 import { getPreviewBuilder } from './utils/get-preview-builder';
 import { getManagerBuilder } from './utils/get-manager-builder';
-import { extractStoriesJson } from './utils/stories-json';
+import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
+import { convertToIndexV3 } from './utils/stories-json';
 
 export async function buildStaticStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
   /* eslint-disable no-param-reassign */
@@ -98,11 +99,17 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
       workingDir: process.cwd(),
     };
     const stories = normalizeStories(await presets.apply('stories'), directories);
-    await extractStoriesJson(path.join(options.outputDir, 'stories.json'), stories, {
+    const extractOptions = {
       ...directories,
       storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
       storyStoreV7: features?.storyStoreV7,
-    });
+    };
+
+    const generator = new StoryIndexGenerator(stories, extractOptions);
+    await generator.initialize();
+    const index = await generator.getIndex();
+    await fs.writeJson(path.join(options.outputDir, 'index.json'), index);
+    await fs.writeJson(path.join(options.outputDir, 'stories.json'), convertToIndexV3(index));
   }
 
   const fullOptions: Options = {

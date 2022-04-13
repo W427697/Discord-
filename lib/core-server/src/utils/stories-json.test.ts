@@ -50,7 +50,7 @@ describe('useStoriesJson', () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       await useStoriesJson(router, mockServerChannel, options, options.configDir);
 
-      expect(use).toHaveBeenCalledTimes(1);
+      expect(use).toHaveBeenCalledTimes(2);
       const route = use.mock.calls[0][1];
 
       await route(request, response);
@@ -58,7 +58,7 @@ describe('useStoriesJson', () => {
       expect(send).toHaveBeenCalledTimes(1);
       expect(JSON.parse(send.mock.calls[0][0])).toMatchInlineSnapshot(`
         Object {
-          "stories": Object {
+          "entries": Object {
             "a--story-one": Object {
               "id": "a--story-one",
               "importPath": "./src/A.stories.js",
@@ -144,7 +144,7 @@ describe('useStoriesJson', () => {
               "title": "second-nested/G",
             },
           },
-          "v": 3,
+          "v": 4,
         }
       `);
     });
@@ -153,7 +153,7 @@ describe('useStoriesJson', () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       await useStoriesJson(router, mockServerChannel, options, options.configDir);
 
-      expect(use).toHaveBeenCalledTimes(1);
+      expect(use).toHaveBeenCalledTimes(2);
       const route = use.mock.calls[0][1];
 
       const firstPromise = route(request, response);
@@ -179,7 +179,7 @@ describe('useStoriesJson', () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       await useStoriesJson(router, mockServerChannel, options, options.configDir);
 
-      expect(use).toHaveBeenCalledTimes(1);
+      expect(use).toHaveBeenCalledTimes(2);
       const route = use.mock.calls[0][1];
 
       await route(request, response);
@@ -202,7 +202,7 @@ describe('useStoriesJson', () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       await useStoriesJson(router, mockServerChannel, options, options.configDir);
 
-      expect(use).toHaveBeenCalledTimes(1);
+      expect(use).toHaveBeenCalledTimes(2);
       const route = use.mock.calls[0][1];
 
       // Don't wait for the first request here before starting the second
@@ -231,7 +231,7 @@ describe('useStoriesJson', () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       await useStoriesJson(router, mockServerChannel, options, options.configDir);
 
-      expect(use).toHaveBeenCalledTimes(1);
+      expect(use).toHaveBeenCalledTimes(2);
       const route = use.mock.calls[0][1];
 
       await route(request, response);

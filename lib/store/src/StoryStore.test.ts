@@ -43,8 +43,8 @@ const projectAnnotations: ProjectAnnotations<any> = {
 };
 
 const storyIndex: StoryIndex = {
-  v: 3,
-  stories: {
+  v: 4,
+  entries: {
     'component-one--a': {
       id: 'component-one--a',
       title: 'Component One',
@@ -208,7 +208,7 @@ describe('StoryStore', () => {
       expect(prepareStory).toHaveBeenCalledTimes(1);
 
       // The stories are no longer in the index
-      await store.onStoriesChanged({ storyIndex: { v: 3, stories: {} } });
+      await store.onStoriesChanged({ storyIndex: { v: 4, entries: {} } });
 
       await expect(store.loadStory({ storyId: 'component-one--a' })).rejects.toThrow();
 
@@ -229,9 +229,9 @@ describe('StoryStore', () => {
       // Add a new story to the index that isn't different
       await store.onStoriesChanged({
         storyIndex: {
-          v: 3,
-          stories: {
-            ...storyIndex.stories,
+          v: 4,
+          entries: {
+            ...storyIndex.entries,
             'new-component--story': {
               id: 'new-component--story',
               title: 'New Component',
@@ -254,15 +254,15 @@ describe('StoryStore', () => {
       store.initialize({ storyIndex, importFn, cache: false });
 
       await store.loadStory({ storyId: 'component-one--a' });
-      expect(importFn).toHaveBeenCalledWith(storyIndex.stories['component-one--a'].importPath);
+      expect(importFn).toHaveBeenCalledWith(storyIndex.entries['component-one--a'].importPath);
 
       const newImportPath = './src/ComponentOne-new.stories.js';
       const newImportFn = jest.fn(async () => componentOneExports);
       await store.onStoriesChanged({
         importFn: newImportFn,
         storyIndex: {
-          v: 3,
-          stories: {
+          v: 4,
+          entries: {
             'component-one--a': {
               id: 'component-one--a',
               title: 'Component One',
@@ -284,15 +284,15 @@ describe('StoryStore', () => {
       await store.cacheAllCSFFiles();
 
       await store.loadStory({ storyId: 'component-one--a' });
-      expect(importFn).toHaveBeenCalledWith(storyIndex.stories['component-one--a'].importPath);
+      expect(importFn).toHaveBeenCalledWith(storyIndex.entries['component-one--a'].importPath);
 
       const newImportPath = './src/ComponentOne-new.stories.js';
       const newImportFn = jest.fn(async () => componentOneExports);
       await store.onStoriesChanged({
         importFn: newImportFn,
         storyIndex: {
-          v: 3,
-          stories: {
+          v: 4,
+          entries: {
             'component-one--a': {
               id: 'component-one--a',
               title: 'Component One',
@@ -362,10 +362,10 @@ describe('StoryStore', () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
       const reversedIndex = {
-        v: 3,
-        stories: {
-          'component-one--b': storyIndex.stories['component-one--b'],
-          'component-one--a': storyIndex.stories['component-one--a'],
+        v: 4,
+        entries: {
+          'component-one--b': storyIndex.entries['component-one--b'],
+          'component-one--a': storyIndex.entries['component-one--a'],
         },
       };
       store.initialize({ storyIndex: reversedIndex, importFn, cache: false });

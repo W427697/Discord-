@@ -42,7 +42,7 @@ import { Args, ModuleFn } from '../index';
 import { ComposedRef } from './refs';
 
 const { DOCS_MODE, FEATURES, fetch } = global;
-const STORY_INDEX_PATH = './stories.json';
+const STORY_INDEX_PATH = './index.json';
 
 type Direction = -1 | 1;
 type ParameterName = string;

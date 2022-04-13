@@ -11,7 +11,7 @@ import { logger } from '@storybook/node-logger';
 import { readCsfOrMdx, getStorySortParameter } from '@storybook/csf-tools';
 import type { ComponentTitle } from '@storybook/csf';
 
-type SpecifierStoriesCache = Record<Path, StoryIndex['stories'] | false>;
+type SpecifierStoriesCache = Record<Path, StoryIndex['entries'] | false>;
 
 export class StoryIndexGenerator {
   // An internal cache mapping specifiers to a set of path=><set of stories>
@@ -64,7 +64,7 @@ export class StoryIndexGenerator {
     await this.ensureExtracted();
   }
 
-  async ensureExtracted(): Promise<StoryIndex['stories'][]> {
+  async ensureExtracted(): Promise<StoryIndex['entries'][]> {
     return (
       await Promise.all(
         this.specifiers.map(async (specifier) => {
@@ -82,7 +82,7 @@ export class StoryIndexGenerator {
 
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
-    const fileStories = {} as StoryIndex['stories'];
+    const fileStories = {} as StoryIndex['entries'];
     const entry = this.storyIndexEntries.get(specifier);
     try {
       const normalizedPath = normalizeStoryPath(relativePath);
@@ -117,14 +117,14 @@ export class StoryIndexGenerator {
     return fileStories;
   }
 
-  async sortStories(storiesList: StoryIndex['stories'][]) {
-    const stories: StoryIndex['stories'] = {};
+  async sortStories(storiesList: StoryIndex['entries'][]) {
+    const entries: StoryIndex['entries'] = {};
 
     storiesList.forEach((subStories) => {
-      Object.assign(stories, subStories);
+      Object.assign(entries, subStories);
     });
 
-    const sortableStories = Object.values(stories);
+    const sortableStories = Object.values(entries);
 
     // Skip sorting if we're in v6 mode because we don't have
     // all the info we need here
@@ -137,7 +137,7 @@ export class StoryIndexGenerator {
     return sortableStories.reduce((acc, item) => {
       acc[item.id] = item;
       return acc;
-    }, {} as StoryIndex['stories']);
+    }, {} as StoryIndex['entries']);
   }
 
   async getIndex() {
@@ -192,8 +192,8 @@ export class StoryIndexGenerator {
     }
 
     this.lastIndex = {
-      v: 3,
-      stories: compat,
+      v: 4,
+      entries: compat,
     };
 
     return this.lastIndex;

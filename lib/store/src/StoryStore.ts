@@ -30,6 +30,7 @@ import type {
   StoryIndex,
   StoryIndexEntry,
   V2CompatIndexEntry,
+  StoryIndexV3,
 } from './types';
 import { HooksContext } from './hooks';
 
@@ -115,7 +116,7 @@ export class StoryStore<TFramework extends AnyFramework> {
     storyIndex?: StoryIndex;
   }) {
     if (importFn) this.importFn = importFn;
-    if (storyIndex) this.storyIndex.stories = storyIndex.stories;
+    if (storyIndex) this.storyIndex.entries = storyIndex.entries;
     if (this.cachedCSFFiles) await this.cacheAllCSFFiles();
   }
 
@@ -130,7 +131,7 @@ export class StoryStore<TFramework extends AnyFramework> {
 
   loadAllCSFFiles(): PromiseLike<StoryStore<TFramework>['cachedCSFFiles']> {
     const importPaths: Record<Path, StoryId> = {};
-    Object.entries(this.storyIndex.stories).forEach(([storyId, { importPath }]) => {
+    Object.entries(this.storyIndex.entries).forEach(([storyId, { importPath }]) => {
       importPaths[importPath] = storyId;
     });
 
@@ -191,7 +192,7 @@ export class StoryStore<TFramework extends AnyFramework> {
 
   // If we have a CSF file we can get all the stories from it synchronously
   componentStoriesFromCSFFile({ csfFile }: { csfFile: CSFFile<TFramework> }): Story<TFramework>[] {
-    return Object.keys(this.storyIndex.stories)
+    return Object.keys(this.storyIndex.entries)
       .filter((storyId: StoryId) => !!csfFile.stories[storyId])
       .map((storyId: StoryId) => this.storyFromCSFFile({ storyId, csfFile }));
   }
@@ -218,7 +219,7 @@ export class StoryStore<TFramework extends AnyFramework> {
       throw new Error('Cannot call extract() unless you call cacheAllCSFFiles() first.');
     }
 
-    return Object.entries(this.storyIndex.stories).reduce((acc, [storyId, { importPath }]) => {
+    return Object.entries(this.storyIndex.entries).reduce((acc, [storyId, { importPath }]) => {
       const csfFile = this.cachedCSFFiles[importPath];
       const story = this.storyFromCSFFile({ storyId, csfFile });
 
@@ -262,14 +263,14 @@ export class StoryStore<TFramework extends AnyFramework> {
     };
   }
 
-  getStoriesJsonData = () => {
+  getStoriesJsonData = (): StoryIndexV3 => {
     const value = this.getSetStoriesPayload();
     const allowedParameters = ['fileName', 'docsOnly', 'framework', '__id', '__isArgsStory'];
 
     const stories: Record<StoryId, StoryIndexEntry | V2CompatIndexEntry> = mapValues(
       value.stories,
       (story) => {
-        const entry = this.storyIndex.stories[story.id];
+        const entry = this.storyIndex.entries[story.id];
         return {
           ...pick(story, ['id', 'name', 'title']),
           importPath: entry.importPath,
