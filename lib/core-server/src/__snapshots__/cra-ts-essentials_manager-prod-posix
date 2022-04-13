@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`cra-ts-essentials manager prod 1`] = `
+exports[`cra-ts-essentials manager dev 1`] = `
 Object {
   "entry": Array [
     "NODE_MODULES/@storybook/addon-ie11/dist/event-source-polyfill.js",
@@ -211,7 +211,7 @@ Object {
       Object {
         "loader": "NODE_MODULES/file-loader/dist/cjs.js",
         "options": Object {
-          "name": "static/media/[name].[contenthash:8].[ext]",
+          "name": "static/media/[path][name].[ext]",
         },
         "test": "/\\\\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\\\\?.*)?$/",
       },
@@ -219,7 +219,7 @@ Object {
         "loader": "NODE_MODULES/url-loader/dist/cjs.js",
         "options": Object {
           "limit": 10000,
-          "name": "static/media/[name].[contenthash:8].[ext]",
+          "name": "static/media/[path][name].[ext]",
         },
         "test": "/\\\\.(mp4|webm|wav|mp3|m4a|aac|oga)(\\\\?.*)?$/",
       },
