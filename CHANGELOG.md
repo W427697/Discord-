@@ -1,3 +1,9 @@
+## 6.4.22 (April 14, 2022)
+
+### Maintenance
+
+- Core: Avoid framework imports from core/client ([#17875](https://github.com/storybookjs/storybook/pull/17875))
+
 ## 6.4.21 (April 9, 2022)
 
 ### Bug Fixes
