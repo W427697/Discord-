@@ -381,9 +381,10 @@ export const getAllPresets = async (configDir: string) => {
     configDir,
   } as LoadPresetOptions);
 
+  const addonPresets = await presets.apply('previewAnnotations', [], { configDir });
   const configs = [
     // load addon presets
-    ...(await presets.apply('config', [], { configDir })),
+    ...addonPresets,
     // load preview.js
     loadPreviewOrConfigFile({ configDir }),
   ].map((configPath) => relative(configDir, configPath));
