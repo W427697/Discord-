@@ -370,7 +370,7 @@ export const init: ModuleFn = ({
         const storyIndex = (await result.json()) as StoryIndex;
 
         // We can only do this if the stories.json is a proper storyIndex
-        if (storyIndex.v !== 3) {
+        if (storyIndex.v !== 4) {
           logger.warn(`Skipping story index with version v${storyIndex.v}, awaiting SET_STORIES.`);
           return;
         }
