@@ -1,6 +1,6 @@
 import type { App } from 'vue';
-import { start } from '@storybook/core/client';
-import { ClientStoryApi, Loadable } from '@storybook/addons';
+import { start } from '@storybook/core';
+import type { ClientStoryApi, Loadable } from '@storybook/addons';
 
 import './globals';
 import { IStorybookSection } from './types';
