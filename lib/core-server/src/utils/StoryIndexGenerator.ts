@@ -3,7 +3,13 @@ import fs from 'fs-extra';
 import glob from 'globby';
 import slash from 'slash';
 
-import type { Path, StoryIndex, V2CompatIndexEntry, StoryId } from '@storybook/store';
+import type {
+  Path,
+  StoryIndex,
+  V2CompatIndexEntry,
+  StoryId,
+  StoryIndexEntry,
+} from '@storybook/store';
 import { autoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
 import { normalizeStoryPath, scrubFileExtension } from '@storybook/core-common';
@@ -96,14 +102,16 @@ export class StoryIndexGenerator {
             : otherImport
         )
       );
-      csf.stories.forEach(({ id, name }) => {
-        fileStories[id] = {
+      csf.stories.forEach(({ id, name, parameters }) => {
+        const storyEntry: StoryIndexEntry = {
           id,
           title: csf.meta.title,
           name,
           importPath,
           storiesImports,
         };
+        if (parameters?.docsOnly) storyEntry.type = 'docs';
+        fileStories[id] = storyEntry;
       });
     } catch (err) {
       if (err.name === 'NoMetaError') {
