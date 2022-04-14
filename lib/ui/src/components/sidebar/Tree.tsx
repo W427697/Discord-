@@ -1,10 +1,10 @@
-import type { Group, Story, StoriesHash } from '@storybook/api';
-import { isRoot, isStory } from '@storybook/api';
+import { Group, Story, StoriesHash, useStorybookApi, isRoot, isStory } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { Button, Icons } from '@storybook/components';
 import { transparentize } from 'polished';
 import React, { MutableRefObject, useCallback, useMemo, useRef } from 'react';
 
+import { PRELOAD_STORIES } from '@storybook/core-events';
 import {
   ComponentNode,
   DocumentNode,
@@ -146,6 +146,7 @@ const Node = React.memo<NodeProps>(
     setExpanded,
     onSelectStoryId,
   }) => {
+    const api = useStorybookApi();
     if (!isDisplayed) return null;
 
     const id = createId(item.id, refId);
@@ -168,6 +169,11 @@ const Node = React.memo<NodeProps>(
             onClick={(event) => {
               event.preventDefault();
               onSelectStoryId(item.id);
+            }}
+            onMouseEnter={() => {
+              if (item.isLeaf) {
+                api.emit(PRELOAD_STORIES, [item.id]);
+              }
             }}
           >
             {item.renderLabel?.(item) || item.name}
