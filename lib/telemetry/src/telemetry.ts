@@ -31,9 +31,10 @@ export async function sendTelemetry(
   };
   const eventId = nanoid();
   const body = { ...rest, eventId, sessionId, metadata, payload, context };
+  let request: Promise<any>;
 
   try {
-    const request = fetch(URL, {
+    request = fetch(URL, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' },
@@ -49,7 +50,10 @@ export async function sendTelemetry(
       await request;
     }
 
-    tasks = tasks.filter((task) => task !== request);
     // eslint-disable-next-line no-empty
-  } catch (err) {}
+  } catch (err) {
+    //
+  } finally {
+    tasks = tasks.filter((task) => task !== request);
+  }
 }
