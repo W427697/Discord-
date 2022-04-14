@@ -270,17 +270,17 @@ export class StoryStore<TFramework extends AnyFramework> {
     const stories: Record<StoryId, StoryIndexEntry | V2CompatIndexEntry> = mapValues(
       value.stories,
       (story) => {
-        const entry = this.storyIndex.entries[story.id];
+        const { importPath, storiesImports } = this.storyIndex.entries[story.id];
         return {
           ...pick(story, ['id', 'name', 'title']),
-          importPath: entry.importPath,
-          storiesImports: entry.storiesImports,
+          importPath,
+          storiesImports,
           ...(!global.FEATURES?.breakingChangesV7 && {
             kind: story.title,
             story: story.name,
             parameters: {
               ...pick(story.parameters, allowedParameters),
-              fileName: entry.importPath,
+              fileName: importPath,
             },
           }),
         };
