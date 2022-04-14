@@ -60,7 +60,7 @@
     "@jest/transform": "^26.6.2",
     "@mdx-js/react": "^1.6.22",
     "@storybook/addons": "6.5.0-alpha.63",
-    "@storybook/api": "6.5.0-alpha.63",
+    "@storybook/manager-api": "6.5.0-alpha.63",
     "@storybook/components": "6.5.0-alpha.63",
     "@storybook/core-common": "6.5.0-alpha.63",
     "@storybook/core-events": "6.5.0-alpha.63",

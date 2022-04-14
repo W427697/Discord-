@@ -1,5 +1,5 @@
 import React, { useCallback, FC, ReactNode } from 'react';
-import { useGlobals } from '@storybook/api';
+import { useGlobals } from '@storybook/manager-api';
 import { WithTooltip, TooltipLinkList } from '@storybook/components';
 import { ToolbarMenuButton } from './ToolbarMenuButton';
 import { withKeyboardCycle, WithKeyboardCycleProps } from '../hoc/withKeyboardCycle';

@@ -3,7 +3,7 @@ import React, { Fragment, useMemo, FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 
 import { FlexBar, IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
-import { Consumer, Combo, API, Story, Group, State, merge } from '@storybook/api';
+import { Consumer, Combo, API, Story, Group, State, merge } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/api/shortcut';
 import { addons, Addon, types } from '@storybook/addons';
 

@@ -1,5 +1,5 @@
 import type { IconsProps } from '@storybook/components';
-import type { ArgType } from '@storybook/api';
+import type { ArgType } from '@storybook/manager-api';
 
 export type ToolbarShortcutType = 'next' | 'previous' | 'reset';
 

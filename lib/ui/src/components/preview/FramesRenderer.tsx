@@ -1,6 +1,6 @@
 import React, { Fragment, FunctionComponent, useMemo, useEffect, useState } from 'react';
-import type { Combo } from '@storybook/api';
-import { Consumer } from '@storybook/api';
+import type { Combo } from '@storybook/manager-api';
+import { Consumer } from '@storybook/manager-api';
 import { Button, getStoryHref } from '@storybook/components';
 import { Global, styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';

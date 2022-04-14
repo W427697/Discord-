@@ -4,7 +4,7 @@ import React, { FunctionComponent, useMemo, ComponentProps, useCallback, forward
 import { Icons, WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
-import { useStorybookApi } from '@storybook/api';
+import { useStorybookApi } from '@storybook/manager-api';
 
 import { MenuItemIcon } from './Menu';
 import { RefType } from './types';

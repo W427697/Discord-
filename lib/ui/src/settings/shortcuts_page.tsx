@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-import { Consumer } from '@storybook/api';
+import { Consumer } from '@storybook/manager-api';
 
 import { ShortcutsScreen } from './shortcuts';
 

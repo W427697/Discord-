@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useMemo } from 'react';
 import sizeMe from 'react-sizeme';
 
-import { State } from '@storybook/api';
+import { State } from '@storybook/manager-api';
 import { Symbols } from '@storybook/components';
 import { Route } from '@storybook/router';
 import { Global, createGlobal, styled } from '@storybook/theming';

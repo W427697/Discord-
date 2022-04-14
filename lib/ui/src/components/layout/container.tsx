@@ -1,7 +1,7 @@
 import React, { Component, Fragment, FunctionComponent, CSSProperties, ReactNode } from 'react';
 import { styled, withTheme } from '@storybook/theming';
 import type { Theme } from '@storybook/theming';
-import type { State } from '@storybook/api';
+import type { State } from '@storybook/manager-api';
 import * as persistence from './persist';
 
 import { Draggable, Handle, DraggableData, DraggableEvent } from './draggers';

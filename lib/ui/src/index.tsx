@@ -6,7 +6,7 @@ import React, { FC, FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
-import { Provider as ManagerProvider, Combo } from '@storybook/api';
+import { Provider as ManagerProvider, Combo } from '@storybook/manager-api';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 import { HelmetProvider } from 'react-helmet-async';
 

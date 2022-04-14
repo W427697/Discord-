@@ -1,6 +1,6 @@
 import React, { ComponentProps, FC, useContext } from 'react';
 import { Source as PureSource, SourceError } from '@storybook/components';
-import type { StoryId } from '@storybook/api';
+import type { StoryId } from '@storybook/manager-api';
 import type { Story } from '@storybook/store';
 
 import { DocsContext, DocsContextProps } from './DocsContext';

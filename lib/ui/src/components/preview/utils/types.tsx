@@ -1,4 +1,4 @@
-import { State, API, Story, Group } from '@storybook/api';
+import { State, API, Story, Group } from '@storybook/manager-api';
 import { FunctionComponent, ReactNode } from 'react';
 
 export type ViewMode = State['viewMode'];

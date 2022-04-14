@@ -1,7 +1,7 @@
 import React, { Fragment, FunctionComponent } from 'react';
 import semver from '@storybook/semver';
 import { styled } from '@storybook/theming';
-import { State } from '@storybook/api';
+import { State } from '@storybook/manager-api';
 import Markdown from 'markdown-to-jsx';
 
 import { StorybookIcon, SyntaxHighlighter, Link, DocumentWrapper } from '@storybook/components';

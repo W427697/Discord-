@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-import { Consumer, Combo, useStorybookApi } from '@storybook/api';
+import { Consumer, Combo, useStorybookApi } from '@storybook/manager-api';
 
 import NotificationList from '../components/notifications/NotificationList';
 

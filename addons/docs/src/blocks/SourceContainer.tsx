@@ -2,7 +2,7 @@ import React, { FC, Context, createContext, useEffect, useState } from 'react';
 import deepEqual from 'fast-deep-equal';
 import { addons } from '@storybook/addons';
 import type { SyntaxHighlighterFormatTypes } from '@storybook/components';
-import type { StoryId } from '@storybook/api';
+import type { StoryId } from '@storybook/manager-api';
 import { SNIPPET_RENDERED } from '../shared';
 
 export interface SourceItem {

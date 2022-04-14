@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/api",
+  "name": "@storybook/manager-api",
   "version": "6.5.0-alpha.63",
   "description": "Core Storybook API & Context",
   "keywords": [

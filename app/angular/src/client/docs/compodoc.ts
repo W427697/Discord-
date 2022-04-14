@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* global window */
 
-import type { ArgType, ArgTypes } from '@storybook/api';
+import type { ArgType, ArgTypes } from '@storybook/manager-api';
 import { logger } from '@storybook/client-logger';
 import type {
   Argument,

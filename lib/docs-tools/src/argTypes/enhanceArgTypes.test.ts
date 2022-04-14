@@ -1,4 +1,4 @@
-import type { ArgTypes } from '@storybook/api';
+import type { ArgTypes } from '@storybook/manager-api';
 import type { StrictInputType } from '@storybook/csf';
 import { enhanceArgTypes } from './enhanceArgTypes';
 

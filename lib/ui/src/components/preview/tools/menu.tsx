@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconButton, Icons, Separator } from '@storybook/components';
-import { Consumer, Combo } from '@storybook/api';
+import { Consumer, Combo } from '@storybook/manager-api';
 import { Addon } from '@storybook/addons';
 
 const menuMapper = ({ api, state }: Combo) => ({

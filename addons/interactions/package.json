@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@storybook/addons": "6.5.0-alpha.63",
-    "@storybook/api": "6.5.0-alpha.63",
+    "@storybook/manager-api": "6.5.0-alpha.63",
     "@storybook/client-logger": "6.5.0-alpha.63",
     "@storybook/components": "6.5.0-alpha.63",
     "@storybook/core-common": "6.5.0-alpha.63",

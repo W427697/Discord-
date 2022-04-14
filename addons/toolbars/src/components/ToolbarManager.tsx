@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useGlobalTypes } from '@storybook/api';
+import { useGlobalTypes } from '@storybook/manager-api';
 import { Separator } from '@storybook/components';
 import { ToolbarMenuList } from './ToolbarMenuList';
 import { normalizeArgType } from '../utils/normalize-toolbar-arg-type';

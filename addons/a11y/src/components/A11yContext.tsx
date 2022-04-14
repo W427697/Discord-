@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { themes, convert } from '@storybook/theming';
 import { Result } from 'axe-core';
-import { useChannel, useStorybookState } from '@storybook/api';
+import { useChannel, useStorybookState } from '@storybook/manager-api';
 import { STORY_CHANGED, STORY_RENDERED } from '@storybook/core-events';
 import { EVENTS } from '../constants';
 

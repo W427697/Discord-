@@ -1,5 +1,5 @@
 import React, { FunctionComponent, SyntheticEvent } from 'react';
-import { State } from '@storybook/api';
+import { State } from '@storybook/manager-api';
 import { Link } from '@storybook/router';
 import { styled } from '@storybook/theming';
 import { Icons, IconButton, IconsProps } from '@storybook/components';

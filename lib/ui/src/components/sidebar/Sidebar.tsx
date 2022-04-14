@@ -3,7 +3,7 @@ import React, { FunctionComponent, useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 import { ScrollArea, Spaced } from '@storybook/components';
-import type { StoriesHash, State, ComposedRef } from '@storybook/api';
+import type { StoriesHash, State, ComposedRef } from '@storybook/manager-api';
 
 import { Heading } from './Heading';
 

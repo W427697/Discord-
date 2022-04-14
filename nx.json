@@ -170,6 +170,9 @@
     "@storybook/api": {
       "implicitDependencies": []
     },
+    "@storybook/manager-api": {
+      "implicitDependencies": []
+    },
     "@storybook/builder-webpack4": {
       "implicitDependencies": []
     },

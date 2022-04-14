@@ -1,7 +1,7 @@
 import React, { Fragment, useMemo, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import { API, Consumer, Combo, merge } from '@storybook/api';
+import { API, Consumer, Combo, merge } from '@storybook/manager-api';
 import { SET_CURRENT_STORY } from '@storybook/core-events';
 import { addons, types, Addon } from '@storybook/addons';
 

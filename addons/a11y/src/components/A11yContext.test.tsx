@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { AxeResults } from 'axe-core';
 import { render, act } from '@testing-library/react';
-import * as api from '@storybook/api';
+import * as api from '@storybook/manager-api';
 import { STORY_CHANGED } from '@storybook/core-events';
 
 import { A11yContextProvider, useA11yContext } from './A11yContext';

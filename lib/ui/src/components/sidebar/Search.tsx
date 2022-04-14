@@ -1,4 +1,4 @@
-import { useStorybookApi } from '@storybook/api';
+import { useStorybookApi } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import Downshift, { DownshiftState, StateChangeOptions } from 'downshift';

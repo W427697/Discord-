@@ -40,7 +40,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/api": "6.5.0-alpha.63",
+    "@storybook/manager-api": "6.5.0-alpha.63",
     "@storybook/channels": "6.5.0-alpha.63",
     "@storybook/client-logger": "6.5.0-alpha.63",
     "@storybook/core-events": "6.5.0-alpha.63",

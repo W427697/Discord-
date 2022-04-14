@@ -1,4 +1,4 @@
-import type { Story, StoriesHash } from '@storybook/api';
+import type { Story, StoriesHash } from '@storybook/manager-api';
 import { Item } from './types';
 
 export const DEFAULT_REF_ID = 'storybook_internal';

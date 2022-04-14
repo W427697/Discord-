@@ -198,7 +198,11 @@
       "type": "library"
     },
     "@storybook/api": {
-      "root": "lib/api",
+      "root": "lib/deprecated-api",
+      "type": "library"
+    },
+    "@storybook/manager-api": {
+      "root": "lib/manager-api",
       "type": "library"
     },
     "@storybook/builder-webpack4": {

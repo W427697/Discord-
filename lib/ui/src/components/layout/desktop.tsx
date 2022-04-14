@@ -1,6 +1,6 @@
 import React, { Fragment, ComponentType, FunctionComponent } from 'react';
 
-import { State } from '@storybook/api';
+import { State } from '@storybook/manager-api';
 import * as S from './container';
 
 export interface DesktopProps {

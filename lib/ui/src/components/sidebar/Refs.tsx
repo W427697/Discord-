@@ -6,7 +6,7 @@ import React, {
   useCallback,
   MutableRefObject,
 } from 'react';
-import { useStorybookApi } from '@storybook/api';
+import { useStorybookApi } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 

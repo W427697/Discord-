@@ -1,7 +1,7 @@
 import global from 'global';
 import type { ReactElement } from 'react';
 import { Channel } from '@storybook/channels';
-import type { API } from '@storybook/api';
+import type { API } from '@storybook/manager-api';
 import type { RenderData as RouterData } from '@storybook/router';
 import { logger } from '@storybook/client-logger';
 import type { ThemeVars } from '@storybook/theming';

@@ -1,4 +1,4 @@
-import type { Args } from '@storybook/api';
+import type { Args } from '@storybook/manager-api';
 import { generateSvelteSource } from './sourceDecorator';
 
 expect.addSnapshotSerializer({

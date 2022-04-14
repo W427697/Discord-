@@ -1,8 +1,8 @@
 import memoize from 'memoizerific';
 import global from 'global';
 import { SyntheticEvent } from 'react';
-import type { StoriesHash } from '@storybook/api';
-import { isRoot } from '@storybook/api';
+import type { StoriesHash } from '@storybook/manager-api';
+import { isRoot } from '@storybook/manager-api';
 
 import { DEFAULT_REF_ID } from './data';
 import { Item, RefType, Dataset, SearchItem } from './types';

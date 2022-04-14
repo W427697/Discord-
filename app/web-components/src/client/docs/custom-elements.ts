@@ -1,4 +1,4 @@
-import type { ArgType, ArgTypes } from '@storybook/api';
+import type { ArgType, ArgTypes } from '@storybook/manager-api';
 import { logger } from '@storybook/client-logger';
 import { getCustomElements, isValidComponent, isValidMetaData } from '..';
 

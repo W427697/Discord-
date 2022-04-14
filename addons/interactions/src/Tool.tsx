@@ -1,5 +1,5 @@
 import React, { ComponentProps, useState } from 'react';
-import { useChannel, useStorybookApi } from '@storybook/api';
+import { useChannel, useStorybookApi } from '@storybook/manager-api';
 import { Icons, IconButton } from '@storybook/components';
 import { FORCE_REMOUNT } from '@storybook/core-events';
 import { styled } from '@storybook/theming';

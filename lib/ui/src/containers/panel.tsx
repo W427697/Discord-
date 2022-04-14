@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import memoize from 'memoizerific';
-import { Consumer, Combo } from '@storybook/api';
+import { Consumer, Combo } from '@storybook/manager-api';
 
 import AddonPanel from '../components/panel/panel';
 

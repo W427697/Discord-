@@ -6,7 +6,7 @@ import {
   useArgTypes,
   useParameter,
   useStorybookState,
-} from '@storybook/api';
+} from '@storybook/manager-api';
 import { ArgsTable, NoControlsWarning, PresetColor, SortType } from '@storybook/components';
 
 import { PARAM_KEY } from './constants';

@@ -1,5 +1,5 @@
 import { types, Addon } from '@storybook/addons';
-import { API, State } from '@storybook/api';
+import { API, State } from '@storybook/manager-api';
 import { PreviewProps } from './utils/types';
 
 export const previewProps: PreviewProps = {

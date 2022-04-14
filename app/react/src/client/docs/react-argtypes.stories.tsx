@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import mapValues from 'lodash/mapValues';
 import { ArgsTable } from '@storybook/components';
-import { Args } from '@storybook/api';
+import { Args } from '@storybook/manager-api';
 import { inferControls } from '@storybook/store';
 
 import { storiesOf, StoryContext } from '..';

@@ -1,5 +1,5 @@
 import type { Type } from '@angular/core';
-import type { ArgType, ArgTypes } from '@storybook/api';
+import type { ArgType, ArgTypes } from '@storybook/manager-api';
 import type { ICollection } from '../types';
 import {
   ComponentInputsOutputs,

@@ -1,7 +1,7 @@
 import global from 'global';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { useChannel, useParameter, StoryId } from '@storybook/api';
+import { useChannel, useParameter, StoryId } from '@storybook/manager-api';
 import { STORY_RENDER_PHASE_CHANGED } from '@storybook/core-events';
 import { AddonPanel, Link, Placeholder } from '@storybook/components';
 import { EVENTS, Call, CallStates, ControlStates, LogItem } from '@storybook/instrumenter';

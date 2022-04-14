@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import deepEqual from 'fast-deep-equal';
 
-import { API } from '@storybook/api';
+import { API } from '@storybook/manager-api';
 import { STORY_CHANGED } from '@storybook/core-events';
 
 import { ActionLogger as ActionLoggerComponent } from '../../components/ActionLogger';
