@@ -100,9 +100,9 @@ export const validateOptions = (args: Args, argTypes: ArgTypes): Args => {
     const invalidIndex = isArray && args[key].findIndex((val: any) => !options.includes(val));
     const isValidArray = isArray && invalidIndex === -1;
 
-    // set available args only, see https://github.com/storybookjs/storybook/issues/17063
-    if ((key in args && args[key] === undefined) || options.includes(args[key]) || isValidArray) {
-      acc[key] = args[key];
+    if (args[key] === undefined || options.includes(args[key]) || isValidArray) {
+      // set available args only, see https://github.com/storybookjs/storybook/issues/17063
+      if (key in args) acc[key] = args[key];
       return acc;
     }
 
