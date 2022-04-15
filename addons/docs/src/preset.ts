@@ -109,6 +109,8 @@ export async function webpack(
             {
               loader: resolvedBabelLoader,
               options: {
+                babelrc: false,
+                configFile: false,
                 presets: [[require.resolve('@babel/preset-env'), { modules: 'commonjs' }]],
               },
             },
