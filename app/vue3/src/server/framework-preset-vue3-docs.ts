@@ -1,5 +1,4 @@
 import type { Options, StorybookConfig } from '@storybook/core-common';
-import { findDistEsm } from '@storybook/core-common';
 import { hasDocsOrControls } from '@storybook/docs-tools';
 
 export function webpackFinal(webpackConfig: any = {}, options: Options) {
@@ -33,5 +32,5 @@ export function webpackFinal(webpackConfig: any = {}, options: Options) {
 
 export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = [], options) => {
   if (!hasDocsOrControls(options)) return entry;
-  return [...entry, findDistEsm(__dirname, 'client/docs/config')];
+  return [...entry, require.resolve('@storybook/renderer-vue3/dist/esm/docs/config')];
 };
