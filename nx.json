@@ -88,6 +88,30 @@
     "@storybook/preact": {
       "implicitDependencies": []
     },
+    "@storybook/renderer-html": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-preact": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-react": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-server": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-svelte": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-vue": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-vue3": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-web-components": {
+      "implicitDependencies": []
+    },
     "@storybook/react": {
       "implicitDependencies": []
     },
@@ -142,7 +166,6 @@
     "@storybook/external-docs": {
       "implicitDependencies": []
     },
-
     "server-kitchen-sink": {
       "implicitDependencies": []
     },
