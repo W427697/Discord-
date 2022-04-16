@@ -1,4 +1,3 @@
-import { findDistEsm } from '@storybook/core-common';
 import type { Options, StorybookConfig } from '@storybook/core-common';
 import type { Configuration } from 'webpack';
 
@@ -34,5 +33,5 @@ export async function webpack(config: Configuration, options: Options): Promise<
 }
 
 export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
-  return [...entry, findDistEsm(__dirname, 'client/preview/config')];
+  return [...entry, require.resolve('@storybook/renderer-svelte/dist/esm/preview/config')];
 };
