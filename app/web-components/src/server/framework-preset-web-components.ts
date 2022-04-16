@@ -1,5 +1,3 @@
-import { findDistEsm } from '@storybook/core-common';
-
 import type { Options, StorybookConfig } from '@storybook/core-common';
 import type { Configuration } from 'webpack';
 
@@ -42,5 +40,5 @@ export function webpack(config: Configuration, options: Options) {
 }
 
 export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
-  return [...entry, findDistEsm(__dirname, 'client/preview/config')];
+  return [...entry, require.resolve('@storybook/renderer-web-components/dist/esm/preview/config')];
 };

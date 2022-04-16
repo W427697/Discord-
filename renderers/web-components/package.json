@@ -1,29 +1,29 @@
 {
-  "name": "@storybook/web-components",
+  "name": "@storybook/renderer-web-components",
   "version": "6.5.0-alpha.63",
-  "description": "Storybook for web-components: View web components snippets in isolation with Hot Reloading.",
+  "description": "Storybook web-components renderer",
   "keywords": [
     "lit-html",
     "storybook",
     "web-components"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/app/web-components",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/renderers/web-components",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "app/web-components"
+    "directory": "renderers/web-components"
   },
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/client/index.js",
-  "module": "dist/esm/client/index.js",
-  "types": "dist/ts3.9/client/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
       "dist/ts3.9/*": [
@@ -41,16 +41,14 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/plugin-syntax-import-meta": "^7.10.4",
-    "@babel/preset-env": "^7.12.11",
-    "@storybook/core-common": "6.5.0-alpha.63",
-    "@storybook/core-server": "6.5.0-alpha.63",
+    "@storybook/addons": "6.5.0-alpha.63",
+    "@storybook/api": "6.5.0-alpha.63",
+    "@storybook/client-logger": "6.5.0-alpha.63",
+    "@storybook/core-client": "6.5.0-alpha.63",
+    "@storybook/csf": "0.0.2--canary.7c6c115.0",
     "@storybook/docs-tools": "6.5.0-alpha.63",
-    "@storybook/renderer-web-components": "6.5.0-alpha.63",
-    "@types/node": "^14.14.20 || ^16.0.0",
-    "@types/webpack-env": "^1.16.0",
-    "babel-plugin-bundled-import-meta": "^0.3.1",
+    "@storybook/preview-web": "6.5.0-alpha.63",
+    "@storybook/store": "6.5.0-alpha.63",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "react": "16.14.0",
@@ -71,5 +69,5 @@
     "access": "public"
   },
   "gitHead": "416f87dc715cae299c7b4f37f1c9db7f686d4d21",
-  "sbmodern": "dist/modern/client/index.js"
+  "sbmodern": "dist/modern/index.js"
 }
