@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { VueLoaderPlugin } from 'vue-loader';
-import { findDistEsm } from '@storybook/core-common';
 
 import type { Configuration } from 'webpack';
 import type { Options, TypescriptConfig, StorybookConfig } from '@storybook/core-common';
@@ -46,5 +45,5 @@ export async function webpack(config: Configuration, { presets }: Options) {
 }
 
 export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
-  return [...entry, findDistEsm(__dirname, 'client/preview/config')];
+  return [...entry, require.resolve('@storybook/renderer-vue/dist/esm/preview/config')];
 };
