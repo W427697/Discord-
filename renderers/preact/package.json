@@ -1,27 +1,27 @@
 {
-  "name": "@storybook/preact",
+  "name": "@storybook/renderer-preact",
   "version": "6.5.0-alpha.63",
-  "description": "Storybook for Preact: Develop Preact Component in isolation.",
+  "description": "Storybook Preact renderer",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/app/preact",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/renderers/preact",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "app/preact"
+    "directory": "renderers/preact"
   },
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/client/index.js",
-  "module": "dist/esm/client/index.js",
-  "types": "dist/ts3.9/client/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
       "dist/ts3.9/*": [
@@ -39,26 +39,21 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.12.12",
-    "@storybook/core-common": "6.5.0-alpha.63",
-    "@storybook/core-server": "6.5.0-alpha.63",
-    "@storybook/renderer-preact": "6.5.0-alpha.63",
-    "@types/node": "^14.14.20 || ^16.0.0",
-    "@types/webpack-env": "^1.16.0",
+    "@storybook/addons": "6.5.0-alpha.63",
+    "@storybook/core-client": "6.5.0-alpha.63",
+    "@storybook/csf": "0.0.2--canary.7c6c115.0",
+    "@storybook/store": "6.5.0-alpha.63",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "regenerator-runtime": "^0.13.7",
-    "ts-dedent": "^2.0.0",
-    "webpack": ">=4.0.0 <6.0.0"
+    "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "preact": "^10.5.13",
-    "webpack": "4"
+    "preact": "^10.5.13"
   },
   "peerDependencies": {
-    "@babel/core": "*",
     "preact": "^8.0.0||^10.0.0"
   },
   "engines": {
@@ -68,5 +63,5 @@
     "access": "public"
   },
   "gitHead": "416f87dc715cae299c7b4f37f1c9db7f686d4d21",
-  "sbmodern": "dist/modern/client/index.js"
+  "sbmodern": "dist/modern/index.js"
 }
