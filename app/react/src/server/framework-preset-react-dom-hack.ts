@@ -15,7 +15,8 @@ export async function webpackFinal(config: Configuration) {
         ? null
         : new IgnorePlugin({
             resourceRegExp: /react-dom\/client$/,
-            contextRegExp: /(app\/react|app\\react|@storybook\/react|@storybook\\react)/, // TODO this needs to work for both in our MONOREPO and in the user's NODE_MODULES
+            contextRegExp:
+              /(renderers\/react|renderers\\react|@storybook\/renderer-react|@storybook\\renderer-react)/, // TODO this needs to work for both in our MONOREPO and in the user's NODE_MODULES
           }),
     ].filter(Boolean),
   };
