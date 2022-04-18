@@ -14,6 +14,7 @@ Object {
     "ROOT/addons/actions/preview.js-generated-config-entry.js",
     "ROOT/addons/backgrounds/preview.js-generated-config-entry.js",
     "ROOT/addons/links/preview.js-generated-config-entry.js",
+    "ROOT/addons/highlight/preview.js-generated-config-entry.js",
     "ROOT/examples/html-kitchen-sink/.storybook/preview.js-generated-config-entry.js",
     "ROOT/generated-stories-entry.js",
   ],
