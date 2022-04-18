@@ -217,12 +217,12 @@ export abstract class JsPackageManager {
   }) {
     const sbPort = options?.port ?? 6006;
     const storybookCmd = options?.staticFolder
-      ? `start-storybook -p ${sbPort} -s ${options.staticFolder}`
-      : `start-storybook -p ${sbPort}`;
+      ? `npx sb dev -p ${sbPort} -s ${options.staticFolder}`
+      : `npx sb dev -p ${sbPort}`;
 
     const buildStorybookCmd = options?.staticFolder
-      ? `build-storybook -s ${options.staticFolder}`
-      : `build-storybook`;
+      ? `npx sb build -s ${options.staticFolder}`
+      : `npx sb build`;
 
     const preCommand = options?.preCommand ? this.getRunCommand(options.preCommand) : undefined;
     this.addScripts({
