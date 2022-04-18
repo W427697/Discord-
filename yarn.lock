@@ -25110,6 +25110,7 @@ __metadata:
     "@storybook/addon-backgrounds": 6.5.0-alpha.63
     "@storybook/addon-controls": 6.5.0-alpha.63
     "@storybook/addon-docs": 6.5.0-alpha.63
+    "@storybook/addon-highlight": 6.5.0-alpha.63
     "@storybook/addon-jest": 6.5.0-alpha.63
     "@storybook/addon-links": 6.5.0-alpha.63
     "@storybook/addon-postcss": ^2.0.0
@@ -36591,6 +36592,7 @@ __metadata:
     "@storybook/addon-a11y": 6.5.0-alpha.63
     "@storybook/addon-actions": 6.5.0-alpha.63
     "@storybook/addon-backgrounds": 6.5.0-alpha.63
+    "@storybook/addon-highlight": 6.5.0-alpha.63
     "@storybook/addon-links": 6.5.0-alpha.63
     "@storybook/addon-storyshots": 6.5.0-alpha.63
     "@storybook/addon-storysource": 6.5.0-alpha.63
@@ -40925,6 +40927,7 @@ __metadata:
     "@storybook/addon-actions": 6.5.0-alpha.63
     "@storybook/addon-backgrounds": 6.5.0-alpha.63
     "@storybook/addon-controls": 6.5.0-alpha.63
+    "@storybook/addon-highlight": 6.5.0-alpha.63
     "@storybook/addon-links": 6.5.0-alpha.63
     "@storybook/node-logger": 6.5.0-alpha.63
     "@storybook/server": 6.5.0-alpha.63
@@ -42709,6 +42712,7 @@ __metadata:
     "@storybook/addon-backgrounds": 6.5.0-alpha.63
     "@storybook/addon-controls": 6.5.0-alpha.63
     "@storybook/addon-docs": 6.5.0-alpha.63
+    "@storybook/addon-highlight": 6.5.0-alpha.63
     "@storybook/addon-interactions": 6.5.0-alpha.63
     "@storybook/addon-links": 6.5.0-alpha.63
     "@storybook/addon-storyshots": 6.5.0-alpha.63
@@ -45718,6 +45722,7 @@ __metadata:
     "@storybook/addon-backgrounds": 6.5.0-alpha.63
     "@storybook/addon-controls": 6.5.0-alpha.63
     "@storybook/addon-docs": 6.5.0-alpha.63
+    "@storybook/addon-highlight": 6.5.0-alpha.63
     "@storybook/addon-interactions": 6.5.0-alpha.63
     "@storybook/addon-links": 6.5.0-alpha.63
     "@storybook/addon-storyshots": 6.5.0-alpha.63
