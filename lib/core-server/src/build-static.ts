@@ -16,9 +16,8 @@ import type {
   StorybookConfig,
   CoreConfig,
 } from '@storybook/core-common';
-import { loadAllPresets, cache, normalizeStories, logConfig } from '@storybook/core-common';
+import { loadAllPresets, normalizeStories, logConfig } from '@storybook/core-common';
 
-import { getProdCli } from './cli';
 import { outputStats } from './utils/output-stats';
 import {
   copyAllStaticFiles,
@@ -167,26 +166,4 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   }
 
   logger.info(`=> Output directory: ${options.outputDir}`);
-}
-
-export async function buildStatic({ packageJson, ...loadOptions }: LoadOptions) {
-  const cliOptions = getProdCli(packageJson);
-
-  try {
-    await buildStaticStandalone({
-      ...cliOptions,
-      ...loadOptions,
-      packageJson,
-      configDir: loadOptions.configDir || cliOptions.configDir || './.storybook',
-      outputDir: loadOptions.outputDir || cliOptions.outputDir || './storybook-static',
-      ignorePreview:
-        (!!loadOptions.ignorePreview || !!cliOptions.previewUrl) && !cliOptions.forceBuildPreview,
-      docsMode: !!cliOptions.docs,
-      configType: 'PRODUCTION',
-      cache,
-    });
-  } catch (e) {
-    logger.error(e);
-    process.exit(1);
-  }
 }

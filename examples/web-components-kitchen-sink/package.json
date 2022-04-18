@@ -1,6 +1,6 @@
 {
   "name": "web-components-kitchen-sink",
-  "version": "6.5.0-alpha.63",
+  "version": "6.5.0-alpha.64",
   "private": true,
   "description": "",
   "keywords": [],
@@ -8,9 +8,10 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "build-storybook": "build-storybook",
+    "build-storybook": "sb build",
     "generate-custom-elements-manifest": "yarn custom-elements-manifest analyze --litelement --dev --exclude \"./**/*.stories.ts\" --exclude \"./storybook-static\"",
-    "storybook": "start-storybook -p 9006 --no-manager-cache"
+    "sb": "node ../../lib/cli/bin/index.js",
+    "storybook": "yarn sb dev -p 9006 --no-manager-cache"
   },
   "resolutions": {
     "@storybook/addon-a11y": "portal:../../addons/a11y",
@@ -34,7 +35,6 @@
     "@storybook/client-logger": "portal:../../lib/client-logger",
     "@storybook/codemod": "portal:../../lib/codemod",
     "@storybook/components": "portal:../../lib/components",
-    "@storybook/core": "portal:../../lib/core",
     "@storybook/core-client": "portal:../../lib/core-client",
     "@storybook/core-common": "portal:../../lib/core-common",
     "@storybook/core-events": "portal:../../lib/core-events",

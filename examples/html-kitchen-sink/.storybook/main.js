@@ -26,8 +26,8 @@ module.exports = {
   },
   features: {
     buildStoriesJson: true,
-  },
-  // Test code for built-in stories.json extraction
+    breakingChangesV7: true,
+  }, // Test code for built-in stories.json extraction
   //
   // refs: {
   //   'react-ts': {
@@ -38,4 +38,5 @@ module.exports = {
   //     // url: 'http://localhost:8080',
   //   },
   // },
+  framework: '@storybook/html',
 };

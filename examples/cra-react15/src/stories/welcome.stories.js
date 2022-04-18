@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf, setAddon } from '@storybook/react';
 import { linkTo } from '@storybook/addon-links';
-import { Welcome } from '@storybook/react/demo';
+import { Welcome } from './react-demo';
 
 // Added deprecated setAddon tests
 setAddon({

@@ -1,4 +1,5 @@
 const path = require('path');
+
 const namedBlockPolyfill = require('ember-named-blocks-polyfill/lib/named-blocks-polyfill-plugin');
 
 module.exports = {
@@ -32,5 +33,7 @@ module.exports = {
   staticDirs: ['../ember-output'],
   features: {
     buildStoriesJson: true,
+    breakingChangesV7: true,
   },
+  framework: '@storybook/ember',
 };

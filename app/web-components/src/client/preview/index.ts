@@ -1,5 +1,5 @@
 /* eslint-disable prefer-destructuring */
-import { start } from '@storybook/core';
+import { start } from '@storybook/core-client';
 import type { ClientStoryApi, Loadable } from '@storybook/addons';
 
 import './globals';

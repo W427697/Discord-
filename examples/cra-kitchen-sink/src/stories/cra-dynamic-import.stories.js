@@ -9,7 +9,7 @@ export default {
 
 export const Story1 = () => {
   if (!Component) {
-    import('@storybook/react/demo').then(({ Button }) => {
+    import('../components/react-demo').then(({ Button }) => {
       Component = Button;
       forceReRender();
     });
