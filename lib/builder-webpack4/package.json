@@ -41,7 +41,6 @@
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@storybook/addons": "6.5.0-alpha.63",
-    "@storybook/manager-api": "6.5.0-alpha.63",
     "@storybook/channel-postmessage": "6.5.0-alpha.63",
     "@storybook/channels": "6.5.0-alpha.63",
     "@storybook/client-api": "6.5.0-alpha.63",
@@ -49,6 +48,7 @@
     "@storybook/components": "6.5.0-alpha.63",
     "@storybook/core-common": "6.5.0-alpha.63",
     "@storybook/core-events": "6.5.0-alpha.63",
+    "@storybook/manager-api": "6.5.0-alpha.63",
     "@storybook/node-logger": "6.5.0-alpha.63",
     "@storybook/preview-web": "6.5.0-alpha.63",
     "@storybook/router": "6.5.0-alpha.63",

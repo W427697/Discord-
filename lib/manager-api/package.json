@@ -11,7 +11,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/storybookjs/storybook.git"
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "lib/manager-api"
   },
   "funding": {
     "type": "opencollective",

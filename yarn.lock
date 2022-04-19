@@ -6334,12 +6334,12 @@ __metadata:
   resolution: "@storybook/addon-a11y@workspace:addons/a11y"
   dependencies:
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/channels": 6.5.0-alpha.63
     "@storybook/client-logger": 6.5.0-alpha.63
     "@storybook/components": 6.5.0-alpha.63
     "@storybook/core-events": 6.5.0-alpha.63
     "@storybook/csf": 0.0.2--canary.7c6c115.0
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/theming": 6.5.0-alpha.63
     "@testing-library/react": ^11.2.2
     "@types/webpack-env": ^1.16.0
@@ -6367,11 +6367,11 @@ __metadata:
   resolution: "@storybook/addon-actions@workspace:addons/actions"
   dependencies:
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/client-logger": 6.5.0-alpha.63
     "@storybook/components": 6.5.0-alpha.63
     "@storybook/core-events": 6.5.0-alpha.63
     "@storybook/csf": 0.0.2--canary.7c6c115.0
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/theming": 6.5.0-alpha.63
     "@types/lodash": ^4.14.167
     "@types/webpack-env": ^1.16.0
@@ -6403,11 +6403,11 @@ __metadata:
   resolution: "@storybook/addon-backgrounds@workspace:addons/backgrounds"
   dependencies:
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/client-logger": 6.5.0-alpha.63
     "@storybook/components": 6.5.0-alpha.63
     "@storybook/core-events": 6.5.0-alpha.63
     "@storybook/csf": 0.0.2--canary.7c6c115.0
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/theming": 6.5.0-alpha.63
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
@@ -6432,11 +6432,11 @@ __metadata:
   resolution: "@storybook/addon-controls@workspace:addons/controls"
   dependencies:
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/client-logger": 6.5.0-alpha.63
     "@storybook/components": 6.5.0-alpha.63
     "@storybook/core-common": 6.5.0-alpha.63
     "@storybook/csf": 0.0.2--canary.7c6c115.0
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/node-logger": 6.5.0-alpha.63
     "@storybook/store": 6.5.0-alpha.63
     "@storybook/theming": 6.5.0-alpha.63
@@ -6464,12 +6464,12 @@ __metadata:
     "@jest/transform": ^26.6.2
     "@mdx-js/react": ^1.6.22
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/components": 6.5.0-alpha.63
     "@storybook/core-common": 6.5.0-alpha.63
     "@storybook/core-events": 6.5.0-alpha.63
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.63
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/mdx1-csf": canary
     "@storybook/mdx2-csf": canary
     "@storybook/node-logger": 6.5.0-alpha.63
@@ -6517,8 +6517,8 @@ __metadata:
     "@storybook/addon-toolbars": 6.5.0-alpha.63
     "@storybook/addon-viewport": 6.5.0-alpha.63
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/core-common": 6.5.0-alpha.63
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/node-logger": 6.5.0-alpha.63
     "@storybook/vue": 6.5.0-alpha.63
     "@types/jest": ^26.0.16
@@ -6588,7 +6588,6 @@ __metadata:
   resolution: "@storybook/addon-interactions@workspace:addons/interactions"
   dependencies:
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/client-logger": 6.5.0-alpha.63
     "@storybook/components": 6.5.0-alpha.63
     "@storybook/core-common": 6.5.0-alpha.63
@@ -6596,6 +6595,7 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/instrumenter": 6.5.0-alpha.63
     "@storybook/jest": ^0.0.5
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/testing-library": ^0.0.7
     "@storybook/theming": 6.5.0-alpha.63
     core-js: ^3.8.2
@@ -6620,10 +6620,10 @@ __metadata:
   resolution: "@storybook/addon-jest@workspace:addons/jest"
   dependencies:
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/client-logger": 6.5.0-alpha.63
     "@storybook/components": 6.5.0-alpha.63
     "@storybook/core-events": 6.5.0-alpha.63
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/theming": 6.5.0-alpha.63
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
@@ -6675,11 +6675,11 @@ __metadata:
   resolution: "@storybook/addon-measure@workspace:addons/measure"
   dependencies:
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/client-logger": 6.5.0-alpha.63
     "@storybook/components": 6.5.0-alpha.63
     "@storybook/core-events": 6.5.0-alpha.63
     "@storybook/csf": 0.0.2--canary.7c6c115.0
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
     global: ^4.4.0
@@ -6699,11 +6699,11 @@ __metadata:
   resolution: "@storybook/addon-outline@workspace:addons/outline"
   dependencies:
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/client-logger": 6.5.0-alpha.63
     "@storybook/components": 6.5.0-alpha.63
     "@storybook/core-events": 6.5.0-alpha.63
     "@storybook/csf": 0.0.2--canary.7c6c115.0
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
     global: ^4.4.0
@@ -6850,9 +6850,9 @@ __metadata:
   resolution: "@storybook/addon-storysource@workspace:addons/storysource"
   dependencies:
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/client-logger": 6.5.0-alpha.63
     "@storybook/components": 6.5.0-alpha.63
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/router": 6.5.0-alpha.63
     "@storybook/source-loader": 6.5.0-alpha.63
     "@storybook/theming": 6.5.0-alpha.63
@@ -6880,9 +6880,9 @@ __metadata:
   resolution: "@storybook/addon-toolbars@workspace:addons/toolbars"
   dependencies:
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/client-logger": 6.5.0-alpha.63
     "@storybook/components": 6.5.0-alpha.63
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/theming": 6.5.0-alpha.63
     core-js: ^3.8.2
     regenerator-runtime: ^0.13.7
@@ -6902,10 +6902,10 @@ __metadata:
   resolution: "@storybook/addon-viewport@workspace:addons/viewport"
   dependencies:
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/client-logger": 6.5.0-alpha.63
     "@storybook/components": 6.5.0-alpha.63
     "@storybook/core-events": 6.5.0-alpha.63
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/theming": 6.5.0-alpha.63
     core-js: ^3.8.2
     global: ^4.4.0
@@ -6927,11 +6927,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addons@workspace:lib/addons"
   dependencies:
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/channels": 6.5.0-alpha.63
     "@storybook/client-logger": 6.5.0-alpha.63
     "@storybook/core-events": 6.5.0-alpha.63
     "@storybook/csf": 0.0.2--canary.7c6c115.0
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/router": 6.5.0-alpha.63
     "@storybook/theming": 6.5.0-alpha.63
     "@types/webpack-env": ^1.16.0
@@ -6983,13 +6983,13 @@ __metadata:
     "@angular/platform-browser-dynamic": ^11.2.14
     "@nrwl/workspace": ^11.6.3
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/client-logger": 6.5.0-alpha.63
     "@storybook/core": 6.5.0-alpha.63
     "@storybook/core-common": 6.5.0-alpha.63
     "@storybook/core-events": 6.5.0-alpha.63
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-alpha.63
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/node-logger": 6.5.0-alpha.63
     "@storybook/semver": ^7.3.2
     "@storybook/store": 6.5.0-alpha.63
@@ -7054,39 +7054,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/api@6.5.0-alpha.63, @storybook/api@workspace:*, @storybook/api@workspace:lib/api":
-  version: 0.0.0-use.local
-  resolution: "@storybook/api@workspace:lib/api"
-  dependencies:
-    "@storybook/channels": 6.5.0-alpha.63
-    "@storybook/client-logger": 6.5.0-alpha.63
-    "@storybook/core-events": 6.5.0-alpha.63
-    "@storybook/csf": 0.0.2--canary.7c6c115.0
-    "@storybook/router": 6.5.0-alpha.63
-    "@storybook/semver": ^7.3.2
-    "@storybook/theming": 6.5.0-alpha.63
-    "@types/lodash": ^4.14.167
-    "@types/qs": ^6
-    "@types/semver": ^7.3.4
-    core-js: ^3.8.2
-    fast-deep-equal: ^3.1.3
-    flush-promises: ^1.0.2
-    global: ^4.4.0
-    lodash: ^4.17.21
-    memoizerific: ^1.11.3
-    preval.macro: ^5.0.0
-    qs: ^6.10.1
-    regenerator-runtime: ^0.13.7
-    store2: ^2.12.0
-    telejson: ^5.3.3
-    ts-dedent: ^2.0.0
-    util-deprecate: ^1.0.2
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  languageName: unknown
-  linkType: soft
-
 "@storybook/api@npm:6.4.0-rc.5":
   version: 6.4.0-rc.5
   resolution: "@storybook/api@npm:6.4.0-rc.5"
@@ -7115,6 +7082,14 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/api@workspace:*, @storybook/api@workspace:lib/api":
+  version: 0.0.0-use.local
+  resolution: "@storybook/api@workspace:lib/api"
+  dependencies:
+    "@storybook/manager-api": 6.5.0-alpha.63
+  languageName: unknown
+  linkType: soft
+
 "@storybook/babel-plugin-require-context-hook@npm:1.0.1":
   version: 1.0.1
   resolution: "@storybook/babel-plugin-require-context-hook@npm:1.0.1"
@@ -7128,7 +7103,6 @@ __metadata:
   dependencies:
     "@babel/core": ^7.12.10
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/channel-postmessage": 6.5.0-alpha.63
     "@storybook/channels": 6.5.0-alpha.63
     "@storybook/client-api": 6.5.0-alpha.63
@@ -7136,6 +7110,7 @@ __metadata:
     "@storybook/components": 6.5.0-alpha.63
     "@storybook/core-common": 6.5.0-alpha.63
     "@storybook/core-events": 6.5.0-alpha.63
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/node-logger": 6.5.0-alpha.63
     "@storybook/preview-web": 6.5.0-alpha.63
     "@storybook/router": 6.5.0-alpha.63
@@ -7193,7 +7168,6 @@ __metadata:
   dependencies:
     "@babel/core": ^7.12.10
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/channel-postmessage": 6.5.0-alpha.63
     "@storybook/channels": 6.5.0-alpha.63
     "@storybook/client-api": 6.5.0-alpha.63
@@ -7201,6 +7175,7 @@ __metadata:
     "@storybook/components": 6.5.0-alpha.63
     "@storybook/core-common": 6.5.0-alpha.63
     "@storybook/core-events": 6.5.0-alpha.63
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/node-logger": 6.5.0-alpha.63
     "@storybook/preview-web": 6.5.0-alpha.63
     "@storybook/router": 6.5.0-alpha.63
@@ -7978,6 +7953,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/manager-api@6.5.0-alpha.63, @storybook/manager-api@workspace:*, @storybook/manager-api@workspace:lib/manager-api":
+  version: 0.0.0-use.local
+  resolution: "@storybook/manager-api@workspace:lib/manager-api"
+  dependencies:
+    "@storybook/channels": 6.5.0-alpha.63
+    "@storybook/client-logger": 6.5.0-alpha.63
+    "@storybook/core-events": 6.5.0-alpha.63
+    "@storybook/csf": 0.0.2--canary.7c6c115.0
+    "@storybook/router": 6.5.0-alpha.63
+    "@storybook/semver": ^7.3.2
+    "@storybook/theming": 6.5.0-alpha.63
+    "@types/lodash": ^4.14.167
+    "@types/qs": ^6
+    "@types/semver": ^7.3.4
+    core-js: ^3.8.2
+    fast-deep-equal: ^3.1.3
+    flush-promises: ^1.0.2
+    global: ^4.4.0
+    lodash: ^4.17.21
+    memoizerific: ^1.11.3
+    preval.macro: ^5.0.0
+    qs: ^6.10.1
+    regenerator-runtime: ^0.13.7
+    store2: ^2.12.0
+    telejson: ^5.3.3
+    ts-dedent: ^2.0.0
+    util-deprecate: ^1.0.2
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  languageName: unknown
+  linkType: soft
+
 "@storybook/manager-webpack4@6.5.0-alpha.63, @storybook/manager-webpack4@workspace:lib/manager-webpack4":
   version: 0.0.0-use.local
   resolution: "@storybook/manager-webpack4@workspace:lib/manager-webpack4"
@@ -8398,6 +8406,7 @@ __metadata:
     "@storybook/instrumenter": "workspace:*"
     "@storybook/jest": ^0.0.5
     "@storybook/linter-config": ^2.5.0
+    "@storybook/manager-api": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@storybook/postinstall": "workspace:*"
     "@storybook/preact": "workspace:*"
@@ -8633,11 +8642,11 @@ __metadata:
   resolution: "@storybook/server@workspace:app/server"
   dependencies:
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/client-api": 6.5.0-alpha.63
     "@storybook/core": 6.5.0-alpha.63
     "@storybook/core-common": 6.5.0-alpha.63
     "@storybook/csf": 0.0.2--canary.7c6c115.0
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/node-logger": 6.5.0-alpha.63
     "@storybook/preview-web": 6.5.0-alpha.63
     "@storybook/store": 6.5.0-alpha.63
@@ -8822,11 +8831,11 @@ __metadata:
   dependencies:
     "@babel/core": ^7.12.10
     "@storybook/addons": 6.5.0-alpha.63
-    "@storybook/api": 6.5.0-alpha.63
     "@storybook/channels": 6.5.0-alpha.63
     "@storybook/client-logger": 6.5.0-alpha.63
     "@storybook/components": 6.5.0-alpha.63
     "@storybook/core-events": 6.5.0-alpha.63
+    "@storybook/manager-api": 6.5.0-alpha.63
     "@storybook/router": 6.5.0-alpha.63
     "@storybook/semver": ^7.3.2
     "@storybook/theming": 6.5.0-alpha.63

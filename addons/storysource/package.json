@@ -42,9 +42,9 @@
   },
   "dependencies": {
     "@storybook/addons": "6.5.0-alpha.63",
-    "@storybook/manager-api": "6.5.0-alpha.63",
     "@storybook/client-logger": "6.5.0-alpha.63",
     "@storybook/components": "6.5.0-alpha.63",
+    "@storybook/manager-api": "6.5.0-alpha.63",
     "@storybook/router": "6.5.0-alpha.63",
     "@storybook/source-loader": "6.5.0-alpha.63",
     "@storybook/theming": "6.5.0-alpha.63",
