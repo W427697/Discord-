@@ -1,4 +1,4 @@
-import type { Options, StorybookConfig } from '@storybook/core-common';
+import type { Options } from '@storybook/core-common';
 import type { Configuration } from 'webpack';
 
 export async function webpack(config: Configuration, options: Options): Promise<Configuration> {
@@ -31,7 +31,3 @@ export async function webpack(config: Configuration, options: Options): Promise<
     },
   };
 }
-
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
-  return [...entry, require.resolve('@storybook/renderer-svelte/dist/esm/preview/config')];
-};

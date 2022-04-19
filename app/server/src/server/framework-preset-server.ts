@@ -18,6 +18,4 @@ export function webpack(config: Configuration) {
   return config;
 }
 
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
-  return [...entry, require.resolve('@storybook/renderer-server/dist/esm/preview/config')];
-};
+export const addons: StorybookConfig['addons'] = ['@storybook/renderer-server'];
