@@ -48,6 +48,8 @@ export const es6Transpiler: () => RuleSetRule = () => {
         loader: require.resolve('babel-loader'),
         options: {
           sourceType: 'unambiguous',
+          babelrc: false,
+          configFile: false,
           presets: [
             [
               require.resolve('@babel/preset-env'),
