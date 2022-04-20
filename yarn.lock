@@ -7167,9 +7167,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/api@workspace:*, @storybook/api@workspace:lib/api":
+"@storybook/api@workspace:*, @storybook/api@workspace:lib/deprecated-api":
   version: 0.0.0-use.local
-  resolution: "@storybook/api@workspace:lib/api"
+  resolution: "@storybook/api@workspace:lib/deprecated-api"
   dependencies:
     "@storybook/manager-api": 6.5.0-alpha.64
   languageName: unknown

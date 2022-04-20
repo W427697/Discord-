@@ -7,7 +7,7 @@ import { STORY_CHANGED } from '@storybook/core-events';
 import { A11yContextProvider, useA11yContext } from './A11yContext';
 import { EVENTS } from '../constants';
 
-jest.mock('@storybook/api');
+jest.mock('@storybook/manager-api');
 const mockedApi = api as jest.Mocked<typeof api>;
 
 const storyId = 'jest';

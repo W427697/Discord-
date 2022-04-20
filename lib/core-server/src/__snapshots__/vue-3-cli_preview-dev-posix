@@ -481,7 +481,7 @@ Object {
           "docgenOptions": Object {
             "alias": Object {
               "@storybook/addons": "ROOT/lib/addons",
-              "@storybook/api": "ROOT/lib/api",
+              "@storybook/manager-api": "ROOT/lib/manager-api",
               "@storybook/channel-postmessage": "ROOT/lib/channel-postmessage",
               "@storybook/channels": "ROOT/lib/channels",
               "@storybook/client-api": "ROOT/lib/client-api",
