@@ -1,4 +1,4 @@
-import path from 'path';
+import path, { relative } from 'path';
 import dedent from 'ts-dedent';
 import { writeFile, existsSync } from 'fs-extra';
 import { getAllPresets } from '@storybook/core-common';
@@ -54,7 +54,10 @@ export const getAnnotationsFileContent = (presets: string[], replaceEsmWithCjs?:
 export async function writeAnnotationsFile({ configDir = '.storybook', cjs = false }) {
   try {
     logger.info(`=> Generating preset annotations file`);
-    const presets = await getAllPresets(configDir);
+    const presets = (await getAllPresets(configDir)).map((configPath) =>
+      relative(configDir, configPath)
+    );
+
     const annotationsFileContent = getAnnotationsFileContent(presets, cjs);
     const targetPath = path.join(configDir, 'annotations.js');
 

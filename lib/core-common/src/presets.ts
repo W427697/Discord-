@@ -1,5 +1,5 @@
 import dedent from 'ts-dedent';
-import { resolve, relative } from 'path';
+import { resolve } from 'path';
 import { logger } from '@storybook/node-logger';
 import {
   CLIOptions,
@@ -387,7 +387,7 @@ export const getAllPresets = async (configDir: string) => {
     ...addonPresets,
     // load preview.js
     loadPreviewOrConfigFile({ configDir }),
-  ].map((configPath) => relative(configDir, configPath));
+  ];
 
   return configs;
 };
