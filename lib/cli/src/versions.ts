@@ -19,6 +19,7 @@ export default {
   '@storybook/addons': '6.5.0-alpha.64',
   '@storybook/angular': '6.5.0-alpha.64',
   '@storybook/api': '6.5.0-alpha.64',
+  '@storybook/manager-api': '6.5.0-alpha.64',
   '@storybook/builder-webpack4': '6.5.0-alpha.64',
   '@storybook/builder-webpack5': '6.5.0-alpha.64',
   '@storybook/channel-postmessage': '6.5.0-alpha.64',

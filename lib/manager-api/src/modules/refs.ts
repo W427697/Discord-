@@ -179,7 +179,7 @@ export const init: ModuleFn = ({ store, provider, singleStory }, { runCheck = tr
         loadedData.error = {
           message: dedent`
             Error: Loading of ref failed
-              at fetch (lib/api/src/modules/refs.ts)
+              at fetch (lib/manager-api/src/modules/refs.ts)
 
             URL: ${url}
 

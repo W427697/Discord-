@@ -798,7 +798,8 @@ const newWebpackConfiguration = (
       mainFields: ['browser', 'main'],
       alias: {
         '@storybook/addons': '/Users/joe/storybook/lib/addons',
-        '@storybook/api': '/Users/joe/storybook/lib/api',
+        '@storybook/api': '/Users/joe/storybook/lib/deprecated-api',
+        '@storybook/manager-api': '/Users/joe/storybook/lib/manager-api',
         '@storybook/channels': '/Users/joe/storybook/lib/channels',
         '@storybook/channel-postmessage': '/Users/joe/storybook/lib/channel-postmessage',
         '@storybook/components': '/Users/joe/storybook/lib/components',

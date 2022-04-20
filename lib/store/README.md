@@ -75,7 +75,7 @@ Args can be set at the project, component and story level.
 
 ### Using args in an addon
 
-Args values are automatically synchronized (via the `changeStoryArgs` and `storyArgsChanged` events) between the preview and manager; APIs exist in `lib/api` to read and set args in the manager.
+Args values are automatically synchronized (via the `changeStoryArgs` and `storyArgsChanged` events) between the preview and manager; APIs exist in `lib/manager-api` to read and set args in the manager.
 
 Args need to be serializable -- so currently cannot include callbacks (this may change in a future version).
 
