@@ -97,6 +97,7 @@
     "jest-preset-angular": "^8.3.2",
     "jest-specific-snapshot": "^4.0.0",
     "tmp": "^0.2.1",
+    "typescript": "^4.6.3",
     "webpack": "4"
   },
   "peerDependencies": {
@@ -114,7 +115,7 @@
     "@babel/core": "*",
     "@nrwl/workspace": ">=11.1.0",
     "rxjs": "^6.0.0 || ^7.4.0",
-    "typescript": "^3.4.0 || >=4.0.0",
+    "typescript": "^4.0.0",
     "zone.js": "^0.8.29 || ^0.9.0 || ^0.10.0 || ^0.11.0"
   },
   "peerDependenciesMeta": {

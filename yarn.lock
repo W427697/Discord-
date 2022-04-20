@@ -7151,6 +7151,7 @@ __metadata:
     ts-dedent: ^2.0.0
     ts-loader: ^8.0.14
     tsconfig-paths-webpack-plugin: ^3.3.0
+    typescript: ^4.6.3
     util-deprecate: ^1.0.2
     webpack: 4
   peerDependencies:
@@ -7168,7 +7169,7 @@ __metadata:
     "@babel/core": "*"
     "@nrwl/workspace": ">=11.1.0"
     rxjs: ^6.0.0 || ^7.4.0
-    typescript: ^3.4.0 || >=4.0.0
+    typescript: ^4.0.0
     zone.js: ^0.8.29 || ^0.9.0 || ^0.10.0 || ^0.11.0
   peerDependenciesMeta:
     "@angular/cli":
@@ -7925,7 +7926,7 @@ __metadata:
     prop-types: 15.7.2
     react: 16.14.0
     react-dom: 16.14.0
-    typescript: ^3.9.7
+    typescript: ^4.6.3
     webpack: 4
   languageName: unknown
   linkType: soft
@@ -7964,7 +7965,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     react-scripts: ^4.0.2
-    typescript: ^3.9.7
+    typescript: ^4.6.3
     webpack: 4
   languageName: unknown
   linkType: soft
@@ -8773,7 +8774,7 @@ __metadata:
     ts-jest: ^26.4.4
     ts-loader: ^8.0.14
     ts-node: ^10.4.0
-    typescript: ^3.9.7
+    typescript: ^4.6.3
     verdaccio: ^4.10.0
     verdaccio-auth-memory: ^9.7.2
     wait-on: ^5.2.1
@@ -13078,7 +13079,7 @@ __metadata:
     telejson: ^5.3.3
     ts-jest: ^26.4.4
     ts-node: ^9.1.0
-    typescript: ^4.1.3
+    typescript: ^4.6.3
     zone.js: ^0.11.3
   languageName: unknown
   linkType: soft
@@ -18183,7 +18184,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     react-scripts: ^4.0.2
-    typescript: ^3.9.7
+    typescript: ^4.6.3
     webpack: 4
   languageName: unknown
   linkType: soft
@@ -18216,7 +18217,7 @@ __metadata:
     react-moment-proptypes: ^1.7.0
     react-scripts: ^4.0.2
     ts-node: ^9.1.0
-    typescript: ^3.9.7
+    typescript: ^4.6.3
     webpack: 4
   languageName: unknown
   linkType: soft
@@ -44516,7 +44517,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:>=3.0.1, typescript@npm:^4.0.3, typescript@npm:^4.1.0-dev.20200804, typescript@npm:^4.1.3":
+"typescript@npm:>=3.0.1, typescript@npm:^4.0.3, typescript@npm:^4.1.0-dev.20200804":
   version: 4.6.2
   resolution: "typescript@npm:4.6.2"
   bin:
@@ -44526,13 +44527,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^3.8.3, typescript@npm:^3.9.7, typescript@npm:~3.9.3":
+"typescript@npm:^3.8.3":
   version: 3.9.10
   resolution: "typescript@npm:3.9.10"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 863cc06070fa18a0f9c6a83265fb4922a8b51bf6f2c6760fb0b73865305ce617ea4bc6477381f9f4b7c3a8cb4a455b054f5469e6e41307733fe6a2bd9aae82f8
+  languageName: node
+  linkType: hard
+
+"typescript@npm:^4.6.3":
+  version: 4.6.3
+  resolution: "typescript@npm:4.6.3"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 53e8bcf00abde8ecb2002d1f1e15160b21cb62b2dd0ff71bad2ef55fa96141f76316fce649a415758d3f17bd8e0c5676d8f017c34ec3e38b585812d4717a712c
   languageName: node
   linkType: hard
 
@@ -44546,7 +44557,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@>=3.0.1#~builtin<compat/typescript>, typescript@patch:typescript@^4.0.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.1.0-dev.20200804#~builtin<compat/typescript>, typescript@patch:typescript@^4.1.3#~builtin<compat/typescript>":
+"typescript@patch:typescript@>=3.0.1#~builtin<compat/typescript>, typescript@patch:typescript@^4.0.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.1.0-dev.20200804#~builtin<compat/typescript>":
   version: 4.6.2
   resolution: "typescript@patch:typescript@npm%3A4.6.2#~builtin<compat/typescript>::version=4.6.2&hash=493e53"
   bin:
@@ -44556,13 +44567,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^3.8.3#~builtin<compat/typescript>, typescript@patch:typescript@^3.9.7#~builtin<compat/typescript>, typescript@patch:typescript@~3.9.3#~builtin<compat/typescript>":
+"typescript@patch:typescript@^3.8.3#~builtin<compat/typescript>":
   version: 3.9.10
   resolution: "typescript@patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=493e53"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 9041fb3886e7d6a560f985227b8c941d17a750f2edccb5f9b3a15a2480574654d9be803ad4a14aabcc2f2553c4d272a25fd698a7c42692f03f66b009fb46883c
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^4.6.3#~builtin<compat/typescript>":
+  version: 4.6.3
+  resolution: "typescript@patch:typescript@npm%3A4.6.3#~builtin<compat/typescript>::version=4.6.3&hash=493e53"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: d06fdd5852d0fe86f44b56507d37a3458812a1dff11c0fedaeedbe163e81646643669a5bc0dcc3500c72128267b384cda7567c53c568f94e7c753ac6b4cfbce3
   languageName: node
   linkType: hard
 
@@ -45836,7 +45857,7 @@ __metadata:
     "@vue/compiler-sfc": ^3.0.0
     babel-loader: ^8.0.0
     core-js: ^3.8.2
-    typescript: ~3.9.3
+    typescript: ^4.6.3
     vue: ^3.0.0
     vue-jest: ^5.0.0-alpha.8
     vue-loader: ^16.1.2
@@ -45865,7 +45886,7 @@ __metadata:
     "@vue/cli-plugin-typescript": ~4.3.1
     "@vue/cli-service": ~4.3.1
     core-js: ^3.8.2
-    typescript: ^3.9.7
+    typescript: ^4.6.3
     vue: ^2.6.12
     vue-class-component: ^7.2.6
     vue-property-decorator: ^9.1.2
