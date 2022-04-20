@@ -160,6 +160,9 @@
     "@storybook/example-react-ts": {
       "implicitDependencies": []
     },
+    "@storybook/example-react-simple": {
+      "implicitDependencies": []
+    },
     "@storybook/example-react-ts-webpack4": {
       "implicitDependencies": []
     },

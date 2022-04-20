@@ -157,6 +157,10 @@
       "root": "examples/react-ts",
       "type": "library"
     },
+    "@storybook/example-react-simple": {
+      "root": "examples/react-simple",
+      "type": "library"
+    },
     "@storybook/example-react-ts-webpack4": {
       "root": "examples/react-ts-webpack4",
       "type": "library"
