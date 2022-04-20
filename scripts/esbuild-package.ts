@@ -1,4 +1,4 @@
-import path, { resolve } from 'path';
+import path, { join, resolve } from 'path';
 import { bold, gray, greenBright } from 'chalk';
 import execa from 'execa';
 import readPkgUp from 'read-pkg-up';
@@ -8,57 +8,46 @@ import fs from 'fs-extra';
 import { generateDtsBundle } from 'dts-bundle-generator';
 import * as dtsLozalize from './dts-localize';
 
-interface Options {
-  input: string;
-  externals: string[];
-  cwd: string;
-  optimized?: boolean;
-  watch?: boolean;
-}
-
-async function build(options: Options) {
+async function build(options: tsup.Options) {
   await tsup.build({
-    format: ['esm', 'cjs'],
-    entry: [options.input],
-    minify: options.optimized,
+    ...options,
     watch: options.watch,
-    external: options.externals,
-    legacyOutput: true,
+    // legacyOutput: true,
     clean: true,
     shims: true,
     silent: false,
 
     // can't do this (YET?) presumably because of a dependency on typescript v4
     // see: https://github.com/Swatinem/rollup-plugin-dts#compatibility-notice
-    // dts: {
-    //   entry: options.input,
-    //   resolve: true,
-    // },
+    dts: {
+      entry: options.entry,
+      resolve: true,
+    },
 
     // we might want to use this to compile down to
-    target: 'es5',
     esbuildOptions: (c) => {
       /* eslint-disable no-param-reassign */
       c.legalComments = 'none';
-      c.minifyWhitespace = true;
-      c.minifyIdentifiers = true;
-      c.minifySyntax = true;
+      c.minifyWhitespace = !!options.minify;
+      c.minifyIdentifiers = !!options.minify;
+      c.minifySyntax = !!options.minify;
       /* eslint-enable no-param-reassign */
     },
     // onSuccess: ''
   });
 }
 
-async function dts({ input, externals, cwd, ...options }: Options) {
+async function dts(cwd: string, { entry, external, ...options }: tsup.Options) {
   if (options.watch) {
     try {
+      const input = Array.isArray(entry) ? entry : Object.values(entry);
       const [out] = await generateDtsBundle(
-        [
-          {
-            filePath: input,
+        input.map((i) => {
+          return {
+            filePath: i,
             output: { inlineDeclareGlobals: false, sortNodes: true, noBanner: true },
-          },
-        ],
+          };
+        }),
         { followSymlinks: false }
       );
 
@@ -67,13 +56,14 @@ async function dts({ input, externals, cwd, ...options }: Options) {
       console.log(e.message);
     }
   } else {
+    const input = Array.isArray(entry) ? entry : Object.values(entry);
     const [out] = await generateDtsBundle(
-      [
-        {
-          filePath: input,
+      input.map((i) => {
+        return {
+          filePath: i,
           output: { inlineDeclareGlobals: false, sortNodes: true, noBanner: true },
-        },
-      ],
+        };
+      }),
       { followSymlinks: false }
     );
 
@@ -81,7 +71,7 @@ async function dts({ input, externals, cwd, ...options }: Options) {
     const localizedDTSout = path.join(cwd, 'dist/ts3.9');
     await fs.outputFile(bundledDTSfile, out);
 
-    await dtsLozalize.run([bundledDTSfile], localizedDTSout, { externals, cwd });
+    await dtsLozalize.run([bundledDTSfile], localizedDTSout, { externals: external, cwd });
 
     // await fs.remove(path.join(cwd, 'dist/ts-tmp'));
 
@@ -106,21 +96,21 @@ export async function run({ cwd, flags }: { cwd: string; flags: string[] }) {
     await removeDist();
   }
 
-  const input = path.join(cwd, pkg.bundlerEntrypoint);
-  const externals = Object.keys({ ...pkg.dependencies, ...pkg.peerDependencies });
+  const entry = (pkg.tsup.entry as string[]).map((p) => join(cwd, p));
+  const external = Object.keys({ ...pkg.dependencies, ...pkg.peerDependencies });
 
-  const options: Options = {
-    cwd,
-    externals,
-    input,
-    optimized: flags.includes('--optimized'),
+  const options: tsup.Options = {
+    ...pkg.tsup,
+    external,
+    entry,
+    minify: flags.includes('--optimized'),
     watch: flags.includes('--watch'),
   };
 
   await Promise.all([
     //
     build(options),
-    // dts(options),
+    // dts(cwd, options),
   ]);
 
   console.timeEnd(message);

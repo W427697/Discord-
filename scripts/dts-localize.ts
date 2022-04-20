@@ -55,7 +55,7 @@ function findConfig(inputFiles: string[]) {
 }
 
 interface Options {
-  externals: string[];
+  externals: (string | RegExp)[];
   cwd?: string;
 }
 

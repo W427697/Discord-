@@ -20,16 +20,9 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -37,7 +30,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "ts-node ../../scripts/prebundle.ts"
+    "prepare": "ts-node ../../scripts/prebundle-esbuild.ts"
   },
   "dependencies": {
     "@storybook/client-logger": "6.5.0-alpha.63",
@@ -64,7 +57,16 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": "./src/index.ts",
   "gitHead": "416f87dc715cae299c7b4f37f1c9db7f686d4d21",
-  "sbmodern": "dist/modern/index.js"
+  "sbmodern": "dist/modern/index.js",
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "target": "es5",
+    "format": [
+      "esm",
+      "cjs"
+    ]
+  }
 }
