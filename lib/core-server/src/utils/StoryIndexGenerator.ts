@@ -127,7 +127,12 @@ export class StoryIndexGenerator {
 
       const makeAbsolute = (otherImport: Path) =>
         otherImport.startsWith('.')
-          ? slash(normalizeStoryPath(path.join(path.dirname(normalizedPath), otherImport)))
+          ? slash(
+              path.join(
+                this.options.workingDir,
+                normalizeStoryPath(path.join(path.dirname(normalizedPath), otherImport))
+              )
+            )
           : otherImport;
 
       const absoluteImports = (result.imports as string[]).map(makeAbsolute);
@@ -136,9 +141,9 @@ export class StoryIndexGenerator {
       let ofTitle: string;
       const dependencies = [] as StoriesCacheEntry[];
       this.specifierToCache.forEach((cache) => {
-        const fileNames = Object.keys(cache).filter((fileName) =>
-          absoluteImports.some((storyImport) => fileName.startsWith(storyImport))
-        );
+        const fileNames = Object.keys(cache).filter((fileName) => {
+          return absoluteImports.some((storyImport) => fileName.startsWith(storyImport));
+        });
         fileNames.forEach((fileName) => {
           const cacheEntry = cache[fileName];
           if (cacheEntry && cacheEntry.type === 'stories') {
@@ -156,24 +161,6 @@ export class StoryIndexGenerator {
         dep.dependents.push(absolutePath);
       });
 
-      // Compute other imports
-      // const allImports = storiesList.reduce((acc, entry) => {
-      //   Object.values(entry).forEach((story) => {
-      //     acc[scrubFileExtension(story.importPath)] = story.importPath;
-      //     return acc;
-      //   });
-      //   return acc;
-      // }, {} as Record<string, Path>);
-
-      // storiesList.forEach((entry) => {
-      //   Object.values(entry).forEach((story) => {
-      //     // eslint-disable-next-line no-param-reassign
-      //     story.storiesImports = story.storiesImports
-      //       .map((importPath) => allImports[scrubFileExtension(importPath)])
-      //       .filter(Boolean);
-      //   });
-      // });
-
       const title = result.title || ofTitle || defaultTitle;
       const name = 'docs';
       const id = toId(title, name);
@@ -188,14 +175,9 @@ export class StoryIndexGenerator {
       };
       return docsEntry;
     } catch (err) {
-      if (err.name === 'NoMetaError') {
-        logger.info(`💡 Skipping ${relativePath}: ${err}`);
-      } else {
-        logger.warn(`🚨 Extraction error on ${relativePath}: ${err}`);
-        throw err;
-      }
+      logger.warn(`🚨 Extraction error on ${relativePath}: ${err}`);
+      throw err;
     }
-    return false;
   }
 
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
