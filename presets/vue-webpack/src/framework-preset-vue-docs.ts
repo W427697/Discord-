@@ -1,8 +1,8 @@
-import { Options } from '@storybook/core-common';
+import { StorybookConfig } from '@storybook/core-common';
 import { hasDocsOrControls } from '@storybook/docs-tools';
 
-export function webpackFinal(webpackConfig: any = {}, options: Options) {
-  if (!hasDocsOrControls(options)) return webpackConfig;
+export const webpackFinal: StorybookConfig['webpackFinal'] = (config, options) => {
+  if (!hasDocsOrControls(options)) return config;
 
   let vueDocgenOptions = {};
 
@@ -16,16 +16,18 @@ export function webpackFinal(webpackConfig: any = {}, options: Options) {
     }
   });
 
-  webpackConfig.module.rules.push({
+  config.module.rules.push({
     test: /\.vue$/,
-    loader: require.resolve('vue-docgen-loader', { paths: [require.resolve('@storybook/vue')] }),
+    loader: require.resolve('vue-docgen-loader', {
+      paths: [require.resolve('@storybook/preset-vue-webpack')],
+    }),
     enforce: 'post',
     options: {
       docgenOptions: {
-        alias: webpackConfig.resolve.alias,
+        alias: config.resolve.alias,
         ...vueDocgenOptions,
       },
     },
   });
-  return webpackConfig;
-}
+  return config;
+};

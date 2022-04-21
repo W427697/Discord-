@@ -1,10 +1,9 @@
 /* eslint-disable no-param-reassign */
 import { VueLoaderPlugin } from 'vue-loader';
 
-import type { Configuration } from 'webpack';
-import type { Options, TypescriptConfig, StorybookConfig } from '@storybook/core-common';
+import type { TypescriptConfig, StorybookConfig } from '@storybook/core-common';
 
-export async function webpack(config: Configuration, { presets }: Options) {
+export const webpack: StorybookConfig['webpack'] = async (config, { presets }) => {
   const typescriptOptions = await presets.apply<TypescriptConfig>('typescript', {} as any);
 
   config.plugins.push(new VueLoaderPlugin());
@@ -42,4 +41,4 @@ export async function webpack(config: Configuration, { presets }: Options) {
   config.resolve.alias = { ...config.resolve.alias, vue$: require.resolve('vue/dist/vue.esm.js') };
 
   return config;
-}
+};
