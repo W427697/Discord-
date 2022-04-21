@@ -31,6 +31,7 @@ module.exports = {
     'no-underscore-dangle': 'warn',
     'no-unused-vars': 'warn',
     'no-param-reassign': 'error',
+    'prefer-destructuring': 'error',
 
     'jest/no-standalone-expect': [
       'error',
