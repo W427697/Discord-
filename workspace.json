@@ -305,6 +305,10 @@
       "root": "lib/preview-web",
       "type": "library"
     },
+    "@storybook/preset-html-webpack": {
+      "root": "presets/html-webpack",
+      "type": "library"
+    },
     "@storybook/renderer-html": {
       "root": "renderers/html",
       "type": "library"

@@ -107,6 +107,7 @@ jobs:
             - app
             - lib
             - renderers
+            - presets
   chromatic:
     executor: sb_node_14_browsers
     parallelism: 4

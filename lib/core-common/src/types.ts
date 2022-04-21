@@ -409,7 +409,13 @@ export interface StorybookConfig {
   refs?: StorybookRefs | ((config: Configuration, options: Options) => StorybookRefs);
 
   /**
-   * Modify or return a custom Webpack config.
+   * Modify or return a custom Webpack config after the Storybook's default configuration
+   * has run (mostly used by addons).
+   */
+  webpack?: (config: Configuration, options: Options) => Configuration | Promise<Configuration>;
+
+  /**
+   * Modify or return a custom Webpack config after every addon has run.
    */
   webpackFinal?: (
     config: Configuration,

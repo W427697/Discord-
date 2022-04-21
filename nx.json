@@ -88,6 +88,9 @@
     "@storybook/preact": {
       "implicitDependencies": []
     },
+    "@storybook/preset-html-webpack": {
+      "implicitDependencies": []
+    },
     "@storybook/renderer-html": {
       "implicitDependencies": []
     },
