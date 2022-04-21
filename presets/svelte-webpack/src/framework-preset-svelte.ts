@@ -1,8 +1,6 @@
-import type { Options } from '@storybook/core-common';
-import type { Configuration } from 'webpack';
-import type { TransformOptions } from '@babel/core';
+import type { StorybookConfig } from '@storybook/core-common';
 
-export async function webpack(config: Configuration, options: Options): Promise<Configuration> {
+export const webpack: StorybookConfig['webpack'] = async (config, options) => {
   const { preprocess = undefined, loader = {} } = await options.presets.apply(
     'svelteOptions',
     {} as any,
@@ -31,12 +29,12 @@ export async function webpack(config: Configuration, options: Options): Promise<
       mainFields: ['svelte', ...mainFields],
     },
   };
-}
+};
 
-export async function babelDefault(config: TransformOptions): Promise<TransformOptions> {
+export const babelDefault: StorybookConfig['babelDefault'] = (config) => {
   return {
     ...config,
     presets: [...(config?.presets || [])],
     plugins: [...(config?.plugins || [])],
   };
-}
+};
