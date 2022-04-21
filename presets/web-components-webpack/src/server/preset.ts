@@ -1,7 +1,6 @@
-import type { Options } from '@storybook/core-common';
-import type { Configuration } from 'webpack';
+import type { StorybookConfig } from '@storybook/core-common';
 
-export function webpack(config: Configuration, options: Options) {
+export const webpack: StorybookConfig['webpack'] = (config, options) => {
   const babelrcOptions = options.features?.babelModeV7 ? null : { babelrc: false };
   config.module.rules.push({
     test: [
@@ -37,4 +36,4 @@ export function webpack(config: Configuration, options: Options) {
   });
 
   return config;
-}
+};
