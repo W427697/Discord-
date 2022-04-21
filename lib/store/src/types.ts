@@ -93,7 +93,7 @@ export interface StoryIndexEntry {
   name: StoryName;
   title: ComponentTitle;
   importPath: Path;
-  storiesImports: Path[];
+  storiesImports?: Path[];
   type?: 'story' | 'docs';
 }
 

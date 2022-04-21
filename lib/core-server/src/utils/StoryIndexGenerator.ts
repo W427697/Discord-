@@ -12,7 +12,7 @@ import type {
 } from '@storybook/store';
 import { autoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
-import { normalizeStoryPath, scrubFileExtension } from '@storybook/core-common';
+import { normalizeStoryPath } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
 import { readCsfOrMdx, getStorySortParameter } from '@storybook/csf-tools';
 import type { ComponentTitle } from '@storybook/csf';
@@ -74,9 +74,12 @@ export class StoryIndexGenerator {
     await this.ensureExtracted();
   }
 
+  /**
+   * Run the updater function over all the empty cache entries
+   */
   async updateExtracted(
     updater: (specifier: NormalizedStoriesSpecifier, absolutePath: Path) => Promise<CacheEntry>
-  ): Promise<void> {
+  ) {
     await Promise.all(
       this.specifiers.map(async (specifier) => {
         const entry = this.specifierToCache.get(specifier);
@@ -94,10 +97,13 @@ export class StoryIndexGenerator {
   }
 
   async ensureExtracted(): Promise<StoryIndexEntry[]> {
+    // First process all the story files. Then, in a second pass,
+    // process the docs files. The reason for this is that the docs
+    // files may use the `<Meta of={meta} />` syntax, which requires
+    // that the story file that contains the meta be processed first.
     await this.updateExtracted(async (specifier, absolutePath) =>
       this.isDocsMdx(absolutePath) ? false : this.extractStories(specifier, absolutePath)
     );
-    // process docs in a second pass
     await this.updateExtracted(async (specifier, absolutePath) =>
       this.extractDocs(specifier, absolutePath)
     );
@@ -119,6 +125,12 @@ export class StoryIndexGenerator {
       const importPath = slash(normalizedPath);
       const defaultTitle = autoTitleFromSpecifier(importPath, specifier);
 
+      // This `await require(...)` is a bit of a hack. It's necessary because
+      // `docs-mdx` depends on ESM code, which must be asynchronously imported
+      // to be used in CJS. Unfortunately, we cannot use `import()` here, because
+      // it will be transpiled down to `require()` by Babel. So instead, we require
+      // a CJS export from `@storybook/docs-mdx` that does the `async import` for us.
+
       // eslint-disable-next-line global-require
       const { analyze } = await require('@storybook/docs-mdx');
       const content = await fs.readFile(absolutePath, 'utf8');
@@ -138,6 +150,10 @@ export class StoryIndexGenerator {
       const absoluteImports = (result.imports as string[]).map(makeAbsolute);
       const absoluteOf = result.of && makeAbsolute(result.of);
 
+      // Go through the cache and collect all of the cache entries that this docs file depends on.
+      // We'll use this to make sure this docs cache entry is invalidated when any of its dependents
+      // are invalidated. Also, if `absoluteOf` is set, it means that we're using the
+      // `<Meta of={meta} />` syntax, so find the `title` defined the file that `meta` points to.
       let ofTitle: string;
       const dependencies = [] as StoriesCacheEntry[];
       this.specifierToCache.forEach((cache) => {
@@ -147,7 +163,7 @@ export class StoryIndexGenerator {
         fileNames.forEach((fileName) => {
           const cacheEntry = cache[fileName];
           if (cacheEntry && cacheEntry.type === 'stories') {
-            if (fileName.startsWith(absoluteOf) && cacheEntry.entries.length > 0) {
+            if (absoluteOf && fileName.startsWith(absoluteOf) && cacheEntry.entries.length > 0) {
               ofTitle = cacheEntry.entries[0].title;
             }
             dependencies.push(cacheEntry);
@@ -157,6 +173,7 @@ export class StoryIndexGenerator {
         });
       });
 
+      // Track that we depend on this for easy invalidation later.
       dependencies.forEach((dep) => {
         dep.dependents.push(absolutePath);
       });
@@ -188,20 +205,12 @@ export class StoryIndexGenerator {
       const importPath = slash(normalizedPath);
       const defaultTitle = autoTitleFromSpecifier(importPath, specifier);
       const csf = (await readCsfOrMdx(absolutePath, { defaultTitle })).parse();
-      const storiesImports = await Promise.all(
-        csf.imports.map(async (otherImport) =>
-          otherImport.startsWith('.')
-            ? slash(normalizeStoryPath(path.join(path.dirname(normalizedPath), otherImport)))
-            : otherImport
-        )
-      );
       csf.stories.forEach(({ id, name, parameters }) => {
         const storyEntry: StoryIndexEntry = {
           id,
           title: csf.meta.title,
           name,
           importPath,
-          storiesImports,
         };
         if (parameters?.docsOnly) storyEntry.type = 'docs';
         entries.push(storyEntry);
