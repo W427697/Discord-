@@ -54,7 +54,7 @@ const overrideMainConfig = async ({ cwd, mainOverrides }: Options) => {
 
 const buildStorybook = async ({ cwd }: Options) => {
   await exec(
-    `yarn build-storybook --quiet`,
+    `npx sb build --quiet`,
     { cwd },
     { startMessage: `👷 Building Storybook`, errorMessage: `🚨 Storybook build failed` }
   );
