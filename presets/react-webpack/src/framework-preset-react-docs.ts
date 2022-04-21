@@ -1,10 +1,8 @@
-import type { StorybookConfig, Options, TypescriptConfig } from '@storybook/core-common';
-import type { TransformOptions } from '@babel/core';
-import type { Configuration } from 'webpack';
+import type { StorybookConfig, TypescriptConfig } from '@storybook/core-common';
 import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
 import { hasDocsOrControls } from '@storybook/docs-tools';
 
-export async function babel(config: TransformOptions, options: Options) {
+export const babel: StorybookConfig['babel'] = async (config, options) => {
   if (!hasDocsOrControls(options)) return config;
 
   const typescriptOptions = await options.presets.apply<TypescriptConfig>('typescript', {} as any);
@@ -31,9 +29,9 @@ export async function babel(config: TransformOptions, options: Options) {
       },
     ],
   };
-}
+};
 
-export async function webpackFinal(config: Configuration, options: Options) {
+export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, options) => {
   if (!hasDocsOrControls(options)) return config;
 
   const typescriptOptions = await options.presets.apply<TypescriptConfig>('typescript', {} as any);
@@ -55,4 +53,4 @@ export async function webpackFinal(config: Configuration, options: Options) {
       }),
     ],
   };
-}
+};

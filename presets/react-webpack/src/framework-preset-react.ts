@@ -1,12 +1,10 @@
 import path from 'path';
-import { TransformOptions } from '@babel/core';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-import type { Configuration } from 'webpack';
 
 import { logger } from '@storybook/node-logger';
-import type { Options } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/core-common';
 
-export async function babel(config: TransformOptions, options: Options) {
+export const babel: StorybookConfig['babel'] = async (config, options) => {
   const isDevelopment = options.configType === 'DEVELOPMENT';
   const reactOptions = await options.presets.apply(
     'reactOptions',
@@ -29,8 +27,10 @@ export async function babel(config: TransformOptions, options: Options) {
       ...(config.plugins || []),
     ],
   };
-}
-const storybookReactDirName = path.dirname(require.resolve('@storybook/react/package.json'));
+};
+const storybookReactDirName = path.dirname(
+  require.resolve('@storybook/preset-react-webpack/package.json')
+);
 // TODO: improve node_modules detection
 const context = storybookReactDirName.includes('node_modules')
   ? path.join(storybookReactDirName, '../../') // Real life case, already in node_modules
@@ -45,7 +45,7 @@ const hasJsxRuntime = () => {
   }
 };
 
-export async function babelDefault(config: TransformOptions): Promise<TransformOptions> {
+export const babelDefault: StorybookConfig['babelDefault'] = async (config) => {
   const presetReactOptions = hasJsxRuntime() ? { runtime: 'automatic' } : {};
   return {
     ...config,
@@ -56,9 +56,9 @@ export async function babelDefault(config: TransformOptions): Promise<TransformO
     ],
     plugins: [...(config?.plugins || []), require.resolve('babel-plugin-add-react-displayname')],
   };
-}
+};
 
-export async function webpackFinal(config: Configuration, options: Options) {
+export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, options) => {
   const isDevelopment = options.configType === 'DEVELOPMENT';
   const reactOptions = await options.presets.apply(
     'reactOptions',
@@ -96,4 +96,4 @@ export async function webpackFinal(config: Configuration, options: Options) {
       }),
     ],
   };
-}
+};

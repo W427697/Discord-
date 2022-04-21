@@ -1,10 +1,11 @@
 import { readJSON } from 'fs-extra';
-import { Configuration, IgnorePlugin } from 'webpack';
+import { IgnorePlugin } from 'webpack';
+import type { StorybookConfig } from '@storybook/core-common';
 
 // this is a hack to allow importing react-dom/client even when it's not available
 // this should be removed once we drop support for react-dom < 18
 
-export async function webpackFinal(config: Configuration) {
+export const webpackFinal: StorybookConfig['webpackFinal'] = async (config) => {
   const reactDomPkg = await readJSON(require.resolve('react-dom/package.json'));
 
   return {
@@ -20,4 +21,4 @@ export async function webpackFinal(config: Configuration) {
           }),
     ].filter(Boolean),
   };
-}
+};
