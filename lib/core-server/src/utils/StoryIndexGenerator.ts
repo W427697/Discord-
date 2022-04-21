@@ -16,13 +16,17 @@ import { normalizeStoryPath, scrubFileExtension } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
 import { readCsfOrMdx, getStorySortParameter } from '@storybook/csf-tools';
 import type { ComponentTitle } from '@storybook/csf';
+import { toId } from '@storybook/csf';
 
-type SpecifierStoriesCache = Record<Path, StoryIndex['entries'] | false>;
+type DocsCacheEntry = StoryIndexEntry & { type: 'docs' };
+type StoriesCacheEntry = { entries: StoryIndexEntry[]; dependents: Path[]; type: 'stories' };
+type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry;
+type SpecifierStoriesCache = Record<Path, CacheEntry>;
 
 export class StoryIndexGenerator {
   // An internal cache mapping specifiers to a set of path=><set of stories>
   // Later, we'll combine each of these subsets together to form the full index
-  private storyIndexEntries: Map<NormalizedStoriesSpecifier, SpecifierStoriesCache>;
+  private specifierToCache: Map<NormalizedStoriesSpecifier, SpecifierStoriesCache>;
 
   // Cache the last value of `getStoryIndex`. We invalidate (by unsetting) when:
   //  - any file changes, including deletions
@@ -38,7 +42,7 @@ export class StoryIndexGenerator {
       storyStoreV7: boolean;
     }
   ) {
-    this.storyIndexEntries = new Map();
+    this.specifierToCache = new Map();
   }
 
   async initialize() {
@@ -62,7 +66,7 @@ export class StoryIndexGenerator {
           pathToSubIndex[absolutePath] = false;
         });
 
-        this.storyIndexEntries.set(specifier, pathToSubIndex);
+        this.specifierToCache.set(specifier, pathToSubIndex);
       })
     );
 
@@ -70,26 +74,133 @@ export class StoryIndexGenerator {
     await this.ensureExtracted();
   }
 
-  async ensureExtracted(): Promise<StoryIndex['entries'][]> {
-    return (
-      await Promise.all(
-        this.specifiers.map(async (specifier) => {
-          const entry = this.storyIndexEntries.get(specifier);
-          return Promise.all(
-            Object.keys(entry).map(
-              async (absolutePath) =>
-                entry[absolutePath] || this.extractStories(specifier, absolutePath)
-            )
-          );
-        })
-      )
-    ).flat();
+  async updateExtracted(
+    updater: (specifier: NormalizedStoriesSpecifier, absolutePath: Path) => Promise<CacheEntry>
+  ): Promise<void> {
+    await Promise.all(
+      this.specifiers.map(async (specifier) => {
+        const entry = this.specifierToCache.get(specifier);
+        return Promise.all(
+          Object.keys(entry).map(async (absolutePath) => {
+            entry[absolutePath] = entry[absolutePath] || (await updater(specifier, absolutePath));
+          })
+        );
+      })
+    );
+  }
+
+  isDocsMdx(absolutePath: Path) {
+    return /\.docs\.mdx$/i.test(absolutePath);
+  }
+
+  async ensureExtracted(): Promise<StoryIndexEntry[]> {
+    await this.updateExtracted(async (specifier, absolutePath) =>
+      this.isDocsMdx(absolutePath) ? false : this.extractStories(specifier, absolutePath)
+    );
+    // process docs in a second pass
+    await this.updateExtracted(async (specifier, absolutePath) =>
+      this.extractDocs(specifier, absolutePath)
+    );
+
+    return this.specifiers.flatMap((specifier) => {
+      const cache = this.specifierToCache.get(specifier);
+      return Object.values(cache).flatMap((entry) => {
+        if (!entry) return [];
+        if (entry.type === 'docs') return [entry];
+        return entry.entries;
+      });
+    });
+  }
+
+  async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
+    const relativePath = path.relative(this.options.workingDir, absolutePath);
+    try {
+      const normalizedPath = normalizeStoryPath(relativePath);
+      const importPath = slash(normalizedPath);
+      const defaultTitle = autoTitleFromSpecifier(importPath, specifier);
+
+      // eslint-disable-next-line global-require
+      const { analyze } = await require('@storybook/docs-mdx');
+      const content = await fs.readFile(absolutePath, 'utf8');
+      // { title?, of?, imports? }
+      const result = analyze(content);
+
+      const makeAbsolute = (otherImport: Path) =>
+        otherImport.startsWith('.')
+          ? slash(normalizeStoryPath(path.join(path.dirname(normalizedPath), otherImport)))
+          : otherImport;
+
+      const absoluteImports = (result.imports as string[]).map(makeAbsolute);
+      const absoluteOf = result.of && makeAbsolute(result.of);
+
+      let ofTitle: string;
+      const dependencies = [] as StoriesCacheEntry[];
+      this.specifierToCache.forEach((cache) => {
+        const fileNames = Object.keys(cache).filter((fileName) =>
+          absoluteImports.some((storyImport) => fileName.startsWith(storyImport))
+        );
+        fileNames.forEach((fileName) => {
+          const cacheEntry = cache[fileName];
+          if (cacheEntry && cacheEntry.type === 'stories') {
+            if (fileName.startsWith(absoluteOf) && cacheEntry.entries.length > 0) {
+              ofTitle = cacheEntry.entries[0].title;
+            }
+            dependencies.push(cacheEntry);
+          } else {
+            throw new Error(`Unexpected dependency: ${cacheEntry}`);
+          }
+        });
+      });
+
+      dependencies.forEach((dep) => {
+        dep.dependents.push(absolutePath);
+      });
+
+      // Compute other imports
+      // const allImports = storiesList.reduce((acc, entry) => {
+      //   Object.values(entry).forEach((story) => {
+      //     acc[scrubFileExtension(story.importPath)] = story.importPath;
+      //     return acc;
+      //   });
+      //   return acc;
+      // }, {} as Record<string, Path>);
+
+      // storiesList.forEach((entry) => {
+      //   Object.values(entry).forEach((story) => {
+      //     // eslint-disable-next-line no-param-reassign
+      //     story.storiesImports = story.storiesImports
+      //       .map((importPath) => allImports[scrubFileExtension(importPath)])
+      //       .filter(Boolean);
+      //   });
+      // });
+
+      const title = result.title || ofTitle || defaultTitle;
+      const name = 'docs';
+      const id = toId(title, name);
+
+      const docsEntry: DocsCacheEntry = {
+        id,
+        title,
+        name,
+        importPath,
+        storiesImports: dependencies.map((dep) => dep.entries[0].importPath),
+        type: 'docs',
+      };
+      return docsEntry;
+    } catch (err) {
+      if (err.name === 'NoMetaError') {
+        logger.info(`💡 Skipping ${relativePath}: ${err}`);
+      } else {
+        logger.warn(`🚨 Extraction error on ${relativePath}: ${err}`);
+        throw err;
+      }
+    }
+    return false;
   }
 
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
-    const fileStories = {} as StoryIndex['entries'];
-    const entry = this.storyIndexEntries.get(specifier);
+    const entries = [] as StoryIndexEntry[];
     try {
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
@@ -111,7 +222,7 @@ export class StoryIndexGenerator {
           storiesImports,
         };
         if (parameters?.docsOnly) storyEntry.type = 'docs';
-        fileStories[id] = storyEntry;
+        entries.push(storyEntry);
       });
     } catch (err) {
       if (err.name === 'NoMetaError') {
@@ -121,15 +232,14 @@ export class StoryIndexGenerator {
         throw err;
       }
     }
-    entry[absolutePath] = fileStories;
-    return fileStories;
+    return { entries, type: 'stories', dependents: [] } as StoriesCacheEntry;
   }
 
-  async sortStories(storiesList: StoryIndex['entries'][]) {
+  async sortStories(storiesList: StoryIndexEntry[]) {
     const entries: StoryIndex['entries'] = {};
 
-    storiesList.forEach((subStories) => {
-      Object.assign(entries, subStories);
+    storiesList.forEach((entry) => {
+      entries[entry.id] = entry;
     });
 
     const sortableStories = Object.values(entries);
@@ -154,25 +264,6 @@ export class StoryIndexGenerator {
     // Extract any entries that are currently missing
     // Pull out each file's stories into a list of stories, to be composed and sorted
     const storiesList = await this.ensureExtracted();
-
-    // Compute other imports
-    const allImports = storiesList.reduce((acc, entry) => {
-      Object.values(entry).forEach((story) => {
-        acc[scrubFileExtension(story.importPath)] = story.importPath;
-        return acc;
-      });
-      return acc;
-    }, {} as Record<string, Path>);
-
-    storiesList.forEach((entry) => {
-      Object.values(entry).forEach((story) => {
-        // eslint-disable-next-line no-param-reassign
-        story.storiesImports = story.storiesImports
-          .map((importPath) => allImports[scrubFileExtension(importPath)])
-          .filter(Boolean);
-      });
-    });
-
     const sorted = await this.sortStories(storiesList);
 
     let compat = sorted;
@@ -209,12 +300,22 @@ export class StoryIndexGenerator {
 
   invalidate(specifier: NormalizedStoriesSpecifier, importPath: Path, removed: boolean) {
     const absolutePath = slash(path.resolve(this.options.workingDir, importPath));
-    const pathToEntries = this.storyIndexEntries.get(specifier);
+    const cache = this.specifierToCache.get(specifier);
+
+    const cacheEntry = cache[absolutePath];
+    let dependents = [];
+    if (cacheEntry && cacheEntry.type === 'stories') {
+      dependents = cacheEntry.dependents;
+      // FIXME: might be in another cache
+      dependents.forEach((dep) => {
+        cache[dep] = false;
+      });
+    }
 
     if (removed) {
-      delete pathToEntries[absolutePath];
+      delete cache[absolutePath];
     } else {
-      pathToEntries[absolutePath] = false;
+      cache[absolutePath] = false;
     }
     this.lastIndex = null;
   }
@@ -234,6 +335,6 @@ export class StoryIndexGenerator {
 
   // Get the story file names in "imported order"
   storyFileNames() {
-    return Array.from(this.storyIndexEntries.values()).flatMap((r) => Object.keys(r));
+    return Array.from(this.specifierToCache.values()).flatMap((r) => Object.keys(r));
   }
 }

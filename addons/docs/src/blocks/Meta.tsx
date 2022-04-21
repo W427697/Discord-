@@ -6,7 +6,7 @@ import { DocsContext, DocsContextProps } from './DocsContext';
 
 const { document } = global;
 
-type MetaProps = BaseAnnotations;
+type MetaProps = BaseAnnotations & { of?: any };
 
 function getFirstStoryId(docsContext: DocsContextProps): string {
   const stories = docsContext.componentStories();
