@@ -7,6 +7,17 @@ import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('@storybook/csf-tools');
 
+// FIXME: can't figure out how to import ESM
+jest.mock('@storybook/docs-mdx', async () => ({
+  analyze(content: string) {
+    const importMatches = content.matchAll(/'(.[^']*\.stories)'/g);
+    const imports = Array.from(importMatches).map((match) => match[1]);
+    const title = content.match(/title=['"](.*)['"]/)?.[1];
+    const ofMatch = content.match(/of=\{(.*)\}/)?.[1];
+    return { title, imports, of: ofMatch && imports.length && imports[0] };
+  },
+}));
+
 const readCsfOrMdxMock = readCsfOrMdx as jest.Mock<ReturnType<typeof readCsfOrMdx>>;
 const getStorySortParameterMock = getStorySortParameter as jest.Mock<
   ReturnType<typeof getStorySortParameter>
@@ -139,6 +150,63 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "title": "second-nested/G",
                 "type": "story",
+              },
+            },
+            "v": 4,
+          }
+        `);
+      });
+    });
+
+    describe('docs specifier', () => {
+      it('extracts stories from the right files', async () => {
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.(ts|js|jsx)',
+          options
+        );
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], options);
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "a--docs": Object {
+                "id": "a--docs",
+                "importPath": "./src/docs2/MetaOf.docs.mdx",
+                "name": "docs",
+                "storiesImports": Array [
+                  "./src/A.stories.js",
+                ],
+                "title": "A",
+                "type": "docs",
+              },
+              "a--story-one": Object {
+                "id": "a--story-one",
+                "importPath": "./src/A.stories.js",
+                "name": "Story One",
+                "title": "A",
+                "type": "story",
+              },
+              "docs2-notitle--docs": Object {
+                "id": "docs2-notitle--docs",
+                "importPath": "./src/docs2/NoTitle.docs.mdx",
+                "name": "docs",
+                "storiesImports": Array [],
+                "title": "docs2/NoTitle",
+                "type": "docs",
+              },
+              "docs2-yabbadabbadooo--docs": Object {
+                "id": "docs2-yabbadabbadooo--docs",
+                "importPath": "./src/docs2/Title.docs.mdx",
+                "name": "docs",
+                "storiesImports": Array [],
+                "title": "Docs2/Yabbadabbadooo",
+                "type": "docs",
               },
             },
             "v": 4,
