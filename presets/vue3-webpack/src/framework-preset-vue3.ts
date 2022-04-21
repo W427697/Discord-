@@ -1,7 +1,8 @@
 import { VueLoaderPlugin } from 'vue-loader';
-import { Configuration, DefinePlugin } from 'webpack';
+import { DefinePlugin } from 'webpack';
+import type { StorybookConfig } from '@storybook/core-common';
 
-export function webpack(config: Configuration): Configuration {
+export const webpack: StorybookConfig['webpack'] = (config) => {
   return {
     ...config,
     plugins: [
@@ -44,4 +45,4 @@ export function webpack(config: Configuration): Configuration {
       },
     },
   };
-}
+};
