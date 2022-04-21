@@ -50,7 +50,6 @@ export async function getDevCli(packageJson: {
     )
     .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
     .option('--docs', 'Build a documentation-only site using addon-docs')
-    .option('--modern', 'Use modern browser modules')
     .parse(process.argv);
 
   logger.setLevel(program.loglevel);

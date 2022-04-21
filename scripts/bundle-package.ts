@@ -42,7 +42,7 @@ async function build(options: Options) {
 
   const outputs: OutputOptions[] = [
     {
-      dir: resolve(cwd, './dist/modern'),
+      dir: resolve(cwd, './dist/esm'),
       format: 'es',
       sourcemap: optimized,
       preferConst: true,
@@ -56,28 +56,7 @@ async function build(options: Options) {
                 useBuiltIns: 'usage',
                 corejs: '3',
                 modules: false,
-                targets: { chrome: '94' },
-              },
-            ],
-          ],
-        }),
-        optimized ? terser({ output: { comments: false }, module: true }) : null,
-      ].filter(Boolean),
-    },
-    {
-      dir: resolve(cwd, './dist/esm'),
-      format: 'es',
-      sourcemap: optimized,
-      plugins: [
-        getBabelOutputPlugin({
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                shippedProposals: true,
-                useBuiltIns: 'usage',
-                modules: false,
-                corejs: '3',
+                targets: { chrome: '100' },
               },
             ],
           ],

@@ -63,7 +63,6 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     presets,
     previewUrl,
     typescriptOptions,
-    modern,
     features,
     serverChannelUrl,
   } = options;
@@ -235,7 +234,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     resolve: {
       extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json', '.cjs'],
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
-      mainFields: [modern ? 'sbmodern' : null, 'browser', 'module', 'main'].filter(Boolean),
+      mainFields: ['browser', 'module', 'main'].filter(Boolean),
       alias: {
         ...(features?.emotionAlias ? themingPaths : {}),
         ...storybookPaths,

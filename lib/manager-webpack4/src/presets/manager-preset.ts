@@ -36,7 +36,6 @@ export async function managerWebpack(
     versionCheck,
     releaseNotesData,
     presets,
-    modern,
     features,
     serverChannelUrl,
   }: Options & ManagerWebpackOptions
@@ -158,7 +157,7 @@ export async function managerWebpack(
     resolve: {
       extensions: ['.mjs', '.js', '.jsx', '.json', '.cjs', '.ts', '.tsx'],
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
-      mainFields: [modern ? 'sbmodern' : null, 'browser', 'module', 'main'].filter(Boolean),
+      mainFields: ['browser', 'module', 'main'].filter(Boolean),
       alias: {
         ...uiPaths,
       },
@@ -200,12 +199,10 @@ export async function managerWebpack(
 
 export async function managerEntries(
   installedAddons: string[],
-  options: { managerEntry: string; configDir: string; modern?: boolean }
+  options: { managerEntry: string; configDir: string }
 ): Promise<string[]> {
   const { managerEntry = '@storybook/core-client/dist/esm/manager' } = options;
-  const entries = options.modern
-    ? []
-    : [require.resolve('@storybook/core-client/dist/esm/globals/polyfills')];
+  const entries = [];
 
   if (installedAddons && installedAddons.length) {
     entries.push(...installedAddons);

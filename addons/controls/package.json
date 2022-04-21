@@ -74,7 +74,6 @@
     "access": "public"
   },
   "gitHead": "7417a230d67b54d65caedcfb584f924b879ac9f5",
-  "sbmodern": "dist/modern/manager.js",
   "storybook": {
     "displayName": "Controls",
     "icon": "https://user-images.githubusercontent.com/263385/101991669-479cc600-3c7c-11eb-93d9-38b67e8371f2.png",
