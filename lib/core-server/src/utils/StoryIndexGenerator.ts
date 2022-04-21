@@ -10,7 +10,6 @@ import type {
   StoryId,
   IndexEntry,
   DocsIndexEntry,
-  StoryIndexEntry,
 } from '@storybook/store';
 import { autoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
@@ -295,12 +294,15 @@ export class StoryIndexGenerator {
     const cache = this.specifierToCache.get(specifier);
 
     const cacheEntry = cache[absolutePath];
-    let dependents = [];
     if (cacheEntry && cacheEntry.type === 'stories') {
-      dependents = cacheEntry.dependents;
-      // FIXME: might be in another cache
-      dependents.forEach((dep) => {
-        cache[dep] = false;
+      const { dependents } = cacheEntry;
+
+      // the dependent can be in ANY cache, so we loop over all of them
+      this.specifierToCache.forEach((otherCache) => {
+        dependents.forEach((dep) => {
+          // eslint-disable-next-line no-param-reassign
+          if (otherCache[dep]) otherCache[dep] = false;
+        });
       });
     }
 
