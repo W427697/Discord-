@@ -8561,7 +8561,6 @@ __metadata:
     "@storybook/core-common": 6.5.0-alpha.64
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/webpack-env": ^1.16.0
-    babel-loader: ^7.0.0 || ^8.0.0
     babel-plugin-bundled-import-meta: ^0.3.1
     core-js: ^3.8.2
     lit-html: 2.0.2
@@ -14399,21 +14398,6 @@ __metadata:
     "@babel/core": ^7.0.0
     webpack: ">=2"
   checksum: c4e1e042af99a0c1ed83d4a9e3436c333b66a10459561eff921ebe274d75425b649cc317e1389a149931f29c5b03a5a46acc1daeb849d10582ce2bb65f697a5f
-  languageName: node
-  linkType: hard
-
-"babel-loader@npm:^7.0.0 || ^8.0.0":
-  version: 8.2.5
-  resolution: "babel-loader@npm:8.2.5"
-  dependencies:
-    find-cache-dir: ^3.3.1
-    loader-utils: ^2.0.0
-    make-dir: ^3.1.0
-    schema-utils: ^2.6.5
-  peerDependencies:
-    "@babel/core": ^7.0.0
-    webpack: ">=2"
-  checksum: 6d11d59f0d8e94f230b7529ef805d03e42df5130849cbc21b0954c081bef5325390bbedf378b00355f4b447aee014012d37565777ba6fc17ffbb2352f5736601
   languageName: node
   linkType: hard
 

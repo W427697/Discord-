@@ -46,6 +46,7 @@
     "@storybook/manager-webpack4": "portal:../../lib/manager-webpack4",
     "@storybook/node-logger": "portal:../../lib/node-logger",
     "@storybook/postinstall": "portal:../../lib/postinstall",
+    "@storybook/preset-web-components-webpack": "portal:../../presets/web-components-webpack",
     "@storybook/preview-web": "portal:../../lib/preview-web",
     "@storybook/renderer-web-components": "portal:../../renderers/web-components",
     "@storybook/router": "portal:../../lib/router",
