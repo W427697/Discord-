@@ -1,9 +1,7 @@
 import path from 'path';
-import type { TransformOptions } from '@babel/core';
-import type { Configuration } from 'webpack';
 import type { StorybookConfig } from '@storybook/core-common';
 
-export function babelDefault(config: TransformOptions): TransformOptions {
+export const babelDefault: StorybookConfig['babelDefault'] = (config) => {
   return {
     ...config,
     plugins: [
@@ -11,9 +9,9 @@ export function babelDefault(config: TransformOptions): TransformOptions {
       [require.resolve('@babel/plugin-transform-react-jsx'), { pragma: 'h' }, 'preset'],
     ],
   };
-}
+};
 
-export function webpackFinal(config: Configuration): Configuration {
+export const webpackFinal: StorybookConfig['webpackFinal'] = (config) => {
   return {
     ...config,
     resolve: {
@@ -26,6 +24,4 @@ export function webpackFinal(config: Configuration): Configuration {
       },
     },
   };
-}
-
-export const addons: StorybookConfig['addons'] = ['@storybook/renderer-preact'];
+};
