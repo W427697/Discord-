@@ -88,15 +88,22 @@ export declare type RenderContext<TFramework extends AnyFramework = AnyFramework
     unboundStoryFn: LegacyStoryFn<TFramework>;
   };
 
-export interface StoryIndexEntry {
+interface BaseIndexEntry {
   id: StoryId;
   name: StoryName;
   title: ComponentTitle;
   importPath: Path;
-  storiesImports?: Path[];
-  type?: 'story' | 'docs';
 }
+export type StoryIndexEntry = BaseIndexEntry & {
+  type: 'story';
+};
 
+export type DocsIndexEntry = BaseIndexEntry & {
+  storiesImports: Path[];
+  type: 'docs';
+};
+
+export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
 export interface V2CompatIndexEntry extends StoryIndexEntry {
   kind: StoryIndexEntry['title'];
   story: StoryIndexEntry['name'];
@@ -105,12 +112,12 @@ export interface V2CompatIndexEntry extends StoryIndexEntry {
 
 export interface StoryIndexV3 {
   v: number;
-  stories: Record<StoryId, StoryIndexEntry>;
+  stories: Record<StoryId, Omit<StoryIndexEntry, 'type'>>;
 }
 
 export interface StoryIndex {
   v: number;
-  entries: Record<StoryId, StoryIndexEntry>;
+  entries: Record<StoryId, IndexEntry>;
 }
 
 export type StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';

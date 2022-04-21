@@ -11,7 +11,7 @@ import type {
   StoryIndex,
   ModuleExports,
   Story,
-  StoryIndexEntry,
+  IndexEntry,
 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
 
@@ -83,7 +83,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     );
 
     // NOTE: the sortStoriesV6 version returns the v7 data format. confusing but more convenient!
-    let sortedV7: StoryIndexEntry[];
+    let sortedV7: IndexEntry[];
 
     try {
       sortedV7 = sortStoriesV6(sortableV6, storySortParameter, fileNameOrder);
@@ -196,7 +196,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
           name,
           title,
           importPath: fileName,
-          storiesImports: [],
+          type: 'story',
         };
       });
   }

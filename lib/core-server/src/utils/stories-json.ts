@@ -96,12 +96,10 @@ export async function useStoriesJson(
   });
 }
 
-const isStory = (entry: StoryIndexEntry) => !entry.type || entry.type === 'story';
-
 export const convertToIndexV3 = (index: StoryIndex): StoryIndexV3 => {
   const { entries } = index;
   const stories = Object.entries(entries).reduce((acc, [id, entry]) => {
-    if (isStory(entry)) acc[id] = entry;
+    if (entry.type === 'story') acc[id] = entry;
     return acc;
   }, {} as StoryIndexV3['stories']);
   return {

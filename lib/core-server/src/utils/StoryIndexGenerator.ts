@@ -8,6 +8,8 @@ import type {
   StoryIndex,
   V2CompatIndexEntry,
   StoryId,
+  IndexEntry,
+  DocsIndexEntry,
   StoryIndexEntry,
 } from '@storybook/store';
 import { autoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
@@ -18,8 +20,8 @@ import { readCsfOrMdx, getStorySortParameter } from '@storybook/csf-tools';
 import type { ComponentTitle } from '@storybook/csf';
 import { toId } from '@storybook/csf';
 
-type DocsCacheEntry = StoryIndexEntry & { type: 'docs' };
-type StoriesCacheEntry = { entries: StoryIndexEntry[]; dependents: Path[]; type: 'stories' };
+type DocsCacheEntry = DocsIndexEntry;
+type StoriesCacheEntry = { entries: IndexEntry[]; dependents: Path[]; type: 'stories' };
 type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry;
 type SpecifierStoriesCache = Record<Path, CacheEntry>;
 
@@ -96,7 +98,7 @@ export class StoryIndexGenerator {
     return /\.docs\.mdx$/i.test(absolutePath);
   }
 
-  async ensureExtracted(): Promise<StoryIndexEntry[]> {
+  async ensureExtracted(): Promise<IndexEntry[]> {
     // First process all the story files. Then, in a second pass,
     // process the docs files. The reason for this is that the docs
     // files may use the `<Meta of={meta} />` syntax, which requires
@@ -199,21 +201,18 @@ export class StoryIndexGenerator {
 
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
-    const entries = [] as StoryIndexEntry[];
+    const entries = [] as IndexEntry[];
     try {
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
       const defaultTitle = autoTitleFromSpecifier(importPath, specifier);
       const csf = (await readCsfOrMdx(absolutePath, { defaultTitle })).parse();
       csf.stories.forEach(({ id, name, parameters }) => {
-        const storyEntry: StoryIndexEntry = {
-          id,
-          title: csf.meta.title,
-          name,
-          importPath,
-        };
-        if (parameters?.docsOnly) storyEntry.type = 'docs';
-        entries.push(storyEntry);
+        const base = { id, title: csf.meta.title, name, importPath };
+        const entry: IndexEntry = parameters?.docsOnly
+          ? { ...base, type: 'docs', storiesImports: [] }
+          : { ...base, type: 'story' };
+        entries.push(entry);
       });
     } catch (err) {
       if (err.name === 'NoMetaError') {
@@ -226,7 +225,7 @@ export class StoryIndexGenerator {
     return { entries, type: 'stories', dependents: [] } as StoriesCacheEntry;
   }
 
-  async sortStories(storiesList: StoryIndexEntry[]) {
+  async sortStories(storiesList: IndexEntry[]) {
     const entries: StoryIndex['entries'] = {};
 
     storiesList.forEach((entry) => {
@@ -264,11 +263,13 @@ export class StoryIndexGenerator {
         return acc;
       }, {} as Record<ComponentTitle, number>);
 
+      // @ts-ignore
       compat = Object.entries(sorted).reduce((acc, entry) => {
         const [id, story] = entry;
+        if (story.type === 'docs') return acc;
+
         acc[id] = {
           ...story,
-          id,
           kind: story.title,
           story: story.name,
           parameters: {

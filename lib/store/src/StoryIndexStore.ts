@@ -2,7 +2,7 @@ import dedent from 'ts-dedent';
 import { Channel } from '@storybook/addons';
 import type { StoryId } from '@storybook/csf';
 
-import type { StorySpecifier, StoryIndex, StoryIndexEntry } from './types';
+import type { StorySpecifier, StoryIndex, IndexEntry } from './types';
 
 export class StoryIndexStore {
   channel: Channel;
@@ -38,7 +38,7 @@ export class StoryIndexStore {
     return match && match[0];
   }
 
-  storyIdToEntry(storyId: StoryId): StoryIndexEntry {
+  storyIdToEntry(storyId: StoryId): IndexEntry {
     const storyEntry = this.entries[storyId];
     if (!storyEntry) {
       throw new Error(dedent`Couldn't find story matching '${storyId}' after HMR.

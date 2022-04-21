@@ -114,22 +114,32 @@ export interface StoriesRaw {
 }
 
 type Path = string;
-export interface StoryIndexEntry {
+
+interface BaseIndexEntry {
   id: StoryId;
   name: StoryName;
   title: ComponentTitle;
   importPath: Path;
-  type?: 'story' | 'docs';
 }
+
+export type StoryIndexEntry = BaseIndexEntry & {
+  type: 'story';
+};
 
 export interface StoryIndexV3 {
   v: 3;
-  stories: Record<StoryId, StoryIndexEntry>;
+  stories: Record<StoryId, Omit<StoryIndexEntry, 'type'>>;
 }
 
+export type DocsIndexEntry = BaseIndexEntry & {
+  storiesImports: Path[];
+  type: 'docs';
+};
+
+export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
 export interface StoryIndex {
   v: number;
-  entries: Record<StoryId, StoryIndexEntry>;
+  entries: Record<StoryId, IndexEntry>;
 }
 
 export type SetStoriesPayload =

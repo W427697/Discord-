@@ -359,9 +359,8 @@ export class ClientApi<TFramework extends AnyFramework> {
         title: csfExports.default.title,
         name: storyName,
         importPath: fileName,
-        storiesImports: [],
+        type: 'story',
       };
-
       return api;
     };
 

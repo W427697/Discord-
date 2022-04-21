@@ -71,6 +71,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "title": "A",
+              "type": "story",
             },
             "b--story-one": Object {
               "id": "b--story-one",
@@ -84,6 +85,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "title": "B",
+              "type": "story",
             },
             "d--story-one": Object {
               "id": "d--story-one",
@@ -97,6 +99,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "title": "D",
+              "type": "story",
             },
             "first-nested-deeply-f--story-one": Object {
               "id": "first-nested-deeply-f--story-one",
@@ -110,6 +113,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "title": "first-nested/deeply/F",
+              "type": "story",
             },
             "nested-button--story-one": Object {
               "id": "nested-button--story-one",
@@ -123,6 +127,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "title": "nested/Button",
+              "type": "story",
             },
             "second-nested-g--story-one": Object {
               "id": "second-nested-g--story-one",
@@ -136,6 +141,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "title": "second-nested/G",
+              "type": "story",
             },
           },
           "v": 4,
