@@ -619,6 +619,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/eslint-parser@npm:^7.17.0":
+  version: 7.17.0
+  resolution: "@babel/eslint-parser@npm:7.17.0"
+  dependencies:
+    eslint-scope: ^5.1.1
+    eslint-visitor-keys: ^2.1.0
+    semver: ^6.3.0
+  peerDependencies:
+    "@babel/core": ">=7.11.0"
+    eslint: ^7.5.0 || ^8.0.0
+  checksum: af621763b188cf64f27399eb8f6a9e3fb478649505935eb23107b3c7ed41b0fa3ed8957acedb45c4d1f3d47f7c947402d03698adf1ae977c32a2118affeed7af
+  languageName: node
+  linkType: hard
+
 "@babel/generator@npm:7.12.11":
   version: 7.12.11
   resolution: "@babel/generator@npm:7.12.11"
@@ -8565,6 +8579,7 @@ __metadata:
   dependencies:
     "@babel/cli": ^7.17.6
     "@babel/core": ^7.17.5
+    "@babel/eslint-parser": ^7.17.0
     "@babel/plugin-proposal-class-properties": ^7.16.7
     "@babel/plugin-proposal-decorators": ^7.17.2
     "@babel/plugin-proposal-export-default-from": ^7.16.7
@@ -21894,7 +21909,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-visitor-keys@npm:^2.0.0":
+"eslint-visitor-keys@npm:^2.0.0, eslint-visitor-keys@npm:^2.1.0":
   version: 2.1.0
   resolution: "eslint-visitor-keys@npm:2.1.0"
   checksum: 9f0e3a2db751d84067d15977ac4b4472efd6b303e369e6ff241a99feac04da758f46d5add022c33d06b53596038dbae4b4aceb27c7e68b8dfc1055b35e495787

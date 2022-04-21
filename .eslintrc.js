@@ -1,12 +1,36 @@
 module.exports = {
   root: true,
-  extends: ['@storybook/eslint-config-storybook', 'plugin:storybook/recommended'],
+  extends: [
+    '@storybook/eslint-config-storybook',
+    'plugin:storybook/recommended',
+    'eslint:recommended',
+    'plugin:prettier/recommended',
+  ],
+  parser: '@babel/eslint-parser',
+  parserOptions: {
+    sourceType: 'module',
+    allowImportExportEverywhere: false,
+    requireConfigFile: false,
+    ecmaFeatures: {
+      globalReturn: false,
+    },
+    babelOptions: {
+      configFile: __dirname + '/.babelrc.js',
+    },
+  },
   rules: {
     '@typescript-eslint/ban-ts-comment': 'warn',
     '@typescript-eslint/dot-notation': 'off',
     '@typescript-eslint/no-implied-eval': 'off',
     '@typescript-eslint/no-throw-literal': 'off',
     '@typescript-eslint/return-await': 'off',
+    '@typescript-eslint/naming-convention': 'off',
+
+    'eslint-comments/disable-enable-pair': 'off',
+    'no-console': 'warn',
+    'no-underscore-dangle': 'warn',
+    'no-unused-vars': 'warn',
+    'no-param-reassign': 'error',
 
     'jest/no-standalone-expect': [
       'error',
@@ -21,7 +45,11 @@ module.exports = {
         '@typescript-eslint/no-implied-eval': 'error',
         '@typescript-eslint/no-throw-literal': 'error',
         '@typescript-eslint/return-await': 'error',
+        '@typescript-eslint/naming-convention': 'error',
+        'import/named': 'off',
+        'no-undef': 'off',
       },
+      parser: '@typescript-eslint/parser',
       parserOptions: {
         project: './tsconfig.eslint.json',
       },
@@ -31,6 +59,13 @@ module.exports = {
       files: ['**/addons/docs/**/*'],
       rules: {
         'import/no-extraneous-dependencies': 'off',
+      },
+    },
+    {
+      // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
+      files: ['scripts/**/*'],
+      rules: {
+        'no-console': 'off',
       },
     },
     {
