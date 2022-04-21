@@ -91,6 +91,27 @@
     "@storybook/preset-html-webpack": {
       "implicitDependencies": []
     },
+    "@storybook/preset-preact-webpack": {
+      "implicitDependencies": []
+    },
+    "@storybook/preset-react-webpack": {
+      "implicitDependencies": []
+    },
+    "@storybook/preset-server-webpack": {
+      "implicitDependencies": []
+    },
+    "@storybook/preset-svelte-webpack": {
+      "implicitDependencies": []
+    },
+    "@storybook/preset-vue-webpack": {
+      "implicitDependencies": []
+    },
+    "@storybook/preset-vue3-webpack": {
+      "implicitDependencies": []
+    },
+    "@storybook/preset-web-components-webpack": {
+      "implicitDependencies": []
+    },
     "@storybook/renderer-html": {
       "implicitDependencies": []
     },
