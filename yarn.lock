@@ -8060,14 +8060,12 @@ __metadata:
   dependencies:
     "@storybook/core-common": 6.5.0-alpha.64
     "@storybook/core-server": 6.5.0-alpha.64
-    "@storybook/docs-tools": 6.5.0-alpha.64
     "@storybook/preset-html-webpack": 6.5.0-alpha.64
     "@storybook/renderer-html": 6.5.0-alpha.64
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
     global: ^4.4.0
-    html-loader: ^1.3.2
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
@@ -8317,7 +8315,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preact@workspace:app/preact"
   dependencies:
-    "@babel/plugin-transform-react-jsx": ^7.12.12
     "@storybook/core-common": 6.5.0-alpha.64
     "@storybook/core-server": 6.5.0-alpha.64
     "@storybook/preset-preact-webpack": 6.5.0-alpha.64
@@ -8325,12 +8322,10 @@ __metadata:
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
-    global: ^4.4.0
     preact: ^10.5.13
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
     webpack: 4
   peerDependencies:
     "@babel/core": "*"
@@ -8382,17 +8377,14 @@ __metadata:
   dependencies:
     "@babel/plugin-transform-react-jsx": ^7.12.12
     "@storybook/core-common": 6.5.0-alpha.64
-    "@storybook/core-server": 6.5.0-alpha.64
     "@storybook/renderer-preact": 6.5.0-alpha.64
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
-    global: ^4.4.0
     preact: ^10.5.13
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
     webpack: 4
   peerDependencies:
     "@babel/core": "*"
@@ -8408,7 +8400,6 @@ __metadata:
     "@babel/preset-react": ^7.12.10
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.3
     "@storybook/core-common": 6.5.0-alpha.64
-    "@storybook/core-server": 6.5.0-alpha.64
     "@storybook/docs-tools": 6.5.0-alpha.64
     "@storybook/node-logger": 6.5.0-alpha.64
     "@storybook/react-docgen-typescript-plugin": 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
@@ -8421,11 +8412,8 @@ __metadata:
     babel-plugin-react-docgen: ^4.2.1
     core-js: ^3.8.2
     fs-extra: ^9.0.1
-    global: ^4.4.0
     react-refresh: ^0.11.0
     regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
-    util-deprecate: ^1.0.2
     webpack: 4
   peerDependencies:
     "@babel/core": ^7.11.5
@@ -8460,7 +8448,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/preset-server-webpack@workspace:*, @storybook/preset-server-webpack@workspace:presets/server-webpack":
+"@storybook/preset-server-webpack@6.5.0-alpha.64, @storybook/preset-server-webpack@workspace:*, @storybook/preset-server-webpack@workspace:presets/server-webpack":
   version: 0.0.0-use.local
   resolution: "@storybook/preset-server-webpack@workspace:presets/server-webpack"
   dependencies:
@@ -8472,13 +8460,13 @@ __metadata:
     core-js: ^3.8.2
     fs-extra: ^9.0.1
     global: ^4.4.0
+    jest-specific-snapshot: ^4.0.0
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
     safe-identifier: ^0.4.1
     ts-dedent: ^2.0.0
     yaml: ^1.10.0
-    yaml-loader: ^0.6.0
   languageName: unknown
   linkType: soft
 
@@ -8487,13 +8475,10 @@ __metadata:
   resolution: "@storybook/preset-svelte-webpack@workspace:presets/svelte-webpack"
   dependencies:
     "@storybook/core-common": 6.5.0-alpha.64
-    "@storybook/core-server": 6.5.0-alpha.64
     "@storybook/node-logger": 6.5.0-alpha.64
-    "@storybook/renderer-svelte": 6.5.0-alpha.64
     "@types/loader-utils": ^2.0.0
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
-    global: ^4.4.0
     loader-utils: ^2.0.0
     react: 16.14.0
     react-dom: 16.14.0
@@ -8515,17 +8500,13 @@ __metadata:
   resolution: "@storybook/preset-vue-webpack@workspace:presets/vue-webpack"
   dependencies:
     "@storybook/core-common": 6.5.0-alpha.64
-    "@storybook/core-server": 6.5.0-alpha.64
     "@storybook/docs-tools": 6.5.0-alpha.64
-    "@storybook/renderer-vue": 6.5.0-alpha.64
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
-    global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
     ts-loader: ^8.0.14
     vue: ^2.6.12
     vue-docgen-api: ^4.44.15
@@ -8548,18 +8529,14 @@ __metadata:
   resolution: "@storybook/preset-vue3-webpack@workspace:presets/vue3-webpack"
   dependencies:
     "@storybook/core-common": 6.5.0-alpha.64
-    "@storybook/core-server": 6.5.0-alpha.64
     "@storybook/docs-tools": 6.5.0-alpha.64
-    "@storybook/renderer-vue3": 6.5.0-alpha.64
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/webpack-env": ^1.16.0
     "@vue/compiler-sfc": 3.0.0
     core-js: ^3.8.2
-    global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
     ts-loader: ^8.0.14
     vue: 3.0.0
     vue-docgen-api: ^4.44.15
@@ -8582,19 +8559,15 @@ __metadata:
     "@babel/plugin-syntax-import-meta": ^7.10.4
     "@babel/preset-env": ^7.12.11
     "@storybook/core-common": 6.5.0-alpha.64
-    "@storybook/core-server": 6.5.0-alpha.64
-    "@storybook/docs-tools": 6.5.0-alpha.64
-    "@storybook/renderer-web-components": 6.5.0-alpha.64
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/webpack-env": ^1.16.0
+    babel-loader: ^7.0.0 || ^8.0.0
     babel-plugin-bundled-import-meta: ^0.3.1
     core-js: ^3.8.2
-    global: ^4.4.0
     lit-html: 2.0.2
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
   languageName: unknown
@@ -8648,36 +8621,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/react@workspace:app/react"
   dependencies:
-    "@babel/preset-flow": ^7.12.1
-    "@babel/preset-react": ^7.12.10
-    "@pmmmwh/react-refresh-webpack-plugin": ^0.5.3
     "@storybook/core-common": 6.5.0-alpha.64
     "@storybook/core-server": 6.5.0-alpha.64
-    "@storybook/docs-tools": 6.5.0-alpha.64
-    "@storybook/node-logger": 6.5.0-alpha.64
     "@storybook/preset-react-webpack": 6.5.0-alpha.64
-    "@storybook/react-docgen-typescript-plugin": 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
     "@storybook/renderer-react": 6.5.0-alpha.64
-    "@storybook/semver": ^7.3.2
     "@types/node": ^14.14.20 || ^16.0.0
-    "@types/util-deprecate": ^1.0.0
     "@types/webpack-env": ^1.16.0
-    babel-plugin-add-react-displayname: ^0.0.5
-    babel-plugin-react-docgen: ^4.2.1
     core-js: ^3.8.2
-    fs-extra: ^9.0.1
-    global: ^4.4.0
-    react-refresh: ^0.11.0
+    jest-specific-snapshot: ^4.0.0
     regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
-    util-deprecate: ^1.0.2
     webpack: 4
   peerDependencies:
     "@babel/core": ^7.11.5
-    jest-specific-snapshot: ^4.0.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    require-from-string: ^2.0.2
   peerDependenciesMeta:
     "@babel/core":
       optional: true
@@ -9213,19 +9170,14 @@ __metadata:
   dependencies:
     "@storybook/core-common": 6.5.0-alpha.64
     "@storybook/core-server": 6.5.0-alpha.64
+    "@storybook/preset-server-webpack": 6.5.0-alpha.64
     "@storybook/renderer-server": 6.5.0-alpha.64
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
-    fs-extra: ^9.0.1
-    global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    safe-identifier: ^0.4.1
-    ts-dedent: ^2.0.0
-    yaml: ^1.10.0
-    yaml-loader: ^0.6.0
   languageName: unknown
   linkType: soft
 
@@ -9280,21 +9232,15 @@ __metadata:
   dependencies:
     "@storybook/core-common": 6.5.0-alpha.64
     "@storybook/core-server": 6.5.0-alpha.64
-    "@storybook/node-logger": 6.5.0-alpha.64
     "@storybook/preset-svelte-webpack": 6.5.0-alpha.64
     "@storybook/renderer-svelte": 6.5.0-alpha.64
-    "@types/loader-utils": ^2.0.0
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
-    global: ^4.4.0
-    loader-utils: ^2.0.0
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
     svelte: ^3.31.2
     svelte-loader: ^3.0.0
-    sveltedoc-parser: 4.1.0
-    ts-dedent: ^2.0.0
     webpack: 4
   peerDependencies:
     "@babel/core": "*"
@@ -9424,23 +9370,16 @@ __metadata:
   dependencies:
     "@storybook/core-common": 6.5.0-alpha.64
     "@storybook/core-server": 6.5.0-alpha.64
-    "@storybook/docs-tools": 6.5.0-alpha.64
     "@storybook/preset-vue3-webpack": 6.5.0-alpha.64
     "@storybook/renderer-vue3": 6.5.0-alpha.64
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/webpack-env": ^1.16.0
     "@vue/compiler-sfc": 3.0.0
     core-js: ^3.8.2
-    global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
-    ts-loader: ^8.0.14
     vue: 3.0.0
-    vue-docgen-api: ^4.44.15
-    vue-docgen-loader: ^1.5.0
-    vue-loader: ^16.4.1
     webpack: 4
   peerDependencies:
     "@babel/core": "*"
@@ -9456,21 +9395,15 @@ __metadata:
   dependencies:
     "@storybook/core-common": 6.5.0-alpha.64
     "@storybook/core-server": 6.5.0-alpha.64
-    "@storybook/docs-tools": 6.5.0-alpha.64
     "@storybook/preset-vue-webpack": 6.5.0-alpha.64
     "@storybook/renderer-vue": 6.5.0-alpha.64
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
-    global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
-    ts-loader: ^8.0.14
     vue: ^2.6.12
-    vue-docgen-api: ^4.44.15
-    vue-docgen-loader: ^1.5.0
     vue-loader: ^15.9.6
     vue-template-compiler: ^2.6.12
     webpack: 4
@@ -9488,24 +9421,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/web-components@workspace:app/web-components"
   dependencies:
-    "@babel/plugin-syntax-dynamic-import": ^7.8.3
-    "@babel/plugin-syntax-import-meta": ^7.10.4
     "@babel/preset-env": ^7.12.11
     "@storybook/core-common": 6.5.0-alpha.64
     "@storybook/core-server": 6.5.0-alpha.64
-    "@storybook/docs-tools": 6.5.0-alpha.64
     "@storybook/preset-web-components-webpack": 6.5.0-alpha.64
     "@storybook/renderer-web-components": 6.5.0-alpha.64
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/webpack-env": ^1.16.0
-    babel-plugin-bundled-import-meta: ^0.3.1
     core-js: ^3.8.2
-    global: ^4.4.0
     lit-html: 2.0.2
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
   languageName: unknown
@@ -14472,6 +14399,21 @@ __metadata:
     "@babel/core": ^7.0.0
     webpack: ">=2"
   checksum: c4e1e042af99a0c1ed83d4a9e3436c333b66a10459561eff921ebe274d75425b649cc317e1389a149931f29c5b03a5a46acc1daeb849d10582ce2bb65f697a5f
+  languageName: node
+  linkType: hard
+
+"babel-loader@npm:^7.0.0 || ^8.0.0":
+  version: 8.2.5
+  resolution: "babel-loader@npm:8.2.5"
+  dependencies:
+    find-cache-dir: ^3.3.1
+    loader-utils: ^2.0.0
+    make-dir: ^3.1.0
+    schema-utils: ^2.6.5
+  peerDependencies:
+    "@babel/core": ^7.0.0
+    webpack: ">=2"
+  checksum: 6d11d59f0d8e94f230b7529ef805d03e42df5130849cbc21b0954c081bef5325390bbedf378b00355f4b447aee014012d37565777ba6fc17ffbb2352f5736601
   languageName: node
   linkType: hard
 
@@ -48243,17 +48185,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml-loader@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "yaml-loader@npm:0.6.0"
-  dependencies:
-    loader-utils: ^1.4.0
-    yaml: ^1.8.3
-  checksum: 8c8e9c284721a1bcff6c70e412929a6f321ab6a15b6209f4e658be05b57dfa0a64b0d69f3ca62fdcd46b31e6bc536faca2c8d6c04c8070ccce4d1c9da79569b4
-  languageName: node
-  linkType: hard
-
-"yaml@npm:^1.10.0, yaml@npm:^1.10.2, yaml@npm:^1.7.2, yaml@npm:^1.8.3":
+"yaml@npm:^1.10.0, yaml@npm:^1.10.2, yaml@npm:^1.7.2":
   version: 1.10.2
   resolution: "yaml@npm:1.10.2"
   checksum: 5c28b9eb7adc46544f28d9a8d20c5b3cb1215a886609a2fd41f51628d8aaa5878ccd628b755dbcd29f6bb4921bd04ffbc6dcc370689bb96e594e2f9813d2605f
