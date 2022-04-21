@@ -3,12 +3,29 @@ module.exports = {
   extends: ['@storybook/eslint-config-storybook', 'plugin:storybook/recommended'],
   rules: {
     '@typescript-eslint/ban-ts-comment': 'warn',
+    '@typescript-eslint/dot-notation': 'off',
+    '@typescript-eslint/no-implied-eval': 'off',
+    '@typescript-eslint/no-throw-literal': 'off',
+    '@typescript-eslint/return-await': 'off',
+
     'jest/no-standalone-expect': [
       'error',
       { additionalTestBlockFunctions: ['it.skipWindows', 'it.onWindows'] },
     ],
   },
   overrides: [
+    {
+      files: ['**/*.tsx', '**/*.ts'],
+      rules: {
+        '@typescript-eslint/dot-notation': 'error',
+        '@typescript-eslint/no-implied-eval': 'error',
+        '@typescript-eslint/no-throw-literal': 'error',
+        '@typescript-eslint/return-await': 'error',
+      },
+      parserOptions: {
+        project: './tsconfig.eslint.json',
+      },
+    },
     {
       // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
       files: ['**/addons/docs/**/*'],
