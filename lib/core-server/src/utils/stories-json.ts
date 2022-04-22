@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import fs from 'fs-extra';
 import type { Options, NormalizedStoriesSpecifier, StorybookConfig } from '@storybook/core-common';
-import type { StoryIndex, StoryIndexV3, StoryIndexEntry } from '@storybook/store';
+import type { StoryIndex, StoryIndexV3 } from '@storybook/store';
 import { normalizeStories } from '@storybook/core-common';
 import Events from '@storybook/core-events';
 import debounce from 'lodash/debounce';
@@ -99,7 +99,10 @@ export async function useStoriesJson(
 export const convertToIndexV3 = (index: StoryIndex): StoryIndexV3 => {
   const { entries } = index;
   const stories = Object.entries(entries).reduce((acc, [id, entry]) => {
-    if (entry.type === 'story') acc[id] = entry;
+    if (entry.type === 'story') {
+      const { type, ...rest } = entry;
+      acc[id] = rest;
+    }
     return acc;
   }, {} as StoryIndexV3['stories']);
   return {

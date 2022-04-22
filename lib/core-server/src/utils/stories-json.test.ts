@@ -10,10 +10,34 @@ import { ServerChannel } from './get-server-channel';
 jest.mock('watchpack');
 jest.mock('lodash/debounce');
 
+// FIXME: can't figure out how to import ESM
+jest.mock('@storybook/docs-mdx', async () => ({
+  analyze(content: string) {
+    const importMatches = content.matchAll(/'(.[^']*\.stories)'/g);
+    const imports = Array.from(importMatches).map((match) => match[1]);
+    const title = content.match(/title=['"](.*)['"]/)?.[1];
+    const ofMatch = content.match(/of=\{(.*)\}/)?.[1];
+    return { title, imports, of: ofMatch && imports.length && imports[0] };
+  },
+}));
+
+let storyStoreV7 = true;
 const options: Parameters<typeof useStoriesJson>[2] = {
   configDir: path.join(__dirname, '__mockdata__'),
   presets: {
-    apply: async () => ['./src/**/*.stories.(ts|js|jsx)'] as any,
+    apply: async (what: string) => {
+      switch (what) {
+        case 'stories': {
+          return ['./src/**/*.docs.mdx', './src/**/*.stories.(ts|js|jsx)'] as any;
+        }
+        case 'features': {
+          return { storyStoreV7 };
+        }
+        default: {
+          throw new Error(`Unexpected preset: ${what}`);
+        }
+      }
+    },
   },
 } as any;
 
@@ -39,6 +63,7 @@ describe('useStoriesJson', () => {
     send.mockClear();
     write.mockClear();
     (debounce as jest.Mock).mockImplementation((cb) => cb);
+    storyStoreV7 = true;
   });
 
   const request: Request = {
@@ -46,7 +71,7 @@ describe('useStoriesJson', () => {
   } as any;
 
   describe('JSON endpoint', () => {
-    it('scans and extracts stories', async () => {
+    it('scans and extracts index', async () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       await useStoriesJson(router, mockServerChannel, options, options.configDir);
 
@@ -59,6 +84,149 @@ describe('useStoriesJson', () => {
       expect(JSON.parse(send.mock.calls[0][0])).toMatchInlineSnapshot(`
         Object {
           "entries": Object {
+            "a--docs": Object {
+              "id": "a--docs",
+              "importPath": "./src/docs2/MetaOf.docs.mdx",
+              "name": "docs",
+              "storiesImports": Array [
+                "./src/A.stories.js",
+              ],
+              "title": "A",
+              "type": "docs",
+            },
+            "a--story-one": Object {
+              "id": "a--story-one",
+              "importPath": "./src/A.stories.js",
+              "name": "Story One",
+              "title": "A",
+              "type": "story",
+            },
+            "b--story-one": Object {
+              "id": "b--story-one",
+              "importPath": "./src/B.stories.ts",
+              "name": "Story One",
+              "title": "B",
+              "type": "story",
+            },
+            "d--story-one": Object {
+              "id": "d--story-one",
+              "importPath": "./src/D.stories.jsx",
+              "name": "Story One",
+              "title": "D",
+              "type": "story",
+            },
+            "docs2-notitle--docs": Object {
+              "id": "docs2-notitle--docs",
+              "importPath": "./src/docs2/NoTitle.docs.mdx",
+              "name": "docs",
+              "storiesImports": Array [],
+              "title": "docs2/NoTitle",
+              "type": "docs",
+            },
+            "docs2-yabbadabbadooo--docs": Object {
+              "id": "docs2-yabbadabbadooo--docs",
+              "importPath": "./src/docs2/Title.docs.mdx",
+              "name": "docs",
+              "storiesImports": Array [],
+              "title": "docs2/Yabbadabbadooo",
+              "type": "docs",
+            },
+            "first-nested-deeply-f--story-one": Object {
+              "id": "first-nested-deeply-f--story-one",
+              "importPath": "./src/first-nested/deeply/F.stories.js",
+              "name": "Story One",
+              "title": "first-nested/deeply/F",
+              "type": "story",
+            },
+            "nested-button--story-one": Object {
+              "id": "nested-button--story-one",
+              "importPath": "./src/nested/Button.stories.ts",
+              "name": "Story One",
+              "title": "nested/Button",
+              "type": "story",
+            },
+            "second-nested-g--story-one": Object {
+              "id": "second-nested-g--story-one",
+              "importPath": "./src/second-nested/G.stories.ts",
+              "name": "Story One",
+              "title": "second-nested/G",
+              "type": "story",
+            },
+          },
+          "v": 4,
+        }
+      `);
+    });
+
+    it('scans and extracts stories v3', async () => {
+      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      await useStoriesJson(router, mockServerChannel, options, options.configDir);
+
+      expect(use).toHaveBeenCalledTimes(2);
+      const route = use.mock.calls[1][1];
+
+      await route(request, response);
+
+      expect(send).toHaveBeenCalledTimes(1);
+      expect(JSON.parse(send.mock.calls[0][0])).toMatchInlineSnapshot(`
+        Object {
+          "stories": Object {
+            "a--story-one": Object {
+              "id": "a--story-one",
+              "importPath": "./src/A.stories.js",
+              "name": "Story One",
+              "title": "A",
+            },
+            "b--story-one": Object {
+              "id": "b--story-one",
+              "importPath": "./src/B.stories.ts",
+              "name": "Story One",
+              "title": "B",
+            },
+            "d--story-one": Object {
+              "id": "d--story-one",
+              "importPath": "./src/D.stories.jsx",
+              "name": "Story One",
+              "title": "D",
+            },
+            "first-nested-deeply-f--story-one": Object {
+              "id": "first-nested-deeply-f--story-one",
+              "importPath": "./src/first-nested/deeply/F.stories.js",
+              "name": "Story One",
+              "title": "first-nested/deeply/F",
+            },
+            "nested-button--story-one": Object {
+              "id": "nested-button--story-one",
+              "importPath": "./src/nested/Button.stories.ts",
+              "name": "Story One",
+              "title": "nested/Button",
+            },
+            "second-nested-g--story-one": Object {
+              "id": "second-nested-g--story-one",
+              "importPath": "./src/second-nested/G.stories.ts",
+              "name": "Story One",
+              "title": "second-nested/G",
+            },
+          },
+          "v": 3,
+        }
+      `);
+    });
+
+    it('scans and extracts stories v2', async () => {
+      storyStoreV7 = false;
+      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      await useStoriesJson(router, mockServerChannel, options, options.configDir);
+
+      expect(use).toHaveBeenCalledTimes(2);
+      const route = use.mock.calls[1][1];
+
+      await route(request, response);
+
+      expect(send).toHaveBeenCalledTimes(1);
+      expect(JSON.parse(send.mock.calls[0][0])).toMatchInlineSnapshot(`
+        Object {
+          "stories": Object {
             "a--story-one": Object {
               "id": "a--story-one",
               "importPath": "./src/A.stories.js",
@@ -71,7 +239,6 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "title": "A",
-              "type": "story",
             },
             "b--story-one": Object {
               "id": "b--story-one",
@@ -85,7 +252,6 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "title": "B",
-              "type": "story",
             },
             "d--story-one": Object {
               "id": "d--story-one",
@@ -99,7 +265,6 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "title": "D",
-              "type": "story",
             },
             "first-nested-deeply-f--story-one": Object {
               "id": "first-nested-deeply-f--story-one",
@@ -113,7 +278,6 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "title": "first-nested/deeply/F",
-              "type": "story",
             },
             "nested-button--story-one": Object {
               "id": "nested-button--story-one",
@@ -127,7 +291,6 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "title": "nested/Button",
-              "type": "story",
             },
             "second-nested-g--story-one": Object {
               "id": "second-nested-g--story-one",
@@ -141,10 +304,9 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "title": "second-nested/G",
-              "type": "story",
             },
           },
-          "v": 4,
+          "v": 3,
         }
       `);
     });
