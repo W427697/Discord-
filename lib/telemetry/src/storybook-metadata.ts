@@ -1,4 +1,5 @@
 import readPkgUp from 'read-pkg-up';
+import path from 'path';
 import {
   loadMainConfig,
   getStorybookInfo,
@@ -8,6 +9,7 @@ import type { StorybookConfig, PackageJson } from '@storybook/core-common';
 
 import type { StorybookMetadata, Dependency, StorybookAddon } from './types';
 import { getActualPackageVersion, getActualPackageVersions } from './package-versions';
+import { getMonorepoType } from './get-monorepo-type';
 
 let cachedMetadata: StorybookMetadata;
 export const getStorybookMetadata = async (_configDir: string) => {
@@ -93,6 +95,11 @@ export const computeStorybookMetadata = async ({
       packageName: metaFramework,
       version,
     };
+  }
+
+  const monorepoType = getMonorepoType();
+  if (monorepoType) {
+    metadata.monorepo = monorepoType;
   }
 
   metadata.hasCustomBabel = !!mainConfig.babel;

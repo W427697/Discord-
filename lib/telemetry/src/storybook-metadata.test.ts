@@ -1,4 +1,5 @@
-import { PackageJson, StorybookConfig } from '@storybook/core-common';
+import type { PackageJson, StorybookConfig } from '@storybook/core-common';
+
 import { computeStorybookMetadata, metaFrameworks } from './storybook-metadata';
 
 const packageJsonMock: PackageJson = {
@@ -28,7 +29,10 @@ jest.mock('./package-versions', () => {
   };
 });
 
-// @TODO: separate `getActualVersions` to a file so we can mock it
+jest.mock('./get-monorepo-type', () => ({
+  getMonorepoType: () => 'Nx',
+}));
+
 describe('await computeStorybookMetadata', () => {
   test('should return frameworkOptions from mainjs', async () => {
     const reactResult = await computeStorybookMetadata({

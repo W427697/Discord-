@@ -1,5 +1,7 @@
 import type { StorybookConfig, TypescriptOptions } from '@storybook/core-common';
 
+import type { MonorepoType } from './get-monorepo-type';
+
 export type EventType =
   | 'start'
   | 'build'
@@ -29,6 +31,7 @@ export type StorybookMetadata = {
     name: string;
     options?: Record<string, any>;
   };
+  monorepo?: MonorepoType;
   typescriptOptions?: Partial<TypescriptOptions>;
   addons?: Record<string, StorybookAddon>;
   storybookPackages?: Record<string, Dependency>;
