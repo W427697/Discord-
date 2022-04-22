@@ -1,12 +1,12 @@
 import global from 'global';
 import dedent from 'ts-dedent';
 import {
-  transformStoriesRawToStoriesHash,
-  StoriesRaw,
-  StoryInput,
+  transformSetStoriesStoryDataToStoriesHash,
+  SetStoriesStory,
   StoriesHash,
   transformStoryIndexToStoriesHash,
   StoryIndexEntry,
+  SetStoriesStoryData,
 } from '../lib/stories';
 
 import { ModuleFn, StoryId } from '../index';
@@ -22,7 +22,7 @@ type Versions = Record<string, string>;
 export type SetRefData = Partial<
   Omit<ComposedRef, 'stories'> & {
     v: number;
-    stories?: StoriesRaw;
+    stories?: SetStoriesStoryData;
   }
 >;
 
@@ -36,7 +36,7 @@ export interface SubAPI {
   changeRefState: (id: string, ready: boolean) => void;
 }
 
-export type StoryMapper = (ref: ComposedRef, story: StoryInput) => StoryInput;
+export type StoryMapper = (ref: ComposedRef, story: SetStoriesStory) => SetStoriesStory;
 export interface ComposedRef {
   id: string;
   title?: string;
@@ -109,15 +109,15 @@ const handle = async (request: Response | false): Promise<SetRefData> => {
 };
 
 const map = (
-  input: StoriesRaw,
+  input: SetStoriesStoryData,
   ref: ComposedRef,
   options: { storyMapper?: StoryMapper }
-): StoriesRaw => {
+): SetStoriesStoryData => {
   const { storyMapper } = options;
   if (storyMapper) {
     return Object.entries(input).reduce((acc, [id, item]) => {
       return { ...acc, [id]: storyMapper(ref, item) };
-    }, {} as StoriesRaw);
+    }, {} as SetStoriesStoryData);
   }
   return input;
 };
@@ -160,7 +160,12 @@ export const init: ModuleFn = ({ store, provider, singleStory }, { runCheck = tr
       //
       // then we fetch metadata if the above fetch succeeded
 
-      const loadedData: { error?: Error; v?: number; stories?: StoriesRaw; loginUrl?: string } = {};
+      const loadedData: {
+        error?: Error;
+        v?: number;
+        stories?: SetStoriesStoryData;
+        loginUrl?: string;
+      } = {};
       const query = version ? `?version=${version}` : '';
       const credentials = isPublic ? 'omit' : 'include';
 
@@ -230,9 +235,12 @@ export const init: ModuleFn = ({ store, provider, singleStory }, { runCheck = tr
 
       if (stories) {
         if (v === 2) {
-          storiesHash = transformStoriesRawToStoriesHash(map(stories, ref, { storyMapper }), {
-            provider,
-          });
+          storiesHash = transformSetStoriesStoryDataToStoriesHash(
+            map(stories, ref, { storyMapper }),
+            {
+              provider,
+            }
+          );
         } else if (!v) {
           throw new Error('Composition: Missing stories.json version');
         } else {
@@ -268,8 +276,8 @@ export const init: ModuleFn = ({ store, provider, singleStory }, { runCheck = tr
   const initialState: SubState['refs'] = refs;
 
   if (runCheck) {
-    Object.entries(refs).forEach(([k, v]) => {
-      api.checkRef(v as SetRefData);
+    Object.entries(refs).forEach(([id, ref]) => {
+      api.checkRef({ ...ref, stories: {} } as SetRefData);
     });
   }
 

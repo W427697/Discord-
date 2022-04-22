@@ -47,7 +47,7 @@ export interface Group {
   parent?: StoryId;
   isComponent: boolean;
   isRoot: false;
-  isLeaf: false;
+  isLeaf: boolean;
   renderLabel?: (item: Group) => React.ReactNode;
   // MDX docs-only stories are "Group" type
   parameters?: {
@@ -64,7 +64,7 @@ export interface Story {
   importPath: Path;
   refId?: string;
   children?: StoryId[];
-  isComponent: boolean;
+  isComponent: false;
   isRoot: false;
   isLeaf: true;
   renderLabel?: (item: Story) => React.ReactNode;
