@@ -377,11 +377,15 @@ export function loadAllPresets(options: LoadPresetOptions) {
 }
 
 export const getAllPresets = async (configDir: string) => {
+  const commonPreset = require.resolve('@storybook/core-server/dist/cjs/presets/common-preset');
   const presets = loadAllPresets({
     configDir,
+    corePresets: [commonPreset],
   } as LoadPresetOptions);
 
-  const addonPresets = await presets.apply('previewAnnotations', [], { configDir });
+  const addonPresets = await presets.apply('config', [], {
+    configDir,
+  });
   const configs = [
     // load addon presets
     ...addonPresets,
