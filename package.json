@@ -308,7 +308,7 @@
     "ts-dedent": "^2.0.0",
     "ts-jest": "^26.4.4",
     "ts-node": "^10.4.0",
-    "typescript": "^3.9.7",
+    "typescript": "^4.6.3",
     "wait-on": "^5.2.1",
     "web-component-analyzer": "^1.1.6",
     "webpack": "5",

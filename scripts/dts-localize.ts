@@ -191,7 +191,7 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
       );
 
       // @ts-ignore
-      node.moduleSpecifier = ts.createStringLiteral(replacementPath);
+      node.moduleSpecifier = ts.factory.createStringLiteral(replacementPath);
 
       return true;
     }
@@ -224,8 +224,7 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
       );
 
       // @ts-ignore
-      node.argument = ts.createStringLiteral(replacementPath);
-      // node.argument = ts.factory.createStringLiteral(replacementPath); // TS4
+      node.argument = ts.factory.createStringLiteral(replacementPath);
 
       return true;
     }
@@ -269,9 +268,8 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
     // this seems to be a cache TypeScript uses internally
     // I've been looking for a a public API to use, but so far haven't found it.
     // I could create the dependency graph myself, perhaps that'd be better, but I'm OK with this for now.
-    if (sourceFile.resolvedModules && sourceFile.resolvedModules.size > 0) {
-      Array.from(sourceFile.resolvedModules.entries()).forEach(([k, v]) => {
-        // console.log({ k }, v.resolvedFileName);
+    if (sourceFile.resolvedModules) {
+      sourceFile.resolvedModules.forEach((v, k) => {
         if (externals.includes(k)) {
           return;
         }
