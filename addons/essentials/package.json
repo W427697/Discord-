@@ -58,8 +58,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@storybook/vue": "6.5.0-alpha.64",
-    "@types/jest": "^26.0.16",
-    "@types/webpack-env": "^1.16.0"
+    "@types/jest": "^26.0.16"
   },
   "peerDependencies": {
     "@babel/core": "^7.9.6"

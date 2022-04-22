@@ -60,7 +60,6 @@
     "@types/jest": "^26.0.16",
     "@types/node": "^14.14.20 || ^16.0.0",
     "@types/sass": "^1",
-    "@types/webpack-env": "^1.16.0",
     "@webcomponents/custom-elements": "^1.4.3",
     "global": "^4.4.0",
     "jasmine-core": "~3.6.0",

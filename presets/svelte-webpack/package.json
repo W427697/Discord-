@@ -53,7 +53,6 @@
   },
   "devDependencies": {
     "@types/loader-utils": "^2.0.0",
-    "@types/webpack-env": "^1.16.0",
     "svelte": "^3.31.2",
     "svelte-loader": "^3.0.0",
     "webpack": "4"
