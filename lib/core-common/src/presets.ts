@@ -151,9 +151,8 @@ const map =
     return undefined;
   };
 
-function interopRequireDefault(filePath: string) {
-  // eslint-disable-next-line global-require,import/no-dynamic-require
-  const result = require(filePath);
+async function interopRequireDefault(filePath: string) {
+  const result = await import(filePath);
 
   const isES6DefaultExported =
     typeof result === 'object' && result !== null && typeof result.default !== 'undefined';
@@ -161,7 +160,7 @@ function interopRequireDefault(filePath: string) {
   return isES6DefaultExported ? result.default : result;
 }
 
-function getContent(input: any) {
+async function getContent(input: any) {
   if (input.type === 'virtual') {
     const { type, name, ...rest } = input;
     return rest;
@@ -171,18 +170,18 @@ function getContent(input: any) {
   return interopRequireDefault(name);
 }
 
-export function loadPreset(
+export async function loadPreset(
   input: PresetConfig,
   level: number,
   storybookOptions: InterPresetOptions
-): LoadedPreset[] {
+): Promise<LoadedPreset[]> {
   try {
     // @ts-ignores
     const name: string = input.name ? input.name : input;
     // @ts-ignore
     const presetOptions = input.options ? input.options : {};
 
-    let contents = getContent(input);
+    let contents = await getContent(input);
 
     if (typeof contents === 'function') {
       // allow the export of a preset to be a function, that gets storybookOptions
@@ -211,12 +210,12 @@ export function loadPreset(
       );
 
       return [
-        ...loadPresets([...subPresets], level + 1, storybookOptions),
-        ...loadPresets(
+        ...(await loadPresets([...subPresets], level + 1, storybookOptions)),
+        ...(await loadPresets(
           [...subAddons.map(map(storybookOptions))].filter(Boolean),
           level + 1,
           storybookOptions
-        ),
+        )),
         {
           name,
           preset: rest,
@@ -241,11 +240,11 @@ export function loadPreset(
   }
 }
 
-function loadPresets(
+async function loadPresets(
   presets: PresetConfig[],
   level: number,
   storybookOptions: InterPresetOptions
-): LoadedPreset[] {
+): Promise<LoadedPreset[]> {
   if (!presets || !Array.isArray(presets) || !presets.length) {
     return [];
   }
@@ -254,10 +253,13 @@ function loadPresets(
     logger.info('=> Loading presets');
   }
 
-  return presets.reduce((acc, preset) => {
-    const loaded = loadPreset(preset, level, storybookOptions);
-    return acc.concat(loaded);
-  }, []);
+  return Promise.all(
+    presets
+      .map(async (preset) => loadPreset(preset, level, storybookOptions))
+      .reduce((acc, loaded) => {
+        return acc.concat(loaded);
+      }, [])
+  );
 }
 
 function applyPresets(
@@ -315,8 +317,11 @@ function applyPresets(
 
 type InterPresetOptions = Omit<CLIOptions & LoadOptions & BuilderOptions, 'frameworkPresets'>;
 
-export function getPresets(presets: PresetConfig[], storybookOptions: InterPresetOptions): Presets {
-  const loadedPresets: LoadedPreset[] = loadPresets(presets, 0, storybookOptions);
+async function getPresets(
+  presets: PresetConfig[],
+  storybookOptions: InterPresetOptions
+): Promise<Presets> {
+  const loadedPresets: LoadedPreset[] = await loadPresets(presets, 0, storybookOptions);
 
   return {
     apply: async (extension: string, config: any, args = {}) =>
@@ -345,7 +350,7 @@ const getFrameworkPackage = (configDir: string) => {
   return frameworkPackage;
 };
 
-export function loadAllPresets(
+export async function loadAllPresets(
   options: CLIOptions &
     LoadOptions &
     BuilderOptions & {

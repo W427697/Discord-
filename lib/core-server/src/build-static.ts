@@ -59,7 +59,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   const previewBuilder: Builder<unknown, unknown> = await getPreviewBuilder(options.configDir);
   const managerBuilder: Builder<unknown, unknown> = await getManagerBuilder(options.configDir);
 
-  const presets = loadAllPresets({
+  const presets = await loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
       ...managerBuilder.corePresets,
