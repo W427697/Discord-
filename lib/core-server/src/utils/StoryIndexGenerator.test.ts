@@ -231,7 +231,7 @@ describe('StoryIndexGenerator', () => {
 
         const generator = new StoryIndexGenerator([docsSpecifier], options);
         await expect(() => generator.initialize()).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Missing dependencies: /Users/shilman/projects/baseline/storybook/lib/core-server/src/utils/__mockdata__/src/A.stories"`
+          `"Could not find \\"../A.stories\\" for docs file \\"src/docs2/MetaOf.docs.mdx\\"."`
         );
       });
     });
@@ -515,7 +515,7 @@ describe('StoryIndexGenerator', () => {
         generator.invalidate(storiesSpecifier, './src/A.stories.js', true);
 
         await expect(() => generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Missing dependencies: /Users/shilman/projects/baseline/storybook/lib/core-server/src/utils/__mockdata__/src/A.stories"`
+          `"Could not find \\"../A.stories\\" for docs file \\"src/docs2/MetaOf.docs.mdx\\"."`
         );
       });
 

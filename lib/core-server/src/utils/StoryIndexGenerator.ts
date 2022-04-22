@@ -148,11 +148,11 @@ export class StoryIndexGenerator {
       });
     });
 
-    if (absoluteImports.length !== foundImports.size) {
-      throw new Error(
-        `Missing dependencies: ${absoluteImports.filter((p) => !foundImports.has(p))}`
-      );
-    }
+    // imports can include non-story imports, so it's ok if
+    // there are fewer foundImports than absoluteImports
+    // if (absoluteImports.length !== foundImports.size) {
+    //   throw new Error(`Missing dependencies: ${absoluteImports.filter((p) => !foundImports.has(p))}`));
+    // }
 
     return dependencies;
   }
