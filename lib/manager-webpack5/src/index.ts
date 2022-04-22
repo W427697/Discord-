@@ -160,7 +160,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(compilation);
 
   const stats = await new Promise<Stats>((ready, stop) => {
-    compilation.waitUntilValid(ready);
+    compilation.waitUntilValid(ready as any);
     reject = stop;
   });
   yield;

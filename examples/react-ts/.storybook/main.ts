@@ -22,7 +22,7 @@ const config: StorybookConfig = {
     },
   },
   core: {
-    builder: { builderName: '@storybook/builder-webpack5' },
+    builder: { name: '@storybook/builder-webpack5' },
     channelOptions: { allowFunction: false, maxDepth: 10 },
   },
   features: {

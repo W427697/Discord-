@@ -76,7 +76,6 @@
     "webpack-virtual-modules": "^0.4.3"
   },
   "devDependencies": {
-    "@types/case-sensitive-paths-webpack-plugin": "^2.1.6",
     "@types/terser-webpack-plugin": "^5.2.0",
     "@types/webpack-dev-middleware": "^5.3.0",
     "@types/webpack-virtual-modules": "^0.1.1"
