@@ -139,12 +139,14 @@ export const combineParameters = (...parameterSets: Parameters[]) =>
     return undefined;
   });
 
-export type ModuleFn = (m: ModuleArgs) => Module;
+export type ModuleFn<APIType = unknown, StateType = unknown> = (
+  m: ModuleArgs
+) => Module<APIType, StateType>;
 
-interface Module {
+interface Module<APIType = unknown, StateType = unknown> {
   init?: () => void;
-  api?: unknown;
-  state?: unknown;
+  api?: APIType;
+  state?: StateType;
 }
 
 class ManagerProvider extends Component<ManagerProviderProps, State> {

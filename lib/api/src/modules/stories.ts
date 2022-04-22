@@ -19,9 +19,9 @@ import { logger } from '@storybook/client-logger';
 import { getEventMetadata } from '../lib/events';
 import {
   denormalizeStoryParameters,
-  transformStoriesRawToStoriesHash,
   isStory,
   isRoot,
+  transformSetStoriesStoryDataToStoriesHash,
   transformStoryIndexToStoriesHash,
   getComponentLookupList,
   getStoriesLookupList,
@@ -33,7 +33,7 @@ import type {
   Group,
   StoryId,
   Root,
-  StoriesRaw,
+  SetStoriesStoryData,
   SetStoriesPayload,
   StoryIndex,
 } from '../lib/stories';
@@ -63,12 +63,12 @@ export interface SubAPI {
   resolveStory: (storyId: StoryId, refsId?: string) => Story | Group | Root;
   selectFirstStory: () => void;
   selectStory: (
-    kindOrId: string,
+    kindOrId?: string,
     story?: string,
     obj?: { ref?: string; viewMode?: ViewMode }
   ) => void;
   getCurrentStoryData: () => Story | Group;
-  setStories: (stories: StoriesRaw, failed?: Error) => Promise<void>;
+  setStories: (stories: SetStoriesStoryData, failed?: Error) => Promise<void>;
   jumpToComponent: (direction: Direction) => void;
   jumpToStory: (direction: Direction) => void;
   getData: (storyId: StoryId, refId?: string) => Story | Group;
@@ -126,7 +126,7 @@ function checkDeprecatedOptionParameters(options?: Record<string, any>) {
   });
 }
 
-export const init: ModuleFn = ({
+export const init: ModuleFn<SubAPI, SubState> = ({
   fullAPI,
   store,
   navigate,
@@ -226,7 +226,7 @@ export const init: ModuleFn = ({
     },
     setStories: async (input, error) => {
       // Now create storiesHash by reordering the above by group
-      const hash = transformStoriesRawToStoriesHash(input, {
+      const hash = transformSetStoriesStoryDataToStoriesHash(input, {
         provider,
       });
 
@@ -249,7 +249,7 @@ export const init: ModuleFn = ({
 
       navigate('/');
     },
-    selectStory: (kindOrId = undefined, story = undefined, options = {}) => {
+    selectStory: (titleOrId = undefined, story = undefined, options = {}) => {
       const { ref, viewMode: viewModeFromArgs } = options;
       const {
         viewMode: viewModeFromState = 'story',
@@ -263,9 +263,9 @@ export const init: ModuleFn = ({
       const kindSlug = storyId?.split('--', 2)[0];
 
       if (!story) {
-        const s = kindOrId ? hash[kindOrId] || hash[sanitize(kindOrId)] : hash[kindSlug];
+        const s = titleOrId ? hash[titleOrId] || hash[sanitize(titleOrId)] : hash[kindSlug];
         // eslint-disable-next-line no-nested-ternary
-        const id = s ? (s.children ? s.children[0] : s.id) : kindOrId;
+        const id = s ? (s.children ? s.children[0] : s.id) : titleOrId;
         let viewMode =
           s && !isRoot(s) && (viewModeFromArgs || s.parameters.viewMode)
             ? s.parameters.viewMode
@@ -280,18 +280,18 @@ export const init: ModuleFn = ({
         const p = s && s.refId ? `/${viewMode}/${s.refId}_${id}` : `/${viewMode}/${id}`;
 
         navigate(p);
-      } else if (!kindOrId) {
+      } else if (!titleOrId) {
         // This is a slugified version of the kind, but that's OK, our toId function is idempotent
         const id = toId(kindSlug, story);
 
         api.selectStory(id, undefined, options);
       } else {
-        const id = ref ? `${ref}_${toId(kindOrId, story)}` : toId(kindOrId, story);
+        const id = ref ? `${ref}_${toId(titleOrId, story)}` : toId(titleOrId, story);
         if (hash[id]) {
           api.selectStory(id, undefined, options);
         } else {
           // Support legacy API with component permalinks, where kind is `x/y` but permalink is 'z'
-          const k = hash[sanitize(kindOrId)];
+          const k = hash[sanitize(titleOrId)];
           if (k && k.children) {
             const foundId = k.children.find((childId) => hash[childId].name === story);
             if (foundId) {

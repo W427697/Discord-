@@ -15,31 +15,46 @@ import { mockChannel } from '@storybook/addons';
 import { getEventMetadata } from '../lib/events';
 
 import { init as initStories } from '../modules/stories';
+import {
+  Story,
+  SetStoriesStoryData,
+  SetStoriesStory,
+  transformSetStoriesStoryDataToStoriesHash,
+  StoryIndex,
+} from '../lib/stories';
+import type Store from '../store';
+import { ModuleArgs } from '..';
 
-const mockStories = jest.fn();
+const mockStories: jest.MockedFunction<() => StoryIndex['entries']> = jest.fn();
 
 jest.mock('../lib/events');
 jest.mock('global', () => ({
-  ...jest.requireActual('global'),
+  ...(jest.requireActual('global') as Record<string, any>),
   fetch: jest.fn(() => ({ json: () => ({ v: 4, entries: mockStories() }) })),
   FEATURES: { storyStoreV7: true },
   CONFIG_TYPE: 'DEVELOPMENT',
 }));
 
+const getEventMetadataMock = getEventMetadata as jest.MockedFunction<typeof getEventMetadata>;
+
 beforeEach(() => {
-  getEventMetadata.mockReturnValue({ sourceType: 'local' });
+  getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
+  getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
   mockStories.mockReset().mockReturnValue({
     'component-a--story-1': {
+      id: 'component-a--story-1',
       title: 'Component A',
       name: 'Story 1',
       importPath: './path/to/component-a.ts',
     },
     'component-a--story-2': {
+      id: 'component-a--story-2',
       title: 'Component A',
       name: 'Story 2',
       importPath: './path/to/component-a.ts',
     },
     'component-b--story-3': {
+      id: 'component-b--story-3',
       title: 'Component B',
       name: 'Story 3',
       importPath: './path/to/component-b.ts',
@@ -47,21 +62,21 @@ beforeEach(() => {
   });
 });
 
-function createMockStore(initialState) {
-  let state = initialState || {};
+function createMockStore(initialState = {}) {
+  let state = initialState;
   return {
     getState: jest.fn(() => state),
     setState: jest.fn((s) => {
       state = { ...state, ...s };
       return Promise.resolve(state);
     }),
-  };
+  } as any as Store;
 }
 
-const provider = { getConfig: jest.fn() };
+const provider = { getConfig: jest.fn().mockReturnValue({}), serverChannel: mockChannel() };
 
 beforeEach(() => {
-  provider.getConfig.mockReturnValue({});
+  provider.getConfig.mockReset().mockReturnValue({});
   provider.serverChannel = mockChannel();
   global.fetch
     .mockReset()
@@ -73,7 +88,7 @@ describe('stories API', () => {
     const { state } = initStories({
       storyId: 'id',
       viewMode: 'story',
-    });
+    } as ModuleArgs);
 
     expect(state).toEqual({
       storiesConfigured: false,
@@ -83,57 +98,56 @@ describe('stories API', () => {
       hasCalledSetOptions: false,
     });
   });
-  const parameters = {};
-  const storiesHash = {
+  const parameters = {} as SetStoriesStory['parameters'];
+  const setStoriesData: SetStoriesStoryData = {
     'a--1': {
       kind: 'a',
       name: '1',
       parameters,
-      path: 'a--1',
       id: 'a--1',
       args: {},
-    },
+    } as SetStoriesStory,
     'a--2': {
       kind: 'a',
       name: '2',
       parameters,
-      path: 'a--2',
       id: 'a--2',
       args: {},
-    },
+    } as SetStoriesStory,
     'b-c--1': {
       kind: 'b/c',
       name: '1',
       parameters,
-      path: 'b-c--1',
       id: 'b-c--1',
       args: {},
-    },
+    } as SetStoriesStory,
     'b-d--1': {
       kind: 'b/d',
       name: '1',
       parameters,
-      path: 'b-d--1',
       id: 'b-d--1',
       args: {},
-    },
+    } as SetStoriesStory,
     'b-d--2': {
       kind: 'b/d',
       name: '2',
       parameters,
-      path: 'b-d--2',
       id: 'b-d--2',
       args: { a: 'b' },
-    },
+    } as SetStoriesStory,
     'custom-id--1': {
       kind: 'b/e',
       name: '1',
       parameters,
-      path: 'custom-id--1',
       id: 'custom-id--1',
       args: {},
-    },
+    } as SetStoriesStory,
   };
+
+  const storiesHash = transformSetStoriesStoryDataToStoriesHash(setStoriesData, {
+    provider,
+  } as any);
+
   describe('setStories', () => {
     beforeEach(() => {
       mockStories.mockRejectedValue(new Error('Fetch failed'));
@@ -141,14 +155,14 @@ describe('stories API', () => {
 
     it('stores basic kinds and stories w/ correct keys', () => {
       const navigate = jest.fn();
-      const store = createMockStore();
+      const store = createMockStore({});
 
       const {
         api: { setStories },
-      } = initStories({ store, navigate, provider });
+      } = initStories({ store, navigate, provider } as any as any);
 
       provider.getConfig.mockReturnValue({ sidebar: { showRoots: false } });
-      setStories(storiesHash);
+      setStories(setStoriesData);
 
       const { storiesHash: storedStoriesHash } = store.getState();
 
@@ -176,7 +190,7 @@ describe('stories API', () => {
       expect(storedStoriesHash['a--1']).toMatchObject({
         id: 'a--1',
         parent: 'a',
-        kind: 'a',
+        title: 'a',
         name: '1',
         parameters,
         args: {},
@@ -186,7 +200,7 @@ describe('stories API', () => {
       expect(storedStoriesHash['a--2']).toMatchObject({
         id: 'a--2',
         parent: 'a',
-        kind: 'a',
+        title: 'a',
         name: '2',
         parameters,
         args: {},
@@ -211,7 +225,7 @@ describe('stories API', () => {
       expect(storedStoriesHash['b-c--1']).toMatchObject({
         id: 'b-c--1',
         parent: 'b-c',
-        kind: 'b/c',
+        title: 'b/c',
         name: '1',
         parameters,
         args: {},
@@ -229,7 +243,7 @@ describe('stories API', () => {
       expect(storedStoriesHash['b-d--1']).toMatchObject({
         id: 'b-d--1',
         parent: 'b-d',
-        kind: 'b/d',
+        title: 'b/d',
         name: '1',
         parameters,
         args: {},
@@ -239,7 +253,7 @@ describe('stories API', () => {
       expect(storedStoriesHash['b-d--2']).toMatchObject({
         id: 'b-d--2',
         parent: 'b-d',
-        kind: 'b/d',
+        title: 'b/d',
         name: '2',
         parameters,
         args: { a: 'b' },
@@ -257,7 +271,7 @@ describe('stories API', () => {
       expect(storedStoriesHash['custom-id--1']).toMatchObject({
         id: 'custom-id--1',
         parent: 'b-e',
-        kind: 'b/e',
+        title: 'b/e',
         name: '1',
         parameters,
         args: {},
@@ -271,15 +285,14 @@ describe('stories API', () => {
 
       const {
         api: { setStories },
-      } = initStories({ store, navigate, provider });
+      } = initStories({ store, navigate, provider } as any);
 
       setStories({
         'design-system-some-component--my-story': {
+          id: 'design-system-some-component--my-story',
           kind: '  Design System  /  Some Component  ', // note the leading/trailing whitespace around each part of the path
           name: '  My Story  ', // we only trim the path, so this will be kept as-is (it may intentionally have whitespace)
           parameters,
-          path: 'design-system-some-component--my-story',
-          id: 'design-system-some-component--my-story',
           args: {},
         },
       });
@@ -302,7 +315,7 @@ describe('stories API', () => {
       });
       expect(storedStoriesHash['design-system-some-component--my-story']).toMatchObject({
         isLeaf: true,
-        kind: '  Design System  /  Some Component  ', // kind is kept as-is, because it may be used as identifier
+        title: '  Design System  /  Some Component  ', // title is kept as-is, because it may be used as identifier
         name: '  My Story  ', // story name is kept as-is, because it's set directly on the story
       });
     });
@@ -313,7 +326,7 @@ describe('stories API', () => {
 
       const {
         api: { setStories },
-      } = initStories({ store, navigate, provider });
+      } = initStories({ store, navigate, provider } as any);
 
       provider.getConfig.mockReturnValue({ sidebar: { showRoots: true } });
       setStories({
@@ -321,7 +334,6 @@ describe('stories API', () => {
           kind: 'a/b',
           name: '1',
           parameters,
-          path: 'a-b--1',
           id: 'a-b--1',
           args: {},
         },
@@ -347,8 +359,8 @@ describe('stories API', () => {
       expect(storedStoriesHash['a-b--1']).toMatchObject({
         id: 'a-b--1',
         parent: 'a-b',
-        kind: 'a/b',
         name: '1',
+        title: 'a/b',
         parameters,
         args: {},
       });
@@ -360,7 +372,7 @@ describe('stories API', () => {
 
       const {
         api: { setStories },
-      } = initStories({ store, navigate, provider });
+      } = initStories({ store, navigate, provider } as any);
 
       provider.getConfig.mockReturnValue({ sidebar: { showRoots: true } });
       setStories({
@@ -368,7 +380,6 @@ describe('stories API', () => {
           kind: 'a',
           name: '1',
           parameters,
-          path: 'a--1',
           id: 'a--1',
           args: {},
         },
@@ -387,7 +398,7 @@ describe('stories API', () => {
       expect(storedStoriesHash['a--1']).toMatchObject({
         id: 'a--1',
         parent: 'a',
-        kind: 'a',
+        title: 'a',
         name: '1',
         parameters,
         args: {},
@@ -402,12 +413,12 @@ describe('stories API', () => {
 
       const {
         api: { setStories },
-      } = initStories({ store, navigate, provider });
+      } = initStories({ store, navigate, provider } as any);
 
       await setStories({
-        'a--1': { kind: 'a', name: '1', parameters, path: 'a--1', id: 'a--1', args: {} },
-        'b--1': { kind: 'b', name: '1', parameters, path: 'b--1', id: 'b--1', args: {} },
-        'a--2': { kind: 'a', name: '2', parameters, path: 'a--2', id: 'a--2', args: {} },
+        'a--1': { kind: 'a', name: '1', parameters, id: 'a--1', args: {} },
+        'b--1': { kind: 'b', name: '1', parameters, id: 'b--1', args: {} },
+        'a--2': { kind: 'a', name: '2', parameters, id: 'a--2', args: {} },
       });
 
       const { storiesHash: storedStoriesHash } = store.getState();
@@ -440,7 +451,7 @@ describe('stories API', () => {
         },
       });
       const store = createMockStore({});
-      const { init, api } = initStories({ store, navigate, provider, fullAPI });
+      const { init, api } = initStories({ store, navigate, provider, fullAPI } as any);
 
       Object.assign(fullAPI, api);
       init();
@@ -457,7 +468,7 @@ describe('stories API', () => {
         },
       });
       const store = createMockStore({ viewMode: 'story', storyId: 'a--1' });
-      initStories({ store, navigate, provider, fullAPI });
+      initStories({ store, navigate, provider, fullAPI } as any);
 
       fullAPI.emit(STORY_SPECIFIED, { storyId: 'a--1', viewMode: 'story' });
 
@@ -472,7 +483,7 @@ describe('stories API', () => {
         },
       });
       const store = createMockStore({ viewMode: 'settings', storyId: 'about' });
-      initStories({ store, navigate, provider, fullAPI });
+      initStories({ store, navigate, provider, fullAPI } as any);
 
       fullAPI.emit(STORY_SPECIFIED, { storyId: 'a--1', viewMode: 'story' });
 
@@ -486,42 +497,42 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = new EventEmitter();
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI });
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
 
       Object.assign(fullAPI, api);
-      fullAPI.setStories({
-        'a--1': { kind: 'a', name: '1', parameters, path: 'a--1', id: 'a--1', args: { a: 'b' } },
-        'b--1': { kind: 'b', name: '1', parameters, path: 'b--1', id: 'b--1', args: { x: 'y' } },
+      (fullAPI as any as typeof api).setStories({
+        'a--1': { kind: 'a', name: '1', parameters, id: 'a--1', args: { a: 'b' } },
+        'b--1': { kind: 'b', name: '1', parameters, id: 'b--1', args: { x: 'y' } },
       });
 
       const { storiesHash: initialStoriesHash } = store.getState();
-      expect(initialStoriesHash['a--1'].args).toEqual({ a: 'b' });
-      expect(initialStoriesHash['b--1'].args).toEqual({ x: 'y' });
+      expect((initialStoriesHash['a--1'] as Story).args).toEqual({ a: 'b' });
+      expect((initialStoriesHash['b--1'] as Story).args).toEqual({ x: 'y' });
 
       init();
       fullAPI.emit(STORY_ARGS_UPDATED, { storyId: 'a--1', args: { foo: 'bar' } });
 
       const { storiesHash: changedStoriesHash } = store.getState();
-      expect(changedStoriesHash['a--1'].args).toEqual({ foo: 'bar' });
-      expect(changedStoriesHash['b--1'].args).toEqual({ x: 'y' });
+      expect((changedStoriesHash['a--1'] as Story).args).toEqual({ foo: 'bar' });
+      expect((changedStoriesHash['b--1'] as Story).args).toEqual({ x: 'y' });
     });
 
     it('changes reffed args properly, per story when receiving STORY_ARGS_UPDATED', () => {
       const navigate = jest.fn();
       const store = createMockStore();
       const fullAPI = new EventEmitter();
-      fullAPI.updateRef = jest.fn();
 
-      const { init, api } = initStories({ store, navigate, provider, fullAPI });
+      const { init, api } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
+      (fullAPI as any).updateRef = jest.fn();
 
       init();
-      getEventMetadata.mockReturnValueOnce({
+      getEventMetadataMock.mockReturnValueOnce({
         sourceType: 'external',
         ref: { id: 'refId', stories: { 'a--1': { args: { a: 'b' } } } },
-      });
+      } as any);
       fullAPI.emit(STORY_ARGS_UPDATED, { storyId: 'a--1', args: { foo: 'bar' } });
-      expect(fullAPI.updateRef).toHaveBeenCalledWith('refId', {
+      expect((fullAPI as any).updateRef).toHaveBeenCalledWith('refId', {
         stories: { 'a--1': { args: { foo: 'bar' } } },
       });
     });
@@ -533,17 +544,17 @@ describe('stories API', () => {
       const fullAPI = { emit, on };
       const store = createMockStore();
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI });
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
 
       api.setStories({
-        'a--1': { kind: 'a', name: '1', parameters, path: 'a--1', id: 'a--1', args: { a: 'b' } },
-        'b--1': { kind: 'b', name: '1', parameters, path: 'b--1', id: 'b--1', args: { x: 'y' } },
+        'a--1': { kind: 'a', name: '1', parameters, id: 'a--1', args: { a: 'b' } },
+        'b--1': { kind: 'b', name: '1', parameters, id: 'b--1', args: { x: 'y' } },
       });
 
       Object.assign(fullAPI, api);
       init();
 
-      api.updateStoryArgs({ id: 'a--1' }, { foo: 'bar' });
+      api.updateStoryArgs({ id: 'a--1' } as Story, { foo: 'bar' });
       expect(emit).toHaveBeenCalledWith(UPDATE_STORY_ARGS, {
         storyId: 'a--1',
         updatedArgs: { foo: 'bar' },
@@ -553,8 +564,8 @@ describe('stories API', () => {
       });
 
       const { storiesHash: changedStoriesHash } = store.getState();
-      expect(changedStoriesHash['a--1'].args).toEqual({ a: 'b' });
-      expect(changedStoriesHash['b--1'].args).toEqual({ x: 'y' });
+      expect((changedStoriesHash['a--1'] as Story).args).toEqual({ a: 'b' });
+      expect((changedStoriesHash['b--1'] as Story).args).toEqual({ x: 'y' });
     });
 
     it('updateStoryArgs emits UPDATE_STORY_ARGS to the right frame', () => {
@@ -564,17 +575,17 @@ describe('stories API', () => {
       const fullAPI = { emit, on };
       const store = createMockStore();
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI });
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
 
       api.setStories({
-        'a--1': { kind: 'a', name: '1', parameters, path: 'a--1', id: 'a--1', args: { a: 'b' } },
-        'b--1': { kind: 'b', name: '1', parameters, path: 'b--1', id: 'b--1', args: { x: 'y' } },
+        'a--1': { kind: 'a', name: '1', parameters, id: 'a--1', args: { a: 'b' } },
+        'b--1': { kind: 'b', name: '1', parameters, id: 'b--1', args: { x: 'y' } },
       });
 
       Object.assign(fullAPI, api);
       init();
 
-      api.updateStoryArgs({ id: 'a--1', refId: 'refId' }, { foo: 'bar' });
+      api.updateStoryArgs({ id: 'a--1', refId: 'refId' } as Story, { foo: 'bar' });
       expect(emit).toHaveBeenCalledWith(UPDATE_STORY_ARGS, {
         storyId: 'a--1',
         updatedArgs: { foo: 'bar' },
@@ -591,17 +602,17 @@ describe('stories API', () => {
       const fullAPI = { emit, on };
       const store = createMockStore();
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI });
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
 
       api.setStories({
-        'a--1': { kind: 'a', name: '1', parameters, path: 'a--1', id: 'a--1', args: { a: 'b' } },
-        'b--1': { kind: 'b', name: '1', parameters, path: 'b--1', id: 'b--1', args: { x: 'y' } },
+        'a--1': { kind: 'a', name: '1', parameters, id: 'a--1', args: { a: 'b' } },
+        'b--1': { kind: 'b', name: '1', parameters, id: 'b--1', args: { x: 'y' } },
       });
 
       Object.assign(fullAPI, api);
       init();
 
-      api.resetStoryArgs({ id: 'a--1' }, ['foo']);
+      api.resetStoryArgs({ id: 'a--1' } as Story, ['foo']);
       expect(emit).toHaveBeenCalledWith(RESET_STORY_ARGS, {
         storyId: 'a--1',
         argNames: ['foo'],
@@ -611,8 +622,8 @@ describe('stories API', () => {
       });
 
       const { storiesHash: changedStoriesHash } = store.getState();
-      expect(changedStoriesHash['a--1'].args).toEqual({ a: 'b' });
-      expect(changedStoriesHash['b--1'].args).toEqual({ x: 'y' });
+      expect((changedStoriesHash['a--1'] as Story).args).toEqual({ a: 'b' });
+      expect((changedStoriesHash['b--1'] as Story).args).toEqual({ x: 'y' });
     });
 
     it('resetStoryArgs emits RESET_STORY_ARGS to the right frame', () => {
@@ -622,17 +633,17 @@ describe('stories API', () => {
       const fullAPI = { emit, on };
       const store = createMockStore();
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI });
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
 
       api.setStories({
-        'a--1': { kind: 'a', name: '1', parameters, path: 'a--1', id: 'a--1', args: { a: 'b' } },
-        'b--1': { kind: 'b', name: '1', parameters, path: 'b--1', id: 'b--1', args: { x: 'y' } },
+        'a--1': { kind: 'a', name: '1', parameters, id: 'a--1', args: { a: 'b' } },
+        'b--1': { kind: 'b', name: '1', parameters, id: 'b--1', args: { x: 'y' } },
       });
 
       Object.assign(fullAPI, api);
       init();
 
-      api.resetStoryArgs({ id: 'a--1', refId: 'refId' }, ['foo']);
+      api.resetStoryArgs({ id: 'a--1', refId: 'refId' } as Story, ['foo']);
       expect(emit).toHaveBeenCalledWith(RESET_STORY_ARGS, {
         storyId: 'a--1',
         argNames: ['foo'],
@@ -651,9 +662,9 @@ describe('stories API', () => {
       const {
         api: { setStories, jumpToStory },
         state,
-      } = initStories({ store, navigate, storyId: 'a--1', viewMode: 'story', provider });
+      } = initStories({ store, navigate, storyId: 'a--1', viewMode: 'story', provider } as any);
       store.setState(state);
-      setStories(storiesHash);
+      setStories(setStoriesData);
 
       jumpToStory(1);
       expect(navigate).toHaveBeenCalledWith('/story/a--2');
@@ -666,9 +677,9 @@ describe('stories API', () => {
       const {
         api: { setStories, jumpToStory },
         state,
-      } = initStories({ store, navigate, storyId: 'a--2', viewMode: 'story', provider });
+      } = initStories({ store, navigate, storyId: 'a--2', viewMode: 'story', provider } as any);
       store.setState(state);
-      setStories(storiesHash);
+      setStories(setStoriesData);
 
       jumpToStory(-1);
       expect(navigate).toHaveBeenCalledWith('/story/a--1');
@@ -681,9 +692,15 @@ describe('stories API', () => {
       const {
         api: { setStories, jumpToStory },
         state,
-      } = initStories({ store, navigate, storyId: 'custom-id--1', viewMode: 'story', provider });
+      } = initStories({
+        store,
+        navigate,
+        storyId: 'custom-id--1',
+        viewMode: 'story',
+        provider,
+      } as any);
       store.setState(state);
-      setStories(storiesHash);
+      setStories(setStoriesData);
 
       jumpToStory(1);
       expect(navigate).not.toHaveBeenCalled();
@@ -696,9 +713,9 @@ describe('stories API', () => {
       const {
         api: { setStories, jumpToStory },
         state,
-      } = initStories({ store, navigate, storyId: 'a--1', viewMode: 'story', provider });
+      } = initStories({ store, navigate, storyId: 'a--1', viewMode: 'story', provider } as any);
       store.setState(state);
-      setStories(storiesHash);
+      setStories(setStoriesData);
 
       jumpToStory(-1);
       expect(navigate).not.toHaveBeenCalled();
@@ -710,7 +727,7 @@ describe('stories API', () => {
 
       const {
         api: { jumpToStory },
-      } = initStories({ store, navigate, provider });
+      } = initStories({ store, navigate, provider } as any);
 
       jumpToStory(1);
       expect(navigate).not.toHaveBeenCalled();
@@ -726,9 +743,9 @@ describe('stories API', () => {
       const {
         api: { setStories, findSiblingStoryId },
         state,
-      } = initStories({ store, navigate, storyId, viewMode: 'story', provider });
+      } = initStories({ store, navigate, storyId, viewMode: 'story', provider } as any);
       store.setState(state);
-      setStories(storiesHash);
+      setStories(setStoriesData);
 
       const result = findSiblingStoryId(storyId, storiesHash, 1, false);
       expect(result).toBe('a--2');
@@ -741,9 +758,9 @@ describe('stories API', () => {
       const {
         api: { setStories, findSiblingStoryId },
         state,
-      } = initStories({ store, navigate, storyId, viewMode: 'story', provider });
+      } = initStories({ store, navigate, storyId, viewMode: 'story', provider } as any);
       store.setState(state);
-      setStories(storiesHash);
+      setStories(setStoriesData);
 
       const result = findSiblingStoryId(storyId, store.getState().storiesHash, 1, true);
       expect(result).toBe('b-c--1');
@@ -757,9 +774,9 @@ describe('stories API', () => {
       const {
         api: { setStories, jumpToComponent },
         state,
-      } = initStories({ store, navigate, storyId: 'a--1', viewMode: 'story', provider });
+      } = initStories({ store, navigate, storyId: 'a--1', viewMode: 'story', provider } as any);
       store.setState(state);
-      setStories(storiesHash);
+      setStories(setStoriesData);
 
       jumpToComponent(1);
       expect(navigate).toHaveBeenCalledWith('/story/b-c--1');
@@ -772,9 +789,9 @@ describe('stories API', () => {
       const {
         api: { setStories, jumpToComponent },
         state,
-      } = initStories({ store, navigate, storyId: 'b-c--1', viewMode: 'story', provider });
+      } = initStories({ store, navigate, storyId: 'b-c--1', viewMode: 'story', provider } as any);
       store.setState(state);
-      setStories(storiesHash);
+      setStories(setStoriesData);
 
       jumpToComponent(-1);
       expect(navigate).toHaveBeenCalledWith('/story/a--1');
@@ -787,9 +804,15 @@ describe('stories API', () => {
       const {
         api: { setStories, jumpToComponent },
         state,
-      } = initStories({ store, navigate, storyId: 'custom-id--1', viewMode: 'story', provider });
+      } = initStories({
+        store,
+        navigate,
+        storyId: 'custom-id--1',
+        viewMode: 'story',
+        provider,
+      } as any);
       store.setState(state);
-      setStories(storiesHash);
+      setStories(setStoriesData);
 
       jumpToComponent(1);
       expect(navigate).not.toHaveBeenCalled();
@@ -802,9 +825,9 @@ describe('stories API', () => {
       const {
         api: { setStories, jumpToComponent },
         state,
-      } = initStories({ store, navigate, storyId: 'a--2', viewMode: 'story', provider });
+      } = initStories({ store, navigate, storyId: 'a--2', viewMode: 'story', provider } as any);
       store.setState(state);
-      setStories(storiesHash);
+      setStories(setStoriesData);
 
       jumpToComponent(-1);
       expect(navigate).not.toHaveBeenCalled();
@@ -820,7 +843,7 @@ describe('stories API', () => {
 
       const {
         api: { selectStory },
-      } = initStories({ store, navigate, provider });
+      } = initStories({ store, navigate, provider } as any);
 
       selectStory('a--2');
       expect(navigate).toHaveBeenCalledWith('/story/a--2');
@@ -834,7 +857,7 @@ describe('stories API', () => {
 
       const {
         api: { selectStory },
-      } = initStories({ store, navigate, provider });
+      } = initStories({ store, navigate, provider } as any);
 
       selectStory('a', '2');
       expect(navigate).toHaveBeenCalledWith('/story/a--2');
@@ -848,7 +871,7 @@ describe('stories API', () => {
 
       const {
         api: { selectStory },
-      } = initStories({ store, navigate, provider });
+      } = initStories({ store, navigate, provider } as any);
 
       selectStory(null, '2');
       expect(navigate).toHaveBeenCalledWith('/story/a--2');
@@ -862,7 +885,7 @@ describe('stories API', () => {
 
       const {
         api: { selectStory },
-      } = initStories({ store, navigate, provider });
+      } = initStories({ store, navigate, provider } as any);
 
       selectStory('a--2');
       expect(navigate).toHaveBeenCalledWith('/story/a--2');
@@ -875,9 +898,9 @@ describe('stories API', () => {
       const {
         api: { selectStory, setStories },
         state,
-      } = initStories({ store, navigate, provider });
+      } = initStories({ store, navigate, provider } as any);
       store.setState(state);
-      setStories(storiesHash);
+      setStories(setStoriesData);
 
       selectStory('a');
       expect(navigate).toHaveBeenCalledWith('/story/a--1');
@@ -890,12 +913,12 @@ describe('stories API', () => {
       const {
         api: { selectStory, setStories },
         state,
-      } = initStories({ store, navigate, provider });
+      } = initStories({ store, navigate, provider } as any);
       store.setState({
         ...state,
         storyId: 'a--2',
       });
-      setStories(storiesHash);
+      setStories(setStoriesData);
 
       selectStory();
       expect(navigate).toHaveBeenCalledWith('/story/a--1');
@@ -909,9 +932,9 @@ describe('stories API', () => {
         const {
           api: { selectStory, setStories },
           state,
-        } = initStories({ store, navigate, provider });
+        } = initStories({ store, navigate, provider } as any);
         store.setState(state);
-        setStories(storiesHash);
+        setStories(setStoriesData);
 
         selectStory('b/e', '1');
         expect(navigate).toHaveBeenCalledWith('/story/custom-id--1');
@@ -924,9 +947,9 @@ describe('stories API', () => {
         const {
           api: { selectStory, setStories },
           state,
-        } = initStories({ store, navigate, provider });
+        } = initStories({ store, navigate, provider } as any);
         store.setState(state);
-        setStories(storiesHash);
+        setStories(setStoriesData);
 
         selectStory('custom-id', '1');
         expect(navigate).toHaveBeenCalledWith('/story/custom-id--1');
@@ -939,9 +962,9 @@ describe('stories API', () => {
         const {
           api: { selectStory, setStories },
           state,
-        } = initStories({ store, navigate, provider });
+        } = initStories({ store, navigate, provider } as any);
         store.setState(state);
-        setStories(storiesHash);
+        setStories(setStoriesData);
 
         selectStory('b/e');
         expect(navigate).toHaveBeenCalledWith('/story/custom-id--1');
@@ -952,11 +975,11 @@ describe('stories API', () => {
   describe('fetchStoryIndex', () => {
     it('deals with 500 errors', async () => {
       const navigate = jest.fn();
-      const store = createMockStore();
+      const store = createMockStore({});
       const fullAPI = Object.assign(new EventEmitter(), {});
 
       global.fetch.mockReturnValue({ status: 500, text: async () => new Error('sorting error') });
-      const { api, init } = initStories({ store, navigate, provider, fullAPI });
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       await init();
@@ -973,7 +996,7 @@ describe('stories API', () => {
         setStories: jest.fn(),
       });
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI });
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       await init();
@@ -998,11 +1021,11 @@ describe('stories API', () => {
       expect(storedStoriesHash['component-a--story-1']).toMatchObject({
         id: 'component-a--story-1',
         parent: 'component-a',
-        kind: 'Component A',
+        title: 'Component A',
         name: 'Story 1',
         prepared: false,
       });
-      expect(storedStoriesHash['component-a--story-1'].args).toBeUndefined();
+      expect((storedStoriesHash['component-a--story-1'] as Story as Story).args).toBeUndefined();
     });
 
     it('watches for the INVALIDATE event and refetches -- and resets the hash', async () => {
@@ -1012,7 +1035,7 @@ describe('stories API', () => {
         setStories: jest.fn(),
       });
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI });
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       global.fetch.mockClear();
@@ -1022,6 +1045,7 @@ describe('stories API', () => {
       global.fetch.mockClear();
       mockStories.mockReturnValueOnce({
         'component-a--story-1': {
+          id: 'component-a--story-1',
           title: 'Component A',
           name: 'Story 1',
           importPath: './path/to/component-a.ts',
@@ -1040,21 +1064,25 @@ describe('stories API', () => {
     it('infers docs only if there is only one story and it has the name "Page"', async () => {
       mockStories.mockReset().mockReturnValue({
         'component-a--page': {
+          id: 'component-a--page',
           title: 'Component A',
           name: 'Page', // Called "Page" but not only story
           importPath: './path/to/component-a.ts',
         },
         'component-a--story-2': {
+          id: 'component-a--story-2',
           title: 'Component A',
           name: 'Story 2',
           importPath: './path/to/component-a.ts',
         },
         'component-b--page': {
+          id: 'component-b--page',
           title: 'Component B',
           name: 'Page', // Page and only story
           importPath: './path/to/component-b.ts',
         },
         'component-c--story-4': {
+          id: 'component-c--story-4',
           title: 'Component c',
           name: 'Story 4', // Only story but not page
           importPath: './path/to/component-c.ts',
@@ -1067,7 +1095,7 @@ describe('stories API', () => {
         setStories: jest.fn(),
       });
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI });
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       await init();
@@ -1084,10 +1112,10 @@ describe('stories API', () => {
         'component-c',
         'component-c--story-4',
       ]);
-      expect(storedStoriesHash['component-a--page'].parameters.docsOnly).toBe(false);
-      expect(storedStoriesHash['component-a--story-2'].parameters.docsOnly).toBe(false);
-      expect(storedStoriesHash['component-b--page'].parameters.docsOnly).toBe(true);
-      expect(storedStoriesHash['component-c--story-4'].parameters.docsOnly).toBe(false);
+      expect((storedStoriesHash['component-a--page'] as Story).parameters.docsOnly).toBe(false);
+      expect((storedStoriesHash['component-a--story-2'] as Story).parameters.docsOnly).toBe(false);
+      expect((storedStoriesHash['component-b--page'] as Story).parameters.docsOnly).toBe(true);
+      expect((storedStoriesHash['component-c--story-4'] as Story).parameters.docsOnly).toBe(false);
     });
   });
 
@@ -1100,7 +1128,7 @@ describe('stories API', () => {
         setOptions: jest.fn(),
       });
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI });
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       await init();
@@ -1114,7 +1142,7 @@ describe('stories API', () => {
       expect(storedStoriesHash['component-a--story-1']).toMatchObject({
         id: 'component-a--story-1',
         parent: 'component-a',
-        kind: 'Component A',
+        title: 'Component A',
         name: 'Story 1',
         prepared: true,
         parameters: { a: 'b' },
@@ -1130,7 +1158,7 @@ describe('stories API', () => {
         setOptions: jest.fn(),
       });
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI });
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       await init();
@@ -1158,13 +1186,13 @@ describe('stories API', () => {
         updateRef: jest.fn(),
       });
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI });
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
-      getEventMetadata.mockReturnValueOnce({
+      getEventMetadataMock.mockReturnValueOnce({
         sourceType: 'external',
         ref: { id: 'refId', stories: { 'a--1': { args: { a: 'b' } } } },
-      });
+      } as any);
       await init();
 
       fullAPI.emit(STORY_PREPARED, {
@@ -1189,7 +1217,7 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter(), {});
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI });
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       await init();
@@ -1213,7 +1241,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const store = createMockStore();
 
-      const { init, api } = initStories({ store, navigate, provider, fullAPI });
+      const { init, api } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api, { setStories: jest.fn() });
       init();
 
@@ -1235,7 +1263,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const store = createMockStore();
 
-      const { init, api } = initStories({ store, navigate, provider, fullAPI });
+      const { init, api } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api, {
         setStories: jest.fn(),
         findRef: jest.fn(),
@@ -1243,7 +1271,10 @@ describe('stories API', () => {
       });
       init();
 
-      getEventMetadata.mockReturnValueOnce({ sourceType: 'external', ref: { id: 'ref' } });
+      getEventMetadataMock.mockReturnValueOnce({
+        sourceType: 'external',
+        ref: { id: 'ref' },
+      } as any);
       const setStoriesPayload = {
         v: 2,
         globalParameters: { global: 'global' },
@@ -1277,7 +1308,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const store = createMockStore();
 
-      const { init, api } = initStories({ store, navigate, provider, fullAPI });
+      const { init, api } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api, { getCurrentParameter: jest.fn().mockReturnValue('options') });
       init();
 
@@ -1299,7 +1330,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const store = createMockStore();
 
-      const { init, api } = initStories({ store, navigate, provider, fullAPI });
+      const { init, api } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api, {
         setStories: jest.fn(),
         findRef: jest.fn(),
@@ -1307,7 +1338,10 @@ describe('stories API', () => {
       });
       init();
 
-      getEventMetadata.mockReturnValueOnce({ sourceType: 'external', ref: { id: 'ref' } });
+      getEventMetadataMock.mockReturnValueOnce({
+        sourceType: 'external',
+        ref: { id: 'ref' },
+      } as any);
       const setStoriesPayload = {
         stories: { 'a--1': {} },
       };
