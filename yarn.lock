@@ -33918,7 +33918,7 @@ __metadata:
     uuid-browser: ^3.1.0
     webpack: 4
   peerDependencies:
-    puppeteer: ^2.0.0 || ^3.0.0
+    puppeteer: ">=2.0.0 < 9"
   languageName: unknown
   linkType: soft
 
