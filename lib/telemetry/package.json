@@ -44,6 +44,7 @@
     "@storybook/core-common": "6.5.0-alpha.61",
     "chalk": "^4.1.0",
     "core-js": "^3.8.2",
+    "detect-package-manager": "^2.0.1",
     "fetch-retry": "^5.0.2",
     "fs-extra": "^9.0.1",
     "global": "^4.4.0",

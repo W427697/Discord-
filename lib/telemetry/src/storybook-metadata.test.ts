@@ -33,6 +33,11 @@ jest.mock('./get-monorepo-type', () => ({
   getMonorepoType: () => 'Nx',
 }));
 
+jest.mock('detect-package-manager', () => ({
+  detect: () => 'Yarn',
+  getNpmVersion: () => '3.1.1',
+}));
+
 describe('await computeStorybookMetadata', () => {
   test('should return frameworkOptions from mainjs', async () => {
     const reactResult = await computeStorybookMetadata({

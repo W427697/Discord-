@@ -1,4 +1,5 @@
 import type { StorybookConfig, TypescriptOptions } from '@storybook/core-common';
+import type { PM } from 'detect-package-manager';
 
 import type { MonorepoType } from './get-monorepo-type';
 
@@ -32,6 +33,10 @@ export type StorybookMetadata = {
     options?: Record<string, any>;
   };
   monorepo?: MonorepoType;
+  packageManager?: {
+    type: PM;
+    version: string;
+  };
   typescriptOptions?: Partial<TypescriptOptions>;
   addons?: Record<string, StorybookAddon>;
   storybookPackages?: Record<string, Dependency>;
