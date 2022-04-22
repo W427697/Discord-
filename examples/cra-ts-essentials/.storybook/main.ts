@@ -30,7 +30,8 @@ const mainConfig: StorybookConfig = {
   staticDirs: ['../public'],
   features: {
     buildStoriesJson: true,
+    breakingChangesV7: true,
   },
+  framework: '@storybook/react',
 };
-
 module.exports = mainConfig;

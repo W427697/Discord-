@@ -10,7 +10,7 @@ import { moduleIsAvailable } from './utils/module-is-available';
 import { getWebpackConfig as getWebpackConfig12_2_x } from './angular-cli-webpack-12.2.x';
 import { getWebpackConfig as getWebpackConfig13_x_x } from './angular-cli-webpack-13.x.x';
 import { getWebpackConfig as getWebpackConfigOlder } from './angular-cli-webpack-older';
-import { PresetOptions } from './options';
+import type { PresetOptions } from './preset-options';
 import {
   getDefaultProjectName,
   findAngularProjectTarget,

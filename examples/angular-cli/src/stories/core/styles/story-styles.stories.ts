@@ -1,6 +1,6 @@
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { action } from '@storybook/addon-actions';
-import { Button } from '@storybook/angular/demo';
+import { Button } from '../../angular-demo';
 
 export default {
   title: 'Core / Story host styles',

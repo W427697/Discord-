@@ -1,5 +1,4 @@
 import dedent from 'ts-dedent';
-import { resolve } from 'path';
 import { logger } from '@storybook/node-logger';
 import {
   CLIOptions,
@@ -10,7 +9,6 @@ import {
   BuilderOptions,
 } from './types';
 import { loadCustomPresets } from './utils/load-custom-presets';
-import { serverRequire } from './utils/interpret-require';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
 
 const isObject = (val: unknown): val is Record<string, any> =>
@@ -195,18 +193,18 @@ export function loadPreset(
     }
 
     if (isObject(contents)) {
-      const { addons: addonsInput, presets: presetsInput, framework, ...rest } = contents;
+      const { addons: addonsInput, presets: presetsInput, ...rest } = contents;
 
       const subPresets = resolvePresetFunction(
         presetsInput,
         presetOptions,
-        framework,
+        rest.framework,
         storybookOptions
       );
       const subAddons = resolvePresetFunction(
         addonsInput,
         presetOptions,
-        framework,
+        rest.framework,
         storybookOptions
       );
 
@@ -324,42 +322,18 @@ export function getPresets(presets: PresetConfig[], storybookOptions: InterPrese
   };
 }
 
-/**
- * Get the `framework` provided in main.js and also do error checking up front
- */
-const getFrameworkPackage = (configDir: string) => {
-  const main = serverRequire(resolve(configDir, 'main'));
-  if (!main) return null;
-  const { framework: frameworkPackage, features = {} } = main;
-  if (features.breakingChangesV7 && !frameworkPackage) {
-    throw new Error(dedent`
-      Expected 'framework' in your main.js, didn't find one.
-
-      You can fix this automatically by running:
-
-      npx sb@next automigrate
-    
-      More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field
-    `);
-  }
-  return frameworkPackage;
-};
-
 export function loadAllPresets(
   options: CLIOptions &
     LoadOptions &
     BuilderOptions & {
       corePresets: string[];
       overridePresets: string[];
-      frameworkPresets: string[];
     }
 ) {
-  const { corePresets = [], frameworkPresets = [], overridePresets = [], ...restOptions } = options;
+  const { corePresets = [], overridePresets = [], ...restOptions } = options;
 
-  const frameworkPackage = getFrameworkPackage(options.configDir);
   const presetsConfig: PresetConfig[] = [
     ...corePresets,
-    ...(frameworkPackage ? [] : frameworkPresets),
     ...loadCustomPresets(options),
     ...overridePresets,
   ];

@@ -3,12 +3,13 @@
   "version": "6.5.0-alpha.64",
   "private": true,
   "scripts": {
-    "build-storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true build-storybook -c ./",
-    "debug": "cross-env NODE_OPTIONS=--inspect-brk STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true start-storybook -p 9011 -c ./",
+    "build-storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb build -c ./",
+    "debug": "cross-env NODE_OPTIONS=--inspect-brk STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true yarn sb dev -p 9011 -c ./",
     "do-storyshots-puppeteer": "../../node_modules/.bin/jest --projects=./storyshots-puppeteer",
     "generate-addon-jest-testresults": "jest --config=tests/addon-jest.config.json --json --outputFile=stories/addon-jest.testresults.json",
-    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true start-storybook -p 9011 -c ./ --no-manager-cache",
-    "storyshots-puppeteer": "yarn run build-storybook && yarn run do-storyshots-puppeteer"
+    "sb": "node ../../lib/cli/bin/index.js",
+    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true yarn sb dev -p 9011 -c ./ --no-manager-cache",
+    "storyshots-puppeteer": "yarn run sb build && yarn run do-storyshots-puppeteer"
   },
   "devDependencies": {
     "@emotion/jest": "^11.8.0",

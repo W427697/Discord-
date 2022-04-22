@@ -37,4 +37,8 @@ module.exports = {
     builder: 'webpack4',
   },
   staticDirs: ['../public'],
+  features: {
+    breakingChangesV7: true,
+  },
+  framework: '@storybook/svelte',
 };

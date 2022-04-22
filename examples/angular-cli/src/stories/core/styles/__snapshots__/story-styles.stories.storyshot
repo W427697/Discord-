@@ -4,12 +4,9 @@ exports[`Storyshots Core / Story host styles With Args 1`] = `
 <storybook-wrapper>
   <storybook-button-component
     _ngcontent-a-c155=""
-    _nghost-a-c47=""
     ng-reflect-text="Button with custom styles"
   >
-    <button
-      _ngcontent-a-c47=""
-    >
+    <button>
       Button with custom styles
     </button>
   </storybook-button-component>
@@ -20,12 +17,9 @@ exports[`Storyshots Core / Story host styles With story template 1`] = `
 <storybook-wrapper>
   <storybook-button-component
     _ngcontent-a-c154=""
-    _nghost-a-c47=""
     ng-reflect-text="Button with custom styles"
   >
-    <button
-      _ngcontent-a-c47=""
-    >
+    <button>
       Button with custom styles
     </button>
   </storybook-button-component>

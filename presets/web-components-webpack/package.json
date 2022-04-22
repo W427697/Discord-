@@ -1,0 +1,69 @@
+{
+  "name": "@storybook/preset-web-components-webpack",
+  "version": "6.5.0-alpha.64",
+  "description": "Storybook for web-components: View web components snippets in isolation with Hot Reloading.",
+  "keywords": [
+    "lit-html",
+    "storybook",
+    "web-components"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/web-components-webpack",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "presets/web-components-webpack"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "main": "dist/cjs/preset.js",
+  "module": "dist/esm/preset.js",
+  "types": "dist/ts3.9/preset.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "dist/ts3.9/*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-syntax-import-meta": "^7.10.4",
+    "@babel/preset-env": "^7.12.11",
+    "@storybook/core-common": "6.5.0-alpha.64",
+    "@types/node": "^14.14.20 || ^16.0.0",
+    "babel-plugin-bundled-import-meta": "^0.3.1",
+    "core-js": "^3.8.2",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "regenerator-runtime": "^0.13.7"
+  },
+  "devDependencies": {
+    "lit-html": "2.0.2"
+  },
+  "peerDependencies": {
+    "lit-html": "^1.4.1 || ^2.0.0"
+  },
+  "engines": {
+    "node": ">=10.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "7417a230d67b54d65caedcfb584f924b879ac9f5",
+  "sbmodern": "dist/modern/preset.js"
+}

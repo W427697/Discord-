@@ -1,4 +1,5 @@
 import path from 'path';
+import dedent from 'ts-dedent';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin } from 'webpack';
 // @ts-ignore
 import type { Configuration, RuleSetRule } from '@types/webpack';
@@ -58,16 +59,26 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     quiet,
     packageJson,
     configType,
-    framework,
-    frameworkPath,
     presets,
     previewUrl,
     typescriptOptions,
     features,
     serverChannelUrl,
   } = options;
+
+  const framework = await presets.apply('framework', undefined);
+  if (!framework) {
+    throw new Error(dedent`
+      You must to specify a framework in '.storybook/main.js' config.
+
+      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-field-mandatory
+    `);
+  }
+  const { name: frameworkName, options: frameworkOptions } =
+    typeof framework === 'string' ? { name: framework, options: {} } : framework;
+
   const logLevel = await presets.apply('logLevel', undefined);
-  const frameworkOptions = await presets.apply(`${framework}Options`, {});
+  // FIXME: const frameworkOptions = await presets.apply(`${framework}Options`, {});
 
   const headHtmlSnippet = await presets.apply('previewHead');
   const bodyHtmlSnippet = await presets.apply('previewBody');
@@ -75,7 +86,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
   const envs = await presets.apply<Record<string, string>>('env');
   const coreOptions = await presets.apply<CoreConfig>('core');
 
-  const babelLoader = createBabelLoader(babelOptions, framework);
+  const babelLoader = createBabelLoader(babelOptions, frameworkName);
   const isProd = configType === 'PRODUCTION';
 
   const configs = [
@@ -115,8 +126,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     const frameworkInitEntry = path.resolve(
       path.join(workingDir, 'storybook-init-framework-entry.js')
     );
-    const frameworkImportPath = frameworkPath || `@storybook/${framework}`;
-    virtualModuleMapping[frameworkInitEntry] = `import '${frameworkImportPath}';`;
+    virtualModuleMapping[frameworkInitEntry] = `import '${frameworkName}';`;
     entries.push(frameworkInitEntry);
 
     const entryTemplate = await readTemplate(
@@ -142,14 +152,14 @@ export default async (options: Options & Record<string, any>): Promise<Configura
         path.join(__dirname, 'virtualModuleStory.template.js')
       );
       const storiesFilename = path.resolve(path.join(workingDir, `generated-stories-entry.js`));
-      virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, { frameworkImportPath })
+      virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, { frameworkName })
         // Make sure we also replace quotes for this one
         .replace("'{{stories}}'", stories.map(toRequireContextString).join(','));
       entries.push(storiesFilename);
     }
   }
 
-  const shouldCheckTs = useBaseTsSupport(framework) && typescriptOptions.check;
+  const shouldCheckTs = useBaseTsSupport(frameworkName) && typescriptOptions.check;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
 
   return {

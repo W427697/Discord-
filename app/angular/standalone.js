@@ -1,8 +1,7 @@
-const build = require('@storybook/core/standalone');
-const frameworkOptions = require('./dist/ts3.9/server/options').default;
+const build = require('@storybook/core-server/standalone');
 
 async function buildStandalone(options) {
-  return build(options, frameworkOptions);
+  return build(options);
 }
 
 module.exports = buildStandalone;

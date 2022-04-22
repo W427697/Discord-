@@ -12,10 +12,7 @@ exports[`Storyshots Core/Parameters passed to story 1`] = `
   "globalParameter": "globalParameter",
   "chapterParameter": "chapterParameter",
   "storyParameter": "storyParameter",
-  "__isArgsStory": true,
-  "__id": "core-parameters--passed-to-story",
-  "args": {},
-  "argTypes": {}
+  "__isArgsStory": true
 }
   </pre>
 </div>

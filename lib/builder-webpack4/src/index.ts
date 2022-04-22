@@ -40,7 +40,7 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
   const { presets } = options;
   const typescriptOptions = await presets.apply('typescript', {}, options);
   const babelOptions = await presets.apply('babel', {}, { ...options, typescriptOptions });
-  const frameworkOptions = await presets.apply(`${options.framework}Options`, {}, options);
+  const framework = await presets.apply<any>('framework', {}, options);
 
   return presets.apply(
     'webpack',
@@ -49,7 +49,7 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
       ...options,
       babelOptions,
       typescriptOptions,
-      [`${options.framework}Options`]: frameworkOptions,
+      frameworkOptions: framework?.options,
     }
   ) as Configuration;
 };

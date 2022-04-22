@@ -249,10 +249,6 @@
       "root": "lib/components",
       "type": "library"
     },
-    "@storybook/core": {
-      "root": "lib/core",
-      "type": "library"
-    },
     "@storybook/core-client": {
       "root": "lib/core-client",
       "type": "library"
@@ -307,6 +303,70 @@
     },
     "@storybook/preview-web": {
       "root": "lib/preview-web",
+      "type": "library"
+    },
+    "@storybook/preset-html-webpack": {
+      "root": "presets/html-webpack",
+      "type": "library"
+    },
+    "@storybook/preset-preact-webpack": {
+      "root": "presets/preact-webpack",
+      "type": "library"
+    },
+    "@storybook/preset-react-webpack": {
+      "root": "presets/react-webpack",
+      "type": "library"
+    },
+    "@storybook/preset-server-webpack": {
+      "root": "presets/server-webpack",
+      "type": "library"
+    },
+    "@storybook/preset-svelte-webpack": {
+      "root": "presets/svelte-webpack",
+      "type": "library"
+    },
+    "@storybook/preset-vue-webpack": {
+      "root": "presets/vue-webpack",
+      "type": "library"
+    },
+    "@storybook/preset-vue3-webpack": {
+      "root": "presets/vue3-webpack",
+      "type": "library"
+    },
+    "@storybook/preset-web-components-webpack": {
+      "root": "presets/web-components-webpack",
+      "type": "library"
+    },
+    "@storybook/renderer-html": {
+      "root": "renderers/html",
+      "type": "library"
+    },
+    "@storybook/renderer-preact": {
+      "root": "renderers/preact",
+      "type": "library"
+    },
+    "@storybook/renderer-react": {
+      "root": "renderers/react",
+      "type": "library"
+    },
+    "@storybook/renderer-server": {
+      "root": "renderers/server",
+      "type": "library"
+    },
+    "@storybook/renderer-svelte": {
+      "root": "renderers/svelte",
+      "type": "library"
+    },
+    "@storybook/renderer-vue": {
+      "root": "renderers/vue",
+      "type": "library"
+    },
+    "@storybook/renderer-vue3": {
+      "root": "renderers/vue3",
+      "type": "library"
+    },
+    "@storybook/renderer-web-components": {
+      "root": "renderers/web-components",
       "type": "library"
     }
   }

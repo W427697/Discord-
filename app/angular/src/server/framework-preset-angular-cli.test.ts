@@ -4,7 +4,7 @@ import { logger } from '@storybook/node-logger';
 import { normalize, getSystemPath } from '@angular-devkit/core';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { webpackFinal } from './framework-preset-angular-cli';
-import { PresetOptions } from './options';
+import type { PresetOptions } from './preset-options';
 
 const testPath = __dirname;
 

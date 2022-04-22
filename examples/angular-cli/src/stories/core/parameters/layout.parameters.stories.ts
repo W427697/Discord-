@@ -1,5 +1,5 @@
-import { Button } from '@storybook/angular/demo';
 import { Story, Meta } from '@storybook/angular';
+import { Button } from '../../angular-demo';
 
 export default {
   title: 'Core / Parameters / Layout',

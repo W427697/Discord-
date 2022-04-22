@@ -8,9 +8,10 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "build-storybook": "build-storybook",
+    "build-storybook": "sb build",
     "generate-addon-jest-testresults": "jest --config=tests/addon-jest.config.json --json --outputFile=stories/addon-jest.testresults.json",
-    "storybook": "start-storybook -p 9006 --no-manager-cache"
+    "sb": "node ../../lib/cli/bin/index.js",
+    "storybook": "yarn sb dev -p 9006 --no-manager-cache"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "6.5.0-alpha.64",
@@ -26,7 +27,6 @@
     "@storybook/addon-viewport": "6.5.0-alpha.64",
     "@storybook/addons": "6.5.0-alpha.64",
     "@storybook/client-api": "6.5.0-alpha.64",
-    "@storybook/core": "6.5.0-alpha.64",
     "@storybook/core-events": "6.5.0-alpha.64",
     "@storybook/html": "6.5.0-alpha.64",
     "@storybook/source-loader": "6.5.0-alpha.64",

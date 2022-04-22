@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "build": "react-scripts build",
-    "build-storybook": "build-storybook",
+    "build-storybook": "sb build",
     "eject": "react-scripts eject",
+    "sb": "node ../../lib/cli/bin/index.js",
     "start": "react-scripts start",
-    "storybook": "start-storybook -p 9010 --no-manager-cache",
+    "storybook": "yarn sb dev -p 9010 --no-manager-cache",
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {

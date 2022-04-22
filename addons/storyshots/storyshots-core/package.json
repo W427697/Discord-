@@ -38,17 +38,16 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build-storybook": "build-storybook",
+    "build-storybook": "sb build",
     "example": "jest storyshot.test",
     "prepare": "node ../../../scripts/prepare.js",
-    "storybook": "start-storybook -p 6006"
+    "storybook": "yarn sb dev -p 6006"
   },
   "dependencies": {
     "@jest/transform": "^26.6.2",
     "@storybook/addons": "6.5.0-alpha.64",
     "@storybook/babel-plugin-require-context-hook": "1.0.1",
     "@storybook/client-api": "6.5.0-alpha.64",
-    "@storybook/core": "6.5.0-alpha.64",
     "@storybook/core-client": "6.5.0-alpha.64",
     "@storybook/core-common": "6.5.0-alpha.64",
     "@storybook/csf": "0.0.2--canary.7c6c115.0",

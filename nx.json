@@ -88,6 +88,54 @@
     "@storybook/preact": {
       "implicitDependencies": []
     },
+    "@storybook/preset-html-webpack": {
+      "implicitDependencies": []
+    },
+    "@storybook/preset-preact-webpack": {
+      "implicitDependencies": []
+    },
+    "@storybook/preset-react-webpack": {
+      "implicitDependencies": []
+    },
+    "@storybook/preset-server-webpack": {
+      "implicitDependencies": []
+    },
+    "@storybook/preset-svelte-webpack": {
+      "implicitDependencies": []
+    },
+    "@storybook/preset-vue-webpack": {
+      "implicitDependencies": []
+    },
+    "@storybook/preset-vue3-webpack": {
+      "implicitDependencies": []
+    },
+    "@storybook/preset-web-components-webpack": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-html": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-preact": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-react": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-server": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-svelte": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-vue": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-vue3": {
+      "implicitDependencies": []
+    },
+    "@storybook/renderer-web-components": {
+      "implicitDependencies": []
+    },
     "@storybook/react": {
       "implicitDependencies": []
     },
@@ -142,7 +190,6 @@
     "@storybook/external-docs": {
       "implicitDependencies": []
     },
-
     "server-kitchen-sink": {
       "implicitDependencies": []
     },
@@ -204,9 +251,6 @@
       "implicitDependencies": []
     },
     "@storybook/components": {
-      "implicitDependencies": []
-    },
-    "@storybook/core": {
       "implicitDependencies": []
     },
     "@storybook/core-client": {
