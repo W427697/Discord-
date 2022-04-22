@@ -79,9 +79,6 @@
     "@storybook/html": {
       "implicitDependencies": []
     },
-    "@storybook/manager-webpack4": {
-      "implicitDependencies": []
-    },
     "@storybook/manager-webpack5": {
       "implicitDependencies": []
     },
@@ -184,9 +181,6 @@
     "@storybook/example-react-ts": {
       "implicitDependencies": []
     },
-    "@storybook/example-react-ts-webpack4": {
-      "implicitDependencies": []
-    },
     "@storybook/external-docs": {
       "implicitDependencies": []
     },
@@ -215,9 +209,6 @@
       "implicitDependencies": []
     },
     "@storybook/api": {
-      "implicitDependencies": []
-    },
-    "@storybook/builder-webpack4": {
       "implicitDependencies": []
     },
     "@storybook/builder-webpack5": {

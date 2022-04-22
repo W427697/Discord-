@@ -81,10 +81,6 @@
       "root": "app/html",
       "type": "library"
     },
-    "@storybook/manager-webpack4": {
-      "root": "lib/manager-webpack4",
-      "type": "library"
-    },
     "@storybook/manager-webpack5": {
       "root": "lib/manager-webpack5",
       "type": "library"
@@ -157,10 +153,6 @@
       "root": "examples/react-ts",
       "type": "library"
     },
-    "@storybook/example-react-ts-webpack4": {
-      "root": "examples/react-ts-webpack4",
-      "type": "library"
-    },
     "@storybook/external-docs": {
       "root": "examples/external-docs",
       "type": "library"
@@ -199,10 +191,6 @@
     },
     "@storybook/api": {
       "root": "lib/api",
-      "type": "library"
-    },
-    "@storybook/builder-webpack4": {
-      "root": "lib/builder-webpack4",
       "type": "library"
     },
     "@storybook/builder-webpack5": {

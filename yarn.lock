@@ -7218,7 +7218,7 @@ __metadata:
     ts-loader: ^8.0.14
     tsconfig-paths-webpack-plugin: ^3.3.0
     util-deprecate: ^1.0.2
-    webpack: 4
+    webpack: 5
   peerDependencies:
     "@angular-devkit/architect": ">=0.8.9"
     "@angular-devkit/build-angular": ">=0.8.9 || >= 12.0.0"
@@ -7312,9 +7312,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/builder-webpack4@6.5.0-alpha.64, @storybook/builder-webpack4@workspace:lib/builder-webpack4":
-  version: 0.0.0-use.local
-  resolution: "@storybook/builder-webpack4@workspace:lib/builder-webpack4"
+"@storybook/builder-webpack4@npm:6.5.0-alpha.64":
+  version: 6.5.0-alpha.64
+  resolution: "@storybook/builder-webpack4@npm:6.5.0-alpha.64"
   dependencies:
     "@babel/core": ^7.12.10
     "@storybook/addons": 6.5.0-alpha.64
@@ -7333,13 +7333,8 @@ __metadata:
     "@storybook/store": 6.5.0-alpha.64
     "@storybook/theming": 6.5.0-alpha.64
     "@storybook/ui": 6.5.0-alpha.64
-    "@types/case-sensitive-paths-webpack-plugin": ^2.1.4
     "@types/node": ^14.0.10 || ^16.0.0
-    "@types/terser-webpack-plugin": ^4.2.0
     "@types/webpack": ^4.41.26
-    "@types/webpack-dev-middleware": ^3.7.3
-    "@types/webpack-hot-middleware": <=2.25.5
-    "@types/webpack-virtual-modules": ^0.1.0
     autoprefixer: ^9.8.6
     babel-loader: ^8.0.0
     case-sensitive-paths-webpack-plugin: ^2.3.0
@@ -7374,8 +7369,9 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  languageName: unknown
-  linkType: soft
+  checksum: ac0314656f9368d16305437a8c2dc10ab19c5fb3443ea4dda0b0c07a3e30d5dfeb63252d68cca96f1a8776f17fa6b0ef86871a83002abb4823e8e2785df6f75c
+  languageName: node
+  linkType: hard
 
 "@storybook/builder-webpack5@6.5.0-alpha.64, @storybook/builder-webpack5@workspace:lib/builder-webpack5":
   version: 0.0.0-use.local
@@ -7730,7 +7726,7 @@ __metadata:
     telejson: ^5.3.3
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
-    webpack: 4
+    webpack: 5
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7762,14 +7758,13 @@ __metadata:
   resolution: "@storybook/core-server@workspace:lib/core-server"
   dependencies:
     "@discoveryjs/json-ext": ^0.5.3
-    "@storybook/builder-webpack4": 6.5.0-alpha.64
     "@storybook/builder-webpack5": 6.5.0-alpha.64
     "@storybook/core-client": 6.5.0-alpha.64
     "@storybook/core-common": 6.5.0-alpha.64
     "@storybook/core-events": 6.5.0-alpha.64
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/csf-tools": 6.5.0-alpha.64
-    "@storybook/manager-webpack4": 6.5.0-alpha.64
+    "@storybook/manager-webpack5": 6.5.0-alpha.64
     "@storybook/node-logger": 6.5.0-alpha.64
     "@storybook/semver": ^7.3.2
     "@storybook/store": 6.5.0-alpha.64
@@ -7809,7 +7804,7 @@ __metadata:
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
     watchpack: ^2.2.0
-    webpack: 4
+    webpack: 5
     ws: ^8.2.3
     x-default-browser: ^0.4.0
   peerDependencies:
@@ -7991,7 +7986,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     typescript: ^3.9.7
-    webpack: 4
+    webpack: 5
   languageName: unknown
   linkType: soft
 
@@ -8030,7 +8025,7 @@ __metadata:
     react-dom: 16.14.0
     react-scripts: ^4.0.2
     typescript: ^3.9.7
-    webpack: 4
+    webpack: 5
   languageName: unknown
   linkType: soft
 
@@ -8116,59 +8111,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/manager-webpack4@6.5.0-alpha.64, @storybook/manager-webpack4@workspace:lib/manager-webpack4":
-  version: 0.0.0-use.local
-  resolution: "@storybook/manager-webpack4@workspace:lib/manager-webpack4"
-  dependencies:
-    "@babel/core": ^7.12.10
-    "@babel/plugin-transform-template-literals": ^7.12.1
-    "@babel/preset-react": ^7.12.10
-    "@storybook/addons": 6.5.0-alpha.64
-    "@storybook/core-client": 6.5.0-alpha.64
-    "@storybook/core-common": 6.5.0-alpha.64
-    "@storybook/node-logger": 6.5.0-alpha.64
-    "@storybook/theming": 6.5.0-alpha.64
-    "@storybook/ui": 6.5.0-alpha.64
-    "@types/case-sensitive-paths-webpack-plugin": ^2.1.4
-    "@types/node": ^14.0.10 || ^16.0.0
-    "@types/terser-webpack-plugin": ^4.2.0
-    "@types/webpack": ^4.41.26
-    "@types/webpack-dev-middleware": ^3.7.3
-    "@types/webpack-virtual-modules": ^0.1.0
-    babel-loader: ^8.0.0
-    case-sensitive-paths-webpack-plugin: ^2.3.0
-    chalk: ^4.1.0
-    core-js: ^3.8.2
-    css-loader: ^3.6.0
-    express: ^4.17.1
-    file-loader: ^6.2.0
-    find-up: ^5.0.0
-    fs-extra: ^9.0.1
-    html-webpack-plugin: ^4.0.0
-    node-fetch: ^2.6.7
-    pnp-webpack-plugin: 1.6.4
-    read-pkg-up: ^7.0.1
-    regenerator-runtime: ^0.13.7
-    resolve-from: ^5.0.0
-    style-loader: ^1.3.0
-    telejson: ^5.3.3
-    terser-webpack-plugin: ^4.2.3
-    ts-dedent: ^2.0.0
-    url-loader: ^4.1.1
-    util-deprecate: ^1.0.2
-    webpack: 4
-    webpack-dev-middleware: ^3.7.3
-    webpack-virtual-modules: ^0.2.2
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  languageName: unknown
-  linkType: soft
-
-"@storybook/manager-webpack5@workspace:lib/manager-webpack5":
+"@storybook/manager-webpack5@6.5.0-alpha.64, @storybook/manager-webpack5@workspace:lib/manager-webpack5":
   version: 0.0.0-use.local
   resolution: "@storybook/manager-webpack5@workspace:lib/manager-webpack5"
   dependencies:
@@ -8340,7 +8283,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    webpack: 4
+    webpack: 5
   peerDependencies:
     "@babel/core": "*"
   languageName: unknown
@@ -8359,7 +8302,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    webpack: 4
+    webpack: 5
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
@@ -8387,7 +8330,7 @@ __metadata:
     fs-extra: ^9.0.1
     react-refresh: ^0.11.0
     regenerator-runtime: ^0.13.7
-    webpack: 4
+    webpack: 5
   peerDependencies:
     "@babel/core": ^7.11.5
     jest-specific-snapshot: ^4.0.0
@@ -8396,14 +8339,6 @@ __metadata:
     require-from-string: ^2.0.2
   peerDependenciesMeta:
     "@babel/core":
-      optional: true
-    "@storybook/builder-webpack4":
-      optional: true
-    "@storybook/builder-webpack5":
-      optional: true
-    "@storybook/manager-webpack4":
-      optional: true
-    "@storybook/manager-webpack5":
       optional: true
     typescript:
       optional: true
@@ -8458,7 +8393,7 @@ __metadata:
     svelte-loader: ^3.0.0
     sveltedoc-parser: 4.1.0
     ts-dedent: ^2.0.0
-    webpack: 4
+    webpack: 5
   peerDependencies:
     "@babel/core": "*"
     svelte: ^3.1.0
@@ -8483,7 +8418,7 @@ __metadata:
     vue-docgen-loader: ^1.5.0
     vue-loader: ^15.9.6
     vue-template-compiler: ^2.6.12
-    webpack: 4
+    webpack: 5
   peerDependencies:
     "@babel/core": "*"
     babel-loader: ^7.0.0 || ^8.0.0
@@ -8511,7 +8446,7 @@ __metadata:
     vue-docgen-api: ^4.44.15
     vue-docgen-loader: ^1.5.0
     vue-loader: ^16.4.1
-    webpack: 4
+    webpack: 5
   peerDependencies:
     "@babel/core": "*"
     "@vue/compiler-sfc": ^3.0.0
@@ -9017,7 +8952,7 @@ __metadata:
     verdaccio-auth-memory: ^9.7.2
     wait-on: ^5.2.1
     web-component-analyzer: ^1.1.6
-    webpack: 4
+    webpack: 5
     webpack-dev-middleware: ^3.7.3
     window-size: ^1.1.1
     zx: ^3.0.0
@@ -9309,7 +9244,7 @@ __metadata:
     resolve-from: ^5.0.0
     store2: ^2.12.0
     ts-node: ^10.4.0
-    webpack: 4
+    webpack: 5
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -11030,16 +10965,6 @@ __metadata:
   version: 1.16.3
   resolution: "@types/webpack-env@npm:1.16.3"
   checksum: 136ece45e58fbcb4d8e02fe7892213105d6874223a66209bccaf4a18ca78ab81a10d121ee9d0944904cfad1274ca730efc9643b9cd8444239f505676adee22a0
-  languageName: node
-  linkType: hard
-
-"@types/webpack-hot-middleware@npm:<=2.25.5":
-  version: 2.25.5
-  resolution: "@types/webpack-hot-middleware@npm:2.25.5"
-  dependencies:
-    "@types/connect": "*"
-    "@types/webpack": ^4
-  checksum: d308539da763986a0e7b666e8a71a7347e24a36ecf895188d2a59b42f9047480a9110b05951a01b80b50a59f90704b538ec0cd55a94ec4cad42eccaa25f000e5
   languageName: node
   linkType: hard
 
@@ -18344,7 +18269,7 @@ __metadata:
     react-dom: 16.14.0
     react-lifecycles-compat: ^3.0.4
     react-scripts: ^4.0.2
-    webpack: 4
+    webpack: 5
   languageName: unknown
   linkType: soft
 
@@ -18368,7 +18293,7 @@ __metadata:
     react: ^15.7.0
     react-dom: ^15.7.0
     react-scripts: 3.4.4
-    webpack: 4
+    webpack: 5
   languageName: unknown
   linkType: soft
 
@@ -18395,7 +18320,7 @@ __metadata:
     react-dom: 16.14.0
     react-scripts: ^4.0.2
     typescript: ^3.9.7
-    webpack: 4
+    webpack: 5
   languageName: unknown
   linkType: soft
 
@@ -18428,7 +18353,7 @@ __metadata:
     react-scripts: ^4.0.2
     ts-node: ^9.1.0
     typescript: ^3.9.7
-    webpack: 4
+    webpack: 5
   languageName: unknown
   linkType: soft
 
@@ -20846,7 +20771,7 @@ __metadata:
     ember-template-compiler: ^1.9.0-alpha
     loader.js: ^4.7.0
     shx: ^0.3.2
-    webpack: 4
+    webpack: 5
     webpack-cli: ^4.2.0
   languageName: unknown
   linkType: soft
@@ -21116,6 +21041,16 @@ __metadata:
     graceful-fs: ^4.2.4
     tapable: ^2.2.0
   checksum: 32d8a20356461c91ffb78441b5f96dca864b54caad60635ffe8c5932250abcf664df6245bbfc0623a2e516e08adf4d456d1189cf55bbd0e24930f36ea503b4fd
+  languageName: node
+  linkType: hard
+
+"enhanced-resolve@npm:^5.9.2":
+  version: 5.9.3
+  resolution: "enhanced-resolve@npm:5.9.3"
+  dependencies:
+    graceful-fs: ^4.2.4
+    tapable: ^2.2.0
+  checksum: 743428030e1d627835bfd05b7a9570ee163e728ab1d55fcd69de9c4ff3e84356c0c9c9deaa8164afb3c648699681a403801ac85b94d6a343838d38f36109643c
   languageName: node
   linkType: hard
 
@@ -34250,7 +34185,7 @@ __metadata:
     react-dom: 16.14.0
     terser-webpack-plugin: ^5.0.3
     uuid-browser: ^3.1.0
-    webpack: 4
+    webpack: 5
   peerDependencies:
     puppeteer: ^2.0.0 || ^3.0.0
   languageName: unknown
@@ -37032,7 +36967,7 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     svg-url-loader: ^7.1.1
-    webpack: 4
+    webpack: 5
     webpack-dev-server: ^3.11.2
   languageName: unknown
   linkType: soft
@@ -46164,7 +46099,7 @@ __metadata:
     vue-loader: ^15.9.6
     vue-style-loader: ^4.1.2
     vuex: ^3.6.0
-    webpack: 4
+    webpack: 5
     webpack-dev-server: ^3.11.2
   languageName: unknown
   linkType: soft
@@ -47103,6 +47038,43 @@ __metadata:
   bin:
     webpack: bin/webpack.js
   checksum: 4a3d55044286d2c1f0572811440a289abb4221d782be076c7abb22b4b5759c2fb9d44bdc7d2e28c294a50d325c8f947be0849c5ff67568695ae3a897d986b323
+  languageName: node
+  linkType: hard
+
+"webpack@npm:5":
+  version: 5.72.0
+  resolution: "webpack@npm:5.72.0"
+  dependencies:
+    "@types/eslint-scope": ^3.7.3
+    "@types/estree": ^0.0.51
+    "@webassemblyjs/ast": 1.11.1
+    "@webassemblyjs/wasm-edit": 1.11.1
+    "@webassemblyjs/wasm-parser": 1.11.1
+    acorn: ^8.4.1
+    acorn-import-assertions: ^1.7.6
+    browserslist: ^4.14.5
+    chrome-trace-event: ^1.0.2
+    enhanced-resolve: ^5.9.2
+    es-module-lexer: ^0.9.0
+    eslint-scope: 5.1.1
+    events: ^3.2.0
+    glob-to-regexp: ^0.4.1
+    graceful-fs: ^4.2.9
+    json-parse-better-errors: ^1.0.2
+    loader-runner: ^4.2.0
+    mime-types: ^2.1.27
+    neo-async: ^2.6.2
+    schema-utils: ^3.1.0
+    tapable: ^2.1.1
+    terser-webpack-plugin: ^5.1.3
+    watchpack: ^2.3.1
+    webpack-sources: ^3.2.3
+  peerDependenciesMeta:
+    webpack-cli:
+      optional: true
+  bin:
+    webpack: bin/webpack.js
+  checksum: a5bcf88eb7e1d0c95a3bf96050e29be314e8162c4759730465feeaf4f37086ef0c16a6932fa03e13eb7927d89e8794b02dedea55fee1c47479d36a914e15f65f
   languageName: node
   linkType: hard
 
