@@ -12,7 +12,7 @@
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {
-    "babel-loader": "^8.0.0",
+    "babel-loader": "^8.2.5",
     "event-source-polyfill": "^1.0.25",
     "global": "^4.4.0",
     "react": "^15.7.0",
@@ -24,7 +24,7 @@
     "@storybook/addon-ie11": "0.0.7--canary.5e87b64.0",
     "@storybook/addon-links": "6.5.0-alpha.64",
     "@storybook/addons": "6.5.0-alpha.64",
-    "@storybook/builder-webpack4": "6.5.0-alpha.64",
+    "@storybook/builder-webpack5": "6.5.0-alpha.64",
     "@storybook/preset-create-react-app": "^3.1.6",
     "@storybook/react": "6.5.0-alpha.64",
     "@storybook/theming": "6.5.0-alpha.64",

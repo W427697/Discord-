@@ -43,7 +43,6 @@
     "@storybook/core-common": "6.5.0-alpha.64",
     "@storybook/node-logger": "6.5.0-alpha.64",
     "core-js": "^3.8.2",
-    "loader-utils": "^2.0.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "regenerator-runtime": "^0.13.7",
@@ -52,9 +51,8 @@
     "webpack": ">=4.0.0 <6.0.0"
   },
   "devDependencies": {
-    "@types/loader-utils": "^2.0.0",
     "svelte": "^3.31.2",
-    "svelte-loader": "^3.0.0",
+    "svelte-loader": "^3.1.2",
     "webpack": "5"
   },
   "peerDependencies": {

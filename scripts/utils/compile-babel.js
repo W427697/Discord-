@@ -98,7 +98,7 @@ async function babelify(options = {}) {
   }
 
   const runners = [
-    run({ watch, dir: './dist/cjs', silent, errorCallback }),
+    // run({ watch, dir: './dist/cjs', silent, errorCallback }),
     run({ watch, dir: './dist/esm', silent, errorCallback }),
   ];
 

@@ -74,7 +74,7 @@
     "@storybook/react": "6.5.0-alpha.64",
     "@storybook/vue": "6.5.0-alpha.64",
     "@storybook/vue3": "6.5.0-alpha.64",
-    "babel-loader": "^8.0.0",
+    "babel-loader": "^8.2.5",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.1",
     "jest-preset-angular": "^8.3.2",

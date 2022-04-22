@@ -42,7 +42,7 @@
   "dependencies": {
     "@babel/preset-flow": "^7.12.1",
     "@babel/preset-react": "^7.12.10",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@storybook/core-common": "6.5.0-alpha.64",
     "@storybook/docs-tools": "6.5.0-alpha.64",
     "@storybook/node-logger": "6.5.0-alpha.64",

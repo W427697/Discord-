@@ -1,1 +1,3 @@
-declare module 'vue-loader/lib/plugin';
+
+
+declare module 'vue-loader';
