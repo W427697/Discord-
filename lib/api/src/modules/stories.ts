@@ -249,7 +249,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
       navigate('/');
     },
-    selectStory: (titleOrId = undefined, story = undefined, options = {}) => {
+    selectStory: (titleOrId = undefined, name = undefined, options = {}) => {
       const { ref, viewMode: viewModeFromArgs } = options;
       const {
         viewMode: viewModeFromState = 'story',
@@ -262,38 +262,47 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
       const kindSlug = storyId?.split('--', 2)[0];
 
-      if (!story) {
-        const s = titleOrId ? hash[titleOrId] || hash[sanitize(titleOrId)] : hash[kindSlug];
-        // eslint-disable-next-line no-nested-ternary
-        const id = s ? (s.children ? s.children[0] : s.id) : titleOrId;
-        let viewMode =
-          s && !isRoot(s) && (viewModeFromArgs || s.parameters.viewMode)
-            ? s.parameters.viewMode
-            : viewModeFromState;
+      if (!name) {
+        // Find the entry (group, component or story) that is referred to
+        let entry = titleOrId ? hash[titleOrId] || hash[sanitize(titleOrId)] : hash[kindSlug];
 
-        // Some viewModes are not story-specific, and we should reset viewMode
-        //  to 'story' if one of those is active when navigating to another story
-        if (['settings', 'about', 'release'].includes(viewMode)) {
-          viewMode = 'story';
+        if (!entry) {
+          throw new Error(`Unknown id or title: '${titleOrId}'`);
         }
 
-        const p = s && s.refId ? `/${viewMode}/${s.refId}_${id}` : `/${viewMode}/${id}`;
+        // We want to navigate to the first ancestor entry that is a leaf
+        while (!entry.isLeaf) entry = hash[entry.children[0]];
 
-        navigate(p);
+        // We would default to the viewMode passed in or maintain the current
+        const desiredViewMode = viewModeFromArgs || viewModeFromState;
+
+        // By default we would render a story as a story
+        let viewMode = 'story';
+        // However, any story can be rendered as docs if required
+        if (desiredViewMode === 'docs') {
+          viewMode = 'docs';
+        }
+        // If the entry is actually a component, we are looking at docs also
+        if (entry.isComponent) {
+          viewMode = 'docs';
+        }
+
+        const fullId = entry.refId ? `${entry.refId}_${entry.id}` : entry.id;
+        navigate(`/${viewMode}/${fullId}`);
       } else if (!titleOrId) {
         // This is a slugified version of the kind, but that's OK, our toId function is idempotent
-        const id = toId(kindSlug, story);
+        const id = toId(kindSlug, name);
 
         api.selectStory(id, undefined, options);
       } else {
-        const id = ref ? `${ref}_${toId(titleOrId, story)}` : toId(titleOrId, story);
+        const id = ref ? `${ref}_${toId(titleOrId, name)}` : toId(titleOrId, name);
         if (hash[id]) {
           api.selectStory(id, undefined, options);
         } else {
           // Support legacy API with component permalinks, where kind is `x/y` but permalink is 'z'
           const k = hash[sanitize(titleOrId)];
           if (k && k.children) {
-            const foundId = k.children.find((childId) => hash[childId].name === story);
+            const foundId = k.children.find((childId) => hash[childId].name === name);
             if (foundId) {
               api.selectStory(foundId, undefined, options);
             }

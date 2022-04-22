@@ -11,17 +11,12 @@ import {
 import { EventEmitter } from 'events';
 import global from 'global';
 import { mockChannel } from '@storybook/addons';
+import { merge } from 'lodash';
 
 import { getEventMetadata } from '../lib/events';
 
 import { init as initStories } from '../modules/stories';
-import {
-  Story,
-  SetStoriesStoryData,
-  SetStoriesStory,
-  transformSetStoriesStoryDataToStoriesHash,
-  StoryIndex,
-} from '../lib/stories';
+import { Story, SetStoriesStoryData, SetStoriesStory, StoryIndex } from '../lib/stories';
 import type Store from '../store';
 import { ModuleArgs } from '..';
 
@@ -75,6 +70,52 @@ function createMockStore(initialState = {}) {
 
 const provider = { getConfig: jest.fn().mockReturnValue({}), serverChannel: mockChannel() };
 
+const parameters = {} as SetStoriesStory['parameters'];
+const setStoriesData: SetStoriesStoryData = {
+  'a--1': {
+    kind: 'a',
+    name: '1',
+    parameters,
+    id: 'a--1',
+    args: {},
+  } as SetStoriesStory,
+  'a--2': {
+    kind: 'a',
+    name: '2',
+    parameters,
+    id: 'a--2',
+    args: {},
+  } as SetStoriesStory,
+  'b-c--1': {
+    kind: 'b/c',
+    name: '1',
+    parameters,
+    id: 'b-c--1',
+    args: {},
+  } as SetStoriesStory,
+  'b-d--1': {
+    kind: 'b/d',
+    name: '1',
+    parameters,
+    id: 'b-d--1',
+    args: {},
+  } as SetStoriesStory,
+  'b-d--2': {
+    kind: 'b/d',
+    name: '2',
+    parameters,
+    id: 'b-d--2',
+    args: { a: 'b' },
+  } as SetStoriesStory,
+  'custom-id--1': {
+    kind: 'b/e',
+    name: '1',
+    parameters,
+    id: 'custom-id--1',
+    args: {},
+  } as SetStoriesStory,
+};
+
 beforeEach(() => {
   provider.getConfig.mockReset().mockReturnValue({});
   provider.serverChannel = mockChannel();
@@ -98,59 +139,10 @@ describe('stories API', () => {
       hasCalledSetOptions: false,
     });
   });
-  const parameters = {} as SetStoriesStory['parameters'];
-  const setStoriesData: SetStoriesStoryData = {
-    'a--1': {
-      kind: 'a',
-      name: '1',
-      parameters,
-      id: 'a--1',
-      args: {},
-    } as SetStoriesStory,
-    'a--2': {
-      kind: 'a',
-      name: '2',
-      parameters,
-      id: 'a--2',
-      args: {},
-    } as SetStoriesStory,
-    'b-c--1': {
-      kind: 'b/c',
-      name: '1',
-      parameters,
-      id: 'b-c--1',
-      args: {},
-    } as SetStoriesStory,
-    'b-d--1': {
-      kind: 'b/d',
-      name: '1',
-      parameters,
-      id: 'b-d--1',
-      args: {},
-    } as SetStoriesStory,
-    'b-d--2': {
-      kind: 'b/d',
-      name: '2',
-      parameters,
-      id: 'b-d--2',
-      args: { a: 'b' },
-    } as SetStoriesStory,
-    'custom-id--1': {
-      kind: 'b/e',
-      name: '1',
-      parameters,
-      id: 'custom-id--1',
-      args: {},
-    } as SetStoriesStory,
-  };
-
-  const storiesHash = transformSetStoriesStoryDataToStoriesHash(setStoriesData, {
-    provider,
-  } as any);
 
   describe('setStories', () => {
     beforeEach(() => {
-      mockStories.mockRejectedValue(new Error('Fetch failed'));
+      mockStories.mockRejectedValue(new Error('Fetch failed') as never);
     });
 
     it('stores basic kinds and stories w/ correct keys', () => {
@@ -657,13 +649,12 @@ describe('stories API', () => {
   describe('jumpToStory', () => {
     it('works forward', () => {
       const navigate = jest.fn();
-      const store = createMockStore();
+      const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
 
       const {
         api: { setStories, jumpToStory },
         state,
-      } = initStories({ store, navigate, storyId: 'a--1', viewMode: 'story', provider } as any);
-      store.setState(state);
+      } = initStories({ store, navigate, provider } as any);
       setStories(setStoriesData);
 
       jumpToStory(1);
@@ -672,13 +663,11 @@ describe('stories API', () => {
 
     it('works backwards', () => {
       const navigate = jest.fn();
-      const store = createMockStore();
+      const store = createMockStore({ storyId: 'a--2', viewMode: 'story' });
 
       const {
         api: { setStories, jumpToStory },
-        state,
-      } = initStories({ store, navigate, storyId: 'a--2', viewMode: 'story', provider } as any);
-      store.setState(state);
+      } = initStories({ store, navigate, provider } as any);
       setStories(setStoriesData);
 
       jumpToStory(-1);
@@ -687,19 +676,18 @@ describe('stories API', () => {
 
     it('does nothing if you are at the last story and go forward', () => {
       const navigate = jest.fn();
-      const store = createMockStore();
+      const store = createMockStore({
+        storyId: 'custom-id--1',
+        viewMode: 'story',
+      });
 
       const {
         api: { setStories, jumpToStory },
-        state,
       } = initStories({
         store,
         navigate,
-        storyId: 'custom-id--1',
-        viewMode: 'story',
         provider,
       } as any);
-      store.setState(state);
       setStories(setStoriesData);
 
       jumpToStory(1);
@@ -708,13 +696,11 @@ describe('stories API', () => {
 
     it('does nothing if you are at the first story and go backward', () => {
       const navigate = jest.fn();
-      const store = createMockStore();
+      const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
 
       const {
         api: { setStories, jumpToStory },
-        state,
-      } = initStories({ store, navigate, storyId: 'a--1', viewMode: 'story', provider } as any);
-      store.setState(state);
+      } = initStories({ store, navigate, provider } as any);
       setStories(setStoriesData);
 
       jumpToStory(-1);
@@ -723,11 +709,12 @@ describe('stories API', () => {
 
     it('does nothing if you have not selected a story', () => {
       const navigate = jest.fn();
-      const store = { getState: () => ({ storiesHash }) };
+      const store = createMockStore();
 
       const {
-        api: { jumpToStory },
+        api: { setStories, jumpToStory },
       } = initStories({ store, navigate, provider } as any);
+      setStories(setStoriesData);
 
       jumpToStory(1);
       expect(navigate).not.toHaveBeenCalled();
@@ -747,7 +734,7 @@ describe('stories API', () => {
       store.setState(state);
       setStories(setStoriesData);
 
-      const result = findSiblingStoryId(storyId, storiesHash, 1, false);
+      const result = findSiblingStoryId(storyId, store.getState().storiesHash, 1, false);
       expect(result).toBe('a--2');
     });
     it('works forward toSiblingGroup', () => {
@@ -837,87 +824,129 @@ describe('stories API', () => {
   describe('selectStory', () => {
     it('navigates', () => {
       const navigate = jest.fn();
-      const store = {
-        getState: () => ({ viewMode: 'story', storiesHash }),
-      };
-
+      const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
       const {
-        api: { selectStory },
+        api: { setStories, selectStory },
       } = initStories({ store, navigate, provider } as any);
+      setStories(setStoriesData);
 
       selectStory('a--2');
       expect(navigate).toHaveBeenCalledWith('/story/a--2');
     });
 
-    it('allows navigating to kind/storyname (legacy api)', () => {
+    it('retains current view mode', () => {
       const navigate = jest.fn();
-      const store = {
-        getState: () => ({ viewMode: 'story', storiesHash }),
-      };
-
+      const store = createMockStore({ storyId: 'a--1', viewMode: 'docs' });
       const {
-        api: { selectStory },
+        api: { setStories, selectStory },
       } = initStories({ store, navigate, provider } as any);
+      setStories(setStoriesData);
 
-      selectStory('a', '2');
-      expect(navigate).toHaveBeenCalledWith('/story/a--2');
+      selectStory('a--2');
+      expect(navigate).toHaveBeenCalledWith('/docs/a--2');
     });
 
-    it('allows navigating to storyname, without kind (legacy api)', () => {
+    it('sets view mode to docs if doc-level component is selected', () => {
       const navigate = jest.fn();
-      const store = {
-        getState: () => ({ viewMode: 'story', storyId: 'a--1', storiesHash }),
-      };
-
+      const store = createMockStore({ storyId: 'a--1', viewMode: 'docs' });
       const {
-        api: { selectStory },
+        api: { setStories, selectStory },
       } = initStories({ store, navigate, provider } as any);
+      setStories({
+        ...setStoriesData,
+        'intro--page': {
+          id: 'intro--page',
+          kind: 'Intro',
+          name: 'Page',
+          parameters: { docsOnly: true } as any,
+          args: {},
+        },
+      });
 
-      selectStory(null, '2');
-      expect(navigate).toHaveBeenCalledWith('/story/a--2');
+      selectStory('intro');
+      expect(navigate).toHaveBeenCalledWith('/docs/intro');
+    });
+
+    describe('legacy api', () => {
+      it('allows navigating to a combination of title + name', () => {
+        const navigate = jest.fn();
+        const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
+        const {
+          api: { setStories, selectStory },
+        } = initStories({ store, navigate, provider } as any);
+        setStories(setStoriesData);
+
+        selectStory('a', '2');
+        expect(navigate).toHaveBeenCalledWith('/story/a--2');
+      });
+
+      it('allows navigating to a given name (in the current component)', () => {
+        const navigate = jest.fn();
+        const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
+        const {
+          api: { setStories, selectStory },
+        } = initStories({ store, navigate, provider } as any);
+        setStories(setStoriesData);
+
+        selectStory(null, '2');
+        expect(navigate).toHaveBeenCalledWith('/story/a--2');
+      });
     });
 
     it('allows navigating away from the settings pages', () => {
       const navigate = jest.fn();
-      const store = {
-        getState: () => ({ viewMode: 'settings', storyId: 'about', storiesHash }),
-      };
-
+      const store = createMockStore({ storyId: 'a--1', viewMode: 'settings' });
       const {
-        api: { selectStory },
+        api: { setStories, selectStory },
       } = initStories({ store, navigate, provider } as any);
+      setStories(setStoriesData);
 
       selectStory('a--2');
       expect(navigate).toHaveBeenCalledWith('/story/a--2');
     });
 
-    it('allows navigating to first story in kind on call by kind', () => {
+    it('allows navigating to first story in component on call by component id', () => {
       const navigate = jest.fn();
-      const store = createMockStore();
-
+      const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
       const {
-        api: { selectStory, setStories },
-        state,
+        api: { setStories, selectStory },
       } = initStories({ store, navigate, provider } as any);
-      store.setState(state);
       setStories(setStoriesData);
 
       selectStory('a');
       expect(navigate).toHaveBeenCalledWith('/story/a--1');
     });
 
-    it('allows navigating to the first story of the current kind if passed nothing', () => {
+    it('allows navigating to first story in group on call by group id', () => {
       const navigate = jest.fn();
-      const store = createMockStore();
-
+      const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
       const {
-        api: { selectStory, setStories },
-        state,
+        api: { setStories, selectStory },
       } = initStories({ store, navigate, provider } as any);
-      store.setState({
-        ...state,
-        storyId: 'a--2',
-      });
+      setStories(setStoriesData);
+
+      selectStory('b');
+      expect(navigate).toHaveBeenCalledWith('/story/b-c--1');
+    });
+
+    it('allows navigating to first story in component on call by title', () => {
+      const navigate = jest.fn();
+      const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
+      const {
+        api: { setStories, selectStory },
+      } = initStories({ store, navigate, provider } as any);
+      setStories(setStoriesData);
+
+      selectStory('A');
+      expect(navigate).toHaveBeenCalledWith('/story/a--1');
+    });
+
+    it('allows navigating to the first story of the current component if passed nothing', () => {
+      const navigate = jest.fn();
+      const store = createMockStore({ storyId: 'a--2', viewMode: 'story' });
+      const {
+        api: { setStories, selectStory },
+      } = initStories({ store, navigate, provider } as any);
       setStories(setStoriesData);
 
       selectStory();
@@ -1075,11 +1104,12 @@ describe('stories API', () => {
           name: 'Story 2',
           importPath: './path/to/component-a.ts',
         },
-        'component-b--page': {
+        'component-b': {
           id: 'component-b--page',
           title: 'Component B',
           name: 'Page', // Page and only story
           importPath: './path/to/component-b.ts',
+          type: 'docs',
         },
         'component-c--story-4': {
           id: 'component-c--story-4',
@@ -1108,14 +1138,13 @@ describe('stories API', () => {
         'component-a--page',
         'component-a--story-2',
         'component-b',
-        'component-b--page',
         'component-c',
         'component-c--story-4',
       ]);
-      expect((storedStoriesHash['component-a--page'] as Story).parameters.docsOnly).toBe(false);
-      expect((storedStoriesHash['component-a--story-2'] as Story).parameters.docsOnly).toBe(false);
-      expect((storedStoriesHash['component-b--page'] as Story).parameters.docsOnly).toBe(true);
-      expect((storedStoriesHash['component-c--story-4'] as Story).parameters.docsOnly).toBe(false);
+      expect(storedStoriesHash['component-a'].isLeaf).toBe(false);
+      expect(storedStoriesHash['component-a'].isLeaf).toBe(false);
+      expect(storedStoriesHash['component-b'].isLeaf).toBe(true);
+      expect(storedStoriesHash['component-c'].isLeaf).toBe(false);
     });
   });
 
