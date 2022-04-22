@@ -22,15 +22,17 @@ const config: StorybookConfig = {
     },
   },
   core: {
-    builder: 'webpack4',
+    builder: { name: 'webpack4' },
     channelOptions: { allowFunction: false, maxDepth: 10 },
   },
   features: {
     postcss: false,
     // modernInlineRender: true,
-    storyStoreV7: true,
+    storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
     buildStoriesJson: true,
     babelModeV7: true,
+    warnOnLegacyHierarchySeparator: false,
+    previewMdx2: true,
   },
   framework: '@storybook/react',
 };

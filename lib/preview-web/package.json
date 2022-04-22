@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview-web",
-  "version": "6.4.0-beta.16",
+  "version": "6.5.0-alpha.64",
   "description": "",
   "keywords": [
     "storybook"
@@ -40,29 +40,30 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.4.0-beta.16",
-    "@storybook/channel-postmessage": "6.4.0-beta.16",
-    "@storybook/client-logger": "6.4.0-beta.16",
-    "@storybook/core-events": "6.4.0-beta.16",
-    "@storybook/csf": "0.0.2--canary.87bc651.0",
-    "@storybook/store": "6.4.0-beta.16",
+    "@storybook/addons": "6.5.0-alpha.64",
+    "@storybook/channel-postmessage": "6.5.0-alpha.64",
+    "@storybook/client-logger": "6.5.0-alpha.64",
+    "@storybook/core-events": "6.5.0-alpha.64",
+    "@storybook/csf": "0.0.2--canary.7c6c115.0",
+    "@storybook/store": "6.5.0-alpha.64",
     "ansi-to-html": "^0.6.11",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "qs": "^6.10.0",
     "regenerator-runtime": "^0.13.7",
+    "synchronous-promise": "^2.0.15",
     "ts-dedent": "^2.0.0",
     "unfetch": "^4.2.0",
     "util-deprecate": "^1.0.2"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "51cd442b428ccbb626003da5cc4491e670a1f281",
+  "gitHead": "7417a230d67b54d65caedcfb584f924b879ac9f5",
   "sbmodern": "dist/modern/index.js"
 }

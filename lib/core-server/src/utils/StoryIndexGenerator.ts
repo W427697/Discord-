@@ -1,32 +1,15 @@
 import path from 'path';
 import fs from 'fs-extra';
 import glob from 'globby';
+import slash from 'slash';
 
-import {
-  autoTitleFromSpecifier,
-  sortStoriesV7,
-  Path,
-  StoryIndex,
-  V2CompatIndexEntry,
-  StoryId,
-} from '@storybook/store';
-import { NormalizedStoriesSpecifier } from '@storybook/core-common';
+import type { Path, StoryIndex, V2CompatIndexEntry, StoryId } from '@storybook/store';
+import { autoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
+import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
+import { normalizeStoryPath } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
 import { readCsfOrMdx, getStorySortParameter } from '@storybook/csf-tools';
-import { ComponentTitle } from '@storybook/csf';
-
-function sortExtractedStories(
-  stories: StoryIndex['stories'],
-  storySortParameter: any,
-  fileNameOrder: string[]
-) {
-  const sortableStories = Object.values(stories);
-  sortStoriesV7(sortableStories, storySortParameter, fileNameOrder);
-  return sortableStories.reduce((acc, item) => {
-    acc[item.id] = item;
-    return acc;
-  }, {} as StoryIndex['stories']);
-}
+import type { ComponentTitle } from '@storybook/csf';
 
 type SpecifierStoriesCache = Record<Path, StoryIndex['stories'] | false>;
 
@@ -46,6 +29,7 @@ export class StoryIndexGenerator {
       workingDir: Path;
       configDir: Path;
       storiesV2Compatibility: boolean;
+      storyStoreV7: boolean;
     }
   ) {
     this.storyIndexEntries = new Map();
@@ -57,9 +41,11 @@ export class StoryIndexGenerator {
       this.specifiers.map(async (specifier) => {
         const pathToSubIndex = {} as SpecifierStoriesCache;
 
-        const fullGlob = path.join(this.options.workingDir, specifier.directory, specifier.files);
+        const fullGlob = slash(
+          path.join(this.options.workingDir, specifier.directory, specifier.files)
+        );
         const files = await glob(fullGlob);
-        files.forEach((absolutePath: Path) => {
+        files.sort().forEach((absolutePath: Path) => {
           const ext = path.extname(absolutePath);
           const relativePath = path.relative(this.options.workingDir, absolutePath);
           if (!['.js', '.jsx', '.ts', '.tsx', '.mdx'].includes(ext)) {
@@ -96,11 +82,10 @@ export class StoryIndexGenerator {
 
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
+    const fileStories = {} as StoryIndex['stories'];
+    const entry = this.storyIndexEntries.get(specifier);
     try {
-      const entry = this.storyIndexEntries.get(specifier);
-      const fileStories = {} as StoryIndex['stories'];
-
-      const importPath = relativePath[0] === '.' ? relativePath : `./${relativePath}`;
+      const importPath = slash(normalizeStoryPath(relativePath));
       const defaultTitle = autoTitleFromSpecifier(importPath, specifier);
       const csf = (await readCsfOrMdx(absolutePath, { defaultTitle })).parse();
       csf.stories.forEach(({ id, name }) => {
@@ -111,13 +96,16 @@ export class StoryIndexGenerator {
           importPath,
         };
       });
-
-      entry[absolutePath] = fileStories;
-      return fileStories;
     } catch (err) {
-      logger.warn(`🚨 Extraction error on ${relativePath}: ${err}`);
-      throw err;
+      if (err.name === 'NoMetaError') {
+        logger.info(`💡 Skipping ${relativePath}: ${err}`);
+      } else {
+        logger.warn(`🚨 Extraction error on ${relativePath}: ${err}`);
+        throw err;
+      }
     }
+    entry[absolutePath] = fileStories;
+    return fileStories;
   }
 
   async sortStories(storiesList: StoryIndex['stories'][]) {
@@ -127,8 +115,20 @@ export class StoryIndexGenerator {
       Object.assign(stories, subStories);
     });
 
-    const storySortParameter = await this.getStorySortParameter();
-    return sortExtractedStories(stories, storySortParameter, this.storyFileNames());
+    const sortableStories = Object.values(stories);
+
+    // Skip sorting if we're in v6 mode because we don't have
+    // all the info we need here
+    if (this.options.storyStoreV7) {
+      const storySortParameter = await this.getStorySortParameter();
+      const fileNameOrder = this.storyFileNames();
+      sortStoriesV7(sortableStories, storySortParameter, fileNameOrder);
+    }
+
+    return sortableStories.reduce((acc, item) => {
+      acc[item.id] = item;
+      return acc;
+    }, {} as StoryIndex['stories']);
   }
 
   async getIndex() {
@@ -173,7 +173,7 @@ export class StoryIndexGenerator {
   }
 
   invalidate(specifier: NormalizedStoriesSpecifier, importPath: Path, removed: boolean) {
-    const absolutePath = path.resolve(this.options.workingDir, importPath);
+    const absolutePath = slash(path.resolve(this.options.workingDir, importPath));
     const pathToEntries = this.storyIndexEntries.get(specifier);
 
     if (removed) {

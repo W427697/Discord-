@@ -1,15 +1,16 @@
 import { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
+import debounce from 'lodash/debounce';
+import Events from '@storybook/core-events';
 
-import { useStoriesJson } from './stories-json';
-
-// Avoid ping events
-jest.useFakeTimers();
+import { useStoriesJson, DEBOUNCE } from './stories-json';
+import { ServerChannel } from './get-server-channel';
 
 jest.mock('watchpack');
+jest.mock('lodash/debounce');
 
-const options: Parameters<typeof useStoriesJson>[1] = {
+const options: Parameters<typeof useStoriesJson>[2] = {
   configDir: path.join(__dirname, '__mockdata__'),
   presets: {
     apply: async () => ['./src/**/*.stories.(ts|js|jsx)'] as any,
@@ -37,15 +38,17 @@ describe('useStoriesJson', () => {
     use.mockClear();
     send.mockClear();
     write.mockClear();
+    (debounce as jest.Mock).mockImplementation((cb) => cb);
   });
 
-  describe('JSON endpoint', () => {
-    const request: Request = {
-      headers: { accept: 'application/json' },
-    } as any;
+  const request: Request = {
+    headers: { accept: 'application/json' },
+  } as any;
 
+  describe('JSON endpoint', () => {
     it('scans and extracts stories', async () => {
-      await useStoriesJson(router, options, options.configDir);
+      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      await useStoriesJson(router, mockServerChannel, options, options.configDir);
 
       expect(use).toHaveBeenCalledTimes(1);
       const route = use.mock.calls[0][1];
@@ -95,10 +98,23 @@ describe('useStoriesJson', () => {
               "story": "Story One",
               "title": "D",
             },
+            "first-nested-deeply-f--story-one": Object {
+              "id": "first-nested-deeply-f--story-one",
+              "importPath": "./src/first-nested/deeply/F.stories.js",
+              "kind": "first-nested/deeply/F",
+              "name": "Story One",
+              "parameters": Object {
+                "__id": "first-nested-deeply-f--story-one",
+                "docsOnly": false,
+                "fileName": "./src/first-nested/deeply/F.stories.js",
+              },
+              "story": "Story One",
+              "title": "first-nested/deeply/F",
+            },
             "nested-button--story-one": Object {
               "id": "nested-button--story-one",
               "importPath": "./src/nested/Button.stories.ts",
-              "kind": "Nested/Button",
+              "kind": "nested/Button",
               "name": "Story One",
               "parameters": Object {
                 "__id": "nested-button--story-one",
@@ -106,40 +122,56 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/nested/Button.stories.ts",
               },
               "story": "Story One",
-              "title": "Nested/Button",
+              "title": "nested/Button",
             },
-            "second-nested-f--story-one": Object {
-              "id": "second-nested-f--story-one",
-              "importPath": "./src/second-nested/F.stories.ts",
-              "kind": "Second Nested/F",
+            "second-nested-g--story-one": Object {
+              "id": "second-nested-g--story-one",
+              "importPath": "./src/second-nested/G.stories.ts",
+              "kind": "second-nested/G",
               "name": "Story One",
               "parameters": Object {
-                "__id": "second-nested-f--story-one",
+                "__id": "second-nested-g--story-one",
                 "docsOnly": false,
-                "fileName": "./src/second-nested/F.stories.ts",
+                "fileName": "./src/second-nested/G.stories.ts",
               },
               "story": "Story One",
-              "title": "Second Nested/F",
+              "title": "second-nested/G",
             },
           },
           "v": 3,
         }
       `);
     });
+
+    it('can handle simultaneous access', async () => {
+      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      await useStoriesJson(router, mockServerChannel, options, options.configDir);
+
+      expect(use).toHaveBeenCalledTimes(1);
+      const route = use.mock.calls[0][1];
+
+      const firstPromise = route(request, response);
+      const secondResponse = { ...response, send: jest.fn(), status: jest.fn() };
+      const secondPromise = route(request, secondResponse);
+
+      await Promise.all([firstPromise, secondPromise]);
+
+      expect(send).toHaveBeenCalledTimes(1);
+      expect(response.status).not.toEqual(500);
+      expect(secondResponse.send).toHaveBeenCalledTimes(1);
+      expect(secondResponse.status).not.toEqual(500);
+    });
   });
 
   describe('SSE endpoint', () => {
-    const request: Request = {
-      headers: { accept: 'text/event-stream' },
-    } as any;
-
     beforeEach(() => {
       use.mockClear();
       send.mockClear();
     });
 
     it('sends invalidate events', async () => {
-      await useStoriesJson(router, options, options.configDir);
+      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      await useStoriesJson(router, mockServerChannel, options, options.configDir);
 
       expect(use).toHaveBeenCalledTimes(1);
       const route = use.mock.calls[0][1];
@@ -155,13 +187,14 @@ describe('useStoriesJson', () => {
       expect(watcher.on).toHaveBeenCalledTimes(2);
       const onChange = watcher.on.mock.calls[0][1];
 
-      onChange('src/nested/Button.stories.ts');
-      expect(write).toHaveBeenCalledTimes(1);
-      expect(write).toHaveBeenCalledWith('event:INVALIDATE\ndata:\n\n');
+      await onChange('src/nested/Button.stories.ts');
+      expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
+      expect(mockServerChannel.emit).toHaveBeenCalledWith(Events.STORY_INDEX_INVALIDATED);
     });
 
     it('only sends one invalidation when multiple event listeners are listening', async () => {
-      await useStoriesJson(router, options, options.configDir);
+      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      await useStoriesJson(router, mockServerChannel, options, options.configDir);
 
       expect(use).toHaveBeenCalledTimes(1);
       const route = use.mock.calls[0][1];
@@ -181,9 +214,43 @@ describe('useStoriesJson', () => {
       expect(watcher.on).toHaveBeenCalledTimes(2);
       const onChange = watcher.on.mock.calls[0][1];
 
-      onChange('src/nested/Button.stories.ts');
-      expect(write).toHaveBeenCalledTimes(1);
-      expect(write).toHaveBeenCalledWith('event:INVALIDATE\ndata:\n\n');
+      await onChange('src/nested/Button.stories.ts');
+      expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
+      expect(mockServerChannel.emit).toHaveBeenCalledWith(Events.STORY_INDEX_INVALIDATED);
+    });
+
+    it('debounces invalidation events', async () => {
+      (debounce as jest.Mock).mockImplementation(jest.requireActual('lodash/debounce'));
+
+      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      await useStoriesJson(router, mockServerChannel, options, options.configDir);
+
+      expect(use).toHaveBeenCalledTimes(1);
+      const route = use.mock.calls[0][1];
+
+      await route(request, response);
+
+      expect(write).not.toHaveBeenCalled();
+
+      expect(Watchpack).toHaveBeenCalledTimes(1);
+      const watcher = Watchpack.mock.instances[0];
+      expect(watcher.watch).toHaveBeenCalledWith({ directories: ['./src'] });
+
+      expect(watcher.on).toHaveBeenCalledTimes(2);
+      const onChange = watcher.on.mock.calls[0][1];
+
+      await onChange('src/nested/Button.stories.ts');
+      await onChange('src/nested/Button.stories.ts');
+      await onChange('src/nested/Button.stories.ts');
+      await onChange('src/nested/Button.stories.ts');
+      await onChange('src/nested/Button.stories.ts');
+
+      expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
+      expect(mockServerChannel.emit).toHaveBeenCalledWith(Events.STORY_INDEX_INVALIDATED);
+
+      await new Promise((r) => setTimeout(r, 2 * DEBOUNCE));
+
+      expect(mockServerChannel.emit).toHaveBeenCalledTimes(2);
     });
   });
 });

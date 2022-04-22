@@ -15,4 +15,8 @@ module.exports = {
   core: {
     builder: 'webpack4',
   },
+  staticDirs: ['../public'],
+  features: {
+    buildStoriesJson: true,
+  },
 };

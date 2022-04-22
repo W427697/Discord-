@@ -1,28 +1,19 @@
 import global from 'global';
 import dedent from 'ts-dedent';
-import {
-  StoryId,
-  AnyFramework,
-  toId,
-  isExportStory,
-  Parameters,
-  StoryFn,
-  storyNameFromExport,
-} from '@storybook/csf';
-import {
+import { SynchronousPromise } from 'synchronous-promise';
+import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
+import type { StoryId, AnyFramework, Parameters, StoryFn } from '@storybook/csf';
+import { StoryStore, autoTitle, sortStoriesV6 } from '@storybook/store';
+import type {
   NormalizedProjectAnnotations,
   NormalizedStoriesSpecifier,
   Path,
   StoryIndex,
   ModuleExports,
-  StoryStore,
   Story,
-  autoTitle,
-  sortStoriesV6,
   StoryIndexEntry,
 } from '@storybook/store';
-
-const { STORIES = [] } = global;
+import { logger } from '@storybook/client-logger';
 
 export interface GetStorybookStory<TFramework extends AnyFramework> {
   name: string;
@@ -49,6 +40,8 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       parameters: {},
       argsEnhancers: [],
       argTypesEnhancers: [],
+      args: {},
+      argTypes: {},
     };
 
     this.stories = {};
@@ -59,9 +52,11 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
   // This doesn't actually import anything because the client-api loads fully
   // on startup, but this is a shim after all.
   importFn(path: Path) {
-    const moduleExports = this.csfExports[path];
-    if (!moduleExports) throw new Error(`Unknown path: ${path}`);
-    return moduleExports;
+    return SynchronousPromise.resolve().then(() => {
+      const moduleExports = this.csfExports[path];
+      if (!moduleExports) throw new Error(`Unknown path: ${path}`);
+      return moduleExports;
+    });
   }
 
   getStoryIndex(store: StoryStore<TFramework>) {
@@ -73,7 +68,11 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     const sortableV6: [StoryId, Story<TFramework>, Parameters, Parameters][] = storyEntries.map(
       ([storyId, { importPath }]) => {
         const exports = this.csfExports[importPath];
-        const csfFile = store.processCSFFileWithCache<TFramework>(exports, exports.default.title);
+        const csfFile = store.processCSFFileWithCache<TFramework>(
+          exports,
+          importPath,
+          exports.default.title
+        );
         return [
           storyId,
           store.storyFromCSFFile({ storyId, csfFile }),
@@ -95,7 +94,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
 
           > ${err.message}
           
-          Are you using a V7-style sort function in V6 compatibilty mode?
+          Are you using a V7-style sort function in V6 compatibility mode?
           
           More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#v7-style-story-sort
         `);
@@ -147,32 +146,41 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       title ||
       autoTitle(
         fileName,
-        STORIES.map((specifier: NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
-          ...specifier,
-          importPathMatcher: new RegExp(specifier.importPathMatcher),
-        }))
+        (global.STORIES || []).map(
+          (specifier: NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
+            ...specifier,
+            importPathMatcher: new RegExp(specifier.importPathMatcher),
+          })
+        )
       );
     if (!title) {
-      throw new Error(
+      logger.info(
         `Unexpected default export without title in '${fileName}': ${JSON.stringify(
           fileExports.default
         )}`
       );
+      return;
     }
 
     this.csfExports[fileName] = {
       ...fileExports,
-      default: {
-        ...defaultExport,
-        title,
-        parameters: {
-          fileName,
-          ...defaultExport.parameters,
-        },
-      },
+      default: { ...defaultExport, title },
     };
 
-    Object.entries(namedExports)
+    let sortedExports = namedExports;
+
+    // prefer a user/loader provided `__namedExportsOrder` array if supplied
+    // we do this as es module exports are always ordered alphabetically
+    // see https://github.com/storybookjs/storybook/issues/9136
+    if (Array.isArray(__namedExportsOrder)) {
+      sortedExports = {};
+      __namedExportsOrder.forEach((name) => {
+        const namedExport = namedExports[name];
+        if (namedExport) sortedExports[name] = namedExport;
+      });
+    }
+
+    Object.entries(sortedExports)
       .filter(([key]) => isExportStory(key, defaultExport))
       .forEach(([key, storyExport]: [string, any]) => {
         const exportName = storyNameFromExport(key);

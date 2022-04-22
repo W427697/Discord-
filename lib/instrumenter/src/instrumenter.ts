@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import { addons, Channel, StoryId } from '@storybook/addons';
+import { addons, Channel } from '@storybook/addons';
+import type { StoryId } from '@storybook/addons';
 import { once } from '@storybook/client-logger';
 import {
   FORCE_REMOUNT,
@@ -9,12 +10,11 @@ import {
 } from '@storybook/core-events';
 import global from 'global';
 
-import { Call, CallRef, CallStates, LogItem } from './types';
+import { Call, CallRef, CallStates, State, Options, ControlStates, LogItem } from './types';
 
 export const EVENTS = {
   CALL: 'instrumenter/call',
   SYNC: 'instrumenter/sync',
-  LOCK: 'instrumenter/lock',
   START: 'instrumenter/start',
   BACK: 'instrumenter/back',
   GOTO: 'instrumenter/goto',
@@ -22,31 +22,18 @@ export const EVENTS = {
   END: 'instrumenter/end',
 };
 
-export interface Options {
-  intercept?: boolean | ((method: string, path: Array<string | CallRef>) => boolean);
-  retain?: boolean;
-  mutate?: boolean;
-  path?: Array<string | CallRef>;
-  getArgs?: (call: Call, state: State) => Call['args'];
-}
-
-export interface State {
-  renderPhase: 'loading' | 'rendering' | 'playing' | 'completed' | 'aborted';
-  isDebugging: boolean;
-  cursor: number;
-  calls: Call[];
-  shadowCalls: Call[];
-  callRefsByResult: Map<any, CallRef & { retain: boolean }>;
-  chainedCallIds: Set<Call['id']>;
-  parentCall?: Call;
-  playUntil?: Call['id'];
-  resolvers: Record<Call['id'], Function>;
-  syncTimeout: ReturnType<typeof setTimeout>;
-  forwardedException?: Error;
-}
-
-export type PatchedObj<TObj> = {
+type PatchedObj<TObj> = {
   [Property in keyof TObj]: TObj[Property] & { __originalFn__: PatchedObj<TObj> };
+};
+
+const debuggerDisabled = global.FEATURES?.interactionsDebugger !== true;
+const controlsDisabled: ControlStates = {
+  debugger: !debuggerDisabled,
+  start: false,
+  back: false,
+  goto: false,
+  next: false,
+  end: false,
 };
 
 const alreadyCompletedException = new Error(
@@ -75,12 +62,14 @@ const construct = (obj: any) => {
 const getInitialState = (): State => ({
   renderPhase: undefined,
   isDebugging: false,
+  isPlaying: false,
+  isLocked: false,
   cursor: 0,
   calls: [],
   shadowCalls: [],
   callRefsByResult: new Map(),
   chainedCallIds: new Set<Call['id']>(),
-  parentCall: undefined,
+  parentId: undefined,
   playUntil: undefined,
   resolvers: {},
   syncTimeout: undefined,
@@ -102,6 +91,8 @@ const getRetainedState = (state: State, isDebugging = false) => {
 export class Instrumenter {
   channel: Channel;
 
+  initialized = false;
+
   // State is tracked per story to deal with multiple stories on the same canvas (i.e. docs mode)
   state: Record<StoryId, State>;
 
@@ -112,7 +103,15 @@ export class Instrumenter {
     this.state = global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ || {};
 
     // When called from `start`, isDebugging will be true
-    const resetState = ({ storyId, isDebugging }: { storyId?: StoryId; isDebugging?: boolean }) => {
+    const resetState = ({
+      storyId,
+      isPlaying = true,
+      isDebugging = false,
+    }: {
+      storyId?: StoryId;
+      isPlaying?: boolean;
+      isDebugging?: boolean;
+    }) => {
       const state = this.getState(storyId);
       this.setState(storyId, {
         ...getInitialState(),
@@ -120,11 +119,12 @@ export class Instrumenter {
         shadowCalls: isDebugging ? state.shadowCalls : [],
         chainedCallIds: isDebugging ? state.chainedCallIds : new Set<Call['id']>(),
         playUntil: isDebugging ? state.playUntil : undefined,
+        isPlaying,
         isDebugging,
       });
 
       // Don't sync while debugging, as it'll cause flicker.
-      if (!isDebugging) this.channel.emit(EVENTS.SYNC, this.getLog(storyId));
+      if (!isDebugging) this.sync(storyId);
     };
 
     // A forceRemount might be triggered for debugging (on `start`), or elsewhere in Storybook.
@@ -137,21 +137,29 @@ export class Instrumenter {
       if (newPhase === 'playing') {
         resetState({ storyId, isDebugging });
       }
-      if (newPhase === 'completed') {
-        this.setState(storyId, { isDebugging: false, forwardedException: undefined });
+      if (newPhase === 'played') {
+        this.setState(storyId, {
+          isLocked: false,
+          isPlaying: false,
+          isDebugging: false,
+          forwardedException: undefined,
+        });
         // Rethrow any unhandled forwarded exception so it doesn't go unnoticed.
         if (forwardedException) throw forwardedException;
       }
     });
 
-    // Trash non-retained state and clear the log when switching stories.
-    this.channel.on(SET_CURRENT_STORY, this.cleanup.bind(this));
+    // Trash non-retained state and clear the log when switching stories, but not on initial boot.
+    this.channel.on(SET_CURRENT_STORY, () => {
+      if (this.initialized) this.cleanup();
+      else this.initialized = true;
+    });
 
     const start = ({ storyId, playUntil }: { storyId: string; playUntil?: Call['id'] }) => {
       if (!this.getState(storyId).isDebugging) {
         this.setState(storyId, ({ calls }) => ({
           calls: [],
-          shadowCalls: calls.map((call) => ({ ...call, state: CallStates.WAITING })),
+          shadowCalls: calls.map((call) => ({ ...call, status: CallStates.WAITING })),
           isDebugging: true,
         }));
       }
@@ -170,7 +178,6 @@ export class Instrumenter {
       });
 
       // Force remount may trigger a page reload if the play function can't be aborted.
-      // global.window.location.reload();
       this.channel.emit(FORCE_REMOUNT, { storyId, isDebugging: true });
     };
 
@@ -178,7 +185,7 @@ export class Instrumenter {
       const { isDebugging } = this.getState(storyId);
       const log = this.getLog(storyId);
       const next = isDebugging
-        ? log.findIndex(({ state }) => state === CallStates.WAITING)
+        ? log.findIndex(({ status }) => status === CallStates.WAITING)
         : log.length;
       start({ storyId, playUntil: log[next - 2]?.callId });
     };
@@ -187,10 +194,9 @@ export class Instrumenter {
       const { calls, shadowCalls, resolvers } = this.getState(storyId);
       const call = calls.find(({ id }) => id === callId);
       const shadowCall = shadowCalls.find(({ id }) => id === callId);
-      if (!call && shadowCall) {
-        const nextCallId = this.getLog(storyId).find(({ state }) => state === CallStates.WAITING)
-          ?.callId;
-        if (shadowCall.id !== nextCallId) this.setState(storyId, { playUntil: shadowCall.id });
+      if (!call && shadowCall && Object.values(resolvers).length > 0) {
+        const nextId = this.getLog(storyId).find((c) => c.status === CallStates.WAITING)?.callId;
+        if (shadowCall.id !== nextId) this.setState(storyId, { playUntil: shadowCall.id });
         Object.values(resolvers).forEach((resolve) => resolve());
       } else {
         start({ storyId, playUntil: callId });
@@ -198,7 +204,14 @@ export class Instrumenter {
     };
 
     const next = ({ storyId }: { storyId: string }) => {
-      Object.values(this.getState(storyId).resolvers).forEach((resolve) => resolve());
+      const { resolvers } = this.getState(storyId);
+      if (Object.values(resolvers).length > 0) {
+        Object.values(resolvers).forEach((resolve) => resolve());
+      } else {
+        const nextId = this.getLog(storyId).find((c) => c.status === CallStates.WAITING)?.callId;
+        if (nextId) start({ storyId, playUntil: nextId });
+        else end({ storyId });
+      }
     };
 
     const end = ({ storyId }: { storyId: string }) => {
@@ -233,7 +246,7 @@ export class Instrumenter {
       acc[storyId] = Object.assign(getInitialState(), retainedState);
       return acc;
     }, {} as Record<StoryId, State>);
-    this.channel.emit(EVENTS.SYNC, []);
+    this.channel.emit(EVENTS.SYNC, { controlStates: controlsDisabled, logItems: [] });
     global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ = this.state;
   }
 
@@ -256,12 +269,9 @@ export class Instrumenter {
           seen.add((node as CallRef).__callId__);
         }
       });
-      if (call.interceptable && !seen.has(call.id) && !seen.has(call.parentId)) {
-        acc.unshift({ callId: call.id, state: call.state });
+      if (call.interceptable && !seen.has(call.id)) {
+        acc.unshift({ callId: call.id, status: call.status });
         seen.add(call.id);
-        if (call.parentId) {
-          seen.add(call.parentId);
-        }
       }
       return acc;
     }, []);
@@ -317,12 +327,12 @@ export class Instrumenter {
   track(method: string, fn: Function, args: any[], options: Options) {
     const storyId: StoryId =
       args?.[0]?.__storyId__ || global.window.__STORYBOOK_PREVIEW__?.urlStore?.selection?.storyId;
-    const index = this.getState(storyId).cursor;
-    this.setState(storyId, { cursor: index + 1 });
-    const id = `${storyId} [${index}] ${method}`;
+    const { cursor, parentId } = this.getState(storyId);
+    this.setState(storyId, { cursor: cursor + 1 });
+    const id = `${parentId || storyId} [${cursor}] ${method}`;
     const { path = [], intercept = false, retain = false } = options;
     const interceptable = typeof intercept === 'function' ? intercept(method, path) : intercept;
-    const call: Call = { id, path, method, storyId, args, interceptable, retain };
+    const call: Call = { id, parentId, storyId, cursor, path, method, args, interceptable, retain };
     const result = (interceptable ? this.intercept : this.invoke).call(this, fn, call, options);
     return this.instrument(result, { ...options, mutate: true, path: [{ __callId__: call.id }] });
   }
@@ -342,28 +352,28 @@ export class Instrumenter {
 
     // Instead of invoking the function, defer the function call until we continue playing.
     return new Promise((resolve) => {
-      this.channel.emit(EVENTS.LOCK, false);
       this.setState(call.storyId, ({ resolvers }) => ({
+        isLocked: false,
         resolvers: { ...resolvers, [call.id]: resolve },
       }));
     }).then(() => {
-      this.channel.emit(EVENTS.LOCK, true);
       this.setState(call.storyId, (state) => {
         const { [call.id]: _, ...resolvers } = state.resolvers;
-        return { resolvers };
+        return { isLocked: true, resolvers };
       });
       return this.invoke(fn, call, options);
     });
   }
 
   invoke(fn: Function, call: Call, options: Options) {
-    const { parentCall, callRefsByResult, forwardedException, renderPhase } = this.getState(
-      call.storyId
-    );
-    const callWithParent = { ...call, parentId: parentCall?.id };
+    // TODO this doesnt work because the abortSignal we have here is the newly created one
+    // const { abortSignal } = global.window.__STORYBOOK_PREVIEW__ || {};
+    // if (abortSignal && abortSignal.aborted) throw IGNORED_EXCEPTION;
+
+    const { callRefsByResult, forwardedException, renderPhase } = this.getState(call.storyId);
 
     const info: Call = {
-      ...callWithParent,
+      ...call,
       // Map args that originate from a tracked function call to a call reference to enable nesting.
       // These values are often not fully serializable anyway (e.g. HTML elements).
       args: call.args.map((arg) => {
@@ -391,8 +401,8 @@ export class Instrumenter {
     const handleException = (e: unknown) => {
       if (e instanceof Error) {
         const { name, message, stack } = e;
-        const exception = { name, message, stack, callId: call.id };
-        this.sync({ ...info, state: CallStates.ERROR, exception });
+        const exception = { name, message, stack };
+        this.update({ ...info, status: CallStates.ERROR, exception });
 
         // Always track errors to their originating call.
         this.setState(call.storyId, (state) => ({
@@ -423,22 +433,25 @@ export class Instrumenter {
         throw forwardedException;
       }
 
-      if (renderPhase === 'completed' && !call.retain) {
+      if (renderPhase === 'played' && !call.retain) {
         throw alreadyCompletedException;
       }
 
       const finalArgs = options.getArgs
-        ? options.getArgs(callWithParent, this.getState(call.storyId))
+        ? options.getArgs(call, this.getState(call.storyId))
         : call.args;
       const result = fn(
         // Wrap any callback functions to provide a way to access their "parent" call.
+        // This is picked up in the `track` function and used for call metadata.
         ...finalArgs.map((arg: any) => {
           if (typeof arg !== 'function' || Object.keys(arg).length) return arg;
           return (...args: any) => {
-            const prev = this.getState(call.storyId).parentCall;
-            this.setState(call.storyId, { parentCall: call });
+            const { cursor, parentId } = this.getState(call.storyId);
+            this.setState(call.storyId, { cursor: 0, parentId: call.id });
+            const restore = () => this.setState(call.storyId, { cursor, parentId });
             const res = arg(...args);
-            this.setState(call.storyId, { parentCall: prev });
+            if (res instanceof Promise) res.then(restore, restore);
+            else restore();
             return res;
           };
         })
@@ -455,14 +468,14 @@ export class Instrumenter {
         }));
       }
 
-      this.sync({
+      this.update({
         ...info,
-        state: result instanceof Promise ? CallStates.ACTIVE : CallStates.DONE,
+        status: result instanceof Promise ? CallStates.ACTIVE : CallStates.DONE,
       });
 
       if (result instanceof Promise) {
         return result.then((value) => {
-          this.sync({ ...info, state: CallStates.DONE });
+          this.update({ ...info, status: CallStates.DONE });
           return value;
         }, handleException);
       }
@@ -475,13 +488,47 @@ export class Instrumenter {
 
   // Sends the call info and log to the manager.
   // Uses a 0ms debounce because this might get called many times in one tick.
-  sync(call: Call) {
+  update(call: Call) {
     clearTimeout(this.getState(call.storyId).syncTimeout);
     this.channel.emit(EVENTS.CALL, call);
-    this.setState(call.storyId, ({ calls }) => ({
-      calls: calls.concat(call),
-      syncTimeout: setTimeout(() => this.channel.emit(EVENTS.SYNC, this.getLog(call.storyId)), 0),
-    }));
+    this.setState(call.storyId, ({ calls }) => {
+      // Omit earlier calls for the same ID, which may have been superceded by a later invocation.
+      // This typically happens when calls are part of a callback which runs multiple times.
+      const callsById = calls
+        .concat(call)
+        .reduce<Record<Call['id'], Call>>((a, c) => Object.assign(a, { [c.id]: c }), {});
+      return {
+        // Calls are sorted to ensure parent calls always come before calls in their callback.
+        calls: Object.values(callsById).sort((a, b) =>
+          a.id.localeCompare(b.id, undefined, { numeric: true })
+        ),
+        syncTimeout: setTimeout(() => this.sync(call.storyId), 0),
+      };
+    });
+  }
+
+  sync(storyId: StoryId) {
+    const { isLocked, isPlaying } = this.getState(storyId);
+    const logItems: LogItem[] = this.getLog(storyId);
+
+    const hasActive = logItems.some((item) => item.status === CallStates.ACTIVE);
+    if (debuggerDisabled || isLocked || hasActive || logItems.length === 0) {
+      this.channel.emit(EVENTS.SYNC, { controlStates: controlsDisabled, logItems });
+      return;
+    }
+
+    const hasPrevious = logItems.some((item) =>
+      [CallStates.DONE, CallStates.ERROR].includes(item.status)
+    );
+    const controlStates: ControlStates = {
+      debugger: true,
+      start: hasPrevious,
+      back: hasPrevious,
+      goto: true,
+      next: isPlaying,
+      end: isPlaying,
+    };
+    this.channel.emit(EVENTS.SYNC, { controlStates, logItems });
   }
 }
 
