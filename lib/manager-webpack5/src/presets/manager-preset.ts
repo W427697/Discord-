@@ -15,7 +15,7 @@ import {
   loadManagerOrAddonsFile,
   resolvePathInStorybookCache,
   stringifyProcessEnvs,
-  es6Transpiler,
+  // es6Transpiler,
   getManagerHeadTemplate,
   getManagerMainTemplate,
 } from '@storybook/core-common';
@@ -58,9 +58,6 @@ export async function managerWebpack(
   const {
     packageJson: { version },
   } = await readPackage({ cwd: __dirname });
-
-  // @ts-ignore
-  // const { BundleAnalyzerPlugin } = await import('webpack-bundle-analyzer').catch(() => ({}));
 
   return {
     name: 'manager',
@@ -120,8 +117,8 @@ export async function managerWebpack(
     ].filter(Boolean),
     module: {
       rules: [
-        babelLoader(),
-        es6Transpiler() as any,
+        // babelLoader(),
+        // es6Transpiler() as any,
         {
           test: /\.css$/,
           use: [

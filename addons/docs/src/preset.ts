@@ -103,18 +103,6 @@ export async function webpack(
       rules: [
         ...rules,
         {
-          test: /\.js$/,
-          include: new RegExp(`node_modules\\${path.sep}acorn-jsx`),
-          use: [
-            {
-              loader: resolvedBabelLoader,
-              options: {
-                presets: [[require.resolve('@babel/preset-env'), { modules: 'commonjs' }]],
-              },
-            },
-          ],
-        },
-        {
           test: /(stories|story)\.mdx$/,
           use: [
             {

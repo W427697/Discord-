@@ -11,6 +11,8 @@ import type { Options } from '@storybook/core-common';
 
 export const babel = async (_: unknown, options: Options) => {
   const { configDir, presets } = options;
+
+  console.log('options.features?.babelModeV7', options.features?.babelModeV7);
   if (options.features?.babelModeV7) {
     return presets.apply('babelDefault', {}, options);
   }
