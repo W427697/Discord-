@@ -218,26 +218,35 @@ describe('StoryIndexGenerator', () => {
 
   describe('sorting', () => {
     it('runs a user-defined sort function', async () => {
-      const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+      const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
         './src/**/*.stories.(ts|js|jsx)',
         options
       );
+      const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        './src/**/*.docs.mdx',
+        options
+      );
 
-      const generator = new StoryIndexGenerator([specifier], options);
+      const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
       await generator.initialize();
 
       (getStorySortParameter as jest.Mock).mockReturnValueOnce({
-        order: ['D', 'B', 'nested', 'A', 'second-nested', 'first-nested/deeply'],
+        order: ['docs2', 'D', 'B', 'nested', 'A', 'second-nested', 'first-nested/deeply'],
       });
 
-      expect(Object.keys((await generator.getIndex()).entries)).toEqual([
-        'd--story-one',
-        'b--story-one',
-        'nested-button--story-one',
-        'a--story-one',
-        'second-nested-g--story-one',
-        'first-nested-deeply-f--story-one',
-      ]);
+      expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
+        Array [
+          "docs2-notitle--docs",
+          "docs2-yabbadabbadooo--docs",
+          "d--story-one",
+          "b--story-one",
+          "nested-button--story-one",
+          "a--docs",
+          "a--story-one",
+          "second-nested-g--story-one",
+          "first-nested-deeply-f--story-one",
+        ]
+      `);
     });
   });
 
