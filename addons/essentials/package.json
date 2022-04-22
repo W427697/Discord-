@@ -67,18 +67,6 @@
     "@storybook/angular": {
       "optional": true
     },
-    "@storybook/builder-manager4": {
-      "optional": true
-    },
-    "@storybook/builder-manager5": {
-      "optional": true
-    },
-    "@storybook/builder-webpack4": {
-      "optional": true
-    },
-    "@storybook/builder-webpack5": {
-      "optional": true
-    },
     "@storybook/html": {
       "optional": true
     },
@@ -110,9 +98,6 @@
       "optional": true
     },
     "vue": {
-      "optional": true
-    },
-    "webpack": {
       "optional": true
     }
   },

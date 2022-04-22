@@ -46,12 +46,10 @@
     "@storybook/renderer-react": "6.5.0-alpha.64",
     "@types/node": "^14.14.20 || ^16.0.0",
     "core-js": "^3.8.2",
-    "regenerator-runtime": "^0.13.7",
-    "webpack": ">=4.43.0 <6.0.0"
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
-    "jest-specific-snapshot": "^4.0.0",
-    "webpack": "4"
+    "jest-specific-snapshot": "^4.0.0"
   },
   "peerDependencies": {
     "@babel/core": "^7.11.5",
@@ -60,18 +58,6 @@
   },
   "peerDependenciesMeta": {
     "@babel/core": {
-      "optional": true
-    },
-    "@storybook/builder-webpack4": {
-      "optional": true
-    },
-    "@storybook/builder-webpack5": {
-      "optional": true
-    },
-    "@storybook/manager-webpack4": {
-      "optional": true
-    },
-    "@storybook/manager-webpack5": {
       "optional": true
     },
     "typescript": {

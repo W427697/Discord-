@@ -6739,14 +6739,6 @@ __metadata:
   peerDependenciesMeta:
     "@storybook/angular":
       optional: true
-    "@storybook/builder-manager4":
-      optional: true
-    "@storybook/builder-manager5":
-      optional: true
-    "@storybook/builder-webpack4":
-      optional: true
-    "@storybook/builder-webpack5":
-      optional: true
     "@storybook/html":
       optional: true
     "@storybook/vue":
@@ -6768,8 +6760,6 @@ __metadata:
     sveltedoc-parser:
       optional: true
     vue:
-      optional: true
-    webpack:
       optional: true
   languageName: unknown
   linkType: soft
@@ -7675,7 +7665,6 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    webpack: "*"
   peerDependenciesMeta:
     typescript:
       optional: true
@@ -8054,13 +8043,11 @@ __metadata:
     "@storybook/preset-html-webpack": 6.5.0-alpha.64
     "@storybook/renderer-html": 6.5.0-alpha.64
     "@types/node": ^14.14.20 || ^16.0.0
-    "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    webpack: 4
   peerDependencies:
     "@babel/core": "*"
   languageName: unknown
@@ -8316,7 +8303,6 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    webpack: 4
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
@@ -8610,21 +8596,12 @@ __metadata:
     core-js: ^3.8.2
     jest-specific-snapshot: ^4.0.0
     regenerator-runtime: ^0.13.7
-    webpack: 4
   peerDependencies:
     "@babel/core": ^7.11.5
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
     "@babel/core":
-      optional: true
-    "@storybook/builder-webpack4":
-      optional: true
-    "@storybook/builder-webpack5":
-      optional: true
-    "@storybook/manager-webpack4":
-      optional: true
-    "@storybook/manager-webpack5":
       optional: true
     typescript:
       optional: true
@@ -8647,7 +8624,6 @@ __metadata:
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
-    webpack: 4
   peerDependencies:
     "@babel/core": "*"
   languageName: unknown
@@ -9218,7 +9194,6 @@ __metadata:
     regenerator-runtime: ^0.13.7
     svelte: ^3.31.2
     svelte-loader: ^3.0.0
-    webpack: 4
   peerDependencies:
     "@babel/core": "*"
     svelte: ^3.1.0
@@ -9356,7 +9331,6 @@ __metadata:
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
     vue: 3.0.0
-    webpack: 4
   peerDependencies:
     "@babel/core": "*"
     "@vue/compiler-sfc": ^3.0.0
@@ -9381,7 +9355,6 @@ __metadata:
     vue: ^2.6.12
     vue-loader: ^15.9.6
     vue-template-compiler: ^2.6.12
-    webpack: 4
   peerDependencies:
     "@babel/core": "*"
     babel-loader: ^7.0.0 || ^8.0.0
