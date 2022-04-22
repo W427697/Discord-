@@ -28,7 +28,7 @@ module.exports = {
     return config;
   },
   core: {
-    builder: 'webpack4',
+    builder: '@storybook/builder-webpack5',
   },
   staticDirs: ['../ember-output'],
   features: {

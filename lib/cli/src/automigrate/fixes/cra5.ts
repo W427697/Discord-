@@ -35,15 +35,15 @@ export const cra5: Fix<CRA5RunOptions> = {
     return builderInfo ? { craVersion, ...builderInfo } : null;
   },
 
-  prompt({ craVersion, storybookVersion }) {
+  prompt({ craVersion }) {
     const craFormatted = chalk.cyan(`Create React App (CRA) ${craVersion}`);
-    const sbFormatted = chalk.cyan(`Storybook ${storybookVersion}`);
+
     return dedent`
       We've detected you are running ${craFormatted} which is powered by webpack5.
-      ${sbFormatted} runs webpack4 by default, which is incompatible.
+      Your Storybook's main.js files specifies webpack4, which is incompatible.
 
       In order to work with your version of CRA, we need to install Storybook's ${chalk.cyan(
-        'webpack5 builder'
+        '@storybook/builder-webpack5'
       )}.
 
       More info: ${chalk.yellow(

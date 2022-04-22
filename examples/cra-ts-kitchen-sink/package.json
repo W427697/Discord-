@@ -51,7 +51,7 @@
     "fork-ts-checker-webpack-plugin": "^6.0.4",
     "react-moment-proptypes": "^1.7.0",
     "ts-node": "^9.1.0",
-    "webpack": "4"
+    "webpack": "5"
   },
   "storybook": {
     "chromatic": {

@@ -103,7 +103,6 @@ module.exports = {
         './lib/core',
         './lib/core-common',
         './lib/core-server',
-        './lib/builder-webpack4',
         './lib/builder-webpack5',
         './lib/codemod',
         './addons/storyshots',

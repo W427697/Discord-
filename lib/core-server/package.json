@@ -40,13 +40,12 @@
   },
   "dependencies": {
     "@discoveryjs/json-ext": "^0.5.3",
-    "@storybook/builder-webpack4": "6.5.0-alpha.64",
     "@storybook/core-client": "6.5.0-alpha.64",
     "@storybook/core-common": "6.5.0-alpha.64",
     "@storybook/core-events": "6.5.0-alpha.64",
     "@storybook/csf": "0.0.2--canary.7c6c115.0",
     "@storybook/csf-tools": "6.5.0-alpha.64",
-    "@storybook/manager-webpack4": "6.5.0-alpha.64",
+    "@storybook/manager-webpack5": "6.5.0-alpha.64",
     "@storybook/node-logger": "6.5.0-alpha.64",
     "@storybook/semver": "^7.3.2",
     "@storybook/store": "6.5.0-alpha.64",
@@ -81,7 +80,7 @@
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2",
     "watchpack": "^2.2.0",
-    "webpack": "4",
+    "webpack": "5",
     "ws": "^8.2.3",
     "x-default-browser": "^0.4.0"
   },

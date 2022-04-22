@@ -32,7 +32,7 @@ const config: StorybookConfig = {
     '@storybook/addon-a11y',
   ],
   core: {
-    builder: 'webpack4',
+    builder: '@storybook/builder-webpack5',
   },
   logLevel: 'debug',
   features: {

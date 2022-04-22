@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@types/util-deprecate": "^1.0.0",
-    "webpack": "4"
+    "webpack": "5"
   },
   "peerDependencies": {
     "@babel/core": "^7.11.5",
@@ -71,18 +71,6 @@
   },
   "peerDependenciesMeta": {
     "@babel/core": {
-      "optional": true
-    },
-    "@storybook/builder-webpack4": {
-      "optional": true
-    },
-    "@storybook/builder-webpack5": {
-      "optional": true
-    },
-    "@storybook/manager-webpack4": {
-      "optional": true
-    },
-    "@storybook/manager-webpack5": {
       "optional": true
     },
     "typescript": {

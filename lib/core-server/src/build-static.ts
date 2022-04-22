@@ -15,6 +15,8 @@ import type {
   Builder,
   StorybookConfig,
   CoreConfig,
+  BuilderConfig,
+  BuilderConfigObject,
 } from '@storybook/core-common';
 import { loadAllPresets, normalizeStories, logConfig } from '@storybook/core-common';
 
@@ -57,6 +59,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
 
   const previewBuilder: Builder<unknown, unknown> = await getPreviewBuilder(options.configDir);
   const managerBuilder: Builder<unknown, unknown> = await getManagerBuilder(options.configDir);
+  const { getPrebuiltDir } = await import('@storybook/manager-webpack5/prebuilt-manager');
 
   const presets = loadAllPresets({
     corePresets: [
@@ -114,14 +117,6 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     logConfig('Preview webpack config', await previewBuilder.getConfig(fullOptions));
     logConfig('Manager webpack config', await managerBuilder.getConfig(fullOptions));
   }
-
-  const core = await presets.apply<CoreConfig | undefined>('core');
-  const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
-  const { getPrebuiltDir } =
-    builderName === 'webpack5'
-      ? // eslint-disable-next-line import/no-extraneous-dependencies
-        await import('@storybook/manager-webpack5/prebuilt-manager')
-      : await import('@storybook/manager-webpack4/prebuilt-manager');
 
   const prebuiltDir = await getPrebuiltDir(fullOptions);
 

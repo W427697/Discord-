@@ -100,7 +100,7 @@ export function detectFrameworkPreset(packageJson = {}) {
 
 /**
  * Attempts to detect which builder to use, by searching for a vite config file.  If one is found, the vite builder
- * will be used, otherwise, webpack4 is the default.
+ * will be used, otherwise, webpack5 is the default.
  *
  * @returns CoreBuilder
  */
@@ -139,8 +139,8 @@ export function detectBuilder(packageManager: JsPackageManager) {
     //
   }
 
-  // Fallback to webpack4
-  return CoreBuilder.Webpack4;
+  // Fallback to webpack5
+  return CoreBuilder.Webpack5;
 }
 
 export function isStorybookInstalled(dependencies: PackageJson | false, force?: boolean) {

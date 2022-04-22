@@ -21,7 +21,11 @@ export interface TypescriptConfig {
   };
 }
 
-export type BuilderName = 'webpack4' | 'webpack5' | string;
+export type BuilderName =
+  | '@storybook/builder-webpack4'
+  | '@storybook/builder-webpack5'
+  | '@storybook/builder-vite'
+  | string;
 
 export type BuilderConfigObject = {
   name: BuilderName;
@@ -29,7 +33,7 @@ export type BuilderConfigObject = {
 };
 
 export interface Webpack5BuilderConfig extends BuilderConfigObject {
-  name: 'webpack5';
+  name: '@storybook/builder-webpack5';
   options?: {
     fsCache?: boolean;
     lazyCompilation?: boolean;
@@ -37,7 +41,7 @@ export interface Webpack5BuilderConfig extends BuilderConfigObject {
 }
 
 export interface Webpack4BuilderConfig extends BuilderConfigObject {
-  name: 'webpack4';
+  name: '@storybook/builder-webpack4';
 }
 
 export type BuilderConfig =

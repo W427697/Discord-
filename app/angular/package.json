@@ -96,7 +96,7 @@
     "jest-preset-angular": "^8.3.2",
     "jest-specific-snapshot": "^4.0.0",
     "tmp": "^0.2.1",
-    "webpack": "4"
+    "webpack": "5"
   },
   "peerDependencies": {
     "@angular-devkit/architect": ">=0.8.9",

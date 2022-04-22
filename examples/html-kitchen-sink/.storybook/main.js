@@ -22,7 +22,7 @@ module.exports = {
     '@storybook/addon-viewport',
   ],
   core: {
-    builder: 'webpack4',
+    builder: '@storybook/builder-webpack5',
   },
   features: {
     buildStoriesJson: true,
