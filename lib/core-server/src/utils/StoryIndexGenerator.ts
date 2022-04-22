@@ -24,6 +24,16 @@ type StoriesCacheEntry = { entries: IndexEntry[]; dependents: Path[]; type: 'sto
 type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry;
 type SpecifierStoriesCache = Record<Path, CacheEntry>;
 
+const makeAbsolute = (otherImport: Path, normalizedPath: Path, workingDir: Path) =>
+  otherImport.startsWith('.')
+    ? slash(
+        path.resolve(
+          workingDir,
+          normalizeStoryPath(path.join(path.dirname(normalizedPath), otherImport))
+        )
+      )
+    : otherImport;
+
 export class StoryIndexGenerator {
   // An internal cache mapping specifiers to a set of path=><set of stories>
   // Later, we'll combine each of these subsets together to form the full index
@@ -119,6 +129,34 @@ export class StoryIndexGenerator {
     });
   }
 
+  findDependencies(absoluteImports: Path[]) {
+    const dependencies = [] as StoriesCacheEntry[];
+    const foundImports = new Set();
+    this.specifierToCache.forEach((cache) => {
+      const fileNames = Object.keys(cache).filter((fileName) => {
+        const foundImport = absoluteImports.find((storyImport) => fileName.startsWith(storyImport));
+        if (foundImport) foundImports.add(foundImport);
+        return !!foundImport;
+      });
+      fileNames.forEach((fileName) => {
+        const cacheEntry = cache[fileName];
+        if (cacheEntry && cacheEntry.type === 'stories') {
+          dependencies.push(cacheEntry);
+        } else {
+          throw new Error(`Unexpected dependency: ${cacheEntry}`);
+        }
+      });
+    });
+
+    if (absoluteImports.length !== foundImports.size) {
+      throw new Error(
+        `Missing dependencies: ${absoluteImports.filter((p) => !foundImports.has(p))}`
+      );
+    }
+
+    return dependencies;
+  }
+
   async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     try {
@@ -138,41 +176,32 @@ export class StoryIndexGenerator {
       // { title?, of?, imports? }
       const result = analyze(content);
 
-      const makeAbsolute = (otherImport: Path) =>
-        otherImport.startsWith('.')
-          ? slash(
-              path.join(
-                this.options.workingDir,
-                normalizeStoryPath(path.join(path.dirname(normalizedPath), otherImport))
-              )
-            )
-          : otherImport;
-
-      const absoluteImports = (result.imports as string[]).map(makeAbsolute);
-      const absoluteOf = result.of && makeAbsolute(result.of);
+      const absoluteImports = (result.imports as string[]).map((p) =>
+        makeAbsolute(p, normalizedPath, this.options.workingDir)
+      );
 
       // Go through the cache and collect all of the cache entries that this docs file depends on.
       // We'll use this to make sure this docs cache entry is invalidated when any of its dependents
-      // are invalidated. Also, if `absoluteOf` is set, it means that we're using the
-      // `<Meta of={meta} />` syntax, so find the `title` defined the file that `meta` points to.
+      // are invalidated.
+      const dependencies = this.findDependencies(absoluteImports);
+
+      // Also, if `result.of` is set, it means that we're using the `<Meta of={meta} />` syntax,
+      // so find the `title` defined the file that `meta` points to.
       let ofTitle: string;
-      const dependencies = [] as StoriesCacheEntry[];
-      this.specifierToCache.forEach((cache) => {
-        const fileNames = Object.keys(cache).filter((fileName) => {
-          return absoluteImports.some((storyImport) => fileName.startsWith(storyImport));
-        });
-        fileNames.forEach((fileName) => {
-          const cacheEntry = cache[fileName];
-          if (cacheEntry && cacheEntry.type === 'stories') {
-            if (absoluteOf && fileName.startsWith(absoluteOf) && cacheEntry.entries.length > 0) {
-              ofTitle = cacheEntry.entries[0].title;
+      if (result.of) {
+        const absoluteOf = makeAbsolute(result.of, normalizedPath, this.options.workingDir);
+        dependencies.forEach((dep) => {
+          if (dep.entries.length > 0) {
+            const first = dep.entries[0];
+            if (path.resolve(this.options.workingDir, first.importPath).startsWith(absoluteOf)) {
+              ofTitle = first.title;
             }
-            dependencies.push(cacheEntry);
-          } else {
-            throw new Error(`Unexpected dependency: ${cacheEntry}`);
           }
         });
-      });
+
+        if (!ofTitle)
+          throw new Error(`Could not find "${result.of}" for docs file "${relativePath}".`);
+      }
 
       // Track that we depend on this for easy invalidation later.
       dependencies.forEach((dep) => {
@@ -297,16 +326,34 @@ export class StoryIndexGenerator {
     if (cacheEntry && cacheEntry.type === 'stories') {
       const { dependents } = cacheEntry;
 
+      const invalidated = new Set();
       // the dependent can be in ANY cache, so we loop over all of them
       this.specifierToCache.forEach((otherCache) => {
         dependents.forEach((dep) => {
-          // eslint-disable-next-line no-param-reassign
-          if (otherCache[dep]) otherCache[dep] = false;
+          if (otherCache[dep]) {
+            invalidated.add(dep);
+            // eslint-disable-next-line no-param-reassign
+            otherCache[dep] = false;
+          }
         });
       });
+
+      const notFound = dependents.filter((dep) => !invalidated.has(dep));
+      if (notFound.length > 0) {
+        throw new Error(`Could not invalidate ${notFound.length} deps: ${notFound.join(', ')}`);
+      }
     }
 
     if (removed) {
+      if (cacheEntry && cacheEntry.type === 'docs') {
+        const absoluteImports = cacheEntry.storiesImports.map((p) =>
+          path.resolve(this.options.workingDir, p)
+        );
+        const dependencies = this.findDependencies(absoluteImports);
+        dependencies.forEach((dep) =>
+          dep.dependents.splice(dep.dependents.indexOf(absolutePath), 1)
+        );
+      }
       delete cache[absolutePath];
     } else {
       cache[absolutePath] = false;

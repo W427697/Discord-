@@ -2,10 +2,18 @@ import path from 'path';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
 import { readCsfOrMdx, getStorySortParameter } from '@storybook/csf-tools';
+import { toId } from '@storybook/csf';
 
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('@storybook/csf-tools');
+jest.mock('@storybook/csf', () => {
+  const csf = jest.requireActual('@storybook/csf');
+  return {
+    ...csf,
+    toId: jest.fn(csf.toId),
+  };
+});
 
 // FIXME: can't figure out how to import ESM
 jest.mock('@storybook/docs-mdx', async () => ({
@@ -18,6 +26,7 @@ jest.mock('@storybook/docs-mdx', async () => ({
   },
 }));
 
+const toIdMock = toId as jest.Mock<ReturnType<typeof toId>>;
 const readCsfOrMdxMock = readCsfOrMdx as jest.Mock<ReturnType<typeof readCsfOrMdx>>;
 const getStorySortParameterMock = getStorySortParameter as jest.Mock<
   ReturnType<typeof getStorySortParameter>
@@ -205,13 +214,25 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/docs2/Title.docs.mdx",
                 "name": "docs",
                 "storiesImports": Array [],
-                "title": "Docs2/Yabbadabbadooo",
+                "title": "docs2/Yabbadabbadooo",
                 "type": "docs",
               },
             },
             "v": 4,
           }
         `);
+      });
+
+      it('errors when docs dependencies are missing', async () => {
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/MetaOf.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([docsSpecifier], options);
+        await expect(() => generator.initialize()).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"Missing dependencies: /Users/shilman/projects/baseline/storybook/lib/core-server/src/utils/__mockdata__/src/A.stories"`
+        );
       });
     });
   });
@@ -269,6 +290,26 @@ describe('StoryIndexGenerator', () => {
         expect(readCsfOrMdxMock).not.toHaveBeenCalled();
       });
 
+      it('does not extract docs files a second time', async () => {
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.(ts|js|jsx)',
+          options
+        );
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(4);
+
+        toIdMock.mockClear();
+        await generator.getIndex();
+        expect(toId).not.toHaveBeenCalled();
+      });
+
       it('does not call the sort function a second time', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
@@ -308,6 +349,50 @@ describe('StoryIndexGenerator', () => {
         expect(readCsfOrMdxMock).toHaveBeenCalledTimes(1);
       });
 
+      it('calls extract docs file for just the one file', async () => {
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.(ts|js|jsx)',
+          options
+        );
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(4);
+
+        generator.invalidate(docsSpecifier, './src/docs2/Title.docs.mdx', false);
+
+        toIdMock.mockClear();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(1);
+      });
+
+      it('calls extract for a csf file and any of its docs dependents', async () => {
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.(ts|js|jsx)',
+          options
+        );
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(4);
+
+        generator.invalidate(storiesSpecifier, './src/A.stories.js', false);
+
+        toIdMock.mockClear();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(2);
+      });
+
       it('does call the sort function a second time', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
@@ -327,63 +412,136 @@ describe('StoryIndexGenerator', () => {
         await generator.getIndex();
         expect(sortFn).toHaveBeenCalled();
       });
+    });
 
-      describe('file removed', () => {
-        it('does not extract csf files a second time', async () => {
-          const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-            './src/**/*.stories.(ts|js|jsx)',
-            options
-          );
+    describe('file removed', () => {
+      it('does not extract csf files a second time', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.stories.(ts|js|jsx)',
+          options
+        );
 
-          readCsfOrMdxMock.mockClear();
-          const generator = new StoryIndexGenerator([specifier], options);
-          await generator.initialize();
-          await generator.getIndex();
-          expect(readCsfOrMdxMock).toHaveBeenCalledTimes(7);
+        readCsfOrMdxMock.mockClear();
+        const generator = new StoryIndexGenerator([specifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(readCsfOrMdxMock).toHaveBeenCalledTimes(7);
 
-          generator.invalidate(specifier, './src/B.stories.ts', true);
+        generator.invalidate(specifier, './src/B.stories.ts', true);
 
-          readCsfOrMdxMock.mockClear();
-          await generator.getIndex();
-          expect(readCsfOrMdxMock).not.toHaveBeenCalled();
-        });
+        readCsfOrMdxMock.mockClear();
+        await generator.getIndex();
+        expect(readCsfOrMdxMock).not.toHaveBeenCalled();
+      });
 
-        it('does call the sort function a second time', async () => {
-          const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-            './src/**/*.stories.(ts|js|jsx)',
-            options
-          );
+      it('does call the sort function a second time', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.stories.(ts|js|jsx)',
+          options
+        );
 
-          const sortFn = jest.fn();
-          getStorySortParameterMock.mockReturnValue(sortFn);
-          const generator = new StoryIndexGenerator([specifier], options);
-          await generator.initialize();
-          await generator.getIndex();
-          expect(sortFn).toHaveBeenCalled();
+        const sortFn = jest.fn();
+        getStorySortParameterMock.mockReturnValue(sortFn);
+        const generator = new StoryIndexGenerator([specifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(sortFn).toHaveBeenCalled();
 
-          generator.invalidate(specifier, './src/B.stories.ts', true);
+        generator.invalidate(specifier, './src/B.stories.ts', true);
 
-          sortFn.mockClear();
-          await generator.getIndex();
-          expect(sortFn).toHaveBeenCalled();
-        });
+        sortFn.mockClear();
+        await generator.getIndex();
+        expect(sortFn).toHaveBeenCalled();
+      });
 
-        it('does not include the deleted stories in results', async () => {
-          const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-            './src/**/*.stories.(ts|js|jsx)',
-            options
-          );
+      it('does not include the deleted stories in results', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.stories.(ts|js|jsx)',
+          options
+        );
 
-          readCsfOrMdxMock.mockClear();
-          const generator = new StoryIndexGenerator([specifier], options);
-          await generator.initialize();
-          await generator.getIndex();
-          expect(readCsfOrMdxMock).toHaveBeenCalledTimes(7);
+        readCsfOrMdxMock.mockClear();
+        const generator = new StoryIndexGenerator([specifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(readCsfOrMdxMock).toHaveBeenCalledTimes(7);
 
-          generator.invalidate(specifier, './src/B.stories.ts', true);
+        generator.invalidate(specifier, './src/B.stories.ts', true);
 
-          expect(Object.keys((await generator.getIndex()).entries)).not.toContain('b--story-one');
-        });
+        expect(Object.keys((await generator.getIndex()).entries)).not.toContain('b--story-one');
+      });
+
+      it('does not include the deleted docs in results', async () => {
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.(ts|js|jsx)',
+          options
+        );
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(4);
+
+        expect(Object.keys((await generator.getIndex()).entries)).toContain('docs2-notitle--docs');
+
+        generator.invalidate(docsSpecifier, './src/docs2/NoTitle.docs.mdx', true);
+
+        expect(Object.keys((await generator.getIndex()).entries)).not.toContain(
+          'docs2-notitle--docs'
+        );
+      });
+
+      it('errors on dependency deletion', async () => {
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.(ts|js|jsx)',
+          options
+        );
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(4);
+
+        expect(Object.keys((await generator.getIndex()).entries)).toContain('a--story-one');
+
+        generator.invalidate(storiesSpecifier, './src/A.stories.js', true);
+
+        await expect(() => generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"Missing dependencies: /Users/shilman/projects/baseline/storybook/lib/core-server/src/utils/__mockdata__/src/A.stories"`
+        );
+      });
+
+      it('cleans up properly on dependent docs deletion', async () => {
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.(ts|js|jsx)',
+          options
+        );
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(4);
+
+        expect(Object.keys((await generator.getIndex()).entries)).toContain('a--docs');
+
+        generator.invalidate(docsSpecifier, './src/docs2/MetaOf.docs.mdx', true);
+
+        expect(Object.keys((await generator.getIndex()).entries)).not.toContain('a--docs');
+
+        // this will throw if MetaOf is not removed from A's dependents
+        generator.invalidate(storiesSpecifier, './src/A.stories.js', false);
       });
     });
   });
