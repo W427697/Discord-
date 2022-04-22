@@ -54,7 +54,7 @@
   },
   "peerDependencies": {
     "@storybook/addon-storyshots": "6.5.0-alpha.64",
-    "puppeteer": ">=2.0.0 < 9"
+    "puppeteer": "^2.0.0 || ^3.0.0 || ^13.0.0"
   },
   "peerDependenciesMeta": {
     "puppeteer": {

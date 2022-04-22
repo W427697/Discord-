@@ -6832,7 +6832,7 @@ __metadata:
     regenerator-runtime: ^0.13.7
   peerDependencies:
     "@storybook/addon-storyshots": 6.5.0-alpha.64
-    puppeteer: ">=2.0.0 < 9"
+    puppeteer: ^2.0.0 || ^3.0.0 || ^13.0.0
   peerDependenciesMeta:
     puppeteer:
       optional: true
@@ -8583,7 +8583,7 @@ __metadata:
     postcss-loader: ^4.2.0
     prettier: ">=2.2.1 <=2.3.0"
     prompts: ^2.4.0
-    puppeteer: ">=2.1.1 < 9"
+    puppeteer: ^2.1.1 || ^13.0.0
     raf: ^3.4.1
     read-pkg-up: ^7.0.1
     regenerator-runtime: ^0.13.7
@@ -33939,7 +33939,7 @@ __metadata:
     uuid-browser: ^3.1.0
     webpack: 4
   peerDependencies:
-    puppeteer: ">=2.0.0 < 9"
+    puppeteer: ^2.0.0 || ^3.0.0 || ^13.0.0
   languageName: unknown
   linkType: soft
 
@@ -37495,7 +37495,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"puppeteer@npm:>=2.1.1 < 9":
+"puppeteer@npm:^2.1.1 || ^13.0.0":
   version: 8.0.0
   resolution: "puppeteer@npm:8.0.0"
   dependencies:
