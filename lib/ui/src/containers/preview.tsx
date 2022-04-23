@@ -31,7 +31,7 @@ const getDescription = (item: Item) => {
 const mapper = ({ api, state }: Combo) => {
   const { layout, location, customQueryParams, storyId, refs, viewMode, path, refId } = state;
   const story = api.getData(storyId, refId);
-  const docsOnly = story && story.parameters ? !!story.parameters.docsOnly : false;
+  const docsOnly = story.isComponent && story.isLeaf;
 
   return {
     api,

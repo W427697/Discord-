@@ -1,5 +1,5 @@
 import type { StoriesHash } from '@storybook/api';
-import { collapseDocsOnlyStories, collapseAllStories } from '../data';
+import { collapseAllStories } from '../data';
 
 type Item = StoriesHash[keyof StoriesHash];
 
@@ -68,28 +68,6 @@ const b2: Item = {
 };
 
 const stories: StoriesHash = { root, a, a1, b, b1, b2 };
-
-// this seems to work as intended
-describe('collapse docs-only stories', () => {
-  it('ignores normal stories', () => {
-    const filtered = collapseDocsOnlyStories(stories);
-    expect(filtered).toEqual(stories);
-  });
-
-  it('filters out docs-only stories', () => {
-    const hasDocsOnly: StoriesHash = {
-      ...stories,
-      a1: { ...a1, parameters: { ...a1.parameters, ...docsOnly.parameters } },
-    };
-    const filtered = collapseDocsOnlyStories(hasDocsOnly);
-
-    expect(filtered.root.children).not.toContain(hasDocsOnly.a.id);
-    expect(filtered.root.children).toContain(hasDocsOnly.a1.id);
-    expect(filtered.root.children).toContain(hasDocsOnly.b.id);
-
-    expect(filtered.a).not.toBeDefined();
-  });
-});
 
 describe('collapse all stories', () => {
   it('collapses normal stories', () => {
