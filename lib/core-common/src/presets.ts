@@ -253,13 +253,11 @@ async function loadPresets(
     logger.info('=> Loading presets');
   }
 
-  return Promise.all(
-    presets
-      .map(async (preset) => loadPreset(preset, level, storybookOptions))
-      .reduce((acc, loaded) => {
-        return acc.concat(loaded);
-      }, [])
-  );
+  return (
+    await Promise.all(presets.map(async (preset) => loadPreset(preset, level, storybookOptions)))
+  ).reduce((acc, loaded) => {
+    return acc.concat(loaded);
+  }, []);
 }
 
 function applyPresets(
