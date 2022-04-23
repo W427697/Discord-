@@ -18,7 +18,7 @@
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-lifecycles-compat": "^3.0.4",
-    "react-scripts": "^4.0.2"
+    "react-scripts": "^5.0.1"
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
@@ -32,7 +32,7 @@
     "@storybook/addon-storyshots": "6.5.0-alpha.64",
     "@storybook/addons": "6.5.0-alpha.64",
     "@storybook/builder-webpack5": "6.5.0-alpha.64",
-    "@storybook/preset-create-react-app": "^3.1.6",
+    "@storybook/preset-create-react-app": "^4.1.0",
     "@storybook/react": "6.5.0-alpha.64",
     "@storybook/theming": "6.5.0-alpha.64",
     "webpack": "5"
