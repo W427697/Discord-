@@ -3,7 +3,6 @@ import React from 'react';
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import mapValues from 'lodash/mapValues';
-import countBy from 'lodash/countBy';
 import global from 'global';
 import type {
   StoryId,
@@ -258,7 +257,7 @@ export const transformStoryIndexToStoriesHash = (
 
   const storiesHashOutOfOrder = Object.values(entryValues).reduce((acc, item) => {
     // First, split the title into parts, and create an id for each part
-    const { type, title, parameters } = item;
+    const { type, title } = item;
     const groups = title.trim().split(TITLE_PATH_SEPARATOR);
     const root = (!setShowRoots || showRoots) && groups.length > 1 ? [groups.shift()] : [];
 

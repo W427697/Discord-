@@ -11,7 +11,6 @@ import {
 import { EventEmitter } from 'events';
 import global from 'global';
 import { mockChannel } from '@storybook/addons';
-import { merge } from 'lodash';
 
 import { getEventMetadata } from '../lib/events';
 

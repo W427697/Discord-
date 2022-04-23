@@ -72,7 +72,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
                   viewMode={state.viewMode}
                   layout={isLoading ? { ...state.layout, showPanel: false } : state.layout}
                   panelCount={panelCount}
-                  docsOnly={story.isComponent && story.isLeaf}
+                  docsOnly={story?.isComponent && story?.isLeaf}
                 />
               </ThemeProvider>
             );
