@@ -149,7 +149,7 @@ const Node = React.memo<NodeProps>(
     if (!isDisplayed) return null;
 
     const id = createId(item.id, refId);
-    if (isStory(item)) {
+    if (item.isLeaf) {
       const LeafNode = item.isComponent ? DocumentNode : StoryNode;
       return (
         <LeafNodeStyleWrapper>
@@ -170,7 +170,7 @@ const Node = React.memo<NodeProps>(
               onSelectStoryId(item.id);
             }}
           >
-            {item.renderLabel?.(item) || item.name}
+            {(item.renderLabel as (i: typeof item) => React.ReactNode)?.(item) || item.name}
           </LeafNode>
           {isSelected && (
             <SkipToContentLink secondary outline isLink href="#storybook-preview-wrapper">
@@ -245,7 +245,7 @@ const Node = React.memo<NodeProps>(
           if (item.isComponent && !isExpanded) onSelectStoryId(item.id);
         }}
       >
-        {item.renderLabel?.(item) || item.name}
+        {(item.renderLabel as (i: typeof item) => React.ReactNode)?.(item) || item.name}
       </BranchNode>
     );
   }

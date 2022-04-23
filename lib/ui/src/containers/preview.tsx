@@ -21,8 +21,8 @@ const getDescription = (item: Item) => {
     return item.name ? `${item.name} ⋅ Storybook` : 'Storybook';
   }
   if (isStory(item)) {
-    const { kind, name } = item;
-    return kind && name ? splitTitleAddExtraSpace(`${kind} - ${name} ⋅ Storybook`) : 'Storybook';
+    const { title, name } = item;
+    return title && name ? splitTitleAddExtraSpace(`${title} - ${name} ⋅ Storybook`) : 'Storybook';
   }
 
   return 'Storybook';

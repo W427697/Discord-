@@ -37,23 +37,23 @@ export const Full = () => {
   );
 };
 
-const singleStoryComponent = {
+const singleStoryComponent: StoriesHash = {
   single: {
     name: 'Single',
     id: 'single',
-    parent: false,
+    parent: null,
     depth: 0,
     children: ['single--single'],
     isComponent: true,
     isLeaf: false,
     isRoot: false,
-    label: <span>🔥 Single</span>,
+    renderLabel: () => <span>🔥 Single</span>,
   },
   'single--single': {
     id: 'single--single',
-    kind: 'Single',
+    title: 'Single',
     name: 'Single',
-    story: 'Single',
+    prepared: true,
     args: {},
     argTypes: {},
     initialArgs: {},
@@ -62,7 +62,8 @@ const singleStoryComponent = {
     isLeaf: true,
     isComponent: false,
     isRoot: false,
-    label: <span>🔥 Single</span>,
+    renderLabel: () => <span>🔥 Single</span>,
+    importPath: './single.stories.js',
   },
 };
 
@@ -90,7 +91,7 @@ export const SingleStoryComponents = () => {
       isBrowsing
       isMain
       refId={refId}
-      data={{ ...singleStoryComponent, ...tooltipStories } as StoriesHash}
+      data={{ ...singleStoryComponent, ...tooltipStories }}
       highlightedRef={{ current: { itemId: selectedId, refId } }}
       setHighlightedItemId={log}
       selectedStoryId={selectedId}
