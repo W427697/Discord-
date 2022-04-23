@@ -120,6 +120,9 @@ const buildWebpackConfigOptions = async (
     scripts: [],
     sourceMap: {},
     styles: [],
+    // Deleted in angular 12. Keep for compatibility with versions lower than angular 12
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     lazyModules: [],
 
     // Project Options
@@ -134,6 +137,10 @@ const buildWebpackConfigOptions = async (
 
     // Forced options
     statsJson: false,
+
+    // Deleted in angular 12. Keep for compatibility with versions lower than angular 12
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     forkTypeChecker: false,
   };
 
