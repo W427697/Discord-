@@ -47,7 +47,7 @@
     "@storybook/csf": "0.0.2--canary.7c6c115.0",
     "@storybook/router": "6.5.0-alpha.64",
     "@storybook/theming": "6.5.0-alpha.64",
-    "@types/webpack-env": "^1.16.0",
+    "@types/webpack-env": "^1.16.4",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "regenerator-runtime": "^0.13.7"
