@@ -143,7 +143,8 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     },
     isPrepared: (storyId, refId) => {
       const data = api.getData(storyId, refId);
-      if (data.isLeaf) {
+      // FIXME: isStory is NQR
+      if (data.isLeaf && isStory(data)) {
         return data.prepared;
       }
       // Groups are always prepared :shrug:

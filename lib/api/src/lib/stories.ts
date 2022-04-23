@@ -187,7 +187,7 @@ const TITLE_PATH_SEPARATOR = /\s*\/\s*/;
 
 // We used to received a bit more data over the channel on the SET_STORIES event, including
 // the full parameters for each story.
-type PreparedStoryIndexEntry = StoryIndexEntry & {
+type PreparedIndexEntry = IndexEntry & {
   parameters?: Parameters;
   argTypes?: ArgTypes;
   args?: Args;
@@ -195,7 +195,7 @@ type PreparedStoryIndexEntry = StoryIndexEntry & {
 };
 export interface PreparedStoryIndex {
   v: number;
-  entries: Record<StoryId, PreparedStoryIndexEntry>;
+  entries: Record<StoryId, PreparedIndexEntry>;
 }
 
 export const transformSetStoriesStoryDataToStoriesHash = (
@@ -223,6 +223,7 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
       if (docsOnly) {
         acc[id] = {
           type: 'docs',
+          storiesImports: [],
           ...base,
         };
       } else {
