@@ -7,7 +7,6 @@ import { ComponentStoryObj, ComponentMeta } from '@storybook/react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AccountForm, AccountFormProps } from './AccountForm';
-import ButtonMeta from './button.stories';
 
 export default {
   // Title not needed due to CSF3 auto-title

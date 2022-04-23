@@ -1,6 +1,6 @@
 import dedent from 'ts-dedent';
 
-import { normalizeStoriesEntry, scrubFileExtension } from '../normalize-stories';
+import { normalizeStoriesEntry } from '../normalize-stories';
 
 expect.addSnapshotSerializer({
   print: (val: any) => JSON.stringify(val, null, 2),
@@ -227,7 +227,7 @@ describe('normalizeStoriesEntry', () => {
       {
         "titlePrefix": "",
         "directory": ".",
-        "files": "**/*.stories.@(mdx|tsx|ts|jsx|js)",
+        "files": "**/*.(stories|docs).@(mdx|tsx|ts|jsx|js)",
         "importPathMatcher": {}
       }
     `);
@@ -238,7 +238,7 @@ describe('normalizeStoriesEntry', () => {
     expect(specifier).toMatchInlineSnapshot(`
       {
         "titlePrefix": "",
-        "files": "**/*.stories.@(mdx|tsx|ts|jsx|js)",
+        "files": "**/*.(stories|docs).@(mdx|tsx|ts|jsx|js)",
         "directory": ".",
         "importPathMatcher": {}
       }
@@ -262,7 +262,7 @@ describe('normalizeStoriesEntry', () => {
     expect(specifier).toMatchInlineSnapshot(`
       {
         "titlePrefix": "atoms",
-        "files": "**/*.stories.@(mdx|tsx|ts|jsx|js)",
+        "files": "**/*.(stories|docs).@(mdx|tsx|ts|jsx|js)",
         "directory": ".",
         "importPathMatcher": {}
       }
@@ -305,19 +305,5 @@ describe('normalizeStoriesEntry', () => {
       './file.stories.mdx',
       '../file.stories.mdx',
     ]);
-  });
-});
-
-describe('scrubFileExtension', () => {
-  it.each([
-    ['file.stories.mdx', 'file.stories'],
-    ['file.stories.ts', 'file.stories'],
-    ['file.story.mdx', 'file.story'],
-    ['file.stories', 'file.stories'],
-    ['file.story', 'file.story'],
-    ['file.ts', 'file'],
-    ['file.js', 'file'],
-  ])('scrubs %s', (input, expected) => {
-    expect(scrubFileExtension(input)).toBe(expected);
   });
 });

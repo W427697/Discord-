@@ -2,11 +2,31 @@ import path from 'path';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
 import { readCsfOrMdx, getStorySortParameter } from '@storybook/csf-tools';
+import { toId } from '@storybook/csf';
 
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('@storybook/csf-tools');
+jest.mock('@storybook/csf', () => {
+  const csf = jest.requireActual('@storybook/csf');
+  return {
+    ...csf,
+    toId: jest.fn(csf.toId),
+  };
+});
 
+// FIXME: can't figure out how to import ESM
+jest.mock('@storybook/docs-mdx', async () => ({
+  analyze(content: string) {
+    const importMatches = content.matchAll(/'(.[^']*\.stories)'/g);
+    const imports = Array.from(importMatches).map((match) => match[1]);
+    const title = content.match(/title=['"](.*)['"]/)?.[1];
+    const ofMatch = content.match(/of=\{(.*)\}/)?.[1];
+    return { title, imports, of: ofMatch && imports.length && imports[0] };
+  },
+}));
+
+const toIdMock = toId as jest.Mock<ReturnType<typeof toId>>;
 const readCsfOrMdxMock = readCsfOrMdx as jest.Mock<ReturnType<typeof readCsfOrMdx>>;
 const getStorySortParameterMock = getStorySortParameter as jest.Mock<
   ReturnType<typeof getStorySortParameter>
@@ -42,8 +62,8 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
-                "storiesImports": Array [],
                 "title": "A",
+                "type": "story",
               },
             },
             "v": 4,
@@ -68,15 +88,15 @@ describe('StoryIndexGenerator', () => {
                 "id": "nested-button--story-one",
                 "importPath": "./src/nested/Button.stories.ts",
                 "name": "Story One",
-                "storiesImports": Array [],
                 "title": "nested/Button",
+                "type": "story",
               },
               "second-nested-g--story-one": Object {
                 "id": "second-nested-g--story-one",
                 "importPath": "./src/second-nested/G.stories.ts",
                 "name": "Story One",
-                "storiesImports": Array [],
                 "title": "second-nested/G",
+                "type": "story",
               },
             },
             "v": 4,
@@ -102,43 +122,43 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
-                "storiesImports": Array [],
                 "title": "A",
+                "type": "story",
               },
               "b--story-one": Object {
                 "id": "b--story-one",
                 "importPath": "./src/B.stories.ts",
                 "name": "Story One",
-                "storiesImports": Array [],
                 "title": "B",
+                "type": "story",
               },
               "d--story-one": Object {
                 "id": "d--story-one",
                 "importPath": "./src/D.stories.jsx",
                 "name": "Story One",
-                "storiesImports": Array [],
                 "title": "D",
+                "type": "story",
               },
               "first-nested-deeply-f--story-one": Object {
                 "id": "first-nested-deeply-f--story-one",
                 "importPath": "./src/first-nested/deeply/F.stories.js",
                 "name": "Story One",
-                "storiesImports": Array [],
                 "title": "first-nested/deeply/F",
+                "type": "story",
               },
               "nested-button--story-one": Object {
                 "id": "nested-button--story-one",
                 "importPath": "./src/nested/Button.stories.ts",
                 "name": "Story One",
-                "storiesImports": Array [],
                 "title": "nested/Button",
+                "type": "story",
               },
               "second-nested-g--story-one": Object {
                 "id": "second-nested-g--story-one",
                 "importPath": "./src/second-nested/G.stories.ts",
                 "name": "Story One",
-                "storiesImports": Array [],
                 "title": "second-nested/G",
+                "type": "story",
               },
             },
             "v": 4,
@@ -146,30 +166,108 @@ describe('StoryIndexGenerator', () => {
         `);
       });
     });
+
+    describe('docs specifier', () => {
+      it('extracts stories from the right files', async () => {
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.(ts|js|jsx)',
+          options
+        );
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], options);
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "a--docs": Object {
+                "id": "a--docs",
+                "importPath": "./src/docs2/MetaOf.docs.mdx",
+                "name": "docs",
+                "storiesImports": Array [
+                  "./src/A.stories.js",
+                ],
+                "title": "A",
+                "type": "docs",
+              },
+              "a--story-one": Object {
+                "id": "a--story-one",
+                "importPath": "./src/A.stories.js",
+                "name": "Story One",
+                "title": "A",
+                "type": "story",
+              },
+              "docs2-notitle--docs": Object {
+                "id": "docs2-notitle--docs",
+                "importPath": "./src/docs2/NoTitle.docs.mdx",
+                "name": "docs",
+                "storiesImports": Array [],
+                "title": "docs2/NoTitle",
+                "type": "docs",
+              },
+              "docs2-yabbadabbadooo--docs": Object {
+                "id": "docs2-yabbadabbadooo--docs",
+                "importPath": "./src/docs2/Title.docs.mdx",
+                "name": "docs",
+                "storiesImports": Array [],
+                "title": "docs2/Yabbadabbadooo",
+                "type": "docs",
+              },
+            },
+            "v": 4,
+          }
+        `);
+      });
+
+      it('errors when docs dependencies are missing', async () => {
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/MetaOf.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([docsSpecifier], options);
+        await expect(() => generator.initialize()).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"Could not find \\"../A.stories\\" for docs file \\"src/docs2/MetaOf.docs.mdx\\"."`
+        );
+      });
+    });
   });
 
   describe('sorting', () => {
     it('runs a user-defined sort function', async () => {
-      const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+      const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
         './src/**/*.stories.(ts|js|jsx)',
         options
       );
+      const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        './src/**/*.docs.mdx',
+        options
+      );
 
-      const generator = new StoryIndexGenerator([specifier], options);
+      const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
       await generator.initialize();
 
       (getStorySortParameter as jest.Mock).mockReturnValueOnce({
-        order: ['D', 'B', 'nested', 'A', 'second-nested', 'first-nested/deeply'],
+        order: ['docs2', 'D', 'B', 'nested', 'A', 'second-nested', 'first-nested/deeply'],
       });
 
-      expect(Object.keys((await generator.getIndex()).entries)).toEqual([
-        'd--story-one',
-        'b--story-one',
-        'nested-button--story-one',
-        'a--story-one',
-        'second-nested-g--story-one',
-        'first-nested-deeply-f--story-one',
-      ]);
+      expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
+        Array [
+          "docs2-notitle--docs",
+          "docs2-yabbadabbadooo--docs",
+          "d--story-one",
+          "b--story-one",
+          "nested-button--story-one",
+          "a--docs",
+          "a--story-one",
+          "second-nested-g--story-one",
+          "first-nested-deeply-f--story-one",
+        ]
+      `);
     });
   });
 
@@ -190,6 +288,26 @@ describe('StoryIndexGenerator', () => {
         readCsfOrMdxMock.mockClear();
         await generator.getIndex();
         expect(readCsfOrMdxMock).not.toHaveBeenCalled();
+      });
+
+      it('does not extract docs files a second time', async () => {
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.(ts|js|jsx)',
+          options
+        );
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(4);
+
+        toIdMock.mockClear();
+        await generator.getIndex();
+        expect(toId).not.toHaveBeenCalled();
       });
 
       it('does not call the sort function a second time', async () => {
@@ -231,6 +349,50 @@ describe('StoryIndexGenerator', () => {
         expect(readCsfOrMdxMock).toHaveBeenCalledTimes(1);
       });
 
+      it('calls extract docs file for just the one file', async () => {
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.(ts|js|jsx)',
+          options
+        );
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(4);
+
+        generator.invalidate(docsSpecifier, './src/docs2/Title.docs.mdx', false);
+
+        toIdMock.mockClear();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(1);
+      });
+
+      it('calls extract for a csf file and any of its docs dependents', async () => {
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.(ts|js|jsx)',
+          options
+        );
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(4);
+
+        generator.invalidate(storiesSpecifier, './src/A.stories.js', false);
+
+        toIdMock.mockClear();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(2);
+      });
+
       it('does call the sort function a second time', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
@@ -250,63 +412,136 @@ describe('StoryIndexGenerator', () => {
         await generator.getIndex();
         expect(sortFn).toHaveBeenCalled();
       });
+    });
 
-      describe('file removed', () => {
-        it('does not extract csf files a second time', async () => {
-          const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-            './src/**/*.stories.(ts|js|jsx)',
-            options
-          );
+    describe('file removed', () => {
+      it('does not extract csf files a second time', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.stories.(ts|js|jsx)',
+          options
+        );
 
-          readCsfOrMdxMock.mockClear();
-          const generator = new StoryIndexGenerator([specifier], options);
-          await generator.initialize();
-          await generator.getIndex();
-          expect(readCsfOrMdxMock).toHaveBeenCalledTimes(7);
+        readCsfOrMdxMock.mockClear();
+        const generator = new StoryIndexGenerator([specifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(readCsfOrMdxMock).toHaveBeenCalledTimes(7);
 
-          generator.invalidate(specifier, './src/B.stories.ts', true);
+        generator.invalidate(specifier, './src/B.stories.ts', true);
 
-          readCsfOrMdxMock.mockClear();
-          await generator.getIndex();
-          expect(readCsfOrMdxMock).not.toHaveBeenCalled();
-        });
+        readCsfOrMdxMock.mockClear();
+        await generator.getIndex();
+        expect(readCsfOrMdxMock).not.toHaveBeenCalled();
+      });
 
-        it('does call the sort function a second time', async () => {
-          const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-            './src/**/*.stories.(ts|js|jsx)',
-            options
-          );
+      it('does call the sort function a second time', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.stories.(ts|js|jsx)',
+          options
+        );
 
-          const sortFn = jest.fn();
-          getStorySortParameterMock.mockReturnValue(sortFn);
-          const generator = new StoryIndexGenerator([specifier], options);
-          await generator.initialize();
-          await generator.getIndex();
-          expect(sortFn).toHaveBeenCalled();
+        const sortFn = jest.fn();
+        getStorySortParameterMock.mockReturnValue(sortFn);
+        const generator = new StoryIndexGenerator([specifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(sortFn).toHaveBeenCalled();
 
-          generator.invalidate(specifier, './src/B.stories.ts', true);
+        generator.invalidate(specifier, './src/B.stories.ts', true);
 
-          sortFn.mockClear();
-          await generator.getIndex();
-          expect(sortFn).toHaveBeenCalled();
-        });
+        sortFn.mockClear();
+        await generator.getIndex();
+        expect(sortFn).toHaveBeenCalled();
+      });
 
-        it('does not include the deleted stories in results', async () => {
-          const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-            './src/**/*.stories.(ts|js|jsx)',
-            options
-          );
+      it('does not include the deleted stories in results', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.stories.(ts|js|jsx)',
+          options
+        );
 
-          readCsfOrMdxMock.mockClear();
-          const generator = new StoryIndexGenerator([specifier], options);
-          await generator.initialize();
-          await generator.getIndex();
-          expect(readCsfOrMdxMock).toHaveBeenCalledTimes(7);
+        readCsfOrMdxMock.mockClear();
+        const generator = new StoryIndexGenerator([specifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(readCsfOrMdxMock).toHaveBeenCalledTimes(7);
 
-          generator.invalidate(specifier, './src/B.stories.ts', true);
+        generator.invalidate(specifier, './src/B.stories.ts', true);
 
-          expect(Object.keys((await generator.getIndex()).entries)).not.toContain('b--story-one');
-        });
+        expect(Object.keys((await generator.getIndex()).entries)).not.toContain('b--story-one');
+      });
+
+      it('does not include the deleted docs in results', async () => {
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.(ts|js|jsx)',
+          options
+        );
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(4);
+
+        expect(Object.keys((await generator.getIndex()).entries)).toContain('docs2-notitle--docs');
+
+        generator.invalidate(docsSpecifier, './src/docs2/NoTitle.docs.mdx', true);
+
+        expect(Object.keys((await generator.getIndex()).entries)).not.toContain(
+          'docs2-notitle--docs'
+        );
+      });
+
+      it('errors on dependency deletion', async () => {
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.(ts|js|jsx)',
+          options
+        );
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(4);
+
+        expect(Object.keys((await generator.getIndex()).entries)).toContain('a--story-one');
+
+        generator.invalidate(storiesSpecifier, './src/A.stories.js', true);
+
+        await expect(() => generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"Could not find \\"../A.stories\\" for docs file \\"src/docs2/MetaOf.docs.mdx\\"."`
+        );
+      });
+
+      it('cleans up properly on dependent docs deletion', async () => {
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.(ts|js|jsx)',
+          options
+        );
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
+        await generator.initialize();
+        await generator.getIndex();
+        expect(toId).toHaveBeenCalledTimes(4);
+
+        expect(Object.keys((await generator.getIndex()).entries)).toContain('a--docs');
+
+        generator.invalidate(docsSpecifier, './src/docs2/MetaOf.docs.mdx', true);
+
+        expect(Object.keys((await generator.getIndex()).entries)).not.toContain('a--docs');
+
+        // this will throw if MetaOf is not removed from A's dependents
+        generator.invalidate(storiesSpecifier, './src/A.stories.js', false);
       });
     });
   });

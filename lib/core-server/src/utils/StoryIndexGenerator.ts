@@ -8,20 +8,31 @@ import type {
   StoryIndex,
   V2CompatIndexEntry,
   StoryId,
-  StoryIndexEntry,
+  IndexEntry,
+  DocsIndexEntry,
 } from '@storybook/store';
 import { autoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
-import { normalizeStoryPath, scrubFileExtension } from '@storybook/core-common';
+import { normalizeStoryPath } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
 import { readCsfOrMdx, getStorySortParameter } from '@storybook/csf-tools';
 import type { ComponentTitle } from '@storybook/csf';
 import { toId } from '@storybook/csf';
 
-type DocsCacheEntry = StoryIndexEntry & { type: 'docs' };
-type StoriesCacheEntry = { entries: StoryIndexEntry[]; dependents: Path[]; type: 'stories' };
+type DocsCacheEntry = DocsIndexEntry;
+type StoriesCacheEntry = { entries: IndexEntry[]; dependents: Path[]; type: 'stories' };
 type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry;
 type SpecifierStoriesCache = Record<Path, CacheEntry>;
+
+const makeAbsolute = (otherImport: Path, normalizedPath: Path, workingDir: Path) =>
+  otherImport.startsWith('.')
+    ? slash(
+        path.resolve(
+          workingDir,
+          normalizeStoryPath(path.join(path.dirname(normalizedPath), otherImport))
+        )
+      )
+    : otherImport;
 
 export class StoryIndexGenerator {
   // An internal cache mapping specifiers to a set of path=><set of stories>
@@ -74,9 +85,12 @@ export class StoryIndexGenerator {
     await this.ensureExtracted();
   }
 
+  /**
+   * Run the updater function over all the empty cache entries
+   */
   async updateExtracted(
     updater: (specifier: NormalizedStoriesSpecifier, absolutePath: Path) => Promise<CacheEntry>
-  ): Promise<void> {
+  ) {
     await Promise.all(
       this.specifiers.map(async (specifier) => {
         const entry = this.specifierToCache.get(specifier);
@@ -93,11 +107,14 @@ export class StoryIndexGenerator {
     return /\.docs\.mdx$/i.test(absolutePath);
   }
 
-  async ensureExtracted(): Promise<StoryIndexEntry[]> {
+  async ensureExtracted(): Promise<IndexEntry[]> {
+    // First process all the story files. Then, in a second pass,
+    // process the docs files. The reason for this is that the docs
+    // files may use the `<Meta of={meta} />` syntax, which requires
+    // that the story file that contains the meta be processed first.
     await this.updateExtracted(async (specifier, absolutePath) =>
       this.isDocsMdx(absolutePath) ? false : this.extractStories(specifier, absolutePath)
     );
-    // process docs in a second pass
     await this.updateExtracted(async (specifier, absolutePath) =>
       this.extractDocs(specifier, absolutePath)
     );
@@ -112,6 +129,34 @@ export class StoryIndexGenerator {
     });
   }
 
+  findDependencies(absoluteImports: Path[]) {
+    const dependencies = [] as StoriesCacheEntry[];
+    const foundImports = new Set();
+    this.specifierToCache.forEach((cache) => {
+      const fileNames = Object.keys(cache).filter((fileName) => {
+        const foundImport = absoluteImports.find((storyImport) => fileName.startsWith(storyImport));
+        if (foundImport) foundImports.add(foundImport);
+        return !!foundImport;
+      });
+      fileNames.forEach((fileName) => {
+        const cacheEntry = cache[fileName];
+        if (cacheEntry && cacheEntry.type === 'stories') {
+          dependencies.push(cacheEntry);
+        } else {
+          throw new Error(`Unexpected dependency: ${cacheEntry}`);
+        }
+      });
+    });
+
+    // imports can include non-story imports, so it's ok if
+    // there are fewer foundImports than absoluteImports
+    // if (absoluteImports.length !== foundImports.size) {
+    //   throw new Error(`Missing dependencies: ${absoluteImports.filter((p) => !foundImports.has(p))}`));
+    // }
+
+    return dependencies;
+  }
+
   async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     try {
@@ -119,44 +164,46 @@ export class StoryIndexGenerator {
       const importPath = slash(normalizedPath);
       const defaultTitle = autoTitleFromSpecifier(importPath, specifier);
 
+      // This `await require(...)` is a bit of a hack. It's necessary because
+      // `docs-mdx` depends on ESM code, which must be asynchronously imported
+      // to be used in CJS. Unfortunately, we cannot use `import()` here, because
+      // it will be transpiled down to `require()` by Babel. So instead, we require
+      // a CJS export from `@storybook/docs-mdx` that does the `async import` for us.
+
       // eslint-disable-next-line global-require
       const { analyze } = await require('@storybook/docs-mdx');
       const content = await fs.readFile(absolutePath, 'utf8');
       // { title?, of?, imports? }
       const result = analyze(content);
 
-      const makeAbsolute = (otherImport: Path) =>
-        otherImport.startsWith('.')
-          ? slash(
-              path.join(
-                this.options.workingDir,
-                normalizeStoryPath(path.join(path.dirname(normalizedPath), otherImport))
-              )
-            )
-          : otherImport;
+      const absoluteImports = (result.imports as string[]).map((p) =>
+        makeAbsolute(p, normalizedPath, this.options.workingDir)
+      );
 
-      const absoluteImports = (result.imports as string[]).map(makeAbsolute);
-      const absoluteOf = result.of && makeAbsolute(result.of);
+      // Go through the cache and collect all of the cache entries that this docs file depends on.
+      // We'll use this to make sure this docs cache entry is invalidated when any of its dependents
+      // are invalidated.
+      const dependencies = this.findDependencies(absoluteImports);
 
+      // Also, if `result.of` is set, it means that we're using the `<Meta of={meta} />` syntax,
+      // so find the `title` defined the file that `meta` points to.
       let ofTitle: string;
-      const dependencies = [] as StoriesCacheEntry[];
-      this.specifierToCache.forEach((cache) => {
-        const fileNames = Object.keys(cache).filter((fileName) => {
-          return absoluteImports.some((storyImport) => fileName.startsWith(storyImport));
-        });
-        fileNames.forEach((fileName) => {
-          const cacheEntry = cache[fileName];
-          if (cacheEntry && cacheEntry.type === 'stories') {
-            if (fileName.startsWith(absoluteOf) && cacheEntry.entries.length > 0) {
-              ofTitle = cacheEntry.entries[0].title;
+      if (result.of) {
+        const absoluteOf = makeAbsolute(result.of, normalizedPath, this.options.workingDir);
+        dependencies.forEach((dep) => {
+          if (dep.entries.length > 0) {
+            const first = dep.entries[0];
+            if (path.resolve(this.options.workingDir, first.importPath).startsWith(absoluteOf)) {
+              ofTitle = first.title;
             }
-            dependencies.push(cacheEntry);
-          } else {
-            throw new Error(`Unexpected dependency: ${cacheEntry}`);
           }
         });
-      });
 
+        if (!ofTitle)
+          throw new Error(`Could not find "${result.of}" for docs file "${relativePath}".`);
+      }
+
+      // Track that we depend on this for easy invalidation later.
       dependencies.forEach((dep) => {
         dep.dependents.push(absolutePath);
       });
@@ -182,29 +229,18 @@ export class StoryIndexGenerator {
 
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
-    const entries = [] as StoryIndexEntry[];
+    const entries = [] as IndexEntry[];
     try {
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
       const defaultTitle = autoTitleFromSpecifier(importPath, specifier);
       const csf = (await readCsfOrMdx(absolutePath, { defaultTitle })).parse();
-      const storiesImports = await Promise.all(
-        csf.imports.map(async (otherImport) =>
-          otherImport.startsWith('.')
-            ? slash(normalizeStoryPath(path.join(path.dirname(normalizedPath), otherImport)))
-            : otherImport
-        )
-      );
       csf.stories.forEach(({ id, name, parameters }) => {
-        const storyEntry: StoryIndexEntry = {
-          id,
-          title: csf.meta.title,
-          name,
-          importPath,
-          storiesImports,
-        };
-        if (parameters?.docsOnly) storyEntry.type = 'docs';
-        entries.push(storyEntry);
+        const base = { id, title: csf.meta.title, name, importPath };
+        const entry: IndexEntry = parameters?.docsOnly
+          ? { ...base, type: 'docs', storiesImports: [] }
+          : { ...base, type: 'story' };
+        entries.push(entry);
       });
     } catch (err) {
       if (err.name === 'NoMetaError') {
@@ -217,7 +253,7 @@ export class StoryIndexGenerator {
     return { entries, type: 'stories', dependents: [] } as StoriesCacheEntry;
   }
 
-  async sortStories(storiesList: StoryIndexEntry[]) {
+  async sortStories(storiesList: IndexEntry[]) {
     const entries: StoryIndex['entries'] = {};
 
     storiesList.forEach((entry) => {
@@ -255,11 +291,13 @@ export class StoryIndexGenerator {
         return acc;
       }, {} as Record<ComponentTitle, number>);
 
+      // @ts-ignore
       compat = Object.entries(sorted).reduce((acc, entry) => {
         const [id, story] = entry;
+        if (story.type === 'docs') return acc;
+
         acc[id] = {
           ...story,
-          id,
           kind: story.title,
           story: story.name,
           parameters: {
@@ -285,16 +323,37 @@ export class StoryIndexGenerator {
     const cache = this.specifierToCache.get(specifier);
 
     const cacheEntry = cache[absolutePath];
-    let dependents = [];
     if (cacheEntry && cacheEntry.type === 'stories') {
-      dependents = cacheEntry.dependents;
-      // FIXME: might be in another cache
-      dependents.forEach((dep) => {
-        cache[dep] = false;
+      const { dependents } = cacheEntry;
+
+      const invalidated = new Set();
+      // the dependent can be in ANY cache, so we loop over all of them
+      this.specifierToCache.forEach((otherCache) => {
+        dependents.forEach((dep) => {
+          if (otherCache[dep]) {
+            invalidated.add(dep);
+            // eslint-disable-next-line no-param-reassign
+            otherCache[dep] = false;
+          }
+        });
       });
+
+      const notFound = dependents.filter((dep) => !invalidated.has(dep));
+      if (notFound.length > 0) {
+        throw new Error(`Could not invalidate ${notFound.length} deps: ${notFound.join(', ')}`);
+      }
     }
 
     if (removed) {
+      if (cacheEntry && cacheEntry.type === 'docs') {
+        const absoluteImports = cacheEntry.storiesImports.map((p) =>
+          path.resolve(this.options.workingDir, p)
+        );
+        const dependencies = this.findDependencies(absoluteImports);
+        dependencies.forEach((dep) =>
+          dep.dependents.splice(dep.dependents.indexOf(absolutePath), 1)
+        );
+      }
       delete cache[absolutePath];
     } else {
       cache[absolutePath] = false;

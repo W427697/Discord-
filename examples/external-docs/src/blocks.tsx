@@ -85,11 +85,12 @@ export const DocsProvider: React.FC = ({ children }) => {
     }
     knownCsfFiles[importPath][exportName] = storyExport;
 
-    storyIndex.stories[storyId] = {
+    storyIndex.entries[storyId] = {
       id: storyId,
       importPath,
       title,
       name: 'Name',
+      type: 'story',
     };
   };
 

@@ -267,14 +267,13 @@ export class StoryStore<TFramework extends AnyFramework> {
     const value = this.getSetStoriesPayload();
     const allowedParameters = ['fileName', 'docsOnly', 'framework', '__id', '__isArgsStory'];
 
-    const stories: Record<StoryId, StoryIndexEntry | V2CompatIndexEntry> = mapValues(
+    const stories: Record<StoryId, Omit<StoryIndexEntry, 'type'> | V2CompatIndexEntry> = mapValues(
       value.stories,
       (story) => {
-        const { importPath, storiesImports } = this.storyIndex.entries[story.id];
+        const { importPath } = this.storyIndex.entries[story.id];
         return {
           ...pick(story, ['id', 'name', 'title']),
           importPath,
-          storiesImports,
           ...(!global.FEATURES?.breakingChangesV7 && {
             kind: story.title,
             story: story.name,
