@@ -5,7 +5,7 @@ const r = (s: string, local: boolean) => {
 };
 
 export const getStorybookBabelConfig = ({ local = false }: { local?: boolean } = {}) => {
-  console.trace('!!!getStorybookBabelConfig!!!');
+  // console.trace('!!!getStorybookBabelConfig!!!');
   return {
     sourceType: 'unambiguous',
     presets: [
