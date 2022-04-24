@@ -9,6 +9,7 @@ const config: StorybookConfig = {
   ],
   logLevel: 'debug',
   addons: [
+    '@storybook/addon-source',
     '@storybook/addon-essentials',
     '@storybook/addon-storysource',
     '@storybook/addon-storyshots',

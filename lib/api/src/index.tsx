@@ -468,7 +468,7 @@ export function useGlobalTypes(): ArgTypes {
   return useStorybookApi().getGlobalTypes();
 }
 
-function useCurrentStory(): Story {
+export function useCurrentStory(): Story {
   const { getCurrentStoryData } = useStorybookApi();
 
   return getCurrentStoryData() as Story;

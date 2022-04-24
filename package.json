@@ -145,6 +145,7 @@
     "@storybook/addon-links": "workspace:*",
     "@storybook/addon-measure": "workspace:*",
     "@storybook/addon-outline": "workspace:*",
+    "@storybook/addon-source": "workspace:*",
     "@storybook/addon-storyshots": "workspace:*",
     "@storybook/addon-storyshots-puppeteer": "workspace:*",
     "@storybook/addon-storysource": "workspace:*",

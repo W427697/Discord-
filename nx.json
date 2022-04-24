@@ -52,6 +52,9 @@
     "@storybook/addon-outline": {
       "implicitDependencies": []
     },
+    "@storybook/addon-source": {
+      "implicitDependencies": []
+    },
     "@storybook/addon-storyshots": {
       "implicitDependencies": []
     },
