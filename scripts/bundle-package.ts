@@ -21,6 +21,54 @@ interface Options {
   watch?: boolean;
 }
 
+async function dts({ input, externals, cwd, ...options }: Options) {
+  if (options.watch) {
+    try {
+      const [out] = await generateDtsBundle(
+        [
+          {
+            filePath: input,
+            output: { inlineDeclareGlobals: false, sortNodes: true, noBanner: true },
+          },
+        ],
+        { followSymlinks: false }
+      );
+
+      await fs.outputFile('dist/ts3.9/index.d.ts', out);
+    } catch (e) {
+      console.log(e.message);
+    }
+  } else {
+    const [out] = await generateDtsBundle(
+      [
+        {
+          filePath: input,
+          output: { inlineDeclareGlobals: false, sortNodes: true, noBanner: true },
+        },
+      ],
+      { followSymlinks: false }
+    );
+
+    const bundledDTSfile = path.join(cwd, 'dist/ts-tmp/index.d.ts');
+    const localizedDTSout = path.join(cwd, 'dist/ts3.9');
+    await fs.outputFile(bundledDTSfile, out);
+
+    await dtsLozalize.run([bundledDTSfile], localizedDTSout, { externals, cwd });
+
+    // await fs.remove(path.join(cwd, 'dist/ts-tmp'));
+
+    await execa('node', [
+      path.join(__dirname, '../node_modules/.bin/downlevel-dts'),
+      'dist/ts3.9',
+      'dist/ts3.4',
+    ]);
+  }
+}
+
+async function removeDist() {
+  await fs.remove('dist');
+}
+
 async function build(options: Options) {
   const { input, externals, cwd, optimized } = options;
   const setting: RollupOptions = {
@@ -102,54 +150,6 @@ async function build(options: Options) {
 
     await bundler.close();
   }
-}
-
-async function dts({ input, externals, cwd, ...options }: Options) {
-  if (options.watch) {
-    try {
-      const [out] = await generateDtsBundle(
-        [
-          {
-            filePath: input,
-            output: { inlineDeclareGlobals: false, sortNodes: true, noBanner: true },
-          },
-        ],
-        { followSymlinks: false }
-      );
-
-      await fs.outputFile('dist/ts3.9/index.d.ts', out);
-    } catch (e) {
-      console.log(e.message);
-    }
-  } else {
-    const [out] = await generateDtsBundle(
-      [
-        {
-          filePath: input,
-          output: { inlineDeclareGlobals: false, sortNodes: true, noBanner: true },
-        },
-      ],
-      { followSymlinks: false }
-    );
-
-    const bundledDTSfile = path.join(cwd, 'dist/ts-tmp/index.d.ts');
-    const localizedDTSout = path.join(cwd, 'dist/ts3.9');
-    await fs.outputFile(bundledDTSfile, out);
-
-    await dtsLozalize.run([bundledDTSfile], localizedDTSout, { externals, cwd });
-
-    // await fs.remove(path.join(cwd, 'dist/ts-tmp'));
-
-    await execa('node', [
-      path.join(__dirname, '../node_modules/.bin/downlevel-dts'),
-      'dist/ts3.9',
-      'dist/ts3.4',
-    ]);
-  }
-}
-
-async function removeDist() {
-  await fs.remove('dist');
 }
 
 export async function run({ cwd, flags }: { cwd: string; flags: string[] }) {

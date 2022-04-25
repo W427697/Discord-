@@ -12,9 +12,9 @@ const { DOCS_MODE, document } = global;
 export type PanelPositions = 'bottom' | 'right';
 export type ActiveTabsType = 'sidebar' | 'canvas' | 'addons';
 export const ActiveTabs = {
-  SIDEBAR: 'sidebar' as 'sidebar',
-  CANVAS: 'canvas' as 'canvas',
-  ADDONS: 'addons' as 'addons',
+  SIDEBAR: 'sidebar' as const,
+  CANVAS: 'canvas' as const,
+  ADDONS: 'addons' as const,
 };
 
 export interface Layout {

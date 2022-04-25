@@ -149,6 +149,7 @@ export class ClientApi<TFramework extends AnyFramework> {
 
     this.storyStore = storyStore;
 
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     singleton = this;
   }
 

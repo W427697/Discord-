@@ -4,6 +4,14 @@ import {
   InspectionType,
 } from '../inspection';
 
+export function getPrettyFuncIdentifier(identifier: string, hasArguments: boolean): string {
+  return hasArguments ? `${identifier}( ... )` : `${identifier}()`;
+}
+
+export function getPrettyElementIdentifier(identifier: string) {
+  return `<${identifier} />`;
+}
+
 export function getPrettyIdentifier(inferredType: InspectionIdentifiableInferedType): string {
   const { type, identifier } = inferredType;
 
@@ -15,12 +23,4 @@ export function getPrettyIdentifier(inferredType: InspectionIdentifiableInferedT
     default:
       return identifier;
   }
-}
-
-export function getPrettyFuncIdentifier(identifier: string, hasArguments: boolean): string {
-  return hasArguments ? `${identifier}( ... )` : `${identifier}()`;
-}
-
-export function getPrettyElementIdentifier(identifier: string) {
-  return `<${identifier} />`;
 }

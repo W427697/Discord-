@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import isPlainObject from 'lodash/isPlainObject';
 import isFunction from 'lodash/isFunction';
 import isString from 'lodash/isString';

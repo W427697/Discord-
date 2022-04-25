@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /*
  * We added these types so we can be fairly confident that we introduce no breaking changes
  * We should remove this file in 7.0

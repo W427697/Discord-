@@ -46,30 +46,6 @@ interface Sections {
   cssShadowParts?: any;
 }
 
-function mapData(data: TagItem[], category: string) {
-  return (
-    data &&
-    data
-      .filter((item) => item && item.name)
-      .reduce((acc, item) => {
-        if (item.kind === 'method') return acc;
-
-        switch (category) {
-          case 'events':
-            mapEvent(item).forEach((argType) => {
-              acc[argType.name] = argType;
-            });
-            break;
-          default:
-            acc[item.name] = mapItem(item, category);
-            break;
-        }
-
-        return acc;
-      }, {} as ArgTypes)
-  );
-}
-
 function mapItem(item: TagItem, category: string): ArgType {
   const type =
     category === 'properties' ? { name: item.type?.text || item.type } : { name: 'void' };
@@ -99,6 +75,30 @@ function mapEvent(item: TagItem): ArgType[] {
   name = `on${name.charAt(0).toUpperCase() + name.substr(1)}`;
 
   return [{ name, action: { name: item.name }, table: { disable: true } }, mapItem(item, 'events')];
+}
+
+function mapData(data: TagItem[], category: string) {
+  return (
+    data &&
+    data
+      .filter((item) => item && item.name)
+      .reduce((acc, item) => {
+        if (item.kind === 'method') return acc;
+
+        switch (category) {
+          case 'events':
+            mapEvent(item).forEach((argType) => {
+              acc[argType.name] = argType;
+            });
+            break;
+          default:
+            acc[item.name] = mapItem(item, category);
+            break;
+        }
+
+        return acc;
+      }, {} as ArgTypes)
+  );
 }
 
 const getMetaDataExperimental = (tagName: string, customElements: CustomElements) => {
@@ -134,6 +134,13 @@ const getMetaDataV1 = (tagName: string, customElements: CustomElements) => {
   return metadata;
 };
 
+const getMetaData = (tagName: string, manifest: any) => {
+  if (manifest?.version === 'experimental') {
+    return getMetaDataExperimental(tagName, manifest);
+  }
+  return getMetaDataV1(tagName, manifest);
+};
+
 export const extractArgTypesFromElements = (tagName: string, customElements: CustomElements) => {
   const metaData = getMetaData(tagName, customElements);
   return (
@@ -147,13 +154,6 @@ export const extractArgTypesFromElements = (tagName: string, customElements: Cus
       ...mapData(metaData.cssParts, 'css shadow parts'),
     }
   );
-};
-
-const getMetaData = (tagName: string, manifest: any) => {
-  if (manifest?.version === 'experimental') {
-    return getMetaDataExperimental(tagName, manifest);
-  }
-  return getMetaDataV1(tagName, manifest);
 };
 
 export const extractArgTypes = (tagName: string) => {

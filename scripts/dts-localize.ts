@@ -20,21 +20,6 @@ function getAbsolutePath(fileName: string, cwd?: string) {
   return fileName;
 }
 
-function getCompilerOptions(inputFileNames: string[], preferredConfigPath?: string) {
-  const configFileName =
-    preferredConfigPath !== undefined ? preferredConfigPath : findConfig(inputFileNames);
-  const configParseResult = ts.readConfigFile(configFileName, ts.sys.readFile);
-  const compilerOptionsParseResult = ts.parseJsonConfigFileContent(
-    configParseResult.config,
-    parseConfigHost,
-    path.resolve(path.dirname(configFileName)),
-    undefined,
-    getAbsolutePath(configFileName)
-  );
-
-  return compilerOptionsParseResult.options;
-}
-
 function findConfig(inputFiles: string[]) {
   if (inputFiles.length !== 1) {
     throw new Error(
@@ -52,6 +37,21 @@ function findConfig(inputFiles: string[]) {
   }
 
   return configFileName;
+}
+
+function getCompilerOptions(inputFileNames: string[], preferredConfigPath?: string) {
+  const configFileName =
+    preferredConfigPath !== undefined ? preferredConfigPath : findConfig(inputFileNames);
+  const configParseResult = ts.readConfigFile(configFileName, ts.sys.readFile);
+  const compilerOptionsParseResult = ts.parseJsonConfigFileContent(
+    configParseResult.config,
+    parseConfigHost,
+    path.resolve(path.dirname(configFileName)),
+    undefined,
+    getAbsolutePath(configFileName)
+  );
+
+  return compilerOptionsParseResult.options;
 }
 
 interface Options {
@@ -79,12 +79,6 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
 
   const filesRemapping = new Map<string, string>();
   const replaceRemapping = new Map<string, string[]>();
-
-  entrySourceFiles.forEach((file) => {
-    const sourceFile = sourceFiles.find((f) => f.fileName === file);
-
-    actOnSourceFile(sourceFile);
-  });
 
   /**
    * @param  {string} basePath the path is the directory where the package.json is located
@@ -160,6 +154,13 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
     return false;
   }
 
+  function getSourceFile(moduleNode: ts.Node) {
+    while (!ts.isSourceFile(moduleNode)) {
+      moduleNode = moduleNode.getSourceFile();
+    }
+    return moduleNode;
+  }
+
   function replaceImport(node: ts.Node) {
     if (
       (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) &&
@@ -232,13 +233,6 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
     return undefined;
   }
 
-  function getSourceFile(moduleNode: ts.Node) {
-    while (!ts.isSourceFile(moduleNode)) {
-      moduleNode = moduleNode.getSourceFile();
-    }
-    return moduleNode;
-  }
-
   function walkNodeToReplaceImports(node: ts.Node) {
     // it seems that it is unnecessary, but we're sure that it is impossible to have import statement later than we can just skip this node
     if (replaceImport(node)) {
@@ -288,4 +282,10 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
       });
     }
   }
+
+  entrySourceFiles.forEach((file) => {
+    const sourceFile = sourceFiles.find((f) => f.fileName === file);
+
+    actOnSourceFile(sourceFile);
+  });
 };

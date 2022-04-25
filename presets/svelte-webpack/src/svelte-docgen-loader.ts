@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import svelteDoc from 'sveltedoc-parser';
 import dedent from 'ts-dedent';
 import * as path from 'path';
