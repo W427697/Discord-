@@ -171,7 +171,12 @@ export function isStorybookInstalled(dependencies: PackageJson | false, force?: 
 
 export function detectLanguage() {
   let language = SupportedLanguage.JAVASCRIPT;
-  const packageJson = readPackageJson();
+  let packageJson;
+  try {
+    packageJson = readPackageJson();
+  } catch (err) {
+    //
+  }
   const bowerJson = getBowerJson();
   if (!packageJson && !bowerJson) {
     return language;
@@ -185,7 +190,12 @@ export function detectLanguage() {
 }
 
 export function detect(options: { force?: boolean; html?: boolean } = {}) {
-  const packageJson = readPackageJson();
+  let packageJson;
+  try {
+    packageJson = readPackageJson();
+  } catch (err) {
+    //
+  }
   const bowerJson = getBowerJson();
 
   if (!packageJson && !bowerJson) {

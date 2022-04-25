@@ -27,7 +27,7 @@ import preactGenerator from './generators/PREACT';
 import svelteGenerator from './generators/SVELTE';
 import raxGenerator from './generators/RAX';
 import serverGenerator from './generators/SERVER';
-import { JsPackageManagerFactory, readPackageJson } from './js-package-manager';
+import { JsPackageManagerFactory, JsPackageManager } from './js-package-manager';
 import { NpmOptions } from './NpmOptions';
 import { automigrate } from './automigrate';
 
@@ -47,9 +47,11 @@ type CommandOptions = {
   disableTelemetry?: boolean;
 };
 
-const installStorybook = (projectType: ProjectType, options: CommandOptions): Promise<void> => {
-  const packageManager = JsPackageManagerFactory.getPackageManager(options.useNpm);
-
+const installStorybook = (
+  projectType: ProjectType,
+  packageManager: JsPackageManager,
+  options: CommandOptions
+): Promise<void> => {
   const npmOptions: NpmOptions = {
     installAsDevDependencies: true,
     skipInstall: options.skipInstall,
@@ -249,7 +251,7 @@ const installStorybook = (projectType: ProjectType, options: CommandOptions): Pr
         // Add a new line for the clear visibility.
         logger.log();
 
-        return projectTypeInquirer(options);
+        return projectTypeInquirer(options, packageManager);
     }
   };
 
@@ -259,7 +261,10 @@ const installStorybook = (projectType: ProjectType, options: CommandOptions): Pr
   });
 };
 
-const projectTypeInquirer = async (options: { yes?: boolean }) => {
+const projectTypeInquirer = async (
+  options: { yes?: boolean },
+  packageManager: JsPackageManager
+) => {
   const manualAnswer = options.yes
     ? true
     : await prompts([
@@ -282,12 +287,13 @@ const projectTypeInquirer = async (options: { yes?: boolean }) => {
         })),
       },
     ]);
-    return installStorybook(frameworkAnswer.manualFramework, options);
+    return installStorybook(frameworkAnswer.manualFramework, packageManager, options);
   }
   return Promise.resolve();
 };
 
 export async function initiate(options: CommandOptions, pkg: Package): Promise<void> {
+  const packageManager = JsPackageManagerFactory.getPackageManager(options.useNpm);
   const welcomeMessage = 'sb init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
@@ -308,7 +314,7 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
     : 'Detecting project type';
   const done = commandLog(infoText);
 
-  const packageJson = readPackageJson();
+  const packageJson = packageManager.retrievePackageJson();
   const isEsm = packageJson && packageJson.type === 'module';
 
   try {
@@ -335,7 +341,7 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
   }
   done();
 
-  await installStorybook(projectType, {
+  await installStorybook(projectType, packageManager, {
     ...options,
     ...(isEsm ? { commonJs: true } : undefined),
   });

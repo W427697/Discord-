@@ -1,5 +1,4 @@
 import { logger, instance as npmLog } from '@storybook/node-logger';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
 import prompts from 'prompts';
 import {
   CLIOptions,
@@ -8,7 +7,6 @@ import {
   Options,
   StorybookConfig,
   CoreConfig,
-  getStorybookInfo,
   resolvePathInStorybookCache,
   loadAllPresets,
   cache,
