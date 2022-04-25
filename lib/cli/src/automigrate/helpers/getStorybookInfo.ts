@@ -1,3 +1,4 @@
+// @TODO Yann: this should be deleted and references should be moved to @storybook/core-common
 import path from 'path';
 import fse from 'fs-extra';
 import { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
