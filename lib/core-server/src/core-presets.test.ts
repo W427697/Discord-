@@ -25,7 +25,7 @@ jest.setTimeout(10000);
 const skipStoriesJsonPreset = [{ features: { buildStoriesJson: false, storyStoreV7: false } }];
 
 jest.mock('@storybook/builder-webpack5', () => {
-  const value = jest.fn();
+  const value = jest.fn(() => false);
   const actualBuilder = jest.requireActual('@storybook/builder-webpack5');
   // MUTATION! we couldn't mock webpack5, so we added a level of indirection instead
   actualBuilder.executor.get = () => value;
@@ -40,7 +40,7 @@ jest.mock('./utils/stories-json', () => {
 });
 
 jest.mock('@storybook/manager-webpack5', () => {
-  const value = jest.fn();
+  const value = jest.fn(() => false);
   const actualBuilder = jest.requireActual('@storybook/manager-webpack5');
   // MUTATION!
   actualBuilder.executor.get = () => value;
@@ -253,8 +253,7 @@ describe('build cli flags', () => {
     packageJson,
   };
 
-  // eslint-disable-next-line jest/no-disabled-tests
-  it.skip('does not call output-stats', async () => {
+  it('does not call output-stats', async () => {
     await buildStaticStandalone(cliOptions);
     expect(outputStats).not.toHaveBeenCalled();
   });

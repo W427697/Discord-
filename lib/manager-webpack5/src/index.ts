@@ -133,7 +133,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   const webpackInstance = await executor.get(options);
   yield;
-  const compiler = (webpackInstance as any)(config);
+  const compiler = webpackInstance(config);
 
   if (!compiler) {
     const err = `${config.name}: missing webpack compiler at runtime!`;

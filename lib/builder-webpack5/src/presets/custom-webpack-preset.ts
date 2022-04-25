@@ -24,7 +24,7 @@ export async function webpack(config: Configuration, options: Options) {
     return deprecate(
       webpackConfig,
       dedent`
-        You've provided a webpack config directly in CallOptions, this is not recommended. Please use presets instead. This feature will be removed in 7.0
+      You've provided a webpack config directly in CallOptions, this is not recommended. Please use presets instead. This feature will be removed in 7.0
       `
     )(finalDefaultConfig);
   }
