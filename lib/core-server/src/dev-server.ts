@@ -91,7 +91,9 @@ export async function storybookDevServer(options: Options) {
         : undefined;
       telemetry('start', payload, { configDir: options.configDir });
     });
+  }
 
+  if (!core?.disableProjectJson) {
     useStorybookMetadata(router, options.configDir);
   }
 

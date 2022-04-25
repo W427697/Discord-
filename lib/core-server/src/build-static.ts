@@ -138,7 +138,9 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
         : undefined;
       telemetry('build', payload, { configDir: options.configDir });
     });
+  }
 
+  if (!core.disableProjectJson) {
     extractTasks.push(
       extractStorybookMetadata(path.join(options.outputDir, 'project.json'), options.configDir)
     );

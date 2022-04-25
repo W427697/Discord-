@@ -51,6 +51,10 @@ export interface CoreConfig {
   disableWebpackDefaults?: boolean;
   channelOptions?: Partial<TelejsonOptions>;
   /**
+   * Disables the generation of project.json, a file containing Storybook metadata
+   */
+  disableProjectJson?: boolean;
+  /**
    * Disables Storybook telemetry
    * @see https://storybook.js.org/telemetry
    */
