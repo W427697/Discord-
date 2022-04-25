@@ -34,4 +34,16 @@ describe('addon-interactions', () => {
   onlyOn('vite_react', () => {
     it('should have interactions', test);
   });
+
+  onlyOn('preact', () => {
+    it('should have interactions', test);
+  });
+
+  onlyOn('svelte', () => {
+    it('should have interactions', test);
+  });
+
+  onlyOn('vue3', () => {
+    it('should have interactions', test);
+  });
 });
