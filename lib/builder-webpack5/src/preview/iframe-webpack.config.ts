@@ -166,8 +166,6 @@ export default async (options: Options & Record<string, any>): Promise<Configura
   const shouldCheckTs = useBaseTsSupport(frameworkName) && typescriptOptions.check;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
 
-  console.dir({ babelLoader }, { depth: null });
-
   return {
     name: 'preview',
     mode: isProd ? 'production' : 'development',
