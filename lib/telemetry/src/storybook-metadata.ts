@@ -1,4 +1,5 @@
 import readPkgUp from 'read-pkg-up';
+import { detect, getNpmVersion } from 'detect-package-manager';
 import {
   loadMainConfig,
   getStorybookInfo,
@@ -8,6 +9,8 @@ import type { StorybookConfig, PackageJson } from '@storybook/core-common';
 
 import type { StorybookMetadata, Dependency, StorybookAddon } from './types';
 import { getActualPackageVersion, getActualPackageVersions } from './package-versions';
+import { getMonorepoType } from './get-monorepo-type';
+import { getProjectRoot } from './anonymous-id';
 
 let cachedMetadata: StorybookMetadata;
 export const getStorybookMetadata = async (_configDir: string) => {
@@ -94,6 +97,24 @@ export const computeStorybookMetadata = async ({
       version,
     };
   }
+
+  const monorepoType = getMonorepoType();
+  if (monorepoType) {
+    metadata.monorepo = monorepoType;
+  }
+
+  try {
+    const packageManagerType = await detect({ cwd: getProjectRoot() });
+    const packageManagerVerson = await getNpmVersion(packageManagerType);
+
+    metadata.packageManager = {
+      type: packageManagerType,
+      version: packageManagerVerson,
+    };
+    // Better be safe than sorry, some codebases/paths might end up breaking with something like "spawn pnpm ENOENT"
+    // so we just set the package manager if the detection is successful
+    // eslint-disable-next-line no-empty
+  } catch (err) {}
 
   metadata.hasCustomBabel = !!mainConfig.babel;
   metadata.hasCustomWebpack = !!mainConfig.webpackFinal;
