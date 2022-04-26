@@ -209,8 +209,10 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     if (this.currentRender instanceof DocsRender) await this.currentRender.rerender();
   }
 
-  async onPreloadStories(ids: string[]) {
-    await Promise.all(ids.map((id) => this.storyStore.loadStory({ storyId: id })));
+  async onPreloadStories({ ids }: { ids: string[] }) {
+    await Promise.all(
+      ids.map((id) => this.storyStore.loadStory({ storyId: id }).catch(() => undefined))
+    );
   }
 
   // RENDERING

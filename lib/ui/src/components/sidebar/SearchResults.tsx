@@ -129,6 +129,21 @@ const Result: FunctionComponent<
     [onClick]
   );
 
+  const api = useStorybookApi();
+  useEffect(() => {
+    if (props.isHighlighted) {
+      if (item.isComponent) {
+        api.emit(
+          PRELOAD_STORIES,
+          { ids: [item.isLeaf ? item.id : item.children[0]] },
+          {
+            target: item.refId || 'storybook-preview-iframe',
+          }
+        );
+      }
+    }
+  }, [props.isHighlighted]);
+
   const nameMatch = matches.find((match: Match) => match.key === 'name');
   const pathMatches = matches.filter((match: Match) => match.key === 'path');
   const label = (
@@ -214,7 +229,15 @@ export const SearchResults: FunctionComponent<{
       const item = api.getData(storyId, refId === 'storybook_internal' ? undefined : refId);
 
       if (item.isComponent) {
-        api.emit(PRELOAD_STORIES, [item.isLeaf ? item.id : item.children[0]]);
+        api.emit(PRELOAD_STORIES, {
+          ids: [item.isLeaf ? item.id : item.children[0]],
+          options: {
+            target:
+              refId && refId !== 'storybook_internal'
+                ? `storybook-ref-${refId}`
+                : 'storybook-preview-iframe',
+          },
+        });
       }
     }, []);
 

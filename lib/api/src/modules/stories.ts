@@ -348,7 +348,10 @@ export const init: ModuleFn = ({
         storyId,
         updatedArgs,
         options: {
-          target: refId ? `storybook-ref-${refId}` : 'storybook-preview-iframe',
+          target:
+            refId && refId !== 'storybook_internal'
+              ? `storybook-ref-${refId}`
+              : 'storybook-preview-iframe',
         },
       });
     },
@@ -358,7 +361,10 @@ export const init: ModuleFn = ({
         storyId,
         argNames,
         options: {
-          target: refId ? `storybook-ref-${refId}` : 'storybook-preview-iframe',
+          target:
+            refId && refId !== 'storybook_internal'
+              ? `storybook-ref-${refId}`
+              : 'storybook-preview-iframe',
         },
       });
     },
@@ -474,7 +480,7 @@ export const init: ModuleFn = ({
       }
 
       if (sourceType === 'local') {
-        const { storyId, storiesHash } = store.getState();
+        const { storyId, storiesHash, refId } = store.getState();
 
         // create a list of related stories to be preloaded
         const toBePreloaded = Array.from(
@@ -484,7 +490,15 @@ export const init: ModuleFn = ({
           ])
         ).filter(Boolean);
 
-        fullAPI.emit(PRELOAD_STORIES, toBePreloaded);
+        fullAPI.emit(PRELOAD_STORIES, {
+          ids: toBePreloaded,
+          options: {
+            target:
+              refId && refId !== 'storybook_internal'
+                ? `storybook-ref-${refId}`
+                : 'storybook-preview-iframe',
+          },
+        });
       }
     });
 

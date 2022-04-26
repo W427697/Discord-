@@ -117,7 +117,15 @@ export const useHighlighted = ({
           const { itemId, refId } = highlightedRef.current;
           const item = api.getData(itemId, refId === 'storybook_internal' ? undefined : refId);
           if (item.isComponent) {
-            api.emit(PRELOAD_STORIES, [item.isLeaf ? item.id : item.children[0]]);
+            api.emit(PRELOAD_STORIES, {
+              ids: [item.isLeaf ? item.id : item.children[0]],
+              options: {
+                target:
+                  refId && refId !== 'storybook_internal'
+                    ? `storybook-ref-${refId}`
+                    : 'storybook-preview-iframe',
+              },
+            });
           }
         }
       });

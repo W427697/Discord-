@@ -247,7 +247,15 @@ const Node = React.memo<NodeProps>(
         }}
         onMouseEnter={() => {
           if (item.isComponent) {
-            api.emit(PRELOAD_STORIES, [item.children[0]]);
+            api.emit(PRELOAD_STORIES, {
+              ids: [item.children[0]],
+              options: {
+                target:
+                  refId && refId !== 'storybook_internal'
+                    ? `storybook-ref-${refId}`
+                    : 'storybook-preview-iframe',
+              },
+            });
           }
         }}
       >
