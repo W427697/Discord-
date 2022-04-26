@@ -132,13 +132,16 @@ program
   .option('-g --generator <generator>', 'Use custom generator command')
   .option('--registry <registry>', 'which registry to use for storybook packages')
   .option('--pnp', "Use Yarn Plug'n'Play mode instead of node_modules one")
+  .option('--url <url>', 'Use custom template from git url')
   .option('--local', "use storybook's local packages instead of yarn's registry")
   .option('--e2e', 'Used in e2e context')
-  .action((outputDirectory, { renderer, template, list, e2e, generator, pnp, local }) =>
-    repro({ outputDirectory, renderer, template, list, e2e, local, generator, pnp }).catch((e) => {
-      logger.error(e);
-      process.exit(1);
-    })
+  .action((outputDirectory, { renderer, template, list, e2e, generator, pnp, local, url }) =>
+    repro({ outputDirectory, renderer, template, list, e2e, local, generator, pnp, url }).catch(
+      (e) => {
+        logger.error(e);
+        process.exit(1);
+      }
+    )
   );
 
 program
