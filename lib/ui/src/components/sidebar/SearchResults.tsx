@@ -10,6 +10,8 @@ import React, {
 } from 'react';
 import { ControllerStateAndHelpers } from 'downshift';
 
+import { useStorybookApi } from '@storybook/api';
+import { PRELOAD_STORIES } from '@storybook/core-events';
 import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
 import {
   Match,
@@ -188,6 +190,7 @@ export const SearchResults: FunctionComponent<{
     isLoading = false,
     enableShortcuts = true,
   }) => {
+    const api = useStorybookApi();
     useEffect(() => {
       const handleEscape = (event: KeyboardEvent) => {
         if (!enableShortcuts || isLoading || event.repeat) return;
@@ -202,6 +205,18 @@ export const SearchResults: FunctionComponent<{
       document.addEventListener('keydown', handleEscape);
       return () => document.removeEventListener('keydown', handleEscape);
     }, [enableShortcuts, isLoading]);
+
+    const mouseOverHandler = useCallback((event: MouseEvent) => {
+      // @ts-ignore
+      const storyId = event.currentTarget.getAttribute('data-id');
+      // @ts-ignore
+      const refId = event.currentTarget.getAttribute('data-refid');
+      const item = api.getData(storyId, refId === 'storybook_internal' ? undefined : refId);
+
+      if (item.isComponent) {
+        api.emit(PRELOAD_STORIES, [item.isLeaf ? item.id : item.children[0]]);
+      }
+    }, []);
 
     return (
       <ResultsList {...getMenuProps()}>
@@ -268,6 +283,9 @@ export const SearchResults: FunctionComponent<{
               {...result}
               {...getItemProps({ key, index, item: result })}
               isHighlighted={highlightedIndex === index}
+              data-id={result.item.id}
+              data-refid={result.item.refId}
+              onMouseOver={mouseOverHandler}
               className="search-result-item"
             />
           );
