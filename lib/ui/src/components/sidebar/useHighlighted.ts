@@ -113,8 +113,12 @@ export const useHighlighted = ({
         const didRunAround = isArrowUp ? nextIndex === highlightable.length - 1 : nextIndex === 0;
         highlightElement(highlightable[nextIndex], didRunAround);
 
-        if (highlightable[nextIndex].getAttribute('data-nodetype') === 'story') {
-          api.emit(PRELOAD_STORIES, [highlightedRef.current?.itemId]);
+        if (highlightable[nextIndex].getAttribute('data-nodetype') === 'component') {
+          const { itemId, refId } = highlightedRef.current;
+          const item = api.getData(itemId, refId === 'storybook_internal' ? undefined : refId);
+          if (item.isComponent) {
+            api.emit(PRELOAD_STORIES, [item.isLeaf ? item.id : item.children[0]]);
+          }
         }
       });
     };

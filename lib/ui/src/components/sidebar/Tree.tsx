@@ -170,11 +170,6 @@ const Node = React.memo<NodeProps>(
               event.preventDefault();
               onSelectStoryId(item.id);
             }}
-            onMouseEnter={() => {
-              if (item.isComponent) {
-                api.emit(PRELOAD_STORIES, [item.isLeaf ? item.id : item.children[0]]);
-              }
-            }}
           >
             {item.renderLabel?.(item) || item.name}
           </LeafNode>
@@ -249,6 +244,11 @@ const Node = React.memo<NodeProps>(
           event.preventDefault();
           setExpanded({ ids: [item.id], value: !isExpanded });
           if (item.isComponent && !isExpanded) onSelectStoryId(item.id);
+        }}
+        onMouseEnter={() => {
+          if (item.isComponent) {
+            api.emit(PRELOAD_STORIES, [item.children[0]]);
+          }
         }}
       >
         {item.renderLabel?.(item) || item.name}
