@@ -27,6 +27,7 @@ const viewLayers: Record<string, string> = {
   '@storybook/svelte': 'svelte',
   '@storybook/preact': 'preact',
   '@storybook/rax': 'rax',
+  '@storybook/server': 'server',
 };
 
 const logger = console;

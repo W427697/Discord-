@@ -108,8 +108,10 @@ export async function baseGenerator(
   const packageJson = packageManager.retrievePackageJson();
   const installedDependencies = new Set(Object.keys(packageJson.dependencies));
   const frameworkPackage = `@storybook/${framework}`;
+  const cliPackage = 'sb';
 
   const packages = [
+    cliPackage,
     frameworkPackage,
     ...addonPackages,
     ...extraPackages,

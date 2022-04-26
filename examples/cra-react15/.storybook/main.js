@@ -22,4 +22,5 @@ module.exports = {
     builder: 'webpack4',
   },
   staticDirs: ['../public'],
+  framework: '@storybook/react',
 };
