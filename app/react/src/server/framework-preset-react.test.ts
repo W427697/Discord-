@@ -25,7 +25,10 @@ describe('framework-preset-react', () => {
     presets: {
       // @ts-ignore
       apply: async () => ({
-        fastRefresh: true,
+        name: '@storybook/react',
+        options: {
+          fastRefresh: true,
+        },
       }),
     },
     presetsList: [],
@@ -36,7 +39,10 @@ describe('framework-preset-react', () => {
     presets: {
       // @ts-ignore
       apply: async () => ({
-        fastRefresh: false,
+        name: '@storybook/react',
+        options: {
+          fastRefresh: false,
+        },
       }),
     },
   };

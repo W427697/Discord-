@@ -6852,7 +6852,6 @@ __metadata:
     "@storybook/angular": 6.5.0-beta.0
     "@storybook/babel-plugin-require-context-hook": 1.0.1
     "@storybook/client-api": 6.5.0-beta.0
-    "@storybook/core": 6.5.0-beta.0
     "@storybook/core-client": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
     "@storybook/csf": 0.0.2--canary.7c6c115.0
@@ -7070,9 +7069,10 @@ __metadata:
     "@storybook/addons": 6.5.0-beta.0
     "@storybook/api": 6.5.0-beta.0
     "@storybook/client-logger": 6.5.0-beta.0
-    "@storybook/core": 6.5.0-beta.0
+    "@storybook/core-client": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
     "@storybook/core-events": 6.5.0-beta.0
+    "@storybook/core-server": 6.5.0-beta.0
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-beta.0
     "@storybook/node-logger": 6.5.0-beta.0
@@ -7132,10 +7132,6 @@ __metadata:
       optional: true
     "@nrwl/workspace":
       optional: true
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -7697,6 +7693,7 @@ __metadata:
     open: ^8.4.0
     pretty-hrtime: ^1.0.3
     prompts: ^2.4.0
+    read-pkg-up: ^7.0.1
     regenerator-runtime: ^0.13.7
     serve-favicon: ^2.5.0
     slash: ^3.0.0
@@ -7710,26 +7707,6 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@storybook/builder-webpack5":
-      optional: true
-    "@storybook/manager-webpack5":
-      optional: true
-    typescript:
-      optional: true
-  languageName: unknown
-  linkType: soft
-
-"@storybook/core@6.5.0-beta.0, @storybook/core@workspace:*, @storybook/core@workspace:lib/core":
-  version: 0.0.0-use.local
-  resolution: "@storybook/core@workspace:lib/core"
-  dependencies:
-    "@storybook/core-client": 6.5.0-beta.0
-    "@storybook/core-server": 6.5.0-beta.0
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    webpack: "*"
   peerDependenciesMeta:
     "@storybook/builder-webpack5":
       optional: true
@@ -7851,8 +7828,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/ember@workspace:app/ember"
   dependencies:
-    "@storybook/core": 6.5.0-beta.0
+    "@storybook/core-client": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
+    "@storybook/core-server": 6.5.0-beta.0
     "@storybook/docs-tools": 6.5.0-beta.0
     "@storybook/store": 6.5.0-beta.0
     core-js: ^3.8.2
@@ -7867,10 +7845,6 @@ __metadata:
     babel-plugin-ember-modules-api-polyfill: ^2.12.0
     babel-plugin-htmlbars-inline-precompile: 2 || 3
     ember-source: ^3.16.0
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -7959,8 +7933,9 @@ __metadata:
   resolution: "@storybook/html@workspace:app/html"
   dependencies:
     "@storybook/addons": 6.5.0-beta.0
-    "@storybook/core": 6.5.0-beta.0
+    "@storybook/core-client": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
+    "@storybook/core-server": 6.5.0-beta.0
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-beta.0
     "@storybook/preview-web": 6.5.0-beta.0
@@ -7978,10 +7953,6 @@ __metadata:
     webpack: 4
   peerDependencies:
     "@babel/core": "*"
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -8227,8 +8198,9 @@ __metadata:
   dependencies:
     "@babel/plugin-transform-react-jsx": ^7.12.12
     "@storybook/addons": 6.5.0-beta.0
-    "@storybook/core": 6.5.0-beta.0
+    "@storybook/core-client": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
+    "@storybook/core-server": 6.5.0-beta.0
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/store": 6.5.0-beta.0
     "@types/node": ^14.14.20 || ^16.0.0
@@ -8245,10 +8217,6 @@ __metadata:
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -8336,8 +8304,9 @@ __metadata:
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.3
     "@storybook/addons": 6.5.0-beta.0
     "@storybook/client-logger": 6.5.0-beta.0
-    "@storybook/core": 6.5.0-beta.0
+    "@storybook/core-client": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
+    "@storybook/core-server": 6.5.0-beta.0
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-beta.0
     "@storybook/node-logger": 6.5.0-beta.0
@@ -8386,10 +8355,6 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -8458,7 +8423,6 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/codemod": "workspace:*"
     "@storybook/components": "workspace:*"
-    "@storybook/core": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
@@ -8705,8 +8669,9 @@ __metadata:
     "@storybook/addons": 6.5.0-beta.0
     "@storybook/api": 6.5.0-beta.0
     "@storybook/client-api": 6.5.0-beta.0
-    "@storybook/core": 6.5.0-beta.0
+    "@storybook/core-client": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
+    "@storybook/core-server": 6.5.0-beta.0
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/node-logger": 6.5.0-beta.0
     "@storybook/preview-web": 6.5.0-beta.0
@@ -8724,10 +8689,6 @@ __metadata:
     ts-dedent: ^2.0.0
     yaml: ^1.10.0
     yaml-loader: ^0.6.0
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -8782,8 +8743,9 @@ __metadata:
   dependencies:
     "@storybook/addons": 6.5.0-beta.0
     "@storybook/client-logger": 6.5.0-beta.0
-    "@storybook/core": 6.5.0-beta.0
+    "@storybook/core-client": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
+    "@storybook/core-server": 6.5.0-beta.0
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-beta.0
     "@storybook/node-logger": 6.5.0-beta.0
@@ -8806,10 +8768,6 @@ __metadata:
     "@babel/core": "*"
     svelte: ^3.1.0
     svelte-loader: "*"
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -8933,8 +8891,9 @@ __metadata:
   resolution: "@storybook/vue3@workspace:app/vue3"
   dependencies:
     "@storybook/addons": 6.5.0-beta.0
-    "@storybook/core": 6.5.0-beta.0
+    "@storybook/core-client": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
+    "@storybook/core-server": 6.5.0-beta.0
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-beta.0
     "@storybook/store": 6.5.0-beta.0
@@ -8959,10 +8918,6 @@ __metadata:
     "@vue/compiler-sfc": ^3.0.0
     babel-loader: ^7.0.0 || ^8.0.0
     vue: ^3.0.0
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -8972,8 +8927,9 @@ __metadata:
   dependencies:
     "@storybook/addons": 6.5.0-beta.0
     "@storybook/client-logger": 6.5.0-beta.0
-    "@storybook/core": 6.5.0-beta.0
+    "@storybook/core-client": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
+    "@storybook/core-server": 6.5.0-beta.0
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-beta.0
     "@storybook/store": 6.5.0-beta.0
@@ -9000,10 +8956,6 @@ __metadata:
     vue: ^2.6.8
     vue-loader: ^15.7.0
     vue-template-compiler: ^2.6.8
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -9017,8 +8969,9 @@ __metadata:
     "@storybook/addons": 6.5.0-beta.0
     "@storybook/client-api": 6.5.0-beta.0
     "@storybook/client-logger": 6.5.0-beta.0
-    "@storybook/core": 6.5.0-beta.0
+    "@storybook/core-client": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
+    "@storybook/core-server": 6.5.0-beta.0
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-beta.0
     "@storybook/preview-web": 6.5.0-beta.0
@@ -9036,10 +8989,6 @@ __metadata:
     ts-dedent: ^2.0.0
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: unknown
   linkType: soft
 
@@ -25195,7 +25144,6 @@ __metadata:
     "@storybook/addon-viewport": 6.5.0-beta.0
     "@storybook/addons": 6.5.0-beta.0
     "@storybook/client-api": 6.5.0-beta.0
-    "@storybook/core": 6.5.0-beta.0
     "@storybook/core-events": 6.5.0-beta.0
     "@storybook/html": 6.5.0-beta.0
     "@storybook/source-loader": 6.5.0-beta.0

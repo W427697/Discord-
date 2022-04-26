@@ -1,6 +1,6 @@
 import { addParameters } from '@storybook/angular';
-import { Button } from '@storybook/angular/demo';
 import { Story, Meta } from '@storybook/angular/types-6-0';
+import { Button } from '../../angular-demo';
 
 const globalParameter = 'globalParameter';
 const chapterParameter = 'chapterParameter';

@@ -2678,7 +2678,6 @@ __metadata:
     "@storybook/addons": 6.5.0-beta.0
     "@storybook/babel-plugin-require-context-hook": 1.0.1
     "@storybook/client-api": 6.5.0-beta.0
-    "@storybook/core": 6.5.0-beta.0
     "@storybook/core-client": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
     "@storybook/csf": 0.0.2--canary.7c6c115.0
@@ -3209,6 +3208,7 @@ __metadata:
     open: ^8.4.0
     pretty-hrtime: ^1.0.3
     prompts: ^2.4.0
+    read-pkg-up: ^7.0.1
     regenerator-runtime: ^0.13.7
     serve-favicon: ^2.5.0
     slash: ^3.0.0
@@ -3222,26 +3222,6 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@storybook/builder-webpack5":
-      optional: true
-    "@storybook/manager-webpack5":
-      optional: true
-    typescript:
-      optional: true
-  languageName: node
-  linkType: soft
-
-"@storybook/core@portal:../../lib/core::locator=web-components-kitchen-sink%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@storybook/core@portal:../../lib/core::locator=web-components-kitchen-sink%40workspace%3A."
-  dependencies:
-    "@storybook/core-client": 6.5.0-beta.0
-    "@storybook/core-server": 6.5.0-beta.0
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    webpack: "*"
   peerDependenciesMeta:
     "@storybook/builder-webpack5":
       optional: true
@@ -3529,8 +3509,9 @@ __metadata:
     "@storybook/addons": 6.5.0-beta.0
     "@storybook/client-api": 6.5.0-beta.0
     "@storybook/client-logger": 6.5.0-beta.0
-    "@storybook/core": 6.5.0-beta.0
+    "@storybook/core-client": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
+    "@storybook/core-server": 6.5.0-beta.0
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-beta.0
     "@storybook/preview-web": 6.5.0-beta.0
@@ -3547,10 +3528,6 @@ __metadata:
     ts-dedent: ^2.0.0
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
-  bin:
-    build-storybook: ./bin/build.js
-    start-storybook: ./bin/index.js
-    storybook-server: ./bin/index.js
   languageName: node
   linkType: soft
 

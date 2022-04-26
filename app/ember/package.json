@@ -26,13 +26,7 @@
       ]
     }
   },
-  "bin": {
-    "build-storybook": "./bin/build.js",
-    "start-storybook": "./bin/index.js",
-    "storybook-server": "./bin/index.js"
-  },
   "files": [
-    "bin/**/*",
     "dist/**/*",
     "README.md",
     "*.js",
@@ -42,8 +36,9 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/core": "6.5.0-beta.0",
+    "@storybook/core-client": "6.5.0-beta.0",
     "@storybook/core-common": "6.5.0-beta.0",
+    "@storybook/core-server": "6.5.0-beta.0",
     "@storybook/docs-tools": "6.5.0-beta.0",
     "@storybook/store": "6.5.0-beta.0",
     "core-js": "^3.8.2",

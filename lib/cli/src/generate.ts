@@ -3,7 +3,7 @@ import path from 'path';
 import chalk from 'chalk';
 import envinfo from 'envinfo';
 import leven from 'leven';
-import { sync } from 'read-pkg-up';
+import { sync as readUpSync } from 'read-pkg-up';
 
 import { logger } from '@storybook/node-logger';
 
@@ -20,7 +20,7 @@ import { dev } from './dev';
 import { build } from './build';
 import { parseList, getEnvConfig } from './utils';
 
-const pkg = sync({ cwd: __dirname }).packageJson;
+const pkg = readUpSync({ cwd: __dirname }).packageJson;
 const consoleLogger = console;
 
 program

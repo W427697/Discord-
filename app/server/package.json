@@ -29,13 +29,7 @@
       ]
     }
   },
-  "bin": {
-    "build-storybook": "./bin/build.js",
-    "start-storybook": "./bin/index.js",
-    "storybook-server": "./bin/index.js"
-  },
   "files": [
-    "bin/**/*",
     "dist/**/*",
     "README.md",
     "*.js",
@@ -48,8 +42,9 @@
     "@storybook/addons": "6.5.0-beta.0",
     "@storybook/api": "6.5.0-beta.0",
     "@storybook/client-api": "6.5.0-beta.0",
-    "@storybook/core": "6.5.0-beta.0",
+    "@storybook/core-client": "6.5.0-beta.0",
     "@storybook/core-common": "6.5.0-beta.0",
+    "@storybook/core-server": "6.5.0-beta.0",
     "@storybook/csf": "0.0.2--canary.7c6c115.0",
     "@storybook/node-logger": "6.5.0-beta.0",
     "@storybook/preview-web": "6.5.0-beta.0",

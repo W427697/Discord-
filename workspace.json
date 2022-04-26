@@ -249,10 +249,6 @@
       "root": "lib/components",
       "type": "library"
     },
-    "@storybook/core": {
-      "root": "lib/core",
-      "type": "library"
-    },
     "@storybook/core-client": {
       "root": "lib/core-client",
       "type": "library"

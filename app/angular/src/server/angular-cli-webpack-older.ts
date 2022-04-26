@@ -14,7 +14,7 @@ import {
   extractAngularCliWebpackConfig,
 } from './angular-devkit-build-webpack';
 import { filterOutStylingRules } from './utils/filter-out-styling-rules';
-import { PresetOptions } from './options';
+import type { PresetOptions } from './preset-options';
 
 /**
  * Old way currently support version lower than 12.2.x

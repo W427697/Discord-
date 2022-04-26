@@ -1,6 +1,6 @@
-import build from '@storybook/core/standalone';
+import build from '@storybook/core-server/standalone';
 
-jest.mock('@storybook/core/standalone');
+jest.mock('@storybook/core-server/standalone');
 
 describe.each([
   ['angular'],
