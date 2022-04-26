@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-viewport",
-  "version": "6.3.0-alpha.2",
+  "version": "6.5.0-beta.0",
   "description": "Build responsive components by adjusting Storybook’s viewport size and orientation",
   "keywords": [
     "addon",
@@ -8,7 +8,7 @@
     "style",
     "essentials"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/viewport",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/viewport",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -17,13 +17,17 @@
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "addons/viewport"
   },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
   "license": "MIT",
   "main": "dist/cjs/preview.js",
   "module": "dist/esm/preview.js",
   "types": "dist/ts3.9/preview.d.ts",
   "typesVersions": {
     "<3.8": {
-      "*": [
+      "dist/ts3.9/*": [
         "dist/ts3.4/*"
       ]
     }
@@ -38,12 +42,12 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.3.0-alpha.2",
-    "@storybook/api": "6.3.0-alpha.2",
-    "@storybook/client-logger": "6.3.0-alpha.2",
-    "@storybook/components": "6.3.0-alpha.2",
-    "@storybook/core-events": "6.3.0-alpha.2",
-    "@storybook/theming": "6.3.0-alpha.2",
+    "@storybook/addons": "6.5.0-beta.0",
+    "@storybook/api": "6.5.0-beta.0",
+    "@storybook/client-logger": "6.5.0-beta.0",
+    "@storybook/components": "6.5.0-beta.0",
+    "@storybook/core-events": "6.5.0-beta.0",
+    "@storybook/theming": "6.5.0-beta.0",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "memoizerific": "^1.11.3",
@@ -51,8 +55,8 @@
     "regenerator-runtime": "^0.13.7"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -65,7 +69,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "8a57399297ddf3899d4e0663a8d0f3c6999d7803",
+  "gitHead": "b2e85f3599c043815b18bbfc5ca563bf1c6e4add",
+  "sbmodern": "dist/modern/preview.js",
   "storybook": {
     "displayName": "Viewport",
     "icon": "https://user-images.githubusercontent.com/263385/101991678-48cdf300-3c7c-11eb-9764-f8af293c1b28.png",

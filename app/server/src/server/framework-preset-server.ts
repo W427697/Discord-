@@ -1,6 +1,7 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Configuration } from 'webpack';
 import path from 'path';
+import { findDistEsm } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/core-common';
+import type { Configuration } from 'webpack';
 
 export function webpack(config: Configuration) {
   config.module.rules.push({
@@ -9,5 +10,15 @@ export function webpack(config: Configuration) {
     use: path.resolve(__dirname, './loader.js'),
   });
 
+  config.module.rules.push({
+    type: 'javascript/auto',
+    test: /\.stories\.ya?ml/,
+    use: [path.resolve(__dirname, './loader.js'), 'yaml-loader'],
+  });
+
   return config;
 }
+
+export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
+  return [...entry, findDistEsm(__dirname, 'client/preview/config')];
+};

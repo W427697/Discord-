@@ -1,6 +1,6 @@
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
-import { document, DOCS_MODE } from 'global';
+import global from 'global';
 import React, {
   FunctionComponent,
   MouseEventHandler,
@@ -9,7 +9,6 @@ import React, {
   useEffect,
 } from 'react';
 import { ControllerStateAndHelpers } from 'downshift';
-import { transparentize } from 'polished';
 
 import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
 import {
@@ -23,6 +22,8 @@ import {
 import { getLink } from './utils';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 
+const { document, DOCS_MODE } = global;
+
 const ResultsList = styled.ol({
   listStyle: 'none',
   margin: 0,
@@ -35,7 +36,7 @@ const ResultRow = styled.li<{ isHighlighted: boolean }>(({ theme, isHighlighted 
   display: 'block',
   margin: 0,
   padding: 0,
-  background: isHighlighted ? transparentize(0.9, theme.color.secondary) : 'transparent',
+  background: isHighlighted ? theme.background.hoverable : 'transparent',
   cursor: 'pointer',
   'a:hover, button:hover': {
     background: 'transparent',

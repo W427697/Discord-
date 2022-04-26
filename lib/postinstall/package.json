@@ -1,12 +1,12 @@
 {
   "name": "@storybook/postinstall",
-  "version": "6.3.0-alpha.2",
+  "version": "6.5.0-beta.0",
   "description": "Storybook addons postinstall utilities",
   "keywords": [
     "api",
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/postinstall",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/postinstall",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -15,6 +15,10 @@
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "lib/postinstall"
   },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
   "license": "MIT",
   "sideEffects": false,
   "main": "dist/cjs/index.js",
@@ -22,7 +26,7 @@
   "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
-      "*": [
+      "dist/ts3.9/*": [
         "dist/ts3.4/*"
       ]
     }
@@ -40,12 +44,13 @@
     "core-js": "^3.8.2"
   },
   "devDependencies": {
-    "@hypnosphi/jscodeshift": "^0.6.4",
     "jest": "^26.6.3",
-    "jest-specific-snapshot": "^4.0.0"
+    "jest-specific-snapshot": "^4.0.0",
+    "jscodeshift": "^0.13.1"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "8a57399297ddf3899d4e0663a8d0f3c6999d7803"
+  "gitHead": "b2e85f3599c043815b18bbfc5ca563bf1c6e4add",
+  "sbmodern": "dist/modern/index.js"
 }

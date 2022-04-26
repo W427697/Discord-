@@ -1,11 +1,11 @@
 {
   "name": "@storybook/vue3",
-  "version": "6.3.0-alpha.2",
+  "version": "6.5.0-beta.0",
   "description": "Storybook for Vue 3: Develop Vue 3 Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/app/vue3",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/app/vue3",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -14,13 +14,17 @@
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "app/vue3"
   },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
   "license": "MIT",
   "main": "dist/cjs/client/index.js",
   "module": "dist/esm/client/index.js",
   "types": "dist/ts3.9/client/index.d.ts",
   "typesVersions": {
     "<3.8": {
-      "*": [
+      "dist/ts3.9/*": [
         "dist/ts3.4/*"
       ]
     }
@@ -41,9 +45,13 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.3.0-alpha.2",
-    "@storybook/core": "6.3.0-alpha.2",
-    "@storybook/core-common": "6.3.0-alpha.2",
+    "@storybook/addons": "6.5.0-beta.0",
+    "@storybook/core": "6.5.0-beta.0",
+    "@storybook/core-common": "6.5.0-beta.0",
+    "@storybook/csf": "0.0.2--canary.7c6c115.0",
+    "@storybook/docs-tools": "6.5.0-beta.0",
+    "@storybook/store": "6.5.0-beta.0",
+    "@types/node": "^14.14.20 || ^16.0.0",
     "@types/webpack-env": "^1.16.0",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
@@ -53,22 +61,21 @@
     "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0",
     "ts-loader": "^8.0.14",
-    "vue-docgen-api": "^4.34.2",
+    "vue-docgen-api": "^4.44.15",
     "vue-docgen-loader": "^1.5.0",
-    "webpack": "4"
+    "vue-loader": "^16.4.1",
+    "webpack": ">=4.0.0 <6.0.0"
   },
   "devDependencies": {
-    "@types/node": "^14.14.20",
-    "@vue/compiler-sfc": "^3.0.0",
-    "vue": "^3.0.0",
-    "vue-loader": "^16.0.0"
+    "@vue/compiler-sfc": "3.0.0",
+    "vue": "3.0.0",
+    "webpack": "4"
   },
   "peerDependencies": {
     "@babel/core": "*",
     "@vue/compiler-sfc": "^3.0.0",
     "babel-loader": "^7.0.0 || ^8.0.0",
-    "vue": "^3.0.0",
-    "vue-loader": "^16.0.0"
+    "vue": "^3.0.0"
   },
   "engines": {
     "node": ">=10.13.0"
@@ -76,5 +83,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "8a57399297ddf3899d4e0663a8d0f3c6999d7803"
+  "gitHead": "b2e85f3599c043815b18bbfc5ca563bf1c6e4add",
+  "sbmodern": "dist/modern/client/index.js"
 }

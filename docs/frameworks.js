@@ -1,6 +1,6 @@
 module.exports = {
   coreFrameworks: ['react', 'vue', 'angular', 'web-components'],
-  communityFrameworks: ['ember', 'html', 'mithril', 'marko', 'svelte', 'riot', 'preact', 'rax'],
+  communityFrameworks: ['ember', 'html', 'svelte', 'preact'],
   featureGroups: [
     {
       name: 'Essentials',
@@ -29,6 +29,16 @@ module.exports = {
           name: 'Controls',
           supported: ['react', 'vue', 'angular', 'web-components', 'ember'],
           path: 'essentials/controls',
+        },
+        {
+          name: 'Measure',
+          unsupported: [],
+          path: 'essentials/measure-and-outline#measure-addon',
+        },
+        {
+          name: 'Outline',
+          unsupported: [],
+          path: 'essentials/measure-and-outline#outline-addon',
         },
       ],
     },
@@ -69,7 +79,7 @@ module.exports = {
         },
         {
           name: 'links',
-          unsupported: ['marko'],
+          unsupported: [],
         },
         {
           name: 'queryparams',
@@ -77,7 +87,7 @@ module.exports = {
         },
         {
           name: 'Storyshots',
-          unsupported: ['ember', 'mithril', 'marko'],
+          unsupported: ['ember'],
           path: 'workflows/unit-testing',
         },
         {
@@ -111,12 +121,12 @@ module.exports = {
         },
         {
           name: 'Dynamic source',
-          supported: ['react'],
+          supported: ['react', 'vue', 'angular', 'svelte', 'web-components', 'html'],
           path: 'writing-docs/doc-blocks#source',
         },
         {
           name: 'Args Table',
-          supported: ['react', 'vue', 'angular', 'html', 'ember', 'web-components'],
+          supported: ['react', 'vue', 'angular', 'html', 'ember', 'web-components', 'svelte'],
           path: 'writing-docs/doc-blocks#argstable',
         },
         {
@@ -126,7 +136,7 @@ module.exports = {
         },
         {
           name: 'Inline stories',
-          supported: ['react', 'vue', 'web-components', 'html', 'svelte'],
+          supported: ['react', 'vue', 'web-components', 'html', 'svelte', 'angular'],
           path: 'writing-docs/doc-blocks#inline-rendering',
         },
       ],

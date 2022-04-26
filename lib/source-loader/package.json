@@ -1,12 +1,12 @@
 {
   "name": "@storybook/source-loader",
-  "version": "6.3.0-alpha.2",
+  "version": "6.5.0-beta.0",
   "description": "Source loader",
   "keywords": [
     "lib",
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/source-loader",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/source-loader",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -15,6 +15,10 @@
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "lib/source-loader"
   },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
   "license": "MIT",
   "sideEffects": false,
   "main": "dist/cjs/index.js",
@@ -22,7 +26,7 @@
   "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
-      "*": [
+      "dist/ts3.9/*": [
         "dist/ts3.4/*"
       ]
     }
@@ -37,23 +41,24 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.3.0-alpha.2",
-    "@storybook/client-logger": "6.3.0-alpha.2",
-    "@storybook/csf": "0.0.1",
+    "@storybook/addons": "6.5.0-beta.0",
+    "@storybook/client-logger": "6.5.0-beta.0",
+    "@storybook/csf": "0.0.2--canary.7c6c115.0",
     "core-js": "^3.8.2",
     "estraverse": "^5.2.0",
     "global": "^4.4.0",
     "loader-utils": "^2.0.0",
-    "lodash": "^4.17.20",
-    "prettier": "~2.2.1",
+    "lodash": "^4.17.21",
+    "prettier": ">=2.2.1 <=2.3.0",
     "regenerator-runtime": "^0.13.7"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "8a57399297ddf3899d4e0663a8d0f3c6999d7803"
+  "gitHead": "b2e85f3599c043815b18bbfc5ca563bf1c6e4add",
+  "sbmodern": "dist/modern/index.js"
 }

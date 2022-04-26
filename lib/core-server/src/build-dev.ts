@@ -1,14 +1,15 @@
 import { logger, instance as npmLog } from '@storybook/node-logger';
-import {
+import type {
   CLIOptions,
   LoadOptions,
   BuilderOptions,
-  resolvePathInStorybookCache,
-  loadAllPresets,
   Options,
+  StorybookConfig,
 } from '@storybook/core-common';
+import { resolvePathInStorybookCache, loadAllPresets, cache } from '@storybook/core-common';
 import dedent from 'ts-dedent';
 import prompts from 'prompts';
+import global from 'global';
 
 import path from 'path';
 import { storybookDevServer } from './dev-server';
@@ -17,13 +18,13 @@ import { getReleaseNotesData, getReleaseNotesFailedState } from './utils/release
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
 import { updateCheck } from './utils/update-check';
-import { cache } from './utils/cache';
-import { getServerPort } from './utils/server-address';
+import { getServerPort, getServerChannelUrl } from './utils/server-address';
 import { getPreviewBuilder } from './utils/get-preview-builder';
+import { getManagerBuilder } from './utils/get-manager-builder';
 
 export async function buildDevStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
   const { packageJson, versionUpdates, releaseNotes } = options;
-  const { version } = packageJson;
+  const { version, name = '' } = packageJson;
 
   // updateInfo and releaseNotesData are cached, so this is typically pretty fast
   const [port, versionCheck, releaseNotesData] = await Promise.all([
@@ -55,14 +56,16 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   options.outputDir = options.smokeTest
     ? resolvePathInStorybookCache('public')
     : path.resolve(options.outputDir || resolvePathInStorybookCache('public'));
+  options.serverChannelUrl = getServerChannelUrl(port, options);
   /* eslint-enable no-param-reassign */
 
   const previewBuilder = await getPreviewBuilder(options.configDir);
+  const managerBuilder = await getManagerBuilder(options.configDir);
 
   const presets = loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
-      require.resolve('./presets/manager-preset'),
+      ...managerBuilder.corePresets,
       ...previewBuilder.corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],
@@ -70,9 +73,13 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
     ...options,
   });
 
+  const features = await presets.apply<StorybookConfig['features']>('features');
+  global.FEATURES = features;
+
   const fullOptions: Options = {
     ...options,
     presets,
+    features,
   };
 
   const { address, networkAddress, managerResult, previewResult } = await storybookDevServer(
@@ -86,25 +93,34 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   const managerStats = managerResult && managerResult.stats;
 
   if (options.webpackStatsJson) {
-    await outputStats(options.webpackStatsJson, previewStats, managerStats);
+    const target = options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
+    await outputStats(target, previewStats, managerStats);
   }
 
   if (options.smokeTest) {
+    // @ts-ignore
     const managerWarnings = (managerStats && managerStats.toJson().warnings) || [];
-    if (managerWarnings.length > 0) logger.warn(`manager: ${managerWarnings}`);
+    if (managerWarnings.length > 0)
+      logger.warn(`manager: ${JSON.stringify(managerWarnings, null, 2)}`);
     // I'm a little reticent to import webpack types in this file :shrug:
     // @ts-ignore
     const previewWarnings = (previewStats && previewStats.toJson().warnings) || [];
-    if (previewWarnings.length > 0) logger.warn(`preview: ${previewWarnings}`);
+    if (previewWarnings.length > 0)
+      logger.warn(`preview: ${JSON.stringify(previewWarnings, null, 2)}`);
     process.exit(
       managerWarnings.length > 0 || (previewWarnings.length > 0 && !options.ignorePreview) ? 1 : 0
     );
     return;
   }
 
+  // Get package name and capitalize it e.g. @storybook/react -> React
+  const packageName = name.split('@storybook/').length > 1 ? name.split('@storybook/')[1] : name;
+  const frameworkName = packageName.charAt(0).toUpperCase() + packageName.slice(1);
+
   outputStartupInformation({
     updateInfo: versionCheck,
     version,
+    name: frameworkName,
     address,
     networkAddress,
     managerTotalTime,
@@ -121,7 +137,7 @@ export async function buildDev(loadOptions: LoadOptions) {
       ...loadOptions,
       configDir: loadOptions.configDir || cliOptions.configDir || './.storybook',
       configType: 'DEVELOPMENT',
-      ignorePreview: !!cliOptions.previewUrl,
+      ignorePreview: !!cliOptions.previewUrl && !cliOptions.forceBuildPreview,
       docsMode: !!cliOptions.docs,
       cache,
     });
