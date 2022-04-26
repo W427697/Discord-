@@ -30,7 +30,6 @@
     }
   },
   "files": [
-    "bin/**/*",
     "dist/**/*",
     "README.md",
     "*.js",
