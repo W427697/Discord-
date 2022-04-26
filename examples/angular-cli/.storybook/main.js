@@ -38,6 +38,7 @@ module.exports = {
   },
   staticDirs: ['../src/assets'],
   features: {
+    storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
     buildStoriesJson: true,
     breakingChangesV7: true,
   },

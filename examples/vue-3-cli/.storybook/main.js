@@ -9,6 +9,7 @@ module.exports = {
     builder: 'webpack4',
   },
   features: {
+    storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
     buildStoriesJson: true,
     breakingChangesV7: true,
   },

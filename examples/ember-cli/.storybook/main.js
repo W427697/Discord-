@@ -32,6 +32,7 @@ module.exports = {
   },
   staticDirs: ['../ember-output'],
   features: {
+    storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
     buildStoriesJson: true,
     breakingChangesV7: true,
   },
