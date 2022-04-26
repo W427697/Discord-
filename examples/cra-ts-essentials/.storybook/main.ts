@@ -29,7 +29,6 @@ const mainConfig: StorybookConfig = {
   },
   staticDirs: ['../public'],
   features: {
-    storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
     buildStoriesJson: true,
     breakingChangesV7: true,
   },
