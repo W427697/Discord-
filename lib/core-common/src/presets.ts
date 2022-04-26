@@ -315,7 +315,7 @@ function applyPresets(
 
 type InterPresetOptions = Omit<CLIOptions & LoadOptions & BuilderOptions, 'frameworkPresets'>;
 
-async function getPresets(
+export async function getPresets(
   presets: PresetConfig[],
   storybookOptions: InterPresetOptions
 ): Promise<Presets> {
