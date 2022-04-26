@@ -4,23 +4,18 @@ import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import type { Configuration } from 'webpack';
 
 import { logger } from '@storybook/node-logger';
-import type { Options } from '@storybook/core-common';
+import type { Options, Preset } from '@storybook/core-common';
+import type { ReactOptions } from '../types';
+
+const useFastRefresh = async (options: Options) => {
+  const isDevelopment = options.configType === 'DEVELOPMENT';
+  const framework = await options.presets.apply<Preset>('framework');
+  const reactOptions = (typeof framework === 'object' ? framework.options : {}) as ReactOptions;
+  return isDevelopment && (reactOptions.fastRefresh || process.env.FAST_REFRESH === 'true');
+};
 
 export async function babel(config: TransformOptions, options: Options) {
-  const isDevelopment = options.configType === 'DEVELOPMENT';
-  const reactOptions = await options.presets.apply(
-    'reactOptions',
-    {} as {
-      fastRefresh?: boolean;
-    },
-    options
-  );
-  const fastRefreshEnabled =
-    isDevelopment && (reactOptions.fastRefresh || process.env.FAST_REFRESH === 'true');
-
-  if (!fastRefreshEnabled) {
-    return config;
-  }
+  if (!(await useFastRefresh(options))) return config;
 
   return {
     ...config,
@@ -59,20 +54,8 @@ export async function babelDefault(config: TransformOptions): Promise<TransformO
 }
 
 export async function webpackFinal(config: Configuration, options: Options) {
-  const isDevelopment = options.configType === 'DEVELOPMENT';
-  const reactOptions = await options.presets.apply(
-    'reactOptions',
-    {} as {
-      fastRefresh?: boolean;
-    },
-    options
-  );
-  const fastRefreshEnabled =
-    isDevelopment && (reactOptions.fastRefresh || process.env.FAST_REFRESH === 'true');
+  if (!(await useFastRefresh(options))) return config;
 
-  if (!fastRefreshEnabled) {
-    return config;
-  }
   // matches the name of the plugin in CRA.
   const hasReactRefresh = config.plugins.find((p) => p.constructor.name === 'ReactRefreshPlugin');
 

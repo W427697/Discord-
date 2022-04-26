@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "build-storybook": "sb build",
-    "sb": "node ../../lib/cli/bin/index.js",
-    "storybook": "yarn sb dev -p 9009 --no-manager-cache"
+    "storybook": "sb dev -p 9009 --no-manager-cache"
   },
   "dependencies": {
     "global": "^4.4.0"
@@ -26,6 +25,7 @@
     "@storybook/source-loader": "6.5.0-beta.0",
     "@storybook/svelte": "6.5.0-beta.0",
     "@storybook/testing-library": "^0.0.7",
+    "sb": "6.5.0-beta.0",
     "svelte-jester": "1.3.0",
     "svelte-preprocess": "4.6.8"
   },
