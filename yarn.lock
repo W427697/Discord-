@@ -7908,6 +7908,7 @@ __metadata:
     prop-types: 15.7.2
     react: 16.14.0
     react-dom: 16.14.0
+    sb: 6.5.0-beta.0
     typescript: ^3.9.7
     webpack: 4
   languageName: unknown
@@ -7947,6 +7948,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     react-scripts: ^4.0.2
+    sb: 6.5.0-beta.0
     typescript: ^3.9.7
     webpack: 4
   languageName: unknown
@@ -12935,6 +12937,7 @@ __metadata:
     protractor: ~7.0.0
     rxjs: ^6.6.3
     sass: ^1.43.4
+    sb: 6.5.0-beta.0
     storybook-addon-angular-ivy: ^0.0.1
     telejson: ^5.3.3
     ts-jest: ^26.4.4
@@ -18001,6 +18004,7 @@ __metadata:
     react-dom: 16.14.0
     react-lifecycles-compat: ^3.0.4
     react-scripts: ^4.0.2
+    sb: 6.5.0-beta.0
     webpack: 4
   languageName: unknown
   linkType: soft
@@ -18025,6 +18029,7 @@ __metadata:
     react: ^15.7.0
     react-dom: ^15.7.0
     react-scripts: 3.4.4
+    sb: 6.5.0-beta.0
     webpack: 4
   languageName: unknown
   linkType: soft
@@ -18051,6 +18056,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     react-scripts: ^4.0.2
+    sb: 6.5.0-beta.0
     typescript: ^3.9.7
     webpack: 4
   languageName: unknown
@@ -18083,6 +18089,7 @@ __metadata:
     react-dom: 16.14.0
     react-moment-proptypes: ^1.7.0
     react-scripts: ^4.0.2
+    sb: 6.5.0-beta.0
     ts-node: ^9.1.0
     typescript: ^3.9.7
     webpack: 4
@@ -25197,6 +25204,7 @@ __metadata:
     global: ^4.4.0
     postcss: ^8.2.4
     postcss-color-rebeccapurple: ^6.0.0
+    sb: 6.5.0-beta.0
   languageName: unknown
   linkType: soft
 
@@ -33897,6 +33905,7 @@ __metadata:
     prop-types: ^15.7.2
     react: 16.14.0
     react-dom: 16.14.0
+    sb: 6.5.0-beta.0
     terser-webpack-plugin: ^5.0.3
     uuid-browser: ^3.1.0
     webpack: 4
@@ -36680,6 +36689,7 @@ __metadata:
     raw-loader: ^4.0.2
     react: ^17.0.2
     react-dom: ^17.0.2
+    sb: 6.5.0-beta.0
     svg-url-loader: ^7.1.1
     webpack: 4
     webpack-dev-server: ^3.11.2
@@ -40668,7 +40678,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sb@workspace:lib/cli-sb":
+"sb@6.5.0-beta.0, sb@workspace:lib/cli-sb":
   version: 0.0.0-use.local
   resolution: "sb@workspace:lib/cli-sb"
   dependencies:
@@ -41010,6 +41020,7 @@ __metadata:
     nodemon: ^2.0.7
     pug: ^3.0.0
     safe-identifier: ^0.4.1
+    sb: 6.5.0-beta.0
   languageName: unknown
   linkType: soft
 
@@ -41967,6 +41978,7 @@ __metadata:
     parcel: 2.0.1
     react: 16.14.0
     react-dom: 16.14.0
+    sb: 6.5.0-beta.0
   languageName: unknown
   linkType: soft
 
@@ -42795,6 +42807,7 @@ __metadata:
     "@storybook/svelte": 6.5.0-beta.0
     "@storybook/testing-library": ^0.0.7
     global: ^4.4.0
+    sb: 6.5.0-beta.0
     svelte-jester: 1.3.0
     svelte-preprocess: 4.6.8
   languageName: unknown
@@ -45712,6 +45725,7 @@ __metadata:
     "@vue/compiler-sfc": ^3.0.0
     babel-loader: ^8.0.0
     core-js: ^3.8.2
+    sb: 6.5.0-beta.0
     typescript: ~3.9.3
     vue: ^3.0.0
     vue-jest: ^5.0.0-alpha.8
@@ -45741,6 +45755,7 @@ __metadata:
     "@vue/cli-plugin-typescript": ~4.3.1
     "@vue/cli-service": ~4.3.1
     core-js: ^3.8.2
+    sb: 6.5.0-beta.0
     typescript: ^3.9.7
     vue: ^2.6.12
     vue-class-component: ^7.2.6
@@ -45808,6 +45823,7 @@ __metadata:
     cross-env: ^7.0.3
     file-loader: ^6.2.0
     prop-types: ^15.7.2
+    sb: 6.5.0-beta.0
     svg-url-loader: ^7.1.1
     vue: ^2.6.12
     vue-loader: ^15.9.6
