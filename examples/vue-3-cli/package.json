@@ -5,9 +5,8 @@
   "scripts": {
     "build": "vue-cli-service build",
     "build-storybook": "sb build",
-    "sb": "node ../../lib/cli/bin/index.js",
     "serve": "vue-cli-service serve",
-    "storybook": "yarn sb dev -p 6006 --no-manager-cache"
+    "storybook": "sb dev -p 6006 --no-manager-cache"
   },
   "dependencies": {
     "core-js": "^3.8.2",
