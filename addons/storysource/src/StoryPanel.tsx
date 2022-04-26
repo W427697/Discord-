@@ -114,10 +114,10 @@ export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
       const location = locationsMap[key];
       const first = location.startLoc.line - 1;
       const last = location.endLoc.line;
-      const { kind, refId } = story;
+      const { title, refId } = story;
       // source loader ids are different from story id
       const sourceIdParts = key.split('--');
-      const id = api.storyId(kind, sourceIdParts[sourceIdParts.length - 1]);
+      const id = api.storyId(title, sourceIdParts[sourceIdParts.length - 1]);
       const start = createPart({ rows: rows.slice(lastRow, first), stylesheet, useInlineStyles });
       const storyPart = createStoryPart({ rows, stylesheet, useInlineStyles, location, id, refId });
 

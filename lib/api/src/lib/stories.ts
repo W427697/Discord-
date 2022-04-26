@@ -59,7 +59,7 @@ export interface Story {
   depth: number;
   parent: StoryId;
   name: string;
-  title: StoryKind;
+  title: ComponentTitle;
   importPath: Path;
   refId?: string;
   children?: StoryId[];
