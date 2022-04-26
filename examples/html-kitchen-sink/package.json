@@ -10,8 +10,7 @@
   "scripts": {
     "build-storybook": "sb build",
     "generate-addon-jest-testresults": "jest --config=tests/addon-jest.config.json --json --outputFile=stories/addon-jest.testresults.json",
-    "sb": "node ../../lib/cli/bin/index.js",
-    "storybook": "yarn sb dev -p 9006 --no-manager-cache"
+    "storybook": "sb dev -p 9006 --no-manager-cache"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "6.5.0-beta.0",
@@ -36,7 +35,8 @@
     "format-json": "^1.0.3",
     "global": "^4.4.0",
     "postcss": "^8.2.4",
-    "postcss-color-rebeccapurple": "^6.0.0"
+    "postcss-color-rebeccapurple": "^6.0.0",
+    "sb": "6.5.0-beta.0"
   },
   "storybook": {
     "chromatic": {
