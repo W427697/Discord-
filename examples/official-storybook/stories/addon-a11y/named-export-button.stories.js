@@ -1,5 +1,4 @@
 import React from 'react';
-import DelayedRender from '../../components/DelayedRender';
 import { NamedExportButton } from '../../components/NamedExportButton';
 
 export default {
