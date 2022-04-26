@@ -10,8 +10,7 @@
   "scripts": {
     "build-storybook": "sb build",
     "generate-custom-elements-manifest": "yarn custom-elements-manifest analyze --litelement --dev --exclude \"./**/*.stories.ts\" --exclude \"./storybook-static\"",
-    "sb": "node ../../lib/cli/bin/index.js",
-    "storybook": "yarn sb dev -p 9006 --no-manager-cache"
+    "storybook": "sb dev -p 9006 --no-manager-cache"
   },
   "resolutions": {
     "@storybook/addon-a11y": "portal:../../addons/a11y",
@@ -56,6 +55,7 @@
     "@storybook/web-components": "portal:../../app/web-components",
     "babel-plugin-macros": "3.1.0",
     "fork-ts-checker-webpack-plugin": "6.2.13",
+    "sb": "portal:../../lib/cli-sb",
     "typescript": "4.2.4"
   },
   "dependencies": {
@@ -76,6 +76,7 @@
     "@storybook/web-components": "*",
     "global": "^4.4.0",
     "jest": "^27.3.1",
+    "sb": "*",
     "typescript": "4.2.4"
   },
   "customElements": "custom-elements.json",
