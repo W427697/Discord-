@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import global from 'global';
 import { set_current_component } from 'svelte/internal';
 

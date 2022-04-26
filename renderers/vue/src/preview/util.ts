@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { VueConstructor } from 'vue';
 
 function getType(fn: Function) {

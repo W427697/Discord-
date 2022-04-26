@@ -2,8 +2,6 @@
 
 /* eslint-disable global-require */
 
-const { lstatSync, readdirSync } = require('fs');
-const { join } = require('path');
 const { maxConcurrentTasks } = require('./utils/concurrency');
 const { checkDependenciesAndRun, spawn } = require('./utils/cli-utils');
 

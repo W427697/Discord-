@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import type { PartialStoryFn } from '@storybook/csf';
 import React from 'react';
 import { render } from 'lit-html';

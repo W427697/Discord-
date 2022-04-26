@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import type { StorybookConfig } from '@storybook/core-common';
 import type { SupportedFrameworks } from '../project_types';
 

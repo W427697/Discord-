@@ -91,6 +91,7 @@ export interface Presets {
     config: {},
     args: Options & { babelOptions?: TransformOptions } & ManagerWebpackOptions
   ): Promise<Configuration>;
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
   apply<T extends unknown>(extension: string, config?: T, args?: unknown): Promise<T>;
 }
 

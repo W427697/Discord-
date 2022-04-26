@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import path from 'path';
 import { readJSON, writeJSON } from 'fs-extra';
 import shell, { ExecOptions } from 'shelljs';

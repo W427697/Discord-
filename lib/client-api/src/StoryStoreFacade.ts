@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import global from 'global';
 import dedent from 'ts-dedent';
 import { SynchronousPromise } from 'synchronous-promise';

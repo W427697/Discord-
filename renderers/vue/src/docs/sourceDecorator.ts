@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint no-underscore-dangle: ["error", { "allow": ["_vnode"] }] */
 
 import type { StoryContext } from '@storybook/csf';
