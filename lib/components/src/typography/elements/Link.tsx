@@ -1,4 +1,5 @@
 import React, { FunctionComponent, AnchorHTMLAttributes } from 'react';
+import { window } from 'global';
 
 export const Link: FunctionComponent<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
   href: input,
