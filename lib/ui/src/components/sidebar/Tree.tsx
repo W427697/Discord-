@@ -171,8 +171,8 @@ const Node = React.memo<NodeProps>(
               onSelectStoryId(item.id);
             }}
             onMouseEnter={() => {
-              if (item.isLeaf) {
-                api.emit(PRELOAD_STORIES, [item.id]);
+              if (item.isComponent) {
+                api.emit(PRELOAD_STORIES, [item.isLeaf ? item.id : item.children[0]]);
               }
             }}
           >
