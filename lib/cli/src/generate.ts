@@ -108,9 +108,10 @@ program
   .option('-l --list', 'List available templates')
   .option('-g --generator <generator>', 'Use custom generator command')
   .option('--pnp', "Use Yarn Plug'n'Play mode instead of node_modules one")
+  .option('--url <url>', 'Use custom template from git url')
   .option('--e2e', 'Used in e2e context')
-  .action((outputDirectory, { framework, template, list, e2e, generator, pnp }) =>
-    repro({ outputDirectory, framework, template, list, e2e, generator, pnp }).catch((e) => {
+  .action((outputDirectory, { framework, template, list, e2e, generator, pnp, url }) =>
+    repro({ outputDirectory, framework, template, list, e2e, generator, pnp, url }).catch((e) => {
       logger.error(e);
       process.exit(1);
     })

@@ -17,6 +17,7 @@ interface ReproOptions {
   list?: boolean;
   template?: string;
   e2e?: boolean;
+  url?: string;
   generator?: string;
   pnp?: boolean;
 }
@@ -36,6 +37,21 @@ const FRAMEWORKS = Object.values(CURATED_TEMPLATES).reduce<
   return acc;
 }, {} as Record<SupportedFrameworks, Parameters[]>);
 
+const getRepoNameFromGitUrl = (url: string) => {
+  // supports all kinds of git urls
+  // https://github.com/Rich-Harris/degit/blob/64b80577acf3313b669840f7452800ee8d09fbf3/src/index.js#L327
+  const match =
+    /^(?:(?:https:\/\/)?([^:/]+\.[^:/]+)\/|git@([^:/]+)[:/]|([^/]+):)?([^/\s]+)\/([^/\s#]+)(?:((?:\/[^/\s#]+)+))?(?:\/)?(?:#(.+))?/.exec(
+      url
+    );
+
+  if (!match || !match[5]) {
+    return 'storybook-repro';
+  }
+
+  return match[5].replace(/\.git$/, '');
+};
+
 export const repro = async ({
   outputDirectory,
   list,
@@ -43,11 +59,38 @@ export const repro = async ({
   framework,
   generator,
   e2e,
+  url,
   pnp,
 }: ReproOptions) => {
-  logger.info(
-    boxen(
-      dedent`
+  let selectedDirectory = outputDirectory;
+  let selectedConfig;
+  let selectedTemplate;
+
+  if (url) {
+    if (!selectedDirectory) {
+      const { directory } = await prompts({
+        type: 'text',
+        message: 'Enter the output directory',
+        name: 'directory',
+        initial: getRepoNameFromGitUrl(url),
+        validate: (directoryName) =>
+          fs.existsSync(directoryName)
+            ? `${directoryName} already exists. Please choose another name.`
+            : true,
+      });
+      selectedDirectory = directory;
+    }
+
+    selectedTemplate = 'git repo';
+    selectedConfig = {
+      name: 'git repo',
+      version: '',
+      generator: `npx degit ${url} ${selectedDirectory}`,
+    };
+  } else {
+    logger.info(
+      boxen(
+        dedent`
         🤗 Welcome to ${chalk.yellow('sb repro')}! 🤗 
 
         Create a ${chalk.green('new project')} to minimally reproduce Storybook issues.
@@ -57,74 +100,74 @@ export const repro = async ({
         
         After the reproduction is ready, we'll guide you through the next steps.
         `.trim(),
-      { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
-    )
-  );
-  if (list) {
-    logger.info('🌈 Available templates');
-    Object.entries(FRAMEWORKS).forEach(([fmwrk, templates]) => {
-      logger.info(fmwrk);
-      templates.forEach((t) => logger.info(`- ${t.name}`));
-      if (fmwrk === 'other') {
-        logger.info('- blank');
-      }
-    });
-    return;
-  }
-
-  let selectedTemplate = template;
-  let selectedFramework = framework;
-  if (!selectedTemplate && !generator) {
-    if (!selectedFramework) {
-      const { framework: frameworkOpt } = await prompts({
-        type: 'select',
-        message: '🌈 Select the repro framework',
-        name: 'framework',
-        choices: Object.keys(FRAMEWORKS).map((f) => ({ title: f, value: f })),
+        { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
+      )
+    );
+    if (list) {
+      logger.info('🌈 Available templates');
+      Object.entries(FRAMEWORKS).forEach(([fmwrk, templates]) => {
+        logger.info(fmwrk);
+        templates.forEach((t) => logger.info(`- ${t.name}`));
+        if (fmwrk === 'other') {
+          logger.info('- blank');
+        }
       });
-      selectedFramework = frameworkOpt;
+      return;
     }
-    if (!selectedFramework) {
-      throw new Error('🚨 Repro: please select a framework!');
+
+    selectedTemplate = template;
+    let selectedFramework = framework;
+    if (!selectedTemplate && !generator) {
+      if (!selectedFramework) {
+        const { framework: frameworkOpt } = await prompts({
+          type: 'select',
+          message: '🌈 Select the repro framework',
+          name: 'framework',
+          choices: Object.keys(FRAMEWORKS).map((f) => ({ title: f, value: f })),
+        });
+        selectedFramework = frameworkOpt;
+      }
+      if (!selectedFramework) {
+        throw new Error('🚨 Repro: please select a framework!');
+      }
+      selectedTemplate = (
+        await prompts({
+          type: 'select',
+          message: '📝 Select the repro base template',
+          name: 'template',
+          choices: FRAMEWORKS[selectedFramework as SupportedFrameworks].map((f) => ({
+            title: f.name,
+            value: f.name,
+          })),
+        })
+      ).template;
     }
-    selectedTemplate = (
-      await prompts({
-        type: 'select',
-        message: '📝 Select the repro base template',
-        name: 'template',
-        choices: FRAMEWORKS[selectedFramework as SupportedFrameworks].map((f) => ({
-          title: f.name,
-          value: f.name,
-        })),
-      })
-    ).template;
-  }
 
-  const selectedConfig = !generator
-    ? TEMPLATES[selectedTemplate]
-    : {
-        name: 'custom',
-        version: 'custom',
-        generator,
-      };
+    selectedConfig = !generator
+      ? TEMPLATES[selectedTemplate]
+      : {
+          name: 'custom',
+          version: 'custom',
+          generator,
+        };
 
-  if (!selectedConfig) {
-    throw new Error('🚨 Repro: please specify a valid template type');
-  }
+    if (!selectedConfig) {
+      throw new Error('🚨 Repro: please specify a valid template type');
+    }
 
-  let selectedDirectory = outputDirectory;
-  if (!selectedDirectory) {
-    const { directory } = await prompts({
-      type: 'text',
-      message: 'Enter the output directory',
-      name: 'directory',
-      initial: selectedConfig.name,
-      validate: (directoryName) =>
-        fs.existsSync(directoryName)
-          ? `${directoryName} already exists. Please choose another name.`
-          : true,
-    });
-    selectedDirectory = directory;
+    if (!selectedDirectory) {
+      const { directory } = await prompts({
+        type: 'text',
+        message: 'Enter the output directory',
+        name: 'directory',
+        initial: selectedConfig.name,
+        validate: (directoryName) =>
+          fs.existsSync(directoryName)
+            ? `${directoryName} already exists. Please choose another name.`
+            : true,
+      });
+      selectedDirectory = directory;
+    }
   }
 
   try {
@@ -139,7 +182,7 @@ export const repro = async ({
       pnp: !!pnp,
     });
 
-    if (!e2e) {
+    if (!e2e && !url) {
       await initGitRepo(cwd);
     }
 
