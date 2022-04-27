@@ -36,21 +36,18 @@ beforeEach(() => {
   getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
   mockStories.mockReset().mockReturnValue({
     'component-a--story-1': {
-      type: 'story',
       id: 'component-a--story-1',
       title: 'Component A',
       name: 'Story 1',
       importPath: './path/to/component-a.ts',
     },
     'component-a--story-2': {
-      type: 'story',
       id: 'component-a--story-2',
       title: 'Component A',
       name: 'Story 2',
       importPath: './path/to/component-a.ts',
     },
     'component-b--story-3': {
-      type: 'story',
       id: 'component-b--story-3',
       title: 'Component B',
       name: 'Story 3',
@@ -1099,14 +1096,12 @@ describe('stories API', () => {
     it('handles docs entries', async () => {
       mockStories.mockReset().mockReturnValue({
         'component-a--page': {
-          type: 'story',
           id: 'component-a--page',
           title: 'Component A',
           name: 'Page',
           importPath: './path/to/component-a.ts',
         },
         'component-a--story-2': {
-          type: 'story',
           id: 'component-a--story-2',
           title: 'Component A',
           name: 'Story 2',
@@ -1121,7 +1116,6 @@ describe('stories API', () => {
           storiesImports: [],
         },
         'component-c--story-4': {
-          type: 'story',
           id: 'component-c--story-4',
           title: 'Component c',
           name: 'Story 4',

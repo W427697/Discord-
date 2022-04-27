@@ -134,7 +134,7 @@ interface BaseIndexEntry {
 }
 
 export type StoryIndexEntry = BaseIndexEntry & {
-  type: 'story';
+  type?: 'story';
 };
 
 export interface StoryIndexV3 {
@@ -346,11 +346,12 @@ export const transformStoryIndexToStoriesHash = (
 
     // Finally add an entry for the docs/story itself
     acc[item.id] = {
+      type: 'story',
       ...item,
       depth: paths.length,
       parent: paths[paths.length - 1],
       renderLabel,
-      ...(item.type === 'story' && { prepared: !!item.parameters }),
+      ...(item.type !== 'docs' && { prepared: !!item.parameters }),
     } as DocsEntry | StoryEntry;
 
     return acc;

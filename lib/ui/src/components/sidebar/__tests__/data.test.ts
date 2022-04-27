@@ -3,7 +3,6 @@ import { collapseAllStories } from '../data';
 
 type Item = StoriesHash[keyof StoriesHash];
 
-const docsOnly = { parameters: { docsOnly: true } };
 const root: Item = {
   id: 'root',
   name: 'root',
@@ -27,6 +26,8 @@ const a1: Item = {
   type: 'story',
   parent: 'a',
   args: {},
+  prepared: true,
+  importPath: './a.js',
 };
 const b: Item = {
   id: 'b',
@@ -44,6 +45,8 @@ const b1: Item = {
   type: 'story',
   parent: 'b',
   args: {},
+  prepared: true,
+  importPath: './b1.js',
 };
 const b2: Item = {
   id: 'b2',
@@ -53,6 +56,8 @@ const b2: Item = {
   type: 'story',
   parent: 'b',
   args: {},
+  prepared: true,
+  importPath: './b2.js',
 };
 
 const stories: StoriesHash = { root, a, a1, b, b1, b2 };

@@ -1,11 +1,4 @@
-import type {
-  ComponentEntry,
-  GroupEntry,
-  HashEntry,
-  RootEntry,
-  StoriesHash,
-  StoryEntry,
-} from '@storybook/api';
+import type { HashEntry, StoriesHash, StoryEntry } from '@storybook/api';
 import { Item } from './types';
 
 export const DEFAULT_REF_ID = 'storybook_internal';

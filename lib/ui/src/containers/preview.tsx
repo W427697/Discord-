@@ -14,18 +14,18 @@ const splitTitleAddExtraSpace = (input: string) =>
   input.split('/').join(' / ').replace(/\s\s/, ' ');
 
 const getDescription = (item: Item) => {
-  if (item.type === 'story' || item.type === 'docs') {
+  if (item?.type === 'story' || item?.type === 'docs') {
     const { title, name } = item;
     return title && name ? splitTitleAddExtraSpace(`${title} - ${name} ⋅ Storybook`) : 'Storybook';
   }
 
-  return item.name ? `${item.name} ⋅ Storybook` : 'Storybook';
+  return item?.name ? `${item.name} ⋅ Storybook` : 'Storybook';
 };
 
 const mapper = ({ api, state }: Combo) => {
   const { layout, location, customQueryParams, storyId, refs, viewMode, path, refId } = state;
   const story = api.getData(storyId, refId);
-  const docsOnly = story.type === 'docs';
+  const docsOnly = story?.type === 'docs';
 
   return {
     api,
