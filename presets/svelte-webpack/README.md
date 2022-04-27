@@ -1,32 +1,6 @@
-# Storybook for Svelte
+# Storybook Webpack preset for Svelte
 
-Storybook for Svelte is a UI development environment for your Svelte components.
-With it, you can visualize different states of your UI components and develop them interactively.
+This package is a [preset](https://storybook.js.org/docs/svelte/addons/writing-presets#presets-api) that configures Storybook's webpack settings for handling Svelte.
+It's an internal package that's not intended to be used directly by users.
 
-![Storybook Screenshot](https://github.com/storybookjs/storybook/blob/main/media/storybook-intro.gif)
-
-Storybook runs outside of your app.
-So you can develop UI components in isolation without worrying about app specific dependencies and requirements.
-
-## Getting Started
-
-```sh
-cd my-svelte-app
-npx sb init
-```
-
-For more information visit: [storybook.js.org](https://storybook.js.org)
-
----
-
-Storybook also comes with a lot of [addons](https://storybook.js.org/docs/svelte/configure/storybook-addons) and a great API to customize as you wish.
-You can also build a [static version](https://storybook.js.org/docs/svelte/workflows/publish-storybook) of your storybook and deploy it anywhere you want.
-
-## TODOs
-
-- [ ] Support `addon-info`
-- [ ] Support Svelte markup directly in stories
-- [ ] Add Svelte storybook generator
-- [ ] Provide stories that show advanced Svelte use cases
-- [ ] Hydratable
-- [ ] Advanced mount options
+- More info on [Storybook for Svelte](https://storybook.js.org/docs/svelte/get-started/introduction)
