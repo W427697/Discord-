@@ -5,9 +5,8 @@
   "scripts": {
     "build": "vue-cli-service build",
     "build-storybook": "sb build",
-    "sb": "node ../../lib/cli/bin/index.js",
     "serve": "vue-cli-service serve",
-    "storybook": "yarn sb dev -p 9009 --no-manager-cache"
+    "storybook": "sb dev -p 9009 --no-manager-cache"
   },
   "dependencies": {
     "core-js": "^3.8.2",
@@ -24,6 +23,7 @@
     "@vue/cli-plugin-babel": "~4.3.1",
     "@vue/cli-plugin-typescript": "~4.3.1",
     "@vue/cli-service": "~4.3.1",
+    "sb": "6.5.0-beta.0",
     "typescript": "^3.9.7",
     "vue-template-compiler": "^2.6.12"
   }

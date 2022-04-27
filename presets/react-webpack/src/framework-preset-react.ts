@@ -2,23 +2,19 @@ import path from 'path';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 import { logger } from '@storybook/node-logger';
-import type { StorybookConfig } from '@storybook/core-common';
+
+import type { StorybookConfig, Options, Preset } from '@storybook/core-common';
+import type { ReactOptions } from './types';
+
+const useFastRefresh = async (options: Options) => {
+  const isDevelopment = options.configType === 'DEVELOPMENT';
+  const framework = await options.presets.apply<Preset>('framework');
+  const reactOptions = (typeof framework === 'object' ? framework.options : {}) as ReactOptions;
+  return isDevelopment && (reactOptions.fastRefresh || process.env.FAST_REFRESH === 'true');
+};
 
 export const babel: StorybookConfig['babel'] = async (config, options) => {
-  const isDevelopment = options.configType === 'DEVELOPMENT';
-  const reactOptions = await options.presets.apply(
-    'reactOptions',
-    {} as {
-      fastRefresh?: boolean;
-    },
-    options
-  );
-  const fastRefreshEnabled =
-    isDevelopment && (reactOptions.fastRefresh || process.env.FAST_REFRESH === 'true');
-
-  if (!fastRefreshEnabled) {
-    return config;
-  }
+  if (!(await useFastRefresh(options))) return config;
 
   return {
     ...config,
@@ -59,20 +55,8 @@ export const babelDefault: StorybookConfig['babelDefault'] = async (config) => {
 };
 
 export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, options) => {
-  const isDevelopment = options.configType === 'DEVELOPMENT';
-  const reactOptions = await options.presets.apply(
-    'reactOptions',
-    {} as {
-      fastRefresh?: boolean;
-    },
-    options
-  );
-  const fastRefreshEnabled =
-    isDevelopment && (reactOptions.fastRefresh || process.env.FAST_REFRESH === 'true');
+  if (!(await useFastRefresh(options))) return config;
 
-  if (!fastRefreshEnabled) {
-    return config;
-  }
   // matches the name of the plugin in CRA.
   const hasReactRefresh = config.plugins.find((p) => p.constructor.name === 'ReactRefreshPlugin');
 

@@ -10,10 +10,6 @@ const config: StorybookConfig = {
     './../../addons/docs/**/*.stories.tsx',
     './../../addons/interactions/**/*.stories.(tsx|mdx)',
   ],
-  reactOptions: {
-    fastRefresh: true,
-    strictMode: true,
-  },
   addons: [
     {
       name: '@storybook/addon-docs',
@@ -51,6 +47,12 @@ const config: StorybookConfig = {
       to: '/example2',
     },
   ],
-  framework: '@storybook/react',
+  framework: {
+    name: '@storybook/react',
+    options: {
+      fastRefresh: true,
+      strictMode: true,
+    },
+  },
 };
 module.exports = config;

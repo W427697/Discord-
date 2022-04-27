@@ -1,7 +1,9 @@
 import { Configuration } from 'webpack';
 import * as path from 'path';
+import type { Preset } from '@storybook/core-common';
 
 import type { PresetOptions } from './preset-options';
+import type { AngularOptions } from '../types';
 
 /**
  * Source : https://github.com/angular/angular-cli/blob/ebccb5de4a455af813c5e82483db6af20666bdbd/packages/angular_devkit/build_angular/src/utils/load-esm.ts#L23
@@ -48,13 +50,8 @@ export const runNgcc = async () => {
 };
 
 export const webpack = async (webpackConfig: Configuration, options: PresetOptions) => {
-  const angularOptions = await options.presets.apply(
-    'angularOptions',
-    {} as {
-      enableIvy?: boolean;
-    },
-    options
-  );
+  const framework = await options.presets.apply<Preset>('framework');
+  const angularOptions = (typeof framework === 'object' ? framework.options : {}) as AngularOptions;
 
   // Default to true, if undefined
   if (angularOptions.enableIvy === false) {
