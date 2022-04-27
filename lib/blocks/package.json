@@ -1,0 +1,66 @@
+{
+  "name": "@storybook/blocks",
+  "version": "6.5.0-beta.0",
+  "description": "Storybook Doc Blocks",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/blocks",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "lib/blocks"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "dist/ts3.9/*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "build-storybook": "sb build",
+    "prepare": "node ../../scripts/prepare.js",
+    "storybook": "sb dev"
+  },
+  "dependencies": {
+    "@storybook/client-logger": "6.5.0-beta.0",
+    "@storybook/components": "6.5.0-beta.0",
+    "@storybook/theming": "6.5.0-beta.0",
+    "core-js": "^3.8.2",
+    "regenerator-runtime": "^0.13.7"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "6.5.0-beta.0",
+    "@storybook/react": "6.5.0-beta.0",
+    "sb": "6.5.0-beta.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundlerEntrypoint": "./src/index.ts",
+  "gitHead": "b2e85f3599c043815b18bbfc5ca563bf1c6e4add",
+  "sbmodern": "dist/modern/index.js"
+}

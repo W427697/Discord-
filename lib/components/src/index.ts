@@ -80,6 +80,8 @@ export { getStoryHref } from './utils/getStoryHref';
 
 export * from './typography/DocumentFormatting';
 
+export { withReset } from './typography/lib/common';
+
 // eslint-disable-next-line prefer-destructuring
 export const components = typography.components;
 
