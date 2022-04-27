@@ -222,6 +222,11 @@ module.exports = {
           type: 'link',
         },
         {
+          pathSegment: 'design-integrations',
+          title: 'Design integrations',
+          type: 'link',
+        },
+        {
           pathSegment: 'storybook-composition',
           title: 'Composition',
           type: 'link',
