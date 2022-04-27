@@ -1,5 +1,5 @@
 import React from 'react';
-import { API, Story, useParameter } from '@storybook/api';
+import { API, useParameter } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { Link } from '@storybook/router';
 import {
@@ -48,7 +48,7 @@ interface SourceParams {
   locationsMap?: LocationsMap;
 }
 export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
-  const story: Story | undefined = api.getCurrentStoryData() as Story;
+  const story = api.getCurrentStoryData();
   const selectedStoryRef = React.useRef<HTMLDivElement>(null);
   const { source, locationsMap }: SourceParams = useParameter('storySource', {
     source: 'loading source...',

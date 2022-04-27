@@ -17,7 +17,7 @@ export default {
 };
 
 const refId = DEFAULT_REF_ID;
-const storyId = Object.values(stories).find((story) => story.isLeaf && !story.isComponent).id;
+const storyId = Object.values(stories).find((story) => story.type === 'story').id;
 
 const log = (id: string) => console.log(id);
 
@@ -39,17 +39,16 @@ export const Full = () => {
 
 const singleStoryComponent: StoriesHash = {
   single: {
+    type: 'component',
     name: 'Single',
     id: 'single',
     parent: null,
     depth: 0,
     children: ['single--single'],
-    isComponent: true,
-    isLeaf: false,
-    isRoot: false,
     renderLabel: () => <span>🔥 Single</span>,
   },
   'single--single': {
+    type: 'story',
     id: 'single--single',
     title: 'Single',
     name: 'Single',
@@ -59,9 +58,6 @@ const singleStoryComponent: StoriesHash = {
     initialArgs: {},
     depth: 1,
     parent: 'single',
-    isLeaf: true,
-    isComponent: false,
-    isRoot: false,
     renderLabel: () => <span>🔥 Single</span>,
     importPath: './single.stories.js',
   },

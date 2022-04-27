@@ -1,5 +1,4 @@
-import type { Group, Story, StoriesHash } from '@storybook/api';
-import { isRoot, isStory } from '@storybook/api';
+import type { StoriesHash, GroupEntry, ComponentEntry, StoryEntry } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { Button, Icons } from '@storybook/components';
 import { transparentize } from 'polished';
@@ -149,8 +148,8 @@ const Node = React.memo<NodeProps>(
     if (!isDisplayed) return null;
 
     const id = createId(item.id, refId);
-    if (item.isLeaf) {
-      const LeafNode = item.isComponent ? DocumentNode : StoryNode;
+    if (item.type === 'story' || item.type === 'docs') {
+      const LeafNode = item.type === 'docs' ? DocumentNode : StoryNode;
       return (
         <LeafNodeStyleWrapper>
           <LeafNode
@@ -160,7 +159,7 @@ const Node = React.memo<NodeProps>(
             data-ref-id={refId}
             data-item-id={item.id}
             data-parent-id={item.parent}
-            data-nodetype={item.isComponent ? 'document' : 'story'}
+            data-nodetype={item.type === 'docs' ? 'document' : 'story'}
             data-selected={isSelected}
             data-highlightable={isDisplayed}
             depth={isOrphan ? item.depth : item.depth - 1}
@@ -181,7 +180,7 @@ const Node = React.memo<NodeProps>(
       );
     }
 
-    if (isRoot(item)) {
+    if (item.type === 'root') {
       return (
         <RootNode
           key={id}
@@ -222,7 +221,7 @@ const Node = React.memo<NodeProps>(
       );
     }
 
-    const BranchNode = item.isComponent ? ComponentNode : GroupNode;
+    const BranchNode = item.type === 'component' ? ComponentNode : GroupNode;
     return (
       <BranchNode
         key={id}
@@ -231,18 +230,18 @@ const Node = React.memo<NodeProps>(
         data-ref-id={refId}
         data-item-id={item.id}
         data-parent-id={item.parent}
-        data-nodetype={item.isComponent ? 'component' : 'group'}
+        data-nodetype={item.type === 'component' ? 'component' : 'group'}
         data-highlightable={isDisplayed}
         aria-controls={item.children && item.children[0]}
         aria-expanded={isExpanded}
         depth={isOrphan ? item.depth : item.depth - 1}
-        isComponent={item.isComponent}
+        isComponent={item.type === 'component'}
         isExpandable={item.children && item.children.length > 0}
         isExpanded={isExpanded}
         onClick={(event) => {
           event.preventDefault();
           setExpanded({ ids: [item.id], value: !isExpanded });
-          if (item.isComponent && !isExpanded) onSelectStoryId(item.id);
+          if (item.type === 'component' && !isExpanded) onSelectStoryId(item.id);
         }}
       >
         {(item.renderLabel as (i: typeof item) => React.ReactNode)?.(item) || item.name}
@@ -301,9 +300,9 @@ export const Tree = React.memo<{
         Object.keys(data).reduce<[string[], string[], ExpandedState]>(
           (acc, id) => {
             const item = data[id];
-            if (isRoot(item)) acc[0].push(id);
+            if (item.type === 'root') acc[0].push(id);
             else if (!item.parent) acc[1].push(id);
-            if (isRoot(item) && item.startCollapsed) acc[2][id] = false;
+            if (item.type === 'root' && item.startCollapsed) acc[2][id] = false;
             return acc;
           },
           [[], [], {}]
@@ -320,7 +319,9 @@ export const Tree = React.memo<{
         (acc, nodeId) => {
           const descendantIds = getDescendantIds(data, nodeId, false);
           acc.orphansFirst.push(nodeId, ...descendantIds);
-          acc.expandableDescendants[nodeId] = descendantIds.filter((d) => !data[d].isLeaf);
+          acc.expandableDescendants[nodeId] = descendantIds.filter(
+            (d) => !['story', 'docs'].includes(data[d].type)
+          );
           return acc;
         },
         { orphansFirst: [] as string[], expandableDescendants: {} as Record<string, string[]> }
@@ -329,15 +330,15 @@ export const Tree = React.memo<{
 
     // Create a list of component IDs which have exactly one story, which name exactly matches the component name.
     const singleStoryComponentIds = useMemo(() => {
-      return orphansFirst.filter((nodeId) => {
-        const { children = [], isComponent, isLeaf, name } = data[nodeId];
-        return (
-          !isLeaf &&
-          isComponent &&
-          children.length === 1 &&
-          isStory(data[children[0]]) &&
-          data[children[0]].name === name
-        );
+      return orphansFirst.filter((id) => {
+        const entry = data[id];
+        if (entry.type !== 'component') return false;
+
+        const { children = [], name } = entry;
+        if (children.length !== 1) return false;
+
+        const onlyChild = data[children[0]];
+        return onlyChild.type === 'story' && onlyChild.name === name;
       });
     }, [data, orphansFirst]);
 
@@ -350,14 +351,14 @@ export const Tree = React.memo<{
     const collapsedData = useMemo(() => {
       return singleStoryComponentIds.reduce(
         (acc, id) => {
-          const { children, parent } = data[id] as Group;
+          const { children, parent } = data[id] as ComponentEntry;
           const [childId] = children;
           if (parent) {
-            const siblings = [...data[parent].children];
+            const siblings = [...(data[parent] as GroupEntry).children];
             siblings[siblings.indexOf(id)] = childId;
-            acc[parent] = { ...data[parent], children: siblings };
+            acc[parent] = { ...data[parent], children: siblings } as GroupEntry;
           }
-          acc[childId] = { ...data[childId], parent, depth: data[childId].depth - 1 } as Story;
+          acc[childId] = { ...data[childId], parent, depth: data[childId].depth - 1 } as StoryEntry;
           return acc;
         },
         { ...data }
@@ -391,7 +392,7 @@ export const Tree = React.memo<{
           const item = collapsedData[itemId];
           const id = createId(itemId, refId);
 
-          if (isRoot(item)) {
+          if (item.type === 'root') {
             const descendants = expandableDescendants[item.id];
             const isFullyExpanded = descendants.every((d: string) => expanded[d]);
             return (

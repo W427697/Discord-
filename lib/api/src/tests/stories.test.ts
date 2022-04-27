@@ -15,7 +15,7 @@ import { mockChannel } from '@storybook/addons';
 import { getEventMetadata } from '../lib/events';
 
 import { init as initStories } from '../modules/stories';
-import { Story, SetStoriesStoryData, SetStoriesStory, StoryIndex } from '../lib/stories';
+import { StoryEntry, SetStoriesStoryData, SetStoriesStory, StoryIndex } from '../lib/stories';
 import type Store from '../store';
 import { ModuleArgs } from '..';
 
@@ -36,18 +36,21 @@ beforeEach(() => {
   getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
   mockStories.mockReset().mockReturnValue({
     'component-a--story-1': {
+      type: 'story',
       id: 'component-a--story-1',
       title: 'Component A',
       name: 'Story 1',
       importPath: './path/to/component-a.ts',
     },
     'component-a--story-2': {
+      type: 'story',
       id: 'component-a--story-2',
       title: 'Component A',
       name: 'Story 2',
       importPath: './path/to/component-a.ts',
     },
     'component-b--story-3': {
+      type: 'story',
       id: 'component-b--story-3',
       title: 'Component B',
       name: 'Story 3',
@@ -172,13 +175,13 @@ describe('stories API', () => {
         'custom-id--1',
       ]);
       expect(storedStoriesHash.a).toMatchObject({
+        type: 'component',
         id: 'a',
         children: ['a--1', 'a--2'],
-        isRoot: false,
-        isComponent: true,
       });
 
       expect(storedStoriesHash['a--1']).toMatchObject({
+        type: 'story',
         id: 'a--1',
         parent: 'a',
         title: 'a',
@@ -189,6 +192,7 @@ describe('stories API', () => {
       });
 
       expect(storedStoriesHash['a--2']).toMatchObject({
+        type: 'story',
         id: 'a--2',
         parent: 'a',
         title: 'a',
@@ -199,21 +203,20 @@ describe('stories API', () => {
       });
 
       expect(storedStoriesHash.b).toMatchObject({
+        type: 'group',
         id: 'b',
         children: ['b-c', 'b-d', 'b-e'],
-        isRoot: false,
-        isComponent: false,
       });
 
       expect(storedStoriesHash['b-c']).toMatchObject({
+        type: 'component',
         id: 'b-c',
         parent: 'b',
         children: ['b-c--1'],
-        isRoot: false,
-        isComponent: true,
       });
 
       expect(storedStoriesHash['b-c--1']).toMatchObject({
+        type: 'story',
         id: 'b-c--1',
         parent: 'b-c',
         title: 'b/c',
@@ -224,14 +227,14 @@ describe('stories API', () => {
       });
 
       expect(storedStoriesHash['b-d']).toMatchObject({
+        type: 'component',
         id: 'b-d',
         parent: 'b',
         children: ['b-d--1', 'b-d--2'],
-        isRoot: false,
-        isComponent: true,
       });
 
       expect(storedStoriesHash['b-d--1']).toMatchObject({
+        type: 'story',
         id: 'b-d--1',
         parent: 'b-d',
         title: 'b/d',
@@ -242,6 +245,7 @@ describe('stories API', () => {
       });
 
       expect(storedStoriesHash['b-d--2']).toMatchObject({
+        type: 'story',
         id: 'b-d--2',
         parent: 'b-d',
         title: 'b/d',
@@ -252,14 +256,14 @@ describe('stories API', () => {
       });
 
       expect(storedStoriesHash['b-e']).toMatchObject({
+        type: 'component',
         id: 'b-e',
         parent: 'b',
         children: ['custom-id--1'],
-        isRoot: false,
-        isComponent: true,
       });
 
       expect(storedStoriesHash['custom-id--1']).toMatchObject({
+        type: 'story',
         id: 'custom-id--1',
         parent: 'b-e',
         title: 'b/e',
@@ -297,15 +301,15 @@ describe('stories API', () => {
         'design-system-some-component--my-story',
       ]);
       expect(storedStoriesHash['design-system']).toMatchObject({
-        isRoot: true,
+        type: 'root',
         name: 'Design System', // root name originates from `kind`, so it gets trimmed
       });
       expect(storedStoriesHash['design-system-some-component']).toMatchObject({
-        isComponent: true,
+        type: 'component',
         name: 'Some Component', // component name originates from `kind`, so it gets trimmed
       });
       expect(storedStoriesHash['design-system-some-component--my-story']).toMatchObject({
-        isLeaf: true,
+        type: 'story',
         title: '  Design System  /  Some Component  ', // title is kept as-is, because it may be used as identifier
         name: '  My Story  ', // story name is kept as-is, because it's set directly on the story
       });
@@ -335,19 +339,18 @@ describe('stories API', () => {
       // We need exact key ordering, even if in theory JS doens't guarantee it
       expect(Object.keys(storedStoriesHash)).toEqual(['a', 'a-b', 'a-b--1']);
       expect(storedStoriesHash.a).toMatchObject({
+        type: 'root',
         id: 'a',
         children: ['a-b'],
-        isRoot: true,
-        isComponent: false,
       });
       expect(storedStoriesHash['a-b']).toMatchObject({
+        type: 'component',
         id: 'a-b',
         parent: 'a',
         children: ['a-b--1'],
-        isRoot: false,
-        isComponent: true,
       });
       expect(storedStoriesHash['a-b--1']).toMatchObject({
+        type: 'story',
         id: 'a-b--1',
         parent: 'a-b',
         name: '1',
@@ -381,12 +384,12 @@ describe('stories API', () => {
       // We need exact key ordering, even if in theory JS doens't guarantee it
       expect(Object.keys(storedStoriesHash)).toEqual(['a', 'a--1']);
       expect(storedStoriesHash.a).toMatchObject({
+        type: 'component',
         id: 'a',
         children: ['a--1'],
-        isRoot: false,
-        isComponent: true,
       });
       expect(storedStoriesHash['a--1']).toMatchObject({
+        type: 'story',
         id: 'a--1',
         parent: 'a',
         title: 'a',
@@ -417,17 +420,15 @@ describe('stories API', () => {
       // We need exact key ordering, even if in theory JS doens't guarantee it
       expect(Object.keys(storedStoriesHash)).toEqual(['a', 'a--1', 'a--2', 'b', 'b--1']);
       expect(storedStoriesHash.a).toMatchObject({
+        type: 'component',
         id: 'a',
         children: ['a--1', 'a--2'],
-        isRoot: false,
-        isComponent: true,
       });
 
       expect(storedStoriesHash.b).toMatchObject({
+        type: 'component',
         id: 'b',
         children: ['b--1'],
-        isRoot: false,
-        isComponent: true,
       });
     });
   });
@@ -497,15 +498,15 @@ describe('stories API', () => {
       });
 
       const { storiesHash: initialStoriesHash } = store.getState();
-      expect((initialStoriesHash['a--1'] as Story).args).toEqual({ a: 'b' });
-      expect((initialStoriesHash['b--1'] as Story).args).toEqual({ x: 'y' });
+      expect((initialStoriesHash['a--1'] as StoryEntry).args).toEqual({ a: 'b' });
+      expect((initialStoriesHash['b--1'] as StoryEntry).args).toEqual({ x: 'y' });
 
       init();
       fullAPI.emit(STORY_ARGS_UPDATED, { storyId: 'a--1', args: { foo: 'bar' } });
 
       const { storiesHash: changedStoriesHash } = store.getState();
-      expect((changedStoriesHash['a--1'] as Story).args).toEqual({ foo: 'bar' });
-      expect((changedStoriesHash['b--1'] as Story).args).toEqual({ x: 'y' });
+      expect((changedStoriesHash['a--1'] as StoryEntry).args).toEqual({ foo: 'bar' });
+      expect((changedStoriesHash['b--1'] as StoryEntry).args).toEqual({ x: 'y' });
     });
 
     it('changes reffed args properly, per story when receiving STORY_ARGS_UPDATED', () => {
@@ -545,7 +546,7 @@ describe('stories API', () => {
       Object.assign(fullAPI, api);
       init();
 
-      api.updateStoryArgs({ id: 'a--1' } as Story, { foo: 'bar' });
+      api.updateStoryArgs({ id: 'a--1' } as StoryEntry, { foo: 'bar' });
       expect(emit).toHaveBeenCalledWith(UPDATE_STORY_ARGS, {
         storyId: 'a--1',
         updatedArgs: { foo: 'bar' },
@@ -555,8 +556,8 @@ describe('stories API', () => {
       });
 
       const { storiesHash: changedStoriesHash } = store.getState();
-      expect((changedStoriesHash['a--1'] as Story).args).toEqual({ a: 'b' });
-      expect((changedStoriesHash['b--1'] as Story).args).toEqual({ x: 'y' });
+      expect((changedStoriesHash['a--1'] as StoryEntry).args).toEqual({ a: 'b' });
+      expect((changedStoriesHash['b--1'] as StoryEntry).args).toEqual({ x: 'y' });
     });
 
     it('updateStoryArgs emits UPDATE_STORY_ARGS to the right frame', () => {
@@ -576,7 +577,7 @@ describe('stories API', () => {
       Object.assign(fullAPI, api);
       init();
 
-      api.updateStoryArgs({ id: 'a--1', refId: 'refId' } as Story, { foo: 'bar' });
+      api.updateStoryArgs({ id: 'a--1', refId: 'refId' } as StoryEntry, { foo: 'bar' });
       expect(emit).toHaveBeenCalledWith(UPDATE_STORY_ARGS, {
         storyId: 'a--1',
         updatedArgs: { foo: 'bar' },
@@ -603,7 +604,7 @@ describe('stories API', () => {
       Object.assign(fullAPI, api);
       init();
 
-      api.resetStoryArgs({ id: 'a--1' } as Story, ['foo']);
+      api.resetStoryArgs({ id: 'a--1' } as StoryEntry, ['foo']);
       expect(emit).toHaveBeenCalledWith(RESET_STORY_ARGS, {
         storyId: 'a--1',
         argNames: ['foo'],
@@ -613,8 +614,8 @@ describe('stories API', () => {
       });
 
       const { storiesHash: changedStoriesHash } = store.getState();
-      expect((changedStoriesHash['a--1'] as Story).args).toEqual({ a: 'b' });
-      expect((changedStoriesHash['b--1'] as Story).args).toEqual({ x: 'y' });
+      expect((changedStoriesHash['a--1'] as StoryEntry).args).toEqual({ a: 'b' });
+      expect((changedStoriesHash['b--1'] as StoryEntry).args).toEqual({ x: 'y' });
     });
 
     it('resetStoryArgs emits RESET_STORY_ARGS to the right frame', () => {
@@ -634,7 +635,7 @@ describe('stories API', () => {
       Object.assign(fullAPI, api);
       init();
 
-      api.resetStoryArgs({ id: 'a--1', refId: 'refId' } as Story, ['foo']);
+      api.resetStoryArgs({ id: 'a--1', refId: 'refId' } as StoryEntry, ['foo']);
       expect(emit).toHaveBeenCalledWith(RESET_STORY_ARGS, {
         storyId: 'a--1',
         argNames: ['foo'],
@@ -853,8 +854,8 @@ describe('stories API', () => {
       } = initStories({ store, navigate, provider } as any);
       setStories({
         ...setStoriesData,
-        'intro--page': {
-          id: 'intro--page',
+        'intro--docs': {
+          id: 'intro--docs',
           kind: 'Intro',
           name: 'Page',
           parameters: { docsOnly: true } as any,
@@ -863,7 +864,7 @@ describe('stories API', () => {
       });
 
       selectStory('intro');
-      expect(navigate).toHaveBeenCalledWith('/docs/intro');
+      expect(navigate).toHaveBeenCalledWith('/docs/intro--docs');
     });
 
     describe('legacy api', () => {
@@ -1040,20 +1041,22 @@ describe('stories API', () => {
         'component-b--story-3',
       ]);
       expect(storedStoriesHash['component-a']).toMatchObject({
+        type: 'component',
         id: 'component-a',
         children: ['component-a--story-1', 'component-a--story-2'],
-        isRoot: false,
-        isComponent: true,
       });
 
       expect(storedStoriesHash['component-a--story-1']).toMatchObject({
+        type: 'story',
         id: 'component-a--story-1',
         parent: 'component-a',
         title: 'Component A',
         name: 'Story 1',
         prepared: false,
       });
-      expect((storedStoriesHash['component-a--story-1'] as Story as Story).args).toBeUndefined();
+      expect(
+        (storedStoriesHash['component-a--story-1'] as StoryEntry as StoryEntry).args
+      ).toBeUndefined();
     });
 
     it('watches for the INVALIDATE event and refetches -- and resets the hash', async () => {
@@ -1073,6 +1076,7 @@ describe('stories API', () => {
       global.fetch.mockClear();
       mockStories.mockReturnValueOnce({
         'component-a--story-1': {
+          type: 'story',
           id: 'component-a--story-1',
           title: 'Component A',
           name: 'Story 1',
@@ -1089,31 +1093,38 @@ describe('stories API', () => {
       expect(Object.keys(storedStoriesHash)).toEqual(['component-a', 'component-a--story-1']);
     });
 
-    it('infers docs only if there is only one story and it has the name "Page"', async () => {
+    // TODO: we should re-implement this for v3 story index
+    it.skip('infers docs only if there is only one story and it has the name "Page"', async () => {});
+
+    it('handles docs entries', async () => {
       mockStories.mockReset().mockReturnValue({
         'component-a--page': {
+          type: 'story',
           id: 'component-a--page',
           title: 'Component A',
-          name: 'Page', // Called "Page" but not only story
+          name: 'Page',
           importPath: './path/to/component-a.ts',
         },
         'component-a--story-2': {
+          type: 'story',
           id: 'component-a--story-2',
           title: 'Component A',
           name: 'Story 2',
           importPath: './path/to/component-a.ts',
         },
         'component-b': {
-          id: 'component-b--page',
-          title: 'Component B',
-          name: 'Page', // Page and only story
-          importPath: './path/to/component-b.ts',
           type: 'docs',
+          id: 'component-b--docs',
+          title: 'Component B',
+          name: 'Docs',
+          importPath: './path/to/component-b.ts',
+          storiesImports: [],
         },
         'component-c--story-4': {
+          type: 'story',
           id: 'component-c--story-4',
           title: 'Component c',
-          name: 'Story 4', // Only story but not page
+          name: 'Story 4',
           importPath: './path/to/component-c.ts',
         },
       });
@@ -1137,13 +1148,14 @@ describe('stories API', () => {
         'component-a--page',
         'component-a--story-2',
         'component-b',
+        'component-b--docs',
         'component-c',
         'component-c--story-4',
       ]);
-      expect(storedStoriesHash['component-a'].isLeaf).toBe(false);
-      expect(storedStoriesHash['component-a'].isLeaf).toBe(false);
-      expect(storedStoriesHash['component-b'].isLeaf).toBe(true);
-      expect(storedStoriesHash['component-c'].isLeaf).toBe(false);
+      expect(storedStoriesHash['component-a--page'].type).toBe('story');
+      expect(storedStoriesHash['component-a--story-2'].type).toBe('story');
+      expect(storedStoriesHash['component-b--docs'].type).toBe('docs');
+      expect(storedStoriesHash['component-c--story-4'].type).toBe('story');
     });
   });
 

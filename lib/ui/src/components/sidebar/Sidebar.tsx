@@ -100,7 +100,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = React.memo(
     enableShortcuts = true,
     refs = {},
   }) => {
-    const collapseFn = DOCS_MODE && collapseAllStories;
+    const collapseFn = DOCS_MODE ? collapseAllStories : (x: StoriesHash) => x;
     const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
     const stories = useMemo(() => collapseFn(storiesHash), [DOCS_MODE, storiesHash]);
 
@@ -109,7 +109,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = React.memo(
         if (ref.stories) {
           acc[id] = {
             ...ref,
-            stories: collapseFn ? collapseFn(ref.stories) : ref.stories,
+            stories: collapseFn(ref.stories),
           };
         } else {
           acc[id] = ref;

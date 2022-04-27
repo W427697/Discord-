@@ -1,4 +1,11 @@
-import type { Story, StoriesHash } from '@storybook/api';
+import type {
+  ComponentEntry,
+  GroupEntry,
+  HashEntry,
+  RootEntry,
+  StoriesHash,
+  StoryEntry,
+} from '@storybook/api';
 import { Item } from './types';
 
 export const DEFAULT_REF_ID = 'storybook_internal';
@@ -9,22 +16,28 @@ export const collapseAllStories = (stories: StoriesHash) => {
 
   // 1) remove all leaves
   const leavesRemoved = Object.values(stories).filter(
-    (item: Story) => !(item.isLeaf && stories[item.parent].isComponent)
+    (item: HashEntry) =>
+      !(
+        (item.type === 'story' || item.type === 'docs') &&
+        stories[item.parent].type === 'component'
+      )
   );
 
   // 2) make all components leaves and rewrite their ID's to the first leaf child
-  const componentsFlattened = leavesRemoved.map((item: Story) => {
-    const { id, isComponent, children, ...rest } = item;
-
+  const componentsFlattened = leavesRemoved.map((item: HashEntry) => {
     // this is a folder, so just leave it alone
-    if (!isComponent) {
+    if (item.type !== 'component') {
       return item;
     }
+
+    const { id, children, ...rest } = item;
 
     const nonLeafChildren: string[] = [];
     const leafChildren: string[] = [];
     children.forEach((child: string) =>
-      (stories[child].isLeaf ? leafChildren : nonLeafChildren).push(child)
+      (['stories', 'docs'].includes(stories[child].type) ? leafChildren : nonLeafChildren).push(
+        child
+      )
     );
 
     if (leafChildren.length === 0) {
@@ -33,22 +46,18 @@ export const collapseAllStories = (stories: StoriesHash) => {
 
     const leafId = leafChildren[0];
     const component = {
+      type: 'story',
       args: {},
       ...rest,
       id: leafId,
-      title: (stories[leafId] as Story).title,
-      isRoot: false,
-      isLeaf: true,
-      isComponent: true,
+      title: (stories[leafId] as StoryEntry).title,
       children: [] as string[],
     };
     componentIdToLeafId[id] = leafId;
 
     // this is a component, so it should not have any non-leaf children
     if (nonLeafChildren.length !== 0) {
-      throw new Error(
-        `Unexpected '${item.id}': ${JSON.stringify({ isComponent, nonLeafChildren })}`
-      );
+      throw new Error(`Unexpected '${item.id}': ${JSON.stringify({ nonLeafChildren })}`);
     }
 
     return component;
@@ -56,7 +65,7 @@ export const collapseAllStories = (stories: StoriesHash) => {
 
   // 3) rewrite all the children as needed
   const childrenRewritten = componentsFlattened.map((item) => {
-    if (item.isLeaf) {
+    if (item.type === 'story' || item.type === 'docs') {
       return item;
     }
 

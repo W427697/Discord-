@@ -24,49 +24,44 @@ const { FEATURES } = global;
 
 export type { StoryId };
 
-export interface Root {
+export interface BaseEntry {
   id: StoryId;
-  depth: 0;
+  depth: number;
   name: string;
   refId?: string;
-  children: StoryId[];
-  isComponent: false;
-  isRoot: true;
-  isLeaf: false;
-  renderLabel?: (item: Root) => React.ReactNode;
+  renderLabel?: (item: BaseEntry) => React.ReactNode;
+}
+
+export interface RootEntry extends BaseEntry {
+  type: 'root';
   startCollapsed?: boolean;
-}
-
-export interface Group {
-  id: StoryId;
-  depth: number;
-  name: string;
   children: StoryId[];
-  refId?: string;
-  parent?: StoryId;
-  isComponent: boolean;
-  isRoot: false;
-  isLeaf: boolean;
-  renderLabel?: (item: Group) => React.ReactNode;
-  // MDX docs-only stories are "Group" type
-  parameters?: {
-    viewMode?: ViewMode;
-  };
 }
 
-export interface Story {
-  id: StoryId;
-  depth: number;
+export interface GroupEntry extends BaseEntry {
+  type: 'group';
+  parent?: StoryId;
+  children: StoryId[];
+}
+
+export interface ComponentEntry extends BaseEntry {
+  type: 'component';
+  parent?: StoryId;
+  children: StoryId[];
+}
+
+export interface DocsEntry extends BaseEntry {
+  type: 'docs';
   parent: StoryId;
-  name: string;
   title: ComponentTitle;
   importPath: Path;
-  refId?: string;
-  children?: StoryId[];
-  isComponent: false;
-  isRoot: false;
-  isLeaf: true;
-  renderLabel?: (item: Story) => React.ReactNode;
+}
+
+export interface StoryEntry extends BaseEntry {
+  type: 'story';
+  parent: StoryId;
+  title: ComponentTitle;
+  importPath: Path;
   prepared: boolean;
   parameters?: {
     [parameterName: string]: any;
@@ -76,9 +71,16 @@ export interface Story {
   initialArgs?: Args;
 }
 
-// This is what we use for our sidebar
+export type HashEntry = RootEntry | GroupEntry | ComponentEntry | DocsEntry | StoryEntry;
+
+/**
+ * The `StoriesHash` is our manager-side representation of the `StoryIndex`.
+ * We create entries in the hash not only for each story or docs entry, but
+ * also for each "group" of the component (split on '/'), as that's how things
+ * are manipulated in the manager (i.e. in the sidebar)
+ */
 export interface StoriesHash {
-  [id: string]: Root | Group | Story;
+  [id: string]: HashEntry;
 }
 
 // The data received on the (legacy) `setStories` event
@@ -267,12 +269,13 @@ export const transformStoryIndexToStoriesHash = (
   }
 
   const storiesHashOutOfOrder = Object.values(entryValues).reduce((acc, item) => {
-    // First, split the title into parts, and create an id for each part
-    const { type, title } = item;
+    // First, split the title into a set of names, separated by '/' and trimmed.
+    const { title } = item;
     const groups = title.trim().split(TITLE_PATH_SEPARATOR);
     const root = (!setShowRoots || showRoots) && groups.length > 1 ? [groups.shift()] : [];
-
     const names = [...root, ...groups];
+
+    // Now create a "path" or sub id for each name
     const paths = names.reduce((list, name, idx) => {
       const parent = idx > 0 && list[idx - 1];
       const id = sanitize(parent ? `${parent}-${name}` : name);
@@ -290,29 +293,33 @@ export const transformStoryIndexToStoriesHash = (
       return list;
     }, [] as string[]);
 
-    // Now, let's add an entry to the hash for each path
+    // Now, let's add an entry to the hash for each path/name pair
     paths.forEach((id, idx) => {
-      // The child is the next path, OR the story itself; unless this is a docs entry
-      const childId = paths[idx + 1] || (type !== 'docs' && item.id);
+      // The child is the next path, OR the story/docs entry itself
+      const childId = paths[idx + 1] || item.id;
 
       if (root.length && idx === 0) {
-        acc[id] = merge(acc[id] || {}, {
+        acc[id] = merge<RootEntry>((acc[id] || {}) as RootEntry, {
+          type: 'root',
           id,
           name: names[idx],
           depth: idx,
           renderLabel,
           startCollapsed: collapsedRoots.includes(id),
-          // Note that this will get appended tothe previous list of children if this entry
-          // already exists (i.e. we've seen this root before)
+          // Note that this will later get appended to the previous list of children (see below)
           children: [childId],
-          isRoot: true,
-          isComponent: false,
-          isLeaf: false,
         });
-      } else {
-        const isComponent = acc[id]?.isComponent !== false && idx === paths.length - 1;
-        const isLeaf = isComponent && type === 'docs';
-        acc[id] = merge(acc[id] || {}, {
+        // Usually the last path/name pair will be displayed as a component,
+        // *unless* there are other stories that are more deeply nested under it
+        //
+        // For example, if we had stories for both
+        //   - Atoms / Button
+        //   - Atoms / Button / LabelledButton
+        //
+        // In this example the entry for 'atoms-button' would *not* be a component.
+      } else if ((!acc[id] || acc[id].type === 'component') && idx === paths.length - 1) {
+        acc[id] = merge<ComponentEntry>((acc[id] || {}) as ComponentEntry, {
+          type: 'component',
           id,
           name: names[idx],
           parent: paths[idx - 1],
@@ -321,39 +328,44 @@ export const transformStoryIndexToStoriesHash = (
           ...(childId && {
             children: [childId],
           }),
-          isRoot: false,
-          isComponent,
-          isLeaf,
+        });
+      } else {
+        acc[id] = merge<GroupEntry>((acc[id] || {}) as GroupEntry, {
+          type: 'group',
+          id,
+          name: names[idx],
+          parent: paths[idx - 1],
+          depth: idx,
+          renderLabel,
+          ...(childId && {
+            children: [childId],
+          }),
         });
       }
     });
 
-    if (type !== 'docs') {
-      acc[item.id] = {
-        ...item,
-        depth: paths.length,
-        parent: paths[paths.length - 1],
-        renderLabel,
-        prepared: !!item.parameters,
-        isRoot: false,
-        isComponent: false,
-        isLeaf: true,
-      };
-    }
+    // Finally add an entry for the docs/story itself
+    acc[item.id] = {
+      ...item,
+      depth: paths.length,
+      parent: paths[paths.length - 1],
+      renderLabel,
+      ...(item.type === 'story' && { prepared: !!item.parameters }),
+    } as DocsEntry | StoryEntry;
 
     return acc;
   }, {} as StoriesHash);
 
-  function addItem(acc: StoriesHash, item: Story | Group) {
-    if (!acc[item.id]) {
-      // If we were already inserted as part of a group, that's great.
-      acc[item.id] = item;
-      const { children } = item;
-      if (children) {
-        const childNodes = children.map((id) => storiesHashOutOfOrder[id]) as (Story | Group)[];
-        acc[item.id].isComponent = childNodes.every((childNode) => childNode.isLeaf);
-        childNodes.forEach((childNode) => addItem(acc, childNode));
-      }
+  function addItem(acc: StoriesHash, item: HashEntry) {
+    // If we were already inserted as part of a group, that's great.
+    if (acc[item.id]) {
+      return acc;
+    }
+
+    acc[item.id] = item;
+    // Ensure we add the children depth-first *before* inserting any other entries
+    if (item.type === 'root' || item.type === 'group' || item.type === 'component') {
+      item.children.forEach((childId) => addItem(acc, storiesHashOutOfOrder[childId]));
     }
     return acc;
   }
@@ -361,37 +373,17 @@ export const transformStoryIndexToStoriesHash = (
   return Object.values(storiesHashOutOfOrder).reduce(addItem, {});
 };
 
-export type Item = StoriesHash[keyof StoriesHash];
-
-export function isRoot(item: Item): item is Root {
-  if (item as Root) {
-    return item.isRoot;
-  }
-  return false;
-}
-export function isGroup(item: Item): item is Group {
-  if (item as Group) {
-    return !item.isRoot && !item.isLeaf;
-  }
-  return false;
-}
-export function isStory(item: Item): item is Story {
-  if (item as Story) {
-    return item.isLeaf;
-  }
-  return false;
-}
-
 export const getComponentLookupList = memoize(1)((hash: StoriesHash) => {
   return Object.entries(hash).reduce((acc, i) => {
     const value = i[1];
-    if (value.isComponent) {
-      acc.push([...i[1].children]);
+    if (value.type === 'component') {
+      acc.push([...value.children]);
     }
     return acc;
   }, [] as StoryId[][]);
 });
 
+// FIXME:
 export const getStoriesLookupList = memoize(1)((hash: StoriesHash) => {
-  return Object.keys(hash).filter((k) => !(hash[k].children || Array.isArray(hash[k])));
+  return Object.keys(hash).filter((k) => hash[k].type === 'story');
 });
