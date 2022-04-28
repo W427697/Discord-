@@ -31,6 +31,10 @@ export interface Parameters {
   }[];
   /** Add typescript dependency and creates a tsconfig.json file */
   typescript?: boolean;
+  /** Generator that downloads from remote repro in storybookjs/repro-templates on Github */
+  gitRepoGenerator?: string;
+  /** Whether to download from git templates */
+  preferGitTemplate?: boolean;
 }
 
 interface Configuration {
@@ -287,8 +291,24 @@ export const createAndInit = async (
   logger.info(`🏃 Starting for ${name} ${version}`);
   logger.log();
 
-  await doTask(generate, { ...options, cwd: options.creationPath });
+  try {
+    if (!options.preferGitTemplate) {
+      throw new Error('using local generators instead..');
+    }
+    // try downloading from git repro first
+    await doTask(generate, {
+      ...options,
+      generator: options.gitRepoGenerator,
+      cwd: options.creationPath,
+    });
+  } catch (err) {
+    // fallback to local generators
+    logger.info(`⏩ Skipping git template and using local generator instead`);
+    await doTask(generate, { ...options, cwd: options.creationPath });
+  }
+
   await doTask(addAdditionalFiles, { ...options, cwd }, !!options.additionalFiles);
+
   if (e2e) {
     await doTask(addPackageResolutions, options);
   }

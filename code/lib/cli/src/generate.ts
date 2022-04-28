@@ -135,13 +135,12 @@ program
   .option('--url <url>', 'Use custom template from git url')
   .option('--local', "use storybook's local packages instead of yarn's registry")
   .option('--e2e', 'Used in e2e context')
-  .action((outputDirectory, { renderer, template, list, e2e, generator, pnp, local, url }) =>
-    repro({ outputDirectory, renderer, template, list, e2e, local, generator, pnp, url }).catch(
-      (e) => {
-        logger.error(e);
-        process.exit(1);
-      }
-    )
+  .option('--skip-git', 'Skip downloading templates from git and use local generators instead')
+  .action((outputDirectory, options) =>
+    repro({ outputDirectory, ...options }).catch((e) => {
+      logger.error(e);
+      process.exit(1);
+    })
   );
 
 program

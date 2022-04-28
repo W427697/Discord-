@@ -22,6 +22,8 @@ interface ReproOptions {
   url?: string;
   generator?: string;
   pnp?: boolean;
+  /** Skip downloading templates from git and use local generators instead */
+  skipGit?: boolean;
 }
 
 const TEMPLATES = configs as Record<string, Parameters>;
@@ -66,10 +68,12 @@ export const repro = async ({
   registry,
   url,
   pnp,
+  skipGit = false,
 }: ReproOptions) => {
   let selectedDirectory = outputDirectory;
   let selectedConfig;
   let selectedTemplate;
+  const preferGitTemplate = !skipGit;
 
   if (url) {
     if (!selectedDirectory) {
@@ -151,11 +155,14 @@ export const repro = async ({
 
     selectedConfig = !generator
       ? TEMPLATES[selectedTemplate]
-      : {
+      : ({
           name: 'custom',
           version: 'custom',
           generator,
-        };
+        } as Parameters);
+
+    selectedConfig.gitRepoGenerator = `npx degit storybookjs/repro-templates/${selectedConfig.name} ${selectedDirectory}`;
+    selectedConfig.preferGitTemplate = preferGitTemplate;
 
     if (!selectedConfig) {
       throw new Error('🚨 Repro: please specify a valid template type');
@@ -190,7 +197,9 @@ export const repro = async ({
       local: !!local,
     });
 
-    if (!e2e && !url) {
+    if (skipGit) {
+      await initGitRepo(cwd);
+    } else if (!e2e && !url) {
       await initGitRepo(cwd);
     }
 
