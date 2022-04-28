@@ -155,13 +155,9 @@ export const repro = async ({
           generator,
         } as Parameters);
 
-    selectedConfig.gitRepoGenerator = `npx degit storybookjs/repro-templates/${selectedConfig.name} ${selectedDirectory}`;
-    selectedConfig.preferGitTemplate = preferGitTemplate;
-
     if (!selectedConfig) {
       throw new Error('🚨 Repro: please specify a valid template type');
     }
-
     if (!selectedDirectory) {
       const { directory } = await prompts({
         type: 'text',
@@ -175,6 +171,9 @@ export const repro = async ({
       });
       selectedDirectory = directory;
     }
+
+    selectedConfig.gitRepoGenerator = `npx degit storybookjs/repro-templates/${selectedConfig.name} ${selectedDirectory}`;
+    selectedConfig.preferGitTemplate = preferGitTemplate;
   }
 
   try {
