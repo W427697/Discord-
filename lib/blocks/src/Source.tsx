@@ -1,8 +1,7 @@
 import React, { ComponentProps, FunctionComponent } from 'react';
 import { styled, ThemeProvider, convert, themes, ignoreSsrWarning } from '@storybook/theming';
+import { SyntaxHighlighter } from '@storybook/components';
 import { EmptyBlock } from './EmptyBlock';
-
-import { SyntaxHighlighter } from '../syntaxhighlighter/lazy-syntaxhighlighter';
 
 const StyledSyntaxHighlighter = styled(SyntaxHighlighter)<{}>(({ theme }) => ({
   // DocBlocks-specific styling and overrides
