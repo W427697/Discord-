@@ -36,7 +36,7 @@ await copy(`${templatesFolderPath}/${gitBranch}/README.md`, tmpFolder);
 
 // eslint-disable-next-line no-restricted-syntax
 for (const framework of frameworks) {
-  await $`npx sb@${sbCliVersion} repro --template ${framework} ${framework}`;
+  await $`npx sb@${sbCliVersion} repro --skip-git --template ${framework} ${framework}`;
   await $`rm -rf ${framework}/.git`;
   await copy(`${templatesFolderPath}/${gitBranch}/.stackblitzrc`, `${tmpFolder}/${framework}`);
 }
