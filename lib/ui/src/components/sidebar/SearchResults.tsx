@@ -137,7 +137,12 @@ const Result: FunctionComponent<
           PRELOAD_STORIES,
           { ids: [item.isLeaf ? item.id : item.children[0]] },
           {
-            target: item.refId || 'storybook-preview-iframe',
+            options: {
+              target:
+                item.refId && item.refId !== 'storybook_internal'
+                  ? `storybook-ref-${item.refId}`
+                  : 'storybook-preview-iframe',
+            },
           }
         );
       }
