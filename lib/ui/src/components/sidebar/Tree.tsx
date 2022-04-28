@@ -324,14 +324,12 @@ export const Tree = React.memo<{
       );
     }, [data, rootIds, orphanIds]);
 
-    const entryIds = Object.keys(data);
-
     // Create a list of component IDs which should be collapsed into their (only) child.
     // That is:
     //  - components with a single story child with the same name
     //  - components with only a single docs child
     const singleStoryComponentIds = useMemo(() => {
-      return entryIds.filter((id) => {
+      return Object.keys(data).filter((id) => {
         const entry = data[id];
         if (entry.type !== 'component') return false;
 
@@ -344,12 +342,12 @@ export const Tree = React.memo<{
         if (onlyChild.type === 'story') return onlyChild.name === name;
         return false;
       });
-    }, [data, entryIds]);
+    }, [data]);
 
     // Omit single-story components from the list of nodes.
     const collapsedItems = useMemo(() => {
-      return entryIds.filter((id) => !singleStoryComponentIds.includes(id));
-    }, [entryIds, singleStoryComponentIds]);
+      return Object.keys(data).filter((id) => !singleStoryComponentIds.includes(id));
+    }, [singleStoryComponentIds]);
 
     // Rewrite the dataset to place the child story in place of the component.
     const collapsedData = useMemo(() => {
