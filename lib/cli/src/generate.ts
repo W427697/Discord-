@@ -110,8 +110,9 @@ program
   .option('--pnp', "Use Yarn Plug'n'Play mode instead of node_modules one")
   .option('--url <url>', 'Use custom template from git url')
   .option('--e2e', 'Used in e2e context')
-  .action((outputDirectory, { framework, template, list, e2e, generator, pnp, url }) =>
-    repro({ outputDirectory, framework, template, list, e2e, generator, pnp, url }).catch((e) => {
+  .option('--skip-git', 'Skip downloading templates from git and use local generators instead')
+  .action((outputDirectory, options) =>
+    repro({ outputDirectory, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
     })

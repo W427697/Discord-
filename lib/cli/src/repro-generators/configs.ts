@@ -17,6 +17,10 @@ export interface Parameters {
   typescript?: boolean;
   /** Merge configurations to main.js before running the tests */
   mainOverrides?: Partial<StorybookConfig> & Record<string, any>;
+  /** Generator that downloads from remote repro in storybookjs/repro-templates on Github */
+  gitRepoGenerator?: string;
+  /** Whether to download from git templates */
+  preferGitTemplate?: boolean;
 }
 
 const fromDeps = (...args: string[]): string =>
