@@ -21,6 +21,7 @@ const modules = process.env.BABEL_MODE === 'cjs' ? 'auto' : false;
 const targets = process.env.BABEL_MODE === 'esm' ? { chrome: '100' } : 'defaults';
 
 module.exports = {
+  compact: false,
   ignore: [
     './lib/codemod/src/transforms/__testfixtures__',
     './lib/postinstall/src/__testfixtures__',
