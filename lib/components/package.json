@@ -20,14 +20,19 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./html": {
+      "require": "./dist/html.js",
+      "import": "./dist/html.mjs",
+      "types": "./dist/html.d.ts"
     }
   },
   "files": [
@@ -37,7 +42,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "ts-node ../../scripts/prebundle.ts"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/client-logger": "6.5.0-beta.1",
@@ -47,6 +52,7 @@
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
+    "@digitak/esrun": "^3.2.2",
     "@popperjs/core": "^2.6.0",
     "@types/color-convert": "^2.0.0",
     "@types/overlayscrollbars": "^1.12.0",
@@ -69,7 +75,6 @@
     "react-syntax-highlighter": "^15.4.5",
     "react-textarea-autosize": "^8.3.0",
     "ts-dedent": "^2.0.0",
-    "ts-node": "^10.4.0",
     "util-deprecate": "^1.0.2"
   },
   "peerDependencies": {
@@ -79,6 +84,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": "./src/index.ts",
+  "bundlerEntrypoint": [
+    "./src/index.ts",
+    "./src/html.tsx"
+  ],
   "gitHead": "85bcae3041a0664d7c0ee4756241e29ad1063a9a"
 }
