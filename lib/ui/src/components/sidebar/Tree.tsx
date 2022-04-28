@@ -326,7 +326,10 @@ export const Tree = React.memo<{
 
     const entryIds = Object.keys(data);
 
-    // Create a list of component IDs which have exactly one story, which name exactly matches the component name.
+    // Create a list of component IDs which should be collapsed into their (only) child.
+    // That is:
+    //  - components with a single story child with the same name
+    //  - components with only a single docs child
     const singleStoryComponentIds = useMemo(() => {
       return entryIds.filter((id) => {
         const entry = data[id];
