@@ -1,6 +1,6 @@
 {
   "name": "web-components-kitchen-sink",
-  "version": "6.5.0-beta.0",
+  "version": "6.5.0-beta.1",
   "private": true,
   "description": "",
   "keywords": [],
@@ -10,8 +10,7 @@
   "scripts": {
     "build-storybook": "sb build",
     "generate-custom-elements-manifest": "yarn custom-elements-manifest analyze --litelement --dev --exclude \"./**/*.stories.ts\" --exclude \"./storybook-static\"",
-    "sb": "node ../../lib/cli/bin/index.js",
-    "storybook": "yarn sb dev -p 9006 --no-manager-cache"
+    "storybook": "sb dev -p 9006 --no-manager-cache"
   },
   "resolutions": {
     "@storybook/addon-a11y": "portal:../../addons/a11y",
@@ -39,7 +38,7 @@
     "@storybook/core-common": "portal:../../lib/core-common",
     "@storybook/core-events": "portal:../../lib/core-events",
     "@storybook/core-server": "portal:../../lib/core-server",
-    "@storybook/csf": "0.0.2--canary.7c6c115.0",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
     "@storybook/csf-tools": "portal:../../lib/csf-tools",
     "@storybook/docs-tools": "portal:../../lib/docs-tools",
     "@storybook/jest": "^0.0.5",
@@ -58,6 +57,7 @@
     "@storybook/web-components": "portal:../../app/web-components",
     "babel-plugin-macros": "3.1.0",
     "fork-ts-checker-webpack-plugin": "^7.2.6",
+    "sb": "portal:../../lib/cli-sb",
     "typescript": "^4.6.3"
   },
   "dependencies": {
@@ -78,6 +78,7 @@
     "@storybook/web-components": "*",
     "global": "^4.4.0",
     "jest": "^27.3.1",
+    "sb": "*",
     "typescript": "^4.6.3"
   },
   "customElements": "custom-elements.json",
