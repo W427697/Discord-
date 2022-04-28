@@ -7040,7 +7040,7 @@ __metadata:
     "@storybook/channels": 6.5.0-beta.1
     "@storybook/client-logger": 6.5.0-beta.1
     "@storybook/core-events": 6.5.0-beta.1
-    "@storybook/csf": 0.0.2--canary.7c6c115.0
+    "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/router": 6.5.0-beta.1
     "@storybook/theming": 6.5.0-beta.1
     "@types/webpack-env": ^1.16.4
@@ -7616,7 +7616,7 @@ __metadata:
     "@storybook/core-client": 6.5.0-beta.1
     "@storybook/core-common": 6.5.0-beta.1
     "@storybook/core-events": 6.5.0-beta.1
-    "@storybook/csf": 0.0.2--canary.7c6c115.0
+    "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/csf-tools": 6.5.0-beta.1
     "@storybook/manager-webpack5": 6.5.0-beta.1
     "@storybook/node-logger": 6.5.0-beta.1
@@ -7708,15 +7708,6 @@ __metadata:
   dependencies:
     lodash: ^4.17.15
   checksum: dc0fe9940a47fbba9762275083816953da07a188f0315a631c307716b16a7073586a4d229df6b177dfb4b01604667e2bb24c13d6bfcb137d2f4d306874a590f4
-  languageName: node
-  linkType: hard
-
-"@storybook/csf@npm:0.0.2--canary.7c6c115.0":
-  version: 0.0.2--canary.7c6c115.0
-  resolution: "@storybook/csf@npm:0.0.2--canary.7c6c115.0"
-  dependencies:
-    lodash: ^4.17.15
-  checksum: 85a179664d18eeca8462c1b6ff36f9b68b856c9f9c5143aa6f19b17e4cc97bc08ed69921a5287a61d8c90f61366ff6a5ab89930d158402e7c04d07a3ffaad8bb
   languageName: node
   linkType: hard
 
@@ -7871,7 +7862,7 @@ __metadata:
     "@babel/preset-typescript": ^7.12.7
     "@storybook/addon-essentials": 6.5.0-beta.1
     "@storybook/components": 6.5.0-beta.1
-    "@storybook/csf": 0.0.2--canary.87bc651.0
+    "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/preview-web": 6.5.0-beta.1
     "@storybook/react": 6.5.0-beta.1
     "@storybook/store": 6.5.0-beta.1
