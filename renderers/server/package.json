@@ -1,6 +1,6 @@
 {
   "name": "@storybook/renderer-server",
-  "version": "6.5.0-alpha.64",
+  "version": "6.5.0-beta.1",
   "description": "Storybook Server renderer",
   "keywords": [
     "storybook"
@@ -39,11 +39,11 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.0-alpha.64",
-    "@storybook/core-client": "6.5.0-alpha.64",
-    "@storybook/csf": "0.0.2--canary.7c6c115.0",
-    "@storybook/preview-web": "6.5.0-alpha.64",
-    "@storybook/store": "6.5.0-alpha.64",
+    "@storybook/addons": "6.5.0-beta.1",
+    "@storybook/core-client": "6.5.0-beta.1",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/preview-web": "6.5.0-beta.1",
+    "@storybook/store": "6.5.0-beta.1",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "react": "16.14.0",
@@ -57,5 +57,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "7417a230d67b54d65caedcfb584f924b879ac9f5"
+  "gitHead": "85bcae3041a0664d7c0ee4756241e29ad1063a9a"
 }
