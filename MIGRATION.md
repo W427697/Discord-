@@ -4,6 +4,7 @@
   - [Breaking changes](#breaking-changes)
     - [Framework field mandatory](#framework-field-mandatory)
     - [frameworkOptions renamed](#frameworkoptions-renamed)
+    - [Framework standalone build moved](#framework-standalone-build-moved)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
   - [React18 new root API](#react18-new-root-api)
   - [Deprecated register.js](#deprecated-registerjs)
@@ -221,6 +222,26 @@ module.exports = {
     options: { fastRefresh: true };
   }
 }
+```
+
+#### Framework standalone build moved
+
+In 7.0 the location of the standalone node API has moved to `@storybook/core-server`.
+
+If you used the React standalone API, for example, you might have written:
+
+```js
+const { buildStandalone } = require('@storybook/react/standalone');
+const options = {};
+buildStandalone(options).then(() => console.log('done'));
+```
+
+In 7.0, you would now use:
+
+```js
+const build = require('@storybook/core-server/standalone');
+const options = {};
+build(options).then(() => console.log('done'));
 ```
 
 ## From version 6.4.x to 6.5.0
