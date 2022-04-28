@@ -310,16 +310,12 @@ export const Tree = React.memo<{
       [data]
     );
 
-    // Pull up (hoist) any "orphan" items that don't have a root item as ancestor so they get
-    // displayed at the top of the tree, before any root items.
-    // Also create a map of expandable descendants for each root/orphan item, which is needed later.
+    // Create a map of expandable descendants for each root/orphan item, which is needed later.
     // Doing that here is a performance enhancement, as it avoids traversing the tree again later.
-    const { orphansFirst, expandableDescendants } = useMemo(() => {
-      return orphanIds.concat(rootIds).reduce(
+    const { expandableDescendants } = useMemo(() => {
+      return [...orphanIds, ...rootIds].reduce(
         (acc, nodeId) => {
-          const descendantIds = getDescendantIds(data, nodeId, false);
-          acc.orphansFirst.push(nodeId, ...descendantIds);
-          acc.expandableDescendants[nodeId] = descendantIds.filter(
+          acc.expandableDescendants[nodeId] = getDescendantIds(data, nodeId, false).filter(
             (d) => !['story', 'docs'].includes(data[d].type)
           );
           return acc;
@@ -328,9 +324,11 @@ export const Tree = React.memo<{
       );
     }, [data, rootIds, orphanIds]);
 
+    const entryIds = Object.keys(data);
+
     // Create a list of component IDs which have exactly one story, which name exactly matches the component name.
     const singleStoryComponentIds = useMemo(() => {
-      return orphansFirst.filter((id) => {
+      return entryIds.filter((id) => {
         const entry = data[id];
         if (entry.type !== 'component') return false;
 
@@ -338,14 +336,17 @@ export const Tree = React.memo<{
         if (children.length !== 1) return false;
 
         const onlyChild = data[children[0]];
-        return onlyChild.type === 'story' && onlyChild.name === name;
+
+        if (onlyChild.type === 'docs') return true;
+        if (onlyChild.type === 'story') return onlyChild.name === name;
+        return false;
       });
-    }, [data, orphansFirst]);
+    }, [data, entryIds]);
 
     // Omit single-story components from the list of nodes.
     const collapsedItems = useMemo(() => {
-      return orphansFirst.filter((id) => !singleStoryComponentIds.includes(id));
-    }, [orphanIds, orphansFirst, singleStoryComponentIds]);
+      return entryIds.filter((id) => !singleStoryComponentIds.includes(id));
+    }, [entryIds, singleStoryComponentIds]);
 
     // Rewrite the dataset to place the child story in place of the component.
     const collapsedData = useMemo(() => {
