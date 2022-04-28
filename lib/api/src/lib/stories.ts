@@ -357,6 +357,7 @@ export const transformStoryIndexToStoriesHash = (
     return acc;
   }, {} as StoriesHash);
 
+  // This function adds a "root" or "orphan" and all of its descendents to the hash.
   function addItem(acc: StoriesHash, item: HashEntry) {
     // If we were already inserted as part of a group, that's great.
     if (acc[item.id]) {
@@ -371,7 +372,14 @@ export const transformStoryIndexToStoriesHash = (
     return acc;
   }
 
-  return Object.values(storiesHashOutOfOrder).reduce(addItem, {});
+  // We'll do two passes over the data, adding all the orphans, then all the roots
+  const orphanHash = Object.values(storiesHashOutOfOrder)
+    .filter((i) => i.type !== 'root' && !i.parent)
+    .reduce(addItem, {});
+
+  return Object.values(storiesHashOutOfOrder)
+    .filter((i) => i.type === 'root')
+    .reduce(addItem, orphanHash);
 };
 
 export const getComponentLookupList = memoize(1)((hash: StoriesHash) => {

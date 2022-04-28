@@ -31,29 +31,31 @@ jest.mock('global', () => ({
 
 const getEventMetadataMock = getEventMetadata as jest.MockedFunction<typeof getEventMetadata>;
 
+const mockIndex = {
+  'component-a--story-1': {
+    id: 'component-a--story-1',
+    title: 'Component A',
+    name: 'Story 1',
+    importPath: './path/to/component-a.ts',
+  },
+  'component-a--story-2': {
+    id: 'component-a--story-2',
+    title: 'Component A',
+    name: 'Story 2',
+    importPath: './path/to/component-a.ts',
+  },
+  'component-b--story-3': {
+    id: 'component-b--story-3',
+    title: 'Component B',
+    name: 'Story 3',
+    importPath: './path/to/component-b.ts',
+  },
+};
+
 beforeEach(() => {
   getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
   getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
-  mockStories.mockReset().mockReturnValue({
-    'component-a--story-1': {
-      id: 'component-a--story-1',
-      title: 'Component A',
-      name: 'Story 1',
-      importPath: './path/to/component-a.ts',
-    },
-    'component-a--story-2': {
-      id: 'component-a--story-2',
-      title: 'Component A',
-      name: 'Story 2',
-      importPath: './path/to/component-a.ts',
-    },
-    'component-b--story-3': {
-      id: 'component-b--story-3',
-      title: 'Component B',
-      name: 'Story 3',
-      importPath: './path/to/component-b.ts',
-    },
-  });
+  mockStories.mockReset().mockReturnValue(mockIndex);
 });
 
 function createMockStore(initialState = {}) {
@@ -1054,6 +1056,48 @@ describe('stories API', () => {
       expect(
         (storedStoriesHash['component-a--story-1'] as StoryEntry as StoryEntry).args
       ).toBeUndefined();
+    });
+
+    it('moves rootless stories to the front of the list', async () => {
+      mockStories.mockReset().mockReturnValue({
+        'root-first--story-1': {
+          id: 'root-first--story-1',
+          title: 'Root/First',
+          name: 'Story 1',
+          importPath: './path/to/root/first.ts',
+        },
+        ...mockIndex,
+      });
+
+      const navigate = jest.fn();
+      const store = createMockStore();
+      const fullAPI = Object.assign(new EventEmitter(), {
+        setStories: jest.fn(),
+      });
+
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      Object.assign(fullAPI, api);
+
+      await init();
+
+      const { storiesHash: storedStoriesHash } = store.getState();
+
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
+      expect(Object.keys(storedStoriesHash)).toEqual([
+        'component-a',
+        'component-a--story-1',
+        'component-a--story-2',
+        'component-b',
+        'component-b--story-3',
+        'root',
+        'root-first',
+        'root-first--story-1',
+      ]);
+      expect(storedStoriesHash.root).toMatchObject({
+        type: 'root',
+        id: 'root',
+        children: ['root-first'],
+      });
     });
 
     it('watches for the INVALIDATE event and refetches -- and resets the hash', async () => {
