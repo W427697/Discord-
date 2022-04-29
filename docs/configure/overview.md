@@ -161,9 +161,9 @@ This babel config will only be used to process files in the `.storybook/` direct
 
 Rename your `.storybook/main.js` to `.storybook/main.ts` and restart your Storybook.
 
-### Using Storybook API
+### Using Storybook Types in Your Configuration
 
-You can also use Storybook's API to configure your project with TypeScript. Under the hood, it mirrors the exact configuration you get by default. Below is an abridged Storybook configuration with TypeScript and additional information about each configuration element.
+You can also use Storybook's TypeScript types to ensure you are using valid options and get autocompletion in your editor. Below is an abridged Storybook configuration with TypeScript types and additional information about each configuration element.
 
 <!-- prettier-ignore-start -->
 
