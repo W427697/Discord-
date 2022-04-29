@@ -353,14 +353,19 @@ export const Tree = React.memo<{
     const collapsedData = useMemo(() => {
       return singleStoryComponentIds.reduce(
         (acc, id) => {
-          const { children, parent } = data[id] as ComponentEntry;
+          const { children, parent, name } = data[id] as ComponentEntry;
           const [childId] = children;
           if (parent) {
             const siblings = [...(data[parent] as GroupEntry).children];
             siblings[siblings.indexOf(id)] = childId;
             acc[parent] = { ...data[parent], children: siblings } as GroupEntry;
           }
-          acc[childId] = { ...data[childId], parent, depth: data[childId].depth - 1 } as StoryEntry;
+          acc[childId] = {
+            ...data[childId],
+            name,
+            parent,
+            depth: data[childId].depth - 1,
+          } as StoryEntry;
           return acc;
         },
         { ...data }
