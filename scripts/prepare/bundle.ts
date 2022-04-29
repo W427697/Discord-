@@ -8,7 +8,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   await build({
     entry: packageJson.bundlerEntrypoint,
     watch: flags.includes('--watch'),
-    sourcemap: flags.includes('--optimized'),
+    // sourcemap: flags.includes('--optimized'),
     format: ['esm', 'cjs'],
     target: 'node16',
     clean: true,
