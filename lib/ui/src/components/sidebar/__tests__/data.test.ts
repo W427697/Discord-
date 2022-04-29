@@ -62,8 +62,7 @@ const b2: Item = {
 
 const stories: StoriesHash = { root, a, a1, b, b1, b2 };
 
-// FIXME: skipping as we won't need this long term
-describe.skip('collapse all stories', () => {
+describe('collapse all stories', () => {
   it('collapses normal stories', () => {
     const collapsed = collapseAllStories(stories);
 
@@ -76,6 +75,8 @@ describe.skip('collapse all stories', () => {
         parent: 'root',
         type: 'story',
         args: {},
+        prepared: true,
+        importPath: './file.ts',
       },
       b1: {
         id: 'b1',
@@ -85,6 +86,8 @@ describe.skip('collapse all stories', () => {
         parent: 'root',
         type: 'story',
         args: {},
+        prepared: true,
+        importPath: './file.ts',
       },
       root: {
         id: 'root',
@@ -117,6 +120,8 @@ describe.skip('collapse all stories', () => {
       parent: 'root',
       children: [],
       args: {},
+      prepared: true,
+      importPath: './file.ts',
     });
   });
 
@@ -149,6 +154,8 @@ describe.skip('collapse all stories', () => {
         parent: 'root',
         children: [],
         args: {},
+        prepared: true,
+        importPath: './file.ts',
       },
       b1: {
         id: 'b1',
@@ -160,6 +167,8 @@ describe.skip('collapse all stories', () => {
         isRoot: false,
         parent: 'root',
         args: {},
+        prepared: true,
+        importPath: './file.ts',
       },
       root: {
         id: 'root',
