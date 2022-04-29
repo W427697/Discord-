@@ -145,9 +145,7 @@ This feature is experimental, and it has some limitations on what you can and ca
 
 ## Configure your project with TypeScript
 
-If you need, you can also configure your Storybook using TypeScript. To get started, add a `.babelrc` file inside your project and include the following Babel presets:
-
-Rename your `.storybook/main.js` to `.storybook/main.ts` and restart your Storybook.
+If you would like, you can also write your Storybook configuration using TypeScript. To get started, add a `.babelrc` file inside your project and include the following Babel presets:
 
 <!-- prettier-ignore-start -->
 
@@ -158,6 +156,10 @@ Rename your `.storybook/main.js` to `.storybook/main.ts` and restart your Storyb
 />
 
 <!-- prettier-ignore-end -->
+
+This babel config will only be used to process files in the `.storybook/` directory, and will not effect your stories.
+
+Rename your `.storybook/main.js` to `.storybook/main.ts` and restart your Storybook.
 
 ### Using Storybook API
 
