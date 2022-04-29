@@ -10,9 +10,22 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     watch: flags.includes('--watch'),
     sourcemap: flags.includes('--optimized'),
     format: ['esm', 'cjs'],
+    target: 'node16',
+    clean: true,
+    shims: true,
+
     dts: {
       entry: packageJson.bundlerEntrypoint,
       resolve: true,
+    },
+    esbuildOptions: (c) => {
+      /* eslint-disable no-param-reassign */
+      c.platform = 'node';
+      c.legalComments = 'none';
+      c.minifyWhitespace = !!flags.includes('--optimized');
+      c.minifyIdentifiers = !!flags.includes('--optimized');
+      c.minifySyntax = !!flags.includes('--optimized');
+      /* eslint-enable no-param-reassign */
     },
   });
 };
