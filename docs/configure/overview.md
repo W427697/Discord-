@@ -173,6 +173,8 @@ You can also use Storybook's TypeScript types to ensure you are using valid opti
   ]}
 />
 
+See the vite builder [TypeScript documentation](https://github.com/storybookjs/builder-vite#typescript) if using `@storybook/builder-vite`.
+
 <!-- prettier-ignore-end -->
 
 | Configuration element | Description                                                                                                                                                                                              |
