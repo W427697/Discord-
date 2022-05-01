@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/webpack-tools';
 
 export const webpack: StorybookConfig['webpack'] = (config) => {
   config.module.rules.push({

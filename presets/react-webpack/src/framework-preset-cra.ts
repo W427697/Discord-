@@ -1,5 +1,5 @@
 import { logger } from '@storybook/node-logger';
-import type { StorybookConfig } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/webpack-tools';
 import { isReactScriptsInstalled } from './cra-config';
 
 type Preset = string | { name: string };

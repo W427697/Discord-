@@ -1,5 +1,5 @@
 import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
-import type { TypescriptConfig } from '@storybook/core-common';
+import type { TypescriptConfig } from '@storybook/webpack-tools';
 import * as preset from './framework-preset-react-docs';
 
 describe('framework-preset-react-docgen', () => {

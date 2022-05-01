@@ -154,6 +154,9 @@
     "@storybook/web-components": {
       "implicitDependencies": []
     },
+    "@storybook/webpack-tools": {
+      "implicitDependencies": []
+    },
     "angular-cli": {
       "implicitDependencies": []
     },

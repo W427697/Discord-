@@ -1,4 +1,4 @@
-import type { StorybookConfig as BaseConfig } from '@storybook/core-common';
+import type { StorybookConfig as BaseConfig } from '@storybook/webpack-tools';
 
 export interface ReactOptions {
   fastRefresh?: boolean;
@@ -16,7 +16,7 @@ export interface ReactOptions {
 /**
  * The interface for Storybook configuration in `main.ts` files.
  */
-export interface StorybookConfig extends BaseConfig {
+export interface ReactConfig {
   framework:
     | string
     | {
@@ -24,3 +24,5 @@ export interface StorybookConfig extends BaseConfig {
         options: ReactOptions;
       };
 }
+
+export type StorybookConfig = BaseConfig & ReactConfig;

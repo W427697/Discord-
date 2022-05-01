@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/webpack-tools';
 
 export const webpack: StorybookConfig['webpack'] = async (config, options) => {
   const { preprocess = undefined, loader = {} } = await options.presets.apply(

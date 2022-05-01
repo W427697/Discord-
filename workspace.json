@@ -117,6 +117,10 @@
       "root": "app/web-components",
       "type": "library"
     },
+    "@storybook/webpack-tools": {
+      "root": "lib/webpack-tools",
+      "type": "library"
+    },
     "angular-cli": {
       "root": "examples/angular-cli",
       "type": "library"

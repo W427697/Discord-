@@ -1,18 +1,18 @@
 {
-  "name": "@storybook/preset-html-webpack",
+  "name": "@storybook/webpack-tools",
   "version": "6.5.0-beta.1",
-  "description": "Storybook for HTML: View HTML snippets in isolation with Hot Reloading.",
+  "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/html-webpack",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/webpack-tools",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "presets/html-webpack"
+    "directory": "lib/webpack-tools"
   },
   "funding": {
     "type": "opencollective",
@@ -31,7 +31,8 @@
   },
   "files": [
     "dist/**/*",
-    "README.md",
+    "types/**/*",
+    "templates/**/*",
     "*.js",
     "*.d.ts"
   ],
@@ -39,23 +40,15 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/webpack-tools": "6.5.0-beta.1",
-    "@types/node": "^14.14.20 || ^16.0.0",
+    "@storybook/core-common": "6.5.0-beta.1",
+    "@storybook/node-logger": "6.5.0-beta.1",
+    "@types/node": "^14.0.10 || ^16.0.0",
     "core-js": "^3.8.2",
-    "html-loader": "^1.3.2",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
-    "regenerator-runtime": "^0.13.7"
-  },
-  "peerDependencies": {
-    "@babel/core": "*"
-  },
-  "engines": {
-    "node": ">=10.13.0"
+    "ts-dedent": "^2.0.0"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "416f87dc715cae299c7b4f37f1c9db7f686d4d21",
-  "sbmodern": "dist/modern/client/index.js"
+  "gitHead": "b2e85f3599c043815b18bbfc5ca563bf1c6e4add",
+  "sbmodern": "dist/modern/index.js"
 }

@@ -205,6 +205,7 @@
     "@storybook/ui": "workspace:*",
     "@storybook/vue": "workspace:*",
     "@storybook/web-components": "workspace:*",
+    "@storybook/webpack-tools": "workspace:*",
     "@testing-library/dom": "^7.29.4",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.2",
