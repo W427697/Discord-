@@ -424,17 +424,17 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S): S | und
 }
 
 /* Returns current value of story args */
-export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: [string]) => void] {
+export function useArgs<P = Args>(): [P, (newArgs: Partial<P>) => void, (argNames?: string[]) => void] {
   const channel = addons.getChannel();
   const { id: storyId, args } = useStoryContext();
 
   const updateArgs = useCallback(
-    (updatedArgs: Args) => channel.emit(UPDATE_STORY_ARGS, { storyId, updatedArgs }),
+    (updatedArgs: Partial<P>) => channel.emit(UPDATE_STORY_ARGS, { storyId, updatedArgs }),
     [channel, storyId]
   );
 
   const resetArgs = useCallback(
-    (argNames?: [string]) => channel.emit(RESET_STORY_ARGS, { storyId, argNames }),
+    (argNames?: string[]) => channel.emit(RESET_STORY_ARGS, { storyId, argNames }),
     [channel, storyId]
   );
 
