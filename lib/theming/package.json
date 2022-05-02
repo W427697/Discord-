@@ -20,16 +20,22 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./paths": {
+      "require": "./paths.js"
+    },
+    "./package.json": {
+      "require": "./package.json"
     }
   },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -37,7 +43,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "ts-node ../../scripts/prebundle.ts"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/client-logger": "6.5.0-beta.1",
@@ -45,6 +51,7 @@
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
+    "@digitak/esrun": "^3.2.2",
     "@emotion/cache": "^11.7.1",
     "@emotion/is-prop-valid": "^1.1.2",
     "@emotion/react": "^11.8.1",
@@ -64,6 +71,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": "./src/index.ts",
+  "bundlerEntrypoint": [
+    "./src/index.ts"
+  ],
   "gitHead": "85bcae3041a0664d7c0ee4756241e29ad1063a9a"
 }

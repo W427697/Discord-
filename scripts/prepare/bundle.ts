@@ -12,7 +12,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     format: ['esm', 'cjs'],
     target: 'node16',
     clean: true,
-    shims: true,
+    shims: false,
 
     dts: {
       entry: packageJson.bundlerEntrypoint,

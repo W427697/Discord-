@@ -6778,11 +6778,9 @@ __metadata:
     "@storybook/core-events": 6.5.0-beta.1
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/router": 6.5.0-beta.1
-    "@types/qs": ^6.9.5
     core-js: ^3.8.2
     global: ^4.4.0
     prop-types: ^15.7.2
-    qs: ^6.10.0
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
   peerDependencies:
@@ -7491,7 +7489,6 @@ __metadata:
     react-popper-tooltip: ^3.1.1
     react-syntax-highlighter: ^15.4.5
     react-textarea-autosize: ^8.3.0
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
   peerDependencies:
@@ -9032,6 +9029,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/theming@workspace:lib/theming"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@emotion/cache": ^11.7.1
     "@emotion/is-prop-valid": ^1.1.2
     "@emotion/react": ^11.8.1

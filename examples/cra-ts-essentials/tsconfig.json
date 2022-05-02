@@ -4,13 +4,12 @@
     "incremental": false,
     "noImplicitAny": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "jsx": "react",
     "module": "esnext",
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "target": "es5",
+    "target": "esnext",
     "types": [
       "jest",
       "node"
