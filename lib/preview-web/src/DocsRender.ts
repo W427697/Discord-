@@ -1,35 +1,59 @@
 import global from 'global';
 import { AnyFramework, StoryId, ViewMode, StoryContextForLoaders } from '@storybook/csf';
-import { Story, StoryStore, CSFFile } from '@storybook/store';
+import { Story, StoryStore, CSFFile, ModuleExports, IndexEntry } from '@storybook/store';
 import { Channel } from '@storybook/addons';
 import { DOCS_RENDERED } from '@storybook/core-events';
 
-import { Render, StoryRender } from './StoryRender';
+import { Render, RenderType } from './StoryRender';
 import type { DocsContextProps } from './types';
 
 export class DocsRender<TFramework extends AnyFramework> implements Render<TFramework> {
+  public type: RenderType = 'docs';
+
+  public id: StoryId;
+
+  private legacy: boolean;
+
+  public story?: Story<TFramework>;
+
+  public exports?: ModuleExports;
+
+  private preparing = false;
+
   private canvasElement?: HTMLElement;
 
   private context?: DocsContextProps;
 
   public disableKeyListeners = false;
 
-  static fromStoryRender<TFramework extends AnyFramework>(storyRender: StoryRender<TFramework>) {
-    const { channel, store, id, story } = storyRender;
-    return new DocsRender<TFramework>(channel, store, id, story);
-  }
-
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private channel: Channel,
     private store: StoryStore<TFramework>,
-    public id: StoryId,
-    public story: Story<TFramework>
-  ) {}
+    public entry: IndexEntry
+  ) {
+    this.id = entry.id;
+    this.legacy = entry.type === 'story' || entry.legacy;
+  }
 
-  // DocsRender doesn't prepare, it is created *from* a prepared StoryRender
+  // The two story "renders" are equal and have both loaded the same story
+  isEqual(other?: Render<TFramework>) {
+    return other && this.id === other.id && this.legacy
+      ? this.story && this.story === other.story
+      : other.type === 'docs' && this.entry === (other as DocsRender<TFramework>).entry;
+  }
+
+  async prepare() {
+    this.preparing = true;
+    if (this.legacy) {
+      this.story = await this.store.loadStory({ storyId: this.id });
+    } else {
+      this.exports = await this.store.loadDocsFileById(this.id);
+    }
+    this.preparing = false;
+  }
+
   isPreparing() {
-    return false;
+    return this.preparing;
   }
 
   async renderToElement(
@@ -38,7 +62,7 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
   ) {
     this.canvasElement = canvasElement;
 
-    const { id, title, name } = this.story;
+    const { id, title, name } = this.entry;
     const csfFile: CSFFile<TFramework> = await this.store.loadCSFFileByStoryId(this.id);
 
     this.context = {
@@ -63,13 +87,20 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
   }
 
   async render() {
-    if (!this.story || !this.context || !this.canvasElement)
+    if (!(this.story || this.exports) || !this.context || !this.canvasElement)
       throw new Error('DocsRender not ready to render');
 
     const renderer = await import('./renderDocs');
-    renderer.renderDocs(this.story, this.context, this.canvasElement, () =>
-      this.channel.emit(DOCS_RENDERED, this.id)
-    );
+
+    if (this.legacy) {
+      renderer.renderLegacyDocs(this.story, this.context, this.canvasElement, () =>
+        this.channel.emit(DOCS_RENDERED, this.id)
+      );
+    } else {
+      renderer.renderDocs(this.exports, this.context, this.canvasElement, () =>
+        this.channel.emit(DOCS_RENDERED, this.id)
+      );
+    }
   }
 
   async rerender() {

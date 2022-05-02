@@ -1,21 +1,30 @@
-import React, { ComponentType } from 'react';
+import React, { ComponentType, ReactElement } from 'react';
 import ReactDOM from 'react-dom';
 import { AnyFramework } from '@storybook/csf';
-import { Story } from '@storybook/store';
+import { ModuleExports, Story } from '@storybook/store';
 
 import { DocsContextProps } from './types';
 import { NoDocs } from './NoDocs';
 
-export function renderDocs<TFramework extends AnyFramework>(
+export function renderLegacyDocs<TFramework extends AnyFramework>(
   story: Story<TFramework>,
   docsContext: DocsContextProps<TFramework>,
   element: HTMLElement,
   callback: () => void
 ) {
-  return renderDocsAsync(story, docsContext, element).then(callback);
+  return renderLegacyDocsAsync(story, docsContext, element).then(callback);
 }
 
-async function renderDocsAsync<TFramework extends AnyFramework>(
+export function renderDocs<TFramework extends AnyFramework>(
+  exports: ModuleExports,
+  docsContext: DocsContextProps<TFramework>,
+  element: HTMLElement,
+  callback: () => void
+) {
+  return renderDocsAsync(exports, docsContext, element).then(callback);
+}
+
+async function renderLegacyDocsAsync<TFramework extends AnyFramework>(
   story: Story<TFramework>,
   docsContext: DocsContextProps<TFramework>,
   element: HTMLElement
@@ -36,6 +45,28 @@ async function renderDocsAsync<TFramework extends AnyFramework>(
   // we switch components
   const docsElement = (
     <DocsContainer key={story.componentId} context={docsContext}>
+      <Page />
+    </DocsContainer>
+  );
+
+  await new Promise<void>((resolve) => {
+    ReactDOM.render(docsElement, element, resolve);
+  });
+}
+
+async function renderDocsAsync<TFramework extends AnyFramework>(
+  exports: ModuleExports,
+  docsContext: DocsContextProps<TFramework>,
+  element: HTMLElement
+) {
+  // FIXME -- is this at all correct?
+  const DocsContainer = ({ children }: { children: ReactElement }) => <>{children}</>;
+
+  const Page = exports.default;
+
+  // FIXME -- do we need to set a key as above?
+  const docsElement = (
+    <DocsContainer>
       <Page />
     </DocsContainer>
   );

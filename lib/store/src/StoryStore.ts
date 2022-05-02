@@ -31,6 +31,7 @@ import type {
   StoryIndexEntry,
   V2CompatIndexEntry,
   StoryIndexV3,
+  ModuleExports,
 } from './types';
 import { HooksContext } from './hooks';
 
@@ -118,6 +119,24 @@ export class StoryStore<TFramework extends AnyFramework> {
     if (importFn) this.importFn = importFn;
     if (storyIndex) this.storyIndex.entries = storyIndex.entries;
     if (this.cachedCSFFiles) await this.cacheAllCSFFiles();
+  }
+
+  // FIXME: does this need to be load
+  async loadDocsFileById(docsId: StoryId): Promise<ModuleExports> {
+    const entry = this.storyIndex.storyIdToEntry(docsId);
+    if (entry.type !== 'docs') throw new Error(`Cannot load docs file for id ${docsId}`);
+
+    const { importPath, storiesImports } = entry;
+
+    const [docsImport] = await Promise.all([
+      this.importFn(importPath),
+      ...storiesImports.map((storyImportPath) => {
+        const firstStoryEntry = this.storyIndex.importPathToEntry(storyImportPath);
+        return this.loadCSFFileByStoryId(firstStoryEntry.id);
+      }),
+    ]);
+
+    return docsImport;
   }
 
   // To load a single CSF file to service a story we need to look up the importPath in the index

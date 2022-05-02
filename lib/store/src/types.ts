@@ -101,6 +101,7 @@ export type StoryIndexEntry = BaseIndexEntry & {
 export type DocsIndexEntry = BaseIndexEntry & {
   storiesImports: Path[];
   type: 'docs';
+  legacy?: boolean;
 };
 
 export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
