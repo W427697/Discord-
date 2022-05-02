@@ -19,9 +19,9 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
+  "main": "dist/cjs/preset.js",
+  "module": "dist/esm/preset.js",
+  "types": "dist/ts3.9/preset.d.ts",
   "typesVersions": {
     "<3.8": {
       "dist/ts3.9/*": [
@@ -94,5 +94,5 @@
     "access": "public"
   },
   "gitHead": "7417a230d67b54d65caedcfb584f924b879ac9f5",
-  "sbmodern": "dist/modern/client/index.js"
+  "sbmodern": "dist/modern/client/preset.js"
 }

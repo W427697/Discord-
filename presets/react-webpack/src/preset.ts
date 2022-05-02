@@ -1,4 +1,6 @@
-import type { StorybookConfig } from '@storybook/webpack-tools';
+import type { StorybookConfig } from './types';
+
+export * from './types';
 
 export const addons: StorybookConfig['addons'] = [
   require.resolve('./framework-preset-react'),

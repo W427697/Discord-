@@ -1,4 +1,10 @@
-import type { StorybookConfig as BaseConfig } from '@storybook/webpack-tools';
+import type {
+  CommonWebpackConfiguration,
+  StorybookConfig as BaseStorybookConfig,
+  TypescriptOptions as BaseTypescriptOptions,
+} from '@storybook/webpack-tools';
+
+export type { BuilderResult } from '@storybook/webpack-tools';
 
 export interface ReactOptions {
   fastRefresh?: boolean;
@@ -25,4 +31,13 @@ export interface ReactConfig {
       };
 }
 
-export type StorybookConfig = BaseConfig & ReactConfig;
+export type TypescriptOptions = BaseTypescriptOptions & {
+  reactDocgen: 'react-docgen-typescript' | 'react-docgen' | false;
+  reactDocgenTypescriptOptions: any;
+};
+
+export type StorybookConfig<TWebpackConfiguration = CommonWebpackConfiguration> =
+  BaseStorybookConfig<TWebpackConfiguration> &
+    ReactConfig & {
+      typescript?: TypescriptOptions;
+    };

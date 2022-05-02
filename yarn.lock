@@ -8584,7 +8584,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/react@workspace:app/react"
   dependencies:
-    "@storybook/core-common": 6.5.0-beta.1
     "@storybook/core-server": 6.5.0-beta.1
     "@storybook/preset-react-webpack": 6.5.0-beta.1
     "@storybook/renderer-react": 6.5.0-beta.1

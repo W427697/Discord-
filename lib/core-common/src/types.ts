@@ -8,7 +8,12 @@ import { FileSystemCache } from './utils/file-cache';
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
  */
 
-export type BuilderName = 'webpack4' | 'webpack5' | string;
+export type BuilderName =
+  | 'webpack4'
+  | 'webpack5'
+  | '@storybook/builder-webpack4'
+  | '@storybook/builder-webpack5'
+  | string;
 
 export type BuilderConfigObject = {
   name: BuilderName;
@@ -16,7 +21,7 @@ export type BuilderConfigObject = {
 };
 
 export interface Webpack5BuilderConfig extends BuilderConfigObject {
-  name: 'webpack5';
+  name: '@storybook/builder-webpack5';
   options?: {
     fsCache?: boolean;
     lazyCompilation?: boolean;
@@ -24,7 +29,7 @@ export interface Webpack5BuilderConfig extends BuilderConfigObject {
 }
 
 export interface Webpack4BuilderConfig extends BuilderConfigObject {
-  name: 'webpack4';
+  name: '@storybook/builder-webpack4';
 }
 
 export type BuilderConfig =
@@ -107,8 +112,13 @@ export interface ReleaseNotesData {
   showOnFirstLaunch: boolean;
 }
 
+export interface Stats {
+  toJson: () => any;
+}
+
 export interface BuilderResult {
   totalTime?: ReturnType<typeof process.hrtime>;
+  stats?: Stats;
 }
 
 // TODO: this is a generic interface that we can share across multiple SB packages (like @storybook/cli)
