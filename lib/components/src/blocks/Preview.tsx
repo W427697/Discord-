@@ -11,8 +11,8 @@ import { darken } from 'polished';
 import { styled } from '@storybook/theming';
 
 import global from 'global';
+import { Source, SourceProps } from '@storybook/blocks';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
-import { Source, SourceProps } from './Source';
 import { ActionBar, ActionItem } from '../ActionBar/ActionBar';
 import { Toolbar } from './Toolbar';
 import { ZoomContext } from './ZoomContext';

@@ -6,7 +6,7 @@ import { Spaced } from '../spaced/Spaced';
 import { Preview, PreviewSkeleton } from './Preview';
 import { Story } from './Story';
 import { Button } from '../Button/Button';
-import * as Source from './Source.stories';
+import * as Source from '../../../blocks/src/Source.stories';
 
 const { window: globalWindow } = global;
 

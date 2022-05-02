@@ -1,12 +1,13 @@
+import { Source } from '@storybook/blocks';
 import React from 'react';
 import { Global, css } from '@emotion/react';
 
 import { Title, Subtitle, DocsPageWrapper } from './DocsPage';
-import { ArgsTable, Source, Description } from './index';
+import { ArgsTable, Description } from './index';
 import * as Story from './Story.stories';
 import * as Preview from './Preview.stories';
 import * as argsTable from './ArgsTable/ArgsTable.stories';
-import * as source from './Source.stories';
+import * as source from '../../../blocks/src/Source.stories';
 import * as description from './Description.stories';
 
 export default {
