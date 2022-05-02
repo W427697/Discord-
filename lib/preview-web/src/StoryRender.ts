@@ -40,7 +40,9 @@ export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
 
 export const PREPARE_ABORTED = new Error('prepareAborted');
 
+export type RenderType = 'story' | 'docs';
 export interface Render<TFramework extends AnyFramework> {
+  type: RenderType;
   id: StoryId;
   story?: Story<TFramework>;
   isPreparing: () => boolean;
@@ -50,6 +52,8 @@ export interface Render<TFramework extends AnyFramework> {
 }
 
 export class StoryRender<TFramework extends AnyFramework> implements Render<TFramework> {
+  public type: RenderType = 'story';
+
   public story?: Story<TFramework>;
 
   public phase?: RenderPhase;

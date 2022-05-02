@@ -39,7 +39,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
   currentSelection: Selection;
 
-  currentRender: Render<TFramework>;
+  currentRender: StoryRender<TFramework> | DocsRender<TFramework>;
 
   constructor() {
     super();
@@ -227,12 +227,17 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     }
 
     const { storyId } = selection;
+    const entry = this.storyStore.storyIndex.entries[storyId];
+
+    // Docs entries cannot be rendered in 'story' viewMode.
+    // For now story entries can be rendered in docs mode.
+    const viewMode = entry.type === 'docs' ? 'docs' : selection.viewMode;
 
     const storyIdChanged = this.currentSelection?.storyId !== storyId;
-    const viewModeChanged = this.currentSelection?.viewMode !== selection.viewMode;
+    const viewModeChanged = this.currentSelection?.viewMode !== viewMode;
 
     // Show a spinner while we load the next story
-    if (selection.viewMode === 'story') {
+    if (viewMode === 'story') {
       this.view.showPreparingStory({ immediate: viewModeChanged });
     } else {
       this.view.showPreparingDocs();
@@ -252,26 +257,32 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       lastRender = null;
     }
 
-    const storyRender = new StoryRender<TFramework>(
-      this.channel,
-      this.storyStore,
-      (...args) => {
-        // At the start of renderToDOM we make the story visible (see note in WebView)
-        this.view.showStoryDuringRender();
-        return this.renderToDOM(...args);
-      },
-      this.mainStoryCallbacks(storyId),
-      storyId,
-      'story'
-    );
+    let render;
+    if (viewMode === 'story') {
+      render = new StoryRender<TFramework>(
+        this.channel,
+        this.storyStore,
+        (...args) => {
+          // At the start of renderToDOM we make the story visible (see note in WebView)
+          this.view.showStoryDuringRender();
+          return this.renderToDOM(...args);
+        },
+        this.mainStoryCallbacks(storyId),
+        storyId,
+        'story'
+      );
+    } else {
+      render = new DocsRender<TFramework>(this.channel, this.storyStore, entry);
+    }
+    console.log(render);
+
     // We need to store this right away, so if the story changes during
     // the async `.prepare()` below, we can (potentially) cancel it
     this.currentSelection = selection;
-    // Note this may be replaced by a docsRender after preparing
-    this.currentRender = storyRender;
+    this.currentRender = render;
 
     try {
-      await storyRender.prepare();
+      await render.prepare();
     } catch (err) {
       if (err !== PREPARE_ABORTED) {
         // We are about to render an error so make sure the previous story is
@@ -281,11 +292,10 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       }
       return;
     }
-    const implementationChanged = !storyIdChanged && !storyRender.isEqual(lastRender);
+    const implementationChanged = !storyIdChanged && !render.isEqual(lastRender);
 
-    if (persistedArgs) this.storyStore.args.updateFromPersisted(storyRender.story, persistedArgs);
-
-    const { parameters, initialArgs, argTypes, args } = storyRender.context();
+    if (persistedArgs && entry.type === 'story')
+      this.storyStore.args.updateFromPersisted(render.story, persistedArgs);
 
     // Don't re-render the story if nothing has changed to justify it
     if (lastRender && !storyIdChanged && !implementationChanged && !viewModeChanged) {
@@ -304,32 +314,38 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       this.channel.emit(Events.STORY_CHANGED, storyId);
     }
 
-    if (global.FEATURES?.storyStoreV7) {
-      this.channel.emit(Events.STORY_PREPARED, {
-        id: storyId,
-        parameters,
-        initialArgs,
-        argTypes,
-        args,
-      });
+    if (render.type === 'story') {
+      const { parameters, initialArgs, argTypes, args } = (
+        render as StoryRender<TFramework>
+      ).context();
+      if (global.FEATURES?.storyStoreV7) {
+        this.channel.emit(Events.STORY_PREPARED, {
+          id: storyId,
+          parameters,
+          initialArgs,
+          argTypes,
+          args,
+        });
+      }
+
+      // For v6 mode / compatibility
+      // If the implementation changed, or args were persisted, the args may have changed,
+      // and the STORY_PREPARED event above may not be respected.
+      if (implementationChanged || persistedArgs) {
+        this.channel.emit(Events.STORY_ARGS_UPDATED, { storyId, args });
+      }
     }
 
-    // For v6 mode / compatibility
-    // If the implementation changed, or args were persisted, the args may have changed,
-    // and the STORY_PREPARED event above may not be respected.
-    if (implementationChanged || persistedArgs) {
-      this.channel.emit(Events.STORY_ARGS_UPDATED, { storyId, args });
-    }
-
-    if (selection.viewMode === 'docs' || parameters.docsOnly) {
-      this.currentRender = DocsRender.fromStoryRender<TFramework>(storyRender);
+    if (viewMode === 'docs') {
       this.currentRender.renderToElement(
         this.view.prepareForDocs(),
         this.renderStoryToElement.bind(this)
       );
     } else {
-      this.storyRenders.push(storyRender);
-      this.currentRender.renderToElement(this.view.prepareForStory(storyRender.story));
+      this.storyRenders.push(render as StoryRender<TFramework>);
+      (this.currentRender as StoryRender<TFramework>).renderToElement(
+        this.view.prepareForStory(render.story)
+      );
     }
   }
 
