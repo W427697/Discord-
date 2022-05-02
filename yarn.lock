@@ -12584,7 +12584,7 @@ __metadata:
     storybook-addon-angular-ivy: ^0.0.1
     telejson: ^5.3.3
     ts-jest: ^26.4.4
-    ts-node: ^9.1.0
+    ts-node: ^10.4.0
     typescript: ^4.6.3
     zone.js: ^0.11.3
   languageName: unknown
@@ -17613,6 +17613,7 @@ __metadata:
     react-dom: 16.14.0
     react-scripts: ^5.0.1
     sb: 6.5.0-beta.1
+    ts-node: ^10.4.0
     typescript: ^4.6.3
     webpack: 5
   languageName: unknown
@@ -17646,7 +17647,7 @@ __metadata:
     react-moment-proptypes: ^1.7.0
     react-scripts: ^5.0.1
     sb: 6.5.0-beta.1
-    ts-node: ^9.1.0
+    ts-node: ^10.4.0
     typescript: ^4.6.3
     webpack: 5
   languageName: unknown
@@ -40359,7 +40360,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map-support@npm:^0.5.16, source-map-support@npm:^0.5.17, source-map-support@npm:^0.5.5, source-map-support@npm:^0.5.6, source-map-support@npm:~0.5.12, source-map-support@npm:~0.5.19, source-map-support@npm:~0.5.20":
+"source-map-support@npm:^0.5.16, source-map-support@npm:^0.5.5, source-map-support@npm:^0.5.6, source-map-support@npm:~0.5.12, source-map-support@npm:~0.5.19, source-map-support@npm:~0.5.20":
   version: 0.5.21
   resolution: "source-map-support@npm:0.5.21"
   dependencies:
@@ -42894,27 +42895,6 @@ __metadata:
     ts-node-transpile-only: dist/bin-transpile.js
     ts-script: dist/bin-script-deprecated.js
   checksum: 32228e9ca871eff6a7d02a2d188047396179b0257f3a76577bd4572d8541f78e164899adcbbe0d2ae6ba3d0416a2ffadf1809032e5c3a92122fe9b9fb176797a
-  languageName: node
-  linkType: hard
-
-"ts-node@npm:^9.1.0":
-  version: 9.1.1
-  resolution: "ts-node@npm:9.1.1"
-  dependencies:
-    arg: ^4.1.0
-    create-require: ^1.1.0
-    diff: ^4.0.1
-    make-error: ^1.1.1
-    source-map-support: ^0.5.17
-    yn: 3.1.1
-  peerDependencies:
-    typescript: ">=2.7"
-  bin:
-    ts-node: dist/bin.js
-    ts-node-script: dist/bin-script.js
-    ts-node-transpile-only: dist/bin-transpile.js
-    ts-script: dist/bin-script-deprecated.js
-  checksum: e0f904090aba4b3496fdfca640cfd92c1f5a41fa303b0ccb40f49be160699687a97a4dd5f57200646a3b83528952611d1c5ad5804ee25f338b017e7b1c13f0f4
   languageName: node
   linkType: hard
 
