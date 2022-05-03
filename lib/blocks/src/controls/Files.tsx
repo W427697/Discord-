@@ -1,8 +1,7 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
+import { Form } from '@storybook/components';
 import { ControlProps } from './types';
-
-import { Form } from '../form';
 import { getControlId } from './helpers';
 
 export interface FilesControlProps extends ControlProps<string[]> {

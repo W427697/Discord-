@@ -1,7 +1,6 @@
 import React, { FC, ChangeEvent, useState, useCallback, useEffect, useRef } from 'react';
 import { styled } from '@storybook/theming';
-
-import { Form } from '../form';
+import { Form } from '@storybook/components';
 import { getControlId, getControlSetterButtonId } from './helpers';
 import { ControlProps, NumberValue, NumberConfig } from './types';
 

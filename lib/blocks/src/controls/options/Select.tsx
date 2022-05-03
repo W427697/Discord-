@@ -2,9 +2,9 @@ import React, { FC, ChangeEvent } from 'react';
 import { styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
 import { logger } from '@storybook/client-logger';
+import { Icons } from '@storybook/components';
 import { ControlProps, OptionsSelection, NormalizedOptionsConfig } from '../types';
 import { selectedKey, selectedKeys, selectedValues } from './helpers';
-import { Icons } from '../../icon/icon';
 import { getControlId } from '../helpers';
 
 const styleResets: CSSObject = {

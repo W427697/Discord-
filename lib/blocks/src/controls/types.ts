@@ -1,4 +1,4 @@
-import { ArgType } from '../blocks';
+import { ArgType } from '../ArgsTable';
 
 /* eslint-disable @typescript-eslint/no-empty-interface */
 export interface ControlProps<T> {

@@ -10,13 +10,9 @@ import React, {
 import { HexColorPicker, HslaStringColorPicker, RgbaStringColorPicker } from 'react-colorful';
 import convert from 'color-convert';
 import throttle from 'lodash/throttle';
-
 import { styled } from '@storybook/theming';
+import { TooltipNote, WithTooltip, Form, Icons } from '@storybook/components';
 import { ControlProps, ColorValue, ColorConfig, PresetColor } from './types';
-import { TooltipNote } from '../tooltip/TooltipNote';
-import { WithTooltip } from '../tooltip/lazy-WithTooltip';
-import { Form } from '../form';
-import { Icons } from '../icon/icon';
 import { getControlId } from './helpers';
 
 const Wrapper = styled.div({

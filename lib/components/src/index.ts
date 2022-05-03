@@ -68,9 +68,6 @@ export { Icons, Symbols } from './icon/icon';
 export { StorybookLogo } from './brand/StorybookLogo';
 export { StorybookIcon } from './brand/StorybookIcon';
 
-// Doc blocks
-export * from './controls';
-
 // Loader
 export { Loader } from './Loader/Loader';
 
