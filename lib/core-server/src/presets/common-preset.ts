@@ -3,23 +3,19 @@ import {
   getPreviewHeadTemplate,
   getManagerMainTemplate,
   getPreviewMainTemplate,
-  loadCustomBabelConfig,
   getStorybookBabelConfig,
   loadEnvs,
 } from '@storybook/core-common';
 import type { Options } from '@storybook/core-common';
 
 export const babel = async (_: unknown, options: Options) => {
-  const { configDir, presets } = options;
+  const { presets } = options;
 
   if (options.features?.babelModeV7) {
     return presets.apply('babelDefault', {}, options);
   }
 
-  return loadCustomBabelConfig(
-    configDir,
-    () => presets.apply('babelDefault', getStorybookBabelConfig(), options) as any
-  );
+  return presets.apply('babelDefault', getStorybookBabelConfig(), options) as any;
 };
 
 export const logLevel = (previous: any, options: Options) => previous || options.loglevel || 'info';

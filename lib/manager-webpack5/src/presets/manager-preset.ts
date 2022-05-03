@@ -21,7 +21,7 @@ import {
 } from '@storybook/core-common';
 import type { Options, ManagerWebpackOptions } from '@storybook/core-common';
 
-import { babelLoader } from './babel-loader-manager';
+import { customManagerRuntimeLoader } from './custom-manager-runtime-loader';
 
 export async function managerWebpack(
   _: Configuration,
@@ -117,8 +117,7 @@ export async function managerWebpack(
     ].filter(Boolean),
     module: {
       rules: [
-        // babelLoader(),
-        // es6Transpiler() as any,
+        customManagerRuntimeLoader(),
         {
           test: /\.css$/,
           use: [

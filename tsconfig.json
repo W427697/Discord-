@@ -29,7 +29,6 @@
     "**/*.spec.ts",
     "**/__tests__",
     "**/*.test.ts",
-    "**/FlowType*",
     "**/setup-jest.ts"
   ],
   "ts-node": {
