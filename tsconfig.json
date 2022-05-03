@@ -7,7 +7,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "jsx": "react",
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "module": "CommonJS",
     "skipLibCheck": false,
     "allowSyntheticDefaultImports": true,
