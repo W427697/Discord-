@@ -1,6 +1,9 @@
 export const parameters = {
   docs: {
-    getContainer: async () => (await import('./blocks')).DocsContainer,
-    getPage: async () => (await import('./blocks')).DocsPage,
+    renderer: async () => {
+      const x = await import('./blocks/DocsRenderer');
+      console.log(x);
+      return x;
+    },
   },
 };

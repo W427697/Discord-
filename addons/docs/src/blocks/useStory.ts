@@ -16,7 +16,7 @@ export function useStories<TFramework extends AnyFramework = AnyFramework>(
   storyIds: StoryId[],
   context: DocsContextProps<TFramework>
 ): (Story<TFramework> | void)[] {
-  const initialStoriesById = context.componentStories().reduce((acc, story) => {
+  const initialStoriesById = context.preloadedStories().reduce((acc, story) => {
     acc[story.id] = story;
     return acc;
   }, {} as Record<StoryId, Story<TFramework>>);
