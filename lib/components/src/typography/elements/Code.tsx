@@ -1,6 +1,7 @@
 import { styled } from '@storybook/theming';
 import React, { Children, ComponentProps } from 'react';
-import { StyledSyntaxHighlighter } from '@storybook/blocks';
+// TODO: Remove this dependency
+import { StyledSyntaxHighlighter } from '../../../../blocks/src/Source';
 import { isReactChildString } from '../lib/isReactChildString';
 import { codeCommon } from '../lib/common';
 
