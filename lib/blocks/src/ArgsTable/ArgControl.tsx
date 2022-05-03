@@ -9,7 +9,7 @@ import {
   OptionsControl,
   RangeControl,
   TextControl,
-} from '@storybook/components';
+} from '../controls';
 import { Args, ArgType } from './types';
 
 export interface ArgControlProps {

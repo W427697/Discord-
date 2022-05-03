@@ -1,4 +1,3 @@
-export * from './Title';
 export * from './Source';
 export * from './EmptyBlock';
 export * from './Description';

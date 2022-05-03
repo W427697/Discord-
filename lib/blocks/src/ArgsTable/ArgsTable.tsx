@@ -4,10 +4,10 @@ import { styled, ignoreSsrWarning } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
 import { Icons, Link, ResetWrapper } from '@storybook/components';
-import { EmptyBlock } from './index';
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
 import { ArgType, ArgTypes, Args, Globals } from './types';
+import { EmptyBlock } from '..';
 
 export const TableWrapper = styled.table<{
   compact?: boolean;

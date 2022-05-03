@@ -219,9 +219,7 @@ export const Preview: FunctionComponent<PreviewProps> = ({
   const { window: globalWindow } = global;
 
   const copyToClipboard = useCallback(async (text: string) => {
-    const { createCopyToClipboardFunction } = await import(
-      '@storybook/components/src/syntaxhighlighter/syntaxhighlighter'
-    );
+    const { createCopyToClipboardFunction } = await import('@storybook/components');
     createCopyToClipboardFunction();
   }, []);
 
