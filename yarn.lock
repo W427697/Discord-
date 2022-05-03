@@ -6608,6 +6608,7 @@ __metadata:
   dependencies:
     "@storybook/addons": 6.5.0-beta.0
     "@storybook/api": 6.5.0-beta.0
+    "@storybook/blocks": 6.5.0-beta.0
     "@storybook/client-logger": 6.5.0-beta.0
     "@storybook/components": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
