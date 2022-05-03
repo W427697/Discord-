@@ -274,7 +274,6 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     } else {
       render = new DocsRender<TFramework>(this.channel, this.storyStore, entry);
     }
-    console.log(render);
 
     // We need to store this right away, so if the story changes during
     // the async `.prepare()` below, we can (potentially) cancel it

@@ -8631,14 +8631,11 @@ __metadata:
     ts-dedent: ^2.0.0
     unfetch: ^4.2.0
     util-deprecate: ^1.0.2
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
 "@storybook/preview-web@npm:6.5.0-beta.1":
-  version: 6.5.0-beta.1
+  version: 0.0.0-use.local
   resolution: "@storybook/preview-web@npm:6.5.0-beta.1"
   dependencies:
     "@storybook/addons": 6.5.0-beta.1
@@ -8657,12 +8654,9 @@ __metadata:
     ts-dedent: ^2.0.0
     unfetch: ^4.2.0
     util-deprecate: ^1.0.2
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: 0ea1e2d1b295b1f07c462b497dc878ac4f61c5eb810f16a0b6e923869f7b4e591af783df7edacd555178f1b4a41eebe789c3e259973299a81f0dda699c6e3581
-  languageName: node
-  linkType: hard
+  languageName: unknown
+  linkType: soft
 
 "@storybook/react-docgen-typescript-plugin@npm:1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0":
   version: 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0

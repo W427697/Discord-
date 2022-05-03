@@ -36,6 +36,7 @@ type StoryDefProps = {
 
 type StoryRefProps = {
   id?: string;
+  of?: any;
 };
 
 type StoryImportProps = {
@@ -55,7 +56,12 @@ export const lookupStoryId = (
   );
 
 export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryId => {
-  const { id } = props as StoryRefProps;
+  const { id, of } = props as StoryRefProps;
+
+  if (of) {
+    return context.storyIdByModuleExport(of);
+  }
+
   const { name } = props as StoryDefProps;
   const inputId = id === CURRENT_SELECTION ? context.id : id;
   return inputId || lookupStoryId(name, context);
@@ -126,6 +132,8 @@ const Story: FunctionComponent<StoryProps> = (props) => {
   const storyId = getStoryId(props, context);
   const story = useStory(storyId, context);
   const [showLoader, setShowLoader] = useState(true);
+
+  console.log(storyId, story);
 
   useEffect(() => {
     let cleanup: () => void;

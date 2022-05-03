@@ -5,7 +5,7 @@ import { Channel } from '@storybook/addons';
 import { DOCS_RENDERED } from '@storybook/core-events';
 
 import { Render, RenderType } from './StoryRender';
-import type { DocsContextProps } from './types';
+import type { DocsContextProps, DocsRenderFunction } from './types';
 
 export class DocsRender<TFramework extends AnyFramework> implements Render<TFramework> {
   public type: RenderType = 'docs';
@@ -22,9 +22,11 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
 
   private canvasElement?: HTMLElement;
 
-  private context?: DocsContextProps;
+  private context?: DocsContextProps<TFramework>;
 
   public disableKeyListeners = false;
+
+  public teardown: (options: { viewModeChanged?: boolean }) => Promise<void>;
 
   constructor(
     private channel: Channel,
@@ -56,22 +58,17 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     return this.preparing;
   }
 
-  async renderToElement(
-    canvasElement: HTMLElement,
-    renderStoryToElement: DocsContextProps['renderStoryToElement']
-  ) {
-    this.canvasElement = canvasElement;
-
+  async docsContext(
+    renderStoryToElement: DocsContextProps<TFramework>['renderStoryToElement']
+  ): Promise<DocsContextProps<TFramework>> {
     const { id, title, name } = this.entry;
     const csfFile: CSFFile<TFramework> = await this.store.loadCSFFileByStoryId(this.id);
 
-    this.context = {
+    const base = {
+      legacy: this.legacy,
       id,
       title,
       name,
-      // NOTE: these two functions are *sync* so cannot access stories from other CSF files
-      storyById: (storyId: StoryId) => this.store.storyFromCSFFile({ storyId, csfFile }),
-      componentStories: () => this.store.componentStoriesFromCSFFile({ csfFile }),
       loadStory: (storyId: StoryId) => this.store.loadStory({ storyId }),
       renderStoryToElement,
       getStoryContext: (renderedStory: Story<TFramework>) =>
@@ -79,9 +76,44 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
           ...this.store.getStoryContext(renderedStory),
           viewMode: 'docs' as ViewMode,
         } as StoryContextForLoaders<TFramework>),
-      // Put all the storyContext fields onto the docs context for back-compat
-      ...(!global.FEATURES?.breakingChangesV7 && this.store.getStoryContext(this.story)),
     };
+
+    if (this.legacy) {
+      const componentStories = () => this.store.componentStoriesFromCSFFile({ csfFile });
+      return {
+        ...base,
+
+        // NOTE: these two functions are *sync* so cannot access stories from other CSF files
+        storyIdByModuleExport: () => {
+          throw new Error('`storyIdByModuleExport` not available for legacy docs files.');
+        },
+        storyById: (storyId: StoryId) => this.store.storyFromCSFFile({ storyId, csfFile }),
+
+        componentStories,
+        preloadedStories: componentStories,
+      };
+    }
+
+    return {
+      ...base,
+      storyIdByModuleExport: (moduleExport) => this.store.storyIdByModuleExport({ moduleExport }),
+      storyById: () => {
+        throw new Error('`storyById` not available for modern docs files.');
+      },
+
+      componentStories: () => {
+        throw new Error('You cannot render all the stories for a component in a docs.mdx file');
+      },
+      preloadedStories: () => [], // FIXME
+    };
+  }
+
+  async renderToElement(
+    canvasElement: HTMLElement,
+    renderStoryToElement: DocsContextProps['renderStoryToElement']
+  ) {
+    this.canvasElement = canvasElement;
+    this.context = await this.docsContext(renderStoryToElement);
 
     return this.render();
   }
@@ -90,17 +122,29 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     if (!(this.story || this.exports) || !this.context || !this.canvasElement)
       throw new Error('DocsRender not ready to render');
 
-    const renderer = await import('./renderDocs');
+    const { docs } = this.story?.parameters || this.store.projectAnnotations.parameters;
 
-    if (this.legacy) {
-      renderer.renderLegacyDocs(this.story, this.context, this.canvasElement, () =>
-        this.channel.emit(DOCS_RENDERED, this.id)
-      );
-    } else {
-      renderer.renderDocs(this.exports, this.context, this.canvasElement, () =>
-        this.channel.emit(DOCS_RENDERED, this.id)
+    if (!docs) {
+      throw new Error(
+        `Cannot render a story in viewMode=docs if \`@storybook/addon-docs\` is not installed`
       );
     }
+
+    const renderer = await docs.renderer();
+    (renderer.renderDocs as DocsRenderFunction<TFramework>)(
+      this.context,
+      {
+        ...docs,
+        ...(!this.legacy && { page: this.exports.default }),
+      },
+      this.canvasElement,
+      () => this.channel.emit(DOCS_RENDERED, this.id)
+    );
+    this.teardown = async ({ viewModeChanged }: { viewModeChanged?: boolean } = {}) => {
+      if (!viewModeChanged || !this.canvasElement) return;
+      // TODO type
+      renderer.unmountDocs(this.canvasElement);
+    };
   }
 
   async rerender() {
@@ -109,11 +153,5 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     // its own re-renders. Thus there will be no need to re-render the whole
     // docs page when a single story changes.
     if (!global.FEATURES?.modernInlineRender) await this.render();
-  }
-
-  async teardown({ viewModeChanged }: { viewModeChanged?: boolean } = {}) {
-    if (!viewModeChanged || !this.canvasElement) return;
-    const renderer = await import('./renderDocs');
-    renderer.unmountDocs(this.canvasElement);
   }
 }

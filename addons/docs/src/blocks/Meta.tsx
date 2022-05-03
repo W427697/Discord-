@@ -16,7 +16,7 @@ function getFirstStoryId(docsContext: DocsContextProps): string {
 
 function renderAnchor() {
   const context = useContext(DocsContext);
-  if (!context) {
+  if (!context.legacy) {
     return null;
   }
   const anchorId = getFirstStoryId(context) || context.id;
