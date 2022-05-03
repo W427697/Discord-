@@ -6689,6 +6689,7 @@ __metadata:
     "@mdx-js/react": ^1.6.22
     "@storybook/addons": 6.5.0-beta.0
     "@storybook/api": 6.5.0-beta.0
+    "@storybook/blocks": 6.5.0-beta.0
     "@storybook/components": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
     "@storybook/core-events": 6.5.0-beta.0
@@ -7552,7 +7553,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/blocks@workspace:*, @storybook/blocks@workspace:lib/blocks":
+"@storybook/blocks@6.5.0-beta.0, @storybook/blocks@workspace:*, @storybook/blocks@workspace:lib/blocks":
   version: 0.0.0-use.local
   resolution: "@storybook/blocks@workspace:lib/blocks"
   dependencies:

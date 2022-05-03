@@ -10,4 +10,5 @@ export * from './Typeset';
 export * from './ColorPalette';
 export * from './IconGallery';
 
-export type { SourceProps } from './Source';
+// Controls
+export * from './controls';
