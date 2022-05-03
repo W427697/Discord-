@@ -13,7 +13,7 @@ yarn && yarn bootstrap --core
 To develop this package, in the monorepo root:
 
 ```sh
-yarn build blocks components --watch
+yarn build blocks --watch
 ```
 
 To run storybook, in this directory:
