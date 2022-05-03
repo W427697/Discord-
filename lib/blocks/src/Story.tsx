@@ -1,13 +1,10 @@
 import global from 'global';
 import React, { createElement, ElementType, FunctionComponent, Fragment } from 'react';
-
 import type { Parameters } from '@storybook/csf';
-import { EmptyBlock } from '@storybook/blocks';
-
+import { Loader, getStoryHref } from '@storybook/components';
+import { EmptyBlock } from '.';
 import { IFrame } from './IFrame';
 import { ZoomContext } from './ZoomContext';
-import { Loader } from '../Loader/Loader';
-import { getStoryHref } from '../utils/getStoryHref';
 
 const { PREVIEW_URL } = global;
 const BASE_URL = PREVIEW_URL || 'iframe.html';

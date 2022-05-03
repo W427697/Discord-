@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
+import { styled } from '@storybook/theming';
+import { ResetWrapper } from '@storybook/components';
 
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
-import { ResetWrapper } from '../typography/ResetWrapper';
 
 const ItemTitle = styled.div(({ theme }) => ({
   fontWeight: theme.typography.weight.bold,

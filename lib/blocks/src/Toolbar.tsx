@@ -1,11 +1,12 @@
 import React, { Fragment, FunctionComponent, MouseEvent } from 'react';
 import { styled } from '@storybook/theming';
-
-import { FlexBar } from '../bar/bar';
-import { Icons } from '../icon/icon';
-import { IconButton, IconButtonSkeleton } from '../bar/button';
-
-import { getStoryHref } from '../utils/getStoryHref';
+import {
+  FlexBar,
+  Icons,
+  IconButton,
+  IconButtonSkeleton,
+  getStoryHref,
+} from '@storybook/components';
 
 interface ZoomProps {
   zoom: (val: number) => void;

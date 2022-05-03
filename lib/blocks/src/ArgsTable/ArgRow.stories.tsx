@@ -1,8 +1,8 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
+import { ResetWrapper } from '@storybook/components';
 import { ArgRow } from './ArgRow';
 import { TableWrapper } from './ArgsTable';
-import { ResetWrapper } from '../../typography/ResetWrapper';
 
 export default {
   component: ArgRow,

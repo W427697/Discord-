@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
-import { styled, Theme } from '@storybook/theming';
 import { transparentize } from 'polished';
-
-import { withReset } from '../typography/lib/common';
+import { styled, Theme } from '@storybook/theming';
+import { withReset } from '@storybook/components';
 
 const breakpoint = 600;
 

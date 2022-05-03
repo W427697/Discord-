@@ -1,8 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
-
-import { withReset } from '../typography/lib/common';
+import { styled } from '@storybook/theming';
+import { withReset } from '@storybook/components';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 
 const Label = styled.div<{}>(({ theme }) => ({

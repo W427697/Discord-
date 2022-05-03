@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { Link } from '../../typography/link/link';
+import { Link } from '@storybook/components';
 
 const NoControlsWrapper = styled.div(({ theme }) => ({
   background: theme.background.warning,

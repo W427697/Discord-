@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
+import { TabsState } from '@storybook/components';
 import { ArgsTable, ArgsTableProps, SortType } from './ArgsTable';
-import { TabsState } from '../../tabs/tabs';
 
 export interface TabbedArgsTableProps {
   tabs: Record<string, ArgsTableProps>;

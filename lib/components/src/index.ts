@@ -69,7 +69,6 @@ export { StorybookLogo } from './brand/StorybookLogo';
 export { StorybookIcon } from './brand/StorybookIcon';
 
 // Doc blocks
-export * from './blocks';
 export * from './controls';
 
 // Loader

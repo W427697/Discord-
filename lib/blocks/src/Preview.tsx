@@ -11,12 +11,11 @@ import { darken } from 'polished';
 import { styled } from '@storybook/theming';
 
 import global from 'global';
-import { Source, SourceProps } from '@storybook/blocks';
+import { ActionBar, ActionItem, Zoom } from '@storybook/components';
+import { Source, SourceProps } from '.';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
-import { ActionBar, ActionItem } from '../ActionBar/ActionBar';
 import { Toolbar } from './Toolbar';
 import { ZoomContext } from './ZoomContext';
-import { Zoom } from '../Zoom/Zoom';
 import { StorySkeleton } from './Story';
 
 export interface PreviewProps {
@@ -221,7 +220,7 @@ export const Preview: FunctionComponent<PreviewProps> = ({
 
   const copyToClipboard = useCallback(async (text: string) => {
     const { createCopyToClipboardFunction } = await import(
-      '../syntaxhighlighter/syntaxhighlighter'
+      '@storybook/components/src/syntaxhighlighter/syntaxhighlighter'
     );
     createCopyToClipboardFunction();
   }, []);

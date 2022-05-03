@@ -1,7 +1,7 @@
 import React from 'react';
+import { ResetWrapper } from '@storybook/components';
 import { SectionRow } from './SectionRow';
 import { TableWrapper } from './ArgsTable';
-import { ResetWrapper } from '../../typography/ResetWrapper';
 
 export default {
   component: SectionRow,

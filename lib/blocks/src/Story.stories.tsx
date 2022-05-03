@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { Button } from '@storybook/components';
 import { Story, StorySkeleton, StoryError } from './Story';
-import { Button } from '../Button/Button';
 
 export default {
   title: 'Docs/Story',

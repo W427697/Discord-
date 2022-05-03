@@ -1,7 +1,7 @@
 import React, { useState, FC } from 'react';
 import { transparentize } from 'polished';
 import { styled } from '@storybook/theming';
-import { Icons } from '../../icon/icon';
+import { Icons } from '@storybook/components';
 
 type Level = 'section' | 'subsection';
 

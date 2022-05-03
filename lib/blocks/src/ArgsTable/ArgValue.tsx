@@ -1,12 +1,9 @@
 import React, { FC, useState } from 'react';
-import { styled } from '@storybook/theming';
 import memoize from 'memoizerific';
 import uniq from 'lodash/uniq';
+import { styled } from '@storybook/theming';
+import { WithTooltipPure, Icons, SyntaxHighlighter, codeCommon } from '@storybook/components';
 import { PropSummaryValue } from './types';
-import { WithTooltipPure } from '../../tooltip/lazy-WithTooltip';
-import { Icons } from '../../icon/icon';
-import { SyntaxHighlighter } from '../../syntaxhighlighter/lazy-syntaxhighlighter';
-import { codeCommon } from '../../typography/lib/common';
 
 interface ArgValueProps {
   value?: PropSummaryValue;
