@@ -8,19 +8,18 @@
     "emitDecoratorMetadata": true,
     "jsx": "react",
     "moduleResolution": "Node",
+    "target": "ES2020",
     "module": "CommonJS",
     "skipLibCheck": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-    "target": "ES2015",
     "types": [
       "jest"
     ],
     "lib": [
-      "es2019",
       "dom",
-      "ESNext"
+      "esnext"
     ]
   },
   "exclude": [
@@ -30,7 +29,6 @@
     "**/*.spec.ts",
     "**/__tests__",
     "**/*.test.ts",
-    "**/FlowType*",
     "**/setup-jest.ts"
   ],
   "ts-node": {
