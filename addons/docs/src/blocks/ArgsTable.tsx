@@ -6,7 +6,7 @@ import {
   ArgsTableError,
   SortType,
   TabbedArgsTable,
-} from '@storybook/components';
+} from '@storybook/blocks';
 import { ArgTypesExtractor } from '@storybook/docs-tools';
 import { addons } from '@storybook/addons';
 import { filterArgTypes, PropDescriptor } from '@storybook/store';

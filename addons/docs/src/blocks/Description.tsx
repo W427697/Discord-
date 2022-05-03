@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react';
-import { Description, DescriptionProps as PureDescriptionProps } from '@storybook/components';
+import { Description, DescriptionProps as PureDescriptionProps } from '@storybook/blocks';
 import { str } from '@storybook/docs-tools';
 
 import { DocsContext, DocsContextProps } from './DocsContext';

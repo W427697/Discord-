@@ -2,11 +2,11 @@ import React, { FC, ReactElement, ReactNode, ReactNodeArray, useContext } from '
 import { MDXProvider } from '@mdx-js/react';
 import { toId, storyNameFromExport, AnyFramework } from '@storybook/csf';
 import {
-  resetComponents,
   Preview as PurePreview,
   PreviewProps as PurePreviewProps,
   PreviewSkeleton,
-} from '@storybook/components';
+} from '@storybook/blocks';
+import { resetComponents } from '@storybook/components';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { SourceContext, SourceContextProps } from './SourceContainer';
 import { getSourceProps, SourceState } from './Source';

@@ -1,5 +1,5 @@
 import React, { ComponentProps, FC, useContext } from 'react';
-import { Source as PureSource, SourceError } from '@storybook/components';
+import { Source as PureSource, SourceError } from '@storybook/blocks';
 import type { StoryId } from '@storybook/api';
 import type { Story } from '@storybook/store';
 
