@@ -3,6 +3,7 @@ import type {
   StorybookConfig as BaseStorybookConfig,
   TypescriptOptions as BaseTypescriptOptions,
 } from '@storybook/webpack-tools';
+import type { PluginOptions as ReactDocgenTypescriptOptions } from '@storybook/react-docgen-typescript-plugin';
 
 export type { BuilderResult } from '@storybook/webpack-tools';
 
@@ -32,12 +33,23 @@ export interface ReactConfig {
 }
 
 export type TypescriptOptions = BaseTypescriptOptions & {
+  /**
+   * Sets the type of Docgen when working with React and TypeScript
+   *
+   * @default `'react-docgen-typescript'`
+   */
   reactDocgen: 'react-docgen-typescript' | 'react-docgen' | false;
-  reactDocgenTypescriptOptions: any;
+  /**
+   * Configures `react-docgen-typescript-plugin`
+   *
+   * @default
+   * @see https://github.com/storybookjs/storybook/blob/next/lib/builder-webpack5/src/config/defaults.js#L4-L6
+   */
+  reactDocgenTypescriptOptions: ReactDocgenTypescriptOptions;
 };
 
 export type StorybookConfig<TWebpackConfiguration = CommonWebpackConfiguration> =
   BaseStorybookConfig<TWebpackConfiguration> &
     ReactConfig & {
-      typescript?: TypescriptOptions;
+      typescript?: Partial<TypescriptOptions>;
     };
