@@ -29,6 +29,7 @@ const config: StorybookConfig = {
   ],
   core: {
     builder: 'webpack4',
+    disableTelemetry: true,
   },
   logLevel: 'debug',
   features: {
