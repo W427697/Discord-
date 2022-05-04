@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/html",
+  "name": "@storybook/html-webpack4",
   "version": "6.5.0-beta.4",
   "description": "Storybook for HTML: View HTML snippets in isolation with Hot Reloading.",
   "keywords": [

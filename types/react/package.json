@@ -1,0 +1,53 @@
+{
+  "name": "@storybook/react",
+  "version": "6.5.0-beta.4",
+  "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/types/react",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "types/react"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "dist/ts3.9/*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "types/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/renderer-react": "6.5.0-beta.4"
+  },
+  "engines": {
+    "node": ">=10.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
+  "sbmodern": "dist/modern/index.js"
+}

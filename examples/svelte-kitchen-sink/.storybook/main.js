@@ -41,5 +41,5 @@ module.exports = {
   features: {
     breakingChangesV7: true,
   },
-  framework: '@storybook/svelte',
+  framework: '@storybook/svelte-webpack4',
 };

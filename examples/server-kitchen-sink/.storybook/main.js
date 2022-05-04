@@ -9,5 +9,5 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-controls',
   ],
-  framework: '@storybook/server',
+  framework: '@storybook/server-webpack4',
 };

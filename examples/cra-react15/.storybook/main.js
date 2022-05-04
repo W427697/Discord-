@@ -23,5 +23,5 @@ module.exports = {
     disableTelemetry: true,
   },
   staticDirs: ['../public'],
-  framework: '@storybook/react',
+  framework: '@storybook/react-webpack4',
 };

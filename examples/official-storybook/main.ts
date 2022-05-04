@@ -49,7 +49,7 @@ const config: StorybookConfig = {
     },
   ],
   framework: {
-    name: '@storybook/react',
+    name: '@storybook/react-webpack4',
     options: {
       fastRefresh: true,
       strictMode: true,

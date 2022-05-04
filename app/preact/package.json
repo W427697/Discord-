@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/preact",
+  "name": "@storybook/preact-webpack4",
   "version": "6.5.0-beta.4",
   "description": "Storybook for Preact: Develop Preact Component in isolation.",
   "keywords": [

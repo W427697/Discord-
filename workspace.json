@@ -77,7 +77,7 @@
       "root": "app/ember",
       "type": "library"
     },
-    "@storybook/html": {
+    "@storybook/html-webpack4": {
       "root": "app/html",
       "type": "library"
     },
@@ -89,31 +89,31 @@
       "root": "lib/manager-webpack5",
       "type": "library"
     },
-    "@storybook/preact": {
+    "@storybook/preact-webpack4": {
       "root": "app/preact",
       "type": "library"
     },
-    "@storybook/react": {
+    "@storybook/react-webpack4": {
       "root": "app/react",
       "type": "library"
     },
-    "@storybook/server": {
+    "@storybook/server-webpack4": {
       "root": "app/server",
       "type": "library"
     },
-    "@storybook/svelte": {
+    "@storybook/svelte-webpack4": {
       "root": "app/svelte",
       "type": "library"
     },
-    "@storybook/vue": {
+    "@storybook/vue-webpack4": {
       "root": "app/vue",
       "type": "library"
     },
-    "@storybook/vue3": {
+    "@storybook/vue3-webpack4": {
       "root": "app/vue3",
       "type": "library"
     },
-    "@storybook/web-components": {
+    "@storybook/web-components-webpack4": {
       "root": "app/web-components",
       "type": "library"
     },
@@ -375,6 +375,38 @@
     },
     "@storybook/renderer-web-components": {
       "root": "renderers/web-components",
+      "type": "library"
+    },
+    "@storybook/html": {
+      "root": "types/html",
+      "type": "library"
+    },
+    "@storybook/preact": {
+      "root": "types/preact",
+      "type": "library"
+    },
+    "@storybook/react": {
+      "root": "types/react",
+      "type": "library"
+    },
+    "@storybook/server": {
+      "root": "types/server",
+      "type": "library"
+    },
+    "@storybook/svelte": {
+      "root": "types/svelte",
+      "type": "library"
+    },
+    "@storybook/vue": {
+      "root": "types/vue",
+      "type": "library"
+    },
+    "@storybook/vue3": {
+      "root": "types/vue3",
+      "type": "library"
+    },
+    "@storybook/web-components": {
+      "root": "types/web-components",
       "type": "library"
     }
   }

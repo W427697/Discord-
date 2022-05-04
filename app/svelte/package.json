@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/svelte",
+  "name": "@storybook/svelte-webpack4",
   "version": "6.5.0-beta.4",
   "description": "Storybook for Svelte: Develop Svelte Component in isolation with Hot Reloading.",
   "keywords": [

@@ -29,6 +29,6 @@ const config: StorybookConfig = {
     warnOnLegacyHierarchySeparator: false,
     previewMdx2: true,
   },
-  framework: '@storybook/react',
+  framework: '@storybook/react-webpack4',
 };
 module.exports = config;

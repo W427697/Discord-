@@ -7980,6 +7980,7 @@ __metadata:
     "@storybook/cli": 6.5.0-beta.4
     "@storybook/components": 6.5.0-beta.4
     "@storybook/react": 6.5.0-beta.4
+    "@storybook/react-webpack4": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
     "@testing-library/dom": ^7.31.2
     "@testing-library/react": 12.1.2
@@ -8039,9 +8040,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/html@6.5.0-beta.4, @storybook/html@workspace:*, @storybook/html@workspace:app/html":
+"@storybook/html-webpack4@workspace:app/html":
   version: 0.0.0-use.local
-  resolution: "@storybook/html@workspace:app/html"
+  resolution: "@storybook/html-webpack4@workspace:app/html"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -8055,6 +8056,14 @@ __metadata:
     regenerator-runtime: ^0.13.7
   peerDependencies:
     "@babel/core": "*"
+  languageName: unknown
+  linkType: soft
+
+"@storybook/html@6.5.0-beta.4, @storybook/html@workspace:*, @storybook/html@workspace:types/html":
+  version: 0.0.0-use.local
+  resolution: "@storybook/html@workspace:types/html"
+  dependencies:
+    "@storybook/renderer-html": 6.5.0-beta.4
   languageName: unknown
   linkType: soft
 
@@ -8296,9 +8305,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preact@6.5.0-beta.4, @storybook/preact@workspace:*, @storybook/preact@workspace:app/preact":
+"@storybook/preact-webpack4@workspace:app/preact":
   version: 0.0.0-use.local
-  resolution: "@storybook/preact@workspace:app/preact"
+  resolution: "@storybook/preact-webpack4@workspace:app/preact"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -8313,6 +8322,14 @@ __metadata:
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
+  languageName: unknown
+  linkType: soft
+
+"@storybook/preact@6.5.0-beta.4, @storybook/preact@workspace:*, @storybook/preact@workspace:types/preact":
+  version: 0.0.0-use.local
+  resolution: "@storybook/preact@workspace:types/preact"
+  dependencies:
+    "@storybook/renderer-preact": 6.5.0-beta.4
   languageName: unknown
   linkType: soft
 
@@ -8587,9 +8604,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react@6.5.0-beta.4, @storybook/react@workspace:*, @storybook/react@workspace:app/react":
+"@storybook/react-webpack4@6.5.0-beta.4, @storybook/react-webpack4@workspace:app/react":
   version: 0.0.0-use.local
-  resolution: "@storybook/react@workspace:app/react"
+  resolution: "@storybook/react-webpack4@workspace:app/react"
   dependencies:
     "@storybook/core-server": 6.5.0-beta.4
     "@storybook/preset-react-webpack": 6.5.0-beta.4
@@ -8607,6 +8624,14 @@ __metadata:
       optional: true
     typescript:
       optional: true
+  languageName: unknown
+  linkType: soft
+
+"@storybook/react@6.5.0-beta.4, @storybook/react@workspace:*, @storybook/react@workspace:types/react":
+  version: 0.0.0-use.local
+  resolution: "@storybook/react@workspace:types/react"
+  dependencies:
+    "@storybook/renderer-react": 6.5.0-beta.4
   languageName: unknown
   linkType: soft
 
@@ -9123,9 +9148,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/server@6.5.0-beta.4, @storybook/server@workspace:*, @storybook/server@workspace:app/server":
+"@storybook/server-webpack4@workspace:app/server":
   version: 0.0.0-use.local
-  resolution: "@storybook/server@workspace:app/server"
+  resolution: "@storybook/server-webpack4@workspace:app/server"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -9136,6 +9161,14 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
+  languageName: unknown
+  linkType: soft
+
+"@storybook/server@6.5.0-beta.4, @storybook/server@workspace:*, @storybook/server@workspace:types/server":
+  version: 0.0.0-use.local
+  resolution: "@storybook/server@workspace:types/server"
+  dependencies:
+    "@storybook/renderer-server": 6.5.0-beta.4
   languageName: unknown
   linkType: soft
 
@@ -9184,9 +9217,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/svelte@6.5.0-beta.4, @storybook/svelte@workspace:*, @storybook/svelte@workspace:app/svelte":
+"@storybook/svelte-webpack4@workspace:app/svelte":
   version: 0.0.0-use.local
-  resolution: "@storybook/svelte@workspace:app/svelte"
+  resolution: "@storybook/svelte-webpack4@workspace:app/svelte"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -9202,6 +9235,14 @@ __metadata:
     "@babel/core": "*"
     svelte: ^3.1.0
     svelte-loader: "*"
+  languageName: unknown
+  linkType: soft
+
+"@storybook/svelte@6.5.0-beta.4, @storybook/svelte@workspace:*, @storybook/svelte@workspace:types/svelte":
+  version: 0.0.0-use.local
+  resolution: "@storybook/svelte@workspace:types/svelte"
+  dependencies:
+    "@storybook/renderer-svelte": 6.5.0-beta.4
   languageName: unknown
   linkType: soft
 
@@ -9339,32 +9380,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/vue3@6.5.0-beta.4, @storybook/vue3@workspace:app/vue3":
+"@storybook/vue-webpack4@workspace:app/vue":
   version: 0.0.0-use.local
-  resolution: "@storybook/vue3@workspace:app/vue3"
-  dependencies:
-    "@storybook/core-common": 6.5.0-beta.4
-    "@storybook/core-server": 6.5.0-beta.4
-    "@storybook/preset-vue3-webpack": 6.5.0-beta.4
-    "@storybook/renderer-vue3": 6.5.0-beta.4
-    "@types/node": ^14.14.20 || ^16.0.0
-    "@vue/compiler-sfc": 3.0.0
-    core-js: ^3.8.2
-    react: 16.14.0
-    react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
-    vue: 3.0.0
-  peerDependencies:
-    "@babel/core": "*"
-    "@vue/compiler-sfc": ^3.0.0
-    babel-loader: ^7.0.0 || ^8.0.0
-    vue: ^3.0.0
-  languageName: unknown
-  linkType: soft
-
-"@storybook/vue@6.5.0-beta.4, @storybook/vue@workspace:*, @storybook/vue@workspace:app/vue":
-  version: 0.0.0-use.local
-  resolution: "@storybook/vue@workspace:app/vue"
+  resolution: "@storybook/vue-webpack4@workspace:app/vue"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -9388,9 +9406,48 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/web-components@workspace:*, @storybook/web-components@workspace:app/web-components":
+"@storybook/vue3-webpack4@workspace:app/vue3":
   version: 0.0.0-use.local
-  resolution: "@storybook/web-components@workspace:app/web-components"
+  resolution: "@storybook/vue3-webpack4@workspace:app/vue3"
+  dependencies:
+    "@storybook/core-common": 6.5.0-beta.4
+    "@storybook/core-server": 6.5.0-beta.4
+    "@storybook/preset-vue3-webpack": 6.5.0-beta.4
+    "@storybook/renderer-vue3": 6.5.0-beta.4
+    "@types/node": ^14.14.20 || ^16.0.0
+    "@vue/compiler-sfc": 3.0.0
+    core-js: ^3.8.2
+    react: 16.14.0
+    react-dom: 16.14.0
+    regenerator-runtime: ^0.13.7
+    vue: 3.0.0
+  peerDependencies:
+    "@babel/core": "*"
+    "@vue/compiler-sfc": ^3.0.0
+    babel-loader: ^7.0.0 || ^8.0.0
+    vue: ^3.0.0
+  languageName: unknown
+  linkType: soft
+
+"@storybook/vue3@6.5.0-beta.4, @storybook/vue3@workspace:types/vue3":
+  version: 0.0.0-use.local
+  resolution: "@storybook/vue3@workspace:types/vue3"
+  dependencies:
+    "@storybook/renderer-vue3": 6.5.0-beta.4
+  languageName: unknown
+  linkType: soft
+
+"@storybook/vue@6.5.0-beta.4, @storybook/vue@workspace:*, @storybook/vue@workspace:types/vue":
+  version: 0.0.0-use.local
+  resolution: "@storybook/vue@workspace:types/vue"
+  dependencies:
+    "@storybook/renderer-vue": 6.5.0-beta.4
+  languageName: unknown
+  linkType: soft
+
+"@storybook/web-components-webpack4@workspace:app/web-components":
+  version: 0.0.0-use.local
+  resolution: "@storybook/web-components-webpack4@workspace:app/web-components"
   dependencies:
     "@babel/preset-env": ^7.12.11
     "@storybook/core-common": 6.5.0-beta.4
@@ -9405,6 +9462,14 @@ __metadata:
     regenerator-runtime: ^0.13.7
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
+  languageName: unknown
+  linkType: soft
+
+"@storybook/web-components@workspace:*, @storybook/web-components@workspace:types/web-components":
+  version: 0.0.0-use.local
+  resolution: "@storybook/web-components@workspace:types/web-components"
+  dependencies:
+    "@storybook/renderer-web-components": 6.5.0-beta.4
   languageName: unknown
   linkType: soft
 
