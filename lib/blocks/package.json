@@ -1,6 +1,6 @@
 {
   "name": "@storybook/blocks",
-  "version": "6.5.0-beta.0",
+  "version": "6.5.0-beta.4",
   "description": "Storybook Doc Blocks",
   "keywords": [
     "storybook"
@@ -42,10 +42,10 @@
     "storybook": "sb dev"
   },
   "dependencies": {
-    "@storybook/client-logger": "6.5.0-beta.0",
-    "@storybook/components": "6.5.0-beta.0",
+    "@storybook/client-logger": "6.5.0-beta.4",
+    "@storybook/components": "6.5.0-beta.4",
     "@storybook/csf": "0.0.2--canary.7c6c115.0",
-    "@storybook/theming": "6.5.0-beta.0",
+    "@storybook/theming": "6.5.0-beta.4",
     "color-convert": "^2.0.1",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
@@ -58,9 +58,9 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "6.5.0-beta.0",
-    "@storybook/react": "6.5.0-beta.0",
-    "sb": "6.5.0-beta.0"
+    "@storybook/addon-essentials": "6.5.0-beta.4",
+    "@storybook/react": "6.5.0-beta.4",
+    "sb": "6.5.0-beta.4"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
