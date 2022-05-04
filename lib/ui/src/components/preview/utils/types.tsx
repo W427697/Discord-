@@ -1,4 +1,4 @@
-import { State, API, Story, Group } from '@storybook/api';
+import type { State, API, Story, Group } from '@storybook/api';
 import { FunctionComponent, ReactNode } from 'react';
 
 export type ViewMode = State['viewMode'];
@@ -13,6 +13,7 @@ export interface PreviewProps {
   options: {
     isFullscreen: boolean;
     isToolshown: boolean;
+    showTabs: boolean;
   };
   id: string;
   path: string;
