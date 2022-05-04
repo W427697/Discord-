@@ -16,6 +16,7 @@ module.exports = {
   ],
   core: {
     builder: 'webpack4',
+    disableTelemetry: true,
   },
   // These are just here to test composition. They could be added to any storybook example project
   refs: {
