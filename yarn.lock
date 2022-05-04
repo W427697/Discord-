@@ -8343,6 +8343,7 @@ __metadata:
     "@babel/preset-react": ^7.12.10
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.3
     "@storybook/addons": 6.5.0-beta.4
+    "@storybook/blocks": 6.5.0-beta.4
     "@storybook/client-logger": 6.5.0-beta.4
     "@storybook/core-client": 6.5.0-beta.4
     "@storybook/core-common": 6.5.0-beta.4

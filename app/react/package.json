@@ -78,6 +78,7 @@
     "webpack": ">=4.43.0 <6.0.0"
   },
   "devDependencies": {
+    "@storybook/blocks": "6.5.0-beta.4",
     "@types/util-deprecate": "^1.0.0",
     "jest-specific-snapshot": "^4.0.0",
     "webpack": "4"
