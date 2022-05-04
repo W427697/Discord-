@@ -41,7 +41,7 @@
     "packages": [
       "addons/*",
       "addons/storyshots/*",
-      "app/*",
+      "frameworks/webpack4/*",
       "renderers/*",
       "presets/*",
       "examples-native/*",

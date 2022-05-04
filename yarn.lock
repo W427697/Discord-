@@ -7160,9 +7160,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/angular@6.5.0-beta.4, @storybook/angular@workspace:*, @storybook/angular@workspace:app/angular":
+"@storybook/angular@6.5.0-beta.4, @storybook/angular@workspace:*, @storybook/angular@workspace:frameworks/webpack4/angular":
   version: 0.0.0-use.local
-  resolution: "@storybook/angular@workspace:app/angular"
+  resolution: "@storybook/angular@workspace:frameworks/webpack4/angular"
   dependencies:
     "@angular-devkit/architect": ~0.1102.0
     "@angular-devkit/build-angular": ~0.1102.13
@@ -7933,9 +7933,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/ember@6.5.0-beta.4, @storybook/ember@workspace:*, @storybook/ember@workspace:app/ember":
+"@storybook/ember@6.5.0-beta.4, @storybook/ember@workspace:*, @storybook/ember@workspace:frameworks/webpack4/ember":
   version: 0.0.0-use.local
-  resolution: "@storybook/ember@workspace:app/ember"
+  resolution: "@storybook/ember@workspace:frameworks/webpack4/ember"
   dependencies:
     "@storybook/core-client": 6.5.0-beta.4
     "@storybook/core-common": 6.5.0-beta.4
@@ -8040,9 +8040,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/html-webpack4@workspace:app/html":
+"@storybook/html-webpack4@workspace:frameworks/webpack4/html":
   version: 0.0.0-use.local
-  resolution: "@storybook/html-webpack4@workspace:app/html"
+  resolution: "@storybook/html-webpack4@workspace:frameworks/webpack4/html"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -8305,9 +8305,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preact-webpack4@workspace:app/preact":
+"@storybook/preact-webpack4@workspace:frameworks/webpack4/preact":
   version: 0.0.0-use.local
-  resolution: "@storybook/preact-webpack4@workspace:app/preact"
+  resolution: "@storybook/preact-webpack4@workspace:frameworks/webpack4/preact"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -8604,9 +8604,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react-webpack4@6.5.0-beta.4, @storybook/react-webpack4@workspace:app/react":
+"@storybook/react-webpack4@6.5.0-beta.4, @storybook/react-webpack4@workspace:frameworks/webpack4/react":
   version: 0.0.0-use.local
-  resolution: "@storybook/react-webpack4@workspace:app/react"
+  resolution: "@storybook/react-webpack4@workspace:frameworks/webpack4/react"
   dependencies:
     "@storybook/core-server": 6.5.0-beta.4
     "@storybook/preset-react-webpack": 6.5.0-beta.4
@@ -9148,9 +9148,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/server-webpack4@workspace:app/server":
+"@storybook/server-webpack4@workspace:frameworks/webpack4/server":
   version: 0.0.0-use.local
-  resolution: "@storybook/server-webpack4@workspace:app/server"
+  resolution: "@storybook/server-webpack4@workspace:frameworks/webpack4/server"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -9217,9 +9217,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/svelte-webpack4@workspace:app/svelte":
+"@storybook/svelte-webpack4@workspace:frameworks/webpack4/svelte":
   version: 0.0.0-use.local
-  resolution: "@storybook/svelte-webpack4@workspace:app/svelte"
+  resolution: "@storybook/svelte-webpack4@workspace:frameworks/webpack4/svelte"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -9380,9 +9380,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/vue-webpack4@workspace:app/vue":
+"@storybook/vue-webpack4@workspace:frameworks/webpack4/vue":
   version: 0.0.0-use.local
-  resolution: "@storybook/vue-webpack4@workspace:app/vue"
+  resolution: "@storybook/vue-webpack4@workspace:frameworks/webpack4/vue"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -9406,9 +9406,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/vue3-webpack4@workspace:app/vue3":
+"@storybook/vue3-webpack4@workspace:frameworks/webpack4/vue3":
   version: 0.0.0-use.local
-  resolution: "@storybook/vue3-webpack4@workspace:app/vue3"
+  resolution: "@storybook/vue3-webpack4@workspace:frameworks/webpack4/vue3"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -9445,9 +9445,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/web-components-webpack4@workspace:app/web-components":
+"@storybook/web-components-webpack4@workspace:frameworks/webpack4/web-components":
   version: 0.0.0-use.local
-  resolution: "@storybook/web-components-webpack4@workspace:app/web-components"
+  resolution: "@storybook/web-components-webpack4@workspace:frameworks/webpack4/web-components"
   dependencies:
     "@babel/preset-env": ^7.12.11
     "@storybook/core-common": 6.5.0-beta.4

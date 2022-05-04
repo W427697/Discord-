@@ -66,7 +66,7 @@
       "type": "library"
     },
     "@storybook/angular": {
-      "root": "app/angular",
+      "root": "frameworks/webpack4/angular",
       "type": "library"
     },
     "@storybook/docs-tools": {
@@ -74,11 +74,11 @@
       "type": "library"
     },
     "@storybook/ember": {
-      "root": "app/ember",
+      "root": "frameworks/webpack4/ember",
       "type": "library"
     },
     "@storybook/html-webpack4": {
-      "root": "app/html",
+      "root": "frameworks/webpack4/html",
       "type": "library"
     },
     "@storybook/manager-webpack4": {
@@ -90,31 +90,31 @@
       "type": "library"
     },
     "@storybook/preact-webpack4": {
-      "root": "app/preact",
+      "root": "frameworks/webpack4/preact",
       "type": "library"
     },
     "@storybook/react-webpack4": {
-      "root": "app/react",
+      "root": "frameworks/webpack4/react",
       "type": "library"
     },
     "@storybook/server-webpack4": {
-      "root": "app/server",
+      "root": "frameworks/webpack4/server",
       "type": "library"
     },
     "@storybook/svelte-webpack4": {
-      "root": "app/svelte",
+      "root": "frameworks/webpack4/svelte",
       "type": "library"
     },
     "@storybook/vue-webpack4": {
-      "root": "app/vue",
+      "root": "frameworks/webpack4/vue",
       "type": "library"
     },
     "@storybook/vue3-webpack4": {
-      "root": "app/vue3",
+      "root": "frameworks/webpack4/vue3",
       "type": "library"
     },
     "@storybook/web-components-webpack4": {
-      "root": "app/web-components",
+      "root": "frameworks/webpack4/web-components",
       "type": "library"
     },
     "@storybook/webpack-tools": {

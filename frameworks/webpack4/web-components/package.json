@@ -1,0 +1,69 @@
+{
+  "name": "@storybook/web-components-webpack4",
+  "version": "6.5.0-beta.4",
+  "description": "Storybook for web-components: View web components snippets in isolation with Hot Reloading.",
+  "keywords": [
+    "lit-html",
+    "storybook",
+    "web-components"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/webpack4/web-components",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "frameworks/webpack4/web-components"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "main": "dist/cjs/client/index.js",
+  "module": "dist/esm/client/index.js",
+  "types": "dist/ts3.9/client/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "dist/ts3.9/*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "prepare": "node ../../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.12.11",
+    "@storybook/core-common": "6.5.0-beta.4",
+    "@storybook/core-server": "6.5.0-beta.4",
+    "@storybook/preset-web-components-webpack": "6.5.0-beta.4",
+    "@storybook/renderer-web-components": "6.5.0-beta.4",
+    "@types/node": "^14.14.20 || ^16.0.0",
+    "core-js": "^3.8.2",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "regenerator-runtime": "^0.13.7"
+  },
+  "devDependencies": {
+    "lit-html": "2.0.2"
+  },
+  "peerDependencies": {
+    "lit-html": "^1.4.1 || ^2.0.0"
+  },
+  "engines": {
+    "node": ">=10.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
+  "sbmodern": "dist/modern/client/index.js"
+}
