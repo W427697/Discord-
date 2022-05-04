@@ -18,6 +18,8 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
 
   public exports?: ModuleExports;
 
+  private csfFiles?: CSFFile<TFramework>[];
+
   private preparing = false;
 
   private canvasElement?: HTMLElement;
@@ -49,7 +51,9 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     if (this.legacy) {
       this.story = await this.store.loadStory({ storyId: this.id });
     } else {
-      this.exports = await this.store.loadDocsFileById(this.id);
+      const { docsExports, csfFiles } = await this.store.loadDocsFileById(this.id);
+      this.exports = docsExports;
+      this.csfFiles = csfFiles;
     }
     this.preparing = false;
   }
@@ -62,7 +66,6 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     renderStoryToElement: DocsContextProps<TFramework>['renderStoryToElement']
   ): Promise<DocsContextProps<TFramework>> {
     const { id, title, name } = this.entry;
-    const csfFile: CSFFile<TFramework> = await this.store.loadCSFFileByStoryId(this.id);
 
     const base = {
       legacy: this.legacy,
@@ -79,32 +82,42 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     };
 
     if (this.legacy) {
+      const csfFile: CSFFile<TFramework> = await this.store.loadCSFFileByStoryId(this.id);
       const componentStories = () => this.store.componentStoriesFromCSFFile({ csfFile });
       return {
         ...base,
 
-        // NOTE: these two functions are *sync* so cannot access stories from other CSF files
         storyIdByModuleExport: () => {
+          // NOTE: we could implement this easily enough by checking all the component stories
           throw new Error('`storyIdByModuleExport` not available for legacy docs files.');
         },
         storyById: (storyId: StoryId) => this.store.storyFromCSFFile({ storyId, csfFile }),
 
         componentStories,
-        preloadedStories: componentStories,
       };
     }
 
     return {
       ...base,
-      storyIdByModuleExport: (moduleExport) => this.store.storyIdByModuleExport({ moduleExport }),
+      storyIdByModuleExport: (moduleExport) => {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const csfFile of this.csfFiles) {
+          // eslint-disable-next-line no-restricted-syntax
+          for (const annotation of Object.values(csfFile.stories)) {
+            if (annotation.moduleExport === moduleExport) {
+              return annotation.id;
+            }
+          }
+        }
+
+        throw new Error(`No story found with that export: ${moduleExport}`);
+      },
       storyById: () => {
         throw new Error('`storyById` not available for modern docs files.');
       },
-
       componentStories: () => {
         throw new Error('You cannot render all the stories for a component in a docs.mdx file');
       },
-      preloadedStories: () => [], // FIXME
     };
   }
 

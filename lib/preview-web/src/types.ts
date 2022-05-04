@@ -21,7 +21,6 @@ export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework
   getStoryContext: (story: Story<TFramework>) => StoryContextForLoaders<TFramework>;
 
   componentStories: () => Story<TFramework>[];
-  preloadedStories: () => Story<TFramework>[];
 
   loadStory: (id: StoryId) => Promise<Story<TFramework>>;
   renderStoryToElement: PreviewWeb<TFramework>['renderStoryToElement'];
