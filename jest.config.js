@@ -26,7 +26,7 @@ module.exports = {
   },
   projects: [
     '<rootDir>',
-    '<rootDir>/app/angular',
+    '<rootDir>/frameworks/webpack4/angular',
     '<rootDir>/examples/cra-kitchen-sink',
     '<rootDir>/examples/cra-ts-kitchen-sink',
     '<rootDir>/examples/html-kitchen-sink',
@@ -40,8 +40,9 @@ module.exports = {
   ],
   roots: [
     '<rootDir>/addons',
-    '<rootDir>/app',
+    '<rootDir>/frameworks/webpack4',
     '<rootDir>/lib',
+    '<rootDir>/presets',
     '<rootDir>/examples/official-storybook',
     '<rootDir>/examples/react-ts',
   ],
@@ -57,7 +58,7 @@ module.exports = {
     '/dist/',
     '/prebuilt/',
     'addon-jest.test.js',
-    '/app/angular/*',
+    '/frameworks/webpack4/angular/*',
     '/examples/cra-kitchen-sink/src/*',
     '/examples/cra-react15/src/*',
     '/examples/cra-ts-kitchen-sink/src/components/*',
