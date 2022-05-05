@@ -69,7 +69,7 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     const { id, title, name } = this.entry;
 
     const base = {
-      legacy: this.legacy,
+      type: this.legacy ? 'legacy' : ('modern' as DocsContextProps['type']),
       id,
       title,
       name,
@@ -80,6 +80,11 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
           ...this.store.getStoryContext(renderedStory),
           viewMode: 'docs' as ViewMode,
         } as StoryContextForLoaders<TFramework>),
+
+      // These three are intended for external renders only
+      setMeta: () => {},
+      addStory: () => {},
+      renderStory: () => {},
     };
 
     if (this.legacy) {
