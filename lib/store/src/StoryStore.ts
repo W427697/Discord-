@@ -267,6 +267,7 @@ export class StoryStore<TFramework extends AnyFramework> {
 
         acc[storyId] = Object.entries(story).reduce(
           (storyAcc, [key, value]) => {
+            if (key === 'moduleExport') return storyAcc;
             if (typeof value === 'function') {
               return storyAcc;
             }
