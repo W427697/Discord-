@@ -3,8 +3,8 @@
 exports[`vue-3-cli manager dev 1`] = `
 Object {
   "entry": Array [
-    "ROOT/lib/core-client/dist/esm/globals/polyfills.js",
-    "ROOT/lib/core-client/dist/esm/manager/index.js",
+    "NODE_MODULES/@storybook/core-client/dist/esm/globals/polyfills.js",
+    "NODE_MODULES/@storybook/core-client/dist/esm/manager/index.js",
     "ROOT/addons/links/manager.js",
     "ROOT/addons/docs/manager.js",
     "ROOT/addons/controls/manager.js",
