@@ -1,9 +1,8 @@
 export const parameters = {
   docs: {
     renderer: async () => {
-      const x = await import('./blocks/DocsRenderer');
-      console.log(x);
-      return x;
+      const { DocsRenderer } = await import('./blocks/DocsRenderer');
+      return new DocsRenderer();
     },
   },
 };

@@ -102,7 +102,7 @@ beforeEach(() => {
   projectAnnotations.renderToDOM.mockReset();
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
-  docsRenderer.renderDocs.mockClear();
+  docsRenderer.render.mockClear();
   // @ts-ignore
   logger.warn.mockClear();
   mockStoryIndex.mockReset().mockReturnValue(storyIndex);
@@ -588,7 +588,7 @@ describe('PreviewWeb', () => {
 
           await createAndRenderPreview();
 
-          expect(docsRenderer.renderDocs).toHaveBeenCalledWith(
+          expect(docsRenderer.render).toHaveBeenCalledWith(
             expect.objectContaining({
               id: 'component-one--a',
               title: 'Component One',
@@ -621,7 +621,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=legacy--docs&viewMode=docs';
         await createAndRenderPreview();
 
-        expect(docsRenderer.renderDocs).toHaveBeenCalledWith(
+        expect(docsRenderer.render).toHaveBeenCalledWith(
           expect.any(Object),
           expect.objectContaining({
             page: legacyDocsExports.Docs.parameters.docs.page,
@@ -644,7 +644,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=introduction--docs&viewMode=docs';
         await createAndRenderPreview();
 
-        expect(docsRenderer.renderDocs).toHaveBeenCalledWith(
+        expect(docsRenderer.render).toHaveBeenCalledWith(
           expect.any(Object),
           expect.objectContaining({
             page: modernDocsExports.default,
@@ -728,7 +728,7 @@ describe('PreviewWeb', () => {
         emitter.emit(Events.UPDATE_GLOBALS, { globals: { foo: 'bar' } });
         await waitForRender();
 
-        expect(docsRenderer.renderDocs).toHaveBeenCalledTimes(2);
+        expect(docsRenderer.render).toHaveBeenCalledTimes(2);
       });
     });
   });
@@ -997,7 +997,7 @@ describe('PreviewWeb', () => {
 
         await createAndRenderPreview();
 
-        docsRenderer.renderDocs.mockClear();
+        docsRenderer.render.mockClear();
         mockChannel.emit.mockClear();
         emitter.emit(Events.UPDATE_STORY_ARGS, {
           storyId: 'component-one--a',
@@ -1005,7 +1005,7 @@ describe('PreviewWeb', () => {
         });
         await waitForRender();
 
-        expect(docsRenderer.renderDocs).toHaveBeenCalledTimes(1);
+        expect(docsRenderer.render).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -1021,7 +1021,7 @@ describe('PreviewWeb', () => {
 
         await createAndRenderPreview();
 
-        docsRenderer.renderDocs.mockClear();
+        docsRenderer.render.mockClear();
         mockChannel.emit.mockClear();
         emitter.emit(Events.UPDATE_STORY_ARGS, {
           storyId: 'component-one--a',
@@ -1029,7 +1029,7 @@ describe('PreviewWeb', () => {
         });
         await waitForEvents([Events.STORY_ARGS_UPDATED]);
 
-        expect(docsRenderer.renderDocs).not.toHaveBeenCalled();
+        expect(docsRenderer.render).not.toHaveBeenCalled();
       });
 
       describe('when renderStoryToElement was called', () => {
@@ -1053,7 +1053,7 @@ describe('PreviewWeb', () => {
             'story-element'
           );
 
-          docsRenderer.renderDocs.mockClear();
+          docsRenderer.render.mockClear();
           mockChannel.emit.mockClear();
           emitter.emit(Events.UPDATE_STORY_ARGS, {
             storyId: 'component-one--a',
@@ -1968,7 +1968,7 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(docsRenderer.renderDocs).toHaveBeenCalledWith(
+        expect(docsRenderer.render).toHaveBeenCalledWith(
           expect.objectContaining({
             id: 'component-one--a',
             title: 'Component One',
@@ -2026,7 +2026,7 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(docsRenderer.unmountDocs).toHaveBeenCalled();
+        expect(docsRenderer.unmount).toHaveBeenCalled();
       });
 
       // NOTE: I am not sure this entirely makes sense but this is the behaviour from 6.3
