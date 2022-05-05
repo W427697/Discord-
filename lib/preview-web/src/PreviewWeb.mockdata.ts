@@ -38,8 +38,8 @@ export const importFn = jest.fn(
 );
 
 export const docsRenderer = {
-  renderDocs: jest.fn().mockImplementation((context, parameters, element, cb) => cb()),
-  unmountDocs: jest.fn(),
+  render: jest.fn().mockImplementation((context, parameters, element, cb) => cb()),
+  unmount: jest.fn(),
 };
 export const projectAnnotations = {
   globals: { a: 'b' },

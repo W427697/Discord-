@@ -1,18 +1,31 @@
 import React, { ComponentType, ReactElement } from 'react';
 import ReactDOM from 'react-dom';
 import { AnyFramework, Parameters } from '@storybook/csf';
+import { DocsRenderFunction } from '@storybook/preview-web';
+
 import { DocsContainer } from './DocsContainer';
 import { DocsPage } from './DocsPage';
-
 import { DocsContext, DocsContextProps } from './DocsContext';
 
-export function renderDocs<TFramework extends AnyFramework>(
-  docsContext: DocsContextProps<TFramework>,
-  docsParameters: Parameters,
-  element: HTMLElement,
-  callback: () => void
-): void {
-  renderDocsAsync(docsContext, docsParameters, element).then(callback);
+export class DocsRenderer<TFramework extends AnyFramework> {
+  public render: DocsRenderFunction<TFramework>;
+
+  public unmount: (element: HTMLElement) => void;
+
+  constructor() {
+    this.render = (
+      docsContext: DocsContextProps<TFramework>,
+      docsParameters: Parameters,
+      element: HTMLElement,
+      callback: () => void
+    ): void => {
+      renderDocsAsync(docsContext, docsParameters, element).then(callback);
+    };
+
+    this.unmount = (element: HTMLElement) => {
+      ReactDOM.unmountComponentAtNode(element);
+    };
+  }
 }
 
 async function renderDocsAsync<TFramework extends AnyFramework>(
@@ -42,8 +55,4 @@ async function renderDocsAsync<TFramework extends AnyFramework>(
   await new Promise<void>((resolve) => {
     ReactDOM.render(docsElement, element, resolve);
   });
-}
-
-export function unmountDocs(element: HTMLElement) {
-  ReactDOM.unmountComponentAtNode(element);
 }

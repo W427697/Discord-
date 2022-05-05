@@ -144,7 +144,7 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     }
 
     const renderer = await docs.renderer();
-    (renderer.renderDocs as DocsRenderFunction<TFramework>)(
+    (renderer.render as DocsRenderFunction<TFramework>)(
       this.docsContext,
       {
         ...docs,
@@ -155,8 +155,7 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     );
     this.teardown = async ({ viewModeChanged }: { viewModeChanged?: boolean } = {}) => {
       if (!viewModeChanged || !this.canvasElement) return;
-      // TODO type
-      renderer.unmountDocs(this.canvasElement);
+      renderer.unmount(this.canvasElement);
     };
   }
 
