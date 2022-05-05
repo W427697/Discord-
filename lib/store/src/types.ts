@@ -98,7 +98,7 @@ interface BaseIndexEntry {
   importPath: Path;
 }
 export type StoryIndexEntry = BaseIndexEntry & {
-  type: 'story';
+  type?: 'story';
 };
 
 export type DocsIndexEntry = BaseIndexEntry & {

@@ -121,7 +121,6 @@ export class StoryStore<TFramework extends AnyFramework> {
     if (this.cachedCSFFiles) await this.cacheAllCSFFiles();
   }
 
-  // FIXME: does this need to be loaded by extract etc?
   async loadDocsFileById(
     docsId: StoryId
   ): Promise<{ docsExports: ModuleExports; csfFiles: CSFFile<TFramework>[] }> {
@@ -240,28 +239,33 @@ export class StoryStore<TFramework extends AnyFramework> {
       throw new Error('Cannot call extract() unless you call cacheAllCSFFiles() first.');
     }
 
-    return Object.entries(this.storyIndex.entries).reduce((acc, [storyId, { importPath }]) => {
-      const csfFile = this.cachedCSFFiles[importPath];
-      const story = this.storyFromCSFFile({ storyId, csfFile });
+    return Object.entries(this.storyIndex.entries).reduce(
+      (acc, [storyId, { type, importPath }]) => {
+        if (type === 'docs') return acc;
 
-      if (!options.includeDocsOnly && story.parameters.docsOnly) {
+        const csfFile = this.cachedCSFFiles[importPath];
+        const story = this.storyFromCSFFile({ storyId, csfFile });
+
+        if (!options.includeDocsOnly && story.parameters.docsOnly) {
+          return acc;
+        }
+
+        acc[storyId] = Object.entries(story).reduce(
+          (storyAcc, [key, value]) => {
+            if (typeof value === 'function') {
+              return storyAcc;
+            }
+            if (Array.isArray(value)) {
+              return Object.assign(storyAcc, { [key]: value.slice().sort() });
+            }
+            return Object.assign(storyAcc, { [key]: value });
+          },
+          { args: story.initialArgs }
+        );
         return acc;
-      }
-
-      acc[storyId] = Object.entries(story).reduce(
-        (storyAcc, [key, value]) => {
-          if (typeof value === 'function') {
-            return storyAcc;
-          }
-          if (Array.isArray(value)) {
-            return Object.assign(storyAcc, { [key]: value.slice().sort() });
-          }
-          return Object.assign(storyAcc, { [key]: value });
-        },
-        { args: story.initialArgs }
-      );
-      return acc;
-    }, {} as Record<string, any>);
+      },
+      {} as Record<string, any>
+    );
   }
 
   getSetStoriesPayload() {
