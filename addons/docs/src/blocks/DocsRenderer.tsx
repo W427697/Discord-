@@ -1,15 +1,11 @@
 import React, { ComponentType, ReactElement } from 'react';
 import ReactDOM from 'react-dom';
 import { AnyFramework, Parameters } from '@storybook/csf';
-import { ModuleExports, Story } from '@storybook/store';
-import type { DocsRenderFunction } from '@storybook/preview-web';
 import { DocsContainer } from './DocsContainer';
 import { DocsPage } from './DocsPage';
 
 import { DocsContext, DocsContextProps } from './DocsContext';
-import { NoDocs } from './NoDocs';
 
-// FIXME -- make this: DocsRenderFunction<TFramework>
 export function renderDocs<TFramework extends AnyFramework>(
   docsContext: DocsContextProps<TFramework>,
   docsParameters: Parameters,
