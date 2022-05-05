@@ -1,7 +1,6 @@
 import { EventEmitter } from 'events';
 import Events from '@storybook/core-events';
 import { StoryIndex } from '@storybook/store';
-import { RenderPhase } from './PreviewWeb';
 
 export const componentOneExports = {
   default: {
@@ -21,16 +20,34 @@ export const componentTwoExports = {
   default: { title: 'Component Two' },
   c: { args: { foo: 'c' } },
 };
-export const importFn = jest.fn(async (path) => {
-  return path === './src/ComponentOne.stories.js' ? componentOneExports : componentTwoExports;
-});
+export const legacyDocsExports = {
+  default: { title: 'Introduction' },
+  Docs: { parameters: { docs: { page: jest.fn() } } },
+};
+export const modernDocsExports = {
+  default: jest.fn(),
+};
+export const importFn = jest.fn(
+  async (path) =>
+    ({
+      './src/ComponentOne.stories.js': componentOneExports,
+      './src/ComponentTwo.stories.js': componentTwoExports,
+      './src/Legacy.stories.mdx': legacyDocsExports,
+      './src/Introduction.docs.mdx': modernDocsExports,
+    }[path])
+);
 
+export const docsRenderer = {
+  renderDocs: jest.fn().mockImplementation((context, parameters, element, cb) => cb()),
+  unmountDocs: jest.fn(),
+};
 export const projectAnnotations = {
   globals: { a: 'b' },
   globalTypes: {},
   decorators: [jest.fn((s) => s())],
   render: jest.fn(),
   renderToDOM: jest.fn(),
+  parameters: { docs: { renderer: () => docsRenderer } },
 };
 export const getProjectAnnotations = () => projectAnnotations;
 
@@ -54,6 +71,23 @@ export const storyIndex: StoryIndex = {
       title: 'Component Two',
       name: 'C',
       importPath: './src/ComponentTwo.stories.js',
+    },
+    'introduction--docs': {
+      type: 'docs',
+      id: 'introduction--docs',
+      title: 'Introduction',
+      name: 'Docs',
+      importPath: './src/Introduction.docs.mdx',
+      storiesImports: ['./src/ComponentTwo.stories.js'],
+    },
+    'legacy--docs': {
+      type: 'docs',
+      legacy: true,
+      id: 'legacy--docs',
+      title: 'Legacy',
+      name: 'Docs',
+      importPath: './src/Legacy.stories.mdx',
+      storiesImports: [],
     },
   },
 };
@@ -106,7 +140,7 @@ export const waitForRender = () =>
     Events.STORY_MISSING,
   ]);
 
-export const waitForRenderPhase = (phase: RenderPhase) =>
+export const waitForRenderPhase = (phase) =>
   waitForEvents([Events.STORY_RENDER_PHASE_CHANGED], ({ newPhase }) => newPhase === phase);
 
 // A little trick to ensure that we always call the real `setTimeout` even when timers are mocked

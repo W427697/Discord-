@@ -125,10 +125,6 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     return ['rendering', 'playing'].includes(this.phase);
   }
 
-  context() {
-    return this.store.getStoryContext(this.story);
-  }
-
   async renderToElement(canvasElement: HTMLElement) {
     this.canvasElement = canvasElement;
 
@@ -138,6 +134,10 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     // it without having to first wait for it to finish.
     // Whenever the selection changes we want to force the component to be remounted.
     return this.render({ initial: true, forceRemount: true });
+  }
+
+  private storyContext() {
+    return this.store.getStoryContext(this.story);
   }
 
   async render({
@@ -166,7 +166,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
       let loadedContext: StoryContext<TFramework>;
       await this.runPhase(abortSignal, 'loading', async () => {
         loadedContext = await applyLoaders({
-          ...this.context(),
+          ...this.storyContext(),
           viewMode: this.viewMode,
         } as StoryContextForLoaders<TFramework>);
       });
@@ -176,7 +176,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         ...loadedContext,
         // By this stage, it is possible that new args/globals have been received for this story
         // and we need to ensure we render it with the new values
-        ...this.context(),
+        ...this.storyContext(),
         abortSignal,
         canvasElement: this.canvasElement as HTMLElement,
       };
