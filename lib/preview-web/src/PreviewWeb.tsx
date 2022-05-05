@@ -210,7 +210,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   }
 
   async onPreloadStories(ids: string[]) {
-    await Promise.all(ids.map((id) => this.storyStore.loadStory({ storyId: id })));
+    await Promise.all(ids.map((id) => this.storyStore.loadEntry(id)));
   }
 
   // RENDERING
@@ -227,11 +227,16 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     }
 
     const { storyId } = selection;
-    const entry = this.storyStore.storyIndex.entries[storyId];
+    let entry;
+    try {
+      entry = await this.storyStore.storyIdToEntry(storyId);
+    } catch (e) {
+      // We'll deal with when we try to load the entry below
+    }
 
     // Docs entries cannot be rendered in 'story' viewMode.
     // For now story entries can be rendered in docs mode.
-    const viewMode = entry.type === 'docs' ? 'docs' : selection.viewMode;
+    const viewMode = entry?.type === 'docs' ? 'docs' : selection.viewMode;
 
     const storyIdChanged = this.currentSelection?.storyId !== storyId;
     const viewModeChanged = this.currentSelection?.viewMode !== viewMode;
@@ -293,7 +298,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     }
     const implementationChanged = !storyIdChanged && !render.isEqual(lastRender);
 
-    if (persistedArgs && entry.type === 'story')
+    if (persistedArgs && entry.type !== 'docs')
       this.storyStore.args.updateFromPersisted(render.story, persistedArgs);
 
     // Don't re-render the story if nothing has changed to justify it
@@ -313,10 +318,11 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       this.channel.emit(Events.STORY_CHANGED, storyId);
     }
 
-    if (render.type === 'story') {
-      const { parameters, initialArgs, argTypes, args } = (
-        render as StoryRender<TFramework>
-      ).context();
+    if (entry.type !== 'docs') {
+      const { parameters, initialArgs, argTypes, args } = this.storyStore.getStoryContext(
+        render.story
+      );
+
       if (global.FEATURES?.storyStoreV7) {
         this.channel.emit(Events.STORY_PREPARED, {
           id: storyId,

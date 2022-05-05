@@ -24,8 +24,6 @@ async function renderDocsAsync<TFramework extends AnyFramework>(
   docsParameters: Parameters,
   element: HTMLElement
 ) {
-  console.log(docsParameters);
-
   // FIXME -- use DocsContainer, make it work for modern
   const SimpleContainer = ({ children }: any) => (
     <DocsContext.Provider value={docsContext}>{children} </DocsContext.Provider>
@@ -37,7 +35,6 @@ async function renderDocsAsync<TFramework extends AnyFramework>(
     (docsContext.legacy ? DocsContainer : SimpleContainer);
 
   const Page: ComponentType = docsParameters.page || (await docsParameters.getPage?.()) || DocsPage;
-  console.log(docsParameters.page, Page);
 
   // Use `title` as a key so that we force a re-render every time we switch components
   const docsElement = (

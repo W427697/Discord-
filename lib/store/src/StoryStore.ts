@@ -32,6 +32,7 @@ import type {
   V2CompatIndexEntry,
   StoryIndexV3,
   ModuleExports,
+  IndexEntry,
 } from './types';
 import { HooksContext } from './hooks';
 
@@ -121,23 +122,10 @@ export class StoryStore<TFramework extends AnyFramework> {
     if (this.cachedCSFFiles) await this.cacheAllCSFFiles();
   }
 
-  async loadDocsFileById(
-    docsId: StoryId
-  ): Promise<{ docsExports: ModuleExports; csfFiles: CSFFile<TFramework>[] }> {
-    const entry = this.storyIndex.storyIdToEntry(docsId);
-    if (entry.type !== 'docs') throw new Error(`Cannot load docs file for id ${docsId}`);
-
-    const { importPath, storiesImports } = entry;
-
-    const [docsExports, ...csfFiles] = (await Promise.all([
-      this.importFn(importPath),
-      ...storiesImports.map((storyImportPath) => {
-        const firstStoryEntry = this.storyIndex.importPathToEntry(storyImportPath);
-        return this.loadCSFFileByStoryId(firstStoryEntry.id);
-      }),
-    ])) as [ModuleExports, ...CSFFile<TFramework>[]];
-
-    return { docsExports, csfFiles };
+  // Get an entry from the index, waiting on initialization if necessary
+  async storyIdToEntry(storyId: StoryId) {
+    await this.initializationPromise;
+    return this.storyIndex.storyIdToEntry(storyId);
   }
 
   // To load a single CSF file to service a story we need to look up the importPath in the index
@@ -215,6 +203,33 @@ export class StoryStore<TFramework extends AnyFramework> {
     return Object.keys(this.storyIndex.entries)
       .filter((storyId: StoryId) => !!csfFile.stories[storyId])
       .map((storyId: StoryId) => this.storyFromCSFFile({ storyId, csfFile }));
+  }
+
+  async loadDocsFileById(
+    docsId: StoryId
+  ): Promise<{ docsExports: ModuleExports; csfFiles: CSFFile<TFramework>[] }> {
+    const entry = await this.storyIdToEntry(docsId);
+    if (entry.type !== 'docs') throw new Error(`Cannot load docs file for id ${docsId}`);
+
+    const { importPath, storiesImports } = entry;
+
+    const [docsExports, ...csfFiles] = (await Promise.all([
+      this.importFn(importPath),
+      ...storiesImports.map((storyImportPath) => {
+        const firstStoryEntry = this.storyIndex.importPathToEntry(storyImportPath);
+        return this.loadCSFFileByStoryId(firstStoryEntry.id);
+      }),
+    ])) as [ModuleExports, ...CSFFile<TFramework>[]];
+
+    return { docsExports, csfFiles };
+  }
+
+  async loadEntry(id: StoryId) {
+    const entry = await this.storyIdToEntry(id);
+    if (entry.type === 'docs' && !entry.legacy) {
+      return this.loadDocsFileById(id);
+    }
+    return this.loadCSFFileByStoryId(id);
   }
 
   // A prepared story does not include args, globals or hooks. These are stored in the story store

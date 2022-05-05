@@ -12,7 +12,7 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
 
   public id: StoryId;
 
-  private legacy: boolean;
+  public legacy: boolean;
 
   public story?: Story<TFramework>;
 
@@ -24,7 +24,7 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
 
   private canvasElement?: HTMLElement;
 
-  private context?: DocsContextProps<TFramework>;
+  private docsContext?: DocsContextProps<TFramework>;
 
   public disableKeyListeners = false;
 
@@ -36,7 +36,7 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     public entry: IndexEntry
   ) {
     this.id = entry.id;
-    this.legacy = entry.type === 'story' || entry.legacy;
+    this.legacy = entry.type !== 'docs' || entry.legacy;
   }
 
   // The two story "renders" are equal and have both loaded the same story
@@ -62,7 +62,7 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     return this.preparing;
   }
 
-  async docsContext(
+  async getDocsContext(
     renderStoryToElement: DocsContextProps<TFramework>['renderStoryToElement']
   ): Promise<DocsContextProps<TFramework>> {
     const { id, title, name } = this.entry;
@@ -126,13 +126,13 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     this.canvasElement = canvasElement;
-    this.context = await this.docsContext(renderStoryToElement);
+    this.docsContext = await this.getDocsContext(renderStoryToElement);
 
     return this.render();
   }
 
   async render() {
-    if (!(this.story || this.exports) || !this.context || !this.canvasElement)
+    if (!(this.story || this.exports) || !this.docsContext || !this.canvasElement)
       throw new Error('DocsRender not ready to render');
 
     const { docs } = this.story?.parameters || this.store.projectAnnotations.parameters;
@@ -145,7 +145,7 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
 
     const renderer = await docs.renderer();
     (renderer.renderDocs as DocsRenderFunction<TFramework>)(
-      this.context,
+      this.docsContext,
       {
         ...docs,
         ...(!this.legacy && { page: this.exports.default }),
