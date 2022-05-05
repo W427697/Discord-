@@ -156,6 +156,8 @@ describe('StoryStore', () => {
     });
   });
 
+  describe('loadDocsFileById', () => {});
+
   describe('setProjectAnnotations', () => {
     it('busts the loadStory cache', async () => {
       const store = new StoryStore();
@@ -330,6 +332,11 @@ describe('StoryStore', () => {
               "foo": "a",
             },
             "kind": "Component One",
+            "moduleExport": Object {
+              "args": Object {
+                "foo": "a",
+              },
+            },
             "name": "A",
             "parameters": Object {
               "__isArgsStory": false,
@@ -497,6 +504,11 @@ describe('StoryStore', () => {
               "foo": "a",
             },
             "kind": "Component One",
+            "moduleExport": Object {
+              "args": Object {
+                "foo": "a",
+              },
+            },
             "name": "A",
             "parameters": Object {
               "__isArgsStory": false,
@@ -532,6 +544,11 @@ describe('StoryStore', () => {
               "foo": "b",
             },
             "kind": "Component One",
+            "moduleExport": Object {
+              "args": Object {
+                "foo": "b",
+              },
+            },
             "name": "B",
             "parameters": Object {
               "__isArgsStory": false,
@@ -567,6 +584,11 @@ describe('StoryStore', () => {
               "foo": "c",
             },
             "kind": "Component Two",
+            "moduleExport": Object {
+              "args": Object {
+                "foo": "c",
+              },
+            },
             "name": "C",
             "parameters": Object {
               "__isArgsStory": false,
@@ -581,7 +603,7 @@ describe('StoryStore', () => {
       `);
     });
 
-    it('does not include docs only stories by default', async () => {
+    it('does not include (legacy) docs only stories by default', async () => {
       const docsOnlyImportFn = jest.fn(async (path) => {
         return path === './src/ComponentOne.stories.js'
           ? {
@@ -600,6 +622,43 @@ describe('StoryStore', () => {
       await store.cacheAllCSFFiles();
 
       expect(Object.keys(store.extract())).toEqual(['component-one--b', 'component-two--c']);
+
+      expect(Object.keys(store.extract({ includeDocsOnly: true }))).toEqual([
+        'component-one--a',
+        'component-one--b',
+        'component-two--c',
+      ]);
+    });
+
+    it('does not include (modern) docs entries ever', async () => {
+      const docsOnlyStoryIndex: StoryIndex = {
+        v: 4,
+        entries: {
+          ...storyIndex.entries,
+          'introduction--docs': {
+            type: 'docs',
+            id: 'introduction--docs',
+            title: 'Introduction',
+            name: 'Docs',
+            importPath: './introduction.docs.mdx',
+            storiesImports: [],
+          },
+        },
+      };
+      const store = new StoryStore();
+      store.setProjectAnnotations(projectAnnotations);
+      store.initialize({
+        storyIndex: docsOnlyStoryIndex,
+        importFn,
+        cache: false,
+      });
+      await store.cacheAllCSFFiles();
+
+      expect(Object.keys(store.extract())).toEqual([
+        'component-one--a',
+        'component-one--b',
+        'component-two--c',
+      ]);
 
       expect(Object.keys(store.extract({ includeDocsOnly: true }))).toEqual([
         'component-one--a',
@@ -641,6 +700,11 @@ describe('StoryStore', () => {
               "foo": "a",
             },
             "kind": "Component One",
+            "moduleExport": Object {
+              "args": Object {
+                "foo": "a",
+              },
+            },
             "name": "A",
             "originalStoryFn": [MockFunction],
             "parameters": Object {
@@ -678,6 +742,11 @@ describe('StoryStore', () => {
               "foo": "b",
             },
             "kind": "Component One",
+            "moduleExport": Object {
+              "args": Object {
+                "foo": "b",
+              },
+            },
             "name": "B",
             "originalStoryFn": [MockFunction],
             "parameters": Object {
@@ -715,6 +784,11 @@ describe('StoryStore', () => {
               "foo": "c",
             },
             "kind": "Component Two",
+            "moduleExport": Object {
+              "args": Object {
+                "foo": "c",
+              },
+            },
             "name": "C",
             "originalStoryFn": [MockFunction],
             "parameters": Object {
@@ -777,6 +851,11 @@ describe('StoryStore', () => {
                 "foo": "a",
               },
               "kind": "Component One",
+              "moduleExport": Object {
+                "args": Object {
+                  "foo": "a",
+                },
+              },
               "name": "A",
               "parameters": Object {
                 "__isArgsStory": false,
@@ -812,6 +891,11 @@ describe('StoryStore', () => {
                 "foo": "b",
               },
               "kind": "Component One",
+              "moduleExport": Object {
+                "args": Object {
+                  "foo": "b",
+                },
+              },
               "name": "B",
               "parameters": Object {
                 "__isArgsStory": false,
@@ -847,6 +931,11 @@ describe('StoryStore', () => {
                 "foo": "c",
               },
               "kind": "Component Two",
+              "moduleExport": Object {
+                "args": Object {
+                  "foo": "c",
+                },
+              },
               "name": "C",
               "parameters": Object {
                 "__isArgsStory": false,

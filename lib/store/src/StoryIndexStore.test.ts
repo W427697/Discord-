@@ -7,16 +7,19 @@ const storyIndex: StoryIndex = {
   v: 4,
   entries: {
     'component-one--a': {
+      id: 'component-one--a',
       title: 'Component One',
       name: 'A',
       importPath: './src/ComponentOne.stories.js',
     },
     'component-one--b': {
+      id: 'component-one--b',
       title: 'Component One',
       name: 'B',
       importPath: './src/ComponentOne.stories.js',
     },
     'component-two--c': {
+      id: 'component-one--c',
       title: 'Component Two',
       name: 'C',
       importPath: './src/ComponentTwo.stories.js',
@@ -118,35 +121,41 @@ describe('StoryIndexStore', () => {
         expect(store.storyIdFromSpecifier('a--3')).toEqual('a--3');
       });
     });
-  });
 
-  describe('storyIdToEntry', () => {
-    it('works when the story exists', async () => {
-      const store = new StoryIndexStore(storyIndex);
+    describe('storyIdToEntry', () => {
+      it('works when the story exists', async () => {
+        const store = new StoryIndexStore(storyIndex);
 
-      expect(store.storyIdToEntry('component-one--a')).toEqual({
-        name: 'A',
-        title: 'Component One',
-        importPath: './src/ComponentOne.stories.js',
+        expect(store.storyIdToEntry('component-one--a')).toEqual(
+          storyIndex.entries['component-one--a']
+        );
+        expect(store.storyIdToEntry('component-one--b')).toEqual(
+          storyIndex.entries['component-one--b']
+        );
+        expect(store.storyIdToEntry('component-two--c')).toEqual(
+          storyIndex.entries['component-two--c']
+        );
       });
 
-      expect(store.storyIdToEntry('component-one--b')).toEqual({
-        name: 'B',
-        title: 'Component One',
-        importPath: './src/ComponentOne.stories.js',
-      });
+      it('throws when the story does not', async () => {
+        const store = new StoryIndexStore(storyIndex);
 
-      expect(store.storyIdToEntry('component-two--c')).toEqual({
-        name: 'C',
-        title: 'Component Two',
-        importPath: './src/ComponentTwo.stories.js',
+        expect(() => store.storyIdToEntry('random')).toThrow(
+          /Couldn't find story matching 'random'/
+        );
       });
     });
+  });
 
-    it('throws when the story does not', async () => {
+  describe('importPathToEntry', () => {
+    it('works', () => {
       const store = new StoryIndexStore(storyIndex);
-
-      expect(() => store.storyIdToEntry('random')).toThrow(/Couldn't find story matching 'random'/);
+      expect(store.importPathToEntry('./src/ComponentOne.stories.js')).toEqual(
+        storyIndex.entries['component-one--a']
+      );
+      expect(store.importPathToEntry('./src/ComponentTwo.stories.js')).toEqual(
+        storyIndex.entries['component-two--c']
+      );
     });
   });
 });
