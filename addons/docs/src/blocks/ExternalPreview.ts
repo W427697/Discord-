@@ -82,7 +82,9 @@ export class ExternalPreview<TFramework extends AnyFramework> extends Preview<TF
   }
 
   storyById(storyId: StoryId) {
+    console.log({ storyId });
     const entry = this.storyIndex.entries[storyId];
+    if (!entry) console.trace();
     if (!entry) throw new Error(`Unknown storyId ${storyId}`);
     const { importPath, title } = entry;
     const moduleExports = this.moduleExportsByImportPath[importPath];

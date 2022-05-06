@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ThemeProvider, themes, ensure } from '@storybook/theming';
 import { DocsContextProps } from '@storybook/preview-web';
 import { ModuleExport, Story } from '@storybook/store';
 import { AnyFramework, StoryId } from '@storybook/csf';
@@ -54,5 +55,9 @@ export const ExternalDocsContainer: React.FC<{ projectAnnotations: any }> = ({
     setMeta,
   };
 
-  return <DocsContext.Provider value={docsContext}>{children}</DocsContext.Provider>;
+  return (
+    <DocsContext.Provider value={docsContext}>
+      <ThemeProvider theme={ensure(themes.normal)}>{children}</ThemeProvider>
+    </DocsContext.Provider>
+  );
 };
