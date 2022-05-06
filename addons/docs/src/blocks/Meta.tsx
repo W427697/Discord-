@@ -29,8 +29,11 @@ function renderAnchor() {
  * and gets transformed into a default export underneath the hood.
  */
 export const Meta: FC<MetaProps> = ({ of }) => {
-  const params = new URL(document.location).searchParams;
-  const isDocs = params.get('viewMode') === 'docs';
+  let isDocs = true;
+  if (document) {
+    const params = new URL(document.location).searchParams;
+    isDocs = params.get('viewMode') === 'docs';
+  }
 
   const context = useContext(DocsContext);
   if (of) context.setMeta(of);
