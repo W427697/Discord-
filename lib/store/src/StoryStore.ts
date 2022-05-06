@@ -32,7 +32,6 @@ import type {
   V2CompatIndexEntry,
   StoryIndexV3,
   ModuleExports,
-  IndexEntry,
 } from './types';
 import { HooksContext } from './hooks';
 

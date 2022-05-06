@@ -14,7 +14,6 @@ import {
   mockChannel,
   waitForRender,
   storyIndex as mockStoryIndex,
-  docsRenderer,
 } from './PreviewWeb.mockdata';
 
 // PreviewWeb.test mocks out all rendering

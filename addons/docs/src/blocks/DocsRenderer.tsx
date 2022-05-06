@@ -1,4 +1,4 @@
-import React, { ComponentType, ReactElement } from 'react';
+import React, { ComponentType } from 'react';
 import ReactDOM from 'react-dom';
 import { AnyFramework, Parameters } from '@storybook/csf';
 import { DocsRenderFunction } from '@storybook/preview-web';
