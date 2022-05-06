@@ -10,8 +10,8 @@ import { ExternalPreview } from './ExternalPreview';
 let preview: ExternalPreview<AnyFramework>;
 
 export const ExternalDocsContainer: React.FC<{ projectAnnotations: any }> = ({
-  children,
   projectAnnotations,
+  children,
 }) => {
   if (!preview) preview = new ExternalPreview(projectAnnotations);
 
