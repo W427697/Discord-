@@ -41,7 +41,8 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
 
   // The two story "renders" are equal and have both loaded the same story
   isEqual(other?: Render<TFramework>) {
-    return other && this.id === other.id && this.legacy
+    if (!other) return false;
+    return this.id === other.id && this.legacy
       ? this.story && this.story === other.story
       : other.type === 'docs' && this.entry === (other as DocsRender<TFramework>).entry;
   }
