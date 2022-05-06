@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Preview, DocsContextProps } from '@storybook/preview-web';
 import { Path, ModuleExports, StoryIndex, Story } from '@storybook/store';
-import { toId, AnyFramework, ComponentTitle, StoryId } from '@storybook/csf';
+import { toId, AnyFramework, ComponentTitle, StoryId, ProjectAnnotations } from '@storybook/csf';
 
 import { DocsContext } from './DocsContext';
 
@@ -24,84 +24,84 @@ class ConstantMap<TKey, TValue extends string> {
   }
 }
 
-let previewInitialized = false;
-const preview = new Preview<AnyFramework>();
+class ExternalPreview<TFramework extends AnyFramework> extends Preview<TFramework> {
+  private initialized = false;
 
-const importPaths = new ConstantMap<MetaExport, Path>('./importPath/');
-const titles = new ConstantMap<MetaExport, ComponentTitle>('title-');
-const exportNames = new ConstantMap<StoryExport, ExportName>('story-');
+  private importPaths = new ConstantMap<MetaExport, Path>('./importPath/');
 
-const storyIds = new Map<StoryExport, StoryId>();
+  private titles = new ConstantMap<MetaExport, ComponentTitle>('title-');
 
-const storyIndex: StoryIndex = { v: 4, entries: {} };
-const knownCsfFiles: Record<Path, ModuleExports> = {};
+  private exportNames = new ConstantMap<StoryExport, ExportName>('story-');
 
-export const ExternalDocsContainer: React.FC<{ projectAnnotations: any }> = ({
-  children,
-  projectAnnotations,
-}) => {
-  let pageMeta: MetaExport;
-  const setMeta = (m: MetaExport) => {
-    pageMeta = m;
-  };
+  public storyIds = new Map<StoryExport, StoryId>();
 
-  const addStory = (storyExport: StoryExport, storyMeta?: MetaExport) => {
-    const meta = storyMeta || pageMeta;
-    const importPath = importPaths.get(meta);
-    const title = meta.title || titles.get(meta);
+  private storyIndex: StoryIndex = { v: 4, entries: {} };
 
-    const exportName = exportNames.get(storyExport);
+  private moduleExportsByImportPath: Record<Path, ModuleExports> = {};
+
+  constructor(public projectAnnotations: ProjectAnnotations) {
+    super();
+  }
+
+  addStoryFromExports(storyExport: StoryExport, meta: MetaExport) {
+    const importPath = this.importPaths.get(meta);
+    const title = meta.title || this.titles.get(meta);
+
+    const exportName = this.exportNames.get(storyExport);
     const storyId = toId(title, exportName);
-    storyIds.set(storyExport, storyId);
+    this.storyIds.set(storyExport, storyId);
 
-    if (!knownCsfFiles[importPath]) knownCsfFiles[importPath] = { default: meta };
-    knownCsfFiles[importPath][exportName] = storyExport;
+    if (!this.moduleExportsByImportPath[importPath])
+      this.moduleExportsByImportPath[importPath] = { default: meta };
+    this.moduleExportsByImportPath[importPath][exportName] = storyExport;
 
-    storyIndex.entries[storyId] = {
+    this.storyIndex.entries[storyId] = {
       id: storyId,
       importPath,
       title,
       name: 'Name',
       type: 'story',
     };
-  };
 
-  let previewPromise: Promise<void>;
-  const updatePreview = () => {
-    const importFn = (importPath: Path) => {
-      console.log(knownCsfFiles, importPath);
-      return Promise.resolve(knownCsfFiles[importPath]);
-    };
-
-    if (!previewPromise) {
-      previewPromise = (async () => {
-        if (previewInitialized) {
-          preview.onStoriesChanged({
-            importFn,
-            storyIndex,
-          });
-        } else {
-          previewInitialized = true;
-          await preview.initialize({
-            getStoryIndex: () => storyIndex,
-            importFn,
-            getProjectAnnotations: () => projectAnnotations,
-          });
-        }
-      })();
+    if (!this.initialized) {
+      return this.initialize({
+        getStoryIndex: () => this.storyIndex,
+        importFn: (path: Path) => {
+          console.log(this.moduleExportsByImportPath, path);
+          return Promise.resolve(this.moduleExportsByImportPath[path]);
+        },
+        getProjectAnnotations: () => this.projectAnnotations,
+      });
     }
+    // else
+    return this.onStoriesChanged({ storyIndex: this.storyIndex });
+  }
 
-    return previewPromise;
-  };
+  storyById(storyId: StoryId) {
+    const entry = this.storyIndex.entries[storyId];
+    if (!entry) throw new Error(`Unknown storyId ${storyId}`);
+    const { importPath, title } = entry;
+    const moduleExports = this.moduleExportsByImportPath[importPath];
+    const csfFile = this.storyStore.processCSFFileWithCache<TFramework>(
+      moduleExports,
+      importPath,
+      title
+    );
+    return this.storyStore.storyFromCSFFile({ storyId, csfFile });
+  }
+}
 
-  const renderStory = async (storyExport: any, element: HTMLElement) => {
-    await updatePreview();
+let preview: ExternalPreview<AnyFramework>;
 
-    const storyId = storyIds.get(storyExport);
-    if (!storyId) throw new Error(`Didn't find story id '${storyId}'`);
-    const story = await preview.storyStore.loadStory({ storyId });
+export const ExternalDocsContainer: React.FC<{ projectAnnotations: any }> = ({
+  children,
+  projectAnnotations,
+}) => {
+  if (!preview) preview = new ExternalPreview(projectAnnotations);
 
-    preview.renderStoryToElement(story, element);
+  let pageMeta: MetaExport;
+  const setMeta = (m: MetaExport) => {
+    pageMeta = m;
   };
 
   const docsContext: DocsContextProps = {
@@ -111,12 +111,15 @@ export const ExternalDocsContainer: React.FC<{ projectAnnotations: any }> = ({
     title: 'External',
     name: 'Docs',
 
-    // FIXME
-    storyIdByModuleExport: (moduleExport: any) => storyIds.get(moduleExport) || 'unknown',
+    storyIdByModuleExport: (storyExport: StoryExport) => {
+      if (!preview.storyIds.has(storyExport)) preview.addStoryFromExports(storyExport, pageMeta);
+      return preview.storyIds.get(storyExport);
+    },
 
     storyById: (id: StoryId) => {
-      throw new Error('not implemented');
+      return preview.storyById(id);
     },
+
     getStoryContext: () => {
       throw new Error('not implemented');
     },
@@ -125,16 +128,15 @@ export const ExternalDocsContainer: React.FC<{ projectAnnotations: any }> = ({
       throw new Error('not implemented');
     },
 
-    loadStory: (id: StoryId) => {
-      throw new Error('not implemented');
+    loadStory: async (id: StoryId) => {
+      return preview.storyById(id);
     },
-    renderStoryToElement: () => {
-      throw new Error('not implemented');
+
+    renderStoryToElement: (story: Story<AnyFramework>, element: HTMLElement) => {
+      return preview.renderStoryToElement(story, element);
     },
 
     setMeta,
-    addStory,
-    renderStory,
   };
 
   return <DocsContext.Provider value={docsContext}>{children}</DocsContext.Provider>;

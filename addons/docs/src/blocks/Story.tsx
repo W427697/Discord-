@@ -133,20 +133,15 @@ const Story: FunctionComponent<StoryProps> = (props) => {
   const story = useStory(storyId, context);
   const [showLoader, setShowLoader] = useState(true);
 
-  const { of } = props as StoryRefProps;
-  const externalRender = of && context.type === 'external';
-
-  // Register the story with the context so it can be booted into the preview
-  if (externalRender) context.addStory(of, false);
+  // FIXME: do we need this?
+  // Register the story with the context, which is needed by external rendering
+  // context.addStory(of, false);
 
   useEffect(() => {
     let cleanup: () => void;
     if (storyRef.current) {
       const element = storyRef.current as HTMLElement;
-      if (externalRender) {
-        context.renderStory(of, element);
-        setShowLoader(false);
-      } else if (story) {
+      if (story) {
         cleanup = context.renderStoryToElement(story, element);
         setShowLoader(false);
       }
@@ -158,7 +153,7 @@ const Story: FunctionComponent<StoryProps> = (props) => {
   const [rendered, onRendered] = makeGate();
   useEffect(onRendered);
 
-  if (!story && !externalRender) {
+  if (!story) {
     return <StorySkeleton />;
   }
 
@@ -166,43 +161,44 @@ const Story: FunctionComponent<StoryProps> = (props) => {
   if (!storyProps) {
     return null;
   }
-  if (storyProps.inline || externalRender) {
+
+  const legacyInline = storyProps.inline && !global?.FEATURES?.modernInlineRender;
+  const modernInline = context.type === 'external' || (storyProps.inline && !legacyInline);
+  if (modernInline) {
+    // We do this so React doesn't complain when we replace the span in a secondary render
+    const htmlContents = `<span></span>`;
+
+    // FIXME: height/style/etc. lifted from PureStory
+    const { height } = storyProps;
+    return (
+      <div id={storyBlockIdFromId(story?.id)}>
+        <MDXProvider components={resetComponents}>
+          {height ? (
+            <style>{`#story--${story?.id} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
+          ) : null}
+          {showLoader && <StorySkeleton />}
+          <div
+            ref={storyRef}
+            data-name={story?.name}
+            dangerouslySetInnerHTML={{ __html: htmlContents }}
+          />
+        </MDXProvider>
+      </div>
+    );
+  }
+
+  if (legacyInline) {
     // If we are rendering a old-style inline Story via `PureStory` below, we want to emit
     // the `STORY_RENDERED` event when it renders. The modern mode below calls out to
     // `Preview.renderStoryToDom()` which itself emits the event.
-    if (!global?.FEATURES?.modernInlineRender && !externalRender) {
-      // We need to wait for two things before we can consider the story rendered:
-      //  (a) React's `useEffect` hook needs to fire. This is needed for React stories, as
-      //      decorators of the form `<A><B/></A>` will not actually execute `B` in the first
-      //      call to the story function.
-      //  (b) The story function needs to actually have been called.
-      //      Certain frameworks (i.e.angular) don't actually render the component in the very first
-      //      React render cycle, so we need to wait for the framework to actually do that
-      Promise.all([storyFnRan, rendered]).then(() => {
-        channel.emit(Events.STORY_RENDERED, storyId);
-      });
-    } else {
-      // We do this so React doesn't complain when we replace the span in a secondary render
-      const htmlContents = `<span></span>`;
-
-      // FIXME: height/style/etc. lifted from PureStory
-      const { height } = storyProps;
-      return (
-        <div id={storyBlockIdFromId(story?.id)}>
-          <MDXProvider components={resetComponents}>
-            {height ? (
-              <style>{`#story--${story?.id} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
-            ) : null}
-            {showLoader && <StorySkeleton />}
-            <div
-              ref={storyRef}
-              data-name={story?.name}
-              dangerouslySetInnerHTML={{ __html: htmlContents }}
-            />
-          </MDXProvider>
-        </div>
-      );
-    }
+    // We need to wait for two things before we can consider the story rendered:
+    //  (a) React's `useEffect` hook needs to fire. This is needed for React stories, as
+    //      decorators of the form `<A><B/></A>` will not actually execute `B` in the first
+    //      call to the story function.
+    //  (b) The story function needs to actually have been called.
+    //      Certain frameworks (i.e.angular) don't actually render the component in the very first
+    //      React render cycle, so we need to wait for the framework to actually do that
+    Promise.all([storyFnRan, rendered]).then(() => channel.emit(Events.STORY_RENDERED, storyId));
   }
 
   return (

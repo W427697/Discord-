@@ -83,8 +83,6 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
 
       // These three are intended for external renders only
       setMeta: () => {},
-      addStory: () => {},
-      renderStory: () => {},
     };
 
     if (this.legacy) {
