@@ -37,8 +37,6 @@ export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework
    * To be used by external docs
    */
   setMeta: (metaExport: any) => void;
-  addStory: (storyExport: any, metaExport: any) => void;
-  renderStory: (storyExport: any, element: HTMLElement) => void;
 }
 
 export type DocsRenderFunction<TFramework extends AnyFramework> = (
