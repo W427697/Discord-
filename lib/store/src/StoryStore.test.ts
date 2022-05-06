@@ -332,11 +332,6 @@ describe('StoryStore', () => {
               "foo": "a",
             },
             "kind": "Component One",
-            "moduleExport": Object {
-              "args": Object {
-                "foo": "a",
-              },
-            },
             "name": "A",
             "parameters": Object {
               "__isArgsStory": false,
@@ -504,11 +499,6 @@ describe('StoryStore', () => {
               "foo": "a",
             },
             "kind": "Component One",
-            "moduleExport": Object {
-              "args": Object {
-                "foo": "a",
-              },
-            },
             "name": "A",
             "parameters": Object {
               "__isArgsStory": false,
@@ -544,11 +534,6 @@ describe('StoryStore', () => {
               "foo": "b",
             },
             "kind": "Component One",
-            "moduleExport": Object {
-              "args": Object {
-                "foo": "b",
-              },
-            },
             "name": "B",
             "parameters": Object {
               "__isArgsStory": false,
@@ -584,11 +569,6 @@ describe('StoryStore', () => {
               "foo": "c",
             },
             "kind": "Component Two",
-            "moduleExport": Object {
-              "args": Object {
-                "foo": "c",
-              },
-            },
             "name": "C",
             "parameters": Object {
               "__isArgsStory": false,
@@ -851,11 +831,6 @@ describe('StoryStore', () => {
                 "foo": "a",
               },
               "kind": "Component One",
-              "moduleExport": Object {
-                "args": Object {
-                  "foo": "a",
-                },
-              },
               "name": "A",
               "parameters": Object {
                 "__isArgsStory": false,
@@ -891,11 +866,6 @@ describe('StoryStore', () => {
                 "foo": "b",
               },
               "kind": "Component One",
-              "moduleExport": Object {
-                "args": Object {
-                  "foo": "b",
-                },
-              },
               "name": "B",
               "parameters": Object {
                 "__isArgsStory": false,
@@ -931,11 +901,6 @@ describe('StoryStore', () => {
                 "foo": "c",
               },
               "kind": "Component Two",
-              "moduleExport": Object {
-                "args": Object {
-                  "foo": "c",
-                },
-              },
               "name": "C",
               "parameters": Object {
                 "__isArgsStory": false,

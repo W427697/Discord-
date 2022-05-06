@@ -472,12 +472,12 @@ describe('PreviewWeb', () => {
             expect(preview.view.showErrorDisplay).toHaveBeenCalled();
             expect((preview.view.showErrorDisplay as jest.Mock).mock.calls[0][0])
               .toMatchInlineSnapshot(`
-            [Error: Expected your framework's preset to export a \`renderToDOM\` field.
+                          [Error: Expected your framework's preset to export a \`renderToDOM\` field.
 
-            Perhaps it needs to be upgraded for Storybook 6.4?
+                          Perhaps it needs to be upgraded for Storybook 6.4?
 
-            More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field          ]
-          `);
+                          More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field          ]
+                      `);
           } finally {
             projectAnnotations.renderToDOM = originalRenderToDOM;
           }
@@ -3013,12 +3013,6 @@ describe('PreviewWeb', () => {
               "foo": "a",
             },
             "kind": "Component One",
-            "moduleExport": Object {
-              "args": Object {
-                "foo": "a",
-              },
-              "play": [MockFunction],
-            },
             "name": "A",
             "parameters": Object {
               "__isArgsStory": false,
@@ -3051,12 +3045,6 @@ describe('PreviewWeb', () => {
               "foo": "b",
             },
             "kind": "Component One",
-            "moduleExport": Object {
-              "args": Object {
-                "foo": "b",
-              },
-              "play": [MockFunction],
-            },
             "name": "B",
             "parameters": Object {
               "__isArgsStory": false,
@@ -3089,11 +3077,6 @@ describe('PreviewWeb', () => {
               "foo": "c",
             },
             "kind": "Component Two",
-            "moduleExport": Object {
-              "args": Object {
-                "foo": "c",
-              },
-            },
             "name": "C",
             "parameters": Object {
               "__isArgsStory": false,
