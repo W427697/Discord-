@@ -4,6 +4,7 @@ exports[`Storyshots Examples / Button Basic 1`] = `
 <button
   type="button"
 >
+   
   Click me
 </button>
 `;
@@ -12,6 +13,7 @@ exports[`Storyshots Examples / Button CSF 2 Story With Play 1`] = `
 <button
   type="button"
 >
+   
   Hello
 </button>
 `;
@@ -20,6 +22,7 @@ exports[`Storyshots Examples / Button Process Env 1`] = `
 <button
   type="button"
 >
+   
   Hello
 </button>
 `;
@@ -28,6 +31,7 @@ exports[`Storyshots Examples / Button Story No Render 1`] = `
 <button
   type="button"
 >
+   
   magic!
 </button>
 `;
@@ -38,6 +42,7 @@ exports[`Storyshots Examples / Button Story With Play 1`] = `
 <button
   type="button"
 >
+   
   play
 </button>
 `;
@@ -46,6 +51,7 @@ exports[`Storyshots Examples / Button With Args 1`] = `
 <button
   type="button"
 >
+   
   With args
 </button>
 `;

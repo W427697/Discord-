@@ -1218,6 +1218,7 @@ describe('stories API', () => {
 
       const { storiesHash: storedStoriesHash } = store.getState();
       expect(storedStoriesHash['component-a--story-1']).toMatchObject({
+        type: 'story',
         id: 'component-a--story-1',
         parent: 'component-a',
         title: 'Component A',

@@ -4,6 +4,7 @@ import { collapseAllStories } from '../data';
 type Item = StoriesHash[keyof StoriesHash];
 
 const root: Item = {
+  type: 'root',
   id: 'root',
   name: 'root',
   depth: 0,
@@ -11,6 +12,7 @@ const root: Item = {
   type: 'root',
 };
 const a: Item = {
+  type: 'component',
   id: 'a',
   name: 'a',
   depth: 1,
@@ -19,6 +21,7 @@ const a: Item = {
   children: ['a1'],
 };
 const a1: Item = {
+  type: 'story',
   id: 'a1',
   name: 'a1',
   title: 'a',
@@ -30,6 +33,7 @@ const a1: Item = {
   importPath: './a.js',
 };
 const b: Item = {
+  type: 'component',
   id: 'b',
   name: 'b',
   depth: 1,
@@ -38,6 +42,7 @@ const b: Item = {
   children: ['b1', 'b2'],
 };
 const b1: Item = {
+  type: 'story',
   id: 'b1',
   name: 'b1',
   title: 'b',
@@ -49,6 +54,7 @@ const b1: Item = {
   importPath: './b1.js',
 };
 const b2: Item = {
+  type: 'story',
   id: 'b2',
   name: 'b2',
   title: 'b',
@@ -68,6 +74,7 @@ describe('collapse all stories', () => {
 
     const expected: StoriesHash = {
       a1: {
+        type: 'component',
         id: 'a1',
         depth: 1,
         name: 'a',
@@ -79,6 +86,7 @@ describe('collapse all stories', () => {
         importPath: './a.js',
       },
       b1: {
+        type: 'component',
         id: 'b1',
         depth: 1,
         name: 'b',
@@ -90,6 +98,7 @@ describe('collapse all stories', () => {
         importPath: './b1.js',
       },
       root: {
+        type: 'root',
         id: 'root',
         name: 'root',
         depth: 0,
@@ -118,6 +127,7 @@ describe('collapse all stories', () => {
     const collapsed = collapseAllStories(hasDocsOnly);
 
     expect(collapsed.a1).toEqual({
+      type: 'component',
       id: 'a1',
       name: 'a',
       title: 'a',
