@@ -8040,7 +8040,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/html-webpack4@workspace:frameworks/webpack4/html":
+"@storybook/html-webpack4@workspace:*, @storybook/html-webpack4@workspace:frameworks/webpack4/html":
   version: 0.0.0-use.local
   resolution: "@storybook/html-webpack4@workspace:frameworks/webpack4/html"
   dependencies:
@@ -8305,7 +8305,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preact-webpack4@workspace:frameworks/webpack4/preact":
+"@storybook/preact-webpack4@workspace:*, @storybook/preact-webpack4@workspace:frameworks/webpack4/preact":
   version: 0.0.0-use.local
   resolution: "@storybook/preact-webpack4@workspace:frameworks/webpack4/preact"
   dependencies:
@@ -8604,7 +8604,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react-webpack4@6.5.0-beta.4, @storybook/react-webpack4@workspace:frameworks/webpack4/react":
+"@storybook/react-webpack4@6.5.0-beta.4, @storybook/react-webpack4@workspace:*, @storybook/react-webpack4@workspace:frameworks/webpack4/react":
   version: 0.0.0-use.local
   resolution: "@storybook/react-webpack4@workspace:frameworks/webpack4/react"
   dependencies:
@@ -8898,12 +8898,14 @@ __metadata:
     "@storybook/ember": "workspace:*"
     "@storybook/eslint-config-storybook": ^2.4.0
     "@storybook/html": "workspace:*"
+    "@storybook/html-webpack4": "workspace:*"
     "@storybook/instrumenter": "workspace:*"
     "@storybook/jest": ^0.0.5
     "@storybook/linter-config": ^2.5.0
     "@storybook/node-logger": "workspace:*"
     "@storybook/postinstall": "workspace:*"
     "@storybook/preact": "workspace:*"
+    "@storybook/preact-webpack4": "workspace:*"
     "@storybook/preset-html-webpack": "workspace:*"
     "@storybook/preset-preact-webpack": "workspace:*"
     "@storybook/preset-react-webpack": "workspace:*"
@@ -8914,6 +8916,7 @@ __metadata:
     "@storybook/preset-web-components-webpack": "workspace:*"
     "@storybook/preview-web": "workspace:*"
     "@storybook/react": "workspace:*"
+    "@storybook/react-webpack4": "workspace:*"
     "@storybook/renderer-html": "workspace:*"
     "@storybook/renderer-preact": "workspace:*"
     "@storybook/renderer-react": "workspace:*"
@@ -8925,15 +8928,20 @@ __metadata:
     "@storybook/router": "workspace:*"
     "@storybook/semver": ^7.3.2
     "@storybook/server": "workspace:*"
+    "@storybook/server-webpack4": "workspace:*"
     "@storybook/source-loader": "workspace:*"
     "@storybook/store": "workspace:*"
     "@storybook/svelte": "workspace:*"
+    "@storybook/svelte-webpack4": "workspace:*"
     "@storybook/telemetry": "workspace:*"
     "@storybook/testing-library": ^0.0.7
     "@storybook/theming": "workspace:*"
     "@storybook/ui": "workspace:*"
     "@storybook/vue": "workspace:*"
+    "@storybook/vue-webpack4": "workspace:*"
+    "@storybook/vue3-webpack4": "workspace:*"
     "@storybook/web-components": "workspace:*"
+    "@storybook/web-components-webpack4": "workspace:*"
     "@storybook/webpack-tools": "workspace:*"
     "@testing-library/dom": ^7.29.4
     "@testing-library/jest-dom": ^5.11.9
@@ -9148,7 +9156,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/server-webpack4@workspace:frameworks/webpack4/server":
+"@storybook/server-webpack4@workspace:*, @storybook/server-webpack4@workspace:frameworks/webpack4/server":
   version: 0.0.0-use.local
   resolution: "@storybook/server-webpack4@workspace:frameworks/webpack4/server"
   dependencies:
@@ -9217,7 +9225,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/svelte-webpack4@workspace:frameworks/webpack4/svelte":
+"@storybook/svelte-webpack4@workspace:*, @storybook/svelte-webpack4@workspace:frameworks/webpack4/svelte":
   version: 0.0.0-use.local
   resolution: "@storybook/svelte-webpack4@workspace:frameworks/webpack4/svelte"
   dependencies:
@@ -9380,7 +9388,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/vue-webpack4@workspace:frameworks/webpack4/vue":
+"@storybook/vue-webpack4@workspace:*, @storybook/vue-webpack4@workspace:frameworks/webpack4/vue":
   version: 0.0.0-use.local
   resolution: "@storybook/vue-webpack4@workspace:frameworks/webpack4/vue"
   dependencies:
@@ -9406,7 +9414,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/vue3-webpack4@workspace:frameworks/webpack4/vue3":
+"@storybook/vue3-webpack4@workspace:*, @storybook/vue3-webpack4@workspace:frameworks/webpack4/vue3":
   version: 0.0.0-use.local
   resolution: "@storybook/vue3-webpack4@workspace:frameworks/webpack4/vue3"
   dependencies:
@@ -9445,7 +9453,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/web-components-webpack4@workspace:frameworks/webpack4/web-components":
+"@storybook/web-components-webpack4@workspace:*, @storybook/web-components-webpack4@workspace:frameworks/webpack4/web-components":
   version: 0.0.0-use.local
   resolution: "@storybook/web-components-webpack4@workspace:frameworks/webpack4/web-components"
   dependencies:
