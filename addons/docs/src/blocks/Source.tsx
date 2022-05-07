@@ -1,6 +1,6 @@
 import React, { ComponentProps, FC, useContext } from 'react';
 import { Source as PureSource, SourceError } from '@storybook/components';
-import type { StoryId } from '@storybook/api';
+import type { StoryId, Parameters } from '@storybook/api';
 import type { Story } from '@storybook/store';
 
 import { DocsContext, DocsContextProps } from './DocsContext';
@@ -94,7 +94,7 @@ export const getSourceProps = (
   sourceContext: SourceContextProps
 ): PureSourceProps & SourceStateProps => {
   const { id: currentId, storyById } = docsContext;
-  let parameters = {};
+  let parameters = {} as Parameters;
   try {
     ({ parameters } = storyById(currentId));
   } catch (err) {
