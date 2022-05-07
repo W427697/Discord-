@@ -154,6 +154,9 @@
     "@storybook/web-components": {
       "implicitDependencies": []
     },
+    "@storybook/vite-tools": {
+      "implicitDependencies": []
+    },
     "@storybook/webpack-tools": {
       "implicitDependencies": []
     },
@@ -299,6 +302,9 @@
       "implicitDependencies": []
     },
     "@storybook/preview-web": {
+      "implicitDependencies": []
+    },
+    "@storybook/react-vite": {
       "implicitDependencies": []
     },
     "@storybook/html-webpack4": {

@@ -77,6 +77,10 @@
       "root": "frameworks/webpack4/ember",
       "type": "library"
     },
+    "@storybook/react-vite": {
+      "root": "frameworks/vite/react",
+      "type": "library"
+    },
     "@storybook/html-webpack4": {
       "root": "frameworks/webpack4/html",
       "type": "library"
@@ -115,6 +119,10 @@
     },
     "@storybook/web-components-webpack4": {
       "root": "frameworks/webpack4/web-components",
+      "type": "library"
+    },
+    "@storybook/vite-tools": {
+      "root": "lib/vite-tools",
       "type": "library"
     },
     "@storybook/webpack-tools": {

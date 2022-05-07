@@ -41,6 +41,7 @@
     "packages": [
       "addons/*",
       "addons/storyshots/*",
+      "frameworks/vite/*",
       "frameworks/webpack4/*",
       "renderers/*",
       "presets/*",
@@ -189,6 +190,7 @@
     "@storybook/preset-web-components-webpack": "workspace:*",
     "@storybook/preview-web": "workspace:*",
     "@storybook/react": "workspace:*",
+    "@storybook/react-vite": "workspace:*",
     "@storybook/react-webpack4": "workspace:*",
     "@storybook/renderer-html": "workspace:*",
     "@storybook/renderer-preact": "workspace:*",
@@ -210,6 +212,7 @@
     "@storybook/testing-library": "^0.0.7",
     "@storybook/theming": "workspace:*",
     "@storybook/ui": "workspace:*",
+    "@storybook/vite-tools": "workspace:*",
     "@storybook/vue": "workspace:*",
     "@storybook/vue-webpack4": "workspace:*",
     "@storybook/vue3-webpack4": "workspace:*",
