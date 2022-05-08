@@ -6562,7 +6562,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:^4.2.1":
+"@rollup/pluginutils@npm:^4.2.0, @rollup/pluginutils@npm:^4.2.1":
   version: 4.2.1
   resolution: "@rollup/pluginutils@npm:4.2.1"
   dependencies:
@@ -8290,7 +8290,6 @@ __metadata:
     "@storybook/addon-essentials": 6.5.0-beta.4
     "@storybook/builder-vite": ^0.1.33
     "@storybook/react": 6.5.0-beta.4
-    "@storybook/react-webpack4": 6.5.0-beta.4
     "@vitejs/plugin-react": ^1.0.7
     prop-types: ^15.8.1
     react: ^17.0.2
@@ -8908,13 +8907,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/react-vite@workspace:frameworks/vite/react"
   dependencies:
+    "@joshwooding/vite-plugin-react-docgen-typescript": 0.0.4
+    "@rollup/pluginutils": ^4.2.0
     "@storybook/builder-vite": ^0.1.33
     "@storybook/core-server": 6.5.0-beta.4
     "@storybook/renderer-react": 6.5.0-beta.4
     "@storybook/vite-tools": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
+    "@vitejs/plugin-react": ^1.0.8
+    ast-types: ^0.14.2
     core-js: ^3.8.2
     jest-specific-snapshot: ^4.0.0
+    magic-string: ^0.26.1
+    react-docgen: ^6.0.0-alpha.0
     regenerator-runtime: ^0.13.7
   peerDependencies:
     "@babel/core": ^7.11.5
