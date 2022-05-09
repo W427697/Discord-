@@ -39,6 +39,7 @@ module.exports = {
   },
   core: {
     builder: '@storybook/builder-webpack5',
+    disableTelemetry: true,
   },
   staticDirs: ['../ember-output'],
   features: {

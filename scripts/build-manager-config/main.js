@@ -3,5 +3,6 @@ module.exports = {
   addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
   core: {
     builder: '@storybook/builder-webpack5',
+    disableTelemetry: true,
   },
 };

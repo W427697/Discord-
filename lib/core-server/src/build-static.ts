@@ -6,6 +6,7 @@ import dedent from 'ts-dedent';
 import global from 'global';
 
 import { logger } from '@storybook/node-logger';
+import { telemetry } from '@storybook/telemetry';
 
 import type {
   LoadOptions,
@@ -15,8 +16,6 @@ import type {
   Builder,
   StorybookConfig,
   CoreConfig,
-  BuilderConfig,
-  BuilderConfigObject,
 } from '@storybook/core-common';
 import { loadAllPresets, normalizeStories, logConfig } from '@storybook/core-common';
 
@@ -28,6 +27,8 @@ import {
 import { getPreviewBuilder } from './utils/get-preview-builder';
 import { getManagerBuilder } from './utils/get-manager-builder';
 import { extractStoriesJson } from './utils/stories-json';
+import { extractStorybookMetadata } from './utils/metadata';
+import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
 export async function buildStaticStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
   /* eslint-disable no-param-reassign */
@@ -94,17 +95,56 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   const features = await presets.apply<StorybookConfig['features']>('features');
   global.FEATURES = features;
 
+  const extractTasks = [];
+
+  let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
   if (features?.buildStoriesJson || features?.storyStoreV7) {
+    const workingDir = process.cwd();
     const directories = {
       configDir: options.configDir,
-      workingDir: process.cwd(),
+      workingDir,
     };
-    const stories = normalizeStories(await presets.apply('stories'), directories);
-    await extractStoriesJson(path.join(options.outputDir, 'stories.json'), stories, {
+    const normalizedStories = normalizeStories(await presets.apply('stories'), directories);
+
+    const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
       storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
       storyStoreV7: features?.storyStoreV7,
     });
+
+    initializedStoryIndexGenerator = generator.initialize().then(() => generator);
+    extractTasks.push(
+      extractStoriesJson(
+        path.join(options.outputDir, 'stories.json'),
+        initializedStoryIndexGenerator
+      )
+    );
+  }
+
+  const core = await presets.apply<CoreConfig>('core');
+  if (!core?.disableTelemetry) {
+    initializedStoryIndexGenerator.then(async (generator) => {
+      if (!generator) {
+        return;
+      }
+
+      const storyIndex = await generator.getIndex();
+      const payload = storyIndex
+        ? {
+            storyIndex: {
+              storyCount: Object.keys(storyIndex.stories).length,
+              version: storyIndex.v,
+            },
+          }
+        : undefined;
+      telemetry('build', payload, { configDir: options.configDir });
+    });
+  }
+
+  if (!core?.disableProjectJson) {
+    extractTasks.push(
+      extractStorybookMetadata(path.join(options.outputDir, 'project.json'), options.configDir)
+    );
   }
 
   const fullOptions: Options = {
@@ -146,6 +186,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
       await managerBuilder.bail();
       throw err;
     }),
+    ...extractTasks,
   ]);
 
   if (options.webpackStatsJson) {
