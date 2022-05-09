@@ -236,7 +236,8 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
     // Docs entries cannot be rendered in 'story' viewMode.
     // For now story entries can be rendered in docs mode.
-    const viewMode = entry?.type === 'docs' ? 'docs' : selection.viewMode;
+    const viewMode = (entry?.type === 'docs' ? 'docs' : selection.viewMode) || 'story';
+    console.log(entry, selection.viewMode, viewMode);
 
     const storyIdChanged = this.currentSelection?.storyId !== storyId;
     const viewModeChanged = this.currentSelection?.viewMode !== viewMode;
