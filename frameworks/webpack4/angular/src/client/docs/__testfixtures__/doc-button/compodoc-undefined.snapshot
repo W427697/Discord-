@@ -137,7 +137,7 @@ like <strong>bold</strong>, <em>italic</em>, and <code>inline code</code>.</p>
 ",
       "encapsulation": Array [],
       "entryComponents": Array [],
-      "file": "app/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
+      "file": "frameworks/webpack4/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
       "hostBindings": Array [
         Object {
           "decorators": Array [],
@@ -937,7 +937,7 @@ export class InputComponent<T> {
       Object {
         "coverageCount": "16/25",
         "coveragePercent": 64,
-        "filePath": "app/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
+        "filePath": "frameworks/webpack4/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
         "linktype": "component",
         "name": "InputComponent",
         "status": "good",
@@ -946,7 +946,7 @@ export class InputComponent<T> {
       Object {
         "coverageCount": "0/4",
         "coveragePercent": 0,
-        "filePath": "app/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
+        "filePath": "frameworks/webpack4/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
         "linktype": "interface",
         "name": "ISomeInterface",
         "status": "low",
@@ -955,7 +955,7 @@ export class InputComponent<T> {
       Object {
         "coverageCount": "0/1",
         "coveragePercent": 0,
-        "filePath": "app/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
+        "filePath": "frameworks/webpack4/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
         "linksubtype": "variable",
         "linktype": "miscellaneous",
         "name": "exportedConstant",
@@ -973,7 +973,7 @@ export class InputComponent<T> {
     Object {
       "deprecated": false,
       "deprecationMessage": "",
-      "file": "app/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
+      "file": "frameworks/webpack4/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
       "id": "interface-ISomeInterface-d145da25329b094ee29610c45a9e46387cb39eddb2a67b4c9fadb84bcec76eacd60d131e48d98b2ee5725dedd25f2eb299b704e8e0a34307d6e84f6e57d57044",
       "indexSignatures": Array [],
       "kind": 165,
@@ -1230,14 +1230,14 @@ export class InputComponent<T> {
         "deprecated": false,
         "deprecationMessage": "",
         "description": "",
-        "file": "app/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
+        "file": "frameworks/webpack4/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
         "name": "ButtonAccent",
         "subtype": "enum",
       },
     ],
     "functions": Array [],
     "groupedEnumerations": Object {
-      "app/angular/src/client/docs/__testfixtures__/doc-button/input.ts": Array [
+      "frameworks/webpack4/angular/src/client/docs/__testfixtures__/doc-button/input.ts": Array [
         Object {
           "childs": Array [
             Object {
@@ -1257,7 +1257,7 @@ export class InputComponent<T> {
           "deprecated": false,
           "deprecationMessage": "",
           "description": "",
-          "file": "app/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
+          "file": "frameworks/webpack4/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
           "name": "ButtonAccent",
           "subtype": "enum",
         },
@@ -1265,13 +1265,13 @@ export class InputComponent<T> {
     },
     "groupedFunctions": Object {},
     "groupedTypeAliases": Object {
-      "app/angular/src/client/docs/__testfixtures__/doc-button/input.ts": Array [
+      "frameworks/webpack4/angular/src/client/docs/__testfixtures__/doc-button/input.ts": Array [
         Object {
           "ctype": "miscellaneous",
           "deprecated": false,
           "deprecationMessage": "",
           "description": "",
-          "file": "app/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
+          "file": "frameworks/webpack4/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
           "kind": 186,
           "name": "ButtonSize",
           "rawtype": "\\"small\\" | \\"medium\\" | \\"large\\" | \\"xlarge\\"",
@@ -1280,13 +1280,13 @@ export class InputComponent<T> {
       ],
     },
     "groupedVariables": Object {
-      "app/angular/src/client/docs/__testfixtures__/doc-button/input.ts": Array [
+      "frameworks/webpack4/angular/src/client/docs/__testfixtures__/doc-button/input.ts": Array [
         Object {
           "ctype": "miscellaneous",
           "defaultValue": "'An exported constant'",
           "deprecated": false,
           "deprecationMessage": "",
-          "file": "app/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
+          "file": "frameworks/webpack4/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
           "name": "exportedConstant",
           "subtype": "variable",
           "type": "string",
@@ -1299,7 +1299,7 @@ export class InputComponent<T> {
         "deprecated": false,
         "deprecationMessage": "",
         "description": "",
-        "file": "app/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
+        "file": "frameworks/webpack4/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
         "kind": 186,
         "name": "ButtonSize",
         "rawtype": "\\"small\\" | \\"medium\\" | \\"large\\" | \\"xlarge\\"",
@@ -1312,7 +1312,7 @@ export class InputComponent<T> {
         "defaultValue": "'An exported constant'",
         "deprecated": false,
         "deprecationMessage": "",
-        "file": "app/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
+        "file": "frameworks/webpack4/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
         "name": "exportedConstant",
         "subtype": "variable",
         "type": "string",
