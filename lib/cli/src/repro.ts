@@ -6,6 +6,7 @@ import boxen from 'boxen';
 import dedent from 'ts-dedent';
 import { createAndInit, exec } from './repro-generators/scripts';
 import * as configs from './repro-generators/configs';
+import versions from './versions';
 import type { Parameters } from './repro-generators/configs';
 import { SupportedFrameworks } from './project_types';
 
@@ -172,7 +173,9 @@ export const repro = async ({
       selectedDirectory = directory;
     }
 
-    selectedConfig.gitRepoGenerator = `npx degit storybookjs/repro-templates/${selectedConfig.name} ${selectedDirectory}`;
+    const [storybookVersion] = Object.values(versions);
+    const gitGeneratorBranch = storybookVersion.includes('-') ? 'next' : 'main';
+    selectedConfig.gitRepoGenerator = `npx degit storybookjs/repro-templates/${selectedConfig.name}#${gitGeneratorBranch} ${selectedDirectory}`;
     selectedConfig.preferGitTemplate = preferGitTemplate;
   }
 
