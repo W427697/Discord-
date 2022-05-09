@@ -286,6 +286,7 @@ describe('PreviewWeb', () => {
             entries: {
               ...storyIndex.entries,
               'component-one--d': {
+                type: 'story',
                 id: 'component-one--d',
                 title: 'Component One',
                 name: 'D',
@@ -336,6 +337,7 @@ describe('PreviewWeb', () => {
               entries: {
                 ...storyIndex.entries,
                 'component-one--d': {
+                  type: 'story',
                   id: 'component-one--d',
                   title: 'Component One',
                   name: 'D',

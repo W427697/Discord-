@@ -46,18 +46,21 @@ const storyIndex: StoryIndex = {
   v: 4,
   entries: {
     'component-one--a': {
+      type: 'story',
       id: 'component-one--a',
       title: 'Component One',
       name: 'A',
       importPath: './src/ComponentOne.stories.js',
     },
     'component-one--b': {
+      type: 'story',
       id: 'component-one--b',
       title: 'Component One',
       name: 'B',
       importPath: './src/ComponentOne.stories.js',
     },
     'component-two--c': {
+      type: 'story',
       id: 'component-two--c',
       title: 'Component Two',
       name: 'C',
@@ -235,6 +238,7 @@ describe('StoryStore', () => {
           entries: {
             ...storyIndex.entries,
             'new-component--story': {
+              type: 'story',
               id: 'new-component--story',
               title: 'New Component',
               name: 'Story',
@@ -266,6 +270,7 @@ describe('StoryStore', () => {
           v: 4,
           entries: {
             'component-one--a': {
+              type: 'story',
               id: 'component-one--a',
               title: 'Component One',
               name: 'A',
@@ -296,6 +301,7 @@ describe('StoryStore', () => {
           v: 4,
           entries: {
             'component-one--a': {
+              type: 'story',
               id: 'component-one--a',
               title: 'Component One',
               name: 'A',

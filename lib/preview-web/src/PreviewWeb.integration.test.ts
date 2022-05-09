@@ -52,7 +52,7 @@ beforeEach(() => {
   projectAnnotations.renderToDOM.mockReset();
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
-  projectAnnotations.parameters.docs.renderer = () => new DocsRenderer();
+  projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
   addons.setChannel(mockChannel as any);
   addons.setServerChannel(createMockChannel());
