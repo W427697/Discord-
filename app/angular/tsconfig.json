@@ -2,7 +2,12 @@
   "extends": "../../tsconfig.json",
   "compileOnSave": false,
   "compilerOptions": {
-    "module": "ES2020",
+    "target": "es2020",
+    "module": "CommonJS",
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "outDir": "dist",
     "types": ["node"],
     "rootDir": "./src",
