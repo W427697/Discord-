@@ -25,7 +25,8 @@ import type {
 
 export type { StoryId, Parameters };
 export type Path = string;
-export type ModuleExports = Record<string, any>;
+export type ModuleExport = any;
+export type ModuleExports = Record<string, ModuleExport>;
 export type PromiseLike<T> = Promise<T> | SynchronousPromise<T>;
 export type ModuleImportFn = (path: Path) => PromiseLike<ModuleExports>;
 
@@ -51,6 +52,7 @@ export type NormalizedStoryAnnotations<TFramework extends AnyFramework = AnyFram
   StoryAnnotations<TFramework>,
   'storyName' | 'story'
 > & {
+  moduleExport: ModuleExport;
   // You cannot actually set id on story annotations, but we normalize it to be there for convience
   id: StoryId;
   argTypes?: StrictArgTypes;
@@ -64,6 +66,7 @@ export type CSFFile<TFramework extends AnyFramework = AnyFramework> = {
 
 export type Story<TFramework extends AnyFramework = AnyFramework> =
   StoryContextForEnhancers<TFramework> & {
+    moduleExport: ModuleExport;
     originalStoryFn: StoryFn<TFramework>;
     undecoratedStoryFn: LegacyStoryFn<TFramework>;
     unboundStoryFn: LegacyStoryFn<TFramework>;
@@ -101,6 +104,7 @@ export type StoryIndexEntry = BaseIndexEntry & {
 export type DocsIndexEntry = BaseIndexEntry & {
   storiesImports: Path[];
   type: 'docs';
+  legacy?: boolean;
 };
 
 export type IndexEntry = StoryIndexEntry | DocsIndexEntry;

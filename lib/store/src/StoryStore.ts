@@ -31,6 +31,7 @@ import type {
   StoryIndexEntry,
   V2CompatIndexEntry,
   StoryIndexV3,
+  ModuleExports,
 } from './types';
 import { HooksContext } from './hooks';
 
@@ -120,6 +121,12 @@ export class StoryStore<TFramework extends AnyFramework> {
     if (this.cachedCSFFiles) await this.cacheAllCSFFiles();
   }
 
+  // Get an entry from the index, waiting on initialization if necessary
+  async storyIdToEntry(storyId: StoryId) {
+    await this.initializationPromise;
+    return this.storyIndex.storyIdToEntry(storyId);
+  }
+
   // To load a single CSF file to service a story we need to look up the importPath in the index
   loadCSFFileByStoryId(storyId: StoryId): PromiseLike<CSFFile<TFramework>> {
     const { importPath, title } = this.storyIndex.storyIdToEntry(storyId);
@@ -197,6 +204,33 @@ export class StoryStore<TFramework extends AnyFramework> {
       .map((storyId: StoryId) => this.storyFromCSFFile({ storyId, csfFile }));
   }
 
+  async loadDocsFileById(
+    docsId: StoryId
+  ): Promise<{ docsExports: ModuleExports; csfFiles: CSFFile<TFramework>[] }> {
+    const entry = await this.storyIdToEntry(docsId);
+    if (entry.type !== 'docs') throw new Error(`Cannot load docs file for id ${docsId}`);
+
+    const { importPath, storiesImports } = entry;
+
+    const [docsExports, ...csfFiles] = (await Promise.all([
+      this.importFn(importPath),
+      ...storiesImports.map((storyImportPath) => {
+        const firstStoryEntry = this.storyIndex.importPathToEntry(storyImportPath);
+        return this.loadCSFFileByStoryId(firstStoryEntry.id);
+      }),
+    ])) as [ModuleExports, ...CSFFile<TFramework>[]];
+
+    return { docsExports, csfFiles };
+  }
+
+  async loadEntry(id: StoryId) {
+    const entry = await this.storyIdToEntry(id);
+    if (entry.type === 'docs' && !entry.legacy) {
+      return this.loadDocsFileById(id);
+    }
+    return this.loadCSFFileByStoryId(id);
+  }
+
   // A prepared story does not include args, globals or hooks. These are stored in the story store
   // and updated separtely to the (immutable) story.
   getStoryContext(story: Story<TFramework>): Omit<StoryContextForLoaders<TFramework>, 'viewMode'> {
@@ -219,28 +253,34 @@ export class StoryStore<TFramework extends AnyFramework> {
       throw new Error('Cannot call extract() unless you call cacheAllCSFFiles() first.');
     }
 
-    return Object.entries(this.storyIndex.entries).reduce((acc, [storyId, { importPath }]) => {
-      const csfFile = this.cachedCSFFiles[importPath];
-      const story = this.storyFromCSFFile({ storyId, csfFile });
+    return Object.entries(this.storyIndex.entries).reduce(
+      (acc, [storyId, { type, importPath }]) => {
+        if (type === 'docs') return acc;
 
-      if (!options.includeDocsOnly && story.parameters.docsOnly) {
+        const csfFile = this.cachedCSFFiles[importPath];
+        const story = this.storyFromCSFFile({ storyId, csfFile });
+
+        if (!options.includeDocsOnly && story.parameters.docsOnly) {
+          return acc;
+        }
+
+        acc[storyId] = Object.entries(story).reduce(
+          (storyAcc, [key, value]) => {
+            if (key === 'moduleExport') return storyAcc;
+            if (typeof value === 'function') {
+              return storyAcc;
+            }
+            if (Array.isArray(value)) {
+              return Object.assign(storyAcc, { [key]: value.slice().sort() });
+            }
+            return Object.assign(storyAcc, { [key]: value });
+          },
+          { args: story.initialArgs }
+        );
         return acc;
-      }
-
-      acc[storyId] = Object.entries(story).reduce(
-        (storyAcc, [key, value]) => {
-          if (typeof value === 'function') {
-            return storyAcc;
-          }
-          if (Array.isArray(value)) {
-            return Object.assign(storyAcc, { [key]: value.slice().sort() });
-          }
-          return Object.assign(storyAcc, { [key]: value });
-        },
-        { args: story.initialArgs }
-      );
-      return acc;
-    }, {} as Record<string, any>);
+      },
+      {} as Record<string, any>
+    );
   }
 
   getSetStoriesPayload() {
