@@ -81,7 +81,7 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
           viewMode: 'docs' as ViewMode,
         } as StoryContextForLoaders<TFramework>),
 
-      // These three are intended for external renders only
+      // These is intended for the external docs render only
       setMeta: () => {},
     };
 
