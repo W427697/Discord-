@@ -147,7 +147,7 @@ const Result: FunctionComponent<
         );
       }
     }
-  }, [props.isHighlighted]);
+  }, [props.isHighlighted, item]);
 
   const nameMatch = matches.find((match: Match) => match.key === 'name');
   const pathMatches = matches.filter((match: Match) => match.key === 'path');
