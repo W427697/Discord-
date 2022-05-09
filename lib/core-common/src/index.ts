@@ -8,7 +8,6 @@ export * from './utils/es6Transpiler';
 export * from './utils/handlebars';
 export * from './utils/interpret-files';
 export * from './utils/interpret-require';
-export * from './utils/load-custom-babel-config';
 export * from './utils/load-custom-presets';
 export * from './utils/load-custom-webpack-config';
 export * from './utils/load-manager-or-addons-file';
