@@ -945,6 +945,7 @@ describe('start', () => {
           "v": 2,
         }
       `);
+      await waitForRender();
 
       mockChannel.emit.mockClear();
       disposeCallback(module.hot.data);
@@ -1340,6 +1341,8 @@ describe('start', () => {
           "v": 2,
         }
       `);
+
+      await waitForRender();
     });
   });
 });
