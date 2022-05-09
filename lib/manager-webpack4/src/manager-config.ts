@@ -42,11 +42,7 @@ export const getAutoRefs = async (
 };
 
 const checkRef = (url: string) =>
-  fetch(`${url}/iframe.html`, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(
+  fetch(`${url}/iframe.html`).then(
     async ({ ok }) => {
       if (ok) {
         // so the status is ok, but if we'd ask for JSON we might get a response saying we need to authenticate.
