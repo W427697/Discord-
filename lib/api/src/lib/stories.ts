@@ -392,7 +392,6 @@ export const getComponentLookupList = memoize(1)((hash: StoriesHash) => {
   }, [] as StoryId[][]);
 });
 
-// FIXME:
 export const getStoriesLookupList = memoize(1)((hash: StoriesHash) => {
-  return Object.keys(hash).filter((k) => hash[k].type === 'story');
+  return Object.keys(hash).filter((k) => ['story', 'docs'].includes(hash[k].type));
 });
