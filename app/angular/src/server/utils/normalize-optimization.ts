@@ -1,5 +1,4 @@
-import { OptimizationUnion } from '@angular-devkit/build-angular/src/browser/schema';
-
+import { OptimizationUnion } from '@angular-devkit/build-angular';
 import { NormalizedOptimizationOptions } from '@angular-devkit/build-angular/src/utils/normalize-optimization';
 import { moduleIsAvailable } from './module-is-available';
 
