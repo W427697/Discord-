@@ -227,10 +227,9 @@ export const SearchResults: FunctionComponent<{
     }, [enableShortcuts, isLoading]);
 
     const mouseOverHandler = useCallback((event: MouseEvent) => {
-      // @ts-ignore
-      const storyId = event.currentTarget.getAttribute('data-id');
-      // @ts-ignore
-      const refId = event.currentTarget.getAttribute('data-refid');
+      const currentTarget = event.currentTarget as HTMLElement;
+      const storyId = currentTarget.getAttribute('data-id');
+      const refId = currentTarget.getAttribute('data-refid');
       const item = api.getData(storyId, refId === 'storybook_internal' ? undefined : refId);
 
       if (item.isComponent) {
