@@ -1029,7 +1029,7 @@ describe('PreviewWeb', () => {
       await waitForRender();
 
       importFn.mockClear();
-      await preview.onPreloadStories(['component-two--c']);
+      await preview.onPreloadStories({ ids: ['component-two--c'] });
       expect(importFn).toHaveBeenCalledWith('./src/ComponentTwo.stories.js');
     });
   });
