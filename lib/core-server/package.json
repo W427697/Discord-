@@ -79,7 +79,7 @@
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2",
     "watchpack": "^2.2.0",
-    "webpack": "5",
+    "webpack": "5.70.0",
     "ws": "^8.2.3",
     "x-default-browser": "^0.4.0"
   },

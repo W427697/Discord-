@@ -55,7 +55,7 @@
     "vue": "^2.6.12",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.14",
-    "webpack": "5"
+    "webpack": "5.70.0"
   },
   "peerDependencies": {
     "@babel/core": "*",

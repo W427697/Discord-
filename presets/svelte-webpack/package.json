@@ -53,7 +53,7 @@
   "devDependencies": {
     "svelte": "^3.31.2",
     "svelte-loader": "^3.1.2",
-    "webpack": "5"
+    "webpack": "5.70.0"
   },
   "peerDependencies": {
     "@babel/core": "*",

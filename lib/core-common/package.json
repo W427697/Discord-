@@ -89,7 +89,7 @@
     "telejson": "^5.3.3",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2",
-    "webpack": "5"
+    "webpack": "5.70.0"
   },
   "devDependencies": {
     "@storybook/react-docgen-typescript-plugin": "1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0",
