@@ -2,9 +2,9 @@ import chalk from 'chalk';
 import dedent from 'ts-dedent';
 
 import { ConfigFile, readConfig, writeConfig } from '@storybook/csf-tools';
+import { getStorybookInfo } from '@storybook/core-common';
 
 import { Fix } from '../types';
-import { getStorybookInfo } from '../helpers/getStorybookInfo';
 import { PackageJson, writePackageJson } from '../../js-package-manager';
 
 const logger = console;
@@ -39,7 +39,6 @@ export const builderVite: Fix<BuilderViteOptions> = {
     const builderName = typeof builder === 'string' ? builder : builder?.name;
 
     if (builderName !== 'storybook-builder-vite') {
-      logger.info(`Not using community vite builder, skipping`);
       return null;
     }
 
