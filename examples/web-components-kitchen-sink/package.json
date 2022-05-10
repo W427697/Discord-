@@ -50,7 +50,7 @@
     "@storybook/router": "portal:../../lib/router",
     "@storybook/source-loader": "portal:../../lib/source-loader",
     "@storybook/store": "portal:../../lib/store",
-    "@storybook/testing-library": "^0.0.9",
+    "@storybook/testing-library": "^0.0.11",
     "@storybook/theming": "portal:../../lib/theming",
     "@storybook/ui": "portal:../../lib/ui",
     "@storybook/web-components": "portal:../../app/web-components",
