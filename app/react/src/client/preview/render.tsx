@@ -68,18 +68,17 @@ const getReactRoot = async (el: Element): Promise<ReactRoot | null> => {
   if (!isUsingNewReactRootApi) {
     return null;
   }
-  // FIXME
-  // let root = nodes.get(el);
+  let root = nodes.get(el);
 
-  // if (!root) {
-  //   // eslint-disable-next-line import/no-unresolved
-  //   const reactDomClient = (await import('react-dom/client')).default;
-  //   root = reactDomClient.createRoot(el);
+  if (!root) {
+    // eslint-disable-next-line import/no-unresolved
+    const reactDomClient = (await import('react-dom/client')).default;
+    root = reactDomClient.createRoot(el);
 
-  //   nodes.set(el, root);
-  // }
+    nodes.set(el, root);
+  }
 
-  // return root;
+  return root;
 };
 
 class ErrorBoundary extends ReactComponent<{
