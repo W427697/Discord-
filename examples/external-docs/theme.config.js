@@ -1,3 +1,5 @@
+import React from 'react';
+
 // theme.config.js
 export default {
   projectLink: 'https://github.com/shuding/nextra', // GitHub link in the navbar

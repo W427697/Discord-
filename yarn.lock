@@ -8388,6 +8388,7 @@ __metadata:
     "@storybook/theming": 6.5.0-beta.4
     "@testing-library/dom": ^7.31.2
     "@testing-library/user-event": ^13.1.9
+    "@types/prop-types": ^15
     "@types/react": ^17.0.39
     cross-env: ^7.0.3
     eslint: 8.7.0
@@ -8396,6 +8397,7 @@ __metadata:
     next: 12.0.8
     nextra: ^1.1.0
     nextra-theme-docs: ^1.2.6
+    prop-types: ^15.8.1
     react: 16.14.0
     react-dom: 16.14.0
     sb: 6.5.0-beta.4
@@ -10904,6 +10906,13 @@ __metadata:
   version: 15.7.4
   resolution: "@types/prop-types@npm:15.7.4"
   checksum: 014bb826592fab01499931259969aafc21d5a8ff4ece3e3fb8e2b5186bed17656f7dcdccf9a98c27fee74d7d0697aa3f53ea971a72679597f0ca0c3d5ca585d3
+  languageName: node
+  linkType: hard
+
+"@types/prop-types@npm:^15":
+  version: 15.7.5
+  resolution: "@types/prop-types@npm:15.7.5"
+  checksum: 648aae41423821c61c83823ae36116c8d0f68258f8b609bdbc257752dcd616438d6343d554262aa9a7edaee5a19aca2e028a74fa2d0f40fffaf2816bc7056857
   languageName: node
   linkType: hard
 
