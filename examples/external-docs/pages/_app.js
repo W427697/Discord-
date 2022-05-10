@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import 'nextra-theme-docs/style.css';
 import { ExternalDocsContainer } from '@storybook/addon-docs';
