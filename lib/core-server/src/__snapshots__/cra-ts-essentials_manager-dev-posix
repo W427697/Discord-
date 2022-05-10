@@ -4,8 +4,8 @@ exports[`cra-ts-essentials manager dev 1`] = `
 Object {
   "entry": Array [
     "NODE_MODULES/@storybook/addon-ie11/dist/event-source-polyfill.js",
-    "NODE_MODULES/@storybook/core-client/dist/esm/globals/polyfills.js",
-    "NODE_MODULES/@storybook/core-client/dist/esm/manager/index.js",
+    "ROOT/lib/core-client/dist/esm/globals/polyfills.js",
+    "ROOT/lib/core-client/dist/esm/manager/index.js",
     "ROOT/addons/docs/manager.js",
     "ROOT/addons/controls/manager.js",
     "ROOT/addons/actions/manager.js",
