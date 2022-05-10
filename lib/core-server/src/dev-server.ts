@@ -20,8 +20,7 @@ import { useStorybookMetadata } from './utils/metadata';
 import { getServerChannel } from './utils/get-server-channel';
 
 import { openInBrowser } from './utils/open-in-browser';
-import { getPreviewBuilder } from './utils/get-preview-builder';
-import { getManagerBuilder } from './utils/get-manager-builder';
+import { getBuilders } from './utils/get-builders';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
 // @ts-ignore
@@ -137,8 +136,7 @@ export async function storybookDevServer(options: Options) {
     server.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
   });
 
-  const previewBuilder: Builder<unknown, unknown> = await getPreviewBuilder(options.configDir);
-  const managerBuilder: Builder<unknown, unknown> = await getManagerBuilder(options.configDir);
+  const [previewBuilder, managerBuilder] = await getBuilders(options);
 
   if (options.debugWebpack) {
     logConfig('Preview webpack config', await previewBuilder.getConfig(options));

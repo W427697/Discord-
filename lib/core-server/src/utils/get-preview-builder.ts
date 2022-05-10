@@ -1,11 +1,9 @@
-import path from 'path';
-import { getInterpretedFile, serverRequire } from '@storybook/core-common';
-import type { Options } from '@storybook/core-common';
+import type { Options, CoreConfig } from '@storybook/core-common';
 
-export async function getPreviewBuilder(configDir: Options['configDir']) {
-  const main = path.resolve(configDir, 'main');
-  const mainFile = getInterpretedFile(main);
-  const { core } = mainFile ? serverRequire(mainFile) : { core: null };
+export async function getPreviewBuilder(options: Options) {
+  const { configDir, presets } = options;
+  const core = await presets.apply<CoreConfig>('core', undefined);
+
   let builderPackage: string;
   if (core?.builder) {
     const builderName = typeof core.builder === 'string' ? core.builder : core.builder?.name;
@@ -13,7 +11,7 @@ export async function getPreviewBuilder(configDir: Options['configDir']) {
       ['webpack4', 'webpack5'].includes(builderName)
         ? `@storybook/builder-${builderName}`
         : builderName,
-      { paths: [main] }
+      { paths: [configDir] }
     );
   } else {
     builderPackage = require.resolve('@storybook/builder-webpack4');
