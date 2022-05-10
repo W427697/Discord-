@@ -22,7 +22,7 @@ export function useStories<TFramework extends AnyFramework = AnyFramework>(
 
   useEffect(() => {
     Promise.all(
-      storyIds.filter(Boolean).map(async (storyId) => {
+      storyIds.map(async (storyId) => {
         // loadStory will be called every single time useStory is called
         // because useEffect does not use storyIds as an input. This is because
         // HMR can change the story even when the storyId hasn't changed. However, it
@@ -37,7 +37,7 @@ export function useStories<TFramework extends AnyFramework = AnyFramework>(
     );
   });
 
-  return storyIds.filter(Boolean).map((storyId) => {
+  return storyIds.map((storyId) => {
     if (storiesById[storyId]) return storiesById[storyId];
 
     try {
