@@ -1,6 +1,7 @@
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import global from 'global';
+import debounce from 'lodash/debounce';
 import Events, { IGNORED_EXCEPTION } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { AnyFramework, StoryId, ProjectAnnotations, Args, Globals } from '@storybook/csf';
@@ -66,7 +67,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
     this.channel.on(Events.SET_CURRENT_STORY, this.onSetCurrentStory.bind(this));
     this.channel.on(Events.UPDATE_QUERY_PARAMS, this.onUpdateQueryParams.bind(this));
-    this.channel.on(Events.PRELOAD_STORIES, this.onPreloadStories.bind(this));
+    this.channel.on(Events.PRELOAD_STORIES, debounce(this.onPreloadStories.bind(this), 200));
   }
 
   initializeWithProjectAnnotations(projectAnnotations: WebProjectAnnotations<TFramework>) {
