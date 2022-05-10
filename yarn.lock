@@ -4765,12 +4765,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdx-js/react@npm:^1.6.22":
-  version: 1.6.22
-  resolution: "@mdx-js/react@npm:1.6.22"
+"@mdx-js/mdx@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@mdx-js/mdx@npm:2.1.1"
+  dependencies:
+    "@types/estree-jsx": ^0.0.1
+    "@types/mdx": ^2.0.0
+    astring: ^1.6.0
+    estree-util-build-jsx: ^2.0.0
+    estree-util-is-identifier-name: ^2.0.0
+    estree-walker: ^3.0.0
+    hast-util-to-estree: ^2.0.0
+    markdown-extensions: ^1.0.0
+    periscopic: ^3.0.0
+    remark-mdx: ^2.0.0
+    remark-parse: ^10.0.0
+    remark-rehype: ^10.0.0
+    unified: ^10.0.0
+    unist-util-position-from-estree: ^1.0.0
+    unist-util-stringify-position: ^3.0.0
+    unist-util-visit: ^4.0.0
+    vfile: ^5.0.0
+  checksum: ece4898858f91446daf7729cfc7e8476cfc6eb6337441b712845252843844f3b47ee8525c9eb9dcaa9928468392f9ed5410ff22d88b1dc379225119090551ada
+  languageName: node
+  linkType: hard
+
+"@mdx-js/react@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@mdx-js/react@npm:2.1.1"
+  dependencies:
+    "@types/mdx": ^2.0.0
+    "@types/react": ">=16"
   peerDependencies:
-    react: ^16.13.1 || ^17.0.0
-  checksum: ed896671ffab04c1f11cdba45bfb2786acff58cd0b749b0a13d9b7a7022ac75cc036bec067ca946e6540e2934727e0ba8bf174e4ae10c916f30cda6aecac8992
+    react: ">=16"
+  checksum: e01476ffefc702715759a72e7956a49e09fa09f7aeceeceb1a9323855cc64ea377168df30a0fd8e68debe288024866bee77b2b016a09668b168ccafc4da89348
   languageName: node
   linkType: hard
 
@@ -6555,7 +6583,7 @@ __metadata:
     "@babel/plugin-transform-react-jsx": ^7.12.12
     "@babel/preset-env": ^7.12.11
     "@jest/transform": ^26.6.2
-    "@mdx-js/react": ^1.6.22
+    "@mdx-js/react": ^2.1.1
     "@storybook/addons": 6.5.0-beta.7
     "@storybook/api": 6.5.0-beta.7
     "@storybook/components": 6.5.0-beta.7
@@ -7484,7 +7512,7 @@ __metadata:
   resolution: "@storybook/codemod@workspace:lib/codemod"
   dependencies:
     "@babel/types": ^7.12.11
-    "@mdx-js/mdx": ^1.6.22
+    "@mdx-js/mdx": ^2.1.1
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/csf-tools": 6.5.0-beta.7
     "@storybook/node-logger": 6.5.0-beta.7
@@ -10445,6 +10473,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: e6e1432980f0904faa1527288f8c2d4c0f36f9398302f7afa906ce3f0d2c6ca5ae06f33b375a307221808a003edbcda62b94b1885cda701855208ff8555b996b
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:>=16":
+  version: 18.0.9
+  resolution: "@types/react@npm:18.0.9"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: bf9fadddcf45e9228dc81ce5438dd7278e475a8b0e19a481a9ea2fee42a4c6b65f6e50b03f8f4fd84c2b62604d71f810a4e875a88ac4d9cda4777a4c6116c41c
   languageName: node
   linkType: hard
 
