@@ -10,7 +10,7 @@ import type { Story } from '@storybook/store';
 import { PreviewWeb } from './PreviewWeb';
 
 export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework> {
-  legacy: boolean;
+  type: 'legacy' | 'modern' | 'external';
 
   id: StoryId;
   title: ComponentTitle;
@@ -32,6 +32,11 @@ export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework
    */
   mdxStoryNameToKey?: Record<string, string>;
   mdxComponentAnnotations?: any;
+
+  /**
+   * To be used by external docs
+   */
+  setMeta: (metaExport: any) => void;
 }
 
 export type DocsRenderFunction<TFramework extends AnyFramework> = (

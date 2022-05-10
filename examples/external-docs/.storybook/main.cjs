@@ -1,6 +1,6 @@
-import type { StorybookConfig } from '@storybook/react/types';
+// import type { StorybookConfig } from '@storybook/react/types';
 
-const config: StorybookConfig = {
+const config = {
   stories: [
     {
       directory: '../components',

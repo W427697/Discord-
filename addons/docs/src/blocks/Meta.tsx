@@ -16,7 +16,7 @@ function getFirstStoryId(docsContext: DocsContextProps): string {
 
 function renderAnchor() {
   const context = useContext(DocsContext);
-  if (!context.legacy) {
+  if (context.type !== 'legacy') {
     return null;
   }
   const anchorId = getFirstStoryId(context) || context.id;
@@ -28,9 +28,15 @@ function renderAnchor() {
  * This component is used to declare component metadata in docs
  * and gets transformed into a default export underneath the hood.
  */
-export const Meta: FC<MetaProps> = () => {
-  const params = new URL(document.location).searchParams;
-  const isDocs = params.get('viewMode') === 'docs';
+export const Meta: FC<MetaProps> = ({ of }) => {
+  let isDocs = true;
+  if (document) {
+    const params = new URL(document.location).searchParams;
+    isDocs = params.get('viewMode') === 'docs';
+  }
+
+  const context = useContext(DocsContext);
+  if (of) context.setMeta(of);
 
   return isDocs ? renderAnchor() : null;
 };

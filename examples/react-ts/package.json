@@ -5,7 +5,7 @@
   "scripts": {
     "build-storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb build",
     "debug": "cross-env NODE_OPTIONS=--inspect-brk STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true yarn sb dev -p 9011",
-    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb dev --no-manager-cache"
+    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb dev -p 9011 --no-manager-cache"
   },
   "dependencies": {
     "formik": "^2.2.9",
