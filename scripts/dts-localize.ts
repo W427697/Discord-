@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import { sync } from 'read-pkg-up';
 
-import * as ts from 'typescript';
+import ts from 'typescript';
 
 const parseConfigHost = {
   useCaseSensitiveFileNames: ts.sys.useCaseSensitiveFileNames,

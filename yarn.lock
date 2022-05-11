@@ -2637,6 +2637,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@digitak/esrun@npm:^3.2.2":
+  version: 3.2.2
+  resolution: "@digitak/esrun@npm:3.2.2"
+  dependencies:
+    anymatch: ^3.1.2
+    chokidar: ^3.5.1
+    esbuild: ^0.12.4
+  bin:
+    esrun: bin.js
+  checksum: 2d1cededf3cd492f26a0f0696e7d945cd02b09573029917ea7236a6ecb25757e8654783cf3a1900742a4baaf240cc0b433071d38d4d8ff918be9e680d4236bea
+  languageName: node
+  linkType: hard
+
 "@discoveryjs/json-ext@npm:0.5.2":
   version: 0.5.2
   resolution: "@discoveryjs/json-ext@npm:0.5.2"
@@ -6765,11 +6778,9 @@ __metadata:
     "@storybook/core-events": 6.5.0-beta.4
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/router": 6.5.0-beta.4
-    "@types/qs": ^6.9.5
     core-js: ^3.8.2
     global: ^4.4.0
     prop-types: ^15.7.2
-    qs: ^6.10.0
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
   peerDependencies:
@@ -7428,6 +7439,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/client-logger@npm:6.5.0-beta.1":
+  version: 6.5.0-beta.1
+  resolution: "@storybook/client-logger@npm:6.5.0-beta.1"
+  dependencies:
+    core-js: ^3.8.2
+    global: ^4.4.0
+  checksum: b37a15123235d7e17186440691675e778eb6934ee07fa5ebeaa99d2ca3bda0ffcc8dbd38023e77680c7da590a65a55c670018a6b49b591f6d5c15081a19e81df
+  languageName: node
+  linkType: hard
+
 "@storybook/codemod@6.5.0-beta.4, @storybook/codemod@workspace:*, @storybook/codemod@workspace:lib/codemod":
   version: 0.0.0-use.local
   resolution: "@storybook/codemod@workspace:lib/codemod"
@@ -7454,15 +7475,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/components@workspace:lib/components"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@popperjs/core": ^2.6.0
     "@storybook/client-logger": 6.5.0-beta.4
     "@storybook/csf": 0.0.2--canary.4566f4d.1
-    "@storybook/theming": 6.5.0-beta.4
+    "@storybook/theming": 6.5.0-beta.1
     "@types/color-convert": ^2.0.0
     "@types/overlayscrollbars": ^1.12.0
     "@types/react-syntax-highlighter": 11.0.5
     color-convert: ^2.0.1
-    core-js: ^3.8.2
     css: ^3.0.0
     fast-deep-equal: ^3.1.3
     global: ^4.4.0
@@ -7474,14 +7495,11 @@ __metadata:
     polished: ^4.2.2
     prettier: ">=2.2.1 <=2.3.0"
     prop-types: ^15.7.2
-    qs: ^6.10.0
     react-colorful: ^5.1.2
     react-popper-tooltip: ^3.1.1
     react-syntax-highlighter: ^15.4.5
     react-textarea-autosize: ^8.3.0
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
-    ts-node: ^10.4.0
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -8806,6 +8824,7 @@ __metadata:
     ts-jest: ^26.4.4
     ts-loader: ^9.2.8
     ts-node: ^10.4.0
+    tsup: ^5.12.6
     typescript: ^4.6.3
     verdaccio: ^4.10.0
     verdaccio-auth-memory: ^9.7.2
@@ -9083,6 +9102,20 @@ __metadata:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
   checksum: 7449d09a6c883daaf1f024a11b42690a6cd10cdf80e1c0fa8c4ecd6cdd6a47bbb9bf41d45e5cd1cd84bad875fe2cb666fae56d8ef3154e6cbc1f0563da0762b8
+  languageName: node
+  linkType: hard
+
+"@storybook/theming@npm:6.5.0-beta.1":
+  version: 6.5.0-beta.1
+  resolution: "@storybook/theming@npm:6.5.0-beta.1"
+  dependencies:
+    "@storybook/client-logger": 6.5.0-beta.1
+    core-js: ^3.8.2
+    regenerator-runtime: ^0.13.7
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: aefdb16032eb811150fd1094d34638323c10332dbb10304bfd7debde5c9703dec8f1626212a0a41ffe3fc872c3884459bb8389b68073f9dd9a25691e10d624b0
   languageName: node
   linkType: hard
 
@@ -12789,7 +12822,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"anymatch@npm:^3.0.0, anymatch@npm:^3.0.3, anymatch@npm:~3.1.2":
+"anymatch@npm:^3.0.0, anymatch@npm:^3.0.3, anymatch@npm:^3.1.2, anymatch@npm:~3.1.2":
   version: 3.1.2
   resolution: "anymatch@npm:3.1.2"
   dependencies:
@@ -15447,6 +15480,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bundle-require@npm:^3.0.2":
+  version: 3.0.4
+  resolution: "bundle-require@npm:3.0.4"
+  dependencies:
+    load-tsconfig: ^0.2.0
+  peerDependencies:
+    esbuild: ">=0.13"
+  checksum: f66f821f61b6fb914524ce5ad8488e16006fc045837bb36fdf6bf4eabaa9bed3dc3a5618f1d4b3a96fe17780046713ac663caebd8b5a170439f9da28a5e0c8a5
+  languageName: node
+  linkType: hard
+
 "bunyan@npm:1.8.15":
   version: 1.8.15
   resolution: "bunyan@npm:1.8.15"
@@ -15531,6 +15575,13 @@ __metadata:
   bin:
     c8: bin/c8.js
   checksum: 70da35a310fe8c1f413825610627d002ff8ed1814e7596c86784a539cdb4c9c5c6ef62bca667cfc409000fe45387fc7e16b5580d89e9b9f84c15a7f368fac609
+  languageName: node
+  linkType: hard
+
+"cac@npm:^6.7.12":
+  version: 6.7.12
+  resolution: "cac@npm:6.7.12"
+  checksum: 8e80007301876ca51ceb515722cc6ebb752982b1a70db93f4bacc9cdf9114cefb9e36f1908160ee78795667c629aa6c03bc5c9d80862aa54b63d3554526a07de
   languageName: node
   linkType: hard
 
@@ -16195,7 +16246,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:>=2.0.0 <4.0.0, chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.0.0, chokidar@npm:^3.3.0, chokidar@npm:^3.4.0, chokidar@npm:^3.4.1, chokidar@npm:^3.4.2, chokidar@npm:^3.5.2, chokidar@npm:^3.5.3":
+"chokidar@npm:>=2.0.0 <4.0.0, chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.0.0, chokidar@npm:^3.3.0, chokidar@npm:^3.4.0, chokidar@npm:^3.4.1, chokidar@npm:^3.4.2, chokidar@npm:^3.5.1, chokidar@npm:^3.5.2, chokidar@npm:^3.5.3":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
   dependencies:
@@ -16826,7 +16877,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:^4.0.1, commander@npm:^4.1.1":
+"commander@npm:^4.0.0, commander@npm:^4.0.1, commander@npm:^4.1.1":
   version: 4.1.1
   resolution: "commander@npm:4.1.1"
   checksum: 84a76c08fe6cc08c9c93f62ac573d2907d8e79138999312c92d4155bc2325d487d64d13f669b2000c9f8caf70493c1be2dac74fec3c51d5a04f8bc3ae1830bab
@@ -18586,7 +18637,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:~4.3.1, debug@npm:~4.3.2":
+"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:~4.3.1, debug@npm:~4.3.2":
   version: 4.3.4
   resolution: "debug@npm:4.3.4"
   dependencies:
@@ -20935,7 +20986,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.14.6":
+"esbuild@npm:^0.12.4":
+  version: 0.12.29
+  resolution: "esbuild@npm:0.12.29"
+  bin:
+    esbuild: bin/esbuild
+  checksum: 23e5fb9fc4e3c94e36aeecc86963964911bbdb7faeb163f1e4702d62a0c897e3cd32945218804d44367af035d05f2705b5e32f46c28c31a14106a7cdbcb68a04
+  languageName: node
+  linkType: hard
+
+"esbuild@npm:^0.14.25, esbuild@npm:^0.14.6":
   version: 0.14.38
   resolution: "esbuild@npm:0.14.38"
   dependencies:
@@ -24007,7 +24067,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globby@npm:^11.0.1, globby@npm:^11.0.2, globby@npm:^11.0.4":
+"globby@npm:^11.0.1, globby@npm:^11.0.2, globby@npm:^11.0.3, globby@npm:^11.0.4":
   version: 11.1.0
   resolution: "globby@npm:11.1.0"
   dependencies:
@@ -29547,6 +29607,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"load-tsconfig@npm:^0.2.0":
+  version: 0.2.3
+  resolution: "load-tsconfig@npm:0.2.3"
+  checksum: 82d0851020ecf8e226f328c0958cfbf5a34c8ffc7b04d396f25f53861e408c948866f2536123986a13ad9357c3cb2d2b90f51a04eb9474abbfef92399a6caa3d
+  languageName: node
+  linkType: hard
+
 "loader-runner@npm:^2.3.1, loader-runner@npm:^2.4.0":
   version: 2.4.0
   resolution: "loader-runner@npm:2.4.0"
@@ -32193,7 +32260,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mz@npm:^2.4.0, mz@npm:^2.5.0":
+"mz@npm:^2.4.0, mz@npm:^2.5.0, mz@npm:^2.7.0":
   version: 2.7.0
   resolution: "mz@npm:2.7.0"
   dependencies:
@@ -35053,7 +35120,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-load-config@npm:^3.1.4":
+"postcss-load-config@npm:^3.0.1, postcss-load-config@npm:^3.1.4":
   version: 3.1.4
   resolution: "postcss-load-config@npm:3.1.4"
   dependencies:
@@ -39374,7 +39441,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.43.1, rollup@npm:^2.60.2":
+"rollup@npm:^2.43.1, rollup@npm:^2.60.0, rollup@npm:^2.60.2":
   version: 2.70.2
   resolution: "rollup@npm:2.70.2"
   dependencies:
@@ -41738,6 +41805,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sucrase@npm:^3.20.3":
+  version: 3.21.0
+  resolution: "sucrase@npm:3.21.0"
+  dependencies:
+    commander: ^4.0.0
+    glob: 7.1.6
+    lines-and-columns: ^1.1.6
+    mz: ^2.7.0
+    pirates: ^4.0.1
+    ts-interface-checker: ^0.1.9
+  bin:
+    sucrase: bin/sucrase
+    sucrase-node: bin/sucrase-node
+  checksum: 8501ecafd44bed9a2d5548bb8c5580127d5584ac4b976b9c70e103a5a7571282f41741051cf453bd30deb1ddaa1409f534b8aec22b4056b2440f8b3a56f9cda5
+  languageName: node
+  linkType: hard
+
 "sum-up@npm:^1.0.1":
   version: 1.0.3
   resolution: "sum-up@npm:1.0.3"
@@ -43064,6 +43148,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-interface-checker@npm:^0.1.9":
+  version: 0.1.13
+  resolution: "ts-interface-checker@npm:0.1.13"
+  checksum: 232509f1b84192d07b81d1e9b9677088e590ac1303436da1e92b296e9be8e31ea042e3e1fd3d29b1742ad2c959e95afe30f63117b8f1bc3a3850070a5142fea7
+  languageName: node
+  linkType: hard
+
 "ts-jest@npm:26.x, ts-jest@npm:^26.4.4":
   version: 26.5.6
   resolution: "ts-jest@npm:26.5.6"
@@ -43281,6 +43372,36 @@ __metadata:
   version: 1.0.6
   resolution: "tsscmp@npm:1.0.6"
   checksum: 2f79a9455e7e3e8071995f98cdf3487ccfc91b760bec21a9abb4d90519557eafaa37246e87c92fa8bf3fef8fd30cfd0cc3c4212bb929baa9fb62494bfa4d24b2
+  languageName: node
+  linkType: hard
+
+"tsup@npm:^5.12.6":
+  version: 5.12.6
+  resolution: "tsup@npm:5.12.6"
+  dependencies:
+    bundle-require: ^3.0.2
+    cac: ^6.7.12
+    chokidar: ^3.5.1
+    debug: ^4.3.1
+    esbuild: ^0.14.25
+    execa: ^5.0.0
+    globby: ^11.0.3
+    joycon: ^3.0.1
+    postcss-load-config: ^3.0.1
+    resolve-from: ^5.0.0
+    rollup: ^2.60.0
+    source-map: ^0.7.3
+    sucrase: ^3.20.3
+    tree-kill: ^1.2.2
+  peerDependencies:
+    typescript: ^4.1.0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  bin:
+    tsup: dist/cli-default.js
+    tsup-node: dist/cli-node.js
+  checksum: 69f9fec2daab1b9b2fb08aa54d134857fee8419a78c907a0f19f25a827a3d1e4b8f02568d341109cbfd759220d8b4230104026808b32bd73d0114612d64cd7e1
   languageName: node
   linkType: hard
 

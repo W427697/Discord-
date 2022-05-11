@@ -5,12 +5,6 @@ import { WithTooltip, TooltipLinkList, Button, Icons, IconButton } from '@storyb
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
 
-export type MenuButtonProps = ComponentProps<typeof Button> &
-  // FIXME: Button should extends from the native <button>
-  ComponentProps<'button'> & {
-    highlighted: boolean;
-  };
-
 const sharedStyles = {
   height: 10,
   width: 10,
@@ -41,7 +35,13 @@ export const MenuItemIcon = ({ icon, imgSrc }: ListItemIconProps) => {
   return <Placeholder />;
 };
 
-export const MenuButton = styled(Button)<MenuButtonProps>(({ highlighted, theme }) => ({
+export const MenuButton = styled(Button)<
+  ComponentProps<typeof Button> &
+    // FIXME: Button should extends from the native <button>
+    ComponentProps<'button'> & {
+      highlighted: boolean;
+    }
+>(({ highlighted, theme }) => ({
   position: 'relative',
   overflow: 'visible',
   padding: 7,

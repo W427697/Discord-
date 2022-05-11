@@ -20,16 +20,26 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./html": {
+      "require": "./dist/html.js",
+      "import": "./dist/html.mjs",
+      "types": "./dist/html.d.ts"
+    },
+    "./package.json": {
+      "require": "./package.json",
+      "import": "./package.json",
+      "types": "./package.json"
     }
   },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -37,21 +47,19 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "ts-node ../../scripts/prebundle.ts"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/client-logger": "6.5.0-beta.4",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/theming": "6.5.0-beta.4",
-    "@types/react-syntax-highlighter": "11.0.5",
-    "core-js": "^3.8.2",
-    "react-syntax-highlighter": "^15.4.5",
-    "regenerator-runtime": "^0.13.7"
+    "@storybook/theming": "6.5.0-beta.1"
   },
   "devDependencies": {
+    "@digitak/esrun": "^3.2.2",
     "@popperjs/core": "^2.6.0",
     "@types/color-convert": "^2.0.0",
     "@types/overlayscrollbars": "^1.12.0",
+    "@types/react-syntax-highlighter": "11.0.5",
     "color-convert": "^2.0.1",
     "css": "^3.0.0",
     "fast-deep-equal": "^3.1.3",
@@ -64,12 +72,11 @@
     "polished": "^4.2.2",
     "prettier": ">=2.2.1 <=2.3.0",
     "prop-types": "^15.7.2",
-    "qs": "^6.10.0",
     "react-colorful": "^5.1.2",
     "react-popper-tooltip": "^3.1.1",
+    "react-syntax-highlighter": "^15.4.5",
     "react-textarea-autosize": "^8.3.0",
     "ts-dedent": "^2.0.0",
-    "ts-node": "^10.4.0",
     "util-deprecate": "^1.0.2"
   },
   "peerDependencies": {
@@ -79,6 +86,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": "./src/index.ts",
+  "bundlerEntrypoint": [
+    "./src/index.ts",
+    "./src/html.tsx"
+  ],
   "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04"
 }

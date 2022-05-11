@@ -1,5 +1,5 @@
 import path, { resolve } from 'path';
-import { bold, gray, greenBright } from 'chalk';
+import chalk from 'chalk';
 import execa from 'execa';
 import { rollup, OutputOptions, watch, RollupOptions } from 'rollup';
 import readPkgUp from 'read-pkg-up';
@@ -12,6 +12,8 @@ import { babel, getBabelOutputPlugin } from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import { generateDtsBundle } from 'dts-bundle-generator';
 import * as dtsLozalize from './dts-localize';
+
+const { bold, gray, greenBright } = chalk;
 
 interface Options {
   input: string;
@@ -82,6 +84,7 @@ async function build(options: Options) {
       babel({
         babelHelpers: 'external',
         skipPreflightCheck: true,
+        compact: false,
       }),
       json(),
       rollupTypescript({ lib: ['es2015', 'dom', 'esnext'], target: 'es6' }),
@@ -96,6 +99,7 @@ async function build(options: Options) {
       preferConst: true,
       plugins: [
         getBabelOutputPlugin({
+          compact: false,
           presets: [
             [
               '@babel/preset-env',
@@ -117,6 +121,7 @@ async function build(options: Options) {
       format: 'commonjs',
       plugins: [
         getBabelOutputPlugin({
+          compact: false,
           presets: [
             [
               '@babel/preset-env',
