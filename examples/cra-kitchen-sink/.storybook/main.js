@@ -37,7 +37,7 @@ module.exports = {
     breakingChangesV7: true,
   },
   framework: {
-    name: '@storybook/react',
+    name: '@storybook/react-webpack4',
     options: { fastRefresh: true },
   },
 };

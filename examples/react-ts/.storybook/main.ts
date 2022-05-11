@@ -36,6 +36,6 @@ const config: StorybookConfig = {
     previewMdx2: true,
     breakingChangesV7: true,
   },
-  framework: '@storybook/react',
+  framework: '@storybook/react-webpack4',
 };
 module.exports = config;

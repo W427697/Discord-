@@ -7160,9 +7160,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/angular@6.5.0-beta.4, @storybook/angular@workspace:*, @storybook/angular@workspace:app/angular":
+"@storybook/angular@6.5.0-beta.4, @storybook/angular@workspace:*, @storybook/angular@workspace:frameworks/angular":
   version: 0.0.0-use.local
-  resolution: "@storybook/angular@workspace:app/angular"
+  resolution: "@storybook/angular@workspace:frameworks/angular"
   dependencies:
     "@angular-devkit/architect": ~0.1102.0
     "@angular-devkit/build-angular": ~0.1102.13
@@ -7945,9 +7945,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/ember@6.5.0-beta.4, @storybook/ember@workspace:*, @storybook/ember@workspace:app/ember":
+"@storybook/ember@6.5.0-beta.4, @storybook/ember@workspace:*, @storybook/ember@workspace:frameworks/ember":
   version: 0.0.0-use.local
-  resolution: "@storybook/ember@workspace:app/ember"
+  resolution: "@storybook/ember@workspace:frameworks/ember"
   dependencies:
     "@storybook/core-client": 6.5.0-beta.4
     "@storybook/core-common": 6.5.0-beta.4
@@ -8051,20 +8051,41 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/html@6.5.0-beta.4, @storybook/html@workspace:*, @storybook/html@workspace:app/html":
+"@storybook/html-webpack4@workspace:*, @storybook/html-webpack4@workspace:frameworks/html-webpack4":
   version: 0.0.0-use.local
-  resolution: "@storybook/html@workspace:app/html"
+  resolution: "@storybook/html-webpack4@workspace:frameworks/html-webpack4"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
+    "@storybook/html": 6.5.0-beta.4
     "@storybook/preset-html-webpack": 6.5.0-beta.4
-    "@storybook/renderer-html": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
+  peerDependencies:
+    "@babel/core": "*"
+  languageName: unknown
+  linkType: soft
+
+"@storybook/html@6.5.0-beta.4, @storybook/html@workspace:*, @storybook/html@workspace:renderers/html":
+  version: 0.0.0-use.local
+  resolution: "@storybook/html@workspace:renderers/html"
+  dependencies:
+    "@storybook/addons": 6.5.0-beta.4
+    "@storybook/core-client": 6.5.0-beta.4
+    "@storybook/csf": 0.0.2--canary.4566f4d.1
+    "@storybook/docs-tools": 6.5.0-beta.4
+    "@storybook/preview-web": 6.5.0-beta.4
+    "@storybook/store": 6.5.0-beta.4
+    core-js: ^3.8.2
+    global: ^4.4.0
+    react: 16.14.0
+    react-dom: 16.14.0
+    regenerator-runtime: ^0.13.7
+    ts-dedent: ^2.0.0
   peerDependencies:
     "@babel/core": "*"
   languageName: unknown
@@ -8308,14 +8329,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preact@6.5.0-beta.4, @storybook/preact@workspace:*, @storybook/preact@workspace:app/preact":
+"@storybook/preact-webpack4@workspace:*, @storybook/preact-webpack4@workspace:frameworks/preact-webpack4":
   version: 0.0.0-use.local
-  resolution: "@storybook/preact@workspace:app/preact"
+  resolution: "@storybook/preact-webpack4@workspace:frameworks/preact-webpack4"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
+    "@storybook/preact": 6.5.0-beta.4
     "@storybook/preset-preact-webpack": 6.5.0-beta.4
-    "@storybook/renderer-preact": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     preact: ^10.5.13
@@ -8324,6 +8345,26 @@ __metadata:
     regenerator-runtime: ^0.13.7
   peerDependencies:
     "@babel/core": "*"
+    preact: ^8.0.0||^10.0.0
+  languageName: unknown
+  linkType: soft
+
+"@storybook/preact@6.5.0-beta.4, @storybook/preact@workspace:*, @storybook/preact@workspace:renderers/preact":
+  version: 0.0.0-use.local
+  resolution: "@storybook/preact@workspace:renderers/preact"
+  dependencies:
+    "@storybook/addons": 6.5.0-beta.4
+    "@storybook/core-client": 6.5.0-beta.4
+    "@storybook/csf": 0.0.2--canary.4566f4d.1
+    "@storybook/store": 6.5.0-beta.4
+    core-js: ^3.8.2
+    global: ^4.4.0
+    preact: ^10.5.13
+    react: 16.14.0
+    react-dom: 16.14.0
+    regenerator-runtime: ^0.13.7
+    ts-dedent: ^2.0.0
+  peerDependencies:
     preact: ^8.0.0||^10.0.0
   languageName: unknown
   linkType: soft
@@ -8392,8 +8433,8 @@ __metadata:
     "@storybook/core-webpack": 6.5.0-beta.4
     "@storybook/docs-tools": 6.5.0-beta.4
     "@storybook/node-logger": 6.5.0-beta.4
+    "@storybook/react": 6.5.0-beta.4
     "@storybook/react-docgen-typescript-plugin": 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
-    "@storybook/renderer-react": 6.5.0-beta.4
     "@storybook/semver": ^7.3.2
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/util-deprecate": ^1.0.0
@@ -8443,7 +8484,7 @@ __metadata:
   dependencies:
     "@storybook/core-server": 6.5.0-beta.4
     "@storybook/core-webpack": 6.5.0-beta.4
-    "@storybook/renderer-server": 6.5.0-beta.4
+    "@storybook/server": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     fs-extra: ^9.0.1
@@ -8599,13 +8640,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react@6.5.0-beta.4, @storybook/react@workspace:*, @storybook/react@workspace:app/react":
+"@storybook/react-webpack4@workspace:*, @storybook/react-webpack4@workspace:frameworks/react-webpack4":
   version: 0.0.0-use.local
-  resolution: "@storybook/react@workspace:app/react"
+  resolution: "@storybook/react-webpack4@workspace:frameworks/react-webpack4"
   dependencies:
     "@storybook/core-server": 6.5.0-beta.4
     "@storybook/preset-react-webpack": 6.5.0-beta.4
-    "@storybook/renderer-react": 6.5.0-beta.4
+    "@storybook/react": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     jest-specific-snapshot: ^4.0.0
@@ -8622,50 +8663,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/renderer-html@6.5.0-beta.4, @storybook/renderer-html@workspace:*, @storybook/renderer-html@workspace:renderers/html":
+"@storybook/react@6.5.0-beta.4, @storybook/react@workspace:*, @storybook/react@workspace:renderers/react":
   version: 0.0.0-use.local
-  resolution: "@storybook/renderer-html@workspace:renderers/html"
-  dependencies:
-    "@storybook/addons": 6.5.0-beta.4
-    "@storybook/core-client": 6.5.0-beta.4
-    "@storybook/csf": 0.0.2--canary.4566f4d.1
-    "@storybook/docs-tools": 6.5.0-beta.4
-    "@storybook/preview-web": 6.5.0-beta.4
-    "@storybook/store": 6.5.0-beta.4
-    core-js: ^3.8.2
-    global: ^4.4.0
-    react: 16.14.0
-    react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
-  peerDependencies:
-    "@babel/core": "*"
-  languageName: unknown
-  linkType: soft
-
-"@storybook/renderer-preact@6.5.0-beta.4, @storybook/renderer-preact@workspace:*, @storybook/renderer-preact@workspace:renderers/preact":
-  version: 0.0.0-use.local
-  resolution: "@storybook/renderer-preact@workspace:renderers/preact"
-  dependencies:
-    "@storybook/addons": 6.5.0-beta.4
-    "@storybook/core-client": 6.5.0-beta.4
-    "@storybook/csf": 0.0.2--canary.4566f4d.1
-    "@storybook/store": 6.5.0-beta.4
-    core-js: ^3.8.2
-    global: ^4.4.0
-    preact: ^10.5.13
-    react: 16.14.0
-    react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
-  peerDependencies:
-    preact: ^8.0.0||^10.0.0
-  languageName: unknown
-  linkType: soft
-
-"@storybook/renderer-react@6.5.0-beta.4, @storybook/renderer-react@workspace:*, @storybook/renderer-react@workspace:renderers/react":
-  version: 0.0.0-use.local
-  resolution: "@storybook/renderer-react@workspace:renderers/react"
+  resolution: "@storybook/react@workspace:renderers/react"
   dependencies:
     "@babel/core": ^7.11.5
     "@storybook/addons": 6.5.0-beta.4
@@ -8698,119 +8698,6 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  languageName: unknown
-  linkType: soft
-
-"@storybook/renderer-server@6.5.0-beta.4, @storybook/renderer-server@workspace:*, @storybook/renderer-server@workspace:renderers/server":
-  version: 0.0.0-use.local
-  resolution: "@storybook/renderer-server@workspace:renderers/server"
-  dependencies:
-    "@storybook/addons": 6.5.0-beta.4
-    "@storybook/core-client": 6.5.0-beta.4
-    "@storybook/csf": 0.0.2--canary.4566f4d.1
-    "@storybook/preview-web": 6.5.0-beta.4
-    "@storybook/store": 6.5.0-beta.4
-    core-js: ^3.8.2
-    global: ^4.4.0
-    react: 16.14.0
-    react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
-  languageName: unknown
-  linkType: soft
-
-"@storybook/renderer-svelte@6.5.0-beta.4, @storybook/renderer-svelte@workspace:*, @storybook/renderer-svelte@workspace:renderers/svelte":
-  version: 0.0.0-use.local
-  resolution: "@storybook/renderer-svelte@workspace:renderers/svelte"
-  dependencies:
-    "@storybook/addons": 6.5.0-beta.4
-    "@storybook/client-logger": 6.5.0-beta.4
-    "@storybook/core-client": 6.5.0-beta.4
-    "@storybook/csf": 0.0.2--canary.4566f4d.1
-    "@storybook/docs-tools": 6.5.0-beta.4
-    "@storybook/store": 6.5.0-beta.4
-    core-js: ^3.8.2
-    global: ^4.4.0
-    react: 16.14.0
-    react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
-    svelte: ^3.31.2
-    sveltedoc-parser: 4.1.0
-  peerDependencies:
-    "@babel/core": "*"
-    svelte: ^3.1.0
-  languageName: unknown
-  linkType: soft
-
-"@storybook/renderer-vue3@6.5.0-beta.4, @storybook/renderer-vue3@workspace:*, @storybook/renderer-vue3@workspace:renderers/vue3":
-  version: 0.0.0-use.local
-  resolution: "@storybook/renderer-vue3@workspace:renderers/vue3"
-  dependencies:
-    "@storybook/addons": 6.5.0-beta.4
-    "@storybook/core-client": 6.5.0-beta.4
-    "@storybook/csf": 0.0.2--canary.4566f4d.1
-    "@storybook/docs-tools": 6.5.0-beta.4
-    "@storybook/store": 6.5.0-beta.4
-    core-js: ^3.8.2
-    global: ^4.4.0
-    react: 16.14.0
-    react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
-    vue: 3.0.0
-  peerDependencies:
-    "@babel/core": "*"
-    babel-loader: ^7.0.0 || ^8.0.0
-    vue: ^3.0.0
-  languageName: unknown
-  linkType: soft
-
-"@storybook/renderer-vue@6.5.0-beta.4, @storybook/renderer-vue@workspace:*, @storybook/renderer-vue@workspace:renderers/vue":
-  version: 0.0.0-use.local
-  resolution: "@storybook/renderer-vue@workspace:renderers/vue"
-  dependencies:
-    "@storybook/addons": 6.5.0-beta.4
-    "@storybook/client-logger": 6.5.0-beta.4
-    "@storybook/core-client": 6.5.0-beta.4
-    "@storybook/csf": 0.0.2--canary.4566f4d.1
-    "@storybook/docs-tools": 6.5.0-beta.4
-    "@storybook/store": 6.5.0-beta.4
-    core-js: ^3.8.2
-    global: ^4.4.0
-    react: 16.14.0
-    react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
-    vue: ^2.6.12
-  peerDependencies:
-    "@babel/core": "*"
-    babel-loader: ^7.0.0 || ^8.0.0
-    css-loader: "*"
-    vue: ^2.6.8
-  languageName: unknown
-  linkType: soft
-
-"@storybook/renderer-web-components@6.5.0-beta.4, @storybook/renderer-web-components@workspace:*, @storybook/renderer-web-components@workspace:renderers/web-components":
-  version: 0.0.0-use.local
-  resolution: "@storybook/renderer-web-components@workspace:renderers/web-components"
-  dependencies:
-    "@storybook/addons": 6.5.0-beta.4
-    "@storybook/api": 6.5.0-beta.4
-    "@storybook/client-logger": 6.5.0-beta.4
-    "@storybook/core-client": 6.5.0-beta.4
-    "@storybook/csf": 0.0.2--canary.4566f4d.1
-    "@storybook/docs-tools": 6.5.0-beta.4
-    "@storybook/preview-web": 6.5.0-beta.4
-    "@storybook/store": 6.5.0-beta.4
-    core-js: ^3.8.2
-    global: ^4.4.0
-    lit-html: 2.0.2
-    react: 16.14.0
-    react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
-  peerDependencies:
-    lit-html: ^1.4.1 || ^2.0.0
   languageName: unknown
   linkType: soft
 
@@ -8886,12 +8773,14 @@ __metadata:
     "@storybook/ember": "workspace:*"
     "@storybook/eslint-config-storybook": ^2.4.0
     "@storybook/html": "workspace:*"
+    "@storybook/html-webpack4": "workspace:*"
     "@storybook/instrumenter": "workspace:*"
     "@storybook/jest": ^0.0.5
     "@storybook/linter-config": ^2.5.0
     "@storybook/node-logger": "workspace:*"
     "@storybook/postinstall": "workspace:*"
     "@storybook/preact": "workspace:*"
+    "@storybook/preact-webpack4": "workspace:*"
     "@storybook/preset-html-webpack": "workspace:*"
     "@storybook/preset-preact-webpack": "workspace:*"
     "@storybook/preset-react-webpack": "workspace:*"
@@ -8902,26 +8791,25 @@ __metadata:
     "@storybook/preset-web-components-webpack": "workspace:*"
     "@storybook/preview-web": "workspace:*"
     "@storybook/react": "workspace:*"
-    "@storybook/renderer-html": "workspace:*"
-    "@storybook/renderer-preact": "workspace:*"
-    "@storybook/renderer-react": "workspace:*"
-    "@storybook/renderer-server": "workspace:*"
-    "@storybook/renderer-svelte": "workspace:*"
-    "@storybook/renderer-vue": "workspace:*"
-    "@storybook/renderer-vue3": "workspace:*"
-    "@storybook/renderer-web-components": "workspace:*"
+    "@storybook/react-webpack4": "workspace:*"
     "@storybook/router": "workspace:*"
     "@storybook/semver": ^7.3.2
     "@storybook/server": "workspace:*"
+    "@storybook/server-webpack4": "workspace:*"
     "@storybook/source-loader": "workspace:*"
     "@storybook/store": "workspace:*"
     "@storybook/svelte": "workspace:*"
+    "@storybook/svelte-webpack4": "workspace:*"
     "@storybook/telemetry": "workspace:*"
     "@storybook/testing-library": ^0.0.7
     "@storybook/theming": "workspace:*"
     "@storybook/ui": "workspace:*"
     "@storybook/vue": "workspace:*"
+    "@storybook/vue-webpack4": "workspace:*"
+    "@storybook/vue3": "workspace:*"
+    "@storybook/vue3-webpack4": "workspace:*"
     "@storybook/web-components": "workspace:*"
+    "@storybook/web-components-webpack4": "workspace:*"
     "@testing-library/dom": ^7.29.4
     "@testing-library/jest-dom": ^5.11.9
     "@testing-library/react": ^11.2.2
@@ -9135,19 +9023,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/server@6.5.0-beta.4, @storybook/server@workspace:*, @storybook/server@workspace:app/server":
+"@storybook/server-webpack4@workspace:*, @storybook/server-webpack4@workspace:frameworks/server-webpack4":
   version: 0.0.0-use.local
-  resolution: "@storybook/server@workspace:app/server"
+  resolution: "@storybook/server-webpack4@workspace:frameworks/server-webpack4"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
     "@storybook/preset-server-webpack": 6.5.0-beta.4
-    "@storybook/renderer-server": 6.5.0-beta.4
+    "@storybook/server": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
+  languageName: unknown
+  linkType: soft
+
+"@storybook/server@6.5.0-beta.4, @storybook/server@workspace:*, @storybook/server@workspace:renderers/server":
+  version: 0.0.0-use.local
+  resolution: "@storybook/server@workspace:renderers/server"
+  dependencies:
+    "@storybook/addons": 6.5.0-beta.4
+    "@storybook/core-client": 6.5.0-beta.4
+    "@storybook/csf": 0.0.2--canary.4566f4d.1
+    "@storybook/preview-web": 6.5.0-beta.4
+    "@storybook/store": 6.5.0-beta.4
+    core-js: ^3.8.2
+    global: ^4.4.0
+    react: 16.14.0
+    react-dom: 16.14.0
+    regenerator-runtime: ^0.13.7
+    ts-dedent: ^2.0.0
   languageName: unknown
   linkType: soft
 
@@ -9196,14 +9102,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/svelte@6.5.0-beta.4, @storybook/svelte@workspace:*, @storybook/svelte@workspace:app/svelte":
+"@storybook/svelte-webpack4@workspace:*, @storybook/svelte-webpack4@workspace:frameworks/svelte-webpack4":
   version: 0.0.0-use.local
-  resolution: "@storybook/svelte@workspace:app/svelte"
+  resolution: "@storybook/svelte-webpack4@workspace:frameworks/svelte-webpack4"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
     "@storybook/preset-svelte-webpack": 6.5.0-beta.4
-    "@storybook/renderer-svelte": 6.5.0-beta.4
+    "@storybook/svelte": 6.5.0-beta.4
     core-js: ^3.8.2
     react: 16.14.0
     react-dom: 16.14.0
@@ -9214,6 +9120,29 @@ __metadata:
     "@babel/core": "*"
     svelte: ^3.1.0
     svelte-loader: "*"
+  languageName: unknown
+  linkType: soft
+
+"@storybook/svelte@6.5.0-beta.4, @storybook/svelte@workspace:*, @storybook/svelte@workspace:renderers/svelte":
+  version: 0.0.0-use.local
+  resolution: "@storybook/svelte@workspace:renderers/svelte"
+  dependencies:
+    "@storybook/addons": 6.5.0-beta.4
+    "@storybook/client-logger": 6.5.0-beta.4
+    "@storybook/core-client": 6.5.0-beta.4
+    "@storybook/csf": 0.0.2--canary.4566f4d.1
+    "@storybook/docs-tools": 6.5.0-beta.4
+    "@storybook/store": 6.5.0-beta.4
+    core-js: ^3.8.2
+    global: ^4.4.0
+    react: 16.14.0
+    react-dom: 16.14.0
+    regenerator-runtime: ^0.13.7
+    svelte: ^3.31.2
+    sveltedoc-parser: 4.1.0
+  peerDependencies:
+    "@babel/core": "*"
+    svelte: ^3.1.0
   languageName: unknown
   linkType: soft
 
@@ -9351,37 +9280,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/vue3@6.5.0-beta.4, @storybook/vue3@workspace:app/vue3":
+"@storybook/vue-webpack4@workspace:*, @storybook/vue-webpack4@workspace:frameworks/vue-webpack4":
   version: 0.0.0-use.local
-  resolution: "@storybook/vue3@workspace:app/vue3"
-  dependencies:
-    "@storybook/core-common": 6.5.0-beta.4
-    "@storybook/core-server": 6.5.0-beta.4
-    "@storybook/preset-vue3-webpack": 6.5.0-beta.4
-    "@storybook/renderer-vue3": 6.5.0-beta.4
-    "@types/node": ^14.14.20 || ^16.0.0
-    "@vue/compiler-sfc": 3.0.0
-    core-js: ^3.8.2
-    react: 16.14.0
-    react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
-    vue: 3.0.0
-  peerDependencies:
-    "@babel/core": "*"
-    "@vue/compiler-sfc": ^3.0.0
-    babel-loader: ^7.0.0 || ^8.0.0
-    vue: ^3.0.0
-  languageName: unknown
-  linkType: soft
-
-"@storybook/vue@6.5.0-beta.4, @storybook/vue@workspace:*, @storybook/vue@workspace:app/vue":
-  version: 0.0.0-use.local
-  resolution: "@storybook/vue@workspace:app/vue"
+  resolution: "@storybook/vue-webpack4@workspace:frameworks/vue-webpack4"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
     "@storybook/preset-vue-webpack": 6.5.0-beta.4
-    "@storybook/renderer-vue": 6.5.0-beta.4
+    "@storybook/vue": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     react: 16.14.0
@@ -9400,21 +9306,116 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/web-components@workspace:*, @storybook/web-components@workspace:app/web-components":
+"@storybook/vue3-webpack4@workspace:*, @storybook/vue3-webpack4@workspace:frameworks/vue3-webpack4":
   version: 0.0.0-use.local
-  resolution: "@storybook/web-components@workspace:app/web-components"
+  resolution: "@storybook/vue3-webpack4@workspace:frameworks/vue3-webpack4"
+  dependencies:
+    "@storybook/core-common": 6.5.0-beta.4
+    "@storybook/core-server": 6.5.0-beta.4
+    "@storybook/preset-vue3-webpack": 6.5.0-beta.4
+    "@storybook/vue3": 6.5.0-beta.4
+    "@types/node": ^14.14.20 || ^16.0.0
+    "@vue/compiler-sfc": 3.0.0
+    core-js: ^3.8.2
+    react: 16.14.0
+    react-dom: 16.14.0
+    regenerator-runtime: ^0.13.7
+    vue: 3.0.0
+  peerDependencies:
+    "@babel/core": "*"
+    "@vue/compiler-sfc": ^3.0.0
+    babel-loader: ^7.0.0 || ^8.0.0
+    vue: ^3.0.0
+  languageName: unknown
+  linkType: soft
+
+"@storybook/vue3@6.5.0-beta.4, @storybook/vue3@workspace:*, @storybook/vue3@workspace:renderers/vue3":
+  version: 0.0.0-use.local
+  resolution: "@storybook/vue3@workspace:renderers/vue3"
+  dependencies:
+    "@storybook/addons": 6.5.0-beta.4
+    "@storybook/core-client": 6.5.0-beta.4
+    "@storybook/csf": 0.0.2--canary.4566f4d.1
+    "@storybook/docs-tools": 6.5.0-beta.4
+    "@storybook/store": 6.5.0-beta.4
+    core-js: ^3.8.2
+    global: ^4.4.0
+    react: 16.14.0
+    react-dom: 16.14.0
+    regenerator-runtime: ^0.13.7
+    ts-dedent: ^2.0.0
+    vue: 3.0.0
+  peerDependencies:
+    "@babel/core": "*"
+    babel-loader: ^7.0.0 || ^8.0.0
+    vue: ^3.0.0
+  languageName: unknown
+  linkType: soft
+
+"@storybook/vue@6.5.0-beta.4, @storybook/vue@workspace:*, @storybook/vue@workspace:renderers/vue":
+  version: 0.0.0-use.local
+  resolution: "@storybook/vue@workspace:renderers/vue"
+  dependencies:
+    "@storybook/addons": 6.5.0-beta.4
+    "@storybook/client-logger": 6.5.0-beta.4
+    "@storybook/core-client": 6.5.0-beta.4
+    "@storybook/csf": 0.0.2--canary.4566f4d.1
+    "@storybook/docs-tools": 6.5.0-beta.4
+    "@storybook/store": 6.5.0-beta.4
+    core-js: ^3.8.2
+    global: ^4.4.0
+    react: 16.14.0
+    react-dom: 16.14.0
+    regenerator-runtime: ^0.13.7
+    ts-dedent: ^2.0.0
+    vue: ^2.6.12
+  peerDependencies:
+    "@babel/core": "*"
+    babel-loader: ^7.0.0 || ^8.0.0
+    css-loader: "*"
+    vue: ^2.6.8
+  languageName: unknown
+  linkType: soft
+
+"@storybook/web-components-webpack4@workspace:*, @storybook/web-components-webpack4@workspace:frameworks/web-components-webpack4":
+  version: 0.0.0-use.local
+  resolution: "@storybook/web-components-webpack4@workspace:frameworks/web-components-webpack4"
   dependencies:
     "@babel/preset-env": ^7.12.11
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
     "@storybook/preset-web-components-webpack": 6.5.0-beta.4
-    "@storybook/renderer-web-components": 6.5.0-beta.4
+    "@storybook/web-components": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     lit-html: 2.0.2
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
+  peerDependencies:
+    lit-html: ^1.4.1 || ^2.0.0
+  languageName: unknown
+  linkType: soft
+
+"@storybook/web-components@6.5.0-beta.4, @storybook/web-components@workspace:*, @storybook/web-components@workspace:renderers/web-components":
+  version: 0.0.0-use.local
+  resolution: "@storybook/web-components@workspace:renderers/web-components"
+  dependencies:
+    "@storybook/addons": 6.5.0-beta.4
+    "@storybook/api": 6.5.0-beta.4
+    "@storybook/client-logger": 6.5.0-beta.4
+    "@storybook/core-client": 6.5.0-beta.4
+    "@storybook/csf": 0.0.2--canary.4566f4d.1
+    "@storybook/docs-tools": 6.5.0-beta.4
+    "@storybook/preview-web": 6.5.0-beta.4
+    "@storybook/store": 6.5.0-beta.4
+    core-js: ^3.8.2
+    global: ^4.4.0
+    lit-html: 2.0.2
+    react: 16.14.0
+    react-dom: 16.14.0
+    regenerator-runtime: ^0.13.7
+    ts-dedent: ^2.0.0
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
   languageName: unknown
