@@ -367,11 +367,6 @@ jobs:
           command: |
             cd examples/preact-kitchen-sink
             yarn storybook --smoke-test --quiet
-      - run:
-          name: Run cra react15 (smoke test)
-          command: |
-            cd examples/cra-react15
-            yarn storybook --smoke-test --quiet
   lint:
     executor:
       class: small

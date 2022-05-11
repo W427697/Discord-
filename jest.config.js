@@ -59,7 +59,6 @@ module.exports = {
     'addon-jest.test.js',
     '/app/angular/*',
     '/examples/cra-kitchen-sink/src/*',
-    '/examples/cra-react15/src/*',
     '/examples/cra-ts-kitchen-sink/src/components/*',
     '/examples/angular-cli/src/app/*',
   ],

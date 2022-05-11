@@ -157,9 +157,6 @@
     "cra-kitchen-sink": {
       "implicitDependencies": []
     },
-    "cra-react15": {
-      "implicitDependencies": []
-    },
     "cra-ts-essentials": {
       "implicitDependencies": []
     },

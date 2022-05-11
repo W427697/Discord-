@@ -121,10 +121,6 @@
       "root": "examples/cra-kitchen-sink",
       "type": "library"
     },
-    "cra-react15": {
-      "root": "examples/cra-react15",
-      "type": "library"
-    },
     "cra-ts-essentials": {
       "root": "examples/cra-ts-essentials",
       "type": "library"
