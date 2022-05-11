@@ -1,11 +1,12 @@
 {
   "extends": "../../tsconfig.json",
+  "baseUrl": ".",
   "compilerOptions": {
     "lib": ["ESNext", "DOM", "DOM.Iterable"]
   },
   "include": [
-  "src/**/*"
-],
+    "src/**/*"
+  ],
   "exclude": [
     "src/**/*.test.*",
     "src/**/tests/**/*",

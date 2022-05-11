@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo, ComponentProps } from 'react';
+import React, { FunctionComponent, useMemo, ComponentProps, FC } from 'react';
 
 import { styled } from '@storybook/theming';
 import { WithTooltip, TooltipLinkList, Button, Icons, IconButton } from '@storybook/components';
@@ -35,12 +35,12 @@ export const MenuItemIcon = ({ icon, imgSrc }: ListItemIconProps) => {
   return <Placeholder />;
 };
 
-export const MenuButton = styled(Button)<
-  ComponentProps<typeof Button> &
-    // FIXME: Button should extends from the native <button>
-    ComponentProps<'button'> & {
-      highlighted: boolean;
-    }
+export const MenuButton: FC<ComponentProps<typeof Button> & { highlighted: boolean }> = styled(
+  Button
+)<
+  ComponentProps<typeof Button> & {
+    highlighted: boolean;
+  }
 >(({ highlighted, theme }) => ({
   position: 'relative',
   overflow: 'visible',
