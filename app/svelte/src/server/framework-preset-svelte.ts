@@ -1,4 +1,4 @@
-import type { Options, StorybookConfig } from '@storybook/core-common';
+import type { Options } from '@storybook/core-common';
 import type { Configuration } from 'webpack';
 import type { TransformOptions } from '@babel/core';
 
@@ -40,7 +40,3 @@ export async function babelDefault(config: TransformOptions): Promise<TransformO
     plugins: [...(config?.plugins || [])],
   };
 }
-
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
-  return [...entry, require.resolve('@storybook/renderer-svelte/dist/esm/preview/config')];
-};

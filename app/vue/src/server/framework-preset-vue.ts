@@ -43,7 +43,3 @@ export async function webpack(config: Configuration, { presets }: Options) {
 
   return config;
 }
-
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
-  return [...entry, require.resolve('@storybook/renderer-vue/dist/esm/preview/config')];
-};

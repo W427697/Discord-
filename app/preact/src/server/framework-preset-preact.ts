@@ -28,6 +28,4 @@ export function webpackFinal(config: Configuration): Configuration {
   };
 }
 
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
-  return [...entry, require.resolve('@storybook/renderer-preact/dist/esm/preview/config')];
-};
+export const addons: StorybookConfig['addons'] = ['@storybook/renderer-preact'];

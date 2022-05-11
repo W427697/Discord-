@@ -1,6 +1,5 @@
 import { VueLoaderPlugin } from 'vue-loader';
 import { Configuration, DefinePlugin } from 'webpack';
-import type { StorybookConfig } from '@storybook/core-common';
 
 export function webpack(config: Configuration): Configuration {
   return {
@@ -46,7 +45,3 @@ export function webpack(config: Configuration): Configuration {
     },
   };
 }
-
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
-  return [...entry, require.resolve('@storybook/renderer-vue3/dist/esm/preview/config')];
-};
