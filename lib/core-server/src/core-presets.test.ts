@@ -60,7 +60,7 @@ jest.mock('./utils/stories-json', () => ({
 
 jest.mock('@storybook/manager-webpack5', () => {
   const value = jest.fn();
-  const actualBuilder = jest.requireActual('@storybook/manager-webpack4');
+  const actualBuilder = jest.requireActual('@storybook/manager-webpack5');
   // MUTATION!
   actualBuilder.executor.get = () => value;
   return actualBuilder;

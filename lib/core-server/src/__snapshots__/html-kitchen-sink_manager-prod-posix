@@ -32,6 +32,21 @@ Object {
   "module": Object {
     "rules": Array [
       Object {
+        "exclude": Array [
+          "NODE_MODULES/",
+          "/dist/",
+        ],
+        "include": Array [
+          "ROOT",
+        ],
+        "loader": "NODE_MODULES/esbuild-loader/dist/index.js",
+        "options": Object {
+          "loader": "tsx",
+          "target": "chrome100",
+        },
+        "test": "/\\\\.(mjs|tsx?|jsx?)$/",
+      },
+      Object {
         "test": "/\\\\.css$/",
         "use": Array [
           "NODE_MODULES/style-loader/dist/cjs.js",
