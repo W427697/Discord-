@@ -5,14 +5,14 @@ jest.mock('@storybook/core-server/standalone');
 describe.each([
   ['angular'],
   ['ember'],
-  ['html'],
-  ['preact'],
-  ['react'],
-  ['server'],
-  ['svelte'],
-  ['vue'],
-  ['vue3'],
-  ['web-components'],
+  ['html-webpack4'],
+  ['preact-webpack4'],
+  ['react-webpack4'],
+  ['server-webpack4'],
+  ['svelte-webpack4'],
+  ['vue-webpack4'],
+  ['vue3-webpack4'],
+  ['web-components-webpack4'],
 ])('%s', (app) => {
   it('should run standalone', async () => {
     // eslint-disable-next-line import/no-dynamic-require, global-require

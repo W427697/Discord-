@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/react/types';
+import type { StorybookConfig } from '@storybook/react-webpack4/types';
 
 const config: StorybookConfig = {
   stories: [
