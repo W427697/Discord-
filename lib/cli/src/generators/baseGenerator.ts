@@ -1,6 +1,5 @@
 import fse from 'fs-extra';
 import dedent from 'ts-dedent';
-import { getStorybookBabelDependencies } from '@storybook/core-common';
 import { NpmOptions } from '../NpmOptions';
 import { SupportedLanguage, SupportedFrameworks, Builder, CoreBuilder } from '../project_types';
 import { getBabelDependencies, copyComponents } from '../helpers';
@@ -169,7 +168,6 @@ export async function baseGenerator(
 
   const babelDependencies = addBabel ? await getBabelDependencies(packageManager, packageJson) : [];
   if (isNewFolder) {
-    babelDependencies.push(...getStorybookBabelDependencies());
     await generateStorybookBabelConfigInCWD();
   }
   packageManager.addDependencies({ ...npmOptions, packageJson }, [

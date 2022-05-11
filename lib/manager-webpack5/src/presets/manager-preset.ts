@@ -15,7 +15,6 @@ import {
   loadManagerOrAddonsFile,
   resolvePathInStorybookCache,
   stringifyProcessEnvs,
-  // es6Transpiler,
   getManagerHeadTemplate,
   getManagerMainTemplate,
 } from '@storybook/core-common';

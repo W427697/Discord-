@@ -14,7 +14,6 @@ import themingPaths from '@storybook/theming/paths';
 import type { Options, CoreConfig } from '@storybook/core-common';
 import {
   toRequireContextString,
-  // es6Transpiler,
   stringifyProcessEnvs,
   handlebars,
   interpolate,
@@ -240,7 +239,6 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     module: {
       rules: [
         babelLoader,
-        // es6Transpiler() as any,
         {
           test: /\.md$/,
           type: 'asset/source',
