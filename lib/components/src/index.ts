@@ -45,6 +45,7 @@ export { Spaced } from './spaced/Spaced';
 export { Placeholder } from './placeholder/placeholder';
 export { ScrollArea } from './ScrollArea/ScrollArea';
 export { Zoom } from './Zoom/Zoom';
+export type { ActionItem } from './ActionBar/ActionBar';
 
 // Forms
 export { Button } from './Button/Button';

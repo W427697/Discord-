@@ -1,4 +1,4 @@
-export { ColorPalette, ColorItem, IconGallery, IconItem, Typeset } from '@storybook/components';
+export { ColorPalette, ColorItem, IconGallery, IconItem, Typeset } from '@storybook/blocks';
 
 export * from './Anchor';
 export * from './ArgsTable';
