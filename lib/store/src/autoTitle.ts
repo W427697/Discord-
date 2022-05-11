@@ -1,4 +1,3 @@
-import startCase from 'lodash/startCase';
 import slash from 'slash';
 
 // FIXME: types duplicated type from `core-common', to be
@@ -23,11 +22,13 @@ const stripExtension = (path: string[]) => {
   return parts;
 };
 
+const indexRe = /^index$/i;
+
 // deal with files like "atoms/button/{button,index}.stories.js"
 const removeRedundantFilename = (paths: string[]) => {
   let prevVal: string;
   return paths.filter((val, index) => {
-    if (index === paths.length - 1 && (val === prevVal || val === 'Index')) {
+    if (index === paths.length - 1 && (val === prevVal || indexRe.test(val))) {
       return false;
     }
     prevVal = val;
@@ -47,27 +48,45 @@ function pathJoin(paths: string[]): string {
   return paths.join('/').replace(slashes, '/');
 }
 
-export const autoTitleFromSpecifier = (fileName: string, entry: NormalizedStoriesSpecifier) => {
+export const userOrAutoTitleFromSpecifier = (
+  fileName: string,
+  entry: NormalizedStoriesSpecifier,
+  userTitle?: string
+) => {
   const { directory, importPathMatcher, titlePrefix = '' } = entry || {};
   // On Windows, backslashes are used in paths, which can cause problems here
   // slash makes sure we always handle paths with unix-style forward slash
   const normalizedFileName = slash(fileName);
 
   if (importPathMatcher.exec(normalizedFileName)) {
-    const suffix = normalizedFileName.replace(directory, '');
-    const titleAndSuffix = slash(pathJoin([titlePrefix, suffix]));
-    let path = titleAndSuffix.split('/');
-    path = stripExtension(path).map(startCase);
-    path = removeRedundantFilename(path);
-    return path.join('/');
+    if (!userTitle) {
+      const suffix = normalizedFileName.replace(directory, '');
+      const titleAndSuffix = slash(pathJoin([titlePrefix, suffix]));
+      let path = titleAndSuffix.split('/');
+      path = stripExtension(path);
+      path = removeRedundantFilename(path);
+      return path.join('/');
+    }
+
+    if (!titlePrefix) {
+      return userTitle;
+    }
+
+    return slash(pathJoin([titlePrefix, userTitle]));
   }
+
   return undefined;
 };
 
-export const autoTitle = (fileName: string, storiesEntries: NormalizedStoriesSpecifier[]) => {
+export const userOrAutoTitle = (
+  fileName: string,
+  storiesEntries: NormalizedStoriesSpecifier[],
+  userTitle?: string
+) => {
   for (let i = 0; i < storiesEntries.length; i += 1) {
-    const title = autoTitleFromSpecifier(fileName, storiesEntries[i]);
+    const title = userOrAutoTitleFromSpecifier(fileName, storiesEntries[i], userTitle);
     if (title) return title;
   }
-  return undefined;
+
+  return userTitle || undefined;
 };

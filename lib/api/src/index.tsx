@@ -11,6 +11,7 @@ import React, {
   useRef,
 } from 'react';
 import mergeWith from 'lodash/mergeWith';
+import { Conditional } from '@storybook/csf';
 
 import {
   STORY_CHANGED,
@@ -25,6 +26,7 @@ import { createContext } from './context';
 import Store, { Options } from './store';
 import getInitialState from './initial-state';
 import type { StoriesHash, Story, Root, Group } from './lib/stories';
+import type { ComposedRef, Refs } from './modules/refs';
 import { isGroup, isRoot, isStory } from './lib/stories';
 
 import * as provider from './modules/provider';
@@ -119,6 +121,7 @@ export interface ArgType {
   name?: string;
   description?: string;
   defaultValue?: any;
+  if?: Conditional;
   [key: string]: any;
 }
 
@@ -178,7 +181,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     // This gives the modules the chance to read the persisted state, apply their defaults
     // and override if necessary
     const docsModeState = {
-      layout: { isToolshown: false, showPanel: false },
+      layout: { showToolbar: false, showPanel: false },
       ui: { docsMode: true },
     };
 
@@ -222,7 +225,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     this.api = api;
   }
 
-  static getDerivedStateFromProps = (props: ManagerProviderProps, state: State) => {
+  static getDerivedStateFromProps(props: ManagerProviderProps, state: State) {
     if (state.path !== props.path) {
       return {
         ...state,
@@ -235,7 +238,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       };
     }
     return null;
-  };
+  }
 
   shouldComponentUpdate(nextProps: ManagerProviderProps, nextState: State) {
     const prevState = this.state;
@@ -332,7 +335,7 @@ export function useStorybookApi(): API {
   return api;
 }
 
-export type { StoriesHash, Story, Root, Group };
+export type { StoriesHash, Story, Root, Group, ComposedRef, Refs };
 export { ManagerConsumer as Consumer, ManagerProvider as Provider, isGroup, isRoot, isStory };
 
 export interface EventMap {

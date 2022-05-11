@@ -1,8 +1,17 @@
 <h1>Migration</h1>
 
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
+  - [React18 new root API](#react18-new-root-api)
+  - [Renamed isToolshown to showToolbar](#renamed-istoolshown-to-showtoolbar)
+  - [Deprecated register.js](#deprecated-registerjs)
+  - [Dropped support for addon-actions addDecorators](#dropped-support-for-addon-actions-adddecorators)
+  - [Vite builder renamed](#vite-builder-renamed)
+  - [Docs framework refactor for React](#docs-framework-refactor-for-react)
   - [Opt-in MDX2 support](#opt-in-mdx2-support)
-  - [CSF3 auto-title redundant filename](#csf3-auto-title-redundant-filename)
+  - [CSF3 auto-title improvements](#csf3-auto-title-improvements)
+    - [Auto-title filename case](#auto-title-filename-case)
+    - [Auto-title redundant filename](#auto-title-redundant-filename)
+    - [Auto-title always prefixes](#auto-title-always-prefixes)
 - [From version 6.3.x to 6.4.0](#from-version-63x-to-640)
   - [Automigrate](#automigrate)
   - [CRA5 upgrade](#cra5-upgrade)
@@ -193,6 +202,71 @@
 
 ## From version 6.4.x to 6.5.0
 
+### React18 new root API
+
+React 18 introduces a [new root API](https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html#updates-to-client-rendering-apis). Starting in 6.5, Storybook for React will auto-detect your react version and use the new root API automatically if you're on React18.
+
+If you wish to opt out of the new root API, set the `reactOptions.legacyRootApi` flag in your `.storybook/main.js` config:
+
+```js
+module.exports = {
+  reactOptions: { legacyRootApi: true },
+};
+```
+
+### Renamed isToolshown to showToolbar
+
+Storybook's [manager API](docs/addons/addons-api.md) has deprecated the `isToolshown` option (to show/hide the toolbar) and renamed it to `showToolbar` for consistency with other similar UI options.
+
+Example:
+
+```js
+// .storybook/manager.js
+import { addons } from '@storybook/addons';
+
+addons.setConfig({
+  showToolbar: false,
+});
+```
+
+### Deprecated register.js
+
+In ancient versions of Storybook, addons were registered by referring to `addon-name/register.js`. This is going away in SB7.0. Instead you should just add `addon-name` to the `addons` array in `.storybook/main.js`.
+
+Before:
+
+```js
+module.exports = { addons: ['my-addon/register.js'] };
+```
+
+After:
+
+```js
+module.exports = { addons: ['my-addon'] };
+```
+
+### Dropped support for addon-actions addDecorators
+
+Prior to SB6.5, `addon-actions` provided an option called `addDecorators`. In SB6.5, decorators are applied always. This is technically a breaking change, so if this affects you please file an issue in Github and we can consider reverting this in a patch release.
+
+### Vite builder renamed
+
+SB6.5 renames Storybook's [Vite builder](https://github.com/storybookjs/builder-vite) from `storybook-builder-vite` to `@storybook/builder-vite`. This move is part of a larger effort to improve Vite support in Storybook.
+
+Storybook's `automigrate` command can migrate for you. To manually migrate:
+
+1. Remove `storybook-builder-vite` from your `package.json` dependencies
+2. Install `@storybook/builder-vite`
+3. Update your `core.builder` setting in `.storybook/main.js` to `@storybook/builder-vite`.
+
+### Docs framework refactor for React
+
+SB6.5 moves framework specializations (e.g. ArgType inference, dynamic snippet rendering) out of `@storybook/addon-docs` and into the specific framework packages to which they apply (e.g. `@storybook/react`).
+
+This change should not require any specific migrations on your part if you are using the docs addon as described in the documentation. However, if you are using `react-docgen` or `react-docgen-typescript` information in some custom way outside of `addon-docs`, you should be aware of this change.
+
+In SB6.4, `@storybook/react` added `react-docgen` to its babel settings and `react-docgen-typescript` to its webpack settings. In SB6.5, this only happens if you are using `addon-docs` or `addon-controls`, either directly or indirectly through `addon-essentials`. If you're not using either of those addons, but require that information for some other addon, please configure that manually in your `.storybook/main.js` configuration. You can see the docs configuration here: https://github.com/storybookjs/storybook/blob/next/app/react/src/server/framework-preset-react-docs.ts
+
 ### Opt-in MDX2 support
 
 SB6.5 adds experimental opt-in support for MDXv2. To install:
@@ -211,13 +285,44 @@ module.exports = {
 };
 ```
 
-### CSF3 auto-title redundant filename
+### CSF3 auto-title improvements
 
 SB 6.4 introduced experimental "auto-title", in which a story's location in the sidebar (aka `title`) can be automatically inferred from its location on disk. For example, the file `atoms/Button.stories.js` might result in the title `Atoms/Button`.
 
+We've made two improvements to Auto-title based on user feedback:
+
+- Auto-title preserves filename case
+- Auto-title removes redundant filenames from the path
+
+#### Auto-title filename case
+
+SB 6.4's implementation of auto-title ran `startCase` on each path component. For example, the file `atoms/MyButton` would be transformed to `Atoms/My Button`.
+
+We've changed this in SB 6.5 to preserve the filename case, so that instead it the same file would result in the title `atoms/MyButton`. The rationale is that this gives more control to users about what their auto-title will be.
+
+This might be considered a breaking change. However, we feel justified to release this in 6.5 because:
+
+1. We consider it a bug in the initial auto-title implementation
+2. CSF3 and the auto-title feature are experimental, and we reserve the right to make breaking changes outside of semver (tho we try to avoid it)
+
+If you want to restore the old titles in the UI, you can customize your sidebar with the following code snippet in `.storybook/manager.js`:
+
+```js
+import { addons } from '@storybook/addons';
+import startCase from 'lodash/startCase';
+
+addons.setConfig({
+  sidebar: {
+    renderLabel: ({ name, type }) => (type === 'story' ? name : startCase(name)),
+  },
+});
+```
+
+#### Auto-title redundant filename
+
 The heuristic failed in the common scenario in which each component gets its own directory, e.g. `atoms/Button/Button.stories.js`, which would result in the redundant title `Atoms/Button/Button`. Alternatively, `atoms/Button/index.stories.js` would result in `Atoms/Button/Index`.
 
-To address this problem, 6.5 introduces a new heuristic to removes the filename if it matches the directory name (case insensitive) or `index`. So `atoms/Button/Button.stories.js` and `atoms/Button/index.stories.js` would both result in the title `Atoms/Button`.
+To address this problem, 6.5 introduces a new heuristic to removes the filename if it matches the directory name or `index`. So `atoms/Button/Button.stories.js` and `atoms/Button/index.stories.js` would both result in the title `Atoms/Button` (or `atoms/Button` if `autoTitleFilenameCase` is set, see above).
 
 Since CSF3 is experimental, we are introducing this technically breaking change in a minor release. If you desire the old structure, you can manually specify the title in file. For example:
 
@@ -225,6 +330,35 @@ Since CSF3 is experimental, we are introducing this technically breaking change 
 // atoms/Button/Button.stories.js
 export default { title: 'Atoms/Button/Button' };
 ```
+
+#### Auto-title always prefixes
+
+When the user provides a `prefix` in their `main.js` `stories` field, it now prefixes all titles to matching stories, whereas in 6.4 and earlier it only prefixed auto-titles.
+
+Consider the following example:
+
+```js
+// main.js
+module.exports = {
+  stories: [{ directory: '../src', titlePrefix: 'Custom' }]
+}
+
+// ../src/NoTitle.stories.js
+export default { component: Foo };
+
+// ../src/Title.stories.js
+export default { component: Bar, title: 'Bar' }
+```
+
+In 6.4, the final titles would be:
+
+- `NoTitle.stories.js` => `Custom/NoTitle`
+- `Title.stories.js` => `Bar`
+
+In 6.5, the final titles would be:
+
+- `NoTitle.stories.js` => `Custom/NoTitle`
+- `Title.stories.js` => `Custom/Bar`
 
 ## From version 6.3.x to 6.4.0
 
@@ -239,7 +373,9 @@ For example, if you're in a webpack5 project but still use Storybook's default w
 You can run the existing suite of automigrations to see which ones apply to your project. This won't update any files unless you accept the changes:
 
 ```
+
 npx sb@next automigrate
+
 ```
 
 The automigration suite also runs when you create a new project (`sb init`) or when you update storybook (`sb upgrade`).
@@ -249,7 +385,9 @@ The automigration suite also runs when you create a new project (`sb init`) or w
 Storybook 6.3 supports CRA5 out of the box when you install it fresh. However, if you're upgrading your project from a previous version, you'll need to upgrade the configuration. You can do this automatically by running:
 
 ```
+
 npx sb@next automigrate
+
 ```
 
 Or you can do the following steps manually to force Storybook to use webpack 5 for building your project:

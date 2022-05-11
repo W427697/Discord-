@@ -3,7 +3,7 @@ import path from 'path';
 import { mkdtemp as mkdtempCb } from 'fs';
 import os from 'os';
 import { promisify } from 'util';
-import { Configuration } from 'webpack';
+import type { Configuration } from 'webpack';
 import { resolvePathInStorybookCache, createFileSystemCache } from '@storybook/core-common';
 import { executor as previewExecutor } from '@storybook/builder-webpack4';
 import { executor as managerExecutor } from '@storybook/manager-webpack4';
@@ -38,6 +38,31 @@ jest.mock('@storybook/builder-webpack4', () => {
   actualBuilder.overridePresets = [...actualBuilder.overridePresets, skipStoriesJsonPreset];
   return actualBuilder;
 });
+
+jest.mock('@storybook/telemetry', () => ({
+  getStorybookMetadata: jest.fn(() => ({})),
+  telemetry: jest.fn(() => ({})),
+}));
+
+jest.mock('./utils/StoryIndexGenerator', () => {
+  const { StoryIndexGenerator } = jest.requireActual('./utils/StoryIndexGenerator');
+  return {
+    StoryIndexGenerator: class extends StoryIndexGenerator {
+      initialize() {
+        return Promise.resolve(undefined);
+      }
+
+      getIndex() {
+        return { stories: {}, v: 3 };
+      }
+    },
+  };
+});
+
+jest.mock('./utils/stories-json', () => ({
+  extractStoriesJson: () => Promise.resolve(),
+  useStoriesJson: () => {},
+}));
 
 jest.mock('@storybook/manager-webpack4', () => {
   const value = jest.fn();
@@ -153,6 +178,7 @@ describe.each([
       ['prod', buildStaticStandalone],
       ['dev', buildDevStandalone],
     ])('%s', async (mode, builder) => {
+      console.log('running for ', mode, builder);
       const options = {
         ...baseOptions,
         ...frameworkOptions,
@@ -163,7 +189,6 @@ describe.each([
         ignorePreview: component === 'manager',
         managerCache: component === 'preview',
       };
-
       await builder(options);
       const config = prepareSnap(executor.get, component);
       expect(config).toMatchSpecificSnapshot(
