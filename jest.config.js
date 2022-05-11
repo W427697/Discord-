@@ -26,7 +26,7 @@ module.exports = {
   },
   projects: [
     '<rootDir>',
-    '<rootDir>/app/angular',
+    '<rootDir>/frameworks/angular',
     '<rootDir>/examples/cra-kitchen-sink',
     '<rootDir>/examples/cra-ts-kitchen-sink',
     '<rootDir>/examples/html-kitchen-sink',
@@ -57,7 +57,7 @@ module.exports = {
     '/dist/',
     '/prebuilt/',
     'addon-jest.test.js',
-    '/app/angular/*',
+    '/frameworks/angular/*',
     '/examples/cra-kitchen-sink/src/*',
     '/examples/cra-react15/src/*',
     '/examples/cra-ts-kitchen-sink/src/components/*',
@@ -65,7 +65,7 @@ module.exports = {
   ],
   collectCoverage: false,
   collectCoverageFrom: [
-    'app/**/*.{js,jsx,ts,tsx}',
+    'frameworks/**/*.{js,jsx,ts,tsx}',
     'lib/**/*.{js,jsx,ts,tsx}',
     'addons/**/*.{js,jsx,ts,tsx}',
   ],
