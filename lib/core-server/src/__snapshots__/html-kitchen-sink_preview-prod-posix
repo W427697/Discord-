@@ -408,7 +408,7 @@ Object {
       },
       Object {
         "enforce": "pre",
-        "loader": "ROOT/lib/source-loader/dist/cjs/index.js",
+        "loader": "NODE_MODULES/@storybook/source-loader/dist/cjs/index.js",
         "options": Object {
           "injectStoryParameters": true,
           "inspectLocalDependencies": true,
