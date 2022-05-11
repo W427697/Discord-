@@ -27,13 +27,13 @@ module.exports = {
   projects: [
     '<rootDir>',
     // '<rootDir>/app/angular',
-    '<rootDir>/examples/cra-kitchen-sink',
-    '<rootDir>/examples/cra-ts-kitchen-sink',
-    '<rootDir>/examples/html-kitchen-sink',
-    '<rootDir>/examples/svelte-kitchen-sink',
-    '<rootDir>/examples/vue-kitchen-sink',
+    // '<rootDir>/examples/cra-kitchen-sink',
+    // '<rootDir>/examples/cra-ts-kitchen-sink',
+    // '<rootDir>/examples/html-kitchen-sink',
+    // '<rootDir>/examples/svelte-kitchen-sink',
+    // '<rootDir>/examples/vue-kitchen-sink',
     // '<rootDir>/examples/angular-cli',
-    '<rootDir>/examples/preact-kitchen-sink',
+    // '<rootDir>/examples/preact-kitchen-sink',
     // This is explicitly commented out because having vue 2 & 3 in the
     // dependency graph makes it impossible to run storyshots on both examples
     // '<rootDir>/examples/vue-3-cli',
@@ -58,9 +58,9 @@ module.exports = {
     '/prebuilt/',
     'addon-jest.test.js',
     '/app/angular/*',
-    '/examples/cra-kitchen-sink/src/*',
-    '/examples/cra-ts-kitchen-sink/src/components/*',
-    '/examples/angular-cli/src/app/*',
+    '/examples/*/src/*.*',
+    '/examples/*/src/*/*.*',
+    '/examples/*/src/*/*/*.*',
   ],
   collectCoverage: false,
   collectCoverageFrom: [
