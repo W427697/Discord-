@@ -1,5 +1,5 @@
 import path from 'path';
-import type { StorybookConfig } from '@storybook/webpack-tools';
+import type { StorybookConfig } from '@storybook/core-webpack';
 
 export const babelDefault: StorybookConfig['babelDefault'] = (config) => {
   return {

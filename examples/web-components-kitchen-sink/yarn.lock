@@ -2868,6 +2868,7 @@ __metadata:
     "@storybook/components": 6.5.0-beta.4
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-events": 6.5.0-beta.4
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@storybook/node-logger": 6.5.0-beta.4
     "@storybook/preview-web": 6.5.0-beta.4
     "@storybook/router": 6.5.0-beta.4
@@ -2875,7 +2876,6 @@ __metadata:
     "@storybook/store": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
     "@storybook/ui": 6.5.0-beta.4
-    "@storybook/webpack-tools": 6.5.0-beta.4
     "@types/node": ^14.0.10 || ^16.0.0
     "@types/webpack": ^4.41.26
     autoprefixer: ^9.8.6
@@ -3234,6 +3234,18 @@ __metadata:
   languageName: node
   linkType: soft
 
+"@storybook/core-webpack@portal:../../lib/core-webpack::locator=web-components-kitchen-sink%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@storybook/core-webpack@portal:../../lib/core-webpack::locator=web-components-kitchen-sink%40workspace%3A."
+  dependencies:
+    "@storybook/core-common": 6.5.0-beta.4
+    "@storybook/node-logger": 6.5.0-beta.4
+    "@types/node": ^14.0.10 || ^16.0.0
+    core-js: ^3.8.2
+    ts-dedent: ^2.0.0
+  languageName: node
+  linkType: soft
+
 "@storybook/csf-tools@portal:../../lib/csf-tools::locator=web-components-kitchen-sink%40workspace%3A.":
   version: 0.0.0-use.local
   resolution: "@storybook/csf-tools@portal:../../lib/csf-tools::locator=web-components-kitchen-sink%40workspace%3A."
@@ -3293,10 +3305,10 @@ __metadata:
     "@storybook/addons": 6.5.0-beta.4
     "@storybook/core-client": 6.5.0-beta.4
     "@storybook/core-common": 6.5.0-beta.4
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@storybook/node-logger": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
     "@storybook/ui": 6.5.0-beta.4
-    "@storybook/webpack-tools": 6.5.0-beta.4
     "@types/node": ^14.0.10 || ^16.0.0
     "@types/webpack": ^4.41.26
     babel-loader: ^8.0.0
@@ -3378,7 +3390,7 @@ __metadata:
     "@babel/plugin-syntax-dynamic-import": ^7.8.3
     "@babel/plugin-syntax-import-meta": ^7.10.4
     "@babel/preset-env": ^7.12.11
-    "@storybook/webpack-tools": 6.5.0-beta.4
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     babel-plugin-bundled-import-meta: ^0.3.1
     core-js: ^3.8.2
@@ -3579,18 +3591,6 @@ __metadata:
     regenerator-runtime: ^0.13.7
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
-  languageName: node
-  linkType: soft
-
-"@storybook/webpack-tools@portal:../../lib/webpack-tools::locator=web-components-kitchen-sink%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@storybook/webpack-tools@portal:../../lib/webpack-tools::locator=web-components-kitchen-sink%40workspace%3A."
-  dependencies:
-    "@storybook/core-common": 6.5.0-beta.4
-    "@storybook/node-logger": 6.5.0-beta.4
-    "@types/node": ^14.0.10 || ^16.0.0
-    core-js: ^3.8.2
-    ts-dedent: ^2.0.0
   languageName: node
   linkType: soft
 

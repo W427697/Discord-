@@ -1,6 +1,6 @@
 import type { Configuration } from 'webpack';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-import type { Options } from '@storybook/webpack-tools';
+import type { Options } from '@storybook/core-webpack';
 import * as preset from './framework-preset-react';
 
 const mockApply = jest.fn();

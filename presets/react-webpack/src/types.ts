@@ -2,10 +2,10 @@ import type {
   CommonWebpackConfiguration,
   StorybookConfig as BaseStorybookConfig,
   TypescriptOptions as BaseTypescriptOptions,
-} from '@storybook/webpack-tools';
+} from '@storybook/core-webpack';
 import type { PluginOptions as ReactDocgenTypescriptOptions } from '@storybook/react-docgen-typescript-plugin';
 
-export type { BuilderResult } from '@storybook/webpack-tools';
+export type { BuilderResult } from '@storybook/core-webpack';
 
 export interface ReactOptions {
   fastRefresh?: boolean;

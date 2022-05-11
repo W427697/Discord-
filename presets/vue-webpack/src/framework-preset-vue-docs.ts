@@ -1,4 +1,4 @@
-import { StorybookConfig } from '@storybook/webpack-tools';
+import { StorybookConfig } from '@storybook/core-webpack';
 import { hasDocsOrControls } from '@storybook/docs-tools';
 
 export const webpackFinal: StorybookConfig['webpackFinal'] = (config, options) => {

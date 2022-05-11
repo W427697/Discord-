@@ -6,7 +6,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
 import type { Builder, Options } from '@storybook/core-common';
 import { useProgressReporting } from '@storybook/core-common';
-import { checkWebpackVersion } from '@storybook/webpack-tools';
+import { checkWebpackVersion } from '@storybook/core-webpack';
 
 export * from './types';
 

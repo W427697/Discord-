@@ -2,7 +2,7 @@ import * as webpackReal from 'webpack';
 import { logger } from '@storybook/node-logger';
 import type { Configuration } from 'webpack';
 import type { CoreConfig, Options } from '@storybook/core-common';
-import { loadCustomWebpackConfig } from '@storybook/webpack-tools';
+import { loadCustomWebpackConfig } from '@storybook/core-webpack';
 import { createDefaultWebpackConfig } from '../preview/base-webpack.config';
 
 export async function webpack(config: Configuration, options: Options) {
