@@ -78,6 +78,7 @@
     "@storybook/addon-storysource": "*",
     "@storybook/addon-viewport": "*",
     "@storybook/web-components": "*",
+    "@storybook/web-components-webpack4": "*",
     "global": "^4.4.0",
     "jest": "^27.3.1",
     "sb": "*",

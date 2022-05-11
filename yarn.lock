@@ -7992,6 +7992,7 @@ __metadata:
     "@storybook/cli": 6.5.0-beta.4
     "@storybook/components": 6.5.0-beta.4
     "@storybook/react": 6.5.0-beta.4
+    "@storybook/react-webpack4": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
     "@testing-library/dom": ^7.31.2
     "@testing-library/react": 12.1.2
@@ -8032,6 +8033,7 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.87bc651.0
     "@storybook/preview-web": 6.5.0-beta.4
     "@storybook/react": 6.5.0-beta.4
+    "@storybook/react-webpack4": 6.5.0-beta.4
     "@storybook/store": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
     "@testing-library/dom": ^7.31.2
@@ -8051,7 +8053,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/html-webpack4@workspace:*, @storybook/html-webpack4@workspace:frameworks/html-webpack4":
+"@storybook/html-webpack4@6.5.0-beta.4, @storybook/html-webpack4@workspace:*, @storybook/html-webpack4@workspace:frameworks/html-webpack4":
   version: 0.0.0-use.local
   resolution: "@storybook/html-webpack4@workspace:frameworks/html-webpack4"
   dependencies:
@@ -8329,7 +8331,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preact-webpack4@workspace:*, @storybook/preact-webpack4@workspace:frameworks/preact-webpack4":
+"@storybook/preact-webpack4@6.5.0-beta.4, @storybook/preact-webpack4@workspace:*, @storybook/preact-webpack4@workspace:frameworks/preact-webpack4":
   version: 0.0.0-use.local
   resolution: "@storybook/preact-webpack4@workspace:frameworks/preact-webpack4"
   dependencies:
@@ -8640,7 +8642,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react-webpack4@workspace:*, @storybook/react-webpack4@workspace:frameworks/react-webpack4":
+"@storybook/react-webpack4@6.5.0-beta.4, @storybook/react-webpack4@workspace:*, @storybook/react-webpack4@workspace:frameworks/react-webpack4":
   version: 0.0.0-use.local
   resolution: "@storybook/react-webpack4@workspace:frameworks/react-webpack4"
   dependencies:
@@ -9023,7 +9025,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/server-webpack4@workspace:*, @storybook/server-webpack4@workspace:frameworks/server-webpack4":
+"@storybook/server-webpack4@6.5.0-beta.4, @storybook/server-webpack4@workspace:*, @storybook/server-webpack4@workspace:frameworks/server-webpack4":
   version: 0.0.0-use.local
   resolution: "@storybook/server-webpack4@workspace:frameworks/server-webpack4"
   dependencies:
@@ -9102,7 +9104,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/svelte-webpack4@workspace:*, @storybook/svelte-webpack4@workspace:frameworks/svelte-webpack4":
+"@storybook/svelte-webpack4@6.5.0-beta.4, @storybook/svelte-webpack4@workspace:*, @storybook/svelte-webpack4@workspace:frameworks/svelte-webpack4":
   version: 0.0.0-use.local
   resolution: "@storybook/svelte-webpack4@workspace:frameworks/svelte-webpack4"
   dependencies:
@@ -9280,7 +9282,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/vue-webpack4@workspace:*, @storybook/vue-webpack4@workspace:frameworks/vue-webpack4":
+"@storybook/vue-webpack4@6.5.0-beta.4, @storybook/vue-webpack4@workspace:*, @storybook/vue-webpack4@workspace:frameworks/vue-webpack4":
   version: 0.0.0-use.local
   resolution: "@storybook/vue-webpack4@workspace:frameworks/vue-webpack4"
   dependencies:
@@ -9306,7 +9308,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/vue3-webpack4@workspace:*, @storybook/vue3-webpack4@workspace:frameworks/vue3-webpack4":
+"@storybook/vue3-webpack4@6.5.0-beta.4, @storybook/vue3-webpack4@workspace:*, @storybook/vue3-webpack4@workspace:frameworks/vue3-webpack4":
   version: 0.0.0-use.local
   resolution: "@storybook/vue3-webpack4@workspace:frameworks/vue3-webpack4"
   dependencies:
@@ -18374,6 +18376,7 @@ __metadata:
     "@storybook/client-logger": 6.5.0-beta.4
     "@storybook/preset-create-react-app": ^3.1.6
     "@storybook/react": 6.5.0-beta.4
+    "@storybook/react-webpack4": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
     global: ^4.4.0
     prop-types: ^15.7.2
@@ -18397,6 +18400,7 @@ __metadata:
     "@storybook/builder-webpack4": 6.5.0-beta.4
     "@storybook/preset-create-react-app": ^3.1.6
     "@storybook/react": 6.5.0-beta.4
+    "@storybook/react-webpack4": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
     babel-core: 6
     babel-loader: ^8.0.0
@@ -18422,6 +18426,7 @@ __metadata:
     "@storybook/components": 6.5.0-beta.4
     "@storybook/preset-create-react-app": ^3.1.6
     "@storybook/react": 6.5.0-beta.4
+    "@storybook/react-webpack4": 6.5.0-beta.4
     "@storybook/testing-library": ^0.0.9
     "@storybook/theming": 6.5.0-beta.4
     "@types/jest": ^26.0.16
@@ -18452,6 +18457,7 @@ __metadata:
     "@storybook/builder-webpack4": 6.5.0-beta.4
     "@storybook/preset-create-react-app": ^3.1.6
     "@storybook/react": 6.5.0-beta.4
+    "@storybook/react-webpack4": 6.5.0-beta.4
     "@types/enzyme": ^3.10.8
     "@types/jest": 25.2.3
     "@types/node": ^14.14.20 || ^16.0.0
@@ -25616,6 +25622,7 @@ __metadata:
     "@storybook/client-api": 6.5.0-beta.4
     "@storybook/core-events": 6.5.0-beta.4
     "@storybook/html": 6.5.0-beta.4
+    "@storybook/html-webpack4": 6.5.0-beta.4
     "@storybook/source-loader": 6.5.0-beta.4
     autoprefixer: ^10.0.1
     eventemitter3: ^4.0.7
@@ -34314,6 +34321,7 @@ __metadata:
     "@storybook/jest": ^0.0.5
     "@storybook/node-logger": 6.5.0-beta.4
     "@storybook/react": 6.5.0-beta.4
+    "@storybook/react-webpack4": 6.5.0-beta.4
     "@storybook/router": 6.5.0-beta.4
     "@storybook/source-loader": 6.5.0-beta.4
     "@storybook/testing-library": ^0.0.7
@@ -37102,6 +37110,7 @@ __metadata:
     "@storybook/addon-viewport": 6.5.0-beta.4
     "@storybook/addons": 6.5.0-beta.4
     "@storybook/preact": 6.5.0-beta.4
+    "@storybook/preact-webpack4": 6.5.0-beta.4
     "@storybook/source-loader": 6.5.0-beta.4
     "@types/prop-types": ^15.7.3
     "@types/react": ^17
@@ -41441,6 +41450,7 @@ __metadata:
     "@storybook/addon-links": 6.5.0-beta.4
     "@storybook/node-logger": 6.5.0-beta.4
     "@storybook/server": 6.5.0-beta.4
+    "@storybook/server-webpack4": 6.5.0-beta.4
     concurrently: ^5.3.0
     cors: ^2.8.5
     express: ~4.17.1
@@ -42402,6 +42412,7 @@ __metadata:
     "@storybook/addon-docs": 6.5.0-beta.4
     "@storybook/cli": 6.5.0-beta.4
     "@storybook/react": 6.5.0-beta.4
+    "@storybook/react-webpack4": 6.5.0-beta.4
     cross-env: ^7.0.3
     parcel: 2.0.1
     react: 16.14.0
@@ -43233,6 +43244,7 @@ __metadata:
     "@storybook/jest": ^0.0.5
     "@storybook/source-loader": 6.5.0-beta.4
     "@storybook/svelte": 6.5.0-beta.4
+    "@storybook/svelte-webpack4": 6.5.0-beta.4
     "@storybook/testing-library": ^0.0.7
     global: ^4.4.0
     sb: 6.5.0-beta.4
@@ -46147,6 +46159,7 @@ __metadata:
     "@storybook/jest": ^0.0.5
     "@storybook/testing-library": ^0.0.7
     "@storybook/vue3": 6.5.0-beta.4
+    "@storybook/vue3-webpack4": 6.5.0-beta.4
     "@vue/cli-plugin-babel": ~4.5.0
     "@vue/cli-plugin-typescript": ~4.5.0
     "@vue/cli-service": ~4.5.0
@@ -46179,6 +46192,7 @@ __metadata:
     "@storybook/preset-scss": ^1.0.3
     "@storybook/source-loader": 6.5.0-beta.4
     "@storybook/vue": 6.5.0-beta.4
+    "@storybook/vue-webpack4": 6.5.0-beta.4
     "@vue/cli-plugin-babel": ~4.3.1
     "@vue/cli-plugin-typescript": ~4.3.1
     "@vue/cli-service": ~4.3.1
@@ -46246,6 +46260,7 @@ __metadata:
     "@storybook/source-loader": 6.5.0-beta.4
     "@storybook/testing-library": ^0.0.7
     "@storybook/vue": 6.5.0-beta.4
+    "@storybook/vue-webpack4": 6.5.0-beta.4
     "@vue/babel-preset-jsx": ^1.2.4
     babel-loader: ^8.0.0
     cross-env: ^7.0.3
