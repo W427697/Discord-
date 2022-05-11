@@ -47,14 +47,11 @@
     "core-js": "^3.8.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
-    "regenerator-runtime": "^0.13.7",
-    "webpack": ">=4.0.0 <6.0.0"
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.16.0",
     "svelte": "^3.31.2",
-    "svelte-loader": "^3.0.0",
-    "webpack": "4"
+    "svelte-loader": "^3.0.0"
   },
   "peerDependencies": {
     "@babel/core": "*",

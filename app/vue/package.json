@@ -44,18 +44,15 @@
     "@storybook/preset-vue-webpack": "6.5.0-beta.4",
     "@storybook/renderer-vue": "6.5.0-beta.4",
     "@types/node": "^14.14.20 || ^16.0.0",
-    "@types/webpack-env": "^1.16.0",
     "core-js": "^3.8.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
-    "regenerator-runtime": "^0.13.7",
-    "webpack": ">=4.0.0 <6.0.0"
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
     "vue": "^2.6.12",
     "vue-loader": "^15.9.6",
-    "vue-template-compiler": "^2.6.12",
-    "webpack": "4"
+    "vue-template-compiler": "^2.6.12"
   },
   "peerDependencies": {
     "@babel/core": "*",

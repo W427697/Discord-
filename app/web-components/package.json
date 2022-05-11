@@ -47,7 +47,6 @@
     "@storybook/preset-web-components-webpack": "6.5.0-beta.4",
     "@storybook/renderer-web-components": "6.5.0-beta.4",
     "@types/node": "^14.14.20 || ^16.0.0",
-    "@types/webpack-env": "^1.16.0",
     "core-js": "^3.8.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
