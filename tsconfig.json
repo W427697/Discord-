@@ -21,7 +21,12 @@
       "es2019",
       "dom",
       "ESNext"
-    ]
+    ],
+    "paths": {
+      "@storybook/theming": ["lib/theming/src/index.ts"],
+      "@storybook/components": ["lib/components/src/index.ts"],
+      "@storybook/react": ["app/react/src/index.ts"]
+    }
   },
   "exclude": [
     "**/dist",
