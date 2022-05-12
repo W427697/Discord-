@@ -36,5 +36,5 @@ module.exports = {
     buildStoriesJson: true,
     breakingChangesV7: true,
   },
-  framework: '@storybook/ember-webpack4',
+  framework: '@storybook/ember',
 };

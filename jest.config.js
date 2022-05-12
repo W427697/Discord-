@@ -40,7 +40,7 @@ module.exports = {
   ],
   roots: [
     '<rootDir>/addons',
-    '<rootDir>/app',
+    '<rootDir>/frameworks',
     '<rootDir>/lib',
     '<rootDir>/examples/official-storybook',
     '<rootDir>/examples/react-ts',
