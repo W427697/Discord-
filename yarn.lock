@@ -7439,16 +7439,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/client-logger@npm:6.5.0-beta.1":
-  version: 6.5.0-beta.1
-  resolution: "@storybook/client-logger@npm:6.5.0-beta.1"
-  dependencies:
-    core-js: ^3.8.2
-    global: ^4.4.0
-  checksum: b37a15123235d7e17186440691675e778eb6934ee07fa5ebeaa99d2ca3bda0ffcc8dbd38023e77680c7da590a65a55c670018a6b49b591f6d5c15081a19e81df
-  languageName: node
-  linkType: hard
-
 "@storybook/codemod@6.5.0-beta.4, @storybook/codemod@workspace:*, @storybook/codemod@workspace:lib/codemod":
   version: 0.0.0-use.local
   resolution: "@storybook/codemod@workspace:lib/codemod"
@@ -7479,7 +7469,7 @@ __metadata:
     "@popperjs/core": ^2.6.0
     "@storybook/client-logger": 6.5.0-beta.4
     "@storybook/csf": 0.0.2--canary.4566f4d.1
-    "@storybook/theming": 6.5.0-beta.1
+    "@storybook/theming": 6.5.0-beta.4
     "@types/color-convert": ^2.0.0
     "@types/overlayscrollbars": ^1.12.0
     "@types/react-syntax-highlighter": 11.0.5
@@ -9103,20 +9093,6 @@ __metadata:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
   checksum: 7449d09a6c883daaf1f024a11b42690a6cd10cdf80e1c0fa8c4ecd6cdd6a47bbb9bf41d45e5cd1cd84bad875fe2cb666fae56d8ef3154e6cbc1f0563da0762b8
-  languageName: node
-  linkType: hard
-
-"@storybook/theming@npm:6.5.0-beta.1":
-  version: 6.5.0-beta.1
-  resolution: "@storybook/theming@npm:6.5.0-beta.1"
-  dependencies:
-    "@storybook/client-logger": 6.5.0-beta.1
-    core-js: ^3.8.2
-    regenerator-runtime: ^0.13.7
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: aefdb16032eb811150fd1094d34638323c10332dbb10304bfd7debde5c9703dec8f1626212a0a41ffe3fc872c3884459bb8389b68073f9dd9a25691e10d624b0
   languageName: node
   linkType: hard
 

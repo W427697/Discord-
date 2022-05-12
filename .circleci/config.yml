@@ -342,11 +342,11 @@ jobs:
           command: |
             cd examples/vue-kitchen-sink
             yarn storybook --smoke-test --quiet
-      - run:
-          name: Run svelte kitchen-sink (smoke test)
-          command: |
-            cd examples/svelte-kitchen-sink
-            yarn storybook --smoke-test --quiet
+      # - run:
+      #     name: Run svelte kitchen-sink (smoke test)
+      #     command: |
+      #       cd examples/svelte-kitchen-sink
+      #       yarn storybook --smoke-test --quiet
       - run:
           name: Run angular-cli (smoke test)
           command: |
