@@ -16,7 +16,7 @@ import {
   RESET_STORY_ARGS,
   UPDATE_GLOBALS,
 } from '@storybook/core-events';
-import { addons } from './index';
+import { addons } from './addons';
 
 const { window: globalWindow } = global;
 
