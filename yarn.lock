@@ -8910,11 +8910,11 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    svelte: ^3.31.2
+    svelte: ^3.48.0
     svelte-loader: ^3.1.2
   peerDependencies:
     "@babel/core": "*"
-    svelte: ^3.1.0
+    svelte: ^3.48.0
     svelte-loader: "*"
   languageName: unknown
   linkType: soft
@@ -15230,7 +15230,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer-crc32@npm:~0.2.3":
+"buffer-crc32@npm:^0.2.5, buffer-crc32@npm:~0.2.3":
   version: 0.2.13
   resolution: "buffer-crc32@npm:0.2.13"
   checksum: cb0a8ddf5cf4f766466db63279e47761eb825693eeba6a5a95ee4ec8cb8f81ede70aa7f9d8aeec083e781d47154290eb5d4d26b3f7a465ec57fb9e7d59c47150
@@ -20571,6 +20571,13 @@ __metadata:
     es6-symbol: ~3.1.1
     event-emitter: ~0.3.5
   checksum: 62fe1a90ead1704bed699cb9c975e642023f590d5338c2a640d60ce0a846de7d5197561393ac03dd11473b96087cf8793c9e4836fe05ad4d2ef6afda6b9a3511
+  languageName: node
+  linkType: hard
+
+"es6-promise@npm:^3.1.2":
+  version: 3.3.1
+  resolution: "es6-promise@npm:3.3.1"
+  checksum: b4fc87cb8509c001f62f860f97b05d1fd3f87220c8b832578e6a483c719ca272b73a77f2231cb26395fa865e1cab2fd4298ab67786b69e97b8d757b938f4fc1f
   languageName: node
   linkType: hard
 
@@ -39364,6 +39371,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sander@npm:^0.5.0":
+  version: 0.5.1
+  resolution: "sander@npm:0.5.1"
+  dependencies:
+    es6-promise: ^3.1.2
+    graceful-fs: ^4.1.3
+    mkdirp: ^0.5.1
+    rimraf: ^2.5.2
+  checksum: ce1e423fe5b4e57926df7cc6bd24b70271adfbe7b8ff995784f98101878e037327ac31c7a4e317ac3e1579f410e41a477fef40c2376f0dfa4499c8864a26f499
+  languageName: node
+  linkType: hard
+
 "sane@npm:^4.0.0, sane@npm:^4.0.3, sane@npm:^4.1.0":
   version: 4.1.0
   resolution: "sane@npm:4.1.0"
@@ -40317,6 +40336,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sorcery@npm:^0.10.0":
+  version: 0.10.0
+  resolution: "sorcery@npm:0.10.0"
+  dependencies:
+    buffer-crc32: ^0.2.5
+    minimist: ^1.2.0
+    sander: ^0.5.0
+    sourcemap-codec: ^1.3.0
+  bin:
+    sorcery: bin/index.js
+  checksum: 4b939487c4c157d27b9477c0948def0d10aab3891dc33f2d140a1710a10ef50fa7cf4e22e2c4564226942ec719ce0eb83c8b9096708533c888de34a673ee5934
+  languageName: node
+  linkType: hard
+
 "sort-keys@npm:^1.0.0":
   version: 1.1.2
   resolution: "sort-keys@npm:1.1.2"
@@ -40522,7 +40555,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sourcemap-codec@npm:^1.4.1, sourcemap-codec@npm:^1.4.4, sourcemap-codec@npm:^1.4.8":
+"sourcemap-codec@npm:^1.3.0, sourcemap-codec@npm:^1.4.1, sourcemap-codec@npm:^1.4.4, sourcemap-codec@npm:^1.4.8":
   version: 1.4.8
   resolution: "sourcemap-codec@npm:1.4.8"
   checksum: f099279fdaae070ff156df7414bbe39aad69cdd615454947ed3e19136bfdfcb4544952685ee73f56e17038f4578091e12b17b283ed8ac013882916594d95b9e6
@@ -41673,8 +41706,8 @@ __metadata:
     "@storybook/testing-library": ^0.0.7
     global: ^4.4.0
     sb: 6.5.0-beta.4
-    svelte-jester: 1.3.0
-    svelte-preprocess: 4.6.8
+    svelte-jester: ^2.3.2
+    svelte-preprocess: ^4.10.6
   languageName: unknown
   linkType: soft
 
@@ -41687,14 +41720,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-jester@npm:1.3.0":
-  version: 1.3.0
-  resolution: "svelte-jester@npm:1.3.0"
-  dependencies:
-    cosmiconfig: ^6.0.0
+"svelte-jester@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "svelte-jester@npm:2.3.2"
   peerDependencies:
+    jest: ">= 27"
     svelte: ">= 3"
-  checksum: 93cdafb60470e8365c2c67a2acf05cd55d7b5a6bad0d477417510a7e4834fb519de598204550d5925ed7d0f9cc2d35efdf10f678ec445e0b83451cd3700f2b95
+  checksum: 6f1a240b0dc94e1f252f6c9872474fec49e7d50ed1477e676d885a57bc0a90a31d7bae018d847b9d83a1f0060e4a53a5c8da323bcb2e0479daba62a9c0525472
   languageName: node
   linkType: hard
 
@@ -41711,23 +41743,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-preprocess@npm:4.6.8":
-  version: 4.6.8
-  resolution: "svelte-preprocess@npm:4.6.8"
+"svelte-preprocess@npm:^4.10.6":
+  version: 4.10.6
+  resolution: "svelte-preprocess@npm:4.10.6"
   dependencies:
     "@types/pug": ^2.0.4
     "@types/sass": ^1.16.0
     detect-indent: ^6.0.0
+    magic-string: ^0.25.7
+    sorcery: ^0.10.0
     strip-indent: ^3.0.0
   peerDependencies:
     "@babel/core": ^7.10.2
     coffeescript: ^2.5.1
-    less: ^3.11.3
+    less: ^3.11.3 || ^4.0.0
     postcss: ^7 || ^8
     postcss-load-config: ^2.1.0 || ^3.0.0
     pug: ^3.0.0
     sass: ^1.26.8
-    stylus: ^0.54.7
+    stylus: ^0.55.0
     sugarss: ^2.0.0
     svelte: ^3.23.0
     typescript: ^3.9.5 || ^4.0.0
@@ -41754,7 +41788,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 976044066cfa20d26ae1bc6c517a45437083ee0cb4e22faf9d113e367338457f3517ba9578bdd06838fcf60650d89d851a4e39fa694bac52fe90d5ac75aa0757
+  checksum: 8679b031de5972a842c1dbaba8b12ec91a450f837dc297eb028265c6bd436b63063d4eff67a52adde548d32b183cf29423d98ff54bcaeb34614bba5d89e9ff43
   languageName: node
   linkType: hard
 
@@ -41762,6 +41796,13 @@ __metadata:
   version: 3.47.0
   resolution: "svelte@npm:3.47.0"
   checksum: c57152cffc82301da4ce7fefebdcdc2905510e8eeb971e64b7b5eeb479cc65affbd0ccd3e283ef6d14e4333a04e4076270e06db060254cdd8ff7159df7a6efd1
+  languageName: node
+  linkType: hard
+
+"svelte@npm:^3.48.0":
+  version: 3.48.0
+  resolution: "svelte@npm:3.48.0"
+  checksum: edcc26c1c2ea64963a2b1ab61ef1dbc0b84e76a68986c7737e9f4c4b3c7d40ec94f0a750ae0fbe27f5981d8cf2282e31d4e57cb050355b9d3c57896707ef55a0
   languageName: node
   linkType: hard
 

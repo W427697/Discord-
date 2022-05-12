@@ -50,12 +50,12 @@
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
-    "svelte": "^3.31.2",
+    "svelte": "^3.48.0",
     "svelte-loader": "^3.1.2"
   },
   "peerDependencies": {
     "@babel/core": "*",
-    "svelte": "^3.1.0",
+    "svelte": "^3.48.0",
     "svelte-loader": "*"
   },
   "engines": {
