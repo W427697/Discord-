@@ -24,7 +24,7 @@ export interface Webpack5BuilderConfig extends BuilderConfigObject {
 }
 
 export interface Webpack4BuilderConfig extends BuilderConfigObject {
-  name: '@storybook/builder-webpack4';
+  name: '@storybook/builder-webpack5';
 }
 
 export type BuilderConfig =

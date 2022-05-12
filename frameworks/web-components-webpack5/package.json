@@ -1,18 +1,20 @@
 {
-  "name": "@storybook/react-webpack4",
+  "name": "@storybook/web-components-webpack5",
   "version": "6.5.0-beta.4",
-  "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
+  "description": "Storybook for web-components: View web components snippets in isolation with Hot Reloading.",
   "keywords": [
-    "storybook"
+    "lit-html",
+    "storybook",
+    "web-components"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/react-webpack4",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/web-components-webpack5",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "frameworks/react-webpack4"
+    "directory": "frameworks/web-components-webpack5"
   },
   "funding": {
     "type": "opencollective",
@@ -31,7 +33,6 @@
   },
   "files": [
     "dist/**/*",
-    "types/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -40,28 +41,22 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.12.11",
+    "@storybook/core-common": "6.5.0-beta.4",
     "@storybook/core-server": "6.5.0-beta.4",
-    "@storybook/preset-react-webpack": "6.5.0-beta.4",
-    "@storybook/react": "6.5.0-beta.4",
+    "@storybook/preset-web-components-webpack": "6.5.0-beta.4",
+    "@storybook/web-components": "6.5.0-beta.4",
     "@types/node": "^14.14.20 || ^16.0.0",
     "core-js": "^3.8.2",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
-    "jest-specific-snapshot": "^4.0.0"
+    "lit-html": "2.0.2"
   },
   "peerDependencies": {
-    "@babel/core": "^7.11.5",
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "@babel/core": {
-      "optional": true
-    },
-    "typescript": {
-      "optional": true
-    }
+    "lit-html": "^1.4.1 || ^2.0.0"
   },
   "engines": {
     "node": ">=10.13.0"

@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/react-webpack4/types';
+import type { StorybookConfig } from '@storybook/react-webpack5/types';
 
 const config: StorybookConfig = {
   stories: [
@@ -29,6 +29,6 @@ const config: StorybookConfig = {
     warnOnLegacyHierarchySeparator: false,
     previewMdx2: true,
   },
-  framework: '@storybook/react-webpack4',
+  framework: '@storybook/react-webpack5',
 };
 module.exports = config;

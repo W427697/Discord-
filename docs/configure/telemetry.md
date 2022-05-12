@@ -71,7 +71,7 @@ Will generate the following output:
   "metadata": {
     "generatedAt": 1648233198722,
     "builder": {
-      "name": "webpack4"
+      "name": "webpack5"
     },
     "hasCustomBabel": false,
     "hasCustomWebpack": true,
@@ -92,7 +92,7 @@ Will generate the following output:
       "@storybook/addons": {
         "version": "6.5.0"
       },
-      "@storybook/builder-webpack4": {
+      "@storybook/builder-webpack5": {
         "version": "6.5.0"
       },
       "@storybook/react": {

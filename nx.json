@@ -265,28 +265,28 @@
     "@storybook/preview-web": {
       "implicitDependencies": []
     },
-    "@storybook/html-webpack4": {
+    "@storybook/html-webpack5": {
       "implicitDependencies": []
     },
-    "@storybook/preact-webpack4": {
+    "@storybook/preact-webpack5": {
       "implicitDependencies": []
     },
-    "@storybook/react-webpack4": {
+    "@storybook/react-webpack5": {
       "implicitDependencies": []
     },
-    "@storybook/server-webpack4": {
+    "@storybook/server-webpack5": {
       "implicitDependencies": []
     },
-    "@storybook/svelte-webpack4": {
+    "@storybook/svelte-webpack5": {
       "implicitDependencies": []
     },
-    "@storybook/vue-webpack4": {
+    "@storybook/vue-webpack5": {
       "implicitDependencies": []
     },
-    "@storybook/vue3-webpack4": {
+    "@storybook/vue3-webpack5": {
       "implicitDependencies": []
     },
-    "@storybook/web-components-webpack4": {
+    "@storybook/web-components-webpack5": {
       "implicitDependencies": []
     }
   },

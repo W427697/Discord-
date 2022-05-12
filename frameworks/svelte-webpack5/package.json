@@ -1,18 +1,18 @@
 {
-  "name": "@storybook/server-webpack4",
+  "name": "@storybook/svelte-webpack5",
   "version": "6.5.0-beta.4",
-  "description": "Storybook for Server: View HTML snippets from a server in isolation with Hot Reloading.",
+  "description": "Storybook for Svelte: Develop Svelte Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/server-webpack4",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/svelte-webpack5",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "frameworks/server-webpack4"
+    "directory": "frameworks/svelte-webpack5"
   },
   "funding": {
     "type": "opencollective",
@@ -31,6 +31,7 @@
   },
   "files": [
     "dist/**/*",
+    "templates/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -41,13 +42,21 @@
   "dependencies": {
     "@storybook/core-common": "6.5.0-beta.4",
     "@storybook/core-server": "6.5.0-beta.4",
-    "@storybook/preset-server-webpack": "6.5.0-beta.4",
-    "@storybook/server": "6.5.0-beta.4",
-    "@types/node": "^14.14.20 || ^16.0.0",
+    "@storybook/preset-svelte-webpack": "6.5.0-beta.4",
+    "@storybook/svelte": "6.5.0-beta.4",
     "core-js": "^3.8.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "regenerator-runtime": "^0.13.7"
+  },
+  "devDependencies": {
+    "svelte": "^3.31.2",
+    "svelte-loader": "^3.1.2"
+  },
+  "peerDependencies": {
+    "@babel/core": "*",
+    "svelte": "^3.1.0",
+    "svelte-loader": "*"
   },
   "engines": {
     "node": ">=10.13.0"

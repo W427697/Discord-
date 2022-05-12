@@ -7847,7 +7847,7 @@ __metadata:
     "@storybook/cli": 6.5.0-beta.4
     "@storybook/components": 6.5.0-beta.4
     "@storybook/react": 6.5.0-beta.4
-    "@storybook/react-webpack4": 6.5.0-beta.4
+    "@storybook/react-webpack5": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
     "@testing-library/dom": ^7.31.2
     "@testing-library/react": 12.1.2
@@ -7888,7 +7888,7 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/preview-web": 6.5.0-beta.4
     "@storybook/react": 6.5.0-beta.4
-    "@storybook/react-webpack4": 6.5.0-beta.4
+    "@storybook/react-webpack5": 6.5.0-beta.4
     "@storybook/store": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
     "@testing-library/dom": ^7.31.2
@@ -7908,9 +7908,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/html-webpack4@6.5.0-beta.4, @storybook/html-webpack4@workspace:*, @storybook/html-webpack4@workspace:frameworks/html-webpack4":
+"@storybook/html-webpack5@6.5.0-beta.4, @storybook/html-webpack5@workspace:*, @storybook/html-webpack5@workspace:frameworks/html-webpack5":
   version: 0.0.0-use.local
-  resolution: "@storybook/html-webpack4@workspace:frameworks/html-webpack4"
+  resolution: "@storybook/html-webpack5@workspace:frameworks/html-webpack5"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -8133,9 +8133,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preact-webpack4@6.5.0-beta.4, @storybook/preact-webpack4@workspace:*, @storybook/preact-webpack4@workspace:frameworks/preact-webpack4":
+"@storybook/preact-webpack5@6.5.0-beta.4, @storybook/preact-webpack5@workspace:*, @storybook/preact-webpack5@workspace:frameworks/preact-webpack5":
   version: 0.0.0-use.local
-  resolution: "@storybook/preact-webpack4@workspace:frameworks/preact-webpack4"
+  resolution: "@storybook/preact-webpack5@workspace:frameworks/preact-webpack5"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -8432,9 +8432,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react-webpack4@6.5.0-beta.4, @storybook/react-webpack4@workspace:*, @storybook/react-webpack4@workspace:frameworks/react-webpack4":
+"@storybook/react-webpack5@6.5.0-beta.4, @storybook/react-webpack5@workspace:*, @storybook/react-webpack5@workspace:frameworks/react-webpack5":
   version: 0.0.0-use.local
-  resolution: "@storybook/react-webpack4@workspace:frameworks/react-webpack4"
+  resolution: "@storybook/react-webpack5@workspace:frameworks/react-webpack5"
   dependencies:
     "@storybook/core-server": 6.5.0-beta.4
     "@storybook/preset-react-webpack": 6.5.0-beta.4
@@ -8565,14 +8565,14 @@ __metadata:
     "@storybook/ember": "workspace:*"
     "@storybook/eslint-config-storybook": ^2.4.0
     "@storybook/html": "workspace:*"
-    "@storybook/html-webpack4": "workspace:*"
+    "@storybook/html-webpack5": "workspace:*"
     "@storybook/instrumenter": "workspace:*"
     "@storybook/jest": ^0.0.5
     "@storybook/linter-config": ^2.5.0
     "@storybook/node-logger": "workspace:*"
     "@storybook/postinstall": "workspace:*"
     "@storybook/preact": "workspace:*"
-    "@storybook/preact-webpack4": "workspace:*"
+    "@storybook/preact-webpack5": "workspace:*"
     "@storybook/preset-html-webpack": "workspace:*"
     "@storybook/preset-preact-webpack": "workspace:*"
     "@storybook/preset-react-webpack": "workspace:*"
@@ -8583,25 +8583,25 @@ __metadata:
     "@storybook/preset-web-components-webpack": "workspace:*"
     "@storybook/preview-web": "workspace:*"
     "@storybook/react": "workspace:*"
-    "@storybook/react-webpack4": "workspace:*"
+    "@storybook/react-webpack5": "workspace:*"
     "@storybook/router": "workspace:*"
     "@storybook/semver": ^7.3.2
     "@storybook/server": "workspace:*"
-    "@storybook/server-webpack4": "workspace:*"
+    "@storybook/server-webpack5": "workspace:*"
     "@storybook/source-loader": "workspace:*"
     "@storybook/store": "workspace:*"
     "@storybook/svelte": "workspace:*"
-    "@storybook/svelte-webpack4": "workspace:*"
+    "@storybook/svelte-webpack5": "workspace:*"
     "@storybook/telemetry": "workspace:*"
     "@storybook/testing-library": ^0.0.7
     "@storybook/theming": "workspace:*"
     "@storybook/ui": "workspace:*"
     "@storybook/vue": "workspace:*"
-    "@storybook/vue-webpack4": "workspace:*"
+    "@storybook/vue-webpack5": "workspace:*"
     "@storybook/vue3": "workspace:*"
-    "@storybook/vue3-webpack4": "workspace:*"
+    "@storybook/vue3-webpack5": "workspace:*"
     "@storybook/web-components": "workspace:*"
-    "@storybook/web-components-webpack4": "workspace:*"
+    "@storybook/web-components-webpack5": "workspace:*"
     "@testing-library/dom": ^7.29.4
     "@testing-library/jest-dom": ^5.11.9
     "@testing-library/react": ^11.2.2
@@ -8819,9 +8819,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/server-webpack4@6.5.0-beta.4, @storybook/server-webpack4@workspace:*, @storybook/server-webpack4@workspace:frameworks/server-webpack4":
+"@storybook/server-webpack5@6.5.0-beta.4, @storybook/server-webpack5@workspace:*, @storybook/server-webpack5@workspace:frameworks/server-webpack5":
   version: 0.0.0-use.local
-  resolution: "@storybook/server-webpack4@workspace:frameworks/server-webpack4"
+  resolution: "@storybook/server-webpack5@workspace:frameworks/server-webpack5"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -8897,9 +8897,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/svelte-webpack4@6.5.0-beta.4, @storybook/svelte-webpack4@workspace:*, @storybook/svelte-webpack4@workspace:frameworks/svelte-webpack4":
+"@storybook/svelte-webpack5@6.5.0-beta.4, @storybook/svelte-webpack5@workspace:*, @storybook/svelte-webpack5@workspace:frameworks/svelte-webpack5":
   version: 0.0.0-use.local
-  resolution: "@storybook/svelte-webpack4@workspace:frameworks/svelte-webpack4"
+  resolution: "@storybook/svelte-webpack5@workspace:frameworks/svelte-webpack5"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -9074,9 +9074,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/vue-webpack4@6.5.0-beta.4, @storybook/vue-webpack4@workspace:*, @storybook/vue-webpack4@workspace:frameworks/vue-webpack4":
+"@storybook/vue-webpack5@6.5.0-beta.4, @storybook/vue-webpack5@workspace:*, @storybook/vue-webpack5@workspace:frameworks/vue-webpack5":
   version: 0.0.0-use.local
-  resolution: "@storybook/vue-webpack4@workspace:frameworks/vue-webpack4"
+  resolution: "@storybook/vue-webpack5@workspace:frameworks/vue-webpack5"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -9100,9 +9100,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/vue3-webpack4@6.5.0-beta.4, @storybook/vue3-webpack4@workspace:*, @storybook/vue3-webpack4@workspace:frameworks/vue3-webpack4":
+"@storybook/vue3-webpack5@6.5.0-beta.4, @storybook/vue3-webpack5@workspace:*, @storybook/vue3-webpack5@workspace:frameworks/vue3-webpack5":
   version: 0.0.0-use.local
-  resolution: "@storybook/vue3-webpack4@workspace:frameworks/vue3-webpack4"
+  resolution: "@storybook/vue3-webpack5@workspace:frameworks/vue3-webpack5"
   dependencies:
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-server": 6.5.0-beta.4
@@ -9171,9 +9171,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/web-components-webpack4@workspace:*, @storybook/web-components-webpack4@workspace:frameworks/web-components-webpack4":
+"@storybook/web-components-webpack5@workspace:*, @storybook/web-components-webpack5@workspace:frameworks/web-components-webpack5":
   version: 0.0.0-use.local
-  resolution: "@storybook/web-components-webpack4@workspace:frameworks/web-components-webpack4"
+  resolution: "@storybook/web-components-webpack5@workspace:frameworks/web-components-webpack5"
   dependencies:
     "@babel/preset-env": ^7.12.11
     "@storybook/core-common": 6.5.0-beta.4
@@ -17468,7 +17468,7 @@ __metadata:
     "@storybook/client-logger": 6.5.0-beta.4
     "@storybook/preset-create-react-app": ^4.1.0
     "@storybook/react": 6.5.0-beta.4
-    "@storybook/react-webpack4": 6.5.0-beta.4
+    "@storybook/react-webpack5": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
     global: ^4.4.0
     prop-types: ^15.7.2
@@ -17492,7 +17492,7 @@ __metadata:
     "@storybook/components": 6.5.0-beta.4
     "@storybook/preset-create-react-app": ^4.1.0
     "@storybook/react": 6.5.0-beta.4
-    "@storybook/react-webpack4": 6.5.0-beta.4
+    "@storybook/react-webpack5": 6.5.0-beta.4
     "@storybook/testing-library": ^0.0.9
     "@storybook/theming": 6.5.0-beta.4
     "@types/jest": ^26.0.16
@@ -17524,7 +17524,7 @@ __metadata:
     "@storybook/builder-webpack5": 6.5.0-beta.4
     "@storybook/preset-create-react-app": ^4.1.0
     "@storybook/react": 6.5.0-beta.4
-    "@storybook/react-webpack4": 6.5.0-beta.4
+    "@storybook/react-webpack5": 6.5.0-beta.4
     "@types/enzyme": ^3.10.8
     "@types/jest": 25.2.3
     "@types/node": ^14.14.20 || ^16.0.0
@@ -24684,7 +24684,7 @@ __metadata:
     "@storybook/client-api": 6.5.0-beta.4
     "@storybook/core-events": 6.5.0-beta.4
     "@storybook/html": 6.5.0-beta.4
-    "@storybook/html-webpack4": 6.5.0-beta.4
+    "@storybook/html-webpack5": 6.5.0-beta.4
     "@storybook/source-loader": 6.5.0-beta.4
     autoprefixer: ^10.0.1
     eventemitter3: ^4.0.7
@@ -33116,7 +33116,7 @@ __metadata:
     "@storybook/jest": ^0.0.5
     "@storybook/node-logger": 6.5.0-beta.4
     "@storybook/react": 6.5.0-beta.4
-    "@storybook/react-webpack4": 6.5.0-beta.4
+    "@storybook/react-webpack5": 6.5.0-beta.4
     "@storybook/router": 6.5.0-beta.4
     "@storybook/source-loader": 6.5.0-beta.4
     "@storybook/testing-library": ^0.0.7
@@ -35855,7 +35855,7 @@ __metadata:
     "@storybook/addon-viewport": 6.5.0-beta.4
     "@storybook/addons": 6.5.0-beta.4
     "@storybook/preact": 6.5.0-beta.4
-    "@storybook/preact-webpack4": 6.5.0-beta.4
+    "@storybook/preact-webpack5": 6.5.0-beta.4
     "@storybook/source-loader": 6.5.0-beta.4
     "@types/prop-types": ^15.7.3
     "@types/react": ^17
@@ -39877,7 +39877,7 @@ __metadata:
     "@storybook/addon-links": 6.5.0-beta.4
     "@storybook/node-logger": 6.5.0-beta.4
     "@storybook/server": 6.5.0-beta.4
-    "@storybook/server-webpack4": 6.5.0-beta.4
+    "@storybook/server-webpack5": 6.5.0-beta.4
     concurrently: ^5.3.0
     cors: ^2.8.5
     express: ~4.17.1
@@ -40826,7 +40826,7 @@ __metadata:
     "@storybook/addon-docs": 6.5.0-beta.4
     "@storybook/cli": 6.5.0-beta.4
     "@storybook/react": 6.5.0-beta.4
-    "@storybook/react-webpack4": 6.5.0-beta.4
+    "@storybook/react-webpack5": 6.5.0-beta.4
     cross-env: ^7.0.3
     parcel: 2.0.1
     react: 16.14.0
@@ -41668,7 +41668,7 @@ __metadata:
     "@storybook/jest": ^0.0.5
     "@storybook/source-loader": 6.5.0-beta.4
     "@storybook/svelte": 6.5.0-beta.4
-    "@storybook/svelte-webpack4": 6.5.0-beta.4
+    "@storybook/svelte-webpack5": 6.5.0-beta.4
     "@storybook/testing-library": ^0.0.7
     global: ^4.4.0
     sb: 6.5.0-beta.4
@@ -44588,7 +44588,7 @@ __metadata:
     "@storybook/jest": ^0.0.5
     "@storybook/testing-library": ^0.0.7
     "@storybook/vue3": 6.5.0-beta.4
-    "@storybook/vue3-webpack4": 6.5.0-beta.4
+    "@storybook/vue3-webpack5": 6.5.0-beta.4
     "@vue/cli-plugin-babel": ~4.5.0
     "@vue/cli-plugin-typescript": ~4.5.0
     "@vue/cli-service": ~4.5.0
@@ -44621,7 +44621,7 @@ __metadata:
     "@storybook/preset-scss": ^1.0.3
     "@storybook/source-loader": 6.5.0-beta.4
     "@storybook/vue": 6.5.0-beta.4
-    "@storybook/vue-webpack4": 6.5.0-beta.4
+    "@storybook/vue-webpack5": 6.5.0-beta.4
     "@vue/cli-plugin-babel": ~4.3.1
     "@vue/cli-plugin-typescript": ~4.3.1
     "@vue/cli-service": ~4.3.1
@@ -44689,7 +44689,7 @@ __metadata:
     "@storybook/source-loader": 6.5.0-beta.4
     "@storybook/testing-library": ^0.0.7
     "@storybook/vue": 6.5.0-beta.4
-    "@storybook/vue-webpack4": 6.5.0-beta.4
+    "@storybook/vue-webpack5": 6.5.0-beta.4
     "@vue/babel-preset-jsx": ^1.2.4
     babel-loader: ^8.2.5
     cross-env: ^7.0.3

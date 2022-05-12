@@ -30,5 +30,5 @@ module.exports = {
     buildStoriesJson: true,
     breakingChangesV7: true,
   },
-  framework: '@storybook/preact-webpack4',
+  framework: '@storybook/preact-webpack5',
 };

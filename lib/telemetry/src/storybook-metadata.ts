@@ -74,7 +74,7 @@ export const computeStorybookMetadata = async ({
 }): Promise<StorybookMetadata> => {
   const metadata: Partial<StorybookMetadata> = {
     generatedAt: new Date().getTime(),
-    builder: { name: 'webpack4' },
+    builder: { name: 'webpack5' },
     hasCustomBabel: false,
     hasCustomWebpack: false,
     hasStaticDirs: false,

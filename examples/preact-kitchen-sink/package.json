@@ -24,7 +24,7 @@
     "@storybook/addon-viewport": "6.5.0-beta.4",
     "@storybook/addons": "6.5.0-beta.4",
     "@storybook/preact": "6.5.0-beta.4",
-    "@storybook/preact-webpack4": "6.5.0-beta.4",
+    "@storybook/preact-webpack5": "6.5.0-beta.4",
     "@storybook/source-loader": "6.5.0-beta.4",
     "@types/prop-types": "^15.7.3",
     "@types/react": "^17",

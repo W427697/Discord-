@@ -123,12 +123,12 @@ export async function baseGenerator(
 
   const versionedPackages = await packageManager.getVersionedPackages(...packages);
 
-  const coreBuilders = [CoreBuilder.Webpack4, CoreBuilder.Webpack5, CoreBuilder.Vite] as string[];
+  const coreBuilders = [CoreBuilder.Webpack5, CoreBuilder.Vite] as string[];
   const expandedBuilder = coreBuilders.includes(builder)
     ? `@storybook/builder-${builder}`
     : builder;
   const mainOptions =
-    builder !== CoreBuilder.Webpack4
+    builder !== CoreBuilder.Webpack5
       ? {
           core: {
             builder: expandedBuilder,

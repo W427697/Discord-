@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/react-webpack4/types';
+import type { StorybookConfig } from '@storybook/react-webpack5/types';
 
 const config: StorybookConfig = {
   stories: [
@@ -36,6 +36,6 @@ const config: StorybookConfig = {
     previewMdx2: true,
     breakingChangesV7: true,
   },
-  framework: '@storybook/react-webpack4',
+  framework: '@storybook/react-webpack5',
 };
 module.exports = config;

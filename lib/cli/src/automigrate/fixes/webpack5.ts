@@ -70,7 +70,7 @@ export const webpack5: Fix<Webpack5RunOptions> & CheckBuilder = {
     }
     const main = await readConfig(mainConfig);
     const builder = main.getFieldValue(['core', 'builder']);
-    if (builder && builder !== 'webpack4') {
+    if (builder && builder !== 'webpack5') {
       logger.info(`Found builder ${builder}, skipping`);
       return null;
     }
