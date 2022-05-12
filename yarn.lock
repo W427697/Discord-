@@ -8290,6 +8290,7 @@ __metadata:
     safe-identifier: ^0.4.1
     ts-dedent: ^2.0.0
     yaml: ^1.10.0
+    yaml-loader: ^0.8.0
   languageName: unknown
   linkType: soft
 
@@ -46420,10 +46421,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"yaml-loader@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "yaml-loader@npm:0.8.0"
+  dependencies:
+    javascript-stringify: ^2.0.1
+    loader-utils: ^2.0.0
+    yaml: ^2.0.0
+  checksum: f0b585d79b3d7ee707443d5ea2df51da296816f206ea2c883768bcef335d4235ba71851311b8121eee233eb9ca8a4d5bca79a2f6ac47a1b914969e14591cb427
+  languageName: node
+  linkType: hard
+
 "yaml@npm:^1.10.0, yaml@npm:^1.10.2, yaml@npm:^1.7.2":
   version: 1.10.2
   resolution: "yaml@npm:1.10.2"
   checksum: 5c28b9eb7adc46544f28d9a8d20c5b3cb1215a886609a2fd41f51628d8aaa5878ccd628b755dbcd29f6bb4921bd04ffbc6dcc370689bb96e594e2f9813d2605f
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^2.0.0":
+  version: 2.0.1
+  resolution: "yaml@npm:2.0.1"
+  checksum: 252e226805b4c909250c6db6c7258bd488cf1e5722887f63152c68e9286d3f38b0b473302efc05c6e3895ff381645d8b2d5f62967c2f3efa0e8ef00733f4a722
   languageName: node
   linkType: hard
 
