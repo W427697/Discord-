@@ -21,7 +21,10 @@
       "es2019",
       "dom",
       "ESNext"
-    ]
+    ],
+    "paths": {
+      "@storybook/*": ["lib/*"]
+    }
   },
   "exclude": [
     "**/dist",
