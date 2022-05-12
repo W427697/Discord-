@@ -8349,14 +8349,14 @@ __metadata:
     "@storybook/core-webpack": 6.5.0-beta.4
     "@storybook/docs-tools": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
-    "@vue/compiler-sfc": 3.0.0
+    "@vue/compiler-sfc": ^3.2.33
     core-js: ^3.8.2
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
     ts-loader: ^9.2.8
-    vue: 3.0.0
-    vue-docgen-api: ^4.44.15
+    vue: ^3.2.33
+    vue-docgen-api: ^4.46.0
     vue-docgen-loader: ^1.5.1
     vue-loader: ^17.0.0
     webpack: 5
@@ -11551,7 +11551,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/compiler-sfc@npm:3.2.33, @vue/compiler-sfc@npm:^3.0.0, @vue/compiler-sfc@npm:^3.2.0":
+"@vue/compiler-sfc@npm:3.2.33, @vue/compiler-sfc@npm:^3.0.0, @vue/compiler-sfc@npm:^3.2.0, @vue/compiler-sfc@npm:^3.2.33":
   version: 3.2.33
   resolution: "@vue/compiler-sfc@npm:3.2.33"
   dependencies:
@@ -44635,7 +44635,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"vue-docgen-api@npm:^4.44.15, vue-docgen-api@npm:^4.44.23":
+"vue-docgen-api@npm:^4.44.23":
   version: 4.44.23
   resolution: "vue-docgen-api@npm:4.44.23"
   dependencies:
@@ -44651,6 +44651,25 @@ __metadata:
     ts-map: ^1.0.3
     vue-inbrowser-compiler-utils: ^4.44.23
   checksum: b171c4f7e1d43c599c21fb32fcae1b6caeb10f3b6bab96feac052c6ad18551a3725ffaa8af5efc2a8d8f920ee04f5aa26b5edd6d705488baba20b42f9327605d
+  languageName: node
+  linkType: hard
+
+"vue-docgen-api@npm:^4.46.0":
+  version: 4.46.0
+  resolution: "vue-docgen-api@npm:4.46.0"
+  dependencies:
+    "@babel/parser": ^7.13.12
+    "@babel/types": ^7.13.12
+    "@vue/compiler-dom": ^3.2.0
+    "@vue/compiler-sfc": ^3.2.0
+    ast-types: 0.14.2
+    hash-sum: ^1.0.2
+    lru-cache: ^4.1.5
+    pug: ^3.0.2
+    recast: 0.20.5
+    ts-map: ^1.0.3
+    vue-inbrowser-compiler-utils: ^4.44.23
+  checksum: 79b008153bb74bb3c2890af5a18833dc79e9975b84a274ae4e185744f83945a4b801a0b7c71ff53eaa658e90861f0d7262d5a8f344e9dbf3584dd616df559843
   languageName: node
   linkType: hard
 
@@ -44871,7 +44890,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.0.0":
+"vue@npm:^3.0.0, vue@npm:^3.2.33":
   version: 3.2.33
   resolution: "vue@npm:3.2.33"
   dependencies:
