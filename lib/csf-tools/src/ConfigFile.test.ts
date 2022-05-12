@@ -131,7 +131,7 @@ describe('ConfigFile', () => {
           getField(
             ['stories'],
             dedent`
-              import type { StorybookConfig } from '@storybook/react/types';
+              import type { StorybookConfig } from '@storybook/react-webpack4/types';
 
               const config: StorybookConfig = {
                 stories: [{ directory: '../src', titlePrefix: 'Demo' }],

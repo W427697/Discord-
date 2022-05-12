@@ -21,5 +21,5 @@ module.exports = {
     buildStoriesJson: true,
     breakingChangesV7: true,
   },
-  framework: '@storybook/vue',
+  framework: '@storybook/vue-webpack4',
 };

@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/renderer-react",
+  "name": "@storybook/react",
   "version": "6.5.0-beta.4",
   "description": "Storybook React renderer",
   "keywords": [
@@ -83,6 +83,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "416f87dc715cae299c7b4f37f1c9db7f686d4d21",
-  "sbmodern": "dist/modern/index.js"
+  "gitHead": "416f87dc715cae299c7b4f37f1c9db7f686d4d21"
 }

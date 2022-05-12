@@ -1,4 +1,11 @@
-import type { StorybookConfig as BaseConfig } from '@storybook/core-common';
+import type {
+  CommonWebpackConfiguration,
+  StorybookConfig as BaseStorybookConfig,
+  TypescriptOptions as BaseTypescriptOptions,
+} from '@storybook/core-webpack';
+import type { PluginOptions as ReactDocgenTypescriptOptions } from '@storybook/react-docgen-typescript-plugin';
+
+export type { BuilderResult } from '@storybook/core-webpack';
 
 export interface ReactOptions {
   fastRefresh?: boolean;
@@ -16,7 +23,7 @@ export interface ReactOptions {
 /**
  * The interface for Storybook configuration in `main.ts` files.
  */
-export interface StorybookConfig extends BaseConfig {
+export interface ReactConfig {
   framework:
     | string
     | {
@@ -24,3 +31,25 @@ export interface StorybookConfig extends BaseConfig {
         options: ReactOptions;
       };
 }
+
+export type TypescriptOptions = BaseTypescriptOptions & {
+  /**
+   * Sets the type of Docgen when working with React and TypeScript
+   *
+   * @default `'react-docgen-typescript'`
+   */
+  reactDocgen: 'react-docgen-typescript' | 'react-docgen' | false;
+  /**
+   * Configures `react-docgen-typescript-plugin`
+   *
+   * @default
+   * @see https://github.com/storybookjs/storybook/blob/next/lib/builder-webpack5/src/config/defaults.js#L4-L6
+   */
+  reactDocgenTypescriptOptions: ReactDocgenTypescriptOptions;
+};
+
+export type StorybookConfig<TWebpackConfiguration = CommonWebpackConfiguration> =
+  BaseStorybookConfig<TWebpackConfiguration> &
+    ReactConfig & {
+      typescript?: Partial<TypescriptOptions>;
+    };

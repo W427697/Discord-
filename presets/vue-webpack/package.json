@@ -39,7 +39,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/core-common": "6.5.0-beta.4",
+    "@storybook/core-webpack": "6.5.0-beta.4",
     "@storybook/docs-tools": "6.5.0-beta.4",
     "@types/node": "^14.14.20 || ^16.0.0",
     "core-js": "^3.8.2",
@@ -71,6 +71,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
-  "sbmodern": "dist/modern/preset.js"
+  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04"
 }

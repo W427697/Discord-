@@ -39,5 +39,5 @@ module.exports = {
   //     // url: 'http://localhost:8080',
   //   },
   // },
-  framework: '@storybook/html',
+  framework: '@storybook/html-webpack4',
 };

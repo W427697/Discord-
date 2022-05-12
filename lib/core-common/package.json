@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core-common",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/core"
+    "directory": "lib/core-common"
   },
   "funding": {
     "type": "opencollective",
@@ -74,7 +74,6 @@
     "express": "^4.17.1",
     "file-system-cache": "^1.0.5",
     "find-up": "^5.0.0",
-    "fork-ts-checker-webpack-plugin": "^7.2.6",
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
     "handlebars": "^4.7.7",
@@ -88,11 +87,9 @@
     "slash": "^3.0.0",
     "telejson": "^5.3.3",
     "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2",
-    "webpack": "5"
+    "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/react-docgen-typescript-plugin": "1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0",
     "@types/compression": "^1.7.0",
     "@types/interpret": "^1.1.1",
     "@types/mock-fs": "^4.13.0",

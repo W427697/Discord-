@@ -40,20 +40,18 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/core-common": "6.5.0-beta.4",
+    "@storybook/core-webpack": "6.5.0-beta.4",
     "@storybook/node-logger": "6.5.0-beta.4",
     "core-js": "^3.8.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "regenerator-runtime": "^0.13.7",
     "sveltedoc-parser": "4.1.0",
-    "ts-dedent": "^2.0.0",
-    "webpack": ">=4.0.0 <6.0.0"
+    "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
     "svelte": "^3.31.2",
-    "svelte-loader": "^3.1.2",
-    "webpack": "5"
+    "svelte-loader": "^3.1.2"
   },
   "peerDependencies": {
     "@babel/core": "*",
@@ -66,6 +64,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
-  "sbmodern": "dist/modern/client/index.js"
+  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04"
 }

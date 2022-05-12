@@ -5,7 +5,7 @@ const execa = require('execa');
 
 function getCommand(watch, dir) {
   // Compile angular with tsc
-  if (process.cwd().includes(path.join('app', 'angular'))) {
+  if (process.cwd().includes(path.join('frameworks', 'angular'))) {
     return '';
   }
   if (process.cwd().includes(path.join('addons', 'storyshots'))) {

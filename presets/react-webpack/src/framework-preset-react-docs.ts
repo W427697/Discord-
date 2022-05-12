@@ -1,11 +1,15 @@
-import type { StorybookConfig, TypescriptConfig } from '@storybook/core-common';
 import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
 import { hasDocsOrControls } from '@storybook/docs-tools';
+
+import type { StorybookConfig } from './types';
 
 export const babel: StorybookConfig['babel'] = async (config, options) => {
   if (!hasDocsOrControls(options)) return config;
 
-  const typescriptOptions = await options.presets.apply<TypescriptConfig>('typescript', {} as any);
+  const typescriptOptions = await options.presets.apply<StorybookConfig['typescript']>(
+    'typescript',
+    {} as any
+  );
 
   const { reactDocgen } = typescriptOptions;
 
@@ -34,7 +38,10 @@ export const babel: StorybookConfig['babel'] = async (config, options) => {
 export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, options) => {
   if (!hasDocsOrControls(options)) return config;
 
-  const typescriptOptions = await options.presets.apply<TypescriptConfig>('typescript', {} as any);
+  const typescriptOptions = await options.presets.apply<StorybookConfig['typescript']>(
+    'typescript',
+    {} as any
+  );
 
   const { reactDocgen, reactDocgenTypescriptOptions } = typescriptOptions;
 

@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/react/types';
+import type { StorybookConfig } from '@storybook/react-webpack4/types';
 
 const path = require('path');
 
@@ -33,6 +33,6 @@ const mainConfig: StorybookConfig = {
     buildStoriesJson: true,
     breakingChangesV7: true,
   },
-  framework: '@storybook/react',
+  framework: '@storybook/react-webpack4',
 };
 module.exports = mainConfig;

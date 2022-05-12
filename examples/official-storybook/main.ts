@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import type { StorybookConfig } from '@storybook/react/types';
+import type { StorybookConfig } from '@storybook/react-webpack4/types';
 
 const config: StorybookConfig = {
   stories: [
@@ -49,7 +49,7 @@ const config: StorybookConfig = {
     },
   ],
   framework: {
-    name: '@storybook/react',
+    name: '@storybook/react-webpack4',
     options: {
       fastRefresh: true,
       strictMode: true,

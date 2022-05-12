@@ -19,9 +19,9 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
+  "main": "dist/cjs/preset.js",
+  "module": "dist/esm/preset.js",
+  "types": "dist/ts3.9/preset.d.ts",
   "typesVersions": {
     "<3.8": {
       "dist/ts3.9/*": [
@@ -43,11 +43,11 @@
     "@babel/preset-flow": "^7.12.1",
     "@babel/preset-react": "^7.12.10",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
-    "@storybook/core-common": "6.5.0-beta.4",
+    "@storybook/core-webpack": "6.5.0-beta.4",
     "@storybook/docs-tools": "6.5.0-beta.4",
     "@storybook/node-logger": "6.5.0-beta.4",
+    "@storybook/react": "6.5.0-beta.4",
     "@storybook/react-docgen-typescript-plugin": "1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0",
-    "@storybook/renderer-react": "6.5.0-beta.4",
     "@storybook/semver": "^7.3.2",
     "@types/node": "^14.14.20 || ^16.0.0",
     "babel-plugin-add-react-displayname": "^0.0.5",
@@ -55,19 +55,18 @@
     "core-js": "^3.8.2",
     "fs-extra": "^9.0.1",
     "react-refresh": "^0.11.0",
-    "regenerator-runtime": "^0.13.7",
-    "webpack": ">=4.43.0 <6.0.0"
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
-    "@types/util-deprecate": "^1.0.0",
-    "webpack": "5"
+    "@types/util-deprecate": "^1.0.0"
   },
   "peerDependencies": {
     "@babel/core": "^7.11.5",
     "jest-specific-snapshot": "^4.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "require-from-string": "^2.0.2"
+    "require-from-string": "^2.0.2",
+    "webpack": "4 || 5"
   },
   "peerDependenciesMeta": {
     "@babel/core": {
@@ -83,6 +82,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
-  "sbmodern": "dist/modern/client/index.js"
+  "gitHead": "7417a230d67b54d65caedcfb584f924b879ac9f5"
 }

@@ -1,6 +1,6 @@
 import { readJSON } from 'fs-extra';
 import { IgnorePlugin } from 'webpack';
-import type { StorybookConfig } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/core-webpack';
 
 // this is a hack to allow importing react-dom/client even when it's not available
 // this should be removed once we drop support for react-dom < 18
@@ -17,7 +17,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config) => {
         : new IgnorePlugin({
             resourceRegExp: /react-dom\/client$/,
             contextRegExp:
-              /(renderers\/react|renderers\\react|@storybook\/renderer-react|@storybook\\renderer-react)/, // TODO this needs to work for both in our MONOREPO and in the user's NODE_MODULES
+              /(renderers\/react|renderers\\react|@storybook\/react|@storybook\\react)/, // TODO this needs to work for both in our MONOREPO and in the user's NODE_MODULES
           }),
     ].filter(Boolean),
   };
