@@ -369,7 +369,7 @@ jobs:
             yarn storybook --smoke-test --quiet
   lint:
     executor:
-      class: small
+      class: medium
       name: sb_node_14_classic
     steps:
       - git-shallow-clone/checkout_advanced:
