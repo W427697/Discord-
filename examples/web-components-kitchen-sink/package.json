@@ -13,6 +13,7 @@
     "storybook": "sb dev -p 9006 --no-manager-cache"
   },
   "resolutions": {
+    "@babel/plugin-proposal-decorators": "^7.17.9",
     "@storybook/addon-a11y": "portal:../../addons/a11y",
     "@storybook/addon-actions": "portal:../../addons/actions",
     "@storybook/addon-backgrounds": "portal:../../addons/backgrounds",
@@ -30,6 +31,7 @@
     "@storybook/channel-postmessage": "portal:../../lib/channel-postmessage",
     "@storybook/channel-websocket": "portal:../../lib/channel-websocket",
     "@storybook/channels": "portal:../../lib/channels",
+    "@storybook/cli": "portal:../../lib/cli",
     "@storybook/client-api": "portal:../../lib/client-api",
     "@storybook/client-logger": "portal:../../lib/client-logger",
     "@storybook/codemod": "portal:../../lib/codemod",
@@ -80,7 +82,7 @@
     "@storybook/web-components": "*",
     "@storybook/web-components-webpack5": "*",
     "global": "^4.4.0",
-    "jest": "^27.3.1",
+    "jest": "^26.6.3",
     "sb": "*",
     "typescript": "^4.6.3"
   },
