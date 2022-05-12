@@ -53,6 +53,25 @@ Object {
         "type": "asset/source",
       },
       Object {
+        "loader": "NODE_MODULES/vue-loader/dist/index.js",
+        "options": Object {},
+        "test": "/\\\\.vue$/",
+      },
+      Object {
+        "test": "/\\\\.tsx?$/",
+        "use": Array [
+          Object {
+            "loader": "NODE_MODULES/ts-loader/index.js",
+            "options": Object {
+              "appendTsSuffixTo": Array [
+                "/\\\\.vue$/",
+              ],
+              "transpileOnly": true,
+            },
+          },
+        ],
+      },
+      Object {
         "test": "/(stories|story)\\\\.mdx$/",
         "use": Array [
           Object {
@@ -176,6 +195,7 @@ Object {
               "@storybook/theming": "ROOT/lib/theming",
               "react": "NODE_MODULES/react",
               "react-dom": "NODE_MODULES/react-dom",
+              "vue$": "NODE_MODULES/vue/dist/vue.esm-bundler.js",
             },
           },
         },
@@ -191,6 +211,8 @@ Object {
     "HotModuleReplacementPlugin",
     "CaseSensitivePathsPlugin",
     "ProgressPlugin",
+    "VueLoaderPlugin",
+    "DefinePlugin",
   ],
 }
 `;
