@@ -75,6 +75,7 @@
     "publish:next": "npm run publish:latest -- --npm-tag=next",
     "run-chromatics": "node -r esm ./scripts/run-chromatics.js",
     "serve-storybooks": "http-server ./built-storybooks -p 8001",
+    "smoketest-storybooks": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true node -r esm ./scripts/smoketest-storybooks.js",
     "start": "yarn workspace official-storybook storybook --no-manager-cache",
     "test": "NODE_OPTIONS=--max_old_space_size=4096 jest",
     "test-puppeteer": "jest --projects examples/official-storybook/storyshots-puppeteer",

@@ -316,57 +316,22 @@ jobs:
           destination: cypress
   smoke-tests:
     executor:
-      class: medium
+      class: medium+
       name: sb_node_14_browsers
     environment:
       # Disable ESLint when running smoke tests to improve perf + As of CRA 4.0.3, CRA kitchen sinks are throwing
       # because of some ESLint warnings, related to: https://github.com/facebook/create-react-app/pull/10590
       DISABLE_ESLINT_PLUGIN: 'true'
+    parallelism: 16
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
-          name: Run react kitchen-sink (smoke test)
+          name: smoke tests
           command: |
-            cd examples/cra-kitchen-sink
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run react typescript kitchen-sink (smoke test)
-          command: |
-            cd examples/cra-ts-kitchen-sink
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run vue kitchen-sink (smoke test)
-          command: |
-            cd examples/vue-kitchen-sink
-            yarn storybook --smoke-test --quiet
-      # - run:
-      #     name: Run svelte kitchen-sink (smoke test)
-      #     command: |
-      #       cd examples/svelte-kitchen-sink
-      #       yarn storybook --smoke-test --quiet
-      - run:
-          name: Run angular-cli (smoke test)
-          command: |
-            cd examples/angular-cli
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run ember-cli (smoke test)
-          command: |
-            cd examples/ember-cli
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run official-storybook (smoke test)
-          command: |
-            cd examples/official-storybook
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run preact kitchen-sink (smoke test)
-          command: |
-            cd examples/preact-kitchen-sink
-            yarn storybook --smoke-test --quiet
+            yarn smoketest-storybooks --all
   lint:
     executor:
       class: medium
