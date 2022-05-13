@@ -205,27 +205,47 @@ describe('framework-preset-angular-cli', () => {
       const baseWebpackConfig = newWebpackConfiguration();
       const webpackFinalConfig = await webpackFinal(baseWebpackConfig, options);
 
+      const expectedRules: any = [
+        {
+          oneOf: [
+            {
+              exclude: [],
+              use: expect.anything(),
+            },
+            {
+              include: [],
+              use: expect.anything(),
+            },
+          ],
+        },
+        { use: expect.anything() },
+      ];
       expect(webpackFinalConfig.module.rules).toEqual([
         {
-          exclude: [],
-          test: /\.css$/,
-          use: expect.anything(),
+          test: /\.(?:css)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: [],
-          test: /\.scss$|\.sass$/,
-          use: expect.anything(),
+          test: /\.(?:scss)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: [],
-          test: /\.less$/,
-          use: expect.anything(),
+          test: /\.(?:sass)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: [],
-          test: /\.styl$/,
-          use: expect.anything(),
+          test: /\.(?:less)$/i,
+          rules: expectedRules,
         },
+        {
+          test: /\.(?:styl)$/i,
+          rules: expectedRules,
+        },
+        { mimetype: 'text/css', use: expect.anything() },
+        { mimetype: 'text/x-scss', use: expect.anything() },
+        { mimetype: 'text/x-sass', use: expect.anything() },
+        { mimetype: 'text/x-less', use: expect.anything() },
+        { mimetype: 'text/x-stylus', use: expect.anything() },
         ...baseWebpackConfig.module.rules,
       ]);
     });
@@ -239,10 +259,12 @@ describe('framework-preset-angular-cli', () => {
           AnyComponentStyleBudgetChecker {
             "budgets": Array [],
           },
+          Object {
+            "apply": [Function],
+          },
           ContextReplacementPlugin {
-            "newContentRecursive": undefined,
-            "newContentRegExp": undefined,
-            "newContentResource": undefined,
+            "newContentCreateContextMap": [Function],
+            "newContentResource": "/Users/shilman/projects/baseline/storybook/app/angular/src/server/__mocks-ng-workspace__/minimal-config/$_lazy_route_resources",
             "resourceRegExp": /\\\\@angular\\(\\\\\\\\\\|\\\\/\\)core\\(\\\\\\\\\\|\\\\/\\)/,
           },
           DedupeModuleResolvePlugin {
@@ -275,26 +297,7 @@ describe('framework-preset-angular-cli', () => {
       expect(webpackFinalConfig.resolve.plugins).toMatchInlineSnapshot(`
         Array [
           TsconfigPathsPlugin {
-            "absoluteBaseUrl": "${(
-              getSystemPath(normalize(path.join(workspaceRoot, 'src'))) + path.sep
-            ).replace(/\\/g, '\\\\')}",
-            "baseUrl": "./",
-            "extensions": Array [
-              ".ts",
-              ".tsx",
-            ],
-            "log": Object {
-              "log": [Function],
-              "logError": [Function],
-              "logInfo": [Function],
-              "logWarning": [Function],
-            },
-            "matchPath": [Function],
-            "source": "described-resolve",
-            "target": "resolve",
-          },
-        ]
-      `);
+            "absoluteBaseUrl": "`);
     });
   });
   describe('when angular.json have "options.styles" config', () => {
@@ -328,51 +331,47 @@ describe('framework-preset-angular-cli', () => {
     it('should set webpack "module.rules"', async () => {
       const baseWebpackConfig = newWebpackConfiguration();
       const webpackFinalConfig = await webpackFinal(baseWebpackConfig, options);
-      const stylePaths = [
-        path.join(workspaceRoot, 'src', 'styles.css'),
-        path.join(workspaceRoot, 'src', 'styles.scss'),
+      const expectedRules = [
+        {
+          oneOf: [
+            {
+              exclude: [`${workspaceRoot}/src/styles.css`, `${workspaceRoot}/src/styles.scss`],
+              use: expect.anything(),
+            },
+            {
+              include: [`${workspaceRoot}/src/styles.css`, `${workspaceRoot}/src/styles.scss`],
+              use: expect.anything(),
+            },
+          ],
+        },
+        { use: expect.anything() },
       ];
       expect(webpackFinalConfig.module.rules).toEqual([
         {
-          exclude: stylePaths,
-          test: /\.css$/,
-          use: expect.anything(),
+          test: /\.(?:css)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: stylePaths,
-          test: /\.scss$|\.sass$/,
-          use: expect.anything(),
+          test: /\.(?:scss)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: stylePaths,
-          test: /\.less$/,
-          use: expect.anything(),
+          test: /\.(?:sass)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: stylePaths,
-          test: /\.styl$/,
-          use: expect.anything(),
+          test: /\.(?:less)$/i,
+          rules: expectedRules,
         },
         {
-          include: stylePaths,
-          test: /\.css$/,
-          use: expect.anything(),
+          test: /\.(?:styl)$/i,
+          rules: expectedRules,
         },
-        {
-          include: stylePaths,
-          test: /\.scss$|\.sass$/,
-          use: expect.anything(),
-        },
-        {
-          include: stylePaths,
-          test: /\.less$/,
-          use: expect.anything(),
-        },
-        {
-          include: stylePaths,
-          test: /\.styl$/,
-          use: expect.anything(),
-        },
+        { mimetype: 'text/css', use: expect.anything() },
+        { mimetype: 'text/x-scss', use: expect.anything() },
+        { mimetype: 'text/x-sass', use: expect.anything() },
+        { mimetype: 'text/x-less', use: expect.anything() },
+        { mimetype: 'text/x-stylus', use: expect.anything() },
         ...baseWebpackConfig.module.rules,
       ]);
     });
@@ -427,47 +426,47 @@ describe('framework-preset-angular-cli', () => {
         path.join(workspaceRoot, 'src', 'styles.scss'),
       ];
 
+      const expectedRules: any = [
+        {
+          oneOf: [
+            {
+              exclude: [`${workspaceRoot}/src/styles.css`, `${workspaceRoot}/src/styles.scss`],
+              use: expect.anything(),
+            },
+            {
+              include: [`${workspaceRoot}/src/styles.css`, `${workspaceRoot}/src/styles.scss`],
+              use: expect.anything(),
+            },
+          ],
+        },
+        { use: expect.anything() },
+      ];
       expect(webpackFinalConfig.module.rules).toEqual([
         {
-          exclude: stylePaths,
-          test: /\.css$/,
-          use: expect.anything(),
+          test: /\.(?:css)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: stylePaths,
-          test: /\.scss$|\.sass$/,
-          use: expect.anything(),
+          test: /\.(?:scss)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: stylePaths,
-          test: /\.less$/,
-          use: expect.anything(),
+          test: /\.(?:sass)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: stylePaths,
-          test: /\.styl$/,
-          use: expect.anything(),
+          test: /\.(?:less)$/i,
+          rules: expectedRules,
         },
         {
-          include: stylePaths,
-          test: /\.css$/,
-          use: expect.anything(),
+          test: /\.(?:styl)$/i,
+          rules: expectedRules,
         },
-        {
-          include: stylePaths,
-          test: /\.scss$|\.sass$/,
-          use: expect.anything(),
-        },
-        {
-          include: stylePaths,
-          test: /\.less$/,
-          use: expect.anything(),
-        },
-        {
-          include: stylePaths,
-          test: /\.styl$/,
-          use: expect.anything(),
-        },
+        { mimetype: 'text/css', use: expect.anything() },
+        { mimetype: 'text/x-scss', use: expect.anything() },
+        { mimetype: 'text/x-sass', use: expect.anything() },
+        { mimetype: 'text/x-less', use: expect.anything() },
+        { mimetype: 'text/x-stylus', use: expect.anything() },
         ...baseWebpackConfig.module.rules,
       ]);
     });
@@ -513,47 +512,47 @@ describe('framework-preset-angular-cli', () => {
         path.join(workspaceRoot, 'src', 'styles.scss'),
       ];
 
+      const expectedRules: any = [
+        {
+          oneOf: [
+            {
+              exclude: [`${workspaceRoot}/src/styles.css`, `${workspaceRoot}/src/styles.scss`],
+              use: expect.anything(),
+            },
+            {
+              include: [`${workspaceRoot}/src/styles.css`, `${workspaceRoot}/src/styles.scss`],
+              use: expect.anything(),
+            },
+          ],
+        },
+        { use: expect.anything() },
+      ];
       expect(webpackFinalConfig.module.rules).toEqual([
         {
-          exclude: stylePaths,
-          test: /\.css$/,
-          use: expect.anything(),
+          test: /\.(?:css)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: stylePaths,
-          test: /\.scss$|\.sass$/,
-          use: expect.anything(),
+          test: /\.(?:scss)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: stylePaths,
-          test: /\.less$/,
-          use: expect.anything(),
+          test: /\.(?:sass)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: stylePaths,
-          test: /\.styl$/,
-          use: expect.anything(),
+          test: /\.(?:less)$/i,
+          rules: expectedRules,
         },
         {
-          include: stylePaths,
-          test: /\.css$/,
-          use: expect.anything(),
+          test: /\.(?:styl)$/i,
+          rules: expectedRules,
         },
-        {
-          include: stylePaths,
-          test: /\.scss$|\.sass$/,
-          use: expect.anything(),
-        },
-        {
-          include: stylePaths,
-          test: /\.less$/,
-          use: expect.anything(),
-        },
-        {
-          include: stylePaths,
-          test: /\.styl$/,
-          use: expect.anything(),
-        },
+        { mimetype: 'text/css', use: expect.anything() },
+        { mimetype: 'text/x-scss', use: expect.anything() },
+        { mimetype: 'text/x-sass', use: expect.anything() },
+        { mimetype: 'text/x-less', use: expect.anything() },
+        { mimetype: 'text/x-stylus', use: expect.anything() },
         ...baseWebpackConfig.module.rules,
       ]);
     });
@@ -587,27 +586,47 @@ describe('framework-preset-angular-cli', () => {
       const baseWebpackConfig = newWebpackConfiguration();
       const webpackFinalConfig = await webpackFinal(baseWebpackConfig, options);
 
+      const expectedRules: any = [
+        {
+          oneOf: [
+            {
+              exclude: [],
+              use: expect.anything(),
+            },
+            {
+              include: [],
+              use: expect.anything(),
+            },
+          ],
+        },
+        { use: expect.anything() },
+      ];
       expect(webpackFinalConfig.module.rules).toEqual([
         {
-          exclude: [],
-          test: /\.css$/,
-          use: expect.anything(),
+          test: /\.(?:css)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: [],
-          test: /\.scss$|\.sass$/,
-          use: expect.anything(),
+          test: /\.(?:scss)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: [],
-          test: /\.less$/,
-          use: expect.anything(),
+          test: /\.(?:sass)$/i,
+          rules: expectedRules,
         },
         {
-          exclude: [],
-          test: /\.styl$/,
-          use: expect.anything(),
+          test: /\.(?:less)$/i,
+          rules: expectedRules,
         },
+        {
+          test: /\.(?:styl)$/i,
+          rules: expectedRules,
+        },
+        { mimetype: 'text/css', use: expect.anything() },
+        { mimetype: 'text/x-scss', use: expect.anything() },
+        { mimetype: 'text/x-sass', use: expect.anything() },
+        { mimetype: 'text/x-less', use: expect.anything() },
+        { mimetype: 'text/x-stylus', use: expect.anything() },
         ...baseWebpackConfig.module.rules,
       ]);
     });
