@@ -7,6 +7,7 @@ import { AnyFramework, StoryId } from '@storybook/csf';
 
 import { DocsContext } from './DocsContext';
 import { ExternalPreview } from './ExternalPreview';
+import { SourceContainer } from './SourceContainer';
 
 let preview: ExternalPreview<AnyFramework>;
 
@@ -57,7 +58,9 @@ export const ExternalDocsContainer: React.FC<{ projectAnnotations: any }> = ({
 
   return (
     <DocsContext.Provider value={docsContext}>
-      <ThemeProvider theme={ensure(themes.normal)}>{children}</ThemeProvider>
+      <SourceContainer>
+        <ThemeProvider theme={ensure(themes.normal)}>{children}</ThemeProvider>
+      </SourceContainer>
     </DocsContext.Provider>
   );
 };
