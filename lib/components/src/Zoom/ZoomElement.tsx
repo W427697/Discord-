@@ -10,7 +10,6 @@ const ZoomElementWrapper = styled.div<{ scale: number; height: number }>(({ scal
         },
       }
     : {
-        height: height + 50,
         transformOrigin: 'top left',
         transform: `scale(${1 / scale})`,
       }
