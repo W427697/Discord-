@@ -16,7 +16,7 @@ export const prepareForInline = (
   // By attaching the app context from `@storybook/vue3` to the vnode
   // like this, these stoeis are able to access any app config stuff
   // the end-user set inside `.storybook/preview.js`
-  vnode.appContext = app._context; // eslint-disable-line no-underscore-dangle
+  vnode.appContext = app()._context; // eslint-disable-line no-underscore-dangle
 
   return React.createElement('div', {
     ref: (node?: HTMLDivElement): void => (node ? render(vnode, node) : null),

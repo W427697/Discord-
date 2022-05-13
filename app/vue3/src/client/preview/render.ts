@@ -22,28 +22,53 @@ export const activeStoryComponent = shallowRef<StoryFnVueReturnType | null>(null
 
 let root: ComponentPublicInstance | null = null;
 
-export const storybookApp = createApp({
-  // If an end-user calls `unmount` on the app, we need to clear our root variable
-  unmounted() {
-    root = null;
-  },
+const createVueApp = () =>
+  createApp({
+    // If an end-user calls `unmount` on the app, we need to clear our root variable
+    unmounted() {
+      root = null;
+    },
 
-  setup() {
-    return () => {
-      if (!activeStoryComponent.value)
-        throw new Error('No Vue 3 Story available. Was it set correctly?');
-      return h(activeStoryComponent.value);
-    };
-  },
-});
+    setup() {
+      return () => {
+        if (!activeStoryComponent.value)
+          throw new Error('No Vue 3 Story available. Was it set correctly?');
+        return h(activeStoryComponent.value);
+      };
+    },
+  });
+
+type VueApp = ReturnType<typeof createApp>;
+
+const vueAppManager: { current: VueApp; previous?: VueApp; setup: Function; isMounted: boolean } = {
+  current: createVueApp(),
+  previous: undefined,
+  setup: () => {},
+  isMounted: false,
+};
+
+export const storybookApp = () => vueAppManager.current;
+
+export const onAppCreated = (userSpecifiedSetupFn: (app: VueApp) => void) => {
+  vueAppManager.setup = () => userSpecifiedSetupFn(vueAppManager.current);
+};
 
 export function renderToDOM(
   { title, name, storyFn, showMain, showError, showException }: RenderContext<VueFramework>,
   domElement: HTMLElement
 ) {
-  storybookApp.config.errorHandler = showException;
+  vueAppManager.previous = vueAppManager.current;
+  vueAppManager.current = createVueApp();
+  vueAppManager.setup();
 
   const element: StoryFnVueReturnType = storyFn();
+
+  if (vueAppManager.isMounted) {
+    vueAppManager.previous.unmount(root as any);
+    vueAppManager.isMounted = false;
+  }
+
+  vueAppManager.current.config.errorHandler = showException;
 
   if (!element) {
     showError({
@@ -61,6 +86,7 @@ export function renderToDOM(
   activeStoryComponent.value = element;
 
   if (!root) {
-    root = storybookApp.mount(domElement);
+    root = vueAppManager.current.mount(domElement);
+    vueAppManager.isMounted = true;
   }
 }

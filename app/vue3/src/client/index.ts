@@ -8,6 +8,7 @@ export {
   forceReRender,
   raw,
   app,
+  onAppCreated,
   activeStoryComponent,
 } from './preview';
 
