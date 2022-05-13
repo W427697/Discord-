@@ -11789,6 +11789,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vue/devtools-api@npm:^6.0.0-beta.11":
+  version: 6.1.4
+  resolution: "@vue/devtools-api@npm:6.1.4"
+  checksum: b789a1c0fbb6c441a740051edadef12419c05ed03dd60fb1660479c47816baba86f9d3ad5ed80f7b20378dd03b6ab51e07d222232084eed805ca2c3c85fe2768
+  languageName: node
+  linkType: hard
+
 "@vue/preload-webpack-plugin@npm:^1.1.0":
   version: 1.1.2
   resolution: "@vue/preload-webpack-plugin@npm:1.1.2"
@@ -45787,6 +45794,7 @@ __metadata:
     vue: ^3.0.0
     vue-jest: ^5.0.0-alpha.8
     vue-loader: ^16.1.2
+    vuex: ^4.0.2
   languageName: unknown
   linkType: soft
 
@@ -46050,6 +46058,17 @@ __metadata:
   peerDependencies:
     vue: ^2.0.0
   checksum: 726f2ff4ecf070bd4c65e98bf31910c3b57a83218be5623a35a57849075ce16ec117fc9f37cc905f9515200ad5e5a6976bdb075a5a701f9fe5c4364d5a72fc71
+  languageName: node
+  linkType: hard
+
+"vuex@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "vuex@npm:4.0.2"
+  dependencies:
+    "@vue/devtools-api": ^6.0.0-beta.11
+  peerDependencies:
+    vue: ^3.0.2
+  checksum: 1e7898091bd7f913ad200302fe0a0393f90618a8bbb4517357136042cb106e4adeb0e066d41ab15720706d10362c146a065c61765d11222d3d9b642b8be0a4d5
   languageName: node
   linkType: hard
 
