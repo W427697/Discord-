@@ -3,6 +3,7 @@ export { ColorPalette, ColorItem, IconGallery, IconItem, Typeset } from '@storyb
 export * from './Anchor';
 export * from './ArgsTable';
 export * from './Canvas';
+export * from './Controls';
 export * from './Description';
 export * from './DocsContext';
 export * from './DocsPage';

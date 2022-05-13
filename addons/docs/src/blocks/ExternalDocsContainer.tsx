@@ -37,8 +37,11 @@ export const ExternalDocsContainer: React.FC<{ projectAnnotations: any }> = ({
       return preview.storyById(id);
     },
 
-    getStoryContext: () => {
-      throw new Error('not implemented');
+    getStoryContext: (story) => {
+      return {
+        ...preview.storyStore.getStoryContext(story),
+        viewMode: 'docs',
+      } as any;
     },
 
     componentStories: () => {
