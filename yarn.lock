@@ -8044,7 +8044,7 @@ __metadata:
     "@storybook/core-events": 6.5.0-beta.4
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/csf-tools": 6.5.0-beta.4
-    "@storybook/docs-mdx": 0.0.1-canary.1.4bea5cc.0
+    "@storybook/docs-mdx": 0.0.1-canary.1.b140761.0
     "@storybook/manager-webpack4": 6.5.0-beta.4
     "@storybook/node-logger": 6.5.0-beta.4
     "@storybook/semver": ^7.3.2
@@ -8181,15 +8181,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/docs-mdx@npm:0.0.1-canary.1.4bea5cc.0":
-  version: 0.0.1-canary.1.4bea5cc.0
-  resolution: "@storybook/docs-mdx@npm:0.0.1-canary.1.4bea5cc.0"
+"@storybook/docs-mdx@npm:0.0.1-canary.1.b140761.0":
+  version: 0.0.1-canary.1.b140761.0
+  resolution: "@storybook/docs-mdx@npm:0.0.1-canary.1.b140761.0"
   dependencies:
     "@babel/traverse": ^7.12.11
     "@mdx-js/mdx": ^2.0.0
     estree-to-babel: ^4.9.0
     hast-util-to-estree: ^2.0.2
-  checksum: e124e704f31908775f42caf61ed88daed1fc21d582a0884bc38af603f1dcc32647eb0472b2ade72b361d3b5c2d467b9d6ea41def56b62ad1b3169e0229be3a7f
+  checksum: 45fa7ccb3b282d14fed025948df9d22e6b0de3eccf6af4221250af179469213f71c7203b667ca7987f1f934ec79f185f90c791efea29d50fd860c71565876c3f
   languageName: node
   linkType: hard
 
@@ -8307,6 +8307,7 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.87bc651.0
     "@storybook/preview-web": 6.5.0-beta.4
     "@storybook/react": 6.5.0-beta.4
+    "@storybook/store": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
     "@testing-library/dom": ^7.31.2
     "@testing-library/user-event": ^13.1.9
@@ -8541,8 +8542,8 @@ __metadata:
   linkType: hard
 
 "@storybook/mdx2-csf@npm:canary":
-  version: 0.0.1-canary.1.357011b.0
-  resolution: "@storybook/mdx2-csf@npm:0.0.1-canary.1.357011b.0"
+  version: 0.0.4-canary.7.37514ba.0
+  resolution: "@storybook/mdx2-csf@npm:0.0.4-canary.7.37514ba.0"
   dependencies:
     "@babel/generator": ^7.12.11
     "@babel/parser": ^7.12.11
@@ -8550,9 +8551,9 @@ __metadata:
     estree-to-babel: ^4.9.0
     hast-util-to-estree: ^2.0.2
     js-string-escape: ^1.0.1
-    loader-utils: ^2.0.0
+    loader-utils: ^2.0.2
     lodash: ^4.17.21
-  checksum: d478936e21773fdb7a182160d61aa951b71edde927c97e095a2557dce80f3f263ae91fe818491713ffe834034370189a2fa17d672275d881c841a2277bbf89d0
+  checksum: 969f64e957b5e594cb6b2ed9bf5f0e6d4967725f048f705c1e9ba306e6867c502a7deb508fedf6cfab2545f0a19bd3fb62eb48c5e3779a1167990485be435eb3
   languageName: node
   linkType: hard
 
@@ -31262,7 +31263,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loader-utils@npm:^2.0.0, loader-utils@npm:~2.0.0":
+"loader-utils@npm:^2.0.0, loader-utils@npm:^2.0.2, loader-utils@npm:~2.0.0":
   version: 2.0.2
   resolution: "loader-utils@npm:2.0.2"
   dependencies:
