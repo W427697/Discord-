@@ -1,6 +1,5 @@
 import * as Vue from 'vue';
 import global from 'global';
-import dedent from 'ts-dedent';
 import { app, activeStoryComponent } from '@storybook/vue3';
 
 const { document } = global;
@@ -18,7 +17,7 @@ function getRenderedTree(story: any) {
   // So we try/catch and warn the user if they forgot to specify one in their args
   activeStoryComponent.value = vnode;
   if (!vm) {
-    vm = app.mount(document.createElement('div'));
+    vm = app().mount(document.createElement('div'));
   }
   vm.$forceUpdate();
   return vm.$el;
