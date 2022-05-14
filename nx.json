@@ -127,6 +127,9 @@
     "@storybook/web-components": {
       "implicitDependencies": []
     },
+    "@storybook/core-vite": {
+      "implicitDependencies": []
+    },
     "@storybook/core-webpack": {
       "implicitDependencies": []
     },
@@ -263,6 +266,9 @@
       "implicitDependencies": []
     },
     "@storybook/preview-web": {
+      "implicitDependencies": []
+    },
+    "@storybook/react-vite": {
       "implicitDependencies": []
     },
     "@storybook/html-webpack5": {

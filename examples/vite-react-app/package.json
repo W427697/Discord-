@@ -1,0 +1,27 @@
+{
+  "name": "@storybook/example-vite-react-app",
+  "version": "6.5.0-beta.4",
+  "scripts": {
+    "build": "vite build",
+    "build-storybook": "STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb build",
+    "dev": "vite",
+    "preview": "vite preview",
+    "storybook": "STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb dev --no-manager-cache"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@mdx-js/preact": "^1.6.0",
+    "@mdx-js/react": "^1.6.0",
+    "@storybook/addon-essentials": "6.5.0-beta.4",
+    "@storybook/builder-vite": "^0.1.33",
+    "@storybook/react": "6.5.0-beta.4",
+    "@storybook/react-vite": "6.5.0-beta.4",
+    "@vitejs/plugin-react": "^1.0.7",
+    "prop-types": "^15.8.1",
+    "sb": "6.5.0-beta.4",
+    "vite": "^2.9.0"
+  }
+}

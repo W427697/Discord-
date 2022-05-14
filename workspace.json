@@ -77,6 +77,10 @@
       "root": "frameworks/ember",
       "type": "library"
     },
+    "@storybook/react-vite": {
+      "root": "frameworks/react-vite",
+      "type": "library"
+    },
     "@storybook/html-webpack5": {
       "root": "frameworks/html-webpack5",
       "type": "library"
@@ -111,6 +115,10 @@
     },
     "@storybook/web-components-webpack5": {
       "root": "frameworks/web-components-webpack5",
+      "type": "library"
+    },
+    "@storybook/core-vite": {
+      "root": "lib/core-vite",
       "type": "library"
     },
     "@storybook/core-webpack": {
