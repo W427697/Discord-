@@ -72,7 +72,7 @@
       "vue-example": ["examples/vue-kitchen-sink/src/index.ts"],
       "web-components-kitchen-sink": ["examples/web-components-kitchen-sink/src/index.ts"],
       "@storybook/addons": ["lib/addons/src/index.ts"],
-      "@storybook/api": ["lib/api/src/index.ts"],
+      "@storybook/api": ["lib/api/src/index.tsx"],
       "@storybook/builder-webpack4": ["lib/builder-webpack4/src/index.ts"],
       "@storybook/builder-webpack5": ["lib/builder-webpack5/src/index.ts"],
       "@storybook/channel-postmessage": ["lib/channel-postmessage/src/index.ts"],
