@@ -168,7 +168,7 @@ const Story: FunctionComponent<StoryProps> = (props) => {
       <div id={storyBlockIdFromId(story.id)}>
         <MDXProvider components={resetComponents}>
           {height ? (
-            <style>{`#story--${story.id} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
+            <style>{`#story--${story.id} { min-height: ${height}px; transform: translateZ(0); overflow: auto }`}</style>
           ) : null}
           {showLoader && <StorySkeleton />}
           <div
