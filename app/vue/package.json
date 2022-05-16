@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue",
-  "version": "6.5.0-beta.0",
+  "version": "6.5.0-beta.4",
   "description": "Storybook for Vue: Develop Vue Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -39,14 +39,14 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.0-beta.0",
-    "@storybook/client-logger": "6.5.0-beta.0",
-    "@storybook/core-client": "6.5.0-beta.0",
-    "@storybook/core-common": "6.5.0-beta.0",
-    "@storybook/core-server": "6.5.0-beta.0",
-    "@storybook/csf": "0.0.2--canary.7c6c115.0",
-    "@storybook/docs-tools": "6.5.0-beta.0",
-    "@storybook/store": "6.5.0-beta.0",
+    "@storybook/addons": "6.5.0-beta.4",
+    "@storybook/client-logger": "6.5.0-beta.4",
+    "@storybook/core-client": "6.5.0-beta.4",
+    "@storybook/core-common": "6.5.0-beta.4",
+    "@storybook/core-server": "6.5.0-beta.4",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/docs-tools": "6.5.0-beta.4",
+    "@storybook/store": "6.5.0-beta.4",
     "@types/node": "^14.14.20 || ^16.0.0",
     "@types/webpack-env": "^1.16.0",
     "core-js": "^3.8.2",
@@ -81,6 +81,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "b2e85f3599c043815b18bbfc5ca563bf1c6e4add",
+  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
   "sbmodern": "dist/modern/client/index.js"
 }

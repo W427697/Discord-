@@ -9,6 +9,7 @@ module.exports = {
   ],
   core: {
     builder: 'webpack4',
+    disableTelemetry: true,
   },
   features: {
     storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
