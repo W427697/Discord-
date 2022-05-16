@@ -1,8 +1,16 @@
 import path from 'path';
 import type { TransformOptions } from '@babel/core';
 import type { Configuration } from 'webpack';
-import { findDistEsm } from '@storybook/core-common';
 import type { StorybookConfig } from '@storybook/core-common';
+import { findDistEsm } from '@storybook/core-common';
+import semverRegex from 'semver-regex';
+
+function isPreactX() {
+  const preactPackage = require('preact/package.json');
+  const version = preactPackage.version.match(semverRegex())[0];
+  const major = parseFloat(version.split('.')[0]);
+  return major >= 10;
+}
 
 export function babelDefault(config: TransformOptions): TransformOptions {
   return {
@@ -21,9 +29,15 @@ export function webpackFinal(config: Configuration): Configuration {
       ...config.resolve,
       alias: {
         ...config.resolve.alias,
-        react: path.dirname(require.resolve('preact/compat/package.json')),
-        'react-dom/test-utils': path.dirname(require.resolve('preact/test-utils/package.json')),
-        'react-dom': path.dirname(require.resolve('preact/compat/package.json')),
+        react: path.dirname(
+          require.resolve(isPreactX() ? 'preact/compat/package.json' : 'preact-compat/package.json')
+        ),
+        ...(isPreactX() && {
+          'react-dom/test-utils': path.dirname(require.resolve('preact/test-utils/package.json')),
+        }),
+        'react-dom': path.dirname(
+          require.resolve(isPreactX() ? 'preact/compat/package.json' : 'preact-compat/package.json')
+        ),
       },
     },
   };
