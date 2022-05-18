@@ -1,3 +1,17 @@
+## 6.5.0 (May 18, 2022)
+
+Storybook 6.5 is here!! 🎉🎉🎉
+
+SB6.5 adds new testing and design review workflows while improving core performance and compatibility.
+
+- 🤖 **Interaction testing** simulate interactions and run assertions in the browser
+- 🎨 **Figma plugin** to connect stories to variants
+- 🏎️ **Webpack 5 lazy compilation** for faster start up
+- ⚡ **Vite builder** for near instant rebuilds
+- 💯 **Hundreds more fixes** and quality of life improvements
+
+More info in the Github issue [Storybook 6.5 Release 👟](https://github.com/storybookjs/storybook/issues/16797). Release announcement coming soon!!!
+
 ## 6.5.0-rc.1 (May 18, 2022)
 
 ### Bug Fixes
