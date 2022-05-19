@@ -1,3 +1,9 @@
+## 6.5.3 (May 19, 2022)
+
+### Bug Fixes
+
+* Revert "security: update x-default-browser" ([#18270](https://github.com/storybookjs/storybook/pull/18270))
+
 ## 6.5.2 (May 19, 2022)
 
 ### Bug Fixes
