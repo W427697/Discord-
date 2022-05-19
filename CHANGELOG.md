@@ -1,4 +1,4 @@
-## 6.5.1 (May 19, 2022)
+## 6.5.2 (May 19, 2022)
 
 ### Bug Fixes
 
@@ -7,6 +7,10 @@
 ### Dependency Upgrades
 
 - security: update x-default-browser ([#18157](https://github.com/storybookjs/storybook/pull/18157))
+
+## 6.5.1 (May 19, 2022)
+
+Failed publish
 
 ## 6.5.0 (May 18, 2022)
 
