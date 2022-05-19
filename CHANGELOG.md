@@ -1,3 +1,13 @@
+## 6.5.1 (May 19, 2022)
+
+### Bug Fixes
+
+- Core: Fix get-monorepo-type when no package.json at repo root ([#18259](https://github.com/storybookjs/storybook/pull/18259))
+
+### Dependency Upgrades
+
+- security: update x-default-browser ([#18157](https://github.com/storybookjs/storybook/pull/18157))
+
 ## 6.5.0 (May 18, 2022)
 
 Storybook 6.5 is here!! 🎉🎉🎉
