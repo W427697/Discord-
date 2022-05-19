@@ -436,7 +436,7 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S): S | und
 export function useArgs<TArgs = Args>(): [
   TArgs,
   (newArgs: Partial<TArgs>) => void,
-  (argNames?: string[]) => void
+  (argNames?: (keyof TArgs)[]) => void
 ] {
   const channel = addons.getChannel();
   const { id: storyId, args } = useStoryContext<AnyFramework, TArgs>();
@@ -447,7 +447,7 @@ export function useArgs<TArgs = Args>(): [
   );
 
   const resetArgs = useCallback(
-    (argNames?: string[]) => channel.emit(RESET_STORY_ARGS, { storyId, argNames }),
+    (argNames?: (keyof TArgs)[]) => channel.emit(RESET_STORY_ARGS, { storyId, argNames }),
     [channel, storyId]
   );
 
