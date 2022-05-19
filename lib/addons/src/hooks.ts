@@ -33,7 +33,7 @@ interface Effect {
 
 type AbstractFunction = (...args: any[]) => any;
 
-export class HooksContext<TFramework extends AnyFramework> {
+export class HooksContext<TFramework extends AnyFramework, TArgs = Args> {
   hookListsMap: WeakMap<AbstractFunction, Hook[]>;
 
   mountedDecorators: Set<AbstractFunction>;
@@ -54,7 +54,7 @@ export class HooksContext<TFramework extends AnyFramework> {
 
   hasUpdates: boolean;
 
-  currentContext: StoryContext<TFramework> | null;
+  currentContext: StoryContext<TFramework, TArgs> | null;
 
   renderListener = (storyId: StoryId) => {
     if (storyId !== this.currentContext.id) return;
@@ -216,12 +216,18 @@ const areDepsEqual = (deps: any[], nextDeps: any[]) =>
 const invalidHooksError = () =>
   new Error('Storybook preview hooks can only be called inside decorators and story functions.');
 
-function getHooksContextOrNull<TFramework extends AnyFramework>(): HooksContext<TFramework> | null {
+function getHooksContextOrNull<TFramework extends AnyFramework, TArgs = Args>(): HooksContext<
+  TFramework,
+  TArgs
+> | null {
   return globalWindow.STORYBOOK_HOOKS_CONTEXT || null;
 }
 
-function getHooksContextOrThrow<TFramework extends AnyFramework>(): HooksContext<TFramework> {
-  const hooks = getHooksContextOrNull<TFramework>();
+function getHooksContextOrThrow<TFramework extends AnyFramework, TArgs = Args>(): HooksContext<
+  TFramework,
+  TArgs
+> {
+  const hooks = getHooksContextOrNull<TFramework, TArgs>();
   if (hooks == null) {
     throw invalidHooksError();
   }
@@ -405,8 +411,11 @@ export function useChannel(eventMap: EventMap, deps: any[] = []) {
 }
 
 /* Returns current story context */
-export function useStoryContext<TFramework extends AnyFramework>(): StoryContext<TFramework> {
-  const { currentContext } = getHooksContextOrThrow();
+export function useStoryContext<TFramework extends AnyFramework, TArgs = Args>(): StoryContext<
+  TFramework,
+  TArgs
+> {
+  const { currentContext } = getHooksContextOrThrow<TFramework, TArgs>();
   if (currentContext == null) {
     throw invalidHooksError();
   }
@@ -424,12 +433,16 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S): S | und
 }
 
 /* Returns current value of story args */
-export function useArgs<P = Args>(): [P, (newArgs: Partial<P>) => void, (argNames?: string[]) => void] {
+export function useArgs<TArgs = Args>(): [
+  TArgs,
+  (newArgs: Partial<TArgs>) => void,
+  (argNames?: string[]) => void
+] {
   const channel = addons.getChannel();
-  const { id: storyId, args } = useStoryContext();
+  const { id: storyId, args } = useStoryContext<AnyFramework, TArgs>();
 
   const updateArgs = useCallback(
-    (updatedArgs: Partial<P>) => channel.emit(UPDATE_STORY_ARGS, { storyId, updatedArgs }),
+    (updatedArgs: Partial<TArgs>) => channel.emit(UPDATE_STORY_ARGS, { storyId, updatedArgs }),
     [channel, storyId]
   );
 
