@@ -17,7 +17,15 @@ import { PackageJson, readPackageJson, JsPackageManager } from './js-package-man
 import { detectWebpack } from './detect-webpack';
 import { detectNextJS } from './detect-nextjs';
 
-const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
+const viteConfigFiles = [
+  'vite.config.ts',
+  'vite.config.js',
+  'vite.config.mjs',
+  'svelte.config.js',
+  'svelte.config.cjs',
+  'svelte.config.mjs',
+  'svelte.config.ts',
+];
 
 const hasDependency = (
   packageJson: PackageJson,
