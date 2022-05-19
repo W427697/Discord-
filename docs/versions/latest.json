@@ -1,1 +1,1 @@
-{"version":"6.5.2","info":{"plain":"### Bug Fixes\n\n- Core: Fix get-monorepo-type when no package.json at repo root ([#18259](https://github.com/storybookjs/storybook/pull/18259))\n\n### Dependency Upgrades\n\n- security: update x-default-browser ([#18157](https://github.com/storybookjs/storybook/pull/18157))"}}
+{"version":"6.5.3","info":{"plain":"### Bug Fixes\n\n* Revert \"security: update x-default-browser\" ([#18270](https://github.com/storybookjs/storybook/pull/18270))"}}
