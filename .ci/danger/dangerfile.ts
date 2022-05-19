@@ -45,3 +45,5 @@ if (prLogConfig) {
   const { labels } = danger.github.issue;
   checkRequiredLabels(labels.map(l => l.name));
 }
+
+//Test pull request
