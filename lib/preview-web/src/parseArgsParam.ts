@@ -5,25 +5,19 @@ import { once } from '@storybook/client-logger';
 import isPlainObject from 'lodash/isPlainObject';
 
 // Keep this in sync with validateArgs in router/src/utils.ts
-const VALIDATION_REGEXP = /^[a-zA-Z0-9 _-]*$/;
+const ENCODED_ARRAY_OR_OBJECT_REGEX = /^((arr\[\])|(.+\.))/;
+const ALPHA_NUM_REGEXP = /^[a-zA-Z0-9 _-]*$/;
 const NUMBER_REGEXP = /^-?[0-9]+(\.[0-9]+)?$/;
 const HEX_REGEXP = /^#([a-f0-9]{3,4}|[a-f0-9]{6}|[a-f0-9]{8})$/i;
 const COLOR_REGEXP =
   /^(rgba?|hsla?)\(([0-9]{1,3}),\s?([0-9]{1,3})%?,\s?([0-9]{1,3})%?,?\s?([0-9](\.[0-9]{1,2})?)?\)$/i;
 const validateArgs = (key = '', value: unknown): boolean => {
   if (key === null) return false;
-  if (key === '' || !VALIDATION_REGEXP.test(key)) return false;
+  if (key === '' || !ALPHA_NUM_REGEXP.test(key)) return false;
   if (value === null || value === undefined) return true; // encoded as `!null` or `!undefined`
   if (value instanceof Date) return true; // encoded as modified ISO string
   if (typeof value === 'number' || typeof value === 'boolean') return true;
-  if (typeof value === 'string') {
-    return (
-      VALIDATION_REGEXP.test(value) ||
-      NUMBER_REGEXP.test(value) ||
-      HEX_REGEXP.test(value) ||
-      COLOR_REGEXP.test(value)
-    );
-  }
+  if (typeof value === 'string') return true;
   if (Array.isArray(value)) return value.every((v) => validateArgs(key, v));
   if (isPlainObject(value)) return Object.entries(value).every(([k, v]) => validateArgs(k, v));
   return false;
@@ -61,8 +55,14 @@ const QS_OPTIONS = {
   },
 };
 export const parseArgsParam = (argsString: string): Args => {
-  const parts = argsString.split(';').map((part) => part.replace('=', '~').replace(':', '='));
-  return Object.entries(qs.parse(parts.join(';'), QS_OPTIONS)).reduce((acc, [key, value]) => {
+  const parts = argsString
+    .split(';')
+    .map((part) => {
+      const [key, value] = part.split(':');
+      return `${key}=${value.replace(/\+/g, '.')}`;
+    })
+    .join(';');
+  return Object.entries(qs.parse(parts, QS_OPTIONS)).reduce((acc, [key, value]) => {
     if (validateArgs(key, value)) return Object.assign(acc, { [key]: value });
     once.warn(dedent`
       Omitted potentially unsafe URL args.

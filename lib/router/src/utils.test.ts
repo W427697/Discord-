@@ -118,7 +118,7 @@ describe('deepDiff', () => {
 describe('buildArgsParam', () => {
   it('builds a simple key-value pair', () => {
     const param = buildArgsParam({}, { key: 'val' });
-    expect(param).toEqual('key:val');
+    expect(param).toEqual('key:!val');
   });
 
   it('builds multiple values', () => {
@@ -170,12 +170,7 @@ describe('buildArgsParam', () => {
 
   it('builds nested object in array', () => {
     const param = buildArgsParam({}, { arr: [{ foo: { bar: 'val' } }] });
-    expect(param).toEqual('arr[0].foo.bar:val');
-  });
-
-  it('encodes space as +', () => {
-    const param = buildArgsParam({}, { key: 'foo bar baz' });
-    expect(param).toEqual('key:foo+bar+baz');
+    expect(param).toEqual('arr[0].foo.bar:!val');
   });
 
   it('encodes null values as !null', () => {
@@ -206,6 +201,13 @@ describe('buildArgsParam', () => {
   it('encodes Date objects as !date(ISO string)', () => {
     const param = buildArgsParam({}, { key: new Date('2001-02-03T04:05:06.789Z') });
     expect(param).toEqual('key:!date(2001-02-03T04:05:06.789Z)');
+  });
+
+  it('encodes string with non alphanumeric characters', () => {
+    const param = buildArgsParam({}, { key: 'f o;o:b=a,r.b?a/z\\+(-)"\'`$€*<>{}[]' });
+    expect(param).toEqual(
+      `key:f%20o%3Bo%3Ab%3Da%2Cr+b%3Fa%2Fz%5C%2B(-)%22'%60%24%E2%82%AC*%3C%3E%7B%7D%5B%5D`
+    );
   });
 
   describe('with initial state', () => {
