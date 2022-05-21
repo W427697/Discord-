@@ -6832,7 +6832,7 @@ __metadata:
     regenerator-runtime: ^0.13.7
   peerDependencies:
     "@storybook/addon-storyshots": 6.5.0-rc.1
-    puppeteer: ^2.0.0 || ^3.0.0
+    puppeteer: ">=2.0.0 < 14"
   peerDependenciesMeta:
     puppeteer:
       optional: true
