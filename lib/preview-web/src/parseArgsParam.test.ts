@@ -242,7 +242,7 @@ describe('parseArgsParam', () => {
       expect(parseArgsParam('arr[0]:a!b')).toStrictEqual({});
     });
 
-    it.skip('completely omits an arg when a (deeply) nested value is invalid', () => {
+    it('completely omits an arg when a (deeply) nested value is invalid', () => {
       expect(parseArgsParam('obj.key:a!b;obj.foo:val;obj.bar.baz:val')).toStrictEqual({});
       expect(parseArgsParam('obj.arr[]:a!b;obj.foo:val;obj.bar.baz:val')).toStrictEqual({});
       expect(parseArgsParam('obj.arr[0]:val;obj.arr[1]:a!b;obj.foo:val')).toStrictEqual({});
