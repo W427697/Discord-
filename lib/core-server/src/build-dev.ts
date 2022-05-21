@@ -17,8 +17,7 @@ import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
 import { updateCheck } from './utils/update-check';
 import { getServerPort, getServerChannelUrl } from './utils/server-address';
-import { getPreviewBuilder } from './utils/get-preview-builder';
-import { getManagerBuilder } from './utils/get-manager-builder';
+import { getBuilders } from './utils/get-builders';
 
 export async function buildDevStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
   const { packageJson, versionUpdates, releaseNotes } = options;
@@ -57,10 +56,17 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   options.serverChannelUrl = getServerChannelUrl(port, options);
   /* eslint-enable no-param-reassign */
 
-  const previewBuilder = await getPreviewBuilder(options.configDir);
-  const managerBuilder = await getManagerBuilder(options.configDir);
+  console.time('loadAllPresets');
+  let presets = loadAllPresets({
+    corePresets: [],
+    overridePresets: [],
+    ...options,
+  });
+  console.timeEnd('loadAllPresets');
 
-  const presets = loadAllPresets({
+  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
+  console.time('loadAllPresets2');
+  presets = loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
       ...managerBuilder.corePresets,
@@ -70,6 +76,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
     overridePresets: previewBuilder.overridePresets,
     ...options,
   });
+  console.timeEnd('loadAllPresets2');
 
   const features = await presets.apply<StorybookConfig['features']>('features');
   global.FEATURES = features;

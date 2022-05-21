@@ -23,8 +23,7 @@ import {
   copyAllStaticFiles,
   copyAllStaticFilesRelativeToMain,
 } from './utils/copy-all-static-files';
-import { getPreviewBuilder } from './utils/get-preview-builder';
-import { getManagerBuilder } from './utils/get-manager-builder';
+import { getBuilders } from './utils/get-builders';
 import { extractStoriesJson } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
@@ -57,10 +56,15 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
 
   await cpy(defaultFavIcon, options.outputDir);
 
-  const previewBuilder: Builder<unknown, unknown> = await getPreviewBuilder(options.configDir);
-  const managerBuilder: Builder<unknown, unknown> = await getManagerBuilder(options.configDir);
+  let presets = loadAllPresets({
+    corePresets: [],
+    overridePresets: [],
+    ...options,
+  });
 
-  const presets = loadAllPresets({
+  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
+
+  presets = loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
       ...managerBuilder.corePresets,
