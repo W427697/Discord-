@@ -7326,6 +7326,7 @@ __metadata:
     "@storybook/components": 6.5.0-beta.4
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-events": 6.5.0-beta.4
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@storybook/node-logger": 6.5.0-beta.4
     "@storybook/preview-web": 6.5.0-beta.4
     "@storybook/router": 6.5.0-beta.4
@@ -7333,7 +7334,6 @@ __metadata:
     "@storybook/store": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
     "@storybook/ui": 6.5.0-beta.4
-    "@storybook/webpack-tools": 6.5.0-beta.4
     "@types/case-sensitive-paths-webpack-plugin": ^2.1.4
     "@types/node": ^14.0.10 || ^16.0.0
     "@types/terser-webpack-plugin": ^4.2.0
@@ -7392,13 +7392,13 @@ __metadata:
     "@storybook/components": 6.5.0-beta.4
     "@storybook/core-common": 6.5.0-beta.4
     "@storybook/core-events": 6.5.0-beta.4
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@storybook/node-logger": 6.5.0-beta.4
     "@storybook/preview-web": 6.5.0-beta.4
     "@storybook/router": 6.5.0-beta.4
     "@storybook/semver": ^7.3.2
     "@storybook/store": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
-    "@storybook/webpack-tools": 6.5.0-beta.4
     "@types/case-sensitive-paths-webpack-plugin": ^2.1.4
     "@types/node": ^14.0.10 || ^16.0.0
     "@types/terser-webpack-plugin": ^5.0.2
@@ -7826,6 +7826,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/core-webpack@6.5.0-beta.4, @storybook/core-webpack@workspace:*, @storybook/core-webpack@workspace:lib/core-webpack":
+  version: 0.0.0-use.local
+  resolution: "@storybook/core-webpack@workspace:lib/core-webpack"
+  dependencies:
+    "@storybook/core-common": 6.5.0-beta.4
+    "@storybook/node-logger": 6.5.0-beta.4
+    "@types/node": ^14.0.10 || ^16.0.0
+    core-js: ^3.8.2
+    ts-dedent: ^2.0.0
+  languageName: unknown
+  linkType: soft
+
 "@storybook/csf-tools@6.5.0-beta.4, @storybook/csf-tools@workspace:*, @storybook/csf-tools@workspace:lib/csf-tools":
   version: 0.0.0-use.local
   resolution: "@storybook/csf-tools@workspace:lib/csf-tools"
@@ -8140,10 +8152,10 @@ __metadata:
     "@storybook/addons": 6.5.0-beta.4
     "@storybook/core-client": 6.5.0-beta.4
     "@storybook/core-common": 6.5.0-beta.4
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@storybook/node-logger": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
     "@storybook/ui": 6.5.0-beta.4
-    "@storybook/webpack-tools": 6.5.0-beta.4
     "@types/case-sensitive-paths-webpack-plugin": ^2.1.4
     "@types/node": ^14.0.10 || ^16.0.0
     "@types/terser-webpack-plugin": ^4.2.0
@@ -8193,10 +8205,10 @@ __metadata:
     "@storybook/addons": 6.5.0-beta.4
     "@storybook/core-client": 6.5.0-beta.4
     "@storybook/core-common": 6.5.0-beta.4
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@storybook/node-logger": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
     "@storybook/ui": 6.5.0-beta.4
-    "@storybook/webpack-tools": 6.5.0-beta.4
     "@types/case-sensitive-paths-webpack-plugin": ^2.1.4
     "@types/node": ^14.0.10 || ^16.0.0
     "@types/terser-webpack-plugin": ^5.0.2
@@ -8357,7 +8369,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-html-webpack@workspace:presets/html-webpack"
   dependencies:
-    "@storybook/webpack-tools": 6.5.0-beta.4
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     html-loader: ^1.3.2
@@ -8374,7 +8386,7 @@ __metadata:
   resolution: "@storybook/preset-preact-webpack@workspace:presets/preact-webpack"
   dependencies:
     "@babel/plugin-transform-react-jsx": ^7.12.12
-    "@storybook/webpack-tools": 6.5.0-beta.4
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     preact: ^10.5.13
@@ -8394,12 +8406,12 @@ __metadata:
     "@babel/preset-flow": ^7.12.1
     "@babel/preset-react": ^7.12.10
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.3
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@storybook/docs-tools": 6.5.0-beta.4
     "@storybook/node-logger": 6.5.0-beta.4
     "@storybook/react-docgen-typescript-plugin": 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
     "@storybook/renderer-react": 6.5.0-beta.4
     "@storybook/semver": ^7.3.2
-    "@storybook/webpack-tools": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/util-deprecate": ^1.0.0
     babel-plugin-add-react-displayname: ^0.0.5
@@ -8447,8 +8459,8 @@ __metadata:
   resolution: "@storybook/preset-server-webpack@workspace:presets/server-webpack"
   dependencies:
     "@storybook/core-server": 6.5.0-beta.4
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@storybook/renderer-server": 6.5.0-beta.4
-    "@storybook/webpack-tools": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     fs-extra: ^9.0.1
@@ -8467,8 +8479,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-svelte-webpack@workspace:presets/svelte-webpack"
   dependencies:
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@storybook/node-logger": 6.5.0-beta.4
-    "@storybook/webpack-tools": 6.5.0-beta.4
     "@types/loader-utils": ^2.0.0
     core-js: ^3.8.2
     loader-utils: ^2.0.0
@@ -8490,8 +8502,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-vue-webpack@workspace:presets/vue-webpack"
   dependencies:
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@storybook/docs-tools": 6.5.0-beta.4
-    "@storybook/webpack-tools": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     react: 16.14.0
@@ -8518,8 +8530,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-vue3-webpack@workspace:presets/vue3-webpack"
   dependencies:
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@storybook/docs-tools": 6.5.0-beta.4
-    "@storybook/webpack-tools": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     "@vue/compiler-sfc": 3.0.0
     core-js: ^3.8.2
@@ -8547,7 +8559,7 @@ __metadata:
     "@babel/plugin-syntax-dynamic-import": ^7.8.3
     "@babel/plugin-syntax-import-meta": ^7.10.4
     "@babel/preset-env": ^7.12.11
-    "@storybook/webpack-tools": 6.5.0-beta.4
+    "@storybook/core-webpack": 6.5.0-beta.4
     "@types/node": ^14.14.20 || ^16.0.0
     babel-plugin-bundled-import-meta: ^0.3.1
     core-js: ^3.8.2
@@ -8893,6 +8905,7 @@ __metadata:
     "@storybook/codemod": "workspace:*"
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
+    "@storybook/core-webpack": "workspace:*"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
     "@storybook/ember": "workspace:*"
@@ -8942,7 +8955,6 @@ __metadata:
     "@storybook/vue3-webpack4": "workspace:*"
     "@storybook/web-components": "workspace:*"
     "@storybook/web-components-webpack4": "workspace:*"
-    "@storybook/webpack-tools": "workspace:*"
     "@testing-library/dom": ^7.29.4
     "@testing-library/jest-dom": ^5.11.9
     "@testing-library/react": ^11.2.2
@@ -9478,18 +9490,6 @@ __metadata:
   resolution: "@storybook/web-components@workspace:types/web-components"
   dependencies:
     "@storybook/renderer-web-components": 6.5.0-beta.4
-  languageName: unknown
-  linkType: soft
-
-"@storybook/webpack-tools@6.5.0-beta.4, @storybook/webpack-tools@workspace:*, @storybook/webpack-tools@workspace:lib/webpack-tools":
-  version: 0.0.0-use.local
-  resolution: "@storybook/webpack-tools@workspace:lib/webpack-tools"
-  dependencies:
-    "@storybook/core-common": 6.5.0-beta.4
-    "@storybook/node-logger": 6.5.0-beta.4
-    "@types/node": ^14.0.10 || ^16.0.0
-    core-js: ^3.8.2
-    ts-dedent: ^2.0.0
   languageName: unknown
   linkType: soft
 

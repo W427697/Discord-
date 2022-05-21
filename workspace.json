@@ -117,8 +117,8 @@
       "root": "frameworks/webpack4/web-components",
       "type": "library"
     },
-    "@storybook/webpack-tools": {
-      "root": "lib/webpack-tools",
+    "@storybook/core-webpack": {
+      "root": "lib/core-webpack",
       "type": "library"
     },
     "angular-cli": {
