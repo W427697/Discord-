@@ -5,7 +5,6 @@ import { once } from '@storybook/client-logger';
 import isPlainObject from 'lodash/isPlainObject';
 
 // Keep this in sync with validateArgs in router/src/utils.ts
-const ENCODED_ARRAY_OR_OBJECT_REGEX = /^((arr\[\])|(.+\.))/;
 const ALPHA_NUM_REGEXP = /^[a-zA-Z0-9 _-]*$/;
 const NUMBER_REGEXP = /^-?[0-9]+(\.[0-9]+)?$/;
 const HEX_REGEXP = /^#([a-f0-9]{3,4}|[a-f0-9]{6}|[a-f0-9]{8})$/i;
