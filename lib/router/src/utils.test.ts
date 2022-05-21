@@ -118,7 +118,7 @@ describe('deepDiff', () => {
 describe('buildArgsParam', () => {
   it('builds a simple key-value pair', () => {
     const param = buildArgsParam({}, { key: 'val' });
-    expect(param).toEqual('key:!val');
+    expect(param).toEqual('key:val');
   });
 
   it('builds multiple values', () => {
@@ -170,7 +170,7 @@ describe('buildArgsParam', () => {
 
   it('builds nested object in array', () => {
     const param = buildArgsParam({}, { arr: [{ foo: { bar: 'val' } }] });
-    expect(param).toEqual('arr[0].foo.bar:!val');
+    expect(param).toEqual('arr[0].foo.bar:val');
   });
 
   it('encodes null values as !null', () => {
