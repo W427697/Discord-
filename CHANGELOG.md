@@ -1,3 +1,14 @@
+## 6.5.4 (May 23, 2022)
+
+### Bug Fixes
+
+- Webpack5: Apply named exports order logic for stories only ([#18284](https://github.com/storybookjs/storybook/pull/18284))
+- Core: Use correct framework version in telemetry ([#18285](https://github.com/storybookjs/storybook/pull/18285))
+
+### Maintenance
+
+- Examples: fix jest 27 in angular e2e modern inline rendering config ([#18274](https://github.com/storybookjs/storybook/pull/18274))
+
 ## 6.5.4-alpha.0 (May 20, 2022)
 
 ### Bug Fixes
