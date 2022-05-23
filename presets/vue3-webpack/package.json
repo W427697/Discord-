@@ -48,8 +48,7 @@
   },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.2.33",
-    "vue": "^3.2.33",
-    "webpack": "5"
+    "vue": "^3.2.33"
   },
   "peerDependencies": {
     "@babel/core": "*",

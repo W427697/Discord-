@@ -106,7 +106,7 @@ const buildWebpackConfigOptions = async (
     getSystemPath(workspaceRootNormalized),
     projectBuildOptions.tsConfig as string
   );
-  const tsConfig = importAngularCliReadTsconfigUtil().readTsconfig(tsConfigPath);
+  const tsConfig = await importAngularCliReadTsconfigUtil().readTsconfig(tsConfigPath);
 
   const ts = await import('typescript');
   const scriptTarget = tsConfig.options.target || ts.ScriptTarget.ES5;
@@ -120,6 +120,9 @@ const buildWebpackConfigOptions = async (
     scripts: [],
     sourceMap: {},
     styles: [],
+    // Deleted in angular 12. Keep for compatibility with versions lower than angular 12
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     lazyModules: [],
 
     // Project Options
@@ -134,10 +137,15 @@ const buildWebpackConfigOptions = async (
 
     // Forced options
     statsJson: false,
+
+    // Deleted in angular 12. Keep for compatibility with versions lower than angular 12
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     forkTypeChecker: false,
   };
 
   return {
+    projectName: 'this-is-just-a-fake-name-for-getting-rid-of-the-error',
     root: getSystemPath(workspaceRootNormalized),
     // The dependency of `@angular-devkit/build-angular` to `@angular-devkit/core` is not exactly the same version as the one for storybook (node modules of node modules ^^)
     logger: createConsoleLogger() as unknown as WebpackConfigOptions['logger'],
