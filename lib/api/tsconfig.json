@@ -1,8 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": [
-    "src/**/*"
-  ],
+  "compilerOptions": {
+    "types": ["node"],
+    "lib": ["es2017", "dom"]
+  },
+  "include": ["src/**/*"],
   "exclude": [
     "src/**/*.test.*",
     "src/**/tests/**/*",
@@ -10,9 +12,5 @@
     "src/**/*.stories.*",
     "src/**/*.mockdata.*",
     "src/**/__testfixtures__/**"
-  ],
-  "lib": [
-    "es2017",
-    "dom"
   ]
 }
