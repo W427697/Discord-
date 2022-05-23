@@ -35,8 +35,10 @@ export const cra5: Fix<CRA5RunOptions> = {
     return builderInfo ? { craVersion, ...builderInfo } : null;
   },
 
-  prompt({ craVersion }) {
+  prompt({ craVersion, ...rest }) {
     const craFormatted = chalk.cyan(`Create React App (CRA) ${craVersion}`);
+
+    console.log({ ...rest });
 
     return dedent`
       We've detected you are running ${craFormatted} which is powered by webpack5.

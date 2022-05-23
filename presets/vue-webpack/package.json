@@ -42,7 +42,7 @@
     "ts-loader": "^9.2.8",
     "vue-docgen-api": "^4.44.23",
     "vue-docgen-loader": "^1.5.1",
-    "webpack": ">=4.0.0 <6.0.0"
+    "webpack": "5"
   },
   "devDependencies": {
     "vue": "^2.6.12",
