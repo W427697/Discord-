@@ -13,32 +13,11 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "target": "ES2015",
-    "types": [
-      "jest"
-    ],
-    "lib": [
-      "es2019",
-      "dom",
-      "ESNext"
-    ],
+    "types": ["jest"],
+    "lib": ["es2019", "dom", "ESNext"],
     "baseUrl": ".",
     "paths": {
-      "@storybook/addon-a11y": ["addons/a11y/src/index.ts"],
-      "@storybook/addon-actions": ["addons/actions/src/index.ts"],
-      "@storybook/addon-backgrounds": ["addons/backgrounds/src/index.ts"],
-      "@storybook/addon-controls": ["addons/controls/src/index.ts"],
-      "@storybook/addon-docs": ["addons/docs/src/index.ts"],
-      "@storybook/addon-essentials": ["addons/essentials/src/index.ts"],
-      "@storybook/addon-interactions": ["addons/interactions/src/index.ts"],
-      "@storybook/addon-jest": ["addons/jest/src/index.ts"],
-      "@storybook/addon-links": ["addons/links/src/index.ts"],
-      "@storybook/addon-measure": ["addons/measure/src/index.ts"],
-      "@storybook/addon-outline": ["addons/outline/src/index.ts"],
-      "@storybook/addon-storyshots": ["addons/storyshots/storyshots-core/src/index.ts"],
-      "@storybook/addon-storyshots-puppeteer": ["addons/storyshots/storyshots-puppeteer/src/index.ts"],
-      "@storybook/addon-storysource": ["addons/storysource/src/index.ts"],
-      "@storybook/addon-toolbars": ["addons/toolbars/src/index.ts"],
-      "@storybook/addon-viewport": ["addons/viewport/src/index.ts"],
+      // Apps
       "@storybook/angular": ["app/angular/src/index.ts"],
       "@storybook/docs-tools": ["lib/docs-tools/src/index.ts"],
       "@storybook/ember": ["app/ember/src/index.ts"],
@@ -52,55 +31,11 @@
       "@storybook/vue": ["app/vue/src/index.ts"],
       "@storybook/vue3": ["app/vue3/src/index.ts"],
       "@storybook/web-components": ["app/web-components/src/index.ts"],
-      "angular-cli": ["examples/angular-cli/src/index.ts"],
-      "cra-kitchen-sink": ["examples/cra-kitchen-sink/src/index.ts"],
-      "cra-react15": ["examples/cra-react15/src/index.ts"],
-      "cra-ts-essentials": ["examples/cra-ts-essentials/src/index.ts"],
-      "cra-ts-kitchen-sink": ["examples/cra-ts-kitchen-sink/src/index.ts"],
-      "ember-example": ["examples/ember-cli/src/index.ts"],
-      "html-kitchen-sink": ["examples/html-kitchen-sink/src/index.ts"],
-      "official-storybook": ["examples/official-storybook/src/index.ts"],
-      "preact-example": ["examples/preact-kitchen-sink/src/index.ts"],
-      "@storybook/example-react-ts": ["examples/react-ts/src/index.ts"],
-      "@storybook/example-react-ts-webpack4": ["examples/react-ts-webpack4/src/index.ts"],
-      "@storybook/external-docs": ["examples/external-docs/src/index.ts"],
-      "server-kitchen-sink": ["examples/server-kitchen-sink/src/index.ts"],
-      "standalone-preview": ["examples/standalone-preview/src/index.ts"],
-      "svelte-example": ["examples/svelte-kitchen-sink/src/index.ts"],
-      "vue-3-cli-example": ["examples/vue-3-cli/src/index.ts"],
-      "vue-cli-example": ["examples/vue-cli/src/index.ts"],
-      "vue-example": ["examples/vue-kitchen-sink/src/index.ts"],
-      "web-components-kitchen-sink": ["examples/web-components-kitchen-sink/src/index.ts"],
-      "@storybook/addons": ["lib/addons/src/index.ts"],
-      "@storybook/api": ["lib/api/src/index.tsx"],
-      "@storybook/builder-webpack4": ["lib/builder-webpack4/src/index.ts"],
-      "@storybook/builder-webpack5": ["lib/builder-webpack5/src/index.ts"],
-      "@storybook/channel-postmessage": ["lib/channel-postmessage/src/index.ts"],
-      "@storybook/channel-websocket": ["lib/channel-websocket/src/index.ts"],
-      "@storybook/channels": ["lib/channels/src/index.ts"],
-      "@storybook/cli": ["lib/cli/src/index.ts"],
-      "sb": ["lib/cli-sb/src/index.ts"],
-      "storybook": ["lib/cli-storybook/src/index.ts"],
-      "@storybook/client-api": ["lib/client-api/src/index.ts"],
-      "@storybook/client-logger": ["lib/client-logger/src/index.ts"],
-      "@storybook/codemod": ["lib/codemod/src/index.ts"],
-      "@storybook/components": ["lib/components/src/index.ts"],
-      "@storybook/core": ["lib/core/src/index.ts"],
-      "@storybook/core-client": ["lib/core-client/src/index.ts"],
-      "@storybook/core-common": ["lib/core-common/src/index.ts"],
-      "@storybook/core-events": ["lib/core-events/src/index.ts"],
-      "@storybook/core-server": ["lib/core-server/src/index.ts"],
-      "@storybook/instrumenter": ["lib/instrumenter/src/index.ts"],
-      "@storybook/node-logger": ["lib/node-logger/src/index.ts"],
-      "@storybook/postinstall": ["lib/postinstall/src/index.ts"],
-      "@storybook/router": ["lib/router/src/index.ts"],
-      "@storybook/source-loader": ["lib/source-loader/src/index.ts"],
-      "@storybook/store": ["lib/store/src/index.ts"],
-      "@storybook/telemetry": ["lib/telemetry/src/index.ts"],
-      "@storybook/theming": ["lib/theming/src/index.ts"],
-      "@storybook/csf-tools": ["lib/csf-tools/src/index.ts"],
-      "@storybook/ui": ["lib/ui/src/index.ts"],
-      "@storybook/preview-web": ["lib/preview-web/src/index.ts"]
+
+      // Addons
+      "@storybook/addon-*": ["addons/*"],
+      // Libs
+      "@storybook/*": ["lib/*/src/"]
     }
   },
   "exclude": [
@@ -117,9 +52,7 @@
     "transpileOnly": true,
     "files": true,
     "compilerOptions": {
-      "types": [
-        "node"
-      ]
+      "types": ["node"]
     }
   }
 }
