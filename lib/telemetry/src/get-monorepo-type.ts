@@ -1,8 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import type { PackageJson } from '@storybook/core-common';
-
-import { getProjectRoot } from './anonymous-id';
+import { getProjectRoot } from '@storybook/core-common';
 
 export const monorepoConfigs = {
   Nx: 'nx.json',
@@ -16,6 +15,7 @@ export type MonorepoType = keyof typeof monorepoConfigs | 'Workspaces' | undefin
 
 export const getMonorepoType = (): MonorepoType => {
   const projectRootPath = getProjectRoot();
+  if (!projectRootPath) return undefined;
 
   const monorepoType = Object.keys(monorepoConfigs).find(
     (monorepo: keyof typeof monorepoConfigs) => {
@@ -27,6 +27,8 @@ export const getMonorepoType = (): MonorepoType => {
   if (monorepoType) {
     return monorepoType;
   }
+  
+  if (!fs.existsSync(path.join(projectRootPath, 'package.json'))) return undefined;
 
   const packageJson = fs.readJsonSync(path.join(projectRootPath, 'package.json')) as PackageJson;
 

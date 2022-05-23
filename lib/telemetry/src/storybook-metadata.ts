@@ -4,13 +4,13 @@ import {
   loadMainConfig,
   getStorybookInfo,
   getStorybookConfiguration,
+  getProjectRoot,
 } from '@storybook/core-common';
 import type { StorybookConfig, PackageJson } from '@storybook/core-common';
 
 import type { StorybookMetadata, Dependency, StorybookAddon } from './types';
 import { getActualPackageVersion, getActualPackageVersions } from './package-versions';
 import { getMonorepoType } from './get-monorepo-type';
-import { getProjectRoot } from './anonymous-id';
 
 let cachedMetadata: StorybookMetadata;
 export const getStorybookMetadata = async (_configDir: string) => {
@@ -187,9 +187,13 @@ export const computeStorybookMetadata = async ({
   const hasStorybookEslint = !!allDependencies['eslint-plugin-storybook'];
 
   const storybookInfo = getStorybookInfo(packageJson);
+
+  const storybookVersion =
+    storybookPackages[storybookInfo.frameworkPackage]?.version || storybookInfo.version;
+
   return {
     ...metadata,
-    storybookVersion: storybookInfo.version,
+    storybookVersion,
     language,
     storybookPackages,
     framework: {
