@@ -1,3 +1,13 @@
+## 6.5.5-alpha.0 (May 24, 2022)
+
+### Bug Fixes
+
+- CLI: Fix automigration script ([#18302](https://github.com/storybookjs/storybook/pull/18302))
+
+### Dependency Upgrades
+
+- MDX: Upgrade csf-mdx libraries ([#18300](https://github.com/storybookjs/storybook/pull/18300))
+
 ## 6.5.4 (May 23, 2022)
 
 ### Bug Fixes
