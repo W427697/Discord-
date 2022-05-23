@@ -18,14 +18,7 @@
   "license": "MIT",
   "main": "dist/cjs/client/index.js",
   "module": "dist/esm/client/index.js",
-  "types": "dist/ts3.9/client/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/client/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",

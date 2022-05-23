@@ -36,7 +36,7 @@ async function dts({ input, externals, cwd, ...options }: Options) {
         { followSymlinks: false }
       );
 
-      await fs.outputFile('dist/ts3.9/index.d.ts', out);
+      await fs.outputFile('dist/types/index.d.ts', out);
     } catch (e) {
       console.log(e.message);
     }
@@ -52,18 +52,10 @@ async function dts({ input, externals, cwd, ...options }: Options) {
     );
 
     const bundledDTSfile = path.join(cwd, 'dist/ts-tmp/index.d.ts');
-    const localizedDTSout = path.join(cwd, 'dist/ts3.9');
+    const localizedDTSout = path.join(cwd, 'dist/types');
     await fs.outputFile(bundledDTSfile, out);
 
     await dtsLozalize.run([bundledDTSfile], localizedDTSout, { externals, cwd });
-
-    // await fs.remove(path.join(cwd, 'dist/ts-tmp'));
-
-    await execa('node', [
-      path.join(__dirname, '../node_modules/.bin/downlevel-dts'),
-      'dist/ts3.9',
-      'dist/ts3.4',
-    ]);
   }
 }
 

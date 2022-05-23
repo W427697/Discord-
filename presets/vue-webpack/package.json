@@ -21,14 +21,7 @@
   "license": "MIT",
   "main": "dist/cjs/preset.js",
   "module": "dist/esm/preset.js",
-  "types": "dist/ts3.9/preset.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/preset.d.ts",
   "files": [
     "dist/**/*",
     "README.md",

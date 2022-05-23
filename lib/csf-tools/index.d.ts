@@ -1,4 +1,4 @@
-import { CsfFile, CsfOptions } from './dist/ts3.9/index.d';
+import { CsfFile, CsfOptions } from './dist/types/index.d';
 
 export declare const readCsfOrMdx: (fileName: string, options: CsfOptions) => Promise<CsfFile>;
-export * from './dist/ts3.9/index.d';
+export * from './dist/types/index.d';

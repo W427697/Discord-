@@ -22,14 +22,7 @@
   "sideEffects": false,
   "main": "dist/cjs/public_api.js",
   "module": "dist/esm/public_api.js",
-  "types": "dist/ts3.9/public_api.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/public_api.d.ts",
   "files": [
     "dist/**/*",
     "README.md",

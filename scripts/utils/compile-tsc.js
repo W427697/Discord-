@@ -5,7 +5,7 @@ const execa = require('execa');
 
 function getCommand(watch) {
   const args = [
-    '--outDir ./dist/ts3.9',
+    '--outDir ./dist/types',
     '--listEmittedFiles false',
     '--declaration true',
     '--noErrorTruncation',
@@ -83,10 +83,6 @@ async function tscfy(options = {}) {
 
   if (!(tsConfig && tsConfig.lerna && tsConfig.lerna.disabled === true)) {
     await run({ watch, silent, errorCallback });
-  }
-
-  if (!watch) {
-    await execa.command('yarn run -T downlevel-dts dist/ts3.9 dist/ts3.4');
   }
 }
 

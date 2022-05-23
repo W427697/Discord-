@@ -8646,7 +8646,6 @@ __metadata:
     cypress: 8.7.0
     danger: ^10.6.2
     detect-port: ^1.3.0
-    downlevel-dts: ^0.6.0
     dts-bundle-generator: ^6.2.0
     enzyme: ^3.11.0
     enzyme-adapter-react-16: ^1.15.5
@@ -19341,18 +19340,6 @@ __metadata:
   version: 8.6.0
   resolution: "dotenv@npm:8.6.0"
   checksum: 6750431dea8efbd54b9f2d9681b04e1ccc7989486461dcf058bb708d9e3d63b04115fcdf8840e38ad1e24a4a2e1e7c1560626c5e3ac7bc09371b127c49e2d45f
-  languageName: node
-  linkType: hard
-
-"downlevel-dts@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "downlevel-dts@npm:0.6.0"
-  dependencies:
-    shelljs: ^0.8.3
-    typescript: ^4.1.0-dev.20200804
-  bin:
-    downlevel-dts: index.js
-  checksum: 96445541067999cdd90ac45f81cb575bf98e0bfb0bb6a7a967ef12672a6b5ac5a769568e729d44ecaf158e877baaadf844b604c18a99737c0489e52cdd3404a0
   languageName: node
   linkType: hard
 
@@ -40037,7 +40024,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shelljs@npm:^0.8.3, shelljs@npm:^0.8.5":
+"shelljs@npm:^0.8.5":
   version: 0.8.5
   resolution: "shelljs@npm:0.8.5"
   dependencies:

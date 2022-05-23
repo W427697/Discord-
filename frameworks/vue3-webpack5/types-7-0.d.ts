@@ -1,1 +1,1 @@
-export * from './dist/ts3.9/client/preview/types-7-0.d';
+export * from './dist/types/client/preview/types-7-0.d';

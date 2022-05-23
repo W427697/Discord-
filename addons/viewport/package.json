@@ -24,14 +24,7 @@
   "license": "MIT",
   "main": "dist/cjs/preview.js",
   "module": "dist/esm/preview.js",
-  "types": "dist/ts3.9/preview.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/preview.d.ts",
   "files": [
     "dist/**/*",
     "README.md",

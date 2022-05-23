@@ -20,16 +20,9 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/ts3.9/client/index.js",
-  "module": "dist/ts3.9/client/index.js",
-  "types": "dist/ts3.9/client/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "main": "dist/types/client/index.js",
+  "module": "dist/types/client/index.js",
+  "types": "dist/types/client/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -132,6 +125,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "builders": "dist/ts3.9/builders/builders.json",
+  "builders": "dist/types/builders/builders.json",
   "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04"
 }

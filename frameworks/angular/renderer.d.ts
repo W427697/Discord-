@@ -1,1 +1,1 @@
-export * from './dist/ts3.9/renderer.d';
+export * from './dist/types/renderer.d';
