@@ -110,14 +110,14 @@ jobs:
             - presets
   chromatic:
     executor: sb_node_14_browsers
-    parallelism: 4
+    parallelism: 16
     steps:
       # Keep using default checkout because Chromatic needs some git history to work properly
       - checkout
       - attach_workspace:
           at: .
       - run:
-          name: examples
+          name: chromatic
           command: |
             yarn run-chromatics
   examples:
