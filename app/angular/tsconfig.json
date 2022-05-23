@@ -7,7 +7,6 @@
       "webpack-env",
       "node"
     ],
-    "rootDir": "./src",
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "allowJs": true
