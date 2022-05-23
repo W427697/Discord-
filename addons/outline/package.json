@@ -76,7 +76,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "e6a84268f6ef870b06141bb0637b981f561a781a",
+  "gitHead": "58b4b5098df96682131daf8ca248c17c6c20d4ce",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Outline",

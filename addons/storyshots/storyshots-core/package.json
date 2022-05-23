@@ -151,7 +151,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "e6a84268f6ef870b06141bb0637b981f561a781a",
+  "gitHead": "58b4b5098df96682131daf8ca248c17c6c20d4ce",
   "storybook": {
     "displayName": "Storyshots",
     "icon": "https://user-images.githubusercontent.com/263385/101991676-48cdf300-3c7c-11eb-8aa1-944dab6ab29b.png",
