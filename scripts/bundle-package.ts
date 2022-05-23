@@ -10,6 +10,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import { babel, getBabelOutputPlugin } from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
+import { vanillaExtractPlugin } from '@vanilla-extract/rollup-plugin';
 import { generateDtsBundle } from 'dts-bundle-generator';
 import * as dtsLozalize from './dts-localize';
 
@@ -31,6 +32,7 @@ async function build(options: Options) {
         preferBuiltins: true,
       }),
       commonjs(),
+      vanillaExtractPlugin(),
       babel({
         babelHelpers: 'external',
         skipPreflightCheck: true,
@@ -40,12 +42,15 @@ async function build(options: Options) {
     ],
   };
 
+  const assetFileNames = ({ name }) => name?.replace(/^src\//, '') ?? '';
+
   const outputs: OutputOptions[] = [
     {
       dir: resolve(cwd, './dist/modern'),
       format: 'es',
       sourcemap: optimized,
       preferConst: true,
+      assetFileNames,
       plugins: [
         getBabelOutputPlugin({
           presets: [
@@ -68,6 +73,7 @@ async function build(options: Options) {
       dir: resolve(cwd, './dist/esm'),
       format: 'es',
       sourcemap: optimized,
+      assetFileNames,
       plugins: [
         getBabelOutputPlugin({
           presets: [
@@ -88,6 +94,7 @@ async function build(options: Options) {
     {
       dir: resolve(cwd, './dist/cjs'),
       format: 'commonjs',
+      assetFileNames,
       plugins: [
         getBabelOutputPlugin({
           presets: [
