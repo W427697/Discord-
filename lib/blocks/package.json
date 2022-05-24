@@ -64,7 +64,6 @@
     "@storybook/addon-essentials": "6.5.0-beta.4",
     "@storybook/react": "6.5.0-beta.4",
     "@vanilla-extract/webpack-plugin": "^2.1.10",
-    "mini-css-extract-plugin": "^2.6.0",
     "sb": "6.5.0-beta.4"
   },
   "peerDependencies": {
