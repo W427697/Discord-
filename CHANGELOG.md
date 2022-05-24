@@ -1,3 +1,14 @@
+## 6.5.5-alpha.3 (May 24, 2022)
+
+### Bug Fixes
+
+- CSF: Fix auto-title crash on file ID and show warning ([#18307](https://github.com/storybookjs/storybook/pull/18307))
+- CLI: Fix open in browser doesn't work in WSL ([#18305](https://github.com/storybookjs/storybook/pull/18305))
+
+### Maintenance
+
+- CLI: Improve texts for automigration ([#18303](https://github.com/storybookjs/storybook/pull/18303))
+
 ## 6.5.5-alpha.2 (May 24, 2022)
 
 ### Bug Fixes
