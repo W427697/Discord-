@@ -7230,6 +7230,7 @@ __metadata:
     regenerator-runtime: ^0.13.7
     sb: 6.5.0-beta.4
     ts-dedent: ^2.0.0
+    typescript: ^4.6.4
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -8603,7 +8604,7 @@ __metadata:
     ts-jest: ^26.4.4
     ts-loader: ^8.0.14
     ts-node: ^10.4.0
-    typescript: ^4.6.4
+    typescript: ^3.9.10
     verdaccio: ^4.10.0
     verdaccio-auth-memory: ^9.7.2
     wait-on: ^5.2.1
@@ -44580,7 +44581,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^3.8.3, typescript@npm:^3.9.7, typescript@npm:~3.9.3":
+"typescript@npm:^3.8.3, typescript@npm:^3.9.10, typescript@npm:^3.9.7, typescript@npm:~3.9.3":
   version: 3.9.10
   resolution: "typescript@npm:3.9.10"
   bin:
@@ -44620,7 +44621,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^3.8.3#~builtin<compat/typescript>, typescript@patch:typescript@^3.9.7#~builtin<compat/typescript>, typescript@patch:typescript@~3.9.3#~builtin<compat/typescript>":
+"typescript@patch:typescript@^3.8.3#~builtin<compat/typescript>, typescript@patch:typescript@^3.9.10#~builtin<compat/typescript>, typescript@patch:typescript@^3.9.7#~builtin<compat/typescript>, typescript@patch:typescript@~3.9.3#~builtin<compat/typescript>":
   version: 3.9.10
   resolution: "typescript@patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=493e53"
   bin:

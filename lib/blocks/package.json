@@ -64,7 +64,8 @@
     "@storybook/addon-essentials": "6.5.0-beta.4",
     "@storybook/react": "6.5.0-beta.4",
     "@vanilla-extract/webpack-plugin": "^2.1.10",
-    "sb": "6.5.0-beta.4"
+    "sb": "6.5.0-beta.4",
+    "typescript": "^4.6.4"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
