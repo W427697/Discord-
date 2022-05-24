@@ -9,7 +9,7 @@ export default {
 export const Simple = () => <Box>test</Box>;
 
 export const Props = () => (
-  <Box backgroundColor="black50" color="black10" padding={}>
+  <Box backgroundColor="black50" color="black10">
     test
   </Box>
 );
