@@ -19,7 +19,7 @@ import {
 //   - ie. from`renderToDOM()` (stories) or`ReactDOM.render()` (docs) in.
 // This file lets them rip.
 
-jest.mock('@storybook/channel-postmessage', () => () => mockChannel);
+jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
 
 jest.mock('./WebView');
 
