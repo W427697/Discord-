@@ -1,1 +1,3 @@
-export * from './dist/types/lib/shortcut.d';
+export type KeyCollection = string[];
+
+export function shortcutToHumanString(shortcut: KeyCollection): string

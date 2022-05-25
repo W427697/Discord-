@@ -63,6 +63,14 @@ async function removeDist() {
   await fs.remove('dist');
 }
 
+async function mapper() {
+  await fs.emptyDir(path.join(process.cwd(), 'dist', 'types'));
+  await fs.writeFile(
+    path.join(process.cwd(), 'dist', 'types', 'index.d.ts'),
+    `export * from '../../src/index';`
+  );
+}
+
 async function build(options: Options) {
   const { input, externals, cwd, optimized } = options;
   const setting: RollupOptions = {
@@ -174,7 +182,7 @@ export async function run({ cwd, flags }: { cwd: string; flags: string[] }) {
   await Promise.all([
     //
     build(options),
-    ...(options.optimized ? [dts(options)] : []),
+    ...(options.optimized ? [dts(options)] : [mapper()]),
   ]);
 
   console.timeEnd(message);

@@ -5,7 +5,11 @@ import { build } from 'tsup';
 const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   const packageJson = await fs.readJson(join(cwd, 'package.json'));
 
-  console.log(`skipping generating types for ${process.cwd()}`);
+  if (!flags.includes('--optimized')) {
+    console.log(`skipping generating types for ${process.cwd()}`);
+    await fs.emptyDir(join(process.cwd(), 'dist', 'types'));
+    await fs.writeFile(join(process.cwd(), 'dist', 'index.d.ts'), `export * from '../src/index';`);
+  }
 
   await build({
     entry: packageJson.bundlerEntrypoint,

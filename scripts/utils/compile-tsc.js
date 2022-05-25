@@ -68,7 +68,11 @@ async function run({ optimized, watch, silent, errorCallback }) {
       });
     } else {
       console.log(`skipping generating types for ${process.cwd()}`);
-      resolve();
+      const loc = path.join(process.cwd(), 'dist', 'types');
+      Promise.resolve()
+        .then(() => fs.emptyDir(loc))
+        .then(() => fs.writeFile(path.join(loc, 'index.d.ts'), `export * from '../../src/index';`))
+        .then(resolve);
     }
   });
 }
