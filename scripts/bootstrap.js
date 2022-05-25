@@ -52,13 +52,23 @@ function run() {
   const tasks = {
     core: createTask({
       name: `Core & Examples ${chalk.gray('(core)')}`,
-      defaultValue: true,
+      defaultValue: false,
       option: '--core',
       command: () => {
         log.info(prefix, 'yarn workspace');
       },
       pre: ['install', 'build', 'manager'],
       order: 1,
+    }),
+    prep: createTask({
+      name: `Prep for development ${chalk.gray('(prep)')}`,
+      defaultValue: true,
+      option: '--prep',
+      command: () => {
+        log.info(prefix, 'prepare');
+        spawn(`nx run-many --target="prepare" --all --parallel -- --reset`);
+      },
+      order: 2,
     }),
     retry: createTask({
       name: `Core & Examples but only build previously failed ${chalk.gray('(core)')}`,
@@ -99,11 +109,11 @@ function run() {
       defaultValue: false,
       option: '--build',
       command: () => {
-        log.info(prefix, 'prepare');
+        log.info(prefix, 'build');
         spawn(
           `nx run-many --target="prepare" --all --parallel=8 ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
-          } -- --optimized`
+          } -- --reset --optimized`
         );
       },
       order: 2,
@@ -138,7 +148,7 @@ function run() {
   };
 
   const groups = {
-    main: ['core'],
+    main: ['prep', 'core'],
     buildtasks: ['install', 'build', 'manager'],
     devtasks: ['dev', 'registry', 'reset'],
   };

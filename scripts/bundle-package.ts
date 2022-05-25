@@ -138,7 +138,7 @@ async function build(options: Options) {
     watcher.on('change', (event) => {
       console.log(`${greenBright('changed')}: ${event.replace(path.resolve(cwd, '../..'), '.')}`);
 
-      dts(options);
+      // dts(options);
     });
   } else {
     const bundler = await rollup(setting);
@@ -169,10 +169,12 @@ export async function run({ cwd, flags }: { cwd: string; flags: string[] }) {
     watch: flags.includes('--watch'),
   };
 
+  console.log(`skipping generating types for ${process.cwd()}`);
+
   await Promise.all([
     //
     build(options),
-    dts(options),
+    ...(options.optimized ? [dts(options)] : []),
   ]);
 
   console.timeEnd(message);

@@ -27,7 +27,7 @@ function getCommand(watch) {
     args.push('-w', '--preserveWatchOutput');
   }
 
-  return `yarn run -T tsc ${args.join(' ')}`;
+  return [`yarn run -T tsc ${args.join(' ')}`, isAngular || isStoryshots];
 }
 
 function handleExit(code, stderr, errorCallback) {
@@ -40,31 +40,36 @@ function handleExit(code, stderr, errorCallback) {
   }
 }
 
-async function run({ watch, silent, errorCallback }) {
+async function run({ optimized, watch, silent, errorCallback }) {
   return new Promise((resolve, reject) => {
-    const command = getCommand(watch);
+    const [command, tscOnly] = getCommand(watch);
 
-    const child = execa.command(command, {
-      buffer: false,
-    });
-    let stderr = '';
+    if (tscOnly || optimized) {
+      const child = execa.command(command, {
+        buffer: false,
+      });
+      let stderr = '';
 
-    if (watch) {
-      child.stdout.pipe(process.stdout);
-      child.stderr.pipe(process.stderr);
+      if (watch) {
+        child.stdout.pipe(process.stdout);
+        child.stderr.pipe(process.stderr);
+      } else {
+        child.stderr.on('data', (data) => {
+          stderr += data.toString();
+        });
+        child.stdout.on('data', (data) => {
+          stderr += data.toString();
+        });
+      }
+
+      child.on('exit', (code) => {
+        resolve();
+        handleExit(code, stderr, errorCallback);
+      });
     } else {
-      child.stderr.on('data', (data) => {
-        stderr += data.toString();
-      });
-      child.stdout.on('data', (data) => {
-        stderr += data.toString();
-      });
-    }
-
-    child.on('exit', (code) => {
+      console.log(`skipping generating types for ${process.cwd()}`);
       resolve();
-      handleExit(code, stderr, errorCallback);
-    });
+    }
   });
 }
 

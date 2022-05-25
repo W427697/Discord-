@@ -5,6 +5,8 @@ import { build } from 'tsup';
 const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   const packageJson = await fs.readJson(join(cwd, 'package.json'));
 
+  console.log(`skipping generating types for ${process.cwd()}`);
+
   await build({
     entry: packageJson.bundlerEntrypoint,
     watch: flags.includes('--watch'),
@@ -14,10 +16,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     clean: true,
     shims: true,
 
-    dts: {
-      entry: packageJson.bundlerEntrypoint,
-      resolve: true,
-    },
+    dts: flags.includes('--optimized')
+      ? {
+          entry: packageJson.bundlerEntrypoint,
+          resolve: true,
+        }
+      : false,
     esbuildOptions: (c) => {
       /* eslint-disable no-param-reassign */
       c.platform = 'node';

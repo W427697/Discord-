@@ -82,6 +82,7 @@ async function prepare({ cwd, flags }) {
       errorCallback: (errorLogs) => logError('js', packageJson, errorLogs),
     }),
     tscfy({
+      optimized: flags.includes('--optimized'),
       watch: flags.includes('--watch'),
       errorCallback: (errorLogs) => logError('ts', packageJson, errorLogs),
     }),
