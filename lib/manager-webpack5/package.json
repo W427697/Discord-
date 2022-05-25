@@ -62,7 +62,7 @@
     "regenerator-runtime": "^0.13.7",
     "resolve-from": "^5.0.0",
     "style-loader": "^3.3.1",
-    "telejson": "^5.3.3",
+    "telejson": "^6.0.8",
     "terser-webpack-plugin": "^5.3.1",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2",

@@ -1,5 +1,6 @@
 import * as Vue from 'vue';
 import global from 'global';
+// @ts-ignore
 import { app, activeStoryComponent } from '@storybook/vue3';
 
 const { document } = global;

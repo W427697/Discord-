@@ -7,7 +7,7 @@
 import { Interpolation } from '@emotion/react';
 
 export type PropsOf<C extends keyof JSX.IntrinsicElements | React.JSXElementConstructor<any>> =
-  JSX.LibraryManagedAttributes<C, React.ComponentPropsWithRef<C>>;
+  JSX.LibraryManagedAttributes<C, React.ComponentPropsWithRef<any>>;
 
 export type AddOptionalTo<T, U> = DistributiveOmit<T, U> & Partial<Pick<T, Extract<keyof T, U>>>;
 
