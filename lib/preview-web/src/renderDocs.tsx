@@ -1,7 +1,7 @@
 import React, { ComponentType } from 'react';
 import ReactDOM from 'react-dom';
 import { AnyFramework } from '@storybook/csf';
-import { Story } from '@storybook/store';
+import type { Story } from '@storybook/store';
 
 import { DocsContextProps } from './types';
 import { NoDocs } from './NoDocs';

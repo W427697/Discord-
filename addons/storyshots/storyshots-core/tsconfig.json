@@ -6,6 +6,8 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "declaration": true,
-    "skipLibCheck": true
+    "jsx": "preserve",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
   }
 }

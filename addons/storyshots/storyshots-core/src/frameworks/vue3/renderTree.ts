@@ -1,6 +1,5 @@
 import * as Vue from 'vue';
 import global from 'global';
-import dedent from 'ts-dedent';
 import { app, activeStoryComponent } from '@storybook/vue3';
 
 const { document } = global;
