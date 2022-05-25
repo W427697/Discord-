@@ -42,12 +42,15 @@
     "storybook": "sb dev"
   },
   "dependencies": {
+    "@radix-ui/react-polymorphic": "^0.0.14",
     "@storybook/client-logger": "6.5.0-beta.4",
     "@storybook/components": "6.5.0-beta.4",
     "@storybook/csf": "0.0.2--canary.7c6c115.0",
     "@storybook/theming": "6.5.0-beta.4",
     "@vanilla-extract/css": "^1.7.0",
     "@vanilla-extract/dynamic": "^2.0.2",
+    "@vanilla-extract/sprinkles": "^1.4.1",
+    "clsx": "^1.1.1",
     "color-convert": "^2.0.1",
     "core-js": "^3.8.2",
     "global": "^4.4.0",

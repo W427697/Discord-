@@ -12,3 +12,6 @@ export * from './IconGallery';
 
 // Controls
 export * from './controls';
+
+// Fillings API
+export * from './fillings';
