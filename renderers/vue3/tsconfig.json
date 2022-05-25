@@ -1,12 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "./src",
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
   "include": [
-  "src/**/*"
-],
+    "src/**/*"
+  ],
   "exclude": ["src/**/*.test.*"]
 }
