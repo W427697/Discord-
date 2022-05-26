@@ -137,7 +137,6 @@ Object {
                 },
               ],
               "plugins": Array [
-                "babel-plugin-named-exports-order",
                 "NODE_MODULES/react-refresh/babel.js",
               ],
               "presets": Array [
@@ -425,6 +424,12 @@ Object {
               "overrides": Array [
                 Object {
                   "plugins": Array [
+                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
+                  ],
+                  "test": "/\\\\.(story|stories).*$/",
+                },
+                Object {
+                  "plugins": Array [
                     Array [
                       "NODE_MODULES/babel-plugin-react-docgen/lib/index.js",
                       Object {
@@ -436,7 +441,6 @@ Object {
                 },
               ],
               "plugins": Array [
-                "babel-plugin-named-exports-order",
                 Array [
                   "NODE_MODULES/@babel/plugin-transform-react-jsx/lib/index.js",
                   Object {
@@ -476,6 +480,12 @@ Object {
               "overrides": Array [
                 Object {
                   "plugins": Array [
+                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
+                  ],
+                  "test": "/\\\\.(story|stories).*$/",
+                },
+                Object {
+                  "plugins": Array [
                     Array [
                       "NODE_MODULES/babel-plugin-react-docgen/lib/index.js",
                       Object {
@@ -487,7 +497,6 @@ Object {
                 },
               ],
               "plugins": Array [
-                "babel-plugin-named-exports-order",
                 Array [
                   "NODE_MODULES/@babel/plugin-transform-react-jsx/lib/index.js",
                   Object {

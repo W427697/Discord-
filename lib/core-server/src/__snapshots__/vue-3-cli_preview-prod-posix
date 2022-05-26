@@ -57,12 +57,26 @@ Object {
         "test": "/\\\\.vue$/",
       },
       Object {
-        "test": "/\\\\.tsx?$/",
+        "test": "/\\\\.ts$/",
         "use": Array [
           Object {
             "loader": "NODE_MODULES/ts-loader/index.js",
             "options": Object {
               "appendTsSuffixTo": Array [
+                "/\\\\.vue$/",
+              ],
+              "transpileOnly": true,
+            },
+          },
+        ],
+      },
+      Object {
+        "test": "/\\\\.tsx$/",
+        "use": Array [
+          Object {
+            "loader": "NODE_MODULES/ts-loader/index.js",
+            "options": Object {
+              "appendTsxSuffixTo": Array [
                 "/\\\\.vue$/",
               ],
               "transpileOnly": true,
@@ -79,8 +93,15 @@ Object {
               "babelrc": false,
               "cacheDirectory": "NODE_MODULES/.cache/storybook/babel",
               "configFile": false,
+              "overrides": Array [
+                Object {
+                  "plugins": Array [
+                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
+                  ],
+                  "test": "/\\\\.(story|stories).*$/",
+                },
+              ],
               "plugins": Array [
-                "babel-plugin-named-exports-order",
                 Array [
                   "NODE_MODULES/@babel/plugin-transform-react-jsx/lib/index.js",
                   Object {
@@ -108,8 +129,15 @@ Object {
               "babelrc": false,
               "cacheDirectory": "NODE_MODULES/.cache/storybook/babel",
               "configFile": false,
+              "overrides": Array [
+                Object {
+                  "plugins": Array [
+                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
+                  ],
+                  "test": "/\\\\.(story|stories).*$/",
+                },
+              ],
               "plugins": Array [
-                "babel-plugin-named-exports-order",
                 Array [
                   "NODE_MODULES/@babel/plugin-transform-react-jsx/lib/index.js",
                   Object {
