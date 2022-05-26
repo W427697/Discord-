@@ -12,6 +12,7 @@ module.exports = {
   features: {
     buildStoriesJson: true,
     breakingChangesV7: true,
+    channelOptions: { allowFunction: false, maxDepth: 10 },
   },
   framework: '@storybook/vue3-webpack5',
 };

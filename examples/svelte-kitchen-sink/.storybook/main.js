@@ -35,6 +35,7 @@ module.exports = {
   },
   core: {
     builder: '@storybook/builder-webpack5',
+    channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
   staticDirs: ['../public'],

@@ -16,6 +16,7 @@ module.exports = {
   ],
   core: {
     builder: '@storybook/builder-webpack5',
+    channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
   // These are just here to test composition. They could be added to any storybook example project
