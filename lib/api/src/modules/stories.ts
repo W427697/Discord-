@@ -78,8 +78,8 @@ export interface SubAPI {
     parameterName?: ParameterName
   ) => Story['parameters'] | any;
   getCurrentParameter<S>(parameterName?: ParameterName): S;
-  updateStoryArgs(story: Story, newArgs: Args): void;
-  resetStoryArgs: (story: Story, argNames?: string[]) => void;
+  updateStoryArgs(story: Story | { id: StoryId; refId?: string }, newArgs: Args): void;
+  resetStoryArgs: (story: Story | { id: StoryId; refId?: string }, argNames?: string[]) => void;
   findLeafStoryId(StoriesHash: StoriesHash, storyId: StoryId): StoryId;
   findSiblingStoryId(
     storyId: StoryId,
