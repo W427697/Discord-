@@ -14,7 +14,6 @@ import {
 } from './project_types';
 import { getBowerJson, paddedLog } from './helpers';
 import { PackageJson, readPackageJson, JsPackageManager } from './js-package-manager';
-import { detectWebpack } from './detect-webpack';
 import { detectNextJS } from './detect-nextjs';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
@@ -117,16 +116,6 @@ export function detectBuilder(packageManager: JsPackageManager) {
   const nextJSVersion = detectNextJS(packageManager);
   if (nextJSVersion) {
     if (nextJSVersion >= 11) {
-      return CoreBuilder.Webpack5;
-    }
-  }
-
-  const webpackVersion = detectWebpack(packageManager);
-  if (webpackVersion) {
-    if (webpackVersion <= 4) {
-      return CoreBuilder.Webpack4;
-    }
-    if (webpackVersion >= 5) {
       return CoreBuilder.Webpack5;
     }
   }
