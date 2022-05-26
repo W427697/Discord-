@@ -103,18 +103,19 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   }
 
   if (options.smokeTest) {
+    const warnings: Error[] = [];
     // @ts-ignore
-    const managerWarnings = (managerStats && managerStats.toJson().warnings) || [];
-    if (managerWarnings.length > 0)
-      logger.warn(`manager: ${JSON.stringify(managerWarnings, null, 2)}`);
-    // I'm a little reticent to import webpack types in this file :shrug:
+    warnings.push(...((managerStats && managerStats.toJson().warnings) || []));
     // @ts-ignore
-    const previewWarnings = (previewStats && previewStats.toJson().warnings) || [];
-    if (previewWarnings.length > 0)
-      logger.warn(`preview: ${JSON.stringify(previewWarnings, null, 2)}`);
-    process.exit(
-      managerWarnings.length > 0 || (previewWarnings.length > 0 && !options.ignorePreview) ? 1 : 0
-    );
+    warnings.push(...((managerStats && previewStats.toJson().warnings) || []));
+
+    const problems = warnings
+      .filter((warning) => !warning.message.includes(`export 'useInsertionEffect'`))
+      .filter(
+        (warning) => !warning.message.includes(`Conflicting values for 'process.env.NODE_ENV'`)
+      );
+
+    process.exit(problems.length > 0 ? 1 : 0);
     return;
   }
 
