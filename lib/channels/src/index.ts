@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 

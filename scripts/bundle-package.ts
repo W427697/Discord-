@@ -180,7 +180,9 @@ export async function run({ cwd, flags }: { cwd: string; flags: string[] }) {
     watch,
   };
 
-  console.log(`skipping generating types for ${process.cwd()}`);
+  if (!optimized) {
+    console.log(`skipping generating types for ${process.cwd()}`);
+  }
 
   await Promise.all([
     //
