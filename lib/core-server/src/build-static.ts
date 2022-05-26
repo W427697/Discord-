@@ -184,11 +184,11 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
 
   const [managerStats, previewStats] = await Promise.all([
     manager.catch(async (err) => {
-      await previewBuilder.bail();
+      await previewBuilder?.bail();
       throw err;
     }),
     preview.catch(async (err) => {
-      await managerBuilder.bail();
+      await managerBuilder?.bail();
       throw err;
     }),
     ...extractTasks,
