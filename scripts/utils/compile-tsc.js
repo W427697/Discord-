@@ -44,6 +44,8 @@ async function run({ optimized, watch, silent, errorCallback }) {
   return new Promise((resolve, reject) => {
     const [command, tscOnly] = getCommand(watch);
 
+    console.log({ optimized, tscOnly });
+
     if (tscOnly || optimized) {
       const child = execa.command(command, {
         buffer: false,
@@ -78,7 +80,7 @@ async function run({ optimized, watch, silent, errorCallback }) {
 }
 
 async function tscfy(options = {}) {
-  const { watch = false, silent = false, errorCallback } = options;
+  const { watch = false, silent = false, errorCallback, optimized = false } = options;
   const tsConfigFile = 'tsconfig.json';
 
   if (!(await fs.pathExists(tsConfigFile))) {
@@ -91,7 +93,7 @@ async function tscfy(options = {}) {
   const tsConfig = await fs.readJSON(tsConfigFile);
 
   if (!(tsConfig && tsConfig.lerna && tsConfig.lerna.disabled === true)) {
-    await run({ watch, silent, errorCallback });
+    await run({ watch, silent, errorCallback, optimized });
   }
 }
 

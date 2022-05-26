@@ -2,10 +2,16 @@ import fs from 'fs-extra';
 import { join } from 'path';
 import { build } from 'tsup';
 
+const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
+
 const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   const packageJson = await fs.readJson(join(cwd, 'package.json'));
 
-  if (!flags.includes('--optimized')) {
+  const reset = hasFlag(flags, 'reset');
+  const watch = hasFlag(flags, 'watch');
+  const optimized = hasFlag(flags, 'optimized');
+
+  if (!optimized) {
     console.log(`skipping generating types for ${process.cwd()}`);
     await fs.emptyDir(join(process.cwd(), 'dist', 'types'));
     await fs.writeFile(join(process.cwd(), 'dist', 'index.d.ts'), `export * from '../src/index';`);
@@ -14,13 +20,13 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   await build({
     entry: packageJson.bundlerEntrypoint,
     watch: flags.includes('--watch'),
-    // sourcemap: flags.includes('--optimized'),
+    // sourcemap: optimized,
     format: ['esm', 'cjs'],
     target: 'node16',
     clean: true,
     shims: true,
 
-    dts: flags.includes('--optimized')
+    dts: optimized
       ? {
           entry: packageJson.bundlerEntrypoint,
           resolve: true,
@@ -30,9 +36,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       /* eslint-disable no-param-reassign */
       c.platform = 'node';
       c.legalComments = 'none';
-      c.minifyWhitespace = !!flags.includes('--optimized');
-      c.minifyIdentifiers = !!flags.includes('--optimized');
-      c.minifySyntax = !!flags.includes('--optimized');
+      c.minifyWhitespace = optimized;
+      c.minifyIdentifiers = optimized;
+      c.minifySyntax = optimized;
       /* eslint-enable no-param-reassign */
     },
   });

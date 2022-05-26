@@ -1,6 +1,5 @@
 import path, { resolve } from 'path';
 import chalk from 'chalk';
-import execa from 'execa';
 import { rollup, OutputOptions, watch, RollupOptions } from 'rollup';
 import readPkgUp from 'read-pkg-up';
 import fs from 'fs-extra';
@@ -145,8 +144,6 @@ async function build(options: Options) {
 
     watcher.on('change', (event) => {
       console.log(`${greenBright('changed')}: ${event.replace(path.resolve(cwd, '../..'), '.')}`);
-
-      // dts(options);
     });
   } else {
     const bundler = await rollup(setting);
@@ -157,12 +154,18 @@ async function build(options: Options) {
   }
 }
 
+const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
+
 export async function run({ cwd, flags }: { cwd: string; flags: string[] }) {
   const { packageJson: pkg } = await readPkgUp({ cwd });
   const message = gray(`Built: ${bold(`${pkg.name}@${pkg.version}`)}`);
   console.time(message);
 
-  if (flags.includes('--reset')) {
+  const reset = hasFlag(flags, 'reset');
+  const watch = hasFlag(flags, 'watch');
+  const optimized = hasFlag(flags, 'optimized');
+
+  if (reset) {
     await removeDist();
   }
 
@@ -173,8 +176,8 @@ export async function run({ cwd, flags }: { cwd: string; flags: string[] }) {
     cwd,
     externals,
     input,
-    optimized: flags.includes('--optimized'),
-    watch: flags.includes('--watch'),
+    optimized,
+    watch,
   };
 
   console.log(`skipping generating types for ${process.cwd()}`);
