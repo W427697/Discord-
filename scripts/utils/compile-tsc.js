@@ -44,8 +44,6 @@ async function run({ optimized, watch, silent, errorCallback }) {
   return new Promise((resolve, reject) => {
     const [command, tscOnly] = getCommand(watch);
 
-    console.log({ optimized, tscOnly });
-
     if (tscOnly || optimized) {
       const child = execa.command(command, {
         buffer: false,

@@ -64,7 +64,7 @@ const hasInteractiveStories = (framework: SupportedFrameworks) =>
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
-  { language, builder }: GeneratorOptions,
+  { language, builder = 'webpack5' }: GeneratorOptions,
   framework: SupportedFrameworks,
   options: FrameworkOptions = defaultOptions
 ) {
