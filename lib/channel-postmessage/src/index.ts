@@ -196,7 +196,8 @@ export class PostmsgTransport {
   private handleEvent(rawEvent: MessageEvent): void {
     try {
       const { data } = rawEvent;
-      const { key, event, refId } = typeof data === 'string' && isJSON(data) ? parse(data, global.CHANNEL_OPTIONS || {}) : data;
+      const { key, event, refId } =
+        typeof data === 'string' && isJSON(data) ? parse(data, global.CHANNEL_OPTIONS || {}) : data;
 
       if (key === KEY) {
         const pageString =
@@ -282,3 +283,6 @@ export function createChannel({ page }: Config): Channel {
   const transport = new PostmsgTransport({ page });
   return new Channel({ transport });
 }
+
+// backwards compat with builder-vite
+export default createChannel;
