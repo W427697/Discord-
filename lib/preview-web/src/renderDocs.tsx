@@ -1,4 +1,4 @@
-import React, { ComponentType } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { AnyFramework } from '@storybook/csf';
 import type { Story } from '@storybook/store';

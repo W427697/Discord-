@@ -1,11 +1,6 @@
 import type { Options, CoreConfig, Builder } from '@storybook/core-common';
 
-async function getManagerBuilder(builderName: string | undefined, configDir: string) {
-  // Builder can be any string including community builders like `storybook-builder-vite`.
-  // - For now, `webpack5` triggers `manager-webpack5`
-  // - Everything else builds with `manager-webpack4`
-  //
-  // Unlike preview builders, manager building is not pluggable!
+async function getManagerBuilder(configDir: string) {
   const builderPackage = require.resolve('@storybook/manager-webpack5', { paths: [configDir] });
   const managerBuilder = await import(builderPackage);
   return managerBuilder;
@@ -32,8 +27,5 @@ export async function getBuilders({
   const core = await presets.apply<CoreConfig>('core', undefined);
   const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
 
-  return Promise.all([
-    getPreviewBuilder(builderName, configDir),
-    getManagerBuilder(builderName, configDir),
-  ]);
+  return Promise.all([getPreviewBuilder(builderName, configDir), getManagerBuilder(configDir)]);
 }
