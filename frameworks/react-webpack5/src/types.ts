@@ -36,7 +36,7 @@ export interface StorybookReactConfig {
   framework:
     | string
     | {
-        name: '@storybook/react';
+        name: '@storybook/react-webpack5';
         options: ReactOptions;
       };
 }
