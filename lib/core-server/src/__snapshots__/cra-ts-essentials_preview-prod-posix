@@ -4,16 +4,7 @@ exports[`cra-ts-essentials preview prod 1`] = `
 Object {
   "entry": Array [
     "ROOT/lib/core-client/dist/esm/globals/globals.js",
-    "NODE_MODULES/@storybook/addon-ie11/dist/event-source-polyfill.js",
-    "ROOT/storybook-init-framework-entry.js",
-    "ROOT/renderers/react/preview.js-generated-config-entry.js",
-    "ROOT/addons/docs/preview.js-generated-config-entry.js",
-    "ROOT/addons/actions/preview.js-generated-config-entry.js",
-    "ROOT/addons/backgrounds/preview.js-generated-config-entry.js",
-    "ROOT/addons/measure/preview.js-generated-config-entry.js",
-    "ROOT/addons/outline/preview.js-generated-config-entry.js",
-    "ROOT/examples/cra-ts-essentials/.storybook/preview.tsx-generated-config-entry.js",
-    "ROOT/generated-stories-entry.cjs",
+    "ROOT/storybook-config-entry.js",
   ],
   "keys": Array [
     "name",
@@ -137,15 +128,6 @@ Object {
               ],
               "plugins": Array [],
               "presets": Array [
-                Array [
-                  "@babel/preset-env",
-                  Object {
-                    "targets": Object {
-                      "ie": "11",
-                    },
-                  },
-                  "storybook-addon-ie11",
-                ],
                 Array [
                   "NODE_MODULES/babel-preset-react-app/index.js",
                   Object {
@@ -407,29 +389,6 @@ Object {
         ],
       },
       Object {
-        "include": "NODE_MODULES[\\\\\\\\/](@storybook[\\\\\\\\/]node_logger|@testing-library[\\\\\\\\/]dom|@testing-library[\\\\\\\\/]user-event|acorn-jsx|ansi-align|ansi-colors|ansi-escapes|ansi-regex|ansi-styles|better-opn|boxen|camelcase|chalk|color-convert|commander|find-cache-dir|find-up|fs-extra|highlight.js|json5|node-fetch|pkg-dir|prettier|pretty-format|react-dev-utils|resolve-from|semver|slash|strip-ansi|uuid)/",
-        "test": "/\\\\.js$/",
-        "use": Array [
-          Object {
-            "loader": "NODE_MODULES/babel-loader/lib/index.js",
-            "options": Object {
-              "presets": Array [
-                Array [
-                  "@babel/preset-env",
-                  Object {
-                    "targets": Object {
-                      "ie": "11",
-                    },
-                  },
-                  "storybook-addon-ie11",
-                ],
-              ],
-              "sourceType": "unambiguous",
-            },
-          },
-        ],
-      },
-      Object {
         "test": "/(stories|story)\\\\.mdx$/",
         "use": Array [
           Object {
@@ -466,17 +425,7 @@ Object {
                   },
                 ],
               ],
-              "presets": Array [
-                Array [
-                  "@babel/preset-env",
-                  Object {
-                    "targets": Object {
-                      "ie": "11",
-                    },
-                  },
-                  "storybook-addon-ie11",
-                ],
-              ],
+              "presets": Array [],
             },
           },
           Object {
@@ -522,17 +471,7 @@ Object {
                   },
                 ],
               ],
-              "presets": Array [
-                Array [
-                  "@babel/preset-env",
-                  Object {
-                    "targets": Object {
-                      "ie": "11",
-                    },
-                  },
-                  "storybook-addon-ie11",
-                ],
-              ],
+              "presets": Array [],
             },
           },
           Object {

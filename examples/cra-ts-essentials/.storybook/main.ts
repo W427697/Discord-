@@ -6,7 +6,6 @@ const mainConfig: StorybookConfig = {
   stories: ['../src/**/*.stories.@(tsx|mdx)'],
   addons: [
     '@storybook/preset-create-react-app',
-    '@storybook/addon-ie11',
     {
       name: '@storybook/addon-essentials',
       options: {

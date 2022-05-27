@@ -4,15 +4,7 @@ exports[`html-kitchen-sink preview prod 1`] = `
 Object {
   "entry": Array [
     "ROOT/lib/core-client/dist/esm/globals/globals.js",
-    "ROOT/storybook-init-framework-entry.js",
-    "ROOT/renderers/html/preview.js-generated-config-entry.js",
-    "ROOT/addons/docs/preview.js-generated-config-entry.js",
-    "ROOT/addons/a11y/preview.js-generated-config-entry.js",
-    "ROOT/addons/actions/preview.js-generated-config-entry.js",
-    "ROOT/addons/backgrounds/preview.js-generated-config-entry.js",
-    "ROOT/addons/links/preview.js-generated-config-entry.js",
-    "ROOT/examples/html-kitchen-sink/.storybook/preview.js-generated-config-entry.js",
-    "ROOT/generated-stories-entry.cjs",
+    "ROOT/storybook-config-entry.js",
   ],
   "keys": Array [
     "name",
@@ -79,8 +71,6 @@ Object {
                   },
                 ],
               ],
-              "presets": Array [],
-              "sourceType": "unambiguous",
             },
           },
           Object {
@@ -115,8 +105,6 @@ Object {
                   },
                 ],
               ],
-              "presets": Array [],
-              "sourceType": "unambiguous",
             },
           },
           Object {
