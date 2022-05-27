@@ -46,6 +46,7 @@
     "@storybook/docs-tools": "portal:../../lib/docs-tools",
     "@storybook/jest": "^0.0.5",
     "@storybook/manager-webpack5": "portal:../../lib/manager-webpack5",
+    "@storybook/mdx1-csf": "canary",
     "@storybook/node-logger": "portal:../../lib/node-logger",
     "@storybook/postinstall": "portal:../../lib/postinstall",
     "@storybook/preset-web-components-webpack": "portal:../../presets/web-components-webpack",
