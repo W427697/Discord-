@@ -53,6 +53,7 @@ module.exports = {
   transformIgnorePatterns: ['/node_modules/(?!lit-html).+\\.js'],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
+    '/storybook-static/',
     '/node_modules/',
     '/dist/',
     '/prebuilt/',
@@ -98,7 +99,7 @@ module.exports = {
   testEnvironment: 'jest-environment-jsdom-thirteen',
   setupFiles: ['raf/polyfill'],
   testURL: 'http://localhost',
-  modulePathIgnorePatterns: ['/dist/.*/__mocks__/'],
+  modulePathIgnorePatterns: ['/dist/.*/__mocks__/', '/storybook-static/'],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
   reporters: ['default', 'jest-junit'],
