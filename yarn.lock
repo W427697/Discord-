@@ -6913,23 +6913,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-ie11@npm:0.0.7--canary.5e87b64.0":
-  version: 0.0.7--canary.5e87b64.0
-  resolution: "@storybook/addon-ie11@npm:0.0.7--canary.5e87b64.0"
-  dependencies:
-    "@babel/preset-env": ^7.12.11
-    "@storybook/node-logger": "*"
-    babel-loader: ^8.1.0
-    event-source-polyfill: ^1.0.25
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
-  checksum: a9df754524cf00db8ca1e280868bf80ae3ac170f6455295e00df90f906493e71be71cd6b2bcff29794568f02be2c7d5d5a6ac4d9571dacaebca9f54dd54df7c2
-  languageName: node
-  linkType: hard
-
 "@storybook/addon-interactions@6.5.0-rc.1, @storybook/addon-interactions@workspace:*, @storybook/addon-interactions@workspace:addons/interactions":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-interactions@workspace:addons/interactions"
@@ -8512,7 +8495,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/node-logger@npm:*, @storybook/node-logger@npm:^6.1.14":
+"@storybook/node-logger@npm:^6.1.14":
   version: 6.5.5
   resolution: "@storybook/node-logger@npm:6.5.5"
   dependencies:
@@ -18171,7 +18154,6 @@ __metadata:
   resolution: "cra-ts-essentials@workspace:examples/cra-ts-essentials"
   dependencies:
     "@storybook/addon-essentials": 6.5.0-rc.1
-    "@storybook/addon-ie11": 0.0.7--canary.5e87b64.0
     "@storybook/addons": 6.5.0-rc.1
     "@storybook/builder-webpack5": 6.5.0-rc.1
     "@storybook/components": 6.5.0-rc.1
@@ -18203,7 +18185,6 @@ __metadata:
     "@storybook/addon-a11y": 6.5.0-rc.1
     "@storybook/addon-actions": 6.5.0-rc.1
     "@storybook/addon-docs": 6.5.0-rc.1
-    "@storybook/addon-ie11": 0.0.7--canary.5e87b64.0
     "@storybook/addon-links": 6.5.0-rc.1
     "@storybook/addons": 6.5.0-rc.1
     "@storybook/builder-webpack5": 6.5.0-rc.1
@@ -22825,13 +22806,6 @@ __metadata:
   version: 4.3.0
   resolution: "event-pubsub@npm:4.3.0"
   checksum: 47fa4fb5b55b3ed08b912862cc913e03603fa063cd3ec5cf3dfeb39a19314d3ca327e938a2cf70685254ab3a71af8178969963c705a030c6081d625bec835114
-  languageName: node
-  linkType: hard
-
-"event-source-polyfill@npm:^1.0.25":
-  version: 1.0.26
-  resolution: "event-source-polyfill@npm:1.0.26"
-  checksum: b45deb9781d0a1fdd2dab1ada56ba40565f32e01e6dd31648e559014ae537de931b66a1d846cd492d3f6cffa7dee0745d874cdd4b86af840cfb488d7eaa3ef8c
   languageName: node
   linkType: hard
 
