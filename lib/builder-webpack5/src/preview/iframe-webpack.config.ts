@@ -247,14 +247,11 @@ export default async (options: Options & Record<string, any>): Promise<Configura
       extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json', '.cjs'],
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
       mainFields: ['browser', 'module', 'main'].filter(Boolean),
-      alias: {
-        ...storybookPaths,
-        react: path.dirname(require.resolve('react/package.json')),
-        'react-dom': path.dirname(require.resolve('react-dom/package.json')),
-      },
+      alias: storybookPaths,
       fallback: {
         path: require.resolve('path-browserify'),
         assert: require.resolve('browser-assert'),
+        util: require.resolve('util'),
       },
     },
     optimization: {

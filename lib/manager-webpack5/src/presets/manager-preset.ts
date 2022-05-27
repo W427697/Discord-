@@ -158,9 +158,7 @@ export async function managerWebpack(
       extensions: ['.mjs', '.js', '.jsx', '.json', '.cjs', '.ts', '.tsx'],
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
       mainFields: ['browser', 'module', 'main'].filter(Boolean),
-      alias: {
-        ...uiPaths,
-      },
+      alias: uiPaths,
     },
     recordsPath: resolvePathInStorybookCache('public/records.json'),
     performance: {
