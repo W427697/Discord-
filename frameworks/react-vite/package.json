@@ -52,7 +52,8 @@
     "core-js": "^3.8.2",
     "magic-string": "^0.26.1",
     "react-docgen": "6.0.0-alpha.1",
-    "regenerator-runtime": "^0.13.7"
+    "regenerator-runtime": "^0.13.7",
+    "vite": "^2.9.9"
   },
   "devDependencies": {
     "jest-specific-snapshot": "^4.0.0"
