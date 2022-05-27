@@ -6,6 +6,7 @@ import { getBabelDependencies, copyComponents } from '../helpers';
 import { configure } from './configure';
 import { getPackageDetails, JsPackageManager } from '../js-package-manager';
 import { generateStorybookBabelConfigInCWD } from '../babel-config';
+import packageVersions from '../versions';
 
 export type GeneratorOptions = {
   language: SupportedLanguage;
@@ -104,7 +105,11 @@ export async function baseGenerator(
 
   const packageJson = packageManager.retrievePackageJson();
   const installedDependencies = new Set(Object.keys(packageJson.dependencies));
-  const frameworkPackage = `@storybook/${framework}`;
+  const frameworkPackage = (packageVersions as Record<string, string>)[
+    `@storybook/${framework}-${builder}`
+  ]
+    ? `@storybook/${framework}-${builder}`
+    : framework;
   const cliPackage = 'sb';
 
   const packages = [
@@ -146,7 +151,7 @@ export async function baseGenerator(
   }
 
   configure(framework, {
-    framework: frameworkPackage,
+    framework: { name: frameworkPackage, options: {} },
     addons: [...addons, ...stripVersions(extraAddons)],
     extensions,
     commonJs: options.commonJs,

@@ -126,9 +126,9 @@ export const webpack5: Fix<Webpack5RunOptions> & CheckBuilder = {
     logger.info(`✅ Adding dependencies: ${deps}`);
     if (!dryRun) packageManager.addDependencies({ installAsDevDependencies: true }, deps);
 
-    logger.info('✅ Setting `core.builder` to `webpack5` in main.js');
+    logger.info('✅ Setting `core.builder` to `@storybook/builder-webpack5` in main.js');
     if (!dryRun) {
-      main.setFieldValue(['core', 'builder'], 'webpack5');
+      main.setFieldValue(['core', 'builder'], '@storybook/builder-webpack5');
       await writeConfig(main);
     }
   },

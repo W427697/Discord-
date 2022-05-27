@@ -50,7 +50,7 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
       ...options,
       babelOptions,
       typescriptOptions,
-      frameworkOptions: framework?.options,
+      frameworkOptions: typeof framework === 'string' ? {} : framework?.options,
     }
   ) as any;
 };
