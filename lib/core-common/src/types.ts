@@ -312,11 +312,6 @@ export interface StorybookConfig {
     postcss?: boolean;
 
     /**
-     * Allows to disable emotion webpack alias for emotion packages. (will be removed in 7.0)
-     */
-    emotionAlias?: boolean;
-
-    /**
      * Build stories.json automatically on start/build
      */
     buildStoriesJson?: boolean;

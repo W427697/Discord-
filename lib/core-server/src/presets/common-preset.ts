@@ -96,14 +96,13 @@ export const features = async (
 ): Promise<StorybookConfig['features']> => ({
   ...existing,
   postcss: true,
-  emotionAlias: false, // TODO remove in 7.0, this no longer does anything
   warnOnLegacyHierarchySeparator: true,
   buildStoriesJson: false,
-  storyStoreV7: false,
-  modernInlineRender: false,
-  breakingChangesV7: false,
+  storyStoreV7: true,
+  modernInlineRender: true,
+  breakingChangesV7: true,
   interactionsDebugger: false,
-  babelModeV7: false,
-  argTypeTargetsV7: false,
+  babelModeV7: true,
+  argTypeTargetsV7: true,
   previewMdx2: false,
 });
