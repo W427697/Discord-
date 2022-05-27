@@ -103,7 +103,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   const extractTasks = [];
 
   let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
-  if (features?.buildStoriesJson || features?.storyStoreV7) {
+  if ((features?.buildStoriesJson || features?.storyStoreV7) && !options.ignorePreview) {
     const workingDir = process.cwd();
     const directories = {
       configDir: options.configDir,
