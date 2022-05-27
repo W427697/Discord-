@@ -9,8 +9,6 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-import themingPaths from '@storybook/theming/paths';
-
 import type { Options, CoreConfig } from '@storybook/core-common';
 import {
   toRequireContextString,
