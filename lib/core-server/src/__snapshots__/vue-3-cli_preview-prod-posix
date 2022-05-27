@@ -206,8 +206,6 @@ Object {
               "@storybook/router": "ROOT/lib/router",
               "@storybook/semver": "NODE_MODULES/@storybook/semver",
               "@storybook/theming": "ROOT/lib/theming",
-              "react": "NODE_MODULES/react",
-              "react-dom": "NODE_MODULES/react-dom",
               "vue$": "NODE_MODULES/vue/dist/vue.esm-bundler.js",
             },
           },
