@@ -114,6 +114,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
         (warning) => !warning.message.includes(`Conflicting values for 'process.env.NODE_ENV'`)
       );
 
+    console.log(problems.map((p) => p.stack));
     process.exit(problems.length > 0 ? 1 : 0);
     return;
   }
