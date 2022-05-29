@@ -1,3 +1,9 @@
+## 6.5.6 (May 30, 2022)
+
+### Bug Fixes
+
+- Core: Fix node 18 ip support ([#18330](https://github.com/storybookjs/storybook/pull/18330))
+
 ## 6.5.6-alpha.0 (May 28, 2022)
 
 ### Bug Fixes
