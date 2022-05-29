@@ -29,7 +29,7 @@ module.exports = {
   },
   core: {
     builder: 'webpack4',
-    disableTelemetry: true,
+    channelOptions: { allowFunction: false, maxDepth: 10 },
   },
   staticDirs: ['../public'],
   features: {

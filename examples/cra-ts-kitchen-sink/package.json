@@ -1,6 +1,6 @@
 {
   "name": "cra-ts-kitchen-sink",
-  "version": "6.5.0-beta.4",
+  "version": "6.5.0-rc.1",
   "private": true,
   "scripts": {
     "build": "react-scripts build",
@@ -34,22 +34,22 @@
     "typescript": "^3.9.7"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "6.5.0-beta.4",
-    "@storybook/addon-actions": "6.5.0-beta.4",
-    "@storybook/addon-docs": "6.5.0-beta.4",
+    "@storybook/addon-a11y": "6.5.0-rc.1",
+    "@storybook/addon-actions": "6.5.0-rc.1",
+    "@storybook/addon-docs": "6.5.0-rc.1",
     "@storybook/addon-ie11": "0.0.7--canary.5e87b64.0",
-    "@storybook/addon-links": "6.5.0-beta.4",
-    "@storybook/addons": "6.5.0-beta.4",
-    "@storybook/builder-webpack4": "6.5.0-beta.4",
+    "@storybook/addon-links": "6.5.0-rc.1",
+    "@storybook/addons": "6.5.0-rc.1",
+    "@storybook/builder-webpack4": "6.5.0-rc.1",
     "@storybook/preset-create-react-app": "^3.1.6",
-    "@storybook/react": "6.5.0-beta.4",
+    "@storybook/react": "6.5.0-rc.1",
     "@types/enzyme": "^3.10.8",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.9.1",
     "enzyme-to-json": "^3.6.1",
     "fork-ts-checker-webpack-plugin": "^6.0.4",
     "react-moment-proptypes": "^1.7.0",
-    "sb": "6.5.0-beta.4",
+    "sb": "6.5.0-rc.1",
     "ts-node": "^9.1.0",
     "webpack": "4"
   },
