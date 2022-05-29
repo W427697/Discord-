@@ -3,8 +3,17 @@ import type { StorybookConfig } from '@storybook/react-webpack4/types';
 const config: StorybookConfig = {
   stories: [
     {
+      directory: '../src/title',
+      titlePrefix: 'Custom Prefix',
+    },
+    {
       directory: '../src',
       titlePrefix: 'Demo',
+      files: '*.stories.(js|ts|tsx|mdx)',
+    },
+    {
+      directory: '../src/addon-docs',
+      files: '*.stories.mdx',
     },
   ],
   logLevel: 'debug',
