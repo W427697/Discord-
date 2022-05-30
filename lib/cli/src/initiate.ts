@@ -1,8 +1,9 @@
 import { UpdateNotifier, Package } from 'update-notifier';
 import chalk from 'chalk';
 import prompts from 'prompts';
-import { detect, isStorybookInstalled, detectLanguage, detectBuilder } from './detect';
+import { telemetry } from '@storybook/telemetry';
 import { installableProjectTypes, ProjectType, Builder } from './project_types';
+import { detect, isStorybookInstalled, detectLanguage, detectBuilder } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
 import aureliaGenerator from './generators/AURELIA';
@@ -26,7 +27,7 @@ import preactGenerator from './generators/PREACT';
 import svelteGenerator from './generators/SVELTE';
 import raxGenerator from './generators/RAX';
 import serverGenerator from './generators/SERVER';
-import { JsPackageManager, JsPackageManagerFactory, readPackageJson } from './js-package-manager';
+import { JsPackageManagerFactory, JsPackageManager } from './js-package-manager';
 import { NpmOptions } from './NpmOptions';
 import { automigrate } from './automigrate';
 
@@ -43,6 +44,7 @@ type CommandOptions = {
   builder?: Builder;
   linkable?: boolean;
   commonJs?: boolean;
+  disableTelemetry?: boolean;
 };
 
 const installStorybook = (
@@ -63,8 +65,6 @@ const installStorybook = (
     linkable: !!options.linkable,
     commonJs: options.commonJs,
   };
-
-  const REACT_NATIVE_REPO = 'https://github.com/storybookjs/react-native';
 
   const runGenerator: () => Promise<void> = () => {
     switch (projectType) {
@@ -108,15 +108,7 @@ const installStorybook = (
               ]) as Promise<{ server: boolean }>)
         )
           .then(({ server }) => reactNativeGenerator(packageManager, npmOptions, server))
-          .then(commandLog('Adding Storybook support to your "React Native" app\n'))
-          .then(() => {
-            logger.log(chalk.red('NOTE: installation is not 100% automated.'));
-            logger.log(`To quickly run Storybook, replace contents of your app entry with:\n`);
-            codeLog(["export {default} from './storybook';"]);
-            logger.log('\n For more in information, see the github readme:\n');
-            logger.log(chalk.cyan(REACT_NATIVE_REPO));
-            logger.log();
-          });
+          .then(commandLog('Adding Storybook support to your "React Native" app\n'));
       }
 
       case ProjectType.METEOR:
@@ -277,8 +269,12 @@ const projectTypeInquirer = async (
 
 export async function initiate(options: CommandOptions, pkg: Package): Promise<void> {
   const packageManager = JsPackageManagerFactory.getPackageManager(options.useNpm);
-  const welcomeMessage = 'sb init - the simplest way to add a Storybook to your project.';
+  const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
+
+  if (!options.disableTelemetry) {
+    telemetry('init');
+  }
 
   // Update notify code.
   new UpdateNotifier({
@@ -293,7 +289,7 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
     : 'Detecting project type';
   const done = commandLog(infoText);
 
-  const packageJson = readPackageJson();
+  const packageJson = packageManager.retrievePackageJson();
   const isEsm = packageJson && packageJson.type === 'module';
 
   try {
@@ -328,11 +324,23 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
     packageManager.installDependencies();
   }
 
-  await automigrate();
+  await automigrate({ yes: process.env.CI === 'true' });
 
   logger.log('\nTo run your Storybook, type:\n');
   codeLog([packageManager.getRunStorybookCommand()]);
   logger.log('\nFor more information visit:', chalk.cyan('https://storybook.js.org'));
+
+  if (projectType === ProjectType.REACT_NATIVE) {
+    const REACT_NATIVE_REPO = 'https://github.com/storybookjs/react-native';
+
+    logger.log();
+    logger.log(chalk.red('NOTE: installation is not 100% automated.'));
+    logger.log(`To quickly run Storybook, replace contents of your app entry with:\n`);
+    codeLog(["export {default} from './storybook';"]);
+    logger.log('\n For more in information, see the github readme:\n');
+    logger.log(chalk.cyan(REACT_NATIVE_REPO));
+    logger.log();
+  }
 
   // Add a new line for the clear visibility.
   logger.log();
