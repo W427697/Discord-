@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.12.11",
+    "@storybook/builder-webpack5": "6.5.0-rc.1",
     "@storybook/core-common": "6.5.0-rc.1",
     "@storybook/core-server": "6.5.0-rc.1",
     "@storybook/preset-web-components-webpack": "6.5.0-rc.1",

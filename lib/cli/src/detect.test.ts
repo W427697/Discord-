@@ -27,12 +27,6 @@ jest.mock('path', () => ({
 
 const MOCK_FRAMEWORK_FILES = [
   {
-    name: ProjectType.METEOR,
-    files: {
-      '.meteor': 'file content',
-    },
-  },
-  {
     name: ProjectType.SFC_VUE,
     files: {
       'package.json': {
@@ -336,14 +330,6 @@ describe('Detect', () => {
           devDependencies: { '@storybook/react': '4.0.0-alpha.21' },
         })
       ).toBe(ProjectType.ALREADY_HAS_STORYBOOK);
-    });
-
-    it('UPDATE_PACKAGE_ORGANIZATIONS if legacy lib is detected', () => {
-      expect(
-        isStorybookInstalled({
-          devDependencies: { '@kadira/storybook': '4.0.0-alpha.21' },
-        })
-      ).toBe(ProjectType.UPDATE_PACKAGE_ORGANIZATIONS);
     });
   });
 

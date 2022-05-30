@@ -32,6 +32,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
+    "@storybook/builder-webpack5": "6.5.0-rc.1",
     "@storybook/core-common": "6.5.0-rc.1",
     "@storybook/core-server": "6.5.0-rc.1",
     "@storybook/preset-vue-webpack": "6.5.0-rc.1",

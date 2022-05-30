@@ -1,6 +1,6 @@
 import fse from 'fs-extra';
 import dedent from 'ts-dedent';
-import { SupportedFrameworks } from '../project_types';
+import { SupportedRenderers } from '../project_types';
 
 interface ConfigureMainOptions {
   addons: string[];
@@ -44,7 +44,7 @@ function configureMain({
   });
 }
 
-const frameworkToPreviewParts: Partial<Record<SupportedFrameworks, any>> = {
+const frameworkToPreviewParts: Partial<Record<SupportedRenderers, any>> = {
   angular: {
     prefix: dedent`
       import { setCompodocJson } from "@storybook/addon-docs/angular";
@@ -56,7 +56,7 @@ const frameworkToPreviewParts: Partial<Record<SupportedFrameworks, any>> = {
   },
 };
 
-function configurePreview(framework: SupportedFrameworks, commonJs: boolean) {
+function configurePreview(framework: SupportedRenderers, commonJs: boolean) {
   const { prefix = '', extraParameters = '' } = frameworkToPreviewParts[framework] || {};
   const previewPath = `./.storybook/preview.${commonJs ? 'cjs' : 'js'}`;
 
@@ -83,7 +83,7 @@ function configurePreview(framework: SupportedFrameworks, commonJs: boolean) {
   fse.writeFileSync(previewPath, preview, { encoding: 'utf8' });
 }
 
-export function configure(framework: SupportedFrameworks, mainOptions: ConfigureMainOptions) {
+export function configure(framework: SupportedRenderers, mainOptions: ConfigureMainOptions) {
   fse.ensureDirSync('./.storybook');
 
   configureMain(mainOptions);

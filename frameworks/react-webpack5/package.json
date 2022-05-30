@@ -33,6 +33,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
+    "@storybook/builder-webpack5": "6.5.0-rc.1",
     "@storybook/core-server": "6.5.0-rc.1",
     "@storybook/preset-react-webpack": "6.5.0-rc.1",
     "@storybook/react": "6.5.0-rc.1",

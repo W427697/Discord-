@@ -5,7 +5,7 @@ import findUp from 'find-up';
 import {
   ProjectType,
   supportedTemplates,
-  SUPPORTED_FRAMEWORKS,
+  SUPPORTED_RENDERERS,
   SupportedLanguage,
   TemplateConfiguration,
   TemplateMatcher,
@@ -131,20 +131,13 @@ export function isStorybookInstalled(dependencies: PackageJson | false, force?: 
 
   if (!force && dependencies.devDependencies) {
     if (
-      SUPPORTED_FRAMEWORKS.reduce(
+      SUPPORTED_RENDERERS.reduce(
         (storybookPresent, framework) =>
           storybookPresent || !!dependencies.devDependencies[`@storybook/${framework}`],
         false
       )
     ) {
       return ProjectType.ALREADY_HAS_STORYBOOK;
-    }
-
-    if (
-      dependencies.devDependencies['@kadira/storybook'] ||
-      dependencies.devDependencies['@kadira/react-native-storybook']
-    ) {
-      return ProjectType.UPDATE_PACKAGE_ORGANIZATIONS;
     }
   }
   return false;

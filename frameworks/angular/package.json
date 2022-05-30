@@ -35,6 +35,7 @@
   "dependencies": {
     "@storybook/addons": "6.5.0-rc.1",
     "@storybook/api": "6.5.0-rc.1",
+    "@storybook/builder-webpack5": "6.5.0-rc.1",
     "@storybook/client-logger": "6.5.0-rc.1",
     "@storybook/core-client": "6.5.0-rc.1",
     "@storybook/core-common": "6.5.0-rc.1",
