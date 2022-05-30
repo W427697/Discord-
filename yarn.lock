@@ -6819,7 +6819,7 @@ __metadata:
     "@storybook/core-events": 6.5.0-rc.1
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/docs-tools": 6.5.0-rc.1
-    "@storybook/mdx1-csf": canary
+    "@storybook/mdx1-csf": ^0.0.1
     "@storybook/mdx2-csf": ^0.0.3
     "@storybook/node-logger": 6.5.0-rc.1
     "@storybook/postinstall": 6.5.0-rc.1
@@ -7950,7 +7950,7 @@ __metadata:
     fs-extra: ^9.0.1
     global: ^4.4.0
     globby: ^11.0.2
-    ip: ^1.1.5
+    ip: ^2.0.0
     jest-specific-snapshot: ^4.0.0
     lodash: ^4.17.21
     node-fetch: ^2.6.7
@@ -8416,26 +8416,6 @@ __metadata:
     prettier: ">=2.2.1 <=2.3.0"
     ts-dedent: ^2.0.0
   checksum: c25a4ad1356ce65950483bd85f37ba93237149fd782360e3548a86dafd9753674ddebb03a8665ed78f99bc1533e87ba2a0605c2fc984a5ad19662fd4b930db78
-  languageName: node
-  linkType: hard
-
-"@storybook/mdx1-csf@npm:canary":
-  version: 0.0.2-canary.5.6cee405.0
-  resolution: "@storybook/mdx1-csf@npm:0.0.2-canary.5.6cee405.0"
-  dependencies:
-    "@babel/generator": ^7.12.11
-    "@babel/parser": ^7.12.11
-    "@babel/preset-env": ^7.12.11
-    "@babel/types": ^7.12.11
-    "@mdx-js/mdx": ^1.6.22
-    "@mdx-js/react": ^1.6.22
-    "@types/lodash": ^4.14.167
-    js-string-escape: ^1.0.1
-    loader-utils: ^2.0.0
-    lodash: ^4.17.21
-    prettier: ">=2.2.1 <=2.3.0"
-    ts-dedent: ^2.0.0
-  checksum: 694f090d3055b363acb8748433ad8dd60a804085a89ffb4de2ff3f3b17401676e36f357123291ebc3ebd2a80e6daa629b4ee5c5d66f2dfb7149600365a10eb62
   languageName: node
   linkType: hard
 
@@ -27246,6 +27226,13 @@ __metadata:
   version: 1.1.8
   resolution: "ip@npm:1.1.8"
   checksum: ab32a5ecfa678d4c158c1381c4c6744fce89a1d793e1b6635ba79d0753c069030b672d765887b6fff55670c711dfa47475895e5d6013efbbcf04687c51cb8db9
+  languageName: node
+  linkType: hard
+
+"ip@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "ip@npm:2.0.0"
+  checksum: 8d186cc5585f57372847ae29b6eba258c68862055e18a75cc4933327232cb5c107f89800ce29715d542eef2c254fbb68b382e780a7414f9ee7caf60b7a473958
   languageName: node
   linkType: hard
 
