@@ -1,6 +1,6 @@
 import path from 'path';
 import { normalizeStoriesEntry } from '@storybook/core-common';
-import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
+import type { NormalizedStoriesSpecifier, StoryIndexer } from '@storybook/core-common';
 import { readCsfOrMdx, getStorySortParameter } from '@storybook/csf-tools';
 
 import { StoryIndexGenerator } from './StoryIndexGenerator';
@@ -15,6 +15,7 @@ const getStorySortParameterMock = getStorySortParameter as jest.Mock<
 const options = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
+  storyIndexers: [] as StoryIndexer[],
   storiesV2Compatibility: false,
   storyStoreV7: true,
 };

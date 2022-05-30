@@ -1,10 +1,12 @@
+import fs from 'fs-extra';
 import path from 'path';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import global from 'global';
 
-import type { Options } from '@storybook/core-common';
+import type { IndexerOptions, Options, StoryIndexer } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
+import { loadCsf } from '@storybook/csf-tools';
 
 // for frameworks that are not working with react, we need to configure
 // the jsx to transpile mdx, for now there will be a flag for that
@@ -147,3 +149,22 @@ export async function webpack(
 
   return result;
 }
+
+export const storyIndexers = async (indexers?: StoryIndexer[]) => {
+  const mdxIndexer = async (fileName: string, opts: IndexerOptions) => {
+    let code = (await fs.readFile(fileName, 'utf-8')).toString();
+    // @ts-ignore
+    const { compile } = global.FEATURES?.previewMdx2
+      ? await import('@storybook/mdx2-csf')
+      : await import('@storybook/mdx1-csf');
+    code = await compile(code, {});
+    return loadCsf(code, { ...opts, fileName }).parse();
+  };
+  return [
+    {
+      test: /(stories|story)\.mdx$/,
+      indexer: mdxIndexer,
+    },
+    ...(indexers || []),
+  ];
+};

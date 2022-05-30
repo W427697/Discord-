@@ -24,6 +24,7 @@ const normalizedStories = [
 
 const getInitializedStoryIndexGenerator = async () => {
   const generator = new StoryIndexGenerator(normalizedStories, {
+    storyIndexers: [],
     configDir: workingDir,
     workingDir,
     storiesV2Compatibility: true,
