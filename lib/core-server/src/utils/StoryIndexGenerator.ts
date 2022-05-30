@@ -51,13 +51,6 @@ export class StoryIndexGenerator {
         );
         const files = await glob(fullGlob);
         files.sort().forEach((absolutePath: Path) => {
-          const ext = path.extname(absolutePath);
-          const relativePath = path.relative(this.options.workingDir, absolutePath);
-          if (!['.js', '.jsx', '.ts', '.tsx', '.mdx'].includes(ext)) {
-            logger.info(`Skipping ${ext} file ${relativePath}`);
-            return;
-          }
-
           pathToSubIndex[absolutePath] = false;
         });
 
