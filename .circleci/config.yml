@@ -110,7 +110,7 @@ jobs:
             - presets
   chromatic:
     executor: sb_node_14_browsers
-    parallelism: 16
+    parallelism: 15
     steps:
       # Keep using default checkout because Chromatic needs some git history to work properly
       - checkout
@@ -124,7 +124,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 16
+    parallelism: 15
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
