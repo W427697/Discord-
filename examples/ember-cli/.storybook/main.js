@@ -44,8 +44,9 @@ module.exports = {
   },
   staticDirs: ['../ember-output'],
   features: {
-    buildStoriesJson: true,
-    breakingChangesV7: true,
+    buildStoriesJson: false,
+    breakingChangesV7: false,
+    storyStoreV7: false,
   },
-  framework: '@storybook/ember',
+  framework: { name: '@storybook/ember' },
 };
