@@ -1415,6 +1415,23 @@ describe('PreviewWeb', () => {
       });
     });
 
+    describe('if called on a storybook without selection', () => {
+      it('sets viewMode to story by default', async () => {
+        await createAndRenderPreview();
+
+        emitter.emit(SET_CURRENT_STORY, {
+          storyId: 'component-one--b',
+        });
+        await waitForSetCurrentStory();
+
+        expect(history.replaceState).toHaveBeenCalledWith(
+          {},
+          '',
+          'pathname?id=component-one--b&viewMode=story'
+        );
+      });
+    });
+
     describe('if the selection is unchanged', () => {
       it('emits STORY_UNCHANGED', async () => {
         document.location.search = '?id=component-one--a';
