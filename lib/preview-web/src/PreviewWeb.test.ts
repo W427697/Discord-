@@ -1,7 +1,7 @@
 import global from 'global';
 import * as ReactDOM from 'react-dom';
 import merge from 'lodash/merge';
-import Events, {
+import {
   CONFIG_ERROR,
   CURRENT_STORY_WAS_SET,
   DOCS_RENDERED,
