@@ -72,6 +72,14 @@ const getFrameworkDetails = (
 
   const builderPackage = getBuilderDetails(builder);
 
+  if (renderer === 'angular') {
+    return {
+      package: rendererPackage,
+      builder: builderPackage,
+      type: 'framework',
+    };
+  }
+
   if (isKnownFramework) {
     return {
       package: frameworkPackage,
@@ -79,6 +87,7 @@ const getFrameworkDetails = (
       type: 'framework',
     };
   }
+
   if (isKnownRenderer) {
     return {
       package: rendererPackage,

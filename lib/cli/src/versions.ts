@@ -20,7 +20,6 @@ export default {
   '@storybook/docs-tools': '6.5.0-rc.1',
   '@storybook/react-vite': '6.5.0-rc.1',
   '@storybook/html-webpack5': '6.5.0-rc.1',
-  '@storybook/manager-webpack5': '6.5.0-rc.1',
   '@storybook/preact-webpack5': '6.5.0-rc.1',
   '@storybook/react-webpack5': '6.5.0-rc.1',
   '@storybook/server-webpack5': '6.5.0-rc.1',
@@ -28,6 +27,7 @@ export default {
   '@storybook/vue-webpack5': '6.5.0-rc.1',
   '@storybook/vue3-webpack5': '6.5.0-rc.1',
   '@storybook/web-components-webpack5': '6.5.0-rc.1',
+  '@storybook/manager-webpack5': '6.5.0-rc.1',
 
   '@storybook/core-vite': '6.5.0-rc.1',
   '@storybook/core-webpack': '6.5.0-rc.1',
