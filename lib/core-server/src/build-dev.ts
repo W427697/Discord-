@@ -111,6 +111,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
 
     const problems = warnings
       .filter((warning) => !warning.message.includes(`export 'useInsertionEffect'`))
+      .filter((warning) => !warning.message.includes(`compilation but it's unused`))
       .filter(
         (warning) => !warning.message.includes(`Conflicting values for 'process.env.NODE_ENV'`)
       );
