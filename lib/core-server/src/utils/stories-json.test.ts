@@ -1,8 +1,10 @@
+import fs from 'fs-extra';
 import { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce';
 import Events from '@storybook/core-events';
+import { loadCsf } from '@storybook/csf-tools';
 
 import { useStoriesJson, DEBOUNCE } from './stories-json';
 import { ServerChannel } from './get-server-channel';
@@ -22,9 +24,14 @@ const normalizedStories = [
   },
 ];
 
+const csfIndexer = async (fileName: string, opts: any) => {
+  const code = (await fs.readFile(fileName, 'utf-8')).toString();
+  return loadCsf(code, { ...opts, fileName }).parse();
+};
+
 const getInitializedStoryIndexGenerator = async () => {
   const generator = new StoryIndexGenerator(normalizedStories, {
-    storyIndexers: [],
+    storyIndexers: [{ test: /\.stories\..*$/, indexer: csfIndexer }],
     configDir: workingDir,
     workingDir,
     storiesV2Compatibility: true,
