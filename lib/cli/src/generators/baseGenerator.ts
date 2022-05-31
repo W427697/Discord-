@@ -147,6 +147,7 @@ export async function baseGenerator(
 
   // temp
   if (type === 'renderer') {
+    console.log({ language, builder, renderer, builderPackage, frameworkPackage, type });
     throw new Error(
       dedent`
         Sorry, for now, you can not do this, please use a framework such as @storybook/react-webpack5
