@@ -5,7 +5,6 @@ import { logger } from '@storybook/node-logger';
 import {
   getPackageDetails,
   JsPackageManagerFactory,
-  PackageJsonWithDepsAndDevDeps,
   PackageJsonWithMaybeDeps,
 } from './js-package-manager';
 import { commandLog } from './helpers';
