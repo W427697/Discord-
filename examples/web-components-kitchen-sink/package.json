@@ -63,7 +63,7 @@
     "babel-plugin-macros": "3.1.0",
     "fork-ts-checker-webpack-plugin": "^7.2.6",
     "sb": "portal:../../lib/cli-sb",
-    "typescript": "^4.6.3"
+    "typescript": "~4.6.3"
   },
   "dependencies": {
     "lit": "^2.0.2"
@@ -86,7 +86,7 @@
     "global": "^4.4.0",
     "jest": "^26.6.3",
     "sb": "*",
-    "typescript": "^4.6.3"
+    "typescript": "~4.6.3"
   },
   "customElements": "custom-elements.json",
   "storybook": {

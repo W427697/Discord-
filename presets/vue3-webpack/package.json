@@ -43,7 +43,7 @@
     "ts-loader": "^9.2.8",
     "vue-docgen-api": "^4.46.0",
     "vue-docgen-loader": "^1.5.1",
-    "vue-loader": "^17.0.0",
+    "vue-loader": "^16.0.0",
     "webpack": "5"
   },
   "devDependencies": {
