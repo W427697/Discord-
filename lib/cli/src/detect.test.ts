@@ -2,7 +2,7 @@ import fs from 'fs';
 
 import { getBowerJson } from './helpers';
 import { isStorybookInstalled, detectFrameworkPreset, detect, detectLanguage } from './detect';
-import { ProjectType, SUPPORTED_FRAMEWORKS, SupportedLanguage } from './project_types';
+import { ProjectType, SUPPORTED_RENDERERS, SupportedLanguage } from './project_types';
 import { readPackageJson } from './js-package-manager';
 
 jest.mock('./helpers', () => ({
@@ -304,7 +304,7 @@ describe('Detect', () => {
       expect(isStorybookInstalled({}, false)).toBe(false);
     });
 
-    SUPPORTED_FRAMEWORKS.forEach((framework) => {
+    SUPPORTED_RENDERERS.forEach((framework) => {
       it(`true if devDependencies has ${framework} Storybook version`, () => {
         const devDependencies = {
           [`@storybook/${framework}`]: '4.0.0-alpha.21',

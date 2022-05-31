@@ -4,7 +4,17 @@ exports[`vue-3-cli preview prod 1`] = `
 Object {
   "entry": Array [
     "ROOT/lib/core-client/dist/esm/globals/globals.js",
-    "ROOT/storybook-config-entry.js",
+    "ROOT/storybook-init-framework-entry.js",
+    "ROOT/renderers/vue3/preview.js-generated-config-entry.js",
+    "ROOT/addons/links/preview.js-generated-config-entry.js",
+    "ROOT/addons/docs/preview.js-generated-config-entry.js",
+    "ROOT/addons/actions/preview.js-generated-config-entry.js",
+    "ROOT/addons/backgrounds/preview.js-generated-config-entry.js",
+    "ROOT/addons/measure/preview.js-generated-config-entry.js",
+    "ROOT/addons/outline/preview.js-generated-config-entry.js",
+    "ROOT/addons/interactions/preview.js-generated-config-entry.js",
+    "ROOT/examples/vue-3-cli/.storybook/preview.ts-generated-config-entry.js",
+    "ROOT/generated-stories-entry.cjs",
   ],
   "keys": Array [
     "name",
