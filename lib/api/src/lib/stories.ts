@@ -128,6 +128,11 @@ export interface StoryIndex {
   stories: Record<StoryId, StoryIndexStory>;
 }
 
+export interface StoryKey {
+  id: StoryId;
+  refId?: string;
+}
+
 export type SetStoriesPayload =
   | {
       v: 2;
