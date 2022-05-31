@@ -158,7 +158,7 @@ const runTests = async ({ name, ...rest }: Parameters) => {
     const targetFolder = path.join(siblingDir, `${name}`);
     const commandArgs = [
       targetFolder,
-      `--framework ${options.framework}`,
+      `--renderer ${options.renderer}`,
       `--template ${options.name}`,
       '--e2e',
     ];
@@ -173,7 +173,7 @@ const runTests = async ({ name, ...rest }: Parameters) => {
       command,
       { cwd: siblingDir },
       {
-        startMessage: `👷 Bootstrapping ${options.framework} project`,
+        startMessage: `👷 Bootstrapping ${options.renderer} project`,
         errorMessage: `🚨 Unable to bootstrap project`,
       }
     );
