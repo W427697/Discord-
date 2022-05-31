@@ -45,7 +45,7 @@ describe('Vision Simulator', () => {
     );
   });
 
-  it('should set filter', async () => {
+  it.skip('should set filter', async () => {
     // given
     render(<ThemedVisionSimulator />);
     await waitFor(() => expect(screen.getByTitle('Vision simulator')).toBeInTheDocument());
