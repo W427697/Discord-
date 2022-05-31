@@ -19,8 +19,9 @@ module.exports = {
   },
   staticDirs: ['../public'],
   features: {
-    buildStoriesJson: true,
-    breakingChangesV7: true,
+    buildStoriesJson: false,
+    breakingChangesV7: false,
+    storyStoreV7: false,
   },
   framework: '@storybook/vue-webpack5',
 };
