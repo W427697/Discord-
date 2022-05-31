@@ -200,7 +200,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   }
 
   onSetCurrentStory(selection: Selection) {
-    this.urlStore.setSelection(selection);
+    this.urlStore.setSelection({ viewMode: 'story', ...selection });
     this.channel.emit(CURRENT_STORY_WAS_SET, this.urlStore.selection);
     this.renderSelection();
   }
