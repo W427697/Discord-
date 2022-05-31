@@ -13,13 +13,18 @@ import {
   CoreBuilder,
 } from './project_types';
 import { getBowerJson, paddedLog } from './helpers';
-import { PackageJson, readPackageJson, JsPackageManager } from './js-package-manager';
+import {
+  PackageJson,
+  readPackageJson,
+  JsPackageManager,
+  PackageJsonWithMaybeDeps,
+} from './js-package-manager';
 import { detectNextJS } from './detect-nextjs';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 
 const hasDependency = (
-  packageJson: PackageJson,
+  packageJson: PackageJsonWithMaybeDeps,
   name: string,
   matcher?: (version: string) => boolean
 ) => {
@@ -31,7 +36,7 @@ const hasDependency = (
 };
 
 const hasPeerDependency = (
-  packageJson: PackageJson,
+  packageJson: PackageJsonWithMaybeDeps,
   name: string,
   matcher?: (version: string) => boolean
 ) => {
@@ -45,7 +50,7 @@ const hasPeerDependency = (
 type SearchTuple = [string, (version: string) => boolean | undefined];
 
 const getFrameworkPreset = (
-  packageJson: PackageJson,
+  packageJson: PackageJsonWithMaybeDeps,
   framework: TemplateConfiguration
 ): ProjectType | null => {
   const matcher: TemplateMatcher = {
@@ -91,7 +96,9 @@ const getFrameworkPreset = (
   return matcherFunction(matcher) ? preset : null;
 };
 
-export function detectFrameworkPreset(packageJson = {} as PackageJson) {
+export function detectFrameworkPreset(
+  packageJson = {} as PackageJsonWithMaybeDeps
+): ProjectType | null {
   const result = [...supportedTemplates, unsupportedTemplate].find((framework) => {
     return getFrameworkPreset(packageJson, framework) !== null;
   });
@@ -124,7 +131,10 @@ export function detectBuilder(packageManager: JsPackageManager) {
   return CoreBuilder.Webpack5;
 }
 
-export function isStorybookInstalled(dependencies: PackageJson | false, force?: boolean) {
+export function isStorybookInstalled(
+  dependencies: Pick<PackageJson, 'devDependencies'> | false,
+  force?: boolean
+) {
   if (!dependencies) {
     return false;
   }

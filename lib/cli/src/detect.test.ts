@@ -3,7 +3,7 @@ import fs from 'fs';
 import { getBowerJson } from './helpers';
 import { isStorybookInstalled, detectFrameworkPreset, detect, detectLanguage } from './detect';
 import { ProjectType, SUPPORTED_RENDERERS, SupportedLanguage } from './project_types';
-import { readPackageJson } from './js-package-manager';
+import { PackageJsonWithMaybeDeps, readPackageJson } from './js-package-manager';
 
 jest.mock('./helpers', () => ({
   getBowerJson: jest.fn(),
@@ -25,7 +25,10 @@ jest.mock('path', () => ({
   join: jest.fn((_, p) => p),
 }));
 
-const MOCK_FRAMEWORK_FILES = [
+const MOCK_FRAMEWORK_FILES: {
+  name: string;
+  files: Record<'package.json', PackageJsonWithMaybeDeps> | Record<string, string>;
+}[] = [
   {
     name: ProjectType.SFC_VUE,
     files: {
@@ -344,7 +347,9 @@ describe('Detect', () => {
           return Object.keys(structure.files).includes(filePath);
         });
 
-        const result = detectFrameworkPreset(structure.files['package.json']);
+        const result = detectFrameworkPreset(
+          structure.files['package.json'] as PackageJsonWithMaybeDeps
+        );
 
         expect(result).toBe(structure.name);
       });
