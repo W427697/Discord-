@@ -3,8 +3,8 @@
   "version": "6.5.0-rc.1",
   "private": true,
   "scripts": {
+    "--build-storybook": "yarn storybook-prebuild && sb build",
     "build": "ember build --output-path ember-output",
-    "build-storybook": "yarn storybook-prebuild && sb build",
     "dev": "ember serve",
     "storybook": "yarn build && yarn sb dev -p 9009 --no-manager-cache",
     "storybook-prebuild": "yarn build && shx cp -r public/* ember-output",
@@ -57,7 +57,7 @@
   "engines": {
     "node": "^4.5 || 6.* || >= 7.*"
   },
-  "storybook": {
+  "--storybook": {
     "chromatic": {
       "projectToken": "19z23qxndju"
     }
