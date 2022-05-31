@@ -254,6 +254,12 @@ To convert this project to 7.0:
 }
 ```
 
+The new CLI commands remove the following flags:
+
+| flag     | migration                                                                                     |
+| -------- | --------------------------------------------------------------------------------------------- |
+| --modern | No migration needed. [All ESM code is modern in SB7](#modern-esm--ie11-support-discontinued). |
+
 #### storyStoreV7 enabled by default
 
 SB6.4 introduced [Story Store V7](#story-store-v7), an optimization which allows code splitting for faster build and load times. This was an experimental, opt-in change and you can read more about it in [the migration notes below](#story-store-v7). TLDR: you can't use the legacy `storiesOf` API or dynamic titles in CSF.
