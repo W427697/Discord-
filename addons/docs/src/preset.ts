@@ -123,6 +123,7 @@ export async function webpack(
             },
             {
               loader: mdxLoader,
+              options: { ...mdxLoaderOptions, skipCsf: false },
             },
           ],
         },
