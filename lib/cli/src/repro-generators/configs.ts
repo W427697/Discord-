@@ -69,7 +69,10 @@ export const react_legacy_root_api: Parameters = {
   renderer: 'react',
   name: 'react_legacy_root_api',
   version: 'latest',
-  generator: fromDeps('react', 'react-dom'),
+  generator: [
+    fromDeps('react', 'react-dom', '@babel/preset-react'),
+    'echo "{"presets": ["@babel/preset-react"]}" > .babelrc',
+  ].join(' && '),
   additionalDeps: ['prop-types'],
   mainOverrides: {
     reactOptions: {
