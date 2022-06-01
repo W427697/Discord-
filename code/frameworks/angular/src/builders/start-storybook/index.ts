@@ -25,6 +25,7 @@ import { buildStandaloneErrorHandler } from '../utils/build-standalone-errors-ha
 export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
   tsConfig?: string;
+  docsMode: boolean;
   compodoc: boolean;
   compodocArgs: string[];
   styles?: ExtraEntryPoint[];
@@ -42,7 +43,6 @@ export type StorybookBuilderOptions = JsonObject & {
     | 'smokeTest'
     | 'ci'
     | 'quiet'
-    | 'docs'
   >;
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
@@ -70,7 +70,7 @@ function commandBuilder(
         styles,
         ci,
         configDir,
-        docs,
+        docsMode,
         host,
         https,
         port,
@@ -85,7 +85,7 @@ function commandBuilder(
         packageJson: readUpSync({ cwd: __dirname }).packageJson,
         ci,
         configDir,
-        docs,
+        docsMode,
         host,
         https,
         port,
