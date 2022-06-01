@@ -21,6 +21,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angelblock/fillings@npm:^0.0.2":
+  version: 0.0.2
+  resolution: "@angelblock/fillings@npm:0.0.2"
+  peerDependencies:
+    "@vanilla-extract/css": ^1.7.0
+    "@vanilla-extract/dynamic": ^2.0.2
+  checksum: 617160564261af1bad5fd22f26415bee7a8bbc9b89d9ef909a2313c14d311638411c70af83d61de548c2e4f3be819af5fd6b098a81a17ff4d9f7eeafd268cf85
+  languageName: node
+  linkType: hard
+
 "@angular-devkit/architect@npm:0.1102.18, @angular-devkit/architect@npm:~0.1102.0":
   version: 0.1102.18
   resolution: "@angular-devkit/architect@npm:0.1102.18"
@@ -6179,15 +6189,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-polymorphic@npm:^0.0.14":
-  version: 0.0.14
-  resolution: "@radix-ui/react-polymorphic@npm:0.0.14"
-  peerDependencies:
-    react: ^16.8 || ^17.0
-  checksum: c342ce1a2415d6d9646f5da2333ec0f18cae573f617d87fd33421100f9d054d3c47cd9a1a022b25572f858a4b54244628d404caa76b49d6678843733429659df
-  languageName: node
-  linkType: hard
-
 "@rollup/plugin-babel@npm:^5.3.1":
   version: 5.3.1
   resolution: "@rollup/plugin-babel@npm:5.3.1"
@@ -7218,7 +7219,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/blocks@workspace:lib/blocks"
   dependencies:
-    "@radix-ui/react-polymorphic": ^0.0.14
+    "@angelblock/fillings": ^0.0.2
     "@storybook/addon-essentials": 6.5.0-beta.4
     "@storybook/client-logger": 6.5.0-beta.4
     "@storybook/components": 6.5.0-beta.4
@@ -7239,7 +7240,6 @@ __metadata:
     polished: ^4.2.2
     rainbow-sprinkles: ^0.9.3
     react-colorful: ^5.1.2
-    react-polymorphic-types: ^2.0.0
     regenerator-runtime: ^0.13.7
     sb: 6.5.0-beta.4
     ts-dedent: ^2.0.0
@@ -38275,15 +38275,6 @@ __metadata:
   peerDependencies:
     moment: ">=1.6.0"
   checksum: eb4b8234954f713864a41f27d349288433768caa46810e39e94c97893996efe54ad8f9677bb570323b0238936785d78f2b1791ccf6fa57bb5dad91e291df7ab2
-  languageName: node
-  linkType: hard
-
-"react-polymorphic-types@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "react-polymorphic-types@npm:2.0.0"
-  peerDependencies:
-    "@types/react": ">=16.8.6"
-  checksum: c27b49001fcb8b15e948a657a308165b0e99736cd3daf493b390c795f448be9499dc12d01bfe2958cf78da21269d76866b2473726366508b417171dfa61c4b71
   languageName: node
   linkType: hard
 

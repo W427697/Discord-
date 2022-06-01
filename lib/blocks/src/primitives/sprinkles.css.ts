@@ -1,5 +1,5 @@
 import { defineProperties, createSprinkles } from '@vanilla-extract/sprinkles';
-import { createFillings } from '../fillings';
+import { createFillings } from '@angelblock/fillings';
 // import { vars } from './vars.css';
 
 const responsiveConditions = {

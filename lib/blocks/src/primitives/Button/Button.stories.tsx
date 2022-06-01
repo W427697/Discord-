@@ -6,4 +6,14 @@ export default {
   component: Button,
 };
 
-export const Simple = () => <Button>test</Button>;
+export const Simple = () => <Button>Test</Button>;
+
+export const CustomStyles = () => (
+  <Button
+    css={{
+      background: 'blue-200',
+    }}
+  >
+    Test
+  </Button>
+);
