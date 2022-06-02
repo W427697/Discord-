@@ -124,7 +124,7 @@ const baseAngular: Parameters = {
   framework: 'angular',
   name: 'angular',
   version: 'latest',
-  generator: `npx -p @angular/cli@{{version}} ng new {{appName}} --routing=true --minimal=true --style=scss --skipInstall=true --strict`,
+  generator: `npx -p @angular/cli@{{version}} ng new {{appName}} --routing=true --minimal=true --style=scss --skip-install=true --strict`,
 };
 
 export const angular10: Parameters = {
