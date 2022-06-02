@@ -66,8 +66,9 @@ export const react: Parameters = {
   renderer: 'react',
   name: 'react',
   version: 'latest',
-  generator: fromDeps('react', 'react-dom'),
+  generator: fromDeps('react', 'react-dom', '@babel/preset-react'),
   additionalDeps: ['prop-types'],
+  additionalFiles: [{ path: '.babelrc', contents: '{ "presets": ["@babel/preset-react"] }' }],
 };
 
 export const react_legacy_root_api: Parameters = {
