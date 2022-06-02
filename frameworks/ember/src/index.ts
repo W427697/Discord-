@@ -7,7 +7,7 @@ export {
   getStorybook,
   forceReRender,
   raw,
-} from './preview';
+} from './client/preview';
 
 // optimization: stop HMR propagation in webpack
 module?.hot?.decline();

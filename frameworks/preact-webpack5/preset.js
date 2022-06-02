@@ -1,1 +1,1 @@
-module.exports = require('./dist/cjs/server/preset');
+module.exports = require('./dist/cjs/preset');

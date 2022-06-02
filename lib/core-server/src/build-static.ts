@@ -13,7 +13,6 @@ import type {
   CLIOptions,
   BuilderOptions,
   Options,
-  Builder,
   StorybookConfig,
   CoreConfig,
 } from '@storybook/core-common';

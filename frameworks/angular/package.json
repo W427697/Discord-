@@ -20,9 +20,9 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/types/client/index.js",
-  "module": "dist/types/client/index.js",
-  "types": "dist/types/client/index.d.ts",
+  "main": "dist/types/index.js",
+  "module": "dist/types/index.js",
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",

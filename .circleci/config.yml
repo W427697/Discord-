@@ -192,7 +192,7 @@ jobs:
     executor:
       class: large
       name: sb_cypress_8_node_14
-    parallelism: 15
+    parallelism: 8
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
