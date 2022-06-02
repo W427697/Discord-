@@ -14,7 +14,7 @@ async function getPreviewBuilder(builderName: string, configDir: string) {
       { paths: [configDir] }
     );
   } else {
-    builderPackage = require.resolve('@storybook/builder-webpack5');
+    throw new Error('no builder configured!');
   }
   const previewBuilder = await import(builderPackage);
   return previewBuilder;

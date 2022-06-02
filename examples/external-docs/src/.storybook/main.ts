@@ -17,7 +17,6 @@ const config: StorybookConfig = {
     },
   },
   core: {
-    builder: { name: '@storybook/builder-webpack5' },
     channelOptions: { allowFunction: false, maxDepth: 10 },
   },
   features: {

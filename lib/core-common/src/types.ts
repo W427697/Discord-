@@ -34,7 +34,7 @@ export type BuilderConfig =
   | Webpack5BuilderConfig;
 
 export interface CoreConfig {
-  builder: BuilderConfig;
+  builder?: BuilderConfig;
   disableWebpackDefaults?: boolean;
   channelOptions?: Partial<TelejsonOptions>;
   /**

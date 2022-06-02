@@ -25,15 +25,13 @@ export function filterPresetsConfig(presetsConfig: PresetConfig[]): PresetConfig
 function resolvePresetFunction<T = any>(
   input: T[] | Function,
   presetOptions: any,
-  framework: T,
   storybookOptions: InterPresetOptions
 ): T[] {
-  const prepend = [framework as unknown as T].filter(Boolean);
   if (isFunction(input)) {
-    return [...prepend, ...input({ ...storybookOptions, ...presetOptions })];
+    return [...input({ ...storybookOptions, ...presetOptions })];
   }
   if (Array.isArray(input)) {
-    return [...prepend, ...input];
+    return [...input];
   }
 
   return [];
@@ -195,20 +193,17 @@ export function loadPreset(
     if (isObject(contents)) {
       const { addons: addonsInput, presets: presetsInput, ...rest } = contents;
 
-      const subPresets = resolvePresetFunction(
-        presetsInput,
-        presetOptions,
-        rest.framework,
-        storybookOptions
-      );
-      const subAddons = resolvePresetFunction(
-        addonsInput,
-        presetOptions,
-        rest.framework,
-        storybookOptions
-      );
+      const subPresets = resolvePresetFunction(presetsInput, presetOptions, storybookOptions);
+      const subAddons = resolvePresetFunction(addonsInput, presetOptions, storybookOptions);
 
       return [
+        ...loadPresets(
+          rest.framework
+            ? [resolveAddonName(storybookOptions.configDir, rest.framework, storybookOptions)]
+            : [],
+          level + 1,
+          storybookOptions
+        ),
         ...loadPresets([...subPresets], level + 1, storybookOptions),
         ...loadPresets(
           [...subAddons.map(map(storybookOptions))].filter(Boolean),

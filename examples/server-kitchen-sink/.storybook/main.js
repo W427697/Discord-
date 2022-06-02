@@ -10,7 +10,6 @@ module.exports = {
     '@storybook/addon-controls',
   ],
   core: {
-    builder: '@storybook/builder-webpack5',
     disableTelemetry: true,
   },
   framework: '@storybook/server-webpack5',

@@ -14,7 +14,6 @@ module.exports = {
     '@storybook/addon-toolbars',
   ],
   core: {
-    builder: '@storybook/builder-webpack5',
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },

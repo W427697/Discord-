@@ -13,7 +13,6 @@ module.exports = {
     '@storybook/addon-a11y',
   ],
   core: {
-    builder: '@storybook/builder-webpack5',
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
