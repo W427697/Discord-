@@ -13,6 +13,11 @@ export interface Parameters {
   autoDetect?: boolean;
   /** Dependencies to add before building Storybook */
   additionalDeps?: string[];
+  /** Files to add before building Storybook */
+  additionalFiles?: {
+    path: string;
+    contents: string;
+  }[];
   /** Add typescript dependency and creates a tsconfig.json file */
   typescript?: boolean;
   /** Merge configurations to main.js before running the tests */
