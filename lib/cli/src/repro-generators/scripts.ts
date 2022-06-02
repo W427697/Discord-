@@ -165,7 +165,7 @@ const generate = async ({ cwd, name, appName, version, generator }: Options) => 
 };
 
 const addAdditionalFiles = async ({ additionalFiles, cwd }: Options) => {
-  if (additionalFiles && additionalFiles.length === 0) {
+  if (!additionalFiles || additionalFiles.length === 0) {
     return;
   }
 
