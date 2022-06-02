@@ -21,13 +21,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angelblock/fillings@npm:^0.0.2":
-  version: 0.0.2
-  resolution: "@angelblock/fillings@npm:0.0.2"
+"@angelblock/fillings@npm:^0.0.3":
+  version: 0.0.3
+  resolution: "@angelblock/fillings@npm:0.0.3"
   peerDependencies:
     "@vanilla-extract/css": ^1.7.0
     "@vanilla-extract/dynamic": ^2.0.2
-  checksum: 617160564261af1bad5fd22f26415bee7a8bbc9b89d9ef909a2313c14d311638411c70af83d61de548c2e4f3be819af5fd6b098a81a17ff4d9f7eeafd268cf85
+  checksum: abdf75cc37e6efcf7e284c06641f9737df9dd46316836ea522bbf4d5fda3918419793caa4c9fdbe674e45d69d2f1909c8eeab466612aaecf4b12e562bd56917d
   languageName: node
   linkType: hard
 
@@ -7219,7 +7219,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/blocks@workspace:lib/blocks"
   dependencies:
-    "@angelblock/fillings": ^0.0.2
+    "@angelblock/fillings": ^0.0.3
     "@storybook/addon-essentials": 6.5.0-beta.4
     "@storybook/client-logger": 6.5.0-beta.4
     "@storybook/components": 6.5.0-beta.4

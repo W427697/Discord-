@@ -42,7 +42,7 @@
     "storybook": "sb dev"
   },
   "dependencies": {
-    "@angelblock/fillings": "^0.0.2",
+    "@angelblock/fillings": "^0.0.3",
     "@storybook/client-logger": "6.5.0-beta.4",
     "@storybook/components": "6.5.0-beta.4",
     "@storybook/csf": "0.0.2--canary.7c6c115.0",
