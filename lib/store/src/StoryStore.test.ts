@@ -1,5 +1,4 @@
 import type { AnyFramework, ProjectAnnotations } from '@storybook/csf';
-import global from 'global';
 
 import { prepareStory } from './csf/prepareStory';
 import { processCSFFile } from './csf/processCSFFile';

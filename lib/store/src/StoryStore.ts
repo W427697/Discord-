@@ -11,7 +11,6 @@ import type {
 } from '@storybook/csf';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
-import global from 'global';
 import { SynchronousPromise } from 'synchronous-promise';
 
 import { StoryIndexStore } from './StoryIndexStore';
@@ -264,7 +263,6 @@ export class StoryStore<TFramework extends AnyFramework> {
 
   getStoriesJsonData = () => {
     const value = this.getSetStoriesPayload();
-    const allowedParameters = ['fileName', 'docsOnly', 'framework', '__id', '__isArgsStory'];
 
     const stories: Record<StoryId, StoryIndexEntry | V2CompatIndexEntry> = mapValues(
       value.stories,
