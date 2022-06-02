@@ -41,7 +41,6 @@ module.exports = {
   staticDirs: ['../src/assets'],
   features: {
     buildStoriesJson: false,
-    breakingChangesV7: false,
     storyStoreV7: false,
   },
   framework: {

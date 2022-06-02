@@ -28,7 +28,6 @@ module.exports = {
   },
   features: {
     buildStoriesJson: true,
-    breakingChangesV7: true,
   }, // Test code for built-in stories.json extraction
   //
   // refs: {

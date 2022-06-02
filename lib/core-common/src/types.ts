@@ -334,11 +334,6 @@ export interface StorybookConfig {
     storyStoreV7?: boolean;
 
     /**
-     * Enable a set of planned breaking changes for SB7.0
-     */
-    breakingChangesV7?: boolean;
-
-    /**
      * Enable the step debugger functionality in Addon-interactions.
      */
     interactionsDebugger?: boolean;

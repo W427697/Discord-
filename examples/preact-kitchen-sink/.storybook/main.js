@@ -29,7 +29,6 @@ module.exports = {
   staticDirs: ['../public'],
   features: {
     buildStoriesJson: true,
-    breakingChangesV7: true,
   },
   framework: '@storybook/preact-webpack5',
 };

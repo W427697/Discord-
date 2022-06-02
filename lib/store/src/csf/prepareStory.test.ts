@@ -12,9 +12,7 @@ import { prepareStory } from './prepareStory';
 
 jest.mock('global', () => ({
   ...(jest.requireActual('global') as any),
-  FEATURES: {
-    breakingChangesV7: true,
-  },
+  FEATURES: {},
 }));
 
 const id = 'id';
@@ -39,10 +37,6 @@ const complexType: SBObjectType = {
     },
   },
 };
-
-beforeEach(() => {
-  global.FEATURES = { breakingChangesV7: true };
-});
 
 describe('prepareStory', () => {
   describe('parameters', () => {
@@ -478,7 +472,7 @@ describe('prepareStory', () => {
 
   describe('with `FEATURES.argTypeTargetsV7`', () => {
     beforeEach(() => {
-      global.FEATURES = { breakingChangesV7: true, argTypeTargetsV7: true };
+      global.FEATURES = { argTypeTargetsV7: true };
     });
     it('filters out targeted args', () => {
       const renderMock = jest.fn();

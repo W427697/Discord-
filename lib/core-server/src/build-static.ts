@@ -113,7 +113,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
 
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
-      storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+      storiesV2Compatibility: false,
       storyStoreV7: features?.storyStoreV7,
     });
 

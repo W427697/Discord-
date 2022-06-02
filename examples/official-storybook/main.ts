@@ -40,7 +40,6 @@ const config: StorybookConfig = {
   features: {
     modernInlineRender: true,
     interactionsDebugger: true,
-    breakingChangesV7: false,
     storyStoreV7: false,
   },
   staticDirs: [

@@ -33,7 +33,6 @@ module.exports = {
   staticDirs: ['../public'],
   features: {
     buildStoriesJson: true,
-    breakingChangesV7: true,
   },
   framework: '@storybook/react-webpack5',
 };

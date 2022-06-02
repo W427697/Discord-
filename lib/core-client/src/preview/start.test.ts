@@ -27,9 +27,6 @@ jest.mock('global', () => ({
       search: '?id=*',
     },
   },
-  FEATURES: {
-    breakingChangesV7: true,
-  },
 }));
 
 jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));

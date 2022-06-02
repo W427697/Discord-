@@ -41,11 +41,7 @@ export const mainjsFramework: Fix<MainjsFrameworkRunOptions> = {
 
     if (currentFramework) return null;
 
-    return features?.breakingChangesV7 ||
-      features?.storyStoreV7 ||
-      semver.gte(storybookCoerced, '7.0.0')
-      ? { main, framework: `@storybook/${framework}` }
-      : null;
+    return { main, framework: `@storybook/${framework}` };
   },
 
   prompt({ framework }) {

@@ -39,8 +39,6 @@ module.exports = {
     disableTelemetry: true,
   },
   staticDirs: ['../public'],
-  features: {
-    breakingChangesV7: true,
-  },
+  features: {},
   framework: '@storybook/svelte-webpack5',
 };

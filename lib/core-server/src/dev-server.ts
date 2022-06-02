@@ -52,7 +52,7 @@ export async function storybookDevServer(options: Options) {
       const generator = new StoryIndexGenerator(normalizedStories, {
         ...directories,
         workingDir,
-        storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+        storiesV2Compatibility: false,
         storyStoreV7: features?.storyStoreV7,
       });
 

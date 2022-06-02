@@ -17,9 +17,6 @@ jest.mock('./csf/processCSFFile', () => ({
 
 jest.mock('global', () => ({
   ...(jest.requireActual('global') as any),
-  FEATURES: {
-    breakingChangesV7: true,
-  },
 }));
 
 const componentOneExports = {
@@ -865,68 +862,6 @@ describe('StoryStore', () => {
   });
 
   describe('getStoriesJsonData', () => {
-    describe('in back-compat mode', () => {
-      beforeEach(() => {
-        global.FEATURES.breakingChangesV7 = false;
-      });
-      afterEach(() => {
-        global.FEATURES.breakingChangesV7 = true;
-      });
-      it('maps stories list to payload correctly', async () => {
-        const store = new StoryStore();
-        store.setProjectAnnotations(projectAnnotations);
-        store.initialize({ storyIndex, importFn, cache: false });
-        await store.cacheAllCSFFiles();
-
-        expect(store.getStoriesJsonData()).toMatchInlineSnapshot(`
-          Object {
-            "stories": Object {
-              "component-one--a": Object {
-                "id": "component-one--a",
-                "importPath": "./src/ComponentOne.stories.js",
-                "kind": "Component One",
-                "name": "A",
-                "parameters": Object {
-                  "__id": "component-one--a",
-                  "__isArgsStory": false,
-                  "fileName": "./src/ComponentOne.stories.js",
-                },
-                "story": "A",
-                "title": "Component One",
-              },
-              "component-one--b": Object {
-                "id": "component-one--b",
-                "importPath": "./src/ComponentOne.stories.js",
-                "kind": "Component One",
-                "name": "B",
-                "parameters": Object {
-                  "__id": "component-one--b",
-                  "__isArgsStory": false,
-                  "fileName": "./src/ComponentOne.stories.js",
-                },
-                "story": "B",
-                "title": "Component One",
-              },
-              "component-two--c": Object {
-                "id": "component-two--c",
-                "importPath": "./src/ComponentTwo.stories.js",
-                "kind": "Component Two",
-                "name": "C",
-                "parameters": Object {
-                  "__id": "component-two--c",
-                  "__isArgsStory": false,
-                  "fileName": "./src/ComponentTwo.stories.js",
-                },
-                "story": "C",
-                "title": "Component Two",
-              },
-            },
-            "v": 3,
-          }
-        `);
-      });
-    });
-
     describe('in non-back-compat mode', () => {
       it('maps stories list to payload correctly', async () => {
         const store = new StoryStore();

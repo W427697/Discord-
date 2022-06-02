@@ -20,7 +20,6 @@ module.exports = {
   staticDirs: ['../public'],
   features: {
     buildStoriesJson: false,
-    breakingChangesV7: false,
     storyStoreV7: false,
   },
   framework: '@storybook/vue-webpack5',

@@ -55,8 +55,6 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
           ...this.store.getStoryContext(renderedStory),
           viewMode: 'docs' as ViewMode,
         } as StoryContextForLoaders<TFramework>),
-      // Put all the storyContext fields onto the docs context for back-compat
-      ...(!global.FEATURES?.breakingChangesV7 && this.store.getStoryContext(this.story)),
     };
 
     return this.render();
