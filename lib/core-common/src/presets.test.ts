@@ -479,11 +479,6 @@ describe('loadPreset', () => {
           "preset": Object {},
         },
         Object {
-          "name": "@storybook/react",
-          "options": Object {},
-          "preset": Object {},
-        },
-        Object {
           "name": "@storybook/addon-docs/preset",
           "options": Object {},
           "preset": Object {},
