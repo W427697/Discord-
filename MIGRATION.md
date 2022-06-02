@@ -370,6 +370,7 @@ In 7.0 we've removed the following feature flags:
 | flag           | migration instructions                               |
 | -------------- | ---------------------------------------------------- |
 | `emotionAlias` | This flag is no longer needed and should be deleted. |
+| `breakingChangesV7` | This flag is no longer needed and should be deleted. |
 
 ## From version 6.4.x to 6.5.0
 
