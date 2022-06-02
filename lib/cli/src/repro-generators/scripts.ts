@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import path from 'path';
-import { readJSON, writeJSON } from 'fs-extra';
+import { readJSON, writeJSON, outputFile } from 'fs-extra';
 import shell, { ExecOptions } from 'shelljs';
 import chalk from 'chalk';
 import { command } from 'execa';
@@ -24,6 +24,11 @@ export interface Parameters {
   ensureDir?: boolean;
   /** Dependencies to add before building Storybook */
   additionalDeps?: string[];
+  /** Files to add before building Storybook */
+  additionalFiles?: {
+    path: string;
+    contents: string;
+  }[];
   /** Add typescript dependency and creates a tsconfig.json file */
   typescript?: boolean;
 }
@@ -159,6 +164,18 @@ const generate = async ({ cwd, name, appName, version, generator }: Options) => 
   );
 };
 
+const addAdditionalFiles = async ({ additionalFiles, cwd }: Options) => {
+  if (additionalFiles && additionalFiles.length === 0) {
+    return;
+  }
+
+  logger.info(`⤵️ Adding required files`);
+
+  additionalFiles.forEach(async (file) => {
+    await outputFile(path.resolve(cwd, file.path), file.contents, { encoding: 'UTF-8' });
+  });
+};
+
 const initStorybook = async ({ cwd, autoDetect = true, name, e2e }: Options) => {
   const type = autoDetect ? '' : `--type ${name}`;
   const linkable = e2e ? '' : '--linkable';
@@ -251,6 +268,7 @@ export const createAndInit = async (
   logger.log();
 
   await doTask(generate, { ...options, cwd: options.creationPath });
+  await doTask(addAdditionalFiles, { ...options, cwd });
   if (e2e) {
     await doTask(addPackageResolutions, options);
   }

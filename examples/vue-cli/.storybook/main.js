@@ -12,6 +12,7 @@ module.exports = {
     disableTelemetry: true,
   },
   features: {
+    storyStoreV7: true,
     buildStoriesJson: true,
     breakingChangesV7: true,
   },
