@@ -37,7 +37,6 @@ export const mainjsFramework: Fix<MainjsFrameworkRunOptions> = {
 
     const main = await readConfig(mainConfig);
     const currentFramework = main.getFieldValue(['framework']);
-    const features = main.getFieldValue(['features']);
 
     if (currentFramework) return null;
 
