@@ -67,7 +67,7 @@ export const lightTheme = createTheme(theme, {
   colors: {
     background: 'white',
     text: 'black',
-    muted: '#efefef',
+    muted: '#999',
   },
 });
 
@@ -76,7 +76,7 @@ export const darkTheme = createTheme(theme, {
   colors: {
     background: 'black',
     text: 'white',
-    muted: '#333',
+    muted: '#ccc',
   },
 });
 

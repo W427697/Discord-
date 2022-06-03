@@ -3,7 +3,7 @@ import { transparentize } from 'polished';
 import { styled } from '@storybook/theming';
 import { withReset } from '@storybook/components';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
-import { Box, Stack } from './primitives';
+import { Box, Stack, Text } from './primitives';
 
 const Label = styled.div<{}>(({ theme }) => ({
   marginRight: 30,
@@ -63,7 +63,7 @@ export const Typeset: FunctionComponent<TypesetProps> = ({
             background: 'background',
           }}
         >
-          <Box>{size}</Box>
+          <Text variant="caption">{size}</Text>
           <Sample
             style={{
               fontFamily,

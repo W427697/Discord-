@@ -1,19 +1,20 @@
 import { recipe } from '@vanilla-extract/recipes';
+import { vars } from '../theme.css';
 
 export const text = recipe({
   base: {
-    fontSize: 'medium',
+    fontSize: vars.fontSizes.medium,
   },
 
   variants: {
     variant: {
       body: {
-        color: 'text',
-        fontSize: 'medium',
+        color: vars.colors.text,
+        fontSize: vars.fontSizes.medium,
       },
       caption: {
-        color: 'muted',
-        fontSize: 'small',
+        color: vars.colors.muted,
+        fontSize: vars.fontSizes.small,
       },
     },
   },
