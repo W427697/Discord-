@@ -75,11 +75,9 @@ export const react_legacy_root_api: Parameters = {
   renderer: 'react',
   name: 'react_legacy_root_api',
   version: 'latest',
-  generator: [
-    fromDeps('react', 'react-dom', '@babel/preset-react'),
-    'echo "{"presets": ["@babel/preset-react"]}" > .babelrc',
-  ].join(' && '),
-  additionalDeps: ['prop-types'],
+  generator: fromDeps('react', 'react-dom'),
+  additionalDeps: ['prop-types', '@babel/preset-react'],
+  additionalFiles: [{ path: '.babelrc', contents: '{ "presets": ["@babel/preset-react"] }' }],
   mainOverrides: {
     reactOptions: {
       legacyRootApi: true,
@@ -93,13 +91,13 @@ export const react_typescript: Parameters = {
   version: 'latest',
   generator: fromDeps('react', 'react-dom'),
   typescript: true,
-};
-
-export const webpack_react: Parameters = {
-  renderer: 'react',
-  name: 'webpack_react',
-  version: 'latest',
-  generator: fromDeps('react', 'react-dom', 'webpack@webpack-4'),
+  additionalDeps: ['@babel/preset-react', '@babel/preset-typescript'],
+  additionalFiles: [
+    {
+      path: '.babelrc',
+      contents: '{ "presets": ["@babel/preset-react", "@babel/preset-typescript"] }',
+    },
+  ],
 };
 
 export const vite_react: Parameters = {
@@ -248,12 +246,7 @@ export const sfcVue: Parameters = {
   name: 'sfcVue',
   version: 'latest',
   //
-  generator: fromDeps(
-    'vue@2.6',
-    'vue-loader@15.9',
-    'vue-template-compiler@2.6',
-    'webpack@webpack-4'
-  ),
+  generator: fromDeps('vue@2.6', 'vue-loader@15.9', 'vue-template-compiler@2.6', 'webpack'),
 };
 
 export const svelte: Parameters = {
