@@ -5,8 +5,6 @@ export const addons: StorybookConfig['addons'] = [
   '@storybook/react',
 ];
 
-console.log(' LOADED THIS ');
-
 export const core = async (config: StorybookConfig['core']) => {
   return {
     ...config,

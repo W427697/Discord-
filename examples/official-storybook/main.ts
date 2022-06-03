@@ -8,11 +8,11 @@ const config: StorybookConfig = {
       titlePrefix: 'Custom Prefix',
     },
     // FIXME: Breaks e2e tests './intro.stories.mdx',
-    '../../lib/ui/src/**/*.stories.@(js|tsx|mdx)',
-    '../../lib/components/src/**/*.stories.@(js|tsx|mdx)',
-    './stories/**/*.stories.@(js|ts|tsx|mdx)',
-    './../../addons/docs/**/*.stories.tsx',
-    './../../addons/interactions/**/*.stories.(tsx|mdx)',
+    '../../lib/ui/src/**/*.stories.@(ts|tsx|js|jsx|mdx)',
+    '../../lib/components/src/**/*.stories.@(ts|tsx|js|jsx|mdx)',
+    './stories/**/*.stories.@(ts|tsx|js|jsx|mdx)',
+    './../../addons/docs/**/*.stories.@(ts|tsx|js|jsx|mdx)',
+    './../../addons/interactions/**/*.stories.@(ts|tsx|js|jsx|mdx)',
   ],
   addons: [
     {

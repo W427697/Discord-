@@ -236,10 +236,6 @@ function loadPresets(
     return [];
   }
 
-  if (!level) {
-    logger.info('=> Loading presets');
-  }
-
   return presets.reduce((acc, preset) => {
     const loaded = loadPreset(preset, level, storybookOptions);
     return acc.concat(loaded);

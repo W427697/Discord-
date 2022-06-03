@@ -73,8 +73,9 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
   }
 
+  logger.info('=> Loading presets');
   let presets = loadAllPresets({
-    corePresets,
+    corePresets: [require.resolve('./presets/common-preset'), ...corePresets],
     overridePresets: [],
     ...options,
   });
@@ -84,9 +85,9 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   presets = loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
-      ...corePresets,
       ...managerBuilder.corePresets,
       ...previewBuilder.corePresets,
+      ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],
     overridePresets: previewBuilder.overridePresets,

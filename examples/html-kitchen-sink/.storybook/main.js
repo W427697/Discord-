@@ -1,6 +1,6 @@
 module.exports = {
   // this dirname is because we run tests from project root
-  stories: ['../stories/**/*.stories.*'],
+  stories: ['../stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
     '@storybook/addon-docs',

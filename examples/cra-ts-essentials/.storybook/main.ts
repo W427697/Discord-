@@ -3,7 +3,7 @@ import type { StorybookConfig } from '@storybook/react-webpack5/types';
 const path = require('path');
 
 const mainConfig: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(tsx|mdx)'],
+  stories: ['../src/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   addons: [
     '@storybook/preset-create-react-app',
     {
