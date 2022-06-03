@@ -27,15 +27,6 @@ export class DocsRenderer extends AbstractRenderer {
       await DocsRenderer.resetPlatformBrowserDynamic();
     });
 
-    /**
-     * Destroy and recreate the PlatformBrowserDynamic of angular
-     * when doc re render. Allows to call ngOnDestroy of angular
-     * for previous component
-     */
-    channel.once(Events.DOCS_RENDERED, async () => {
-      await DocsRenderer.resetPlatformBrowserDynamic();
-    });
-
     await super.render({ ...options, forced: false });
   }
 
