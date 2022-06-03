@@ -3651,7 +3651,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/transform@npm:^27.5.1":
+"@jest/transform@npm:^27.0.0, @jest/transform@npm:^27.5.1":
   version: 27.5.1
   resolution: "@jest/transform@npm:27.5.1"
   dependencies:
@@ -6922,7 +6922,7 @@ __metadata:
     "@angular/core": ^13.3.6
     "@angular/platform-browser-dynamic": ^13.3.6
     "@emotion/jest": ^11.8.0
-    "@jest/transform": ^26.6.2
+    "@jest/transform": ^27.0.0
     "@storybook/addon-docs": 6.5.0-rc.1
     "@storybook/addons": 6.5.0-rc.1
     "@storybook/angular": 6.5.0-rc.1
@@ -6935,8 +6935,8 @@ __metadata:
     "@storybook/vue": 6.5.0-rc.1
     "@storybook/vue3": 6.5.0-rc.1
     "@types/glob": ^7.1.3
-    "@types/jest": ^26.0.16
-    "@types/jest-specific-snapshot": ^0.5.3
+    "@types/jest": ^27.0.0
+    "@types/jest-specific-snapshot": ^0.5.5
     babel-loader: ^8.2.5
     core-js: ^3.8.2
     enzyme: ^3.11.0
@@ -6944,7 +6944,7 @@ __metadata:
     glob: ^7.1.6
     global: ^4.4.0
     jest-preset-angular: ^11.0.0
-    jest-specific-snapshot: ^4.0.0
+    jest-specific-snapshot: ^5.0.0
     jest-vue-preprocessor: ^1.7.1
     preact-render-to-string: ^5.1.19
     pretty-format: ^26.6.2
@@ -10462,7 +10462,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest-specific-snapshot@npm:^0.5.3":
+"@types/jest-specific-snapshot@npm:^0.5.5":
   version: 0.5.5
   resolution: "@types/jest-specific-snapshot@npm:0.5.5"
   dependencies:
@@ -10498,6 +10498,16 @@ __metadata:
     jest-diff: ^26.0.0
     pretty-format: ^26.0.0
   checksum: 1085ac96af43566518daf3aca60cb7881bfe2ffe1f5343738933e386ebf909095fde15273c3e99c685854dfc833b05b156fb5daf68707c0daa1c0c0db13a665b
+  languageName: node
+  linkType: hard
+
+"@types/jest@npm:^27.0.0":
+  version: 27.5.2
+  resolution: "@types/jest@npm:27.5.2"
+  dependencies:
+    jest-matcher-utils: ^27.0.0
+    pretty-format: ^27.0.0
+  checksum: 29ef3da9b94a15736a67fc13956f385ac2ba2c6297f50d550446842c278f2e0d9f343dcd8e31c321ada5d8a1bd67bc1d79c7b6ff1802d55508c692123b3d9794
   languageName: node
   linkType: hard
 
