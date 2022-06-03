@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import cpy from 'cpy';
 import fs from 'fs-extra';
-import path from 'path';
+import path, { join } from 'path';
 import dedent from 'ts-dedent';
 import global from 'global';
 
@@ -16,7 +16,12 @@ import type {
   StorybookConfig,
   CoreConfig,
 } from '@storybook/core-common';
-import { loadAllPresets, normalizeStories, logConfig } from '@storybook/core-common';
+import {
+  loadAllPresets,
+  normalizeStories,
+  logConfig,
+  loadMainConfig,
+} from '@storybook/core-common';
 
 import { outputStats } from './utils/output-stats';
 import {
@@ -58,8 +63,18 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
 
   const { getPrebuiltDir } = await import('@storybook/manager-webpack5/prebuilt-manager');
 
+  const { framework } = loadMainConfig(options);
+  const corePresets = [];
+
+  const frameworkName = typeof framework === 'string' ? framework : framework?.name;
+  if (frameworkName) {
+    corePresets.push(join(frameworkName, 'preset'));
+  } else {
+    logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
+  }
+
   let presets = loadAllPresets({
-    corePresets: [],
+    corePresets,
     overridePresets: [],
     ...options,
   });
@@ -69,6 +84,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   presets = loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
+      ...corePresets,
       ...managerBuilder.corePresets,
       ...previewBuilder.corePresets,
       require.resolve('./presets/babel-cache-preset'),
