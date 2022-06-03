@@ -197,13 +197,6 @@ export function loadPreset(
       const subAddons = resolvePresetFunction(addonsInput, presetOptions, storybookOptions);
 
       return [
-        ...loadPresets(
-          rest.framework
-            ? [resolveAddonName(storybookOptions.configDir, rest.framework, storybookOptions)]
-            : [],
-          level + 1,
-          storybookOptions
-        ),
         ...loadPresets([...subPresets], level + 1, storybookOptions),
         ...loadPresets(
           [...subAddons.map(map(storybookOptions))].filter(Boolean),
