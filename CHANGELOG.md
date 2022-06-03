@@ -1,3 +1,15 @@
+## 6.5.7-alpha.0 (June 4, 2022)
+
+### Bug Fixes
+
+- Preview: Default select to `viewMode` story ([#18370](https://github.com/storybookjs/storybook/pull/18370))
+- CLI: Add support for angular/cli@14.0.0 ([#18334](https://github.com/storybookjs/storybook/pull/18334))
+- Vue/Vue3: Fix decorators in StoryStoreV7 ([#18375](https://github.com/storybookjs/storybook/pull/18375))
+
+### Maintenance
+
+- Fix lint warnings in `PreviewWeb` tests ([#18369](https://github.com/storybookjs/storybook/pull/18369))
+
 ## 6.5.6 (May 30, 2022)
 
 ### Bug Fixes
