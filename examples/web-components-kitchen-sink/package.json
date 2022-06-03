@@ -84,7 +84,7 @@
     "@storybook/web-components": "*",
     "@storybook/web-components-webpack5": "*",
     "global": "^4.4.0",
-    "jest": "^26.6.3",
+    "jest": "^27.5.1",
     "sb": "*",
     "typescript": "~4.6.3"
   },

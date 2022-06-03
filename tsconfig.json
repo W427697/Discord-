@@ -5,6 +5,7 @@
     "incremental": false,
     "noImplicitAny": true,
     "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "emitDecoratorMetadata": true,
     "jsx": "react",
     "moduleResolution": "Node",

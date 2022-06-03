@@ -72,8 +72,10 @@ const getReactRoot = async (el: Element): Promise<ReactRoot | null> => {
   let root = nodes.get(el);
 
   if (!root) {
-    // eslint-disable-next-line import/no-unresolved
+    /* eslint-disable import/no-unresolved */
+    // @ts-ignore
     const reactDomClient = (await import('react-dom/client')).default;
+    /* eslint-enable import/no-unresolved */
     root = reactDomClient.createRoot(el);
 
     nodes.set(el, root);

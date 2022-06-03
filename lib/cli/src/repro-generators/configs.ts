@@ -186,6 +186,14 @@ export const web_components: Parameters = {
 export const web_components_typescript: Parameters = {
   ...web_components,
   name: 'web_components_typescript',
+  additionalDeps: ['@babel/preset-typescript'],
+  additionalFiles: [
+    {
+      path: '.babelrc',
+      contents: '{ "presets": ["@babel/preset-typescript"] }',
+    },
+  ],
+
   typescript: true,
 };
 

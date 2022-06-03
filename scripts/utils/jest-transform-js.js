@@ -1,6 +1,8 @@
 const path = require('path');
-const babelJest = require('babel-jest');
+const {
+  default: { createTransformer },
+} = require('babel-jest');
 
-module.exports = babelJest.createTransformer({
+module.exports = createTransformer({
   configFile: path.resolve(__dirname, '../../.babelrc'),
 });

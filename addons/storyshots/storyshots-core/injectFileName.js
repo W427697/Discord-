@@ -9,9 +9,9 @@ const getNextTransformer = (fileName, config) => {
 };
 
 module.exports = {
-  process(src, fileName, config, { instrument }) {
+  process(src, fileName, config) {
     const transformer = getNextTransformer(fileName, config);
-    const { code } = transformer.transformSource(fileName, src, instrument);
+    const { code } = transformer.transformSource(fileName, src);
 
     return `${code};
 if(exports.default != null) {
