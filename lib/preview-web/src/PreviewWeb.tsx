@@ -248,6 +248,10 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     const storyIdChanged = this.currentSelection?.storyId !== storyId;
     const viewModeChanged = this.currentSelection?.viewMode !== selection.viewMode;
 
+    const prevComponentId = this.storyStore.fromId(this.currentSelection?.storyId)?.componentId;
+    const nextComponentId = this.storyStore.fromId(storyId)?.componentId;
+    const hasComponentChanged = prevComponentId !== nextComponentId;
+
     // Show a spinner while we load the next story
     if (selection.viewMode === 'story') {
       this.view.showPreparingStory({ immediate: viewModeChanged });
@@ -317,7 +321,12 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     await this.teardownRender(lastRender, { viewModeChanged });
 
     // If we are rendering something new (as opposed to re-rendering the same or first story), emit
-    if (lastSelection && (storyIdChanged || viewModeChanged)) {
+
+    const hasPreviouslyRendered = !!lastSelection;
+    const storyOrViewModeHasChanged = storyIdChanged || viewModeChanged;
+    const isSamePage = !viewModeChanged && !hasComponentChanged;
+
+    if (hasPreviouslyRendered && storyOrViewModeHasChanged && !isSamePage) {
       this.channel.emit(STORY_CHANGED, storyId);
     }
 
