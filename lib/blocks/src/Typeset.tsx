@@ -3,6 +3,7 @@ import { transparentize } from 'polished';
 import { styled } from '@storybook/theming';
 import { withReset } from '@storybook/components';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
+import { Box, Stack } from './primitives';
 
 const Label = styled.div<{}>(({ theme }) => ({
   marginRight: 30,
@@ -23,7 +24,7 @@ const TypeSpecimen = styled.div({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'baseline',
-  '&:not(:last-child)': { marginBottom: '1rem' },
+  // '&:not(:last-child)': { marginBottom: '1rem' },
 });
 
 const Wrapper = styled.div<{}>(withReset, ({ theme }) => ({
@@ -50,21 +51,31 @@ export const Typeset: FunctionComponent<TypesetProps> = ({
   sampleText,
   ...props
 }) => (
-  <Wrapper {...props} className="docblock-typeset">
-    {fontSizes.map((size) => (
-      <TypeSpecimen key={size}>
-        <Label>{size}</Label>
-        <Sample
-          style={{
-            fontFamily,
-            fontSize: size,
-            fontWeight,
-            lineHeight: 1.2,
+  <Box className="docblock-typeset" {...props}>
+    <Stack gap="large">
+      {fontSizes.map((size) => (
+        <Stack
+          key={size}
+          gap="small"
+          orientation={['vertical', 'horizontal']}
+          css={{
+            alignItems: ['flex-start', 'flex-end'],
+            background: 'background',
           }}
         >
-          {sampleText || 'Was he a beast if music could move him so?'}
-        </Sample>
-      </TypeSpecimen>
-    ))}
-  </Wrapper>
+          <Box>{size}</Box>
+          <Sample
+            style={{
+              fontFamily,
+              fontSize: size,
+              fontWeight,
+              lineHeight: 1.2,
+            }}
+          >
+            {sampleText || 'Was he a beast if music could move him so?'}
+          </Sample>
+        </Stack>
+      ))}
+    </Stack>
+  </Box>
 );

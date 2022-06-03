@@ -17,8 +17,8 @@ export const Button = () => (
 export const Atomic = () => (
   <Box
     css={{
-      background: 'blue-50',
-      color: 'gray-800',
+      background: 'text',
+      color: 'background',
       padding: 'large',
     }}
   >
@@ -26,15 +26,15 @@ export const Atomic = () => (
   </Box>
 );
 
-export const Dynamic = () => (
+export const Responsive = () => (
   <Box
     css={{
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'blue-50',
+      background: 'background',
       width: { mobile: '100%', desktop: '50%' },
-      height: { mobile: '100px', desktop: '200px' },
+      height: { mobile: '100px', tablet: '200px', desktop: '400px' },
     }}
   >
     test

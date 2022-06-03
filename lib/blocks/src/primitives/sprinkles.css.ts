@@ -1,6 +1,11 @@
-import { defineProperties, createSprinkles } from '@vanilla-extract/sprinkles';
+import {
+  defineProperties,
+  createSprinkles,
+  createMapValueFn,
+  ConditionalValue,
+} from '@vanilla-extract/sprinkles';
 import { createFillings } from '@angelblock/fillings';
-// import { vars } from './vars.css';
+import { vars } from './theme.css';
 
 const responsiveConditions = {
   mobile: { '@media': '' }, // treated as special case - style not wrapped with selector
@@ -8,35 +13,18 @@ const responsiveConditions = {
   desktop: { '@media': 'screen and (min-width: 1024px)' },
 } as const;
 
-const space = {
-  none: 0,
-  small: '4px',
-  medium: '8px',
-  large: '16px',
-  // etc.
-};
-
-const colors = {
-  'blue-50': '#eff6ff',
-  'blue-100': '#dbeafe',
-  'blue-200': '#bfdbfe',
-  'gray-700': '#374151',
-  'gray-800': '#1f2937',
-  'gray-900': '#111827',
-  // etc.
-};
-
 export const sizeFillings = createFillings({
   conditions: responsiveConditions,
   defaultCondition: 'mobile',
-  properties: ['width', 'height'],
+  properties: ['width', 'height', 'gridTemplateColumns', 'gridTemplateRows'],
 });
 
-const spaceProperties = defineProperties({
+const responsiveSpaceProperties = defineProperties({
   conditions: responsiveConditions,
   defaultCondition: 'mobile',
+  responsiveArray: ['mobile', 'tablet', 'desktop'],
   properties: {
-    display: ['none', 'flex', 'block', 'inline'],
+    display: ['none', 'flex', 'grid', 'block', 'inline'],
     flexDirection: ['row', 'column'],
     justifyContent: [
       'stretch',
@@ -47,11 +35,16 @@ const spaceProperties = defineProperties({
       'space-between',
     ],
     alignItems: ['stretch', 'flex-start', 'center', 'flex-end'],
-    paddingTop: space,
-    paddingBottom: space,
-    paddingLeft: space,
-    paddingRight: space,
-    // etc.
+    paddingTop: vars.space,
+    paddingBottom: vars.space,
+    paddingLeft: vars.space,
+    paddingRight: vars.space,
+    gap: vars.space,
+
+    // Typography
+    fontSize: vars.fontSizes,
+    fontWeight: vars.fontWeights,
+    textAlign: ['left', 'center', 'right'], // Do not include justify for good!
   },
   shorthands: {
     padding: ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'],
@@ -68,12 +61,19 @@ const colorProperties = defineProperties({
   },
   defaultCondition: 'lightMode',
   properties: {
-    color: colors,
-    background: colors,
+    color: vars.colors,
+    background: vars.colors,
     // etc.
   },
 });
 
-export const sprinkles = createSprinkles(spaceProperties, colorProperties);
+export const sprinkles = createSprinkles(responsiveSpaceProperties, colorProperties);
+
+export const mapResponsiveValue = createMapValueFn(responsiveSpaceProperties);
+
+export type ResponsiveValue<Value extends string | number> = ConditionalValue<
+  typeof responsiveSpaceProperties,
+  Value
+>;
 
 export type Sprinkles = Parameters<typeof sprinkles>[0];

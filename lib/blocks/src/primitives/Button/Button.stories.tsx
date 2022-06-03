@@ -11,7 +11,8 @@ export const Simple = () => <Button>Test</Button>;
 export const CustomStyles = () => (
   <Button
     css={{
-      background: 'blue-200',
+      color: 'background',
+      background: 'text',
     }}
   >
     Test

@@ -13,12 +13,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, forward
     <Box
       ref={forwardedRef}
       as="button"
-      href="#"
       type="button"
       {...props}
       css={{
         padding: 'medium',
-        background: 'blue-100',
+        background: 'background',
+        color: 'text',
         ...props.css,
       }}
     />

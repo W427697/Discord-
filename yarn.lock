@@ -7226,8 +7226,9 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/react": 6.5.0-beta.4
     "@storybook/theming": 6.5.0-beta.4
-    "@vanilla-extract/css": ^1.7.0
+    "@vanilla-extract/css": ^1.7.1
     "@vanilla-extract/dynamic": ^2.0.2
+    "@vanilla-extract/recipes": ^0.2.5
     "@vanilla-extract/sprinkles": ^1.4.1
     "@vanilla-extract/webpack-plugin": ^2.1.10
     clsx: ^1.1.1
@@ -11128,7 +11129,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vanilla-extract/css@npm:^1.6.8, @vanilla-extract/css@npm:^1.7.0":
+"@vanilla-extract/css@npm:^1.6.8":
   version: 1.7.0
   resolution: "@vanilla-extract/css@npm:1.7.0"
   dependencies:
@@ -11144,6 +11145,25 @@ __metadata:
     escape-string-regexp: ^4.0.0
     outdent: ^0.8.0
   checksum: f3c76629240e9db6dd89ea9a19e81c7e169a40dae49e44a791e35bc49785a769e2ea333975db77959da5fbb178f12691a7963ca264f49f88922ad6dd77dd3d27
+  languageName: node
+  linkType: hard
+
+"@vanilla-extract/css@npm:^1.7.1":
+  version: 1.7.1
+  resolution: "@vanilla-extract/css@npm:1.7.1"
+  dependencies:
+    "@emotion/hash": ^0.8.0
+    "@vanilla-extract/private": ^1.0.3
+    chalk: ^4.1.1
+    css-what: ^5.0.1
+    cssesc: ^3.0.0
+    csstype: ^3.0.7
+    deep-object-diff: ^1.1.0
+    deepmerge: ^4.2.2
+    escape-string-regexp: ^4.0.0
+    media-query-parser: ^2.0.2
+    outdent: ^0.8.0
+  checksum: c355cd1458758fc7fcba14e0fb78628dfa6c65151809a4ca821e3253195abd97434f7389dc7db0e58ed65a94e1c921621f8b891180d6ace2ac02bed47028aa93
   languageName: node
   linkType: hard
 
@@ -11175,6 +11195,15 @@ __metadata:
   version: 1.0.3
   resolution: "@vanilla-extract/private@npm:1.0.3"
   checksum: 62a74cb4fce877debb8043cda8b9efb8ca142b56d6a64525929a16a6e6c4f9bc181a6ea099b5b6ed08d0c7b3e8389b7e05f7fe9b4b0fae6eb74c2a69cb6ee2f7
+  languageName: node
+  linkType: hard
+
+"@vanilla-extract/recipes@npm:^0.2.5":
+  version: 0.2.5
+  resolution: "@vanilla-extract/recipes@npm:0.2.5"
+  peerDependencies:
+    "@vanilla-extract/css": ^1.0.0
+  checksum: e384e3fa3c4f9710b1cadbe06e26806aaa4239ba11f2dced92ab4a9f2f95ef577bc6fa1771704076d96d9f912bca3e6389eb0a16a61046c696895ba75f522db1
   languageName: node
   linkType: hard
 
@@ -31700,6 +31729,15 @@ __metadata:
   version: 1.0.1
   resolution: "mdurl@npm:1.0.1"
   checksum: ea8534341eb002aaa532a722daef6074cd8ca66202e10a2b4cda46722c1ebdb1da92197ac300bc953d3ef1bf41cd6561ef2cc69d82d5d0237dae00d4a61a4eee
+  languageName: node
+  linkType: hard
+
+"media-query-parser@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "media-query-parser@npm:2.0.2"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+  checksum: 91a987e9f6620f5c7d0fcf22bd0a106bbaccdef96aba62c461656ee656e141dd2b60f2f1d99411799183c2ea993bd177ca92c26c08bf321fbc0c846ab391d79c
   languageName: node
   linkType: hard
 

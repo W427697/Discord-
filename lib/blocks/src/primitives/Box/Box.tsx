@@ -2,6 +2,7 @@ import type { FillingsProps } from '@angelblock/fillings';
 import clsx from 'clsx';
 import React, { AllHTMLAttributes, createElement, CSSProperties, forwardRef } from 'react';
 import { sizeFillings, sprinkles, Sprinkles as AtomicStyles } from '../sprinkles.css';
+import { reset } from './Box.css';
 
 type DynamicStyles = FillingsProps<typeof sizeFillings>;
 type DynamicProperties = keyof DynamicStyles;
@@ -18,12 +19,12 @@ export interface BoxBaseProps {
   css?: BoxStyleProps;
 }
 
-export interface BoxProps extends BoxBaseProps, AllHTMLAttributes<HTMLElement> {
+export interface Props extends BoxBaseProps, AllHTMLAttributes<HTMLElement> {
   // TODO: Figure out how to use JSX.IntrinsicElements here
   as?: string;
 }
 
-export const Box = forwardRef<HTMLElement, BoxProps>(
+export const Box = forwardRef<HTMLElement, Props>(
   ({ as = 'div', css, className: userClassName, children, ...props }, forwardedRef) => {
     const atomicStyles: Record<string, unknown> = {};
     const dynamicStyles: Record<string, unknown> = {};
@@ -48,7 +49,7 @@ export const Box = forwardRef<HTMLElement, BoxProps>(
       as,
       {
         style: { ...style, ...customStyles },
-        className: clsx(sprinkleClass, fillingClassName, userClassName),
+        className: clsx(reset, sprinkleClass, fillingClassName, userClassName),
         ref: forwardedRef,
         ...props,
       },
