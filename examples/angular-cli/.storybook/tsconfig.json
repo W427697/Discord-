@@ -1,5 +1,10 @@
 {
   "extends": "../src/tsconfig.app.json",
+  "compilerOptions": {
+    "types": [
+      "@testing-library/jest-dom"
+    ]
+  },
   "exclude": [
     "../src/karma.ts",
     "../src/**/*.spec.ts"
