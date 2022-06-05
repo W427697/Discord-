@@ -6,50 +6,47 @@
     @click="onClick"
     @dblclick="onDoubleClick"
   >
-    <slot>
-      {{label}}!
-    </slot>
+    <slot> {{ label }}! </slot><slot name="icon" />
   </button>
 </template>
 
 <script>
+export default {
+  name: 'Button',
 
-  export default {
-    name: 'Button',
-
-    props: {
-      rounded: { 
-        type: Boolean,
-        default: false,
-      },
-      color: {
-        type: String,
-        default: '#42b983'
-      },
-      label: {
-        type: String
-      }
+  props: {
+    rounded: {
+      type: Boolean,
+      default: false,
     },
+    color: {
+      type: String,
+      default: '#42b983',
+    },
+    label: {
+      type: String,
+    },
+  },
 
-    methods: {
-      onClick($event) {
-        /**
-         * Emitted when the button is clicked.
-         * @event click
-         * @type {Event}
-         */
-        this.$emit('click', $event);
-      },
-      onDoubleClick($event) {
-        /**
-         * Emitted when the button is double clicked.
-         * @event doubleClick
-         * @type {Event}
-         */
-        this.$emit('double-click', $event);
-      }
-    }
-  }
+  methods: {
+    onClick($event) {
+      /**
+       * Emitted when the button is clicked.
+       * @event click
+       * @type {Event}
+       */
+      this.$emit('click', $event);
+    },
+    onDoubleClick($event) {
+      /**
+       * Emitted when the button is double clicked.
+       * @event doubleClick
+       * @type {Event}
+       */
+      this.$emit('double-click', $event);
+    },
+  },
+};
 </script>
 
 <style>
@@ -62,5 +59,8 @@
   padding: 10px 20px;
   background-color: white;
   outline: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 </style>

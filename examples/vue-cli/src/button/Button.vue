@@ -2,8 +2,9 @@
   <div class="button" :class="`size-${size}`">
     <!-- @slot Button content, e.g. label text -->
     <slot>
-      {{label}}
+      {{ label }}
     </slot>
+    <slot name="icon" />
   </div>
 </template>
 
@@ -23,7 +24,7 @@ export default class Button extends Vue {
    * @values default,small,big
    */
   @Prop({ type: String, default: 'default' }) readonly size!: ButtonSize;
-  
+
   /**
    * Label of the button
    */
@@ -36,8 +37,10 @@ export default class Button extends Vue {
   border: 1px solid #000;
   line-height: 2em;
   padding: 0 1em;
-  display: inline-block;
   border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 
   &.size-small {
     font-size: 0.8em;

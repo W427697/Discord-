@@ -3,6 +3,7 @@ import dedent from 'ts-dedent';
 import Vue from 'vue';
 import type { RenderContext } from '@storybook/store';
 import type { ArgsStoryFn } from '@storybook/csf';
+import { ComponentDoc } from 'vue-docgen-api';
 import type { VueFramework } from './types-6-0';
 
 export const COMPONENT = 'STORYBOOK_COMPONENT';
@@ -24,7 +25,7 @@ const root = new Vue({
 export const render: ArgsStoryFn<VueFramework> = (props, context) => {
   const { id, component: Component, argTypes } = context;
   const component = Component as VueFramework['component'] & {
-    __docgenInfo?: { displayName: string };
+    __docgenInfo?: ComponentDoc;
     props: Record<string, any>;
   };
 
@@ -48,10 +49,18 @@ export const render: ArgsStoryFn<VueFramework> = (props, context) => {
     componentName = component.__docgenInfo?.displayName;
   }
 
+  const componentSlotNames = (component.__docgenInfo?.slots || []).map((slot) => slot.name);
+  const componentSlotsTemplate = componentSlotNames.reduce((acc, slotName) => {
+    return `
+      ${acc}
+      <template v-if="${slotName in context.args}" #${slotName}>${context.args[slotName]}</template>
+    `;
+  }, '');
+
   return {
     props: Object.keys(argTypes),
     components: { [componentName]: component },
-    template: `<${componentName} v-bind="$props" />`,
+    template: `<${componentName} v-bind="$props">${componentSlotsTemplate}</${componentName}>`,
   };
 };
 
