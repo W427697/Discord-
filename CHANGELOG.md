@@ -1,3 +1,9 @@
+## 7.0.0-alpha.1 (June 7, 2022)
+
+### Bug Fixes
+
+- CLI: Fix `init` to install correct version of sb/storybook ([#18417](https://github.com/storybookjs/storybook/pull/18417))
+
 ## 7.0.0-alpha.0 (June 7, 2022)
 
 ### Breaking Changes
