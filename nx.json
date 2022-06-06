@@ -74,7 +74,6 @@
     "@storybook/preset-vue3-webpack": {"implicitDependencies": [] },
     "@storybook/preset-web-components-webpack": {"implicitDependencies": [] },
 
-    "@storybook/core-vite": {"implicitDependencies": [] },
     "@storybook/core-webpack": {"implicitDependencies": [] },
     "@storybook/core-client": {"implicitDependencies": [] },
     "@storybook/core-common": {"implicitDependencies": [] },
@@ -108,7 +107,6 @@
     "@storybook/ui": {"implicitDependencies": [] },
     "@storybook/preview-web": {"implicitDependencies": [] },
 
-    "@storybook/react-vite": {"implicitDependencies": [] },
     "@storybook/html-webpack5": {"implicitDependencies": [] },
     "@storybook/preact-webpack5": {"implicitDependencies": [] },
     "@storybook/react-webpack5": {"implicitDependencies": [] },
