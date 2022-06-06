@@ -46,6 +46,7 @@
     "@storybook/node-logger": "portal:../../lib/node-logger",
     "@storybook/postinstall": "portal:../../lib/postinstall",
     "@storybook/preview-web": "portal:../../lib/preview-web",
+    "@storybook/renderer-web-components": "portal:../../renderers/web-components",
     "@storybook/router": "portal:../../lib/router",
     "@storybook/source-loader": "portal:../../lib/source-loader",
     "@storybook/store": "portal:../../lib/store",

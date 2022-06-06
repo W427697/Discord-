@@ -308,6 +308,38 @@
     "@storybook/preview-web": {
       "root": "lib/preview-web",
       "type": "library"
+    },
+    "@storybook/renderer-html": {
+      "root": "renderers/html",
+      "type": "library"
+    },
+    "@storybook/renderer-preact": {
+      "root": "renderers/preact",
+      "type": "library"
+    },
+    "@storybook/renderer-react": {
+      "root": "renderers/react",
+      "type": "library"
+    },
+    "@storybook/renderer-server": {
+      "root": "renderers/server",
+      "type": "library"
+    },
+    "@storybook/renderer-svelte": {
+      "root": "renderers/svelte",
+      "type": "library"
+    },
+    "@storybook/renderer-vue": {
+      "root": "renderers/vue",
+      "type": "library"
+    },
+    "@storybook/renderer-vue3": {
+      "root": "renderers/vue3",
+      "type": "library"
+    },
+    "@storybook/renderer-web-components": {
+      "root": "renderers/web-components",
+      "type": "library"
     }
   }
 }

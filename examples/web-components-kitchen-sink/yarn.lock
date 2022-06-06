@@ -3394,6 +3394,29 @@ __metadata:
   languageName: node
   linkType: soft
 
+"@storybook/renderer-web-components@portal:../../renderers/web-components::locator=web-components-kitchen-sink%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@storybook/renderer-web-components@portal:../../renderers/web-components::locator=web-components-kitchen-sink%40workspace%3A."
+  dependencies:
+    "@storybook/addons": 6.5.0-beta.0
+    "@storybook/api": 6.5.0-beta.0
+    "@storybook/client-logger": 6.5.0-beta.0
+    "@storybook/core-client": 6.5.0-beta.0
+    "@storybook/csf": 0.0.2--canary.7c6c115.0
+    "@storybook/docs-tools": 6.5.0-beta.0
+    "@storybook/preview-web": 6.5.0-beta.0
+    "@storybook/store": 6.5.0-beta.0
+    core-js: ^3.8.2
+    global: ^4.4.0
+    react: 16.14.0
+    react-dom: 16.14.0
+    regenerator-runtime: ^0.13.7
+    ts-dedent: ^2.0.0
+  peerDependencies:
+    lit-html: ^1.4.1 || ^2.0.0
+  languageName: node
+  linkType: soft
+
 "@storybook/router@portal:../../lib/router::locator=web-components-kitchen-sink%40workspace%3A.":
   version: 0.0.0-use.local
   resolution: "@storybook/router@portal:../../lib/router::locator=web-components-kitchen-sink%40workspace%3A."
@@ -3524,16 +3547,10 @@ __metadata:
     "@babel/plugin-syntax-dynamic-import": ^7.8.3
     "@babel/plugin-syntax-import-meta": ^7.10.4
     "@babel/preset-env": ^7.12.11
-    "@storybook/addons": 6.5.0-beta.0
-    "@storybook/client-api": 6.5.0-beta.0
-    "@storybook/client-logger": 6.5.0-beta.0
-    "@storybook/core-client": 6.5.0-beta.0
     "@storybook/core-common": 6.5.0-beta.0
     "@storybook/core-server": 6.5.0-beta.0
-    "@storybook/csf": 0.0.2--canary.7c6c115.0
     "@storybook/docs-tools": 6.5.0-beta.0
-    "@storybook/preview-web": 6.5.0-beta.0
-    "@storybook/store": 6.5.0-beta.0
+    "@storybook/renderer-web-components": 6.5.0-beta.0
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/webpack-env": ^1.16.0
     babel-plugin-bundled-import-meta: ^0.3.1
@@ -3541,7 +3558,6 @@ __metadata:
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
-    read-pkg-up: ^7.0.1
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
   peerDependencies:

@@ -1,5 +1,4 @@
 import type { StorybookConfig, Options, TypescriptConfig } from '@storybook/core-common';
-import { findDistEsm } from '@storybook/core-common';
 import type { TransformOptions } from '@babel/core';
 import type { Configuration } from 'webpack';
 import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
@@ -58,8 +57,3 @@ export async function webpackFinal(config: Configuration, options: Options) {
     ],
   };
 }
-
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = [], options) => {
-  if (!hasDocsOrControls(options)) return entry;
-  return [...entry, findDistEsm(__dirname, 'client/docs/config')];
-};

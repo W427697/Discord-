@@ -1,7 +1,6 @@
 import path from 'path';
 import type { TransformOptions } from '@babel/core';
 import type { Configuration } from 'webpack';
-import { findDistEsm } from '@storybook/core-common';
 import type { StorybookConfig } from '@storybook/core-common';
 
 export function babelDefault(config: TransformOptions): TransformOptions {
@@ -29,6 +28,4 @@ export function webpackFinal(config: Configuration): Configuration {
   };
 }
 
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
-  return [...entry, findDistEsm(__dirname, 'client/preview/config')];
-};
+export const addons: StorybookConfig['addons'] = ['@storybook/renderer-preact'];

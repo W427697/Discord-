@@ -1,6 +1,6 @@
 import path from 'path';
 
-import { findDistEsm, Options, StorybookConfig } from '@storybook/core-common';
+import { Options } from '@storybook/core-common';
 
 type Configuration = any;
 
@@ -16,7 +16,3 @@ export async function webpackFinal(webpackConfig: Configuration, options: Option
 
   return webpackConfig;
 }
-
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
-  return [...entry, findDistEsm(__dirname, 'client/docs/config')];
-};
