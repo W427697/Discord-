@@ -142,15 +142,13 @@ const generate = async ({ cwd, name, appName, version, generator }: Options) => 
 };
 
 const addAdditionalFiles = async ({ additionalFiles, cwd }: Options) => {
-  if (!additionalFiles || additionalFiles.length === 0) {
-    return;
-  }
-
   logger.info(`⤵️ Adding required files`);
 
-  additionalFiles.forEach(async (file) => {
-    await outputFile(path.resolve(cwd, file.path), file.contents, { encoding: 'UTF-8' });
-  });
+  await Promise.all(
+    additionalFiles.map(async (file) => {
+      await outputFile(path.resolve(cwd, file.path), file.contents, { encoding: 'UTF-8' });
+    })
+  );
 };
 
 const initStorybook = async ({ cwd, autoDetect = true, name, e2e }: Options) => {
@@ -245,8 +243,7 @@ export const createAndInit = async (
   logger.log();
 
   await doTask(generate, { ...options, cwd: options.creationPath });
-  console.log({ options });
-  await doTask(addAdditionalFiles, { ...options, cwd });
+  await doTask(addAdditionalFiles, { ...options, cwd }, !!options.additionalFiles);
   if (e2e) {
     await doTask(addPackageResolutions, options);
   }
