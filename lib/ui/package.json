@@ -22,14 +22,7 @@
   "sideEffects": false,
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -51,7 +44,8 @@
     "@storybook/theming": "6.5.0-rc.1",
     "core-js": "^3.8.2",
     "regenerator-runtime": "^0.13.7",
-    "resolve-from": "^5.0.0"
+    "resolve-from": "^5.0.0",
+    "util": "^0.12.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
@@ -72,8 +66,7 @@
     "react-helmet-async": "^1.0.7",
     "react-sizeme": "^3.0.1",
     "store2": "^2.12.0",
-    "ts-node": "^10.4.0",
-    "webpack": "4"
+    "ts-node": "^10.4.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -83,6 +76,5 @@
     "access": "public"
   },
   "bundlerEntrypoint": "./src/index.tsx",
-  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
-  "sbmodern": "dist/modern/index.js"
+  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401"
 }

@@ -32,7 +32,7 @@ jest.mock('global', () => ({
   },
 }));
 
-jest.mock('@storybook/channel-postmessage', () => () => mockChannel);
+jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
 jest.mock('react-dom');
 
 // for the auto-title test

@@ -97,16 +97,10 @@ async function babelify(options = {}) {
     return;
   }
 
-  const runners = watch
-    ? [
-        run({ watch, dir: './dist/cjs', silent, errorCallback }),
-        run({ watch, dir: './dist/esm', silent, errorCallback }),
-      ]
-    : [
-        run({ dir: './dist/cjs', silent, errorCallback }),
-        run({ dir: './dist/esm', silent, errorCallback }),
-        run({ dir: './dist/modern', silent, errorCallback }),
-      ];
+  const runners = [
+    run({ watch, dir: './dist/cjs', silent, errorCallback }),
+    run({ watch, dir: './dist/esm', silent, errorCallback }),
+  ];
 
   await Promise.all(runners);
 }

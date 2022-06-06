@@ -134,7 +134,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   const webpackInstance = await executor.get(options);
   yield;
-  const compiler = (webpackInstance as any)(config);
+  const compiler = webpackInstance(config);
 
   if (!compiler) {
     const err = `${config.name}: missing webpack compiler at runtime!`;
@@ -161,7 +161,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(compilation);
 
   const stats = await new Promise<Stats>((ready, stop) => {
-    compilation.waitUntilValid(ready);
+    compilation.waitUntilValid(ready as any);
     reject = stop;
   });
   yield;

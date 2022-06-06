@@ -8,12 +8,7 @@ import { FileSystemCache } from './utils/file-cache';
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
  */
 
-export type BuilderName =
-  | 'webpack4'
-  | 'webpack5'
-  | '@storybook/builder-webpack4'
-  | '@storybook/builder-webpack5'
-  | string;
+export type BuilderName = 'webpack5' | '@storybook/builder-webpack5' | string;
 
 export type BuilderConfigObject = {
   name: BuilderName;
@@ -29,7 +24,7 @@ export interface Webpack5BuilderConfig extends BuilderConfigObject {
 }
 
 export interface Webpack4BuilderConfig extends BuilderConfigObject {
-  name: '@storybook/builder-webpack4';
+  name: '@storybook/builder-webpack5';
 }
 
 export type BuilderConfig =
@@ -39,7 +34,7 @@ export type BuilderConfig =
   | Webpack5BuilderConfig;
 
 export interface CoreConfig {
-  builder: BuilderConfig;
+  builder?: BuilderConfig;
   disableWebpackDefaults?: boolean;
   channelOptions?: Partial<TelejsonOptions>;
   /**
@@ -83,7 +78,7 @@ export interface Presets {
   apply(extension: 'managerEntries', config: [], args: any): Promise<string[]>;
   apply(extension: 'refs', config: [], args: any): Promise<unknown>;
   apply(extension: 'core', config: {}, args: any): Promise<CoreConfig>;
-  apply<T extends unknown>(extension: string, config?: T, args?: unknown): Promise<T>;
+  apply<T>(extension: string, config?: T, args?: unknown): Promise<T>;
 }
 
 export interface LoadedPreset {
@@ -195,7 +190,6 @@ export interface CLIOptions {
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
-  modern?: boolean;
 }
 
 export interface BuilderOptions {
@@ -334,11 +328,6 @@ export interface StorybookConfig {
      * Allows to disable deprecated implicit PostCSS loader. (will be removed in 7.0)
      */
     postcss?: boolean;
-
-    /**
-     * Allows to disable emotion webpack alias for emotion packages. (will be removed in 7.0)
-     */
-    emotionAlias?: boolean;
 
     /**
      * Build stories.json automatically on start/build

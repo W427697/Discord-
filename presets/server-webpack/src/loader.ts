@@ -1,5 +1,11 @@
 import { compileCsfModule } from './lib/compiler';
 
 export default (content: string) => {
-  return compileCsfModule(JSON.parse(content));
+  try {
+    const after = compileCsfModule(JSON.parse(content));
+    return after;
+  } catch (e) {
+    //
+  }
+  return content;
 };

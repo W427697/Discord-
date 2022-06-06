@@ -23,14 +23,7 @@
   "license": "MIT",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -46,11 +39,9 @@
     "@storybook/core-events": "6.5.0-rc.1",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
     "@storybook/router": "6.5.0-rc.1",
-    "@types/qs": "^6.9.5",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "prop-types": "^15.7.2",
-    "qs": "^6.10.0",
     "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0"
   },
@@ -70,7 +61,6 @@
     "access": "public"
   },
   "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
-  "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Links",
     "icon": "https://user-images.githubusercontent.com/263385/101991673-48355c80-3c7c-11eb-9b6e-b627c96a75f6.png",

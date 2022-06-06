@@ -125,14 +125,15 @@ program
 program
   .command('repro [outputDirectory]')
   .description('Create a reproduction from a set of possible templates')
-  .option('-f --framework <framework>', 'Filter on given framework')
+  .option('-f --renderer <renderer>', 'Filter on given renderer')
   .option('-t --template <template>', 'Use the given template')
   .option('-l --list', 'List available templates')
   .option('-g --generator <generator>', 'Use custom generator command')
   .option('--pnp', "Use Yarn Plug'n'Play mode instead of node_modules one")
+  .option('--local', "use storybook's local packages instead of yarn's registry")
   .option('--e2e', 'Used in e2e context')
-  .action((outputDirectory, { framework, template, list, e2e, generator, pnp }) =>
-    repro({ outputDirectory, framework, template, list, e2e, generator, pnp }).catch((e) => {
+  .action((outputDirectory, { renderer, template, list, e2e, generator, pnp, local }) =>
+    repro({ outputDirectory, renderer, template, list, e2e, local, generator, pnp }).catch((e) => {
       logger.error(e);
       process.exit(1);
     })
@@ -198,7 +199,6 @@ program
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
-  .option('--modern', 'Use modern browser modules')
   .action((options) => {
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}`) + chalk.reset('\n'));
@@ -235,7 +235,6 @@ program
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
-  .option('--modern', 'Use modern browser modules')
   .option('--no-manager-cache', 'Do not cache the manager UI')
   .action((options) => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';

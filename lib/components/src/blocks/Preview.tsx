@@ -258,7 +258,7 @@ export const Preview: FunctionComponent<PreviewProps> = ({
         <PositionedToolbar
           isLoading={isLoading}
           border
-          zoom={(z) => setScale(scale * z)}
+          zoom={(z: number) => setScale(scale * z)}
           resetZoom={() => setScale(1)}
           storyId={getStoryId(children)}
           baseUrl="./iframe.html"

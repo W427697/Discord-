@@ -1,13 +1,14 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./typings.d.ts" />
+
 export * from './presets';
 
 export * from './utils/babel';
 export * from './utils/check-addon-order';
 export * from './utils/envs';
-export * from './utils/es6Transpiler';
 export * from './utils/handlebars';
 export * from './utils/interpret-files';
 export * from './utils/interpret-require';
-export * from './utils/load-custom-babel-config';
 export * from './utils/load-custom-presets';
 export * from './utils/load-main-config';
 export * from './utils/get-storybook-configuration';

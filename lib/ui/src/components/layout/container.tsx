@@ -634,6 +634,6 @@ class Layout extends Component<LayoutProps, LayoutState> {
   }
 }
 
-const ThemedLayout = withTheme(Layout);
+const ThemedLayout = withTheme(Layout) as unknown as typeof Layout;
 
 export { ThemedLayout as Layout };

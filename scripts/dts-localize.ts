@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import { sync } from 'read-pkg-up';
 
-import * as ts from 'typescript';
+import ts from 'typescript';
 
 const parseConfigHost = {
   useCaseSensitiveFileNames: ts.sys.useCaseSensitiveFileNames,
@@ -18,21 +18,6 @@ function getAbsolutePath(fileName: string, cwd?: string) {
   }
 
   return fileName;
-}
-
-function getCompilerOptions(inputFileNames: string[], preferredConfigPath?: string) {
-  const configFileName =
-    preferredConfigPath !== undefined ? preferredConfigPath : findConfig(inputFileNames);
-  const configParseResult = ts.readConfigFile(configFileName, ts.sys.readFile);
-  const compilerOptionsParseResult = ts.parseJsonConfigFileContent(
-    configParseResult.config,
-    parseConfigHost,
-    path.resolve(path.dirname(configFileName)),
-    undefined,
-    getAbsolutePath(configFileName)
-  );
-
-  return compilerOptionsParseResult.options;
 }
 
 function findConfig(inputFiles: string[]) {
@@ -52,6 +37,21 @@ function findConfig(inputFiles: string[]) {
   }
 
   return configFileName;
+}
+
+function getCompilerOptions(inputFileNames: string[], preferredConfigPath?: string) {
+  const configFileName =
+    preferredConfigPath !== undefined ? preferredConfigPath : findConfig(inputFileNames);
+  const configParseResult = ts.readConfigFile(configFileName, ts.sys.readFile);
+  const compilerOptionsParseResult = ts.parseJsonConfigFileContent(
+    configParseResult.config,
+    parseConfigHost,
+    path.resolve(path.dirname(configFileName)),
+    undefined,
+    getAbsolutePath(configFileName)
+  );
+
+  return compilerOptionsParseResult.options;
 }
 
 interface Options {
@@ -79,12 +79,6 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
 
   const filesRemapping = new Map<string, string>();
   const replaceRemapping = new Map<string, string[]>();
-
-  entrySourceFiles.forEach((file) => {
-    const sourceFile = sourceFiles.find((f) => f.fileName === file);
-
-    actOnSourceFile(sourceFile);
-  });
 
   /**
    * @param  {string} basePath the path is the directory where the package.json is located
@@ -160,6 +154,13 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
     return false;
   }
 
+  function getSourceFile(moduleNode: ts.Node) {
+    while (!ts.isSourceFile(moduleNode)) {
+      moduleNode = moduleNode.getSourceFile();
+    }
+    return moduleNode;
+  }
+
   function replaceImport(node: ts.Node) {
     if (
       (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) &&
@@ -191,7 +192,7 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
       );
 
       // @ts-ignore
-      node.moduleSpecifier = ts.createStringLiteral(replacementPath);
+      node.moduleSpecifier = ts.factory.createStringLiteral(replacementPath);
 
       return true;
     }
@@ -224,20 +225,12 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
       );
 
       // @ts-ignore
-      node.argument = ts.createStringLiteral(replacementPath);
-      // node.argument = ts.factory.createStringLiteral(replacementPath); // TS4
+      node.argument = ts.factory.createStringLiteral(replacementPath);
 
       return true;
     }
 
     return undefined;
-  }
-
-  function getSourceFile(moduleNode: ts.Node) {
-    while (!ts.isSourceFile(moduleNode)) {
-      moduleNode = moduleNode.getSourceFile();
-    }
-    return moduleNode;
   }
 
   function walkNodeToReplaceImports(node: ts.Node) {
@@ -269,9 +262,8 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
     // this seems to be a cache TypeScript uses internally
     // I've been looking for a a public API to use, but so far haven't found it.
     // I could create the dependency graph myself, perhaps that'd be better, but I'm OK with this for now.
-    if (sourceFile.resolvedModules && sourceFile.resolvedModules.size > 0) {
-      Array.from(sourceFile.resolvedModules.entries()).forEach(([k, v]) => {
-        // console.log({ k }, v.resolvedFileName);
+    if (sourceFile.resolvedModules) {
+      sourceFile.resolvedModules.forEach((v, k) => {
         if (externals.includes(k)) {
           return;
         }
@@ -290,4 +282,10 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
       });
     }
   }
+
+  entrySourceFiles.forEach((file) => {
+    const sourceFile = sourceFiles.find((f) => f.fileName === file);
+
+    actOnSourceFile(sourceFile);
+  });
 };

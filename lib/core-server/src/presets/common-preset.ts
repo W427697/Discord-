@@ -4,7 +4,6 @@ import {
   getPreviewHeadTemplate,
   getManagerMainTemplate,
   getPreviewMainTemplate,
-  loadCustomBabelConfig,
   getStorybookBabelConfig,
   loadEnvs,
 } from '@storybook/core-common';
@@ -18,15 +17,13 @@ import type {
 import { loadCsf } from '@storybook/csf-tools';
 
 export const babel = async (_: unknown, options: Options) => {
-  const { configDir, presets } = options;
+  const { presets } = options;
+
   if (options.features?.babelModeV7) {
     return presets.apply('babelDefault', {}, options);
   }
 
-  return loadCustomBabelConfig(
-    configDir,
-    () => presets.apply('babelDefault', getStorybookBabelConfig(), options) as any
-  );
+  return presets.apply('babelDefault', getStorybookBabelConfig(), options) as any;
 };
 
 export const logLevel = (previous: any, options: Options) => previous || options.loglevel || 'info';
@@ -49,9 +46,7 @@ export const previewMainTemplate = () => getPreviewMainTemplate();
 
 export const managerMainTemplate = () => getManagerMainTemplate();
 
-export const previewEntries = (entries: any[] = [], options: { modern?: boolean }) => {
-  if (!options.modern)
-    entries.push(require.resolve('@storybook/core-client/dist/esm/globals/polyfills'));
+export const previewEntries = (entries: any[] = []) => {
   entries.push(require.resolve('@storybook/core-client/dist/esm/globals/globals'));
   return entries;
 };
@@ -107,15 +102,14 @@ export const features = async (
 ): Promise<StorybookConfig['features']> => ({
   ...existing,
   postcss: true,
-  emotionAlias: false, // TODO remove in 7.0, this no longer does anything
   warnOnLegacyHierarchySeparator: true,
   buildStoriesJson: false,
-  storyStoreV7: false,
-  modernInlineRender: false,
-  breakingChangesV7: false,
+  storyStoreV7: true,
+  modernInlineRender: true,
+  breakingChangesV7: true,
   interactionsDebugger: false,
-  babelModeV7: false,
-  argTypeTargetsV7: false,
+  babelModeV7: true,
+  argTypeTargetsV7: true,
   previewMdx2: false,
 });
 

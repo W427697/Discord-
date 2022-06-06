@@ -392,8 +392,6 @@ object SmokeTests : BuildType({
                 cd ../preact-kitchen-sink
                 yarn storybook --smoke-test --quiet
                 
-                cd ../cra-react15
-                yarn storybook --smoke-test --quiet
             """.trimIndent()
             dockerImage = "node:12"
             dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux

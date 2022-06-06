@@ -7,7 +7,6 @@ module.exports = {
   logLevel: 'debug',
   addons: [
     '@storybook/preset-create-react-app',
-    '@storybook/addon-ie11',
     '@storybook/addon-docs',
     '@storybook/addon-actions',
     '@storybook/addon-links',
@@ -27,7 +26,6 @@ module.exports = {
     return config;
   },
   core: {
-    builder: 'webpack4',
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
@@ -36,5 +34,5 @@ module.exports = {
     buildStoriesJson: true,
     breakingChangesV7: true,
   },
-  framework: '@storybook/react-webpack4',
+  framework: '@storybook/react-webpack5',
 };

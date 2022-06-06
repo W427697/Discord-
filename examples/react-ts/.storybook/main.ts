@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/react-webpack4/types';
+import type { StorybookConfig } from '@storybook/react-webpack5/types';
 
 const config: StorybookConfig = {
   stories: [
@@ -31,13 +31,12 @@ const config: StorybookConfig = {
     },
   },
   core: {
-    builder: { name: 'webpack4' },
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
   features: {
     postcss: false,
-    // modernInlineRender: true,
+    modernInlineRender: true,
     storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
     buildStoriesJson: true,
     babelModeV7: true,
@@ -45,6 +44,13 @@ const config: StorybookConfig = {
     previewMdx2: true,
     breakingChangesV7: true,
   },
-  framework: '@storybook/react-webpack4',
+  framework: '@storybook/react-webpack5',
+  // core: (c: any = {}) => {
+  //   return {
+  //     channelOptions: { allowFunction: false, maxDepth: 10 },
+  //     disableTelemetry: true,
+  //     ...c,
+  //   };
+  // },
 };
 module.exports = config;

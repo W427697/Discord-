@@ -1,1 +1,1 @@
-module.exports = require('./dist/ts3.9/server/preset');
+module.exports = require('./dist/types/preset');

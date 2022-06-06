@@ -10,7 +10,7 @@
     "@storybook/addon-docs": "6.5.0-rc.1",
     "@storybook/cli": "6.5.0-rc.1",
     "@storybook/react": "6.5.0-rc.1",
-    "@storybook/react-webpack4": "6.5.0-rc.1",
+    "@storybook/react-webpack5": "6.5.0-rc.1",
     "cross-env": "^7.0.3",
     "parcel": "2.0.1",
     "react": "16.14.0",

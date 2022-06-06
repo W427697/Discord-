@@ -1,5 +1,5 @@
 module.exports = {
-  stories: ['../src/**/*.stories.@(ts|js|mdx)'],
+  stories: ['../src/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
     '@storybook/addon-docs',
@@ -8,7 +8,6 @@ module.exports = {
     '@storybook/preset-scss',
   ],
   core: {
-    builder: 'webpack4',
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
@@ -17,5 +16,5 @@ module.exports = {
     buildStoriesJson: true,
     breakingChangesV7: true,
   },
-  framework: '@storybook/vue-webpack4',
+  framework: '@storybook/vue-webpack5',
 };

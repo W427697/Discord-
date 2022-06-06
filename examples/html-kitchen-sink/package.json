@@ -28,7 +28,7 @@
     "@storybook/client-api": "6.5.0-rc.1",
     "@storybook/core-events": "6.5.0-rc.1",
     "@storybook/html": "6.5.0-rc.1",
-    "@storybook/html-webpack4": "6.5.0-rc.1",
+    "@storybook/html-webpack5": "6.5.0-rc.1",
     "@storybook/source-loader": "6.5.0-rc.1",
     "autoprefixer": "^10.0.1",
     "eventemitter3": "^4.0.7",

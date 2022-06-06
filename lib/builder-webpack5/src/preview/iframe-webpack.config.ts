@@ -3,17 +3,15 @@ import dedent from 'ts-dedent';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+// @ts-ignore // -- this has typings for webpack4 in it, won't work
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-import themingPaths from '@storybook/theming/paths';
-
 import type { Options, CoreConfig } from '@storybook/core-common';
 import {
   toRequireContextString,
-  es6Transpiler,
   stringifyProcessEnvs,
   handlebars,
   interpolate,
@@ -58,7 +56,6 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     presets,
     previewUrl,
     typescriptOptions,
-    modern,
     features,
     serverChannelUrl,
   } = options;
@@ -240,7 +237,6 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     module: {
       rules: [
         babelLoader,
-        es6Transpiler() as any,
         {
           test: /\.md$/,
           type: 'asset/source',
@@ -250,16 +246,12 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     resolve: {
       extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json', '.cjs'],
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
-      mainFields: [modern ? 'sbmodern' : null, 'browser', 'module', 'main'].filter(Boolean),
-      alias: {
-        ...(features?.emotionAlias ? themingPaths : {}),
-        ...storybookPaths,
-        react: path.dirname(require.resolve('react/package.json')),
-        'react-dom': path.dirname(require.resolve('react-dom/package.json')),
-      },
+      mainFields: ['browser', 'module', 'main'].filter(Boolean),
+      alias: storybookPaths,
       fallback: {
         path: require.resolve('path-browserify'),
         assert: require.resolve('browser-assert'),
+        util: require.resolve('util'),
       },
     },
     optimization: {

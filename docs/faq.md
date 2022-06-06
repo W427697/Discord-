@@ -16,11 +16,8 @@ module.exports = {
   addons: [
     /* ... */
   ],
-  framework: {
-    name: '@storybook/angular',
-    options: {
-      enableIvy: false,
-    },
+  angularOptions: {
+    enableIvy: false,
   },
 };
 ```
@@ -76,11 +73,8 @@ FAST_REFRESH=true
 
 ```js
 module.exports = {
-  framework: {
-    name: '@storybook/react',
-    options: {
-      fastRefresh: true,
-    },
+  reactOptions: {
+    fastRefresh: true,
   },
 };
 ```
@@ -289,7 +283,6 @@ See our documentation on how to customize the [Storyshots configuration](./writi
 
 Currently there's an issue when using MDX stories with IE11. This issue does <strong>not</strong> apply to [DocsPage](./writing-docs/docs-page.md). If you're interested in helping us fix this issue, read our <a href="https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING.md">Contribution guidelines</a> and submit a pull request.
 
-
 ### Why aren't my code blocks highlighted with Storybook MDX
 
 Out of the box, Storybook provides syntax highlighting for a set of languages (e.g., Javascript, Markdown, CSS, HTML, Typescript, GraphQL) that you can use with your code blocks. If you're writing your custom code blocks with MDX, you'll need to import the syntax highlighter manually. For example, if you're adding a code block for SCSS, adjust your story to the following:
@@ -345,7 +338,6 @@ You'll need to update it to make it compatible with MDX 2.
 
 See the following [issue](https://github.com/mdx-js/mdx/issues/1945) for more information.
 
-
 ### Why can't I import my own stories into MDX 2?
 
 This is a known issue with MDX 2. We're working to fix it. For now you can apply the following workaround:
@@ -355,11 +347,10 @@ This is a known issue with MDX 2. We're working to fix it. For now you can apply
 
 import { Story } from '@storybook/addon-docs';
 
-import * as stories from './Button.stories.jsx';
+import \* as stories from './Button.stories.jsx';
 
 <Story name="Basic" story={stories.Basic} />
 ```
-
 
 ### Why are my mocked GraphQL queries failing with Storybook's MSW addon?
 
@@ -402,8 +393,6 @@ Yes, check the [addon's examples](https://github.com/mswjs/msw-storybook-addon/t
 ### Can I mock GraphQL mutations with Storybook's MSW addon?
 
 No, currently, the MSW addon only has support for GraphQL queries. If you're interested in including this feature, open an issue in the [MSW addon repository](https://github.com/mswjs/msw-storybook-addon) and follow up with the maintainer.
-
-
 
 ### How can my code detect if it is running in Storybook?
 

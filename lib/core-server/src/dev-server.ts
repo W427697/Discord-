@@ -164,7 +164,7 @@ export async function storybookDevServer(options: Options) {
 
   const [previewResult, managerResult] = await Promise.all([
     preview.catch(async (err) => {
-      await managerBuilder.bail();
+      await managerBuilder?.bail();
       throw err;
     }),
     manager
@@ -174,7 +174,7 @@ export async function storybookDevServer(options: Options) {
       //   return result;
       // })
       .catch(async (err) => {
-        await previewBuilder.bail();
+        await previewBuilder?.bail();
         throw err;
       }),
   ]);

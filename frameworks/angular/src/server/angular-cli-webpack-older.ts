@@ -1,4 +1,4 @@
-import webpack from 'webpack';
+import webpack, { Configuration } from 'webpack';
 import { logger } from '@storybook/node-logger';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { targetFromTargetString, Target } from '@angular-devkit/architect';
@@ -19,7 +19,10 @@ import type { PresetOptions } from './preset-options';
 /**
  * Old way currently support version lower than 12.2.x
  */
-export async function getWebpackConfig(baseConfig: webpack.Configuration, options: PresetOptions) {
+export async function getWebpackConfig(
+  baseConfig: webpack.Configuration,
+  options: PresetOptions
+): Promise<Configuration> {
   const dirToSearch = process.cwd();
 
   // Read angular workspace
@@ -106,6 +109,7 @@ function mergeAngularCliWebpackConfig(
   // styleWebpackConfig.entry adds global style files to the webpack context
   const entry = [
     ...(baseConfig.entry as string[]),
+    // @ts-ignore
     ...Object.values(cliStyleWebpackConfig.entry).reduce((acc, item) => acc.concat(item), []),
   ];
 

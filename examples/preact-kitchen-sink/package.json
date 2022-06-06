@@ -24,12 +24,12 @@
     "@storybook/addon-viewport": "6.5.0-rc.1",
     "@storybook/addons": "6.5.0-rc.1",
     "@storybook/preact": "6.5.0-rc.1",
-    "@storybook/preact-webpack4": "6.5.0-rc.1",
+    "@storybook/preact-webpack5": "6.5.0-rc.1",
     "@storybook/source-loader": "6.5.0-rc.1",
     "@types/prop-types": "^15.7.3",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "babel-loader": "^8.0.0",
+    "babel-loader": "^8.2.5",
     "cross-env": "^7.0.3",
     "enzyme-adapter-preact": "^0.2.0",
     "file-loader": "^6.2.0",
@@ -40,8 +40,8 @@
     "react-dom": "^17.0.2",
     "sb": "6.5.0-rc.1",
     "svg-url-loader": "^7.1.1",
-    "webpack": "4",
-    "webpack-dev-server": "^3.11.2"
+    "webpack": "5",
+    "webpack-dev-server": "^4.8.1"
   },
   "storybook": {
     "chromatic": {

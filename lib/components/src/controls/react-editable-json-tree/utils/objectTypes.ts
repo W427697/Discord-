@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-constraint */
 /**
  * Get Object type.
  * @param obj {*} object to get type

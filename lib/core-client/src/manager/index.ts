@@ -1,5 +1,6 @@
 import global from 'global';
-import renderStorybookUI from '@storybook/ui';
+import { renderStorybookUI } from '@storybook/ui';
+
 import Provider from './provider';
 import { importPolyfills } from './conditional-polyfills';
 

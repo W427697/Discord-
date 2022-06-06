@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { Fragment, useMemo, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 

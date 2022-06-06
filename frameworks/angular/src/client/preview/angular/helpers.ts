@@ -179,7 +179,6 @@ const insertDynamicRoot = () => {
 const draw = (newModule: DynamicComponentType): void => {
   if (!platform) {
     insertDynamicRoot();
-    // eslint-disable-next-line no-undef
     if (typeof NODE_ENV === 'string' && NODE_ENV !== 'development') {
       try {
         enableProdMode();

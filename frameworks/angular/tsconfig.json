@@ -2,12 +2,20 @@
   "extends": "../../tsconfig.json",
   "compileOnSave": false,
   "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "outDir": "dist",
     "types": ["node"],
-    "rootDir": "./src",
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "allowJs": true
   },
-  "include": ["src/**/*", "src/**/*.json"]
+  "include": [
+    "src/**/*",
+    "src/**/*.json"
+  ]
 }

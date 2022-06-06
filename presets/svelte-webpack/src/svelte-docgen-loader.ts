@@ -1,8 +1,8 @@
+/* eslint-disable camelcase */
 import svelteDoc from 'sveltedoc-parser';
 import dedent from 'ts-dedent';
 import * as path from 'path';
 import * as fs from 'fs';
-import { getOptions } from 'loader-utils';
 import { preprocess } from 'svelte/compiler';
 import { logger } from '@storybook/node-logger';
 
@@ -44,7 +44,8 @@ function getNameFromFilename(filename: string) {
 export default async function svelteDocgen(source: string) {
   // eslint-disable-next-line no-underscore-dangle
   const { resource } = this._module;
-  const svelteOptions: any = { ...getOptions(this) };
+  // This is webpack5 only
+  const svelteOptions: any = this.getOptions();
 
   const { preprocess: preprocessOptions, logDocgen = false } = svelteOptions;
 

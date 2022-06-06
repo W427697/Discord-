@@ -22,14 +22,7 @@
   "sideEffects": false,
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -47,6 +40,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
-  "sbmodern": "dist/modern/index.js"
+  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401"
 }

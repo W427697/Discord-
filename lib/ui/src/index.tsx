@@ -37,6 +37,7 @@ const getDocsMode = () => {
   }
 };
 
+// @ts-ignore
 const Container = process.env.XSTORYBOOK_EXAMPLE_APP ? React.StrictMode : React.Fragment;
 
 export interface RootProps {
@@ -93,7 +94,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
   );
 };
 
-export default function renderStorybookUI(domNode: HTMLElement, provider: Provider) {
+export function renderStorybookUI(domNode: HTMLElement, provider: Provider) {
   if (!(provider instanceof Provider)) {
     throw new Error('provider is not extended from the base Provider');
   }

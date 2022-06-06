@@ -1,4 +1,3 @@
-import { logger } from '@storybook/node-logger';
 import type {
   CLIOptions,
   LoadOptions,
@@ -6,11 +5,17 @@ import type {
   Options,
   StorybookConfig,
 } from '@storybook/core-common';
-import { resolvePathInStorybookCache, loadAllPresets, cache } from '@storybook/core-common';
+import {
+  resolvePathInStorybookCache,
+  loadAllPresets,
+  cache,
+  loadMainConfig,
+} from '@storybook/core-common';
 import prompts from 'prompts';
 import global from 'global';
 
-import path from 'path';
+import { join, resolve } from 'path';
+import { logger } from '@storybook/node-logger';
 import { storybookDevServer } from './dev-server';
 import { getReleaseNotesData, getReleaseNotesFailedState } from './utils/release-notes';
 import { outputStats } from './utils/output-stats';
@@ -21,7 +26,7 @@ import { getBuilders } from './utils/get-builders';
 
 export async function buildDevStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
   const { packageJson, versionUpdates, releaseNotes } = options;
-  const { version, name = '' } = packageJson;
+  const { version } = packageJson;
 
   // updateInfo and releaseNotesData are cached, so this is typically pretty fast
   const [port, versionCheck, releaseNotesData] = await Promise.all([
@@ -49,34 +54,43 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   options.versionCheck = versionCheck;
   options.releaseNotesData = releaseNotesData;
   options.configType = 'DEVELOPMENT';
-  options.configDir = path.resolve(options.configDir);
+  options.configDir = resolve(options.configDir);
   options.outputDir = options.smokeTest
     ? resolvePathInStorybookCache('public')
-    : path.resolve(options.outputDir || resolvePathInStorybookCache('public'));
+    : resolve(options.outputDir || resolvePathInStorybookCache('public'));
   options.serverChannelUrl = getServerChannelUrl(port, options);
   /* eslint-enable no-param-reassign */
 
-  console.time('loadAllPresets');
+  const { framework } = loadMainConfig(options);
+  const corePresets = [];
+
+  const frameworkName = typeof framework === 'string' ? framework : framework?.name;
+  if (frameworkName) {
+    corePresets.push(join(frameworkName, 'preset'));
+  } else {
+    logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
+  }
+
+  logger.info('=> Loading presets');
   let presets = loadAllPresets({
-    corePresets: [],
+    corePresets,
     overridePresets: [],
     ...options,
   });
-  console.timeEnd('loadAllPresets');
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
-  console.time('loadAllPresets2');
+
   presets = loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
       ...managerBuilder.corePresets,
       ...previewBuilder.corePresets,
+      ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],
     overridePresets: previewBuilder.overridePresets,
     ...options,
   });
-  console.timeEnd('loadAllPresets2');
 
   const features = await presets.apply<StorybookConfig['features']>('features');
   global.FEATURES = features;
@@ -103,29 +117,33 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   }
 
   if (options.smokeTest) {
+    const warnings: Error[] = [];
     // @ts-ignore
-    const managerWarnings = (managerStats && managerStats.toJson().warnings) || [];
-    if (managerWarnings.length > 0)
-      logger.warn(`manager: ${JSON.stringify(managerWarnings, null, 2)}`);
-    // I'm a little reticent to import webpack types in this file :shrug:
+    warnings.push(...((managerStats && managerStats.toJson().warnings) || []));
     // @ts-ignore
-    const previewWarnings = (previewStats && previewStats.toJson().warnings) || [];
-    if (previewWarnings.length > 0)
-      logger.warn(`preview: ${JSON.stringify(previewWarnings, null, 2)}`);
-    process.exit(
-      managerWarnings.length > 0 || (previewWarnings.length > 0 && !options.ignorePreview) ? 1 : 0
-    );
+    warnings.push(...((managerStats && previewStats.toJson().warnings) || []));
+
+    const problems = warnings
+      .filter((warning) => !warning.message.includes(`export 'useInsertionEffect'`))
+      .filter((warning) => !warning.message.includes(`compilation but it's unused`))
+      .filter(
+        (warning) => !warning.message.includes(`Conflicting values for 'process.env.NODE_ENV'`)
+      );
+
+    console.log(problems.map((p) => p.stack));
+    process.exit(problems.length > 0 ? 1 : 0);
     return;
   }
 
-  // Get package name and capitalize it e.g. @storybook/react -> React
-  const packageName = name.split('@storybook/').length > 1 ? name.split('@storybook/')[1] : name;
-  const frameworkName = packageName.charAt(0).toUpperCase() + packageName.slice(1);
+  const name =
+    frameworkName.split('@storybook/').length > 1
+      ? frameworkName.split('@storybook/')[1]
+      : frameworkName;
 
   outputStartupInformation({
     updateInfo: versionCheck,
     version,
-    name: frameworkName,
+    name,
     address,
     networkAddress,
     managerTotalTime,

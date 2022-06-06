@@ -1,6 +1,6 @@
 module.exports = {
   logLevel: 'debug',
-  stories: ['../src/**/*.stories.@(ts|mdx)'],
+  stories: ['../src/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   addons: [
     '@storybook/addon-docs',
     '@storybook/addon-controls',
@@ -14,7 +14,6 @@ module.exports = {
     '@storybook/addon-toolbars',
   ],
   core: {
-    builder: 'webpack4',
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
@@ -23,5 +22,5 @@ module.exports = {
     buildStoriesJson: true,
     breakingChangesV7: true,
   },
-  framework: '@storybook/web-components-webpack4',
+  framework: '@storybook/web-components-webpack5',
 };

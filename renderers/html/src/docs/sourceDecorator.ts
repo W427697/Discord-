@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* global window */
 import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
 import { addons, useEffect } from '@storybook/addons';
@@ -43,9 +44,7 @@ export function sourceDecorator(
   if (!skipSourceRender(context)) {
     if (typeof story === 'string') {
       source = story;
-    }
-    // eslint-disable-next-line no-undef
-    else if (story instanceof Element) {
+    } else if (story instanceof Element) {
       source = story.outerHTML;
     }
 

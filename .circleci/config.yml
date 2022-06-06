@@ -110,21 +110,21 @@ jobs:
             - presets
   chromatic:
     executor: sb_node_14_browsers
-    parallelism: 4
+    parallelism: 15
     steps:
       # Keep using default checkout because Chromatic needs some git history to work properly
       - checkout
       - attach_workspace:
           at: .
       - run:
-          name: examples
+          name: chromatic
           command: |
             yarn run-chromatics
   examples:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 16
+    parallelism: 15
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -192,7 +192,7 @@ jobs:
     executor:
       class: large
       name: sb_cypress_8_node_14
-    parallelism: 8
+    parallelism: 10
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -211,9 +211,16 @@ jobs:
           # TODO: Remove `web_components_typescript` as soon as Lit 2 stable is released
           command: yarn test:e2e-framework vue3 angular130 angular13 angular12 angular11 web_components_typescript web_components_lit2 react react_legacy_root_api vite_react
           no_output_timeout: 5m
+      - run:
+          name: prep artifacts
+          when: always
+          command: zip -r /tmp/storybook-e2e-testing-out.zip /tmp/storybook-e2e-testing
       - store_artifacts:
           path: /tmp/cypress-record
           destination: cypress
+      - store_artifacts:
+          path: /tmp/storybook-e2e-testing-out.zip
+          destination: e2e
   e2e-tests-sb-docs:
     executor:
       class: large
@@ -258,7 +265,7 @@ jobs:
             cd ..
             npx create-react-app cra-bench
             cd cra-bench
-            npx @storybook/bench@latest 'npx sb init' --label cra --extra-flags "--modern"
+            npx @storybook/bench@latest 'npx sb init' --label cra
   e2e-tests-pnp:
     executor:
       class: medium
@@ -317,65 +324,25 @@ jobs:
           destination: cypress
   smoke-tests:
     executor:
-      class: medium
+      class: medium+
       name: sb_node_14_browsers
     environment:
       # Disable ESLint when running smoke tests to improve perf + As of CRA 4.0.3, CRA kitchen sinks are throwing
       # because of some ESLint warnings, related to: https://github.com/facebook/create-react-app/pull/10590
       DISABLE_ESLINT_PLUGIN: 'true'
+    parallelism: 16
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
-          name: Run react kitchen-sink (smoke test)
+          name: smoke tests
           command: |
-            cd examples/cra-kitchen-sink
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run react typescript kitchen-sink (smoke test)
-          command: |
-            cd examples/cra-ts-kitchen-sink
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run vue kitchen-sink (smoke test)
-          command: |
-            cd examples/vue-kitchen-sink
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run svelte kitchen-sink (smoke test)
-          command: |
-            cd examples/svelte-kitchen-sink
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run angular-cli (smoke test)
-          command: |
-            cd examples/angular-cli
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run ember-cli (smoke test)
-          command: |
-            cd examples/ember-cli
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run official-storybook (smoke test)
-          command: |
-            cd examples/official-storybook
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run preact kitchen-sink (smoke test)
-          command: |
-            cd examples/preact-kitchen-sink
-            yarn storybook --smoke-test --quiet
-      - run:
-          name: Run cra react15 (smoke test)
-          command: |
-            cd examples/cra-react15
-            yarn storybook --smoke-test --quiet
+            yarn smoketest-storybooks --all
   lint:
     executor:
-      class: small
+      class: medium
       name: sb_node_14_classic
     steps:
       - git-shallow-clone/checkout_advanced:

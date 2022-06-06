@@ -27,14 +27,7 @@
   "author": "jbaxleyiii",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -75,7 +68,6 @@
     "access": "public"
   },
   "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
-  "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Backgrounds",
     "icon": "https://user-images.githubusercontent.com/263385/101991667-479cc600-3c7c-11eb-96d3-410e936252e7.png",

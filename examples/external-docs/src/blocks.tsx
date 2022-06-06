@@ -103,10 +103,8 @@ export const DocsProvider: React.FC = ({ children }) => {
     if (!previewPromise) {
       previewPromise = (async () => {
         // @ts-ignore
-        // eslint-disable-next-line no-undef
         if (window.preview) {
           // @ts-ignore
-          // eslint-disable-next-line no-undef
           (window.preview as PreviewWeb<AnyFramework>).onStoriesChanged({
             importFn,
             storyIndex,
@@ -119,12 +117,10 @@ export const DocsProvider: React.FC = ({ children }) => {
             getProjectAnnotations: () => projectAnnotations,
           });
           // @ts-ignore
-          // eslint-disable-next-line no-undef
           window.preview = preview;
         }
 
         // @ts-ignore
-        // eslint-disable-next-line no-undef
         return window.preview;
       })();
     }

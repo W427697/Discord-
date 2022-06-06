@@ -135,7 +135,7 @@ export abstract class JsPackageManager {
    *
    * @param packages
    */
-  public getVersionedPackages(...packages: string[]): Promise<string[]> {
+  public getVersionedPackages(packages: string[]): Promise<string[]> {
     return Promise.all(
       packages.map(async (pkg) => {
         const [packageName, packageVersion] = getPackageDetails(pkg);
@@ -151,7 +151,11 @@ export abstract class JsPackageManager {
    * @param packageNames
    */
   public getVersions(...packageNames: string[]): Promise<string[]> {
-    return Promise.all(packageNames.map((packageName) => this.getVersion(packageName)));
+    return Promise.all(
+      packageNames.map((packageName) => {
+        return this.getVersion(packageName);
+      })
+    );
   }
 
   /**

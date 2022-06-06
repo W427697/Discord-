@@ -1,5 +1,4 @@
 import fs from 'fs-extra';
-import path from 'path';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import global from 'global';
@@ -104,18 +103,6 @@ export async function webpack(
       ...module,
       rules: [
         ...rules,
-        {
-          test: /\.js$/,
-          include: new RegExp(`node_modules\\${path.sep}acorn-jsx`),
-          use: [
-            {
-              loader: resolvedBabelLoader,
-              options: {
-                presets: [[require.resolve('@babel/preset-env'), { modules: 'commonjs' }]],
-              },
-            },
-          ],
-        },
         {
           test: /(stories|story)\.mdx$/,
           use: [

@@ -21,16 +21,9 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/ts3.9/index.js",
-  "module": "dist/ts3.9/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "main": "dist/types/index.js",
+  "module": "dist/types/index.js",
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -66,15 +59,15 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@angular/core": "^11.2.0",
-    "@angular/platform-browser-dynamic": "^11.2.0",
+    "@angular/core": "^13.3.6",
+    "@angular/platform-browser-dynamic": "^13.3.6",
     "@emotion/jest": "^11.8.0",
     "@storybook/addon-docs": "6.5.0-rc.1",
     "@storybook/angular": "6.5.0-rc.1",
     "@storybook/react": "6.5.0-rc.1",
     "@storybook/vue": "6.5.0-rc.1",
     "@storybook/vue3": "6.5.0-rc.1",
-    "babel-loader": "^8.0.0",
+    "babel-loader": "^8.2.5",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.1",
     "jest-preset-angular": "^8.3.2",

@@ -6,7 +6,6 @@ import {
   Pipe,
   Type,
   ɵReflectionCapabilities as ReflectionCapabilities,
-  ɵCodegenComponentFactoryResolver,
 } from '@angular/core';
 
 const reflectionCapabilities = new ReflectionCapabilities();

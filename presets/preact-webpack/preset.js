@@ -1,1 +1,1 @@
-module.exports = require('./dist/cjs/framework-preset-preact');
+module.exports = require('./dist/cjs/index');
