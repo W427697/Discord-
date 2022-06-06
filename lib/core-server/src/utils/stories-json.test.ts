@@ -3,8 +3,9 @@ import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce';
 import Events from '@storybook/core-events';
+import type { StoryIndex } from '@storybook/store';
 
-import { useStoriesJson, DEBOUNCE } from './stories-json';
+import { useStoriesJson, DEBOUNCE, convertToIndexV3 } from './stories-json';
 import { ServerChannel } from './get-server-channel';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
@@ -195,37 +196,49 @@ describe('useStoriesJson', () => {
             "a--story-one": Object {
               "id": "a--story-one",
               "importPath": "./src/A.stories.js",
+              "kind": "A",
               "name": "Story One",
+              "story": "Story One",
               "title": "A",
             },
             "b--story-one": Object {
               "id": "b--story-one",
               "importPath": "./src/B.stories.ts",
+              "kind": "B",
               "name": "Story One",
+              "story": "Story One",
               "title": "B",
             },
             "d--story-one": Object {
               "id": "d--story-one",
               "importPath": "./src/D.stories.jsx",
+              "kind": "D",
               "name": "Story One",
+              "story": "Story One",
               "title": "D",
             },
             "first-nested-deeply-f--story-one": Object {
               "id": "first-nested-deeply-f--story-one",
               "importPath": "./src/first-nested/deeply/F.stories.js",
+              "kind": "first-nested/deeply/F",
               "name": "Story One",
+              "story": "Story One",
               "title": "first-nested/deeply/F",
             },
             "nested-button--story-one": Object {
               "id": "nested-button--story-one",
               "importPath": "./src/nested/Button.stories.ts",
+              "kind": "nested/Button",
               "name": "Story One",
+              "story": "Story One",
               "title": "nested/Button",
             },
             "second-nested-g--story-one": Object {
               "id": "second-nested-g--story-one",
               "importPath": "./src/second-nested/G.stories.ts",
+              "kind": "second-nested/G",
               "name": "Story One",
+              "story": "Story One",
               "title": "second-nested/G",
             },
           },
@@ -474,5 +487,61 @@ describe('useStoriesJson', () => {
 
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(2);
     });
+  });
+});
+
+describe('convertToIndexV3', () => {
+  it('converts v7 index.json to v6 stories.json', () => {
+    const indexJson: StoryIndex = {
+      v: 4,
+      entries: {
+        'a--docs': {
+          id: 'a--docs',
+          importPath: './src/docs2/MetaOf.docs.mdx',
+          name: 'docs',
+          storiesImports: ['./src/A.stories.js'],
+          title: 'A',
+          type: 'docs',
+        },
+        'a--story-one': {
+          id: 'a--story-one',
+          importPath: './src/A.stories.js',
+          name: 'Story One',
+          title: 'A',
+          type: 'story',
+        },
+        'b--story-one': {
+          id: 'b--story-one',
+          importPath: './src/B.stories.ts',
+          name: 'Story One',
+          title: 'B',
+          type: 'story',
+        },
+      },
+    };
+
+    expect(convertToIndexV3(indexJson)).toMatchInlineSnapshot(`
+      Object {
+        "stories": Object {
+          "a--story-one": Object {
+            "id": "a--story-one",
+            "importPath": "./src/A.stories.js",
+            "kind": "A",
+            "name": "Story One",
+            "story": "Story One",
+            "title": "A",
+          },
+          "b--story-one": Object {
+            "id": "b--story-one",
+            "importPath": "./src/B.stories.ts",
+            "kind": "B",
+            "name": "Story One",
+            "story": "Story One",
+            "title": "B",
+          },
+        },
+        "v": 3,
+      }
+    `);
   });
 });

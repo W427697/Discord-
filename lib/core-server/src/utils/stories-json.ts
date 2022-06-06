@@ -74,7 +74,11 @@ export const convertToIndexV3 = (index: StoryIndex): StoryIndexV3 => {
   const stories = Object.entries(entries).reduce((acc, [id, entry]) => {
     if (entry.type === 'story') {
       const { type, ...rest } = entry;
-      acc[id] = rest;
+      acc[id] = {
+        ...rest,
+        kind: rest.title,
+        story: rest.name,
+      };
     }
     return acc;
   }, {} as StoryIndexV3['stories']);

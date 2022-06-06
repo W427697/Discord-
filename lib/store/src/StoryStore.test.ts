@@ -1000,19 +1000,37 @@ describe('StoryStore', () => {
               "component-one--a": Object {
                 "id": "component-one--a",
                 "importPath": "./src/ComponentOne.stories.js",
+                "kind": "Component One",
                 "name": "A",
+                "parameters": Object {
+                  "__isArgsStory": false,
+                  "fileName": "./src/ComponentOne.stories.js",
+                },
+                "story": "A",
                 "title": "Component One",
               },
               "component-one--b": Object {
                 "id": "component-one--b",
                 "importPath": "./src/ComponentOne.stories.js",
+                "kind": "Component One",
                 "name": "B",
+                "parameters": Object {
+                  "__isArgsStory": false,
+                  "fileName": "./src/ComponentOne.stories.js",
+                },
+                "story": "B",
                 "title": "Component One",
               },
               "component-two--c": Object {
                 "id": "component-two--c",
                 "importPath": "./src/ComponentTwo.stories.js",
+                "kind": "Component Two",
                 "name": "C",
+                "parameters": Object {
+                  "__isArgsStory": false,
+                  "fileName": "./src/ComponentTwo.stories.js",
+                },
+                "story": "C",
                 "title": "Component Two",
               },
             },
