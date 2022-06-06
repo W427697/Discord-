@@ -1,3 +1,4 @@
+import fs from 'fs-extra';
 import {
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
@@ -6,10 +7,15 @@ import {
   loadCustomBabelConfig,
   getStorybookBabelConfig,
   loadEnvs,
+} from '@storybook/core-common';
+import type {
+  Options,
   CoreConfig,
   StorybookConfig,
+  StoryIndexer,
+  IndexerOptions,
 } from '@storybook/core-common';
-import type { Options } from '@storybook/core-common';
+import { loadCsf } from '@storybook/csf-tools';
 
 export const babel = async (_: unknown, options: Options) => {
   const { configDir, presets } = options;
@@ -112,3 +118,17 @@ export const features = async (
   argTypeTargetsV7: false,
   previewMdx2: false,
 });
+
+export const storyIndexers = async (indexers?: StoryIndexer[]) => {
+  const csfIndexer = async (fileName: string, opts: IndexerOptions) => {
+    const code = (await fs.readFile(fileName, 'utf-8')).toString();
+    return loadCsf(code, { ...opts, fileName }).parse();
+  };
+  return [
+    {
+      test: /(stories|story)\.[tj]sx?$/,
+      indexer: csfIndexer,
+    },
+    ...(indexers || []),
+  ];
+};

@@ -7837,7 +7837,6 @@ __metadata:
     "@babel/traverse": ^7.12.11
     "@babel/types": ^7.12.11
     "@storybook/csf": 0.0.2--canary.4566f4d.1
-    "@storybook/mdx1-csf": ^0.0.1
     "@storybook/mdx2-csf": ^0.0.3
     "@types/fs-extra": ^9.0.6
     core-js: ^3.8.2
@@ -7846,11 +7845,6 @@ __metadata:
     js-yaml: ^3.14.1
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
-  peerDependencies:
-    "@storybook/mdx2-csf": ^0.0.3
-  peerDependenciesMeta:
-    "@storybook/mdx2-csf":
-      optional: true
   languageName: unknown
   linkType: soft
 
