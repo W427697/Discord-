@@ -3,7 +3,6 @@ import { Icons as ExampleIcon } from '@storybook/components';
 import { IconItem, IconGallery } from './IconGallery';
 
 export default {
-  title: 'Docs/IconGallery',
   component: IconGallery,
 };
 

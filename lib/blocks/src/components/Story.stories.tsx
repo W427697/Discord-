@@ -3,7 +3,6 @@ import { Button } from '@storybook/components';
 import { Story, StorySkeleton, StoryError } from './Story';
 
 export default {
-  title: 'Docs/Story',
   component: Story,
 };
 

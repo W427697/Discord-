@@ -5,7 +5,6 @@ import { TableWrapper } from './ArgsTable';
 
 export default {
   component: SectionRow,
-  title: 'Docs/SectionRow',
   decorators: [
     (getStory) => (
       <ResetWrapper>
@@ -17,23 +16,32 @@ export default {
   ],
 };
 
-const Template = (args) => <SectionRow {...args} />;
+export const Section = {
+  args: {
+    level: 'section',
+    label: 'Props',
+  },
+};
 
-export const Section = Template.bind({});
-Section.args = { level: 'section', label: 'Props' };
+export const Subsection = {
+  args: {
+    level: 'subsection',
+    label: 'HTMLElement',
+  },
+};
 
-export const Subsection = Template.bind({});
-Subsection.args = { level: 'subsection', label: 'HTMLElement' };
+export const Collapsed = {
+  args: { ...Section.args, initialExpanded: false },
+};
 
-export const Collapsed = Template.bind({});
-Collapsed.args = { ...Section.args, initialExpanded: false };
-
-export const Nested = () => (
-  <SectionRow {...Section.args}>
-    <SectionRow {...Subsection.args}>
-      <tr>
-        <td colSpan={2}>Some content</td>
-      </tr>
+export const Nested = {
+  render: () => (
+    <SectionRow {...Section.args}>
+      <SectionRow {...Subsection.args}>
+        <tr>
+          <td colSpan={2}>Some content</td>
+        </tr>
+      </SectionRow>
     </SectionRow>
-  </SectionRow>
-);
+  ),
+};

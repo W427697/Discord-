@@ -1,35 +1,33 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
 import global from 'global';
-
 import { Spaced, Button } from '@storybook/components';
 import { Preview, PreviewSkeleton } from './Preview';
 import { Story } from './Story';
-import * as Source from './Source.stories';
+import * as sourceStories from './Source.stories';
 
 const { window: globalWindow } = global;
 
 export default {
-  title: 'Docs/Preview',
   component: Preview,
 };
 
 export const Loading = () => <PreviewSkeleton />;
 
 export const CodeCollapsed = () => (
-  <Preview isExpanded={false} withSource={Source.JSX.args}>
+  <Preview isExpanded={false} withSource={sourceStories.JSX.args}>
     <Button secondary>Button 1</Button>
   </Preview>
 );
 
 export const CodeExpanded = () => (
-  <Preview isExpanded withSource={Source.JSX.args}>
+  <Preview isExpanded withSource={sourceStories.JSX.args}>
     <Button secondary>Button 1</Button>
   </Preview>
 );
 
 export const CodeError = () => (
-  <Preview isExpanded withSource={Source.SourceUnavailable.args}>
+  <Preview isExpanded withSource={sourceStories.SourceUnavailable.args}>
     <Button secondary>Button 1</Button>
   </Preview>
 );
@@ -117,27 +115,69 @@ export const WithToolbarMulti = () => (
 
 export const WithFullscreenSingle = () => (
   <Preview withToolbar>
-    <Story inline storyFn={buttonFn} title="story1" parameters={{ layout: 'fullscreen' }} />
+    <Story
+      inline
+      storyFn={buttonFn}
+      title="story1"
+      parameters={{
+        layout: 'fullscreen',
+      }}
+    />
   </Preview>
 );
 
 export const WithFullscreenMulti = () => (
   <Preview withToolbar>
-    <Story inline storyFn={buttonFn} title="story1" parameters={{ layout: 'fullscreen' }} />
-    <Story inline storyFn={buttonFn} title="story2" parameters={{ layout: 'fullscreen' }} />
+    <Story
+      inline
+      storyFn={buttonFn}
+      title="story1"
+      parameters={{
+        layout: 'fullscreen',
+      }}
+    />
+    <Story
+      inline
+      storyFn={buttonFn}
+      title="story2"
+      parameters={{
+        layout: 'fullscreen',
+      }}
+    />
   </Preview>
 );
 
 export const WithCenteredSingle = () => (
   <Preview withToolbar>
-    <Story inline storyFn={buttonFn} title="story1" parameters={{ layout: 'centered' }} />
+    <Story
+      inline
+      storyFn={buttonFn}
+      title="story1"
+      parameters={{
+        layout: 'centered',
+      }}
+    />
   </Preview>
 );
 
 export const WithCenteredMulti = () => (
   <Preview withToolbar>
-    <Story inline storyFn={buttonFn} title="story1" parameters={{ layout: 'centered' }} />
-    <Story inline storyFn={buttonFn} title="story2" parameters={{ layout: 'centered' }} />
+    <Story
+      inline
+      storyFn={buttonFn}
+      title="story1"
+      parameters={{
+        layout: 'centered',
+      }}
+    />
+    <Story
+      inline
+      storyFn={buttonFn}
+      title="story2"
+      parameters={{
+        layout: 'centered',
+      }}
+    />
   </Preview>
 );
 

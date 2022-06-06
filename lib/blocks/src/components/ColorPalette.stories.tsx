@@ -2,7 +2,6 @@ import React from 'react';
 import { ColorItem, ColorPalette } from './ColorPalette';
 
 export default {
-  title: 'Docs/ColorPalette',
   component: ColorPalette,
 };
 
@@ -38,14 +37,26 @@ export const NamedColors = () => (
     <ColorItem
       title="theme.color.greyscale"
       subtitle="Some of the greys"
-      colors={{ White: '#FFFFFF', Alabaster: '#F8F8F8', Concrete: '#F3F3F3' }}
+      colors={{
+        White: '#FFFFFF',
+        Alabaster: '#F8F8F8',
+        Concrete: '#F3F3F3',
+      }}
     />
     <ColorItem
       title="theme.color.primary"
       subtitle="Coral"
-      colors={{ WildWatermelon: '#FF4785' }}
+      colors={{
+        WildWatermelon: '#FF4785',
+      }}
     />
-    <ColorItem title="theme.color.secondary" subtitle="Ocean" colors={{ DodgerBlue: '#1EA7FD' }} />
+    <ColorItem
+      title="theme.color.secondary"
+      subtitle="Ocean"
+      colors={{
+        DodgerBlue: '#1EA7FD',
+      }}
+    />
     <ColorItem
       title="theme.color.positive"
       subtitle="Green"
