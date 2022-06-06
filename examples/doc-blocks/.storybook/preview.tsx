@@ -1,5 +1,5 @@
 import React from 'react';
-import { Global, ThemeProvider, themes, createReset, convert } from '@storybook/theming';
+import { Global, ThemeProvider, convert, themes, createReset } from '@storybook/theming';
 
 export const decorators = [
   (StoryFn) => (
