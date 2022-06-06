@@ -12,5 +12,8 @@ module.exports = {
   core: {
     disableTelemetry: true,
   },
+  features: {
+    storyStoreV7: false,
+  },
   framework: '@storybook/server-webpack5',
 };
