@@ -239,6 +239,24 @@ export interface Builder<Config, Stats> {
   overridePresets?: string[];
 }
 
+export interface IndexerOptions {
+  makeTitle: (userTitle?: string) => string;
+}
+
+export interface IndexedStory {
+  id: string;
+  name: string;
+}
+export interface StoryIndex {
+  meta: { title?: string };
+  stories: IndexedStory[];
+}
+
+export interface StoryIndexer {
+  test: RegExp;
+  indexer: (fileName: string, options: IndexerOptions) => Promise<StoryIndex>;
+}
+
 /**
  * Options for TypeScript usage within Storybook.
  */
@@ -425,4 +443,9 @@ export interface StorybookConfig {
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
    */
   previewAnnotations?: (entries: Entry[], options: Options) => Entry[];
+
+  /**
+   * Process CSF files for the story index.
+   */
+  storyIndexers?: (indexers: StoryIndexer[], options: Options) => StoryIndexer[];
 }
