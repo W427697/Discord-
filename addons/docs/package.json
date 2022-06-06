@@ -55,6 +55,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
+    "@babel/core": "^7.12.10",
     "@babel/plugin-transform-react-jsx": "^7.12.12",
     "@babel/preset-env": "^7.12.11",
     "@jest/transform": "^26.6.2",
@@ -85,14 +86,14 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
     "@storybook/mdx2-csf": "^0.0.3",
     "@types/util-deprecate": "^1.0.0"
   },
   "peerDependencies": {
     "@storybook/mdx2-csf": "^0.0.3",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "webpack": "*"
   },
   "peerDependenciesMeta": {
     "@storybook/mdx2-csf": {
@@ -102,6 +103,9 @@
       "optional": true
     },
     "react-dom": {
+      "optional": true
+    },
+    "webpack": {
       "optional": true
     }
   },
