@@ -170,7 +170,7 @@ export abstract class JsPackageManager {
   public async getVersion(packageName: string, constraint?: string): Promise<string> {
     let current: string;
 
-    if (/@storybook/.test(packageName)) {
+    if (/(@storybook|^sb$|^storybook$)/.test(packageName)) {
       // @ts-ignore
       current = storybookPackagesVersions[packageName];
     }
