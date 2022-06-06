@@ -126,9 +126,11 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
       workingDir,
     };
     const normalizedStories = normalizeStories(await presets.apply('stories'), directories);
+    const storyIndexers = await presets.apply('storyIndexers', []);
 
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
+      storyIndexers,
       storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
       storyStoreV7: features?.storyStoreV7,
     });

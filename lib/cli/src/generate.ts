@@ -98,7 +98,15 @@ program
     'Rename suffix of matching files after codemod has been applied, e.g. ".js:.ts"'
   )
   .action((migration, { configDir, glob, dryRun, list, rename, parser }) => {
-    migrate(migration, { configDir, glob, dryRun, list, rename, parser, logger }).catch((err) => {
+    migrate(migration, {
+      configDir,
+      glob,
+      dryRun,
+      list,
+      rename,
+      parser,
+      logger: consoleLogger,
+    }).catch((err) => {
       logger.error(err);
       process.exit(1);
     });

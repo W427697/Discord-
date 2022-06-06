@@ -49,8 +49,11 @@ export async function storybookDevServer(options: Options) {
         await options.presets.apply('stories'),
         directories
       );
+      const storyIndexers = await options.presets.apply('storyIndexers', []);
+
       const generator = new StoryIndexGenerator(normalizedStories, {
         ...directories,
+        storyIndexers,
         workingDir,
         storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
         storyStoreV7: features?.storyStoreV7,

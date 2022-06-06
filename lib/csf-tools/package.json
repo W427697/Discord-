@@ -20,9 +20,9 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "index.cjs",
-  "module": "index.mjs",
-  "types": "index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -41,7 +41,6 @@
     "@babel/traverse": "^7.12.11",
     "@babel/types": "^7.12.11",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/mdx1-csf": "^0.0.1",
     "core-js": "^3.8.2",
     "fs-extra": "^9.0.1",
     "global": "^4.4.0",
@@ -52,14 +51,6 @@
     "@storybook/mdx2-csf": "^0.0.3",
     "@types/fs-extra": "^9.0.6",
     "js-yaml": "^3.14.1"
-  },
-  "peerDependencies": {
-    "@storybook/mdx2-csf": "^0.0.3"
-  },
-  "peerDependenciesMeta": {
-    "@storybook/mdx2-csf": {
-      "optional": true
-    }
   },
   "publishConfig": {
     "access": "public"

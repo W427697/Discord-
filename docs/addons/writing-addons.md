@@ -50,7 +50,7 @@ Once you've gone through the prompts, your `package.json` should look like:
 
 ### Build system
 
-We'll need to add the necessary dependencies and make some adjustments. Run the following command to install the required depedencies:
+We'll need to add the necessary dependencies and make some adjustments. Run the following command to install the required dependencies:
 
 <!-- prettier-ignore-start -->
 
