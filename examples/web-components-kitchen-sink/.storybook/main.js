@@ -23,5 +23,5 @@ module.exports = {
     buildStoriesJson: true,
     breakingChangesV7: true,
   },
-  framework: '@storybook/web-components',
+  framework: '@storybook/web-components-webpack4',
 };

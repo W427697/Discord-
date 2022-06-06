@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/renderer-preact",
+  "name": "@storybook/preact",
   "version": "6.5.0-rc.1",
   "description": "Storybook Preact renderer",
   "keywords": [

@@ -112,30 +112,6 @@
     "@storybook/preset-web-components-webpack": {
       "implicitDependencies": []
     },
-    "@storybook/renderer-html": {
-      "implicitDependencies": []
-    },
-    "@storybook/renderer-preact": {
-      "implicitDependencies": []
-    },
-    "@storybook/renderer-react": {
-      "implicitDependencies": []
-    },
-    "@storybook/renderer-server": {
-      "implicitDependencies": []
-    },
-    "@storybook/renderer-svelte": {
-      "implicitDependencies": []
-    },
-    "@storybook/renderer-vue": {
-      "implicitDependencies": []
-    },
-    "@storybook/renderer-vue3": {
-      "implicitDependencies": []
-    },
-    "@storybook/renderer-web-components": {
-      "implicitDependencies": []
-    },
     "@storybook/react": {
       "implicitDependencies": []
     },
@@ -299,6 +275,30 @@
       "implicitDependencies": []
     },
     "@storybook/preview-web": {
+      "implicitDependencies": []
+    },
+    "@storybook/html-webpack4": {
+      "implicitDependencies": []
+    },
+    "@storybook/preact-webpack4": {
+      "implicitDependencies": []
+    },
+    "@storybook/react-webpack4": {
+      "implicitDependencies": []
+    },
+    "@storybook/server-webpack4": {
+      "implicitDependencies": []
+    },
+    "@storybook/svelte-webpack4": {
+      "implicitDependencies": []
+    },
+    "@storybook/vue-webpack4": {
+      "implicitDependencies": []
+    },
+    "@storybook/vue3-webpack4": {
+      "implicitDependencies": []
+    },
+    "@storybook/web-components-webpack4": {
       "implicitDependencies": []
     }
   },

@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/renderer-svelte",
+  "name": "@storybook/svelte",
   "version": "6.5.0-rc.1",
   "description": "Storybook Svelte renderer",
   "keywords": [

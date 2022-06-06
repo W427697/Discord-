@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/renderer-vue3",
+  "name": "@storybook/vue3",
   "version": "6.5.0-rc.1",
   "description": "Storybook Vue 3 renderer",
   "keywords": [

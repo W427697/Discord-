@@ -22,5 +22,5 @@ module.exports = {
     buildStoriesJson: true,
     storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
   },
-  framework: '@storybook/vue',
+  framework: '@storybook/vue-webpack4',
 };

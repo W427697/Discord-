@@ -15,5 +15,5 @@ module.exports = {
     breakingChangesV7: true,
     channelOptions: { allowFunction: false, maxDepth: 10 },
   },
-  framework: '@storybook/vue3',
+  framework: '@storybook/vue3-webpack4',
 };

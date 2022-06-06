@@ -34,6 +34,7 @@
     "@storybook/jest": "^0.0.5",
     "@storybook/node-logger": "6.5.0-rc.1",
     "@storybook/react": "6.5.0-rc.1",
+    "@storybook/react-webpack4": "6.5.0-rc.1",
     "@storybook/router": "6.5.0-rc.1",
     "@storybook/source-loader": "6.5.0-rc.1",
     "@storybook/testing-library": "^0.0.7",
