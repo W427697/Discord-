@@ -15,6 +15,5 @@ export type { StoryFnAngularReturnType as IStory } from './preview/types';
 
 export { moduleMetadata, componentWrapperDecorator } from './preview/decorators';
 
-if (module && module.hot && module.hot.decline) {
-  module.hot.decline();
-}
+// optimization: stop HMR propagation in webpack
+module?.hot?.decline();

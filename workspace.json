@@ -309,6 +309,38 @@
       "root": "lib/preview-web",
       "type": "library"
     },
+    "@storybook/preset-html-webpack": {
+      "root": "presets/html-webpack",
+      "type": "library"
+    },
+    "@storybook/preset-preact-webpack": {
+      "root": "presets/preact-webpack",
+      "type": "library"
+    },
+    "@storybook/preset-react-webpack": {
+      "root": "presets/react-webpack",
+      "type": "library"
+    },
+    "@storybook/preset-server-webpack": {
+      "root": "presets/server-webpack",
+      "type": "library"
+    },
+    "@storybook/preset-svelte-webpack": {
+      "root": "presets/svelte-webpack",
+      "type": "library"
+    },
+    "@storybook/preset-vue-webpack": {
+      "root": "presets/vue-webpack",
+      "type": "library"
+    },
+    "@storybook/preset-vue3-webpack": {
+      "root": "presets/vue3-webpack",
+      "type": "library"
+    },
+    "@storybook/preset-web-components-webpack": {
+      "root": "presets/web-components-webpack",
+      "type": "library"
+    },
     "@storybook/renderer-html": {
       "root": "renderers/html",
       "type": "library"

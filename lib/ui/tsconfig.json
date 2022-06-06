@@ -1,19 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "./src",
-    "types": [
-      "webpack-env"
-    ],
-    "lib": [
-      "ESNext",
-      "DOM",
-      "DOM.Iterable"
-    ]
+    "lib": ["ESNext", "DOM", "DOM.Iterable"]
   },
-  "include": [
-    "src/**/*"
-  ],
+  "include": ["src/**/*"],
   "exclude": [
     "src/**/*.test.*",
     "src/**/tests/**/*",

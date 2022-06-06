@@ -62,8 +62,7 @@
     "uuid-browser": "^3.1.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.167",
-    "@types/webpack-env": "^1.16.0"
+    "@types/lodash": "^4.14.167"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
