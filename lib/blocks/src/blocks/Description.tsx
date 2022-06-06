@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
-import { Description, DescriptionProps as PureDescriptionProps } from '@storybook/blocks';
 import { str } from '@storybook/docs-tools';
+import { Description, DescriptionProps as PureDescriptionProps } from '../components';
 
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { Component, CURRENT_SELECTION } from './types';

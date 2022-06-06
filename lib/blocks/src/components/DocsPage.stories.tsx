@@ -1,5 +1,5 @@
 import React from 'react';
-import { Global, css } from '@emotion/react';
+import { Global, css } from '@storybook/theming';
 import { Source, ArgsTable, Description } from '.';
 import { Title, Subtitle, DocsPageWrapper } from './DocsPage';
 import * as Story from './Story.stories';

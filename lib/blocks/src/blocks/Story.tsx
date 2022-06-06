@@ -10,12 +10,12 @@ import React, {
 } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import global from 'global';
-import { Story as PureStory, StorySkeleton } from '@storybook/blocks';
 import { resetComponents } from '@storybook/components';
 import { StoryId, toId, storyNameFromExport, StoryAnnotations, AnyFramework } from '@storybook/csf';
 import { Story as StoryType } from '@storybook/store';
 import { addons } from '@storybook/addons';
 import Events from '@storybook/core-events';
+import { Story as PureStory, StorySkeleton } from '../components';
 
 import { CURRENT_SELECTION } from './types';
 import { DocsContext, DocsContextProps } from './DocsContext';

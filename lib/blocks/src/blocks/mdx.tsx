@@ -1,10 +1,10 @@
 import React, { FC, SyntheticEvent } from 'react';
 import { addons } from '@storybook/addons';
 import { NAVIGATE_URL } from '@storybook/core-events';
-import { Source } from '@storybook/blocks';
 import { Code, components } from '@storybook/components';
 import global from 'global';
 import { styled } from '@storybook/theming';
+import { Source } from '../components';
 import { DocsContext, DocsContextProps } from './DocsContext';
 
 const { document } = global;

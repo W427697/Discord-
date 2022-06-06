@@ -1,5 +1,4 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 import { ResetWrapper } from '@storybook/components';
 import { ArgRow } from './ArgRow';
 import { TableWrapper } from './ArgsTable';
@@ -15,15 +14,13 @@ export default {
       </ResetWrapper>
     ),
   ],
-};
-
-const baseArgs = {
-  updateArgs: action('updateArgs'),
+  argTypes: {
+    updateArgs: { action: 'updateArgs' },
+  },
 };
 
 export const String = {
   args: {
-    ...baseArgs,
     row: {
       key: 'someString',
       name: 'Some String',
@@ -48,14 +45,12 @@ export const String = {
 
 export const LongName = {
   args: {
-    ...baseArgs,
     row: { ...String.args.row, name: 'Really Long String That Takes Up Space' },
   },
 };
 
 export const LongDesc = {
   args: {
-    ...baseArgs,
     row: {
       ...String.args.row,
       description: 'really long description that takes up a lot of space. sometimes this happens.',
@@ -65,7 +60,6 @@ export const LongDesc = {
 
 export const Boolean = {
   args: {
-    ...baseArgs,
     row: {
       key: 'someBoolean',
       name: 'Some Boolean',
@@ -90,7 +84,6 @@ export const Boolean = {
 
 export const Color = {
   args: {
-    ...baseArgs,
     row: {
       key: 'someColor',
       name: 'Some Color',
@@ -108,7 +101,6 @@ export const Color = {
 
 export const Date = {
   args: {
-    ...baseArgs,
     row: {
       key: 'someDate',
       name: 'Some Date',
@@ -125,7 +117,6 @@ export const Date = {
 
 export const Number = {
   args: {
-    ...baseArgs,
     row: {
       key: 'someNumber',
       name: 'Some Number',
@@ -150,7 +141,6 @@ export const Number = {
 
 export const Range = {
   args: {
-    ...baseArgs,
     row: {
       ...Number.args.row,
       control: {
@@ -162,7 +152,6 @@ export const Range = {
 
 export const Radio = {
   args: {
-    ...baseArgs,
     row: {
       key: 'someEnum',
       name: 'Some Enum',
@@ -177,42 +166,36 @@ export const Radio = {
 
 export const InlineRadio = {
   args: {
-    ...baseArgs,
     row: { ...Radio.args.row, control: { ...Radio.args.row.control, type: 'inline-radio' } },
   },
 };
 
 export const Check = {
   args: {
-    ...baseArgs,
     row: { ...Radio.args.row, control: { ...Radio.args.row.control, type: 'check' } },
   },
 };
 
 export const InlineCheck = {
   args: {
-    ...baseArgs,
     row: { ...Radio.args.row, control: { ...Radio.args.row.control, type: 'inline-check' } },
   },
 };
 
 export const Select = {
   args: {
-    ...baseArgs,
     row: { ...Radio.args.row, control: { ...Radio.args.row.control, type: 'select' } },
   },
 };
 
 export const MultiSelect = {
   args: {
-    ...baseArgs,
     row: { ...Radio.args.row, control: { ...Radio.args.row.control, type: 'multi-select' } },
   },
 };
 
 export const ObjectOf = {
   args: {
-    ...baseArgs,
     row: {
       key: 'someObject',
       name: 'Some Object',
@@ -234,7 +217,6 @@ export const ObjectOf = {
 
 export const ArrayOf = {
   args: {
-    ...baseArgs,
     row: {
       key: 'someArray',
       name: 'Some Array',
@@ -256,7 +238,6 @@ export const ArrayOf = {
 
 export const ComplexObject = {
   args: {
-    ...baseArgs,
     row: {
       key: 'someComplex',
       name: 'Some Complex',
@@ -288,7 +269,6 @@ export const ComplexObject = {
 
 export const Func = {
   args: {
-    ...baseArgs,
     row: {
       key: 'concat',
       name: 'Concat',
@@ -329,7 +309,6 @@ const enumeration =
   '"search" | "arrow-to-bottom" | "arrow-to-right" | "bell" | "check" | "check-circle"';
 export const Enum = {
   args: {
-    ...baseArgs,
     row: {
       key: 'enum',
       name: 'Some enum',
@@ -349,7 +328,6 @@ const long_enumeration =
   '"search" | "arrow-to-bottom" | "arrow-to-right" | "bell" | "check" | "check-circle" | "chevron-up" | "chevron-down" | "chevron-left" | "chevron-right" | "envelope" | "exchange" | "file" | "file-check" | "file-import" | "file-pdf" | "file-times" | "pencil" | "question" | "question-circle" | "sitemap" | "user" | "times" | "plus" | "exclamation-triangle" | "trash-alt" | "long-arrow-up" | "long-arrow-down" | "long-arrow-left" | "long-arrow-right" | "external-link-alt" | "sticky-note" | "chart-line" | "spinner-third"';
 export const LongEnum = {
   args: {
-    ...baseArgs,
     row: {
       key: 'longEnum',
       name: 'Long enum',
@@ -369,7 +347,6 @@ const complexUnion =
   '((a: string | SVGSVGElement) => void) | RefObject<SVGSVGElement | number> | [a|b] | {a|b}';
 export const ComplexUnion = {
   args: {
-    ...baseArgs,
     row: {
       key: 'complexUnion',
       name: 'Complex',
@@ -387,7 +364,6 @@ export const ComplexUnion = {
 
 export const Markdown = {
   args: {
-    ...baseArgs,
     row: {
       key: 'someString',
       name: 'Some String',

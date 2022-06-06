@@ -1,12 +1,12 @@
 import React, { ComponentProps, FC, useContext } from 'react';
-import { Source as PureSource, SourceError } from '@storybook/blocks';
 import type { StoryId } from '@storybook/api';
 import type { Story } from '@storybook/store';
+import { SourceType } from '@storybook/docs-tools';
 
+import { Source as PureSource, SourceError } from '../components';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { SourceContext, SourceContextProps, SourceItem } from './SourceContainer';
 import { CURRENT_SELECTION } from './types';
-import { SourceType } from '../shared';
 
 import { enhanceSource } from './enhanceSource';
 import { useStories } from './useStory';

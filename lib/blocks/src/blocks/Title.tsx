@@ -1,5 +1,5 @@
 import React, { useContext, FunctionComponent } from 'react';
-import { Title as PureTitle } from '@storybook/blocks';
+import { Title as PureTitle } from '../components';
 import { DocsContext, DocsContextProps } from './DocsContext';
 
 interface TitleProps {
