@@ -22,7 +22,7 @@ export interface Parameters {
   ensureDir?: boolean;
   /** Dependencies to add before building Storybook */
   additionalDeps?: string[];
-  /** Files to add before building Storybook */
+  /** Files to add before installing Storybook */
   additionalFiles?: {
     path: string;
     contents: string;
