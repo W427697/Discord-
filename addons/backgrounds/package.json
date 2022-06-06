@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-backgrounds",
-  "version": "7.0.0-alpha.0",
+  "version": "7.0.0-alpha.1",
   "description": "Switch backgrounds to view components in different settings",
   "keywords": [
     "addon",
@@ -38,13 +38,13 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.0",
-    "@storybook/api": "7.0.0-alpha.0",
-    "@storybook/client-logger": "7.0.0-alpha.0",
-    "@storybook/components": "7.0.0-alpha.0",
-    "@storybook/core-events": "7.0.0-alpha.0",
+    "@storybook/addons": "7.0.0-alpha.1",
+    "@storybook/api": "7.0.0-alpha.1",
+    "@storybook/client-logger": "7.0.0-alpha.1",
+    "@storybook/components": "7.0.0-alpha.1",
+    "@storybook/core-events": "7.0.0-alpha.1",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/theming": "7.0.0-alpha.0",
+    "@storybook/theming": "7.0.0-alpha.1",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "memoizerific": "^1.11.3",
