@@ -9,7 +9,7 @@ import {
   OptionsControl,
   RangeControl,
   TextControl,
-} from '../controls';
+} from '../../controls';
 import { Args, ArgType } from './types';
 
 export interface ArgControlProps {
