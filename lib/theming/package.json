@@ -58,5 +58,5 @@
     "access": "public"
   },
   "bundlerEntrypoint": "./src/index.ts",
-  "gitHead": "c82d897ea765da8cf4fbbcc2af1f28c808a93e23"
+  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
 }
