@@ -49,6 +49,7 @@
     "@storybook/components": "6.5.0-rc.1",
     "@storybook/core-common": "6.5.0-rc.1",
     "@storybook/core-events": "6.5.0-rc.1",
+    "@storybook/core-webpack": "6.5.0-rc.1",
     "@storybook/node-logger": "6.5.0-rc.1",
     "@storybook/preview-web": "6.5.0-rc.1",
     "@storybook/router": "6.5.0-rc.1",

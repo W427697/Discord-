@@ -7326,6 +7326,7 @@ __metadata:
     "@storybook/components": 6.5.0-rc.1
     "@storybook/core-common": 6.5.0-rc.1
     "@storybook/core-events": 6.5.0-rc.1
+    "@storybook/core-webpack": 6.5.0-rc.1
     "@storybook/node-logger": 6.5.0-rc.1
     "@storybook/preview-web": 6.5.0-rc.1
     "@storybook/router": 6.5.0-rc.1
@@ -7391,6 +7392,7 @@ __metadata:
     "@storybook/components": 6.5.0-rc.1
     "@storybook/core-common": 6.5.0-rc.1
     "@storybook/core-events": 6.5.0-rc.1
+    "@storybook/core-webpack": 6.5.0-rc.1
     "@storybook/node-logger": 6.5.0-rc.1
     "@storybook/preview-web": 6.5.0-rc.1
     "@storybook/router": 6.5.0-rc.1
@@ -7409,7 +7411,7 @@ __metadata:
     case-sensitive-paths-webpack-plugin: ^2.3.0
     core-js: ^3.8.2
     css-loader: ^5.0.1
-    fork-ts-checker-webpack-plugin: ^6.0.4
+    fork-ts-checker-webpack-plugin: ^7.2.8
     glob: ^7.1.6
     glob-promise: ^3.4.0
     html-webpack-plugin: ^5.0.0
@@ -7697,7 +7699,6 @@ __metadata:
     "@babel/preset-typescript": ^7.12.7
     "@babel/register": ^7.12.1
     "@storybook/node-logger": 6.5.0-rc.1
-    "@storybook/react-docgen-typescript-plugin": 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
     "@storybook/semver": ^7.3.2
     "@types/compression": ^1.7.0
     "@types/interpret": ^1.1.1
@@ -7713,7 +7714,6 @@ __metadata:
     express: ^4.17.1
     file-system-cache: ^1.0.5
     find-up: ^5.0.0
-    fork-ts-checker-webpack-plugin: ^6.0.4
     fs-extra: ^9.0.1
     glob: ^7.1.6
     handlebars: ^4.7.7
@@ -7729,7 +7729,6 @@ __metadata:
     telejson: ^6.0.8
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
-    webpack: 4
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7822,6 +7821,18 @@ __metadata:
       optional: true
     typescript:
       optional: true
+  languageName: unknown
+  linkType: soft
+
+"@storybook/core-webpack@6.5.0-rc.1, @storybook/core-webpack@workspace:*, @storybook/core-webpack@workspace:lib/core-webpack":
+  version: 0.0.0-use.local
+  resolution: "@storybook/core-webpack@workspace:lib/core-webpack"
+  dependencies:
+    "@storybook/core-common": 6.5.0-rc.1
+    "@storybook/node-logger": 6.5.0-rc.1
+    "@types/node": ^14.0.10 || ^16.0.0
+    core-js: ^3.8.2
+    ts-dedent: ^2.0.0
   languageName: unknown
   linkType: soft
 
@@ -8124,6 +8135,7 @@ __metadata:
     "@storybook/addons": 6.5.0-rc.1
     "@storybook/core-client": 6.5.0-rc.1
     "@storybook/core-common": 6.5.0-rc.1
+    "@storybook/core-webpack": 6.5.0-rc.1
     "@storybook/node-logger": 6.5.0-rc.1
     "@storybook/theming": 6.5.0-rc.1
     "@storybook/ui": 6.5.0-rc.1
@@ -8176,6 +8188,7 @@ __metadata:
     "@storybook/addons": 6.5.0-rc.1
     "@storybook/core-client": 6.5.0-rc.1
     "@storybook/core-common": 6.5.0-rc.1
+    "@storybook/core-webpack": 6.5.0-rc.1
     "@storybook/node-logger": 6.5.0-rc.1
     "@storybook/theming": 6.5.0-rc.1
     "@storybook/ui": 6.5.0-rc.1
@@ -8331,14 +8344,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-html-webpack@workspace:presets/html-webpack"
   dependencies:
-    "@storybook/core-common": 6.5.0-rc.1
+    "@storybook/core-webpack": 6.5.0-rc.1
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     html-loader: ^1.3.2
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    webpack: 4
   peerDependencies:
     "@babel/core": "*"
   languageName: unknown
@@ -8349,15 +8361,13 @@ __metadata:
   resolution: "@storybook/preset-preact-webpack@workspace:presets/preact-webpack"
   dependencies:
     "@babel/plugin-transform-react-jsx": ^7.12.12
-    "@storybook/core-common": 6.5.0-rc.1
-    "@storybook/renderer-preact": 6.5.0-rc.1
+    "@storybook/core-webpack": 6.5.0-rc.1
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     preact: ^10.5.13
     react: 16.14.0
     react-dom: 16.14.0
     regenerator-runtime: ^0.13.7
-    webpack: 4
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
@@ -8371,7 +8381,7 @@ __metadata:
     "@babel/preset-flow": ^7.12.1
     "@babel/preset-react": ^7.12.10
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.3
-    "@storybook/core-common": 6.5.0-rc.1
+    "@storybook/core-webpack": 6.5.0-rc.1
     "@storybook/docs-tools": 6.5.0-rc.1
     "@storybook/node-logger": 6.5.0-rc.1
     "@storybook/react-docgen-typescript-plugin": 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
@@ -8385,13 +8395,13 @@ __metadata:
     fs-extra: ^9.0.1
     react-refresh: ^0.11.0
     regenerator-runtime: ^0.13.7
-    webpack: 4
   peerDependencies:
     "@babel/core": ^7.11.5
     jest-specific-snapshot: ^4.0.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     require-from-string: ^2.0.2
+    webpack: 4 || 5
   peerDependenciesMeta:
     "@babel/core":
       optional: true
@@ -8423,8 +8433,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-server-webpack@workspace:presets/server-webpack"
   dependencies:
-    "@storybook/core-common": 6.5.0-rc.1
     "@storybook/core-server": 6.5.0-rc.1
+    "@storybook/core-webpack": 6.5.0-rc.1
     "@storybook/renderer-server": 6.5.0-rc.1
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
@@ -8444,7 +8454,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-svelte-webpack@workspace:presets/svelte-webpack"
   dependencies:
-    "@storybook/core-common": 6.5.0-rc.1
+    "@storybook/core-webpack": 6.5.0-rc.1
     "@storybook/node-logger": 6.5.0-rc.1
     "@types/loader-utils": ^2.0.0
     core-js: ^3.8.2
@@ -8456,7 +8466,6 @@ __metadata:
     svelte-loader: ^3.0.0
     sveltedoc-parser: 4.1.0
     ts-dedent: ^2.0.0
-    webpack: 4
   peerDependencies:
     "@babel/core": "*"
     svelte: ^3.1.0
@@ -8468,7 +8477,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-vue-webpack@workspace:presets/vue-webpack"
   dependencies:
-    "@storybook/core-common": 6.5.0-rc.1
+    "@storybook/core-webpack": 6.5.0-rc.1
     "@storybook/docs-tools": 6.5.0-rc.1
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
@@ -8496,7 +8505,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-vue3-webpack@workspace:presets/vue3-webpack"
   dependencies:
-    "@storybook/core-common": 6.5.0-rc.1
+    "@storybook/core-webpack": 6.5.0-rc.1
     "@storybook/docs-tools": 6.5.0-rc.1
     "@types/node": ^14.14.20 || ^16.0.0
     "@vue/compiler-sfc": 3.0.0
@@ -8525,7 +8534,7 @@ __metadata:
     "@babel/plugin-syntax-dynamic-import": ^7.8.3
     "@babel/plugin-syntax-import-meta": ^7.10.4
     "@babel/preset-env": ^7.12.11
-    "@storybook/core-common": 6.5.0-rc.1
+    "@storybook/core-webpack": 6.5.0-rc.1
     "@types/node": ^14.14.20 || ^16.0.0
     babel-plugin-bundled-import-meta: ^0.3.1
     core-js: ^3.8.2
@@ -8586,7 +8595,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/react@workspace:app/react"
   dependencies:
-    "@storybook/core-common": 6.5.0-rc.1
     "@storybook/core-server": 6.5.0-rc.1
     "@storybook/preset-react-webpack": 6.5.0-rc.1
     "@storybook/renderer-react": 6.5.0-rc.1
@@ -8864,6 +8872,7 @@ __metadata:
     "@storybook/codemod": "workspace:*"
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
+    "@storybook/core-webpack": "workspace:*"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
     "@storybook/ember": "workspace:*"
@@ -23775,6 +23784,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fork-ts-checker-webpack-plugin@npm:^7.2.8":
+  version: 7.2.8
+  resolution: "fork-ts-checker-webpack-plugin@npm:7.2.8"
+  dependencies:
+    "@babel/code-frame": ^7.16.7
+    chalk: ^4.1.2
+    chokidar: ^3.5.3
+    cosmiconfig: ^7.0.1
+    deepmerge: ^4.2.2
+    fs-extra: ^10.0.0
+    memfs: ^3.4.1
+    minimatch: ^3.0.4
+    schema-utils: ^3.1.1
+    semver: ^7.3.5
+    tapable: ^2.2.1
+  peerDependencies:
+    typescript: ">3.6.0"
+    vue-template-compiler: "*"
+    webpack: ^5.11.0
+  peerDependenciesMeta:
+    vue-template-compiler:
+      optional: true
+  checksum: a142888a4eb5846ec7f837b039a866121476f002a86fa981ae91c6bcf57986f3d330bcfe07eb38a4c97002c3332a3069a40f602ffa3f3f393b14cbfa24737d31
+  languageName: node
+  linkType: hard
+
 "form-data@npm:^2.5.0":
   version: 2.5.1
   resolution: "form-data@npm:2.5.1"
@@ -32014,7 +32049,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"memfs@npm:^3.1.2, memfs@npm:^3.2.2":
+"memfs@npm:^3.1.2, memfs@npm:^3.2.2, memfs@npm:^3.4.1":
   version: 3.4.1
   resolution: "memfs@npm:3.4.1"
   dependencies:
@@ -43579,7 +43614,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tapable@npm:^2.0.0, tapable@npm:^2.1.1, tapable@npm:^2.2.0":
+"tapable@npm:^2.0.0, tapable@npm:^2.1.1, tapable@npm:^2.2.0, tapable@npm:^2.2.1":
   version: 2.2.1
   resolution: "tapable@npm:2.2.1"
   checksum: bc40e6efe1e554d075469cedaba69a30eeb373552aaf41caeaaa45bf56ffacc2674261b106245bd566b35d8f3329b52d838e851ee0a852120acae26e622925c9

@@ -1,5 +1,5 @@
 import path from 'path';
-import { StorybookConfig } from '@storybook/core-common';
+import { StorybookConfig } from '@storybook/core-webpack';
 
 export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, options) => {
   const svelteOptions = await options.presets.apply('svelteOptions', {} as any, options);

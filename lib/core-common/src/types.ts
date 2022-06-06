@@ -1,7 +1,4 @@
-import type ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import type { Options as TelejsonOptions } from 'telejson';
-import type { PluginOptions } from '@storybook/react-docgen-typescript-plugin';
-import type { Configuration, Stats } from 'webpack';
 import type { TransformOptions } from '@babel/core';
 import { Router } from 'express';
 import { Server } from 'http';
@@ -11,17 +8,12 @@ import { FileSystemCache } from './utils/file-cache';
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
  */
 
-export interface TypescriptConfig {
-  check: boolean;
-  reactDocgen: false | string;
-  reactDocgenTypescriptOptions: {
-    shouldExtractLiteralValuesFromEnum: boolean;
-    shouldRemoveUndefinedFromOptional: boolean;
-    propFilter: (prop: any) => boolean;
-  };
-}
-
-export type BuilderName = 'webpack4' | 'webpack5' | string;
+export type BuilderName =
+  | 'webpack4'
+  | 'webpack5'
+  | '@storybook/builder-webpack4'
+  | '@storybook/builder-webpack5'
+  | string;
 
 export type BuilderConfigObject = {
   name: BuilderName;
@@ -29,7 +21,7 @@ export type BuilderConfigObject = {
 };
 
 export interface Webpack5BuilderConfig extends BuilderConfigObject {
-  name: 'webpack5';
+  name: '@storybook/builder-webpack5';
   options?: {
     fsCache?: boolean;
     lazyCompilation?: boolean;
@@ -37,7 +29,7 @@ export interface Webpack5BuilderConfig extends BuilderConfigObject {
 }
 
 export interface Webpack4BuilderConfig extends BuilderConfigObject {
-  name: 'webpack4';
+  name: '@storybook/builder-webpack4';
 }
 
 export type BuilderConfig =
@@ -82,25 +74,15 @@ interface DirectoryMapping {
 export interface Presets {
   apply(
     extension: 'typescript',
-    config: TypescriptConfig,
+    config: TypescriptOptions,
     args?: Options
-  ): Promise<TypescriptConfig>;
+  ): Promise<TypescriptOptions>;
   apply(extension: 'babel', config: {}, args: any): Promise<TransformOptions>;
   apply(extension: 'entries', config: [], args: any): Promise<unknown>;
   apply(extension: 'stories', config: [], args: any): Promise<StoriesEntry[]>;
-  apply(
-    extension: 'webpack',
-    config: {},
-    args: { babelOptions?: TransformOptions } & any
-  ): Promise<Configuration>;
   apply(extension: 'managerEntries', config: [], args: any): Promise<string[]>;
   apply(extension: 'refs', config: [], args: any): Promise<unknown>;
   apply(extension: 'core', config: {}, args: any): Promise<CoreConfig>;
-  apply(
-    extension: 'managerWebpack',
-    config: {},
-    args: Options & { babelOptions?: TransformOptions } & ManagerWebpackOptions
-  ): Promise<Configuration>;
   apply<T extends unknown>(extension: string, config?: T, args?: unknown): Promise<T>;
 }
 
@@ -144,9 +126,13 @@ export interface ReleaseNotesData {
   showOnFirstLaunch: boolean;
 }
 
+export interface Stats {
+  toJson: () => any;
+}
+
 export interface BuilderResult {
-  stats?: Stats;
   totalTime?: ReturnType<typeof process.hrtime>;
+  stats?: Stats;
 }
 
 // TODO: this is a generic interface that we can share across multiple SB packages (like @storybook/cli)
@@ -281,23 +267,6 @@ export interface TypescriptOptions {
    * @default `false`
    */
   check: boolean;
-  /**
-   * Configures `fork-ts-checker-webpack-plugin`
-   */
-  checkOptions?: ForkTsCheckerWebpackPlugin['options'];
-  /**
-   * Sets the type of Docgen when working with React and TypeScript
-   *
-   * @default `'react-docgen-typescript'`
-   */
-  reactDocgen: 'react-docgen-typescript' | 'react-docgen' | false;
-  /**
-   * Configures `react-docgen-typescript-plugin`
-   *
-   * @default
-   * @see https://github.com/storybookjs/storybook/blob/next/lib/builder-webpack5/src/config/defaults.js#L4-L6
-   */
-  reactDocgenTypescriptOptions: PluginOptions;
 }
 
 interface StoriesSpecifier {
@@ -445,7 +414,7 @@ export interface StorybookConfig {
   /**
    * References external Storybooks
    */
-  refs?: StorybookRefs | ((config: Configuration, options: Options) => StorybookRefs);
+  refs?: StorybookRefs | ((config: any, options: Options) => StorybookRefs);
 
   /**
    * Modify or return babel config.
@@ -462,20 +431,6 @@ export interface StorybookConfig {
     config: TransformOptions,
     options: Options
   ) => TransformOptions | Promise<TransformOptions>;
-
-  /**
-   * Modify or return a custom Webpack config after the Storybook's default configuration
-   * has run (mostly used by addons).
-   */
-  webpack?: (config: Configuration, options: Options) => Configuration | Promise<Configuration>;
-
-  /**
-   * Modify or return a custom Webpack config after every addon has run.
-   */
-  webpackFinal?: (
-    config: Configuration,
-    options: Options
-  ) => Configuration | Promise<Configuration>;
 
   /**
    * Add additional scripts to run in the preview a la `.storybook/preview.js`

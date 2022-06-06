@@ -1,4 +1,23 @@
-import type { StorybookConfig as BaseConfig } from '@storybook/core-common';
+import type ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import type { Configuration } from 'webpack';
+
+import type { StorybookConfig as BaseStorybookConfig } from '@storybook/preset-react-webpack';
+
+export type { BuilderResult } from '@storybook/preset-react-webpack';
+
+/**
+ * Options for TypeScript usage within Storybook.
+ */
+export type TypescriptOptions = BaseStorybookConfig['typescript'] & {
+  /**
+   * Configures `fork-ts-checker-webpack-plugin`
+   */
+  checkOptions: ForkTsCheckerWebpackPlugin['options'];
+};
+
+export interface StorybookTypescriptConfig {
+  typescript?: Partial<TypescriptOptions>;
+}
 
 export interface ReactOptions {
   fastRefresh?: boolean;
@@ -13,10 +32,7 @@ export interface ReactOptions {
   legacyRootApi?: boolean;
 }
 
-/**
- * The interface for Storybook configuration in `main.ts` files.
- */
-export interface StorybookConfig extends BaseConfig {
+export interface StorybookReactConfig {
   framework:
     | string
     | {
@@ -24,3 +40,10 @@ export interface StorybookConfig extends BaseConfig {
         options: ReactOptions;
       };
 }
+
+/**
+ * The interface for Storybook configuration in `main.ts` files.
+ */
+export type StorybookConfig = BaseStorybookConfig<Configuration> &
+  StorybookReactConfig &
+  StorybookTypescriptConfig;

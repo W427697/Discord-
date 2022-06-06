@@ -166,6 +166,7 @@
     "@storybook/codemod": "workspace:*",
     "@storybook/components": "workspace:*",
     "@storybook/core-events": "workspace:*",
+    "@storybook/core-webpack": "workspace:*",
     "@storybook/csf-tools": "workspace:*",
     "@storybook/docs-tools": "workspace:*",
     "@storybook/ember": "workspace:*",

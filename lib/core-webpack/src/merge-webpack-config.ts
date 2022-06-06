@@ -1,4 +1,4 @@
-import type { Configuration } from 'webpack';
+import type { CommonWebpackConfiguration as Configuration } from './types';
 
 function plugins(
   { plugins: defaultPlugins = [] }: Configuration,
