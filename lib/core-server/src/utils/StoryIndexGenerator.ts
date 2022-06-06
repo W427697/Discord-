@@ -18,6 +18,7 @@ import { logger } from '@storybook/node-logger';
 import { readCsfOrMdx, getStorySortParameter } from '@storybook/csf-tools';
 import type { ComponentTitle } from '@storybook/csf';
 import { toId } from '@storybook/csf';
+import deprecate from 'util-deprecate';
 
 type DocsCacheEntry = DocsIndexEntry;
 type StoriesCacheEntry = { entries: IndexEntry[]; dependents: Path[]; type: 'stories' };
@@ -160,6 +161,10 @@ export class StoryIndexGenerator {
   async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     try {
+      if (!this.options.storyStoreV7) {
+        throw new Error(`You cannot use \`.mdx\` files without using \`storyStoreV7\`.`);
+      }
+
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
       const defaultTitle = autoTitleFromSpecifier(importPath, specifier);
