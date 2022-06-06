@@ -1,5 +1,4 @@
 import fs from 'fs-extra';
-import path from 'path';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import global from 'global';
