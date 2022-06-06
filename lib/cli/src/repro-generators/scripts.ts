@@ -1,5 +1,5 @@
 import path from 'path';
-import { readJSON, writeJSON } from 'fs-extra';
+import { readJSON, writeJSON, pathExists, remove } from 'fs-extra';
 import shell, { ExecOptions } from 'shelljs';
 import chalk from 'chalk';
 import { cra, cra_typescript } from './configs';
@@ -241,6 +241,14 @@ export const createAndInit = async (
       generator: options.gitRepoGenerator,
       cwd: options.creationPath,
     });
+
+    // If the repro does not have a .storybook folder it means it's not correct
+    // It's also possible we are trying to download a subfolder that does not exist
+    // In this case, we delete the empty or incomplete folder and use the original generator
+    if (!(await pathExists(path.resolve(cwd, '.storybook')))) {
+      await remove(cwd);
+      throw new Error('git repro is empty or does not exist!');
+    }
   } catch (err) {
     // fallback to local generators
     logger.info(`⏩ Skipping git template and using local generator instead`);
