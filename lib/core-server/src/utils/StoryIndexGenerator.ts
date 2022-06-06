@@ -5,10 +5,14 @@ import slash from 'slash';
 
 import type { Path, StoryIndex, V2CompatIndexEntry, StoryId } from '@storybook/store';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
-import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
+import type {
+  StoryIndexer,
+  IndexerOptions,
+  NormalizedStoriesSpecifier,
+} from '@storybook/core-common';
 import { normalizeStoryPath } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
-import { readCsfOrMdx, getStorySortParameter } from '@storybook/csf-tools';
+import { getStorySortParameter } from '@storybook/csf-tools';
 import type { ComponentTitle } from '@storybook/csf';
 
 type SpecifierStoriesCache = Record<Path, StoryIndex['stories'] | false>;
@@ -30,6 +34,7 @@ export class StoryIndexGenerator {
       configDir: Path;
       storiesV2Compatibility: boolean;
       storyStoreV7: boolean;
+      storyIndexers: StoryIndexer[];
     }
   ) {
     this.storyIndexEntries = new Map();
@@ -47,8 +52,8 @@ export class StoryIndexGenerator {
         const files = await glob(fullGlob);
         files.sort().forEach((absolutePath: Path) => {
           const ext = path.extname(absolutePath);
-          const relativePath = path.relative(this.options.workingDir, absolutePath);
-          if (!['.js', '.jsx', '.ts', '.tsx', '.mdx'].includes(ext)) {
+          if (ext === '.storyshot') {
+            const relativePath = path.relative(this.options.workingDir, absolutePath);
             logger.info(`Skipping ${ext} file ${relativePath}`);
             return;
           }
@@ -80,6 +85,14 @@ export class StoryIndexGenerator {
     ).flat();
   }
 
+  async index(filePath: string, options: IndexerOptions) {
+    const storyIndexer = this.options.storyIndexers.find((indexer) => indexer.test.exec(filePath));
+    if (!storyIndexer) {
+      throw new Error(`No matching story indexer found for ${filePath}`);
+    }
+    return storyIndexer.indexer(filePath, options);
+  }
+
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     const fileStories = {} as StoryIndex['stories'];
@@ -89,7 +102,7 @@ export class StoryIndexGenerator {
       const makeTitle = (userTitle?: string) => {
         return userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
       };
-      const csf = (await readCsfOrMdx(absolutePath, { makeTitle })).parse();
+      const csf = await this.index(absolutePath, { makeTitle });
       csf.stories.forEach(({ id, name }) => {
         fileStories[id] = {
           id,

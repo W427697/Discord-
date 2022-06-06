@@ -20,7 +20,7 @@ module.exports = {
   staticDirs: ['../public'],
   features: {
     buildStoriesJson: true,
-    breakingChangesV7: true,
+    storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
   },
   framework: '@storybook/vue-webpack4',
 };
