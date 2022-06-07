@@ -2,6 +2,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { sync } from 'read-pkg-up';
+import slash from 'slash';
 
 import ts from 'typescript';
 
@@ -97,7 +98,7 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
       ../../node_modules/packagename/node_modules/b/dist/dir/file.ts => _modules/packagename-node_modules-b-dist-dir-file.ts
       ./node_modules/packagename/dist/dir/file.ts => _modules/packagename-dist-dir-file.ts
       ./dist/ts-tmp/file.ts => file.ts
-      
+
     */
 
     if (relative.includes('node_modules/')) {
@@ -284,7 +285,7 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
   }
 
   entrySourceFiles.forEach((file) => {
-    const sourceFile = sourceFiles.find((f) => f.fileName === file);
+    const sourceFile = sourceFiles.find((f) => f.fileName === slash(file));
 
     actOnSourceFile(sourceFile);
   });
