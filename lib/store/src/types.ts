@@ -111,7 +111,7 @@ export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
 export interface V2CompatIndexEntry extends Omit<StoryIndexEntry, 'type'> {
   kind: StoryIndexEntry['title'];
   story: StoryIndexEntry['name'];
-  parameters?: Parameters;
+  parameters: Parameters;
 }
 
 export interface StoryIndexV3 {
