@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce';
-import Events from '@storybook/core-events';
+import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
 
 import { useStoriesJson, DEBOUNCE } from './stories-json';
 import { ServerChannel } from './get-server-channel';
@@ -178,7 +178,7 @@ describe('useStoriesJson', () => {
 
     it('scans and extracts stories v3', async () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
-      await useStoriesJson({
+      useStoriesJson({
         router,
         initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(),
         workingDir,
@@ -239,7 +239,7 @@ describe('useStoriesJson', () => {
 
     it('scans and extracts stories v2', async () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
-      await useStoriesJson({
+      useStoriesJson({
         router,
         initializedStoryIndexGenerator: getInitializedStoryIndexGenerator({
           storiesV2Compatibility: true,
@@ -344,7 +344,7 @@ describe('useStoriesJson', () => {
 
     it('disallows .mdx files without storyStoreV7', async () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
-      await useStoriesJson({
+      useStoriesJson({
         router,
         initializedStoryIndexGenerator: getInitializedStoryIndexGenerator({
           storyStoreV7: false,
@@ -367,7 +367,7 @@ describe('useStoriesJson', () => {
 
     it('allows disabling storyStoreV7 if no .mdx files are used', async () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
-      await useStoriesJson({
+      useStoriesJson({
         router,
         initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(
           { storyStoreV7: false },
@@ -488,7 +488,7 @@ describe('useStoriesJson', () => {
 
       await onChange('src/nested/Button.stories.ts');
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
-      expect(mockServerChannel.emit).toHaveBeenCalledWith(Events.STORY_INDEX_INVALIDATED);
+      expect(mockServerChannel.emit).toHaveBeenCalledWith(STORY_INDEX_INVALIDATED);
     });
 
     it('only sends one invalidation when multiple event listeners are listening', async () => {
@@ -521,7 +521,7 @@ describe('useStoriesJson', () => {
 
       await onChange('src/nested/Button.stories.ts');
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
-      expect(mockServerChannel.emit).toHaveBeenCalledWith(Events.STORY_INDEX_INVALIDATED);
+      expect(mockServerChannel.emit).toHaveBeenCalledWith(STORY_INDEX_INVALIDATED);
     });
 
     it('debounces invalidation events', async () => {
@@ -557,7 +557,7 @@ describe('useStoriesJson', () => {
       await onChange('src/nested/Button.stories.ts');
 
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
-      expect(mockServerChannel.emit).toHaveBeenCalledWith(Events.STORY_INDEX_INVALIDATED);
+      expect(mockServerChannel.emit).toHaveBeenCalledWith(STORY_INDEX_INVALIDATED);
 
       await new Promise((r) => setTimeout(r, 2 * DEBOUNCE));
 
