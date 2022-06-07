@@ -20,9 +20,26 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./utils": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./utils.d.ts"
+    },
+    "./package.json": {
+      "require": "./package.json",
+      "import": "./package.json",
+      "types": "./package.json"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -30,7 +47,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "ts-node ../../scripts/prebundle.ts"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/client-logger": "7.0.0-alpha.1",
@@ -38,6 +55,7 @@
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
+    "@digitak/esrun": "^3.2.2",
     "fast-deep-equal": "^3.1.3",
     "global": "^4.4.0",
     "history": "5.0.0",
@@ -46,8 +64,7 @@
     "qs": "^6.10.0",
     "react-router": "6.0.2",
     "react-router-dom": "6.0.2",
-    "ts-dedent": "^2.0.0",
-    "ts-node": "^10.4.0"
+    "ts-dedent": "^2.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -56,6 +73,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": "./src/index.ts",
+  "bundlerEntrypoint": [
+    "./src/index.ts"
+  ],
   "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
 }
