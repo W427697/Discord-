@@ -130,18 +130,6 @@ const baseAngular: Parameters = {
   generator: `npx -p @angular/cli@{{version}} ng new {{appName}} --routing=true --minimal=true --style=scss --skipInstall=true --strict`,
 };
 
-export const angular10: Parameters = {
-  ...baseAngular,
-  name: 'angular10',
-  version: 'v10-lts',
-};
-
-export const angular11: Parameters = {
-  ...baseAngular,
-  name: 'angular11',
-  version: 'v11-lts',
-};
-
 export const angular12: Parameters = {
   ...baseAngular,
   name: 'angular12',
