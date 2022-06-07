@@ -40,8 +40,11 @@ const normalizedStories = [
   },
 ];
 
-const getInitializedStoryIndexGenerator = async (overrides?: any) => {
-  const generator = new StoryIndexGenerator(normalizedStories, {
+const getInitializedStoryIndexGenerator = async (
+  overrides: any = {},
+  inputNormalizedStories = normalizedStories
+) => {
+  const generator = new StoryIndexGenerator(inputNormalizedStories, {
     configDir: workingDir,
     workingDir,
     storyStoreV7: true,
@@ -239,7 +242,6 @@ describe('useStoriesJson', () => {
       await useStoriesJson({
         router,
         initializedStoryIndexGenerator: getInitializedStoryIndexGenerator({
-          storyStoreV7: false,
           storiesV2Compatibility: true,
         }),
         workingDir,
@@ -332,6 +334,93 @@ describe('useStoriesJson', () => {
                 "fileName": "./src/second-nested/G.stories.ts",
               },
               "story": "Story One",
+              "title": "second-nested/G",
+            },
+          },
+          "v": 3,
+        }
+      `);
+    });
+
+    it('disallows .mdx files without storyStoreV7', async () => {
+      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      await useStoriesJson({
+        router,
+        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator({
+          storyStoreV7: false,
+        }),
+        workingDir,
+        serverChannel: mockServerChannel,
+        normalizedStories,
+      });
+
+      expect(use).toHaveBeenCalledTimes(2);
+      const route = use.mock.calls[1][1];
+
+      await route(request, response);
+
+      expect(send).toHaveBeenCalledTimes(1);
+      expect(send.mock.calls[0][0]).toEqual(
+        'You cannot use `.mdx` files without using `storyStoreV7`.'
+      );
+    });
+
+    it('allows disabling storyStoreV7 if no .mdx files are used', async () => {
+      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      await useStoriesJson({
+        router,
+        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(
+          { storyStoreV7: false },
+          normalizedStories.slice(0, 1)
+        ),
+        workingDir,
+        serverChannel: mockServerChannel,
+        normalizedStories,
+      });
+
+      expect(use).toHaveBeenCalledTimes(2);
+      const route = use.mock.calls[1][1];
+
+      await route(request, response);
+
+      expect(send).toHaveBeenCalledTimes(1);
+      expect(JSON.parse(send.mock.calls[0][0])).toMatchInlineSnapshot(`
+        Object {
+          "stories": Object {
+            "a--story-one": Object {
+              "id": "a--story-one",
+              "importPath": "./src/A.stories.js",
+              "name": "Story One",
+              "title": "A",
+            },
+            "b--story-one": Object {
+              "id": "b--story-one",
+              "importPath": "./src/B.stories.ts",
+              "name": "Story One",
+              "title": "B",
+            },
+            "d--story-one": Object {
+              "id": "d--story-one",
+              "importPath": "./src/D.stories.jsx",
+              "name": "Story One",
+              "title": "D",
+            },
+            "first-nested-deeply-f--story-one": Object {
+              "id": "first-nested-deeply-f--story-one",
+              "importPath": "./src/first-nested/deeply/F.stories.js",
+              "name": "Story One",
+              "title": "first-nested/deeply/F",
+            },
+            "nested-button--story-one": Object {
+              "id": "nested-button--story-one",
+              "importPath": "./src/nested/Button.stories.ts",
+              "name": "Story One",
+              "title": "nested/Button",
+            },
+            "second-nested-g--story-one": Object {
+              "id": "second-nested-g--story-one",
+              "importPath": "./src/second-nested/G.stories.ts",
+              "name": "Story One",
               "title": "second-nested/G",
             },
           },
