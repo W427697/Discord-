@@ -10,32 +10,34 @@ export interface StackProps extends NativeProps, BoxBaseProps {
   children?: ReactNode;
 }
 
-export const Stack = forwardRef<HTMLDivElement, StackProps>((props, forwardedRef) => {
-  const flexDirection = mapResponsiveValue(props.orientation, (value) => {
-    switch (value) {
-      case 'horizontal':
-        return 'row';
-      case 'vertical':
-        return 'column';
-      default:
-        return 'row';
-    }
-  });
-  const flexGap = mapResponsiveValue(props.gap, (value) => value);
+export const Stack = forwardRef<HTMLDivElement, StackProps>(
+  ({ gap, orientation, css, ...props }, forwardedRef) => {
+    const flexDirection = mapResponsiveValue(orientation, (value) => {
+      switch (value) {
+        case 'horizontal':
+          return 'row';
+        case 'vertical':
+          return 'column';
+        default:
+          return 'row';
+      }
+    });
+    const flexGap = mapResponsiveValue(gap, (value) => value);
 
-  return (
-    <Box
-      ref={forwardedRef}
-      {...props}
-      css={{
-        display: 'flex',
-        flexDirection,
-        gap: flexGap,
-        ...props.css,
-      }}
-    />
-  );
-});
+    return (
+      <Box
+        ref={forwardedRef}
+        css={{
+          display: 'flex',
+          flexDirection,
+          gap: flexGap,
+          ...css,
+        }}
+        {...props}
+      />
+    );
+  }
+);
 
 Stack.defaultProps = {
   orientation: 'vertical',

@@ -34,7 +34,7 @@ const responsiveSpaceProperties = defineProperties({
       'space-around',
       'space-between',
     ],
-    alignItems: ['stretch', 'flex-start', 'center', 'flex-end'],
+    alignItems: ['stretch', 'flex-start', 'center', 'flex-end', 'baseline'],
     paddingTop: vars.space,
     paddingBottom: vars.space,
     paddingLeft: vars.space,

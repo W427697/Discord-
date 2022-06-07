@@ -25,7 +25,10 @@ export interface Props extends BoxBaseProps, AllHTMLAttributes<HTMLElement> {
 }
 
 export const Box = forwardRef<HTMLElement, Props>(
-  ({ as = 'div', css, className: userClassName, children, ...props }, forwardedRef) => {
+  (
+    { as = 'div', css, className: userClassName, style: userStyles, children, ...props },
+    forwardedRef
+  ) => {
     const atomicStyles: Record<string, unknown> = {};
     const dynamicStyles: Record<string, unknown> = {};
     const customStyles: Record<string, unknown> = {};
@@ -48,7 +51,7 @@ export const Box = forwardRef<HTMLElement, Props>(
     return createElement(
       as,
       {
-        style: { ...style, ...customStyles },
+        style: { ...style, ...customStyles, ...userStyles },
         className: clsx(reset, sprinkleClass, fillingClassName, userClassName),
         ref: forwardedRef,
         ...props,
