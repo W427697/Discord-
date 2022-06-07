@@ -32,5 +32,10 @@
     "sb": "6.5.0-beta.4",
     "typescript": "^3.9.7",
     "webpack": "4"
+  },
+  "storybook": {
+    "chromatic": {
+      "projectToken": "2ea6e5abac97"
+    }
   }
 }
