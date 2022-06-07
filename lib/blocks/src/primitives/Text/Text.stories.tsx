@@ -3,7 +3,6 @@ import { Stack, Text } from '..';
 import { TextVariants, variants } from './Text.css';
 
 export default {
-  title: 'Primitives/Text',
   component: Text,
 };
 

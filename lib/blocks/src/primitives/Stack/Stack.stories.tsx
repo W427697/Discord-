@@ -2,7 +2,6 @@ import React from 'react';
 import { Box, Stack } from '..';
 
 export default {
-  title: 'Primitives/Stack',
   component: Stack,
   // argTypes: {
   //   gap: {
