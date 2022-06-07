@@ -26,6 +26,7 @@
     "@storybook/addon-viewport": "portal:../../addons/viewport",
     "@storybook/addons": "portal:../../lib/addons",
     "@storybook/api": "portal:../../lib/api",
+    "@storybook/blocks": "portal:../../lib/blocks",
     "@storybook/builder-webpack4": "portal:../../lib/builder-webpack4",
     "@storybook/channel-postmessage": "portal:../../lib/channel-postmessage",
     "@storybook/channel-websocket": "portal:../../lib/channel-websocket",
