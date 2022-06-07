@@ -145,8 +145,9 @@ With the release of version 6.0, we updated our documentation as well. That does
 
 We're only covering versions 5.3 and 5.0 as they were important milestones for Storybook. If you want to go back in time a little more, you'll have to check the specific release in the monorepo.
 
+
 | Section          | Page                                      | Current Location                                                                  | Version 5.3 location                                                                                                                                                                                                                                                 | Version 5.0 location                                                                                                                                     |
-| ---------------- | ----------------------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|------------------|-------------------------------------------|-----------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Get started      | Install                                   | [See current documentation](./get-started/install.md)                             | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/guides/quick-start-guide)                                                                                                                                     | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/guides/quick-start-guide)                         |
 |                  | What's a story                            | [See current documentation](./get-started/whats-a-story.md)                       | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/guides)                                                                                                                                    | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/guides)                        |
 |                  | Browse Stories                            | [See current documentation](./get-started/browse-stories.md)                      | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/guides)                                                                                                                                    | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/blob/release/5.0/docs/src/pages/guides)                        |
@@ -209,6 +210,7 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 |                  | Stories/StoriesOF format (see note below) | [See current documentation](../lib/core/docs/storiesOf.md)                        | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/storiesof-api)                                                                                                                                        | Non existing feature or undocumented                                                                                                                     |
 |                  | Frameworks                                | [See current documentation](./api/new-frameworks.md)                              | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | CLI options                               | [See current documentation](./api/cli-options.md)                                 | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/cli-options)                                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/cli-options)                       |
+
 
 <div class="aside">
 With the release of version 5.3, we've updated how you can write your stories more compactly and easily. It doesn't mean that the <code>storiesOf</code> format has been removed. For the time being, we're still supporting it, and we have documentation for it. But be advised that this is bound to change in the future.
@@ -283,6 +285,7 @@ See our documentation on how to customize the [Storyshots configuration](./writi
 
 Currently there's an issue when using MDX stories with IE11. This issue does <strong>not</strong> apply to [DocsPage](./writing-docs/docs-page.md). If you're interested in helping us fix this issue, read our <a href="https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING.md">Contribution guidelines</a> and submit a pull request.
 
+
 ### Why aren't my code blocks highlighted with Storybook MDX
 
 Out of the box, Storybook provides syntax highlighting for a set of languages (e.g., Javascript, Markdown, CSS, HTML, Typescript, GraphQL) that you can use with your code blocks. If you're writing your custom code blocks with MDX, you'll need to import the syntax highlighter manually. For example, if you're adding a code block for SCSS, adjust your story to the following:
@@ -338,6 +341,7 @@ You'll need to update it to make it compatible with MDX 2.
 
 See the following [issue](https://github.com/mdx-js/mdx/issues/1945) for more information.
 
+
 ### Why can't I import my own stories into MDX 2?
 
 This is a known issue with MDX 2. We're working to fix it. For now you can apply the following workaround:
@@ -347,10 +351,11 @@ This is a known issue with MDX 2. We're working to fix it. For now you can apply
 
 import { Story } from '@storybook/addon-docs';
 
-import \* as stories from './Button.stories.jsx';
+import * as stories from './Button.stories.jsx';
 
 <Story name="Basic" story={stories.Basic} />
 ```
+
 
 ### Why are my mocked GraphQL queries failing with Storybook's MSW addon?
 
@@ -393,6 +398,8 @@ Yes, check the [addon's examples](https://github.com/mswjs/msw-storybook-addon/t
 ### Can I mock GraphQL mutations with Storybook's MSW addon?
 
 No, currently, the MSW addon only has support for GraphQL queries. If you're interested in including this feature, open an issue in the [MSW addon repository](https://github.com/mswjs/msw-storybook-addon) and follow up with the maintainer.
+
+
 
 ### How can my code detect if it is running in Storybook?
 
@@ -469,3 +476,12 @@ export default {
 ### Why isn't Storybook's test runner working?
 
 There's an issue with Storybook's test runner and the latest version of Jest (i.e., version 28), which prevents it from running effectively. As a workaround, you can downgrade Jest to the previous stable version (i.e., version 27), and you'll be able to run it. See the following [issue](https://github.com/storybookjs/test-runner/issues/99) for more information.
+
+
+### How does Storybook handles enviroment variables?
+
+Storybook has built-in support for [environment variables](./configure/environment-variables.md). By default, environment variables are only available in Node.js code and are not available in the browser as some variables should be kept secret (e.g., API keys) and **not** exposed to anyone visiting the published Storybook.
+
+To expose a variable, you must preface its name with `STORYBOOK_`. So `STORYBOOK_API_URL` will be available in browser code but `API_KEY` will not. Additionally you can also customize which variables are exposed by setting the [`env`](./configure/environment-variables.md#using-storybook-configuration) field in the `.storybook/main.js` file.
+
+Variables are set when JavaScript is compiled so when the development server is started or you build your Storybook. Environment variable files should not be committed to Git as they often contain secrets which are not safe to add to Git. Instead, add `.env.*` to your `.gitignore` file and set up the environment variables manually on your hosting provider (e.g., [GitHub](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository)).
