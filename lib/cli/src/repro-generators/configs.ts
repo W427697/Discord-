@@ -175,6 +175,13 @@ export const web_components_typescript: Parameters = {
   ...web_components,
   name: 'web_components_typescript',
   typescript: true,
+  additionalDeps: ['@babel/preset-typescript'],
+  additionalFiles: [
+    {
+      path: '.babelrc',
+      contents: '{ "presets": ["@babel/preset-typescript"] }',
+    },
+  ],
 };
 
 export const web_components_lit2: Parameters = {
@@ -183,6 +190,13 @@ export const web_components_lit2: Parameters = {
   name: 'web_components_lit2',
   generator: fromDeps('lit'),
   typescript: true,
+  additionalDeps: ['@babel/preset-typescript'],
+  additionalFiles: [
+    {
+      path: '.babelrc',
+      contents: '{ "presets": ["@babel/preset-typescript"] }',
+    },
+  ],
 };
 
 // #endregion
