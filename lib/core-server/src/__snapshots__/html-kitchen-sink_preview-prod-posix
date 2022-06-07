@@ -34,6 +34,17 @@ Object {
         "use": Array [
           Object {
             "loader": "NODE_MODULES/babel-loader/lib/index.js",
+            "options": Object {
+              "cacheDirectory": "NODE_MODULES/.cache/storybook/babel",
+              "overrides": Array [
+                Object {
+                  "plugins": Array [
+                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
+                  ],
+                  "test": "/\\\\.(story|stories).*$/",
+                },
+              ],
+            },
           },
         ],
       },
