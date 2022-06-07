@@ -139,13 +139,12 @@
     "@storybook/example-react-ts": {
       "implicitDependencies": []
     },
-    "@storybook/example-react-ts-webpack4": {
+    "@storybook/example-doc-blocks": {
       "implicitDependencies": []
     },
     "@storybook/external-docs": {
       "implicitDependencies": []
     },
-
     "server-kitchen-sink": {
       "implicitDependencies": []
     },
