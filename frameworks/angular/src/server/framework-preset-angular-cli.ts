@@ -176,7 +176,7 @@ async function getLegacyDefaultBuildOptions(options: PresetOptions) {
       target: 'build',
     } as Target;
 
-    const { target, project } = findAngularProjectTarget(
+    const { target } = findAngularProjectTarget(
       workspaceConfig,
       browserTarget.project,
       browserTarget.target
