@@ -1,14 +1,7 @@
-export * from './Source';
-export * from './EmptyBlock';
-export * from './Description';
-export * from './DocsPage';
-export * from './Preview';
-export * from './ArgsTable';
-export * from './Story';
-export * from './IFrame';
-export * from './Typeset';
-export * from './ColorPalette';
-export * from './IconGallery';
+// FIXME: sort this out, maybe with package.json exports map
+// https://medium.com/swlh/npm-new-package-json-exports-field-1a7d1f489ccf
+export { ArgsTable as PureArgsTable, NoControlsWarning } from './components';
+export type { SortType } from './components';
 
-// Controls
+export * from './blocks';
 export * from './controls';
