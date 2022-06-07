@@ -986,41 +986,6 @@ describe('StoryStore', () => {
         `);
       });
     });
-
-    describe('in non-back-compat mode', () => {
-      it('maps stories list to payload correctly', async () => {
-        const store = new StoryStore();
-        store.setProjectAnnotations(projectAnnotations);
-        store.initialize({ storyIndex, importFn, cache: false });
-        await store.cacheAllCSFFiles();
-
-        expect(store.getStoriesJsonData()).toMatchInlineSnapshot(`
-          Object {
-            "stories": Object {
-              "component-one--a": Object {
-                "id": "component-one--a",
-                "importPath": "./src/ComponentOne.stories.js",
-                "name": "A",
-                "title": "Component One",
-              },
-              "component-one--b": Object {
-                "id": "component-one--b",
-                "importPath": "./src/ComponentOne.stories.js",
-                "name": "B",
-                "title": "Component One",
-              },
-              "component-two--c": Object {
-                "id": "component-two--c",
-                "importPath": "./src/ComponentTwo.stories.js",
-                "name": "C",
-                "title": "Component Two",
-              },
-            },
-            "v": 3,
-          }
-        `);
-      });
-    });
   });
 
   describe('cacheAllCsfFiles', () => {

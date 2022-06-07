@@ -72,10 +72,17 @@ export function useStoriesJson({
 export const convertToIndexV3 = (index: StoryIndex): StoryIndexV3 => {
   const { entries } = index;
   const stories = Object.entries(entries).reduce((acc, [id, entry]) => {
-    if (entry.type === 'story') {
-      const { type, ...rest } = entry;
-      acc[id] = rest;
-    }
+    const { type, ...rest } = entry;
+    acc[id] = {
+      ...rest,
+      kind: rest.title,
+      story: rest.name,
+      parameters: {
+        __id: rest.id,
+        docsOnly: type === 'docs',
+        fileName: rest.importPath,
+      },
+    };
     return acc;
   }, {} as StoryIndexV3['stories']);
   return {
