@@ -48,13 +48,13 @@ const storybookPaths: Record<string, string> = [
 
 export default async (options: Options & Record<string, any>): Promise<Configuration> => {
   const {
-    babelOptions,
     outputDir = path.join('.', 'public'),
     quiet,
     packageJson,
     configType,
     presets,
     previewUrl,
+    babelOptions,
     typescriptOptions,
     features,
     serverChannelUrl,
@@ -71,19 +71,14 @@ export default async (options: Options & Record<string, any>): Promise<Configura
   const { name: frameworkName, options: frameworkOptions } =
     typeof framework === 'string' ? { name: framework, options: {} } : framework;
 
+  const isProd = configType === 'PRODUCTION';
   const envs = await presets.apply<Record<string, string>>('env');
   const logLevel = await presets.apply('logLevel', undefined);
-
-  // FIXME: migrate away from frameworkOptions
-  // const frameworkOptions = await presets.apply(`${framework}Options`, {});
 
   const headHtmlSnippet = await presets.apply('previewHead');
   const bodyHtmlSnippet = await presets.apply('previewBody');
   const template = await presets.apply<string>('previewMainTemplate');
   const coreOptions = await presets.apply<CoreConfig>('core');
-
-  const babelLoader = createBabelLoader(babelOptions, frameworkName);
-  const isProd = configType === 'PRODUCTION';
 
   const configs = [
     ...(await presets.apply('config', [], options)),
@@ -236,7 +231,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     ].filter(Boolean),
     module: {
       rules: [
-        babelLoader,
+        createBabelLoader(babelOptions, frameworkName),
         {
           test: /\.md$/,
           type: 'asset/source',
@@ -271,9 +266,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
                 mangle: false,
                 keep_fnames: true,
               },
-              // It looks like the types from `@types/terser-webpack-plugin` are not matching the latest version of
-              // Webpack yet
-            }) as any,
+            }),
           ]
         : [],
     },

@@ -48,7 +48,6 @@ export const babelDefault: StorybookConfig['babelDefault'] = async (config) => {
     presets: [
       ...(config?.presets || []),
       [require.resolve('@babel/preset-react'), presetReactOptions],
-      require.resolve('@babel/preset-flow'),
     ],
     plugins: [...(config?.plugins || []), require.resolve('babel-plugin-add-react-displayname')],
   };

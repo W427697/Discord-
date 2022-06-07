@@ -4,7 +4,6 @@ import {
   getPreviewHeadTemplate,
   getManagerMainTemplate,
   getPreviewMainTemplate,
-  getStorybookBabelConfig,
   loadEnvs,
 } from '@storybook/core-common';
 import type {
@@ -19,11 +18,7 @@ import { loadCsf } from '@storybook/csf-tools';
 export const babel = async (_: unknown, options: Options) => {
   const { presets } = options;
 
-  if (options.features?.babelModeV7) {
-    return presets.apply('babelDefault', {}, options);
-  }
-
-  return presets.apply('babelDefault', getStorybookBabelConfig(), options) as any;
+  return presets.apply('babelDefault', {}, options);
 };
 
 export const logLevel = (previous: any, options: Options) => previous || options.loglevel || 'info';
