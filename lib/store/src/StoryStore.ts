@@ -303,28 +303,29 @@ export class StoryStore<TFramework extends AnyFramework> {
     };
   }
 
+  // NOTE: this is legacy `stories.json` data for the `extract` script.
+  // It is used to allow v7 Storybooks to be composed in v6 Storybooks, which expect a
+  // `stories.json` file with legacy fields (`kind` etc).
   getStoriesJsonData = (): StoryIndexV3 => {
     const value = this.getSetStoriesPayload();
     const allowedParameters = ['fileName', 'docsOnly', 'framework', '__id', '__isArgsStory'];
 
-    const stories: Record<StoryId, Omit<StoryIndexEntry, 'type'> | V2CompatIndexEntry> = mapValues(
-      value.stories,
-      (story) => {
-        const { importPath } = this.storyIndex.entries[story.id];
-        return {
-          ...pick(story, ['id', 'name', 'title']),
-          importPath,
-          ...(!global.FEATURES?.breakingChangesV7 && {
-            kind: story.title,
-            story: story.name,
-            parameters: {
-              ...pick(story.parameters, allowedParameters),
-              fileName: importPath,
-            },
-          }),
-        };
-      }
-    );
+    const stories: Record<StoryId, V2CompatIndexEntry> = mapValues(value.stories, (story) => {
+      const { importPath } = this.storyIndex.entries[story.id];
+      return {
+        ...pick(story, ['id', 'name', 'title']),
+        importPath,
+        // These 3 fields were going to be dropped in v7, but instead we will keep them for the
+        // 7.x cycle so that v7 Storybooks can be composed successfully in v6 Storybook.
+        // In v8 we will (likely) completely drop support for `extract` and `getStoriesJsonData`
+        kind: story.title,
+        story: story.name,
+        parameters: {
+          ...pick(story.parameters, allowedParameters),
+          fileName: importPath,
+        },
+      };
+    });
 
     return {
       v: 3,

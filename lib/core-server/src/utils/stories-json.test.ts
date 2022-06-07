@@ -3,8 +3,9 @@ import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce';
 import Events from '@storybook/core-events';
+import type { StoryIndex } from '@storybook/store';
 
-import { useStoriesJson, DEBOUNCE } from './stories-json';
+import { useStoriesJson, DEBOUNCE, convertToIndexV3 } from './stories-json';
 import { ServerChannel } from './get-server-channel';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
@@ -192,40 +193,126 @@ describe('useStoriesJson', () => {
       expect(JSON.parse(send.mock.calls[0][0])).toMatchInlineSnapshot(`
         Object {
           "stories": Object {
+            "a--docs": Object {
+              "id": "a--docs",
+              "importPath": "./src/docs2/MetaOf.docs.mdx",
+              "kind": "A",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "a--docs",
+                "docsOnly": true,
+                "fileName": "./src/docs2/MetaOf.docs.mdx",
+              },
+              "storiesImports": Array [
+                "./src/A.stories.js",
+              ],
+              "story": "docs",
+              "title": "A",
+            },
             "a--story-one": Object {
               "id": "a--story-one",
               "importPath": "./src/A.stories.js",
+              "kind": "A",
               "name": "Story One",
+              "parameters": Object {
+                "__id": "a--story-one",
+                "docsOnly": false,
+                "fileName": "./src/A.stories.js",
+              },
+              "story": "Story One",
               "title": "A",
             },
             "b--story-one": Object {
               "id": "b--story-one",
               "importPath": "./src/B.stories.ts",
+              "kind": "B",
               "name": "Story One",
+              "parameters": Object {
+                "__id": "b--story-one",
+                "docsOnly": false,
+                "fileName": "./src/B.stories.ts",
+              },
+              "story": "Story One",
               "title": "B",
             },
             "d--story-one": Object {
               "id": "d--story-one",
               "importPath": "./src/D.stories.jsx",
+              "kind": "D",
               "name": "Story One",
+              "parameters": Object {
+                "__id": "d--story-one",
+                "docsOnly": false,
+                "fileName": "./src/D.stories.jsx",
+              },
+              "story": "Story One",
               "title": "D",
+            },
+            "docs2-notitle--docs": Object {
+              "id": "docs2-notitle--docs",
+              "importPath": "./src/docs2/NoTitle.docs.mdx",
+              "kind": "docs2/NoTitle",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "docs2-notitle--docs",
+                "docsOnly": true,
+                "fileName": "./src/docs2/NoTitle.docs.mdx",
+              },
+              "storiesImports": Array [],
+              "story": "docs",
+              "title": "docs2/NoTitle",
+            },
+            "docs2-yabbadabbadooo--docs": Object {
+              "id": "docs2-yabbadabbadooo--docs",
+              "importPath": "./src/docs2/Title.docs.mdx",
+              "kind": "docs2/Yabbadabbadooo",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "docs2-yabbadabbadooo--docs",
+                "docsOnly": true,
+                "fileName": "./src/docs2/Title.docs.mdx",
+              },
+              "storiesImports": Array [],
+              "story": "docs",
+              "title": "docs2/Yabbadabbadooo",
             },
             "first-nested-deeply-f--story-one": Object {
               "id": "first-nested-deeply-f--story-one",
               "importPath": "./src/first-nested/deeply/F.stories.js",
+              "kind": "first-nested/deeply/F",
               "name": "Story One",
+              "parameters": Object {
+                "__id": "first-nested-deeply-f--story-one",
+                "docsOnly": false,
+                "fileName": "./src/first-nested/deeply/F.stories.js",
+              },
+              "story": "Story One",
               "title": "first-nested/deeply/F",
             },
             "nested-button--story-one": Object {
               "id": "nested-button--story-one",
               "importPath": "./src/nested/Button.stories.ts",
+              "kind": "nested/Button",
               "name": "Story One",
+              "parameters": Object {
+                "__id": "nested-button--story-one",
+                "docsOnly": false,
+                "fileName": "./src/nested/Button.stories.ts",
+              },
+              "story": "Story One",
               "title": "nested/Button",
             },
             "second-nested-g--story-one": Object {
               "id": "second-nested-g--story-one",
               "importPath": "./src/second-nested/G.stories.ts",
+              "kind": "second-nested/G",
               "name": "Story One",
+              "parameters": Object {
+                "__id": "second-nested-g--story-one",
+                "docsOnly": false,
+                "fileName": "./src/second-nested/G.stories.ts",
+              },
+              "story": "Story One",
               "title": "second-nested/G",
             },
           },
@@ -474,5 +561,87 @@ describe('useStoriesJson', () => {
 
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(2);
     });
+  });
+});
+
+describe('convertToIndexV3', () => {
+  it('converts v7 index.json to v6 stories.json', () => {
+    const indexJson: StoryIndex = {
+      v: 4,
+      entries: {
+        'a--docs': {
+          id: 'a--docs',
+          importPath: './src/docs2/MetaOf.docs.mdx',
+          name: 'docs',
+          storiesImports: ['./src/A.stories.js'],
+          title: 'A',
+          type: 'docs',
+        },
+        'a--story-one': {
+          id: 'a--story-one',
+          importPath: './src/A.stories.js',
+          name: 'Story One',
+          title: 'A',
+          type: 'story',
+        },
+        'b--story-one': {
+          id: 'b--story-one',
+          importPath: './src/B.stories.ts',
+          name: 'Story One',
+          title: 'B',
+          type: 'story',
+        },
+      },
+    };
+
+    expect(convertToIndexV3(indexJson)).toMatchInlineSnapshot(`
+      Object {
+        "stories": Object {
+          "a--docs": Object {
+            "id": "a--docs",
+            "importPath": "./src/docs2/MetaOf.docs.mdx",
+            "kind": "A",
+            "name": "docs",
+            "parameters": Object {
+              "__id": "a--docs",
+              "docsOnly": true,
+              "fileName": "./src/docs2/MetaOf.docs.mdx",
+            },
+            "storiesImports": Array [
+              "./src/A.stories.js",
+            ],
+            "story": "docs",
+            "title": "A",
+          },
+          "a--story-one": Object {
+            "id": "a--story-one",
+            "importPath": "./src/A.stories.js",
+            "kind": "A",
+            "name": "Story One",
+            "parameters": Object {
+              "__id": "a--story-one",
+              "docsOnly": false,
+              "fileName": "./src/A.stories.js",
+            },
+            "story": "Story One",
+            "title": "A",
+          },
+          "b--story-one": Object {
+            "id": "b--story-one",
+            "importPath": "./src/B.stories.ts",
+            "kind": "B",
+            "name": "Story One",
+            "parameters": Object {
+              "__id": "b--story-one",
+              "docsOnly": false,
+              "fileName": "./src/B.stories.ts",
+            },
+            "story": "Story One",
+            "title": "B",
+          },
+        },
+        "v": 3,
+      }
+    `);
   });
 });
