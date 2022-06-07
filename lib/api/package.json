@@ -18,9 +18,27 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./shortcut": {
+      "require": "./dist/shortcut.js",
+      "import": "./dist/shortcut.mjs",
+      "types": "./dist/shortcut.d.ts"
+    },
+    "./package.json": {
+      "require": "./package.json",
+      "import": "./package.json",
+      "types": "./package.json"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -28,7 +46,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/channels": "7.0.0-alpha.1",
@@ -50,6 +68,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
+    "@digitak/esrun": "^3.2.2",
     "@types/lodash": "^4.14.167",
     "@types/qs": "^6",
     "@types/semver": "^7.3.4",
@@ -64,5 +83,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "bundlerEntrypoint": [
+    "./src/index.tsx",
+    "./src/shortcut.ts"
+  ],
   "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
 }
