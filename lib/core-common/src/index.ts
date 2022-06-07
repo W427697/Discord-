@@ -1,9 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="./typings.d.ts" />
+/// <reference types="@types/compression" />
 
 export * from './presets';
 
-export * from './utils/babel';
 export * from './utils/check-addon-order';
 export * from './utils/envs';
 export * from './utils/handlebars';
