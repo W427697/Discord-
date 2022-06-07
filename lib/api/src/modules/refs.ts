@@ -9,7 +9,7 @@ import {
   StoryIndexStory,
 } from '../lib/stories';
 
-import { ModuleFn, StoryId } from '../index';
+import type { ModuleFn, StoryId } from '../index';
 
 const { location, fetch } = global;
 

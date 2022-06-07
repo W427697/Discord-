@@ -19,8 +19,8 @@ import {
   SHARED_STATE_SET,
   SET_STORIES,
 } from '@storybook/core-events';
-import { RouterData } from '@storybook/router';
-import { Listener } from '@storybook/channels';
+import type { RouterData } from '@storybook/router';
+import type { Listener } from '@storybook/channels';
 
 import { createContext } from './context';
 import Store, { Options } from './store';
@@ -221,7 +221,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     this.api = api;
   }
 
-  static getDerivedStateFromProps(props: ManagerProviderProps, state: State) {
+  static getDerivedStateFromProps(props: ManagerProviderProps, state: State): State {
     if (state.path !== props.path) {
       return {
         ...state,
@@ -236,7 +236,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     return null;
   }
 
-  shouldComponentUpdate(nextProps: ManagerProviderProps, nextState: State) {
+  shouldComponentUpdate(nextProps: ManagerProviderProps, nextState: State): boolean {
     const prevState = this.state;
     const prevProps = this.props;
 
