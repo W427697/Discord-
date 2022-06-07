@@ -1,25 +1,35 @@
-import { recipe } from '@vanilla-extract/recipes';
-import { vars } from '../theme.css';
+import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
+import { sprinkles } from '../sprinkles.css';
 
-export const text = recipe({
-  base: {
-    fontSize: vars.fontSizes.medium,
-  },
-
-  variants: {
-    variant: {
-      body: {
-        color: vars.colors.text,
-        fontSize: vars.fontSizes.medium,
-      },
-      caption: {
-        color: vars.colors.muted,
-        fontSize: vars.fontSizes.small,
-      },
+export const variants = {
+  title: sprinkles({
+    color: 'text',
+    fontSize: 'x-large',
+    fontWeight: 'bold',
+  }),
+  body: sprinkles({
+    color: 'text',
+    fontSize: 'medium',
+  }),
+  emphasis: [
+    {
+      color: 'inherit',
+      fontSize: 'inherit',
     },
-  },
+    sprinkles({
+      fontWeight: 'bold',
+    }),
+  ],
+  caption: sprinkles({
+    color: 'muted',
+    fontSize: 'small',
+  }),
+};
 
-  defaultVariants: {
-    variant: 'body',
+export const getRecipe = recipe({
+  variants: {
+    variant: variants,
   },
 });
+
+export type TextVariants = RecipeVariants<typeof getRecipe>;

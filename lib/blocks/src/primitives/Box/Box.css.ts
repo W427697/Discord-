@@ -12,8 +12,6 @@ export const reset = style([
     border: 0,
     boxSizing: 'border-box', // Ensure that padding is included in width
     minWidth: 0, // ensure the Box can shrink below its minimum content size when used as a flex item
-    fontSize: '100%',
-    font: 'inherit',
     verticalAlign: 'baseline',
     WebkitTapHighlightColor: 'transparent',
   },
