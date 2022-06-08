@@ -38,4 +38,4 @@ export const { setAddon } = api.clientApi;
 export const { forceReRender } = api;
 export const { getStorybook } = api.clientApi;
 export const { raw } = api.clientApi;
-export { activeStoryComponent, setup } from './render';
+export { setup } from './render';
