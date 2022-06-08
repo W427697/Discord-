@@ -12,20 +12,30 @@ const defaultTheme = {
     body: 'system-ui',
   },
   fontSizes: {
-    'x-small': '10px',
-    small: '12px',
-    medium: '16px',
-    large: '24px',
-    'x-large': '32px',
+    s1: '12px',
+    s2: '14px',
+    s3: '16px',
+    m1: '20px',
+    m2: '24px',
+    m3: '28px',
+    l1: '32px',
+    l2: '40px',
+    l3: '48px',
   },
   fontWeights: {
-    normal: 'normal',
-    bold: 'bold',
+    normal: '400',
+    bold: '700',
+    black: '900',
   },
   colors: {
     background: 'white',
     text: 'black',
-    muted: '#efefef',
+    muted: 'rgba(0,0,0,.1)',
+  },
+  borderRadius: {
+    none: '0px',
+    small: '4px',
+    round: '99999px',
   },
 };
 
@@ -36,7 +46,7 @@ export const lightTheme = createTheme(theme, {
   colors: {
     background: 'white',
     text: 'black',
-    muted: '#bbb',
+    muted: 'rgba(0,0,0,.125)',
   },
 });
 
@@ -45,7 +55,7 @@ export const darkTheme = createTheme(theme, {
   colors: {
     background: 'black',
     text: 'white',
-    muted: '#888',
+    muted: 'rgba(255,255,255,.25)',
   },
 });
 

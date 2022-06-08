@@ -45,6 +45,18 @@ const responsiveSpaceProperties = defineProperties({
     fontSize: vars.fontSizes,
     fontWeight: vars.fontWeights,
     textAlign: ['left', 'center', 'right'], // Do not include justify for good!
+
+    // Borders
+    borderRadius: vars.borderRadius,
+    border: {
+      none: 'none',
+      thin: '1px solid',
+    },
+    // Shadows
+    boxShadow: {
+      none: 'none',
+      block: `${vars.colors.muted} 0 1px 3px 0`,
+    },
   },
   shorthands: {
     padding: ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'],
@@ -63,7 +75,15 @@ const colorProperties = defineProperties({
   properties: {
     color: vars.colors,
     background: vars.colors,
+    // Borders
+    borderTopColor: vars.colors,
+    borderRightColor: vars.colors,
+    borderBottomColor: vars.colors,
+    borderLeftColor: vars.colors,
     // etc.
+  },
+  shorthands: {
+    borderColor: ['borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor'],
   },
 });
 
