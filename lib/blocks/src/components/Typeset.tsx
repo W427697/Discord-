@@ -56,7 +56,7 @@ export const Typeset: FunctionComponent<TypesetProps> = ({
           background: 'background',
         }}
       >
-        <Text as="dt" variant="caption">
+        <Text as="dt" size="s1" tone="muted">
           {value}
         </Text>
         <Sample style={{ fontSize: value, fontWeight, fontFamily }}>{sampleText}</Sample>
