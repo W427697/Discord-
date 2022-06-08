@@ -342,11 +342,6 @@ export interface StorybookConfig {
     previewCsfV3?: boolean;
 
     /**
-     * Activate modern inline rendering
-     */
-    modernInlineRender?: boolean;
-
-    /**
      * Activate on demand story store
      */
     storyStoreV7?: boolean;

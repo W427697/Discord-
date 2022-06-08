@@ -223,7 +223,9 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     // of which ones were rendered by the docs page.
     // However, in `modernInlineRender`, the individual stories track their own events as they
     // each call `renderStoryToElement` below.
-    if (this.currentRender instanceof DocsRender) await this.currentRender.rerender();
+    if (this.currentRender instanceof DocsRender) {
+      await this.currentRender.rerender();
+    }
   }
 
   async onPreloadStories(ids: string[]) {

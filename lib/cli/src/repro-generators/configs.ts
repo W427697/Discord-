@@ -155,7 +155,6 @@ export const angular_modern_inline_rendering: Parameters = {
   mainOverrides: {
     features: {
       storyStoreV7: true,
-      modernInlineRender: true,
     },
   },
 };
