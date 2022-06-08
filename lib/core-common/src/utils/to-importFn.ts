@@ -45,7 +45,7 @@ export function toImportFn(
   stories: NormalizedStoriesSpecifier[],
   { needPipelinedImport }: { needPipelinedImport?: boolean } = {}
 ) {
-  let pipelinedImport = `const pipelineImport = (x) => x;`;
+  let pipelinedImport = `const pipelineImport = (x) => x();`;
   if (needPipelinedImport) {
     // If an import is in flight when another import arrives, block it until the first completes.
     // This is to avoid a situation where webpack kicks off a second compilation whilst the
