@@ -167,7 +167,7 @@ export async function baseGenerator(
   }
 
   const packages = [
-    'sb',
+    'storybook',
     frameworkPackage,
     ...addonPackages,
     ...extraPackages,
