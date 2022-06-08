@@ -9,7 +9,7 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-import type { Options, CoreConfig } from '@storybook/core-common';
+import type { Options, CoreConfig, Webpack5BuilderConfig } from '@storybook/core-common';
 import {
   toRequireContextString,
   stringifyProcessEnvs,
@@ -103,7 +103,9 @@ export default async (
     const storiesFilename = 'storybook-stories.js';
     const storiesPath = path.resolve(path.join(workingDir, storiesFilename));
 
-    virtualModuleMapping[storiesPath] = toImportFn(stories);
+    const needPipelinedImport =
+      !!(coreOptions.builder as Webpack5BuilderConfig).options?.lazyCompilation && !isProd;
+    virtualModuleMapping[storiesPath] = toImportFn(stories, { needPipelinedImport });
     const configEntryPath = path.resolve(path.join(workingDir, 'storybook-config-entry.js'));
     virtualModuleMapping[configEntryPath] = handlebars(
       await readTemplate(
