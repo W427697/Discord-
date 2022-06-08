@@ -22,25 +22,21 @@ export const Primary = Template.bind({});
 Primary.args = {
   primary: true,
   label: 'Button',
-  backgroundColor: undefined,
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
   label: 'Button',
-  backgroundColor: undefined,
 };
 
 export const Large = Template.bind({});
 Large.args = {
   size: 'large',
   label: 'Button',
-  backgroundColor: undefined,
 };
 
 export const Small = Template.bind({});
 Small.args = {
   size: 'small',
   label: 'Button',
-  backgroundColor: undefined,
 };
