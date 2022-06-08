@@ -5,6 +5,12 @@ const config: StorybookConfig = {
     {
       directory: '../src',
       titlePrefix: 'Demo',
+      files: '**/button.stories.tsx',
+    },
+    {
+      directory: '../src/docs2',
+      titlePrefix: 'Docs2',
+      files: '**/*.docs.mdx',
     },
   ],
   logLevel: 'debug',

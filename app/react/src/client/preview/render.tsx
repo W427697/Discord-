@@ -68,7 +68,6 @@ const getReactRoot = async (el: Element): Promise<ReactRoot | null> => {
   if (!isUsingNewReactRootApi) {
     return null;
   }
-
   let root = nodes.get(el);
 
   if (!root) {

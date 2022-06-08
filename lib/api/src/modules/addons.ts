@@ -5,7 +5,6 @@ import dedent from 'ts-dedent';
 
 import { ModuleFn } from '../index';
 import { Options } from '../store';
-import { isStory } from '../lib/stories';
 
 const warnDisabledDeprecated = deprecate(
   () => {},
@@ -106,7 +105,7 @@ export const init: ModuleFn = ({ provider, store, fullAPI }) => {
       const { storyId } = store.getState();
       const story = fullAPI.getData(storyId);
 
-      if (!allPanels || !story || !isStory(story)) {
+      if (!allPanels || !story || story.type !== 'story') {
         return allPanels;
       }
 

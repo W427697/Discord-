@@ -110,12 +110,6 @@ export interface LoadedPreset {
   options: any;
 }
 
-export interface PresetsOptions {
-  corePresets: string[];
-  overridePresets: string[];
-  frameworkPresets: string[];
-}
-
 export type PresetConfig =
   | string
   | {

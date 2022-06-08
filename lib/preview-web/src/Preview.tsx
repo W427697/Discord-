@@ -21,7 +21,7 @@ const { fetch } = global;
 
 type MaybePromise<T> = Promise<T> | T;
 
-const STORY_INDEX_PATH = './stories.json';
+const STORY_INDEX_PATH = './index.json';
 
 export class Preview<TFramework extends AnyFramework> {
   channel: Channel;

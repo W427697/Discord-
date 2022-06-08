@@ -25,7 +25,7 @@ import {
 } from './utils/copy-all-static-files';
 import { getPreviewBuilder } from './utils/get-preview-builder';
 import { getManagerBuilder } from './utils/get-manager-builder';
-import { extractStoriesJson } from './utils/stories-json';
+import { convertToIndexV3, extractStoriesJson } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
@@ -114,8 +114,12 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     extractTasks.push(
       extractStoriesJson(
         path.join(options.outputDir, 'stories.json'),
-        initializedStoryIndexGenerator
+        initializedStoryIndexGenerator,
+        convertToIndexV3
       )
+    );
+    extractTasks.push(
+      extractStoriesJson(path.join(options.outputDir, 'index.json'), initializedStoryIndexGenerator)
     );
   }
 
@@ -130,7 +134,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
       const payload = storyIndex
         ? {
             storyIndex: {
-              storyCount: Object.keys(storyIndex.stories).length,
+              storyCount: Object.keys(storyIndex.entries).length,
               version: storyIndex.v,
             },
           }
@@ -163,7 +167,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
         await import('@storybook/manager-webpack5/prebuilt-manager')
       : await import('@storybook/manager-webpack4/prebuilt-manager');
 
-  const prebuiltDir = await getPrebuiltDir(fullOptions);
+  const prebuiltDir = await getPrebuiltDir(fullOptions as any);
 
   const startTime = process.hrtime();
   // When using the prebuilt manager, we straight up copy it into the outputDir instead of building it

@@ -1,5 +1,5 @@
 import React, { ComponentProps, FC, useContext } from 'react';
-import type { StoryId } from '@storybook/api';
+import type { StoryId, Parameters } from '@storybook/api';
 import type { Story } from '@storybook/store';
 import { SourceType } from '@storybook/docs-tools';
 
@@ -94,7 +94,12 @@ export const getSourceProps = (
   sourceContext: SourceContextProps
 ): PureSourceProps & SourceStateProps => {
   const { id: currentId, storyById } = docsContext;
-  const { parameters } = storyById(currentId);
+  let parameters = {} as Parameters;
+  try {
+    ({ parameters } = storyById(currentId));
+  } catch (err) {
+    // TODO: in external mode, there is no "current"
+  }
 
   const codeProps = props as CodeProps;
   const singleProps = props as SingleSourceProps;

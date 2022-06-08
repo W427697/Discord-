@@ -30,6 +30,8 @@ import type {
   StoryIndex,
   StoryIndexEntry,
   V2CompatIndexEntry,
+  StoryIndexV3,
+  ModuleExports,
 } from './types';
 import { HooksContext } from './hooks';
 
@@ -115,8 +117,14 @@ export class StoryStore<TFramework extends AnyFramework> {
     storyIndex?: StoryIndex;
   }) {
     if (importFn) this.importFn = importFn;
-    if (storyIndex) this.storyIndex.stories = storyIndex.stories;
+    if (storyIndex) this.storyIndex.entries = storyIndex.entries;
     if (this.cachedCSFFiles) await this.cacheAllCSFFiles();
+  }
+
+  // Get an entry from the index, waiting on initialization if necessary
+  async storyIdToEntry(storyId: StoryId) {
+    await this.initializationPromise;
+    return this.storyIndex.storyIdToEntry(storyId);
   }
 
   // To load a single CSF file to service a story we need to look up the importPath in the index
@@ -130,7 +138,7 @@ export class StoryStore<TFramework extends AnyFramework> {
 
   loadAllCSFFiles(): PromiseLike<StoryStore<TFramework>['cachedCSFFiles']> {
     const importPaths: Record<Path, StoryId> = {};
-    Object.entries(this.storyIndex.stories).forEach(([storyId, { importPath }]) => {
+    Object.entries(this.storyIndex.entries).forEach(([storyId, { importPath }]) => {
       importPaths[importPath] = storyId;
     });
 
@@ -191,9 +199,36 @@ export class StoryStore<TFramework extends AnyFramework> {
 
   // If we have a CSF file we can get all the stories from it synchronously
   componentStoriesFromCSFFile({ csfFile }: { csfFile: CSFFile<TFramework> }): Story<TFramework>[] {
-    return Object.keys(this.storyIndex.stories)
+    return Object.keys(this.storyIndex.entries)
       .filter((storyId: StoryId) => !!csfFile.stories[storyId])
       .map((storyId: StoryId) => this.storyFromCSFFile({ storyId, csfFile }));
+  }
+
+  async loadDocsFileById(
+    docsId: StoryId
+  ): Promise<{ docsExports: ModuleExports; csfFiles: CSFFile<TFramework>[] }> {
+    const entry = await this.storyIdToEntry(docsId);
+    if (entry.type !== 'docs') throw new Error(`Cannot load docs file for id ${docsId}`);
+
+    const { importPath, storiesImports } = entry;
+
+    const [docsExports, ...csfFiles] = (await Promise.all([
+      this.importFn(importPath),
+      ...storiesImports.map((storyImportPath) => {
+        const firstStoryEntry = this.storyIndex.importPathToEntry(storyImportPath);
+        return this.loadCSFFileByStoryId(firstStoryEntry.id);
+      }),
+    ])) as [ModuleExports, ...CSFFile<TFramework>[]];
+
+    return { docsExports, csfFiles };
+  }
+
+  async loadEntry(id: StoryId) {
+    const entry = await this.storyIdToEntry(id);
+    if (entry.type === 'docs' && !entry.legacy) {
+      return this.loadDocsFileById(id);
+    }
+    return this.loadCSFFileByStoryId(id);
   }
 
   // A prepared story does not include args, globals or hooks. These are stored in the story store
@@ -218,28 +253,34 @@ export class StoryStore<TFramework extends AnyFramework> {
       throw new Error('Cannot call extract() unless you call cacheAllCSFFiles() first.');
     }
 
-    return Object.entries(this.storyIndex.stories).reduce((acc, [storyId, { importPath }]) => {
-      const csfFile = this.cachedCSFFiles[importPath];
-      const story = this.storyFromCSFFile({ storyId, csfFile });
+    return Object.entries(this.storyIndex.entries).reduce(
+      (acc, [storyId, { type, importPath }]) => {
+        if (type === 'docs') return acc;
 
-      if (!options.includeDocsOnly && story.parameters.docsOnly) {
+        const csfFile = this.cachedCSFFiles[importPath];
+        const story = this.storyFromCSFFile({ storyId, csfFile });
+
+        if (!options.includeDocsOnly && story.parameters.docsOnly) {
+          return acc;
+        }
+
+        acc[storyId] = Object.entries(story).reduce(
+          (storyAcc, [key, value]) => {
+            if (key === 'moduleExport') return storyAcc;
+            if (typeof value === 'function') {
+              return storyAcc;
+            }
+            if (Array.isArray(value)) {
+              return Object.assign(storyAcc, { [key]: value.slice().sort() });
+            }
+            return Object.assign(storyAcc, { [key]: value });
+          },
+          { args: story.initialArgs }
+        );
         return acc;
-      }
-
-      acc[storyId] = Object.entries(story).reduce(
-        (storyAcc, [key, value]) => {
-          if (typeof value === 'function') {
-            return storyAcc;
-          }
-          if (Array.isArray(value)) {
-            return Object.assign(storyAcc, { [key]: value.slice().sort() });
-          }
-          return Object.assign(storyAcc, { [key]: value });
-        },
-        { args: story.initialArgs }
-      );
-      return acc;
-    }, {} as Record<string, any>);
+      },
+      {} as Record<string, any>
+    );
   }
 
   getSetStoriesPayload() {
@@ -262,25 +303,29 @@ export class StoryStore<TFramework extends AnyFramework> {
     };
   }
 
-  getStoriesJsonData = () => {
+  // NOTE: this is legacy `stories.json` data for the `extract` script.
+  // It is used to allow v7 Storybooks to be composed in v6 Storybooks, which expect a
+  // `stories.json` file with legacy fields (`kind` etc).
+  getStoriesJsonData = (): StoryIndexV3 => {
     const value = this.getSetStoriesPayload();
     const allowedParameters = ['fileName', 'docsOnly', 'framework', '__id', '__isArgsStory'];
 
-    const stories: Record<StoryId, StoryIndexEntry | V2CompatIndexEntry> = mapValues(
-      value.stories,
-      (story) => ({
+    const stories: Record<StoryId, V2CompatIndexEntry> = mapValues(value.stories, (story) => {
+      const { importPath } = this.storyIndex.entries[story.id];
+      return {
         ...pick(story, ['id', 'name', 'title']),
-        importPath: this.storyIndex.stories[story.id].importPath,
-        ...(!global.FEATURES?.breakingChangesV7 && {
-          kind: story.title,
-          story: story.name,
-          parameters: {
-            ...pick(story.parameters, allowedParameters),
-            fileName: this.storyIndex.stories[story.id].importPath,
-          },
-        }),
-      })
-    );
+        importPath,
+        // These 3 fields were going to be dropped in v7, but instead we will keep them for the
+        // 7.x cycle so that v7 Storybooks can be composed successfully in v6 Storybook.
+        // In v8 we will (likely) completely drop support for `extract` and `getStoriesJsonData`
+        kind: story.title,
+        story: story.name,
+        parameters: {
+          ...pick(story.parameters, allowedParameters),
+          fileName: importPath,
+        },
+      };
+    });
 
     return {
       v: 3,
