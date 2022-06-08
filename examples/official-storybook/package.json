@@ -3,12 +3,12 @@
   "version": "7.0.0-alpha.1",
   "private": true,
   "scripts": {
-    "build-storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb build -c ./",
-    "debug": "cross-env NODE_OPTIONS=--inspect-brk STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb dev -p 9011 -c ./",
+    "build-storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true storybook build -c ./",
+    "debug": "cross-env NODE_OPTIONS=--inspect-brk STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true storybook dev -p 9011 -c ./",
     "do-storyshots-puppeteer": "../../node_modules/.bin/jest --projects=./storyshots-puppeteer",
     "generate-addon-jest-testresults": "jest --config=tests/addon-jest.config.json --json --outputFile=stories/addon-jest.testresults.json",
-    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb dev -p 9011 -c ./ --no-manager-cache",
-    "storyshots-puppeteer": "sb build && yarn run do-storyshots-puppeteer"
+    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true storybook dev -p 9011 -c ./ --no-manager-cache",
+    "storyshots-puppeteer": "storybook build && yarn run do-storyshots-puppeteer"
   },
   "devDependencies": {
     "@emotion/jest": "^11.8.0",
@@ -54,7 +54,7 @@
     "prop-types": "^15.7.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
-    "sb": "7.0.0-alpha.1",
+    "storybook": "7.0.0-alpha.1",
     "terser-webpack-plugin": "^5.3.1",
     "uuid-browser": "^3.1.0",
     "webpack": "5"

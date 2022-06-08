@@ -3,8 +3,8 @@
   "version": "7.0.0-alpha.1",
   "private": true,
   "scripts": {
-    "build-storybook": "sb build",
-    "storybook": "sb dev -p 9009 --no-manager-cache"
+    "build-storybook": "storybook build",
+    "storybook": "storybook dev -p 9009 --no-manager-cache"
   },
   "dependencies": {
     "global": "^4.4.0"
@@ -26,7 +26,7 @@
     "@storybook/svelte": "7.0.0-alpha.1",
     "@storybook/svelte-webpack5": "7.0.0-alpha.1",
     "@storybook/testing-library": "^0.0.7",
-    "sb": "7.0.0-alpha.1",
+    "storybook": "7.0.0-alpha.1",
     "svelte-jester": "^2.3.2",
     "svelte-preprocess": "^4.10.6"
   },
