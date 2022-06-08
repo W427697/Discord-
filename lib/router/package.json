@@ -64,6 +64,6 @@
     "access": "public"
   },
   "bundlerEntrypoint": "./src/index.ts",
-  "gitHead": "22683e756917d598c87fbcf73de434e1ae608556",
+  "gitHead": "62155d6836210000be1981f06690913043b4c35e",
   "sbmodern": "dist/modern/index.js"
 }
