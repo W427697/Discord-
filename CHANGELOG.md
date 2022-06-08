@@ -1,3 +1,9 @@
+## 6.5.8 (June 9, 2022)
+
+### Bug Fixes
+
+- UI: Disable Emotion warnings about unsafe pseudo-selectors in SSR ([#18361](https://github.com/storybookjs/storybook/pull/18361))
+
 ## 6.5.8-alpha.0 (June 7, 2022)
 
 ### Bug Fixes
