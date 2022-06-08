@@ -69,6 +69,7 @@ export function renderToDOM(
   domElement: HTMLElement
 ) {
   Vue.config.errorHandler = showException;
+  // TODO: apply same fixes as in renderer/vue3
 
   // FIXME: move this into root[COMPONENT] = element
   // once we get rid of knobs so we don't have to re-create

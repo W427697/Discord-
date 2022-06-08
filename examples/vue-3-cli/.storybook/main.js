@@ -9,9 +9,6 @@ module.exports = {
     disableTelemetry: true,
   },
   features: {
-    buildStoriesJson: false,
-    breakingChangesV7: false,
-    storyStoreV7: false,
     channelOptions: { allowFunction: false, maxDepth: 10 },
   },
   framework: '@storybook/vue3-webpack5',
