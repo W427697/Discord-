@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import global from 'global';
-import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
 import { MDXProvider } from '@mdx-js/react';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 import { DocsWrapper, DocsContent, components as htmlComponents } from '@storybook/components';
@@ -26,25 +24,13 @@ const defaultComponents = {
   ...HeadersMdx,
 };
 
-const warnOptionsTheme = deprecate(
-  () => {},
-  dedent`
-    Deprecated parameter: options.theme => docs.theme
-
-    https://github.com/storybookjs/storybook/blob/next/addons/docs/docs/theming.md#storybook-theming
-`
-);
-
 export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, children }) => {
   const { id: storyId, storyById } = context;
   const {
-    parameters: { options = {}, docs = {} },
+    parameters: { docs = {} },
   } = storyById(storyId);
-  let themeVars = docs.theme;
-  if (!themeVars && options.theme) {
-    warnOptionsTheme();
-    themeVars = options.theme;
-  }
+  const themeVars = docs.theme;
+
   const theme = ensureTheme(themeVars);
   const allComponents = { ...defaultComponents, ...docs.components };
 

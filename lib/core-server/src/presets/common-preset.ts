@@ -97,7 +97,6 @@ export const features = async (
 ): Promise<StorybookConfig['features']> => ({
   ...existing,
   postcss: true,
-  warnOnLegacyHierarchySeparator: true,
   buildStoriesJson: false,
   storyStoreV7: true,
   breakingChangesV7: true,

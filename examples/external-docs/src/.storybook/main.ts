@@ -24,7 +24,6 @@ const config: StorybookConfig = {
     storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
     buildStoriesJson: true,
     babelModeV7: true,
-    warnOnLegacyHierarchySeparator: false,
     previewMdx2: true,
   },
   framework: '@storybook/react-webpack5',

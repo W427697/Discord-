@@ -1,17 +1,7 @@
-import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
 import type { Globals, GlobalTypes } from '@storybook/csf';
 
 import { deepDiff, DEEPLY_EQUAL } from './args';
 import { getValuesFromArgTypes } from './csf/getValuesFromArgTypes';
-
-const setUndeclaredWarning = deprecate(
-  () => {},
-  dedent`
-    Setting a global value that is undeclared (i.e. not in the user's initial set of globals
-    or globalTypes) is deprecated and will have no effect in 7.0.
-  `
-);
 
 export class GlobalsStore {
   allowedGlobalNames: Set<string>;
@@ -55,7 +45,8 @@ export class GlobalsStore {
   update(newGlobals: Globals) {
     Object.keys(newGlobals).forEach((key) => {
       if (!this.allowedGlobalNames.has(key)) {
-        setUndeclaredWarning();
+        // eslint-disable-next-line no-param-reassign
+        delete newGlobals[key];
       }
     });
 

@@ -1,6 +1,5 @@
 import memoize from 'memoizerific';
 import React from 'react';
-import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import mapValues from 'lodash/mapValues';
 import countBy from 'lodash/countBy';
@@ -20,8 +19,6 @@ import { combineParameters } from '../index';
 import merge from './merge';
 import type { Provider } from '../modules/provider';
 import type { ViewMode } from '../modules/addons';
-
-const { FEATURES } = global;
 
 export type { StoryId };
 
@@ -147,23 +144,6 @@ export type SetStoriesPayload =
       stories: StoriesRaw;
     } & Record<string, never>);
 
-const warnLegacyShowRoots = deprecate(
-  () => {},
-  dedent`
-    The 'showRoots' config option is deprecated and will be removed in Storybook 7.0. Use 'sidebar.showRoots' instead.
-    Read more about it in the migration guide: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md
-  `
-);
-
-const warnChangedDefaultHierarchySeparators = deprecate(
-  () => {},
-  dedent`
-    The default hierarchy separators changed in Storybook 6.0.
-    '|' and '.' will no longer create a hierarchy, but codemods are available.
-    Read more about it in the migration guide: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md
-  `
-);
-
 export const denormalizeStoryParameters = ({
   globalParameters,
   kindParameters,
@@ -208,21 +188,13 @@ export const transformStoriesRawToStoriesHash = (
   { provider, prepared = true }: { provider: Provider; prepared?: Story['prepared'] }
 ): StoriesHash => {
   const values = Object.values(input).filter(Boolean);
-  const usesOldHierarchySeparator = values.some(({ kind }) => kind.match(/\.|\|/)); // dot or pipe
 
   const storiesHashOutOfOrder = values.reduce((acc, item) => {
     const { kind, parameters } = item;
-    const { sidebar = {}, showRoots: deprecatedShowRoots } = provider.getConfig();
-    const { showRoots = deprecatedShowRoots, collapsedRoots = [], renderLabel } = sidebar;
-
-    if (typeof deprecatedShowRoots !== 'undefined') {
-      warnLegacyShowRoots();
-    }
+    const { sidebar = {} } = provider.getConfig();
+    const { showRoots, collapsedRoots = [], renderLabel } = sidebar;
 
     const setShowRoots = typeof showRoots !== 'undefined';
-    if (usesOldHierarchySeparator && !setShowRoots && FEATURES?.warnOnLegacyHierarchySeparator) {
-      warnChangedDefaultHierarchySeparators();
-    }
 
     const groups = kind.trim().split(STORY_KIND_PATH_SEPARATOR);
     const root = (!setShowRoots || showRoots) && groups.length > 1 ? [groups.shift()] : [];
