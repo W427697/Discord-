@@ -1,17 +1,19 @@
 import React from 'react';
 import { Stack, Text } from '../../primitives';
 import { Title } from '../Title';
-import { BlockWrapper } from './BlockWrapper';
+import { Block } from './Block';
 
 export default {
-  component: BlockWrapper,
+  component: Block,
 };
 
 export const Simple = () => (
-  <BlockWrapper>
+  <Block>
     <Stack css={{ padding: 'medium' }}>
       <Title>This is a block title</Title>
       <Text as="p">This is a content of the block</Text>
     </Stack>
-  </BlockWrapper>
+  </Block>
 );
+
+export const Empty = () => <Block appearance="empty">This is an empty block</Block>;

@@ -30,7 +30,9 @@ const defaultTheme = {
   colors: {
     background: 'white',
     text: 'black',
-    muted: 'rgba(0,0,0,.1)',
+    muted: 'rgba(0,0,0,.35)',
+    border: 'rgba(0,0,0,.125)',
+    backdrop: 'rgba(0,0,0,.01)',
   },
   borderRadius: {
     none: '0px',
@@ -43,11 +45,6 @@ const theme = createThemeContract(defaultTheme);
 
 export const lightTheme = createTheme(theme, {
   ...defaultTheme,
-  colors: {
-    background: 'white',
-    text: 'black',
-    muted: 'rgba(0,0,0,.125)',
-  },
 });
 
 export const darkTheme = createTheme(theme, {
@@ -55,7 +52,9 @@ export const darkTheme = createTheme(theme, {
   colors: {
     background: 'black',
     text: 'white',
-    muted: 'rgba(255,255,255,.25)',
+    muted: 'rgba(255,255,255,.5)',
+    border: 'rgba(255,255,255,.25)',
+    backdrop: 'rgba(255,255,255,.175)',
   },
 });
 

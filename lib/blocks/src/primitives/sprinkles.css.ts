@@ -62,12 +62,13 @@ const responsiveSpaceProperties = defineProperties({
     borderRadius: vars.borderRadius,
     border: {
       none: 'none',
+      dashed: '1px dashed',
       thin: '1px solid',
     },
     // Shadows
     boxShadow: {
       none: 'none',
-      block: `${vars.colors.muted} 0 1px 3px 0`,
+      small: `${vars.colors.border} 0 1px 3px 0`,
     },
   },
   shorthands: {
