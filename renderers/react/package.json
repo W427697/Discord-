@@ -51,7 +51,6 @@
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
     "react-element-to-jsx-string": "^14.3.4",
-    "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },

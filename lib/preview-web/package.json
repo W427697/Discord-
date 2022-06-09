@@ -51,7 +51,6 @@
     "global": "^4.4.0",
     "lodash": "^4.17.21",
     "qs": "^6.10.0",
-    "regenerator-runtime": "^0.13.7",
     "synchronous-promise": "^2.0.15",
     "ts-dedent": "^2.0.0",
     "unfetch": "^4.2.0",

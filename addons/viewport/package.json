@@ -44,8 +44,7 @@
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "memoizerific": "^1.11.3",
-    "prop-types": "^15.7.2",
-    "regenerator-runtime": "^0.13.7"
+    "prop-types": "^15.7.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

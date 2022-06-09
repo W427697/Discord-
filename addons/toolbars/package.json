@@ -43,8 +43,7 @@
     "@storybook/client-logger": "7.0.0-alpha.1",
     "@storybook/components": "7.0.0-alpha.1",
     "@storybook/theming": "7.0.0-alpha.1",
-    "core-js": "^3.8.2",
-    "regenerator-runtime": "^0.13.7"
+    "core-js": "^3.8.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

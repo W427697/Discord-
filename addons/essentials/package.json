@@ -45,7 +45,6 @@
     "@storybook/core-common": "7.0.0-alpha.1",
     "@storybook/node-logger": "7.0.0-alpha.1",
     "core-js": "^3.8.2",
-    "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
