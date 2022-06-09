@@ -1,5 +1,7 @@
 import React, { ComponentProps, FunctionComponent } from 'react';
 import { styled, ThemeProvider, convert, themes } from '@storybook/theming';
+import { SyntaxHighlighter } from '@storybook/components';
+
 import { EmptyBlock } from './EmptyBlock';
 
 const StyledSyntaxHighlighter = styled(SyntaxHighlighter)<{}>(({ theme }) => ({
