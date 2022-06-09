@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '../index';
+import { Box } from '..';
 
 export default {
   component: Box,

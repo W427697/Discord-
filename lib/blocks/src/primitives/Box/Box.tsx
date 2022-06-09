@@ -1,8 +1,7 @@
 import type { FillingsProps } from '@angelblock/fillings';
 import clsx from 'clsx';
 import React, { AllHTMLAttributes, createElement, CSSProperties, forwardRef } from 'react';
-import { sizeFillings, sprinkles, Sprinkles as AtomicStyles } from '../sprinkles.css';
-import { reset } from './Box.css';
+import { reset, sizeFillings, sprinkles, Sprinkles as AtomicStyles } from '../sprinkles.css';
 
 type DynamicStyles = FillingsProps<typeof sizeFillings>;
 type DynamicProperties = keyof DynamicStyles;

@@ -5,7 +5,19 @@ import {
   ConditionalValue,
 } from '@vanilla-extract/sprinkles';
 import { createFillings } from '@angelblock/fillings';
+import { style } from '@vanilla-extract/css';
 import { vars } from './theme.css';
+
+// Reset styles must be created before sprinkles to have lower specificity
+export const reset = style({
+  padding: 0,
+  margin: 0,
+  border: 0,
+  boxSizing: 'border-box', // Ensure that padding is included in width
+  minWidth: 0, // ensure the Box can shrink below its minimum content size when used as a flex item
+  verticalAlign: 'baseline',
+  WebkitTapHighlightColor: 'transparent',
+});
 
 const responsiveConditions = {
   mobile: { '@media': '' }, // treated as special case - style not wrapped with selector
