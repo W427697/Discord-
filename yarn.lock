@@ -6974,7 +6974,7 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/instrumenter": 7.0.0-alpha.1
     "@storybook/jest": ^0.0.5
-    "@storybook/testing-library": ^0.0.7
+    "@storybook/testing-library": ^0.0.11
     "@storybook/theming": 7.0.0-alpha.1
     core-js: ^3.8.2
     formik: ^2.2.9
@@ -9039,7 +9039,7 @@ __metadata:
     "@storybook/svelte": "workspace:*"
     "@storybook/svelte-webpack5": "workspace:*"
     "@storybook/telemetry": "workspace:*"
-    "@storybook/testing-library": ^0.0.7
+    "@storybook/testing-library": ^0.0.11
     "@storybook/theming": "workspace:*"
     "@storybook/ui": "workspace:*"
     "@storybook/vue": "workspace:*"
@@ -9419,29 +9419,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/testing-library@npm:^0.0.7":
-  version: 0.0.7
-  resolution: "@storybook/testing-library@npm:0.0.7"
-  dependencies:
-    "@storybook/client-logger": 6.4.0-rc.5
-    "@storybook/instrumenter": 6.4.0-rc.5
-    "@testing-library/dom": ^8.3.0
-    "@testing-library/user-event": ^13.2.1
-    ts-dedent: ^2.2.0
-  checksum: 6be4b2d418195417cd0a04e5a4f2b71a93364cb88780084714a0553c39e6b38943458511b25b101c830b332783afec98a40eefcdc663dca3f34e8f48609a4670
-  languageName: node
-  linkType: hard
-
-"@storybook/testing-library@npm:^0.0.9":
-  version: 0.0.9
-  resolution: "@storybook/testing-library@npm:0.0.9"
+"@storybook/testing-library@npm:^0.0.11":
+  version: 0.0.11
+  resolution: "@storybook/testing-library@npm:0.0.11"
   dependencies:
     "@storybook/client-logger": ^6.4.0 || >=6.5.0-0
     "@storybook/instrumenter": ^6.4.0 || >=6.5.0-0
     "@testing-library/dom": ^8.3.0
     "@testing-library/user-event": ^13.2.1
     ts-dedent: ^2.2.0
-  checksum: 4a750756a91fd06de58d0d4cf9d7e289ad3e757af6417c97f8d077007a2222a2c31c5f7444eb0d034b1cf11363a1e653718962788c23dca67f33d8691ee63a3b
+  checksum: 417ce96b5bff6c6fa8be80dd98e9d960b39dcd835431153f1c5d4dad21dddbefe1fc3b6d2588adb741556063680f9dd9088283c3ea9176f839430f8d89a2578f
   languageName: node
   linkType: hard
 
@@ -12798,7 +12785,7 @@ __metadata:
     "@storybook/babel-plugin-require-context-hook": 1.0.1
     "@storybook/jest": ^0.0.5
     "@storybook/source-loader": 7.0.0-alpha.1
-    "@storybook/testing-library": ^0.0.7
+    "@storybook/testing-library": ^0.0.11
     "@types/core-js": ^2.5.4
     "@types/jest": ^26.0.16
     "@types/node": ^14.14.20 || ^16.0.0
@@ -17459,7 +17446,7 @@ __metadata:
     "@storybook/preset-create-react-app": ^4.1.0
     "@storybook/react": 7.0.0-alpha.1
     "@storybook/react-webpack5": 7.0.0-alpha.1
-    "@storybook/testing-library": ^0.0.9
+    "@storybook/testing-library": ^0.0.11
     "@storybook/theming": 7.0.0-alpha.1
     "@types/jest": ^26.0.16
     "@types/node": ^14.14.20 || ^16.0.0
@@ -33561,7 +33548,7 @@ __metadata:
     "@storybook/react-webpack5": 7.0.0-alpha.1
     "@storybook/router": 7.0.0-alpha.1
     "@storybook/source-loader": 7.0.0-alpha.1
-    "@storybook/testing-library": ^0.0.7
+    "@storybook/testing-library": ^0.0.11
     "@storybook/theming": 7.0.0-alpha.1
     "@testing-library/dom": ^7.31.2
     "@testing-library/user-event": ^13.1.9
@@ -41770,7 +41757,7 @@ __metadata:
     "@storybook/source-loader": 7.0.0-alpha.1
     "@storybook/svelte": 7.0.0-alpha.1
     "@storybook/svelte-webpack5": 7.0.0-alpha.1
-    "@storybook/testing-library": ^0.0.7
+    "@storybook/testing-library": ^0.0.11
     global: ^4.4.0
     sb: 7.0.0-alpha.1
     svelte-jester: ^2.3.2
@@ -44626,7 +44613,7 @@ __metadata:
     "@storybook/addon-links": 7.0.0-alpha.1
     "@storybook/addon-storyshots": 7.0.0-alpha.1
     "@storybook/jest": ^0.0.5
-    "@storybook/testing-library": ^0.0.7
+    "@storybook/testing-library": ^0.0.11
     "@storybook/vue3": 7.0.0-alpha.1
     "@storybook/vue3-webpack5": 7.0.0-alpha.1
     "@vue/cli-plugin-babel": ^5.0.4
@@ -44727,7 +44714,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.1
     "@storybook/jest": ^0.0.5
     "@storybook/source-loader": 7.0.0-alpha.1
-    "@storybook/testing-library": ^0.0.7
+    "@storybook/testing-library": ^0.0.11
     "@storybook/vue": 7.0.0-alpha.1
     "@storybook/vue-webpack5": 7.0.0-alpha.1
     "@vue/babel-preset-jsx": ^1.2.4

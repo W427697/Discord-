@@ -37,7 +37,7 @@
     "@storybook/react-webpack5": "7.0.0-alpha.1",
     "@storybook/router": "7.0.0-alpha.1",
     "@storybook/source-loader": "7.0.0-alpha.1",
-    "@storybook/testing-library": "^0.0.7",
+    "@storybook/testing-library": "^0.0.11",
     "@storybook/theming": "7.0.0-alpha.1",
     "@testing-library/dom": "^7.31.2",
     "@testing-library/user-event": "^13.1.9",

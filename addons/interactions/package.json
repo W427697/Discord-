@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@storybook/jest": "^0.0.5",
-    "@storybook/testing-library": "^0.0.7",
+    "@storybook/testing-library": "^0.0.11",
     "formik": "^2.2.9"
   },
   "peerDependencies": {
