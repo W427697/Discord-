@@ -12,8 +12,6 @@ import { MDXProvider } from '@mdx-js/react';
 import { resetComponents, Story as PureStory, StorySkeleton } from '@storybook/components';
 import { StoryId, toId, storyNameFromExport, StoryAnnotations, AnyFramework } from '@storybook/csf';
 import type { Story as StoryType } from '@storybook/store';
-import { addons } from '@storybook/addons';
-import Events from '@storybook/core-events';
 
 import { CURRENT_SELECTION } from './types';
 import { DocsContext, DocsContextProps } from './DocsContext';
@@ -102,7 +100,6 @@ function makeGate(): [Promise<void>, () => void] {
 
 const Story: FunctionComponent<StoryProps> = (props) => {
   const context = useContext(DocsContext);
-  const channel = addons.getChannel();
   const storyRef = useRef();
   const storyId = getStoryId(props, context);
   const story = useStory(storyId, context);
@@ -118,10 +115,6 @@ const Story: FunctionComponent<StoryProps> = (props) => {
     return () => cleanup && cleanup();
   }, [story]);
 
-  const [storyFnRan, onStoryFnRan] = makeGate();
-  const [rendered, onRendered] = makeGate();
-  useEffect(onRendered);
-
   if (!story) {
     return <StorySkeleton />;
   }
@@ -131,10 +124,8 @@ const Story: FunctionComponent<StoryProps> = (props) => {
     return null;
   }
 
-  // @ts-ignore
-  const legacyInline = storyProps.inline && !global?.FEATURES?.modernInlineRender;
-  const modernInline = context.type === 'external' || (storyProps.inline && !legacyInline);
-  if (modernInline) {
+  const inline = context.type === 'external' || storyProps.inline;
+  if (inline) {
     // We do this so React doesn't complain when we replace the span in a secondary render
     const htmlContents = `<span></span>`;
 
@@ -155,20 +146,6 @@ const Story: FunctionComponent<StoryProps> = (props) => {
         </MDXProvider>
       </div>
     );
-  }
-
-  if (legacyInline) {
-    // If we are rendering a old-style inline Story via `PureStory` below, we want to emit
-    // the `STORY_RENDERED` event when it renders. The modern mode below calls out to
-    // `Preview.renderStoryToDom()` which itself emits the event.
-    // We need to wait for two things before we can consider the story rendered:
-    //  (a) React's `useEffect` hook needs to fire. This is needed for React stories, as
-    //      decorators of the form `<A><B/></A>` will not actually execute `B` in the first
-    //      call to the story function.
-    //  (b) The story function needs to actually have been called.
-    //      Certain frameworks (i.e.angular) don't actually render the component in the very first
-    //      React render cycle, so we need to wait for the framework to actually do that
-    Promise.all([storyFnRan, rendered]).then(() => channel.emit(Events.STORY_RENDERED, storyId));
   }
 
   return (
