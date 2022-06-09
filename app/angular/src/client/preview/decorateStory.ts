@@ -38,7 +38,7 @@ const prepareMain = (
   const userDefinedTemplate = !hasNoTemplate(template);
 
   if (!userDefinedTemplate && component) {
-    template = computesTemplateFromComponent(component, story.props, '');
+    template = computesTemplateFromComponent(component, story.props, story.innerTemplate ?? '');
   }
   return {
     ...story,

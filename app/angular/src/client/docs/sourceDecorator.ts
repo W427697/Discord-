@@ -30,7 +30,7 @@ export const sourceDecorator = (
     return story;
   }
   const channel = addons.getChannel();
-  const { props, template, userDefinedTemplate } = story;
+  const { props, template, innerTemplate, userDefinedTemplate } = story;
 
   const { component, argTypes } = context;
 
@@ -43,7 +43,7 @@ export const sourceDecorator = (
   });
 
   if (component && !userDefinedTemplate) {
-    const source = computesTemplateSourceFromComponent(component, props, argTypes);
+    const source = computesTemplateSourceFromComponent(component, props, argTypes, innerTemplate);
 
     // We might have a story with a Directive or Service defined as the component
     // In these cases there might exist a template, even if we aren't able to create source from component

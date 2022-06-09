@@ -47,7 +47,7 @@ export const getStorybookModuleMetadata = (
   const component = storyComponent ?? annotatedComponent;
 
   if (hasNoTemplate(template) && component) {
-    template = computesTemplateFromComponent(component, props, '');
+    template = computesTemplateFromComponent(component, props, storyFnAngular.innerTemplate ?? '');
   }
 
   /**

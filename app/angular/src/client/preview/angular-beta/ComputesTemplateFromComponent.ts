@@ -92,12 +92,14 @@ const createAngularInputProperty = ({
  * Converts a component into a template with inputs/outputs present in initial props
  * @param component
  * @param initialProps
+ * @param argTypes
  * @param innerTemplate
  */
 export const computesTemplateSourceFromComponent = (
   component: Type<unknown>,
   initialProps?: ICollection,
-  argTypes?: ArgTypes
+  argTypes?: ArgTypes,
+  innerTemplate = ''
 ) => {
   const ngComponentMetadata = getComponentDecoratorMetadata(component);
   if (!ngComponentMetadata) {
@@ -106,7 +108,7 @@ export const computesTemplateSourceFromComponent = (
 
   if (!ngComponentMetadata.selector) {
     // Allow to add renderer component when NgComponent selector is undefined
-    return `<ng-container *ngComponentOutlet="${component.name}"></ng-container>`;
+    return `<ng-container *ngComponentOutlet="${component.name}">${innerTemplate}</ng-container>`;
   }
 
   const ngComponentInputsOutputs = getComponentInputsOutputs(component);
@@ -132,7 +134,12 @@ export const computesTemplateSourceFromComponent = (
       ? ` ${initialOutputs.map((i) => `(${i})="${i}($event)"`).join(' ')}`
       : '';
 
-  return buildTemplate(ngComponentMetadata.selector, '', templateInputs, templateOutputs);
+  return buildTemplate(
+    ngComponentMetadata.selector,
+    innerTemplate,
+    templateInputs,
+    templateOutputs
+  );
 };
 
 const buildTemplate = (
