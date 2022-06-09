@@ -1,7 +1,9 @@
+/* eslint-disable camelcase */
 import path from 'path';
-import { readJSON, writeJSON } from 'fs-extra';
+import { readJSON, writeJSON, outputFile } from 'fs-extra';
 import shell, { ExecOptions } from 'shelljs';
 import chalk from 'chalk';
+import { command } from 'execa';
 import { cra, cra_typescript } from './configs';
 import storybookVersions from '../versions';
 
@@ -22,6 +24,11 @@ export interface Parameters {
   ensureDir?: boolean;
   /** Dependencies to add before building Storybook */
   additionalDeps?: string[];
+  /** Files to add before installing Storybook */
+  additionalFiles?: {
+    path: string;
+    contents: string;
+  }[];
   /** Add typescript dependency and creates a tsconfig.json file */
   typescript?: boolean;
 }
@@ -29,6 +36,7 @@ export interface Parameters {
 interface Configuration {
   e2e: boolean;
   pnp: boolean;
+  local: boolean;
 }
 
 const useLocalSbCli = true;
@@ -76,6 +84,26 @@ const addPackageResolutions = async ({ cwd }: Options) => {
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
   packageJson.resolutions = storybookVersions;
+  await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
+};
+
+const addLocalPackageResolutions = async ({ cwd }: Options) => {
+  logger.info(`🔢 Adding package resolutions:`);
+  const packageJsonPath = path.join(cwd, 'package.json');
+  const packageJson = await readJSON(packageJsonPath);
+  const workspaceDir = path.join(__dirname, '..', '..', '..', '..', '..');
+  const { stdout } = await command('yarn workspaces list --json', { cwd: workspaceDir });
+
+  console.log({ stdout, workspaceDir });
+  const workspaces = JSON.parse(`[${stdout.split('\n').join(',')}]`);
+  console.log({ workspaces });
+
+  packageJson.resolutions = Object.keys(storybookVersions).reduce((acc, key) => {
+    return {
+      ...acc,
+      [key]: path.join(workspaceDir, workspaces.find((item: any) => item.name === key).location),
+    };
+  }, {});
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
@@ -133,6 +161,16 @@ const generate = async ({ cwd, name, appName, version, generator }: Options) => 
       startMessage: `🏗 Bootstrapping ${name} project (this might take a few minutes)`,
       errorMessage: `🚨 Bootstrapping ${name} failed`,
     }
+  );
+};
+
+const addAdditionalFiles = async ({ additionalFiles, cwd }: Options) => {
+  logger.info(`⤵️ Adding required files`);
+
+  await Promise.all(
+    additionalFiles.map(async (file) => {
+      await outputFile(path.resolve(cwd, file.path), file.contents, { encoding: 'UTF-8' });
+    })
   );
 };
 
@@ -210,7 +248,7 @@ const doTask = async (
 export const createAndInit = async (
   cwd: string,
   { name, version, ...rest }: Parameters,
-  { e2e, pnp }: Configuration
+  { e2e, pnp, local }: Configuration
 ) => {
   const options: Options = {
     name,
@@ -228,11 +266,17 @@ export const createAndInit = async (
   logger.log();
 
   await doTask(generate, { ...options, cwd: options.creationPath });
+  await doTask(addAdditionalFiles, { ...options, cwd }, !!options.additionalFiles);
   if (e2e) {
     await doTask(addPackageResolutions, options);
   }
+  if (local) {
+    await doTask(addLocalPackageResolutions, options);
+  }
   await doTask(installYarn2, options);
-  await doTask(configureYarn2ForE2E, options, e2e);
+  if (e2e) {
+    await doTask(configureYarn2ForE2E, options, e2e);
+  }
   await doTask(addTypescript, options, !!options.typescript);
   await doTask(addRequiredDeps, options);
   await doTask(initStorybook, options);

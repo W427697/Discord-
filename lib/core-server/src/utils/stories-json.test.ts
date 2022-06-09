@@ -1,9 +1,11 @@
+import fs from 'fs-extra';
 import { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
 import type { StoryIndex } from '@storybook/store';
+import { loadCsf } from '@storybook/csf-tools';
 
 import { useStoriesJson, DEBOUNCE, convertToIndexV3 } from './stories-json';
 import { ServerChannel } from './get-server-channel';
@@ -41,13 +43,20 @@ const normalizedStories = [
   },
 ];
 
+const csfIndexer = async (fileName: string, opts: any) => {
+  const code = (await fs.readFile(fileName, 'utf-8')).toString();
+  return loadCsf(code, { ...opts, fileName }).parse();
+};
+
 const getInitializedStoryIndexGenerator = async (
   overrides: any = {},
   inputNormalizedStories = normalizedStories
 ) => {
   const generator = new StoryIndexGenerator(inputNormalizedStories, {
+    storyIndexers: [{ test: /\.stories\..*$/, indexer: csfIndexer }],
     configDir: workingDir,
     workingDir,
+    storiesV2Compatibility: false,
     storyStoreV7: true,
     ...overrides,
   });
@@ -88,14 +97,15 @@ describe('useStoriesJson', () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
-        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(),
         serverChannel: mockServerChannel,
         workingDir,
         normalizedStories,
+        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(),
       });
 
       expect(use).toHaveBeenCalledTimes(2);
       const route = use.mock.calls[0][1];
+      console.log({ route });
 
       await route(request, response);
 

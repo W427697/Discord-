@@ -6,7 +6,7 @@ module.exports = {
   emberOptions: {
     polyfills: [namedBlockPolyfill],
   },
-  stories: ['../stories/**/*.stories.js'],
+  stories: ['../stories/*.stories.js'],
   logLevel: 'debug',
   addons: [
     '@storybook/addon-a11y',
@@ -21,20 +21,31 @@ module.exports = {
   webpackFinal: async (config) => {
     config.module.rules.push({
       test: [/\.stories\.js$/, /index\.js$/],
-      loaders: [require.resolve('@storybook/source-loader')],
+      use: require.resolve('@storybook/source-loader'),
       include: [path.resolve(__dirname, '../')],
       enforce: 'pre',
     });
+    // eslint-disable-next-line no-param-reassign
+    config.resolve.fallback = {
+      fs: false,
+      child_process: false,
+      zlib: require.resolve('browserify-zlib'),
+      vm: require.resolve('vm-browserify'),
+      stream: require.resolve('stream-browserify'),
+      os: require.resolve('os-browserify/browser'),
+      ...config.resolve.fallback,
+    };
     return config;
   },
   core: {
-    builder: 'webpack4',
+    channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
   staticDirs: ['../ember-output'],
   features: {
-    buildStoriesJson: true,
-    breakingChangesV7: true,
+    buildStoriesJson: false,
+    breakingChangesV7: false,
+    storyStoreV7: false,
   },
-  framework: '@storybook/ember',
+  framework: { name: '@storybook/ember' },
 };

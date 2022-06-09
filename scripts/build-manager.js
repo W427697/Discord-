@@ -2,17 +2,7 @@ const { buildStaticStandalone } = require('../lib/core-server/dist/cjs/build-sta
 
 process.env.NODE_ENV = 'production';
 
-const logger = console;
-
 const run = async () => {
-  logger.log('Building Webpack4 Manager');
-  await buildStaticStandalone({
-    ignorePreview: true,
-    outputDir: './lib/manager-webpack4/prebuilt',
-    configDir: './scripts/build-manager-config',
-  });
-
-  logger.log('Building Webpack5 Manager');
   await buildStaticStandalone({
     ignorePreview: true,
     outputDir: './lib/manager-webpack5/prebuilt',
@@ -20,7 +10,7 @@ const run = async () => {
   });
 };
 
-run().catch((err) => {
-  logger.log(err);
+run().catch((e) => {
+  console.log(e);
   process.exit(1);
 });

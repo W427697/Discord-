@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "6.5.0-beta.4",
+  "version": "7.0.0-alpha.1",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -26,14 +26,7 @@
   "license": "MIT",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "angular/**/*",
@@ -58,14 +51,14 @@
     "@babel/plugin-transform-react-jsx": "^7.12.12",
     "@babel/preset-env": "^7.12.11",
     "@jest/transform": "^26.6.2",
-    "@storybook/addons": "6.5.0-beta.4",
-    "@storybook/blocks": "6.5.0-beta.4",
-    "@storybook/client-logger": "6.5.0-beta.4",
-    "@storybook/core-common": "6.5.0-beta.4",
+    "@storybook/addons": "7.0.0-alpha.1",
+    "@storybook/blocks": "7.0.0-alpha.1",
+    "@storybook/client-logger": "7.0.0-alpha.1",
+    "@storybook/core-common": "7.0.0-alpha.1",
     "@storybook/mdx1-csf": "canary",
-    "@storybook/node-logger": "6.5.0-beta.4",
-    "@storybook/postinstall": "6.5.0-beta.4",
-    "@storybook/source-loader": "6.5.0-beta.4",
+    "@storybook/node-logger": "7.0.0-alpha.1",
+    "@storybook/postinstall": "7.0.0-alpha.1",
+    "@storybook/source-loader": "7.0.0-alpha.1",
     "babel-loader": "^8.0.0",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
@@ -80,7 +73,7 @@
     "@storybook/mdx2-csf": "canary"
   },
   "peerDependencies": {
-    "@storybook/mdx2-csf": "*",
+    "@storybook/mdx2-csf": "^0.0.3",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
@@ -98,8 +91,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
-  "sbmodern": "dist/modern/index.js",
+  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",

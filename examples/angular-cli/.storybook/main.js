@@ -1,5 +1,5 @@
 module.exports = {
-  stories: ['../src/stories/**/*.stories.@(ts|mdx)'],
+  stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
     '@storybook/addon-docs',
@@ -15,7 +15,7 @@ module.exports = {
     '@storybook/addon-toolbars',
   ],
   core: {
-    builder: 'webpack4',
+    channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
   // These are just here to test composition. They could be added to any storybook example project
@@ -39,8 +39,9 @@ module.exports = {
   },
   staticDirs: ['../src/assets'],
   features: {
-    buildStoriesJson: true,
-    breakingChangesV7: true,
+    buildStoriesJson: false,
+    breakingChangesV7: false,
+    storyStoreV7: false,
   },
   framework: {
     name: '@storybook/angular',

@@ -9,14 +9,16 @@ export const useBaseTsSupport = (framework: string) => {
   return !['@storybook/vue', '@storybook/angular'].includes(framework);
 };
 
-export const createBabelLoader = (options: any, framework: string) => ({
-  test: useBaseTsSupport(framework) ? /\.(mjs|tsx?|jsx?)$/ : /\.(mjs|jsx?)$/,
-  use: [
-    {
-      loader: require.resolve('babel-loader'),
-      options,
-    },
-  ],
-  include: [getProjectRoot()],
-  exclude: /node_modules/,
-});
+export const createBabelLoader = (options: any, framework: string) => {
+  return {
+    test: useBaseTsSupport(framework) ? /\.(mjs|tsx?|jsx?)$/ : /\.(mjs|jsx?)$/,
+    use: [
+      {
+        loader: require.resolve('babel-loader'),
+        options,
+      },
+    ],
+    include: [getProjectRoot()],
+    exclude: /node_modules/,
+  };
+};

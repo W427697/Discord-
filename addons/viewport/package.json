@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-viewport",
-  "version": "6.5.0-beta.4",
+  "version": "7.0.0-alpha.1",
   "description": "Build responsive components by adjusting Storybook’s viewport size and orientation",
   "keywords": [
     "addon",
@@ -24,14 +24,7 @@
   "license": "MIT",
   "main": "dist/cjs/preview.js",
   "module": "dist/esm/preview.js",
-  "types": "dist/ts3.9/preview.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/preview.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -42,12 +35,12 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.0-beta.4",
-    "@storybook/api": "6.5.0-beta.4",
-    "@storybook/client-logger": "6.5.0-beta.4",
-    "@storybook/components": "6.5.0-beta.4",
-    "@storybook/core-events": "6.5.0-beta.4",
-    "@storybook/theming": "6.5.0-beta.4",
+    "@storybook/addons": "7.0.0-alpha.1",
+    "@storybook/api": "7.0.0-alpha.1",
+    "@storybook/client-logger": "7.0.0-alpha.1",
+    "@storybook/components": "7.0.0-alpha.1",
+    "@storybook/core-events": "7.0.0-alpha.1",
+    "@storybook/theming": "7.0.0-alpha.1",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "memoizerific": "^1.11.3",
@@ -69,8 +62,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
-  "sbmodern": "dist/modern/preview.js",
+  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea",
   "storybook": {
     "displayName": "Viewport",
     "icon": "https://user-images.githubusercontent.com/263385/101991678-48cdf300-3c7c-11eb-9764-f8af293c1b28.png",

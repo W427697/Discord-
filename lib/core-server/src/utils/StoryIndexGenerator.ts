@@ -11,11 +11,15 @@ import type {
   IndexEntry,
   DocsIndexEntry,
 } from '@storybook/store';
-import { autoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
-import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
+import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
+import type {
+  StoryIndexer,
+  IndexerOptions,
+  NormalizedStoriesSpecifier,
+} from '@storybook/core-common';
 import { normalizeStoryPath } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
-import { readCsfOrMdx, getStorySortParameter } from '@storybook/csf-tools';
+import { getStorySortParameter } from '@storybook/csf-tools';
 import type { ComponentTitle } from '@storybook/csf';
 import { toId } from '@storybook/csf';
 
@@ -51,6 +55,7 @@ export class StoryIndexGenerator {
       configDir: Path;
       storiesV2Compatibility: boolean;
       storyStoreV7: boolean;
+      storyIndexers: StoryIndexer[];
     }
   ) {
     this.specifierToCache = new Map();
@@ -68,8 +73,8 @@ export class StoryIndexGenerator {
         const files = await glob(fullGlob);
         files.sort().forEach((absolutePath: Path) => {
           const ext = path.extname(absolutePath);
-          const relativePath = path.relative(this.options.workingDir, absolutePath);
-          if (!['.js', '.jsx', '.ts', '.tsx', '.mdx'].includes(ext)) {
+          if (ext === '.storyshot') {
+            const relativePath = path.relative(this.options.workingDir, absolutePath);
             logger.info(`Skipping ${ext} file ${relativePath}`);
             return;
           }
@@ -166,7 +171,6 @@ export class StoryIndexGenerator {
 
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
-      const defaultTitle = autoTitleFromSpecifier(importPath, specifier);
 
       // This `await require(...)` is a bit of a hack. It's necessary because
       // `docs-mdx` depends on ESM code, which must be asynchronously imported
@@ -212,7 +216,7 @@ export class StoryIndexGenerator {
         dep.dependents.push(absolutePath);
       });
 
-      const title = result.title || ofTitle || defaultTitle;
+      const title = userOrAutoTitleFromSpecifier(importPath, specifier, result.title || ofTitle);
       const name = 'docs';
       const id = toId(title, name);
 
@@ -231,14 +235,23 @@ export class StoryIndexGenerator {
     }
   }
 
+  async index(filePath: string, options: IndexerOptions) {
+    const storyIndexer = this.options.storyIndexers.find((indexer) => indexer.test.exec(filePath));
+    if (!storyIndexer) {
+      throw new Error(`No matching story indexer found for ${filePath}`);
+    }
+    return storyIndexer.indexer(filePath, options);
+  }
+
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     const entries = [] as IndexEntry[];
     try {
-      const normalizedPath = normalizeStoryPath(relativePath);
-      const importPath = slash(normalizedPath);
-      const defaultTitle = autoTitleFromSpecifier(importPath, specifier);
-      const csf = (await readCsfOrMdx(absolutePath, { defaultTitle })).parse();
+      const importPath = slash(normalizeStoryPath(relativePath));
+      const makeTitle = (userTitle?: string) => {
+        return userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
+      };
+      const csf = await this.index(absolutePath, { makeTitle });
       csf.stories.forEach(({ id, name, parameters }) => {
         const base = { id, title: csf.meta.title, name, importPath };
         const entry: IndexEntry = parameters?.docsOnly

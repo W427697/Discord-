@@ -1,23 +1,26 @@
-import type { StorybookConfig } from '@storybook/react/types';
+import type { StorybookConfig } from '@storybook/react-webpack5/types';
 
 const config: StorybookConfig = {
   stories: ['../../../lib/blocks/src/**/*.stories.*'],
   logLevel: 'debug',
   addons: ['@storybook/addon-essentials'],
   core: {
-    builder: { name: 'webpack4' },
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
+  },
+  typescript: {
+    check: true,
+    checkOptions: {},
   },
   features: {
     postcss: false,
     storyStoreV7: true,
     buildStoriesJson: true,
-    babelModeV7: false,
+    babelModeV7: true,
     warnOnLegacyHierarchySeparator: false,
     previewMdx2: true,
     breakingChangesV7: true,
   },
-  framework: '@storybook/react',
+  framework: '@storybook/react-webpack5',
 };
 module.exports = config;

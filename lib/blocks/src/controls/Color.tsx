@@ -236,8 +236,19 @@ const useColorInput = (
   const updateValue = useCallback(
     (update: string) => {
       const parsed = parseValue(update);
-      setValue(parsed?.value || update || '');
-      if (!parsed) return;
+      const v = parsed?.value || update || '';
+
+      setValue(v);
+
+      if (v === '') {
+        setColor(undefined);
+        onChange(undefined);
+      }
+
+      if (!parsed) {
+        return;
+      }
+
       setColor(parsed);
       setColorSpace(parsed.colorSpace);
       onChange(parsed.value);

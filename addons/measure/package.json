@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-measure",
-  "version": "6.5.0-beta.4",
+  "version": "7.0.0-alpha.1",
   "description": "Inspect layouts by visualizing the box model",
   "keywords": [
     "storybook-addons",
@@ -26,14 +26,7 @@
   "author": "winkerVSbecks",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -44,17 +37,14 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.0-beta.4",
-    "@storybook/api": "6.5.0-beta.4",
-    "@storybook/client-logger": "6.5.0-beta.4",
-    "@storybook/components": "6.5.0-beta.4",
-    "@storybook/core-events": "6.5.0-beta.4",
+    "@storybook/addons": "7.0.0-alpha.1",
+    "@storybook/api": "7.0.0-alpha.1",
+    "@storybook/client-logger": "7.0.0-alpha.1",
+    "@storybook/components": "7.0.0-alpha.1",
+    "@storybook/core-events": "7.0.0-alpha.1",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
     "core-js": "^3.8.2",
     "global": "^4.4.0"
-  },
-  "devDependencies": {
-    "@types/webpack-env": "^1.16.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -71,8 +61,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
-  "sbmodern": "dist/modern/index.js",
+  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea",
   "storybook": {
     "displayName": "Measure",
     "unsupportedFrameworks": [

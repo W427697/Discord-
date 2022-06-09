@@ -36,8 +36,8 @@ import type {
   StoryIndex,
 } from '../lib/stories';
 
-import { Args, ModuleFn } from '../index';
-import { ComposedRef } from './refs';
+import type { Args, ModuleFn } from '../index';
+import type { ComposedRef } from './refs';
 
 const { DOCS_MODE, FEATURES, fetch } = global;
 const STORY_INDEX_PATH = './index.json';

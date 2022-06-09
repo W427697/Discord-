@@ -9,14 +9,11 @@ import React, {
   useState,
 } from 'react';
 import { MDXProvider } from '@mdx-js/react';
-import global from 'global';
 import { resetComponents } from '@storybook/components';
 import { StoryId, toId, storyNameFromExport, StoryAnnotations, AnyFramework } from '@storybook/csf';
-import { Story as StoryType } from '@storybook/store';
-import { addons } from '@storybook/addons';
-import Events from '@storybook/core-events';
-import { Story as PureStory, StorySkeleton } from '../components';
+import type { Story as StoryType } from '@storybook/store';
 
+import { Story as PureStory, StorySkeleton } from '../components';
 import { CURRENT_SELECTION } from './types';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { useStory } from './useStory';
@@ -70,9 +67,7 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
 
 export const getStoryProps = <TFramework extends AnyFramework>(
   { height, inline }: StoryProps,
-  story: StoryType<TFramework>,
-  context: DocsContextProps<TFramework>,
-  onStoryFnCalled: () => void
+  story: StoryType<TFramework>
 ): PureStoryProps => {
   const { name: storyName, parameters = {} } = story || {};
   const { docs = {} } = parameters;
@@ -82,29 +77,8 @@ export const getStoryProps = <TFramework extends AnyFramework>(
   }
 
   // prefer block props, then story parameters defined by the framework-specific settings and optionally overridden by users
-  const { inlineStories = false, iframeHeight = 100, prepareForInline } = docs;
+  const { inlineStories = false, iframeHeight = 100 } = docs;
   const storyIsInline = typeof inline === 'boolean' ? inline : inlineStories;
-  if (storyIsInline && !prepareForInline) {
-    throw new Error(
-      `Story '${storyName}' is set to render inline, but no 'prepareForInline' function is implemented in your docs configuration!`
-    );
-  }
-
-  const boundStoryFn = () => {
-    const storyResult = story.unboundStoryFn({
-      ...context.getStoryContext(story),
-      loaded: {},
-      abortSignal: undefined,
-      canvasElement: undefined,
-    });
-
-    // We need to wait until the bound story function has actually been called before we
-    // consider the story rendered. Certain frameworks (i.e. angular) don't actually render
-    // the component in the very first react render cycle, and so we can't just wait until the
-    // `PureStory` component has been rendered to consider the underlying story "rendered".
-    onStoryFnCalled();
-    return storyResult;
-  };
 
   return {
     inline: storyIsInline,
@@ -113,7 +87,6 @@ export const getStoryProps = <TFramework extends AnyFramework>(
     title: storyName,
     ...(storyIsInline && {
       parameters,
-      storyFn: () => prepareForInline(boundStoryFn, context.getStoryContext(story)),
     }),
   };
 };
@@ -128,7 +101,6 @@ function makeGate(): [Promise<void>, () => void] {
 
 const Story: FunctionComponent<StoryProps> = (props) => {
   const context = useContext(DocsContext);
-  const channel = addons.getChannel();
   const storyRef = useRef();
   const storyId = getStoryId(props, context);
   const story = useStory(storyId, context);
@@ -144,22 +116,17 @@ const Story: FunctionComponent<StoryProps> = (props) => {
     return () => cleanup && cleanup();
   }, [story]);
 
-  const [storyFnRan, onStoryFnRan] = makeGate();
-  const [rendered, onRendered] = makeGate();
-  useEffect(onRendered);
-
   if (!story) {
     return <StorySkeleton />;
   }
 
-  const storyProps = getStoryProps(props, story, context, onStoryFnRan);
+  const storyProps = getStoryProps(props, story);
   if (!storyProps) {
     return null;
   }
 
-  const legacyInline = storyProps.inline && !global?.FEATURES?.modernInlineRender;
-  const modernInline = context.type === 'external' || (storyProps.inline && !legacyInline);
-  if (modernInline) {
+  const inline = context.type === 'external' || storyProps.inline;
+  if (inline) {
     // We do this so React doesn't complain when we replace the span in a secondary render
     const htmlContents = `<span></span>`;
 
@@ -180,20 +147,6 @@ const Story: FunctionComponent<StoryProps> = (props) => {
         </MDXProvider>
       </div>
     );
-  }
-
-  if (legacyInline) {
-    // If we are rendering a old-style inline Story via `PureStory` below, we want to emit
-    // the `STORY_RENDERED` event when it renders. The modern mode below calls out to
-    // `Preview.renderStoryToDom()` which itself emits the event.
-    // We need to wait for two things before we can consider the story rendered:
-    //  (a) React's `useEffect` hook needs to fire. This is needed for React stories, as
-    //      decorators of the form `<A><B/></A>` will not actually execute `B` in the first
-    //      call to the story function.
-    //  (b) The story function needs to actually have been called.
-    //      Certain frameworks (i.e.angular) don't actually render the component in the very first
-    //      React render cycle, so we need to wait for the framework to actually do that
-    Promise.all([storyFnRan, rendered]).then(() => channel.emit(Events.STORY_RENDERED, storyId));
   }
 
   return (

@@ -1,1 +1,1 @@
-export * from './dist/ts3.9/utils/prebuilt-manager.d';
+export * from './dist/types/utils/prebuilt-manager.d';

@@ -74,7 +74,7 @@ export const computeStorybookMetadata = async ({
 }): Promise<StorybookMetadata> => {
   const metadata: Partial<StorybookMetadata> = {
     generatedAt: new Date().getTime(),
-    builder: { name: 'webpack4' },
+    builder: { name: 'webpack5' },
     hasCustomBabel: false,
     hasCustomWebpack: false,
     hasStaticDirs: false,
@@ -187,9 +187,13 @@ export const computeStorybookMetadata = async ({
   const hasStorybookEslint = !!allDependencies['eslint-plugin-storybook'];
 
   const storybookInfo = getStorybookInfo(packageJson);
+
+  const storybookVersion =
+    storybookPackages[storybookInfo.frameworkPackage]?.version || storybookInfo.version;
+
   return {
     ...metadata,
-    storybookVersion: storybookInfo.version,
+    storybookVersion,
     language,
     storybookPackages,
     framework: {

@@ -20,7 +20,7 @@ import {
 //   - ie. from`renderToDOM()` (stories) or`ReactDOM.render()` (docs) in.
 // This file lets them rip.
 
-jest.mock('@storybook/channel-postmessage', () => () => mockChannel);
+jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
 
 jest.mock('./WebView');
 
@@ -78,8 +78,9 @@ describe('PreviewWeb', () => {
       const preview = new PreviewWeb();
 
       const docsRoot = window.document.createElement('div');
-      // @ts-ignore
-      preview.view.prepareForDocs.mockReturnValue(docsRoot);
+      (
+        preview.view.prepareForDocs as any as jest.Mock<typeof preview.view.prepareForDocs>
+      ).mockReturnValue(docsRoot);
       componentOneExports.default.parameters.docs.container.mockImplementationOnce(() =>
         React.createElement('div', {}, 'INSIDE')
       );

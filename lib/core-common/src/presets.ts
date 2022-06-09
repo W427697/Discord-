@@ -25,15 +25,13 @@ export function filterPresetsConfig(presetsConfig: PresetConfig[]): PresetConfig
 function resolvePresetFunction<T = any>(
   input: T[] | Function,
   presetOptions: any,
-  framework: T,
   storybookOptions: InterPresetOptions
 ): T[] {
-  const prepend = [framework as unknown as T].filter(Boolean);
   if (isFunction(input)) {
-    return [...prepend, ...input({ ...storybookOptions, ...presetOptions })];
+    return [...input({ ...storybookOptions, ...presetOptions })];
   }
   if (Array.isArray(input)) {
-    return [...prepend, ...input];
+    return [...input];
   }
 
   return [];
@@ -195,18 +193,8 @@ export function loadPreset(
     if (isObject(contents)) {
       const { addons: addonsInput, presets: presetsInput, ...rest } = contents;
 
-      const subPresets = resolvePresetFunction(
-        presetsInput,
-        presetOptions,
-        rest.framework,
-        storybookOptions
-      );
-      const subAddons = resolvePresetFunction(
-        addonsInput,
-        presetOptions,
-        rest.framework,
-        storybookOptions
-      );
+      const subPresets = resolvePresetFunction(presetsInput, presetOptions, storybookOptions);
+      const subAddons = resolvePresetFunction(addonsInput, presetOptions, storybookOptions);
 
       return [
         ...loadPresets([...subPresets], level + 1, storybookOptions),
@@ -246,10 +234,6 @@ function loadPresets(
 ): LoadedPreset[] {
   if (!presets || !Array.isArray(presets) || !presets.length) {
     return [];
-  }
-
-  if (!level) {
-    logger.info('=> Loading presets');
   }
 
   return presets.reduce((acc, preset) => {

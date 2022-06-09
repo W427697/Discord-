@@ -1,16 +1,19 @@
-import type { StorybookConfig } from '@storybook/react/types';
+import type { StorybookConfig } from '@storybook/react-webpack5/types';
 
 const config: StorybookConfig = {
   stories: [
     {
-      directory: '../src',
-      titlePrefix: 'Demo',
-      files: '**/button.stories.tsx',
+      directory: '../src/title',
+      titlePrefix: 'Custom Prefix',
     },
     {
-      directory: '../src/docs2',
-      titlePrefix: 'Docs2',
-      files: '**/*.docs.mdx',
+      directory: '../src',
+      titlePrefix: 'Demo',
+      files: '*.stories.(js|ts|tsx|mdx)',
+    },
+    {
+      directory: '../src/addon-docs',
+      files: '*.stories.mdx',
     },
   ],
   logLevel: 'debug',
@@ -28,13 +31,11 @@ const config: StorybookConfig = {
     },
   },
   core: {
-    builder: { name: 'webpack4' },
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
   features: {
     postcss: false,
-    // modernInlineRender: true,
     storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
     buildStoriesJson: true,
     babelModeV7: true,
@@ -42,6 +43,13 @@ const config: StorybookConfig = {
     previewMdx2: true,
     breakingChangesV7: true,
   },
-  framework: '@storybook/react',
+  framework: '@storybook/react-webpack5',
+  // core: (c: any = {}) => {
+  //   return {
+  //     channelOptions: { allowFunction: false, maxDepth: 10 },
+  //     disableTelemetry: true,
+  //     ...c,
+  //   };
+  // },
 };
 module.exports = config;

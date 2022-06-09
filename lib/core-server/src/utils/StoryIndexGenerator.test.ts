@@ -1,7 +1,8 @@
 import path from 'path';
+import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
-import { readCsfOrMdx, getStorySortParameter } from '@storybook/csf-tools';
+import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 
 import { StoryIndexGenerator } from './StoryIndexGenerator';
@@ -27,14 +28,20 @@ jest.mock('@storybook/docs-mdx', async () => ({
 }));
 
 const toIdMock = toId as jest.Mock<ReturnType<typeof toId>>;
-const readCsfOrMdxMock = readCsfOrMdx as jest.Mock<ReturnType<typeof readCsfOrMdx>>;
+const loadCsfMock = loadCsf as jest.Mock<ReturnType<typeof loadCsf>>;
 const getStorySortParameterMock = getStorySortParameter as jest.Mock<
   ReturnType<typeof getStorySortParameter>
 >;
 
+const csfIndexer = async (fileName: string, opts: any) => {
+  const code = (await fs.readFile(fileName, 'utf-8')).toString();
+  return loadCsf(code, { ...opts, fileName }).parse();
+};
+
 const options = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
+  storyIndexers: [{ test: /\.stories\..*$/, indexer: csfIndexer }],
   storiesV2Compatibility: false,
   storyStoreV7: true,
 };
@@ -42,7 +49,7 @@ const options = {
 describe('StoryIndexGenerator', () => {
   beforeEach(() => {
     const actual = jest.requireActual('@storybook/csf-tools');
-    readCsfOrMdxMock.mockImplementation(actual.readCsfOrMdx);
+    loadCsfMock.mockImplementation(actual.loadCsf);
   });
   describe('extraction', () => {
     describe('single file specifier', () => {
@@ -279,15 +286,15 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        readCsfOrMdxMock.mockClear();
+        loadCsfMock.mockClear();
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(readCsfOrMdxMock).toHaveBeenCalledTimes(7);
+        expect(loadCsfMock).toHaveBeenCalledTimes(7);
 
-        readCsfOrMdxMock.mockClear();
+        loadCsfMock.mockClear();
         await generator.getIndex();
-        expect(readCsfOrMdxMock).not.toHaveBeenCalled();
+        expect(loadCsfMock).not.toHaveBeenCalled();
       });
 
       it('does not extract docs files a second time', async () => {
@@ -336,17 +343,17 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        readCsfOrMdxMock.mockClear();
+        loadCsfMock.mockClear();
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(readCsfOrMdxMock).toHaveBeenCalledTimes(7);
+        expect(loadCsfMock).toHaveBeenCalledTimes(7);
 
         generator.invalidate(specifier, './src/B.stories.ts', false);
 
-        readCsfOrMdxMock.mockClear();
+        loadCsfMock.mockClear();
         await generator.getIndex();
-        expect(readCsfOrMdxMock).toHaveBeenCalledTimes(1);
+        expect(loadCsfMock).toHaveBeenCalledTimes(1);
       });
 
       it('calls extract docs file for just the one file', async () => {
@@ -421,17 +428,17 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        readCsfOrMdxMock.mockClear();
+        loadCsfMock.mockClear();
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(readCsfOrMdxMock).toHaveBeenCalledTimes(7);
+        expect(loadCsfMock).toHaveBeenCalledTimes(7);
 
         generator.invalidate(specifier, './src/B.stories.ts', true);
 
-        readCsfOrMdxMock.mockClear();
+        loadCsfMock.mockClear();
         await generator.getIndex();
-        expect(readCsfOrMdxMock).not.toHaveBeenCalled();
+        expect(loadCsfMock).not.toHaveBeenCalled();
       });
 
       it('does call the sort function a second time', async () => {
@@ -460,11 +467,11 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        readCsfOrMdxMock.mockClear();
+        loadCsfMock.mockClear();
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(readCsfOrMdxMock).toHaveBeenCalledTimes(7);
+        expect(loadCsfMock).toHaveBeenCalledTimes(7);
 
         generator.invalidate(specifier, './src/B.stories.ts', true);
 

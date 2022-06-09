@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import cpy from 'cpy';
 import fs from 'fs-extra';
-import path from 'path';
+import path, { join } from 'path';
 import dedent from 'ts-dedent';
 import global from 'global';
 
@@ -12,20 +12,23 @@ import type {
   CLIOptions,
   BuilderOptions,
   Options,
-  Builder,
   StorybookConfig,
   CoreConfig,
 } from '@storybook/core-common';
-import { loadAllPresets, normalizeStories, logConfig } from '@storybook/core-common';
+import {
+  loadAllPresets,
+  normalizeStories,
+  logConfig,
+  loadMainConfig,
+} from '@storybook/core-common';
 
 import { outputStats } from './utils/output-stats';
 import {
   copyAllStaticFiles,
   copyAllStaticFilesRelativeToMain,
 } from './utils/copy-all-static-files';
-import { getPreviewBuilder } from './utils/get-preview-builder';
-import { getManagerBuilder } from './utils/get-manager-builder';
-import { convertToIndexV3, extractStoriesJson } from './utils/stories-json';
+import { getBuilders } from './utils/get-builders';
+import { extractStoriesJson } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
@@ -57,14 +60,33 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
 
   await cpy(defaultFavIcon, options.outputDir);
 
-  const previewBuilder: Builder<unknown, unknown> = await getPreviewBuilder(options.configDir);
-  const managerBuilder: Builder<unknown, unknown> = await getManagerBuilder(options.configDir);
+  const { getPrebuiltDir } = await import('@storybook/manager-webpack5/prebuilt-manager');
 
-  const presets = loadAllPresets({
+  const { framework } = loadMainConfig(options);
+  const corePresets = [];
+
+  const frameworkName = typeof framework === 'string' ? framework : framework?.name;
+  if (frameworkName) {
+    corePresets.push(join(frameworkName, 'preset'));
+  } else {
+    logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
+  }
+
+  logger.info('=> Loading presets');
+  let presets = loadAllPresets({
+    corePresets: [require.resolve('./presets/common-preset'), ...corePresets],
+    overridePresets: [],
+    ...options,
+  });
+
+  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
+
+  presets = loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
       ...managerBuilder.corePresets,
       ...previewBuilder.corePresets,
+      ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],
     overridePresets: previewBuilder.overridePresets,
@@ -96,16 +118,18 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   const extractTasks = [];
 
   let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
-  if (features?.buildStoriesJson || features?.storyStoreV7) {
+  if ((features?.buildStoriesJson || features?.storyStoreV7) && !options.ignorePreview) {
     const workingDir = process.cwd();
     const directories = {
       configDir: options.configDir,
       workingDir,
     };
     const normalizedStories = normalizeStories(await presets.apply('stories'), directories);
+    const storyIndexers = await presets.apply('storyIndexers', []);
 
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
+      storyIndexers,
       storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
       storyStoreV7: features?.storyStoreV7,
     });
@@ -114,12 +138,8 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     extractTasks.push(
       extractStoriesJson(
         path.join(options.outputDir, 'stories.json'),
-        initializedStoryIndexGenerator,
-        convertToIndexV3
+        initializedStoryIndexGenerator
       )
-    );
-    extractTasks.push(
-      extractStoriesJson(path.join(options.outputDir, 'index.json'), initializedStoryIndexGenerator)
     );
   }
 
@@ -160,14 +180,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     logConfig('Manager webpack config', await managerBuilder.getConfig(fullOptions));
   }
 
-  const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
-  const { getPrebuiltDir } =
-    builderName === 'webpack5'
-      ? // eslint-disable-next-line import/no-extraneous-dependencies
-        await import('@storybook/manager-webpack5/prebuilt-manager')
-      : await import('@storybook/manager-webpack4/prebuilt-manager');
-
-  const prebuiltDir = await getPrebuiltDir(fullOptions as any);
+  const prebuiltDir = await getPrebuiltDir(fullOptions);
 
   const startTime = process.hrtime();
   // When using the prebuilt manager, we straight up copy it into the outputDir instead of building it
@@ -188,11 +201,11 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
 
   const [managerStats, previewStats] = await Promise.all([
     manager.catch(async (err) => {
-      await previewBuilder.bail();
+      await previewBuilder?.bail();
       throw err;
     }),
     preview.catch(async (err) => {
-      await managerBuilder.bail();
+      await managerBuilder?.bail();
       throw err;
     }),
     ...extractTasks,
