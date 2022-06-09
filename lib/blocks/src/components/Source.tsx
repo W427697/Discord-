@@ -1,7 +1,7 @@
 import React, { ComponentProps, FunctionComponent } from 'react';
 import { styled, ThemeProvider, convert, themes, ignoreSsrWarning } from '@storybook/theming';
 import { SyntaxHighlighter } from '@storybook/components';
-import { EmptyBlock } from './EmptyBlock';
+import { Block } from '.';
 
 const StyledSyntaxHighlighter = styled(SyntaxHighlighter)<{}>(({ theme }) => ({
   // DocBlocks-specific styling and overrides
@@ -78,7 +78,7 @@ const Source: FunctionComponent<SourceProps> = (props) => {
     return <SourceSkeleton />;
   }
   if (error) {
-    return <EmptyBlock>{error}</EmptyBlock>;
+    return <Block appearance="empty">{error}</Block>;
   }
 
   const { language, code, dark, format, ...rest } = props as SourceCodeProps;

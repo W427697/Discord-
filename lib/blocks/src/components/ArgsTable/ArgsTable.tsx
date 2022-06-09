@@ -7,7 +7,7 @@ import { Icons, Link, ResetWrapper } from '@storybook/components';
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
 import { ArgType, ArgTypes, Args, Globals } from './types';
-import { EmptyBlock } from '..';
+import { Block } from '..';
 
 export const TableWrapper = styled.table<{
   compact?: boolean;
@@ -377,12 +377,12 @@ const groupRows = (rows: ArgType, sort: SortType) => {
 export const ArgsTable: FC<ArgsTableProps> = (props) => {
   if ('error' in props) {
     return (
-      <EmptyBlock>
+      <Block appearance="empty">
         {props.error}&nbsp;
         <Link href="http://storybook.js.org/docs/" target="_blank" withArrow>
           Read the docs
         </Link>
-      </EmptyBlock>
+      </Block>
     );
   }
 
@@ -411,12 +411,12 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     Object.entries(groups.ungroupedSubsections).length === 0
   ) {
     return (
-      <EmptyBlock>
+      <Block appearance="empty">
         No inputs found for this component.&nbsp;
         <Link href="http://storybook.js.org/docs/" target="_blank" withArrow>
           Read the docs
         </Link>
-      </EmptyBlock>
+      </Block>
     );
   }
 

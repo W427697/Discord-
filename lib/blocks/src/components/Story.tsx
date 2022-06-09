@@ -2,7 +2,7 @@ import global from 'global';
 import React, { createElement, ElementType, FunctionComponent, Fragment } from 'react';
 import type { Parameters } from '@storybook/csf';
 import { Loader, getStoryHref } from '@storybook/components';
-import { EmptyBlock } from '.';
+import { Block } from '.';
 import { IFrame } from './IFrame';
 import { ZoomContext } from './ZoomContext';
 
@@ -40,7 +40,7 @@ const InlineStory: FunctionComponent<InlineStoryProps> = ({ storyFn, height, id 
       <style>{`#story--${id} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
     ) : null}
     <Fragment>
-      {storyFn ? createElement(storyFn) : <EmptyBlock>{MISSING_STORY(id)}</EmptyBlock>}
+      {storyFn ? createElement(storyFn) : <Block appearance="empty">{MISSING_STORY(id)}</Block>}
     </Fragment>
   </Fragment>
 );
@@ -82,7 +82,7 @@ const Story: FunctionComponent<StoryProps & { inline?: boolean; error?: StoryErr
   const { id, title, height } = props;
 
   if (error) {
-    return <EmptyBlock>{error}</EmptyBlock>;
+    return <Block appearance="empty">{error}</Block>;
   }
   return inline ? (
     <InlineStory {...(props as InlineStoryProps)} />

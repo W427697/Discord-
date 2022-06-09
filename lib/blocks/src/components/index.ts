@@ -1,5 +1,5 @@
+export * from './Block/Block';
 export * from './Source';
-export * from './EmptyBlock';
 export * from './Description';
 export * from './DocsPage';
 export * from './Preview';
