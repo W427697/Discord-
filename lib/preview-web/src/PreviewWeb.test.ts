@@ -740,16 +740,17 @@ describe('PreviewWeb', () => {
     });
 
     describe('in docs mode', () => {
-      it('re-renders the docs container', async () => {
+      it('does not re-render the docs container', async () => {
         document.location.search = '?id=component-one--a&viewMode=docs';
 
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
+        docsRenderer.render.mockClear();
         emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
-        await waitForRender();
+        await waitForEvents([GLOBALS_UPDATED]);
 
-        expect(docsRenderer.render).toHaveBeenCalledTimes(2);
+        expect(docsRenderer.render).not.toHaveBeenCalled();
       });
     });
   });
@@ -1009,24 +1010,6 @@ describe('PreviewWeb', () => {
 
         // Now let the playFunction call resolve
         openGate();
-      });
-    });
-
-    describe('in docs mode, old inline render', () => {
-      it('re-renders the docs container', async () => {
-        document.location.search = '?id=component-one--a&viewMode=docs';
-
-        await createAndRenderPreview();
-
-        docsRenderer.render.mockClear();
-        mockChannel.emit.mockClear();
-        emitter.emit(UPDATE_STORY_ARGS, {
-          storyId: 'component-one--a',
-          updatedArgs: { new: 'arg' },
-        });
-        await waitForRender();
-
-        expect(docsRenderer.render).toHaveBeenCalledTimes(1);
       });
     });
 
