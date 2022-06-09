@@ -2,7 +2,7 @@ import fs from 'fs';
 import fse from 'fs-extra';
 
 import * as helpers from './helpers';
-import { SupportedLanguage, SupportedFrameworks } from './project_types';
+import { SupportedLanguage, SupportedRenderers } from './project_types';
 
 jest.mock('fs', () => ({
   existsSync: jest.fn(),
@@ -101,7 +101,7 @@ describe('Helpers', () => {
   });
 
   it(`should throw an error for unsupported framework`, () => {
-    const framework = 'unknown framework' as SupportedFrameworks;
+    const framework = 'unknown framework' as SupportedRenderers;
     const expectedMessage = `Unsupported framework: ${framework}`;
     expect(() => {
       helpers.copyComponents(framework, SupportedLanguage.JAVASCRIPT);

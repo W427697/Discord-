@@ -6,7 +6,7 @@ import chalk from 'chalk';
 import { satisfies } from '@storybook/semver';
 import stripJsonComments from 'strip-json-comments';
 
-import { SupportedFrameworks, SupportedLanguage } from './project_types';
+import { SupportedRenderers, SupportedLanguage } from './project_types';
 import { JsPackageManager, PackageJson, PackageJsonWithDepsAndDevDeps } from './js-package-manager';
 
 const logger = console;
@@ -179,7 +179,7 @@ export function copyTemplate(templateRoot: string) {
   fse.copySync(templateDir, '.', { overwrite: true });
 }
 
-export function copyComponents(framework: SupportedFrameworks, language: SupportedLanguage) {
+export function copyComponents(framework: SupportedRenderers, language: SupportedLanguage) {
   const languageFolderMapping: Record<SupportedLanguage, string> = {
     javascript: 'js',
     typescript: 'ts',

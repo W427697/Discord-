@@ -9,7 +9,7 @@ import {
   SetStoriesStoryData,
 } from '../lib/stories';
 
-import { ModuleFn, StoryId } from '../index';
+import type { ModuleFn, StoryId } from '../index';
 
 const { location, fetch } = global;
 
@@ -160,12 +160,7 @@ export const init: ModuleFn = ({ store, provider, singleStory }, { runCheck = tr
       //
       // then we fetch metadata if the above fetch succeeded
 
-      const loadedData: {
-        error?: Error;
-        v?: number;
-        stories?: SetStoriesStoryData;
-        loginUrl?: string;
-      } = {};
+      const loadedData: SetRefData = {};
       const query = version ? `?version=${version}` : '';
       const credentials = isPublic ? 'omit' : 'include';
 
@@ -211,10 +206,14 @@ export const init: ModuleFn = ({ store, provider, singleStory }, { runCheck = tr
         Object.assign(loadedData, { ...stories, ...metadata });
       }
 
+      const versions =
+        ref.versions && Object.keys(ref.versions).length ? ref.versions : loadedData.versions;
+
       await api.setRef(id, {
         id,
         url,
         ...loadedData,
+        ...(versions ? { versions } : {}),
         error: loadedData.error,
         type: !loadedData.stories ? 'auto-inject' : 'lazy',
       });

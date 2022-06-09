@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channels",
-  "version": "6.5.0-beta.4",
+  "version": "7.0.0-alpha.1",
   "description": "",
   "keywords": [
     "storybook"
@@ -22,14 +22,7 @@
   "sideEffects": false,
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -47,6 +40,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
-  "sbmodern": "dist/modern/index.js"
+  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
 }

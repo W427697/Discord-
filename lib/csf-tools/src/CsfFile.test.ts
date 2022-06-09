@@ -9,8 +9,12 @@ expect.addSnapshotSerializer({
   test: (val) => typeof val !== 'string',
 });
 
+const makeTitle = (userTitle?: string) => {
+  return userTitle || 'Default Title';
+};
+
 const parse = (code: string, includeParameters?: boolean) => {
-  const { stories, meta } = loadCsf(code, { defaultTitle: 'Default Title' }).parse();
+  const { stories, meta } = loadCsf(code, { makeTitle }).parse();
   const filtered = includeParameters
     ? stories
     : stories.map(({ id, name, parameters, ...rest }) => ({ id, name, ...rest }));
@@ -482,7 +486,7 @@ describe('CsfFile', () => {
       const input = dedent`
         export default { title: 'foo/bar', x: 1, y: 2 };
       `;
-      const csf = loadCsf(input, { defaultTitle: 'Default Title' }).parse();
+      const csf = loadCsf(input, { makeTitle }).parse();
       expect(Object.keys(csf._metaAnnotations)).toEqual(['title', 'x', 'y']);
     });
 
@@ -495,7 +499,7 @@ describe('CsfFile', () => {
         export const B = () => {};
         B.z = 3;
     `;
-      const csf = loadCsf(input, { defaultTitle: 'Default Title' }).parse();
+      const csf = loadCsf(input, { makeTitle }).parse();
       expect(Object.keys(csf._storyAnnotations.A)).toEqual(['x', 'y']);
       expect(Object.keys(csf._storyAnnotations.B)).toEqual(['z']);
     });
@@ -513,7 +517,7 @@ describe('CsfFile', () => {
           z: 3,
         }
     `;
-      const csf = loadCsf(input, { defaultTitle: 'Default Title' }).parse();
+      const csf = loadCsf(input, { makeTitle }).parse();
       expect(Object.keys(csf._storyAnnotations.A)).toEqual(['x', 'y']);
       expect(Object.keys(csf._storyAnnotations.B)).toEqual(['z']);
     });
@@ -618,7 +622,7 @@ describe('CsfFile', () => {
         import { Check } from './Check';
         export default { title: 'foo/bar', x: 1, y: 2 };
       `;
-      const csf = loadCsf(input, { defaultTitle: 'Default Title' }).parse();
+      const csf = loadCsf(input, { makeTitle }).parse();
       expect(csf.imports).toMatchInlineSnapshot(`
         - ./Button
         - ./Check
@@ -630,7 +634,7 @@ describe('CsfFile', () => {
         const Button = await import('./Button');
         export default { title: 'foo/bar', x: 1, y: 2 };
       `;
-      const csf = loadCsf(input, { defaultTitle: 'Default Title' }).parse();
+      const csf = loadCsf(input, { makeTitle }).parse();
       expect(csf.imports).toMatchInlineSnapshot();
     });
     // eslint-disable-next-line jest/no-disabled-tests
@@ -639,7 +643,7 @@ describe('CsfFile', () => {
         const Button = require('./Button');
         export default { title: 'foo/bar', x: 1, y: 2 };
       `;
-      const csf = loadCsf(input, { defaultTitle: 'Default Title' }).parse();
+      const csf = loadCsf(input, { makeTitle }).parse();
       expect(csf.imports).toMatchInlineSnapshot();
     });
   });

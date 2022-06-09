@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-storysource",
-  "version": "6.5.0-beta.4",
+  "version": "7.0.0-alpha.1",
   "description": "View a story’s source code to see how it works and paste into your app",
   "keywords": [
     "addon",
@@ -23,14 +23,7 @@
   "license": "MIT",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -41,23 +34,22 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.0-beta.4",
-    "@storybook/api": "6.5.0-beta.4",
-    "@storybook/client-logger": "6.5.0-beta.4",
-    "@storybook/components": "6.5.0-beta.4",
-    "@storybook/router": "6.5.0-beta.4",
-    "@storybook/source-loader": "6.5.0-beta.4",
-    "@storybook/theming": "6.5.0-beta.4",
+    "@storybook/addons": "7.0.0-alpha.1",
+    "@storybook/api": "7.0.0-alpha.1",
+    "@storybook/client-logger": "7.0.0-alpha.1",
+    "@storybook/components": "7.0.0-alpha.1",
+    "@storybook/router": "7.0.0-alpha.1",
+    "@storybook/source-loader": "7.0.0-alpha.1",
+    "@storybook/theming": "7.0.0-alpha.1",
     "core-js": "^3.8.2",
     "estraverse": "^5.2.0",
-    "loader-utils": "^2.0.0",
     "prop-types": "^15.7.2",
     "react-syntax-highlighter": "^15.4.5",
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
     "@types/react": "^16.14.23",
-    "@types/react-syntax-highlighter": "^11.0.5"
+    "@types/react-syntax-highlighter": "11.0.5"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -74,8 +66,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
-  "sbmodern": "dist/modern/index.js",
+  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea",
   "storybook": {
     "displayName": "Storysource",
     "icon": "https://user-images.githubusercontent.com/263385/101991675-48cdf300-3c7c-11eb-9400-58de5ac6daa7.png",

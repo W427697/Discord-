@@ -1,3 +1,5 @@
+/// <reference types="webpack-env" />
+
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import global from 'global';
@@ -149,6 +151,7 @@ export class ClientApi<TFramework extends AnyFramework> {
 
     this.storyStore = storyStore;
 
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     singleton = this;
   }
 

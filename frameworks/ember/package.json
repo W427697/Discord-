@@ -1,0 +1,59 @@
+{
+  "name": "@storybook/ember",
+  "version": "7.0.0-alpha.1",
+  "description": "Storybook for Ember: Develop Ember Component in isolation with Hot Reloading.",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/ember",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "frameworks/ember"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/builder-webpack5": "7.0.0-alpha.1",
+    "@storybook/core-client": "7.0.0-alpha.1",
+    "@storybook/core-common": "7.0.0-alpha.1",
+    "@storybook/core-server": "7.0.0-alpha.1",
+    "@storybook/docs-tools": "7.0.0-alpha.1",
+    "@storybook/store": "7.0.0-alpha.1",
+    "core-js": "^3.8.2",
+    "global": "^4.4.0",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "read-pkg-up": "^7.0.1",
+    "regenerator-runtime": "^0.13.7",
+    "ts-dedent": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@babel/core": "*",
+    "babel-plugin-ember-modules-api-polyfill": "^2.12.0",
+    "babel-plugin-htmlbars-inline-precompile": "2 || 3",
+    "ember-source": "^3.16.0"
+  },
+  "engines": {
+    "node": ">=10.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
+}

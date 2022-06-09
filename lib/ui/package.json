@@ -1,6 +1,6 @@
 {
   "name": "@storybook/ui",
-  "version": "6.5.0-beta.4",
+  "version": "7.0.0-alpha.1",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -22,14 +22,7 @@
   "sideEffects": false,
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -40,18 +33,19 @@
     "prepare": "ts-node ../../scripts/prebundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.0-beta.4",
-    "@storybook/api": "6.5.0-beta.4",
-    "@storybook/channels": "6.5.0-beta.4",
-    "@storybook/client-logger": "6.5.0-beta.4",
-    "@storybook/components": "6.5.0-beta.4",
-    "@storybook/core-events": "6.5.0-beta.4",
-    "@storybook/router": "6.5.0-beta.4",
+    "@storybook/addons": "7.0.0-alpha.1",
+    "@storybook/api": "7.0.0-alpha.1",
+    "@storybook/channels": "7.0.0-alpha.1",
+    "@storybook/client-logger": "7.0.0-alpha.1",
+    "@storybook/components": "7.0.0-alpha.1",
+    "@storybook/core-events": "7.0.0-alpha.1",
+    "@storybook/router": "7.0.0-alpha.1",
     "@storybook/semver": "^7.3.2",
-    "@storybook/theming": "6.5.0-beta.4",
+    "@storybook/theming": "7.0.0-alpha.1",
     "core-js": "^3.8.2",
     "regenerator-runtime": "^0.13.7",
-    "resolve-from": "^5.0.0"
+    "resolve-from": "^5.0.0",
+    "util": "^0.12.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
@@ -72,8 +66,7 @@
     "react-helmet-async": "^1.0.7",
     "react-sizeme": "^3.0.1",
     "store2": "^2.12.0",
-    "ts-node": "^10.4.0",
-    "webpack": "4"
+    "ts-node": "^10.4.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -83,6 +76,5 @@
     "access": "public"
   },
   "bundlerEntrypoint": "./src/index.tsx",
-  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
-  "sbmodern": "dist/modern/index.js"
+  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
 }

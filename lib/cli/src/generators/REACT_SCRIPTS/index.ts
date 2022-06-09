@@ -6,14 +6,14 @@ import { baseGenerator, Generator } from '../baseGenerator';
 import { CoreBuilder } from '../../project_types';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
+  const monorepoRootPath = path.join(__dirname, '..', '..', '..', '..', '..', '..');
   const extraMain = options.linkable
     ? {
         webpackFinal: `%%(config) => {
-      const path = require('path');
       // add monorepo root as a valid directory to import modules from
       config.resolve.plugins.forEach((p) => {
         if (Array.isArray(p.appSrcs)) {
-          p.appSrcs.push(path.join(__dirname, '..', '..', '..', 'storybook'));
+          p.appSrcs.push('${monorepoRootPath}');
         }
       });
       return config;

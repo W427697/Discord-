@@ -33,9 +33,7 @@ class NgComponentOutletWrapperComponent implements OnInit {
   componentInjector: Injector;
 
   componentContent = [
-    // eslint-disable-next-line no-undef
     [document.createTextNode('Ng-content : Inspired by ')],
-    // eslint-disable-next-line no-undef
     [document.createTextNode('https://angular.io/api/common/NgComponentOutlet')],
   ];
 

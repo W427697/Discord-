@@ -1,9 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 import global from 'global';
 import dedent from 'ts-dedent';
 import { SynchronousPromise } from 'synchronous-promise';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type { StoryId, AnyFramework, Parameters, StoryFn } from '@storybook/csf';
-import { StoryStore, autoTitle, sortStoriesV6 } from '@storybook/store';
+import { StoryStore, userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import type {
   NormalizedProjectAnnotations,
   NormalizedStoriesSpecifier,
@@ -151,17 +152,15 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     // eslint-disable-next-line prefer-const
     let { id: componentId, title } = defaultExport || {};
 
-    title =
-      title ||
-      autoTitle(
-        fileName,
-        (global.STORIES || []).map(
-          (specifier: NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
-            ...specifier,
-            importPathMatcher: new RegExp(specifier.importPathMatcher),
-          })
-        )
-      );
+    const specifiers = (global.STORIES || []).map(
+      (specifier: NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
+        ...specifier,
+        importPathMatcher: new RegExp(specifier.importPathMatcher),
+      })
+    );
+
+    title = userOrAutoTitle(fileName, specifiers, title);
+
     if (!title) {
       logger.info(
         `Unexpected default export without title in '${fileName}': ${JSON.stringify(

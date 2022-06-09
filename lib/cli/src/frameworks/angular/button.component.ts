@@ -23,7 +23,7 @@ export default class ButtonComponent {
    * What background color to use
    */
   @Input()
-  backgroundColor?: string;
+  backgroundColor?: string = null;
 
   /**
    * How large should the button be?

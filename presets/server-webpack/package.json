@@ -1,0 +1,60 @@
+{
+  "name": "@storybook/preset-server-webpack",
+  "version": "7.0.0-alpha.1",
+  "description": "Storybook for Server: View HTML snippets from a server in isolation with Hot Reloading.",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/server-webpack",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "presets/server-webpack"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/core-server": "7.0.0-alpha.1",
+    "@storybook/core-webpack": "7.0.0-alpha.1",
+    "@storybook/server": "7.0.0-alpha.1",
+    "@types/node": "^14.14.20 || ^16.0.0",
+    "core-js": "^3.8.2",
+    "global": "^4.4.0",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "regenerator-runtime": "^0.13.7",
+    "safe-identifier": "^0.4.1",
+    "ts-dedent": "^2.0.0",
+    "yaml-loader": "^0.8.0"
+  },
+  "devDependencies": {
+    "fs-extra": "^9.0.1",
+    "jest-specific-snapshot": "^4.0.0",
+    "yaml": "^1.10.0"
+  },
+  "engines": {
+    "node": ">=10.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
+}

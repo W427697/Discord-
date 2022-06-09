@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager-webpack5",
-  "version": "6.5.0-beta.4",
+  "version": "7.0.0-alpha.1",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -21,14 +21,7 @@
   "license": "MIT",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "dll/**/*",
@@ -45,41 +38,42 @@
     "@babel/core": "^7.12.10",
     "@babel/plugin-transform-template-literals": "^7.12.1",
     "@babel/preset-react": "^7.12.10",
-    "@storybook/addons": "6.5.0-beta.4",
-    "@storybook/core-client": "6.5.0-beta.4",
-    "@storybook/core-common": "6.5.0-beta.4",
-    "@storybook/node-logger": "6.5.0-beta.4",
-    "@storybook/theming": "6.5.0-beta.4",
-    "@storybook/ui": "6.5.0-beta.4",
+    "@storybook/addons": "7.0.0-alpha.1",
+    "@storybook/core-client": "7.0.0-alpha.1",
+    "@storybook/core-common": "7.0.0-alpha.1",
+    "@storybook/core-webpack": "7.0.0-alpha.1",
+    "@storybook/node-logger": "7.0.0-alpha.1",
+    "@storybook/theming": "7.0.0-alpha.1",
+    "@storybook/ui": "7.0.0-alpha.1",
     "@types/node": "^14.0.10 || ^16.0.0",
-    "babel-loader": "^8.0.0",
-    "case-sensitive-paths-webpack-plugin": "^2.3.0",
+    "babel-loader": "^8.2.5",
+    "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "chalk": "^4.1.0",
     "core-js": "^3.8.2",
-    "css-loader": "^5.0.1",
+    "css-loader": "^6.7.1",
+    "esbuild-loader": "^2.19.0",
     "express": "^4.17.1",
     "find-up": "^5.0.0",
     "fs-extra": "^9.0.1",
-    "html-webpack-plugin": "^5.0.0",
+    "html-webpack-plugin": "^5.5.0",
     "node-fetch": "^2.6.7",
     "process": "^0.11.10",
     "read-pkg-up": "^7.0.1",
     "regenerator-runtime": "^0.13.7",
     "resolve-from": "^5.0.0",
-    "style-loader": "^2.0.0",
-    "telejson": "^5.3.3",
-    "terser-webpack-plugin": "^5.0.3",
+    "style-loader": "^3.3.1",
+    "telejson": "^6.0.8",
+    "terser-webpack-plugin": "^5.3.1",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2",
-    "webpack": "^5.9.0",
-    "webpack-dev-middleware": "^4.1.0",
-    "webpack-virtual-modules": "^0.4.1"
+    "webpack": "5",
+    "webpack-dev-middleware": "^5.3.1",
+    "webpack-virtual-modules": "^0.4.3"
   },
   "devDependencies": {
-    "@types/case-sensitive-paths-webpack-plugin": "^2.1.4",
-    "@types/terser-webpack-plugin": "^5.0.2",
-    "@types/webpack-dev-middleware": "^4.1.0",
-    "@types/webpack-virtual-modules": "^0.1.0"
+    "@types/terser-webpack-plugin": "^5.2.0",
+    "@types/webpack-dev-middleware": "^5.3.0",
+    "@types/webpack-virtual-modules": "^0.1.1"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -93,6 +87,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
-  "sbmodern": "dist/modern/index.js"
+  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
 }
