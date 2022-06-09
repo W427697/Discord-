@@ -35,7 +35,7 @@ export function normalizeStory<TFramework extends AnyFramework>(
   const { render, play } = storyObject;
 
   // eslint-disable-next-line no-underscore-dangle
-  const id = parameters.__id || toId(meta.id || meta.title, exportName);
+  const id = parameters?.__id || toId(meta.id || meta.title, exportName);
   return {
     id,
     name,
