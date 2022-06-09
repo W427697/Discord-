@@ -1,18 +1,18 @@
 {
   "name": "@storybook/core-common",
-  "version": "6.5.0-beta.4",
+  "version": "7.0.0-alpha.1",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core-common",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/core"
+    "directory": "lib/core-common"
   },
   "funding": {
     "type": "opencollective",
@@ -21,14 +21,7 @@
   "license": "MIT",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "types/**/*",
@@ -62,11 +55,14 @@
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.7",
     "@babel/register": "^7.12.1",
-    "@storybook/node-logger": "6.5.0-beta.4",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/node-logger": "7.0.0-alpha.1",
     "@storybook/semver": "^7.3.2",
+    "@types/babel__core": "^7.0.0",
+    "@types/express": "^4.7.0",
     "@types/node": "^14.0.10 || ^16.0.0",
     "@types/pretty-hrtime": "^1.0.0",
-    "babel-loader": "^8.0.0",
+    "babel-loader": "^8.2.5",
     "babel-plugin-macros": "^3.0.1",
     "babel-plugin-polyfill-corejs3": "^0.1.0",
     "chalk": "^4.1.0",
@@ -74,7 +70,6 @@
     "express": "^4.17.1",
     "file-system-cache": "^1.0.5",
     "find-up": "^5.0.0",
-    "fork-ts-checker-webpack-plugin": "^6.0.4",
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
     "handlebars": "^4.7.7",
@@ -86,13 +81,11 @@
     "pretty-hrtime": "^1.0.3",
     "resolve-from": "^5.0.0",
     "slash": "^3.0.0",
-    "telejson": "^5.3.3",
+    "telejson": "^6.0.8",
     "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2",
-    "webpack": "4"
+    "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/react-docgen-typescript-plugin": "1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0",
     "@types/compression": "^1.7.0",
     "@types/interpret": "^1.1.1",
     "@types/mock-fs": "^4.13.0",
@@ -111,6 +104,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
-  "sbmodern": "dist/modern/index.js"
+  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
 }

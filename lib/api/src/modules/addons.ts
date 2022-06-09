@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 import type { RenderData } from '@storybook/router';
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-interactions",
-  "version": "6.5.0-beta.4",
+  "version": "7.0.0-alpha.1",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -23,14 +23,7 @@
   "license": "MIT",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -42,15 +35,15 @@
   },
   "dependencies": {
     "@devtools-ds/object-inspector": "^1.1.2",
-    "@storybook/addons": "6.5.0-beta.4",
-    "@storybook/api": "6.5.0-beta.4",
-    "@storybook/client-logger": "6.5.0-beta.4",
-    "@storybook/components": "6.5.0-beta.4",
-    "@storybook/core-common": "6.5.0-beta.4",
-    "@storybook/core-events": "6.5.0-beta.4",
+    "@storybook/addons": "7.0.0-alpha.1",
+    "@storybook/api": "7.0.0-alpha.1",
+    "@storybook/client-logger": "7.0.0-alpha.1",
+    "@storybook/components": "7.0.0-alpha.1",
+    "@storybook/core-common": "7.0.0-alpha.1",
+    "@storybook/core-events": "7.0.0-alpha.1",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/instrumenter": "6.5.0-beta.4",
-    "@storybook/theming": "6.5.0-beta.4",
+    "@storybook/instrumenter": "7.0.0-alpha.1",
+    "@storybook/theming": "7.0.0-alpha.1",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "jest-mock": "^27.0.6",
@@ -77,8 +70,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
-  "sbmodern": "dist/modern/index.js",
+  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea",
   "storybook": {
     "displayName": "Interactions",
     "unsupportedFrameworks": [

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/router",
-  "version": "6.5.0-beta.4",
+  "version": "7.0.0-alpha.1",
   "description": "Core Storybook Router",
   "keywords": [
     "storybook"
@@ -22,14 +22,7 @@
   "sideEffects": false,
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -40,7 +33,7 @@
     "prepare": "ts-node ../../scripts/prebundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "6.5.0-beta.4",
+    "@storybook/client-logger": "7.0.0-alpha.1",
     "core-js": "^3.8.2",
     "regenerator-runtime": "^0.13.7"
   },
@@ -64,6 +57,5 @@
     "access": "public"
   },
   "bundlerEntrypoint": "./src/index.ts",
-  "gitHead": "55247a8e36da7061bfced80c588a539d3fda3f04",
-  "sbmodern": "dist/modern/index.js"
+  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
 }

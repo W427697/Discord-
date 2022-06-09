@@ -1,9 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 import global from 'global';
 import dedent from 'ts-dedent';
 import { SynchronousPromise } from 'synchronous-promise';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type { StoryId, AnyFramework, Parameters, StoryFn } from '@storybook/csf';
-import { StoryStore, autoTitle, sortStoriesV6 } from '@storybook/store';
+import { StoryStore, userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import type {
   NormalizedProjectAnnotations,
   NormalizedStoriesSpecifier,
@@ -14,6 +15,7 @@ import type {
   IndexEntry,
 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
+import deprecate from 'util-deprecate';
 
 export interface GetStorybookStory<TFramework extends AnyFramework> {
   name: string;
@@ -25,6 +27,9 @@ export interface GetStorybookKind<TFramework extends AnyFramework> {
   fileName: string;
   stories: GetStorybookStory<TFramework>[];
 }
+
+const docs2Warning = deprecate(() => {},
+`You cannot use \`.mdx\` files without using \`storyStoreV7\`. Consider upgrading to the new store.`);
 
 export class StoryStoreFacade<TFramework extends AnyFramework> {
   projectAnnotations: NormalizedProjectAnnotations<TFramework>;
@@ -131,6 +136,11 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
 
   // NOTE: we could potentially share some of this code with the stories.json generation
   addStoriesFromExports(fileName: Path, fileExports: ModuleExports) {
+    if (fileName.match(/\.mdx$/) && !fileName.match(/\.stories\.mdx$/)) {
+      docs2Warning();
+      return;
+    }
+
     // if the export haven't changed since last time we added them, this is a no-op
     if (this.csfExports[fileName] === fileExports) {
       return;
@@ -142,17 +152,15 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     // eslint-disable-next-line prefer-const
     let { id: componentId, title } = defaultExport || {};
 
-    title =
-      title ||
-      autoTitle(
-        fileName,
-        (global.STORIES || []).map(
-          (specifier: NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
-            ...specifier,
-            importPathMatcher: new RegExp(specifier.importPathMatcher),
-          })
-        )
-      );
+    const specifiers = (global.STORIES || []).map(
+      (specifier: NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
+        ...specifier,
+        importPathMatcher: new RegExp(specifier.importPathMatcher),
+      })
+    );
+
+    title = userOrAutoTitle(fileName, specifiers, title);
+
     if (!title) {
       logger.info(
         `Unexpected default export without title in '${fileName}': ${JSON.stringify(

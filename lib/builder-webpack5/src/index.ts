@@ -2,8 +2,11 @@ import webpack, { Stats, Configuration, ProgressPlugin, StatsOptions } from 'web
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
-import { useProgressReporting, checkWebpackVersion } from '@storybook/core-common';
+import { useProgressReporting } from '@storybook/core-common';
 import type { Builder, Options } from '@storybook/core-common';
+import { checkWebpackVersion } from '@storybook/core-webpack';
+
+export * from './types';
 
 let compilation: ReturnType<typeof webpackDevMiddleware>;
 let reject: (reason?: any) => void;
@@ -47,7 +50,7 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
       ...options,
       babelOptions,
       typescriptOptions,
-      frameworkOptions: framework?.options,
+      frameworkOptions: typeof framework === 'string' ? {} : framework?.options,
     }
   ) as any;
 };
@@ -130,7 +133,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(webpackHotMiddleware(compiler as any));
 
   const stats = await new Promise<Stats>((ready, stop) => {
-    compilation.waitUntilValid(ready);
+    compilation.waitUntilValid(ready as any);
     reject = stop;
   });
   yield;
@@ -163,9 +166,19 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   const config = await getConfig(options);
   yield;
 
-  return new Promise<Stats>((succeed, fail) => {
-    const compiler = webpackInstance(config);
+  const compiler = webpackInstance(config);
 
+  if (!compiler) {
+    const err = `${config.name}: missing webpack compiler at runtime!`;
+    logger.error(err);
+    return {
+      hasErrors: () => true,
+      hasWarnings: () => false,
+      toJson: () => ({ warnings: [] as any[], errors: [err] }),
+    } as any as Stats;
+  }
+
+  return new Promise<Stats>((succeed, fail) => {
     compiler.run((error, stats) => {
       if (error || !stats || stats.hasErrors()) {
         logger.error('=> Failed to build the preview');

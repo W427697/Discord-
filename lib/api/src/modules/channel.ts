@@ -1,5 +1,6 @@
 import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
-import { Channel, Listener } from '@storybook/channels';
+import { Channel } from '@storybook/channels';
+import type { Listener } from '@storybook/channels';
 
 import { ModuleFn } from '../index';
 

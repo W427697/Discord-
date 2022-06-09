@@ -1,10 +1,13 @@
+import fs from 'fs-extra';
 import { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce';
-import Events from '@storybook/core-events';
+import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
+import type { StoryIndex } from '@storybook/store';
+import { loadCsf } from '@storybook/csf-tools';
 
-import { useStoriesJson, DEBOUNCE } from './stories-json';
+import { useStoriesJson, DEBOUNCE, convertToIndexV3 } from './stories-json';
 import { ServerChannel } from './get-server-channel';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
@@ -40,10 +43,20 @@ const normalizedStories = [
   },
 ];
 
-const getInitializedStoryIndexGenerator = async (overrides?: any) => {
-  const generator = new StoryIndexGenerator(normalizedStories, {
+const csfIndexer = async (fileName: string, opts: any) => {
+  const code = (await fs.readFile(fileName, 'utf-8')).toString();
+  return loadCsf(code, { ...opts, fileName }).parse();
+};
+
+const getInitializedStoryIndexGenerator = async (
+  overrides: any = {},
+  inputNormalizedStories = normalizedStories
+) => {
+  const generator = new StoryIndexGenerator(inputNormalizedStories, {
+    storyIndexers: [{ test: /\.stories\..*$/, indexer: csfIndexer }],
     configDir: workingDir,
     workingDir,
+    storiesV2Compatibility: false,
     storyStoreV7: true,
     ...overrides,
   });
@@ -84,14 +97,15 @@ describe('useStoriesJson', () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
-        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(),
         serverChannel: mockServerChannel,
         workingDir,
         normalizedStories,
+        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(),
       });
 
       expect(use).toHaveBeenCalledTimes(2);
       const route = use.mock.calls[0][1];
+      console.log({ route });
 
       await route(request, response);
 
@@ -175,9 +189,158 @@ describe('useStoriesJson', () => {
 
     it('scans and extracts stories v3', async () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
-      await useStoriesJson({
+      useStoriesJson({
         router,
         initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(),
+        workingDir,
+        serverChannel: mockServerChannel,
+        normalizedStories,
+      });
+
+      expect(use).toHaveBeenCalledTimes(2);
+      const route = use.mock.calls[1][1];
+
+      await route(request, response);
+
+      expect(send).toHaveBeenCalledTimes(1);
+      expect(JSON.parse(send.mock.calls[0][0])).toMatchInlineSnapshot(`
+        Object {
+          "stories": Object {
+            "a--docs": Object {
+              "id": "a--docs",
+              "importPath": "./src/docs2/MetaOf.docs.mdx",
+              "kind": "A",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "a--docs",
+                "docsOnly": true,
+                "fileName": "./src/docs2/MetaOf.docs.mdx",
+              },
+              "storiesImports": Array [
+                "./src/A.stories.js",
+              ],
+              "story": "docs",
+              "title": "A",
+            },
+            "a--story-one": Object {
+              "id": "a--story-one",
+              "importPath": "./src/A.stories.js",
+              "kind": "A",
+              "name": "Story One",
+              "parameters": Object {
+                "__id": "a--story-one",
+                "docsOnly": false,
+                "fileName": "./src/A.stories.js",
+              },
+              "story": "Story One",
+              "title": "A",
+            },
+            "b--story-one": Object {
+              "id": "b--story-one",
+              "importPath": "./src/B.stories.ts",
+              "kind": "B",
+              "name": "Story One",
+              "parameters": Object {
+                "__id": "b--story-one",
+                "docsOnly": false,
+                "fileName": "./src/B.stories.ts",
+              },
+              "story": "Story One",
+              "title": "B",
+            },
+            "d--story-one": Object {
+              "id": "d--story-one",
+              "importPath": "./src/D.stories.jsx",
+              "kind": "D",
+              "name": "Story One",
+              "parameters": Object {
+                "__id": "d--story-one",
+                "docsOnly": false,
+                "fileName": "./src/D.stories.jsx",
+              },
+              "story": "Story One",
+              "title": "D",
+            },
+            "docs2-notitle--docs": Object {
+              "id": "docs2-notitle--docs",
+              "importPath": "./src/docs2/NoTitle.docs.mdx",
+              "kind": "docs2/NoTitle",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "docs2-notitle--docs",
+                "docsOnly": true,
+                "fileName": "./src/docs2/NoTitle.docs.mdx",
+              },
+              "storiesImports": Array [],
+              "story": "docs",
+              "title": "docs2/NoTitle",
+            },
+            "docs2-yabbadabbadooo--docs": Object {
+              "id": "docs2-yabbadabbadooo--docs",
+              "importPath": "./src/docs2/Title.docs.mdx",
+              "kind": "docs2/Yabbadabbadooo",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "docs2-yabbadabbadooo--docs",
+                "docsOnly": true,
+                "fileName": "./src/docs2/Title.docs.mdx",
+              },
+              "storiesImports": Array [],
+              "story": "docs",
+              "title": "docs2/Yabbadabbadooo",
+            },
+            "first-nested-deeply-f--story-one": Object {
+              "id": "first-nested-deeply-f--story-one",
+              "importPath": "./src/first-nested/deeply/F.stories.js",
+              "kind": "first-nested/deeply/F",
+              "name": "Story One",
+              "parameters": Object {
+                "__id": "first-nested-deeply-f--story-one",
+                "docsOnly": false,
+                "fileName": "./src/first-nested/deeply/F.stories.js",
+              },
+              "story": "Story One",
+              "title": "first-nested/deeply/F",
+            },
+            "nested-button--story-one": Object {
+              "id": "nested-button--story-one",
+              "importPath": "./src/nested/Button.stories.ts",
+              "kind": "nested/Button",
+              "name": "Story One",
+              "parameters": Object {
+                "__id": "nested-button--story-one",
+                "docsOnly": false,
+                "fileName": "./src/nested/Button.stories.ts",
+              },
+              "story": "Story One",
+              "title": "nested/Button",
+            },
+            "second-nested-g--story-one": Object {
+              "id": "second-nested-g--story-one",
+              "importPath": "./src/second-nested/G.stories.ts",
+              "kind": "second-nested/G",
+              "name": "Story One",
+              "parameters": Object {
+                "__id": "second-nested-g--story-one",
+                "docsOnly": false,
+                "fileName": "./src/second-nested/G.stories.ts",
+              },
+              "story": "Story One",
+              "title": "second-nested/G",
+            },
+          },
+          "v": 3,
+        }
+      `);
+    });
+
+    it('scans and extracts stories v2', async () => {
+      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      useStoriesJson({
+        router,
+        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator({
+          storiesV2Compatibility: true,
+        }),
         workingDir,
         serverChannel: mockServerChannel,
         normalizedStories,
@@ -195,37 +358,79 @@ describe('useStoriesJson', () => {
             "a--story-one": Object {
               "id": "a--story-one",
               "importPath": "./src/A.stories.js",
+              "kind": "A",
               "name": "Story One",
+              "parameters": Object {
+                "__id": "a--story-one",
+                "docsOnly": false,
+                "fileName": "./src/A.stories.js",
+              },
+              "story": "Story One",
               "title": "A",
             },
             "b--story-one": Object {
               "id": "b--story-one",
               "importPath": "./src/B.stories.ts",
+              "kind": "B",
               "name": "Story One",
+              "parameters": Object {
+                "__id": "b--story-one",
+                "docsOnly": false,
+                "fileName": "./src/B.stories.ts",
+              },
+              "story": "Story One",
               "title": "B",
             },
             "d--story-one": Object {
               "id": "d--story-one",
               "importPath": "./src/D.stories.jsx",
+              "kind": "D",
               "name": "Story One",
+              "parameters": Object {
+                "__id": "d--story-one",
+                "docsOnly": false,
+                "fileName": "./src/D.stories.jsx",
+              },
+              "story": "Story One",
               "title": "D",
             },
             "first-nested-deeply-f--story-one": Object {
               "id": "first-nested-deeply-f--story-one",
               "importPath": "./src/first-nested/deeply/F.stories.js",
+              "kind": "first-nested/deeply/F",
               "name": "Story One",
+              "parameters": Object {
+                "__id": "first-nested-deeply-f--story-one",
+                "docsOnly": false,
+                "fileName": "./src/first-nested/deeply/F.stories.js",
+              },
+              "story": "Story One",
               "title": "first-nested/deeply/F",
             },
             "nested-button--story-one": Object {
               "id": "nested-button--story-one",
               "importPath": "./src/nested/Button.stories.ts",
+              "kind": "nested/Button",
               "name": "Story One",
+              "parameters": Object {
+                "__id": "nested-button--story-one",
+                "docsOnly": false,
+                "fileName": "./src/nested/Button.stories.ts",
+              },
+              "story": "Story One",
               "title": "nested/Button",
             },
             "second-nested-g--story-one": Object {
               "id": "second-nested-g--story-one",
               "importPath": "./src/second-nested/G.stories.ts",
+              "kind": "second-nested/G",
               "name": "Story One",
+              "parameters": Object {
+                "__id": "second-nested-g--story-one",
+                "docsOnly": false,
+                "fileName": "./src/second-nested/G.stories.ts",
+              },
+              "story": "Story One",
               "title": "second-nested/G",
             },
           },
@@ -234,14 +439,37 @@ describe('useStoriesJson', () => {
       `);
     });
 
-    it('scans and extracts stories v2', async () => {
+    it('disallows .mdx files without storyStoreV7', async () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
-      await useStoriesJson({
+      useStoriesJson({
         router,
         initializedStoryIndexGenerator: getInitializedStoryIndexGenerator({
           storyStoreV7: false,
-          storiesV2Compatibility: true,
         }),
+        workingDir,
+        serverChannel: mockServerChannel,
+        normalizedStories,
+      });
+
+      expect(use).toHaveBeenCalledTimes(2);
+      const route = use.mock.calls[1][1];
+
+      await route(request, response);
+
+      expect(send).toHaveBeenCalledTimes(1);
+      expect(send.mock.calls[0][0]).toEqual(
+        'You cannot use `.mdx` files without using `storyStoreV7`.'
+      );
+    });
+
+    it('allows disabling storyStoreV7 if no .mdx files are used', async () => {
+      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      useStoriesJson({
+        router,
+        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(
+          { storyStoreV7: false },
+          normalizedStories.slice(0, 1)
+        ),
         workingDir,
         serverChannel: mockServerChannel,
         normalizedStories,
@@ -399,7 +627,7 @@ describe('useStoriesJson', () => {
 
       await onChange('src/nested/Button.stories.ts');
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
-      expect(mockServerChannel.emit).toHaveBeenCalledWith(Events.STORY_INDEX_INVALIDATED);
+      expect(mockServerChannel.emit).toHaveBeenCalledWith(STORY_INDEX_INVALIDATED);
     });
 
     it('only sends one invalidation when multiple event listeners are listening', async () => {
@@ -432,7 +660,7 @@ describe('useStoriesJson', () => {
 
       await onChange('src/nested/Button.stories.ts');
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
-      expect(mockServerChannel.emit).toHaveBeenCalledWith(Events.STORY_INDEX_INVALIDATED);
+      expect(mockServerChannel.emit).toHaveBeenCalledWith(STORY_INDEX_INVALIDATED);
     });
 
     it('debounces invalidation events', async () => {
@@ -468,11 +696,93 @@ describe('useStoriesJson', () => {
       await onChange('src/nested/Button.stories.ts');
 
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
-      expect(mockServerChannel.emit).toHaveBeenCalledWith(Events.STORY_INDEX_INVALIDATED);
+      expect(mockServerChannel.emit).toHaveBeenCalledWith(STORY_INDEX_INVALIDATED);
 
       await new Promise((r) => setTimeout(r, 2 * DEBOUNCE));
 
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(2);
     });
+  });
+});
+
+describe('convertToIndexV3', () => {
+  it('converts v7 index.json to v6 stories.json', () => {
+    const indexJson: StoryIndex = {
+      v: 4,
+      entries: {
+        'a--docs': {
+          id: 'a--docs',
+          importPath: './src/docs2/MetaOf.docs.mdx',
+          name: 'docs',
+          storiesImports: ['./src/A.stories.js'],
+          title: 'A',
+          type: 'docs',
+        },
+        'a--story-one': {
+          id: 'a--story-one',
+          importPath: './src/A.stories.js',
+          name: 'Story One',
+          title: 'A',
+          type: 'story',
+        },
+        'b--story-one': {
+          id: 'b--story-one',
+          importPath: './src/B.stories.ts',
+          name: 'Story One',
+          title: 'B',
+          type: 'story',
+        },
+      },
+    };
+
+    expect(convertToIndexV3(indexJson)).toMatchInlineSnapshot(`
+      Object {
+        "stories": Object {
+          "a--docs": Object {
+            "id": "a--docs",
+            "importPath": "./src/docs2/MetaOf.docs.mdx",
+            "kind": "A",
+            "name": "docs",
+            "parameters": Object {
+              "__id": "a--docs",
+              "docsOnly": true,
+              "fileName": "./src/docs2/MetaOf.docs.mdx",
+            },
+            "storiesImports": Array [
+              "./src/A.stories.js",
+            ],
+            "story": "docs",
+            "title": "A",
+          },
+          "a--story-one": Object {
+            "id": "a--story-one",
+            "importPath": "./src/A.stories.js",
+            "kind": "A",
+            "name": "Story One",
+            "parameters": Object {
+              "__id": "a--story-one",
+              "docsOnly": false,
+              "fileName": "./src/A.stories.js",
+            },
+            "story": "Story One",
+            "title": "A",
+          },
+          "b--story-one": Object {
+            "id": "b--story-one",
+            "importPath": "./src/B.stories.ts",
+            "kind": "B",
+            "name": "Story One",
+            "parameters": Object {
+              "__id": "b--story-one",
+              "docsOnly": false,
+              "fileName": "./src/B.stories.ts",
+            },
+            "story": "Story One",
+            "title": "B",
+          },
+        },
+        "v": 3,
+      }
+    `);
   });
 });

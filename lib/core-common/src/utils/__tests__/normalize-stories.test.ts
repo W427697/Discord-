@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../test-typings.d.ts" />
+
 import dedent from 'ts-dedent';
 
 import { normalizeStoriesEntry } from '../normalize-stories';

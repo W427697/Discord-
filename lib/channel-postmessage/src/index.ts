@@ -1,6 +1,7 @@
 import global from 'global';
 import * as EVENTS from '@storybook/core-events';
-import Channel, { ChannelEvent, ChannelHandler } from '@storybook/channels';
+import { Channel } from '@storybook/channels';
+import type { ChannelHandler, ChannelEvent } from '@storybook/channels';
 import { logger, pretty } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import qs from 'qs';
@@ -195,7 +196,8 @@ export class PostmsgTransport {
   private handleEvent(rawEvent: MessageEvent): void {
     try {
       const { data } = rawEvent;
-      const { key, event, refId } = typeof data === 'string' && isJSON(data) ? parse(data) : data;
+      const { key, event, refId } =
+        typeof data === 'string' && isJSON(data) ? parse(data, global.CHANNEL_OPTIONS || {}) : data;
 
       if (key === KEY) {
         const pageString =
@@ -277,7 +279,10 @@ const getEventSourceUrl = (event: MessageEvent) => {
 /**
  * Creates a channel which communicates with an iframe or child window.
  */
-export default function createChannel({ page }: Config): Channel {
+export function createChannel({ page }: Config): Channel {
   const transport = new PostmsgTransport({ page });
   return new Channel({ transport });
 }
+
+// backwards compat with builder-vite
+export default createChannel;
