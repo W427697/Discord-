@@ -2,7 +2,7 @@ import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
 import { sprinkles } from '../../primitives/sprinkles.css';
 
 export const getRecipe = recipe({
-  base: sprinkles({ borderRadius: 'small', borderColor: 'border' }),
+  base: [{ overflow: 'hidden' }, sprinkles({ borderRadius: 'small', borderColor: 'border' })],
   variants: {
     appearance: {
       elevated: sprinkles({
