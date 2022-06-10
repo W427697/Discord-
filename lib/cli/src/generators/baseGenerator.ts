@@ -55,18 +55,24 @@ const getBuilderDetails = (builder: string) => {
 
   const builderPackage = `@storybook/${builder}`;
   if (map[builderPackage]) {
-    return builderPackage;
+    const builderPackagePath = `path.dirname(require.resolve(path.join('${builderPackage}', 'package.json')))`;
+
+    return builderPackagePath;
   }
 
-  return builder;
+  const builderPackagePath = `path.dirname(require.resolve(path.join('${builder}', 'package.json')))`;
+  return builderPackagePath;
 };
 
 const getFrameworkDetails = (
   renderer: SupportedRenderers,
   builder: Builder
 ): { type: 'framework' | 'renderer'; package: string; builder: string } => {
-  const frameworkPackage = `path.dirname(require.resolve(path.join('@storybook/${renderer}-${builder}', 'package.json')))`;
+  const frameworkPackage = `@storybook/${renderer}-${builder}`;
+
+  const frameworkPackagePath = `path.dirname(require.resolve(path.join('${frameworkPackage}', 'package.json')))`;
   const rendererPackage = `@storybook/${renderer}`;
+  const rendererPackagePath = `path.dirname(require.resolve(path.join('${rendererPackage}', 'package.json')))`;
   const isKnownFramework = !!(packageVersions as Record<string, string>)[frameworkPackage];
   const isKnownRenderer = !!(packageVersions as Record<string, string>)[rendererPackage];
 
@@ -74,7 +80,7 @@ const getFrameworkDetails = (
 
   if (renderer === 'angular') {
     return {
-      package: rendererPackage,
+      package: rendererPackagePath,
       builder: builderPackage,
       type: 'framework',
     };
@@ -82,7 +88,7 @@ const getFrameworkDetails = (
 
   if (isKnownFramework) {
     return {
-      package: frameworkPackage,
+      package: frameworkPackagePath,
       builder: builderPackage,
       type: 'framework',
     };
@@ -90,7 +96,7 @@ const getFrameworkDetails = (
 
   if (isKnownRenderer) {
     return {
-      package: rendererPackage,
+      package: rendererPackagePath,
       builder: builderPackage,
       type: 'renderer',
     };
