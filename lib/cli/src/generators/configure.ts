@@ -28,7 +28,7 @@ function configureMain({
 
   const config = {
     stories: [`${prefix}/**/*.stories.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
-    addons,
+    addons: addons.map((a) => `path.dirname(require.resolve(path.join('${a}', 'package.json')))`),
     ...custom,
   };
 
@@ -39,9 +39,14 @@ function configureMain({
     .replace(/%%['"]/, '')
     .replace(/\\n/g, '\r\n')}`;
   fse.ensureDirSync('./.storybook');
-  fse.writeFileSync(`./.storybook/main.${commonJs ? 'cjs' : 'js'}`, stringified, {
-    encoding: 'utf8',
-  });
+  fse.writeFileSync(
+    `./.storybook/main.${commonJs ? 'cjs' : 'js'}`,
+    dedent`
+      const path = require('path');
+      ${stringified}
+    `,
+    { encoding: 'utf8' }
+  );
 }
 
 const frameworkToPreviewParts: Partial<Record<SupportedRenderers, any>> = {

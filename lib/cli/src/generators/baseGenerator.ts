@@ -65,7 +65,7 @@ const getFrameworkDetails = (
   renderer: SupportedRenderers,
   builder: Builder
 ): { type: 'framework' | 'renderer'; package: string; builder: string } => {
-  const frameworkPackage = `@storybook/${renderer}-${builder}`;
+  const frameworkPackage = `path.dirname(require.resolve(path.join('@storybook/${renderer}-${builder}', 'package.json')))`;
   const rendererPackage = `@storybook/${renderer}`;
   const isKnownFramework = !!(packageVersions as Record<string, string>)[frameworkPackage];
   const isKnownRenderer = !!(packageVersions as Record<string, string>)[rendererPackage];
