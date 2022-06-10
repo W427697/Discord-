@@ -207,7 +207,7 @@
     "@storybook/svelte": "workspace:*",
     "@storybook/svelte-webpack5": "workspace:*",
     "@storybook/telemetry": "workspace:*",
-    "@storybook/testing-library": "^0.0.7",
+    "@storybook/testing-library": "^0.0.12",
     "@storybook/theming": "workspace:*",
     "@storybook/ui": "workspace:*",
     "@storybook/vue": "workspace:*",

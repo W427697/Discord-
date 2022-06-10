@@ -27,7 +27,7 @@
     "@storybook/addons": "7.0.0-alpha.1",
     "@storybook/jest": "^0.0.5",
     "@storybook/source-loader": "7.0.0-alpha.1",
-    "@storybook/testing-library": "^0.0.7",
+    "@storybook/testing-library": "^0.0.12",
     "@storybook/vue": "7.0.0-alpha.1",
     "@storybook/vue-webpack5": "7.0.0-alpha.1",
     "@vue/babel-preset-jsx": "^1.2.4",
