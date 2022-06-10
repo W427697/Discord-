@@ -47,6 +47,7 @@ export interface ControlStates {
 export interface LogItem {
   callId: Call['id'];
   status: Call['status'];
+  parentId?: Call['id'];
 }
 
 export interface Payload {

@@ -319,7 +319,7 @@ describe('Instrumenter', () => {
     expect(() => setRenderPhase('played')).toThrow(new Error('Boom!'));
   });
 
-  it('hoists child exceptions (in callback)', () => {
+  it('bubbles child exceptions up to parent (in callback)', () => {
     const { fn1, fn2 } = instrument({
       fn1: (callback?: Function) => callback && callback(),
       fn2: () => {
@@ -391,7 +391,7 @@ describe('Instrumenter', () => {
       );
     });
 
-    it('does not intercept child calls (in callback)', async () => {
+    it('also includes child calls in the log', async () => {
       const fn = (callback?: Function) => callback && callback();
       const { fn1, fn2 } = instrument({ fn1: fn, fn2: fn }, options);
       fn1(() => {
@@ -402,7 +402,11 @@ describe('Instrumenter', () => {
         expect.objectContaining({
           logItems: [
             { callId: 'kind--story [0] fn1', status: 'done' },
-            // Second call is not here because it is not intercepted
+            {
+              callId: 'kind--story [0] fn1 [0] fn2',
+              status: 'done',
+              parentId: 'kind--story [0] fn1',
+            },
           ],
         })
       );
@@ -425,6 +429,7 @@ describe('Instrumenter', () => {
             name: 'Error',
             message: 'Boom!',
             stack: expect.stringContaining('Error: Boom!'),
+            callId: 'kind--story [0] fn',
           },
         })
       );

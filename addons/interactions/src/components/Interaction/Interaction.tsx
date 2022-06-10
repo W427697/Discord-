@@ -27,6 +27,7 @@ const RowContainer = styled('div', { shouldForwardProp: (prop) => !['call'].incl
     backgroundColor:
       theme.base === 'dark' ? transparentize(0.93, theme.color.negative) : theme.background.warning,
   }),
+  paddingLeft: call.parentId ? 20 : 0,
 }));
 
 const RowLabel = styled('button', { shouldForwardProp: (prop) => !['call'].includes(prop) })<
@@ -88,7 +89,7 @@ export const Interaction = ({
         </MethodCallWrapper>
       </RowLabel>
       {call.status === CallStates.ERROR &&
-        call.exception &&
+        call.exception?.callId === call.id &&
         (call.exception.message.startsWith('expect(') ? (
           <MatcherResult {...call.exception} />
         ) : (

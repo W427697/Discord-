@@ -178,7 +178,7 @@ export class Instrumenter {
             playUntil ||
             shadowCalls
               .slice(0, firstRowIndex)
-              .filter((call) => call.interceptable)
+              .filter((call) => call.interceptable && !call.parentId)
               .slice(-1)[0]?.id,
         };
       });
@@ -193,7 +193,8 @@ export class Instrumenter {
       const next = isDebugging
         ? log.findIndex(({ status }) => status === CallStates.WAITING)
         : log.length;
-      start({ storyId, playUntil: log[next - 2]?.callId });
+      const playUntil = log[next - 2]?.parentId || log[next - 2]?.callId;
+      start({ storyId, playUntil });
     };
 
     const goto = ({ storyId, callId }: { storyId: string; callId: Call['id'] }) => {
@@ -276,7 +277,7 @@ export class Instrumenter {
         }
       });
       if (call.interceptable && !seen.has(call.id)) {
-        acc.unshift({ callId: call.id, status: call.status });
+        acc.unshift({ callId: call.id, status: call.status, parentId: call.parentId });
         seen.add(call.id);
       }
       return acc;
@@ -337,10 +338,10 @@ export class Instrumenter {
     this.setState(storyId, { cursor: cursor + 1 });
     const id = `${parentId || storyId} [${cursor}] ${method}`;
     const { path = [], intercept = false, retain = false } = options;
-    const interceptable =
-      !parentId && (typeof intercept === 'function' ? intercept(method, path) : intercept);
+    const interceptable = typeof intercept === 'function' ? intercept(method, path) : intercept;
     const call: Call = { id, parentId, storyId, cursor, path, method, args, interceptable, retain };
-    const result = (interceptable ? this.intercept : this.invoke).call(this, fn, call, options);
+    const interceptOrInvoke = interceptable && !parentId ? this.intercept : this.invoke;
+    const result = interceptOrInvoke.call(this, fn, call, options);
     return this.instrument(result, { ...options, mutate: true, path: [{ __callId__: call.id }] });
   }
 
@@ -405,10 +406,10 @@ export class Instrumenter {
       }
     });
 
-    const handleException = (e: unknown) => {
+    const handleException = (e: any) => {
       if (e instanceof Error) {
-        const { name, message, stack } = e;
-        const exception = { name, message, stack };
+        const { name, message, stack, callId = call.id } = e as Error & { callId?: Call['id'] };
+        const exception = { name, message, stack, callId };
         this.update({ ...info, status: CallStates.ERROR, exception });
 
         // Always track errors to their originating call.
@@ -419,15 +420,16 @@ export class Instrumenter {
           ]),
         }));
 
+        // Exceptions inside callbacks should bubble up to the parent call rather than be forwarded.
+        if (call.parentId) {
+          Object.defineProperty(e, 'callId', { value: call.id });
+          throw e;
+        }
+
         // We need to throw to break out of the play function, but we don't want to trigger a redbox
         // so we throw an ignoredException, which is caught and silently ignored by Storybook.
         if (call.interceptable && e !== alreadyCompletedException) {
           throw IGNORED_EXCEPTION;
-        }
-
-        // Exceptions inside callbacks should bubble up to the parent call rather than be forwarded.
-        if (call.parentId) {
-          throw e;
         }
 
         // Non-interceptable calls need their exceptions forwarded to the next interceptable call.
