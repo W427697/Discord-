@@ -40,6 +40,7 @@ describe('moduleMetadata', () => {
       () => ({
         component: MockComponent,
       }),
+      // deepscan-disable-next-line
       defaultContext
     );
 
@@ -66,6 +67,7 @@ describe('moduleMetadata', () => {
           providers: [MockService],
         },
       }),
+      // deepscan-disable-next-line
       defaultContext
     );
 
@@ -89,6 +91,7 @@ describe('moduleMetadata', () => {
           providers: [MockService],
         },
       }),
+      // deepscan-disable-next-line
       defaultContext
     );
 
