@@ -255,7 +255,7 @@ export class StoryIndexGenerator {
       csf.stories.forEach(({ id, name, parameters }) => {
         const base = { id, title: csf.meta.title, name, importPath };
         const entry: IndexEntry = parameters?.docsOnly
-          ? { ...base, type: 'docs', storiesImports: [] }
+          ? { ...base, type: 'docs', storiesImports: [], legacy: true }
           : { ...base, type: 'story' };
         entries.push(entry);
       });
