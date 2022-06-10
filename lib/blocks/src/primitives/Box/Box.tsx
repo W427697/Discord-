@@ -45,12 +45,12 @@ export const Box = forwardRef<HTMLElement, Props>(
 
     const sprinkleClass = sprinkles(atomicStyles);
 
-    const { className: fillingClassName, style } = sizeFillings(dynamicStyles);
+    const { className: fillingClassName, style: inlineStyles } = sizeFillings(dynamicStyles);
 
     return createElement(
       as,
       {
-        style: { ...style, ...customStyles, ...userStyles },
+        style: { ...inlineStyles, ...customStyles, ...userStyles },
         className: clsx(reset, sprinkleClass, fillingClassName, userClassName),
         ref: forwardedRef,
         ...props,
