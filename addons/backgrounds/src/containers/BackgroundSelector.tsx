@@ -78,7 +78,14 @@ export const BackgroundSelector: FunctionComponent = memo(() => {
   );
 
   const [globals, updateGlobals] = useGlobals();
-
+  if (!globals[BACKGROUNDS_PARAM_KEY] && backgroundsConfig.values.length) {
+    const defaultSetting = backgroundsConfig.values.find(
+      (value) => value.name === backgroundsConfig.default
+    );
+    globals[BACKGROUNDS_PARAM_KEY] = {
+      value: defaultSetting.value,
+    };
+  }
   const globalsBackgroundColor = globals[BACKGROUNDS_PARAM_KEY]?.value;
 
   const selectedBackgroundColor = useMemo(() => {
