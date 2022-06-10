@@ -2,26 +2,8 @@ import React, { FunctionComponent } from 'react';
 import { transparentize } from 'polished';
 import { styled } from '@storybook/theming';
 import { ResetWrapper } from '@storybook/components';
-
-import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
-
-const ItemTitle = styled.div(({ theme }) => ({
-  fontWeight: theme.typography.weight.bold,
-  color: theme.color.defaultText,
-}));
-
-const ItemSubtitle = styled.div(({ theme }) => ({
-  color:
-    theme.base === 'light'
-      ? transparentize(0.2, theme.color.defaultText)
-      : transparentize(0.6, theme.color.defaultText),
-}));
-
-const ItemDescription = styled.div({
-  flex: '0 0 30%',
-  lineHeight: '20px',
-  marginTop: 5,
-});
+import { Box, Stack, Text } from '../primitives';
+import { Block } from '.';
 
 const SwatchLabel = styled.div(({ theme }) => ({
   flex: 1,
@@ -57,40 +39,40 @@ interface SwatchProps {
   background: string;
 }
 
-const Swatch = styled.div<SwatchProps>(({ background }) => ({
-  position: 'relative',
-  flex: 1,
+const Swatch: React.FC<SwatchProps> = ({ background }) => (
+  <Box
+    css={{
+      flexGrow: 1,
+      height: '50px',
+    }}
+    style={{ background }}
+  />
+);
 
-  '&::before': {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    background,
-    content: '""',
-  },
-}));
+const SwatchColors: React.FC = ({ children }) => (
+  <Block>
+    <Stack
+      orientation="horizontal"
+      css={{
+        backgroundImage: `repeating-linear-gradient(-45deg, #ccc, #ccc 1px, #fff 1px, #fff 16px)`,
+        backgroundClip: 'padding-box',
+        overflow: 'hidden',
+      }}
+    >
+      {children}
+    </Stack>
+  </Block>
+);
 
-const SwatchColors = styled.div(({ theme }) => ({
-  ...getBlockBackgroundStyle(theme),
-  display: 'flex',
-  flexDirection: 'row',
-  height: 50,
-  marginBottom: 5,
-  overflow: 'hidden',
-  backgroundColor: 'white',
-  backgroundImage: `repeating-linear-gradient(-45deg, #ccc, #ccc 1px, #fff 1px, #fff 16px)`,
-  backgroundClip: 'padding-box',
-}));
-
-const SwatchSpecimen = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  flex: 1,
-  position: 'relative',
-  marginBottom: 30,
-});
+const SwatchSpecimen: React.FC = (props) => (
+  <Stack
+    gap="medium"
+    css={{
+      flexGrow: 1,
+    }}
+    {...props}
+  />
+);
 
 const Swatches = styled.div({
   flex: 1,
@@ -181,13 +163,13 @@ function renderSwatchSpecimen(colors: Colors) {
  */
 export const ColorItem: FunctionComponent<ColorItemProps> = ({ title, subtitle, colors }) => {
   return (
-    <Item>
-      <ItemDescription>
-        <ItemTitle>{title}</ItemTitle>
-        <ItemSubtitle>{subtitle}</ItemSubtitle>
-      </ItemDescription>
+    <Box css={{ display: 'grid', gridTemplateColumns: '30% auto', marginTop: 'medium' }}>
+      <Stack gap="small">
+        <Text tone="loud">{title}</Text>
+        <Text tone="muted">{subtitle}</Text>
+      </Stack>
       <Swatches>{renderSwatchSpecimen(colors)}</Swatches>
-    </Item>
+    </Box>
   );
 };
 
@@ -202,7 +184,7 @@ export const ColorPalette: FunctionComponent = ({ children, ...props }) => (
         <ListName>Name</ListName>
         <ListSwatches>Swatches</ListSwatches>
       </ListHeading>
-      {children}
+      <Stack gap="large">{children}</Stack>
     </List>
   </ResetWrapper>
 );
