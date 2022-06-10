@@ -20,7 +20,7 @@ const normalizedStories = [
     directory: './src',
     files: '**/*.stories.@(ts|js|jsx)',
     importPathMatcher:
-      /^\.[\\/](?:src(?:\/(?!\.)(?:(?:(?!(?:^|\/)\.).)*?)\/|\/|$)(?!\.)(?=.)[^/]*?\.stories\.(ts|js|jsx))$/,
+      /^\.[\\/](?:src(?:\/(?!\.)(?:(?:(?!(?:^|\/)\.).)*?)\/|\/|$)(?!\.)(?=.)[^/]*?\.stories\.@(ts|js|jsx))$/,
   },
 ];
 

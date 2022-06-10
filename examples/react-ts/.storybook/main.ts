@@ -9,7 +9,7 @@ const config: StorybookConfig = {
     {
       directory: '../src',
       titlePrefix: 'Demo',
-      files: '*.stories.(js|ts|tsx|mdx)',
+      files: '*.stories.@(js|ts|tsx|mdx)',
     },
     {
       directory: '../src/addon-docs',

@@ -57,9 +57,8 @@ const testCases = [
       './src/components/Icon.stories.js',
     ],
   },
-  // INVALID GLOB
   {
-    glob: '../src/stories/**/*.stories.(js|mdx)',
+    glob: '../src/stories/**/*.stories.@(js|mdx)',
     recursive: true,
     validPaths: [
       '../src/stories/components/Icon.stories.js',

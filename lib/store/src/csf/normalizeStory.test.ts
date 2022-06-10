@@ -46,12 +46,12 @@ describe('normalizeStory', () => {
       expect(normalizeStory('storyExport', storyFn, meta)).toMatchInlineSnapshot(`
         Object {
           "argTypes": Object {},
-          "args": Object {},
+          "args": undefined,
           "decorators": Array [],
           "id": "title--story-export",
           "loaders": Array [],
           "name": "Story Export",
-          "parameters": Object {},
+          "parameters": undefined,
           "userStoryFn": [Function],
         }
       `);
@@ -113,12 +113,12 @@ describe('normalizeStory', () => {
         expect(normalized).toMatchInlineSnapshot(`
           Object {
             "argTypes": Object {},
-            "args": Object {},
+            "args": undefined,
             "decorators": Array [],
             "id": "title--story-export",
             "loaders": Array [],
             "name": "Story Export",
-            "parameters": Object {},
+            "parameters": undefined,
           }
         `);
       });
@@ -189,30 +189,20 @@ describe('normalizeStory', () => {
                   "name": "string",
                 },
               },
-              "storyArgType2": Object {
-                "name": "storyArgType2",
-                "type": Object {
-                  "name": "string",
-                },
-              },
             },
             "args": Object {
               "storyArg": "val",
-              "storyArg2": "legacy",
             },
             "decorators": Array [
-              [Function],
               [Function],
             ],
             "id": "title--story-export",
             "loaders": Array [
               [Function],
-              [Function],
             ],
             "name": "story name",
             "parameters": Object {
               "storyParam": "val",
-              "storyParam2": "legacy",
             },
           }
         `);

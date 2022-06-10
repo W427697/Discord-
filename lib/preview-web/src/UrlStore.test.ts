@@ -75,12 +75,9 @@ describe('UrlStore', () => {
         viewMode: 'story',
       });
     });
-    it('should parse legacy queries', () => {
+    it('should not parse legacy queries', () => {
       document.location.search = '?selectedKind=kind&selectedStory=story';
-      expect(getSelectionSpecifierFromPath()).toEqual({
-        storySpecifier: { title: 'kind', name: 'story' },
-        viewMode: 'story',
-      });
+      expect(getSelectionSpecifierFromPath()).toEqual(null);
     });
     it('should parse args', () => {
       document.location.search = '?id=story--id&args=obj.key:val';

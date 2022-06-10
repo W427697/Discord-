@@ -51,14 +51,14 @@ describe('GlobalsStore', () => {
       store.update({ baz: 'bing' });
       expect(store.get()).toEqual({ foo: 'bar', baz: 'bing' });
 
-      // NOTE: this is currently allowed but deprecated.
+      // NOTE: 'random' isn';'t allowed because it's not in the allowed globals
       store.update({ random: 'value' });
-      expect(store.get()).toEqual({ foo: 'bar', baz: 'bing', random: 'value' });
+      expect(store.get()).toEqual({ foo: 'bar', baz: 'bing' });
     });
 
     it('does not merge objects', () => {
       const store = new GlobalsStore();
-      store.set({ globals: {}, globalTypes: {} });
+      store.set({ globals: { obj: { foo: 'bar' } }, globalTypes: {} });
 
       store.update({ obj: { foo: 'bar' } });
       expect(store.get()).toEqual({ obj: { foo: 'bar' } });
@@ -134,8 +134,8 @@ describe('GlobalsStore', () => {
           arg3: 'new-arg3',
         });
 
-        // You can set undeclared values (currently, deprecated)
-        expect(store.get()).toEqual({ arg1: 'new-arg1', arg2: 'new-arg2', arg3: 'new-arg3' });
+        // arg3 isn't accepted because it wasn't in the initial globals
+        expect(store.get()).toEqual({ arg1: 'new-arg1', arg2: 'new-arg2' });
 
         store.set({
           globals: {
@@ -172,8 +172,7 @@ describe('GlobalsStore', () => {
         expect(store.get()).toEqual({
           arg1: 'new-arg1',
           arg2: 'new-arg2',
-          // You can set undeclared values (currently, deprecated)
-          arg3: 'new-arg3',
+          // arg3 isn't accepted because it wasn't in the initial globals
           arg4: 'arg4',
         });
 

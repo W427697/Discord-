@@ -60,7 +60,7 @@ describe('StoryIndexGenerator', () => {
     describe('non-recursive specifier', () => {
       it('extracts stories from the right files', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/*/*.stories.(ts|js|jsx)',
+          './src/*/*.stories.@(ts|js|jsx)',
           options
         );
 
@@ -92,7 +92,7 @@ describe('StoryIndexGenerator', () => {
     describe('recursive specifier', () => {
       it('extracts stories from the right files', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/**/*.stories.(ts|js|jsx)',
+          './src/**/*.stories.@(ts|js|jsx)',
           options
         );
 
@@ -149,7 +149,7 @@ describe('StoryIndexGenerator', () => {
   describe('sorting', () => {
     it('runs a user-defined sort function', async () => {
       const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-        './src/**/*.stories.(ts|js|jsx)',
+        './src/**/*.stories.@(ts|js|jsx)',
         options
       );
 
@@ -175,7 +175,7 @@ describe('StoryIndexGenerator', () => {
     describe('no invalidation', () => {
       it('does not extract csf files a second time', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/**/*.stories.(ts|js|jsx)',
+          './src/**/*.stories.@(ts|js|jsx)',
           options
         );
 
@@ -192,7 +192,7 @@ describe('StoryIndexGenerator', () => {
 
       it('does not call the sort function a second time', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/**/*.stories.(ts|js|jsx)',
+          './src/**/*.stories.@(ts|js|jsx)',
           options
         );
 
@@ -212,7 +212,7 @@ describe('StoryIndexGenerator', () => {
     describe('file changed', () => {
       it('calls extract csf file for just the one file', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/**/*.stories.(ts|js|jsx)',
+          './src/**/*.stories.@(ts|js|jsx)',
           options
         );
 
@@ -231,7 +231,7 @@ describe('StoryIndexGenerator', () => {
 
       it('does call the sort function a second time', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/**/*.stories.(ts|js|jsx)',
+          './src/**/*.stories.@(ts|js|jsx)',
           options
         );
 
@@ -252,7 +252,7 @@ describe('StoryIndexGenerator', () => {
       describe('file removed', () => {
         it('does not extract csf files a second time', async () => {
           const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-            './src/**/*.stories.(ts|js|jsx)',
+            './src/**/*.stories.@(ts|js|jsx)',
             options
           );
 
@@ -271,7 +271,7 @@ describe('StoryIndexGenerator', () => {
 
         it('does call the sort function a second time', async () => {
           const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-            './src/**/*.stories.(ts|js|jsx)',
+            './src/**/*.stories.@(ts|js|jsx)',
             options
           );
 
@@ -291,7 +291,7 @@ describe('StoryIndexGenerator', () => {
 
         it('does not include the deleted stories in results', async () => {
           const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-            './src/**/*.stories.(ts|js|jsx)',
+            './src/**/*.stories.@(ts|js|jsx)',
             options
           );
 
