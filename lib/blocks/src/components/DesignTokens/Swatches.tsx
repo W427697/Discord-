@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Box, Stack, Text } from '../../primitives';
+import { Block } from '../Block/Block';
 import { ColorSwatchStyles } from './Swatches.css';
 
 export type TokenName = string;
@@ -87,9 +88,12 @@ export function getRecursiveTokens<T extends TokenValue | ComplexToken | TokenGr
           };
         }
         // It's a group of tokens, so recurse to get tokens from the group
+        const { $type, $description } = value;
         return {
           name: tokenName,
-          value: getRecursiveTokens(value, key),
+          value: getRecursiveTokens(value, tokenName),
+          description: $description,
+          type: $type,
         };
       }
 
@@ -104,27 +108,25 @@ export const Swatches = ({ tokens, children }: SwatchesProps) => {
   return <>{tokensArray.map(children)}</>;
 };
 
-export const ColorSwatch = ({ name, value }: TokenObject) => {
+export const ColorSwatchSample = ({ name, value }: TokenObject) => {
   return (
-    <Stack
-      gap="small"
-      css={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        flexGrow: 1,
-      }}
-    >
-      <Box className={ColorSwatchStyles}>
-        <Box
-          css={{
-            width: '100%',
-            height: '100%',
-          }}
-          style={{
-            background: String(value),
-          }}
-        />
-      </Box>
+    <Box className={ColorSwatchStyles} title={name}>
+      <Box
+        css={{
+          width: '100%',
+          height: '100%',
+        }}
+        style={{
+          background: String(value),
+        }}
+      />
+    </Box>
+  );
+};
+
+export const ColorSwatchLabel = ({ name, value }: TokenObject) => {
+  return (
+    <Stack>
       <Text tone="loud" size="s2">
         {name}
       </Text>
@@ -137,10 +139,65 @@ export const ColorSwatch = ({ name, value }: TokenObject) => {
 
 export const ColorPalette = ({ tokens }: { tokens: TokenObject[] }) => {
   return (
-    <Stack gap="small" orientation="horizontal">
-      {tokens.map((token) => (
-        <ColorSwatch key={token.name} {...token} />
-      ))}
+    <Stack gap="small">
+      <Block>
+        <Box
+          css={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${tokens.length}, 1fr)`,
+          }}
+        >
+          {tokens.map((token) => (
+            <ColorSwatchSample {...token} />
+          ))}
+        </Box>
+      </Block>
+      <Box
+        css={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${tokens.length}, 1fr)`,
+        }}
+      >
+        {tokens.map((token) => (
+          <ColorSwatchLabel {...token} />
+        ))}
+      </Box>
     </Stack>
   );
+};
+
+export const ColorPaletteGroup = ({ tokens }: { tokens: TokenGroup }): ReactElement => {
+  function renderGroup<T extends TokenObject | TokenObject[]>(group: T): ReactElement {
+    if (Array.isArray(group)) {
+      return <>{group.map((token) => renderGroup(token))}</>;
+    }
+
+    const isGroup = Array.isArray(group.value);
+
+    const { name, value, description } = group;
+
+    if (isGroup) {
+      const tokenValues = value as TokenObject[];
+      const isPalette = tokenValues.every((token) => !Array.isArray(token.value));
+      return (
+        <Stack gap="large">
+          <Stack gap="small">
+            <Text as="h2" size="m2">
+              {name}
+            </Text>
+            {description && (
+              <Text tone="muted" size="s3">
+                {description}
+              </Text>
+            )}
+          </Stack>
+          {isPalette ? <ColorPalette tokens={tokenValues} /> : renderGroup(tokenValues)}
+        </Stack>
+      );
+    }
+
+    return <ColorPalette tokens={[group]} />;
+  }
+
+  return renderGroup(getRecursiveTokens(tokens));
 };

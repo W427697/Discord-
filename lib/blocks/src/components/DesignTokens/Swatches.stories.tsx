@@ -1,8 +1,7 @@
-import React from 'react';
 import { modularScale } from 'polished';
-import { Heading } from '../../blocks';
+import React from 'react';
 import { Box, Stack, Text } from '../../primitives';
-import { ColorPalette, ColorSwatch, Swatches, TokenObject } from './Swatches';
+import { ColorPalette, ColorPaletteGroup, Swatches, TokenObject } from './Swatches';
 
 const createScale = (ratio: number, base: number) => (steps: number) =>
   `${modularScale(steps, base, ratio)}px`;
@@ -39,9 +38,12 @@ export const Colors = () => {
         2: 'rgba(102,191,60,.6)',
         3: 'rgba(102,191,60,.3)',
       },
-      negative: {
-        $description: 'Example of the nested group',
-        nested: 'rgba(255,71,133,.6)',
+      scrollbar: {
+        $description: 'Example of complex nested groups',
+        border: '#efefef',
+        thumb: {
+          bg: '#999',
+        },
       },
       gradients: {
         grey: 'linear-gradient(to right, rgba(255,255,255,0), #333)',
@@ -49,21 +51,7 @@ export const Colors = () => {
       },
     },
   };
-  return (
-    <Stack gap="large">
-      <Swatches tokens={theme.colors}>
-        {(token) => (
-          <>
-            {Array.isArray(token.value) ? (
-              <ColorPalette tokens={token.value} />
-            ) : (
-              <ColorSwatch name={token.name} value={token.value} />
-            )}
-          </>
-        )}
-      </Swatches>
-    </Stack>
-  );
+  return <ColorPaletteGroup tokens={theme} />;
 };
 
 /**
@@ -209,13 +197,9 @@ export const ThemeUI = () => {
     <Stack gap="large">
       <Swatches tokens={theme.colors}>
         {(token) => (
-          <>
-            {Array.isArray(token.value) ? (
-              <ColorPalette tokens={token.value} />
-            ) : (
-              <ColorSwatch name={token.name} value={token.value} />
-            )}
-          </>
+          <ColorPalette
+            tokens={Array.isArray(token.value) ? (token.value as TokenObject[]) : [token]}
+          />
         )}
       </Swatches>
     </Stack>
