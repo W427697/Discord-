@@ -48,6 +48,7 @@
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "memoizerific": "^1.11.3",
+    "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },

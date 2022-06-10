@@ -1,8 +1,17 @@
 import dedent from 'ts-dedent';
+import deprecate from 'util-deprecate';
 import glob from 'glob';
 import path from 'path';
 
 import { boost } from './interpret-files';
+
+const warnLegacyConfigurationFiles = deprecate(
+  () => {},
+  dedent`
+    Configuration files such as "config", "presets" and "addons" are deprecated and will be removed in Storybook 7.0.
+    Read more about it in the migration guide: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md#to-mainjs-configuration
+  `
+);
 
 const errorMixingConfigFiles = (first: string, second: string, configDir: string) => {
   const firstPath = path.resolve(configDir, first);
@@ -53,5 +62,9 @@ export function validateConfigurationFiles(configDir: string) {
   const manager = exists('manager');
   if (manager && addons) {
     errorMixingConfigFiles('manager', 'addons', configDir);
+  }
+
+  if (presets || config || addons) {
+    warnLegacyConfigurationFiles();
   }
 }

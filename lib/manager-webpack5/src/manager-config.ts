@@ -3,6 +3,8 @@ import fs from 'fs-extra';
 import findUp from 'find-up';
 import resolveFrom from 'resolve-from';
 import fetch from 'node-fetch';
+import deprecate from 'util-deprecate';
+import dedent from 'ts-dedent';
 
 import type { Configuration } from 'webpack';
 import type { Ref, Options } from '@storybook/core-common';
@@ -57,6 +59,15 @@ const toTitle = (input: string) => {
   return `${result.substring(0, 1).toUpperCase()}${result.substring(1)}`.trim();
 };
 
+const deprecatedDefinedRefDisabled = deprecate(
+  () => {},
+  dedent`
+    Deprecated parameter: disabled => disable
+
+    https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-package-composition-disabled-parameter
+  `
+);
+
 export async function getManagerWebpackConfig(options: Options): Promise<Configuration> {
   const { presets } = options;
 
@@ -70,9 +81,13 @@ export async function getManagerWebpackConfig(options: Options): Promise<Configu
   if (definedRefs) {
     disabledRefs = Object.entries(definedRefs)
       .filter(([key, value]) => {
-        const { disable } = value;
+        const { disable, disabled } = value;
 
-        if (disable) {
+        if (disable || disabled) {
+          if (disabled) {
+            deprecatedDefinedRefDisabled();
+          }
+
           delete definedRefs[key]; // Also delete the ref that is disabled in definedRefs
 
           return true;

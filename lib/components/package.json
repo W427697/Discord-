@@ -26,6 +26,11 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./html": {
+      "require": "./dist/html.js",
+      "import": "./dist/html.mjs",
+      "types": "./dist/html.d.ts"
+    },
     "./package.json": {
       "require": "./package.json",
       "import": "./package.json",
@@ -82,7 +87,8 @@
     "access": "public"
   },
   "bundlerEntrypoint": [
-    "./src/index.ts"
+    "./src/index.ts",
+    "./src/html.tsx"
   ],
   "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
 }

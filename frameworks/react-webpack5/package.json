@@ -38,7 +38,8 @@
     "@storybook/preset-react-webpack": "7.0.0-alpha.1",
     "@storybook/react": "7.0.0-alpha.1",
     "@types/node": "^14.14.20 || ^16.0.0",
-    "core-js": "^3.8.2"
+    "core-js": "^3.8.2",
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
     "jest-specific-snapshot": "^4.0.0"

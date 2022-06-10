@@ -64,6 +64,13 @@ const getFirstString = (v: ValueOf<qs.ParsedQs>): string | void => {
   return undefined;
 };
 
+const deprecatedLegacyQuery = deprecate(
+  () => 0,
+  `URL formats with \`selectedKind\` and \`selectedName\` query parameters are deprecated.
+Use \`id=$storyId\` instead.
+See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-url-structure`
+);
+
 export const getSelectionSpecifierFromPath: () => SelectionSpecifier = () => {
   const query = qs.parse(document.location.search, { ignoreQueryPrefix: true });
   const args = typeof query.args === 'string' ? parseArgsParam(query.args) : undefined;
@@ -81,6 +88,14 @@ export const getSelectionSpecifierFromPath: () => SelectionSpecifier = () => {
     return { storySpecifier: storyId, args, globals, viewMode };
   }
 
+  // Legacy URL format
+  const title = getFirstString(query.selectedKind);
+  const name = getFirstString(query.selectedStory);
+
+  if (title && name) {
+    deprecatedLegacyQuery();
+    return { storySpecifier: { title, name }, args, globals, viewMode };
+  }
   return null;
 };
 

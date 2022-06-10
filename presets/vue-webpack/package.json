@@ -38,6 +38,7 @@
     "core-js": "^3.8.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
+    "regenerator-runtime": "^0.13.7",
     "ts-loader": "^9.2.8",
     "vue-docgen-api": "^4.44.23",
     "vue-docgen-loader": "^1.5.1",

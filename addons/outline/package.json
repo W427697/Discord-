@@ -48,6 +48,7 @@
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
+    "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0"
   },
   "peerDependencies": {

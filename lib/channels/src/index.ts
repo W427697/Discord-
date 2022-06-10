@@ -62,6 +62,15 @@ export class Channel {
     this.events[eventName].push(listener);
   }
 
+  addPeerListener = deprecate(
+    (eventName: string, listener: Listener) => {
+      this.addListener(eventName, listener);
+    },
+    dedent`
+      channel.addPeerListener is deprecated
+    `
+  );
+
   emit(eventName: string, ...args: any) {
     const event: ChannelEvent = { type: eventName, args, from: this.sender };
     let options = {};

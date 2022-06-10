@@ -34,7 +34,8 @@
   },
   "dependencies": {
     "@storybook/client-logger": "7.0.0-alpha.1",
-    "core-js": "^3.8.2"
+    "core-js": "^3.8.2",
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
     "@emotion/cache": "^11.7.1",

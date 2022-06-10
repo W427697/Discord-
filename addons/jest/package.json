@@ -49,6 +49,7 @@
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "react-sizeme": "^3.0.1",
+    "regenerator-runtime": "^0.13.7",
     "upath": "^1.2.0"
   },
   "peerDependencies": {

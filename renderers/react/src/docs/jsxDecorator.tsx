@@ -1,6 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import React, { createElement, ReactElement } from 'react';
 import reactElementToJSXString, { Options } from 'react-element-to-jsx-string';
+import dedent from 'ts-dedent';
+import deprecate from 'util-deprecate';
 
 import { addons, useEffect } from '@storybook/addons';
 import { StoryContext, ArgsStoryFn, PartialStoryFn } from '@storybook/csf';
@@ -24,6 +26,24 @@ type JSXOptions = Options & {
   onBeforeRender?(dom: string): string;
   /** A function ran after a story is rendered (prefer this over `onBeforeRender`) */
   transformSource?(dom: string, context?: StoryContext<ReactFramework>): string;
+};
+
+/** Run the user supplied onBeforeRender function if it exists */
+const applyBeforeRender = (domString: string, options: JSXOptions) => {
+  if (typeof options.onBeforeRender !== 'function') {
+    return domString;
+  }
+
+  const deprecatedOnBeforeRender = deprecate(
+    options.onBeforeRender,
+    dedent`
+      StoryFn.parameters.jsx.onBeforeRender was deprecated.
+      Prefer StoryFn.parameters.jsx.transformSource instead.
+      See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-onbeforerender for details.
+    `
+  );
+
+  return deprecatedOnBeforeRender(domString);
 };
 
 /** Run the user supplied transformSource function if it exists */
@@ -101,7 +121,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
   const result = React.Children.map(code, (c) => {
     // @ts-ignore FIXME: workaround react-element-to-jsx-string
     const child = typeof c === 'number' ? c.toString() : c;
-    let string = reactElementToJSXString(child, opts as Options);
+    let string = applyBeforeRender(reactElementToJSXString(child, opts as Options), options);
 
     if (string.indexOf('&quot;') > -1) {
       const matches = string.match(/\S+=\\"([^"]*)\\"/g);

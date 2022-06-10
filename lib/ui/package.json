@@ -43,6 +43,7 @@
     "@storybook/semver": "^7.3.2",
     "@storybook/theming": "7.0.0-alpha.1",
     "core-js": "^3.8.2",
+    "regenerator-runtime": "^0.13.7",
     "resolve-from": "^5.0.0",
     "util": "^0.12.4"
   },

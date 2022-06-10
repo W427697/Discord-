@@ -39,6 +39,7 @@ const config: StorybookConfig = {
     storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
     buildStoriesJson: true,
     babelModeV7: true,
+    warnOnLegacyHierarchySeparator: false,
     previewMdx2: true,
     breakingChangesV7: true,
   },

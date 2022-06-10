@@ -38,6 +38,7 @@ const config: StorybookConfig = {
   logLevel: 'debug',
   features: {
     interactionsDebugger: true,
+    breakingChangesV7: false,
     storyStoreV7: false,
   },
   staticDirs: [
