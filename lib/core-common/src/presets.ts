@@ -90,9 +90,9 @@ export const resolveAddonName = (
   const path = name;
 
   // when user provides full path, we don't need to do anything!
-  const managerFile = safeResolve(`${path}/manager`);
-  const registerFile = safeResolve(`${path}/register`) || safeResolve(`${path}/register-panel`);
-  const previewFile = safeResolve(`${path}/preview`);
+  const managerFile = r(`${path}/manager`);
+  const registerFile = r(`${path}/register`) || r(`${path}/register-panel`);
+  const previewFile = r(`${path}/preview`);
   const presetFile = r(`${path}/preset`);
 
   if (!(managerFile || previewFile) && presetFile) {
