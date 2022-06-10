@@ -147,6 +147,12 @@ export class Instrumenter {
         // Rethrow any unhandled forwarded exception so it doesn't go unnoticed.
         if (forwardedException) throw forwardedException;
       }
+      if (newPhase === 'errored') {
+        this.setState(storyId, {
+          isLocked: false,
+          isPlaying: false,
+        });
+      }
     });
 
     // Trash non-retained state and clear the log when switching stories, but not on initial boot.
@@ -331,7 +337,8 @@ export class Instrumenter {
     this.setState(storyId, { cursor: cursor + 1 });
     const id = `${parentId || storyId} [${cursor}] ${method}`;
     const { path = [], intercept = false, retain = false } = options;
-    const interceptable = typeof intercept === 'function' ? intercept(method, path) : intercept;
+    const interceptable =
+      !parentId && (typeof intercept === 'function' ? intercept(method, path) : intercept);
     const call: Call = { id, parentId, storyId, cursor, path, method, args, interceptable, retain };
     const result = (interceptable ? this.intercept : this.invoke).call(this, fn, call, options);
     return this.instrument(result, { ...options, mutate: true, path: [{ __callId__: call.id }] });
@@ -418,6 +425,11 @@ export class Instrumenter {
           throw IGNORED_EXCEPTION;
         }
 
+        // Exceptions inside callbacks should bubble up to the parent call rather than be forwarded.
+        if (call.parentId) {
+          throw e;
+        }
+
         // Non-interceptable calls need their exceptions forwarded to the next interceptable call.
         // In case no interceptable call picks it up, it'll get rethrown in the "completed" phase.
         this.setState(call.storyId, { forwardedException: e });
@@ -437,25 +449,36 @@ export class Instrumenter {
         throw alreadyCompletedException;
       }
 
-      const finalArgs = options.getArgs
+      // Some libraries override function args through the `getArgs` option.
+      const actualArgs = options.getArgs
         ? options.getArgs(call, this.getState(call.storyId))
         : call.args;
-      const result = fn(
-        // Wrap any callback functions to provide a way to access their "parent" call.
-        // This is picked up in the `track` function and used for call metadata.
-        ...finalArgs.map((arg: any) => {
-          if (typeof arg !== 'function' || Object.keys(arg).length) return arg;
-          return (...args: any) => {
-            const { cursor, parentId } = this.getState(call.storyId);
-            this.setState(call.storyId, { cursor: 0, parentId: call.id });
-            const restore = () => this.setState(call.storyId, { cursor, parentId });
-            const res = arg(...args);
-            if (res instanceof Promise) res.then(restore, restore);
-            else restore();
-            return res;
-          };
-        })
-      );
+
+      // Wrap any callback functions to provide a way to access their "parent" call.
+      // This is picked up in the `track` function and used for call metadata.
+      const finalArgs = actualArgs.map((arg: any) => {
+        // We only want to wrap plain functions, not objects.
+        if (typeof arg !== 'function' || Object.keys(arg).length) return arg;
+
+        // console.log(call.id);
+        return (...args: any) => {
+          // Set the cursor and parentId for calls that happen inside the callback.
+          const { cursor, parentId } = this.getState(call.storyId);
+          this.setState(call.storyId, { cursor: 0, parentId: call.id });
+          const restore = () => this.setState(call.storyId, { cursor, parentId });
+
+          // Invoke the actual callback function.
+          const res = arg(...args);
+
+          // Reset cursor and parentId to their original values before we entered the callback.
+          if (res instanceof Promise) res.then(restore, restore);
+          else restore();
+
+          return res;
+        };
+      });
+
+      const result = fn(...finalArgs);
 
       // Track the result so we can trace later uses of it back to the originating call.
       // Primitive results (undefined, null, boolean, string, number, BigInt) are ignored.

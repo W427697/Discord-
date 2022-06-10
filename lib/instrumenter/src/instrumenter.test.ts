@@ -39,6 +39,8 @@ let instrumenter: Instrumenter;
 const instrument = <TObj extends Record<string, any>>(obj: TObj, options: Options = {}) =>
   instrumenter.instrument(obj, options);
 
+const tick = () => new Promise((resolve) => setTimeout(resolve, 0));
+
 beforeEach(() => {
   jest.useRealTimers();
   callSpy.mockClear();
@@ -317,6 +319,20 @@ describe('Instrumenter', () => {
     expect(() => setRenderPhase('played')).toThrow(new Error('Boom!'));
   });
 
+  it('hoists child exceptions (in callback)', () => {
+    const { fn1, fn2 } = instrument({
+      fn1: (callback?: Function) => callback && callback(),
+      fn2: () => {
+        throw new Error('Boom!');
+      },
+    });
+    expect(
+      fn1(() => {
+        fn2();
+      })
+    ).toEqual(new Error('Boom!'));
+  });
+
   it("re-throws anything that isn't an error", () => {
     const { fn } = instrument({
       fn: () => {
@@ -356,6 +372,41 @@ describe('Instrumenter', () => {
 
   describe('with intercept: true', () => {
     const options = { intercept: true };
+
+    it('only includes intercepted calls in the log', async () => {
+      const fn = (callback?: Function) => callback && callback();
+      const { fn1, fn2 } = instrument({ fn1: fn, fn2: fn }, options);
+      const { fn3 } = instrument({ fn3: fn }, { intercept: false });
+      fn1();
+      fn2();
+      fn3();
+      await tick();
+      expect(syncSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          logItems: [
+            { callId: 'kind--story [0] fn1', status: 'done' },
+            { callId: 'kind--story [1] fn2', status: 'done' },
+          ],
+        })
+      );
+    });
+
+    it('does not intercept child calls (in callback)', async () => {
+      const fn = (callback?: Function) => callback && callback();
+      const { fn1, fn2 } = instrument({ fn1: fn, fn2: fn }, options);
+      fn1(() => {
+        fn2();
+      });
+      await tick();
+      expect(syncSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          logItems: [
+            { callId: 'kind--story [0] fn1', status: 'done' },
+            // Second call is not here because it is not intercepted
+          ],
+        })
+      );
+    });
 
     it('emits a call event with error data when the function throws', () => {
       const { fn } = instrument(
@@ -443,12 +494,13 @@ describe('Instrumenter', () => {
     });
 
     it.skip('starts debugging at the first non-nested interceptable call', () => {
-      const { fn } = instrument({ fn: jest.fn((...args: any) => args) }, { intercept: true });
-      fn(fn(), fn()); // setup the dependencies
+      const fn = (...args) => args;
+      const { fn1, fn2, fn3 } = instrument({ fn1: fn, fn2: fn, fn3: fn }, { intercept: true });
+      fn3(fn1(), fn2()); // setup the dependencies
       addons.getChannel().emit(EVENTS.START, { storyId });
-      const a = fn('a');
-      const b = fn('b');
-      const c = fn(a, b);
+      const a = fn1('a');
+      const b = fn2('b');
+      const c = fn3(a, b);
       expect(a).toEqual(['a']);
       expect(b).toEqual(['b']);
       expect(c).toEqual(expect.any(Promise));
@@ -476,13 +528,13 @@ describe('Instrumenter', () => {
       expect(fn).toHaveBeenCalledTimes(0);
 
       addons.getChannel().emit(EVENTS.NEXT, { storyId });
-      await new Promise((resolve) => setTimeout(resolve, 0));
+      await tick();
 
       expect(mockedInstrumentedFn).toHaveBeenCalledTimes(2);
       expect(fn).toHaveBeenCalledTimes(1);
 
       addons.getChannel().emit(EVENTS.END, { storyId });
-      await new Promise((resolve) => setTimeout(resolve, 0));
+      await tick();
 
       expect(mockedInstrumentedFn).toHaveBeenCalledTimes(3);
       expect(fn).toHaveBeenCalledTimes(3);
