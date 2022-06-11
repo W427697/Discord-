@@ -256,7 +256,8 @@ jobs:
             cd ..
             npx create-react-app cra-bench
             cd cra-bench
-            npx @storybook/bench@latest 'npx sb init' --label cra --extra-flags "--modern"
+            npx playwright install
+            npx @storybook/bench@latest 'npx sb init' --label cra
   e2e-tests-pnp:
     executor:
       class: medium
