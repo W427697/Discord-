@@ -47,6 +47,7 @@
       "examples-native/*",
       "examples/*",
       "!examples/web-components-kitchen-sink",
+      "!examples/angular-cli",
       "lib/*",
       "lib/cli/test/run/*"
     ]
