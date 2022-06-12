@@ -24,7 +24,7 @@ export const getCall = (status: CallStates): Call => {
   };
 
   const overrides = CallStates.ERROR
-    ? { exception: { name: 'Error', stack: '', message: "Things didn't work!" } }
+    ? { exception: { name: 'Error', stack: '', message: 'Oops!', callId: defaultData.id } }
     : {};
 
   return { ...defaultData, ...overrides };
