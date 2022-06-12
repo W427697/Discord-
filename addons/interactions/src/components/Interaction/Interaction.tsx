@@ -79,7 +79,7 @@ export const Interaction = ({
       <RowLabel
         call={call}
         onClick={() => controls.goto(call.id)}
-        disabled={!controlStates.goto}
+        disabled={!controlStates.goto || !!call.parentId}
         onMouseEnter={() => controlStates.goto && setIsHovered(true)}
         onMouseLeave={() => controlStates.goto && setIsHovered(false)}
       >
