@@ -51,7 +51,7 @@ describe('GlobalsStore', () => {
       store.update({ baz: 'bing' });
       expect(store.get()).toEqual({ foo: 'bar', baz: 'bing' });
 
-      // NOTE: 'random' isn';'t allowed because it's not in the allowed globals
+      // NOTE: 'random' isn't allowed because it's not in the allowed globals
       store.update({ random: 'value' });
       expect(store.get()).toEqual({ foo: 'bar', baz: 'bing' });
     });
