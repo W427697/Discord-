@@ -1,3 +1,9 @@
+## 6.5.9-alpha.1 (June 13, 2022)
+
+### Bug Fixes
+
+- Core: Fix process is not defined ([#18367](https://github.com/storybookjs/storybook/pull/18367))
+
 ## 6.5.9-alpha.0 (June 12, 2022)
 
 ### Features
