@@ -24,27 +24,33 @@ import { createBabelLoader } from './babel-loader-preview';
 
 import { useBaseTsSupport } from './useBaseTsSupport';
 
-const storybookPaths: Record<string, string> = [
-  'addons',
-  'api',
-  'channels',
-  'channel-postmessage',
-  'components',
-  'core-events',
-  'router',
-  'theming',
-  'semver',
-  'client-api',
-  'client-logger',
-].reduce(
-  (acc, sbPackage) => ({
-    ...acc,
-    [`@storybook/${sbPackage}`]: path.dirname(
-      require.resolve(`@storybook/${sbPackage}/package.json`)
-    ),
-  }),
-  {}
-);
+const storybookPaths: Record<string, string> = {
+  global: path.dirname(require.resolve(`global/package.json`)),
+  ...[
+    'addons',
+    'api',
+    'store',
+    'channels',
+    'channel-postmessage',
+    'channel-websocket',
+    'components',
+    'core-events',
+    'router',
+    'theming',
+    'semver',
+    'preview-web',
+    'client-api',
+    'client-logger',
+  ].reduce(
+    (acc, sbPackage) => ({
+      ...acc,
+      [`@storybook/${sbPackage}`]: path.dirname(
+        require.resolve(`@storybook/${sbPackage}/package.json`)
+      ),
+    }),
+    {}
+  ),
+};
 
 export default async (options: Options & Record<string, any>): Promise<Configuration> => {
   const {

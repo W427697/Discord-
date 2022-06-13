@@ -7392,6 +7392,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.1
     "@storybook/api": 7.0.0-alpha.1
     "@storybook/channel-postmessage": 7.0.0-alpha.1
+    "@storybook/channel-websocket": 7.0.0-alpha.1
     "@storybook/channels": 7.0.0-alpha.1
     "@storybook/client-api": 7.0.0-alpha.1
     "@storybook/client-logger": 7.0.0-alpha.1
@@ -7419,6 +7420,7 @@ __metadata:
     fork-ts-checker-webpack-plugin: ^7.2.8
     glob: ^7.1.6
     glob-promise: ^3.4.0
+    global: ^4.4.0
     html-webpack-plugin: ^5.5.0
     path-browserify: ^1.0.1
     process: ^0.11.10
@@ -9278,6 +9280,8 @@ __metadata:
     memoizerific: ^1.11.3
     polished: ^4.2.2
     qs: ^6.10.0
+    react: ^16.8.0
+    react-dom: ^16.8.0
     react-draggable: ^4.4.3
     react-helmet-async: ^1.0.7
     react-sizeme: ^3.0.1
@@ -9286,9 +9290,6 @@ __metadata:
     store2: ^2.12.0
     ts-node: ^10.4.0
     util: ^0.12.4
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -36363,7 +36364,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:16.14.0, react-dom@npm:^16.14.0":
+"react-dom@npm:16.14.0, react-dom@npm:^16.14.0, react-dom@npm:^16.8.0":
   version: 16.14.0
   resolution: "react-dom@npm:16.14.0"
   dependencies:
@@ -36811,7 +36812,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:16.14.0, react@npm:^16.14.0, react@npm:^16.2.0":
+"react@npm:16.14.0, react@npm:^16.14.0, react@npm:^16.2.0, react@npm:^16.8.0":
   version: 16.14.0
   resolution: "react@npm:16.14.0"
   dependencies:

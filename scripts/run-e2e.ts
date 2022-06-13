@@ -151,7 +151,7 @@ const runTests = async ({ name, ...rest }: Parameters) => {
   if (!(await prepareDirectory(options))) {
     // Call repro cli
     const sbCLICommand = useLocalSbCli
-      ? `node ${__dirname}/../lib/cli/bin/index.js repro`
+      ? `node ${__dirname}/../lib/cli/bin/index.js repro --local`
       : // Need to use npx because at this time we don't have Yarn 2 installed
         'npx -p @storybook/cli sb repro';
 

@@ -55,19 +55,22 @@ const getBuilderDetails = (builder: string) => {
 
   const builderPackage = `@storybook/${builder}`;
   if (map[builderPackage]) {
-    const builderPackagePath = `path.dirname(require.resolve(path.join('${builderPackage}', 'package.json')))`;
-
-    return builderPackagePath;
+    return map[builderPackage];
   }
 
-  const builderPackagePath = `path.dirname(require.resolve(path.join('${builder}', 'package.json')))`;
-  return builderPackagePath;
+  return builder;
 };
 
 const getFrameworkDetails = (
   renderer: SupportedRenderers,
   builder: Builder
-): { type: 'framework' | 'renderer'; package: string; builder: string } => {
+): {
+  type: 'framework' | 'renderer';
+  packages: string[];
+  builder?: string;
+  framework?: string;
+  renderer?: string;
+} => {
   const frameworkPackage = `@storybook/${renderer}-${builder}`;
 
   const frameworkPackagePath = `path.dirname(require.resolve(path.join('${frameworkPackage}', 'package.json')))`;
@@ -77,27 +80,29 @@ const getFrameworkDetails = (
   const isKnownRenderer = !!(packageVersions as Record<string, string>)[rendererPackage];
 
   const builderPackage = getBuilderDetails(builder);
+  const builderPackagePath = `path.dirname(require.resolve(path.join('${builderPackage}', 'package.json')))`;
 
   if (renderer === 'angular') {
     return {
-      package: rendererPackagePath,
-      builder: builderPackage,
+      packages: [rendererPackage],
+      framework: rendererPackagePath,
       type: 'framework',
     };
   }
 
   if (isKnownFramework) {
     return {
-      package: frameworkPackagePath,
-      builder: builderPackage,
+      packages: [frameworkPackage],
+      framework: frameworkPackagePath,
       type: 'framework',
     };
   }
 
   if (isKnownRenderer) {
     return {
-      package: rendererPackagePath,
-      builder: builderPackage,
+      packages: [rendererPackage, builderPackage],
+      builder: builderPackagePath,
+      renderer: rendererPackagePath,
       type: 'renderer',
     };
   }
@@ -155,14 +160,15 @@ export async function baseGenerator(
     Object.keys({ ...packageJson.dependencies, ...packageJson.devDependencies })
   );
   const {
-    package: frameworkPackage,
+    packages: frameworkPackages,
     type,
-    builder: builderPackage,
+    renderer: rendererInclude,
+    framework: frameworkInclude,
+    builder: builderInclude,
   } = getFrameworkDetails(renderer, builder);
 
-  // temp
+  // TODO: We need to start supporting this at some point
   if (type === 'renderer') {
-    console.log({ language, builder, renderer, builderPackage, frameworkPackage, type });
     throw new Error(
       dedent`
         Sorry, for now, you can not do this, please use a framework such as @storybook/react-webpack5
@@ -174,12 +180,11 @@ export async function baseGenerator(
 
   const packages = [
     'sb',
-    frameworkPackage,
+    ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,
     ...extraAddonPackages,
     ...yarn2ExtraPackages,
-    ...(type === 'framework' ? [] : [builderPackage]),
   ]
     .filter(Boolean)
     .filter(
@@ -188,20 +193,18 @@ export async function baseGenerator(
 
   const versionedPackages = await packageManager.getVersionedPackages(packages);
 
-  console.log({ versionedPackages });
-
   const mainOptions =
     type !== 'framework'
       ? {
           core: {
-            builder: builderPackage,
+            builder: builderInclude,
           },
           ...extraMain,
         }
       : extraMain;
 
   configure(renderer, {
-    framework: { name: frameworkPackage, options: {} },
+    framework: { name: frameworkInclude, options: {} },
     addons: [...addons, ...stripVersions(extraAddonPackages)],
     extensions,
     commonJs: options.commonJs,
@@ -212,7 +215,7 @@ export async function baseGenerator(
   }
 
   // FIXME: temporary workaround for https://github.com/storybookjs/storybook/issues/17516
-  if (builderPackage === '@storybook/builder-vite') {
+  if (frameworkPackages.includes('@storybook/builder-vite')) {
     const previewHead = dedent`
       <script>
         window.global = window;
