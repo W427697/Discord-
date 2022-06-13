@@ -4,15 +4,28 @@ import open from 'open';
 import defaultBrowser from 'default-browser';
 import dedent from 'ts-dedent';
 
-const isChrome = (browserId: string) => {
-  /** Chrome browser id com.google.chrome or com.google.chrome.canary */
-  return browserId.toLowerCase().includes('google');
+const chromiumBrowsers = [
+  'com.google.chrome',
+  'com.google.chrome.canary',
+  'com.microsoft.edge',
+  'com.microsoft.edgemac',
+  'com.microsoft.edgemac.beta',
+  'com.operasoftware.opera',
+  'com.brave.browser',
+  'com.brave.browser.beta',
+  'com.brave.browser.dev',
+  'org.blisk.blisk',
+  'com.vivaldi.vivaldi',
+];
+
+const isChromium = (browserId: string) => {
+  return chromiumBrowsers.includes(browserId.toLowerCase());
 };
 
 export async function openInBrowser(address: string) {
   try {
     const res = await defaultBrowser();
-    if (res && isChrome(res.id)) {
+    if (res && isChromium(res.id)) {
       // We use betterOpn for Chrome because it is better at handling which chrome tab
       // or window the preview loads in.
       betterOpn(address);
