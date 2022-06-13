@@ -1,3 +1,16 @@
+## 6.5.9 (June 14, 2022)
+
+### Bug Fixes
+
+- Core: Fix process is not defined when using components ([#18469](https://github.com/storybookjs/storybook/pull/18469))
+- Story index: Warn on `storyName` in CSF3 exports ([#18464](https://github.com/storybookjs/storybook/pull/18464))
+- Telemetry: Strip out preset from addon name ([#18442](https://github.com/storybookjs/storybook/pull/18442))
+
+### Maintenance
+
+- Angular: Support Angular 14 standalone components ([#18272](https://github.com/storybookjs/storybook/pull/18272))
+- UI: Update manager to respect `parameters.docsOnly` in `stories.json` ([#18433](https://github.com/storybookjs/storybook/pull/18433))
+
 ## 6.5.9-alpha.2 (June 14, 2022)
 
 ### Bug Fixes
