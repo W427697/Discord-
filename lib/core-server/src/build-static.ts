@@ -56,7 +56,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   }
   await fs.emptyDir(options.outputDir);
 
-  await cpy(defaultFavIcon, options.outputDir);
+  await cpy(defaultFavIcon, options.outputDir, { flat: true });
 
   const previewBuilder: Builder<unknown, unknown> = await getPreviewBuilder(options.configDir);
   const managerBuilder: Builder<unknown, unknown> = await getManagerBuilder(options.configDir);
@@ -79,7 +79,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
       Conflict when trying to read staticDirs:
       * Storybook's configuration option: 'staticDirs'
       * Storybook's CLI flag: '--staticDir' or '-s'
-      
+
       Choose one of them, but not both.
     `);
   }
@@ -169,7 +169,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   const startTime = process.hrtime();
   // When using the prebuilt manager, we straight up copy it into the outputDir instead of building it
   const manager = prebuiltDir
-    ? cpy('**', options.outputDir, { cwd: prebuiltDir, parents: true }).then(() => {})
+    ? cpy('**', options.outputDir, { cwd: prebuiltDir }).then(() => {})
     : managerBuilder.build({ startTime, options: fullOptions });
 
   if (options.ignorePreview) {
