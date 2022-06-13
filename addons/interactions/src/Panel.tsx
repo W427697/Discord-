@@ -29,6 +29,7 @@ interface InteractionsPanelProps {
   controls: Controls;
   controlStates: ControlStates;
   interactions: (Call & { status?: CallStates })[];
+  nextCallId?: Call['id'];
   fileName?: string;
   hasException?: boolean;
   isPlaying?: boolean;
@@ -63,6 +64,7 @@ export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
     controls,
     controlStates,
     interactions,
+    nextCallId,
     fileName,
     hasException,
     isPlaying,
@@ -87,15 +89,18 @@ export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
           setIsRerunAnimating={setIsRerunAnimating}
         />
       )}
-      {interactions.map((call) => (
-        <Interaction
-          key={call.id}
-          call={call}
-          callsById={calls}
-          controls={controls}
-          controlStates={controlStates}
-        />
-      ))}
+      <div>
+        {interactions.map((call) => (
+          <Interaction
+            key={call.id}
+            call={call}
+            callsById={calls}
+            controls={controls}
+            controlStates={controlStates}
+            nextCallId={nextCallId}
+          />
+        ))}
+      </div>
       <div ref={endRef} />
       {!isPlaying && interactions.length === 0 && (
         <Placeholder>
@@ -176,6 +181,7 @@ export const Panel: React.FC<AddonPanelProps> = (props) => {
 
   const showStatus = log.length > 0 && !isPlaying;
   const hasException = log.some((item) => item.status === CallStates.ERROR);
+  const nextCall = log.find((item) => item.status === CallStates.WAITING && !item.parentId);
 
   return (
     <React.Fragment key="interactions">
@@ -188,6 +194,7 @@ export const Panel: React.FC<AddonPanelProps> = (props) => {
         controls={controls}
         controlStates={controlStates}
         interactions={interactions}
+        nextCallId={nextCall?.callId}
         fileName={fileName}
         hasException={hasException}
         isPlaying={isPlaying}

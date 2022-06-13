@@ -11,7 +11,12 @@ export interface Call {
   interceptable: boolean;
   retain: boolean;
   status?: CallStates.DONE | CallStates.ERROR | CallStates.ACTIVE | CallStates.WAITING;
-  exception?: Error & { callId: Call['id'] };
+  exception?: {
+    name: Error['name'];
+    message: Error['message'];
+    stack: Error['stack'];
+    callId: Call['id'];
+  };
 }
 
 export enum CallStates {

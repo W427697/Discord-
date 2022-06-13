@@ -17,18 +17,30 @@ const MethodCallWrapper = styled.div(() => ({
 
 const RowContainer = styled('div', { shouldForwardProp: (prop) => !['call'].includes(prop) })<{
   call: Call;
-}>(({ theme, call }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  borderBottom: `1px solid ${theme.appBorderColor}`,
-  fontFamily: typography.fonts.base,
-  fontSize: 13,
-  ...(call.status === CallStates.ERROR && {
-    backgroundColor:
-      theme.base === 'dark' ? transparentize(0.93, theme.color.negative) : theme.background.warning,
+  isNext: boolean;
+}>(
+  ({ theme, call }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    borderBottom: `1px solid ${theme.appBorderColor}`,
+    fontFamily: typography.fonts.base,
+    fontSize: 13,
+    ...(call.status === CallStates.ERROR && {
+      backgroundColor:
+        theme.base === 'dark'
+          ? transparentize(0.93, theme.color.negative)
+          : theme.background.warning,
+    }),
+    paddingLeft: call.parentId ? 20 : 0,
   }),
-  paddingLeft: call.parentId ? 20 : 0,
-}));
+  ({ theme, isNext }) =>
+    isNext && {
+      '&::before': {
+        content: '""',
+        boxShadow: `0 0 1px 1px ${theme.color.secondary}`,
+      },
+    }
+);
 
 const RowLabel = styled('button', { shouldForwardProp: (prop) => !['call'].includes(prop) })<
   React.ButtonHTMLAttributes<HTMLButtonElement> & { call: Call }
@@ -56,30 +68,52 @@ const RowLabel = styled('button', { shouldForwardProp: (prop) => !['call'].inclu
   },
 }));
 
-const RowMessage = styled('pre')({
-  margin: 0,
-  padding: '8px 10px 8px 30px',
+const RowMessage = styled('div')(({ theme }) => ({
+  padding: '8px 10px 8px 36px',
   fontSize: typography.size.s1,
-});
+  pre: {
+    margin: 0,
+    padding: 0,
+  },
+  p: {
+    color: theme.color.dark,
+  },
+}));
+
+const Exception = ({ exception }: { exception: Call['exception'] }) => {
+  if (exception.message.startsWith('expect(')) {
+    return <MatcherResult {...exception} />;
+  }
+  const paragraphs = exception.message.split('\n\n');
+  const more = paragraphs.length > 1;
+  return (
+    <RowMessage>
+      <pre>{paragraphs[0]}</pre>
+      {more && <p>See the full stack trace in the browser console.</p>}
+    </RowMessage>
+  );
+};
 
 export const Interaction = ({
   call,
   callsById,
   controls,
   controlStates,
+  nextCallId,
 }: {
   call: Call;
   callsById: Map<Call['id'], Call>;
   controls: Controls;
   controlStates: ControlStates;
+  nextCallId: Call['id'];
 }) => {
   const [isHovered, setIsHovered] = React.useState(false);
   return (
-    <RowContainer call={call}>
+    <RowContainer call={call} isNext={nextCallId === call.id}>
       <RowLabel
         call={call}
         onClick={() => controls.goto(call.id)}
-        disabled={!controlStates.goto || !!call.parentId}
+        disabled={!controlStates.goto || !call.interceptable || !!call.parentId}
         onMouseEnter={() => controlStates.goto && setIsHovered(true)}
         onMouseLeave={() => controlStates.goto && setIsHovered(false)}
       >
@@ -88,13 +122,9 @@ export const Interaction = ({
           <MethodCall call={call} callsById={callsById} />
         </MethodCallWrapper>
       </RowLabel>
-      {call.status === CallStates.ERROR &&
-        call.exception?.callId === call.id &&
-        (call.exception.message.startsWith('expect(') ? (
-          <MatcherResult {...call.exception} />
-        ) : (
-          <RowMessage>{call.exception.message}</RowMessage>
-        ))}
+      {call.status === CallStates.ERROR && call.exception?.callId === call.id && (
+        <Exception exception={call.exception} />
+      )}
     </RowContainer>
   );
 };
