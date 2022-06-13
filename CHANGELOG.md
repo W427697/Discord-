@@ -1,3 +1,9 @@
+## 6.5.9-alpha.2 (June 14, 2022)
+
+### Bug Fixes
+
+- Core: Fix process is not defined when using components ([#18469](https://github.com/storybookjs/storybook/pull/18469))
+
 ## 6.5.9-alpha.1 (June 13, 2022)
 
 ### Bug Fixes
