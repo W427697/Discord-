@@ -16,8 +16,8 @@ const MethodCallWrapper = styled.div(() => ({
 }));
 
 const RowContainer = styled('div', {
-  shouldForwardProp: (prop) => !['call', 'isNext'].includes(prop),
-})<{ call: Call; isNext: boolean }>(
+  shouldForwardProp: (prop) => !['call', 'pausedAt'].includes(prop),
+})<{ call: Call; pausedAt: Call['id'] }>(
   ({ theme, call }) => ({
     display: 'flex',
     flexDirection: 'column',
@@ -32,11 +32,11 @@ const RowContainer = styled('div', {
     }),
     paddingLeft: call.parentId ? 20 : 0,
   }),
-  ({ theme, isNext }) =>
-    isNext && {
+  ({ theme, call, pausedAt }) =>
+    pausedAt === call.id && {
       '&::before': {
         content: '""',
-        boxShadow: `0 0 1px 1px ${theme.color.secondary}`,
+        boxShadow: `0 0 0 1px ${theme.color.warning}`,
       },
     }
 );
@@ -98,17 +98,17 @@ export const Interaction = ({
   callsById,
   controls,
   controlStates,
-  nextCallId,
+  pausedAt,
 }: {
   call: Call;
   callsById: Map<Call['id'], Call>;
   controls: Controls;
   controlStates: ControlStates;
-  nextCallId: Call['id'];
+  pausedAt?: Call['id'];
 }) => {
   const [isHovered, setIsHovered] = React.useState(false);
   return (
-    <RowContainer call={call} isNext={nextCallId === call.id}>
+    <RowContainer call={call} pausedAt={pausedAt}>
       <RowLabel
         call={call}
         onClick={() => controls.goto(call.id)}
