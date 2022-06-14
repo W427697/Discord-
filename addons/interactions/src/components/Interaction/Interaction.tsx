@@ -19,6 +19,7 @@ const RowContainer = styled('div', {
   shouldForwardProp: (prop) => !['call', 'pausedAt'].includes(prop),
 })<{ call: Call; pausedAt: Call['id'] }>(
   ({ theme, call }) => ({
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     borderBottom: `1px solid ${theme.appBorderColor}`,
@@ -36,7 +37,19 @@ const RowContainer = styled('div', {
     pausedAt === call.id && {
       '&::before': {
         content: '""',
-        boxShadow: `0 0 0 1px ${theme.color.warning}`,
+        position: 'absolute',
+        top: -5,
+        borderTop: '4.5px solid transparent',
+        borderLeft: `7px solid ${theme.color.warning}`,
+        borderBottom: '4.5px solid transparent',
+      },
+      '&::after': {
+        content: '""',
+        position: 'absolute',
+        top: -1,
+        height: 1,
+        width: '100%',
+        background: theme.color.warning,
       },
     }
 );
