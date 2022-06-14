@@ -544,6 +544,9 @@ export class Instrumenter {
   sync(storyId: StoryId) {
     const { isLocked, isPlaying } = this.getState(storyId);
     const logItems: LogItem[] = this.getLog(storyId);
+    const pausedAt = logItems
+      .filter(({ parentId }) => !parentId)
+      .find((item) => item.status === CallStates.WAITING)?.callId;
 
     const hasActive = logItems.some((item) => item.status === CallStates.ACTIVE);
     if (debuggerDisabled || isLocked || hasActive || logItems.length === 0) {
@@ -562,7 +565,8 @@ export class Instrumenter {
       next: isPlaying,
       end: isPlaying,
     };
-    this.channel.emit(EVENTS.SYNC, { controlStates, logItems });
+
+    this.channel.emit(EVENTS.SYNC, { controlStates, logItems, pausedAt });
   }
 }
 

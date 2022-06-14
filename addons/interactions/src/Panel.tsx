@@ -29,10 +29,10 @@ interface InteractionsPanelProps {
   controls: Controls;
   controlStates: ControlStates;
   interactions: (Call & { status?: CallStates })[];
-  nextCallId?: Call['id'];
   fileName?: string;
   hasException?: boolean;
   isPlaying?: boolean;
+  pausedAt?: Call['id'];
   calls: Map<string, any>;
   endRef?: React.Ref<HTMLDivElement>;
   onScrollToEnd?: () => void;
@@ -64,10 +64,10 @@ export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
     controls,
     controlStates,
     interactions,
-    nextCallId,
     fileName,
     hasException,
     isPlaying,
+    pausedAt,
     onScrollToEnd,
     endRef,
     isRerunAnimating,
@@ -97,7 +97,7 @@ export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
             callsById={calls}
             controls={controls}
             controlStates={controlStates}
-            nextCallId={nextCallId}
+            pausedAt={pausedAt}
           />
         ))}
       </div>
@@ -121,6 +121,7 @@ export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
 export const Panel: React.FC<AddonPanelProps> = (props) => {
   const [storyId, setStoryId] = React.useState<StoryId>();
   const [controlStates, setControlStates] = React.useState<ControlStates>(INITIAL_CONTROL_STATES);
+  const [pausedAt, setPausedAt] = React.useState<Call['id']>();
   const [isPlaying, setPlaying] = React.useState(false);
   const [isRerunAnimating, setIsRerunAnimating] = React.useState(false);
   const [scrollTarget, setScrollTarget] = React.useState<HTMLElement>();
@@ -151,10 +152,12 @@ export const Panel: React.FC<AddonPanelProps> = (props) => {
       [EVENTS.SYNC]: (payload) => {
         setControlStates(payload.controlStates);
         setLog(payload.logItems);
+        setPausedAt(payload.pausedAt);
       },
       [STORY_RENDER_PHASE_CHANGED]: (event) => {
         setStoryId(event.storyId);
         setPlaying(event.newPhase === 'playing');
+        setPausedAt(undefined);
       },
     },
     []
@@ -181,7 +184,6 @@ export const Panel: React.FC<AddonPanelProps> = (props) => {
 
   const showStatus = log.length > 0 && !isPlaying;
   const hasException = log.some((item) => item.status === CallStates.ERROR);
-  const nextCall = log.find((item) => item.status === CallStates.WAITING && !item.parentId);
 
   return (
     <React.Fragment key="interactions">
@@ -194,10 +196,10 @@ export const Panel: React.FC<AddonPanelProps> = (props) => {
         controls={controls}
         controlStates={controlStates}
         interactions={interactions}
-        nextCallId={nextCall?.callId}
         fileName={fileName}
         hasException={hasException}
         isPlaying={isPlaying}
+        pausedAt={pausedAt}
         endRef={endRef}
         onScrollToEnd={scrollTarget && scrollToTarget}
         isRerunAnimating={isRerunAnimating}
