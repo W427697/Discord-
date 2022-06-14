@@ -15,10 +15,9 @@ const MethodCallWrapper = styled.div(() => ({
   inlineSize: 'calc( 100% - 40px )',
 }));
 
-const RowContainer = styled('div', { shouldForwardProp: (prop) => !['call'].includes(prop) })<{
-  call: Call;
-  isNext: boolean;
-}>(
+const RowContainer = styled('div', {
+  shouldForwardProp: (prop) => !['call', 'isNext'].includes(prop),
+})<{ call: Call; isNext: boolean }>(
   ({ theme, call }) => ({
     display: 'flex',
     flexDirection: 'column',
