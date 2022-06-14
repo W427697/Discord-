@@ -38,7 +38,7 @@ const getBuilderDetails = (builder: string) => {
 };
 
 const wrapForPnp = (packageName: string) =>
-  `&&path.dirname(require.resolve(path.join('${packageName}', 'package.json')))&&`;
+  `%%path.dirname(require.resolve(path.join('${packageName}', 'package.json')))%%`;
 
 const getFrameworkDetails = (
   renderer: SupportedRenderers,
