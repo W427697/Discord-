@@ -179,14 +179,24 @@ const addAdditionalFiles = async ({ additionalFiles, cwd }: Options) => {
   );
 };
 
-const initStorybook = async ({ cwd, autoDetect = true, name, e2e }: Options) => {
-  const type = autoDetect ? '' : `--type ${name}`;
-  const linkable = e2e ? '' : '--linkable';
+const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options) => {
+  const flags = ['--yes'];
+
+  if (!autoDetect) {
+    flags.push(`--type ${name}`);
+  }
+  if (e2e) {
+    flags.push('--linkable');
+  }
+  if (pnp) {
+    flags.push('--use-pnp');
+  }
+
   const sbCLICommand = useLocalSbCli
     ? `node ${path.join(__dirname, '../../esm/generate')}`
     : `yarn dlx -p @storybook/cli sb`;
 
-  const command = `${sbCLICommand} init --yes ${type} ${linkable}`;
+  const command = `${sbCLICommand} init ${flags.join(' ')}`;
 
   await exec(
     command,
