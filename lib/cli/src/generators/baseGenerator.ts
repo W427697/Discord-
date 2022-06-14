@@ -55,7 +55,7 @@ const getBuilderDetails = (builder: string) => {
 
   const builderPackage = `@storybook/${builder}`;
   if (map[builderPackage]) {
-    return map[builderPackage];
+    return builderPackage;
   }
 
   return builder;
