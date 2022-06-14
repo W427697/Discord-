@@ -407,8 +407,8 @@ export class Instrumenter {
       }
       if (
         typeof value === 'object' &&
-        value.constructor?.name &&
-        value.constructor?.name !== 'Object'
+        value?.constructor?.name &&
+        value?.constructor?.name !== 'Object'
       ) {
         return { __class__: { name: value.constructor.name } };
       }
