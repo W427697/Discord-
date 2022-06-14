@@ -1,37 +1,13 @@
 import fse from 'fs-extra';
 import dedent from 'ts-dedent';
 import { NpmOptions } from '../NpmOptions';
-import { SupportedLanguage, SupportedRenderers, Builder, CoreBuilder } from '../project_types';
+import { SupportedRenderers, Builder, CoreBuilder } from '../project_types';
 import { getBabelDependencies, copyComponents } from '../helpers';
-import { configure } from './configure';
+import { configureMain, configurePreview } from './configure';
 import { getPackageDetails, JsPackageManager } from '../js-package-manager';
 import { generateStorybookBabelConfigInCWD } from '../babel-config';
 import packageVersions from '../versions';
-
-export type GeneratorOptions = {
-  language: SupportedLanguage;
-  builder: Builder;
-  linkable: boolean;
-};
-
-export interface FrameworkOptions {
-  extraPackages?: string[];
-  extraAddons?: string[];
-  staticDir?: string;
-  addScripts?: boolean;
-  addComponents?: boolean;
-  addBabel?: boolean;
-  addESLint?: boolean;
-  extraMain?: any;
-  extensions?: string[];
-  commonJs?: boolean;
-}
-
-export type Generator = (
-  packageManager: JsPackageManager,
-  npmOptions: NpmOptions,
-  options: GeneratorOptions
-) => Promise<void>;
+import { FrameworkOptions, GeneratorOptions } from './types';
 
 const defaultOptions: FrameworkOptions = {
   extraPackages: [],
@@ -61,9 +37,13 @@ const getBuilderDetails = (builder: string) => {
   return builder;
 };
 
+const wrapForPnp = (packageName: string) =>
+  `&&path.dirname(require.resolve(path.join('${packageName}', 'package.json')))&&`;
+
 const getFrameworkDetails = (
   renderer: SupportedRenderers,
-  builder: Builder
+  builder: Builder,
+  pnp: boolean
 ): {
   type: 'framework' | 'renderer';
   packages: string[];
@@ -72,15 +52,16 @@ const getFrameworkDetails = (
   renderer?: string;
 } => {
   const frameworkPackage = `@storybook/${renderer}-${builder}`;
+  const frameworkPackagePath = pnp ? wrapForPnp(frameworkPackage) : frameworkPackage;
 
-  const frameworkPackagePath = `path.dirname(require.resolve(path.join('${frameworkPackage}', 'package.json')))`;
   const rendererPackage = `@storybook/${renderer}`;
-  const rendererPackagePath = `path.dirname(require.resolve(path.join('${rendererPackage}', 'package.json')))`;
-  const isKnownFramework = !!(packageVersions as Record<string, string>)[frameworkPackage];
-  const isKnownRenderer = !!(packageVersions as Record<string, string>)[rendererPackage];
+  const rendererPackagePath = pnp ? wrapForPnp(rendererPackage) : rendererPackage;
 
   const builderPackage = getBuilderDetails(builder);
-  const builderPackagePath = `path.dirname(require.resolve(path.join('${builderPackage}', 'package.json')))`;
+  const builderPackagePath = pnp ? wrapForPnp(builderPackage) : builderPackage;
+
+  const isKnownFramework = !!(packageVersions as Record<string, string>)[frameworkPackage];
+  const isKnownRenderer = !!(packageVersions as Record<string, string>)[rendererPackage];
 
   if (renderer === 'angular') {
     return {
@@ -120,7 +101,7 @@ const hasInteractiveStories = (framework: SupportedRenderers) =>
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
-  { language, builder = CoreBuilder.Webpack5 }: GeneratorOptions,
+  { language, builder = CoreBuilder.Webpack5, pnp }: GeneratorOptions,
   renderer: SupportedRenderers,
   options: FrameworkOptions = defaultOptions
 ) {
@@ -141,9 +122,18 @@ export async function baseGenerator(
 
   // added to main.js
   // make sure to update `canUsePrebuiltManager` in dev-server.js and build-manager-config/main.js when this list changes
-  const addons = ['@storybook/addon-links', '@storybook/addon-essentials'];
+  const addons = [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    ...stripVersions(extraAddonPackages),
+  ];
   // added to package.json
-  const addonPackages = [...addons, '@storybook/addon-actions'];
+  const addonPackages = [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-actions',
+    ...extraAddonPackages,
+  ];
 
   if (hasInteractiveStories(renderer)) {
     addons.push('@storybook/addon-interactions');
@@ -166,7 +156,7 @@ export async function baseGenerator(
     renderer: rendererInclude,
     framework: frameworkInclude,
     builder: builderInclude,
-  } = getFrameworkDetails(renderer, builder);
+  } = getFrameworkDetails(renderer, builder, pnp);
 
   // TODO: We need to start supporting this at some point
   if (type === 'renderer') {
@@ -184,7 +174,6 @@ export async function baseGenerator(
     ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,
-    ...extraAddonPackages,
     ...yarn2ExtraPackages,
   ]
     .filter(Boolean)
@@ -194,23 +183,25 @@ export async function baseGenerator(
 
   const versionedPackages = await packageManager.getVersionedPackages(packages);
 
-  const mainOptions =
-    type !== 'framework'
+  await fse.ensureDir('./.storybook');
+
+  await configureMain({
+    framework: { name: frameworkInclude, options: {} },
+    addons: pnp ? addons.map(wrapForPnp) : addons,
+    extensions,
+    commonJs: options.commonJs,
+    ...extraMain,
+    ...(type !== 'framework'
       ? {
           core: {
             builder: builderInclude,
           },
-          ...extraMain,
         }
-      : extraMain;
-
-  configure(renderer, {
-    framework: { name: frameworkInclude, options: {} },
-    addons: [...addons, ...stripVersions(extraAddonPackages)],
-    extensions,
-    commonJs: options.commonJs,
-    ...mainOptions,
+      : {}),
   });
+
+  await configurePreview(renderer, options.commonJs);
+
   if (addComponents) {
     copyComponents(renderer, language);
   }

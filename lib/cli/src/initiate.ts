@@ -2,7 +2,7 @@ import { UpdateNotifier, Package } from 'update-notifier';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
-import { installableProjectTypes, ProjectType, Builder } from './project_types';
+import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstalled, detectLanguage, detectBuilder } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
@@ -28,22 +28,9 @@ import serverGenerator from './generators/SERVER';
 import { JsPackageManagerFactory, JsPackageManager } from './js-package-manager';
 import { NpmOptions } from './NpmOptions';
 import { automigrate } from './automigrate';
+import { CommandOptions } from './generators/types';
 
 const logger = console;
-
-type CommandOptions = {
-  useNpm?: boolean;
-  type?: ProjectType;
-  force?: any;
-  html?: boolean;
-  skipInstall?: boolean;
-  parser?: string;
-  yes?: boolean;
-  builder?: Builder;
-  linkable?: boolean;
-  commonJs?: boolean;
-  disableTelemetry?: boolean;
-};
 
 const installStorybook = (
   projectType: ProjectType,
@@ -62,6 +49,7 @@ const installStorybook = (
     builder: options.builder || detectBuilder(packageManager),
     linkable: !!options.linkable,
     commonJs: options.commonJs,
+    pnp: options.usePnp,
   };
 
   const runGenerator: () => Promise<void> = async () => {

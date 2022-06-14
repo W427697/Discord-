@@ -18,17 +18,17 @@ interface ConfigureMainOptions {
   [key: string]: any;
 }
 
-function configureMain({
+export async function configureMain({
   addons,
   extensions = ['js', 'jsx', 'ts', 'tsx'],
   commonJs = false,
   ...custom
 }: ConfigureMainOptions) {
-  const prefix = fse.existsSync('./src') ? '../src' : '../stories';
+  const prefix = (await fse.pathExists('./src')) ? '../src' : '../stories';
 
   const config = {
     stories: [`${prefix}/**/*.stories.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
-    addons: addons.map((a) => `path.dirname(require.resolve(path.join('${a}', 'package.json')))`),
+    addons,
     ...custom,
   };
 
@@ -37,12 +37,12 @@ function configureMain({
     .replace(/\\"/g, '"')
     .replace(/['"]%%/g, '')
     .replace(/%%['"]/, '')
-    .replace(/\\n/g, '\r\n')
-    // main.js isn't actually JSON, but we used JSON.stringify to convert the runtime-object into code.
-    // un-stringify the value for referencing packages by string
-    .replaceAll(/"(path\.dirname\(require\.resolve\(path\.join\('.*\))"/g, (_, a) => a)}`;
-  fse.ensureDirSync('./.storybook');
-  fse.writeFileSync(
+    .replace(/\\n/g, '\r\n')}`;
+  // main.js isn't actually JSON, but we used JSON.stringify to convert the runtime-object into code.
+  // un-stringify the value for referencing packages by string
+  // .replaceAll(/"(path\.dirname\(require\.resolve\(path\.join\('.*\))"/g, (_, a) => a)}`;
+
+  await fse.writeFile(
     `./.storybook/main.${commonJs ? 'cjs' : 'js'}`,
     dedent`
       const path = require('path');
@@ -64,12 +64,12 @@ const frameworkToPreviewParts: Partial<Record<SupportedRenderers, any>> = {
   },
 };
 
-function configurePreview(framework: SupportedRenderers, commonJs: boolean) {
+export async function configurePreview(framework: SupportedRenderers, commonJs: boolean) {
   const { prefix = '', extraParameters = '' } = frameworkToPreviewParts[framework] || {};
   const previewPath = `./.storybook/preview.${commonJs ? 'cjs' : 'js'}`;
 
   // If the framework template included a preview then we have nothing to do
-  if (fse.existsSync(previewPath)) {
+  if (await fse.pathExists(previewPath)) {
     return;
   }
 
@@ -88,12 +88,5 @@ function configurePreview(framework: SupportedRenderers, commonJs: boolean) {
     .replace('  \n', '')
     .trim();
 
-  fse.writeFileSync(previewPath, preview, { encoding: 'utf8' });
-}
-
-export function configure(framework: SupportedRenderers, mainOptions: ConfigureMainOptions) {
-  fse.ensureDirSync('./.storybook');
-
-  configureMain(mainOptions);
-  configurePreview(framework, mainOptions.commonJs);
+  await fse.writeFile(previewPath, preview, { encoding: 'utf8' });
 }
