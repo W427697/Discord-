@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import { addons, mockChannel } from '@storybook/addons';
+import { logger } from '@storybook/client-logger';
 import {
   FORCE_REMOUNT,
   SET_CURRENT_STORY,
@@ -10,6 +11,8 @@ import global from 'global';
 
 import { EVENTS, Instrumenter } from './instrumenter';
 import type { Options } from './types';
+
+jest.mock('@storybook/client-logger');
 
 const callSpy = jest.fn();
 const syncSpy = jest.fn();
@@ -298,39 +301,40 @@ describe('Instrumenter', () => {
     );
   });
 
-  it('catches thrown errors and returns the error', () => {
+  it('catches thrown errors and throws an ignoredException instead', () => {
     const { fn } = instrument({
       fn: () => {
         throw new Error('Boom!');
       },
     });
-    expect(fn()).toEqual(new Error('Boom!'));
-    expect(() => setRenderPhase('played')).toThrow(new Error('Boom!'));
+    expect(fn).toThrow('ignoredException');
   });
 
-  it('forwards nested exceptions', () => {
+  it('catches nested exceptions and throws an ignoredException instead', () => {
     const { fn1, fn2 } = instrument({
-      fn1: (...args: any) => {}, // doesn't forward args
+      fn1: (_: any) => {},
       fn2: () => {
         throw new Error('Boom!');
       },
     });
-    expect(fn1(fn2())).toEqual(new Error('Boom!'));
-    expect(() => setRenderPhase('played')).toThrow(new Error('Boom!'));
+    expect(() => fn1(fn2())).toThrow('ignoredException');
   });
 
   it('bubbles child exceptions up to parent (in callback)', () => {
     const { fn1, fn2 } = instrument({
-      fn1: (callback?: Function) => callback && callback(),
+      fn1: jest.fn((callback: Function) => callback()),
       fn2: () => {
         throw new Error('Boom!');
       },
     });
-    expect(
+    expect(() =>
       fn1(() => {
         fn2();
       })
-    ).toEqual(new Error('Boom!'));
+    ).toThrow('ignoredException');
+    expect(fn1).toHaveBeenCalled();
+    expect(logger.warn).toHaveBeenCalledWith(new Error('Boom!'));
+    expect((logger.warn as any).mock.calls[0][0].callId).toBe('kind--story [0] fn1 [0] fn2');
   });
 
   it("re-throws anything that isn't an error", () => {
@@ -433,31 +437,6 @@ describe('Instrumenter', () => {
           },
         })
       );
-    });
-
-    it('catches thrown errors and throws an ignoredException instead', () => {
-      const { fn } = instrument(
-        {
-          fn: () => {
-            throw new Error('Boom!');
-          },
-        },
-        options
-      );
-      expect(fn).toThrow('ignoredException');
-    });
-
-    it('catches forwarded exceptions and throws an ignoredException instead', () => {
-      const { fn1, fn2 } = instrument(
-        {
-          fn1: (_: any) => {},
-          fn2: () => {
-            throw new Error('Boom!');
-          },
-        },
-        options
-      );
-      expect(() => fn1(fn2())).toThrow('ignoredException');
     });
   });
 
