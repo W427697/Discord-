@@ -169,7 +169,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   const startTime = process.hrtime();
   // When using the prebuilt manager, we straight up copy it into the outputDir instead of building it
   const manager = prebuiltDir
-    ? cpy('**', options.outputDir, { cwd: prebuiltDir }).then(() => {})
+    ? cpy('**', options.outputDir, { cwd: prebuiltDir })
     : managerBuilder.build({ startTime, options: fullOptions });
 
   if (options.ignorePreview) {
