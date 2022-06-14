@@ -47,9 +47,8 @@ const RowContainer = styled('div', {
         content: '""',
         position: 'absolute',
         top: -1,
-        height: 1,
         width: '100%',
-        background: theme.color.warning,
+        borderTop: `1.5px solid ${theme.color.warning}`,
       },
     }
 );
