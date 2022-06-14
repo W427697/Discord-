@@ -182,7 +182,7 @@ const addAdditionalFiles = async ({ additionalFiles, cwd }: Options) => {
 const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options) => {
   const flags = ['--yes'];
 
-  if (autoDetect) {
+  if (!autoDetect) {
     flags.push(`--type ${name}`);
   }
   if (e2e) {
@@ -198,6 +198,7 @@ const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options
 
   const command = `${sbCLICommand} init ${flags.join(' ')}`;
 
+  console.log({ command });
   await exec(
     command,
     { cwd },
