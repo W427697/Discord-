@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { addons, Channel } from '@storybook/addons';
 import type { StoryId } from '@storybook/addons';
-import { once } from '@storybook/client-logger';
+import { logger, once } from '@storybook/client-logger';
 import {
   FORCE_REMOUNT,
   IGNORED_EXCEPTION,
@@ -449,7 +449,7 @@ export class Instrumenter {
         // We need to throw to break out of the play function, but we don't want to trigger a redbox
         // so we throw an ignoredException, which is caught and silently ignored by Storybook.
         if (e !== alreadyCompletedException) {
-          console?.warn(e);
+          logger.warn(e);
           throw IGNORED_EXCEPTION;
         }
       }
