@@ -3,6 +3,7 @@ import { ArgsTable, ArgsTableProps, SortType } from './ArgsTable';
 import { TabsState } from '../../tabs/tabs';
 
 export interface TabbedArgsTableProps {
+  children?: React.ReactNode;
   tabs: Record<string, ArgsTableProps>;
   sort?: SortType;
 }
@@ -19,11 +20,9 @@ export const TabbedArgsTable: FC<TabbedArgsTableProps> = ({ tabs, ...props }) =>
       {entries.map((entry) => {
         const [label, table] = entry;
         const id = `prop_table_div_${label}`;
-        return (
+        return ({ active }: { active: boolean }) => (
           <div key={id} id={id} title={label}>
-            {({ active }: { active: boolean }) =>
-              active ? <ArgsTable key={`prop_table_${label}`} {...table} {...props} /> : null
-            }
+            {active ? <ArgsTable key={`prop_table_${label}`} {...table} {...props} /> : null}
           </div>
         );
       })}
