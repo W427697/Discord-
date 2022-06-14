@@ -36,7 +36,7 @@ export async function configureMain({
   const stringified = `module.exports = ${JSON.stringify(config, null, 2)
     .replace(/\\"/g, '"')
     .replace(/['"]%%/g, '')
-    .replace(/%%['"]/, '')
+    .replace(/%%['"]/g, '')
     .replace(/\\n/g, '\r\n')}`;
   // main.js isn't actually JSON, but we used JSON.stringify to convert the runtime-object into code.
   // un-stringify the value for referencing packages by string
