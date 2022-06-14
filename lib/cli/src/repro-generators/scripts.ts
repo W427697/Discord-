@@ -60,9 +60,14 @@ export const exec = async (
   logger.debug(command);
   return new Promise((resolve, reject) => {
     const defaultOptions: ExecOptions = {
-      silent: true,
+      silent: false,
     };
-    const child = shell.exec(command, { ...defaultOptions, ...options, async: true });
+    const child = shell.exec(command, {
+      ...defaultOptions,
+      ...options,
+      async: true,
+      silent: false,
+    });
 
     child.stderr.pipe(process.stderr);
     child.stdout.pipe(process.stdout);

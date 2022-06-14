@@ -28,7 +28,7 @@ function configureMain({
 
   const config = {
     stories: [`${prefix}/**/*.stories.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
-    addons,
+    addons: addons.map((a) => `path.dirname(require.resolve(path.join('${a}', 'package.json')))`),
     ...custom,
   };
 
@@ -37,11 +37,19 @@ function configureMain({
     .replace(/\\"/g, '"')
     .replace(/['"]%%/g, '')
     .replace(/%%['"]/, '')
-    .replace(/\\n/g, '\r\n')}`;
+    .replace(/\\n/g, '\r\n')
+    // main.js isn't actually JSON, but we used JSON.stringify to convert the runtime-object into code.
+    // un-stringify the value for referencing packages by string
+    .replaceAll(/"(path\.dirname\(require\.resolve\(path\.join\('.*\))"/g, (_, a) => a)}`;
   fse.ensureDirSync('./.storybook');
-  fse.writeFileSync(`./.storybook/main.${commonJs ? 'cjs' : 'js'}`, stringified, {
-    encoding: 'utf8',
-  });
+  fse.writeFileSync(
+    `./.storybook/main.${commonJs ? 'cjs' : 'js'}`,
+    dedent`
+      const path = require('path');
+      ${stringified}
+    `,
+    { encoding: 'utf8' }
+  );
 }
 
 const frameworkToPreviewParts: Partial<Record<SupportedRenderers, any>> = {

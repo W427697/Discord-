@@ -261,6 +261,12 @@ export interface TypescriptOptions {
    * @default `false`
    */
   check: boolean;
+  /**
+   * Disable parsing typescript files through babel.
+   *
+   * @default `false`
+   */
+  skipBabel: boolean;
 }
 
 interface StoriesSpecifier {
