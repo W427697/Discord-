@@ -184,12 +184,12 @@ export class Instrumenter {
     };
 
     const back = ({ storyId }: { storyId: string }) => {
-      const { isDebugging } = this.getState(storyId);
       const log = this.getLog(storyId).filter((call) => !call.parentId);
-      const next = isDebugging
-        ? log.findIndex(({ status }) => status === CallStates.WAITING)
-        : log.length;
-      start({ storyId, playUntil: log[next - 2]?.callId });
+      const last = log.reduceRight((res, item, index) => {
+        if (res >= 0 || item.status === CallStates.WAITING) return res;
+        return index;
+      }, -1);
+      start({ storyId, playUntil: log[last - 1]?.callId });
     };
 
     const goto = ({ storyId, callId }: { storyId: string; callId: Call['id'] }) => {
