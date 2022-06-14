@@ -449,7 +449,6 @@ export class Instrumenter {
         // We need to throw to break out of the play function, but we don't want to trigger a redbox
         // so we throw an ignoredException, which is caught and silently ignored by Storybook.
         if (e !== alreadyCompletedException) {
-          // eslint-disable-next-line no-console
           console?.warn(e);
           throw IGNORED_EXCEPTION;
         }
