@@ -189,7 +189,7 @@ const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options
     flags.push('--linkable');
   }
   if (pnp) {
-    flags.push('--pnp');
+    flags.push('--use-pnp');
   }
 
   const sbCLICommand = useLocalSbCli
@@ -198,7 +198,6 @@ const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options
 
   const command = `${sbCLICommand} init ${flags.join(' ')}`;
 
-  console.log({ command });
   await exec(
     command,
     { cwd },
