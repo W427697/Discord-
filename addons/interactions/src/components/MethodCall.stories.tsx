@@ -90,7 +90,6 @@ export const Args = () => (
     />
     <Node value={{ __regexp__: { flags: 'i', source: 'hello' } }} />
     <Node value={{ __regexp__: { flags: '', source: 'src(.*)\\.js$' } }} />
-    {/* eslint-disable-next-line symbol-description */}
     <Node value={{ __symbol__: { description: '' } }} />
     <Node value={{ __symbol__: { description: 'Hello world' } }} />
   </div>
