@@ -1,5 +1,4 @@
 import chalk from 'chalk';
-import cpy from 'cpy';
 import fs from 'fs-extra';
 import path from 'path';
 import dedent from 'ts-dedent';
@@ -56,6 +55,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   }
   await fs.emptyDir(options.outputDir);
 
+  const cpy = (await import('cpy')).default;
   await cpy(defaultFavIcon, options.outputDir, { flat: true });
 
   const previewBuilder: Builder<unknown, unknown> = await getPreviewBuilder(options.configDir);
