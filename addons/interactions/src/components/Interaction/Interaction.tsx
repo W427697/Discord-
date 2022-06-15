@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { IconButton, Icons, TooltipNote, WithTooltip, Bar } from '@storybook/components';
 import { Call, CallStates, ControlStates } from '@storybook/instrumenter';
 import { styled, typography } from '@storybook/theming';
 import { transparentize } from 'polished';
@@ -55,9 +56,15 @@ const RowContainer = styled('div', {
     }
 );
 
+const RowHeader = styled.div<{ disabled: boolean }>(({ theme, disabled }) => ({
+  display: 'flex',
+  '&:hover': disabled ? {} : { background: theme.background.hoverable },
+}));
+
 const RowLabel = styled('button', { shouldForwardProp: (prop) => !['call'].includes(prop) })<
   React.ButtonHTMLAttributes<HTMLButtonElement> & { call: Call }
 >(({ theme, disabled, call }) => ({
+  flex: 1,
   display: 'grid',
   background: 'none',
   border: 0,
@@ -68,7 +75,6 @@ const RowLabel = styled('button', { shouldForwardProp: (prop) => !['call'].inclu
   padding: '8px 15px',
   textAlign: 'start',
   cursor: disabled || call.status === CallStates.ERROR ? 'default' : 'pointer',
-  '&:hover': disabled ? {} : { background: theme.background.hoverable },
   '&:focus-visible': {
     outline: 0,
     boxShadow: `inset 3px 0 0 0 ${
@@ -79,6 +85,19 @@ const RowLabel = styled('button', { shouldForwardProp: (prop) => !['call'].inclu
   '& > div': {
     opacity: call.status === CallStates.WAITING ? 0.5 : 1,
   },
+}));
+
+const RowActions = styled.div(({ theme }) => ({
+  padding: 6,
+}));
+
+export const StyledIconButton = styled(IconButton as any)(({ theme }) => ({
+  color: theme.color.mediumdark,
+  margin: '0 3px',
+}));
+
+const Note = styled(TooltipNote)(({ theme }) => ({
+  fontFamily: theme.typography.fonts.base,
 }));
 
 const RowMessage = styled('div')(({ theme }) => ({
@@ -112,29 +131,54 @@ export const Interaction = ({
   callsById,
   controls,
   controlStates,
+  childCallIds,
+  isExpanded,
+  toggleExpanded,
   pausedAt,
 }: {
   call: Call;
   callsById: Map<Call['id'], Call>;
   controls: Controls;
   controlStates: ControlStates;
+  childCallIds?: Call['id'][];
+  isExpanded: boolean;
+  toggleExpanded: () => void;
   pausedAt?: Call['id'];
 }) => {
   const [isHovered, setIsHovered] = React.useState(false);
   return (
     <RowContainer call={call} pausedAt={pausedAt}>
-      <RowLabel
-        call={call}
-        onClick={() => controls.goto(call.id)}
-        disabled={!controlStates.goto || !call.interceptable || !!call.parentId}
-        onMouseEnter={() => controlStates.goto && setIsHovered(true)}
-        onMouseLeave={() => controlStates.goto && setIsHovered(false)}
-      >
-        <StatusIcon status={isHovered ? CallStates.ACTIVE : call.status} />
-        <MethodCallWrapper style={{ marginLeft: 6, marginBottom: 1 }}>
-          <MethodCall call={call} callsById={callsById} />
-        </MethodCallWrapper>
-      </RowLabel>
+      <RowHeader disabled={!controlStates.goto || !call.interceptable || !!call.parentId}>
+        <RowLabel
+          call={call}
+          onClick={() => controls.goto(call.id)}
+          disabled={!controlStates.goto || !call.interceptable || !!call.parentId}
+          onMouseEnter={() => controlStates.goto && setIsHovered(true)}
+          onMouseLeave={() => controlStates.goto && setIsHovered(false)}
+        >
+          <StatusIcon status={isHovered ? CallStates.ACTIVE : call.status} />
+          <MethodCallWrapper style={{ marginLeft: 6, marginBottom: 1 }}>
+            <MethodCall call={call} callsById={callsById} />
+          </MethodCallWrapper>
+        </RowLabel>
+        <RowActions>
+          {childCallIds?.length > 0 && (
+            <WithTooltip
+              hasChrome={false}
+              tooltip={
+                <Note
+                  note={`${isExpanded ? 'Hide' : 'Show'} interactions (${childCallIds.length})`}
+                />
+              }
+            >
+              <StyledIconButton containsIcon onClick={toggleExpanded}>
+                <Icons icon="listunordered" />
+              </StyledIconButton>
+            </WithTooltip>
+          )}
+        </RowActions>
+      </RowHeader>
+
       {call.status === CallStates.ERROR && call.exception?.callId === call.id && (
         <Exception exception={call.exception} />
       )}
