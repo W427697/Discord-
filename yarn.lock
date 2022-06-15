@@ -6597,7 +6597,6 @@ __metadata:
     global: ^4.4.0
     lodash: ^4.17.21
     react-sizeme: ^3.0.1
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
   peerDependencies:
@@ -6630,7 +6629,6 @@ __metadata:
     polished: ^4.2.2
     prop-types: ^15.7.2
     react-inspector: ^5.1.0
-    regenerator-runtime: ^0.13.7
     telejson: ^6.0.8
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
@@ -6660,7 +6658,6 @@ __metadata:
     core-js: ^3.8.2
     global: ^4.4.0
     memoizerific: ^1.11.3
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
   peerDependencies:
@@ -6732,7 +6729,6 @@ __metadata:
     fast-deep-equal: ^3.1.3
     global: ^4.4.0
     lodash: ^4.17.21
-    regenerator-runtime: ^0.13.7
     remark-external-links: ^8.0.0
     remark-slug: ^6.0.0
     ts-dedent: ^2.0.0
@@ -6771,7 +6767,6 @@ __metadata:
     "@storybook/vue": 7.0.0-alpha.2
     "@types/jest": ^26.0.16
     core-js: ^3.8.2
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
   peerDependencies:
     "@babel/core": ^7.9.6
@@ -6849,7 +6844,6 @@ __metadata:
     core-js: ^3.8.2
     global: ^4.4.0
     react-sizeme: ^3.0.1
-    regenerator-runtime: ^0.13.7
     upath: ^1.2.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6874,7 +6868,6 @@ __metadata:
     core-js: ^3.8.2
     global: ^4.4.0
     prop-types: ^15.7.2
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6922,7 +6915,6 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     core-js: ^3.8.2
     global: ^4.4.0
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6959,7 +6951,6 @@ __metadata:
     "@types/puppeteer": ^5.4.0
     core-js: ^3.8.2
     jest-image-snapshot: ^4.3.0
-    regenerator-runtime: ^0.13.7
   peerDependencies:
     "@storybook/addon-storyshots": 7.0.0-alpha.2
     puppeteer: ^2.0.0 || ^3.0.0
@@ -7004,7 +6995,6 @@ __metadata:
     pretty-format: ^26.6.2
     react-test-renderer: ^16.8.0 || ^17.0.0
     read-pkg-up: ^7.0.1
-    regenerator-runtime: ^0.13.7
     rxjs: ^6.6.3
     ts-dedent: ^2.0.0
     vue-jest: ^5.0.0-alpha.8
@@ -7076,7 +7066,6 @@ __metadata:
     estraverse: ^5.2.0
     prop-types: ^15.7.2
     react-syntax-highlighter: ^15.4.5
-    regenerator-runtime: ^0.13.7
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7098,7 +7087,6 @@ __metadata:
     "@storybook/components": 7.0.0-alpha.2
     "@storybook/theming": 7.0.0-alpha.2
     core-js: ^3.8.2
-    regenerator-runtime: ^0.13.7
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7124,7 +7112,6 @@ __metadata:
     global: ^4.4.0
     memoizerific: ^1.11.3
     prop-types: ^15.7.2
-    regenerator-runtime: ^0.13.7
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7150,7 +7137,6 @@ __metadata:
     "@types/webpack-env": ^1.16.4
     core-js: ^3.8.2
     global: ^4.4.0
-    regenerator-runtime: ^0.13.7
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7253,7 +7239,6 @@ __metadata:
     react: ^16.14.0
     react-dom: ^16.14.0
     read-pkg-up: ^7.0.1
-    regenerator-runtime: ^0.13.7
     sass-loader: ^12.6.0
     telejson: ^6.0.8
     tmp: ^0.2.1
@@ -7310,7 +7295,6 @@ __metadata:
     memoizerific: ^1.11.3
     preval.macro: ^5.0.0
     qs: ^6.10.1
-    regenerator-runtime: ^0.13.7
     store2: ^2.12.0
     telejson: ^6.0.8
     ts-dedent: ^2.0.0
@@ -7568,7 +7552,6 @@ __metadata:
     lodash: ^4.17.21
     memoizerific: ^1.11.3
     qs: ^6.10.0
-    regenerator-runtime: ^0.13.7
     store2: ^2.12.0
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
@@ -7626,7 +7609,6 @@ __metadata:
     lodash: ^4.17.21
     prettier: ">=2.2.1 <=2.3.0"
     recast: ^0.19.0
-    regenerator-runtime: ^0.13.7
   languageName: unknown
   linkType: soft
 
@@ -7660,7 +7642,6 @@ __metadata:
     react-popper-tooltip: ^3.1.1
     react-syntax-highlighter: ^15.4.5
     react-textarea-autosize: ^8.3.0
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
   peerDependencies:
@@ -7837,7 +7818,6 @@ __metadata:
     pretty-hrtime: ^1.0.3
     prompts: ^2.4.0
     read-pkg-up: ^7.0.1
-    regenerator-runtime: ^0.13.7
     serve-favicon: ^2.5.0
     slash: ^3.0.0
     telejson: ^6.0.8
@@ -7890,7 +7870,6 @@ __metadata:
     fs-extra: ^9.0.1
     global: ^4.4.0
     js-yaml: ^3.14.1
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
   languageName: unknown
   linkType: soft
@@ -7956,7 +7935,6 @@ __metadata:
     doctrine: ^3.0.0
     jest-specific-snapshot: ^4.0.0
     lodash: ^4.17.21
-    regenerator-runtime: ^0.13.7
     require-from-string: ^2.0.2
   languageName: unknown
   linkType: soft
@@ -7988,7 +7966,6 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     read-pkg-up: ^7.0.1
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
   peerDependencies:
     "@babel/core": "*"
@@ -8096,7 +8073,6 @@ __metadata:
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
   peerDependencies:
     "@babel/core": "*"
   languageName: unknown
@@ -8116,7 +8092,6 @@ __metadata:
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
   peerDependencies:
     "@babel/core": "*"
@@ -8230,7 +8205,6 @@ __metadata:
     node-fetch: ^2.6.7
     process: ^0.11.10
     read-pkg-up: ^7.0.1
-    regenerator-runtime: ^0.13.7
     resolve-from: ^5.0.0
     style-loader: ^3.3.1
     telejson: ^6.0.8
@@ -8332,7 +8306,6 @@ __metadata:
     preact: ^10.5.13
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
@@ -8352,7 +8325,6 @@ __metadata:
     preact: ^10.5.13
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
   peerDependencies:
     preact: ^8.0.0||^10.0.0
@@ -8405,7 +8377,6 @@ __metadata:
     preact: ^10.5.13
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
@@ -8432,7 +8403,6 @@ __metadata:
     core-js: ^3.8.2
     fs-extra: ^9.0.1
     react-refresh: ^0.11.0
-    regenerator-runtime: ^0.13.7
   peerDependencies:
     "@babel/core": ^7.11.5
     jest-specific-snapshot: ^4.0.0
@@ -8473,7 +8443,6 @@ __metadata:
     jest-specific-snapshot: ^4.0.0
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
     safe-identifier: ^0.4.1
     ts-dedent: ^2.0.0
     yaml: ^1.10.0
@@ -8490,7 +8459,6 @@ __metadata:
     core-js: ^3.8.2
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
     svelte: ^3.31.2
     svelte-loader: ^3.1.2
     sveltedoc-parser: 4.1.0
@@ -8512,7 +8480,6 @@ __metadata:
     core-js: ^3.8.2
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
     ts-loader: ^9.2.8
     vue: ^2.6.12
     vue-docgen-api: ^4.44.23
@@ -8541,7 +8508,6 @@ __metadata:
     core-js: ^3.8.2
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
     ts-loader: ^9.2.8
     vue: ^3.2.33
     vue-docgen-api: ^4.46.0
@@ -8570,7 +8536,6 @@ __metadata:
     lit-html: 2.0.2
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
   languageName: unknown
@@ -8591,7 +8556,6 @@ __metadata:
     global: ^4.4.0
     lodash: ^4.17.21
     qs: ^6.10.0
-    regenerator-runtime: ^0.13.7
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
     unfetch: ^4.2.0
@@ -8631,7 +8595,6 @@ __metadata:
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     jest-specific-snapshot: ^4.0.0
-    regenerator-runtime: ^0.13.7
   peerDependencies:
     "@babel/core": ^7.11.5
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -8668,7 +8631,6 @@ __metadata:
     lodash: ^4.17.21
     prop-types: ^15.7.2
     react-element-to-jsx-string: ^14.3.4
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
   peerDependencies:
@@ -8962,7 +8924,6 @@ __metadata:
     qs: ^6.10.0
     react-router: 6.0.2
     react-router-dom: 6.0.2
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
     ts-node: ^10.4.0
   peerDependencies:
@@ -9032,7 +8993,6 @@ __metadata:
     core-js: ^3.8.2
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
   languageName: unknown
   linkType: soft
 
@@ -9049,7 +9009,6 @@ __metadata:
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
   languageName: unknown
   linkType: soft
@@ -9066,7 +9025,6 @@ __metadata:
     global: ^4.4.0
     lodash: ^4.17.21
     prettier: ">=2.2.1 <=2.3.0"
-    regenerator-runtime: ^0.13.7
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -9086,7 +9044,6 @@ __metadata:
     global: ^4.4.0
     lodash: ^4.17.21
     memoizerific: ^1.11.3
-    regenerator-runtime: ^0.13.7
     slash: ^3.0.0
     stable: ^0.1.8
     synchronous-promise: ^2.0.15
@@ -9110,7 +9067,6 @@ __metadata:
     core-js: ^3.8.2
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
     svelte: ^3.48.0
     svelte-loader: ^3.1.2
   peerDependencies:
@@ -9134,7 +9090,6 @@ __metadata:
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
     svelte: ^3.31.2
     sveltedoc-parser: 4.1.0
   peerDependencies:
@@ -9158,7 +9113,6 @@ __metadata:
     isomorphic-unfetch: ^3.1.0
     nanoid: ^3.3.1
     read-pkg-up: ^7.0.1
-    regenerator-runtime: ^0.13.7
   languageName: unknown
   linkType: soft
 
@@ -9216,7 +9170,6 @@ __metadata:
     global: ^4.4.0
     memoizerific: ^1.11.3
     polished: ^4.2.2
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
     ts-node: ^10.4.0
   peerDependencies:
@@ -9295,7 +9248,6 @@ __metadata:
     react-draggable: ^4.4.3
     react-helmet-async: ^1.0.7
     react-sizeme: ^3.0.1
-    regenerator-runtime: ^0.13.7
     resolve-from: ^5.0.0
     store2: ^2.12.0
     ts-node: ^10.4.0
@@ -9316,7 +9268,6 @@ __metadata:
     core-js: ^3.8.2
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
     vue: ^2.6.12
     vue-loader: ^15.7.0
     vue-template-compiler: ^2.6.14
@@ -9344,7 +9295,6 @@ __metadata:
     core-js: ^3.8.2
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
     vue: 3.0.0
   peerDependencies:
     "@babel/core": "*"
@@ -9367,7 +9317,6 @@ __metadata:
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
     vue: 3.0.0
   peerDependencies:
@@ -9391,7 +9340,6 @@ __metadata:
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
     vue: ^2.6.12
   peerDependencies:
@@ -9417,7 +9365,6 @@ __metadata:
     lit-html: 2.0.2
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
   languageName: unknown
@@ -9440,7 +9387,6 @@ __metadata:
     lit-html: 2.0.2
     react: 16.14.0
     react-dom: 16.14.0
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
