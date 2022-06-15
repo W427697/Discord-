@@ -28,7 +28,12 @@ interface InteractionsPanelProps {
   active: boolean;
   controls: Controls;
   controlStates: ControlStates;
-  interactions: (Call & { status?: CallStates })[];
+  interactions: (Call & {
+    status?: CallStates;
+    childCallIds: Call['id'][];
+    isExpanded: boolean;
+    toggleExpanded: () => void;
+  })[];
   fileName?: string;
   hasException?: boolean;
   isPlaying?: boolean;
@@ -97,6 +102,9 @@ export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
             callsById={calls}
             controls={controls}
             controlStates={controlStates}
+            childCallIds={call.childCallIds}
+            isExpanded={call.isExpanded}
+            toggleExpanded={call.toggleExpanded}
             pausedAt={pausedAt}
           />
         ))}
@@ -125,13 +133,32 @@ export const Panel: React.FC<AddonPanelProps> = (props) => {
   const [isPlaying, setPlaying] = React.useState(false);
   const [isRerunAnimating, setIsRerunAnimating] = React.useState(false);
   const [scrollTarget, setScrollTarget] = React.useState<HTMLElement>();
+  const [expanded, setExpanded] = React.useState<Set<Call['id']>>(new Set());
 
   // Calls are tracked in a ref so we don't needlessly rerender.
   const calls = React.useRef<Map<Call['id'], Omit<Call, 'status'>>>(new Map());
   const setCall = ({ status, ...call }: Call) => calls.current.set(call.id, call);
 
   const [log, setLog] = React.useState<LogItem[]>([]);
-  const interactions = log.map(({ callId, status }) => ({ ...calls.current.get(callId), status }));
+  const childCallMap = new Map<Call['id'], Call['id'][]>();
+  const interactions = log
+    .filter((call) => {
+      if (!call.parentId) return true;
+      childCallMap.set(call.parentId, (childCallMap.get(call.parentId) || []).concat(call.callId));
+      return expanded.has(call.parentId);
+    })
+    .map(({ callId, status }) => ({
+      ...calls.current.get(callId),
+      status,
+      childCallIds: childCallMap.get(callId),
+      isExpanded: expanded.has(callId),
+      toggleExpanded: () =>
+        setExpanded((ids) => {
+          if (ids.has(callId)) ids.delete(callId);
+          else ids.add(callId);
+          return new Set(ids);
+        }),
+    }));
 
   const endRef = React.useRef();
   React.useEffect(() => {
