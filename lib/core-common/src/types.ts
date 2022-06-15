@@ -261,6 +261,12 @@ export interface TypescriptOptions {
    * @default `false`
    */
   check: boolean;
+  /**
+   * Disable parsing typescript files through babel.
+   *
+   * @default `false`
+   */
+  skipBabel: boolean;
 }
 
 interface StoriesSpecifier {
@@ -340,11 +346,6 @@ export interface StorybookConfig {
      * @deprecated This is always on now from 6.4 regardless of the setting
      */
     previewCsfV3?: boolean;
-
-    /**
-     * Activate modern inline rendering
-     */
-    modernInlineRender?: boolean;
 
     /**
      * Activate on demand story store

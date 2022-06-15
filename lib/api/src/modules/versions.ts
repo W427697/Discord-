@@ -1,4 +1,5 @@
 import global from 'global';
+// @ts-ignore
 import semver from '@storybook/semver';
 import memoize from 'memoizerific';
 

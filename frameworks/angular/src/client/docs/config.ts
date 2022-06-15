@@ -1,13 +1,11 @@
 import { SourceType, enhanceArgTypes } from '@storybook/docs-tools';
 import { extractArgTypes, extractComponentDescription } from './compodoc';
 import { sourceDecorator } from './sourceDecorator';
-import { prepareForInline } from './prepareForInline';
 
 export const parameters = {
   docs: {
     // probably set this to true by default once it's battle-tested
     inlineStories: false,
-    prepareForInline,
     extractArgTypes,
     extractComponentDescription,
     source: {

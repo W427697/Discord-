@@ -100,7 +100,6 @@ export const features = async (
   warnOnLegacyHierarchySeparator: true,
   buildStoriesJson: false,
   storyStoreV7: true,
-  modernInlineRender: true,
   breakingChangesV7: true,
   interactionsDebugger: false,
   babelModeV7: true,

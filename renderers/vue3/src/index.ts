@@ -7,8 +7,7 @@ export {
   getStorybook,
   forceReRender,
   raw,
-  app,
-  activeStoryComponent,
+  setup,
 } from './preview';
 
 export * from './preview/types-6-0';

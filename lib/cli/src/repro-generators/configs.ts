@@ -100,12 +100,12 @@ export const react_typescript: Parameters = {
   ],
 };
 
-export const vite_react: Parameters = {
-  renderer: 'react',
-  name: 'vite_react',
-  version: 'latest',
-  generator: 'npx -p create-vite@{{version}} create-vite {{appName}} --template react-ts',
-};
+// export const vite_react: Parameters = {
+//   renderer: 'react',
+//   name: 'vite_react',
+//   version: 'latest',
+//   generator: 'npx -p create-vite@{{version}} create-vite {{appName}} --template react-ts',
+// };
 
 export const react_in_yarn_workspace: Parameters = {
   renderer: 'react',
@@ -155,7 +155,6 @@ export const angular_modern_inline_rendering: Parameters = {
   mainOverrides: {
     features: {
       storyStoreV7: true,
-      modernInlineRender: true,
     },
   },
 };

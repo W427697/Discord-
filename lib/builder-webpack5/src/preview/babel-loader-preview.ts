@@ -1,17 +1,9 @@
 import { getProjectRoot } from '@storybook/core-common';
+import { TypescriptOptions } from '../types';
 
-/**
- * Returns true if the framework can use the base TS config.
- * @param {string} framework
- */
-export const useBaseTsSupport = (framework: string) => {
-  // These packages both have their own TS implementation.
-  return !['@storybook/vue', '@storybook/angular'].includes(framework);
-};
-
-export const createBabelLoader = (options: any, framework: string) => {
+export const createBabelLoader = (options: any, typescriptOptions: TypescriptOptions) => {
   return {
-    test: useBaseTsSupport(framework) ? /\.(mjs|tsx?|jsx?)$/ : /\.(mjs|jsx?)$/,
+    test: typescriptOptions.skipBabel ? /\.(mjs|jsx?)$/ : /\.(mjs|tsx?|jsx?)$/,
     use: [
       {
         loader: require.resolve('babel-loader'),

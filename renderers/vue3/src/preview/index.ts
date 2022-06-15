@@ -7,7 +7,7 @@ import type { IStorybookSection } from './types';
 import type { VueFramework } from './types-6-0';
 import { decorateStory } from './decorateStory';
 
-import { render, renderToDOM, storybookApp } from './render';
+import { render, renderToDOM } from './render';
 
 const framework = 'vue3';
 
@@ -38,5 +38,4 @@ export const { setAddon } = api.clientApi;
 export const { forceReRender } = api;
 export const { getStorybook } = api.clientApi;
 export const { raw } = api.clientApi;
-export const app: ClientApi['app'] = storybookApp;
-export { activeStoryComponent } from './render';
+export { setup } from './render';

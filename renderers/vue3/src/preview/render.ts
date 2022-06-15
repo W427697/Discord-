@@ -1,5 +1,5 @@
 import dedent from 'ts-dedent';
-import { createApp, h, shallowRef, ComponentPublicInstance } from 'vue';
+import { createApp, h } from 'vue';
 import type { RenderContext } from '@storybook/store';
 import type { ArgsStoryFn } from '@storybook/csf';
 
@@ -18,39 +18,38 @@ export const render: ArgsStoryFn<VueFramework> = (props, context) => {
   return h(Component as Parameters<typeof h>[0], props);
 };
 
-export const activeStoryComponent = shallowRef<StoryFnVueReturnType | null>(null);
+let setupFunction = (app: any) => {};
+export const setup = (fn: (app: any) => void) => {
+  setupFunction = fn;
+};
 
-let root: ComponentPublicInstance | null = null;
-
-export const storybookApp = createApp({
-  // If an end-user calls `unmount` on the app, we need to clear our root variable
-  unmounted() {
-    root = null;
-  },
-
-  setup() {
-    return () => {
-      if (!activeStoryComponent.value)
-        throw new Error('No Vue 3 Story available. Was it set correctly?');
-      return h(activeStoryComponent.value);
-    };
-  },
-});
+const map = new Map<HTMLElement, ReturnType<typeof createApp>>();
 
 export function renderToDOM(
   { title, name, storyFn, showMain, showError, showException }: RenderContext<VueFramework>,
   domElement: HTMLElement
 ) {
+  // TODO: explain cyclical nature of these app => story => mount
+  let element: StoryFnVueReturnType;
+  const storybookApp = createApp({
+    unmounted() {
+      map.delete(domElement);
+    },
+    render() {
+      map.set(domElement, storybookApp);
+      setupFunction(storybookApp);
+      return h(element);
+    },
+  });
   storybookApp.config.errorHandler = showException;
-
-  const element: StoryFnVueReturnType = storyFn();
+  element = storyFn();
 
   if (!element) {
     showError({
       title: `Expecting a Vue component from the story: "${name}" of "${title}".`,
       description: dedent`
-        Did you forget to return the Vue component from the story?
-        Use "() => ({ template: '<my-comp></my-comp>' })" or "() => ({ components: MyComp, template: '<my-comp></my-comp>' })" when defining the story.
+      Did you forget to return the Vue component from the story?
+      Use "() => ({ template: '<my-comp></my-comp>' })" or "() => ({ components: MyComp, template: '<my-comp></my-comp>' })" when defining the story.
       `,
     });
     return;
@@ -58,9 +57,9 @@ export function renderToDOM(
 
   showMain();
 
-  activeStoryComponent.value = element;
-
-  if (!root) {
-    root = storybookApp.mount(domElement);
+  if (map.has(domElement)) {
+    map.get(domElement).unmount(domElement);
   }
+
+  storybookApp.mount(domElement);
 }

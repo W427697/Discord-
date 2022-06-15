@@ -978,12 +978,6 @@ describe('PreviewWeb', () => {
     });
 
     describe('in docs mode, modern inline render', () => {
-      beforeEach(() => {
-        global.FEATURES.modernInlineRender = true;
-      });
-      afterEach(() => {
-        global.FEATURES.modernInlineRender = true;
-      });
       it('does not re-render the docs container', async () => {
         document.location.search = '?id=component-one--a&viewMode=docs';
 
