@@ -68,6 +68,7 @@ export const Paused: Story = {
       next: true,
       end: true,
     },
+    pausedAt: getCall(CallStates.WAITING).id,
   },
 };
 
