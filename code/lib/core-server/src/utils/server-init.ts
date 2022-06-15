@@ -1,20 +1,20 @@
 import { logger } from '@storybook/node-logger';
-import { Express } from 'express';
+import Fastify from 'fastify';
+import type { FastifyInstance } from 'fastify';
 import { readFile } from 'fs-extra';
-import http from 'http';
-import https from 'https';
 
-export async function getServer(
-  app: Express,
-  options: {
-    https?: boolean;
-    sslCert?: string;
-    sslKey?: string;
-    sslCa?: string[];
-  }
-) {
+const baseOptions = {
+  logger: true,
+};
+
+export async function serverInit(options: {
+  https?: boolean;
+  sslCert?: string;
+  sslKey?: string;
+  sslCa?: string[];
+}): Promise<FastifyInstance> {
   if (!options.https) {
-    return http.createServer(app);
+    return Fastify(baseOptions);
   }
 
   if (!options.sslCert) {
@@ -33,5 +33,8 @@ export async function getServer(
     key: await readFile(options.sslKey, 'utf-8'),
   };
 
-  return https.createServer(sslOptions, app);
+  return Fastify({
+    ...baseOptions,
+    https: sslOptions,
+  });
 }
