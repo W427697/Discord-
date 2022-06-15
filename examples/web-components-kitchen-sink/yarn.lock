@@ -4787,6 +4787,7 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "sb@portal:../../lib/cli-sb::locator=web-components-kitchen-sink%40workspace%3A.":
   version: 0.0.0-use.local
   resolution: "sb@portal:../../lib/cli-sb::locator=web-components-kitchen-sink%40workspace%3A."
@@ -4797,6 +4798,8 @@ __metadata:
   languageName: node
   linkType: soft
 
+=======
+>>>>>>> b10a5c27bfcc610a6a349345d7fd1dbb18a960a2
 "semver@npm:2 || 3 || 4 || 5, semver@npm:^5.5.0":
   version: 5.7.1
   resolution: "semver@npm:5.7.1"
@@ -5104,6 +5107,17 @@ __metadata:
   checksum: 284f5865a9e19d079f1badbcd70d5f9f82e7a08393f818a220839cd5f71729e89105e1c95322bd28e833161d484cee671380ca443869ae89578eef2bf55c0653
   languageName: node
   linkType: hard
+
+"storybook@portal:../../lib/cli-storybook::locator=web-components-kitchen-sink%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "storybook@portal:../../lib/cli-storybook::locator=web-components-kitchen-sink%40workspace%3A."
+  dependencies:
+    "@storybook/cli": 7.0.0-alpha.2
+  bin:
+    sb: ./index.js
+    storybook: ./index.js
+  languageName: node
+  linkType: soft
 
 "string-length@npm:^4.0.1":
   version: 4.0.2
@@ -5589,7 +5603,7 @@ __metadata:
     jest: ^26.6.3
     lit: ^2.0.2
     react: ^16.8.0
-    sb: "*"
+    storybook: "*"
     typescript: ~4.6.3
   languageName: unknown
   linkType: soft

@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "build": "react-scripts build",
-    "build-storybook": "sb build",
+    "build-storybook": "storybook build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
-    "storybook": "sb dev -p 9010 --no-manager-cache",
+    "storybook": "storybook dev -p 9010 --no-manager-cache",
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {
@@ -34,7 +34,7 @@
     "@storybook/react": "7.0.0-alpha.2",
     "@storybook/react-webpack5": "7.0.0-alpha.2",
     "@storybook/theming": "7.0.0-alpha.2",
-    "sb": "7.0.0-alpha.2",
+    "storybook": "7.0.0-alpha.2",
     "webpack": "5"
   },
   "storybook": {

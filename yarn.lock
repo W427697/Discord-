@@ -8035,7 +8035,7 @@ __metadata:
     prop-types: 15.7.2
     react: 16.14.0
     react-dom: 16.14.0
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
     typescript: ~4.6.3
     webpack: 5
   languageName: unknown
@@ -8076,7 +8076,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     react-scripts: ^5.0.1
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
     typescript: ~4.6.3
     webpack: 5
   languageName: unknown
@@ -9172,6 +9172,19 @@ __metadata:
     "@testing-library/user-event": ^13.2.1
     ts-dedent: ^2.2.0
   checksum: ea1ad2ded53bc109defd3d2b7d41348f8fa823d1e092b62bb6fcb87568358c3743eed72ce4d1e61b73f80097d408ff02a520c17f347589df244380043828892c
+  languageName: node
+  linkType: hard
+
+"@storybook/testing-library@npm:^0.0.7":
+  version: 0.0.7
+  resolution: "@storybook/testing-library@npm:0.0.7"
+  dependencies:
+    "@storybook/client-logger": 6.4.0-rc.5
+    "@storybook/instrumenter": 6.4.0-rc.5
+    "@testing-library/dom": ^8.3.0
+    "@testing-library/user-event": ^13.2.1
+    ts-dedent: ^2.2.0
+  checksum: 6be4b2d418195417cd0a04e5a4f2b71a93364cb88780084714a0553c39e6b38943458511b25b101c830b332783afec98a40eefcdc663dca3f34e8f48609a4670
   languageName: node
   linkType: hard
 
@@ -12723,7 +12736,7 @@ __metadata:
     protractor: ~7.0.0
     rxjs: ^6.6.7
     sass: ^1.43.4
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
     storybook-addon-angular-ivy: ^0.0.1
     telejson: ^6.0.8
     ts-jest: ^26.4.4
@@ -17253,7 +17266,7 @@ __metadata:
     react-dom: 16.14.0
     react-lifecycles-compat: ^3.0.4
     react-scripts: ^5.0.1
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
     webpack: 5
   languageName: unknown
   linkType: soft
@@ -17280,7 +17293,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     react-scripts: ^5.0.1
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
     ts-node: ^10.4.0
     typescript: ~4.6.3
     webpack: 5
@@ -17314,7 +17327,7 @@ __metadata:
     react-dom: 16.14.0
     react-moment-proptypes: ^1.7.0
     react-scripts: ^5.0.1
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
     ts-node: ^10.4.0
     typescript: ~4.6.3
     webpack: 5
@@ -19603,8 +19616,8 @@ __metadata:
     ember-template-compiler: ^1.9.0-alpha
     loader.js: ^4.7.0
     os-browserify: ^0.3.0
-    sb: 7.0.0-alpha.2
     shx: ^0.3.2
+    storybook: 7.0.0-alpha.2
     stream-browserify: ^3.0.0
     vm-browserify: ^1.1.2
     webpack: 5
@@ -24442,7 +24455,7 @@ __metadata:
     global: ^4.4.0
     postcss: ^8.2.4
     postcss-color-rebeccapurple: ^6.0.0
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
   languageName: unknown
   linkType: soft
 
@@ -32842,7 +32855,7 @@ __metadata:
     prop-types: ^15.7.2
     react: 16.14.0
     react-dom: 16.14.0
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
     terser-webpack-plugin: ^5.3.1
     uuid-browser: ^3.1.0
     webpack: 5
@@ -35244,7 +35257,7 @@ __metadata:
     raw-loader: ^4.0.2
     react: ^17.0.2
     react-dom: ^17.0.2
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
     svg-url-loader: ^7.1.1
     webpack: 5
     webpack-dev-server: ^4.8.1
@@ -38810,7 +38823,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sb@7.0.0-alpha.2, sb@workspace:lib/cli-sb":
+"sb@workspace:lib/cli-sb":
   version: 0.0.0-use.local
   resolution: "sb@workspace:lib/cli-sb"
   dependencies:
@@ -39180,7 +39193,7 @@ __metadata:
     nodemon: ^2.0.7
     pug: ^3.0.0
     safe-identifier: ^0.4.1
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
   languageName: unknown
   linkType: soft
 
@@ -40043,7 +40056,7 @@ __metadata:
     parcel: 2.0.1
     react: 16.14.0
     react-dom: 16.14.0
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
   languageName: unknown
   linkType: soft
 
@@ -40139,7 +40152,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"storybook@workspace:lib/cli-storybook":
+"storybook@7.0.0-alpha.2, storybook@workspace:lib/cli-storybook":
   version: 0.0.0-use.local
   resolution: "storybook@workspace:lib/cli-storybook"
   dependencies:
@@ -40845,9 +40858,9 @@ __metadata:
     "@storybook/source-loader": 7.0.0-alpha.2
     "@storybook/svelte": 7.0.0-alpha.2
     "@storybook/svelte-webpack5": 7.0.0-alpha.2
-    "@storybook/testing-library": ^0.0.12
+    "@storybook/testing-library": ^0.0.7
     global: ^4.4.0
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
     svelte-jester: ^2.3.2
     svelte-preprocess: ^4.10.6
   languageName: unknown
@@ -43636,7 +43649,7 @@ __metadata:
     "@vue/compiler-sfc": ^3.2.36
     babel-loader: ^8.2.5
     core-js: ^3.8.2
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
     typescript: ~4.6.3
     vue: ^3.0.0
     vue-jest: ^5.0.0-alpha.8
@@ -43667,7 +43680,7 @@ __metadata:
     "@vue/cli-plugin-typescript": ^5.0.4
     "@vue/cli-service": ^5.0.4
     core-js: ^3.8.2
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
     typescript: ~4.6.3
     vue: ^2.6.12
     vue-class-component: ^7.2.6
@@ -43736,7 +43749,7 @@ __metadata:
     cross-env: ^7.0.3
     file-loader: ^6.2.0
     prop-types: ^15.7.2
-    sb: 7.0.0-alpha.2
+    storybook: 7.0.0-alpha.2
     svg-url-loader: ^7.1.1
     vue: ^2.6.12
     vue-loader: ^15.9.6

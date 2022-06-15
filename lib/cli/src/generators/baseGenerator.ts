@@ -170,7 +170,7 @@ export async function baseGenerator(
   }
 
   const packages = [
-    'sb',
+    'storybook',
     ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,

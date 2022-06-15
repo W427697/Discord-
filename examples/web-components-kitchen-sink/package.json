@@ -8,9 +8,9 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "build-storybook": "sb build",
+    "build-storybook": "storybook build",
     "generate-custom-elements-manifest": "yarn custom-elements-manifest analyze --litelement --dev --exclude \"./**/*.stories.ts\" --exclude \"./storybook-static\"",
-    "storybook": "sb dev -p 9006 --no-manager-cache"
+    "storybook": "storybook dev -p 9006 --no-manager-cache"
   },
   "resolutions": {
     "@babel/plugin-proposal-decorators": "^7.17.9",
@@ -62,7 +62,7 @@
     "@storybook/web-components-webpack5": "link:../../frameworks/web-components-webpack5",
     "babel-plugin-macros": "3.1.0",
     "fork-ts-checker-webpack-plugin": "^7.2.6",
-    "sb": "portal:../../lib/cli-sb",
+    "storybook": "portal:../../lib/cli-storybook",
     "typescript": "~4.6.3"
   },
   "dependencies": {
@@ -86,8 +86,7 @@
     "@storybook/web-components-webpack5": "*",
     "global": "^4.4.0",
     "jest": "^26.6.3",
-    "react": "^16.8.0",
-    "sb": "*",
+    "storybook": "*",
     "typescript": "~4.6.3"
   },
   "customElements": "custom-elements.json",
