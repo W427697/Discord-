@@ -1,6 +1,8 @@
-import type { StorybookConfig } from '@storybook/core-webpack';
+import type { StorybookConfig } from './types';
 
-export const webpack: StorybookConfig['webpack'] = (config, options) => {
+export * from './types';
+
+export const webpack: StorybookConfig['webpack'] = (config) => {
   config.module.rules.push({
     test: [
       new RegExp(`src(.*)\\.js$`),
@@ -14,13 +16,14 @@ export const webpack: StorybookConfig['webpack'] = (config, options) => {
     use: {
       loader: require.resolve('babel-loader'),
       options: {
+        compact: false,
         presets: [
           [
             require.resolve('@babel/preset-env'),
             {
               useBuiltIns: 'entry',
               corejs: 3,
-              targets: { chrome: '100' },
+              targets: { chrome: '100', esmodules: true },
             },
           ],
         ],

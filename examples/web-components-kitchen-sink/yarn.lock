@@ -4791,7 +4791,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "sb@portal:../../lib/cli-sb::locator=web-components-kitchen-sink%40workspace%3A."
   dependencies:
-    "@storybook/cli": 7.0.0-alpha.1
+    "@storybook/cli": 7.0.0-alpha.2
   bin:
     sb: ./index.js
   languageName: node
