@@ -120,6 +120,7 @@ function makeGate(): [Promise<void>, () => void] {
 }
 
 const Story: FunctionComponent<StoryProps> = (props) => {
+  console.log('Story');
   const context = useContext(DocsContext);
   const channel = addons.getChannel();
   const storyRef = useRef();
