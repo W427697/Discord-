@@ -49,6 +49,12 @@ export const WithParent: Story = {
   },
 };
 
+export const WithParent: Story = {
+  args: {
+    call: { ...getCall(CallStates.DONE), parentId: 'parent-id' },
+  },
+};
+
 export const Disabled: Story = {
   args: { ...Done.args, controlStates: { ...SubnavStories.args.controlStates, goto: false } },
 };
