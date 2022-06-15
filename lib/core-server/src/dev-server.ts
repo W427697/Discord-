@@ -1,5 +1,4 @@
-import express, { Router } from 'express';
-import compression from 'compression';
+import express from 'express';
 
 import type { CoreConfig, Options, StorybookConfig } from '@storybook/core-common';
 import { normalizeStories, logConfig } from '@storybook/core-common';
@@ -7,7 +6,7 @@ import { normalizeStories, logConfig } from '@storybook/core-common';
 import { telemetry } from '@storybook/telemetry';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
-import { getServer } from './utils/server-init';
+import { serverInit } from './utils/server-init';
 import { useStatics } from './utils/server-statics';
 import { useStoriesJson } from './utils/stories-json';
 import { useStorybookMetadata } from './utils/metadata';
@@ -17,15 +16,15 @@ import { openInBrowser } from './utils/open-in-browser';
 import { getBuilders } from './utils/get-builders';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
-// @ts-ignore
-export const router: Router = new Router();
-
 export const DEBOUNCE = 100;
 
 export async function storybookDevServer(options: Options) {
   const startTime = process.hrtime();
-  const app = express();
-  const server = await getServer(app, options);
+
+  const app = await serverInit(options);
+  await app.register(import('@fastify/express'));
+  const { server } = app;
+  const router = express.Router();
   const serverChannel = getServerChannel(server);
 
   const features = await options.presets.apply<StorybookConfig['features']>('features');
@@ -93,7 +92,7 @@ export async function storybookDevServer(options: Options) {
     useStorybookMetadata(router, options.configDir);
   }
 
-  app.use(compression({ level: 1 }));
+  await app.register(import('@fastify/compress'), { global: true });
 
   if (typeof options.extendServer === 'function') {
     options.extendServer(server);
@@ -128,9 +127,7 @@ export async function storybookDevServer(options: Options) {
   const { address, networkAddress } = getServerAddresses(port, host, proto);
 
   await new Promise<void>((resolve, reject) => {
-    // FIXME: Following line doesn't match TypeScript signature at all 🤔
-    // @ts-ignore
-    server.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
+    app.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
   });
 
   const [previewBuilder, managerBuilder] = await getBuilders(options);

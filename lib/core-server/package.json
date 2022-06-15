@@ -33,6 +33,8 @@
   },
   "dependencies": {
     "@discoveryjs/json-ext": "^0.5.3",
+    "@fastify/compress": "^6.1.0",
+    "@fastify/express": "^2.0.0",
     "@storybook/core-client": "7.0.0-alpha.2",
     "@storybook/core-common": "7.0.0-alpha.2",
     "@storybook/core-events": "7.0.0-alpha.2",
@@ -56,6 +58,7 @@
     "cpy": "^8.1.2",
     "detect-port": "^1.3.0",
     "express": "^4.17.1",
+    "fastify": "^4.0.2",
     "fs-extra": "^9.0.1",
     "global": "^4.4.0",
     "globby": "^11.0.2",
