@@ -7671,7 +7671,6 @@ __metadata:
     qs: ^6.10.0
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
-    unfetch: ^4.2.0
     util-deprecate: ^1.0.2
   peerDependenciesMeta:
     typescript:
@@ -8557,7 +8556,6 @@ __metadata:
     qs: ^6.10.0
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
-    unfetch: ^4.2.0
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
