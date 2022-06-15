@@ -3,9 +3,9 @@
   "version": "7.0.0-alpha.2",
   "private": true,
   "scripts": {
-    "build-storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb build",
-    "debug": "cross-env NODE_OPTIONS=--inspect-brk STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true yarn sb dev -p 9011",
-    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb dev --no-manager-cache"
+    "build-storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true storybook build",
+    "debug": "cross-env NODE_OPTIONS=--inspect-brk STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true storybook dev -p 9011",
+    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true storybook dev --no-manager-cache"
   },
   "dependencies": {
     "formik": "^2.2.9",
@@ -34,7 +34,7 @@
     "@types/react-dom": "^16.9.14",
     "cross-env": "^7.0.3",
     "lodash": "^4.17.21",
-    "sb": "7.0.0-alpha.2",
+    "storybook": "7.0.0-alpha.2",
     "typescript": "~4.6.3",
     "webpack": "5"
   }

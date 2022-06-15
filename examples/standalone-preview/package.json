@@ -3,7 +3,7 @@
   "version": "7.0.0-alpha.2",
   "private": true,
   "scripts": {
-    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb dev -p 9011 -c ../official-storybook --no-manager-cache --preview-url=http://localhost:1337/external-iframe.html",
+    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true storybook dev -p 9011 -c ../official-storybook --no-manager-cache --preview-url=http://localhost:1337/external-iframe.html",
     "storybook-preview": "cross-env PREVIEW_URL=external-iframe.html parcel ./storybook.html --port 1337"
   },
   "devDependencies": {
@@ -15,6 +15,6 @@
     "parcel": "2.0.1",
     "react": "16.14.0",
     "react-dom": "16.14.0",
-    "sb": "7.0.0-alpha.2"
+    "storybook": "7.0.0-alpha.2"
   }
 }
