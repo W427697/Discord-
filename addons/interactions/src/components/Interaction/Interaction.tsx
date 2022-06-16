@@ -15,19 +15,45 @@ const MethodCallWrapper = styled.div(() => ({
   inlineSize: 'calc( 100% - 40px )',
 }));
 
-const RowContainer = styled('div', { shouldForwardProp: (prop) => !['call'].includes(prop) })<{
-  call: Call;
-}>(({ theme, call }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  borderBottom: `1px solid ${theme.appBorderColor}`,
-  fontFamily: typography.fonts.base,
-  fontSize: 13,
-  ...(call.status === CallStates.ERROR && {
-    backgroundColor:
-      theme.base === 'dark' ? transparentize(0.93, theme.color.negative) : theme.background.warning,
+const RowContainer = styled('div', {
+  shouldForwardProp: (prop) => !['call', 'pausedAt'].includes(prop),
+})<{ call: Call; pausedAt: Call['id'] }>(
+  ({ theme, call }) => ({
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    borderBottom: `1px solid ${theme.appBorderColor}`,
+    fontFamily: typography.fonts.base,
+    fontSize: 13,
+    ...(call.status === CallStates.ERROR && {
+      backgroundColor:
+        theme.base === 'dark'
+          ? transparentize(0.93, theme.color.negative)
+          : theme.background.warning,
+    }),
+    paddingLeft: call.parentId ? 20 : 0,
   }),
-}));
+  ({ theme, call, pausedAt }) =>
+    pausedAt === call.id && {
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        top: -5,
+        zIndex: 1,
+        borderTop: '4.5px solid transparent',
+        borderLeft: `7px solid ${theme.color.warning}`,
+        borderBottom: '4.5px solid transparent',
+      },
+      '&::after': {
+        content: '""',
+        position: 'absolute',
+        top: -1,
+        zIndex: 1,
+        width: '100%',
+        borderTop: `1.5px solid ${theme.color.warning}`,
+      },
+    }
+);
 
 const RowLabel = styled('button', { shouldForwardProp: (prop) => !['call'].includes(prop) })<
   React.ButtonHTMLAttributes<HTMLButtonElement> & { call: Call }
@@ -55,30 +81,52 @@ const RowLabel = styled('button', { shouldForwardProp: (prop) => !['call'].inclu
   },
 }));
 
-const RowMessage = styled('pre')({
-  margin: 0,
-  padding: '8px 10px 8px 30px',
+const RowMessage = styled('div')(({ theme }) => ({
+  padding: '8px 10px 8px 36px',
   fontSize: typography.size.s1,
-});
+  pre: {
+    margin: 0,
+    padding: 0,
+  },
+  p: {
+    color: theme.color.dark,
+  },
+}));
+
+const Exception = ({ exception }: { exception: Call['exception'] }) => {
+  if (exception.message.startsWith('expect(')) {
+    return <MatcherResult {...exception} />;
+  }
+  const paragraphs = exception.message.split('\n\n');
+  const more = paragraphs.length > 1;
+  return (
+    <RowMessage>
+      <pre>{paragraphs[0]}</pre>
+      {more && <p>See the full stack trace in the browser console.</p>}
+    </RowMessage>
+  );
+};
 
 export const Interaction = ({
   call,
   callsById,
   controls,
   controlStates,
+  pausedAt,
 }: {
   call: Call;
   callsById: Map<Call['id'], Call>;
   controls: Controls;
   controlStates: ControlStates;
+  pausedAt?: Call['id'];
 }) => {
   const [isHovered, setIsHovered] = React.useState(false);
   return (
-    <RowContainer call={call}>
+    <RowContainer call={call} pausedAt={pausedAt}>
       <RowLabel
         call={call}
         onClick={() => controls.goto(call.id)}
-        disabled={!controlStates.goto}
+        disabled={!controlStates.goto || !call.interceptable || !!call.parentId}
         onMouseEnter={() => controlStates.goto && setIsHovered(true)}
         onMouseLeave={() => controlStates.goto && setIsHovered(false)}
       >
@@ -87,13 +135,9 @@ export const Interaction = ({
           <MethodCall call={call} callsById={callsById} />
         </MethodCallWrapper>
       </RowLabel>
-      {call.status === CallStates.ERROR &&
-        call.exception &&
-        (call.exception.message.startsWith('expect(') ? (
-          <MatcherResult {...call.exception} />
-        ) : (
-          <RowMessage>{call.exception.message}</RowMessage>
-        ))}
+      {call.status === CallStates.ERROR && call.exception?.callId === call.id && (
+        <Exception exception={call.exception} />
+      )}
     </RowContainer>
   );
 };

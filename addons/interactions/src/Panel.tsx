@@ -32,6 +32,7 @@ interface InteractionsPanelProps {
   fileName?: string;
   hasException?: boolean;
   isPlaying?: boolean;
+  pausedAt?: Call['id'];
   calls: Map<string, any>;
   endRef?: React.Ref<HTMLDivElement>;
   onScrollToEnd?: () => void;
@@ -66,6 +67,7 @@ export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
     fileName,
     hasException,
     isPlaying,
+    pausedAt,
     onScrollToEnd,
     endRef,
     isRerunAnimating,
@@ -87,15 +89,18 @@ export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
           setIsRerunAnimating={setIsRerunAnimating}
         />
       )}
-      {interactions.map((call) => (
-        <Interaction
-          key={call.id}
-          call={call}
-          callsById={calls}
-          controls={controls}
-          controlStates={controlStates}
-        />
-      ))}
+      <div>
+        {interactions.map((call) => (
+          <Interaction
+            key={call.id}
+            call={call}
+            callsById={calls}
+            controls={controls}
+            controlStates={controlStates}
+            pausedAt={pausedAt}
+          />
+        ))}
+      </div>
       <div ref={endRef} />
       {!isPlaying && interactions.length === 0 && (
         <Placeholder>
@@ -116,6 +121,7 @@ export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
 export const Panel: React.FC<AddonPanelProps> = (props) => {
   const [storyId, setStoryId] = React.useState<StoryId>();
   const [controlStates, setControlStates] = React.useState<ControlStates>(INITIAL_CONTROL_STATES);
+  const [pausedAt, setPausedAt] = React.useState<Call['id']>();
   const [isPlaying, setPlaying] = React.useState(false);
   const [isRerunAnimating, setIsRerunAnimating] = React.useState(false);
   const [scrollTarget, setScrollTarget] = React.useState<HTMLElement>();
@@ -146,10 +152,12 @@ export const Panel: React.FC<AddonPanelProps> = (props) => {
       [EVENTS.SYNC]: (payload) => {
         setControlStates(payload.controlStates);
         setLog(payload.logItems);
+        setPausedAt(payload.pausedAt);
       },
       [STORY_RENDER_PHASE_CHANGED]: (event) => {
         setStoryId(event.storyId);
         setPlaying(event.newPhase === 'playing');
+        setPausedAt(undefined);
       },
     },
     []
@@ -191,6 +199,7 @@ export const Panel: React.FC<AddonPanelProps> = (props) => {
         fileName={fileName}
         hasException={hasException}
         isPlaying={isPlaying}
+        pausedAt={pausedAt}
         endRef={endRef}
         onScrollToEnd={scrollTarget && scrollToTarget}
         isRerunAnimating={isRerunAnimating}
