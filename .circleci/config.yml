@@ -192,7 +192,7 @@ jobs:
     executor:
       class: large
       name: sb_cypress_8_node_14
-    parallelism: 9
+    parallelism: 8
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -209,7 +209,7 @@ jobs:
           name: Run E2E (core) tests
           # Do not test CRA here because it's done in PnP part
           # TODO: Remove `web_components_typescript` as soon as Lit 2 stable is released
-          command: yarn test:e2e-framework vue3 angular130 angular13 angular12 web_components_typescript web_components_lit2 react react_legacy_root_api vite_react
+          command: yarn test:e2e-framework vue3 angular130 angular13 angular12 web_components_typescript web_components_lit2 react react_legacy_root_api
           no_output_timeout: 5m
       - run:
           name: prep artifacts
@@ -253,6 +253,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: install playright
+          command: npx playwright install
+      - run:
           name: Running local registry
           command: yarn local-registry --port 6000 --open
           background: true
@@ -260,12 +263,13 @@ jobs:
           name: Wait for registry
           command: yarn wait-on http://localhost:6000
       - run:
-          name: Run @storybook/bench on a CRA project
+          name: set up cra repro, skip tests
+          command: node ./lib/cli/bin/index.js repro -t cra --e2e ../cra-bench
+      - run:
+          name: Run @storybook/bench on repro
           command: |
-            cd ..
-            npx create-react-app cra-bench
-            cd cra-bench
-            npx @storybook/bench@latest 'npx sb init' --label cra
+            cd ../cra-bench
+            npx @storybook/bench@0.8.0--canary.11.edeef38.0 'echo noop' --label cra
   e2e-tests-pnp:
     executor:
       class: medium
@@ -274,32 +278,31 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
-      # TODO: we disabled this one because it keeps failing, we should fix it, and enable it again!
-      # - attach_workspace:
-      #     at: .
-      # - run:
-      #     name: Running local registry
-      #     command: yarn local-registry --port 6000 --open
-      #     background: true
-      # - run:
-      #     name: Wait for registry
-      #     command: yarn wait-on http://localhost:6000
-      # - run:
-      #     name: run e2e tests cra
-      #     command: yarn test:e2e-framework --pnp cra
+      - attach_workspace:
+          at: .
+      - run:
+          name: Running local registry
+          command: yarn local-registry --port 6000 --open
+          background: true
+      - run:
+          name: Wait for registry
+          command: yarn wait-on http://localhost:6000
+      - run:
+          name: run e2e tests cra
+          command: yarn test:e2e-framework --pnp cra
       # - run:
       #     name: run e2e tests vue
       #     command: yarn test:e2e-framework --pnp sfcVue
-      # - run:
-      #     name: prep artifacts
-      #     when: always
-      #     command: zip -r /tmp/storybook-e2e-testing-out.zip /tmp/storybook-e2e-testing
-      # - store_artifacts:
-      #     path: /tmp/cypress-record
-      #     destination: cypress
-      # - store_artifacts:
-      #     path: /tmp/storybook-e2e-testing-out.zip
-      #     destination: e2e
+      - run:
+          name: prep artifacts
+          when: always
+          command: zip -r /tmp/storybook-e2e-testing-out.zip /tmp/storybook-e2e-testing
+      - store_artifacts:
+          path: /tmp/cypress-record
+          destination: cypress
+      - store_artifacts:
+          path: /tmp/storybook-e2e-testing-out.zip
+          destination: e2e
   e2e-tests-examples:
     executor:
       class: small

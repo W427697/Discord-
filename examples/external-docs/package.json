@@ -1,14 +1,14 @@
 {
   "name": "@storybook/external-docs",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.2",
   "private": true,
   "scripts": {
     "build": "next build",
-    "build-storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb build -c .storybook",
+    "build-storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true storybook build -c .storybook",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
-    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb dev -p 9011 --no-manager-cache -c .storybook"
+    "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true storybook dev -p 9011 --no-manager-cache -c .storybook"
   },
   "dependencies": {
     "@storybook/addon-docs": "7.0.0-alpha.1",
@@ -37,7 +37,7 @@
     "cross-env": "^7.0.3",
     "eslint": "8.7.0",
     "eslint-config-next": "12.0.8",
-    "sb": "7.0.0-alpha.1",
+    "storybook": "7.0.0-alpha.1",
     "typescript": "~4.6.3",
     "webpack": "5"
   }

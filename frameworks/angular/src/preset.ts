@@ -1,4 +1,5 @@
-import type { StorybookConfig } from '@storybook/core-common';
+import path from 'path';
+import { StorybookConfig } from './types';
 
 export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entries = []) => [
   ...entries,
@@ -15,6 +16,17 @@ export const addons: StorybookConfig['addons'] = [
 export const core = async (config: StorybookConfig['core']) => {
   return {
     ...config,
-    builder: require.resolve('@storybook/builder-webpack5'),
+    builder: path.dirname(
+      require.resolve(path.join('@storybook/builder-webpack5', 'package.json'))
+    ),
+  };
+};
+
+export const typescript = async (
+  config: StorybookConfig['typescript']
+): Promise<StorybookConfig['typescript']> => {
+  return {
+    ...config,
+    skipBabel: true,
   };
 };

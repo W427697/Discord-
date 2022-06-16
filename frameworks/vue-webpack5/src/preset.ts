@@ -11,3 +11,12 @@ export const core = async (config: StorybookConfig['core']) => {
     builder: require.resolve('@storybook/builder-webpack5'),
   };
 };
+
+export const typescript = async (
+  config: StorybookConfig['typescript']
+): Promise<StorybookConfig['typescript']> => {
+  return {
+    ...config,
+    skipBabel: true,
+  };
+};

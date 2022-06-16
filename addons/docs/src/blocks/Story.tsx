@@ -90,14 +90,6 @@ export const getStoryProps = <TFramework extends AnyFramework>(
   };
 };
 
-function makeGate(): [Promise<void>, () => void] {
-  let open;
-  const gate = new Promise<void>((r) => {
-    open = r;
-  });
-  return [gate, open];
-}
-
 const Story: FunctionComponent<StoryProps> = (props) => {
   const context = useContext(DocsContext);
   const storyRef = useRef();
