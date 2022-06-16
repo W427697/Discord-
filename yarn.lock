@@ -3754,18 +3754,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/types@npm:^25.5.0":
-  version: 25.5.0
-  resolution: "@jest/types@npm:25.5.0"
-  dependencies:
-    "@types/istanbul-lib-coverage": ^2.0.0
-    "@types/istanbul-reports": ^1.1.1
-    "@types/yargs": ^15.0.0
-    chalk: ^3.0.0
-  checksum: f47c6e98c99d3fd562f2be6c339f41d3c7092e9587b8524fe71411f9c8b8e71f50475278a10e534f56c729ccd3e3b55e3aa20e4b0a2c5c47ded1ba53e0aef286
-  languageName: node
-  linkType: hard
-
 "@jest/types@npm:^26.6.2":
   version: 26.6.2
   resolution: "@jest/types@npm:26.6.2"
@@ -6270,7 +6258,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.1, @pmmmwh/react-refresh-webpack-plugin@npm:^0.5.3, @pmmmwh/react-refresh-webpack-plugin@npm:^0.5.5":
+"@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.3, @pmmmwh/react-refresh-webpack-plugin@npm:^0.5.5":
   version: 0.5.7
   resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.5.7"
   dependencies:
@@ -8254,25 +8242,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preset-create-react-app@npm:^4.1.0":
-  version: 4.1.1
-  resolution: "@storybook/preset-create-react-app@npm:4.1.1"
-  dependencies:
-    "@pmmmwh/react-refresh-webpack-plugin": ^0.5.1
-    "@storybook/react-docgen-typescript-plugin": canary
-    "@types/babel__core": ^7.1.7
-    babel-plugin-react-docgen: ^4.1.0
-    pnp-webpack-plugin: ^1.7.0
-    semver: ^7.3.5
-  peerDependencies:
-    "@babel/core": "*"
-    "@storybook/node-logger": "*"
-    "@storybook/react": ">=5.2"
-    react-scripts: ">=5.0.0"
-  checksum: fb4af8023f5e9a995b08375f7b0eee1c989da62dc2a5c94cbcef7c6490807743eb9778ab875f556a9a9093a27f7c4526b7a5ed97175443527006103543b72456
-  languageName: node
-  linkType: hard
-
 "@storybook/preset-html-webpack@7.0.0-alpha.2, @storybook/preset-html-webpack@workspace:*, @storybook/preset-html-webpack@workspace:presets/html-webpack":
   version: 0.0.0-use.local
   resolution: "@storybook/preset-html-webpack@workspace:presets/html-webpack"
@@ -8497,7 +8466,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/react-docgen-typescript-plugin@npm:1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0, @storybook/react-docgen-typescript-plugin@npm:canary":
+"@storybook/react-docgen-typescript-plugin@npm:1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0":
   version: 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
   resolution: "@storybook/react-docgen-typescript-plugin@npm:1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0"
   dependencies:
@@ -10278,16 +10247,6 @@ __metadata:
     jest-matcher-utils: ^27.0.0
     pretty-format: ^27.0.0
   checksum: 30e09ffa2137f5f5b12c57fbcf9fdece1e980dae5677ffbda1f960b970b7cc9d84ac8aae9172b257ff39f5089124b2b5f4bb38234ce352d9c050b90e94b0e46c
-  languageName: node
-  linkType: hard
-
-"@types/jest@npm:25.2.3":
-  version: 25.2.3
-  resolution: "@types/jest@npm:25.2.3"
-  dependencies:
-    jest-diff: ^25.2.1
-    pretty-format: ^25.2.1
-  checksum: 50ab803a1b861e6b0638eb59a3f516a4fa4f982ab5d6c4135c617c285bab9064ed81950c994ff99fd360c77d0adb71d0d85dd02ac264af72af214c922937db1f
   languageName: node
   linkType: hard
 
@@ -13702,7 +13661,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-react-docgen@npm:^4.1.0, babel-plugin-react-docgen@npm:^4.2.1":
+"babel-plugin-react-docgen@npm:^4.2.1":
   version: 4.2.1
   resolution: "babel-plugin-react-docgen@npm:4.2.1"
   dependencies:
@@ -16954,40 +16913,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cra-ts-kitchen-sink@workspace:examples/cra-ts-kitchen-sink":
-  version: 0.0.0-use.local
-  resolution: "cra-ts-kitchen-sink@workspace:examples/cra-ts-kitchen-sink"
-  dependencies:
-    "@storybook/addon-a11y": 7.0.0-alpha.2
-    "@storybook/addon-actions": 7.0.0-alpha.2
-    "@storybook/addon-docs": 7.0.0-alpha.2
-    "@storybook/addon-links": 7.0.0-alpha.2
-    "@storybook/addons": 7.0.0-alpha.2
-    "@storybook/builder-webpack5": 7.0.0-alpha.2
-    "@storybook/preset-create-react-app": ^4.1.0
-    "@storybook/react": 7.0.0-alpha.2
-    "@storybook/react-webpack5": 7.0.0-alpha.2
-    "@types/enzyme": ^3.10.8
-    "@types/jest": 25.2.3
-    "@types/node": ^14.14.20 || ^16.0.0
-    "@types/react": ^16.14.23
-    "@types/react-dom": ^16.9.14
-    enzyme: ^3.11.0
-    enzyme-adapter-react-16: ^1.9.1
-    enzyme-to-json: ^3.6.1
-    fork-ts-checker-webpack-plugin: ^7.2.6
-    prop-types: ^15.7.2
-    react: 16.14.0
-    react-dom: 16.14.0
-    react-moment-proptypes: ^1.7.0
-    react-scripts: ^5.0.1
-    storybook: 7.0.0-alpha.2
-    ts-node: ^10.4.0
-    typescript: ~4.6.3
-    webpack: 5
-  languageName: unknown
-  linkType: soft
-
 "create-require@npm:^1.1.0":
   version: 1.1.1
   resolution: "create-require@npm:1.1.1"
@@ -18316,13 +18241,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"diff-sequences@npm:^25.2.6":
-  version: 25.2.6
-  resolution: "diff-sequences@npm:25.2.6"
-  checksum: 7760d381e49a244d07a575a4ad89df8c044a4a2f11b5a88846e5c0a0a92cab593f77a8c8dd8223a879172040bbf2bc375572ee62f819fd440991a71487340574
-  languageName: node
-  linkType: hard
-
 "diff-sequences@npm:^26.6.2":
   version: 26.6.2
   resolution: "diff-sequences@npm:26.6.2"
@@ -19592,7 +19510,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"enzyme-adapter-react-16@npm:^1.15.5, enzyme-adapter-react-16@npm:^1.9.1":
+"enzyme-adapter-react-16@npm:^1.15.5":
   version: 1.15.6
   resolution: "enzyme-adapter-react-16@npm:1.15.6"
   dependencies:
@@ -26316,18 +26234,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-diff@npm:^25.2.1":
-  version: 25.5.0
-  resolution: "jest-diff@npm:25.5.0"
-  dependencies:
-    chalk: ^3.0.0
-    diff-sequences: ^25.2.6
-    jest-get-type: ^25.2.6
-    pretty-format: ^25.5.0
-  checksum: 1bdfd1791982d732be93419387a3092e044f89a5985b8d25972276ec37413916f2f4f0c1c3f3720a5316d840970c70b06a675464717877373f267059238639d6
-  languageName: node
-  linkType: hard
-
 "jest-diff@npm:^26.0.0, jest-diff@npm:^26.6.2":
   version: 26.6.2
   resolution: "jest-diff@npm:26.6.2"
@@ -26519,13 +26425,6 @@ __metadata:
     enzyme: ">=3.4.0"
     jest: ">=22.0.0"
   checksum: a27a393addf4bbe12166c46d392b0bc7d6f0a0fa9f59e5d34ca2ae5ca671f725a72c1f4a633535a53dfe0878cc9c8c591be8d52dd66998d9e87a6ab4b8a92561
-  languageName: node
-  linkType: hard
-
-"jest-get-type@npm:^25.2.6":
-  version: 25.2.6
-  resolution: "jest-get-type@npm:25.2.6"
-  checksum: f113f7698959d808075f5da173d14f3fbb4abbaca1e0923dbec2b905c112114042f3afdd3b927592f738954ae4191b6e8df5fe749790f8fa29165bf76b2cb106
   languageName: node
   linkType: hard
 
@@ -31065,7 +30964,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment@npm:>=1.6.0, moment@npm:^2.19.3":
+"moment@npm:^2.19.3":
   version: 2.29.3
   resolution: "moment@npm:2.29.3"
   checksum: 2395b566a5e9ab88ea75c26ef4c72bc3aec801bfa46904ea237b67e824a7abcb0d52a79dfb83d402772b67d8c8cfe7853ebd864066c39f82bfa195a560c0e4b8
@@ -33572,15 +33471,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pnp-webpack-plugin@npm:^1.7.0":
-  version: 1.7.0
-  resolution: "pnp-webpack-plugin@npm:1.7.0"
-  dependencies:
-    ts-pnp: ^1.1.6
-  checksum: 79d1973ec0b04be6d44f15d5625991701a010dae28f2798d974d3aa164e8c60dc7fa22fd01a47fb6af369c4ba6585c3030d4deb775ccfecd7156594bc223d086
-  languageName: node
-  linkType: hard
-
 "polished@npm:^3.6.4":
   version: 3.7.2
   resolution: "polished@npm:3.7.2"
@@ -34791,18 +34681,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pretty-format@npm:^25.2.1, pretty-format@npm:^25.5.0":
-  version: 25.5.0
-  resolution: "pretty-format@npm:25.5.0"
-  dependencies:
-    "@jest/types": ^25.5.0
-    ansi-regex: ^5.0.0
-    ansi-styles: ^4.0.0
-    react-is: ^16.12.0
-  checksum: cbcf79f57a96f5eb9970722614a360539940606a20a924f6202e309433af4ad5b71ba210b6b3efcdcdad178f9aefa74f04a447d86520d721fbe155ff43b33112
-  languageName: node
-  linkType: hard
-
 "pretty-format@npm:^27.0.0, pretty-format@npm:^27.0.2, pretty-format@npm:^27.5.1":
   version: 27.5.1
   resolution: "pretty-format@npm:27.5.1"
@@ -35900,17 +35778,6 @@ __metadata:
     react: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18
     react-dom: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18
   checksum: 90711c29557b9b5b13728ef65d586929c9ca2f3e3b6875d688a5ac2ed4bd3227e1ec136778b9c8236989730f942915d97c7b47f26ef1c101345bfd41197781aa
-  languageName: node
-  linkType: hard
-
-"react-moment-proptypes@npm:^1.7.0":
-  version: 1.8.1
-  resolution: "react-moment-proptypes@npm:1.8.1"
-  dependencies:
-    moment: ">=1.6.0"
-  peerDependencies:
-    moment: ">=1.6.0"
-  checksum: eb4b8234954f713864a41f27d349288433768caa46810e39e94c97893996efe54ad8f9677bb570323b0238936785d78f2b1791ccf6fa57bb5dad91e291df7ab2
   languageName: node
   linkType: hard
 
@@ -41439,16 +41306,6 @@ __metadata:
     ts-node-transpile-only: dist/bin-transpile.js
     ts-script: dist/bin-script-deprecated.js
   checksum: eae7b541ecc99e07bd78fd977fe4be4f253d0a53fbb2ca234e7db8647b563ea71d5e2244418ff2730c184279bf1003c468b2489f3a75dca54e99cdfabafb46b3
-  languageName: node
-  linkType: hard
-
-"ts-pnp@npm:^1.1.6":
-  version: 1.2.0
-  resolution: "ts-pnp@npm:1.2.0"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: ff32b4f810f9d99f676d70fe2c0e327cb6c812214bd4fc7135870b039f9e85a85b2c20f8fe030d9bd36e9598a12faa391f10aecb95df624b92f1af6bd47dc397
   languageName: node
   linkType: hard
 

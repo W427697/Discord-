@@ -50,6 +50,7 @@
       "!examples/angular-cli",
       "!examples/cra-kitchen-sink",
       "!examples/cra-ts-essentials",
+      "!examples/cra-ts-kitchen-sink",
       "!examples/preact-kitchen-sink",
       "lib/*",
       "lib/cli/test/run/*"
