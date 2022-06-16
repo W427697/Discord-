@@ -7891,7 +7891,6 @@ __metadata:
     "@storybook/react": 6.5.0-rc.1
     "@types/react": ^16.14.23
     "@types/react-dom": ^16.9.14
-    cross-env: ^7.0.3
     prop-types: 15.7.2
     react: 16.14.0
     react-dom: 16.14.0
