@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.2",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -33,12 +33,12 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.1",
-    "@storybook/client-logger": "7.0.0-alpha.1",
-    "@storybook/core-client": "7.0.0-alpha.1",
+    "@storybook/addons": "7.0.0-alpha.2",
+    "@storybook/client-logger": "7.0.0-alpha.2",
+    "@storybook/core-client": "7.0.0-alpha.2",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/docs-tools": "7.0.0-alpha.1",
-    "@storybook/store": "7.0.0-alpha.1",
+    "@storybook/docs-tools": "7.0.0-alpha.2",
+    "@storybook/store": "7.0.0-alpha.2",
     "@types/estree": "^0.0.51",
     "@types/node": "^14.14.20 || ^16.0.0",
     "acorn": "^7.4.1",
@@ -76,5 +76,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
+  "gitHead": "44920e2b6bd51981bac5124743c29fb9f5517e44"
 }
