@@ -272,7 +272,11 @@ export const ClassNode = ({ name }: { name: string }) => {
 
 export const FunctionNode = ({ name }: { name: string }) => {
   const colors = useThemeColors();
-  return <span style={{ color: colors.function }}>{name || <i>anonymous</i>}</span>;
+  return name ? (
+    <span style={{ color: colors.function }}>{name}</span>
+  ) : (
+    <span style={{ color: colors.nullish, fontStyle: 'italic' }}>anonymous</span>
+  );
 };
 
 export const ElementNode = ({
