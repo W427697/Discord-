@@ -49,6 +49,7 @@
       "!examples/web-components-kitchen-sink",
       "!examples/angular-cli",
       "!examples/cra-kitchen-sink",
+      "!examples/cra-ts-essentials",
       "!examples/preact-kitchen-sink",
       "lib/*",
       "lib/cli/test/run/*"

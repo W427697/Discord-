@@ -26,6 +26,7 @@ const mainConfig: StorybookConfig = {
   core: {
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
+    disableProjectJson: true,
   },
   staticDirs: ['../public'],
   features: {
