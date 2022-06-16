@@ -1,6 +1,7 @@
 import path from 'path';
-import { toRequireContext } from '../to-require-context';
-import { normalizeStoriesEntry } from '../normalize-stories';
+import { normalizeStoriesEntry } from '@storybook/core-common';
+
+import { toRequireContext } from './to-require-context';
 
 const testCases = [
   {

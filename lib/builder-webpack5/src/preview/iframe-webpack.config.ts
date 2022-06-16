@@ -11,15 +11,14 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 import type { Options, CoreConfig, Webpack5BuilderConfig } from '@storybook/core-common';
 import {
-  toRequireContextString,
   stringifyProcessEnvs,
   handlebars,
   interpolate,
-  toImportFn,
   normalizeStories,
   readTemplate,
   loadPreviewOrConfigFile,
 } from '@storybook/core-common';
+import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
 import type { TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 

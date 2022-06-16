@@ -1,5 +1,6 @@
-import { webpackIncludeRegexp } from '../to-importFn';
-import { normalizeStoriesEntry } from '../normalize-stories';
+import { normalizeStoriesEntry } from '@storybook/core-common';
+
+import { webpackIncludeRegexp } from './to-importFn';
 
 const testCases: [string, string[], string[]][] = [
   [

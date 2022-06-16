@@ -1,8 +1,8 @@
 import dedent from 'ts-dedent';
+import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
+import { globToRegexp } from '@storybook/core-common';
 
-import type { NormalizedStoriesSpecifier } from '../types';
-import { globToRegexp } from './glob-to-regexp';
-import { importPipeline } from '../importPipeline';
+import { importPipeline } from './importPipeline';
 
 export function webpackIncludeRegexp(specifier: NormalizedStoriesSpecifier) {
   const { directory, files } = specifier;
