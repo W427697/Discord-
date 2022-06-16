@@ -31,8 +31,8 @@ interface InteractionsPanelProps {
   interactions: (Call & {
     status?: CallStates;
     childCallIds: Call['id'][];
-    isExpanded: boolean;
-    toggleExpanded: () => void;
+    isCollapsed: boolean;
+    toggleCollapsed: () => void;
   })[];
   fileName?: string;
   hasException?: boolean;
@@ -103,8 +103,8 @@ export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
             controls={controls}
             controlStates={controlStates}
             childCallIds={call.childCallIds}
-            isExpanded={call.isExpanded}
-            toggleExpanded={call.toggleExpanded}
+            isCollapsed={call.isCollapsed}
+            toggleCollapsed={call.toggleCollapsed}
             pausedAt={pausedAt}
           />
         ))}
@@ -133,7 +133,7 @@ export const Panel: React.FC<AddonPanelProps> = (props) => {
   const [isPlaying, setPlaying] = React.useState(false);
   const [isRerunAnimating, setIsRerunAnimating] = React.useState(false);
   const [scrollTarget, setScrollTarget] = React.useState<HTMLElement>();
-  const [expanded, setExpanded] = React.useState<Set<Call['id']>>(new Set());
+  const [collapsed, setCollapsed] = React.useState<Set<Call['id']>>(new Set());
 
   // Calls are tracked in a ref so we don't needlessly rerender.
   const calls = React.useRef<Map<Call['id'], Omit<Call, 'status'>>>(new Map());
@@ -145,15 +145,15 @@ export const Panel: React.FC<AddonPanelProps> = (props) => {
     .filter((call) => {
       if (!call.parentId) return true;
       childCallMap.set(call.parentId, (childCallMap.get(call.parentId) || []).concat(call.callId));
-      return expanded.has(call.parentId);
+      return !collapsed.has(call.parentId);
     })
     .map(({ callId, status }) => ({
       ...calls.current.get(callId),
       status,
       childCallIds: childCallMap.get(callId),
-      isExpanded: expanded.has(callId),
-      toggleExpanded: () =>
-        setExpanded((ids) => {
+      isCollapsed: collapsed.has(callId),
+      toggleCollapsed: () =>
+        setCollapsed((ids) => {
           if (ids.has(callId)) ids.delete(callId);
           else ids.add(callId);
           return new Set(ids);
