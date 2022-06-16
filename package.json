@@ -48,6 +48,8 @@
       "examples/*",
       "!examples/web-components-kitchen-sink",
       "!examples/angular-cli",
+      "!examples/cra-kitchen-sink",
+      "!examples/preact-kitchen-sink",
       "lib/*",
       "lib/cli/test/run/*"
     ]
