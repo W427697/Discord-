@@ -1,3 +1,19 @@
+## 7.0.0-alpha.3 (June 17, 2022)
+
+### Features
+
+- Interactions: Collapse child interactions ([#18484](https://github.com/storybookjs/storybook/pull/18484))
+
+### Bug Fixes
+
+- Interactions: Fix `waitFor` behavior while debugging ([#18460](https://github.com/storybookjs/storybook/pull/18460))
+- UI: Fix display skip to sidebar button ([#18479](https://github.com/storybookjs/storybook/pull/18479))
+
+### Maintenance
+
+- CLI: Use `storybook` instead of `sb` ([#18430](https://github.com/storybookjs/storybook/pull/18430))
+- Components: Re-bundle the syntax highlighter ([#18425](https://github.com/storybookjs/storybook/pull/18425))
+
 ## 7.0.0-alpha.2 (June 15, 2022)
 
 ### Features
