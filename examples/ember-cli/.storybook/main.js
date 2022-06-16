@@ -40,6 +40,7 @@ module.exports = {
   core: {
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
+    disableProjectJson: true,
   },
   staticDirs: ['../ember-output'],
   features: {
