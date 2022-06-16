@@ -27,6 +27,7 @@ export function renderToDOM(
     }
     const renderTo = domElement.querySelector('[id="root-inner"]');
 
+    // !
     render(element, renderTo);
     simulatePageLoad(domElement);
   } else if (typeof element === 'string') {
