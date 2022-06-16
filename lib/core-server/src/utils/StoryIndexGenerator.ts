@@ -109,7 +109,7 @@ export class StoryIndexGenerator {
   }
 
   isDocsMdx(absolutePath: Path) {
-    return /\.docs\.mdx$/i.test(absolutePath);
+    return /(?<!\.stories)\.mdx$/i.test(absolutePath);
   }
 
   async ensureExtracted(): Promise<IndexEntry[]> {

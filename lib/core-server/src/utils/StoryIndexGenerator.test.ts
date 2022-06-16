@@ -181,7 +181,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
         const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/**/*.docs.mdx',
+          './src/**/*.mdx',
           options
         );
 
@@ -193,7 +193,7 @@ describe('StoryIndexGenerator', () => {
             "entries": Object {
               "a--docs": Object {
                 "id": "a--docs",
-                "importPath": "./src/docs2/MetaOf.docs.mdx",
+                "importPath": "./src/docs2/MetaOf.mdx",
                 "name": "docs",
                 "storiesImports": Array [
                   "./src/A.stories.js",
@@ -210,7 +210,7 @@ describe('StoryIndexGenerator', () => {
               },
               "docs2-notitle--docs": Object {
                 "id": "docs2-notitle--docs",
-                "importPath": "./src/docs2/NoTitle.docs.mdx",
+                "importPath": "./src/docs2/NoTitle.mdx",
                 "name": "docs",
                 "storiesImports": Array [],
                 "title": "docs2/NoTitle",
@@ -218,7 +218,7 @@ describe('StoryIndexGenerator', () => {
               },
               "docs2-yabbadabbadooo--docs": Object {
                 "id": "docs2-yabbadabbadooo--docs",
-                "importPath": "./src/docs2/Title.docs.mdx",
+                "importPath": "./src/docs2/Title.mdx",
                 "name": "docs",
                 "storiesImports": Array [],
                 "title": "docs2/Yabbadabbadooo",
@@ -232,13 +232,13 @@ describe('StoryIndexGenerator', () => {
 
       it('errors when docs dependencies are missing', async () => {
         const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/**/MetaOf.docs.mdx',
+          './src/**/MetaOf.mdx',
           options
         );
 
         const generator = new StoryIndexGenerator([docsSpecifier], options);
         await expect(() => generator.initialize()).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Could not find \\"../A.stories\\" for docs file \\"src/docs2/MetaOf.docs.mdx\\"."`
+          `"Could not find \\"../A.stories\\" for docs file \\"src/docs2/MetaOf.mdx\\"."`
         );
       });
     });
@@ -251,7 +251,7 @@ describe('StoryIndexGenerator', () => {
         options
       );
       const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-        './src/**/*.docs.mdx',
+        './src/**/*.mdx',
         options
       );
 
@@ -303,7 +303,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
         const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/**/*.docs.mdx',
+          './src/**/*.mdx',
           options
         );
 
@@ -362,7 +362,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
         const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/**/*.docs.mdx',
+          './src/**/*.mdx',
           options
         );
 
@@ -371,7 +371,7 @@ describe('StoryIndexGenerator', () => {
         await generator.getIndex();
         expect(toId).toHaveBeenCalledTimes(4);
 
-        generator.invalidate(docsSpecifier, './src/docs2/Title.docs.mdx', false);
+        generator.invalidate(docsSpecifier, './src/docs2/Title.mdx', false);
 
         toIdMock.mockClear();
         await generator.getIndex();
@@ -384,7 +384,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
         const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/**/*.docs.mdx',
+          './src/**/*.mdx',
           options
         );
 
@@ -484,7 +484,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
         const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/**/*.docs.mdx',
+          './src/**/*.mdx',
           options
         );
 
@@ -495,7 +495,7 @@ describe('StoryIndexGenerator', () => {
 
         expect(Object.keys((await generator.getIndex()).entries)).toContain('docs2-notitle--docs');
 
-        generator.invalidate(docsSpecifier, './src/docs2/NoTitle.docs.mdx', true);
+        generator.invalidate(docsSpecifier, './src/docs2/NoTitle.mdx', true);
 
         expect(Object.keys((await generator.getIndex()).entries)).not.toContain(
           'docs2-notitle--docs'
@@ -508,7 +508,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
         const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/**/*.docs.mdx',
+          './src/**/*.mdx',
           options
         );
 
@@ -522,7 +522,7 @@ describe('StoryIndexGenerator', () => {
         generator.invalidate(storiesSpecifier, './src/A.stories.js', true);
 
         await expect(() => generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Could not find \\"../A.stories\\" for docs file \\"src/docs2/MetaOf.docs.mdx\\"."`
+          `"Could not find \\"../A.stories\\" for docs file \\"src/docs2/MetaOf.mdx\\"."`
         );
       });
 
@@ -532,7 +532,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
         const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/**/*.docs.mdx',
+          './src/**/*.mdx',
           options
         );
 
@@ -543,7 +543,7 @@ describe('StoryIndexGenerator', () => {
 
         expect(Object.keys((await generator.getIndex()).entries)).toContain('a--docs');
 
-        generator.invalidate(docsSpecifier, './src/docs2/MetaOf.docs.mdx', true);
+        generator.invalidate(docsSpecifier, './src/docs2/MetaOf.mdx', true);
 
         expect(Object.keys((await generator.getIndex()).entries)).not.toContain('a--docs');
 

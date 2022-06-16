@@ -40,7 +40,7 @@ export const importFn = jest.fn(
       './src/ComponentOne.stories.js': componentOneExports,
       './src/ComponentTwo.stories.js': componentTwoExports,
       './src/Legacy.stories.mdx': legacyDocsExports,
-      './src/Introduction.docs.mdx': modernDocsExports,
+      './src/Introduction.mdx': modernDocsExports,
     }[path])
 );
 
@@ -87,7 +87,7 @@ export const storyIndex: StoryIndex = {
       id: 'introduction--docs',
       title: 'Introduction',
       name: 'Docs',
-      importPath: './src/Introduction.docs.mdx',
+      importPath: './src/Introduction.mdx',
       storiesImports: ['./src/ComponentTwo.stories.js'],
     },
     'legacy--docs': {

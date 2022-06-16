@@ -1100,7 +1100,7 @@ describe('PreviewWeb', () => {
 
       importFn.mockClear();
       await preview.onPreloadStories(['introduction--docs']);
-      expect(importFn).toHaveBeenCalledWith('./src/Introduction.docs.mdx');
+      expect(importFn).toHaveBeenCalledWith('./src/Introduction.mdx');
     });
     it('loads imports of modern docs entries', async () => {
       document.location.search = '?id=component-one--a&viewMode=docs';
