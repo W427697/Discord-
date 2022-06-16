@@ -25,9 +25,8 @@ export function renderToDOM(
     if (forceRemount || !domElement.querySelector('[id="root-inner"]')) {
       domElement.innerHTML = '<div id="root-inner"></div>';
     }
-    const renderTo = domElement.querySelector('[id="root-inner"]');
+    const renderTo = domElement.querySelector<HTMLElement>('[id="root-inner"]');
 
-    // !
     render(element, renderTo);
     simulatePageLoad(domElement);
   } else if (typeof element === 'string') {
