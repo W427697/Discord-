@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "incremental": false,
     "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "jsx": "react",

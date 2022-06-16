@@ -1,4 +1,11 @@
-import React, { Component, Fragment, FunctionComponent, CSSProperties, ReactNode } from 'react';
+import React, {
+  Component,
+  Fragment,
+  FunctionComponent,
+  CSSProperties,
+  ReactNode,
+  GetDerivedStateFromProps,
+} from 'react';
 import { styled, withTheme } from '@storybook/theming';
 import type { Theme } from '@storybook/theming';
 import type { State } from '@storybook/api';
@@ -361,7 +368,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
     };
   }
 
-  static getDerivedStateFromProps(props: LayoutProps, state: LayoutState) {
+  static getDerivedStateFromProps(props: Readonly<LayoutProps>, state: LayoutState): LayoutState {
     const { bounds, options } = props;
     const { resizerPanel, resizerNav } = state;
 

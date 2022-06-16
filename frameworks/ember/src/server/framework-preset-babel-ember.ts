@@ -19,8 +19,10 @@ export function babel(config: TransformOptions, options: Options): TransformOpti
     options.presetsList.forEach((e: any, index: number) => {
       if (e.preset && e.preset.emberOptions) {
         emberOptions = e.preset.emberOptions;
-        // eslint-disable-next-line no-param-reassign
-        delete options.presetsList[index].preset.emberOptions;
+        if (options.presetsList) {
+          // eslint-disable-next-line no-param-reassign
+          delete options.presetsList[index].preset.emberOptions;
+        }
       }
     });
   }
@@ -44,7 +46,7 @@ export function babel(config: TransformOptions, options: Options): TransformOpti
 
   return {
     ...config,
-    plugins: [].concat(babelConfigPlugins, extraPlugins),
+    plugins: [...babelConfigPlugins, ...extraPlugins],
   };
 }
 

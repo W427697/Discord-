@@ -31,7 +31,7 @@ function isReactElement(element: any): boolean {
   return element.$$typeof != null;
 }
 
-export function extractFunctionName(func: Function, propName: string): string {
+export function extractFunctionName(func: Function, propName: string): string | null {
   const { name } = func;
 
   // Comparison with the prop name is to discard inferred function names.
@@ -138,6 +138,7 @@ const functionResolver: TypeResolver = (rawDefaultProp, propDef) => {
       inspectionResult = inspectValue(rawDefaultProp.toString());
     }
 
+    // @ts-ignore
     const { hasParams } = inspectionResult.inferredType as InspectionFunction;
 
     return createSummaryValue(getPrettyFuncIdentifier(funcName, hasParams));
@@ -173,7 +174,7 @@ export function createDefaultValueFromRawDefaultProp(
   rawDefaultProp: any,
   propDef: PropDef,
   typeResolvers: TypeResolvers = DEFAULT_TYPE_RESOLVERS
-): PropDefaultValue {
+): PropDefaultValue | null {
   try {
     // Keep the extra () otherwise it will fail for functions.
     switch (typeof rawDefaultProp) {

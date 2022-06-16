@@ -4,7 +4,11 @@ import { extractProps } from './extractProps';
 
 export const extractArgTypes: ArgTypesExtractor = (component) => {
   if (component) {
-    const { rows } = extractProps(component);
+    const extracted = extractProps(component);
+    if (!extracted) {
+      return null;
+    }
+    const { rows } = extracted;
     if (rows) {
       return rows.reduce((acc: StrictArgTypes, row: PropDef) => {
         const {

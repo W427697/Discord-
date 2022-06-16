@@ -17,8 +17,11 @@ export const core = async (config: StorybookConfig['core']) => {
 
 export const webpack: StorybookConfig['webpack'] = async (config) => {
   // eslint-disable-next-line no-param-reassign
+  config.resolve = config.resolve || {};
+
+  // eslint-disable-next-line no-param-reassign
   config.resolve.alias = {
-    ...config.resolve.alias,
+    ...config.resolve?.alias,
     '@storybook/react': path.dirname(
       require.resolve(path.join('@storybook/react', 'package.json'))
     ),

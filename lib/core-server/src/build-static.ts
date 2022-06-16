@@ -33,7 +33,9 @@ import { extractStoriesJson } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
-export async function buildStaticStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
+export async function buildStaticStandalone(
+  options: CLIOptions & LoadOptions & BuilderOptions & { outputDir: string }
+) {
   /* eslint-disable no-param-reassign */
   options.configType = 'PRODUCTION';
 
@@ -85,12 +87,12 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   presets = loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
-      ...managerBuilder.corePresets,
-      ...previewBuilder.corePresets,
+      ...(managerBuilder.corePresets || []),
+      ...(previewBuilder.corePresets || []),
       ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],
-    overridePresets: previewBuilder.overridePresets,
+    overridePresets: previewBuilder.overridePresets || [],
     ...options,
   });
 
@@ -132,7 +134,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
       ...directories,
       storyIndexers,
       storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
-      storyStoreV7: features?.storyStoreV7,
+      storyStoreV7: !!features?.storyStoreV7,
     });
 
     initializedStoryIndexGenerator = generator.initialize().then(() => generator);
