@@ -132,8 +132,8 @@ export const Interaction = ({
   controls,
   controlStates,
   childCallIds,
-  isExpanded,
-  toggleExpanded,
+  isCollapsed,
+  toggleCollapsed,
   pausedAt,
 }: {
   call: Call;
@@ -141,8 +141,8 @@ export const Interaction = ({
   controls: Controls;
   controlStates: ControlStates;
   childCallIds?: Call['id'][];
-  isExpanded: boolean;
-  toggleExpanded: () => void;
+  isCollapsed: boolean;
+  toggleCollapsed: () => void;
   pausedAt?: Call['id'];
 }) => {
   const [isHovered, setIsHovered] = React.useState(false);
@@ -167,11 +167,11 @@ export const Interaction = ({
               hasChrome={false}
               tooltip={
                 <Note
-                  note={`${isExpanded ? 'Hide' : 'Show'} interactions (${childCallIds.length})`}
+                  note={`${isCollapsed ? 'Show' : 'Hide'} interactions (${childCallIds.length})`}
                 />
               }
             >
-              <StyledIconButton containsIcon onClick={toggleExpanded}>
+              <StyledIconButton containsIcon onClick={toggleCollapsed}>
                 <Icons icon="listunordered" />
               </StyledIconButton>
             </WithTooltip>
