@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.2",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -47,13 +47,13 @@
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-    "@storybook/codemod": "7.0.0-alpha.1",
-    "@storybook/core-common": "7.0.0-alpha.1",
-    "@storybook/core-server": "7.0.0-alpha.1",
-    "@storybook/csf-tools": "7.0.0-alpha.1",
-    "@storybook/node-logger": "7.0.0-alpha.1",
+    "@storybook/codemod": "7.0.0-alpha.2",
+    "@storybook/core-common": "7.0.0-alpha.2",
+    "@storybook/core-server": "7.0.0-alpha.2",
+    "@storybook/csf-tools": "7.0.0-alpha.2",
+    "@storybook/node-logger": "7.0.0-alpha.2",
     "@storybook/semver": "^7.3.2",
-    "@storybook/telemetry": "7.0.0-alpha.1",
+    "@storybook/telemetry": "7.0.0-alpha.2",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
     "commander": "^6.2.1",
@@ -78,7 +78,7 @@
     "update-notifier": "^5.0.1"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.0.0-alpha.1",
+    "@storybook/client-api": "7.0.0-alpha.2",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
@@ -91,5 +91,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
+  "gitHead": "44920e2b6bd51981bac5124743c29fb9f5517e44"
 }

@@ -8,7 +8,8 @@ import {
   getBaseTsConfigName,
 } from './angular-helpers';
 import { writeFileAsJson, copyTemplate } from '../../helpers';
-import { baseGenerator, Generator } from '../baseGenerator';
+import { baseGenerator } from '../baseGenerator';
+import { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
 
 function editAngularAppTsConfig() {

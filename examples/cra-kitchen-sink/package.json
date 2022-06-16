@@ -57,7 +57,7 @@
     "storybook": "portal:../../lib/cli-storybook"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.1",
+    "@storybook/client-logger": "7.0.0-alpha.2",
     "global": "^4.4.0",
     "prop-types": "^15.7.2",
     "react": "16.14.0",

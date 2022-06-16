@@ -2,7 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import semver from '@storybook/semver';
 
-import { baseGenerator, Generator } from '../baseGenerator';
+import { baseGenerator } from '../baseGenerator';
+import { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {

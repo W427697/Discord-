@@ -1,6 +1,6 @@
 {
   "name": "server-kitchen-sink",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.2",
   "private": true,
   "description": "",
   "keywords": [],
@@ -8,20 +8,20 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "build-storybook": "sb build",
+    "build-storybook": "storybook build",
     "server": "PORT=1337 nodemon server.js",
     "start": "concurrently \"yarn server\" \"yarn storybook\"",
-    "storybook": "SERVER_PORT=1137 sb dev -p 9006 --quiet"
+    "storybook": "SERVER_PORT=1137 storybook dev -p 9006 --quiet"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "7.0.0-alpha.1",
-    "@storybook/addon-actions": "7.0.0-alpha.1",
-    "@storybook/addon-backgrounds": "7.0.0-alpha.1",
-    "@storybook/addon-controls": "7.0.0-alpha.1",
-    "@storybook/addon-links": "7.0.0-alpha.1",
-    "@storybook/node-logger": "7.0.0-alpha.1",
-    "@storybook/server": "7.0.0-alpha.1",
-    "@storybook/server-webpack5": "7.0.0-alpha.1",
+    "@storybook/addon-a11y": "7.0.0-alpha.2",
+    "@storybook/addon-actions": "7.0.0-alpha.2",
+    "@storybook/addon-backgrounds": "7.0.0-alpha.2",
+    "@storybook/addon-controls": "7.0.0-alpha.2",
+    "@storybook/addon-links": "7.0.0-alpha.2",
+    "@storybook/node-logger": "7.0.0-alpha.2",
+    "@storybook/server": "7.0.0-alpha.2",
+    "@storybook/server-webpack5": "7.0.0-alpha.2",
     "concurrently": "^5.3.0",
     "cors": "^2.8.5",
     "express": "~4.17.1",
@@ -29,6 +29,6 @@
     "nodemon": "^2.0.7",
     "pug": "^3.0.0",
     "safe-identifier": "^0.4.1",
-    "sb": "7.0.0-alpha.1"
+    "storybook": "7.0.0-alpha.2"
   }
 }

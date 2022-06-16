@@ -1,6 +1,6 @@
 {
   "name": "angular-cli",
-  "version": "7.0.0-alpha.1",
+  "version": "*",
   "private": true,
   "license": "MIT",
   "workspaces": {
@@ -110,7 +110,7 @@
     "jest": "^26.6.3",
     "jest-preset-angular": "^8.3.2",
     "protractor": "~7.0.0",
-    "sb": "7.0.0-alpha.1",
+    "storybook": "7.0.0-alpha.2",
     "storybook-addon-angular-ivy": "^0.0.1",
     "ts-jest": "^26.4.4",
     "ts-node": "^10.4.0",
