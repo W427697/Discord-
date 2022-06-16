@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "build": "react-scripts build",
-    "build-storybook": "storybook build",
+    "build-storybook": "DISABLE_ESLINT_PLUGIN=true storybook build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
-    "storybook": "storybook dev -p 9009 --no-manager-cache",
+    "storybook": "DISABLE_ESLINT_PLUGIN=true storybook dev -p 9009 --no-manager-cache",
     "test": "react-scripts test"
   },
   "browserslist": {
@@ -65,6 +65,8 @@
     "@storybook/ui": "portal:../../lib/ui",
     "babel-plugin-macros": "3.1.0",
     "fork-ts-checker-webpack-plugin": "6.2.13",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
     "sb": "portal:../../lib/cli-sb",
     "storybook": "portal:../../lib/cli-storybook"
   },
