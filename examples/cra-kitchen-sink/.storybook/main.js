@@ -28,6 +28,7 @@ module.exports = {
   },
   core: {
     disableTelemetry: true,
+    disableProjectJson: true,
     channelOptions: { allowFunction: false, maxDepth: 10 },
   },
   staticDirs: ['../public'],
