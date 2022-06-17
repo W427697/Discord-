@@ -61,8 +61,12 @@ export const linkTo =
 
     if (title?.match(/--/) && !name) {
       navigate({ storyId: title });
-    } else if (name) {
+    } else if (name && title) {
       navigate({ kind: title, story: name });
+    } else if (title) {
+      navigate({ kind: title });
+    } else if (name) {
+      navigate({ story: name });
     }
   };
 
