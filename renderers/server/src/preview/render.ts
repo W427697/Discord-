@@ -54,7 +54,7 @@ export async function renderToDOM(
     storyContext,
     storyContext: { parameters, args, argTypes },
   }: RenderContext<ServerFramework>,
-  domElement: HTMLElement
+  domElement: Element
 ) {
   // Some addons wrap the storyFn so we need to call it even though Server doesn't need the answer
   storyFn();

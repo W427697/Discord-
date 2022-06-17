@@ -11,7 +11,7 @@ export const babel: StorybookConfig['babel'] = async (config, options) => {
     {} as any
   );
 
-  const { reactDocgen } = typescriptOptions;
+  const { reactDocgen } = typescriptOptions || {};
 
   if (typeof reactDocgen !== 'string') {
     return config;
@@ -44,7 +44,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, opti
     {} as any
   );
 
-  const { reactDocgen, reactDocgenTypescriptOptions } = typescriptOptions;
+  const { reactDocgen, reactDocgenTypescriptOptions } = typescriptOptions || {};
 
   if (reactDocgen !== 'react-docgen-typescript') {
     return config;
@@ -53,7 +53,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, opti
   return {
     ...config,
     plugins: [
-      ...config.plugins,
+      ...(config.plugins || []),
       new ReactDocgenTypescriptPlugin({
         ...reactDocgenTypescriptOptions,
         // We *need* this set so that RDT returns default values in the same format as react-docgen

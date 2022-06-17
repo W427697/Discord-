@@ -50,9 +50,9 @@ interface EnumValue {
 interface TypeDef {
   name: string;
   short: string;
-  compact: string;
-  full: string;
-  inferredType?: InspectionType;
+  compact: string | null;
+  full: string | null;
+  inferredType?: InspectionType | null;
 }
 
 function createTypeDef({
@@ -64,9 +64,9 @@ function createTypeDef({
 }: {
   name: string;
   short: string;
-  compact: string;
-  full?: string;
-  inferredType?: InspectionType;
+  compact: string | null;
+  full?: string | null;
+  inferredType?: InspectionType | null;
 }): TypeDef {
   return {
     name,
@@ -183,8 +183,10 @@ function generateFunc(extractedProp: ExtractedProp): TypeDef {
     if (jsDocTags.params != null || jsDocTags.returns != null) {
       return createTypeDef({
         name: PropTypesType.FUNC,
+        // @ts-ignore
         short: generateShortFuncSignature(jsDocTags.params, jsDocTags.returns),
         compact: null,
+        // @ts-ignore
         full: generateFuncSignature(jsDocTags.params, jsDocTags.returns),
       });
     }
@@ -224,7 +226,7 @@ function generateObjectOf(type: DocgenPropType, extractedProp: ExtractedProp): T
     name: PropTypesType.OBJECTOF,
     short: objectOf(short),
     compact: compact != null ? objectOf(compact) : null,
-    full: objectOf(full),
+    full: full ? objectOf(full) : full,
   });
 }
 
@@ -294,12 +296,16 @@ function braceAround(of: string): string {
   return `[${of}]`;
 }
 
-function createArrayOfObjectTypeDef(short: string, compact: string, full: string): TypeDef {
+function createArrayOfObjectTypeDef(
+  short: string,
+  compact: string | null,
+  full: string | null
+): TypeDef {
   return createTypeDef({
     name: PropTypesType.ARRAYOF,
     short: braceAfter(short),
     compact: compact != null ? braceAround(compact) : null,
-    full: braceAround(full),
+    full: full ? braceAround(full) : full,
   });
 }
 
@@ -355,7 +361,7 @@ function generateType(type: DocgenPropType, extractedProp: ExtractedProp): TypeD
   return createTypeDef({ name: 'unknown', short: 'unknown', compact: 'unknown' });
 }
 
-export function createType(extractedProp: ExtractedProp): PropType {
+export function createType(extractedProp: ExtractedProp): PropType | null {
   const { type } = extractedProp.docgenInfo;
 
   // A type could be null if a defaultProp has been provided without a type definition.
@@ -380,7 +386,7 @@ export function createType(extractedProp: ExtractedProp): PropType {
           }
         }
 
-        return createSummaryValue(short, full);
+        return full ? createSummaryValue(short, full) : createSummaryValue(short);
       }
       case PropTypesType.FUNC: {
         const { short, full } = generateType(type, extractedProp);
@@ -388,9 +394,9 @@ export function createType(extractedProp: ExtractedProp): PropType {
         let summary = short;
         let detail;
 
-        if (full.length < MAX_FUNC_LENGTH) {
+        if (full && full.length < MAX_FUNC_LENGTH) {
           summary = full;
-        } else {
+        } else if (full) {
           detail = toMultilineSignature(full);
         }
 

@@ -45,7 +45,7 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
     }
 
     const handleItemClick = useCallback(
-      (value: string) => {
+      (value: string | undefined) => {
         updateGlobals({ [id]: value });
       },
       [currentValue, updateGlobals]
@@ -85,9 +85,9 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
       >
         <ToolbarMenuButton
           active={hasGlobalValue}
-          description={description}
+          description={description || ''}
           icon={icon}
-          title={title}
+          title={title || ''}
         />
       </WithTooltip>
     );

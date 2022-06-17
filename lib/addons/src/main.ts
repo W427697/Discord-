@@ -21,7 +21,7 @@ export interface Addon {
   id?: string;
   route?: (routeOptions: RouterData) => string;
   match?: (matchOptions: RouterData) => boolean;
-  render: (renderOptions: RenderOptions) => ReactElement<any>;
+  render: (renderOptions: RenderOptions) => ReactElement<any> | null;
   paramKey?: string;
   disabled?: boolean;
   hidden?: boolean;

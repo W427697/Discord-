@@ -1,60 +1,62 @@
-import type { CommonWebpackConfiguration as Configuration } from './types';
+import type {
+  CommonWebpackConfiguration as Configuration,
+  ModuleConfig,
+  ResolveConfig,
+  RulesConfig,
+} from './types';
 
-function plugins(
-  { plugins: defaultPlugins = [] }: Configuration,
-  { plugins: customPlugins = [] }: Configuration
-): Configuration['plugins'] {
+function mergePluginsField(
+  defaultPlugins: Required<Configuration>['plugins'] = [],
+  customPlugins: Required<Configuration>['plugins'] = []
+): Required<Configuration>['plugins'] {
   return [...defaultPlugins, ...customPlugins];
 }
 
-function rules(
-  { rules: defaultRules = [] }: Configuration['module'],
-  { rules: customRules = [] }: Configuration['module']
-): Configuration['module']['rules'] {
+function mergeRulesField(
+  defaultRules: RulesConfig[] = [],
+  customRules: RulesConfig[] = []
+): ModuleConfig['rules'] {
   return [...defaultRules, ...customRules];
 }
 
-function extensions(
-  { extensions: defaultExtensions = [] }: Configuration['resolve'],
-  { extensions: customExtensions = [] }: Configuration['resolve']
-): Configuration['resolve']['extensions'] {
+function mergeExtensionsField(
+  { extensions: defaultExtensions = [] }: ResolveConfig,
+  { extensions: customExtensions = [] }: ResolveConfig
+): ResolveConfig['extensions'] {
   return [...defaultExtensions, ...customExtensions];
 }
 
-function alias(
-  { alias: defaultAlias = {} }: Configuration['resolve'],
-  { alias: customAlias = {} }: Configuration['resolve']
-): Configuration['resolve']['alias'] {
+function mergeAliasField(
+  { alias: defaultAlias = {} }: ResolveConfig,
+  { alias: customAlias = {} }: ResolveConfig
+): ResolveConfig['alias'] {
   return {
     ...defaultAlias,
     ...customAlias,
   };
 }
 
-function module(
-  { module: defaultModule = { rules: [] } }: Configuration,
-  { module: customModule = { rules: [] } }: Configuration
-): Configuration['module'] {
+function mergeModuleField(a: ModuleConfig, b: ModuleConfig): ModuleConfig {
   return {
-    ...defaultModule,
-    ...customModule,
-    rules: rules(defaultModule, customModule),
+    ...a,
+    ...b,
+    rules: mergeRulesField(a.rules || [], b.rules || []),
   };
 }
 
-function resolve(
+function mergeResolveField(
   { resolve: defaultResolve = {} }: Configuration,
   { resolve: customResolve = {} }: Configuration
-): Configuration['resolve'] {
+): ResolveConfig {
   return {
     ...defaultResolve,
     ...customResolve,
-    alias: alias(defaultResolve, customResolve),
-    extensions: extensions(defaultResolve, customResolve),
+    alias: mergeAliasField(defaultResolve, customResolve),
+    extensions: mergeExtensionsField(defaultResolve, customResolve),
   };
 }
 
-function optimization(
+function mergeOptimizationField(
   { optimization: defaultOptimization = {} }: Configuration,
   { optimization: customOptimization = {} }: Configuration
 ): Configuration['optimization'] {
@@ -71,9 +73,9 @@ export function mergeConfigs(config: Configuration, customConfig: Configuration)
     ...customConfig,
     ...config,
     devtool: customConfig.devtool || config.devtool,
-    plugins: plugins(config, customConfig),
-    module: module(config, customConfig),
-    resolve: resolve(config, customConfig),
-    optimization: optimization(config, customConfig),
+    plugins: mergePluginsField(config.plugins, customConfig.plugins),
+    module: mergeModuleField(config.module || {}, customConfig.module || {}),
+    resolve: mergeResolveField(config, customConfig),
+    optimization: mergeOptimizationField(config, customConfig),
   };
 }

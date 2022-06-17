@@ -69,6 +69,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
   let renderedJSX = code;
   const Type = renderedJSX.type;
 
+  // @ts-ignore
   for (let i = 0; i < options.skip; i += 1) {
     if (typeof renderedJSX === 'undefined') {
       logger.warn('Cannot skip undefined element');
