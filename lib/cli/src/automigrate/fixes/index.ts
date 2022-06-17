@@ -6,6 +6,7 @@ import { mainjsFramework } from './mainjsFramework';
 import { eslintPlugin } from './eslint-plugin';
 import { builderVite } from './builder-vite';
 import { Fix } from '../types';
+import { reactDependencies } from './react-dependencies';
 
 export * from '../types';
 export const fixes: Fix[] = [
@@ -16,4 +17,5 @@ export const fixes: Fix[] = [
   mainjsFramework,
   eslintPlugin,
   builderVite,
+  reactDependencies,
 ];
