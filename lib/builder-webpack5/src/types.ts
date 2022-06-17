@@ -6,7 +6,6 @@ import type {
 } from '@storybook/core-webpack';
 
 import type ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import type { PluginOptions as DocgenTypescriptOptions } from '@storybook/react-docgen-typescript-plugin';
 
 type TypeScriptOptionsBase = Required<StorybookConfig>['typescript'];
 
@@ -18,19 +17,6 @@ export interface TypescriptOptions extends TypeScriptOptionsBase {
    * Configures `fork-ts-checker-webpack-plugin`
    */
   checkOptions?: ForkTsCheckerWebpackPlugin['options'];
-  /**
-   * Sets the type of Docgen when working with React and TypeScript
-   *
-   * @default `'react-docgen-typescript'`
-   */
-  reactDocgen: 'react-docgen-typescript' | 'react-docgen' | false;
-  /**
-   * Configures `react-docgen-typescript-plugin`
-   *
-   * @default
-   * @see https://github.com/storybookjs/storybook/blob/next/lib/builder-webpack5/src/config/defaults.js#L4-L6
-   */
-  reactDocgenTypescriptOptions: DocgenTypescriptOptions;
 }
 
 export interface StorybookConfigWebpack extends Pick<StorybookConfig, 'webpack' | 'webpackFinal'> {
