@@ -28,7 +28,7 @@ import {
   copyAllStaticFilesRelativeToMain,
 } from './utils/copy-all-static-files';
 import { getBuilders } from './utils/get-builders';
-import { extractStoriesJson } from './utils/stories-json';
+import { extractStoriesJson, convertToIndexV3 } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
@@ -138,8 +138,12 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     extractTasks.push(
       extractStoriesJson(
         path.join(options.outputDir, 'stories.json'),
-        initializedStoryIndexGenerator
+        initializedStoryIndexGenerator,
+        convertToIndexV3
       )
+    );
+    extractTasks.push(
+      extractStoriesJson(path.join(options.outputDir, 'index.json'), initializedStoryIndexGenerator)
     );
   }
 
