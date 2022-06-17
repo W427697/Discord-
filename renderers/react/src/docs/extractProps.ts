@@ -1,11 +1,5 @@
 import PropTypes from 'prop-types';
-import {
-  PropDef,
-  hasDocgen,
-  extractComponentProps,
-  PropsExtractor,
-  TypeSystem,
-} from '@storybook/docs-tools';
+import { PropDef, hasDocgen, extractComponentProps, TypeSystem } from '@storybook/docs-tools';
 import { enhancePropTypesProps } from './propTypes/handleProp';
 import { enhanceTypeScriptProps } from './typeScript/handleProp';
 import { isMemo } from './lib';
