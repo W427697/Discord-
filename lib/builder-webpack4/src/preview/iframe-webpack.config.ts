@@ -233,7 +233,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
       ],
     },
     resolve: {
-      extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json', '.cjs'],
+      extensions: ['.cjs', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
       mainFields: [modern ? 'sbmodern' : null, 'browser', 'module', 'main'].filter(Boolean),
       alias: {

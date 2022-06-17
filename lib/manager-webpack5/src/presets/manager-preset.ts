@@ -160,7 +160,7 @@ export async function managerWebpack(
       ],
     },
     resolve: {
-      extensions: ['.mjs', '.js', '.jsx', '.json', '.cjs', '.ts', '.tsx'],
+      extensions: ['.cjs', '.mjs', '.js', '.jsx', '.json', '.cjs', '.ts', '.tsx'],
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
       mainFields: [modern ? 'sbmodern' : null, 'browser', 'module', 'main'].filter(Boolean),
       alias: {

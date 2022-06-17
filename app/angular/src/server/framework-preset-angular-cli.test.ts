@@ -793,7 +793,7 @@ const newWebpackConfiguration = (
       rules: [{ keepBaseRule: true } as any],
     },
     resolve: {
-      extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json', '.cjs'],
+      extensions: ['.cjs', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       modules: ['node_modules'],
       mainFields: ['browser', 'main'],
       alias: {
