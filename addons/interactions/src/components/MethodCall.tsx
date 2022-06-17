@@ -206,7 +206,7 @@ export const ArrayNode = ({
   }
   const nodes = value
     .slice(0, 3)
-    .map((v) => <Node key={v} value={v} nested callsById={callsById} />);
+    .map((v) => <Node key={JSON.stringify(v)} value={v} nested callsById={callsById} />);
   const nodelist = interleave(nodes, <span>, </span>);
   if (value.length <= 3) {
     return <span style={{ color: colors.base }}>[{nodelist}]</span>;

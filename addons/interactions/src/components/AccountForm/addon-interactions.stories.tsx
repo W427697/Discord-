@@ -36,7 +36,10 @@ Demo.play = async ({ args, canvasElement }) => {
   await userEvent.click(within(canvasElement).getByRole('button'));
   await expect(args.onSubmit).toHaveBeenCalledWith(expect.stringMatching(/([A-Z])\w+/gi));
   await expect([{ name: 'John', age: 42 }]).toEqual(
-    expect.arrayContaining([expect.objectContaining({ name: 'John' })])
+    expect.arrayContaining([
+      expect.objectContaining({ name: 'John' }),
+      expect.objectContaining({ age: 42 }),
+    ])
   );
 };
 
