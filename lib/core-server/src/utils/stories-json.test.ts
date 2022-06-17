@@ -6,6 +6,7 @@ import debounce from 'lodash/debounce';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
 import type { StoryIndex } from '@storybook/store';
 import { loadCsf } from '@storybook/csf-tools';
+import { normalizeStoriesEntry } from '@storybook/core-common';
 
 import { useStoriesJson, DEBOUNCE, convertToIndexV3 } from './stories-json';
 import { ServerChannel } from './get-server-channel';
@@ -27,20 +28,22 @@ jest.mock('@storybook/docs-mdx', async () => ({
 
 const workingDir = path.join(__dirname, '__mockdata__');
 const normalizedStories = [
-  {
-    titlePrefix: '',
-    directory: './src',
-    files: '**/*.stories.@(ts|js|jsx)',
-    importPathMatcher:
-      /^\.[\\/](?:src(?:\/(?!\.)(?:(?:(?!(?:^|\/)\.).)*?)\/|\/|$)(?!\.)(?=.)[^/]*?\.stories\.(ts|js|jsx))$/,
-  },
-  {
-    titlePrefix: '',
-    directory: './src',
-    files: '**/*.docs.mdx',
-    importPathMatcher:
-      /^\.[\\/](?:src(?:\/(?!\.)(?:(?:(?!(?:^|\/)\.).)*?)\/|\/|$)(?!\.)(?=.)[^/]*?\.docs.mdx)$/,
-  },
+  normalizeStoriesEntry(
+    {
+      titlePrefix: '',
+      directory: './src',
+      files: '**/*.stories.@(ts|js|jsx)',
+    },
+    { workingDir, configDir: workingDir }
+  ),
+  normalizeStoriesEntry(
+    {
+      titlePrefix: '',
+      directory: './src',
+      files: '**/*.docs.mdx',
+    },
+    { workingDir, configDir: workingDir }
+  ),
 ];
 
 const csfIndexer = async (fileName: string, opts: any) => {
@@ -105,7 +108,6 @@ describe('useStoriesJson', () => {
 
       expect(use).toHaveBeenCalledTimes(2);
       const route = use.mock.calls[0][1];
-      console.log({ route });
 
       await route(request, response);
 
