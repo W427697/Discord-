@@ -1,16 +1,19 @@
-import type ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import type { PluginOptions } from '@storybook/react-docgen-typescript-plugin';
 import type { Configuration, Stats } from 'webpack';
 import type {
   Options,
-  TypescriptOptions as BaseTypescriptOptions,
-  BuilderResult as BaseBuilderResult,
-} from '@storybook/core-common';
+  BuilderResult as BuilderResultBase,
+  StorybookConfig,
+} from '@storybook/core-webpack';
+
+import type ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import type { PluginOptions as DocgenTypescriptOptions } from '@storybook/react-docgen-typescript-plugin';
+
+type TypeScriptOptionsBase = Required<StorybookConfig>['typescript'];
 
 /**
  * Options for TypeScript usage within Storybook.
  */
-export interface TypescriptOptions extends BaseTypescriptOptions {
+export interface TypescriptOptions extends TypeScriptOptionsBase {
   /**
    * Configures `fork-ts-checker-webpack-plugin`
    */
@@ -27,10 +30,10 @@ export interface TypescriptOptions extends BaseTypescriptOptions {
    * @default
    * @see https://github.com/storybookjs/storybook/blob/next/lib/builder-webpack5/src/config/defaults.js#L4-L6
    */
-  reactDocgenTypescriptOptions: PluginOptions;
+  reactDocgenTypescriptOptions: DocgenTypescriptOptions;
 }
 
-export interface StorybookWebpackConfig {
+export interface StorybookConfigWebpack extends Pick<StorybookConfig, 'webpack' | 'webpackFinal'> {
   /**
    * Modify or return a custom Webpack config after the Storybook's default configuration
    * has run (mostly used by addons).
@@ -46,6 +49,11 @@ export interface StorybookWebpackConfig {
   ) => Configuration | Promise<Configuration>;
 }
 
-export interface BuilderResult extends BaseBuilderResult {
+export type BuilderOptions = {
+  fsCache?: boolean;
+  lazyCompilation?: boolean;
+};
+
+export interface BuilderResult extends BuilderResultBase {
   stats?: Stats;
 }

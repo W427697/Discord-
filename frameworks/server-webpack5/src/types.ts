@@ -1,17 +1,17 @@
 import type {
   StorybookConfig as StorybookConfigBase,
   TypescriptOptions as TypescriptOptionsReact,
-} from '@storybook/core-webpack';
+} from '@storybook/preset-server-webpack';
 import type {
   StorybookConfigWebpack,
   BuilderOptions,
   TypescriptOptions as TypescriptOptionsBuilder,
 } from '@storybook/builder-webpack5';
 
-type FrameworkName = '@storybook/react-webpack5';
+type FrameworkName = '@storybook/server-webpack5';
 type BuilderName = '@storybook/builder-webpack5';
 
-export type FrameworkOptions = AngularOptions & {
+export type FrameworkOptions = {
   builder?: BuilderOptions;
 };
 
@@ -43,7 +43,3 @@ export type StorybookConfig = Omit<
 > &
   StorybookConfigWebpack &
   StorybookConfigFramework;
-
-export interface AngularOptions {
-  enableIvy: boolean;
-}
