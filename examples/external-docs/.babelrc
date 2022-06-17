@@ -1,5 +1,6 @@
 {
   "presets": [
+    "next/babel",
     [
       "@babel/preset-env",
       {
@@ -7,8 +8,6 @@
           "chrome": "100"
         }
       }
-    ],
-    "@babel/preset-react",
-    "@babel/preset-typescript"
+    ]
   ]
 }
