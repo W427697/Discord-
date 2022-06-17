@@ -1,11 +1,4 @@
-import React, {
-  Component,
-  Fragment,
-  FunctionComponent,
-  CSSProperties,
-  ReactNode,
-  GetDerivedStateFromProps,
-} from 'react';
+import React, { Component, Fragment, FunctionComponent, CSSProperties, ReactNode } from 'react';
 import { styled, withTheme } from '@storybook/theming';
 import type { Theme } from '@storybook/theming';
 import type { State } from '@storybook/api';

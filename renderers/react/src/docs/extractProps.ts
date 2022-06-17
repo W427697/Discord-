@@ -50,6 +50,6 @@ function getPropDefs(component: Component, section: string): PropDef[] {
   }
 }
 
-export const extractProps: PropsExtractor = (component) => ({
+export const extractProps = (component: Component) => ({
   rows: getPropDefs(component, 'props'),
 });
