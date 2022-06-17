@@ -125,7 +125,7 @@ function checkDeprecatedOptionParameters(options?: Record<string, any>) {
   });
 }
 
-export const init: ModuleFn<SubAPI, SubState> = ({
+export const init: ModuleFn<SubAPI, SubState, true> = ({
   fullAPI,
   store,
   navigate,
@@ -376,7 +376,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
         const storyIndex = (await result.json()) as StoryIndex;
 
         // We can only do this if the stories.json is a proper storyIndex
-        if (storyIndex.v !== 4) {
+        if (storyIndex.v < 3) {
           logger.warn(`Skipping story index with version v${storyIndex.v}, awaiting SET_STORIES.`);
           return;
         }

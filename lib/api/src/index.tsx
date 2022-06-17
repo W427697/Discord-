@@ -146,15 +146,19 @@ export const combineParameters = (...parameterSets: Parameters[]) =>
     return undefined;
   });
 
-export type ModuleFn<APIType = unknown, StateType = unknown> = (
+export type ModuleFn<APIType = unknown, StateType = unknown, HasInit = false> = (
   m: ModuleArgs
-) => Module<APIType, StateType>;
+) => Module<APIType, StateType, HasInit>;
 
-interface Module<APIType = unknown, StateType = unknown> {
-  init?: () => void;
-  api?: APIType;
-  state?: StateType;
+interface FullModule<APIType = unknown, StateType = unknown> {
+  init: () => Promise<void>;
+  api: APIType;
+  state: StateType;
 }
+
+type Module<APIType = unknown, StateType = unknown, HasInit = false> = HasInit extends true
+  ? FullModule<APIType, StateType>
+  : Omit<FullModule<APIType, StateType>, 'init'>;
 
 class ManagerProvider extends Component<ManagerProviderProps, State> {
   api: API = {} as API;

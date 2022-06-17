@@ -7,6 +7,7 @@ import {
   transformStoryIndexToStoriesHash,
   StoryIndexEntry,
   SetStoriesStoryData,
+  StoryIndex,
 } from '../lib/stories';
 
 import type { ModuleFn, StoryId } from '../index';
@@ -20,9 +21,9 @@ export interface SubState {
 type Versions = Record<string, string>;
 
 export type SetRefData = Partial<
-  Omit<ComposedRef, 'stories'> & {
-    v: number;
-    stories?: SetStoriesStoryData;
+  ComposedRef & {
+    setStoriesData: SetStoriesStoryData;
+    storyIndex: StoryIndex;
   }
 >;
 
@@ -99,14 +100,24 @@ const addRefIds = (input: StoriesHash, ref: ComposedRef): StoriesHash => {
   }, {} as StoriesHash);
 };
 
-const handle = async (request: Response | false): Promise<SetRefData> => {
-  if (request) {
-    return Promise.resolve(request)
-      .then((response) => (response.ok ? response.json() : {}))
-      .catch((error) => ({ error }));
+async function handleRequest(request: Response | false): Promise<SetRefData> {
+  if (!request) return {};
+
+  try {
+    const response = await request;
+    if (!response.ok) return {};
+
+    const json = await response.json();
+
+    if (json.stories) {
+      return { storyIndex: json };
+    }
+
+    return json as SetRefData;
+  } catch (error) {
+    return { error };
   }
-  return {};
-};
+}
 
 const map = (
   input: SetStoriesStoryData,
@@ -122,7 +133,10 @@ const map = (
   return input;
 };
 
-export const init: ModuleFn = ({ store, provider, singleStory }, { runCheck = true } = {}) => {
+export const init: ModuleFn<SubAPI, SubState, void> = (
+  { store, provider, singleStory },
+  { runCheck = true } = {}
+) => {
   const api: SubAPI = {
     findRef: (source) => {
       const refs = api.getRefs();
@@ -190,9 +204,9 @@ export const init: ModuleFn = ({ store, provider, singleStory }, { runCheck = tr
           `,
         } as Error;
       } else if (storiesFetch.ok) {
-        const [stories, metadata] = await Promise.all([
-          handle(storiesFetch),
-          handle(
+        const [storyIndex, metadata] = await Promise.all([
+          handleRequest(storiesFetch),
+          handleRequest(
             fetch(`${url}/metadata.json${query}`, {
               headers: {
                 Accept: 'application/json',
@@ -203,7 +217,7 @@ export const init: ModuleFn = ({ store, provider, singleStory }, { runCheck = tr
           ),
         ]);
 
-        Object.assign(loadedData, { ...stories, ...metadata });
+        Object.assign(loadedData, { ...storyIndex, ...metadata });
       }
 
       const versions =
@@ -214,8 +228,7 @@ export const init: ModuleFn = ({ store, provider, singleStory }, { runCheck = tr
         url,
         ...loadedData,
         ...(versions ? { versions } : {}),
-        error: loadedData.error,
-        type: !loadedData.stories ? 'auto-inject' : 'lazy',
+        type: !loadedData.storyIndex ? 'auto-inject' : 'lazy',
       });
     },
 
@@ -225,29 +238,23 @@ export const init: ModuleFn = ({ store, provider, singleStory }, { runCheck = tr
       return refs;
     },
 
-    setRef: (id, { stories, v, ...rest }, ready = false) => {
+    setRef: (id, { storyIndex, setStoriesData, ...rest }, ready = false) => {
       if (singleStory) return;
       const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
 
       let storiesHash: StoriesHash;
-
-      if (stories) {
-        if (v === 2) {
-          storiesHash = transformSetStoriesStoryDataToStoriesHash(
-            map(stories, ref, { storyMapper }),
-            {
-              provider,
-            }
-          );
-        } else if (!v) {
-          throw new Error('Composition: Missing stories.json version');
-        } else {
-          const index = stories as unknown as Record<StoryId, StoryIndexEntry>;
-          storiesHash = transformStoryIndexToStoriesHash({ v, entries: index }, { provider });
-        }
-        storiesHash = addRefIds(storiesHash, ref);
+      if (setStoriesData) {
+        storiesHash = transformSetStoriesStoryDataToStoriesHash(
+          map(setStoriesData, ref, { storyMapper }),
+          {
+            provider,
+          }
+        );
+      } else if (storyIndex) {
+        storiesHash = transformStoryIndexToStoriesHash(storyIndex, { provider });
       }
+      if (storiesHash) storiesHash = addRefIds(storiesHash, ref);
 
       api.updateRef(id, { stories: storiesHash, ...rest, ready });
     },
