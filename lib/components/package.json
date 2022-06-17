@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "7.0.0-alpha.2",
+  "version": "7.0.0-alpha.3",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -50,9 +50,9 @@
     "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.2",
+    "@storybook/client-logger": "7.0.0-alpha.3",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/theming": "7.0.0-alpha.2",
+    "@storybook/theming": "7.0.0-alpha.3",
     "core-js": "^3.8.2",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0",
@@ -92,5 +92,5 @@
     "./src/index.ts",
     "./src/html.tsx"
   ],
-  "gitHead": "44920e2b6bd51981bac5124743c29fb9f5517e44"
+  "gitHead": "629b056190993bcee6445471b8cb27208eb401a9"
 }
