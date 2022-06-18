@@ -613,6 +613,25 @@ describe('CsfFile', () => {
               __id: foo-bar--a
       `);
     });
+
+    it('Object export with storyName', () => {
+      const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation();
+
+      parse(
+        dedent`
+        export default { title: 'foo/bar' };
+        export const A = {
+          storyName: 'Apple'
+        }
+      `,
+        true
+      );
+
+      expect(consoleWarnMock).toHaveBeenCalledWith(
+        'Unexpected usage of "storyName" in "A". Please use "name" instead.'
+      );
+      consoleWarnMock.mockRestore();
+    });
   });
 
   describe('import handling', () => {

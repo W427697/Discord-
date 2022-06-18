@@ -1,4 +1,3 @@
-import global from 'global';
 import { AnyFramework, StoryId, ViewMode, StoryContextForLoaders } from '@storybook/csf';
 import { Story, StoryStore, CSFFile, ModuleExports, IndexEntry } from '@storybook/store';
 import { Channel } from '@storybook/addons';

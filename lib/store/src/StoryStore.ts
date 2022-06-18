@@ -11,7 +11,6 @@ import type {
 } from '@storybook/csf';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
-import global from 'global';
 import { SynchronousPromise } from 'synchronous-promise';
 
 import { StoryIndexStore } from './StoryIndexStore';
@@ -28,7 +27,6 @@ import type {
   BoundStory,
   PromiseLike,
   StoryIndex,
-  StoryIndexEntry,
   V2CompatIndexEntry,
   StoryIndexV3,
   ModuleExports,

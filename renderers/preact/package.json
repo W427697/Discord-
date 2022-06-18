@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preact",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.3",
   "description": "Storybook Preact renderer",
   "keywords": [
     "storybook"
@@ -32,10 +32,10 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.1",
-    "@storybook/core-client": "7.0.0-alpha.1",
+    "@storybook/addons": "7.0.0-alpha.3",
+    "@storybook/core-client": "7.0.0-alpha.3",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/store": "7.0.0-alpha.1",
+    "@storybook/store": "7.0.0-alpha.3",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "react": "16.14.0",
@@ -55,5 +55,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
+  "gitHead": "629b056190993bcee6445471b8cb27208eb401a9"
 }
