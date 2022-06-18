@@ -60,7 +60,7 @@ function generateElement(
     : createSummaryValue(ELEMENT_CAPTION, defaultValue);
 }
 
-export function createDefaultValue(defaultValue: string): PropDefaultValue {
+export function createDefaultValue(defaultValue: string): PropDefaultValue | null {
   try {
     const inspectionResult = inspectValue(defaultValue);
 

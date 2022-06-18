@@ -40,7 +40,7 @@ export function sourceDecorator(
     ? (context.originalStoryFn as ArgsStoryFn<HtmlFramework>)(context.args, context)
     : storyFn();
 
-  let source: string;
+  let source: string | undefined;
   if (!skipSourceRender(context)) {
     if (typeof story === 'string') {
       source = story;
@@ -48,7 +48,9 @@ export function sourceDecorator(
       source = story.outerHTML;
     }
 
-    if (source) source = applyTransformSource(source, context);
+    if (source) {
+      source = applyTransformSource(source, context);
+    }
   }
   useEffect(() => {
     if (source) addons.getChannel().emit(SNIPPET_RENDERED, context.id, source);

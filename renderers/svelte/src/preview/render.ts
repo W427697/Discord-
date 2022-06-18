@@ -19,7 +19,7 @@ function cleanUpPreviousStory() {
 
 export function renderToDOM(
   { storyFn, kind, name, showMain, showError }: RenderContext<SvelteFramework>,
-  domElement: HTMLElement
+  domElement: Element
 ) {
   cleanUpPreviousStory();
 

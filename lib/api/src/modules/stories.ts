@@ -275,10 +275,16 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         if (desiredViewMode === 'docs') {
           viewMode = 'docs';
         }
+
+        // NOTE -- we currently still render docs entries in story view mode,
+        // (even though in the preview they will appear in docs mode)
+        // in order to maintain the viewMode as you browse around.
+        // This will change later.
+
         // On the other hand, docs entries can *only* be rendered as docs
-        if (leafEntry.type === 'docs') {
-          viewMode = 'docs';
-        }
+        // if (leafEntry.type === 'docs') {
+        //   viewMode = 'docs';
+        // }
 
         const fullId = leafEntry.refId ? `${leafEntry.refId}_${leafEntry.id}` : leafEntry.id;
         navigate(`/${viewMode}/${fullId}`);

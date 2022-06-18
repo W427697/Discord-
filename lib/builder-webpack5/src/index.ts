@@ -14,17 +14,17 @@ let reject: (reason?: any) => void;
 type WebpackBuilder = Builder<Configuration, Stats>;
 type Unpromise<T extends Promise<any>> = T extends Promise<infer U> ? U : never;
 
-type BuilderStartOptions = Partial<Parameters<WebpackBuilder['start']>['0']>;
+type BuilderStartOptions = Parameters<WebpackBuilder['start']>['0'];
 type BuilderStartResult = Unpromise<ReturnType<WebpackBuilder['start']>>;
 type StarterFunction = (
   options: BuilderStartOptions
 ) => AsyncGenerator<unknown, BuilderStartResult, void>;
 
-type BuilderBuildOptions = Partial<Parameters<WebpackBuilder['build']>['0']>;
+type BuilderBuildOptions = Parameters<WebpackBuilder['build']>['0'];
 type BuilderBuildResult = Unpromise<ReturnType<WebpackBuilder['build']>>;
 type BuilderFunction = (
   options: BuilderBuildOptions
-) => AsyncGenerator<Stats, BuilderBuildResult, void>;
+) => AsyncGenerator<Stats | undefined, BuilderBuildResult, void>;
 
 export const executor = {
   get: async (options: Options) => {
@@ -72,6 +72,7 @@ export const bail: WebpackBuilder['bail'] = async () => {
   }
   // we wait for the compiler to finish it's work, so it's command-line output doesn't interfere
   return new Promise((res, rej) => {
+    // @ts-ignore
     if (process && compilation) {
       try {
         compilation.close(() => res());
@@ -218,7 +219,10 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
       logger.trace({ message: '=> Preview built', time: process.hrtime(startTime) });
       if (stats && stats.hasWarnings()) {
-        stats.toJson({ warnings: true }).warnings.forEach((e) => logger.warn(e.message));
+        // @ts-ignore
+        stats
+          .toJson({ warnings: true } as StatsOptions)
+          .warnings.forEach((e) => logger.warn(e.message));
       }
 
       // https://webpack.js.org/api/node/#run
@@ -228,7 +232,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
           return fail(closeErr);
         }
 
-        return succeed(stats);
+        return succeed(stats as Stats);
       });
     });
   });

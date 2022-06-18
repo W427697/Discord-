@@ -6,7 +6,8 @@ import { PreactFramework } from './types-6-0';
 
 let renderedStory: Element;
 
-function preactRender(story: StoryFnPreactReturnType, domElement: HTMLElement): void {
+function preactRender(story: StoryFnPreactReturnType | null, domElement: Element): void {
+  // @ts-ignore
   if (preact.Fragment) {
     // Preact 10 only:
     preact.render(story, domElement);
@@ -20,7 +21,7 @@ const StoryHarness: preact.FunctionalComponent<{
   title: string;
   showError: RenderContext<PreactFramework>['showError'];
   storyFn: () => any;
-  domElement: HTMLElement;
+  domElement: Element;
 }> = ({ showError, name, title, storyFn, domElement }) => {
   const content = preact.h(storyFn as any, null);
   if (!content) {
@@ -38,7 +39,7 @@ const StoryHarness: preact.FunctionalComponent<{
 
 export function renderToDOM(
   { storyFn, title, name, showMain, showError, forceRemount }: RenderContext<PreactFramework>,
-  domElement: HTMLElement
+  domElement: Element
 ) {
   if (forceRemount) {
     preactRender(null, domElement);

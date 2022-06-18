@@ -21,8 +21,13 @@ function getNameFromFilename(filename: string) {
     }
   }
 
-  const base = parts
-    .pop()
+  const value = parts.pop();
+
+  if (!value) {
+    throw new Error(`Could not derive component name from file ${filename}`);
+  }
+
+  const base = value
     .replace(/%/g, 'u')
     .replace(/\.[^.]+$/, '')
     .replace(/[^a-zA-Z_$0-9]+/g, '_')
@@ -41,7 +46,7 @@ function getNameFromFilename(filename: string) {
  * webpack loader for sveltedoc-parser
  * @param source raw svelte component
  */
-export default async function svelteDocgen(source: string) {
+export default async function svelteDocgen(this: any, source: string) {
   // eslint-disable-next-line no-underscore-dangle
   const { resource } = this._module;
   // This is webpack5 only
@@ -83,12 +88,11 @@ export default async function svelteDocgen(source: string) {
     const componentName = getNameFromFilename(resource);
 
     docgen = dedent`
-
-              ${componentName}.__docgen = ${JSON.stringify(componentDoc)};
-              `;
+      ${componentName}.__docgen = ${JSON.stringify(componentDoc)};
+    `;
   } catch (error) {
     if (logDocgen) {
-      logger.error(error);
+      logger.error(error as any);
     }
   }
   // inject __docgen prop in svelte component

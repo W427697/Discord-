@@ -7,14 +7,14 @@ export const webpack: StorybookConfig['webpack'] = async (config, options) => {
     options
   );
 
-  const mainFields = (config.resolve.mainFields as string[]) || ['browser', 'module', 'main'];
+  const mainFields = (config.resolve?.mainFields as string[]) || ['browser', 'module', 'main'];
 
   return {
     ...config,
     module: {
       ...config.module,
       rules: [
-        ...config.module.rules,
+        ...(config.module?.rules || []),
         {
           test: /\.(svelte|html)$/,
           loader: require.resolve('svelte-loader'),
@@ -24,8 +24,8 @@ export const webpack: StorybookConfig['webpack'] = async (config, options) => {
     },
     resolve: {
       ...config.resolve,
-      extensions: [...config.resolve.extensions, '.svelte'],
-      alias: config.resolve.alias,
+      extensions: [...(config.resolve?.extensions || []), '.svelte'],
+      alias: config.resolve?.alias,
       mainFields: ['svelte', ...mainFields],
     },
   };

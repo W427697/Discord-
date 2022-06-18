@@ -23,11 +23,11 @@ export const setup = (fn: (app: any) => void) => {
   setupFunction = fn;
 };
 
-const map = new Map<HTMLElement, ReturnType<typeof createApp>>();
+const map = new Map<Element, ReturnType<typeof createApp>>();
 
 export function renderToDOM(
   { title, name, storyFn, showMain, showError, showException }: RenderContext<VueFramework>,
-  domElement: HTMLElement
+  domElement: Element
 ) {
   // TODO: explain cyclical nature of these app => story => mount
   let element: StoryFnVueReturnType;
