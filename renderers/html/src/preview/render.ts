@@ -2,14 +2,14 @@
 import global from 'global';
 import dedent from 'ts-dedent';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
-import { RenderContext } from '@storybook/store';
+import type { RenderContext } from '@storybook/store';
 import { HtmlFramework } from './types-6-0';
 
 const { Node } = global;
 
 export function renderToDOM(
   { storyFn, kind, name, showMain, showError, forceRemount }: RenderContext<HtmlFramework>,
-  domElement: HTMLElement
+  domElement: Element
 ) {
   const element = storyFn();
   showMain();

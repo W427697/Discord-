@@ -20,7 +20,7 @@ let lastPromise = app.boot();
 let hasRendered = false;
 let isRendering = false;
 
-function render(options: OptionsArgs, el: HTMLElement) {
+function render(options: OptionsArgs, el: Element) {
   if (isRendering) return;
   isRendering = true;
 
@@ -62,7 +62,7 @@ function render(options: OptionsArgs, el: HTMLElement) {
 
 export function renderToDOM(
   { storyFn, kind, name, showMain, showError }: RenderContext<EmberFramework>,
-  domElement: HTMLElement
+  domElement: Element
 ) {
   const element = storyFn();
 

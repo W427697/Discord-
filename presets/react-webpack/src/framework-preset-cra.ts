@@ -21,7 +21,9 @@ const checkForNewPreset = (presetsList: Preset[]) => {
 
 export const webpackFinal: StorybookConfig['webpack'] = (config, { presetsList }) => {
   if (isReactScriptsInstalled()) {
-    checkForNewPreset(presetsList);
+    if (presetsList) {
+      checkForNewPreset(presetsList);
+    }
   }
   return config;
 };

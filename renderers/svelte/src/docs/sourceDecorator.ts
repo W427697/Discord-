@@ -33,7 +33,7 @@ const skipSourceRender = (context: StoryContext<AnyFramework>) => {
  * @param value Value
  * @param argTypes Component ArgTypes
  */
-function toSvelteProperty(key: string, value: any, argTypes: ArgTypes): string {
+function toSvelteProperty(key: string, value: any, argTypes: ArgTypes): string | null {
   if (value === undefined || value === null) {
     return null;
   }
@@ -59,7 +59,7 @@ function toSvelteProperty(key: string, value: any, argTypes: ArgTypes): string {
  *
  * @param component Component
  */
-function getComponentName(component: any): string {
+function getComponentName(component: any): string | null {
   if (component == null) {
     return null;
   }
@@ -89,8 +89,8 @@ export function generateSvelteSource(
   component: any,
   args: Args,
   argTypes: ArgTypes,
-  slotProperty: string
-): string {
+  slotProperty?: string
+): string | null {
   const name = getComponentName(component);
 
   if (!name) {
@@ -174,7 +174,10 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<AnyFramework
     component = ctxtComponent;
   }
 
-  source = generateSvelteSource(component, args, context?.argTypes, slotProperty);
+  const generated = generateSvelteSource(component, args, context?.argTypes, slotProperty);
+  if (generated) {
+    source = generated;
+  }
 
   return story;
 };

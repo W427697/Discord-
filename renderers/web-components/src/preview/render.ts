@@ -13,7 +13,7 @@ const { Node } = global;
 
 export function renderToDOM(
   { storyFn, kind, name, showMain, showError, forceRemount }: RenderContext<WebComponentsFramework>,
-  domElement: HTMLElement
+  domElement: Element
 ) {
   const element = storyFn();
 
@@ -25,9 +25,9 @@ export function renderToDOM(
     if (forceRemount || !domElement.querySelector('[id="root-inner"]')) {
       domElement.innerHTML = '<div id="root-inner"></div>';
     }
-    const renderTo = domElement.querySelector('[id="root-inner"]');
+    const renderTo = domElement.querySelector<HTMLElement>('[id="root-inner"]');
 
-    render(element, renderTo as HTMLElement);
+    render(element, renderTo);
     simulatePageLoad(domElement);
   } else if (typeof element === 'string') {
     domElement.innerHTML = element;
