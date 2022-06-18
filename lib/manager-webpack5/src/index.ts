@@ -2,8 +2,9 @@ import webpack, { ProgressPlugin } from 'webpack';
 import type { Stats, Configuration } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import { logger } from '@storybook/node-logger';
-import { useProgressReporting, checkWebpackVersion } from '@storybook/core-common';
+import { useProgressReporting } from '@storybook/core-common';
 import type { Builder, Options } from '@storybook/core-common';
+import { checkWebpackVersion } from '@storybook/core-webpack';
 
 import findUp from 'find-up';
 import fs from 'fs-extra';
@@ -133,7 +134,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   const webpackInstance = await executor.get(options);
   yield;
-  const compiler = (webpackInstance as any)(config);
+  const compiler = webpackInstance(config);
 
   if (!compiler) {
     const err = `${config.name}: missing webpack compiler at runtime!`;
@@ -160,7 +161,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(compilation);
 
   const stats = await new Promise<Stats>((ready, stop) => {
-    compilation.waitUntilValid(ready);
+    compilation.waitUntilValid(ready as any);
     reject = stop;
   });
   yield;

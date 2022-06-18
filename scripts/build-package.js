@@ -2,20 +2,11 @@
 
 /* eslint-disable global-require */
 const { resolve } = require('path');
-const execa = require('execa');
-const terminalSize = require('window-size');
+const { readJSON } = require('fs-extra');
 
 const getStorybookPackages = async () => {
-  const { stdout } = await execa.command(`yarn workspaces list --json`);
-
-  const packages = stdout
-    .toString()
-    .split('\n')
-    .map((v) => JSON.parse(v))
-    .filter((v) => v.name.match(/@storybook\/(.)*/g))
-    .sort();
-
-  return packages;
+  const workspaceJSON = await readJSON(resolve(__dirname, '..', 'workspace.json'));
+  return Object.entries(workspaceJSON.projects).map(([k, v]) => ({ location: v.root, name: k }));
 };
 
 async function run() {
@@ -82,7 +73,7 @@ async function run() {
         name: 'todo',
         min: 1,
         hint: 'You can also run directly with package name like `yarn build core`, or `yarn build --all` for all packages!',
-        optionsPerPage: terminalSize.height - 3, // 3 lines for extra info
+        optionsPerPage: require('window-size').height - 3, // 3 lines for extra info
         choices: packages.map(({ name: key }) => ({
           value: key,
           title: tasks[key].name || key,
@@ -91,7 +82,7 @@ async function run() {
       },
     ]).then(({ mode, todo }) => {
       watchMode = mode;
-      return todo.map((key) => tasks[key]);
+      return todo?.map((key) => tasks[key]);
     });
   } else {
     // hits here when running yarn build --packagename
@@ -101,10 +92,16 @@ async function run() {
       .filter((item) => item.name !== 'watch' && item.value === true);
   }
 
-  selection.filter(Boolean).forEach((v) => {
-    const sub = execa.command(`yarn prepare${watchMode ? ' --watch' : ''}`, {
-      cwd: resolve(__dirname, '..', v.location),
+  selection?.filter(Boolean).forEach(async (v) => {
+    const commmand = (await readJSON(resolve(v.location, 'package.json'))).scripts.prepare;
+    const cwd = resolve(__dirname, '..', v.location);
+    const sub = require('execa').command(`yarn ${commmand}${watchMode ? ' --watch' : ''}`, {
+      cwd,
       buffer: false,
+      shell: true,
+      env: {
+        NODE_ENV: 'production',
+      },
     });
 
     sub.stdout.on('data', (data) => {

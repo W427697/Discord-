@@ -1,22 +1,26 @@
 import express, { Router } from 'express';
 import compression from 'compression';
 
-import type { Builder, Options, StorybookConfig } from '@storybook/core-common';
-import { logConfig } from '@storybook/core-common';
+import type { CoreConfig, Options, StorybookConfig } from '@storybook/core-common';
+import { normalizeStories, logConfig } from '@storybook/core-common';
 
+import { telemetry } from '@storybook/telemetry';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
 import { useStatics } from './utils/server-statics';
 import { useStoriesJson } from './utils/stories-json';
+import { useStorybookMetadata } from './utils/metadata';
 import { getServerChannel } from './utils/get-server-channel';
 
 import { openInBrowser } from './utils/open-in-browser';
-import { getPreviewBuilder } from './utils/get-preview-builder';
-import { getManagerBuilder } from './utils/get-manager-builder';
+import { getBuilders } from './utils/get-builders';
+import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
 // @ts-ignore
 export const router: Router = new Router();
+
+export const DEBOUNCE = 100;
 
 export async function storybookDevServer(options: Options) {
   const startTime = process.hrtime();
@@ -24,10 +28,72 @@ export async function storybookDevServer(options: Options) {
   const server = await getServer(app, options);
   const serverChannel = getServerChannel(server);
 
-  app.use(compression({ level: 1 }));
-
   const features = await options.presets.apply<StorybookConfig['features']>('features');
-  const core = await options.presets.apply<StorybookConfig['core']>('core');
+  const core = await options.presets.apply<CoreConfig>('core');
+  // try get index generator, if failed, send telemetry without storyCount, then rethrow the error
+  let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
+  if (features?.buildStoriesJson || features?.storyStoreV7) {
+    try {
+      const workingDir = process.cwd();
+      const directories = {
+        configDir: options.configDir,
+        workingDir,
+      };
+      const normalizedStories = normalizeStories(
+        await options.presets.apply('stories'),
+        directories
+      );
+      const storyIndexers = await options.presets.apply('storyIndexers', []);
+
+      const generator = new StoryIndexGenerator(normalizedStories, {
+        ...directories,
+        storyIndexers,
+        workingDir,
+        storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+        storyStoreV7: features?.storyStoreV7,
+      });
+
+      initializedStoryIndexGenerator = generator.initialize().then(() => generator);
+
+      useStoriesJson({
+        router,
+        initializedStoryIndexGenerator,
+        normalizedStories,
+        serverChannel,
+        workingDir,
+      });
+    } catch (err) {
+      if (!core?.disableTelemetry) {
+        telemetry('start');
+      }
+      throw err;
+    }
+  }
+
+  if (!core?.disableTelemetry) {
+    initializedStoryIndexGenerator.then(async (generator) => {
+      if (!generator) {
+        return;
+      }
+
+      const storyIndex = await generator.getIndex();
+      const payload = storyIndex
+        ? {
+            storyIndex: {
+              storyCount: Object.keys(storyIndex.stories).length,
+              version: storyIndex.v,
+            },
+          }
+        : undefined;
+      telemetry('start', payload, { configDir: options.configDir });
+    });
+  }
+
+  if (!core?.disableProjectJson) {
+    useStorybookMetadata(router, options.configDir);
+  }
+
+  app.use(compression({ level: 1 }));
 
   if (typeof options.extendServer === 'function') {
     options.extendServer(server);
@@ -51,10 +117,6 @@ export async function storybookDevServer(options: Options) {
     });
   }
 
-  if (features?.buildStoriesJson || features?.storyStoreV7) {
-    await useStoriesJson(router, serverChannel, options);
-  }
-
   // User's own static files
   await useStatics(router, options);
 
@@ -71,8 +133,7 @@ export async function storybookDevServer(options: Options) {
     server.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
   });
 
-  const previewBuilder: Builder<unknown, unknown> = await getPreviewBuilder(options.configDir);
-  const managerBuilder: Builder<unknown, unknown> = await getManagerBuilder(options.configDir);
+  const [previewBuilder, managerBuilder] = await getBuilders(options);
 
   if (options.debugWebpack) {
     logConfig('Preview webpack config', await previewBuilder.getConfig(options));
@@ -97,7 +158,7 @@ export async function storybookDevServer(options: Options) {
 
   const [previewResult, managerResult] = await Promise.all([
     preview.catch(async (err) => {
-      await managerBuilder.bail();
+      await managerBuilder?.bail();
       throw err;
     }),
     manager
@@ -107,7 +168,7 @@ export async function storybookDevServer(options: Options) {
       //   return result;
       // })
       .catch(async (err) => {
-        await previewBuilder.bail();
+        await previewBuilder?.bail();
         throw err;
       }),
   ]);

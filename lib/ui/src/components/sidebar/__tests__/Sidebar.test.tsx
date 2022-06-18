@@ -81,7 +81,7 @@ const generateStories = ({ kind, refId }: { kind: string; refId?: string }): Sto
 };
 
 describe('Sidebar', () => {
-  test("should not render an extra nested 'Page'", async () => {
+  test.skip("should not render an extra nested 'Page'", async () => {
     const refId = 'next';
     const kind = 'Getting Started/Install';
     const refStories: StoriesHash = generateStories({ refId, kind });

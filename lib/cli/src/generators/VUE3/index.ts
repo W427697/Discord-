@@ -1,7 +1,8 @@
-import { baseGenerator, Generator } from '../baseGenerator';
+import { baseGenerator } from '../baseGenerator';
+import { Generator } from '../types';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
-  baseGenerator(packageManager, npmOptions, options, 'vue3', {
+  await baseGenerator(packageManager, npmOptions, options, 'vue3', {
     extraPackages: ['vue-loader@^16.0.0'],
   });
 };

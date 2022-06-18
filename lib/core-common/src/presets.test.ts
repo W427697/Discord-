@@ -471,17 +471,7 @@ describe('loadPreset', () => {
     expect(loaded).toMatchInlineSnapshot(`
       Array [
         Object {
-          "name": "@storybook/react",
-          "options": Object {},
-          "preset": Object {},
-        },
-        Object {
           "name": "@storybook/preset-typescript",
-          "options": Object {},
-          "preset": Object {},
-        },
-        Object {
-          "name": "@storybook/react",
           "options": Object {},
           "preset": Object {},
         },
@@ -503,7 +493,9 @@ describe('loadPreset', () => {
             "type": "virtual",
           },
           "options": Object {},
-          "preset": Object {},
+          "preset": Object {
+            "framework": "@storybook/react",
+          },
         },
       ]
     `);

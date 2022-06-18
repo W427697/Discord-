@@ -9,6 +9,7 @@ import React, {
   useEffect,
   useRef,
   FC,
+  FocusEvent,
 } from 'react';
 import { styled, useTheme, Theme } from '@storybook/theming';
 
@@ -287,7 +288,7 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
       id={getControlId(name)}
       name={name}
       defaultValue={value === null ? '' : JSON.stringify(value, null, 2)}
-      onBlur={(event) => updateRaw(event.target.value)}
+      onBlur={(event: FocusEvent<HTMLInputElement>) => updateRaw(event.target.value)}
       placeholder="Edit JSON string..."
       autoFocus={forceVisible}
       valid={parseError ? 'error' : null}

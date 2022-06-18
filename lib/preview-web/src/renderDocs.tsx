@@ -1,7 +1,7 @@
-import React, { ComponentType } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { AnyFramework } from '@storybook/csf';
-import { Story } from '@storybook/store';
+import type { Story } from '@storybook/store';
 
 import { DocsContextProps } from './types';
 import { NoDocs } from './NoDocs';
@@ -25,16 +25,16 @@ async function renderDocsAsync<TFramework extends AnyFramework>(
     throw new Error('No `docs.container` set, did you run `addon-docs/preset`?');
   }
 
-  const DocsContainer: ComponentType<{ context: DocsContextProps<TFramework> }> =
+  const DocsContainer: any =
     docs.container ||
     (await docs.getContainer?.()) ||
     (({ children }: { children: Element }) => <>{children}</>);
 
-  const Page: ComponentType = docs.page || (await docs.getPage?.()) || NoDocs;
+  const Page: any = docs.page || (await docs.getPage?.()) || NoDocs;
 
   // Use `componentId` as a key so that we force a re-render every time
   // we switch components
-  const docsElement = (
+  const docsElement: any = (
     <DocsContainer key={story.componentId} context={docsContext}>
       <Page />
     </DocsContainer>

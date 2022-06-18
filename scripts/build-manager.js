@@ -2,14 +2,15 @@ const { buildStaticStandalone } = require('../lib/core-server/dist/cjs/build-sta
 
 process.env.NODE_ENV = 'production';
 
-buildStaticStandalone({
-  ignorePreview: true,
-  outputDir: './lib/manager-webpack4/prebuilt',
-  configDir: './scripts/build-manager-config',
-});
+const run = async () => {
+  await buildStaticStandalone({
+    ignorePreview: true,
+    outputDir: './lib/manager-webpack5/prebuilt',
+    configDir: './scripts/build-manager-config',
+  });
+};
 
-buildStaticStandalone({
-  ignorePreview: true,
-  outputDir: './lib/manager-webpack5/prebuilt',
-  configDir: './scripts/build-manager-config',
+run().catch((e) => {
+  console.log(e);
+  process.exit(1);
 });

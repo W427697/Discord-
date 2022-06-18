@@ -1,10 +1,11 @@
 import { sync as spawnSync } from 'cross-spawn';
+import { telemetry } from '@storybook/telemetry';
 import semver from '@storybook/semver';
 import { logger } from '@storybook/node-logger';
 import {
   getPackageDetails,
   JsPackageManagerFactory,
-  PackageJsonWithDepsAndDevDeps,
+  PackageJsonWithMaybeDeps,
 } from './js-package-manager';
 import { commandLog } from './helpers';
 import { automigrate } from './automigrate';
@@ -42,6 +43,10 @@ const excludeList = [
   '@storybook/builder-vite',
   '@storybook/mdx1-csf',
   '@storybook/mdx2-csf',
+  '@storybook/expect',
+  '@storybook/jest',
+  '@storybook/test-runner',
+  '@storybook/testing-library',
 ];
 export const isCorePackage = (pkg: string) =>
   pkg.startsWith('@storybook/') &&
@@ -111,7 +116,7 @@ const EXTRA_FLAGS: ExtraFlags = {
 export const addExtraFlags = (
   extraFlags: ExtraFlags,
   flags: string[],
-  { dependencies, devDependencies }: PackageJsonWithDepsAndDevDeps
+  { dependencies, devDependencies }: PackageJsonWithMaybeDeps
 ) => {
   return Object.entries(extraFlags).reduce(
     (acc, entry) => {
@@ -135,12 +140,23 @@ interface UpgradeOptions {
   useNpm: boolean;
   dryRun: boolean;
   yes: boolean;
+  disableTelemetry: boolean;
 }
 
-export const upgrade = async ({ prerelease, skipCheck, useNpm, dryRun, yes }: UpgradeOptions) => {
+export const upgrade = async ({
+  prerelease,
+  skipCheck,
+  useNpm,
+  dryRun,
+  yes,
+  ...options
+}: UpgradeOptions) => {
   const packageManager = JsPackageManagerFactory.getPackageManager(useNpm);
 
   commandLog(`Checking for latest versions of '@storybook/*' packages`);
+  if (!options.disableTelemetry) {
+    telemetry('upgrade', { prerelease });
+  }
 
   let flags = [];
   if (!dryRun) flags.push('--upgrade');

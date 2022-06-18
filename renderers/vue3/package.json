@@ -1,0 +1,62 @@
+{
+  "name": "@storybook/vue3",
+  "version": "7.0.0-alpha.3",
+  "description": "Storybook Vue 3 renderer",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/renderers/vue3",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "renderers/vue3"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "bin/**/*",
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/addons": "7.0.0-alpha.3",
+    "@storybook/core-client": "7.0.0-alpha.3",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/docs-tools": "7.0.0-alpha.3",
+    "@storybook/store": "7.0.0-alpha.3",
+    "core-js": "^3.8.2",
+    "global": "^4.4.0",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "ts-dedent": "^2.0.0"
+  },
+  "devDependencies": {
+    "vue": "3.0.0"
+  },
+  "peerDependencies": {
+    "@babel/core": "*",
+    "babel-loader": "^7.0.0 || ^8.0.0",
+    "vue": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=10.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "629b056190993bcee6445471b8cb27208eb401a9"
+}

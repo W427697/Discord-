@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addons",
-  "version": "6.5.0-alpha.64",
+  "version": "7.0.0-alpha.3",
   "description": "Storybook addons store",
   "keywords": [
     "storybook"
@@ -20,16 +20,9 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/public_api.js",
-  "module": "dist/esm/public_api.js",
-  "types": "dist/ts3.9/public_api.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -40,17 +33,16 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/api": "6.5.0-alpha.64",
-    "@storybook/channels": "6.5.0-alpha.64",
-    "@storybook/client-logger": "6.5.0-alpha.64",
-    "@storybook/core-events": "6.5.0-alpha.64",
-    "@storybook/csf": "0.0.2--canary.7c6c115.0",
-    "@storybook/router": "6.5.0-alpha.64",
-    "@storybook/theming": "6.5.0-alpha.64",
-    "@types/webpack-env": "^1.16.0",
+    "@storybook/api": "7.0.0-alpha.3",
+    "@storybook/channels": "7.0.0-alpha.3",
+    "@storybook/client-logger": "7.0.0-alpha.3",
+    "@storybook/core-events": "7.0.0-alpha.3",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/router": "7.0.0-alpha.3",
+    "@storybook/theming": "7.0.0-alpha.3",
+    "@types/webpack-env": "^1.16.4",
     "core-js": "^3.8.2",
-    "global": "^4.4.0",
-    "regenerator-runtime": "^0.13.7"
+    "global": "^4.4.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -59,6 +51,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "7417a230d67b54d65caedcfb584f924b879ac9f5",
-  "sbmodern": "dist/modern/public_api.js"
+  "gitHead": "629b056190993bcee6445471b8cb27208eb401a9"
 }

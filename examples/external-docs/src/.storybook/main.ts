@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/react/types';
+import type { StorybookConfig } from '@storybook/react-webpack5/types';
 
 const config: StorybookConfig = {
   stories: [
@@ -17,18 +17,16 @@ const config: StorybookConfig = {
     },
   },
   core: {
-    builder: { name: 'webpack4' },
     channelOptions: { allowFunction: false, maxDepth: 10 },
   },
   features: {
     postcss: false,
-    // modernInlineRender: true,
     storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
     buildStoriesJson: true,
     babelModeV7: true,
     warnOnLegacyHierarchySeparator: false,
     previewMdx2: true,
   },
-  framework: '@storybook/react',
+  framework: '@storybook/react-webpack5',
 };
 module.exports = config;

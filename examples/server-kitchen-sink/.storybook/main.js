@@ -9,4 +9,11 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-controls',
   ],
+  core: {
+    disableTelemetry: true,
+  },
+  features: {
+    storyStoreV7: false,
+  },
+  framework: '@storybook/server-webpack5',
 };
