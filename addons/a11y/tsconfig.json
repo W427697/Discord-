@@ -1,15 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": [
-      "jest"
-    ],
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "strict": true
   },
   "include": [
     "src/**/*"

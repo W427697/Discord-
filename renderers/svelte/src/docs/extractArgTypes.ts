@@ -32,50 +32,56 @@ export const extractArgTypes: ArgTypesExtractor = (component: ComponentWithDocge
 
 export const createArgTypes = (docgen: SvelteComponentDoc) => {
   const results: StrictArgTypes = {};
-  docgen.data.forEach((item) => {
-    results[item.name] = {
-      control: parseTypeToControl(item.type),
-      name: item.name,
-      description: item.description,
-      type: {
-        required: hasKeyword('required', item.keywords),
-        name: item.type?.text as SBScalarType['name'],
-      },
-      table: {
+  if (docgen.data) {
+    docgen.data.forEach((item) => {
+      results[item.name] = {
+        control: parseTypeToControl(item.type),
+        name: item.name,
+        description: item.description || undefined,
         type: {
-          summary: item.type?.text,
+          required: hasKeyword('required', item.keywords || []),
+          name: item.type?.text as SBScalarType['name'],
         },
-        defaultValue: {
-          summary: item.defaultValue,
+        table: {
+          type: {
+            summary: item.type?.text,
+          },
+          defaultValue: {
+            summary: item.defaultValue,
+          },
+          category: 'properties',
         },
-        category: 'properties',
-      },
-    };
-  });
+      };
+    });
+  }
 
-  docgen.events.forEach((item) => {
-    results[`event_${item.name}`] = {
-      name: item.name,
-      description: item.description,
-      type: { name: 'other', value: 'void' },
-      table: {
-        category: 'events',
-      },
-    };
-  });
+  if (docgen.events) {
+    docgen.events.forEach((item) => {
+      results[`event_${item.name}`] = {
+        name: item.name,
+        description: item.description || undefined,
+        type: { name: 'other', value: 'void' },
+        table: {
+          category: 'events',
+        },
+      };
+    });
+  }
 
-  docgen.slots.forEach((item) => {
-    results[`slot_${item.name}`] = {
-      name: item.name,
-      description: [item.description, item.params?.map((p) => `\`${p.name}\``).join(' ')]
-        .filter((p) => p)
-        .join('\n\n'),
-      type: { name: 'other', value: 'void' },
-      table: {
-        category: 'slots',
-      },
-    };
-  });
+  if (docgen.slots) {
+    docgen.slots.forEach((item) => {
+      results[`slot_${item.name}`] = {
+        name: item.name,
+        description: [item.description, item.params?.map((p) => `\`${p.name}\``).join(' ')]
+          .filter((p) => p)
+          .join('\n\n'),
+        type: { name: 'other', value: 'void' },
+        table: {
+          category: 'slots',
+        },
+      };
+    });
+  }
 
   return results;
 };
@@ -85,7 +91,7 @@ export const createArgTypes = (docgen: SvelteComponentDoc) => {
  * @param typeName
  * @returns string
  */
-const parseTypeToControl = (type: JSDocType): any => {
+const parseTypeToControl = (type: JSDocType | undefined): any => {
   if (!type) {
     return null;
   }
@@ -107,7 +113,9 @@ const parseTypeToControl = (type: JSDocType): any => {
     if (Array.isArray(type.type) && !type.type.find((t) => t.type !== 'string')) {
       return {
         type: 'radio',
-        options: type.type.filter((t) => t.kind === 'const').map((t: JSDocTypeConst) => t.value),
+        options: type.type
+          .filter((t) => t.kind === 'const')
+          .map((t) => (t as JSDocTypeConst).value),
       };
     }
   }

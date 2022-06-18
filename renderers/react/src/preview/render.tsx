@@ -123,7 +123,7 @@ export async function renderToDOM(
     showException,
     forceRemount,
   }: RenderContext<ReactFramework>,
-  domElement: HTMLElement
+  domElement: Element
 ) {
   const Story = unboundStoryFn as FunctionComponent<StoryContext<ReactFramework>>;
 

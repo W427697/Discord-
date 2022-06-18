@@ -14,7 +14,7 @@ export function keepOriginalDefinitionOrder(
   if (propTypes != null) {
     return Object.keys(propTypes)
       .map((x) => extractedProps.find((y) => y.name === x))
-      .filter((x) => x);
+      .filter(Boolean) as PropDef[];
   }
 
   return extractedProps;

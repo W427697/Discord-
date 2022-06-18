@@ -2,7 +2,7 @@ type Component = any;
 
 export function extractComponentDescription(component?: Component): string {
   if (!component) {
-    return null;
+    return '';
   }
 
   const { __docgen = {} } = component;

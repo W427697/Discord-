@@ -120,6 +120,7 @@ export function composeStories<TModule extends CSFExports<ReactFramework>>(
   csfExports: TModule,
   projectAnnotations?: ProjectAnnotations<ReactFramework>
 ) {
+  // @ts-ignore
   const composedStories = originalComposeStories(csfExports, projectAnnotations, composeStory);
 
   return composedStories as unknown as Omit<
