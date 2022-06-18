@@ -1,11 +1,5 @@
 import PropTypes from 'prop-types';
-import {
-  PropDef,
-  hasDocgen,
-  extractComponentProps,
-  PropsExtractor,
-  TypeSystem,
-} from '@storybook/docs-tools';
+import { PropDef, hasDocgen, extractComponentProps, TypeSystem } from '@storybook/docs-tools';
 import { enhancePropTypesProps } from './propTypes/handleProp';
 import { enhanceTypeScriptProps } from './typeScript/handleProp';
 import { isMemo } from './lib';
@@ -50,6 +44,6 @@ function getPropDefs(component: Component, section: string): PropDef[] {
   }
 }
 
-export const extractProps: PropsExtractor = (component) => ({
+export const extractProps = (component: Component) => ({
   rows: getPropDefs(component, 'props'),
 });

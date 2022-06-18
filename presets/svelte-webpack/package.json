@@ -38,7 +38,6 @@
     "core-js": "^3.8.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
-    "regenerator-runtime": "^0.13.7",
     "sveltedoc-parser": "4.1.0",
     "ts-dedent": "^2.0.0"
   },
