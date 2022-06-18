@@ -36,7 +36,9 @@ export const hrefTo = (title: ComponentTitle, name: StoryName): Promise<string> 
   return new Promise((resolve) => {
     const { location } = document;
     const query = parseQuery(location.search);
+    // @ts-ignore
     const existingId = [].concat(query.id)[0];
+    // @ts-ignore
     const titleToLink = title || existingId.split('--', 2)[0];
     const id = toId(titleToLink, name);
     const url = `${location.origin + location.pathname}?${Object.entries({ ...query, id })
@@ -55,12 +57,16 @@ export const linkTo =
   (...args: any[]) => {
     const resolver = valueOrCall(args);
     const title = resolver(idOrTitle);
-    const name = resolver(nameInput);
+    const name = nameInput ? resolver(nameInput) : false;
 
     if (title?.match(/--/) && !name) {
       navigate({ storyId: title });
-    } else {
+    } else if (name && title) {
       navigate({ kind: title, story: name });
+    } else if (title) {
+      navigate({ kind: title });
+    } else if (name) {
+      navigate({ story: name });
     }
   };
 

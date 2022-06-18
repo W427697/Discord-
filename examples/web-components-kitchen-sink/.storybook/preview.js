@@ -19,7 +19,7 @@ export const parameters = {
   docs: {
     iframeHeight: '200px',
   },
-  chromatic: { delay: 10000 },
+  chromatic: { delay: 3000 },
 };
 
 export const globalTypes = {

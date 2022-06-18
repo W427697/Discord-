@@ -10,7 +10,7 @@ export function loadEnvs(options: { production?: boolean } = {}): {
 } {
   const defaultNodeEnv = options.production ? 'production' : 'development';
 
-  const env: Record<string, string> = {
+  const env: Record<string, string | undefined> = {
     NODE_ENV: process.env.NODE_ENV || defaultNodeEnv,
     NODE_PATH: process.env.NODE_PATH || '',
     STORYBOOK: process.env.STORYBOOK || 'true',

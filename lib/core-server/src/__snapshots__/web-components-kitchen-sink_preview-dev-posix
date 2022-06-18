@@ -66,6 +66,7 @@ Object {
         "use": Object {
           "loader": "NODE_MODULES/babel-loader/lib/index.js",
           "options": Object {
+            "compact": false,
             "plugins": Array [
               "NODE_MODULES/@babel/plugin-syntax-dynamic-import/lib/index.js",
               "NODE_MODULES/@babel/plugin-syntax-import-meta/lib/index.js",
@@ -83,6 +84,7 @@ Object {
                   "corejs": 3,
                   "targets": Object {
                     "chrome": "100",
+                    "esmodules": true,
                   },
                   "useBuiltIns": "entry",
                 },
