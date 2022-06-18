@@ -20,33 +20,40 @@ import {
   readTemplate,
   loadPreviewOrConfigFile,
 } from '@storybook/core-common';
+import type { TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 
-import { useBaseTsSupport } from './useBaseTsSupport';
+const storybookPaths: Record<string, string> = {
+  global: path.dirname(require.resolve(`global/package.json`)),
+  ...[
+    'addons',
+    'api',
+    'store',
+    'channels',
+    'channel-postmessage',
+    'channel-websocket',
+    'components',
+    'core-events',
+    'router',
+    'theming',
+    'semver',
+    'preview-web',
+    'client-api',
+    'client-logger',
+  ].reduce(
+    (acc, sbPackage) => ({
+      ...acc,
+      [`@storybook/${sbPackage}`]: path.dirname(
+        require.resolve(`@storybook/${sbPackage}/package.json`)
+      ),
+    }),
+    {}
+  ),
+};
 
-const storybookPaths: Record<string, string> = [
-  'addons',
-  'api',
-  'channels',
-  'channel-postmessage',
-  'components',
-  'core-events',
-  'router',
-  'theming',
-  'semver',
-  'client-api',
-  'client-logger',
-].reduce(
-  (acc, sbPackage) => ({
-    ...acc,
-    [`@storybook/${sbPackage}`]: path.dirname(
-      require.resolve(`@storybook/${sbPackage}/package.json`)
-    ),
-  }),
-  {}
-);
-
-export default async (options: Options & Record<string, any>): Promise<Configuration> => {
+export default async (
+  options: Options & Record<string, any> & { typescriptOptions: TypescriptOptions }
+): Promise<Configuration> => {
   const {
     outputDir = path.join('.', 'public'),
     quiet,
@@ -155,7 +162,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     }
   }
 
-  const shouldCheckTs = useBaseTsSupport(frameworkName) && typescriptOptions.check;
+  const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
 
   return {
@@ -231,7 +238,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     ].filter(Boolean),
     module: {
       rules: [
-        createBabelLoader(babelOptions, frameworkName),
+        createBabelLoader(babelOptions, typescriptOptions),
         {
           test: /\.md$/,
           type: 'asset/source',

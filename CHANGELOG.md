@@ -1,3 +1,42 @@
+## 7.0.0-alpha.3 (June 17, 2022)
+
+### Features
+
+- Interactions: Collapse child interactions ([#18484](https://github.com/storybookjs/storybook/pull/18484))
+
+### Bug Fixes
+
+- Interactions: Fix `waitFor` behavior while debugging ([#18460](https://github.com/storybookjs/storybook/pull/18460))
+- UI: Fix display skip to sidebar button ([#18479](https://github.com/storybookjs/storybook/pull/18479))
+
+### Maintenance
+
+- CLI: Use `storybook` instead of `sb` ([#18430](https://github.com/storybookjs/storybook/pull/18430))
+- Components: Re-bundle the syntax highlighter ([#18425](https://github.com/storybookjs/storybook/pull/18425))
+
+## 7.0.0-alpha.2 (June 15, 2022)
+
+### Features
+
+- UI: Update manager to respect `parameters.docsOnly` in `stories.json` ([#18433](https://github.com/storybookjs/storybook/pull/18433))
+- CLI: Add additional files api to sb repro ([#18389](https://github.com/storybookjs/storybook/pull/18389))
+
+### Bug Fixes
+
+- Core: Fix process is not defined when using components ([#18469](https://github.com/storybookjs/storybook/pull/18469))
+- Story index: Warn on `storyName` in CSF3 exports ([#18464](https://github.com/storybookjs/storybook/pull/18464))
+- Telemetry: Strip out preset from addon name ([#18442](https://github.com/storybookjs/storybook/pull/18442))
+
+### Maintenance
+
+- CLI: Improve to be more async & cleanup ([#18475](https://github.com/storybookjs/storybook/pull/18475))
+- 7.0.0 pnp support ([#18461](https://github.com/storybookjs/storybook/pull/18461))
+- Build: Use playright version of sb-bench ([#18458](https://github.com/storybookjs/storybook/pull/18458))
+- Angular: Support Angular 14 standalone components ([#18272](https://github.com/storybookjs/storybook/pull/18272))
+- Build: Fix prebundle script on Windows ([#18365](https://github.com/storybookjs/storybook/pull/18365))
+- Scripts: Clean verdaccio cache when running locally ([#18359](https://github.com/storybookjs/storybook/pull/18359))
+- Core: fix PnP compatibility for @storybook/ui and @storybook/router packages ([#18412](https://github.com/storybookjs/storybook/pull/18412))
+
 ## 7.0.0-alpha.1 (June 7, 2022)
 
 ### Bug Fixes

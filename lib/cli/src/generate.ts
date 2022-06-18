@@ -38,6 +38,7 @@ program
   .option('-f --force', 'Force add Storybook')
   .option('-s --skip-install', 'Skip installing deps')
   .option('-N --use-npm', 'Use npm to install deps')
+  .option('--use-pnp', 'Enable pnp mode')
   .option('-p --parser <babel | babylon | flow | ts | tsx>', 'jscodeshift parser')
   .option('-t --type <type>', 'Add Storybook for a specific project type')
   .option('-y --yes', 'Answer yes to all prompts')
