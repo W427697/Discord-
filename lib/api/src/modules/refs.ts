@@ -5,12 +5,11 @@ import {
   SetStoriesStory,
   StoriesHash,
   transformStoryIndexToStoriesHash,
-  StoryIndexEntry,
   SetStoriesStoryData,
   StoryIndex,
 } from '../lib/stories';
 
-import type { ModuleFn, StoryId } from '../index';
+import type { ModuleFn } from '../index';
 
 const { location, fetch } = global;
 
