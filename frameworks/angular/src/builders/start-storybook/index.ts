@@ -15,6 +15,7 @@ import { from, Observable, of } from 'rxjs';
 import type { CLIOptions } from '@storybook/core-common';
 import { map, switchMap, mapTo } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
+import { sync as readUpSync } from 'read-pkg-up';
 
 import { buildDevStandalone } from '@storybook/core-server';
 import type { StandaloneOptions } from '../utils/standalone-options';
@@ -81,6 +82,7 @@ function commandBuilder(
       } = options;
 
       const standaloneOptions: StandaloneOptions = {
+        packageJson: readUpSync({ cwd: __dirname }).packageJson,
         ci,
         configDir,
         docs,

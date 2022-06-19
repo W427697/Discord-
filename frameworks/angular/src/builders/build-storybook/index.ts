@@ -10,6 +10,7 @@ import { from, Observable, of, throwError } from 'rxjs';
 import type { CLIOptions } from '@storybook/core-common';
 import { catchError, map, mapTo, switchMap } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
+import { sync as readUpSync } from 'read-pkg-up';
 import {
   BrowserBuilderOptions,
   ExtraEntryPoint,
@@ -66,6 +67,7 @@ function commandBuilder(
       } = options;
 
       const standaloneOptions: StandaloneOptions = {
+        packageJson: readUpSync({ cwd: __dirname }).packageJson,
         configDir,
         docs,
         loglevel,
