@@ -119,7 +119,9 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
         throw new Error('`storyById` not available for modern docs files.');
       },
       componentStories: () => {
-        throw new Error('You cannot render all the stories for a component in a docs.mdx file');
+        throw new Error(
+          'You cannot render all the stories for a component in a (non-legacy) .mdx file'
+        );
       },
     };
   }

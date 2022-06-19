@@ -40,7 +40,7 @@ const normalizedStories = [
     {
       titlePrefix: '',
       directory: './src',
-      files: '**/*.docs.mdx',
+      files: '**/*.mdx',
     },
     { workingDir, configDir: workingDir }
   ),
@@ -117,7 +117,7 @@ describe('useStoriesJson', () => {
           "entries": Object {
             "a--docs": Object {
               "id": "a--docs",
-              "importPath": "./src/docs2/MetaOf.docs.mdx",
+              "importPath": "./src/docs2/MetaOf.mdx",
               "name": "docs",
               "storiesImports": Array [
                 "./src/A.stories.js",
@@ -148,7 +148,7 @@ describe('useStoriesJson', () => {
             },
             "docs2-notitle--docs": Object {
               "id": "docs2-notitle--docs",
-              "importPath": "./src/docs2/NoTitle.docs.mdx",
+              "importPath": "./src/docs2/NoTitle.mdx",
               "name": "docs",
               "storiesImports": Array [],
               "title": "docs2/NoTitle",
@@ -156,7 +156,7 @@ describe('useStoriesJson', () => {
             },
             "docs2-yabbadabbadooo--docs": Object {
               "id": "docs2-yabbadabbadooo--docs",
-              "importPath": "./src/docs2/Title.docs.mdx",
+              "importPath": "./src/docs2/Title.mdx",
               "name": "docs",
               "storiesImports": Array [],
               "title": "docs2/Yabbadabbadooo",
@@ -210,13 +210,13 @@ describe('useStoriesJson', () => {
           "stories": Object {
             "a--docs": Object {
               "id": "a--docs",
-              "importPath": "./src/docs2/MetaOf.docs.mdx",
+              "importPath": "./src/docs2/MetaOf.mdx",
               "kind": "A",
               "name": "docs",
               "parameters": Object {
                 "__id": "a--docs",
                 "docsOnly": true,
-                "fileName": "./src/docs2/MetaOf.docs.mdx",
+                "fileName": "./src/docs2/MetaOf.mdx",
               },
               "storiesImports": Array [
                 "./src/A.stories.js",
@@ -265,13 +265,13 @@ describe('useStoriesJson', () => {
             },
             "docs2-notitle--docs": Object {
               "id": "docs2-notitle--docs",
-              "importPath": "./src/docs2/NoTitle.docs.mdx",
+              "importPath": "./src/docs2/NoTitle.mdx",
               "kind": "docs2/NoTitle",
               "name": "docs",
               "parameters": Object {
                 "__id": "docs2-notitle--docs",
                 "docsOnly": true,
-                "fileName": "./src/docs2/NoTitle.docs.mdx",
+                "fileName": "./src/docs2/NoTitle.mdx",
               },
               "storiesImports": Array [],
               "story": "docs",
@@ -279,13 +279,13 @@ describe('useStoriesJson', () => {
             },
             "docs2-yabbadabbadooo--docs": Object {
               "id": "docs2-yabbadabbadooo--docs",
-              "importPath": "./src/docs2/Title.docs.mdx",
+              "importPath": "./src/docs2/Title.mdx",
               "kind": "docs2/Yabbadabbadooo",
               "name": "docs",
               "parameters": Object {
                 "__id": "docs2-yabbadabbadooo--docs",
                 "docsOnly": true,
-                "fileName": "./src/docs2/Title.docs.mdx",
+                "fileName": "./src/docs2/Title.mdx",
               },
               "storiesImports": Array [],
               "story": "docs",
@@ -714,7 +714,7 @@ describe('convertToIndexV3', () => {
       entries: {
         'a--docs': {
           id: 'a--docs',
-          importPath: './src/docs2/MetaOf.docs.mdx',
+          importPath: './src/docs2/MetaOf.mdx',
           name: 'docs',
           storiesImports: ['./src/A.stories.js'],
           title: 'A',
@@ -742,13 +742,13 @@ describe('convertToIndexV3', () => {
         "stories": Object {
           "a--docs": Object {
             "id": "a--docs",
-            "importPath": "./src/docs2/MetaOf.docs.mdx",
+            "importPath": "./src/docs2/MetaOf.mdx",
             "kind": "A",
             "name": "docs",
             "parameters": Object {
               "__id": "a--docs",
               "docsOnly": true,
-              "fileName": "./src/docs2/MetaOf.docs.mdx",
+              "fileName": "./src/docs2/MetaOf.mdx",
             },
             "storiesImports": Array [
               "./src/A.stories.js",

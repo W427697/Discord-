@@ -626,7 +626,7 @@ describe('StoryStore', () => {
             id: 'introduction--docs',
             title: 'Introduction',
             name: 'Docs',
-            importPath: './introduction.docs.mdx',
+            importPath: './introduction.mdx',
             storiesImports: [],
           },
         },
