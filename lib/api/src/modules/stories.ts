@@ -91,16 +91,6 @@ export interface SubAPI {
   updateStory: (storyId: StoryId, update: StoryUpdate, ref?: ComposedRef) => Promise<void>;
 }
 
-interface Meta {
-  ref?: ComposedRef;
-  source?: string;
-  sourceType?: 'local' | 'external';
-  sourceLocation?: string;
-  refId?: string;
-  v?: number;
-  type: string;
-}
-
 const deprecatedOptionsParameterWarnings: Record<string, () => void> = [
   'enableShortcuts',
   'theme',
@@ -502,19 +492,19 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
     fullAPI.on(SET_STORIES, function handler(data: SetStoriesPayload) {
       const { ref } = getEventMetadata(this, fullAPI);
-      const stories = data.v ? denormalizeStoryParameters(data) : data.stories;
+      const setStoriesData = data.v ? denormalizeStoryParameters(data) : data.stories;
 
       if (!ref) {
         if (!data.v) {
           throw new Error('Unexpected legacy SET_STORIES event from local source');
         }
 
-        fullAPI.setStories(stories);
+        fullAPI.setStories(setStoriesData);
         const options = fullAPI.getCurrentParameter('options');
         checkDeprecatedOptionParameters(options);
         fullAPI.setOptions(options);
       } else {
-        fullAPI.setRef(ref.id, { ...ref, ...data, stories }, true);
+        fullAPI.setRef(ref.id, { ...ref, setStoriesData }, true);
       }
     });
 

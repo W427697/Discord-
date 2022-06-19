@@ -146,24 +146,27 @@ export const combineParameters = (...parameterSets: Parameters[]) =>
     return undefined;
   });
 
-export type ModuleFn<APIType = unknown, StateType = unknown, HasInit = false> = (
-  m: ModuleArgs
-) => Module<APIType, StateType, HasInit>;
-
-interface FullModule<APIType = unknown, StateType = unknown> {
-  init: () => Promise<void>;
+interface ModuleWithInit<APIType = unknown, StateType = unknown> {
+  init: () => void | Promise<void>;
   api: APIType;
   state: StateType;
 }
 
-type Module<APIType = unknown, StateType = unknown, HasInit = false> = HasInit extends true
-  ? FullModule<APIType, StateType>
-  : Omit<FullModule<APIType, StateType>, 'init'>;
+type ModuleWithoutInit<APIType = unknown, StateType = unknown> = Omit<
+  ModuleWithInit<APIType, StateType>,
+  'init'
+>;
+
+export type ModuleFn<APIType = unknown, StateType = unknown, HasInit = false> = (
+  m: ModuleArgs
+) => HasInit extends true
+  ? ModuleWithInit<APIType, StateType>
+  : ModuleWithoutInit<APIType, StateType>;
 
 class ManagerProvider extends Component<ManagerProviderProps, State> {
   api: API = {} as API;
 
-  modules: Module[];
+  modules: (ModuleWithInit | ModuleWithoutInit)[];
 
   static displayName = 'Manager';
 
@@ -265,9 +268,9 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
   initModules = () => {
     // Now every module has had a chance to set its API, call init on each module which gives it
     // a chance to do things that call other modules' APIs.
-    this.modules.forEach(({ init }) => {
-      if (init) {
-        init();
+    this.modules.forEach((module) => {
+      if ('init' in module) {
+        module.init();
       }
     });
   };
