@@ -37,7 +37,6 @@
     "@babel/preset-env": "^7.12.11",
     "@storybook/builder-webpack5": "7.0.0-alpha.3",
     "@storybook/core-common": "7.0.0-alpha.3",
-    "@storybook/core-server": "7.0.0-alpha.3",
     "@storybook/preset-web-components-webpack": "7.0.0-alpha.3",
     "@storybook/web-components": "7.0.0-alpha.3",
     "@types/node": "^14.14.20 || ^16.0.0",

@@ -35,7 +35,6 @@
   "dependencies": {
     "@storybook/builder-webpack5": "7.0.0-alpha.3",
     "@storybook/core-common": "7.0.0-alpha.3",
-    "@storybook/core-server": "7.0.0-alpha.3",
     "@storybook/preset-svelte-webpack": "7.0.0-alpha.3",
     "@storybook/svelte": "7.0.0-alpha.3",
     "core-js": "^3.8.2",

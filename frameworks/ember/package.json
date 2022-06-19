@@ -32,7 +32,6 @@
     "@storybook/builder-webpack5": "7.0.0-alpha.3",
     "@storybook/core-client": "7.0.0-alpha.3",
     "@storybook/core-common": "7.0.0-alpha.3",
-    "@storybook/core-server": "7.0.0-alpha.3",
     "@storybook/docs-tools": "7.0.0-alpha.3",
     "@storybook/store": "7.0.0-alpha.3",
     "core-js": "^3.8.2",
