@@ -23,12 +23,22 @@ import { parseList, getEnvConfig } from './utils';
 const pkg = readUpSync({ cwd: __dirname }).packageJson;
 const consoleLogger = console;
 
+program.option(
+  '--disable-telemetry',
+  'disable sending telemetry data',
+  // default value is false, but if the user sets STORYBOOK_DISABLE_TELEMETRY, it can be true
+  process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
+);
+
+program.option('--enable-crash-reports', 'enable sending crash reports to telemetry data');
+
 program
   .command('init')
   .description('Initialize Storybook into your project.')
   .option('-f --force', 'Force add Storybook')
   .option('-s --skip-install', 'Skip installing deps')
   .option('-N --use-npm', 'Use npm to install deps')
+  .option('--use-pnp', 'Enable pnp mode')
   .option('-p --parser <babel | babylon | flow | ts | tsx>', 'jscodeshift parser')
   .option('-t --type <type>', 'Add Storybook for a specific project type')
   .option('-y --yes', 'Answer yes to all prompts')
@@ -89,7 +99,15 @@ program
     'Rename suffix of matching files after codemod has been applied, e.g. ".js:.ts"'
   )
   .action((migration, { configDir, glob, dryRun, list, rename, parser }) => {
-    migrate(migration, { configDir, glob, dryRun, list, rename, parser, logger }).catch((err) => {
+    migrate(migration, {
+      configDir,
+      glob,
+      dryRun,
+      list,
+      rename,
+      parser,
+      logger: consoleLogger,
+    }).catch((err) => {
       logger.error(err);
       process.exit(1);
     });
@@ -108,14 +126,15 @@ program
 program
   .command('repro [outputDirectory]')
   .description('Create a reproduction from a set of possible templates')
-  .option('-f --framework <framework>', 'Filter on given framework')
+  .option('-f --renderer <renderer>', 'Filter on given renderer')
   .option('-t --template <template>', 'Use the given template')
   .option('-l --list', 'List available templates')
   .option('-g --generator <generator>', 'Use custom generator command')
   .option('--pnp', "Use Yarn Plug'n'Play mode instead of node_modules one")
+  .option('--local', "use storybook's local packages instead of yarn's registry")
   .option('--e2e', 'Used in e2e context')
-  .action((outputDirectory, { framework, template, list, e2e, generator, pnp }) =>
-    repro({ outputDirectory, framework, template, list, e2e, generator, pnp }).catch((e) => {
+  .action((outputDirectory, { renderer, template, list, e2e, generator, pnp, local }) =>
+    repro({ outputDirectory, renderer, template, list, e2e, local, generator, pnp }).catch((e) => {
       logger.error(e);
       process.exit(1);
     })
@@ -181,7 +200,6 @@ program
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
-  .option('--modern', 'Use modern browser modules')
   .action((options) => {
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}`) + chalk.reset('\n'));
@@ -218,7 +236,6 @@ program
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
-  .option('--modern', 'Use modern browser modules')
   .option('--no-manager-cache', 'Do not cache the manager UI')
   .action((options) => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';

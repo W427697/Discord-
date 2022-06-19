@@ -28,8 +28,8 @@ const _getPath = (path: string[], node: t.Node): t.Node | undefined => {
 };
 
 const _findVarInitialization = (identifier: string, program: t.Program) => {
-  let init: t.Expression = null;
-  let declarations: t.VariableDeclarator[] = null;
+  let init: t.Expression | null | undefined = null;
+  let declarations: t.VariableDeclarator[] | null = null;
   program.body.find((node: t.Node) => {
     if (t.isVariableDeclaration(node)) {
       declarations = node.declarations;

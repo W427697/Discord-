@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "6.5.0-beta.1",
+  "version": "7.0.0-alpha.3",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -21,14 +21,7 @@
   "license": "MIT",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "public/**/*",
@@ -40,20 +33,19 @@
   },
   "dependencies": {
     "@discoveryjs/json-ext": "^0.5.3",
-    "@storybook/builder-webpack4": "6.5.0-beta.1",
-    "@storybook/core-client": "6.5.0-beta.1",
-    "@storybook/core-common": "6.5.0-beta.1",
-    "@storybook/core-events": "6.5.0-beta.1",
+    "@storybook/core-client": "7.0.0-alpha.3",
+    "@storybook/core-common": "7.0.0-alpha.3",
+    "@storybook/core-events": "7.0.0-alpha.3",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/csf-tools": "6.5.0-beta.1",
-    "@storybook/manager-webpack4": "6.5.0-beta.1",
-    "@storybook/node-logger": "6.5.0-beta.1",
+    "@storybook/csf-tools": "7.0.0-alpha.3",
+    "@storybook/manager-webpack5": "7.0.0-alpha.3",
+    "@storybook/node-logger": "7.0.0-alpha.3",
     "@storybook/semver": "^7.3.2",
-    "@storybook/store": "6.5.0-beta.1",
+    "@storybook/store": "7.0.0-alpha.3",
+    "@storybook/telemetry": "7.0.0-alpha.3",
     "@types/node": "^14.0.10 || ^16.0.0",
     "@types/node-fetch": "^2.5.7",
     "@types/pretty-hrtime": "^1.0.0",
-    "@types/webpack": "^4.41.26",
     "better-opn": "^2.1.1",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
@@ -67,26 +59,25 @@
     "fs-extra": "^9.0.1",
     "global": "^4.4.0",
     "globby": "^11.0.2",
-    "ip": "^1.1.5",
+    "ip": "^2.0.0",
     "lodash": "^4.17.21",
     "node-fetch": "^2.6.7",
     "open": "^8.4.0",
     "pretty-hrtime": "^1.0.3",
     "prompts": "^2.4.0",
     "read-pkg-up": "^7.0.1",
-    "regenerator-runtime": "^0.13.7",
     "serve-favicon": "^2.5.0",
     "slash": "^3.0.0",
-    "telejson": "^5.3.3",
+    "telejson": "^6.0.8",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2",
     "watchpack": "^2.2.0",
-    "webpack": "4",
+    "webpack": "5",
     "ws": "^8.2.3",
     "x-default-browser": "^0.4.0"
   },
   "devDependencies": {
-    "@storybook/builder-webpack5": "6.5.0-beta.1",
+    "@storybook/builder-webpack5": "7.0.0-alpha.3",
     "@types/compression": "^1.7.0",
     "@types/ip": "^1.1.0",
     "@types/serve-favicon": "^2.5.2",
@@ -111,6 +102,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "85bcae3041a0664d7c0ee4756241e29ad1063a9a",
-  "sbmodern": "dist/modern/index.js"
+  "gitHead": "629b056190993bcee6445471b8cb27208eb401a9"
 }

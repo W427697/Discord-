@@ -3,7 +3,7 @@ import { logger } from '@storybook/node-logger';
 import { serverRequire } from '@storybook/core-common';
 
 interface PresetOptions {
-  configDir?: string;
+  configDir: string;
   docs?: boolean;
   controls?: boolean;
   actions?: boolean;
@@ -23,7 +23,7 @@ const requireMain = (configDir: string) => {
   return serverRequire(mainFile) ?? {};
 };
 
-export function addons(options: PresetOptions = {}) {
+export function addons(options: PresetOptions) {
   const checkInstalled = (addon: string, main: any) => {
     const existingAddon = main.addons?.find((entry: string | { name: string }) => {
       const name = typeof entry === 'string' ? entry : entry.name;

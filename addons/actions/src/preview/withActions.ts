@@ -31,7 +31,7 @@ const hasMatchInAncestry = (element: any, selector: any): boolean => {
 const createHandlers = (actionsFn: (...arg: any[]) => object, ...handles: any[]) => {
   const actionsObject = actionsFn(...handles);
   return Object.entries(actionsObject).map(([key, action]) => {
-    const [_, eventName, selector] = key.match(delegateEventSplitter);
+    const [_, eventName, selector] = key.match(delegateEventSplitter) || [];
     return {
       eventName,
       handler: (e: { target: any }) => {

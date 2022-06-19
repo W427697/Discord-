@@ -3,7 +3,7 @@ const sveltePreprocess = require('svelte-preprocess');
 const path = require('path');
 
 module.exports = {
-  stories: ['../src/stories/**/*.stories.*'],
+  stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx||mdx|svelte)'],
   logLevel: 'debug',
   svelteOptions: {
     preprocess: sveltePreprocess(),
@@ -34,11 +34,12 @@ module.exports = {
     return config;
   },
   core: {
-    builder: 'webpack4',
+    channelOptions: { allowFunction: false, maxDepth: 10 },
+    disableTelemetry: true,
   },
   staticDirs: ['../public'],
   features: {
     breakingChangesV7: true,
   },
-  framework: '@storybook/svelte',
+  framework: '@storybook/svelte-webpack5',
 };

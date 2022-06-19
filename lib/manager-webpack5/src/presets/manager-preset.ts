@@ -3,6 +3,7 @@ import fse from 'fs-extra';
 import { DefinePlugin, ProvidePlugin } from 'webpack';
 import type { Configuration, WebpackPluginInstance } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+// @ts-ignore // -- this has typings for webpack4 in it, won't work
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
@@ -14,13 +15,12 @@ import {
   loadManagerOrAddonsFile,
   resolvePathInStorybookCache,
   stringifyProcessEnvs,
-  es6Transpiler,
   getManagerHeadTemplate,
   getManagerMainTemplate,
 } from '@storybook/core-common';
 import type { Options, ManagerWebpackOptions } from '@storybook/core-common';
 
-import { babelLoader } from './babel-loader-manager';
+import { customManagerRuntimeLoader } from './custom-manager-runtime-loader';
 
 export async function managerWebpack(
   _: Configuration,
@@ -35,7 +35,6 @@ export async function managerWebpack(
     versionCheck,
     releaseNotesData,
     presets,
-    modern,
     features,
     serverChannelUrl,
   }: Options & ManagerWebpackOptions
@@ -58,9 +57,6 @@ export async function managerWebpack(
   const {
     packageJson: { version },
   } = await readPackage({ cwd: __dirname });
-
-  // @ts-ignore
-  // const { BundleAnalyzerPlugin } = await import('webpack-bundle-analyzer').catch(() => ({}));
 
   return {
     name: 'manager',
@@ -120,8 +116,7 @@ export async function managerWebpack(
     ].filter(Boolean),
     module: {
       rules: [
-        babelLoader(),
-        es6Transpiler() as any,
+        customManagerRuntimeLoader(),
         {
           test: /\.css$/,
           use: [
@@ -162,10 +157,8 @@ export async function managerWebpack(
     resolve: {
       extensions: ['.mjs', '.js', '.jsx', '.json', '.cjs', '.ts', '.tsx'],
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
-      mainFields: [modern ? 'sbmodern' : null, 'browser', 'module', 'main'].filter(Boolean),
-      alias: {
-        ...uiPaths,
-      },
+      mainFields: ['browser', 'module', 'main'].filter(Boolean),
+      alias: uiPaths,
     },
     recordsPath: resolvePathInStorybookCache('public/records.json'),
     performance: {
@@ -197,12 +190,10 @@ export async function managerWebpack(
 
 export async function managerEntries(
   installedAddons: string[],
-  options: { managerEntry: string; configDir: string; modern?: boolean }
+  options: { managerEntry: string; configDir: string }
 ): Promise<string[]> {
   const { managerEntry = '@storybook/core-client/dist/esm/manager' } = options;
-  const entries = options.modern
-    ? []
-    : [require.resolve('@storybook/core-client/dist/esm/globals/polyfills')];
+  const entries = [];
 
   if (installedAddons && installedAddons.length) {
     entries.push(...installedAddons);

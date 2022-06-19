@@ -1,0 +1,65 @@
+{
+  "name": "@storybook/react-webpack5",
+  "version": "7.0.0-alpha.3",
+  "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/react-webpack5",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "frameworks/react-webpack5"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "types/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/builder-webpack5": "7.0.0-alpha.3",
+    "@storybook/preset-react-webpack": "7.0.0-alpha.3",
+    "@storybook/react": "7.0.0-alpha.3",
+    "@types/node": "^14.14.20 || ^16.0.0",
+    "core-js": "^3.8.2"
+  },
+  "devDependencies": {
+    "jest-specific-snapshot": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.11.5",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@babel/core": {
+      "optional": true
+    },
+    "typescript": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=10.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "629b056190993bcee6445471b8cb27208eb401a9"
+}

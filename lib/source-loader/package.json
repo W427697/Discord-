@@ -1,6 +1,6 @@
 {
   "name": "@storybook/source-loader",
-  "version": "6.5.0-beta.1",
+  "version": "7.0.0-alpha.3",
   "description": "Source loader",
   "keywords": [
     "lib",
@@ -23,14 +23,7 @@
   "sideEffects": false,
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -41,16 +34,14 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.0-beta.1",
-    "@storybook/client-logger": "6.5.0-beta.1",
+    "@storybook/addons": "7.0.0-alpha.3",
+    "@storybook/client-logger": "7.0.0-alpha.3",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
     "core-js": "^3.8.2",
     "estraverse": "^5.2.0",
     "global": "^4.4.0",
-    "loader-utils": "^2.0.0",
     "lodash": "^4.17.21",
-    "prettier": ">=2.2.1 <=2.3.0",
-    "regenerator-runtime": "^0.13.7"
+    "prettier": ">=2.2.1 <=2.3.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -59,6 +50,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "85bcae3041a0664d7c0ee4756241e29ad1063a9a",
-  "sbmodern": "dist/modern/index.js"
+  "gitHead": "629b056190993bcee6445471b8cb27208eb401a9"
 }

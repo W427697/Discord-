@@ -1,33 +1,41 @@
 import chalk from 'chalk';
 import cpy from 'cpy';
 import fs from 'fs-extra';
-import path from 'path';
+import path, { join } from 'path';
 import dedent from 'ts-dedent';
 import global from 'global';
 
 import { logger } from '@storybook/node-logger';
+import { telemetry } from '@storybook/telemetry';
 
 import type {
   LoadOptions,
   CLIOptions,
   BuilderOptions,
   Options,
-  Builder,
   StorybookConfig,
   CoreConfig,
 } from '@storybook/core-common';
-import { loadAllPresets, normalizeStories, logConfig } from '@storybook/core-common';
+import {
+  loadAllPresets,
+  normalizeStories,
+  logConfig,
+  loadMainConfig,
+} from '@storybook/core-common';
 
 import { outputStats } from './utils/output-stats';
 import {
   copyAllStaticFiles,
   copyAllStaticFilesRelativeToMain,
 } from './utils/copy-all-static-files';
-import { getPreviewBuilder } from './utils/get-preview-builder';
-import { getManagerBuilder } from './utils/get-manager-builder';
+import { getBuilders } from './utils/get-builders';
 import { extractStoriesJson } from './utils/stories-json';
+import { extractStorybookMetadata } from './utils/metadata';
+import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
-export async function buildStaticStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
+export async function buildStaticStandalone(
+  options: CLIOptions & LoadOptions & BuilderOptions & { outputDir: string }
+) {
   /* eslint-disable no-param-reassign */
   options.configType = 'PRODUCTION';
 
@@ -55,17 +63,36 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
 
   await cpy(defaultFavIcon, options.outputDir);
 
-  const previewBuilder: Builder<unknown, unknown> = await getPreviewBuilder(options.configDir);
-  const managerBuilder: Builder<unknown, unknown> = await getManagerBuilder(options.configDir);
+  const { getPrebuiltDir } = await import('@storybook/manager-webpack5/prebuilt-manager');
 
-  const presets = loadAllPresets({
+  const { framework } = loadMainConfig(options);
+  const corePresets = [];
+
+  const frameworkName = typeof framework === 'string' ? framework : framework?.name;
+  if (frameworkName) {
+    corePresets.push(join(frameworkName, 'preset'));
+  } else {
+    logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
+  }
+
+  logger.info('=> Loading presets');
+  let presets = loadAllPresets({
+    corePresets: [require.resolve('./presets/common-preset'), ...corePresets],
+    overridePresets: [],
+    ...options,
+  });
+
+  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
+
+  presets = loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
-      ...managerBuilder.corePresets,
-      ...previewBuilder.corePresets,
+      ...(managerBuilder.corePresets || []),
+      ...(previewBuilder.corePresets || []),
+      ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],
-    overridePresets: previewBuilder.overridePresets,
+    overridePresets: previewBuilder.overridePresets || [],
     ...options,
   });
 
@@ -91,17 +118,58 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   const features = await presets.apply<StorybookConfig['features']>('features');
   global.FEATURES = features;
 
-  if (features?.buildStoriesJson || features?.storyStoreV7) {
+  const extractTasks = [];
+
+  let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
+  if ((features?.buildStoriesJson || features?.storyStoreV7) && !options.ignorePreview) {
+    const workingDir = process.cwd();
     const directories = {
       configDir: options.configDir,
-      workingDir: process.cwd(),
+      workingDir,
     };
-    const stories = normalizeStories(await presets.apply('stories'), directories);
-    await extractStoriesJson(path.join(options.outputDir, 'stories.json'), stories, {
+    const normalizedStories = normalizeStories(await presets.apply('stories'), directories);
+    const storyIndexers = await presets.apply('storyIndexers', []);
+
+    const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
+      storyIndexers,
       storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
-      storyStoreV7: features?.storyStoreV7,
+      storyStoreV7: !!features?.storyStoreV7,
     });
+
+    initializedStoryIndexGenerator = generator.initialize().then(() => generator);
+    extractTasks.push(
+      extractStoriesJson(
+        path.join(options.outputDir, 'stories.json'),
+        initializedStoryIndexGenerator
+      )
+    );
+  }
+
+  const core = await presets.apply<CoreConfig>('core');
+  if (!core?.disableTelemetry) {
+    initializedStoryIndexGenerator.then(async (generator) => {
+      if (!generator) {
+        return;
+      }
+
+      const storyIndex = await generator.getIndex();
+      const payload = storyIndex
+        ? {
+            storyIndex: {
+              storyCount: Object.keys(storyIndex.stories).length,
+              version: storyIndex.v,
+            },
+          }
+        : undefined;
+      telemetry('build', payload, { configDir: options.configDir });
+    });
+  }
+
+  if (!core?.disableProjectJson) {
+    extractTasks.push(
+      extractStorybookMetadata(path.join(options.outputDir, 'project.json'), options.configDir)
+    );
   }
 
   const fullOptions: Options = {
@@ -114,14 +182,6 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
     logConfig('Preview webpack config', await previewBuilder.getConfig(fullOptions));
     logConfig('Manager webpack config', await managerBuilder.getConfig(fullOptions));
   }
-
-  const core = await presets.apply<CoreConfig | undefined>('core');
-  const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
-  const { getPrebuiltDir } =
-    builderName === 'webpack5'
-      ? // eslint-disable-next-line import/no-extraneous-dependencies
-        await import('@storybook/manager-webpack5/prebuilt-manager')
-      : await import('@storybook/manager-webpack4/prebuilt-manager');
 
   const prebuiltDir = await getPrebuiltDir(fullOptions);
 
@@ -144,13 +204,14 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
 
   const [managerStats, previewStats] = await Promise.all([
     manager.catch(async (err) => {
-      await previewBuilder.bail();
+      await previewBuilder?.bail();
       throw err;
     }),
     preview.catch(async (err) => {
-      await managerBuilder.bail();
+      await managerBuilder?.bail();
       throw err;
     }),
+    ...extractTasks,
   ]);
 
   if (options.webpackStatsJson) {

@@ -1,14 +1,15 @@
 import path from 'path';
 import semver from '@storybook/semver';
 import {
-  isDefaultProjectSet,
+  checkForProjects,
   editStorybookTsConfig,
   getAngularAppTsConfigJson,
   getAngularAppTsConfigPath,
   getBaseTsConfigName,
 } from './angular-helpers';
 import { writeFileAsJson, copyTemplate } from '../../helpers';
-import { baseGenerator, Generator } from '../baseGenerator';
+import { baseGenerator } from '../baseGenerator';
+import { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
 
 function editAngularAppTsConfig() {
@@ -28,11 +29,8 @@ function editAngularAppTsConfig() {
 }
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
-  if (!isDefaultProjectSet()) {
-    throw new Error(
-      'Could not find a default project in your Angular workspace.\nSet a defaultProject in your angular.json and re-run the installation.'
-    );
-  }
+  checkForProjects();
+
   const angularVersion = semver.coerce(
     packageManager.retrievePackageJson().dependencies['@angular/core']
   )?.version;
@@ -46,6 +44,33 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   copyTemplate(__dirname);
 
   editAngularAppTsConfig();
+
+  // TODO: we need to add the following:
+
+  /*
+  "storybook": {
+    "builder": "@storybook/angular:start-storybook",
+    "options": {
+      "browserTarget": "angular-cli:build",
+      "port": 4400
+    }
+  },
+  "build-storybook": {
+    "builder": "@storybook/angular:build-storybook",
+    "options": {
+      "browserTarget": "angular-cli:build"
+    }
+  }
+  */
+
+  // to the user's angular.json file. see: https://github.com/storybookjs/storybook/blob/next/examples/angular-cli/angular.json#L78
+
+  // then we want to add these scripts to package.json
+  // packageManager.addScripts({
+  //   storybook: 'ng storybook',
+  //   'build-storybook': 'ng build-storybook',
+  // });
+
   editStorybookTsConfig(path.resolve('./.storybook/tsconfig.json'));
 
   // edit scripts to generate docs

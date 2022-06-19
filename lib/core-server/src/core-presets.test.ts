@@ -5,8 +5,8 @@ import os from 'os';
 import { promisify } from 'util';
 import type { Configuration } from 'webpack';
 import { resolvePathInStorybookCache, createFileSystemCache } from '@storybook/core-common';
-import { executor as previewExecutor } from '@storybook/builder-webpack4';
-import { executor as managerExecutor } from '@storybook/manager-webpack4';
+import { executor as previewExecutor } from '@storybook/builder-webpack5';
+import { executor as managerExecutor } from '@storybook/manager-webpack5';
 
 import { sync as readUpSync } from 'read-pkg-up';
 import { buildDevStandalone } from './build-dev';
@@ -24,24 +24,43 @@ jest.setTimeout(10000);
 // FIXME: this doesn't work
 const skipStoriesJsonPreset = [{ features: { buildStoriesJson: false, storyStoreV7: false } }];
 
-jest.mock('@storybook/builder-webpack4', () => {
-  const value = jest.fn();
-  const actualBuilder = jest.requireActual('@storybook/builder-webpack4');
+jest.mock('@storybook/builder-webpack5', () => {
+  const value = jest.fn(() => false);
+  const actualBuilder = jest.requireActual('@storybook/builder-webpack5');
   // MUTATION! we couldn't mock webpack5, so we added a level of indirection instead
   actualBuilder.executor.get = () => value;
   actualBuilder.overridePresets = [...actualBuilder.overridePresets, skipStoriesJsonPreset];
   return actualBuilder;
 });
 
-jest.mock('./utils/stories-json', () => {
-  const actualStoriesJson = jest.requireActual('./utils/stories-json');
-  actualStoriesJson.extractStoriesJson = () => Promise.resolve();
-  return actualStoriesJson;
+jest.mock('@storybook/telemetry', () => ({
+  getStorybookMetadata: jest.fn(() => ({})),
+  telemetry: jest.fn(() => ({})),
+}));
+
+jest.mock('./utils/StoryIndexGenerator', () => {
+  const { StoryIndexGenerator } = jest.requireActual('./utils/StoryIndexGenerator');
+  return {
+    StoryIndexGenerator: class extends StoryIndexGenerator {
+      initialize() {
+        return Promise.resolve(undefined);
+      }
+
+      getIndex() {
+        return { stories: {}, v: 3 };
+      }
+    },
+  };
 });
 
-jest.mock('@storybook/manager-webpack4', () => {
+jest.mock('./utils/stories-json', () => ({
+  extractStoriesJson: () => Promise.resolve(),
+  useStoriesJson: () => {},
+}));
+
+jest.mock('@storybook/manager-webpack5', () => {
   const value = jest.fn();
-  const actualBuilder = jest.requireActual('@storybook/manager-webpack4');
+  const actualBuilder = jest.requireActual('@storybook/manager-webpack5');
   // MUTATION!
   actualBuilder.executor.get = () => value;
   return actualBuilder;
@@ -253,8 +272,7 @@ describe('build cli flags', () => {
     packageJson,
   };
 
-  // eslint-disable-next-line jest/no-disabled-tests
-  it.skip('does not call output-stats', async () => {
+  it('does not call output-stats', async () => {
     await buildStaticStandalone(cliOptions);
     expect(outputStats).not.toHaveBeenCalled();
   });

@@ -1,11 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  stories: ['../src/stories/**/*.stories.@(js|mdx)'],
+  stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
     '@storybook/preset-create-react-app',
-    '@storybook/addon-ie11',
     {
       name: '@storybook/addon-docs/preset',
       options: {
@@ -28,7 +27,8 @@ module.exports = {
     return config;
   },
   core: {
-    builder: 'webpack4',
+    disableTelemetry: true,
+    channelOptions: { allowFunction: false, maxDepth: 10 },
   },
   staticDirs: ['../public'],
   features: {
@@ -36,7 +36,7 @@ module.exports = {
     breakingChangesV7: true,
   },
   framework: {
-    name: '@storybook/react',
+    name: '@storybook/react-webpack5',
     options: { fastRefresh: true },
   },
 };

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { ArgRow } from './ArgRow';

@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  stories: ['../src/stories/**/*.stories.js'],
+  stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
     '@storybook/addon-storysource',
@@ -22,12 +22,13 @@ module.exports = {
     return config;
   },
   core: {
-    builder: 'webpack4',
+    channelOptions: { allowFunction: false, maxDepth: 10 },
+    disableTelemetry: true,
   },
   staticDirs: ['../public'],
   features: {
     buildStoriesJson: true,
     breakingChangesV7: true,
   },
-  framework: '@storybook/preact',
+  framework: '@storybook/preact-webpack5',
 };

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview-web",
-  "version": "6.5.0-beta.1",
+  "version": "7.0.0-alpha.3",
   "description": "",
   "keywords": [
     "storybook"
@@ -22,7 +22,7 @@
   "sideEffects": false,
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "typesVersions": {
     "<3.8": {
       "*": [
@@ -40,21 +40,19 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.0-beta.1",
-    "@storybook/channel-postmessage": "6.5.0-beta.1",
-    "@storybook/client-logger": "6.5.0-beta.1",
-    "@storybook/core-events": "6.5.0-beta.1",
+    "@storybook/addons": "7.0.0-alpha.3",
+    "@storybook/channel-postmessage": "7.0.0-alpha.3",
+    "@storybook/client-logger": "7.0.0-alpha.3",
+    "@storybook/core-events": "7.0.0-alpha.3",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/store": "6.5.0-beta.1",
+    "@storybook/store": "7.0.0-alpha.3",
     "ansi-to-html": "^0.6.11",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
     "qs": "^6.10.0",
-    "regenerator-runtime": "^0.13.7",
     "synchronous-promise": "^2.0.15",
     "ts-dedent": "^2.0.0",
-    "unfetch": "^4.2.0",
     "util-deprecate": "^1.0.2"
   },
   "peerDependencies": {
@@ -64,6 +62,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "85bcae3041a0664d7c0ee4756241e29ad1063a9a",
-  "sbmodern": "dist/modern/index.js"
+  "gitHead": "629b056190993bcee6445471b8cb27208eb401a9"
 }

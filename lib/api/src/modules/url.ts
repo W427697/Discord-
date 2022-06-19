@@ -6,14 +6,15 @@ import {
   GLOBALS_UPDATED,
   UPDATE_QUERY_PARAMS,
 } from '@storybook/core-events';
-import { queryFromLocation, buildArgsParam, NavigateOptions } from '@storybook/router';
+import type { NavigateOptions } from '@storybook/router';
+import { queryFromLocation, buildArgsParam } from '@storybook/router';
 import { toId, sanitize } from '@storybook/csf';
 import deepEqual from 'fast-deep-equal';
 import global from 'global';
 import dedent from 'ts-dedent';
 
-import { ModuleArgs, ModuleFn } from '../index';
-import { Layout, UI } from './layout';
+import type { ModuleArgs, ModuleFn } from '../index';
+import type { Layout, UI } from './layout';
 import { isStory } from '../lib/stories';
 
 const { window: globalWindow } = global;
@@ -48,6 +49,7 @@ const initialUrlSupport = ({
     nav,
     shortcuts,
     addonPanel,
+    tabs,
     addons, // deprecated
     panelRight, // deprecated
     stories, // deprecated
@@ -62,6 +64,7 @@ const initialUrlSupport = ({
     showNav: !singleStory && parseBoolean(nav),
     showPanel: parseBoolean(panel),
     panelPosition: ['right', 'bottom'].includes(panel) ? panel : undefined,
+    showTabs: parseBoolean(tabs),
   };
   const ui: Partial<UI> = {
     enableShortcuts: parseBoolean(shortcuts),

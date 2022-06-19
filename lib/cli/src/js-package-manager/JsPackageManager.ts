@@ -60,13 +60,12 @@ export abstract class JsPackageManager {
    * If there is no `package.json` it will create one.
    */
   public retrievePackageJson(): PackageJsonWithDepsAndDevDeps {
-    let packageJson = readPackageJson();
-    if (!packageJson) {
-      // It will create a new package.json file
+    let packageJson;
+    try {
+      packageJson = readPackageJson();
+    } catch (err) {
       this.initPackageJson();
-
-      // read the newly created package.json file
-      packageJson = readPackageJson() || {};
+      packageJson = readPackageJson();
     }
 
     return {
@@ -136,7 +135,7 @@ export abstract class JsPackageManager {
    *
    * @param packages
    */
-  public getVersionedPackages(...packages: string[]): Promise<string[]> {
+  public getVersionedPackages(packages: string[]): Promise<string[]> {
     return Promise.all(
       packages.map(async (pkg) => {
         const [packageName, packageVersion] = getPackageDetails(pkg);
@@ -152,7 +151,11 @@ export abstract class JsPackageManager {
    * @param packageNames
    */
   public getVersions(...packageNames: string[]): Promise<string[]> {
-    return Promise.all(packageNames.map((packageName) => this.getVersion(packageName)));
+    return Promise.all(
+      packageNames.map((packageName) => {
+        return this.getVersion(packageName);
+      })
+    );
   }
 
   /**
@@ -167,7 +170,7 @@ export abstract class JsPackageManager {
   public async getVersion(packageName: string, constraint?: string): Promise<string> {
     let current: string;
 
-    if (/@storybook/.test(packageName)) {
+    if (/(@storybook|^sb$|^storybook$)/.test(packageName)) {
       // @ts-ignore
       current = storybookPackagesVersions[packageName];
     }
@@ -217,12 +220,12 @@ export abstract class JsPackageManager {
   }) {
     const sbPort = options?.port ?? 6006;
     const storybookCmd = options?.staticFolder
-      ? `npx sb dev -p ${sbPort} -s ${options.staticFolder}`
-      : `npx sb dev -p ${sbPort}`;
+      ? `npx storybook dev -p ${sbPort} -s ${options.staticFolder}`
+      : `npx storybook dev -p ${sbPort}`;
 
     const buildStorybookCmd = options?.staticFolder
-      ? `npx sb build -s ${options.staticFolder}`
-      : `npx sb build`;
+      ? `npx storybook build -s ${options.staticFolder}`
+      : `npx storybook build`;
 
     const preCommand = options?.preCommand ? this.getRunCommand(options.preCommand) : undefined;
     this.addScripts({

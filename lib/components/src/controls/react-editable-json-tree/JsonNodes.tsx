@@ -2,7 +2,6 @@
 /* eslint-disable react/sort-comp */
 /* eslint-disable react/no-array-index-key */
 
-/* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/button-has-type */
 

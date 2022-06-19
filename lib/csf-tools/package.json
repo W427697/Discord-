@@ -1,6 +1,6 @@
 {
   "name": "@storybook/csf-tools",
-  "version": "6.5.0-beta.1",
+  "version": "7.0.0-alpha.3",
   "description": "",
   "keywords": [
     "storybook"
@@ -20,16 +20,9 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "index.cjs",
-  "module": "index.mjs",
-  "types": "index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -48,29 +41,18 @@
     "@babel/traverse": "^7.12.11",
     "@babel/types": "^7.12.11",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/mdx1-csf": "canary",
     "core-js": "^3.8.2",
     "fs-extra": "^9.0.1",
     "global": "^4.4.0",
-    "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/mdx2-csf": "canary",
+    "@storybook/mdx2-csf": "^0.0.3",
     "@types/fs-extra": "^9.0.6",
     "js-yaml": "^3.14.1"
-  },
-  "peerDependencies": {
-    "@storybook/mdx2-csf": "*"
-  },
-  "peerDependenciesMeta": {
-    "@storybook/mdx2-csf": {
-      "optional": true
-    }
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "85bcae3041a0664d7c0ee4756241e29ad1063a9a",
-  "sbmodern": "dist/modern/index.js"
+  "gitHead": "629b056190993bcee6445471b8cb27208eb401a9"
 }
