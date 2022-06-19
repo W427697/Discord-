@@ -40,7 +40,7 @@ const normalizedStories = [
     {
       titlePrefix: '',
       directory: './src',
-      files: '**/*.docs.mdx',
+      files: '**/*.mdx',
     },
     { workingDir, configDir: workingDir }
   ),
