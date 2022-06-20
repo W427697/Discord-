@@ -1,4 +1,6 @@
-module.exports = {
+import type { StorybookConfig } from '@storybook/vue-webpack5/types';
+
+const mainConfig: StorybookConfig = {
   stories: ['../src/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
@@ -18,3 +20,5 @@ module.exports = {
   },
   framework: '@storybook/vue-webpack5',
 };
+
+module.exports = mainConfig;

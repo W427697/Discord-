@@ -73,8 +73,11 @@ FAST_REFRESH=true
 
 ```js
 module.exports = {
-  reactOptions: {
-    fastRefresh: true,
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      fastRefresh: true,
+    },
   },
 };
 ```
@@ -91,8 +94,11 @@ You can opt-out from the new React Root API by setting the following property in
 
 ```js
 module.exports = {
-  reactOptions: {
-    legacyRootApi: true,
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      legacyRootApi: true,
+    },
   },
 };
 ```

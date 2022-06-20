@@ -1,6 +1,8 @@
+import type { StorybookConfig } from '@storybook/preact-webpack5/types';
+
 const path = require('path');
 
-module.exports = {
+const mainConfig: StorybookConfig = {
   stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
@@ -13,12 +15,18 @@ module.exports = {
     '@storybook/addon-a11y',
   ],
   webpackFinal: (config) => {
-    config.module.rules.push({
+    const rules = config.module?.rules || [];
+    rules.push({
       test: [/\.stories\.js$/],
       use: [require.resolve('@storybook/source-loader')],
       include: [path.resolve(__dirname, '../src')],
       enforce: 'pre',
     });
+
+    // eslint-disable-next-line no-param-reassign
+    config.module = config.module || {};
+    // eslint-disable-next-line no-param-reassign
+    config.module.rules = rules;
     return config;
   },
   core: {
@@ -32,3 +40,5 @@ module.exports = {
   },
   framework: '@storybook/preact-webpack5',
 };
+
+module.exports = mainConfig;

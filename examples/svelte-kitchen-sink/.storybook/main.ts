@@ -1,13 +1,12 @@
+import type { StorybookConfig } from '@storybook/svelte-webpack5/types';
+
 const sveltePreprocess = require('svelte-preprocess');
 
 const path = require('path');
 
-module.exports = {
+const mainConfig: StorybookConfig = {
   stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx||mdx|svelte)'],
   logLevel: 'debug',
-  svelteOptions: {
-    preprocess: sveltePreprocess(),
-  },
   addons: [
     '@storybook/addon-storysource',
     '@storybook/addon-actions',
@@ -41,5 +40,12 @@ module.exports = {
   features: {
     breakingChangesV7: true,
   },
-  framework: '@storybook/svelte-webpack5',
+  framework: {
+    name: '@storybook/svelte-webpack5',
+    options: {
+      preprocess: sveltePreprocess(),
+    },
+  },
 };
+
+module.exports = mainConfig;

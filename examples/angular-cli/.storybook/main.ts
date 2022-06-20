@@ -1,4 +1,6 @@
-module.exports = {
+import type { StorybookConfig } from '@storybook/angular/types';
+
+const mainConfig: StorybookConfig = {
   stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
@@ -50,3 +52,4 @@ module.exports = {
     },
   },
 };
+module.exports = mainConfig;

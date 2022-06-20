@@ -1,4 +1,6 @@
-module.exports = {
+import type { StorybookConfig } from '@storybook/html-webpack5/types';
+
+const mainConfig: StorybookConfig = {
   // this dirname is because we run tests from project root
   stories: ['../stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
@@ -41,3 +43,5 @@ module.exports = {
   // },
   framework: '@storybook/html-webpack5',
 };
+
+module.exports = mainConfig;
