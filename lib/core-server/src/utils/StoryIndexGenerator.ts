@@ -115,7 +115,7 @@ export class StoryIndexGenerator {
   async ensureExtracted(): Promise<IndexEntry[]> {
     // First process all the story files. Then, in a second pass,
     // process the docs files. The reason for this is that the docs
-    // files may use the `<Meta of={meta} />` syntax, which requires
+    // files may use the `<Meta of={XStories} />` syntax, which requires
     // that the story file that contains the meta be processed first.
     await this.updateExtracted(async (specifier, absolutePath) =>
       this.isDocsMdx(absolutePath) ? false : this.extractStories(specifier, absolutePath)
@@ -193,7 +193,7 @@ export class StoryIndexGenerator {
       // are invalidated.
       const dependencies = this.findDependencies(absoluteImports);
 
-      // Also, if `result.of` is set, it means that we're using the `<Meta of={meta} />` syntax,
+      // Also, if `result.of` is set, it means that we're using the `<Meta of={XStories} />` syntax,
       // so find the `title` defined the file that `meta` points to.
       let ofTitle: string;
       if (result.of) {
