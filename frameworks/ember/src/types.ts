@@ -11,7 +11,7 @@ import type {
 type FrameworkName = '@storybook/ember-webpack5';
 type BuilderName = '@storybook/builder-webpack5';
 
-export type FrameworkOptions = AngularOptions & {
+export type FrameworkOptions = {
   builder?: BuilderOptions;
 };
 
