@@ -1396,10 +1396,7 @@ describe('stories API', () => {
         'ref',
         {
           id: 'ref',
-          v: 2,
-          globalParameters: { global: 'global' },
-          kindParameters: { a: { kind: 'kind' } },
-          stories: {
+          setStoriesData: {
             'a--1': { kind: 'a', parameters: { global: 'global', kind: 'kind', story: 'story' } },
           },
         },
@@ -1460,7 +1457,7 @@ describe('stories API', () => {
         'ref',
         {
           id: 'ref',
-          stories: {
+          setStoriesData: {
             'a--1': {},
           },
         },
