@@ -1,10 +1,7 @@
-import type { StorybookConfig } from '@storybook/svelte-webpack5/types';
-
+const path = require('path');
 const sveltePreprocess = require('svelte-preprocess');
 
-const path = require('path');
-
-const mainConfig: StorybookConfig = {
+const mainConfig: import('@storybook/svelte-webpack5/types').StorybookConfig = {
   stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx||mdx|svelte)'],
   logLevel: 'debug',
   addons: [
