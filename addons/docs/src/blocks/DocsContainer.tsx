@@ -39,6 +39,7 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, 
   const { id: storyId, type, storyById } = context;
   const allComponents = { ...defaultComponents };
   let theme = ensureTheme(null);
+  console.log(context);
   if (type === 'legacy') {
     const {
       parameters: { options = {}, docs = {} },

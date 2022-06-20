@@ -5,7 +5,7 @@ import { DocsRenderFunction } from '@storybook/preview-web';
 
 import { DocsContainer } from './DocsContainer';
 import { DocsPage } from './DocsPage';
-import { DocsContext, DocsContextProps } from './DocsContext';
+import { DocsContextProps } from './DocsContext';
 
 export class DocsRenderer<TFramework extends AnyFramework> {
   public render: DocsRenderFunction<TFramework>;

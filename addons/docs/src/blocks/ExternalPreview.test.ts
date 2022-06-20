@@ -1,3 +1,4 @@
+import { StoryId } from '@storybook/csf';
 import { ExternalPreview } from './ExternalPreview';
 
 const projectAnnotations = { render: jest.fn(), renderToDOM: jest.fn() };
@@ -18,7 +19,10 @@ describe('ExternalPreview', () => {
     it('handles csf files with titles', async () => {
       const preview = new ExternalPreview(projectAnnotations);
 
-      const storyId = preview.storyIdByModuleExport(csfFileWithTitle.one, csfFileWithTitle.default);
+      const storyId = preview.storyIdByModuleExport(
+        csfFileWithTitle.one,
+        csfFileWithTitle
+      ) as StoryId;
       const story = preview.storyById(storyId);
 
       expect(story).toMatchObject({
@@ -30,10 +34,13 @@ describe('ExternalPreview', () => {
     it('returns consistent story ids and objects', () => {
       const preview = new ExternalPreview(projectAnnotations);
 
-      const storyId = preview.storyIdByModuleExport(csfFileWithTitle.one, csfFileWithTitle.default);
+      const storyId = preview.storyIdByModuleExport(
+        csfFileWithTitle.one,
+        csfFileWithTitle
+      ) as StoryId;
       const story = preview.storyById(storyId);
 
-      expect(preview.storyIdByModuleExport(csfFileWithTitle.one, csfFileWithTitle.default)).toEqual(
+      expect(preview.storyIdByModuleExport(csfFileWithTitle.one, csfFileWithTitle)).toEqual(
         storyId
       );
       expect(preview.storyById(storyId)).toBe(story);
@@ -43,11 +50,11 @@ describe('ExternalPreview', () => {
       const preview = new ExternalPreview(projectAnnotations);
 
       preview.storyById(
-        preview.storyIdByModuleExport(csfFileWithTitle.one, csfFileWithTitle.default)
+        preview.storyIdByModuleExport(csfFileWithTitle.one, csfFileWithTitle) as StoryId
       );
 
       const story = preview.storyById(
-        preview.storyIdByModuleExport(csfFileWithTitle.two, csfFileWithTitle.default)
+        preview.storyIdByModuleExport(csfFileWithTitle.two, csfFileWithTitle) as StoryId
       );
       expect(story).toMatchObject({
         title: 'Component',
@@ -60,8 +67,8 @@ describe('ExternalPreview', () => {
 
       const storyId = preview.storyIdByModuleExport(
         csfFileWithoutTitle.one,
-        csfFileWithoutTitle.default
-      );
+        csfFileWithoutTitle
+      ) as StoryId;
       const story = preview.storyById(storyId);
 
       expect(story).toMatchObject({

@@ -46,7 +46,7 @@ export class ExternalPreview<TFramework extends AnyFramework> extends Preview<TF
     const importPath = this.importPaths.get(meta);
     this.moduleExportsByImportPath[importPath] = meta;
 
-    const title = meta.title || this.titles.get(meta);
+    const title = meta.default.title || this.titles.get(meta);
 
     const exportEntry = Object.entries(meta).find(
       ([_, moduleExport]) => moduleExport === storyExport
