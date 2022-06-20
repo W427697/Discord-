@@ -63,10 +63,9 @@ type Panels = Collection<Addon>;
 
 type StateMerger<S> = (input: S) => S;
 
-interface StoryInput {
-  parameters: {
-    [parameterName: string]: any;
-  };
+export interface SubState {
+  selectedPanel: string;
+  addons: Record<string, never>;
 }
 
 export interface SubAPI {
@@ -96,7 +95,7 @@ export function ensurePanel(panels: Panels, selectedPanel?: string, currentPanel
   return currentPanel;
 }
 
-export const init: ModuleFn = ({ provider, store, fullAPI }) => {
+export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) => {
   const api: SubAPI = {
     getElements: (type) => provider.getElements(type),
     getPanels: () => api.getElements(types.PANEL),
