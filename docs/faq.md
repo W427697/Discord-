@@ -16,8 +16,11 @@ module.exports = {
   addons: [
     /* ... */
   ],
-  angularOptions: {
-    enableIvy: false,
+  framework: {
+    name: '@storybook/angular',
+    options: {
+      enableIvy: false,
+    }
   },
 };
 ```
