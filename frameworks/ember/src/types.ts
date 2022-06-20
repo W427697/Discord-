@@ -43,7 +43,3 @@ export type StorybookConfig = Omit<
 > &
   StorybookConfigWebpack &
   StorybookConfigFramework;
-
-export interface AngularOptions {
-  enableIvy: boolean;
-}
