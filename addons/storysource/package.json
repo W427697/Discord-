@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-storysource",
-  "version": "7.0.0-alpha.4",
+  "version": "7.0.0-alpha.5",
   "description": "View a story’s source code to see how it works and paste into your app",
   "keywords": [
     "addon",
@@ -34,13 +34,13 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.4",
-    "@storybook/api": "7.0.0-alpha.4",
-    "@storybook/client-logger": "7.0.0-alpha.4",
-    "@storybook/components": "7.0.0-alpha.4",
-    "@storybook/router": "7.0.0-alpha.4",
-    "@storybook/source-loader": "7.0.0-alpha.4",
-    "@storybook/theming": "7.0.0-alpha.4",
+    "@storybook/addons": "7.0.0-alpha.5",
+    "@storybook/api": "7.0.0-alpha.5",
+    "@storybook/client-logger": "7.0.0-alpha.5",
+    "@storybook/components": "7.0.0-alpha.5",
+    "@storybook/router": "7.0.0-alpha.5",
+    "@storybook/source-loader": "7.0.0-alpha.5",
+    "@storybook/theming": "7.0.0-alpha.5",
     "core-js": "^3.8.2",
     "estraverse": "^5.2.0",
     "prop-types": "^15.7.2",
