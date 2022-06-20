@@ -1,6 +1,5 @@
 import { JsPackageManager } from '../../js-package-manager';
 import { reactDependencies } from './react-dependencies';
-import * as isDependencyInstalled from '../helpers/is-dependency-installed';
 
 const checkReactDependencies = async ({ packageJson }) => {
   const packageManager = {
@@ -10,15 +9,7 @@ const checkReactDependencies = async ({ packageJson }) => {
 };
 
 describe('react dependencies fix', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('should install react if dependency is missing', async () => {
-    jest
-      .spyOn(isDependencyInstalled, 'isDependencyInstalled')
-      .mockImplementation((dep) => dep === 'react-dom');
-
     const packageJson = {
       dependencies: { 'react-dom': 'x.y.z' },
     };
@@ -30,8 +21,6 @@ describe('react dependencies fix', () => {
   });
 
   it('should install both react and react-dom if dependencies are missing', async () => {
-    jest.spyOn(isDependencyInstalled, 'isDependencyInstalled').mockImplementation(() => false);
-
     const packageJson = {
       dependencies: {},
     };

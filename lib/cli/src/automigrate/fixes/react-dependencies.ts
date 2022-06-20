@@ -3,7 +3,6 @@ import dedent from 'ts-dedent';
 
 import { Fix } from '../types';
 import { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
-import { isDependencyInstalled } from '../helpers/is-dependency-installed';
 
 const logger = console;
 
@@ -33,14 +32,10 @@ export const reactDependencies: Fix<CheckDependenciesRunOptions> & CheckDependen
       ...packageJson.peerDependencies,
     };
 
-    if (allDeps.react && allDeps['react-dom']) {
-      return null;
-    }
-
     const dependenciesToInstall: string[] = [];
 
     ['react', 'react-dom'].forEach((dep) => {
-      if (!isDependencyInstalled(dep)) {
+      if (!allDeps[dep]) {
         dependenciesToInstall.push(dep);
       }
     });
