@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { themes, convert } from '@storybook/theming';
 import { Result } from 'axe-core';
-import { useChannel, useStorybookState, useAddonState } from '@storybook/api';
+import { useChannel, useStorybookState, useAddonState, useStorybookApi } from '@storybook/api';
 import { STORY_CHANGED, STORY_RENDERED } from '@storybook/core-events';
 import { ADDON_ID, EVENTS } from '../constants';
 
@@ -55,7 +55,8 @@ export const A11yContextProvider: React.FC<A11yContextProviderProps> = ({ active
   const [results, setResults] = useAddonState<Results>(ADDON_ID, defaultResult);
   const [tab, setTab] = React.useState(0);
   const [highlighted, setHighlighted] = React.useState<string[]>([]);
-  const { storyId } = useStorybookState();
+  const api = useStorybookApi();
+  const storyEntry = api.getCurrentStoryData();
 
   const handleToggleHighlight = React.useCallback((target: string[], highlight: boolean) => {
     setHighlighted((prevHighlighted) =>
@@ -89,12 +90,12 @@ export const A11yContextProvider: React.FC<A11yContextProviderProps> = ({ active
   }, [highlighted, tab]);
 
   React.useEffect(() => {
-    if (active) {
-      handleRun(storyId);
+    if (active && storyEntry?.type === 'story') {
+      handleRun(storyEntry.id);
     } else {
       handleClearHighlights();
     }
-  }, [active, handleClearHighlights, emit, storyId]);
+  }, [active, handleClearHighlights, emit, storyEntry]);
 
   if (!active) return null;
 
