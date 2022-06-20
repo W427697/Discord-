@@ -33,15 +33,8 @@ async function renderDocsAsync<TFramework extends AnyFramework>(
   docsParameters: Parameters,
   element: HTMLElement
 ) {
-  // FIXME -- use DocsContainer, make it work for modern
-  const SimpleContainer = ({ children }: any) => (
-    <DocsContext.Provider value={docsContext}>{children} </DocsContext.Provider>
-  );
-
   const Container: ComponentType<{ context: DocsContextProps<TFramework> }> =
-    docsParameters.container ||
-    (await docsParameters.getContainer?.()) ||
-    (docsContext.type === 'legacy' ? DocsContainer : SimpleContainer);
+    docsParameters.container || (await docsParameters.getContainer?.()) || DocsContainer;
 
   const Page: ComponentType = docsParameters.page || (await docsParameters.getPage?.()) || DocsPage;
 

@@ -116,12 +116,12 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
         storyIdToCSFFile.set(annotation.id, csfFile);
       }
     }
-    function storyById(storyId: StoryId) {
+    const storyById = (storyId: StoryId) => {
       const csfFile = storyIdToCSFFile.get(storyId);
       if (!csfFile)
         throw new Error(`Called \`storyById\` for story that was never loaded: ${storyId}`);
       return this.store.storyFromCSFFile({ storyId, csfFile });
-    }
+    };
 
     return {
       ...base,
