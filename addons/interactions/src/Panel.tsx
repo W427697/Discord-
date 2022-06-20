@@ -140,6 +140,7 @@ export const Panel: React.FC<AddonPanelProps> = (props) => {
   const setCall = ({ status, ...call }: Call) => calls.current.set(call.id, call);
 
   const [log, setLog] = React.useState<LogItem[]>([]);
+  const callsById = new Map<Call['id'], Call>();
   const childCallMap = new Map<Call['id'], Call['id'][]>();
   const interactions = log
     .filter((call) => {
@@ -147,18 +148,29 @@ export const Panel: React.FC<AddonPanelProps> = (props) => {
       childCallMap.set(call.parentId, (childCallMap.get(call.parentId) || []).concat(call.callId));
       return !collapsed.has(call.parentId);
     })
-    .map(({ callId, status }) => ({
-      ...calls.current.get(callId),
-      status,
-      childCallIds: childCallMap.get(callId),
-      isCollapsed: collapsed.has(callId),
-      toggleCollapsed: () =>
-        setCollapsed((ids) => {
-          if (ids.has(callId)) ids.delete(callId);
-          else ids.add(callId);
-          return new Set(ids);
-        }),
-    }));
+    .map(({ callId, status }) => {
+      const call = calls.current.get(callId);
+      const value = {
+        ...call,
+        status,
+        childCallIds: childCallMap.get(callId),
+        isCollapsed: collapsed.has(callId),
+        toggleCollapsed: () =>
+          setCollapsed((ids) => {
+            if (ids.has(callId)) ids.delete(callId);
+            else ids.add(callId);
+            return new Set(ids);
+          }),
+      };
+      if (
+        status === CallStates.ERROR &&
+        callsById.get(call.parentId)?.status === CallStates.ACTIVE
+      ) {
+        value.status = CallStates.ACTIVE;
+      }
+      callsById.set(callId, value);
+      return value;
+    });
 
   const endRef = React.useRef();
   React.useEffect(() => {
