@@ -1,3 +1,14 @@
+## 7.0.0-alpha.4 (June 19, 2022)
+
+### Breaking Changes
+
+- Core: Remove standalone node APIs ([#18089](https://github.com/storybookjs/storybook/pull/18089))
+
+### Maintenance
+
+- Build: Add logFilters to yarn config ([#18500](https://github.com/storybookjs/storybook/pull/18500))
+- Build: Set typescript strict-mode ([#18493](https://github.com/storybookjs/storybook/pull/18493))
+
 ## 7.0.0-alpha.3 (June 17, 2022)
 
 ### Features

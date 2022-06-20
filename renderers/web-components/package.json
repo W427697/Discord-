@@ -1,6 +1,6 @@
 {
   "name": "@storybook/web-components",
-  "version": "7.0.0-alpha.3",
+  "version": "7.0.0-alpha.4",
   "description": "Storybook web-components renderer",
   "keywords": [
     "lit-html",
@@ -34,14 +34,14 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.3",
-    "@storybook/api": "7.0.0-alpha.3",
-    "@storybook/client-logger": "7.0.0-alpha.3",
-    "@storybook/core-client": "7.0.0-alpha.3",
+    "@storybook/addons": "7.0.0-alpha.4",
+    "@storybook/api": "7.0.0-alpha.4",
+    "@storybook/client-logger": "7.0.0-alpha.4",
+    "@storybook/core-client": "7.0.0-alpha.4",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/docs-tools": "7.0.0-alpha.3",
-    "@storybook/preview-web": "7.0.0-alpha.3",
-    "@storybook/store": "7.0.0-alpha.3",
+    "@storybook/docs-tools": "7.0.0-alpha.4",
+    "@storybook/preview-web": "7.0.0-alpha.4",
+    "@storybook/store": "7.0.0-alpha.4",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "react": "16.14.0",
@@ -60,5 +60,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "629b056190993bcee6445471b8cb27208eb401a9"
+  "gitHead": "006ed54452dd7c37a8cbe91a84f5312182f7ca00"
 }
