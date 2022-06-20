@@ -24,12 +24,19 @@ const mainConfig: StorybookConfig = {
     '@storybook/addon-a11y',
   ],
   webpackFinal: async (config) => {
-    config.module.rules.push({
+    const rules = config.module?.rules || [];
+    rules.push({
       test: [/\.stories\.js$/, /index\.js$/],
       use: [require.resolve('@storybook/source-loader')],
       include: [path.resolve(__dirname, '../src')],
       enforce: 'pre',
     });
+
+    // eslint-disable-next-line no-param-reassign
+    config.module = config.module || {};
+    // eslint-disable-next-line no-param-reassign
+    config.module.rules = rules;
+
     return config;
   },
   core: {

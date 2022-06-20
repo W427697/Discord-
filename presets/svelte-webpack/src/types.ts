@@ -11,4 +11,6 @@ export type TypescriptOptions = BaseTypescriptOptions;
 export type StorybookConfig<TWebpackConfiguration = WebpackConfiguration> =
   StorybookConfigBase<TWebpackConfiguration>;
 
-export type SvelteOptions = {};
+export type SvelteOptions = {
+  preprocess?: any;
+};

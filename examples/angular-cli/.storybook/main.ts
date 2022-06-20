@@ -1,6 +1,4 @@
-import type { StorybookConfig } from '@storybook/angular/types';
-
-const mainConfig: StorybookConfig = {
+const mainConfig: import('@storybook/angular/types').StorybookConfig = {
   stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
