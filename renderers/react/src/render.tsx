@@ -12,8 +12,7 @@ import type { Root as ReactRoot } from 'react-dom/client';
 import type { RenderContext } from '@storybook/store';
 import { ArgsStoryFn } from '@storybook/csf';
 
-import { StoryContext } from './types';
-import { ReactFramework } from './types-6-0';
+import type { ReactFramework, StoryContext } from '../types';
 
 const { FRAMEWORK_OPTIONS } = global;
 

@@ -4,8 +4,7 @@ import type { ClientStoryApi, Loadable } from '@storybook/addons';
 
 import './globals';
 import { renderToDOM } from './render';
-import type { IStorybookSection } from './types';
-import type { WebComponentsFramework } from './types-6-0';
+import type { IStorybookSection, WebComponentsFramework } from './types';
 
 const framework = 'web-components';
 

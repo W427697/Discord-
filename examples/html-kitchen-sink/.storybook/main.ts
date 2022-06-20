@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/html-webpack5/types';
+import type { StorybookConfig } from '@storybook/html-webpack5';
 
 const mainConfig: StorybookConfig = {
   // this dirname is because we run tests from project root

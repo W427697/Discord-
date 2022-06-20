@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/vue3-webpack5/types';
+import type { StorybookConfig } from '@storybook/vue3-webpack5';
 
 const mainConfig: StorybookConfig = {
   stories: ['../src/**/*.stories.@(ts|tsx|js|jsx|mdx)'],

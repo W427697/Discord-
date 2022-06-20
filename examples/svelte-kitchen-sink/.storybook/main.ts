@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/svelte-webpack5/types';
+import type { StorybookConfig } from '@storybook/svelte-webpack5';
 
 const sveltePreprocess = require('svelte-preprocess');
 

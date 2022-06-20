@@ -1,9 +1,22 @@
+import type {
+  ComponentAnnotations,
+  StoryAnnotations,
+  AnnotatedStoryFn,
+  Args,
+  ArgTypes,
+  Parameters,
+  StoryContext as StoryContextBase,
+} from '@storybook/csf';
 import type { TemplateResult, SVGTemplateResult } from 'lit-html';
 
-export type { RenderContext } from '@storybook/core-client';
-export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/addons';
-
 export type StoryFnHtmlReturnType = string | Node | TemplateResult | SVGTemplateResult;
+
+export type StoryContext = StoryContextBase<WebComponentsFramework>;
+
+export type WebComponentsFramework = {
+  component: string;
+  storyResult: StoryFnHtmlReturnType;
+};
 
 export interface IStorybookStory {
   name: string;

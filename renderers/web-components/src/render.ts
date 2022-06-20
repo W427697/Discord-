@@ -7,7 +7,7 @@ import { render } from 'lit-html';
 import { isTemplateResult } from 'lit-html/directive-helpers.js';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
 import type { RenderContext } from '@storybook/store';
-import { WebComponentsFramework } from './types-6-0';
+import { WebComponentsFramework } from './types';
 
 const { Node } = global;
 

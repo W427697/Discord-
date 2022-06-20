@@ -82,7 +82,8 @@ export interface Parameters {
   [key: string]: any;
 }
 
-export type StoryContext = StoryContextForFramework<AnyFramework>;
+export type StoryContext<TFramework extends AnyFramework = AnyFramework> =
+  StoryContextForFramework<TFramework>;
 export type StoryContextUpdate = Partial<StoryContext>;
 
 type ReturnTypeFramework<ReturnType> = { component: any; storyResult: ReturnType };

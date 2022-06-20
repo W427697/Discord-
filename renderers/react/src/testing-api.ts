@@ -2,15 +2,14 @@ import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
-  CSFExports,
-  ComposedStory,
-  StoriesWithPartialProps,
 } from '@storybook/store';
+import type { CSFExports, ComposedStory, StoriesWithPartialProps } from '@storybook/store';
 import { ProjectAnnotations, Args } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
 
-import { render } from '../preview/render';
-import type { Meta, ReactFramework } from '../preview/types-6-0';
+import { render } from './render';
+import type { Meta } from './public-types';
+import type { ReactFramework } from './types';
 
 /** Function that sets the globalConfig of your storybook. The global config is the preview module of your .storybook folder.
  *

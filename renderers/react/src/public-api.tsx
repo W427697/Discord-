@@ -1,11 +1,10 @@
 /* eslint-disable prefer-destructuring */
 import { start } from '@storybook/core-client';
-import { ClientStoryApi, Loadable } from '@storybook/addons';
+import type { ClientStoryApi, Loadable } from '@storybook/addons';
 
 import './globals';
 import { renderToDOM, render } from './render';
-import { IStorybookSection } from './types';
-import { ReactFramework } from './types-6-0';
+import type { IStorybookSection, ReactFramework } from '../types';
 
 interface ClientApi extends ClientStoryApi<ReactFramework['storyResult']> {
   setAddon(addon: any): void;
