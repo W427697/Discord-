@@ -11,7 +11,7 @@ import React, {
 import { MDXProvider } from '@mdx-js/react';
 import { resetComponents, Story as PureStory, StorySkeleton } from '@storybook/components';
 import { StoryId, toId, storyNameFromExport, StoryAnnotations, AnyFramework } from '@storybook/csf';
-import type { Story as StoryType } from '@storybook/store';
+import type { ModuleExport, ModuleExports, Story as StoryType } from '@storybook/store';
 
 import { CURRENT_SELECTION } from './types';
 import { DocsContext, DocsContextProps } from './DocsContext';
@@ -33,7 +33,8 @@ type StoryDefProps = {
 
 type StoryRefProps = {
   id?: string;
-  of?: any;
+  of?: ModuleExport;
+  meta?: ModuleExports;
 };
 
 type StoryImportProps = {
@@ -53,10 +54,10 @@ export const lookupStoryId = (
   );
 
 export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryId => {
-  const { id, of } = props as StoryRefProps;
+  const { id, of, meta } = props as StoryRefProps;
 
   if (of) {
-    return context.storyIdByModuleExport(of);
+    return context.storyIdByModuleExport(of, meta);
   }
 
   const { name } = props as StoryDefProps;

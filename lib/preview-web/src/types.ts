@@ -6,7 +6,7 @@ import type {
   ComponentTitle,
   Parameters,
 } from '@storybook/csf';
-import type { Story } from '@storybook/store';
+import type { ModuleExport, ModuleExports, Story } from '@storybook/store';
 import { PreviewWeb } from './PreviewWeb';
 
 export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework> {
@@ -16,7 +16,7 @@ export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework
   title: ComponentTitle;
   name: StoryName;
 
-  storyIdByModuleExport: (moduleExport: any) => StoryId;
+  storyIdByModuleExport: (storyExport: ModuleExport, metaExports?: ModuleExports) => StoryId;
   storyById: (id: StoryId) => Story<TFramework>;
   getStoryContext: (story: Story<TFramework>) => StoryContextForLoaders<TFramework>;
 
@@ -36,7 +36,7 @@ export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework
   /**
    * To be used by external docs
    */
-  setMeta: (metaExport: any) => void;
+  setMeta: (metaExport: ModuleExports) => void;
 }
 
 export type DocsRenderFunction<TFramework extends AnyFramework> = (

@@ -5,7 +5,7 @@ import { DocsRenderFunction } from '@storybook/preview-web';
 
 import { DocsContainer } from './DocsContainer';
 import { DocsPage } from './DocsPage';
-import { DocsContext, DocsContextProps } from './DocsContext';
+import { DocsContextProps } from './DocsContext';
 
 export class DocsRenderer<TFramework extends AnyFramework> {
   public render: DocsRenderFunction<TFramework>;
@@ -33,15 +33,8 @@ async function renderDocsAsync<TFramework extends AnyFramework>(
   docsParameters: Parameters,
   element: HTMLElement
 ) {
-  // FIXME -- use DocsContainer, make it work for modern
-  const SimpleContainer = ({ children }: any) => (
-    <DocsContext.Provider value={docsContext}>{children} </DocsContext.Provider>
-  );
-
   const Container: ComponentType<{ context: DocsContextProps<TFramework> }> =
-    docsParameters.container ||
-    (await docsParameters.getContainer?.()) ||
-    (docsContext.type === 'legacy' ? DocsContainer : SimpleContainer);
+    docsParameters.container || (await docsParameters.getContainer?.()) || DocsContainer;
 
   const Page: ComponentType = docsParameters.page || (await docsParameters.getPage?.()) || DocsPage;
 
