@@ -1,4 +1,4 @@
-import type { Story, Meta } from '@storybook/angular';
+import type { Meta, StoryFn } from '@storybook/angular';
 import Button from './button.component';
 
 // More on default export: https://storybook.js.org/docs/angular/writing-stories/introduction#default-export

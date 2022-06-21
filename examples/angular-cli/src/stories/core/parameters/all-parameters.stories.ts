@@ -1,5 +1,5 @@
 import { addParameters } from '@storybook/angular';
-import type { Story, Meta } from '@storybook/angular';
+import type { Meta, StoryFn } from '@storybook/angular';
 import { Button } from '../../angular-demo';
 
 const globalParameter = 'globalParameter';

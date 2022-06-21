@@ -1,4 +1,4 @@
-import type { Story, Meta } from '@storybook/angular';
+import type { Meta, StoryFn } from '@storybook/angular';
 import { Button } from '../../angular-demo';
 
 export default {

@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import type { Story, Meta } from '@storybook/web-components';
+import type { Meta, StoryFn } from '@storybook/web-components';
 
 export default {
   title: 'Addons / Actions',

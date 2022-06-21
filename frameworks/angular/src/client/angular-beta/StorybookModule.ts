@@ -17,7 +17,7 @@ const deprecatedStoryComponentWarning = deprecate(
         Instead, use \`export const default = () => ({ component: AppComponent });\`
         or
         \`\`\`
-        export const Primary: Story = () => ({});
+        export const Primary: StoryFn = () => ({});
         Primary.parameters = { component: AppComponent };
         \`\`\`
         Read more at 

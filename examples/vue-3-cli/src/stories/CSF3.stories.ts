@@ -1,5 +1,5 @@
 import { userEvent, within } from '@storybook/testing-library';
-import type { Story, Meta } from '@storybook/vue3';
+import type { Meta, StoryFn } from '@storybook/vue3';
 import Button from './Button.vue';
 
 export default {

@@ -1,4 +1,4 @@
-import type { Story, Meta } from '@storybook/angular';
+import type { Meta, StoryFn } from '@storybook/angular';
 import { DocButtonComponent, ISomeInterface } from '../docs/doc-button/doc-button.component';
 
 export default {
