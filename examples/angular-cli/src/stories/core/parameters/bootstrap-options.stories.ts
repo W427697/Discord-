@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/angular/types-6-0';
+import type { Meta, Story } from '@storybook/angular';
 import { Component } from '@angular/core';
 
 @Component({

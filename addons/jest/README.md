@@ -221,7 +221,7 @@ export const decorators = [
 Finally, in your story, you'll need to include the following:
 
 ```ts
-import { Meta, Story } from '@storybook/angular/types-6-0';
+import { Meta, Story } from '@storybook/angular';
 
 import MyComponent from './MyComponent.component';
 

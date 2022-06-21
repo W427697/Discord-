@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
-import { Story, Meta } from '@storybook/angular/types-6-0';
+import type { Story, Meta } from '@storybook/angular';
 
 @Component({
   selector: 'sb-button',

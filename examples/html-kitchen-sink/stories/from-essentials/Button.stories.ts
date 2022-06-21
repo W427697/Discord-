@@ -1,4 +1,4 @@
-import { Story, Meta } from '@storybook/html';
+import type { Story, Meta } from '@storybook/html';
 import { createButton, ButtonProps } from './Button';
 
 export default {

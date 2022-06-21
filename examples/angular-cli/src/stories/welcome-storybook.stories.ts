@@ -1,4 +1,4 @@
-import { Story, Meta } from '@storybook/angular';
+import type { Story, Meta } from '@storybook/angular';
 import { linkTo } from '@storybook/addon-links';
 import { Welcome } from './angular-demo';
 

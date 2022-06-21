@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Story, Meta } from '@storybook/angular/types-6-0';
+import type { Story, Meta } from '@storybook/angular/';
 
 @Component({
   selector: 'storybook-with-ng-content',
