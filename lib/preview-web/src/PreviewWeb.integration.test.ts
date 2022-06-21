@@ -1,7 +1,8 @@
 import React from 'react';
 import global from 'global';
 import { RenderContext } from '@storybook/store';
-import { addons, mockChannel as createMockChannel } from '@storybook/addons';
+import addons, { mockChannel as createMockChannel } from '@storybook/addons';
+import { DocsRenderer } from '@storybook/addon-docs';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -51,6 +52,7 @@ beforeEach(() => {
   projectAnnotations.renderToDOM.mockReset();
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
+  projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
   addons.setChannel(mockChannel as any);
   addons.setServerChannel(createMockChannel());

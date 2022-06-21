@@ -48,7 +48,7 @@ export function prepareStory<TFramework extends AnyFramework>(
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.
 
-  const { id, name } = storyAnnotations;
+  const { moduleExport, id, name } = storyAnnotations;
   const { title } = componentAnnotations;
 
   const parameters: Parameters = combineParameters(
@@ -198,6 +198,7 @@ export function prepareStory<TFramework extends AnyFramework>(
 
   return Object.freeze({
     ...contextForEnhancers,
+    moduleExport,
     originalStoryFn: render,
     undecoratedStoryFn,
     unboundStoryFn,

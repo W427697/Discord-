@@ -633,4 +633,37 @@ describe('CsfFile', () => {
       consoleWarnMock.mockRestore();
     });
   });
+
+  describe('import handling', () => {
+    it('imports', () => {
+      const input = dedent`
+        import Button from './Button';
+        import { Check } from './Check';
+        export default { title: 'foo/bar', x: 1, y: 2 };
+      `;
+      const csf = loadCsf(input, { makeTitle }).parse();
+      expect(csf.imports).toMatchInlineSnapshot(`
+        - ./Button
+        - ./Check
+      `);
+    });
+    // eslint-disable-next-line jest/no-disabled-tests
+    it.skip('dynamic imports', () => {
+      const input = dedent`
+        const Button = await import('./Button');
+        export default { title: 'foo/bar', x: 1, y: 2 };
+      `;
+      const csf = loadCsf(input, { makeTitle }).parse();
+      expect(csf.imports).toMatchInlineSnapshot();
+    });
+    // eslint-disable-next-line jest/no-disabled-tests
+    it.skip('requires', () => {
+      const input = dedent`
+        const Button = require('./Button');
+        export default { title: 'foo/bar', x: 1, y: 2 };
+      `;
+      const csf = loadCsf(input, { makeTitle }).parse();
+      expect(csf.imports).toMatchInlineSnapshot();
+    });
+  });
 });
