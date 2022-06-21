@@ -11,18 +11,12 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   const extraMain = options.linkable
     ? {
         webpackFinal: `%%(config) => {
-          const resolvePlugins = config.resolve?.plugins;
-          if (Array.isArray(resolvePlugins)) {
-            resolvePlugins.forEach((p) => {
-              ${options.language === 'typescript' ? '// @ts-ignore' : ''}
-              const appSrcs = p.appSrcs${
-                options.language === 'typescript' ? ' as unknown as string[]' : ''
-              };
-              if (Array.isArray(appSrcs)) {
-                appSrcs.push(${monorepoRootPath});
+      // add monorepo root as a valid directory to import modules from
+      config.resolve.plugins.forEach((p) => {
+        if (Array.isArray(p.appSrcs)) {
+          p.appSrcs.push('${monorepoRootPath}');
               }
             });
-          }
           return config;
           }
     %%`,

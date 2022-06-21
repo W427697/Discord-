@@ -114,7 +114,7 @@ const addLocalPackageResolutions = async ({ cwd }: Options) => {
 
 const installYarn2 = async ({ cwd, pnp, name }: Options) => {
   const command = [
-    `yarn set version latest`,
+    `yarn set version berry`,
     `yarn config set enableGlobalCache true`,
     `yarn config set nodeLinker ${pnp ? 'pnp' : 'node-modules'}`,
   ];
