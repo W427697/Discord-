@@ -15,7 +15,7 @@ export default {
   },
 } as Meta;
 
-export const PassedToStory: Story = (_args, { parameters: { fileName, ...parameters } }) => ({
+export const PassedToStory: StoryFn = (_args, { parameters: { fileName, ...parameters } }) => ({
   component: Button,
   props: {
     text: `Parameters are ${JSON.stringify(parameters, null, 2)}`,

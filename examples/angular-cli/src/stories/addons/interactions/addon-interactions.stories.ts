@@ -78,7 +78,7 @@ Submitted.play = async (context) => {
   });
 };
 
-export const SubmittedAndEditedAfter: Story<HeroForm> = Template.bind({});
+export const SubmittedAndEditedAfter: StoryFn<HeroForm> = Template.bind({});
 SubmittedAndEditedAfter.play = async (context) => {
   await Submitted.play(context);
 

@@ -5,7 +5,7 @@ export default {
   title: 'Legacy / Component in Story',
 } as Meta;
 
-export const Basic: Story = (args) => ({
+export const Basic: StoryFn = (args) => ({
   component: Button,
   props: args,
 });

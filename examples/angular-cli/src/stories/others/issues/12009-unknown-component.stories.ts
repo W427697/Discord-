@@ -6,7 +6,7 @@ export default {
   component: Button,
 } as Meta;
 
-const Template: Story = (args) => ({
+const Template: StoryFn = (args) => ({
   props: args,
 });
 

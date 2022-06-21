@@ -6,7 +6,7 @@ export default {
   component: DocButtonComponent,
 } as Meta;
 
-const Template: Story = (args) => ({
+const Template: StoryFn = (args) => ({
   props: args,
 });
 

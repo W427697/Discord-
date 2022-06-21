@@ -20,7 +20,7 @@ export default {
   },
 } as Meta;
 
-const Template: Story<Header> = (args: Header) => ({
+const Template: StoryFn<Header> = (args: Header) => ({
   props: args,
 });
 

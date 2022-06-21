@@ -13,7 +13,7 @@ export default {
 } as Meta;
 
 // More on component templates: https://storybook.js.org/docs/angular/writing-stories/introduction#using-args
-const Template: Story<Button> = (args: Button) => {
+const Template: StoryFn<Button> = (args: Button) => {
   return {
     props: { backgroundColor: null, ...args },
   };
