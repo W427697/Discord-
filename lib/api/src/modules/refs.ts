@@ -108,7 +108,7 @@ async function handleRequest(request: Response | false): Promise<SetRefData> {
 
     const json = await response.json();
 
-    if (json.stories) {
+    if (json.entries || json.stories) {
       return { storyIndex: json };
     }
 
@@ -177,18 +177,34 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       const query = version ? `?version=${version}` : '';
       const credentials = isPublic ? 'omit' : 'include';
 
-      // In theory the `/iframe.html` could be private and the `stories.json` could not exist, but in practice
-      // the only private servers we know about (Chromatic) always include `stories.json`. So we can tell
-      // if the ref actually exists by simply checking `stories.json` w/ credentials.
+      const [indexFetch, storiesFetch] = await Promise.all(
+        ['index.json', 'stories.json'].map(async (file) =>
+          fetch(`${url}/${file}${query}`, {
+            headers: { Accept: 'application/json' },
+            credentials,
+          })
+        )
+      );
 
-      const storiesFetch = await fetch(`${url}/stories.json${query}`, {
-        headers: {
-          Accept: 'application/json',
-        },
-        credentials,
-      });
+      if (indexFetch.ok || storiesFetch.ok) {
+        const [index, metadata] = await Promise.all([
+          indexFetch.ok ? handleRequest(indexFetch) : handleRequest(storiesFetch),
+          handleRequest(
+            fetch(`${url}/metadata.json${query}`, {
+              headers: {
+                Accept: 'application/json',
+              },
+              credentials,
+              cache: 'no-cache',
+            }).catch(() => false)
+          ),
+        ]);
 
-      if (!storiesFetch.ok && !isPublic) {
+        Object.assign(loadedData, { ...index, ...metadata });
+      } else if (!isPublic) {
+        // In theory the `/iframe.html` could be private and the `stories.json` could not exist, but in practice
+        // the only private servers we know about (Chromatic) always include `stories.json`. So we can tell
+        // if the ref actually exists by simply checking `stories.json` w/ credentials.
         loadedData.error = {
           message: dedent`
             Error: Loading of ref failed
@@ -202,21 +218,6 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
             Please check your dev-tools network tab.
           `,
         } as Error;
-      } else if (storiesFetch.ok) {
-        const [storyIndex, metadata] = await Promise.all([
-          handleRequest(storiesFetch),
-          handleRequest(
-            fetch(`${url}/metadata.json${query}`, {
-              headers: {
-                Accept: 'application/json',
-              },
-              credentials,
-              cache: 'no-cache',
-            }).catch(() => false)
-          ),
-        ]);
-
-        Object.assign(loadedData, { ...storyIndex, ...metadata });
       }
 
       const versions =
