@@ -6975,6 +6975,7 @@ __metadata:
     "@storybook/client-api": 7.0.0-alpha.5
     "@storybook/core-client": 7.0.0-alpha.5
     "@storybook/core-common": 7.0.0-alpha.5
+    "@storybook/core-webpack": 7.0.0-alpha.5
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/react": 7.0.0-alpha.5
     "@storybook/vue": 7.0.0-alpha.5
