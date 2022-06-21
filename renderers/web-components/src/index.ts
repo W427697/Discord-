@@ -1,3 +1,4 @@
+// @ts-ignore
 import global from 'global';
 
 const { window, EventSource } = global;

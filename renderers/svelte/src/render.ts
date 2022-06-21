@@ -1,4 +1,6 @@
+// @ts-ignore
 import global from 'global';
+
 import type { ArgsStoryFn } from '@storybook/csf';
 import type { RenderContext } from '@storybook/store';
 // eslint-disable-next-line import/no-extraneous-dependencies

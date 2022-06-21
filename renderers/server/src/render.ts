@@ -1,5 +1,7 @@
 /* eslint-disable no-param-reassign */
+// @ts-ignore
 import global from 'global';
+
 import dedent from 'ts-dedent';
 import type { RenderContext } from '@storybook/store';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';

@@ -1,5 +1,7 @@
 /* eslint-disable no-param-reassign */
+// @ts-ignore
 import global from 'global';
+
 import dedent from 'ts-dedent';
 import { render } from 'lit-html';
 // Keep `.js` extension to avoid issue with Webpack (related to export map?)

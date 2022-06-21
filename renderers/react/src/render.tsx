@@ -1,4 +1,6 @@
+// @ts-ignore
 import global from 'global';
+
 import React, {
   Component as ReactComponent,
   FunctionComponent,
@@ -12,7 +14,7 @@ import type { Root as ReactRoot } from 'react-dom/client';
 import type { RenderContext } from '@storybook/store';
 import { ArgsStoryFn } from '@storybook/csf';
 
-import type { ReactFramework, StoryContext } from '../types';
+import type { ReactFramework, StoryContext } from './types';
 
 const { FRAMEWORK_OPTIONS } = global;
 
