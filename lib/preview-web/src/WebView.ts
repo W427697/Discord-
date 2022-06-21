@@ -4,7 +4,7 @@ import AnsiToHtml from 'ansi-to-html';
 import dedent from 'ts-dedent';
 import qs from 'qs';
 
-import { Story } from '@storybook/store';
+import type { Story } from '@storybook/store';
 
 const { document } = global;
 

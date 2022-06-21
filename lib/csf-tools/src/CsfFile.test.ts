@@ -202,11 +202,11 @@ describe('CsfFile', () => {
       expect(
         parse(
           dedent`
-          import { Meta, Story } from '@storybook/react';
+          import type { Meta, StoryFn } from '@storybook/react';
           type PropTypes = {};
           export default { title: 'foo/bar/baz' } as Meta<PropTypes>;
-          export const A: Story<PropTypes> = () => <>A</>;
-          export const B: Story<PropTypes> = () => <>B</>;
+          export const A: StoryFn<PropTypes> = () => <>A</>;
+          export const B: StoryFn<PropTypes> = () => <>B</>;
         `
         )
       ).toMatchInlineSnapshot(`
@@ -224,12 +224,12 @@ describe('CsfFile', () => {
       expect(
         parse(
           dedent`
-          import { Meta, Story } from '@storybook/react';
+          import type { Meta, StoryFn } from '@storybook/react';
           type PropTypes = {};
           const meta = { title: 'foo/bar/baz' } as Meta<PropTypes>;
           export default meta;
-          export const A: Story<PropTypes> = () => <>A</>;
-          export const B: Story<PropTypes> = () => <>B</>;
+          export const A: StoryFn<PropTypes> = () => <>A</>;
+          export const B: StoryFn<PropTypes> = () => <>B</>;
         `
         )
       ).toMatchInlineSnapshot(`
