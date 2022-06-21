@@ -9,7 +9,7 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-import type { Options, CoreConfig, Webpack5BuilderConfig } from '@storybook/core-common';
+import type { Options, CoreConfig } from '@storybook/core-common';
 import {
   stringifyProcessEnvs,
   handlebars,
@@ -19,7 +19,7 @@ import {
   loadPreviewOrConfigFile,
 } from '@storybook/core-common';
 import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
-import type { TypescriptOptions } from '../types';
+import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 
 const storybookPaths: Record<string, string> = {
@@ -85,6 +85,8 @@ export default async (
   const bodyHtmlSnippet = await presets.apply('previewBody');
   const template = await presets.apply<string>('previewMainTemplate');
   const coreOptions = await presets.apply<CoreConfig>('core');
+  const builderOptions: BuilderOptions =
+    typeof coreOptions.builder === 'string' ? {} : coreOptions.builder?.options || {};
 
   const configs = [
     ...(await presets.apply('config', [], options)),
@@ -102,8 +104,7 @@ export default async (
     const storiesFilename = 'storybook-stories.js';
     const storiesPath = path.resolve(path.join(workingDir, storiesFilename));
 
-    const needPipelinedImport =
-      !!(coreOptions.builder as Webpack5BuilderConfig).options?.lazyCompilation && !isProd;
+    const needPipelinedImport = !!builderOptions?.lazyCompilation && !isProd;
     virtualModuleMapping[storiesPath] = toImportFn(stories, { needPipelinedImport });
     const configEntryPath = path.resolve(path.join(workingDir, 'storybook-config-entry.js'));
     virtualModuleMapping[configEntryPath] = handlebars(
@@ -206,7 +207,7 @@ export default async (
             CONFIG_TYPE: configType,
             LOGLEVEL: logLevel,
             FRAMEWORK_OPTIONS: frameworkOptions,
-            CHANNEL_OPTIONS: coreOptions?.channelOptions,
+            CHANNEL_OPTIONS: coreOptions.channelOptions,
             FEATURES: features,
             PREVIEW_URL: previewUrl,
             STORIES: stories.map((specifier) => ({
