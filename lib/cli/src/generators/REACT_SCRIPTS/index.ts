@@ -14,8 +14,10 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
           const resolvePlugins = config.resolve?.plugins;
           if (Array.isArray(resolvePlugins)) {
             resolvePlugins.forEach((p) => {
-              // @ts-ignore
-              const appSrcs = p.appSrcs as unknown as string[];
+              ${options.language === 'typescript' ? '// @ts-ignore' : ''}
+              const appSrcs = p.appSrcs${
+                options.language === 'typescript' ? ' as unknown as string[]' : ''
+              };
               if (Array.isArray(appSrcs)) {
                 appSrcs.push(${monorepoRootPath});
               }
