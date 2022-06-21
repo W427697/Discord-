@@ -11,7 +11,7 @@ export const addons: PresetProperty<'addons', StorybookConfig> = [
 
 export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entries = []) => [
   ...entries,
-  require.resolve('./client/preview/config'),
+  require.resolve('./client/config'),
 ];
 
 export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {

@@ -1,3 +1,8 @@
+import type {
+  Parameters as DefaultParameters,
+  StoryContext as DefaultStoryContext,
+} from '@storybook/csf';
+
 export interface NgModuleMetadata {
   declarations?: any[];
   entryComponents?: any[];
@@ -30,3 +35,16 @@ export interface StoryFnAngularReturnType {
   styles?: string[];
   userDefinedTemplate?: boolean;
 }
+
+export type AngularFramework = {
+  component: any;
+  storyResult: StoryFnAngularReturnType;
+};
+
+export type Parameters = DefaultParameters & {
+  /** Uses legacy angular rendering engine that use dynamic component */
+  angularLegacyRendering?: boolean;
+  bootstrapModuleOptions?: unknown;
+};
+
+export type StoryContext = DefaultStoryContext<AngularFramework> & { parameters: Parameters };

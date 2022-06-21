@@ -18,8 +18,8 @@ import {
 } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { STORY } from '../app.token';
-import { StoryFnAngularReturnType, ICollection } from '../../types';
+import { STORY } from './app.token';
+import { StoryFnAngularReturnType, ICollection } from '../types';
 
 @Component({
   selector: 'storybook-dynamic-app-root',

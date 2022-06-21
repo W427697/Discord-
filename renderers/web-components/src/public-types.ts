@@ -27,8 +27,6 @@ export type StoryFn<TArgs = Args> = AnnotatedStoryFn<WebComponentsFramework, TAr
  */
 export type StoryObj<TArgs = Args> = StoryAnnotations<WebComponentsFramework, TArgs>;
 
-// NOTE these types are reversed from the way they are in types-6-0 and types-6-3
-
 /**
  * Story function that represents a CSFv3 component example.
  *
