@@ -108,7 +108,7 @@ async function handleRequest(request: Response | false): Promise<SetRefData> {
 
     const json = await response.json();
 
-    if (json.stories) {
+    if (json.entries || json.stories) {
       return { storyIndex: json };
     }
 
