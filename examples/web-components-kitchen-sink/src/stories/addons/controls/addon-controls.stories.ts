@@ -15,7 +15,7 @@ export default {
   },
 } as Meta;
 
-const Template: Story = ({ primary, backgroundColor, size, label, sbButtonClickHandler }) =>
+const Template: StoryFn = ({ primary, backgroundColor, size, label, sbButtonClickHandler }) =>
   html`<sb-button
     ?primary="${primary}"
     .size="${size}"

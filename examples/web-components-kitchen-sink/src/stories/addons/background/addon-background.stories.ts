@@ -14,7 +14,7 @@ export default {
   },
 } as Meta;
 
-const Template: Story = () => html`<button>Click Me!</button>`;
+const Template: StoryFn = () => html`<button>Click Me!</button>`;
 
 export const Default = Template.bind({});
 
