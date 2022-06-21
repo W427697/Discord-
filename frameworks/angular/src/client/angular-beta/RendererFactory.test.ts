@@ -1,7 +1,7 @@
 import { Component, getPlatform, ɵresetJitOptions } from '@angular/core';
 import { platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { Parameters } from '../types-6-0';
+import { Parameters } from '../types';
 
 import { CanvasRenderer } from './CanvasRenderer';
 import { RendererFactory } from './RendererFactory';

@@ -2,7 +2,7 @@ import type { DecoratorFunction, LegacyStoryFn, StoryContext } from '@storybook/
 import { sanitizeStoryContextUpdate } from '@storybook/store';
 import { computesTemplateFromComponent } from './angular-beta/ComputesTemplateFromComponent';
 
-import type { AngularFramework } from './types-6-0';
+import type { AngularFramework } from './types';
 
 export default function decorateStory(
   mainStoryFn: LegacyStoryFn<AngularFramework>,
