@@ -2,20 +2,21 @@
 import { start } from '@storybook/core-client';
 import type { ClientStoryApi, Loadable } from '@storybook/addons';
 
-import { renderToDOM, render } from './render';
-import type { IStorybookSection, ReactFramework } from './types';
+import { renderToDOM } from './render';
+import type { IStorybookSection, PreactFramework } from './types';
 
-interface ClientApi extends ClientStoryApi<ReactFramework['storyResult']> {
+export interface ClientApi extends ClientStoryApi<PreactFramework['storyResult']> {
   setAddon(addon: any): void;
   configure(loader: Loadable, module: NodeModule): void;
   getStorybook(): IStorybookSection[];
   clearDecorators(): void;
   forceReRender(): void;
   raw: () => any; // todo add type
+  load: (...args: any[]) => void;
 }
-const FRAMEWORK = 'react';
 
-const api = start(renderToDOM, { render });
+const FRAMEWORK = 'preact';
+const api = start(renderToDOM);
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({
@@ -26,7 +27,6 @@ export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
 export const configure: ClientApi['configure'] = (...args) => api.configure(FRAMEWORK, ...args);
 export const addDecorator: ClientApi['addDecorator'] = api.clientApi
   .addDecorator as ClientApi['addDecorator'];
-export type DecoratorFn = Parameters<typeof addDecorator>[0];
 export const addParameters: ClientApi['addParameters'] = api.clientApi
   .addParameters as ClientApi['addParameters'];
 export const clearDecorators: ClientApi['clearDecorators'] = api.clientApi.clearDecorators;

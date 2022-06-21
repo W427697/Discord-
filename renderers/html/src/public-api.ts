@@ -1,11 +1,13 @@
 /* eslint-disable prefer-destructuring */
 import { start } from '@storybook/core-client';
 import type { ClientStoryApi, Loadable } from '@storybook/addons';
+import type { HtmlFramework, IStorybookSection } from './types';
 
-import { renderToDOM, render } from './render';
-import type { IStorybookSection, ReactFramework } from './types';
+import { renderToDOM } from './render';
 
-interface ClientApi extends ClientStoryApi<ReactFramework['storyResult']> {
+const FRAMEWORK = 'html';
+
+interface ClientApi extends ClientStoryApi<HtmlFramework['storyResult']> {
   setAddon(addon: any): void;
   configure(loader: Loadable, module: NodeModule): void;
   getStorybook(): IStorybookSection[];
@@ -13,9 +15,8 @@ interface ClientApi extends ClientStoryApi<ReactFramework['storyResult']> {
   forceReRender(): void;
   raw: () => any; // todo add type
 }
-const FRAMEWORK = 'react';
 
-const api = start(renderToDOM, { render });
+const api = start(renderToDOM);
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({
@@ -26,7 +27,6 @@ export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
 export const configure: ClientApi['configure'] = (...args) => api.configure(FRAMEWORK, ...args);
 export const addDecorator: ClientApi['addDecorator'] = api.clientApi
   .addDecorator as ClientApi['addDecorator'];
-export type DecoratorFn = Parameters<typeof addDecorator>[0];
 export const addParameters: ClientApi['addParameters'] = api.clientApi
   .addParameters as ClientApi['addParameters'];
 export const clearDecorators: ClientApi['clearDecorators'] = api.clientApi.clearDecorators;

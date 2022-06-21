@@ -2,11 +2,10 @@
 import { start } from '@storybook/core-client';
 import type { ClientStoryApi, Loadable } from '@storybook/addons';
 
-import './globals';
 import { renderToDOM } from './render';
 import type { IStorybookSection, WebComponentsFramework } from './types';
 
-const framework = 'web-components';
+const FRAMEWORK = 'web-components';
 
 interface ClientApi extends ClientStoryApi<WebComponentsFramework['storyResult']> {
   setAddon(addon: any): void;
@@ -21,11 +20,11 @@ const api = start(renderToDOM);
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({
-    framework,
+    framework: FRAMEWORK,
   });
 };
 
-export const configure: ClientApi['configure'] = (...args) => api.configure(framework, ...args);
+export const configure: ClientApi['configure'] = (...args) => api.configure(FRAMEWORK, ...args);
 export const addDecorator: ClientApi['addDecorator'] = api.clientApi
   .addDecorator as ClientApi['addDecorator'];
 export const addParameters: ClientApi['addParameters'] = api.clientApi

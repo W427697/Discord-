@@ -2,6 +2,8 @@ import global from 'global';
 
 const { window, EventSource } = global;
 
+export * from './globals';
+
 export * from './public-types';
 export * from './public-api';
 export * from './framework-api';
