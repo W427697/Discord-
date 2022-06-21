@@ -11,7 +11,7 @@ import React, {
 import { MDXProvider } from '@mdx-js/react';
 import { resetComponents, Story as PureStory, StorySkeleton } from '@storybook/components';
 import { StoryId, toId, storyNameFromExport, StoryAnnotations, AnyFramework } from '@storybook/csf';
-import type { Story as StoryType } from '@storybook/store';
+import type { ModuleExport, ModuleExports, Story as StoryType } from '@storybook/store';
 
 import { CURRENT_SELECTION } from './types';
 import { DocsContext, DocsContextProps } from './DocsContext';
@@ -33,6 +33,8 @@ type StoryDefProps = {
 
 type StoryRefProps = {
   id?: string;
+  of?: ModuleExport;
+  meta?: ModuleExports;
 };
 
 type StoryImportProps = {
@@ -52,7 +54,12 @@ export const lookupStoryId = (
   );
 
 export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryId => {
-  const { id } = props as StoryRefProps;
+  const { id, of, meta } = props as StoryRefProps;
+
+  if (of) {
+    return context.storyIdByModuleExport(of, meta);
+  }
+
   const { name } = props as StoryDefProps;
   const inputId = id === CURRENT_SELECTION ? context.id : id;
   return inputId || lookupStoryId(name, context);
@@ -62,7 +69,7 @@ export const getStoryProps = <TFramework extends AnyFramework>(
   { height, inline }: StoryProps,
   story: StoryType<TFramework>
 ): PureStoryProps => {
-  const { name: storyName, parameters } = story;
+  const { name: storyName, parameters = {} } = story || {};
   const { docs = {} } = parameters;
 
   if (docs.disable) {
@@ -75,7 +82,7 @@ export const getStoryProps = <TFramework extends AnyFramework>(
 
   return {
     inline: storyIsInline,
-    id: story.id,
+    id: story?.id,
     height: height || (storyIsInline ? undefined : iframeHeight),
     title: storyName,
     ...(storyIsInline && {
@@ -110,7 +117,8 @@ const Story: FunctionComponent<StoryProps> = (props) => {
     return null;
   }
 
-  if (storyProps.inline) {
+  const inline = context.type === 'external' || storyProps.inline;
+  if (inline) {
     // We do this so React doesn't complain when we replace the span in a secondary render
     const htmlContents = `<span></span>`;
 
@@ -120,7 +128,7 @@ const Story: FunctionComponent<StoryProps> = (props) => {
       <div id={storyBlockIdFromId(story.id)}>
         <MDXProvider components={resetComponents}>
           {height ? (
-            <style>{`#story--${story.id} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
+            <style>{`#story--${story.id} { min-height: ${height}px; transform: translateZ(0); overflow: auto }`}</style>
           ) : null}
           {showLoader && <StorySkeleton />}
           <div

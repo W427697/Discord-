@@ -13,10 +13,10 @@ export type { DocsContextProps };
 // This was specifically a problem with the Vite builder.
 /* eslint-disable no-underscore-dangle */
 if (globalWindow && globalWindow.__DOCS_CONTEXT__ === undefined) {
-  globalWindow.__DOCS_CONTEXT__ = createContext({});
+  globalWindow.__DOCS_CONTEXT__ = createContext(null);
   globalWindow.__DOCS_CONTEXT__.displayName = 'DocsContext';
 }
 
 export const DocsContext: Context<DocsContextProps<AnyFramework>> = globalWindow
   ? globalWindow.__DOCS_CONTEXT__
-  : createContext({});
+  : createContext(null);

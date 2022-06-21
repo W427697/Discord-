@@ -1,6 +1,4 @@
-import type { StorybookConfig } from '@storybook/react-webpack5/types';
-
-const config: StorybookConfig = {
+const config = {
   stories: [
     {
       directory: '../components',

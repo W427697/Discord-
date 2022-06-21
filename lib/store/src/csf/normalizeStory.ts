@@ -58,6 +58,7 @@ export function normalizeStory<TFramework extends AnyFramework>(
   // eslint-disable-next-line no-underscore-dangle
   const id = parameters.__id || toId(meta.id || meta.title, exportName);
   return {
+    moduleExport: storyAnnotations,
     id,
     name,
     decorators,

@@ -7,7 +7,6 @@ import global from 'global';
 
 import { logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
-
 import type {
   LoadOptions,
   CLIOptions,
@@ -29,7 +28,7 @@ import {
   copyAllStaticFilesRelativeToMain,
 } from './utils/copy-all-static-files';
 import { getBuilders } from './utils/get-builders';
-import { extractStoriesJson } from './utils/stories-json';
+import { extractStoriesJson, convertToIndexV3 } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
@@ -141,8 +140,12 @@ export async function buildStaticStandalone(
     extractTasks.push(
       extractStoriesJson(
         path.join(options.outputDir, 'stories.json'),
-        initializedStoryIndexGenerator
+        initializedStoryIndexGenerator,
+        convertToIndexV3
       )
+    );
+    extractTasks.push(
+      extractStoriesJson(path.join(options.outputDir, 'index.json'), initializedStoryIndexGenerator)
     );
   }
 
@@ -157,7 +160,7 @@ export async function buildStaticStandalone(
       const payload = storyIndex
         ? {
             storyIndex: {
-              storyCount: Object.keys(storyIndex.stories).length,
+              storyCount: Object.keys(storyIndex.entries).length,
               version: storyIndex.v,
             },
           }

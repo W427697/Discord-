@@ -43,21 +43,24 @@ const projectAnnotations: ProjectAnnotations<any> = {
 };
 
 const storyIndex: StoryIndex = {
-  v: 3,
-  stories: {
+  v: 4,
+  entries: {
     'component-one--a': {
+      type: 'story',
       id: 'component-one--a',
       title: 'Component One',
       name: 'A',
       importPath: './src/ComponentOne.stories.js',
     },
     'component-one--b': {
+      type: 'story',
       id: 'component-one--b',
       title: 'Component One',
       name: 'B',
       importPath: './src/ComponentOne.stories.js',
     },
     'component-two--c': {
+      type: 'story',
       id: 'component-two--c',
       title: 'Component Two',
       name: 'C',
@@ -156,6 +159,8 @@ describe('StoryStore', () => {
     });
   });
 
+  describe('loadDocsFileById', () => {});
+
   describe('setProjectAnnotations', () => {
     it('busts the loadStory cache', async () => {
       const store = new StoryStore();
@@ -208,7 +213,7 @@ describe('StoryStore', () => {
       expect(prepareStory).toHaveBeenCalledTimes(1);
 
       // The stories are no longer in the index
-      await store.onStoriesChanged({ storyIndex: { v: 3, stories: {} } });
+      await store.onStoriesChanged({ storyIndex: { v: 4, entries: {} } });
 
       await expect(store.loadStory({ storyId: 'component-one--a' })).rejects.toThrow();
 
@@ -229,10 +234,11 @@ describe('StoryStore', () => {
       // Add a new story to the index that isn't different
       await store.onStoriesChanged({
         storyIndex: {
-          v: 3,
-          stories: {
-            ...storyIndex.stories,
+          v: 4,
+          entries: {
+            ...storyIndex.entries,
             'new-component--story': {
+              type: 'story',
               id: 'new-component--story',
               title: 'New Component',
               name: 'Story',
@@ -254,16 +260,17 @@ describe('StoryStore', () => {
       store.initialize({ storyIndex, importFn, cache: false });
 
       await store.loadStory({ storyId: 'component-one--a' });
-      expect(importFn).toHaveBeenCalledWith(storyIndex.stories['component-one--a'].importPath);
+      expect(importFn).toHaveBeenCalledWith(storyIndex.entries['component-one--a'].importPath);
 
       const newImportPath = './src/ComponentOne-new.stories.js';
       const newImportFn = jest.fn(async () => componentOneExports);
       await store.onStoriesChanged({
         importFn: newImportFn,
         storyIndex: {
-          v: 3,
-          stories: {
+          v: 4,
+          entries: {
             'component-one--a': {
+              type: 'story',
               id: 'component-one--a',
               title: 'Component One',
               name: 'A',
@@ -284,16 +291,17 @@ describe('StoryStore', () => {
       await store.cacheAllCSFFiles();
 
       await store.loadStory({ storyId: 'component-one--a' });
-      expect(importFn).toHaveBeenCalledWith(storyIndex.stories['component-one--a'].importPath);
+      expect(importFn).toHaveBeenCalledWith(storyIndex.entries['component-one--a'].importPath);
 
       const newImportPath = './src/ComponentOne-new.stories.js';
       const newImportFn = jest.fn(async () => componentOneExports);
       await store.onStoriesChanged({
         importFn: newImportFn,
         storyIndex: {
-          v: 3,
-          stories: {
+          v: 4,
+          entries: {
             'component-one--a': {
+              type: 'story',
               id: 'component-one--a',
               title: 'Component One',
               name: 'A',
@@ -362,10 +370,10 @@ describe('StoryStore', () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
       const reversedIndex = {
-        v: 3,
-        stories: {
-          'component-one--b': storyIndex.stories['component-one--b'],
-          'component-one--a': storyIndex.stories['component-one--a'],
+        v: 4,
+        entries: {
+          'component-one--b': storyIndex.entries['component-one--b'],
+          'component-one--a': storyIndex.entries['component-one--a'],
         },
       };
       store.initialize({ storyIndex: reversedIndex, importFn, cache: false });
@@ -581,7 +589,7 @@ describe('StoryStore', () => {
       `);
     });
 
-    it('does not include docs only stories by default', async () => {
+    it('does not include (legacy) docs only stories by default', async () => {
       const docsOnlyImportFn = jest.fn(async (path) => {
         return path === './src/ComponentOne.stories.js'
           ? {
@@ -600,6 +608,43 @@ describe('StoryStore', () => {
       await store.cacheAllCSFFiles();
 
       expect(Object.keys(store.extract())).toEqual(['component-one--b', 'component-two--c']);
+
+      expect(Object.keys(store.extract({ includeDocsOnly: true }))).toEqual([
+        'component-one--a',
+        'component-one--b',
+        'component-two--c',
+      ]);
+    });
+
+    it('does not include (modern) docs entries ever', async () => {
+      const docsOnlyStoryIndex: StoryIndex = {
+        v: 4,
+        entries: {
+          ...storyIndex.entries,
+          'introduction--docs': {
+            type: 'docs',
+            id: 'introduction--docs',
+            title: 'Introduction',
+            name: 'Docs',
+            importPath: './introduction.mdx',
+            storiesImports: [],
+          },
+        },
+      };
+      const store = new StoryStore();
+      store.setProjectAnnotations(projectAnnotations);
+      store.initialize({
+        storyIndex: docsOnlyStoryIndex,
+        importFn,
+        cache: false,
+      });
+      await store.cacheAllCSFFiles();
+
+      expect(Object.keys(store.extract())).toEqual([
+        'component-one--a',
+        'component-one--b',
+        'component-two--c',
+      ]);
 
       expect(Object.keys(store.extract({ includeDocsOnly: true }))).toEqual([
         'component-one--a',
@@ -641,6 +686,11 @@ describe('StoryStore', () => {
               "foo": "a",
             },
             "kind": "Component One",
+            "moduleExport": Object {
+              "args": Object {
+                "foo": "a",
+              },
+            },
             "name": "A",
             "originalStoryFn": [MockFunction],
             "parameters": Object {
@@ -678,6 +728,11 @@ describe('StoryStore', () => {
               "foo": "b",
             },
             "kind": "Component One",
+            "moduleExport": Object {
+              "args": Object {
+                "foo": "b",
+              },
+            },
             "name": "B",
             "originalStoryFn": [MockFunction],
             "parameters": Object {
@@ -715,6 +770,11 @@ describe('StoryStore', () => {
               "foo": "c",
             },
             "kind": "Component Two",
+            "moduleExport": Object {
+              "args": Object {
+                "foo": "c",
+              },
+            },
             "name": "C",
             "originalStoryFn": [MockFunction],
             "parameters": Object {
@@ -918,41 +978,6 @@ describe('StoryStore', () => {
                   "fileName": "./src/ComponentTwo.stories.js",
                 },
                 "story": "C",
-                "title": "Component Two",
-              },
-            },
-            "v": 3,
-          }
-        `);
-      });
-    });
-
-    describe('in non-back-compat mode', () => {
-      it('maps stories list to payload correctly', async () => {
-        const store = new StoryStore();
-        store.setProjectAnnotations(projectAnnotations);
-        store.initialize({ storyIndex, importFn, cache: false });
-        await store.cacheAllCSFFiles();
-
-        expect(store.getStoriesJsonData()).toMatchInlineSnapshot(`
-          Object {
-            "stories": Object {
-              "component-one--a": Object {
-                "id": "component-one--a",
-                "importPath": "./src/ComponentOne.stories.js",
-                "name": "A",
-                "title": "Component One",
-              },
-              "component-one--b": Object {
-                "id": "component-one--b",
-                "importPath": "./src/ComponentOne.stories.js",
-                "name": "B",
-                "title": "Component One",
-              },
-              "component-two--c": Object {
-                "id": "component-two--c",
-                "importPath": "./src/ComponentTwo.stories.js",
-                "name": "C",
                 "title": "Component Two",
               },
             },

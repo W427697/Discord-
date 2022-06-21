@@ -25,7 +25,8 @@ import type {
 
 export type { StoryId, Parameters };
 export type Path = string;
-export type ModuleExports = Record<string, any>;
+export type ModuleExport = any;
+export type ModuleExports = Record<string, ModuleExport>;
 export type PromiseLike<T> = Promise<T> | SynchronousPromise<T>;
 export type ModuleImportFn = (path: Path) => PromiseLike<ModuleExports>;
 
@@ -59,6 +60,7 @@ export type NormalizedStoryAnnotations<TFramework extends AnyFramework = AnyFram
   StoryAnnotations<TFramework>,
   'storyName' | 'story'
 > & {
+  moduleExport: ModuleExport;
   // You cannot actually set id on story annotations, but we normalize it to be there for convience
   id: StoryId;
   argTypes?: StrictArgTypes;
@@ -72,6 +74,7 @@ export type CSFFile<TFramework extends AnyFramework = AnyFramework> = {
 
 export type Story<TFramework extends AnyFramework = AnyFramework> =
   StoryContextForEnhancers<TFramework> & {
+    moduleExport: ModuleExport;
     originalStoryFn: StoryFn<TFramework>;
     undecoratedStoryFn: LegacyStoryFn<TFramework>;
     unboundStoryFn: LegacyStoryFn<TFramework>;
@@ -96,22 +99,37 @@ export declare type RenderContext<TFramework extends AnyFramework = AnyFramework
     unboundStoryFn: LegacyStoryFn<TFramework>;
   };
 
-export interface StoryIndexEntry {
+interface BaseIndexEntry {
   id: StoryId;
   name: StoryName;
   title: ComponentTitle;
   importPath: Path;
 }
+export type StoryIndexEntry = BaseIndexEntry & {
+  type: 'story';
+};
 
-export interface V2CompatIndexEntry extends StoryIndexEntry {
+export type DocsIndexEntry = BaseIndexEntry & {
+  storiesImports: Path[];
+  type: 'docs';
+  legacy?: boolean;
+};
+
+export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
+export interface V2CompatIndexEntry extends Omit<StoryIndexEntry, 'type'> {
   kind: StoryIndexEntry['title'];
   story: StoryIndexEntry['name'];
   parameters: Parameters;
 }
 
+export interface StoryIndexV3 {
+  v: number;
+  stories: Record<StoryId, V2CompatIndexEntry>;
+}
+
 export interface StoryIndex {
   v: number;
-  stories: Record<StoryId, StoryIndexEntry>;
+  entries: Record<StoryId, IndexEntry>;
 }
 
 export type StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';
