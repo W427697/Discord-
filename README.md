@@ -280,3 +280,4 @@ Support us with a monthly donation and help us continue our activities. \[[Becom
 [MIT](https://github.com/storybookjs/storybook/blob/main/LICENSE)
 
 -the end-
+
