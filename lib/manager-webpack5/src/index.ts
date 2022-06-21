@@ -1,6 +1,7 @@
 import webpack, { ProgressPlugin } from 'webpack';
 import type { Stats, Configuration } from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
+// import webpackDevMiddleware from 'webpack-dev-middleware';
+import { fastifyWebpackHot } from 'fastify-webpack-hot';
 import { logger } from '@storybook/node-logger';
 import { useProgressReporting } from '@storybook/core-common';
 import type { Builder, Options } from '@storybook/core-common';
@@ -8,12 +9,12 @@ import { checkWebpackVersion } from '@storybook/core-webpack';
 
 import findUp from 'find-up';
 import fs from 'fs-extra';
-import express from 'express';
+import type { FastifyInstance } from 'fastify';
 import { getManagerWebpackConfig } from './manager-config';
 import { clearManagerCache, useManagerCache } from './utils/manager-cache';
 import { getPrebuiltDir } from './utils/prebuilt-manager';
 
-let compilation: ReturnType<typeof webpackDevMiddleware>;
+// let compilation: ReturnType<typeof webpackDevMiddleware>;
 let reject: (reason?: any) => void;
 
 type WebpackBuilder = Builder<Configuration, Stats>;
@@ -69,17 +70,18 @@ export const bail: WebpackBuilder['bail'] = async () => {
   }
   // we wait for the compiler to finish it's work, so it's command-line output doesn't interfere
   return new Promise((res, rej) => {
-    if (process && compilation) {
-      try {
-        compilation.close(() => res());
-        logger.warn('Force closed manager build');
-      } catch (err) {
-        logger.warn('Unable to close manager build!');
-        res();
-      }
-    } else {
-      res();
-    }
+    // if (process && compilation) {
+    //   try {
+    //     compilation.close(() => res());
+    //     logger.warn('Force closed manager build');
+    //   } catch (err) {
+    //     logger.warn('Unable to close manager build!');
+    //     res();
+    //   }
+    // } else {
+    //   res();
+    // }
+    res();
   });
 };
 
@@ -97,7 +99,14 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const prebuiltDir = await getPrebuiltDir(options);
   if (prebuiltDir && options.managerCache && !options.smokeTest) {
     logger.info('=> Using prebuilt manager');
-    router.use('/', express.static(prebuiltDir));
+
+    function staticPlugin(fastify: FastifyInstance) {
+      fastify.register(require('@fastify/static'), {
+        root: prebuiltDir,
+      });
+    }
+    await router.register(staticPlugin, { prefix: '/' });
+
     return;
   }
   yield;
@@ -122,7 +131,12 @@ const starter: StarterFunction = async function* starterGeneratorFn({
       if (useCache && hasOutput && !options.smokeTest) {
         logger.line(1); // force starting new line
         logger.info('=> Using cached manager');
-        router.use('/', express.static(options.outputDir));
+        function staticPlugin(fastify: FastifyInstance) {
+          fastify.register(require('@fastify/static'), {
+            root: options.outputDir,
+          });
+        }
+        await router.register(staticPlugin, { prefix: '/' });
         return;
       }
     } else if (!options.smokeTest && (await clearManagerCache(cacheKey, options))) {
@@ -147,23 +161,25 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     };
   }
 
-  const { handler, modulesCount } = await useProgressReporting(router, startTime, options);
-  yield;
-  new ProgressPlugin({ handler, modulesCount }).apply(compiler);
+  // const { handler, modulesCount } = await useProgressReporting(router, startTime, options);
+  // yield;
+  // new ProgressPlugin({ handler, modulesCount }).apply(compiler);
 
-  const middlewareOptions: Parameters<typeof webpackDevMiddleware>[1] = {
-    publicPath: config.output?.publicPath as string,
-    writeToDisk: true,
-  };
+  // const middlewareOptions: Parameters<typeof webpackDevMiddleware>[1] = {
+  //   publicPath: config.output?.publicPath as string,
+  //   writeToDisk: true,
+  // };
 
-  compilation = webpackDevMiddleware(compiler, middlewareOptions);
+  // compilation = webpackDevMiddleware(compiler, middlewareOptions);
 
-  router.use(compilation);
+  // router.use(compilation);
+  router.register(fastifyWebpackHot, { compiler });
 
-  const stats = await new Promise<Stats>((ready, stop) => {
-    compilation.waitUntilValid(ready as any);
-    reject = stop;
-  });
+  const stats = {};
+  // const stats = await new Promise<Stats>((ready, stop) => {
+  //   compilation.waitUntilValid(ready as any);
+  //   reject = stop;
+  // });
   yield;
 
   if (!stats) {

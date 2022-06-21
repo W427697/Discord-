@@ -22,9 +22,9 @@ export async function storybookDevServer(options: Options) {
   const startTime = process.hrtime();
 
   const app = await serverInit(options);
-  await app.register(import('@fastify/express'));
+  // await app.register(import('@fastify/express'));
   const { server } = app;
-  const router = express.Router();
+  // const router = express.Router();
   const serverChannel = getServerChannel(server);
 
   const features = await options.presets.apply<StorybookConfig['features']>('features');
@@ -53,9 +53,8 @@ export async function storybookDevServer(options: Options) {
       });
 
       initializedStoryIndexGenerator = generator.initialize().then(() => generator);
-
       useStoriesJson({
-        router,
+        router: app,
         initializedStoryIndexGenerator,
         normalizedStories,
         serverChannel,
@@ -89,7 +88,7 @@ export async function storybookDevServer(options: Options) {
   }
 
   if (!core?.disableProjectJson) {
-    useStorybookMetadata(router, options.configDir);
+    useStorybookMetadata(app, options.configDir);
   }
 
   await app.register(import('@fastify/compress'), { global: true });
@@ -98,37 +97,42 @@ export async function storybookDevServer(options: Options) {
     options.extendServer(server);
   }
 
-  app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    // These headers are required to enable SharedArrayBuffer
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer
-    next();
+  // app.addHook('preHandler', (req, reply, done) => {
+  //   reply.header('X-custom', 'value');
+  //   done();
+  // });
+
+  app.addHook('onRequest', (req, res, done) => {
+    res.header('X-custom', 'value2');
+    done();
   });
 
-  if (core?.crossOriginIsolated) {
-    app.use((req, res, next) => {
-      // These headers are required to enable SharedArrayBuffer
-      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer
-      res.header('Cross-Origin-Opener-Policy', 'same-origin');
-      res.header('Cross-Origin-Embedder-Policy', 'require-corp');
-      next();
-    });
-  }
+  // These headers are required to enable SharedArrayBuffer
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer
+  await app.register(require('@fastify/cors'), {
+    origin: '*',
+    allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept',
+  });
+
+  // if (core?.crossOriginIsolated) {
+  //   app.use((req, res, next) => {
+  //     // These headers are required to enable SharedArrayBuffer
+  //     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer
+  //     res.header('Cross-Origin-Opener-Policy', 'same-origin');
+  //     res.header('Cross-Origin-Embedder-Policy', 'require-corp');
+  //     next();
+  //   });
+  // }
 
   // User's own static files
-  await useStatics(router, options);
+  await useStatics(app, options);
 
-  getMiddleware(options.configDir)(router);
-  app.use(router);
+  getMiddleware(options.configDir)(app);
+  // app.use(router);
 
   const { port, host } = options;
   const proto = options.https ? 'https' : 'http';
   const { address, networkAddress } = getServerAddresses(port, host, proto);
-
-  await new Promise<void>((resolve, reject) => {
-    app.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
-  });
 
   const [previewBuilder, managerBuilder] = await getBuilders(options);
 
@@ -142,14 +146,14 @@ export async function storybookDevServer(options: Options) {
     : previewBuilder.start({
         startTime,
         options,
-        router,
+        router: app,
         server,
       });
 
   const manager = managerBuilder.start({
     startTime,
     options,
-    router,
+    router: app,
     server,
   });
 
@@ -169,6 +173,12 @@ export async function storybookDevServer(options: Options) {
         throw err;
       }),
   ]);
+
+  await new Promise<void>((resolve, reject) => {
+    app.listen({ port, host }, (error) => {
+      return error ? reject(error) : resolve();
+    });
+  });
 
   // TODO #13083 Remove this when compiling the preview is fast enough
   if (!options.ci && !options.smokeTest && options.open) {

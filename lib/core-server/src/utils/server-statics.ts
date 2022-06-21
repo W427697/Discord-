@@ -1,17 +1,16 @@
+import type { FastifyInstance } from 'fastify';
 import { logger } from '@storybook/node-logger';
 import type { Options, StorybookConfig } from '@storybook/core-common';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
 import chalk from 'chalk';
-import express from 'express';
 import { pathExists } from 'fs-extra';
 import path from 'path';
-import favicon from 'serve-favicon';
 
 import dedent from 'ts-dedent';
 
 const defaultFavIcon = require.resolve('@storybook/core-server/public/favicon.ico');
 
-export async function useStatics(router: any, options: Options) {
+export async function useStatics(router: FastifyInstance, options: Options) {
   let hasCustomFavicon = false;
   const staticDirs = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
 
@@ -44,13 +43,23 @@ export async function useStatics(router: any, options: Options) {
           logger.info(
             chalk`=> Serving static files from {cyan ${staticDir}} at {cyan ${targetEndpoint}}`
           );
-          router.use(targetEndpoint, express.static(staticPath, { index: false }));
+
+          function staticPlugin(fastify: FastifyInstance) {
+            fastify.register(require('@fastify/static'), {
+              root: staticPath,
+              index: false,
+            });
+          }
+          router.register(staticPlugin, { prefix: targetEndpoint });
 
           if (!hasCustomFavicon && targetEndpoint === '/') {
             const faviconPath = path.join(staticPath, 'favicon.ico');
             if (await pathExists(faviconPath)) {
               hasCustomFavicon = true;
-              router.use(favicon(faviconPath));
+              router.register(require('fastify-favicon'), {
+                path: staticPath,
+                name: 'favicon.ico',
+              });
             }
           }
         } catch (e) {
@@ -61,7 +70,10 @@ export async function useStatics(router: any, options: Options) {
   }
 
   if (!hasCustomFavicon) {
-    router.use(favicon(defaultFavIcon));
+    router.register(require('fastify-favicon'), {
+      path: path.dirname(defaultFavIcon),
+      name: path.basename(defaultFavIcon),
+    });
   }
 }
 

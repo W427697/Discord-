@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import { Request, Response, Router } from 'express';
+import type { FastifyInstance } from 'fastify';
 import { getStorybookMetadata } from '@storybook/telemetry';
 
 export async function extractStorybookMetadata(outputFile: string, configDir: string) {
@@ -8,10 +8,10 @@ export async function extractStorybookMetadata(outputFile: string, configDir: st
   await fs.writeJson(outputFile, storybookMetadata);
 }
 
-export function useStorybookMetadata(router: Router, configDir?: string) {
-  router.use('/project.json', async (req: Request, res: Response) => {
+export function useStorybookMetadata(router: FastifyInstance, configDir?: string) {
+  router.get('/project.json', async (request, reply) => {
     const storybookMetadata = await getStorybookMetadata(configDir);
-    res.header('Content-Type', 'application/json');
-    res.send(JSON.stringify(storybookMetadata));
+    reply.header('Content-Type', 'application/json');
+    reply.send(JSON.stringify(storybookMetadata));
   });
 }

@@ -1,6 +1,6 @@
 import webpack, { Stats, Configuration, ProgressPlugin, StatsOptions } from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
+import { fastifyWebpackHot } from 'fastify-webpack-hot';
+
 import { logger } from '@storybook/node-logger';
 import { useProgressReporting } from '@storybook/core-common';
 import type { Builder, Options } from '@storybook/core-common';
@@ -8,7 +8,7 @@ import { checkWebpackVersion } from '@storybook/core-webpack';
 
 export * from './types';
 
-let compilation: ReturnType<typeof webpackDevMiddleware>;
+// let compilation: ReturnType<typeof webpackDevMiddleware>;
 let reject: (reason?: any) => void;
 
 type WebpackBuilder = Builder<Configuration, Stats>;
@@ -72,17 +72,18 @@ export const bail: WebpackBuilder['bail'] = async () => {
   }
   // we wait for the compiler to finish it's work, so it's command-line output doesn't interfere
   return new Promise((res, rej) => {
-    if (process && compilation) {
-      try {
-        compilation.close(() => res());
-        logger.warn('Force closed preview build');
-      } catch (err) {
-        logger.warn('Unable to close preview build!');
-        res();
-      }
-    } else {
-      res();
-    }
+    // if (process && compilation) {
+    //   try {
+    //     compilation.close(() => res());
+    //     logger.warn('Force closed preview build');
+    //   } catch (err) {
+    //     logger.warn('Unable to close preview build!');
+    //     res();
+    //   }
+    // } else {
+    //   res();
+    // }
+    res();
   });
 };
 
@@ -122,29 +123,31 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   yield;
   new ProgressPlugin({ handler, modulesCount }).apply(compiler);
 
-  const middlewareOptions: Parameters<typeof webpackDevMiddleware>[1] = {
-    publicPath: config.output?.publicPath as string,
-    writeToDisk: true,
-  };
+  // const middlewareOptions: Parameters<typeof webpackDevMiddleware>[1] = {
+  //   publicPath: config.output?.publicPath as string,
+  //   writeToDisk: true,
+  // };
 
-  compilation = webpackDevMiddleware(compiler, middlewareOptions);
+  // compilation = webpackDevMiddleware(compiler, middlewareOptions);
 
-  router.use(compilation);
-  router.use(webpackHotMiddleware(compiler as any));
+  // router.use(compilation);
+  // router.use(webpackHotMiddleware(compiler as any));
+  // router.register(fastifyWebpackHot, { compiler });
 
-  const stats = await new Promise<Stats>((ready, stop) => {
-    compilation.waitUntilValid(ready as any);
-    reject = stop;
-  });
+  const stats = {};
+  // const stats = await new Promise<Stats>((ready, stop) => {
+  //   compilation.waitUntilValid(ready as any);
+  //   reject = stop;
+  // });
   yield;
 
   if (!stats) {
     throw new Error('no stats after building preview');
   }
 
-  if (stats.hasErrors()) {
-    throw stats;
-  }
+  // if (stats.hasErrors()) {
+  //   throw stats;
+  // }
 
   return {
     bail,

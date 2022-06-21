@@ -1,8 +1,8 @@
-import { Router, Request, Response } from 'express';
+import type { FastifyInstance } from 'fastify';
 import { printDuration } from './print-duration';
 
 export const useProgressReporting = async (
-  router: Router,
+  router: FastifyInstance,
   startTime: [number, number],
   options: any
 ): Promise<{ handler: any; modulesCount: number }> => {
@@ -11,24 +11,24 @@ export const useProgressReporting = async (
   let reportProgress: (progress?: { value?: number; message: string; modules?: any }) => void =
     () => {};
 
-  router.get('/progress', (request: Request, response: Response) => {
+  router.get('/progress', (request, reply) => {
     let closed = false;
     const close = () => {
       closed = true;
-      response.end();
+      reply.raw.end();
     };
-    response.on('close', close);
+    reply.raw.on('close', close);
 
-    if (closed || response.writableEnded) return;
-    response.setHeader('Cache-Control', 'no-cache');
-    response.setHeader('Content-Type', 'text/event-stream');
-    response.setHeader('Connection', 'keep-alive');
-    response.flushHeaders();
+    if (closed || reply.raw.writableEnded) return;
+    reply.header('Cache-Control', 'no-cache');
+    reply.header('Content-Type', 'text/event-stream');
+    reply.header('Connection', 'keep-alive');
+    reply.raw.flushHeaders();
 
     reportProgress = (progress: any) => {
-      if (closed || response.writableEnded) return;
-      response.write(`data: ${JSON.stringify(progress)}\n\n`);
-      response.flush();
+      if (closed || reply.raw.writableEnded) return;
+      reply.raw.write(`data: ${JSON.stringify(progress)}\n\n`);
+      reply.raw.flushHeaders();
       if (progress.value === 1) close();
     };
   });

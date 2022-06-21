@@ -10,11 +10,7 @@ export const entries = async (_: unknown, options: any) => {
   if (options.configType === 'DEVELOPMENT') {
     // Suppress informational messages when --quiet is specified. webpack-hot-middleware's quiet
     // parameter would also suppress warnings.
-    result = result.concat(
-      `${require.resolve('webpack-hot-middleware/client')}?reload=true&quiet=false&noInfo=${
-        options.quiet
-      }`
-    );
+    result = result.concat('fastify-webpack-hot/client');
   }
 
   return result;
