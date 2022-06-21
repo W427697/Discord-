@@ -64,6 +64,8 @@ export type StorySortParameter = StorySortComparator | StorySortObjectParameter;
 export type StorySortComparatorV7 = Comparator<StoryIndexEntry>;
 export type StorySortParameterV7 = StorySortComparatorV7 | StorySortObjectParameter;
 
+// TODO: remove all these types, they belong in the renderer and csf-package
+
 export interface OptionsParameter extends Object {
   storySort?: StorySortParameter;
   theme?: {

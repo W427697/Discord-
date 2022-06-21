@@ -2,6 +2,8 @@ import { AnnotatedStoryFn, Args, ComponentAnnotations, StoryAnnotations } from '
 import { ComponentProps, JSXElementConstructor } from 'react';
 import { ReactFramework } from './types';
 
+type JSXElement = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
+
 /**
  * Metadata to configure the stories for a component.
  *
@@ -30,33 +32,29 @@ export type StoryObj<TArgs = Args> = StoryAnnotations<ReactFramework, TArgs>;
  * export default { ... } as ComponentMeta<typeof Button>;
  * ```
  */
-export type ComponentMeta<T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>> =
-  Meta<ComponentProps<T>>;
+export type ComponentMeta<T extends JSXElement> = Meta<ComponentProps<T>>;
 
 /**
  * For the common case where a (CSFv2) story is a simple component that receives args as props:
  *
  * ```tsx
- * const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />
+ * const Template: ComponentStoryFn<typeof Button> = (args) => <Button {...args} />
  * ```
  */
-export type ComponentStoryFn<T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>> =
-  StoryFn<ComponentProps<T>>;
+export type ComponentStoryFn<T extends JSXElement> = StoryFn<ComponentProps<T>>;
 
 /**
  * For the common case where a (CSFv3) story is a simple component that receives args as props:
  *
  * ```tsx
- * const MyStory: ComponentStory<typeof Button> = {
+ * const MyStory: ComponentStoryObj<typeof Button> = {
  *   args: { buttonArg1: 'val' },
  * }
  * ```
  */
-export type ComponentStoryObj<T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>> =
-  StoryObj<ComponentProps<T>>;
+export type ComponentStoryObj<T extends JSXElement> = StoryObj<ComponentProps<T>>;
 
 /**
-
 
 /**
  * Story function that represents a CSFv3 component example.
@@ -73,5 +71,4 @@ export type Story<TArgs = Args> = StoryObj<TArgs>;
  *   args: { buttonArg1: 'val' },
  * }
  * ```
- */ export type ComponentStory<T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>> =
-  ComponentStoryObj<T>;
+ */ export type ComponentStory<T extends JSXElement> = ComponentStoryObj<T>;
