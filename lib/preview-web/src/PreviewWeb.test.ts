@@ -475,7 +475,7 @@ describe('PreviewWeb', () => {
 
         it('renders exception if renderToDOM throws', async () => {
           const error = new Error('error');
-          projectAnnotations.renderToDOM.mockImplementationOnce(() => {
+          projectAnnotations.renderToDOM.mockImplementation(() => {
             throw error;
           });
 
@@ -524,9 +524,7 @@ describe('PreviewWeb', () => {
 
         it('renders error if the story calls showError', async () => {
           const error = { title: 'title', description: 'description' };
-          projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
-            context.showError(error)
-          );
+          projectAnnotations.renderToDOM.mockImplementation((context) => context.showError(error));
 
           document.location.search = '?id=component-one--a';
           const preview = await createAndRenderPreview();
@@ -540,7 +538,7 @@ describe('PreviewWeb', () => {
 
         it('renders exception if the story calls showException', async () => {
           const error = new Error('error');
-          projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
+          projectAnnotations.renderToDOM.mockImplementation((context) =>
             context.showException(error)
           );
 
@@ -567,7 +565,7 @@ describe('PreviewWeb', () => {
 
         it('does not show error display if the render function throws IGNORED_EXCEPTION', async () => {
           document.location.search = '?id=component-one--a';
-          projectAnnotations.renderToDOM.mockImplementationOnce(() => {
+          projectAnnotations.renderToDOM.mockImplementation(() => {
             throw IGNORED_EXCEPTION;
           });
 
