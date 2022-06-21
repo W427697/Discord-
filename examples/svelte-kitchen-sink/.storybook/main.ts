@@ -1,13 +1,9 @@
+const path = require('path');
 const sveltePreprocess = require('svelte-preprocess');
 
-const path = require('path');
-
-module.exports = {
+const mainConfig: import('@storybook/svelte-webpack5/types').StorybookConfig = {
   stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx||mdx|svelte)'],
   logLevel: 'debug',
-  svelteOptions: {
-    preprocess: sveltePreprocess(),
-  },
   addons: [
     '@storybook/addon-storysource',
     '@storybook/addon-actions',
@@ -25,12 +21,19 @@ module.exports = {
     '@storybook/addon-a11y',
   ],
   webpackFinal: async (config) => {
-    config.module.rules.push({
+    const rules = config.module?.rules || [];
+    rules.push({
       test: [/\.stories\.js$/, /index\.js$/],
       use: [require.resolve('@storybook/source-loader')],
       include: [path.resolve(__dirname, '../src')],
       enforce: 'pre',
     });
+
+    // eslint-disable-next-line no-param-reassign
+    config.module = config.module || {};
+    // eslint-disable-next-line no-param-reassign
+    config.module.rules = rules;
+
     return config;
   },
   core: {
@@ -41,5 +44,12 @@ module.exports = {
   features: {
     breakingChangesV7: true,
   },
-  framework: '@storybook/svelte-webpack5',
+  framework: {
+    name: '@storybook/svelte-webpack5',
+    options: {
+      preprocess: sveltePreprocess(),
+    },
+  },
 };
+
+module.exports = mainConfig;

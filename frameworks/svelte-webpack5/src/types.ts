@@ -1,4 +1,5 @@
 import type {
+  SvelteOptions,
   StorybookConfig as StorybookConfigBase,
   TypescriptOptions as TypescriptOptionsReact,
 } from '@storybook/preset-svelte-webpack';
@@ -11,7 +12,7 @@ import type {
 type FrameworkName = '@storybook/svelte-webpack5';
 type BuilderName = '@storybook/builder-webpack5';
 
-export type FrameworkOptions = {
+export type FrameworkOptions = SvelteOptions & {
   builder?: BuilderOptions;
 };
 

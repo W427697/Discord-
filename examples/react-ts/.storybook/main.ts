@@ -44,12 +44,5 @@ const config: StorybookConfig = {
     breakingChangesV7: true,
   },
   framework: '@storybook/react-webpack5',
-  // core: (c: any = {}) => {
-  //   return {
-  //     channelOptions: { allowFunction: false, maxDepth: 10 },
-  //     disableTelemetry: true,
-  //     ...c,
-  //   };
-  // },
 };
 module.exports = config;

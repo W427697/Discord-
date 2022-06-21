@@ -1,4 +1,6 @@
-module.exports = {
+import type { StorybookConfig } from '@storybook/vue-webpack5/types';
+
+const mainConfig: StorybookConfig = {
   stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
@@ -17,8 +19,7 @@ module.exports = {
     disableTelemetry: true,
   },
   staticDirs: ['../public'],
-  features: {
-    channelOptions: { allowFunction: false, maxDepth: 10 },
-  },
   framework: '@storybook/vue-webpack5',
 };
+
+module.exports = mainConfig;

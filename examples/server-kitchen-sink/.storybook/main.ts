@@ -1,4 +1,6 @@
-module.exports = {
+import type { StorybookConfig } from '@storybook/server-webpack5/types';
+
+const mainConfig: StorybookConfig = {
   stories: ['../stories/**/*.stories.@(json|yaml|yml)'],
   logLevel: 'debug',
   addons: [
@@ -17,3 +19,5 @@ module.exports = {
   },
   framework: '@storybook/server-webpack5',
 };
+
+module.exports = mainConfig;

@@ -104,7 +104,7 @@ export default async (
     const storiesFilename = 'storybook-stories.js';
     const storiesPath = path.resolve(path.join(workingDir, storiesFilename));
 
-    const needPipelinedImport = !!builderOptions?.lazyCompilation && !isProd;
+    const needPipelinedImport = !!builderOptions.lazyCompilation && !isProd;
     virtualModuleMapping[storiesPath] = toImportFn(stories, { needPipelinedImport });
     const configEntryPath = path.resolve(path.join(workingDir, 'storybook-config-entry.js'));
     virtualModuleMapping[configEntryPath] = handlebars(

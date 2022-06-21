@@ -1,6 +1,8 @@
+import type { StorybookConfig } from '@storybook/react-webpack5/types';
+
 const path = require('path');
 
-module.exports = {
+const mainConfig: StorybookConfig = {
   stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
@@ -17,13 +19,18 @@ module.exports = {
     '@storybook/addon-a11y',
     '@storybook/addon-jest',
   ],
+  // add monorepo root as a valid directory to import modules from
   webpackFinal: (config) => {
-    // add monorepo root as a valid directory to import modules from
-    config.resolve.plugins.forEach((p) => {
-      if (Array.isArray(p.appSrcs)) {
-        p.appSrcs.push(path.join(__dirname, '..', '..', '..'));
-      }
-    });
+    const resolvePlugins = config.resolve?.plugins;
+    if (Array.isArray(resolvePlugins)) {
+      resolvePlugins.forEach((p) => {
+        // @ts-ignore
+        const appSrcs = p.appSrcs as unknown as string[];
+        if (Array.isArray(appSrcs)) {
+          appSrcs.push(path.join(__dirname, '..', '..', '..'));
+        }
+      });
+    }
     return config;
   },
   core: {
@@ -40,3 +47,5 @@ module.exports = {
     options: { fastRefresh: true },
   },
 };
+
+module.exports = mainConfig;
