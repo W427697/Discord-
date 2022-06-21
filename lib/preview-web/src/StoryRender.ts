@@ -6,7 +6,13 @@ import {
   StoryContextForLoaders,
   StoryContext,
 } from '@storybook/csf';
-import { Story, RenderContext, StoryStore } from '@storybook/store';
+import {
+  Story,
+  RenderContext,
+  StoryStore,
+  RenderToDOM,
+  TeardownRenderToDOM,
+} from '@storybook/store';
 import { Channel } from '@storybook/addons';
 import { STORY_RENDER_PHASE_CHANGED, STORY_RENDERED } from '@storybook/core-events';
 
@@ -41,7 +47,9 @@ export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
 
 export const PREPARE_ABORTED = new Error('prepareAborted');
 
+export type RenderType = 'story' | 'docs';
 export interface Render<TFramework extends AnyFramework> {
+  type: RenderType;
   id: StoryId;
   story?: Story<TFramework>;
   isPreparing: () => boolean;
@@ -51,6 +59,8 @@ export interface Render<TFramework extends AnyFramework> {
 }
 
 export class StoryRender<TFramework extends AnyFramework> implements Render<TFramework> {
+  public type: RenderType = 'story';
+
   public story?: Story<TFramework>;
 
   public phase?: RenderPhase;
@@ -63,13 +73,12 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
 
   public disableKeyListeners = false;
 
+  private teardownRender: TeardownRenderToDOM = () => {};
+
   constructor(
     public channel: Channel,
     public store: StoryStore<TFramework>,
-    private renderToScreen: (
-      renderContext: RenderContext<TFramework>,
-      canvasElement: HTMLElement
-    ) => void | Promise<void>,
+    private renderToScreen: RenderToDOM<TFramework>,
     private callbacks: RenderContextCallbacks<TFramework>,
     public id: StoryId,
     public viewMode: ViewMode,
@@ -122,10 +131,6 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     return ['rendering', 'playing'].includes(this.phase as RenderPhase);
   }
 
-  context() {
-    return this.store.getStoryContext(this.story as Story<TFramework>);
-  }
-
   async renderToElement(canvasElement: HTMLElement) {
     this.canvasElement = canvasElement;
 
@@ -135,6 +140,10 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     // it without having to first wait for it to finish.
     // Whenever the selection changes we want to force the component to be remounted.
     return this.render({ initial: true, forceRemount: true });
+  }
+
+  private storyContext() {
+    return this.store.getStoryContext(this.story);
   }
 
   async render({
@@ -163,7 +172,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
       let loadedContext: StoryContext<TFramework>;
       await this.runPhase(abortSignal, 'loading', async () => {
         loadedContext = await applyLoaders({
-          ...this.context(),
+          ...this.storyContext(),
           viewMode: this.viewMode,
         } as StoryContextForLoaders<TFramework>);
       });
@@ -176,7 +185,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         ...loadedContext,
         // By this stage, it is possible that new args/globals have been received for this story
         // and we need to ensure we render it with the new values
-        ...this.context(),
+        ...this.storyContext(),
         abortSignal,
         canvasElement: this.canvasElement as HTMLElement,
       };
@@ -194,9 +203,10 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         unboundStoryFn,
       };
 
-      await this.runPhase(abortSignal, 'rendering', async () =>
-        this.renderToScreen(renderContext, this.canvasElement as HTMLElement)
-      );
+      await this.runPhase(abortSignal, 'rendering', async () => {
+        this.teardownRender =
+          (await this.renderToScreen(renderContext, this.canvasElement)) || (() => {});
+      });
       this.notYetRendered = false;
       if (abortSignal.aborted) return;
 
@@ -247,7 +257,11 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     // Wait several ticks that may be needed to handle the abort, then try again.
     // Note that there's a max of 5 nested timeouts before they're no longer "instant".
     for (let i = 0; i < 3; i += 1) {
-      if (!this.isPending()) return;
+      if (!this.isPending()) {
+        // eslint-disable-next-line no-await-in-loop
+        await this.teardownRender();
+        return;
+      }
       // eslint-disable-next-line no-await-in-loop
       await new Promise((resolve) => setTimeout(resolve, 0));
     }

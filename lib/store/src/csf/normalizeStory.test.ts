@@ -50,6 +50,7 @@ describe('normalizeStory', () => {
           "decorators": Array [],
           "id": "title--story-export",
           "loaders": Array [],
+          "moduleExport": [Function],
           "name": "Story Export",
           "parameters": Object {},
           "userStoryFn": [Function],
@@ -117,10 +118,12 @@ describe('normalizeStory', () => {
             "decorators": Array [],
             "id": "title--story-export",
             "loaders": Array [],
+            "moduleExport": Object {},
             "name": "Story Export",
             "parameters": Object {},
           }
         `);
+        expect(normalized.moduleExport).toBe(storyObj);
       });
 
       it('full annotations', () => {
@@ -133,7 +136,7 @@ describe('normalizeStory', () => {
           argTypes: { storyArgType: { type: 'string' } },
         };
         const meta = { title: 'title' };
-        const normalized = normalizeStory('storyExport', storyObj, meta);
+        const { moduleExport, ...normalized } = normalizeStory('storyExport', storyObj, meta);
         expect(normalized).toMatchInlineSnapshot(`
           Object {
             "argTypes": Object {
@@ -160,6 +163,7 @@ describe('normalizeStory', () => {
             },
           }
         `);
+        expect(moduleExport).toBe(storyObj);
       });
 
       it('prefers new annotations to legacy, but combines', () => {
@@ -179,7 +183,7 @@ describe('normalizeStory', () => {
           },
         };
         const meta = { title: 'title' };
-        const normalized = normalizeStory('storyExport', storyObj, meta);
+        const { moduleExport, ...normalized } = normalizeStory('storyExport', storyObj, meta);
         expect(normalized).toMatchInlineSnapshot(`
           Object {
             "argTypes": Object {
@@ -216,6 +220,7 @@ describe('normalizeStory', () => {
             },
           }
         `);
+        expect(moduleExport).toBe(storyObj);
       });
     });
   });

@@ -2,6 +2,7 @@ import type { Options as TelejsonOptions } from 'telejson';
 import type { TransformOptions } from '@babel/core';
 import { Router } from 'express';
 import { Server } from 'http';
+import type { Parameters } from '@storybook/csf';
 import { FileSystemCache } from './utils/file-cache';
 
 /**
@@ -68,12 +69,6 @@ export interface LoadedPreset {
   name: string;
   preset: any;
   options: any;
-}
-
-export interface PresetsOptions {
-  corePresets: string[];
-  overridePresets: string[];
-  frameworkPresets: string[];
 }
 
 export type PresetConfig =
@@ -223,6 +218,7 @@ export interface IndexerOptions {
 export interface IndexedStory {
   id: string;
   name: string;
+  parameters?: Parameters;
 }
 export interface StoryIndex {
   meta: { title?: string };

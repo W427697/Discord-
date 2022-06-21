@@ -23,6 +23,7 @@ import {
   StoryIndex,
   PromiseLike,
   WebProjectAnnotations,
+  RenderToDOM,
 } from '@storybook/store';
 
 import { StoryRender } from './StoryRender';
@@ -32,7 +33,7 @@ const { fetch } = global;
 
 type MaybePromise<T> = Promise<T> | T;
 
-const STORY_INDEX_PATH = './stories.json';
+const STORY_INDEX_PATH = './index.json';
 
 export class Preview<TFramework extends AnyFramework> {
   channel: Channel;
@@ -45,7 +46,7 @@ export class Preview<TFramework extends AnyFramework> {
 
   importFn?: ModuleImportFn;
 
-  renderToDOM: WebProjectAnnotations<TFramework>['renderToDOM'];
+  renderToDOM: RenderToDOM<TFramework>;
 
   storyRenders: StoryRender<TFramework>[] = [];
 
