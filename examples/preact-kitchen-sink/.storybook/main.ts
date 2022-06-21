@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/preact-webpack5/types';
+import type { StorybookConfig } from '@storybook/preact-webpack5';
 
 const path = require('path');
 

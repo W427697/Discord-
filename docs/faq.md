@@ -426,7 +426,7 @@ We're aware that the default Typescript story construct might seem outdated and 
 // Button.stories.ts | tsx
 
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentStory, ComponentMeta } from '@storybook/react';
 
 const StoryMeta: ComponentMeta<typeof Button> = {
   /* 👇 The title prop is optional.

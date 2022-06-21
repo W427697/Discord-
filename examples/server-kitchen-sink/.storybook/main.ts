@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/server-webpack5/types';
+import type { StorybookConfig } from '@storybook/server-webpack5';
 
 const mainConfig: StorybookConfig = {
   stories: ['../stories/**/*.stories.@(json|yaml|yml)'],

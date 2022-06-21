@@ -7,7 +7,7 @@ import decorateStory from './decorateStory';
 import type { IStorybookSection } from './types';
 import type { AngularFramework } from './types-6-0';
 
-const framework = 'angular';
+const FRAMEWORK = 'angular';
 
 interface ClientApi extends ClientStoryApi<AngularFramework['storyResult']> {
   setAddon(addon: any): void;
@@ -23,11 +23,11 @@ const api = start(renderToDOM, { decorateStory, render });
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({
-    framework,
+    framework: FRAMEWORK,
   });
 };
 
-export const configure: ClientApi['configure'] = (...args) => api.configure(framework, ...args);
+export const configure: ClientApi['configure'] = (...args) => api.configure(FRAMEWORK, ...args);
 export const addDecorator: ClientApi['addDecorator'] = api.clientApi
   .addDecorator as ClientApi['addDecorator'];
 export const addParameters: ClientApi['addParameters'] = api.clientApi
