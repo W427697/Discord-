@@ -146,4 +146,6 @@ export async function renderToDOM(
   }
 
   await renderElement(element, domElement);
+
+  return () => unmountElement(domElement);
 }
