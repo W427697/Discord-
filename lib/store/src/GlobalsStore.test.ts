@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals';
 import { GlobalsStore } from './GlobalsStore';
 
 describe('GlobalsStore', () => {

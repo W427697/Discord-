@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals';
 import {
   FORCE_RE_RENDER,
   STORY_RENDERED,
@@ -6,6 +7,8 @@ import {
   UPDATE_GLOBALS,
 } from '@storybook/core-events';
 import { addons } from '@storybook/addons';
+import { DecoratorFunction, StoryContext } from '@storybook/csf';
+
 import { defaultDecorateStory } from './decorators';
 import {
   applyHooks,
@@ -60,8 +63,8 @@ beforeEach(() => {
 
 const decorateStory = applyHooks(defaultDecorateStory);
 
-const run = (storyFn, decorators = [], context) =>
-  decorateStory(storyFn, decorators)({ ...context, hooks });
+const run = (storyFn, decorators: DecoratorFunction[] = [], context = {}) =>
+  decorateStory(storyFn, decorators)({ ...context, hooks } as Partial<StoryContext>);
 
 describe('Preview hooks', () => {
   describe('useEffect', () => {
@@ -321,7 +324,7 @@ describe('Preview hooks', () => {
       expect(result).toBe(callback);
     });
     it('returns the previous callback reference if deps are unchanged', () => {
-      const callbacks = [];
+      const callbacks: (() => void)[] = [];
       const storyFn = () => {
         const callback = useCallback(() => {}, []);
         callbacks.push(callback);
@@ -331,7 +334,7 @@ describe('Preview hooks', () => {
       expect(callbacks[0]).toBe(callbacks[1]);
     });
     it('creates new callback reference if deps are changed', () => {
-      const callbacks = [];
+      const callbacks: (() => void)[] = [];
       let counter = 0;
       const storyFn = () => {
         counter += 1;
