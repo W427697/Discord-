@@ -1,4 +1,5 @@
 import React from 'react';
+import type { StoryFn } from '@storybook/react';
 
 export default {
   title: 'Addons/Controls-Sort',
@@ -21,7 +22,9 @@ export default {
   parameters: { chromatic: { disable: true } },
 };
 
-const Template = (args: any) => <div>{args && <pre>{JSON.stringify(args, null, 2)}</pre>}</div>;
+const Template: StoryFn = (args: any) => (
+  <div>{args && <pre>{JSON.stringify(args, null, 2)}</pre>}</div>
+);
 
 export const None = Template.bind({});
 None.parameters = { controls: { sort: 'none' } };
