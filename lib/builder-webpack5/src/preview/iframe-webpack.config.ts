@@ -240,6 +240,16 @@ export default async (
     ].filter(Boolean),
     module: {
       rules: [
+        {
+          test: /\.m?js$/,
+          type: 'javascript/auto',
+        },
+        {
+          test: /\.m?js$/,
+          resolve: {
+            fullySpecified: false,
+          },
+        },
         createBabelLoader(babelOptions, typescriptOptions),
         {
           test: /\.md$/,
