@@ -25,5 +25,19 @@ export const webpackFinal: StorybookConfig['webpack'] = (config, { presetsList }
       checkForNewPreset(presetsList);
     }
   }
+  config.module?.rules?.push(
+    ...[
+      {
+        test: /\.m?js$/,
+        type: 'javascript/auto',
+      },
+      {
+        test: /\.m?js$/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+    ]
+  );
   return config;
 };
