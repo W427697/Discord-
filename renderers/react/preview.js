@@ -1,1 +1,2 @@
-export * from './dist/config.mjs';
+// eslint-disable-next-line import/export
+export * from './dist/config';
