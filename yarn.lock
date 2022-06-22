@@ -8711,6 +8711,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-html-webpack@workspace:presets/html-webpack"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.5
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
