@@ -7,7 +7,7 @@ export async function createDefaultWebpackConfig(
   options: Options
 ): Promise<Configuration> {
   if (
-    options.presetsList.some((preset) =>
+    options.presetsList?.some((preset) =>
       /@storybook(\/|\\)preset-create-react-app/.test(
         typeof preset === 'string' ? preset : preset.name
       )
@@ -16,7 +16,7 @@ export async function createDefaultWebpackConfig(
     return storybookBaseConfig;
   }
 
-  const hasPostcssAddon = options.presetsList.some((preset) =>
+  const hasPostcssAddon = options.presetsList?.some((preset) =>
     /@storybook(\/|\\)addon-postcss/.test(typeof preset === 'string' ? preset : preset.name)
   );
 
@@ -55,7 +55,7 @@ export async function createDefaultWebpackConfig(
     module: {
       ...storybookBaseConfig.module,
       rules: [
-        ...storybookBaseConfig.module.rules,
+        ...(storybookBaseConfig.module?.rules || []),
         cssLoaders,
         {
           test: /\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/,

@@ -9,44 +9,50 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-import type { Options, CoreConfig } from '@storybook/core-common';
+import type { Options, CoreConfig, Webpack5BuilderConfig } from '@storybook/core-common';
 import {
-  toRequireContextString,
   stringifyProcessEnvs,
   handlebars,
   interpolate,
-  toImportFn,
   normalizeStories,
   readTemplate,
   loadPreviewOrConfigFile,
 } from '@storybook/core-common';
+import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
+import type { TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 
-import { useBaseTsSupport } from './useBaseTsSupport';
+const storybookPaths: Record<string, string> = {
+  global: path.dirname(require.resolve(`global/package.json`)),
+  ...[
+    'addons',
+    'api',
+    'store',
+    'channels',
+    'channel-postmessage',
+    'channel-websocket',
+    'components',
+    'core-events',
+    'router',
+    'theming',
+    'semver',
+    'preview-web',
+    'client-api',
+    'client-logger',
+  ].reduce(
+    (acc, sbPackage) => ({
+      ...acc,
+      [`@storybook/${sbPackage}`]: path.dirname(
+        require.resolve(`@storybook/${sbPackage}/package.json`)
+      ),
+    }),
+    {}
+  ),
+};
 
-const storybookPaths: Record<string, string> = [
-  'addons',
-  'api',
-  'channels',
-  'channel-postmessage',
-  'components',
-  'core-events',
-  'router',
-  'theming',
-  'semver',
-  'client-api',
-  'client-logger',
-].reduce(
-  (acc, sbPackage) => ({
-    ...acc,
-    [`@storybook/${sbPackage}`]: path.dirname(
-      require.resolve(`@storybook/${sbPackage}/package.json`)
-    ),
-  }),
-  {}
-);
-
-export default async (options: Options & Record<string, any>): Promise<Configuration> => {
+export default async (
+  options: Options & Record<string, any> & { typescriptOptions: TypescriptOptions }
+): Promise<Configuration> => {
   const {
     outputDir = path.join('.', 'public'),
     quiet,
@@ -96,7 +102,9 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     const storiesFilename = 'storybook-stories.js';
     const storiesPath = path.resolve(path.join(workingDir, storiesFilename));
 
-    virtualModuleMapping[storiesPath] = toImportFn(stories);
+    const needPipelinedImport =
+      !!(coreOptions.builder as Webpack5BuilderConfig).options?.lazyCompilation && !isProd;
+    virtualModuleMapping[storiesPath] = toImportFn(stories, { needPipelinedImport });
     const configEntryPath = path.resolve(path.join(workingDir, 'storybook-config-entry.js'));
     virtualModuleMapping[configEntryPath] = handlebars(
       await readTemplate(
@@ -155,7 +163,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     }
   }
 
-  const shouldCheckTs = useBaseTsSupport(frameworkName) && typescriptOptions.check;
+  const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
 
   return {
@@ -231,7 +239,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     ].filter(Boolean),
     module: {
       rules: [
-        createBabelLoader(babelOptions, frameworkName),
+        createBabelLoader(babelOptions, typescriptOptions),
         {
           test: /\.md$/,
           type: 'asset/source',

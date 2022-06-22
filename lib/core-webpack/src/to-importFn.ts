@@ -1,7 +1,8 @@
 import dedent from 'ts-dedent';
+import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
+import { globToRegexp } from '@storybook/core-common';
 
-import type { NormalizedStoriesSpecifier } from '../types';
-import { globToRegexp } from './glob-to-regexp';
+import { importPipeline } from './importPipeline';
 
 export function webpackIncludeRegexp(specifier: NormalizedStoriesSpecifier) {
   const { directory, files } = specifier;
@@ -41,15 +42,28 @@ export function toImportFnPart(specifier: NormalizedStoriesSpecifier) {
   `;
 }
 
-export function toImportFn(stories: NormalizedStoriesSpecifier[]) {
+export function toImportFn(
+  stories: NormalizedStoriesSpecifier[],
+  { needPipelinedImport }: { needPipelinedImport?: boolean } = {}
+) {
+  let pipelinedImport = `const pipeline = (x) => x();`;
+  if (needPipelinedImport) {
+    pipelinedImport = `
+      const importPipeline = ${importPipeline};
+      const pipeline = importPipeline();
+    `;
+  }
+
   return dedent`
+    ${pipelinedImport}
+
     const importers = [
       ${stories.map(toImportFnPart).join(',\n')}
     ];
 
     export async function importFn(path) {
       for (let i = 0; i < importers.length; i++) {
-        const moduleExports = await importers[i](path);
+        const moduleExports = await pipeline(() => importers[i](path));
         if (moduleExports) {
           return moduleExports;
         }

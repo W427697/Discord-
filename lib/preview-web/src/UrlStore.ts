@@ -51,6 +51,9 @@ const isObject = (val: Record<string, any>) =>
   val != null && typeof val === 'object' && Array.isArray(val) === false;
 
 const getFirstString = (v: ValueOf<qs.ParsedQs>): string | void => {
+  if (v === undefined) {
+    return undefined;
+  }
   if (typeof v === 'string') {
     return v;
   }

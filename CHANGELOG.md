@@ -1,3 +1,82 @@
+## 7.0.0-alpha.6 (June 21, 2022)
+
+### Bug Fixes
+
+- Interactions: Reset instrumenter state on HMR ([#18516](https://github.com/storybookjs/storybook/pull/18516))
+- Interactions: Prevent showing child exception while parent is still playing ([#18518](https://github.com/storybookjs/storybook/pull/18518))
+
+### Maintenance
+
+- Docs2 core: Fetch `index.json` for composition ([#18521](https://github.com/storybookjs/storybook/pull/18521))
+- Addon-docs: Switch Meta block to receive all module exports ([#18514](https://github.com/storybookjs/storybook/pull/18514))
+- Re-add deprecated fields to lib/api ([#18488](https://github.com/storybookjs/storybook/pull/18488))
+- Core: Handle v3 index in composition ([#18498](https://github.com/storybookjs/storybook/pull/18498))
+- Story index: Ensure that `extract` script works and SBs can be composed into v6 storybooks ([#18409](https://github.com/storybookjs/storybook/pull/18409))
+- Docs2: Handle new docs entries in the preview ([#18099](https://github.com/storybookjs/storybook/pull/18099))
+- Docs2: Refactor manager to use new index data ([#18023](https://github.com/storybookjs/storybook/pull/18023))
+
+## 7.0.0-alpha.5 (June 20, 2022)
+
+### Bug Fixes
+
+- Core: Allow a teardown function to be returned from `renderToDOM` ([#18457](https://github.com/storybookjs/storybook/pull/18457))
+- CLI: Add npm7 migration for legacy peer deps ([#18510](https://github.com/storybookjs/storybook/pull/18510))
+- Interactions: Fix broken UI on nested interactions ([#18499](https://github.com/storybookjs/storybook/pull/18499))
+
+### Maintenance
+
+- Build: Upgrade yarn to 3.2.1 ([#18511](https://github.com/storybookjs/storybook/pull/18511))
+
+## 7.0.0-alpha.4 (June 19, 2022)
+
+### Breaking Changes
+
+- Core: Remove standalone node APIs ([#18089](https://github.com/storybookjs/storybook/pull/18089))
+
+### Maintenance
+
+- Build: Add logFilters to yarn config ([#18500](https://github.com/storybookjs/storybook/pull/18500))
+- Build: Set typescript strict-mode ([#18493](https://github.com/storybookjs/storybook/pull/18493))
+
+## 7.0.0-alpha.3 (June 17, 2022)
+
+### Features
+
+- Interactions: Collapse child interactions ([#18484](https://github.com/storybookjs/storybook/pull/18484))
+
+### Bug Fixes
+
+- Interactions: Fix `waitFor` behavior while debugging ([#18460](https://github.com/storybookjs/storybook/pull/18460))
+- UI: Fix display skip to sidebar button ([#18479](https://github.com/storybookjs/storybook/pull/18479))
+
+### Maintenance
+
+- CLI: Use `storybook` instead of `sb` ([#18430](https://github.com/storybookjs/storybook/pull/18430))
+- Components: Re-bundle the syntax highlighter ([#18425](https://github.com/storybookjs/storybook/pull/18425))
+
+## 7.0.0-alpha.2 (June 15, 2022)
+
+### Features
+
+- UI: Update manager to respect `parameters.docsOnly` in `stories.json` ([#18433](https://github.com/storybookjs/storybook/pull/18433))
+- CLI: Add additional files api to sb repro ([#18389](https://github.com/storybookjs/storybook/pull/18389))
+
+### Bug Fixes
+
+- Core: Fix process is not defined when using components ([#18469](https://github.com/storybookjs/storybook/pull/18469))
+- Story index: Warn on `storyName` in CSF3 exports ([#18464](https://github.com/storybookjs/storybook/pull/18464))
+- Telemetry: Strip out preset from addon name ([#18442](https://github.com/storybookjs/storybook/pull/18442))
+
+### Maintenance
+
+- CLI: Improve to be more async & cleanup ([#18475](https://github.com/storybookjs/storybook/pull/18475))
+- 7.0.0 pnp support ([#18461](https://github.com/storybookjs/storybook/pull/18461))
+- Build: Use playright version of sb-bench ([#18458](https://github.com/storybookjs/storybook/pull/18458))
+- Angular: Support Angular 14 standalone components ([#18272](https://github.com/storybookjs/storybook/pull/18272))
+- Build: Fix prebundle script on Windows ([#18365](https://github.com/storybookjs/storybook/pull/18365))
+- Scripts: Clean verdaccio cache when running locally ([#18359](https://github.com/storybookjs/storybook/pull/18359))
+- Core: fix PnP compatibility for @storybook/ui and @storybook/router packages ([#18412](https://github.com/storybookjs/storybook/pull/18412))
+
 ## 7.0.0-alpha.1 (June 7, 2022)
 
 ### Bug Fixes

@@ -38,7 +38,7 @@ export function stringifyImports(imports: Record<string, string[]>): string {
     .join('');
 }
 
-export function stringifyDecorators(decorators: string[]): string {
+export function stringifyDecorators(decorators: string[] | undefined): string {
   return decorators && decorators.length > 0
     ? `\n  decorators: [\n    ${decorators.join(',\n    ')}\n  ],`
     : '';

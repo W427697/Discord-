@@ -9,6 +9,7 @@
     - [Modern ESM / IE11 support discontinued](#modern-esm--ie11-support-discontinued)
     - [Framework field mandatory](#framework-field-mandatory)
     - [frameworkOptions renamed](#frameworkoptions-renamed)
+    - [Framework standalone build moved](#framework-standalone-build-moved)
     - [Docs modern inline rendering by default](#docs-modern-inline-rendering-by-default)
     - [Babel mode v7 by default](#babel-mode-v7-by-default)
     - [7.0 feature flags removed](#70-feature-flags-removed)
@@ -245,11 +246,11 @@ To convert this project to 7.0:
 ```json
 {
   "scripts": {
-    "storybook": "sb dev <some flags>",
-    "build-storybook": "sb build <some flags>"
+    "storybook": "storybook dev <some flags>",
+    "build-storybook": "storybook build <some flags>"
   },
   "devDependencies": {
-    "sb": "next"
+    "storybook": "future"
   }
 }
 ```
@@ -329,6 +330,26 @@ module.exports = {
 }
 ```
 
+#### Framework standalone build moved
+
+In 7.0 the location of the standalone node API has moved to `@storybook/core-server`.
+
+If you used the React standalone API, for example, you might have written:
+
+```js
+const { buildStandalone } = require('@storybook/react/standalone');
+const options = {};
+buildStandalone(options).then(() => console.log('done'));
+```
+
+In 7.0, you would now use:
+
+```js
+const build = require('@storybook/core-server/standalone');
+const options = {};
+build(options).then(() => console.log('done'));
+```
+
 #### Docs modern inline rendering by default
 
 Storybook docs has a new rendering mode called "modern inline rendering" which unifies the way stories are rendered in Docs mode and in the canvas (aka story mode). It is still being stabilized in 7.0 dev cycle. If you run into trouble with inline rendering in docs, you can opt out of modern inline rendering in your `.storybook/main.js`:
@@ -367,9 +388,9 @@ module.exports = {
 
 In 7.0 we've removed the following feature flags:
 
-| flag           | migration instructions                               |
-| -------------- | ---------------------------------------------------- |
-| `emotionAlias` | This flag is no longer needed and should be deleted. |
+| flag                | migration instructions                               |
+| ------------------- | ---------------------------------------------------- |
+| `emotionAlias`      | This flag is no longer needed and should be deleted. |
 | `breakingChangesV7` | This flag is no longer needed and should be deleted. |
 
 ## From version 6.4.x to 6.5.0

@@ -91,16 +91,6 @@ export interface SubAPI {
   updateStory: (storyId: StoryId, update: StoryUpdate, ref?: ComposedRef) => Promise<void>;
 }
 
-interface Meta {
-  ref?: ComposedRef;
-  source?: string;
-  sourceType?: 'local' | 'external';
-  sourceLocation?: string;
-  refId?: string;
-  v?: number;
-  type: string;
-}
-
 const deprecatedOptionsParameterWarnings: Record<string, () => void> = [
   'enableShortcuts',
   'theme',
@@ -125,7 +115,7 @@ function checkDeprecatedOptionParameters(options?: Record<string, any>) {
   });
 }
 
-export const init: ModuleFn<SubAPI, SubState> = ({
+export const init: ModuleFn<SubAPI, SubState, true> = ({
   fullAPI,
   store,
   navigate,
@@ -275,10 +265,16 @@ export const init: ModuleFn<SubAPI, SubState> = ({
         if (desiredViewMode === 'docs') {
           viewMode = 'docs';
         }
+
+        // NOTE -- we currently still render docs entries in story view mode,
+        // (even though in the preview they will appear in docs mode)
+        // in order to maintain the viewMode as you browse around.
+        // This will change later.
+
         // On the other hand, docs entries can *only* be rendered as docs
-        if (leafEntry.type === 'docs') {
-          viewMode = 'docs';
-        }
+        // if (leafEntry.type === 'docs') {
+        //   viewMode = 'docs';
+        // }
 
         const fullId = leafEntry.refId ? `${leafEntry.refId}_${leafEntry.id}` : leafEntry.id;
         navigate(`/${viewMode}/${fullId}`);
@@ -376,7 +372,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
         const storyIndex = (await result.json()) as StoryIndex;
 
         // We can only do this if the stories.json is a proper storyIndex
-        if (storyIndex.v !== 4) {
+        if (storyIndex.v < 3) {
           logger.warn(`Skipping story index with version v${storyIndex.v}, awaiting SET_STORIES.`);
           return;
         }
@@ -496,19 +492,19 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
     fullAPI.on(SET_STORIES, function handler(data: SetStoriesPayload) {
       const { ref } = getEventMetadata(this, fullAPI);
-      const stories = data.v ? denormalizeStoryParameters(data) : data.stories;
+      const setStoriesData = data.v ? denormalizeStoryParameters(data) : data.stories;
 
       if (!ref) {
         if (!data.v) {
           throw new Error('Unexpected legacy SET_STORIES event from local source');
         }
 
-        fullAPI.setStories(stories);
+        fullAPI.setStories(setStoriesData);
         const options = fullAPI.getCurrentParameter('options');
         checkDeprecatedOptionParameters(options);
         fullAPI.setOptions(options);
       } else {
-        fullAPI.setRef(ref.id, { ...ref, ...data, stories }, true);
+        fullAPI.setRef(ref.id, { ...ref, setStoriesData }, true);
       }
     });
 

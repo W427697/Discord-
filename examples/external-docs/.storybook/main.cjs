@@ -24,6 +24,7 @@ const config = {
     babelModeV7: true,
     warnOnLegacyHierarchySeparator: false,
     previewMdx2: true,
+    disableTelemetry: true,
   },
   framework: '@storybook/react-webpack5',
 };

@@ -1,6 +1,12 @@
-import global from 'global';
 import { AnyFramework, StoryId, ViewMode, StoryContextForLoaders } from '@storybook/csf';
-import { Story, StoryStore, CSFFile, ModuleExports, IndexEntry } from '@storybook/store';
+import {
+  Story,
+  StoryStore,
+  CSFFile,
+  ModuleExports,
+  IndexEntry,
+  ModuleExport,
+} from '@storybook/store';
 import { Channel } from '@storybook/addons';
 import { DOCS_RENDERED } from '@storybook/core-events';
 
@@ -80,9 +86,6 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
           ...this.store.getStoryContext(renderedStory),
           viewMode: 'docs' as ViewMode,
         } as StoryContextForLoaders<TFramework>),
-
-      // These is intended for the external docs render only
-      setMeta: () => {},
     };
 
     if (this.legacy) {
@@ -98,29 +101,44 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
         storyById: (storyId: StoryId) => this.store.storyFromCSFFile({ storyId, csfFile }),
 
         componentStories,
+        setMeta: () => {},
       };
     }
+
+    let metaCsfFile: ModuleExports;
+    const exportToStoryId = new Map<ModuleExport, StoryId>();
+    const storyIdToCSFFile = new Map<StoryId, CSFFile<TFramework>>();
+    // eslint-disable-next-line no-restricted-syntax
+    for (const csfFile of this.csfFiles) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const annotation of Object.values(csfFile.stories)) {
+        exportToStoryId.set(annotation.moduleExport, annotation.id);
+        storyIdToCSFFile.set(annotation.id, csfFile);
+      }
+    }
+    const storyById = (storyId: StoryId) => {
+      const csfFile = storyIdToCSFFile.get(storyId);
+      if (!csfFile)
+        throw new Error(`Called \`storyById\` for story that was never loaded: ${storyId}`);
+      return this.store.storyFromCSFFile({ storyId, csfFile });
+    };
 
     return {
       ...base,
       storyIdByModuleExport: (moduleExport) => {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const csfFile of this.csfFiles) {
-          // eslint-disable-next-line no-restricted-syntax
-          for (const annotation of Object.values(csfFile.stories)) {
-            if (annotation.moduleExport === moduleExport) {
-              return annotation.id;
-            }
-          }
-        }
+        if (exportToStoryId.has(moduleExport)) return exportToStoryId.get(moduleExport);
 
         throw new Error(`No story found with that export: ${moduleExport}`);
       },
-      storyById: () => {
-        throw new Error('`storyById` not available for modern docs files.');
-      },
+      storyById,
       componentStories: () => {
-        throw new Error('You cannot render all the stories for a component in a docs.mdx file');
+        return Object.entries(metaCsfFile)
+          .map(([_, moduleExport]) => exportToStoryId.get(moduleExport))
+          .filter(Boolean)
+          .map(storyById);
+      },
+      setMeta(m: ModuleExports) {
+        metaCsfFile = m;
       },
     };
   }

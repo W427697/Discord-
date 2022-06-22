@@ -3,7 +3,7 @@ import { Path, ModuleExports, StoryIndex, ModuleExport } from '@storybook/store'
 import { toId, AnyFramework, ComponentTitle, StoryId, ProjectAnnotations } from '@storybook/csf';
 
 type StoryExport = ModuleExport;
-type MetaExport = ModuleExport;
+type MetaExport = ModuleExports;
 type ExportName = string;
 
 class ConstantMap<TKey, TValue extends string> {
@@ -27,8 +27,6 @@ export class ExternalPreview<TFramework extends AnyFramework> extends Preview<TF
 
   private titles = new ConstantMap<MetaExport, ComponentTitle>('title-');
 
-  private exportNames = new ConstantMap<StoryExport, ExportName>('story-');
-
   public storyIds = new Map<StoryExport, StoryId>();
 
   private storyIndex: StoryIndex = { v: 4, entries: {} };
@@ -46,18 +44,17 @@ export class ExternalPreview<TFramework extends AnyFramework> extends Preview<TF
 
   addStoryFromExports(storyExport: StoryExport, meta: MetaExport) {
     const importPath = this.importPaths.get(meta);
-    const title = meta.title || this.titles.get(meta);
+    this.moduleExportsByImportPath[importPath] = meta;
 
-    const exportName = this.exportNames.get(storyExport);
-    const storyId = toId(title, exportName);
+    const title = meta.default.title || this.titles.get(meta);
+
+    const exportEntry = Object.entries(meta).find(
+      ([_, moduleExport]) => moduleExport === storyExport
+    );
+    if (!exportEntry)
+      throw new Error(`Didn't find \`of\` used in Story block in the provided CSF exports`);
+    const storyId = toId(title, exportEntry[0]);
     this.storyIds.set(storyExport, storyId);
-
-    // We need to be sure to create a new object each time here to bust caches
-    this.moduleExportsByImportPath[importPath] = {
-      ...this.moduleExportsByImportPath[importPath],
-      default: meta,
-      [exportName]: storyExport,
-    };
 
     this.storyIndex.entries[storyId] = {
       id: storyId,

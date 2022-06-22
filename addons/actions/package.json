@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-actions",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.6",
   "description": "Get UI feedback when an action is performed on an interactive element",
   "keywords": [
     "storybook",
@@ -34,13 +34,13 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.1",
-    "@storybook/api": "7.0.0-alpha.1",
-    "@storybook/client-logger": "7.0.0-alpha.1",
-    "@storybook/components": "7.0.0-alpha.1",
-    "@storybook/core-events": "7.0.0-alpha.1",
+    "@storybook/addons": "7.0.0-alpha.6",
+    "@storybook/api": "7.0.0-alpha.6",
+    "@storybook/client-logger": "7.0.0-alpha.6",
+    "@storybook/components": "7.0.0-alpha.6",
+    "@storybook/core-events": "7.0.0-alpha.6",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/theming": "7.0.0-alpha.1",
+    "@storybook/theming": "7.0.0-alpha.6",
     "core-js": "^3.8.2",
     "fast-deep-equal": "^3.1.3",
     "global": "^4.4.0",
@@ -48,7 +48,6 @@
     "polished": "^4.2.2",
     "prop-types": "^15.7.2",
     "react-inspector": "^5.1.0",
-    "regenerator-runtime": "^0.13.7",
     "telejson": "^6.0.8",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2",
@@ -72,7 +71,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea",
+  "gitHead": "a88dcca40ba169a373bad33dd76e9a4bd4f1f5ec",
   "storybook": {
     "displayName": "Actions",
     "unsupportedFrameworks": [

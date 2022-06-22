@@ -69,31 +69,33 @@ export const resolveAddonName = (
   configDir: string,
   name: string,
   options: any
-): ResolvedAddonPreset | ResolvedAddonVirtual => {
+): ResolvedAddonPreset | ResolvedAddonVirtual | undefined => {
   const r = name.startsWith('/') ? safeResolve : safeResolveFrom.bind(null, configDir);
   const resolved = r(name);
 
-  if (name.match(/\/(manager|register(-panel)?)(\.(js|ts|tsx|jsx))?$/)) {
-    return {
-      type: 'virtual',
-      name,
-      managerEntries: [resolved],
-    };
-  }
-  if (name.match(/\/(preset)(\.(js|ts|tsx|jsx))?$/)) {
-    return {
-      type: 'presets',
-      name: resolved,
-    };
+  if (resolved) {
+    if (name.match(/\/(manager|register(-panel)?)(\.(js|ts|tsx|jsx))?$/)) {
+      return {
+        type: 'virtual',
+        name,
+        managerEntries: [resolved],
+      };
+    }
+    if (name.match(/\/(preset)(\.(js|ts|tsx|jsx))?$/)) {
+      return {
+        type: 'presets',
+        name: resolved,
+      };
+    }
   }
 
   const path = name;
 
   // when user provides full path, we don't need to do anything!
-  const managerFile = safeResolve(`${path}/manager`);
-  const registerFile = safeResolve(`${path}/register`) || safeResolve(`${path}/register-panel`);
-  const previewFile = safeResolve(`${path}/preview`);
-  const presetFile = safeResolve(`${path}/preset`);
+  const managerFile = r(`${path}/manager`);
+  const registerFile = r(`${path}/register`) || r(`${path}/register-panel`);
+  const previewFile = r(`${path}/preview`);
+  const presetFile = r(`${path}/preset`);
 
   if (!(managerFile || previewFile) && presetFile) {
     return {
@@ -122,10 +124,14 @@ export const resolveAddonName = (
     };
   }
 
-  return {
-    type: 'presets',
-    name: resolved,
-  };
+  if (resolved) {
+    return {
+      type: 'presets',
+      name: resolved,
+    };
+  }
+
+  return undefined;
 };
 
 const map =
@@ -199,7 +205,7 @@ export function loadPreset(
       return [
         ...loadPresets([...subPresets], level + 1, storybookOptions),
         ...loadPresets(
-          [...subAddons.map(map(storybookOptions))].filter(Boolean),
+          [...subAddons.map(map(storybookOptions))].filter(Boolean) as PresetConfig[],
           level + 1,
           storybookOptions
         ),
@@ -214,7 +220,7 @@ export function loadPreset(
     throw new Error(dedent`
       ${input} is not a valid preset
     `);
-  } catch (e) {
+  } catch (e: any) {
     const warning =
       level > 0
         ? `  Failed to load preset: ${JSON.stringify(input)} on level ${level}`
@@ -236,7 +242,7 @@ function loadPresets(
     return [];
   }
 
-  return presets.reduce((acc, preset) => {
+  return presets.reduce<LoadedPreset[]>((acc, preset) => {
     const loaded = loadPreset(preset, level, storybookOptions);
     return acc.concat(loaded);
   }, []);

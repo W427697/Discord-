@@ -3,6 +3,7 @@ import React from 'react';
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import mapValues from 'lodash/mapValues';
+import countBy from 'lodash/countBy';
 import global from 'global';
 import type {
   StoryId,
@@ -30,37 +31,76 @@ export interface BaseEntry {
   name: string;
   refId?: string;
   renderLabel?: (item: BaseEntry) => React.ReactNode;
+
+  /** @deprecated */
+  isRoot: boolean;
+  /** @deprecated */
+  isComponent: boolean;
+  /** @deprecated */
+  isLeaf: boolean;
 }
 
 export interface RootEntry extends BaseEntry {
   type: 'root';
   startCollapsed?: boolean;
   children: StoryId[];
+
+  /** @deprecated */
+  isRoot: true;
+  /** @deprecated */
+  isComponent: false;
+  /** @deprecated */
+  isLeaf: false;
 }
 
 export interface GroupEntry extends BaseEntry {
   type: 'group';
   parent?: StoryId;
   children: StoryId[];
+
+  /** @deprecated */
+  isRoot: false;
+  /** @deprecated */
+  isComponent: false;
+  /** @deprecated */
+  isLeaf: false;
 }
 
 export interface ComponentEntry extends BaseEntry {
   type: 'component';
   parent?: StoryId;
   children: StoryId[];
+
+  /** @deprecated */
+  isRoot: false;
+  /** @deprecated */
+  isComponent: true;
+  /** @deprecated */
+  isLeaf: false;
 }
 
 export interface DocsEntry extends BaseEntry {
   type: 'docs';
   parent: StoryId;
   title: ComponentTitle;
+  /** @deprecated */
+  kind: ComponentTitle;
   importPath: Path;
+
+  /** @deprecated */
+  isRoot: false;
+  /** @deprecated */
+  isComponent: false;
+  /** @deprecated */
+  isLeaf: true;
 }
 
 export interface StoryEntry extends BaseEntry {
   type: 'story';
   parent: StoryId;
   title: ComponentTitle;
+  /** @deprecated */
+  kind: ComponentTitle;
   importPath: Path;
   prepared: boolean;
   parameters?: {
@@ -69,7 +109,23 @@ export interface StoryEntry extends BaseEntry {
   args?: Args;
   argTypes?: ArgTypes;
   initialArgs?: Args;
+
+  /** @deprecated */
+  isRoot: false;
+  /** @deprecated */
+  isComponent: false;
+  /** @deprecated */
+  isLeaf: true;
 }
+
+/** @deprecated */
+export type Root = RootEntry;
+
+/** @deprecated */
+export type Group = GroupEntry | ComponentEntry;
+
+/** @deprecated */
+export type Story = DocsEntry | StoryEntry;
 
 export type HashEntry = RootEntry | GroupEntry | ComponentEntry | DocsEntry | StoryEntry;
 
@@ -137,9 +193,13 @@ export type StoryIndexEntry = BaseIndexEntry & {
   type?: 'story';
 };
 
+interface V3IndexEntry extends BaseIndexEntry {
+  parameters?: Parameters;
+}
+
 export interface StoryIndexV3 {
   v: 3;
-  stories: Record<StoryId, Omit<StoryIndexEntry, 'type'>>;
+  stories: Record<StoryId, V3IndexEntry>;
 }
 
 export type DocsIndexEntry = BaseIndexEntry & {
@@ -247,6 +307,28 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
   return { v: 4, entries };
 };
 
+const transformStoryIndexV3toV4 = (index: StoryIndexV3): PreparedStoryIndex => {
+  const countByTitle = countBy(Object.values(index.stories), 'title');
+  return {
+    v: 4,
+    entries: Object.values(index.stories).reduce((acc, entry) => {
+      let type: IndexEntry['type'] = 'story';
+      if (
+        entry.parameters?.docsOnly ||
+        (entry.name === 'Page' && countByTitle[entry.title] === 1)
+      ) {
+        type = 'docs';
+      }
+      acc[entry.id] = {
+        type,
+        ...(type === 'docs' && { storiesImports: [] }),
+        ...entry,
+      };
+      return acc;
+    }, {} as PreparedStoryIndex['entries']),
+  };
+};
+
 export const transformStoryIndexToStoriesHash = (
   index: PreparedStoryIndex,
   {
@@ -255,7 +337,11 @@ export const transformStoryIndexToStoriesHash = (
     provider: Provider;
   }
 ): StoriesHash => {
-  const entryValues = Object.values(index.entries);
+  if (!index.v) throw new Error('Composition: Missing stories.json version');
+
+  const v4Index = index.v === 4 ? index : transformStoryIndexV3toV4(index as any);
+
+  const entryValues = Object.values(v4Index.entries);
   const { sidebar = {}, showRoots: deprecatedShowRoots } = provider.getConfig();
   const { showRoots = deprecatedShowRoots, collapsedRoots = [], renderLabel } = sidebar;
   const usesOldHierarchySeparator = entryValues.some(({ title }) => title.match(/\.|\|/)); // dot or pipe
@@ -308,6 +394,11 @@ export const transformStoryIndexToStoriesHash = (
           startCollapsed: collapsedRoots.includes(id),
           // Note that this will later get appended to the previous list of children (see below)
           children: [childId],
+
+          // deprecated fields
+          isRoot: true,
+          isComponent: false,
+          isLeaf: false,
         });
         // Usually the last path/name pair will be displayed as a component,
         // *unless* there are other stories that are more deeply nested under it
@@ -328,6 +419,10 @@ export const transformStoryIndexToStoriesHash = (
           ...(childId && {
             children: [childId],
           }),
+          // deprecated fields
+          isRoot: false,
+          isComponent: true,
+          isLeaf: false,
         });
       } else {
         acc[id] = merge<GroupEntry>((acc[id] || {}) as GroupEntry, {
@@ -340,6 +435,10 @@ export const transformStoryIndexToStoriesHash = (
           ...(childId && {
             children: [childId],
           }),
+          // deprecated fields
+          isRoot: false,
+          isComponent: false,
+          isLeaf: false,
         });
       }
     });
@@ -352,6 +451,12 @@ export const transformStoryIndexToStoriesHash = (
       parent: paths[paths.length - 1],
       renderLabel,
       ...(item.type !== 'docs' && { prepared: !!item.parameters }),
+
+      // deprecated fields
+      kind: item.title,
+      isRoot: false,
+      isComponent: false,
+      isLeaf: true,
     } as DocsEntry | StoryEntry;
 
     return acc;

@@ -154,7 +154,7 @@ function parseJsxElement(jsxElementNode: any): ParsingResult<InspectionElement> 
   };
 }
 
-function parseCall(callNode: estree.CallExpression): ParsingResult<InspectionObject> {
+function parseCall(callNode: estree.CallExpression): ParsingResult<InspectionObject> | null {
   const identifierNode =
     callNode.callee.type === 'MemberExpression' ? callNode.callee.property : callNode.callee;
 
@@ -181,7 +181,7 @@ function parseArray(arrayNode: estree.ArrayExpression): ParsingResult<Inspection
 }
 
 // Cannot set "expression" type to "estree.Expression" because the type doesn't include JSX.
-function parseExpression(expression: any): ParsingResult<InspectionInferedType> {
+function parseExpression(expression: any): ParsingResult<InspectionInferedType> | null {
   switch (expression.type) {
     case 'Identifier':
       return parseIdentifier(expression);

@@ -40,9 +40,10 @@ export interface SubAPI {
   renderPreview?: Provider['renderPreview'];
 }
 
-export const init: ModuleFn = ({ provider, fullAPI }) => {
+export const init: ModuleFn<SubAPI, {}, true> = ({ provider, fullAPI }) => {
   return {
     api: provider.renderPreview ? { renderPreview: provider.renderPreview } : {},
+    state: {},
     init: () => {
       provider.handleAPI(fullAPI);
     },

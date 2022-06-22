@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ThemeProvider, themes, ensure } from '@storybook/theming';
 import { DocsContextProps } from '@storybook/preview-web';
-import { ModuleExport, Story } from '@storybook/store';
+import { ModuleExport, ModuleExports, Story } from '@storybook/store';
 import { AnyFramework, StoryId } from '@storybook/csf';
 
 import { DocsContext } from './DocsContext';
@@ -29,8 +29,8 @@ export const ExternalDocsContainer: React.FC<{ projectAnnotations: any }> = ({
     title: 'External',
     name: 'Docs',
 
-    storyIdByModuleExport: (storyExport: ModuleExport) => {
-      return preview.storyIdByModuleExport(storyExport, pageMeta);
+    storyIdByModuleExport: (storyExport: ModuleExport, metaExport: ModuleExports) => {
+      return preview.storyIdByModuleExport(storyExport, metaExport || pageMeta);
     },
 
     storyById: (id: StoryId) => {
@@ -45,6 +45,7 @@ export const ExternalDocsContainer: React.FC<{ projectAnnotations: any }> = ({
     },
 
     componentStories: () => {
+      // TODO: could implement in a very similar way to in DocsRender. (TODO: How to share code?)
       throw new Error('not implemented');
     },
 

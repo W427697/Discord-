@@ -9,7 +9,7 @@ import type { VueFramework } from './types-6-0';
 export const COMPONENT = 'STORYBOOK_COMPONENT';
 export const VALUES = 'STORYBOOK_VALUES';
 
-const map = new Map<HTMLElement, Instance>();
+const map = new Map<Element, Instance>();
 type Instance = CombinedVueInstance<
   Vue,
   {
@@ -20,7 +20,7 @@ type Instance = CombinedVueInstance<
   object,
   Record<never, any>
 >;
-const getRoot = (domElement: HTMLElement): Instance => {
+const getRoot = (domElement: Element): Instance => {
   if (map.has(domElement)) {
     return map.get(domElement);
   }
@@ -90,7 +90,7 @@ export function renderToDOM(
     showException,
     forceRemount,
   }: RenderContext<VueFramework>,
-  domElement: HTMLElement
+  domElement: Element
 ) {
   const root = getRoot(domElement);
   Vue.config.errorHandler = showException;

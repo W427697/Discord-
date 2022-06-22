@@ -7,7 +7,8 @@ import {
   STORY_RENDER_PHASE_CHANGED,
   STORY_THREW_EXCEPTION,
 } from '@storybook/core-events';
-import { StoryIndex } from '@storybook/store';
+import { StoryIndex, TeardownRenderToDOM } from '@storybook/store';
+import { RenderPhase } from './PreviewWeb';
 
 export const componentOneExports = {
   default: {
@@ -40,7 +41,7 @@ export const importFn = jest.fn(
       './src/ComponentOne.stories.js': componentOneExports,
       './src/ComponentTwo.stories.js': componentTwoExports,
       './src/Legacy.stories.mdx': legacyDocsExports,
-      './src/Introduction.docs.mdx': modernDocsExports,
+      './src/Introduction.mdx': modernDocsExports,
     }[path])
 );
 
@@ -48,12 +49,13 @@ export const docsRenderer = {
   render: jest.fn().mockImplementation((context, parameters, element, cb) => cb()),
   unmount: jest.fn(),
 };
+export const teardownRenderToDOM: jest.Mock<TeardownRenderToDOM> = jest.fn();
 export const projectAnnotations = {
   globals: { a: 'b' },
   globalTypes: {},
   decorators: [jest.fn((s) => s())],
   render: jest.fn(),
-  renderToDOM: jest.fn(),
+  renderToDOM: jest.fn().mockReturnValue(teardownRenderToDOM),
   parameters: { docs: { renderer: () => docsRenderer } },
 };
 export const getProjectAnnotations = () => projectAnnotations;
@@ -87,7 +89,7 @@ export const storyIndex: StoryIndex = {
       id: 'introduction--docs',
       title: 'Introduction',
       name: 'Docs',
-      importPath: './src/Introduction.docs.mdx',
+      importPath: './src/Introduction.mdx',
       storiesImports: ['./src/ComponentTwo.stories.js'],
     },
     'legacy--docs': {

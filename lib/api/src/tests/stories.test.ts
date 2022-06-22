@@ -1,3 +1,5 @@
+/// <reference types="jest" />;
+
 import {
   STORY_ARGS_UPDATED,
   UPDATE_STORY_ARGS,
@@ -51,12 +53,6 @@ const mockIndex = {
     importPath: './path/to/component-b.ts',
   },
 };
-
-beforeEach(() => {
-  getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
-  getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
-  mockStories.mockReset().mockReturnValue(mockIndex);
-});
 
 function createMockStore(initialState = {}) {
   let state = initialState;
@@ -120,9 +116,13 @@ const setStoriesData: SetStoriesStoryData = {
 beforeEach(() => {
   provider.getConfig.mockReset().mockReturnValue({});
   provider.serverChannel = mockChannel();
+  mockStories.mockReset().mockReturnValue(mockIndex);
   global.fetch
     .mockReset()
     .mockReturnValue({ status: 200, json: () => ({ v: 4, entries: mockStories() }) });
+
+  getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
+  getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
 });
 
 describe('stories API', () => {
@@ -887,7 +887,7 @@ describe('stories API', () => {
         } = initStories({ store, navigate, provider } as any);
         setStories(setStoriesData);
 
-        selectStory(null, '2');
+        selectStory(undefined, '2');
         expect(navigate).toHaveBeenCalledWith('/story/a--2');
       });
     });
@@ -1014,7 +1014,7 @@ describe('stories API', () => {
 
       const { storiesConfigured, storiesFailed } = store.getState();
       expect(storiesConfigured).toBe(true);
-      expect(storiesFailed.message).toMatch(/sorting error/);
+      expect(storiesFailed?.message).toMatch(/sorting error/);
     });
 
     it('sets the initial set of stories in the stories hash', async () => {
@@ -1134,9 +1134,6 @@ describe('stories API', () => {
       expect(Object.keys(storedStoriesHash)).toEqual(['component-a', 'component-a--story-1']);
     });
 
-    // TODO: we should re-implement this for v3 story index
-    it.skip('infers docs only if there is only one story and it has the name "Page"', async () => {});
-
     it('handles docs entries', async () => {
       mockStories.mockReset().mockReturnValue({
         'component-a--page': {
@@ -1194,6 +1191,38 @@ describe('stories API', () => {
       expect(storedStoriesHash['component-a--story-2'].type).toBe('story');
       expect(storedStoriesHash['component-b--docs'].type).toBe('docs');
       expect(storedStoriesHash['component-c--story-4'].type).toBe('story');
+    });
+
+    // Skip this for now, will come back soon
+    it.skip('prefers parameters.docsOnly to inferred docsOnly status', async () => {
+      mockStories.mockReset().mockReturnValue({
+        'component-a--docs': {
+          type: 'story',
+          title: 'Component A',
+          name: 'Docs', // Called 'Docs' rather than 'Page'
+          importPath: './path/to/component-a.ts',
+          parameters: {
+            docsOnly: true,
+          },
+        },
+      });
+
+      const navigate = jest.fn();
+      const store = createMockStore();
+      const fullAPI = Object.assign(new EventEmitter(), {
+        setStories: jest.fn(),
+      });
+
+      const { api, init } = initStories({ store, navigate, provider, fullAPI });
+      Object.assign(fullAPI, api);
+
+      await init();
+
+      const { storiesHash: storedStoriesHash } = store.getState();
+
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
+      expect(Object.keys(storedStoriesHash)).toEqual(['component-a', 'component-a--docs']);
+      expect(storedStoriesHash['component-a--docs'].parameters.docsOnly).toBe(true);
     });
   });
 
@@ -1305,7 +1334,7 @@ describe('stories API', () => {
 
       const { storiesConfigured, storiesFailed } = store.getState();
       expect(storiesConfigured).toBe(true);
-      expect(storiesFailed.message).toMatch(/Failed to run configure/);
+      expect(storiesFailed?.message).toMatch(/Failed to run configure/);
     });
   });
 
@@ -1367,10 +1396,7 @@ describe('stories API', () => {
         'ref',
         {
           id: 'ref',
-          v: 2,
-          globalParameters: { global: 'global' },
-          kindParameters: { a: { kind: 'kind' } },
-          stories: {
+          setStoriesData: {
             'a--1': { kind: 'a', parameters: { global: 'global', kind: 'kind', story: 'story' } },
           },
         },
@@ -1431,7 +1457,7 @@ describe('stories API', () => {
         'ref',
         {
           id: 'ref',
-          stories: {
+          setStoriesData: {
             'a--1': {},
           },
         },

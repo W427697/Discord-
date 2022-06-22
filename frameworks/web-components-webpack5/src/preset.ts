@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/core-common';
+import type { StorybookConfig } from './types';
 
 export const addons: StorybookConfig['addons'] = [
   '@storybook/preset-web-components-webpack',

@@ -1,5 +1,5 @@
-import type { CLIOptions, LoadOptions, BuilderOptions } from '@storybook/core-common';
 import type { BuilderContext } from '@angular-devkit/architect';
+import type { LoadOptions, CLIOptions, BuilderOptions } from '@storybook/core-common';
 
 export type StandaloneOptions = Partial<
   CLIOptions &
@@ -15,7 +15,3 @@ export type StandaloneOptions = Partial<
       tsConfig?: string;
     }
 >;
-
-declare module '@storybook/angular/standalone' {
-  export default function buildStandalone(options: StandaloneOptions): Promise<unknown>;
-}

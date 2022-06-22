@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview-web",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.6",
   "description": "",
   "keywords": [
     "storybook"
@@ -40,25 +40,23 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.1",
-    "@storybook/channel-postmessage": "7.0.0-alpha.1",
-    "@storybook/client-logger": "7.0.0-alpha.1",
-    "@storybook/core-events": "7.0.0-alpha.1",
+    "@storybook/addons": "7.0.0-alpha.6",
+    "@storybook/channel-postmessage": "7.0.0-alpha.6",
+    "@storybook/client-logger": "7.0.0-alpha.6",
+    "@storybook/core-events": "7.0.0-alpha.6",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/store": "7.0.0-alpha.1",
+    "@storybook/store": "7.0.0-alpha.6",
     "ansi-to-html": "^0.6.11",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
     "qs": "^6.10.0",
-    "regenerator-runtime": "^0.13.7",
     "synchronous-promise": "^2.0.15",
     "ts-dedent": "^2.0.0",
-    "unfetch": "^4.2.0",
     "util-deprecate": "^1.0.2"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "b90b85210f66da59656c2ef58b0910b156256bea"
+  "gitHead": "a88dcca40ba169a373bad33dd76e9a4bd4f1f5ec"
 }
