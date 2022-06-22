@@ -8962,6 +8962,7 @@ __metadata:
   resolution: "@storybook/react@workspace:renderers/react"
   dependencies:
     "@babel/core": ^7.11.5
+    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.5
     "@storybook/client-logger": 7.0.0-alpha.5
     "@storybook/core-client": 7.0.0-alpha.5
@@ -9723,6 +9724,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/web-components@workspace:renderers/web-components"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.5
     "@storybook/api": 7.0.0-alpha.5
     "@storybook/client-logger": 7.0.0-alpha.5
