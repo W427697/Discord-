@@ -41,7 +41,7 @@ export class WebView {
 
   testing = false;
 
-  preparingTimeout: ReturnType<typeof setTimeout> = null;
+  preparingTimeout?: ReturnType<typeof setTimeout>;
 
   constructor() {
     // Special code for testing situations
