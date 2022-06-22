@@ -9338,6 +9338,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/server-webpack5@workspace:frameworks/server-webpack5"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.5
     "@storybook/core-common": 7.0.0-alpha.5
     "@storybook/preset-server-webpack": 7.0.0-alpha.5
