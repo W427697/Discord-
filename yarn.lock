@@ -9713,6 +9713,7 @@ __metadata:
   resolution: "@storybook/web-components-webpack5@workspace:frameworks/web-components-webpack5"
   dependencies:
     "@babel/preset-env": ^7.12.11
+    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.5
     "@storybook/core-common": 7.0.0-alpha.5
     "@storybook/preset-web-components-webpack": 7.0.0-alpha.5
