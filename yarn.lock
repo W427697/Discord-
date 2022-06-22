@@ -9414,6 +9414,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/svelte-webpack5@workspace:frameworks/svelte-webpack5"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.5
     "@storybook/core-common": 7.0.0-alpha.5
     "@storybook/preset-svelte-webpack": 7.0.0-alpha.5
