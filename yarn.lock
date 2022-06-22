@@ -9656,6 +9656,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue3@workspace:renderers/vue3"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.5
     "@storybook/core-client": 7.0.0-alpha.5
     "@storybook/csf": 0.0.2--canary.4566f4d.1
