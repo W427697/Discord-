@@ -1,1 +1,12 @@
-../components/AccountForm.mdx
+import { Meta, Canvas, Story, Controls } from '@storybook/addon-docs';
+import * as AccountFormStories from '../components/AccountForm.stories';
+
+## Docs for Account form
+
+<Meta of={AccountFormStories} />
+
+<Canvas withToolbar>
+  <Story of={AccountFormStories.Standard} />
+</Canvas>
+
+<Controls of={AccountFormStories.Standard} />

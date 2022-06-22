@@ -4,16 +4,14 @@ const config = {
       directory: '../components',
       titlePrefix: 'Demo',
     },
+    {
+      directory: '../pages',
+      files: 'AccountForm.mdx',
+      titlePrefix: 'Docs',
+    },
   ],
   logLevel: 'debug',
   addons: ['@storybook/addon-essentials'],
-  typescript: {
-    check: true,
-    checkOptions: {},
-    reactDocgenTypescriptOptions: {
-      propFilter: (prop) => ['label', 'disabled'].includes(prop.name),
-    },
-  },
   core: {
     channelOptions: { allowFunction: false, maxDepth: 10 },
   },
@@ -21,7 +19,6 @@ const config = {
     postcss: false,
     storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
     buildStoriesJson: true,
-    babelModeV7: true,
     warnOnLegacyHierarchySeparator: false,
     previewMdx2: true,
     disableTelemetry: true,
