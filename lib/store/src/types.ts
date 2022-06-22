@@ -22,7 +22,9 @@ import type {
   PartialStoryFn,
   Parameters,
 } from '@storybook/csf';
+import type { StoryIndexEntry, DocsIndexEntry, IndexEntry } from '@storybook/addons';
 
+export type { StoryIndexEntry, DocsIndexEntry, IndexEntry };
 export type { StoryId, Parameters };
 export type Path = string;
 export type ModuleExport = any;
@@ -103,23 +105,6 @@ export declare type RenderContext<TFramework extends AnyFramework = AnyFramework
     unboundStoryFn: LegacyStoryFn<TFramework>;
   };
 
-interface BaseIndexEntry {
-  id: StoryId;
-  name: StoryName;
-  title: ComponentTitle;
-  importPath: Path;
-}
-export type StoryIndexEntry = BaseIndexEntry & {
-  type: 'story';
-};
-
-export type DocsIndexEntry = BaseIndexEntry & {
-  storiesImports: Path[];
-  type: 'docs';
-  legacy?: boolean;
-};
-
-export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
 export interface V2CompatIndexEntry extends Omit<StoryIndexEntry, 'type'> {
   kind: StoryIndexEntry['title'];
   story: StoryIndexEntry['name'];
