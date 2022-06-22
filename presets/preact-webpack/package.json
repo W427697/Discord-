@@ -19,9 +19,26 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./preset": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": {
+      "require": "./package.json",
+      "import": "./package.json",
+      "types": "./package.json"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -29,7 +46,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx": "^7.12.12",
@@ -40,6 +57,7 @@
     "react-dom": "16.14.0"
   },
   "devDependencies": {
+    "@digitak/esrun": "^3.2.2",
     "preact": "^10.5.13"
   },
   "peerDependencies": {
@@ -52,5 +70,8 @@
   "publishConfig": {
     "access": "public"
   },
+  "bundlerEntrypoint": [
+    "./src/index.ts"
+  ],
   "gitHead": "3dd46982823b34d9f37be917b6247631081feff7"
 }
