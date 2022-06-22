@@ -51,8 +51,9 @@ export type NormalizedProjectAnnotations<TFramework extends AnyFramework = AnyFr
 
 export type NormalizedComponentAnnotations<TFramework extends AnyFramework = AnyFramework> =
   ComponentAnnotations<TFramework> & {
-    // Useful to guarantee that id exists
+    // Useful to guarantee that id & title exists
     id: ComponentId;
+    title: ComponentTitle;
     argTypes?: StrictArgTypes;
   };
 
@@ -64,6 +65,7 @@ export type NormalizedStoryAnnotations<TFramework extends AnyFramework = AnyFram
   // You cannot actually set id on story annotations, but we normalize it to be there for convience
   id: StoryId;
   argTypes?: StrictArgTypes;
+  name: StoryName;
   userStoryFn?: StoryFn<TFramework>;
 };
 
@@ -80,8 +82,10 @@ export type Story<TFramework extends AnyFramework = AnyFramework> =
     unboundStoryFn: LegacyStoryFn<TFramework>;
     applyLoaders: (
       context: StoryContextForLoaders<TFramework>
-    ) => Promise<StoryContext<TFramework>>;
-    playFunction: (context: StoryContext<TFramework>) => Promise<void> | void;
+    ) => Promise<
+      StoryContextForLoaders<TFramework> & { loaded: StoryContext<TFramework>['loaded'] }
+    >;
+    playFunction?: (context: StoryContext<TFramework>) => Promise<void> | void;
   };
 
 export type BoundStory<TFramework extends AnyFramework = AnyFramework> = Story<TFramework> & {

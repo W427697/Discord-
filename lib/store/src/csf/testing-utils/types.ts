@@ -5,9 +5,13 @@ import type {
   ComponentAnnotations,
   Args,
   StoryContext,
+  LegacyAnnotatedStoryFn,
 } from '@storybook/csf';
 
-export type CSFExports<TFramework extends AnyFramework = AnyFramework> = {
+export type CSFExports<TFramework extends AnyFramework = AnyFramework> = Record<
+  string,
+  LegacyAnnotatedStoryFn<TFramework>
+> & {
   default: ComponentAnnotations<TFramework, Args>;
   __esModule?: boolean;
   __namedExportsOrder?: string[];

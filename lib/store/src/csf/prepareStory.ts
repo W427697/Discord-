@@ -11,6 +11,7 @@ import type {
   StoryContext,
   AnyFramework,
   StrictArgTypes,
+  StoryContextForLoaders,
 } from '@storybook/csf';
 import { includeConditionalArg } from '@storybook/csf';
 
@@ -84,6 +85,8 @@ export function prepareStory<TFramework extends AnyFramework>(
     componentAnnotations.render ||
     projectAnnotations.render;
 
+  if (!render) throw new Error(`No render function available for storyId '${id}'`);
+
   const passedArgTypes: StrictArgTypes = combineParameters(
     projectAnnotations.argTypes,
     componentAnnotations.argTypes,
@@ -154,7 +157,7 @@ export function prepareStory<TFramework extends AnyFramework>(
     };
   }
 
-  const applyLoaders = async (context: StoryContext<TFramework>) => {
+  const applyLoaders = async (context: StoryContextForLoaders<TFramework>) => {
     const loadResults = await Promise.all(loaders.map((loader) => loader(context)));
     const loaded = Object.assign({}, ...loadResults);
     return { ...context, loaded };
@@ -183,7 +186,7 @@ export function prepareStory<TFramework extends AnyFramework>(
   const unboundStoryFn = (context: StoryContext<TFramework>) => {
     let finalContext: StoryContext<TFramework> = context;
     if (global.FEATURES?.argTypeTargetsV7) {
-      const argsByTarget = groupArgsByTarget({ args: context.args, ...context });
+      const argsByTarget = groupArgsByTarget(context);
       finalContext = {
         ...context,
         allArgs: context.args,

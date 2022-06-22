@@ -13,8 +13,6 @@ const getImportPathMap = memoize(1)((entries: StoryIndex['entries']) =>
 );
 
 export class StoryIndexStore {
-  channel: Channel;
-
   entries: StoryIndex['entries'];
 
   constructor({ entries }: StoryIndex = { v: 4, entries: {} }) {
