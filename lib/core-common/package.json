@@ -19,9 +19,21 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": {
+      "require": "./package.json",
+      "import": "./package.json",
+      "types": "./package.json"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "types/**/*",
@@ -30,7 +42,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
@@ -86,6 +98,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
+    "@digitak/esrun": "^3.2.2",
     "@types/compression": "^1.7.0",
     "@types/interpret": "^1.1.1",
     "@types/mock-fs": "^4.13.0",
@@ -104,5 +117,8 @@
   "publishConfig": {
     "access": "public"
   },
+  "bundlerEntrypoint": [
+    "./src/index.ts"
+  ],
   "gitHead": "a88dcca40ba169a373bad33dd76e9a4bd4f1f5ec"
 }

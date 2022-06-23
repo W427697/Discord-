@@ -8046,6 +8046,7 @@ __metadata:
     "@babel/preset-react": ^7.12.10
     "@babel/preset-typescript": ^7.12.7
     "@babel/register": ^7.12.1
+    "@digitak/esrun": ^3.2.2
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/node-logger": 7.0.0-alpha.6
     "@storybook/semver": ^7.3.2
