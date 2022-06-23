@@ -1,3 +1,4 @@
+// @ts-ignore
 import Watchpack from 'watchpack';
 import slash from 'slash';
 import fs from 'fs';
