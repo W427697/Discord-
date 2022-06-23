@@ -8,14 +8,14 @@ export const webpack: StorybookConfig['webpack'] = (config) => {
     {
       type: 'javascript/auto',
       test: /\.stories\.json$/,
-      use: require.resolve('@storybook/preset-server-webpack/dist/loader.js'),
+      use: require.resolve('@storybook/preset-server-webpack/dist/loader'),
     },
 
     {
       type: 'javascript/auto',
       test: /\.stories\.ya?ml/,
       use: [
-        require.resolve('@storybook/preset-server-webpack/dist/loader.js'),
+        require.resolve('@storybook/preset-server-webpack/dist/loader'),
         require.resolve('yaml-loader'),
       ],
     },
