@@ -82,7 +82,7 @@ export function composeStory<TArgs = Args>(
   exportsName?: string
 ) {
   return originalComposeStory<ReactFramework, TArgs>(
-    story,
+    story as ComposedStory<ReactFramework, Args>,
     componentAnnotations,
     projectAnnotations,
     defaultProjectAnnotations,

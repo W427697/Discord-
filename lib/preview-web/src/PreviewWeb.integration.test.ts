@@ -3,8 +3,11 @@ import global from 'global';
 import { RenderContext } from '@storybook/store';
 import addons, { mockChannel as createMockChannel } from '@storybook/addons';
 import { DocsRenderer } from '@storybook/addon-docs';
+import { mocked } from 'ts-jest/utils';
+import { expect } from '@jest/globals';
 
 import { PreviewWeb } from './PreviewWeb';
+import { WebView } from './WebView';
 import {
   componentOneExports,
   importFn,
@@ -56,6 +59,9 @@ beforeEach(() => {
 
   addons.setChannel(mockChannel as any);
   addons.setServerChannel(createMockChannel());
+
+  mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
+  mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
 describe('PreviewWeb', () => {

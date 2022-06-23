@@ -1,5 +1,6 @@
 import type { AnyFramework, ProjectAnnotations } from '@storybook/csf';
 import global from 'global';
+import { expect } from '@jest/globals';
 
 import { prepareStory } from './csf/prepareStory';
 import { processCSFFile } from './csf/processCSFFile';
@@ -76,10 +77,10 @@ describe('StoryStore', () => {
       store.setProjectAnnotations(projectAnnotations);
       store.initialize({ storyIndex, importFn, cache: false });
 
-      expect(store.projectAnnotations.globalTypes).toEqual({
+      expect(store.projectAnnotations!.globalTypes).toEqual({
         a: { name: 'a', type: { name: 'string' } },
       });
-      expect(store.projectAnnotations.argTypes).toEqual({
+      expect(store.projectAnnotations!.argTypes).toEqual({
         a: { name: 'a', type: { name: 'string' } },
       });
     });
@@ -90,10 +91,10 @@ describe('StoryStore', () => {
       store.initialize({ storyIndex, importFn, cache: false });
 
       store.setProjectAnnotations(projectAnnotations);
-      expect(store.projectAnnotations.globalTypes).toEqual({
+      expect(store.projectAnnotations!.globalTypes).toEqual({
         a: { name: 'a', type: { name: 'string' } },
       });
-      expect(store.projectAnnotations.argTypes).toEqual({
+      expect(store.projectAnnotations!.argTypes).toEqual({
         a: { name: 'a', type: { name: 'string' } },
       });
     });
@@ -408,7 +409,7 @@ describe('StoryStore', () => {
       const story = await store.loadStory({ storyId: 'component-one--a' });
 
       store.args.update(story.id, { foo: 'bar' });
-      store.globals.update({ a: 'c' });
+      store.globals!.update({ a: 'c' });
 
       expect(store.getStoryContext(story)).toMatchObject({
         args: { foo: 'bar' },
@@ -455,8 +456,9 @@ describe('StoryStore', () => {
 
       importFn.mockClear();
       const csfFiles = await store.loadAllCSFFiles();
+      expect(csfFiles).not.toBeUndefined();
 
-      expect(Object.keys(csfFiles)).toEqual([
+      expect(Object.keys(csfFiles!)).toEqual([
         './src/ComponentOne.stories.js',
         './src/ComponentTwo.stories.js',
       ]);

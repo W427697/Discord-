@@ -37,7 +37,7 @@ export const sortStoriesV7 = (
     throw new Error(dedent`
     Error sorting stories with sort parameter ${storySortParameter}:
 
-    > ${err.message}
+    > ${(err as Error).message}
     
     Are you using a V6-style sort function in V7 mode?
 
