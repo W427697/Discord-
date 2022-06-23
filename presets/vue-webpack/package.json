@@ -19,9 +19,36 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./preset": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/framework-preset-vue-docs": {
+      "require": "./dist/framework-preset-vue-docs.js",
+      "import": "./dist/framework-preset-vue-docs.mjs",
+      "types": "./dist/framework-preset-vue-docs.d.ts"
+    },
+    "./dist/framework-preset-vue": {
+      "require": "./dist/framework-preset-vue.js",
+      "import": "./dist/framework-preset-vue.mjs",
+      "types": "./dist/framework-preset-vue.d.ts"
+    },
+    "./package.json": {
+      "require": "./package.json",
+      "import": "./package.json",
+      "types": "./package.json"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -29,7 +56,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/core-webpack": "7.0.0-alpha.5",
@@ -44,6 +71,7 @@
     "webpack": "5"
   },
   "devDependencies": {
+    "@digitak/esrun": "^3.2.2",
     "vue": "^2.6.12",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.14",
@@ -63,5 +91,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "bundlerEntrypoint": [
+    "./src/index.ts",
+    "./src/framework-preset-vue-docs.ts",
+    "./src/framework-preset-vue.ts"
+  ],
   "gitHead": "3dd46982823b34d9f37be917b6247631081feff7"
 }

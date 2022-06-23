@@ -8815,6 +8815,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-svelte-webpack@workspace:presets/svelte-webpack"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.5
     "@storybook/node-logger": 7.0.0-alpha.5
     core-js: ^3.8.2
@@ -8835,6 +8836,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-vue-webpack@workspace:presets/vue-webpack"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.5
     "@storybook/docs-tools": 7.0.0-alpha.5
     "@types/node": ^14.14.20 || ^16.0.0
