@@ -55,13 +55,13 @@ export interface Presets {
     config: TypescriptOptions,
     args?: Options
   ): Promise<TypescriptOptions>;
-  apply(extension: 'framework', config: {}, args: any): Promise<Preset>;
-  apply(extension: 'babel', config: {}, args: any): Promise<TransformOptions>;
-  apply(extension: 'entries', config: [], args: any): Promise<unknown>;
-  apply(extension: 'stories', config: [], args: any): Promise<StoriesEntry[]>;
-  apply(extension: 'managerEntries', config: [], args: any): Promise<string[]>;
-  apply(extension: 'refs', config: [], args: any): Promise<unknown>;
-  apply(extension: 'core', config: {}, args: any): Promise<CoreConfig>;
+  apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
+  apply(extension: 'babel', config?: {}, args?: any): Promise<TransformOptions>;
+  apply(extension: 'entries', config?: [], args?: any): Promise<unknown>;
+  apply(extension: 'stories', config?: [], args?: any): Promise<StoriesEntry[]>;
+  apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
+  apply(extension: 'refs', config?: [], args?: any): Promise<unknown>;
+  apply(extension: 'core', config?: {}, args?: any): Promise<CoreConfig>;
   apply<T>(extension: string, config?: T, args?: unknown): Promise<T>;
 }
 

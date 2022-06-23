@@ -27,6 +27,7 @@
     "@storybook/addon-viewport": "link:../../addons/viewport",
     "@storybook/addons": "link:../../lib/addons",
     "@storybook/api": "link:../../lib/api",
+    "@storybook/builder-manager": "link:../../lib/builder-manager",
     "@storybook/builder-webpack5": "link:../../lib/builder-webpack5",
     "@storybook/channel-postmessage": "link:../../lib/channel-postmessage",
     "@storybook/channel-websocket": "link:../../lib/channel-websocket",

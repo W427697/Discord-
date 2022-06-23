@@ -62,8 +62,6 @@ export async function buildStaticStandalone(
 
   await cpy(defaultFavIcon, options.outputDir);
 
-  const { getPrebuiltDir } = await import('@storybook/manager-webpack5/prebuilt-manager');
-
   const { framework } = loadMainConfig(options);
   const corePresets = [];
 
@@ -186,13 +184,11 @@ export async function buildStaticStandalone(
     logConfig('Manager webpack config', await managerBuilder.getConfig(fullOptions));
   }
 
-  const prebuiltDir = await getPrebuiltDir(fullOptions);
+  // const prebuiltDir = await getPrebuiltDir(fullOptions);
 
   const startTime = process.hrtime();
   // When using the prebuilt manager, we straight up copy it into the outputDir instead of building it
-  const manager = prebuiltDir
-    ? cpy('**', options.outputDir, { cwd: prebuiltDir, parents: true }).then(() => {})
-    : managerBuilder.build({ startTime, options: fullOptions });
+  const manager = managerBuilder.build({ startTime, options: fullOptions });
 
   if (options.ignorePreview) {
     logger.info(`=> Not building preview`);

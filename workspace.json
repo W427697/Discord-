@@ -29,6 +29,7 @@
     "@storybook/ember": { "root": "frameworks/ember", "type": "library" },
     "@storybook/html-webpack5": { "root": "frameworks/html-webpack5", "type": "library" },
     "@storybook/manager-webpack5": { "root": "lib/manager-webpack5", "type": "library" },
+    "@storybook/builder-manager": { "root": "lib/builder-manager", "type": "library" },
     "@storybook/preact-webpack5": { "root": "frameworks/preact-webpack5", "type": "library" },
     "@storybook/react-webpack5": { "root": "frameworks/react-webpack5", "type": "library" },
     "@storybook/server-webpack5": { "root": "frameworks/server-webpack5", "type": "library" },
