@@ -1,4 +1,5 @@
 import global from 'global';
+import { expect } from '@jest/globals';
 import { addons, HooksContext } from '@storybook/addons';
 import type {
   AnyFramework,
@@ -7,6 +8,7 @@ import type {
   SBScalarType,
   StoryContext,
 } from '@storybook/csf';
+
 import { NO_TARGET_NAME } from '../args';
 import { prepareStory } from './prepareStory';
 
@@ -193,7 +195,7 @@ describe('prepareStory', () => {
 
     describe('argsEnhancers', () => {
       it('are applied in the right order', () => {
-        const run = [];
+        const run: number[] = [];
         const enhancerOne: ArgsEnhancer<AnyFramework> = () => {
           run.push(1);
           return {};
@@ -351,7 +353,7 @@ describe('prepareStory', () => {
     it('awaits the result of a loader', async () => {
       const loader = jest.fn(async () => new Promise((r) => setTimeout(() => r({ foo: 7 }), 100)));
       const { applyLoaders } = prepareStory(
-        { id, name, loaders: [loader], moduleExport },
+        { id, name, loaders: [loader as any], moduleExport },
         { id, title },
         { render }
       );
@@ -387,7 +389,7 @@ describe('prepareStory', () => {
     });
 
     it('later loaders override earlier loaders', async () => {
-      const loaders = [
+      const loaders: any[] = [
         async () => new Promise((r) => setTimeout(() => r({ foo: 7 }), 100)),
         async () => new Promise((r) => setTimeout(() => r({ foo: 3 }), 50)),
       ];
