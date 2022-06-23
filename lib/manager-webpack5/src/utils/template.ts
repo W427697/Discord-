@@ -4,10 +4,11 @@ import { readFile, pathExists } from 'fs-extra';
 const interpolate = (string: string, data: Record<string, string> = {}) =>
   Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
 
-const getTemplatePath = async (template: string) => {
+export const getTemplatePath = async (template: string) => {
   return join(dirname(require.resolve('@storybook/manager-webpack5/package.json')), template);
 };
-const getTemplate = async (template: string) => {
+
+export const readTemplate = async (template: string) => {
   const path = await getTemplatePath(template);
 
   return readFile(path, 'utf8');
@@ -18,7 +19,7 @@ export async function getManagerHeadTemplate(
   interpolations: Record<string, string>
 ) {
   const [base, head] = await Promise.all([
-    getTemplate('base-manager-head.html'),
+    readTemplate('base-manager-head.html'),
     pathExists(path.resolve(configDirPath, 'manager-head.html')).then<Promise<string> | false>(
       (exists) => {
         if (exists) {
