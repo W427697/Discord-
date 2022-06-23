@@ -15,12 +15,13 @@ import {
   loadManagerOrAddonsFile,
   resolvePathInStorybookCache,
   stringifyProcessEnvs,
-  getManagerHeadTemplate,
-  getManagerMainTemplate,
 } from '@storybook/core-common';
 import type { Options, ManagerWebpackOptions } from '@storybook/core-common';
 
 import { customManagerRuntimeLoader } from './custom-manager-runtime-loader';
+import { getManagerHeadTemplate, getManagerMainTemplate } from '../utils/template';
+
+export const managerMainTemplate = () => getManagerMainTemplate();
 
 export async function managerWebpack(
   _: Configuration,
