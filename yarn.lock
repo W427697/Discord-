@@ -8864,6 +8864,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-vue3-webpack@workspace:presets/vue3-webpack"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.5
     "@storybook/docs-tools": 7.0.0-alpha.5
     "@types/node": ^14.14.20 || ^16.0.0
