@@ -20,6 +20,7 @@ import {
   STORY_RENDERED,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
+import { instrument } from '@storybook/instrumenter';
 
 const { AbortController } = global;
 
@@ -242,9 +243,13 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
       if (forceRemount && playFunction && this.phase !== 'errored') {
         this.disableKeyListeners = true;
         try {
-          await this.runPhase(abortSignal, 'playing', async () => {
-            await playFunction(renderContext.storyContext);
-          });
+          const { step } = instrument(
+            { step: async (label: string, callback: () => any) => callback() },
+            { intercept: true }
+          );
+          await this.runPhase(abortSignal, 'playing', async () =>
+            playFunction({ ...renderContext.storyContext, step })
+          );
           await this.runPhase(abortSignal, 'played');
         } catch (error) {
           logger.error(error);
