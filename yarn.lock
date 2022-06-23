@@ -8748,6 +8748,7 @@ __metadata:
   dependencies:
     "@babel/preset-flow": ^7.12.1
     "@babel/preset-react": ^7.12.10
+    "@digitak/esrun": ^3.2.2
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.5
     "@storybook/core-webpack": 7.0.0-alpha.5
     "@storybook/docs-tools": 7.0.0-alpha.5
