@@ -28,6 +28,8 @@ import { logger } from '@storybook/client-logger';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
 import type { AnyFramework } from '@storybook/csf';
 import type { ModuleImportFn, WebProjectAnnotations } from '@storybook/store';
+import { expect } from '@jest/globals';
+import { mocked } from 'ts-jest/utils';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -48,8 +50,8 @@ import {
   modernDocsExports,
   teardownRenderToDOM,
 } from './PreviewWeb.mockdata';
+import { WebView } from './WebView';
 
-jest.mock('./WebView');
 const { history, document } = global;
 
 const mockStoryIndex = jest.fn(() => storyIndex);
@@ -79,6 +81,7 @@ jest.mock('global', () => ({
 
 jest.mock('@storybook/client-logger');
 jest.mock('react-dom');
+jest.mock('./WebView');
 
 const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   let openGate = (_?: any) => {};
@@ -104,9 +107,6 @@ async function createAndRenderPreview({
   getProjectAnnotations?: () => WebProjectAnnotations<AnyFramework>;
 } = {}) {
   const preview = new PreviewWeb();
-  (
-    preview.view.prepareForDocs as jest.MockedFunction<typeof preview.view.prepareForDocs>
-  ).mockReturnValue('docs-element' as any);
   await preview.initialize({
     importFn: inputImportFn,
     getProjectAnnotations: inputGetProjectAnnotations,
@@ -134,6 +134,9 @@ beforeEach(() => {
   addons.setChannel(mockChannel as any);
   addons.setServerChannel(createMockChannel());
   mockFetchResult = { status: 200, json: mockStoryIndex, text: () => 'error text' };
+
+  mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
+  mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
 describe('PreviewWeb', () => {
@@ -172,7 +175,7 @@ describe('PreviewWeb', () => {
 
       const preview = await createAndRenderPreview();
 
-      expect(preview.storyStore.globals.get()).toEqual({ a: 'c' });
+      expect(preview.storyStore.globals!.get()).toEqual({ a: 'c' });
     });
 
     it('emits the SET_GLOBALS event', async () => {
@@ -233,7 +236,7 @@ describe('PreviewWeb', () => {
         },
       });
 
-      expect(preview.storyStore.globals.get()).toEqual({ a: 'b' });
+      expect(preview.storyStore.globals!.get()).toEqual({ a: 'b' });
     });
   });
 
@@ -456,7 +459,7 @@ describe('PreviewWeb', () => {
                 loaded: { l: 7 },
               }),
             }),
-            undefined // this is coming from view.prepareForStory, not super important
+            'story-element'
           );
         });
 
@@ -487,26 +490,27 @@ describe('PreviewWeb', () => {
         });
 
         it('renders helpful message if renderToDOM is undefined', async () => {
-          const originalRenderToDOM = projectAnnotations.renderToDOM;
-          try {
-            projectAnnotations.renderToDOM = undefined;
+          document.location.search = '?id=component-one--a';
+          const preview = new PreviewWeb();
+          await expect(
+            preview.initialize({
+              importFn,
+              getProjectAnnotations: () => ({
+                ...getProjectAnnotations,
+                renderToDOM: undefined,
+              }),
+            })
+          ).rejects.toThrow();
 
-            document.location.search = '?id=component-one--a';
-            const preview = new PreviewWeb();
-            await expect(preview.initialize({ importFn, getProjectAnnotations })).rejects.toThrow();
-
-            expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-            expect((preview.view.showErrorDisplay as jest.Mock).mock.calls[0][0])
-              .toMatchInlineSnapshot(`
+          expect(preview.view.showErrorDisplay).toHaveBeenCalled();
+          expect((preview.view.showErrorDisplay as jest.Mock).mock.calls[0][0])
+            .toMatchInlineSnapshot(`
                           [Error: Expected your framework's preset to export a \`renderToDOM\` field.
 
                           Perhaps it needs to be upgraded for Storybook 6.4?
 
                           More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field          ]
                       `);
-          } finally {
-            projectAnnotations.renderToDOM = originalRenderToDOM;
-          }
         });
 
         it('renders exception if the play function throws', async () => {
@@ -705,7 +709,7 @@ describe('PreviewWeb', () => {
 
       emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
 
-      expect(preview.storyStore.globals.get()).toEqual({ a: 'b', foo: 'bar' });
+      expect(preview.storyStore.globals!.get()).toEqual({ a: 'b', foo: 'bar' });
     });
 
     it('passes new globals in context to renderToDOM', async () => {
@@ -724,7 +728,7 @@ describe('PreviewWeb', () => {
             globals: { a: 'b', foo: 'bar' },
           }),
         }),
-        undefined // this is coming from view.prepareForStory, not super important
+        'story-element'
       );
     });
 
@@ -807,7 +811,7 @@ describe('PreviewWeb', () => {
             args: { foo: 'a', new: 'arg' },
           }),
         }),
-        undefined // this is coming from view.prepareForStory, not super important
+        'story-element'
       );
     });
 
@@ -864,7 +868,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a', new: 'arg' },
             }),
           }),
-          undefined // this is coming from view.prepareForStory, not super important
+          'story-element'
         );
 
         // Now let the first loader call resolve
@@ -883,7 +887,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a', new: 'arg' },
             }),
           }),
-          undefined // this is coming from view.prepareForStory, not super important
+          'story-element'
         );
       });
 
@@ -914,7 +918,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a' },
             }),
           }),
-          undefined // this is coming from view.prepareForStory, not super important
+          'story-element'
         );
         expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
           expect.objectContaining({
@@ -924,7 +928,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a', new: 'arg' },
             }),
           }),
-          undefined // this is coming from view.prepareForStory, not super important
+          'story-element'
         );
       });
 
@@ -947,7 +951,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a' },
             }),
           }),
-          undefined // this is coming from view.prepareForStory, not super important
+          'story-element'
         );
         expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
           expect.objectContaining({
@@ -957,7 +961,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a', new: 'arg' },
             }),
           }),
-          undefined // this is coming from view.prepareForStory, not super important
+          'story-element'
         );
       });
 
@@ -985,7 +989,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a' },
             }),
           }),
-          undefined // this is coming from view.prepareForStory, not super important
+          'story-element'
         );
 
         emitter.emit(UPDATE_STORY_ARGS, {
@@ -1005,7 +1009,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a', new: 'arg' },
             }),
           }),
-          undefined // this is coming from view.prepareForStory, not super important
+          'story-element'
         );
 
         // Now let the playFunction call resolve
@@ -1172,7 +1176,7 @@ describe('PreviewWeb', () => {
             args: { foo: 'a', new: 'value' },
           }),
         }),
-        undefined // this is coming from view.prepareForStory, not super important
+        'story-element'
       );
 
       await waitForEvents([STORY_ARGS_UPDATED]);
@@ -1213,7 +1217,7 @@ describe('PreviewWeb', () => {
             args: { foo: 'a' },
           }),
         }),
-        undefined // this is coming from view.prepareForStory, not super important
+        'story-element'
       );
 
       await waitForEvents([STORY_ARGS_UPDATED]);
@@ -1254,7 +1258,7 @@ describe('PreviewWeb', () => {
             args: { foo: 'a' },
           }),
         }),
-        undefined // this is coming from view.prepareForStory, not super important
+        'story-element'
       );
 
       await waitForEvents([STORY_ARGS_UPDATED]);
@@ -1295,7 +1299,7 @@ describe('PreviewWeb', () => {
             args: { foo: 'a' },
           }),
         }),
-        undefined // this is coming from view.prepareForStory, not super important
+        'story-element'
       );
 
       await waitForEvents([STORY_ARGS_UPDATED]);
@@ -1323,7 +1327,7 @@ describe('PreviewWeb', () => {
 
       expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
         expect.objectContaining({ forceRemount: false }),
-        undefined // this is coming from view.prepareForStory, not super important
+        'story-element'
       );
     });
   });
@@ -1347,7 +1351,7 @@ describe('PreviewWeb', () => {
 
       expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
         expect.objectContaining({ forceRemount: true }),
-        undefined // this is coming from view.prepareForStory, not super important
+        'story-element'
       );
     });
 
@@ -1367,7 +1371,7 @@ describe('PreviewWeb', () => {
             loaded: { l: 7 },
           }),
         }),
-        undefined // this is coming from view.prepareForStory, not super important
+        'story-element'
       );
 
       mockChannel.emit.mockClear();
@@ -1723,7 +1727,7 @@ describe('PreviewWeb', () => {
               loaded: { l: 7 },
             }),
           }),
-          undefined // this is coming from view.prepareForStory, not super important
+          'story-element'
         );
       });
 
@@ -1888,7 +1892,7 @@ describe('PreviewWeb', () => {
                 loaded: { l: 7 },
               }),
             }),
-            undefined // this is coming from view.prepareForStory, not super important
+            'story-element'
           );
         });
 
@@ -1942,7 +1946,7 @@ describe('PreviewWeb', () => {
                 loaded: { l: 7 },
               }),
             }),
-            undefined // this is coming from view.prepareForStory, not super important
+            'story-element'
           );
 
           mockChannel.emit.mockClear();
@@ -1967,7 +1971,7 @@ describe('PreviewWeb', () => {
                 loaded: { l: 7 },
               }),
             }),
-            undefined // this is coming from view.prepareForStory, not super important
+            'story-element'
           );
 
           await waitForRenderPhase('playing');
@@ -1995,7 +1999,7 @@ describe('PreviewWeb', () => {
                 loaded: { l: 7 },
               }),
             }),
-            undefined // this is coming from view.prepareForStory, not super important
+            'story-element'
           );
 
           mockChannel.emit.mockClear();
@@ -2284,7 +2288,7 @@ describe('PreviewWeb', () => {
               loaded: { l: 7 },
             }),
           }),
-          undefined // this is coming from view.prepareForStory, not super important
+          'story-element'
         );
       });
 
@@ -2557,7 +2561,7 @@ describe('PreviewWeb', () => {
               loaded: { l: 7 },
             }),
           }),
-          undefined // this is coming from view.prepareForStory, not super important
+          'story-element'
         );
       });
 
@@ -2585,7 +2589,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'updated' },
             }),
           }),
-          undefined // this is coming from view.prepareForStory, not super important
+          'story-element'
         );
       });
 
@@ -2846,7 +2850,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'updated', bar: 'edited' },
             }),
           }),
-          undefined // this is coming from view.prepareForStory, not super important
+          'story-element'
         );
       });
     });
@@ -3071,7 +3075,7 @@ describe('PreviewWeb', () => {
             globals: { a: 'edited' },
           }),
         }),
-        undefined // this is coming from view.prepareForStory, not super important
+        'story-element'
       );
     });
   });

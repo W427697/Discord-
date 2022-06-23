@@ -22,7 +22,9 @@ import type {
   PartialStoryFn,
   Parameters,
 } from '@storybook/csf';
+import type { StoryIndexEntry, DocsIndexEntry, IndexEntry } from '@storybook/addons';
 
+export type { StoryIndexEntry, DocsIndexEntry, IndexEntry };
 export type { StoryId, Parameters };
 export type Path = string;
 export type ModuleExport = any;
@@ -51,8 +53,9 @@ export type NormalizedProjectAnnotations<TFramework extends AnyFramework = AnyFr
 
 export type NormalizedComponentAnnotations<TFramework extends AnyFramework = AnyFramework> =
   ComponentAnnotations<TFramework> & {
-    // Useful to guarantee that id exists
+    // Useful to guarantee that id & title exists
     id: ComponentId;
+    title: ComponentTitle;
     argTypes?: StrictArgTypes;
   };
 
@@ -64,6 +67,7 @@ export type NormalizedStoryAnnotations<TFramework extends AnyFramework = AnyFram
   // You cannot actually set id on story annotations, but we normalize it to be there for convience
   id: StoryId;
   argTypes?: StrictArgTypes;
+  name: StoryName;
   userStoryFn?: StoryFn<TFramework>;
 };
 
@@ -80,8 +84,10 @@ export type Story<TFramework extends AnyFramework = AnyFramework> =
     unboundStoryFn: LegacyStoryFn<TFramework>;
     applyLoaders: (
       context: StoryContextForLoaders<TFramework>
-    ) => Promise<StoryContext<TFramework>>;
-    playFunction: (context: StoryContext<TFramework>) => Promise<void> | void;
+    ) => Promise<
+      StoryContextForLoaders<TFramework> & { loaded: StoryContext<TFramework>['loaded'] }
+    >;
+    playFunction?: (context: StoryContext<TFramework>) => Promise<void> | void;
   };
 
 export type BoundStory<TFramework extends AnyFramework = AnyFramework> = Story<TFramework> & {
@@ -99,23 +105,6 @@ export declare type RenderContext<TFramework extends AnyFramework = AnyFramework
     unboundStoryFn: LegacyStoryFn<TFramework>;
   };
 
-interface BaseIndexEntry {
-  id: StoryId;
-  name: StoryName;
-  title: ComponentTitle;
-  importPath: Path;
-}
-export type StoryIndexEntry = BaseIndexEntry & {
-  type: 'story';
-};
-
-export type DocsIndexEntry = BaseIndexEntry & {
-  storiesImports: Path[];
-  type: 'docs';
-  legacy?: boolean;
-};
-
-export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
 export interface V2CompatIndexEntry extends Omit<StoryIndexEntry, 'type'> {
   kind: StoryIndexEntry['title'];
   story: StoryIndexEntry['name'];

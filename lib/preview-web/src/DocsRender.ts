@@ -34,7 +34,9 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
 
   public disableKeyListeners = false;
 
-  public teardown: (options: { viewModeChanged?: boolean }) => Promise<void>;
+  public teardown?: (options: { viewModeChanged?: boolean }) => Promise<void>;
+
+  public torndown = false;
 
   constructor(
     private channel: Channel,
@@ -42,7 +44,7 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     public entry: IndexEntry
   ) {
     this.id = entry.id;
-    this.legacy = entry.type !== 'docs' || entry.legacy;
+    this.legacy = entry.type !== 'docs' || !!entry.legacy;
   }
 
   // The two story "renders" are equal and have both loaded the same story
@@ -105,6 +107,8 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
       };
     }
 
+    if (!this.csfFiles) throw new Error('getDocsContext called before prepare');
+
     let metaCsfFile: ModuleExports;
     const exportToStoryId = new Map<ModuleExport, StoryId>();
     const storyIdToCSFFile = new Map<StoryId, CSFFile<TFramework>>();
@@ -126,16 +130,18 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     return {
       ...base,
       storyIdByModuleExport: (moduleExport) => {
-        if (exportToStoryId.has(moduleExport)) return exportToStoryId.get(moduleExport);
+        const storyId = exportToStoryId.get(moduleExport);
+        if (storyId) return storyId;
 
         throw new Error(`No story found with that export: ${moduleExport}`);
       },
       storyById,
       componentStories: () => {
-        return Object.entries(metaCsfFile)
-          .map(([_, moduleExport]) => exportToStoryId.get(moduleExport))
-          .filter(Boolean)
-          .map(storyById);
+        return (
+          Object.entries(metaCsfFile)
+            .map(([_, moduleExport]) => exportToStoryId.get(moduleExport))
+            .filter(Boolean) as StoryId[]
+        ).map(storyById);
       },
       setMeta(m: ModuleExports) {
         metaCsfFile = m;
@@ -154,10 +160,15 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
   }
 
   async render() {
-    if (!(this.story || this.exports) || !this.docsContext || !this.canvasElement)
+    if (
+      !(this.story || this.exports) ||
+      !this.docsContext ||
+      !this.canvasElement ||
+      !this.store.projectAnnotations
+    )
       throw new Error('DocsRender not ready to render');
 
-    const { docs } = this.story?.parameters || this.store.projectAnnotations.parameters;
+    const { docs } = this.story?.parameters || this.store.projectAnnotations.parameters || {};
 
     if (!docs) {
       throw new Error(
@@ -170,7 +181,8 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
       this.docsContext,
       {
         ...docs,
-        ...(!this.legacy && { page: this.exports.default }),
+        // exports must be defined in non-legacy mode (see check at top)
+        ...(!this.legacy && { page: this.exports!.default }),
       },
       this.canvasElement,
       () => this.channel.emit(DOCS_RENDERED, this.id)
@@ -178,6 +190,7 @@ export class DocsRender<TFramework extends AnyFramework> implements Render<TFram
     this.teardown = async ({ viewModeChanged }: { viewModeChanged?: boolean } = {}) => {
       if (!viewModeChanged || !this.canvasElement) return;
       renderer.unmount(this.canvasElement);
+      this.torndown = true;
     };
   }
 
