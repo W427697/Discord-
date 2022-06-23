@@ -5,7 +5,11 @@ const interpolate = (string: string, data: Record<string, string> = {}) =>
   Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
 
 export const getTemplatePath = async (template: string) => {
-  return join(dirname(require.resolve('@storybook/manager-webpack5/package.json')), template);
+  return join(
+    dirname(require.resolve('@storybook/manager-webpack5/package.json')),
+    'templates',
+    template
+  );
 };
 
 export const readTemplate = async (template: string) => {

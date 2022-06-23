@@ -131,11 +131,6 @@ export interface LoadOptions {
   extendServer?: (server: Server) => void;
 }
 
-export interface ManagerWebpackOptions {
-  entries: string[];
-  refs: Record<string, Ref>;
-}
-
 export interface CLIOptions {
   port?: number;
   ignorePreview?: boolean;

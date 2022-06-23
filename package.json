@@ -262,6 +262,7 @@
     "dts-bundle-generator": "^6.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
+    "esbuild-plugin-alias": "^0.2.1",
     "eslint": "^7.17.0",
     "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-import": "^2.22.1",
