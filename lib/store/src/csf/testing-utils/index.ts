@@ -124,7 +124,12 @@ export function composeStories<TModule extends CSFExports>(
     }
 
     const result = Object.assign(storiesMap, {
-      [exportsName]: composeStoryFn(story, meta, globalConfig, exportsName),
+      [exportsName]: composeStoryFn(
+        story as LegacyStoryAnnotationsOrFn,
+        meta,
+        globalConfig,
+        exportsName
+      ),
     });
     return result;
   }, {});
