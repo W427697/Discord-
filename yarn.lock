@@ -8893,8 +8893,10 @@ __metadata:
     "@babel/plugin-syntax-dynamic-import": ^7.8.3
     "@babel/plugin-syntax-import-meta": ^7.10.4
     "@babel/preset-env": ^7.12.11
+    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.5
     "@types/node": ^14.14.20 || ^16.0.0
+    babel-loader: ^7.0.0 || ^8.0.0
     babel-plugin-bundled-import-meta: ^0.3.1
     core-js: ^3.8.2
     lit-html: 2.0.2
@@ -13976,7 +13978,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-loader@npm:8.2.5, babel-loader@npm:^8.2.2, babel-loader@npm:^8.2.3, babel-loader@npm:^8.2.5":
+"babel-loader@npm:8.2.5, babel-loader@npm:^7.0.0 || ^8.0.0, babel-loader@npm:^8.2.2, babel-loader@npm:^8.2.3, babel-loader@npm:^8.2.5":
   version: 8.2.5
   resolution: "babel-loader@npm:8.2.5"
   dependencies:
