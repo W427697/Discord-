@@ -116,7 +116,6 @@ async function createAndRenderPreview({
   return preview;
 }
 
-const mockWebView = new WebView();
 beforeEach(() => {
   document.location.search = '';
   mockChannel.emit.mockClear();

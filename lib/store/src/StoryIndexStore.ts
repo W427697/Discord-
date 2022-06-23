@@ -1,5 +1,4 @@
 import dedent from 'ts-dedent';
-import { Channel } from '@storybook/addons';
 import type { StoryId } from '@storybook/csf';
 import memoize from 'memoizerific';
 

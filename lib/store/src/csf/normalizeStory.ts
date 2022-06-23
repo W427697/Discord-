@@ -5,7 +5,6 @@ import type {
   StoryAnnotations,
   StoryFn,
   ArgTypes,
-  Args,
 } from '@storybook/csf';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import dedent from 'ts-dedent';
