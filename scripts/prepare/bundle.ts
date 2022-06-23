@@ -32,7 +32,10 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     shims: true,
     esbuildPlugins: [
       aliasPlugin({
-        util: path.resolve('../../node_modules/util/util.js'),
+        process: path.resolve(
+          '../../node_modules/rollup-plugin-node-polyfills/polyfills/process-es6.js'
+        ),
+        util: path.resolve('../../node_modules/rollup-plugin-node-polyfills/polyfills/util.js'),
       }),
     ],
     external: [
@@ -50,8 +53,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     esbuildOptions: (c) => {
       /* eslint-disable no-param-reassign */
       c.define = optimized
-        ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}' }
-        : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}' };
+        ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}', global: 'window' }
+        : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}', global: 'window' };
       c.platform = 'node';
       c.legalComments = 'none';
       c.minifyWhitespace = optimized;
