@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { useChannel, useParameter, StoryId } from '@storybook/api';
 import {
   FORCE_REMOUNT,
+  IGNORED_EXCEPTION,
   STORY_RENDER_PHASE_CHANGED,
   STORY_THREW_EXCEPTION,
 } from '@storybook/core-events';
@@ -68,6 +69,11 @@ const TabStatus = ({ children }: { children: React.ReactChild }) => {
   return container && ReactDOM.createPortal(children, container);
 };
 
+const Container = styled.div<{ withException: boolean }>(({ theme, withException }) => ({
+  minHeight: '100%',
+  background: withException ? theme.background.warning : theme.background.content,
+}));
+
 export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
   ({
     calls,
@@ -86,39 +92,41 @@ export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
     ...panelProps
   }) => (
     <AddonPanel {...panelProps}>
-      {controlStates.debugger && interactions.length > 0 && (
-        <Subnav
-          controls={controls}
-          controlStates={controlStates}
-          status={
-            // eslint-disable-next-line no-nested-ternary
-            isPlaying ? CallStates.ACTIVE : hasException ? CallStates.ERROR : CallStates.DONE
-          }
-          storyFileName={fileName}
-          onScrollToEnd={onScrollToEnd}
-          isRerunAnimating={isRerunAnimating}
-          setIsRerunAnimating={setIsRerunAnimating}
-        />
-      )}
-      <div>
-        {interactions.map((call) => (
-          <Interaction
-            key={call.id}
-            call={call}
-            callsById={calls}
+      <Container withException={!!caughtException}>
+        {controlStates.debugger && interactions.length > 0 && (
+          <Subnav
             controls={controls}
             controlStates={controlStates}
-            childCallIds={call.childCallIds}
-            isCollapsed={call.isCollapsed}
-            toggleCollapsed={call.toggleCollapsed}
-            pausedAt={pausedAt}
+            status={
+              // eslint-disable-next-line no-nested-ternary
+              isPlaying ? CallStates.ACTIVE : hasException ? CallStates.ERROR : CallStates.DONE
+            }
+            storyFileName={fileName}
+            onScrollToEnd={onScrollToEnd}
+            isRerunAnimating={isRerunAnimating}
+            setIsRerunAnimating={setIsRerunAnimating}
           />
-        ))}
-      </div>
-      {caughtException?.message && !caughtException?.message.startsWith('ignoredException') && (
-        <Exception {...caughtException} />
-      )}
-      <div ref={endRef} />
+        )}
+        <div>
+          {interactions.map((call) => (
+            <Interaction
+              key={call.id}
+              call={call}
+              callsById={calls}
+              controls={controls}
+              controlStates={controlStates}
+              childCallIds={call.childCallIds}
+              isCollapsed={call.isCollapsed}
+              toggleCollapsed={call.toggleCollapsed}
+              pausedAt={pausedAt}
+            />
+          ))}
+        </div>
+        {caughtException?.message && !caughtException?.message.startsWith('ignoredException') && (
+          <Exception {...caughtException} />
+        )}
+        <div ref={endRef} />
+      </Container>
       {!isPlaying && interactions.length === 0 && (
         <Placeholder>
           No interactions found
@@ -177,7 +185,10 @@ export const Panel: React.FC<AddonPanelProps> = (props) => {
         setPausedAt(undefined);
         if (event.newPhase === 'rendering') setCaughtException(undefined);
       },
-      [STORY_THREW_EXCEPTION]: setCaughtException,
+      [STORY_THREW_EXCEPTION]: (e) => {
+        if (e.message !== IGNORED_EXCEPTION.message) setCaughtException(e);
+        else setCaughtException(undefined);
+      },
     },
     []
   );
