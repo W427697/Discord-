@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import { join } from 'path';
+import path, { join } from 'path';
 import { build } from 'tsup';
 
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
@@ -17,6 +17,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
   if (!optimized) {
     console.log(`skipping generating types for ${process.cwd()}`);
+    await fs.ensureFile(join(process.cwd(), 'dist', 'index.d.ts'));
     await fs.writeFile(join(process.cwd(), 'dist', 'index.d.ts'), `export * from '../src/index';`);
   }
 
@@ -25,7 +26,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     watch,
     // sourcemap: optimized,
     format: ['esm', 'cjs'],
-    target: 'node16',
+    target: 'chrome100',
     clean: true,
     shims: true,
     external: [
@@ -42,6 +43,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       : false,
     esbuildOptions: (c) => {
       /* eslint-disable no-param-reassign */
+      c.define = optimized
+        ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}' }
+        : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}' };
       c.platform = 'node';
       c.legalComments = 'none';
       c.minifyWhitespace = optimized;

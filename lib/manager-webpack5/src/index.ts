@@ -94,12 +94,12 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   options,
   router,
 }) {
-  const prebuiltDir = await getPrebuiltDir(options);
-  if (prebuiltDir && options.managerCache && !options.smokeTest) {
-    logger.info('=> Using prebuilt manager');
-    router.use('/', express.static(prebuiltDir));
-    return;
-  }
+  // const prebuiltDir = await getPrebuiltDir(options);
+  // if (prebuiltDir && options.managerCache && !options.smokeTest) {
+  //   logger.info('=> Using prebuilt manager');
+  //   router.use('/', express.static(prebuiltDir));
+  //   return;
+  // }
   yield;
 
   const config = await getConfig(options);

@@ -25,6 +25,7 @@
   "files": [
     "dist/**/*",
     "dll/**/*",
+    "templates/**/*",
     "types/**/*",
     "*.js",
     "*.d.ts",

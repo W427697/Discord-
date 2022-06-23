@@ -1,7 +1,6 @@
-import path from 'path';
-import fse from 'fs-extra';
+import path, { dirname, join } from 'path';
 import { DefinePlugin, ProvidePlugin } from 'webpack';
-import type { Configuration, WebpackPluginInstance } from 'webpack';
+import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 // @ts-ignore // -- this has typings for webpack4 in it, won't work
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
@@ -11,16 +10,32 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import uiPaths from '@storybook/ui/paths';
 
 import readPackage from 'read-pkg-up';
+import type { PresetProperty, Options } from '@storybook/core-common';
 import {
   loadManagerOrAddonsFile,
   resolvePathInStorybookCache,
   stringifyProcessEnvs,
-  getManagerHeadTemplate,
-  getManagerMainTemplate,
 } from '@storybook/core-common';
-import type { Options, ManagerWebpackOptions } from '@storybook/core-common';
 
-import { customManagerRuntimeLoader } from './custom-manager-runtime-loader';
+import type { StorybookConfig } from '@storybook/core-webpack';
+import { customManagerRuntimeLoader } from '../utils/custom-manager-runtime-loader';
+import { getManagerHeadTemplate, getManagerMainTemplate, readTemplate } from '../utils/template';
+import { ManagerWebpackOptions } from '../utils/types';
+
+export const managerMainTemplate: PresetProperty<
+  'managerMainTemplate',
+  StorybookConfig & { managerMainTemplate: string }
+> = async () => getManagerMainTemplate();
+
+export const managerHead: PresetProperty<'managerHead', StorybookConfig & { managerHead: string }> =
+  async (_, { configDir }) => getManagerHeadTemplate(configDir, process.env);
+
+export const staticDirs: PresetProperty<'staticDirs', StorybookConfig> = [
+  {
+    from: join(dirname(require.resolve('@storybook/manager-webpack5/package.json')), 'prebuilt'),
+    to: '',
+  },
+];
 
 export async function managerWebpack(
   _: Configuration,
@@ -41,19 +56,16 @@ export async function managerWebpack(
 ): Promise<Configuration> {
   const envs = await presets.apply<Record<string, string>>('env');
   const logLevel = await presets.apply('logLevel', undefined);
-  const template = await presets.apply('managerMainTemplate', getManagerMainTemplate());
 
-  const headHtmlSnippet = await presets.apply(
-    'managerHead',
-    getManagerHeadTemplate(configDir, process.env)
-  );
+  const [managerMainTemplate, managerHeadTemplate, refsTemplate] = await Promise.all<
+    Promise<string>[]
+  >([
+    presets.apply('managerMainTemplate'),
+    presets.apply('managerHead'),
+    readTemplate('virtualModuleRef.template.js'),
+  ]);
+
   const isProd = configType === 'PRODUCTION';
-  const refsTemplate = fse.readFileSync(
-    path.join(__dirname, '..', 'virtualModuleRef.template.js'),
-    {
-      encoding: 'utf8',
-    }
-  );
   const {
     packageJson: { version },
   } = await readPackage({ cwd: __dirname });
@@ -68,18 +80,19 @@ export async function managerWebpack(
       path: outputDir,
       filename: isProd ? '[name].[contenthash].manager.bundle.js' : '[name].manager.bundle.js',
       publicPath: '',
+      ..._.output,
     },
     watchOptions: {
       ignored: /node_modules/,
     },
     plugins: [
       refs
-        ? (new VirtualModulePlugin({
+        ? new VirtualModulePlugin({
             [path.resolve(path.join(configDir, `generated-refs.js`))]: refsTemplate.replace(
               `'{{refs}}'`,
               JSON.stringify(refs)
             ),
-          }) as any as WebpackPluginInstance)
+          })
         : null,
       new HtmlWebpackPlugin({
         filename: `index.html`,
@@ -87,7 +100,7 @@ export async function managerWebpack(
         chunksSortMode: 'none' as any,
         alwaysWriteToDisk: true,
         inject: false,
-        template,
+        template: managerMainTemplate,
         templateParameters: {
           version,
           globals: {
@@ -100,10 +113,10 @@ export async function managerWebpack(
             PREVIEW_URL: previewUrl, // global preview URL
             SERVER_CHANNEL_URL: serverChannelUrl,
           },
-          headHtmlSnippet,
+          managerHeadTemplate,
         },
-      }) as any as WebpackPluginInstance,
-      new CaseSensitivePathsPlugin() as any as WebpackPluginInstance,
+      }),
+      new CaseSensitivePathsPlugin(),
       // graphql sources check process variable
       new DefinePlugin({
         ...stringifyProcessEnvs(envs),
@@ -192,7 +205,7 @@ export async function managerEntries(
   installedAddons: string[],
   options: { managerEntry: string; configDir: string }
 ): Promise<string[]> {
-  const { managerEntry = '@storybook/core-client/dist/esm/manager' } = options;
+  const { managerEntry } = options;
   const entries = [];
 
   if (installedAddons && installedAddons.length) {
@@ -204,6 +217,6 @@ export async function managerEntries(
     entries.push(managerConfig);
   }
 
-  entries.push(require.resolve(managerEntry));
+  // entries.push(require.resolve(managerEntry));
   return entries;
 }
