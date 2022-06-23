@@ -14,7 +14,12 @@ import {
   TeardownRenderToDOM,
 } from '@storybook/store';
 import { Channel } from '@storybook/addons';
-import { STORY_RENDER_PHASE_CHANGED, STORY_RENDERED } from '@storybook/core-events';
+import { logger } from '@storybook/client-logger';
+import {
+  STORY_RENDER_PHASE_CHANGED,
+  STORY_RENDERED,
+  STORY_THREW_EXCEPTION,
+} from '@storybook/core-events';
 
 const { AbortController } = global;
 
@@ -38,6 +43,15 @@ function createController(): AbortController {
       this.signal.aborted = true;
     },
   } as AbortController;
+}
+
+function serializeError(error: any) {
+  try {
+    const { name = 'Error', message = String(error), stack } = error;
+    return { name, message, stack };
+  } catch (e) {
+    return { name: 'Error', message: String(error) };
+  }
 }
 
 export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
@@ -218,10 +232,17 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
 
       if (forceRemount && playFunction) {
         this.disableKeyListeners = true;
-        await this.runPhase(abortSignal, 'playing', async () =>
-          playFunction(renderContext.storyContext)
-        );
-        await this.runPhase(abortSignal, 'played');
+        try {
+          await this.runPhase(abortSignal, 'playing', async () => {
+            await playFunction(renderContext.storyContext);
+          });
+          await this.runPhase(abortSignal, 'played');
+        } catch (error) {
+          logger.error(error);
+          await this.runPhase(abortSignal, 'errored', async () => {
+            this.channel.emit(STORY_THREW_EXCEPTION, serializeError(error));
+          });
+        }
         this.disableKeyListeners = false;
         if (abortSignal.aborted) return;
       }

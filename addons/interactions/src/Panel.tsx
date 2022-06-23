@@ -14,7 +14,7 @@ import { styled } from '@storybook/theming';
 
 import { StatusIcon } from './components/StatusIcon/StatusIcon';
 import { Subnav } from './components/Subnav/Subnav';
-import { Exception, Interaction } from './components/Interaction/Interaction';
+import { Interaction } from './components/Interaction/Interaction';
 
 export interface Controls {
   start: (args: any) => void;
@@ -74,6 +74,35 @@ const Container = styled.div<{ withException: boolean }>(({ theme, withException
   background: withException ? theme.background.warning : theme.background.content,
 }));
 
+const CaughtException = styled.div(({ theme }) => ({
+  padding: 15,
+  fontSize: theme.typography.size.s2 - 1,
+  lineHeight: '19px',
+}));
+const CaughtExceptionCode = styled.code(({ theme }) => ({
+  margin: '0 1px',
+  padding: 3,
+  fontSize: theme.typography.size.s1 - 1,
+  lineHeight: 1,
+  verticalAlign: 'top',
+  background: 'rgba(0, 0, 0, 0.05)',
+  border: `1px solid ${theme.color.border}`,
+  borderRadius: 3,
+}));
+const CaughtExceptionTitle = styled.div({
+  paddingBottom: 4,
+  fontWeight: 'bold',
+});
+const CaughtExceptionDescription = styled.p({
+  margin: 0,
+  padding: '0 0 20px',
+});
+const CaughtExceptionStack = styled.pre(({ theme }) => ({
+  margin: 0,
+  padding: 0,
+  fontSize: theme.typography.size.s1 - 1,
+}));
+
 export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
   ({
     calls,
@@ -122,8 +151,19 @@ export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
             />
           ))}
         </div>
-        {caughtException?.message && !caughtException?.message.startsWith('ignoredException') && (
-          <Exception {...caughtException} />
+        {caughtException && !caughtException.message?.startsWith('ignoredException') && (
+          <CaughtException>
+            <CaughtExceptionTitle>
+              Caught exception in <CaughtExceptionCode>play</CaughtExceptionCode> function
+            </CaughtExceptionTitle>
+            <CaughtExceptionDescription>
+              This story threw an error after it finished rendering which means your interactions
+              couldn&apos;t be run. Go to this story&apos;s play function in {fileName} to fix.
+            </CaughtExceptionDescription>
+            <CaughtExceptionStack>
+              {caughtException.stack || `${caughtException.name}: ${caughtException.message}`}
+            </CaughtExceptionStack>
+          </CaughtException>
         )}
         <div ref={endRef} />
       </Container>
@@ -186,7 +226,7 @@ export const Panel: React.FC<AddonPanelProps> = (props) => {
         if (event.newPhase === 'rendering') setCaughtException(undefined);
       },
       [STORY_THREW_EXCEPTION]: (e) => {
-        if (e.message !== IGNORED_EXCEPTION.message) setCaughtException(e);
+        if (e?.message !== IGNORED_EXCEPTION.message) setCaughtException(e);
         else setCaughtException(undefined);
       },
     },

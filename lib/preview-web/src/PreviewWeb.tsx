@@ -483,15 +483,15 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
   // renderException is used if we fail to render the story and it is uncaught by the app layer
   renderException(storyId: StoryId, error: Error) {
-    const { name, message, stack } = error;
+    const { name = 'Error', message = String(error), stack } = error;
     this.channel.emit(STORY_THREW_EXCEPTION, { name, message, stack });
     this.channel.emit(STORY_RENDER_PHASE_CHANGED, { newPhase: 'errored', storyId });
 
     // Ignored exceptions exist for control flow purposes, and are typically handled elsewhere.
-    if (err !== IGNORED_EXCEPTION) {
-      this.view.showErrorDisplay(err);
+    if (error !== IGNORED_EXCEPTION) {
+      this.view.showErrorDisplay(error);
       logger.error(`Error rendering story '${storyId}':`);
-      logger.error(err);
+      logger.error(error);
     }
   }
 
