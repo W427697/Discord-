@@ -8793,6 +8793,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-server-webpack@workspace:presets/server-webpack"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/core-server": 7.0.0-alpha.5
     "@storybook/core-webpack": 7.0.0-alpha.5
     "@storybook/server": 7.0.0-alpha.5
