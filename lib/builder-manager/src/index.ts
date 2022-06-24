@@ -90,15 +90,12 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   }
 
   logger.info('=> Starting manager..');
-  const config = await getConfig(options);
-  yield;
 
-  const features = await options.presets.apply('features');
-
-  yield;
-
-  const instance = await executor.get();
-  yield;
+  const [config, features, instance] = await Promise.all([
+    getConfig(options),
+    options.presets.apply('features'),
+    executor.get(),
+  ]);
 
   compilation = await instance.build({
     ...config,
@@ -113,11 +110,14 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(`/sb-addons`, express.static(addonsDir));
   router.use(`/sb-core`, express.static(coreDir));
 
-  const addonFiles = await readDeep(addonsDir);
+  const [addonFiles, template] = await Promise.all([
+    readDeep(addonsDir),
+    readTemplate('template.ejs'),
+  ]);
+
   yield;
 
-  const template = render(await readTemplate('template.ejs'), {
-    favicon: 'hello!!',
+  const html = render(template, {
     title: 'it is nice',
     files: {
       js: addonFiles.map((f) => `/sb-addons/${f.path}`),
@@ -131,7 +131,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   router.use(`/`, ({ path }, res, next) => {
     if (path === '/') {
-      res.status(200).send(template);
+      res.status(200).send(html);
     } else {
       next();
     }
