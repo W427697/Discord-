@@ -20,7 +20,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     await Promise.all(
       packageJson.bundlerEntrypoint.map(async (file: string) => {
         console.log(`skipping generating types for ${file}`);
-        const { name, ext } = path.parse(file);
+        const { name } = path.parse(file);
 
         const pathName = join(process.cwd(), 'dist', `${name}.d.ts`);
         // throw new Error('test');
