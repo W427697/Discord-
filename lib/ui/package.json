@@ -25,10 +25,15 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./runtime": {
+    "./dist/runtime": {
       "require": "./dist/runtime.js",
       "import": "./dist/runtime.mjs",
       "types": "./dist/runtime.d.ts"
+    },
+    "./dist/globals": {
+      "require": "./dist/globals.js",
+      "import": "./dist/globals.mjs",
+      "types": "./dist/globals.d.ts"
     },
     "./paths": "./paths.js",
     "./package.json": "./package.json"
@@ -48,6 +53,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@digitak/esrun": "^3.2.2",
+    "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
     "@storybook/addons": "7.0.0-alpha.6",
     "@storybook/api": "7.0.0-alpha.6",
     "@storybook/channel-postmessage": "7.0.0-alpha.6",
@@ -87,6 +93,7 @@
   },
   "bundlerEntrypoint": [
     "./src/index.tsx",
+    "./src/globals.ts",
     "./src/runtime.ts"
   ],
   "gitHead": "a88dcca40ba169a373bad33dd76e9a4bd4f1f5ec"

@@ -8,6 +8,8 @@ import Events from '@storybook/core-events';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
 
+import { definitions, values } from './globals';
+
 const { FEATURES, SERVER_CHANNEL_URL } = global;
 
 class ReactProvider extends Provider {
@@ -52,3 +54,8 @@ const { document } = global;
 
 const rootEl = document.getElementById('root');
 renderStorybookUI(rootEl, new ReactProvider());
+
+// Apply all the globals
+Object.keys(definitions).forEach((key: keyof typeof definitions) => {
+  global[definitions[key].varName] = values[key];
+});

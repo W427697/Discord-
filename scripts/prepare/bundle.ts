@@ -17,9 +17,17 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   }
 
   if (!optimized) {
-    console.log(`skipping generating types for ${process.cwd()}`);
-    await fs.ensureFile(join(process.cwd(), 'dist', 'index.d.ts'));
-    await fs.writeFile(join(process.cwd(), 'dist', 'index.d.ts'), `export * from '../src/index';`);
+    await Promise.all(
+      packageJson.bundlerEntrypoint.map(async (file: string) => {
+        console.log(`skipping generating types for ${file}`);
+        const { name, ext } = path.parse(file);
+
+        const pathName = join(process.cwd(), 'dist', `${name}.d.ts`);
+        // throw new Error('test');
+        await fs.ensureFile(pathName);
+        await fs.writeFile(pathName, `export * from '../src/${name}';`);
+      })
+    );
   }
 
   await Promise.all([

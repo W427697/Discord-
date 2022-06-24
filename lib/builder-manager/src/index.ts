@@ -1,11 +1,10 @@
 import { logger } from '@storybook/node-logger';
 
 import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
-import { ensureFile, readdir, readFile, writeFile } from 'fs-extra';
 import { dirname, join } from 'path';
 import express from 'express';
 import { readTemplate, render } from './utils/template';
-import { globals } from './utils/globals';
+import { definitions } from './utils/globals';
 import {
   BuilderFunction,
   BuilderStartOptions,
@@ -29,7 +28,11 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     target: ['chrome100'],
     bundle: true,
     minify: false,
-    plugins: [globalExternals(globals)],
+    plugins: [globalExternals(definitions)],
+    define: {
+      module: '{}',
+      global: 'window',
+    },
   };
 };
 
