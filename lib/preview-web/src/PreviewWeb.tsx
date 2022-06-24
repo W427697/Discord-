@@ -35,7 +35,7 @@ import { Preview } from './Preview';
 
 import { UrlStore } from './UrlStore';
 import { WebView } from './WebView';
-import { PREPARE_ABORTED, Render, StoryRender } from './StoryRender';
+import { MaybePromise, PREPARE_ABORTED, Render, StoryRender } from './StoryRender';
 import { DocsRender } from './DocsRender';
 
 const { window: globalWindow } = global;
@@ -44,8 +44,6 @@ function focusInInput(event: Event) {
   const target = event.target as Element;
   return /input|textarea/i.test(target.tagName) || target.getAttribute('contenteditable') !== null;
 }
-
-type MaybePromise<T> = Promise<T> | T;
 
 export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramework> {
   urlStore: UrlStore;
