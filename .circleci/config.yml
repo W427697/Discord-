@@ -92,7 +92,7 @@ jobs:
           command: yarn install --immutable
       - run:
           name: Bootstrap
-          command: yarn bootstrap --build --manager
+          command: yarn bootstrap --build
       - save_cache:
           name: Save Yarn cache
           key: build-yarn-2-cache-v3--{{ checksum "yarn.lock" }}
