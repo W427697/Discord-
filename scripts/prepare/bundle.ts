@@ -22,47 +22,74 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     await fs.writeFile(join(process.cwd(), 'dist', 'index.d.ts'), `export * from '../src/index';`);
   }
 
-  await build({
-    entry: packageJson.bundlerEntrypoint,
-    watch,
-    // sourcemap: optimized,
-    format: ['esm', 'cjs'],
-    target: 'chrome100',
-    clean: true,
-    shims: true,
-    esbuildPlugins: [
-      aliasPlugin({
-        process: path.resolve(
-          '../../node_modules/rollup-plugin-node-polyfills/polyfills/process-es6.js'
-        ),
-        util: path.resolve('../../node_modules/rollup-plugin-node-polyfills/polyfills/util.js'),
-      }),
-    ],
-    external: [
-      packageJson.name,
-      ...Object.keys(packageJson.dependencies || {}),
-      ...Object.keys(packageJson.peerDependencies || {}),
-    ],
+  await Promise.all([
+    build({
+      entry: packageJson.bundlerEntrypoint,
+      watch,
+      // sourcemap: optimized,
+      format: ['esm'],
+      target: 'chrome100',
+      clean: true,
+      shims: true,
+      esbuildPlugins: [
+        aliasPlugin({
+          process: path.resolve(
+            '../../node_modules/rollup-plugin-node-polyfills/polyfills/process-es6.js'
+          ),
+          util: path.resolve('../../node_modules/rollup-plugin-node-polyfills/polyfills/util.js'),
+        }),
+      ],
+      external: [
+        packageJson.name,
+        ...Object.keys(packageJson.dependencies || {}),
+        ...Object.keys(packageJson.peerDependencies || {}),
+      ],
 
-    dts: optimized
-      ? {
-          entry: packageJson.bundlerEntrypoint,
-          resolve: true,
-        }
-      : false,
-    esbuildOptions: (c) => {
-      /* eslint-disable no-param-reassign */
-      c.define = optimized
-        ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}', global: 'window' }
-        : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}', global: 'window' };
-      c.platform = 'node';
-      c.legalComments = 'none';
-      c.minifyWhitespace = optimized;
-      c.minifyIdentifiers = optimized;
-      c.minifySyntax = optimized;
-      /* eslint-enable no-param-reassign */
-    },
-  });
+      dts: optimized
+        ? {
+            entry: packageJson.bundlerEntrypoint,
+            resolve: true,
+          }
+        : false,
+      esbuildOptions: (c) => {
+        /* eslint-disable no-param-reassign */
+        c.define = optimized
+          ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}', global: 'window' }
+          : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}', global: 'window' };
+        c.platform = 'node';
+        c.legalComments = 'none';
+        c.minifyWhitespace = optimized;
+        c.minifyIdentifiers = optimized;
+        c.minifySyntax = optimized;
+        /* eslint-enable no-param-reassign */
+      },
+    }),
+    build({
+      entry: packageJson.bundlerEntrypoint,
+      watch,
+      format: ['cjs'],
+      target: 'node14',
+      clean: true,
+      external: [
+        packageJson.name,
+        ...Object.keys(packageJson.dependencies || {}),
+        ...Object.keys(packageJson.peerDependencies || {}),
+      ],
+
+      esbuildOptions: (c) => {
+        /* eslint-disable no-param-reassign */
+        c.define = optimized
+          ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}' }
+          : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}' };
+        c.platform = 'node';
+        c.legalComments = 'none';
+        c.minifyWhitespace = optimized;
+        c.minifyIdentifiers = optimized;
+        c.minifySyntax = optimized;
+        /* eslint-enable no-param-reassign */
+      },
+    }),
+  ]);
 };
 
 const flags = process.argv.slice(2);

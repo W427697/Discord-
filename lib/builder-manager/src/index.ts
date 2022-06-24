@@ -1,51 +1,34 @@
 import { logger } from '@storybook/node-logger';
-import type { Builder } from '@storybook/core-common';
-
-import esbuild from 'esbuild';
 
 import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
-import { readdir, readFile } from 'fs-extra';
+import { ensureFile, readdir, readFile, writeFile } from 'fs-extra';
 import { dirname, join } from 'path';
+import express from 'express';
 import { readTemplate, render } from './utils/template';
+import { globals } from './utils/globals';
+import {
+  BuilderFunction,
+  BuilderStartOptions,
+  Compilation,
+  ManagerBuilder,
+  StarterFunction,
+  Stats,
+} from './types';
+import { readDeep } from './utils/directory';
 
-interface Stats {
-  //
-  a?: number;
-}
-
-type ManagerBuilder = Builder<esbuild.BuildOptions, Stats>;
-type Unpromise<T extends Promise<any>> = T extends Promise<infer U> ? U : never;
-
-type BuilderStartOptions = Partial<Parameters<ManagerBuilder['start']>['0']>;
-type BuilderStartResult = Unpromise<ReturnType<ManagerBuilder['start']>>;
-type StarterFunction = (
-  options: BuilderStartOptions
-) => AsyncGenerator<unknown, BuilderStartResult, void>;
-
-type BuilderBuildOptions = Partial<Parameters<ManagerBuilder['build']>['0']>;
-type BuilderBuildResult = Unpromise<ReturnType<ManagerBuilder['build']>>;
-type BuilderFunction = (
-  options: BuilderBuildOptions
-) => AsyncGenerator<unknown, BuilderBuildResult, void>;
-
-let compilation: esbuild.BuildResult;
-
-const ADDONS_FILENAME = 'addons.js';
+let compilation: Compilation;
 
 export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
   const entryPoints = await options.presets.apply('managerEntries', []);
-  const globals = {
-    // react: '__REACT__',
-    // react: "__REACT__"
-  };
 
   return {
     entryPoints,
-    outdir: './',
+    outdir: join(options.outputDir || './', 'sb-addons'),
+    format: 'esm',
     outExtension: { '.js': '.mjs' },
     target: ['chrome100'],
     bundle: true,
-    minify: true,
+    minify: false,
     plugins: [globalExternals(globals)],
   };
 };
@@ -59,7 +42,7 @@ export const makeStatsFromError = (err: string) =>
 
 export const executor = {
   get: async () => {
-    return esbuild;
+    return import('esbuild');
   },
 };
 
@@ -107,80 +90,48 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const config = await getConfig(options);
   yield;
 
+  const features = await options.presets.apply('features');
+
+  yield;
+
   const instance = await executor.get();
   yield;
 
   compilation = await instance.build({
     ...config,
 
-    write: false,
     watch: true,
   });
   yield;
 
-  router.use(`/sb-addons`, ({ path: selected }, res) => {
-    const { contents } =
-      compilation?.outputFiles?.find(
-        ({ path: file }) => file.replace(process.cwd(), '') === selected
-      ) || {};
-    if (contents) {
-      res.status(200);
-      res.contentType('application/javascript');
-      res.send(contents);
-    }
+  const addonsDir = config.outdir;
+  const coreDir = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
 
-    res.status(404).send('Not found');
-  });
+  router.use(`/sb-addons`, express.static(addonsDir));
+  router.use(`/sb-core`, express.static(coreDir));
 
-  const dir = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
-  router.use(`/sb-core`, ({ path: selected }, res) => {
-    const base = join(dir, selected);
-    readFile(base)
-      .then((contents) => {
-        res.status(200);
-        res.contentType('application/javascript');
-        res.send(contents);
-      })
-      .catch((e) => {
-        res.status(400).send(e.message);
-      });
-  });
-  const files = await readdir(dir);
+  const addonFiles = await readDeep(addonsDir);
+  yield;
 
   const template = render(await readTemplate('template.ejs'), {
     favicon: 'hello!!',
     title: 'it is nice',
     files: {
-      js: [],
+      js: addonFiles.map((f) => `/sb-addons/${f.path}`),
       css: [],
       favicon: '',
     },
     globals: {
-      foo: 4,
+      FEATURES: JSON.stringify(features, null, 2),
     },
   });
 
-  router.use(`/`, (req, res) => {
-    res.status(200).send(
-      `${template}<pre>
-        the manager html!
-        
-        ${JSON.stringify(
-          compilation?.outputFiles?.map(({ path: file }) =>
-            file.replace(process.cwd(), '/sb-addons')
-          ),
-          null,
-          2
-        )}
-        
-        ${JSON.stringify(
-          files?.map((file) => `/sb-core/${file}`),
-          null,
-          2
-        )}
-        
-        </pre>`
-    );
+  router.use(`/`, ({ path }, res, next) => {
+    if (path === '/') {
+      res.status(200).send(template);
+    } else {
+      next();
+    }
   });
 
   const stats = {};
