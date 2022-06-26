@@ -74,7 +74,8 @@ const getReactRoot = async (el: Element): Promise<ReactRoot | null> => {
 
   if (!root) {
     // Skipping webpack's static analysis of import paths by defining the path value outside the import statement.
-    const reactDOMClientPath = 'react-dom/client';
+    // It also takes into account the usage of react < ^17.0.0, which otherwise causes a bug.
+    const reactDOMClientPath = canUseNewReactRootApi ? 'react-dom/client' : 'react-dom';
     const reactDomClient = await import(reactDOMClientPath);
     root = reactDomClient.createRoot(el);
 
