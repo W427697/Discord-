@@ -137,7 +137,7 @@ export async function webpack(
   return result;
 }
 
-export const storyIndexers = async (indexers?: StoryIndexer[]) => {
+export const storyIndexers = async (indexers: StoryIndexer[] | null) => {
   const mdxIndexer = async (fileName: string, opts: IndexerOptions) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     // @ts-ignore

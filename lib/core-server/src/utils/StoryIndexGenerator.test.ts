@@ -262,6 +262,7 @@ describe('StoryIndexGenerator', () => {
           }
         `);
       });
+
       it('Allows you to override default name for docs files', async () => {
         const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], {
           ...options,
