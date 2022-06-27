@@ -225,7 +225,6 @@ describe('dev cli flags', () => {
     await buildDevStandalone({ ...cliOptions, webpackStatsJson: '/tmp/dir' });
     expect(outputStats).toHaveBeenCalledWith(
       '/tmp/dir',
-      expect.objectContaining({ toJson: expect.any(Function) }),
       expect.objectContaining({ toJson: expect.any(Function) })
     );
   });
@@ -282,7 +281,6 @@ describe('build cli flags', () => {
     await buildStaticStandalone({ ...cliOptions, webpackStatsJson: '/tmp/dir' });
     expect(outputStats).toHaveBeenCalledWith(
       '/tmp/dir',
-      expect.objectContaining({ toJson: expect.any(Function) }),
       expect.objectContaining({ toJson: expect.any(Function) })
     );
   });

@@ -4,7 +4,7 @@ import esbuild from 'esbuild';
 
 export interface Stats {
   //
-  a?: number;
+  toJson: () => any;
 }
 
 export type WithRequiredProperty<Type, Key extends keyof Type> = Type &
@@ -15,13 +15,13 @@ export type WithRequiredProperty<Type, Key extends keyof Type> = Type &
 export type ManagerBuilder = Builder<WithRequiredProperty<esbuild.BuildOptions, 'outdir'>, Stats>;
 export type Unpromise<T extends Promise<any>> = T extends Promise<infer U> ? U : never;
 
-export type BuilderStartOptions = Partial<Parameters<ManagerBuilder['start']>['0']>;
+export type BuilderStartOptions = Parameters<ManagerBuilder['start']>['0'];
 export type BuilderStartResult = Unpromise<ReturnType<ManagerBuilder['start']>>;
 export type StarterFunction = (
   options: BuilderStartOptions
-) => AsyncGenerator<unknown, BuilderStartResult, void>;
+) => AsyncGenerator<unknown, BuilderStartResult | void, void>;
 
-export type BuilderBuildOptions = Partial<Parameters<ManagerBuilder['build']>['0']>;
+export type BuilderBuildOptions = Parameters<ManagerBuilder['build']>['0'];
 export type BuilderBuildResult = Unpromise<ReturnType<ManagerBuilder['build']>>;
 export type BuilderFunction = (
   options: BuilderBuildOptions

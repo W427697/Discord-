@@ -2,12 +2,15 @@ import { logger } from '@storybook/node-logger';
 
 import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { dirname, join } from 'path';
+import { copy, writeFile } from 'fs-extra';
 import express from 'express';
 import { readTemplate, render } from './utils/template';
 import { definitions } from './utils/globals';
 import {
+  BuilderBuildResult,
   BuilderFunction,
   BuilderStartOptions,
+  BuilderStartResult,
   Compilation,
   ManagerBuilder,
   StarterFunction,
@@ -28,6 +31,8 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     target: ['chrome100'],
     bundle: true,
     minify: false,
+    sourcemap: true,
+    legalComments: 'external',
     plugins: [globalExternals(definitions)],
     define: {
       module: '{}',
@@ -82,13 +87,6 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   options,
   router,
 }) {
-  if (!router) {
-    throw new Error('no router, no manager');
-  }
-  if (!options) {
-    throw new Error('no options, no manager');
-  }
-
   logger.info('=> Starting manager..');
 
   const [config, features, instance] = await Promise.all([
@@ -107,8 +105,8 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const addonsDir = config.outdir;
   const coreDir = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
 
-  router.use(`/sb-addons`, express.static(addonsDir));
-  router.use(`/sb-core`, express.static(coreDir));
+  // router.use(`/sb-addons`, express.static(addonsDir));
+  router.use(`/sb-manager`, express.static(coreDir));
 
   const [addonFiles, template] = await Promise.all([
     readDeep(addonsDir),
@@ -137,13 +135,13 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     }
   });
 
-  const stats = {};
-
   return {
     bail,
-    stats,
+    stats: {
+      toJson: () => ({}),
+    },
     totalTime: process.hrtime(startTime),
-  };
+  } as BuilderStartResult;
 };
 
 export const start = async (options: BuilderStartOptions) => {
@@ -165,26 +163,53 @@ export const start = async (options: BuilderStartOptions) => {
  * I am sorry for making you read about generators today :')
  */
 const builder: BuilderFunction = async function* builderGeneratorFn({ startTime, options }) {
-  logger.info('=> Compiling manager..');
-
-  if (!options) {
-    throw new Error('no options, no manager');
+  if (!options.outputDir) {
+    throw new Error('outputDir is required');
   }
+  logger.info('=> Building manager..');
 
-  const config = await getConfig(options);
-  yield;
-
-  const instance = await executor.get();
-  yield;
+  const [config, features, instance] = await Promise.all([
+    getConfig(options),
+    options.presets.apply('features'),
+    executor.get(),
+  ]);
 
   compilation = await instance.build({
     ...config,
 
-    outdir: options.outputDir,
+    minify: true,
+    watch: false,
   });
   yield;
 
-  return {};
+  const addonsDir = config.outdir;
+  const coreDir = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
+
+  const [addonFiles, template] = await Promise.all([
+    readDeep(addonsDir),
+    readTemplate('template.ejs'),
+    copy(coreDir, `/sb-manager`),
+  ]);
+
+  yield;
+
+  const html = render(template, {
+    title: 'it is nice',
+    files: {
+      js: addonFiles.map((f) => `/sb-addons/${f.path}`),
+      css: [],
+      favicon: '',
+    },
+    globals: {
+      FEATURES: JSON.stringify(features, null, 2),
+    },
+  });
+
+  writeFile(join(options.outputDir, 'index.html'), html);
+
+  return {
+    toJson: () => ({}),
+  } as BuilderBuildResult;
 };
 
 export const build = async (options: BuilderStartOptions) => {

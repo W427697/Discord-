@@ -201,13 +201,13 @@ export async function buildStaticStandalone(
         options: fullOptions,
       });
 
-  const [managerStats, previewStats] = await Promise.all([
-    manager.catch(async (err) => {
-      await previewBuilder?.bail();
-      throw err;
-    }),
+  const [previewStats] = await Promise.all([
     preview.catch(async (err) => {
       await managerBuilder?.bail();
+      throw err;
+    }),
+    manager.catch(async (err) => {
+      await previewBuilder?.bail();
       throw err;
     }),
     ...extractTasks,
@@ -215,7 +215,7 @@ export async function buildStaticStandalone(
 
   if (options.webpackStatsJson) {
     const target = options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
-    await outputStats(target, previewStats, managerStats);
+    await outputStats(target, previewStats);
   }
 
   logger.info(`=> Output directory: ${options.outputDir}`);

@@ -64,7 +64,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         c.define = optimized
           ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}', global: 'window' }
           : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}', global: 'window' };
-        c.platform = 'node';
+        c.platform = 'browser';
         c.legalComments = 'none';
         c.minifyWhitespace = optimized;
         c.minifyIdentifiers = optimized;
