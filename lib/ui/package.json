@@ -30,10 +30,10 @@
       "import": "./dist/runtime.mjs",
       "types": "./dist/runtime.d.ts"
     },
-    "./dist/globals-definitions": {
-      "require": "./dist/globals-definitions.js",
-      "import": "./dist/globals-definitions.mjs",
-      "types": "./dist/globals-definitions.d.ts"
+    "./dist/globals": {
+      "require": "./dist/globals.js",
+      "import": "./dist/globals.mjs",
+      "types": "./dist/globals.d.ts"
     },
     "./paths": "./paths.js",
     "./package.json": "./package.json"
@@ -72,6 +72,7 @@
     "downshift": "^6.0.15",
     "enzyme": "^3.11.0",
     "flush-promises": "^1.0.2",
+    "fs-extra": "^9.0.1",
     "fuse.js": "^3.6.1",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
@@ -94,8 +95,7 @@
   "bundler": {
     "entries": [
       "./src/index.tsx",
-      "./src/globals-runtime.ts",
-      "./src/globals-definitions.ts",
+      "./src/globals.ts",
       "./src/runtime.ts"
     ]
   },

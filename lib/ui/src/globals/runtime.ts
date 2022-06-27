@@ -9,9 +9,10 @@ import * as STORYBOOKTHEMING from '@storybook/theming';
 import * as STORYBOOKAPI from '@storybook/api';
 import * as STORYBOOKADDONS from '@storybook/addons';
 import * as STORYBOOKCLIENTLOGGER from '@storybook/client-logger';
-import { Keys, definitions } from './globals-definitions';
 
-export const values: Required<Record<Keys, any>> = {
+import { Keys } from './types';
+
+export const values: Required<Record<keyof typeof Keys, any>> = {
   react: REACT,
   'react-dom': REACTDOM,
   '@storybook/components': STORYBOOKCOMPONENTS,
@@ -23,5 +24,3 @@ export const values: Required<Record<Keys, any>> = {
   '@storybook/addons': STORYBOOKADDONS,
   '@storybook/client-logger': STORYBOOKCLIENTLOGGER,
 };
-
-export { definitions };

@@ -8,7 +8,8 @@ import Events from '@storybook/core-events';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
 
-import { definitions, values } from './globals-runtime';
+import { values } from './globals/runtime';
+import { Keys } from './globals/types';
 
 const { FEATURES, SERVER_CHANNEL_URL } = global;
 
@@ -56,6 +57,6 @@ const rootEl = document.getElementById('root');
 renderStorybookUI(rootEl, new ReactProvider());
 
 // Apply all the globals
-Object.keys(definitions).forEach((key: keyof typeof definitions) => {
-  global[definitions[key].varName] = values[key];
+Object.keys(Keys).forEach((key: keyof typeof Keys) => {
+  global[Keys[key]] = values[key];
 });
