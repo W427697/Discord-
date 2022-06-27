@@ -9,9 +9,8 @@ import React, {
 import ReactDOM, { version as reactDomVersion } from 'react-dom';
 import type { Root as ReactRoot } from 'react-dom/client';
 
-import { RenderContext } from '@storybook/store';
+import type { RenderContext } from '@storybook/store';
 import { ArgsStoryFn } from '@storybook/csf';
-import { gte, coerce } from '@storybook/semver';
 
 import { StoryContext } from './types';
 import { ReactFramework } from './types-6-0';
@@ -49,7 +48,7 @@ const renderElement = async (node: ReactElement, el: Element) => {
 };
 
 const canUseNewReactRootApi =
-  gte(reactDomVersion, '18.0.0') || coerce(reactDomVersion)?.version === '18.0.0';
+  reactDomVersion && (reactDomVersion.startsWith('18') || reactDomVersion.startsWith('0.0.0'));
 
 const shouldUseNewRootApi = FRAMEWORK_OPTIONS?.legacyRootApi !== true;
 
@@ -76,7 +75,7 @@ const getReactRoot = async (el: Element): Promise<ReactRoot | null> => {
     // Skipping webpack's static analysis of import paths by defining the path value outside the import statement.
     // It also takes into account the usage of react < ^17.0.0, which otherwise causes a bug.
     const reactDOMClientPath = canUseNewReactRootApi ? 'react-dom/client' : 'react-dom';
-    const reactDomClient = await import(reactDOMClientPath);
+    const reactDomClient = (await import(reactDOMClientPath)).default;
     root = reactDomClient.createRoot(el);
 
     nodes.set(el, root);

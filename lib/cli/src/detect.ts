@@ -13,7 +13,9 @@ import {
   CoreBuilder,
 } from './project_types';
 import { getBowerJson, paddedLog } from './helpers';
-import { PackageJson, readPackageJson } from './js-package-manager';
+import { PackageJson, readPackageJson, JsPackageManager } from './js-package-manager';
+import { detectWebpack } from './detect-webpack';
+import { detectNextJS } from './detect-nextjs';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 
@@ -90,7 +92,7 @@ const getFrameworkPreset = (
   return matcherFunction(matcher) ? preset : null;
 };
 
-export function detectFrameworkPreset(packageJson = {}) {
+export function detectFrameworkPreset(packageJson = {} as PackageJson) {
   const result = [...supportedTemplates, unsupportedTemplate].find((framework) => {
     return getFrameworkPreset(packageJson, framework) !== null;
   });
@@ -104,12 +106,29 @@ export function detectFrameworkPreset(packageJson = {}) {
  *
  * @returns CoreBuilder
  */
-export function detectBuilder() {
+export function detectBuilder(packageManager: JsPackageManager) {
   const viteConfig = findUp.sync(viteConfigFiles);
 
   if (viteConfig) {
     paddedLog('Detected vite project, setting builder to @storybook/builder-vite');
     return CoreBuilder.Vite;
+  }
+
+  const nextJSVersion = detectNextJS(packageManager);
+  if (nextJSVersion) {
+    if (nextJSVersion >= 11) {
+      return CoreBuilder.Webpack5;
+    }
+  }
+
+  const webpackVersion = detectWebpack(packageManager);
+  if (webpackVersion) {
+    if (webpackVersion <= 4) {
+      return CoreBuilder.Webpack4;
+    }
+    if (webpackVersion >= 5) {
+      return CoreBuilder.Webpack5;
+    }
   }
 
   // Fallback to webpack4
@@ -144,7 +163,12 @@ export function isStorybookInstalled(dependencies: PackageJson | false, force?: 
 
 export function detectLanguage() {
   let language = SupportedLanguage.JAVASCRIPT;
-  const packageJson = readPackageJson();
+  let packageJson;
+  try {
+    packageJson = readPackageJson();
+  } catch (err) {
+    //
+  }
   const bowerJson = getBowerJson();
   if (!packageJson && !bowerJson) {
     return language;
@@ -158,7 +182,12 @@ export function detectLanguage() {
 }
 
 export function detect(options: { force?: boolean; html?: boolean } = {}) {
-  const packageJson = readPackageJson();
+  let packageJson;
+  try {
+    packageJson = readPackageJson();
+  } catch (err) {
+    //
+  }
   const bowerJson = getBowerJson();
 
   if (!packageJson && !bowerJson) {

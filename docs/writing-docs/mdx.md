@@ -241,10 +241,39 @@ You can also use anchors to target a specific section of a page:
 
 ## MDX file names
 
-Unless you use a custom [webpack configuration](../configure/webpack.md#extending-storybooks-webpack-config), all of your MDX files should have the suffix `*.stories.mdx`. This tells Storybook to apply its special processing to the `<Meta>` and `<Story>` elements in the file.
+Unless you use a custom [Webpack configuration](../builders/webpack.md#extending-storybooks-webpack-config), all of your MDX files should have the suffix `*.stories.mdx`. This tells Storybook to apply its special processing to the `<Meta>` and `<Story>` elements in the file.
 
 <div class="aside">
 
 Be sure to update [.storybook/main.js](../configure/overview.md#configure-story-rendering) file to load `.stories.mdx` stories, as per the addon-docs installation instructions.
 
 </div>
+
+## MDX 2
+
+Starting with Storybook 6.5, [MDX 2](https://mdxjs.com/blog/v2/) is introduced as an experimental opt-in feature. To enable it, you'll need to take additional steps. Documented below is our recommendation.
+
+Run the following command to add the necessary dependency.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-mdx2-install.yarn.js.mdx',
+    'common/storybook-mdx2-install.npm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Update your Storybook configuration (in `.storybook/main.js|ts`) and add the `previewMdx2` feature flag as follows:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-main-enable-mdx2.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->

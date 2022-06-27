@@ -92,6 +92,13 @@ export const webpack_react: Parameters = {
   generator: fromDeps('react', 'react-dom', 'webpack@webpack-4'),
 };
 
+export const vite_react: Parameters = {
+  framework: 'react',
+  name: 'vite_react',
+  version: 'latest',
+  generator: 'npx -p create-vite@{{version}} create-vite {{appName}} --template react-ts',
+};
+
 export const react_in_yarn_workspace: Parameters = {
   framework: 'react',
   name: 'react_in_yarn_workspace',
@@ -148,7 +155,7 @@ export const angular13: Parameters = {
 export const angular_modern_inline_rendering: Parameters = {
   ...baseAngular,
   name: 'angular_modern_inline_rendering',
-  additionalDeps: ['jest', '@storybook/test-runner'],
+  additionalDeps: ['jest@27', '@storybook/test-runner'],
   mainOverrides: {
     features: {
       storyStoreV7: true,

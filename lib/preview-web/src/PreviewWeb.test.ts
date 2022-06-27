@@ -1,7 +1,30 @@
 import global from 'global';
 import * as ReactDOM from 'react-dom';
 import merge from 'lodash/merge';
-import Events, { IGNORED_EXCEPTION } from '@storybook/core-events';
+import {
+  CONFIG_ERROR,
+  CURRENT_STORY_WAS_SET,
+  DOCS_RENDERED,
+  FORCE_REMOUNT,
+  FORCE_RE_RENDER,
+  GLOBALS_UPDATED,
+  IGNORED_EXCEPTION,
+  PREVIEW_KEYDOWN,
+  RESET_STORY_ARGS,
+  SET_CURRENT_STORY,
+  SET_GLOBALS,
+  STORY_ARGS_UPDATED,
+  STORY_CHANGED,
+  STORY_ERRORED,
+  STORY_MISSING,
+  STORY_PREPARED,
+  STORY_RENDERED,
+  STORY_SPECIFIED,
+  STORY_THREW_EXCEPTION,
+  STORY_UNCHANGED,
+  UPDATE_GLOBALS,
+  UPDATE_STORY_ARGS,
+} from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
 import type { AnyFramework } from '@storybook/csf';
@@ -100,10 +123,10 @@ beforeEach(() => {
   projectAnnotations.renderToDOM.mockReset();
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
-  // @ts-ignore
-  ReactDOM.render.mockReset().mockImplementation((_: any, _2: any, cb: () => any) => cb());
-  // @ts-ignore
-  logger.warn.mockClear();
+  (ReactDOM.render as any as jest.Mock<typeof ReactDOM.render>)
+    .mockReset()
+    .mockImplementation((_: any, _2: any, cb: () => any) => cb());
+  (logger.warn as jest.Mock<typeof logger.warn>).mockClear();
   mockStoryIndex.mockReset().mockReturnValue(storyIndex);
 
   addons.setChannel(mockChannel as any);
@@ -126,7 +149,7 @@ describe('PreviewWeb', () => {
       ).rejects.toThrow(err);
 
       expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.CONFIG_ERROR, err);
+      expect(mockChannel.emit).toHaveBeenCalledWith(CONFIG_ERROR, err);
     });
 
     it('shows an error if the stories.json endpoint 500s', async () => {
@@ -139,7 +162,7 @@ describe('PreviewWeb', () => {
       );
 
       expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.CONFIG_ERROR, expect.any(Error));
+      expect(mockChannel.emit).toHaveBeenCalledWith(CONFIG_ERROR, expect.any(Error));
     });
 
     it('sets globals from the URL', async () => {
@@ -153,7 +176,7 @@ describe('PreviewWeb', () => {
     it('emits the SET_GLOBALS event', async () => {
       await createAndRenderPreview();
 
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.SET_GLOBALS, {
+      expect(mockChannel.emit).toHaveBeenCalledWith(SET_GLOBALS, {
         globals: { a: 'b' },
         globalTypes: {},
       });
@@ -162,7 +185,7 @@ describe('PreviewWeb', () => {
     it('SET_GLOBALS sets globals and types even when undefined', async () => {
       await createAndRenderPreview({ getProjectAnnotations: () => ({ renderToDOM: jest.fn() }) });
 
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.SET_GLOBALS, {
+      expect(mockChannel.emit).toHaveBeenCalledWith(SET_GLOBALS, {
         globals: {},
         globalTypes: {},
       });
@@ -173,7 +196,7 @@ describe('PreviewWeb', () => {
 
       await createAndRenderPreview();
 
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.SET_GLOBALS, {
+      expect(mockChannel.emit).toHaveBeenCalledWith(SET_GLOBALS, {
         globals: { a: 'c' },
         globalTypes: {},
       });
@@ -193,7 +216,7 @@ describe('PreviewWeb', () => {
 
       await createAndRenderPreview();
 
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_ARGS_UPDATED, {
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_ARGS_UPDATED, {
         storyId: 'component-one--a',
         args: { foo: 'url' },
       });
@@ -234,7 +257,7 @@ describe('PreviewWeb', () => {
 
       await createAndRenderPreview();
 
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_SPECIFIED, {
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_SPECIFIED, {
         storyId: 'component-one--a',
         viewMode: 'story',
       });
@@ -245,7 +268,7 @@ describe('PreviewWeb', () => {
 
       await createAndRenderPreview();
 
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.CURRENT_STORY_WAS_SET, {
+      expect(mockChannel.emit).toHaveBeenCalledWith(CURRENT_STORY_WAS_SET, {
         storyId: 'component-one--a',
         viewMode: 'story',
       });
@@ -258,7 +281,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_MISSING, 'random');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_MISSING, 'random');
       });
 
       it('tries again with a specifier if CSF file changes', async () => {
@@ -267,7 +290,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_MISSING, 'component-one--d');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_MISSING, 'component-one--d');
 
         mockChannel.emit.mockClear();
         const newComponentOneExports = merge({}, componentOneExports, {
@@ -295,7 +318,7 @@ describe('PreviewWeb', () => {
         });
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_SPECIFIED, {
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_SPECIFIED, {
           storyId: 'component-one--d',
           viewMode: 'story',
         });
@@ -311,9 +334,9 @@ describe('PreviewWeb', () => {
           const preview = await createAndRenderPreview();
 
           expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-          expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_MISSING, 'component-one--d');
+          expect(mockChannel.emit).toHaveBeenCalledWith(STORY_MISSING, 'component-one--d');
 
-          emitter.emit(Events.SET_CURRENT_STORY, {
+          emitter.emit(SET_CURRENT_STORY, {
             storyId: 'component-one--b',
             viewMode: 'story',
           });
@@ -343,7 +366,7 @@ describe('PreviewWeb', () => {
               },
             },
           });
-          expect(mockChannel.emit).not.toHaveBeenCalledWith(Events.STORY_SPECIFIED, {
+          expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_SPECIFIED, {
             storyId: 'component-one--d',
             viewMode: 'story',
           });
@@ -355,7 +378,7 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
 
       expect(preview.view.showNoPreview).toHaveBeenCalled();
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_MISSING);
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_MISSING);
     });
 
     describe('in story viewMode', () => {
@@ -375,7 +398,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_PREPARED, {
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_PREPARED, {
           id: 'component-one--a',
           parameters: {
             __isArgsStory: false,
@@ -441,7 +464,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -454,7 +477,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -490,7 +513,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -503,7 +526,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_ERRORED, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_ERRORED, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith({
           message: error.title,
           stack: error.description,
@@ -519,7 +542,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -534,7 +557,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-one--a');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
       });
 
       it('does not show error display if the render function throws IGNORED_EXCEPTION', async () => {
@@ -548,10 +571,7 @@ describe('PreviewWeb', () => {
 
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(
-          Events.STORY_THREW_EXCEPTION,
-          IGNORED_EXCEPTION
-        );
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, IGNORED_EXCEPTION);
         expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
       });
     });
@@ -568,7 +588,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a&viewMode=docs';
         await createAndRenderPreview();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_PREPARED, {
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_PREPARED, {
           id: 'component-one--a',
           parameters: {
             __isArgsStory: false,
@@ -607,7 +627,7 @@ describe('PreviewWeb', () => {
 
         await createAndRenderPreview();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.DOCS_RENDERED, 'component-one--a');
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_RENDERED, 'component-one--a');
       });
     });
   });
@@ -617,10 +637,10 @@ describe('PreviewWeb', () => {
       document.location.search = '?id=component-one--a';
       await createAndRenderPreview();
 
-      emitter.emit(Events.UPDATE_GLOBALS, { globals: { foo: 'bar' } });
+      emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
 
-      await waitForEvents([Events.GLOBALS_UPDATED]);
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.GLOBALS_UPDATED, {
+      await waitForEvents([GLOBALS_UPDATED]);
+      expect(mockChannel.emit).toHaveBeenCalledWith(GLOBALS_UPDATED, {
         globals: { a: 'b', foo: 'bar' },
         initialGlobals: { a: 'b' },
       });
@@ -630,7 +650,7 @@ describe('PreviewWeb', () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
 
-      emitter.emit(Events.UPDATE_GLOBALS, { globals: { foo: 'bar' } });
+      emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
 
       expect(preview.storyStore.globals.get()).toEqual({ a: 'b', foo: 'bar' });
     });
@@ -641,7 +661,7 @@ describe('PreviewWeb', () => {
 
       mockChannel.emit.mockClear();
       projectAnnotations.renderToDOM.mockClear();
-      emitter.emit(Events.UPDATE_GLOBALS, { globals: { foo: 'bar' } });
+      emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
       await waitForRender();
 
       expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
@@ -660,10 +680,10 @@ describe('PreviewWeb', () => {
       await createAndRenderPreview();
 
       mockChannel.emit.mockClear();
-      emitter.emit(Events.UPDATE_GLOBALS, { globals: { foo: 'bar' } });
+      emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
       await waitForRender();
 
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-one--a');
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
     });
 
     describe('in docs mode', () => {
@@ -673,7 +693,7 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.UPDATE_GLOBALS, { globals: { foo: 'bar' } });
+        emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
         await waitForRender();
 
         expect(ReactDOM.render).toHaveBeenCalledTimes(2);
@@ -686,13 +706,13 @@ describe('PreviewWeb', () => {
       document.location.search = '?id=component-one--a';
       await createAndRenderPreview();
 
-      emitter.emit(Events.UPDATE_STORY_ARGS, {
+      emitter.emit(UPDATE_STORY_ARGS, {
         storyId: 'component-one--a',
         updatedArgs: { new: 'arg' },
       });
 
-      await waitForEvents([Events.STORY_ARGS_UPDATED]);
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_ARGS_UPDATED, {
+      await waitForEvents([STORY_ARGS_UPDATED]);
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_ARGS_UPDATED, {
         storyId: 'component-one--a',
         args: { foo: 'a', new: 'arg' },
       });
@@ -702,7 +722,7 @@ describe('PreviewWeb', () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
 
-      emitter.emit(Events.UPDATE_STORY_ARGS, {
+      emitter.emit(UPDATE_STORY_ARGS, {
         storyId: 'component-one--a',
         updatedArgs: { new: 'arg' },
       });
@@ -719,7 +739,7 @@ describe('PreviewWeb', () => {
 
       mockChannel.emit.mockClear();
       projectAnnotations.renderToDOM.mockClear();
-      emitter.emit(Events.UPDATE_STORY_ARGS, {
+      emitter.emit(UPDATE_STORY_ARGS, {
         storyId: 'component-one--a',
         updatedArgs: { new: 'arg' },
       });
@@ -742,13 +762,13 @@ describe('PreviewWeb', () => {
       await createAndRenderPreview();
 
       mockChannel.emit.mockClear();
-      emitter.emit(Events.UPDATE_STORY_ARGS, {
+      emitter.emit(UPDATE_STORY_ARGS, {
         storyId: 'component-one--a',
         updatedArgs: { new: 'arg' },
       });
       await waitForRender();
 
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-one--a');
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
     });
 
     describe('while story is still rendering', () => {
@@ -768,7 +788,7 @@ describe('PreviewWeb', () => {
         );
 
         componentOneExports.default.loaders[0].mockClear();
-        emitter.emit(Events.UPDATE_STORY_ARGS, {
+        emitter.emit(UPDATE_STORY_ARGS, {
           storyId: 'component-one--a',
           updatedArgs: { new: 'arg' },
         });
@@ -822,7 +842,7 @@ describe('PreviewWeb', () => {
         await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
         await waitForRenderPhase('rendering');
 
-        emitter.emit(Events.UPDATE_STORY_ARGS, {
+        emitter.emit(UPDATE_STORY_ARGS, {
           storyId: 'component-one--a',
           updatedArgs: { new: 'arg' },
         });
@@ -857,7 +877,7 @@ describe('PreviewWeb', () => {
       it('works if it is called directly from inside non async renderToDOM', async () => {
         document.location.search = '?id=component-one--a';
         projectAnnotations.renderToDOM.mockImplementationOnce(() => {
-          emitter.emit(Events.UPDATE_STORY_ARGS, {
+          emitter.emit(UPDATE_STORY_ARGS, {
             storyId: 'component-one--a',
             updatedArgs: { new: 'arg' },
           });
@@ -914,7 +934,7 @@ describe('PreviewWeb', () => {
           undefined // this is coming from view.prepareForStory, not super important
         );
 
-        emitter.emit(Events.UPDATE_STORY_ARGS, {
+        emitter.emit(UPDATE_STORY_ARGS, {
           storyId: 'component-one--a',
           updatedArgs: { new: 'arg' },
         });
@@ -947,7 +967,7 @@ describe('PreviewWeb', () => {
 
         (ReactDOM.render as jest.MockedFunction<typeof ReactDOM.render>).mockClear();
         mockChannel.emit.mockClear();
-        emitter.emit(Events.UPDATE_STORY_ARGS, {
+        emitter.emit(UPDATE_STORY_ARGS, {
           storyId: 'component-one--a',
           updatedArgs: { new: 'arg' },
         });
@@ -971,11 +991,11 @@ describe('PreviewWeb', () => {
 
         (ReactDOM.render as jest.MockedFunction<typeof ReactDOM.render>).mockClear();
         mockChannel.emit.mockClear();
-        emitter.emit(Events.UPDATE_STORY_ARGS, {
+        emitter.emit(UPDATE_STORY_ARGS, {
           storyId: 'component-one--a',
           updatedArgs: { new: 'arg' },
         });
-        await waitForEvents([Events.STORY_ARGS_UPDATED]);
+        await waitForEvents([STORY_ARGS_UPDATED]);
 
         expect(ReactDOM.render).not.toHaveBeenCalled();
       });
@@ -1003,7 +1023,7 @@ describe('PreviewWeb', () => {
 
           (ReactDOM.render as jest.MockedFunction<typeof ReactDOM.render>).mockClear();
           mockChannel.emit.mockClear();
-          emitter.emit(Events.UPDATE_STORY_ARGS, {
+          emitter.emit(UPDATE_STORY_ARGS, {
             storyId: 'component-one--a',
             updatedArgs: { new: 'arg' },
           });
@@ -1022,32 +1042,44 @@ describe('PreviewWeb', () => {
     });
   });
 
+  describe('onPreloadStories', () => {
+    it('loads stories', async () => {
+      document.location.search = '?id=component-one--a&viewMode=docs';
+      const preview = await createAndRenderPreview();
+      await waitForRender();
+
+      importFn.mockClear();
+      await preview.onPreloadStories(['component-two--c']);
+      expect(importFn).toHaveBeenCalledWith('./src/ComponentTwo.stories.js');
+    });
+  });
+
   describe('onResetArgs', () => {
     it('emits STORY_ARGS_UPDATED', async () => {
       document.location.search = '?id=component-one--a';
       await createAndRenderPreview();
 
       mockChannel.emit.mockClear();
-      emitter.emit(Events.UPDATE_STORY_ARGS, {
+      emitter.emit(UPDATE_STORY_ARGS, {
         storyId: 'component-one--a',
         updatedArgs: { foo: 'new' },
       });
 
-      await waitForEvents([Events.STORY_ARGS_UPDATED]);
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_ARGS_UPDATED, {
+      await waitForEvents([STORY_ARGS_UPDATED]);
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_ARGS_UPDATED, {
         storyId: 'component-one--a',
         args: { foo: 'new' },
       });
 
       mockChannel.emit.mockClear();
-      emitter.emit(Events.RESET_STORY_ARGS, {
+      emitter.emit(RESET_STORY_ARGS, {
         storyId: 'component-one--a',
         argNames: ['foo'],
       });
 
-      await waitForEvents([Events.STORY_ARGS_UPDATED]);
+      await waitForEvents([STORY_ARGS_UPDATED]);
 
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_ARGS_UPDATED, {
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_ARGS_UPDATED, {
         storyId: 'component-one--a',
         args: { foo: 'a' },
       });
@@ -1055,17 +1087,18 @@ describe('PreviewWeb', () => {
 
     it('resets a single arg', async () => {
       document.location.search = '?id=component-one--a';
-      await createAndRenderPreview();
+      const preview = await createAndRenderPreview();
+      const onUpdateArgsSpy = jest.spyOn(preview, 'onUpdateArgs');
 
       mockChannel.emit.mockClear();
-      emitter.emit(Events.UPDATE_STORY_ARGS, {
+      emitter.emit(UPDATE_STORY_ARGS, {
         storyId: 'component-one--a',
         updatedArgs: { foo: 'new', new: 'value' },
       });
-      await waitForEvents([Events.STORY_ARGS_UPDATED]);
+      await waitForEvents([STORY_ARGS_UPDATED]);
 
       mockChannel.emit.mockClear();
-      emitter.emit(Events.RESET_STORY_ARGS, {
+      emitter.emit(RESET_STORY_ARGS, {
         storyId: 'component-one--a',
         argNames: ['foo'],
       });
@@ -1083,25 +1116,31 @@ describe('PreviewWeb', () => {
         undefined // this is coming from view.prepareForStory, not super important
       );
 
-      await waitForEvents([Events.STORY_ARGS_UPDATED]);
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_ARGS_UPDATED, {
+      await waitForEvents([STORY_ARGS_UPDATED]);
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_ARGS_UPDATED, {
         storyId: 'component-one--a',
         args: { foo: 'a', new: 'value' },
       });
+
+      expect(onUpdateArgsSpy).toHaveBeenCalledWith({
+        storyId: 'component-one--a',
+        updatedArgs: { foo: 'a' },
+      });
     });
 
-    it('resets all args', async () => {
+    it('resets all args after one is updated', async () => {
       document.location.search = '?id=component-one--a';
-      await createAndRenderPreview();
+      const preview = await createAndRenderPreview();
+      const onUpdateArgsSpy = jest.spyOn(preview, 'onUpdateArgs');
 
-      emitter.emit(Events.UPDATE_STORY_ARGS, {
+      emitter.emit(UPDATE_STORY_ARGS, {
         storyId: 'component-one--a',
-        updatedArgs: { foo: 'new', new: 'value' },
+        updatedArgs: { foo: 'new' },
       });
-      await waitForEvents([Events.STORY_ARGS_UPDATED]);
+      await waitForEvents([STORY_ARGS_UPDATED]);
 
       mockChannel.emit.mockClear();
-      emitter.emit(Events.RESET_STORY_ARGS, {
+      emitter.emit(RESET_STORY_ARGS, {
         storyId: 'component-one--a',
       });
 
@@ -1118,10 +1157,97 @@ describe('PreviewWeb', () => {
         undefined // this is coming from view.prepareForStory, not super important
       );
 
-      await waitForEvents([Events.STORY_ARGS_UPDATED]);
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_ARGS_UPDATED, {
+      await waitForEvents([STORY_ARGS_UPDATED]);
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_ARGS_UPDATED, {
         storyId: 'component-one--a',
         args: { foo: 'a' },
+      });
+
+      expect(onUpdateArgsSpy).toHaveBeenCalledWith({
+        storyId: 'component-one--a',
+        updatedArgs: { foo: 'a' },
+      });
+    });
+
+    it('resets all args', async () => {
+      document.location.search = '?id=component-one--a';
+      const preview = await createAndRenderPreview();
+      const onUpdateArgsSpy = jest.spyOn(preview, 'onUpdateArgs');
+
+      emitter.emit(UPDATE_STORY_ARGS, {
+        storyId: 'component-one--a',
+        updatedArgs: { foo: 'new', new: 'value' },
+      });
+      await waitForEvents([STORY_ARGS_UPDATED]);
+
+      mockChannel.emit.mockClear();
+      emitter.emit(RESET_STORY_ARGS, {
+        storyId: 'component-one--a',
+      });
+
+      await waitForRender();
+
+      expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect.objectContaining({
+          forceRemount: false,
+          storyContext: expect.objectContaining({
+            initialArgs: { foo: 'a' },
+            args: { foo: 'a' },
+          }),
+        }),
+        undefined // this is coming from view.prepareForStory, not super important
+      );
+
+      await waitForEvents([STORY_ARGS_UPDATED]);
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_ARGS_UPDATED, {
+        storyId: 'component-one--a',
+        args: { foo: 'a' },
+      });
+
+      expect(onUpdateArgsSpy).toHaveBeenCalledWith({
+        storyId: 'component-one--a',
+        updatedArgs: { foo: 'a', new: undefined },
+      });
+    });
+
+    it('resets all args when one arg is undefined', async () => {
+      document.location.search = '?id=component-one--a';
+      const preview = await createAndRenderPreview();
+      const onUpdateArgsSpy = jest.spyOn(preview, 'onUpdateArgs');
+
+      emitter.emit(UPDATE_STORY_ARGS, {
+        storyId: 'component-one--a',
+        updatedArgs: { foo: undefined },
+      });
+      await waitForEvents([STORY_ARGS_UPDATED]);
+
+      mockChannel.emit.mockClear();
+      emitter.emit(RESET_STORY_ARGS, {
+        storyId: 'component-one--a',
+      });
+
+      await waitForRender();
+
+      expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect.objectContaining({
+          forceRemount: false,
+          storyContext: expect.objectContaining({
+            initialArgs: { foo: 'a' },
+            args: { foo: 'a' },
+          }),
+        }),
+        undefined // this is coming from view.prepareForStory, not super important
+      );
+
+      await waitForEvents([STORY_ARGS_UPDATED]);
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_ARGS_UPDATED, {
+        storyId: 'component-one--a',
+        args: { foo: 'a' },
+      });
+
+      expect(onUpdateArgsSpy).toHaveBeenCalledWith({
+        storyId: 'component-one--a',
+        updatedArgs: { foo: 'a' },
       });
     });
   });
@@ -1133,7 +1259,7 @@ describe('PreviewWeb', () => {
 
       mockChannel.emit.mockClear();
       projectAnnotations.renderToDOM.mockClear();
-      emitter.emit(Events.FORCE_RE_RENDER);
+      emitter.emit(FORCE_RE_RENDER);
       await waitForRender();
 
       expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
@@ -1157,7 +1283,7 @@ describe('PreviewWeb', () => {
 
       mockChannel.emit.mockClear();
       projectAnnotations.renderToDOM.mockClear();
-      emitter.emit(Events.FORCE_REMOUNT, { storyId: 'component-one--a' });
+      emitter.emit(FORCE_REMOUNT, { storyId: 'component-one--a' });
       await waitForRender();
 
       expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
@@ -1186,7 +1312,7 @@ describe('PreviewWeb', () => {
       );
 
       mockChannel.emit.mockClear();
-      emitter.emit(Events.FORCE_REMOUNT, { storyId: 'component-one--a' });
+      emitter.emit(FORCE_REMOUNT, { storyId: 'component-one--a' });
       await waitForSetCurrentStory();
 
       // Now let the renderToDOM call resolve
@@ -1201,7 +1327,7 @@ describe('PreviewWeb', () => {
       expect(componentOneExports.a.play).toHaveBeenCalledTimes(1);
 
       await waitForRenderPhase('completed');
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-one--a');
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
 
       await waitForQuiescence();
     });
@@ -1219,7 +1345,7 @@ describe('PreviewWeb', () => {
       document.location.search = '?id=component-one--a';
       await createAndRenderPreview();
 
-      emitter.emit(Events.SET_CURRENT_STORY, {
+      emitter.emit(SET_CURRENT_STORY, {
         storyId: 'component-one--b',
         viewMode: 'story',
       });
@@ -1236,13 +1362,13 @@ describe('PreviewWeb', () => {
       document.location.search = '?id=component-one--a';
       await createAndRenderPreview();
 
-      emitter.emit(Events.SET_CURRENT_STORY, {
+      emitter.emit(SET_CURRENT_STORY, {
         storyId: 'component-one--b',
         viewMode: 'story',
       });
       await waitForSetCurrentStory();
 
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.CURRENT_STORY_WAS_SET, {
+      expect(mockChannel.emit).toHaveBeenCalledWith(CURRENT_STORY_WAS_SET, {
         storyId: 'component-one--b',
         viewMode: 'story',
       });
@@ -1252,15 +1378,15 @@ describe('PreviewWeb', () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
 
-      emitter.emit(Events.SET_CURRENT_STORY, {
+      emitter.emit(SET_CURRENT_STORY, {
         storyId: 'random',
         viewMode: 'story',
       });
       await waitForSetCurrentStory();
 
-      await waitForEvents([Events.STORY_MISSING]);
+      await waitForEvents([STORY_MISSING]);
       expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_MISSING, 'random');
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_MISSING, 'random');
     });
 
     describe('if called before the preview is initialized', () => {
@@ -1269,13 +1395,13 @@ describe('PreviewWeb', () => {
         // We intentionally are *not* awaiting here
         new PreviewWeb().initialize({ importFn, getProjectAnnotations });
 
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
 
-        await waitForEvents([Events.STORY_RENDERED]);
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.CURRENT_STORY_WAS_SET, {
+        await waitForEvents([STORY_RENDERED]);
+        expect(mockChannel.emit).toHaveBeenCalledWith(CURRENT_STORY_WAS_SET, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
@@ -1284,8 +1410,25 @@ describe('PreviewWeb', () => {
           '',
           'pathname?id=component-one--b&viewMode=story'
         );
-        expect(mockChannel.emit).not.toHaveBeenCalledWith(Events.STORY_MISSING, 'component-one--b');
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-one--b');
+        expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_MISSING, 'component-one--b');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--b');
+      });
+    });
+
+    describe('if called on a storybook without selection', () => {
+      it('sets viewMode to story by default', async () => {
+        await createAndRenderPreview();
+
+        emitter.emit(SET_CURRENT_STORY, {
+          storyId: 'component-one--b',
+        });
+        await waitForSetCurrentStory();
+
+        expect(history.replaceState).toHaveBeenCalledWith(
+          {},
+          '',
+          'pathname?id=component-one--b&viewMode=story'
+        );
       });
     });
 
@@ -1294,14 +1437,14 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
 
-        await waitForEvents([Events.STORY_UNCHANGED]);
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_UNCHANGED, 'component-one--a');
+        await waitForEvents([STORY_UNCHANGED]);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_UNCHANGED, 'component-one--a');
       });
 
       it('does NOT call renderToDOM', async () => {
@@ -1309,7 +1452,7 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         projectAnnotations.renderToDOM.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
@@ -1342,11 +1485,11 @@ describe('PreviewWeb', () => {
         // We can't wait for the initialize function, as it waits for `renderSelection()`
         // which prepares, but it does emit `CURRENT_STORY_WAS_SET` right before that
         preview.initialize({ importFn, getProjectAnnotations });
-        await waitForEvents([Events.CURRENT_STORY_WAS_SET]);
+        await waitForEvents([CURRENT_STORY_WAS_SET]);
 
         mockChannel.emit.mockClear();
         projectAnnotations.renderToDOM.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
@@ -1371,7 +1514,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
@@ -1388,7 +1531,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
@@ -1402,14 +1545,14 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
 
-        await waitForEvents([Events.STORY_CHANGED]);
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_CHANGED, 'component-one--b');
+        await waitForEvents([STORY_CHANGED]);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_CHANGED, 'component-one--b');
       });
 
       it('emits STORY_PREPARED', async () => {
@@ -1417,14 +1560,14 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
 
-        await waitForEvents([Events.STORY_PREPARED]);
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_PREPARED, {
+        await waitForEvents([STORY_PREPARED]);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_PREPARED, {
           id: 'component-one--b',
           parameters: {
             __isArgsStory: false,
@@ -1442,7 +1585,7 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
@@ -1469,7 +1612,7 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
@@ -1507,14 +1650,14 @@ describe('PreviewWeb', () => {
         });
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -1528,14 +1671,14 @@ describe('PreviewWeb', () => {
         );
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_ERRORED, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_ERRORED, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith({
           message: error.title,
           stack: error.description,
@@ -1552,14 +1695,14 @@ describe('PreviewWeb', () => {
         );
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -1568,7 +1711,7 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
@@ -1583,14 +1726,14 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-one--b');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--b');
       });
 
       it('retains any arg changes', async () => {
@@ -1598,7 +1741,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.UPDATE_STORY_ARGS, {
+        emitter.emit(UPDATE_STORY_ARGS, {
           storyId: 'component-one--a',
           updatedArgs: { foo: 'updated' },
         });
@@ -1608,7 +1751,7 @@ describe('PreviewWeb', () => {
         });
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
@@ -1619,7 +1762,7 @@ describe('PreviewWeb', () => {
         });
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
@@ -1639,7 +1782,7 @@ describe('PreviewWeb', () => {
           await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
           await waitForRenderPhase('loading');
 
-          emitter.emit(Events.SET_CURRENT_STORY, {
+          emitter.emit(SET_CURRENT_STORY, {
             storyId: 'component-one--b',
             viewMode: 'story',
           });
@@ -1673,7 +1816,7 @@ describe('PreviewWeb', () => {
           await waitForRenderPhase('rendering');
 
           mockChannel.emit.mockClear();
-          emitter.emit(Events.SET_CURRENT_STORY, {
+          emitter.emit(SET_CURRENT_STORY, {
             storyId: 'component-one--b',
             viewMode: 'story',
           });
@@ -1692,11 +1835,8 @@ describe('PreviewWeb', () => {
           expect(componentOneExports.b.play).toHaveBeenCalled();
 
           await waitForRenderPhase('completed');
-          expect(mockChannel.emit).not.toHaveBeenCalledWith(
-            Events.STORY_RENDERED,
-            'component-one--a'
-          );
-          expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-one--b');
+          expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
+          expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--b');
 
           await waitForQuiescence();
         });
@@ -1721,7 +1861,7 @@ describe('PreviewWeb', () => {
           );
 
           mockChannel.emit.mockClear();
-          emitter.emit(Events.SET_CURRENT_STORY, {
+          emitter.emit(SET_CURRENT_STORY, {
             storyId: 'component-one--b',
             viewMode: 'story',
           });
@@ -1733,7 +1873,7 @@ describe('PreviewWeb', () => {
           await waitForSetCurrentStory();
 
           await waitForRenderPhase('rendering');
-          expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_CHANGED, 'component-one--b');
+          expect(mockChannel.emit).toHaveBeenCalledWith(STORY_CHANGED, 'component-one--b');
           expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
             expect.objectContaining({
               forceRemount: true,
@@ -1747,14 +1887,11 @@ describe('PreviewWeb', () => {
 
           await waitForRenderPhase('playing');
           await waitForRenderPhase('completed');
-          expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-one--b');
+          expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--b');
 
           // Final story rendered is not emitted for the first story
           await waitForQuiescence();
-          expect(mockChannel.emit).not.toHaveBeenCalledWith(
-            Events.STORY_RENDERED,
-            'component-one--a'
-          );
+          expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
         });
 
         it('reloads page if playFunction fails to abort in time', async () => {
@@ -1777,7 +1914,7 @@ describe('PreviewWeb', () => {
           );
 
           mockChannel.emit.mockClear();
-          emitter.emit(Events.SET_CURRENT_STORY, {
+          emitter.emit(SET_CURRENT_STORY, {
             storyId: 'component-one--b',
             viewMode: 'story',
           });
@@ -1788,10 +1925,7 @@ describe('PreviewWeb', () => {
           await waitForSetCurrentStory();
 
           expect(global.window.location.reload).toHaveBeenCalled();
-          expect(mockChannel.emit).not.toHaveBeenCalledWith(
-            Events.STORY_CHANGED,
-            'component-one--b'
-          );
+          expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_CHANGED, 'component-one--b');
           expect(projectAnnotations.renderToDOM).not.toHaveBeenCalledWith(
             expect.objectContaining({
               storyContext: expect.objectContaining({ id: 'component-one--b' }),
@@ -1807,7 +1941,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'docs',
         });
@@ -1824,7 +1958,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'docs',
         });
@@ -1838,14 +1972,14 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'docs',
         });
         await waitForSetCurrentStory();
 
-        await waitForEvents([Events.STORY_CHANGED]);
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_CHANGED, 'component-one--a');
+        await waitForEvents([STORY_CHANGED]);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_CHANGED, 'component-one--a');
       });
 
       it('calls view.prepareForDocs', async () => {
@@ -1853,7 +1987,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'docs',
         });
@@ -1868,7 +2002,7 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'docs',
         });
@@ -1896,14 +2030,14 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'docs',
         });
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.DOCS_RENDERED, 'component-one--a');
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_RENDERED, 'component-one--a');
       });
     });
 
@@ -1912,7 +2046,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a&viewMode=docs';
         await createAndRenderPreview();
 
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
@@ -1930,7 +2064,7 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
@@ -1946,14 +2080,14 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
 
-        await waitForEvents([Events.STORY_CHANGED]);
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_CHANGED, 'component-one--a');
+        await waitForEvents([STORY_CHANGED]);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_CHANGED, 'component-one--a');
       });
 
       it('calls view.prepareForStory', async () => {
@@ -1961,7 +2095,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
@@ -1980,14 +2114,14 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
 
-        await waitForEvents([Events.STORY_PREPARED]);
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_PREPARED, {
+        await waitForEvents([STORY_PREPARED]);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_PREPARED, {
           id: 'component-one--a',
           parameters: {
             __isArgsStory: false,
@@ -2005,7 +2139,7 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
@@ -2032,7 +2166,7 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
@@ -2070,14 +2204,14 @@ describe('PreviewWeb', () => {
         });
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -2091,14 +2225,14 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_ERRORED, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_ERRORED, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith({
           message: error.title,
           stack: error.description,
@@ -2115,14 +2249,14 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -2131,7 +2265,7 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
@@ -2146,14 +2280,14 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-one--a');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
       });
     });
   });
@@ -2171,13 +2305,13 @@ describe('PreviewWeb', () => {
         );
 
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.CONFIG_ERROR, expect.any(Error));
+        expect(mockChannel.emit).toHaveBeenCalledWith(CONFIG_ERROR, expect.any(Error));
 
         mockChannel.emit.mockClear();
         mockFetchResult = { status: 200, json: mockStoryIndex, text: () => 'error text' };
         preview.onStoryIndexChanged();
         await waitForRender();
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-one--a');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
       });
 
       it('sets story args from the URL', async () => {
@@ -2191,7 +2325,7 @@ describe('PreviewWeb', () => {
         );
 
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.CONFIG_ERROR, expect.any(Error));
+        expect(mockChannel.emit).toHaveBeenCalledWith(CONFIG_ERROR, expect.any(Error));
 
         mockChannel.emit.mockClear();
         mockFetchResult = { status: 200, json: mockStoryIndex, text: () => 'error text' };
@@ -2221,10 +2355,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(mockChannel.emit).not.toHaveBeenCalledWith(
-          Events.STORY_UNCHANGED,
-          'component-one--a'
-        );
+        expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_UNCHANGED, 'component-one--a');
       });
 
       it('does not emit STORY_CHANGED', async () => {
@@ -2235,7 +2366,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(mockChannel.emit).not.toHaveBeenCalledWith(Events.STORY_CHANGED, 'component-one--a');
+        expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_CHANGED, 'component-one--a');
       });
 
       it('emits STORY_PREPARED with new annotations', async () => {
@@ -2246,7 +2377,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_PREPARED, {
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_PREPARED, {
           id: 'component-one--a',
           parameters: {
             __isArgsStory: false,
@@ -2267,7 +2398,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_ARGS_UPDATED, {
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_ARGS_UPDATED, {
           storyId: 'component-one--a',
           args: { foo: 'edited' },
         });
@@ -2332,7 +2463,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        emitter.emit(Events.UPDATE_STORY_ARGS, {
+        emitter.emit(UPDATE_STORY_ARGS, {
           storyId: 'component-one--a',
           updatedArgs: { foo: 'updated' },
         });
@@ -2368,7 +2499,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -2385,7 +2516,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_ERRORED, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_ERRORED, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith({
           message: error.title,
           stack: error.description,
@@ -2405,7 +2536,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -2429,7 +2560,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-one--a');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
       });
     });
 
@@ -2469,7 +2600,7 @@ describe('PreviewWeb', () => {
           const preview = await createAndRenderPreview();
 
           mockChannel.emit.mockClear();
-          emitter.emit(Events.SET_CURRENT_STORY, {
+          emitter.emit(SET_CURRENT_STORY, {
             storyId: 'component-one--b',
             viewMode: 'story',
           });
@@ -2479,7 +2610,7 @@ describe('PreviewWeb', () => {
           preview.onStoriesChanged({ importFn: newImportFn, storyIndex: newStoryIndex });
 
           mockChannel.emit.mockClear();
-          emitter.emit(Events.SET_CURRENT_STORY, {
+          emitter.emit(SET_CURRENT_STORY, {
             storyId: 'component-one--a',
             viewMode: 'story',
           });
@@ -2504,10 +2635,10 @@ describe('PreviewWeb', () => {
 
         mockChannel.emit.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn });
-        await waitForEvents([Events.STORY_UNCHANGED]);
+        await waitForEvents([STORY_UNCHANGED]);
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_UNCHANGED, 'component-one--a');
-        expect(mockChannel.emit).not.toHaveBeenCalledWith(Events.STORY_CHANGED, 'component-one--a');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_UNCHANGED, 'component-one--a');
+        expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_CHANGED, 'component-one--a');
       });
 
       it('clears preparing state', async () => {
@@ -2517,7 +2648,7 @@ describe('PreviewWeb', () => {
         (preview.view.showMain as jest.Mock).mockClear();
         mockChannel.emit.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn });
-        await waitForEvents([Events.STORY_UNCHANGED]);
+        await waitForEvents([STORY_UNCHANGED]);
 
         expect(preview.view.showMain).toHaveBeenCalled();
       });
@@ -2532,10 +2663,7 @@ describe('PreviewWeb', () => {
         await waitForQuiescence();
 
         expect(projectAnnotations.renderToDOM).not.toHaveBeenCalled();
-        expect(mockChannel.emit).not.toHaveBeenCalledWith(
-          Events.STORY_RENDERED,
-          'component-one--a'
-        );
+        expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
       });
     });
 
@@ -2561,7 +2689,7 @@ describe('PreviewWeb', () => {
 
         // Change A's args
         mockChannel.emit.mockClear();
-        emitter.emit(Events.UPDATE_STORY_ARGS, {
+        emitter.emit(UPDATE_STORY_ARGS, {
           storyId: 'component-one--a',
           updatedArgs: { foo: 'updated' },
         });
@@ -2569,7 +2697,7 @@ describe('PreviewWeb', () => {
 
         // Change to story B
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
@@ -2587,7 +2715,7 @@ describe('PreviewWeb', () => {
 
         // Change back to Story A
         mockChannel.emit.mockClear();
-        emitter.emit(Events.SET_CURRENT_STORY, {
+        emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
@@ -2632,10 +2760,10 @@ describe('PreviewWeb', () => {
 
         mockChannel.emit.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn, storyIndex: newStoryIndex });
-        await waitForEvents([Events.STORY_MISSING]);
+        await waitForEvents([STORY_MISSING]);
 
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_MISSING, 'component-one--a');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_MISSING, 'component-one--a');
       });
 
       it('does not re-render the story', async () => {
@@ -2648,10 +2776,7 @@ describe('PreviewWeb', () => {
         await waitForQuiescence();
 
         expect(projectAnnotations.renderToDOM).not.toHaveBeenCalled();
-        expect(mockChannel.emit).not.toHaveBeenCalledWith(
-          Events.STORY_RENDERED,
-          'component-one--a'
-        );
+        expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
       });
 
       it('re-renders the story if it is readded', async () => {
@@ -2660,12 +2785,12 @@ describe('PreviewWeb', () => {
 
         mockChannel.emit.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn, storyIndex: newStoryIndex });
-        await waitForEvents([Events.STORY_MISSING]);
+        await waitForEvents([STORY_MISSING]);
 
         mockChannel.emit.mockClear();
         preview.onStoriesChanged({ importFn, storyIndex });
         await waitForRender();
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-one--a');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
       });
     });
   });
@@ -2689,7 +2814,7 @@ describe('PreviewWeb', () => {
         preview.onGetProjectAnnotationsChanged({ getProjectAnnotations });
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-one--a');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
       });
 
       it('sets globals from the URL', async () => {
@@ -2728,7 +2853,7 @@ describe('PreviewWeb', () => {
       ).rejects.toThrow(err);
 
       expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.CONFIG_ERROR, err);
+      expect(mockChannel.emit).toHaveBeenCalledWith(CONFIG_ERROR, err);
     });
 
     const newGlobalDecorator = jest.fn((s) => s());
@@ -2760,8 +2885,8 @@ describe('PreviewWeb', () => {
       preview.onGetProjectAnnotationsChanged({ getProjectAnnotations: newGetProjectAnnotations });
       await waitForRender();
 
-      await waitForEvents([Events.SET_GLOBALS]);
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.SET_GLOBALS, {
+      await waitForEvents([SET_GLOBALS]);
+      expect(mockChannel.emit).toHaveBeenCalledWith(SET_GLOBALS, {
         globals: { a: 'edited' },
         globalTypes: {},
       });
@@ -2789,7 +2914,7 @@ describe('PreviewWeb', () => {
       preview.onGetProjectAnnotationsChanged({ getProjectAnnotations: newGetProjectAnnotations });
       await waitForRender();
 
-      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_ARGS_UPDATED, {
+      expect(mockChannel.emit).toHaveBeenCalledWith(STORY_ARGS_UPDATED, {
         storyId: 'component-one--a',
         args: { foo: 'a', global: 'added' },
       });
@@ -2825,10 +2950,7 @@ describe('PreviewWeb', () => {
         target: { tagName: 'div', getAttribute: jest.fn().mockReturnValue(null) },
       } as any);
 
-      expect(mockChannel.emit).toHaveBeenCalledWith(
-        Events.PREVIEW_KEYDOWN,
-        expect.objectContaining({})
-      );
+      expect(mockChannel.emit).toHaveBeenCalledWith(PREVIEW_KEYDOWN, expect.objectContaining({}));
     });
 
     it('does not emit PREVIEW_KEYDOWN for input elements', async () => {
@@ -2840,7 +2962,7 @@ describe('PreviewWeb', () => {
       } as any);
 
       expect(mockChannel.emit).not.toHaveBeenCalledWith(
-        Events.PREVIEW_KEYDOWN,
+        PREVIEW_KEYDOWN,
         expect.objectContaining({})
       );
     });
