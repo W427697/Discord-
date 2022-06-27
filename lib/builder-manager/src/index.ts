@@ -64,7 +64,8 @@ export const makeStatsFromError = (err: string) =>
 
 export const executor = {
   get: async () => {
-    return import('esbuild');
+    const { build } = await import('esbuild');
+    return build;
   },
 };
 
@@ -109,7 +110,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     executor.get(),
   ]);
 
-  compilation = await instance.build({
+  compilation = await instance({
     ...config,
 
     watch: true,
@@ -191,7 +192,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   ]);
 
   const addonsDir = config.outdir;
-  compilation = await instance.build({
+  compilation = await instance({
     ...config,
 
     minify: true,

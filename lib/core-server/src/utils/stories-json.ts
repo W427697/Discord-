@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import fs from 'fs-extra';
+import { writeJSON } from 'fs-extra';
 
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
 import type { StoryIndex, StoryIndexV3 } from '@storybook/store';
@@ -19,7 +19,7 @@ export async function extractStoriesJson(
 ) {
   const generator = await initializedStoryIndexGenerator;
   const storyIndex = await generator.getIndex();
-  await fs.writeJson(outputFile, transform ? transform(storyIndex) : storyIndex);
+  await writeJSON(outputFile, transform ? transform(storyIndex) : storyIndex);
 }
 
 export function useStoriesJson({

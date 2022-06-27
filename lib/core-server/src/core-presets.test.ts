@@ -6,7 +6,7 @@ import { promisify } from 'util';
 import type { Configuration } from 'webpack';
 import { resolvePathInStorybookCache, createFileSystemCache } from '@storybook/core-common';
 import { executor as previewExecutor } from '@storybook/builder-webpack5';
-import { executor as managerExecutor } from '@storybook/manager-webpack5';
+import { executor as managerExecutor } from '@storybook/builder-manager';
 
 import { sync as readUpSync } from 'read-pkg-up';
 import { buildDevStandalone } from './build-dev';
@@ -33,9 +33,26 @@ jest.mock('@storybook/builder-webpack5', () => {
   return actualBuilder;
 });
 
+jest.mock('@storybook/builder-manager', () => {
+  const value = jest.fn();
+  const actualBuilder = jest.requireActual('@storybook/builder-manager');
+  // MUTATION!
+  actualBuilder.executor.get = () => value;
+  return actualBuilder;
+});
+
 jest.mock('@storybook/telemetry', () => ({
   getStorybookMetadata: jest.fn(() => ({})),
   telemetry: jest.fn(() => ({})),
+}));
+jest.mock('fs-extra', () => ({
+  copy: jest.fn(() => undefined),
+  writeFile: jest.fn(() => undefined),
+  readFile: jest.fn((f) => ''),
+  emptyDir: jest.fn(() => undefined),
+  writeJSON: jest.fn(() => undefined),
+  readJSON: jest.fn(() => ({})),
+  pathExists: jest.fn(() => true),
 }));
 
 jest.mock('./utils/StoryIndexGenerator', () => {
@@ -58,14 +75,6 @@ jest.mock('./utils/stories-json', () => ({
   useStoriesJson: () => {},
 }));
 
-jest.mock('@storybook/manager-webpack5', () => {
-  const value = jest.fn();
-  const actualBuilder = jest.requireActual('@storybook/manager-webpack5');
-  // MUTATION!
-  actualBuilder.executor.get = () => value;
-  return actualBuilder;
-});
-
 // we're not in the right directory for auto-title to work, so just
 // stub it out
 jest.mock('@storybook/store', () => {
@@ -77,7 +86,6 @@ jest.mock('@storybook/store', () => {
   };
 });
 
-jest.mock('cpy', () => () => Promise.resolve());
 jest.mock('http', () => ({
   ...jest.requireActual('http'),
   createServer: () => ({ listen: (_options, cb) => cb(), on: jest.fn() }),
@@ -89,6 +97,7 @@ jest.mock('@storybook/node-logger', () => ({
     warn: jest.fn(),
     error: jest.fn(),
     line: jest.fn(),
+    trace: jest.fn(),
   },
 }));
 jest.mock('./utils/output-startup-information', () => ({
@@ -137,13 +146,17 @@ const cleanRoots = (obj): any => {
 
 const getConfig = (fn: any, name): Configuration | null => {
   const call = fn.mock.calls.find((c) => c[0].name === name);
-  if (!call) return null;
+  if (!call) {
+    return null;
+  }
   return call[0];
 };
 
 const prepareSnap = (get: any, name): Pick<Configuration, 'module' | 'entry' | 'plugins'> => {
   const config = getConfig(get(), name);
-  if (!config) return null;
+  if (!config) {
+    return null;
+  }
 
   const keys = Object.keys(config);
   const { module, entry, plugins } = config;

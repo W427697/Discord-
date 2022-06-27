@@ -1,6 +1,5 @@
 import chalk from 'chalk';
-import cpy from 'cpy';
-import fs from 'fs-extra';
+import { copy, emptyDir } from 'fs-extra';
 import path, { join } from 'path';
 import dedent from 'ts-dedent';
 import global from 'global';
@@ -58,9 +57,7 @@ export async function buildStaticStandalone(
   if (options.outputDir === '/') {
     throw new Error("Won't remove directory '/'. Check your outputDir!");
   }
-  await fs.emptyDir(options.outputDir);
-
-  await cpy(defaultFavIcon, options.outputDir);
+  await emptyDir(options.outputDir);
 
   const { framework } = loadMainConfig(options);
   const corePresets = [];
@@ -93,7 +90,19 @@ export async function buildStaticStandalone(
     ...options,
   });
 
-  const staticDirs = await presets.apply<StorybookConfig['staticDirs']>('staticDirs');
+  const [features, core, staticDirs, storyIndexers, stories] = await Promise.all([
+    presets.apply<StorybookConfig['features']>('features'),
+    presets.apply<CoreConfig>('core'),
+    presets.apply<StorybookConfig['staticDirs']>('staticDirs'),
+    presets.apply('storyIndexers', []),
+    presets.apply('stories'),
+  ]);
+
+  const fullOptions: Options = {
+    ...options,
+    presets,
+    features,
+  };
 
   if (staticDirs && options.staticDir) {
     throw new Error(dedent`
@@ -105,17 +114,22 @@ export async function buildStaticStandalone(
     `);
   }
 
+  const effects: Promise<void>[] = [];
+
   if (staticDirs) {
-    await copyAllStaticFilesRelativeToMain(staticDirs, options.outputDir, options.configDir);
+    effects.push(
+      copyAllStaticFilesRelativeToMain(staticDirs, options.outputDir, options.configDir)
+    );
   }
   if (options.staticDir) {
-    await copyAllStaticFiles(options.staticDir, options.outputDir);
+    effects.push(copyAllStaticFiles(options.staticDir, options.outputDir));
   }
 
-  const features = await presets.apply<StorybookConfig['features']>('features');
+  effects.push(copy(defaultFavIcon, options.outputDir));
+
   global.FEATURES = features;
 
-  const extractTasks = [];
+  await managerBuilder.build({ startTime: process.hrtime(), options: fullOptions });
 
   let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
   if ((features?.buildStoriesJson || features?.storyStoreV7) && !options.ignorePreview) {
@@ -124,8 +138,7 @@ export async function buildStaticStandalone(
       configDir: options.configDir,
       workingDir,
     };
-    const normalizedStories = normalizeStories(await presets.apply('stories'), directories);
-    const storyIndexers = await presets.apply('storyIndexers', []);
+    const normalizedStories = normalizeStories(stories, directories);
 
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
@@ -135,55 +148,48 @@ export async function buildStaticStandalone(
     });
 
     initializedStoryIndexGenerator = generator.initialize().then(() => generator);
-    extractTasks.push(
+    effects.push(
       extractStoriesJson(
         path.join(options.outputDir, 'stories.json'),
         initializedStoryIndexGenerator,
         convertToIndexV3
       )
     );
-    extractTasks.push(
+    effects.push(
       extractStoriesJson(path.join(options.outputDir, 'index.json'), initializedStoryIndexGenerator)
     );
   }
 
-  const core = await presets.apply<CoreConfig>('core');
   if (!core?.disableTelemetry) {
-    initializedStoryIndexGenerator.then(async (generator) => {
-      if (!generator) {
-        return;
-      }
+    effects.push(
+      initializedStoryIndexGenerator.then(async (generator) => {
+        if (!generator) {
+          return;
+        }
 
-      const storyIndex = await generator.getIndex();
-      const payload = storyIndex
-        ? {
-            storyIndex: {
-              storyCount: Object.keys(storyIndex.entries).length,
-              version: storyIndex.v,
-            },
-          }
-        : undefined;
-      telemetry('build', payload, { configDir: options.configDir });
-    });
+        const storyIndex = await generator.getIndex();
+        const payload = storyIndex
+          ? {
+              storyIndex: {
+                storyCount: Object.keys(storyIndex.entries).length,
+                version: storyIndex.v,
+              },
+            }
+          : undefined;
+        await telemetry('build', payload, { configDir: options.configDir });
+      })
+    );
   }
 
   if (!core?.disableProjectJson) {
-    extractTasks.push(
+    effects.push(
       extractStorybookMetadata(path.join(options.outputDir, 'project.json'), options.configDir)
     );
   }
 
-  const fullOptions: Options = {
-    ...options,
-    presets,
-    features,
-  };
-
   if (options.debugWebpack) {
     logConfig('Preview webpack config', await previewBuilder.getConfig(fullOptions));
   }
-
-  await managerBuilder.build({ startTime: process.hrtime(), options: fullOptions });
 
   if (options.ignorePreview) {
     logger.info(`=> Not building preview`);
@@ -206,7 +212,7 @@ export async function buildStaticStandalone(
               }
             }),
         ]),
-    ...extractTasks,
+    ...effects,
   ]);
 
   logger.info(`=> Output directory: ${options.outputDir}`);
