@@ -2,7 +2,9 @@ import React, { FunctionComponent, forwardRef, HTMLProps, SelectHTMLAttributes }
 import type { Theme, CSSObject } from '@storybook/theming';
 import { styled } from '@storybook/theming';
 
-import TextareaAutoResize, { TextareaAutosizeProps } from 'react-textarea-autosize';
+import type { TextareaAutosizeProps } from 'react-textarea-autosize';
+// @ts-ignore
+import TextareaAutoResize from 'react-textarea-autosize/dist/react-textarea-autosize.esm';
 
 import { Button as StyledButton } from '../../Button/Button';
 
