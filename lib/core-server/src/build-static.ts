@@ -181,42 +181,33 @@ export async function buildStaticStandalone(
 
   if (options.debugWebpack) {
     logConfig('Preview webpack config', await previewBuilder.getConfig(fullOptions));
-    logConfig('Manager webpack config', await managerBuilder.getConfig(fullOptions));
   }
 
-  // const prebuiltDir = await getPrebuiltDir(fullOptions);
-
-  const startTime = process.hrtime();
-  // When using the prebuilt manager, we straight up copy it into the outputDir instead of building it
-  const manager = managerBuilder.build({ startTime, options: fullOptions });
+  await managerBuilder.build({ startTime: process.hrtime(), options: fullOptions });
 
   if (options.ignorePreview) {
     logger.info(`=> Not building preview`);
   }
 
-  const preview = options.ignorePreview
-    ? Promise.resolve()
-    : previewBuilder.build({
-        startTime,
-        options: fullOptions,
-      });
-
-  const [previewStats] = await Promise.all([
-    preview.catch(async (err) => {
-      await managerBuilder?.bail();
-      throw err;
-    }),
-    manager.catch(async (err) => {
-      await previewBuilder?.bail();
-      throw err;
-    }),
+  await Promise.all([
+    ...(options.ignorePreview
+      ? []
+      : [
+          previewBuilder
+            .build({
+              startTime: process.hrtime(),
+              options: fullOptions,
+            })
+            .then(async (previewStats) => {
+              if (options.webpackStatsJson) {
+                const target =
+                  options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
+                await outputStats(target, previewStats);
+              }
+            }),
+        ]),
     ...extractTasks,
   ]);
-
-  if (options.webpackStatsJson) {
-    const target = options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
-    await outputStats(target, previewStats);
-  }
 
   logger.info(`=> Output directory: ${options.outputDir}`);
 }

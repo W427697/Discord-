@@ -1,10 +1,13 @@
+import { dirname, join } from 'path';
+import { copy, writeFile } from 'fs-extra';
+import express from 'express';
+
 import { logger } from '@storybook/node-logger';
 
 import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';
-import { dirname, join } from 'path';
-import { copy, writeFile } from 'fs-extra';
-import express from 'express';
+import aliasPlugin from 'esbuild-plugin-alias';
+
 import { readTemplate, render } from './utils/template';
 import { definitions } from './utils/globals';
 import {
@@ -30,13 +33,22 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     format: 'esm',
     outExtension: { '.js': '.mjs' },
     target: ['chrome100'],
+    platform: 'browser',
     bundle: true,
     minify: false,
     sourcemap: true,
     legalComments: 'external',
-    plugins: [globalExternals(definitions), pnpPlugin()],
+    plugins: [
+      aliasPlugin({
+        process: require.resolve('rollup-plugin-node-polyfills/polyfills/process-es6.js'),
+        util: require.resolve('rollup-plugin-node-polyfills/polyfills/util.js'),
+      }),
+      globalExternals(definitions),
+      pnpPlugin(),
+    ],
     define: {
       module: '{}',
+      process: '{}',
       global: 'window',
     },
   };
@@ -168,13 +180,16 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     throw new Error('outputDir is required');
   }
   logger.info('=> Building manager..');
+  const coreDir = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
 
   const [config, features, instance] = await Promise.all([
     getConfig(options),
     options.presets.apply('features'),
     executor.get(),
+    copy(coreDir, join(options.outputDir, `sb-manager`)),
   ]);
 
+  const addonsDir = config.outdir;
   compilation = await instance.build({
     ...config,
 
@@ -183,13 +198,9 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   });
   yield;
 
-  const addonsDir = config.outdir;
-  const coreDir = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
-
-  const [addonFiles, template] = await Promise.all([
-    readDeep(addonsDir),
+  const [template, addonFiles] = await Promise.all([
     readTemplate('template.ejs'),
-    copy(coreDir, join(options.outputDir, `sb-manager`)),
+    readDeep(addonsDir),
   ]);
 
   yield;
@@ -207,6 +218,8 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   });
 
   await writeFile(join(options.outputDir, 'index.html'), html);
+
+  logger.trace({ message: '=> Manager built', time: process.hrtime(startTime) });
 
   return {
     toJson: () => ({}),
