@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { copy, emptyDir } from 'fs-extra';
+import { copy, emptyDir, ensureDir } from 'fs-extra';
 import path, { join } from 'path';
 import dedent from 'ts-dedent';
 import global from 'global';
@@ -58,6 +58,7 @@ export async function buildStaticStandalone(
     throw new Error("Won't remove directory '/'. Check your outputDir!");
   }
   await emptyDir(options.outputDir);
+  await ensureDir(options.outputDir);
 
   const { framework } = loadMainConfig(options);
   const corePresets = [];
