@@ -11,6 +11,10 @@ const config: StorybookConfig = {
       titlePrefix: 'Demo',
       files: '*.stories.(js|ts|tsx|mdx)',
     },
+    {
+      directory: '../src/addon-docs',
+      files: '*.stories.mdx',
+    },
   ],
   logLevel: 'debug',
   addons: [
@@ -33,7 +37,7 @@ const config: StorybookConfig = {
   },
   features: {
     postcss: false,
-    // modernInlineRender: true,
+    modernInlineRender: true,
     storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
     buildStoriesJson: true,
     babelModeV7: true,
