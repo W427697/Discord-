@@ -188,7 +188,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   const [addonFiles, template] = await Promise.all([
     readDeep(addonsDir),
     readTemplate('template.ejs'),
-    copy(coreDir, `/sb-manager`),
+    copy(coreDir, join(options.outputDir, `sb-manager`)),
   ]);
 
   yield;
@@ -205,7 +205,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     },
   });
 
-  writeFile(join(options.outputDir, 'index.html'), html);
+  await writeFile(join(options.outputDir, 'index.html'), html);
 
   return {
     toJson: () => ({}),

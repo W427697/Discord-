@@ -202,9 +202,8 @@ export async function managerWebpack(
 
 export async function managerEntries(
   installedAddons: string[],
-  options: { managerEntry: string; configDir: string }
+  options: Options
 ): Promise<string[]> {
-  const { managerEntry } = options;
   const entries = [];
 
   if (installedAddons && installedAddons.length) {
@@ -216,6 +215,5 @@ export async function managerEntries(
     entries.push(managerConfig);
   }
 
-  // entries.push(require.resolve(managerEntry));
   return entries;
 }

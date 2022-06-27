@@ -4,7 +4,7 @@ import { Keys, Definitions } from './types';
 
 const createModuleInfo = (m: keyof typeof Keys): Required<ModuleInfo> => ({
   type: 'esm',
-  varName: `__${Keys[m]}__`,
+  varName: Keys[m],
   namedExports: x[m],
   defaultExport: true,
 });
