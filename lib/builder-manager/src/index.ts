@@ -47,9 +47,10 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       pnpPlugin(),
     ],
     define: {
-      module: '{}',
-      process: '{}',
+      'process.env.NODE_ENV': "'production'",
+      'process.env': '{}',
       global: 'window',
+      module: '{}',
     },
   };
 };
