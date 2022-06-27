@@ -45,6 +45,7 @@
     "@storybook/node-logger": "7.0.0-alpha.6",
     "@storybook/ui": "7.0.0-alpha.6",
     "@types/ejs": "^3.1.1",
+    "@yarnpkg/esbuild-plugin-pnp": "^3.0.0-rc.10",
     "chalk": "^4.1.0",
     "ejs": "^3.1.8",
     "esbuild": "^0.14.47",

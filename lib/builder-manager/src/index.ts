@@ -1,6 +1,7 @@
 import { logger } from '@storybook/node-logger';
 
 import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
+import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';
 import { dirname, join } from 'path';
 import { copy, writeFile } from 'fs-extra';
 import express from 'express';
@@ -33,7 +34,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     minify: false,
     sourcemap: true,
     legalComments: 'external',
-    plugins: [globalExternals(definitions)],
+    plugins: [globalExternals(definitions), pnpPlugin()],
     define: {
       module: '{}',
       global: 'window',
