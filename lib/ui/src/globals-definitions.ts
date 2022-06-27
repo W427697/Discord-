@@ -22,20 +22,19 @@ const createModuleInfo = (name: string, value: unknown): Required<ModuleInfo> =>
   defaultExport: true,
 });
 
-export const values = {
-  react: REACT,
-  'react-dom': REACTDOM,
-  '@storybook/components': STORYBOOKCOMPONENTS,
-  '@storybook/channels': STORYBOOKCHANNELS,
-  '@storybook/core-events': STORYBOOKEVENTS,
-  '@storybook/router': STORYBOOKROUTER,
-  '@storybook/theming': STORYBOOKTHEMING,
-  '@storybook/api': STORYBOOKAPI,
-  '@storybook/addons': STORYBOOKADDONS,
-  '@storybook/client-logger': STORYBOOKCLIENTLOGGER,
-} as const;
+export type Keys =
+  | 'react'
+  | 'react-dom'
+  | '@storybook/components'
+  | '@storybook/channels'
+  | '@storybook/core-events'
+  | '@storybook/router'
+  | '@storybook/theming'
+  | '@storybook/api'
+  | '@storybook/addons'
+  | '@storybook/client-logger';
 
-export const definitions: Required<Record<keyof typeof values, Required<ModuleInfo>>> = {
+export const definitions: Required<Record<Keys, Required<ModuleInfo>>> = {
   react: createModuleInfo('REACT', REACT),
   'react-dom': createModuleInfo('REACTDOM', REACTDOM),
   '@storybook/components': createModuleInfo('STORYBOOKCOMPONENTS', STORYBOOKCOMPONENTS),

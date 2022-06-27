@@ -6,7 +6,12 @@ import aliasPlugin from 'esbuild-plugin-alias';
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
 
 const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
-  const packageJson = await fs.readJson(join(cwd, 'package.json'));
+  const {
+    name,
+    dependencies,
+    peerDependencies,
+    bundler: { entries, platform },
+  } = await fs.readJson(join(cwd, 'package.json'));
 
   const reset = hasFlag(flags, 'reset');
   const watch = hasFlag(flags, 'watch');
@@ -18,7 +23,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
   if (!optimized) {
     await Promise.all(
-      packageJson.bundlerEntrypoint.map(async (file: string) => {
+      entries.map(async (file: string) => {
         console.log(`skipping generating types for ${file}`);
         const { name } = path.parse(file);
 
@@ -32,13 +37,13 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
   await Promise.all([
     build({
-      entry: packageJson.bundlerEntrypoint,
+      entry: entries,
       watch,
       // sourcemap: optimized,
       format: ['esm'],
       target: 'chrome100',
       clean: true,
-      shims: true,
+      // shims: true,
       esbuildPlugins: [
         aliasPlugin({
           process: path.resolve(
@@ -47,15 +52,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           util: path.resolve('../../node_modules/rollup-plugin-node-polyfills/polyfills/util.js'),
         }),
       ],
-      external: [
-        packageJson.name,
-        ...Object.keys(packageJson.dependencies || {}),
-        ...Object.keys(packageJson.peerDependencies || {}),
-      ],
+      external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
 
       dts: optimized
         ? {
-            entry: packageJson.bundlerEntrypoint,
+            entry: entries,
             resolve: true,
           }
         : false,
@@ -64,7 +65,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         c.define = optimized
           ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}', global: 'window' }
           : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}', global: 'window' };
-        c.platform = 'browser';
+        c.platform = platform || 'browser';
         c.legalComments = 'none';
         c.minifyWhitespace = optimized;
         c.minifyIdentifiers = optimized;
@@ -73,16 +74,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       },
     }),
     build({
-      entry: packageJson.bundlerEntrypoint,
+      entry: entries,
       watch,
       format: ['cjs'],
       target: 'node14',
       clean: true,
-      external: [
-        packageJson.name,
-        ...Object.keys(packageJson.dependencies || {}),
-        ...Object.keys(packageJson.peerDependencies || {}),
-      ],
+      external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
 
       esbuildOptions: (c) => {
         /* eslint-disable no-param-reassign */

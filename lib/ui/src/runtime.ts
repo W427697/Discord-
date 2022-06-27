@@ -8,7 +8,7 @@ import Events from '@storybook/core-events';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
 
-import { definitions, values } from './globals';
+import { definitions, values } from './globals-runtime';
 
 const { FEATURES, SERVER_CHANNEL_URL } = global;
 
