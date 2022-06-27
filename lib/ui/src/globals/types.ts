@@ -4,10 +4,10 @@ import { ModuleInfo } from '@fal-works/esbuild-plugin-global-externals';
 //
 export enum Keys {
   'react' = '__REACT__',
-  'react-dom' = '__REACT-DOM__',
+  'react-dom' = '__REACTDOM__',
   '@storybook/components' = '__STORYBOOKCOMPONENTS__',
   '@storybook/channels' = '__STORYBOOKCHANNELS__',
-  '@storybook/core-events' = '__STORYBOOKCORE-EVENTS__',
+  '@storybook/core-events' = '__STORYBOOKCOREEVENTS__',
   '@storybook/router' = '__STORYBOOKROUTER__',
   '@storybook/theming' = '__STORYBOOKTHEMING__',
   '@storybook/api' = '__STORYBOOKAPI__',
