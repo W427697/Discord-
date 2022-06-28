@@ -1,5 +1,5 @@
-import { State, API, Story, Group } from '@storybook/api';
 import { FunctionComponent, ReactNode } from 'react';
+import { State, API, DocsEntry, StoryEntry } from '@storybook/api';
 
 export type ViewMode = State['viewMode'];
 
@@ -7,12 +7,13 @@ export interface PreviewProps {
   api: API;
   viewMode: ViewMode;
   refs: State['refs'];
-  storyId: Story['id'];
-  story: Group | Story;
+  storyId: StoryEntry['id'];
+  story: DocsEntry | StoryEntry;
   docsOnly: boolean;
   options: {
     isFullscreen: boolean;
-    isToolshown: boolean;
+    showTabs: boolean;
+    showToolbar: boolean;
   };
   id: string;
   path: string;
@@ -54,7 +55,7 @@ export type CustomCanvasRenderer = (
 ) => ReactNode;
 
 export interface FramesRendererProps {
-  story: Story | Group;
+  story: DocsEntry | StoryEntry;
   storyId: string;
   refId: string;
   baseUrl: string;

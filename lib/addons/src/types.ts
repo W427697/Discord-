@@ -12,6 +12,7 @@ import type {
   StoryKind,
   StoryName,
   Args,
+  ComponentTitle,
 } from '@storybook/csf';
 
 import { Addon } from './index';
@@ -50,18 +51,29 @@ export interface StorySortObjectParameter {
   includeNames?: boolean;
 }
 
-interface StoryIndexEntry {
+type Path = string;
+interface BaseIndexEntry {
   id: StoryId;
   name: StoryName;
-  title: string;
-  importPath: string;
+  title: ComponentTitle;
+  importPath: Path;
 }
+export type StoryIndexEntry = BaseIndexEntry & {
+  type: 'story';
+};
+
+export type DocsIndexEntry = BaseIndexEntry & {
+  storiesImports: Path[];
+  type: 'docs';
+  legacy?: boolean;
+};
+export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
 
 // The `any` here is the story store's `StoreItem` record. Ideally we should probably only
 // pass a defined subset of that full data, but we pass it all so far :shrug:
 export type StorySortComparator = Comparator<[StoryId, any, Parameters, Parameters]>;
 export type StorySortParameter = StorySortComparator | StorySortObjectParameter;
-export type StorySortComparatorV7 = Comparator<StoryIndexEntry>;
+export type StorySortComparatorV7 = Comparator<IndexEntry>;
 export type StorySortParameterV7 = StorySortComparatorV7 | StorySortObjectParameter;
 
 export interface OptionsParameter extends Object {

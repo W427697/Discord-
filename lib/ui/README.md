@@ -1,6 +1,6 @@
 <h1>Storybook UI</h1>
 
-Storybook UI the core UI of [storybook](https://storybook.js.org).
+Storybook UI the core UI of [Storybook](https://storybook.js.org).
 It's a React based UI which you can initialize with a function.
 You can configure it by providing a provider API.
 
@@ -56,7 +56,7 @@ Then you need to initialize the UI like this:
 
 ```js
 import global from 'global';
-import renderStorybookUI from '@storybook/ui';
+import { renderStorybookUI } from '@storybook/ui';
 import Provider from './provider';
 
 const { document } = global;
@@ -125,6 +125,8 @@ class ReactProvider extends Provider {
 ## Hacking Guide
 
 If you like to add features to the Storybook UI or fix bugs, this is the guide you need to follow.
+
+First of all, familiarize yourself with code used. Check the [source](./src/) folder for the source code.
 
 ### The App
 

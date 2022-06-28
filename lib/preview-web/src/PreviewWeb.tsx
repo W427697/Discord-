@@ -1,9 +1,26 @@
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import global from 'global';
-import Events, { IGNORED_EXCEPTION } from '@storybook/core-events';
+import {
+  CURRENT_STORY_WAS_SET,
+  IGNORED_EXCEPTION,
+  PRELOAD_STORIES,
+  PREVIEW_KEYDOWN,
+  SET_CURRENT_STORY,
+  SET_STORIES,
+  STORY_ARGS_UPDATED,
+  STORY_CHANGED,
+  STORY_ERRORED,
+  STORY_MISSING,
+  STORY_PREPARED,
+  STORY_RENDER_PHASE_CHANGED,
+  STORY_SPECIFIED,
+  STORY_THREW_EXCEPTION,
+  STORY_UNCHANGED,
+  UPDATE_QUERY_PARAMS,
+} from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import { AnyFramework, StoryId, ProjectAnnotations, Args, Globals } from '@storybook/csf';
+import { AnyFramework, StoryId, ProjectAnnotations, Args, Globals, ViewMode } from '@storybook/csf';
 import type {
   ModuleImportFn,
   Selection,
@@ -37,9 +54,9 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
   previewEntryError?: Error;
 
-  currentSelection: Selection;
+  currentSelection?: Selection;
 
-  currentRender: Render<TFramework>;
+  currentRender?: StoryRender<TFramework> | DocsRender<TFramework>;
 
   constructor() {
     super();
@@ -64,9 +81,9 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
     globalWindow.onkeydown = this.onKeydown.bind(this);
 
-    this.channel.on(Events.SET_CURRENT_STORY, this.onSetCurrentStory.bind(this));
-    this.channel.on(Events.UPDATE_QUERY_PARAMS, this.onUpdateQueryParams.bind(this));
-    this.channel.on(Events.PRELOAD_STORIES, this.onPreloadStories.bind(this));
+    this.channel.on(SET_CURRENT_STORY, this.onSetCurrentStory.bind(this));
+    this.channel.on(UPDATE_QUERY_PARAMS, this.onUpdateQueryParams.bind(this));
+    this.channel.on(PRELOAD_STORIES, this.onPreloadStories.bind(this));
   }
 
   initializeWithProjectAnnotations(projectAnnotations: WebProjectAnnotations<TFramework>) {
@@ -76,6 +93,9 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   }
 
   async setInitialGlobals() {
+    if (!this.storyStore.globals)
+      throw new Error(`Cannot call setInitialGlobals before initialization`);
+
     const { globals } = this.urlStore.selectionSpecifier || {};
     if (globals) {
       this.storyStore.globals.updateFromPersisted(globals);
@@ -87,7 +107,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   initializeWithStoryIndex(storyIndex: StoryIndex): PromiseLike<void> {
     return super.initializeWithStoryIndex(storyIndex).then(() => {
       if (!global.FEATURES?.storyStoreV7) {
-        this.channel.emit(Events.SET_STORIES, this.storyStore.getSetStoriesPayload());
+        this.channel.emit(SET_STORIES, this.storyStore.getSetStoriesPayload());
       }
 
       return this.selectSpecifiedStory();
@@ -96,6 +116,9 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
   // Use the selection specifier to choose a story, then render it
   async selectSpecifiedStory() {
+    if (!this.storyStore.storyIndex)
+      throw new Error(`Cannot call selectSpecifiedStory before initialization`);
+
     if (!this.urlStore.selectionSpecifier) {
       this.renderMissingStory();
       return;
@@ -130,9 +153,9 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     }
 
     this.urlStore.setSelection({ storyId, viewMode });
-    this.channel.emit(Events.STORY_SPECIFIED, this.urlStore.selection);
+    this.channel.emit(STORY_SPECIFIED, this.urlStore.selection);
 
-    this.channel.emit(Events.CURRENT_STORY_WAS_SET, this.urlStore.selection);
+    this.channel.emit(CURRENT_STORY_WAS_SET, this.urlStore.selection);
 
     await this.renderSelection({ persistedArgs: args });
   }
@@ -161,7 +184,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     super.onStoriesChanged({ importFn, storyIndex });
 
     if (!global.FEATURES?.storyStoreV7) {
-      this.channel.emit(Events.SET_STORIES, await this.storyStore.getSetStoriesPayload());
+      this.channel.emit(SET_STORIES, await this.storyStore.getSetStoriesPayload());
     }
 
     if (this.urlStore.selection) {
@@ -176,15 +199,15 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     if (!this.currentRender?.disableKeyListeners && !focusInInput(event)) {
       // We have to pick off the keys of the event that we need on the other side
       const { altKey, ctrlKey, metaKey, shiftKey, key, code, keyCode } = event;
-      this.channel.emit(Events.PREVIEW_KEYDOWN, {
+      this.channel.emit(PREVIEW_KEYDOWN, {
         event: { altKey, ctrlKey, metaKey, shiftKey, key, code, keyCode },
       });
     }
   }
 
-  onSetCurrentStory(selection: Selection) {
-    this.urlStore.setSelection(selection);
-    this.channel.emit(Events.CURRENT_STORY_WAS_SET, this.urlStore.selection);
+  onSetCurrentStory(selection: { storyId: StoryId; viewMode?: ViewMode }) {
+    this.urlStore.setSelection({ viewMode: 'story', ...selection });
+    this.channel.emit(CURRENT_STORY_WAS_SET, this.urlStore.selection);
     this.renderSelection();
   }
 
@@ -206,11 +229,13 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     // of which ones were rendered by the docs page.
     // However, in `modernInlineRender`, the individual stories track their own events as they
     // each call `renderStoryToElement` below.
-    if (this.currentRender instanceof DocsRender) await this.currentRender.rerender();
+    if (this.currentRender instanceof DocsRender) {
+      await this.currentRender.rerender();
+    }
   }
 
   async onPreloadStories(ids: string[]) {
-    await Promise.all(ids.map((id) => this.storyStore.loadStory({ storyId: id })));
+    await Promise.all(ids.map((id) => this.storyStore.loadEntry(id)));
   }
 
   // RENDERING
@@ -221,25 +246,34 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   // - a story selected in "docs" viewMode,
   //     in which case we render the docsPage for that story
   async renderSelection({ persistedArgs }: { persistedArgs?: Args } = {}) {
+    const { renderToDOM } = this;
+    if (!renderToDOM) throw new Error('Cannot call renderSelection before initialization');
     const { selection } = this.urlStore;
-    if (!selection) {
-      throw new Error('Cannot render story as no selection was made');
-    }
+    if (!selection) throw new Error('Cannot call renderSelection as no selection was made');
 
     const { storyId } = selection;
+    let entry;
+    try {
+      entry = await this.storyStore.storyIdToEntry(storyId);
+    } catch (err) {
+      if (this.currentRender) await this.teardownRender(this.currentRender);
+      this.renderStoryLoadingException(storyId, err as Error);
+      return;
+    }
+
+    // Docs entries cannot be rendered in 'story' viewMode.
+    // For now story entries can be rendered in docs mode.
+    const viewMode = (entry?.type === 'docs' ? 'docs' : selection.viewMode) || 'story';
 
     const storyIdChanged = this.currentSelection?.storyId !== storyId;
-    const viewModeChanged = this.currentSelection?.viewMode !== selection.viewMode;
+    const viewModeChanged = this.currentSelection?.viewMode !== viewMode;
 
     // Show a spinner while we load the next story
-    if (selection.viewMode === 'story') {
+    if (viewMode === 'story') {
       this.view.showPreparingStory({ immediate: viewModeChanged });
     } else {
       this.view.showPreparingDocs();
     }
-
-    const lastSelection = this.currentSelection;
-    let lastRender = this.currentRender;
 
     // If the last render is still preparing, let's drop it right now. Either
     //   (a) it is a different story, which means we would drop it later, OR
@@ -247,89 +281,112 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     //       same moment anyway, and we should just "take over" the rendering.
     // (We can't tell which it is yet, because it is possible that an HMR is going on and
     //  even though the storyId is the same, the story itself is not).
-    if (lastRender?.isPreparing()) {
-      await this.teardownRender(lastRender);
-      lastRender = null;
+    if (this.currentRender?.isPreparing()) {
+      await this.teardownRender(this.currentRender);
     }
 
-    const storyRender = new StoryRender<TFramework>(
-      this.channel,
-      this.storyStore,
-      (...args) => {
-        // At the start of renderToDOM we make the story visible (see note in WebView)
-        this.view.showStoryDuringRender();
-        return this.renderToDOM(...args);
-      },
-      this.mainStoryCallbacks(storyId),
-      storyId,
-      'story'
-    );
+    let render;
+    if (viewMode === 'story') {
+      render = new StoryRender<TFramework>(
+        this.channel,
+        this.storyStore,
+        (...args) => {
+          // At the start of renderToDOM we make the story visible (see note in WebView)
+          this.view.showStoryDuringRender();
+          return renderToDOM(...args);
+        },
+        this.mainStoryCallbacks(storyId),
+        storyId,
+        'story'
+      );
+    } else {
+      render = new DocsRender<TFramework>(this.channel, this.storyStore, entry);
+    }
+
     // We need to store this right away, so if the story changes during
     // the async `.prepare()` below, we can (potentially) cancel it
+    const lastSelection = this.currentSelection;
     this.currentSelection = selection;
-    // Note this may be replaced by a docsRender after preparing
-    this.currentRender = storyRender;
+
+    const lastRender = this.currentRender;
+    this.currentRender = render;
 
     try {
-      await storyRender.prepare();
+      await render.prepare();
     } catch (err) {
       if (err !== PREPARE_ABORTED) {
         // We are about to render an error so make sure the previous story is
         // no longer rendered.
-        await this.teardownRender(lastRender);
-        this.renderStoryLoadingException(storyId, err);
+        if (lastRender) await this.teardownRender(lastRender);
+        this.renderStoryLoadingException(storyId, err as Error);
       }
       return;
     }
-    const implementationChanged = !storyIdChanged && !storyRender.isEqual(lastRender);
+    const implementationChanged = !storyIdChanged && lastRender && !render.isEqual(lastRender);
 
-    if (persistedArgs) this.storyStore.args.updateFromPersisted(storyRender.story, persistedArgs);
-
-    const { parameters, initialArgs, argTypes, args } = storyRender.context();
+    if (persistedArgs && entry.type !== 'docs') {
+      if (!render.story) throw new Error('Render has not been prepared!');
+      this.storyStore.args.updateFromPersisted(render.story, persistedArgs);
+    }
 
     // Don't re-render the story if nothing has changed to justify it
-    if (lastRender && !storyIdChanged && !implementationChanged && !viewModeChanged) {
+    if (
+      lastRender &&
+      !lastRender.torndown &&
+      !storyIdChanged &&
+      !implementationChanged &&
+      !viewModeChanged
+    ) {
       this.currentRender = lastRender;
-      this.channel.emit(Events.STORY_UNCHANGED, storyId);
+      this.channel.emit(STORY_UNCHANGED, storyId);
       this.view.showMain();
       return;
     }
 
     // Wait for the previous render to leave the page. NOTE: this will wait to ensure anything async
     // is properly aborted, which (in some cases) can lead to the whole screen being refreshed.
-    await this.teardownRender(lastRender, { viewModeChanged });
+    if (lastRender) await this.teardownRender(lastRender, { viewModeChanged });
 
     // If we are rendering something new (as opposed to re-rendering the same or first story), emit
     if (lastSelection && (storyIdChanged || viewModeChanged)) {
-      this.channel.emit(Events.STORY_CHANGED, storyId);
+      this.channel.emit(STORY_CHANGED, storyId);
     }
 
-    if (global.FEATURES?.storyStoreV7) {
-      this.channel.emit(Events.STORY_PREPARED, {
-        id: storyId,
-        parameters,
-        initialArgs,
-        argTypes,
-        args,
-      });
+    if (entry.type !== 'docs') {
+      if (!render.story) throw new Error('Render has not been prepared!');
+      const { parameters, initialArgs, argTypes, args } = this.storyStore.getStoryContext(
+        render.story
+      );
+
+      if (global.FEATURES?.storyStoreV7) {
+        this.channel.emit(STORY_PREPARED, {
+          id: storyId,
+          parameters,
+          initialArgs,
+          argTypes,
+          args,
+        });
+      }
+
+      // For v6 mode / compatibility
+      // If the implementation changed, or args were persisted, the args may have changed,
+      // and the STORY_PREPARED event above may not be respected.
+      if (implementationChanged || persistedArgs) {
+        this.channel.emit(STORY_ARGS_UPDATED, { storyId, args });
+      }
     }
 
-    // For v6 mode / compatibility
-    // If the implementation changed, or args were persisted, the args may have changed,
-    // and the STORY_PREPARED event above may not be respected.
-    if (implementationChanged || persistedArgs) {
-      this.channel.emit(Events.STORY_ARGS_UPDATED, { storyId, args });
-    }
-
-    if (selection.viewMode === 'docs' || parameters.docsOnly) {
-      this.currentRender = DocsRender.fromStoryRender<TFramework>(storyRender);
+    if (viewMode === 'docs') {
       this.currentRender.renderToElement(
         this.view.prepareForDocs(),
         this.renderStoryToElement.bind(this)
       );
     } else {
-      this.storyRenders.push(storyRender);
-      this.currentRender.renderToElement(this.view.prepareForStory(storyRender.story));
+      if (!render.story) throw new Error('Render has not been prepared!');
+      this.storyRenders.push(render as StoryRender<TFramework>);
+      (this.currentRender as StoryRender<TFramework>).renderToElement(
+        this.view.prepareForStory(render.story)
+      );
     }
   }
 
@@ -339,6 +396,9 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   // we will change it to go ahead and load the story, which will end up being
   // "instant", although async.
   renderStoryToElement(story: Story<TFramework>, element: HTMLElement) {
+    if (!this.renderToDOM)
+      throw new Error(`Cannot call renderStoryToElement before initialization`);
+
     const render = new StoryRender<TFramework>(
       this.channel,
       this.storyStore,
@@ -359,10 +419,10 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
   async teardownRender(
     render: Render<TFramework>,
-    { viewModeChanged }: { viewModeChanged?: boolean } = {}
+    { viewModeChanged = false }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);
-    await render?.teardown({ viewModeChanged });
+    await render?.teardown?.({ viewModeChanged });
   }
 
   // API
@@ -411,20 +471,20 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
   renderMissingStory() {
     this.view.showNoPreview();
-    this.channel.emit(Events.STORY_MISSING);
+    this.channel.emit(STORY_MISSING);
   }
 
   renderStoryLoadingException(storySpecifier: StorySpecifier, err: Error) {
     logger.error(`Unable to load story '${storySpecifier}':`);
     logger.error(err);
     this.view.showErrorDisplay(err);
-    this.channel.emit(Events.STORY_MISSING, storySpecifier);
+    this.channel.emit(STORY_MISSING, storySpecifier);
   }
 
   // renderException is used if we fail to render the story and it is uncaught by the app layer
   renderException(storyId: StoryId, err: Error) {
-    this.channel.emit(Events.STORY_THREW_EXCEPTION, err);
-    this.channel.emit(Events.STORY_RENDER_PHASE_CHANGED, { newPhase: 'errored', storyId });
+    this.channel.emit(STORY_THREW_EXCEPTION, err);
+    this.channel.emit(STORY_RENDER_PHASE_CHANGED, { newPhase: 'errored', storyId });
 
     // Ignored exceptions exist for control flow purposes, and are typically handled elsewhere.
     if (err !== IGNORED_EXCEPTION) {
@@ -438,8 +498,8 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   // wrong -- for instance returned the wrong thing from a story
   renderError(storyId: StoryId, { title, description }: { title: string; description: string }) {
     logger.error(`Error rendering story ${title}: ${description}`);
-    this.channel.emit(Events.STORY_ERRORED, { title, description });
-    this.channel.emit(Events.STORY_RENDER_PHASE_CHANGED, { newPhase: 'errored', storyId });
+    this.channel.emit(STORY_ERRORED, { title, description });
+    this.channel.emit(STORY_RENDER_PHASE_CHANGED, { newPhase: 'errored', storyId });
     this.view.showErrorDisplay({
       message: title,
       stack: description,

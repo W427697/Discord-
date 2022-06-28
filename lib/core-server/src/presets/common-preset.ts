@@ -1,24 +1,24 @@
+import fs from 'fs-extra';
 import {
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   getManagerMainTemplate,
   getPreviewMainTemplate,
-  loadCustomBabelConfig,
-  getStorybookBabelConfig,
   loadEnvs,
 } from '@storybook/core-common';
-import type { Options } from '@storybook/core-common';
+import type {
+  Options,
+  CoreConfig,
+  StorybookConfig,
+  StoryIndexer,
+  IndexerOptions,
+} from '@storybook/core-common';
+import { loadCsf } from '@storybook/csf-tools';
 
 export const babel = async (_: unknown, options: Options) => {
-  const { configDir, presets } = options;
-  if (options.features?.babelModeV7) {
-    return presets.apply('babelDefault', {}, options);
-  }
+  const { presets } = options;
 
-  return loadCustomBabelConfig(
-    configDir,
-    () => presets.apply('babelDefault', getStorybookBabelConfig(), options) as any
-  );
+  return presets.apply('babelDefault', {}, options);
 };
 
 export const logLevel = (previous: any, options: Options) => previous || options.loglevel || 'info';
@@ -41,9 +41,7 @@ export const previewMainTemplate = () => getPreviewMainTemplate();
 
 export const managerMainTemplate = () => getManagerMainTemplate();
 
-export const previewEntries = (entries: any[] = [], options: { modern?: boolean }) => {
-  if (!options.modern)
-    entries.push(require.resolve('@storybook/core-client/dist/esm/globals/polyfills'));
+export const previewEntries = (entries: any[] = []) => {
   entries.push(require.resolve('@storybook/core-client/dist/esm/globals/globals'));
   return entries;
 };
@@ -61,13 +59,64 @@ export const typescript = () => ({
   },
 });
 
+const optionalEnvToBoolean = (input: string | undefined): boolean | undefined => {
+  if (input === undefined) {
+    return undefined;
+  }
+  if (input.toUpperCase() === 'FALSE') {
+    return false;
+  }
+  if (input.toUpperCase() === 'TRUE') {
+    return true;
+  }
+  if (typeof input === 'string') {
+    return true;
+  }
+  return undefined;
+};
+
+/**
+ * If for some reason this config is not applied, the reason is that
+ * likely there is an addon that does `export core = () => ({ someConfig })`,
+ * instead of `export core = (existing) => ({ ...existing, someConfig })`,
+ * just overwriting everything and not merging with the existing values.
+ */
+export const core = async (existing: CoreConfig, options: Options): Promise<CoreConfig> => ({
+  ...existing,
+  disableTelemetry: options.disableTelemetry === true,
+  enableCrashReports:
+    options.enableCrashReports || optionalEnvToBoolean(process.env.STORYBOOK_ENABLE_CRASH_REPORTS),
+});
+
 export const config = async (base: any, options: Options) => {
   return [...(await options.presets.apply('previewAnnotations', [], options)), ...base];
 };
 
-export const features = async (existing: Record<string, boolean>) => ({
+export const features = async (
+  existing: StorybookConfig['features']
+): Promise<StorybookConfig['features']> => ({
   ...existing,
   postcss: true,
-  emotionAlias: false, // TODO remove in 7.0, this no longer does anything
   warnOnLegacyHierarchySeparator: true,
+  buildStoriesJson: false,
+  storyStoreV7: true,
+  breakingChangesV7: true,
+  interactionsDebugger: false,
+  babelModeV7: true,
+  argTypeTargetsV7: true,
+  previewMdx2: false,
 });
+
+export const storyIndexers = async (indexers?: StoryIndexer[]) => {
+  const csfIndexer = async (fileName: string, opts: IndexerOptions) => {
+    const code = (await fs.readFile(fileName, 'utf-8')).toString();
+    return loadCsf(code, { ...opts, fileName }).parse();
+  };
+  return [
+    {
+      test: /(stories|story)\.[tj]sx?$/,
+      indexer: csfIndexer,
+    },
+    ...(indexers || []),
+  ];
+};

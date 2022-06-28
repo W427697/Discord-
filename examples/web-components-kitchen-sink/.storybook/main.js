@@ -1,6 +1,6 @@
 module.exports = {
   logLevel: 'debug',
-  stories: ['../src/**/*.stories.@(ts|mdx)'],
+  stories: ['../src/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   addons: [
     '@storybook/addon-docs',
     '@storybook/addon-controls',
@@ -15,10 +15,13 @@ module.exports = {
     '@storybook/addon-highlight',
   ],
   core: {
-    builder: 'webpack4',
+    channelOptions: { allowFunction: false, maxDepth: 10 },
+    disableTelemetry: true,
   },
   features: {
     interactionsDebugger: true,
     buildStoriesJson: true,
+    breakingChangesV7: true,
   },
+  framework: '@storybook/web-components-webpack5',
 };

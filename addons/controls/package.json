@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-controls",
-  "version": "6.5.0-alpha.64",
+  "version": "7.0.0-alpha.6",
   "description": "Interact with component inputs dynamically in the Storybook UI",
   "keywords": [
     "addon",
@@ -27,14 +27,7 @@
   "license": "MIT",
   "main": "dist/cjs/manager.js",
   "module": "dist/esm/manager.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -45,15 +38,15 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.0-alpha.64",
-    "@storybook/api": "6.5.0-alpha.64",
-    "@storybook/client-logger": "6.5.0-alpha.64",
-    "@storybook/components": "6.5.0-alpha.64",
-    "@storybook/core-common": "6.5.0-alpha.64",
-    "@storybook/csf": "0.0.2--canary.7c6c115.0",
-    "@storybook/node-logger": "6.5.0-alpha.64",
-    "@storybook/store": "6.5.0-alpha.64",
-    "@storybook/theming": "6.5.0-alpha.64",
+    "@storybook/addons": "7.0.0-alpha.6",
+    "@storybook/api": "7.0.0-alpha.6",
+    "@storybook/client-logger": "7.0.0-alpha.6",
+    "@storybook/components": "7.0.0-alpha.6",
+    "@storybook/core-common": "7.0.0-alpha.6",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/node-logger": "7.0.0-alpha.6",
+    "@storybook/store": "7.0.0-alpha.6",
+    "@storybook/theming": "7.0.0-alpha.6",
     "core-js": "^3.8.2",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
@@ -73,8 +66,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "7417a230d67b54d65caedcfb584f924b879ac9f5",
-  "sbmodern": "dist/modern/manager.js",
+  "gitHead": "a88dcca40ba169a373bad33dd76e9a4bd4f1f5ec",
   "storybook": {
     "displayName": "Controls",
     "icon": "https://user-images.githubusercontent.com/263385/101991669-479cc600-3c7c-11eb-93d9-38b67e8371f2.png",

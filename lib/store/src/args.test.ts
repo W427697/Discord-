@@ -1,4 +1,7 @@
 import { once } from '@storybook/client-logger';
+import { expect } from '@jest/globals';
+import { SBType } from '@storybook/csf';
+
 import {
   combineArgs,
   groupArgsByTarget,
@@ -7,13 +10,13 @@ import {
   validateOptions,
 } from './args';
 
-const stringType = { name: 'string' };
-const numberType = { name: 'number' };
-const booleanType = { name: 'boolean' };
-const enumType = { name: 'enum' };
-const functionType = { name: 'function' };
-const numArrayType = { name: 'array', value: numberType };
-const boolObjectType = { name: 'object', value: { bool: booleanType } };
+const stringType: SBType = { name: 'string' };
+const numberType: SBType = { name: 'number' };
+const booleanType: SBType = { name: 'boolean' };
+const enumType: SBType = { name: 'enum', value: [1, 2, 3] };
+const functionType: SBType = { name: 'function' };
+const numArrayType: SBType = { name: 'array', value: numberType };
+const boolObjectType: SBType = { name: 'object', value: { bool: booleanType } };
 
 jest.mock('@storybook/client-logger');
 
@@ -81,6 +84,25 @@ describe('mapArgsToTypes', () => {
 
   it('omits functions', () => {
     expect(mapArgsToTypes({ a: 'something' }, { a: { type: functionType } })).toStrictEqual({});
+  });
+
+  it('includes functions if there is a mapping', () => {
+    expect(
+      mapArgsToTypes(
+        { a: 'something' },
+        { a: { type: functionType, mapping: { something: () => 'foo' } } }
+      )
+    ).toStrictEqual({
+      a: 'something',
+    });
+  });
+
+  it('skips default mapping if there is a user-specified mapping', () => {
+    expect(
+      mapArgsToTypes({ a: 'something' }, { a: { type: numberType, mapping: { something: 10 } } })
+    ).toStrictEqual({
+      a: 'something',
+    });
   });
 
   it('omits unknown keys', () => {
@@ -205,6 +227,11 @@ describe('validateOptions', () => {
 
   it('includes arg if value is one of options', () => {
     expect(validateOptions({ a: 1 }, { a: { options: [1, 2] } })).toStrictEqual({ a: 1 });
+  });
+
+  // https://github.com/storybookjs/storybook/issues/17063
+  it('does not set args to `undefined` if they are unset and there are options', () => {
+    expect(validateOptions({}, { a: { options: [2, 3] } })).toStrictEqual({});
   });
 
   it('includes arg if value is undefined', () => {

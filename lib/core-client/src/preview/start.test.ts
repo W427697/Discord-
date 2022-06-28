@@ -16,6 +16,7 @@ import { start } from './start';
 
 jest.mock('@storybook/preview-web/dist/cjs/WebView');
 jest.spyOn(WebView.prototype, 'prepareForDocs').mockReturnValue('docs-root');
+jest.spyOn(WebView.prototype, 'prepareForStory').mockReturnValue('story-root');
 
 jest.mock('global', () => ({
   // @ts-ignore
@@ -32,7 +33,7 @@ jest.mock('global', () => ({
   },
 }));
 
-jest.mock('@storybook/channel-postmessage', () => () => mockChannel);
+jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
 jest.mock('react-dom');
 
 // for the auto-title test
@@ -40,7 +41,8 @@ jest.mock('@storybook/store', () => {
   const actualStore = jest.requireActual('@storybook/store');
   return {
     ...actualStore,
-    autoTitle: () => 'auto-title',
+    userOrAutoTitle: (importPath: string, specifier: any, userTitle?: string) =>
+      userTitle || 'auto-title',
   };
 });
 
@@ -155,7 +157,7 @@ describe('start', () => {
         expect.objectContaining({
           id: 'component-a--story-one',
         }),
-        undefined
+        'story-root'
       );
     });
 
@@ -327,7 +329,7 @@ describe('start', () => {
             }),
           }),
         }),
-        undefined
+        'story-root'
       );
     });
 
@@ -364,7 +366,7 @@ describe('start', () => {
             },
           }),
         }),
-        undefined
+        'story-root'
       );
 
       expect((window as any).IS_STORYBOOK).toBe(true);
@@ -706,7 +708,7 @@ describe('start', () => {
         expect.objectContaining({
           id: 'component-c--story-one',
         }),
-        undefined
+        'story-root'
       );
     });
 
@@ -945,6 +947,7 @@ describe('start', () => {
           "v": 2,
         }
       `);
+      await waitForRender();
 
       mockChannel.emit.mockClear();
       disposeCallback(module.hot.data);
@@ -1182,7 +1185,7 @@ describe('start', () => {
         expect.objectContaining({
           id: 'component-a--story-one',
         }),
-        undefined
+        'story-root'
       );
     });
   });
@@ -1340,6 +1343,8 @@ describe('start', () => {
           "v": 2,
         }
       `);
+
+      await waitForRender();
     });
   });
 });

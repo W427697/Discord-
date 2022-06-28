@@ -1,5 +1,5 @@
 import { Story, Meta } from '@storybook/angular';
-import { Button } from '@storybook/angular/demo';
+import { Button } from '../angular-demo';
 
 export default {
   title: 'Legacy / Component in Story',

@@ -11,6 +11,7 @@ import { DocsContext, DocsContextProps } from './DocsContext';
 import { SourceContext, SourceContextProps } from './SourceContainer';
 import { getSourceProps, SourceState } from './Source';
 import { useStories } from './useStory';
+import { CURRENT_SELECTION } from './types';
 
 export { SourceState };
 
@@ -41,19 +42,24 @@ const getPreviewProps = (
   }
   const childArray: ReactNodeArray = Array.isArray(children) ? children : [children];
   const storyChildren = childArray.filter(
-    (c: ReactElement) => c.props && (c.props.id || c.props.name)
+    (c: ReactElement) => c.props && (c.props.id || c.props.name || c.props.of)
   ) as ReactElement[];
-  const targetIds = storyChildren.map(
-    (s) =>
-      s.props.id ||
-      toId(
-        mdxComponentAnnotations.id || mdxComponentAnnotations.title,
-        storyNameFromExport(mdxStoryNameToKey[s.props.name])
-      )
-  );
+  const targetIds = storyChildren.map(({ props: { id, of, name } }) => {
+    if (id) return id;
+    if (of) return docsContext.storyIdByModuleExport(of);
+
+    return toId(
+      mdxComponentAnnotations.id || mdxComponentAnnotations.title,
+      storyNameFromExport(mdxStoryNameToKey[name])
+    );
+  });
+
   const sourceProps = getSourceProps({ ids: targetIds }, docsContext, sourceContext);
   if (!sourceState) sourceState = sourceProps.state;
-  const stories = useStories(targetIds, docsContext);
+  const storyIds = targetIds.map((targetId) =>
+    targetId === CURRENT_SELECTION ? docsContext.id : targetId
+  );
+  const stories = useStories(storyIds, docsContext);
   isLoading = stories.some((s) => !s);
 
   return {

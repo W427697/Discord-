@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { parsePath, createPath } from 'history';
-import type { Combo } from '@storybook/api';
+import type { Combo, StoryEntry } from '@storybook/api';
 import { Provider as ManagerProvider, Consumer } from '@storybook/api';
 import { Location, BaseLocationProvider } from '@storybook/router';
 
@@ -83,7 +83,10 @@ export const NoTabs = () => (
         <Preview
           {...previewProps}
           api={{ ...api, getElements: () => ({}) }}
-          story={{ parameters: { previewTabs: { canvas: { hidden: true } } } }}
+          story={{
+            ...(previewProps.story as StoryEntry),
+            parameters: { previewTabs: { canvas: { hidden: true } } },
+          }}
         />
       );
     }}
@@ -97,7 +100,10 @@ export const HideFullscreen = () => (
         <Preview
           {...previewProps}
           api={{ ...api, getElements: () => ({}) }}
-          story={{ parameters: { toolbar: { fullscreen: { hidden: true } } } }}
+          story={{
+            ...(previewProps.story as StoryEntry),
+            parameters: { toolbar: { fullscreen: { hidden: true } } },
+          }}
         />
       );
     }}
@@ -112,9 +118,11 @@ export const HideAllDefaultTools = () => (
           {...previewProps}
           api={{ ...api, getElements: () => ({}) }}
           story={{
+            ...(previewProps.story as StoryEntry),
             parameters: {
               toolbar: {
                 title: { hidden: true },
+                remount: { hidden: true },
                 zoom: { hidden: true },
                 eject: { hidden: true },
                 copy: { hidden: true },
@@ -131,35 +139,21 @@ export const HideAllDefaultTools = () => (
 export const WithCanvasTab = () => (
   <Consumer>
     {({ api }: Combo) => {
-      return (
-        <Preview
-          {...previewProps}
-          api={{
-            ...api,
-            getElements: () => ({}),
-          }}
-        />
-      );
+      return <Preview {...previewProps} api={{ ...api, getElements: () => ({}) }} />;
     }}
   </Consumer>
 );
 
 export const WithTabs = () => <Preview {...previewProps} />;
 
-export const WithToolbarExclusions = () => (
+export const WithTabsHidden = () => (
   <Consumer>
     {({ api }: Combo) => {
       return (
         <Preview
           {...previewProps}
-          api={{
-            ...api,
-            getElements: () => ({}),
-            getQueryParam: (key) => {
-              const params = { toolbarExclude: 'canvas,fullscreen' };
-              return params[key];
-            },
-          }}
+          options={{ ...previewProps.options, showTabs: false }}
+          api={{ ...api, getElements: () => ({}) }}
         />
       );
     }}

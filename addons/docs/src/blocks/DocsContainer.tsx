@@ -36,17 +36,21 @@ const warnOptionsTheme = deprecate(
 );
 
 export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, children }) => {
-  const { id: storyId, storyById } = context;
-  const {
-    parameters: { options = {}, docs = {} },
-  } = storyById(storyId);
-  let themeVars = docs.theme;
-  if (!themeVars && options.theme) {
-    warnOptionsTheme();
-    themeVars = options.theme;
+  const { id: storyId, type, storyById } = context;
+  const allComponents = { ...defaultComponents };
+  let theme = ensureTheme(null);
+  if (type === 'legacy') {
+    const {
+      parameters: { options = {}, docs = {} },
+    } = storyById(storyId);
+    let themeVars = docs.theme;
+    if (!themeVars && options.theme) {
+      warnOptionsTheme();
+      themeVars = options.theme;
+    }
+    theme = ensureTheme(themeVars);
+    Object.assign(allComponents, docs.components);
   }
-  const theme = ensureTheme(themeVars);
-  const allComponents = { ...defaultComponents, ...docs.components };
 
   useEffect(() => {
     let url;

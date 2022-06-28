@@ -1,4 +1,5 @@
-import { baseGenerator, Generator } from '../baseGenerator';
+import { baseGenerator } from '../baseGenerator';
+import { Generator } from '../types';
 import { writePackageJson } from '../../js-package-manager';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
@@ -18,7 +19,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
 
   writePackageJson(packageJson);
 
-  baseGenerator(packageManager, npmOptions, options, 'rax', {
+  await baseGenerator(packageManager, npmOptions, options, 'rax', {
     extraPackages: ['rax'],
   });
 };
