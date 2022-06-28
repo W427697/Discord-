@@ -120,7 +120,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const addonsDir = config.outdir;
   const coreDir = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
 
-  // router.use(`/sb-addons`, express.static(addonsDir));
+  router.use(`/sb-addons`, express.static(addonsDir));
   router.use(`/sb-manager`, express.static(coreDir));
 
   const [addonFiles, template] = await Promise.all([
@@ -133,7 +133,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const html = render(template, {
     title: 'it is nice',
     files: {
-      js: addonFiles.map((f) => `/sb-addons/${f.path}`),
+      js: addonFiles.map((f) => `./sb-addons/${f.path}`),
       css: [],
       favicon: '',
     },
