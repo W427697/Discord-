@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 import { addons, useEffect } from '@storybook/addons';
-import { once } from '@storybook/client-logger';
 import type { ArgTypes, Args, StoryContext, AnyFramework } from '@storybook/csf';
 
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';

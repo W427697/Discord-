@@ -48,7 +48,6 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
   const handler = function actionHandler(...args: any[]) {
     const channel = addons.getChannel();
     const id = uuidv4();
-    const minDepth = 5; // anything less is really just storybook internals
     const serializedArgs = args.map(serializeArg);
     const normalizedArgs = args.length > 1 ? serializedArgs : serializedArgs[0];
 

@@ -1,6 +1,5 @@
 import memoize from 'memoizerific';
 import React from 'react';
-import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import mapValues from 'lodash/mapValues';
 import countBy from 'lodash/countBy';
@@ -20,8 +19,6 @@ import { combineParameters } from '../index';
 import merge from './merge';
 import type { Provider } from '../modules/provider';
 import type { ViewMode } from '../modules/addons';
-
-const { FEATURES } = global;
 
 export type { StoryId };
 
