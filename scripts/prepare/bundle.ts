@@ -43,6 +43,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       format: ['esm'],
       target: 'chrome100',
       clean: true,
+      platform: platform || 'browser',
       // shims: true,
       esbuildPlugins: [
         aliasPlugin({
@@ -78,14 +79,15 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       watch,
       format: ['cjs'],
       target: 'node14',
+      platform: 'node',
       clean: true,
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
 
       esbuildOptions: (c) => {
         /* eslint-disable no-param-reassign */
-        c.define = optimized
-          ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}' }
-          : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}' };
+        // c.define = optimized
+        //   ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}' }
+        //   : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}' };
         c.platform = 'node';
         c.legalComments = 'none';
         c.minifyWhitespace = optimized;
