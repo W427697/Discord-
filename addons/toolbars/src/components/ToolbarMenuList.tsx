@@ -1,4 +1,4 @@
-import React, { useCallback, FC, ReactNode } from 'react';
+import React, { useCallback, FC } from 'react';
 import { useGlobals } from '@storybook/api';
 import { WithTooltip, TooltipLinkList } from '@storybook/components';
 import { ToolbarMenuButton } from './ToolbarMenuButton';
@@ -7,22 +7,13 @@ import { getSelectedIcon, getSelectedTitle } from '../utils/get-selected';
 import { ToolbarMenuProps } from '../types';
 import { ToolbarMenuListItem } from './ToolbarMenuListItem';
 
-type ItemProps = {
-  left?: ReactNode;
-  title?: ReactNode;
-  right?: ReactNode;
-  active?: boolean;
-  onClick?: () => void;
-};
-
 type ToolbarMenuListProps = ToolbarMenuProps & WithKeyboardCycleProps;
 
 export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
   ({
     id,
-    name,
     description,
-    toolbar: { icon: _icon, items, title: _title, showName, preventDynamicIcon, dynamicTitle },
+    toolbar: { icon: _icon, items, title: _title, preventDynamicIcon, dynamicTitle },
   }) => {
     const [globals, updateGlobals] = useGlobals();
 
@@ -33,11 +24,6 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
 
     if (!preventDynamicIcon) {
       icon = getSelectedIcon({ currentValue, items }) || icon;
-    }
-
-    // Deprecation support for old "name of global arg used as title"
-    if (showName && !title) {
-      title = name;
     }
 
     if (dynamicTitle) {
