@@ -36,8 +36,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.0-alpha.64",
-    "@storybook/core-events": "6.5.0-alpha.64",
+    "@storybook/addons": "7.0.0-alpha.6",
+    "@storybook/core-events": "7.0.0-alpha.6",
     "core-js": "^3.8.2",
     "global": "^4.4.0"
   },
