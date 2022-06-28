@@ -122,7 +122,6 @@ export async function baseGenerator(
   };
 
   // added to main.js
-  // make sure to update `canUsePrebuiltManager` in dev-server.js and build-manager-config/main.js when this list changes
   const addons = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
