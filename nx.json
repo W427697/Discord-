@@ -82,7 +82,6 @@
     "@storybook/core-server": { "implicitDependencies": [] },
     "@storybook/csf-tools": { "implicitDependencies": [] },
 
-    "@storybook/manager-webpack5": { "implicitDependencies": [] },
     "@storybook/builder-manager": { "implicitDependencies": [] },
     "@storybook/addons": { "implicitDependencies": [] },
     "@storybook/api": { "implicitDependencies": [] },
