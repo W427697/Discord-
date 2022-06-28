@@ -3,7 +3,7 @@ import type { StoryContext } from '@storybook/addons';
 
 import { Component } from '@angular/core';
 import { moduleMetadata } from './decorators';
-import { addDecorator, storiesOf, clearDecorators, getStorybook, configure } from '.';
+import { addDecorator, storiesOf, getStorybook, configure } from '.';
 
 const defaultContext: StoryContext = {
   componentId: 'unspecified',
@@ -133,7 +133,5 @@ describe('moduleMetadata', () => {
       imports: [MockModule],
       schemas: [],
     });
-
-    clearDecorators();
   });
 });
