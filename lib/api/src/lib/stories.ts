@@ -3,7 +3,6 @@ import React from 'react';
 import dedent from 'ts-dedent';
 import mapValues from 'lodash/mapValues';
 import countBy from 'lodash/countBy';
-import global from 'global';
 import type {
   StoryId,
   ComponentTitle,
