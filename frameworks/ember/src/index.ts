@@ -1,6 +1,5 @@
 export {
   storiesOf,
-  setAddon,
   addDecorator,
   addParameters,
   configure,
