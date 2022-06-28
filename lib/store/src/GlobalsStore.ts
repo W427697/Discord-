@@ -5,6 +5,7 @@ import type { Globals, GlobalTypes } from '@storybook/csf';
 import { deepDiff, DEEPLY_EQUAL } from './args';
 import { getValuesFromArgTypes } from './csf/getValuesFromArgTypes';
 
+// TODO removing this behavior breaks test, so more work is required to fix it
 const setUndeclaredWarning = deprecate(
   () => {},
   dedent`

@@ -305,11 +305,6 @@ export interface StorybookConfig {
   logLevel?: string;
   features?: {
     /**
-     * Allows to disable deprecated implicit PostCSS loader. (will be removed in 7.0)
-     */
-    postcss?: boolean;
-
-    /**
      * Build stories.json automatically on start/build
      */
     buildStoriesJson?: boolean;
@@ -337,20 +332,9 @@ export interface StorybookConfig {
     interactionsDebugger?: boolean;
 
     /**
-     * Use Storybook 7.0 babel config scheme
-     */
-    babelModeV7?: boolean;
-
-    /**
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
      */
     argTypeTargetsV7?: boolean;
-
-    /**
-     * Warn when there is a pre-6.0 hierarchy separator ('.' / '|') in the story title.
-     * Will be removed in 7.0.
-     */
-    warnOnLegacyHierarchySeparator?: boolean;
 
     /**
      * Preview MDX2 support, will become default in 7.0

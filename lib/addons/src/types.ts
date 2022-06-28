@@ -17,10 +17,6 @@ import type {
 
 import { Addon } from './index';
 
-// NOTE: The types exported from this file are simplified versions of the types exported
-// by @storybook/csf, with the simpler form retained for backwards compatibility.
-// We will likely start exporting the more complex <StoryFnReturnType> based types in 7.0
-
 export type {
   StoryId,
   StoryKind,

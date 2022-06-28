@@ -13,7 +13,6 @@ import {
   STORY_INDEX_INVALIDATED,
   CONFIG_ERROR,
 } from '@storybook/core-events';
-import deprecate from 'util-deprecate';
 import { logger } from '@storybook/client-logger';
 
 import { getEventMetadata } from '../lib/events';
@@ -89,30 +88,6 @@ export interface SubAPI {
   fetchStoryList: () => Promise<void>;
   setStoryList: (storyList: StoryIndex) => Promise<void>;
   updateStory: (storyId: StoryId, update: StoryUpdate, ref?: ComposedRef) => Promise<void>;
-}
-
-const deprecatedOptionsParameterWarnings: Record<string, () => void> = [
-  'enableShortcuts',
-  'theme',
-  'showRoots',
-].reduce((acc, option: string) => {
-  acc[option] = deprecate(
-    () => {},
-    `parameters.options.${option} is deprecated and will be removed in Storybook 7.0.
-To change this setting, use \`addons.setConfig\`. See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-immutable-options-parameters
-  `
-  );
-  return acc;
-}, {} as Record<string, () => void>);
-function checkDeprecatedOptionParameters(options?: Record<string, any>) {
-  if (!options) {
-    return;
-  }
-  Object.keys(options).forEach((option: string) => {
-    if (deprecatedOptionsParameterWarnings[option]) {
-      deprecatedOptionsParameterWarnings[option]();
-    }
-  });
 }
 
 export const init: ModuleFn<SubAPI, SubState, true> = ({
@@ -454,7 +429,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         const options = fullAPI.getCurrentParameter('options');
 
         if (options) {
-          checkDeprecatedOptionParameters(options);
           fullAPI.setOptions(options);
         }
       }
@@ -467,7 +441,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       if (!ref) {
         if (!store.getState().hasCalledSetOptions) {
           const { options } = update.parameters;
-          checkDeprecatedOptionParameters(options);
           fullAPI.setOptions(options);
           store.setState({ hasCalledSetOptions: true });
         }
@@ -501,7 +474,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
         fullAPI.setStories(setStoriesData);
         const options = fullAPI.getCurrentParameter('options');
-        checkDeprecatedOptionParameters(options);
         fullAPI.setOptions(options);
       } else {
         fullAPI.setRef(ref.id, { ...ref, setStoriesData }, true);

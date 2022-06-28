@@ -47,6 +47,7 @@ const warningAlternatives = {
   addLoaders: `Instead, use \`export const loaders = [];\` in your \`preview.js\`.`,
 };
 
+// TODO: talk to tom about the removal of this
 const warningMessage = (method: keyof typeof warningAlternatives) =>
   deprecate(
     () => {},
@@ -166,31 +167,9 @@ export class ClientApi<TFramework extends AnyFramework> {
     return this.facade.getStoryIndex(this.storyStore);
   }
 
-  setAddon = deprecate(
-    (addon: any) => {
-      this.addons = { ...this.addons, ...addon };
-    },
-    dedent`
-      \`setAddon\` is deprecated and will be removed in Storybook 7.0.
-
-      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-setaddon
-    `
-  );
-
   addDecorator = (decorator: DecoratorFunction<TFramework>) => {
     this.facade.projectAnnotations.decorators.push(decorator);
   };
-
-  clearDecorators = deprecate(
-    () => {
-      this.facade.projectAnnotations.decorators = [];
-    },
-    dedent`
-      \`clearDecorators\` is deprecated and will be removed in Storybook 7.0.
-
-      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-cleardecorators
-    `
-  );
 
   addParameters = ({
     globals,

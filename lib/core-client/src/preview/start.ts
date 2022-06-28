@@ -13,6 +13,7 @@ import { executeLoadableForChanges } from './executeLoadable';
 
 const { window: globalWindow, FEATURES } = global;
 
+// TODO: talk to tom about the removal of this
 const configureDeprecationWarning = deprecate(
   () => {},
   `\`configure()\` is deprecated and will be removed in Storybook 7.0. 
