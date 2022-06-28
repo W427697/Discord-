@@ -211,7 +211,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   const html = render(template, {
     title: 'it is nice',
     files: {
-      js: addonFiles.map((f) => `/sb-addons/${f.path}`),
+      js: addonFiles.map((f) => `./sb-addons/${f.path}`),
       css: [],
       favicon: '',
     },

@@ -322,9 +322,16 @@ jobs:
       - run:
           name: cypress run
           command: yarn test:e2e-examples
+      - run:
+          name: prep artifacts
+          when: always
+          command: zip -r /tmp/storybook-e2e-testing-out.zip ./built-storybook
       - store_artifacts:
           path: /tmp/cypress-record
           destination: cypress
+      - store_artifacts:
+          path: /tmp/storybook-e2e-testing-out.zip
+          destination: e2e
   smoke-tests:
     executor:
       class: medium+
