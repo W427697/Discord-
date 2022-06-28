@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
-import path, { join } from 'path';
+import path, { dirname, join } from 'path';
 import dedent from 'ts-dedent';
 import global from 'global';
 
@@ -51,9 +51,7 @@ export async function buildStaticStandalone(
   options.configDir = path.resolve(options.configDir);
   /* eslint-enable no-param-reassign */
 
-  const defaultFavIcon = require.resolve('@storybook/core-server/public/favicon.ico');
-
-  logger.info(chalk`=> Cleaning outputDir: {cyan ${options.outputDir}}`);
+  logger.info(chalk`=> Cleaning outputDir: {cyan ${options.outputDir.replace(process.cwd(), '')}}`);
   if (options.outputDir === '/') {
     throw new Error("Won't remove directory '/'. Check your outputDir!");
   }
@@ -117,6 +115,10 @@ export async function buildStaticStandalone(
 
   const effects: Promise<void>[] = [];
 
+  global.FEATURES = features;
+
+  await managerBuilder.build({ startTime: process.hrtime(), options: fullOptions });
+
   if (staticDirs) {
     effects.push(
       copyAllStaticFilesRelativeToMain(staticDirs, options.outputDir, options.configDir)
@@ -126,11 +128,11 @@ export async function buildStaticStandalone(
     effects.push(copyAllStaticFiles(options.staticDir, options.outputDir));
   }
 
-  effects.push(copy(defaultFavIcon, options.outputDir));
-
-  global.FEATURES = features;
-
-  await managerBuilder.build({ startTime: process.hrtime(), options: fullOptions });
+  const coreServerPublicDir = join(
+    dirname(require.resolve('@storybook/core-server/package.json')),
+    'public'
+  );
+  effects.push(copy(coreServerPublicDir, options.outputDir));
 
   let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
   if ((features?.buildStoriesJson || features?.storyStoreV7) && !options.ignorePreview) {
