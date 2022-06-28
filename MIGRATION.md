@@ -1445,7 +1445,7 @@ We've also changed the code that resolves these globs, so that invalid globs wil
 Example of an **invalid** glob:
 
 ```
-stories: ['./**/*.stories.(ts|js)']
+stories: ['./**/*.stories.@(ts|js)']
 ```
 
 Example of a **valid** glob:

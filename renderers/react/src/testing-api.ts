@@ -5,7 +5,6 @@ import {
 } from '@storybook/store';
 import type { CSFExports, ComposedStory, StoriesWithPartialProps } from '@storybook/store';
 import { ProjectAnnotations, Args } from '@storybook/csf';
-import { once } from '@storybook/client-logger';
 
 import { render } from './render';
 import type { Meta } from './public-types';
@@ -30,17 +29,6 @@ export function setProjectAnnotations(
   projectAnnotations: ProjectAnnotations<ReactFramework> | ProjectAnnotations<ReactFramework>[]
 ) {
   originalSetProjectAnnotations(projectAnnotations);
-}
-
-/** Preserved for users migrating from `@storybook/testing-react`.
- *
- * @deprecated Use setProjectAnnotations instead
- */
-export function setGlobalConfig(
-  projectAnnotations: ProjectAnnotations<ReactFramework> | ProjectAnnotations<ReactFramework>[]
-) {
-  once.warn(`setGlobalConfig is deprecated. Use setProjectAnnotations instead.`);
-  setProjectAnnotations(projectAnnotations);
 }
 
 // This will not be necessary once we have auto preset loading

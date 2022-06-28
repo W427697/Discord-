@@ -27,10 +27,6 @@ export interface Layout {
   showNav: boolean;
   showTabs: boolean;
   showToolbar: boolean;
-  /**
-   * @deprecated
-   */
-  isToolshown?: boolean;
 }
 
 export interface UI {
