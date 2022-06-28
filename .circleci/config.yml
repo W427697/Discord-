@@ -269,7 +269,7 @@ jobs:
           name: Run @storybook/bench on repro
           command: |
             cd ../cra-bench
-            npx @storybook/bench@0.8.0--canary.11.edeef38.0 'echo noop' --label cra
+            npx @storybook/bench@0.7.6--canary.12.ec0de61.0 'echo noop' --label cra
   e2e-tests-pnp:
     executor:
       class: medium
@@ -322,16 +322,9 @@ jobs:
       - run:
           name: cypress run
           command: yarn test:e2e-examples
-      - run:
-          name: prep artifacts
-          when: always
-          command: zip -r /tmp/storybook-e2e-testing-out.zip ./built-storybook
       - store_artifacts:
           path: /tmp/cypress-record
           destination: cypress
-      - store_artifacts:
-          path: /tmp/storybook-e2e-testing-out.zip
-          destination: e2e
   smoke-tests:
     executor:
       class: medium+
