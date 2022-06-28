@@ -61,6 +61,7 @@
       "type": "library"
     },
     "@storybook/external-docs": { "root": "examples/external-docs", "type": "library" },
+    "@storybook/example-doc-blocks": { "root": "examples/doc-blocks", "type": "library" },
 
     "@storybook/addons": { "root": "lib/addons", "type": "library" },
     "@storybook/api": { "root": "lib/api", "type": "library" },
@@ -90,6 +91,7 @@
     "@storybook/csf-tools": { "root": "lib/csf-tools", "type": "library" },
     "@storybook/ui": { "root": "lib/ui", "type": "library" },
     "@storybook/preview-web": { "root": "lib/preview-web", "type": "library" },
+    "@storybook/blocks": { "root": "lib/blocks", "type": "library" },
 
     "@storybook/preset-html-webpack": { "root": "presets/html-webpack", "type": "library" },
     "@storybook/preset-preact-webpack": { "root": "presets/preact-webpack", "type": "library" },

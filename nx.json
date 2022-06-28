@@ -53,6 +53,7 @@
     "vue-example": { "implicitDependencies": [] },
     "web-components-kitchen-sink": { "implicitDependencies": [] },
     "@storybook/external-docs": { "implicitDependencies": [] },
+    "@storybook/example-doc-blocks": { "implicitDependencies": [] },
 
     "@storybook/angular": { "implicitDependencies": [] },
     "@storybook/docs-tools": { "implicitDependencies": [] },
@@ -106,6 +107,7 @@
     "@storybook/theming": { "implicitDependencies": [] },
     "@storybook/ui": { "implicitDependencies": [] },
     "@storybook/preview-web": { "implicitDependencies": [] },
+    "@storybook/blocks": { "implicitDependencies": [] },
 
     "@storybook/html-webpack5": { "implicitDependencies": [] },
     "@storybook/preact-webpack5": { "implicitDependencies": [] },
