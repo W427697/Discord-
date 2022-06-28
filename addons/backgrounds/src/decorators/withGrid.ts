@@ -1,20 +1,8 @@
-import dedent from 'ts-dedent';
-import deprecate from 'util-deprecate';
 import { useMemo, useEffect } from '@storybook/addons';
 import type { AnyFramework, PartialStoryFn as StoryFunction, StoryContext } from '@storybook/csf';
 
 import { clearStyles, addGridStyle } from '../helpers';
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
-
-const deprecatedCellSizeWarning = deprecate(
-  () => {},
-  dedent`
-    Backgrounds Addon: The cell size parameter has been changed.
-
-    - parameters.grid.cellSize should now be parameters.backgrounds.grid.cellSize
-    See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-grid-parameter
-  `
-);
 
 export const withGrid = (
   StoryFn: StoryFunction<AnyFramework>,
@@ -26,15 +14,10 @@ export const withGrid = (
   const { cellAmount, cellSize, opacity } = gridParameters;
   const isInDocs = context.viewMode === 'docs';
 
-  let gridSize: number;
-  if (parameters.grid?.cellSize) {
-    gridSize = parameters.grid.cellSize;
-    deprecatedCellSizeWarning();
-  } else {
-    gridSize = cellSize;
-  }
+  const gridSize: number = cellSize;
 
   const isLayoutPadded = parameters.layout === undefined || parameters.layout === 'padded';
+
   // 16px offset in the grid to account for padded layout
   const defaultOffset = isLayoutPadded ? 16 : 0;
   const offsetX = gridParameters.offsetX ?? (isInDocs ? 20 : defaultOffset);

@@ -28,6 +28,7 @@ export interface GetStorybookKind<TFramework extends AnyFramework> {
   stories: GetStorybookStory<TFramework>[];
 }
 
+// TODO: talk to michael about the removal of this
 const docs2Warning = deprecate(() => {},
 `You cannot use \`.mdx\` files without using \`storyStoreV7\`. Consider upgrading to the new store.`);
 

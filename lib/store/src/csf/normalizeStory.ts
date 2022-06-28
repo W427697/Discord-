@@ -13,6 +13,7 @@ import deprecate from 'util-deprecate';
 import type { NormalizedComponentAnnotations, NormalizedStoryAnnotations } from '../types';
 import { normalizeInputTypes } from './normalizeInputTypes';
 
+// TODO: talk to michael about the removal of this
 const deprecatedStoryAnnotation = dedent`
 CSF .story annotations deprecated; annotate story functions directly:
 - StoryFn.story.name => StoryFn.storyName

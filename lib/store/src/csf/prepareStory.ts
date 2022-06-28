@@ -27,6 +27,7 @@ import { defaultDecorateStory } from '../decorators';
 import { groupArgsByTarget, NO_TARGET_NAME } from '../args';
 import { getValuesFromArgTypes } from './getValuesFromArgTypes';
 
+// TODO: talk to michael about the removal of this
 const argTypeDefaultValueWarning = deprecate(
   () => {},
   dedent`

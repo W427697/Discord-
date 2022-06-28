@@ -26,16 +26,7 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./html": {
-      "require": "./dist/html.js",
-      "import": "./dist/html.mjs",
-      "types": "./dist/html.d.ts"
-    },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
