@@ -40,6 +40,7 @@ export function start<TFramework extends AnyFramework>(
     globalWindow.IS_STORYBOOK = true;
   }
 
+  // TODO: talk to tom about the removal of this
   if (FEATURES?.storyStoreV7) {
     return {
       forceReRender: removedApi('forceReRender'),
@@ -48,9 +49,7 @@ export function start<TFramework extends AnyFramework>(
       clientApi: {
         addDecorator: removedApi('clientApi.addDecorator'),
         addParameters: removedApi('clientApi.addParameters'),
-        clearDecorators: removedApi('clientApi.clearDecorators'),
         addLoader: removedApi('clientApi.addLoader'),
-        setAddon: removedApi('clientApi.setAddon'),
         getStorybook: removedApi('clientApi.getStorybook'),
         storiesOf: removedApi('clientApi.storiesOf'),
         raw: removedApi('raw'),
