@@ -78,7 +78,6 @@ const Label = styled.label(({ theme }) => ({
   },
 }));
 
-const format = (value: BooleanValue): string | null => (value ? String(value) : null);
 const parse = (value: string | null): boolean => value === 'true';
 
 export type BooleanProps = ControlProps<BooleanValue> & BooleanConfig;
