@@ -6947,6 +6947,7 @@ __metadata:
     lodash: ^4.17.21
     react-sizeme: ^3.0.1
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6980,6 +6981,7 @@ __metadata:
     react-inspector: ^5.1.0
     telejson: ^6.0.8
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util-deprecate: ^1.0.2
     uuid-browser: ^3.1.0
   peerDependencies:
@@ -7081,6 +7083,7 @@ __metadata:
     remark-external-links: ^8.0.0
     remark-slug: ^6.0.0
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util-deprecate: ^1.0.2
   peerDependencies:
     "@storybook/mdx2-csf": ^0.0.3
@@ -7118,6 +7121,7 @@ __metadata:
     "@types/jest": ^26.0.16
     core-js: ^3.8.2
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
   peerDependencies:
     "@babel/core": ^7.9.6
   peerDependenciesMeta:
@@ -7157,6 +7161,7 @@ __metadata:
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
     global: ^4.4.0
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -7182,6 +7187,7 @@ __metadata:
     jest-mock: ^27.0.6
     polished: ^4.2.2
     ts-dedent: ^2.2.0
+    typescript: ~4.6.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7313,6 +7319,7 @@ __metadata:
     "@types/puppeteer": ^5.4.0
     core-js: ^3.8.2
     jest-image-snapshot: ^4.3.0
+    typescript: ~4.6.3
   peerDependencies:
     "@storybook/addon-storyshots": 7.0.0-alpha.7
     puppeteer: ^2.0.0 || ^3.0.0
@@ -7360,6 +7367,7 @@ __metadata:
     read-pkg-up: ^7.0.1
     rxjs: ^6.6.3
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     vue-jest: ^5.0.0-alpha.8
   peerDependencies:
     "@angular/core": ">=6.0.0"
@@ -7429,6 +7437,7 @@ __metadata:
     estraverse: ^5.2.0
     prop-types: ^15.7.2
     react-syntax-highlighter: ^15.4.5
+    typescript: ~4.6.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7683,6 +7692,7 @@ __metadata:
     store2: ^2.12.0
     telejson: ^6.0.8
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7800,6 +7810,7 @@ __metadata:
     fs-extra: ^9.0.1
     readdirp: ^3.6.0
     rollup-plugin-node-polyfills: ^0.2.1
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -7847,6 +7858,7 @@ __metadata:
     style-loader: ^3.3.1
     terser-webpack-plugin: ^5.3.1
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util: ^0.12.4
     util-deprecate: ^1.0.2
     webpack: 5
@@ -7972,6 +7984,7 @@ __metadata:
     shelljs: ^0.8.5
     strip-json-comments: ^3.1.1
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     update-notifier: ^5.0.1
   bin:
     getstorybook: ./bin/index.js
@@ -8065,6 +8078,7 @@ __metadata:
     lodash: ^4.17.21
     prettier: ">=2.2.1 <=2.3.0"
     recast: ^0.19.0
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -8099,6 +8113,7 @@ __metadata:
     react-syntax-highlighter: ^15.4.5
     react-textarea-autosize: ^8.3.0
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -8194,6 +8209,7 @@ __metadata:
     slash: ^3.0.0
     telejson: ^6.0.8
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -8287,6 +8303,7 @@ __metadata:
     slash: ^3.0.0
     telejson: ^6.0.8
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util-deprecate: ^1.0.2
     watchpack: ^2.2.0
     webpack: 5
@@ -8334,6 +8351,7 @@ __metadata:
     global: ^4.4.0
     js-yaml: ^3.14.1
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -8411,6 +8429,7 @@ __metadata:
     jest-specific-snapshot: ^4.0.0
     lodash: ^4.17.21
     require-from-string: ^2.0.2
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -8441,6 +8460,7 @@ __metadata:
     react-dom: 16.14.0
     read-pkg-up: ^7.0.1
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
   peerDependencies:
     "@babel/core": "*"
     babel-plugin-ember-modules-api-polyfill: ^2.12.0
@@ -8530,7 +8550,6 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     storybook: 7.0.0-alpha.7
-    typescript: ~4.6.3
     webpack: 5
   languageName: unknown
   linkType: soft
@@ -8549,6 +8568,7 @@ __metadata:
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
+    typescript: ~4.6.3
   peerDependencies:
     "@babel/core": "*"
   languageName: unknown
@@ -8570,6 +8590,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
   peerDependencies:
     "@babel/core": "*"
   languageName: unknown
@@ -8709,6 +8730,7 @@ __metadata:
     core-js: ^3.8.2
     npmlog: ^5.0.1
     pretty-hrtime: ^1.0.3
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -8733,6 +8755,7 @@ __metadata:
     jest: ^26.6.3
     jest-specific-snapshot: ^4.0.0
     jscodeshift: ^0.13.1
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -8750,6 +8773,7 @@ __metadata:
     preact: ^10.5.13
     react: 16.14.0
     react-dom: 16.14.0
+    typescript: ~4.6.3
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
@@ -8771,6 +8795,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
   peerDependencies:
     preact: ^8.0.0||^10.0.0
   languageName: unknown
@@ -8806,6 +8831,7 @@ __metadata:
     html-loader: ^3.1.0
     react: 16.14.0
     react-dom: 16.14.0
+    typescript: ~4.6.3
     webpack: 5
   peerDependencies:
     "@babel/core": "*"
@@ -8824,6 +8850,7 @@ __metadata:
     preact: ^10.5.13
     react: 16.14.0
     react-dom: 16.14.0
+    typescript: ~4.6.3
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
@@ -8851,6 +8878,7 @@ __metadata:
     core-js: ^3.8.2
     fs-extra: ^9.0.1
     react-refresh: ^0.11.0
+    typescript: ~4.6.3
   peerDependencies:
     "@babel/core": ^7.11.5
     jest-specific-snapshot: ^4.0.0
@@ -8894,6 +8922,7 @@ __metadata:
     react-dom: 16.14.0
     safe-identifier: ^0.4.1
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     yaml: ^1.10.0
     yaml-loader: ^0.8.0
   languageName: unknown
@@ -8913,6 +8942,7 @@ __metadata:
     svelte-loader: ^3.1.2
     sveltedoc-parser: 4.1.0
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
   peerDependencies:
     "@babel/core": "*"
     svelte: ^3.1.0
@@ -8932,6 +8962,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     ts-loader: ^9.2.8
+    typescript: ~4.6.3
     vue: ^2.6.12
     vue-docgen-api: ^4.44.23
     vue-docgen-loader: ^1.5.1
@@ -8961,6 +8992,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     ts-loader: ^9.2.8
+    typescript: ~4.6.3
     vue: ^3.2.33
     vue-docgen-api: ^4.46.0
     vue-docgen-loader: ^1.5.1
@@ -8990,6 +9022,7 @@ __metadata:
     lit-html: 2.0.2
     react: 16.14.0
     react-dom: 16.14.0
+    typescript: ~4.6.3
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
   languageName: unknown
@@ -9045,6 +9078,7 @@ __metadata:
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
     jest-specific-snapshot: ^4.0.0
+    typescript: ~4.6.3
   peerDependencies:
     "@babel/core": ^7.11.5
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -9083,6 +9117,7 @@ __metadata:
     prop-types: ^15.7.2
     react-element-to-jsx-string: ^14.3.4
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util-deprecate: ^1.0.2
   peerDependencies:
     jest-specific-snapshot: ^4.0.0
@@ -9381,6 +9416,7 @@ __metadata:
     react-router-dom: 6.0.2
     ts-dedent: ^2.0.0
     ts-node: ^10.4.0
+    typescript: ~4.6.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -9464,6 +9500,7 @@ __metadata:
     core-js: ^3.8.2
     react: 16.14.0
     react-dom: 16.14.0
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -9482,6 +9519,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -9541,6 +9579,7 @@ __metadata:
     react-dom: 16.14.0
     svelte: ^3.48.0
     svelte-loader: ^3.1.2
+    typescript: ~4.6.3
   peerDependencies:
     "@babel/core": "*"
     svelte: ^3.48.0
@@ -9565,6 +9604,7 @@ __metadata:
     react-dom: 16.14.0
     svelte: ^3.31.2
     sveltedoc-parser: 4.1.0
+    typescript: ~4.6.3
   peerDependencies:
     "@babel/core": "*"
     svelte: ^3.1.0
@@ -9632,6 +9672,7 @@ __metadata:
     polished: ^4.2.2
     ts-dedent: ^2.0.0
     ts-node: ^10.4.0
+    typescript: ~4.6.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -9731,6 +9772,7 @@ __metadata:
     resolve-from: ^5.0.0
     store2: ^2.12.0
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util: ^0.12.4
   languageName: unknown
   linkType: soft
@@ -9748,6 +9790,7 @@ __metadata:
     core-js: ^3.8.2
     react: 16.14.0
     react-dom: 16.14.0
+    typescript: ~4.6.3
     vue: ^2.6.12
     vue-loader: ^15.7.0
     vue-template-compiler: ^2.6.14
@@ -9775,6 +9818,7 @@ __metadata:
     core-js: ^3.8.2
     react: 16.14.0
     react-dom: 16.14.0
+    typescript: ~4.6.3
     vue: 3.0.0
   peerDependencies:
     "@babel/core": "*"
@@ -9799,6 +9843,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     vue: 3.0.0
   peerDependencies:
     "@babel/core": "*"
@@ -9823,6 +9868,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     vue: ^2.6.12
   peerDependencies:
     "@babel/core": "*"
@@ -9847,6 +9893,7 @@ __metadata:
     lit-html: 2.0.2
     react: 16.14.0
     react-dom: 16.14.0
+    typescript: ~4.6.3
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
   languageName: unknown
@@ -9871,6 +9918,7 @@ __metadata:
     react: 16.14.0
     react-dom: 16.14.0
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
   languageName: unknown
