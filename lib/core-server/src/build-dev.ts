@@ -113,7 +113,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
 
   if (options.webpackStatsJson) {
     const target = options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
-    await outputStats(target, previewStats, managerStats);
+    await outputStats(target, previewStats);
   }
 
   if (options.smokeTest) {

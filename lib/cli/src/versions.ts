@@ -39,7 +39,7 @@ export default {
   '@storybook/html': '7.0.0-alpha.6',
   '@storybook/html-webpack5': '7.0.0-alpha.6',
   '@storybook/instrumenter': '7.0.0-alpha.6',
-  '@storybook/manager-webpack5': '7.0.0-alpha.6',
+  '@storybook/builder-manager': '7.0.0-alpha.6',
   '@storybook/node-logger': '7.0.0-alpha.6',
   '@storybook/postinstall': '7.0.0-alpha.6',
   '@storybook/preact': '7.0.0-alpha.6',

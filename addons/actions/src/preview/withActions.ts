@@ -15,8 +15,6 @@ const delegateEventSplitter = /^(\S+)\s*(.*)$/;
 const isIE = Element != null && !Element.prototype.matches;
 const matchesMethod = isIE ? 'msMatchesSelector' : 'matches';
 
-const root = document && document.getElementById('root');
-
 const hasMatchInAncestry = (element: any, selector: any): boolean => {
   if (element[matchesMethod](selector)) {
     return true;
@@ -45,6 +43,7 @@ const createHandlers = (actionsFn: (...arg: any[]) => object, ...handles: any[])
 
 const applyEventHandlers = deprecate(
   (actionsFn: any, ...handles: any[]) => {
+    const root = document && document.getElementById('root');
     useEffect(() => {
       if (root != null) {
         const handlers = createHandlers(actionsFn, ...handles);

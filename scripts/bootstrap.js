@@ -57,7 +57,7 @@ function run() {
       command: () => {
         log.info(prefix, 'yarn workspace');
       },
-      pre: ['install', 'build', 'manager'],
+      pre: ['install', 'build'],
       order: 1,
     }),
     prep: createTask({
@@ -127,15 +127,6 @@ function run() {
       },
       order: 2,
     }),
-    manager: createTask({
-      name: `Generate prebuilt manager UI ${chalk.gray('(manager)')}`,
-      defaultValue: false,
-      option: '--manager',
-      command: () => {
-        spawn('yarn build-manager');
-      },
-      order: 3,
-    }),
     registry: createTask({
       name: `Run local registry ${chalk.gray('(reg)')}`,
       defaultValue: false,
@@ -158,7 +149,7 @@ function run() {
 
   const groups = {
     main: ['prep', 'core'],
-    buildtasks: ['install', 'build', 'manager'],
+    buildtasks: ['install', 'build'],
     devtasks: ['dev', 'registry', 'cleanup', 'reset'],
   };
 

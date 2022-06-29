@@ -137,7 +137,6 @@ export async function storybookDevServer(options: Options) {
 
   if (options.debugWebpack) {
     logConfig('Preview webpack config', await previewBuilder.getConfig(options));
-    logConfig('Manager webpack config', await managerBuilder.getConfig(options));
   }
 
   const preview = options.ignorePreview

@@ -1,7 +1,7 @@
 import type { Options, CoreConfig, Builder } from '@storybook/core-common';
 
 async function getManagerBuilder() {
-  return import('@storybook/manager-webpack5');
+  return import('@storybook/builder-manager');
 }
 
 async function getPreviewBuilder(builderName: string, configDir: string) {
