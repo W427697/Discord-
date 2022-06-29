@@ -56,7 +56,7 @@
     "@storybook/source-loader": "link:../../lib/source-loader",
     "@storybook/store": "link:../../lib/store",
     "@storybook/telemetry": "link:../../lib/telemetry",
-    "@storybook/testing-library": "^0.0.12  ",
+    "@storybook/testing-library": "0.0.14-next.0",
     "@storybook/theming": "link:../../lib/theming",
     "@storybook/ui": "link:../../lib/ui",
     "@storybook/web-components": "link:../../renderers/web-components",
