@@ -18,6 +18,7 @@ const mainConfig: StorybookConfig = {
     '@storybook/addon-backgrounds',
     '@storybook/addon-a11y',
     '@storybook/addon-jest',
+    '@storybook/addon-highlight',
   ],
   // add monorepo root as a valid directory to import modules from
   webpackFinal: (config) => {

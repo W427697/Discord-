@@ -37,6 +37,7 @@
     "@storybook/addon-a11y": "7.0.0-alpha.6",
     "@storybook/addon-actions": "7.0.0-alpha.6",
     "@storybook/addon-docs": "7.0.0-alpha.6",
+    "@storybook/addon-highlight": "7.0.0-alpha.6",
     "@storybook/addon-links": "7.0.0-alpha.6",
     "@storybook/addons": "7.0.0-alpha.6",
     "@storybook/builder-webpack5": "7.0.0-alpha.6",

@@ -18,6 +18,7 @@
     "@storybook/addon-a11y": "7.0.0-alpha.6",
     "@storybook/addon-actions": "7.0.0-alpha.6",
     "@storybook/addon-backgrounds": "7.0.0-alpha.6",
+    "@storybook/addon-highlight": "7.0.0-alpha.6",
     "@storybook/addon-links": "7.0.0-alpha.6",
     "@storybook/addon-storyshots": "7.0.0-alpha.6",
     "@storybook/addon-storysource": "7.0.0-alpha.6",

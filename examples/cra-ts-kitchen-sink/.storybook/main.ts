@@ -11,6 +11,7 @@ const mainConfig: StorybookConfig = {
     '@storybook/addon-actions',
     '@storybook/addon-links',
     '@storybook/addon-a11y',
+    '@storybook/addon-highlight',
     './localAddon/manager.tsx',
     './localAddon/preset.ts',
   ],
