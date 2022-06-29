@@ -8511,6 +8511,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/html-webpack5@workspace:frameworks/html-webpack5"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.6
     "@storybook/core-common": 7.0.0-alpha.6
     "@storybook/html": 7.0.0-alpha.6
@@ -8757,6 +8758,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preact-webpack5@workspace:frameworks/preact-webpack5"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.6
     "@storybook/core-common": 7.0.0-alpha.6
     "@storybook/preact": 7.0.0-alpha.6
@@ -9045,6 +9047,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/react-webpack5@workspace:frameworks/react-webpack5"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.6
     "@storybook/preset-react-webpack": 7.0.0-alpha.6
     "@storybook/react": 7.0.0-alpha.6
@@ -9458,6 +9461,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/server-webpack5@workspace:frameworks/server-webpack5"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.6
     "@storybook/core-common": 7.0.0-alpha.6
     "@storybook/preset-server-webpack": 7.0.0-alpha.6
@@ -9533,6 +9537,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/svelte-webpack5@workspace:frameworks/svelte-webpack5"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.6
     "@storybook/core-common": 7.0.0-alpha.6
     "@storybook/preset-svelte-webpack": 7.0.0-alpha.6
@@ -9735,6 +9740,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue-webpack5@workspace:frameworks/vue-webpack5"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.6
     "@storybook/core-common": 7.0.0-alpha.6
     "@storybook/preset-vue-webpack": 7.0.0-alpha.6
@@ -9760,6 +9766,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue3-webpack5@workspace:frameworks/vue3-webpack5"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.6
     "@storybook/core-common": 7.0.0-alpha.6
     "@storybook/preset-vue3-webpack": 7.0.0-alpha.6
@@ -9831,6 +9838,7 @@ __metadata:
   resolution: "@storybook/web-components-webpack5@workspace:frameworks/web-components-webpack5"
   dependencies:
     "@babel/preset-env": ^7.12.11
+    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.6
     "@storybook/core-common": 7.0.0-alpha.6
     "@storybook/preset-web-components-webpack": 7.0.0-alpha.6
