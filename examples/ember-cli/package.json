@@ -22,6 +22,7 @@
     "@storybook/addon-backgrounds": "7.0.0-alpha.6",
     "@storybook/addon-controls": "7.0.0-alpha.6",
     "@storybook/addon-docs": "7.0.0-alpha.6",
+    "@storybook/addon-highlight": "7.0.0-alpha.6",
     "@storybook/addon-links": "7.0.0-alpha.6",
     "@storybook/addon-storysource": "7.0.0-alpha.6",
     "@storybook/addon-viewport": "7.0.0-alpha.6",
