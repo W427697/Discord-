@@ -19,6 +19,7 @@
     "@storybook/addon-backgrounds": "link:../../addons/backgrounds",
     "@storybook/addon-controls": "link:../../addons/controls",
     "@storybook/addon-docs": "link:../../addons/docs",
+    "@storybook/addon-highlight": "link:../../addons/highlight",
     "@storybook/addon-interactions": "link:../../addons/interactions",
     "@storybook/addon-links": "link:../../addons/links",
     "@storybook/addon-storyshots": "link:../../addons/storyshots/storyshots-core",
