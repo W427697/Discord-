@@ -63,18 +63,6 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
     this.view = new WebView();
     this.urlStore = new UrlStore();
-
-    // TODO: talk to tom about this
-    // Add deprecated APIs for back-compat
-    // @ts-ignore
-    this.storyStore.getSelection = deprecate(
-      () => this.urlStore.selection,
-      dedent`
-        \`__STORYBOOK_STORY_STORE__.getSelection()\` is deprecated and will be removed in 7.0.
-  
-        To get the current selection, use the \`useStoryContext()\` hook from \`@storybook/addons\`.
-      `
-    );
   }
 
   setupListeners() {
