@@ -153,7 +153,7 @@ export async function baseGenerator(
     packages: frameworkPackages,
     type,
     // @ts-ignore
-    renderer: rendererInclude,
+    renderer: rendererInclude, // deepscan-disable-line UNUSED_DECL
     framework: frameworkInclude,
     builder: builderInclude,
   } = getFrameworkDetails(renderer, builder, pnp);

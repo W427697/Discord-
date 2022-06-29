@@ -21,6 +21,7 @@ export function useStories<TFramework extends AnyFramework = AnyFramework>(
   const [storiesById, setStories] = useState<Record<StoryId, Story<TFramework>>>({});
 
   useEffect(() => {
+    // deepscan-disable-next-line NO_EFFECT_CALL
     Promise.all(
       storyIds.map(async (storyId) => {
         // loadStory will be called every single time useStory is called

@@ -24,12 +24,6 @@ const Wrapper = styled.div<{ isInline: boolean }>(({ isInline }) =>
       }
 );
 
-const Fieldset = styled.fieldset({
-  border: 0,
-  padding: 0,
-  margin: 0,
-});
-
 const Text = styled.span({});
 
 const Label = styled.label({
