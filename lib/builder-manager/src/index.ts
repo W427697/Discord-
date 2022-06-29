@@ -42,7 +42,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       aliasPlugin({
         process: require.resolve('rollup-plugin-node-polyfills/polyfills/process-es6.js'),
         util: require.resolve('rollup-plugin-node-polyfills/polyfills/util.js'),
-        assert: require.resolve('rollup-plugin-node-polyfills/polyfills/assertrollup-plugin.js'),
+        assert: require.resolve('rollup-plugin-node-polyfills/polyfills/asser.js'),
       }),
       globalExternals(definitions),
       pnpPlugin(),
