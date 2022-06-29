@@ -36,6 +36,7 @@
     "@storybook/addon-backgrounds": "7.0.0-alpha.6",
     "@storybook/addon-controls": "7.0.0-alpha.6",
     "@storybook/addon-docs": "7.0.0-alpha.6",
+    "@storybook/addon-highlight": "7.0.0-alpha.6",
     "@storybook/addon-measure": "7.0.0-alpha.6",
     "@storybook/addon-outline": "7.0.0-alpha.6",
     "@storybook/addon-toolbars": "7.0.0-alpha.6",

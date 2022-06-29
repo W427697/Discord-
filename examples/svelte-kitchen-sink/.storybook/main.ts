@@ -19,6 +19,7 @@ const mainConfig: import('@storybook/svelte-webpack5').StorybookConfig = {
     '@storybook/addon-backgrounds',
     '@storybook/addon-viewport',
     '@storybook/addon-a11y',
+    '@storybook/addon-highlight',
   ],
   webpackFinal: async (config) => {
     const rules = config.module?.rules || [];
