@@ -95,7 +95,7 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
   }) => (
     <AddonPanel {...panelProps}>
       <Container withException={!!caughtException}>
-        {controlStates.debugger && (interactions.length > 0 || hasException) && (
+        {controlStates.debugger && (interactions.length > 0 || hasException || isRerunAnimating) && (
           <Subnav
             controls={controls}
             controlStates={controlStates}
