@@ -189,7 +189,6 @@ const Node = React.memo<NodeProps>(
           data-ref-id={refId}
           data-item-id={item.id}
           data-nodetype="root"
-          aria-expanded={isExpanded}
         >
           <CollapseButton
             type="button"
@@ -198,6 +197,7 @@ const Node = React.memo<NodeProps>(
               event.preventDefault();
               setExpanded({ ids: [item.id], value: !isExpanded });
             }}
+            aria-expanded={isExpanded}
           >
             <CollapseIcon isExpanded={isExpanded} />
             {item.renderLabel?.(item) || item.name}
