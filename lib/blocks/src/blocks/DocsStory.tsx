@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { Subheading } from './Subheading';
 import { DocsStoryProps } from './types';
 import { Anchor } from './Anchor';

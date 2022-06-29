@@ -37,6 +37,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     bundle: true,
     minify: false,
     sourcemap: true,
+
     legalComments: 'external',
     plugins: [
       aliasPlugin({

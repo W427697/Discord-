@@ -1,6 +1,6 @@
 import { NgModule, Type } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 import { Subject } from 'rxjs';
 import deprecate from 'util-deprecate';

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import * as t from '@babel/types';
 import generate from '@babel/generator';
 import traverse from '@babel/traverse';
