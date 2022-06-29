@@ -18,6 +18,7 @@ const defaultOptions: FrameworkOptions = {
   addBabel: true,
   addESLint: false,
   extraMain: undefined,
+  framework: undefined,
   extensions: undefined,
   commonJs: false,
 };
@@ -186,7 +187,7 @@ export async function baseGenerator(
   await fse.ensureDir('./.storybook');
 
   await configureMain({
-    framework: { name: frameworkInclude, options: {} },
+    framework: { name: frameworkInclude, options: options.framework || {} },
     addons: pnp ? addons.map(wrapForPnp) : addons,
     extensions,
     commonJs: options.commonJs,

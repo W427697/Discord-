@@ -19,9 +19,29 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./preview": {
+      "require": "./dist/config.js",
+      "import": "./dist/config.mjs",
+      "types": "./dist/config.d.ts"
+    },
+    "./package.json": {
+      "require": "./package.json",
+      "import": "./package.json",
+      "types": "./package.json"
+    },
+    "./templates/HOC.svelte": "./templates/HOC.svelte",
+    "./templates/PreviewRender.svelte": "./templates/PreviewRender.svelte",
+    "./templates/SlotDecorator.svelte": "./templates/SlotDecorator.svelte"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "templates/**/*",
@@ -30,7 +50,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.6",
@@ -46,6 +66,7 @@
     "sveltedoc-parser": "4.1.0"
   },
   "devDependencies": {
+    "@digitak/esrun": "^3.2.2",
     "svelte": "^3.31.2"
   },
   "peerDependencies": {
@@ -58,5 +79,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "bundlerEntrypoint": [
+    "./src/index.ts",
+    "./src/config.ts"
+  ],
   "gitHead": "a88dcca40ba169a373bad33dd76e9a4bd4f1f5ec"
 }

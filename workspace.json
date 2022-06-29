@@ -7,6 +7,7 @@
     "@storybook/addon-controls": { "root": "addons/controls", "type": "library" },
     "@storybook/addon-docs": { "root": "addons/docs", "type": "library" },
     "@storybook/addon-essentials": { "root": "addons/essentials", "type": "library" },
+    "@storybook/addon-highlight": { "root": "addons/highlight", "type": "library" },
     "@storybook/addon-interactions": { "root": "addons/interactions", "type": "library" },
     "@storybook/addon-jest": { "root": "addons/jest", "type": "library" },
     "@storybook/addon-links": { "root": "addons/links", "type": "library" },

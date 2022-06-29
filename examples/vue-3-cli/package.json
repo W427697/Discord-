@@ -20,7 +20,7 @@
     "@storybook/addon-links": "7.0.0-alpha.6",
     "@storybook/addon-storyshots": "7.0.0-alpha.6",
     "@storybook/jest": "^0.0.5",
-    "@storybook/testing-library": "^0.0.12",
+    "@storybook/testing-library": "0.0.14-next.0",
     "@storybook/vue3": "7.0.0-alpha.6",
     "@storybook/vue3-webpack5": "7.0.0-alpha.6",
     "@vue/cli-plugin-babel": "^5.0.4",
