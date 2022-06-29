@@ -1,4 +1,4 @@
-import React, { FC, ChangeEvent, useState, Fragment } from 'react';
+import React, { FC, ChangeEvent, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { logger } from '@storybook/client-logger';
 import { ControlProps, OptionsMultiSelection, NormalizedOptionsConfig } from '../types';
@@ -61,7 +61,7 @@ export const CheckboxControl: FC<CheckboxProps> = ({
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const option = (e.target as HTMLInputElement).value;
     const updated = [...selected];
-    if (updated?.includes(option)) {
+    if (updated.includes(option)) {
       updated.splice(updated.indexOf(option), 1);
     } else {
       updated.push(option);
