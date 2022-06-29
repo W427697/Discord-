@@ -6,7 +6,8 @@ import {
   GLOBALS_UPDATED,
   UPDATE_QUERY_PARAMS,
 } from '@storybook/core-events';
-import { queryFromLocation, buildArgsParam, NavigateOptions } from '@storybook/router';
+import type { NavigateOptions } from '@storybook/router';
+import { queryFromLocation, buildArgsParam } from '@storybook/router';
 import { toId, sanitize } from '@storybook/csf';
 import deepEqual from 'fast-deep-equal';
 import global from 'global';
@@ -14,7 +15,6 @@ import dedent from 'ts-dedent';
 
 import { ModuleArgs, ModuleFn } from '../index';
 import { Layout, UI } from './layout';
-import { isStory } from '../lib/stories';
 
 const { window: globalWindow } = global;
 
@@ -183,7 +183,7 @@ export const init: ModuleFn = ({ store, navigate, state, provider, fullAPI, ...r
       if (viewMode !== 'story') return;
 
       const currentStory = fullAPI.getCurrentStoryData();
-      if (!isStory(currentStory)) return;
+      if (currentStory?.type !== 'story') return;
 
       const { args, initialArgs } = currentStory;
       const argsString = buildArgsParam(initialArgs, args);

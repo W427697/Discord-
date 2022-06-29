@@ -1,27 +1,15 @@
-import type ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import type { Options as TelejsonOptions } from 'telejson';
-import type { PluginOptions } from '@storybook/react-docgen-typescript-plugin';
-import type { Configuration, Stats } from 'webpack';
 import type { TransformOptions } from '@babel/core';
 import { Router } from 'express';
 import { Server } from 'http';
+import type { Parameters } from '@storybook/csf';
 import { FileSystemCache } from './utils/file-cache';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
  */
 
-export interface TypescriptConfig {
-  check: boolean;
-  reactDocgen: false | string;
-  reactDocgenTypescriptOptions: {
-    shouldExtractLiteralValuesFromEnum: boolean;
-    shouldRemoveUndefinedFromOptional: boolean;
-    propFilter: (prop: any) => boolean;
-  };
-}
-
-export type BuilderName = 'webpack4' | 'webpack5' | string;
+export type BuilderName = 'webpack5' | '@storybook/builder-webpack5' | string;
 
 export type BuilderConfigObject = {
   name: BuilderName;
@@ -29,7 +17,7 @@ export type BuilderConfigObject = {
 };
 
 export interface Webpack5BuilderConfig extends BuilderConfigObject {
-  name: 'webpack5';
+  name: '@storybook/builder-webpack5';
   options?: {
     fsCache?: boolean;
     lazyCompilation?: boolean;
@@ -37,7 +25,7 @@ export interface Webpack5BuilderConfig extends BuilderConfigObject {
 }
 
 export interface Webpack4BuilderConfig extends BuilderConfigObject {
-  name: 'webpack4';
+  name: '@storybook/builder-webpack5';
 }
 
 export type BuilderConfig =
@@ -47,7 +35,7 @@ export type BuilderConfig =
   | Webpack5BuilderConfig;
 
 export interface CoreConfig {
-  builder: BuilderConfig;
+  builder?: BuilderConfig;
   disableWebpackDefaults?: boolean;
   channelOptions?: Partial<TelejsonOptions>;
   /**
@@ -82,38 +70,22 @@ interface DirectoryMapping {
 export interface Presets {
   apply(
     extension: 'typescript',
-    config: TypescriptConfig,
+    config: TypescriptOptions,
     args?: Options
-  ): Promise<TypescriptConfig>;
+  ): Promise<TypescriptOptions>;
   apply(extension: 'babel', config: {}, args: any): Promise<TransformOptions>;
   apply(extension: 'entries', config: [], args: any): Promise<unknown>;
   apply(extension: 'stories', config: [], args: any): Promise<StoriesEntry[]>;
-  apply(
-    extension: 'webpack',
-    config: {},
-    args: { babelOptions?: TransformOptions } & any
-  ): Promise<Configuration>;
   apply(extension: 'managerEntries', config: [], args: any): Promise<string[]>;
   apply(extension: 'refs', config: [], args: any): Promise<unknown>;
   apply(extension: 'core', config: {}, args: any): Promise<CoreConfig>;
-  apply(
-    extension: 'managerWebpack',
-    config: {},
-    args: Options & { babelOptions?: TransformOptions } & ManagerWebpackOptions
-  ): Promise<Configuration>;
-  apply<T extends unknown>(extension: string, config?: T, args?: unknown): Promise<T>;
+  apply<T>(extension: string, config?: T, args?: unknown): Promise<T>;
 }
 
 export interface LoadedPreset {
   name: string;
   preset: any;
   options: any;
-}
-
-export interface PresetsOptions {
-  corePresets: string[];
-  overridePresets: string[];
-  frameworkPresets: string[];
 }
 
 export type PresetConfig =
@@ -144,9 +116,13 @@ export interface ReleaseNotesData {
   showOnFirstLaunch: boolean;
 }
 
+export interface Stats {
+  toJson: () => any;
+}
+
 export interface BuilderResult {
-  stats?: Stats;
   totalTime?: ReturnType<typeof process.hrtime>;
+  stats?: Stats;
 }
 
 // TODO: this is a generic interface that we can share across multiple SB packages (like @storybook/cli)
@@ -166,8 +142,6 @@ export interface PackageJson {
 // like it's described in docs/api/new-frameworks.md
 export interface LoadOptions {
   packageJson: PackageJson;
-  framework: string;
-  frameworkPresets: string[];
   outputDir?: string;
   configDir?: string;
   ignorePreview?: boolean;
@@ -211,7 +185,6 @@ export interface CLIOptions {
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
-  modern?: boolean;
 }
 
 export interface BuilderOptions {
@@ -255,6 +228,25 @@ export interface Builder<Config, Stats> {
   overridePresets?: string[];
 }
 
+export interface IndexerOptions {
+  makeTitle: (userTitle?: string) => string;
+}
+
+export interface IndexedStory {
+  id: string;
+  name: string;
+  parameters?: Parameters;
+}
+export interface StoryIndex {
+  meta: { title?: string };
+  stories: IndexedStory[];
+}
+
+export interface StoryIndexer {
+  test: RegExp;
+  indexer: (fileName: string, options: IndexerOptions) => Promise<StoryIndex>;
+}
+
 /**
  * Options for TypeScript usage within Storybook.
  */
@@ -266,22 +258,11 @@ export interface TypescriptOptions {
    */
   check: boolean;
   /**
-   * Configures `fork-ts-checker-webpack-plugin`
-   */
-  checkOptions?: ForkTsCheckerWebpackPlugin['options'];
-  /**
-   * Sets the type of Docgen when working with React and TypeScript
+   * Disable parsing typescript files through babel.
    *
-   * @default `'react-docgen-typescript'`
+   * @default `false`
    */
-  reactDocgen: 'react-docgen-typescript' | 'react-docgen' | false;
-  /**
-   * Configures `react-docgen-typescript-plugin`
-   *
-   * @default
-   * @see https://github.com/storybookjs/storybook/blob/next/lib/builder-webpack5/src/config/defaults.js#L4-L6
-   */
-  reactDocgenTypescriptOptions: PluginOptions;
+  skipBabel: boolean;
 }
 
 interface StoriesSpecifier {
@@ -351,11 +332,6 @@ export interface StorybookConfig {
     postcss?: boolean;
 
     /**
-     * Allows to disable emotion webpack alias for emotion packages. (will be removed in 7.0)
-     */
-    emotionAlias?: boolean;
-
-    /**
      * Build stories.json automatically on start/build
      */
     buildStoriesJson?: boolean;
@@ -366,11 +342,6 @@ export interface StorybookConfig {
      * @deprecated This is always on now from 6.4 regardless of the setting
      */
     previewCsfV3?: boolean;
-
-    /**
-     * Activate modern inline rendering
-     */
-    modernInlineRender?: boolean;
 
     /**
      * Activate on demand story store
@@ -429,15 +400,23 @@ export interface StorybookConfig {
   /**
    * References external Storybooks
    */
-  refs?: StorybookRefs | ((config: Configuration, options: Options) => StorybookRefs);
+  refs?: StorybookRefs | ((config: any, options: Options) => StorybookRefs);
 
   /**
-   * Modify or return a custom Webpack config.
+   * Modify or return babel config.
    */
-  webpackFinal?: (
-    config: Configuration,
+  babel?: (
+    config: TransformOptions,
     options: Options
-  ) => Configuration | Promise<Configuration>;
+  ) => TransformOptions | Promise<TransformOptions>;
+
+  /**
+   * Modify or return babel config.
+   */
+  babelDefault?: (
+    config: TransformOptions,
+    options: Options
+  ) => TransformOptions | Promise<TransformOptions>;
 
   /**
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
@@ -450,4 +429,9 @@ export interface StorybookConfig {
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
    */
   previewAnnotations?: (entries: Entry[], options: Options) => Entry[];
+
+  /**
+   * Process CSF files for the story index.
+   */
+  storyIndexers?: (indexers: StoryIndexer[], options: Options) => StoryIndexer[];
 }

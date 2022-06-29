@@ -1,6 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import { Meta, Story } from '@storybook/angular';
-import { Button } from '@storybook/angular/demo';
+import { Button } from '../../angular-demo';
 
 export default {
   component: Button,

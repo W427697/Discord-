@@ -613,5 +613,57 @@ describe('CsfFile', () => {
               __id: foo-bar--a
       `);
     });
+
+    it('Object export with storyName', () => {
+      const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation();
+
+      parse(
+        dedent`
+        export default { title: 'foo/bar' };
+        export const A = {
+          storyName: 'Apple'
+        }
+      `,
+        true
+      );
+
+      expect(consoleWarnMock).toHaveBeenCalledWith(
+        'Unexpected usage of "storyName" in "A". Please use "name" instead.'
+      );
+      consoleWarnMock.mockRestore();
+    });
+  });
+
+  describe('import handling', () => {
+    it('imports', () => {
+      const input = dedent`
+        import Button from './Button';
+        import { Check } from './Check';
+        export default { title: 'foo/bar', x: 1, y: 2 };
+      `;
+      const csf = loadCsf(input, { makeTitle }).parse();
+      expect(csf.imports).toMatchInlineSnapshot(`
+        - ./Button
+        - ./Check
+      `);
+    });
+    // eslint-disable-next-line jest/no-disabled-tests
+    it.skip('dynamic imports', () => {
+      const input = dedent`
+        const Button = await import('./Button');
+        export default { title: 'foo/bar', x: 1, y: 2 };
+      `;
+      const csf = loadCsf(input, { makeTitle }).parse();
+      expect(csf.imports).toMatchInlineSnapshot();
+    });
+    // eslint-disable-next-line jest/no-disabled-tests
+    it.skip('requires', () => {
+      const input = dedent`
+        const Button = require('./Button');
+        export default { title: 'foo/bar', x: 1, y: 2 };
+      `;
+      const csf = loadCsf(input, { makeTitle }).parse();
+      expect(csf.imports).toMatchInlineSnapshot();
+    });
   });
 });

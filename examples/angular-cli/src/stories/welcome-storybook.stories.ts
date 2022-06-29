@@ -1,6 +1,6 @@
 import { Story, Meta } from '@storybook/angular';
-import { Welcome } from '@storybook/angular/demo';
 import { linkTo } from '@storybook/addon-links';
+import { Welcome } from './angular-demo';
 
 export default {
   title: 'Welcome/ To Storybook',

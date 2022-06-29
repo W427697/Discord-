@@ -7,11 +7,11 @@ module.exports = {
   logLevel: 'debug',
   addons: [
     '@storybook/preset-create-react-app',
-    '@storybook/addon-ie11',
     '@storybook/addon-docs',
     '@storybook/addon-actions',
     '@storybook/addon-links',
     '@storybook/addon-a11y',
+    '@storybook/addon-highlight',
     './localAddon/manager.tsx',
     './localAddon/preset.ts',
   ],
@@ -27,12 +27,13 @@ module.exports = {
     return config;
   },
   core: {
-    builder: 'webpack4',
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
   staticDirs: ['../public'],
   features: {
     buildStoriesJson: true,
+    breakingChangesV7: true,
   },
+  framework: '@storybook/react-webpack5',
 };

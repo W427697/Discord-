@@ -14,9 +14,9 @@ const { DOCS_MODE, document } = global;
 export type PanelPositions = 'bottom' | 'right';
 export type ActiveTabsType = 'sidebar' | 'canvas' | 'addons';
 export const ActiveTabs = {
-  SIDEBAR: 'sidebar' as 'sidebar',
-  CANVAS: 'canvas' as 'canvas',
-  ADDONS: 'addons' as 'addons',
+  SIDEBAR: 'sidebar' as const,
+  CANVAS: 'canvas' as const,
+  ADDONS: 'addons' as const,
 };
 
 export interface Layout {
@@ -226,7 +226,7 @@ export const init: ModuleFn = ({ store, provider, singleStory }) => {
     getInitialOptions() {
       const { theme, selectedPanel, ...options } = provider.getConfig();
 
-      if (options?.layout?.isToolshown !== undefined) {
+      if (options.layout?.isToolshown !== undefined) {
         once.warn(dedent`
           The "isToolshown" option is deprecated. Please use "showToolbar" instead.
 

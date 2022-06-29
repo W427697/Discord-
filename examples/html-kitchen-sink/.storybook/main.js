@@ -1,6 +1,6 @@
 module.exports = {
   // this dirname is because we run tests from project root
-  stories: ['../stories/**/*.stories.*'],
+  stories: ['../stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
     '@storybook/addon-docs',
@@ -20,16 +20,16 @@ module.exports = {
     },
     '@storybook/addon-storysource',
     '@storybook/addon-viewport',
+    '@storybook/addon-highlight',
   ],
   core: {
-    builder: 'webpack4',
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
   features: {
     buildStoriesJson: true,
-  },
-  // Test code for built-in stories.json extraction
+    breakingChangesV7: true,
+  }, // Test code for built-in stories.json extraction
   //
   // refs: {
   //   'react-ts': {
@@ -40,4 +40,5 @@ module.exports = {
   //     // url: 'http://localhost:8080',
   //   },
   // },
+  framework: '@storybook/html-webpack5',
 };

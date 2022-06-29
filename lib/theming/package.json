@@ -1,6 +1,6 @@
 {
   "name": "@storybook/theming",
-  "version": "6.5.0-rc.1",
+  "version": "7.0.0-alpha.6",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -22,14 +22,7 @@
   "sideEffects": false,
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/ts3.9/index.d.ts",
-  "typesVersions": {
-    "<3.8": {
-      "dist/ts3.9/*": [
-        "dist/ts3.4/*"
-      ]
-    }
-  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -40,9 +33,9 @@
     "prepare": "ts-node ../../scripts/prebundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "6.5.0-rc.1",
+    "@storybook/client-logger": "7.0.0-alpha.6",
     "core-js": "^3.8.2",
-    "regenerator-runtime": "^0.13.7"
+    "memoizerific": "^1.11.3"
   },
   "devDependencies": {
     "@emotion/cache": "^11.7.1",
@@ -52,7 +45,6 @@
     "@types/node": "^14.14.20 || ^16.0.0",
     "deep-object-diff": "^1.1.0",
     "global": "^4.4.0",
-    "memoizerific": "^1.11.3",
     "polished": "^4.2.2",
     "ts-dedent": "^2.0.0",
     "ts-node": "^10.4.0"
@@ -65,6 +57,5 @@
     "access": "public"
   },
   "bundlerEntrypoint": "./src/index.ts",
-  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
-  "sbmodern": "dist/modern/index.js"
+  "gitHead": "a88dcca40ba169a373bad33dd76e9a4bd4f1f5ec"
 }

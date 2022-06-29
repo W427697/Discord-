@@ -1,5 +1,5 @@
 module.exports = {
-  stories: ['../src/stories/**/*.stories.@(js|mdx)'],
+  stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
     '@storybook/addon-docs',
@@ -11,14 +11,15 @@ module.exports = {
     '@storybook/addon-viewport',
     '@storybook/addon-backgrounds',
     '@storybook/addon-a11y',
+    '@storybook/addon-highlight',
   ],
   core: {
-    builder: 'webpack4',
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
   staticDirs: ['../public'],
   features: {
-    buildStoriesJson: true,
+    channelOptions: { allowFunction: false, maxDepth: 10 },
   },
+  framework: '@storybook/vue-webpack5',
 };

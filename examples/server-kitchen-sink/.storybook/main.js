@@ -8,5 +8,13 @@ module.exports = {
     '@storybook/addon-backgrounds',
     '@storybook/addon-links',
     '@storybook/addon-controls',
+    '@storybook/addon-highlight',
   ],
+  core: {
+    disableTelemetry: true,
+  },
+  features: {
+    storyStoreV7: false,
+  },
+  framework: '@storybook/server-webpack5',
 };

@@ -160,9 +160,12 @@ export class CsfFile {
 
   _namedExportsOrder?: string[];
 
+  imports: string[];
+
   constructor(ast: t.File, { fileName, makeTitle }: CsfOptions) {
     this._ast = ast;
     this._fileName = fileName;
+    this.imports = [];
     this._makeTitle = makeTitle;
   }
 
@@ -268,6 +271,10 @@ export class CsfFile {
                         __isArgsStory = isArgsStory(p.value as t.Expression, parent, self);
                       } else if (p.key.name === 'name' && t.isStringLiteral(p.value)) {
                         name = p.value.value;
+                      } else if (p.key.name === 'storyName' && t.isStringLiteral(p.value)) {
+                        logger.warn(
+                          `Unexpected usage of "storyName" in "${exportName}". Please use "name" instead.`
+                        );
                       }
                       self._storyAnnotations[exportName][p.key.name] = p.value;
                     }
@@ -348,6 +355,16 @@ export class CsfFile {
 
               More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-store-v7
             `);
+          }
+        },
+      },
+      ImportDeclaration: {
+        enter({ node }) {
+          const { source } = node;
+          if (t.isStringLiteral(source)) {
+            self.imports.push(source.value);
+          } else {
+            throw new Error('CSF: unexpected import source');
           }
         },
       },

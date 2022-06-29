@@ -1,5 +1,5 @@
 module.exports = {
-  stories: ['../src/stories/**/*.stories.@(ts|mdx)'],
+  stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
     '@storybook/addon-docs',
@@ -13,14 +13,11 @@ module.exports = {
     '@storybook/addon-backgrounds',
     '@storybook/addon-a11y',
     '@storybook/addon-toolbars',
+    '@storybook/addon-highlight',
   ],
   core: {
-    builder: 'webpack4',
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
-  },
-  angularOptions: {
-    enableIvy: true,
   },
   // These are just here to test composition. They could be added to any storybook example project
   refs: {
@@ -43,6 +40,14 @@ module.exports = {
   },
   staticDirs: ['../src/assets'],
   features: {
-    buildStoriesJson: true,
+    buildStoriesJson: false,
+    breakingChangesV7: false,
+    storyStoreV7: false,
+  },
+  framework: {
+    name: '@storybook/angular',
+    options: {
+      enableIvy: true,
+    },
   },
 };

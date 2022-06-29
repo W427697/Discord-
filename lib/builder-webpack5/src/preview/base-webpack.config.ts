@@ -7,7 +7,7 @@ export async function createDefaultWebpackConfig(
   options: Options
 ): Promise<Configuration> {
   if (
-    options.presetsList.some((preset) =>
+    options.presetsList?.some((preset) =>
       /@storybook(\/|\\)preset-create-react-app/.test(
         typeof preset === 'string' ? preset : preset.name
       )
@@ -16,7 +16,7 @@ export async function createDefaultWebpackConfig(
     return storybookBaseConfig;
   }
 
-  const hasPostcssAddon = options.presetsList.some((preset) =>
+  const hasPostcssAddon = options.presetsList?.some((preset) =>
     /@storybook(\/|\\)addon-postcss/.test(typeof preset === 'string' ? preset : preset.name)
   );
 
@@ -45,18 +45,17 @@ export async function createDefaultWebpackConfig(
   const isProd = storybookBaseConfig.mode !== 'development';
 
   const coreOptions = await options.presets.apply<CoreConfig>('core');
-  const builderOptions = (coreOptions.builder as Webpack5BuilderConfig).options;
-  const cacheConfig = builderOptions?.fsCache
-    ? { cache: { type: 'filesystem' as 'filesystem' } }
-    : {};
+  const builderOptions = (coreOptions.builder as Webpack5BuilderConfig)?.options || {};
+  const cacheConfig = builderOptions.fsCache ? { cache: { type: 'filesystem' as const } } : {};
   const lazyCompilationConfig =
-    builderOptions?.lazyCompilation && !isProd ? { lazyCompilation: { entries: false } } : {};
+    builderOptions.lazyCompilation && !isProd ? { lazyCompilation: { entries: false } } : {};
+
   return {
     ...storybookBaseConfig,
     module: {
       ...storybookBaseConfig.module,
       rules: [
-        ...storybookBaseConfig.module.rules,
+        ...(storybookBaseConfig.module?.rules || []),
         cssLoaders,
         {
           test: /\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/,
