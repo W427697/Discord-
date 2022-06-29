@@ -11,6 +11,7 @@ module.exports = {
     '@storybook/addon-viewport',
     '@storybook/addon-backgrounds',
     '@storybook/addon-a11y',
+    '@storybook/addon-highlight',
   ],
   core: {
     channelOptions: { allowFunction: false, maxDepth: 10 },

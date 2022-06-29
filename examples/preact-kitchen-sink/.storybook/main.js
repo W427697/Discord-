@@ -11,6 +11,7 @@ module.exports = {
     '@storybook/addon-viewport',
     '@storybook/addon-backgrounds',
     '@storybook/addon-a11y',
+    '@storybook/addon-highlight',
   ],
   webpackFinal: (config) => {
     config.module.rules.push({

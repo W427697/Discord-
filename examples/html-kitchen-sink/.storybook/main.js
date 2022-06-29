@@ -20,6 +20,7 @@ module.exports = {
     },
     '@storybook/addon-storysource',
     '@storybook/addon-viewport',
+    '@storybook/addon-highlight',
   ],
   core: {
     channelOptions: { allowFunction: false, maxDepth: 10 },

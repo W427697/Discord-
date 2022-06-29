@@ -8,6 +8,7 @@ module.exports = {
     '@storybook/addon-backgrounds',
     '@storybook/addon-links',
     '@storybook/addon-controls',
+    '@storybook/addon-highlight',
   ],
   core: {
     disableTelemetry: true,
