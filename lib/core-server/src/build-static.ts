@@ -1,5 +1,4 @@
 import chalk from 'chalk';
-import cpy from 'cpy';
 import fs from 'fs-extra';
 import path, { join } from 'path';
 import dedent from 'ts-dedent';
@@ -60,7 +59,7 @@ export async function buildStaticStandalone(
   }
   await fs.emptyDir(options.outputDir);
 
-  await cpy(defaultFavIcon, options.outputDir);
+  await fs.copyFile(defaultFavIcon, path.join(options.outputDir, path.basename(defaultFavIcon)));
 
   const { getPrebuiltDir } = await import('@storybook/manager-webpack5/prebuilt-manager');
 
@@ -191,7 +190,7 @@ export async function buildStaticStandalone(
   const startTime = process.hrtime();
   // When using the prebuilt manager, we straight up copy it into the outputDir instead of building it
   const manager = prebuiltDir
-    ? cpy('**', options.outputDir, { cwd: prebuiltDir, parents: true }).then(() => {})
+    ? fs.copy(prebuiltDir, options.outputDir, { dereference: true }).then(() => {})
     : managerBuilder.build({ startTime, options: fullOptions });
 
   if (options.ignorePreview) {
