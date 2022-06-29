@@ -1,11 +1,24 @@
+/* eslint-env browser */
 import global from 'global';
 import { addons } from '@storybook/addons';
 import { STORY_CHANGED } from '@storybook/core-events';
-import { EVENTS, HIGHLIGHT_STYLE_ID } from './constants';
-
-import { highlightStyle } from './highlight';
+import { HIGHLIGHT, RESET_HIGHLIGHT, HIGHLIGHT_STYLE_ID } from './constants';
 
 const { document } = global;
+
+type OutlineStyle = 'dotted' | 'dashed' | 'solid' | 'double';
+
+export const highlightStyle = (color = '#FF4785', style: OutlineStyle = 'dashed') => `
+  outline: 2px ${style} ${color};
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px rgba(255,255,255,0.6);
+`;
+
+export const highlightObject = (color: string) => ({
+  outline: `2px dashed ${color}`,
+  outlineOffset: 2,
+  boxShadow: '0 0 0 6px rgba(255,255,255,0.6)',
+});
 
 if (module && module.hot && module.hot.decline) {
   module.hot.decline();
@@ -15,6 +28,7 @@ interface HighlightInfo {
   /** html selector of the element */
   elements: string[];
   color: string;
+  style: OutlineStyle;
 }
 
 const channel = addons.getChannel();
@@ -32,7 +46,7 @@ const highlight = (infos: HighlightInfo) => {
     .map(
       (target) =>
         `${target}{
-          ${highlightStyle(infos.color)}
+          ${highlightStyle(infos.color, infos.style)}
          }`
     )
     .join(' ');
@@ -48,4 +62,5 @@ const resetHighlight = () => {
 };
 
 channel.on(STORY_CHANGED, resetHighlight);
-channel.on(EVENTS.HIGHLIGHT, highlight);
+channel.on(RESET_HIGHLIGHT, resetHighlight);
+channel.on(HIGHLIGHT, highlight);

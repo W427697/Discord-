@@ -13,6 +13,7 @@ const mainConfig: StorybookConfig = {
     '@storybook/addon-viewport',
     '@storybook/addon-backgrounds',
     '@storybook/addon-a11y',
+    '@storybook/addon-highlight',
   ],
   webpackFinal: (config) => {
     const rules = config.module?.rules || [];
