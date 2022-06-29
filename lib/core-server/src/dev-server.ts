@@ -180,7 +180,7 @@ export async function storybookDevServer(options: Options) {
 
   // TODO #13083 Remove this when compiling the preview is fast enough
   if (!options.ci && !options.smokeTest && options.open) {
-    openInBrowser(host ? networkAddress : address);
+    await openInBrowser(host ? networkAddress : address);
   }
 
   return { previewResult, managerResult, address, networkAddress };
