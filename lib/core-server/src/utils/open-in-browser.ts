@@ -7,7 +7,7 @@ export async function openInBrowser(address: string) {
   const getDefaultBrowser = (await import('default-browser')).default;
   const defaultBrowser = await getDefaultBrowser();
   try {
-    if (defaultBrowser.name === ('Chrome' || 'Chromium')) {
+    if (defaultBrowser.name === 'Chrome' || defaultBrowser.name === 'Chromium') {
       betterOpn(address);
     } else await open(address);
   } catch (error) {
