@@ -8529,6 +8529,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/html@workspace:renderers/html"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.6
     "@storybook/core-client": 7.0.0-alpha.6
     "@storybook/csf": 0.0.2--canary.4566f4d.1
@@ -8775,6 +8776,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preact@workspace:renderers/preact"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.6
     "@storybook/core-client": 7.0.0-alpha.6
     "@storybook/csf": 0.0.2--canary.4566f4d.1
@@ -9066,6 +9068,7 @@ __metadata:
   resolution: "@storybook/react@workspace:renderers/react"
   dependencies:
     "@babel/core": ^7.11.5
+    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.6
     "@storybook/client-logger": 7.0.0-alpha.6
     "@storybook/core-client": 7.0.0-alpha.6
@@ -9470,6 +9473,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/server@workspace:renderers/server"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.6
     "@storybook/core-client": 7.0.0-alpha.6
     "@storybook/csf": 0.0.2--canary.4566f4d.1
@@ -9549,6 +9553,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/svelte@workspace:renderers/svelte"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.6
     "@storybook/client-logger": 7.0.0-alpha.6
     "@storybook/core-client": 7.0.0-alpha.6
@@ -9777,6 +9782,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue3@workspace:renderers/vue3"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.6
     "@storybook/core-client": 7.0.0-alpha.6
     "@storybook/csf": 0.0.2--canary.4566f4d.1
@@ -9799,6 +9805,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue@workspace:renderers/vue"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.6
     "@storybook/client-logger": 7.0.0-alpha.6
     "@storybook/core-client": 7.0.0-alpha.6
@@ -9842,6 +9849,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/web-components@workspace:renderers/web-components"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.6
     "@storybook/api": 7.0.0-alpha.6
     "@storybook/client-logger": 7.0.0-alpha.6
