@@ -18,6 +18,7 @@ import { logger } from '@storybook/client-logger';
 import {
   STORY_RENDER_PHASE_CHANGED,
   STORY_RENDERED,
+  STORY_THREW_EXCEPTION,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
 
@@ -111,6 +112,10 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
       // TODO -- should we emit the render phase changed event?
       this.phase = 'preparing';
     }
+
+    this.channel.on(STORY_THREW_EXCEPTION, () => {
+      this.phase = 'errored';
+    });
   }
 
   private async runPhase(signal: AbortSignal, phase: RenderPhase, phaseFn?: () => Promise<void>) {
@@ -228,7 +233,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         this.teardownRender = teardown || (() => {});
       });
       this.notYetRendered = false;
-      if (abortSignal.aborted) return;
+      if (abortSignal.aborted || this.phase !== 'rendering') return;
 
       if (forceRemount && playFunction) {
         this.disableKeyListeners = true;
