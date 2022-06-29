@@ -15,7 +15,6 @@ import type {
   IndexEntry,
 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
-import deprecate from 'util-deprecate';
 
 export interface GetStorybookStory<TFramework extends AnyFramework> {
   name: string;
@@ -27,10 +26,6 @@ export interface GetStorybookKind<TFramework extends AnyFramework> {
   fileName: string;
   stories: GetStorybookStory<TFramework>[];
 }
-
-// TODO: talk to michael about the removal of this
-const docs2Warning = deprecate(() => {},
-`You cannot use \`.mdx\` files without using \`storyStoreV7\`. Consider upgrading to the new store.`);
 
 export class StoryStoreFacade<TFramework extends AnyFramework> {
   projectAnnotations: NormalizedProjectAnnotations<TFramework>;
@@ -138,7 +133,9 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
   // NOTE: we could potentially share some of this code with the stories.json generation
   addStoriesFromExports(fileName: Path, fileExports: ModuleExports) {
     if (fileName.match(/\.mdx$/) && !fileName.match(/\.stories\.mdx$/)) {
-      docs2Warning();
+      logger.warn(
+        `You cannot use '.mdx' files without using 'storyStoreV7'. Consider upgrading to the new store.`
+      );
       return;
     }
 
