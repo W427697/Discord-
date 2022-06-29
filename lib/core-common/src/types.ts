@@ -224,6 +224,7 @@ export interface StoryIndex {
 export interface StoryIndexer {
   test: RegExp;
   indexer: (fileName: string, options: IndexerOptions) => Promise<StoryIndex>;
+  addDocsTemplate?: boolean;
 }
 
 /**
