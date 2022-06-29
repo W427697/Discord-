@@ -1,4 +1,6 @@
-import type { StorybookConfig } from '@storybook/core-webpack';
+import type { StorybookConfig } from './types';
+
+export * from './types';
 
 export const addons: StorybookConfig['addons'] = [
   require.resolve('./framework-preset-vue3'),
