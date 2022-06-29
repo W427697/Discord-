@@ -1,3 +1,13 @@
+## 7.0.0-alpha.8 (June 29, 2022)
+
+### Features
+
+- Webpack: Support .cjs extension ([#18502](https://github.com/storybookjs/storybook/pull/18502))
+
+### Maintenance
+
+- Docs2: Extract doc blocks into a separate package ([#18587](https://github.com/storybookjs/storybook/pull/18587))
+
 ## 7.0.0-alpha.7 (June 29, 2022)
 
 ### Features

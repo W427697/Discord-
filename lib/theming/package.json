@@ -1,6 +1,6 @@
 {
   "name": "@storybook/theming",
-  "version": "7.0.0-alpha.7",
+  "version": "7.0.0-alpha.8",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -41,7 +41,7 @@
     "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.7",
+    "@storybook/client-logger": "7.0.0-alpha.8",
     "core-js": "^3.8.2",
     "memoizerific": "^1.11.3"
   },
@@ -70,5 +70,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "a88dcca40ba169a373bad33dd76e9a4bd4f1f5ec"
+  "gitHead": "24725501c32a073cebc6bf2674a47357136fbe3a"
 }

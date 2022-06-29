@@ -1,6 +1,6 @@
 {
   "name": "@storybook/ui",
-  "version": "7.0.0-alpha.7",
+  "version": "7.0.0-alpha.8",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -54,17 +54,17 @@
     "@babel/core": "^7.12.10",
     "@digitak/esrun": "^3.2.2",
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/addons": "7.0.0-alpha.7",
-    "@storybook/api": "7.0.0-alpha.7",
-    "@storybook/channel-postmessage": "7.0.0-alpha.7",
-    "@storybook/channel-websocket": "7.0.0-alpha.7",
-    "@storybook/channels": "7.0.0-alpha.7",
-    "@storybook/client-logger": "7.0.0-alpha.7",
-    "@storybook/components": "7.0.0-alpha.7",
-    "@storybook/core-events": "7.0.0-alpha.7",
-    "@storybook/router": "7.0.0-alpha.7",
+    "@storybook/addons": "7.0.0-alpha.8",
+    "@storybook/api": "7.0.0-alpha.8",
+    "@storybook/channel-postmessage": "7.0.0-alpha.8",
+    "@storybook/channel-websocket": "7.0.0-alpha.8",
+    "@storybook/channels": "7.0.0-alpha.8",
+    "@storybook/client-logger": "7.0.0-alpha.8",
+    "@storybook/components": "7.0.0-alpha.8",
+    "@storybook/core-events": "7.0.0-alpha.8",
+    "@storybook/router": "7.0.0-alpha.8",
     "@storybook/semver": "^7.3.2",
-    "@storybook/theming": "7.0.0-alpha.7",
+    "@storybook/theming": "7.0.0-alpha.8",
     "@testing-library/react": "^11.2.2",
     "copy-to-clipboard": "^3.3.1",
     "core-js": "^3.8.2",
@@ -100,5 +100,5 @@
       "./src/runtime.ts"
     ]
   },
-  "gitHead": "d334cabd251cd0ed8b845a87707dc84f007d4074"
+  "gitHead": "24725501c32a073cebc6bf2674a47357136fbe3a"
 }
