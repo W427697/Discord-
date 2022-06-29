@@ -1,3 +1,32 @@
+## 7.0.0-alpha.7 (June 29, 2022)
+
+### Features
+
+- TypeScript: Re-structure types for frameworks and presets ([#18504](https://github.com/storybookjs/storybook/pull/18504))
+- UI: Add parent wildcard sortOrder ([#18243](https://github.com/storybookjs/storybook/pull/18243))
+
+### Bug Fixes
+
+- UI: Fix typo in CSS pseudo selector ([#17708](https://github.com/storybookjs/storybook/pull/17708))
+- UI: Fix sidebar a11y by moving aria-expanded attribute to button ([#18354](https://github.com/storybookjs/storybook/pull/18354))
+- CLI: Hook up the npm7 migration ([#18522](https://github.com/storybookjs/storybook/pull/18522))
+
+### Maintenance
+
+- Build: Use TSUP to compile `core-common` ([#18546](https://github.com/storybookjs/storybook/pull/18546))
+- Build: Use TSUP to compile the presets ([#18544](https://github.com/storybookjs/storybook/pull/18544))
+- Build: Use TSUP to compile the frameworks ([#18543](https://github.com/storybookjs/storybook/pull/18543))
+- Build: Use TSUP to compile the renderers ([#18534](https://github.com/storybookjs/storybook/pull/18534))
+- Essentials: Add highlight addon ([#17800](https://github.com/storybookjs/storybook/pull/17800))
+- Core: Replace `cpy` with `fs-extra` copy/copyFile ([#18497](https://github.com/storybookjs/storybook/pull/18497))
+- Build: Enable Template.bind({}) TS support in our repo ([#18540](https://github.com/storybookjs/storybook/pull/18540))
+- Turn on strict types in store + preview-web ([#18536](https://github.com/storybookjs/storybook/pull/18536))
+- Addon-highlight: Convert to simplified addon style ([#17991](https://github.com/storybookjs/storybook/pull/17991))
+
+### Dependency Upgrades
+
+- Upgrade @storybook/testing-library to `0.0.14-next.0` ([#18539](https://github.com/storybookjs/storybook/pull/18539))
+
 ## 7.0.0-alpha.6 (June 21, 2022)
 
 ### Bug Fixes
