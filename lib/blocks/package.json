@@ -20,9 +20,17 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -30,7 +38,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@mdx-js/react": "^1.6.22",
@@ -53,9 +61,11 @@
     "memoizerific": "^1.11.3",
     "polished": "^4.2.2",
     "react-colorful": "^5.1.2",
-    "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
+  },
+  "devDependencies": {
+    "@digitak/esrun": "^3.2.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -64,5 +74,8 @@
   "publishConfig": {
     "access": "public"
   },
+  "bundlerEntrypoint": [
+    "./src/index.ts"
+  ],
   "gitHead": "b2e85f3599c043815b18bbfc5ca563bf1c6e4add"
 }

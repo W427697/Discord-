@@ -7780,6 +7780,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/blocks@workspace:lib/blocks"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@mdx-js/react": ^1.6.22
     "@storybook/addons": 7.0.0-alpha.7
     "@storybook/api": 7.0.0-alpha.7
@@ -7800,7 +7801,6 @@ __metadata:
     memoizerific: ^1.11.3
     polished: ^4.2.2
     react-colorful: ^5.1.2
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
   peerDependencies:
@@ -8727,6 +8727,7 @@ __metadata:
     "@types/terser-webpack-plugin": ^5.2.0
     "@types/webpack-dev-middleware": ^5.3.0
     "@types/webpack-virtual-modules": ^0.1.1
+    assert: ^2.0.0
     babel-loader: ^8.2.5
     case-sensitive-paths-webpack-plugin: ^2.4.0
     chalk: ^4.1.0
@@ -9323,7 +9324,6 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.15.0
     "@typescript-eslint/experimental-utils": ^5.20.0
     "@typescript-eslint/parser": ^5.15.0
-    assert: ^2.0.0
     babel-core: ^7.0.0-bridge.0
     babel-eslint: ^10.1.0
     babel-jest: ^26.6.3
