@@ -41,6 +41,7 @@
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.7",
     "@storybook/api": "7.0.0-alpha.7",
+    "@storybook/blocks": "7.0.0-alpha.7",
     "@storybook/client-logger": "7.0.0-alpha.7",
     "@storybook/components": "7.0.0-alpha.7",
     "@storybook/core-common": "7.0.0-alpha.7",

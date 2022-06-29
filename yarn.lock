@@ -7028,6 +7028,7 @@ __metadata:
   dependencies:
     "@storybook/addons": 7.0.0-alpha.7
     "@storybook/api": 7.0.0-alpha.7
+    "@storybook/blocks": 7.0.0-alpha.7
     "@storybook/client-logger": 7.0.0-alpha.7
     "@storybook/components": 7.0.0-alpha.7
     "@storybook/core-common": 7.0.0-alpha.7
@@ -7060,6 +7061,7 @@ __metadata:
     "@mdx-js/react": ^1.6.22
     "@storybook/addons": 7.0.0-alpha.7
     "@storybook/api": 7.0.0-alpha.7
+    "@storybook/blocks": 7.0.0-alpha.7
     "@storybook/components": 7.0.0-alpha.7
     "@storybook/core-common": 7.0.0-alpha.7
     "@storybook/core-events": 7.0.0-alpha.7
@@ -7791,6 +7793,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/blocks@7.0.0-alpha.7, @storybook/blocks@workspace:*, @storybook/blocks@workspace:lib/blocks":
+  version: 0.0.0-use.local
+  resolution: "@storybook/blocks@workspace:lib/blocks"
+  dependencies:
+    "@digitak/esrun": ^3.2.2
+    "@mdx-js/react": ^1.6.22
+    "@storybook/addons": 7.0.0-alpha.7
+    "@storybook/api": 7.0.0-alpha.7
+    "@storybook/client-logger": 7.0.0-alpha.7
+    "@storybook/components": 7.0.0-alpha.7
+    "@storybook/core-events": 7.0.0-alpha.7
+    "@storybook/csf": 0.0.2--canary.7c6c115.0
+    "@storybook/docs-tools": 7.0.0-alpha.7
+    "@storybook/preview-web": 7.0.0-alpha.7
+    "@storybook/store": 7.0.0-alpha.7
+    "@storybook/theming": 7.0.0-alpha.7
+    color-convert: ^2.0.1
+    core-js: ^3.8.2
+    fast-deep-equal: ^3.1.3
+    global: ^4.4.0
+    lodash: ^4.17.21
+    markdown-to-jsx: ^7.1.3
+    memoizerific: ^1.11.3
+    polished: ^4.2.2
+    react-colorful: ^5.1.2
+    ts-dedent: ^2.0.0
+    util-deprecate: ^1.0.2
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  languageName: unknown
+  linkType: soft
+
 "@storybook/builder-manager@7.0.0-alpha.7, @storybook/builder-manager@workspace:lib/builder-manager":
   version: 0.0.0-use.local
   resolution: "@storybook/builder-manager@workspace:lib/builder-manager"
@@ -8364,6 +8399,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/csf@npm:0.0.2--canary.7c6c115.0":
+  version: 0.0.2--canary.7c6c115.0
+  resolution: "@storybook/csf@npm:0.0.2--canary.7c6c115.0"
+  dependencies:
+    lodash: ^4.17.15
+  checksum: 85a179664d18eeca8462c1b6ff36f9b68b856c9f9c5143aa6f19b17e4cc97bc08ed69921a5287a61d8c90f61366ff6a5ab89930d158402e7c04d07a3ffaad8bb
+  languageName: node
+  linkType: hard
+
 "@storybook/csf@npm:0.0.2--canary.87bc651.0":
   version: 0.0.2--canary.87bc651.0
   resolution: "@storybook/csf@npm:0.0.2--canary.87bc651.0"
@@ -8477,6 +8521,34 @@ __metadata:
   checksum: 935d7ae143c32b7864c33b4148c160a9762463a7fdccfb5712212bb69ce1b527cd9ae992711035abe2e34a97400fe7c75fb2461dbba676b239ee7f547737a19c
   languageName: node
   linkType: hard
+
+"@storybook/example-doc-blocks@workspace:examples/doc-blocks":
+  version: 0.0.0-use.local
+  resolution: "@storybook/example-doc-blocks@workspace:examples/doc-blocks"
+  dependencies:
+    "@babel/preset-env": ^7.12.11
+    "@babel/preset-react": ^7.12.10
+    "@babel/preset-typescript": ^7.12.7
+    "@storybook/addon-essentials": 7.0.0-alpha.7
+    "@storybook/addon-storyshots": 7.0.0-alpha.7
+    "@storybook/addon-storysource": 7.0.0-alpha.7
+    "@storybook/addons": 7.0.0-alpha.7
+    "@storybook/cli": 7.0.0-alpha.7
+    "@storybook/components": 7.0.0-alpha.7
+    "@storybook/react-webpack5": 7.0.0-alpha.7
+    "@storybook/theming": 7.0.0-alpha.7
+    "@types/babel__preset-env": ^7
+    "@types/react": ^16.14.23
+    "@types/react-dom": ^16.9.14
+    cross-env: ^7.0.3
+    lodash: ^4.17.21
+    react: 16.14.0
+    react-dom: 16.14.0
+    sb: 7.0.0-alpha.7
+    typescript: ~4.6.3
+    webpack: 5
+  languageName: unknown
+  linkType: soft
 
 "@storybook/example-react-ts@workspace:examples/react-ts":
   version: 0.0.0-use.local
@@ -9188,6 +9260,7 @@ __metadata:
     "@storybook/angular": "workspace:*"
     "@storybook/api": "workspace:*"
     "@storybook/babel-plugin-require-context-hook": 1.0.1
+    "@storybook/blocks": "workspace:*"
     "@storybook/channel-postmessage": "workspace:*"
     "@storybook/channel-websocket": "workspace:*"
     "@storybook/channels": "workspace:*"
@@ -39840,7 +39913,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sb@workspace:lib/cli-sb":
+"sb@7.0.0-alpha.7, sb@workspace:lib/cli-sb":
   version: 0.0.0-use.local
   resolution: "sb@workspace:lib/cli-sb"
   dependencies:
