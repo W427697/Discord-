@@ -116,6 +116,16 @@ export async function managerWebpack(
     ].filter(Boolean),
     module: {
       rules: [
+        {
+          test: /\.m?js$/,
+          type: 'javascript/auto',
+        },
+        {
+          test: /\.m?js$/,
+          resolve: {
+            fullySpecified: false,
+          },
+        },
         customManagerRuntimeLoader(),
         {
           test: /\.css$/,
@@ -159,6 +169,7 @@ export async function managerWebpack(
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
       mainFields: ['browser', 'module', 'main'].filter(Boolean),
       alias: uiPaths,
+      fallback: { assert: require.resolve('assert/') },
     },
     recordsPath: resolvePathInStorybookCache('public/records.json'),
     performance: {
