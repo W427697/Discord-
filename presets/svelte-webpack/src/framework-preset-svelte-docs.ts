@@ -1,4 +1,3 @@
-import path from 'path';
 import type { Preset } from '@storybook/core-webpack';
 import type { StorybookConfig, SvelteOptions } from './types';
 
@@ -10,7 +9,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, { pr
     ...(config.module?.rules || []),
     {
       test: /\.svelte$/,
-      loader: path.resolve(`${__dirname}/svelte-docgen-loader`),
+      loader: require.resolve(`@storybook/preset-svelte-webpack/dist/svelte-docgen-loader`),
       enforce: 'post',
       options: svelteOptions,
     },

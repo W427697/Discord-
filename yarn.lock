@@ -8817,6 +8817,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-html-webpack@workspace:presets/html-webpack"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.6
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
@@ -8834,6 +8835,7 @@ __metadata:
   resolution: "@storybook/preset-preact-webpack@workspace:presets/preact-webpack"
   dependencies:
     "@babel/plugin-transform-react-jsx": ^7.12.12
+    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.6
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
@@ -8852,6 +8854,7 @@ __metadata:
   dependencies:
     "@babel/preset-flow": ^7.12.1
     "@babel/preset-react": ^7.12.10
+    "@digitak/esrun": ^3.2.2
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.5
     "@storybook/core-webpack": 7.0.0-alpha.6
     "@storybook/docs-tools": 7.0.0-alpha.6
@@ -8896,6 +8899,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-server-webpack@workspace:presets/server-webpack"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/core-server": 7.0.0-alpha.6
     "@storybook/core-webpack": 7.0.0-alpha.6
     "@storybook/server": 7.0.0-alpha.6
@@ -8917,6 +8921,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-svelte-webpack@workspace:presets/svelte-webpack"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.6
     "@storybook/node-logger": 7.0.0-alpha.6
     core-js: ^3.8.2
@@ -8937,6 +8942,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-vue-webpack@workspace:presets/vue-webpack"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.6
     "@storybook/docs-tools": 7.0.0-alpha.6
     "@types/node": ^14.14.20 || ^16.0.0
@@ -8964,6 +8970,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-vue3-webpack@workspace:presets/vue3-webpack"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.6
     "@storybook/docs-tools": 7.0.0-alpha.6
     "@types/node": ^14.14.20 || ^16.0.0
@@ -8992,8 +8999,10 @@ __metadata:
     "@babel/plugin-syntax-dynamic-import": ^7.8.3
     "@babel/plugin-syntax-import-meta": ^7.10.4
     "@babel/preset-env": ^7.12.11
+    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.6
     "@types/node": ^14.14.20 || ^16.0.0
+    babel-loader: ^7.0.0 || ^8.0.0
     babel-plugin-bundled-import-meta: ^0.3.1
     core-js: ^3.8.2
     lit-html: 2.0.2
@@ -14088,7 +14097,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-loader@npm:8.2.5, babel-loader@npm:^8.2.2, babel-loader@npm:^8.2.3, babel-loader@npm:^8.2.5":
+"babel-loader@npm:8.2.5, babel-loader@npm:^7.0.0 || ^8.0.0, babel-loader@npm:^8.2.2, babel-loader@npm:^8.2.3, babel-loader@npm:^8.2.5":
   version: 8.2.5
   resolution: "babel-loader@npm:8.2.5"
   dependencies:
