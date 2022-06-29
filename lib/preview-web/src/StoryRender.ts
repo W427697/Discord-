@@ -45,16 +45,6 @@ function createController(): AbortController {
   } as AbortController;
 }
 
-function createIdlePromise() {
-  return new Promise<void>((resolve) => {
-    try {
-      global.window.requestIdleCallback(resolve, { timeout: 1000 });
-    } catch (e) {
-      setTimeout(resolve, 0);
-    }
-  });
-}
-
 function serializeError(error: any) {
   try {
     const { name = 'Error', message = String(error), stack } = error;
@@ -243,7 +233,6 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
       if (forceRemount && playFunction) {
         this.disableKeyListeners = true;
         try {
-          await createIdlePromise();
           await this.runPhase(abortSignal, 'playing', async () => {
             await playFunction(renderContext.storyContext);
           });
