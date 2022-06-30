@@ -1,5 +1,5 @@
 <center>
-  <img src="https://raw.githubusercontent.com/storybookjs/storybook/master/addons/docs/docs/media/hero.png" width="100%" />
+  <img src="https://raw.githubusercontent.com/storybookjs/storybook/main/addons/docs/docs/media/hero.png" width="100%" />
 </center>
 
 # Storybook Docs
@@ -34,7 +34,7 @@ When you [install Docs](#installation), every story gets a `DocsPage`. `DocsPage
 Click on the `Docs` tab to see it:
 
 <center>
-  <img src="https://raw.githubusercontent.com/storybookjs/storybook/master/addons/docs/docs/media/docs-tab.png" width="100%" />
+  <img src="https://raw.githubusercontent.com/storybookjs/storybook/main/addons/docs/docs/media/docs-tab.png" width="100%" />
 </center>
 
 For more information on how it works, see the [`DocsPage` reference](https://github.com/storybookjs/storybook/tree/next/addons/docs/docs/docspage.md).
@@ -70,26 +70,17 @@ markdown documentation.
 And here's how that's rendered in Storybook:
 
 <center>
-  <img src="https://raw.githubusercontent.com/storybookjs/storybook/master/addons/docs/docs/media/mdx-simple.png" width="100%" />
+  <img src="https://raw.githubusercontent.com/storybookjs/storybook/main/addons/docs/docs/media/mdx-simple.png" width="100%" />
 </center>
 
 For more information on `MDX`, see the [`MDX` reference](https://github.com/storybookjs/storybook/tree/next/addons/docs/docs/mdx.md).
 
 ## Framework support
 
-Storybook Docs supports all view layers that Storybook supports except for React Native (currently). There are some framework-specific features as well, such as props tables and inline story rendering. This chart captures the current state of support:
+Storybook Docs supports all view layers that Storybook supports except for React Native (currently). There are some framework-specific features as well, such as props tables and inline story rendering. The following page captures the current state of support:
 
-|                   | React | Vue | Angular | Ember | Web Components | Marko | HTML | Svelte | Preact | Riot | Mithril | Marko |
-| ----------------- | :---: | :-: | :-----: | :---: | :------------: | :---: | :--: | :----: | :----: | :--: | :-----: | :---: |
-| MDX stories       |   +   |  +  |    +    |   +   |       +        |  WIP  |  +   |   +    |   +    |  +   |    +    |   +   |
-| CSF stories       |   +   |  +  |    +    |   +   |       +        |  WIP  |  +   |   +    |   +    |  +   |    +    |   +   |
-| StoriesOf stories |   +   |  +  |    +    |   +   |       +        |  WIP  |  +   |   +    |   +    |  +   |    +    |   +   |
-| Source            |   +   |  +  |    +    |   +   |       +        |  WIP  |  +   |   +    |   +    |  +   |    +    |   +   |
-| Notes / Info      |   +   |  +  |    +    |   +   |       +        |  WIP  |  +   |   +    |   +    |  +   |    +    |   +   |
-| Props table       |   +   |  +  |    +    |   +   |       +        |  WIP  |      |        |        |      |         |       |
-| Props controls    |   +   |  +  |    +    |       |                |  WIP  |      |        |        |      |         |       |
-| Description       |   +   |  +  |    +    |   +   |       +        |  WIP  |      |        |        |      |         |       |
-| Inline stories    |   +   |  +  |    +    |       |       +        |  WIP  |  +   |        |        |      |         |       |
+[Framework Support](https://storybook.js.org/docs/react/api/frameworks-feature-support)
+
 
 **Note:** `#` = WIP support
 

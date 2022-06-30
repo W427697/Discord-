@@ -1,4 +1,4 @@
-import { StoryContext } from '@storybook/addons';
+import type { StoryContext } from '@storybook/addons';
 import { inferActionsFromArgTypesRegex, addActionsFromArgTypes } from './addArgsHelpers';
 
 describe('actions parameter enhancers', () => {
@@ -7,36 +7,62 @@ describe('actions parameter enhancers', () => {
     const argTypes = { onClick: {}, onFocus: {}, somethingElse: {} };
 
     it('should add actions that match a pattern', () => {
-      const args = inferActionsFromArgTypesRegex(({
+      const args = inferActionsFromArgTypesRegex({
+        initialArgs: {},
         argTypes,
         parameters,
-      } as unknown) as StoryContext);
+      } as unknown as StoryContext);
       expect(args).toEqual({
         onClick: expect.any(Function),
         onFocus: expect.any(Function),
       });
     });
 
-    it('should override pre-existing argTypes', () => {
-      const args = inferActionsFromArgTypesRegex(({
+    it('should NOT override pre-existing args', () => {
+      const args = inferActionsFromArgTypesRegex({
+        initialArgs: { onClick: 'pre-existing value' },
+        argTypes,
         parameters,
-        argTypes: {
-          onClick: { defaultValue: 'pre-existing value' },
-        },
-      } as unknown) as StoryContext);
-      expect(args).toEqual({
-        onClick: expect.any(Function),
-      });
+      } as unknown as StoryContext);
+      expect(args).toEqual({ onFocus: expect.any(Function) });
+    });
+
+    it('should NOT override pre-existing args, if null', () => {
+      const args = inferActionsFromArgTypesRegex({
+        initialArgs: { onClick: null },
+        argTypes,
+        parameters,
+      } as unknown as StoryContext);
+      expect(args).toEqual({ onFocus: expect.any(Function) });
+    });
+
+    it('should override pre-existing args, if undefined', () => {
+      const args = inferActionsFromArgTypesRegex({
+        initialArgs: {},
+        argTypes,
+        parameters,
+      } as unknown as StoryContext);
+      expect(args).toEqual({ onClick: expect.any(Function), onFocus: expect.any(Function) });
+    });
+
+    it('should NOT override pre-existing args, if set undefined on purpose', () => {
+      const args = inferActionsFromArgTypesRegex({
+        initialArgs: { onClick: undefined },
+        argTypes,
+        parameters,
+      } as unknown as StoryContext);
+      expect(args).toEqual({ onClick: undefined, onFocus: expect.any(Function) });
     });
 
     it('should do nothing if actions are disabled', () => {
-      const args = inferActionsFromArgTypesRegex(({
+      const args = inferActionsFromArgTypesRegex({
+        initialArgs: {},
+        argTypes,
         parameters: {
           ...parameters,
           actions: { ...parameters.actions, disable: true },
         },
-        argTypes,
-      } as unknown) as StoryContext);
+      } as unknown as StoryContext);
       expect(args).toEqual({});
     });
   });
@@ -48,19 +74,64 @@ describe('actions parameter enhancers', () => {
     };
     it('should add actions based on action.args', () => {
       expect(
-        addActionsFromArgTypes(({ argTypes, parameters: {} } as unknown) as StoryContext)
+        addActionsFromArgTypes({
+          initialArgs: {},
+          argTypes,
+          parameters: {},
+        } as unknown as StoryContext)
       ).toEqual({
         onClick: expect.any(Function),
         onBlur: expect.any(Function),
       });
     });
 
+    it('should NOT override pre-existing args', () => {
+      expect(
+        addActionsFromArgTypes({
+          argTypes: { onClick: { action: 'clicked!' } },
+          initialArgs: { onClick: 'pre-existing value' },
+          parameters: {},
+        } as unknown as StoryContext)
+      ).toEqual({});
+    });
+
+    it('should NOT override pre-existing args, if null', () => {
+      expect(
+        addActionsFromArgTypes({
+          argTypes: { onClick: { action: 'clicked!' } },
+          initialArgs: { onClick: null },
+          parameters: {},
+        } as unknown as StoryContext)
+      ).toEqual({});
+    });
+
+    it('should override pre-existing args, if undefined', () => {
+      expect(
+        addActionsFromArgTypes({
+          argTypes: { onClick: { action: 'clicked!' } },
+          initialArgs: {},
+          parameters: {},
+        } as unknown as StoryContext)
+      ).toEqual({ onClick: expect.any(Function) });
+    });
+
+    it('should NOT override pre-existing args, if set undefined on purpose', () => {
+      expect(
+        addActionsFromArgTypes({
+          argTypes: { onClick: { action: 'clicked!' } },
+          initialArgs: { onClick: undefined },
+          parameters: {},
+        } as unknown as StoryContext)
+      ).toEqual({ onClick: undefined });
+    });
+
     it('should do nothing if actions are disabled', () => {
       expect(
-        addActionsFromArgTypes(({
+        addActionsFromArgTypes({
+          initialArgs: {},
           argTypes,
           parameters: { actions: { disable: true } },
-        } as unknown) as StoryContext)
+        } as unknown as StoryContext)
       ).toEqual({});
     });
   });

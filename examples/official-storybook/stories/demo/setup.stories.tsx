@@ -1,3 +1,5 @@
+/* eslint-disable storybook/use-storybook-testing-library */
+// @TODO: use addon-interactions and remove the rule disable above
 import React from 'react';
 import { screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
@@ -9,8 +11,8 @@ export default {
   component: Input,
 };
 
-export const WithSetup = {
-  setup: async () => {
+export const WithPlay = {
+  play: async () => {
     const inputs = screen.getAllByTestId('test-input');
     for (let i = 0; i < inputs.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
