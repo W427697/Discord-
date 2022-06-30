@@ -1,6 +1,6 @@
 {
   "name": "@storybook/example-react-ts-webpack4",
-  "version": "6.4.0-alpha.26",
+  "version": "6.5.0-rc.1",
   "private": true,
   "scripts": {
     "build-storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true build-storybook -c ./",
@@ -12,8 +12,8 @@
     "@storybook/addon-essentials": "workspace:*",
     "@storybook/builder-webpack4": "workspace:*",
     "@storybook/react": "workspace:*",
-    "@types/react": "^16.14.2",
-    "@types/react-dom": "^16.9.10",
+    "@types/react": "^16.14.23",
+    "@types/react-dom": "^16.9.14",
     "prop-types": "15.7.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",

@@ -1,10 +1,10 @@
 {
   "name": "svelte-example",
-  "version": "6.4.0-alpha.26",
+  "version": "6.5.0-rc.1",
   "private": true,
   "scripts": {
-    "build-storybook": "build-storybook -s public",
-    "storybook": "start-storybook -p 9009 -s public --no-manager-cache"
+    "build-storybook": "build-storybook",
+    "storybook": "start-storybook -p 9009 --no-manager-cache"
   },
   "dependencies": {
     "global": "^4.4.0"
@@ -15,13 +15,16 @@
     "@storybook/addon-backgrounds": "workspace:*",
     "@storybook/addon-controls": "workspace:*",
     "@storybook/addon-docs": "workspace:*",
+    "@storybook/addon-interactions": "workspace:*",
     "@storybook/addon-links": "workspace:*",
     "@storybook/addon-storyshots": "workspace:*",
     "@storybook/addon-storysource": "workspace:*",
     "@storybook/addon-viewport": "workspace:*",
     "@storybook/addons": "workspace:*",
+    "@storybook/jest": "^0.0.5",
     "@storybook/source-loader": "workspace:*",
     "@storybook/svelte": "workspace:*",
+    "@storybook/testing-library": "0.0.14-next.0",
     "svelte-jester": "1.3.0",
     "svelte-preprocess": "4.6.8"
   },

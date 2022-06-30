@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-a11y",
-  "version": "6.4.0-alpha.26",
+  "version": "6.5.0-rc.1",
   "description": "Test component compliance with web accessibility standards",
   "keywords": [
     "a11y",
@@ -30,7 +30,7 @@
   "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
-      "*": [
+      "dist/ts3.9/*": [
         "dist/ts3.4/*"
       ]
     }
@@ -50,15 +50,15 @@
     "@storybook/addons": "workspace:*",
     "@storybook/api": "workspace:*",
     "@storybook/channels": "workspace:*",
-    "@storybook/client-api": "workspace:*",
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
     "@storybook/core-events": "workspace:*",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
     "@storybook/theming": "workspace:*",
     "axe-core": "^4.2.0",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "react-sizeme": "^3.0.1",
     "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0",
@@ -69,8 +69,8 @@
     "@types/webpack-env": "^1.16.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -83,7 +83,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6962d573023a8c779b676c3221b14b9d89c20cfc",
+  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Accessibility",

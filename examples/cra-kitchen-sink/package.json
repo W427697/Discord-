@@ -1,13 +1,13 @@
 {
   "name": "cra-kitchen-sink",
-  "version": "6.4.0-alpha.26",
+  "version": "6.5.0-rc.1",
   "private": true,
   "scripts": {
     "build": "react-scripts build",
-    "build-storybook": "build-storybook -s public",
+    "build-storybook": "build-storybook",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
-    "storybook": "start-storybook -p 9010 -s public --no-manager-cache",
+    "storybook": "start-storybook -p 9010 --no-manager-cache",
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {
@@ -20,11 +20,12 @@
     "react-scripts": "^4.0.2"
   },
   "devDependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@storybook/addon-a11y": "workspace:*",
     "@storybook/addon-actions": "workspace:*",
     "@storybook/addon-backgrounds": "workspace:*",
     "@storybook/addon-docs": "workspace:*",
+    "@storybook/addon-ie11": "0.0.7--canary.5e87b64.0",
     "@storybook/addon-jest": "workspace:*",
     "@storybook/addon-links": "workspace:*",
     "@storybook/addon-storyshots": "workspace:*",

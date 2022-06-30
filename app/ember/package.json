@@ -1,6 +1,6 @@
 {
   "name": "@storybook/ember",
-  "version": "6.4.0-alpha.26",
+  "version": "6.5.0-rc.1",
   "description": "Storybook for Ember: Develop Ember Component in isolation with Hot Reloading.",
   "homepage": "https://github.com/storybookjs/storybook/tree/main/app/ember",
   "bugs": {
@@ -21,7 +21,7 @@
   "types": "dist/ts3.9/client/index.d.ts",
   "typesVersions": {
     "<3.8": {
-      "*": [
+      "dist/ts3.9/*": [
         "dist/ts3.4/*"
       ]
     }
@@ -44,9 +44,10 @@
     "build:watch-tsc": "node ${PROJECT_CWD}/scripts/utils/watch-tsc.js"
   },
   "dependencies": {
-    "@ember/test-helpers": "^2.1.4",
     "@storybook/core": "workspace:*",
     "@storybook/core-common": "workspace:*",
+    "@storybook/docs-tools": "workspace:*",
+    "@storybook/store": "workspace:*",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "react": "16.14.0",
@@ -67,6 +68,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6962d573023a8c779b676c3221b14b9d89c20cfc",
+  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
   "sbmodern": "dist/modern/client/index.js"
 }

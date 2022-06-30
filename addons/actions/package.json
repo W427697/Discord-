@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-actions",
-  "version": "6.4.0-alpha.26",
+  "version": "6.5.0-rc.1",
   "description": "Get UI feedback when an action is performed on an interactive element",
   "keywords": [
     "storybook",
@@ -26,7 +26,7 @@
   "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
-      "*": [
+      "dist/ts3.9/*": [
         "dist/ts3.4/*"
       ]
     }
@@ -45,18 +45,20 @@
   "dependencies": {
     "@storybook/addons": "workspace:*",
     "@storybook/api": "workspace:*",
-    "@storybook/client-api": "workspace:*",
+    "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
     "@storybook/core-events": "workspace:*",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
     "@storybook/theming": "workspace:*",
     "core-js": "^3.8.2",
     "fast-deep-equal": "^3.1.3",
     "global": "^4.4.0",
-    "lodash": "^4.17.20",
-    "polished": "^4.0.5",
+    "lodash": "^4.17.21",
+    "polished": "^4.2.2",
     "prop-types": "^15.7.2",
     "react-inspector": "^5.1.0",
     "regenerator-runtime": "^0.13.7",
+    "telejson": "^6.0.8",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2",
     "uuid-browser": "^3.1.0"
@@ -66,8 +68,8 @@
     "@types/webpack-env": "^1.16.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -80,7 +82,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6962d573023a8c779b676c3221b14b9d89c20cfc",
+  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Actions",

@@ -1,17 +1,18 @@
 {
   "name": "cra-react15",
-  "version": "6.4.0-alpha.26",
+  "version": "6.5.0-rc.1",
   "private": true,
   "scripts": {
     "build": "react-scripts build",
-    "build-storybook": "build-storybook -s public",
+    "build-storybook": "build-storybook",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
-    "storybook": "start-storybook -p 9009 -s public --no-manager-cache",
+    "storybook": "start-storybook -p 9009 --no-manager-cache",
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {
     "babel-loader": "^8.0.0",
+    "event-source-polyfill": "^1.0.25",
     "global": "^4.4.0",
     "react": "^15.7.0",
     "react-dom": "^15.7.0",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "workspace:*",
+    "@storybook/addon-ie11": "0.0.7--canary.5e87b64.0",
     "@storybook/addon-links": "workspace:*",
     "@storybook/addons": "workspace:*",
     "@storybook/builder-webpack4": "workspace:*",

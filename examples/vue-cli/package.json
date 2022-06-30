@@ -1,6 +1,6 @@
 {
   "name": "vue-cli-example",
-  "version": "6.4.0-alpha.26",
+  "version": "6.5.0-rc.1",
   "private": true,
   "scripts": {
     "build": "vue-cli-service build",

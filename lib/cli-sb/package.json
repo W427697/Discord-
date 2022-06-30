@@ -1,6 +1,6 @@
 {
   "name": "sb",
-  "version": "6.4.0-alpha.26",
+  "version": "6.5.0-rc.1",
   "description": "Storybook CLI",
   "keywords": [
     "storybook"
@@ -31,5 +31,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "6962d573023a8c779b676c3221b14b9d89c20cfc"
+  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401"
 }
