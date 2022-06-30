@@ -19,13 +19,12 @@ For more information visit: [storybook.js.org](https://storybook.js.org)
 
 ---
 
-Storybook also comes with a lot of [addons](https://storybook.js.org/docs/react/configure/storybook-addons) and a great API to customize as you wish.
-You can also build a [static version](https://storybook.js.org/docs/react/workflows/publish-storybook) of your storybook and deploy it anywhere you want.
+Storybook also comes with a lot of [addons](https://storybook.js.org/addons) and a great API to customize as you wish.
+You can also build a [static version](https://storybook.js.org/docs/react/sharing/publish-storybook) of your Storybook and deploy it anywhere you want.
 
 Here are some featured storybooks that you can reference to see how Storybook works:
 
-- [Demo of React Dates](http://airbnb.io/react-dates/) - [source](https://github.com/airbnb/react-dates)
-- [Demo of React Native Web](https://necolas.github.io/react-native-web/docs/) - [source](https://github.com/necolas/react-native-web)
+- [Demo of Storybook Design System](https://storybook.js.org/design-system) - [source](https://github.com/storybookjs/design-system)
 
 ## Create React App
 
