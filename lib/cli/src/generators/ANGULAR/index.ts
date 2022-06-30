@@ -1,6 +1,7 @@
 import path from 'path';
+import semver from '@storybook/semver';
 import {
-  isDefaultProjectSet,
+  checkForProjects,
   editStorybookTsConfig,
   getAngularAppTsConfigJson,
   getAngularAppTsConfigPath,
@@ -8,6 +9,7 @@ import {
 } from './angular-helpers';
 import { writeFileAsJson, copyTemplate } from '../../helpers';
 import { baseGenerator, Generator } from '../baseGenerator';
+import { CoreBuilder } from '../../project_types';
 
 function editAngularAppTsConfig() {
   const tsConfigJson = getAngularAppTsConfigJson();
@@ -26,16 +28,19 @@ function editAngularAppTsConfig() {
 }
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
-  if (!isDefaultProjectSet()) {
-    throw new Error(
-      'Could not find a default project in your Angular workspace.\nSet a defaultProject in your angular.json and re-run the installation.'
-    );
-  }
-  baseGenerator(packageManager, npmOptions, options, 'angular', {
+  checkForProjects();
+
+  const angularVersion = semver.coerce(
+    packageManager.retrievePackageJson().dependencies['@angular/core']
+  )?.version;
+  const isWebpack5 = semver.gte(angularVersion, '12.0.0');
+  const updatedOptions = isWebpack5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
+
+  await baseGenerator(packageManager, npmOptions, updatedOptions, 'angular', {
     extraPackages: ['@compodoc/compodoc'],
     addScripts: false,
   });
-  copyTemplate(__dirname, options.storyFormat);
+  copyTemplate(__dirname);
 
   editAngularAppTsConfig();
   editStorybookTsConfig(path.resolve('./.storybook/tsconfig.json'));

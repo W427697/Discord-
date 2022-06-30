@@ -1,0 +1,20 @@
+```md
+<!-- MyComponent.stories.mdx -->
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import MyComponent from './MyComponent';
+
+<Meta title="MyComponent" />
+
+export const Template = (args) => <MyComponent {...args} />
+
+<Canvas>
+  <Story
+    name="ExampleStory"
+    args={{
+      propertyA: process.env.STORYBOOK_DATA_KEY,
+    }}>
+    {Template.bind({})}
+</Canvas>
+```

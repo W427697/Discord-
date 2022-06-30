@@ -1,39 +1,41 @@
-import React, { ComponentProps, FunctionComponent, MouseEvent, useState } from 'react';
+import React, { ClipboardEvent, FunctionComponent, MouseEvent, useCallback, useState } from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
-import { navigator, window } from 'global';
+import global from 'global';
 import memoize from 'memoizerific';
 
 // @ts-ignore
-import jsx from 'react-syntax-highlighter/dist/cjs/languages/prism/jsx';
+import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx';
 // @ts-ignore
-import bash from 'react-syntax-highlighter/dist/cjs/languages/prism/bash';
+import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
 // @ts-ignore
-import css from 'react-syntax-highlighter/dist/cjs/languages/prism/css';
+import css from 'react-syntax-highlighter/dist/esm/languages/prism/css';
 // @ts-ignore
-import jsExtras from 'react-syntax-highlighter/dist/cjs/languages/prism/js-extras';
+import jsExtras from 'react-syntax-highlighter/dist/esm/languages/prism/js-extras';
 // @ts-ignore
-import json from 'react-syntax-highlighter/dist/cjs/languages/prism/json';
+import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
 // @ts-ignore
-import graphql from 'react-syntax-highlighter/dist/cjs/languages/prism/graphql';
+import graphql from 'react-syntax-highlighter/dist/esm/languages/prism/graphql';
 // @ts-ignore
-import html from 'react-syntax-highlighter/dist/cjs/languages/prism/markup';
+import html from 'react-syntax-highlighter/dist/esm/languages/prism/markup';
 // @ts-ignore
-import md from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown';
+import md from 'react-syntax-highlighter/dist/esm/languages/prism/markdown';
 // @ts-ignore
-import yml from 'react-syntax-highlighter/dist/cjs/languages/prism/yaml';
+import yml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
 // @ts-ignore
-import tsx from 'react-syntax-highlighter/dist/cjs/languages/prism/tsx';
+import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
 // @ts-ignore
-import typescript from 'react-syntax-highlighter/dist/cjs/languages/prism/typescript';
+import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
 
 // @ts-ignore
-import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/cjs/prism-light';
+import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-light';
+
 import { ActionBar } from '../ActionBar/ActionBar';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
 
-import { formatter } from './formatter';
 import type { SyntaxHighlighterProps } from './syntaxhighlighter-types';
+
+const { navigator, document, window: globalWindow } = global;
 
 ReactSyntaxHighlighter.registerLanguage('jsextra', jsExtras);
 ReactSyntaxHighlighter.registerLanguage('jsx', jsx);
@@ -50,6 +52,26 @@ ReactSyntaxHighlighter.registerLanguage('graphql', graphql);
 const themedSyntax = memoize(2)((theme) =>
   Object.entries(theme.code || {}).reduce((acc, [key, val]) => ({ ...acc, [`* .${key}`]: val }), {})
 );
+
+const copyToClipboard: (text: string) => Promise<void> = createCopyToClipboardFunction();
+
+export function createCopyToClipboardFunction() {
+  if (navigator?.clipboard) {
+    return (text: string) => navigator.clipboard.writeText(text);
+  }
+  return async (text: string) => {
+    const tmp = document.createElement('TEXTAREA');
+    const focus = document.activeElement;
+
+    tmp.value = text;
+
+    document.body.appendChild(tmp);
+    tmp.select();
+    document.execCommand('copy');
+    document.body.removeChild(tmp);
+    focus.focus();
+  };
+}
 
 export interface WrapperProps {
   bordered?: boolean;
@@ -80,11 +102,6 @@ const Scroller = styled(({ children, className }) => (
   {
     position: 'relative',
   },
-  ({ theme }) => ({
-    '& code': {
-      paddingRight: theme.layoutMargin,
-    },
-  }),
   ({ theme }) => themedSyntax(theme)
 );
 
@@ -99,27 +116,31 @@ const Pre = styled.pre<PreProps>(({ theme, padded }) => ({
   padding: padded ? theme.layoutMargin : 0,
 }));
 
-const Code = styled.code({
+/*
+We can't use `code` since PrismJS races for it.
+See https://github.com/storybookjs/storybook/issues/18090
+ */
+const Code = styled.div(({ theme }) => ({
   flex: 1,
-  paddingRight: 0,
+  paddingLeft: 2, // TODO: To match theming/global.ts for now
+  paddingRight: theme.layoutMargin,
   opacity: 1,
-});
+}));
 
 export interface SyntaxHighlighterState {
   copied: boolean;
 }
 
-type ReactSyntaxHighlighterProps = ComponentProps<typeof ReactSyntaxHighlighter>;
+// copied from @types/react-syntax-highlighter/index.d.ts
 
-type Props = SyntaxHighlighterProps & ReactSyntaxHighlighterProps;
-
-export const SyntaxHighlighter: FunctionComponent<Props> = ({
+export const SyntaxHighlighter: FunctionComponent<SyntaxHighlighterProps> = ({
   children,
   language = 'jsx',
   copyable = false,
   bordered = false,
   padded = false,
   format = true,
+  formatter = null,
   className = null,
   showLineNumbers = false,
   ...rest
@@ -128,23 +149,28 @@ export const SyntaxHighlighter: FunctionComponent<Props> = ({
     return null;
   }
 
-  const highlightableCode = format ? formatter(children) : children.trim();
+  const highlightableCode = formatter ? formatter(format, children) : children.trim();
   const [copied, setCopied] = useState(false);
 
-  const onClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const onClick = useCallback(
+    (e: MouseEvent<HTMLButtonElement> | ClipboardEvent<HTMLDivElement>) => {
+      e.preventDefault();
 
-    navigator.clipboard
-      .writeText(highlightableCode)
-      .then(() => {
-        setCopied(true);
-        window.setTimeout(() => setCopied(false), 1500);
-      })
-      .catch(logger.error);
-  };
+      const selectedText = globalWindow.getSelection().toString();
+      const textToCopy = e.type !== 'click' && selectedText ? selectedText : highlightableCode;
+
+      copyToClipboard(textToCopy)
+        .then(() => {
+          setCopied(true);
+          globalWindow.setTimeout(() => setCopied(false), 1500);
+        })
+        .catch(logger.error);
+    },
+    []
+  );
 
   return (
-    <Wrapper bordered={bordered} padded={padded} className={className}>
+    <Wrapper bordered={bordered} padded={padded} className={className} onCopyCapture={onClick}>
       <Scroller>
         <ReactSyntaxHighlighter
           padded={padded || bordered}

@@ -1,7 +1,9 @@
-import { RELEASE_NOTES_DATA } from 'global';
+import global from 'global';
 import memoize from 'memoizerific';
 
 import { ModuleFn } from '../index';
+
+const { RELEASE_NOTES_DATA } = global;
 
 export interface ReleaseNotes {
   success?: boolean;
@@ -9,15 +11,13 @@ export interface ReleaseNotes {
   showOnFirstLaunch?: boolean;
 }
 
-const getReleaseNotesData = memoize(1)(
-  (): ReleaseNotes => {
-    try {
-      return { ...(JSON.parse(RELEASE_NOTES_DATA) || {}) };
-    } catch (e) {
-      return {};
-    }
+const getReleaseNotesData = memoize(1)((): ReleaseNotes => {
+  try {
+    return { ...(JSON.parse(RELEASE_NOTES_DATA) || {}) };
+  } catch (e) {
+    return {};
   }
-);
+});
 
 export interface SubAPI {
   releaseNotesVersion: () => string;

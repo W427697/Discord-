@@ -1,7 +1,8 @@
 import { sync } from 'read-pkg-up';
+import type { LoadOptions } from '@storybook/core-common';
 
 export default {
   packageJson: sync({ cwd: __dirname }).packageJson,
   framework: 'ember',
-  frameworkPresets: [require.resolve('./framework-preset-babel-ember.js')],
-};
+  frameworkPresets: [require.resolve('./preset')],
+} as LoadOptions;

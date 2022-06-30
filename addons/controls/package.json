@@ -1,13 +1,15 @@
 {
   "name": "@storybook/addon-controls",
-  "version": "6.2.0-alpha.8",
+  "version": "6.5.0-rc.1",
   "description": "Interact with component inputs dynamically in the Storybook UI",
   "keywords": [
     "addon",
     "storybook",
     "knobs",
     "controls",
-    "properties"
+    "properties",
+    "essentials",
+    "data-state"
   ],
   "homepage": "https://github.com/storybookjs/storybook/tree/next/addons/controls",
   "bugs": {
@@ -18,13 +20,17 @@
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "addons/controls"
   },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
   "license": "MIT",
-  "main": "dist/cjs/register.js",
-  "module": "dist/esm/register.js",
+  "main": "dist/cjs/manager.js",
+  "module": "dist/esm/manager.js",
   "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
-      "*": [
+      "dist/ts3.9/*": [
         "dist/ts3.4/*"
       ]
     }
@@ -39,18 +45,22 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.2.0-alpha.8",
-    "@storybook/api": "6.2.0-alpha.8",
-    "@storybook/client-api": "6.2.0-alpha.8",
-    "@storybook/components": "6.2.0-alpha.8",
-    "@storybook/node-logger": "6.2.0-alpha.8",
-    "@storybook/theming": "6.2.0-alpha.8",
-    "core-js": "^3.0.1",
+    "@storybook/addons": "6.5.0-rc.1",
+    "@storybook/api": "6.5.0-rc.1",
+    "@storybook/client-logger": "6.5.0-rc.1",
+    "@storybook/components": "6.5.0-rc.1",
+    "@storybook/core-common": "6.5.0-rc.1",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/node-logger": "6.5.0-rc.1",
+    "@storybook/store": "6.5.0-rc.1",
+    "@storybook/theming": "6.5.0-rc.1",
+    "core-js": "^3.8.2",
+    "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -63,5 +73,17 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "c04cdab92d3832a904485f0f885a7faac7ebbf93"
+  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
+  "sbmodern": "dist/modern/manager.js",
+  "storybook": {
+    "displayName": "Controls",
+    "icon": "https://user-images.githubusercontent.com/263385/101991669-479cc600-3c7c-11eb-93d9-38b67e8371f2.png",
+    "supportedFrameworks": [
+      "react",
+      "vue",
+      "angular",
+      "web-components",
+      "ember"
+    ]
+  }
 }

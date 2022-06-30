@@ -1,18 +1,18 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Configuration } from 'webpack';
+import type { Configuration } from 'webpack';
 
 const path = require('path');
 
 module.exports = {
-  stories: ['../src/**/*.stories.@(mdx|tsx|ts|jsx|js)'],
+  stories: ['../src/components', '../src/stories'],
   logLevel: 'debug',
   addons: [
     '@storybook/preset-create-react-app',
+    '@storybook/addon-ie11',
     '@storybook/addon-docs',
     '@storybook/addon-actions',
     '@storybook/addon-links',
     '@storybook/addon-a11y',
-    './localAddon/register.tsx',
+    './localAddon/manager.tsx',
     './localAddon/preset.ts',
   ],
   webpackFinal: (config: Configuration) => {
@@ -25,5 +25,14 @@ module.exports = {
       }
     });
     return config;
+  },
+  core: {
+    builder: 'webpack4',
+    channelOptions: { allowFunction: false, maxDepth: 10 },
+    disableTelemetry: true,
+  },
+  staticDirs: ['../public'],
+  features: {
+    buildStoriesJson: true,
   },
 };

@@ -1,8 +1,11 @@
-import { styled, Color, Theme } from '@storybook/theming';
+import { styled } from '@storybook/theming';
+import type { Color, Theme } from '@storybook/theming';
 import { Icons } from '@storybook/components';
-import { DOCS_MODE } from 'global';
+import global from 'global';
 import { transparentize } from 'polished';
 import React, { FunctionComponent, ComponentProps } from 'react';
+
+const { DOCS_MODE } = global;
 
 export const CollapseIcon = styled.span<{ isExpanded: boolean }>(({ theme, isExpanded }) => ({
   display: 'inline-block',
@@ -11,9 +14,10 @@ export const CollapseIcon = styled.span<{ isExpanded: boolean }>(({ theme, isExp
   marginTop: 6,
   marginLeft: 8,
   marginRight: 5,
+  color: transparentize(0.4, theme.color.mediumdark),
   borderTop: '3px solid transparent',
   borderBottom: '3px solid transparent',
-  borderLeft: `3px solid ${transparentize(0.4, theme.color.mediumdark)}`,
+  borderLeft: `3px solid`,
   transform: isExpanded ? 'rotateZ(90deg)' : 'none',
   transition: 'transform .1s ease-out',
 }));
@@ -42,9 +46,9 @@ const TypeIcon = styled(Icons)(
     marginRight: 5,
     flex: '0 0 auto',
   },
-  ({ theme, icon }) => {
+  ({ theme, icon, symbol = icon }) => {
     const colors = theme.base === 'dark' ? iconColors.dark : iconColors.light;
-    const color = colors[icon as keyof typeof colors];
+    const color = colors[symbol as keyof typeof colors];
     return { color: isColor(theme, color) ? theme.color[color] : color };
   }
 );
@@ -54,6 +58,7 @@ const BranchNode = styled.button<{
   isExpandable?: boolean;
   isExpanded?: boolean;
   isComponent?: boolean;
+  isSelected?: boolean;
 }>(({ theme, depth = 0, isExpandable = false }) => ({
   width: '100%',
   border: 'none',
@@ -121,11 +126,13 @@ export const Path = styled.span(({ theme }) => ({
   },
 }));
 
-export const RootNode = styled.span(({ theme }) => ({
+export const RootNode = styled.div(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  margin: '16px 20px 4px 20px',
+  padding: '0 20px',
+  marginTop: 16,
+  marginBottom: 4,
   fontSize: `${theme.typography.size.s1 - 1}px`,
   fontWeight: theme.typography.weight.black,
   lineHeight: '16px',
@@ -140,16 +147,16 @@ export const GroupNode: FunctionComponent<
 > = React.memo(({ children, isExpanded = false, isExpandable = false, ...props }) => (
   <BranchNode isExpandable={isExpandable} tabIndex={-1} {...props}>
     {isExpandable ? <CollapseIcon isExpanded={isExpanded} /> : null}
-    <TypeIcon icon="folder" color="primary" />
+    <TypeIcon symbol="folder" color="primary" />
     {children}
   </BranchNode>
 ));
 
 export const ComponentNode: FunctionComponent<ComponentProps<typeof BranchNode>> = React.memo(
-  ({ theme, children, isExpanded, isExpandable, ...props }) => (
+  ({ theme, children, isExpanded, isExpandable, isSelected, ...props }) => (
     <BranchNode isExpandable={isExpandable} tabIndex={-1} {...props}>
       {isExpandable && <CollapseIcon isExpanded={isExpanded} />}
-      <TypeIcon icon="component" color="secondary" />
+      <TypeIcon symbol="component" color="secondary" />
       {children}
     </BranchNode>
   )
@@ -158,7 +165,7 @@ export const ComponentNode: FunctionComponent<ComponentProps<typeof BranchNode>>
 export const DocumentNode: FunctionComponent<ComponentProps<typeof LeafNode>> = React.memo(
   ({ theme, children, ...props }) => (
     <LeafNode tabIndex={-1} {...props}>
-      <TypeIcon icon="document" />
+      <TypeIcon symbol="document" />
       {children}
     </LeafNode>
   )
@@ -167,7 +174,7 @@ export const DocumentNode: FunctionComponent<ComponentProps<typeof LeafNode>> = 
 export const StoryNode: FunctionComponent<ComponentProps<typeof LeafNode>> = React.memo(
   ({ theme, children, ...props }) => (
     <LeafNode tabIndex={-1} {...props}>
-      <TypeIcon icon="bookmarkhollow" />
+      <TypeIcon symbol="bookmarkhollow" />
       {children}
     </LeafNode>
   )

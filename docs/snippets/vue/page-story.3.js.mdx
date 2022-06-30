@@ -1,0 +1,30 @@
+```js
+// Page.stories.js
+
+import Page from './Page.vue';
+
+//👇 Imports all Header stories
+import * as HeaderStories from './Header.stories';
+
+export default {
+  /* 👇 The title prop is optional.
+  * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
+  * to learn how to generate automatic titles
+  */
+  title: 'Page',
+  component: Page,
+};
+
+const Template = (args) => ({
+  components: { Page },
+  setup() {
+    return { args };
+  },
+  template: '<page v-bind="args" />',
+});
+
+export const LoggedIn = Template.bind({});
+LoggedIn.args = {
+  ...HeaderStories.LoggedIn.args,
+};
+```

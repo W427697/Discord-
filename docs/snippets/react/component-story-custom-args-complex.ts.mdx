@@ -1,46 +1,45 @@
 ```ts
-// YourComponent.stories.js
+// YourComponent.stories.ts|tsx
 
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
 
-import { YourComponent, YourComponentProps } from './your-component'
+import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-// a function to apply some computation
+import { YourComponent } from './your-component';
+
+//👇 Some function to demonstrate the behavior
 const someFunction = (valuePropertyA, valuePropertyB) => {
-  // makes some computations and returns something
+  // Makes some computations and returns something
 };
 
 export default {
-  component: YourComponent,
-  title: 'A complex case with a function',
-  // creates specific argTypes with options
+  /* 👇 The title prop is optional.
+  * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
+  * to learn how to generate automatic titles
+  */
+  title: 'YourComponent',
+  //👇 Creates specific argTypes with options
   argTypes: {
     propertyA: {
-      control: {
-        type: 'select',
-        options: [
-          'Item One', 
-          'Item Two',
-          'Item Three'
-        ],
-      },
+      options: ['Item One', 'Item Two', 'Item Three'],
+      control: { type: 'select' } // Automatically inferred when 'options' is defined
     },
     propertyB: {
-      control: {
-        type: 'select',
-        options: [
-          'Another Item One',
-          'Another Item Two',
-          'Another Item Three'
-        ],
-      },
+      options: ['Another Item One', 'Another Item Two', 'Another Item Three'],
     },
   },
-} as Meta;
+} as ComponentMeta<typeof YourComponent>;
 
-const Template: Story<YourComponentProps> = ({propertyA, propertyB, ...rest}) => {
+const Template: ComponentStory<typeof YourComponent> = ({ propertyA, propertyB, ...rest }) => {
+  //👇 Assigns the result from the function to a variable
   const someFunctionResult = someFunction(propertyA, propertyB);
-  return <YourComponent somePoperty={someFunctionResult} {...rest} />;
+
+  return <YourComponent someProperty={someFunctionResult} {...rest} />;
+};
+
+export const ExampleStory = Template.bind({});
+ExampleStory.args= {
+  propertyA: 'Item One',
+  propertyB: 'Another Item One',
 };
 ```

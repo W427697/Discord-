@@ -4,11 +4,17 @@ import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import type { Configuration } from 'webpack';
 
 import { logger } from '@storybook/node-logger';
-import type { StorybookOptions } from '@storybook/core/types';
+import type { Options } from '@storybook/core-common';
 
-export async function babel(config: TransformOptions, options: StorybookOptions) {
+export async function babel(config: TransformOptions, options: Options) {
   const isDevelopment = options.configType === 'DEVELOPMENT';
-  const reactOptions = await options.presets.apply('reactOptions', {}, options);
+  const reactOptions = await options.presets.apply(
+    'reactOptions',
+    {} as {
+      fastRefresh?: boolean;
+    },
+    options
+  );
   const fastRefreshEnabled =
     isDevelopment && (reactOptions.fastRefresh || process.env.FAST_REFRESH === 'true');
 
@@ -39,22 +45,28 @@ const hasJsxRuntime = () => {
   }
 };
 
-export async function babelDefault(config: TransformOptions) {
+export async function babelDefault(config: TransformOptions): Promise<TransformOptions> {
   const presetReactOptions = hasJsxRuntime() ? { runtime: 'automatic' } : {};
   return {
     ...config,
     presets: [
-      ...config.presets,
+      ...(config?.presets || []),
       [require.resolve('@babel/preset-react'), presetReactOptions],
       require.resolve('@babel/preset-flow'),
     ],
-    plugins: [...(config.plugins || []), require.resolve('babel-plugin-add-react-displayname')],
+    plugins: [...(config?.plugins || []), require.resolve('babel-plugin-add-react-displayname')],
   };
 }
 
-export async function webpackFinal(config: Configuration, options: StorybookOptions) {
+export async function webpackFinal(config: Configuration, options: Options) {
   const isDevelopment = options.configType === 'DEVELOPMENT';
-  const reactOptions = await options.presets.apply('reactOptions', {}, options);
+  const reactOptions = await options.presets.apply(
+    'reactOptions',
+    {} as {
+      fastRefresh?: boolean;
+    },
+    options
+  );
   const fastRefreshEnabled =
     isDevelopment && (reactOptions.fastRefresh || process.env.FAST_REFRESH === 'true');
 
@@ -73,6 +85,15 @@ export async function webpackFinal(config: Configuration, options: StorybookOpti
 
   return {
     ...config,
-    plugins: [...config.plugins, new ReactRefreshWebpackPlugin()],
+    plugins: [
+      ...config.plugins,
+
+      // Storybook uses webpack-hot-middleware https://github.com/storybookjs/storybook/issues/14114
+      new ReactRefreshWebpackPlugin({
+        overlay: {
+          sockIntegration: 'whm',
+        },
+      }),
+    ],
   };
 }

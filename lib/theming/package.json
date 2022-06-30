@@ -1,11 +1,11 @@
 {
   "name": "@storybook/theming",
-  "version": "6.2.0-alpha.8",
+  "version": "6.5.0-rc.1",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/theming",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/theming",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -14,6 +14,10 @@
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "lib/theming"
   },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
   "license": "MIT",
   "sideEffects": false,
   "main": "dist/cjs/index.js",
@@ -21,7 +25,7 @@
   "types": "dist/ts3.9/index.d.ts",
   "typesVersions": {
     "<3.8": {
-      "*": [
+      "dist/ts3.9/*": [
         "dist/ts3.4/*"
       ]
     }
@@ -33,28 +37,34 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "ts-node ../../scripts/prebundle.ts"
   },
   "dependencies": {
-    "@emotion/core": "^10.1.1",
-    "@emotion/is-prop-valid": "^0.8.6",
-    "@emotion/styled": "^10.0.23",
-    "@storybook/client-logger": "6.2.0-alpha.8",
-    "core-js": "^3.0.1",
-    "deep-object-diff": "^1.1.0",
-    "emotion-theming": "^10.0.19",
-    "global": "^4.3.2",
+    "@storybook/client-logger": "6.5.0-rc.1",
+    "core-js": "^3.8.2",
     "memoizerific": "^1.11.3",
-    "polished": "^3.4.4",
-    "resolve-from": "^5.0.0",
-    "ts-dedent": "^2.0.0"
+    "regenerator-runtime": "^0.13.7"
+  },
+  "devDependencies": {
+    "@emotion/cache": "^11.7.1",
+    "@emotion/is-prop-valid": "^1.1.2",
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
+    "@types/node": "^14.14.20 || ^16.0.0",
+    "deep-object-diff": "^1.1.0",
+    "global": "^4.4.0",
+    "polished": "^4.2.2",
+    "ts-dedent": "^2.0.0",
+    "ts-node": "^10.4.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "c04cdab92d3832a904485f0f885a7faac7ebbf93"
+  "bundlerEntrypoint": "./src/index.ts",
+  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
+  "sbmodern": "dist/modern/index.js"
 }

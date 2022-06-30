@@ -1,5 +1,6 @@
 import React, { FunctionComponent, forwardRef, HTMLProps, SelectHTMLAttributes } from 'react';
-import { styled, Theme, CSSObject } from '@storybook/theming';
+import type { Theme, CSSObject } from '@storybook/theming';
+import { styled } from '@storybook/theming';
 
 import TextareaAutoResize, { TextareaAutosizeProps } from 'react-textarea-autosize';
 
@@ -21,7 +22,7 @@ const styleResets: CSSObject = {
 const styles = ({ theme }: { theme: Theme }): CSSObject => ({
   ...styleResets,
 
-  transition: 'all 200ms ease-out',
+  transition: 'box-shadow 200ms ease-out, opacity 200ms ease-out',
   color: theme.input.color || 'inherit',
   background: theme.input.background,
   boxShadow: `${theme.input.border} 0 0 0 1px inset`,
