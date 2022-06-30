@@ -92,7 +92,7 @@ jobs:
           command: yarn install --immutable
       - run:
           name: Bootstrap
-          command: yarn bootstrap --core
+          command: yarn bootstrap --build --manager
       - save_cache:
           name: Save Yarn cache
           key: build-yarn-2-cache-v3--{{ checksum "yarn.lock" }}
@@ -277,9 +277,9 @@ jobs:
       - run:
           name: run e2e tests cra
           command: yarn test:e2e-framework --pnp cra
-      - run:
-          name: run e2e tests vue
-          command: yarn test:e2e-framework --pnp sfcVue
+      # - run:
+      #     name: run e2e tests vue
+      #     command: yarn test:e2e-framework --pnp sfcVue
       - run:
           name: prep artifacts
           when: always
