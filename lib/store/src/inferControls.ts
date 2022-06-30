@@ -23,7 +23,6 @@ const inferControl = (argType: StrictInputType, name: string, matchers: Controls
       return { control: { type: 'color' } };
     }
 
-     */
     if (controlType !== 'enum') {
       logger.warn(
         `Addon controls: Control of type color only supports string, received "${controlType}" instead`
