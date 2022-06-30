@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import global from 'global';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { SynchronousPromise } from 'synchronous-promise';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type { StoryId, AnyFramework, Parameters, StoryFn } from '@storybook/csf';

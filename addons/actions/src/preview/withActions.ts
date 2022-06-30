@@ -2,7 +2,7 @@
 import global from 'global';
 import { useEffect, makeDecorator } from '@storybook/addons';
 import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 import { actions } from './actions';
 

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { once } from '@storybook/client-logger';
 
 import { CheckboxControl } from './Checkbox';

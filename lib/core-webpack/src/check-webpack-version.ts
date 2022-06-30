@@ -1,5 +1,5 @@
 import { logger } from '@storybook/node-logger';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 export const checkWebpackVersion = (
   webpack: { version?: string },

@@ -7,7 +7,7 @@ import type {
   ArgTypes,
 } from '@storybook/csf';
 import { storyNameFromExport, toId } from '@storybook/csf';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/client-logger';
 import deprecate from 'util-deprecate';
 import type { NormalizedComponentAnnotations, NormalizedStoryAnnotations } from '../types';

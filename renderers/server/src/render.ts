@@ -2,7 +2,7 @@
 // @ts-ignore
 import global from 'global';
 
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import type { RenderContext } from '@storybook/store';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
 import type { StoryFn, Args, ArgTypes } from './public-types';

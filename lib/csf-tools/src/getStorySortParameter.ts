@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
 import traverse from '@babel/traverse';
 import generate from '@babel/generator';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { babelParse } from './babelParse';
 
 const logger = console;
