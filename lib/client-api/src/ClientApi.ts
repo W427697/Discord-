@@ -2,34 +2,27 @@ import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 import global from 'global';
 import { logger } from '@storybook/client-logger';
-import {
+import { toId, sanitize } from '@storybook/csf';
+import type {
+  Args,
+  ArgTypes,
   AnyFramework,
-  toId,
   DecoratorFunction,
   Parameters,
   ArgTypesEnhancer,
   ArgsEnhancer,
   LoaderFunction,
   StoryFn,
-  sanitize,
   ComponentTitle,
   Globals,
   GlobalTypes,
   LegacyStoryFn,
 } from '@storybook/csf';
-import {
-  NormalizedComponentAnnotations,
-  Path,
-  ModuleImportFn,
-  combineParameters,
-  StoryStore,
-  normalizeInputTypes,
-} from '@storybook/store';
-import { ClientApiAddons, StoryApi } from '@storybook/addons';
+import { combineParameters, StoryStore, normalizeInputTypes } from '@storybook/store';
+import type { NormalizedComponentAnnotations, Path, ModuleImportFn } from '@storybook/store';
+import type { ClientApiAddons, StoryApi } from '@storybook/addons';
 
 import { StoryStoreFacade } from './StoryStoreFacade';
-
-const { FEATURES } = global;
 
 export interface GetStorybookStory<TFramework extends AnyFramework> {
   name: string;
@@ -70,7 +63,7 @@ const warnings = {
 };
 
 const checkMethod = (method: string, deprecationWarning: boolean) => {
-  if (FEATURES?.storyStoreV7) {
+  if (global.FEATURES?.storyStoreV7) {
     throw new Error(
       dedent`You cannot use \`${method}\` with the new Story Store.
       
@@ -103,6 +96,16 @@ export const addParameters = (parameters: Parameters, deprecationWarning = true)
 export const addLoader = (loader: LoaderFunction<AnyFramework>, deprecationWarning = true) => {
   checkMethod('addLoader', deprecationWarning);
   singleton.addLoader(loader);
+};
+
+export const addArgs = (args: Args) => {
+  checkMethod('addArgs', false);
+  singleton.addArgs(args);
+};
+
+export const addArgTypes = (argTypes: ArgTypes) => {
+  checkMethod('addArgTypes', false);
+  singleton.addArgTypes(argTypes);
 };
 
 export const addArgsEnhancer = (enhancer: ArgsEnhancer<AnyFramework>) => {
@@ -153,11 +156,11 @@ export class ClientApi<TFramework extends AnyFramework> {
     return this.facade.importFn(path);
   }
 
-  fetchStoryIndex() {
+  getStoryIndex() {
     if (!this.storyStore) {
-      throw new Error('Cannot fetch story index before setting storyStore');
+      throw new Error('Cannot get story index before setting storyStore');
     }
-    return this.facade.fetchStoryIndex(this.storyStore);
+    return this.facade.getStoryIndex(this.storyStore);
   }
 
   setAddon = deprecate(
@@ -211,6 +214,20 @@ export class ClientApi<TFramework extends AnyFramework> {
 
   addLoader = (loader: LoaderFunction<TFramework>) => {
     this.facade.projectAnnotations.loaders.push(loader);
+  };
+
+  addArgs = (args: Args) => {
+    this.facade.projectAnnotations.args = {
+      ...this.facade.projectAnnotations.args,
+      ...args,
+    };
+  };
+
+  addArgTypes = (argTypes: ArgTypes) => {
+    this.facade.projectAnnotations.argTypes = {
+      ...this.facade.projectAnnotations.argTypes,
+      ...normalizeInputTypes(argTypes),
+    };
   };
 
   addArgsEnhancer = (enhancer: ArgsEnhancer<TFramework>) => {
@@ -304,6 +321,7 @@ export class ClientApi<TFramework extends AnyFramework> {
     // We map these back to a simple default export, even though we have type guarantees at this point
     this.facade.csfExports[fileName] = { default: meta };
 
+    let counter = 0;
     api.add = (storyName: string, storyFn: StoryFn<TFramework>, parameters: Parameters = {}) => {
       hasAdded = true;
 
@@ -317,20 +335,25 @@ export class ClientApi<TFramework extends AnyFramework> {
         );
       }
 
-      const { decorators, loaders, ...storyParameters } = parameters;
-
-      const csfExports = this.facade.csfExports[fileName];
-      // Whack a _ on the front incase it is "default"
-      csfExports[`_${sanitize(storyName)}`] = {
-        name: storyName,
-        parameters: { fileName, ...storyParameters },
-        decorators,
-        loaders,
-        render: storyFn,
-      };
+      const { decorators, loaders, component, args, argTypes, ...storyParameters } = parameters;
 
       // eslint-disable-next-line no-underscore-dangle
       const storyId = parameters.__id || toId(kind, storyName);
+
+      const csfExports = this.facade.csfExports[fileName];
+      // Whack a _ on the front incase it is "default"
+      csfExports[`story${counter}`] = {
+        name: storyName,
+        parameters: { fileName, __id: storyId, ...storyParameters },
+        decorators,
+        loaders,
+        args,
+        argTypes,
+        component,
+        render: storyFn,
+      };
+      counter += 1;
+
       this.facade.stories[storyId] = {
         id: storyId,
         title: csfExports.default.title,
@@ -357,12 +380,15 @@ Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.m
       return api;
     };
 
-    api.addParameters = (parameters: Parameters) => {
+    api.addParameters = ({ component, args, argTypes, ...parameters }: Parameters) => {
       if (hasAdded)
         throw new Error(`You cannot add parameters after the first story for a kind.
 Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md#can-no-longer-add-decoratorsparameters-after-stories`);
 
       meta.parameters = combineParameters(meta.parameters, parameters);
+      if (component) meta.component = component;
+      if (args) meta.args = { ...meta.args, ...args };
+      if (argTypes) meta.argTypes = { ...meta.argTypes, ...argTypes };
       return api;
     };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import global from 'global';
 import { RenderContext } from '@storybook/store';
-import addons from '@storybook/addons';
+import addons, { mockChannel as createMockChannel } from '@storybook/addons';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -9,10 +9,10 @@ import {
   importFn,
   projectAnnotations,
   getProjectAnnotations,
-  fetchStoryIndex,
   emitter,
   mockChannel,
   waitForRender,
+  storyIndex as mockStoryIndex,
 } from './PreviewWeb.mockdata';
 
 // PreviewWeb.test mocks out all rendering
@@ -38,6 +38,7 @@ jest.mock('global', () => ({
   FEATURES: {
     storyStoreV7: true,
   },
+  fetch: async () => ({ status: 200, json: async () => mockStoryIndex }),
 }));
 
 beforeEach(() => {
@@ -52,6 +53,7 @@ beforeEach(() => {
   projectAnnotations.decorators[0].mockClear();
 
   addons.setChannel(mockChannel as any);
+  addons.setServerChannel(createMockChannel());
 });
 
 describe('PreviewWeb', () => {
@@ -61,7 +63,7 @@ describe('PreviewWeb', () => {
         storyFn()
       );
       document.location.search = '?id=component-one--a';
-      await new PreviewWeb({ importFn, fetchStoryIndex }).initialize({ getProjectAnnotations });
+      await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
 
       await waitForRender();
 
@@ -71,16 +73,17 @@ describe('PreviewWeb', () => {
 
     it('renders docs mode through docs page', async () => {
       document.location.search = '?id=component-one--a&viewMode=docs';
-      const preview = new PreviewWeb({ importFn, fetchStoryIndex });
+      const preview = new PreviewWeb();
 
       const docsRoot = window.document.createElement('div');
-      // @ts-ignore
-      preview.view.prepareForDocs.mockReturnValue(docsRoot);
+      (
+        preview.view.prepareForDocs as any as jest.Mock<typeof preview.view.prepareForDocs>
+      ).mockReturnValue(docsRoot);
       componentOneExports.default.parameters.docs.container.mockImplementationOnce(() =>
         React.createElement('div', {}, 'INSIDE')
       );
 
-      await preview.initialize({ getProjectAnnotations });
+      await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();
 
       expect(docsRoot.outerHTML).toMatchInlineSnapshot(`
@@ -106,8 +109,8 @@ describe('PreviewWeb', () => {
 
     it('renders story mode through the updated stack', async () => {
       document.location.search = '?id=component-one--a';
-      const preview = new PreviewWeb({ importFn, fetchStoryIndex });
-      await preview.initialize({ getProjectAnnotations });
+      const preview = new PreviewWeb();
+      await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();
 
       projectAnnotations.renderToDOM.mockImplementationOnce(({ storyFn }: RenderContext<any>) =>

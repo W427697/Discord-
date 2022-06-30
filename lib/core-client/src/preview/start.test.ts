@@ -1,15 +1,21 @@
+/* global window */
 import Events from '@storybook/core-events';
 
 import {
   waitForRender,
   waitForEvents,
+  waitForQuiescence,
   emitter,
   mockChannel,
 } from '@storybook/preview-web/dist/cjs/PreviewWeb.mockdata';
+// @ts-ignore
+import { WebView } from '@storybook/preview-web/dist/cjs/WebView';
+import { setGlobalRender } from '@storybook/client-api';
 
 import { start } from './start';
 
 jest.mock('@storybook/preview-web/dist/cjs/WebView');
+jest.spyOn(WebView.prototype, 'prepareForDocs').mockReturnValue('docs-root');
 
 jest.mock('global', () => ({
   // @ts-ignore
@@ -34,7 +40,8 @@ jest.mock('@storybook/store', () => {
   const actualStore = jest.requireActual('@storybook/store');
   return {
     ...actualStore,
-    autoTitle: () => 'auto-title',
+    userOrAutoTitle: (importPath: string, specifier: any, userTitle?: string) =>
+      userTitle || 'auto-title',
   };
 });
 
@@ -47,9 +54,9 @@ beforeEach(() => {
 describe('start', () => {
   describe('when configure is called with storiesOf only', () => {
     it('loads and renders the first story correctly', async () => {
-      const render = jest.fn();
+      const renderToDOM = jest.fn();
 
-      const { configure, clientApi } = start(render);
+      const { configure, clientApi } = start(renderToDOM);
 
       configure('test', () => {
         clientApi
@@ -62,7 +69,7 @@ describe('start', () => {
           .add('Story Three', jest.fn());
       });
 
-      await waitForEvents([Events.SET_STORIES]);
+      await waitForRender();
       expect(
         mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === Events.SET_STORIES)[1]
       ).toMatchInlineSnapshot(`
@@ -73,8 +80,8 @@ describe('start', () => {
             "Component A": Object {},
             "Component B": Object {},
           },
-          "stories": Array [
-            Object {
+          "stories": Object {
+            "component-a--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -84,15 +91,17 @@ describe('start', () => {
               "kind": "Component A",
               "name": "Story One",
               "parameters": Object {
+                "__id": "component-a--story-one",
                 "__isArgsStory": false,
                 "fileName": "file1",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story One",
               "subcomponents": undefined,
               "title": "Component A",
             },
-            Object {
+            "component-a--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -102,15 +111,17 @@ describe('start', () => {
               "kind": "Component A",
               "name": "Story Two",
               "parameters": Object {
+                "__id": "component-a--story-two",
                 "__isArgsStory": false,
                 "fileName": "file1",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story Two",
               "subcomponents": undefined,
               "title": "Component A",
             },
-            Object {
+            "component-b--story-three": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -120,25 +131,28 @@ describe('start', () => {
               "kind": "Component B",
               "name": "Story Three",
               "parameters": Object {
+                "__id": "component-b--story-three",
                 "__isArgsStory": false,
                 "fileName": "file2",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story Three",
               "subcomponents": undefined,
               "title": "Component B",
             },
-          ],
+          },
           "v": 2,
         }
       `);
 
+      await waitForRender();
       expect(mockChannel.emit).toHaveBeenCalledWith(
         Events.STORY_RENDERED,
         'component-a--story-one'
       );
 
-      expect(render).toHaveBeenCalledWith(
+      expect(renderToDOM).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 'component-a--story-one',
         }),
@@ -147,9 +161,9 @@ describe('start', () => {
     });
 
     it('sends over docs only stories', async () => {
-      const render = jest.fn();
+      const renderToDOM = jest.fn();
 
-      const { configure, clientApi } = start(render);
+      const { configure, clientApi } = start(renderToDOM);
 
       configure('test', () => {
         clientApi
@@ -167,8 +181,8 @@ describe('start', () => {
           "kindParameters": Object {
             "Component A": Object {},
           },
-          "stories": Array [
-            Object {
+          "stories": Object {
+            "component-a--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -178,26 +192,31 @@ describe('start', () => {
               "kind": "Component A",
               "name": "Story One",
               "parameters": Object {
+                "__id": "component-a--story-one",
                 "__isArgsStory": false,
                 "docs": Object {},
                 "docsOnly": true,
                 "fileName": "file1",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story One",
               "subcomponents": undefined,
               "title": "Component A",
             },
-          ],
+          },
           "v": 2,
         }
       `);
+
+      // Wait a second to let the docs "render" finish (and maybe throw)
+      await waitForQuiescence();
     });
 
     it('deals with stories with "default" name', async () => {
-      const render = jest.fn();
+      const renderToDOM = jest.fn();
 
-      const { configure, clientApi } = start(render);
+      const { configure, clientApi } = start(renderToDOM);
 
       configure('test', () => {
         clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('default', jest.fn());
@@ -208,10 +227,60 @@ describe('start', () => {
       expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-a--default');
     });
 
-    it('deals with storiesOf from the same file twice', async () => {
-      const render = jest.fn();
+    it('deals with stories with camel-cased names', async () => {
+      const renderToDOM = jest.fn();
 
-      const { configure, clientApi } = start(render);
+      const { configure, clientApi } = start(renderToDOM);
+
+      configure('test', () => {
+        clientApi
+          .storiesOf('Component A', { id: 'file1' } as NodeModule)
+          .add('storyOne', jest.fn());
+      });
+
+      await waitForRender();
+
+      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-a--storyone');
+    });
+
+    it('deals with stories with spaces in the name', async () => {
+      const renderToDOM = jest.fn();
+
+      const { configure, clientApi } = start(renderToDOM);
+
+      configure('test', () => {
+        clientApi
+          .storiesOf('Component A', { id: 'file1' } as NodeModule)
+          .add('Story One', jest.fn());
+      });
+
+      await waitForRender();
+
+      expect(mockChannel.emit).toHaveBeenCalledWith(
+        Events.STORY_RENDERED,
+        'component-a--story-one'
+      );
+    });
+
+    // https://github.com/storybookjs/storybook/issues/16303
+    it('deals with stories with numeric names', async () => {
+      const renderToDOM = jest.fn();
+
+      const { configure, clientApi } = start(renderToDOM);
+
+      configure('test', () => {
+        clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('story0', jest.fn());
+      });
+
+      await waitForRender();
+
+      expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-a--story0');
+    });
+
+    it('deals with storiesOf from the same file twice', async () => {
+      const renderToDOM = jest.fn();
+
+      const { configure, clientApi } = start(renderToDOM);
 
       configure('test', () => {
         clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('default', jest.fn());
@@ -219,8 +288,7 @@ describe('start', () => {
         clientApi.storiesOf('Component C', { id: 'file1' } as NodeModule).add('default', jest.fn());
       });
 
-      await waitForEvents([Events.SET_STORIES]);
-
+      await waitForRender();
       expect(mockChannel.emit).toHaveBeenCalledWith(Events.STORY_RENDERED, 'component-a--default');
 
       const storiesOfData = mockChannel.emit.mock.calls.find(
@@ -234,9 +302,9 @@ describe('start', () => {
     });
 
     it('allows global metadata via client-api', async () => {
-      const render = jest.fn(({ storyFn }) => storyFn());
+      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi } = start(render);
+      const { configure, clientApi } = start(renderToDOM);
 
       const loader = jest.fn(async () => ({ val: 'loaded' }));
       const decorator = jest.fn();
@@ -251,7 +319,7 @@ describe('start', () => {
 
       expect(loader).toHaveBeenCalled();
       expect(decorator).toHaveBeenCalled();
-      expect(render).toHaveBeenCalledWith(
+      expect(renderToDOM).toHaveBeenCalledWith(
         expect.objectContaining({
           storyContext: expect.objectContaining({
             parameters: expect.objectContaining({
@@ -264,10 +332,49 @@ describe('start', () => {
       );
     });
 
-    it('supports forceRerender()', async () => {
-      const render = jest.fn(({ storyFn }) => storyFn());
+    it('allows setting compomnent/args/argTypes via a parameter', async () => {
+      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi, forceReRender } = start(render);
+      const { configure, clientApi } = start(renderToDOM);
+
+      const component = {};
+      configure('test', () => {
+        clientApi
+          .storiesOf('Component A', { id: 'file1' } as NodeModule)
+          .addParameters({
+            component,
+            args: { a: 'a' },
+            argTypes: { a: { type: 'string' } },
+          })
+          .add('default', jest.fn(), {
+            args: { b: 'b' },
+            argTypes: { b: { type: 'string' } },
+          });
+      });
+
+      await waitForRender();
+
+      expect(renderToDOM).toHaveBeenCalledWith(
+        expect.objectContaining({
+          storyContext: expect.objectContaining({
+            component,
+            args: { a: 'a', b: 'b' },
+            argTypes: {
+              a: { name: 'a', type: { name: 'string' } },
+              b: { name: 'b', type: { name: 'string' } },
+            },
+          }),
+        }),
+        undefined
+      );
+
+      expect((window as any).IS_STORYBOOK).toBe(true);
+    });
+
+    it('supports forceRerender()', async () => {
+      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
+
+      const { configure, clientApi, forceReRender } = start(renderToDOM);
 
       configure('test', () => {
         clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('default', jest.fn());
@@ -284,9 +391,9 @@ describe('start', () => {
     });
 
     it('supports HMR when a story file changes', async () => {
-      const render = jest.fn(({ storyFn }) => storyFn());
+      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi, forceReRender } = start(render);
+      const { configure, clientApi, forceReRender } = start(renderToDOM);
 
       let disposeCallback: () => void;
       const module = {
@@ -320,9 +427,9 @@ describe('start', () => {
     });
 
     it('re-emits SET_STORIES when a story is added', async () => {
-      const render = jest.fn(({ storyFn }) => storyFn());
+      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi, forceReRender } = start(render);
+      const { configure, clientApi, forceReRender } = start(renderToDOM);
 
       let disposeCallback: () => void;
       const module = {
@@ -357,8 +464,8 @@ describe('start', () => {
           "kindParameters": Object {
             "Component A": Object {},
           },
-          "stories": Array [
-            Object {
+          "stories": Object {
+            "component-a--default": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -368,15 +475,17 @@ describe('start', () => {
               "kind": "Component A",
               "name": "default",
               "parameters": Object {
+                "__id": "component-a--default",
                 "__isArgsStory": false,
                 "fileName": "file1",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "default",
               "subcomponents": undefined,
               "title": "Component A",
             },
-            Object {
+            "component-a--new": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -386,24 +495,26 @@ describe('start', () => {
               "kind": "Component A",
               "name": "new",
               "parameters": Object {
+                "__id": "component-a--new",
                 "__isArgsStory": false,
                 "fileName": "file1",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "new",
               "subcomponents": undefined,
               "title": "Component A",
             },
-          ],
+          },
           "v": 2,
         }
       `);
     });
 
     it('re-emits SET_STORIES when a story file is removed', async () => {
-      const render = jest.fn(({ storyFn }) => storyFn());
+      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi, forceReRender } = start(render);
+      const { configure, clientApi, forceReRender } = start(renderToDOM);
 
       let disposeCallback: () => void;
       const moduleB = {
@@ -431,8 +542,8 @@ describe('start', () => {
             "Component A": Object {},
             "Component B": Object {},
           },
-          "stories": Array [
-            Object {
+          "stories": Object {
+            "component-a--default": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -442,15 +553,17 @@ describe('start', () => {
               "kind": "Component A",
               "name": "default",
               "parameters": Object {
+                "__id": "component-a--default",
                 "__isArgsStory": false,
                 "fileName": "file1",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "default",
               "subcomponents": undefined,
               "title": "Component A",
             },
-            Object {
+            "component-b--default": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -460,15 +573,17 @@ describe('start', () => {
               "kind": "Component B",
               "name": "default",
               "parameters": Object {
+                "__id": "component-b--default",
                 "__isArgsStory": false,
                 "fileName": "file2",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "default",
               "subcomponents": undefined,
               "title": "Component B",
             },
-          ],
+          },
           "v": 2,
         }
       `);
@@ -485,8 +600,8 @@ describe('start', () => {
           "kindParameters": Object {
             "Component A": Object {},
           },
-          "stories": Array [
-            Object {
+          "stories": Object {
+            "component-a--default": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -496,15 +611,17 @@ describe('start', () => {
               "kind": "Component A",
               "name": "default",
               "parameters": Object {
+                "__id": "component-a--default",
                 "__isArgsStory": false,
                 "fileName": "file1",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "default",
               "subcomponents": undefined,
               "title": "Component A",
             },
-          ],
+          },
           "v": 2,
         }
       `);
@@ -521,12 +638,12 @@ describe('start', () => {
 
   describe('when configure is called with CSF only', () => {
     it('loads and renders the first story correctly', async () => {
-      const render = jest.fn();
+      const renderToDOM = jest.fn();
 
-      const { configure } = start(render);
+      const { configure } = start(renderToDOM);
       configure('test', () => [componentCExports]);
 
-      await waitForEvents([Events.SET_STORIES]);
+      await waitForRender();
       expect(
         mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === Events.SET_STORIES)[1]
       ).toMatchInlineSnapshot(`
@@ -536,8 +653,8 @@ describe('start', () => {
           "kindParameters": Object {
             "Component C": Object {},
           },
-          "stories": Array [
-            Object {
+          "stories": Object {
+            "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -551,11 +668,12 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story One",
               "subcomponents": undefined,
               "title": "Component C",
             },
-            Object {
+            "component-c--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -569,21 +687,23 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story Two",
               "subcomponents": undefined,
               "title": "Component C",
             },
-          ],
+          },
           "v": 2,
         }
       `);
 
+      await waitForRender();
       expect(mockChannel.emit).toHaveBeenCalledWith(
         Events.STORY_RENDERED,
         'component-c--story-one'
       );
 
-      expect(render).toHaveBeenCalledWith(
+      expect(renderToDOM).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 'component-c--story-one',
         }),
@@ -592,7 +712,7 @@ describe('start', () => {
     });
 
     it('supports HMR when a story file changes', async () => {
-      const render = jest.fn(({ storyFn }) => storyFn());
+      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
       let disposeCallback: (data: object) => void;
       const module = {
@@ -606,7 +726,7 @@ describe('start', () => {
         },
       };
 
-      const { configure } = start(render);
+      const { configure } = start(renderToDOM);
       configure('test', () => [componentCExports], module as any);
 
       await waitForRender();
@@ -636,7 +756,7 @@ describe('start', () => {
     });
 
     it('re-emits SET_STORIES when a story is added', async () => {
-      const render = jest.fn(({ storyFn }) => storyFn());
+      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
       let disposeCallback: (data: object) => void;
       const module = {
@@ -649,7 +769,7 @@ describe('start', () => {
           },
         },
       };
-      const { configure } = start(render);
+      const { configure } = start(renderToDOM);
       configure('test', () => [componentCExports], module as any);
 
       await waitForRender();
@@ -668,8 +788,8 @@ describe('start', () => {
           "kindParameters": Object {
             "Component C": Object {},
           },
-          "stories": Array [
-            Object {
+          "stories": Object {
+            "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -683,29 +803,12 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story One",
               "subcomponents": undefined,
               "title": "Component C",
             },
-            Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "component": undefined,
-              "componentId": "component-c",
-              "id": "component-c--story-two",
-              "initialArgs": Object {},
-              "kind": "Component C",
-              "name": "Story Two",
-              "parameters": Object {
-                "__isArgsStory": false,
-                "fileName": "exports-map-0",
-                "framework": "test",
-              },
-              "story": "Story Two",
-              "subcomponents": undefined,
-              "title": "Component C",
-            },
-            Object {
+            "component-c--story-three": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -719,18 +822,38 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story Three",
               "subcomponents": undefined,
               "title": "Component C",
             },
-          ],
+            "component-c--story-two": Object {
+              "argTypes": Object {},
+              "args": Object {},
+              "component": undefined,
+              "componentId": "component-c",
+              "id": "component-c--story-two",
+              "initialArgs": Object {},
+              "kind": "Component C",
+              "name": "Story Two",
+              "parameters": Object {
+                "__isArgsStory": false,
+                "fileName": "exports-map-0",
+                "framework": "test",
+              },
+              "playFunction": undefined,
+              "story": "Story Two",
+              "subcomponents": undefined,
+              "title": "Component C",
+            },
+          },
           "v": 2,
         }
       `);
     });
 
     it('re-emits SET_STORIES when a story file is removed', async () => {
-      const render = jest.fn(({ storyFn }) => storyFn());
+      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
       let disposeCallback: (data: object) => void;
       const module = {
@@ -743,7 +866,7 @@ describe('start', () => {
           },
         },
       };
-      const { configure } = start(render);
+      const { configure } = start(renderToDOM);
       configure(
         'test',
         () => [componentCExports, { default: { title: 'Component D' }, StoryFour: jest.fn() }],
@@ -761,8 +884,8 @@ describe('start', () => {
             "Component C": Object {},
             "Component D": Object {},
           },
-          "stories": Array [
-            Object {
+          "stories": Object {
+            "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -776,11 +899,12 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story One",
               "subcomponents": undefined,
               "title": "Component C",
             },
-            Object {
+            "component-c--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -794,11 +918,12 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story Two",
               "subcomponents": undefined,
               "title": "Component C",
             },
-            Object {
+            "component-d--story-four": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -812,11 +937,12 @@ describe('start', () => {
                 "fileName": "exports-map-1",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story Four",
               "subcomponents": undefined,
               "title": "Component D",
             },
-          ],
+          },
           "v": 2,
         }
       `);
@@ -835,8 +961,8 @@ describe('start', () => {
           "kindParameters": Object {
             "Component C": Object {},
           },
-          "stories": Array [
-            Object {
+          "stories": Object {
+            "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -850,11 +976,12 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story One",
               "subcomponents": undefined,
               "title": "Component C",
             },
-            Object {
+            "component-c--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -868,22 +995,55 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story Two",
               "subcomponents": undefined,
               "title": "Component C",
             },
-          ],
+          },
           "v": 2,
         }
       `);
+
+      await waitForRender();
+    });
+
+    it('allows you to override the render function in project annotations', async () => {
+      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
+      const frameworkRender = jest.fn();
+
+      const { configure } = start(renderToDOM, { render: frameworkRender });
+
+      const projectRender = jest.fn();
+      setGlobalRender(projectRender);
+      configure('test', () => {
+        return [
+          {
+            default: {
+              title: 'Component A',
+              component: jest.fn(),
+            },
+            StoryOne: {},
+          },
+        ];
+      });
+
+      await waitForRender();
+      expect(mockChannel.emit).toHaveBeenCalledWith(
+        Events.STORY_RENDERED,
+        'component-a--story-one'
+      );
+
+      expect(frameworkRender).not.toHaveBeenCalled();
+      expect(projectRender).toHaveBeenCalled();
     });
   });
 
   describe('when configure is called with a combination', () => {
     it('loads and renders the first story correctly', async () => {
-      const render = jest.fn();
+      const renderToDOM = jest.fn();
 
-      const { configure, clientApi } = start(render);
+      const { configure, clientApi } = start(renderToDOM);
       configure('test', () => {
         clientApi
           .storiesOf('Component A', { id: 'file1' } as NodeModule)
@@ -897,7 +1057,7 @@ describe('start', () => {
         return [componentCExports];
       });
 
-      await waitForEvents([Events.SET_STORIES]);
+      await waitForRender();
       expect(
         mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === Events.SET_STORIES)[1]
       ).toMatchInlineSnapshot(`
@@ -909,8 +1069,8 @@ describe('start', () => {
             "Component B": Object {},
             "Component C": Object {},
           },
-          "stories": Array [
-            Object {
+          "stories": Object {
+            "component-a--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -920,15 +1080,17 @@ describe('start', () => {
               "kind": "Component A",
               "name": "Story One",
               "parameters": Object {
+                "__id": "component-a--story-one",
                 "__isArgsStory": false,
                 "fileName": "file1",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story One",
               "subcomponents": undefined,
               "title": "Component A",
             },
-            Object {
+            "component-a--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -938,15 +1100,17 @@ describe('start', () => {
               "kind": "Component A",
               "name": "Story Two",
               "parameters": Object {
+                "__id": "component-a--story-two",
                 "__isArgsStory": false,
                 "fileName": "file1",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story Two",
               "subcomponents": undefined,
               "title": "Component A",
             },
-            Object {
+            "component-b--story-three": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -956,15 +1120,17 @@ describe('start', () => {
               "kind": "Component B",
               "name": "Story Three",
               "parameters": Object {
+                "__id": "component-b--story-three",
                 "__isArgsStory": false,
                 "fileName": "file2",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story Three",
               "subcomponents": undefined,
               "title": "Component B",
             },
-            Object {
+            "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -978,11 +1144,12 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story One",
               "subcomponents": undefined,
               "title": "Component C",
             },
-            Object {
+            "component-c--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": undefined,
@@ -996,21 +1163,23 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story Two",
               "subcomponents": undefined,
               "title": "Component C",
             },
-          ],
+          },
           "v": 2,
         }
       `);
 
+      await waitForRender();
       expect(mockChannel.emit).toHaveBeenCalledWith(
         Events.STORY_RENDERED,
         'component-a--story-one'
       );
 
-      expect(render).toHaveBeenCalledWith(
+      expect(renderToDOM).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 'component-a--story-one',
         }),
@@ -1133,9 +1302,9 @@ describe('start', () => {
       StoryOne: jest.fn(),
     };
     it('loads and renders the first story correctly', async () => {
-      const render = jest.fn();
+      const renderToDOM = jest.fn();
 
-      const { configure } = start(render);
+      const { configure } = start(renderToDOM);
       configure('test', () => [componentDExports]);
 
       await waitForEvents([Events.SET_STORIES]);
@@ -1148,8 +1317,8 @@ describe('start', () => {
           "kindParameters": Object {
             "auto-title": Object {},
           },
-          "stories": Array [
-            Object {
+          "stories": Object {
+            "auto-title--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
               "component": "Component D",
@@ -1163,11 +1332,12 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "playFunction": undefined,
               "story": "Story One",
               "subcomponents": undefined,
               "title": "auto-title",
             },
-          ],
+          },
           "v": 2,
         }
       `);

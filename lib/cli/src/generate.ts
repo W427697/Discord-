@@ -11,11 +11,21 @@ import { extract } from './extract';
 import { upgrade } from './upgrade';
 import { repro } from './repro';
 import { link } from './link';
+import { automigrate } from './automigrate';
 import { generateStorybookBabelConfigInCWD } from './babel-config';
 
 const pkg = sync({ cwd: __dirname }).packageJson;
 
 const logger = console;
+
+program.option(
+  '--disable-telemetry',
+  'disable sending telemetry data',
+  // default value is false, but if the user sets STORYBOOK_DISABLE_TELEMETRY, it can be true
+  process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
+);
+
+program.option('--enable-crash-reports', 'enable sending crash reports to telemetry data');
 
 program
   .command('init')
@@ -46,9 +56,10 @@ program
   .command('upgrade')
   .description('Upgrade your Storybook packages to the latest')
   .option('-N --use-npm', 'Use NPM to build the Storybook server')
+  .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for upgrades, do not install')
   .option('-p --prerelease', 'Upgrade to the pre-release packages')
-  .option('-s --skip-check', 'Skip postinstall version consistency checks')
+  .option('-s --skip-check', 'Skip postinstall version and automigration checks')
   .action((options) => upgrade(options));
 
 program
@@ -120,6 +131,18 @@ program
   .option('--local', 'Link a local directory already in your file system')
   .action((target, { local }) =>
     link({ target, local }).catch((e) => {
+      logger.error(e);
+      process.exit(1);
+    })
+  );
+
+program
+  .command('automigrate [fixId]')
+  .description('Check storybook for known problems or migrations and apply fixes')
+  .option('-y --yes', 'Skip prompting the user')
+  .option('-n --dry-run', 'Only check for fixes, do not actually run them')
+  .action((fixId, options) =>
+    automigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
     })

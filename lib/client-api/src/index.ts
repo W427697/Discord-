@@ -3,6 +3,8 @@ import {
   addDecorator,
   addParameters,
   addLoader,
+  addArgs,
+  addArgTypes,
   addArgsEnhancer,
   addArgTypesEnhancer,
   setGlobalRender,
@@ -10,8 +12,8 @@ import {
 
 export * from './types';
 
-// Typescript isn't happy that we are overwriting some types from store here
-// @ts-ignore
+export * from './queryparams';
+
 export * from '@storybook/store';
 
 export {
@@ -19,6 +21,8 @@ export {
   addArgTypesEnhancer,
   addDecorator,
   addLoader,
+  addArgs,
+  addArgTypes,
   addParameters,
   setGlobalRender,
   ClientApi,

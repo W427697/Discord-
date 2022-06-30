@@ -1,17 +1,17 @@
 import global from 'global';
 import { logger } from '@storybook/client-logger';
-import {
+import type {
   AnyFramework,
   DecoratorFunction,
   DecoratorApplicator,
   StoryContext,
+  StoryId,
   Args,
   LegacyStoryFn,
 } from '@storybook/csf';
 import {
   FORCE_RE_RENDER,
   STORY_RENDERED,
-  DOCS_RENDERED,
   UPDATE_STORY_ARGS,
   RESET_STORY_ARGS,
   UPDATE_GLOBALS,
@@ -32,8 +32,6 @@ interface Effect {
 }
 
 type AbstractFunction = (...args: any[]) => any;
-
-const RenderEvents = [STORY_RENDERED, DOCS_RENDERED];
 
 export class HooksContext<TFramework extends AnyFramework> {
   hookListsMap: WeakMap<AbstractFunction, Hook[]>;
@@ -58,7 +56,8 @@ export class HooksContext<TFramework extends AnyFramework> {
 
   currentContext: StoryContext<TFramework> | null;
 
-  renderListener = () => {
+  renderListener = (storyId: StoryId) => {
+    if (storyId !== this.currentContext.id) return;
     this.triggerEffects();
     this.currentContext = null;
     this.removeRenderListeners();
@@ -119,12 +118,12 @@ export class HooksContext<TFramework extends AnyFramework> {
   addRenderListeners() {
     this.removeRenderListeners();
     const channel = addons.getChannel();
-    RenderEvents.forEach((e) => channel.on(e, this.renderListener));
+    channel.on(STORY_RENDERED, this.renderListener);
   }
 
   removeRenderListeners() {
     const channel = addons.getChannel();
-    RenderEvents.forEach((e) => channel.removeListener(e, this.renderListener));
+    channel.removeListener(STORY_RENDERED, this.renderListener);
   }
 }
 
@@ -178,39 +177,38 @@ function hookify<TFramework extends AnyFramework>(fn: AbstractFunction) {
 // Counter to prevent infinite loops.
 let numberOfRenders = 0;
 const RENDER_LIMIT = 25;
-export const applyHooks = <TFramework extends AnyFramework>(
-  applyDecorators: DecoratorApplicator<TFramework>
-): DecoratorApplicator<TFramework> => (
-  storyFn: LegacyStoryFn<TFramework>,
-  decorators: DecoratorFunction<TFramework>[]
-) => {
-  const decorated = applyDecorators(
-    hookify(storyFn),
-    decorators.map((decorator) => hookify(decorator))
-  );
-  return (context) => {
-    const { hooks } = context as { hooks: HooksContext<TFramework> };
-    hooks.prevMountedDecorators = hooks.mountedDecorators;
-    hooks.mountedDecorators = new Set([storyFn, ...decorators]);
-    hooks.currentContext = context;
-    hooks.hasUpdates = false;
-    let result = decorated(context);
-    numberOfRenders = 1;
-    while (hooks.hasUpdates) {
+export const applyHooks =
+  <TFramework extends AnyFramework>(
+    applyDecorators: DecoratorApplicator<TFramework>
+  ): DecoratorApplicator<TFramework> =>
+  (storyFn: LegacyStoryFn<TFramework>, decorators: DecoratorFunction<TFramework>[]) => {
+    const decorated = applyDecorators(
+      hookify(storyFn),
+      decorators.map((decorator) => hookify(decorator))
+    );
+    return (context) => {
+      const { hooks } = context as { hooks: HooksContext<TFramework> };
+      hooks.prevMountedDecorators = hooks.mountedDecorators;
+      hooks.mountedDecorators = new Set([storyFn, ...decorators]);
+      hooks.currentContext = context;
       hooks.hasUpdates = false;
-      hooks.currentEffects = [];
-      result = decorated(context);
-      numberOfRenders += 1;
-      if (numberOfRenders > RENDER_LIMIT) {
-        throw new Error(
-          'Too many re-renders. Storybook limits the number of renders to prevent an infinite loop.'
-        );
+      let result = decorated(context);
+      numberOfRenders = 1;
+      while (hooks.hasUpdates) {
+        hooks.hasUpdates = false;
+        hooks.currentEffects = [];
+        result = decorated(context);
+        numberOfRenders += 1;
+        if (numberOfRenders > RENDER_LIMIT) {
+          throw new Error(
+            'Too many re-renders. Storybook limits the number of renders to prevent an infinite loop.'
+          );
+        }
       }
-    }
-    hooks.addRenderListeners();
-    return result;
+      hooks.addRenderListeners();
+      return result;
+    };
   };
-};
 
 const areDepsEqual = (deps: any[], nextDeps: any[]) =>
   deps.length === nextDeps.length && deps.every((dep, i) => dep === nextDeps[i]);
@@ -420,7 +418,7 @@ export function useStoryContext<TFramework extends AnyFramework>(): StoryContext
 export function useParameter<S>(parameterKey: string, defaultValue?: S): S | undefined {
   const { parameters } = useStoryContext();
   if (parameterKey) {
-    return parameters[parameterKey] || (defaultValue as S);
+    return parameters[parameterKey] ?? (defaultValue as S);
   }
   return undefined;
 }

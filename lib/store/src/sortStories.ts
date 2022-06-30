@@ -1,9 +1,10 @@
 import stable from 'stable';
-import { Comparator, StorySortParameter, StorySortParameterV7 } from '@storybook/addons';
+import dedent from 'ts-dedent';
+import type { Comparator, StorySortParameter, StorySortParameterV7 } from '@storybook/addons';
 import { storySort } from './storySort';
-import { Story, StoryIndexEntry, Path, Parameters } from './types';
+import type { Story, StoryIndexEntry, Path, Parameters } from './types';
 
-export const sortStoriesV7 = (
+const sortStoriesCommon = (
   stories: StoryIndexEntry[],
   storySortParameter: StorySortParameterV7,
   fileNameOrder: Path[]
@@ -25,6 +26,26 @@ export const sortStoriesV7 = (
   return stories;
 };
 
+export const sortStoriesV7 = (
+  stories: StoryIndexEntry[],
+  storySortParameter: StorySortParameterV7,
+  fileNameOrder: Path[]
+) => {
+  try {
+    return sortStoriesCommon(stories, storySortParameter, fileNameOrder);
+  } catch (err) {
+    throw new Error(dedent`
+    Error sorting stories with sort parameter ${storySortParameter}:
+
+    > ${err.message}
+    
+    Are you using a V6-style sort function in V7 mode?
+
+    More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#v7-style-story-sort
+  `);
+  }
+};
+
 const toIndexEntry = (story: any): StoryIndexEntry => {
   const { id, title, name, parameters } = story;
   return { id, title, name, importPath: parameters.fileName };
@@ -41,5 +62,5 @@ export const sortStoriesV6 = (
   }
 
   const storiesV7 = stories.map((s) => toIndexEntry(s[1]));
-  return sortStoriesV7(storiesV7, storySortParameter as StorySortParameterV7, fileNameOrder);
+  return sortStoriesCommon(storiesV7, storySortParameter as StorySortParameterV7, fileNameOrder);
 };

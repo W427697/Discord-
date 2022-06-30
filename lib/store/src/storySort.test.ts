@@ -29,7 +29,7 @@ describe('preview.storySort', () => {
     expect(sortFn(fixture.a, fixture.a)).toBe(0);
   });
 
-  it('can sort shallow kinds alphabetically', () => {
+  it('can sort shallow titles alphabetically', () => {
     const sortFn = storySort({ method: 'alphabetical' });
 
     expect(sortFn(fixture.a, fixture.b)).toBeLessThan(0);
@@ -38,7 +38,7 @@ describe('preview.storySort', () => {
     expect(sortFn(fixture.á, fixture.a)).toBeGreaterThan(0);
   });
 
-  it('can sort deep kinds alphabetically', () => {
+  it('can sort deep titles alphabetically', () => {
     const sortFn = storySort({ method: 'alphabetical' });
 
     expect(sortFn(fixture.a_a, fixture.a_b)).toBeLessThan(0);
@@ -123,5 +123,20 @@ describe('preview.storySort', () => {
     expect(sortFn(fixture.a_c, fixture.a_a)).toBeGreaterThan(0);
     expect(sortFn(fixture.a_c, fixture.a_b)).toBeLessThan(0);
     expect(sortFn(fixture.a_b, fixture.a_c)).toBeGreaterThan(0);
+  });
+
+  it('sorts according to the nested order array with parent wildcard', () => {
+    const sortFn = storySort({
+      order: ['*', ['*', 'b', 'a']],
+      includeNames: true,
+    });
+
+    expect(sortFn(fixture.a_a, fixture.a_b)).toBeGreaterThan(0);
+    expect(sortFn(fixture.a_b, fixture.a_a)).toBeLessThan(0);
+    expect(sortFn(fixture.a_c, fixture.a_a)).toBeLessThan(0);
+    expect(sortFn(fixture.a_c, fixture.a_b)).toBeLessThan(0);
+    expect(sortFn(fixture.a_a, fixture.a_c)).toBeGreaterThan(0);
+    expect(sortFn(fixture.a_b, fixture.a_c)).toBeGreaterThan(0);
+    expect(sortFn(fixture.a_a, fixture.a_a)).toBe(0);
   });
 });

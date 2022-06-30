@@ -1,23 +1,25 @@
 import program, { CommanderStatic } from 'commander';
 import chalk from 'chalk';
 import { logger } from '@storybook/node-logger';
+import type { CLIOptions } from '@storybook/core-common';
 import { parseList, getEnvConfig, checkDeprecatedFlags } from './utils';
 
-export interface ProdCliOptions {
-  staticDir?: string[];
-  outputDir?: string;
-  configDir?: string;
-  quiet?: boolean;
-  loglevel?: string;
-  dll?: boolean;
-  docsDll?: boolean;
-  uiDll?: boolean;
-  debugWebpack?: boolean;
-  previewUrl?: string;
-  forceBuildPreview?: boolean;
-  docs?: boolean;
-  modern?: boolean;
-}
+export type ProdCliOptions = Pick<
+  CLIOptions,
+  | 'configDir'
+  | 'debugWebpack'
+  | 'dll'
+  | 'docs'
+  | 'docsDll'
+  | 'forceBuildPreview'
+  | 'loglevel'
+  | 'modern'
+  | 'outputDir'
+  | 'previewUrl'
+  | 'quiet'
+  | 'staticDir'
+  | 'uiDll'
+>;
 
 export function getProdCli(packageJson: {
   version: string;
@@ -44,6 +46,14 @@ export function getProdCli(packageJson: {
     .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
     .option('--docs', 'Build a documentation-only site using addon-docs')
     .option('--modern', 'Use modern browser modules')
+    .option('--no-manager-cache', 'Do not cache the manager UI')
+    .option(
+      '--disable-telemetry',
+      'Disable sending telemetry',
+      // default value is false, but if the user sets STORYBOOK_DISABLE_TELEMETRY, it can be true
+      process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
+    )
+    .option('--enable-crash-reports', 'enable sending crash reports to telemetry data')
     .parse(process.argv);
 
   logger.setLevel(program.loglevel);

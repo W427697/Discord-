@@ -1,47 +1,54 @@
+import { Router, Request, Response } from 'express';
 import fs from 'fs-extra';
-import {
-  Options,
-  normalizeStories,
-  NormalizedStoriesSpecifier,
-  StorybookConfig,
-} from '@storybook/core-common';
+import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
+import { debounce } from 'lodash';
+import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
+import { watchStorySpecifiers } from './watch-story-specifiers';
+import { ServerChannel } from './get-server-channel';
+
+export const DEBOUNCE = 100;
 
 export async function extractStoriesJson(
   outputFile: string,
-  normalizedStories: NormalizedStoriesSpecifier[],
-  configDir: string,
-  v2compatibility: boolean
+  initializedStoryIndexGenerator: Promise<StoryIndexGenerator>
 ) {
-  const generator = new StoryIndexGenerator(normalizedStories, configDir, v2compatibility);
-  await generator.initialize();
-
-  const index = await generator.getIndex();
-  await fs.writeJson(outputFile, index);
+  const generator = await initializedStoryIndexGenerator;
+  const storyIndex = await generator.getIndex();
+  await fs.writeJson(outputFile, storyIndex);
 }
 
-export async function useStoriesJson(router: any, options: Options) {
-  const normalized = normalizeStories(await options.presets.apply('stories'), {
-    configDir: options.configDir,
-    workingDir: process.cwd(),
+export function useStoriesJson({
+  router,
+  initializedStoryIndexGenerator,
+  workingDir = process.cwd(),
+  serverChannel,
+  normalizedStories,
+}: {
+  router: Router;
+  initializedStoryIndexGenerator: Promise<StoryIndexGenerator>;
+  serverChannel: ServerChannel;
+  workingDir?: string;
+  normalizedStories: NormalizedStoriesSpecifier[];
+}) {
+  const maybeInvalidate = debounce(() => serverChannel.emit(STORY_INDEX_INVALIDATED), DEBOUNCE, {
+    leading: true,
+  });
+  watchStorySpecifiers(normalizedStories, { workingDir }, async (specifier, path, removed) => {
+    const generator = await initializedStoryIndexGenerator;
+    generator.invalidate(specifier, path, removed);
+    maybeInvalidate();
   });
 
-  const features = await options.presets.apply<StorybookConfig['features']>('features');
-
-  router.use('/stories.json', async (_req: any, res: any) => {
-    const generator = new StoryIndexGenerator(
-      normalized,
-      options.configDir,
-      !features?.breakingChangesV7 && !features?.storyStoreV7
-    );
-    await generator.initialize();
-
+  router.use('/stories.json', async (req: Request, res: Response) => {
     try {
+      const generator = await initializedStoryIndexGenerator;
       const index = await generator.getIndex();
       res.header('Content-Type', 'application/json');
-      return res.send(JSON.stringify(index));
+      res.send(JSON.stringify(index));
     } catch (err) {
-      return res.status(500).send(err.message);
+      res.status(500);
+      res.send(err.message);
     }
   });
 }

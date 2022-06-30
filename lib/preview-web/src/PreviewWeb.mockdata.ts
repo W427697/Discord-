@@ -1,6 +1,14 @@
 import { EventEmitter } from 'events';
-import Events from '@storybook/core-events';
-import { StoryIndex } from '@storybook/store';
+import {
+  DOCS_RENDERED,
+  STORY_ERRORED,
+  STORY_MISSING,
+  STORY_RENDERED,
+  STORY_RENDER_PHASE_CHANGED,
+  STORY_THREW_EXCEPTION,
+} from '@storybook/core-events';
+import { StoryIndex, TeardownRenderToDOM } from '@storybook/store';
+import { RenderPhase } from './PreviewWeb';
 
 export const componentOneExports = {
   default: {
@@ -24,12 +32,13 @@ export const importFn = jest.fn(async (path) => {
   return path === './src/ComponentOne.stories.js' ? componentOneExports : componentTwoExports;
 });
 
+export const teardownRenderToDOM: jest.Mock<TeardownRenderToDOM> = jest.fn();
 export const projectAnnotations = {
   globals: { a: 'b' },
   globalTypes: {},
   decorators: [jest.fn((s) => s())],
   render: jest.fn(),
-  renderToDOM: jest.fn(),
+  renderToDOM: jest.fn().mockReturnValue(teardownRenderToDOM),
 };
 export const getProjectAnnotations = () => projectAnnotations;
 
@@ -37,23 +46,26 @@ export const storyIndex: StoryIndex = {
   v: 3,
   stories: {
     'component-one--a': {
+      id: 'component-one--a',
       title: 'Component One',
       name: 'A',
       importPath: './src/ComponentOne.stories.js',
     },
     'component-one--b': {
+      id: 'component-one--b',
       title: 'Component One',
       name: 'B',
       importPath: './src/ComponentOne.stories.js',
     },
     'component-two--c': {
+      id: 'component-two--c',
       title: 'Component Two',
       name: 'C',
       importPath: './src/ComponentTwo.stories.js',
     },
   },
 };
-export const fetchStoryIndex = async () => storyIndex;
+export const getStoryIndex = () => storyIndex;
 
 export const emitter = new EventEmitter();
 export const mockChannel = {
@@ -64,15 +76,23 @@ export const mockChannel = {
   // emit: emitter.emit.bind(emitter),
 };
 
-export const waitForEvents = (events: string[]) => {
+export const waitForEvents = (
+  events: string[],
+  predicate: (...args: any[]) => boolean = () => true
+) => {
   // We've already emitted a render event. NOTE if you want to test a second call,
-  // ensure you call `mockChannel.emit.mockClear()` before `waitForRender`
-  if (mockChannel.emit.mock.calls.find((call) => events.includes(call[0]))) {
+  // ensure you call `mockChannel.emit.mockClear()` before `waitFor...`
+  if (
+    mockChannel.emit.mock.calls.find(
+      (call) => events.includes(call[0]) && predicate(...call.slice(1))
+    )
+  ) {
     return Promise.resolve(null);
   }
 
   return new Promise((resolve, reject) => {
-    const listener = () => {
+    const listener = (...args: any[]) => {
+      if (!predicate(...args)) return;
       events.forEach((event) => mockChannel.off(event, listener));
       resolve(null);
     };
@@ -87,11 +107,16 @@ export const waitForEvents = (events: string[]) => {
 // the async parts, so we need to listen for the "done" events
 export const waitForRender = () =>
   waitForEvents([
-    Events.STORY_RENDERED,
-    Events.DOCS_RENDERED,
-    Events.STORY_THREW_EXCEPTION,
-    Events.STORY_ERRORED,
-    Events.STORY_MISSING,
+    STORY_RENDERED,
+    DOCS_RENDERED,
+    STORY_THREW_EXCEPTION,
+    STORY_ERRORED,
+    STORY_MISSING,
   ]);
 
-export const waitForQuiescence = async () => new Promise((r) => setTimeout(r, 100));
+export const waitForRenderPhase = (phase: RenderPhase) =>
+  waitForEvents([STORY_RENDER_PHASE_CHANGED], ({ newPhase }) => newPhase === phase);
+
+// A little trick to ensure that we always call the real `setTimeout` even when timers are mocked
+const realSetTimeout = setTimeout;
+export const waitForQuiescence = async () => new Promise((r) => realSetTimeout(r, 100));

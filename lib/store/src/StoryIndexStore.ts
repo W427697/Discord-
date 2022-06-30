@@ -1,53 +1,15 @@
+import dedent from 'ts-dedent';
 import { Channel } from '@storybook/addons';
-import { StoryId } from '@storybook/csf';
+import type { StoryId } from '@storybook/csf';
 
-import { StorySpecifier, StoryIndex, StoryIndexEntry } from './types';
-
-type MaybePromise<T> = Promise<T> | T;
+import type { StorySpecifier, StoryIndex, StoryIndexEntry } from './types';
 
 export class StoryIndexStore {
-  fetchStoryIndex: () => MaybePromise<StoryIndex>;
-
   channel: Channel;
 
-  stories: Record<StoryId, StoryIndexEntry>;
+  stories: StoryIndex['stories'];
 
-  constructor({ fetchStoryIndex }: { fetchStoryIndex: StoryIndexStore['fetchStoryIndex'] }) {
-    this.fetchStoryIndex = fetchStoryIndex;
-  }
-
-  initialize(options: { sync: false }): Promise<void>;
-
-  initialize(options: { sync: true }): void;
-
-  initialize({ sync = false } = {}) {
-    return sync ? this.cache(true) : this.cache(false);
-  }
-
-  cache(sync: false): Promise<void>;
-
-  cache(sync: true): void;
-
-  cache(sync = false): Promise<void> | void {
-    const fetchResult = this.fetchStoryIndex();
-
-    if (sync) {
-      if (!(fetchResult as StoryIndex).v) {
-        throw new Error(
-          `fetchStoryIndex() didn't return an index, did you pass an async version then call initialize({ sync: true })?`
-        );
-      }
-      this.stories = (fetchResult as StoryIndex).stories;
-      return null;
-    }
-
-    return Promise.resolve(fetchResult).then(({ stories }) => {
-      this.stories = stories;
-    });
-  }
-
-  async onStoriesChanged() {
-    const { stories } = await this.fetchStoryIndex();
+  constructor({ stories }: StoryIndex = { v: 3, stories: {} }) {
     this.stories = stories;
   }
 
@@ -79,7 +41,11 @@ export class StoryIndexStore {
   storyIdToEntry(storyId: StoryId): StoryIndexEntry {
     const storyEntry = this.stories[storyId];
     if (!storyEntry) {
-      throw new Error(`Didn't find '${storyId}' in story index (\`stories.json\`)`);
+      throw new Error(dedent`Couldn't find story matching '${storyId}' after HMR.
+      - Did you remove it from your CSF file?
+      - Are you sure a story with that id exists?
+      - Please check your stories field of your main.js config.
+      - Also check the browser console and terminal for error messages.`);
     }
 
     return storyEntry;
