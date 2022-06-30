@@ -1,8 +1,9 @@
 import global from 'global';
 import dedent from 'ts-dedent';
-import { RenderContext } from '@storybook/store';
+import type { RenderContext } from '@storybook/store';
+// @ts-ignore
+import Component from '@ember/component'; // eslint-disable-line import/no-unresolved
 import { OptionsArgs, EmberFramework } from './types';
-import Component from '@ember/component';
 
 const { window: globalWindow, document } = global;
 
