@@ -1,4 +1,4 @@
-import deepEqual from 'fast-deep-equal';
+import deepEqual from 'dequal';
 import type { SBType, Args, InputType, ArgTypes, StoryContext, AnyFramework } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
 import isPlainObject from 'lodash/isPlainObject';
