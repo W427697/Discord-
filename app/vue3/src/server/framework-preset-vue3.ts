@@ -1,7 +1,9 @@
 import { VueLoaderPlugin } from 'vue-loader';
 import { Configuration, DefinePlugin } from 'webpack';
+import { findDistEsm } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/core-common';
 
-export function webpack(config: Configuration) {
+export function webpack(config: Configuration): Configuration {
   return {
     ...config,
     plugins: [
@@ -22,13 +24,26 @@ export function webpack(config: Configuration) {
           options: {},
         },
         {
-          test: /\.tsx?$/,
+          test: /\.ts$/,
           use: [
             {
               loader: require.resolve('ts-loader'),
               options: {
                 transpileOnly: true,
                 appendTsSuffixTo: [/\.vue$/],
+              },
+            },
+          ],
+        },
+        {
+          test: /\.tsx$/,
+          use: [
+            {
+              loader: require.resolve('ts-loader'),
+              options: {
+                transpileOnly: true,
+                // Note this is different from the `appendTsSuffixTo` above!
+                appendTsxSuffixTo: [/\.vue$/],
               },
             },
           ],
@@ -45,3 +60,7 @@ export function webpack(config: Configuration) {
     },
   };
 }
+
+export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
+  return [...entry, findDistEsm(__dirname, 'client/preview/config')];
+};

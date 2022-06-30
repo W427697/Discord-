@@ -1,4 +1,6 @@
-import { LOGLEVEL, console } from 'global';
+import global from 'global';
+
+const { LOGLEVEL, console } = global;
 
 type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent';
 
@@ -29,31 +31,50 @@ export const logger = {
     currentLogLevelNumber < levels.silent && console.log(message, ...rest),
 } as const;
 
-export const pretty = (type: keyof typeof logger) => (...args: string[]) => {
-  const argArray = [];
+const logged = new Set();
+export const once =
+  (type: keyof typeof logger) =>
+  (message: any, ...rest: any[]) => {
+    if (logged.has(message)) return undefined;
+    logged.add(message);
+    return logger[type](message, ...rest);
+  };
 
-  if (args.length) {
-    const startTagRe = /<span\s+style=(['"])([^'"]*)\1\s*>/gi;
-    const endTagRe = /<\/span>/gi;
+once.clear = () => logged.clear();
+once.trace = once('trace');
+once.debug = once('debug');
+once.info = once('info');
+once.warn = once('warn');
+once.error = once('error');
+once.log = once('log');
 
-    let reResultArray;
-    argArray.push(args[0].replace(startTagRe, '%c').replace(endTagRe, '%c'));
-    // eslint-disable-next-line no-cond-assign
-    while ((reResultArray = startTagRe.exec(args[0]))) {
-      argArray.push(reResultArray[2]);
-      argArray.push('');
+export const pretty =
+  (type: keyof typeof logger) =>
+  (...args: string[]) => {
+    const argArray = [];
+
+    if (args.length) {
+      const startTagRe = /<span\s+style=(['"])([^'"]*)\1\s*>/gi;
+      const endTagRe = /<\/span>/gi;
+
+      let reResultArray;
+      argArray.push(args[0].replace(startTagRe, '%c').replace(endTagRe, '%c'));
+      // eslint-disable-next-line no-cond-assign
+      while ((reResultArray = startTagRe.exec(args[0]))) {
+        argArray.push(reResultArray[2]);
+        argArray.push('');
+      }
+
+      // pass through subsequent args since chrome dev tools does not (yet) support console.log styling of the following form: console.log('%cBlue!', 'color: blue;', '%cRed!', 'color: red;');
+      // eslint-disable-next-line no-plusplus
+      for (let j = 1; j < args.length; j++) {
+        argArray.push(args[j]);
+      }
     }
 
-    // pass through subsequent args since chrome dev tools does not (yet) support console.log styling of the following form: console.log('%cBlue!', 'color: blue;', '%cRed!', 'color: red;');
-    // eslint-disable-next-line no-plusplus
-    for (let j = 1; j < args.length; j++) {
-      argArray.push(args[j]);
-    }
-  }
-
-  // eslint-disable-next-line prefer-spread
-  logger[type].apply(logger, argArray);
-};
+    // eslint-disable-next-line prefer-spread
+    logger[type].apply(logger, argArray);
+  };
 
 pretty.trace = pretty('trace');
 pretty.debug = pretty('debug');

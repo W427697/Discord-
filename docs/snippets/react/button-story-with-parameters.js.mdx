@@ -1,19 +1,25 @@
 ```js
-// Button.stories.js
+// Button.stories.js|jsx
 
 import React from 'react';
-import Button from './Button';
+
+import { Button } from './Button';
 
 export default {
-  title: "Button",
+  /* 👇 The title prop is optional.
+  * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
+  * to learn how to generate automatic titles
+  */
+  title: 'Button',
   component: Button,
+  //👇 Creates specific parameters for the story
   parameters: {
     backgrounds: {
       values: [
-         { name: 'red', value: '#f00', },
-         { name: 'green', value: '#0f0', },
+        { name: 'red', value: '#f00' },
+        { name: 'green', value: '#0f0' },
       ],
-    }
-  }
+    },
+  },
 };
 ```

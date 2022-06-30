@@ -1,29 +1,28 @@
-/* eslint-disable no-underscore-dangle */
 import React, { FC, useContext, useEffect, useState, useCallback } from 'react';
 import mapValues from 'lodash/mapValues';
-import pickBy from 'lodash/pickBy';
 import {
   ArgsTable as PureArgsTable,
   ArgsTableProps as PureArgsTableProps,
   ArgsTableError,
-  ArgTypes,
+  SortType,
   TabbedArgsTable,
 } from '@storybook/components';
-import { Args } from '@storybook/addons';
-import { StoryStore } from '@storybook/client-api';
+import { ArgTypesExtractor } from '@storybook/docs-tools';
+import { addons } from '@storybook/addons';
+import { filterArgTypes, PropDescriptor } from '@storybook/store';
 import Events from '@storybook/core-events';
+import { StrictArgTypes, Args, Globals } from '@storybook/csf';
 
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { Component, CURRENT_SELECTION, PRIMARY_STORY } from './types';
-import { getComponentName, getDocsStories } from './utils';
-import { ArgTypesExtractor } from '../lib/docgen/types';
+import { getComponentName } from './utils';
 import { lookupStoryId } from './Story';
-
-type PropDescriptor = string[] | RegExp;
+import { useStory } from './useStory';
 
 interface BaseProps {
   include?: PropDescriptor;
   exclude?: PropDescriptor;
+  sort?: SortType;
 }
 
 type OfProps = BaseProps & {
@@ -43,60 +42,66 @@ type StoryProps = BaseProps & {
 
 type ArgsTableProps = BaseProps | OfProps | ComponentsProps | StoryProps;
 
-const useArgs = (
-  storyId: string,
-  storyStore: StoryStore
-): [Args, (args: Args) => void, (argNames?: string[]) => void] => {
-  const story = storyStore.fromId(storyId);
+const getContext = (storyId: string, context: DocsContextProps) => {
+  const story = context.storyById(storyId);
   if (!story) {
     throw new Error(`Unknown story: ${storyId}`);
   }
+  return context.getStoryContext(story);
+};
 
-  const { args: initialArgs } = story;
-  const [args, setArgs] = useState(initialArgs);
+const useArgs = (
+  storyId: string,
+  context: DocsContextProps
+): [Args, (args: Args) => void, (argNames?: string[]) => void] => {
+  const channel = addons.getChannel();
+  const storyContext = getContext(storyId, context);
+
+  const [args, setArgs] = useState(storyContext.args);
   useEffect(() => {
     const cb = (changed: { storyId: string; args: Args }) => {
       if (changed.storyId === storyId) {
         setArgs(changed.args);
       }
     };
-    storyStore._channel.on(Events.STORY_ARGS_UPDATED, cb);
-    return () => storyStore._channel.off(Events.STORY_ARGS_UPDATED, cb);
+    channel.on(Events.STORY_ARGS_UPDATED, cb);
+    return () => channel.off(Events.STORY_ARGS_UPDATED, cb);
   }, [storyId]);
-  const updateArgs = useCallback((newArgs) => storyStore.updateStoryArgs(storyId, newArgs), [
-    storyId,
-  ]);
+  const updateArgs = useCallback(
+    (updatedArgs) => channel.emit(Events.UPDATE_STORY_ARGS, { storyId, updatedArgs }),
+    [storyId]
+  );
   const resetArgs = useCallback(
-    (argNames?: string[]) => storyStore.resetStoryArgs(storyId, argNames),
+    (argNames?: string[]) => channel.emit(Events.RESET_STORY_ARGS, { storyId, argNames }),
     [storyId]
   );
   return [args, updateArgs, resetArgs];
 };
 
-const matches = (name: string, descriptor: PropDescriptor) =>
-  Array.isArray(descriptor) ? descriptor.includes(name) : name.match(descriptor);
+const useGlobals = (storyId: string, context: DocsContextProps): [Globals] => {
+  const channel = addons.getChannel();
+  const storyContext = getContext(storyId, context);
+  const [globals, setGlobals] = useState(storyContext.globals);
 
-const filterArgTypes = (argTypes: ArgTypes, include?: PropDescriptor, exclude?: PropDescriptor) => {
-  if (!include && !exclude) {
-    return argTypes;
-  }
-  return (
-    argTypes &&
-    pickBy(argTypes, (argType, key) => {
-      const name = argType.name || key;
-      return (!include || matches(name, include)) && (!exclude || !matches(name, exclude));
-    })
-  );
+  useEffect(() => {
+    const cb = (changed: { globals: Globals }) => {
+      setGlobals(changed.globals);
+    };
+    channel.on(Events.GLOBALS_UPDATED, cb);
+    return () => channel.off(Events.GLOBALS_UPDATED, cb);
+  }, []);
+
+  return [globals];
 };
 
 export const extractComponentArgTypes = (
   component: Component,
-  { parameters }: DocsContextProps,
+  { id, storyById }: DocsContextProps,
   include?: PropDescriptor,
   exclude?: PropDescriptor
-): ArgTypes => {
-  const params = parameters || {};
-  const { extractArgTypes }: { extractArgTypes: ArgTypesExtractor } = params.docs || {};
+): StrictArgTypes => {
+  const { parameters } = storyById(id);
+  const { extractArgTypes }: { extractArgTypes: ArgTypesExtractor } = parameters.docs || {};
   if (!extractArgTypes) {
     throw new Error(ArgsTableError.ARGS_UNSUPPORTED);
   }
@@ -110,11 +115,13 @@ const isShortcut = (value?: string) => {
   return value && [CURRENT_SELECTION, PRIMARY_STORY].includes(value);
 };
 
-export const getComponent = (props: ArgsTableProps = {}, context: DocsContextProps): Component => {
+export const getComponent = (
+  props: ArgsTableProps = {},
+  { id, storyById }: DocsContextProps
+): Component => {
   const { of } = props as OfProps;
   const { story } = props as StoryProps;
-  const { parameters = {} } = context;
-  const { component } = parameters;
+  const { component } = storyById(id);
   if (isShortcut(of) || isShortcut(story)) {
     return component || null;
   }
@@ -129,11 +136,13 @@ const addComponentTabs = (
   components: Record<string, Component>,
   context: DocsContextProps,
   include?: PropDescriptor,
-  exclude?: PropDescriptor
+  exclude?: PropDescriptor,
+  sort?: SortType
 ) => ({
   ...tabs,
   ...mapValues(components, (comp) => ({
     rows: extractComponentArgTypes(comp, context, include, exclude),
+    sort,
   })),
 });
 
@@ -141,45 +150,50 @@ export const StoryTable: FC<
   StoryProps & { component: Component; subcomponents: Record<string, Component> }
 > = (props) => {
   const context = useContext(DocsContext);
+  const { id: currentId, componentStories } = context;
   const {
-    id: currentId,
-    parameters: { argTypes },
-    storyStore,
-  } = context;
-  const { story, component, subcomponents, showComponent, include, exclude } = props;
-  let storyArgTypes;
+    story: storyName,
+    component,
+    subcomponents,
+    showComponent,
+    include,
+    exclude,
+    sort,
+  } = props;
   try {
     let storyId;
-    switch (story) {
+    switch (storyName) {
       case CURRENT_SELECTION: {
         storyId = currentId;
-        storyArgTypes = argTypes;
         break;
       }
       case PRIMARY_STORY: {
-        const primaryStory = getDocsStories(context)[0];
+        const primaryStory = componentStories()[0];
         storyId = primaryStory.id;
-        storyArgTypes = primaryStory.parameters.argTypes;
         break;
       }
       default: {
-        storyId = lookupStoryId(story, context);
-        const data = storyStore.fromId(storyId);
-        storyArgTypes = data.parameters.argTypes;
+        storyId = lookupStoryId(storyName, context);
       }
     }
-    storyArgTypes = filterArgTypes(storyArgTypes, include, exclude);
 
+    const story = useStory(storyId, context);
     // eslint-disable-next-line prefer-const
-    let [args, updateArgs, resetArgs] = useArgs(storyId, storyStore);
-    let tabs = { Story: { rows: storyArgTypes, args, updateArgs, resetArgs } } as Record<
+    let [args, updateArgs, resetArgs] = useArgs(storyId, context);
+    const [globals] = useGlobals(storyId, context);
+    if (!story) return <PureArgsTable isLoading updateArgs={updateArgs} resetArgs={resetArgs} />;
+
+    const argTypes = filterArgTypes(story.argTypes, include, exclude);
+
+    const mainLabel = getComponentName(component) || 'Story';
+
+    let tabs = { [mainLabel]: { rows: argTypes, args, globals, updateArgs, resetArgs } } as Record<
       string,
       PureArgsTableProps
     >;
 
     // Use the dynamically generated component tabs if there are no controls
-    const storyHasArgsWithControls =
-      storyArgTypes && Object.values(storyArgTypes).find((v) => !!v?.control);
+    const storyHasArgsWithControls = argTypes && Object.values(argTypes).find((v) => !!v?.control);
 
     if (!storyHasArgsWithControls) {
       updateArgs = null;
@@ -188,7 +202,6 @@ export const StoryTable: FC<
     }
 
     if (component && (!storyHasArgsWithControls || showComponent)) {
-      const mainLabel = getComponentName(component);
       tabs = addComponentTabs(tabs, { [mainLabel]: component }, context, include, exclude);
     }
 
@@ -200,7 +213,7 @@ export const StoryTable: FC<
       }
       tabs = addComponentTabs(tabs, subcomponents, context, include, exclude);
     }
-    return <TabbedArgsTable tabs={tabs} />;
+    return <TabbedArgsTable tabs={tabs} sort={sort} />;
   } catch (err) {
     return <PureArgsTable error={err.message} />;
   }
@@ -208,22 +221,28 @@ export const StoryTable: FC<
 
 export const ComponentsTable: FC<ComponentsProps> = (props) => {
   const context = useContext(DocsContext);
-  const { components, include, exclude } = props;
+  const { components, include, exclude, sort } = props;
 
   const tabs = addComponentTabs({}, components, context, include, exclude);
-  return <TabbedArgsTable tabs={tabs} />;
+  return <TabbedArgsTable tabs={tabs} sort={sort} />;
 };
 
 export const ArgsTable: FC<ArgsTableProps> = (props) => {
   const context = useContext(DocsContext);
-  const { parameters: { subcomponents } = {} } = context;
+  const { id, storyById } = context;
+  const {
+    parameters: { controls },
+    subcomponents,
+  } = storyById(id);
 
-  const { include, exclude, components } = props as ComponentsProps;
-  const { story } = props as StoryProps;
+  const { include, exclude, components, sort: sortProp } = props as ComponentsProps;
+  const { story: storyName } = props as StoryProps;
+
+  const sort = sortProp || controls?.sort;
 
   const main = getComponent(props, context);
-  if (story) {
-    return <StoryTable {...(props as StoryProps)} component={main} subcomponents={subcomponents} />;
+  if (storyName) {
+    return <StoryTable {...(props as StoryProps)} component={main} {...{ subcomponents, sort }} />;
   }
 
   if (!components && !subcomponents) {
@@ -233,11 +252,12 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     } catch (err) {
       mainProps = { error: err.message };
     }
-    return <PureArgsTable {...mainProps} />;
+
+    return <PureArgsTable {...mainProps} sort={sort} />;
   }
 
   if (components) {
-    return <ComponentsTable {...(props as ComponentsProps)} components={components} />;
+    return <ComponentsTable {...(props as ComponentsProps)} {...{ components, sort }} />;
   }
 
   const mainLabel = getComponentName(main);
@@ -245,6 +265,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     <ComponentsTable
       {...(props as ComponentsProps)}
       components={{ [mainLabel]: main, ...subcomponents }}
+      sort={sort}
     />
   );
 };

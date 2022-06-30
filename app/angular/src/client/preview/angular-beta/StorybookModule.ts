@@ -5,10 +5,9 @@ import dedent from 'ts-dedent';
 import { Subject } from 'rxjs';
 import deprecate from 'util-deprecate';
 import { ICollection, StoryFnAngularReturnType } from '../types';
-import { Parameters } from '../types-6-0';
 import { storyPropsProvider } from './StorybookProvider';
 import { isComponentAlreadyDeclaredInModules } from './utils/NgModulesAnalyzer';
-import { isDeclarable } from './utils/NgComponentAnalyzer';
+import { isDeclarable, isStandaloneComponent } from './utils/NgComponentAnalyzer';
 import { createStorybookWrapperComponent } from './StorybookWrapperComponent';
 import { computesTemplateFromComponent } from './ComputesTemplateFromComponent';
 
@@ -30,10 +29,12 @@ const deprecatedStoryComponentWarning = deprecate(
 export const getStorybookModuleMetadata = (
   {
     storyFnAngular,
-    parameters,
+    component: annotatedComponent,
+    targetSelector,
   }: {
     storyFnAngular: StoryFnAngularReturnType;
-    parameters: Parameters;
+    component?: any;
+    targetSelector: string;
   },
   storyProps$: Subject<ICollection>
 ): NgModule => {
@@ -43,17 +44,24 @@ export const getStorybookModuleMetadata = (
   if (storyComponent) {
     deprecatedStoryComponentWarning();
   }
-  const component = storyComponent ?? parameters.component;
+  const component = storyComponent ?? annotatedComponent;
 
-  if (!template && component) {
+  if (hasNoTemplate(template) && component) {
     template = computesTemplateFromComponent(component, props, '');
   }
 
   /**
    * Create a component that wraps generated template and gives it props
    */
-  const ComponentToInject = createStorybookWrapperComponent(template, component, styles, props);
+  const ComponentToInject = createStorybookWrapperComponent(
+    targetSelector,
+    template,
+    component,
+    styles,
+    props
+  );
 
+  const isStandalone = isStandaloneComponent(component);
   // Look recursively (deep) if the component is not already declared by an import module
   const requiresComponentDeclaration =
     isDeclarable(component) &&
@@ -61,7 +69,8 @@ export const getStorybookModuleMetadata = (
       component,
       moduleMetadata.declarations,
       moduleMetadata.imports
-    );
+    ) &&
+    !isStandalone;
 
   return {
     declarations: [
@@ -69,7 +78,11 @@ export const getStorybookModuleMetadata = (
       ComponentToInject,
       ...(moduleMetadata.declarations ?? []),
     ],
-    imports: [BrowserModule, ...(moduleMetadata.imports ?? [])],
+    imports: [
+      BrowserModule,
+      ...(isStandalone ? [component] : []),
+      ...(moduleMetadata.imports ?? []),
+    ],
     providers: [storyPropsProvider(storyProps$), ...(moduleMetadata.providers ?? [])],
     entryComponents: [...(moduleMetadata.entryComponents ?? [])],
     schemas: [...(moduleMetadata.schemas ?? [])],
@@ -82,3 +95,7 @@ export const createStorybookModule = (ngModule: NgModule): Type<unknown> => {
   class StorybookModule {}
   return StorybookModule;
 };
+
+function hasNoTemplate(template: string | null | undefined): template is undefined {
+  return template === null || template === undefined;
+}

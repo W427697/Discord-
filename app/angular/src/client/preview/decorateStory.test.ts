@@ -1,5 +1,5 @@
 import { Component, Input, Output } from '@angular/core';
-import { DecoratorFunction, StoryContext } from '@storybook/addons';
+import type { DecoratorFunction, StoryContext } from '@storybook/addons';
 import { componentWrapperDecorator } from './decorators';
 
 import decorateStory from './decorateStory';
@@ -21,7 +21,7 @@ describe('decorateStory', () => {
       expect(
         decorated(
           makeContext({
-            parameters: { component: FooComponent },
+            component: FooComponent,
             args: {
               parentInput: 'Parent input',
               grandparentInput: 'grandparent input',
@@ -37,6 +37,7 @@ describe('decorateStory', () => {
         },
         template:
           '<great-grandparent><grandparent [grandparentInput]="grandparentInput"><parent [parentInput]="parentInput" (parentOutput)="parentOutput($event)"></child></parent></grandparent></great-grandparent>',
+        userDefinedTemplate: true,
       });
     });
 
@@ -63,7 +64,7 @@ describe('decorateStory', () => {
       expect(
         decorated(
           makeContext({
-            parameters: { component: FooComponent },
+            component: FooComponent,
           })
         )
       ).toEqual({
@@ -75,6 +76,7 @@ describe('decorateStory', () => {
         },
         template:
           '<great-grandparent><grandparent [grandparentInput]="grandparentInput"><parent [parentInput]="parentInput" (parentOutput)="parentOutput($event)"></child></parent></grandparent></great-grandparent>',
+        userDefinedTemplate: true,
       });
     });
 
@@ -86,9 +88,10 @@ describe('decorateStory', () => {
       ];
       const decorated = decorateStory(() => ({ template: '</child>' }), decorators);
 
-      expect(decorated(makeContext({ parameters: { component: FooComponent } }))).toEqual({
+      expect(decorated(makeContext({ component: FooComponent }))).toEqual({
         template:
           '<great-grandparent><grandparent><parent></child></parent></grandparent></great-grandparent>',
+        userDefinedTemplate: true,
       });
     });
 
@@ -118,9 +121,10 @@ describe('decorateStory', () => {
       ];
       const decorated = decorateStory(() => ({ template: '</child>' }), decorators);
 
-      expect(decorated(makeContext({ parameters: { component: FooComponent } }))).toEqual({
+      expect(decorated(makeContext({ component: FooComponent }))).toEqual({
         template:
           '<great-grandparent><grandparent><parent></child></parent></grandparent></great-grandparent>',
+        userDefinedTemplate: true,
       });
     });
 
@@ -150,9 +154,10 @@ describe('decorateStory', () => {
       ];
       const decorated = decorateStory(() => ({ template: '</child>' }), decorators);
 
-      expect(decorated()).toEqual({
+      expect(decorated(makeContext({}))).toEqual({
         template:
           '<great-grandparent><grandparent><parent></child></parent></grandparent></great-grandparent>',
+        userDefinedTemplate: true,
       });
     });
 
@@ -182,9 +187,10 @@ describe('decorateStory', () => {
       ];
       const decorated = decorateStory(() => ({}), decorators);
 
-      expect(decorated(makeContext({ parameters: { component: FooComponent } }))).toEqual({
+      expect(decorated(makeContext({ component: FooComponent }))).toEqual({
         template:
           '<great-grandparent><grandparent><parent><foo></foo></parent></grandparent></great-grandparent>',
+        userDefinedTemplate: false,
       });
     });
 
@@ -214,10 +220,52 @@ describe('decorateStory', () => {
       ];
       const decorated = decorateStory(() => ({ component: FooComponent }), decorators);
 
-      expect(decorated()).toEqual({
+      expect(decorated(makeContext({}))).toEqual({
         template:
           '<great-grandparent><grandparent><parent><foo></foo></parent></grandparent></great-grandparent>',
         component: FooComponent,
+        userDefinedTemplate: false,
+      });
+    });
+
+    it('should keep template with an empty value', () => {
+      const decorators: DecoratorFunction<StoryFnAngularReturnType>[] = [
+        componentWrapperDecorator(ParentComponent),
+      ];
+      const decorated = decorateStory(() => ({ template: '' }), decorators);
+
+      expect(decorated(makeContext({ component: FooComponent }))).toEqual({
+        template: '<parent></parent>',
+      });
+    });
+
+    it('should only keeps args with a control or an action in argTypes', () => {
+      const decorated = decorateStory(
+        (context: StoryContext) => ({
+          template: `Args available in the story : ${Object.keys(context.args).join()}`,
+        }),
+        []
+      );
+
+      expect(
+        decorated(
+          makeContext({
+            component: FooComponent,
+            argTypes: {
+              withControl: { control: { type: 'object' }, name: 'withControl' },
+              withAction: { action: 'onClick', name: 'withAction' },
+              toRemove: { name: 'toRemove' },
+            },
+            args: {
+              withControl: 'withControl',
+              withAction: () => ({}),
+              toRemove: 'toRemove',
+            },
+          })
+        )
+      ).toEqual({
+        template: 'Args available in the story : withControl,withAction',
+        userDefinedTemplate: true,
       });
     });
   });
@@ -240,7 +288,7 @@ describe('decorateStory', () => {
       ];
       const decorated = decorateStory(() => ({ props: { a: [0] } }), decorators);
 
-      expect(decorated()).toEqual({ props: { a: [0, 1, 2, 3] } });
+      expect(decorated(makeContext({}))).toEqual({ props: { a: [0, 1, 2, 3] } });
     });
 
     it('passes context through to sub decorators', () => {

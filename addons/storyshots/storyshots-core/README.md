@@ -2,7 +2,7 @@
 
 StoryShots adds automatic Jest Snapshot Testing for [Storybook](https://storybook.js.org/).
 
-[Framework Support](https://github.com/storybookjs/storybook/blob/master/ADDONS_SUPPORT.md)
+[Framework Support](https://storybook.js.org/docs/react/api/frameworks-feature-support)
 
 ![StoryShots In Action](https://raw.githubusercontent.com/storybookjs/storybook/HEAD/addons/storyshots/storyshots-core/docs/storyshots-fail.png)
 
@@ -66,7 +66,7 @@ If you still need to configure jest you can use the resources mentioned below:
 
 **NOTE**: if you are using Storybook 5.3's `main.js` to list story files, this is no longer needed.
 
-Sometimes it's useful to configure Storybook with Webpack's require.context feature. You could be loading stories [one of two ways](https://storybook.js.org/docs/react/writing-stories/loading-stories).
+Sometimes it's useful to configure Storybook with Webpack's require.context feature. You could be loading stories [one of two ways](https://github.com/storybookjs/storybook/blob/release/5.3/docs/src/pages/basics/writing-stories/index.md#loading-stories).
 
 1. If you're using the `storiesOf` API, you can integrate it this way:
 
@@ -235,11 +235,11 @@ module.exports = {
 
 ### Configure Jest for Preact
 
-StoryShots addon for Preact is dependent on [preact-render-to-json](https://github.com/nathancahill/preact-render-to-json), but
+StoryShots addon for Preact is dependent on [preact-render-to-string](https://github.com/preactjs/preact-render-to-string), but
 [doesn't](#deps-issue) install it, so you need to install it separately.
 
 ```sh
-yarn add preact-render-to-json --dev
+yarn add preact-render-to-string --dev
 ```
 
 ### Configure Jest for Web Components
@@ -325,19 +325,18 @@ By design, [`react-test-renderer` doesn't use a browser environment or JSDOM](ht
 #### Example with React Testing Library
 
 ```js
-import initStoryshots from "@storybook/addon-storyshots";
-import { render } from "@testing-library/react";
+import initStoryshots from '@storybook/addon-storyshots';
+import { render } from '@testing-library/react';
 
 const reactTestingLibrarySerializer = {
   print: (val, serialize, indent) => serialize(val.container.firstChild),
-  test: val => val && val.hasOwnProperty("container")
+  test: (val) => val && val.hasOwnProperty('container'),
 };
 
 initStoryshots({
   renderer: render,
-  snapshotSerializers: [reactTestingLibrarySerializer]
+  snapshotSerializers: [reactTestingLibrarySerializer],
 });
-
 ```
 
 #### Example with Enzyme
@@ -471,7 +470,7 @@ Whenever you change your data requirements by adding (and rendering) or (acciden
 
 ## Using a custom directory
 
-Depending on your project's needs, you can configure the `@storybook/addon-storyshots` to use a custom directory for the snapshots. You can read more about it in the [official docs](https://storybook.js.org/docs/react/workflows/snapshot-testing).
+Depending on your project's needs, you can configure the `@storybook/addon-storyshots` to use a custom directory for the snapshots. You can read more about it in the [official docs](https://storybook.js.org/docs/react/writing-tests/snapshot-testing).
 
 ## Options
 
@@ -586,6 +585,30 @@ initStoryshots({
 
 If you are running tests from outside of your app's directory, storyshots' detection of which framework you are using may fail. Pass `"react"` or `"react-native"` to short-circuit this.
 
+For example:
+
+```js
+// storybook.test.js
+
+import path from 'path';
+import initStoryshots from '@storybook/addon-storyshots';
+
+initStoryshots({
+  framework: 'react', // Manually specify the project's framework
+  configPath: path.join(__dirname, '.storybook'),
+  integrityOptions: { cwd: path.join(__dirname, 'src', 'stories') },
+  // Other configurations
+});
+```
+
+Use this table as a reference for manually specifying the framework.
+
+| angular        | html | preact       |
+| -------------- | ---- | ------------ |
+| react          | riot | react-native |
+| svelte         | vue  | vue3         |
+| web-components | rax  |              |
+
 ### `test`
 
 Run a custom test function for each story, rather than the default (a vanilla snapshot test).
@@ -610,7 +633,6 @@ This may be necessary if you want to use React features that are not supported b
 such as **ref** or **Portals**.
 Note that setting `test` overrides `renderer`.
 
-
 ### `snapshotSerializers`
 
 Pass an array of snapshotSerializers to the jest runtime that serializes your story (such as enzyme-to-json).
@@ -632,7 +654,7 @@ This option needs to be set if either:
 
 ### `serializer` (deprecated)
 
-Pass a custom serializer (such as enzyme-to-json) to serialize components to snapshot-comparable data. The functionality of this option is completely covered by [snapshotSerializers](`snapshotSerializers`) which should be used instead.
+Pass a custom serializer (such as enzyme-to-json) to serialize components to snapshot-comparable data. The functionality of this option is completely covered by [snapshotSerializers](#snapshotserializers) which should be used instead.
 
 ```js
 import initStoryshots from '@storybook/addon-storyshots';

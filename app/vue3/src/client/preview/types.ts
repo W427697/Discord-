@@ -1,6 +1,6 @@
 import { ConcreteComponent } from 'vue';
 
-export { RenderContext } from '@storybook/core';
+export type { RenderContext } from '@storybook/core';
 
 export interface ShowErrorArgs {
   title: string;
@@ -11,7 +11,7 @@ export type StoryFnVueReturnType = ConcreteComponent<any>;
 
 export interface IStorybookStory {
   name: string;
-  render: () => any;
+  render: (context: any) => any;
 }
 
 export interface IStorybookSection {

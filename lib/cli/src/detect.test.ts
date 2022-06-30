@@ -15,6 +15,9 @@ jest.mock('./js-package-manager', () => ({
 
 jest.mock('fs', () => ({
   existsSync: jest.fn(),
+  stat: jest.fn(),
+  lstat: jest.fn(),
+  access: jest.fn(),
 }));
 
 jest.mock('path', () => ({
@@ -155,6 +158,36 @@ const MOCK_FRAMEWORK_FILES = [
       'package.json': {
         dependencies: {
           'lit-element': '1.0.0',
+        },
+      },
+    },
+  },
+  {
+    name: ProjectType.WEB_COMPONENTS,
+    files: {
+      'package.json': {
+        dependencies: {
+          'lit-html': '1.4.1',
+        },
+      },
+    },
+  },
+  {
+    name: ProjectType.WEB_COMPONENTS,
+    files: {
+      'package.json': {
+        dependencies: {
+          'lit-html': '2.0.0-rc.3',
+        },
+      },
+    },
+  },
+  {
+    name: ProjectType.WEB_COMPONENTS,
+    files: {
+      'package.json': {
+        dependencies: {
+          lit: '2.0.0-rc.2',
         },
       },
     },

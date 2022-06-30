@@ -4,11 +4,17 @@ import { sync as spawnSync } from 'cross-spawn';
 import { commandLog } from '../helpers';
 import { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import { readPackageJson, writePackageJson } from './PackageJsonHelper';
-import storybookPackagesVersions from '../versions.json';
+import storybookPackagesVersions from '../versions';
 
 const logger = console;
 
-function getPackageDetails(pkg: string): [string, string?] {
+/**
+ * Extract package name and version from input
+ *
+ * @param pkg A string like `@storybook/cli`, `react` or `react@^16`
+ * @return A tuple of 2 elements: [packageName, packageVersion]
+ */
+export function getPackageDetails(pkg: string): [string, string?] {
   const idx = pkg.lastIndexOf('@');
   // If the only `@` is the first character, it is a scoped package
   // If it isn't in the string, it will be -1
@@ -49,14 +55,17 @@ export abstract class JsPackageManager {
     done();
   }
 
+  /**
+   * Read the `package.json` file available in the directory the command was call from
+   * If there is no `package.json` it will create one.
+   */
   public retrievePackageJson(): PackageJsonWithDepsAndDevDeps {
-    let packageJson = readPackageJson();
-    if (!packageJson) {
-      // It will create a new package.json file
+    let packageJson;
+    try {
+      packageJson = readPackageJson();
+    } catch (err) {
       this.initPackageJson();
-
-      // read the newly created package.json file
-      packageJson = readPackageJson() || {};
+      packageJson = readPackageJson();
     }
 
     return {
@@ -145,6 +154,15 @@ export abstract class JsPackageManager {
     return Promise.all(packageNames.map((packageName) => this.getVersion(packageName)));
   }
 
+  /**
+   * Return the latest version of the input package available on npmjs registry.
+   * If constraint are provided it return the latest version matching the constraints.
+   *
+   * For `@storybook/*` packages the latest version is retrieved from `cli/src/versions.json` file directly
+   *
+   * @param packageName The name of the package
+   * @param constraint A valid semver constraint, example: '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
+   */
   public async getVersion(packageName: string, constraint?: string): Promise<string> {
     let current: string;
 
@@ -219,7 +237,7 @@ export abstract class JsPackageManager {
       eslintConfig: {
         ...packageJson.eslintConfig,
         overrides: [
-          ...(packageJson.eslintConfig.overrides || []),
+          ...(packageJson.eslintConfig?.overrides || []),
           {
             files: ['**/*.stories.*'],
             rules: {

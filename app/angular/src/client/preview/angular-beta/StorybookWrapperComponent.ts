@@ -15,7 +15,6 @@ import { map, skip } from 'rxjs/operators';
 import { ICollection } from '../types';
 import { STORY_PROPS } from './StorybookProvider';
 import { ComponentInputsOutputs, getComponentInputsOutputs } from './utils/NgComponentAnalyzer';
-import { RendererService } from './RendererService';
 
 const getNonInputsOutputsProps = (
   ngComponentInputsOutputs: ComponentInputsOutputs,
@@ -37,13 +36,18 @@ const getNonInputsOutputsProps = (
  * @param initialProps
  */
 export const createStorybookWrapperComponent = (
+  selector: string,
   template: string,
-  storyComponent: Type<unknown>,
+  storyComponent: Type<unknown> | undefined,
   styles: string[],
   initialProps?: ICollection
 ): Type<any> => {
+  // In ivy, a '' selector is not allowed, therefore we need to just set it to anything if
+  // storyComponent was not provided.
+  const viewChildSelector = storyComponent ?? '__storybook-noop';
+
   @Component({
-    selector: RendererService.SELECTOR_STORYBOOK_WRAPPER,
+    selector,
     template,
     styles,
   })
@@ -52,10 +56,13 @@ export const createStorybookWrapperComponent = (
 
     private storyWrapperPropsSubscription: Subscription;
 
-    @ViewChild(storyComponent ?? '', { static: true }) storyComponentElementRef: ElementRef;
+    @ViewChild(viewChildSelector, { static: true }) storyComponentElementRef: ElementRef;
 
-    @ViewChild(storyComponent ?? '', { read: ViewContainerRef, static: true })
+    @ViewChild(viewChildSelector, { read: ViewContainerRef, static: true })
     storyComponentViewContainerRef: ViewContainerRef;
+
+    // Used in case of a component without selector
+    storyComponent = storyComponent ?? '';
 
     // eslint-disable-next-line no-useless-constructor
     constructor(
@@ -91,39 +98,13 @@ export const createStorybookWrapperComponent = (
         this.storyComponentViewContainerRef.injector.get(ChangeDetectorRef).markForCheck();
         this.changeDetectorRef.detectChanges();
 
-        // Once target component has been initialized, the storyProps$ observable keeps target component inputs up to date
+        // Once target component has been initialized, the storyProps$ observable keeps target component properties than are not Input|Output up to date
         this.storyComponentPropsSubscription = this.storyProps$
           .pipe(
             skip(1),
             map((props) => {
-              // removes component output in props
-              const outputsKeyToRemove = ngComponentInputsOutputs.outputs.map(
-                (o) => o.templateName
-              );
-              return Object.entries(props).reduce(
-                (prev, [key, value]) => ({
-                  ...prev,
-                  ...(!outputsKeyToRemove.includes(key) && {
-                    [key]: value,
-                  }),
-                }),
-                {} as ICollection
-              );
-            }),
-            map((props) => {
-              // In case a component uses an input with `bindingPropertyName` (ex: @Input('name'))
-              // find the value of the local propName in the component Inputs
-              // otherwise use the input key
-              return Object.entries(props).reduce((prev, [propKey, value]) => {
-                const input = ngComponentInputsOutputs.inputs.find(
-                  (o) => o.templateName === propKey
-                );
-
-                return {
-                  ...prev,
-                  ...(input ? { [input.propName]: value } : { [propKey]: value }),
-                };
-              }, {} as ICollection);
+              const propsKeyToKeep = getNonInputsOutputsProps(ngComponentInputsOutputs, props);
+              return propsKeyToKeep.reduce((acc, p) => ({ ...acc, [p]: props[p] }), {});
             })
           )
           .subscribe((props) => {

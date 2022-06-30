@@ -1,5 +1,5 @@
 import React from 'react';
-import addons from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SELECT_STORY } from '@storybook/core-events';
@@ -29,7 +29,7 @@ const mockChannel = () => {
     once: jest.fn(),
   };
 };
-const mockAddons = (addons as unknown) as jest.Mocked<typeof addons>;
+const mockAddons = addons as unknown as jest.Mocked<typeof addons>;
 
 describe('LinkTo', () => {
   describe('render', () => {

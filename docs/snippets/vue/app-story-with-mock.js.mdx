@@ -4,18 +4,21 @@
 import App from './App.vue';
 
 export default {
+  /* 👇 The title prop is optional.
+  * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
+  * to learn how to generate automatic titles
+  */
   title: 'App',
-  component: App
+  component: App,
 };
 
-const Template = (args, { argTypes }) => ({
-  props: Object.keys(argTypes),
+
+const Template = () => ({
   components: { App },
-  template: "<App />"
+  template: '<App />',
 });
 
 export const Success = Template.bind({});
-
 Success.parameters = {
   fetch: {
     json: {
