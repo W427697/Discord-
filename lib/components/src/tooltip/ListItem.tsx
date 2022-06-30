@@ -144,7 +144,7 @@ const Item = styled.li<ItemProps>(
       : {}
 );
 
-const A = styled.a(({ theme }) => ({
+const Anchor = styled.a(({ theme }) => ({
   fontSize: theme.typography.size.s1,
   transition: 'all 150ms ease-out',
   color: transparentize(0.5, theme.color.defaultText),
@@ -186,7 +186,7 @@ const getItemProps = memoize(100)((onClick, href, LinkWrapper) => {
 
 export type LinkWrapperType = FunctionComponent<any>;
 
-export interface ListItemProps extends Omit<ComponentProps<typeof A>, 'href' | 'title'> {
+export interface ListItemProps extends Omit<ComponentProps<typeof Anchor>, 'href' | 'title'> {
   loading?: boolean;
   left?: ReactNode;
   title?: ReactNode;
@@ -226,7 +226,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
 
   return (
     <Item ref={listItemRef} {...commonProps} tabIndex={0}>
-      <A {...rest} {...itemProps} role="menuitem" tabIndex={-1}>
+      <Anchor {...rest} {...itemProps} role="menuitem" tabIndex={-1}>
         {left && <Left {...commonProps}>{left}</Left>}
         {title || center ? (
           <Center>
@@ -239,7 +239,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           </Center>
         ) : null}
         {right && <Right {...commonProps}>{right}</Right>}
-      </A>
+      </Anchor>
     </Item>
   );
 };
