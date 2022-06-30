@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
 import path, { dirname, join } from 'path';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import global from 'global';
 
 import { logger } from '@storybook/node-logger';

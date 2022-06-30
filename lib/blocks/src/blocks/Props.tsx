@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react';
 import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { ArgsTable } from './ArgsTable';
 import { CURRENT_SELECTION } from './types';
 

@@ -4,7 +4,7 @@ import deepEqual from 'fast-deep-equal';
 import { themes } from '@storybook/theming';
 import type { ThemeVars } from '@storybook/theming';
 import { once } from '@storybook/client-logger';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 import merge from '../lib/merge';
 import type { State, ModuleFn } from '../index';

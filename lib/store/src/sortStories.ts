@@ -1,5 +1,5 @@
 import stable from 'stable';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import type { Comparator, StorySortParameter, StorySortParameterV7 } from '@storybook/addons';
 import { storySort } from './storySort';
 import type { Story, StoryIndexEntry, IndexEntry, Path, Parameters } from './types';

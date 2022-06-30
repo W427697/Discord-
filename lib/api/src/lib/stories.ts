@@ -1,6 +1,6 @@
 import memoize from 'memoizerific';
 import React from 'react';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import mapValues from 'lodash/mapValues';
 import countBy from 'lodash/countBy';
 import type {

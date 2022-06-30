@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import global from 'global';
 import {
   CURRENT_STORY_WAS_SET,
