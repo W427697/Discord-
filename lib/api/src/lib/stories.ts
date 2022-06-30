@@ -1,7 +1,7 @@
 import memoize from 'memoizerific';
 import React from 'react';
 import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import mapValues from 'lodash/mapValues';
 import countBy from 'lodash/countBy';
 import global from 'global';

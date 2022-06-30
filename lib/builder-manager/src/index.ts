@@ -37,12 +37,13 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     bundle: true,
     minify: false,
     sourcemap: true,
+
     legalComments: 'external',
     plugins: [
       aliasPlugin({
         process: require.resolve('rollup-plugin-node-polyfills/polyfills/process-es6.js'),
         util: require.resolve('rollup-plugin-node-polyfills/polyfills/util.js'),
-        assert: require.resolve('rollup-plugin-node-polyfills/polyfills/assert.js'),
+        assert: require.resolve('browser-assert'),
       }),
       globalExternals(definitions),
       pnpPlugin(),

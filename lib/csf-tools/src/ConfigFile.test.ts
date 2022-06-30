@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { formatConfig, loadConfig } from './ConfigFile';
 
 expect.addSnapshotSerializer({

@@ -1,7 +1,7 @@
 import { logger } from '@storybook/client-logger';
 
 import { deletedDiff } from 'deep-object-diff';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 import light from './themes/light';
 import { Theme, ThemeVars } from './types';

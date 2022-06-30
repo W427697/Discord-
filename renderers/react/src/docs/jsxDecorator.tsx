@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React, { createElement, ReactElement } from 'react';
 import reactElementToJSXString, { Options } from 'react-element-to-jsx-string';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import deprecate from 'util-deprecate';
 
 import { addons, useEffect } from '@storybook/addons';

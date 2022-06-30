@@ -4,7 +4,7 @@ import betterOpn from 'better-opn'; // betterOpn alias used because also loading
 import open from 'open';
 // @ts-ignore
 import getDefaultBrowser from 'x-default-browser';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 export function openInBrowser(address: string) {
   getDefaultBrowser(async (err: any, res: any) => {

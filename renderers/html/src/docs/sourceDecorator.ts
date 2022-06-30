@@ -3,7 +3,7 @@
 import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
 import { addons, useEffect } from '@storybook/addons';
 import type { PartialStoryFn } from '@storybook/csf';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { HtmlFramework, StoryContext } from '../types';
 import { StoryFn } from '../public-types';
 
