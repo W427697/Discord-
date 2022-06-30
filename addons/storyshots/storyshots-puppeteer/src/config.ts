@@ -1,11 +1,7 @@
 import { MatchImageSnapshotOptions } from 'jest-image-snapshot';
-import {
-  ScreenshotOptions,
-  Browser,
-  Page,
-  ElementHandle,
-  PuppeteerLifeCycleEvent,
-} from 'puppeteer';
+import { ScreenshotOptions, Browser, Page, ElementHandle } from 'puppeteer';
+
+type PuppeteerLifeCycleEvent = 'load' | 'domcontentloaded' | 'networkidle0' | 'networkidle2';
 
 export interface Context {
   kind: string;
