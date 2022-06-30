@@ -13,15 +13,20 @@ Teams publish Storybook online to review and collaborate on works in progress. T
 
 ## Build Storybook as a static web application
 
-First, we'll need to build Storybook as a static web application. The functionality is already built-in and pre-configured. Run the following command inside your project's root directory:
+First, we'll need to build Storybook as a static web application. The functionality is already built-in and pre-configured for most supported frameworks. Others require a bit of customization (e.g., Angular). Run the following command inside your project's root directory:
 
-```shell
-# With yarn
-yarn build-storybook
+<!-- prettier-ignore-start -->
 
-# With npm
-npm run build-storybook
-```
+<CodeSnippets
+  paths={[
+    'angular/custom-build-script-production.script-for-builder.js.mdx',
+    'angular/build-storybook-production-mode.with-builder.js.mdx',
+    'common/build-storybook-production-mode.yarn.js.mdx',
+    'common/build-storybook-production-mode.npm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 <div class="aside">
 
@@ -45,13 +50,16 @@ To get started, sign up with your GitHub, GitLab, Bitbucket, or email and genera
 
 Next, install the [Chromatic CLI](https://www.npmjs.com/package/chromatic) package from npm:
 
-```shell
-# With npm
-npm install --save-dev chromatic
+<!-- prettier-ignore-start -->
 
-# With yarn
-yarn add --dev chromatic
-```
+<CodeSnippets
+  paths={[
+    'common/chromatic-install.yarn.js.mdx',
+    'common/chromatic-install.npm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 Run the following command after the package finishes installing. Make sure that you replace `your-project-token` with your own project token.
 
