@@ -126,6 +126,21 @@ describe('ConfigFile', () => {
           )
         ).toEqual('webpack5');
       });
+      it('variable exports', () => {
+        expect(
+          getField(
+            ['stories'],
+            dedent`
+              import type { StorybookConfig } from '@storybook/react/types';
+
+              const config: StorybookConfig = {
+                stories: [{ directory: '../src', titlePrefix: 'Demo' }],
+              }
+              module.exports = config;
+            `
+          )
+        ).toEqual([{ directory: '../src', titlePrefix: 'Demo' }]);
+      });
     });
   });
 
@@ -159,7 +174,7 @@ describe('ConfigFile', () => {
         ).toMatchInlineSnapshot(`
           export const core = {
             foo: 'bar',
-            builder: "webpack5"
+            builder: 'webpack5'
           };
         `);
       });
@@ -174,7 +189,7 @@ describe('ConfigFile', () => {
           )
         ).toMatchInlineSnapshot(`
           export const core = {
-            builder: "webpack5"
+            builder: 'webpack5'
           };
         `);
       });
@@ -190,7 +205,7 @@ describe('ConfigFile', () => {
         ).toMatchInlineSnapshot(`
           export const core = {
             builder: {
-              "name": "webpack5"
+              name: 'webpack5'
             }
           };
         `);
@@ -207,7 +222,7 @@ describe('ConfigFile', () => {
           )
         ).toMatchInlineSnapshot(`
           const coreVar = {
-            builder: "webpack5"
+            builder: 'webpack5'
           };
           export const core = coreVar;
         `);
@@ -245,7 +260,7 @@ describe('ConfigFile', () => {
           module.exports = {
             core: {
               foo: 'bar',
-              builder: "webpack5"
+              builder: 'webpack5'
             }
           };
         `);
@@ -262,8 +277,35 @@ describe('ConfigFile', () => {
         ).toMatchInlineSnapshot(`
           module.exports = {
             core: {
-              builder: "webpack5"
+              builder: 'webpack5'
             }
+          };
+        `);
+      });
+    });
+    describe('quotes', () => {
+      it('no quotes', () => {
+        expect(setField(['foo', 'bar'], 'baz', '')).toMatchInlineSnapshot(`
+          export const foo = {
+            bar: "baz"
+          };
+        `);
+      });
+      it('more single quotes', () => {
+        expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', 'b', "c"]`))
+          .toMatchInlineSnapshot(`
+          export const stories = ['a', 'b', "c"];
+          export const foo = {
+            bar: 'baz'
+          };
+        `);
+      });
+      it('more double quotes', () => {
+        expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', "b", "c"]`))
+          .toMatchInlineSnapshot(`
+          export const stories = ['a', "b", "c"];
+          export const foo = {
+            bar: "baz"
           };
         `);
       });

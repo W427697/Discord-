@@ -1,7 +1,7 @@
 import React from 'react';
 import global from 'global';
 import { RenderContext } from '@storybook/store';
-import addons from '@storybook/addons';
+import addons, { mockChannel as createMockChannel } from '@storybook/addons';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -53,6 +53,7 @@ beforeEach(() => {
   projectAnnotations.decorators[0].mockClear();
 
   addons.setChannel(mockChannel as any);
+  addons.setServerChannel(createMockChannel());
 });
 
 describe('PreviewWeb', () => {
@@ -75,8 +76,9 @@ describe('PreviewWeb', () => {
       const preview = new PreviewWeb();
 
       const docsRoot = window.document.createElement('div');
-      // @ts-ignore
-      preview.view.prepareForDocs.mockReturnValue(docsRoot);
+      (
+        preview.view.prepareForDocs as any as jest.Mock<typeof preview.view.prepareForDocs>
+      ).mockReturnValue(docsRoot);
       componentOneExports.default.parameters.docs.container.mockImplementationOnce(() =>
         React.createElement('div', {}, 'INSIDE')
       );

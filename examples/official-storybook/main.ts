@@ -4,18 +4,22 @@ import type { StorybookConfig } from '@storybook/react/types';
 
 const config: StorybookConfig = {
   stories: [
+    {
+      directory: './stories/title',
+      titlePrefix: 'Custom Prefix',
+    },
     // FIXME: Breaks e2e tests './intro.stories.mdx',
     '../../lib/ui/src/**/*.stories.@(js|tsx|mdx)',
     '../../lib/components/src/**/*.stories.@(js|tsx|mdx)',
     './stories/**/*.stories.@(js|ts|tsx|mdx)',
     './../../addons/docs/**/*.stories.tsx',
+    './../../addons/interactions/**/*.stories.(tsx|mdx)',
   ],
   reactOptions: {
     fastRefresh: true,
     strictMode: true,
   },
   addons: [
-    '@storybook/react',
     {
       name: '@storybook/addon-docs',
       options: {
@@ -26,18 +30,27 @@ const config: StorybookConfig = {
       },
     },
     '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
     '@storybook/addon-storysource',
     '@storybook/addon-links',
     '@storybook/addon-jest',
-    '@storybook/addon-graphql',
+    '@storybook/addon-a11y',
   ],
   core: {
     builder: 'webpack4',
+    channelOptions: { allowFunction: false, maxDepth: 10 },
+    disableTelemetry: true,
   },
   logLevel: 'debug',
   features: {
     modernInlineRender: true,
+    interactionsDebugger: true,
   },
+  staticDirs: [
+    './statics/public',
+    { from: './statics/examples/example1', to: '/example1' },
+    { from: './statics/examples/example2', to: '/example2' },
+  ],
 };
 
 module.exports = config;

@@ -1,4 +1,5 @@
-import { addons, mockChannel, StoryContext } from '@storybook/addons';
+import { addons, mockChannel } from '@storybook/addons';
+import type { StoryContext } from '@storybook/addons';
 
 import { Component } from '@angular/core';
 import { moduleMetadata } from './decorators';
@@ -20,6 +21,8 @@ const defaultContext: StoryContext = {
   loaded: {},
   originalStoryFn: jest.fn(),
   viewMode: 'story',
+  abortSignal: undefined,
+  canvasElement: undefined,
 };
 
 class MockModule {}

@@ -1,64 +1,41 @@
 import memoize from 'memoizerific';
-import {
+import type {
   Parameters,
   StoryId,
   StoryContextForLoaders,
   AnyFramework,
   ProjectAnnotations,
   ComponentTitle,
+  StoryContextForEnhancers,
   StoryContext,
 } from '@storybook/csf';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
+import global from 'global';
+import { SynchronousPromise } from 'synchronous-promise';
 
 import { StoryIndexStore } from './StoryIndexStore';
 import { ArgsStore } from './ArgsStore';
 import { GlobalsStore } from './GlobalsStore';
-import { processCSFFile } from './processCSFFile';
-import { prepareStory } from './prepareStory';
-import {
+import { processCSFFile, prepareStory, normalizeProjectAnnotations } from './csf';
+import type {
   CSFFile,
   ModuleImportFn,
   Story,
   NormalizedProjectAnnotations,
   Path,
   ExtractOptions,
-  ModuleExports,
   BoundStory,
+  PromiseLike,
+  StoryIndex,
+  StoryIndexEntry,
+  V2CompatIndexEntry,
 } from './types';
 import { HooksContext } from './hooks';
-import { normalizeInputTypes } from './normalizeInputTypes';
-import { inferArgTypes } from './inferArgTypes';
-import { inferControls } from './inferControls';
-import { StoryIndex } from '.';
-
-type MaybePromise<T> = Promise<T> | T;
 
 // TODO -- what are reasonable values for these?
 const CSF_CACHE_SIZE = 1000;
 const STORY_CACHE_SIZE = 10000;
-
-function normalizeProjectAnnotations<TFramework extends AnyFramework>({
-  argTypes,
-  globalTypes,
-  argTypesEnhancers,
-  ...annotations
-}: ProjectAnnotations<TFramework>): NormalizedProjectAnnotations<TFramework> {
-  return {
-    ...(argTypes && { argTypes: normalizeInputTypes(argTypes) }),
-    ...(globalTypes && { globalTypes: normalizeInputTypes(globalTypes) }),
-    argTypesEnhancers: [
-      ...(argTypesEnhancers || []),
-      inferArgTypes,
-      // inferControls technically should only run if the user is using the controls addon,
-      // and so should be added by a preset there. However, as it seems some code relies on controls
-      // annotations (in particular the angular implementation's `cleanArgsDecorator`), for backwards
-      // compatibility reasons, we will leave this in the store until 7.0
-      inferControls,
-    ],
-    ...annotations,
-  };
-}
 
 export class StoryStore<TFramework extends AnyFramework> {
   storyIndex: StoryIndexStore;
@@ -79,6 +56,10 @@ export class StoryStore<TFramework extends AnyFramework> {
 
   prepareStoryWithCache: typeof prepareStory;
 
+  initializationPromise: SynchronousPromise<void>;
+
+  resolveInitializationPromise: () => void;
+
   constructor() {
     this.globals = new GlobalsStore();
     this.args = new ArgsStore();
@@ -89,38 +70,37 @@ export class StoryStore<TFramework extends AnyFramework> {
     //  2. To ensure that when the same story is prepared with the same inputs you get the same output
     this.processCSFFileWithCache = memoize(CSF_CACHE_SIZE)(processCSFFile) as typeof processCSFFile;
     this.prepareStoryWithCache = memoize(STORY_CACHE_SIZE)(prepareStory) as typeof prepareStory;
+
+    // We cannot call `loadStory()` until we've been initialized properly. But we can wait for it.
+    this.initializationPromise = new SynchronousPromise((resolve) => {
+      this.resolveInitializationPromise = resolve;
+    });
+  }
+
+  setProjectAnnotations(projectAnnotations: ProjectAnnotations<TFramework>) {
+    // By changing `this.projectAnnotations, we implicitly invalidate the `prepareStoryWithCache`
+    this.projectAnnotations = normalizeProjectAnnotations(projectAnnotations);
+    const { globals, globalTypes } = projectAnnotations;
+
+    this.globals.set({ globals, globalTypes });
   }
 
   initialize({
-    getStoryIndex,
+    storyIndex,
     importFn,
-    projectAnnotations,
     cache = false,
   }: {
-    getStoryIndex: () => StoryIndex;
+    storyIndex?: StoryIndex;
     importFn: ModuleImportFn;
-    projectAnnotations: ProjectAnnotations<TFramework>;
     cache?: boolean;
-  }): void {
-    this.projectAnnotations = normalizeProjectAnnotations(projectAnnotations);
-
-    // Frustratingly we need to pass getStoryIndex (rather than just storyIndex), as
-    // we cannot call getStoryIndex on the v6 StoryStoreFacade until the project annotations are set above.
-    this.storyIndex = new StoryIndexStore(getStoryIndex());
+  }): PromiseLike<void> {
+    this.storyIndex = new StoryIndexStore(storyIndex);
     this.importFn = importFn;
 
-    const { globals, globalTypes } = this.projectAnnotations;
-    this.globals.initialize({ globals, globalTypes });
+    // We don't need the cache to be loaded to call `loadStory`, we just need the index ready
+    this.resolveInitializationPromise();
 
-    if (cache) this.cacheAllCSFFiles(true);
-  }
-
-  // This means the preview.[tj]s file has changed.
-  // By changing `this.projectAnnotations, we implicitly invalidate the `prepareStoryWithCache`
-  updateProjectAnnotations(projectAnnotations: ProjectAnnotations<TFramework>) {
-    this.projectAnnotations = normalizeProjectAnnotations(projectAnnotations);
-    const { globals, globalTypes } = projectAnnotations;
-    this.globals.resetOnProjectAnnotationsChange({ globals, globalTypes });
+    return cache ? this.cacheAllCSFFiles() : SynchronousPromise.resolve();
   }
 
   // This means that one of the CSF files has changed.
@@ -136,99 +116,51 @@ export class StoryStore<TFramework extends AnyFramework> {
   }) {
     if (importFn) this.importFn = importFn;
     if (storyIndex) this.storyIndex.stories = storyIndex.stories;
-
-    if (this.cachedCSFFiles) {
-      await this.cacheAllCSFFiles(false);
-    }
+    if (this.cachedCSFFiles) await this.cacheAllCSFFiles();
   }
 
   // To load a single CSF file to service a story we need to look up the importPath in the index
-  loadCSFFileByStoryId(storyId: StoryId, options: { sync: false }): Promise<CSFFile<TFramework>>;
-
-  loadCSFFileByStoryId(storyId: StoryId, options: { sync: true }): CSFFile<TFramework>;
-
-  loadCSFFileByStoryId(
-    storyId: StoryId,
-    { sync = false }: { sync?: boolean } = {}
-  ): MaybePromise<CSFFile<TFramework>> {
+  loadCSFFileByStoryId(storyId: StoryId): PromiseLike<CSFFile<TFramework>> {
     const { importPath, title } = this.storyIndex.storyIdToEntry(storyId);
-    const moduleExportsOrPromise = this.importFn(importPath);
-
-    const isPromise = Promise.resolve(moduleExportsOrPromise) === moduleExportsOrPromise;
-    if (!isPromise) {
+    return this.importFn(importPath).then((moduleExports) =>
       // We pass the title in here as it may have been generated by autoTitle on the server.
-      return this.processCSFFileWithCache(moduleExportsOrPromise as ModuleExports, title);
-    }
-
-    if (sync) {
-      throw new Error(
-        `importFn() returned a promise, did you pass an async version then call initialize({sync: true})?`
-      );
-    }
-
-    return (moduleExportsOrPromise as Promise<ModuleExports>).then((moduleExports) =>
-      // We pass the title in here as it may have been generated by autoTitle on the server.
-      this.processCSFFileWithCache(moduleExports, title)
+      this.processCSFFileWithCache(moduleExports, importPath, title)
     );
   }
 
-  loadAllCSFFiles(sync: false): Promise<StoryStore<TFramework>['cachedCSFFiles']>;
-
-  loadAllCSFFiles(sync: true): StoryStore<TFramework>['cachedCSFFiles'];
-
-  loadAllCSFFiles(sync: boolean): MaybePromise<StoryStore<TFramework>['cachedCSFFiles']> {
+  loadAllCSFFiles(): PromiseLike<StoryStore<TFramework>['cachedCSFFiles']> {
     const importPaths: Record<Path, StoryId> = {};
     Object.entries(this.storyIndex.stories).forEach(([storyId, { importPath }]) => {
       importPaths[importPath] = storyId;
     });
 
-    const csfFileList = Object.entries(importPaths).map(([importPath, storyId]) => ({
-      importPath,
-      csfFileOrPromise: sync
-        ? this.loadCSFFileByStoryId(storyId, { sync: true })
-        : this.loadCSFFileByStoryId(storyId, { sync: false }),
-    }));
+    const csfFilePromiseList = Object.entries(importPaths).map(([importPath, storyId]) =>
+      this.loadCSFFileByStoryId(storyId).then((csfFile) => ({
+        importPath,
+        csfFile,
+      }))
+    );
 
-    function toObject(list: { importPath: Path; csfFile: CSFFile<TFramework> }[]) {
-      return list.reduce((acc, { importPath, csfFile }) => {
+    return SynchronousPromise.all(csfFilePromiseList).then((list) =>
+      list.reduce((acc, { importPath, csfFile }) => {
         acc[importPath] = csfFile;
         return acc;
-      }, {} as Record<Path, CSFFile<TFramework>>);
-    }
-
-    if (sync) {
-      return toObject(
-        csfFileList.map(({ importPath, csfFileOrPromise }) => ({
-          importPath,
-          csfFile: csfFileOrPromise,
-        })) as { importPath: Path; csfFile: CSFFile<TFramework> }[]
-      );
-    }
-    return Promise.all(
-      csfFileList.map(async ({ importPath, csfFileOrPromise }) => ({
-        importPath,
-        csfFile: await csfFileOrPromise,
-      }))
-    ).then(toObject);
+      }, {} as Record<Path, CSFFile<TFramework>>)
+    );
   }
 
-  cacheAllCSFFiles(sync: false): Promise<void>;
-
-  cacheAllCSFFiles(sync: true): void;
-
-  cacheAllCSFFiles(sync: boolean): MaybePromise<void> {
-    if (sync) {
-      this.cachedCSFFiles = this.loadAllCSFFiles(true);
-      return null;
-    }
-    return this.loadAllCSFFiles(false).then((csfFiles) => {
-      this.cachedCSFFiles = csfFiles;
-    });
+  cacheAllCSFFiles(): PromiseLike<void> {
+    return this.initializationPromise.then(() =>
+      this.loadAllCSFFiles().then((csfFiles) => {
+        this.cachedCSFFiles = csfFiles;
+      })
+    );
   }
 
   // Load the CSF file for a story and prepare the story from it and the project annotations.
   async loadStory({ storyId }: { storyId: StoryId }): Promise<Story<TFramework>> {
-    const csfFile = await this.loadCSFFileByStoryId(storyId, { sync: false });
+    await this.initializationPromise;
+    const csfFile = await this.loadCSFFileByStoryId(storyId);
     return this.storyFromCSFFile({ storyId, csfFile });
   }
 
@@ -252,16 +184,16 @@ export class StoryStore<TFramework extends AnyFramework> {
       componentAnnotations,
       this.projectAnnotations
     );
-    this.args.setInitial(story.id, story.initialArgs);
+    this.args.setInitial(story);
     this.hooks[story.id] = this.hooks[story.id] || new HooksContext();
     return story;
   }
 
   // If we have a CSF file we can get all the stories from it synchronously
   componentStoriesFromCSFFile({ csfFile }: { csfFile: CSFFile<TFramework> }): Story<TFramework>[] {
-    return Object.keys(csfFile.stories).map((storyId: StoryId) =>
-      this.storyFromCSFFile({ storyId, csfFile })
-    );
+    return Object.keys(this.storyIndex.stories)
+      .filter((storyId: StoryId) => !!csfFile.stories[storyId])
+      .map((storyId: StoryId) => this.storyFromCSFFile({ storyId, csfFile }));
   }
 
   // A prepared story does not include args, globals or hooks. These are stored in the story store
@@ -279,7 +211,9 @@ export class StoryStore<TFramework extends AnyFramework> {
     this.hooks[story.id].clean();
   }
 
-  extract(options: ExtractOptions = { includeDocsOnly: false }): Record<string, any> {
+  extract(
+    options: ExtractOptions = { includeDocsOnly: false }
+  ): Record<StoryId, StoryContextForEnhancers<TFramework>> {
     if (!this.cachedCSFFiles) {
       throw new Error('Cannot call extract() unless you call cacheAllCSFFiles() first.');
     }
@@ -295,9 +229,6 @@ export class StoryStore<TFramework extends AnyFramework> {
       acc[storyId] = Object.entries(story).reduce(
         (storyAcc, [key, value]) => {
           if (typeof value === 'function') {
-            return storyAcc;
-          }
-          if (['hooks'].includes(key)) {
             return storyAcc;
           }
           if (Array.isArray(value)) {
@@ -335,14 +266,25 @@ export class StoryStore<TFramework extends AnyFramework> {
     const value = this.getSetStoriesPayload();
     const allowedParameters = ['fileName', 'docsOnly', 'framework', '__id', '__isArgsStory'];
 
+    const stories: Record<StoryId, StoryIndexEntry | V2CompatIndexEntry> = mapValues(
+      value.stories,
+      (story) => ({
+        ...pick(story, ['id', 'name', 'title']),
+        importPath: this.storyIndex.stories[story.id].importPath,
+        ...(!global.FEATURES?.breakingChangesV7 && {
+          kind: story.title,
+          story: story.name,
+          parameters: {
+            ...pick(story.parameters, allowedParameters),
+            fileName: this.storyIndex.stories[story.id].importPath,
+          },
+        }),
+      })
+    );
+
     return {
-      v: 2,
-      globalParameters: pick(value.globalParameters, allowedParameters),
-      kindParameters: mapValues(value.kindParameters, (v) => pick(v, allowedParameters)),
-      stories: mapValues(value.stories, (v: any) => ({
-        ...pick(v, ['id', 'name', 'kind', 'story']),
-        parameters: pick(v.parameters, allowedParameters),
-      })),
+      v: 3,
+      stories,
     };
   };
 

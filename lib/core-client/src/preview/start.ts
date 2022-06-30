@@ -1,17 +1,17 @@
 import global from 'global';
 import deprecate from 'util-deprecate';
 import { ClientApi } from '@storybook/client-api';
-import { WebProjectAnnotations, PreviewWeb } from '@storybook/preview-web';
-import { AnyFramework, ArgsStoryFn } from '@storybook/csf';
+import { PreviewWeb } from '@storybook/preview-web';
+import type { AnyFramework, ArgsStoryFn } from '@storybook/csf';
 import createChannel from '@storybook/channel-postmessage';
 import { addons } from '@storybook/addons';
 import Events from '@storybook/core-events';
-import { Path } from '@storybook/store';
+import type { Path, WebProjectAnnotations } from '@storybook/store';
 
 import { Loadable } from './types';
 import { executeLoadableForChanges } from './executeLoadable';
 
-const { window: globalWindow } = global;
+const { window: globalWindow, FEATURES } = global;
 
 const configureDeprecationWarning = deprecate(
   () => {},
@@ -19,6 +19,10 @@ const configureDeprecationWarning = deprecate(
 Please use the \`stories\` field of \`main.js\` to load stories.
 Read more at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-configure`
 );
+
+const removedApi = (name: string) => () => {
+  throw new Error(`@storybook/client-api:${name} was removed in storyStoreV7.`);
+};
 
 export function start<TFramework extends AnyFramework>(
   renderToDOM: WebProjectAnnotations<TFramework>['renderToDOM'],
@@ -30,6 +34,29 @@ export function start<TFramework extends AnyFramework>(
     render?: ArgsStoryFn<TFramework>;
   } = {}
 ) {
+  if (globalWindow) {
+    // To enable user code to detect if it is running in Storybook
+    globalWindow.IS_STORYBOOK = true;
+  }
+
+  if (FEATURES?.storyStoreV7) {
+    return {
+      forceReRender: removedApi('forceReRender'),
+      getStorybook: removedApi('getStorybook'),
+      configure: removedApi('configure'),
+      clientApi: {
+        addDecorator: removedApi('clientApi.addDecorator'),
+        addParameters: removedApi('clientApi.addParameters'),
+        clearDecorators: removedApi('clientApi.clearDecorators'),
+        addLoader: removedApi('clientApi.addLoader'),
+        setAddon: removedApi('clientApi.setAddon'),
+        getStorybook: removedApi('clientApi.getStorybook'),
+        storiesOf: removedApi('clientApi.storiesOf'),
+        raw: removedApi('raw'),
+      },
+    };
+  }
+
   const channel = createChannel({ page: 'preview' });
   addons.setChannel(channel);
 
@@ -90,8 +117,8 @@ export function start<TFramework extends AnyFramework>(
         );
 
         return {
-          ...clientApi.facade.projectAnnotations,
           render,
+          ...clientApi.facade.projectAnnotations,
           renderToDOM,
           applyDecorators: decorateStory,
         };

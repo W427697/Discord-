@@ -1,11 +1,11 @@
-import { RuleSetRule } from 'webpack';
+import type { RuleSetRule } from 'webpack';
 import { getProjectRoot, getStorybookBabelConfig } from '@storybook/core-common';
 
 export const babelLoader = () => {
   const { plugins, presets } = getStorybookBabelConfig();
 
   return {
-    test: /\.(mjs|tsx?|jsx?)$/,
+    test: /\.(cjs|mjs|tsx?|jsx?)$/,
     use: [
       {
         loader: require.resolve('babel-loader'),
