@@ -8,7 +8,7 @@ import {
 } from '@storybook/core-events';
 import { queryFromLocation, buildArgsParam, NavigateOptions } from '@storybook/router';
 import { toId, sanitize } from '@storybook/csf';
-import deepEqual from 'dequal';
+import { dequal as deepEqual } from 'dequal';
 import global from 'global';
 import dedent from 'ts-dedent';
 

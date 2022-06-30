@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import deepEqual from 'dequal';
+import { dequal as deepEqual } from 'dequal';
 
 import { API } from '@storybook/api';
 import { STORY_CHANGED } from '@storybook/core-events';

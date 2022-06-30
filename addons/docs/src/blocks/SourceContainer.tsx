@@ -1,5 +1,5 @@
 import React, { FC, Context, createContext, useEffect, useState } from 'react';
-import deepEqual from 'dequal';
+import { dequal as deepEqual } from 'dequal';
 import { addons } from '@storybook/addons';
 import type { SyntaxHighlighterFormatTypes } from '@storybook/components';
 import type { StoryId } from '@storybook/api';

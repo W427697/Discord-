@@ -1,5 +1,5 @@
 import { once } from '@storybook/client-logger';
-import deepEqual from 'dequal';
+import { dequal as deepEqual } from 'dequal';
 import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'memoizerific';
 import qs, { IStringifyOptions } from 'qs';
