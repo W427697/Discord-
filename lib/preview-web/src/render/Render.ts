@@ -1,5 +1,4 @@
 import { StoryId, AnyFramework } from '@storybook/csf';
-import { Story } from '@storybook/store';
 
 export type RenderType = 'story' | 'docs';
 export interface Render<TFramework extends AnyFramework> {

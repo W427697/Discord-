@@ -1,5 +1,5 @@
 import { AnyFramework, StoryId } from '@storybook/csf';
-import { Story, CSFFile } from '@storybook/store';
+import { Story } from '@storybook/store';
 import { DOCS_RENDERED } from '@storybook/core-events';
 
 import { Render, RenderType } from './Render';
@@ -89,7 +89,7 @@ export class TemplateDocsRender<
     if (!this.story || !this.docsContext || !this.canvasElement)
       throw new Error('DocsRender not ready to render');
 
-    const { docs } = this.story?.parameters || {};
+    const { docs } = this.story.parameters || {};
 
     if (!docs)
       throw new Error(
