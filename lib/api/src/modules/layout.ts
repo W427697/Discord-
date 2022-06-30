@@ -1,7 +1,7 @@
 import global from 'global';
 import pick from 'lodash/pick';
 import deepEqual from 'fast-deep-equal';
-import { themes, create } from '@storybook/theming';
+import { create } from '@storybook/theming';
 import type { ThemeVars } from '@storybook/theming';
 import { once } from '@storybook/client-logger';
 import dedent from 'ts-dedent';
