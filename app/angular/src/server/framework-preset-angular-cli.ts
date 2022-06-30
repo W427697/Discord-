@@ -47,8 +47,8 @@ export async function webpackFinal(baseConfig: webpack.Configuration, options: P
         return getWebpackConfig13_x_x(_baseConfig, {
           builderOptions: {
             watch: options.configType === 'DEVELOPMENT',
-            ...builderOptions,
             ...legacyDefaultOptions,
+            ...builderOptions,
           },
           builderContext,
         });
@@ -87,13 +87,13 @@ export async function webpackFinal(baseConfig: webpack.Configuration, options: P
 function getBuilderContext(options: PresetOptions): BuilderContext {
   return (
     options.angularBuilderContext ??
-    (({
+    ({
       target: { project: 'noop-project', builder: '', options: {} },
       workspaceRoot: process.cwd(),
       getProjectMetadata: () => ({}),
       getTargetOptions: () => ({}),
       logger: new logging.Logger('Storybook'),
-    } as unknown) as BuilderContext)
+    } as unknown as BuilderContext)
   );
 }
 
