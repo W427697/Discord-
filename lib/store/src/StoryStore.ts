@@ -30,6 +30,7 @@ import type {
   V2CompatIndexEntry,
   StoryIndexV3,
   ModuleExports,
+  IndexEntry,
 } from './types';
 import { HooksContext } from './hooks';
 
@@ -219,35 +220,23 @@ export class StoryStore<TFramework extends AnyFramework> {
       .map((storyId: StoryId) => this.storyFromCSFFile({ storyId, csfFile }));
   }
 
-  async loadDocsFileById(
-    docsId: StoryId
-  ): Promise<{ docsExports: ModuleExports; csfFiles: CSFFile<TFramework>[] }> {
-    const { storyIndex } = this;
-    if (!storyIndex || !this.importFn)
-      throw new Error(`componentStoriesFromCSFFile called before initialization`);
+  async loadEntry(id: StoryId) {
+    const entry = await this.storyIdToEntry(id);
 
-    const entry = await this.storyIdToEntry(docsId);
-    if (entry.type !== 'docs') throw new Error(`Cannot load docs file for id ${docsId}`);
+    const { importFn, storyIndex } = this;
+    if (!storyIndex || !importFn) throw new Error(`loadEntry called before initialization`);
 
-    const { importPath, storiesImports } = entry;
+    const storyImports = entry.type === 'docs' ? entry.storiesImports : [];
 
-    const [docsExports, ...csfFiles] = (await Promise.all([
-      this.importFn(importPath),
-      ...storiesImports.map((storyImportPath) => {
+    const [entryExports, ...csfFiles] = (await Promise.all([
+      importFn(entry.importPath),
+      ...storyImports.map((storyImportPath) => {
         const firstStoryEntry = storyIndex.importPathToEntry(storyImportPath);
         return this.loadCSFFileByStoryId(firstStoryEntry.id);
       }),
     ])) as [ModuleExports, ...CSFFile<TFramework>[]];
 
-    return { docsExports, csfFiles };
-  }
-
-  async loadEntry(id: StoryId) {
-    const entry = await this.storyIdToEntry(id);
-    if (entry.type === 'docs' && entry.standalone) {
-      return this.loadDocsFileById(id);
-    }
-    return this.loadCSFFileByStoryId(id);
+    return { entryExports, csfFiles };
   }
 
   // A prepared story does not include args, globals or hooks. These are stored in the story store

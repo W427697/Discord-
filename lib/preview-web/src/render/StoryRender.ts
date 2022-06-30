@@ -20,6 +20,7 @@ import {
   STORY_RENDERED,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
+import { Render, RenderType } from './Render';
 
 const { AbortController } = global;
 
@@ -60,18 +61,6 @@ export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
 >;
 
 export const PREPARE_ABORTED = new Error('prepareAborted');
-
-export type RenderType = 'story' | 'docs';
-export interface Render<TFramework extends AnyFramework> {
-  type: RenderType;
-  id: StoryId;
-  story?: Story<TFramework>;
-  isPreparing: () => boolean;
-  disableKeyListeners: boolean;
-  teardown?: (options: { viewModeChanged: boolean }) => Promise<void>;
-  torndown: boolean;
-  renderToElement: (canvasElement: HTMLElement, renderStoryToElement?: any) => Promise<void>;
-}
 
 export class StoryRender<TFramework extends AnyFramework> implements Render<TFramework> {
   public type: RenderType = 'story';
@@ -136,8 +125,12 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
   }
 
   // The two story "renders" are equal and have both loaded the same story
-  isEqual(other?: Render<TFramework>) {
-    return other && this.id === other.id && this.story && this.story === other.story;
+  isEqual(other: Render<TFramework>): boolean {
+    return !!(
+      this.id === other.id &&
+      this.story &&
+      this.story === (other as StoryRender<TFramework>).story
+    );
   }
 
   isPreparing() {
