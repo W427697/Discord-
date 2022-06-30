@@ -28,15 +28,15 @@ const Handle = styled.div<{ isDragging: boolean; axis: Axis; reverse?: boolean }
   ({ theme, axis }) =>
     axis === 'x'
       ? {
-        height: '100%',
-        width: theme.layoutMargin,
-        marginLeft: 0,
-      }
+          height: '100%',
+          width: theme.layoutMargin,
+          marginLeft: 0,
+        }
       : {
-        height: theme.layoutMargin,
-        width: '100%',
-        marginTop: 0,
-      },
+          height: theme.layoutMargin,
+          width: '100%',
+          marginTop: 0,
+        },
   ({ axis, isDragging, reverse = false }) => {
     if (axis === 'y') {
       const style = {
@@ -48,10 +48,10 @@ const Handle = styled.div<{ isDragging: boolean; axis: Axis; reverse?: boolean }
       return isDragging
         ? style
         : {
-          ...style,
-          backgroundPosition: '50% 10px',
-          '&:hover': style,
-        };
+            ...style,
+            backgroundPosition: '50% 10px',
+            '&:hover': style,
+          };
     }
     if (axis === 'x') {
       const style = {
@@ -63,10 +63,10 @@ const Handle = styled.div<{ isDragging: boolean; axis: Axis; reverse?: boolean }
       return isDragging
         ? style
         : {
-          ...style,
-          backgroundPosition: '10px 50%',
-          '&:hover': style,
-        };
+            ...style,
+            backgroundPosition: '10px 50%',
+            '&:hover': style,
+          };
     }
     return {};
   }

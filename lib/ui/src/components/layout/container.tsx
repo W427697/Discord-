@@ -32,16 +32,16 @@ const Pane = styled.div<{
   ({ hidden }) =>
     hidden
       ? {
-        opacity: 0,
-      }
+          opacity: 0,
+        }
       : {
-        opacity: 1,
-      },
+          opacity: 1,
+        },
   ({ top }) =>
     top
       ? {
-        zIndex: 9,
-      }
+          zIndex: 9,
+        }
       : {},
   ({ border, theme }) => {
     switch (border) {
@@ -73,10 +73,10 @@ const Pane = styled.div<{
   ({ animate }) =>
     animate
       ? {
-        transition: ['width', 'height', 'top', 'left', 'background', 'opacity', 'transform']
-          .map((p) => `${p} 0.1s ease-out`)
-          .join(','),
-      }
+          transition: ['width', 'height', 'top', 'left', 'background', 'opacity', 'transform']
+            .map((p) => `${p} 0.1s ease-out`)
+            .join(','),
+        }
       : {}
 );
 
@@ -91,14 +91,14 @@ const Paper = styled.div<{ isFullscreen: boolean }>(
   ({ isFullscreen, theme }) =>
     isFullscreen
       ? {
-        boxShadow: 'none',
-        borderRadius: 0,
-      }
+          boxShadow: 'none',
+          borderRadius: 0,
+        }
       : {
-        borderRadius: theme.appBorderRadius,
-        overflow: 'hidden',
-        boxShadow: '0 1px 5px 0 rgba(0, 0, 0, 0.1)',
-      }
+          borderRadius: theme.appBorderRadius,
+          overflow: 'hidden',
+          boxShadow: '0 1px 5px 0 rgba(0, 0, 0, 0.1)',
+        }
 );
 
 export const Sidebar: FunctionComponent<{ hidden: boolean; position: CSSProperties }> = ({
@@ -196,17 +196,17 @@ const getPreviewPosition = ({
 
   return panelPosition === 'bottom'
     ? {
-      height: panelY - margin,
-      left: 0,
-      top: 0,
-      width: bounds.width - navX - 2 * margin,
-    }
+        height: panelY - margin,
+        left: 0,
+        top: 0,
+        width: bounds.width - navX - 2 * margin,
+      }
     : {
-      height: bounds.height - 2 * margin,
-      left: 0,
-      top: 0,
-      width: panelX - navX - margin,
-    };
+        height: bounds.height - 2 * margin,
+        left: 0,
+        top: 0,
+        width: panelX - navX - margin,
+      };
 };
 
 const getMainPosition = ({
@@ -276,17 +276,17 @@ const getPanelPosition = ({
 
   return isPanelBottom
     ? {
-      height: bounds.height - panelY - margin,
-      left: 0,
-      top: panelY - margin,
-      width: bounds.width - navX - 2 * margin,
-    }
+        height: bounds.height - panelY - margin,
+        left: 0,
+        top: panelY - margin,
+        width: bounds.width - navX - 2 * margin,
+      }
     : {
-      height: bounds.height - 2 * margin,
-      left: panelX - navX - margin,
-      top: 0,
-      width: bounds.width - panelX - margin,
-    };
+        height: bounds.height - 2 * margin,
+        left: panelX - navX - margin,
+        top: 0,
+        width: bounds.width - panelX - margin,
+      };
 };
 
 export interface BasePanelRenderProps {
@@ -543,17 +543,17 @@ class Layout extends Component<LayoutProps, LayoutState> {
             bounds={
               isPanelBottom
                 ? {
-                  left: 0,
-                  top: MIN_CANVAS_HEIGHT,
-                  right: 0,
-                  bottom: bounds.height - MIN_PANEL_HEIGHT,
-                }
+                    left: 0,
+                    top: MIN_CANVAS_HEIGHT,
+                    right: 0,
+                    bottom: bounds.height - MIN_PANEL_HEIGHT,
+                  }
                 : {
-                  left: isNavHidden ? MIN_CANVAS_WIDTH : navX + MIN_CANVAS_WIDTH,
-                  top: 0,
-                  right: bounds.width - MIN_PANEL_WIDTH,
-                  bottom: 0,
-                }
+                    left: isNavHidden ? MIN_CANVAS_WIDTH : navX + MIN_CANVAS_WIDTH,
+                    top: 0,
+                    right: bounds.width - MIN_PANEL_WIDTH,
+                    bottom: 0,
+                  }
             }
             onStart={this.setDragPanel}
             onDrag={this.resizePanel}
@@ -564,16 +564,16 @@ class Layout extends Component<LayoutProps, LayoutState> {
               style={
                 isPanelBottom
                   ? {
-                    left: navX + margin,
-                    width: bounds.width - navX - 2 * margin,
-                    marginTop: -margin,
-                  }
+                      left: navX + margin,
+                      width: bounds.width - navX - 2 * margin,
+                      marginTop: -margin,
+                    }
                   : {
-                    marginLeft: 1,
-                  }
+                      marginLeft: 1,
+                    }
               }
               axis={isPanelBottom ? 'y' : 'x'}
-              reverse={true}
+              reverse
             />
           </Draggable>
         )}
