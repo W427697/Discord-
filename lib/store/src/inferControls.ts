@@ -23,8 +23,6 @@ const inferControl = (argType: StrictInputType, name: string, matchers: Controls
       return { control: { type: 'color' } };
     }
 
-    /**
-     * @see https://github.com/storybookjs/storybook/issues/16322
      */
     if (controlType !== 'enum') {
       logger.warn(
