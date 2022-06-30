@@ -87,7 +87,9 @@ const ThemedSetRoot = () => {
 };
 
 export const decorators = [
-  (StoryFn, { globals: { theme = 'light' } }) => {
+  (StoryFn, { globals, parameters }) => {
+    const theme = globals.theme || parameters.theme || (isChromatic() ? 'stacked' : 'light');
+
     switch (theme) {
       case 'side-by-side': {
         return (
@@ -152,6 +154,7 @@ export const parameters = {
       restoreScroll: true,
     },
   },
+  actions: { argTypesRegex: '^on.*' },
   options: {
     storySort: (a, b) =>
       a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
@@ -198,7 +201,6 @@ export const globalTypes = {
   theme: {
     name: 'Theme',
     description: 'Global theme for components',
-    defaultValue: isChromatic() ? 'stacked' : 'light',
     toolbar: {
       icon: 'circlehollow',
       title: 'Theme',
@@ -222,7 +224,7 @@ export const globalTypes = {
         },
         previous: {
           label: 'Go to previous language',
-          keys: ['shift', 'L'],
+          keys: ['K'],
         },
         reset: {
           label: 'Reset language',
@@ -241,3 +243,6 @@ export const globalTypes = {
 };
 
 export const loaders = [async () => ({ globalValue: 1 })];
+
+export const argTypes = { color: { control: 'color' } };
+export const args = { color: 'red' };

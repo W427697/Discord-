@@ -3,6 +3,7 @@ import { enableProdMode, NgModule, PlatformRef } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { BehaviorSubject, Subject } from 'rxjs';
+import { stringify } from 'telejson';
 import { ICollection, StoryFnAngularReturnType } from '../types';
 import { Parameters } from '../types-6-0';
 import { createStorybookModule, getStorybookModuleMetadata } from './StorybookModule';
@@ -91,24 +92,27 @@ export abstract class AbstractRenderer {
    * @param forced {boolean} If :
    * - true render will only use the StoryFn `props' in storyProps observable that will update sotry's component/template properties. Improves performance without reloading the whole module&component if props changes
    * - false fully recharges or initializes angular module & component
+   * @param component {Component}
    * @param parameters {Parameters}
    */
   public async render({
     storyFnAngular,
     forced,
     parameters,
+    component,
     targetDOMNode,
   }: {
     storyFnAngular: StoryFnAngularReturnType;
     forced: boolean;
+    component?: any;
     parameters: Parameters;
     targetDOMNode: HTMLElement;
   }) {
-    const targetSelector = `${this.storyId}`;
+    const targetSelector = `${this.generateTargetSelectorFromStoryId()}`;
 
     const newStoryProps$ = new BehaviorSubject<ICollection>(storyFnAngular.props);
     const moduleMetadata = getStorybookModuleMetadata(
-      { storyFnAngular, parameters, targetSelector },
+      { storyFnAngular, component, targetSelector },
       newStoryProps$
     );
 
@@ -140,6 +144,26 @@ export abstract class AbstractRenderer {
     await this.afterFullRender();
   }
 
+  /**
+   * Only ASCII alphanumerics can be used as HTML tag name.
+   * https://html.spec.whatwg.org/#elements-2
+   *
+   * Therefore, stories break when non-ASCII alphanumerics are included in target selector.
+   * https://github.com/storybookjs/storybook/issues/15147
+   *
+   * This method returns storyId when it doesn't contain any non-ASCII alphanumerics.
+   * Otherwise, it generates a valid HTML tag name from storyId by removing non-ASCII alphanumerics from storyId, prefixing "sb-", and suffixing "-component"
+   * @protected
+   * @memberof AbstractRenderer
+   */
+  protected generateTargetSelectorFromStoryId() {
+    const invalidHtmlTag = /[^A-Za-z0-9-]/g;
+    const storyIdIsInvalidHtmlTagName = invalidHtmlTag.test(this.storyId);
+    return storyIdIsInvalidHtmlTagName
+      ? `sb-${this.storyId.replace(invalidHtmlTag, '')}-component`
+      : this.storyId;
+  }
+
   protected initAngularRootElement(targetDOMNode: HTMLElement, targetSelector: string) {
     // Adds DOM element that angular will use as bootstrap component
     // eslint-disable-next-line no-param-reassign
@@ -160,7 +184,7 @@ export abstract class AbstractRenderer {
 
     const currentStoryRender = {
       storyFnAngular,
-      moduleMetadataSnapshot: JSON.stringify(moduleMetadata),
+      moduleMetadataSnapshot: stringify(moduleMetadata),
     };
 
     this.previousStoryRenderInfo = currentStoryRender;
