@@ -66,5 +66,20 @@ describe('Link', () => {
       userEvent.click(screen.getByText('Content'), { shiftKey: true });
       expect(handleClick).not.toHaveBeenCalled();
     });
+
+    it('absolute hrefs should not be changed', () => {
+      render(<ThemedLink href="/test">Content</ThemedLink>);
+
+      const anchor = screen.getByText('Content');
+      expect(anchor.getAttribute('href')).toBe('/test');
+    });
+
+    it('anchor hrefs should have target=_self', () => {
+      render(<ThemedLink href="#test">Content</ThemedLink>);
+
+      const anchor = screen.getByText('Content');
+      expect(anchor.getAttribute('href')).toBe('#test');
+      expect(anchor.getAttribute('target')).toBe('_self');
+    });
   });
 });
