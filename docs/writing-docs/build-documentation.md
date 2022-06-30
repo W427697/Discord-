@@ -11,14 +11,18 @@ At any point during your development, you can preview the documentation you've w
 ```json
 {
   "scripts": {
-    "storybook-docs": "start-storybook --docs",
+    "storybook-docs": "start-storybook --docs --no-manager-cache",
   }
 }
 ```
 
+<div class="aside">
+💡 The <code>--no-manager-cache</code> flag is required to generate a successful preview of the documentation. But it comes with a cost as you're disabling Storybook's internal caching mechanism which can lead to increased loading times.
+</div>
+
 Depending on your configuration, when you execute the `storybook-docs` script. Storybook will be put into documentation mode and will generate a different build.
 
-It will look for any stories available either in [MDX](./mdx.md) or[CSF](../writing-stories/introduction.md#component-story-format) and based on the documentation you've added it will display it...
+It will look for any stories available either in [MDX](./mdx.md) or [CSF](../writing-stories/introduction.md#component-story-format) and based on the documentation you've added it will display it...
 
 ![Storybook in documentation mode](./storybook-docs-build.png)
 
@@ -30,7 +34,7 @@ There's some caveats to this build mode, as to the normal Storybook build:
 
 ## Publish Storybook's documentation
 
-You can also publish your documentation, the same you would [publish](../workflows/publish-storybook.md) your Storybook. You can use the `--docs` flag with `build-storybook` command. We recommend as well including it as a script in your `package.json` file:
+You can also publish your documentation, the same you would [publish](../sharing/publish-storybook.md) your Storybook. You can use the `--docs` flag with `build-storybook` command. We recommend as well including it as a script in your `package.json` file:
 
 ```json
 {

@@ -1,32 +1,39 @@
-import { StoryFn } from '@storybook/addons';
-import { RenderNgAppService } from './angular-beta/RenderNgAppService';
+import type { RenderContext } from '@storybook/store';
+import type { ArgsStoryFn } from '@storybook/csf';
 
 import { renderNgApp } from './angular/helpers';
-import { StoryFnAngularReturnType } from './types';
-import { Parameters } from './types-6-0';
+import type { AngularFramework } from './types-6-0';
 
-// add proper types
-export default function render({
-  storyFn,
-  showMain,
-  forceRender,
-  parameters,
-}: {
-  storyFn: StoryFn<StoryFnAngularReturnType>;
-  showMain: () => void;
-  forceRender: boolean;
-  parameters: Parameters;
-}) {
+import { RendererFactory } from './angular-beta/RendererFactory';
+
+export const rendererFactory = new RendererFactory();
+
+export const render: ArgsStoryFn<AngularFramework> = (props) => ({ props });
+
+export async function renderToDOM(
+  {
+    storyFn,
+    showMain,
+    forceRemount,
+    storyContext: { parameters, component },
+    id,
+  }: RenderContext<AngularFramework>,
+  element: HTMLElement
+) {
   showMain();
 
   if (parameters.angularLegacyRendering) {
-    renderNgApp(storyFn, forceRender);
+    renderNgApp(storyFn, !forceRemount);
     return;
   }
 
-  RenderNgAppService.getInstance().render({
+  const renderer = await rendererFactory.getRendererInstance(id, element);
+
+  await renderer.render({
     storyFnAngular: storyFn(),
+    component,
     parameters,
-    forced: forceRender,
+    forced: !forceRemount,
+    targetDOMNode: element,
   });
 }

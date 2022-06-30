@@ -1,13 +1,25 @@
 ```ts
-// Button.stories.tsx
+// Button.stories.ts|tsx
 
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
-import { Button, ButtonProps } from './Button';
+
+import { ComponentMeta } from '@storybook/react';
+
+import { Button } from './Button';
 
 export default {
-  title: 'Example/Button',
+  /* 👇 The title prop is optional.
+  * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
+  * to learn how to generate automatic titles
+  */
+  title: 'Button',
   component: Button,
-  decorators:  [(Story) => <div style={{ margin: '3em' }}><Story/></div>]
-} as Meta;
+  decorators: [
+    (Story) => (
+      <div style={{ margin: '3em' }}>
+        <Story />
+      </div>
+    ),
+  ],
+} as ComponentMeta<typeof Button>;
 ```

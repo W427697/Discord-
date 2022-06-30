@@ -12,7 +12,7 @@ const Note = styled.div(({ theme }) => ({
   whiteSpace: 'nowrap',
   pointerEvents: 'none',
   zIndex: -1,
-  background: 'rgba(0, 0, 0, 0.4)',
+  background: theme.base === 'light' ? 'rgba(60, 60, 60, 0.9)' : 'rgba(20, 20, 20, 0.85)',
   margin: 6,
 }));
 
@@ -20,6 +20,6 @@ export interface TooltipNoteProps {
   note: string;
 }
 
-export const TooltipNote: FunctionComponent<TooltipNoteProps> = ({ note }) => {
-  return <Note>{note}</Note>;
+export const TooltipNote: FunctionComponent<TooltipNoteProps> = ({ note, ...props }) => {
+  return <Note {...props}>{note}</Note>;
 };

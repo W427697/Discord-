@@ -2,8 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "./src",
-    "types": ["webpack-env"]
+    "types": ["webpack-env", "node"]
   },
   "include": ["src/**/*"],
-  "exclude": ["src/__tests__/**/*"]
+  "exclude": ["src/**/*.test.*", "src/__tests__/**/*"]
 }

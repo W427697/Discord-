@@ -1,9 +1,7 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { Fragment } from 'react';
-import { withKnobs, boolean, number } from '@storybook/addon-knobs';
-import { DecoratorFn } from '@storybook/react';
+import type { DecoratorFn } from '@storybook/react';
 
-import { isChromatic } from 'chromatic/isChromatic';
+import isChromatic from 'chromatic/isChromatic';
 
 import { Desktop, DesktopProps } from './desktop';
 
@@ -15,11 +13,10 @@ export default {
   component: Desktop,
   parameters: { passArgsFirst: false },
   decorators: [
-    withKnobs,
     ((StoryFn, c) => {
-      const mocked = boolean('mock', true);
-      const height = number('height', 900);
-      const width = number('width', 1200);
+      const mocked = true;
+      const height = 900;
+      const width = 1200;
 
       if (isChromatic) {
         store.local.set(`storybook-layout`, {});

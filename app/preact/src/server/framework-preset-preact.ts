@@ -1,6 +1,10 @@
-import { TransformOptions } from '@babel/core';
+import path from 'path';
+import type { TransformOptions } from '@babel/core';
+import type { Configuration } from 'webpack';
+import { findDistEsm } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/core-common';
 
-export function babelDefault(config: TransformOptions) {
+export function babelDefault(config: TransformOptions): TransformOptions {
   return {
     ...config,
     plugins: [
@@ -9,3 +13,22 @@ export function babelDefault(config: TransformOptions) {
     ],
   };
 }
+
+export function webpackFinal(config: Configuration): Configuration {
+  return {
+    ...config,
+    resolve: {
+      ...config.resolve,
+      alias: {
+        ...config.resolve.alias,
+        react: path.dirname(require.resolve('preact/compat/package.json')),
+        'react-dom/test-utils': path.dirname(require.resolve('preact/test-utils/package.json')),
+        'react-dom': path.dirname(require.resolve('preact/compat/package.json')),
+      },
+    },
+  };
+}
+
+export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
+  return [...entry, findDistEsm(__dirname, 'client/preview/config')];
+};

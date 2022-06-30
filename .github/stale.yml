@@ -4,6 +4,7 @@ daysUntilStale: 21
 daysUntilClose: 30
 # Issues with these labels will never be considered stale
 exemptLabels:
+  - linear
   - todo
   - ready
   - 'in progress'
@@ -11,7 +12,6 @@ exemptLabels:
   - 'needs review'
   - 'high priority'
   - 'good first issue'
-  - dependencies:update
 
 # Label to use when marking an issue as stale
 staleLabel: inactive

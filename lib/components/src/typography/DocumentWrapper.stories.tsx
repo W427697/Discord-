@@ -9,13 +9,13 @@ export default {
   decorators: [(storyFn: any) => <div style={{ width: '600px' }}>{storyFn()}</div>],
 };
 
-export const withMarkdown = () => (
+export const WithMarkdown = () => (
   <DocumentWrapper>
     <MarkdownSample />
   </DocumentWrapper>
 );
 
-export const withDOM = () => (
+export const WithDOM = () => (
   <DocumentWrapper>
     <h1>h1 Heading</h1>
     <h2>h2 Heading</h2>
@@ -41,6 +41,11 @@ export const withDOM = () => (
     </p>
     <p>
       <em>This is italic text</em>
+    </p>
+    <p>
+      <em>
+        <strong>This is bold italic text</strong>
+      </em>
     </p>
     <p>
       <s>Strikethrough</s>

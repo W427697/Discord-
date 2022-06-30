@@ -43,17 +43,15 @@ export const Page = ({ user, onLogin, onLogout, onCreateAccount }: PageProps) =>
       </ul>
       <p>
         Get a guided tutorial on component-driven development at
-        <a href="https://www.learnstorybook.com" target="_blank" rel="noopener noreferrer">
-          Learn Storybook
+        <a href="https://storybook.js.org/tutorials/" target="_blank" rel="noopener noreferrer">
+          Storybook tutorials
         </a>
         . Read more in the
-        <a href="https://storybook.js.org/docs" target="_blank" rel="noopener noreferrer">
-          docs
-        </a>
+        <a href="https://storybook.js.org/docs" target="_blank" rel="noopener noreferrer"> docs </a>
         .
       </p>
-      <div className="tip-wrapper">
-        <span className="tip">Tip</span> Adjust the width of the canvas with the
+      <div class="tip-wrapper">
+        <span class="tip">Tip</span> Adjust the width of the canvas with the
         <svg width="10" height="10" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
           <g fill="none" fillRule="evenodd">
             <path

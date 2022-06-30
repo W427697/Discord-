@@ -3,25 +3,34 @@
 
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
+import MyComponent from './MyComponent.vue';
+
 export default {
-  title: 'Stories',
+  /* 👇 The title prop is optional.
+  * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
+  * to learn how to generate automatic titles
+  */
+  title: 'MyComponent',
+  component: MyComponent,
   parameters: {
-    // the viewports object from the Essentials addon
+    //👇 The viewports object from the Essentials addon
     viewport: {
-      // the viewports you want to use
+      //👇 The viewports you want to use
       viewports: INITIAL_VIEWPORTS,
-      // your own default viewport
+
+      //👇 Your own default viewport
       defaultViewport: 'iphone6',
     },
   },
 };
 
-export const myStory = () => ({
-  template: '<div />',
+export const MyStory = () => ({
+  components: { MyComponent },
+  template: '<MyComponent />',
 });
-myStory.parameters = {
+MyStory.parameters = {
   viewport: {
-    defaultViewport: 'iphonex',
+    defaultViewport: 'iphonex'
   },
 };
 ```
