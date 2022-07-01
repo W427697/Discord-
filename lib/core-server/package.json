@@ -39,7 +39,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@aw-web-design/x-default-browser": "1.4.21",
+    "@aw-web-design/x-default-browser": "1.4.88",
     "@discoveryjs/json-ext": "^0.5.3",
     "@storybook/builder-webpack4": "6.5.0-rc.1",
     "@storybook/core-client": "6.5.0-rc.1",

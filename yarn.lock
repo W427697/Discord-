@@ -375,14 +375,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aw-web-design/x-default-browser@npm:1.4.21":
-  version: 1.4.21
-  resolution: "@aw-web-design/x-default-browser@npm:1.4.21"
+"@aw-web-design/x-default-browser@npm:1.4.88":
+  version: 1.4.88
+  resolution: "@aw-web-design/x-default-browser@npm:1.4.88"
   dependencies:
     default-browser-id: 3.0.0
   bin:
     x-default-browser: bin/x-default-browser.js
-  checksum: 6fcce58c722be94ee98bc7237d834c9626c3385f59ac776a7c58523c04d280b0d6f5d54c983d0a0b2d79e43c8792c11799f2d151b3c1744206aaa444f0c7e8d8
+  checksum: ae604e01aeb226b48cad226bfce55a88a12d759d139ede20aa71ee9ed94fefe912659678ae663bb277d9c02f281f62a965bdc0adf43817b0f95d397cbf97d8b2
   languageName: node
   linkType: hard
 
@@ -7666,7 +7666,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core-server@workspace:lib/core-server"
   dependencies:
-    "@aw-web-design/x-default-browser": 1.4.21
+    "@aw-web-design/x-default-browser": 1.4.88
     "@discoveryjs/json-ext": ^0.5.3
     "@storybook/builder-webpack4": 6.5.0-rc.1
     "@storybook/builder-webpack5": 6.5.0-rc.1
