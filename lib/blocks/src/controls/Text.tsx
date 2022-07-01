@@ -16,8 +16,6 @@ const MaxLength = styled.div<{ isMaxed: boolean }>(({ isMaxed }) => ({
   color: isMaxed ? 'red' : undefined,
 }));
 
-const format = (value?: TextValue) => value || '';
-
 export const TextControl: FC<TextProps> = ({
   name,
   value,
