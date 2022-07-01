@@ -2,11 +2,11 @@
 
 A Storybook release process based on [Semver](http://semver.org/). In short:
 
-1.  Merge all PRs into `next`, which is the default branch. Cherry-pick bugfix PRs into `master`, which is the stable release.
+1.  Merge all PRs into `next`, which is the default branch. Cherry-pick bugfix PRs into `main`, which is the stable release.
 
-2.  Every week: release patch releases off `master` to the NPM tag `latest`, and alpha releases off `next` to the NPM tag `next` (as e.g. `4.1.0-alpha.0`).
+2.  Every week: release patch releases off `main` to the NPM tag `latest`, and alpha releases off `next` to the NPM tag `next` (as e.g. `4.1.0-alpha.0`).
 
-3.  Every month or two, merge `next` into `master` and release a minor/major version according to `semver`. We set minor release dates as soon as we have feature clarity and manage to those dates:
+3.  Every month or two, merge `next` into `main` and release a minor/major version according to `semver`. We set minor release dates as soon as we have feature clarity and manage to those dates:
     - Date should be a Monday so if we slip we don't get pushed into the weekend
     - T-3wk:
       - Draft announcement and socialize
@@ -48,7 +48,7 @@ releases. We'll try our best to restrict breaking changes to MAJOR releases.
 Every bugfix should go out as soon as we've verified the fix, and based on the
 current rate of contribution, we should be issuing PATCH releases weekly.
 Eventually, we'll automate the process so that a release will go out every time a PR is
-merged into `master`, and we've already laid most of the groundwork for this.
+merged into `main`, and we've already laid most of the groundwork for this.
 
 ## MINOR releases
 
@@ -81,12 +81,11 @@ there gathering upvotes and "me too" comments. We need a way to make sure that
 these bugs get addressed.
 
 For every non-PATCH release, we nominate a small number of bugs that must be
-addressed before a release can go out by adding them to the milestone. For example, here's a list of blocking bugs [for the 3.2 milestone](https://github.com/storybookjs/storybook/milestone/3).
+addressed before a release can go out by adding them to the milestone. For example, here's a list of blocking bugs [for the 6.5 milestone](https://github.com/storybookjs/storybook/milestone/75).
 
 Adding bugs to the milestone helps people looking for good ways to contribute,
 or to understand what is blocking the release so they can actually do something
-about it. Discussion about which bugs are critical happens in the `#maintenance`
-channel [in our Slack](https://now-examples-slackin-rrirkqohko.now.sh/) [![Storybook Slack](https://now-examples-slackin-rrirkqohko.now.sh/badge.svg)](https://now-examples-slackin-rrirkqohko.now.sh/)
+about it. Discussion about which bugs are critical happens in the [`#maintenance` channel](https://discord.com/channels/486522875931656193/490070912448724992) in our Discord Server
 
 If you're experiencing a bug, the best way to make sure that it gets attention
 is to upvote it by adding a "thumbs-up" reaction in Github. This way important
@@ -114,5 +113,5 @@ in a patch release.
 #### How does my PR get merged?
 
 - For PATCH PR's, any maintainer can review, test, approve, and merge it.
-- For MINOR/MAJOR PR's, once a maintainer reviews, tests, and approves it, s/he should clear it with the other maintainers before merging it into the release branch.
+- For MINOR/MAJOR PR's, once a maintainer reviews, tests, and approves it, they should clear it with the other maintainers before merging it into the release branch.
 - Once a release date has been set and we cut off merging, we'll create a temporary branch to hold that release so that it doesn't block merging to `next`.

@@ -1,11 +1,13 @@
 import memoize from 'memoizerific';
-import { document, window as globalWindow, DOCS_MODE } from 'global';
+import global from 'global';
 import { SyntheticEvent } from 'react';
 import type { StoriesHash } from '@storybook/api';
 import { isRoot } from '@storybook/api';
 
 import { DEFAULT_REF_ID } from './data';
 import { Item, RefType, Dataset, SearchItem } from './types';
+
+const { document, window: globalWindow, DOCS_MODE } = global;
 
 export const createId = (itemId: string, refId?: string) =>
   !refId || refId === DEFAULT_REF_ID ? itemId : `${refId}_${itemId}`;
@@ -93,3 +95,8 @@ export const isAncestor = (element?: Element, maybeAncestor?: Element): boolean 
   if (element === maybeAncestor) return true;
   return isAncestor(element.parentElement, maybeAncestor);
 };
+
+export const removeNoiseFromName = (storyName: string) => storyName.replaceAll(/(\s|-|_)/gi, '');
+
+export const isStoryHoistable = (storyName: string, componentName: string) =>
+  removeNoiseFromName(storyName) === removeNoiseFromName(componentName);

@@ -1,9 +1,12 @@
 ```js
-// addon-panel/register.js
+// addon-panel/manager.js
 
 import React from 'react';
+
 import { AddonPanel } from '@storybook/components';
+
 import { addons, types } from '@storybook/addons';
+
 import { useGlobals } from '@storybook/api';
 
 addons.register('my/panel', () => {

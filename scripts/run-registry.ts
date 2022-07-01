@@ -1,4 +1,5 @@
 import { exec } from 'child_process';
+import { remove, pathExists } from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
 import program from 'commander';
@@ -56,12 +57,11 @@ const startVerdaccio = (port: number) => {
     }),
   ]);
 };
-const registryUrl = (command: string, url?: string) =>
+
+const registryUrlNPM = (url?: string) =>
   new Promise<string>((res, rej) => {
-    const args = url
-      ? ['config', 'set', 'npmRegistryServer', url]
-      : ['config', 'get', 'npmRegistryServer'];
-    exec(`${command} ${args.join(' ')}`, (e, stdout) => {
+    const args = url ? ['config', 'set', 'registry', url] : ['config', 'get', 'registry'];
+    exec(`npm ${args.join(' ')}`, { cwd: path.join(process.cwd(), '..') }, (e, stdout) => {
       if (e) {
         rej(e);
       } else {
@@ -70,8 +70,23 @@ const registryUrl = (command: string, url?: string) =>
     });
   });
 
+const registryUrlYarn = (url?: string) =>
+  new Promise<string>((res, rej) => {
+    const args = url
+      ? ['config', 'set', 'npmRegistryServer', url]
+      : ['config', 'get', 'npmRegistryServer'];
+    exec(`yarn ${args.join(' ')}`, { cwd: path.join(__dirname, '..') }, (e, stdout) => {
+      if (e) {
+        console.log(stdout.toString());
+        rej(e);
+      } else {
+        res(url || stdout.toString().trim());
+      }
+    });
+  });
+
 const registriesUrl = (yarnUrl?: string, npmUrl?: string) =>
-  Promise.all([registryUrl('yarn', yarnUrl), registryUrl('npm', npmUrl || yarnUrl)]);
+  Promise.all([registryUrlYarn(yarnUrl), registryUrlNPM(npmUrl || yarnUrl)]);
 
 const applyRegistriesUrl = (
   yarnUrl: string,
@@ -109,7 +124,12 @@ const publish = (packages: { name: string; location: string }[], url: string) =>
       limit(
         () =>
           new Promise((res, rej) => {
-            logger.log(`🛫 publishing ${name} (${location})`);
+            logger.log(
+              `🛫 publishing ${name} (${location.replace(
+                path.resolve(path.join(__dirname, '..')),
+                '.'
+              )})`
+            );
             const command = `cd ${location} && npm publish --registry ${url} --force --access restricted --ignore-scripts`;
             exec(command, (e) => {
               if (e) {
@@ -125,6 +145,19 @@ const publish = (packages: { name: string; location: string }[], url: string) =>
     )
   );
 };
+
+// const addUser = (url: string) =>
+//   new Promise((res, rej) => {
+//     logger.log(`👤 add temp user to verdaccio`);
+
+//     exec(`npx npm-cli-adduser -r "${url}" -a -u user -p password -e user@example.com`, (e) => {
+//       if (e) {
+//         rej(e);
+//       } else {
+//         res();
+//       }
+//     });
+//   });
 
 const run = async () => {
   const port = await freePort(program.port);
@@ -144,6 +177,16 @@ const run = async () => {
 
   logger.log(`📐 reading version of storybook`);
   logger.log(`🚛 listing storybook packages`);
+
+  if (!process.env.CI) {
+    // when running e2e locally, clear cache to avoid EPUBLISHCONFLICT errors
+    const verdaccioCache = path.resolve(__dirname, '..', '.verdaccio-cache');
+    if (await pathExists(verdaccioCache)) {
+      logger.log(`🗑 cleaning up cache`);
+      await remove(verdaccioCache);
+    }
+  }
+
   logger.log(`🎬 starting verdaccio (this takes ±5 seconds, so be patient)`);
 
   const [verdaccioServer, packages, version] = await Promise.all<any, Package[], string>([
@@ -161,6 +204,7 @@ const run = async () => {
     originalNpmRegistryUrl
   );
 
+  // first time running, you might need to enable this
   // await addUser(verdaccioUrl);
 
   logger.log(`📦 found ${packages.length} storybook packages at version ${chalk.blue(version)}`);

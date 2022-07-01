@@ -1,10 +1,15 @@
-import { DOCS_MODE, document } from 'global';
+import global from 'global';
 import pick from 'lodash/pick';
 import deepEqual from 'fast-deep-equal';
-import { themes, ThemeVars } from '@storybook/theming';
+import { create } from '@storybook/theming';
+import type { ThemeVars } from '@storybook/theming';
+import { once } from '@storybook/client-logger';
+import dedent from 'ts-dedent';
 
 import merge from '../lib/merge';
-import { State, ModuleFn } from '../index';
+import type { State, ModuleFn } from '../index';
+
+const { DOCS_MODE, document } = global;
 
 export type PanelPositions = 'bottom' | 'right';
 export type ActiveTabsType = 'sidebar' | 'canvas' | 'addons';
@@ -20,7 +25,12 @@ export interface Layout {
   showPanel: boolean;
   panelPosition: PanelPositions;
   showNav: boolean;
-  isToolshown: boolean;
+  showTabs: boolean;
+  showToolbar: boolean;
+  /**
+   * @deprecated
+   */
+  isToolshown?: boolean;
 }
 
 export interface UI {
@@ -66,14 +76,15 @@ const defaultState: SubState = {
   },
   layout: {
     initialActive: ActiveTabs.CANVAS,
-    isToolshown: !DOCS_MODE,
+    showToolbar: !DOCS_MODE,
     isFullscreen: false,
     showPanel: true,
     showNav: true,
     panelPosition: 'bottom',
+    showTabs: true,
   },
   selectedPanel: undefined,
-  theme: themes.light,
+  theme: create(),
 };
 
 export const focusableUIElements = {
@@ -82,7 +93,7 @@ export const focusableUIElements = {
   storyPanelRoot: 'storybook-panel-root',
 };
 
-export const init: ModuleFn = ({ store, provider }) => {
+export const init: ModuleFn = ({ store, provider, singleStory }) => {
   const api = {
     toggleFullscreen(toggled?: boolean) {
       return store.setState(
@@ -96,7 +107,7 @@ export const init: ModuleFn = ({ store, provider }) => {
             layout: {
               ...state.layout,
               isFullscreen: value,
-              showNav: shouldShowNav ? true : showNav,
+              showNav: !singleStory && shouldShowNav ? true : showNav,
             },
           };
         },
@@ -133,7 +144,7 @@ export const init: ModuleFn = ({ store, provider }) => {
               panelPosition: position,
             },
           }),
-          { persistence: 'session' }
+          { persistence: 'permanent' }
         );
       }
 
@@ -144,23 +155,24 @@ export const init: ModuleFn = ({ store, provider }) => {
             panelPosition: state.layout.panelPosition === 'right' ? 'bottom' : 'right',
           },
         }),
-        { persistence: 'session' }
+        { persistence: 'permanent' }
       );
     },
 
     toggleNav(toggled?: boolean) {
       return store.setState(
         (state: State) => {
-          const { showPanel, isFullscreen } = state.layout;
+          if (singleStory) return { layout: state.layout };
 
-          const value = typeof toggled !== 'undefined' ? toggled : !state.layout.showNav;
-          const shouldToggleFullScreen = showPanel === false && value === false;
+          const { showPanel, isFullscreen } = state.layout;
+          const showNav = typeof toggled !== 'undefined' ? toggled : !state.layout.showNav;
+          const shouldToggleFullScreen = showPanel === false && showNav === false;
 
           return {
             layout: {
               ...state.layout,
-              showNav: value,
-              isFullscreen: shouldToggleFullScreen ? true : isFullscreen,
+              showNav,
+              isFullscreen: shouldToggleFullScreen ? true : !showNav && isFullscreen,
             },
           };
         },
@@ -171,12 +183,12 @@ export const init: ModuleFn = ({ store, provider }) => {
     toggleToolbar(toggled?: boolean) {
       return store.setState(
         (state: State) => {
-          const value = typeof toggled !== 'undefined' ? toggled : !state.layout.isToolshown;
+          const value = typeof toggled !== 'undefined' ? toggled : !state.layout.showToolbar;
 
           return {
             layout: {
               ...state.layout,
-              isToolshown: value,
+              showToolbar: value,
             },
           };
         },
@@ -214,11 +226,21 @@ export const init: ModuleFn = ({ store, provider }) => {
     getInitialOptions() {
       const { theme, selectedPanel, ...options } = provider.getConfig();
 
+      if (options?.layout?.isToolshown !== undefined) {
+        once.warn(dedent`
+          The "isToolshown" option is deprecated. Please use "showToolbar" instead.
+
+          See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#renamed-istoolshown-to-showtoolbar
+        `);
+        options.layout.showToolbar = options.layout.isToolshown;
+      }
+
       return {
         ...defaultState,
         layout: {
           ...defaultState.layout,
           ...pick(options, Object.keys(defaultState.layout)),
+          ...(singleStory && { showNav: false }),
         },
         ui: {
           ...defaultState.ui,
@@ -236,6 +258,7 @@ export const init: ModuleFn = ({ store, provider }) => {
         const updatedLayout = {
           ...layout,
           ...pick(options, Object.keys(layout)),
+          ...(singleStory && { showNav: false }),
         };
 
         const updatedUi = {

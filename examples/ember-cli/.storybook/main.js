@@ -14,7 +14,6 @@ module.exports = {
     '@storybook/addon-docs',
     '@storybook/addon-controls',
     '@storybook/addon-links',
-    '@storybook/addon-knobs',
     '@storybook/addon-viewport',
     '@storybook/addon-backgrounds',
   ],
@@ -29,5 +28,11 @@ module.exports = {
   },
   core: {
     builder: 'webpack4',
+    channelOptions: { allowFunction: false, maxDepth: 10 },
+    disableTelemetry: true,
+  },
+  staticDirs: ['../ember-output'],
+  features: {
+    buildStoriesJson: true,
   },
 };

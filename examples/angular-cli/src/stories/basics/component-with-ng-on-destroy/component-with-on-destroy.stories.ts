@@ -4,7 +4,7 @@ import { Story, Meta } from '@storybook/angular';
 @Component({
   selector: 'on-destroy',
   template: `Current time: {{ time }} <br />
-    📝 The current time in console should no longer display after a change of stroy`,
+    📝 The current time in console should no longer display after a change of story`,
 })
 class OnDestroyComponent implements OnInit, OnDestroy {
   time: string;
@@ -31,7 +31,9 @@ export default {
   title: 'Basics / Component / with ngOnDestroy',
   component: OnDestroyComponent,
   parameters: {
-    storyshots: { disable: true }, // disabled due to new Date()
+    // disabled due to new Date()
+    storyshots: { disable: true },
+    chromatic: { disable: true },
   },
 } as Meta;
 

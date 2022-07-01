@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
-import { window as globalWindow, File } from 'global';
+import global from 'global';
 import React, { Fragment } from 'react';
 import { action, actions, configureActions } from '@storybook/addon-actions';
 import { Form } from '@storybook/components';
 
+const { window: globalWindow, File } = global;
 const { Button } = Form;
 
 export default {
@@ -75,8 +76,6 @@ export const CircularPayload = () => {
   circular.foo.circular = circular;
   return <Button onClick={() => action('circular')(circular)}>Circular Payload</Button>;
 };
-
-CircularPayload.storyName = 'Circular Payload';
 
 export const ReservedKeywordAsName = () => <Button onClick={action('delete')}>Delete</Button>;
 
@@ -185,7 +184,6 @@ export const LimitActionOutput = () => {
     </Fragment>
   );
 };
-LimitActionOutput.storyName = 'Limit Action Output';
 
 export const SkippedViaDisableTrue = () => (
   <Button onClick={action('hello-world')}>Hello World</Button>

@@ -8,7 +8,6 @@ module.exports = {
     '@storybook/addon-actions',
     '@storybook/addon-docs',
     '@storybook/addon-links',
-    '@storybook/addon-knobs',
     '@storybook/addon-viewport',
     '@storybook/addon-backgrounds',
     '@storybook/addon-a11y',
@@ -24,5 +23,11 @@ module.exports = {
   },
   core: {
     builder: 'webpack4',
+    channelOptions: { allowFunction: false, maxDepth: 10 },
+    disableTelemetry: true,
+  },
+  staticDirs: ['../public'],
+  features: {
+    buildStoriesJson: true,
   },
 };

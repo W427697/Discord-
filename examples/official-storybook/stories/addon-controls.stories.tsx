@@ -6,7 +6,7 @@ export default {
   component: Button,
   argTypes: {
     children: { control: 'text', name: 'Children', mapping: { basic: 'BASIC' } },
-    type: { control: 'text', name: 'Type' },
+    type: { name: 'Type', control: { type: 'text', maxLength: 32 } },
     json: { control: 'object', name: 'JSON' },
     imageUrls: { control: { type: 'file', accept: '.png' }, name: 'Image Urls' },
     label: {
@@ -28,15 +28,53 @@ export default {
         ],
       },
     },
+    mutuallyExclusiveA: { control: 'text', if: { arg: 'mutuallyExclusiveB', truthy: false } },
+    mutuallyExclusiveB: { control: 'text', if: { arg: 'mutuallyExclusiveA', truthy: false } },
+    colorMode: {
+      control: 'boolean',
+    },
+    dynamicText: {
+      if: { arg: 'colorMode', truthy: false },
+      control: 'text',
+    },
+    dynamicColor: {
+      if: { arg: 'colorMode' },
+      control: 'color',
+    },
+    advanced: {
+      control: 'boolean',
+    },
+    margin: {
+      control: 'number',
+      if: { arg: 'advanced' },
+    },
+    padding: {
+      control: 'number',
+      if: { arg: 'advanced' },
+    },
+    cornerRadius: {
+      control: 'number',
+      if: { arg: 'advanced' },
+    },
+    someText: { control: 'text' },
+    subText: { control: 'text', if: { arg: 'someText' } },
+    ifThemeExists: { control: 'text', if: { global: 'theme' } },
+    ifThemeNotExists: { control: 'text', if: { global: 'theme', exists: false } },
+    ifLightTheme: { control: 'text', if: { global: 'theme', eq: 'light' } },
+    ifNotLightTheme: { control: 'text', if: { global: 'theme', neq: 'light' } },
   },
-  parameters: { chromatic: { disable: true } },
+  parameters: {
+    chromatic: { disable: true },
+  },
 };
 
 const DEFAULT_NESTED_OBJECT = { a: 4, b: { c: 'hello', d: [1, 2, 3] } };
 
 const Template = (args) => (
-  <div>
-    <Button type={args.type}>{args.label || args.children}</Button>
+  <div style={args.background ? { background: args.background } : undefined}>
+    <Button type={args.type}>
+      {args.label?.type === 'b' ? <b>{args.children}</b> : args.children}
+    </Button>
     {args.json && <pre>{JSON.stringify(args.json, null, 2)}</pre>}
   </div>
 );
@@ -46,7 +84,10 @@ Basic.args = {
   children: 'basic',
   json: DEFAULT_NESTED_OBJECT,
 };
-Basic.parameters = { chromatic: { disable: false } };
+Basic.parameters = {
+  chromatic: { disable: false },
+  docs: { source: { state: 'open' } },
+};
 
 export const Action = Template.bind({});
 Action.args = {
@@ -57,7 +98,7 @@ Action.args = {
 
 export const ImageFileControl = (args) => <img src={args.imageUrls[0]} alt="Your Example Story" />;
 ImageFileControl.args = {
-  imageUrls: ['http://placehold.it/350x150'],
+  imageUrls: ['http://place-hold.it/350x150'],
 };
 
 export const CustomControls = Template.bind({});
@@ -78,12 +119,16 @@ const hasCycle: any = {};
 hasCycle.cycle = hasCycle;
 
 export const CyclicArgs = Template.bind({});
-CyclicArgs.args = {
-  hasCycle,
-};
+// No warnings in tests
+if (process.env.NODE_ENV !== 'test') {
+  CyclicArgs.args = {
+    hasCycle,
+  };
+}
 CyclicArgs.parameters = {
   docs: { disable: true },
   chromatic: { disable: true },
+  storyshots: { disable: true },
 };
 
 export const CustomControlMatchers = Template.bind({});
@@ -93,6 +138,7 @@ CustomControlMatchers.parameters = {
       date: /whateverIwant/,
     },
   },
+  docs: { source: { state: 'open' } },
 };
 CustomControlMatchers.args = {
   whateverIwant: '10/10/2020',
@@ -154,3 +200,8 @@ FilteredWithExcludeRegex.parameters = {
     exclude: /hello*/,
   },
 };
+
+// https://github.com/storybookjs/storybook/issues/14752
+export const MissingRadioOptions = Template.bind({});
+MissingRadioOptions.argTypes = { invalidRadio: { control: 'radio' } };
+MissingRadioOptions.args = { invalidRadio: 'someValue' };

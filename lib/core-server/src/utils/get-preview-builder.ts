@@ -1,14 +1,23 @@
 import path from 'path';
-import { getInterpretedFile, serverRequire, Options } from '@storybook/core-common';
-
-const DEFAULT_WEBPACK = 'webpack4';
+import { getInterpretedFile, serverRequire } from '@storybook/core-common';
+import type { Options } from '@storybook/core-common';
 
 export async function getPreviewBuilder(configDir: Options['configDir']) {
   const main = path.resolve(configDir, 'main');
   const mainFile = getInterpretedFile(main);
   const { core } = mainFile ? serverRequire(mainFile) : { core: null };
-  const builder = core?.builder || DEFAULT_WEBPACK;
-
-  const previewBuilder = await import(`@storybook/builder-${builder}`);
+  let builderPackage: string;
+  if (core?.builder) {
+    const builderName = typeof core.builder === 'string' ? core.builder : core.builder?.name;
+    builderPackage = require.resolve(
+      ['webpack4', 'webpack5'].includes(builderName)
+        ? `@storybook/builder-${builderName}`
+        : builderName,
+      { paths: [main] }
+    );
+  } else {
+    builderPackage = require.resolve('@storybook/builder-webpack4');
+  }
+  const previewBuilder = await import(builderPackage);
   return previewBuilder;
 }
