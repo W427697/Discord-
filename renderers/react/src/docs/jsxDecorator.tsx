@@ -179,7 +179,6 @@ export const jsxDecorator = (
 ) => {
   const channel = addons.getChannel();
   const skip = skipJsxRender(context);
-  const story = storyFn();
 
   let jsx = '';
 
@@ -189,6 +188,7 @@ export const jsxDecorator = (
     }
   });
 
+  const story = storyFn();
   // We only need to render JSX if the source block is actually going to
   // consume it. Otherwise it's just slowing us down.
   if (skip) {
