@@ -133,7 +133,7 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
               This story threw an error after it finished rendering which means your interactions
               couldn&apos;t be run. Go to this story&apos;s play function in {fileName} to fix.
             </CaughtExceptionDescription>
-            <CaughtExceptionStack>
+            <CaughtExceptionStack data-chromatic="ignore">
               {caughtException.stack || `${caughtException.name}: ${caughtException.message}`}
             </CaughtExceptionStack>
           </CaughtException>
