@@ -21,14 +21,21 @@ interface Options {
   watch?: boolean;
 }
 
+const makeExternalPredicate = (externals: string[]) => {
+  if (externals.length === 0) {
+    return () => false;
+  }
+  const pattern = new RegExp(`^(${externals.join('|')})($|/)`);
+  return (id: string) => pattern.test(id);
+};
+
 async function build(options: Options) {
   const { input, externals, cwd, optimized } = options;
   const setting: RollupOptions = {
     input,
-    external: externals,
+    external: makeExternalPredicate(externals),
     plugins: [
       nodeResolve({
-        browser: true,
         preferBuiltins: true,
       }),
       commonjs(),
@@ -162,11 +169,7 @@ async function dts({ input, externals, cwd, ...options }: Options) {
 
     // await fs.remove(path.join(cwd, 'dist/ts-tmp'));
 
-    await execa('node', [
-      path.join(__dirname, '../node_modules/.bin/downlevel-dts'),
-      'dist/ts3.9',
-      'dist/ts3.4',
-    ]);
+    await execa.command('yarn run -T downlevel-dts dist/ts3.9 dist/ts3.4');
   }
 }
 
