@@ -37,10 +37,19 @@
     "@storybook/addon-essentials": {
       "implicitDependencies": []
     },
+    "@storybook/addon-interactions": {
+      "implicitDependencies": []
+    },
     "@storybook/addon-jest": {
       "implicitDependencies": []
     },
     "@storybook/addon-links": {
+      "implicitDependencies": []
+    },
+    "@storybook/addon-measure": {
+      "implicitDependencies": []
+    },
+    "@storybook/addon-outline": {
       "implicitDependencies": []
     },
     "@storybook/addon-storyshots": {
@@ -61,13 +70,13 @@
     "@storybook/angular": {
       "implicitDependencies": []
     },
+    "@storybook/docs-tools": {
+      "implicitDependencies": []
+    },
     "@storybook/ember": {
       "implicitDependencies": []
     },
     "@storybook/html": {
-      "implicitDependencies": []
-    },
-    "@storybook/lit": {
       "implicitDependencies": []
     },
     "@storybook/manager-webpack4": {
@@ -130,6 +139,10 @@
     "@storybook/example-react-ts-webpack4": {
       "implicitDependencies": []
     },
+    "@storybook/external-docs": {
+      "implicitDependencies": []
+    },
+
     "server-kitchen-sink": {
       "implicitDependencies": []
     },
@@ -208,16 +221,25 @@
     "@storybook/core-server": {
       "implicitDependencies": []
     },
+    "@storybook/instrumenter": {
+      "implicitDependencies": []
+    },
     "@storybook/node-logger": {
       "implicitDependencies": []
     },
     "@storybook/postinstall": {
       "implicitDependencies": []
     },
+    "@storybook/store": {
+      "implicitDependencies": []
+    },
     "@storybook/router": {
       "implicitDependencies": []
     },
     "@storybook/source-loader": {
+      "implicitDependencies": []
+    },
+    "@storybook/telemetry": {
       "implicitDependencies": []
     },
     "@storybook/theming": {
@@ -227,6 +249,9 @@
       "implicitDependencies": []
     },
     "@storybook/ui": {
+      "implicitDependencies": []
+    },
+    "@storybook/preview-web": {
       "implicitDependencies": []
     }
   },

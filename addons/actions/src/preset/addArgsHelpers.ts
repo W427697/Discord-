@@ -1,5 +1,4 @@
-import { Args } from '@storybook/addons';
-import { ArgsEnhancer } from '@storybook/client-api';
+import type { Args, AnyFramework, ArgsEnhancer } from '@storybook/csf';
 import { action } from '../index';
 
 // interface ActionsParameter {
@@ -7,15 +6,19 @@ import { action } from '../index';
 //   argTypesRegex?: RegExp;
 // }
 
+const isInInitialArgs = (name: string, initialArgs: Args) =>
+  typeof initialArgs[name] === 'undefined' && !(name in initialArgs);
+
 /**
  * Automatically add action args for argTypes whose name
  * matches a regex, such as `^on.*` for react-style `onClick` etc.
  */
 
-export const inferActionsFromArgTypesRegex: ArgsEnhancer = (context) => {
+export const inferActionsFromArgTypesRegex: ArgsEnhancer<AnyFramework> = (context) => {
   const {
-    parameters: { actions },
+    initialArgs,
     argTypes,
+    parameters: { actions },
   } = context;
   if (!actions || actions.disable || !actions.argTypesRegex || !argTypes) {
     return {};
@@ -27,7 +30,9 @@ export const inferActionsFromArgTypesRegex: ArgsEnhancer = (context) => {
   );
 
   return argTypesMatchingRegex.reduce((acc, [name, argType]) => {
-    acc[name] = action(name);
+    if (isInInitialArgs(name, initialArgs)) {
+      acc[name] = action(name);
+    }
     return acc;
   }, {} as Args);
 };
@@ -35,8 +40,9 @@ export const inferActionsFromArgTypesRegex: ArgsEnhancer = (context) => {
 /**
  * Add action args for list of strings.
  */
-export const addActionsFromArgTypes: ArgsEnhancer = (context) => {
+export const addActionsFromArgTypes: ArgsEnhancer<AnyFramework> = (context) => {
   const {
+    initialArgs,
     argTypes,
     parameters: { actions },
   } = context;
@@ -47,7 +53,9 @@ export const addActionsFromArgTypes: ArgsEnhancer = (context) => {
   const argTypesWithAction = Object.entries(argTypes).filter(([name, argType]) => !!argType.action);
 
   return argTypesWithAction.reduce((acc, [name, argType]) => {
-    acc[name] = action(typeof argType.action === 'string' ? argType.action : name);
+    if (isInInitialArgs(name, initialArgs)) {
+      acc[name] = action(typeof argType.action === 'string' ? argType.action : name);
+    }
     return acc;
   }, {} as Args);
 };

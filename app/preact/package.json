@@ -1,11 +1,11 @@
 {
   "name": "@storybook/preact",
-  "version": "6.3.0-beta.4",
+  "version": "6.5.0-rc.1",
   "description": "Storybook for Preact: Develop Preact Component in isolation.",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/app/preact",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/app/preact",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -24,7 +24,7 @@
   "types": "dist/ts3.9/client/index.d.ts",
   "typesVersions": {
     "<3.8": {
-      "*": [
+      "dist/ts3.9/*": [
         "dist/ts3.4/*"
       ]
     }
@@ -46,9 +46,12 @@
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx": "^7.12.12",
-    "@storybook/addons": "6.3.0-beta.4",
-    "@storybook/core": "6.3.0-beta.4",
-    "@storybook/core-common": "6.3.0-beta.4",
+    "@storybook/addons": "6.5.0-rc.1",
+    "@storybook/core": "6.5.0-rc.1",
+    "@storybook/core-common": "6.5.0-rc.1",
+    "@storybook/csf": "0.0.2--canary.4566f4d.1",
+    "@storybook/store": "6.5.0-rc.1",
+    "@types/node": "^14.14.20 || ^16.0.0",
     "@types/webpack-env": "^1.16.0",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
@@ -56,15 +59,16 @@
     "react-dom": "16.14.0",
     "read-pkg-up": "^7.0.1",
     "regenerator-runtime": "^0.13.7",
-    "ts-dedent": "^2.0.0"
+    "ts-dedent": "^2.0.0",
+    "webpack": ">=4.0.0 <6.0.0"
   },
   "devDependencies": {
-    "preact": "^10.5.13"
+    "preact": "^10.5.13",
+    "webpack": "4"
   },
   "peerDependencies": {
     "@babel/core": "*",
-    "preact": "^8.0.0||^10.0.0",
-    "webpack": "*"
+    "preact": "^8.0.0||^10.0.0"
   },
   "engines": {
     "node": ">=10.13.0"
@@ -72,6 +76,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "f4d1305d01e935c368d91a6316e2144e601d8ee0",
+  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
   "sbmodern": "dist/modern/client/index.js"
 }

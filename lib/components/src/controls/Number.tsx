@@ -2,7 +2,7 @@ import React, { FC, ChangeEvent, useState, useCallback, useEffect, useRef } from
 import { styled } from '@storybook/theming';
 
 import { Form } from '../form';
-import { getControlId } from './helpers';
+import { getControlId, getControlSetterButtonId } from './helpers';
 import { ControlProps, NumberValue, NumberConfig } from './types';
 
 const Wrapper = styled.label({
@@ -30,7 +30,7 @@ export const NumberControl: FC<NumberProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState(typeof value === 'number' ? value : '');
   const [forceVisible, setForceVisible] = useState(false);
-  const [parseError, setParseError] = useState(false);
+  const [parseError, setParseError] = useState<Error>(null);
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -38,10 +38,10 @@ export const NumberControl: FC<NumberProps> = ({
 
       const result = parseFloat(event.target.value);
       if (Number.isNaN(result)) {
-        setParseError(true);
+        setParseError(new Error(`'${event.target.value}' is not a number`));
       } else {
         onChange(result);
-        setParseError(false);
+        setParseError(null);
       }
     },
     [onChange, setParseError]
@@ -58,8 +58,19 @@ export const NumberControl: FC<NumberProps> = ({
     if (forceVisible && htmlElRef.current) htmlElRef.current.select();
   }, [forceVisible]);
 
+  useEffect(() => {
+    const newInputValue = typeof value === 'number' ? value : '';
+    if (inputValue !== newInputValue) {
+      setInputValue(value);
+    }
+  }, [value]);
+
   if (!forceVisible && value === undefined) {
-    return <Form.Button onClick={onForceVisible}>Set number</Form.Button>;
+    return (
+      <Form.Button id={getControlSetterButtonId(name)} onClick={onForceVisible}>
+        Set number
+      </Form.Button>
+    );
   }
 
   return (

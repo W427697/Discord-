@@ -25,12 +25,24 @@
       "root": "addons/essentials",
       "type": "library"
     },
+    "@storybook/addon-interactions": {
+      "root": "addons/interactions",
+      "type": "library"
+    },
     "@storybook/addon-jest": {
       "root": "addons/jest",
       "type": "library"
     },
     "@storybook/addon-links": {
       "root": "addons/links",
+      "type": "library"
+    },
+    "@storybook/addon-measure": {
+      "root": "addons/measure",
+      "type": "library"
+    },
+    "@storybook/addon-outline": {
+      "root": "addons/outline",
       "type": "library"
     },
     "@storybook/addon-storyshots": {
@@ -57,16 +69,16 @@
       "root": "app/angular",
       "type": "library"
     },
+    "@storybook/docs-tools": {
+      "root": "lib/docs-tools",
+      "type": "library"
+    },
     "@storybook/ember": {
       "root": "app/ember",
       "type": "library"
     },
     "@storybook/html": {
       "root": "app/html",
-      "type": "library"
-    },
-    "@storybook/lit": {
-      "root": "app/lit",
       "type": "library"
     },
     "@storybook/manager-webpack4": {
@@ -147,6 +159,10 @@
     },
     "@storybook/example-react-ts-webpack4": {
       "root": "examples/react-ts-webpack4",
+      "type": "library"
+    },
+    "@storybook/external-docs": {
+      "root": "examples/external-docs",
       "type": "library"
     },
     "server-kitchen-sink": {
@@ -253,6 +269,10 @@
       "root": "lib/core-server",
       "type": "library"
     },
+    "@storybook/instrumenter": {
+      "root": "lib/instrumenter",
+      "type": "library"
+    },
     "@storybook/node-logger": {
       "root": "lib/node-logger",
       "type": "library"
@@ -269,6 +289,14 @@
       "root": "lib/source-loader",
       "type": "library"
     },
+    "@storybook/store": {
+      "root": "lib/store",
+      "type": "library"
+    },
+    "@storybook/telemetry": {
+      "root": "lib/telemetry",
+      "type": "library"
+    },
     "@storybook/theming": {
       "root": "lib/theming",
       "type": "library"
@@ -279,6 +307,10 @@
     },
     "@storybook/ui": {
       "root": "lib/ui",
+      "type": "library"
+    },
+    "@storybook/preview-web": {
+      "root": "lib/preview-web",
       "type": "library"
     }
   }

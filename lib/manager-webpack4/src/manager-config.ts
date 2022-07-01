@@ -6,8 +6,8 @@ import fetch from 'node-fetch';
 import deprecate from 'util-deprecate';
 import dedent from 'ts-dedent';
 
-import { Configuration } from 'webpack';
-import { Ref, Options } from '@storybook/core-common';
+import type { Configuration } from 'webpack';
+import type { Ref, Options } from '@storybook/core-common';
 
 export const getAutoRefs = async (
   options: Options,
@@ -70,8 +70,6 @@ const deprecatedDefinedRefDisabled = deprecate(
 
 export async function getManagerWebpackConfig(options: Options): Promise<Configuration> {
   const { presets } = options;
-  const typescriptOptions = await presets.apply('typescript', {}, options);
-  const babelOptions = await presets.apply('babel', {}, { ...options, typescriptOptions });
 
   const definedRefs: Record<string, any> | undefined = await presets.apply(
     'refs',
@@ -132,7 +130,7 @@ export async function getManagerWebpackConfig(options: Options): Promise<Configu
     });
   }
 
-  if (autoRefs || definedRefs) {
+  if ((autoRefs && autoRefs.length) || definedRefs) {
     entries.push(path.resolve(path.join(options.configDir, `generated-refs.js`)));
 
     // verify the refs are publicly reachable, if they are not we'll require stories.json at runtime, otherwise the ref won't work
@@ -145,5 +143,5 @@ export async function getManagerWebpackConfig(options: Options): Promise<Configu
     );
   }
 
-  return presets.apply('managerWebpack', {}, { ...options, babelOptions, entries, refs }) as any;
+  return presets.apply('managerWebpack', {}, { ...options, entries, refs }) as any;
 }

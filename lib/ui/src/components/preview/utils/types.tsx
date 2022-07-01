@@ -7,11 +7,13 @@ export interface PreviewProps {
   api: API;
   viewMode: ViewMode;
   refs: State['refs'];
+  storyId: Story['id'];
   story: Group | Story;
   docsOnly: boolean;
   options: {
     isFullscreen: boolean;
-    isToolshown: boolean;
+    showTabs: boolean;
+    showToolbar: boolean;
   };
   id: string;
   path: string;
