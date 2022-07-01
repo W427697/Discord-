@@ -85,7 +85,7 @@ jest.mock('react-dom');
 jest.mock('./WebView');
 
 const serializeError = (error: Error) => {
-  const { name, message, stack } = error;
+  const { name = 'Error', message = String(error), stack } = error;
   return { name, message, stack };
 };
 
