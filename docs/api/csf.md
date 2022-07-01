@@ -44,7 +44,6 @@ With CSF, every named export in the file represents a story object by default.
     'react/my-component-story-basic-and-props.ts.mdx',
     'vue/my-component-story-basic-and-props.js.mdx',
     'svelte/my-component-story-basic-and-props.js.mdx',
-    'svelte/my-component-story-basic-and-props.native-format.mdx',
     'angular/my-component-story-basic-and-props.ts.mdx',
   ]}
 />
@@ -92,7 +91,6 @@ Consider Storybook’s ["Button" example](../writing-stories/introduction.md#def
     'vue/button-story-click-handler.2.js.mdx',
     'vue/button-story-click-handler.3.js.mdx',
     'svelte/button-story-click-handler.js.mdx',
-    'svelte/button-story-click-handler.native-format.mdx',
     'angular/button-story-click-handler.ts.mdx',
   ]}
 />
@@ -125,7 +123,6 @@ Or even more simply:
     'react/button-story-click-handler-simplificated.js.mdx',
     'angular/button-story-click-handler-simplificated.ts.mdx',
     'vue/button-story-click-handler-simplificated.js.mdx',
-    'svelte/button-story-click-handler-simplificated.native-format.mdx',
   ]}
 />
 
