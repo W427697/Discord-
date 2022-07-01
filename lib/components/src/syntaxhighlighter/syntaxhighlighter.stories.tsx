@@ -96,6 +96,7 @@ storiesOf('Basics/SyntaxHighlighter', module)
     </SyntaxHighlighter>
   ))
   .add('unsupported', () => (
+    /* @ts-expect-error We want to pass unsupported language here */
     <SyntaxHighlighter language="C#" bordered copyable>
       {`
         // A Hello World! program in C#.
@@ -121,6 +122,7 @@ storiesOf('Basics/SyntaxHighlighter', module)
     const theme = ensure(themes.dark);
     return (
       <ThemeProvider theme={theme}>
+        {/* @ts-expect-error We want to pass unsupported language here */}
         <SyntaxHighlighter bordered language="C#" copyable>
           {`
             // A Hello World! program in C#.

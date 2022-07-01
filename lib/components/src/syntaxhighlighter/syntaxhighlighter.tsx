@@ -1,34 +1,12 @@
+/* eslint-disable react/no-array-index-key */
 import React, { ClipboardEvent, FunctionComponent, MouseEvent, useCallback, useState } from 'react';
 import { logger } from '@storybook/client-logger';
-import { styled } from '@storybook/theming';
+import { styled, ClassNames, useTheme } from '@storybook/theming';
 import global from 'global';
-import memoize from 'memoizerific';
-
-// @ts-ignore
-import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx';
-// @ts-ignore
-import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
-// @ts-ignore
-import css from 'react-syntax-highlighter/dist/esm/languages/prism/css';
-// @ts-ignore
-import jsExtras from 'react-syntax-highlighter/dist/esm/languages/prism/js-extras';
-// @ts-ignore
-import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
-// @ts-ignore
-import graphql from 'react-syntax-highlighter/dist/esm/languages/prism/graphql';
-// @ts-ignore
-import html from 'react-syntax-highlighter/dist/esm/languages/prism/markup';
-// @ts-ignore
-import md from 'react-syntax-highlighter/dist/esm/languages/prism/markdown';
-// @ts-ignore
-import yml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
-// @ts-ignore
-import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
-// @ts-ignore
-import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
-
-// @ts-ignore
-import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-light';
+import Highlight, { defaultProps, Language } from 'prism-react-renderer';
+// Use pre-defined themes for backward compatibility
+import lightTheme from 'prism-react-renderer/themes/vsLight';
+import darkTheme from 'prism-react-renderer/themes/vsDark';
 
 import { ActionBar } from '../ActionBar/ActionBar';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
@@ -36,22 +14,6 @@ import { ScrollArea } from '../ScrollArea/ScrollArea';
 import type { SyntaxHighlighterProps } from './syntaxhighlighter-types';
 
 const { navigator, document, window: globalWindow } = global;
-
-ReactSyntaxHighlighter.registerLanguage('jsextra', jsExtras);
-ReactSyntaxHighlighter.registerLanguage('jsx', jsx);
-ReactSyntaxHighlighter.registerLanguage('json', json);
-ReactSyntaxHighlighter.registerLanguage('yml', yml);
-ReactSyntaxHighlighter.registerLanguage('md', md);
-ReactSyntaxHighlighter.registerLanguage('bash', bash);
-ReactSyntaxHighlighter.registerLanguage('css', css);
-ReactSyntaxHighlighter.registerLanguage('html', html);
-ReactSyntaxHighlighter.registerLanguage('tsx', tsx);
-ReactSyntaxHighlighter.registerLanguage('typescript', typescript);
-ReactSyntaxHighlighter.registerLanguage('graphql', graphql);
-
-const themedSyntax = memoize(2)((theme) =>
-  Object.entries(theme.code || {}).reduce((acc, [key, val]) => ({ ...acc, [`* .${key}`]: val }), {})
-);
 
 const copyToClipboard: (text: string) => Promise<void> = createCopyToClipboardFunction();
 
@@ -88,7 +50,7 @@ const Wrapper = styled.div<WrapperProps>(
     bordered
       ? {
           border: `1px solid ${theme.appBorderColor}`,
-          borderRadius: theme.borderRadius,
+          borderRadius: theme.appBorderRadius,
           background: theme.background.content,
         }
       : {}
@@ -98,12 +60,9 @@ const Scroller = styled(({ children, className }) => (
   <ScrollArea horizontal vertical className={className}>
     {children}
   </ScrollArea>
-))(
-  {
-    position: 'relative',
-  },
-  ({ theme }) => themedSyntax(theme)
-);
+))({
+  position: 'relative',
+});
 
 export interface PreProps {
   padded?: boolean;
@@ -113,25 +72,41 @@ const Pre = styled.pre<PreProps>(({ theme, padded }) => ({
   display: 'flex',
   justifyContent: 'flex-start',
   margin: 0,
-  padding: padded ? theme.layoutMargin : 0,
+  // This is copied from global styles since we don't want to rely on cascade
+  padding: padded ? theme.layoutMargin : '11px 1rem',
+  fontFamily: theme.typography.fonts.mono,
+  fontSize: theme.typography.size.s2 - 1,
+  lineHeight: '18px',
+  WebkitFontSmoothing: 'antialiased',
+  MozOsxFontSmoothing: 'grayscale',
+  whiteSpace: 'pre-wrap',
 }));
 
-/*
-We can't use `code` since PrismJS races for it.
-See https://github.com/storybookjs/storybook/issues/18090
- */
-const Code = styled.div(({ theme }) => ({
+const Code = styled.code(({ theme }) => ({
   flex: 1,
-  paddingLeft: 2, // TODO: To match theming/global.ts for now
   paddingRight: theme.layoutMargin,
   opacity: 1,
 }));
 
+const Line = styled.div({
+  display: 'table-row',
+});
+
+const LineNo = styled.span({
+  display: 'table-cell',
+  textAlign: 'right',
+  paddingRight: '1em',
+  userSelect: 'none',
+  opacity: '0.25',
+});
+
+const LineContent = styled.span({
+  display: 'table-cell',
+});
+
 export interface SyntaxHighlighterState {
   copied: boolean;
 }
-
-// copied from @types/react-syntax-highlighter/index.d.ts
 
 export const SyntaxHighlighter: FunctionComponent<SyntaxHighlighterProps> = ({
   children,
@@ -141,7 +116,7 @@ export const SyntaxHighlighter: FunctionComponent<SyntaxHighlighterProps> = ({
   padded = false,
   format = true,
   formatter = null,
-  className = null,
+  className,
   showLineNumbers = false,
   ...rest
 }) => {
@@ -166,31 +141,66 @@ export const SyntaxHighlighter: FunctionComponent<SyntaxHighlighterProps> = ({
         })
         .catch(logger.error);
     },
-    []
+    [highlightableCode]
   );
 
-  return (
-    <Wrapper bordered={bordered} padded={padded} className={className} onCopyCapture={onClick}>
-      <Scroller>
-        <ReactSyntaxHighlighter
-          padded={padded || bordered}
-          language={language}
-          showLineNumbers={showLineNumbers}
-          showInlineLineNumbers={showLineNumbers}
-          useInlineStyles={false}
-          PreTag={Pre}
-          CodeTag={Code}
-          lineNumberContainerStyle={{}}
-          {...rest}
-        >
-          {highlightableCode}
-        </ReactSyntaxHighlighter>
-      </Scroller>
+  const theme = useTheme();
+  // For now, resolve to static themes based on current color scheme.
+  // In the future we can rely on CSS vars.
+  const prismTheme = theme.base === 'dark' ? darkTheme : lightTheme;
 
-      {copyable ? (
-        <ActionBar actionItems={[{ title: copied ? 'Copied' : 'Copy', onClick }]} />
-      ) : null}
-    </Wrapper>
+  return (
+    <div>
+      <Wrapper bordered={bordered} padded={padded} className={className} onCopyCapture={onClick}>
+        <Scroller>
+          <Highlight
+            {...defaultProps}
+            theme={prismTheme}
+            code={highlightableCode}
+            language={language as Language}
+          >
+            {({ className: cn, style, tokens, getLineProps, getTokenProps }) => (
+              <ClassNames>
+                {({ css, cx }) => (
+                  // Convert inline styles to class names
+                  <Pre padded={padded} className={cx(cn, css(style))}>
+                    <Code>
+                      {tokens.map((line, i) => {
+                        const lineProps = getLineProps({ line });
+                        return (
+                          // Convert inline styles to class names
+                          <Line key={i} className={cx(lineProps.className, css(lineProps.style))}>
+                            {showLineNumbers && <LineNo>{i + 1}</LineNo>}
+                            <LineContent>
+                              {line.map((token, key) => {
+                                const tokenProps = getTokenProps({ token, key });
+                                return (
+                                  <span
+                                    key={key}
+                                    // Convert inline styles to class names
+                                    className={cx(tokenProps.className, css(tokenProps.style))}
+                                  >
+                                    {tokenProps.children}
+                                  </span>
+                                );
+                              })}
+                            </LineContent>
+                          </Line>
+                        );
+                      })}
+                    </Code>
+                  </Pre>
+                )}
+              </ClassNames>
+            )}
+          </Highlight>
+        </Scroller>
+
+        {copyable ? (
+          <ActionBar actionItems={[{ title: copied ? 'Copied' : 'Copy', onClick }]} />
+        ) : null}
+      </Wrapper>
+    </div>
   );
 };
 

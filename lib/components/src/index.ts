@@ -34,7 +34,6 @@ export { DocumentWrapper } from './typography/DocumentWrapper';
 export type {
   SyntaxHighlighterFormatTypes,
   SyntaxHighlighterProps,
-  SyntaxHighlighterRendererProps,
 } from './syntaxhighlighter/syntaxhighlighter-types';
 export { SyntaxHighlighter } from './syntaxhighlighter/lazy-syntaxhighlighter';
 export { createCopyToClipboardFunction } from './syntaxhighlighter/syntaxhighlighter';
