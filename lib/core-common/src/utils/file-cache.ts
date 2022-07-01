@@ -1,4 +1,3 @@
-// @ts-ignore - this package has no typings, so we wrap it and add typings that way, because we expose it
 import Cache from 'file-system-cache';
 
 export interface Options {
