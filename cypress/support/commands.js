@@ -98,13 +98,15 @@ Cypress.Commands.add('navigateToStory', (kind, name) => {
   cy.log(`navigateToStory ${kind} ${name}`);
 
   // Section might be collapsed
-  cy.get(`#${kindId}`).then(async ($item) => {
-    if ($item.attr('aria-expanded') === 'false') {
-      await $item.click();
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(300);
-    }
-  });
+  if (Cypress.$(`#${kindId}`).length) {
+    cy.get(`#${kindId}`).then(async ($item) => {
+      if ($item.attr('aria-expanded') === 'false') {
+        await $item.click();
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(300);
+      }
+    });
+  }
 
   cy.get(storyLinkId).click({ force: true });
 
