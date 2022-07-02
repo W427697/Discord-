@@ -53,6 +53,7 @@ It allows you to browse a component library, view the different states of each c
   View README for:<br/>
   <a href="https://github.com/storybookjs/storybook/blob/main/README.md" title="latest"><img alt="latest" src="https://img.shields.io/npm/v/@storybook/core/latest?style=for-the-badge&logo=storybook&logoColor=ffffff&color=ff4785" /></a>
   <a href="https://github.com/storybookjs/storybook/blob/next/README.md" title="next"><img alt="next" src="https://img.shields.io/npm/v/@storybook/core/next?style=for-the-badge&logo=storybook&logoColor=ffffff&color=purple" /></a>
+  <a href="https://github.com/storybookjs/storybook/blob/future/base/README.md" title="future"><img alt="future" src="https://img.shields.io/npm/v/@storybook/core-common/future?style=for-the-badge&logo=storybook&logoColor=ffffff&color=black" /></a>
 </p>
 
 ## Table of contents
