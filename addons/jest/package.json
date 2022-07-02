@@ -66,7 +66,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "24725501c32a073cebc6bf2674a47357136fbe3a",
+  "gitHead": "84577258bbf1aec8cd98562854f7b228c5cc203c",
   "storybook": {
     "displayName": "Jest",
     "icon": "https://pbs.twimg.com/profile_images/821713465245102080/mMtKIMax_400x400.jpg",
