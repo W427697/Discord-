@@ -20,10 +20,17 @@ export const TabbedArgsTable: FC<TabbedArgsTableProps> = ({ tabs, ...props }) =>
       {entries.map((entry) => {
         const [label, table] = entry;
         const id = `prop_table_div_${label}`;
-        return ({ active }: { active: boolean }) => (
-          <div key={id} id={id} title={label}>
-            {active ? <ArgsTable key={`prop_table_${label}`} {...table} {...props} /> : null}
-          </div>
+        const Component = 'div' as unknown as React.ElementType<
+          Omit<JSX.IntrinsicElements['div'], 'children'> & {
+            children: ({ active }: { active: boolean }) => React.ReactNode;
+          }
+        >;
+        return (
+          <Component key={id} id={id} title={label}>
+            {({ active }) =>
+              active ? <ArgsTable key={`prop_table_${label}`} {...table} {...props} /> : null
+            }
+          </Component>
         );
       })}
     </TabsState>
