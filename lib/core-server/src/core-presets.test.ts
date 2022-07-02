@@ -39,11 +39,30 @@ jest.mock('@storybook/builder-webpack4', () => {
   return actualBuilder;
 });
 
-jest.mock('./utils/stories-json', () => {
-  const actualStoriesJson = jest.requireActual('./utils/stories-json');
-  actualStoriesJson.extractStoriesJson = () => Promise.resolve();
-  return actualStoriesJson;
+jest.mock('@storybook/telemetry', () => ({
+  getStorybookMetadata: jest.fn(() => ({})),
+  telemetry: jest.fn(() => ({})),
+}));
+
+jest.mock('./utils/StoryIndexGenerator', () => {
+  const { StoryIndexGenerator } = jest.requireActual('./utils/StoryIndexGenerator');
+  return {
+    StoryIndexGenerator: class extends StoryIndexGenerator {
+      initialize() {
+        return Promise.resolve(undefined);
+      }
+
+      getIndex() {
+        return { stories: {}, v: 3 };
+      }
+    },
+  };
 });
+
+jest.mock('./utils/stories-json', () => ({
+  extractStoriesJson: () => Promise.resolve(),
+  useStoriesJson: () => {},
+}));
 
 jest.mock('@storybook/manager-webpack4', () => {
   const value = jest.fn();
@@ -64,7 +83,11 @@ jest.mock('@storybook/store', () => {
   };
 });
 
-jest.mock('cpy', () => () => Promise.resolve());
+jest.mock('fs-extra', () => ({
+  ...jest.requireActual('fs-extra'),
+  copyFile: jest.fn().mockResolvedValue(Promise.resolve()),
+  copy: jest.fn().mockResolvedValue(Promise.resolve()),
+}));
 jest.mock('http', () => ({
   ...jest.requireActual('http'),
   createServer: () => ({ listen: (_options, cb) => cb(), on: jest.fn() }),
@@ -159,6 +182,7 @@ describe.each([
       ['prod', buildStaticStandalone],
       ['dev', buildDevStandalone],
     ])('%s', async (mode, builder) => {
+      console.log('running for ', mode, builder);
       const options = {
         ...baseOptions,
         ...frameworkOptions,

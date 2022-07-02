@@ -115,6 +115,7 @@ export const HideAllDefaultTools = () => (
             parameters: {
               toolbar: {
                 title: { hidden: true },
+                remount: { hidden: true },
                 zoom: { hidden: true },
                 eject: { hidden: true },
                 copy: { hidden: true },
@@ -131,35 +132,21 @@ export const HideAllDefaultTools = () => (
 export const WithCanvasTab = () => (
   <Consumer>
     {({ api }: Combo) => {
-      return (
-        <Preview
-          {...previewProps}
-          api={{
-            ...api,
-            getElements: () => ({}),
-          }}
-        />
-      );
+      return <Preview {...previewProps} api={{ ...api, getElements: () => ({}) }} />;
     }}
   </Consumer>
 );
 
 export const WithTabs = () => <Preview {...previewProps} />;
 
-export const WithToolbarExclusions = () => (
+export const WithTabsHidden = () => (
   <Consumer>
     {({ api }: Combo) => {
       return (
         <Preview
           {...previewProps}
-          api={{
-            ...api,
-            getElements: () => ({}),
-            getQueryParam: (key) => {
-              const params = { toolbarExclude: 'canvas,fullscreen' };
-              return params[key];
-            },
-          }}
+          options={{ ...previewProps.options, showTabs: false }}
+          api={{ ...api, getElements: () => ({}) }}
         />
       );
     }}
