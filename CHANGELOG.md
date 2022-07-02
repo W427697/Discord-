@@ -1,4 +1,4 @@
-## 7.0.0-alpha.9 (July 2, 2022)
+## 7.0.0-alpha.10 (July 2, 2022)
 
 ### Features
 
@@ -31,6 +31,10 @@
 - Security: Update x-default-browser and fix issue with package. ([#18277](https://github.com/storybookjs/storybook/pull/18277))
 - Update puppeteer dependencies version ([#15163](https://github.com/storybookjs/storybook/pull/15163))
 - Upgrade react-syntax-highlighter to v15.5.0 ([#18009](https://github.com/storybookjs/storybook/pull/18009))
+
+## 7.0.0-alpha.9 (July 2, 2022)
+
+Failed publish
 
 ## 7.0.0-alpha.8 (June 29, 2022)
 
