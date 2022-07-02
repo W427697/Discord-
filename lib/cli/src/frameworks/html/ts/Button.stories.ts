@@ -15,7 +15,7 @@ export default {
       options: ['small', 'medium', 'large'],
     },
   },
-} as Meta;
+} as Meta<ButtonProps>;
 
 // More on component templates: https://storybook.js.org/docs/html/writing-stories/introduction#using-args
 const Template: StoryFn<ButtonProps> = (args) => {

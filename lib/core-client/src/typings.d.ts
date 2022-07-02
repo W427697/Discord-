@@ -5,5 +5,5 @@ declare module 'pnp-webpack-plugin';
 declare module '@storybook/ui/paths';
 declare module 'better-opn';
 declare module 'open';
-declare module 'x-default-browser';
+declare module '@aw-web-design/x-default-browser';
 
