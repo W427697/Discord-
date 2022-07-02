@@ -2,7 +2,7 @@
 title: 'Webpack'
 ---
 
-Storybook displays your components in a custom web application built using [Webpack](https://webpack.js.org/). Webpack is a complex tool, but our default configuration is intended to cover most use cases. [Addons](/addons) are also available that extend the configuration for other everyday use cases.
+Storybook displays your components in a custom web application built using [Webpack](https://webpack.js.org/). Webpack is a complex tool, but our default configuration is intended to cover most use cases. [Addons](https://storybook.js.org/addons/) are also available that extend the configuration for other everyday use cases.
 
 You can customize Storybook's webpack setup by providing a `webpackFinal` field in [`.storybook/main.js`](./overview.md#configure-your-storybook-project) file.
 
@@ -69,7 +69,7 @@ When you start your Storybook, you'll see an improvement in loading times. Read 
 
 ### Webpack 5
 
-Storybook builds your project with Webpack 4 by default. If your project uses Webpack 5, you can opt into the Webpack 5 builder by installing the `@storybook/builder-webpack5` package, and opting in in your `main.js`:
+Storybook builds your project with Webpack 4 by default. If your project uses Webpack 5, you can opt into the Webpack 5 builder by installing the required dependencies (i.e., `@storybook/builder-webpack5`, `@storybook/manager-webpack5`) and update your Storybook configuration as follows:
 
 <!-- prettier-ignore-start -->
 

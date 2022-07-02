@@ -76,6 +76,15 @@ function run() {
       },
       order: 1,
     }),
+    cleanup: createTask({
+      name: `Remove compiled dist directories ${chalk.gray('(cleanup)')}`,
+      defaultValue: false,
+      option: '--cleanup',
+      command: () => {
+        spawn('npm run clean:dist');
+      },
+      order: 0,
+    }),
     reset: createTask({
       name: `Clean repository ${chalk.red('(reset)')}`,
       defaultValue: false,
@@ -103,7 +112,7 @@ function run() {
       command: () => {
         log.info(prefix, 'prepare');
         spawn(
-          `nx run-many --target="prepare" --all --parallel ${
+          `nx run-many --target="prepare" --all --parallel=2 ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
           } -- --optimized`
         );
@@ -124,7 +133,7 @@ function run() {
       defaultValue: false,
       option: '--reg',
       command: () => {
-        spawn('yarn local-registry --publish --open');
+        spawn('yarn local-registry --publish --open --port 6000');
       },
       order: 11,
     }),
@@ -142,7 +151,7 @@ function run() {
   const groups = {
     main: ['core'],
     buildtasks: ['install', 'build', 'manager'],
-    devtasks: ['dev', 'registry', 'reset'],
+    devtasks: ['dev', 'registry', 'cleanup', 'reset'],
   };
 
   Object.keys(tasks)
@@ -203,7 +212,7 @@ function run() {
             if (sure) {
               return list;
             }
-            throw new Error('problem is between keyboard and chair');
+            throw new Error('Cleanup canceled');
           });
         }
         return list;
