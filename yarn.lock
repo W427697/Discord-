@@ -8168,12 +8168,8 @@ __metadata:
     core-js: ^3.8.2
     global: ^4.4.0
     lodash: ^4.17.21
-    regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
-  peerDependenciesMeta:
-    typescript:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -8306,14 +8302,6 @@ __metadata:
     watchpack: ^2.2.0
     webpack: 5
     ws: ^8.2.3
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@storybook/builder-webpack5":
-      optional: true
-    typescript:
-      optional: true
   languageName: unknown
   linkType: soft
 
