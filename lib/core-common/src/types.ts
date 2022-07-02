@@ -3,7 +3,7 @@ import type { TransformOptions } from '@babel/core';
 import { Router } from 'express';
 import { Server } from 'http';
 import type { Parameters } from '@storybook/csf';
-import { FileSystemCache } from './utils/file-cache';
+import type { FileSystemCache } from './utils/file-cache';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!

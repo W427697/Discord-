@@ -163,6 +163,11 @@ export interface SetStoriesStoryData {
   [id: string]: SetStoriesStory;
 }
 
+export interface StoryKey {
+  id: StoryId;
+  refId?: string;
+}
+
 export type SetStoriesPayload =
   | {
       v: 2;
