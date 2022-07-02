@@ -131,6 +131,11 @@ export interface StoryIndex {
   stories: Record<StoryId, StoryIndexStory>;
 }
 
+export interface StoryKey {
+  id: StoryId;
+  refId?: string;
+}
+
 export type SetStoriesPayload =
   | {
       v: 2;
@@ -282,9 +287,12 @@ export const transformStoriesRawToStoriesHash = (
     rootAndGroups.forEach((group, index) => {
       const child = paths[index + 1];
       const { id } = group;
+      // @ts-ignore
+      const { parameters: originalParameters = group.parameters } = acc[id] || {};
       acc[id] = merge(acc[id] || {}, {
         ...group,
         ...(child && { children: [child] }),
+        parameters: originalParameters,
       });
     });
 
