@@ -42,8 +42,8 @@
   </a>
 </p>
 
-[Storybook](https://storybook.js.org) is a development environment for UI components.
-It allows you to browse a component library, view the different states of each component, and interactively develop and test components. Find out more at https://storybook.js.org.
+<p align="center">Storybook is a development environment for UI components.<br/>
+It allows you to browse a component library, view the different states of each component, and interactively develop and test components.<br/>Find out more at https://storybook.js.org.</p>
 
 <center>
   <img src="https://raw.githubusercontent.com/storybookjs/storybook/main/media/storybook-intro.gif" width="100%" />
