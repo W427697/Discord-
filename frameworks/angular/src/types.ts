@@ -1,6 +1,6 @@
 import type {
   StorybookConfig as StorybookConfigBase,
-  TypescriptOptions as TypescriptOptionsReact,
+  TypescriptOptions as TypescriptOptionsBase,
 } from '@storybook/core-webpack';
 import type {
   StorybookConfigWebpack,
@@ -30,7 +30,7 @@ type StorybookConfigFramework = {
           options: BuilderOptions;
         };
   };
-  typescript?: Partial<TypescriptOptionsBuilder & TypescriptOptionsReact> &
+  typescript?: Partial<TypescriptOptionsBuilder & TypescriptOptionsBase> &
     StorybookConfigBase['typescript'];
 };
 

@@ -131,7 +131,8 @@ export default async (
 
       // NOTE: although this file is also from the `dist/cjs` directory, it is actually a ESM
       // file, see https://github.com/storybookjs/storybook/pull/16727#issuecomment-986485173
-      virtualModuleMapping[`${configFilename}-generated-config-entry.js`] = interpolate(
+
+      virtualModuleMapping[`${configFilename}-generated-config-entry.mjs`] = interpolate(
         entryTemplate,
         {
           configFilename,
@@ -139,7 +140,7 @@ export default async (
           clientLogger,
         }
       );
-      entries.push(`${configFilename}-generated-config-entry.js`);
+      entries.push(`${configFilename}-generated-config-entry.mjs`);
     });
     if (stories.length > 0) {
       const storyTemplate = await readTemplate(
@@ -148,7 +149,7 @@ export default async (
       // NOTE: this file has a `.cjs` extension as it is a CJS file (from `dist/cjs`) and runs
       // in the user's webpack mode, which may be strict about the use of require/import.
       // See https://github.com/storybookjs/storybook/issues/14877
-      const storiesFilename = resolve(join(workingDir, `generated-stories-entry.cjs`));
+      const storiesFilename = resolve(join(workingDir, `generated-stories-entry.mjs`));
       virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, {
         frameworkName,
       })

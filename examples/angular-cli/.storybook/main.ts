@@ -1,5 +1,9 @@
 const mainConfig: import('@storybook/angular').StorybookConfig = {
-  stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
+  stories: [
+    //
+    '../src/stories/**/*.stories.@(ts|tsx|js|jsx)',
+    '../src/stories/**/*.stories.@(mdx)',
+  ],
   logLevel: 'debug',
   addons: [
     '@storybook/addon-docs',

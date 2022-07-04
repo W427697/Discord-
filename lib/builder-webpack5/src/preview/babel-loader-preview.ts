@@ -3,7 +3,7 @@ import { TypescriptOptions } from '../types';
 
 export const createBabelLoader = (options: any, typescriptOptions: TypescriptOptions) => {
   return {
-    test: typescriptOptions.skipBabel ? /\.(mjs|jsx?)$/ : /\.(mjs|tsx?|jsx?)$/,
+    test: typescriptOptions.skipBabel ? /\.(mjs|cjs|jsx?)$/ : /\.(mjs|cjs|tsx?|jsx?)$/,
     use: [
       {
         loader: require.resolve('babel-loader'),
