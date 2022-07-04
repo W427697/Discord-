@@ -6,8 +6,6 @@ import { configure } from 'enzyme';
 // @ts-ignore
 import Adapter from 'enzyme-adapter-react-16';
 // @ts-ignore
-import regeneratorRuntime from 'regenerator-runtime';
-// @ts-ignore
 import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
 import EventEmitter from 'events';
 
