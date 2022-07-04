@@ -28,7 +28,7 @@ type BuilderFunction = (
 
 export const executor = {
   get: async () => {
-    return import('webpack') as Promise<typeof webpackTypes>;
+    return (await import('webpack')).default;
   },
 };
 

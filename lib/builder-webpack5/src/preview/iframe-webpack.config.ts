@@ -1,4 +1,4 @@
-import path from 'path';
+import { join, dirname, resolve } from 'path';
 import { dedent } from 'ts-dedent';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
@@ -23,7 +23,7 @@ import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 
 const storybookPaths: Record<string, string> = {
-  global: path.dirname(require.resolve(`global/package.json`)),
+  global: dirname(require.resolve(`global/package.json`)),
   ...[
     '@storybook/addons',
     '@storybook/api',
@@ -42,7 +42,7 @@ const storybookPaths: Record<string, string> = {
   ].reduce(
     (acc, sbPackage) => ({
       ...acc,
-      [sbPackage]: path.dirname(require.resolve(`${sbPackage}/package.json`)),
+      [sbPackage]: dirname(require.resolve(`${sbPackage}/package.json`)),
     }),
     {}
   ),
@@ -52,7 +52,7 @@ export default async (
   options: Options & Record<string, any> & { typescriptOptions: TypescriptOptions }
 ): Promise<Configuration> => {
   const {
-    outputDir = path.join('.', 'public'),
+    outputDir = join('.', 'public'),
     quiet,
     packageJson,
     configType,
@@ -100,16 +100,14 @@ export default async (
   const virtualModuleMapping: Record<string, string> = {};
   if (features?.storyStoreV7) {
     const storiesFilename = 'storybook-stories.js';
-    const storiesPath = path.resolve(path.join(workingDir, storiesFilename));
+    const storiesPath = resolve(join(workingDir, storiesFilename));
 
     const needPipelinedImport = !!builderOptions.lazyCompilation && !isProd;
     virtualModuleMapping[storiesPath] = toImportFn(stories, { needPipelinedImport });
-    const configEntryPath = path.resolve(path.join(workingDir, 'storybook-config-entry.js'));
+    const configEntryPath = resolve(join(workingDir, 'storybook-config-entry.js'));
     virtualModuleMapping[configEntryPath] = handlebars(
       await readTemplate(
-        require.resolve(
-          '@storybook/builder-webpack5/templates/virtualModuleModernEntry.js.handlebars'
-        )
+        join(__dirname, '..', 'templates', 'virtualModuleModernEntry.js.handlebars')
       ),
       {
         storiesFilename,
@@ -119,14 +117,12 @@ export default async (
     ).replace(/\\/g, '\\\\');
     entries.push(configEntryPath);
   } else {
-    const frameworkInitEntry = path.resolve(
-      path.join(workingDir, 'storybook-init-framework-entry.js')
-    );
+    const frameworkInitEntry = resolve(join(workingDir, 'storybook-init-framework-entry.js'));
     virtualModuleMapping[frameworkInitEntry] = `import '${frameworkName}';`;
     entries.push(frameworkInitEntry);
 
     const entryTemplate = await readTemplate(
-      path.join(__dirname, 'virtualModuleEntry.template.js')
+      join(__dirname, '..', 'templates', 'virtualModuleEntry.template.js')
     );
 
     configs.forEach((configFilename: any) => {
@@ -147,12 +143,12 @@ export default async (
     });
     if (stories.length > 0) {
       const storyTemplate = await readTemplate(
-        path.join(__dirname, 'virtualModuleStory.template.js')
+        join(__dirname, '..', 'templates', 'virtualModuleStory.template.js')
       );
       // NOTE: this file has a `.cjs` extension as it is a CJS file (from `dist/cjs`) and runs
       // in the user's webpack mode, which may be strict about the use of require/import.
       // See https://github.com/storybookjs/storybook/issues/14877
-      const storiesFilename = path.resolve(path.join(workingDir, `generated-stories-entry.cjs`));
+      const storiesFilename = resolve(join(workingDir, `generated-stories-entry.cjs`));
       virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, {
         frameworkName,
       })
@@ -172,7 +168,7 @@ export default async (
     devtool: 'cheap-module-source-map',
     entry: entries,
     output: {
-      path: path.resolve(process.cwd(), outputDir),
+      path: resolve(process.cwd(), outputDir),
       filename: isProd ? '[name].[contenthash:8].iframe.bundle.js' : '[name].iframe.bundle.js',
       publicPath: '',
     },
