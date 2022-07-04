@@ -25,26 +25,24 @@ import { createBabelLoader } from './babel-loader-preview';
 const storybookPaths: Record<string, string> = {
   global: path.dirname(require.resolve(`global/package.json`)),
   ...[
-    'addons',
-    'api',
-    'store',
-    'channels',
-    'channel-postmessage',
-    'channel-websocket',
-    'components',
-    'core-events',
-    'router',
-    'theming',
-    'semver',
-    'preview-web',
-    'client-api',
-    'client-logger',
+    '@storybook/addons',
+    '@storybook/api',
+    '@storybook/store',
+    '@storybook/channels',
+    '@storybook/channel-postmessage',
+    '@storybook/channel-websocket',
+    '@storybook/components',
+    '@storybook/core-events',
+    '@storybook/router',
+    '@storybook/theming',
+    '@storybook/semver',
+    '@storybook/preview-web',
+    '@storybook/client-api',
+    '@storybook/client-logger',
   ].reduce(
     (acc, sbPackage) => ({
       ...acc,
-      [`@storybook/${sbPackage}`]: path.dirname(
-        require.resolve(`@storybook/${sbPackage}/package.json`)
-      ),
+      [sbPackage]: path.dirname(require.resolve(`${sbPackage}/package.json`)),
     }),
     {}
   ),
