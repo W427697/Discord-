@@ -11,8 +11,12 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, opti
   try {
     reactDomPkg = await readJSON(require.resolve('react-dom/package.json'));
   } catch (e) {
-    //
+    // so we can't determine which version of react-dom is installed
+    // most likely because of pnp
+    // we'll just assume we should ignore the warning in that case
   }
+
+  const executor = await builder.executor.get();
 
   return {
     ...config,
@@ -20,7 +24,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, opti
       ...(config.plugins || []),
       reactDomPkg?.version?.startsWith('18') || reactDomPkg?.version?.startsWith('0.0.0')
         ? null
-        : new builder.IgnorePlugin({
+        : new executor.IgnorePlugin({
             resourceRegExp: /react-dom\/client$/,
             contextRegExp:
               /(renderers\/react|renderers\\react|@storybook\/react|@storybook\\react)/, // TODO this needs to work for both in our MONOREPO and in the user's NODE_MODULES

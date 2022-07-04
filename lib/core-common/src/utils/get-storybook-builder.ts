@@ -1,6 +1,6 @@
-import type { CoreConfig, Options } from '../types';
+import type { Builder, CoreConfig, Options } from '../types';
 
-export async function getBuilder({ presets, configDir }: Options) {
+export async function getBuilder({ presets, configDir }: Options): Promise<Builder<any, any>> {
   const core = await presets.apply<CoreConfig>('core', undefined);
   const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
 

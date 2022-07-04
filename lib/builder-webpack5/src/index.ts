@@ -1,10 +1,9 @@
-import webpack, { Stats, Configuration, ProgressPlugin, StatsOptions } from 'webpack';
+import type { Configuration, Stats, StatsOptions } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
 import { useProgressReporting } from '@storybook/core-common';
-import type { Builder, Options } from '@storybook/core-common';
-import { checkWebpackVersion } from '@storybook/core-webpack';
+import type { Builder } from '@storybook/core-common';
 
 export * from './types';
 
@@ -27,13 +26,8 @@ type BuilderFunction = (
 ) => AsyncGenerator<Stats | undefined, BuilderBuildResult, void>;
 
 export const executor = {
-  get: async (options: Options) => {
-    const version = ((await options.presets.apply('webpackVersion')) || '5') as string;
-    const webpackInstance =
-      (await options.presets.apply<{ default: typeof webpack }>('webpackInstance'))?.default ||
-      webpack;
-    checkWebpackVersion({ version }, '5', 'builder-webpack5');
-    return webpackInstance;
+  get: async () => {
+    return import('webpack');
   },
 };
 
@@ -98,12 +92,12 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   options,
   router,
 }) {
-  const webpackInstance = await executor.get(options);
+  const webpackInstance = await executor.get();
   yield;
 
   const config = await getConfig(options);
   yield;
-  const compiler = webpackInstance(config);
+  const compiler = webpackInstance.webpack(config);
 
   if (!compiler) {
     const err = `${config.name}: missing webpack compiler at runtime!`;
@@ -121,7 +115,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   const { handler, modulesCount } = await useProgressReporting(router, startTime, options);
   yield;
-  new ProgressPlugin({ handler, modulesCount }).apply(compiler);
+  new webpackInstance.ProgressPlugin({ handler, modulesCount }).apply(compiler);
 
   const middlewareOptions: Parameters<typeof webpackDevMiddleware>[1] = {
     publicPath: config.output?.publicPath as string,
@@ -161,13 +155,13 @@ const starter: StarterFunction = async function* starterGeneratorFn({
  * I am sorry for making you read about generators today :')
  */
 const builder: BuilderFunction = async function* builderGeneratorFn({ startTime, options }) {
-  const webpackInstance = await executor.get(options);
+  const webpackInstance = await executor.get();
   yield;
   logger.info('=> Compiling preview..');
   const config = await getConfig(options);
   yield;
 
-  const compiler = webpackInstance(config);
+  const compiler = webpackInstance.webpack(config);
 
   if (!compiler) {
     const err = `${config.name}: missing webpack compiler at runtime!`;
@@ -225,7 +219,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
           .warnings.forEach((e) => logger.warn(e.message));
       }
 
-      // https://webpack.js.org/api/node/#run
+      // https://js.org/api/node/#run
       // #15227
       compiler.close((closeErr) => {
         if (closeErr) {
