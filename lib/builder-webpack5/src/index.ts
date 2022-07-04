@@ -259,5 +259,5 @@ export const build = async (options: BuilderStartOptions) => {
 
 export const corePresets = [require.resolve('@storybook/builder-webpack5/dist/preview-preset')];
 export const overridePresets = [
-  require.resolve('@storybook/builder-webpack5/dist/custom-webpack-preset.js'),
+  require.resolve('@storybook/builder-webpack5/dist/custom-webpack-preset'),
 ];
