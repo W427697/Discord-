@@ -19,9 +19,27 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/custom-webpack-preset": {
+      "require": "./dist/custom-webpack-preset.js",
+      "import": "./dist/custom-webpack-preset.mjs",
+      "types": "./dist/custom-webpack-preset.d.ts"
+    },
+    "./dist/preview-preset": {
+      "require": "./dist/preview-preset.js",
+      "import": "./dist/preview-preset.mjs",
+      "types": "./dist/preview-preset.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "templates/**/*",
@@ -30,7 +48,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
@@ -75,6 +93,7 @@
     "webpack-virtual-modules": "^0.4.3"
   },
   "devDependencies": {
+    "@digitak/esrun": "^3.2.2",
     "@types/terser-webpack-plugin": "^5.2.0",
     "@types/webpack-dev-middleware": "^5.3.0",
     "@types/webpack-hot-middleware": "^2.25.6",
@@ -83,6 +102,14 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/custom-webpack-preset.ts",
+      "./src/preview-preset.ts"
+    ],
+    "platform": "node"
   },
   "gitHead": "b13dd8fb52819d73d4983148af8ffc5d683e8b75"
 }

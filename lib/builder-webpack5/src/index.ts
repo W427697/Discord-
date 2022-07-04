@@ -1,3 +1,4 @@
+import * as webpackTypes from 'webpack';
 import type { Configuration, Stats, StatsOptions } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -27,7 +28,7 @@ type BuilderFunction = (
 
 export const executor = {
   get: async () => {
-    return import('webpack');
+    return import('webpack') as Promise<typeof webpackTypes>;
   },
 };
 
@@ -256,5 +257,7 @@ export const build = async (options: BuilderStartOptions) => {
   return result.value;
 };
 
-export const corePresets = [require.resolve('./presets/preview-preset.js')];
-export const overridePresets = [require.resolve('./presets/custom-webpack-preset.js')];
+export const corePresets = [require.resolve('@storybook/builder-webpack5/dist/preview-preset')];
+export const overridePresets = [
+  require.resolve('@storybook/builder-webpack5/dist/custom-webpack-preset.js'),
+];

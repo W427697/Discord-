@@ -7726,6 +7726,7 @@ __metadata:
   resolution: "@storybook/builder-webpack5@workspace:lib/builder-webpack5"
   dependencies:
     "@babel/core": ^7.12.10
+    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.10
     "@storybook/api": 7.0.0-alpha.10
     "@storybook/channel-postmessage": 7.0.0-alpha.10
