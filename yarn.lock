@@ -7683,7 +7683,6 @@ __metadata:
     global: ^4.4.0
     lodash: ^4.17.21
     memoizerific: ^1.11.3
-    preval.macro: ^5.0.0
     qs: ^6.10.1
     store2: ^2.12.0
     telejson: ^6.0.8
@@ -7878,8 +7877,6 @@ __metadata:
     core-js: ^3.8.2
     css-loader: ^6.7.1
     fork-ts-checker-webpack-plugin: ^7.2.8
-    glob: ^7.1.6
-    glob-promise: ^3.4.0
     global: ^4.4.0
     html-webpack-plugin: ^5.5.0
     path-browserify: ^1.0.1
@@ -7895,12 +7892,6 @@ __metadata:
     webpack-dev-middleware: ^5.3.1
     webpack-hot-middleware: ^2.25.1
     webpack-virtual-modules: ^0.4.3
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    typescript:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -7911,7 +7902,6 @@ __metadata:
     "@storybook/channels": 7.0.0-alpha.10
     "@storybook/client-logger": 7.0.0-alpha.10
     "@storybook/core-events": 7.0.0-alpha.10
-    core-js: ^3.8.2
     global: ^4.4.0
     qs: ^6.10.0
     telejson: ^6.0.8
@@ -8124,21 +8114,14 @@ __metadata:
     "@types/color-convert": ^2.0.0
     "@types/overlayscrollbars": ^1.12.0
     "@types/react-syntax-highlighter": 11.0.5
-    color-convert: ^2.0.1
-    core-js: ^3.8.2
     css: ^3.0.0
-    fast-deep-equal: ^3.1.3
     global: ^4.4.0
     jest: ^26.6.3
-    lodash: ^4.17.21
-    markdown-to-jsx: ^7.1.3
     memoizerific: ^1.11.3
     overlayscrollbars: ^1.13.1
     polished: ^4.2.2
     prettier: ">=2.2.1 <=2.3.0"
     prop-types: ^15.7.2
-    qs: ^6.10.0
-    react-colorful: ^5.1.2
     react-popper-tooltip: ^3.1.1
     react-syntax-highlighter: ^15.4.5
     react-textarea-autosize: ^8.3.0
@@ -10463,7 +10446,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__core@npm:^7.0.0, @types/babel__core@npm:^7.1.12, @types/babel__core@npm:^7.1.14, @types/babel__core@npm:^7.1.7":
+"@types/babel__core@npm:^7.0.0, @types/babel__core@npm:^7.1.14, @types/babel__core@npm:^7.1.7":
   version: 7.1.19
   resolution: "@types/babel__core@npm:7.1.19"
   dependencies:
@@ -14471,18 +14454,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: 88f7b488bbb29636370954c048f08bdf61c5f1ffbee0b627817bf80e99a46b06660f54266cff93affb8ab5831d8edcaab271f9a80b8a090d4fd409a13023a61d
-  languageName: node
-  linkType: hard
-
-"babel-plugin-preval@npm:^5.0.0":
-  version: 5.1.0
-  resolution: "babel-plugin-preval@npm:5.1.0"
-  dependencies:
-    "@babel/runtime": ^7.12.5
-    "@types/babel__core": ^7.1.12
-    babel-plugin-macros: ^3.0.1
-    require-from-string: ^2.0.2
-  checksum: d40814ca18f24df818a87e71ad8c1dc559cf69c0e44218bb9f5aef24680431a04e4bad8e96dc2679282b50b16a55c9597e37130d6bd5489b3eddab97d020ae5e
   languageName: node
   linkType: hard
 
@@ -24094,17 +24065,6 @@ __metadata:
   dependencies:
     is-glob: ^4.0.3
   checksum: 317034d88654730230b3f43bb7ad4f7c90257a426e872ea0bf157473ac61c99bf5d205fad8f0185f989be8d2fa6d3c7dce1645d99d545b6ea9089c39f838e7f8
-  languageName: node
-  linkType: hard
-
-"glob-promise@npm:^3.4.0":
-  version: 3.4.0
-  resolution: "glob-promise@npm:3.4.0"
-  dependencies:
-    "@types/glob": "*"
-  peerDependencies:
-    glob: "*"
-  checksum: 8862e309f46a97c9491d35900257c9174f72b8358a8f485cdba88eb2d5b0f9cf496dfe635711bbd871e89165f50ec3acd435cbef5bfc5efbc14508abced778ac
   languageName: node
   linkType: hard
 
@@ -36396,15 +36356,6 @@ __metadata:
   bin:
     prettyjson: bin/prettyjson
   checksum: 94ea84205fc5103e32d562f515631c22440f7bcf4de5f5687522692e3f270bf4f450170857e098926adaec1b4ef33c9a8c97ae8911079a50fe7f584dd9ae5058
-  languageName: node
-  linkType: hard
-
-"preval.macro@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "preval.macro@npm:5.0.0"
-  dependencies:
-    babel-plugin-preval: ^5.0.0
-  checksum: cee971359aa216190928bfff3c9b58f01b536bd6ded216f6f59b6f5405cfe32bb9535238d0e32afa7e68c0d0688e2cef5e894e19063c4a648d92c734fe218f6f
   languageName: node
   linkType: hard
 
