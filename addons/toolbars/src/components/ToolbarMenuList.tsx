@@ -3,7 +3,7 @@ import { useGlobals } from '@storybook/api';
 import { WithTooltip, TooltipLinkList } from '@storybook/components';
 import { ToolbarMenuButton } from './ToolbarMenuButton';
 import { withKeyboardCycle, WithKeyboardCycleProps } from '../hoc/withKeyboardCycle';
-import { getSelectedIcon } from '../utils/get-selected-icon';
+import { getSelectedIcon, getSelectedTitle } from '../utils/get-selected';
 import { ToolbarMenuProps } from '../types';
 import { ToolbarMenuListItem } from './ToolbarMenuListItem';
 
@@ -22,7 +22,7 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
     id,
     name,
     description,
-    toolbar: { icon: _icon, items, title: _title, showName, preventDynamicIcon },
+    toolbar: { icon: _icon, items, title: _title, showName, preventDynamicIcon, dynamicTitle },
   }) => {
     const [globals, updateGlobals] = useGlobals();
 
@@ -46,6 +46,10 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
       console.warn(
         `Using the \`name\` "${name}" as toolbar title for backward compatibility. \`name\` will stop having dual purposes in the future. Please specify either a \`title\` or an \`icon\` in \`globalTypes\` instead.`
       );
+    }
+
+    if (dynamicTitle) {
+      title = getSelectedTitle({ currentValue, items }) || title;
     }
 
     const handleItemClick = useCallback(
