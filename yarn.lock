@@ -8818,9 +8818,7 @@ __metadata:
     vue-template-compiler: ^2.6.14
     webpack: 5
   peerDependencies:
-    "@babel/core": "*"
     babel-loader: ^7.0.0 || ^8.0.0
-    css-loader: "*"
     vue: ^2.6.8
     vue-loader: ^15.7.0
     vue-template-compiler: ^2.6.14
@@ -8846,9 +8844,7 @@ __metadata:
     vue-loader: ^16.0.0
     webpack: 5
   peerDependencies:
-    "@babel/core": "*"
     "@vue/compiler-sfc": ^3.0.0
-    babel-loader: ^7.0.0 || ^8.0.0
     vue: ^3.0.0
   languageName: unknown
   linkType: soft
@@ -9616,9 +9612,6 @@ __metadata:
     vue-loader: ^15.7.0
     vue-template-compiler: ^2.6.14
   peerDependencies:
-    "@babel/core": "*"
-    babel-loader: ^7.0.0 || ^8.0.0
-    css-loader: "*"
     vue: ^2.6.8
     vue-loader: ^15.7.0
     vue-template-compiler: ^2.6.8
