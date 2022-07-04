@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { styled, withTheme } from '@storybook/theming';
 import type { Theme } from '@storybook/theming';
 
-import Inspector from 'react-inspector';
+import { Inspector } from 'react-inspector';
 import { ActionBar, ScrollArea } from '@storybook/components';
 
 import { Action, InspectorContainer, Counter } from './style';
@@ -26,7 +26,7 @@ interface InspectorProps {
 }
 
 const ThemedInspector = withTheme(({ theme, ...props }: InspectorProps) => (
-  <Inspector theme={theme.addonActionsTheme || 'chromeLight'} {...props} />
+  <Inspector table={false} theme={theme.addonActionsTheme || 'chromeLight'} {...props} />
 ));
 
 interface ActionLoggerProps {
