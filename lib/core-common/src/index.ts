@@ -10,6 +10,7 @@ export * from './utils/interpret-require';
 export * from './utils/load-custom-presets';
 export * from './utils/load-main-config';
 export * from './utils/get-storybook-configuration';
+export * from './utils/get-storybook-builder';
 export * from './utils/get-storybook-info';
 export * from './utils/load-manager-or-addons-file';
 export * from './utils/load-preview-or-config-file';
