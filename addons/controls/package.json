@@ -51,19 +51,11 @@
     "@storybook/theming": "7.0.0-alpha.10",
     "core-js": "^3.8.2",
     "lodash": "^4.17.21",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "ts-dedent": "^2.0.0"
   },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
+  "devDependencies": {
+    "react": "16.14.0"
   },
   "publishConfig": {
     "access": "public"

@@ -48,6 +48,7 @@
     "lodash": "^4.17.21",
     "polished": "^4.2.2",
     "prop-types": "^15.7.2",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-inspector": "^6.0.1",
     "telejson": "^6.0.8",
     "ts-dedent": "^2.0.0",
@@ -56,19 +57,8 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.167",
+    "react": "16.14.0",
     "typescript": "~4.6.3"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
   },
   "publishConfig": {
     "access": "public"

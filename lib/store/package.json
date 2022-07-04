@@ -50,6 +50,7 @@
     "global": "^4.4.0",
     "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "slash": "^3.0.0",
     "stable": "^0.1.8",
     "synchronous-promise": "^2.0.15",
@@ -57,11 +58,8 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@jest/globals": "^26"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "@jest/globals": "^26",
+    "react": "16.14.0"
   },
   "publishConfig": {
     "access": "public"

@@ -44,19 +44,11 @@
     "@storybook/client-logger": "7.0.0-alpha.10",
     "@storybook/components": "7.0.0-alpha.10",
     "@storybook/theming": "7.0.0-alpha.10",
-    "core-js": "^3.8.2"
+    "core-js": "^3.8.2",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
+  "devDependencies": {
+    "react": "16.14.0"
   },
   "publishConfig": {
     "access": "public"

@@ -43,11 +43,11 @@
     "@storybook/theming": "7.0.0-alpha.10",
     "@types/webpack-env": "^1.16.4",
     "core-js": "^3.8.2",
-    "global": "^4.4.0"
+    "global": "^4.4.0",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  "devDependencies": {
+    "react": "16.14.0"
   },
   "publishConfig": {
     "access": "public"
