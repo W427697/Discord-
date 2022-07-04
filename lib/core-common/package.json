@@ -54,7 +54,6 @@
     "@types/node": "^14.0.10 || ^16.0.0",
     "@types/pretty-hrtime": "^1.0.0",
     "chalk": "^4.1.0",
-    "core-js": "^3.8.2",
     "express": "^4.17.1",
     "file-system-cache": "^2.0.0",
     "find-up": "^5.0.0",

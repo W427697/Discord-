@@ -55,7 +55,6 @@
     "@storybook/preact": "7.0.0-alpha.10",
     "@storybook/preset-preact-webpack": "7.0.0-alpha.10",
     "@types/node": "^14.14.20 || ^16.0.0",
-    "core-js": "^3.8.2",
     "react": "16.14.0",
     "react-dom": "16.14.0"
   },
