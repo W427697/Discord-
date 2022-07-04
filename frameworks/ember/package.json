@@ -52,7 +52,7 @@
     "ember-source": "^3.16.0"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=14"
   },
   "publishConfig": {
     "access": "public"

@@ -67,13 +67,10 @@
     "vue": "^2.6.12"
   },
   "peerDependencies": {
-    "@babel/core": "*",
-    "babel-loader": "^7.0.0 || ^8.0.0",
-    "css-loader": "*",
     "vue": "^2.6.8"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=14"
   },
   "publishConfig": {
     "access": "public"
