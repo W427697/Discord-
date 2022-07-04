@@ -61,12 +61,14 @@
     "polished": "^4.2.2",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-colorful": "^5.1.2",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
     "@digitak/esrun": "^3.2.2",
-    "react": "16.14.0"
+    "react": "16.14.0",
+    "react-dom": "16.14.0"
   },
   "publishConfig": {
     "access": "public"
