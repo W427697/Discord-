@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { StorybookStory, StorybookSection } from './types';
 
 const { identifier } = require('safe-identifier');

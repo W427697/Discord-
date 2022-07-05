@@ -1,5 +1,5 @@
 import { logger, instance as npmLog } from '@storybook/node-logger';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 export const buildStandaloneErrorHandler = (error: any): any => {
   // Duplicate code for Standalone error handling

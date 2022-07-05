@@ -30,6 +30,7 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
@@ -51,6 +52,9 @@
     "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
+  },
+  "devDependencies": {
+    "typescript": "~4.6.3"
   },
   "peerDependenciesMeta": {
     "typescript": {

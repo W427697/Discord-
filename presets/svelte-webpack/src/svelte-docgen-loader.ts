@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import svelteDoc from 'sveltedoc-parser';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import * as path from 'path';
 import * as fs from 'fs';
 import { preprocess } from 'svelte/compiler';

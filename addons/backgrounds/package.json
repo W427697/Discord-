@@ -35,6 +35,7 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
@@ -50,6 +51,9 @@
     "memoizerific": "^1.11.3",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
+  },
+  "devDependencies": {
+    "typescript": "~4.6.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

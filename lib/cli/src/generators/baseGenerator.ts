@@ -1,5 +1,5 @@
 import fse from 'fs-extra';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { NpmOptions } from '../NpmOptions';
 import { SupportedRenderers, Builder, CoreBuilder } from '../project_types';
 import { getBabelDependencies, copyComponents } from '../helpers';

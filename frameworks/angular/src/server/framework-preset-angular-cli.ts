@@ -4,7 +4,7 @@ import { logger } from '@storybook/node-logger';
 import { targetFromTargetString, BuilderContext, Target } from '@angular-devkit/architect';
 import { sync as findUpSync } from 'find-up';
 import semver from '@storybook/semver';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 import { logging, JsonObject } from '@angular-devkit/core';
 import { moduleIsAvailable } from './utils/module-is-available';

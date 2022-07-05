@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import global from 'global';
 import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { MDXProvider } from '@mdx-js/react';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 import { components as htmlComponents } from '@storybook/components';

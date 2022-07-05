@@ -1,5 +1,5 @@
 import global from 'global';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { RenderContext } from '@storybook/store';
 import { OptionsArgs, EmberFramework } from './types';
 

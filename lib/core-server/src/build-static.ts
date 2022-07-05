@@ -1,7 +1,7 @@
 import chalk from 'chalk';
-import fs from 'fs-extra';
-import path, { join } from 'path';
-import dedent from 'ts-dedent';
+import { copy, copyFile, emptyDir, ensureDir } from 'fs-extra';
+import { basename, isAbsolute, join, resolve } from 'path';
+import { dedent } from 'ts-dedent';
 import global from 'global';
 
 import { logger } from '@storybook/node-logger';
@@ -45,24 +45,24 @@ export async function buildStaticStandalone(
     throw new Error("Won't copy root directory. Check your staticDirs!");
   }
 
-  options.outputDir = path.isAbsolute(options.outputDir)
+  options.outputDir = isAbsolute(options.outputDir)
     ? options.outputDir
-    : path.join(process.cwd(), options.outputDir);
-  options.configDir = path.resolve(options.configDir);
+    : join(process.cwd(), options.outputDir);
+  options.configDir = resolve(options.configDir);
   /* eslint-enable no-param-reassign */
 
   const defaultFavIcon = require.resolve('@storybook/core-server/public/favicon.ico');
 
-  logger.info(chalk`=> Cleaning outputDir: {cyan ${options.outputDir}}`);
+  logger.info(chalk`=> Cleaning outputDir: {cyan ${options.outputDir.replace(process.cwd(), '')}}`);
   if (options.outputDir === '/') {
     throw new Error("Won't remove directory '/'. Check your outputDir!");
   }
-  await fs.emptyDir(options.outputDir);
+  await emptyDir(options.outputDir);
+  await ensureDir(options.outputDir);
 
-  await fs.copyFile(defaultFavIcon, path.join(options.outputDir, path.basename(defaultFavIcon)));
+  await copyFile(defaultFavIcon, join(options.outputDir, basename(defaultFavIcon)));
 
   const { getPrebuiltDir } = await import('@storybook/manager-webpack5/prebuilt-manager');
-
   const { framework } = loadMainConfig(options);
   const corePresets = [];
 
@@ -138,13 +138,13 @@ export async function buildStaticStandalone(
     initializedStoryIndexGenerator = generator.initialize().then(() => generator);
     extractTasks.push(
       extractStoriesJson(
-        path.join(options.outputDir, 'stories.json'),
+        join(options.outputDir, 'stories.json'),
         initializedStoryIndexGenerator,
         convertToIndexV3
       )
     );
     extractTasks.push(
-      extractStoriesJson(path.join(options.outputDir, 'index.json'), initializedStoryIndexGenerator)
+      extractStoriesJson(join(options.outputDir, 'index.json'), initializedStoryIndexGenerator)
     );
   }
 
@@ -170,7 +170,7 @@ export async function buildStaticStandalone(
 
   if (!core?.disableProjectJson) {
     extractTasks.push(
-      extractStorybookMetadata(path.join(options.outputDir, 'project.json'), options.configDir)
+      extractStorybookMetadata(join(options.outputDir, 'project.json'), options.configDir)
     );
   }
 
@@ -190,7 +190,7 @@ export async function buildStaticStandalone(
   const startTime = process.hrtime();
   // When using the prebuilt manager, we straight up copy it into the outputDir instead of building it
   const manager = prebuiltDir
-    ? fs.copy(prebuiltDir, options.outputDir, { dereference: true }).then(() => {})
+    ? copy(prebuiltDir, options.outputDir, { dereference: true }).then(() => {})
     : managerBuilder.build({ startTime, options: fullOptions });
 
   if (options.ignorePreview) {

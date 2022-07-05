@@ -1,5 +1,5 @@
 import global from 'global';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import {
   transformSetStoriesStoryDataToStoriesHash,
   SetStoriesStory,
@@ -239,7 +239,9 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
     },
 
     setRef: (id, { storyIndex, setStoriesData, ...rest }, ready = false) => {
-      if (singleStory) return;
+      if (singleStory) {
+        return;
+      }
       const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
 

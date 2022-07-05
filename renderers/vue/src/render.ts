@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import Vue from 'vue';
 import type { RenderContext } from '@storybook/store';
 import type { ArgsStoryFn } from '@storybook/csf';

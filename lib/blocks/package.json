@@ -74,8 +74,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": [
-    "./src/index.ts"
-  ],
+  "bundler": {
+    "entries": [
+      "./src/index.ts"
+    ]
+  },
   "gitHead": "b13dd8fb52819d73d4983148af8ffc5d683e8b75"
 }

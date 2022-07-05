@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { sync as readUpSync } from 'read-pkg-up';
 import { logger, instance as npmLog } from '@storybook/node-logger';
 import { buildDevStandalone } from '@storybook/core-server';

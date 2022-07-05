@@ -21,10 +21,14 @@
   "license": "MIT",
   "bin": "./index.js",
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
     "@storybook/cli": "7.0.0-alpha.10"
+  },
+  "devDependencies": {
+    "typescript": "~4.6.3"
   },
   "publishConfig": {
     "access": "public"

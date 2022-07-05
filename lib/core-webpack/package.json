@@ -30,6 +30,7 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
@@ -38,6 +39,9 @@
     "@types/node": "^14.0.10 || ^16.0.0",
     "core-js": "^3.8.2",
     "ts-dedent": "^2.0.0"
+  },
+  "devDependencies": {
+    "typescript": "~4.6.3"
   },
   "publishConfig": {
     "access": "public"
