@@ -84,6 +84,7 @@ export interface Ref {
   title: string;
   version: string;
   type?: string;
+  disable?: boolean;
 }
 
 export interface VersionCheck {

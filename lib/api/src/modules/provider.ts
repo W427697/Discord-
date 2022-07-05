@@ -29,7 +29,6 @@ export interface Provider {
   getConfig(): {
     sidebar?: SidebarOptions;
     theme?: ThemeVars;
-    refs?: Refs;
     StoryMapper?: StoryMapper;
     [k: string]: any;
   } & Partial<UIOptions>;

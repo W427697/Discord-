@@ -239,7 +239,9 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
     },
 
     setRef: (id, { storyIndex, setStoriesData, ...rest }, ready = false) => {
-      if (singleStory) return;
+      if (singleStory) {
+        return;
+      }
       const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
 
@@ -277,7 +279,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
     },
   };
 
-  const refs = (!singleStory && provider.getConfig().refs) || {};
+  const refs: Refs = (!singleStory && global.REFS) || {};
 
   const initialState: SubState['refs'] = refs;
 
