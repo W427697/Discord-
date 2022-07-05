@@ -5,8 +5,7 @@ import {
   StoryId,
   StoryName,
 } from '@storybook/csf';
-import { CSFFile, ModuleExport, Story, StoryStore } from '@storybook/store';
-import { PreviewWeb } from '../PreviewWeb';
+import { CSFFile, ModuleExport, ModuleExports, Story, StoryStore } from '@storybook/store';
 
 import { DocsContextProps } from './DocsContextProps';
 
@@ -24,8 +23,8 @@ export class DocsContext<TFramework extends AnyFramework> implements DocsContext
     public readonly title: ComponentTitle,
     public readonly name: StoryName,
     protected store: StoryStore<TFramework>,
+    public renderStoryToElement: DocsContextProps['renderStoryToElement'],
     /** The CSF files known (via the index) to be refererenced by this docs file */
-    public renderStoryToElement: PreviewWeb<TFramework>['renderStoryToElement'],
     csfFiles: CSFFile<TFramework>[],
     componentStoriesFromAllCsfFiles = true
   ) {
@@ -35,27 +34,35 @@ export class DocsContext<TFramework extends AnyFramework> implements DocsContext
     this.componentStoriesValue = [];
 
     csfFiles.forEach((csfFile, index) => {
-      Object.values(csfFile.stories).forEach((annotation) => {
-        this.storyIdToCSFFile.set(annotation.id, csfFile);
-        this.exportToStoryId.set(annotation.moduleExport, annotation.id);
-        this.nameToStoryId.set(annotation.name, annotation.id);
-
-        if (componentStoriesFromAllCsfFiles || index === 0)
-          this.componentStoriesValue.push(this.storyById(annotation.id));
-      });
+      this.referenceCSFFile(csfFile, componentStoriesFromAllCsfFiles || index === 0);
     });
   }
 
-  setMeta() {
-    // Do nothing
+  // This docs entry references this CSF file and can syncronously load the stories, as well
+  // as reference them by module export. If the CSF is part of the "component" stories, they
+  // can also be referenced by name and are in the componentStories list.
+  referenceCSFFile(csfFile: CSFFile<TFramework>, addToComponentStories: boolean) {
+    Object.values(csfFile.stories).forEach((annotation) => {
+      this.storyIdToCSFFile.set(annotation.id, csfFile);
+      this.exportToStoryId.set(annotation.moduleExport, annotation.id);
+
+      if (addToComponentStories) {
+        this.nameToStoryId.set(annotation.name, annotation.id);
+        this.componentStoriesValue.push(this.storyById(annotation.id));
+      }
+    });
   }
 
-  storyIdByModuleExport = (storyExport: ModuleExport) => {
+  setMeta(metaExports: ModuleExports) {
+    // Do nothing (this is really only used by external docs)
+  }
+
+  storyIdByModuleExport(storyExport: ModuleExport, metaExports?: ModuleExports) {
     const storyId = this.exportToStoryId.get(storyExport);
     if (storyId) return storyId;
 
     throw new Error(`No story found with that export: ${storyExport}`);
-  };
+  }
 
   storyIdByName = (storyName: StoryName) => {
     const storyId = this.nameToStoryId.get(storyName);
