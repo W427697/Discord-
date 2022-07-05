@@ -3,7 +3,7 @@ import { Channel } from '@storybook/channels';
 import type { ThemeVars } from '@storybook/theming';
 
 import type { API, State, ModuleFn, HashEntry } from '../index';
-import type { StoryMapper, Refs } from './refs';
+import type { StoryMapper } from './refs';
 import type { UIOptions } from './layout';
 
 interface SidebarOptions {
