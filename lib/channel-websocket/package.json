@@ -40,6 +40,9 @@
     "global": "^4.4.0",
     "telejson": "^6.0.8"
   },
+  "devDependencies": {
+    "typescript": "~4.6.3"
+  },
   "publishConfig": {
     "access": "public"
   },

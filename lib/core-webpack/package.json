@@ -40,6 +40,9 @@
     "core-js": "^3.8.2",
     "ts-dedent": "^2.0.0"
   },
+  "devDependencies": {
+    "typescript": "~4.6.3"
+  },
   "publishConfig": {
     "access": "public"
   },

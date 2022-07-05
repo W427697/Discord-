@@ -7021,6 +7021,7 @@ __metadata:
     global: ^4.4.0
     memoizerific: ^1.11.3
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7225,6 +7226,7 @@ __metadata:
     core-js: ^3.8.2
     global: ^4.4.0
     react-sizeme: ^3.0.1
+    typescript: ~4.6.3
     upath: ^1.2.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7250,6 +7252,7 @@ __metadata:
     global: ^4.4.0
     prop-types: ^15.7.2
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7273,6 +7276,7 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     core-js: ^3.8.2
     global: ^4.4.0
+    typescript: ~4.6.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7297,6 +7301,7 @@ __metadata:
     core-js: ^3.8.2
     global: ^4.4.0
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7473,6 +7478,7 @@ __metadata:
     "@storybook/components": 7.0.0-alpha.10
     "@storybook/theming": 7.0.0-alpha.10
     core-js: ^3.8.2
+    typescript: ~4.6.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7498,6 +7504,7 @@ __metadata:
     global: ^4.4.0
     memoizerific: ^1.11.3
     prop-types: ^15.7.2
+    typescript: ~4.6.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7933,6 +7940,7 @@ __metadata:
     global: ^4.4.0
     qs: ^6.10.0
     telejson: ^6.0.8
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -7945,6 +7953,7 @@ __metadata:
     core-js: ^3.8.2
     global: ^4.4.0
     telejson: ^6.0.8
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -7954,6 +7963,7 @@ __metadata:
   dependencies:
     core-js: ^3.8.2
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util-deprecate: ^1.0.2
   languageName: unknown
   linkType: soft
@@ -8062,6 +8072,7 @@ __metadata:
     store2: ^2.12.0
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -8075,6 +8086,7 @@ __metadata:
   dependencies:
     core-js: ^3.8.2
     global: ^4.4.0
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -8190,6 +8202,7 @@ __metadata:
     qs: ^6.10.0
     regenerator-runtime: ^0.13.7
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util-deprecate: ^1.0.2
   peerDependenciesMeta:
     typescript:
@@ -8273,6 +8286,7 @@ __metadata:
   resolution: "@storybook/core-events@workspace:lib/core-events"
   dependencies:
     core-js: ^3.8.2
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -8377,6 +8391,7 @@ __metadata:
     "@types/node": ^14.0.10 || ^16.0.0
     core-js: ^3.8.2
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -8691,6 +8706,7 @@ __metadata:
     "@storybook/core-events": 7.0.0-alpha.10
     core-js: ^3.8.2
     global: ^4.4.0
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -9131,6 +9147,7 @@ __metadata:
     qs: ^6.10.0
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util-deprecate: ^1.0.2
   languageName: unknown
   linkType: soft
@@ -9622,6 +9639,7 @@ __metadata:
     global: ^4.4.0
     lodash: ^4.17.21
     prettier: ">=2.2.1 <=2.3.0"
+    typescript: ~4.6.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -9645,6 +9663,7 @@ __metadata:
     stable: ^0.1.8
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
+    typescript: ~4.6.3
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -9713,6 +9732,7 @@ __metadata:
     isomorphic-unfetch: ^3.1.0
     nanoid: ^3.3.1
     read-pkg-up: ^7.0.1
+    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -39962,6 +39982,7 @@ __metadata:
   resolution: "sb@workspace:lib/cli-sb"
   dependencies:
     "@storybook/cli": 7.0.0-alpha.10
+    typescript: ~4.6.3
   bin:
     sb: ./index.js
   languageName: unknown
@@ -41341,6 +41362,7 @@ __metadata:
   resolution: "storybook@workspace:lib/cli-storybook"
   dependencies:
     "@storybook/cli": 7.0.0-alpha.10
+    typescript: ~4.6.3
   bin:
     sb: ./index.js
     storybook: ./index.js

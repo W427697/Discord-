@@ -36,6 +36,9 @@
   "dependencies": {
     "core-js": "^3.8.2"
   },
+  "devDependencies": {
+    "typescript": "~4.6.3"
+  },
   "publishConfig": {
     "access": "public"
   },

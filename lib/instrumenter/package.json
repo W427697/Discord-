@@ -47,6 +47,9 @@
     "core-js": "^3.8.2",
     "global": "^4.4.0"
   },
+  "devDependencies": {
+    "typescript": "~4.6.3"
+  },
   "publishConfig": {
     "access": "public"
   },

@@ -52,6 +52,9 @@
     "react-sizeme": "^3.0.1",
     "upath": "^1.2.0"
   },
+  "devDependencies": {
+    "typescript": "~4.6.3"
+  },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"

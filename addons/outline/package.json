@@ -51,6 +51,9 @@
     "global": "^4.4.0",
     "ts-dedent": "^2.0.0"
   },
+  "devDependencies": {
+    "typescript": "~4.6.3"
+  },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
