@@ -56,6 +56,7 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
@@ -72,6 +73,7 @@
   },
   "devDependencies": {
     "@digitak/esrun": "^3.2.2",
+    "typescript": "~4.6.3",
     "vue": "^2.6.12",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.14",
@@ -91,10 +93,13 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": [
-    "./src/index.ts",
-    "./src/framework-preset-vue-docs.ts",
-    "./src/framework-preset-vue.ts"
-  ],
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/framework-preset-vue-docs.ts",
+      "./src/framework-preset-vue.ts"
+    ],
+    "platform": "node"
+  },
   "gitHead": "b13dd8fb52819d73d4983148af8ffc5d683e8b75"
 }

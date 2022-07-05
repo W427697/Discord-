@@ -34,6 +34,7 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
@@ -45,6 +46,9 @@
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
     "core-js": "^3.8.2",
     "global": "^4.4.0"
+  },
+  "devDependencies": {
+    "typescript": "~4.6.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

@@ -3,7 +3,7 @@ import deepEqual from 'fast-deep-equal';
 import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'memoizerific';
 import qs, { IStringifyOptions } from 'qs';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 export interface StoryData {
   viewMode?: string;

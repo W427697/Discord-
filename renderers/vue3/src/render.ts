@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { createApp, h } from 'vue';
 import type { RenderContext } from '@storybook/store';
 import type { ArgsStoryFn } from '@storybook/csf';

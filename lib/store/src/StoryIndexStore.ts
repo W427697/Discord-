@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import type { StoryId } from '@storybook/csf';
 import memoize from 'memoizerific';
 

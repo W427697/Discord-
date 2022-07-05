@@ -3,7 +3,7 @@ import { logger } from '@storybook/node-logger';
 import type { Options, CoreConfig } from '@storybook/core-common';
 import type { Configuration } from 'webpack';
 import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { loadCustomWebpackConfig } from '@storybook/core-webpack';
 import { createDefaultWebpackConfig } from '../preview/base-webpack.config';
 

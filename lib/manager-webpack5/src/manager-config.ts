@@ -4,7 +4,7 @@ import findUp from 'find-up';
 import resolveFrom from 'resolve-from';
 import fetch from 'node-fetch';
 import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 import type { Configuration } from 'webpack';
 import type { Ref, Options } from '@storybook/core-common';

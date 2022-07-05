@@ -1,6 +1,6 @@
 <script>
   import SlotDecorator from './SlotDecorator.svelte';
-  import dedent from 'ts-dedent';
+  import { dedent } from 'ts-dedent';
 
   export let name;
   export let kind;

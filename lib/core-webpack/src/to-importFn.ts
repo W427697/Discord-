@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
 import { globToRegexp } from '@storybook/core-common';
 

@@ -30,6 +30,7 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
@@ -40,6 +41,9 @@
     "global": "^4.4.0",
     "qs": "^6.10.0",
     "telejson": "^6.0.8"
+  },
+  "devDependencies": {
+    "typescript": "~4.6.3"
   },
   "publishConfig": {
     "access": "public"

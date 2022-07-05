@@ -32,6 +32,7 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
@@ -45,6 +46,9 @@
     "global": "^4.4.0",
     "memoizerific": "^1.11.3",
     "prop-types": "^15.7.2"
+  },
+  "devDependencies": {
+    "typescript": "~4.6.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
