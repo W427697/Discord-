@@ -18,17 +18,21 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, opti
 
   const executor = await builder.executor.get();
 
-  return {
-    ...config,
-    plugins: [
-      ...(config.plugins || []),
-      reactDomPkg?.version?.startsWith('18') || reactDomPkg?.version?.startsWith('0.0.0')
-        ? null
-        : new executor.IgnorePlugin({
-            resourceRegExp: /react-dom\/client$/,
-            contextRegExp:
-              /(renderers\/react|renderers\\react|@storybook\/react|@storybook\\react)/, // TODO this needs to work for both in our MONOREPO and in the user's NODE_MODULES
-          }),
-    ].filter(Boolean),
-  };
+  if (executor.IgnorePlugin) {
+    return {
+      ...config,
+      plugins: [
+        ...(config.plugins || []),
+        reactDomPkg?.version?.startsWith('18') || reactDomPkg?.version?.startsWith('0.0.0')
+          ? null
+          : new executor.IgnorePlugin({
+              resourceRegExp: /react-dom\/client$/,
+              contextRegExp:
+                /(renderers\/react|renderers\\react|@storybook\/react|@storybook\\react)/, // TODO this needs to work for both in our MONOREPO and in the user's NODE_MODULES
+            }),
+      ].filter(Boolean),
+    };
+  }
+
+  return config;
 };

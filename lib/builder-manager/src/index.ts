@@ -183,6 +183,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   if (!options.outputDir) {
     throw new Error('outputDir is required');
   }
+
   logger.info('=> Building manager..');
   const coreDirOrigin = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
   const coreDir = join(options.outputDir, `sb-manager`);
