@@ -93,7 +93,7 @@ export const focusableUIElements = {
   storyPanelRoot: 'storybook-panel-root',
 };
 
-export const init: ModuleFn = ({ store, provider, singleStory }) => {
+export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
   const api = {
     toggleFullscreen(toggled?: boolean) {
       return store.setState(
@@ -295,5 +295,14 @@ export const init: ModuleFn = ({ store, provider, singleStory }) => {
 
   const persisted = pick(store.getState(), 'layout', 'ui', 'selectedPanel');
 
-  return { api, state: merge(api.getInitialOptions(), persisted) };
+  return {
+    api,
+    state: merge(api.getInitialOptions(), persisted),
+    init: () => {
+      api.setOptions(merge(api.getInitialOptions(), persisted));
+      fullAPI.on('config', () => {
+        api.setOptions(merge(api.getInitialOptions(), persisted));
+      });
+    },
+  };
 };

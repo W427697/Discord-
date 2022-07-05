@@ -1,5 +1,5 @@
 import { dirname, join } from 'path';
-import { copy, writeFile } from 'fs-extra';
+import { copy, readFile, writeFile } from 'fs-extra';
 import express from 'express';
 
 import { logger } from '@storybook/node-logger';
@@ -22,16 +22,29 @@ import {
 } from './types';
 import { readDeep } from './utils/directory';
 
+const safeResolve = (path: string) => {
+  try {
+    return Promise.resolve(require.resolve(path));
+  } catch (e) {
+    return Promise.resolve(false as const);
+  }
+};
+
 let compilation: Compilation;
 
 export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
-  const entryPoints = await options.presets.apply('managerEntries', []);
-
+  const [addonsEntryPoints, customManagerEntryPoint] = await Promise.all([
+    options.presets.apply('managerEntries', []),
+    safeResolve(join(options.configDir, 'manager')),
+  ]);
   return {
-    entryPoints,
+    entryPoints: customManagerEntryPoint
+      ? [...addonsEntryPoints, customManagerEntryPoint]
+      : addonsEntryPoints,
     outdir: join(options.outputDir || './', 'sb-addons'),
     format: 'esm',
     outExtension: { '.js': '.mjs' },
+    loader: { '.js': 'jsx' },
     target: ['chrome100'],
     platform: 'browser',
     bundle: true,
@@ -125,9 +138,10 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(`/sb-addons`, express.static(addonsDir));
   router.use(`/sb-manager`, express.static(coreDir));
 
-  const [addonFiles, template] = await Promise.all([
+  const [addonFiles, template, customHead] = await Promise.all([
     readDeep(addonsDir),
     readTemplate('template.ejs'),
+    safeResolve(join(options.configDir, 'manager-head.html')).then(),
   ]);
 
   yield;
@@ -142,6 +156,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     globals: {
       FEATURES: JSON.stringify(features, null, 2),
     },
+    head: customHead ? await readFile(customHead, 'utf8') : '',
   });
 
   router.use(`/`, ({ path }, res, next) => {
