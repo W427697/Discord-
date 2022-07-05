@@ -45,15 +45,6 @@ type StoryImportProps = {
 
 export type StoryProps = (StoryDefProps | StoryRefProps | StoryImportProps) & CommonProps;
 
-export const lookupStoryId = (
-  storyName: string,
-  { mdxStoryNameToKey, mdxComponentAnnotations }: DocsContextProps
-) =>
-  toId(
-    mdxComponentAnnotations.id || mdxComponentAnnotations.title,
-    storyNameFromExport(mdxStoryNameToKey[storyName])
-  );
-
 export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryId => {
   const { id, of, meta } = props as StoryRefProps;
 
@@ -63,7 +54,7 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
 
   const { name } = props as StoryDefProps;
   const inputId = id === CURRENT_SELECTION ? context.id : id;
-  return inputId || lookupStoryId(name, context);
+  return inputId || context.storyIdByName(name);
 };
 
 export const getStoryProps = <TFramework extends AnyFramework>(
@@ -118,8 +109,7 @@ const Story: FunctionComponent<StoryProps> = (props) => {
     return null;
   }
 
-  const inline = context.type === 'external' || storyProps.inline;
-  if (inline) {
+  if (storyProps.inline) {
     // We do this so React doesn't complain when we replace the span in a secondary render
     const htmlContents = `<span></span>`;
 

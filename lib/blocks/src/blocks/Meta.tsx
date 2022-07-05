@@ -18,9 +18,6 @@ function getFirstStoryId(docsContext: DocsContextProps): string {
 
 function renderAnchor() {
   const context = useContext(DocsContext);
-  if (context.type === 'external') {
-    return null;
-  }
   const anchorId = getFirstStoryId(context) || context.id;
 
   return <Anchor storyId={anchorId} />;

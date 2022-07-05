@@ -1,15 +1,29 @@
 import { AnyFramework, StoryId } from '@storybook/csf';
-import { Story } from '@storybook/store';
+import { CSFFile, Story, StoryStore } from '@storybook/store';
+import { Channel, IndexEntry } from '@storybook/addons';
 import { DOCS_RENDERED } from '@storybook/core-events';
 
 import { Render, RenderType } from './Render';
-import type { DocsContextProps, DocsRenderFunction } from '../types';
-import { AbstractDocsRender } from './AbstractDocsRender';
+import type { DocsContextProps } from '../docs-context/DocsContextProps';
+import type { DocsRenderFunction } from '../docs-context/DocsRenderFunction';
+import { DocsContext } from '../docs-context/DocsContext';
 
-export class TemplateDocsRender<
-  TFramework extends AnyFramework
-> extends AbstractDocsRender<TFramework> {
-  public type: RenderType = 'docs';
+/**
+ * A TemplateDocsRender is a render of a docs entry that is rendered with (an) attached CSF file(s).
+ *
+ * The expectation is the primary CSF file which is the `importPath` for the entry will
+ * define a story which may contain the actual rendered JSX code for the template in the
+ * `docs.page` parameter.
+ *
+ * Use cases:
+ *  - Docs Page, where there is no parameter, and we fall back to the globally defined template.
+ *  - *.stories.mdx files, where the MDX compiler produces a CSF file with a `.parameter.docs.page`
+ *      parameter containing the compiled content of the MDX file.
+ */
+export class TemplateDocsRender<TFramework extends AnyFramework> implements Render<TFramework> {
+  public readonly type: RenderType = 'docs';
+
+  public readonly id: StoryId;
 
   public story?: Story<TFramework>;
 
@@ -17,13 +31,33 @@ export class TemplateDocsRender<
 
   public torndown = false;
 
+  public readonly disableKeyListeners = false;
+
+  public preparing = false;
+
+  private csfFiles?: CSFFile<TFramework>[];
+
+  constructor(
+    protected channel: Channel,
+    protected store: StoryStore<TFramework>,
+    public entry: IndexEntry
+  ) {
+    this.id = entry.id;
+  }
+
+  isPreparing() {
+    return this.preparing;
+  }
+
   async prepare() {
     this.preparing = true;
-    await super.prepare();
+    const { entryExports, csfFiles = [] } = await this.store.loadEntry(this.id);
 
     const { importPath, title } = this.entry;
-    this.csfFiles!.unshift(
-      await this.store.processCSFFileWithCache(this.exports!, importPath, title)
+    const primaryCsfFile = await this.store.processCSFFileWithCache<TFramework>(
+      entryExports,
+      importPath,
+      title
     );
 
     // We use the first ("primary") story from the CSF as the "current" story on the context.
@@ -31,7 +65,12 @@ export class TemplateDocsRender<
     //     a story to be current (even though now we render a separate docs entry from the stories)
     //   - when rendering a "docs only" (story) id, this will end up being the same story as
     //     this.id, as such "CSF files" have only one story
-    this.story = this.storyById(Object.keys(this.csfFiles![0].stories)[0]);
+    const primaryStoryId = Object.keys(primaryCsfFile.stories)[0];
+    this.story = this.store.storyFromCSFFile({ storyId: primaryStoryId, csfFile: primaryCsfFile });
+
+    this.csfFiles = [primaryCsfFile, ...csfFiles];
+
+    this.preparing = false;
   }
 
   isEqual(other: Render<TFramework>): boolean {
@@ -42,52 +81,23 @@ export class TemplateDocsRender<
     );
   }
 
-  storyById(storyId: StoryId) {
-    if (!this.csfFiles) throw new Error(`Cannot call storyById before preparing`);
+  async renderToElement(
+    canvasElement: HTMLElement,
+    renderStoryToElement: DocsContextProps['renderStoryToElement']
+  ) {
+    if (!this.story || !this.csfFiles) throw new Error('Cannot render docs before preparing');
 
-    const csfFile = this.csfFiles.find((f) => !!f.stories[storyId]);
-    if (!csfFile)
-      throw new Error(`Didn't find '${storyId}' in a loaded CSF file, this is unexpected`);
+    const docsContext = new DocsContext<TFramework>(
+      this.story.id,
+      this.entry.title,
+      this.entry.name,
 
-    return this.store.storyFromCSFFile({ storyId, csfFile });
-  }
-
-  async getDocsContext(
-    renderStoryToElement: DocsContextProps<TFramework>['renderStoryToElement']
-  ): Promise<DocsContextProps<TFramework>> {
-    const { title, name } = this.entry;
-
-    const { csfFiles } = this;
-    if (!csfFiles || !this.story) throw new Error(`Cannot get docs context before preparing`);
-
-    const componentStories = () =>
-      csfFiles.flatMap((csfFile) => this.store.componentStoriesFromCSFFile({ csfFile }));
-
-    const storyIdByModuleExport = () => {
-      // NOTE: we could implement this easily enough by checking all the component stories
-      throw new Error('`storyIdByModuleExport` not available for legacy docs files.');
-    };
-
-    return {
-      // TODO
-      type: 'legacy',
-      // NOTE: we use the id of the loaded story for reasons discussed in .prepare() above
-      id: this.story.id,
-      title,
-      name,
+      this.store,
       renderStoryToElement,
-      loadStory: this.loadStory.bind(this),
-      getStoryContext: this.getStoryContext.bind(this),
-      componentStories,
-      storyIdByModuleExport,
-      storyById: this.storyById.bind(this),
-      setMeta: () => {},
-    };
-  }
 
-  async render() {
-    if (!this.story || !this.docsContext || !this.canvasElement)
-      throw new Error('DocsRender not ready to render');
+      this.csfFiles,
+      true
+    );
 
     const { docs } = this.story.parameters || {};
 
@@ -97,15 +107,12 @@ export class TemplateDocsRender<
       );
 
     const renderer = await docs.renderer();
-    (renderer.render as DocsRenderFunction<TFramework>)(
-      this.docsContext,
-      docs,
-      this.canvasElement,
-      () => this.channel.emit(DOCS_RENDERED, this.id)
+    (renderer.render as DocsRenderFunction<TFramework>)(docsContext, docs, canvasElement, () =>
+      this.channel.emit(DOCS_RENDERED, this.id)
     );
     this.teardown = async ({ viewModeChanged }: { viewModeChanged?: boolean } = {}) => {
-      if (!viewModeChanged || !this.canvasElement) return;
-      renderer.unmount(this.canvasElement);
+      if (!viewModeChanged || !canvasElement) return;
+      renderer.unmount(canvasElement);
       this.torndown = true;
     };
   }

@@ -389,33 +389,6 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     }
   }
 
-  // Used by docs' modernInlineRender to render a story to a given element
-  // Note this short-circuits the `prepare()` phase of the StoryRender,
-  // main to be consistent with the previous behaviour. In the future,
-  // we will change it to go ahead and load the story, which will end up being
-  // "instant", although async.
-  renderStoryToElement(story: Story<TFramework>, element: HTMLElement) {
-    if (!this.renderToDOM)
-      throw new Error(`Cannot call renderStoryToElement before initialization`);
-
-    const render = new StoryRender<TFramework>(
-      this.channel,
-      this.storyStore,
-      this.renderToDOM,
-      this.inlineStoryCallbacks(story.id),
-      story.id,
-      'docs',
-      story
-    );
-    render.renderToElement(element);
-
-    this.storyRenders.push(render);
-
-    return async () => {
-      await this.teardownRender(render);
-    };
-  }
-
   async teardownRender(
     render: PossibleRender<TFramework>,
     { viewModeChanged = false }: { viewModeChanged?: boolean } = {}

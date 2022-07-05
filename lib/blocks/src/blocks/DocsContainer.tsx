@@ -37,13 +37,13 @@ const warnOptionsTheme = deprecate(
 );
 
 export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, children }) => {
-  const { id: storyId, type, storyById } = context;
+  const { id: storyId, storyById } = context;
   const allComponents = { ...defaultComponents };
   let theme = ensureTheme(null);
-  if (type === 'legacy') {
+  try {
     const {
       parameters: { options = {}, docs = {} },
-    } = storyById(storyId);
+    } = storyById();
     let themeVars = docs.theme;
     if (!themeVars && options.theme) {
       warnOptionsTheme();
@@ -51,6 +51,8 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, 
     }
     theme = ensureTheme(themeVars);
     Object.assign(allComponents, docs.components);
+  } catch (err) {
+    // No primary story, ie. standalone docs
   }
 
   useEffect(() => {

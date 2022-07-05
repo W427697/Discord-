@@ -1,15 +1,59 @@
 import { AnyFramework, StoryId } from '@storybook/csf';
-import { CSFFile, ModuleExports, ModuleExport } from '@storybook/store';
+import { CSFFile, ModuleExports, StoryStore } from '@storybook/store';
+import { Channel, IndexEntry } from '@storybook/addons';
 import { DOCS_RENDERED } from '@storybook/core-events';
 
 import { Render, RenderType } from './Render';
-import type { DocsContextProps, DocsRenderFunction } from '../types';
-import { AbstractDocsRender } from './AbstractDocsRender';
+import type { DocsContextProps } from '../docs-context/DocsContextProps';
+import type { DocsRenderFunction } from '../docs-context/DocsRenderFunction';
+import { DocsContext } from '../docs-context/DocsContext';
 
-export class StandaloneDocsRender<
-  TFramework extends AnyFramework
-> extends AbstractDocsRender<TFramework> {
-  public type: RenderType = 'docs';
+/**
+ * A StandaloneDocsRender is a render of a docs entry that doesn't directly come from a CSF file.
+ *
+ * A standalone render can reference zero or more CSF files that contain stories.
+ *
+ * Use cases:
+ *  - *.mdx file that may or may not reference a specific CSF file with `<Meta of={} />`
+ */
+
+export class StandaloneDocsRender<TFramework extends AnyFramework> implements Render<TFramework> {
+  public readonly type: RenderType = 'docs';
+
+  public readonly id: StoryId;
+
+  private exports?: ModuleExports;
+
+  public teardown?: (options: { viewModeChanged?: boolean }) => Promise<void>;
+
+  public torndown = false;
+
+  public readonly disableKeyListeners = false;
+
+  public preparing = false;
+
+  private csfFiles?: CSFFile<TFramework>[];
+
+  constructor(
+    protected channel: Channel,
+    protected store: StoryStore<TFramework>,
+    public entry: IndexEntry
+  ) {
+    this.id = entry.id;
+  }
+
+  isPreparing() {
+    return this.preparing;
+  }
+
+  async prepare() {
+    this.preparing = true;
+    const { entryExports, csfFiles = [] } = await this.store.loadEntry(this.id);
+    this.csfFiles = csfFiles;
+    this.exports = entryExports;
+
+    this.preparing = false;
+  }
 
   isEqual(other: Render<TFramework>): boolean {
     return !!(
@@ -19,92 +63,42 @@ export class StandaloneDocsRender<
     );
   }
 
-  async getDocsContext(
-    renderStoryToElement: DocsContextProps<TFramework>['renderStoryToElement']
-  ): Promise<DocsContextProps<TFramework>> {
-    const { id, title, name } = this.entry;
+  async renderToElement(
+    canvasElement: HTMLElement,
+    renderStoryToElement: DocsContextProps['renderStoryToElement']
+  ) {
+    if (!this.exports || !this.csfFiles || !this.store.projectAnnotations)
+      throw new Error('Cannot render docs before preparing');
 
-    if (!this.csfFiles) throw new Error('getDocsContext called before prepare');
+    const docsContext = new DocsContext<TFramework>(
+      this.id,
+      this.entry.title,
+      this.entry.name,
 
-    let metaCsfFile: ModuleExports;
-    const setMeta = (m: ModuleExports) => {
-      metaCsfFile = m;
-    };
-
-    const exportToStoryId = new Map<ModuleExport, StoryId>();
-    const storyIdToCSFFile = new Map<StoryId, CSFFile<TFramework>>();
-    // eslint-disable-next-line no-restricted-syntax
-    for (const csfFile of this.csfFiles) {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const annotation of Object.values(csfFile.stories)) {
-        exportToStoryId.set(annotation.moduleExport, annotation.id);
-        storyIdToCSFFile.set(annotation.id, csfFile);
-      }
-    }
-
-    const storyIdByModuleExport = (moduleExport: ModuleExport) => {
-      const storyId = exportToStoryId.get(moduleExport);
-      if (storyId) return storyId;
-
-      throw new Error(`No story found with that export: ${moduleExport}`);
-    };
-
-    const storyById = (storyId: StoryId) => {
-      const csfFile = storyIdToCSFFile.get(storyId);
-      if (!csfFile)
-        throw new Error(`Called \`storyById\` for story that was never loaded: ${storyId}`);
-      return this.store.storyFromCSFFile({ storyId, csfFile });
-    };
-
-    const componentStories = () => {
-      return (
-        Object.entries(metaCsfFile)
-          .map(([_, moduleExport]) => exportToStoryId.get(moduleExport))
-          .filter(Boolean) as StoryId[]
-      ).map(storyById);
-    };
-
-    return {
-      // TODO
-      type: 'modern',
-      id,
-      title,
-      name,
+      this.store,
       renderStoryToElement,
-      loadStory: this.loadStory.bind(this),
-      getStoryContext: this.getStoryContext.bind(this),
-      storyIdByModuleExport,
-      storyById,
-      componentStories,
-      setMeta,
-    };
-  }
 
-  async render() {
-    if (!this.exports || !this.docsContext || !this.canvasElement || !this.store.projectAnnotations)
-      throw new Error('DocsRender not ready to render');
+      this.csfFiles,
+      false
+    );
 
     const { docs } = this.store.projectAnnotations.parameters || {};
 
-    if (!docs) {
+    if (!docs)
       throw new Error(
         `Cannot render a story in viewMode=docs if \`@storybook/addon-docs\` is not installed`
       );
-    }
 
     const renderer = await docs.renderer();
     (renderer.render as DocsRenderFunction<TFramework>)(
-      this.docsContext,
-      {
-        ...docs,
-        page: this.exports.default,
-      },
-      this.canvasElement,
+      docsContext,
+      { ...docs, page: this.exports.default },
+      canvasElement,
       () => this.channel.emit(DOCS_RENDERED, this.id)
     );
     this.teardown = async ({ viewModeChanged }: { viewModeChanged?: boolean } = {}) => {
-      if (!viewModeChanged || !this.canvasElement) return;
-      renderer.unmount(this.canvasElement);
+      if (!viewModeChanged || !canvasElement) return;
+      renderer.unmount(canvasElement);
       this.torndown = true;
     };
   }

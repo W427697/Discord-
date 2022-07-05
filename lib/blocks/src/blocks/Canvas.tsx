@@ -25,7 +25,7 @@ const getPreviewProps = (
   docsContext: DocsContextProps<AnyFramework>,
   sourceContext: SourceContextProps
 ) => {
-  const { mdxComponentAnnotations, mdxStoryNameToKey } = docsContext;
+  const { storyIdByName } = docsContext;
   let sourceState = withSource;
   let isLoading = false;
   if (sourceState === SourceState.NONE) {
@@ -48,10 +48,7 @@ const getPreviewProps = (
     if (id) return id;
     if (of) return docsContext.storyIdByModuleExport(of);
 
-    return toId(
-      mdxComponentAnnotations.id || mdxComponentAnnotations.title,
-      storyNameFromExport(mdxStoryNameToKey[name])
-    );
+    return storyIdByName(name);
   });
 
   const sourceProps = getSourceProps({ ids: targetIds }, docsContext, sourceContext);

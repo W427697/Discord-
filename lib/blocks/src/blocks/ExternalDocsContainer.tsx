@@ -3,7 +3,7 @@ import React from 'react';
 import { ThemeProvider, themes, ensure } from '@storybook/theming';
 import { DocsContextProps } from '@storybook/preview-web';
 import { ModuleExport, ModuleExports, Story } from '@storybook/store';
-import { AnyFramework, StoryId } from '@storybook/csf';
+import { AnyFramework, StoryId, StoryName } from '@storybook/csf';
 
 import { DocsContext } from './DocsContext';
 import { ExternalPreview } from './ExternalPreview';
@@ -22,14 +22,17 @@ export const ExternalDocsContainer: React.FC<{ projectAnnotations: any }> = ({
   };
 
   const docsContext: DocsContextProps = {
-    type: 'external',
-
     id: 'external-docs',
     title: 'External',
     name: 'Docs',
 
     storyIdByModuleExport: (storyExport: ModuleExport, metaExport: ModuleExports) => {
       return preview.storyIdByModuleExport(storyExport, metaExport || pageMeta);
+    },
+
+    storyIdByName: (name: StoryName) => {
+      // TODO
+      throw new Error('not implemented');
     },
 
     storyById: (id: StoryId) => {

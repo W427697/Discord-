@@ -16,7 +16,6 @@ import {
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { Component, CURRENT_SELECTION, PRIMARY_STORY } from './types';
 import { getComponentName } from './utils';
-import { lookupStoryId } from './Story';
 import { useStory } from './useStory';
 
 interface BaseProps {
@@ -173,7 +172,7 @@ export const StoryTable: FC<
         break;
       }
       default: {
-        storyId = lookupStoryId(storyName, context);
+        storyId = context.storyIdByName(storyName);
       }
     }
 
