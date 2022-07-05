@@ -170,7 +170,7 @@ export class ConfigFile {
     if (node) {
       const { code } = generate(node, {});
       // eslint-disable-next-line no-eval
-      const value = eval(`(() => (${code}))()`);
+      const value = (0, eval)(`(() => (${code}))()`);
       return value;
     }
     return undefined;
