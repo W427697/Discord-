@@ -20,6 +20,7 @@ export default {
   '@storybook/addons': '7.0.0-alpha.10',
   '@storybook/angular': '7.0.0-alpha.10',
   '@storybook/api': '7.0.0-alpha.10',
+  '@storybook/blocks': '7.0.0-alpha.10',
   '@storybook/builder-manager': '7.0.0-alpha.10',
   '@storybook/builder-webpack5': '7.0.0-alpha.10',
   '@storybook/channel-postmessage': '7.0.0-alpha.10',
