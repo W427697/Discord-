@@ -1,4 +1,5 @@
-import path from 'path';
+/* eslint-disable no-param-reassign */
+import { dirname, join } from 'path';
 import type { PresetProperty } from '@storybook/core-common';
 import { StorybookConfig } from './types';
 
@@ -20,8 +21,8 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
   return {
     ...config,
     builder: {
-      name: path.dirname(
-        require.resolve(path.join('@storybook/builder-webpack5', 'package.json'))
+      name: dirname(
+        require.resolve(join('@storybook/builder-webpack5', 'package.json'))
       ) as '@storybook/builder-webpack5',
       options: typeof framework === 'string' ? {} : framework.options.builder || {},
     },
@@ -33,4 +34,18 @@ export const typescript: PresetProperty<'typescript', StorybookConfig> = async (
     ...config,
     skipBabel: true,
   };
+};
+
+export const webpack: StorybookConfig['webpack'] = async (config) => {
+  config.resolve = config.resolve || {};
+
+  config.resolve.alias = {
+    ...config.resolve?.alias,
+
+    '@storybook/angular': dirname(require.resolve(join('@storybook/angular', 'package.json'))),
+
+    react: dirname(require.resolve(join('react', 'package.json'))),
+    'react-dom': dirname(require.resolve(join('react-dom', 'package.json'))),
+  };
+  return config;
 };

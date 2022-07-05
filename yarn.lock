@@ -8925,6 +8925,8 @@ __metadata:
     "@storybook/react": 7.0.0-alpha.10
     "@types/node": ^14.14.20 || ^16.0.0
     jest-specific-snapshot: ^4.0.0
+    react: 16.14.0
+    react-dom: 16.14.0
     typescript: ~4.6.3
   peerDependencies:
     "@babel/core": ^7.11.5

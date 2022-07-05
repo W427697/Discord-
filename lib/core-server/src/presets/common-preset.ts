@@ -17,7 +17,7 @@ import { loadCsf } from '@storybook/csf-tools';
 export const babel = async (_: unknown, options: Options) => {
   const { presets } = options;
 
-  return presets.apply('babelDefault', { sourceType: 'unambiguous' }, options);
+  return presets.apply('babelDefault', { sourceType: 'unambiguous', compact: false }, options);
 };
 
 export const logLevel = (previous: any, options: Options) => previous || options.loglevel || 'info';
