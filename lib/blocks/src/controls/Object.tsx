@@ -285,7 +285,7 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
       id={getControlId(name)}
       name={name}
       defaultValue={value === null ? '' : JSON.stringify(value, null, 2)}
-      onBlur={(event: FocusEvent<HTMLInputElement>) => updateRaw(event.target.value)}
+      onBlur={(event: FocusEvent<HTMLTextAreaElement>) => updateRaw(event.target.value)}
       placeholder="Edit JSON string..."
       autoFocus={forceVisible}
       valid={parseError ? 'error' : null}
@@ -295,7 +295,13 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
   return (
     <Wrapper>
       {['Object', 'Array'].includes(getObjectType(data)) && (
-        <RawButton onClick={() => setShowRaw((v) => !v)}>
+        <RawButton
+          href="#"
+          onClick={(e: SyntheticEvent) => {
+            e.preventDefault();
+            setShowRaw((v) => !v);
+          }}
+        >
           <Icons icon={showRaw ? 'eyeclose' : 'eye'} />
           <span>RAW</span>
         </RawButton>

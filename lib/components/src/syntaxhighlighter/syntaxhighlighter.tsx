@@ -1,4 +1,12 @@
-import React, { ClipboardEvent, FunctionComponent, MouseEvent, useCallback, useState } from 'react';
+import React, {
+  ClipboardEvent,
+  ComponentProps,
+  FC,
+  FunctionComponent,
+  MouseEvent,
+  useCallback,
+  useState,
+} from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
 import global from 'global';
@@ -94,11 +102,15 @@ const Wrapper = styled.div<WrapperProps>(
       : {}
 );
 
-const Scroller = styled(({ children, className }) => (
+const UnstyledScroller: FC<ComponentProps<typeof ScrollArea>> = ({
+  children,
+  className,
+}): JSX.Element => (
   <ScrollArea horizontal vertical className={className}>
     {children}
   </ScrollArea>
-))(
+);
+const Scroller = styled(UnstyledScroller)(
   {
     position: 'relative',
   },

@@ -1,10 +1,12 @@
-import React, { ComponentProps, FunctionComponent } from 'react';
+import React, { ComponentProps, FC, FunctionComponent } from 'react';
 import { styled, ThemeProvider, convert, themes } from '@storybook/theming';
 import { SyntaxHighlighter } from '@storybook/components';
 
 import { EmptyBlock } from './EmptyBlock';
 
-const StyledSyntaxHighlighter = styled(SyntaxHighlighter)<{}>(({ theme }) => ({
+const StyledSyntaxHighlighter: FC<ComponentProps<typeof SyntaxHighlighter>> = styled(
+  SyntaxHighlighter
+)(({ theme }) => ({
   // DocBlocks-specific styling and overrides
   fontSize: `${theme.typography.size.s2 - 1}px`,
   lineHeight: '19px',

@@ -19,7 +19,7 @@ const Wrapper = styled.div<{}>(({ theme }) => ({
   },
 }));
 
-const Icon = styled<any, any>(Icons)(({ theme }) => ({
+const Icon = styled(Icons)(({ theme }) => ({
   height: 10,
   width: 10,
   minWidth: 10,
@@ -76,7 +76,6 @@ export const Item = (props: ItemProps) => {
         <HeaderBar onClick={() => onToggle(!open)} role="button">
           <Icon
             icon="chevrondown"
-            size={10}
             color="#9DA5AB"
             style={{
               transform: `rotate(${open ? 0 : -90}deg)`,
