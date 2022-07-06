@@ -8149,9 +8149,13 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.11
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/theming": 7.0.0-alpha.11
+    "@testing-library/jest-dom": ^5.16.4
     "@types/color-convert": ^2.0.0
+    "@types/lodash": ^4.14.182
     "@types/overlayscrollbars": ^1.12.0
+    "@types/qs": ^6.9.7
     "@types/react-syntax-highlighter": 11.0.5
+    "@types/util-deprecate": ^1.0.0
     color-convert: ^2.0.1
     core-js: ^3.8.2
     css: ^3.0.0
@@ -8533,9 +8537,10 @@ __metadata:
     typescript: ~4.6.3
   peerDependencies:
     "@babel/core": "*"
+    "@types/ember__component": 4.0.8
     babel-plugin-ember-modules-api-polyfill: ^2.12.0
     babel-plugin-htmlbars-inline-precompile: 2 || 3
-    ember-source: ^3.16.0
+    ember-source: ~3.28.1
   languageName: unknown
   linkType: soft
 
@@ -10407,7 +10412,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/jest-dom@npm:^5.11.9":
+"@testing-library/jest-dom@npm:^5.11.9, @testing-library/jest-dom@npm:^5.16.4":
   version: 5.16.4
   resolution: "@testing-library/jest-dom@npm:5.16.4"
   dependencies:
@@ -11087,7 +11092,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.167":
+"@types/lodash@npm:^4.14.167, @types/lodash@npm:^4.14.182":
   version: 4.14.182
   resolution: "@types/lodash@npm:4.14.182"
   checksum: d6bd4789dfb3be631d5e3277e6a1be5becb21440f3364f5d15b982c2e6b6bb1f8048d46fc5bff5ef0f90bebaf4d07c49b2919ba369d07af72d3beb3fea70c61a
@@ -11370,7 +11375,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/qs@npm:*, @types/qs@npm:^6, @types/qs@npm:^6.9.5":
+"@types/qs@npm:*, @types/qs@npm:^6, @types/qs@npm:^6.9.5, @types/qs@npm:^6.9.7":
   version: 6.9.7
   resolution: "@types/qs@npm:6.9.7"
   checksum: 157eb05f4c75790b0ebdcf7b0547ff117feabc8cda03c3cac3d3ea82bb19a1912e76a411df3eb0bdd01026a9770f07bc0e7e3fbe39ebb31c1be4564c16be35f1
