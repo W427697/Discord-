@@ -49,7 +49,6 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "preprepare": "esrun ./scripts/generate-exports-file.ts",
     "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
@@ -97,6 +96,7 @@
     "access": "public"
   },
   "bundler": {
+    "pre": "./scripts/generate-exports-file.ts",
     "entries": [
       "./src/index.tsx",
       "./src/globals.ts",

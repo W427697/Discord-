@@ -2,6 +2,7 @@ import fs from 'fs-extra';
 import path, { join } from 'path';
 import { build } from 'tsup';
 import aliasPlugin from 'esbuild-plugin-alias';
+import shelljs from 'shelljs';
 
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
 
@@ -10,8 +11,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     name,
     dependencies,
     peerDependencies,
-    bundler: { entries, platform },
+    bundler: { entries, platform, pre },
   } = await fs.readJson(join(cwd, 'package.json'));
+
+  if (pre) {
+    shelljs.exec(`esrun ${pre}`, { cwd });
+  }
 
   const reset = hasFlag(flags, 'reset');
   const watch = hasFlag(flags, 'watch');
