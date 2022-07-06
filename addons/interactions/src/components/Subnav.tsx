@@ -129,10 +129,7 @@ export const Subnav: React.FC<SubnavProps> = ({
 
             <StyledSeparator />
 
-            <WithTooltip
-              hasChrome={false}
-              tooltip={<Note note="Go to start" data-chromatic="ignore" />}
-            >
+            <WithTooltip hasChrome={false} tooltip={<Note note="Go to start" />}>
               <RewindButton
                 aria-label="Go to start"
                 containsIcon
@@ -143,10 +140,7 @@ export const Subnav: React.FC<SubnavProps> = ({
               </RewindButton>
             </WithTooltip>
 
-            <WithTooltip
-              hasChrome={false}
-              tooltip={<Note note="Go back" data-chromatic="ignore" />}
-            >
+            <WithTooltip hasChrome={false} tooltip={<Note note="Go back" />}>
               <StyledIconButton
                 aria-label="Go back"
                 containsIcon
@@ -157,10 +151,7 @@ export const Subnav: React.FC<SubnavProps> = ({
               </StyledIconButton>
             </WithTooltip>
 
-            <WithTooltip
-              hasChrome={false}
-              tooltip={<Note note="Go forward" data-chromatic="ignore" />}
-            >
+            <WithTooltip hasChrome={false} tooltip={<Note note="Go forward" />}>
               <StyledIconButton
                 aria-label="Go forward"
                 containsIcon
@@ -171,10 +162,7 @@ export const Subnav: React.FC<SubnavProps> = ({
               </StyledIconButton>
             </WithTooltip>
 
-            <WithTooltip
-              hasChrome={false}
-              tooltip={<Note note="Go to end" data-chromatic="ignore" />}
-            >
+            <WithTooltip hasChrome={false} tooltip={<Note note="Go to end" />}>
               <StyledIconButton
                 aria-label="Go to end"
                 containsIcon
@@ -185,7 +173,7 @@ export const Subnav: React.FC<SubnavProps> = ({
               </StyledIconButton>
             </WithTooltip>
 
-            <WithTooltip hasChrome={false} tooltip={<Note note="Rerun" data-chromatic="ignore" />}>
+            <WithTooltip hasChrome={false} tooltip={<Note note="Rerun" />}>
               <RerunButton
                 aria-label="Rerun"
                 containsIcon
