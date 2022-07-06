@@ -94,12 +94,7 @@ export const getSourceProps = (
   sourceContext: SourceContextProps
 ): PureSourceProps & SourceStateProps => {
   const { id: currentId, storyById } = docsContext;
-  let parameters = {} as Parameters;
-  try {
-    ({ parameters } = storyById(currentId));
-  } catch (err) {
-    // TODO: in external mode, there is no "current"
-  }
+  const { parameters } = storyById();
 
   const codeProps = props as CodeProps;
   const singleProps = props as SingleSourceProps;

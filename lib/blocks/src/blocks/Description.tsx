@@ -32,9 +32,9 @@ const noDescription = (component?: Component): string | null => null;
 
 export const getDescriptionProps = (
   { of, type, markdown, children }: DescriptionProps,
-  { id, storyById }: DocsContextProps<any>
+  { storyById }: DocsContextProps<any>
 ): PureDescriptionProps => {
-  const { component, parameters } = storyById(id);
+  const { component, parameters } = storyById();
   if (children || markdown) {
     return { markdown: children || markdown };
   }
