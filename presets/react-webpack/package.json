@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-react-webpack",
-  "version": "7.0.0-alpha.7",
+  "version": "7.0.0-alpha.11",
   "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -67,16 +67,17 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@babel/preset-flow": "^7.12.1",
     "@babel/preset-react": "^7.12.10",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
-    "@storybook/core-webpack": "7.0.0-alpha.7",
-    "@storybook/docs-tools": "7.0.0-alpha.7",
-    "@storybook/node-logger": "7.0.0-alpha.7",
-    "@storybook/react": "7.0.0-alpha.7",
+    "@storybook/core-webpack": "7.0.0-alpha.11",
+    "@storybook/docs-tools": "7.0.0-alpha.11",
+    "@storybook/node-logger": "7.0.0-alpha.11",
+    "@storybook/react": "7.0.0-alpha.11",
     "@storybook/react-docgen-typescript-plugin": "1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0",
     "@storybook/semver": "^7.3.2",
     "@types/node": "^14.14.20 || ^16.0.0",
@@ -88,7 +89,8 @@
   },
   "devDependencies": {
     "@digitak/esrun": "^3.2.2",
-    "@types/util-deprecate": "^1.0.0"
+    "@types/util-deprecate": "^1.0.0",
+    "typescript": "~4.6.3"
   },
   "peerDependencies": {
     "@babel/core": "^7.11.5",
@@ -112,12 +114,15 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": [
-    "./src/index.ts",
-    "./src/framework-preset-cra.ts",
-    "./src/framework-preset-react-docs.ts",
-    "./src/framework-preset-react-dom-hack.ts",
-    "./src/framework-preset-react.ts"
-  ],
-  "gitHead": "d334cabd251cd0ed8b845a87707dc84f007d4074"
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/framework-preset-cra.ts",
+      "./src/framework-preset-react-docs.ts",
+      "./src/framework-preset-react-dom-hack.ts",
+      "./src/framework-preset-react.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "688d338903e84a7e83cb104472e868e734399f65"
 }

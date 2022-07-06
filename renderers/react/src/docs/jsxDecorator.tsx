@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React, { createElement, ReactElement } from 'react';
 import reactElementToJSXString, { Options } from 'react-element-to-jsx-string';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import deprecate from 'util-deprecate';
 
 import { addons, useEffect } from '@storybook/addons';
@@ -179,7 +179,6 @@ export const jsxDecorator = (
 ) => {
   const channel = addons.getChannel();
   const skip = skipJsxRender(context);
-  const story = storyFn();
 
   let jsx = '';
 
@@ -189,6 +188,7 @@ export const jsxDecorator = (
     }
   });
 
+  const story = storyFn();
   // We only need to render JSX if the source block is actually going to
   // consume it. Otherwise it's just slowing us down.
   if (skip) {

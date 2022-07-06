@@ -3,7 +3,7 @@ import type { TransformOptions } from '@babel/core';
 import { Router } from 'express';
 import { Server } from 'http';
 import type { Parameters } from '@storybook/csf';
-import { FileSystemCache } from './utils/file-cache';
+import type { FileSystemCache } from './utils/file-cache';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
@@ -55,13 +55,13 @@ export interface Presets {
     config: TypescriptOptions,
     args?: Options
   ): Promise<TypescriptOptions>;
-  apply(extension: 'framework', config: {}, args: any): Promise<Preset>;
-  apply(extension: 'babel', config: {}, args: any): Promise<TransformOptions>;
-  apply(extension: 'entries', config: [], args: any): Promise<unknown>;
-  apply(extension: 'stories', config: [], args: any): Promise<StoriesEntry[]>;
-  apply(extension: 'managerEntries', config: [], args: any): Promise<string[]>;
-  apply(extension: 'refs', config: [], args: any): Promise<unknown>;
-  apply(extension: 'core', config: {}, args: any): Promise<CoreConfig>;
+  apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
+  apply(extension: 'babel', config?: {}, args?: any): Promise<TransformOptions>;
+  apply(extension: 'entries', config?: [], args?: any): Promise<unknown>;
+  apply(extension: 'stories', config?: [], args?: any): Promise<StoriesEntry[]>;
+  apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
+  apply(extension: 'refs', config?: [], args?: any): Promise<unknown>;
+  apply(extension: 'core', config?: {}, args?: any): Promise<CoreConfig>;
   apply<T>(extension: string, config?: T, args?: unknown): Promise<T>;
 }
 
@@ -84,6 +84,7 @@ export interface Ref {
   title: string;
   version: string;
   type?: string;
+  disable?: boolean;
 }
 
 export interface VersionCheck {
@@ -129,11 +130,6 @@ export interface LoadOptions {
   configDir?: string;
   ignorePreview?: boolean;
   extendServer?: (server: Server) => void;
-}
-
-export interface ManagerWebpackOptions {
-  entries: string[];
-  refs: Record<string, Ref>;
 }
 
 export interface CLIOptions {

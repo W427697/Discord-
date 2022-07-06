@@ -1,3 +1,67 @@
+## 7.0.0-alpha.11 (July 6, 2022)
+
+### Features
+
+- Interactions: Show exceptions by non-instrumented code in panel ([#16592](https://github.com/storybookjs/storybook/pull/16592))
+
+### Maintenance
+
+- Build: Add linter for ejs ([#18637](https://github.com/storybookjs/storybook/pull/18637))
+- Core: Improve interopRequireDefault ([#18638](https://github.com/storybookjs/storybook/pull/18638))
+- Core: Pre-built manager using esbuild ([#18550](https://github.com/storybookjs/storybook/pull/18550))
+- Build: Add check-packages script plus misc improvements ([#18633](https://github.com/storybookjs/storybook/pull/18633))
+- Core: Typing useArgs ([#17735](https://github.com/storybookjs/storybook/pull/17735))
+- Build: Add a check script to each package ([#18603](https://github.com/storybookjs/storybook/pull/18603))
+- Build: Use playwright in benchmark ([#18606](https://github.com/storybookjs/storybook/pull/18606))
+
+## 7.0.0-alpha.10 (July 2, 2022)
+
+### Features
+
+- Addon-docs: Include Vue methods in ArgsTable ([#18609](https://github.com/storybookjs/storybook/pull/18609))
+- UI: Fix default theme according to preferred color scheme ([#17311](https://github.com/storybookjs/storybook/pull/17311))
+- Storyshots: Add SnapshotsWithOptionsArgType ([#15712](https://github.com/storybookjs/storybook/pull/15712))
+- Controls: Add max length config to text control ([#14396](https://github.com/storybookjs/storybook/pull/14396))
+
+### Bug Fixes
+
+- CLI/HTML: Improve HTML typescript stories ([#18618](https://github.com/storybookjs/storybook/pull/18618))
+- Controls: Throttle color controls and make `updateArgs` and `resetArgs` stable ([#18335](https://github.com/storybookjs/storybook/pull/18335))
+- Controls: Silence unexpected control type enum for color matchers ([#16334](https://github.com/storybookjs/storybook/pull/16334))
+- UI: Stop add-on Draggable from overlapping the vertical scrollbar when stories overflow ([#17663](https://github.com/storybookjs/storybook/pull/17663))
+- React: Fix source snippet decorator for story functions with suspense ([#17915](https://github.com/storybookjs/storybook/pull/17915))
+- Core: Avoid logging an object on compilation errors ([#15885](https://github.com/storybookjs/storybook/pull/15885))
+- UI: Fix router handling of URLs containing "settings" ([#16245](https://github.com/storybookjs/storybook/pull/16245))
+- UI: Fix viewMode handling on navigation ([#16912](https://github.com/storybookjs/storybook/pull/16912))
+- UI: Fix loading title ([#17935](https://github.com/storybookjs/storybook/pull/17935))
+
+### Maintenance
+
+- Examples/Vue: Fix missing a vue-template-compiler dependency ([#17485](https://github.com/storybookjs/storybook/pull/17485))
+- Fix homepage core-server ([#18121](https://github.com/storybookjs/storybook/pull/18121))
+- UI: Replace references to `themes.normal` with `themes.light` ([#17034](https://github.com/storybookjs/storybook/pull/17034))
+
+### Dependency Upgrades
+
+- Upgrade file-system-cache to 2.0.0 and remove custom types ([#18253](https://github.com/storybookjs/storybook/pull/18253))
+- Security: Update x-default-browser and fix issue with package. ([#18277](https://github.com/storybookjs/storybook/pull/18277))
+- Update puppeteer dependencies version ([#15163](https://github.com/storybookjs/storybook/pull/15163))
+- Upgrade react-syntax-highlighter to v15.5.0 ([#18009](https://github.com/storybookjs/storybook/pull/18009))
+
+## 7.0.0-alpha.9 (July 2, 2022)
+
+Failed publish
+
+## 7.0.0-alpha.8 (June 29, 2022)
+
+### Features
+
+- Webpack: Support .cjs extension ([#18502](https://github.com/storybookjs/storybook/pull/18502))
+
+### Maintenance
+
+- Docs2: Extract doc blocks into a separate package ([#18587](https://github.com/storybookjs/storybook/pull/18587))
+
 ## 7.0.0-alpha.7 (June 29, 2022)
 
 ### Features

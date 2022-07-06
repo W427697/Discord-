@@ -1,5 +1,5 @@
 import { generate } from 'escodegen';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 const BASIC_OPTIONS = {
   format: {

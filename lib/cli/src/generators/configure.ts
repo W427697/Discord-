@@ -1,5 +1,5 @@
 import fse from 'fs-extra';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { SupportedRenderers } from '../project_types';
 
 interface ConfigureMainOptions {

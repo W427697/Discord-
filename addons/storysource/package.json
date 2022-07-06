@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-storysource",
-  "version": "7.0.0-alpha.7",
+  "version": "7.0.0-alpha.11",
   "description": "View a story’s source code to see how it works and paste into your app",
   "keywords": [
     "addon",
@@ -31,24 +31,26 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.7",
-    "@storybook/api": "7.0.0-alpha.7",
-    "@storybook/client-logger": "7.0.0-alpha.7",
-    "@storybook/components": "7.0.0-alpha.7",
-    "@storybook/router": "7.0.0-alpha.7",
-    "@storybook/source-loader": "7.0.0-alpha.7",
-    "@storybook/theming": "7.0.0-alpha.7",
+    "@storybook/addons": "7.0.0-alpha.11",
+    "@storybook/api": "7.0.0-alpha.11",
+    "@storybook/client-logger": "7.0.0-alpha.11",
+    "@storybook/components": "7.0.0-alpha.11",
+    "@storybook/router": "7.0.0-alpha.11",
+    "@storybook/source-loader": "7.0.0-alpha.11",
+    "@storybook/theming": "7.0.0-alpha.11",
     "core-js": "^3.8.2",
     "estraverse": "^5.2.0",
     "prop-types": "^15.7.2",
-    "react-syntax-highlighter": "^15.4.5"
+    "react-syntax-highlighter": "^15.5.0"
   },
   "devDependencies": {
     "@types/react": "^16.14.23",
-    "@types/react-syntax-highlighter": "11.0.5"
+    "@types/react-syntax-highlighter": "11.0.5",
+    "typescript": "~4.6.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -65,7 +67,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "d334cabd251cd0ed8b845a87707dc84f007d4074",
+  "gitHead": "688d338903e84a7e83cb104472e868e734399f65",
   "storybook": {
     "displayName": "Storysource",
     "icon": "https://user-images.githubusercontent.com/263385/101991675-48cdf300-3c7c-11eb-9400-58de5ac6daa7.png",
