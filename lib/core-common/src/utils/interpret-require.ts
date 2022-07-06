@@ -1,25 +1,27 @@
 import { getInterpretedFileWithExt } from './interpret-files';
 
-export function interopRequireDefault(filePath: string) {
-  // eslint-disable-next-line global-require
-  const { register } = require('esbuild-register/dist/node');
+let registered = false;
 
-  const { unregister } = register({
-    target: `node${process.version.slice(1)}`,
-    format: 'cjs',
-    hookIgnoreNodeModules: false,
-    tsconfigRaw: `{
-    "compilerOptions": {
-      "strict": false,
-      "skipLibCheck": true,
-    },
-  }`,
-  });
+export function interopRequireDefault(filePath: string) {
+  if (registered === false) {
+    // eslint-disable-next-line global-require
+    const { register } = require('esbuild-register/dist/node');
+    registered = true;
+    register({
+      target: `node${process.version.slice(1)}`,
+      format: 'cjs',
+      hookIgnoreNodeModules: false,
+      tsconfigRaw: `{
+      "compilerOptions": {
+        "strict": false,
+        "skipLibCheck": true,
+      },
+    }`,
+    });
+  }
 
   // eslint-disable-next-line import/no-dynamic-require,global-require
   const result = require(filePath);
-
-  unregister();
 
   const isES6DefaultExported =
     typeof result === 'object' && result !== null && typeof result.default !== 'undefined';
