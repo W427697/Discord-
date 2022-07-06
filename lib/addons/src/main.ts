@@ -1,6 +1,7 @@
 import global from 'global';
 import type { ReactElement } from 'react';
 import { Channel } from '@storybook/channels';
+import { SET_CONFIG } from '@storybook/core-events';
 import type { API } from '@storybook/api';
 import type { RenderData as RouterData } from '@storybook/router';
 import { logger } from '@storybook/client-logger';
@@ -125,7 +126,7 @@ export class AddonStore {
   setConfig = (value: Config) => {
     Object.assign(this.config, value);
     if (this.hasChannel()) {
-      this.getChannel().emit('config', value);
+      this.getChannel().emit(SET_CONFIG, value);
     }
   };
 

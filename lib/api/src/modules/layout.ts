@@ -2,6 +2,7 @@ import global from 'global';
 import pick from 'lodash/pick';
 import deepEqual from 'fast-deep-equal';
 import { create } from '@storybook/theming';
+import { SET_CONFIG } from '@storybook/core-events';
 import type { ThemeVars } from '@storybook/theming';
 import { once } from '@storybook/client-logger';
 import { dedent } from 'ts-dedent';
@@ -300,7 +301,7 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
     state: merge(api.getInitialOptions(), persisted),
     init: () => {
       api.setOptions(merge(api.getInitialOptions(), persisted));
-      fullAPI.on('config', () => {
+      fullAPI.on(SET_CONFIG, () => {
         api.setOptions(merge(api.getInitialOptions(), persisted));
       });
     },
