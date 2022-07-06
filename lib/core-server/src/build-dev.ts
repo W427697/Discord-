@@ -72,7 +72,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   }
 
   logger.info('=> Loading presets');
-  let presets = loadAllPresets({
+  let presets = await loadAllPresets({
     corePresets,
     overridePresets: [],
     ...options,
@@ -80,7 +80,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
 
-  presets = loadAllPresets({
+  presets = await loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
       ...managerBuilder.corePresets,

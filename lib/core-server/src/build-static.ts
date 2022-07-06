@@ -69,7 +69,7 @@ export async function buildStaticStandalone(
   }
 
   logger.info('=> Loading presets');
-  let presets = loadAllPresets({
+  let presets = await loadAllPresets({
     corePresets: [require.resolve('./presets/common-preset'), ...corePresets],
     overridePresets: [],
     ...options,
@@ -77,7 +77,7 @@ export async function buildStaticStandalone(
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
 
-  presets = loadAllPresets({
+  presets = await loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
       ...(managerBuilder.corePresets || []),
