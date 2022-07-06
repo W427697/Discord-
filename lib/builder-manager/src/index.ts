@@ -18,13 +18,13 @@ import {
   Compilation,
   ManagerBuilder,
   StarterFunction,
-  Stats,
 } from './types';
 import { readDeep } from './utils/directory';
 import { getData } from './utils/data';
 import { safeResolve } from './utils/safeResolve';
 
 let compilation: Compilation;
+let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
 
 export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
   const [addonsEntryPoints, customManagerEntryPoint] = await Promise.all([
@@ -65,40 +65,11 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
   };
 };
 
-export const makeStatsFromError = (err: string) =>
-  ({
-    hasErrors: () => true,
-    hasWarnings: () => false,
-    toJson: () => ({ warnings: [] as any[], errors: [err] }),
-  } as any as Stats);
-
 export const executor = {
   get: async () => {
     const { build } = await import('esbuild');
     return build;
   },
-};
-
-let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
-
-export const bail: ManagerBuilder['bail'] = async () => {
-  if (asyncIterator) {
-    try {
-      // we tell the builder (that started) to stop ASAP and wait
-      await asyncIterator.throw(new Error());
-    } catch (e) {
-      //
-    }
-  }
-
-  if (compilation && compilation.stop) {
-    try {
-      compilation.stop();
-      logger.warn('Force closed manager build');
-    } catch (err) {
-      logger.warn('Unable to close manager build!');
-    }
-  }
 };
 
 /**
@@ -114,7 +85,9 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 }) {
   logger.info('=> Starting manager..');
 
-  const { config, customHead, features, instance, refs, template, title } = await getData(options);
+  const { config, customHead, features, instance, refs, template, title, logLevel } = await getData(
+    options
+  );
 
   yield;
 
@@ -136,7 +109,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   yield;
 
-  const html = await renderHTML(template, title, customHead, addonFiles, features, refs);
+  const html = await renderHTML(template, title, customHead, addonFiles, features, refs, logLevel);
 
   yield;
 
@@ -168,7 +141,9 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     throw new Error('outputDir is required');
   }
   logger.info('=> Building manager..');
-  const { config, customHead, features, instance, refs, template, title } = await getData(options);
+  const { config, customHead, features, instance, refs, template, title, logLevel } = await getData(
+    options
+  );
   yield;
 
   const addonsDir = config.outdir;
@@ -187,7 +162,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   const managerFiles = copy(coreDirOrigin, coreDirTarget);
   const addonFiles = readDeep(addonsDir);
 
-  const html = await renderHTML(template, title, customHead, addonFiles, features, refs);
+  const html = await renderHTML(template, title, customHead, addonFiles, features, refs, logLevel);
 
   yield;
 
@@ -204,8 +179,28 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   } as BuilderBuildResult;
 };
 
-export const build = async (options: BuilderStartOptions) => {
-  asyncIterator = builder(options);
+export const bail: ManagerBuilder['bail'] = async () => {
+  if (asyncIterator) {
+    try {
+      // we tell the builder (that started) to stop ASAP and wait
+      await asyncIterator.throw(new Error());
+    } catch (e) {
+      //
+    }
+  }
+
+  if (compilation && compilation.stop) {
+    try {
+      compilation.stop();
+      logger.warn('Force closed manager build');
+    } catch (err) {
+      logger.warn('Unable to close manager build!');
+    }
+  }
+};
+
+export const start = async (options: BuilderStartOptions) => {
+  asyncIterator = starter(options);
   let result;
 
   do {
@@ -216,8 +211,8 @@ export const build = async (options: BuilderStartOptions) => {
   return result.value;
 };
 
-export const start = async (options: BuilderStartOptions) => {
-  asyncIterator = starter(options);
+export const build = async (options: BuilderStartOptions) => {
+  asyncIterator = builder(options);
   let result;
 
   do {

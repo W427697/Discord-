@@ -9,6 +9,7 @@ import { safeResolve } from './safeResolve';
 export const getData = async (options: Options) => {
   const refs = getRefs(options);
   const features = options.presets.apply<Record<string, string | boolean>>('features');
+  const logLevel = options.presets.apply<Record<string, string | boolean>>('logLevel');
   const title = options.presets.apply<string>('title');
   const template = readTemplate('template.ejs');
   const customHead = safeResolve(join(options.configDir, 'manager-head.html'));
@@ -28,5 +29,6 @@ export const getData = async (options: Options) => {
     customHead,
     instance,
     config,
+    logLevel,
   };
 };

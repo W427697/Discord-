@@ -54,7 +54,8 @@ export const renderHTML = async (
   customHead: Promise<string | false>,
   files: ReturnType<typeof readDeep>,
   features: Promise<Record<string, any>>,
-  refs: Promise<Record<string, Ref>>
+  refs: Promise<Record<string, Ref>>,
+  logLevel: Promise<string>
 ) => {
   const customHeadRef = await customHead;
   const titleRef = await title;
@@ -70,6 +71,7 @@ export const renderHTML = async (
     globals: {
       FEATURES: JSON.stringify(await features, null, 2),
       REFS: JSON.stringify(await refs, null, 2),
+      LOGLEVEL: JSON.stringify(await logLevel, null, 2),
     },
     head: customHeadRef ? await readFile(customHeadRef, 'utf8') : '',
   });
