@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { transparentize } from 'polished';
 import { styled } from '@storybook/theming';
 import { withReset } from '@storybook/components';
@@ -43,7 +43,7 @@ export interface TypesetProps {
  * Convenient styleguide documentation showing examples of type
  * with different sizes and weights and configurable sample text.
  */
-export const Typeset: FunctionComponent<TypesetProps> = ({
+export const Typeset: FC<TypesetProps> = ({
   fontFamily,
   fontSizes,
   fontWeight,

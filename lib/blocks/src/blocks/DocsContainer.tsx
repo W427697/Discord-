@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import global from 'global';
 import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';
@@ -36,7 +36,7 @@ const warnOptionsTheme = deprecate(
 `
 );
 
-export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, children }) => {
+export const DocsContainer: FC<DocsContainerProps> = ({ context, children }) => {
   const { id: storyId, type, storyById } = context;
   const allComponents = { ...defaultComponents };
   let theme = ensureTheme(null);

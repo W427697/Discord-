@@ -1,5 +1,5 @@
 import global from 'global';
-import React, { FunctionComponent, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 import { ScrollArea, Spaced } from '@storybook/components';
@@ -88,7 +88,7 @@ export interface SidebarProps {
   enableShortcuts?: boolean;
 }
 
-export const Sidebar: FunctionComponent<SidebarProps> = React.memo(
+export const Sidebar: FC<SidebarProps> = React.memo(
   ({
     storyId = null,
     refId = DEFAULT_REF_ID,

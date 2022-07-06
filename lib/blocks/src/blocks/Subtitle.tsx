@@ -1,4 +1,4 @@
-import React, { useContext, FunctionComponent } from 'react';
+import React, { useContext, FC } from 'react';
 import { Subtitle as PureSubtitle } from '../components';
 import { DocsContext } from './DocsContext';
 
@@ -6,7 +6,7 @@ interface SubtitleProps {
   children?: JSX.Element | string;
 }
 
-export const Subtitle: FunctionComponent<SubtitleProps> = ({ children }) => {
+export const Subtitle: FC<SubtitleProps> = ({ children }) => {
   const { id, storyById } = useContext(DocsContext);
   const { parameters } = storyById(id);
   let text: JSX.Element | string = children;

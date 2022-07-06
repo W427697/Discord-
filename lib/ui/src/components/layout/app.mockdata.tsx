@@ -1,5 +1,5 @@
 import global from 'global';
-import React, { Component, FunctionComponent } from 'react';
+import React, { Component, FC } from 'react';
 import { styled } from '@storybook/theming';
 import { Collection } from '@storybook/addons';
 import { State } from '@storybook/api';
@@ -120,22 +120,22 @@ class PlaceholderClock extends Component<{ color: string }, { count: number }> {
   }
 }
 
-const MockSidebar: FunctionComponent<any> = (props) => (
+const MockSidebar: FC<any> = (props) => (
   <PlaceholderClock color="hotpink">
     <pre>{JSON.stringify(props, null, 2)}</pre>
   </PlaceholderClock>
 );
-const MockPreview: FunctionComponent<any> = (props) => (
+const MockPreview: FC<any> = (props) => (
   <PlaceholderClock color="deepskyblue">
     <pre>{JSON.stringify(props, null, 2)}</pre>
   </PlaceholderClock>
 );
-const MockPanel: FunctionComponent<any> = (props) => (
+const MockPanel: FC<any> = (props) => (
   <PlaceholderClock color="orangered">
     <pre>{JSON.stringify(props, null, 2)}</pre>
   </PlaceholderClock>
 );
-export const MockPage: FunctionComponent<any> = (props) => (
+export const MockPage: FC<any> = (props) => (
   <PlaceholderClock color="cyan">
     <pre>{JSON.stringify(props, null, 2)}</pre>
   </PlaceholderClock>

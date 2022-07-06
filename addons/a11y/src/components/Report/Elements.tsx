@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 
 import { styled } from '@storybook/theming';
 
@@ -35,7 +35,7 @@ interface ElementProps {
   type: RuleType;
 }
 
-const Element: FunctionComponent<ElementProps> = ({ element, type }) => {
+const Element: FC<ElementProps> = ({ element, type }) => {
   const { any, all, none } = element;
   const rules = [...any, ...all, ...none];
   const highlightToggleId = `${type}-${element.target[0]}`;
@@ -58,7 +58,7 @@ interface ElementsProps {
   type: RuleType;
 }
 
-export const Elements: FunctionComponent<ElementsProps> = ({ elements, type }) => (
+export const Elements: FC<ElementsProps> = ({ elements, type }) => (
   <ol>
     {elements.map((element, index) => (
       // eslint-disable-next-line react/no-array-index-key

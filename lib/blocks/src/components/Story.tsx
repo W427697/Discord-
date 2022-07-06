@@ -1,5 +1,5 @@
 import global from 'global';
-import React, { createElement, ElementType, FunctionComponent, Fragment } from 'react';
+import React, { createElement, ElementType, FC, Fragment } from 'react';
 import type { Parameters } from '@storybook/csf';
 import { Loader, getStoryHref } from '@storybook/components';
 import { EmptyBlock } from '.';
@@ -34,7 +34,7 @@ type IFrameStoryProps = CommonProps;
 
 type StoryProps = InlineStoryProps | IFrameStoryProps;
 
-const InlineStory: FunctionComponent<InlineStoryProps> = ({ storyFn, height, id }) => (
+const InlineStory: FC<InlineStoryProps> = ({ storyFn, height, id }) => (
   <Fragment>
     {height ? (
       <style>{`#story--${id} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
@@ -45,7 +45,7 @@ const InlineStory: FunctionComponent<InlineStoryProps> = ({ storyFn, height, id 
   </Fragment>
 );
 
-const IFrameStory: FunctionComponent<IFrameStoryProps> = ({ id, title, height = '500px' }) => (
+const IFrameStory: FC<IFrameStoryProps> = ({ id, title, height = '500px' }) => (
   <div style={{ width: '100%', height }}>
     <ZoomContext.Consumer>
       {({ scale }) => {
@@ -73,7 +73,7 @@ const IFrameStory: FunctionComponent<IFrameStoryProps> = ({ id, title, height = 
  * A story element, either rendered inline or in an iframe,
  * with configurable height.
  */
-const Story: FunctionComponent<StoryProps & { inline?: boolean; error?: StoryError }> = ({
+const Story: FC<StoryProps & { inline?: boolean; error?: StoryError }> = ({
   children,
   error,
   inline,

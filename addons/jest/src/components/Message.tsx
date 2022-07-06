@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent } from 'react';
+import React, { Fragment, FC } from 'react';
 import { styled } from '@storybook/theming';
 
 const positiveConsoleRegex = /\[32m(.*?)\[39m/;
@@ -136,7 +136,7 @@ interface MessageProps {
   msg: string;
 }
 
-export const Message: FunctionComponent<MessageProps> = (props) => {
+export const Message: FC<MessageProps> = (props) => {
   const { msg } = props;
 
   const detail: TestDetail = getTestDetail(msg);

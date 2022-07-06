@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { styled } from '@storybook/theming';
 
 const Wrapper = styled.label(({ theme }) => ({
@@ -26,7 +26,7 @@ export interface FieldProps {
   label?: ReactNode;
 }
 
-export const Field: FunctionComponent<FieldProps> = ({ label, children, ...props }) => (
+export const Field: FC<FieldProps> = ({ label, children, ...props }) => (
   <Wrapper {...props}>
     {label ? (
       <Label>

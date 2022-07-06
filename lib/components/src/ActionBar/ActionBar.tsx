@@ -1,4 +1,4 @@
-import React, { FunctionComponent, MouseEvent } from 'react';
+import React, { FC, MouseEvent } from 'react';
 
 import { styled } from '@storybook/theming';
 
@@ -65,7 +65,7 @@ export interface ActionBarProps {
   actionItems: ActionItem[];
 }
 
-export const ActionBar: FunctionComponent<ActionBarProps> = ({ actionItems, ...props }) => (
+export const ActionBar: FC<ActionBarProps> = ({ actionItems, ...props }) => (
   <Container {...props}>
     {actionItems.map(({ title, className, onClick, disabled }, index: number) => (
       // eslint-disable-next-line react/no-array-index-key

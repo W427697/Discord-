@@ -1,4 +1,4 @@
-import React, { useContext, FunctionComponent } from 'react';
+import React, { useContext, FC } from 'react';
 import { Title as PureTitle } from '../components';
 import { DocsContext, DocsContextProps } from './DocsContext';
 
@@ -13,7 +13,7 @@ export const extractTitle = ({ title }: DocsContextProps) => {
   return (groups && groups[groups.length - 1]) || title;
 };
 
-export const Title: FunctionComponent<TitleProps> = ({ children }) => {
+export const Title: FC<TitleProps> = ({ children }) => {
   const context = useContext(DocsContext);
   let text: JSX.Element | string = children;
   if (!text) {

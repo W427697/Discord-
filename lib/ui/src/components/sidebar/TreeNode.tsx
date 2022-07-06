@@ -3,7 +3,7 @@ import type { Color, Theme } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import global from 'global';
 import { transparentize } from 'polished';
-import React, { FunctionComponent, ComponentProps } from 'react';
+import React, { FC, ComponentProps } from 'react';
 
 const { DOCS_MODE } = global;
 
@@ -142,7 +142,7 @@ export const RootNode = styled.div(({ theme }) => ({
   color: theme.color.mediumdark,
 }));
 
-export const GroupNode: FunctionComponent<
+export const GroupNode: FC<
   ComponentProps<typeof BranchNode> & { isExpanded?: boolean; isExpandable?: boolean }
 > = React.memo(({ children, isExpanded = false, isExpandable = false, ...props }) => (
   <BranchNode isExpandable={isExpandable} tabIndex={-1} {...props}>
@@ -152,7 +152,7 @@ export const GroupNode: FunctionComponent<
   </BranchNode>
 ));
 
-export const ComponentNode: FunctionComponent<ComponentProps<typeof BranchNode>> = React.memo(
+export const ComponentNode: FC<ComponentProps<typeof BranchNode>> = React.memo(
   ({ theme, children, isExpanded, isExpandable, isSelected, ...props }) => (
     <BranchNode isExpandable={isExpandable} tabIndex={-1} {...props}>
       {isExpandable && <CollapseIcon isExpanded={isExpanded} />}
@@ -162,7 +162,7 @@ export const ComponentNode: FunctionComponent<ComponentProps<typeof BranchNode>>
   )
 );
 
-export const DocumentNode: FunctionComponent<ComponentProps<typeof LeafNode>> = React.memo(
+export const DocumentNode: FC<ComponentProps<typeof LeafNode>> = React.memo(
   ({ theme, children, ...props }) => (
     <LeafNode tabIndex={-1} {...props}>
       <TypeIcon symbol="document" />
@@ -171,7 +171,7 @@ export const DocumentNode: FunctionComponent<ComponentProps<typeof LeafNode>> = 
   )
 );
 
-export const StoryNode: FunctionComponent<ComponentProps<typeof LeafNode>> = React.memo(
+export const StoryNode: FC<ComponentProps<typeof LeafNode>> = React.memo(
   ({ theme, children, ...props }) => (
     <LeafNode tabIndex={-1} {...props}>
       <TypeIcon symbol="bookmarkhollow" />

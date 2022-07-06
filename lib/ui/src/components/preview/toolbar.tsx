@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo, FunctionComponent } from 'react';
+import React, { Fragment, useMemo, FC } from 'react';
 
 import { styled } from '@storybook/theming';
 
@@ -24,7 +24,7 @@ export const getTools = (getFn: API['getElements']) => Object.values(getFn<Addon
 export const getToolsExtra = (getFn: API['getElements']) =>
   Object.values(getFn<Addon>(types.TOOLEXTRA));
 
-const Bar: FunctionComponent<{ shown: boolean } & Record<string, any>> = ({ shown, ...props }) => (
+const Bar: FC<{ shown: boolean } & Record<string, any>> = ({ shown, ...props }) => (
   <FlexBar {...props} />
 );
 
@@ -149,7 +149,7 @@ export interface ToolData {
   story: DocsEntry | StoryEntry;
 }
 
-export const ToolRes: FunctionComponent<ToolData & RenderData> = React.memo<ToolData & RenderData>(
+export const ToolRes: FC<ToolData & RenderData> = React.memo<ToolData & RenderData>(
   ({ api, story, tabs, isShown, location, path, viewMode }) => {
     const { left, right } = useTools(api.getElements, tabs, viewMode, story, location, path);
 

@@ -2,7 +2,6 @@ import React, {
   ClipboardEvent,
   ComponentProps,
   FC,
-  FunctionComponent,
   MouseEvent,
   useCallback,
   useState,
@@ -145,7 +144,7 @@ export interface SyntaxHighlighterState {
 
 // copied from @types/react-syntax-highlighter/index.d.ts
 
-export const SyntaxHighlighter: FunctionComponent<SyntaxHighlighterProps> = ({
+export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
   children,
   language = 'jsx',
   copyable = false,

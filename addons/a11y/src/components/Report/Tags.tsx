@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 
 import { styled } from '@storybook/theming';
 import { TagValue } from 'axe-core';
@@ -20,7 +20,7 @@ interface TagsProps {
   tags: TagValue[];
 }
 
-export const Tags: FunctionComponent<TagsProps> = ({ tags }) => {
+export const Tags: FC<TagsProps> = ({ tags }) => {
   return (
     <Wrapper>
       {tags.map((tag) => (

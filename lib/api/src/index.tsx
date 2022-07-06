@@ -1,7 +1,7 @@
 import React, {
   Component,
   Fragment,
-  FunctionComponent,
+  FC,
   ReactElement,
   ReactNode,
   useCallback,
@@ -297,7 +297,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
 // of our modules) does not cause Reach Router's LocationProvider to update with
 // the correct path. Calling navigate inside on an effect does not have the
 // same problem. See https://github.com/reach/router/issues/404
-const EffectOnMount: FunctionComponent<{
+const EffectOnMount: FC<{
   children: ReactElement;
   effect: () => void;
 }> = ({ children, effect }) => {
@@ -307,7 +307,7 @@ const EffectOnMount: FunctionComponent<{
 
 interface ManagerConsumerProps<P = unknown> {
   filter?: (combo: Combo) => P;
-  children: FunctionComponent<P> | ReactNode;
+  children: FC<P> | ReactNode;
 }
 
 const defaultFilter = (c: Combo) => c;
@@ -332,7 +332,7 @@ function ManagerConsumer<P = Combo>({
   }, [c.state]);
 
   return useMemo(() => {
-    const Child = renderer.current as FunctionComponent<P>;
+    const Child = renderer.current as FC<P>;
 
     return <Child {...data} />;
   }, l);

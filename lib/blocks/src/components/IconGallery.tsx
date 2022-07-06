@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
 import { ResetWrapper } from '@storybook/components';
 
@@ -50,7 +50,7 @@ interface IconItemProps {
 /**
  * An individual icon with a caption and an example (passed as `children`).
  */
-export const IconItem: FunctionComponent<IconItemProps> = ({ name, children }) => (
+export const IconItem: FC<IconItemProps> = ({ name, children }) => (
   <Item>
     <ItemSpecimen>{children}</ItemSpecimen>
     <ItemLabel>{name}</ItemLabel>
@@ -60,7 +60,7 @@ export const IconItem: FunctionComponent<IconItemProps> = ({ name, children }) =
 /**
  * Show a grid of icons, as specified by `IconItem`.
  */
-export const IconGallery: FunctionComponent = ({ children, ...props }) => (
+export const IconGallery: FC = ({ children, ...props }) => (
   <ResetWrapper>
     <List {...props} className="docblock-icongallery">
       {children}

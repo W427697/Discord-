@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import { State, API, DocsEntry, StoryEntry } from '@storybook/api';
 
 export type ViewMode = State['viewMode'];
@@ -34,7 +34,7 @@ export interface WrapperProps {
 }
 
 export interface Wrapper {
-  render: FunctionComponent<WrapperProps>;
+  render: FC<WrapperProps>;
 }
 
 export interface ApplyWrappersProps {

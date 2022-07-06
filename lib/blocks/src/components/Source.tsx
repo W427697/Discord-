@@ -1,4 +1,4 @@
-import React, { ComponentProps, FC, FunctionComponent } from 'react';
+import React, { ComponentProps, FC } from 'react';
 import { styled, ThemeProvider, convert, themes } from '@storybook/theming';
 import { SyntaxHighlighter } from '@storybook/components';
 
@@ -75,7 +75,7 @@ export type SourceProps = SourceErrorProps & SourceCodeProps;
 /**
  * Syntax-highlighted source code for a component (or anything!)
  */
-const Source: FunctionComponent<SourceProps> = (props) => {
+const Source: FC<SourceProps> = (props) => {
   const { isLoading, error } = props as SourceErrorProps;
   if (isLoading) {
     return <SourceSkeleton />;

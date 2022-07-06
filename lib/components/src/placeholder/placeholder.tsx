@@ -1,4 +1,4 @@
-import React, { Children, FunctionComponent } from 'react';
+import React, { Children, FC } from 'react';
 import { styled } from '@storybook/theming';
 
 const Title = styled.div(({ theme }) => ({
@@ -14,7 +14,7 @@ const Message = styled.div(({ theme }) => ({
   fontSize: theme.typography.size.s2 - 1,
 }));
 
-export const Placeholder: FunctionComponent = ({ children, ...props }) => {
+export const Placeholder: FC = ({ children, ...props }) => {
   const [title, desc] = Children.toArray(children);
   return (
     <Message {...props}>

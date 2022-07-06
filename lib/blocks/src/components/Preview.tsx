@@ -1,7 +1,7 @@
 import React, {
   Children,
   ClipboardEvent,
-  FunctionComponent,
+  FC,
   ReactElement,
   ReactNode,
   useCallback,
@@ -191,7 +191,7 @@ const getLayout = (children: ReactElement[]): layout => {
  * items. The preview also shows the source for the component
  * as a drop-down.
  */
-export const Preview: FunctionComponent<PreviewProps> = ({
+export const Preview: FC<PreviewProps> = ({
   isLoading,
   isColumn,
   columns,

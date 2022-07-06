@@ -1,4 +1,4 @@
-import React, { Component, Children, ComponentType, FunctionComponent, ReactNode } from 'react';
+import React, { Component, Children, ComponentType, FC, ReactNode } from 'react';
 import { State, ActiveTabs } from '@storybook/api';
 import { styled } from '@storybook/theming';
 
@@ -92,7 +92,7 @@ const Panels = React.memo((({ children, active, isFullscreen }) => (
       </Pane>
     ))}
   </PanelsContainer>
-)) as FunctionComponent<{ active: ActiveTabsType; children: ReactNode; isFullscreen: boolean }>);
+)) as FC<{ active: ActiveTabsType; children: ReactNode; isFullscreen: boolean }>);
 Panels.displayName = 'Panels';
 
 const PanelsContainer = styled.div<{ isFullscreen: boolean }>(
@@ -128,8 +128,8 @@ const Bar = styled.nav(
 
 export interface Page {
   key: string;
-  route: FunctionComponent;
-  render: FunctionComponent;
+  route: FC;
+  render: FC;
 }
 
 export interface MobileProps {

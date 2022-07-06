@@ -1,4 +1,4 @@
-import React, { Children, ComponentProps, FC, FunctionComponent } from 'react';
+import React, { Children, ComponentProps, FC } from 'react';
 import { styled } from '@storybook/theming';
 
 import { ScrollArea } from '../ScrollArea/ScrollArea';
@@ -77,11 +77,7 @@ export interface FlexBarProps {
   backgroundColor?: string;
 }
 
-export const FlexBar: FunctionComponent<FlexBarProps> = ({
-  children,
-  backgroundColor,
-  ...rest
-}) => {
+export const FlexBar: FC<FlexBarProps> = ({ children, backgroundColor, ...rest }) => {
   const [left, right] = Children.toArray(children);
   return (
     <Bar {...rest}>
