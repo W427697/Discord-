@@ -20,7 +20,7 @@ export interface SourceContextProps {
 
 export const SourceContext: Context<SourceContextProps> = createContext({ sources: {} });
 
-export const SourceContainer: FC<{}> = ({ children }) => {
+export const SourceContainer: FC = ({ children }) => {
   const [sources, setSources] = useState<StorySources>({});
   const channel = addons.getChannel();
 

@@ -77,7 +77,7 @@ const ChildrenContainer = styled.div<PreviewProps & { layout: layout }>(
       : {}
 );
 
-const StyledSource = styled(Source)<{}>(({ theme }) => ({
+const StyledSource = styled(Source)(({ theme }) => ({
   margin: 0,
   borderTopLeftRadius: 0,
   borderTopRightRadius: 0,

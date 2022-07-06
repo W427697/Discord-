@@ -37,7 +37,7 @@ interface SourceCodeProps {
   dark?: boolean;
 }
 
-const SourceSkeletonWrapper = styled.div<{}>(({ theme }) => ({
+const SourceSkeletonWrapper = styled.div(({ theme }) => ({
   background: theme.background.content,
   borderRadius: theme.appBorderRadius,
   border: `1px solid ${theme.appBorderColor}`,
@@ -47,7 +47,7 @@ const SourceSkeletonWrapper = styled.div<{}>(({ theme }) => ({
   padding: '20px 20px 20px 22px',
 }));
 
-const SourceSkeletonPlaceholder = styled.div<{}>(({ theme }) => ({
+const SourceSkeletonPlaceholder = styled.div(({ theme }) => ({
   animation: `${theme.animation.glow} 1.5s ease-in-out infinite`,
   background: theme.appBorderColor,
   height: 17,
