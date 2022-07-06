@@ -80,6 +80,7 @@
     "enzyme-to-json": "^3.6.1",
     "jest-preset-angular": "^8.3.2",
     "jest-vue-preprocessor": "^1.7.1",
+    "react-test-renderer": "^16",
     "rxjs": "^6.6.3",
     "vue-jest": "^5.0.0-alpha.8"
   },
