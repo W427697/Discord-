@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 
 import { API, Consumer, Combo, merge } from '@storybook/api';
 import { SET_CURRENT_STORY } from '@storybook/core-events';
-import addons, { types, Addon } from '@storybook/addons';
+import { addons, types, Addon } from '@storybook/addons';
 
 import { Loader } from '@storybook/components';
 import { Location } from '@storybook/router';
@@ -54,10 +54,10 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
           storiesFailed,
           active,
         }) => {
-          const wrappers = useMemo(() => [...defaultWrappers, ...getWrappers(getElements)], [
-            getElements,
-            ...defaultWrappers,
-          ]);
+          const wrappers = useMemo(
+            () => [...defaultWrappers, ...getWrappers(getElements)],
+            [getElements, ...defaultWrappers]
+          );
 
           const isLoading = story
             ? !!refs[refId] && !refs[refId].ready
@@ -136,6 +136,7 @@ const Preview = React.memo<PreviewProps>((props) => {
     id: previewId,
     options,
     viewMode,
+    storyId,
     story = undefined,
     description,
     baseUrl,
@@ -146,28 +147,30 @@ const Preview = React.memo<PreviewProps>((props) => {
   const tabs = useTabs(previewId, baseUrl, withLoader, getElements, story);
 
   const shouldScale = viewMode === 'story';
-  const isToolshown =
-    !(viewMode === 'docs' && tabs.filter((t) => !t.hidden).length < 2) && options.isToolshown;
+  const { showToolbar, showTabs = true } = options;
+  const visibleTabsInToolbar = showTabs ? tabs : [];
 
-  const initialRender = useRef(true);
+  const previousStoryId = useRef(storyId);
+  const previousViewMode = useRef(viewMode);
+
   useEffect(() => {
-    // Don't emit the event on first ("real") render, only when story or mode changes
-    if (initialRender.current) {
-      // We initially render without a story set, which isn't all that interesting, let's ignore
-      if (story) {
-        initialRender.current = false;
+    if (story && viewMode) {
+      // Don't emit the event on first ("real") render, only when story or mode changes
+      if (storyId !== previousStoryId.current || viewMode !== previousViewMode.current) {
+        previousStoryId.current = storyId;
+        previousViewMode.current = viewMode;
+
+        if (viewMode.match(/docs|story/)) {
+          const { refId, id } = story;
+          api.emit(SET_CURRENT_STORY, {
+            storyId: id,
+            viewMode,
+            options: {
+              target: refId ? `storybook-ref-${refId}` : 'storybook-preview-iframe',
+            },
+          });
+        }
       }
-      return;
-    }
-    if (story && viewMode && viewMode.match(/docs|story/)) {
-      const { refId, id } = story;
-      api.emit(SET_CURRENT_STORY, {
-        storyId: id,
-        viewMode,
-        options: {
-          target: refId ? `storybook-ref-${refId}` : 'storybook-preview-iframe',
-        },
-      });
     }
   }, [story, viewMode]);
 
@@ -179,8 +182,14 @@ const Preview = React.memo<PreviewProps>((props) => {
         </Helmet>
       )}
       <ZoomProvider shouldScale={shouldScale}>
-        <ToolbarComp key="tools" story={story} api={api} isShown={isToolshown} tabs={tabs} />
-        <S.FrameWrap key="frame" offset={isToolshown ? 40 : 0}>
+        <ToolbarComp
+          key="tools"
+          story={story}
+          api={api}
+          isShown={showToolbar}
+          tabs={visibleTabsInToolbar}
+        />
+        <S.FrameWrap key="frame" offset={showToolbar ? 40 : 0}>
           {tabs.map(({ render: Render, match, ...t }, i) => {
             // @ts-ignore
             const key = t.id || t.key || i;

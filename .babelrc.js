@@ -6,18 +6,25 @@ const withTests = {
     ],
   ],
   plugins: [
-    'babel-plugin-require-context-hook',
+    '@storybook/babel-plugin-require-context-hook',
     'babel-plugin-dynamic-import-node',
     '@babel/plugin-transform-runtime',
   ],
 };
 
-const modules = process.env.BABEL_ESM === 'true' ? false : 'auto';
+// type BabelMode = 'cjs' | 'esm' | 'modern';
+
+const modules = process.env.BABEL_MODE === 'cjs' ? 'auto' : false;
+
+// FIXME: optional chaining introduced in chrome 80, not supported by wepback4
+// https://github.com/webpack/webpack/issues/10227#issuecomment-642734920
+const targets = process.env.BABEL_MODE === 'modern' ? { chrome: '79' } : 'defaults';
 
 module.exports = {
   ignore: [
     './lib/codemod/src/transforms/__testfixtures__',
     './lib/postinstall/src/__testfixtures__',
+    '**/typings.d.ts',
   ],
   presets: [
     [
@@ -26,7 +33,7 @@ module.exports = {
         shippedProposals: true,
         useBuiltIns: 'usage',
         corejs: '3',
-        targets: 'defaults',
+        targets,
         modules,
       },
     ],
@@ -43,11 +50,12 @@ module.exports = {
     ],
     ['@babel/plugin-proposal-class-properties', { loose: true }],
     ['@babel/plugin-proposal-private-methods', { loose: true }],
+    ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
     '@babel/plugin-proposal-export-default-from',
     '@babel/plugin-syntax-dynamic-import',
     ['@babel/plugin-proposal-object-rest-spread', { loose: true, useBuiltIns: true }],
     'babel-plugin-macros',
-    ['emotion', { sourceMap: true, autoLabel: true }],
+    ['@emotion', { sourceMap: true, autoLabel: 'always' }],
   ],
   env: {
     test: withTests,
@@ -70,7 +78,7 @@ module.exports = {
             useBuiltIns: 'usage',
             corejs: '3',
             modules,
-            targets: 'defaults',
+            targets,
           },
         ],
         '@babel/preset-react',
@@ -79,9 +87,10 @@ module.exports = {
         ['@babel/plugin-proposal-object-rest-spread', { loose: true, useBuiltIns: true }],
         '@babel/plugin-proposal-export-default-from',
         '@babel/plugin-syntax-dynamic-import',
+        ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
         ['@babel/plugin-proposal-class-properties', { loose: true }],
         'babel-plugin-macros',
-        ['emotion', { sourceMap: true, autoLabel: true }],
+        ['@emotion', { sourceMap: true, autoLabel: 'always' }],
         'babel-plugin-add-react-displayname',
       ],
       env: {
@@ -116,12 +125,13 @@ module.exports = {
         ],
       ],
       plugins: [
-        'emotion',
+        '@emotion',
         'babel-plugin-macros',
         '@babel/plugin-transform-arrow-functions',
         '@babel/plugin-transform-shorthand-properties',
         '@babel/plugin-transform-block-scoping',
         '@babel/plugin-transform-destructuring',
+        ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
         ['@babel/plugin-proposal-class-properties', { loose: true }],
         '@babel/plugin-proposal-object-rest-spread',
         '@babel/plugin-proposal-export-default-from',

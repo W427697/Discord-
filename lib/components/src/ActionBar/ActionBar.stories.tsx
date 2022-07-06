@@ -28,14 +28,14 @@ export default {
   ],
 };
 
-export const singleItem = () => <ActionBar actionItems={[{ title: 'Clear', onClick: action1 }]} />;
+export const SingleItem = () => <ActionBar actionItems={[{ title: 'Clear', onClick: action1 }]} />;
 
-export const manyItems = () => (
+export const ManyItems = () => (
   <ActionBar
     actionItems={[
       { title: 'Action string', onClick: action1 },
       { title: <div>Action node</div>, onClick: action2 },
-      { title: 'Long action string', onClick: action3 },
+      { title: 'Long action string', className: 'long-action-button', onClick: action3 },
     ]}
   />
 );

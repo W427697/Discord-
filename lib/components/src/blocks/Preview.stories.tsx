@@ -1,17 +1,21 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { window } from 'global';
+import global from 'global';
 
 import { Spaced } from '../spaced/Spaced';
-import { Preview } from './Preview';
+import { Preview, PreviewSkeleton } from './Preview';
 import { Story } from './Story';
 import { Button } from '../Button/Button';
 import * as Source from './Source.stories';
+
+const { window: globalWindow } = global;
 
 export default {
   title: 'Docs/Preview',
   component: Preview,
 };
+
+export const Loading = () => <PreviewSkeleton />;
 
 export const CodeCollapsed = () => (
   <Preview isExpanded={false} withSource={Source.JSX.args}>
@@ -144,7 +148,7 @@ export const WithAdditionalActions = () => (
       {
         title: 'Open on GitHub',
         onClick: () => {
-          window.location.href =
+          globalWindow.location.href =
             'https://github.com/storybookjs/storybook/blob/next/lib/components/src/blocks/Preview.stories.tsx#L140-L147';
         },
       },

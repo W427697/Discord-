@@ -8,7 +8,7 @@ export default {
   component: IconGallery,
 };
 
-export const defaultStyle = () => (
+export const DefaultStyle = () => (
   <IconGallery>
     <IconItem name="add">
       <ExampleIcon icon="add" />
@@ -23,10 +23,10 @@ export const defaultStyle = () => (
       <ExampleIcon icon="facehappy" />
     </IconItem>
     <IconItem name="bar">
-      <img src="https://placehold.it/50x50" alt="example" />
+      <img src="https://place-hold.it/50x50" alt="example" />
     </IconItem>
     <IconItem name="bar">
-      <img src="https://placehold.it/50x50" alt="example" />
+      <img src="https://place-hold.it/50x50" alt="example" />
     </IconItem>
   </IconGallery>
 );

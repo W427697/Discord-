@@ -3,10 +3,10 @@ import chalk from 'chalk';
 import { colors } from '@storybook/node-logger';
 import semver from '@storybook/semver';
 import dedent from 'ts-dedent';
-import { VersionCheck } from '@storybook/core-common';
-import { cache } from './cache';
+import { cache } from '@storybook/core-common';
+import type { VersionCheck } from '@storybook/core-common';
 
-const { STORYBOOK_VERSION_BASE = 'https://storybook.js.org' } = process.env;
+const { STORYBOOK_VERSION_BASE = 'https://storybook.js.org', CI } = process.env;
 
 export const updateCheck = async (version: string): Promise<VersionCheck> => {
   let result;
@@ -15,7 +15,7 @@ export const updateCheck = async (version: string): Promise<VersionCheck> => {
     const fromCache = await cache.get('lastUpdateCheck', { success: false, time: 0 });
 
     // if last check was more then 24h ago
-    if (time - 86400000 > fromCache.time) {
+    if (time - 86400000 > fromCache.time && !CI) {
       const fromFetch: any = await Promise.race([
         fetch(`${STORYBOOK_VERSION_BASE}/versions.json?current=${version}`),
         // if fetch is too slow, we won't wait for it
@@ -38,7 +38,7 @@ export function createUpdateMessage(updateInfo: VersionCheck, version: string): 
 
   try {
     const suffix = semver.prerelease(updateInfo.data.latest.version) ? '--prerelease' : '';
-    const upgradeCommand = `npx sb@latest upgrade ${suffix}`.trim();
+    const upgradeCommand = `npx storybook@latest upgrade ${suffix}`.trim();
     updateMessage =
       updateInfo.success && semver.lt(version, updateInfo.data.latest.version)
         ? dedent`
@@ -48,7 +48,9 @@ export function createUpdateMessage(updateInfo: VersionCheck, version: string): 
 
           ${chalk.gray('Upgrade now:')} ${colors.green(upgradeCommand)}
 
-          ${chalk.gray('Read full changelog:')} ${chalk.gray.underline('https://git.io/fhFYe')}
+          ${chalk.gray('Read full changelog:')} ${chalk.gray.underline(
+            'https://github.com/storybookjs/storybook/blob/next/CHANGELOG.md'
+          )}
         `
         : '';
   } catch (e) {

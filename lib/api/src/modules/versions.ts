@@ -1,10 +1,12 @@
-import { VERSIONCHECK } from 'global';
+import global from 'global';
 import semver from '@storybook/semver';
 import memoize from 'memoizerific';
 
 import { version as currentVersion } from '../version';
 
 import { ModuleFn } from '../index';
+
+const { VERSIONCHECK } = global;
 
 export interface Version {
   version: string;
@@ -30,15 +32,13 @@ export interface SubState {
   dismissedVersionNotification: undefined | string;
 }
 
-const getVersionCheckData = memoize(1)(
-  (): Versions => {
-    try {
-      return { ...(JSON.parse(VERSIONCHECK).data || {}) };
-    } catch (e) {
-      return {};
-    }
+const getVersionCheckData = memoize(1)((): Versions => {
+  try {
+    return { ...(JSON.parse(VERSIONCHECK).data || {}) };
+  } catch (e) {
+    return {};
   }
-);
+});
 
 export interface SubAPI {
   getCurrentVersion: () => Version;

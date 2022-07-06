@@ -1,13 +1,16 @@
-import { window, document } from 'global';
+import global from 'global';
 import dedent from 'ts-dedent';
-import { RenderContext, ElementArgs, OptionsArgs } from './types';
+import type { RenderContext } from '@storybook/store';
+// @ts-ignore
+import Component from '@ember/component'; // eslint-disable-line import/no-unresolved
+import { OptionsArgs, EmberFramework } from './types';
 
-declare let Ember: any;
+const { window: globalWindow, document } = global;
 
 const rootEl = document.getElementById('root');
 
-const config = window.require(`${window.STORYBOOK_NAME}/config/environment`);
-const app = window.require(`${window.STORYBOOK_NAME}/app`).default.create({
+const config = globalWindow.require(`${globalWindow.STORYBOOK_NAME}/config/environment`);
+const app = globalWindow.require(`${globalWindow.STORYBOOK_NAME}/app`).default.create({
   autoboot: false,
   rootElement: rootEl,
   ...config.APP,
@@ -17,7 +20,7 @@ let lastPromise = app.boot();
 let hasRendered = false;
 let isRendering = false;
 
-function render(options: OptionsArgs, el: ElementArgs) {
+function render(options: OptionsArgs, el: HTMLElement) {
   if (isRendering) return;
   isRendering = true;
 
@@ -35,7 +38,7 @@ function render(options: OptionsArgs, el: ElementArgs) {
     .then((instance: any) => {
       instance.register(
         'component:story-mode',
-        Ember.Component.extend({
+        Component.extend({
           layout: template || options,
           ...context,
         })
@@ -57,7 +60,10 @@ function render(options: OptionsArgs, el: ElementArgs) {
     });
 }
 
-export default function renderMain({ storyFn, kind, name, showMain, showError }: RenderContext) {
+export function renderToDOM(
+  { storyFn, kind, name, showMain, showError }: RenderContext<EmberFramework>,
+  domElement: HTMLElement
+) {
   const element = storyFn();
 
   if (!element) {
@@ -74,5 +80,5 @@ export default function renderMain({ storyFn, kind, name, showMain, showError }:
   }
 
   showMain();
-  render(element, rootEl);
+  render(element, domElement);
 }

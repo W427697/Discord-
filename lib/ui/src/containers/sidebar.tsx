@@ -15,14 +15,14 @@ const Sidebar: FunctionComponent<{}> = React.memo(() => {
       viewMode,
       storyId,
       refId,
-      layout: { isFullscreen, showPanel, showNav },
+      layout: { showToolbar, isFullscreen, showPanel, showNav },
       storiesHash,
       storiesConfigured,
       storiesFailed,
       refs,
     } = state;
 
-    const menu = useMenu(api, isFullscreen, showPanel, showNav, enableShortcuts);
+    const menu = useMenu(api, showToolbar, isFullscreen, showPanel, showNav, enableShortcuts);
 
     return {
       title: name,

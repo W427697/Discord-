@@ -1,6 +1,6 @@
 import type { StorybookConfig } from '@storybook/react/types';
 
-module.exports = {
+const config: StorybookConfig = {
   stories: ['./src/*.stories.*'],
   logLevel: 'debug',
   addons: [
@@ -19,6 +19,7 @@ module.exports = {
   ],
   core: {
     builder: 'webpack4',
+    disableTelemetry: true,
   },
   typescript: {
     check: true,
@@ -27,4 +28,6 @@ module.exports = {
       propFilter: (prop) => ['label', 'disabled'].includes(prop.name),
     },
   },
-} as StorybookConfig;
+};
+
+module.exports = config;

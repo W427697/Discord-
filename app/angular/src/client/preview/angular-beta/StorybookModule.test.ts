@@ -14,6 +14,7 @@ describe('StorybookModule', () => {
         template: `
           <p id="input">{{ input }}</p>
           <p id="inputBindingPropertyName">{{ localPropertyName }}</p>
+          <p id="setterCallNb">{{ setterCallNb }}</p>
           <p id="localProperty">{{ localProperty }}</p>
           <p id="localFunction">{{ localFunction() }}</p>
           <p id="output" (click)="output.emit('outputEmitted')"></p>
@@ -27,6 +28,11 @@ describe('StorybookModule', () => {
         @Input('inputBindingPropertyName')
         public localPropertyName: string;
 
+        @Input()
+        public set setter(value: string) {
+          this.setterCallNb += 1;
+        }
+
         @Output()
         public output = new EventEmitter<string>();
 
@@ -36,6 +42,8 @@ describe('StorybookModule', () => {
         public localProperty: string;
 
         public localFunction = () => '';
+
+        public setterCallNb = 0;
       }
 
       it('should initialize inputs', async () => {
@@ -47,8 +55,12 @@ describe('StorybookModule', () => {
         };
 
         const ngModule = getStorybookModuleMetadata(
-          { storyFnAngular: { props }, parameters: { component: FooComponent } },
-          new BehaviorSubject(props)
+          {
+            storyFnAngular: { props },
+            component: FooComponent,
+            targetSelector: 'my-selector',
+          },
+          new BehaviorSubject<ICollection>(props)
         );
 
         const { fixture } = await configureTestingModule(ngModule);
@@ -79,8 +91,12 @@ describe('StorybookModule', () => {
         };
 
         const ngModule = getStorybookModuleMetadata(
-          { storyFnAngular: { props }, parameters: { component: FooComponent } },
-          new BehaviorSubject(props)
+          {
+            storyFnAngular: { props },
+            component: FooComponent,
+            targetSelector: 'my-selector',
+          },
+          new BehaviorSubject<ICollection>(props)
         );
 
         const { fixture } = await configureTestingModule(ngModule);
@@ -96,11 +112,16 @@ describe('StorybookModule', () => {
       it('should change inputs if storyProps$ Subject emit', async () => {
         const initialProps = {
           input: 'input',
+          inputBindingPropertyName: '',
         };
-        const storyProps$ = new BehaviorSubject(initialProps);
+        const storyProps$ = new BehaviorSubject<ICollection>(initialProps);
 
         const ngModule = getStorybookModuleMetadata(
-          { storyFnAngular: { props: initialProps }, parameters: { component: FooComponent } },
+          {
+            storyFnAngular: { props: initialProps },
+            component: FooComponent,
+            targetSelector: 'my-selector',
+          },
           storyProps$
         );
         const { fixture } = await configureTestingModule(ngModule);
@@ -138,6 +159,7 @@ describe('StorybookModule', () => {
         let expectedOutputValue;
         let expectedOutputBindingValue;
         const initialProps = {
+          input: '',
           output: (value: string) => {
             expectedOutputValue = value;
           },
@@ -145,10 +167,14 @@ describe('StorybookModule', () => {
             expectedOutputBindingValue = value;
           },
         };
-        const storyProps$ = new BehaviorSubject(initialProps);
+        const storyProps$ = new BehaviorSubject<ICollection>(initialProps);
 
         const ngModule = getStorybookModuleMetadata(
-          { storyFnAngular: { props: initialProps }, parameters: { component: FooComponent } },
+          {
+            storyFnAngular: { props: initialProps },
+            component: FooComponent,
+            targetSelector: 'my-selector',
+          },
           storyProps$
         );
         const { fixture } = await configureTestingModule(ngModule);
@@ -187,7 +213,8 @@ describe('StorybookModule', () => {
               props: initialProps,
               template: '<p [style.color]="color"><foo [input]="input"></foo></p>',
             },
-            parameters: { component: FooComponent },
+            component: FooComponent,
+            targetSelector: 'my-selector',
           },
           storyProps$
         );
@@ -208,6 +235,34 @@ describe('StorybookModule', () => {
         expect(fixture.nativeElement.querySelector('p').style.color).toEqual('black');
         expect(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(newProps.input);
       });
+
+      it('should call the Input() setter the right number of times', async () => {
+        const initialProps = {
+          setter: 'init',
+        };
+        const storyProps$ = new BehaviorSubject<ICollection>(initialProps);
+
+        const ngModule = getStorybookModuleMetadata(
+          {
+            storyFnAngular: { props: initialProps },
+            component: FooComponent,
+            targetSelector: 'my-selector',
+          },
+          storyProps$
+        );
+        const { fixture } = await configureTestingModule(ngModule);
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.querySelector('p#setterCallNb').innerHTML).toEqual('1');
+
+        const newProps = {
+          setter: 'new setter value',
+        };
+        storyProps$.next(newProps);
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.querySelector('p#setterCallNb').innerHTML).toEqual('2');
+      });
     });
 
     describe('with component without selector', () => {
@@ -225,7 +280,8 @@ describe('StorybookModule', () => {
               props,
               moduleMetadata: { entryComponents: [WithoutSelectorComponent] },
             },
-            parameters: { component: WithoutSelectorComponent },
+            component: WithoutSelectorComponent,
+            targetSelector: 'my-selector',
           },
           new BehaviorSubject<ICollection>(props)
         );
@@ -245,7 +301,11 @@ describe('StorybookModule', () => {
       class FooComponent {}
 
       const ngModule = getStorybookModuleMetadata(
-        { storyFnAngular: { template: '' }, parameters: { component: FooComponent } },
+        {
+          storyFnAngular: { template: '' },
+          component: FooComponent,
+          targetSelector: 'my-selector',
+        },
         new BehaviorSubject({})
       );
 

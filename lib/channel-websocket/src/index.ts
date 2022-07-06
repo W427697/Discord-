@@ -1,6 +1,9 @@
-import { WebSocket } from 'global';
+import global from 'global';
 import { Channel, ChannelHandler } from '@storybook/channels';
+import { logger } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
+
+const { WebSocket } = global;
 
 type OnError = (message: Event) => void;
 
@@ -11,8 +14,8 @@ interface WebsocketTransportArgs {
 
 interface CreateChannelArgs {
   url: string;
-  async: boolean;
-  onError: OnError;
+  async?: boolean;
+  onError?: OnError;
 }
 
 export class WebsocketTransport {
@@ -73,7 +76,11 @@ export class WebsocketTransport {
   }
 }
 
-export default function createChannel({ url, async, onError }: CreateChannelArgs) {
+export default function createChannel({
+  url,
+  async = false,
+  onError = (err) => logger.warn(err),
+}: CreateChannelArgs) {
   const transport = new WebsocketTransport({ url, onError });
   return new Channel({ transport, async });
 }

@@ -1,5 +1,12 @@
 import React, { FC } from 'react';
-import { ArgTypes, useArgs, useArgTypes, useParameter } from '@storybook/api';
+import {
+  ArgTypes,
+  useArgs,
+  useGlobals,
+  useArgTypes,
+  useParameter,
+  useStorybookState,
+} from '@storybook/api';
 import { ArgsTable, NoControlsWarning, PresetColor, SortType } from '@storybook/components';
 
 import { PARAM_KEY } from './constants';
@@ -13,6 +20,7 @@ interface ControlsParameters {
 
 export const ControlsPanel: FC = () => {
   const [args, updateArgs, resetArgs] = useArgs();
+  const [globals] = useGlobals();
   const rows = useArgTypes();
   const isArgsStory = useParameter<boolean>('__isArgsStory', false);
   const {
@@ -21,6 +29,7 @@ export const ControlsPanel: FC = () => {
     presetColors,
     hideNoControlsWarning = false,
   } = useParameter<ControlsParameters>(PARAM_KEY, {});
+  const { path } = useStorybookState();
 
   const hasControls = Object.values(rows).some((arg) => arg?.control);
   const showWarning = !(hasControls && isArgsStory) && !hideNoControlsWarning;
@@ -36,9 +45,11 @@ export const ControlsPanel: FC = () => {
       {showWarning && <NoControlsWarning />}
       <ArgsTable
         {...{
+          key: path, // resets state when switching stories
           compact: !expanded && hasControls,
           rows: withPresetColors,
           args,
+          globals,
           updateArgs,
           resetArgs,
           inAddonPanel: true,
