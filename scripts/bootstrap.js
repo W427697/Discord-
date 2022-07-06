@@ -66,6 +66,7 @@ function run() {
       option: '--prep',
       command: () => {
         log.info(prefix, 'prepare');
+        spawn(`nx run-many --target="preprepare" --all --parallel`);
         spawn(`nx run-many --target="prepare" --all --parallel -- --reset`);
       },
       order: 2,
@@ -119,6 +120,7 @@ function run() {
       option: '--build',
       command: () => {
         log.info(prefix, 'build');
+        spawn(`nx run-many --target="preprepare" --all --parallel`);
         spawn(
           `nx run-many --target="prepare" --all --parallel=8 ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
