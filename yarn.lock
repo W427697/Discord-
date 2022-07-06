@@ -9387,6 +9387,7 @@ __metadata:
     del-cli: ^4.0.1
     detect-port: ^1.3.0
     dts-bundle-generator: ^6.2.0
+    ejs-lint: ^1.2.2
     enzyme: ^3.11.0
     enzyme-adapter-react-16: ^1.15.5
     esbuild: ^0.14.47
@@ -13042,7 +13043,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn-node@npm:^1.3.0, acorn-node@npm:^1.6.1":
+"acorn-node@npm:^1.2.0, acorn-node@npm:^1.3.0, acorn-node@npm:^1.6.1":
   version: 1.8.2
   resolution: "acorn-node@npm:1.8.2"
   dependencies:
@@ -19961,6 +19962,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ejs-include-regex@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "ejs-include-regex@npm:1.0.0"
+  checksum: 8938fbccc1ad96ac30203ee5f75d78c51bd9d0cbdcb1bfd8b5e79054ebbd50724b3b5773ba1932c4ff9d5299de3fd24673ee9b826e8b7d3f90ec1bd776739020
+  languageName: node
+  linkType: hard
+
+"ejs-lint@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "ejs-lint@npm:1.2.2"
+  dependencies:
+    chalk: ^4.0.0
+    ejs: 3.1.7
+    ejs-include-regex: ^1.0.0
+    globby: ^11.0.0
+    read-input: ^0.3.1
+    slash: ^3.0.0
+    syntax-error: ^1.1.6
+    yargs: ^16.0.0
+  bin:
+    ejslint: cli.js
+  checksum: c9bdaeef085eb4beff80196df926c0e513691d041ce20219acf6b0ceb7ebf72c888e90fc6fa2b48908f2b1bb595f63a343129709d95df59754560f4aaefa062f
+  languageName: node
+  linkType: hard
+
+"ejs@npm:3.1.7":
+  version: 3.1.7
+  resolution: "ejs@npm:3.1.7"
+  dependencies:
+    jake: ^10.8.5
+  bin:
+    ejs: bin/cli.js
+  checksum: 7b7ddc9d4f574d57e6b3e7f9049ddf0af33f38995886fb4dd8b335f56839cc04b1cdd983d1b5b9cfcaa5c1372b643e6d68d2fcecdc1b5fdbdeab55b24245135e
+  languageName: node
+  linkType: hard
+
 "ejs@npm:^3.1.5, ejs@npm:^3.1.6, ejs@npm:^3.1.7, ejs@npm:^3.1.8":
   version: 3.1.8
   resolution: "ejs@npm:3.1.8"
@@ -24421,7 +24458,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globby@npm:^11.0.1, globby@npm:^11.0.2, globby@npm:^11.0.3, globby@npm:^11.0.4, globby@npm:^11.1.0":
+"globby@npm:^11.0.0, globby@npm:^11.0.1, globby@npm:^11.0.2, globby@npm:^11.0.3, globby@npm:^11.0.4, globby@npm:^11.1.0":
   version: 11.1.0
   resolution: "globby@npm:11.1.0"
   dependencies:
@@ -37966,6 +38003,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"read-input@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "read-input@npm:0.3.1"
+  checksum: 57a3a3cbeb5da1adaab1db5483e021fd5f32b54304c1aea7363e0fd4f1d779eac9762830e70831da1d835678357b78284e2cd415b9cab0391cafec5c1e3cd4fc
+  languageName: node
+  linkType: hard
+
 "read-package-json-fast@npm:^2.0.1":
   version: 2.0.3
   resolution: "read-package-json-fast@npm:2.0.3"
@@ -42334,6 +42378,15 @@ __metadata:
   version: 2.0.15
   resolution: "synchronous-promise@npm:2.0.15"
   checksum: 967778e7570dc496d7630a89db3bada38876574797c9b272ee50f6ecd7afcebf450268b4bb48a84274d213ab9fd4865dbcc6edeb279f9ecaddf189d5446cbe43
+  languageName: node
+  linkType: hard
+
+"syntax-error@npm:^1.1.6":
+  version: 1.4.0
+  resolution: "syntax-error@npm:1.4.0"
+  dependencies:
+    acorn-node: ^1.2.0
+  checksum: 435763d011943df551caa5a3bb84e00b6d22d7375e4ae115a922ebc2a239f136979f78b6a81b89c92383834d752692dc068aee59c2448e3f7fce00a52d9162d8
   languageName: node
   linkType: hard
 
