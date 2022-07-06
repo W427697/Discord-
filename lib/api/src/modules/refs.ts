@@ -279,7 +279,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
     },
   };
 
-  const refs = (!singleStory && provider.getConfig().refs) || {};
+  const refs: Refs = (!singleStory && global.REFS) || {};
 
   const initialState: SubState['refs'] = refs;
 

@@ -772,13 +772,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-plugin-utils@npm:^7.18.6":
-  version: 7.18.6
-  resolution: "@babel/helper-plugin-utils@npm:7.18.6"
-  checksum: ef6f2e319fa0f262c82a841e9b9d177159fe0c086e14207bc44bea162e655b177872ad56c1cbbcb2290304791539943a243a490a76cccba63be7386ea05690e1
-  languageName: node
-  linkType: hard
-
 "@babel/helper-remap-async-to-generator@npm:^7.16.8":
   version: 7.16.8
   resolution: "@babel/helper-remap-async-to-generator@npm:7.16.8"
@@ -1928,17 +1921,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: da1d346c479c0b438eeb2fe2a993e48d19e5d1103e0c8684d56f09f0f15fec21e88e469445920b3fdd955ae6d365524f7ea3c54bd5772ecacefa65d0b94c80e0
-  languageName: node
-  linkType: hard
-
-"@babel/plugin-transform-template-literals@npm:^7.12.1":
-  version: 7.18.6
-  resolution: "@babel/plugin-transform-template-literals@npm:7.18.6"
-  dependencies:
-    "@babel/helper-plugin-utils": ^7.18.6
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: 30329f333a890e46f053571abc032fe1b9c302fe9a8b32952226aa1ebfbeb6659c21c6125ae41d038cb706610900c4643a619b423cd2331fe53ff6fca684b23a
   languageName: node
   linkType: hard
 
@@ -3322,6 +3304,13 @@ __metadata:
     unique-filename: ^1.1.1
     which: ^1.3.1
   checksum: 5df83645b4743f3f7c780f3d3242da62aaec0b4ac9d5e39d63ffdb11132a6251c134e02c45604ae09871d0ae94b4869d81356b112145ea173647e69d45a30105
+  languageName: node
+  linkType: hard
+
+"@fal-works/esbuild-plugin-global-externals@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "@fal-works/esbuild-plugin-global-externals@npm:2.1.2"
+  checksum: 2c84a8e6121b00ac8e4eb2469ab8f188142db2f1927391758e5d0142cb684b7eb0fad0c9d6caf358616eb2a77af2c067e08b9ec8e05749b415fc4dd0ef96d0fe
   languageName: node
   linkType: hard
 
@@ -7854,6 +7843,30 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/builder-manager@7.0.0-alpha.10, @storybook/builder-manager@workspace:lib/builder-manager":
+  version: 0.0.0-use.local
+  resolution: "@storybook/builder-manager@workspace:lib/builder-manager"
+  dependencies:
+    "@digitak/esrun": ^3.2.2
+    "@fal-works/esbuild-plugin-global-externals": ^2.1.2
+    "@storybook/core-common": 7.0.0-alpha.10
+    "@storybook/node-logger": 7.0.0-alpha.10
+    "@storybook/ui": 7.0.0-alpha.10
+    "@types/ejs": ^3.1.1
+    "@yarnpkg/esbuild-plugin-pnp": ^3.0.0-rc.10
+    browser-assert: ^1.2.1
+    chalk: ^4.1.0
+    ejs: ^3.1.8
+    esbuild: ^0.14.47
+    esbuild-plugin-alias: ^0.2.1
+    express: ^4.17.1
+    fs-extra: ^9.0.1
+    readdirp: ^3.6.0
+    rollup-plugin-node-polyfills: ^0.2.1
+    typescript: ~4.6.3
+  languageName: unknown
+  linkType: soft
+
 "@storybook/builder-webpack5@7.0.0-alpha.10, @storybook/builder-webpack5@workspace:lib/builder-webpack5":
   version: 0.0.0-use.local
   resolution: "@storybook/builder-webpack5@workspace:lib/builder-webpack5"
@@ -8308,6 +8321,7 @@ __metadata:
   dependencies:
     "@aw-web-design/x-default-browser": 1.4.88
     "@discoveryjs/json-ext": ^0.5.3
+    "@storybook/builder-manager": 7.0.0-alpha.10
     "@storybook/builder-webpack5": 7.0.0-alpha.10
     "@storybook/core-client": 7.0.0-alpha.10
     "@storybook/core-common": 7.0.0-alpha.10
@@ -8315,7 +8329,6 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/csf-tools": 7.0.0-alpha.10
     "@storybook/docs-mdx": 0.0.1-canary.1.4bea5cc.0
-    "@storybook/manager-webpack5": 7.0.0-alpha.10
     "@storybook/node-logger": 7.0.0-alpha.10
     "@storybook/semver": ^7.3.2
     "@storybook/store": 7.0.0-alpha.10
@@ -8361,8 +8374,6 @@ __metadata:
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
     "@storybook/builder-webpack5":
-      optional: true
-    "@storybook/manager-webpack5":
       optional: true
     typescript:
       optional: true
@@ -8773,53 +8784,6 @@ __metadata:
   checksum: e092785c4d248644e8b72da2386b43afb28ad9449441ecce1d12dc9ba6f3360a52371fa3f3812065a990643513779b0b9d3f8d5eead21463f088a7459d7d472c
   languageName: node
   linkType: hard
-
-"@storybook/manager-webpack5@7.0.0-alpha.10, @storybook/manager-webpack5@workspace:lib/manager-webpack5":
-  version: 0.0.0-use.local
-  resolution: "@storybook/manager-webpack5@workspace:lib/manager-webpack5"
-  dependencies:
-    "@babel/core": ^7.12.10
-    "@babel/plugin-transform-template-literals": ^7.12.1
-    "@babel/preset-react": ^7.12.10
-    "@storybook/addons": 7.0.0-alpha.10
-    "@storybook/core-client": 7.0.0-alpha.10
-    "@storybook/core-common": 7.0.0-alpha.10
-    "@storybook/core-webpack": 7.0.0-alpha.10
-    "@storybook/node-logger": 7.0.0-alpha.10
-    "@storybook/theming": 7.0.0-alpha.10
-    "@storybook/ui": 7.0.0-alpha.10
-    "@types/node": ^14.0.10 || ^16.0.0
-    "@types/terser-webpack-plugin": ^5.2.0
-    "@types/webpack-dev-middleware": ^5.3.0
-    "@types/webpack-virtual-modules": ^0.1.1
-    assert: ^2.0.0
-    babel-loader: ^8.2.5
-    case-sensitive-paths-webpack-plugin: ^2.4.0
-    chalk: ^4.1.0
-    core-js: ^3.8.2
-    css-loader: ^6.7.1
-    esbuild-loader: ^2.19.0
-    express: ^4.17.1
-    find-up: ^5.0.0
-    fs-extra: ^9.0.1
-    html-webpack-plugin: ^5.5.0
-    node-fetch: ^2.6.7
-    process: ^0.11.10
-    read-pkg-up: ^7.0.1
-    resolve-from: ^5.0.0
-    style-loader: ^3.3.1
-    telejson: ^6.0.8
-    terser-webpack-plugin: ^5.3.1
-    ts-dedent: ^2.0.0
-    util-deprecate: ^1.0.2
-    webpack: 5
-    webpack-dev-middleware: ^5.3.1
-    webpack-virtual-modules: ^0.4.3
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  languageName: unknown
-  linkType: soft
 
 "@storybook/mdx1-csf@npm:^0.0.1":
   version: 0.0.1
@@ -9475,6 +9439,7 @@ __metadata:
     rollup: ^2.60.2
     rollup-plugin-extensions: ^0.1.0
     rollup-plugin-jsx: ^1.0.3
+    rollup-plugin-node-polyfills: ^0.2.1
     rollup-plugin-terser: ^7.0.2
     serve-static: ^1.14.1
     shelljs: ^0.8.5
@@ -9877,8 +9842,12 @@ __metadata:
   resolution: "@storybook/ui@workspace:lib/ui"
   dependencies:
     "@babel/core": ^7.12.10
+    "@digitak/esrun": ^3.2.2
+    "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@storybook/addons": 7.0.0-alpha.10
     "@storybook/api": 7.0.0-alpha.10
+    "@storybook/channel-postmessage": 7.0.0-alpha.10
+    "@storybook/channel-websocket": 7.0.0-alpha.10
     "@storybook/channels": 7.0.0-alpha.10
     "@storybook/client-logger": 7.0.0-alpha.10
     "@storybook/components": 7.0.0-alpha.10
@@ -9893,6 +9862,7 @@ __metadata:
     downshift: ^6.0.15
     enzyme: ^3.11.0
     flush-promises: ^1.0.2
+    fs-extra: ^9.0.1
     fuse.js: ^3.6.1
     global: ^4.4.0
     lodash: ^4.17.21
@@ -9907,7 +9877,7 @@ __metadata:
     react-sizeme: ^3.0.1
     resolve-from: ^5.0.0
     store2: ^2.12.0
-    ts-node: ^10.4.0
+    ts-dedent: ^2.0.0
     typescript: ~4.6.3
     util: ^0.12.4
   languageName: unknown
@@ -10783,6 +10753,13 @@ __metadata:
   version: 0.0.3
   resolution: "@types/doctrine@npm:0.0.3"
   checksum: 566dcdc988c97ff01d14493ceb2223643347f07cf0a88c86cd7cb7c2821cfc837fd39295e6809a29614fdfdc6c4e981408155ca909b2e5da5d947af939b6c966
+  languageName: node
+  linkType: hard
+
+"@types/ejs@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@types/ejs@npm:3.1.1"
+  checksum: 922083d5bb5ae290856ea334d85e20765b588987bcdf3a2e81aa724503cb127acb2bd63fddf91bdafa24b46768fe402a6acaa47ab7a4ae520efb162a5757abca
   languageName: node
   linkType: hard
 
@@ -12910,6 +12887,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@yarnpkg/esbuild-plugin-pnp@npm:^3.0.0-rc.10":
+  version: 3.0.0-rc.10
+  resolution: "@yarnpkg/esbuild-plugin-pnp@npm:3.0.0-rc.10"
+  dependencies:
+    tslib: ^1.13.0
+  peerDependencies:
+    esbuild: ">=0.10.0"
+  checksum: 1eb0f9e09613b5ce28599f925236caad980df35bef70b8a3f22e8c3e8e32b89695d83e539f4c1ede10a660d226bad43f8fc87522b55f5f49c64f47c050c977dd
+  languageName: node
+  linkType: hard
+
 "@yarnpkg/lockfile@npm:1.1.0":
   version: 1.1.0
   resolution: "@yarnpkg/lockfile@npm:1.1.0"
@@ -13956,18 +13944,6 @@ __metadata:
   version: 0.1.5
   resolution: "assert-plus@npm:0.1.5"
   checksum: 1ed2524a2259a62a4550c4a48ff1ccebdfa752a60fdfa2738032e5176c9d364a245c88d706f3581184aa3931080e65404b2595c54c6e54554978f8717e7fb96c
-  languageName: node
-  linkType: hard
-
-"assert@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "assert@npm:2.0.0"
-  dependencies:
-    es6-object-assign: ^1.1.0
-    is-nan: ^1.2.1
-    object-is: ^1.0.1
-    util: ^0.12.0
-  checksum: a25c7ebc07b52cc4dadd5c46d73472e7d4b86e40eb7ebaa12f78c1ba954dbe83612be5dea314b862fc364c305ab3bdbcd1c9d4ec2d92bc37214ae7d5596347f3
   languageName: node
   linkType: hard
 
@@ -19985,7 +19961,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ejs@npm:^3.1.5, ejs@npm:^3.1.6, ejs@npm:^3.1.7":
+"ejs@npm:^3.1.5, ejs@npm:^3.1.6, ejs@npm:^3.1.7, ejs@npm:^3.1.8":
   version: 3.1.8
   resolution: "ejs@npm:3.1.8"
   dependencies:
@@ -21024,13 +21000,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es6-object-assign@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "es6-object-assign@npm:1.1.0"
-  checksum: 11c165ae16866aca897dee9b689402f0e871589e859809343ef9e0fdd067133684db16fd15abdba2a99e7319222b9f43e6b747baabb909cee9d0ecbac8deebee
-  languageName: node
-  linkType: hard
-
 "es6-promise@npm:^3.1.2":
   version: 3.3.1
   resolution: "es6-promise@npm:3.3.1"
@@ -21182,22 +21151,6 @@ __metadata:
   version: 0.14.47
   resolution: "esbuild-linux-s390x@npm:0.14.47"
   conditions: os=linux & cpu=s390x
-  languageName: node
-  linkType: hard
-
-"esbuild-loader@npm:^2.19.0":
-  version: 2.19.0
-  resolution: "esbuild-loader@npm:2.19.0"
-  dependencies:
-    esbuild: ^0.14.39
-    joycon: ^3.0.1
-    json5: ^2.2.0
-    loader-utils: ^2.0.0
-    tapable: ^2.2.0
-    webpack-sources: ^2.2.0
-  peerDependencies:
-    webpack: ^4.40.0 || ^5.0.0
-  checksum: 309b4bd169ffd1d743ad7099182323a179dec789cd5eb4f5f0258c1c13034a154917679e2402bfcedd90c9b03d06d773e97fe4aa1056274dc43d30633c5707e1
   languageName: node
   linkType: hard
 
@@ -22105,6 +22058,13 @@ __metadata:
   version: 0.2.1
   resolution: "estree-walker@npm:0.2.1"
   checksum: 5a7285ba6f4fd29d5ac112fdf3950929b2a52805b6683329355cbddf40edf08b52e6c9a4be28b5426e694d54f8b4594478eb66005b9fea641f18fa427e7888c8
+  languageName: node
+  linkType: hard
+
+"estree-walker@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "estree-walker@npm:0.6.1"
+  checksum: 6dabc855faa04a1ffb17b6a9121b6008ba75ab5a163ad9dc3d7fca05cfda374c5f5e91418d783496620ca75e99a73c40874d8b75f23b4117508cc8bde78e7b41
   languageName: node
   linkType: hard
 
@@ -26815,16 +26775,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-nan@npm:^1.2.1":
-  version: 1.3.2
-  resolution: "is-nan@npm:1.3.2"
-  dependencies:
-    call-bind: ^1.0.0
-    define-properties: ^1.1.3
-  checksum: 8bfb286f85763f9c2e28ea32e9127702fe980ffd15fa5d63ade3be7786559e6e21355d3625dd364c769c033c5aedf0a2ed3d4025d336abf1b9241e3d9eddc5b0
-  languageName: node
-  linkType: hard
-
 "is-natural-number@npm:^4.0.1":
   version: 4.0.1
   resolution: "is-natural-number@npm:4.0.1"
@@ -30839,7 +30789,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.25.0, magic-string@npm:^0.25.7":
+"magic-string@npm:^0.25.0, magic-string@npm:^0.25.3, magic-string@npm:^0.25.7":
   version: 0.25.9
   resolution: "magic-string@npm:0.25.9"
   dependencies:
@@ -38228,7 +38178,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"readdirp@npm:~3.6.0":
+"readdirp@npm:^3.6.0, readdirp@npm:~3.6.0":
   version: 3.6.0
   resolution: "readdirp@npm:3.6.0"
   dependencies:
@@ -39643,6 +39593,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rollup-plugin-inject@npm:^3.0.0":
+  version: 3.0.2
+  resolution: "rollup-plugin-inject@npm:3.0.2"
+  dependencies:
+    estree-walker: ^0.6.1
+    magic-string: ^0.25.3
+    rollup-pluginutils: ^2.8.1
+  checksum: 35b9d955039b56b43750a9e458bb51b7956b048b6d3ca57b1f03462aa5a0cb176d1b677d95e909b64eee4e9adf73c02f569ad8c0ab5aafdec818ff51700c114c
+  languageName: node
+  linkType: hard
+
 "rollup-plugin-jsx@npm:^1.0.3":
   version: 1.0.3
   resolution: "rollup-plugin-jsx@npm:1.0.3"
@@ -39651,6 +39612,15 @@ __metadata:
     magic-string: ^0.14.0
     rollup-pluginutils: ^1.3.1
   checksum: fe404acd2b2860eadc284f07ed25122de5b9b7f925400522eb0c95714923cc2aa4331fa8e629b8b0f2f52942179a89db1a1f9983252fa390f79412864e904102
+  languageName: node
+  linkType: hard
+
+"rollup-plugin-node-polyfills@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "rollup-plugin-node-polyfills@npm:0.2.1"
+  dependencies:
+    rollup-plugin-inject: ^3.0.0
+  checksum: 30f9e09cbbf979b1212e0c455d74c3a061994fc19ddf160da4634b11377222cea5903a5ba05db66be849f550cde9ffc80ecbfcfb48544045d08bfc408501417d
   languageName: node
   linkType: hard
 
@@ -39675,6 +39645,15 @@ __metadata:
     estree-walker: ^0.2.1
     minimatch: ^3.0.2
   checksum: dd116e92b66432b987fb0cb1bb71ec7317ec4fa5fe9673a98498fd966e94daef9dc6f34deee204b17bb9438f05b8dfa370bb03e83e06af9e377e4ab9c83b048a
+  languageName: node
+  linkType: hard
+
+"rollup-pluginutils@npm:^2.8.1":
+  version: 2.8.2
+  resolution: "rollup-pluginutils@npm:2.8.2"
+  dependencies:
+    estree-walker: ^0.6.1
+  checksum: 20947bec5a5dd68b5c5c8423911e6e7c0ad834c451f1a929b1f4e2bc08836ad3f1a722ef2bfcbeca921870a0a283f13f064a317dc7a6768496e98c9a641ba290
   languageName: node
   linkType: hard
 
@@ -43572,7 +43551,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^1.10.0, tslib@npm:^1.8.1, tslib@npm:^1.9.0, tslib@npm:^1.9.3":
+"tslib@npm:^1.10.0, tslib@npm:^1.13.0, tslib@npm:^1.8.1, tslib@npm:^1.9.0, tslib@npm:^1.9.3":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: 69ae09c49eea644bc5ebe1bca4fa4cc2c82b7b3e02f43b84bd891504edf66dbc6b2ec0eef31a957042de2269139e4acff911e6d186a258fb14069cd7f6febce2
@@ -44607,7 +44586,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"util@npm:^0.12.0, util@npm:^0.12.4":
+"util@npm:^0.12.4":
   version: 0.12.4
   resolution: "util@npm:0.12.4"
   dependencies:

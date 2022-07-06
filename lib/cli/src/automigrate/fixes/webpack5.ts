@@ -114,10 +114,7 @@ export const webpack5: Fix<Webpack5RunOptions> & CheckBuilder = {
   },
 
   async run({ result: { main, storybookVersion, webpackVersion }, packageManager, dryRun }) {
-    const deps = [
-      `@storybook/manager-webpack5@${storybookVersion}`,
-      `@storybook/builder-webpack5@${storybookVersion}`,
-    ];
+    const deps = [`@storybook/builder-webpack5@${storybookVersion}`];
     // this also gets called by 'cra5' fix so we need to add
     // webpack5 at the project root so that it gets hoisted
     if (!webpackVersion) {

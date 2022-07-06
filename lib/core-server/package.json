@@ -35,13 +35,13 @@
   "dependencies": {
     "@aw-web-design/x-default-browser": "1.4.88",
     "@discoveryjs/json-ext": "^0.5.3",
+    "@storybook/builder-manager": "7.0.0-alpha.10",
     "@storybook/core-client": "7.0.0-alpha.10",
     "@storybook/core-common": "7.0.0-alpha.10",
     "@storybook/core-events": "7.0.0-alpha.10",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
     "@storybook/csf-tools": "7.0.0-alpha.10",
     "@storybook/docs-mdx": "0.0.1-canary.1.4bea5cc.0",
-    "@storybook/manager-webpack5": "7.0.0-alpha.10",
     "@storybook/node-logger": "7.0.0-alpha.10",
     "@storybook/semver": "^7.3.2",
     "@storybook/store": "7.0.0-alpha.10",
@@ -92,9 +92,6 @@
   },
   "peerDependenciesMeta": {
     "@storybook/builder-webpack5": {
-      "optional": true
-    },
-    "@storybook/manager-webpack5": {
       "optional": true
     },
     "typescript": {

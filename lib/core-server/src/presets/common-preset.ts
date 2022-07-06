@@ -2,7 +2,6 @@ import fs from 'fs-extra';
 import {
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
-  getManagerMainTemplate,
   getPreviewMainTemplate,
   loadEnvs,
 } from '@storybook/core-common';
@@ -21,6 +20,9 @@ export const babel = async (_: unknown, options: Options) => {
   return presets.apply('babelDefault', {}, options);
 };
 
+export const title = (previous: string, options: Options) =>
+  previous || options.packageJson.name || false;
+
 export const logLevel = (previous: any, options: Options) => previous || options.loglevel || 'info';
 
 export const previewHead = async (base: any, { configDir, presets }: Options) => {
@@ -38,8 +40,6 @@ export const previewBody = async (base: any, { configDir, presets }: Options) =>
 };
 
 export const previewMainTemplate = () => getPreviewMainTemplate();
-
-export const managerMainTemplate = () => getManagerMainTemplate();
 
 export const previewEntries = (entries: any[] = []) => {
   entries.push(require.resolve('@storybook/core-client/dist/esm/globals/globals'));
