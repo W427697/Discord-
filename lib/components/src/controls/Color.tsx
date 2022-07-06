@@ -285,7 +285,7 @@ const usePresets = (
     return initialPresets.concat(selectedColors).filter(Boolean).slice(-27);
   }, [presetColors, selectedColors]);
 
-  const addPreset = useCallback(
+  const addPreset: (color: ParsedColor) => void = useCallback(
     (color) => {
       if (!color?.valid) return;
       if (presets.some((preset) => id(preset[colorSpace]) === id(color[colorSpace]))) return;
@@ -307,9 +307,10 @@ export const ColorControl: FC<ColorControlProps> = ({
   presetColors,
   startOpen,
 }) => {
+  const throttledOnChange = useCallback(throttle(onChange, 200), [onChange]);
   const { value, realValue, updateValue, color, colorSpace, cycleColorSpace } = useColorInput(
     initialValue,
-    throttle(onChange, 200)
+    throttledOnChange
   );
   const { presets, addPreset } = usePresets(presetColors, color, colorSpace);
   const Picker = ColorPicker[colorSpace];
