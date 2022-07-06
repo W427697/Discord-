@@ -1,6 +1,6 @@
 import global from 'global';
 import pick from 'lodash/pick';
-import deepEqual from 'fast-deep-equal';
+import { dequal as deepEqual } from 'dequal';
 import { create } from '@storybook/theming';
 import { SET_CONFIG } from '@storybook/core-events';
 import type { ThemeVars } from '@storybook/theming';

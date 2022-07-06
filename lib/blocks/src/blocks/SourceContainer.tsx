@@ -1,6 +1,6 @@
 import React, { FC, Context, createContext, useEffect, useState } from 'react';
 
-import deepEqual from 'fast-deep-equal';
+import { dequal as deepEqual } from 'dequal';
 import { addons } from '@storybook/addons';
 
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
