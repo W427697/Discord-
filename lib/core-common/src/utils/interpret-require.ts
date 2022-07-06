@@ -47,7 +47,7 @@ function registerCompiler(moduleDescriptor: Extension): number {
   return registered;
 }
 
-function interopRequireDefault(filePath: string) {
+export function interopRequireDefault(filePath: string) {
   // eslint-disable-next-line import/no-dynamic-require,global-require
   const result = require(filePath);
 
