@@ -1,12 +1,15 @@
+/* eslint-disable jest/no-standalone-expect */
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
 import { CallStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
+import { userEvent, within, waitFor } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
 
-import { getCalls, getInteractions } from './mocks';
-import { AddonPanelPure } from './Panel';
-import SubnavStories from './components/Subnav/Subnav.stories';
+import { getCalls, getInteractions } from '../mocks';
+import { InteractionsPanel } from './InteractionsPanel';
+import SubnavStories from './Subnav.stories';
 
 const StyledWrapper = styled.div(({ theme }) => ({
   backgroundColor: theme.background.content,
@@ -23,8 +26,8 @@ const StyledWrapper = styled.div(({ theme }) => ({
 const interactions = getInteractions(CallStates.DONE);
 
 export default {
-  title: 'Addons/Interactions/Panel',
-  component: AddonPanelPure,
+  title: 'Addons/Interactions/InteractionsPanel',
+  component: InteractionsPanel,
   decorators: [
     (Story: any) => (
       <StyledWrapper id="panel-tab-content">
@@ -34,6 +37,7 @@ export default {
   ],
   parameters: {
     layout: 'fullscreen',
+    theme: 'light', // stacked will break interactions
   },
   args: {
     calls: new Map(getCalls(CallStates.DONE).map((call) => [call.id, call])),
@@ -48,14 +52,42 @@ export default {
     // prop for the AddonPanel used as wrapper of Panel
     active: true,
   },
-} as ComponentMeta<typeof AddonPanelPure>;
+} as ComponentMeta<typeof InteractionsPanel>;
 
-type Story = ComponentStoryObj<typeof AddonPanelPure>;
+type Story = ComponentStoryObj<typeof InteractionsPanel>;
 
 export const Passing: Story = {
   args: {
     interactions: getInteractions(CallStates.DONE),
   },
+};
+Passing.play = async ({ args, canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  await waitFor(async () => {
+    await userEvent.click(canvas.getByLabelText('Go to start'));
+    await expect(args.controls.start).toHaveBeenCalled();
+  });
+
+  await waitFor(async () => {
+    await userEvent.click(canvas.getByLabelText('Go back'));
+    await expect(args.controls.back).toHaveBeenCalled();
+  });
+
+  await waitFor(async () => {
+    await userEvent.click(canvas.getByLabelText('Go forward'));
+    await expect(args.controls.next).not.toHaveBeenCalled();
+  });
+
+  await waitFor(async () => {
+    await userEvent.click(canvas.getByLabelText('Go to end'));
+    await expect(args.controls.end).not.toHaveBeenCalled();
+  });
+
+  await waitFor(async () => {
+    await userEvent.click(canvas.getByLabelText('Rerun'));
+    await expect(args.controls.rerun).toHaveBeenCalled();
+  });
 };
 
 export const Paused: Story = {
@@ -95,5 +127,13 @@ export const WithDebuggingDisabled: Story = {
 export const NoInteractions: Story = {
   args: {
     interactions: [],
+  },
+};
+
+export const CaughtException: Story = {
+  args: {
+    hasException: true,
+    interactions: [],
+    caughtException: new TypeError("Cannot read properties of undefined (reading 'args')"),
   },
 };

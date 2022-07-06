@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
-import path, { dirname, join } from 'path';
+import { dirname, isAbsolute, join, resolve } from 'path';
 import { dedent } from 'ts-dedent';
 import global from 'global';
 
@@ -45,10 +45,10 @@ export async function buildStaticStandalone(
     throw new Error("Won't copy root directory. Check your staticDirs!");
   }
 
-  options.outputDir = path.isAbsolute(options.outputDir)
+  options.outputDir = isAbsolute(options.outputDir)
     ? options.outputDir
-    : path.join(process.cwd(), options.outputDir);
-  options.configDir = path.resolve(options.configDir);
+    : join(process.cwd(), options.outputDir);
+  options.configDir = resolve(options.configDir);
   /* eslint-enable no-param-reassign */
 
   logger.info(chalk`=> Cleaning outputDir: {cyan ${options.outputDir.replace(process.cwd(), '')}}`);
@@ -153,13 +153,13 @@ export async function buildStaticStandalone(
     initializedStoryIndexGenerator = generator.initialize().then(() => generator);
     effects.push(
       extractStoriesJson(
-        path.join(options.outputDir, 'stories.json'),
+        join(options.outputDir, 'stories.json'),
         initializedStoryIndexGenerator,
         convertToIndexV3
       )
     );
     effects.push(
-      extractStoriesJson(path.join(options.outputDir, 'index.json'), initializedStoryIndexGenerator)
+      extractStoriesJson(join(options.outputDir, 'index.json'), initializedStoryIndexGenerator)
     );
   }
 
@@ -186,7 +186,7 @@ export async function buildStaticStandalone(
 
   if (!core?.disableProjectJson) {
     effects.push(
-      extractStorybookMetadata(path.join(options.outputDir, 'project.json'), options.configDir)
+      extractStorybookMetadata(join(options.outputDir, 'project.json'), options.configDir)
     );
   }
 

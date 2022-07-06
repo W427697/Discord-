@@ -4,10 +4,10 @@ import { Call, CallStates, ControlStates } from '@storybook/instrumenter';
 import { styled, typography } from '@storybook/theming';
 import { transparentize } from 'polished';
 
-import { MatcherResult } from '../MatcherResult';
-import { MethodCall } from '../MethodCall';
-import { StatusIcon } from '../StatusIcon/StatusIcon';
-import { Controls } from '../../Panel';
+import { MatcherResult } from './MatcherResult';
+import { MethodCall } from './MethodCall';
+import { StatusIcon } from './StatusIcon';
+import { Controls } from './InteractionsPanel';
 
 const MethodCallWrapper = styled.div(() => ({
   fontFamily: typography.fonts.mono,
@@ -87,9 +87,9 @@ const RowLabel = styled('button', { shouldForwardProp: (prop) => !['call'].inclu
   },
 }));
 
-const RowActions = styled.div(({ theme }) => ({
+const RowActions = styled.div({
   padding: 6,
-}));
+});
 
 export const StyledIconButton = styled(IconButton as any)(({ theme }) => ({
   color: theme.color.mediumdark,
@@ -103,12 +103,10 @@ const Note = styled(TooltipNote)(({ theme }) => ({
 const RowMessage = styled('div')(({ theme }) => ({
   padding: '8px 10px 8px 36px',
   fontSize: typography.size.s1,
+  color: theme.color.defaultText,
   pre: {
     margin: 0,
     padding: 0,
-  },
-  p: {
-    color: theme.color.dark,
   },
 }));
 

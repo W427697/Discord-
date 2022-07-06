@@ -1,6 +1,6 @@
 import type { Builder } from '@storybook/core-common';
 
-import esbuild from 'esbuild';
+import type { BuildOptions, BuildResult } from 'esbuild';
 
 export interface Stats {
   //
@@ -12,7 +12,7 @@ export type WithRequiredProperty<Type, Key extends keyof Type> = Type &
     [Property in Key]-?: Type[Property];
   };
 
-export type ManagerBuilder = Builder<WithRequiredProperty<esbuild.BuildOptions, 'outdir'>, Stats>;
+export type ManagerBuilder = Builder<WithRequiredProperty<BuildOptions, 'outdir'>, Stats>;
 export type Unpromise<T extends Promise<any>> = T extends Promise<infer U> ? U : never;
 
 export type BuilderStartOptions = Parameters<ManagerBuilder['start']>['0'];
@@ -27,4 +27,4 @@ export type BuilderFunction = (
   options: BuilderBuildOptions
 ) => AsyncGenerator<unknown, BuilderBuildResult, void>;
 
-export type Compilation = esbuild.BuildResult;
+export type Compilation = BuildResult;

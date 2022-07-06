@@ -13,7 +13,7 @@ export default {
     onLogout: { action: 'onLogout' },
     onCreateAccount: { action: 'onCreateAccount' },
   },
-} as Meta;
+} as Meta<HeaderProps>;
 
 const Template: StoryFn<HeaderProps> = (args) => createHeader(args);
 
