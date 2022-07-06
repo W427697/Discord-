@@ -21,7 +21,7 @@ async function getPreviewBuilder(builderName: string, configDir: string) {
 export async function getBuilders({
   presets,
   configDir,
-}: Options): Promise<Builder<unknown, unknown>[]> {
+}: Options): Promise<Builder<unknown>[]> {
   const core = await presets.apply<CoreConfig>('core', undefined);
   const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
 

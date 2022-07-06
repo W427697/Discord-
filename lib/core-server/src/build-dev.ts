@@ -118,9 +118,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
 
   if (options.smokeTest) {
     const warnings: Error[] = [];
-    // @ts-ignore
     warnings.push(...((managerStats && managerStats.toJson().warnings) || []));
-    // @ts-ignore
     warnings.push(...((managerStats && previewStats.toJson().warnings) || []));
 
     const problems = warnings
