@@ -1,8 +1,7 @@
-/* eslint-disable camelcase */
 /* eslint-disable no-console */
 import fs from 'fs-extra';
 import path from 'path';
-import child_process from 'child_process';
+import shelljs from 'shelljs';
 import { dedent } from 'ts-dedent';
 
 const remove = (regex?: RegExp) => (input: string) =>
@@ -30,15 +29,10 @@ const run = async () => {
   );
 
   console.log('Linting...');
-  child_process.exec(
-    `yarn lint:js:cmd --fix ${location}`,
-    {
-      cwd: path.join(__dirname, '..', '..', '..'),
-    },
-    () => {
-      console.log('Done!');
-    }
-  );
+  shelljs.exec(`yarn lint:js:cmd --fix ${location}`, {
+    cwd: path.join(__dirname, '..', '..', '..'),
+  });
+  console.log('Done!');
 };
 
 run().catch((e) => {
