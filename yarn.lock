@@ -9877,6 +9877,7 @@ __metadata:
     react-helmet-async: ^1.0.7
     react-sizeme: ^3.0.1
     resolve-from: ^5.0.0
+    shelljs: ^0.8.5
     store2: ^2.12.0
     ts-dedent: ^2.0.0
     typescript: ~4.6.3
