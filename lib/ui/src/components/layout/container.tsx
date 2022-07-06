@@ -361,7 +361,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
     };
   }
 
-  static getDerivedStateFromProps(props: LayoutProps, state: LayoutState) {
+  static getDerivedStateFromProps(props: Readonly<LayoutProps>, state: LayoutState): LayoutState {
     const { bounds, options } = props;
     const { resizerPanel, resizerNav } = state;
 
@@ -635,6 +635,6 @@ class Layout extends Component<LayoutProps, LayoutState> {
   }
 }
 
-const ThemedLayout = withTheme(Layout);
+const ThemedLayout = withTheme(Layout) as unknown as typeof Layout;
 
 export { ThemedLayout as Layout };

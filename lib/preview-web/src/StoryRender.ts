@@ -14,7 +14,12 @@ import {
   TeardownRenderToDOM,
 } from '@storybook/store';
 import { Channel } from '@storybook/addons';
-import { STORY_RENDER_PHASE_CHANGED, STORY_RENDERED } from '@storybook/core-events';
+import { logger } from '@storybook/client-logger';
+import {
+  STORY_RENDER_PHASE_CHANGED,
+  STORY_RENDERED,
+  PLAY_FUNCTION_THREW_EXCEPTION,
+} from '@storybook/core-events';
 
 const { AbortController } = global;
 
@@ -34,9 +39,19 @@ function createController(): AbortController {
   return {
     signal: { aborted: false },
     abort() {
+      // @ts-ignore
       this.signal.aborted = true;
     },
   } as AbortController;
+}
+
+function serializeError(error: any) {
+  try {
+    const { name = 'Error', message = String(error), stack } = error;
+    return { name, message, stack };
+  } catch (e) {
+    return { name: 'Error', message: String(error) };
+  }
 }
 
 export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
@@ -46,16 +61,21 @@ export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
 
 export const PREPARE_ABORTED = new Error('prepareAborted');
 
+export type RenderType = 'story' | 'docs';
 export interface Render<TFramework extends AnyFramework> {
+  type: RenderType;
   id: StoryId;
   story?: Story<TFramework>;
   isPreparing: () => boolean;
   disableKeyListeners: boolean;
-  teardown: (options: { viewModeChanged: boolean }) => Promise<void>;
+  teardown?: (options: { viewModeChanged: boolean }) => Promise<void>;
+  torndown: boolean;
   renderToElement: (canvasElement: HTMLElement, renderStoryToElement?: any) => Promise<void>;
 }
 
 export class StoryRender<TFramework extends AnyFramework> implements Render<TFramework> {
+  public type: RenderType = 'story';
+
   public story?: Story<TFramework>;
 
   public phase?: RenderPhase;
@@ -69,6 +89,8 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
   public disableKeyListeners = false;
 
   private teardownRender: TeardownRenderToDOM = () => {};
+
+  public torndown = false;
 
   constructor(
     public channel: Channel,
@@ -103,12 +125,12 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
   }
 
   async prepare() {
-    await this.runPhase(this.abortController.signal, 'preparing', async () => {
+    await this.runPhase((this.abortController as AbortController).signal, 'preparing', async () => {
       this.story = await this.store.loadStory({ storyId: this.id });
     });
 
-    if (this.abortController.signal.aborted) {
-      this.store.cleanupStory(this.story);
+    if ((this.abortController as AbortController).signal.aborted) {
+      this.store.cleanupStory(this.story as Story<TFramework>);
       throw PREPARE_ABORTED;
     }
   }
@@ -119,15 +141,11 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
   }
 
   isPreparing() {
-    return ['preparing'].includes(this.phase);
+    return ['preparing'].includes(this.phase as RenderPhase);
   }
 
   isPending() {
-    return ['rendering', 'playing'].includes(this.phase);
-  }
-
-  context() {
-    return this.store.getStoryContext(this.story);
+    return ['rendering', 'playing'].includes(this.phase as RenderPhase);
   }
 
   async renderToElement(canvasElement: HTMLElement) {
@@ -141,6 +159,11 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     return this.render({ initial: true, forceRemount: true });
   }
 
+  private storyContext() {
+    if (!this.story) throw new Error(`Cannot call storyContext before preparing`);
+    return this.store.getStoryContext(this.story);
+  }
+
   async render({
     initial = false,
     forceRemount = false,
@@ -148,7 +171,10 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     initial?: boolean;
     forceRemount?: boolean;
   } = {}) {
+    const { canvasElement } = this;
     if (!this.story) throw new Error('cannot render when not prepared');
+    if (!canvasElement) throw new Error('cannot render when canvasElement is unset');
+
     const { id, componentId, title, name, applyLoaders, unboundStoryFn, playFunction } = this.story;
 
     if (forceRemount && !initial) {
@@ -161,25 +187,27 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
 
     // We need a stable reference to the signal -- if a re-mount happens the
     // abort controller may be torn down (above) before we actually check the signal.
-    const abortSignal = this.abortController.signal;
+    const abortSignal = (this.abortController as AbortController).signal;
 
     try {
-      let loadedContext: StoryContext<TFramework>;
+      let loadedContext: Awaited<ReturnType<typeof applyLoaders>>;
       await this.runPhase(abortSignal, 'loading', async () => {
         loadedContext = await applyLoaders({
-          ...this.context(),
+          ...this.storyContext(),
           viewMode: this.viewMode,
         } as StoryContextForLoaders<TFramework>);
       });
-      if (abortSignal.aborted) return;
+      if (abortSignal.aborted) {
+        return;
+      }
 
       const renderStoryContext: StoryContext<TFramework> = {
-        ...loadedContext,
+        ...loadedContext!,
         // By this stage, it is possible that new args/globals have been received for this story
         // and we need to ensure we render it with the new values
-        ...this.context(),
+        ...this.storyContext(),
         abortSignal,
-        canvasElement: this.canvasElement as HTMLElement,
+        canvasElement,
       };
       const renderContext: RenderContext<TFramework> = {
         componentId,
@@ -189,6 +217,14 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         name,
         story: name,
         ...this.callbacks,
+        showError: (error) => {
+          this.phase = 'errored';
+          return this.callbacks.showError(error);
+        },
+        showException: (error) => {
+          this.phase = 'errored';
+          return this.callbacks.showException(error);
+        },
         forceRemount: forceRemount || this.notYetRendered,
         storyContext: renderStoryContext,
         storyFn: () => unboundStoryFn(renderStoryContext),
@@ -196,18 +232,26 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
       };
 
       await this.runPhase(abortSignal, 'rendering', async () => {
-        this.teardownRender =
-          (await this.renderToScreen(renderContext, this.canvasElement)) || (() => {});
+        const teardown = await this.renderToScreen(renderContext, canvasElement);
+        this.teardownRender = teardown || (() => {});
       });
       this.notYetRendered = false;
       if (abortSignal.aborted) return;
 
-      if (forceRemount && playFunction) {
+      // The phase should be 'rendering' but it might be set to 'aborted' by another render cycle
+      if (forceRemount && playFunction && this.phase !== 'errored') {
         this.disableKeyListeners = true;
-        await this.runPhase(abortSignal, 'playing', async () =>
-          playFunction(renderContext.storyContext)
-        );
-        await this.runPhase(abortSignal, 'played');
+        try {
+          await this.runPhase(abortSignal, 'playing', async () => {
+            await playFunction(renderContext.storyContext);
+          });
+          await this.runPhase(abortSignal, 'played');
+        } catch (error) {
+          logger.error(error);
+          await this.runPhase(abortSignal, 'errored', async () => {
+            this.channel.emit(PLAY_FUNCTION_THREW_EXCEPTION, serializeError(error));
+          });
+        }
         this.disableKeyListeners = false;
         if (abortSignal.aborted) return;
       }
@@ -216,7 +260,8 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         this.channel.emit(STORY_RENDERED, id)
       );
     } catch (err) {
-      this.callbacks.showException(err);
+      this.phase = 'errored';
+      this.callbacks.showException(err as Error);
     }
   }
 
@@ -234,10 +279,11 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
   // as a method to abort them, ASAP, but this is not foolproof as we cannot control what
   // happens inside the user's code.
   cancelRender() {
-    this.abortController.abort();
+    this.abortController?.abort();
   }
 
   async teardown(options: {} = {}) {
+    this.torndown = true;
     this.cancelRender();
 
     // If the story has loaded, we need to cleanup

@@ -128,7 +128,9 @@ const NotificationItem: FunctionComponent<{
 }> = ({ notification: { content, link, onClear, id, icon }, onDismissNotification }) => {
   const dismissNotificationItem = () => {
     onDismissNotification(id);
-    onClear();
+    if (onClear) {
+      onClear();
+    }
   };
   return link ? (
     <NotificationLink to={link}>

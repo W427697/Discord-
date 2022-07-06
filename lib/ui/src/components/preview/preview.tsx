@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { Fragment, useMemo, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 
@@ -122,7 +123,7 @@ const useTabs = (
   }, [getElements]);
 
   return useMemo(() => {
-    if (story?.parameters) {
+    if (story?.type === 'story' && story.parameters) {
       return filterTabs([canvas, ...tabsFromConfig], story.parameters);
     }
 
