@@ -20,6 +20,9 @@ export const babel = async (_: unknown, options: Options) => {
   return presets.apply('babelDefault', {}, options);
 };
 
+export const title = (previous: string, options: Options) =>
+  previous || options.packageJson.name || false;
+
 export const logLevel = (previous: any, options: Options) => previous || options.loglevel || 'info';
 
 export const previewHead = async (base: any, { configDir, presets }: Options) => {

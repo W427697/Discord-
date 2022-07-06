@@ -1,5 +1,5 @@
 import { dirname, join } from 'path';
-import { copy, readFile, writeFile } from 'fs-extra';
+import { copy, writeFile } from 'fs-extra';
 import express from 'express';
 
 import { logger } from '@storybook/node-logger';
@@ -8,8 +8,7 @@ import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';
 import aliasPlugin from 'esbuild-plugin-alias';
 
-import { getRefs } from '@storybook/core-common';
-import { readTemplate, render } from './utils/template';
+import { renderHTML } from './utils/template';
 import { definitions } from './utils/globals';
 import {
   BuilderBuildResult,
@@ -22,14 +21,8 @@ import {
   Stats,
 } from './types';
 import { readDeep } from './utils/directory';
-
-const safeResolve = (path: string) => {
-  try {
-    return Promise.resolve(require.resolve(path));
-  } catch (e) {
-    return Promise.resolve(false as const);
-  }
-};
+import { getData } from './utils/data';
+import { safeResolve } from './utils/safeResolve';
 
 let compilation: Compilation;
 
@@ -38,6 +31,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     options.presets.apply('managerEntries', []),
     safeResolve(join(options.configDir, 'manager')),
   ]);
+
   return {
     entryPoints: customManagerEntryPoint
       ? [...addonsEntryPoints, customManagerEntryPoint]
@@ -120,50 +114,31 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 }) {
   logger.info('=> Starting manager..');
 
-  const config = getConfig(options);
-  const refs = getRefs(options);
-  const features = options.presets.apply('features');
-  const template = readTemplate('template.ejs');
-  const customHead = safeResolve(join(options.configDir, 'manager-head.html'));
-  const instance = await executor.get();
+  const { config, customHead, features, instance, refs, template, title } = await getData(options);
 
   yield;
 
   compilation = await instance({
-    ...(await config),
+    ...config,
 
     watch: true,
   });
 
   yield;
 
-  const addonsDir = (await config).outdir;
-  const coreDir = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
+  const addonsDir = config.outdir;
+  const coreDirOrigin = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
 
   router.use(`/sb-addons`, express.static(addonsDir));
-  router.use(`/sb-manager`, express.static(coreDir));
+  router.use(`/sb-manager`, express.static(coreDirOrigin));
 
-  const addonFiles = await readDeep(addonsDir);
-
-  yield;
-
-  const customHeadRef = await customHead;
+  const addonFiles = readDeep(addonsDir);
 
   yield;
 
-  const html = render(await template, {
-    title: 'it is nice',
-    files: {
-      js: addonFiles.map((f) => `./sb-addons/${f.path}`),
-      css: [],
-      favicon: '',
-    },
-    globals: {
-      FEATURES: JSON.stringify(features, null, 2),
-      REFS: JSON.stringify(await refs, null, 2),
-    },
-    head: customHeadRef ? await readFile(customHeadRef, 'utf8') : '',
-  });
+  const html = await renderHTML(template, title, customHead, addonFiles, features, refs);
+
+  yield;
 
   router.use(`/`, ({ path }, res, next) => {
     if (path === '/') {
@@ -182,18 +157,6 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   } as BuilderStartResult;
 };
 
-export const start = async (options: BuilderStartOptions) => {
-  asyncIterator = starter(options);
-  let result;
-
-  do {
-    // eslint-disable-next-line no-await-in-loop
-    result = await asyncIterator.next();
-  } while (!result.done);
-
-  return result.value;
-};
-
 /**
  * This function is a generator so that we can abort it mid process
  * in case of failure coming from other processes e.g. preview builder
@@ -205,45 +168,34 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     throw new Error('outputDir is required');
   }
   logger.info('=> Building manager..');
-  const coreDirOrigin = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
-  const coreDir = join(options.outputDir, `sb-manager`);
-
-  const [config, features, instance] = await Promise.all([
-    getConfig(options),
-    options.presets.apply('features'),
-    executor.get(),
-    copy(coreDirOrigin, coreDir),
-  ]);
+  const { config, customHead, features, instance, refs, template, title } = await getData(options);
+  yield;
 
   const addonsDir = config.outdir;
+  const coreDirOrigin = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
+  const coreDirTarget = join(options.outputDir, `sb-manager`);
+
   compilation = await instance({
     ...config,
 
     minify: true,
     watch: false,
   });
+
   yield;
 
-  const [template, addonFiles] = await Promise.all([
-    readTemplate('template.ejs'),
-    readDeep(addonsDir),
+  const managerFiles = copy(coreDirOrigin, coreDirTarget);
+  const addonFiles = readDeep(addonsDir);
+
+  const html = await renderHTML(template, title, customHead, addonFiles, features, refs);
+
+  yield;
+
+  await Promise.all([
+    //
+    writeFile(join(options.outputDir, 'index.html'), html),
+    managerFiles,
   ]);
-
-  yield;
-
-  const html = render(template, {
-    title: 'it is nice',
-    files: {
-      js: addonFiles.map((f) => `./sb-addons/${f.path}`),
-      css: [],
-      favicon: '',
-    },
-    globals: {
-      FEATURES: JSON.stringify(features, null, 2),
-    },
-  });
-
-  await writeFile(join(options.outputDir, 'index.html'), html);
 
   logger.trace({ message: '=> Manager built', time: process.hrtime(startTime) });
 
@@ -254,6 +206,18 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
 export const build = async (options: BuilderStartOptions) => {
   asyncIterator = builder(options);
+  let result;
+
+  do {
+    // eslint-disable-next-line no-await-in-loop
+    result = await asyncIterator.next();
+  } while (!result.done);
+
+  return result.value;
+};
+
+export const start = async (options: BuilderStartOptions) => {
+  asyncIterator = starter(options);
   let result;
 
   do {
