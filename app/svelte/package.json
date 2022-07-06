@@ -74,8 +74,17 @@
   },
   "peerDependencies": {
     "@babel/core": "*",
+    "@storybook/builder-vite": "*",
     "svelte": "^3.1.0",
     "svelte-loader": "*"
+  },
+  "peerDependenciesMeta": {
+    "@storybook/builder-vite": {
+      "optional": true
+    },
+    "svelte-loader": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=10.13.0"
