@@ -7518,9 +7518,6 @@ __metadata:
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -7642,10 +7639,6 @@ __metadata:
     ts-dedent: ^2.0.0
     unfetch: ^4.2.0
     util-deprecate: ^1.0.2
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    webpack: "*"
   peerDependenciesMeta:
     typescript:
       optional: true
@@ -8860,8 +8853,6 @@ __metadata:
     core-js: ^3.8.2
     fs-extra: ^9.0.1
     global: ^4.4.0
-    react: 16.14.0
-    react-dom: 16.14.0
     read-pkg-up: ^7.0.1
     regenerator-runtime: ^0.13.7
     safe-identifier: ^0.4.1
@@ -8914,9 +8905,6 @@ __metadata:
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
