@@ -782,6 +782,7 @@ describe('convertToIndexV3', () => {
               "docsOnly": true,
               "fileName": "./src/docs2/MetaOf.mdx",
             },
+            "standalone": true,
             "storiesImports": Array [
               "./src/A.stories.js",
             ],
