@@ -1,5 +1,5 @@
 import React, { ComponentProps, FC, useContext } from 'react';
-import type { StoryId, Parameters } from '@storybook/api';
+import type { StoryId } from '@storybook/api';
 import type { Story } from '@storybook/store';
 import { SourceType } from '@storybook/docs-tools';
 

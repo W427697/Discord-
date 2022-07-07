@@ -69,7 +69,7 @@ const useArgs = (
   return [args, updateArgs, resetArgs];
 };
 
-const useGlobals = (storyId: string, context: DocsContextProps): [Globals] => {
+const useGlobals = (context: DocsContextProps): [Globals] => {
   const channel = addons.getChannel();
   const storyContext = context.getStoryContext(context.storyById());
   const [globals, setGlobals] = useState(storyContext.globals);
@@ -168,7 +168,7 @@ export const StoryTable: FC<
     const story = useStory(storyId, context);
     // eslint-disable-next-line prefer-const
     let [args, updateArgs, resetArgs] = useArgs(storyId, context);
-    const [globals] = useGlobals(storyId, context);
+    const [globals] = useGlobals(context);
     if (!story) return <PureArgsTable isLoading updateArgs={updateArgs} resetArgs={resetArgs} />;
 
     const argTypes = filterArgTypes(story.argTypes, include, exclude);
