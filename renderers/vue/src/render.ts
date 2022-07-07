@@ -18,7 +18,8 @@ type Instance = CombinedVueInstance<
   },
   object,
   object,
-  Record<never, any>
+  Record<never, any>,
+  unknown
 >;
 const getRoot = (domElement: Element): Instance => {
   if (map.has(domElement)) {

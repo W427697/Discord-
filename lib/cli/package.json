@@ -76,7 +76,7 @@
     "shelljs": "^0.8.5",
     "strip-json-comments": "^3.0.1",
     "ts-dedent": "^2.0.0",
-    "update-notifier": "^5.0.1"
+    "update-notifier": "^6.0.2"
   },
   "devDependencies": {
     "@storybook/client-api": "7.0.0-alpha.11",
@@ -85,10 +85,10 @@
     "@types/puppeteer-core": "^2.1.0",
     "@types/semver": "^7.3.4",
     "@types/shelljs": "^0.8.7",
-    "@types/update-notifier": "^5.0.0",
+    "@types/update-notifier": "^6.0.1",
     "strip-json-comments": "^3.1.1",
     "typescript": "~4.6.3",
-    "update-notifier": "^5.0.1"
+    "update-notifier": "^6.0.2"
   },
   "publishConfig": {
     "access": "public"

@@ -187,6 +187,7 @@ export interface StorybookConfigOptions {
 export type Options = LoadOptions & StorybookConfigOptions & CLIOptions & BuilderOptions;
 
 export interface Builder<Config, BuilderStats extends Stats = Stats> {
+  executor: { get: () => Promise<any> };
   getConfig: (options: Options) => Promise<Config>;
   start: (args: {
     options: Options;
