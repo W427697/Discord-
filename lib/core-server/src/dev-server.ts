@@ -1,8 +1,14 @@
 import express, { Router } from 'express';
 import compression from 'compression';
 
-import type { CoreConfig, DocsOptions, Options, StorybookConfig } from '@storybook/core-common';
-import { normalizeStories, logConfig } from '@storybook/core-common';
+import {
+  CoreConfig,
+  DocsOptions,
+  Options,
+  StorybookConfig,
+  normalizeStories,
+  logConfig,
+} from '@storybook/core-common';
 
 import { telemetry } from '@storybook/telemetry';
 import { getMiddleware } from './utils/middleware';
