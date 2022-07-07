@@ -158,7 +158,7 @@ If you would like, you can also write your Storybook configuration using TypeScr
 
 <!-- prettier-ignore-end -->
 
-This babel config will only be used to process files in the `.storybook/` directory, and will not affect your stories.
+This babel config will be used to process your stories, as well as your config files.
 
 Rename your `.storybook/main.js` to `.storybook/main.ts` and restart your Storybook.
 
