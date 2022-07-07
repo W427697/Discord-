@@ -327,14 +327,22 @@ export class StoryIndexGenerator {
     }
   }
 
-  chooseDuplicate(betterEntry: IndexEntry, worseEntry: IndexEntry): IndexEntry {
+  chooseDuplicate(firstEntry: IndexEntry, secondEntry: IndexEntry): IndexEntry {
+    let firstIsBetter = true;
+    if (secondEntry.type === 'story') {
+      firstIsBetter = false;
+    } else if (secondEntry.standalone && firstEntry.type === 'docs' && !firstEntry.standalone) {
+      firstIsBetter = false;
+    }
+    const betterEntry = firstIsBetter ? firstEntry : secondEntry;
+    const worseEntry = firstIsBetter ? secondEntry : firstEntry;
+
     const changeDocsName = 'Use `<Meta of={} name="Other Name">` to distinguish them.';
 
-    if (betterEntry.type === 'story') {
-      // This shouldn't be possible
-      if (worseEntry.type === 'story')
-        throw new Error(`Duplicate stories with id: ${betterEntry.id}`);
+    // This shouldn't be possible, but double check and use for typing
+    if (worseEntry.type === 'story') throw new Error(`Duplicate stories with id: ${firstEntry.id}`);
 
+    if (betterEntry.type === 'story') {
       const worseDescriptor = worseEntry.standalone
         ? `component docs page`
         : `automatically generated docs page`;
@@ -348,9 +356,6 @@ export class StoryIndexGenerator {
         );
       }
     } else if (betterEntry.standalone) {
-      // If the other entry was a story entry then this it is better
-      if (worseEntry.type === 'story') return this.chooseDuplicate(worseEntry, betterEntry);
-
       // Both entries are standalone but pointing at the same place
       if (worseEntry.standalone) {
         logger.warn(
@@ -361,12 +366,6 @@ export class StoryIndexGenerator {
       //   - docs page templates, this is totally fine and expected
       //   - not sure if it is even possible to have a .mdx of={} pointing at a stories.mdx file
     } else {
-      // If the other entry was a story entry then this it is better
-      if (worseEntry.type === 'story') return this.chooseDuplicate(worseEntry, betterEntry);
-
-      // If the other entry was standalone then it is better.
-      if (worseEntry.standalone) return this.chooseDuplicate(worseEntry, betterEntry);
-
       // If both entries are templates (e.g. you have two CSF files with the same title), then
       //   we need to merge the entries. We'll use the the first one's name and importPath,
       //   but ensure we include both as storiesImports so they are both loaded before rendering
