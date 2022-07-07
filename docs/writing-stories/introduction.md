@@ -163,11 +163,6 @@ Refine this pattern by introducing `args` for your component's stories. It reduc
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-
-💡 `Template.bind({})` is a [standard JavaScript technique](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) for making a copy of a function. We copy the `Template` so each exported story can set its own properties on it.
-
-</div>
 
 By introducing args into your component's stories, you're not only reducing the amount of code you need to write, but you're also decreasing data duplication, as shown by spreading the `Primary` story's args into the other stories.
 
