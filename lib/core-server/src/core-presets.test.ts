@@ -1,8 +1,8 @@
 import 'jest-specific-snapshot';
 import path from 'path';
-import { mkdtemp as mkdtempCb } from 'fs';
-import { promisify } from 'util';
-import type { Configuration } from 'webpack';
+// import { mkdtemp as mkdtempCb } from 'fs';
+// import { promisify } from 'util';
+// import type { Configuration } from 'webpack';
 import { resolvePathInStorybookCache, createFileSystemCache } from '@storybook/core-common';
 import { executor as previewExecutor } from '@storybook/builder-webpack5';
 import { executor as managerExecutor } from '@storybook/builder-manager';
@@ -136,13 +136,13 @@ const cleanRoots = (obj): any => {
   return obj;
 };
 
-const getConfig = (fn: any, name): Configuration | null => {
-  const call = fn.mock.calls.find((c) => c[0].name === name);
-  if (!call) {
-    return null;
-  }
-  return call[0];
-};
+// const getConfig = (fn: any, name): Configuration | null => {
+//   const call = fn.mock.calls.find((c) => c[0].name === name);
+//   if (!call) {
+//     return null;
+//   }
+//   return call[0];
+// };
 
 // const prepareSnap = (get: any, name): Pick<Configuration, 'module' | 'entry' | 'plugins'> => {
 //   const config = getConfig(get(), name);
