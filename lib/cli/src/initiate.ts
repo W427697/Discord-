@@ -1,4 +1,4 @@
-import updateNotifier, { Package } from 'update-notifier';
+import type { Package } from 'update-notifier';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
@@ -251,12 +251,18 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
   if (!options.disableTelemetry) {
     telemetry('init');
   }
-
   // Update notify code.
-  updateNotifier({
-    pkg,
-    updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
-  }).notify();
+  try {
+    (await import('update-notifier'))
+      .default({
+        pkg,
+        updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
+      })
+      .notify();
+  } catch (e) {
+    // if notifying the user about the version fails for whatever reason,
+    // this is not a big deal, let's just ignore it.
+  }
 
   let projectType;
   const projectTypeProvided = options.type;
