@@ -6,3 +6,5 @@ declare module 'rax-test-renderer*';
 
 
 declare module '@storybook/babel-plugin-require-context-hook/register';
+
+/// <reference types="react" />

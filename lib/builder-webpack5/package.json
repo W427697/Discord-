@@ -70,7 +70,7 @@
     "@storybook/store": "7.0.0-alpha.11",
     "@storybook/theming": "7.0.0-alpha.11",
     "@types/node": "^14.0.10 || ^16.0.0",
-    "babel-loader": "^8.2.5",
+    "babel-loader": "^8.0.0",
     "babel-plugin-named-exports-order": "^0.0.2",
     "browser-assert": "^1.2.1",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",

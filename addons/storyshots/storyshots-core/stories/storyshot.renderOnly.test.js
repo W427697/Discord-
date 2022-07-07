@@ -1,5 +1,5 @@
 import path from 'path';
-import initStoryshots, { renderOnly } from '../dist/types';
+import initStoryshots, { renderOnly } from '../src/index';
 
 initStoryshots({
   framework: 'react',

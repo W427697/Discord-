@@ -4,7 +4,7 @@ import path from 'path';
 import { Loader } from './Loader';
 import { StoryshotsOptions } from '../api/StoryshotsOptions';
 
-const loaderScriptName = 'loader.js';
+const loaderScriptName = 'loader';
 
 const isDirectory = (source: string) => fs.lstatSync(source).isDirectory();
 
@@ -13,7 +13,7 @@ function getLoaders(): Loader[] {
     .readdirSync(__dirname)
     .map((name) => path.join(__dirname, name))
     .filter(isDirectory)
-    .map((framework) => path.join(framework, loaderScriptName))
+    .map((framework) => require.resolve(path.join(framework, loaderScriptName)))
     .filter(fs.existsSync)
     .map((loader) => require(loader).default);
 }

@@ -1,13 +1,31 @@
 {
-  "extends": "../../../tsconfig.json",
   "compilerOptions": {
+    "esModuleInterop": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "declaration": true,
-    "jsx": "preserve",
+    "strict": false,
+    "moduleResolution": "Node",
+    "target": "ES2020",
+    "module": "CommonJS",
     "skipLibCheck": true,
-    "skipDefaultLibCheck": true
+    "jsx": "react",
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "types": [
+      "react"
+    ]
   },
   "include": [
-    "src/**/*.ts"
+    "./src/**/*.ts",
+    "./src/typings.d.ts"
+  ],
+  "exclude": [
+    "lib/api/**/*.*",
+    "lib/channels/**/*.*",
+    "lib/client-api/**/*.*",
+    "lib/addons/**/*.*",
+    "lib/router/**/*.*"
   ]
 }

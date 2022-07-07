@@ -1,5 +1,5 @@
 import path from 'path';
-import initStoryshots from '@storybook/addon-storyshots';
+import initStoryshots from '../../../addons/storyshots/storyshots-core/src';
 
 initStoryshots({
   framework: 'react',

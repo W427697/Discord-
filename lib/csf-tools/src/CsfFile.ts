@@ -67,7 +67,7 @@ const findVarInitialization = (identifier: string, program: t.Program) => {
 
 const formatLocation = (node: t.Node, fileName?: string) => {
   const { line, column } = node.loc.start;
-  return `${fileName || ''} (line ${line}, col ${column})`.trim();
+  return `${fileName || ''} (line ${line}, col ${column})`.trim().replace(process.cwd(), './');
 };
 
 const isArgsStory = (init: t.Node, parent: t.Node, csf: CsfFile) => {

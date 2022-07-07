@@ -70,7 +70,7 @@
     "@storybook/source-loader": "7.0.0-alpha.11",
     "@storybook/store": "7.0.0-alpha.11",
     "@storybook/theming": "7.0.0-alpha.11",
-    "babel-loader": "^8.2.5",
+    "babel-loader": "^8.0.0",
     "core-js": "^3.8.2",
     "dequal": "^2.0.2",
     "global": "^4.4.0",
