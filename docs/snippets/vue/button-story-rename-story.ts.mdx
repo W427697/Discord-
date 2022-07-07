@@ -1,33 +1,29 @@
-```js
-// Page.stories.js
+```ts
+// Button.stories.ts
 
-import Page from './Page.vue';
+import Button from './Button.vue';
 
-//👇 Imports all Header stories
-import * as HeaderStories from './Header.stories';
+import type { Meta, Story } from '@storybook/vue3';
 
 export default {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
-  title: 'Page',
-  component: Page,
-};
+  title: 'Button',
+  component: Button,
+} as Meta<typeof Button>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
  * See https://storybook.js.org/docs/7.0/vue/api/csf
  * to learn how to use render functions.
  */
-export const LoggedIn = {
-  render: (args, { argTypes }) => ({
-    components: { Page },
-    props: Object.keys(argTypes),
-    template: '<page v-bind="$props" />',
+export const Primary: Story = {
+  name:'I am the primary',
+  render: () => ({
+    components: { Button },
+    template: '<Button primary label="Button" />',
   }),
-  args: {
-    ...HeaderStories.LoggedIn.args,
-  },
 };
 ```
