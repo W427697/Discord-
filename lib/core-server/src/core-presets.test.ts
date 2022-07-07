@@ -1,7 +1,6 @@
 import 'jest-specific-snapshot';
 import path from 'path';
 import { mkdtemp as mkdtempCb } from 'fs';
-import os from 'os';
 import { promisify } from 'util';
 import type { Configuration } from 'webpack';
 import { resolvePathInStorybookCache, createFileSystemCache } from '@storybook/core-common';
@@ -9,14 +8,14 @@ import { executor as previewExecutor } from '@storybook/builder-webpack5';
 import { executor as managerExecutor } from '@storybook/builder-manager';
 
 import { sync as readUpSync } from 'read-pkg-up';
-import { buildDevStandalone } from './build-dev';
+// import { buildDevStandalone } from './build-dev';
 import { buildStaticStandalone } from './build-static';
 
-import { outputStats } from './utils/output-stats';
+// import { outputStats } from './utils/output-stats';
 
-const { SNAPSHOT_OS } = global;
-const mkdtemp = promisify(mkdtempCb);
-const { packageJson } = readUpSync({ cwd: __dirname });
+// const { SNAPSHOT_OS } = global;
+// const mkdtemp = promisify(mkdtempCb);
+const { packageJson } = readUpSync({ cwd: __dirname }) || {};
 
 // this only applies to this file
 jest.setTimeout(10000);
@@ -145,17 +144,17 @@ const getConfig = (fn: any, name): Configuration | null => {
   return call[0];
 };
 
-const prepareSnap = (get: any, name): Pick<Configuration, 'module' | 'entry' | 'plugins'> => {
-  const config = getConfig(get(), name);
-  if (!config) {
-    return null;
-  }
+// const prepareSnap = (get: any, name): Pick<Configuration, 'module' | 'entry' | 'plugins'> => {
+//   const config = getConfig(get(), name);
+//   if (!config) {
+//     return null;
+//   }
 
-  const keys = Object.keys(config);
-  const { module, entry, plugins } = config;
+//   const keys = Object.keys(config);
+//   const { module, entry, plugins } = config;
 
-  return cleanRoots({ keys, module, entry, plugins: plugins.map((p) => p.constructor.name) });
-};
+//   return cleanRoots({ keys, module, entry, plugins: plugins.map((p) => p.constructor.name) });
+// };
 
 const snap = (name: string) => `__snapshots__/${name}`;
 
@@ -165,6 +164,10 @@ describe('cra-ts-essentials', () => {
   });
 
   it('should eventually call the builders with correct config', async () => {
+    if (packageJson === undefined) {
+      throw new Error('packageJson is undefined');
+    }
+
     const outputDir = path.resolve('./storybook-static');
     const options = {
       ...getBaseOptions(),

@@ -1,4 +1,4 @@
-import path, { dirname, join } from 'path';
+import { dirname, join, resolve } from 'path';
 import { readFile, pathExists } from 'fs-extra';
 
 import { render } from 'ejs';
@@ -28,11 +28,11 @@ export async function getManagerHeadTemplate(
   configDirPath: string,
   interpolations: Record<string, string>
 ) {
-  const head = await pathExists(path.resolve(configDirPath, 'manager-head.html')).then<
+  const head = await pathExists(resolve(configDirPath, 'manager-head.html')).then<
     Promise<string> | false
   >((exists) => {
     if (exists) {
-      return readFile(path.resolve(configDirPath, 'manager-head.html'), 'utf8');
+      return readFile(resolve(configDirPath, 'manager-head.html'), 'utf8');
     }
     return false;
   });

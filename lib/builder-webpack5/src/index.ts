@@ -1,4 +1,3 @@
-import * as webpackTypes from 'webpack';
 import type { Configuration, Stats, StatsOptions } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
