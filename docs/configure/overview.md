@@ -160,6 +160,8 @@ If you would like, you can also write your Storybook configuration using TypeScr
 
 This babel config will be used to process your stories, as well as your config files.
 
+Alternatively, you can install [`ts-node`](https://typestrong.org/ts-node/) in your project, which will be used to process your config files without the need for a `.babelrc`.
+
 Rename your `.storybook/main.js` to `.storybook/main.ts` and restart your Storybook.
 
 ### Using Storybook Types in Your Configuration
