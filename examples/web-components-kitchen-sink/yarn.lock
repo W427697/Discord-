@@ -5099,7 +5099,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "storybook@portal:../../lib/cli-storybook::locator=web-components-kitchen-sink%40workspace%3A."
   dependencies:
-    "@storybook/cli": 7.0.0-alpha.10
+    "@storybook/cli": 7.0.0-alpha.11
   bin:
     sb: ./index.js
     storybook: ./index.js

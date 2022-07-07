@@ -20,6 +20,7 @@ import {
   STORY_RENDERED,
   STORY_SPECIFIED,
   STORY_THREW_EXCEPTION,
+  PLAY_FUNCTION_THREW_EXCEPTION,
   STORY_UNCHANGED,
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
@@ -82,6 +83,11 @@ jest.mock('global', () => ({
 jest.mock('@storybook/client-logger');
 jest.mock('react-dom');
 jest.mock('./WebView');
+
+const serializeError = (error: Error) => {
+  const { name = 'Error', message = String(error), stack } = error;
+  return { name, message, stack };
+};
 
 const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   let openGate = (_?: any) => {};
@@ -472,7 +478,10 @@ describe('PreviewWeb', () => {
           document.location.search = '?id=component-one--a';
           const preview = await createAndRenderPreview();
 
-          expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
+          expect(mockChannel.emit).toHaveBeenCalledWith(
+            STORY_THREW_EXCEPTION,
+            serializeError(error)
+          );
           expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
         });
 
@@ -485,7 +494,10 @@ describe('PreviewWeb', () => {
           document.location.search = '?id=component-one--a';
           const preview = await createAndRenderPreview();
 
-          expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
+          expect(mockChannel.emit).toHaveBeenCalledWith(
+            STORY_THREW_EXCEPTION,
+            serializeError(error)
+          );
           expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
         });
 
@@ -513,7 +525,7 @@ describe('PreviewWeb', () => {
                       `);
         });
 
-        it('renders exception if the play function throws', async () => {
+        it('emits but does not render exception if the play function throws', async () => {
           const error = new Error('error');
           componentOneExports.a.play.mockImplementationOnce(() => {
             throw error;
@@ -522,8 +534,11 @@ describe('PreviewWeb', () => {
           document.location.search = '?id=component-one--a';
           const preview = await createAndRenderPreview();
 
-          expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
-          expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
+          expect(mockChannel.emit).toHaveBeenCalledWith(
+            PLAY_FUNCTION_THREW_EXCEPTION,
+            serializeError(error)
+          );
+          expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
         });
 
         it('renders error if the story calls showError', async () => {
@@ -549,7 +564,10 @@ describe('PreviewWeb', () => {
           document.location.search = '?id=component-one--a';
           const preview = await createAndRenderPreview();
 
-          expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
+          expect(mockChannel.emit).toHaveBeenCalledWith(
+            STORY_THREW_EXCEPTION,
+            serializeError(error)
+          );
           expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
         });
 
@@ -578,7 +596,10 @@ describe('PreviewWeb', () => {
 
           await waitForRender();
 
-          expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, IGNORED_EXCEPTION);
+          expect(mockChannel.emit).toHaveBeenCalledWith(
+            STORY_THREW_EXCEPTION,
+            serializeError(IGNORED_EXCEPTION)
+          );
           expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
         });
       });
@@ -1748,7 +1769,7 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -1791,7 +1812,7 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -2309,7 +2330,7 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -2352,7 +2373,7 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -2606,7 +2627,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -2641,7 +2662,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 

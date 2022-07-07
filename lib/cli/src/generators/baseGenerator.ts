@@ -131,7 +131,6 @@ export async function baseGenerator(
   const addonPackages = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    '@storybook/addon-actions',
     ...extraAddonPackages,
   ];
 

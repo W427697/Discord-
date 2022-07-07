@@ -14,7 +14,12 @@ import {
   TeardownRenderToDOM,
 } from '@storybook/store';
 import { Channel } from '@storybook/addons';
-import { STORY_RENDER_PHASE_CHANGED, STORY_RENDERED } from '@storybook/core-events';
+import { logger } from '@storybook/client-logger';
+import {
+  STORY_RENDER_PHASE_CHANGED,
+  STORY_RENDERED,
+  PLAY_FUNCTION_THREW_EXCEPTION,
+} from '@storybook/core-events';
 
 const { AbortController } = global;
 
@@ -38,6 +43,15 @@ function createController(): AbortController {
       this.signal.aborted = true;
     },
   } as AbortController;
+}
+
+function serializeError(error: any) {
+  try {
+    const { name = 'Error', message = String(error), stack } = error;
+    return { name, message, stack };
+  } catch (e) {
+    return { name: 'Error', message: String(error) };
+  }
 }
 
 export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
@@ -203,6 +217,14 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         name,
         story: name,
         ...this.callbacks,
+        showError: (error) => {
+          this.phase = 'errored';
+          return this.callbacks.showError(error);
+        },
+        showException: (error) => {
+          this.phase = 'errored';
+          return this.callbacks.showException(error);
+        },
         forceRemount: forceRemount || this.notYetRendered,
         storyContext: renderStoryContext,
         storyFn: () => unboundStoryFn(renderStoryContext),
@@ -210,18 +232,26 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
       };
 
       await this.runPhase(abortSignal, 'rendering', async () => {
-        this.teardownRender =
-          (await this.renderToScreen(renderContext, canvasElement)) || (() => {});
+        const teardown = await this.renderToScreen(renderContext, canvasElement);
+        this.teardownRender = teardown || (() => {});
       });
       this.notYetRendered = false;
       if (abortSignal.aborted) return;
 
-      if (forceRemount && playFunction) {
+      // The phase should be 'rendering' but it might be set to 'aborted' by another render cycle
+      if (forceRemount && playFunction && this.phase !== 'errored') {
         this.disableKeyListeners = true;
-        await this.runPhase(abortSignal, 'playing', async () =>
-          playFunction(renderContext.storyContext)
-        );
-        await this.runPhase(abortSignal, 'played');
+        try {
+          await this.runPhase(abortSignal, 'playing', async () => {
+            await playFunction(renderContext.storyContext);
+          });
+          await this.runPhase(abortSignal, 'played');
+        } catch (error) {
+          logger.error(error);
+          await this.runPhase(abortSignal, 'errored', async () => {
+            this.channel.emit(PLAY_FUNCTION_THREW_EXCEPTION, serializeError(error));
+          });
+        }
         this.disableKeyListeners = false;
         if (abortSignal.aborted) return;
       }
@@ -230,6 +260,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         this.channel.emit(STORY_RENDERED, id)
       );
     } catch (err) {
+      this.phase = 'errored';
       this.callbacks.showException(err as Error);
     }
   }

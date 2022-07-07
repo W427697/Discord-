@@ -8,7 +8,7 @@ import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';
 import aliasPlugin from 'esbuild-plugin-alias';
 
-import { readTemplate, render } from './utils/template';
+import { renderHTML } from './utils/template';
 import { definitions } from './utils/globals';
 import {
   BuilderBuildResult,
@@ -18,20 +18,28 @@ import {
   Compilation,
   ManagerBuilder,
   StarterFunction,
-  Stats,
 } from './types';
 import { readDeep } from './utils/directory';
+import { getData } from './utils/data';
+import { safeResolve } from './utils/safeResolve';
 
 let compilation: Compilation;
+let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
 
 export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
-  const entryPoints = await options.presets.apply('managerEntries', []);
+  const [addonsEntryPoints, customManagerEntryPoint] = await Promise.all([
+    options.presets.apply('managerEntries', []),
+    safeResolve(join(options.configDir, 'manager')),
+  ]);
 
   return {
-    entryPoints,
+    entryPoints: customManagerEntryPoint
+      ? [...addonsEntryPoints, customManagerEntryPoint]
+      : addonsEntryPoints,
     outdir: join(options.outputDir || './', 'sb-addons'),
     format: 'esm',
     outExtension: { '.js': '.mjs' },
+    loader: { '.js': 'jsx' },
     target: ['chrome100'],
     platform: 'browser',
     bundle: true,
@@ -57,13 +65,6 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
   };
 };
 
-export const makeStatsFromError = (err: string) =>
-  ({
-    hasErrors: () => true,
-    hasWarnings: () => false,
-    toJson: () => ({ warnings: [] as any[], errors: [err] }),
-  } as any as Stats);
-
 export const executor = {
   get: async () => {
     const { build } = await import('esbuild');
@@ -71,7 +72,112 @@ export const executor = {
   },
 };
 
-let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
+/**
+ * This function is a generator so that we can abort it mid process
+ * in case of failure coming from other processes e.g. preview builder
+ *
+ * I am sorry for making you read about generators today :')
+ */
+const starter: StarterFunction = async function* starterGeneratorFn({
+  startTime,
+  options,
+  router,
+}) {
+  logger.info('=> Starting manager..');
+
+  const { config, customHead, features, instance, refs, template, title, logLevel } = await getData(
+    options
+  );
+
+  yield;
+
+  compilation = await instance({
+    ...config,
+
+    watch: true,
+  });
+
+  yield;
+
+  const addonsDir = config.outdir;
+  const coreDirOrigin = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
+
+  router.use(`/sb-addons`, express.static(addonsDir));
+  router.use(`/sb-manager`, express.static(coreDirOrigin));
+
+  const addonFiles = readDeep(addonsDir);
+
+  yield;
+
+  const html = await renderHTML(template, title, customHead, addonFiles, features, refs, logLevel);
+
+  yield;
+
+  router.use(`/`, ({ path }, res, next) => {
+    if (path === '/') {
+      res.status(200).send(html);
+    } else {
+      next();
+    }
+  });
+
+  return {
+    bail,
+    stats: {
+      toJson: () => ({}),
+    },
+    totalTime: process.hrtime(startTime),
+  } as BuilderStartResult;
+};
+
+/**
+ * This function is a generator so that we can abort it mid process
+ * in case of failure coming from other processes e.g. preview builder
+ *
+ * I am sorry for making you read about generators today :')
+ */
+const builder: BuilderFunction = async function* builderGeneratorFn({ startTime, options }) {
+  if (!options.outputDir) {
+    throw new Error('outputDir is required');
+  }
+  logger.info('=> Building manager..');
+  const { config, customHead, features, instance, refs, template, title, logLevel } = await getData(
+    options
+  );
+  yield;
+
+  const addonsDir = config.outdir;
+  const coreDirOrigin = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
+  const coreDirTarget = join(options.outputDir, `sb-manager`);
+
+  compilation = await instance({
+    ...config,
+
+    minify: true,
+    watch: false,
+  });
+
+  yield;
+
+  const managerFiles = copy(coreDirOrigin, coreDirTarget);
+  const addonFiles = readDeep(addonsDir);
+
+  const html = await renderHTML(template, title, customHead, addonFiles, features, refs, logLevel);
+
+  yield;
+
+  await Promise.all([
+    //
+    writeFile(join(options.outputDir, 'index.html'), html),
+    managerFiles,
+  ]);
+
+  logger.trace({ message: '=> Manager built', time: process.hrtime(startTime) });
+
+  return {
+    toJson: () => ({}),
+  } as BuilderBuildResult;
+};
 
 export const bail: ManagerBuilder['bail'] = async () => {
   if (asyncIterator) {
@@ -93,74 +199,6 @@ export const bail: ManagerBuilder['bail'] = async () => {
   }
 };
 
-/**
- * This function is a generator so that we can abort it mid process
- * in case of failure coming from other processes e.g. preview builder
- *
- * I am sorry for making you read about generators today :')
- */
-const starter: StarterFunction = async function* starterGeneratorFn({
-  startTime,
-  options,
-  router,
-}) {
-  logger.info('=> Starting manager..');
-
-  const [config, features, instance] = await Promise.all([
-    getConfig(options),
-    options.presets.apply('features'),
-    executor.get(),
-  ]);
-
-  compilation = await instance({
-    ...config,
-
-    watch: true,
-  });
-  yield;
-
-  const addonsDir = config.outdir;
-  const coreDir = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
-
-  router.use(`/sb-addons`, express.static(addonsDir));
-  router.use(`/sb-manager`, express.static(coreDir));
-
-  const [addonFiles, template] = await Promise.all([
-    readDeep(addonsDir),
-    readTemplate('template.ejs'),
-  ]);
-
-  yield;
-
-  const html = render(template, {
-    title: 'it is nice',
-    files: {
-      js: addonFiles.map((f) => `./sb-addons/${f.path}`),
-      css: [],
-      favicon: '',
-    },
-    globals: {
-      FEATURES: JSON.stringify(features, null, 2),
-    },
-  });
-
-  router.use(`/`, ({ path }, res, next) => {
-    if (path === '/') {
-      res.status(200).send(html);
-    } else {
-      next();
-    }
-  });
-
-  return {
-    bail,
-    stats: {
-      toJson: () => ({}),
-    },
-    totalTime: process.hrtime(startTime),
-  } as BuilderStartResult;
-};
-
 export const start = async (options: BuilderStartOptions) => {
   asyncIterator = starter(options);
   let result;
@@ -171,65 +209,6 @@ export const start = async (options: BuilderStartOptions) => {
   } while (!result.done);
 
   return result.value;
-};
-
-/**
- * This function is a generator so that we can abort it mid process
- * in case of failure coming from other processes e.g. preview builder
- *
- * I am sorry for making you read about generators today :')
- */
-const builder: BuilderFunction = async function* builderGeneratorFn({ startTime, options }) {
-  if (!options.outputDir) {
-    throw new Error('outputDir is required');
-  }
-
-  logger.info('=> Building manager..');
-  const coreDirOrigin = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
-  const coreDir = join(options.outputDir, `sb-manager`);
-
-  const [config, features, instance] = await Promise.all([
-    getConfig(options),
-    options.presets.apply('features'),
-    executor.get(),
-    copy(coreDirOrigin, coreDir),
-  ]);
-
-  const addonsDir = config.outdir;
-  compilation = await instance({
-    ...config,
-
-    minify: true,
-    watch: false,
-  });
-  yield;
-
-  const [template, addonFiles] = await Promise.all([
-    readTemplate('template.ejs'),
-    readDeep(addonsDir),
-  ]);
-
-  yield;
-
-  const html = render(template, {
-    title: 'it is nice',
-    files: {
-      js: addonFiles.map((f) => `./sb-addons/${f.path}`),
-      css: [],
-      favicon: '',
-    },
-    globals: {
-      FEATURES: JSON.stringify(features, null, 2),
-    },
-  });
-
-  await writeFile(join(options.outputDir, 'index.html'), html);
-
-  logger.trace({ message: '=> Manager built', time: process.hrtime(startTime) });
-
-  return {
-    toJson: () => ({}),
-  } as BuilderBuildResult;
 };
 
 export const build = async (options: BuilderStartOptions) => {
