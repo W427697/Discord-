@@ -3,7 +3,7 @@ import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import global from 'global';
 
-import type { IndexerOptions, Options, StoryIndexer } from '@storybook/core-common';
+import type { DocsOptions, IndexerOptions, Options, StoryIndexer } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
 import { loadCsf } from '@storybook/csf-tools';
 
@@ -154,4 +154,13 @@ export const storyIndexers = async (indexers?: StoryIndexer[]) => {
     },
     ...(indexers || []),
   ];
+};
+
+export const docs = (docsOptions: DocsOptions) => {
+  return {
+    ...docsOptions,
+    enabled: true,
+    defaultName: 'Docs',
+    docsPage: true,
+  };
 };

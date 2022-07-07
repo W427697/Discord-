@@ -13,6 +13,7 @@ import type {
   Options,
   StorybookConfig,
   CoreConfig,
+  DocsOptions,
 } from '@storybook/core-common';
 import {
   loadAllPresets,
@@ -89,12 +90,13 @@ export async function buildStaticStandalone(
     ...options,
   });
 
-  const [features, core, staticDirs, storyIndexers, stories] = await Promise.all([
+  const [features, core, staticDirs, storyIndexers, stories, docsOptions] = await Promise.all([
     presets.apply<StorybookConfig['features']>('features'),
     presets.apply<CoreConfig>('core'),
     presets.apply<StorybookConfig['staticDirs']>('staticDirs'),
     presets.apply('storyIndexers', []),
     presets.apply('stories'),
+    presets.apply<DocsOptions>('docs', {}),
   ]);
 
   const fullOptions: Options = {
@@ -142,10 +144,10 @@ export async function buildStaticStandalone(
       workingDir,
     };
     const normalizedStories = normalizeStories(stories, directories);
-
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
       storyIndexers,
+      docs: docsOptions,
       storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
       storyStoreV7: !!features?.storyStoreV7,
     });

@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import compression from 'compression';
 
-import type { CoreConfig, Options, StorybookConfig } from '@storybook/core-common';
+import type { CoreConfig, DocsOptions, Options, StorybookConfig } from '@storybook/core-common';
 import { normalizeStories, logConfig } from '@storybook/core-common';
 
 import { telemetry } from '@storybook/telemetry';
@@ -44,10 +44,12 @@ export async function storybookDevServer(options: Options) {
         directories
       );
       const storyIndexers = await options.presets.apply('storyIndexers', []);
+      const docsOptions = await options.presets.apply<DocsOptions>('docs', {});
 
       const generator = new StoryIndexGenerator(normalizedStories, {
         ...directories,
         storyIndexers,
+        docs: docsOptions,
         workingDir,
         storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
         storyStoreV7: features?.storyStoreV7,
