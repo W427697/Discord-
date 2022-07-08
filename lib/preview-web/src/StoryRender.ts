@@ -9,6 +9,7 @@ import {
 import {
   Story,
   RenderContext,
+  PlayContext,
   StoryStore,
   RenderToDOM,
   TeardownRenderToDOM,
@@ -48,6 +49,20 @@ function createController(): AbortController {
   } as AbortController;
 }
 
+function createStepFunction(context: PlayContext) {
+  const { step } = instrument(
+    { step: (label: string, play: (context: PlayContext) => MaybePromise<void>) => play(context) },
+    { intercept: true }
+  );
+  return step;
+}
+
+function createPlayContext(storyContext: StoryContext): PlayContext {
+  const playContext = { ...storyContext } as any;
+  playContext.step = createStepFunction(playContext);
+  return playContext;
+}
+
 function serializeError(error: any) {
   try {
     const { name = 'Error', message = String(error), stack } = error;
@@ -55,14 +70,6 @@ function serializeError(error: any) {
   } catch (e) {
     return { name: 'Error', message: String(error) };
   }
-}
-
-function createStepFunction() {
-  const { step } = instrument(
-    { step: (label: string, callback: () => MaybePromise<void>) => callback() },
-    { intercept: true }
-  );
-  return step;
 }
 
 export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
@@ -93,7 +100,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
 
   private abortController?: AbortController;
 
-  private stepFunction?: (label: string, callback: () => MaybePromise<void>) => void;
+  private stepFunction?: PlayContext['step'];
 
   private canvasElement?: HTMLElement;
 
@@ -115,7 +122,6 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     story?: Story<TFramework>
   ) {
     this.abortController = createController();
-    this.stepFunction = createStepFunction();
 
     // Allow short-circuiting preparing if we happen to already
     // have the story (this is used by docs mode)
@@ -240,7 +246,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
           return this.callbacks.showException(error);
         },
         forceRemount: forceRemount || this.notYetRendered,
-        playContext: { ...renderStoryContext, step: this.stepFunction },
+        playContext: createPlayContext(renderStoryContext),
         storyContext: renderStoryContext,
         storyFn: () => unboundStoryFn(renderStoryContext),
         unboundStoryFn,

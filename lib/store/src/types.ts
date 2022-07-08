@@ -106,15 +106,21 @@ export type BoundStory<TFramework extends AnyFramework = AnyFramework> = Story<T
   storyFn: PartialStoryFn<TFramework>;
 };
 
+export declare type PlayContext<TFramework extends AnyFramework = AnyFramework> =
+  StoryContext<TFramework> & {
+    step: (
+      name: string,
+      play: (context: PlayContext<TFramework>) => MaybePromise<void>
+    ) => MaybePromise<void>;
+  };
+
 export declare type RenderContext<TFramework extends AnyFramework = AnyFramework> =
   StoryIdentifier & {
     showMain: () => void;
     showError: (error: { title: string; description: string }) => void;
     showException: (err: Error) => void;
     forceRemount: boolean;
-    playContext: StoryContext<TFramework> & {
-      step: (label: string, callback: () => MaybePromise<void>) => MaybePromise<void>;
-    };
+    playContext: PlayContext<TFramework>;
     storyContext: StoryContext<TFramework>;
     storyFn: PartialStoryFn<TFramework>;
     unboundStoryFn: LegacyStoryFn<TFramework>;
