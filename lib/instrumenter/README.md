@@ -4,7 +4,7 @@ The Storybook Instrumenter is used to patch a (3rd party) module to track and in
 
 During normal operation, tracked functions simply call through to their original function, forwarding the return value. As a side-effect, they also emit a `call` event whenever they are invoked.
 
-Through `options`, functions can be marked "interceptable", which give them another mode of operation. In this "intercept" mode, the original function is _not_ invoked, instead the interceptable function returns a `Promise` which only resolves when receiving an event to do so. This enables step-through debugging, directly in the browser. A consequence of this design is that all interceptable functions must be `await`-ed, even if their original function is not asynchronous (i.e. returns a Promise).
+Through `options`, functions can be marked "interceptable", which give them another mode of operation. In this "intercept" mode, the original function is _not_ invoked, instead the interceptable function returns a `Promise` which only resolves when receiving an event to do so. This enables step-through debugging, directly in the browser. A consequence of this design is that all interceptable functions must be `await`-ed, even if their original function is not asynchronous (i.e. it normally does not return a Promise).
 
 ## API
 
