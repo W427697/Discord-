@@ -4,6 +4,7 @@
 
 - Addon-docs: Produce docs page entries in the index ([#18574](https://github.com/storybookjs/storybook/pull/18574))
 - Svelte: Supports action auto configuration ([#18174](https://github.com/storybookjs/storybook/pull/18174))
+- Addon-docs: Add docs index configuration via main.js ([#18573](https://github.com/storybookjs/storybook/pull/18573))
 
 ### Bug Fixes
 
@@ -15,7 +16,6 @@
 ### Maintenance
 
 - Core: Async load presets, replace interpret with esbuild-register ([#18619](https://github.com/storybookjs/storybook/pull/18619))
-- Addon-docs: Add docs index configuration via main.js ([#18573](https://github.com/storybookjs/storybook/pull/18573))
 - Build: Improve linting a bit ([#18642](https://github.com/storybookjs/storybook/pull/18642))
 
 ### Dependency Upgrades
