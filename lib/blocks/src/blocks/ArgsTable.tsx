@@ -25,7 +25,7 @@ interface BaseProps {
 }
 
 type OfProps = BaseProps & {
-  of: '.' | '^' | Component;
+  of: '^' | Component;
 };
 
 type ComponentsProps = BaseProps & {

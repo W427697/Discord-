@@ -5,6 +5,7 @@ import { once } from '@storybook/client-logger';
  */
 export const CURRENT_SELECTION = '.';
 export const currentSelectionWarning = () =>
+  console.trace() ||
   once.warn(
     '`of="."` (current selection) is no longer supported in doc blocks. Falling back to primary story'
   );

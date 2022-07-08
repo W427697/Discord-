@@ -78,7 +78,7 @@ const DescriptionContainer: FunctionComponent<DescriptionProps> = (props) => {
 
 // since we are in the docs blocks, assume default description if for primary component story
 DescriptionContainer.defaultProps = {
-  of: '.',
+  of: PRIMARY_STORY,
 };
 
 export { DescriptionContainer as Description };
