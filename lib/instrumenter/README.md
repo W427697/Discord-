@@ -41,6 +41,8 @@ The instrumenter listens for these control events:
 - `storybook/instrumenter/next`: Resolves the Promise for the currently intercepted call, letting execution continue to the next call
 - `storybook/instrumenter/end`: Resolves all Promises for intercepted calls, letting execution continue to the end
 
+Remounting is achieved through emitting Storybook's `forceRemount` event. In some situations, this will trigger a full page refresh (of the preview) in order to flush pending promises (e.g. long-running interactions).
+
 ### Control states
 
 Besides patching functions, the instrumenter keeps track of "control states". These indicate whether the debugger is available, and which control events are available for use:
