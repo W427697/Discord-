@@ -1,7 +1,7 @@
 import { ComponentTitle } from '@storybook/csf';
 import React, { useContext, FunctionComponent } from 'react';
 import { Title as PureTitle } from '../components';
-import { DocsContext, DocsContextProps } from './DocsContext';
+import { DocsContext } from './DocsContext';
 
 interface TitleProps {
   children?: JSX.Element | string;

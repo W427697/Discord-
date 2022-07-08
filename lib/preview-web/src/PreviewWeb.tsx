@@ -24,7 +24,6 @@ import { AnyFramework, StoryId, ProjectAnnotations, Args, Globals, ViewMode } fr
 import type {
   ModuleImportFn,
   Selection,
-  Story,
   StorySpecifier,
   StoryIndex,
   PromiseLike,

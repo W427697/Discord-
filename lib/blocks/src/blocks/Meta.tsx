@@ -4,7 +4,7 @@ import { BaseAnnotations } from '@storybook/csf';
 import type { ModuleExports } from '@storybook/store';
 
 import { Anchor } from './Anchor';
-import { DocsContext, DocsContextProps } from './DocsContext';
+import { DocsContext } from './DocsContext';
 
 const { document } = global;
 

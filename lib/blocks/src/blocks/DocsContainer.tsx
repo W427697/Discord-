@@ -8,8 +8,6 @@ import { components as htmlComponents } from '@storybook/components';
 import { AnyFramework } from '@storybook/csf';
 import { DocsWrapper, DocsContent } from '../components';
 import { DocsContextProps, DocsContext } from './DocsContext';
-import { anchorBlockIdFromId } from './Anchor';
-import { storyBlockIdFromId } from './Story';
 import { SourceContainer } from './SourceContainer';
 import { CodeOrSourceMdx, AnchorMdx, HeadersMdx } from './mdx';
 import { scrollToElement } from './utils';

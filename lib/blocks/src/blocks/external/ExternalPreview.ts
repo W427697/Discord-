@@ -1,6 +1,6 @@
 import { Preview } from '@storybook/preview-web';
 import { Path, ModuleExports, StoryIndex, composeConfigs } from '@storybook/store';
-import { toId, AnyFramework, ComponentTitle, ProjectAnnotations } from '@storybook/csf';
+import { AnyFramework, ComponentTitle, ProjectAnnotations } from '@storybook/csf';
 import { ExternalDocsContext } from './ExternalDocsContext';
 
 type MetaExports = ModuleExports;
