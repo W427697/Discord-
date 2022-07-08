@@ -24,8 +24,8 @@ The Storybook Instrumenter uses the [Storybook Channel API](../channels/README.m
 
 The instrumenter emits two types of events for tracking function invocations ("calls"):
 
-- `storybook/instrumenter/call`: Emitted whenever a tracked function is invoked
-- `storybook/instrumenter/sync`: Emitted after one or more tracked functions are invoked (batch-wise)
+- `storybook/instrumenter/call` - Emitted whenever a tracked function is invoked
+- `storybook/instrumenter/sync` - Emitted after one or more tracked functions are invoked (batch-wise)
 
 The `storybook/instrumenter/call` event payload contains all metadata about the function invocation, including a unique `id`, any arguments, the method name and object path. However, the order of events is not guaranteed and you may receive the same call multiple times while debugging. Moreover, this event is emitted for _all_ tracked calls, not just interceptable ones.
 
@@ -35,23 +35,31 @@ The `storybook/instrumenter/sync` event payload contains a list of `logItems` wh
 
 The instrumenter listens for these control events:
 
-- `storybook/instrumenter/start`: Remount the story and start the debugger at the first interceptable call
-- `storybook/instrumenter/back`: Remount the story and start the debugger at the previous interceptable call
-- `storybook/instrumenter/goto`: Fast-forwards to - or remounts and starts debugging at - the given interceptable call
-- `storybook/instrumenter/next`: Resolves the Promise for the currently intercepted call, letting execution continue to the next call
-- `storybook/instrumenter/end`: Resolves all Promises for intercepted calls, letting execution continue to the end
+- `storybook/instrumenter/start` - Remount the story and start the debugger at the first interceptable call
+- `storybook/instrumenter/back` - Remount the story and start the debugger at the previous interceptable call
+- `storybook/instrumenter/goto` - Fast-forwards to - or remounts and starts debugging at - the given interceptable call
+- `storybook/instrumenter/next` - Resolves the Promise for the currently intercepted call, letting execution continue to the next call
+- `storybook/instrumenter/end` - Resolves all Promises for intercepted calls, letting execution continue to the end
 
 Remounting is achieved through emitting Storybook's `forceRemount` event. In some situations, this will trigger a full page refresh (of the preview) in order to flush pending promises (e.g. long-running interactions).
 
-### Control states
+## Control states
 
 Besides patching functions, the instrumenter keeps track of "control states". These indicate whether the debugger is available, and which control events are available for use:
 
-- `debugger: boolean`: Whether the `interactionsDebugger` feature flag is enabled
-- `start: boolean`: Whether emitting `storybook/instrumenter/start` would work
-- `back: boolean`: Whether emitting `storybook/instrumenter/back` would work
-- `goto: boolean`: Whether emitting `storybook/instrumenter/goto` would work
-- `next: boolean`: Whether emitting `storybook/instrumenter/next` would work
-- `end: boolean`: Whether emitting `storybook/instrumenter/end` would work
+- `debugger: boolean` - Whether the `interactionsDebugger` feature flag is enabled
+- `start: boolean` - Whether emitting `storybook/instrumenter/start` would work
+- `back: boolean` - Whether emitting `storybook/instrumenter/back` would work
+- `goto: boolean` - Whether emitting `storybook/instrumenter/goto` would work
+- `next: boolean` - Whether emitting `storybook/instrumenter/next` would work
+- `end: boolean` - Whether emitting `storybook/instrumenter/end` would work
 
 These values are provided in the `controlStates` object on the `storybook/instrumenter/sync` event payload.
+
+## Options
+
+- `intercept: boolean | ((method: string, path: Array<string | CallRef>) => boolean)` - Whether to make functions interceptable
+- `retain: boolean` - Whether to retain calls across renders (e.g. for story setup functions / loaders that run only once)
+- `mutate: boolean` - Whether to mutate the input object instead of returning a shallow copy
+- `path: Array<string | CallRef>` - A virtual object path to prepend to the actual input object function paths
+- `getArgs: (call: Call, state: State) => Call['args']` - Allows overriding args before invoking the original function with them
