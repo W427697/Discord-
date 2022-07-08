@@ -11,8 +11,10 @@ import React, {
 import { styled } from '@storybook/theming';
 import { browserSupportsCssZoom } from './browserSupportsCssZoom';
 
+const hasBrowserSupportForCssZoom = browserSupportsCssZoom();
+
 const ZoomElementWrapper = styled.div<{ scale: number; height: number }>(({ scale = 1, height }) =>
-  browserSupportsCssZoom()
+  hasBrowserSupportForCssZoom
     ? {
         '> *': {
           zoom: 1 / scale,
@@ -36,11 +38,9 @@ const useMutationObserver = ({
 }): void => {
   const observer = useMemo(
     () =>
-      typeof MutationObserver === 'function'
-        ? new MutationObserver((mutationRecord, mutationObserver) => {
-            callback?.(mutationRecord, mutationObserver);
-          })
-        : undefined,
+      new MutationObserver((mutationRecord, mutationObserver) => {
+        callback(mutationRecord, mutationObserver);
+      }),
     [callback]
   );
 
@@ -49,9 +49,11 @@ const useMutationObserver = ({
       observer.observe(element.current, options);
     }
 
-    return () => observer?.disconnect();
+    return () => observer.disconnect();
   }, [element, observer, options]);
 };
+
+const mutationObserverOptions = { subtree: true, childList: true };
 
 type ZoomProps = {
   scale: number;
@@ -74,14 +76,14 @@ export function ZoomElement({ scale, children }: ZoomProps) {
 
   useMutationObserver({
     element: componentWrapperRef,
-    options: { subtree: true, childList: true },
+    options: mutationObserverOptions,
     callback: handleMutations,
   });
 
   return (
     <ZoomElementWrapper scale={scale} height={height}>
       <div
-        ref={browserSupportsCssZoom() ? null : componentWrapperRef}
+        ref={hasBrowserSupportForCssZoom ? null : componentWrapperRef}
         className="innerZoomElementWrapper"
       >
         {children}
