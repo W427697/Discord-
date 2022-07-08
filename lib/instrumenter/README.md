@@ -16,6 +16,14 @@ instrument<TObj extends Record<string, any>>(obj: TObj, options: Options): TObj
 
 `instrument` takes a plain JS object or imported ES module, and optionally an `options` object. It traverses the input object, recursively iterating over object properties and arrays. Any values with typeof `function` are tracked (through monkey-patching). Finally, a shallow copy of the original object is returned (with functions replaced). If the `mutate: true` option is set, the original object is mutated instead of returning a shallow copy.
 
+### Options
+
+- `intercept: boolean | ((method: string, path: Array<string | CallRef>) => boolean)` - Whether to make functions interceptable
+- `retain: boolean` - Whether to retain calls across renders (e.g. for story setup functions / loaders that run only once)
+- `mutate: boolean` - Whether to mutate the input object instead of returning a shallow copy
+- `path: Array<string | CallRef>` - A virtual object path to prepend to the actual input object function paths
+- `getArgs: (call: Call, state: State) => Call['args']` - Allows overriding args before invoking the original function with them
+
 ## Events
 
 The Storybook Instrumenter uses the [Storybook Channel API](../channels/README.md) to send and receive events.
@@ -55,11 +63,3 @@ Besides patching functions, the instrumenter keeps track of "control states". Th
 - `end: boolean` - Whether emitting `storybook/instrumenter/end` would work
 
 These values are provided in the `controlStates` object on the `storybook/instrumenter/sync` event payload.
-
-## Options
-
-- `intercept: boolean | ((method: string, path: Array<string | CallRef>) => boolean)` - Whether to make functions interceptable
-- `retain: boolean` - Whether to retain calls across renders (e.g. for story setup functions / loaders that run only once)
-- `mutate: boolean` - Whether to mutate the input object instead of returning a shallow copy
-- `path: Array<string | CallRef>` - A virtual object path to prepend to the actual input object function paths
-- `getArgs: (call: Call, state: State) => Call['args']` - Allows overriding args before invoking the original function with them
