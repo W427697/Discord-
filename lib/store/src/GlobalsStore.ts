@@ -1,5 +1,5 @@
 import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import type { Globals, GlobalTypes } from '@storybook/csf';
 
 import { deepDiff, DEEPLY_EQUAL } from './args';

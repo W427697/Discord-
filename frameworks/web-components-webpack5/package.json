@@ -1,6 +1,6 @@
 {
   "name": "@storybook/web-components-webpack5",
-  "version": "7.0.0-alpha.10",
+  "version": "7.0.0-alpha.11",
   "description": "Storybook for web-components: View web components snippets in isolation with Hot Reloading.",
   "keywords": [
     "lit-html",
@@ -48,14 +48,15 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@babel/preset-env": "^7.12.11",
-    "@storybook/builder-webpack5": "7.0.0-alpha.10",
-    "@storybook/core-common": "7.0.0-alpha.10",
-    "@storybook/preset-web-components-webpack": "7.0.0-alpha.10",
-    "@storybook/web-components": "7.0.0-alpha.10",
+    "@storybook/builder-webpack5": "7.0.0-alpha.11",
+    "@storybook/core-common": "7.0.0-alpha.11",
+    "@storybook/preset-web-components-webpack": "7.0.0-alpha.11",
+    "@storybook/web-components": "7.0.0-alpha.11",
     "@types/node": "^14.14.20 || ^16.0.0",
     "core-js": "^3.8.2",
     "react": "16.14.0",
@@ -63,7 +64,8 @@
   },
   "devDependencies": {
     "@digitak/esrun": "^3.2.2",
-    "lit-html": "2.0.2"
+    "lit-html": "2.0.2",
+    "typescript": "~4.6.3"
   },
   "peerDependencies": {
     "lit-html": "^1.4.1 || ^2.0.0"
@@ -74,9 +76,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": [
-    "./src/index.ts",
-    "./src/preset.ts"
-  ],
-  "gitHead": "b13dd8fb52819d73d4983148af8ffc5d683e8b75"
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/preset.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "688d338903e84a7e83cb104472e868e734399f65"
 }

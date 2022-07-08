@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import type { RenderData } from '@storybook/router';
 import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 import { ModuleFn } from '../index';
 import { Options } from '../store';

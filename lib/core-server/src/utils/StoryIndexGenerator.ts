@@ -9,22 +9,26 @@ import type {
   V2CompatIndexEntry,
   StoryId,
   IndexEntry,
-  DocsIndexEntry,
+  StoryIndexEntry,
+  StandaloneDocsIndexEntry,
+  TemplateDocsIndexEntry,
 } from '@storybook/store';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
-import type {
-  StoryIndexer,
-  IndexerOptions,
-  NormalizedStoriesSpecifier,
-} from '@storybook/core-common';
+import type { StoryIndexer, NormalizedStoriesSpecifier, DocsOptions } from '@storybook/core-common';
 import { normalizeStoryPath } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
-import type { ComponentTitle } from '@storybook/csf';
+import type { ComponentTitle, StoryName } from '@storybook/csf';
 import { toId } from '@storybook/csf';
 
-type DocsCacheEntry = DocsIndexEntry;
-type StoriesCacheEntry = { entries: IndexEntry[]; dependents: Path[]; type: 'stories' };
+/** A .mdx file will produce a "standalone" docs entry */
+type DocsCacheEntry = StandaloneDocsIndexEntry;
+/** A *.stories.* file will produce a list of stories and possibly a docs entry */
+type StoriesCacheEntry = {
+  entries: (StoryIndexEntry | TemplateDocsIndexEntry)[];
+  dependents: Path[];
+  type: 'stories';
+};
 type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry;
 type SpecifierStoriesCache = Record<Path, CacheEntry>;
 
@@ -38,6 +42,24 @@ const makeAbsolute = (otherImport: Path, normalizedPath: Path, workingDir: Path)
       )
     : otherImport;
 
+/**
+ * The StoryIndexGenerator extracts stories and docs entries for each file matching
+ * (one or more) stories "specifiers", as defined in main.js.
+ *
+ * The output is a set of entries (see above for the types).
+ *
+ * Each file is treated as a stories or a (modern) docs file.
+ *
+ * A stories file is indexed by an indexer (passed in), which produces a list of stories.
+ *   - If the stories have the `parameters.docsOnly` setting, they are disregarded.
+ *   - If the indexer is a "docs template" indexer, OR docsPage is enabled,
+ *       a templated docs entry is added pointing to the story file.
+ *
+ * A (modern) docs file is indexed, a standalone docs entry is added.
+ *
+ * The entries are "uniq"-ed and sorted. Stories entries are preferred to docs entries and
+ * standalone docs entries are preferred to templates (with warnings).
+ */
 export class StoryIndexGenerator {
   // An internal cache mapping specifiers to a set of path=><set of stories>
   // Later, we'll combine each of these subsets together to form the full index
@@ -56,6 +78,7 @@ export class StoryIndexGenerator {
       storiesV2Compatibility: boolean;
       storyStoreV7: boolean;
       storyIndexers: StoryIndexer[];
+      docs: DocsOptions;
     }
   ) {
     this.specifierToCache = new Map();
@@ -94,14 +117,20 @@ export class StoryIndexGenerator {
    * Run the updater function over all the empty cache entries
    */
   async updateExtracted(
-    updater: (specifier: NormalizedStoriesSpecifier, absolutePath: Path) => Promise<CacheEntry>
+    updater: (
+      specifier: NormalizedStoriesSpecifier,
+      absolutePath: Path,
+      existingEntry: CacheEntry
+    ) => Promise<CacheEntry>,
+    overwrite = false
   ) {
     await Promise.all(
       this.specifiers.map(async (specifier) => {
         const entry = this.specifierToCache.get(specifier);
         return Promise.all(
           Object.keys(entry).map(async (absolutePath) => {
-            entry[absolutePath] = entry[absolutePath] || (await updater(specifier, absolutePath));
+            if (entry[absolutePath] && !overwrite) return;
+            entry[absolutePath] = await updater(specifier, absolutePath, entry[absolutePath]);
           })
         );
       })
@@ -120,13 +149,16 @@ export class StoryIndexGenerator {
     await this.updateExtracted(async (specifier, absolutePath) =>
       this.isDocsMdx(absolutePath) ? false : this.extractStories(specifier, absolutePath)
     );
-    await this.updateExtracted(async (specifier, absolutePath) =>
-      this.extractDocs(specifier, absolutePath)
-    );
+
+    if (this.options.docs.enabled) {
+      await this.updateExtracted(async (specifier, absolutePath) =>
+        this.extractDocs(specifier, absolutePath)
+      );
+    }
 
     return this.specifiers.flatMap((specifier) => {
       const cache = this.specifierToCache.get(specifier);
-      return Object.values(cache).flatMap((entry) => {
+      return Object.values(cache).flatMap((entry): IndexEntry[] => {
         if (!entry) return [];
         if (entry.type === 'docs') return [entry];
         return entry.entries;
@@ -162,6 +194,57 @@ export class StoryIndexGenerator {
     return dependencies;
   }
 
+  async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
+    const relativePath = path.relative(this.options.workingDir, absolutePath);
+    const entries = [] as IndexEntry[];
+    try {
+      const importPath = slash(normalizeStoryPath(relativePath));
+      const makeTitle = (userTitle?: string) => {
+        return userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
+      };
+
+      const storyIndexer = this.options.storyIndexers.find((indexer) =>
+        indexer.test.exec(absolutePath)
+      );
+      if (!storyIndexer) {
+        throw new Error(`No matching story indexer found for ${absolutePath}`);
+      }
+      const csf = await storyIndexer.indexer(absolutePath, { makeTitle });
+
+      csf.stories.forEach(({ id, name, parameters }) => {
+        if (!parameters?.docsOnly) {
+          entries.push({ id, title: csf.meta.title, name, importPath, type: 'story' });
+        }
+      });
+
+      if (this.options.docs.enabled) {
+        // We always add a template for *.stories.mdx, but only if docs page is enabled for
+        // regular CSF files
+        if (storyIndexer.addDocsTemplate || this.options.docs.docsPage) {
+          const name = this.options.docs.defaultName;
+          const id = toId(csf.meta.title, name);
+          entries.unshift({
+            id,
+            title: csf.meta.title,
+            name,
+            importPath,
+            type: 'docs',
+            storiesImports: [],
+            standalone: false,
+          });
+        }
+      }
+    } catch (err) {
+      if (err.name === 'NoMetaError') {
+        logger.info(`💡 Skipping ${relativePath}: ${err}`);
+      } else {
+        logger.warn(`🚨 Extraction error on ${relativePath}: ${err}`);
+        throw err;
+      }
+    }
+    return { entries, type: 'stories', dependents: [] } as StoriesCacheEntry;
+  }
+
   async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     try {
@@ -181,8 +264,16 @@ export class StoryIndexGenerator {
       // eslint-disable-next-line global-require
       const { analyze } = await require('@storybook/docs-mdx');
       const content = await fs.readFile(absolutePath, 'utf8');
-      // { title?, of?, imports? }
-      const result = analyze(content);
+      const result: {
+        title?: ComponentTitle;
+        of?: Path;
+        name?: StoryName;
+        isTemplate?: boolean;
+        imports?: Path[];
+      } = analyze(content);
+
+      // Templates are not indexed
+      if (result.isTemplate) return false;
 
       const absoluteImports = (result.imports as string[]).map((p) =>
         makeAbsolute(p, normalizedPath, this.options.workingDir)
@@ -217,7 +308,7 @@ export class StoryIndexGenerator {
       });
 
       const title = userOrAutoTitleFromSpecifier(importPath, specifier, result.title || ofTitle);
-      const name = 'docs';
+      const name = result.name || this.options.docs.defaultName;
       const id = toId(title, name);
 
       const docsEntry: DocsCacheEntry = {
@@ -227,6 +318,7 @@ export class StoryIndexGenerator {
         importPath,
         storiesImports: dependencies.map((dep) => dep.entries[0].importPath),
         type: 'docs',
+        standalone: true,
       };
       return docsEntry;
     } catch (err) {
@@ -235,46 +327,72 @@ export class StoryIndexGenerator {
     }
   }
 
-  async index(filePath: string, options: IndexerOptions) {
-    const storyIndexer = this.options.storyIndexers.find((indexer) => indexer.test.exec(filePath));
-    if (!storyIndexer) {
-      throw new Error(`No matching story indexer found for ${filePath}`);
+  chooseDuplicate(firstEntry: IndexEntry, secondEntry: IndexEntry): IndexEntry {
+    let firstIsBetter = true;
+    if (secondEntry.type === 'story') {
+      firstIsBetter = false;
+    } else if (secondEntry.standalone && firstEntry.type === 'docs' && !firstEntry.standalone) {
+      firstIsBetter = false;
     }
-    return storyIndexer.indexer(filePath, options);
-  }
+    const betterEntry = firstIsBetter ? firstEntry : secondEntry;
+    const worseEntry = firstIsBetter ? secondEntry : firstEntry;
 
-  async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
-    const relativePath = path.relative(this.options.workingDir, absolutePath);
-    const entries = [] as IndexEntry[];
-    try {
-      const importPath = slash(normalizeStoryPath(relativePath));
-      const makeTitle = (userTitle?: string) => {
-        return userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
-      };
-      const csf = await this.index(absolutePath, { makeTitle });
-      csf.stories.forEach(({ id, name, parameters }) => {
-        const base = { id, title: csf.meta.title, name, importPath };
-        const entry: IndexEntry = parameters?.docsOnly
-          ? { ...base, type: 'docs', storiesImports: [], legacy: true }
-          : { ...base, type: 'story' };
-        entries.push(entry);
-      });
-    } catch (err) {
-      if (err.name === 'NoMetaError') {
-        logger.info(`💡 Skipping ${relativePath}: ${err}`);
+    const changeDocsName = 'Use `<Meta of={} name="Other Name">` to distinguish them.';
+
+    // This shouldn't be possible, but double check and use for typing
+    if (worseEntry.type === 'story') throw new Error(`Duplicate stories with id: ${firstEntry.id}`);
+
+    if (betterEntry.type === 'story') {
+      const worseDescriptor = worseEntry.standalone
+        ? `component docs page`
+        : `automatically generated docs page`;
+      if (betterEntry.name === this.options.docs.defaultName) {
+        logger.warn(
+          `🚨 You have a story for ${betterEntry.title} with the same name as your default docs entry name (${betterEntry.name}), so the docs page is being dropped. Consider changing the story name.`
+        );
       } else {
-        logger.warn(`🚨 Extraction error on ${relativePath}: ${err}`);
-        throw err;
+        logger.warn(
+          `🚨 You have a story for ${betterEntry.title} with the same name as your ${worseDescriptor} (${worseEntry.name}), so the docs page is being dropped. ${changeDocsName}`
+        );
       }
+    } else if (betterEntry.standalone) {
+      // Both entries are standalone but pointing at the same place
+      if (worseEntry.standalone) {
+        logger.warn(
+          `🚨 You have two component docs pages with the same name ${betterEntry.title}:${betterEntry.name}. ${changeDocsName}`
+        );
+      }
+      // If one entry is standalone (i.e. .mdx of={}) we are OK with it overriding a template
+      //   - docs page templates, this is totally fine and expected
+      //   - not sure if it is even possible to have a .mdx of={} pointing at a stories.mdx file
+    } else {
+      // If both entries are templates (e.g. you have two CSF files with the same title), then
+      //   we need to merge the entries. We'll use the the first one's name and importPath,
+      //   but ensure we include both as storiesImports so they are both loaded before rendering
+      //   the story (for the <Stories> block & friends)
+      return {
+        ...betterEntry,
+        storiesImports: [
+          ...betterEntry.storiesImports,
+          worseEntry.importPath,
+          ...worseEntry.storiesImports,
+        ],
+      };
     }
-    return { entries, type: 'stories', dependents: [] } as StoriesCacheEntry;
+
+    return betterEntry;
   }
 
   async sortStories(storiesList: IndexEntry[]) {
     const entries: StoryIndex['entries'] = {};
 
     storiesList.forEach((entry) => {
-      entries[entry.id] = entry;
+      const existing = entries[entry.id];
+      if (existing) {
+        entries[entry.id] = this.chooseDuplicate(existing, entry);
+      } else {
+        entries[entry.id] = entry;
+      }
     });
 
     const sortableStories = Object.values(entries);

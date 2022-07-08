@@ -1,6 +1,6 @@
 {
   "name": "@storybook/html-webpack5",
-  "version": "7.0.0-alpha.10",
+  "version": "7.0.0-alpha.11",
   "description": "Storybook for HTML: View HTML snippets in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -46,13 +46,14 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.10",
-    "@storybook/core-common": "7.0.0-alpha.10",
-    "@storybook/html": "7.0.0-alpha.10",
-    "@storybook/preset-html-webpack": "7.0.0-alpha.10",
+    "@storybook/builder-webpack5": "7.0.0-alpha.11",
+    "@storybook/core-common": "7.0.0-alpha.11",
+    "@storybook/html": "7.0.0-alpha.11",
+    "@storybook/preset-html-webpack": "7.0.0-alpha.11",
     "@types/node": "^14.14.20 || ^16.0.0",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
@@ -60,7 +61,8 @@
     "react-dom": "16.14.0"
   },
   "devDependencies": {
-    "@digitak/esrun": "^3.2.2"
+    "@digitak/esrun": "^3.2.2",
+    "typescript": "~4.6.3"
   },
   "peerDependencies": {
     "@babel/core": "*"
@@ -71,9 +73,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": [
-    "./src/index.ts",
-    "./src/preset.ts"
-  ],
-  "gitHead": "b13dd8fb52819d73d4983148af8ffc5d683e8b75"
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/preset.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "688d338903e84a7e83cb104472e868e734399f65"
 }

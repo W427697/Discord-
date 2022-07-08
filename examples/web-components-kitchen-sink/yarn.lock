@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 5
+  version: 6
   cacheKey: 8c0
 
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.14.5":
@@ -5099,7 +5099,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "storybook@portal:../../lib/cli-storybook::locator=web-components-kitchen-sink%40workspace%3A."
   dependencies:
-    "@storybook/cli": 7.0.0-alpha.2
+    "@storybook/cli": 7.0.0-alpha.11
   bin:
     sb: ./index.js
     storybook: ./index.js
@@ -5421,11 +5421,11 @@ __metadata:
 
 "typescript@patch:typescript@npm%3A~4.6.3#~builtin<compat/typescript>":
   version: 4.6.4
-  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=493e53"
+  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=7ad353"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 13f33e44d13184c881a9b5b9617a00016e872c8ece1e58ae25322dfccb2af9dd624d86186c0f0a82417b4888c56bb5945fa0b1112c0edd98c3b1b9649f56ffb0
+  checksum: 0e3fa814d454942a689daf4c00f82328d323e7ecd4077e3265d45375e64642611631f4c882a71be87774468ba03793e9b8ff4bccfac3018194a9e36d8f72c251
   languageName: node
   linkType: hard
 

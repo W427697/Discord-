@@ -12,7 +12,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config) => {
     ...config,
     plugins: [
       ...(config.plugins || []),
-      reactDomPkg.version.startsWith('18') || reactDomPkg.version.startsWith('0.0.0')
+      reactDomPkg?.version?.startsWith('18') || reactDomPkg?.version?.startsWith('0.0.0')
         ? null
         : new IgnorePlugin({
             resourceRegExp: /react-dom\/client$/,

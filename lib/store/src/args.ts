@@ -1,8 +1,8 @@
-import deepEqual from 'fast-deep-equal';
+import { dequal as deepEqual } from 'dequal';
 import type { SBType, Args, InputType, ArgTypes, StoryContext, AnyFramework } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
 import isPlainObject from 'lodash/isPlainObject';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 const INCOMPATIBLE = Symbol('incompatible');
 const map = (arg: unknown, argType: InputType): any => {

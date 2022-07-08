@@ -1,3 +1,19 @@
+## 7.0.0-alpha.11 (July 6, 2022)
+
+### Features
+
+- Interactions: Show exceptions by non-instrumented code in panel ([#16592](https://github.com/storybookjs/storybook/pull/16592))
+
+### Maintenance
+
+- Build: Add linter for ejs ([#18637](https://github.com/storybookjs/storybook/pull/18637))
+- Core: Improve interopRequireDefault ([#18638](https://github.com/storybookjs/storybook/pull/18638))
+- Core: Pre-built manager using esbuild ([#18550](https://github.com/storybookjs/storybook/pull/18550))
+- Build: Add check-packages script plus misc improvements ([#18633](https://github.com/storybookjs/storybook/pull/18633))
+- Core: Typing useArgs ([#17735](https://github.com/storybookjs/storybook/pull/17735))
+- Build: Add a check script to each package ([#18603](https://github.com/storybookjs/storybook/pull/18603))
+- Build: Use playwright in benchmark ([#18606](https://github.com/storybookjs/storybook/pull/18606))
+
 ## 7.0.0-alpha.10 (July 2, 2022)
 
 ### Features

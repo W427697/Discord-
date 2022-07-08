@@ -6,6 +6,8 @@ enum events {
   STORY_INDEX_INVALIDATED = 'storyIndexInvalidated',
   // When the preview boots, the first story is chosen via a selection specifier
   STORY_SPECIFIED = 'storySpecified',
+  // Emitted by Provider.setOptions is called from an manager-addon or manager.js file
+  SET_CONFIG = 'setConfig',
   // Emitted by the preview whenever the list of stories changes (in batches)
   SET_STORIES = 'setStories',
   // Set the current story selection in the preview
@@ -68,6 +70,7 @@ export const {
   STORY_INDEX_INVALIDATED,
   STORY_SPECIFIED,
   SET_STORIES,
+  SET_CONFIG,
   SET_CURRENT_STORY,
   CURRENT_STORY_WAS_SET,
   FORCE_RE_RENDER,

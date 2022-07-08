@@ -1,5 +1,5 @@
 import path from 'path';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';

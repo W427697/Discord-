@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "7.0.0-alpha.10",
+  "version": "7.0.0-alpha.11",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -47,12 +47,13 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.10",
+    "@storybook/client-logger": "7.0.0-alpha.11",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/theming": "7.0.0-alpha.10",
+    "@storybook/theming": "7.0.0-alpha.11",
     "core-js": "^3.8.2",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0",
@@ -61,12 +62,16 @@
   "devDependencies": {
     "@digitak/esrun": "^3.2.2",
     "@popperjs/core": "^2.6.0",
+    "@testing-library/jest-dom": "^5.16.4",
     "@types/color-convert": "^2.0.0",
+    "@types/lodash": "^4.14.182",
     "@types/overlayscrollbars": "^1.12.0",
+    "@types/qs": "^6.9.7",
     "@types/react-syntax-highlighter": "11.0.5",
+    "@types/util-deprecate": "^1.0.0",
     "color-convert": "^2.0.1",
     "css": "^3.0.0",
-    "fast-deep-equal": "^3.1.3",
+    "dequal": "^2.0.2",
     "global": "^4.4.0",
     "jest": "^26.6.3",
     "lodash": "^4.17.21",
@@ -79,7 +84,8 @@
     "react-popper-tooltip": "^3.1.1",
     "react-syntax-highlighter": "^15.4.5",
     "react-textarea-autosize": "^8.3.0",
-    "ts-dedent": "^2.0.0"
+    "ts-dedent": "^2.0.0",
+    "typescript": "~4.6.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -88,9 +94,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": [
-    "./src/index.ts",
-    "./src/html.tsx"
-  ],
-  "gitHead": "b13dd8fb52819d73d4983148af8ffc5d683e8b75"
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/html.tsx"
+    ],
+    "platform": "neutral"
+  },
+  "gitHead": "688d338903e84a7e83cb104472e868e734399f65"
 }

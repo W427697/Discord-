@@ -1,7 +1,7 @@
 /// <reference types="webpack-env" />
 
 import deprecate from 'util-deprecate';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import global from 'global';
 import { logger } from '@storybook/client-logger';
 import { toId, sanitize } from '@storybook/csf';

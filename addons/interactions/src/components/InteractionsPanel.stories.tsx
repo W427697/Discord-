@@ -6,6 +6,7 @@ import { CallStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 import { userEvent, within, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
+import isChromatic from 'chromatic/isChromatic';
 
 import { getCalls, getInteractions } from '../mocks';
 import { InteractionsPanel } from './InteractionsPanel';
@@ -62,6 +63,7 @@ export const Passing: Story = {
   },
 };
 Passing.play = async ({ args, canvasElement }) => {
+  if (isChromatic()) return;
   const canvas = within(canvasElement);
 
   await waitFor(async () => {

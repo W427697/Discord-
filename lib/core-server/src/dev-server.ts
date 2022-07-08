@@ -1,8 +1,14 @@
 import express, { Router } from 'express';
 import compression from 'compression';
 
-import type { CoreConfig, Options, StorybookConfig } from '@storybook/core-common';
-import { normalizeStories, logConfig } from '@storybook/core-common';
+import {
+  CoreConfig,
+  DocsOptions,
+  Options,
+  StorybookConfig,
+  normalizeStories,
+  logConfig,
+} from '@storybook/core-common';
 
 import { telemetry } from '@storybook/telemetry';
 import { getMiddleware } from './utils/middleware';
@@ -44,10 +50,12 @@ export async function storybookDevServer(options: Options) {
         directories
       );
       const storyIndexers = await options.presets.apply('storyIndexers', []);
+      const docsOptions = await options.presets.apply<DocsOptions>('docs', {});
 
       const generator = new StoryIndexGenerator(normalizedStories, {
         ...directories,
         storyIndexers,
+        docs: docsOptions,
         workingDir,
         storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
         storyStoreV7: features?.storyStoreV7,
@@ -137,7 +145,6 @@ export async function storybookDevServer(options: Options) {
 
   if (options.debugWebpack) {
     logConfig('Preview webpack config', await previewBuilder.getConfig(options));
-    logConfig('Manager webpack config', await managerBuilder.getConfig(options));
   }
 
   const preview = options.ignorePreview

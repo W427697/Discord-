@@ -20,7 +20,7 @@ function cleanUpPreviousStory() {
 }
 
 export function renderToDOM(
-  { storyFn, kind, name, showMain, showError }: RenderContext<SvelteFramework>,
+  { storyFn, kind, name, showMain, showError, storyContext }: RenderContext<SvelteFramework>,
   domElement: Element
 ) {
   cleanUpPreviousStory();
@@ -33,6 +33,7 @@ export function renderToDOM(
     target,
     props: {
       storyFn,
+      storyContext,
       name,
       kind,
       showError,

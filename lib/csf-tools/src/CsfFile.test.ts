@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import yaml from 'js-yaml';
 import { loadCsf } from './CsfFile';
 

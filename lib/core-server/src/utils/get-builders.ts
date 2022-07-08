@@ -1,7 +1,7 @@
 import type { Options, CoreConfig, Builder } from '@storybook/core-common';
 
 async function getManagerBuilder() {
-  return import('@storybook/manager-webpack5');
+  return import('@storybook/builder-manager');
 }
 
 async function getPreviewBuilder(builderName: string, configDir: string) {
@@ -18,10 +18,7 @@ async function getPreviewBuilder(builderName: string, configDir: string) {
   return previewBuilder;
 }
 
-export async function getBuilders({
-  presets,
-  configDir,
-}: Options): Promise<Builder<unknown, unknown>[]> {
+export async function getBuilders({ presets, configDir }: Options): Promise<Builder<unknown>[]> {
   const core = await presets.apply<CoreConfig>('core', undefined);
   const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
 

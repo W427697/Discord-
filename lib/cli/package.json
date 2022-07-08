@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.0.0-alpha.10",
+  "version": "7.0.0-alpha.11",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -41,19 +41,20 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "tsc --noEmit",
     "prepare": "node ../../scripts/prepare.js",
     "test": "jest test/**/*.test.js"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-    "@storybook/codemod": "7.0.0-alpha.10",
-    "@storybook/core-common": "7.0.0-alpha.10",
-    "@storybook/core-server": "7.0.0-alpha.10",
-    "@storybook/csf-tools": "7.0.0-alpha.10",
-    "@storybook/node-logger": "7.0.0-alpha.10",
+    "@storybook/codemod": "7.0.0-alpha.11",
+    "@storybook/core-common": "7.0.0-alpha.11",
+    "@storybook/core-server": "7.0.0-alpha.11",
+    "@storybook/csf-tools": "7.0.0-alpha.11",
+    "@storybook/node-logger": "7.0.0-alpha.11",
     "@storybook/semver": "^7.3.2",
-    "@storybook/telemetry": "7.0.0-alpha.10",
+    "@storybook/telemetry": "7.0.0-alpha.11",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
     "commander": "^6.2.1",
@@ -78,7 +79,7 @@
     "update-notifier": "^5.0.1"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.0.0-alpha.10",
+    "@storybook/client-api": "7.0.0-alpha.11",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
@@ -86,10 +87,11 @@
     "@types/shelljs": "^0.8.7",
     "@types/update-notifier": "^5.0.0",
     "strip-json-comments": "^3.1.1",
+    "typescript": "~4.6.3",
     "update-notifier": "^5.0.1"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "b13dd8fb52819d73d4983148af8ffc5d683e8b75"
+  "gitHead": "688d338903e84a7e83cb104472e868e734399f65"
 }

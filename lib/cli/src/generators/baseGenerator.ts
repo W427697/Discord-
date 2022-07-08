@@ -1,5 +1,5 @@
 import fse from 'fs-extra';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { NpmOptions } from '../NpmOptions';
 import { SupportedRenderers, Builder, CoreBuilder } from '../project_types';
 import { getBabelDependencies, copyComponents } from '../helpers';
@@ -122,7 +122,6 @@ export async function baseGenerator(
   };
 
   // added to main.js
-  // make sure to update `canUsePrebuiltManager` in dev-server.js and build-manager-config/main.js when this list changes
   const addons = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
@@ -132,7 +131,6 @@ export async function baseGenerator(
   const addonPackages = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    '@storybook/addon-actions',
     ...extraAddonPackages,
   ];
 
