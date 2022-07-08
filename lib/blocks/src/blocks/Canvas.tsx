@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, ReactNode, ReactNodeArray, useContext } from 'react';
 import { MDXProvider } from '@mdx-js/react';
-import { toId, storyNameFromExport, AnyFramework } from '@storybook/csf';
+import { AnyFramework } from '@storybook/csf';
 import { resetComponents } from '@storybook/components';
 import {
   Preview as PurePreview,
@@ -11,7 +11,7 @@ import { DocsContext, DocsContextProps } from './DocsContext';
 import { SourceContext, SourceContextProps } from './SourceContainer';
 import { getSourceProps, SourceState } from './Source';
 import { useStories } from './useStory';
-import { CURRENT_SELECTION } from './types';
+import { CURRENT_SELECTION, currentSelectionWarning } from './types';
 
 export { SourceState };
 
@@ -25,7 +25,6 @@ const getPreviewProps = (
   docsContext: DocsContextProps<AnyFramework>,
   sourceContext: SourceContextProps
 ) => {
-  const { storyIdByName } = docsContext;
   let sourceState = withSource;
   let isLoading = false;
   if (sourceState === SourceState.NONE) {
@@ -48,14 +47,15 @@ const getPreviewProps = (
     if (id) return id;
     if (of) return docsContext.storyIdByModuleExport(of);
 
-    return storyIdByName(name);
+    return docsContext.storyIdByName(name);
   });
 
   const sourceProps = getSourceProps({ ids: targetIds }, docsContext, sourceContext);
   if (!sourceState) sourceState = sourceProps.state;
-  const storyIds = targetIds.map((targetId) =>
-    targetId === CURRENT_SELECTION ? docsContext.id : targetId
-  );
+  const storyIds = targetIds.map((targetId) => {
+    if (targetId === CURRENT_SELECTION) currentSelectionWarning();
+    return targetId === CURRENT_SELECTION ? docsContext.storyById().id : targetId;
+  });
   const stories = useStories(storyIds, docsContext);
   isLoading = stories.some((s) => !s);
 

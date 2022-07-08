@@ -38,9 +38,11 @@ async function renderDocsAsync<TFramework extends AnyFramework>(
 
   const Page: ComponentType = docsParameters.page || (await docsParameters.getPage?.()) || DocsPage;
 
-  // Use `title` as a key so that we force a re-render every time we switch components
+  // Use a random key to force the container to re-render each time we call `renderDocs`
+  //   TODO: do we still need this? It was needed for angular (legacy) inline rendering:
+  //   https://github.com/storybookjs/storybook/pull/16149
   const docsElement = (
-    <Container key={docsContext.title} context={docsContext}>
+    <Container key={Math.random()} context={docsContext}>
       <Page />
     </Container>
   );

@@ -10,13 +10,13 @@ import React, {
 } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { resetComponents } from '@storybook/components';
-import { StoryId, toId, storyNameFromExport, StoryAnnotations, AnyFramework } from '@storybook/csf';
+import { StoryId, StoryAnnotations, AnyFramework } from '@storybook/csf';
 import type { ModuleExport, ModuleExports, Story as StoryType } from '@storybook/store';
 
 import { Story as PureStory, StorySkeleton } from '../components';
-import { CURRENT_SELECTION } from './types';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { useStory } from './useStory';
+import { CURRENT_SELECTION, currentSelectionWarning } from './types';
 
 export const storyBlockIdFromId = (storyId: string) => `story--${storyId}`;
 
@@ -53,7 +53,8 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
   }
 
   const { name } = props as StoryDefProps;
-  const inputId = id === CURRENT_SELECTION ? context.id : id;
+  if (id === CURRENT_SELECTION) currentSelectionWarning();
+  const inputId = id === CURRENT_SELECTION ? context.storyById().id : id;
   return inputId || context.storyIdByName(name);
 };
 

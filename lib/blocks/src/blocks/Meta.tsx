@@ -10,15 +10,9 @@ const { document } = global;
 
 type MetaProps = BaseAnnotations & { of?: ModuleExports };
 
-function getFirstStoryId(docsContext: DocsContextProps): string {
-  const stories = docsContext.componentStories();
-
-  return stories.length > 0 ? stories[0].id : null;
-}
-
 function renderAnchor() {
   const context = useContext(DocsContext);
-  const anchorId = getFirstStoryId(context) || context.id;
+  const anchorId = context.storyById().id;
 
   return <Anchor storyId={anchorId} />;
 }

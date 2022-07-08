@@ -14,7 +14,7 @@ import {
 } from '../components';
 
 import { DocsContext, DocsContextProps } from './DocsContext';
-import { Component, CURRENT_SELECTION, PRIMARY_STORY } from './types';
+import { Component, CURRENT_SELECTION, currentSelectionWarning, PRIMARY_STORY } from './types';
 import { getComponentName } from './utils';
 import { useStory } from './useStory';
 
@@ -138,7 +138,6 @@ export const StoryTable: FC<
   StoryProps & { component: Component; subcomponents: Record<string, Component> }
 > = (props) => {
   const context = useContext(DocsContext);
-  const { id: currentId } = context;
   const {
     story: storyName,
     component,
@@ -151,11 +150,9 @@ export const StoryTable: FC<
   try {
     let storyId;
     switch (storyName) {
-      case CURRENT_SELECTION: {
-        storyId = currentId;
-        break;
-      }
+      case CURRENT_SELECTION:
       case PRIMARY_STORY: {
+        if (storyName === CURRENT_SELECTION) currentSelectionWarning();
         const primaryStory = context.storyById();
         storyId = primaryStory.id;
         break;
@@ -258,5 +255,5 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
 };
 
 ArgsTable.defaultProps = {
-  of: CURRENT_SELECTION,
+  of: PRIMARY_STORY,
 };

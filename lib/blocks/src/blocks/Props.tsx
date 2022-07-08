@@ -2,7 +2,7 @@ import React, { ComponentProps } from 'react';
 import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';
 import { ArgsTable } from './ArgsTable';
-import { CURRENT_SELECTION } from './types';
+import { PRIMARY_STORY } from './types';
 
 export const Props = deprecate(
   (props: ComponentProps<typeof ArgsTable>) => <ArgsTable {...props} />,
@@ -15,5 +15,5 @@ export const Props = deprecate(
 
 // @ts-ignore
 Props.defaultProps = {
-  of: CURRENT_SELECTION,
+  of: PRIMARY_STORY,
 };

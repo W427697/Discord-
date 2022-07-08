@@ -1,20 +1,7 @@
-import type {
-  StoryId,
-  StoryName,
-  AnyFramework,
-  StoryContextForLoaders,
-  ComponentTitle,
-} from '@storybook/csf';
+import type { StoryId, StoryName, AnyFramework, StoryContextForLoaders } from '@storybook/csf';
 import type { ModuleExport, ModuleExports, Story } from '@storybook/store';
 
 export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework> {
-  /**
-   * These fields represent the docs entry that is being rendered to the screen
-   */
-  id: StoryId;
-  title: ComponentTitle;
-  name: StoryName;
-
   /**
    * Register the CSF file that this docs entry represents.
    * Used by the `<Meta of={} />` block.

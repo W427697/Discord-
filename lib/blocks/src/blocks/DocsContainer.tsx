@@ -37,7 +37,7 @@ const warnOptionsTheme = deprecate(
 );
 
 export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, children }) => {
-  const { id: storyId, storyById } = context;
+  const { storyById } = context;
   const allComponents = { ...defaultComponents };
   let theme = ensureTheme(null);
   try {
@@ -59,35 +59,19 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, 
     let url;
     try {
       url = new URL(globalWindow.parent.location);
-    } catch (err) {
-      return;
-    }
-    if (url.hash) {
-      const element = document.getElementById(url.hash.substring(1));
-      if (element) {
-        // Introducing a delay to ensure scrolling works when it's a full refresh.
-        setTimeout(() => {
-          scrollToElement(element);
-        }, 200);
-      }
-    } else {
-      const element =
-        document.getElementById(anchorBlockIdFromId(storyId)) ||
-        document.getElementById(storyBlockIdFromId(storyId));
-      if (element) {
-        const allStories = element.parentElement.querySelectorAll('[id|="anchor-"]');
-        let scrollTarget = element;
-        if (allStories && allStories[0] === element) {
-          // Include content above first story
-          scrollTarget = document.getElementById('docs-root');
+      if (url.hash) {
+        const element = document.getElementById(url.hash.substring(1));
+        if (element) {
+          // Introducing a delay to ensure scrolling works when it's a full refresh.
+          setTimeout(() => {
+            scrollToElement(element);
+          }, 200);
         }
-        // Introducing a delay to ensure scrolling works when it's a full refresh.
-        setTimeout(() => {
-          scrollToElement(scrollTarget, 'start');
-        }, 200);
       }
+    } catch (err) {
+      // pass
     }
-  }, [storyId]);
+  });
 
   return (
     <DocsContext.Provider value={context}>
