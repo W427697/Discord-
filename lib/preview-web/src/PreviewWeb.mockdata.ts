@@ -18,7 +18,7 @@ export const componentOneExports = {
     },
     loaders: [jest.fn()],
     parameters: {
-      docs: { container: jest.fn() },
+      docs: { page: jest.fn(), container: jest.fn() },
     },
   },
   a: { args: { foo: 'a' }, play: jest.fn() },
@@ -28,20 +28,26 @@ export const componentTwoExports = {
   default: { title: 'Component Two' },
   c: { args: { foo: 'c' } },
 };
-export const legacyDocsExports = {
-  default: { title: 'Introduction' },
-  Docs: { parameters: { docs: { page: jest.fn() } } },
-};
-export const modernDocsExports = {
+export const standaloneDocsExports = {
   default: jest.fn(),
+};
+// If a second file defines stories for componentOne
+export const extraComponentOneExports = {
+  default: {
+    title: 'Component One',
+    parameters: {
+      docs: { page: jest.fn() },
+    },
+  },
+  e: {},
 };
 export const importFn = jest.fn(
   async (path) =>
     ({
       './src/ComponentOne.stories.js': componentOneExports,
       './src/ComponentTwo.stories.js': componentTwoExports,
-      './src/Legacy.stories.mdx': legacyDocsExports,
-      './src/Introduction.mdx': modernDocsExports,
+      './src/Introduction.mdx': standaloneDocsExports,
+      './src/ExtraComponentOne.stories.js': extraComponentOneExports,
     }[path])
 );
 
@@ -63,6 +69,15 @@ export const getProjectAnnotations = () => projectAnnotations;
 export const storyIndex: StoryIndex = {
   v: 4,
   entries: {
+    'component-one--docs': {
+      type: 'docs',
+      id: 'component-one--docs',
+      title: 'Component One',
+      name: 'Docs',
+      importPath: './src/ComponentOne.stories.js',
+      storiesImports: ['./src/ExtraComponentOne.stories.js'],
+      standalone: false,
+    },
     'component-one--a': {
       type: 'story',
       id: 'component-one--a',
@@ -76,6 +91,22 @@ export const storyIndex: StoryIndex = {
       title: 'Component One',
       name: 'B',
       importPath: './src/ComponentOne.stories.js',
+    },
+    'component-one--e': {
+      type: 'story',
+      id: 'component-one--e',
+      title: 'Component One',
+      name: 'E',
+      importPath: './src/ExtraComponentOne.stories.js',
+    },
+    'component-two--docs': {
+      type: 'docs',
+      id: 'component-two--docs',
+      title: 'Component Two',
+      name: 'Docs',
+      importPath: './src/ComponentTwo.stories.js',
+      storiesImports: [],
+      standalone: false,
     },
     'component-two--c': {
       type: 'story',
@@ -91,15 +122,7 @@ export const storyIndex: StoryIndex = {
       name: 'Docs',
       importPath: './src/Introduction.mdx',
       storiesImports: ['./src/ComponentTwo.stories.js'],
-    },
-    'legacy--docs': {
-      type: 'docs',
-      legacy: true,
-      id: 'legacy--docs',
-      title: 'Legacy',
-      name: 'Docs',
-      importPath: './src/Legacy.stories.mdx',
-      storiesImports: [],
+      standalone: true,
     },
   },
 };

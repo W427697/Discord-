@@ -41,7 +41,7 @@ Cypress.Commands.add('visitStorybook', () => {
   const host = Cypress.env('location') || 'http://localhost:8001';
   return cy
     .clearLocalStorage()
-    .visit(`${host}/?path=/story/example-introduction--page`)
+    .visit(`${host}/?path=/story/example-introduction--docs`)
     .get(`#storybook-preview-iframe`, { log: false })
     .its('0.contentDocument.body', { log: false })
     .should('not.be.empty')
@@ -97,9 +97,8 @@ Cypress.Commands.add('navigateToStory', (kind, name) => {
   const storyLinkId = `#${kindId}--${storyId}`;
   cy.log(`navigateToStory ${kind} ${name}`);
 
-  // docs-only stories
-  if (name !== 'page') {
-    // Section might be collapsed
+  // Section might be collapsed
+  if (Cypress.$(`#${kindId}`).length) {
     cy.get(`#${kindId}`).then(async ($item) => {
       if ($item.attr('aria-expanded') === 'false') {
         await $item.click();
