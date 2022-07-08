@@ -18,6 +18,8 @@ export class DocsContext<TFramework extends AnyFramework> implements DocsContext
 
   private nameToStoryId: Map<StoryName, StoryId>;
 
+  private primaryStory?: Story<TFramework>;
+
   constructor(
     public readonly id: StoryId,
     public readonly title: ComponentTitle,
@@ -48,7 +50,9 @@ export class DocsContext<TFramework extends AnyFramework> implements DocsContext
 
       if (addToComponentStories) {
         this.nameToStoryId.set(annotation.name, annotation.id);
-        this.componentStoriesValue.push(this.storyById(annotation.id));
+        const story = this.storyById(annotation.id);
+        this.componentStoriesValue.push(story);
+        if (!this.primaryStory) this.primaryStory = story;
       }
     });
   }
@@ -75,8 +79,15 @@ export class DocsContext<TFramework extends AnyFramework> implements DocsContext
     return this.componentStoriesValue;
   };
 
-  storyById = (inputStoryId?: StoryId) => {
-    const storyId = inputStoryId || this.id;
+  storyById = (storyId?: StoryId) => {
+    if (!storyId) {
+      if (!this.primaryStory)
+        throw new Error(
+          `No primary story defined for docs entry. Did you forget to use \`<Meta>\`?`
+        );
+
+      return this.primaryStory;
+    }
     const csfFile = this.storyIdToCSFFile.get(storyId);
     if (!csfFile)
       throw new Error(`Called \`storyById\` for story that was never loaded: ${storyId}`);
