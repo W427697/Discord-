@@ -3,16 +3,7 @@ import { skipOn } from '@cypress/skip-test';
 describe('addon-docs', () => {
   beforeEach(() => {
     cy.visitStorybook();
-    cy.navigateToStory('example-button', 'primary');
-    cy.viewAddonTab('Docs');
-  });
-
-  it('should have docs tab', () => {
-    // MDX rendering
-    cy.getDocsElement().find('h1').should('contain.text', 'Button');
-
-    // inline story rendering
-    cy.getDocsElement().find('button').should('contain.text', 'Button');
+    cy.navigateToStory('example-button', 'docs');
   });
 
   skipOn('vue3', () => {
