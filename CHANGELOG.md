@@ -5,6 +5,7 @@
 - Addon-docs: Produce docs page entries in the index ([#18574](https://github.com/storybookjs/storybook/pull/18574))
 - Svelte: Supports action auto configuration ([#18174](https://github.com/storybookjs/storybook/pull/18174))
 - Addon-docs: Add docs index configuration via main.js ([#18573](https://github.com/storybookjs/storybook/pull/18573))
+- Preview: Handle new docs-page index entries ([#18595](https://github.com/storybookjs/storybook/pull/18595))
 
 ### Bug Fixes
 
