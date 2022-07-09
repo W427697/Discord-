@@ -18,11 +18,60 @@ instrument<TObj extends Record<string, any>>(obj: TObj, options: Options): TObj
 
 ### Options
 
-- `intercept: boolean | ((method: string, path: Array<string | CallRef>) => boolean)` - Whether to make functions interceptable
-- `retain: boolean` - Whether to retain calls across renders (e.g. for story setup functions / loaders that run only once)
-- `mutate: boolean` - Whether to mutate the input object instead of returning a shallow copy
-- `path: Array<string | CallRef>` - A virtual object path to prepend to the actual input object function paths
-- `getArgs: (call: Call, state: State) => Call['args']` - Allows overriding args before invoking the original function with them
+- [`intercept`](#intercept) Control which instrumented functions are interceptable.
+- [`mutate`](#mutate) Mutate and return the input object rather than returning a shallow copy.
+- [`path`](#path) Virtual object path to prepend to the actual input object function paths.
+- [`retain`](#retain) Retain calls across renders and when switching stories.
+
+#### `intercept`
+
+> `boolean | ((method: string, path: Array<string | CallRef>) => boolean)`
+
+Depending on the library and functions to be instrumented, you may want to configure some or all functions to be interceptable. Interceptable calls are _debuggable_, meaning they can be paused on. When paused, an interceptable function will not invoke it's original function, but rather return a pending Promise. This promise is only resolved when stepping over the call in the debugger. Only interceptable calls will appear as rows in the Interactions addon panel. Non-interceptable calls may appear as inline arguments to an interceptable function.
+
+`intercept` can take either a boolean (default `false`) or a function which returns a boolean. This enables you to only make specific library functions interceptable. This function receives a `method` and `path`, referring to the name of the function and the path to that function in the object tree. Some functions may return an object which is then instrumented as well, in which case the `path` will contain a "call ref", which is a plain object containing a `__callId__` property referencing the originating call.
+
+Here's an example `intercept` function (from `@storybook/testing-library`):
+
+```js
+(method, path) => path[0] === 'fireEvent' || method.startsWith('findBy') || method.startsWith('waitFor'),
+```
+
+This means all methods under `fireEvent` (an object) are instrumentable, as well as any methods which name starts with `findBy` or `waitFor`.
+
+#### `mutate`
+
+> `boolean`
+
+By default, `instrument` creates a shallow clone of the input object, replacing functions with their tracked counterparts without affecting the original input object. This is usually the safest and most predictable behavior, but in some situations you may have to rely on mutation. By setting `mutate: true` you can enable this behavior. Be careful though: mutating a Node module can lead to hard-to-debug issues.
+
+#### `path`
+
+> `Array<string | CallRef>`
+
+Storybook Interactions will automatically generate a pseudo-code representation of tracked function calls based on their metadata. For example, this call:
+
+```js
+{ path: ['userEvent'], method: 'keyboard', args: ['hello'], ... }
+```
+
+Will print as `userEvent.keyboard("hello")`.
+
+By default, the call `path` is determined by the hierarchy of the input object. To get the above result, your input object would have to look something like this:
+
+```js
+{ userEvent: { keyboard: function(text) { ... } } }
+```
+
+The `path` config option allows you to prepend elements to the normal path. So if your input object does not have a `userEvent` property, but directly contains `keyboard`, then you can set `path: ['userEvent']` to correct for this.
+
+#### `retain`
+
+> `boolean`
+
+On rare occasions, you may have an instrumented function that's invoked outside the context of a story render or play function. One example can be found in `argsEnhancers` which run when Storybook is initialized, but aren't rerun when you switch or rerun stories. Normally, the Storybook Instrumenter clears its internal record of calls when switching between stories, losing track of those function calls which happened on initialization. Set `retain: true` to keep these calls on record while switching or rerunning stories.
+
+> Note that retained functions should not be interceptable.
 
 ## Events
 
