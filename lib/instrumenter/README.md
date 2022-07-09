@@ -81,12 +81,38 @@ The Storybook Instrumenter uses the [Storybook Channel API](../channels/README.m
 
 The instrumenter emits two types of events for tracking function invocations ("calls"):
 
-- `storybook/instrumenter/call` - Emitted whenever a tracked function is invoked
-- `storybook/instrumenter/sync` - Emitted after one or more tracked functions are invoked (batch-wise)
+- [`storybook/instrumenter/call`](#storybook-instrumenter-call) Provides call metadata whenever a tracked function is invoked.
+- [`storybook/instrumenter/sync`](#storybook-instrumenter-sync) Provides a call log after one or more tracked functions are invoked.
 
-The `storybook/instrumenter/call` event payload contains all metadata about the function invocation, including a unique `id`, any arguments, the method name and object path. However, the order of events is not guaranteed and you may receive the same call multiple times while debugging. Moreover, this event is emitted for _all_ tracked calls, not just interceptable ones.
+#### `storybook/instrumenter/call`
 
-The `storybook/instrumenter/sync` event payload contains a list of `logItems` which represents a "normalized" log of _interceptable_ calls. The order of calls is guaranteed and step-through debugging will not append to the log but rather update it to set the proper `status` for each call. The log does not contain full call metadata but only a `callId`, so this must be mapped onto received `storybook/instrumenter/call` events. The `storybook/instrumenter/sync` event also contains `callStates`, see below.
+This event is emitted whenever a tracked function is invoked (a "call").
+
+The event payload consists of all metadata about the function invocation, including a unique `id`, any arguments, the method name and object path. However, the order of events is not guaranteed and you may receive the same call multiple times while debugging. Moreover, this event is emitted for _all_ tracked calls, not just interceptable ones.
+
+#### `storybook/instrumenter/sync`
+
+This event is emitted whenever a tracked function is invoked, but the event is debounced until the next "tick", so multiple consecutive synchronous calls will trigger a single `sync` event.
+
+The event payload object contains an array of `logItems` and a `controlStates` object. The `logItems` array represent a "normalized" log of _interceptable_ calls. The order of calls in this log is guaranteed and step-through debugging will not append to the log but rather update it to set the proper `status` for each call. The log does not contain full call metadata but only a `callId` property, so this must be mapped onto received `storybook/instrumenter/call` events. For the value of `controlStates`, see [Control states](#control-states).
+
+An example `sync` payload may look like this:
+
+```js
+{
+  controlStates: {
+    debugger: true,
+    start: false,
+    back: false,
+    goto: true,
+    next: true,
+    end: true,
+  },
+  logItems: [
+    { callId: 'tooltip--hovered [0] hover', status: 'waiting' }
+  ]
+}
+```
 
 ### Received control events
 
