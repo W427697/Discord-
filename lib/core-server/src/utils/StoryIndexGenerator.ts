@@ -307,7 +307,7 @@ export class StoryIndexGenerator {
         dep.dependents.push(absolutePath);
       });
 
-      const title = userOrAutoTitleFromSpecifier(importPath, specifier, result.title || ofTitle);
+      const title = ofTitle || userOrAutoTitleFromSpecifier(importPath, specifier, result.title);
       const name = result.name || this.options.docs.defaultName;
       const id = toId(title, name);
 

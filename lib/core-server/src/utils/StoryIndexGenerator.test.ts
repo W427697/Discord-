@@ -525,6 +525,33 @@ describe('StoryIndexGenerator', () => {
         `);
       });
 
+      it('does not append title prefix if meta references a CSF file', async () => {
+        const generator = new StoryIndexGenerator(
+          [
+            storiesSpecifier,
+            normalizeStoriesEntry(
+              { directory: './src/docs2', files: '**/*.mdx', titlePrefix: 'titlePrefix' },
+              options
+            ),
+          ],
+          options
+        );
+        await generator.initialize();
+
+        // NOTE: `toMatchInlineSnapshot` on objects sorts the keys, but in actuality, they are
+        // not sorted by default.
+        expect(Object.values((await generator.getIndex()).entries).map((e) => e.title))
+          .toMatchInlineSnapshot(`
+          Array [
+            "A",
+            "A",
+            "titlePrefix/NoTitle",
+            "A",
+            "titlePrefix/docs2/Yabbadabbadooo",
+          ]
+        `);
+      });
+
       it('generates no docs entries when docs are disabled', async () => {
         const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], {
           ...options,
