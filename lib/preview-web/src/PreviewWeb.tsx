@@ -134,10 +134,10 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       return;
     }
 
-    const { storySpecifier, viewMode, args } = this.urlStore.selectionSpecifier;
-    const storyId = this.storyStore.storyIndex.storyIdFromSpecifier(storySpecifier);
+    const { storySpecifier, args } = this.urlStore.selectionSpecifier;
+    const entry = this.storyStore.storyIndex.entryFromSpecifier(storySpecifier);
 
-    if (!storyId) {
+    if (!entry) {
       if (storySpecifier === '*') {
         this.renderStoryLoadingException(
           storySpecifier,
@@ -162,6 +162,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       return;
     }
 
+    const { id: storyId, type: viewMode } = entry;
     this.urlStore.setSelection({ storyId, viewMode });
     this.channel.emit(STORY_SPECIFIED, this.urlStore.selection);
 

@@ -35,7 +35,6 @@ export const previewProps: PreviewProps = {
     parameters: {
       fileName: '',
       options: {},
-      docsOnly: false,
     },
     args: {},
   },
@@ -50,7 +49,6 @@ export const previewProps: PreviewProps = {
     showToolbar: true,
   },
   withLoader: false,
-  docsOnly: false,
   description: '',
   refs: {},
 };

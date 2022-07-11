@@ -833,18 +833,6 @@ describe('stories API', () => {
       expect(navigate).toHaveBeenCalledWith('/story/a--2');
     });
 
-    it('retains current view mode', () => {
-      const navigate = jest.fn();
-      const store = createMockStore({ storyId: 'a--1', viewMode: 'docs' });
-      const {
-        api: { setStories, selectStory },
-      } = initStories({ store, navigate, provider } as any);
-      setStories(setStoriesData);
-
-      selectStory('a--2');
-      expect(navigate).toHaveBeenCalledWith('/docs/a--2');
-    });
-
     it('sets view mode to docs if doc-level component is selected', () => {
       const navigate = jest.fn();
       const store = createMockStore({ storyId: 'a--1', viewMode: 'docs' });

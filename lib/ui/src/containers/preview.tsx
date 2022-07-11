@@ -24,21 +24,19 @@ const getDescription = (item: Item) => {
 
 const mapper = ({ api, state }: Combo) => {
   const { layout, location, customQueryParams, storyId, refs, viewMode, path, refId } = state;
-  const story = api.getData(storyId, refId);
-  const docsOnly = story?.type === 'docs';
+  const entry = api.getData(storyId, refId);
 
   return {
     api,
-    story,
+    entry,
     options: layout,
-    description: getDescription(story),
+    description: getDescription(entry),
     viewMode,
     path,
     refs,
     storyId,
     baseUrl: PREVIEW_URL || 'iframe.html',
     queryParams: customQueryParams,
-    docsOnly,
     location,
   };
 };

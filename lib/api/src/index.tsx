@@ -33,6 +33,7 @@ import type {
   DocsEntry,
   StoryEntry,
   HashEntry,
+  LeafEntry,
 } from './lib/stories';
 import type { ComposedRef, Refs } from './modules/refs';
 
@@ -355,6 +356,7 @@ export type {
   DocsEntry,
   StoryEntry,
   HashEntry,
+  LeafEntry,
   ComposedRef,
   Refs,
 };

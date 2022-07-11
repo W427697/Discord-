@@ -24,7 +24,7 @@ import {
   getComponentLookupList,
   getStoriesLookupList,
   HashEntry,
-  DocsEntry,
+  LeafEntry,
 } from '../lib/stories';
 
 import type {
@@ -65,11 +65,11 @@ export interface SubAPI {
     story?: string,
     obj?: { ref?: string; viewMode?: ViewMode }
   ) => void;
-  getCurrentStoryData: () => DocsEntry | StoryEntry;
+  getCurrentStoryData: () => LeafEntry;
   setStories: (stories: SetStoriesStoryData, failed?: Error) => Promise<void>;
   jumpToComponent: (direction: Direction) => void;
   jumpToStory: (direction: Direction) => void;
-  getData: (storyId: StoryId, refId?: string) => DocsEntry | StoryEntry;
+  getData: (storyId: StoryId, refId?: string) => LeafEntry;
   isPrepared: (storyId: StoryId, refId?: string) => boolean;
   getParameters: (
     storyId: StoryId | { storyId: StoryId; refId: string },
@@ -78,7 +78,7 @@ export interface SubAPI {
   getCurrentParameter<S>(parameterName?: ParameterName): S;
   updateStoryArgs(story: StoryEntry, newArgs: Args): void;
   resetStoryArgs: (story: StoryEntry, argNames?: string[]) => void;
-  findLeafEntry(StoriesHash: StoriesHash, storyId: StoryId): DocsEntry | StoryEntry;
+  findLeafEntry(StoriesHash: StoriesHash, storyId: StoryId): LeafEntry;
   findLeafStoryId(StoriesHash: StoriesHash, storyId: StoryId): StoryId;
   findSiblingStoryId(
     storyId: StoryId,
@@ -235,13 +235,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       navigate('/');
     },
     selectStory: (titleOrId = undefined, name = undefined, options = {}) => {
-      const { ref, viewMode: viewModeFromArgs } = options;
-      const {
-        viewMode: viewModeFromState = 'story',
-        storyId,
-        storiesHash,
-        refs,
-      } = store.getState();
+      const { ref } = options;
+      const { storyId, storiesHash, refs } = store.getState();
 
       const hash = ref ? refs[ref].stories : storiesHash;
 
@@ -255,29 +250,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
         // We want to navigate to the first ancestor entry that is a leaf
         const leafEntry = api.findLeafEntry(hash, entry.id);
-
-        // We would default to the viewMode passed in or maintain the current
-        const desiredViewMode = viewModeFromArgs || viewModeFromState;
-
-        // By default we would render a story as a story
-        let viewMode = 'story';
-        // However, any story can be rendered as docs if required
-        if (desiredViewMode === 'docs') {
-          viewMode = 'docs';
-        }
-
-        // NOTE -- we currently still render docs entries in story view mode,
-        // (even though in the preview they will appear in docs mode)
-        // in order to maintain the viewMode as you browse around.
-        // This will change later.
-
-        // On the other hand, docs entries can *only* be rendered as docs
-        // if (leafEntry.type === 'docs') {
-        //   viewMode = 'docs';
-        // }
-
         const fullId = leafEntry.refId ? `${leafEntry.refId}_${leafEntry.id}` : leafEntry.id;
-        navigate(`/${viewMode}/${fullId}`);
+        navigate(`/${leafEntry.type}/${fullId}`);
       } else if (!titleOrId) {
         // This is a slugified version of the kind, but that's OK, our toId function is idempotent
         const id = toId(kindSlug, name);

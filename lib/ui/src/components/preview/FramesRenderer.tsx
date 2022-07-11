@@ -41,7 +41,7 @@ const whenSidebarIsVisible = ({ state }: Combo) => ({
 
 export const FramesRenderer: FunctionComponent<FramesRendererProps> = ({
   refs,
-  story,
+  entry,
   scale,
   viewMode = 'story',
   refId,
@@ -85,7 +85,7 @@ export const FramesRenderer: FunctionComponent<FramesRendererProps> = ({
         if (r.type === 'auto-inject') {
           return true;
         }
-        if (story && r.id === story.refId) {
+        if (entry && r.id === entry.refId) {
           return true;
         }
 
@@ -99,7 +99,7 @@ export const FramesRenderer: FunctionComponent<FramesRendererProps> = ({
       }, frames);
 
     setFrames(newFrames);
-  }, [storyId, story, refs]);
+  }, [storyId, entry, refs]);
 
   return (
     <Fragment>
