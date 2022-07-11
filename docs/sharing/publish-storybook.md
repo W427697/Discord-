@@ -142,3 +142,39 @@ This level of service can serve published Storybooks but has no further integrat
 Examples: [Netlify](https://www.netlify.com/), [S3](https://aws.amazon.com/en/s3/)
 
 </details>
+
+## Search engine optimization (SEO)
+
+If your Storybook is publically viewable, you may wish to configure how it is represented in search engine result pages.
+
+### Description
+
+You can provide a description for search engines to display in the results listing, by adding the following to the `manager-head.html` file in your config directory:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/seo-description.html.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+<div class="aside">
+💡 You cannot also define <code>&lt;title></code> in this file, because Storybook generates the document title for you to include information about the currently-viewed component and story.
+</div>
+
+### Preventing your Storybook from being crawled
+
+You can prevent your published Storybook from appearing in search engine results by including a noindex meta tag, which you can do by adding the following to the `manager-head.html` file in your config directory:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/seo-noindex.html.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
