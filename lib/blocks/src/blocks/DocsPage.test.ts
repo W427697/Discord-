@@ -2,8 +2,8 @@ import { extractTitle } from './Title';
 
 describe('defaultTitleSlot', () => {
   it('splits on last /', () => {
-    expect(extractTitle({ title: 'a/b/c' } as any)).toBe('c');
-    expect(extractTitle({ title: 'a|b' } as any)).toBe('a|b');
-    expect(extractTitle({ title: 'a/b/c.d' } as any)).toBe('c.d');
+    expect(extractTitle('a/b/c')).toBe('c');
+    expect(extractTitle('a|b')).toBe('a|b');
+    expect(extractTitle('a/b/c.d')).toBe('c.d');
   });
 });
