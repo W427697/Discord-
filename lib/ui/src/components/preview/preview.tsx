@@ -154,8 +154,6 @@ const Preview = React.memo<PreviewProps>((props) => {
   const previousStoryId = useRef(storyId);
 
   useEffect(() => {
-    console.log(entry, viewMode, storyId, previousStoryId.current);
-
     if (entry && viewMode) {
       // Don't emit the event on first ("real") render, only when entry changes
       if (storyId !== previousStoryId.current) {

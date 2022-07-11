@@ -140,7 +140,7 @@ const useTools = (
   );
 
   return useMemo(() => {
-    return entry
+    return entry.type === 'story'
       ? filterTools(tools, toolsExtra, tabs, {
           viewMode,
           entry,
