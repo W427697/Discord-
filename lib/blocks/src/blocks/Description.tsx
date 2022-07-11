@@ -41,7 +41,7 @@ export const getDescriptionProps = (
   const { notes, info, docs } = parameters;
   const { extractComponentDescription = noDescription, description } = docs || {};
   if (of === CURRENT_SELECTION) currentSelectionWarning();
-  const target = of === CURRENT_SELECTION ? component : of;
+  const target = [CURRENT_SELECTION, PRIMARY_STORY].includes(of) ? component : of;
 
   // override component description
   const componentDescriptionParameter = description?.component;
