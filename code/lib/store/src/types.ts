@@ -21,8 +21,6 @@ import type {
   ComponentId,
   PartialStoryFn,
   Parameters,
-  PlayFunctionContext,
-  StepFunction,
 } from '@storybook/csf';
 import type {
   StoryIndexEntry,

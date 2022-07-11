@@ -7,7 +7,6 @@ import type {
   PlayFunctionContext,
   SBObjectType,
   SBScalarType,
-  StoryContext,
 } from '@storybook/csf';
 
 import { NO_TARGET_NAME } from '../args';

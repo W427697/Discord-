@@ -12,7 +12,6 @@ import type {
   AnyFramework,
   StrictArgTypes,
   StoryContextForLoaders,
-  StepFunction,
   PlayFunctionContext,
 } from '@storybook/csf';
 import { includeConditionalArg } from '@storybook/csf';

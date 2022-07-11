@@ -1,4 +1,4 @@
-import type { AnyFramework, Args } from '@storybook/csf';
+import type { AnyFramework } from '@storybook/csf';
 
 import type { ModuleExports, WebProjectAnnotations } from '../types';
 import { combineParameters } from '../parameters';
