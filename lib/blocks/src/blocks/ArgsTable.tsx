@@ -14,9 +14,8 @@ import {
 } from '../components';
 
 import { DocsContext, DocsContextProps } from './DocsContext';
-import { Component, CURRENT_SELECTION, PRIMARY_STORY } from './types';
+import { Component, CURRENT_SELECTION, currentSelectionWarning, PRIMARY_STORY } from './types';
 import { getComponentName } from './utils';
-import { lookupStoryId } from './Story';
 import { useStory } from './useStory';
 
 interface BaseProps {
@@ -26,7 +25,7 @@ interface BaseProps {
 }
 
 type OfProps = BaseProps & {
-  of: '.' | '^' | Component;
+  of: '^' | Component;
 };
 
 type ComponentsProps = BaseProps & {
@@ -42,20 +41,12 @@ type StoryProps = BaseProps & {
 
 type ArgsTableProps = BaseProps | OfProps | ComponentsProps | StoryProps;
 
-const getContext = (storyId: string, context: DocsContextProps) => {
-  const story = context.storyById(storyId);
-  if (!story) {
-    throw new Error(`Unknown story: ${storyId}`);
-  }
-  return context.getStoryContext(story);
-};
-
 const useArgs = (
   storyId: string,
   context: DocsContextProps
 ): [Args, (args: Args) => void, (argNames?: string[]) => void] => {
   const channel = addons.getChannel();
-  const storyContext = getContext(storyId, context);
+  const storyContext = context.getStoryContext(context.storyById());
 
   const [args, setArgs] = useState(storyContext.args);
   useEffect(() => {
@@ -78,9 +69,9 @@ const useArgs = (
   return [args, updateArgs, resetArgs];
 };
 
-const useGlobals = (storyId: string, context: DocsContextProps): [Globals] => {
+const useGlobals = (context: DocsContextProps): [Globals] => {
   const channel = addons.getChannel();
-  const storyContext = getContext(storyId, context);
+  const storyContext = context.getStoryContext(context.storyById());
   const [globals, setGlobals] = useState(storyContext.globals);
 
   useEffect(() => {
@@ -96,11 +87,11 @@ const useGlobals = (storyId: string, context: DocsContextProps): [Globals] => {
 
 export const extractComponentArgTypes = (
   component: Component,
-  { id, storyById }: DocsContextProps,
+  context: DocsContextProps,
   include?: PropDescriptor,
   exclude?: PropDescriptor
 ): StrictArgTypes => {
-  const { parameters } = storyById(id);
+  const { parameters } = context.storyById();
   const { extractArgTypes }: { extractArgTypes: ArgTypesExtractor } = parameters.docs || {};
   if (!extractArgTypes) {
     throw new Error(ArgsTableError.ARGS_UNSUPPORTED);
@@ -115,13 +106,10 @@ const isShortcut = (value?: string) => {
   return value && [CURRENT_SELECTION, PRIMARY_STORY].includes(value);
 };
 
-export const getComponent = (
-  props: ArgsTableProps = {},
-  { id, storyById }: DocsContextProps
-): Component => {
+export const getComponent = (props: ArgsTableProps = {}, context: DocsContextProps): Component => {
   const { of } = props as OfProps;
   const { story } = props as StoryProps;
-  const { component } = storyById(id);
+  const { component } = context.storyById();
   if (isShortcut(of) || isShortcut(story)) {
     return component || null;
   }
@@ -150,7 +138,6 @@ export const StoryTable: FC<
   StoryProps & { component: Component; subcomponents: Record<string, Component> }
 > = (props) => {
   const context = useContext(DocsContext);
-  const { id: currentId, componentStories } = context;
   const {
     story: storyName,
     component,
@@ -163,24 +150,22 @@ export const StoryTable: FC<
   try {
     let storyId;
     switch (storyName) {
-      case CURRENT_SELECTION: {
-        storyId = currentId;
-        break;
-      }
+      case CURRENT_SELECTION:
       case PRIMARY_STORY: {
-        const primaryStory = componentStories()[0];
+        if (storyName === CURRENT_SELECTION) currentSelectionWarning();
+        const primaryStory = context.storyById();
         storyId = primaryStory.id;
         break;
       }
       default: {
-        storyId = lookupStoryId(storyName, context);
+        storyId = context.storyIdByName(storyName);
       }
     }
 
     const story = useStory(storyId, context);
     // eslint-disable-next-line prefer-const
     let [args, updateArgs, resetArgs] = useArgs(storyId, context);
-    const [globals] = useGlobals(storyId, context);
+    const [globals] = useGlobals(context);
     if (!story) return <PureArgsTable isLoading updateArgs={updateArgs} resetArgs={resetArgs} />;
 
     const argTypes = filterArgTypes(story.argTypes, include, exclude);
@@ -229,11 +214,10 @@ export const ComponentsTable: FC<ComponentsProps> = (props) => {
 
 export const ArgsTable: FC<ArgsTableProps> = (props) => {
   const context = useContext(DocsContext);
-  const { id, storyById } = context;
   const {
     parameters: { controls },
     subcomponents,
-  } = storyById(id);
+  } = context.storyById();
 
   const { include, exclude, components, sort: sortProp } = props as ComponentsProps;
   const { story: storyName } = props as StoryProps;
@@ -271,5 +255,5 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
 };
 
 ArgsTable.defaultProps = {
-  of: CURRENT_SELECTION,
+  of: PRIMARY_STORY,
 };

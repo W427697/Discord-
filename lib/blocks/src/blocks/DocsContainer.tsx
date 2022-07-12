@@ -8,8 +8,6 @@ import { components as htmlComponents } from '@storybook/components';
 import { AnyFramework } from '@storybook/csf';
 import { DocsWrapper, DocsContent } from '../components';
 import { DocsContextProps, DocsContext } from './DocsContext';
-import { anchorBlockIdFromId } from './Anchor';
-import { storyBlockIdFromId } from './Story';
 import { SourceContainer } from './SourceContainer';
 import { CodeOrSourceMdx, AnchorMdx, HeadersMdx } from './mdx';
 import { scrollToElement } from './utils';
@@ -37,13 +35,13 @@ const warnOptionsTheme = deprecate(
 );
 
 export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, children }) => {
-  const { id: storyId, type, storyById } = context;
+  const { storyById } = context;
   const allComponents = { ...defaultComponents };
   let theme = ensureTheme(null);
-  if (type === 'legacy') {
+  try {
     const {
       parameters: { options = {}, docs = {} },
-    } = storyById(storyId);
+    } = storyById();
     let themeVars = docs.theme;
     if (!themeVars && options.theme) {
       warnOptionsTheme();
@@ -51,41 +49,27 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, 
     }
     theme = ensureTheme(themeVars);
     Object.assign(allComponents, docs.components);
+  } catch (err) {
+    // No primary story, ie. standalone docs
   }
 
   useEffect(() => {
     let url;
     try {
       url = new URL(globalWindow.parent.location);
-    } catch (err) {
-      return;
-    }
-    if (url.hash) {
-      const element = document.getElementById(url.hash.substring(1));
-      if (element) {
-        // Introducing a delay to ensure scrolling works when it's a full refresh.
-        setTimeout(() => {
-          scrollToElement(element);
-        }, 200);
-      }
-    } else {
-      const element =
-        document.getElementById(anchorBlockIdFromId(storyId)) ||
-        document.getElementById(storyBlockIdFromId(storyId));
-      if (element) {
-        const allStories = element.parentElement.querySelectorAll('[id|="anchor-"]');
-        let scrollTarget = element;
-        if (allStories && allStories[0] === element) {
-          // Include content above first story
-          scrollTarget = document.getElementById('docs-root');
+      if (url.hash) {
+        const element = document.getElementById(url.hash.substring(1));
+        if (element) {
+          // Introducing a delay to ensure scrolling works when it's a full refresh.
+          setTimeout(() => {
+            scrollToElement(element);
+          }, 200);
         }
-        // Introducing a delay to ensure scrolling works when it's a full refresh.
-        setTimeout(() => {
-          scrollToElement(scrollTarget, 'start');
-        }, 200);
       }
+    } catch (err) {
+      // pass
     }
-  }, [storyId]);
+  });
 
   return (
     <DocsContext.Provider value={context}>

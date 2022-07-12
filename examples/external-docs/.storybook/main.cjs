@@ -1,8 +1,10 @@
 const config = {
   stories: [
+    '../Introduction.mdx',
     {
       directory: '../components',
       titlePrefix: 'Demo',
+      files: '**/!(Template).(stories.tsx|mdx)',
     },
   ],
   logLevel: 'debug',

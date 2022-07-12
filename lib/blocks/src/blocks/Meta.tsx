@@ -4,24 +4,15 @@ import { BaseAnnotations } from '@storybook/csf';
 import type { ModuleExports } from '@storybook/store';
 
 import { Anchor } from './Anchor';
-import { DocsContext, DocsContextProps } from './DocsContext';
+import { DocsContext } from './DocsContext';
 
 const { document } = global;
 
 type MetaProps = BaseAnnotations & { of?: ModuleExports };
 
-function getFirstStoryId(docsContext: DocsContextProps): string {
-  const stories = docsContext.componentStories();
-
-  return stories.length > 0 ? stories[0].id : null;
-}
-
 function renderAnchor() {
   const context = useContext(DocsContext);
-  if (context.type === 'external') {
-    return null;
-  }
-  const anchorId = getFirstStoryId(context) || context.id;
+  const anchorId = context.storyById().id;
 
   return <Anchor storyId={anchorId} />;
 }

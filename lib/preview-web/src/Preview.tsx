@@ -27,7 +27,8 @@ import {
 } from '@storybook/store';
 
 import { StoryRender } from './render/StoryRender';
-import { AbstractDocsRender } from './render/AbstractDocsRender';
+import { TemplateDocsRender } from './render/TemplateDocsRender';
+import { StandaloneDocsRender } from './render/StandaloneDocsRender';
 
 const { fetch } = global;
 
@@ -324,7 +325,10 @@ export class Preview<TFramework extends AnyFramework> {
   }
 
   async teardownRender(
-    render: StoryRender<TFramework> | AbstractDocsRender<TFramework>,
+    render:
+      | StoryRender<TFramework>
+      | TemplateDocsRender<TFramework>
+      | StandaloneDocsRender<TFramework>,
     { viewModeChanged }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);

@@ -3,7 +3,7 @@ import { str } from '@storybook/docs-tools';
 import { Description, DescriptionProps as PureDescriptionProps } from '../components';
 
 import { DocsContext, DocsContextProps } from './DocsContext';
-import { Component, CURRENT_SELECTION } from './types';
+import { Component, CURRENT_SELECTION, currentSelectionWarning, PRIMARY_STORY } from './types';
 
 export enum DescriptionType {
   INFO = 'info',
@@ -32,15 +32,16 @@ const noDescription = (component?: Component): string | null => null;
 
 export const getDescriptionProps = (
   { of, type, markdown, children }: DescriptionProps,
-  { id, storyById }: DocsContextProps<any>
+  { storyById }: DocsContextProps<any>
 ): PureDescriptionProps => {
-  const { component, parameters } = storyById(id);
+  const { component, parameters } = storyById();
   if (children || markdown) {
     return { markdown: children || markdown };
   }
   const { notes, info, docs } = parameters;
   const { extractComponentDescription = noDescription, description } = docs || {};
-  const target = of === CURRENT_SELECTION ? component : of;
+  if (of === CURRENT_SELECTION) currentSelectionWarning();
+  const target = [CURRENT_SELECTION, PRIMARY_STORY].includes(of) ? component : of;
 
   // override component description
   const componentDescriptionParameter = description?.component;
@@ -77,7 +78,7 @@ const DescriptionContainer: FunctionComponent<DescriptionProps> = (props) => {
 
 // since we are in the docs blocks, assume default description if for primary component story
 DescriptionContainer.defaultProps = {
-  of: '.',
+  of: PRIMARY_STORY,
 };
 
 export { DescriptionContainer as Description };
