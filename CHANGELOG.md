@@ -1,3 +1,18 @@
+## 7.0.0-alpha.13 (July 11, 2022)
+
+### Features
+
+- UI: Remove docs tab ([#18677](https://github.com/storybookjs/storybook/pull/18677))
+
+### Bug Fixes
+
+- Index: Don't prepend `titlePrefix` to a docs entry that references a CSF file's title ([#18634](https://github.com/storybookjs/storybook/pull/18634))
+
+### Maintenance
+
+- Addon-dcos: Refactor DocsRender/Context ([#18635](https://github.com/storybookjs/storybook/pull/18635))
+- Instrumenter: `SyncPayload` type for `sync` event ([#18674](https://github.com/storybookjs/storybook/pull/18674))
+
 ## 7.0.0-alpha.12 (July 7, 2022)
 
 ### Features
