@@ -23,7 +23,7 @@ export const previewProps: PreviewProps = {
           ]
         : []) as API['getElements'],
   } as any as API,
-  story: {
+  entry: {
     type: 'story',
     id: 'story--id',
     parent: 'root',
@@ -37,6 +37,10 @@ export const previewProps: PreviewProps = {
       options: {},
     },
     args: {},
+    kind: 'kind',
+    isRoot: false,
+    isComponent: false,
+    isLeaf: true,
   },
   path: 'string',
   viewMode: 'story',
