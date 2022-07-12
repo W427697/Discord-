@@ -116,7 +116,8 @@ Cypress.Commands.add('navigateToStory', (kind, name) => {
   cy.wait(300);
 
   // assert url changes
-  cy.url().should('include', `path=/story/${kindId}--${storyId}`);
+  const viewMode = name === 'docs' ? 'docs' : 'story';
+  cy.url().should('include', `path=/${viewMode}/${kindId}--${storyId}`);
   cy.get(storyLinkId).should('have.attr', 'data-selected', 'true');
 
   // A pause is good when switching stories
