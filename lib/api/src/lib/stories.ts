@@ -118,6 +118,9 @@ export interface StoryEntry extends BaseEntry {
   isLeaf: true;
 }
 
+export type LeafEntry = DocsEntry | StoryEntry;
+export type HashEntry = RootEntry | GroupEntry | ComponentEntry | DocsEntry | StoryEntry;
+
 /** @deprecated */
 export type Root = RootEntry;
 
@@ -125,9 +128,7 @@ export type Root = RootEntry;
 export type Group = GroupEntry | ComponentEntry;
 
 /** @deprecated */
-export type Story = DocsEntry | StoryEntry;
-
-export type HashEntry = RootEntry | GroupEntry | ComponentEntry | DocsEntry | StoryEntry;
+export type Story = LeafEntry;
 
 /**
  * The `StoriesHash` is our manager-side representation of the `StoryIndex`.
