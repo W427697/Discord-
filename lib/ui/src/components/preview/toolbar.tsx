@@ -3,16 +3,7 @@ import React, { Fragment, useMemo, FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 
 import { FlexBar, IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
-import {
-  Consumer,
-  Combo,
-  API,
-  State,
-  merge,
-  DocsEntry,
-  StoryEntry,
-  LeafEntry,
-} from '@storybook/api';
+import { Consumer, Combo, API, State, merge, LeafEntry } from '@storybook/api';
 import { shortcutToHumanString } from '@storybook/api/shortcut';
 import { addons, Addon, types } from '@storybook/addons';
 
@@ -214,7 +205,7 @@ export function filterTools(
 ) {
   const toolsLeft = [
     menuTool,
-    tabs.filter((p) => !p.hidden).length >= 1 && createTabsTool(tabs),
+    tabs.filter((p) => !p.hidden).length > 1 && createTabsTool(tabs),
     ...tools,
   ];
   const toolsRight = [...toolsExtra];
