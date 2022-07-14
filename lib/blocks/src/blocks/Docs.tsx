@@ -16,7 +16,7 @@ export const Docs: FunctionComponent<DocsProps> = ({ parameters, context }) => {
   const Page = parameters.page || DocsPage;
 
   return (
-    <Container context={context}>
+    <Container context={context} theme={parameters.theme}>
       <Page />
     </Container>
   );
