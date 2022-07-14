@@ -442,7 +442,11 @@ export function useAddonState<S>(addonId: string, defaultState?: S) {
   return useSharedState<S>(addonId, defaultState);
 }
 
-export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[]) => void] {
+export function useArgs<Args extends Record<string, any> = { [key: string]: any }>(): [
+  Args,
+  (newArgs: Args) => void,
+  (argNames?: string[]) => void
+] {
   const { getCurrentStoryData, updateStoryArgs, resetStoryArgs } = useStorybookApi();
 
   const data = getCurrentStoryData();
@@ -457,7 +461,7 @@ export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[])
     [id, refId, resetStoryArgs]
   );
 
-  return [args, updateArgs, resetArgs];
+  return [args as Args, updateArgs, resetArgs];
 }
 
 export function useGlobals(): [Args, (newGlobals: Args) => void] {
