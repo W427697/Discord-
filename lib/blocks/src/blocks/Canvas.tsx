@@ -1,5 +1,4 @@
 import React, { FC, ReactElement, ReactNode, ReactNodeArray, useContext } from 'react';
-import { MDXProvider } from '@mdx-js/react';
 import { AnyFramework } from '@storybook/csf';
 import { resetComponents } from '@storybook/components';
 import {
@@ -77,9 +76,5 @@ export const Canvas: FC<CanvasProps> = (props) => {
 
   if (isLoading) return <PreviewSkeleton />;
 
-  return (
-    <MDXProvider components={resetComponents}>
-      <PurePreview {...previewProps}>{children}</PurePreview>
-    </MDXProvider>
-  );
+  return <PurePreview {...previewProps}>{children}</PurePreview>;
 };
