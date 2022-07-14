@@ -7839,7 +7839,6 @@ __metadata:
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -8631,6 +8630,7 @@ __metadata:
     "@babel/preset-env": ^7.17.10
     "@storybook/addon-docs": 7.0.0-alpha.13
     "@storybook/addon-essentials": 7.0.0-alpha.13
+    "@storybook/blocks": 7.0.0-alpha.13
     "@storybook/components": 7.0.0-alpha.13
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/preview-web": 7.0.0-alpha.13

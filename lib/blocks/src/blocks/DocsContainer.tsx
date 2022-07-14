@@ -3,7 +3,7 @@ import global from 'global';
 import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';
 import { MDXProvider } from '@mdx-js/react';
-import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
+import { ThemeProvider, ensure as ensureTheme, themes } from '@storybook/theming';
 import { components as htmlComponents } from '@storybook/components';
 import { AnyFramework } from '@storybook/csf';
 import { DocsWrapper, DocsContent } from '../components';
@@ -37,21 +37,21 @@ const warnOptionsTheme = deprecate(
 export const DocsContainer: FunctionComponent<DocsContainerProps> = ({ context, children }) => {
   const { storyById } = context;
   const allComponents = { ...defaultComponents };
-  let theme = ensureTheme(null);
-  try {
-    const {
-      parameters: { options = {}, docs = {} },
-    } = storyById();
-    let themeVars = docs.theme;
-    if (!themeVars && options.theme) {
-      warnOptionsTheme();
-      themeVars = options.theme;
-    }
-    theme = ensureTheme(themeVars);
-    Object.assign(allComponents, docs.components);
-  } catch (err) {
-    // No primary story, ie. standalone docs
-  }
+  const theme = ensureTheme(null);
+  // try {
+  //   const {
+  //     parameters: { options = {}, docs = {} },
+  //   } = storyById();
+  //   let themeVars = docs.theme;
+  //   if (!themeVars && options.theme) {
+  //     warnOptionsTheme();
+  //     themeVars = options.theme;
+  //   }
+  //   theme = ensureTheme(themeVars);
+  //   Object.assign(allComponents, docs.components);
+  // } catch (err) {
+  //   // No primary story, ie. standalone docs
+  // }
 
   useEffect(() => {
     let url;
