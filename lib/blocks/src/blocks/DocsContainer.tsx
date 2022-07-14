@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import global from 'global';
-import type { Theme } from '@storybook/theming';
+import type { ThemeVars } from '@storybook/theming';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 import { AnyFramework } from '@storybook/csf';
 import { DocsWrapper, DocsContent } from '../components';
@@ -12,7 +12,7 @@ const { document, window: globalWindow } = global;
 
 export interface DocsContainerProps<TFramework extends AnyFramework = AnyFramework> {
   context: DocsContextProps<TFramework>;
-  theme?: Theme;
+  theme?: ThemeVars;
 }
 
 export const DocsContainer: FunctionComponent<DocsContainerProps> = ({

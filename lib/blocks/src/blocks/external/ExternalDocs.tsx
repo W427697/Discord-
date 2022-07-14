@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ComponentType, useRef } from 'react';
+import React, { FunctionComponent, useRef } from 'react';
 import { AnyFramework, ProjectAnnotations } from '@storybook/csf';
 import { composeConfigs } from '@storybook/store';
 
