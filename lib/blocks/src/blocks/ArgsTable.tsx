@@ -2,9 +2,9 @@ import React, { FC, useContext, useEffect, useState, useCallback } from 'react';
 import mapValues from 'lodash/mapValues';
 import { ArgTypesExtractor } from '@storybook/docs-tools';
 import { addons } from '@storybook/addons';
-import { filterArgTypes, PropDescriptor } from '@storybook/store';
+import { filterArgTypes, PropDescriptor, Story } from '@storybook/store';
 import Events from '@storybook/core-events';
-import { StrictArgTypes, Args, Globals } from '@storybook/csf';
+import { StrictArgTypes, Args, Globals, StoryId } from '@storybook/csf';
 import {
   ArgsTable as PureArgsTable,
   ArgsTableProps as PureArgsTableProps,
@@ -106,17 +106,20 @@ const isShortcut = (value?: string) => {
   return value && [CURRENT_SELECTION, PRIMARY_STORY].includes(value);
 };
 
-export const getComponent = (props: ArgsTableProps = {}, context: DocsContextProps): Component => {
+export const getStory = (props: ArgsTableProps = {}, context: DocsContextProps): Story => {
   const { of } = props as OfProps;
   const { story } = props as StoryProps;
-  const { component } = context.storyById();
+
   if (isShortcut(of) || isShortcut(story)) {
-    return component || null;
+    return context.storyById();
   }
-  if (!of) {
-    throw new Error(ArgsTableError.NO_COMPONENT);
+
+  try {
+    // of=storyReference
+    return context.storyById(context.storyIdByModuleExport(of));
+  } catch (err) {
+    return null;
   }
-  return of;
 };
 
 const addComponentTabs = (
@@ -135,36 +138,14 @@ const addComponentTabs = (
 });
 
 export const StoryTable: FC<
-  StoryProps & { component: Component; subcomponents: Record<string, Component> }
+  StoryProps & { loadedStory: Story; subcomponents: Record<string, Component> }
 > = (props) => {
   const context = useContext(DocsContext);
-  const {
-    story: storyName,
-    component,
-    subcomponents,
-    showComponent,
-    include,
-    exclude,
-    sort,
-  } = props;
+  const { loadedStory: story, subcomponents, showComponent, include, exclude, sort } = props;
+  const { component } = story;
   try {
-    let storyId;
-    switch (storyName) {
-      case CURRENT_SELECTION:
-      case PRIMARY_STORY: {
-        if (storyName === CURRENT_SELECTION) currentSelectionWarning();
-        const primaryStory = context.storyById();
-        storyId = primaryStory.id;
-        break;
-      }
-      default: {
-        storyId = context.storyIdByName(storyName);
-      }
-    }
-
-    const story = useStory(storyId, context);
     // eslint-disable-next-line prefer-const
-    let [args, updateArgs, resetArgs] = useArgs(storyId, context);
+    let [args, updateArgs, resetArgs] = useArgs(story.id, context);
     const [globals] = useGlobals(context);
     if (!story) return <PureArgsTable isLoading updateArgs={updateArgs} resetArgs={resetArgs} />;
 
@@ -224,11 +205,13 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
 
   const sort = sortProp || controls?.sort;
 
-  const main = getComponent(props, context);
-  if (storyName) {
-    return <StoryTable {...(props as StoryProps)} component={main} {...{ subcomponents, sort }} />;
+  const story = getStory(props, context);
+  if (story) {
+    return <StoryTable {...props} loadedStory={story} {...{ subcomponents, sort }} />;
   }
 
+  const main = (props as OfProps).of;
+  if (!main) throw new Error(ArgsTableError.NO_COMPONENT);
   if (!components && !subcomponents) {
     let mainProps;
     try {

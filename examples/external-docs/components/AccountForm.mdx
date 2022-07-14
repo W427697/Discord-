@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/addon-docs';
+import { Meta, Story, ArgsTable } from '@storybook/addon-docs';
 import * as AccountFormStories from './AccountForm.stories';
 
 ## Docs for Account form
@@ -6,3 +6,5 @@ import * as AccountFormStories from './AccountForm.stories';
 <Meta of={AccountFormStories} />
 
 <Story of={AccountFormStories.Standard} />
+
+<ArgsTable of={AccountFormStories.Standard} />
