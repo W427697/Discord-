@@ -1,4 +1,4 @@
-import type { Parameters } from '@storybook/addons';
+import type { Parameters } from '@storybook/csf';
 import type { Story } from '@storybook/store';
 import { combineParameters } from '@storybook/store';
 

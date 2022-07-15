@@ -1,17 +1,18 @@
-import { StoryId, AnyFramework, ComponentTitle, StoryName } from '@storybook/csf';
-import { DocsContext, DocsContextProps } from '@storybook/preview-web';
-import { CSFFile, ModuleExport, ModuleExports, StoryStore } from '@storybook/store';
+import { AnyFramework } from '@storybook/csf';
+import { DocsContext } from '@storybook/preview-web';
+import { StoryStore } from '@storybook/store';
+import type { DocsContextProps } from '@storybook/preview-web';
+import type { CSFFile, ModuleExport, ModuleExports } from '@storybook/store';
+import type { Channel } from '@storybook/channels';
 
 export class ExternalDocsContext<TFramework extends AnyFramework> extends DocsContext<TFramework> {
   constructor(
-    public readonly id: StoryId,
-    public readonly title: ComponentTitle,
-    public readonly name: StoryName,
+    public channel: Channel,
     protected store: StoryStore<TFramework>,
     public renderStoryToElement: DocsContextProps['renderStoryToElement'],
     private processMetaExports: (metaExports: ModuleExports) => CSFFile<TFramework>
   ) {
-    super(id, title, name, store, renderStoryToElement, [], true);
+    super(channel, store, renderStoryToElement, [], true);
   }
 
   setMeta = (metaExports: ModuleExports) => {
