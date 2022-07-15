@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "@storybook/api": "7.0.0-alpha.13",
+    "@storybook/channels": "7.0.0-alpha.13",
     "@storybook/client-logger": "7.0.0-alpha.13",
     "@storybook/components": "7.0.0-alpha.13",
     "@storybook/core-events": "7.0.0-alpha.13",
