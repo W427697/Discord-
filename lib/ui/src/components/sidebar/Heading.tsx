@@ -42,8 +42,8 @@ const SkipToCanvasLink = styled(Button)(({ theme }) => ({
   '@media (min-width: 600px)': {
     display: 'block',
     position: 'absolute',
-    top: 20px,
-    left: 20px,
+    top: 20,
+    left: 20,
     width: '100%',
     padding: '10px 15px',
     fontSize: theme.typography.size.s1,
