@@ -4,6 +4,7 @@ export function globToRegexp(glob: string) {
   const regex = makeRe(glob, {
     fastpaths: false,
     noglobstar: false,
+    dot: true,
     bash: false,
   });
 

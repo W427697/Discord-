@@ -54,7 +54,9 @@ export const babelDefault: StorybookConfig['babelDefault'] = async (config) => {
 };
 
 export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, options) => {
-  if (!(await useFastRefresh(options))) return config;
+  if (!(await useFastRefresh(options))) {
+    return config;
+  }
 
   // matches the name of the plugin in CRA.
   const hasReactRefresh = !!config.plugins?.find(

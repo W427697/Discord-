@@ -1,7 +1,3 @@
-import webpackConfig from '../preview/iframe-webpack.config';
-
-export const webpack = async (_: unknown, options: any) => webpackConfig(options);
-
 export const entries = async (_: unknown, options: any) => {
   let result: string[] = [];
 

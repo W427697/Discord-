@@ -21,7 +21,7 @@
     "@storybook/addon-highlight": "7.0.0-alpha.12",
     "@storybook/addon-jest": "7.0.0-alpha.12",
     "@storybook/addon-links": "7.0.0-alpha.12",
-    "@storybook/addon-postcss": "^2.0.0",
+    "@storybook/addon-postcss": "^3.0.0-alpha.0",
     "@storybook/addon-storyshots": "7.0.0-alpha.12",
     "@storybook/addon-storysource": "7.0.0-alpha.12",
     "@storybook/addon-viewport": "7.0.0-alpha.12",
@@ -36,7 +36,6 @@
     "format-json": "^1.0.3",
     "global": "^4.4.0",
     "postcss": "^8.2.4",
-    "postcss-color-rebeccapurple": "^6.0.0",
     "storybook": "7.0.0-alpha.12"
   },
   "storybook": {

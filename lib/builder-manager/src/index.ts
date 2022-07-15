@@ -11,6 +11,7 @@ import aliasPlugin from 'esbuild-plugin-alias';
 import { renderHTML } from './utils/template';
 import { definitions } from './utils/globals';
 import {
+  BuilderBuildOptions,
   BuilderBuildResult,
   BuilderFunction,
   BuilderStartOptions,
@@ -121,6 +122,8 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     }
   });
 
+  logger.trace({ message: '=> Manager started', time: process.hrtime(startTime) });
+
   return {
     bail,
     stats: {
@@ -211,7 +214,7 @@ export const start = async (options: BuilderStartOptions) => {
   return result.value;
 };
 
-export const build = async (options: BuilderStartOptions) => {
+export const build = async (options: BuilderBuildOptions) => {
   asyncIterator = builder(options);
   let result;
 
@@ -222,6 +225,3 @@ export const build = async (options: BuilderStartOptions) => {
 
   return result.value;
 };
-
-export const corePresets: ManagerBuilder['corePresets'] = [];
-export const overridePresets: ManagerBuilder['overridePresets'] = [];

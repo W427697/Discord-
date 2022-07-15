@@ -69,6 +69,7 @@ export async function webpack(
   const sourceLoader = sourceLoaderOptions
     ? [
         {
+          layer: 'storybook_source',
           test: /\.(stories|story)\.[tj]sx?$/,
           loader: require.resolve('@storybook/source-loader'),
           options: { ...sourceLoaderOptions, inspectLocalDependencies: true },
@@ -104,6 +105,7 @@ export async function webpack(
       rules: [
         ...rules,
         {
+          layer: 'storybook_mdx',
           test: /(stories|story)\.mdx$/,
           use: [
             {
@@ -116,6 +118,7 @@ export async function webpack(
           ],
         },
         {
+          layer: 'storybook_mdx',
           test: /\.mdx$/,
           exclude: /(stories|story)\.mdx$/,
           use: [

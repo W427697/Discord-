@@ -16,7 +16,5 @@ export interface Builder<Config, Stats> {
   }) => Promise<void | Stats>;
   bail: (e?: Error) => Promise<void>;
   getConfig: (options: Options) => Promise<Config>;
-  corePresets?: string[];
-  overridePresets?: string[];
 }
 ```

@@ -117,7 +117,7 @@ module.exports = {
             shippedProposals: true,
             useBuiltIns: 'usage',
             targets: {
-              node: '10',
+              node: '14',
             },
             modules,
             corejs: '3',
@@ -149,7 +149,7 @@ module.exports = {
             shippedProposals: true,
             useBuiltIns: 'usage',
             targets: {
-              node: '10',
+              node: '14',
             },
             corejs: '3',
             modules: false,
