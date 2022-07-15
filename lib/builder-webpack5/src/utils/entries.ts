@@ -1,7 +1,7 @@
-import path from 'path';
+import path, { relative } from 'path';
 
 import { handlebars, interpolate, normalizeStories, readTemplate } from '@storybook/core-common';
-import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
+import { toRequireContextString, toImportFn, toRequireContext } from '@storybook/core-webpack';
 import { BuilderOptions } from '../types';
 
 export const getStorybookPaths = (): Record<string, string> => ({
