@@ -1,7 +1,8 @@
 import React, { FC, useContext, useEffect, useState, useCallback } from 'react';
 import mapValues from 'lodash/mapValues';
 import { ArgTypesExtractor } from '@storybook/docs-tools';
-import { filterArgTypes, PropDescriptor, Story } from '@storybook/store';
+import type { ModuleExport, PropDescriptor, Story } from '@storybook/store';
+import { filterArgTypes } from '@storybook/store';
 import {
   UPDATE_STORY_ARGS,
   STORY_ARGS_UPDATED,
@@ -38,7 +39,8 @@ type ComponentsProps = BaseProps & {
 };
 
 type StoryProps = BaseProps & {
-  story: '.' | '^' | string;
+  story?: '.' | '^' | string;
+  of?: ModuleExport;
   showComponent?: boolean;
 };
 
@@ -108,19 +110,23 @@ const isShortcut = (value?: string) => {
 };
 
 export const getStory = (props: ArgsTableProps = {}, context: DocsContextProps): Story => {
-  const { of } = props as OfProps;
-  const { story } = props as StoryProps;
+  const { story: storyName, of } = props as StoryProps;
 
-  if (isShortcut(of) || isShortcut(story)) {
+  if (isShortcut(of) || isShortcut(storyName)) {
+    if (of === CURRENT_SELECTION || storyName === CURRENT_SELECTION) currentSelectionWarning();
     return context.storyById();
   }
 
-  try {
-    // of=storyReference
-    return context.storyById(context.storyIdByModuleExport(of));
-  } catch (err) {
-    return null;
+  if (storyName) {
+    return context.storyById(context.storyIdByName(storyName));
   }
+
+  try {
+    if (of) return context.storyById(context.storyIdByModuleExport(of));
+  } catch (err) {
+    // of is a component reference
+  }
+  return null;
 };
 
 const addComponentTabs = (
@@ -202,7 +208,6 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
   } = context.storyById();
 
   const { include, exclude, components, sort: sortProp } = props as ComponentsProps;
-  const { story: storyName } = props as StoryProps;
 
   const sort = sortProp || controls?.sort;
 
