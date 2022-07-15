@@ -68,13 +68,16 @@ export async function webpack(
   // set `sourceLoaderOptions` to `null` to disable for manual configuration
   const sourceLoader = sourceLoaderOptions
     ? [
-        {
-          layer: 'storybook_source',
-          test: /\.(stories|story)\.[tj]sx?$/,
-          loader: require.resolve('@storybook/source-loader'),
-          options: { ...sourceLoaderOptions, inspectLocalDependencies: true },
-          enforce: 'pre',
-        },
+        Object.defineProperty(
+          {
+            test: /\.(stories|story)\.[tj]sx?$/,
+            loader: require.resolve('@storybook/source-loader'),
+            options: { ...sourceLoaderOptions, inspectLocalDependencies: true },
+            enforce: 'pre',
+          },
+          'custom_id',
+          { enumerable: false, value: 'storybook_source' }
+        ),
       ]
     : [];
 
@@ -104,34 +107,46 @@ export async function webpack(
       ...module,
       rules: [
         ...rules,
-        {
-          layer: 'storybook_mdx',
-          test: /(stories|story)\.mdx$/,
-          use: [
-            {
-              loader: resolvedBabelLoader,
-              options: createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }),
-            },
-            {
-              loader: mdxLoader,
-            },
-          ],
-        },
-        {
-          layer: 'storybook_mdx',
-          test: /\.mdx$/,
-          exclude: /(stories|story)\.mdx$/,
-          use: [
-            {
-              loader: resolvedBabelLoader,
-              options: createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }),
-            },
-            {
-              loader: mdxLoader,
-              options: mdxLoaderOptions,
-            },
-          ],
-        },
+        Object.defineProperty(
+          {
+            test: /(stories|story)\.mdx$/,
+            use: [
+              {
+                loader: resolvedBabelLoader,
+                options: createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }),
+              },
+              {
+                loader: mdxLoader,
+              },
+            ],
+          },
+          'custom_id',
+          {
+            value: 'storybook_mdx',
+            enumerable: false,
+          }
+        ),
+        Object.defineProperty(
+          {
+            test: /\.mdx$/,
+            exclude: /(stories|story)\.mdx$/,
+            use: [
+              {
+                loader: resolvedBabelLoader,
+                options: createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }),
+              },
+              {
+                loader: mdxLoader,
+                options: mdxLoaderOptions,
+              },
+            ],
+          },
+          'custom_id',
+          {
+            value: 'storybook_mdx',
+            enumerable: false,
+          }
+        ),
         ...sourceLoader,
       ],
     },

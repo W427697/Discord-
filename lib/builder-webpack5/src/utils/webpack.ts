@@ -156,69 +156,84 @@ export const createWebpackConfig = async (options: Options): Promise<Configurati
     ],
     module: {
       rules: [
-        {
-          layer: 'storybook_css',
-          test: /\.css$/,
-          sideEffects: true,
-          use: [
-            require.resolve('style-loader'),
-            {
-              loader: require.resolve('css-loader'),
-              options: {
-                importLoaders: 1,
+        Object.defineProperty(
+          {
+            test: /\.css$/,
+            sideEffects: true,
+            use: [
+              require.resolve('style-loader'),
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  importLoaders: 1,
+                },
+              },
+            ],
+          },
+          'custom_id',
+          { enumerable: false, value: 'storybook_css' }
+        ),
+        Object.defineProperty(
+          {
+            test: /\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/,
+            type: 'asset/resource',
+            generator: {
+              filename: isProd
+                ? 'static/media/[name].[contenthash:8][ext]'
+                : 'static/media/[path][name][ext]',
+            },
+          },
+          'custom_id',
+          { enumerable: false, value: 'storybook_media' }
+        ),
+        Object.defineProperty(
+          {
+            test: /\.(mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/,
+            type: 'asset',
+            parser: {
+              dataUrlCondition: {
+                maxSize: 10000,
               },
             },
-          ],
-        },
-        {
-          layer: 'storybook_media',
-          test: /\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/,
-          type: 'asset/resource',
-          generator: {
-            filename: isProd
-              ? 'static/media/[name].[contenthash:8][ext]'
-              : 'static/media/[path][name][ext]',
-          },
-        },
-        {
-          layer: 'storybook_media',
-          test: /\.(mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/,
-          type: 'asset',
-          parser: {
-            dataUrlCondition: {
-              maxSize: 10000,
+            generator: {
+              filename: isProd
+                ? 'static/media/[name].[contenthash:8][ext]'
+                : 'static/media/[path][name][ext]',
             },
           },
-          generator: {
-            filename: isProd
-              ? 'static/media/[name].[contenthash:8][ext]'
-              : 'static/media/[path][name][ext]',
+          'custom_id',
+          { enumerable: false, value: 'storybook_media' }
+        ),
+        Object.defineProperty(
+          {
+            test: /\.m?js$/,
+            type: 'javascript/auto',
+            resolve: {
+              fullySpecified: false,
+            },
           },
-        },
-        {
-          layer: 'storybook_esm',
-          test: /\.m?js$/,
-          type: 'javascript/auto',
-          resolve: {
-            fullySpecified: false,
-          },
-        },
+          'custom_id',
+          { enumerable: false, value: 'storybook_esm' }
+        ),
         {
           test: /\.md$/,
           type: 'asset/source',
         },
-        {
-          layer: 'storybook_babel',
-          test: typescriptOptionsFinal.skipBabel ? /\.(mjs|jsx?)$/ : /\.(mjs|tsx?|jsx?)$/,
-          use: [
-            {
-              loader: require.resolve('babel-loader'),
-              options: await babelOptions,
-            },
-          ],
-          include: [getProjectRoot()],
-          exclude: /node_modules/,
-        },
+        Object.defineProperty(
+          {
+            test: typescriptOptionsFinal.skipBabel ? /\.(mjs|jsx?)$/ : /\.(mjs|tsx?|jsx?)$/,
+            use: [
+              {
+                loader: require.resolve('babel-loader'),
+                options: await babelOptions,
+              },
+            ],
+            include: [getProjectRoot()],
+            exclude: /node_modules/,
+          },
+          'custom_id',
+          { enumerable: false, value: 'storybook_babel' }
+        ),
       ],
     },
     resolve: {
@@ -236,7 +251,6 @@ export const createWebpackConfig = async (options: Options): Promise<Configurati
     ...(builderOptions.fsCache ? { cache: { type: 'filesystem' as const } } : {}),
     experiments: {
       ...(builderOptions.lazyCompilation && !isProd ? { lazyCompilation: { entries: false } } : {}),
-      layers: true,
     },
 
     optimization: {
