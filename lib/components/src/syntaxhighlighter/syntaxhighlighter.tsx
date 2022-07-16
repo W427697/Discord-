@@ -152,25 +152,18 @@ export const SyntaxHighlighter: FunctionComponent<SyntaxHighlighterProps> = ({
   const highlightableCode = formatter ? formatter(format, children) : children.trim();
   const [copied, setCopied] = useState(false);
 
-  const onClick = useCallback(
-    (e: MouseEvent<HTMLButtonElement> | ClipboardEvent<HTMLDivElement>) => {
-      e.preventDefault();
-
-      const selectedText = globalWindow.getSelection().toString();
-      const textToCopy = e.type !== 'click' && selectedText ? selectedText : highlightableCode;
-
-      copyToClipboard(textToCopy)
-        .then(() => {
-          setCopied(true);
-          globalWindow.setTimeout(() => setCopied(false), 1500);
-        })
-        .catch(logger.error);
-    },
-    []
-  );
+  const onClick = useCallback((e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    copyToClipboard(highlightableCode)
+      .then(() => {
+        setCopied(true);
+        globalWindow.setTimeout(() => setCopied(false), 1500);
+      })
+      .catch(logger.error);
+  }, []);
 
   return (
-    <Wrapper bordered={bordered} padded={padded} className={className} onCopyCapture={onClick}>
+    <Wrapper bordered={bordered} padded={padded} className={className}>
       <Scroller>
         <ReactSyntaxHighlighter
           padded={padded || bordered}
@@ -188,7 +181,7 @@ export const SyntaxHighlighter: FunctionComponent<SyntaxHighlighterProps> = ({
       </Scroller>
 
       {copyable ? (
-        <ActionBar actionItems={[{ title: copied ? 'Copied' : 'Copy', onClick }]} />
+        <ActionBar actionItems={[{ title: copied ? 'Copied123' : 'Copy', onClick }]} />
       ) : null}
     </Wrapper>
   );
