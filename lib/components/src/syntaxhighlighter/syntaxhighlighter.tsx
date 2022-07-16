@@ -181,7 +181,7 @@ export const SyntaxHighlighter: FunctionComponent<SyntaxHighlighterProps> = ({
       </Scroller>
 
       {copyable ? (
-        <ActionBar actionItems={[{ title: copied ? 'Copied123' : 'Copy', onClick }]} />
+        <ActionBar actionItems={[{ title: copied ? 'Copied' : 'Copy', onClick }]} />
       ) : null}
     </Wrapper>
   );
