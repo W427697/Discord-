@@ -22,7 +22,7 @@ import {
 import { getLink } from './utils';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 
-const { document, DOCS_MODE } = global;
+const { document } = global;
 
 const ResultsList = styled.ol({
   listStyle: 'none',
@@ -148,24 +148,17 @@ const Result: FunctionComponent<
   );
   const title = `${item.path.join(' / ')} / ${item.name}`;
 
-  if (DOCS_MODE) {
-    return (
-      <ResultRow {...props}>
-        <DocumentNode depth={0} onClick={click} href={getLink(item.id, item.refId)} title={title}>
-          {label}
-        </DocumentNode>
-      </ResultRow>
-    );
+  const nodeProps = { depth: 0, onClick: click, title, children: label };
+  let node;
+  if (item.type === 'component') {
+    node = <ComponentNode isExpanded={false} {...nodeProps} />;
+  } else if (item.type === 'story') {
+    node = <StoryNode href={getLink(item, item.refId)} {...nodeProps} />;
+  } else {
+    node = <DocumentNode href={getLink(item, item.refId)} {...nodeProps} />;
   }
 
-  const TreeNode = item.type === 'component' ? ComponentNode : StoryNode;
-  return (
-    <ResultRow {...props}>
-      <TreeNode isExpanded={false} depth={0} onClick={onClick} title={title}>
-        {label}
-      </TreeNode>
-    </ResultRow>
-  );
+  return <ResultRow {...props}>{node}</ResultRow>;
 });
 
 export const SearchResults: FunctionComponent<{

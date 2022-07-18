@@ -10,7 +10,7 @@ import { dedent } from 'ts-dedent';
 import merge from '../lib/merge';
 import type { State, ModuleFn } from '../index';
 
-const { DOCS_MODE, document } = global;
+const { document } = global;
 
 export type PanelPositions = 'bottom' | 'right';
 export type ActiveTabsType = 'sidebar' | 'canvas' | 'addons';
@@ -38,7 +38,6 @@ export interface UI {
   name?: string;
   url?: string;
   enableShortcuts: boolean;
-  docsMode: boolean;
 }
 
 export interface SubState {
@@ -73,11 +72,10 @@ export interface UIOptions {
 const defaultState: SubState = {
   ui: {
     enableShortcuts: true,
-    docsMode: false,
   },
   layout: {
     initialActive: ActiveTabs.CANVAS,
-    showToolbar: !DOCS_MODE,
+    showToolbar: true,
     isFullscreen: false,
     showPanel: true,
     showNav: true,

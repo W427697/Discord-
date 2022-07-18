@@ -1181,14 +1181,7 @@ describe('stories API', () => {
       expect(storedStoriesHash['component-c--story-4'].type).toBe('story');
     });
 
-    describe('docMode = true', () => {
-      beforeEach(() => {
-        global.DOCS_MODE = true;
-      });
-      afterEach(() => {
-        global.DOCS_MODE = false;
-      });
-
+    describe('when DOCS_MODE = true', () => {
       it('strips out story entries', async () => {
         mockStories.mockReset().mockReturnValue({
           'component-a--page': {
@@ -1225,7 +1218,13 @@ describe('stories API', () => {
           setStories: jest.fn(),
         });
 
-        const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+        const { api, init } = initStories({
+          store,
+          navigate,
+          provider,
+          fullAPI,
+          docsMode: true,
+        } as any);
         Object.assign(fullAPI, api);
 
         await init();
@@ -1419,13 +1418,6 @@ describe('stories API', () => {
     });
 
     describe('when DOCS_MODE = true', () => {
-      beforeEach(() => {
-        global.DOCS_MODE = true;
-      });
-      afterEach(() => {
-        global.DOCS_MODE = false;
-      });
-
       it('strips out stories entries', async () => {
         const navigate = jest.fn();
         const store = createMockStore();
@@ -1434,7 +1426,13 @@ describe('stories API', () => {
           findRef: jest.fn(),
         });
 
-        const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+        const { api, init } = initStories({
+          store,
+          navigate,
+          provider,
+          fullAPI,
+          docsMode: true,
+        } as any);
         Object.assign(fullAPI, api);
 
         await init();
