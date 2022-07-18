@@ -5,7 +5,7 @@ import { stories } from './mockdata.large';
 import { Search } from './Search';
 import { SearchResults } from './SearchResults';
 import { noResults } from './SearchResults.stories';
-import { DEFAULT_REF_ID } from './data';
+import { DEFAULT_REF_ID } from './Sidebar';
 import { Selection } from './types';
 
 const refId = DEFAULT_REF_ID;

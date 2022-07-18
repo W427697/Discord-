@@ -14,7 +14,7 @@ import { AuthBlock, ErrorBlock, LoaderBlock, EmptyBlock } from './RefBlocks';
 import { RefIndicator } from './RefIndicator';
 import { Tree } from './Tree';
 import { CollapseIcon } from './TreeNode';
-import { DEFAULT_REF_ID } from './data';
+import { DEFAULT_REF_ID } from './Sidebar';
 import { Highlight, RefType } from './types';
 import { getStateType } from './utils';
 

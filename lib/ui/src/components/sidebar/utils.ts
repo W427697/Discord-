@@ -3,7 +3,7 @@ import global from 'global';
 import { SyntheticEvent } from 'react';
 import type { StoriesHash } from '@storybook/api';
 
-import { DEFAULT_REF_ID } from './data';
+import { DEFAULT_REF_ID } from './Sidebar';
 import { Item, RefType, Dataset, SearchItem } from './types';
 
 const { document, window: globalWindow, DOCS_MODE } = global;
