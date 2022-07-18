@@ -1,4 +1,4 @@
-import React, { ClipboardEvent, FunctionComponent, MouseEvent, useCallback, useState } from 'react';
+import React, { FunctionComponent, MouseEvent, useCallback, useState } from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
 import global from 'global';
