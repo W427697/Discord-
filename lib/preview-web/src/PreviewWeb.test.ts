@@ -2120,7 +2120,7 @@ describe('PreviewWeb', () => {
         expect(preview.view.prepareForDocs).toHaveBeenCalled();
       });
 
-      it('render the docs container with the correct context', async () => {
+      it('render the docs container with the correct context, template render', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
@@ -2132,16 +2132,10 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(docsRenderer.render).toHaveBeenCalledWith(
-          expect.objectContaining({
-            id: 'component-one--a',
-            title: 'Component One',
-            name: 'Docs',
-          }),
-          expect.any(Object),
-          'docs-element',
-          expect.any(Function)
-        );
+        expect(docsRenderer.render).toHaveBeenCalled();
+        expect(docsRenderer.render.mock.calls[0][0].storyById()).toMatchObject({
+          id: 'component-one--a',
+        });
       });
 
       it('emits DOCS_RENDERED', async () => {
