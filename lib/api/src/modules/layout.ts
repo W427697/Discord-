@@ -1,10 +1,11 @@
 import global from 'global';
 import pick from 'lodash/pick';
-import deepEqual from 'fast-deep-equal';
+import { dequal as deepEqual } from 'dequal';
 import { create } from '@storybook/theming';
+import { SET_CONFIG } from '@storybook/core-events';
 import type { ThemeVars } from '@storybook/theming';
 import { once } from '@storybook/client-logger';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 import merge from '../lib/merge';
 import type { State, ModuleFn } from '../index';
@@ -14,9 +15,9 @@ const { DOCS_MODE, document } = global;
 export type PanelPositions = 'bottom' | 'right';
 export type ActiveTabsType = 'sidebar' | 'canvas' | 'addons';
 export const ActiveTabs = {
-  SIDEBAR: 'sidebar' as 'sidebar',
-  CANVAS: 'canvas' as 'canvas',
-  ADDONS: 'addons' as 'addons',
+  SIDEBAR: 'sidebar' as const,
+  CANVAS: 'canvas' as const,
+  ADDONS: 'addons' as const,
 };
 
 export interface Layout {
@@ -93,7 +94,7 @@ export const focusableUIElements = {
   storyPanelRoot: 'storybook-panel-root',
 };
 
-export const init: ModuleFn = ({ store, provider, singleStory }) => {
+export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
   const api = {
     toggleFullscreen(toggled?: boolean) {
       return store.setState(
@@ -226,7 +227,7 @@ export const init: ModuleFn = ({ store, provider, singleStory }) => {
     getInitialOptions() {
       const { theme, selectedPanel, ...options } = provider.getConfig();
 
-      if (options?.layout?.isToolshown !== undefined) {
+      if (options.layout?.isToolshown !== undefined) {
         once.warn(dedent`
           The "isToolshown" option is deprecated. Please use "showToolbar" instead.
 
@@ -295,5 +296,14 @@ export const init: ModuleFn = ({ store, provider, singleStory }) => {
 
   const persisted = pick(store.getState(), 'layout', 'ui', 'selectedPanel');
 
-  return { api, state: merge(api.getInitialOptions(), persisted) };
+  return {
+    api,
+    state: merge(api.getInitialOptions(), persisted),
+    init: () => {
+      api.setOptions(merge(api.getInitialOptions(), persisted));
+      fullAPI.on(SET_CONFIG, () => {
+        api.setOptions(merge(api.getInitialOptions(), persisted));
+      });
+    },
+  };
 };
