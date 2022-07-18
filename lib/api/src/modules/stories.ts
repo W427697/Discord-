@@ -39,7 +39,7 @@ import type {
 import type { Args, ModuleFn } from '../index';
 import type { ComposedRef } from './refs';
 
-const { DOCS_MODE, FEATURES, fetch } = global;
+const { FEATURES, fetch } = global;
 const STORY_INDEX_PATH = './index.json';
 
 type Direction = -1 | 1;
@@ -122,6 +122,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
   provider,
   storyId: initialStoryId,
   viewMode: initialViewMode,
+  docsMode,
 }) => {
   const api: SubAPI = {
     storyId: toId,
@@ -194,11 +195,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       const { storiesHash, storyId, refs, refId } = store.getState();
       const story = api.getData(storyId, refId);
 
-      if (DOCS_MODE) {
-        api.jumpToComponent(direction);
-        return;
-      }
-
       // cannot navigate when there's no current selection
       if (!story) {
         return;
@@ -215,6 +211,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       // Now create storiesHash by reordering the above by group
       const hash = transformSetStoriesStoryDataToStoriesHash(input, {
         provider,
+        docsMode,
       });
 
       await store.setState({
@@ -362,6 +359,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     setStoryList: async (storyIndex: StoryIndex) => {
       const hash = transformStoryIndexToStoriesHash(storyIndex, {
         provider,
+        docsMode,
       });
 
       await store.setState({

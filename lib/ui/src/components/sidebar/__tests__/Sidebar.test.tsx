@@ -8,8 +8,6 @@ import type { RenderResult } from '@testing-library/react';
 import { Sidebar } from '../Sidebar';
 import type { SidebarProps } from '../Sidebar';
 
-global.DOCS_MODE = false;
-
 const DOCS_NAME = 'Docs';
 
 const factory = (props: Partial<SidebarProps>): RenderResult => {

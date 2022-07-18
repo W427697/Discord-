@@ -6,7 +6,7 @@ import { screen } from '@testing-library/dom';
 
 import { Tree } from './Tree';
 import { stories } from './mockdata.large';
-import { DEFAULT_REF_ID } from './data';
+import { DEFAULT_REF_ID } from './Sidebar';
 
 export default {
   component: Tree,

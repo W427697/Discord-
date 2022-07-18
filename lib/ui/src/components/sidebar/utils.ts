@@ -1,19 +1,18 @@
 import memoize from 'memoizerific';
 import global from 'global';
 import { SyntheticEvent } from 'react';
-import type { StoriesHash } from '@storybook/api';
+import type { HashEntry, StoriesHash } from '@storybook/api';
 
-import { DEFAULT_REF_ID } from './data';
+import { DEFAULT_REF_ID } from './Sidebar';
 import { Item, RefType, Dataset, SearchItem } from './types';
 
-const { document, window: globalWindow, DOCS_MODE } = global;
+const { document, window: globalWindow } = global;
 
 export const createId = (itemId: string, refId?: string) =>
   !refId || refId === DEFAULT_REF_ID ? itemId : `${refId}_${itemId}`;
 
-export const getLink = (itemId: string, refId?: string) => {
-  const type = DOCS_MODE ? 'docs' : 'story';
-  return `${document.location.pathname}?path=/${type}/${createId(itemId, refId)}`;
+export const getLink = (item: HashEntry, refId?: string) => {
+  return `${document.location.pathname}?path=/${item.type}/${createId(item.id, refId)}`;
 };
 
 export const prevent = (e: SyntheticEvent) => {

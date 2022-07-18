@@ -7,7 +7,7 @@ import global from 'global';
 import { transparentize } from 'polished';
 import React, { useMemo, useRef, useState, useCallback } from 'react';
 
-import { DEFAULT_REF_ID } from './data';
+import { DEFAULT_REF_ID } from './Sidebar';
 import {
   CombinedDataset,
   SearchItem,
