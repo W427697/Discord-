@@ -131,21 +131,19 @@ const Result: FunctionComponent<
 
   const api = useStorybookApi();
   useEffect(() => {
-    if (props.isHighlighted) {
-      if (item.isComponent) {
-        api.emit(
-          PRELOAD_STORIES,
-          { ids: [item.isLeaf ? item.id : item.children[0]] },
-          {
-            options: {
-              target:
-                item.refId && item.refId !== 'storybook_internal'
-                  ? `storybook-ref-${item.refId}`
-                  : 'storybook-preview-iframe',
-            },
-          }
-        );
-      }
+    if (api && props.isHighlighted && item.isComponent) {
+      api.emit(
+        PRELOAD_STORIES,
+        { ids: [item.isLeaf ? item.id : item.children[0]] },
+        {
+          options: {
+            target:
+              item.refId && item.refId !== 'storybook_internal'
+                ? `storybook-ref-${item.refId}`
+                : 'storybook-preview-iframe',
+          },
+        }
+      );
     }
   }, [props.isHighlighted, item]);
 
