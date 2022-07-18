@@ -9,8 +9,12 @@ expect.addSnapshotSerializer({
   test: (val) => typeof val !== 'string',
 });
 
+const makeTitle = (userTitle?: string) => {
+  return userTitle || 'Default Title';
+};
+
 const parse = (code: string, includeParameters?: boolean) => {
-  const { stories, meta } = loadCsf(code, { defaultTitle: 'Default Title' }).parse();
+  const { stories, meta } = loadCsf(code, { makeTitle }).parse();
   const filtered = includeParameters
     ? stories
     : stories.map(({ id, name, parameters, ...rest }) => ({ id, name, ...rest }));
@@ -403,6 +407,30 @@ describe('CsfFile', () => {
               __id: foo-bar--a
       `);
     });
+
+    it('as default export', () => {
+      expect(
+        parse(
+          dedent`
+          const meta = { title: 'foo/bar' };
+          export const A = () => {};
+          export {
+            meta as default,
+            A
+          };
+        `,
+          true
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            parameters:
+              __id: foo-bar--a
+      `);
+    });
   });
 
   describe('error handling', () => {
@@ -482,7 +510,7 @@ describe('CsfFile', () => {
       const input = dedent`
         export default { title: 'foo/bar', x: 1, y: 2 };
       `;
-      const csf = loadCsf(input, { defaultTitle: 'Default Title' }).parse();
+      const csf = loadCsf(input, { makeTitle }).parse();
       expect(Object.keys(csf._metaAnnotations)).toEqual(['title', 'x', 'y']);
     });
 
@@ -495,7 +523,7 @@ describe('CsfFile', () => {
         export const B = () => {};
         B.z = 3;
     `;
-      const csf = loadCsf(input, { defaultTitle: 'Default Title' }).parse();
+      const csf = loadCsf(input, { makeTitle }).parse();
       expect(Object.keys(csf._storyAnnotations.A)).toEqual(['x', 'y']);
       expect(Object.keys(csf._storyAnnotations.B)).toEqual(['z']);
     });
@@ -513,7 +541,7 @@ describe('CsfFile', () => {
           z: 3,
         }
     `;
-      const csf = loadCsf(input, { defaultTitle: 'Default Title' }).parse();
+      const csf = loadCsf(input, { makeTitle }).parse();
       expect(Object.keys(csf._storyAnnotations.A)).toEqual(['x', 'y']);
       expect(Object.keys(csf._storyAnnotations.B)).toEqual(['z']);
     });
@@ -608,6 +636,25 @@ describe('CsfFile', () => {
               __isArgsStory: true
               __id: foo-bar--a
       `);
+    });
+
+    it('Object export with storyName', () => {
+      const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation();
+
+      parse(
+        dedent`
+        export default { title: 'foo/bar' };
+        export const A = {
+          storyName: 'Apple'
+        }
+      `,
+        true
+      );
+
+      expect(consoleWarnMock).toHaveBeenCalledWith(
+        'Unexpected usage of "storyName" in "A". Please use "name" instead.'
+      );
+      consoleWarnMock.mockRestore();
     });
   });
 });

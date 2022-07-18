@@ -378,7 +378,7 @@ Object {
                       },
                     ],
                   ],
-                  "test": "/\\\\.(mjs|jsx?)$/",
+                  "test": "/\\\\.(cjs|mjs|jsx?)$/",
                 },
               ],
               "plugins": Array [
@@ -428,7 +428,7 @@ Object {
                       },
                     ],
                   ],
-                  "test": "/\\\\.(mjs|jsx?)$/",
+                  "test": "/\\\\.(cjs|mjs|jsx?)$/",
                 },
               ],
               "plugins": Array [

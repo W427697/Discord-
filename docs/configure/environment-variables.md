@@ -3,11 +3,17 @@ title: 'Environment variables'
 ---
 
 You can use environment variables in Storybook to change its behavior in different “modes”.
-If you supply an environment variable prefixed with `STORYBOOK_`, it will be available in `process.env`:
+If you supply an environment variable prefixed with `STORYBOOK_`, it will be available in `process.env` when using webpack, or `import.meta.env` when using the vite builder:
 
 ```shell
 STORYBOOK_THEME=red STORYBOOK_DATA_KEY=12345 npm run storybook
 ```
+
+<div class="aside">
+
+ 💡 Do not store any secrets (e.g., private API keys) or other types of sensitive information in your Storybook. Environment variables are embedded into the build, meaning anyone can view them by inspecting your files. 
+
+</div>
 
 Then we can access these environment variables anywhere inside our preview JavaScript code like below:
 
@@ -54,7 +60,6 @@ Then you can access this environment variable anywhere, even within your stories
     'angular/my-component-with-env-variables.mdx.mdx',
     'web-components/my-component-with-env-variables.js.mdx',
     'svelte/my-component-with-env-variables.js.mdx',
-    'svelte/my-component-with-env-variables.native-format.mdx',
     'svelte/my-component-with-env-variables.mdx.mdx',
   ]}
 />
