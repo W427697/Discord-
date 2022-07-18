@@ -6,7 +6,7 @@ import { components as htmlComponents } from '@storybook/components';
 import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@storybook/blocks';
 import { MDXProvider } from '@mdx-js/react';
 
-const defaultComponents = {
+export const defaultComponents = {
   ...htmlComponents,
   code: CodeOrSourceMdx,
   a: AnchorMdx,
