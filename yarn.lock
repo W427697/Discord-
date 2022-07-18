@@ -8932,6 +8932,7 @@ __metadata:
     "@storybook/node-logger": 6.5.0-rc.1
     "@storybook/store": 6.5.0-rc.1
     "@types/loader-utils": ^2.0.0
+    "@types/node": ^14.14.20 || ^16.0.0
     "@types/webpack-env": ^1.16.0
     core-js: ^3.8.2
     global: ^4.4.0

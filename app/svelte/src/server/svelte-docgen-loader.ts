@@ -46,7 +46,13 @@ export default async function svelteDocgen(source: string) {
   const { resource } = this._module;
   const svelteOptions: any = { ...getOptions(this) };
 
-  const { preprocess: preprocessOptions, logDocgen = false } = svelteOptions;
+  let configPath = path.join(process.cwd(), './svelte.config.js');
+  if (!fs.existsSync(configPath)) configPath = path.join(process.cwd(), './svelte.config.mjs');
+  if (!fs.existsSync(configPath)) configPath = path.join(process.cwd(), './svelte.config.cjs');
+  if (!fs.existsSync(configPath)) throw new Error('Could not locate Svelte config file');
+  const config = (await import(configPath)).default;
+
+  const { preprocess: preprocessOptions = config.preprocess, logDocgen = false } = svelteOptions;
 
   let docOptions;
   if (preprocessOptions) {
