@@ -1,5 +1,5 @@
 import { dirname, join } from 'path';
-import { copy, writeFile } from 'fs-extra';
+import { copy, writeFile, remove } from 'fs-extra';
 import express from 'express';
 
 import { logger } from '@storybook/node-logger';
@@ -91,15 +91,20 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   yield;
 
+  // make sure we clear output directory of addons dir before starting
+  // this could cause caching issues where addons are loaded when they shouldn't
+  const addonsDir = config.outdir;
+  await remove(addonsDir);
+
+  yield;
+
   compilation = await instance({
     ...config,
-
     watch: true,
   });
 
   yield;
 
-  const addonsDir = config.outdir;
   const coreDirOrigin = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
 
   router.use(`/sb-addons`, express.static(addonsDir));
