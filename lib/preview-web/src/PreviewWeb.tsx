@@ -19,6 +19,7 @@ import {
   STORY_UNCHANGED,
   UPDATE_QUERY_PARAMS,
 } from '@storybook/core-events';
+import debounce from 'lodash/debounce';
 import { logger } from '@storybook/client-logger';
 import { AnyFramework, StoryId, ProjectAnnotations, Args, Globals } from '@storybook/csf';
 import type {
@@ -83,7 +84,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
     this.channel.on(SET_CURRENT_STORY, this.onSetCurrentStory.bind(this));
     this.channel.on(UPDATE_QUERY_PARAMS, this.onUpdateQueryParams.bind(this));
-    this.channel.on(PRELOAD_STORIES, this.onPreloadStories.bind(this));
+    this.channel.on(PRELOAD_STORIES, debounce(this.onPreloadStories.bind(this), 200));
   }
 
   initializeWithProjectAnnotations(projectAnnotations: WebProjectAnnotations<TFramework>) {
@@ -228,7 +229,17 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
   async onPreloadStories({ ids }: { ids: string[] }) {
     await Promise.all(
-      ids.map((id) => this.storyStore.loadStory({ storyId: id }).catch(() => undefined))
+      ids.map((id) =>
+        this.storyStore.loadStory({ storyId: id }).catch(() => {
+          /**
+           * It's possible that we're trying to preload a story in a ref we haven't loaded the iframe for yet.
+           * Because of the way the targeting works, if we can't find the targeted iframe,
+           * we'll use the currently active iframe which can cause the event to be targeted
+           * to the wrong iframe, causing an error if the storyId does not exists there.
+           */
+          return undefined;
+        })
+      )
     );
   }
 
