@@ -109,7 +109,16 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   yield;
 
-  const html = await renderHTML(template, title, customHead, addonFiles, features, refs, logLevel);
+  const html = await renderHTML(
+    template,
+    title,
+    customHead,
+    addonFiles,
+    features,
+    refs,
+    logLevel,
+    options
+  );
 
   yield;
 
@@ -162,7 +171,16 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   const managerFiles = copy(coreDirOrigin, coreDirTarget);
   const addonFiles = readDeep(addonsDir);
 
-  const html = await renderHTML(template, title, customHead, addonFiles, features, refs, logLevel);
+  const html = await renderHTML(
+    template,
+    title,
+    customHead,
+    addonFiles,
+    features,
+    refs,
+    logLevel,
+    options
+  );
 
   yield;
 

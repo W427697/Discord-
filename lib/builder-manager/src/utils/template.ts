@@ -3,7 +3,7 @@ import { readFile, pathExists } from 'fs-extra';
 
 import { render } from 'ejs';
 
-import type { Ref } from '@storybook/core-common';
+import type { Options, Ref } from '@storybook/core-common';
 
 import { readDeep } from './directory';
 
@@ -55,7 +55,8 @@ export const renderHTML = async (
   files: ReturnType<typeof readDeep>,
   features: Promise<Record<string, any>>,
   refs: Promise<Record<string, Ref>>,
-  logLevel: Promise<string>
+  logLevel: Promise<string>,
+  { versionCheck, releaseNotesData, docsMode, previewUrl, serverChannelUrl }: Options
 ) => {
   const customHeadRef = await customHead;
   const titleRef = await title;
@@ -72,6 +73,12 @@ export const renderHTML = async (
       FEATURES: JSON.stringify(await features, null, 2),
       REFS: JSON.stringify(await refs, null, 2),
       LOGLEVEL: JSON.stringify(await logLevel, null, 2),
+      // These two need to be double stringified because the UI expects a string
+      VERSIONCHECK: JSON.stringify(JSON.stringify(versionCheck), null, 2),
+      RELEASE_NOTES_DATA: JSON.stringify(JSON.stringify(releaseNotesData), null, 2),
+      DOCS_MODE: JSON.stringify(docsMode, null, 2), // global docs mode
+      PREVIEW_URL: JSON.stringify(previewUrl, null, 2), // global preview URL
+      SERVER_CHANNEL_URL: JSON.stringify(serverChannelUrl, null, 2),
     },
     head: customHeadRef ? await readFile(customHeadRef, 'utf8') : '',
   });
