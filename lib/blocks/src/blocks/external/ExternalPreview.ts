@@ -75,9 +75,7 @@ export class ExternalPreview<
 
   docsContext = () => {
     return new ExternalDocsContext(
-      'storybook--docs',
-      'Storybook',
-      'Docs',
+      this.channel,
       this.storyStore,
       this.renderStoryToElement.bind(this),
       this.processMetaExports.bind(this)

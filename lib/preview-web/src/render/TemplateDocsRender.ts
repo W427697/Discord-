@@ -88,13 +88,9 @@ export class TemplateDocsRender<TFramework extends AnyFramework> implements Rend
     if (!this.story || !this.csfFiles) throw new Error('Cannot render docs before preparing');
 
     const docsContext = new DocsContext<TFramework>(
-      this.story.id,
-      this.entry.title,
-      this.entry.name,
-
+      this.channel,
       this.store,
       renderStoryToElement,
-
       this.csfFiles,
       true
     );

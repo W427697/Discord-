@@ -40,7 +40,7 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({
 
   return (
     <DocsContext.Provider value={context}>
-      <SourceContainer>
+      <SourceContainer channel={context.channel}>
         <ThemeProvider theme={ensureTheme(theme)}>
           <DocsWrapper className="sbdocs sbdocs-wrapper">
             <DocsContent className="sbdocs sbdocs-content">{children}</DocsContent>
