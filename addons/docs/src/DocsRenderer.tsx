@@ -6,7 +6,8 @@ import { components as htmlComponents } from '@storybook/components';
 import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@storybook/blocks';
 import { MDXProvider } from '@mdx-js/react';
 
-export const defaultComponents = {
+// TS doesn't like that we export a component with types that it doesn't know about (TS4203)
+export const defaultComponents: Record<string, any> = {
   ...htmlComponents,
   code: CodeOrSourceMdx,
   a: AnchorMdx,
