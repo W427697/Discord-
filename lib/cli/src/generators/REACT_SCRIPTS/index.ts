@@ -28,8 +28,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   )?.version;
   const isCra5 = craVersion && semver.gte(craVersion, '5.0.0');
   const updatedOptions = isCra5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
-  // `@storybook/preset-create-react-app` has `@storybook/node-logger` as peerDep
-  const extraPackages = ['@storybook/node-logger'];
+  const extraPackages = [];
   if (isCra5) {
     extraPackages.push('webpack');
     // Miscellaneous dependency used in `babel-preset-react-app` but not listed as dep there
@@ -39,9 +38,9 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   }
 
   // preset v3 is compat with older versions of CRA, otherwise let version float
-  const extraAddons = [`@storybook/preset-create-react-app${isCra5 ? '' : '@3'}`];
+  const extraAddons: string[] = [];
 
-  await baseGenerator(packageManager, npmOptions, updatedOptions, 'react', {
+  await baseGenerator(packageManager, npmOptions, updatedOptions, 'cra', {
     extraAddons,
     extraPackages,
     staticDir: fs.existsSync(path.resolve('./public')) ? 'public' : undefined,

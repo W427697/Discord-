@@ -3,7 +3,7 @@ import type { StorybookConfig } from './types';
 
 export * from './types';
 
-export const babelDefault: StorybookConfig['babelDefault'] = (config) => {
+export const babel: StorybookConfig['babel'] = (config) => {
   return {
     ...config,
     plugins: [

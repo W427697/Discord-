@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/react-webpack5';
+import type { StorybookConfig } from '@storybook/cra';
 
 const path = require('path');
 
@@ -6,7 +6,6 @@ const mainConfig: StorybookConfig = {
   stories: ['../src/stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   logLevel: 'debug',
   addons: [
-    '@storybook/preset-create-react-app',
     {
       name: '@storybook/addon-docs/preset',
       options: {
@@ -44,7 +43,7 @@ const mainConfig: StorybookConfig = {
     breakingChangesV7: true,
   },
   framework: {
-    name: '@storybook/react-webpack5',
+    name: '@storybook/cra',
     options: { fastRefresh: true },
   },
 };

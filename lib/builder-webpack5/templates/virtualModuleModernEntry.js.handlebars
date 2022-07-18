@@ -1,5 +1,3 @@
-import global from 'global';
-
 import { PreviewWeb } from '@storybook/preview-web';
 import { composeConfigs } from '@storybook/store';
 import { ClientApi } from '@storybook/client-api';
@@ -9,7 +7,7 @@ import { createChannel as createWebSocketChannel } from '@storybook/channel-webs
 
 import { importFn } from './{{storiesFilename}}';
 
-const { SERVER_CHANNEL_URL } = global;
+const { SERVER_CHANNEL_URL } = window;
 
 const getProjectAnnotations = () =>
   composeConfigs([{{#each configs}}require('{{this}}'),{{/each}}]);

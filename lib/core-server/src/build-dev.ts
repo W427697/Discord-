@@ -22,7 +22,7 @@ import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
 import { updateCheck } from './utils/update-check';
 import { getServerPort, getServerChannelUrl } from './utils/server-address';
-import { getBuilders } from './utils/get-builders';
+import { getPreviewBuilderPath } from './utils/get-builders';
 
 export async function buildDevStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
   const { packageJson, versionUpdates, releaseNotes } = options;
@@ -61,7 +61,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   options.serverChannelUrl = getServerChannelUrl(port, options);
   /* eslint-enable no-param-reassign */
 
-  const { framework } = loadMainConfig(options);
+  const { framework, core } = loadMainConfig(options);
   const corePresets = [];
 
   const frameworkName = typeof framework === 'string' ? framework : framework?.name;
@@ -71,26 +71,29 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
     logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
   }
 
-  logger.info('=> Loading presets');
-  let presets = await loadAllPresets({
-    corePresets,
-    overridePresets: [],
-    ...options,
-  });
+  if (core?.builder) {
+    if (framework) {
+      logger.warn(
+        `You have specified both a framework and a builder. This might conflict, and could be unstable! Configure the builder thru the framework-options instead.`
+      );
+    }
 
-  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
+    const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
+    const builderPath = await getPreviewBuilderPath(builderName, options.configDir);
 
-  presets = await loadAllPresets({
+    corePresets.push(join(builderPath, 'preset'));
+  }
+
+  const startTime = process.hrtime();
+  const presets = await loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
-      ...managerBuilder.corePresets,
-      ...previewBuilder.corePresets,
       ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],
-    overridePresets: previewBuilder.overridePresets,
     ...options,
   });
+  logger.trace({ message: '=> Loaded presets', time: process.hrtime(startTime) });
 
   const features = await presets.apply<StorybookConfig['features']>('features');
   global.FEATURES = features;

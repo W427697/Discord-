@@ -203,8 +203,6 @@ export interface Builder<Config, BuilderStats extends Stats = Stats> {
     startTime: ReturnType<typeof process.hrtime>;
   }) => Promise<void | BuilderStats>;
   bail: (e?: Error) => Promise<void>;
-  corePresets?: string[];
-  overridePresets?: string[];
 }
 
 export interface IndexerOptions {
@@ -401,14 +399,6 @@ export interface StorybookConfig {
    * Modify or return babel config.
    */
   babel?: (
-    config: TransformOptions,
-    options: Options
-  ) => TransformOptions | Promise<TransformOptions>;
-
-  /**
-   * Modify or return babel config.
-   */
-  babelDefault?: (
     config: TransformOptions,
     options: Options
   ) => TransformOptions | Promise<TransformOptions>;

@@ -27,7 +27,7 @@ import {
   copyAllStaticFiles,
   copyAllStaticFilesRelativeToMain,
 } from './utils/copy-all-static-files';
-import { getBuilders } from './utils/get-builders';
+import { getManagerBuilder, getPreviewBuilder, getPreviewBuilderPath } from './utils/get-builders';
 import { extractStoriesJson, convertToIndexV3 } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
@@ -59,7 +59,7 @@ export async function buildStaticStandalone(
   await emptyDir(options.outputDir);
   await ensureDir(options.outputDir);
 
-  const { framework } = loadMainConfig(options);
+  const { framework, core: coreFromMain } = loadMainConfig(options);
   const corePresets = [];
 
   const frameworkName = typeof framework === 'string' ? framework : framework?.name;
@@ -69,30 +69,36 @@ export async function buildStaticStandalone(
     logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
   }
 
-  logger.info('=> Loading presets');
-  let presets = await loadAllPresets({
-    corePresets: [require.resolve('./presets/common-preset'), ...corePresets],
-    overridePresets: [],
-    ...options,
-  });
+  if (coreFromMain?.builder) {
+    if (framework) {
+      logger.warn(
+        `You have specified both a framework and a builder. This might conflict, and could be unstable! Configure the builder thru the framework-options instead.`
+      );
+    }
 
-  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
+    const builderName =
+      typeof coreFromMain?.builder === 'string'
+        ? coreFromMain.builder
+        : coreFromMain?.builder?.name;
+    const builderPath = await getPreviewBuilderPath(builderName, options.configDir);
 
-  presets = await loadAllPresets({
+    corePresets.push(join(builderPath, 'preset'));
+  }
+
+  const startTime = process.hrtime();
+  const presets = await loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
-      ...(managerBuilder.corePresets || []),
-      ...(previewBuilder.corePresets || []),
       ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],
-    overridePresets: previewBuilder.overridePresets || [],
     ...options,
   });
+  logger.trace({ message: '=> Loaded presets', time: process.hrtime(startTime) });
 
   const [features, core, staticDirs, storyIndexers, stories, docsOptions] = await Promise.all([
     presets.apply<StorybookConfig['features']>('features'),
-    presets.apply<CoreConfig>('core'),
+    presets.apply<CoreConfig>('core', {}),
     presets.apply<StorybookConfig['staticDirs']>('staticDirs'),
     presets.apply('storyIndexers', []),
     presets.apply('stories'),
@@ -118,6 +124,8 @@ export async function buildStaticStandalone(
   const effects: Promise<void>[] = [];
 
   global.FEATURES = features;
+
+  const managerBuilder = await getManagerBuilder();
 
   await managerBuilder.build({ startTime: process.hrtime(), options: fullOptions });
 
@@ -165,7 +173,7 @@ export async function buildStaticStandalone(
     );
   }
 
-  if (!core?.disableTelemetry) {
+  if (!core.disableTelemetry) {
     effects.push(
       initializedStoryIndexGenerator.then(async (generator) => {
         if (!generator) {
@@ -186,12 +194,18 @@ export async function buildStaticStandalone(
     );
   }
 
-  if (!core?.disableProjectJson) {
+  if (!core.disableProjectJson) {
     effects.push(
       extractStorybookMetadata(join(options.outputDir, 'project.json'), options.configDir)
     );
   }
 
+  if (!core.builder) {
+    throw new Error('Builder is not defined');
+  }
+  const builderName = typeof core.builder === 'string' ? core.builder : core.builder.name;
+
+  const previewBuilder = await getPreviewBuilder(builderName, options.configDir);
   if (options.debugWebpack) {
     logConfig('Preview webpack config', await previewBuilder.getConfig(fullOptions));
   }

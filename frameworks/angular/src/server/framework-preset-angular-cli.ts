@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import webpack from 'webpack';
+import type { Configuration } from 'webpack';
 import { logger } from '@storybook/node-logger';
 import { targetFromTargetString, BuilderContext, Target } from '@angular-devkit/architect';
 import { sync as findUpSync } from 'find-up';
@@ -18,7 +18,7 @@ import {
   readAngularWorkspaceConfig,
 } from './angular-read-workspace';
 
-export async function webpackFinal(baseConfig: webpack.Configuration, options: PresetOptions) {
+export async function webpack(baseConfig: Configuration, options: PresetOptions) {
   if (!moduleIsAvailable('@angular-devkit/build-angular')) {
     logger.info('=> Using base config because "@angular-devkit/build-angular" is not installed');
     return baseConfig;
@@ -33,9 +33,9 @@ export async function webpackFinal(baseConfig: webpack.Configuration, options: P
     info: string;
     condition: boolean;
     getWebpackConfig(
-      baseConfig: webpack.Configuration,
+      baseConfig: Configuration,
       options: PresetOptions
-    ): Promise<webpack.Configuration> | webpack.Configuration;
+    ): Promise<Configuration> | Configuration;
   }[] = [
     {
       info: '=> Loading angular-cli config for angular >= 13.0.0',

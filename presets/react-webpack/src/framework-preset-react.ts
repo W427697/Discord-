@@ -4,6 +4,7 @@ import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import { logger } from '@storybook/node-logger';
 
 import type { Options, Preset } from '@storybook/core-webpack';
+import { TransformOptions } from '@babel/core';
 import type { StorybookConfig, ReactOptions } from './types';
 
 const useFastRefresh = async (options: Options) => {
@@ -13,9 +14,7 @@ const useFastRefresh = async (options: Options) => {
   return isDevelopment && (reactOptions.fastRefresh || process.env.FAST_REFRESH === 'true');
 };
 
-export const babel: StorybookConfig['babel'] = async (config, options) => {
-  if (!(await useFastRefresh(options))) return config;
-
+function addFastRefreshBabel<T extends TransformOptions>(config: T): T {
   return {
     ...config,
     plugins: [
@@ -23,7 +22,7 @@ export const babel: StorybookConfig['babel'] = async (config, options) => {
       ...(config.plugins || []),
     ],
   };
-};
+}
 const storybookReactDirName = path.dirname(
   require.resolve('@storybook/preset-react-webpack/package.json')
 );
@@ -41,9 +40,9 @@ const hasJsxRuntime = () => {
   }
 };
 
-export const babelDefault: StorybookConfig['babelDefault'] = async (config) => {
+export const babel: StorybookConfig['babel'] = async (config, options) => {
   const presetReactOptions = hasJsxRuntime() ? { runtime: 'automatic' } : {};
-  return {
+  const c = {
     ...config,
     presets: [
       ...(config?.presets || []),
@@ -51,10 +50,18 @@ export const babelDefault: StorybookConfig['babelDefault'] = async (config) => {
     ],
     plugins: [...(config?.plugins || []), require.resolve('babel-plugin-add-react-displayname')],
   };
+
+  if (!(await useFastRefresh(options))) {
+    return c;
+  }
+
+  return addFastRefreshBabel(c);
 };
 
-export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, options) => {
-  if (!(await useFastRefresh(options))) return config;
+export const webpack: StorybookConfig['webpack'] = async (config, options) => {
+  if (!(await useFastRefresh(options))) {
+    return config;
+  }
 
   // matches the name of the plugin in CRA.
   const hasReactRefresh = !!config.plugins?.find(

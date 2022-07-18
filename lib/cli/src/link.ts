@@ -52,10 +52,6 @@ export const link = async ({ target, local }: LinkOptions) => {
   logger.info(`Installing ${reproName}`);
   await exec(`yarn install`, { cwd: reproDir });
 
-  // ⚠️ TODO: Fix peer deps in `@storybook/preset-create-react-app`
-  logger.info(
-    `Magic stuff related to @storybook/preset-create-react-app, we need to fix peerDependencies`
-  );
   await exec(`yarn add -D webpack-hot-middleware`, { cwd: reproDir });
 
   logger.info(`Running ${reproName} storybook`);

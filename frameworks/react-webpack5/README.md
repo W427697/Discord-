@@ -26,19 +26,15 @@ Here are some featured storybooks that you can reference to see how Storybook wo
 
 - [Demo of Storybook Design System](https://storybook.js.org/design-system) - [source](https://github.com/storybookjs/design-system)
 
-## Create React App
+## React meta frameworks
 
-Support for [Create React App](https://create-react-app.dev/) is handled by [`@storybook/preset-create-react-app`](https://github.com/storybookjs/presets/tree/master/packages/preset-create-react-app).
+### Create React App
 
-This preset enables support for all Create React App features, including Sass/SCSS and TypeScript.
+Support for [Create React App](https://create-react-app.dev/) is handled by [`@storybook/cra`](https://github.com/storybookjs/storybook/tree/master/frameworks/cra).
 
-If you're working on an app that was initialized manually (i.e., without the use of Create React App), ensure that your app has [react-dom](https://www.npmjs.com/package/react-dom) included as a dependency. Failing to do so can lead to unforeseen issues with Storybook and your project.
+### Others
 
-## Typescript
-
-`@storybook/react` is now exporting its own types to use with Typescript.
-You don't need to have `@types/storybook__react` installed anymore if it was your case.
-But you probably also need to use types from `@types/node @types/react`.
+TODO
 
 ## Docs
 

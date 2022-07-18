@@ -36,6 +36,7 @@ export default {
   '@storybook/core-events': '7.0.0-alpha.13',
   '@storybook/core-server': '7.0.0-alpha.13',
   '@storybook/core-webpack': '7.0.0-alpha.13',
+  '@storybook/cra': '7.0.0-alpha.13',
   '@storybook/csf-tools': '7.0.0-alpha.13',
   '@storybook/docs-tools': '7.0.0-alpha.13',
   '@storybook/ember': '7.0.0-alpha.13',

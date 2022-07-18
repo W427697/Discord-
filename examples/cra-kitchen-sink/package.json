@@ -20,7 +20,6 @@
     "react-scripts": "^5.0.1"
   },
   "devDependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@storybook/addon-a11y": "7.0.0-alpha.13",
     "@storybook/addon-actions": "7.0.0-alpha.13",
     "@storybook/addon-backgrounds": "7.0.0-alpha.13",
@@ -30,13 +29,10 @@
     "@storybook/addon-links": "7.0.0-alpha.13",
     "@storybook/addon-storyshots": "7.0.0-alpha.13",
     "@storybook/addons": "7.0.0-alpha.13",
-    "@storybook/builder-webpack5": "7.0.0-alpha.13",
-    "@storybook/preset-create-react-app": "^4.1.0",
+    "@storybook/cra": "7.0.0-alpha.13",
     "@storybook/react": "7.0.0-alpha.13",
-    "@storybook/react-webpack5": "7.0.0-alpha.13",
     "@storybook/theming": "7.0.0-alpha.13",
-    "storybook": "7.0.0-alpha.13",
-    "webpack": "5"
+    "storybook": "7.0.0-alpha.13"
   },
   "storybook": {
     "chromatic": {

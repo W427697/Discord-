@@ -13,6 +13,7 @@ function eqMajor(versionRange: string, major: number) {
 // Should match @storybook/<renderer>
 export type SupportedRenderers =
   | 'react'
+  | 'cra'
   | 'react-native'
   | 'vue'
   | 'vue3'
@@ -31,6 +32,7 @@ export type SupportedRenderers =
   | 'server';
 
 export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
+  'react',
   'react',
   'react-native',
   'vue',

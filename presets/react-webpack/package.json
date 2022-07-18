@@ -30,11 +30,6 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./dist/framework-preset-cra": {
-      "require": "./dist/framework-preset-cra.js",
-      "import": "./dist/framework-preset-cra.mjs",
-      "types": "./dist/framework-preset-cra.d.ts"
-    },
     "./dist/framework-preset-react-docs": {
       "require": "./dist/framework-preset-react-docs.js",
       "import": "./dist/framework-preset-react-docs.mjs",
@@ -117,7 +112,6 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/framework-preset-cra.ts",
       "./src/framework-preset-react-docs.ts",
       "./src/framework-preset-react-dom-hack.ts",
       "./src/framework-preset-react.ts"

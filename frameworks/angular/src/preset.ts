@@ -1,4 +1,4 @@
-import path from 'path';
+import { dirname, join } from 'path';
 import type { PresetProperty } from '@storybook/core-common';
 import { StorybookConfig } from './types';
 
@@ -7,6 +7,7 @@ export const addons: PresetProperty<'addons', StorybookConfig> = [
   require.resolve('./server/framework-preset-angular-cli'),
   require.resolve('./server/framework-preset-angular-ivy'),
   require.resolve('./server/framework-preset-angular-docs'),
+  dirname(require.resolve(join('@storybook/builder-webpack5', 'package.json'))),
 ];
 
 export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entries = []) => [
@@ -20,8 +21,8 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
   return {
     ...config,
     builder: {
-      name: path.dirname(
-        require.resolve(path.join('@storybook/builder-webpack5', 'package.json'))
+      name: dirname(
+        require.resolve(join('@storybook/builder-webpack5', 'package.json'))
       ) as '@storybook/builder-webpack5',
       options: typeof framework === 'string' ? {} : framework.options.builder || {},
     },

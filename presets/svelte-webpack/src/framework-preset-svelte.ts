@@ -29,7 +29,7 @@ export const webpack: StorybookConfig['webpack'] = async (config, { presets }) =
   };
 };
 
-export const babelDefault: StorybookConfig['babelDefault'] = (config) => {
+export const babel: StorybookConfig['babel'] = (config) => {
   return {
     ...config,
     presets: [...(config?.presets || [])],

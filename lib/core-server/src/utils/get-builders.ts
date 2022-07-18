@@ -1,29 +1,31 @@
-import type { Options, CoreConfig, Builder } from '@storybook/core-common';
+import type { Builder, Stats } from '@storybook/core-common';
+import { dirname } from 'path';
+import findUp from 'find-up';
 
-async function getManagerBuilder() {
+export async function getManagerBuilder(): Promise<Builder<unknown, Stats>> {
   return import('@storybook/builder-manager');
 }
 
-async function getPreviewBuilder(builderName: string, configDir: string) {
-  let builderPackage: string;
-  if (builderName) {
-    builderPackage = require.resolve(
-      ['webpack5'].includes(builderName) ? `@storybook/builder-${builderName}` : builderName,
-      { paths: [configDir] }
-    );
-  } else {
-    throw new Error('no builder configured!');
-  }
+export async function getPreviewBuilder(
+  builderName: string,
+  configDir: string
+): Promise<Builder<unknown, Stats>> {
+  const builderPackage = await getPreviewBuilderPath(builderName, configDir);
+
   const previewBuilder = await import(builderPackage);
   return previewBuilder;
 }
 
-export async function getBuilders({
-  presets,
-  configDir,
-}: Options): Promise<Builder<unknown>[]> {
-  const core = await presets.apply<CoreConfig>('core', undefined);
-  const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
+export async function getPreviewBuilderPath(builderName: string, configDir: string) {
+  if (builderName) {
+    const location = await findUp('package.json', {
+      cwd: require.resolve(
+        ['webpack5'].includes(builderName) ? `@storybook/builder-${builderName}` : builderName,
+        { paths: [configDir] }
+      ),
+    });
 
-  return Promise.all([getPreviewBuilder(builderName, configDir), getManagerBuilder()]);
+    return dirname(location);
+  }
+  throw new Error('no builder configured!');
 }

@@ -233,10 +233,6 @@ async function loadPresets(
     return [];
   }
 
-  if (!level) {
-    logger.info('=> Loading presets');
-  }
-
   return (
     await Promise.all(presets.map(async (preset) => loadPreset(preset, level, storybookOptions)))
   ).reduce((acc, loaded) => {
@@ -316,16 +312,11 @@ export async function loadAllPresets(
     LoadOptions &
     BuilderOptions & {
       corePresets: string[];
-      overridePresets: string[];
     }
 ) {
-  const { corePresets = [], overridePresets = [], ...restOptions } = options;
+  const { corePresets = [], ...restOptions } = options;
 
-  const presetsConfig: PresetConfig[] = [
-    ...corePresets,
-    ...loadCustomPresets(options),
-    ...overridePresets,
-  ];
+  const presetsConfig: PresetConfig[] = [...corePresets, ...loadCustomPresets(options)];
 
   // Remove `@storybook/preset-typescript` and add a warning if in use.
   const filteredPresetConfig = filterPresetsConfig(presetsConfig);

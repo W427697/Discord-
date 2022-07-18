@@ -100,6 +100,9 @@
     ],
     "*.ejs": [
       "ejslint"
+    ],
+    "*.{css,html,json,md,mdx,yml}": [
+      "prettier --write"
     ]
   },
   "browserslist": [

@@ -72,6 +72,14 @@ const getFrameworkDetails = (
     };
   }
 
+  if (renderer === 'cra') {
+    return {
+      packages: [rendererPackage],
+      framework: rendererPackagePath,
+      type: 'framework',
+    };
+  }
+
   if (isKnownFramework) {
     return {
       packages: [frameworkPackage],
@@ -97,7 +105,7 @@ const getFrameworkDetails = (
 const stripVersions = (addons: string[]) => addons.map((addon) => getPackageDetails(addon)[0]);
 
 const hasInteractiveStories = (framework: SupportedRenderers) =>
-  ['react', 'angular', 'preact', 'svelte', 'vue', 'vue3', 'html'].includes(framework);
+  ['cra', 'react', 'angular', 'preact', 'svelte', 'vue', 'vue3', 'html'].includes(framework);
 
 export async function baseGenerator(
   packageManager: JsPackageManager,

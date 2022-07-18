@@ -14,12 +14,6 @@ import type {
 } from '@storybook/core-common';
 import { loadCsf } from '@storybook/csf-tools';
 
-export const babel = async (_: unknown, options: Options) => {
-  const { presets } = options;
-
-  return presets.apply('babelDefault', {}, options);
-};
-
 export const title = (previous: string, options: Options) =>
   previous || options.packageJson.name || false;
 
@@ -119,4 +113,26 @@ export const storyIndexers = async (indexers?: StoryIndexer[]) => {
     },
     ...(indexers || []),
   ];
+};
+
+export const frameworkOptions = async (
+  _: never,
+  options: Options
+): Promise<StorybookConfig['framework']> => {
+  const config = await options.presets.apply<StorybookConfig['framework']>('framework');
+
+  if (typeof config === 'string') {
+    return {
+      name: config,
+      options: {},
+    };
+  }
+  if (typeof config === 'undefined') {
+    return null;
+  }
+
+  return {
+    name: config.name,
+    options: config.options,
+  };
 };

@@ -13,7 +13,7 @@ export * from './utils/get-storybook-configuration';
 export * from './utils/get-storybook-info';
 export * from './utils/get-storybook-refs';
 export * from './utils/load-manager-or-addons-file';
-export * from './utils/load-preview-or-config-file';
+export * from './utils/get-preview-file';
 export * from './utils/log-config';
 export * from './utils/paths';
 export * from './utils/progress-reporting';

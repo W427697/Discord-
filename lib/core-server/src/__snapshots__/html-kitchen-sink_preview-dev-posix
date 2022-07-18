@@ -20,21 +20,54 @@ Object {
     "plugins",
     "module",
     "resolve",
+    "experiments",
     "optimization",
     "performance",
-    "experiments",
   ],
   "module": Object {
     "rules": Array [
       Object {
-        "test": "/\\\\.m?js$/",
-        "type": "javascript/auto",
+        "sideEffects": true,
+        "test": "/\\\\.css$/",
+        "use": Array [
+          "NODE_MODULES/style-loader/dist/cjs.js",
+          Object {
+            "loader": "NODE_MODULES/css-loader/dist/cjs.js",
+            "options": Object {
+              "importLoaders": 1,
+            },
+          },
+        ],
+      },
+      Object {
+        "generator": Object {
+          "filename": "static/media/[path][name][ext]",
+        },
+        "test": "/\\\\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\\\\?.*)?$/",
+        "type": "asset/resource",
+      },
+      Object {
+        "generator": Object {
+          "filename": "static/media/[path][name][ext]",
+        },
+        "parser": Object {
+          "dataUrlCondition": Object {
+            "maxSize": 10000,
+          },
+        },
+        "test": "/\\\\.(mp4|webm|wav|mp3|m4a|aac|oga)(\\\\?.*)?$/",
+        "type": "asset",
       },
       Object {
         "resolve": Object {
           "fullySpecified": false,
         },
         "test": "/\\\\.m?js$/",
+        "type": "javascript/auto",
+      },
+      Object {
+        "test": "/\\\\.md$/",
+        "type": "asset/source",
       },
       Object {
         "exclude": "NODE_MODULES/",
@@ -60,10 +93,6 @@ Object {
         ],
       },
       Object {
-        "test": "/\\\\.md$/",
-        "type": "asset/source",
-      },
-      Object {
         "test": "/\\\\.html$/",
         "use": "NODE_MODULES/html-loader/dist/cjs.js",
       },
@@ -74,16 +103,7 @@ Object {
             "loader": "NODE_MODULES/babel-loader/lib/index.js",
             "options": Object {
               "babelrc": false,
-              "cacheDirectory": "NODE_MODULES/.cache/storybook/babel",
               "configFile": false,
-              "overrides": Array [
-                Object {
-                  "plugins": Array [
-                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
-                  ],
-                  "test": "/\\\\.(story|stories).*$/",
-                },
-              ],
               "plugins": Array [
                 Array [
                   "NODE_MODULES/@babel/plugin-transform-react-jsx/lib/index.js",
@@ -108,16 +128,7 @@ Object {
             "loader": "NODE_MODULES/babel-loader/lib/index.js",
             "options": Object {
               "babelrc": false,
-              "cacheDirectory": "NODE_MODULES/.cache/storybook/babel",
               "configFile": false,
-              "overrides": Array [
-                Object {
-                  "plugins": Array [
-                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
-                  ],
-                  "test": "/\\\\.(story|stories).*$/",
-                },
-              ],
               "plugins": Array [
                 Array [
                   "NODE_MODULES/@babel/plugin-transform-react-jsx/lib/index.js",
@@ -151,26 +162,6 @@ Object {
         "test": "/\\\\.(stories|story)\\\\.[tj]sx?$/",
       },
       Object {
-        "sideEffects": true,
-        "test": "/\\\\.css$/",
-        "use": Array [
-          Object {
-            "loader": "NODE_MODULES/style-loader/dist/cjs.js",
-            "options": undefined,
-          },
-          Object {
-            "loader": "NODE_MODULES/css-loader/dist/cjs.js",
-            "options": undefined,
-          },
-          Object {
-            "loader": "NODE_MODULES/postcss-loader/dist/cjs.js",
-            "options": Object {
-              "implementation": [Function],
-            },
-          },
-        ],
-      },
-      Object {
         "enforce": "pre",
         "test": Array [
           "/\\\\.stories\\\\.(jsx?$|tsx?$)/",
@@ -181,26 +172,6 @@ Object {
             "options": undefined,
           },
         ],
-      },
-      Object {},
-      Object {
-        "generator": Object {
-          "filename": "static/media/[path][name][ext]",
-        },
-        "test": "/\\\\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\\\\?.*)?$/",
-        "type": "asset/resource",
-      },
-      Object {
-        "generator": Object {
-          "filename": "static/media/[path][name][ext]",
-        },
-        "parser": Object {
-          "dataUrlCondition": Object {
-            "maxSize": 10000,
-          },
-        },
-        "test": "/\\\\.(mp4|webm|wav|mp3|m4a|aac|oga)(\\\\?.*)?$/",
-        "type": "asset",
       },
     ],
   },

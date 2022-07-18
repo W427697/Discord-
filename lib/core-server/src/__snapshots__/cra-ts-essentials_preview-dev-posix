@@ -20,6 +20,7 @@ Object {
     "plugins",
     "module",
     "resolve",
+    "experiments",
     "optimization",
     "performance",
     "resolveLoader",
@@ -27,15 +28,96 @@ Object {
   "module": Object {
     "rules": Array [
       Object {
+        "sideEffects": true,
+        "test": "/\\\\.css$/",
+        "use": Array [
+          "NODE_MODULES/style-loader/dist/cjs.js",
+          Object {
+            "loader": "NODE_MODULES/css-loader/dist/cjs.js",
+            "options": Object {
+              "importLoaders": 1,
+            },
+          },
+        ],
+      },
+      Object {
+        "generator": Object {
+          "filename": "static/media/[path][name][ext]",
+        },
+        "test": "/\\\\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\\\\?.*)?$/",
+        "type": "asset/resource",
+      },
+      Object {
+        "generator": Object {
+          "filename": "static/media/[path][name][ext]",
+        },
+        "parser": Object {
+          "dataUrlCondition": Object {
+            "maxSize": 10000,
+          },
+        },
+        "test": "/\\\\.(mp4|webm|wav|mp3|m4a|aac|oga)(\\\\?.*)?$/",
+        "type": "asset",
+      },
+      Object {
+        "resolve": Object {
+          "fullySpecified": false,
+        },
+        "test": "/\\\\.m?js$/",
+        "type": "javascript/auto",
+      },
+      Object {
         "test": "/\\\\.md$/",
         "type": "asset/source",
       },
       Object {
+        "exclude": "NODE_MODULES/",
+        "include": Array [
+          "ROOT",
+        ],
+        "test": "/\\\\.(mjs|tsx?|jsx?)$/",
+        "use": Array [
+          Object {
+            "loader": "NODE_MODULES/babel-loader/lib/index.js",
+            "options": Object {
+              "cacheDirectory": "NODE_MODULES/.cache/storybook/babel",
+              "overrides": Array [
+                Object {
+                  "plugins": Array [
+                    Array [
+                      "NODE_MODULES/babel-plugin-react-docgen/lib/index.js",
+                      Object {
+                        "DOC_GEN_COLLECTION_NAME": "STORYBOOK_REACT_CLASSES",
+                      },
+                    ],
+                  ],
+                  "test": "/\\\\.(cjs|mjs|jsx?)$/",
+                },
+                Object {
+                  "plugins": Array [
+                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
+                  ],
+                  "test": "/\\\\.(story|stories).*$/",
+                },
+              ],
+              "plugins": Array [
+                "NODE_MODULES/babel-plugin-add-react-displayname/index.js",
+              ],
+              "presets": Array [
+                Array [
+                  "NODE_MODULES/@babel/preset-react/lib/index.js",
+                  Object {
+                    "runtime": "automatic",
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      },
+      Object {
         "enforce": "pre",
         "exclude": "/@babel(?:\\\\/|\\\\\\\\{1,2})runtime/",
-        "include": Array [
-          "ROOT/examples/cra-ts-essentials/.storybook",
-        ],
         "loader": "NODE_MODULES/source-map-loader/dist/cjs.js",
         "test": "/\\\\.(js|mjs|jsx|ts|tsx|css)$/",
       },
@@ -113,20 +195,6 @@ Object {
               "compact": false,
               "configFile": false,
               "customize": "NODE_MODULES/babel-preset-react-app/webpack-overrides.js",
-              "extends": undefined,
-              "overrides": Array [
-                Object {
-                  "plugins": Array [
-                    Array [
-                      "NODE_MODULES/babel-plugin-react-docgen/lib/index.js",
-                      Object {
-                        "DOC_GEN_COLLECTION_NAME": "STORYBOOK_REACT_CLASSES",
-                      },
-                    ],
-                  ],
-                  "test": "/\\\\.(mjs|jsx?)$/",
-                },
-              ],
               "plugins": Array [
                 "NODE_MODULES/react-refresh/babel.js",
               ],
@@ -168,11 +236,10 @@ Object {
             "test": "/\\\\.(js|mjs)$/",
           },
           Object {
-            "exclude": Array [
-              "/\\\\.module\\\\.css$/",
-              "/@storybook/",
+            "exclude": "/\\\\.module\\\\.css$/",
+            "include": Array [
+              "ROOT/examples/cra-ts-essentials/.storybook",
             ],
-            "include": undefined,
             "sideEffects": true,
             "test": "/\\\\.css$/",
             "use": Array [
@@ -378,27 +445,7 @@ Object {
             "loader": "NODE_MODULES/babel-loader/lib/index.js",
             "options": Object {
               "babelrc": false,
-              "cacheDirectory": "NODE_MODULES/.cache/storybook/babel",
               "configFile": false,
-              "overrides": Array [
-                Object {
-                  "plugins": Array [
-                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
-                  ],
-                  "test": "/\\\\.(story|stories).*$/",
-                },
-                Object {
-                  "plugins": Array [
-                    Array [
-                      "NODE_MODULES/babel-plugin-react-docgen/lib/index.js",
-                      Object {
-                        "DOC_GEN_COLLECTION_NAME": "STORYBOOK_REACT_CLASSES",
-                      },
-                    ],
-                  ],
-                  "test": "/\\\\.(cjs|mjs|jsx?)$/",
-                },
-              ],
               "plugins": Array [
                 Array [
                   "NODE_MODULES/@babel/plugin-transform-react-jsx/lib/index.js",
@@ -408,7 +455,6 @@ Object {
                   },
                 ],
               ],
-              "presets": Array [],
             },
           },
           Object {
@@ -424,27 +470,7 @@ Object {
             "loader": "NODE_MODULES/babel-loader/lib/index.js",
             "options": Object {
               "babelrc": false,
-              "cacheDirectory": "NODE_MODULES/.cache/storybook/babel",
               "configFile": false,
-              "overrides": Array [
-                Object {
-                  "plugins": Array [
-                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
-                  ],
-                  "test": "/\\\\.(story|stories).*$/",
-                },
-                Object {
-                  "plugins": Array [
-                    Array [
-                      "NODE_MODULES/babel-plugin-react-docgen/lib/index.js",
-                      Object {
-                        "DOC_GEN_COLLECTION_NAME": "STORYBOOK_REACT_CLASSES",
-                      },
-                    ],
-                  ],
-                  "test": "/\\\\.(cjs|mjs|jsx?)$/",
-                },
-              ],
               "plugins": Array [
                 Array [
                   "NODE_MODULES/@babel/plugin-transform-react-jsx/lib/index.js",
@@ -454,7 +480,6 @@ Object {
                   },
                 ],
               ],
-              "presets": Array [],
             },
           },
           Object {
@@ -478,16 +503,6 @@ Object {
         },
         "test": "/\\\\.(stories|story)\\\\.[tj]sx?$/",
       },
-      Object {
-        "test": "/\\\\.m?js$/",
-        "type": "javascript/auto",
-      },
-      Object {
-        "resolve": Object {
-          "fullySpecified": false,
-        },
-        "test": "/\\\\.m?js$/",
-      },
     ],
   },
   "plugins": Array [
@@ -498,9 +513,9 @@ Object {
     "HotModuleReplacementPlugin",
     "CaseSensitivePathsPlugin",
     "ProgressPlugin",
-    "InterpolateHtmlPlugin",
     "ModuleNotFoundPlugin",
     "ReactRefreshPlugin",
+    "CaseSensitivePathsPlugin",
     "IgnorePlugin",
     "ForkTsCheckerWebpackPlugin",
     "ESLintWebpackPlugin",
