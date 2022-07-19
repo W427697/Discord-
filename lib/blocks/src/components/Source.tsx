@@ -4,19 +4,23 @@ import { SyntaxHighlighter } from '@storybook/components';
 
 import { EmptyBlock } from './EmptyBlock';
 
-const StyledSyntaxHighlighter = styled(SyntaxHighlighter)(({ theme }) => ({
-  // DocBlocks-specific styling and overrides
-  fontSize: `${theme.typography.size.s2 - 1}px`,
-  lineHeight: '19px',
-  margin: '25px 0 40px',
-  borderRadius: theme.appBorderRadius,
-  boxShadow:
-    theme.base === 'light' ? 'rgba(0, 0, 0, 0.10) 0 1px 3px 0' : 'rgba(0, 0, 0, 0.20) 0 2px 5px 0',
-  'pre.prismjs': {
-    padding: 20,
-    background: 'inherit',
-  },
-}));
+const StyledSyntaxHighlighter: typeof SyntaxHighlighter = styled(SyntaxHighlighter)(
+  ({ theme }) => ({
+    // DocBlocks-specific styling and overrides
+    fontSize: `${theme.typography.size.s2 - 1}px`,
+    lineHeight: '19px',
+    margin: '25px 0 40px',
+    borderRadius: theme.appBorderRadius,
+    boxShadow:
+      theme.base === 'light'
+        ? 'rgba(0, 0, 0, 0.10) 0 1px 3px 0'
+        : 'rgba(0, 0, 0, 0.20) 0 2px 5px 0',
+    'pre.prismjs': {
+      padding: 20,
+      background: 'inherit',
+    },
+  })
+);
 
 export enum SourceError {
   NO_STORY = 'There\u2019s no story here.',
@@ -35,7 +39,7 @@ interface SourceCodeProps {
   dark?: boolean;
 }
 
-const SourceSkeletonWrapper = styled.div<{}>(({ theme }) => ({
+const SourceSkeletonWrapper = styled.div(({ theme }) => ({
   background: theme.background.content,
   borderRadius: theme.appBorderRadius,
   border: `1px solid ${theme.appBorderColor}`,
@@ -45,7 +49,7 @@ const SourceSkeletonWrapper = styled.div<{}>(({ theme }) => ({
   padding: '20px 20px 20px 22px',
 }));
 
-const SourceSkeletonPlaceholder = styled.div<{}>(({ theme }) => ({
+const SourceSkeletonPlaceholder = styled.div(({ theme }) => ({
   animation: `${theme.animation.glow} 1.5s ease-in-out infinite`,
   background: theme.appBorderColor,
   height: 17,

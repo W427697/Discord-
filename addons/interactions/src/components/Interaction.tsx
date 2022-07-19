@@ -17,7 +17,7 @@ const MethodCallWrapper = styled.div(() => ({
 }));
 
 const RowContainer = styled('div', {
-  shouldForwardProp: (prop) => !['call', 'pausedAt'].includes(prop),
+  shouldForwardProp: (prop) => !['call', 'pausedAt'].includes(prop.toString()),
 })<{ call: Call; pausedAt: Call['id'] }>(
   ({ theme, call }) => ({
     position: 'relative',
@@ -61,9 +61,9 @@ const RowHeader = styled.div<{ disabled: boolean }>(({ theme, disabled }) => ({
   '&:hover': disabled ? {} : { background: theme.background.hoverable },
 }));
 
-const RowLabel = styled('button', { shouldForwardProp: (prop) => !['call'].includes(prop) })<
-  React.ButtonHTMLAttributes<HTMLButtonElement> & { call: Call }
->(({ theme, disabled, call }) => ({
+const RowLabel = styled('button', {
+  shouldForwardProp: (prop) => !['call'].includes(prop.toString()),
+})<React.ButtonHTMLAttributes<HTMLButtonElement> & { call: Call }>(({ theme, disabled, call }) => ({
   flex: 1,
   display: 'grid',
   background: 'none',

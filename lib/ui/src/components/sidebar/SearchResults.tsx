@@ -1,13 +1,7 @@
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import global from 'global';
-import React, {
-  FunctionComponent,
-  MouseEventHandler,
-  ReactNode,
-  useCallback,
-  useEffect,
-} from 'react';
+import React, { FC, MouseEventHandler, ReactNode, useCallback, useEffect } from 'react';
 import { ControllerStateAndHelpers } from 'downshift';
 
 import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
@@ -97,7 +91,7 @@ const ActionKey = styled.code(({ theme }) => ({
   pointerEvents: 'none',
 }));
 
-const Highlight: FunctionComponent<{ match?: Match }> = React.memo(({ children, match }) => {
+const Highlight: FC<{ match?: Match }> = React.memo(({ children, match }) => {
   if (!match) return <>{children}</>;
   const { value, indices } = match;
   const { nodes: result } = indices.reduce<{ cursor: number; nodes: ReactNode[] }>(
@@ -116,7 +110,7 @@ const Highlight: FunctionComponent<{ match?: Match }> = React.memo(({ children, 
   return <>{result}</>;
 });
 
-const Result: FunctionComponent<
+const Result: FC<
   SearchResult & { icon: string; isHighlighted: boolean; onClick: MouseEventHandler }
 > = React.memo(({ item, matches, icon, onClick, ...props }) => {
   const click: MouseEventHandler = useCallback(
@@ -161,7 +155,7 @@ const Result: FunctionComponent<
   return <ResultRow {...props}>{node}</ResultRow>;
 });
 
-export const SearchResults: FunctionComponent<{
+export const SearchResults: FC<{
   query: string;
   results: DownshiftItem[];
   closeMenu: (cb?: () => void) => void;

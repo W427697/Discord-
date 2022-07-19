@@ -1,7 +1,7 @@
-import React, { FunctionComponent, ComponentProps, HTMLAttributes } from 'react';
+import React, { FC, ComponentProps, HTMLAttributes } from 'react';
 
 type Props = Pick<HTMLAttributes<HTMLButtonElement>, 'onClick'>;
-const Button: FunctionComponent<Props> = ({ children, onClick }) => (
+const Button: FC<Props> = ({ children, onClick }) => (
   <button onClick={onClick} type="button">
     {children}
   </button>
@@ -11,10 +11,7 @@ type WrappedProps = {
   spacing: number;
 } & ComponentProps<typeof Button>;
 
-const WrappedButton: FunctionComponent<WrappedProps> = ({
-  spacing,
-  ...buttonProps
-}: WrappedProps) => (
+const WrappedButton: FC<WrappedProps> = ({ spacing, ...buttonProps }: WrappedProps) => (
   <div style={{ padding: spacing }}>
     <Button {...buttonProps} />
   </div>

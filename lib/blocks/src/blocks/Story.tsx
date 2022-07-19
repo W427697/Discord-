@@ -1,5 +1,5 @@
 import React, {
-  FunctionComponent,
+  FC,
   ReactNode,
   ElementType,
   ComponentProps,
@@ -82,7 +82,7 @@ export const getStoryProps = <TFramework extends AnyFramework>(
   };
 };
 
-const Story: FunctionComponent<StoryProps> = (props) => {
+const Story: FC<StoryProps> = (props) => {
   const context = useContext(DocsContext);
   const storyRef = useRef();
   const storyId = getStoryId(props, context);

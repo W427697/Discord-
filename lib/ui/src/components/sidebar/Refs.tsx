@@ -1,11 +1,4 @@
-import React, {
-  FunctionComponent,
-  useMemo,
-  useState,
-  useRef,
-  useCallback,
-  MutableRefObject,
-} from 'react';
+import React, { FC, useMemo, useState, useRef, useCallback, MutableRefObject } from 'react';
 import { useStorybookApi } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
@@ -97,7 +90,7 @@ const CollapseButton = styled.button(({ theme }) => ({
   },
 }));
 
-export const Ref: FunctionComponent<RefType & RefProps> = React.memo((props) => {
+export const Ref: FC<RefType & RefProps> = React.memo((props) => {
   const api = useStorybookApi();
   const {
     stories,
