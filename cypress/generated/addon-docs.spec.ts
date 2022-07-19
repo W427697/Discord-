@@ -11,15 +11,16 @@ describe('addon-docs', () => {
       it('should provide source snippet', () => {
         cy.getDocsElement()
           .find('.docblock-code-toggle')
-          .first()
-          .should('contain.text', 'Show code')
-          // use force click so cypress does not automatically scroll, making the source block visible on this step
-          .click({ force: true });
+          .each(($div) => {
+            cy.wrap($div)
+              .should('contain.text', 'Show code')
+              // use force click so cypress does not automatically scroll, making the source block visible on this step
+              .click({ force: true });
+          });
 
         cy.getDocsElement()
           .find('pre.prismjs')
-          .first()
-          .should(($div) => {
+          .each(($div) => {
             const text = $div.text();
             expect(text).not.match(/^\(args\) => /);
           });
