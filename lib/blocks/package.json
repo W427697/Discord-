@@ -41,7 +41,6 @@
     "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@mdx-js/react": "^1.6.22",
     "@storybook/addons": "7.0.0-alpha.13",
     "@storybook/api": "7.0.0-alpha.13",
     "@storybook/client-logger": "7.0.0-alpha.13",
@@ -68,8 +67,7 @@
     "@digitak/esrun": "^3.2.2"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "publishConfig": {
     "access": "public"
