@@ -1,11 +1,6 @@
-import {
-  AnyFramework,
-  ComponentTitle,
-  StoryContextForLoaders,
-  StoryId,
-  StoryName,
-} from '@storybook/csf';
-import { CSFFile, ModuleExport, ModuleExports, Story, StoryStore } from '@storybook/store';
+import type { AnyFramework, StoryContextForLoaders, StoryId, StoryName } from '@storybook/csf';
+import type { CSFFile, ModuleExport, ModuleExports, Story, StoryStore } from '@storybook/store';
+import type { Channel } from '@storybook/channels';
 
 import { DocsContextProps } from './DocsContextProps';
 
@@ -21,9 +16,7 @@ export class DocsContext<TFramework extends AnyFramework> implements DocsContext
   private primaryStory?: Story<TFramework>;
 
   constructor(
-    public readonly id: StoryId,
-    public readonly title: ComponentTitle,
-    public readonly name: StoryName,
+    public channel: Channel,
     protected store: StoryStore<TFramework>,
     public renderStoryToElement: DocsContextProps['renderStoryToElement'],
     /** The CSF files known (via the index) to be refererenced by this docs file */

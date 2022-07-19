@@ -47,7 +47,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       // sourcemap: optimized,
       format: ['esm'],
       target: 'chrome100',
-      clean: true,
+      clean: !watch,
       platform: platform || 'browser',
       // shims: true,
       esbuildPlugins: [
@@ -85,7 +85,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       format: ['cjs'],
       target: 'node14',
       platform: 'node',
-      clean: true,
+      clean: !watch,
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
 
       esbuildOptions: (c) => {

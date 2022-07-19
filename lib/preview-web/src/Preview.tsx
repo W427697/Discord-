@@ -37,8 +37,6 @@ type MaybePromise<T> = Promise<T> | T;
 const STORY_INDEX_PATH = './index.json';
 
 export class Preview<TFramework extends AnyFramework> {
-  channel: Channel;
-
   serverChannel?: Channel;
 
   storyStore: StoryStore<TFramework>;
@@ -53,8 +51,7 @@ export class Preview<TFramework extends AnyFramework> {
 
   previewEntryError?: Error;
 
-  constructor() {
-    this.channel = addons.getChannel();
+  constructor(protected channel: Channel = addons.getChannel()) {
     if (global.FEATURES?.storyStoreV7 && addons.hasServerChannel()) {
       this.serverChannel = addons.getServerChannel();
     }

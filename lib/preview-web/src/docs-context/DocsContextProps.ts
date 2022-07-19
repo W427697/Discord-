@@ -1,5 +1,6 @@
 import type { StoryId, StoryName, AnyFramework, StoryContextForLoaders } from '@storybook/csf';
 import type { ModuleExport, ModuleExports, Story } from '@storybook/store';
+import type { Channel } from '@storybook/channels';
 
 export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework> {
   /**
@@ -42,4 +43,9 @@ export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework
    * Render a story to a given HTML element and keep it up to date across context changes
    */
   renderStoryToElement: (story: Story<TFramework>, element: HTMLElement) => () => Promise<void>;
+
+  /**
+   * Storybook channel -- use for low level event watching/emitting
+   */
+  channel: Channel;
 }
