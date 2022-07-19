@@ -22,7 +22,7 @@ export class DocsRenderer<TFramework extends AnyFramework> {
   constructor() {
     this.render = (
       context: DocsContextProps<TFramework>,
-      parameters: Parameters,
+      docsParameter: Parameters,
       element: HTMLElement,
       callback: () => void
     ): void => {
@@ -31,7 +31,7 @@ export class DocsRenderer<TFramework extends AnyFramework> {
       //   https://github.com/storybookjs/storybook/pull/16149
       ReactDOM.render(
         <MDXProvider components={defaultComponents}>
-          <Docs key={Math.random()} context={context} parameters={parameters} />
+          <Docs key={Math.random()} context={context} docsParameter={docsParameter} />
         </MDXProvider>,
         element,
         callback

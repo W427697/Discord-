@@ -23,10 +23,10 @@ export const ExternalDocs: FunctionComponent<ExternalDocsProps> = ({
 }) => {
   const projectAnnotations = composeConfigs(projectAnnotationsList);
   const preview = usePreview(projectAnnotations);
-  const parameters = {
+  const docsParameter = {
     ...projectAnnotations.parameters?.docs,
     page: () => children,
   };
 
-  return <Docs parameters={parameters} context={preview.docsContext()} />;
+  return <Docs docsParameter={docsParameter} context={preview.docsContext()} />;
 };

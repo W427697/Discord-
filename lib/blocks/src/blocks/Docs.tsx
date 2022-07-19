@@ -8,18 +8,18 @@ import { DocsContainer } from './DocsContainer';
 import { DocsPage } from './DocsPage';
 
 export type DocsProps<TFramework extends AnyFramework = AnyFramework> = {
-  parameters: Parameters;
+  docsParameter: Parameters;
   context: DocsContextProps<TFramework>;
 };
 
-export const Docs: FunctionComponent<DocsProps> = ({ parameters, context }) => {
+export const Docs: FunctionComponent<DocsProps> = ({ docsParameter, context }) => {
   const Container: ComponentType<{ context: DocsContextProps; theme: Theme }> =
-    parameters.container || DocsContainer;
+    docsParameter.container || DocsContainer;
 
-  const Page = parameters.page || DocsPage;
+  const Page = docsParameter.page || DocsPage;
 
   return (
-    <Container context={context} theme={parameters.theme}>
+    <Container context={context} theme={docsParameter.theme}>
       <Page />
     </Container>
   );
