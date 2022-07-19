@@ -24,7 +24,6 @@ import { AnyFramework, StoryId, ProjectAnnotations, Args, Globals, ViewMode } fr
 import type {
   ModuleImportFn,
   Selection,
-  Story,
   StorySpecifier,
   StoryIndex,
   PromiseLike,
@@ -35,8 +34,9 @@ import { Preview } from './Preview';
 
 import { UrlStore } from './UrlStore';
 import { WebView } from './WebView';
-import { PREPARE_ABORTED, Render, StoryRender } from './StoryRender';
-import { DocsRender } from './DocsRender';
+import { PREPARE_ABORTED, StoryRender } from './render/StoryRender';
+import { TemplateDocsRender } from './render/TemplateDocsRender';
+import { StandaloneDocsRender } from './render/StandaloneDocsRender';
 
 const { window: globalWindow } = global;
 
@@ -46,6 +46,16 @@ function focusInInput(event: Event) {
 }
 
 type MaybePromise<T> = Promise<T> | T;
+type PossibleRender<TFramework extends AnyFramework> =
+  | StoryRender<TFramework>
+  | TemplateDocsRender<TFramework>
+  | StandaloneDocsRender<TFramework>;
+
+function isStoryRender<TFramework extends AnyFramework>(
+  r: PossibleRender<TFramework>
+): r is StoryRender<TFramework> {
+  return r.type === 'story';
+}
 
 export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramework> {
   urlStore: UrlStore;
@@ -56,7 +66,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
   currentSelection?: Selection;
 
-  currentRender?: StoryRender<TFramework> | DocsRender<TFramework>;
+  currentRender?: PossibleRender<TFramework>;
 
   constructor() {
     super();
@@ -124,10 +134,10 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       return;
     }
 
-    const { storySpecifier, viewMode, args } = this.urlStore.selectionSpecifier;
-    const storyId = this.storyStore.storyIndex.storyIdFromSpecifier(storySpecifier);
+    const { storySpecifier, args } = this.urlStore.selectionSpecifier;
+    const entry = this.storyStore.storyIndex.entryFromSpecifier(storySpecifier);
 
-    if (!storyId) {
+    if (!entry) {
       if (storySpecifier === '*') {
         this.renderStoryLoadingException(
           storySpecifier,
@@ -152,6 +162,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       return;
     }
 
+    const { id: storyId, type: viewMode } = entry;
     this.urlStore.setSelection({ storyId, viewMode });
     this.channel.emit(STORY_SPECIFIED, this.urlStore.selection);
 
@@ -217,21 +228,10 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
   async onUpdateGlobals({ globals }: { globals: Globals }) {
     super.onUpdateGlobals({ globals });
-
-    if (this.currentRender instanceof DocsRender) await this.currentRender.rerender();
   }
 
   async onUpdateArgs({ storyId, updatedArgs }: { storyId: StoryId; updatedArgs: Args }) {
     super.onUpdateArgs({ storyId, updatedArgs });
-
-    // NOTE: we aren't checking to see the story args are targetted at the "right" story.
-    // This is because we may render >1 story on the page and there is no easy way to keep track
-    // of which ones were rendered by the docs page.
-    // However, in `modernInlineRender`, the individual stories track their own events as they
-    // each call `renderStoryToElement` below.
-    if (this.currentRender instanceof DocsRender) {
-      await this.currentRender.rerender();
-    }
   }
 
   async onPreloadStories(ids: string[]) {
@@ -261,15 +261,12 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       return;
     }
 
-    // Docs entries cannot be rendered in 'story' viewMode.
-    // For now story entries can be rendered in docs mode.
-    const viewMode = (entry?.type === 'docs' ? 'docs' : selection.viewMode) || 'story';
-
     const storyIdChanged = this.currentSelection?.storyId !== storyId;
-    const viewModeChanged = this.currentSelection?.viewMode !== viewMode;
+    // FIXME: suspect line
+    const viewModeChanged = this.currentRender?.type !== entry.type;
 
     // Show a spinner while we load the next story
-    if (viewMode === 'story') {
+    if (entry.type === 'story') {
       this.view.showPreparingStory({ immediate: viewModeChanged });
     } else {
       this.view.showPreparingDocs();
@@ -285,8 +282,8 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       await this.teardownRender(this.currentRender);
     }
 
-    let render;
-    if (viewMode === 'story') {
+    let render: PossibleRender<TFramework>;
+    if (entry.type === 'story') {
       render = new StoryRender<TFramework>(
         this.channel,
         this.storyStore,
@@ -299,8 +296,10 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
         storyId,
         'story'
       );
+    } else if (entry.standalone) {
+      render = new StandaloneDocsRender<TFramework>(this.channel, this.storyStore, entry);
     } else {
-      render = new DocsRender<TFramework>(this.channel, this.storyStore, entry);
+      render = new TemplateDocsRender<TFramework>(this.channel, this.storyStore, entry);
     }
 
     // We need to store this right away, so if the story changes during
@@ -324,7 +323,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     }
     const implementationChanged = !storyIdChanged && lastRender && !render.isEqual(lastRender);
 
-    if (persistedArgs && entry.type !== 'docs') {
+    if (persistedArgs && isStoryRender(render)) {
       if (!render.story) throw new Error('Render has not been prepared!');
       this.storyStore.args.updateFromPersisted(render.story, persistedArgs);
     }
@@ -352,7 +351,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       this.channel.emit(STORY_CHANGED, storyId);
     }
 
-    if (entry.type !== 'docs') {
+    if (isStoryRender(render)) {
       if (!render.story) throw new Error('Render has not been prepared!');
       const { parameters, initialArgs, argTypes, args } = this.storyStore.getStoryContext(
         render.story
@@ -376,49 +375,22 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       }
     }
 
-    if (viewMode === 'docs') {
-      this.currentRender.renderToElement(
-        this.view.prepareForDocs(),
-        this.renderStoryToElement.bind(this)
-      );
-    } else {
+    if (isStoryRender(render)) {
       if (!render.story) throw new Error('Render has not been prepared!');
       this.storyRenders.push(render as StoryRender<TFramework>);
       (this.currentRender as StoryRender<TFramework>).renderToElement(
         this.view.prepareForStory(render.story)
       );
+    } else {
+      this.currentRender.renderToElement(
+        this.view.prepareForDocs(),
+        this.renderStoryToElement.bind(this)
+      );
     }
   }
 
-  // Used by docs' modernInlineRender to render a story to a given element
-  // Note this short-circuits the `prepare()` phase of the StoryRender,
-  // main to be consistent with the previous behaviour. In the future,
-  // we will change it to go ahead and load the story, which will end up being
-  // "instant", although async.
-  renderStoryToElement(story: Story<TFramework>, element: HTMLElement) {
-    if (!this.renderToDOM)
-      throw new Error(`Cannot call renderStoryToElement before initialization`);
-
-    const render = new StoryRender<TFramework>(
-      this.channel,
-      this.storyStore,
-      this.renderToDOM,
-      this.inlineStoryCallbacks(story.id),
-      story.id,
-      'docs',
-      story
-    );
-    render.renderToElement(element);
-
-    this.storyRenders.push(render);
-
-    return async () => {
-      await this.teardownRender(render);
-    };
-  }
-
   async teardownRender(
-    render: Render<TFramework>,
+    render: PossibleRender<TFramework>,
     { viewModeChanged = false }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);

@@ -1,5 +1,4 @@
-import React, { FC, SyntheticEvent } from 'react';
-import { addons } from '@storybook/addons';
+import React, { useContext, FC, SyntheticEvent } from 'react';
 import { NAVIGATE_URL } from '@storybook/core-events';
 import { Code, components } from '@storybook/components';
 import global from 'global';
@@ -50,8 +49,8 @@ export const CodeOrSourceMdx: FC<CodeOrSourceMdxProps> = ({ className, children,
   );
 };
 
-function navigate(url: string) {
-  addons.getChannel().emit(NAVIGATE_URL, url);
+function navigate(context: DocsContextProps, url: string) {
+  context.channel.emit(NAVIGATE_URL, url);
 }
 
 // @ts-ignore
@@ -61,21 +60,25 @@ interface AnchorInPageProps {
   hash: string;
 }
 
-const AnchorInPage: FC<AnchorInPageProps> = ({ hash, children }) => (
-  <A
-    href={hash}
-    target="_self"
-    onClick={(event: SyntheticEvent) => {
-      const id = hash.substring(1);
-      const element = document.getElementById(id);
-      if (element) {
-        navigate(hash);
-      }
-    }}
-  >
-    {children}
-  </A>
-);
+const AnchorInPage: FC<AnchorInPageProps> = ({ hash, children }) => {
+  const context = useContext(DocsContext);
+
+  return (
+    <A
+      href={hash}
+      target="_self"
+      onClick={(event: SyntheticEvent) => {
+        const id = hash.substring(1);
+        const element = document.getElementById(id);
+        if (element) {
+          navigate(context, hash);
+        }
+      }}
+    >
+      {children}
+    </A>
+  );
+};
 
 interface AnchorMdxProps {
   href: string;
@@ -84,6 +87,7 @@ interface AnchorMdxProps {
 
 export const AnchorMdx: FC<AnchorMdxProps> = (props) => {
   const { href, target, children, ...rest } = props;
+  const context = useContext(DocsContext);
 
   if (href) {
     // Enable scrolling for in-page anchors.
@@ -100,7 +104,7 @@ export const AnchorMdx: FC<AnchorMdxProps> = (props) => {
             event.preventDefault();
             // use the A element's href, which has been modified for
             // local paths without a `?path=` query param prefix
-            navigate(event.currentTarget.getAttribute('href'));
+            navigate(context, event.currentTarget.getAttribute('href'));
           }}
           target={target}
           {...rest}
@@ -153,6 +157,8 @@ const HeaderWithOcticonAnchor: FC<HeaderWithOcticonAnchorProps> = ({
   children,
   ...rest
 }) => {
+  const context = useContext(DocsContext);
+
   // @ts-ignore
   const OcticonHeader = OcticonHeaders[as];
   const hash = `#${id}`;
@@ -167,7 +173,7 @@ const HeaderWithOcticonAnchor: FC<HeaderWithOcticonAnchorProps> = ({
         onClick={(event: SyntheticEvent) => {
           const element = document.getElementById(id);
           if (element) {
-            navigate(hash);
+            navigate(context, hash);
           }
         }}
       >

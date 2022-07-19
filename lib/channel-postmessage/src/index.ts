@@ -36,7 +36,9 @@ export class PostmsgTransport {
   constructor(private readonly config: Config) {
     this.buffer = [];
     this.handler = null;
-    globalWindow.addEventListener('message', this.handleEvent.bind(this), false);
+    if (globalWindow) {
+      globalWindow.addEventListener('message', this.handleEvent.bind(this), false);
+    }
 
     // Check whether the config.page parameter has a valid value
     if (config.page !== 'manager' && config.page !== 'preview') {

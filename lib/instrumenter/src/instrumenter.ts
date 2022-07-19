@@ -10,7 +10,16 @@ import {
 } from '@storybook/core-events';
 import global from 'global';
 
-import { Call, CallRef, CallStates, ControlStates, LogItem, Options, State } from './types';
+import {
+  Call,
+  CallRef,
+  CallStates,
+  ControlStates,
+  LogItem,
+  Options,
+  State,
+  SyncPayload,
+} from './types';
 
 export const EVENTS = {
   CALL: 'instrumenter/call',
@@ -251,7 +260,8 @@ export class Instrumenter {
       acc[storyId] = Object.assign(getInitialState(), retainedState);
       return acc;
     }, {} as Record<StoryId, State>);
-    this.channel.emit(EVENTS.SYNC, { controlStates: controlsDisabled, logItems: [] });
+    const payload: SyncPayload = { controlStates: controlsDisabled, logItems: [] };
+    this.channel.emit(EVENTS.SYNC, payload);
     global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ = this.state;
   }
 
@@ -558,7 +568,8 @@ export class Instrumenter {
 
     const hasActive = logItems.some((item) => item.status === CallStates.ACTIVE);
     if (debuggerDisabled || isLocked || hasActive || logItems.length === 0) {
-      this.channel.emit(EVENTS.SYNC, { controlStates: controlsDisabled, logItems });
+      const payload: SyncPayload = { controlStates: controlsDisabled, logItems };
+      this.channel.emit(EVENTS.SYNC, payload);
       return;
     }
 
@@ -574,7 +585,8 @@ export class Instrumenter {
       end: isPlaying,
     };
 
-    this.channel.emit(EVENTS.SYNC, { controlStates, logItems, pausedAt });
+    const payload: SyncPayload = { controlStates, logItems, pausedAt };
+    this.channel.emit(EVENTS.SYNC, payload);
   }
 }
 

@@ -1,12 +1,12 @@
 import React, { ComponentProps, FC, useContext } from 'react';
-import type { StoryId, Parameters } from '@storybook/api';
+import type { StoryId } from '@storybook/api';
 import type { Story } from '@storybook/store';
 import { SourceType } from '@storybook/docs-tools';
 
 import { Source as PureSource, SourceError } from '../components';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { SourceContext, SourceContextProps, SourceItem } from './SourceContainer';
-import { CURRENT_SELECTION } from './types';
+import { CURRENT_SELECTION, currentSelectionWarning } from './types';
 
 import { enhanceSource } from './enhanceSource';
 import { useStories } from './useStory';
@@ -93,13 +93,7 @@ export const getSourceProps = (
   docsContext: DocsContextProps<any>,
   sourceContext: SourceContextProps
 ): PureSourceProps & SourceStateProps => {
-  const { id: currentId, storyById } = docsContext;
-  let parameters = {} as Parameters;
-  try {
-    ({ parameters } = storyById(currentId));
-  } catch (err) {
-    // TODO: in external mode, there is no "current"
-  }
+  const { id: primaryId, parameters } = docsContext.storyById();
 
   const codeProps = props as CodeProps;
   const singleProps = props as SingleSourceProps;
@@ -108,10 +102,11 @@ export const getSourceProps = (
   let source = codeProps.code; // prefer user-specified code
   let { format } = codeProps; // prefer user-specified code
 
-  const targetIds = multiProps.ids || [singleProps.id || currentId];
-  const storyIds = targetIds.map((targetId) =>
-    targetId === CURRENT_SELECTION ? currentId : targetId
-  );
+  const targetIds = multiProps.ids || [singleProps.id || primaryId];
+  const storyIds = targetIds.map((targetId) => {
+    if (targetId === CURRENT_SELECTION) currentSelectionWarning();
+    return targetId === CURRENT_SELECTION ? primaryId : targetId;
+  });
 
   const stories = useStories(storyIds, docsContext);
   if (!stories.every(Boolean)) {

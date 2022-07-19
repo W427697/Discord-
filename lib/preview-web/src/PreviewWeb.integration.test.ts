@@ -80,7 +80,7 @@ describe('PreviewWeb', () => {
     });
 
     it('renders docs mode through docs page', async () => {
-      document.location.search = '?id=component-one--a&viewMode=docs';
+      document.location.search = '?id=component-one--docs&viewMode=docs';
       const preview = new PreviewWeb();
 
       const docsRoot = window.document.createElement('div');

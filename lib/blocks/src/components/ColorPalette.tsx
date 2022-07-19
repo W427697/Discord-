@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { transparentize } from 'polished';
 import { styled } from '@storybook/theming';
 import { ResetWrapper } from '@storybook/components';
@@ -179,7 +179,7 @@ function renderSwatchSpecimen(colors: Colors) {
  * A single color row your styleguide showing title, subtitle and one or more colors, used
  * as a child of `ColorPalette`.
  */
-export const ColorItem: FC<ColorItemProps> = ({ title, subtitle, colors }) => {
+export const ColorItem: FunctionComponent<ColorItemProps> = ({ title, subtitle, colors }) => {
   return (
     <Item>
       <ItemDescription>
@@ -191,11 +191,15 @@ export const ColorItem: FC<ColorItemProps> = ({ title, subtitle, colors }) => {
   );
 };
 
+interface ColorPaletteProps {
+  children?: React.ReactNode;
+}
+
 /**
  * Styleguide documentation for colors, including names, captions, and color swatches,
  * all specified as `ColorItem` children of this wrapper component.
  */
-export const ColorPalette: FC = ({ children, ...props }) => (
+export const ColorPalette: FunctionComponent<ColorPaletteProps> = ({ children, ...props }) => (
   <ResetWrapper>
     <List {...props} className="docblock-colorpalette">
       <ListHeading>

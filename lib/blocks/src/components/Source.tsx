@@ -1,12 +1,10 @@
-import React, { ComponentProps, FC } from 'react';
+import React, { ComponentProps, FunctionComponent } from 'react';
 import { styled, ThemeProvider, convert, themes } from '@storybook/theming';
 import { SyntaxHighlighter } from '@storybook/components';
 
 import { EmptyBlock } from './EmptyBlock';
 
-const StyledSyntaxHighlighter: FC<ComponentProps<typeof SyntaxHighlighter>> = styled(
-  SyntaxHighlighter
-)(({ theme }) => ({
+const StyledSyntaxHighlighter = styled(SyntaxHighlighter)(({ theme }) => ({
   // DocBlocks-specific styling and overrides
   fontSize: `${theme.typography.size.s2 - 1}px`,
   lineHeight: '19px',
@@ -37,7 +35,7 @@ interface SourceCodeProps {
   dark?: boolean;
 }
 
-const SourceSkeletonWrapper = styled.div(({ theme }) => ({
+const SourceSkeletonWrapper = styled.div<{}>(({ theme }) => ({
   background: theme.background.content,
   borderRadius: theme.appBorderRadius,
   border: `1px solid ${theme.appBorderColor}`,
@@ -47,7 +45,7 @@ const SourceSkeletonWrapper = styled.div(({ theme }) => ({
   padding: '20px 20px 20px 22px',
 }));
 
-const SourceSkeletonPlaceholder = styled.div(({ theme }) => ({
+const SourceSkeletonPlaceholder = styled.div<{}>(({ theme }) => ({
   animation: `${theme.animation.glow} 1.5s ease-in-out infinite`,
   background: theme.appBorderColor,
   height: 17,
@@ -75,7 +73,7 @@ export type SourceProps = SourceErrorProps & SourceCodeProps;
 /**
  * Syntax-highlighted source code for a component (or anything!)
  */
-const Source: FC<SourceProps> = (props) => {
+const Source: FunctionComponent<SourceProps> = (props) => {
   const { isLoading, error } = props as SourceErrorProps;
   if (isLoading) {
     return <SourceSkeleton />;

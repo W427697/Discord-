@@ -299,7 +299,6 @@ export interface BasePanelRenderProps {
 export interface LayoutRenderProps {
   mainProps: BasePanelRenderProps;
   previewProps: BasePanelRenderProps & {
-    docsOnly: boolean;
     showToolbar: boolean;
   };
   navProps: BasePanelRenderProps & {
@@ -333,14 +332,12 @@ export interface LayoutProps {
     showToolbar: boolean;
   };
   viewMode: State['viewMode'];
-  docsOnly: boolean;
   theme: Theme;
 }
 
 class Layout extends Component<LayoutProps, LayoutState> {
   static defaultProps: Partial<LayoutProps> = {
     viewMode: undefined,
-    docsOnly: false,
   };
 
   constructor(props: LayoutProps) {
@@ -492,17 +489,13 @@ class Layout extends Component<LayoutProps, LayoutState> {
   };
 
   render() {
-    const { children, bounds, options, theme, viewMode, docsOnly, panelCount } = this.props;
+    const { children, bounds, options, theme, viewMode, panelCount } = this.props;
     const { isDragging, resizerNav, resizerPanel } = this.state;
 
     const margin = theme.layoutMargin;
     const isNavHidden = options.isFullscreen || !options.showNav;
     const isPanelHidden =
-      options.isFullscreen ||
-      !options.showPanel ||
-      docsOnly ||
-      viewMode !== 'story' ||
-      panelCount === 0;
+      options.isFullscreen || !options.showPanel || viewMode !== 'story' || panelCount === 0;
     const isFullscreen = options.isFullscreen || (isNavHidden && isPanelHidden);
     const { showToolbar } = options;
 
@@ -588,7 +581,6 @@ class Layout extends Component<LayoutProps, LayoutState> {
           },
           previewProps: {
             viewMode,
-            docsOnly,
             animate: !isDragging,
             isFullscreen,
             showToolbar,

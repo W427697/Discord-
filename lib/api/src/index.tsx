@@ -33,6 +33,7 @@ import type {
   DocsEntry,
   StoryEntry,
   HashEntry,
+  LeafEntry,
 } from './lib/stories';
 import type { ComposedRef, Refs } from './modules/refs';
 
@@ -105,11 +106,11 @@ export interface Combo {
 
 interface ProviderData {
   provider: provider.Provider;
+  docsMode: boolean;
 }
 
 export type ManagerProviderProps = RouterData &
   ProviderData & {
-    docsMode: boolean;
     children: ReactNode | ((props: Combo) => ReactNode);
   };
 
@@ -188,22 +189,9 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       setState: (stateChange: Partial<State>, callback) => this.setState(stateChange, callback),
     });
 
-    const routeData = { location, path, viewMode, singleStory, storyId, refId };
+    const routeData = { location, path, viewMode, singleStory, storyId, refId, docsMode };
 
-    // Initialize the state to be the initial (persisted) state of the store.
-    // This gives the modules the chance to read the persisted state, apply their defaults
-    // and override if necessary
-    const docsModeState = {
-      layout: { showToolbar: false, showPanel: false },
-      ui: { docsMode: true },
-    };
-
-    this.state = store.getInitialState(
-      getInitialState({
-        ...routeData,
-        ...(docsMode ? docsModeState : null),
-      })
-    );
+    this.state = store.getInitialState(getInitialState(routeData));
 
     const apiData = {
       navigate,
@@ -244,8 +232,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
         location: props.location,
         path: props.path,
         refId: props.refId,
-        // if its a docsOnly page, even the 'story' view mode is considered 'docs'
-        viewMode: (props.docsMode && props.viewMode) === 'story' ? 'docs' : props.viewMode,
+        viewMode: props.viewMode,
         storyId: props.storyId,
       };
     }
@@ -355,6 +342,7 @@ export type {
   DocsEntry,
   StoryEntry,
   HashEntry,
+  LeafEntry,
   ComposedRef,
   Refs,
 };

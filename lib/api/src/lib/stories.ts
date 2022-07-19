@@ -118,6 +118,9 @@ export interface StoryEntry extends BaseEntry {
   isLeaf: true;
 }
 
+export type LeafEntry = DocsEntry | StoryEntry;
+export type HashEntry = RootEntry | GroupEntry | ComponentEntry | DocsEntry | StoryEntry;
+
 /** @deprecated */
 export type Root = RootEntry;
 
@@ -125,9 +128,7 @@ export type Root = RootEntry;
 export type Group = GroupEntry | ComponentEntry;
 
 /** @deprecated */
-export type Story = DocsEntry | StoryEntry;
-
-export type HashEntry = RootEntry | GroupEntry | ComponentEntry | DocsEntry | StoryEntry;
+export type Story = LeafEntry;
 
 /**
  * The `StoriesHash` is our manager-side representation of the `StoryIndex`.
@@ -267,10 +268,11 @@ export interface PreparedStoryIndex {
 
 export const transformSetStoriesStoryDataToStoriesHash = (
   data: SetStoriesStoryData,
-  { provider }: { provider: Provider }
+  { provider, docsMode }: { provider: Provider; docsMode: boolean }
 ) =>
   transformStoryIndexToStoriesHash(transformSetStoriesStoryDataToPreparedStoryIndex(data), {
     provider,
+    docsMode,
   });
 
 const transformSetStoriesStoryDataToPreparedStoryIndex = (
@@ -338,8 +340,10 @@ export const transformStoryIndexToStoriesHash = (
   index: PreparedStoryIndex,
   {
     provider,
+    docsMode,
   }: {
     provider: Provider;
+    docsMode: boolean;
   }
 ): StoriesHash => {
   if (!index.v) throw new Error('Composition: Missing stories.json version');
@@ -360,6 +364,8 @@ export const transformStoryIndexToStoriesHash = (
   }
 
   const storiesHashOutOfOrder = Object.values(entryValues).reduce((acc, item) => {
+    if (docsMode && item.type !== 'docs') return acc;
+
     // First, split the title into a set of names, separated by '/' and trimmed.
     const { title } = item;
     const groups = title.trim().split(TITLE_PATH_SEPARATOR);

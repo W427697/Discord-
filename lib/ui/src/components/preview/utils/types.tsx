@@ -1,5 +1,6 @@
-import { FC, ReactNode } from 'react';
-import { State, API, DocsEntry, StoryEntry } from '@storybook/api';
+import { FunctionComponent, ReactNode } from 'react';
+import { State, API, LeafEntry } from '@storybook/api';
+import { StoryId } from '@storybook/csf';
 
 export type ViewMode = State['viewMode'];
 
@@ -7,9 +8,8 @@ export interface PreviewProps {
   api: API;
   viewMode: ViewMode;
   refs: State['refs'];
-  storyId: StoryEntry['id'];
-  story: DocsEntry | StoryEntry;
-  docsOnly: boolean;
+  storyId: StoryId;
+  entry: LeafEntry;
   options: {
     isFullscreen: boolean;
     showTabs: boolean;
@@ -29,19 +29,19 @@ export interface WrapperProps {
   index: number;
   children: ReactNode;
   id: string;
-  storyId: string;
+  storyId: StoryId;
   active: boolean;
 }
 
 export interface Wrapper {
-  render: FC<WrapperProps>;
+  render: FunctionComponent<WrapperProps>;
 }
 
 export interface ApplyWrappersProps {
   wrappers: Wrapper[];
   viewMode: State['viewMode'];
   id: string;
-  storyId: string;
+  storyId: StoryId;
   active: boolean;
 }
 
@@ -55,8 +55,8 @@ export type CustomCanvasRenderer = (
 ) => ReactNode;
 
 export interface FramesRendererProps {
-  story: DocsEntry | StoryEntry;
-  storyId: string;
+  entry: LeafEntry;
+  storyId: StoryId;
   refId: string;
   baseUrl: string;
   scale: number;

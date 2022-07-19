@@ -1,3 +1,59 @@
+## 7.0.0-alpha.13 (July 11, 2022)
+
+### Features
+
+- UI: Remove docs tab ([#18677](https://github.com/storybookjs/storybook/pull/18677))
+
+### Bug Fixes
+
+- Index: Don't prepend `titlePrefix` to a docs entry that references a CSF file's title ([#18634](https://github.com/storybookjs/storybook/pull/18634))
+
+### Maintenance
+
+- Addon-dcos: Refactor DocsRender/Context ([#18635](https://github.com/storybookjs/storybook/pull/18635))
+- Instrumenter: `SyncPayload` type for `sync` event ([#18674](https://github.com/storybookjs/storybook/pull/18674))
+
+## 7.0.0-alpha.12 (July 7, 2022)
+
+### Features
+
+- Addon-docs: Produce docs page entries in the index ([#18574](https://github.com/storybookjs/storybook/pull/18574))
+- Svelte: Supports action auto configuration ([#18174](https://github.com/storybookjs/storybook/pull/18174))
+- Addon-docs: Add docs index configuration via main.js ([#18573](https://github.com/storybookjs/storybook/pull/18573))
+- Preview: Handle new docs-page index entries ([#18595](https://github.com/storybookjs/storybook/pull/18595))
+
+### Bug Fixes
+
+- CLI: Remove addon-actions install from `sb init` ([#18255](https://github.com/storybookjs/storybook/pull/18255))
+- Angular: Fix compodoc with spaces in workspace root ([#18140](https://github.com/storybookjs/storybook/pull/18140))
+- Core: Add type guard for globalWindow ([#18251](https://github.com/storybookjs/storybook/pull/18251))
+- Core: Fix builder stats typings to be optional ([#18377](https://github.com/storybookjs/storybook/pull/18377))
+
+### Maintenance
+
+- Core: Async load presets, replace interpret with esbuild-register ([#18619](https://github.com/storybookjs/storybook/pull/18619))
+- Build: Improve linting a bit ([#18642](https://github.com/storybookjs/storybook/pull/18642))
+
+### Dependency Upgrades
+
+- Deps: Use `dequal` for equality checks ([#18608](https://github.com/storybookjs/storybook/pull/18608))
+
+## 7.0.0-alpha.11 (July 6, 2022)
+
+### Features
+
+- Interactions: Show exceptions by non-instrumented code in panel ([#16592](https://github.com/storybookjs/storybook/pull/16592))
+
+### Maintenance
+
+- Build: Add linter for ejs ([#18637](https://github.com/storybookjs/storybook/pull/18637))
+- Core: Improve interopRequireDefault ([#18638](https://github.com/storybookjs/storybook/pull/18638))
+- Core: Pre-built manager using esbuild ([#18550](https://github.com/storybookjs/storybook/pull/18550))
+- Build: Add check-packages script plus misc improvements ([#18633](https://github.com/storybookjs/storybook/pull/18633))
+- Core: Typing useArgs ([#17735](https://github.com/storybookjs/storybook/pull/17735))
+- Build: Add a check script to each package ([#18603](https://github.com/storybookjs/storybook/pull/18603))
+- Build: Use playwright in benchmark ([#18606](https://github.com/storybookjs/storybook/pull/18606))
+
 ## 7.0.0-alpha.10 (July 2, 2022)
 
 ### Features

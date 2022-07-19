@@ -12,6 +12,7 @@ const Scroller: FC<ScrollAreaProps> = ({ horizontal, vertical, ...props }) => (
 );
 
 export interface ScrollAreaProps {
+  children?: React.ReactNode;
   horizontal?: boolean;
   vertical?: boolean;
   className?: string;

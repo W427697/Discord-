@@ -106,6 +106,9 @@ jest.mock('./utils/output-startup-information', () => ({
 }));
 
 jest.mock('./utils/output-stats');
+jest.mock('./utils/open-in-browser', () => ({
+  openInBrowser: jest.fn(),
+}));
 
 const cache = createFileSystemCache({
   basePath: resolvePathInStorybookCache('dev-server'),
@@ -186,7 +189,6 @@ describe.each([
       ['prod', buildStaticStandalone],
       ['dev', buildDevStandalone],
     ])('%s', async (mode, builder) => {
-      console.log('running for ', mode, builder);
       const options = {
         ...baseOptions,
         configDir: path.resolve(`${__dirname}/../../../examples/${example}/.storybook`),

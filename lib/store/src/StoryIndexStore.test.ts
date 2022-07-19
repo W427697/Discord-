@@ -24,7 +24,7 @@ const storyIndex: StoryIndex = {
     },
     'component-two--c': {
       type: 'story',
-      id: 'component-one--c',
+      id: 'component-two--c',
       title: 'Component Two',
       name: 'C',
       importPath: './src/ComponentTwo.stories.js',
@@ -36,31 +36,35 @@ const makeStoryIndex = (titlesAndNames) => {
   return {
     v: 4,
     entries: Object.fromEntries(
-      titlesAndNames.map(([title, name]) => [
-        `${title}--${name}`.replace('/', '-'), // poor man's sanitize
-        {
-          title,
-          name,
-          importPath: `./src/${title}.stories.js`,
-        },
-      ])
+      titlesAndNames.map(([title, name]) => {
+        const id = `${title}--${name}`.replace('/', '-');
+        return [
+          id,
+          {
+            id,
+            title,
+            name,
+            importPath: `./src/${title}.stories.js`,
+          },
+        ];
+      })
     ),
   };
 };
 
 describe('StoryIndexStore', () => {
-  describe('storyIdFromSpecifier', () => {
+  describe('entryFromSpecifier', () => {
     describe('if you use *', () => {
       it('selects the first story in the store', async () => {
         const store = new StoryIndexStore(storyIndex);
 
-        expect(store.storyIdFromSpecifier('*')).toEqual('component-one--a');
+        expect(store.entryFromSpecifier('*')).toEqual(store.entries['component-one--a']);
       });
 
       it('selects nothing if there are no stories', async () => {
         const store = new StoryIndexStore(makeStoryIndex([]));
 
-        expect(store.storyIdFromSpecifier('*')).toBeUndefined();
+        expect(store.entryFromSpecifier('*')).toBeUndefined();
       });
     });
 
@@ -68,7 +72,9 @@ describe('StoryIndexStore', () => {
       it('selects the first story for the component', async () => {
         const store = new StoryIndexStore(storyIndex);
 
-        expect(store.storyIdFromSpecifier('component-two')).toEqual('component-two--c');
+        expect(store.entryFromSpecifier('component-two')).toEqual(
+          store.entries['component-two--c']
+        );
       });
 
       it('selects the first story for the group', async () => {
@@ -80,7 +86,7 @@ describe('StoryIndexStore', () => {
           ])
         );
 
-        expect(store.storyIdFromSpecifier('g2')).toEqual('g2-a--1');
+        expect(store.entryFromSpecifier('g2')).toEqual(store.entries['g2-a--1']);
       });
 
       // Making sure the fix #11571 doesn't break this
@@ -92,26 +98,28 @@ describe('StoryIndexStore', () => {
           ])
         );
 
-        expect(store.storyIdFromSpecifier('a')).toEqual('a--long-long-long');
+        expect(store.entryFromSpecifier('a')).toEqual(store.entries['a--long-long-long']);
       });
 
       it('selects nothing if the component or group does not exist', async () => {
         const store = new StoryIndexStore(storyIndex);
 
-        expect(store.storyIdFromSpecifier('random')).toBeUndefined();
+        expect(store.entryFromSpecifier('random')).toBeUndefined();
       });
     });
     describe('if you use a storyId', () => {
       it('selects a specific story', async () => {
         const store = new StoryIndexStore(storyIndex);
 
-        expect(store.storyIdFromSpecifier('component-one--a')).toEqual('component-one--a');
+        expect(store.entryFromSpecifier('component-one--a')).toEqual(
+          store.entries['component-one--a']
+        );
       });
 
       it('selects nothing if you the story does not exist', async () => {
         const store = new StoryIndexStore(storyIndex);
 
-        expect(store.storyIdFromSpecifier('component-one--c')).toBeUndefined();
+        expect(store.entryFromSpecifier('component-one--c')).toBeUndefined();
       });
 
       // See #11571
@@ -123,7 +131,7 @@ describe('StoryIndexStore', () => {
           ])
         );
 
-        expect(store.storyIdFromSpecifier('a--3')).toEqual('a--3');
+        expect(store.entryFromSpecifier('a--3')).toEqual(store.entries['a--3']);
       });
     });
 

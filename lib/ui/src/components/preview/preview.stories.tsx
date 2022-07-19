@@ -83,8 +83,8 @@ export const NoTabs = () => (
         <Preview
           {...previewProps}
           api={{ ...api, getElements: () => ({}) }}
-          story={{
-            ...(previewProps.story as StoryEntry),
+          entry={{
+            ...(previewProps.entry as StoryEntry),
             parameters: { previewTabs: { canvas: { hidden: true } } },
           }}
         />
@@ -100,8 +100,8 @@ export const HideFullscreen = () => (
         <Preview
           {...previewProps}
           api={{ ...api, getElements: () => ({}) }}
-          story={{
-            ...(previewProps.story as StoryEntry),
+          entry={{
+            ...(previewProps.entry as StoryEntry),
             parameters: { toolbar: { fullscreen: { hidden: true } } },
           }}
         />
@@ -117,8 +117,8 @@ export const HideAllDefaultTools = () => (
         <Preview
           {...previewProps}
           api={{ ...api, getElements: () => ({}) }}
-          story={{
-            ...(previewProps.story as StoryEntry),
+          entry={{
+            ...(previewProps.entry as StoryEntry),
             parameters: {
               toolbar: {
                 title: { hidden: true },

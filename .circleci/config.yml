@@ -223,27 +223,30 @@ jobs:
       - store_artifacts:
           path: /tmp/storybook-e2e-testing-out.zip
           destination: e2e
-  e2e-tests-sb-docs:
-    executor:
-      class: large
-      name: sb_cypress_8_node_14
-    parallelism: 2
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: Running local registry
-          command: yarn local-registry --port 6000 --open
-          background: true
-      - run:
-          name: Wait for registry
-          command: yarn wait-on http://localhost:6000
-      - run:
-          name: Run smoke tests
-          command: yarn test:e2e-framework angular_modern_inline_rendering --test-runner --docs-mode
-          no_output_timeout: 5m
+  # NOTE: this currently tests each story in docs mode, which doesn't make sense any more as stories
+  #   can no longer run in docs mode. Instead we should probably change the test runner to test each
+  #   docs entry if you run it in `VIEW_MODE=docs`
+  # e2e-tests-sb-docs:
+  #   executor:
+  #     class: large
+  #     name: sb_cypress_8_node_14
+  #   parallelism: 2
+  #   steps:
+  #     - git-shallow-clone/checkout_advanced:
+  #         clone_options: '--depth 1 --verbose'
+  #     - attach_workspace:
+  #         at: .
+  #     - run:
+  #         name: Running local registry
+  #         command: yarn local-registry --port 6000 --open
+  #         background: true
+  #     - run:
+  #         name: Wait for registry
+  #         command: yarn wait-on http://localhost:6000
+  #     - run:
+  #         name: Run smoke tests
+  #         command: yarn test:e2e-framework angular_modern_inline_rendering --test-runner --docs-mode
+  #         no_output_timeout: 5m
   cra-bench:
     executor:
       class: medium
@@ -418,9 +421,6 @@ workflows:
           requires:
             - publish
       - e2e-tests-core:
-          requires:
-            - publish
-      - e2e-tests-sb-docs:
           requires:
             - publish
       - e2e-tests-pnp:

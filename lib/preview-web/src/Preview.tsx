@@ -26,8 +26,9 @@ import {
   RenderToDOM,
 } from '@storybook/store';
 
-import { StoryRender } from './StoryRender';
-import { DocsRender } from './DocsRender';
+import { StoryRender } from './render/StoryRender';
+import { TemplateDocsRender } from './render/TemplateDocsRender';
+import { StandaloneDocsRender } from './render/StandaloneDocsRender';
 
 const { fetch } = global;
 
@@ -36,8 +37,6 @@ type MaybePromise<T> = Promise<T> | T;
 const STORY_INDEX_PATH = './index.json';
 
 export class Preview<TFramework extends AnyFramework> {
-  channel: Channel;
-
   serverChannel?: Channel;
 
   storyStore: StoryStore<TFramework>;
@@ -52,8 +51,7 @@ export class Preview<TFramework extends AnyFramework> {
 
   previewEntryError?: Error;
 
-  constructor() {
-    this.channel = addons.getChannel();
+  constructor(protected channel: Channel = addons.getChannel()) {
     if (global.FEATURES?.storyStoreV7 && addons.hasServerChannel()) {
       this.serverChannel = addons.getServerChannel();
     }
@@ -324,7 +322,10 @@ export class Preview<TFramework extends AnyFramework> {
   }
 
   async teardownRender(
-    render: StoryRender<TFramework> | DocsRender<TFramework>,
+    render:
+      | StoryRender<TFramework>
+      | TemplateDocsRender<TFramework>
+      | StandaloneDocsRender<TFramework>,
     { viewModeChanged }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);

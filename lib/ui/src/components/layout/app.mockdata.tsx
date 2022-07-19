@@ -160,7 +160,6 @@ export const mockProps: DesktopProps = {
   panelCount: 2,
   width: 900,
   height: 600,
-  docsOnly: false,
 };
 
 export const realProps: DesktopProps = {
@@ -191,5 +190,4 @@ export const realProps: DesktopProps = {
   panelCount: 2,
   width: 900,
   height: 600,
-  docsOnly: false,
 };
