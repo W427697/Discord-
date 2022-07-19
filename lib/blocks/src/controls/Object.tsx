@@ -190,6 +190,7 @@ const RawButton = styled(IconButton)(({ theme }) => ({
   color: theme.color.mediumdark,
   fontSize: '9px',
   fontWeight: 'bold',
+  textDecoration: 'none',
   span: {
     marginLeft: 3,
     marginTop: 1,
