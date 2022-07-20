@@ -27,38 +27,6 @@ Object {
   "module": Object {
     "rules": Array [
       Object {
-        "sideEffects": true,
-        "test": "/\\\\.css$/",
-        "use": Array [
-          "NODE_MODULES/style-loader/dist/cjs.js",
-          Object {
-            "loader": "NODE_MODULES/css-loader/dist/cjs.js",
-            "options": Object {
-              "importLoaders": 1,
-            },
-          },
-        ],
-      },
-      Object {
-        "generator": Object {
-          "filename": "static/media/[name].[contenthash:8][ext]",
-        },
-        "test": "/\\\\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\\\\?.*)?$/",
-        "type": "asset/resource",
-      },
-      Object {
-        "generator": Object {
-          "filename": "static/media/[name].[contenthash:8][ext]",
-        },
-        "parser": Object {
-          "dataUrlCondition": Object {
-            "maxSize": 10000,
-          },
-        },
-        "test": "/\\\\.(mp4|webm|wav|mp3|m4a|aac|oga)(\\\\?.*)?$/",
-        "type": "asset",
-      },
-      Object {
         "resolve": Object {
           "fullySpecified": false,
         },
@@ -68,51 +36,6 @@ Object {
       Object {
         "test": "/\\\\.md$/",
         "type": "asset/source",
-      },
-      Object {
-        "exclude": "NODE_MODULES/",
-        "include": Array [
-          "ROOT",
-        ],
-        "test": "/\\\\.(mjs|tsx?|jsx?)$/",
-        "use": Array [
-          Object {
-            "loader": "NODE_MODULES/babel-loader/lib/index.js",
-            "options": Object {
-              "cacheDirectory": "NODE_MODULES/.cache/storybook/babel",
-              "overrides": Array [
-                Object {
-                  "plugins": Array [
-                    Array [
-                      "NODE_MODULES/babel-plugin-react-docgen/lib/index.js",
-                      Object {
-                        "DOC_GEN_COLLECTION_NAME": "STORYBOOK_REACT_CLASSES",
-                      },
-                    ],
-                  ],
-                  "test": "/\\\\.(cjs|mjs|jsx?)$/",
-                },
-                Object {
-                  "plugins": Array [
-                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
-                  ],
-                  "test": "/\\\\.(story|stories).*$/",
-                },
-              ],
-              "plugins": Array [
-                "NODE_MODULES/babel-plugin-add-react-displayname/index.js",
-              ],
-              "presets": Array [
-                Array [
-                  "NODE_MODULES/@babel/preset-react/lib/index.js",
-                  Object {
-                    "runtime": "automatic",
-                  },
-                ],
-              ],
-            },
-          },
-        ],
       },
       Object {
         "enforce": "pre",
@@ -194,6 +117,7 @@ Object {
               "compact": true,
               "configFile": false,
               "customize": "NODE_MODULES/babel-preset-react-app/webpack-overrides.js",
+              "overrides": Array [],
               "plugins": Array [],
               "presets": Array [
                 Array [
@@ -220,6 +144,7 @@ Object {
               "compact": false,
               "configFile": false,
               "inputSourceMap": true,
+              "overrides": Array [],
               "presets": Array [
                 Array [
                   "NODE_MODULES/babel-preset-react-app/dependencies.js",
