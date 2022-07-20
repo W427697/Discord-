@@ -54,6 +54,7 @@ export async function webpack(
   } = options;
 
   const mdxLoaderOptions = {
+    // whether to skip storybook files, useful for docs only mdx or md files
     skipCsf: true,
     remarkPlugins: [remarkSlug, remarkExternalLinks],
   };
@@ -65,23 +66,8 @@ export async function webpack(
     ? require.resolve('@storybook/mdx2-csf/loader')
     : require.resolve('@storybook/mdx1-csf/loader');
 
-  // set `sourceLoaderOptions` to `null` to disable for manual configuration
-  const sourceLoader = sourceLoaderOptions
-    ? [
-        Object.defineProperty(
-          {
-            test: /\.(stories|story)\.[tj]sx?$/,
-            loader: require.resolve('@storybook/source-loader'),
-            options: { ...sourceLoaderOptions, inspectLocalDependencies: true },
-            enforce: 'pre',
-          },
-          'custom_id',
-          { enumerable: false, value: 'storybook_source' }
-        ),
-      ]
-    : [];
-
   let rules = module.rules || [];
+
   if (transcludeMarkdown) {
     rules = [
       ...rules.filter((rule: any) => rule.test?.toString() !== '/\\.md$/'),
@@ -117,6 +103,10 @@ export async function webpack(
               },
               {
                 loader: mdxLoader,
+                options: {
+                  ...mdxLoaderOptions,
+                  skipCsf: false,
+                },
               },
             ],
           },
@@ -147,7 +137,21 @@ export async function webpack(
             enumerable: false,
           }
         ),
-        ...sourceLoader,
+        // set `sourceLoaderOptions` to `null` to disable for manual configuration
+        ...(sourceLoaderOptions
+          ? [
+              Object.defineProperty(
+                {
+                  test: /\.(stories|story)\.[tj]sx?$/,
+                  loader: require.resolve('@storybook/source-loader'),
+                  options: { ...sourceLoaderOptions, inspectLocalDependencies: true },
+                  enforce: 'pre',
+                },
+                'custom_id',
+                { enumerable: false, value: 'storybook_source' }
+              ),
+            ]
+          : []),
       ],
     },
   };
