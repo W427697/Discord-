@@ -55,7 +55,11 @@ const renderElement = async (node: ReactElement, el: Element) => {
 
   return new Promise((resolve) => {
     if (root) {
-      root.render(<WithCallback callback={() => resolve(null)}>{node}</WithCallback>);
+      root.render(
+        <WithCallback key={Math.random()} callback={() => resolve(null)}>
+          {node}
+        </WithCallback>
+      );
     } else {
       ReactDOM.render(node, el, () => resolve(null));
     }
