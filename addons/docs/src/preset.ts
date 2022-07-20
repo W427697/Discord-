@@ -53,6 +53,7 @@ export async function webpack(
   } = options;
 
   const mdxLoaderOptions = {
+    // whether to skip storybook files, useful for docs only mdx or md files
     skipCsf: true,
     remarkPlugins: [remarkSlug, remarkExternalLinks],
   };
@@ -123,6 +124,10 @@ export async function webpack(
             },
             {
               loader: mdxLoader,
+              options: {
+                ...mdxLoaderOptions,
+                skipCsf: false,
+              },
             },
           ],
         },
