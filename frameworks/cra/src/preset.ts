@@ -79,14 +79,30 @@ export const webpack: StorybookConfig['webpack'] = async (config, options) => {
   // eslint-disable-next-line import/no-dynamic-require, global-require
   const craWebpackConfig: Configuration = require(CRAConfigPath)(config.mode);
 
+  const rules = config.module.rules as unknown as RuleSetRule[];
+
+  const babelLoader = rules.find(
+    // eslint-disable-next-line camelcase
+    (r: RuleSetRule & { custom_id?: string }) => r.custom_id === 'storybook_babel'
+  );
+
   config.module.rules = [
-    ...(config.module.rules as unknown as RuleSetRule[]).filter(filterStorybookRules),
+    ...(rules as unknown as RuleSetRule[]).filter(filterStorybookRules),
     ...((craWebpackConfig?.module?.rules || []) as unknown as RuleSetRule[]).map((r) => {
       if (r.oneOf) {
         return {
           oneOf: r.oneOf.reduce<RuleSetRule[]>((acc, item) => {
             if (testMatch(item, '.js')) {
+              const options = typeof item.options === 'string' ? {} : item.options;
+              const sbOptions =
+                typeof babelLoader?.options === 'string' ? {} : babelLoader?.options;
+
               item.include = ([] as any[]).concat(item.include || []).concat(configDir);
+              item.options = {
+                ...options,
+                ...sbOptions,
+                overrides: [...(options?.overrides || []), ...(sbOptions?.overrides || [])],
+              };
             }
             if (testMatch(item, '.css')) {
               item.include = ([] as any[]).concat(item.include || []).concat(configDir);
