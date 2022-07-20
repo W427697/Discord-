@@ -384,6 +384,13 @@ Object {
           },
           Object {
             "loader": "NODE_MODULES/@storybook/mdx1-csf/loader.js",
+            "options": Object {
+              "remarkPlugins": Array [
+                [Function],
+                [Function],
+              ],
+              "skipCsf": false,
+            },
           },
         ],
       },
