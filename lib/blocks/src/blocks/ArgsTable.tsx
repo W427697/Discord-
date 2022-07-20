@@ -1,9 +1,13 @@
 import React, { FC, useContext, useEffect, useState, useCallback } from 'react';
 import mapValues from 'lodash/mapValues';
 import { ArgTypesExtractor } from '@storybook/docs-tools';
-import { addons } from '@storybook/addons';
 import { filterArgTypes, PropDescriptor } from '@storybook/store';
-import Events from '@storybook/core-events';
+import {
+  STORY_ARGS_UPDATED,
+  UPDATE_STORY_ARGS,
+  RESET_STORY_ARGS,
+  GLOBALS_UPDATED,
+} from '@storybook/core-events';
 import { StrictArgTypes, Args, Globals } from '@storybook/csf';
 import {
   ArgsTable as PureArgsTable,
@@ -45,7 +49,6 @@ const useArgs = (
   storyId: string,
   context: DocsContextProps
 ): [Args, (args: Args) => void, (argNames?: string[]) => void] => {
-  const channel = addons.getChannel();
   const storyContext = context.getStoryContext(context.storyById());
 
   const [args, setArgs] = useState(storyContext.args);
@@ -55,22 +58,21 @@ const useArgs = (
         setArgs(changed.args);
       }
     };
-    channel.on(Events.STORY_ARGS_UPDATED, cb);
-    return () => channel.off(Events.STORY_ARGS_UPDATED, cb);
+    context.channel.on(STORY_ARGS_UPDATED, cb);
+    return () => context.channel.off(STORY_ARGS_UPDATED, cb);
   }, [storyId]);
   const updateArgs = useCallback(
-    (updatedArgs) => channel.emit(Events.UPDATE_STORY_ARGS, { storyId, updatedArgs }),
+    (updatedArgs) => context.channel.emit(UPDATE_STORY_ARGS, { storyId, updatedArgs }),
     [storyId]
   );
   const resetArgs = useCallback(
-    (argNames?: string[]) => channel.emit(Events.RESET_STORY_ARGS, { storyId, argNames }),
+    (argNames?: string[]) => context.channel.emit(RESET_STORY_ARGS, { storyId, argNames }),
     [storyId]
   );
   return [args, updateArgs, resetArgs];
 };
 
 const useGlobals = (context: DocsContextProps): [Globals] => {
-  const channel = addons.getChannel();
   const storyContext = context.getStoryContext(context.storyById());
   const [globals, setGlobals] = useState(storyContext.globals);
 
@@ -78,8 +80,8 @@ const useGlobals = (context: DocsContextProps): [Globals] => {
     const cb = (changed: { globals: Globals }) => {
       setGlobals(changed.globals);
     };
-    channel.on(Events.GLOBALS_UPDATED, cb);
-    return () => channel.off(Events.GLOBALS_UPDATED, cb);
+    context.channel.on(GLOBALS_UPDATED, cb);
+    return () => context.channel.off(GLOBALS_UPDATED, cb);
   }, []);
 
   return [globals];

@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { Sidebar } from './Sidebar';
+import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
 import { mockDataset } from './mockdata';
-import { DEFAULT_REF_ID } from './data';
 import { RefType } from './types';
 
 export default {

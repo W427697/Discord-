@@ -6979,8 +6979,8 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/csf-tools": 7.0.0-alpha.13
     "@storybook/docs-tools": 7.0.0-alpha.13
-    "@storybook/mdx1-csf": ^0.0.1
-    "@storybook/mdx2-csf": ^0.0.3
+    "@storybook/mdx1-csf": 0.0.5-canary.13.9ce928a.0
+    "@storybook/mdx2-csf": 0.0.4-canary.14.04ffbe8.0
     "@storybook/node-logger": 7.0.0-alpha.13
     "@storybook/postinstall": 7.0.0-alpha.13
     "@storybook/preview-web": 7.0.0-alpha.13
@@ -6999,7 +6999,7 @@ __metadata:
     typescript: ~4.6.3
     util-deprecate: ^1.0.2
   peerDependencies:
-    "@storybook/mdx2-csf": ^0.0.3
+    "@storybook/mdx2-csf": 0.0.4-canary.14.04ffbe8.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
@@ -7664,9 +7664,9 @@ __metadata:
   resolution: "@storybook/blocks@workspace:lib/blocks"
   dependencies:
     "@digitak/esrun": ^3.2.2
-    "@mdx-js/react": ^1.6.22
     "@storybook/addons": 7.0.0-alpha.13
     "@storybook/api": 7.0.0-alpha.13
+    "@storybook/channels": 7.0.0-alpha.13
     "@storybook/client-logger": 7.0.0-alpha.13
     "@storybook/components": 7.0.0-alpha.13
     "@storybook/core-events": 7.0.0-alpha.13
@@ -7688,7 +7688,6 @@ __metadata:
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -8468,6 +8467,7 @@ __metadata:
     "@babel/preset-env": ^7.17.10
     "@storybook/addon-docs": 7.0.0-alpha.13
     "@storybook/addon-essentials": 7.0.0-alpha.13
+    "@storybook/blocks": 7.0.0-alpha.13
     "@storybook/components": 7.0.0-alpha.13
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/preview-web": 7.0.0-alpha.13
@@ -8616,22 +8616,39 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/mdx1-csf@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "@storybook/mdx1-csf@npm:0.0.1"
+"@storybook/mdx1-csf@npm:0.0.5-canary.13.9ce928a.0":
+  version: 0.0.5-canary.13.9ce928a.0
+  resolution: "@storybook/mdx1-csf@npm:0.0.5-canary.13.9ce928a.0"
   dependencies:
     "@babel/generator": ^7.12.11
     "@babel/parser": ^7.12.11
     "@babel/preset-env": ^7.12.11
     "@babel/types": ^7.12.11
     "@mdx-js/mdx": ^1.6.22
+    "@mdx-js/react": ^1.6.22
     "@types/lodash": ^4.14.167
     js-string-escape: ^1.0.1
     loader-utils: ^2.0.0
     lodash: ^4.17.21
     prettier: ">=2.2.1 <=2.3.0"
     ts-dedent: ^2.0.0
-  checksum: c25a4ad1356ce65950483bd85f37ba93237149fd782360e3548a86dafd9753674ddebb03a8665ed78f99bc1533e87ba2a0605c2fc984a5ad19662fd4b930db78
+  checksum: 904c00fd2965ceff65e8a6a77b6192f17b4b5df5f8fbfad7c4c067ec0d269b428ad1733922233ac4ad2a1bd110ec0442ae122ede2be0703e07f0eb3f8b13730f
+  languageName: node
+  linkType: hard
+
+"@storybook/mdx2-csf@npm:0.0.4-canary.14.04ffbe8.0":
+  version: 0.0.4-canary.14.04ffbe8.0
+  resolution: "@storybook/mdx2-csf@npm:0.0.4-canary.14.04ffbe8.0"
+  dependencies:
+    "@babel/generator": ^7.12.11
+    "@babel/parser": ^7.12.11
+    "@mdx-js/mdx": ^2.0.0
+    estree-to-babel: ^4.9.0
+    hast-util-to-estree: ^2.0.2
+    js-string-escape: ^1.0.1
+    loader-utils: ^2.0.0
+    lodash: ^4.17.21
+  checksum: 71d4b96cfcfa52c345bfd546a3428062800f5f627e5d6bb8ab30d019f5be02b48315f2823240468d00fa536320adfb846bdd57534f5ef9985ff9a4dcf7550ac9
   languageName: node
   linkType: hard
 
@@ -8946,6 +8963,7 @@ __metadata:
   dependencies:
     "@storybook/addons": 7.0.0-alpha.13
     "@storybook/channel-postmessage": 7.0.0-alpha.13
+    "@storybook/channels": 7.0.0-alpha.13
     "@storybook/client-logger": 7.0.0-alpha.13
     "@storybook/core-events": 7.0.0-alpha.13
     "@storybook/csf": 0.0.2--canary.4566f4d.1

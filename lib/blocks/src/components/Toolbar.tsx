@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent, MouseEvent } from 'react';
+import React, { Fragment, FC, MouseEvent } from 'react';
 import { styled } from '@storybook/theming';
 import {
   FlexBar,
@@ -28,7 +28,7 @@ interface LoadingProps {
 
 export type ToolbarProps = BarProps & ZoomProps & EjectProps & LoadingProps;
 
-const Zoom: FunctionComponent<ZoomProps> = ({ zoom, resetZoom }) => (
+const Zoom: FC<ZoomProps> = ({ zoom, resetZoom }) => (
   <>
     <IconButton
       key="zoomin"
@@ -63,7 +63,7 @@ const Zoom: FunctionComponent<ZoomProps> = ({ zoom, resetZoom }) => (
   </>
 );
 
-const Eject: FunctionComponent<EjectProps> = ({ baseUrl, storyId }) => (
+const Eject: FC<EjectProps> = ({ baseUrl, storyId }) => (
   <IconButton
     key="opener"
     href={getStoryHref(baseUrl, storyId)}
@@ -82,7 +82,7 @@ const Bar = styled(FlexBar)({
   transition: 'transform .2s linear',
 });
 
-export const Toolbar: FunctionComponent<ToolbarProps> = ({
+export const Toolbar: FC<ToolbarProps> = ({
   isLoading,
   storyId,
   baseUrl,

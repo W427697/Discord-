@@ -71,13 +71,9 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
       throw new Error('Cannot render docs before preparing');
 
     const docsContext = new DocsContext<TFramework>(
-      this.id,
-      this.entry.title,
-      this.entry.name,
-
+      this.channel,
       this.store,
       renderStoryToElement,
-
       this.csfFiles,
       false
     );

@@ -1181,36 +1181,58 @@ describe('stories API', () => {
       expect(storedStoriesHash['component-c--story-4'].type).toBe('story');
     });
 
-    // Skip this for now, will come back soon
-    it.skip('prefers parameters.docsOnly to inferred docsOnly status', async () => {
-      mockStories.mockReset().mockReturnValue({
-        'component-a--docs': {
-          type: 'story',
-          title: 'Component A',
-          name: 'Docs', // Called 'Docs' rather than 'Page'
-          importPath: './path/to/component-a.ts',
-          parameters: {
-            docsOnly: true,
+    describe('when DOCS_MODE = true', () => {
+      it('strips out story entries', async () => {
+        mockStories.mockReset().mockReturnValue({
+          'component-a--page': {
+            id: 'component-a--page',
+            title: 'Component A',
+            name: 'Page',
+            importPath: './path/to/component-a.ts',
           },
-        },
+          'component-a--story-2': {
+            id: 'component-a--story-2',
+            title: 'Component A',
+            name: 'Story 2',
+            importPath: './path/to/component-a.ts',
+          },
+          'component-b': {
+            type: 'docs',
+            id: 'component-b--docs',
+            title: 'Component B',
+            name: 'Docs',
+            importPath: './path/to/component-b.ts',
+            storiesImports: [],
+          },
+          'component-c--story-4': {
+            id: 'component-c--story-4',
+            title: 'Component c',
+            name: 'Story 4',
+            importPath: './path/to/component-c.ts',
+          },
+        });
+
+        const navigate = jest.fn();
+        const store = createMockStore();
+        const fullAPI = Object.assign(new EventEmitter(), {
+          setStories: jest.fn(),
+        });
+
+        const { api, init } = initStories({
+          store,
+          navigate,
+          provider,
+          fullAPI,
+          docsMode: true,
+        } as any);
+        Object.assign(fullAPI, api);
+
+        await init();
+
+        const { storiesHash: storedStoriesHash } = store.getState();
+
+        expect(Object.keys(storedStoriesHash)).toEqual(['component-b', 'component-b--docs']);
       });
-
-      const navigate = jest.fn();
-      const store = createMockStore();
-      const fullAPI = Object.assign(new EventEmitter(), {
-        setStories: jest.fn(),
-      });
-
-      const { api, init } = initStories({ store, navigate, provider, fullAPI });
-      Object.assign(fullAPI, api);
-
-      await init();
-
-      const { storiesHash: storedStoriesHash } = store.getState();
-
-      // We need exact key ordering, even if in theory JS doesn't guarantee it
-      expect(Object.keys(storedStoriesHash)).toEqual(['component-a', 'component-a--docs']);
-      expect(storedStoriesHash['component-a--docs'].parameters.docsOnly).toBe(true);
     });
   });
 
@@ -1351,6 +1373,96 @@ describe('stories API', () => {
 
       expect(fullAPI.setStories).toHaveBeenCalledWith({
         'a--1': { kind: 'a', parameters: { global: 'global', kind: 'kind', story: 'story' } },
+      });
+    });
+
+    it('prefers parameters.docsOnly to inferred docsOnly status', async () => {
+      const navigate = jest.fn();
+      const store = createMockStore();
+      const fullAPI = Object.assign(new EventEmitter(), {
+        setOptions: jest.fn(),
+        findRef: jest.fn(),
+      });
+
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      Object.assign(fullAPI, api);
+
+      await init();
+
+      const setStoriesPayload = {
+        v: 2,
+        globalParameters: { global: 'global' },
+        kindParameters: { a: { kind: 'kind' } },
+        stories: {
+          'component-a--docs': {
+            type: 'story',
+            kind: 'Component A',
+            name: 'Docs', // Called 'Docs' rather than 'Page'
+            importPath: './path/to/component-a.ts',
+            parameters: {
+              docsOnly: true,
+            },
+          },
+        },
+      };
+      fullAPI.emit(SET_STORIES, setStoriesPayload);
+
+      const { storiesHash: storedStoriesHash } = store.getState();
+      expect(storedStoriesHash['component-a--docs']).toMatchObject({
+        type: 'docs',
+        id: 'component-a--docs',
+        parent: 'component-a',
+        title: 'Component A',
+        name: 'Docs',
+      });
+    });
+
+    describe('when DOCS_MODE = true', () => {
+      it('strips out stories entries', async () => {
+        const navigate = jest.fn();
+        const store = createMockStore();
+        const fullAPI = Object.assign(new EventEmitter(), {
+          setOptions: jest.fn(),
+          findRef: jest.fn(),
+        });
+
+        const { api, init } = initStories({
+          store,
+          navigate,
+          provider,
+          fullAPI,
+          docsMode: true,
+        } as any);
+        Object.assign(fullAPI, api);
+
+        await init();
+
+        const setStoriesPayload = {
+          v: 2,
+          globalParameters: { global: 'global' },
+          kindParameters: { a: { kind: 'kind' } },
+          stories: {
+            'component-a--docs': {
+              type: 'story',
+              kind: 'Component A',
+              name: 'Docs', // Called 'Docs' rather than 'Page'
+              importPath: './path/to/component-a.ts',
+              parameters: {
+                docsOnly: true,
+              },
+            },
+            'component-a--story': {
+              title: 'Story',
+              kind: 'Component A',
+              importPath: './path/to/component-a.ts',
+              parameters: { story: 'story' },
+            },
+          },
+        };
+        fullAPI.emit(SET_STORIES, setStoriesPayload);
+
+        const { storiesHash: storedStoriesHash } = store.getState();
+        expect(Object.keys(storedStoriesHash)).toEqual(['component-a', 'component-a--docs']);
       });
     });
 

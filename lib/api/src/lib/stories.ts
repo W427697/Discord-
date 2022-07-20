@@ -268,10 +268,11 @@ export interface PreparedStoryIndex {
 
 export const transformSetStoriesStoryDataToStoriesHash = (
   data: SetStoriesStoryData,
-  { provider }: { provider: Provider }
+  { provider, docsMode }: { provider: Provider; docsMode: boolean }
 ) =>
   transformStoryIndexToStoriesHash(transformSetStoriesStoryDataToPreparedStoryIndex(data), {
     provider,
+    docsMode,
   });
 
 const transformSetStoriesStoryDataToPreparedStoryIndex = (
@@ -339,8 +340,10 @@ export const transformStoryIndexToStoriesHash = (
   index: PreparedStoryIndex,
   {
     provider,
+    docsMode,
   }: {
     provider: Provider;
+    docsMode: boolean;
   }
 ): StoriesHash => {
   if (!index.v) throw new Error('Composition: Missing stories.json version');
@@ -361,6 +364,8 @@ export const transformStoryIndexToStoriesHash = (
   }
 
   const storiesHashOutOfOrder = Object.values(entryValues).reduce((acc, item) => {
+    if (docsMode && item.type !== 'docs') return acc;
+
     // First, split the title into a set of names, separated by '/' and trimmed.
     const { title } = item;
     const groups = title.trim().split(TITLE_PATH_SEPARATOR);

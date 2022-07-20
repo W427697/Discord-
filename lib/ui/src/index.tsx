@@ -2,7 +2,7 @@
 /// <reference path="./typings.d.ts" />
 
 import global from 'global';
-import React, { FC, FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
@@ -45,7 +45,7 @@ export interface RootProps {
   history?: History;
 }
 
-export const Root: FunctionComponent<RootProps> = ({ provider }) => (
+export const Root: FC<RootProps> = ({ provider }) => (
   <Container key="container">
     <HelmetProvider key="helmet.Provider">
       <LocationProvider key="location.provider">

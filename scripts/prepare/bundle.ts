@@ -14,6 +14,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     bundler: { entries, platform, pre },
   } = await fs.readJson(join(cwd, 'package.json'));
 
+  const isThemingPackage = name === '@storybook/theming';
+
   if (pre) {
     shelljs.exec(`esrun ${pre}`, { cwd });
   }
@@ -35,7 +37,10 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         const pathName = join(process.cwd(), 'dist', `${name}.d.ts`);
         // throw new Error('test');
         await fs.ensureFile(pathName);
-        await fs.writeFile(pathName, `export * from '../src/${name}';`);
+        const footer = isThemingPackage
+          ? `export { StorybookTheme as Theme } from '../src/${name}';\n`
+          : '';
+        await fs.writeFile(pathName, `export * from '../src/${name}';\n${footer}`);
       })
     );
   }
@@ -47,7 +52,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       // sourcemap: optimized,
       format: ['esm'],
       target: 'chrome100',
-      clean: true,
+      clean: !watch,
       platform: platform || 'browser',
       // shims: true,
       esbuildPlugins: [
@@ -64,6 +69,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         ? {
             entry: entries,
             resolve: true,
+            footer: isThemingPackage
+              ? `interface Theme extends StorybookTheme {};\nexport type { Theme };`
+              : '',
           }
         : false,
       esbuildOptions: (c) => {
@@ -85,7 +93,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       format: ['cjs'],
       target: 'node14',
       platform: 'node',
-      clean: true,
+      clean: !watch,
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
 
       esbuildOptions: (c) => {

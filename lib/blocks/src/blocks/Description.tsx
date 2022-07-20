@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, { FC, useContext } from 'react';
 import { str } from '@storybook/docs-tools';
 import { Description, DescriptionProps as PureDescriptionProps } from '../components';
 
@@ -70,7 +70,7 @@ ${extractComponentDescription(target) || ''}
   }
 };
 
-const DescriptionContainer: FunctionComponent<DescriptionProps> = (props) => {
+const DescriptionContainer: FC<DescriptionProps> = (props) => {
   const context = useContext(DocsContext);
   const { markdown } = getDescriptionProps(props, context);
   return markdown ? <Description markdown={markdown} /> : null;

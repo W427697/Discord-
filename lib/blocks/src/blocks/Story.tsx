@@ -1,5 +1,5 @@
 import React, {
-  FunctionComponent,
+  FC,
   ReactNode,
   ElementType,
   ComponentProps,
@@ -8,8 +8,6 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { MDXProvider } from '@mdx-js/react';
-import { resetComponents } from '@storybook/components';
 import { StoryId, StoryAnnotations, AnyFramework } from '@storybook/csf';
 import type { ModuleExport, ModuleExports, Story as StoryType } from '@storybook/store';
 
@@ -84,7 +82,7 @@ export const getStoryProps = <TFramework extends AnyFramework>(
   };
 };
 
-const Story: FunctionComponent<StoryProps> = (props) => {
+const Story: FC<StoryProps> = (props) => {
   const context = useContext(DocsContext);
   const storyRef = useRef();
   const storyId = getStoryId(props, context);
@@ -118,26 +116,22 @@ const Story: FunctionComponent<StoryProps> = (props) => {
     const { height } = storyProps;
     return (
       <div id={storyBlockIdFromId(story.id)}>
-        <MDXProvider components={resetComponents}>
-          {height ? (
-            <style>{`#story--${story.id} { min-height: ${height}px; transform: translateZ(0); overflow: auto }`}</style>
-          ) : null}
-          {showLoader && <StorySkeleton />}
-          <div
-            ref={storyRef}
-            data-name={story.name}
-            dangerouslySetInnerHTML={{ __html: htmlContents }}
-          />
-        </MDXProvider>
+        {height ? (
+          <style>{`#story--${story.id} { min-height: ${height}px; transform: translateZ(0); overflow: auto }`}</style>
+        ) : null}
+        {showLoader && <StorySkeleton />}
+        <div
+          ref={storyRef}
+          data-name={story.name}
+          dangerouslySetInnerHTML={{ __html: htmlContents }}
+        />
       </div>
     );
   }
 
   return (
     <div id={storyBlockIdFromId(story.id)}>
-      <MDXProvider components={resetComponents}>
-        <PureStory {...storyProps} />
-      </MDXProvider>
+      <PureStory {...storyProps} />
     </div>
   );
 };

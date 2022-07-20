@@ -1,13 +1,7 @@
 // @ts-ignore
 import global from 'global';
 
-import React, {
-  Component as ReactComponent,
-  FunctionComponent,
-  ReactElement,
-  StrictMode,
-  Fragment,
-} from 'react';
+import React, { Component as ReactComponent, FC, ReactElement, StrictMode, Fragment } from 'react';
 import ReactDOM, { version as reactDomVersion } from 'react-dom';
 import type { Root as ReactRoot } from 'react-dom/client';
 
@@ -126,7 +120,7 @@ export async function renderToDOM(
   }: RenderContext<ReactFramework>,
   domElement: Element
 ) {
-  const Story = unboundStoryFn as FunctionComponent<StoryContext<ReactFramework>>;
+  const Story = unboundStoryFn as FC<StoryContext<ReactFramework>>;
 
   const content = (
     <ErrorBoundary showMain={showMain} showException={showException}>

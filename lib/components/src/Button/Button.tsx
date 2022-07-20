@@ -1,4 +1,4 @@
-import React, { forwardRef, FunctionComponent, ComponentProps, ReactNode } from 'react';
+import React, { forwardRef, FC, ComponentProps, ReactNode } from 'react';
 import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 
@@ -234,7 +234,7 @@ const ButtonWrapper = styled.button<{
 
 const ButtonLink = ButtonWrapper.withComponent('a');
 
-export const Button: FunctionComponent<ComponentProps<typeof ButtonWrapper>> = Object.assign(
+export const Button: FC<ComponentProps<typeof ButtonWrapper>> = Object.assign(
   forwardRef<
     any,
     {

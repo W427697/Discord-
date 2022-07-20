@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 
-export const Wrapper: FunctionComponent = ({ children }) => (
+export const Wrapper: FC = ({ children }) => (
   <div style={{ fontFamily: 'sans-serif' }}>{children}</div>
 );

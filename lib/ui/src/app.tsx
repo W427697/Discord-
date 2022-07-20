@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import sizeMe from 'react-sizeme';
 
 import { State } from '@storybook/api';
@@ -50,7 +50,7 @@ const App = React.memo<AppProps>(
               <Route path="/settings/" startsWith>
                 {children}
               </Route>
-            )) as FunctionComponent,
+            )) as FC,
           },
         ],
       }),

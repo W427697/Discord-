@@ -1,4 +1,4 @@
-import React, { Component, Fragment, FunctionComponent, CSSProperties, ReactNode } from 'react';
+import React, { Component, Fragment, FC, CSSProperties, ReactNode } from 'react';
 import { styled, withTheme } from '@storybook/theming';
 import type { Theme } from '@storybook/theming';
 import type { State } from '@storybook/api';
@@ -101,7 +101,7 @@ const Paper = styled.div<{ isFullscreen: boolean }>(
         }
 );
 
-export const Sidebar: FunctionComponent<{ hidden: boolean; position: CSSProperties }> = ({
+export const Sidebar: FC<{ hidden: boolean; position: CSSProperties }> = ({
   hidden = false,
   children,
   position = undefined,
@@ -113,7 +113,7 @@ export const Sidebar: FunctionComponent<{ hidden: boolean; position: CSSProperti
     </Pane>
   );
 
-export const Main: FunctionComponent<{ isFullscreen: boolean; position: CSSProperties }> = ({
+export const Main: FC<{ isFullscreen: boolean; position: CSSProperties }> = ({
   isFullscreen = false,
   children,
   position = undefined,
@@ -124,7 +124,7 @@ export const Main: FunctionComponent<{ isFullscreen: boolean; position: CSSPrope
   </Pane>
 );
 
-export const Preview: FunctionComponent<{ hidden: boolean; position: CSSProperties }> = ({
+export const Preview: FC<{ hidden: boolean; position: CSSProperties }> = ({
   hidden = false,
   children,
   position = undefined,
@@ -135,7 +135,7 @@ export const Preview: FunctionComponent<{ hidden: boolean; position: CSSProperti
   </Pane>
 );
 
-export const Panel: FunctionComponent<{
+export const Panel: FC<{
   hidden: boolean;
   position: CSSProperties;
   align: 'bottom' | 'right';

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-const Wrapper = styled('div')<{}>(({ theme }) => ({
+const Wrapper = styled('div')(({ theme }) => ({
   backgroundColor: 'tomato',
   color: 'white',
   padding: 10,

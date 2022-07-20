@@ -1,6 +1,8 @@
 import { Preview } from '@storybook/preview-web';
 import { Path, ModuleExports, StoryIndex, composeConfigs } from '@storybook/store';
 import { AnyFramework, ComponentTitle, ProjectAnnotations } from '@storybook/csf';
+import { Channel } from '@storybook/channels';
+
 import { ExternalDocsContext } from './ExternalDocsContext';
 
 type MetaExports = ModuleExports;
@@ -19,7 +21,9 @@ class ConstantMap<TKey, TValue extends string> {
   }
 }
 
-export class ExternalPreview<TFramework extends AnyFramework> extends Preview<TFramework> {
+export class ExternalPreview<
+  TFramework extends AnyFramework = AnyFramework
+> extends Preview<TFramework> {
   private importPaths = new ConstantMap<MetaExports, Path>('./importPath/');
 
   private titles = new ConstantMap<MetaExports, ComponentTitle>('title-');
@@ -29,7 +33,7 @@ export class ExternalPreview<TFramework extends AnyFramework> extends Preview<TF
   private moduleExportsByImportPath: Record<Path, ModuleExports> = {};
 
   constructor(public projectAnnotations: ProjectAnnotations) {
-    super();
+    super(new Channel());
 
     this.initialize({
       getStoryIndex: () => this.storyIndex,
@@ -73,9 +77,7 @@ export class ExternalPreview<TFramework extends AnyFramework> extends Preview<TF
 
   docsContext = () => {
     return new ExternalDocsContext(
-      'storybook--docs',
-      'Storybook',
-      'Docs',
+      this.channel,
       this.storyStore,
       this.renderStoryToElement.bind(this),
       this.processMetaExports.bind(this)

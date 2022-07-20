@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { H3 } from '@storybook/components';
 import { HeaderMdx } from './mdx';
 import { HeadingProps } from './Heading';
 
-export const Subheading: FunctionComponent<HeadingProps> = ({ children, disableAnchor }) => {
+export const Subheading: FC<HeadingProps> = ({ children, disableAnchor }) => {
   if (disableAnchor || typeof children !== 'string') {
     return <H3>{children}</H3>;
   }

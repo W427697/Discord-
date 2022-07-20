@@ -3,7 +3,7 @@ import { withReset } from '@storybook/components';
 
 const breakpoint = 600;
 
-export const Title = styled.h1<{}>(withReset, ({ theme }: { theme: Theme }) => ({
+export const Title = styled.h1(withReset, ({ theme }: { theme: Theme }) => ({
   color: theme.color.defaultText,
   fontSize: theme.typography.size.m3,
   fontWeight: theme.typography.weight.black,

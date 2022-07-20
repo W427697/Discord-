@@ -1,4 +1,4 @@
-import React, { FunctionComponent, forwardRef, HTMLProps, SelectHTMLAttributes } from 'react';
+import React, { FC, forwardRef, HTMLProps, SelectHTMLAttributes } from 'react';
 import type { Theme, CSSObject } from '@storybook/theming';
 import { styled } from '@storybook/theming';
 
@@ -224,7 +224,7 @@ const ButtonStyled = styled(
   },
 });
 
-export const Button: FunctionComponent<any> = Object.assign(
+export const Button: FC<any> = Object.assign(
   forwardRef<{}, {}>((props, ref) => (
     <ButtonStyled {...props} {...{ tertiary: true, small: true, inForm: true }} ref={ref} />
   )),

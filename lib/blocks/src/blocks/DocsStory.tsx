@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';
 import { Subheading } from './Subheading';
@@ -17,7 +17,7 @@ const warnStoryDescription = deprecate(
   `
 );
 
-export const DocsStory: FunctionComponent<DocsStoryProps> = ({
+export const DocsStory: FC<DocsStoryProps> = ({
   id,
   name,
   expanded = true,

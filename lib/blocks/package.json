@@ -41,9 +41,8 @@
     "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@mdx-js/react": "^1.6.22",
-    "@storybook/addons": "7.0.0-alpha.13",
     "@storybook/api": "7.0.0-alpha.13",
+    "@storybook/channels": "7.0.0-alpha.13",
     "@storybook/client-logger": "7.0.0-alpha.13",
     "@storybook/components": "7.0.0-alpha.13",
     "@storybook/core-events": "7.0.0-alpha.13",
@@ -65,11 +64,11 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@digitak/esrun": "^3.2.2"
+    "@digitak/esrun": "^3.2.2",
+    "@storybook/addons": "7.0.0-alpha.13"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "publishConfig": {
     "access": "public"

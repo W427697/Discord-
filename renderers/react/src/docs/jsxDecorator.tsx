@@ -122,7 +122,12 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
   const result = React.Children.map(code, (c) => {
     // @ts-ignore FIXME: workaround react-element-to-jsx-string
     const child = typeof c === 'number' ? c.toString() : c;
-    let string = applyBeforeRender(reactElementToJSXString(child, opts as Options), options);
+    const toJSXString =
+      typeof reactElementToJSXString === 'function'
+        ? reactElementToJSXString
+        : // @ts-ignore
+          reactElementToJSXString.default;
+    let string = applyBeforeRender(toJSXString(child, opts as Options), options);
 
     if (string.indexOf('&quot;') > -1) {
       const matches = string.match(/\S+=\\"([^"]*)\\"/g);

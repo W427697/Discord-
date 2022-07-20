@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo, ComponentProps, FC } from 'react';
+import React, { useMemo, ComponentProps, FC } from 'react';
 
 import { styled } from '@storybook/theming';
 import { WithTooltip, TooltipLinkList, Button, Icons, IconButton } from '@storybook/components';
@@ -78,7 +78,7 @@ export const MenuButton: FC<ComponentProps<typeof Button> & { highlighted: boole
 
 type ClickHandler = ComponentProps<typeof TooltipLinkList>['links'][number]['onClick'];
 
-export const SidebarMenuList: FunctionComponent<{
+export const SidebarMenuList: FC<{
   menu: MenuList;
   onHide: () => void;
 }> = ({ menu, onHide }) => {
@@ -96,7 +96,7 @@ export const SidebarMenuList: FunctionComponent<{
   return <TooltipLinkList links={links} />;
 };
 
-export const SidebarMenu: FunctionComponent<{
+export const SidebarMenu: FC<{
   menu: MenuList;
   isHighlighted: boolean;
 }> = ({ isHighlighted, menu }) => {
@@ -114,7 +114,7 @@ export const SidebarMenu: FunctionComponent<{
   );
 };
 
-export const ToolbarMenu: FunctionComponent<{
+export const ToolbarMenu: FC<{
   menu: MenuList;
 }> = ({ menu }) => {
   return (

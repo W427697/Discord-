@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent } from 'react';
+import React, { ChangeEvent, FC } from 'react';
 import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';
 import { ControlProps } from './types';
@@ -20,7 +20,7 @@ function revokeOldUrls(urls: string[]) {
   });
 }
 
-export const FilesControl: FunctionComponent<FilesControlProps> = ({
+export const FilesControl: FC<FilesControlProps> = ({
   onChange,
   name,
   accept = 'image/*',
