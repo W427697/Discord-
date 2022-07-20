@@ -58,8 +58,8 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
   isEqual(other: Render<TFramework>): boolean {
     return !!(
       this.id === other.id &&
-      this.entry &&
-      this.entry === (other as StandaloneDocsRender<TFramework>).entry
+      this.exports &&
+      this.exports === (other as StandaloneDocsRender<TFramework>).exports
     );
   }
 
