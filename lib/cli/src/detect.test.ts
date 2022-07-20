@@ -107,7 +107,7 @@ const MOCK_FRAMEWORK_FILES: {
     },
   },
   {
-    name: ProjectType.REACT_SCRIPTS,
+    name: ProjectType.CRA,
     files: {
       'package.json': {
         devDependencies: {
@@ -371,7 +371,7 @@ describe('Detect', () => {
     });
 
     // TODO: The mocking in this test causes tests after it to fail
-    it('REACT_SCRIPTS for custom react scripts config', () => {
+    it('CRA for custom react scripts config', () => {
       const forkedReactScriptsConfig = {
         '/node_modules/.bin/react-scripts': 'file content',
       };
@@ -381,7 +381,7 @@ describe('Detect', () => {
       });
 
       const result = detectFrameworkPreset();
-      expect(result).toBe(ProjectType.REACT_SCRIPTS);
+      expect(result).toBe(ProjectType.CRA);
     });
   });
 });

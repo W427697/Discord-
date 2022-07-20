@@ -10,7 +10,7 @@ import aureliaGenerator from './generators/AURELIA';
 import emberGenerator from './generators/EMBER';
 import reactGenerator from './generators/REACT';
 import reactNativeGenerator from './generators/REACT_NATIVE';
-import reactScriptsGenerator from './generators/REACT_SCRIPTS';
+import CRAGenerator from './generators/CRA';
 import sfcVueGenerator from './generators/SFC_VUE';
 import vueGenerator from './generators/VUE';
 import vue3Generator from './generators/VUE3';
@@ -65,7 +65,8 @@ const installStorybook = (
         return Promise.resolve();
 
       case ProjectType.REACT_SCRIPTS:
-        return reactScriptsGenerator(packageManager, npmOptions, generatorOptions).then(
+      case ProjectType.CRA:
+        return CRAGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "Create React App" based project')
         );
 

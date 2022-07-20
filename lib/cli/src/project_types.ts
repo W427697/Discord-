@@ -33,7 +33,7 @@ export type SupportedRenderers =
 
 export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'react',
-  'react',
+  'cra',
   'react-native',
   'vue',
   'vue3',
@@ -52,7 +52,8 @@ export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
 export enum ProjectType {
   UNDETECTED = 'UNDETECTED',
   UNSUPPORTED = 'UNSUPPORTED',
-  REACT_SCRIPTS = 'REACT_SCRIPTS',
+  CRA = 'CRA',
+  REACT_SCRIPTS = 'CRA',
   REACT = 'REACT',
   REACT_NATIVE = 'REACT_NATIVE',
   REACT_PROJECT = 'REACT_PROJECT',
@@ -165,7 +166,7 @@ export const supportedTemplates: TemplateConfiguration[] = [
     },
   },
   {
-    preset: ProjectType.REACT_SCRIPTS,
+    preset: ProjectType.CRA,
     // For projects using a custom/forked `react-scripts` package.
     files: ['/node_modules/.bin/react-scripts'],
     // For standard CRA projects

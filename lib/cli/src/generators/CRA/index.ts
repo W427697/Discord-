@@ -30,7 +30,6 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   const updatedOptions = isCra5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
   const extraPackages = [];
   if (isCra5) {
-    extraPackages.push('webpack');
     // Miscellaneous dependency used in `babel-preset-react-app` but not listed as dep there
     extraPackages.push('babel-plugin-named-exports-order');
     // Miscellaneous dependency to add to be sure Storybook + CRA is working fine with Yarn PnP mode
