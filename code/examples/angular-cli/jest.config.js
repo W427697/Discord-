@@ -21,7 +21,7 @@ module.exports = {
   transform: {
     '^.+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',
     '^.+\\.(ts|html)$': 'ts-jest',
-    '^.+\\.jsx?$': path.join(projectDir, 'scripts/utils/jest-transform-js.js'),
+    '^.+\\.jsx?$': path.join(projectDir, '../scripts/utils/jest-transform-js.js'),
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
   moduleFileExtensions: [...config.moduleFileExtensions, 'html'],

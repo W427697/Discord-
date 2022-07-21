@@ -40,7 +40,6 @@ module.exports = {
     {
       files: [
         '**/__tests__/**',
-        'scripts/**',
         '**/__testfixtures__/**',
         '**/*.test.*',
         '**/*.stories.*',

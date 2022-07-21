@@ -47,7 +47,7 @@ module.exports = {
   ],
   transform: {
     '^.+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',
-    '^.+\\.[jt]sx?$': '<rootDir>/scripts/utils/jest-transform-js.js',
+    '^.+\\.[jt]sx?$': '<rootDir>/../scripts/utils/jest-transform-js.js',
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
   transformIgnorePatterns: ['/node_modules/(?!lit-html).+\\.js'],
@@ -94,7 +94,7 @@ module.exports = {
     'jest-serializer-html',
   ],
   coverageDirectory: 'coverage',
-  setupFilesAfterEnv: ['./scripts/jest.init.ts'],
+  setupFilesAfterEnv: ['../scripts/jest.init.ts'],
   coverageReporters: ['lcov'],
   testEnvironment: 'jest-environment-jsdom-thirteen',
   setupFiles: ['raf/polyfill'],
