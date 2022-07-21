@@ -387,6 +387,7 @@ jobs:
       - run:
           name: smoke tests
           command: |
+            cd code
             yarn smoketest-storybooks --all
   lint:
     executor:
