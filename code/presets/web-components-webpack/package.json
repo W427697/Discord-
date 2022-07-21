@@ -49,7 +49,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "esrun ../../../scripts/prepare/bundle.ts"
+    "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
@@ -64,7 +64,6 @@
     "react-dom": "16.14.0"
   },
   "devDependencies": {
-    "@digitak/esrun": "^3.2.2",
     "lit-html": "2.0.2",
     "typescript": "~4.6.3"
   },

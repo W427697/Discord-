@@ -18,7 +18,8 @@ type Instance = CombinedVueInstance<
   },
   object,
   object,
-  Record<never, any>
+  Record<never, any>,
+  unknown
 >;
 const getRoot = (domElement: Element): Instance => {
   if (map.has(domElement)) {
@@ -31,17 +32,21 @@ const getRoot = (domElement: Element): Instance => {
     },
     data() {
       return {
+        // @ts-ignore
         [COMPONENT]: undefined,
         [VALUES]: {},
       };
     },
+    // @ts-ignore
     render(h) {
+      // @ts-ignore
       map.set(domElement, instance);
       const children = this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
       return h('div', { attrs: { id: 'root' } }, children);
     },
   });
 
+  // @ts-ignore
   return instance;
 };
 

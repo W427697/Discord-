@@ -6,6 +6,7 @@
       "jest"
     ],
     "strict": false,
+    "skipLibCheck": true,
     "strictNullChecks": false,
     "resolveJsonModule": true
   },

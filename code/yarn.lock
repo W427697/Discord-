@@ -7516,7 +7516,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/blocks@workspace:lib/blocks"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.13
     "@storybook/api": 7.0.0-alpha.13
     "@storybook/channels": 7.0.0-alpha.13
@@ -7548,7 +7547,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/builder-manager@workspace:lib/builder-manager"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@storybook/core-common": 7.0.0-alpha.13
     "@storybook/node-logger": 7.0.0-alpha.13
@@ -7803,7 +7801,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/components@workspace:lib/components"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@popperjs/core": ^2.6.0
     "@storybook/client-logger": 7.0.0-alpha.13
     "@storybook/csf": 0.0.2--canary.4566f4d.1
@@ -7897,7 +7894,6 @@ __metadata:
     "@babel/preset-react": ^7.12.10
     "@babel/preset-typescript": ^7.12.7
     "@babel/register": ^7.12.1
-    "@digitak/esrun": ^3.2.2
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/node-logger": 7.0.0-alpha.13
     "@storybook/semver": ^7.3.2
@@ -8295,7 +8291,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/html-webpack5@workspace:frameworks/html-webpack5"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.13
     "@storybook/core-common": 7.0.0-alpha.13
     "@storybook/html": 7.0.0-alpha.13
@@ -8315,7 +8310,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/html@workspace:renderers/html"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.13
     "@storybook/core-client": 7.0.0-alpha.13
     "@storybook/csf": 0.0.2--canary.4566f4d.1
@@ -8494,7 +8488,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preact-webpack5@workspace:frameworks/preact-webpack5"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.13
     "@storybook/core-common": 7.0.0-alpha.13
     "@storybook/preact": 7.0.0-alpha.13
@@ -8515,7 +8508,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preact@workspace:renderers/preact"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.13
     "@storybook/core-client": 7.0.0-alpha.13
     "@storybook/csf": 0.0.2--canary.4566f4d.1
@@ -8555,7 +8547,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-html-webpack@workspace:presets/html-webpack"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.13
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
@@ -8574,7 +8565,6 @@ __metadata:
   resolution: "@storybook/preset-preact-webpack@workspace:presets/preact-webpack"
   dependencies:
     "@babel/plugin-transform-react-jsx": ^7.12.12
-    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.13
     "@types/node": ^14.14.20 || ^16.0.0
     core-js: ^3.8.2
@@ -8594,7 +8584,6 @@ __metadata:
   dependencies:
     "@babel/preset-flow": ^7.12.1
     "@babel/preset-react": ^7.12.10
-    "@digitak/esrun": ^3.2.2
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.5
     "@storybook/core-webpack": 7.0.0-alpha.13
     "@storybook/docs-tools": 7.0.0-alpha.13
@@ -8640,7 +8629,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-server-webpack@workspace:presets/server-webpack"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/core-server": 7.0.0-alpha.13
     "@storybook/core-webpack": 7.0.0-alpha.13
     "@storybook/server": 7.0.0-alpha.13
@@ -8663,7 +8651,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-svelte-webpack@workspace:presets/svelte-webpack"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.13
     "@storybook/node-logger": 7.0.0-alpha.13
     core-js: ^3.8.2
@@ -8685,7 +8672,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-vue-webpack@workspace:presets/vue-webpack"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.13
     "@storybook/docs-tools": 7.0.0-alpha.13
     "@types/node": ^14.14.20 || ^16.0.0
@@ -8714,7 +8700,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-vue3-webpack@workspace:presets/vue3-webpack"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.13
     "@storybook/docs-tools": 7.0.0-alpha.13
     "@types/node": ^14.14.20 || ^16.0.0
@@ -8744,7 +8729,6 @@ __metadata:
     "@babel/plugin-syntax-dynamic-import": ^7.8.3
     "@babel/plugin-syntax-import-meta": ^7.10.4
     "@babel/preset-env": ^7.12.11
-    "@digitak/esrun": ^3.2.2
     "@storybook/core-webpack": 7.0.0-alpha.13
     "@types/node": ^14.14.20 || ^16.0.0
     babel-loader: ^7.0.0 || ^8.0.0
@@ -8804,7 +8788,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/react-webpack5@workspace:frameworks/react-webpack5"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.13
     "@storybook/preset-react-webpack": 7.0.0-alpha.13
     "@storybook/react": 7.0.0-alpha.13
@@ -8829,7 +8812,6 @@ __metadata:
   resolution: "@storybook/react@workspace:renderers/react"
   dependencies:
     "@babel/core": ^7.11.5
-    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.13
     "@storybook/client-logger": 7.0.0-alpha.13
     "@storybook/core-client": 7.0.0-alpha.13
@@ -9190,7 +9172,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/server-webpack5@workspace:frameworks/server-webpack5"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.13
     "@storybook/core-common": 7.0.0-alpha.13
     "@storybook/preset-server-webpack": 7.0.0-alpha.13
@@ -9207,7 +9188,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/server@workspace:renderers/server"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.13
     "@storybook/core-client": 7.0.0-alpha.13
     "@storybook/csf": 0.0.2--canary.4566f4d.1
@@ -9270,7 +9250,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/svelte-webpack5@workspace:frameworks/svelte-webpack5"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.13
     "@storybook/core-common": 7.0.0-alpha.13
     "@storybook/preset-svelte-webpack": 7.0.0-alpha.13
@@ -9292,7 +9271,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/svelte@workspace:renderers/svelte"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.13
     "@storybook/client-logger": 7.0.0-alpha.13
     "@storybook/core-client": 7.0.0-alpha.13
@@ -9361,7 +9339,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/theming@workspace:lib/theming"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@emotion/cache": ^11.7.1
     "@emotion/is-prop-valid": ^1.1.2
     "@emotion/react": ^11.8.1
@@ -9402,7 +9379,6 @@ __metadata:
   resolution: "@storybook/ui@workspace:lib/ui"
   dependencies:
     "@babel/core": ^7.12.10
-    "@digitak/esrun": ^3.2.2
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@storybook/addons": 7.0.0-alpha.13
     "@storybook/api": 7.0.0-alpha.13
@@ -9449,7 +9425,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue-webpack5@workspace:frameworks/vue-webpack5"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.13
     "@storybook/core-common": 7.0.0-alpha.13
     "@storybook/preset-vue-webpack": 7.0.0-alpha.13
@@ -9476,7 +9451,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue3-webpack5@workspace:frameworks/vue3-webpack5"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.13
     "@storybook/core-common": 7.0.0-alpha.13
     "@storybook/preset-vue3-webpack": 7.0.0-alpha.13
@@ -9524,7 +9498,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue@workspace:renderers/vue"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.13
     "@storybook/client-logger": 7.0.0-alpha.13
     "@storybook/core-client": 7.0.0-alpha.13
@@ -9551,7 +9524,6 @@ __metadata:
   resolution: "@storybook/web-components-webpack5@workspace:frameworks/web-components-webpack5"
   dependencies:
     "@babel/preset-env": ^7.12.11
-    "@digitak/esrun": ^3.2.2
     "@storybook/builder-webpack5": 7.0.0-alpha.13
     "@storybook/core-common": 7.0.0-alpha.13
     "@storybook/preset-web-components-webpack": 7.0.0-alpha.13
@@ -9571,7 +9543,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/web-components@workspace:renderers/web-components"
   dependencies:
-    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.13
     "@storybook/api": 7.0.0-alpha.13
     "@storybook/client-logger": 7.0.0-alpha.13

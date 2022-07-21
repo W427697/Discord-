@@ -39,7 +39,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "esrun ../../../scripts/prepare/bundle.ts"
+    "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/client-logger": "7.0.0-alpha.13",
@@ -47,7 +47,6 @@
     "memoizerific": "^1.11.3"
   },
   "devDependencies": {
-    "@digitak/esrun": "^3.2.2",
     "@emotion/cache": "^11.7.1",
     "@emotion/is-prop-valid": "^1.1.2",
     "@emotion/react": "^11.8.1",

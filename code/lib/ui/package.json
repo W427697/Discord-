@@ -49,11 +49,10 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "esrun ../../../scripts/prepare/bundle.ts"
+    "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "@digitak/esrun": "^3.2.2",
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
     "@storybook/addons": "7.0.0-alpha.13",
     "@storybook/api": "7.0.0-alpha.13",

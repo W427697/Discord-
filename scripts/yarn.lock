@@ -1748,6 +1748,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@digitak/esrun@npm:^3.2.2":
+  version: 3.2.8
+  resolution: "@digitak/esrun@npm:3.2.8"
+  dependencies:
+    "@digitak/grubber": ^3.1.1
+    chokidar: ^3.5.1
+    esbuild: ^0.14.47
+  bin:
+    esrun: bin.js
+  checksum: 1f18617923f6cb623291f79c462ae48c7d0d2fe0d548ed054a59e975114ef411cc14e73812ba22a20087c33a0c4459a5ee9b2d4c650684c84caed3fd94b505b5
+  languageName: node
+  linkType: hard
+
+"@digitak/grubber@npm:^3.1.1":
+  version: 3.1.2
+  resolution: "@digitak/grubber@npm:3.1.2"
+  checksum: 80b463d77b94949064da81ffb8af6eb53a9787d33b700ea248feebf6eecb4ac39c5d12c627bd5c1c8fa4e77136852c276d1c6b953738e00efe621e222bc1f788
+  languageName: node
+  linkType: hard
+
 "@emotion/babel-plugin@npm:^11.7.2":
   version: 11.9.2
   resolution: "@emotion/babel-plugin@npm:11.9.2"
@@ -4130,6 +4150,7 @@ __metadata:
     "@compodoc/compodoc": ^1.1.18
     "@cypress/skip-test": ^2.6.1
     "@cypress/webpack-preprocessor": ^5.9.1
+    "@digitak/esrun": ^3.2.2
     "@emotion/babel-plugin": ^11.7.2
     "@emotion/jest": ^11.8.0
     "@linear/sdk": ^1.21.0
@@ -4207,6 +4228,7 @@ __metadata:
     esm: ^3.2.25
     execa: ^5.0.0
     express: ^4.17.1
+    find-up: ^5.0.0
     fs-extra: ^9.0.1
     github-release-from-changelog: ^2.1.1
     glob: ^7.1.6

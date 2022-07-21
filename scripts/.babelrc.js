@@ -23,9 +23,9 @@ const targets = process.env.BABEL_MODE === 'esm' ? { chrome: '100' } : { node: '
 module.exports = {
   compact: false,
   ignore: [
-    './lib/codemod/src/transforms/__testfixtures__',
-    './lib/postinstall/src/__testfixtures__',
-    '**/typings.d.ts',
+    '../code/lib/codemod/src/transforms/__testfixtures__',
+    '../code/lib/postinstall/src/__testfixtures__',
+    '../code/**/typings.d.ts',
   ],
   presets: [
     [
@@ -63,7 +63,7 @@ module.exports = {
   },
   overrides: [
     {
-      test: './examples/vue-kitchen-sink',
+      test: '../code/examples/vue-kitchen-sink',
       presets: ['@vue/babel-preset-jsx'],
       env: {
         test: withTests,
@@ -100,15 +100,15 @@ module.exports = {
     },
     {
       test: [
-        './lib/node-logger',
-        './lib/core',
-        './lib/core-common',
-        './lib/core-server',
-        './lib/builder-webpack5',
-        './lib/codemod',
-        './addons/storyshots',
-        '**/src/server/**',
-        '**/src/bin/**',
+        '../code/lib/node-logger',
+        '../code/lib/core',
+        '../code/lib/core-common',
+        '../code/lib/core-server',
+        '../code/lib/builder-webpack5',
+        '../code/lib/codemod',
+        '../code/addons/storyshots',
+        '../code/**/src/server/**',
+        '../code/**/src/bin/**',
       ],
       presets: [
         [

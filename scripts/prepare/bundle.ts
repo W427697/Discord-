@@ -1,3 +1,5 @@
+#!/usr/bin/env ts-node
+
 import fs from 'fs-extra';
 import path, { join } from 'path';
 import { build } from 'tsup';
@@ -17,7 +19,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   const isThemingPackage = name === '@storybook/theming';
 
   if (pre) {
-    shelljs.exec(`esrun ${pre}`, { cwd });
+    shelljs.exec(`esrun ${pre}`, { cwd: join(__dirname, '..') });
   }
 
   const reset = hasFlag(flags, 'reset');
@@ -45,10 +47,15 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     );
   }
 
+
+  const tsConfigPath = join(cwd, 'tsconfig.json');
+  const tsConfigExists = await fs.pathExists(tsConfigPath);
   await Promise.all([
     build({
-      entry: entries,
+      entry: entries.map((e: string) => join(cwd, e)),
       watch,
+      ...(tsConfigExists ? {tsconfig: tsConfigPath} : {}),
+      outDir: join(process.cwd(), 'dist'),
       // sourcemap: optimized,
       format: ['esm'],
       target: 'chrome100',
@@ -58,14 +65,14 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       esbuildPlugins: [
         aliasPlugin({
           process: path.resolve(
-            '../../node_modules/rollup-plugin-node-polyfills/polyfills/process-es6.js'
+            '../node_modules/rollup-plugin-node-polyfills/polyfills/process-es6.js'
           ),
-          util: path.resolve('../../node_modules/rollup-plugin-node-polyfills/polyfills/util.js'),
+          util: path.resolve('../node_modules/rollup-plugin-node-polyfills/polyfills/util.js'),
         }),
       ],
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
 
-      dts: optimized
+      dts: optimized && tsConfigExists
         ? {
             entry: entries,
             resolve: true,
@@ -88,8 +95,10 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       },
     }),
     build({
-      entry: entries,
+      entry: entries.map((e: string) => join(cwd, e)),
       watch,
+      outDir: join(process.cwd(), 'dist'),
+      ...(tsConfigExists ? {tsconfig: tsConfigPath} : {}),
       format: ['cjs'],
       target: 'node14',
       platform: 'node',
@@ -119,3 +128,4 @@ run({ cwd, flags }).catch((err) => {
   console.error(err.stack);
   process.exit(1);
 });
+
