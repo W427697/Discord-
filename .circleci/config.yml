@@ -86,7 +86,7 @@ jobs:
       - restore_cache:
           name: Restore Yarn cache
           keys:
-            - build-yarn-2-cache-v3--{{ checksum "yarn.lock" }}
+            - build-yarn-2-cache-v3--{{ checksum "code/yarn.lock" }}
       - run:
           name: Change directory 
           command: cd code
@@ -100,7 +100,7 @@ jobs:
             git diff --exit-code
       - save_cache:
           name: Save Yarn cache
-          key: build-yarn-2-cache-v3--{{ checksum "yarn.lock" }}
+          key: build-yarn-2-cache-v3--{{ checksum "code/yarn.lock" }}
           paths:
             - ~/.yarn/berry/cache
       - persist_to_workspace:
