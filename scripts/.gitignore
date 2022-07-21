@@ -1,0 +1,16 @@
+node_modules
+*.log
+.idea
+*.iml
+*.sw*
+dist
+*.DS_Store
+.cache
+
+# Yarn stuff
+/**/.yarn/*
+!/**/.yarn/releases
+!/**/.yarn/plugins
+!/**/.yarn/sdks
+!/**/.yarn/versions
+/**/.pnp.*
