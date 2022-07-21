@@ -48,7 +48,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "esrun ../../scripts/prepare/bundle.ts"
+    "prepare": "esrun ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/builder-webpack5": "7.0.0-alpha.13",

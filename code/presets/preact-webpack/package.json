@@ -47,7 +47,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "esrun ../../scripts/prepare/bundle.ts"
+    "prepare": "esrun ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx": "^7.12.12",

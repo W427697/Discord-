@@ -38,7 +38,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "esrun ../../scripts/prepare/bundle.ts"
+    "prepare": "esrun ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
