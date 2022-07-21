@@ -66,7 +66,7 @@ function run() {
       option: '--prep',
       command: () => {
         log.info(prefix, 'prepare');
-        spawn(`nx run-many --target="prepare" --all --parallel -- --reset`);
+        spawn(`nx run-many --target="prepare" --all --parallel --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset`);
       },
       order: 2,
     }),
