@@ -122,6 +122,7 @@ const SkipToContentLink = styled(Button)(({ theme }) => ({
 interface NodeProps {
   item: Item;
   refId: string;
+  docsMode: boolean;
   isOrphan: boolean;
   isDisplayed: boolean;
   isSelected: boolean;
@@ -136,6 +137,7 @@ const Node = React.memo<NodeProps>(
   ({
     item,
     refId,
+    docsMode,
     isOrphan,
     isDisplayed,
     isSelected,
@@ -168,6 +170,7 @@ const Node = React.memo<NodeProps>(
               event.preventDefault();
               onSelectStoryId(item.id);
             }}
+            {...(item.type === 'docs' && { docsMode })}
           >
             {(item.renderLabel as (i: typeof item) => React.ReactNode)?.(item) || item.name}
           </LeafNode>
@@ -277,6 +280,7 @@ export const Tree = React.memo<{
   isMain: boolean;
   refId: string;
   data: StoriesHash;
+  docsMode: boolean;
   highlightedRef: MutableRefObject<Highlight>;
   setHighlightedItemId: (itemId: string) => void;
   selectedStoryId: string | null;
@@ -287,6 +291,7 @@ export const Tree = React.memo<{
     isMain,
     refId,
     data,
+    docsMode,
     highlightedRef,
     setHighlightedItemId,
     selectedStoryId,
@@ -425,6 +430,7 @@ export const Tree = React.memo<{
               key={id}
               item={item}
               refId={refId}
+              docsMode={docsMode}
               isOrphan={orphanIds.some((oid) => itemId === oid || itemId.startsWith(`${oid}-`))}
               isDisplayed={isDisplayed}
               isSelected={selectedStoryId === itemId}

@@ -6,7 +6,8 @@ import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
-import { Provider as ManagerProvider, Combo } from '@storybook/api';
+import { Provider as ManagerProvider } from '@storybook/api';
+import type { Combo } from '@storybook/api';
 import {
   ThemeProvider,
   ensure as ensureTheme,
@@ -22,20 +23,10 @@ import Provider from './provider';
 const emotionCache = createCache({ key: 'sto' });
 emotionCache.compat = true;
 
-const { DOCS_MODE } = global;
-
 // @ts-ignore
 ThemeProvider.displayName = 'ThemeProvider';
 // @ts-ignore
 HelmetProvider.displayName = 'HelmetProvider';
-
-const getDocsMode = () => {
-  try {
-    return !!DOCS_MODE;
-  } catch (e) {
-    return false;
-  }
-};
 
 // @ts-ignore
 const Container = process.env.XSTORYBOOK_EXAMPLE_APP ? React.StrictMode : React.Fragment;
@@ -65,7 +56,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
           provider={provider}
           {...locationData}
           navigate={navigate}
-          docsMode={getDocsMode()}
+          docsOptions={global?.DOCS_OPTIONS || {}}
         >
           {({ state, api }: Combo) => {
             const panelCount = Object.keys(api.getPanels()).length;

@@ -31,7 +31,7 @@ export const Default = () => (
     storyId="ui-app--loading-state"
     location={{ search: '' }}
     navigate={() => {}}
-    docsMode={false}
+    docsOptions={{ docsMode: false }}
   >
     <App
       key="app"
@@ -58,7 +58,7 @@ export const LoadingState = () => (
     storyId="ui-app--loading-state"
     location={{ search: '' }}
     navigate={() => {}}
-    docsMode={false}
+    docsOptions={{ docsMode: false }}
   >
     <App
       key="app"

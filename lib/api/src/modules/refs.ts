@@ -133,7 +133,7 @@ const map = (
 };
 
 export const init: ModuleFn<SubAPI, SubState, void> = (
-  { store, provider, singleStory, docsMode },
+  { store, provider, singleStory, docsOptions: { docsMode } = {} },
   { runCheck = true } = {}
 ) => {
   const api: SubAPI = {

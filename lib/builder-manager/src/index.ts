@@ -85,9 +85,8 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 }) {
   logger.info('=> Starting manager..');
 
-  const { config, customHead, features, instance, refs, template, title, logLevel } = await getData(
-    options
-  );
+  const { config, customHead, features, instance, refs, template, title, logLevel, docsOptions } =
+    await getData(options);
 
   yield;
 
@@ -117,6 +116,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     features,
     refs,
     logLevel,
+    docsOptions,
     options
   );
 
@@ -150,9 +150,8 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     throw new Error('outputDir is required');
   }
   logger.info('=> Building manager..');
-  const { config, customHead, features, instance, refs, template, title, logLevel } = await getData(
-    options
-  );
+  const { config, customHead, features, instance, refs, template, title, logLevel, docsOptions } =
+    await getData(options);
   yield;
 
   const addonsDir = config.outdir;
@@ -179,6 +178,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     features,
     refs,
     logLevel,
+    docsOptions,
     options
   );
 
