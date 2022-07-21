@@ -6,6 +6,7 @@ node_modules
 dist
 *.DS_Store
 .cache
+junit.xml
 
 # Yarn stuff
 /**/.yarn/*
