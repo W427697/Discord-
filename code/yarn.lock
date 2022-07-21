@@ -1794,7 +1794,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-runtime@npm:^7.12.10, @babel/plugin-transform-runtime@npm:^7.12.15, @babel/plugin-transform-runtime@npm:^7.13.9, @babel/plugin-transform-runtime@npm:^7.16.4":
+"@babel/plugin-transform-runtime@npm:^7.12.15, @babel/plugin-transform-runtime@npm:^7.13.9, @babel/plugin-transform-runtime@npm:^7.16.4":
   version: 7.18.9
   resolution: "@babel/plugin-transform-runtime@npm:7.18.9"
   dependencies:
@@ -35601,7 +35601,6 @@ __metadata:
   resolution: "preact-example@workspace:examples/preact-kitchen-sink"
   dependencies:
     "@babel/core": ^7.12.10
-    "@babel/plugin-transform-runtime": ^7.12.10
     "@storybook/addon-a11y": 7.0.0-alpha.13
     "@storybook/addon-actions": 7.0.0-alpha.13
     "@storybook/addon-backgrounds": 7.0.0-alpha.13

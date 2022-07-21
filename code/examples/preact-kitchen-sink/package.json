@@ -14,7 +14,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "@babel/plugin-transform-runtime": "^7.12.10",
     "@storybook/addon-a11y": "7.0.0-alpha.13",
     "@storybook/addon-actions": "7.0.0-alpha.13",
     "@storybook/addon-backgrounds": "7.0.0-alpha.13",
