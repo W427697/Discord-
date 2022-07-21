@@ -29,6 +29,8 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           cache: yarn
+      - name: Change directory
+        run: cd code
       - name: install, bootstrap
         run: |
           yarn install --immutable
