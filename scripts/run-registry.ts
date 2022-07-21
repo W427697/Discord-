@@ -197,12 +197,12 @@ const run = async () => {
 
   logger.log(`🌿 verdaccio running on ${verdaccioUrl}`);
 
-  await applyRegistriesUrl(
-    verdaccioUrl,
-    verdaccioUrl,
-    originalYarnRegistryUrl,
-    originalNpmRegistryUrl
-  );
+  // await applyRegistriesUrl(
+  //   verdaccioUrl,
+  //   verdaccioUrl,
+  //   originalYarnRegistryUrl,
+  //   originalNpmRegistryUrl
+  // );
 
   // first time running, you might need to enable this
   // await addUser(verdaccioUrl);
