@@ -26,7 +26,7 @@ const logger = console;
 
 const freePort = (port?: number) => port || detectFreePort(port);
 
-const startVerdaccio = (port: number) => {
+const startVerdaccio = (port: number): Promise<any> => {
   let resolved = false;
   return Promise.race([
     new Promise((resolve) => {
@@ -109,7 +109,7 @@ const applyRegistriesUrl = (
 };
 
 const currentVersion = async () => {
-  const { version } = (await import('../lerna.json')).default;
+  const { version } = (await import('../code/lerna.json')).default;
   return version;
 };
 
@@ -189,7 +189,7 @@ const run = async () => {
 
   logger.log(`🎬 starting verdaccio (this takes ±5 seconds, so be patient)`);
 
-  const [verdaccioServer, packages, version] = await Promise.all<any, Package[], string>([
+  const [verdaccioServer, packages, version] = await Promise.all([
     startVerdaccio(port),
     listOfPackages(),
     currentVersion(),
