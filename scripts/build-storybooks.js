@@ -24,7 +24,7 @@ const { all: shouldRunAllExamples, args: exampleArgs, skip: examplesToSkip } = p
 const readdir = promisify(readdirRaw);
 const writeFile = promisify(writeFileRaw);
 
-const p = (l) => join(__dirname, '..', ...l);
+const p = (l) => join(__dirname, '..', 'code' , ...l);
 const logger = console;
 
 const exec = async (command, args = [], options = {}) =>
