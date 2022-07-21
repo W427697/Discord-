@@ -39,7 +39,7 @@ Object {
       Object {
         "exclude": "NODE_MODULES/",
         "include": Array [
-          "ROOT",
+          "/Users/me/Projects/Storybook/core",
         ],
         "test": "/\\\\.(mjs|tsx?|jsx?)$/",
         "use": Array [

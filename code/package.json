@@ -79,7 +79,7 @@
     "serve-storybooks": "http-server ./built-storybooks -p 8001",
     "smoketest-storybooks": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true node -r esm ../scripts/smoketest-storybooks.js",
     "start": "yarn workspace official-storybook storybook --no-manager-cache",
-    "test": "NODE_OPTIONS=--max_old_space_size=4096 jest",
+    "test": "NODE_OPTIONS=--max_old_space_size=4096 jest --config ./jest.config.js",
     "test-puppeteer": "jest --projects examples/official-storybook/storyshots-puppeteer",
     "test:cli": "npm --prefix lib/cli run test",
     "test:e2e-examples": "cypress run",
@@ -117,7 +117,7 @@
     "typescript": "~4.6.3",
     "webpack": "5"
   },
-  "devDependencies": {
+  "dependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.5",
     "@babel/plugin-proposal-class-properties": "^7.16.7",

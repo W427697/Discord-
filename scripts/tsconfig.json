@@ -50,9 +50,7 @@
     "**/*.test.ts",
     "**/setup-jest.ts"
   ],
-  "include": [
-    "./**/*"
-  ],
+  "include": ["./**/*"],
   "ts-node": {
     "transpileOnly": true,
     "files": true,

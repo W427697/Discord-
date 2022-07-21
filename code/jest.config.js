@@ -94,7 +94,7 @@ module.exports = {
     'jest-serializer-html',
   ],
   coverageDirectory: 'coverage',
-  setupFilesAfterEnv: ['../scripts/jest.init.ts'],
+  setupFilesAfterEnv: ['./jest.init.ts'],
   coverageReporters: ['lcov'],
   testEnvironment: 'jest-environment-jsdom-thirteen',
   setupFiles: ['raf/polyfill'],
