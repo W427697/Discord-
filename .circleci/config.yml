@@ -420,11 +420,11 @@ jobs:
             cd code
             yarn test --coverage --runInBand --ci
       - store_test_results:
-          path: junit.xml
+          path: code/junit.xml
       - persist_to_workspace:
           root: .
           paths:
-            - coverage
+            - code/coverage
   coverage:
     executor:
       class: small
