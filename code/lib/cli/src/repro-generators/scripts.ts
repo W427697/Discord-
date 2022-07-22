@@ -37,6 +37,7 @@ interface Configuration {
   e2e: boolean;
   pnp: boolean;
   local: boolean;
+  registry?: string;
 }
 
 const useLocalSbCli = true;
@@ -192,9 +193,7 @@ const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options
     flags.push('--use-pnp');
   }
 
-  const sbCLICommand = useLocalSbCli
-    ? `node ${path.join(__dirname, '../../esm/generate')}`
-    : `yarn dlx -p @storybook/cli sb`;
+  const sbCLICommand = `node ${path.join(__dirname, '../../cjs/generate')}`;
 
   const command = `${sbCLICommand} init ${flags.join(' ')}`;
 
@@ -260,10 +259,20 @@ const doTask = async (
   }
 };
 
+const registryUrlNPM = (url: string) => {
+  const args = ['config', 'set', 'registry', url];
+  return exec(`npm ${args.join(' ')}`, { cwd: path.join(process.cwd(), '..') });
+};
+
+const registryUrlYarn = (url: string) => {
+  const args = ['config', 'set', 'npmRegistryServer', url];
+  return exec(`yarn ${args.join(' ')}`, { cwd: path.join(__dirname, '..') });
+};
+
 export const createAndInit = async (
   cwd: string,
   { name, version, ...rest }: Parameters,
-  { e2e, pnp, local }: Configuration
+  { e2e, pnp, local, registry }: Configuration
 ) => {
   const options: Options = {
     name,
@@ -294,5 +303,9 @@ export const createAndInit = async (
   }
   await doTask(addTypescript, options, !!options.typescript);
   await doTask(addRequiredDeps, options);
+  if (registry) {
+    await registryUrlNPM(registry);
+    await registryUrlYarn(registry);
+  }
   await doTask(initStorybook, options);
 };

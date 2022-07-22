@@ -130,6 +130,7 @@ program
   .option('-t --template <template>', 'Use the given template')
   .option('-l --list', 'List available templates')
   .option('-g --generator <generator>', 'Use custom generator command')
+  .option('--registry <registry>', 'which registry to use for storybook packages')
   .option('--pnp', "Use Yarn Plug'n'Play mode instead of node_modules one")
   .option('--local', "use storybook's local packages instead of yarn's registry")
   .option('--e2e', 'Used in e2e context')

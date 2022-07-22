@@ -17,6 +17,7 @@ interface ReproOptions {
   list?: boolean;
   template?: string;
   e2e?: boolean;
+  registry?: string;
   local?: boolean;
   generator?: string;
   pnp?: boolean;
@@ -46,6 +47,7 @@ export const repro = async ({
   generator,
   e2e,
   local,
+  registry,
   pnp,
 }: ReproOptions) => {
   logger.info(
@@ -138,6 +140,7 @@ export const repro = async ({
     logger.info(`🏃 Running ${selectedTemplate} into ${cwd}`);
 
     await createAndInit(cwd, selectedConfig, {
+      registry,
       e2e: !!e2e,
       pnp: !!pnp,
       local: !!local,
