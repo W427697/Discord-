@@ -1,6 +1,6 @@
 import type { Options as TelejsonOptions } from 'telejson';
 import type { TransformOptions } from '@babel/core';
-import { Router } from 'express';
+import type { FastifyInstance } from 'fastify';
 import { Server } from 'http';
 import type { Parameters } from '@storybook/csf';
 import type { FileSystemCache } from './utils/file-cache';
@@ -191,7 +191,7 @@ export interface Builder<Config, BuilderStats extends Stats = Stats> {
   start: (args: {
     options: Options;
     startTime: ReturnType<typeof process.hrtime>;
-    router: Router;
+    router: FastifyInstance;
     server: Server;
   }) => Promise<void | {
     stats?: BuilderStats;

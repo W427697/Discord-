@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
+    "@fastify/static": "^6.4.0",
     "@storybook/core-common": "7.0.0-alpha.16",
     "@storybook/node-logger": "7.0.0-alpha.16",
     "@storybook/ui": "7.0.0-alpha.16",

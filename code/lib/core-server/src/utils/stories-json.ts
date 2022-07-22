@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import type { FastifyInstance } from 'fastify';
 import { writeJSON } from 'fs-extra';
 
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
@@ -29,7 +29,7 @@ export function useStoriesJson({
   serverChannel,
   normalizedStories,
 }: {
-  router: Router;
+  router: FastifyInstance;
   initializedStoryIndexGenerator: Promise<StoryIndexGenerator>;
   serverChannel: ServerChannel;
   workingDir?: string;
@@ -44,27 +44,27 @@ export function useStoriesJson({
     maybeInvalidate();
   });
 
-  router.use('/index.json', async (req: Request, res: Response) => {
+  router.get('/index.json', async (request, reply) => {
     try {
       const generator = await initializedStoryIndexGenerator;
       const index = await generator.getIndex();
-      res.header('Content-Type', 'application/json');
-      res.send(JSON.stringify(index));
+      reply.header('Content-Type', 'application/json');
+      reply.send(JSON.stringify(index));
     } catch (err) {
-      res.status(500);
-      res.send(err.message);
+      reply.status(500);
+      reply.send(err.message);
     }
   });
 
-  router.use('/stories.json', async (req: Request, res: Response) => {
+  router.get('/stories.json', async (request, reply) => {
     try {
       const generator = await initializedStoryIndexGenerator;
       const index = convertToIndexV3(await generator.getIndex());
-      res.header('Content-Type', 'application/json');
-      res.send(JSON.stringify(index));
+      reply.header('Content-Type', 'application/json');
+      reply.send(JSON.stringify(index));
     } catch (err) {
-      res.status(500);
-      res.send(err.message);
+      reply.status(500);
+      reply.send(err.message);
     }
   });
 }

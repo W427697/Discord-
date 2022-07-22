@@ -1,6 +1,5 @@
 import { dirname, join } from 'path';
 import { copy, writeFile, remove } from 'fs-extra';
-import express from 'express';
 
 import { logger } from '@storybook/node-logger';
 
@@ -106,9 +105,17 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   const coreDirOrigin = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
 
-  router.use(`/sb-addons`, express.static(addonsDir));
-  router.use(`/sb-manager`, express.static(coreDirOrigin));
-
+  router.register(import('@fastify/static'), {
+    root: addonsDir,
+    prefix: '/sb-addons',
+    index: false,
+  });
+  router.register(import('@fastify/static'), {
+    root: coreDirOrigin,
+    prefix: '/sb-manager',
+    index: false,
+    decorateReply: false, // the reply decorator has been added by the first plugin registration
+  });
   const addonFiles = readDeep(addonsDir);
 
   yield;
@@ -127,11 +134,11 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   yield;
 
-  router.use(`/`, ({ path }, res, next) => {
-    if (path === '/') {
-      res.status(200).send(html);
-    } else {
-      next();
+  router.get(`/`, (request, reply) => {
+    if (request.url === '/') {
+      reply.code(200);
+      reply.type('text/html');
+      reply.send(html);
     }
   });
 

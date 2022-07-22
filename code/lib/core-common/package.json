@@ -100,6 +100,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
+    "@fastify/compress": "^6.1.0",
     "@types/compression": "^1.7.0",
     "@types/mock-fs": "^4.13.0",
     "@types/picomatch": "^2.3.0",

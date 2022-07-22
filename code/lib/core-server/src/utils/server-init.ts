@@ -4,7 +4,7 @@ import type { FastifyInstance } from 'fastify';
 import { readFile } from 'fs-extra';
 
 const baseOptions = {
-  logger: true,
+  logger: false,
 };
 
 export async function serverInit(options: {
