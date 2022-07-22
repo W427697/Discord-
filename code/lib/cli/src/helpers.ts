@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import path from 'path';
+import path, { dirname, join } from 'path';
 import fs from 'fs';
 import fse from 'fs-extra';
 import chalk from 'chalk';
@@ -185,7 +185,8 @@ export async function copyComponents(framework: SupportedRenderers, language: Su
     typescript: 'ts',
   };
   const componentsPath = async () => {
-    const frameworkPath = `frameworks/${framework}`;
+    const baseDir = dirname(require.resolve('@storybook/cli/package.json'));
+    const frameworkPath = join(baseDir, 'frameworks', framework);
     const languageSpecific = path.resolve(
       __dirname,
       `${frameworkPath}/${languageFolderMapping[language]}`

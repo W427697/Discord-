@@ -10,12 +10,9 @@
     "strictNullChecks": false,
     "resolveJsonModule": true
   },
-  "include": [
-    "src/**/*"
-  ],
+  "include": ["src/**/*"],
   "exclude": [
     "src/**/template*",
-    "**/*.test.*",
-    "src/frameworks/**/*"
+    "**/*.test.*"
   ]
 }
