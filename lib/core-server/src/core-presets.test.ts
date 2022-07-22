@@ -21,7 +21,7 @@ import htmlOptions from '../../../app/html/src/server/options';
 import webComponentsOptions from '../../../app/web-components/src/server/options';
 import { outputStats } from './utils/output-stats';
 
-const { SNAPSHOT_OS } = global;
+const { SNAPSHOT_OS } = global as unknown as { SNAPSHOT_OS: 'windows' | 'posix' };
 const mkdtemp = promisify(mkdtempCb);
 
 // this only applies to this file
@@ -151,14 +151,17 @@ const getConfig = (fn: any, name): Configuration | null => {
   return call[0];
 };
 
-const prepareSnap = (get: any, name): Pick<Configuration, 'module' | 'entry' | 'plugins'> => {
+const prepareSnap = (
+  get: any,
+  name
+): Pick<Configuration, 'module' | 'entry' | 'plugins'> | null => {
   const config = getConfig(get(), name);
   if (!config) return null;
 
   const keys = Object.keys(config);
   const { module, entry, plugins } = config;
 
-  return cleanRoots({ keys, module, entry, plugins: plugins.map((p) => p.constructor.name) });
+  return cleanRoots({ keys, module, entry, plugins: plugins?.map((p) => p.constructor.name) });
 };
 
 const snap = (name: string) => `__snapshots__/${name}`;
