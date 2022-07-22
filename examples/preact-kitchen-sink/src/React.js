@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import React from 'react';
 import PropTypes from 'prop-types';
 

@@ -14,7 +14,7 @@ module.exports = {
   ],
   webpackFinal: (config) => {
     config.module.rules.push({
-      test: [/\.stories\.js$/],
+      test: [/\.stories\.(js|ts|jsx|tsx)$/],
       use: [require.resolve('@storybook/source-loader')],
       include: [path.resolve(__dirname, '../src')],
       enforce: 'pre',

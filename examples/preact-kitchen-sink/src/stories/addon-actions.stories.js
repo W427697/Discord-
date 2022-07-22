@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import { action, actions } from '@storybook/addon-actions';
 import Button from '../Button';

@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import TestComponent from './no-pragma';
 
 export default {

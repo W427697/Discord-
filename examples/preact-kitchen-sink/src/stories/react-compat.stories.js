@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import { ReactFunctionalComponent, ReactClassComponent } from '../React';
 
 export default {

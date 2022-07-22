@@ -81,13 +81,15 @@ module.exports = {
             modules,
           },
         ],
+        ['@babel/preset-typescript'],
         [
           '@babel/preset-react',
           {
-            pragma: 'h',
-            pragmaFrag: 'Fragment',
+            importSource: 'preact',
+            runtime: 'automatic',
           },
         ],
+        '@babel/preset-flow',
       ],
       env: { test: withTests },
     },

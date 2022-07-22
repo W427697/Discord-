@@ -1,4 +1,3 @@
-import { h } from 'preact';
 /**
  * The button component will render a clickable button
  */
