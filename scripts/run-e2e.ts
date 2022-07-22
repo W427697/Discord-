@@ -2,15 +2,15 @@ import path from 'path';
 import { ensureDir, pathExists, remove } from 'fs-extra';
 import prompts from 'prompts';
 import program from 'commander';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
-import { getInterpretedFile } from '@storybook/core-common';
+import { readConfig, writeConfig } from '../code/lib/csf-tools';
+import { getInterpretedFile } from '../code/lib/core-common';
 import { serve } from './utils/serve';
 // @ts-ignore
 import { filterDataForCurrentCircleCINode } from './utils/concurrency';
 
-import * as configs from '../lib/cli/src/repro-generators/configs';
-import { Parameters } from '../lib/cli/src/repro-generators/configs';
-import { exec } from '../lib/cli/src/repro-generators/scripts';
+import * as configs from '../code/lib/cli/src/repro-generators/configs';
+import { Parameters } from '../code/lib/cli/src/repro-generators/configs';
+import { exec } from '../code/lib/cli/src/repro-generators/scripts';
 
 const logger = console;
 let openCypressInUIMode = !process.env.CI;
