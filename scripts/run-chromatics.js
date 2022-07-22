@@ -9,7 +9,7 @@ import { filterDataForCurrentCircleCINode } from './utils/concurrency';
 
 const readdir = promisify(readdirRaw);
 
-const p = (l) => join(__dirname, '..', ...l);
+const p = (l) => join(__dirname, '..', 'code', ...l);
 const logger = console;
 
 const exec = async (command, args = [], options = {}) =>

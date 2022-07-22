@@ -169,7 +169,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - code/.verdaccio-cache
+            - .verdaccio-cache
   e2e-tests-extended:
     executor:
       class: medium
