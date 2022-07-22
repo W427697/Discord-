@@ -296,7 +296,9 @@ jobs:
           background: true
       - run:
           name: Wait for registry
-          command: yarn wait-on http://localhost:6000
+          command: |
+            cd code
+            yarn wait-on http://localhost:6000
       - run:
           name: set up cra repro, skip tests
           command: |
