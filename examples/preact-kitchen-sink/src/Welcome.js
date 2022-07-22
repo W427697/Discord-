@@ -1,3 +1,5 @@
+import { h } from 'preact';
+
 const Main = (props) => (
   <article
     {...props}

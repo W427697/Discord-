@@ -69,6 +69,29 @@ module.exports = {
       },
     },
     {
+      test: './examples/preact-kitchen-sink',
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            shippedProposals: true,
+            useBuiltIns: 'usage',
+            corejs: '3',
+            targets,
+            modules,
+          },
+        ],
+        [
+          '@babel/preset-react',
+          {
+            pragma: 'h',
+            pragmaFrag: 'Fragment',
+          },
+        ],
+      ],
+      env: { test: withTests },
+    },
+    {
       test: './lib',
       presets: [
         [

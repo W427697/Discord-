@@ -1,6 +1,8 @@
+import { h } from 'preact';
 /**
  * The button component will render a clickable button
  */
+
 const Button = ({ children, href, ...props }) => {
   const TagName = href ? 'a' : 'button';
 
