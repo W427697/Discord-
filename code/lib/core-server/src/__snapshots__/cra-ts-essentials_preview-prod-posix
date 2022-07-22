@@ -3,8 +3,8 @@
 exports[`cra-ts-essentials preview prod 1`] = `
 Object {
   "entry": Array [
-    "ROOT/lib/core-client/dist/esm/globals/globals.js",
-    "ROOT/storybook-config-entry.js",
+    "CWD/lib/core-client/dist/esm/globals/globals.js",
+    "CWD/storybook-config-entry.js",
   ],
   "keys": Array [
     "name",
@@ -33,7 +33,7 @@ Object {
         "enforce": "pre",
         "exclude": "/@babel(?:\\\\/|\\\\\\\\{1,2})runtime/",
         "include": Array [
-          "ROOT/examples/cra-ts-essentials/.storybook",
+          "CWD/examples/cra-ts-essentials/.storybook",
         ],
         "loader": "NODE_MODULES/source-map-loader/dist/cjs.js",
         "test": "/\\\\.(js|mjs|jsx|ts|tsx|css)$/",
@@ -100,8 +100,8 @@ Object {
           },
           Object {
             "include": Array [
-              "ROOT/src",
-              "ROOT/examples/cra-ts-essentials/.storybook",
+              "CWD/src",
+              "CWD/examples/cra-ts-essentials/.storybook",
             ],
             "loader": "NODE_MODULES/babel-loader/lib/index.js",
             "options": Object {
@@ -147,7 +147,7 @@ Object {
           Object {
             "exclude": "/@babel(?:\\\\/|\\\\\\\\{1,2})runtime/",
             "include": Array [
-              "ROOT/examples/cra-ts-essentials/.storybook",
+              "CWD/examples/cra-ts-essentials/.storybook",
             ],
             "loader": "NODE_MODULES/babel-loader/lib/index.js",
             "options": Object {
@@ -312,7 +312,7 @@ Object {
               Object {
                 "loader": "NODE_MODULES/resolve-url-loader/index.js",
                 "options": Object {
-                  "root": "ROOT/src",
+                  "root": "CWD/src",
                   "sourceMap": true,
                 },
               },
@@ -370,7 +370,7 @@ Object {
               Object {
                 "loader": "NODE_MODULES/resolve-url-loader/index.js",
                 "options": Object {
-                  "root": "ROOT/src",
+                  "root": "CWD/src",
                   "sourceMap": true,
                 },
               },
@@ -501,7 +501,7 @@ Object {
       },
       Object {
         "enforce": "pre",
-        "loader": "ROOT/lib/source-loader/dist/cjs/index.js",
+        "loader": "CWD/lib/source-loader/dist/cjs/index.js",
         "options": Object {
           "injectStoryParameters": true,
           "inspectLocalDependencies": true,

@@ -4,7 +4,11 @@ import { mkdtemp as mkdtempCb } from 'fs';
 import os from 'os';
 import { promisify } from 'util';
 import type { Configuration } from 'webpack';
-import { resolvePathInStorybookCache, createFileSystemCache } from '@storybook/core-common';
+import {
+  resolvePathInStorybookCache,
+  createFileSystemCache,
+  getProjectRoot,
+} from '@storybook/core-common';
 import { executor as previewExecutor } from '@storybook/builder-webpack5';
 import { executor as managerExecutor } from '@storybook/builder-manager';
 
@@ -127,12 +131,13 @@ const baseOptions = {
   managerCache: false,
 };
 
-const ROOT = process.cwd();
+const ROOT = getProjectRoot();
+const CWD = process.cwd();
 const NODE_MODULES = /.*node_modules/g;
 const cleanRoots = (obj): any => {
   if (!obj) return obj;
   if (typeof obj === 'string')
-    return obj.replace(ROOT, 'ROOT').replace(NODE_MODULES, 'NODE_MODULES');
+    return obj.replace(CWD, 'CWD').replace(ROOT, 'ROOT').replace(NODE_MODULES, 'NODE_MODULES');
   if (Array.isArray(obj)) return obj.map(cleanRoots);
   if (obj instanceof RegExp) return cleanRoots(obj.toString());
   if (typeof obj === 'object') {
