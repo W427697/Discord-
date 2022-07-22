@@ -11,4 +11,3 @@ declare module '@aw-web-design/x-default-browser';
 declare module '@storybook/ui';
 declare module '@discoveryjs/json-ext';
 declare module 'watchpack';
-

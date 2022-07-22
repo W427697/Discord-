@@ -40,7 +40,7 @@ Object {
         "include": Array [
           "ROOT",
         ],
-        "test": "/\\\\.(cjs|mjs|tsx?|jsx?)$/",
+        "test": "/\\\\.(mjs|tsx?|jsx?)$/",
         "use": Array [
           Object {
             "loader": "NODE_MODULES/babel-loader/lib/index.js",

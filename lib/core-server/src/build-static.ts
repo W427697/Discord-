@@ -78,7 +78,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
       Conflict when trying to read staticDirs:
       * Storybook's configuration option: 'staticDirs'
       * Storybook's CLI flag: '--staticDir' or '-s'
-      
+
       Choose one of them, but not both.
     `);
   }
