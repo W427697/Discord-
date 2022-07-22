@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
+import * as ExplorerStories from './Explorer.stories';
 import { mockDataset } from './mockdata';
 import { RefType } from './types';
 
@@ -11,6 +12,7 @@ export default {
   excludeStories: /.*Data$/,
   parameters: { layout: 'fullscreen' },
   decorators: [
+    ExplorerStories.default.decorators[0],
     (storyFn: any) => <div style={{ padding: '0 20px', maxWidth: '230px' }}>{storyFn()}</div>,
   ],
 };

@@ -3,12 +3,14 @@ import React from 'react';
 import { Explorer } from './Explorer';
 import { mockDataset } from './mockdata';
 import { RefType } from './types';
+import * as RefStories from './Refs.stories';
 
 export default {
   component: Explorer,
   title: 'UI/Sidebar/Explorer',
   parameters: { layout: 'fullscreen' },
   decorators: [
+    RefStories.default.decorators[0],
     (storyFn: any) => <div style={{ padding: '0 20px', maxWidth: '230px' }}>{storyFn()}</div>,
   ],
 };

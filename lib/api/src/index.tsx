@@ -58,7 +58,7 @@ export { default as merge } from './lib/merge';
 export type { Options as StoreOptions, Listener as ChannelListener };
 export { ActiveTabs };
 
-const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
+export const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
 
 export type ModuleArgs = RouterData &
   ProviderData & {
