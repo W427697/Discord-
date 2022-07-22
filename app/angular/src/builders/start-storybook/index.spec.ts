@@ -157,9 +157,9 @@ describe('Start Storybook Builder', () => {
     expect(cpSpawnMock.spawn).toHaveBeenCalledWith(
       'npx',
       ['compodoc', '-p', './storybook/tsconfig.ts', '-d', '', '-e', 'json'],
-      {
+      expect.objectContaining({
         cwd: '',
-      }
+      })
     );
     expect(buildStandaloneMock).toHaveBeenCalledWith({
       angularBrowserTarget: 'angular-cli:build-2',
