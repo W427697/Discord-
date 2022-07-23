@@ -1,5 +1,5 @@
 [build]
-  publish = "built-storybooks"
+  publish = "code/built-storybooks"
   command = "cd scripts && yarn && cd ../code && yarn && yarn bootstrap --core && yarn build-storybooks --all"
 [build.environment]
   NODE_VERSION = "14"
