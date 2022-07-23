@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import path, { dirname, isAbsolute, join, resolve } from 'path';
+import path, { dirname, isAbsolute, join, relative, resolve, sep } from 'path';
 import fs from 'fs-extra';
 import { sync } from 'read-pkg-up';
 import slash from 'slash';
@@ -47,7 +47,7 @@ function getCompilerOptions(inputFileNames: string[], preferredConfigPath?: stri
   const compilerOptionsParseResult = ts.parseJsonConfigFileContent(
     configParseResult.config,
     parseConfigHost,
-    path.resolve(path.dirname(configFileName)),
+    resolve(dirname(configFileName)),
     undefined,
     getAbsolutePath(configFileName)
   );
@@ -86,7 +86,7 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
    * @param  {string} filePath the path of the current file
    */
   function getReplacementPathRelativeToBase(basePath: string, filePath: string) {
-    const relative = path.relative(basePath, filePath);
+    const relativePath = relative(basePath, filePath);
     let newPath = '';
 
     /*
@@ -101,16 +101,16 @@ export const run = async (entrySourceFiles: string[], outputPath: string, option
 
     */
 
-    if (relative.includes(`node_modules${path.sep}`)) {
-      const [, ...parts] = relative.split(`node_modules${path.sep}`);
-      const filename = parts.join(`node_modules${path.sep}`).split(path.sep).join('-');
+    if (relativePath.includes(`node_modules${sep}`)) {
+      const [, ...parts] = relativePath.split(`node_modules${sep}`);
+      const filename = parts.join(`node_modules${sep}`).split(sep).join('-');
       newPath = join(outputPath, '_modules', filename);
-    } else if (relative.includes(join('dist', `ts-tmp${path.sep}`))) {
-      const [, ...parts] = relative.split(join('dist', `ts-tmp${path.sep}`));
-      const filename = parts.join('').split(path.sep).join('-');
+    } else if (relativePath.includes(join('dist', `ts-tmp${sep}`))) {
+      const [, ...parts] = relativePath.split(join('dist', `ts-tmp${sep}`));
+      const filename = parts.join('').split(sep).join('-');
       newPath = join(outputPath, filename);
     } else {
-      const filename = relative.split(path.sep).join('-');
+      const filename = relativePath.split(sep).join('-');
       newPath = join(outputPath, filename);
     }
     return newPath;

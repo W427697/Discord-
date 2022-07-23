@@ -27,6 +27,8 @@ export class TemplateDocsRender<TFramework extends AnyFramework> implements Rend
 
   public story?: Story<TFramework>;
 
+  public rerender?: () => Promise<void>;
+
   public teardown?: (options: { viewModeChanged?: boolean }) => Promise<void>;
 
   public torndown = false;
@@ -95,21 +97,27 @@ export class TemplateDocsRender<TFramework extends AnyFramework> implements Rend
       true
     );
 
-    const { docs } = this.story.parameters || {};
+    const { docs: docsParameter } = this.story.parameters || {};
 
-    if (!docs)
+    if (!docsParameter)
       throw new Error(
         `Cannot render a story in viewMode=docs if \`@storybook/addon-docs\` is not installed`
       );
 
-    const renderer = await docs.renderer();
-    (renderer.render as DocsRenderFunction<TFramework>)(docsContext, docs, canvasElement, () =>
-      this.channel.emit(DOCS_RENDERED, this.id)
-    );
+    const renderer = await docsParameter.renderer();
+    const { render } = renderer as { render: DocsRenderFunction<TFramework> };
+    const renderDocs = async () => {
+      await new Promise<void>((r) => render(docsContext, docsParameter, canvasElement, r));
+      this.channel.emit(DOCS_RENDERED, this.id);
+    };
+
+    this.rerender = async () => renderDocs();
     this.teardown = async ({ viewModeChanged }: { viewModeChanged?: boolean } = {}) => {
       if (!viewModeChanged || !canvasElement) return;
       renderer.unmount(canvasElement);
       this.torndown = true;
     };
+
+    return renderDocs();
   }
 }
