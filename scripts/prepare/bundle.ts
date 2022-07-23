@@ -34,19 +34,18 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     await Promise.all(
       entries.map(async (file: string) => {
         console.log(`skipping generating types for ${file}`);
-        const { name } = path.parse(file);
+        const { name: entryName } = path.parse(file);
 
-        const pathName = join(process.cwd(), 'dist', `${name}.d.ts`);
+        const pathName = join(process.cwd(), 'dist', `${entryName}.d.ts`);
         // throw new Error('test');
         await fs.ensureFile(pathName);
         const footer = isThemingPackage
-          ? `export { StorybookTheme as Theme } from '../src/${name}';\n`
+          ? `export { StorybookTheme as Theme } from '../src/${entryName}';\n`
           : '';
-        await fs.writeFile(pathName, `export * from '../src/${name}';\n${footer}`);
+        await fs.writeFile(pathName, `export * from '../src/${entryName}';\n${footer}`);
       })
     );
   }
-
 
   const tsConfigPath = join(cwd, 'tsconfig.json');
   const tsConfigExists = await fs.pathExists(tsConfigPath);
@@ -54,7 +53,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     build({
       entry: entries.map((e: string) => join(cwd, e)),
       watch,
-      ...(tsConfigExists ? {tsconfig: tsConfigPath} : {}),
+      ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
       outDir: join(process.cwd(), 'dist'),
       // sourcemap: optimized,
       format: ['esm'],
@@ -72,20 +71,29 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       ],
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
 
-      dts: optimized && tsConfigExists
-        ? {
-            entry: entries,
-            resolve: true,
-            footer: isThemingPackage
-              ? `interface Theme extends StorybookTheme {};\nexport type { Theme };`
-              : '',
-          }
-        : false,
+      dts:
+        optimized && tsConfigExists
+          ? {
+              entry: entries,
+              resolve: true,
+              footer: isThemingPackage
+                ? `interface Theme extends StorybookTheme {};\nexport type { Theme };`
+                : '',
+            }
+          : false,
       esbuildOptions: (c) => {
         /* eslint-disable no-param-reassign */
         c.define = optimized
-          ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}', global: 'window' }
-          : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}', global: 'window' };
+          ? {
+              'process.env.NODE_ENV': "'production'",
+              'process.env': '{}',
+              global: 'window',
+            }
+          : {
+              'process.env.NODE_ENV': "'development'",
+              'process.env': '{}',
+              global: 'window',
+            };
         c.platform = platform || 'browser';
         c.legalComments = 'none';
         c.minifyWhitespace = optimized;
@@ -98,7 +106,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       entry: entries.map((e: string) => join(cwd, e)),
       watch,
       outDir: join(process.cwd(), 'dist'),
-      ...(tsConfigExists ? {tsconfig: tsConfigPath} : {}),
+      ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
       format: ['cjs'],
       target: 'node14',
       platform: 'node',
@@ -128,4 +136,3 @@ run({ cwd, flags }).catch((err) => {
   console.error(err.stack);
   process.exit(1);
 });
-

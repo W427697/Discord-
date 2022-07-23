@@ -14,11 +14,10 @@ function getCommand(watch, dir) {
   }
 
   const args = [
-    join(process.cwd(),'src'),
+    join(process.cwd(), 'src'),
     `--out-dir=${dir}`,
     `--config-file=${join(__dirname, '..', '.babelrc.js')}`,
   ];
-
 
   // babel copying over files it did not parse is a anti-pattern
   // but in the case of the CLI, it houses generators are are templates

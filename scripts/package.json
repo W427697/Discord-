@@ -79,7 +79,7 @@
     "typescript": "~4.6.3",
     "webpack": "5"
   },
-  "devDependencies": {
+  "dependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.5",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
@@ -134,6 +134,7 @@
     "@types/lodash": "^4.14.167",
     "@types/node": "^14.14.20 || ^16.0.0",
     "@types/node-cleanup": "^2.1.1",
+    "@types/node-fetch": "^2.5.7",
     "@types/prompts": "2.0.11",
     "@types/react": "^16.14.23",
     "@types/react-dom": "^16.9.14",
@@ -223,6 +224,7 @@
     "serve-static": "^1.14.1",
     "shelljs": "^0.8.5",
     "shx": "^0.3.2",
+    "slash": "^3.0.0",
     "sort-package-json": "^1.48.1",
     "terser-webpack-plugin": "^5.3.1",
     "trash": "^7.0.0",

@@ -100,7 +100,10 @@ const buildStorybook = async ({ cwd }: Options) => {
   await exec(
     `yarn build-storybook --quiet`,
     { cwd },
-    { startMessage: `👷 Building Storybook`, errorMessage: `🚨 Storybook build failed` }
+    {
+      startMessage: `👷 Building Storybook`,
+      errorMessage: `🚨 Storybook build failed`,
+    }
   );
 };
 
@@ -135,7 +138,6 @@ const runStorybookTestRunner = async (options: Options) => {
   );
 };
 
-
 const runTests = async ({ name, ...rest }: Parameters) => {
   const options = {
     name,
@@ -153,7 +155,7 @@ const runTests = async ({ name, ...rest }: Parameters) => {
     let sbCLICommand = `node ${__dirname}/../code/lib/cli/bin/index.js repro`;
 
     if (useLocalSbCli) {
-      sbCLICommand = sbCLICommand + ' --local';
+      sbCLICommand += ' --local';
     }
 
     const targetFolder = path.join(siblingDir, `${name}`);

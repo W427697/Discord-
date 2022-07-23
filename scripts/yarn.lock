@@ -4202,6 +4202,7 @@ __metadata:
     "@types/lodash": ^4.14.167
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/node-cleanup": ^2.1.1
+    "@types/node-fetch": ^2.5.7
     "@types/prompts": 2.0.11
     "@types/react": ^16.14.23
     "@types/react-dom": ^16.9.14
@@ -4293,6 +4294,7 @@ __metadata:
     serve-static: ^1.14.1
     shelljs: ^0.8.5
     shx: ^0.3.2
+    slash: ^3.0.0
     sort-package-json: ^1.48.1
     terser-webpack-plugin: ^5.3.1
     trash: ^7.0.0
@@ -4855,6 +4857,16 @@ __metadata:
   version: 2.1.2
   resolution: "@types/node-cleanup@npm:2.1.2"
   checksum: 55ca3387c38dc5b9de8ab2e0b0d8ff801d622edfc9186f4d33d3b37b29e06b5ae66af2f2d2a7d11023565152433d8d649ba0c2cde0207261d2d3e94ac67b8db5
+  languageName: node
+  linkType: hard
+
+"@types/node-fetch@npm:^2.5.7":
+  version: 2.6.2
+  resolution: "@types/node-fetch@npm:2.6.2"
+  dependencies:
+    "@types/node": "*"
+    form-data: ^3.0.0
+  checksum: bd2ce7621905f9d80cd2fbe003d32a8d304f4aa53c12eb01a498255a1fc570d82216cff9a7ed38ff32570c78e46c924a8e23187a011ecfcfec4c530c7bdecdbb
   languageName: node
   linkType: hard
 

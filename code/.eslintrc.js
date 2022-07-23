@@ -1,14 +1,10 @@
+const path = require('path');
+
+const scriptPath = path.join(__dirname, '..', 'scripts');
+
 module.exports = {
   root: true,
-  extends: ['@storybook/eslint-config-storybook', 'plugin:storybook/recommended'],
-  rules: {
-    '@typescript-eslint/ban-ts-comment': 'warn',
-    'jest/no-standalone-expect': [
-      'error',
-      { additionalTestBlockFunctions: ['it.skipWindows', 'it.onWindows'] },
-    ],
-    'no-use-before-define': 'off',
-  },
+  extends: [path.join(scriptPath, '.eslintrc.js')],
   overrides: [
     {
       // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them

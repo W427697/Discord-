@@ -2,7 +2,12 @@ const withTests = {
   presets: [
     [
       '@babel/preset-env',
-      { shippedProposals: true, useBuiltIns: 'usage', corejs: '3', targets: { node: 'current' } },
+      {
+        shippedProposals: true,
+        useBuiltIns: 'usage',
+        corejs: '3',
+        targets: { node: 'current' },
+      },
     ],
   ],
   plugins: [
