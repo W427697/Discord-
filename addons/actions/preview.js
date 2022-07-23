@@ -1,1 +1,1 @@
-export * from './dist/esm/preset/preview';
+import './dist/preset/preview';

@@ -21,6 +21,24 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./manager": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./register": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
@@ -32,9 +50,10 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@digitak/esrun": "^3.2.2",
     "@storybook/addons": "7.0.0-alpha.13",
     "@storybook/api": "7.0.0-alpha.13",
     "@storybook/client-logger": "7.0.0-alpha.13",
@@ -72,6 +91,13 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/manager.tsx",
+      "./src/preset/preview.tsx"
+    ]
   },
   "gitHead": "9ac4d2e0a05eb945713a0e6689abc3b12359e181",
   "storybook": {

@@ -6875,6 +6875,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-actions@workspace:addons/actions"
   dependencies:
+    "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.13
     "@storybook/api": 7.0.0-alpha.13
     "@storybook/client-logger": 7.0.0-alpha.13
