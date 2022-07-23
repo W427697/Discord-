@@ -8,6 +8,7 @@ import stripJsonComments from 'strip-json-comments';
 
 import { SupportedRenderers, SupportedLanguage } from './project_types';
 import { JsPackageManager, PackageJson, PackageJsonWithDepsAndDevDeps } from './js-package-manager';
+import { getBaseDir } from './dirs';
 
 const logger = console;
 
@@ -185,7 +186,7 @@ export async function copyComponents(framework: SupportedRenderers, language: Su
     typescript: 'ts',
   };
   const componentsPath = async () => {
-    const baseDir = dirname(require.resolve('@storybook/cli/package.json'));
+    const baseDir = getBaseDir();
     const frameworkPath = join(baseDir, 'frameworks', framework);
     const languageSpecific = path.resolve(
       __dirname,

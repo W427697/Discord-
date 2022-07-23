@@ -7,6 +7,9 @@ import { SupportedLanguage, SupportedRenderers } from './project_types';
 jest.mock('fs', () => ({
   existsSync: jest.fn(),
 }));
+jest.mock('./dirs', () => ({
+  getBaseDir: () => '',
+}));
 
 jest.mock('fs-extra', () => ({
   copySync: jest.fn(() => ({})),
@@ -16,10 +19,15 @@ jest.mock('fs-extra', () => ({
   pathExists: jest.fn(),
 }));
 
-jest.mock('path', () => ({
-  // make it return just the second path, for easier testing
-  resolve: jest.fn((_, p) => p),
-}));
+jest.mock('path', () => {
+  const path = jest.requireActual('path');
+  return {
+    // make it return just the second path, for easier testing
+    resolve: jest.fn((_, p) => p),
+    dirname: path.dirname,
+    join: path.join,
+  };
+});
 
 describe('Helpers', () => {
   beforeEach(() => {
