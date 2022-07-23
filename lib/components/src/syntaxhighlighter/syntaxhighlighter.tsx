@@ -29,6 +29,8 @@ import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typesc
 
 // @ts-ignore
 import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-light';
+// @ts-ignore
+import { createElement } from 'react-syntax-highlighter/dist/esm/index';
 
 import { ActionBar } from '../ActionBar/ActionBar';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
@@ -76,6 +78,7 @@ export function createCopyToClipboardFunction() {
 export interface WrapperProps {
   bordered?: boolean;
   padded?: boolean;
+  showLineNumbers?: boolean;
 }
 
 const Wrapper = styled.div<WrapperProps>(
@@ -90,6 +93,15 @@ const Wrapper = styled.div<WrapperProps>(
           border: `1px solid ${theme.appBorderColor}`,
           borderRadius: theme.borderRadius,
           background: theme.background.content,
+        }
+      : {},
+  ({ showLineNumbers }) =>
+    showLineNumbers
+      ? {
+          // use the before pseudo element to display line numbers
+          '.react-syntax-highlighter-line-number::before': {
+            content: 'attr(data-line-number)',
+          },
         }
       : {}
 );
@@ -127,6 +139,45 @@ const Code = styled.div(({ theme }) => ({
   opacity: 1,
 }));
 
+/**
+ * A custom renderer used to process `span.linenumber` element in each line of code,
+ * which should only be enabled if `showLineNumbers = true`
+ */
+const renderer = ({
+  rows,
+  stylesheet,
+  useInlineStyles,
+}: {
+  rows: any[];
+  stylesheet: any;
+  useInlineStyles: any;
+}) => {
+  return rows.map((node: any, i: number) => {
+    const children = [...node.children];
+    const lineNumberNode = children[0];
+    const lineNumber = lineNumberNode.children[0].value;
+    const processedLineNumberNode = {
+      ...lineNumberNode,
+      // empty the line-number element
+      children: [],
+      properties: {
+        ...lineNumberNode.properties,
+        // add a data-line-number attribute to line-number element, so we can access the line number with `content: attr(data-line-number)`
+        'data-line-number': lineNumber,
+        // remove the 'userSelect: none' style, which will produce extra empty lines when copy-pasting in firefox
+        style: { ...lineNumberNode.properties.style, userSelect: 'auto' },
+      },
+    };
+    children[0] = processedLineNumberNode;
+    return createElement({
+      node: { ...node, children },
+      stylesheet,
+      useInlineStyles,
+      key: `code-segement${i}`,
+    });
+  });
+};
+
 export interface SyntaxHighlighterState {
   copied: boolean;
 }
@@ -163,7 +214,12 @@ export const SyntaxHighlighter: FunctionComponent<SyntaxHighlighterProps> = ({
   }, []);
 
   return (
-    <Wrapper bordered={bordered} padded={padded} className={className}>
+    <Wrapper
+      bordered={bordered}
+      padded={padded}
+      showLineNumbers={showLineNumbers}
+      className={className}
+    >
       <Scroller>
         <ReactSyntaxHighlighter
           padded={padded || bordered}
@@ -173,6 +229,7 @@ export const SyntaxHighlighter: FunctionComponent<SyntaxHighlighterProps> = ({
           useInlineStyles={false}
           PreTag={Pre}
           CodeTag={Code}
+          renderer={showLineNumbers ? renderer : undefined}
           lineNumberContainerStyle={{}}
           {...rest}
         >
