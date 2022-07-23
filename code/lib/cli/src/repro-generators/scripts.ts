@@ -40,8 +40,6 @@ interface Configuration {
   registry?: string;
 }
 
-const useLocalSbCli = true;
-
 export interface Options extends Parameters {
   appName: string;
   creationPath: string;

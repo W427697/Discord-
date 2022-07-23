@@ -57,8 +57,7 @@ export const ReactHookCheckbox = () => {
 const DummyContext = createContext({});
 
 export const Context = (args) => {
-  // testing hooks in the story
-  const storyContext = useContext(DummyContext);
+  const storyContext = useContext(DummyContext); // deepscan-disable-line -- we're testing if this will not throw an Error
   return <Consumer />;
 };
 

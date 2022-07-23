@@ -100,7 +100,7 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
   } = inherit;
 
   return {
-    ...(rest || {}),
+    ...rest,
 
     base,
     color: createColors(inherit),

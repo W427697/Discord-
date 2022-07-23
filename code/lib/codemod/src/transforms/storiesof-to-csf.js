@@ -272,6 +272,6 @@ export default function transformer(file, api, options) {
 
   return prettier.format(source, {
     ...prettierConfig,
-    parser: jscodeshiftToPrettierParser(options.parser) || 'babel',
+    parser: jscodeshiftToPrettierParser(options.parser),
   });
 }

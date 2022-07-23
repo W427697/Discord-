@@ -1,4 +1,4 @@
-import { Channel, ChannelEvent, ChannelTransport, Listener } from '.';
+import { Channel, ChannelTransport, Listener } from '.';
 
 jest.useFakeTimers();
 

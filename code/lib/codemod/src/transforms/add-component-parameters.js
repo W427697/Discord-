@@ -48,7 +48,7 @@ export default function transformer(file, api) {
     ]);
   }
 
-  const storiesOfCalls = root
+  root
     .find(j.CallExpression)
     .filter((call) => call.node.callee.name === 'storiesOf')
     .filter((call) => call.node.arguments.length > 0 && call.node.arguments[0].type === 'Literal')
