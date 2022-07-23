@@ -217,7 +217,11 @@ export async function copyComponents(framework: SupportedRenderers, language: Su
 
   const destinationPath = await targetPath();
   await fse.copy(await componentsPath(), destinationPath, { overwrite: true });
-  await fse.copy(path.resolve(__dirname, 'frameworks/common'), destinationPath, {
-    overwrite: true,
-  });
+  await fse.copy(
+    (dirname(require.resolve('@storybook/cli/package.json')), 'frameworks/common'),
+    destinationPath,
+    {
+      overwrite: true,
+    }
+  );
 }
