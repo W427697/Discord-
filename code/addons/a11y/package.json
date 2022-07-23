@@ -59,10 +59,9 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "esrun ../../../scripts/prepare/bundle.ts"
+    "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@digitak/esrun": "^3.2.2",
     "@storybook/addon-highlight": "7.0.0-alpha.13",
     "@storybook/addons": "7.0.0-alpha.13",
     "@storybook/api": "7.0.0-alpha.13",
