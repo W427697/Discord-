@@ -22,9 +22,11 @@ module.exports = {
     return config;
   },
   core: {
-    builder: 'webpack4',
-    channelOptions: { allowFunction: false, maxDepth: 10 },
-    disableTelemetry: true,
+    builder: 'webpack5',
+    options: {
+      lazyCompilation: true,
+      fsCache: true,
+    },
   },
   staticDirs: ['../public'],
   features: {
