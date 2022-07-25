@@ -765,7 +765,7 @@ describe('PreviewWeb', () => {
     });
 
     describe('in docs mode', () => {
-      it('does not re-render the docs container', async () => {
+      it('re-renders the docs container', async () => {
         document.location.search = '?id=component-one--docs&viewMode=docs';
 
         await createAndRenderPreview();
@@ -775,7 +775,7 @@ describe('PreviewWeb', () => {
         emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
         await waitForEvents([GLOBALS_UPDATED]);
 
-        expect(docsRenderer.render).not.toHaveBeenCalled();
+        expect(docsRenderer.render).toHaveBeenCalled();
       });
     });
   });
@@ -1038,7 +1038,7 @@ describe('PreviewWeb', () => {
       });
     });
 
-    describe('in docs mode, modern inline render', () => {
+    describe('in docs mode', () => {
       it('does not re-render the docs container', async () => {
         document.location.search = '?id=component-one--docs&viewMode=docs';
 

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cra",
-  "version": "7.0.0-alpha.13",
+  "version": "7.0.0-alpha.16",
   "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -47,11 +47,11 @@
     "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.13",
-    "@storybook/core-common": "7.0.0-alpha.13",
-    "@storybook/node-logger": "7.0.0-alpha.13",
-    "@storybook/preset-react-webpack": "7.0.0-alpha.13",
-    "@storybook/react": "7.0.0-alpha.13",
+    "@storybook/builder-webpack5": "7.0.0-alpha.16",
+    "@storybook/core-common": "7.0.0-alpha.16",
+    "@storybook/node-logger": "7.0.0-alpha.16",
+    "@storybook/preset-react-webpack": "7.0.0-alpha.16",
+    "@storybook/react": "7.0.0-alpha.16",
     "@types/node": "^14.14.20 || ^16.0.0",
     "fs-extra": "^9.0.1",
     "pnp-webpack-plugin": "^1.7.0"

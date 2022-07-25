@@ -1,6 +1,6 @@
 {
   "name": "cra-kitchen-sink",
-  "version": "7.0.0-alpha.13",
+  "version": "7.0.0-alpha.16",
   "private": true,
   "scripts": {
     "build": "react-scripts build",
@@ -11,7 +11,7 @@
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.13",
+    "@storybook/client-logger": "7.0.0-alpha.16",
     "global": "^4.4.0",
     "prop-types": "^15.7.2",
     "react": "16.14.0",
@@ -20,19 +20,19 @@
     "react-scripts": "^5.0.1"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "7.0.0-alpha.13",
-    "@storybook/addon-actions": "7.0.0-alpha.13",
-    "@storybook/addon-backgrounds": "7.0.0-alpha.13",
-    "@storybook/addon-docs": "7.0.0-alpha.13",
-    "@storybook/addon-highlight": "7.0.0-alpha.13",
-    "@storybook/addon-jest": "7.0.0-alpha.13",
-    "@storybook/addon-links": "7.0.0-alpha.13",
-    "@storybook/addon-storyshots": "7.0.0-alpha.13",
-    "@storybook/addons": "7.0.0-alpha.13",
-    "@storybook/cra": "7.0.0-alpha.13",
-    "@storybook/react": "7.0.0-alpha.13",
-    "@storybook/theming": "7.0.0-alpha.13",
-    "storybook": "7.0.0-alpha.13"
+    "@storybook/addon-a11y": "7.0.0-alpha.16",
+    "@storybook/addon-actions": "7.0.0-alpha.16",
+    "@storybook/addon-backgrounds": "7.0.0-alpha.16",
+    "@storybook/addon-docs": "7.0.0-alpha.16",
+    "@storybook/addon-highlight": "7.0.0-alpha.16",
+    "@storybook/addon-jest": "7.0.0-alpha.16",
+    "@storybook/addon-links": "7.0.0-alpha.16",
+    "@storybook/addon-storyshots": "7.0.0-alpha.16",
+    "@storybook/addons": "7.0.0-alpha.16",
+    "@storybook/cra": "7.0.0-alpha.16",
+    "@storybook/react": "7.0.0-alpha.16",
+    "@storybook/theming": "7.0.0-alpha.16",
+    "storybook": "7.0.0-alpha.16"
   },
   "storybook": {
     "chromatic": {

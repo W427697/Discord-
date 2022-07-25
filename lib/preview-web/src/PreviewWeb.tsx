@@ -228,6 +228,12 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
   async onUpdateGlobals({ globals }: { globals: Globals }) {
     super.onUpdateGlobals({ globals });
+    if (
+      this.currentRender instanceof StandaloneDocsRender ||
+      this.currentRender instanceof TemplateDocsRender
+    ) {
+      await this.currentRender.rerender?.();
+    }
   }
 
   async onUpdateArgs({ storyId, updatedArgs }: { storyId: StoryId; updatedArgs: Args }) {
