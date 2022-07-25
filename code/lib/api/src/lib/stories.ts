@@ -5,7 +5,8 @@ import { dedent } from 'ts-dedent';
 import mapValues from 'lodash/mapValues';
 import countBy from 'lodash/countBy';
 import global from 'global';
-import {
+import { toId, sanitize } from '@storybook/csf';
+import type {
   StoryId,
   ComponentTitle,
   StoryKind,
@@ -13,9 +14,7 @@ import {
   Args,
   ArgTypes,
   Parameters,
-  toId,
   ComponentId,
-  sanitize,
 } from '@storybook/csf';
 import type { DocsOptions } from '@storybook/core-common';
 
