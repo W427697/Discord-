@@ -2,8 +2,16 @@
 
 /* eslint-disable global-require */
 
+const { spawnSync } = require('child_process');
 const { maxConcurrentTasks } = require('./utils/concurrency');
-const { checkDependenciesAndRun, spawn } = require('./utils/cli-utils');
+
+const spawn = (command, options = {}) => {
+  return spawnSync(`${command}`, {
+    shell: true,
+    stdio: 'inherit',
+    ...options,
+  });
+};
 
 function run() {
   const prompts = require('prompts');
@@ -246,4 +254,4 @@ function run() {
     });
 }
 
-checkDependenciesAndRun(run);
+run();

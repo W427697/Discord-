@@ -1,13 +1,14 @@
-/* eslint-disable global-require, no-octal-escape */
+#!/usr/bin/env node
+
+/* eslint-disable no-console, global-require, no-octal-escape */
+
 const { spawn } = require('child_process');
 const { join } = require('path');
 const { existsSync } = require('fs');
 
-const logger = console;
-
 const checkDependencies = async () => {
-  const scriptsPath = join(__dirname, '..');
-  const codePath = join(__dirname, '..', '..', 'code');
+  const scriptsPath = join(__dirname);
+  const codePath = join(__dirname, '..', 'code');
 
   const tasks = [];
 
@@ -29,7 +30,7 @@ const checkDependencies = async () => {
   }
 
   if (tasks.length > 0) {
-    logger.log('installing dependencies');
+    console.log('installing dependencies');
 
     await Promise.all(
       tasks.map(
@@ -59,3 +60,8 @@ const checkDependencies = async () => {
 module.exports = {
   checkDependencies,
 };
+
+checkDependencies().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
