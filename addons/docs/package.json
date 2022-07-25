@@ -40,10 +40,15 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./blocks": {
-      "require": "./dist/blocks.js",
-      "import": "./dist/blocks.mjs",
-      "types": "./dist/blocks.d.ts"
+    "./shared": {
+      "require": "./dist/shared.js",
+      "import": "./dist/shared.mjs",
+      "types": "./dist/shared.d.ts"
+    },
+    "./DocsRenderer": {
+      "require": "./dist/DocsRenderer.js",
+      "import": "./dist/DocsRenderer.mjs",
+      "types": "./dist/DocsRenderer.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -133,6 +138,8 @@
       "./src/index.ts",
       "./src/preset.ts",
       "./src/preview.ts",
+      "./src/shared.ts",
+      "./src/DocsRenderer.tsx",
       "./src/blocks/index.ts"
     ],
     "platform": "node"
