@@ -1,4 +1,4 @@
-# 7.0.0-alpha.14 (July 25, 2022)
+# 7.0.0-alpha.15 (July 25, 2022)
 
 #### Bug Fixes
 
@@ -29,6 +29,10 @@
 
 -   Storyshots: Allow react-test-renderer 18 [#18296](https://github.com/storybooks/storybook/pull/18296)
 -   Core: Remove unnecessary webpack dependency [#18651](https://github.com/storybooks/storybook/pull/18651)
+
+# 7.0.0-alpha.14 (July 25, 2022)
+
+Failed publish 
 
 ## 7.0.0-alpha.13 (July 11, 2022)
 
