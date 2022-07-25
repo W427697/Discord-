@@ -114,7 +114,7 @@ export async function promptOptions(
     if (isStringOption(option)) {
       const currentValue = values[key];
       return {
-        type: option.multiple ? 'multiselect' : 'select',
+        type: option.multiple ? 'autocompleteMultiselect' : 'select',
         message: option.name,
         name: key,
         // warn: ' ',
@@ -133,6 +133,8 @@ export async function promptOptions(
       message: option.name,
       name: key,
       initial: option.inverse,
+      active: 'yes',
+      inactive: 'no',
     };
   });
 
