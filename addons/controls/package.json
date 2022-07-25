@@ -25,9 +25,27 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/manager.js",
-  "module": "dist/esm/manager.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./manager": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./register.js": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -36,9 +54,10 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../scripts/prepare.js"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@digitak/esrun": "^3.2.2",
     "@storybook/addons": "7.0.0-alpha.16",
     "@storybook/api": "7.0.0-alpha.16",
     "@storybook/blocks": "7.0.0-alpha.16",
@@ -67,6 +86,13 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/manager.tsx"
+    ],
+    "platform": "browser"
   },
   "gitHead": "df30e7db2b251418af106345e5722477f057ec36",
   "storybook": {
