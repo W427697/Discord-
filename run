@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+cd scripts
+
+if [ ! -d "./node_modules" ]; then
+  bun install
+fi
+
+./bun.ts
