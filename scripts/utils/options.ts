@@ -7,12 +7,11 @@ import type { PromptObject } from 'prompts';
 import program from 'commander';
 import type { Command } from 'commander';
 import kebabCase from 'lodash/kebabCase';
-import { raw } from 'express';
 
 export type OptionId = string;
 export type OptionValue = string | boolean;
 export type BaseOption = {
-  name: string;
+  description?: string;
   /**
    * By default the one-char version of the option key will be used as short flag. Override here,
    *   e.g. `shortFlag: 'c'`
@@ -72,9 +71,13 @@ function getRawOptions(command: Command, options: OptionSpecifier, argv: string[
     .reduce((acc, [key, option]) => {
       const flags = optionFlags(key, option);
       if (isStringOption(option) && option.multiple) {
-        return acc.option(flags, option.name, (x, l) => [...l, x], []);
+        return acc.option(flags, option.description, (x, l) => [...l, x], []);
       }
-      return acc.option(flags, option.name, isStringOption(option) ? undefined : !!option.inverse);
+      return acc.option(
+        flags,
+        option.description,
+        isStringOption(option) ? undefined : !!option.inverse
+      );
     }, command)
     .parse(argv);
 
@@ -115,7 +118,7 @@ export async function promptOptions(
       const currentValue = values[key];
       return {
         type: option.multiple ? 'autocompleteMultiselect' : 'select',
-        message: option.name,
+        message: option.description,
         name: key,
         // warn: ' ',
         // pageSize: Object.keys(tasks).length + Object.keys(groups).length,
@@ -130,7 +133,7 @@ export async function promptOptions(
     }
     return {
       type: 'toggle',
-      message: option.name,
+      message: option.description,
       name: key,
       initial: option.inverse,
       active: 'yes',

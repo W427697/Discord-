@@ -7,19 +7,19 @@ import { getOptions, areOptionsSatisfied, getCommand } from './options';
 
 const allOptions: OptionSpecifier = {
   first: {
-    name: 'first',
+    description: 'first',
   },
   second: {
-    name: 'second',
+    description: 'second',
     inverse: true,
   },
   third: {
-    name: 'third',
+    description: 'third',
     values: ['one', 'two', 'three'],
     required: true,
   },
   fourth: {
-    name: 'fourth',
+    description: 'fourth',
     values: ['a', 'b', 'c'],
     multiple: true,
   },
