@@ -7,7 +7,7 @@
       }
     },
     {
-      "name": "Head Src" ,
+      "name": "Head Src",
       "parameters": {
         "server": { "id": "styles/head_src" }
       }

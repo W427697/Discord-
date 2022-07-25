@@ -9,6 +9,6 @@ import { createChannel } from '@storybook/channel-postmessage';
 const channel = createChannel({ key: 'postmsg-key' });
 ```
 
-* * *
+---
 
 For more information visit: [storybook.js.org](https://storybook.js.org)

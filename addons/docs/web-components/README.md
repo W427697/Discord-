@@ -39,6 +39,7 @@ Known analyzers that output `custom-elements.json` v1.0.0:
   - Supports Vanilla, LitElement, FASTElement, Stencil, Catalyst, Atomico
 
 Known analyzers that output older versions of `custom-elements.json`:
+
 - [web-component-analyzer](https://github.com/runem/web-component-analyzer)
   - Supports LitElement, Polymer, Vanilla, (Stencil)
 - [stenciljs](https://stenciljs.com/)

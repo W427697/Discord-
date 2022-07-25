@@ -1,10 +1,7 @@
 {
   "extends": "../../tsconfig.json",
-  "compilerOptions": {
-  },
-  "include": [
-    "src/**/*"
-  ],
+  "compilerOptions": {},
+  "include": ["src/**/*"],
   "exclude": [
     "src/**/*.test.*",
     "src/**/tests/**/*",

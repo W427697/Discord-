@@ -7,7 +7,5 @@
 Supports code snippets too:
 
 ```jsx
-<div>
-  Foo
-</div>
+<div>Foo</div>
 ```

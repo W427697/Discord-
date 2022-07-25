@@ -3,11 +3,6 @@
   "compilerOptions": {
     "strict": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "src/**/*.test.*",
-    "src/__tests__/**/*"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.test.*", "src/__tests__/**/*"]
 }

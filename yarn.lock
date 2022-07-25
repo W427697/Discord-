@@ -8724,8 +8724,8 @@ __metadata:
   linkType: soft
 
 "@storybook/preset-create-react-app@npm:^4.1.0":
-  version: 4.1.1
-  resolution: "@storybook/preset-create-react-app@npm:4.1.1"
+  version: 4.1.2
+  resolution: "@storybook/preset-create-react-app@npm:4.1.2"
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.1
     "@storybook/react-docgen-typescript-plugin": canary
@@ -8738,7 +8738,7 @@ __metadata:
     "@storybook/node-logger": "*"
     "@storybook/react": ">=5.2"
     react-scripts: ">=5.0.0"
-  checksum: fb4af8023f5e9a995b08375f7b0eee1c989da62dc2a5c94cbcef7c6490807743eb9778ab875f556a9a9093a27f7c4526b7a5ed97175443527006103543b72456
+  checksum: d28d7c9c5ec6775f2818f831fee3b28c1e8f395bde18f43b665feb8e7f53e1dbaba4e6a783511702098f1bb45c3a7fa9cdbc0d9816aaefebfa4838a26a807406
   languageName: node
   linkType: hard
 

@@ -117,6 +117,12 @@ Object {
               "overrides": Array [
                 Object {
                   "plugins": Array [
+                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
+                  ],
+                  "test": "/\\\\.(story|stories).*$/",
+                },
+                Object {
+                  "plugins": Array [
                     Array [
                       "NODE_MODULES/babel-plugin-react-docgen/lib/index.js",
                       Object {
@@ -124,7 +130,7 @@ Object {
                       },
                     ],
                   ],
-                  "test": "/\\\\.(mjs|jsx?)$/",
+                  "test": "/\\\\.(cjs|mjs|jsx?)$/",
                 },
               ],
               "plugins": Array [

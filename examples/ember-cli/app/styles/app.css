@@ -7,7 +7,8 @@
   margin-top: 60px;
 }
 
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
 
@@ -32,7 +33,7 @@ a {
 .main {
   padding: 15px;
   line-height: 1.4;
-  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;
   background-color: #ffffff;
 }
 

@@ -11,16 +11,8 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "types": [
-      "jest",
-      "node"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ]
+    "types": ["jest", "node"],
+    "lib": ["es2017", "dom"]
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

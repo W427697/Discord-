@@ -4,10 +4,6 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "src/**/*.test.*"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.test.*"]
 }

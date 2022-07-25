@@ -1,20 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": [
-      "node",
-      "jest"
-    ],
+    "types": ["node", "jest"],
     "strict": false,
     "strictNullChecks": false,
     "resolveJsonModule": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "src/**/template*",
-    "**/*.test.*",
-    "src/frameworks/**/*"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["src/**/template*", "**/*.test.*", "src/frameworks/**/*"]
 }

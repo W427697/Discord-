@@ -3,17 +3,9 @@
     "strict": true,
     "baseUrl": "../node_modules",
     "target": "es5",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
-    "types": [
-      "cypress",
-      "node"
-    ],
+    "lib": ["es2017", "dom"],
+    "types": ["cypress", "node"],
     "esModuleInterop": true
   },
-  "include": [
-    "**/*.ts"
-  ]
+  "include": ["**/*.ts"]
 }
