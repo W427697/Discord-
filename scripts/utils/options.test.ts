@@ -39,7 +39,7 @@ describe('getOptions', () => {
     expect(
       getOptions(createCommand() as any, allOptions, ['command', 'name', '--no-second'])
     ).toMatchObject({
-      first: undefined,
+      first: false,
       second: false,
     });
   });
@@ -61,6 +61,12 @@ describe('getOptions', () => {
     });
   });
 
+  it('disallows invalid string options', () => {
+    expect(() =>
+      getOptions(createCommand() as any, allOptions, ['command', 'name', '--third', 'random'])
+    ).toThrow(/Invalid option provided/);
+  });
+
   it('deals with multiple string options', () => {
     expect(
       getOptions(createCommand() as any, allOptions, ['command', 'name', '--fourth', 'a'])
@@ -80,6 +86,12 @@ describe('getOptions', () => {
     ).toMatchObject({
       fourth: ['a', 'b'],
     });
+  });
+
+  it('disallows invalid multiple string options', () => {
+    expect(() =>
+      getOptions(createCommand() as any, allOptions, ['command', 'name', '--fourth', 'random'])
+    ).toThrow(/Invalid option provided/);
   });
 });
 

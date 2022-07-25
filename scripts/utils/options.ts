@@ -7,6 +7,7 @@ import type { PromptObject } from 'prompts';
 import program from 'commander';
 import type { Command } from 'commander';
 import kebabCase from 'lodash/kebabCase';
+import { raw } from 'express';
 
 export type OptionId = string;
 export type OptionValue = string | boolean;
@@ -66,11 +67,7 @@ function optionFlags(key: OptionId, option: Option) {
   return base;
 }
 
-export function getOptions(
-  command: Command,
-  options: OptionSpecifier,
-  argv: string[]
-): OptionValues {
+function getRawOptions(command: Command, options: OptionSpecifier, argv: string[]): OptionValues {
   Object.entries(options)
     .reduce((acc, [key, option]) => {
       const flags = optionFlags(key, option);
@@ -82,6 +79,29 @@ export function getOptions(
     .parse(argv);
 
   return command.opts();
+}
+
+function validateOptions(options: OptionSpecifier, values: OptionValues) {
+  return Object.fromEntries(
+    Object.entries(options).map(([key, option]) => {
+      if (isStringOption(option)) {
+        const toCheck: string[] = option.multiple
+          ? (values[key] as string[])
+          : [values[key] as string];
+        const badValue = toCheck.find((value) => !option.values.includes(value));
+        if (badValue)
+          throw new Error(`Invalid option provided to --${longFlag(key, option)}: '${badValue}'`);
+
+        return [key, values[key]];
+      }
+      return [key, !!values[key]];
+    })
+  );
+}
+
+export function getOptions(command: Command, options: OptionSpecifier, argv: string[]) {
+  const rawValues = getRawOptions(command, options, argv);
+  return validateOptions(options, rawValues);
 }
 
 export function areOptionsSatisfied(options: OptionSpecifier, values: OptionValues) {
