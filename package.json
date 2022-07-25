@@ -1,5 +1,0 @@
-{
-  "scripts": {
-    "bootstrap": "./scripts/check-dependencies.js && cd ./code && yarn bootstrap"
-  }
-}

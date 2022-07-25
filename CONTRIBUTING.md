@@ -2,7 +2,7 @@
 
 - Ensure you have node version 14 installed (suggestion: v14.18.1).
 - Ensure if you are using Windows to use the Windows Subsystem for Linux (WSL).
-- Run `yarn bootstrap --core` to install the dependencies, and get the repo ready to be developed on.
+- Run `./bootstrap.sh` to install the dependencies, and get the repo ready to be developed on.
 - Run `yarn start` inside of the `code` directory to start the development server.
 
 # Contributing to Storybook
