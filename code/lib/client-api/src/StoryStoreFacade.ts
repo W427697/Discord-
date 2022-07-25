@@ -203,7 +203,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       });
     }
 
-    const docsOptions = global.DOCS_OPTIONS as DocsOptions;
+    const docsOptions = (global.DOCS_OPTIONS || {}) as DocsOptions;
     const seenTitles = new Set<ComponentTitle>();
     Object.entries(sortedExports)
       .filter(([key]) => isExportStory(key, defaultExport))
