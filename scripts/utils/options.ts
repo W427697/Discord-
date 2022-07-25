@@ -6,15 +6,25 @@ import prompts from 'prompts';
 import type { PromptObject } from 'prompts';
 import program from 'commander';
 import type { Command } from 'commander';
+import kebabCase from 'lodash/kebabCase';
 
 export type OptionId = string;
 export type OptionValue = string | boolean;
 export type BaseOption = {
   name: string;
-  flags: string;
+  /**
+   * By default the one-char version of the option key will be used as short flag. Override here,
+   *   e.g. `shortFlag: 'c'`
+   */
+  shortFlag?: string;
 };
 
-export type BooleanOption = BaseOption;
+export type BooleanOption = BaseOption & {
+  /**
+   * Does this option default true?
+   */
+  inverse?: boolean;
+};
 
 export type StringOption = BaseOption & {
   values: string[];
@@ -31,17 +41,43 @@ function isStringOption(option: Option): option is StringOption {
   return 'values' in option;
 }
 
+function shortFlag(key: OptionId, option: Option) {
+  const inverse = !isStringOption(option) && option.inverse;
+  const defaultShortFlag = inverse ? key.substring(0, 1).toUpperCase() : key.substring(0, 1);
+  const shortFlag = option.shortFlag || defaultShortFlag;
+  if (shortFlag.length !== 1) {
+    throw new Error(
+      `Invalid shortFlag for ${key}: '${shortFlag}', needs to be a single character (e.g. 's')`
+    );
+  }
+  return shortFlag;
+}
+
+function longFlag(key: OptionId, option: Option) {
+  const inverse = !isStringOption(option) && option.inverse;
+  return inverse ? `no-${kebabCase(key)}` : kebabCase(key);
+}
+
+function optionFlags(key: OptionId, option: Option) {
+  const base = `-${shortFlag(key, option)}, --${longFlag(key, option)}`;
+  if (isStringOption(option)) {
+    return `${base} <${key}>`;
+  }
+  return base;
+}
+
 export function getOptions(
   command: Command,
   options: OptionSpecifier,
   argv: string[]
 ): OptionValues {
-  Object.values(options)
-    .reduce((acc, option) => {
+  Object.entries(options)
+    .reduce((acc, [key, option]) => {
+      const flags = optionFlags(key, option);
       if (isStringOption(option) && option.multiple) {
-        return acc.option(option.flags, option.name, (x, l) => [...l, x], []);
+        return acc.option(flags, option.name, (x, l) => [...l, x], []);
       }
-      return acc.option(option.flags, option.name);
+      return acc.option(flags, option.name);
     }, command)
     .parse(argv);
 
@@ -80,6 +116,7 @@ export async function promptOptions(
       type: 'toggle',
       message: option.name,
       name: key,
+      initial: option.inverse,
     };
   });
 
@@ -87,22 +124,23 @@ export async function promptOptions(
   return selection;
 }
 
-function getFlag(option: Option, value: OptionValue | OptionValue[]) {
-  const longFlag = option.flags.split(' ').find((f) => f.startsWith('--'));
+function getFlag(key: OptionId, option: Option, value: OptionValue | OptionValue[]) {
   if (isStringOption(option)) {
     if (value) {
       if (Array.isArray(value)) {
-        return value.map((v) => `${longFlag} ${v}`).join(' ');
+        return value.map((v) => `--${longFlag(key, option)} ${v}`).join(' ');
       }
-      return `${longFlag} ${value}`;
+      return `--${longFlag(key, option)} ${value}`;
     }
+    return '';
   }
-  return value ? longFlag : '';
+  const toggled = option.inverse ? !value : value;
+  return toggled ? `--${longFlag(key, option)}` : '';
 }
 
 export function getCommand(prefix: string, options: OptionSpecifier, values: OptionValues) {
   const flags = Object.keys(options)
-    .map((key) => getFlag(options[key], values[key]))
+    .map((key) => getFlag(key, options[key], values[key]))
     .filter(Boolean);
   return `${prefix} ${flags.join(' ')}`;
 }
