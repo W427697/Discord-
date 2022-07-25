@@ -11,14 +11,8 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "types": [
-      "jest",
-      "node"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "types": ["jest", "node"],
+    "lib": ["es2017", "dom"],
     "allowJs": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -28,7 +22,5 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

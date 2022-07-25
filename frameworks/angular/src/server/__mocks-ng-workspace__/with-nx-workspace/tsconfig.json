@@ -1,7 +1,5 @@
 {
-  "include": [
-    "./src"
-  ],
+  "include": ["./src"],
   "compilerOptions": {
     "sourceMap": true,
     "moduleResolution": "node",
@@ -11,9 +9,6 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "es5",
-    "lib": [
-      "es2017",
-      "dom"
-    ]
+    "lib": ["es2017", "dom"]
   }
 }

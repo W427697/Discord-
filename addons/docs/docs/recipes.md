@@ -63,7 +63,7 @@ basic.parameters = {
 
 ```md
 import { Meta, Story } from '@storybook/addon-docs';
-import * as stories from './Button.stories.js';
+import \* as stories from './Button.stories.js';
 import { Button } from './Button';
 import { SomeComponent } from 'path/to/SomeComponent';
 
@@ -348,7 +348,7 @@ const Example = () => <Button />;
 Example.parameters = {
   docs: {
     description: {
-      story: "Individual story description, may contain `markdown` markup"
+      story: 'Individual story description, may contain `markdown` markup',
     },
   },
 };

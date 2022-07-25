@@ -37,6 +37,6 @@ import { addons } from '@storybook/addons';
 const channel = addons.getChannel();
 ```
 
-* * *
+---
 
 For more information visit: [storybook.js.org](https://storybook.js.org)

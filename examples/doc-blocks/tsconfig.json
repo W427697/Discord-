@@ -6,8 +6,5 @@
     "skipLibCheck": true,
     "strict": true
   },
-  "include": [
-    "src/*",
-    ".storybook/main.ts"
-  ]
+  "include": ["src/*", ".storybook/main.ts"]
 }
