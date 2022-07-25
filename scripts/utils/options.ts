@@ -74,7 +74,7 @@ function getRawOptions(command: Command, options: OptionSpecifier, argv: string[
       if (isStringOption(option) && option.multiple) {
         return acc.option(flags, option.name, (x, l) => [...l, x], []);
       }
-      return acc.option(flags, option.name);
+      return acc.option(flags, option.name, isStringOption(option) ? undefined : !!option.inverse);
     }, command)
     .parse(argv);
 
@@ -82,26 +82,22 @@ function getRawOptions(command: Command, options: OptionSpecifier, argv: string[
 }
 
 function validateOptions(options: OptionSpecifier, values: OptionValues) {
-  return Object.fromEntries(
-    Object.entries(options).map(([key, option]) => {
-      if (isStringOption(option)) {
-        const toCheck: string[] = option.multiple
-          ? (values[key] as string[])
-          : [values[key] as string];
-        const badValue = toCheck.find((value) => !option.values.includes(value));
-        if (badValue)
-          throw new Error(`Invalid option provided to --${longFlag(key, option)}: '${badValue}'`);
-
-        return [key, values[key]];
-      }
-      return [key, !!values[key]];
-    })
-  );
+  Object.entries(options).forEach(([key, option]) => {
+    if (isStringOption(option)) {
+      const toCheck: string[] = option.multiple
+        ? (values[key] as string[])
+        : [values[key] as string];
+      const badValue = toCheck.find((value) => !option.values.includes(value));
+      if (badValue)
+        throw new Error(`Invalid option provided to --${longFlag(key, option)}: '${badValue}'`);
+    }
+  });
 }
 
 export function getOptions(command: Command, options: OptionSpecifier, argv: string[]) {
   const rawValues = getRawOptions(command, options, argv);
-  return validateOptions(options, rawValues);
+  validateOptions(options, rawValues);
+  return rawValues;
 }
 
 export function areOptionsSatisfied(options: OptionSpecifier, values: OptionValues) {
