@@ -62,7 +62,7 @@
     "clean:dist": "del **/dist",
     "coverage": "codecov",
     "danger": "danger",
-    "example": "node ../scripts/ts-run.js example",
+    "example": "ts-node ../scripts/example.ts",
     "generate-repros": "zx ../scripts/repros-generator/index.mjs",
     "github-release": "github-release-from-changelog",
     "linear-export": "ts-node --project=../scripts/tsconfig.json ../scripts/linear-export.ts",
