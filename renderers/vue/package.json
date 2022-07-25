@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue",
-  "version": "7.0.0-alpha.15",
+  "version": "7.0.0-alpha.16",
   "description": "Storybook Vue renderer",
   "keywords": [
     "storybook"
@@ -50,12 +50,12 @@
     "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.15",
-    "@storybook/client-logger": "7.0.0-alpha.15",
-    "@storybook/core-client": "7.0.0-alpha.15",
+    "@storybook/addons": "7.0.0-alpha.16",
+    "@storybook/client-logger": "7.0.0-alpha.16",
+    "@storybook/core-client": "7.0.0-alpha.16",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/docs-tools": "7.0.0-alpha.15",
-    "@storybook/store": "7.0.0-alpha.15",
+    "@storybook/docs-tools": "7.0.0-alpha.16",
+    "@storybook/store": "7.0.0-alpha.16",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "react": "16.14.0",
