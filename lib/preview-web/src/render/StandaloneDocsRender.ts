@@ -24,6 +24,8 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
 
   private exports?: ModuleExports;
 
+  public rerender?: () => Promise<void>;
+
   public teardown?: (options: { viewModeChanged?: boolean }) => Promise<void>;
 
   public torndown = false;
@@ -71,13 +73,9 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
       throw new Error('Cannot render docs before preparing');
 
     const docsContext = new DocsContext<TFramework>(
-      this.id,
-      this.entry.title,
-      this.entry.name,
-
+      this.channel,
       this.store,
       renderStoryToElement,
-
       this.csfFiles,
       false
     );
@@ -89,17 +87,21 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
         `Cannot render a story in viewMode=docs if \`@storybook/addon-docs\` is not installed`
       );
 
+    const docsParameter = { ...docs, page: this.exports.default };
     const renderer = await docs.renderer();
-    (renderer.render as DocsRenderFunction<TFramework>)(
-      docsContext,
-      { ...docs, page: this.exports.default },
-      canvasElement,
-      () => this.channel.emit(DOCS_RENDERED, this.id)
-    );
+    const { render } = renderer as { render: DocsRenderFunction<TFramework> };
+    const renderDocs = async () => {
+      await new Promise<void>((r) => render(docsContext, docsParameter, canvasElement, r));
+      this.channel.emit(DOCS_RENDERED, this.id);
+    };
+
+    this.rerender = async () => renderDocs();
     this.teardown = async ({ viewModeChanged }: { viewModeChanged?: boolean } = {}) => {
       if (!viewModeChanged || !canvasElement) return;
       renderer.unmount(canvasElement);
       this.torndown = true;
     };
+
+    return renderDocs();
   }
 }

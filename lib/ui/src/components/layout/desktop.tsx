@@ -1,4 +1,4 @@
-import React, { Fragment, ComponentType, FunctionComponent } from 'react';
+import React, { Fragment, ComponentType, FC } from 'react';
 
 import { State } from '@storybook/api';
 import * as S from './container';
@@ -13,7 +13,7 @@ export interface DesktopProps {
   Notifications: ComponentType<any>;
   pages: {
     key: string;
-    route: FunctionComponent;
+    route: FC;
     render: ComponentType;
   }[];
   options: State['layout'];

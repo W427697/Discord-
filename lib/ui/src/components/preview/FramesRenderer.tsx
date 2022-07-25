@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent, useMemo, useEffect, useState } from 'react';
+import React, { Fragment, FC, useMemo, useEffect, useState } from 'react';
 import type { Combo } from '@storybook/api';
 import { Consumer } from '@storybook/api';
 import { Button, getStoryHref } from '@storybook/components';
@@ -39,7 +39,7 @@ const whenSidebarIsVisible = ({ state }: Combo) => ({
   selectedStoryId: state.storyId,
 });
 
-export const FramesRenderer: FunctionComponent<FramesRendererProps> = ({
+export const FramesRenderer: FC<FramesRendererProps> = ({
   refs,
   entry,
   scale,

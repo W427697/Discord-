@@ -765,7 +765,7 @@ describe('PreviewWeb', () => {
     });
 
     describe('in docs mode', () => {
-      it('does not re-render the docs container', async () => {
+      it('re-renders the docs container', async () => {
         document.location.search = '?id=component-one--docs&viewMode=docs';
 
         await createAndRenderPreview();
@@ -775,7 +775,7 @@ describe('PreviewWeb', () => {
         emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
         await waitForEvents([GLOBALS_UPDATED]);
 
-        expect(docsRenderer.render).not.toHaveBeenCalled();
+        expect(docsRenderer.render).toHaveBeenCalled();
       });
     });
   });
@@ -1038,7 +1038,7 @@ describe('PreviewWeb', () => {
       });
     });
 
-    describe('in docs mode, modern inline render', () => {
+    describe('in docs mode', () => {
       it('does not re-render the docs container', async () => {
         document.location.search = '?id=component-one--docs&viewMode=docs';
 
@@ -2120,7 +2120,7 @@ describe('PreviewWeb', () => {
         expect(preview.view.prepareForDocs).toHaveBeenCalled();
       });
 
-      it('render the docs container with the correct context', async () => {
+      it('render the docs container with the correct context, template render', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
@@ -2132,16 +2132,10 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(docsRenderer.render).toHaveBeenCalledWith(
-          expect.objectContaining({
-            id: 'component-one--a',
-            title: 'Component One',
-            name: 'Docs',
-          }),
-          expect.any(Object),
-          'docs-element',
-          expect.any(Function)
-        );
+        expect(docsRenderer.render).toHaveBeenCalled();
+        expect(docsRenderer.render.mock.calls[0][0].storyById()).toMatchObject({
+          id: 'component-one--a',
+        });
       });
 
       it('emits DOCS_RENDERED', async () => {

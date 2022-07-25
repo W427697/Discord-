@@ -1,7 +1,7 @@
 import React, { FC, Context, createContext, useEffect, useState } from 'react';
 
 import { dequal as deepEqual } from 'dequal';
-import { addons } from '@storybook/addons';
+import type { Channel } from '@storybook/addons';
 
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import type { SyntaxHighlighterFormatTypes } from '@storybook/components';
@@ -20,9 +20,8 @@ export interface SourceContextProps {
 
 export const SourceContext: Context<SourceContextProps> = createContext({ sources: {} });
 
-export const SourceContainer: FC<{}> = ({ children }) => {
+export const SourceContainer: FC<{ channel: Channel }> = ({ children, channel }) => {
   const [sources, setSources] = useState<StorySources>({});
-  const channel = addons.getChannel();
 
   useEffect(() => {
     const handleSnippetRendered = (

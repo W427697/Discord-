@@ -39,8 +39,8 @@ describe('renderJsx', () => {
     `);
   });
   it('null values', () => {
-    expect(renderJsx(<div className={null}>hello</div>, {})).toMatchInlineSnapshot(`
-      <div className={null}>
+    expect(renderJsx(<div>hello</div>, {})).toMatchInlineSnapshot(`
+      <div>
         hello
       </div>
     `);

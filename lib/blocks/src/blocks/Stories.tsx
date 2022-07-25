@@ -1,4 +1,4 @@
-import React, { useContext, FunctionComponent } from 'react';
+import React, { useContext, FC } from 'react';
 import { DocsContext } from './DocsContext';
 import { DocsStory } from './DocsStory';
 import { Heading } from './Heading';
@@ -9,7 +9,7 @@ interface StoriesProps {
   includePrimary?: boolean;
 }
 
-export const Stories: FunctionComponent<StoriesProps> = ({ title, includePrimary = false }) => {
+export const Stories: FC<StoriesProps> = ({ title, includePrimary = false }) => {
   const { componentStories } = useContext(DocsContext);
 
   let stories: DocsStoryProps[] = componentStories();
