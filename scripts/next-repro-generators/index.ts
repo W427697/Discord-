@@ -44,20 +44,15 @@ const addStorybook = async (baseDir: string) => {
   await rename(tmpDir, afterDir);
 };
 
-const runCommand = async (commandString: string, options: ExecaOptions) => {
+const runCommand = async (script: string, options: ExecaOptions) => {
   // TODO: remove true
   const shouldDebug = true || !!process.env.DEBUG;
 
-  const out = await command('which yarn', {
-    ...options,
-  });
-  commandString = commandString.replace('yarn', out.stdout.trim());
-
   if (shouldDebug) {
-    console.log(`Running command: ${commandString}`);
+    console.log(`Running command: ${script}`);
   }
 
-  return command(commandString, { stdout: shouldDebug ? 'inherit' : 'ignore', ...options });
+  return command(script, { stdout: shouldDebug ? 'inherit' : 'ignore', ...options });
 };
 
 const runGenerators = async (generators: GeneratorConfig[]) => {
@@ -81,6 +76,10 @@ const runGenerators = async (generators: GeneratorConfig[]) => {
           remove(afterDir),
           remove(tmpDir),
         ]);
+
+        await runCommand('yarn set version self', { cwd: baseDir });
+
+        await remove(join(baseDir, 'package.json'));
 
         await runCommand(script, { cwd: beforeDir });
 

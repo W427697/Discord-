@@ -1,6 +1,6 @@
 # group-name/instance-name. Should always be two levels deep.
 cra/default-js:
-  script: "yarn -v"
+  script: "yarn dlx create-react-app ."
   expected:
     framework: "@storybook/cra"
     renderer: "@storybook/react"
