@@ -268,7 +268,6 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     }
 
     const storyIdChanged = this.currentSelection?.storyId !== storyId;
-    // FIXME: suspect line
     const viewModeChanged = this.currentRender?.type !== entry.type;
 
     // Show a spinner while we load the next story

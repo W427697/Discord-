@@ -1,4 +1,5 @@
 import React from 'react';
+import { ManagerContext } from '@storybook/api';
 
 import { Ref } from './Refs';
 import { standardData as standardHeaderData } from './Heading.stories';
@@ -11,6 +12,11 @@ export default {
   excludeStories: /.*Data$/,
   parameters: { layout: 'fullscreen' },
   decorators: [
+    (storyFn: any) => (
+      <ManagerContext.Provider value={{ state: { docsOptions: {} } } as any}>
+        {storyFn()}
+      </ManagerContext.Provider>
+    ),
     (storyFn: any) => <div style={{ padding: '0 20px', maxWidth: '230px' }}>{storyFn()}</div>,
   ],
 };

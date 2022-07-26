@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import {
+  CLIOptions,
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   getPreviewMainTemplate,
@@ -120,3 +121,11 @@ export const storyIndexers = async (indexers?: StoryIndexer[]) => {
     ...(indexers || []),
   ];
 };
+
+export const docs = (
+  docsOptions: StorybookConfig['docs'],
+  { docs: docsMode }: CLIOptions
+): StorybookConfig['docs'] => ({
+  ...docsOptions,
+  docsMode,
+});

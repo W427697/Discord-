@@ -81,7 +81,6 @@ Storybook Docs supports all view layers that Storybook supports except for React
 
 [Framework Support](https://storybook.js.org/docs/react/api/frameworks-feature-support)
 
-
 **Note:** `#` = WIP support
 
 Want to add enhanced features to your favorite framework? Check out this [dev guide](https://github.com/storybookjs/storybook/tree/next/addons/docs/docs/multiframework.md)

@@ -59,7 +59,7 @@ export default {
                 key="manager"
                 provider={provider}
                 {...locationData}
-                docsMode={false}
+                docsOptions={{ docsMode: false }}
                 path="/story/story--id"
                 storyId="story--id"
                 navigate={() => {}}

@@ -16,13 +16,8 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "strictBindCallApply": true,
-    "types": [
-      "jest"
-    ],
-    "lib": [
-      "dom",
-      "esnext"
-    ]
+    "types": ["jest"],
+    "lib": ["dom", "esnext"]
   },
   "exclude": [
     "dist",
@@ -38,9 +33,7 @@
     "transpileOnly": true,
     "files": true,
     "compilerOptions": {
-      "types": [
-        "node"
-      ]
+      "types": ["node"]
     }
   }
 }

@@ -17,15 +17,15 @@
         "pets": 2,
         "sports": ["football", "baseball"],
         "favorite_food": "Ice Cream",
-        "other_things":  {"hair": "Brown", "eyes": "Blue"}
+        "other_things": { "hair": "Brown", "eyes": "Blue" }
       },
       "argTypes": {
         "birthday": { "control": { "type": "date" } },
         "favorite_color": { "control": { "type": "color" } },
-        "favorite_food": { 
-          "control": { 
-            "type": "select", 
-            "options":{
+        "favorite_food": {
+          "control": {
+            "type": "select",
+            "options": {
               "hot_dog": "Hot Dog",
               "pizza": "Pizza",
               "burgers": "Burgers",

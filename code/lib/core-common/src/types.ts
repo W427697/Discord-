@@ -300,6 +300,10 @@ export type DocsOptions = {
    * Should we generate a docs entry per CSF file?
    */
   docsPage?: boolean;
+  /**
+   * Only show doc entries in the side bar (usually set with the `--docs` CLI flag)
+   */
+  docsMode?: boolean;
 };
 
 /**

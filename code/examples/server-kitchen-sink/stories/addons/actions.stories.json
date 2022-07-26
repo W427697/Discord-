@@ -1,4 +1,4 @@
- {
+{
   "parameters": {
     "options": { "selectedPanel": "storybook/actions/panel" }
   },
@@ -44,7 +44,10 @@
       "parameters": {
         "server": { "id": "addons/actions/story6" },
         "actions": {
-          "handles": [{ "click": "clicked", "contextmenu": "right clicked" }, { "clearOnStoryChange": false }]
+          "handles": [
+            { "click": "clicked", "contextmenu": "right clicked" },
+            { "clearOnStoryChange": false }
+          ]
         }
       }
     }

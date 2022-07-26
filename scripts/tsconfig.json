@@ -35,9 +35,7 @@
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "paths": {
-      "verdaccio": [
-        "./typings.d.ts"
-      ]
+      "verdaccio": ["./typings.d.ts"]
     }
   },
   "exclude": [
