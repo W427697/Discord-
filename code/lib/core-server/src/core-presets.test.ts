@@ -56,6 +56,7 @@ jest.mock('fs-extra', () => ({
   emptyDir: jest.fn(() => undefined),
   ensureDir: jest.fn(() => undefined),
   writeJSON: jest.fn(() => undefined),
+  remove: jest.fn(() => undefined),
   readJSON: jest.fn(() => ({})),
   pathExists: jest.fn(() => true),
 }));
