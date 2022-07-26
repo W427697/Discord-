@@ -77,9 +77,8 @@ const runGenerators = async (generators: GeneratorConfig[]) => {
           remove(tmpDir),
         ]);
 
-        await runCommand('yarn set version self', { cwd: baseDir });
-
-        await remove(join(baseDir, 'package.json'));
+        // await runCommand('yarn set version self', { cwd: baseDir });
+        // await remove(join(baseDir, 'package.json'));
 
         await runCommand(script, { cwd: beforeDir });
 
