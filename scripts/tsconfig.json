@@ -1,7 +1,31 @@
 {
-  "extends": "../tsconfig.json",
+  "compileOnSave": false,
+
   "compilerOptions": {
-    "types": ["node", "jest"],
+    "baseUrl": ".",
+    "incremental": false,
+    "noImplicitAny": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": false,
+    "jsx": "react",
+    "moduleResolution": "Node",
+    "target": "ES2020",
+    "module": "CommonJS",
+    "skipLibCheck": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "strictBindCallApply": true,
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+
+
+    "types": [
+      "node",
+      "jest"
+    ],
     "strict": false,
     "strictNullChecks": false,
     "forceConsistentCasingInFileNames": true,
@@ -14,5 +38,24 @@
       "verdaccio": ["./typings.d.ts"]
     }
   },
-  "include": ["./**/*"]
+  "exclude": [
+    "dist",
+    "**/dist",
+    "node_modules",
+    "**/node_modules",
+    "**/*.spec.ts",
+    "**/__tests__",
+    "**/*.test.ts",
+    "**/setup-jest.ts"
+  ],
+  "include": ["./**/*"],
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "compilerOptions": {
+      "types": [
+        "node"
+      ]
+    }
+  }
 }
