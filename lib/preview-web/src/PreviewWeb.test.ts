@@ -2935,6 +2935,45 @@ describe('PreviewWeb', () => {
         expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
       });
     });
+
+    describe('when a standalone docs file changes', () => {
+      const newStandaloneDocsExports = { default: jest.fn() };
+
+      const newImportFn = jest.fn(async (path) => {
+        return path === './src/Introduction.mdx' ? newStandaloneDocsExports : importFn(path);
+      });
+
+      it('renders with the generated docs parameters', async () => {
+        document.location.search = '?id=introduction--docs&viewMode=docs';
+        const preview = await createAndRenderPreview();
+        mockChannel.emit.mockClear();
+        docsRenderer.render.mockClear();
+
+        preview.onStoriesChanged({ importFn: newImportFn });
+        await waitForRender();
+
+        expect(docsRenderer.render).toHaveBeenCalledWith(
+          expect.any(Object),
+          expect.objectContaining({
+            page: newStandaloneDocsExports.default,
+            renderer: projectAnnotations.parameters.docs.renderer,
+          }),
+          'docs-element',
+          expect.any(Function)
+        );
+      });
+
+      it('emits DOCS_RENDERED', async () => {
+        document.location.search = '?id=introduction--docs&viewMode=docs';
+        const preview = await createAndRenderPreview();
+        mockChannel.emit.mockClear();
+
+        preview.onStoriesChanged({ importFn: newImportFn });
+        await waitForRender();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_RENDERED, 'introduction--docs');
+      });
+    });
   });
 
   describe('onGetProjectAnnotationsChanged', () => {
