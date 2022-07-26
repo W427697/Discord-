@@ -1,7 +1,7 @@
 import { getCommand, OptionSpecifier, OptionValues } from './options';
-import { exec } from '../../lib/cli/src/repro-generators/scripts';
+import { exec } from '../../code/lib/cli/src/repro-generators/scripts';
 
-const cliExecutable = require.resolve('../../lib/cli/bin/index.js');
+const cliExecutable = require.resolve('../../code/lib/cli/bin/index.js');
 
 export type CLIStep = {
   command: string;

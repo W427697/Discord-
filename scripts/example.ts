@@ -7,6 +7,7 @@ import { executeCLIStep } from './utils/cli-step';
 
 const frameworks = ['react'];
 const addons = ['a11y', 'storysource'];
+const examplesDir = path.resolve(__dirname, '../examples');
 
 async function getOptions() {
   return getOptionsOrPrompt('yarn example', {
@@ -77,7 +78,6 @@ const steps: Record<string, CLIStep> = {
 
 async function main() {
   const optionValues = await getOptions();
-  const examplesDir = path.resolve(__dirname, '../examples');
 
   const { framework } = optionValues;
   const cwd = path.join(examplesDir, framework as string);
