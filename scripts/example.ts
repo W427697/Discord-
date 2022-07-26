@@ -41,6 +41,9 @@ async function getOptions() {
     watch: {
       description: 'Start building used packages in watch mode as well as the example app?',
     },
+    dryRun: {
+      description: "Don't execute commands, just list them?",
+    },
   });
 }
 
@@ -71,7 +74,7 @@ const steps: Record<string, CLIStep> = {
   dev: {
     command: 'dev',
     description: 'Starting example',
-    icon: '🖥',
+    icon: '🖥 ',
     options: {},
   },
 };
@@ -79,7 +82,7 @@ const steps: Record<string, CLIStep> = {
 async function main() {
   const optionValues = await getOptions();
 
-  const { framework } = optionValues;
+  const { framework, dryRun } = optionValues;
   const cwd = path.join(examplesDir, framework as string);
 
   // TODO -- what to do when the directory already exists?
@@ -88,6 +91,7 @@ async function main() {
       argument: cwd,
       optionValues: { template: framework },
       cwd: examplesDir,
+      dryRun,
     });
 
     // TODO -- sb add <addon> doesn't actually work properly:
@@ -99,7 +103,7 @@ async function main() {
     for (const addon of optionValues.addon as string[]) {
       const addonName = `@storybook/addon-${addon}`;
       // eslint-disable-next-line no-await-in-loop
-      await executeCLIStep(steps.add, { argument: addonName, cwd });
+      await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun });
     }
 
     // TODO copy stories
@@ -107,9 +111,9 @@ async function main() {
 
   const { start } = optionValues;
   if (start) {
-    await executeCLIStep(steps.dev, { cwd });
+    await executeCLIStep(steps.dev, { cwd, dryRun });
   } else {
-    await executeCLIStep(steps.build, { cwd });
+    await executeCLIStep(steps.build, { cwd, dryRun });
     // TODO serve
   }
 
