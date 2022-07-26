@@ -584,12 +584,18 @@ export function instrument<TObj extends Record<string, any>>(
   options: Options = {}
 ): TObj {
   try {
+    let forceInstrument = false;
+    let skipInstrument = false;
+
+    if (global?.window?.location?.search?.includes('instrument=true')) {
+      forceInstrument = true;
+    } else if (global?.window?.location?.search?.includes('instrument=false')) {
+      skipInstrument = true;
+    }
+
     // Don't do any instrumentation if not loaded in an iframe and it's not running in a capture.
-    if (global.window.parent === global.window) {
-      const params = new URLSearchParams(global.window.location.search);
-      if (!params.get('interactions')) {
-        return obj;
-      }
+    if ((global.window.parent === global.window && !forceInstrument) || skipInstrument) {
+      return obj;
     }
 
     // Only create an instance if we don't have one (singleton) yet.
