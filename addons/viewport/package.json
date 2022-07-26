@@ -69,7 +69,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "2d56b47695fae26cb13e94a65198658b1792c9ad",
+  "gitHead": "1a48f7af1886fc828cb84f32ca451cce456db78d",
   "sbmodern": "dist/modern/preview.js",
   "storybook": {
     "displayName": "Viewport",
