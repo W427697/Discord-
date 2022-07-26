@@ -1,18 +1,19 @@
-import path from 'path';
+import path, { join } from 'path';
 import { ensureDir, pathExists, remove } from 'fs-extra';
 import prompts from 'prompts';
 import program from 'commander';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
-import { getInterpretedFile } from '@storybook/core-common';
+import { readConfig, writeConfig } from '../code/lib/csf-tools';
+import { getInterpretedFile } from '../code/lib/core-common';
 import { serve } from './utils/serve';
 // @ts-ignore
 import { filterDataForCurrentCircleCINode } from './utils/concurrency';
 
-import * as configs from '../lib/cli/src/repro-generators/configs';
-import { Parameters } from '../lib/cli/src/repro-generators/configs';
-import { exec } from '../lib/cli/src/repro-generators/scripts';
+import * as configs from '../code/lib/cli/src/repro-generators/configs';
+import { Parameters } from '../code/lib/cli/src/repro-generators/configs';
+import { exec } from '../code/lib/cli/src/repro-generators/scripts';
 
 const logger = console;
+let openCypressInUIMode = !process.env.CI;
 
 export interface Options {
   /** CLI repro template to use  */
@@ -25,6 +26,49 @@ export interface Options {
 
 const rootDir = path.join(__dirname, '..');
 const siblingDir = path.join(__dirname, '..', '..', 'storybook-e2e-testing');
+
+program
+  .option('--clean', 'Clean up existing projects before running the tests', false)
+  .option('--pnp', 'Run tests using Yarn 2 PnP instead of Yarn 1 + npx', false)
+  .option(
+    '--use-local-sb-cli',
+    'Run tests using local @storybook/cli package (⚠️ Be sure @storybook/cli is properly built as it will not be rebuilt before running the tests)',
+    false
+  )
+  .option(
+    '--skip <value>',
+    'Skip a framework, can be used multiple times "--skip angular@latest --skip preact"',
+    (value, previous) => previous.concat([value]),
+    []
+  )
+  .option('--test-runner', 'Run Storybook test runner instead of cypress', false)
+  .option('--docs-mode', 'Run Storybook test runner in docs mode', false)
+  .option('--all', `run e2e tests for every framework`, false);
+program.parse(process.argv);
+
+type ProgramOptions = {
+  all?: boolean;
+  pnp?: boolean;
+  useLocalSbCli?: boolean;
+  clean?: boolean;
+  args?: string[];
+  skip?: string[];
+  testRunner?: boolean;
+  docsMode?: boolean;
+};
+
+const {
+  all: shouldRunAllFrameworks,
+  args: frameworkArgs,
+  skip: frameworksToSkip,
+  testRunner: shouldUseTestRunner,
+  docsMode: runTestsInDocsMode,
+}: ProgramOptions = program;
+
+let { useLocalSbCli }: ProgramOptions = program;
+const { pnp, clean: startWithCleanSlate }: ProgramOptions = program;
+
+const typedConfigs: { [key: string]: Parameters } = configs;
 
 const prepareDirectory = async ({ cwd }: Options): Promise<boolean> => {
   if (!(await pathExists(siblingDir))) {
@@ -56,7 +100,10 @@ const buildStorybook = async ({ cwd }: Options) => {
   await exec(
     `yarn build-storybook --quiet`,
     { cwd },
-    { startMessage: `👷 Building Storybook`, errorMessage: `🚨 Storybook build failed` }
+    {
+      startMessage: `👷 Building Storybook`,
+      errorMessage: `🚨 Storybook build failed`,
+    }
   );
 };
 
@@ -71,7 +118,7 @@ const runCypress = async (location: string, name: string) => {
   const cypressCommand = openCypressInUIMode ? 'open' : 'run';
   await exec(
     `CYPRESS_ENVIRONMENT=${name} yarn cypress ${cypressCommand} --config pageLoadTimeout=4000,execTimeout=4000,taskTimeout=4000,responseTimeout=4000,defaultCommandTimeout=4000,integrationFolder="cypress/generated",videosFolder="/tmp/cypress-record/${name}" --env location="${location}"`,
-    { cwd: rootDir },
+    { cwd: join(rootDir, 'code') },
     {
       startMessage: `🤖 Running Cypress tests`,
       errorMessage: `🚨 E2E tests fails`,
@@ -105,17 +152,18 @@ const runTests = async ({ name, ...rest }: Parameters) => {
   logger.log();
 
   if (!(await prepareDirectory(options))) {
-    // Call repro cli
-    const sbCLICommand = useLocalSbCli
-      ? `node ${__dirname}/../lib/cli/bin/index.js repro`
-      : // Need to use npx because at this time we don't have Yarn 2 installed
-        'npx -p @storybook/cli sb repro';
+    let sbCLICommand = `node ${__dirname}/../code/lib/cli/bin/index.js repro`;
+
+    if (useLocalSbCli) {
+      sbCLICommand += ' --local';
+    }
 
     const targetFolder = path.join(siblingDir, `${name}`);
     const commandArgs = [
       targetFolder,
-      `--framework ${options.framework}`,
+      `--renderer ${options.renderer}`,
       `--template ${options.name}`,
+      `--registry http://localhost:6000`,
       '--e2e',
     ];
 
@@ -129,7 +177,7 @@ const runTests = async ({ name, ...rest }: Parameters) => {
       command,
       { cwd: siblingDir },
       {
-        startMessage: `👷 Bootstrapping ${options.framework} project`,
+        startMessage: `👷 Bootstrapping ${options.renderer} project`,
         errorMessage: `🚨 Unable to bootstrap project`,
       }
     );
@@ -211,50 +259,6 @@ const runE2E = async (parameters: Parameters): Promise<boolean> => {
       return false;
     });
 };
-
-program
-  .option('--clean', 'Clean up existing projects before running the tests', false)
-  .option('--pnp', 'Run tests using Yarn 2 PnP instead of Yarn 1 + npx', false)
-  .option(
-    '--use-local-sb-cli',
-    'Run tests using local @storybook/cli package (⚠️ Be sure @storybook/cli is properly built as it will not be rebuilt before running the tests)',
-    false
-  )
-  .option(
-    '--skip <value>',
-    'Skip a framework, can be used multiple times "--skip angular@latest --skip preact"',
-    (value, previous) => previous.concat([value]),
-    []
-  )
-  .option('--test-runner', 'Run Storybook test runner instead of cypress', false)
-  .option('--docs-mode', 'Run Storybook test runner in docs mode', false)
-  .option('--all', `run e2e tests for every framework`, false);
-program.parse(process.argv);
-
-type ProgramOptions = {
-  all?: boolean;
-  pnp?: boolean;
-  useLocalSbCli?: boolean;
-  clean?: boolean;
-  args?: string[];
-  skip?: string[];
-  testRunner?: boolean;
-  docsMode?: boolean;
-};
-
-const {
-  all: shouldRunAllFrameworks,
-  args: frameworkArgs,
-  skip: frameworksToSkip,
-  testRunner: shouldUseTestRunner,
-  docsMode: runTestsInDocsMode,
-}: ProgramOptions = program;
-
-let { pnp, useLocalSbCli, clean: startWithCleanSlate }: ProgramOptions = program;
-
-const typedConfigs: { [key: string]: Parameters } = configs;
-
-let openCypressInUIMode = !process.env.CI;
 
 const getConfig = async (): Promise<Parameters[]> => {
   let e2eConfigsToRun = Object.values(typedConfigs);

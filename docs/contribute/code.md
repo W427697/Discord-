@@ -6,14 +6,14 @@ Contribute a new feature or bug fix to [Storybook's monorepo](https://github.com
 
 ## Initial setup
 
-Start by [forking](https://docs.github.com/en/github/getting-started-with-github/quickstart/fork-a-repo) the Storybook monorepo and cloning it locally. 
+Start by [forking](https://docs.github.com/en/github/getting-started-with-github/quickstart/fork-a-repo) the Storybook monorepo and cloning it locally.
 
 ```shell
 git clone https://github.com/your-username/storybook.git
 ```
 
 Navigate to the `storybook` directory and install the required dependencies with the following commands:
-    
+
 ```shell
 yarn && yarn bootstrap --core
 ```
@@ -136,7 +136,7 @@ We encourage bug reports to include reproductions. In the same way that it's pos
 To do so, run the following command in the root of the monorepo:
 
 ```shell
-npx sb@next link https://github.com/your-username/your-project.git
+npx storybook@next link https://github.com/your-username/your-project.git
 ```
 
 This command creates a project `../storybook-repros/your-project`, and automatically links it to your local Storybook code. After connecting it, you should be able to run Storybook and develop as mentioned [above](#start-developing).
@@ -144,11 +144,11 @@ This command creates a project `../storybook-repros/your-project`, and automatic
 If you already have a reproduction on your local machine, you can similarly link it to your monorepo dev setup with the `--local` flag:
 
 ```shell
-npx sb@next link --local /path/to/local-repro-directory
+npx storybook@next link --local /path/to/local-repro-directory
 ```
 
 <div class="aside">
-💡  The <code>sb link</code> command relies on <code>yarn 2</code> linking under the hood. It requires that the local repro is using <code>yarn 2</code>, which will be the case if you're using the [<code>sb repro</code> command](./how-to-reproduce) per our contributing guidelines. If you are trying to link to a non-<code>yarn 2</code> project, linking will fail.
+💡  The <code>storybook link</code> command relies on <code>yarn 2</code> linking under the hood. It requires that the local repro is using <code>yarn 2</code>, which will be the case if you're using the [<code>storybook repro</code> command](./how-to-reproduce) per our contributing guidelines. If you are trying to link to a non-<code>yarn 2</code> project, linking will fail.
 </div>
 
 ## Troubleshooting
