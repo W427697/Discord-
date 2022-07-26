@@ -1,5 +1,5 @@
 import React, { FC, useMemo, useState, useRef, useCallback, MutableRefObject } from 'react';
-import { useStorybookApi } from '@storybook/api';
+import { useStorybookApi, useStorybookState } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 
@@ -91,6 +91,7 @@ const CollapseButton = styled.button(({ theme }) => ({
 }));
 
 export const Ref: FC<RefType & RefProps> = React.memo((props) => {
+  const { docsOptions } = useStorybookState();
   const api = useStorybookApi();
   const {
     stories,
@@ -156,6 +157,7 @@ export const Ref: FC<RefType & RefProps> = React.memo((props) => {
               isMain={isMain}
               refId={refId}
               data={stories}
+              docsMode={docsOptions.docsMode}
               selectedStoryId={selectedStoryId}
               onSelectStoryId={onSelectStoryId}
               highlightedRef={highlightedRef}

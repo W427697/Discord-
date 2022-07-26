@@ -21,6 +21,7 @@ import {
 } from '@storybook/core-events';
 import type { RouterData } from '@storybook/router';
 import type { Listener } from '@storybook/channels';
+import type { DocsOptions } from '@storybook/core-common';
 
 import { createContext } from './context';
 import Store, { Options } from './store';
@@ -57,7 +58,7 @@ export { default as merge } from './lib/merge';
 export type { Options as StoreOptions, Listener as ChannelListener };
 export { ActiveTabs };
 
-const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
+export const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
 
 export type ModuleArgs = RouterData &
   ProviderData & {
@@ -66,6 +67,10 @@ export type ModuleArgs = RouterData &
     fullAPI: API;
     store: Store;
   };
+
+type OptionsData = {
+  docsOptions: DocsOptions;
+};
 
 export type State = layout.SubState &
   stories.SubState &
@@ -78,6 +83,7 @@ export type State = layout.SubState &
   settings.SubState &
   globals.SubState &
   RouterData &
+  OptionsData &
   Other;
 
 export type API = addons.SubAPI &
@@ -106,7 +112,7 @@ export interface Combo {
 
 interface ProviderData {
   provider: provider.Provider;
-  docsMode: boolean;
+  docsOptions: DocsOptions;
 }
 
 export type ManagerProviderProps = RouterData &
@@ -177,10 +183,10 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       location,
       path,
       refId,
-      viewMode = props.docsMode ? 'docs' : 'story',
+      viewMode = props.docsOptions.docsMode ? 'docs' : 'story',
       singleStory,
       storyId,
-      docsMode,
+      docsOptions,
       navigate,
     } = props;
 
@@ -189,9 +195,10 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       setState: (stateChange: Partial<State>, callback) => this.setState(stateChange, callback),
     });
 
-    const routeData = { location, path, viewMode, singleStory, storyId, refId, docsMode };
+    const routeData = { location, path, viewMode, singleStory, storyId, refId };
+    const optionsData: OptionsData = { docsOptions };
 
-    this.state = store.getInitialState(getInitialState(routeData));
+    this.state = store.getInitialState(getInitialState({ ...routeData, ...optionsData }));
 
     const apiData = {
       navigate,
@@ -213,7 +220,9 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       globals,
       url,
       version,
-    ].map((m) => m.init({ ...routeData, ...apiData, state: this.state, fullAPI: this.api }));
+    ].map((m) =>
+      m.init({ ...routeData, ...optionsData, ...apiData, state: this.state, fullAPI: this.api })
+    );
 
     // Create our initial state by combining the initial state of all modules, then overlaying any saved state
     const state = getInitialState(this.state, ...this.modules.map((m) => m.state));

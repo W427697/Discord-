@@ -84,7 +84,6 @@ module.exports = {
     'typings.d.ts$',
   ],
   globals: {
-    DOCS_MODE: false,
     PREVIEW_URL: undefined,
     SNAPSHOT_OS: os.platform() === 'win32' ? 'windows' : 'posix',
   },

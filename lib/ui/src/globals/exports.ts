@@ -194,6 +194,7 @@ export default {
   '@storybook/api': [
     'ActiveTabs',
     'Consumer',
+    'ManagerContext',
     'Provider',
     'combineParameters',
     'merge',

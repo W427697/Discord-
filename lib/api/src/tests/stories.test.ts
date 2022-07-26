@@ -1223,7 +1223,7 @@ describe('stories API', () => {
           navigate,
           provider,
           fullAPI,
-          docsMode: true,
+          docsOptions: { docsMode: true },
         } as any);
         Object.assign(fullAPI, api);
 
@@ -1431,7 +1431,7 @@ describe('stories API', () => {
           navigate,
           provider,
           fullAPI,
-          docsMode: true,
+          docsOptions: { docsMode: true },
         } as any);
         Object.assign(fullAPI, api);
 

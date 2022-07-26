@@ -122,7 +122,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
   provider,
   storyId: initialStoryId,
   viewMode: initialViewMode,
-  docsMode,
+  docsOptions: { docsMode } = {},
 }) => {
   const api: SubAPI = {
     storyId: toId,
