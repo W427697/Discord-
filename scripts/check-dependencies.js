@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-/* eslint-disable no-console, global-require, no-octal-escape */
-
 const { spawn } = require('child_process');
 const { join } = require('path');
 const { existsSync } = require('fs');

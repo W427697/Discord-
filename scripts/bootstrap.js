@@ -3,6 +3,7 @@
 /* eslint-disable global-require */
 
 const { spawnSync } = require('child_process');
+const { join } = require('path');
 const { maxConcurrentTasks } = require('./utils/concurrency');
 
 const spawn = (command, options = {}) => {
@@ -109,7 +110,7 @@ function run() {
       option: '--reset',
       command: () => {
         log.info(prefix, 'git clean');
-        spawn('node -r esm ./scripts/reset.js');
+        spawn(`node -r esm ${join(__dirname, 'reset.js')}`);
       },
       order: 0,
     }),
