@@ -18,7 +18,7 @@ export async function executeCLIStep<TOptions extends OptionSpecifier>(
   cliStep: CLIStep<TOptions>,
   options: {
     argument?: string;
-    optionValues: OptionValues<TOptions>;
+    optionValues?: Partial<OptionValues<TOptions>>;
     cwd: string;
     dryRun?: boolean;
   }
@@ -30,7 +30,7 @@ export async function executeCLIStep<TOptions extends OptionSpecifier>(
   const command = getCommand(
     cliStep.hasArgument ? `${prefix} ${options.argument}` : prefix,
     cliStep.options,
-    options.optionValues
+    options.optionValues || {}
   );
 
   await exec(

@@ -153,6 +153,13 @@ describe('getCommand', () => {
     );
   });
 
+  // This is for convenience
+  it('works with partial options', () => {
+    expect(getCommand('node foo', allOptions, { third: 'one' })).toBe(
+      'node foo --no-second --third one'
+    );
+  });
+
   it('works with combinations string options', () => {
     expect(
       getCommand('node foo', allOptions, {
