@@ -27,8 +27,8 @@ type DataEntry = {
 };
 
 const OUTPUT_DIRECTORY = join(__dirname, '..', '..', 'repros');
-const BEFORE_DIR_NAME = 'without-storybook';
-const AFTER_DIR_NAME = 'with-storybook';
+const BEFORE_DIR_NAME = 'before-storybook';
+const AFTER_DIR_NAME = 'after-storybook';
 
 const addStorybook = async (baseDir: string) => {
   const beforeDir = join(baseDir, BEFORE_DIR_NAME);
