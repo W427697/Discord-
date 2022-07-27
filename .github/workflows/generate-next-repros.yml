@@ -24,7 +24,7 @@ jobs:
         run: node ./scripts/check-dependencies.js
       - name: Generate repros
         run: |
-          pwd
+          yarn bootstrap --prep
           yarn next-repro
         working-directory: ./code
       - name: Publish repros
