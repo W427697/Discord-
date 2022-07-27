@@ -7,8 +7,10 @@ import yaml from 'js-yaml';
 import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
 import { copy, emptyDir, ensureDir, readFile, remove, rename } from 'fs-extra';
+// @ts-ignore
+import { maxConcurrentTasks } from '../utils/concurrency';
 
-const maxConcurrentTasks = 3;
+import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
 
 type GeneratorConfig = {
   name: string;
@@ -25,10 +27,12 @@ type DataEntry = {
 };
 
 const OUTPUT_DIRECTORY = join(__dirname, '..', '..', 'repros');
+const BEFORE_DIR_NAME = 'without-storybook';
+const AFTER_DIR_NAME = 'with-storybook';
 
 const addStorybook = async (baseDir: string) => {
-  const beforeDir = join(baseDir, 'before');
-  const afterDir = join(baseDir, 'after');
+  const beforeDir = join(baseDir, BEFORE_DIR_NAME);
+  const afterDir = join(baseDir, AFTER_DIR_NAME);
   const tmpDir = join(baseDir, '.tmp');
 
   await ensureDir(tmpDir);
@@ -39,14 +43,16 @@ const addStorybook = async (baseDir: string) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
   await runCommand(`${sbCliBinaryPath} init`, {
     cwd: tmpDir,
+    env: {
+      STORYBOOK_DISABLE_TELEMETRY: 'true',
+    },
   });
 
   await rename(tmpDir, afterDir);
 };
 
-const runCommand = async (script: string, options: ExecaOptions) => {
-  // TODO: remove true
-  const shouldDebug = true || !!process.env.DEBUG;
+export const runCommand = async (script: string, options: ExecaOptions) => {
+  const shouldDebug = !!process.env.DEBUG;
 
   if (shouldDebug) {
     console.log(`Running command: ${script}`);
@@ -67,20 +73,16 @@ const runGenerators = async (generators: GeneratorConfig[]) => {
         console.log(`🧬 generating ${name}`);
 
         const baseDir = join(OUTPUT_DIRECTORY, name);
-        const beforeDir = join(baseDir, 'before');
-        const afterDir = join(baseDir, 'after');
-        const tmpDir = join(baseDir, '.tmp');
+        const beforeDir = join(baseDir, BEFORE_DIR_NAME);
 
-        await Promise.all([
-          ensureDir(beforeDir).then(() => emptyDir(beforeDir)),
-          remove(afterDir),
-          remove(tmpDir),
-        ]);
+        await emptyDir(baseDir);
+        await ensureDir(beforeDir);
 
-        // await runCommand('yarn set version self', { cwd: baseDir });
-        // await remove(join(baseDir, 'package.json'));
+        await setupYarn({ cwd: baseDir });
 
         await runCommand(script, { cwd: beforeDir });
+
+        await localizeYarnConfigFiles(baseDir, beforeDir);
 
         await addStorybook(baseDir);
 
@@ -119,6 +121,6 @@ program.parse(process.argv);
 const options = program.opts() as { config: string };
 
 generate(options).catch((e) => {
-  console.error(e);
+  console.trace(e);
   process.exit(1);
 });
