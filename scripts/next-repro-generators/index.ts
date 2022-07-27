@@ -6,7 +6,7 @@ import type { Options as ExecaOptions } from 'execa';
 import yaml from 'js-yaml';
 import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
-import { copy, emptyDir, ensureDir, readFile, remove, rename } from 'fs-extra';
+import { copy, emptyDir, ensureDir, readFile, rename } from 'fs-extra';
 // @ts-ignore
 import { maxConcurrentTasks } from '../utils/concurrency';
 
