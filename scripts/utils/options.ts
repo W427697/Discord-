@@ -8,8 +8,9 @@ import program from 'commander';
 import type { Command } from 'commander';
 import kebabCase from 'lodash/kebabCase';
 
+// Option types
+
 export type OptionId = string;
-export type OptionValue = string | boolean;
 export type BaseOption = {
   description?: string;
   /**
@@ -28,96 +29,135 @@ export type BooleanOption = BaseOption & {
 
 export type StringOption = BaseOption & {
   values: string[];
-  multiple?: boolean;
   required?: boolean;
 };
 
-export type Option = BooleanOption | StringOption;
+export type StringArrayOption = BaseOption & {
+  values: string[];
+  multiple: true;
+};
+
+// StringArrayOption requires `multiple: true;` but unless you use `as const` an object with
+// { multiple: true } will be inferred as `multiple: boolean;`
+type StringArrayOptionMatch = Omit<StringArrayOption, 'multiple'> & { multiple: boolean };
+
+export type Option = BooleanOption | StringOption | StringArrayOption;
+export type MaybeOptionValue<TOption extends Option> = TOption extends StringArrayOptionMatch
+  ? string[]
+  : TOption extends StringOption
+  ? string | undefined
+  : TOption extends BooleanOption
+  ? boolean
+  : never;
+
+// Note we use `required: boolean;` rather than `required: true` here for the same reason
+// as `StringArrayOptionMatch` above. In both cases, the field should only ever be set to true
+export type OptionValue<TOption extends Option> = TOption extends { required: boolean }
+  ? string
+  : MaybeOptionValue<TOption>;
 
 export type OptionSpecifier = Record<OptionId, Option>;
-export type OptionValues = Record<OptionId, OptionValue | OptionValue[]>;
+export type MaybeOptionValues<TOptions extends OptionSpecifier> = {
+  [TKey in keyof TOptions]: MaybeOptionValue<TOptions[TKey]>;
+};
 
-function isStringOption(option: Option): option is StringOption {
-  return 'values' in option;
+export type OptionValues<TOptions extends OptionSpecifier> = {
+  [TKey in keyof TOptions]: OptionValue<TOptions[TKey]>;
+};
+
+export function isStringOption(option: Option): option is StringOption {
+  return 'values' in option && !('multiple' in option);
+}
+
+export function isBooleanOption(option: Option): option is BooleanOption {
+  return !('values' in option);
+}
+
+export function isStringArrayOption(option: Option): option is StringArrayOption {
+  return 'values' in option && 'multiple' in option;
 }
 
 function shortFlag(key: OptionId, option: Option) {
-  const inverse = !isStringOption(option) && option.inverse;
+  const inverse = isBooleanOption(option) && option.inverse;
   const defaultShortFlag = inverse ? key.substring(0, 1).toUpperCase() : key.substring(0, 1);
-  const shortFlag = option.shortFlag || defaultShortFlag;
-  if (shortFlag.length !== 1) {
+  const short = option.shortFlag || defaultShortFlag;
+  if (short.length !== 1) {
     throw new Error(
-      `Invalid shortFlag for ${key}: '${shortFlag}', needs to be a single character (e.g. 's')`
+      `Invalid shortFlag for ${key}: '${short}', needs to be a single character (e.g. 's')`
     );
   }
-  return shortFlag;
+  return short;
 }
 
 function longFlag(key: OptionId, option: Option) {
-  const inverse = !isStringOption(option) && option.inverse;
+  const inverse = isBooleanOption(option) && option.inverse;
   return inverse ? `no-${kebabCase(key)}` : kebabCase(key);
 }
 
 function optionFlags(key: OptionId, option: Option) {
   const base = `-${shortFlag(key, option)}, --${longFlag(key, option)}`;
-  if (isStringOption(option)) {
+  if (isStringOption(option) || isStringArrayOption(option)) {
     return `${base} <${key}>`;
   }
   return base;
 }
 
-function getRawOptions(command: Command, options: OptionSpecifier, argv: string[]): OptionValues {
+export function getOptions<TOptions extends OptionSpecifier>(
+  command: Command,
+  options: TOptions,
+  argv: string[]
+): MaybeOptionValues<TOptions> {
   Object.entries(options)
     .reduce((acc, [key, option]) => {
       const flags = optionFlags(key, option);
-      if (isStringOption(option) && option.multiple) {
-        return acc.option(flags, option.description, (x, l) => [...l, x], []);
+
+      if (isBooleanOption(option)) return acc.option(flags, option.description, !!option.inverse);
+
+      const checkStringValue = (raw: string) => {
+        if (!option.values.includes(raw))
+          throw new Error(`Unexpected value '${raw}' for option '${key}'`);
+        return raw;
+      };
+
+      if (isStringOption(option))
+        return acc.option(flags, option.description, (raw) => checkStringValue(raw));
+
+      if (isStringArrayOption(option)) {
+        return acc.option(
+          flags,
+          option.description,
+          (raw, values) => [...values, checkStringValue(raw)],
+          []
+        );
       }
-      return acc.option(
-        flags,
-        option.description,
-        isStringOption(option) ? undefined : !!option.inverse
-      );
+
+      throw new Error(`Unexpected option type '${key}'`);
     }, command)
     .parse(argv);
 
-  return command.opts();
+  // Note the code above guarantees the types as they come in, so we cast here.
+  // Not sure there is an easier way to do this
+  return command.opts() as MaybeOptionValue<TOptions>;
 }
 
-function validateOptions(options: OptionSpecifier, values: OptionValues) {
-  Object.entries(options).forEach(([key, option]) => {
-    if (isStringOption(option)) {
-      const toCheck: string[] = option.multiple
-        ? (values[key] as string[])
-        : [values[key] as string];
-      const badValue = toCheck.find((value) => !option.values.includes(value));
-      if (badValue)
-        throw new Error(`Invalid option provided to --${longFlag(key, option)}: '${badValue}'`);
-    }
-  });
-}
-
-export function getOptions(command: Command, options: OptionSpecifier, argv: string[]) {
-  const rawValues = getRawOptions(command, options, argv);
-  validateOptions(options, rawValues);
-  return rawValues;
-}
-
-export function areOptionsSatisfied(options: OptionSpecifier, values: OptionValues) {
+export function areOptionsSatisfied<TOptions extends OptionSpecifier>(
+  options: TOptions,
+  values: MaybeOptionValues<TOptions>
+) {
   return !Object.entries(options)
     .filter(([, option]) => isStringOption(option) && option.required)
     .find(([key]) => !values[key]);
 }
 
-export async function promptOptions(
-  options: OptionSpecifier,
-  values: OptionValues
-): Promise<OptionValues> {
+export async function promptOptions<TOptions extends OptionSpecifier>(
+  options: TOptions,
+  values: MaybeOptionValues<TOptions>
+): Promise<OptionValues<TOptions>> {
   const questions = Object.entries(options).map(([key, option]): PromptObject => {
-    if (isStringOption(option)) {
+    if (!isBooleanOption(option)) {
       const currentValue = values[key];
       return {
-        type: option.multiple ? 'autocompleteMultiselect' : 'select',
+        type: isStringArrayOption(option) ? 'autocompleteMultiselect' : 'select',
         message: option.description,
         name: key,
         // warn: ' ',
@@ -142,36 +182,55 @@ export async function promptOptions(
   });
 
   const selection = await prompts(questions);
-  return selection;
+  // Again the structure of the questions guarantees we get responses of the type we need
+  return selection as OptionValues<TOptions>;
 }
 
-function getFlag(key: OptionId, option: Option, value: OptionValue | OptionValue[]) {
+function getFlag<TOption extends Option>(
+  key: OptionId,
+  option: TOption,
+  value: OptionValue<TOption>
+) {
+  if (isBooleanOption(option)) {
+    const toggled = option.inverse ? !value : value;
+    return toggled ? `--${longFlag(key, option)}` : '';
+  }
+
+  if (isStringArrayOption(option)) {
+    return value.map((v) => `--${longFlag(key, option)} ${v}`).join(' ');
+  }
+
   if (isStringOption(option)) {
     if (value) {
-      if (Array.isArray(value)) {
-        return value.map((v) => `--${longFlag(key, option)} ${v}`).join(' ');
-      }
       return `--${longFlag(key, option)} ${value}`;
     }
     return '';
   }
-  const toggled = option.inverse ? !value : value;
-  return toggled ? `--${longFlag(key, option)}` : '';
+
+  throw new Error(`Unknown option type for '${key}'`);
 }
 
-export function getCommand(prefix: string, options: OptionSpecifier, values: OptionValues) {
+export function getCommand<TOptions extends OptionSpecifier>(
+  prefix: string,
+  options: TOptions,
+  values: OptionValues<TOptions>
+) {
   const flags = Object.keys(options)
     .map((key) => getFlag(key, options[key], values[key]))
     .filter(Boolean);
   return `${prefix} ${flags.join(' ')}`;
 }
 
-export async function getOptionsOrPrompt(commandPrefix: string, options: OptionSpecifier) {
+export async function getOptionsOrPrompt<TOptions extends OptionSpecifier>(
+  commandPrefix: string,
+  options: TOptions
+): Promise<OptionValues<TOptions>> {
   const main = program.version('5.0.0');
   const cliValues = getOptions(main as any, options, process.argv);
 
   if (areOptionsSatisfied(options, cliValues)) {
-    return cliValues;
+    // areOptionsSatisfied could be a type predicate but I'm not quite sure how to do it
+    return cliValues as OptionValues<TOptions>;
   }
 
   const finalValues = await promptOptions(options, cliValues);
