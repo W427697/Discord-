@@ -11,6 +11,7 @@ import emberGenerator from './generators/EMBER';
 import reactGenerator from './generators/REACT';
 import reactNativeGenerator from './generators/REACT_NATIVE';
 import reactScriptsGenerator from './generators/REACT_SCRIPTS';
+import nextjsGenerator from './generators/NEXTJS';
 import sfcVueGenerator from './generators/SFC_VUE';
 import vueGenerator from './generators/VUE';
 import vue3Generator from './generators/VUE3';
@@ -107,6 +108,11 @@ const installStorybook = (
       case ProjectType.REACT_PROJECT:
         return reactGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "React" library\n')
+        );
+
+      case ProjectType.NEXTJS:
+        return nextjsGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "Next" app\n')
         );
 
       case ProjectType.SFC_VUE:

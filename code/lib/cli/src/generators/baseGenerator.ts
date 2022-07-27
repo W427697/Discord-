@@ -74,6 +74,16 @@ const getFrameworkDetails = (
     };
   }
 
+  // TODO: Refactor when we remove the legacy renderer support
+  if (renderer === 'nextjs') {
+    return {
+      packages: [rendererPackage],
+      framework: rendererPackagePath,
+      rendererId: 'react',
+      type: 'framework',
+    };
+  }
+
   if (isKnownFramework) {
     return {
       packages: [frameworkPackage],
