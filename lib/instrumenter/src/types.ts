@@ -11,7 +11,12 @@ export interface Call {
   interceptable: boolean;
   retain: boolean;
   status?: CallStates.DONE | CallStates.ERROR | CallStates.ACTIVE | CallStates.WAITING;
-  exception?: Error;
+  exception?: {
+    name: Error['name'];
+    message: Error['message'];
+    stack: Error['stack'];
+    callId: Call['id'];
+  };
 }
 
 export enum CallStates {
@@ -47,11 +52,13 @@ export interface ControlStates {
 export interface LogItem {
   callId: Call['id'];
   status: Call['status'];
+  parentId?: Call['id'];
 }
 
-export interface Payload {
+export interface SyncPayload {
   controlStates: ControlStates;
   logItems: LogItem[];
+  pausedAt?: Call['id'];
 }
 
 export interface State {

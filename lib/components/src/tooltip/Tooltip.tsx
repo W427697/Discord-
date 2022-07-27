@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import memoize from 'memoizerific';
 
 import { styled, Color, lighten, darken } from '@storybook/theming';
@@ -116,6 +116,7 @@ const Wrapper = styled.div<WrapperProps>(
 );
 
 export interface TooltipProps {
+  children?: React.ReactNode;
   arrowRef?: any;
   tooltipRef?: any;
   hasChrome?: boolean;
@@ -124,7 +125,7 @@ export interface TooltipProps {
   color?: keyof Color;
 }
 
-export const Tooltip: FunctionComponent<TooltipProps> = ({
+export const Tooltip: FC<TooltipProps> = ({
   placement,
   hasChrome,
   children,

@@ -1,7 +1,9 @@
+/* eslint-disable camelcase */
 import path from 'path';
 import { readJSON, writeJSON, outputFile, pathExists, remove } from 'fs-extra';
 import shell, { ExecOptions } from 'shelljs';
 import chalk from 'chalk';
+import { command } from 'execa';
 import { cra, cra_typescript } from './configs';
 import storybookVersions from '../versions';
 
@@ -38,6 +40,7 @@ export interface Parameters {
 interface Configuration {
   e2e: boolean;
   pnp: boolean;
+  local: boolean;
 }
 
 const useLocalSbCli = true;
@@ -61,9 +64,14 @@ export const exec = async (
   logger.debug(command);
   return new Promise((resolve, reject) => {
     const defaultOptions: ExecOptions = {
-      silent: true,
+      silent: false,
     };
-    const child = shell.exec(command, { ...defaultOptions, ...options, async: true });
+    const child = shell.exec(command, {
+      ...defaultOptions,
+      ...options,
+      async: true,
+      silent: false,
+    });
 
     child.stderr.pipe(process.stderr);
     child.stdout.pipe(process.stdout);
@@ -85,6 +93,26 @@ const addPackageResolutions = async ({ cwd }: Options) => {
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
   packageJson.resolutions = storybookVersions;
+  await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
+};
+
+const addLocalPackageResolutions = async ({ cwd }: Options) => {
+  logger.info(`🔢 Adding package resolutions:`);
+  const packageJsonPath = path.join(cwd, 'package.json');
+  const packageJson = await readJSON(packageJsonPath);
+  const workspaceDir = path.join(__dirname, '..', '..', '..', '..', '..');
+  const { stdout } = await command('yarn workspaces list --json', { cwd: workspaceDir });
+
+  console.log({ stdout, workspaceDir });
+  const workspaces = JSON.parse(`[${stdout.split('\n').join(',')}]`);
+  console.log({ workspaces });
+
+  packageJson.resolutions = Object.keys(storybookVersions).reduce((acc, key) => {
+    return {
+      ...acc,
+      [key]: path.join(workspaceDir, workspaces.find((item: any) => item.name === key).location),
+    };
+  }, {});
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
@@ -155,14 +183,24 @@ const addAdditionalFiles = async ({ additionalFiles, cwd }: Options) => {
   );
 };
 
-const initStorybook = async ({ cwd, autoDetect = true, name, e2e }: Options) => {
-  const type = autoDetect ? '' : `--type ${name}`;
-  const linkable = e2e ? '' : '--linkable';
+const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options) => {
+  const flags = ['--yes'];
+
+  if (!autoDetect) {
+    flags.push(`--type ${name}`);
+  }
+  if (e2e) {
+    flags.push('--linkable');
+  }
+  if (pnp) {
+    flags.push('--use-pnp');
+  }
+
   const sbCLICommand = useLocalSbCli
     ? `node ${path.join(__dirname, '../../esm/generate')}`
     : `yarn dlx -p @storybook/cli sb`;
 
-  const command = `${sbCLICommand} init --yes ${type} ${linkable}`;
+  const command = `${sbCLICommand} init ${flags.join(' ')}`;
 
   await exec(
     command,
@@ -229,7 +267,7 @@ const doTask = async (
 export const createAndInit = async (
   cwd: string,
   { name, version, ...rest }: Parameters,
-  { e2e, pnp }: Configuration
+  { e2e, pnp, local }: Configuration
 ) => {
   const options: Options = {
     name,
@@ -273,8 +311,13 @@ export const createAndInit = async (
   if (e2e) {
     await doTask(addPackageResolutions, options);
   }
+  if (local) {
+    await doTask(addLocalPackageResolutions, options);
+  }
   await doTask(installYarn2, options);
-  await doTask(configureYarn2ForE2E, options, e2e);
+  if (e2e) {
+    await doTask(configureYarn2ForE2E, options, e2e);
+  }
   await doTask(addTypescript, options, !!options.typescript);
   await doTask(addRequiredDeps, options);
   await doTask(initStorybook, options);

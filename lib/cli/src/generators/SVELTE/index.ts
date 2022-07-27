@@ -1,11 +1,11 @@
 import fse from 'fs-extra';
 import { logger } from '@storybook/node-logger';
 
-import { baseGenerator, Generator } from '../baseGenerator';
+import { baseGenerator } from '../baseGenerator';
+import { Generator } from '../types';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   let extraMain;
-  let commonJs = false;
   // svelte.config.js ?
   if (fse.existsSync('./svelte.config.js')) {
     logger.info("Configuring preprocessor from 'svelte.config.js'");
@@ -15,8 +15,6 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     };
   } else if (fse.existsSync('./svelte.config.cjs')) {
     logger.info("Configuring preprocessor from 'svelte.config.cjs'");
-
-    commonJs = true;
 
     extraMain = {
       svelteOptions: { preprocess: '%%require("../svelte.config.cjs").preprocess%%' },
@@ -37,7 +35,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     extraPackages: ['svelte', 'svelte-loader'],
     extensions: ['js', 'jsx', 'ts', 'tsx', 'svelte'],
     extraMain,
-    commonJs,
+    commonJs: true,
   });
 };
 

@@ -2,7 +2,7 @@ import React, {
   Children,
   Component,
   Fragment,
-  FunctionComponent,
+  FC,
   memo,
   MouseEvent,
   ReactElement,
@@ -111,7 +111,7 @@ export interface TabWrapperProps {
   children?: ReactNode;
 }
 
-export const TabWrapper: FunctionComponent<TabWrapperProps> = ({ active, render, children }) => (
+export const TabWrapper: FC<TabWrapperProps> = ({ active, render, children }) => (
   <VisuallyHidden active={active}>{render ? render() : children}</VisuallyHidden>
 );
 
@@ -139,6 +139,7 @@ const childrenToList = (children: any, selected: string) =>
   );
 
 export interface TabsProps {
+  children?: FuncChildren[] | ReactNode;
   id?: string;
   tools?: ReactNode;
   selected?: string;
@@ -150,7 +151,7 @@ export interface TabsProps {
   bordered?: boolean;
 }
 
-export const Tabs: FunctionComponent<TabsProps> = memo(
+export const Tabs: FC<TabsProps> = memo(
   ({ children, selected, actions, absolute, bordered, tools, backgroundColor, id: htmlId }) => {
     const list = childrenToList(children, selected);
 
@@ -202,10 +203,10 @@ Tabs.displayName = 'Tabs';
   bordered: false,
 };
 
-type FuncChildren = () => void;
+type FuncChildren = ({ active }: { active: boolean }) => JSX.Element;
 
 export interface TabsStateProps {
-  children: (ReactNode | FuncChildren)[];
+  children: FuncChildren[] | ReactNode;
   initial: string;
   absolute: boolean;
   bordered: boolean;

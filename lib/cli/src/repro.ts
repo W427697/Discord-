@@ -3,22 +3,23 @@ import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
 import boxen from 'boxen';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { createAndInit, exec } from './repro-generators/scripts';
 import * as configs from './repro-generators/configs';
 import versions from './versions';
 import type { Parameters } from './repro-generators/configs';
-import { SupportedFrameworks } from './project_types';
+import { SupportedRenderers } from './project_types';
 
 const logger = console;
 
 interface ReproOptions {
   outputDirectory: string;
-  framework?: SupportedFrameworks;
+  renderer?: SupportedRenderers;
   list?: boolean;
   template?: string;
   e2e?: boolean;
   url?: string;
+  local?: boolean;
   generator?: string;
   pnp?: boolean;
   /** Skip downloading templates from git and use local generators instead */
@@ -33,12 +34,13 @@ const CURATED_TEMPLATES = Object.fromEntries(
   Object.entries(configs).filter((entry) => entry[0] !== 'react_in_yarn_workspace')
 ) as Record<string, Parameters>;
 
-const FRAMEWORKS = Object.values(CURATED_TEMPLATES).reduce<
-  Record<SupportedFrameworks, Parameters[]>
->((acc, cur) => {
-  acc[cur.framework] = [...(acc[cur.framework] || []), cur];
-  return acc;
-}, {} as Record<SupportedFrameworks, Parameters[]>);
+const RENDERERS = Object.values(CURATED_TEMPLATES).reduce<Record<SupportedRenderers, Parameters[]>>(
+  (acc, cur) => {
+    acc[cur.renderer] = [...(acc[cur.renderer] || []), cur];
+    return acc;
+  },
+  {} as Record<SupportedRenderers, Parameters[]>
+);
 
 const getRepoNameFromGitUrl = (url: string) => {
   // supports all kinds of git urls
@@ -59,10 +61,11 @@ export const repro = async ({
   outputDirectory,
   list,
   template,
-  framework,
+  renderer,
   generator,
   e2e,
   url,
+  local,
   pnp,
   skipGit = false,
 }: ReproOptions) => {
@@ -108,12 +111,13 @@ export const repro = async ({
         { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
       )
     );
+
     if (list) {
       logger.info('🌈 Available templates');
-      Object.entries(FRAMEWORKS).forEach(([fmwrk, templates]) => {
-        logger.info(fmwrk);
+      Object.entries(RENDERERS).forEach(([renderer, templates]) => {
+        logger.info(renderer);
         templates.forEach((t) => logger.info(`- ${t.name}`));
-        if (fmwrk === 'other') {
+        if (renderer === 'other') {
           logger.info('- blank');
         }
       });
@@ -121,26 +125,29 @@ export const repro = async ({
     }
 
     selectedTemplate = template;
-    let selectedFramework = framework;
+    let selectedRenderer = renderer;
+
     if (!selectedTemplate && !generator) {
-      if (!selectedFramework) {
-        const { framework: frameworkOpt } = await prompts({
+      if (!selectedRenderer) {
+        const { renderer: rendererOpt } = await prompts({
           type: 'select',
-          message: '🌈 Select the repro framework',
-          name: 'framework',
-          choices: Object.keys(FRAMEWORKS).map((f) => ({ title: f, value: f })),
+          message: '🌈 Select the repro renderer',
+          name: 'renderer',
+          choices: Object.keys(RENDERERS).map((f) => ({ title: f, value: f })),
         });
-        selectedFramework = frameworkOpt;
+        selectedRenderer = rendererOpt;
       }
-      if (!selectedFramework) {
-        throw new Error('🚨 Repro: please select a framework!');
+
+      if (!selectedRenderer) {
+        throw new Error('🚨 Repro: please select a renderer!');
       }
+
       selectedTemplate = (
         await prompts({
           type: 'select',
           message: '📝 Select the repro base template',
           name: 'template',
-          choices: FRAMEWORKS[selectedFramework as SupportedFrameworks].map((f) => ({
+          choices: RENDERERS[selectedRenderer as SupportedRenderers].map((f) => ({
             title: f.name,
             value: f.name,
           })),
@@ -189,6 +196,7 @@ export const repro = async ({
     await createAndInit(cwd, selectedConfig, {
       e2e: !!e2e,
       pnp: !!pnp,
+      local: !!local,
     });
 
     if (skipGit) {
@@ -218,7 +226,7 @@ export const repro = async ({
     );
   } catch (error) {
     logger.error('🚨 Failed to create repro');
-    throw new Error(error);
+    throw error;
   }
 };
 

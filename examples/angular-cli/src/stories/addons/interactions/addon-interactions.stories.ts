@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Story, Meta, moduleMetadata } from '@storybook/angular';
+import { StoryFn, Meta, moduleMetadata } from '@storybook/angular';
 import { expect } from '@storybook/jest';
 import { within, userEvent, waitFor } from '@storybook/testing-library';
 
@@ -16,13 +16,13 @@ export default {
   ],
 } as Meta<HeroForm>;
 
-const Template: Story<HeroForm> = (args) => ({
+const Template: StoryFn<HeroForm> = (args) => ({
   props: args,
 });
 
-export const Standard: Story<HeroForm> = Template.bind({});
+export const Standard: StoryFn<HeroForm> = Template.bind({});
 
-export const Filled: Story<HeroForm> = Template.bind({});
+export const Filled: StoryFn<HeroForm> = Template.bind({});
 Filled.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   const heroName = canvas.getByRole('textbox', {
@@ -39,7 +39,7 @@ Filled.play = async ({ canvasElement }) => {
   await userEvent.selectOptions(heroPower, 'Weather Changer');
 };
 
-export const InvalidFields: Story<HeroForm> = Template.bind({});
+export const InvalidFields: StoryFn<HeroForm> = Template.bind({});
 InvalidFields.play = async (context) => {
   await Filled.play(context);
 
@@ -59,7 +59,7 @@ InvalidFields.play = async (context) => {
   await userEvent.selectOptions(heroPower, '');
 };
 
-export const Submitted: Story<HeroForm> = Template.bind({});
+export const Submitted: StoryFn<HeroForm> = Template.bind({});
 Submitted.play = async (context) => {
   await Filled.play(context);
 
@@ -71,14 +71,14 @@ Submitted.play = async (context) => {
       canvas.getByRole('heading', {
         name: /you submitted the following:/i,
       })
-    ).not.toBeNull();
+    ).toBeInTheDocument();
     await expect(canvas.getByTestId('hero-name').textContent).toEqual('Storm');
     await expect(canvas.getByTestId('hero-alterego').textContent).toEqual('Ororo Munroe');
     await expect(canvas.getByTestId('hero-power').textContent).toEqual('Weather Changer');
   });
 };
 
-export const SubmittedAndEditedAfter: Story<HeroForm> = Template.bind({});
+export const SubmittedAndEditedAfter: StoryFn<HeroForm> = Template.bind({});
 SubmittedAndEditedAfter.play = async (context) => {
   await Submitted.play(context);
 
@@ -98,7 +98,7 @@ SubmittedAndEditedAfter.play = async (context) => {
       canvas.getByRole('heading', {
         name: /you submitted the following:/i,
       })
-    ).not.toBeNull();
+    ).toBeInTheDocument();
     // new value
     await expect(canvas.getByTestId('hero-name').textContent).toEqual('Wakanda Queen');
 

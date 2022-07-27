@@ -35,7 +35,17 @@ export const Demo: CSF2Story = (args) => (
 Demo.play = async ({ args, canvasElement }) => {
   await userEvent.click(within(canvasElement).getByRole('button'));
   await expect(args.onSubmit).toHaveBeenCalledWith(expect.stringMatching(/([A-Z])\w+/gi));
+  await expect([{ name: 'John', age: 42 }]).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ name: 'John' }),
+      expect.objectContaining({ age: 42 }),
+    ])
+  );
 };
+
+export const Exception = Demo.bind({});
+Exception.play = () => Demo.play(undefined as any); // deepscan-disable-line
+Exception.parameters = { chromatic: { disableSnapshot: true } };
 
 export const FindBy: CSF2Story = (args) => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -74,7 +84,7 @@ WaitForElementToBeRemoved.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   await waitForElementToBeRemoved(await canvas.findByText('Loading...'), { timeout: 2000 });
   const button = await canvas.findByText('Loaded!');
-  await expect(button).not.toBeNull();
+  await expect(button).toBeInTheDocument();
 };
 
 export const WithLoaders: CSF2Story = (args, { loaded: { todo } }) => {
@@ -131,7 +141,7 @@ export const StandardEmailFailed: CSF3Story = {
     await userEvent.click(canvas.getByRole('button', { name: /create account/i }));
 
     await canvas.findByText('Please enter a correctly formatted email address');
-    expect(args.onSubmit).not.toHaveBeenCalled();
+    await expect(args.onSubmit).not.toHaveBeenCalled();
   },
 };
 
