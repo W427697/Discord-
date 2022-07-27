@@ -137,7 +137,7 @@ export function getOptions<TOptions extends OptionSpecifier>(
 
   // Note the code above guarantees the types as they come in, so we cast here.
   // Not sure there is an easier way to do this
-  return command.opts() as MaybeOptionValue<TOptions>;
+  return command.opts() as MaybeOptionValues<TOptions>;
 }
 
 export function areOptionsSatisfied<TOptions extends OptionSpecifier>(

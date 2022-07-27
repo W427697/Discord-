@@ -5,20 +5,20 @@ const logger = console;
 
 const cliExecutable = require.resolve('../../code/lib/cli/bin/index.js');
 
-export type CLIStep = {
+export type CLIStep<TOptions extends OptionSpecifier> = {
   command: string;
   description: string;
   hasArgument?: boolean;
   icon: string;
   // It would be kind of great to be able to share these with `lib/cli/src/generate.ts`
-  options: OptionSpecifier;
+  options: TOptions;
 };
 
-export async function executeCLIStep(
-  cliStep: CLIStep,
+export async function executeCLIStep<TOptions extends OptionSpecifier>(
+  cliStep: CLIStep<TOptions>,
   options: {
     argument?: string;
-    optionValues?: OptionValues;
+    optionValues: OptionValues<TOptions>;
     cwd: string;
     dryRun?: boolean;
   }
@@ -30,7 +30,7 @@ export async function executeCLIStep(
   const command = getCommand(
     cliStep.hasArgument ? `${prefix} ${options.argument}` : prefix,
     cliStep.options,
-    options.optionValues || {}
+    options.optionValues
   );
 
   await exec(

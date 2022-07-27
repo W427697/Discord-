@@ -1,5 +1,6 @@
 import path from 'path';
-import { existsSync } from 'fs';
+import { remove, pathExists } from 'fs-extra';
+import prompts from 'prompts';
 
 import { getOptionsOrPrompt } from './utils/options';
 import type { CLIStep } from './utils/cli-step';
@@ -28,6 +29,12 @@ async function getOptions() {
     create: {
       description: 'Create the example from scratch (rather than degitting it)?',
     },
+    forceDelete: {
+      description: 'Always delete an existing example, even if it has the same configuration?',
+    },
+    forceReuse: {
+      description: 'Always reusing an existing example, even if it has a different configuration?',
+    },
     verdaccio: {
       description: 'Use verdaccio rather than yarn linking stories?',
     },
@@ -47,7 +54,7 @@ async function getOptions() {
   });
 }
 
-const steps: Record<string, CLIStep> = {
+const steps = {
   repro: {
     command: 'repro',
     description: 'Bootstrapping example',
@@ -82,11 +89,25 @@ const steps: Record<string, CLIStep> = {
 async function main() {
   const optionValues = await getOptions();
 
-  const { framework, dryRun } = optionValues;
+  const { framework, forceDelete, forceReuse, dryRun } = optionValues;
   const cwd = path.join(examplesDir, framework as string);
 
-  // TODO -- what to do when the directory already exists?
-  if (!existsSync(cwd)) {
+  const exists = await pathExists(cwd);
+  let shouldReuse = exists && forceReuse;
+  if (exists && !forceDelete && !forceReuse) {
+    ({ shouldReuse } = await prompts({
+      type: 'toggle',
+      message: `${path.relative(process.cwd(), cwd)} already exists, should we reuse it?`,
+      name: 'shouldReuse',
+      initial: true,
+      active: 'yes',
+      inactive: 'no',
+    }));
+  }
+
+  if (exists && !shouldReuse) await remove(cwd);
+
+  if (!shouldReuse) {
     await executeCLIStep(steps.repro, {
       argument: cwd,
       optionValues: { template: framework },
