@@ -197,7 +197,10 @@ function getFlag<TOption extends Option>(
   }
 
   if (isStringArrayOption(option)) {
-    return value.map((v) => `--${longFlag(key, option)} ${v}`).join(' ');
+    // I'm not sure why TS isn't able to infer that OptionValue<TOption> is a
+    // OptionValue<StringArrayOption> (i.e. a string[]), given that it knows
+    // option is a StringArrayOption
+    return (value as string[]).map((v) => `--${longFlag(key, option)} ${v}`).join(' ');
   }
 
   if (isStringOption(option)) {
