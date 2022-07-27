@@ -26,7 +26,20 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider }) => {
     },
     off: (type, cb) => provider.channel.removeListener(type, cb),
     once: (type, cb) => provider.channel.once(type, cb),
-    emit: (type, ...args) => provider.channel.emit(type, ...args),
+    emit: (type, data, ...args) => {
+      if (
+        data.options.target &&
+        data.options.target !== 'storybook-preview-iframe' &&
+        !data.options.target.startsWith('storybook-ref-')
+      ) {
+        // eslint-disable-next-line no-param-reassign
+        data.options.target =
+          data.options.target !== 'storybook_internal'
+            ? `storybook-ref-${data.options.target}`
+            : 'storybook-preview-iframe';
+      }
+      provider.channel.emit(type, data, ...args);
+    },
 
     collapseAll: () => {
       provider.channel.emit(STORIES_COLLAPSE_ALL, {});
