@@ -22,9 +22,11 @@ jobs:
           git config --global user.email "bot@storybook.js.org"
       - name: Install dependencies
         run: node ./scripts/check-dependencies.js
-      - name: Change directory
-        run: cd code
       - name: Generate repros
-        run: yarn next-repro
+        run: |
+          pwd
+          yarn next-repro
+        working-directory: ./code
       - name: Publish repros
         run: yarn publish-repros --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/repro-templates-temp.git --push --force-push
+        working-directory: ./code
