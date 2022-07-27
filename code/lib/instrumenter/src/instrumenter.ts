@@ -604,13 +604,13 @@ export function instrument<TObj extends Record<string, any>>(
     let forceInstrument = false;
     let skipInstrument = false;
 
-    if (global?.window?.location?.search?.includes('instrument=true')) {
+    if (global.window.location?.search?.includes('instrument=true')) {
       forceInstrument = true;
-    } else if (global?.window?.location?.search?.includes('instrument=false')) {
+    } else if (global.window.location?.search?.includes('instrument=false')) {
       skipInstrument = true;
     }
 
-    // Don't do any instrumentation if not loaded in an iframe and it's not running in a capture.
+    // Don't do any instrumentation if not loaded in an iframe unless it's forced - instrumentation can also be skipped.
     if ((global.window.parent === global.window && !forceInstrument) || skipInstrument) {
       return obj;
     }
