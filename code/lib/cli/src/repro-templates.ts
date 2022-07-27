@@ -23,6 +23,29 @@ const craTemplates = {
   },
 };
 
+const nextjsTemplates = {
+  'nextjs/default-js': {
+    name: 'Next.js (JavaScript)',
+    script: 'npx create-next-app {{beforeDir}}',
+    cadence: [] as string[],
+    expected: {
+      framework: '@storybook/nextjs',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'nextjs/default-ts': {
+    name: 'Next.js (TypeScript)',
+    script: 'npx create-next-app {{beforeDir}} --typescript',
+    cadence: [] as string[],
+    expected: {
+      framework: '@storybook/nextjs',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
 const reactViteTemplates = {
   'react-vite/default-js': {
     name: 'React Vite (JS)',
@@ -266,8 +289,9 @@ const preactWebpackTemplates = {
 
 export default {
   ...craTemplates,
-  ...reactWebpackTemplates,
+  ...nextjsTemplates,
   ...reactViteTemplates,
+  ...reactWebpackTemplates,
   ...vue2ViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
